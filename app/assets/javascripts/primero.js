@@ -1,4 +1,6 @@
 $(document).ready(function() {
+  jQuery.migrateMute = true
+
   new Primero();
 
   $(document).on('open.fndtn.reveal', '[data-reveal]', function () {

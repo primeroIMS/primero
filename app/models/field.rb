@@ -262,24 +262,27 @@ class Field
 
   #TODO: Eventually, this method should be the ultimate list of options for this field.
   #      Any HTML form-specific formatting should take place ina helper.
-  def options_list(record=nil, lookups=nil, locations=nil)
+  def options_list(record=nil, lookups=nil)
     options_list = []
+
     if self.option_strings_source.present?
       source_options = self.option_strings_source.split
       #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
       #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
-      if source_options.first == 'violations'
+
+      # TODO: This will have to be refactored as we move more of these to the /source_options endpoint. JT
+      case source_options.first
+      when 'violations'
         if record.present? && record.class == Incident
           options_list = record.violations_list_by_unique_id.map{|k,v| {'id' => v, 'display_text' => k}}
         end
-      elsif source_options.first == 'lookup'
+      when 'lookup'
         options_list += Lookup.values(source_options.last.titleize, lookups)
         if source_options.second == 'group'
           #TODO: What about I18n? What is this?
           options_list += ['Other', 'Mixed', 'Unknown']
         end
-      elsif source_options.first == 'Location' && locations.present?
-        options_list += locations || []
+      when 'Location'
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
@@ -306,13 +309,13 @@ class Field
 
 
   #TODO: This should be merged with options_list above. Any HTML form specific stuff shoudl be moved to a helper
-  def select_options(record=nil, lookups=nil, locations=nil)
+  def select_options(record=nil, lookups=nil)
     select_options = []
     if self.type == TICK_BOX
       select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
     else
       select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
-      select_options += options_list(record, lookups, locations).map do |option|
+      select_options += options_list(record, lookups).map do |option|
         if option.is_a? Hash
           [option['display_text'], option['id']]
         else

@@ -245,7 +245,7 @@ class FormSectionController < ApplicationController
         value = field_hash[key]
         if property == :option_strings_text
           #value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
-          value = field.options_list(nil, @lookups, @locations)
+          value = field.options_list(nil, @lookups)
         elsif field_hash[key].nil?
           value = ""
         end
