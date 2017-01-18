@@ -109,11 +109,41 @@ describe FormSectionController do
         nested = field_with_nested['subform']
         expect(nested['unique_id']).to eq('E')
       end
+
+      describe '/api/forms' do
+        before do
+          Location.all.each &:destroy
+
+          @form_section_l = FormSection.create!(unique_id: "F", name: "F", parent_form: "test", mobile_form: true, fields: [
+            Field.new(
+              name: "field1", 
+              type: "select_box", 
+              display_name_all: "field1",
+              searchable_select: true,
+              option_strings_source: 'Location'
+            )
+          ])
+
+          @country = create :location, placename: "Country1", admin_level: 0
+          @province1 = create :location, placename: "Province1", hierarchy: [@country.placename]
+          @province2 = create :location, placename: "Province2", hierarchy: [@country.placename]
+          @town1 = create :location, placename: "Town1", hierarchy: [@country.placename, @province1.placename]
+
+          FormSection.stub(:get_permitted_form_sections).and_return([@form_section_l])
+        end
+
+        it 'should return location fields with locations if mobile' do
+          expected = ["Country1", "Country1::Province1", "Country1::Province2", "Country1::Province1::Town1"];
+          get :index, mobile: true, format: :json
+          returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
+          expect(returned).to eq(expected)
+        end
+      end
     end
   end
 
 
-  describe "forms API", :type => :request do
+  describe "forms API", :type => :request do 
     it "gets the forms as JSON if accessed through the API url" do
       get '/api/forms'
       expect(response.content_type.to_s).to eq('application/json')
