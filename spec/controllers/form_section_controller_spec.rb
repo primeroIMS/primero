@@ -142,7 +142,6 @@ describe FormSectionController do
     end
   end
 
-
   describe "forms API", :type => :request do 
     it "gets the forms as JSON if accessed through the API url" do
       get '/api/forms'
