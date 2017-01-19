@@ -12,9 +12,16 @@ sexual_violence_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Form(s) of sexual violence",
-             "option_strings_text_all" => ["Rape", "Enforced prostitution", "Enforced sterilization", "Forced pregnancy",
-                                           "Forced abortion", "Mutilation", "Sexual harrassment/assault",
-                                           "Sexual slavery and/or trafficking", "Sexual exploitation and/or abuse"].join("\n")
+             "option_strings_text_all" => ["Rape", "Sexual assault", "Sexual slavery and/or trafficking",
+                                           "Enforced prostitution", "Enforced sterilization",
+                                           "Forced pregnancy", "Forced abortion",
+                                           "Forced marriage", "Sexual mutilation"].join("\n"),
+             "guiding_questions" => "For MRM purposes, incidents or patterns of rape and/or other sexual "\
+                                    "violence should have a direct or indirect nexus with the armed conflict, "\
+                                    "i.e. a temporal, geographical and/or causal link. The link with conflict "\
+                                    "may be evident e.g. in the profile and motivations of the perpetrator(s) "\
+                                    "or in the profile of the victim(s). Incidents of Sexual Exploitation and "\
+                                    "Abuse (SEA) should not be recorded in the MRMIMS+."
              }),
   Field.new({"name" => "associated_violation_status",
              "type" => "select_box",
