@@ -73,7 +73,6 @@ Primero = Backbone.View.extend({
 
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
       var modal = $(this);
-      console.log(modal)
       modal.unwrap("<div class='modal-scroll' />");
     });
   },
@@ -249,7 +248,7 @@ Primero = Backbone.View.extend({
   },
 
   show_hide_record_type: function(input) {
-    var inputs = input ? input : $('.record_types input:not([type="hidden"]');
+    var inputs = input ? input : $('.record_types input:not([type="hidden"])');
 
     inputs.each(function(k, v) {
       var selected_input = $(v),

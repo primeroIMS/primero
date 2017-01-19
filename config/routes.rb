@@ -276,6 +276,13 @@ Primero::Application.routes.draw do
   end
 
 #######################
+# OPTION STRING SOURCES URLS
+#######################
+  controller :option_string_sources, :defaults => {:format => :json} do
+    get :string_sources, :action => 'get_string_sources'
+  end
+
+#######################
 # ADVANCED SEARCH URLS
 #######################
 

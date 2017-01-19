@@ -14,7 +14,6 @@ module RecordActions
     before_filter :load_record, :except => [:new, :create, :index, :reindex]
     before_filter :current_user, :except => [:reindex]
     before_filter :get_lookups, :only => [:new, :edit, :index]
-    before_filter :load_locations, :only => [:new, :edit]
     before_filter :current_modules, :only => [:show, :index]
     before_filter :is_manager, :only => [:index]
     before_filter :is_admin, :only => [:index]
@@ -156,7 +155,6 @@ module RecordActions
       else
         format.html {
           get_lookups
-          load_locations
           render :action => "new"
         }
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
@@ -200,7 +198,6 @@ module RecordActions
         @form_sections ||= @record.class.allowed_formsections(current_user, @record.module)
         format.html {
           get_lookups
-          load_locations
           render :action => "edit"
         }
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
@@ -254,10 +251,6 @@ module RecordActions
   #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.
   def get_lookups
     @lookups = Lookup.all
-  end
-
-  def load_locations
-    @locations = Location.all_names
   end
 
   def load_system_settings

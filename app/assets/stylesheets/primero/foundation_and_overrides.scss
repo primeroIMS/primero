@@ -107,7 +107,7 @@ $button-function-factor: -8%;
 ////////////////////////////////////////////////
 // Foundation - Topbar overrides
 ////////////////////////////////////////////////
-$nav_height: 50px;
+$nav_height: rem_calc(50);
 $topbar-height: $nav_height;
 $topbar-link-color: #fff !important;
 $topbar-bg-color: $grey_color;
