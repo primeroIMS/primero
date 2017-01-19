@@ -262,7 +262,7 @@ class Field
 
   #TODO: Eventually, this method should be the ultimate list of options for this field.
   #      Any HTML form-specific formatting should take place ina helper.
-  def options_list(record=nil, lookups=nil)
+  def options_list(record=nil, lookups=nil, locations=nil)
     options_list = []
 
     if self.option_strings_source.present?
@@ -283,6 +283,7 @@ class Field
           options_list += ['Other', 'Mixed', 'Unknown']
         end
       when 'Location'
+        options_list += locations || [] if locations.present?
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
