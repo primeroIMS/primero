@@ -158,6 +158,9 @@ Primero::Application.routes.draw do
   match '/cases/:id/transfer_status' => 'children#transfer_status', :as => :child_transfer_status, :model_class => 'Child', :via => [:post, :put]
   match '/cases/:id/relinquish_referral' => 'children#relinquish_referral', :as => :child_relinquish_referral, :model_class => 'Child', :via => [:post, :put]
 
+  # Download forms spreadsheet
+  match '/forms/download' => 'form_section#download_all_forms', :as => :download_forms, :via => [:get]
+
   #Unflag routing
   match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class:'Child', :via => [:post, :put]
   match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, model_class:'Incident', :via => [:post, :put]
@@ -270,6 +273,13 @@ Primero::Application.routes.draw do
     resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
     resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
     resources :potential_matches, as: :potential_matches, constraints: {format: :json}, :defaults => {:format => :json}
+  end
+
+#######################
+# OPTION STRING SOURCES URLS
+#######################
+  controller :option_string_sources, :defaults => {:format => :json} do
+    get :string_sources, :action => 'get_string_sources'
   end
 
 #######################

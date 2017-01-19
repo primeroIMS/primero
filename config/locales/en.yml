@@ -61,6 +61,7 @@ en:
     invalid_date_filter_value: "Some filters were not applied due to a non-valid date value. Please check the date filter values"
     scroll_up: "Scroll up to view more"
     scroll_down: "Scroll down to view more"
+    forms_export: "This export provides a spreadsheet of the available Forms and form fields. This spreadsheet is used for creating the mapping of the Form configuration to be used in the implementation. Note that this spreadsheet cannot be used to import data into Primero."
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -927,7 +928,7 @@ en:
     name: "Name"
     group: "Group"
     description: "Description"
-    create: "New Form Section"
+    create: "New Form"
     visibility: "Visibility"
     ordering: "Ordering"
     details: "Form details"
@@ -1692,6 +1693,9 @@ en:
       empty_module: Please select a module to export.
     pdf_exports:
       label: PDF
+    forms:
+      label: Export
+      button: Export Forms
 
   imports:
     password_label: "Password (if required)"
@@ -1869,3 +1873,5 @@ en:
     graph_data: "Viewing graph data"
     permitted_field_list: Permitted field list
     lookups_for_field: Lookups for field
+
+  string_sources_failed: "Some fields failed to load, refresh the page to load all fields."

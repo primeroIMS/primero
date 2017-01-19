@@ -1,12 +1,13 @@
-//= require plugins/jquery-1.7.1.min
-//= require plugins/jquery-ui-1.8.6.custom.min
+//= require plugins/jquery-2.2.4.min
+//= require plugins/jquery-migrate
+//= require plugins/jquery-ui-1.12.1.custom.min
 //= require plugins/jquery.tmpl.min
 //= require plugins/jquery_ujs
 //= require turbolinks
 //= require plugins/json2
 //= require plugins/filesaver
-//= require_tree ./templates
 //= require foundation
+//= require_tree ./templates
 //= require plugins/underscore
 //= require plugins/backbone
 //= require plugins/stickem
