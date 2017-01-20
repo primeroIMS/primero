@@ -5,7 +5,7 @@ _primero.Views.CustomExports = Backbone.View.extend({
     'change input[name="format"]': 'set_form_state',
     'change input[name="forms"]': 'retrieve_field_names',
     'change input[name="choose_fields"]': 'toggle_field_selection',
-    'click button#submit_export': 'submit_export_request'
+    'click #submit_export': 'submit_export_request'
   },
 
   initialize: function() {

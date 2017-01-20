@@ -3,7 +3,7 @@ _primero.Views.PdfExports = Backbone.View.extend({
 
   events: {
     'change select[name="module"]' : 'set_form_state',
-    'click button#submit_export': 'submit_export_request'
+    'click #submit_export': 'submit_export_request'
   },
 
   initialize: function() {

@@ -4,7 +4,7 @@ _primero.Views.ReassignRecords = Backbone.View.extend({
 
   events: {
     'click a.reassign_index_action': 'reassign_records',
-    'click div#reassign-modal input[type="submit"]': 'transfer'
+    'click #reassign-modal input[type="submit"]': 'transfer'
   },
 
   reassign_records: function(event) {
@@ -15,7 +15,7 @@ _primero.Views.ReassignRecords = Backbone.View.extend({
   transfer: function(e) {
     e.preventDefault();
     var $modal = $("#reassign-modal");
-    var local_user = $modal.find('select#existing_user').val(),
+    var local_user = $modal.find('#existing_user').val(),
       localUserErrorDiv = $modal.find(".local_user_flash"),
       is_valid = true;
 

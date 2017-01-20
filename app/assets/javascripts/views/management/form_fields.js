@@ -22,13 +22,14 @@ var FormFields = {
 
   selectForm : function(form){
     var self = this;
-    var selected_form = self.$elem.find(".form.selected");
-    if(selected_form){
-      selected_form.removeClass("selected");
-      self.$elem.find("#fields-for-"+selected_form.attr("id")).removeClass("selected");
+    var $selected_form = self.$elem.find(".form.selected");
+    var $form = $(form);
+    if($selected_form){
+      $selected_form.removeClass("selected");
+      self.$elem.find("#fields-for-"+$selected_form.attr("id")).removeClass("selected");
     }
-    $(form).addClass("selected");
-    self.$elem.find("#fields-for-"+$(form).attr("id")).addClass("selected");
+    $form.addClass("selected");
+    self.$elem.find("#fields-for-"+$form.attr("id")).addClass("selected");
   },
 
   selectItem: function(select_element){
@@ -64,11 +65,11 @@ var FormFields = {
 $.plugin('formFields', FormFields);
 
 $(function() {
-    $("#locale").change( function(event){
-        var language_field = $(event.target);
-        var locale = language_field.val();
-        $(".translation_fields").hide();
-        $("div ."+locale).show();
-    });
+  $("#locale").change( function(event){
+    var language_field = $(event.target);
+    var locale = language_field.val();
+    $(".translation_fields").hide();
+    $("div ."+locale).show();
+  });
 });
 

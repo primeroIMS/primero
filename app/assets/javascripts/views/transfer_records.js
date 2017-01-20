@@ -4,10 +4,10 @@ _primero.Views.TransferRecords = Backbone.View.extend({
 
   events: {
     'click a.transfer_index_action' : 'transfer_records',
-    'change div#transfer-modal input[name="is_remote"]' : 'toggle_remote_primero',
-    'change div#transfer-modal select#existing_user' : 'toggle_other_user',
-    'change div#transfer-modal input#other_user' : 'toggle_existing_user',
-    'click div#transfer-modal input[type="submit"]' : 'close_transfer'
+    'change #transfer-modal input[name="is_remote"]' : 'toggle_remote_primero',
+    'change #transfer-modal select#existing_user' : 'toggle_other_user',
+    'change #transfer-modal input#other_user' : 'toggle_existing_user',
+    'click #transfer-modal input[type="submit"]' : 'close_transfer'
   },
 
   transfer_records: function(event) {
@@ -25,8 +25,9 @@ _primero.Views.TransferRecords = Backbone.View.extend({
   },
 
   toggle_remote_primero: function() {
-    $('#transfer-modal').find('div.remote_toggle').toggle();
-    $('#transfer-modal').find('div.local_toggle').toggle();
+    var $transfer_modal = $('#transfer-modal');
+    $transfer_modal.find('div.remote_toggle').toggle();
+    $transfer_modal.find('div.local_toggle').toggle();
   },
 
   toggle_other_user: function(e) {

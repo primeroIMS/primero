@@ -103,7 +103,7 @@ function form_section() {
     $('#field_details_options').hide();
     $('#field_details').hide();
     $("ul.field_types a").removeClass("sel");
-    $("ul.field_types a#text_field").addClass("sel");
+    $("#text_field").addClass("sel");
   }
 
   function showFieldDetails(e){

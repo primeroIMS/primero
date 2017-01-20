@@ -4,7 +4,7 @@ _primero.Views.IndexFilters = Backbone.View.extend({
 
   el: '.page_content',
 
-  form: 'form#index_filter_form',
+  form: '#index_filter_form',
 
   events: {
     'click .filter-controls input[type="checkbox"]': 'change_scope',

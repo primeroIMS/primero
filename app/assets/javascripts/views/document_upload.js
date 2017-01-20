@@ -2,8 +2,8 @@ _primero.Views.FileUploadField = Backbone.View.extend({
   el: '.page_content form',
   events: {
     'change input.file_upload_input' : 'update_file_path_label',
-    'click a#add-file-upload-field' : 'add_file_upload_field',
-    'change div#file-group.document input[type="file"]' : 'validate_document'
+    'click #add-file-upload-field' : 'add_file_upload_field',
+    'change #file-group.document input[type="file"]' : 'validate_document'
   },
 
   update_file_path_label: function(event) {

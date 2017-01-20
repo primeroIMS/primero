@@ -3,7 +3,7 @@ _primero.Views.ApproveCasePlan = Backbone.View.extend({
   el: '#menu',
 
   events: {
-    'click div#approve-case-plan-modal input[type="submit"]' : 'submit_approval'
+    'click #approve-case-plan-modal input[type="submit"]' : 'submit_approval'
   },
 
   submit_approval: function(e) {

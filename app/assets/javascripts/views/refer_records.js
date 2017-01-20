@@ -4,10 +4,10 @@ _primero.Views.ReferRecords = Backbone.View.extend({
 
   events: {
     'click a.referral_index_action' : 'refer_records',
-    'change div#referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
-    'change div#referral-modal select#existing_user' : 'toggle_other_user',
-    'change div#referral-modal input#other_user' : 'toggle_existing_user',
-    'click div#referral-modal input[type="submit"]' : 'close_referral'
+    'change #referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
+    'change #referral-modal select#existing_user' : 'toggle_other_user',
+    'change #referral-modal input#other_user' : 'toggle_existing_user',
+    'click #referral-modal input[type="submit"]' : 'close_referral'
   },
 
   refer_records: function(event) {

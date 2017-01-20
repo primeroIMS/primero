@@ -4,7 +4,7 @@ _primero.Views.CopyRole = Backbone.View.extend({
 
   events: {
     'click a.copy-role-action' : 'copy_form',
-    'click div#copy-role-modal input[type="submit"]' : 'submit_copy'
+    'click #copy-role-modal input[type="submit"]' : 'submit_copy'
   },
 
   copy_form: function(e) {
