@@ -188,6 +188,17 @@ class TracingRequest < CouchRest::Model::Base
     all_results
   end
 
+  alias :inherited_match_criteria :match_criteria
+  def match_criteria(match_request=nil)
+    match_criteria = inherited_match_criteria(match_request)
+    if match_request.present?
+      TracingRequest.subform_matchable_fields.each do |field|
+        match_criteria[:"#{field}"] = (match_request[:"#{field}"].is_a? Array) ? match_request[:"#{field}"].join(' ') : match_request[:"#{field}"]
+      end
+    end
+    match_criteria.compact
+  end
+
   def self.match_tracing_requests_for_case(case_id, tracing_request_ids)
     results = []
     TracingRequest.by_id(:keys => tracing_request_ids).all.each { |tr| results.concat(tr.find_match_cases(case_id)) }

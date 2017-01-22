@@ -125,4 +125,13 @@ module Matchable
       boost_field.empty? ? default_boost_value : (boost_field.first[:boost] || default_boost_value)
     end
   end
+
+  def match_criteria(match_request=nil)
+    match_criteria = {}
+    self.class.form_matchable_fields.each do |field|
+      match_criteria[:"#{field}"] = (self[:"#{field}"].is_a? Array) ? self[:"#{field}"].join(' ') : self[:"#{field}"]
+    end
+    match_criteria.compact
+  end
+
 end

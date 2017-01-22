@@ -397,6 +397,15 @@ class Child < CouchRest::Model::Base
     PotentialMatch.update_matches_for_child(self.id, results)
   end
 
+  alias :inherited_match_criteria :match_criteria
+  def match_criteria(match_request=nil)
+    match_criteria = inherited_match_criteria(match_request)
+    Child.subform_matchable_fields.each do |field|
+      match_criteria[:"#{field}"] = self.family_details_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ')
+    end
+    match_criteria.compact
+  end
+
   private
 
   def deprecated_fields
