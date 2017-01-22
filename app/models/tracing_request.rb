@@ -15,7 +15,7 @@ class TracingRequest < CouchRest::Model::Base
   property :relation_name
   property :reunited, TrueClass
 
-  after_save :find_match_children
+  after_save :find_match_cases unless (Rails.env == 'production')
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -112,17 +112,6 @@ class TracingRequest < CouchRest::Model::Base
       compact_result match_results
       sort_hash match_results
     end
-
-    #TODO verify
-    def boost_fields
-      [
-        {field: 'name', match: 'tracing_names', boost: 10},
-        {field: 'name_nickname', match: 'tracing_nicknames', boost: 10},
-        {field: 'name_first', match: 'tracing_names', boost: 10},
-        {field: 'name_middle', match: 'tracing_names', boost: 10},
-        {field: 'name_last', match: 'tracing_names', boost: 10}
-      ]
-    end
   end
 
   def self.find_by_tracing_request_id(tracing_request_id)
@@ -180,13 +169,13 @@ class TracingRequest < CouchRest::Model::Base
     self['inquiry_status'] ||= "Open"
   end
 
-  def find_match_children(child_id=nil)
+  def find_match_cases(child_id=nil)
+    #TODO v1.3 Bad code smell. This method is doing two things at once
     all_results = []
-    match_class = Child
     if self.tracing_request_subform_section.present?
       self.tracing_request_subform_section.each do |tr|
         match_criteria = match_criteria(tr)
-        results = self.class.find_match_records(match_criteria, match_class, child_id)
+        results = TracingRequest.find_match_records(match_criteria, Child, child_id)
         if child_id.nil?
           PotentialMatch.update_matches_for_tracing_request(self.id, tr.unique_id, tr.age, tr.sex, results, child_id)
         else
@@ -199,9 +188,9 @@ class TracingRequest < CouchRest::Model::Base
     all_results
   end
 
-  def self.match_tracing_requests_for_child(child_id, tracing_request_ids)
+  def self.match_tracing_requests_for_case(case_id, tracing_request_ids)
     results = []
-    TracingRequest.by_id(:keys => tracing_request_ids).all.each { |tr| results.concat(tr.find_match_children(child_id)) }
+    TracingRequest.by_id(:keys => tracing_request_ids).all.each { |tr| results.concat(tr.find_match_cases(case_id)) }
     results
   end
 
