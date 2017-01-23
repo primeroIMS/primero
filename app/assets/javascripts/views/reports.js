@@ -119,7 +119,7 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
 
 });
 
-$(window).load( function () {
+$(window).on('load', function () {
   //This is a hack to get DataTables and Foundation cooperating in aligning table header to table columns.
   //TODO: This is a bad place to put this code.
   var reportTable = $('#report_table');

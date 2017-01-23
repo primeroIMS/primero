@@ -149,7 +149,7 @@ RapidFTR.validateSearch = function() {
   return true;
 };
 
-$(document).ready(function() {
+$(document).on('turbolinks:load', function() {
   _primero = $.extend(RapidFTR, _primero);
   RapidFTR.maintabControl();
   RapidFTR.enableSubmitLinks();

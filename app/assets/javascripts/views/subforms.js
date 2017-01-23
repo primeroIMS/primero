@@ -226,7 +226,7 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
   }
 });
 
-$(document).ready(function() {
+$(document).on('turbolinks:load', function() {
   //Disable all template inputs
   $('div.template').find('input, select, textarea').attr("disabled","disabled");
 });

@@ -26,7 +26,7 @@ _primero.chosen = function (selector) {
       //that allow to nil/empty the value in the database.
       $("#" + input_hidden_id).remove();
     }
-  }).ready(function() {
+  }).on('turbolinks:load', function() {
     //Small tweak to the search box. Initially has set some width that is not enough
     //to display the placeholder value.
     $(".chosen-container .search-field .default").css("width", "100%");

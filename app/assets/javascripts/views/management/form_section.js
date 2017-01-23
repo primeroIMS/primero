@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on('turbolinks:load', function() {
     if($('div.form_page').length == 0){
       return;
     }
