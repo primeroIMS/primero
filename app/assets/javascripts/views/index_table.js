@@ -36,7 +36,7 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
 
   init_index_tables: function() {
     self = this;
-    console.log(window.pagination_details)
+
     // init datatables
     this.list_view_table = $('.record_list_view').DataTable({
       searching: false,

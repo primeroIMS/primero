@@ -5,7 +5,6 @@ _primero.Views.Base = Backbone.View.extend({
   },
 
   close: function() {
-    console.log('cleaning....', this)
     window.dispatcher.off( 'CloseView', this.close, this );
     this.undelegateEvents();
     this.remove();
