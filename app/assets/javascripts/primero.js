@@ -50,7 +50,6 @@ function primero() {
   });
 
   new _primero.Router();
-  console.log('| STARTING ROUTER |')
   Backbone.history.start({ pushState: true, hashChange: false })
   _primero.loading_screen_indicator('hide');
 }
