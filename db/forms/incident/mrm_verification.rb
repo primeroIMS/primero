@@ -47,7 +47,8 @@ MRM_VERIFICATION_FIELDS = [
              "type" => "select_box",
              "display_name_all" => "Verification status as agreed by the CTFMR",
              "option_strings_source" => "lookup VerificationStatus",
-             "help_text_all" => "Please provide further details in the 'Additional details on verification process/decision' box."
+             "help_text_all" => "Please provide further details in the 'Additional details on verification process/decision' box."\
+                                "This field is required for reporting."
             }),
   Field.new({"name" => "verification_additional",
            "type" => "textarea",

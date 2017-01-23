@@ -10,7 +10,8 @@ attack_on_subform_fields = [
                                            "Attack on hospital(s)", "Attack on medical personnel",
                                            "Threat of attack on hospital(s)", "Other interference with healthcare"].join("\n"),
              "guiding_questions" => "See  'Protect Schools+Hospitals - Guidance Note on Security Council Resolution 1998', "\
-                                    "2014 (available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 6."
+                                    "2014 (available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 6.",
+             "help_text_all" => "This field is required for reporting."
             }),
 
   Field.new({"name" => "weapon_type",
@@ -83,7 +84,8 @@ attack_on_subform_fields = [
                                     "'Schools' include all school-related spaces, structures, infrastructure and grounds "\
                                     "attached to them, such as water, sanitation and hygiene facilities. See "\
                                     "'Protect Schools+Hospitals - Guidance Note on Security Council Resolution 1998', 2014 "\
-                                    "(available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 43."
+                                    "(available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 43.",
+             "help_text_all" => "This field is required for reporting Attacks on schools."
             }),
   Field.new({"name" => "school_type_other",
              "type" => "text_field",
@@ -114,7 +116,8 @@ attack_on_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Type of healthcare facility affected",
-             "option_strings_source" => "lookup HealthcareFacilityType"
+             "option_strings_source" => "lookup HealthcareFacilityType",
+             "help_text_all" => "This field is required for reporting Attacks on hospitals."
             }),
   Field.new({"name" => "health_type_other",
              "type" => "text_field",

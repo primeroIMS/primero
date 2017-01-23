@@ -4,7 +4,8 @@ military_use_subform_fields = [
     Field.new({"name" => "military_use_type",
                "type" => "select_box",
                "display_name_all" => "Type of military use",
-               "option_strings_text_all" => ["Military use of school", "Military use of hospital"].join("\n")
+               "option_strings_text_all" => ["Military use of school", "Military use of hospital"].join("\n"),
+               "help_text_all" => "This field is required for reporting."
               }),
     Field.new({"name" => "weapon_type",
                "type" => "select_box",
@@ -16,7 +17,7 @@ military_use_subform_fields = [
                                     "to the UN Coordinating Action on Small Arms (CASA) 'Glossary of terms, definitions "\
                                     "and abbreviations', available at: http://www.smallarmsstandards.org/isacs/0120-en.pdf; "\
                                     "and to UNIDIR 'Addressing Improvised Explosive Devices' paper, pp. 14-15 "\
-                                    "available at: http://www.unidir.org/files/publications/pdfs/-en-641.pdf."
+                                    "available at: http://www.unidir.org/files/publications/pdfs/-en-641.pdf.",
               }),
     Field.new({"name" => "weapon_type_other",
                "type" => "text_field",
@@ -88,7 +89,8 @@ military_use_subform_fields = [
                                     "'Schools' include all school-related spaces, structures, infrastructure and grounds "\
                                     "attached to them, such as water, sanitation and hygiene facilities. See "\
                                     "'Protect Schools+Hospitals - Guidance Note on Security Council Resolution 1998', 2014 "\
-                                    "(available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 43."
+                                    "(available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 43.",
+               "help_text_all" => "This field is required for reporting Military use of schools."
               }),
     Field.new({"name" => "school_type_other",
                "type" => "text_field",
@@ -119,7 +121,8 @@ military_use_subform_fields = [
                "type" => "select_box",
                "multi_select" => true,
                "display_name_all" => "Type of healthcare facility affected",
-               "option_strings_source" => "lookup HealthcareFacilityType"
+               "option_strings_source" => "lookup HealthcareFacilityType",
+               "help_text_all" => "This field is required for reporting Military use of hospitals."
               }),
     Field.new({"name" => "health_type_other",
                "type" => "text_field",

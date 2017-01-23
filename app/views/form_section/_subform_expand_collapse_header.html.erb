@@ -116,7 +116,7 @@
       <% end %>
     <% end %>
     <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
-    <% if !subform.disabled %>
+    <% unless subform.disabled || (subform.subform.present? && subform.subform.is_violation?) %>
       <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", style: disable_action_buttons,
           data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
     <% end %>
