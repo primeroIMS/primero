@@ -1,7 +1,5 @@
 _primero.Views.IndexTable = _primero.Views.Base.extend({
 
-  pagination: typeof window.pagination_details == 'undefined' ? false : window.pagination_details,
-
   el: 'body',
 
   events: {
@@ -11,6 +9,8 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
   },
 
   initialize: function() {
+    this.pagination = typeof window.pagination_details == 'undefined' ? false : window.pagination_details;
+
     this.init_index_tables();
     this.disable_table_alerts();
     this.init_other_tables();
@@ -36,7 +36,7 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
 
   init_index_tables: function() {
     self = this;
-    console.log('init')
+    console.log(window.pagination_details)
     // init datatables
     this.list_view_table = $('.record_list_view').DataTable({
       searching: false,

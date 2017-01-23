@@ -6,11 +6,11 @@ window.pagination_details = {};
 
 window.dispatcher = _.clone(Backbone.Events)
 
-$(document).on('turbolinks:before-cache', function() {
+$(document).on('turbolinks:before-render', function() {
   if (_primero.Router) {
     console.log('| CLOSING ROUTER |')
-    dispatcher.trigger( 'CloseView' )
     Backbone.history.stop();
+    dispatcher.trigger( 'CloseView' )
   }
 });
 
@@ -44,6 +44,6 @@ $(document).on('turbolinks:load', function() {
   });
 
   new _primero.Router();
-
+  console.log('| STARTING ROUTER |')
   Backbone.history.start({ pushState: true, hashChange: false })
 });
