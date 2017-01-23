@@ -1,3 +1,19 @@
+<% content_for :javascript do %>
+<script type="text/javascript" language="javascript">
+function dropdown_links() {
+  var $document = $(document);
+  <% if defined?(modules) && modules.size > 1 %>
+    <% modules.each do |primero_module| %>
+      $document.on('click', '#<%=primero_module.id %>', function() {
+        Turbolinks.visit('<%=new_polymorphic_path(record, module_id: primero_module.id) %>');
+      });
+    <% end %>
+  <% end %>
+};
+
+$(dropdown_links);
+</script>
+<% end %>
 <% if can? :create, model %>
     <% button_label = t("#{record.pluralize}.register_new_#{record}") %>
     <% if !defined?(modules) || !modules.present? %>
@@ -7,7 +23,9 @@
         <ul id="modules-dropdown" class="f-dropdown" data-dropdown-content>
         <% modules.each do |primero_module| %>
             <%# TODO: translate the module name %>
-            <li><%= link_to primero_module.name, new_polymorphic_path(record, module_id: primero_module.id) %></li>
+            <li>
+              <%= content_tag( :a, primero_module.name, :id => primero_module.id) %>
+            </li>
         <% end %>
         </ul>
     <% elsif modules.size == 1 %>
