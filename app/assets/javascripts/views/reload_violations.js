@@ -54,13 +54,15 @@ _primero.Views.ViolationListReload = _primero.Views.Base.extend({
   reload: function(event) {
     var violation_list = {},
       context = this.el;
-    var $violation_list_el = $(violationListEl);
-    var $violation_el = $(violationEl);
     // Build new violations list
-    $(context).find("fieldset[id$='_violation_wrapper']").each(function(x, violationListEl){
+    $(context).find("fieldset[id$='_violation_wrapper']").each(function(x, violationListEl) {
+      var $violation_list_el = $(violationListEl);
       var index = 0;  // counter for each type of violation
       var violation_name = $violation_list_el.find(".subforms").attr('id');
-      $violation_list_el.find(".subforms").children('div').each(function(x, violationEl){
+      
+      $violation_list_el.find(".subforms").children('div').each(function(x, violationEl) {
+        var $violation_el = $(violationEl);
+        
         if ($violation_el.children().length > 0) {
 
           //Only add to the list if the fields have values

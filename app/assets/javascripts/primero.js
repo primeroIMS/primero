@@ -8,10 +8,13 @@ window.dispatcher = _.clone(Backbone.Events)
 
 $(document).on('turbolinks:before-render', function() {
   if (_primero.Router) {
-    console.log('| CLOSING ROUTER |')
     Backbone.history.stop();
     dispatcher.trigger( 'CloseView' )
   }
+});
+
+$(document).on('turbolinks:visit', function() {
+  _primero.loading_screen_indicator('show');
 });
 
 function primero() {
@@ -49,6 +52,7 @@ function primero() {
   new _primero.Router();
   console.log('| STARTING ROUTER |')
   Backbone.history.start({ pushState: true, hashChange: false })
+  _primero.loading_screen_indicator('hide');
 }
 
 $(primero);

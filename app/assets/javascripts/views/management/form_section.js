@@ -176,4 +176,4 @@ function on_ready() {
   });
 };
 
-$(on_ready());
+$(on_ready);

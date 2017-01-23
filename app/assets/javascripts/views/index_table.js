@@ -96,14 +96,16 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
         scope = select_val.split(':'),
         prev_params = _primero.clean_page_params(['scope']);
 
-    window.location.search = prev_params + '&scope[' + scope[0]  + ']=' + scope[1];
+    var search = prev_params + '&scope[' + scope[0]  + ']=' + scope[1];
+    Turbolinks.visit(window.location.pathname + '?' + search);
   },
 
   change_display_count: function(event) {
     event.preventDefault();
     var prev_params = _primero.clean_page_params(['page', 'per']),
         select_val = $(event.target).val();
-    window.location.search = prev_params + '&per=' + select_val;
+    var search = prev_params + '&per=' + select_val;  
+    Turbolinks.visit(window.location.pathname + '?' + search);
   },
 
   change_sorting: function(event) {
@@ -120,7 +122,8 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
     order = order == 'ascending' ? 'asc' : 'desc';
     // Disable the sorting for the Violations and Photo columns
     if (column_field != 'violations' && column_field != 'photo' && column_field != 'select' && column_field != 'tracing_names'){
-      window.location.search = prev_params + '&order=' + order + '&column=' + column_field + '&col_idx=' + column_field_idx;
+      var search = prev_params + '&order=' + order + '&column=' + column_field + '&col_idx=' + column_field_idx;
+      Turbolinks.visit(window.location.pathname + '?' + search);
     }
   },
 
