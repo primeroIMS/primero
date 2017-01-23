@@ -45,11 +45,14 @@ incident_fields = [
                  { id: 'denial_humanitarian_access', display_text: "Denial of humanitarian access for children" },
                  #{ id: 'other', display_text: "Other" }
               ],
-              "help_text" => "When removing a violation type from the list above, please ensure that FIRST you have "\
-                             "removed all the individual 'Violation' sub-forms associated with that violation type. "\
-                             "To do so, go to the 'Violations' form (by clicking on the 'Violations' link in the left "\
-                             "menu), find the specific violation type, and click on the 'Remove' button on each "\
-                             "individual 'Violation' sub-form for that violation category."
+              "help_text" => "If you have entered and saved a violation subform and you want to REMOVE it "\
+                             "from reporting (e.g. if the violation was entered by mistake, and should not "\
+                             "be counted in the reports), you may delete any data you have entered in that subform, "\
+                             "and save the record."\
+                             "\n"\
+                             "Please do not click on the Action -> Disable button to remove a single violation subform, "\
+                             "as the ‘Disable’ button will disable (and exclude from the reports) the whole incident, "\
+                             "and not just a single violation."
             }),
   Field.new({"name" => "date_of_first_report",
              "type" => "date_field",
