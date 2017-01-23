@@ -3,7 +3,7 @@ _primero.Views.ReassignRecords = Backbone.View.extend({
   el: 'body',
 
   events: {
-    'click a.reassign_index_action': 'reassign_records',
+    'click .reassign_index_action': 'reassign_records',
     'click #reassign-modal input[type="submit"]': 'transfer'
   },
 

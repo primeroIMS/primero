@@ -15,9 +15,9 @@ _primero.Views.SharedFields = Backbone.View.extend({
     var $target = $(event.target),
       shared_field = $(this.el).find('[name="' + $target.attr('name') + '"]:hidden').not(event.target);
 
-    var $subform = $target.parents('div.subforms');
+    var $subform = $target.parents('.subforms');
     if ($subform.length > 0) {
-      var subform_index = $target.parents('div.subform').data('subform_index');
+      var subform_index = $target.parents('.subform').data('subform_index');
       var input_name = $target.attr('name').split('[' + subform_index + ']').pop();
       if ($subform.data('is_shared_subform')) {
         shared_field = shared_field.add($('#' + $subform.data('shared_subform') + ' div[data-subform_index="' + subform_index + '"]')

@@ -8,8 +8,8 @@ Primero = Backbone.View.extend({
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
     'change .record_types input:not([type="hidden"])': 'record_type_changed',
-    'click #audio_link, a.document, a.bulk_export_download': '_primero_check_download_status',
-    'click a.download_forms': '_primero_check_status_close_modal',
+    'click #audio_link, .document, .bulk_export_download': '_primero_check_download_status',
+    'click .download_forms': '_primero_check_status_close_modal',
   },
 
   initialize: function() {
@@ -173,7 +173,7 @@ Primero = Backbone.View.extend({
       search_contains: true,
       no_results_text: "Click to add"
     });
-    $('body').on('click', 'li.no-results', function(e) {
+    $('body').on('click', '.no-results', function(e) {
       var add = $(this).text().match(/Click to add "(.*)"/)[1],
           option = '<option value="' + add + '">'+ add +'</option>',
           select = $(this).parents('.chosen-container').siblings('select');
@@ -184,7 +184,7 @@ Primero = Backbone.View.extend({
   },
 
   init_action_menu: function() {
-    $('ul.sf-menu').superfish({
+    $('.sf-menu').superfish({
       delay: 0,
       speed: 'fast',
       onInit : function() {

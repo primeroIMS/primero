@@ -22,7 +22,7 @@ _primero.Views.ViolationListReload = Backbone.View.extend({
     var $empty_violations = $('.empty_violations');
     $empty_violations.show();
 
-    $empty_violations.parent().find('a.subform_add').hide();
+    $empty_violations.parent().find('.subform_add').hide();
 
     selected = $('span[data-violation-categories]').data('violation-categories') ?
       $('span[data-violation-categories]').data('violation-categories').split(',') :
@@ -31,7 +31,7 @@ _primero.Views.ViolationListReload = Backbone.View.extend({
 
     $("fieldset[id$='_violation_wrapper']").find('div[data-form_group_name="violations"]').hide();
     $tabs.hide();
-    $violation_group.parent('li').find('ul.sub li a').removeAttr('active-violation');
+    $violation_group.parent('li').find('.sub li a').removeAttr('active-violation');
 
     _.each(selected, function(v) {
       $('div[id="' + v + '"]').show();
@@ -43,7 +43,7 @@ _primero.Views.ViolationListReload = Backbone.View.extend({
     });
 
     var first_violation_href = $violation_group.parent('li')
-      .find('ul.sub li a[active-violation="true"]:first')
+      .find('.sub li a[active-violation="true"]:first')
       .attr('href');
 
     $violation_group.attr('href', first_violation_href);

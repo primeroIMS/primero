@@ -3,7 +3,7 @@ _primero.Views.ReferRecords = Backbone.View.extend({
   el: 'body',
 
   events: {
-    'click a.referral_index_action' : 'refer_records',
+    'click .referral_index_action' : 'refer_records',
     'change #referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
     'change #referral-modal select#existing_user' : 'toggle_other_user',
     'change #referral-modal input#other_user' : 'toggle_existing_user',
@@ -19,7 +19,7 @@ _primero.Views.ReferRecords = Backbone.View.extend({
         var total = response['record_count'],
             consent_cnt = response['consent_count'],
             no_consent_cnt = total - consent_cnt;
-        $("#referral-modal").find("span.consent_count").replaceWith(no_consent_cnt.toString());
+        $("#referral-modal").find(".consent_count").replaceWith(no_consent_cnt.toString());
     });
   },
 

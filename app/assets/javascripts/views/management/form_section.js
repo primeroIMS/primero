@@ -30,7 +30,7 @@ function form_section() {
 
   init_show_form();
   function init_show_form() {
-    var content = $("ul.field_types a.sel").attr('id');
+    var content = $(".field_types a.sel").attr('id');
     $(getFieldDetails(content)).show();
   }
 
@@ -92,7 +92,7 @@ function form_section() {
     $("#err_msg_panel").hide();
     $field_details_overlay.toggleClass("hide");
     $field_details_panel.toggleClass("hide");
-    configureFieldMultiSelect($("ul.field_types a").attr("id"));
+    configureFieldMultiSelect($(".field_types a").attr("id"));
     // _primero.set_content_sidebar_equality();
   }
 
@@ -102,7 +102,7 @@ function form_section() {
     $('#field_details_select_box').hide();
     $('#field_details_options').hide();
     $('#field_details').hide();
-    $("ul.field_types a").removeClass("sel");
+    $(".field_types a").removeClass("sel");
     $("#text_field").addClass("sel");
   }
 

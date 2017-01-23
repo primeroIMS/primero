@@ -51,7 +51,7 @@ _primero.Views.SubformView = Backbone.View.extend({
     $target.toggleClass("expanded");
     $target.toggleClass("collapsed");
     //Hide or Shows the field depends in his current state.
-    $target.parents(".subform").children("div.row:gt(0)").toggle();
+    $target.parents(".subform").children(".row:gt(0)").toggle();
     _primero.set_content_sidebar_equality();
   },
 
@@ -64,13 +64,13 @@ _primero.Views.SubformView = Backbone.View.extend({
     self.add_subform($target);
 
     //Replicate the event on shared subforms
-    var $target_subform = $target.parent().parent().find('div.subforms');
+    var $target_subform = $target.parent().parent().find('.subforms');
     if ($target_subform.data('is_shared_subform')) {
-      $add_button = $('#' + $target_subform.data('shared_subform')).parent().find('a.subform_add');
+      $add_button = $('#' + $target_subform.data('shared_subform')).parent().find('.subform_add');
       self.add_subform($add_button);
     } else {
       $('div[data-shared_subform="' + $target_subform.attr('id') + '"]').each(function() {
-        $add_button = $(this).parent().find('a.subform_add');
+        $add_button = $(this).parent().find('.subform_add');
         self.add_subform($add_button);
       });
     }
@@ -181,14 +181,14 @@ _primero.Views.SubformView = Backbone.View.extend({
 
     if (confirm_remove === true) {
       self.remove_subform($target, self);
-      var $target_subform = $target.parents('div.subforms');
-      var subform_index = $target.parents('div.subform, div.subform_container').data('subform_index');
+      var $target_subform = $target.parents('.subforms');
+      var subform_index = $target.parents('.subform, .subform_container').data('subform_index');
       if ($target_subform.data('is_shared_subform')) {
-        $remove_button = $('#' + $target_subform.data('shared_subform')).find('div[data-subform_index="' + subform_index + '"] a.subform_remove');
+        $remove_button = $('#' + $target_subform.data('shared_subform')).find('div[data-subform_index="' + subform_index + '"] .subform_remove');
         self.remove_subform($remove_button, self);
       } else {
         $('div[data-shared_subform="' + $target_subform.attr('id') + '"]').each(function() {
-          $remove_button = $(this).find('div[data-subform_index="' + subform_index + '"] a.subform_remove');
+          $remove_button = $(this).find('div[data-subform_index="' + subform_index + '"] .subform_remove');
           self.remove_subform($remove_button, self);
         });
       }
@@ -236,7 +236,7 @@ _primero.Views.SubformView = Backbone.View.extend({
 
 function disable_tempate_inputs() {
   //Disable all template inputs
-  $('div.template').find('input, select, textarea').attr("disabled","disabled");
+  $('.template').find('input, select, textarea').attr("disabled","disabled");
 }
 
 $(disable_tempate_inputs);

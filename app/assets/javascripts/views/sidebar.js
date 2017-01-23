@@ -22,7 +22,7 @@ _primero.Views.tabNavigation = Backbone.View.extend({
       bottomSpacing: 90
     });
 
-    if ($('.errorExplanation').length || $('p.notice').length) {
+    if ($('.errorExplanation').length || $('.notice').length) {
       _primero.scrollTop();
     }
   },
@@ -56,13 +56,13 @@ _primero.Views.tabNavigation = Backbone.View.extend({
     }
 
     if(($check_sub.is('ul')) && (!$check_sub.is(':visible'))) {
-      $('ul.tab-handles ul:visible').slideUp('normal');
+      $('.tab-handles ul:visible').slideUp('normal');
       $check_sub.find('li').first().addClass('current');
       $check_sub.slideDown('normal');
     }
 
     if($tab.hasClass('non-group')) {
-      $('ul.tab-handles ul:visible').slideUp('normal');
+      $('.tab-handles ul:visible').slideUp('normal');
     }
 
     $(".tab").hide();
@@ -126,7 +126,7 @@ _primero.Views.tabNavigation = Backbone.View.extend({
     var active_tab = localStorage.getItem(action + '_tab'),
       $tab = $(active_tab),
       tab_nav = $('a[href="' + active_tab + '"]'),
-      subgroup = tab_nav.parents('ul.sub');
+      subgroup = tab_nav.parents('.sub');
 
     if (active_tab !== null && $tab.length) {
       $(".tab-handles li").removeClass("current");

@@ -151,7 +151,7 @@ _primero.Views.ReportForm = Backbone.View.extend({
 
   add_filter: function() {
     //determine the new index
-    var new_index = $('div.report_filters_container').children().size();
+    var new_index = $('.report_filters_container').children().size();
     var $template = $('.report_filter_template');
     //duplicate the template
     var new_filter = $template.clone();
@@ -167,7 +167,7 @@ _primero.Views.ReportForm = Backbone.View.extend({
     //get rid of the template class
     new_filter.attr('class', $template.attr('class').replace(/report_filter_template/,'report_filter'));
 
-    $('div.report_filters_container').append(new_filter);
+    $('.report_filters_container').append(new_filter);
     new_filter.find('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
     _primero.set_content_sidebar_equality();
   },
@@ -178,7 +178,7 @@ _primero.Views.ReportForm = Backbone.View.extend({
     $current_filter.remove();
     //reassign the index for names and ids
     var index = 0;
-    $('div.report_filters_container').children().each(function() {
+    $('.report_filters_container').children().each(function() {
       $(this).find('.report_filter_attribute, .report_filter_input').each(function() {
         var $el = $(this);
         var id = $el.attr('id').replace(/_\d+_/g, '_' + index + '_');

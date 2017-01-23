@@ -3,7 +3,7 @@ _primero.Views.MarkForMobile = Backbone.View.extend({
   el: '#menu',
 
   events: {
-    'click a.mark_for_mobile' : 'mark_records_for_mobile'
+    'click .mark_for_mobile' : 'mark_records_for_mobile'
   },
 
   mark_records_for_mobile: function(event) {

@@ -46,7 +46,7 @@ _primero.Views.RequiredFields = Backbone.View.extend({
       var re = new RegExp("^" + tab + "\\d*$");
       return $(this).text().match(re);
     });
-    var $jewel = anchor.find('span.label');
+    var $jewel = anchor.find('.label');
     var $jewel_container = $('<span class="label alert"></span>');
 
     if ($jewel.length > 0) {

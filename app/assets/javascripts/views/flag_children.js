@@ -5,8 +5,8 @@ _primero.Views.FlagChild = Backbone.View.extend({
   events: {
     'click .dropdown_btn': 'show_hide_dropdown',
     'click .dropdown': 'stop_propagation',
-    'click span.collapse_expand_flag': 'collapse_expand_flag',
-    'click span.view_history_flags': 'view_history_flags'
+    'click .collapse_expand_flag': 'collapse_expand_flag',
+    'click .view_history_flags': 'view_history_flags'
   },
 
   stop_propagation: function(event) {
@@ -71,7 +71,7 @@ _primero.Views.FlagChild = Backbone.View.extend({
   },
 
   view_history_flags: function(event) {
-    $("ul.history_flags, div.history_flags_label").toggle();
+    $(".history_flags, .history_flags_label").toggle();
     event.stopPropagation();
   }
 

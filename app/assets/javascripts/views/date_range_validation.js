@@ -10,7 +10,7 @@ _primero.Views.DateRangeValidation = Backbone.View.extend({
     var errors_messages = [];
     var target = event.target || event.srcElement;
 
-    $(target).find("div.date_or_date_range_selector input[type='radio'][value='date_range']:checked").each(function(x, el){
+    $(target).find(".date_or_date_range_selector input[type='radio'][value='date_range']:checked").each(function(x, el){
       //Use the radio button name to infer the date range fields.
       var name_from = $(el).attr("name").replace(/date_or_date_range\]$/, "from]");
       var name_to = $(el).attr("name").replace(/date_or_date_range\]$/, "to]");

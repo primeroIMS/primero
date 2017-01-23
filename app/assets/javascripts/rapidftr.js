@@ -110,7 +110,7 @@ RapidFTR.showDropdown = function(){
         //by a datepicker widget, we don't want to close
         //the flag form in this case.
         var el = $(event.target),
-            parent = el.parents("div.ui-datepicker");
+            parent = el.parents(".ui-datepicker");
         if (parent.length == 0) {
 
             $(".dropdown").children().each(function() {

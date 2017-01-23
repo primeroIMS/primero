@@ -8,7 +8,7 @@ _primero.Views.FlagRecord = Backbone.View.extend({
   el: 'body',
 
   events: {
-    'click div.flag_records a.flag' : 'flag_records'
+    'click .flag_records a.flag' : 'flag_records'
   },
 
   flag_records: function(event) {
