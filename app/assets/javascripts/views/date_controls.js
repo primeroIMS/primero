@@ -56,15 +56,15 @@ _primero.Views.DateControl = Backbone.View.extend({
 	},
 
 	trigger_date_control: function(event) {
-		var control = $(event.target);
-		$.datepicker.initialize_datepicker(control);
+		var $control = $(event.target);
+		$.datepicker.initialize_datepicker($control);
 	},
 
 	format_date_input: function(event) {
-		var control = $(event.target);
+		var $control = $(event.target);
 
 		//Get the expected valid format to send to the server.
-		var dateFormat = control.datepicker("option", "dateFormat");
+		var date_format = $control.datepicker("option", "dateFormat");
 
 		//There is no public interface to get the settings of the datepicker object.
 		//There is no public interface to get the current instance of the date picker
@@ -75,11 +75,11 @@ _primero.Views.DateControl = Backbone.View.extend({
 		//There is no way to know that the current value of the datepicker is a valid value
 		//we need to parse again to know that in order to format to the expected format
 		//in the server side validation.
-		var parsedDate = $.datepicker.parseDate(dateFormat, control.val(), settings);
-		if (parsedDate != undefined && parsedDate != null) {
+		var parsed_date = $.datepicker.parseDate(date_format, $control.val(), settings);
+		if (parsed_date != undefined && parsed_date != null) {
 		  //If passed the parse, fix the format to the expected format
 		  //to send to the server.
-		  control.val($.datepicker.formatDate(dateFormat, parsedDate));
+		  $control.val($.datepicker.formatDate(date_format, parsed_date));
 		}
 	}
 });

@@ -97,9 +97,11 @@
     I18n.fallbacks = true;
 <% end %>
 <script>
-  $(document).ready(function(){
+  function page_scripts(){
     <%= yield :page_scripts %>
-  });
+  }
+
+  $(page_scripts);
 </script>
 </body>
 </html>

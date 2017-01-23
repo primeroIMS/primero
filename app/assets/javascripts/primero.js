@@ -1,17 +1,20 @@
-$(document).ready(function() {
+function primero() {
   jQuery.migrateMute = true
 
   new Primero();
 
-  $(document).on('open.fndtn.reveal', '[data-reveal]', function () {
-    $('body').css('overflow','hidden');
+  var $document = $(document);
+  var $body = $('body');
+
+  $document.on('open.fndtn.reveal', '[data-reveal]', function () {
+    $body.css('overflow','hidden');
   });
 
-  $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-    $('body').css('overflow','visible');
+  $document.on('close.fndtn.reveal', '[data-reveal]', function () {
+    $body.css('overflow','visible');
   });
 
-  $(document).foundation({
+  $document.foundation({
     abide : {
       validators: {
         primeroDate: function(el, required, parent) {
@@ -29,4 +32,6 @@ $(document).ready(function() {
 
   new _primero.Router();
   Backbone.history.start({ pushState: true, hashChange: false })
-});
+}
+
+$(primero);

@@ -7,12 +7,12 @@ _primero.Views.Locations = Backbone.View.extend({
 
   toggle_admin_level: function(e) {
     var parent_id = $(e.target).val(),
-        admin_level_select = $('select#location_admin_level');
+        $admin_level_select = $('#location_admin_level');
 
     if(parent_id == null || parent_id == undefined || parent_id.trim() == ""){
-      admin_level_select.prop('disabled', false);
+      $admin_level_select.prop('disabled', false);
     } else {
-      admin_level_select.prop('disabled', true);
+      $admin_level_select.prop('disabled', true);
     }
   }
 

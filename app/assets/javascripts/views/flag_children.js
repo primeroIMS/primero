@@ -5,8 +5,8 @@ _primero.Views.FlagChild = Backbone.View.extend({
   events: {
     'click .dropdown_btn': 'show_hide_dropdown',
     'click .dropdown': 'stop_propagation',
-    'click span.collapse_expand_flag': 'collapse_expand_flag',
-    'click span.view_history_flags': 'view_history_flags'
+    'click .collapse_expand_flag': 'collapse_expand_flag',
+    'click .view_history_flags': 'view_history_flags'
   },
 
   stop_propagation: function(event) {
@@ -14,10 +14,10 @@ _primero.Views.FlagChild = Backbone.View.extend({
   },
 
   show_hide_dropdown: function(event) {
-    var dropdown = $(event.target).parents('.dropdown_btn').find('.dropdown');
+    var $dropdown = $(event.target).parents('.dropdown_btn').find('.dropdown');
 
-    dropdown.toggleClass('hide').show();
-    this.generate_form(dropdown);
+    $dropdown.toggleClass('hide').show();
+    this.generate_form($dropdown);
 
     event.stopPropagation();
   },
@@ -47,31 +47,31 @@ _primero.Views.FlagChild = Backbone.View.extend({
   },
 
   collapse_expand_flag: function(event) {
-    var target = $(event.target),
+    var $target = $(event.target),
       self = this;
-    $('span.expanded_flag').not(target).toggleClass("expanded_flag").toggleClass("collapsed_flag");
-    target.toggleClass("expanded_flag");
-    target.toggleClass("collapsed_flag");
+    $('.expanded_flag').not($target).toggleClass("expanded_flag").toggleClass("collapsed_flag");
+    $target.toggleClass("expanded_flag");
+    $target.toggleClass("collapsed_flag");
     $('.remove_flag_record_container').slideToggle().remove();
-    if (target.hasClass('expanded_flag')) {
-      var flag_removed = target.data('removed');
+    if ($target.hasClass('expanded_flag')) {
+      var flag_removed = $target.data('removed');
       if (flag_removed === true) {
-        self.data.unflagged_by = target.data('unflagged_by');
-        self.data.remove_message = target.data('remove_message');
-        self.data.unflagged_date = target.data('unflagged_date');
-        target.parent('li').append(JST['templates/remove_flag_record_show'](self.data));
+        self.data.unflagged_by = $target.data('unflagged_by');
+        self.data.remove_message = $target.data('remove_message');
+        self.data.unflagged_date = $target.data('unflagged_date');
+        $target.parent('li').append(JST['templates/remove_flag_record_show'](self.data));
       } else {
-        self.data.flag_message = target.data('message');
-        self.data.flag_index = target.data('message_index');
-        target.parent('li').append(JST['templates/remove_flag_record_form'](self.data));
+        self.data.flag_message = $target.data('message');
+        self.data.flag_index = $target.data('message_index');
+        $target.parent('li').append(JST['templates/remove_flag_record_form'](self.data));
       }
     }
-    $('span.collapsed_flag').text('+');
-    $('span.expanded_flag').text('-');
+    $('.collapsed_flag').text('+');
+    $('.expanded_flag').text('-');
   },
 
   view_history_flags: function(event) {
-    $("ul.history_flags, div.history_flags_label").toggle();
+    $(".history_flags, .history_flags_label").toggle();
     event.stopPropagation();
   }
 

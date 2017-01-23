@@ -110,7 +110,7 @@ RapidFTR.showDropdown = function(){
         //by a datepicker widget, we don't want to close
         //the flag form in this case.
         var el = $(event.target),
-            parent = el.parents("div.ui-datepicker");
+            parent = el.parents(".ui-datepicker");
         if (parent.length == 0) {
 
             $(".dropdown").children().each(function() {
@@ -149,7 +149,7 @@ RapidFTR.validateSearch = function() {
   return true;
 };
 
-$(document).ready(function() {
+function on_page_load() {
   _primero = $.extend(RapidFTR, _primero);
   RapidFTR.maintabControl();
   RapidFTR.enableSubmitLinks();
@@ -177,4 +177,5 @@ $(document).ready(function() {
     current_tab = $(group_or_tab).find("a").attr("href");
   }
   _primero.chosen(current_tab + ' select.chosen-select:visible');
-});
+}
+$(on_page_load);

@@ -8,17 +8,17 @@ _primero.Views.FlagRecord = Backbone.View.extend({
   el: 'body',
 
   events: {
-    'click div.flag_records a.flag' : 'flag_records'
+    'click .flag_records a.flag' : 'flag_records'
   },
 
   flag_records: function(event) {
     event.stopPropagation();
-    var target = $(event.target);
-    var form_action = target.data('form_action');
-    var flag_error_message = target.data('submit_error_message');
-    var flag_message = target.parents('.flag_records').find('input.flag_message').val();
-    var flag_date = target.parents('.flag_records').find('input.flag_date').val();
-    var flag_date_valid = !(target.parents('.flag_records').find('input.flag_date')[0].hasAttribute('data-invalid'));
+    var $target = $(event.target);
+    var form_action = $target.data('form_action');
+    var flag_error_message = $target.data('submit_error_message');
+    var flag_message = $target.parents('.flag_records').find('input.flag_message').val();
+    var flag_date = $target.parents('.flag_records').find('input.flag_date').val();
+    var flag_date_valid = !($target.parents('.flag_records').find('input.flag_date')[0].hasAttribute('data-invalid'));
     var search_params = this.clean_select_all_page_params();
     var apply_to_all = false;
     if (flag_message.length > 0 && flag_date_valid) {
