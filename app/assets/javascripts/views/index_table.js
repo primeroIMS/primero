@@ -20,8 +20,8 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
   },
 
   agency_sortable: function() {
-    var rows = $("table#list_table.agency tbody");
-    rows.sortable({
+    var $rows = $("#list_table.agency").find("tbody");
+    $rows.sortable({
       update: function(){
         $.post('/agencies/update_order', $(this).sortable('serialize'));
       }
@@ -107,13 +107,13 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
   },
 
   change_sorting: function(event) {
-    var column = $(event.target),
-        order = column.attr('aria-sort'),
+    var $column = $(event.target),
+        order = $column.attr('aria-sort'),
         redraw = false,
         prev_params = _primero.clean_page_params(['order', 'column', 'col_idx']),
-        column_field = column.attr('aria-field'),
-        column_field_idx = column.attr('aria-field-index');
-    if (column.attr("type") != "checkbox") {
+        column_field = $column.attr('aria-field'),
+        column_field_idx = $column.attr('aria-field-index');
+    if ($column.attr("type") != "checkbox") {
       event.preventDefault();
     }
 

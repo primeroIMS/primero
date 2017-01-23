@@ -10,7 +10,7 @@ _primero.Views.DateRangeValidation = _primero.Views.Base.extend({
     var errors_messages = [];
     var target = event.target || event.srcElement;
 
-    $(target).find("div.date_or_date_range_selector input[type='radio'][value='date_range']:checked").each(function(x, el){
+    $(target).find(".date_or_date_range_selector input[type='radio'][value='date_range']:checked").each(function(x, el){
       //Use the radio button name to infer the date range fields.
       var name_from = $(el).attr("name").replace(/date_or_date_range\]$/, "from]");
       var name_to = $(el).attr("name").replace(/date_or_date_range\]$/, "to]");
@@ -28,10 +28,8 @@ _primero.Views.DateRangeValidation = _primero.Views.Base.extend({
     if (errors_messages.length > 0) {
       //TODO what if implement other javascript validation, we must don't delete the container?
       _primero.create_or_clean_error_messages_container(target);
-      var container = _primero.find_error_messages_container(target);
-      for (var i=0; i < errors_messages.length; i++) {
-        container.append(errors_messages[i]);
-      }
+      var $container = _primero.find_error_messages_container(target);
+      $container.append(errors_messages.join(''));
     }
     return errors_messages.length == 0;
   },

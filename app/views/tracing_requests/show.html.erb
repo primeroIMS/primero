@@ -1,25 +1,31 @@
 <% content_for :javascript do %>
 <script type="text/javascript" language="javascript">
-$(function() {
+function profile_tools() {
+  var $profile_tools = $(".profile-tools");
   $(".profile-image .image a").click( function(event){
       $('.thumbnails .thumbnail a')[0].click();
       return false;
   });
 
-$(".accordion").accordion({ header: "h2", autoHeight: false, collapsible: true, active: false });
+  $(".accordion").accordion({
+    header: "h2",
+    autoHeight: false,
+    collapsible: true,
+    active: false
+  });
 
-$(".profile-tools .mark-as-form").hide();
+  $profile_tools.find(".mark-as-form").hide();
 
-$(".profile-tools .flag a").click( function(){
+  $profile_tools.find(".flag a").click( function(){
     $(this).parent().siblings('form').children('.mark-as-form').toggle();
-});
+  });
 
-$(".profile-tools .reunited a").click( function(){
+  $profile_tools.find(".reunited a").click( function(){
     $(this).parent().siblings('form').children('.mark-as-form').toggle();
-});
-$(".profile-tools .investigated a").click( function(){
+  });
+  $profile_tools.find(".investigated a").click( function(){
     $(this).parent().siblings('form').children('.mark-as-form').toggle();
-});
+  });
 
   $('.sub_export_record').hide();
 
@@ -37,8 +43,9 @@ $(".profile-tools .investigated a").click( function(){
       $sub.hide();
     }
   });
+}
 
-});
+$(profile_tools);
 </script>
 <% end %>
 

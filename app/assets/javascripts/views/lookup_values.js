@@ -11,27 +11,27 @@ _primero.Views.LookupValueView = _primero.Views.Base.extend({
 
   add: function(event) {
     event.preventDefault();
-    var valueList = $(this.el).find('#lookup_values'),
-        lastValue = valueList.children(":last"),
-        newValue = lastValue.clone();
+    var $value_list = $(this.el).find('#lookup_values'),
+        $last_value = $value_list.children(":last"),
+        $new_value = $last_value.clone();
 
-    newValue.find("input").each(function(x, el){
+    $new_value.find("input").each(function(x, el){
       $(el).val("");
     });
 
-    newValue.appendTo(valueList);
+    $new_value.appendTo($value_list);
   },
 
   remove: function(event) {
     event.preventDefault();
-    var valueList = $(this.el).find('#lookup_values'),
-        listCnt = valueList.children().length;
+    var $value_list = $(this.el).find('#lookup_values'),
+        list_cnt = $value_list.children().length;
         target = event.target || event.srcElement,
-        targetValue = $(target).parents('div.lookup_value');
+        $target_value = $(target).parents('.lookup_value');
 
     //Do not allow removal of last two inputs
-    if(listCnt > 2){
-      targetValue.remove();
+    if(list_cnt > 2){
+      $target_value.remove();
     }
   },
 

@@ -24,9 +24,11 @@
       I18n.fallbacks = true;
   <% end %>
   <% javascript_tag 'data-turbolinks-track' => true do %>
-    $(document).on('turbolinks:load', function() {
+    function page_scripts(){
       <%= yield :page_scripts %>
-    });
+    }
+
+    $(page_scripts);
   <% end %>
   <% #javascript_include_tag 'plugins/jquery-1.7.1.min' %>
 </head>

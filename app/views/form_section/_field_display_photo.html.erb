@@ -2,16 +2,17 @@
 
 <% content_for :javascript do %>
 <script type="text/javascript" language="javascript">
+function thumbnails() {
+  $('.thumbnails .thumbnail a').lightBox({fixedNavigation:true,
+    imageLoading: '<%= image_url('lightbox-ico-loading.gif') %>',
+    imageBtnPrev: '<%= image_url('lightbox-btn-prev.gif') %>',
+    imageBtnNext: '<%= image_url('lightbox-btn-next.gif') %>',
+    imageBtnClose: '<%= image_url('lightbox-btn-close.gif') %>',
+    imageBlank: '<%= image_url('lightbox-blank.gif') %>'
+  });
+};
 
-$(function() {
-    $('.thumbnails .thumbnail a').lightBox({fixedNavigation:true,
-            imageLoading:			'<%= image_url('lightbox-ico-loading.gif') %>',
-            imageBtnPrev:			'<%= image_url('lightbox-btn-prev.gif') %>',
-            imageBtnNext:			'<%= image_url('lightbox-btn-next.gif') %>',
-            imageBtnClose:		'<%= image_url('lightbox-btn-close.gif') %>',
-            imageBlank:				'<%= image_url('lightbox-blank.gif') %>'
-    });
-});
+$(thumbnails);
 </script>
 <% end %>
 

@@ -53,8 +53,9 @@
   }
 
   $(".remove_field").live("click", function(){
-    var removeElement = { "field_name" : $(this).siblings(".highlighted-field").val(),
-                          "form_id" : $(this).siblings(".highlighted-form").val()}
+    var $this = $(this);
+    var removeElement = { "field_name" : $this.siblings(".highlighted-field").val(),
+                          "form_id" : $this.siblings(".highlighted-form").val()}
     $("#remove-field").append($("#form-template").tmpl(removeElement));
     $("#remove-form").submit();
   });

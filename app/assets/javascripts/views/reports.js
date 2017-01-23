@@ -6,9 +6,10 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
     this.init_report_table();
     this.init_report_chart();
 
-    $('.tabs').on('toggled', function (event, tab) {
+    function resize_window(event, tab) {
       $(window).trigger('resize');
-    });
+    }
+    $('.tabs').on('toggled', resize_window);
   },
 
   events: {
@@ -16,11 +17,11 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
     'click .report_export_data': 'export_data'
   },
 
-  init_report_table: function(){
+  init_report_table: function() {
     var self = this;
     this.report_table = $('#report_table');
 
-    if (this.report_table.length){
+    if (this.report_table.length) {
       var dataTable = this.report_table.DataTable({
         "searching": false,
         "paging":   false,
@@ -41,14 +42,14 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
 
   init_report_chart: function(){
     var self = this;
-    var canvas = $("#report_graph");
-    if (canvas.length){
+    var $canvas = $("#report_graph");
+    if ($canvas.length) {
       $('.spacer').height(0)
       //TODO: AJAX call to the report data. Not really Backbone at all.
       var graph_url = window.location.pathname + '/graph_data'
       $.ajax(graph_url).done(function(graph_data){
         var colors = self.generateColors(graph_data.datasets.length);
-        var context = canvas.get(0).getContext("2d");
+        var context = $canvas.get(0).getContext("2d");
         var options = {
           xAxisLabel: graph_data.aggregate,
           graphMin: 0,
@@ -66,7 +67,7 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
         var chart = new Chart(context).Bar(graph_data,options);
 
       }).fail(function(){
-        canvas.parent().remove();
+        $canvas.parent().remove();
       });
     }
   },
@@ -94,7 +95,7 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
     e.preventDefault();
 
     var canvas = document.getElementById("report_graph");
-        canvas_name = this.document_file_name();
+      canvas_name = this.document_file_name();
 
     canvas.toBlob(function(blob) {
       saveAs(blob, canvas_name[0] + '-' + canvas_name[1] + ".png");
@@ -104,12 +105,10 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
   export_data: function(e){
     e.preventDefault();
 
-    var csvData = $('#report_table').table2CSV({delivery:'value'}),
-        name, blob;
-
-      name = this.document_file_name(),
-      blob = new Blob([csvData], {type: "text/csv;charset=utf-8"});
-      saveAs(blob, name[0] + '-' + name[1] + ".csv");
+    var csvData = $('#report_table').table2CSV({delivery:'value'});
+    var name = this.document_file_name();
+    var blob = new Blob([csvData], {type: "text/csv;charset=utf-8"});
+    saveAs(blob, name[0] + '-' + name[1] + ".csv");
   },
 
   document_file_name: function() {
@@ -122,8 +121,8 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
 $(window).on('load', function () {
   //This is a hack to get DataTables and Foundation cooperating in aligning table header to table columns.
   //TODO: This is a bad place to put this code.
-  var reportTable = $('#report_table');
-  if (reportTable.length){
-    reportTable.dataTable().fnAdjustColumnSizing( false );
+  var $reportTable = $('#report_table');
+  if ($reportTable.length){
+    $reportTable.dataTable().fnAdjustColumnSizing( false );
   }
 } );

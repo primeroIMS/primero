@@ -100,9 +100,9 @@ ManagePhotos.init = function() {
 
       $("#selectPrimaryPhotoButton").click(function(e) {
         e.preventDefault();
-        var selectedPhoto = Photos.getSelectedPhoto();
-        if (selectedPhoto) {
-          selectedPhoto.makePrimaryPhoto();
+        var selected_photo = Photos.getSelectedPhoto();
+        if (selected_photo) {
+          selected_photo.makePrimaryPhoto();
           showMessage(I18n.t('messages.primary_photo_changed'), 'notice');
         }
         else {
@@ -112,9 +112,9 @@ ManagePhotos.init = function() {
 
       $("#viewFullSizePhotoButton").click(function(e) {
         e.preventDefault();
-        var selectedPhoto = Photos.getSelectedPhoto();
-        if (selectedPhoto) {
-          window.open(selectedPhoto.attributes.photo_url);
+        var selected_photo = Photos.getSelectedPhoto();
+        if (selected_photo) {
+          window.open(selected_photo.attributes.photo_url);
         } else {
           showMessage(I18n.t('messages.select_photo'), 'error');
         }
@@ -134,15 +134,16 @@ ManagePhotos.init = function() {
   window.App = new AppView;
 
   window.showMessage = function(msg, msgType) {
-    var noticeElement = $('#notice');
-    noticeElement.text(msg);
-    noticeElement.addClass(msgType);
+    var $notice_element = $('#notice');
+    var $flash = $('.flash');
+    $notice_element.text(msg);
+    $notice_element.addClass(msgType);
     setTimeout(function() {
-      $('.flash').fadeOut(function() {
-        noticeElement.removeClass(msgType);
+      $flash.fadeOut(function() {
+        $notice_element.removeClass(msgType);
       });
     }, 5000);
-    $('.flash').fadeIn();
+    $flash.fadeIn();
   };
 }
 
