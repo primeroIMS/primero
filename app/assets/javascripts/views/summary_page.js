@@ -1,4 +1,4 @@
-_primero.Views.SummaryPage = Backbone.View.extend({
+_primero.Views.SummaryPage = _primero.Views.Base.extend({
   el: 'div.side-tab-content',
 
   events: {

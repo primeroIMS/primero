@@ -1,4 +1,4 @@
-_primero.Views.PhotoAudioFields = Backbone.View.extend({
+_primero.Views.PhotoAudioFields = _primero.Views.Base.extend({
   el: "body",
   events: {
     "click .audio_player_section .audio .delete_check_box input[type='checkbox']" : "delete_check_box_click"

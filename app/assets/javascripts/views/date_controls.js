@@ -1,4 +1,4 @@
-_primero.Views.DateControl = Backbone.View.extend({
+_primero.Views.DateControl = _primero.Views.Base.extend({
 	el: 'body',
 
 	allowed_formats: [

@@ -1,4 +1,4 @@
-_primero.Views.HiddenTextField = Backbone.View.extend({
+_primero.Views.HiddenTextField = _primero.Views.Base.extend({
   el: '.page_content form',
   events: {
     'click a.hidden_text_field' : 'hide_field'

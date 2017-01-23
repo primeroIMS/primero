@@ -1,4 +1,4 @@
-_primero.Views.RequestApproval = Backbone.View.extend({
+_primero.Views.RequestApproval = _primero.Views.Base.extend({
   el: '[id$="_approvals"]',
 
   events: {

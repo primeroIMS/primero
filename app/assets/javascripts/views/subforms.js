@@ -1,4 +1,4 @@
-_primero.Views.SubformView = Backbone.View.extend({
+_primero.Views.SubformView = _primero.Views.Base.extend({
   el: '.side-tab-content',
 
   events: {

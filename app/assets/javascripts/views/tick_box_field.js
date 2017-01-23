@@ -2,7 +2,7 @@
  * When a checkbox is unchecked the browser won't send it's value, so the hidden_field will send the default value.
  * When the checkbox is checked the hidden_field should be disabled and send no value.
  */
-_primero.Views.TickBoxField = Backbone.View.extend({
+_primero.Views.TickBoxField = _primero.Views.Base.extend({
   el: '.page_content form',
   events: {
     'change input.tick_box' : 'tick_box_change'

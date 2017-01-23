@@ -1,4 +1,4 @@
-_primero.Views.IndexFilters = Backbone.View.extend({
+_primero.Views.IndexFilters = _primero.Views.Base.extend({
 
   pagination: typeof pagination_details === 'undefined' ? false : pagination_details,
 

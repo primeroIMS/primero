@@ -1,6 +1,6 @@
 <% content_for :pagination_details do %>
 <script type="text/javascript">
-	var pagination_details = {
+	window.pagination_details = {
 		info: "<%= page_entries_info results %>",
 		start: "<%= results.offset %>",
 		total: "<%= total %>",

@@ -9,7 +9,7 @@ var StringSources = Backbone.Collection.extend({
   }
 });
 
-_primero.Views.PopulateSelectBoxes = Backbone.View.extend({
+_primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
   el: 'form select',
 
   initialize: function() {

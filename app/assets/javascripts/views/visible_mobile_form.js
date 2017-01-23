@@ -2,7 +2,7 @@
  * When a checkbox is unchecked the browser won't send it's value, so the hidden_field will send the default value.
  * When the checkbox is checked the hidden_field should be disabled and send no value.
  */
-_primero.Views.VisibleMobileForm = Backbone.View.extend({
+_primero.Views.VisibleMobileForm = _primero.Views.Base.extend({
   el: '.form-section-content',
   events: {
     'change input.visible' : 'form_visible_change'

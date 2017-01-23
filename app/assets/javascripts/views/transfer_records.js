@@ -1,4 +1,4 @@
-_primero.Views.TransferRecords = Backbone.View.extend({
+_primero.Views.TransferRecords = _primero.Views.Base.extend({
 
   el: 'body',
 

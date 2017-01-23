@@ -1,4 +1,4 @@
-_primero.Views.DateRangeControl = Backbone.View.extend({
+_primero.Views.DateRangeControl = _primero.Views.Base.extend({
   el: '.page_content form',
   events: {
     'change div.date_or_date_range_selector input[type="radio"]' : 'change_date_or_date_range'

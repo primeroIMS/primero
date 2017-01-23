@@ -1,4 +1,4 @@
-_primero.Views.LookupValueView = Backbone.View.extend({
+_primero.Views.LookupValueView = _primero.Views.Base.extend({
   el: '.side-tab-content',
 
   events: {

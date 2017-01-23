@@ -1,4 +1,20 @@
-$(document).ready(function() {
+window._primero = {
+  Views: {}
+}
+
+window.pagination_details = {};
+
+window.dispatcher = _.clone(Backbone.Events)
+
+$(document).on('turbolinks:before-cache', function() {
+  if (_primero.Router) {
+    console.log('| CLOSING ROUTER |')
+    dispatcher.trigger( 'CloseView' )
+    Backbone.history.stop();
+  }
+});
+
+$(document).on('turbolinks:load', function() {
   jQuery.migrateMute = true
 
   new Primero();
@@ -28,5 +44,6 @@ $(document).ready(function() {
   });
 
   new _primero.Router();
+
   Backbone.history.start({ pushState: true, hashChange: false })
 });

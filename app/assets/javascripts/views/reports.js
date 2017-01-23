@@ -1,4 +1,4 @@
-_primero.Views.ReportTable = Backbone.View.extend({
+_primero.Views.ReportTable = _primero.Views.Base.extend({
 
   el: '.reports',
 

@@ -1,6 +1,6 @@
-_primero.Views.IndexTable = Backbone.View.extend({
+_primero.Views.IndexTable = _primero.Views.Base.extend({
 
-  pagination: typeof pagination_details == 'undefined' ? false : pagination_details,
+  pagination: typeof window.pagination_details == 'undefined' ? false : window.pagination_details,
 
   el: 'body',
 
@@ -36,7 +36,7 @@ _primero.Views.IndexTable = Backbone.View.extend({
 
   init_index_tables: function() {
     self = this;
-
+    console.log('init')
     // init datatables
     this.list_view_table = $('.record_list_view').DataTable({
       searching: false,

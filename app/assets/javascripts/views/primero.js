@@ -1,4 +1,4 @@
-Primero = Backbone.View.extend({
+Primero = _primero.Views.Base.extend({
   el: 'body',
 
   events: {

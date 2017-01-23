@@ -1,4 +1,4 @@
-_primero.Views.RequiredFields = Backbone.View.extend({
+_primero.Views.RequiredFields = _primero.Views.Base.extend({
   el: 'body',
 
   events: {

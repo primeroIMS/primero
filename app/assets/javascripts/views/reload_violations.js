@@ -1,4 +1,4 @@
-_primero.Views.ViolationListReload = Backbone.View.extend({
+_primero.Views.ViolationListReload = _primero.Views.Base.extend({
   el: '.page_content',
 
   events: {

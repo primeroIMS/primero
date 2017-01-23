@@ -1,4 +1,4 @@
-_primero.Views.FlagChild = Backbone.View.extend({
+_primero.Views.FlagChild = _primero.Views.Base.extend({
 
   el: 'body',
 

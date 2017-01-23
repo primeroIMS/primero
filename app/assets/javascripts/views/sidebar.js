@@ -1,4 +1,4 @@
-_primero.Views.tabNavigation = Backbone.View.extend({
+_primero.Views.tabNavigation = _primero.Views.Base.extend({
   is_error: false,
 
   el: '.page_container',

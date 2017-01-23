@@ -1,4 +1,4 @@
-_primero.Views.SharedFields = Backbone.View.extend({
+_primero.Views.SharedFields = _primero.Views.Base.extend({
   el: '.page_content form',
 
   events: {

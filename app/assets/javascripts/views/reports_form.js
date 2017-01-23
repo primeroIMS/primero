@@ -1,4 +1,4 @@
-_primero.Views.ReportForm = Backbone.View.extend({
+_primero.Views.ReportForm = _primero.Views.Base.extend({
 
   el: '.reports_form',
 
