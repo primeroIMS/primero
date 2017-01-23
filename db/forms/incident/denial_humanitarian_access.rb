@@ -12,7 +12,8 @@ denial_humanitarian_access_section_fields = [
                                            "Property damage", "Theft", "Restrictions of beneficiaries' access",
                                            "Threats/violence against beneficiaries",
                                            "Threats/violence against humanitarian personnel",
-                                           "Travel restrictions in country", "Vehicle hijacking", "Other"].join("\n")
+                                           "Travel restrictions in country", "Vehicle hijacking", "Other"].join("\n"),
+             "help_text_all" => "This field is required for reporting."
             }),
   Field.new({"name" => "denial_method_other",
              "type" => "text_field",

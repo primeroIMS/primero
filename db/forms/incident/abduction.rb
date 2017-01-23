@@ -7,6 +7,7 @@ abduction_subform_fields = [
          "autosum_group" => "abduction_number_of_survivors",
          "tally_all" => ['boys', 'girls', 'unknown'],
          "autosum_total" => true,
+         "help_text_all" => "This field is required for reporting."
         }),
   Field.new({"name" => "abduction_purpose",
              "type" => "select_box",

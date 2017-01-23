@@ -7,6 +7,7 @@ recruitment_subform_fields = [
        "autosum_group" => "recruitment_number_of_survivors",
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
+       "help_text_all" => "This field is required for reporting."
       }),
   Field.new({"name" => "factors_of_recruitment",
              "type" => "select_box",
