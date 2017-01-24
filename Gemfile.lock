@@ -85,7 +85,7 @@ GEM
       beaneater (~> 1.0)
       dante (> 0.1.5)
     beaneater (1.0.0)
-    better_errors (2.0.0)
+    better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
       rack (>= 0.9.0)

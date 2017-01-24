@@ -9,8 +9,13 @@ window.dispatcher = _.clone(Backbone.Events)
 $(document).on('turbolinks:before-render', function() {
   if (_primero.Router) {
     Backbone.history.stop();
-    dispatcher.trigger( 'CloseView' )
+    dispatcher.trigger( 'CloseView' );
   }
+});
+
+$(document).on('turbolinks:before-cache', function() {
+  $('table.dataTable').DataTable().destroy();
+  $('.mCustomScrollbar').mCustomScrollbar("destroy")
 });
 
 // TODO: Add back in if they want the old loading indicator

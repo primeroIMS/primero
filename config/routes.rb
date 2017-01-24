@@ -3,6 +3,9 @@ Primero::Application.routes.draw do
   match '/' => 'home#index', :as => :root, :via => :get
   match '/_notify_change' => 'couch_changes#notify', :via => :get
 
+  match "/404", :to => "errors#not_found", :via => :all
+  match "/500", :to => "errors#internal_server_error", :via => :all
+
 #######################
 # USER URLS
 #######################

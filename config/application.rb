@@ -54,6 +54,8 @@ module Primero
 
     config.couch_watcher_log_level = Logger::INFO
 
+    config.exceptions_app = self.routes
+
     def locales
       LOCALES
     end

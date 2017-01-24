@@ -10,6 +10,8 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
   },
 
   initialize: function() {
+    var self = this;
+
     this.pagination = typeof window.pagination_details == 'undefined' ? false : window.pagination_details;
 
     this.init_index_tables();
@@ -38,8 +40,11 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
   init_index_tables: function() {
     self = this;
 
+    var $list_table = $('.record_list_view');
+    
     // init datatables
-    this.list_view_table = $('.record_list_view').DataTable({
+    this.list_view_table = $list_table.DataTable({
+      destroy: true,
       searching: false,
       language: {
         info: self.pagination.info,
@@ -56,14 +61,17 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
       aaSorting: [],
       sDom: 'frtlp',
       lengthMenu: [ 20, 50, 75, 100 ]
-    });
+    }).draw();
   },
 
   init_other_tables: function() {
     self = this;
 
+    var $other_tables = $('.list_view, .list_table');
+
     // for non child/incident
-    $('.list_view, .list_table').DataTable({
+    this.other_tables = $other_tables.DataTable({
+      destroy: true,
       searching: false,
       lengthChange: false,
       "ordering": false,
