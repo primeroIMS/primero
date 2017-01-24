@@ -56,11 +56,11 @@ module ApplicationHelper
   end
 
   def cancel_button(path)
-      link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation')}, class: "link_cancel"
+      link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation'), turbolinks: false}, class: "link_cancel"
   end
 
   def discard_button(path)
-      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message')}, class: "grey-button"
+      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message'), turbolinks: false}, class: "grey-button"
   end
 
   def link_with_confirm(link_to, anchor, link_options = {})
