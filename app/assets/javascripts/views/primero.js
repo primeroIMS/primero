@@ -476,7 +476,9 @@ Primero = _primero.Views.Base.extend({
       if (_primero.read_cookie(download_cookie_name)) {
         _primero.loading_screen_indicator('hide');
         _primero.remove_cookie(download_cookie_name);
-        if (closure !== undefined) { closure(); }
+        if (closure !== undefined && _.isFunction(closure)) {
+          closure();
+        }
         clearInterval(clock);
       }
     }
