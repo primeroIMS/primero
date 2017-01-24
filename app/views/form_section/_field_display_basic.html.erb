@@ -8,6 +8,7 @@
       <%= field_link_for_display field, formObject[field.name]%>
     <% else %>
       <%
+        #TODO fix display key/value translation
         value = field_value_for_display(formObject.try(field.name) || formObject.try(:[],field.name))
         if field.multi_select.present? and field.multi_select == true
           value = field_value_for_multi_select formObject.try(field.name), field, formObject

@@ -2,7 +2,7 @@ module PropertiesLocalization
 
   module ClassMethods
 
-    def localize_properties(properties)
+    def localize_properties(properties, options={})
       Primero::Application::locales.each do |locale|
         properties.each { |key| property "#{key}_#{locale}" }
       end
@@ -23,6 +23,18 @@ module PropertiesLocalization
         end
 
         define_method "#{method}_all=" do |value|
+          if options[:generate_keys].present?
+            if value.present?
+              if value.is_a?(String)
+                value =
+                    value.gsub(/\r\n?/, "\n").split("\n")
+                    .map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v} : nil}
+                    .compact
+              elsif value.is_a?(Array) && value.first.is_a?(String)
+                value = value.map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v} : nil}.compact
+              end
+            end
+          end
           Primero::Application::locales.each do |locale|
             self.send "#{method}_#{locale}=", value
           end

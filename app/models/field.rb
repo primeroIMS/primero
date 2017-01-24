@@ -12,7 +12,8 @@ class Field
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
   property :disabled, TrueClass, :default => false
-  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :tick_box_label]
+  localize_properties [:display_name, :help_text, :guiding_questions, :tally, :tick_box_label]
+  localize_properties [:option_strings_text], generate_keys: true
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
