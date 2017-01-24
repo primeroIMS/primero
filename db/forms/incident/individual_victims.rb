@@ -45,15 +45,17 @@ individual_victims_fields = [
              "display_name_all" => "Religious affiliation of the victim",
              "option_strings_source" => "lookup Religion"
             }),
+  Field.new({"name" => "child_consent_follow_up",
+             "type" => "radio_button",
+             "display_name_all" => "Is the victim and/or adult caregiver willing to be contacted again about the violations?",
+             "option_strings_text_all" => ["Yes", "No"].join("\n"),
+             "help_text_all" => "E.g. on the specific CTFMR member/UN agency/NGO/partner/service provider with whom the "\
+                                "victim/adult caregiver consented to share personal details"
+            }),
   Field.new({"name" => "child_consent_for_reporting",
              "type" => "radio_button",
              "display_name_all" => "Does the victim consent to sharing non-personally identifiable data with the CTFMR "\
                                    "for reporting purposes?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
-            }),
-  Field.new({"name" => "child_consent_follow_up",
-             "type" => "radio_button",
-             "display_name_all" => "Is the victim and/or adult caregiver willing to be contacted again about the violations?",
              "option_strings_text_all" => ["Yes", "No"].join("\n")
             }),
   Field.new({"name" => "child_consent_data_sharing",
