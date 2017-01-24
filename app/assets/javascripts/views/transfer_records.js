@@ -5,7 +5,7 @@ _primero.Views.TransferRecords = Backbone.View.extend({
   events: {
     'click a.transfer_index_action' : 'transfer_records',
     'change div#transfer-modal input[name="is_remote"]' : 'toggle_remote_primero',
-    'change div#transfer-modal select#existing_user' : 'toggle_other_user',
+    'change #transfer-modal #existing_user' : 'toggle_other_user',
     'change div#transfer-modal input#other_user' : 'toggle_existing_user',
     'click div#transfer-modal input[type="submit"]' : 'close_transfer'
   },
@@ -56,7 +56,7 @@ _primero.Views.TransferRecords = Backbone.View.extend({
   close_transfer: function(e) {
     e.preventDefault();
     var password = $('div#transfer-modal input#password').val(),
-        local_user = $('div#transfer-modal select#existing_user').val(),
+        local_user = $('#transfer-modal #existing_user').val(),
         remote_user = $('div#transfer-modal input#other_user').val(),
         is_remote = $('div#transfer-modal input#is_remote').prop('checked'),
         localUserErrorDiv = $("div#transfer-modal .local_user_flash"),
