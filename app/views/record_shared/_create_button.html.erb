@@ -7,7 +7,9 @@
         <ul id="modules-dropdown" class="f-dropdown" data-dropdown-content>
         <% modules.each do |primero_module| %>
             <%# TODO: translate the module name %>
-            <li><%= link_to primero_module.name, new_polymorphic_path(record, module_id: primero_module.id) %></li>
+            <li>
+              <%= content_tag( :a, primero_module.name, :class => 'dropdown_link', :'data-link' => new_polymorphic_path(record, module_id: primero_module.id)) %>
+            </li>
         <% end %>
         </ul>
     <% elsif modules.size == 1 %>

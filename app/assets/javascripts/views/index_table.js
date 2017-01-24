@@ -5,7 +5,8 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
   events: {
     'change #record_scope': 'change_scope',
     'change .dataTables_length select': 'change_display_count',
-    'click .dataTable th': 'change_sorting'
+    'click .dataTable th': 'change_sorting',
+    'click .dropdown_link': 'dropdown_links'
   },
 
   initialize: function() {
@@ -104,7 +105,7 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
     event.preventDefault();
     var prev_params = _primero.clean_page_params(['page', 'per']),
         select_val = $(event.target).val();
-    var search = prev_params + '&per=' + select_val;  
+    var search = prev_params + '&per=' + select_val;
     Turbolinks.visit(window.location.pathname + '?' + search);
   },
 
@@ -133,5 +134,10 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
       selected_records.push($(this).val());
     });
     return selected_records;
+  },
+
+  dropdown_links: function(event) {
+    var $dropdown_link = $(event.target);
+    Turbolinks.visit($dropdown_link.attr('data-link'));
   }
 });
