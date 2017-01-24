@@ -13,9 +13,10 @@ $(document).on('turbolinks:before-render', function() {
   }
 });
 
-$(document).on('turbolinks:visit', function() {
-  _primero.loading_screen_indicator('show');
-});
+// TODO: Add back in if they want the old loading indicator
+// $(document).on('turbolinks:visit', function() {
+//   _primero.loading_screen_indicator('show');
+// });
 
 function primero() {
   jQuery.migrateMute = true
@@ -51,7 +52,7 @@ function primero() {
 
   new _primero.Router();
   Backbone.history.start({ pushState: true, hashChange: false })
-  _primero.loading_screen_indicator('hide');
+  // _primero.loading_screen_indicator('hide');
 }
 
 $(primero);
