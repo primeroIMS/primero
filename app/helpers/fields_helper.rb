@@ -75,7 +75,7 @@ module FieldsHelper
     link_to(field_value, send("#{field.link_to_path}_path", id: field_value.split('::').first)) if field_value.present?
   end
 
-  def field_value_for_multi_select field_value, field, parent_obj=nil
+  def field_value_for_multi_select(field_value, field, parent_obj=nil)
     if field_value.blank?
       ""
     elsif field.option_strings_source == 'violations'
@@ -95,9 +95,14 @@ module FieldsHelper
     else
       options = []
       if field_value.is_a?(Array)
-        field_value.each{|option| selected = field["option_strings_text_#{I18n.locale.to_s}"].is_a?(Array) ?
-          field["option_strings_text_#{I18n.locale.to_s}"]
-          .select{|o| o['id'] == option} : option; options << selected }
+        field_value.each do |option|
+          selected = if field.option_strings_text.is_a?(Array)
+                       field.option_strings_text.select{|o| o['id'] == option}
+                     else
+                       option
+                     end
+          options << selected
+        end
       end
       return options.flatten.collect{|a| a['display_text'] || a }.join(', ')
     end
