@@ -45,6 +45,7 @@ gem 'compass-rails', '~> 2.0.1'
 gem 'coffee-rails',  '~> 4.0.1'
 gem 'chosen-rails',  '~> 1.1.0'
 gem 'ejs', '~> 1.1.1'
+gem 'underscore-string-rails', '~> 0.0.2'
 
 gem 'rack-mini-profiler', require: false
 
