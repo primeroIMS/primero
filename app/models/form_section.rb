@@ -1,6 +1,6 @@
 class FormSection < CouchRest::Model::Base
   include PrimeroModel
-  include PropertiesLocalization
+  include LocalizableProperty
   include Importable
   include Memoizable
 

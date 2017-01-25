@@ -1,7 +1,7 @@
 class Field
   include CouchRest::Model::CastedModel
   include PrimeroModel
-  include PropertiesLocalization
+  include LocalizableProperty
 
   property :name
   property :visible, TrueClass, :default => true

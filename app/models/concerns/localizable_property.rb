@@ -1,4 +1,5 @@
-module PropertiesLocalization
+module LocalizableProperty
+  extend ActiveSupport::Concern
 
   module ClassMethods
 
@@ -50,11 +51,6 @@ module PropertiesLocalization
 
   end
 
-
-
-  def self.included klass
-    klass.extend ClassMethods
-  end
 
   def formatted_hash
     properties_hash = {}
