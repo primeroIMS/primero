@@ -84,7 +84,7 @@ Primero = _primero.Views.Base.extend({
     if ((_.indexOf(['new', 'edit', 'update'], _primero.current_action) > -1) &&
         (['session','contact_information','system_setting'].indexOf(_primero.model_object) < 0)) {
       function redirect_with_warning(e) {
-        var $target = $(e.target);
+        var $target = $(this);
         var warn_leaving = confirm(_primero.discard_message);
         if (warn_leaving) {
           if ($target.is(':button')) {
