@@ -347,6 +347,11 @@ class Field
     end
   end
 
+  def selectable?
+    self.option_strings_source.present? || self.option_strings_text.present?
+  end
+
+
   #TODO - remove this is just for testing
   def self.new_field(type, name, options=[])
     Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text => options.join("\n"), :editable => true, :disabled => false
