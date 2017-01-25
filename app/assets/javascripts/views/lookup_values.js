@@ -2,14 +2,14 @@ _primero.Views.LookupValueView = _primero.Views.Base.extend({
   el: '.side-tab-content',
 
   events: {
-    'click .lookup_value_remove': 'remove',
-    'click .lookup_value_add': 'add',
+    'click .lookup_value_remove': 'removeLookup',
+    'click .lookup_value_add': 'addLookup',
   },
 
   initialize: function() {
   },
 
-  add: function(event) {
+  addLookup: function(event) {
     event.preventDefault();
     var $value_list = $(this.el).find('#lookup_values'),
         $last_value = $value_list.children(":last"),
@@ -22,7 +22,7 @@ _primero.Views.LookupValueView = _primero.Views.Base.extend({
     $new_value.appendTo($value_list);
   },
 
-  remove: function(event) {
+  removeLookup: function(event) {
     event.preventDefault();
     var $value_list = $(this.el).find('#lookup_values'),
         list_cnt = $value_list.children().length;
