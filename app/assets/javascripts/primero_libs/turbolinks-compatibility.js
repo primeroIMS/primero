@@ -78,3 +78,17 @@ if (typeof jQuery === "function") {
     }
   });
 }
+
+Turbolinks.HttpRequest.prototype.requestLoaded = function() {
+  return this.endRequest((function(_this) {
+    return function() {
+      var ref;
+      if ((200 <= (ref = _this.xhr.status) && ref < 300) || (_this.xhr.status = 404 || (_this.xhr.status = 500))) {
+        return _this.delegate.requestCompletedWithResponse(_this.xhr.responseText, _this.xhr.getResponseHeader("Turbolinks-Location"));
+      } else {
+        _this.failed = true;
+        return _this.delegate.requestFailedWithStatusCode(_this.xhr.status, _this.xhr.responseText);
+      }
+    };
+  })(this));
+};
