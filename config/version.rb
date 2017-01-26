@@ -1,5 +1,5 @@
 module Primero
   class Application
-    VERSION = "1.2.4.MRM.6"
+    VERSION = "1.2.4.MRM.7"
   end
 end
