@@ -401,3 +401,51 @@ tr td span {
 .back-button {
   padding-left: 5px !important;
 }
+
+.app-error {
+  border: 2px solid $stroke_green_color;
+  width: 400px;
+  margin: 0 auto;
+  margin-top: 10%;
+  padding: 2%;
+
+  .message {
+    font-weight: 900;
+    font-size: 1.2rem;
+    padding-bottom: 1rem;
+    text-align: center;
+    line-height: 3rem;
+  }
+
+  .status {
+    text-align: center;
+    font-weight: 900;
+    border-top: 1px solid $stroke_green_color;
+    padding-top: 1rem;
+    font-size: 6rem;
+    line-height: 6rem;
+    color: #1694b7;
+  }
+
+  .error {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: .7rem;
+    letter-spacing: 1px;
+    color: #999;
+    padding-bottom: 1rem
+  }
+
+  .directions {
+    text-align: center;
+    font-size: .95rem;
+    padding-bottom: 1rem;
+  }
+
+  .return {
+    text-align: center;
+    font-size: .95rem;
+    border-top: 1px solid $stroke_green_color;
+    padding-top: 1rem;
+  }
+}

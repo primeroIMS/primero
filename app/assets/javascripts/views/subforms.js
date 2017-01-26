@@ -1,8 +1,8 @@
-_primero.Views.SubformView = Backbone.View.extend({
+_primero.Views.SubformView = _primero.Views.Base.extend({
   el: '.side-tab-content',
 
   events: {
-    'click .subform_remove': 'remove',
+    'click .subform_remove': 'removeSubform',
     'click .subform_add': 'add',
     'click .collapse_expand_subform': 'collapse_expand'
   },
@@ -170,7 +170,8 @@ _primero.Views.SubformView = Backbone.View.extend({
     _primero.show_add_violation_message();
   },
 
-  remove: function(event) {
+  removeSubform: function(event) {
+    console.log(event)
     event.preventDefault();
     var message = $(event.target).data('message'),
       confirm_remove = confirm(message),

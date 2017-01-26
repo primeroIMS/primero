@@ -12,10 +12,16 @@
   <%#= favicon_link_tag('favicon-32x32.png?v=3', sizes: "32x32") %>
   <%#= favicon_link_tag('favicon-96x96.png?v=3', sizes: "96x96") %>
   <%= favicon_link_tag('favicon-16x16.png?v=3') %>
-  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "application", 'data-turbolinks-track' => true %>
   <%= yield :stylesheet %>
-  <%= yield :pagination_details %>
   <%= csrf_meta_tag %>
+  <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+  <%= yield :javascript %>
+  <%= javascript_tag 'data-turbolinks-track' => true do %>
+      I18n.defaultLocale = "<%= I18n.default_locale %>";
+      I18n.locale = "<%= I18n.locale %>";
+      I18n.fallbacks = true;
+  <% end %>
   <% #javascript_include_tag 'plugins/jquery-1.7.1.min' %>
 </head>
 <body class="<%= @body_class %>">
@@ -78,30 +84,23 @@
   <div class="ls-bg"></div>
 </div>
 <script>
-  window._primero = {
-    model_object: "<%= controller.controller_name.singularize %>",
-    current_action: "<%= controller.action_name %>",
-    discard_message: "<%= t('messages.record_navigation_confirmation_message', default: 'Discard unsaved changes?') %>",
-    form_error_messages: {
+  if (window._primero) {
+    window._primero.model_object = "<%= controller.controller_name.singularize %>";
+    window._primero.current_action = "<%= controller.action_name %>";
+    window._primero.discard_message = "<%= t('messages.record_navigation_confirmation_message', default: 'Discard unsaved changes?') %>";
+    window._primero.form_error_messages = {
       required: "<%= t('form_section.required_field_js') %>",
       form_message: "<%= t('errors.template.header.body_js')%>"
-    },
-    Views: {}
-  };
+    };
+  }
 </script>
-<%= javascript_include_tag "application" %>
-<%= yield :javascript %>
 <%= javascript_tag do %>
-    I18n.defaultLocale = "<%= I18n.default_locale %>";
-    I18n.locale = "<%= I18n.locale %>";
-    I18n.fallbacks = true;
-<% end %>
-<script>
   function page_scripts(){
     <%= yield :page_scripts %>
   }
 
   $(page_scripts);
-</script>
+<% end %>
+<%= yield :pagination_details %>
 </body>
 </html>

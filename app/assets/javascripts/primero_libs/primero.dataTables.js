@@ -3437,7 +3437,9 @@
 			// PRIMERO - BUTTON ADD PAGE PARAM AND RELOAD
 			redraw = false;
 			var prev_params = clean_page_params();
-			window.location.search = prev_params + '&page=' + (action + 1);
+
+			// window.location.search = prev_params + '&page=' + (action + 1);
+			Turbolinks.visit(window.location.pathname + '?' + prev_params + '&page=' + (action + 1))
 		}
 		else if ( action == "first" )
 		{
@@ -3450,7 +3452,8 @@
 					prev_params = clean_page_params(),
 					redraw = false;
 			if(start > 0) {
-				window.location.search = prev_params + '&page=' + page;
+				//window.location.search = prev_params + '&page=' + page;
+				Turbolinks.visit(window.location.pathname + '?' + prev_params + '&page=' + page)
 			}
 		}
 		else if ( action == "next" )
@@ -3460,7 +3463,8 @@
 					prev_params = clean_page_params(),
 					redraw = false;
 			if ((parseInt(start) + parseInt(len)) < records) {
-				window.location.search = prev_params + '&page=' + page;
+				// window.location.search = prev_params + '&page=' + page;
+				Turbolinks.visit(window.location.pathname + '?' + prev_params + '&page=' + page)
 			}
 		}
 		else if ( action == "last" )

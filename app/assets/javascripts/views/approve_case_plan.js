@@ -1,4 +1,4 @@
-_primero.Views.ApproveCasePlan = Backbone.View.extend({
+_primero.Views.ApproveCasePlan = _primero.Views.Base.extend({
 
   el: '#menu',
 

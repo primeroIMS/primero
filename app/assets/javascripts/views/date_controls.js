@@ -1,4 +1,4 @@
-_primero.Views.DateControl = Backbone.View.extend({
+_primero.Views.DateControl = _primero.Views.Base.extend({
 	el: 'body',
 
 	allowed_formats: [
@@ -26,15 +26,19 @@ _primero.Views.DateControl = Backbone.View.extend({
 	      changeYear: true,
 	      constrainInput: true,
 	      yearRange: "1900:c+10"
-	    }).click(function(e) {
-        $('#ui-datepicker-div').click(function(e){
+	    }).on('click', function(e) {
+        $('#ui-datepicker-div').on('click', function(e){
           e.stopPropagation();
         });
       });
 	  };
 	  $.datepicker.defaultDateFormat = 'dd-M-yy';
 		$.datepicker.inputFormats = this.allowed_formats;
-		$.datepicker.originalParseDate = $.datepicker.parseDate;
+
+		if (!$.datepicker.originalParseDate) {
+			$.datepicker.originalParseDate = $.datepicker.parseDate;
+		}
+		
 		$.datepicker.parseDate = function (format, value, settings) {
 	    var date;
 

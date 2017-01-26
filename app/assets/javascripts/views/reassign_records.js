@@ -1,4 +1,4 @@
-_primero.Views.ReassignRecords = Backbone.View.extend({
+_primero.Views.ReassignRecords = _primero.Views.Base.extend({
 
   el: 'body',
 

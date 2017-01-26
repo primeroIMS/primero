@@ -1,4 +1,4 @@
-_primero.Views.PdfExports = Backbone.View.extend({
+_primero.Views.PdfExports = _primero.Views.Base.extend({
   el: '#pdf-exports',
 
   events: {

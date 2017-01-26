@@ -1,4 +1,4 @@
-_primero.Views.MarkForMobile = Backbone.View.extend({
+_primero.Views.MarkForMobile = _primero.Views.Base.extend({
 
   el: '#menu',
 

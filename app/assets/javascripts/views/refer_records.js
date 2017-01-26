@@ -1,4 +1,4 @@
-_primero.Views.ReferRecords = Backbone.View.extend({
+_primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   el: 'body',
 

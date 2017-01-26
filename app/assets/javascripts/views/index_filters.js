@@ -1,4 +1,4 @@
-_primero.Views.IndexFilters = Backbone.View.extend({
+_primero.Views.IndexFilters = _primero.Views.Base.extend({
 
   pagination: typeof pagination_details === 'undefined' ? false : pagination_details,
 
@@ -36,7 +36,7 @@ _primero.Views.IndexFilters = Backbone.View.extend({
     }
 
     url_string = _primero.object_to_params(filter);
-    window.location.search = url_string;
+    Turbolinks.visit(window.location.pathname + '?' + url_string);
   },
 
   set_current_scope: function() {
@@ -90,12 +90,14 @@ _primero.Views.IndexFilters = Backbone.View.extend({
 
     var prev_params = _primero.clean_page_params(['scope', 'page']),
         url_string = _primero.object_to_params(_primero.filters),
-        add_amp = '&';
+        add_amp = '&',
+        search;
 
     if (prev_params && url_string === '' || !prev_params || !prev_params && url_string === '') {
       add_amp = '';
     }
-    window.location.search = prev_params + add_amp + url_string;
+    search = prev_params + add_amp + url_string;
+    Turbolinks.visit(window.location.pathname + '?' + url_string);
   },
 
   set_date_range: function(date_values, filter, filter_type) {

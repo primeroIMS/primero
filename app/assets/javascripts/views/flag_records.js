@@ -1,4 +1,4 @@
-_primero.Views.FlagRecord = Backbone.View.extend({
+_primero.Views.FlagRecord = _primero.Views.Base.extend({
 
   /**
   TODO: This is code for batch flagging. It should really be consolidated with the code for individual flags

@@ -1,4 +1,4 @@
-_primero.Views.Locations = Backbone.View.extend({
+_primero.Views.Locations = _primero.Views.Base.extend({
   el: 'form.location-new-edit',
 
   events: {

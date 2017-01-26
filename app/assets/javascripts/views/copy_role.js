@@ -1,4 +1,4 @@
-_primero.Views.CopyRole = Backbone.View.extend({
+_primero.Views.CopyRole = _primero.Views.Base.extend({
 
   el: '.side-tab-content',
 

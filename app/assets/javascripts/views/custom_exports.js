@@ -1,4 +1,4 @@
-_primero.Views.CustomExports = Backbone.View.extend({
+_primero.Views.CustomExports = _primero.Views.Base.extend({
   el: '#custom-exports',
 
   events: {

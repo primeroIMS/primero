@@ -1,4 +1,4 @@
-_primero.Views.AutosumFields = Backbone.View.extend({
+_primero.Views.AutosumFields = _primero.Views.Base.extend({
   el: '.page_content form',
 
   events: {

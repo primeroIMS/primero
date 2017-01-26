@@ -1,4 +1,4 @@
-_primero.Views.DateRangeValidation = Backbone.View.extend({
+_primero.Views.DateRangeValidation = _primero.Views.Base.extend({
   el: '.page_content .data-form',
 
   events: {

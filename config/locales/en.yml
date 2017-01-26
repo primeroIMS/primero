@@ -1875,3 +1875,15 @@ en:
     lookups_for_field: Lookups for field
 
   string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
+
+  error_page:
+    internal_server_error:
+      code: 500
+      something_went_wrong: Sorry, Something when wrong!
+      contact_admin: Please contact your admin if the problem persists.
+      server_error: Server Error
+    not_found:
+      code: 404
+      something_went_wrong: Sorry, Something when wrong!
+      contact_admin: If you believe you are here by error, please contact your admin.
+      server_error: Page not found

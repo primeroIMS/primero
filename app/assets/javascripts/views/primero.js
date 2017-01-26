@@ -1,4 +1,4 @@
-Primero = Backbone.View.extend({
+Primero = _primero.Views.Base.extend({
   el: 'body',
 
   events: {
@@ -84,7 +84,7 @@ Primero = Backbone.View.extend({
     if ((_.indexOf(['new', 'edit', 'update'], _primero.current_action) > -1) &&
         (['session','contact_information','system_setting'].indexOf(_primero.model_object) < 0)) {
       function redirect_with_warning(e) {
-        var $target = $(e.target);
+        var $target = $(this);
         var warn_leaving = confirm(_primero.discard_message);
         if (warn_leaving) {
           if ($target.is(':button')) {
@@ -476,7 +476,9 @@ Primero = Backbone.View.extend({
       if (_primero.read_cookie(download_cookie_name)) {
         _primero.loading_screen_indicator('hide');
         _primero.remove_cookie(download_cookie_name);
-        if (closure !== undefined) { closure(); }
+        if (closure !== undefined && _.isFunction(closure)) {
+          closure();
+        }
         clearInterval(clock);
       }
     }

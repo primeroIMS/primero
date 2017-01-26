@@ -1,4 +1,4 @@
-_primero.Views.ReopenCase = Backbone.View.extend({
+_primero.Views.ReopenCase = _primero.Views.Base.extend({
   el: '[id$="_reopen_records"]',
 
   events: {
