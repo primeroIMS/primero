@@ -49,6 +49,21 @@ module Exporters
         type = type_mapping(PRIMERO, field.type)
         if type.start_with? 'select'
           #TODO: handle options
+          if field.option_strings_source.present? && field.option_strings_source.start_with? 'lookup'
+            option_source = field.option_strings_source.split
+            option_name = option_source.last.titleize
+
+            #TODO: All this will need to be re-written when real i18n K/V is implemented
+            option_list = Lookup.values(option_name)
+            option_name = option_name.underscore
+            locales_hash = locales.map{|loc| [loc, []]}.to_h
+            locales_hash[:en] = option_list
+            option_list = locales_hash
+            write_options(option_name, option_list)
+            type = "#{type} #{option_name}"
+          elsif field.option_strings_text.present?
+          end
+
         end
         #TODO: handle help text and guiding questions
         field_row = [type, field.name] + get_localized_property(field, 'display_name')
@@ -61,8 +76,22 @@ module Exporters
       #TODO: implement
     end
 
-    def write_options(options)
-      #TODO: implement
+    #TODO: Assumimg options are {'en' => [{:id => 'k', :display_text => 'v'},],}
+    def write_options(name, options)
+      options_rows = {}
+      locales.each do |loc|
+        options[loc].each do |option|
+          if options_rows[option[:id]].present?
+            options_rows[:id] << option[:display_text]
+          else
+            options_rows[:id] = [name, option[:id], option[:display_text]]
+          end
+        end
+      end
+      options_rows.values.each do |row|
+        @choices_sheet.write(@choices_pointer, 0, row)
+        @choices_pointer += @choices_pointer
+      end
     end
 
     def type_mapping(from_system, type)
