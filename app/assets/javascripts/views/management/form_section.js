@@ -80,7 +80,7 @@ function form_section() {
   }
 
   function addTranslatableOptions(){
-    var key = $(this).parent().find('input[type=hidden').attr('value');
+    var key = $(this).parent().find('input[type=hidden]').attr('value');
     var otherRowsWithKey = $('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + key + ']');
     if (key.length){
       if (otherRowsWithKey.size() <= 1){
@@ -97,7 +97,7 @@ function form_section() {
   }
 
   function editingOption(){
-    var keyInput = $(this).parent().find('input[type=hidden');
+    var keyInput = $(this).parent().find('input[type=hidden]');
     var oldKey = keyInput.attr('value');
     var key = textToKey(this.value);
     var label = key;
