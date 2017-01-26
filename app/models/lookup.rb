@@ -4,10 +4,11 @@ class Lookup < CouchRest::Model::Base
 
   include PrimeroModel
   include Memoizable
+  include LocalizableProperty
 
-  property :name
   property :description
-  property :lookup_values, :type => [String]
+  localize_properties [:name]
+  localize_properties [:lookup_values], generate_keys: true
 
   design do
     view :by_name,
@@ -19,9 +20,10 @@ class Lookup < CouchRest::Model::Base
   end
 
   validates_presence_of :name, :message => "Name must not be blank"
-  validates_presence_of :lookup_values, :message => I18n.t("errors.models.lookup.value_presence")
   validate :is_name_unique, :if => :name
+  validate :validate_has_2_values
 
+  before_validation :generate_values_keys
   before_save :generate_id
   before_destroy :check_is_being_used
 
@@ -66,6 +68,11 @@ class Lookup < CouchRest::Model::Base
     errors.add(:name, I18n.t("errors.models.lookup.unique_name"))
   end
 
+  def validate_has_2_values
+    return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options")) if (lookup_values == nil || lookup_values.length < 2 || lookup_values[0]['display_text'] == '' || lookup_values[1]['display_text'] == '')
+    true
+  end
+
   def is_being_used?
     FormSection.find_by_lookup_field(self.label).all.size > 0
   end
@@ -91,5 +98,14 @@ class Lookup < CouchRest::Model::Base
     end
   end
 
+  def generate_values_keys
+    if self.lookup_values.present?
+      self.lookup_values.each do |option|
+        if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
+          option['id'] = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
+        end
+      end
+    end
+  end
 end
 
