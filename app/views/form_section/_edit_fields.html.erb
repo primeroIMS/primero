@@ -139,21 +139,46 @@
         <div class="row">
           <div class="medium-12 columns field_panel">
             <div class="space"></div>
-            <% @field ||= Field.new(:type => 'text_field') %>
+            <% #TODO: BAD BAD BAD
+               @field ||= Field.new(:type => 'text_field')
+            %>
+
             <fieldset class="no-border">
               <%= error_messages_for  :field,
                                       :header_tag => :h2,
                                       :header_message => t("form_section.messages.cannot_create"),
                                       :message => t('form_section.messages.correct_errors') %>
             </fieldset>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}] } %>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
-                                                                                                                         {:option_strings_text => :text_area}] } %>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_select_box", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
-                                                                                                                            {:option_strings_text => :text_area}, {:option_strings_source => :select_box}] } %>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}, {:tally => :tally_field}] } %>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tick_box", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
-                                                                                                                          {:tick_box_label => :text_field}] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area}
+            ] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area},
+                {:option_strings_text => :options_box}
+            ] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_select_box", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area},
+                {:option_strings_text => :options_box},
+                {:option_strings_source => :select_box}
+            ] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area},
+                {:tally => :tally_field}
+            ] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tick_box", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area},
+                {:tick_box_label => :text_field}
+            ] } %>
           </div>
         </div>
         <div class="clearfix"></div>

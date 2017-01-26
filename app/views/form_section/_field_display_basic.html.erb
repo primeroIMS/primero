@@ -5,10 +5,10 @@
   </div>
   <div class="medium-8 columns">
     <% if field.link_to_path.present? %>
-      <%= field_link_for_display field, formObject[field.name]%>
+      <%= field_link_for_display formObject[field.name], field%>
     <% else %>
       <%
-        value = field_value_for_display(formObject.try(field.name) || formObject.try(:[],field.name))
+        value = field_value_for_display((formObject.try(field.name) || formObject.try(:[],field.name)), field)
         if field.multi_select.present? and field.multi_select == true
           value = field_value_for_multi_select formObject.try(field.name), field, formObject
         end

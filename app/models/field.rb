@@ -1,7 +1,7 @@
 class Field
   include CouchRest::Model::CastedModel
   include PrimeroModel
-  include PropertiesLocalization
+  include LocalizableProperty
 
   property :name
   property :visible, TrueClass, :default => true
@@ -12,7 +12,8 @@ class Field
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
   property :disabled, TrueClass, :default => false
-  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :tick_box_label]
+  localize_properties [:display_name, :help_text, :guiding_questions, :tally, :tick_box_label]
+  localize_properties [:option_strings_text], generate_keys: true
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
@@ -345,6 +346,11 @@ class Field
       true
     end
   end
+
+  def selectable?
+    self.option_strings_source.present? || self.option_strings_text.present?
+  end
+
 
   #TODO - remove this is just for testing
   def self.new_field(type, name, options=[])

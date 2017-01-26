@@ -46,26 +46,36 @@ module FieldsHelper
     end
   end
 
-  def field_value_for_display field_value
-    case
-    when field_value.nil?
-      ""
-    when field_value.respond_to?(:length) && field_value.length == 0
-      ""
-    when field_value.is_a?(Array)
-      field_value.join ", "
-    when field_value.is_a?(Date)
-      field_format_date(field_value)
-    else
-      field_value.to_s
+  def field_value_for_display(field_value, field=nil)
+    return "" unless field_value.present?
+
+    if field.present? && field.selectable?
+      #TODO: Add handling for locations and lookups!
+      display = field.option_strings.select{|opt| opt['id'] == field_value}
+      field_value = if display.present?
+                      display.first['display_text']
+                    else
+                      #TODO: Is it better to display the untranslated key or to display nothing?
+                      ""
+                    end
     end
+
+    if field_value.is_a?(Array)
+      field_value = field_value.join ", "
+    end
+
+    if field_value.is_a?(Date)
+      field_value = field_format_date(field_value)
+    end
+
+    return  field_value.to_s
   end
 
-  def field_link_for_display field, field_value
+  def field_link_for_display(field_value, field)
     link_to(field_value, send("#{field.link_to_path}_path", id: field_value.split('::').first)) if field_value.present?
   end
 
-  def field_value_for_multi_select field_value, field, parent_obj=nil
+  def field_value_for_multi_select(field_value, field, parent_obj=nil)
     if field_value.blank?
       ""
     elsif field.option_strings_source == 'violations'
@@ -85,9 +95,14 @@ module FieldsHelper
     else
       options = []
       if field_value.is_a?(Array)
-        field_value.each{|option| selected = field["option_strings_text_#{I18n.locale.to_s}"].is_a?(Array) ?
-          field["option_strings_text_#{I18n.locale.to_s}"]
-          .select{|o| o['id'] == option} : option; options << selected }
+        field_value.each do |option|
+          selected = if field.option_strings_text.is_a?(Array)
+                       field.option_strings_text.select{|o| o['id'] == option}
+                     else
+                       option
+                     end
+          options << selected
+        end
       end
       return options.flatten.collect{|a| a['display_text'] || a }.join(', ')
     end

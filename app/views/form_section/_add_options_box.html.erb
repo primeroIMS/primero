@@ -1,0 +1,39 @@
+<%
+  options = @field.send("option_strings_text_#{given_locale}") || []
+%>
+<div class="row fields_option_strings_text_list" data="<%=given_locale%>">
+  <div class="large-3 medium-3 columns">
+    <%= label_tag :option_strings_text, t("fields.option_strings_text") %>
+  </div>
+  <div class="large-9 medium-9 columns fields_option_strings_text_rows">
+    <% options.each do |option| %>
+      <div class="row fields_option_strings_text_row">
+        <div class="large-5 medium-5 columns">
+          <%= option_key =  option['id'].present? ? option['id'] : "&nbsp;"
+              label_tag "field[option_strings_text_#{given_locale}][][id]", sanitize(option_key)
+          %>
+        </div>
+        <div class="large-6 medium-6 columns">
+          <input type="hidden" name="<%= "field[option_strings_text_#{given_locale}][][id]" %>" value="<%= option['id'] %>" />
+          <%= text_field_tag "field[option_strings_text_#{given_locale}][][display_text]", option['display_text'], class: "option_strings_text_input" %>
+        </div>
+        <div class="large-1 medium-1 column">
+          <% if given_locale.to_s == 'en' %>
+            <a class="field_option_remove_button">
+              <%= icon('close') %>
+            </a>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+    <% if given_locale.to_s == 'en' %>
+      <div class="row">
+        <div class="medium-5 columns medium-offset-8">
+          <a id="field_option_add_button" class="green-button">
+            <%= t('fields.option_strings_add_option') %>
+          </a>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
