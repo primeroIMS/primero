@@ -61,7 +61,6 @@
 //= require_tree ./views/management
 //= require_tree ./views
 //= require router
-//= require underscore.string
 
 //= require turbolinks
 //= require primero_libs/turbolinks-compatibility
