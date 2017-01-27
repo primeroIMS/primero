@@ -80,43 +80,37 @@ function form_section() {
   }
 
   function addTranslatableOptions(){
-    var key = $(this).parent().find('input[type=hidden]').attr('value');
-    var otherRowsWithKey = $('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + key + ']');
-    if (key.length){
-      if (otherRowsWithKey.size() <= 1){
-        var localeOptionLists = $('.fields_option_strings_text_list');
-        for (var i = 0; i < localeOptionLists.size(); i++){
-          var lang = localeOptionLists[i].getAttribute('data');
-          if (lang !== 'en'){
-            var newOption = $(JST['templates/options_row']({locale: lang, id: key, display_text: ''}));
-            $(localeOptionLists[i]).find('.fields_option_strings_text_rows').append(newOption);
-          }
-        }
-      }
-    }
+    // TODO: Does this need to be removed or modified?
+    //var key = $(this).parent().find('input[type=hidden]').attr('value');
+    //var otherRowsWithKey = $('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + key + ']');
+    //if (key.length){
+    //  if (otherRowsWithKey.size() <= 1){
+    //    var localeOptionLists = $('.fields_option_strings_text_list');
+    //    for (var i = 0; i < localeOptionLists.size(); i++){
+    //      var lang = localeOptionLists[i].getAttribute('data');
+    //      if (lang !== 'en'){
+    //        var newOption = $(JST['templates/options_row']({locale: lang, id: key, display_text: ''}));
+    //        $(localeOptionLists[i]).find('.fields_option_strings_text_rows').append(newOption);
+    //      }
+    //    }
+    //  }
+    //}
   }
 
   function editingOption(){
-    var keyInput = $(this).parent().find('input[type=hidden]');
-    var oldKey = keyInput.attr('value');
-    var key = textToKey(this.value);
-    var label = key;
-    if (!label){
-      label = '&nbsp;'
-    }
-    keyInput.attr('value', key);
-    $(this).parent().parent().find('label').html(label);
-    $('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + oldKey + ']')
-        .parent().parent().find('label').html(label);
-    $('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + oldKey + ']').attr('value', key);
-  }
-
-  function textToKey(text){
-    var key = "";
-    if (text.length){
-      key = _.str.underscored(_.str.slugify(text.replace('/','-')));
-    }
-    return key;
+    // TODO: Does this need to be removed or modified?
+    //var keyInput = $(this).parent().find('input[type=hidden]');
+    //var oldKey = keyInput.attr('value');
+    //var key = textToKey(this.value);
+    //var label = key;
+    //if (!label){
+    //  label = '&nbsp;'
+    //}
+    //keyInput.attr('value', key);
+    //$(this).parent().parent().find('label').html(label);
+    //$('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + oldKey + ']')
+    //    .parent().parent().find('label').html(label);
+    //$('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + oldKey + ']').attr('value', key);
   }
 
   function removeOption(){
