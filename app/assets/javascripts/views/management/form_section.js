@@ -84,6 +84,11 @@ function form_section() {
     newOption.find('input[type=text]').blur(addTranslatableOptions);
     newOption.find('a.field_option_remove_button').click(removeOption);
     $this.parent().before(newOption);
+    var current_locale_selection = $('#field_details_select_box').find('#locale').val();
+    if (!_.isUndefined(current_locale_selection) && current_locale_selection !== 'en') {
+      console.log("current_locale_selection", current_locale_selection);
+      newOption.find('.' + current_locale_selection).show();
+    }
   }
 
   function addTranslatableOptions(){
