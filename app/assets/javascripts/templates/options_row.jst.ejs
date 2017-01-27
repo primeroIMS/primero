@@ -11,6 +11,13 @@
     <input type="hidden" name="field[option_strings_text_<%= locale %>][][id]" value="<%= id %>" />
     <input type="text" name="field[option_strings_text_<%= locale %>][][display_text]" id="field_option_strings_text_<%= locale %>__id" value="<%= display_text %>" class: "option_strings_text_input" />
   </div>
+  <% _.each(locale_options, function(locale_option) {
+    if (locale_option != 'en') { %>
+      <div class="large-4 medium-4 columns <%= 'translation_forms ' + locale_option %> hide">
+        <input type="text" name="field[option_strings_text_<%= locale_option %>][][display_text]" id="field_option_strings_text_<%= locale_option %>__id" value="<%= display_text %>" class: "option_strings_text_input" />
+      </div>
+    <% }
+    }); %>
   <div class="large-1 medium-1 column">
     <% if (locale == 'en'){ %>
       <a class="field_option_remove_button">

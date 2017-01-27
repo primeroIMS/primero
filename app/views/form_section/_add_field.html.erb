@@ -9,7 +9,8 @@
 
         <div class="space"></div>
         <div class="clearfix"></div>
-        <%= render :partial => 'form_section/fields_inline_translation', :locals => {:fld => fld, :fields => fields, :given_locale => I18n.default_locale, :lookup_options => @lookup_options, :is_field_edit => true, :is_translation => false} %>
+        <% partial_path = @show_add_field.present? ? 'form_section/fields_inline_translation' : 'form_section/fields' %>
+        <%= render :partial => partial_path, :locals => {:fld => fld, :fields => fields, :given_locale => I18n.default_locale, :lookup_options => @lookup_options, :is_field_edit => true, :is_translation => false} %>
       </div>
       <div class="row">
         <div class="medium-4 columns">
