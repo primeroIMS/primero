@@ -72,11 +72,18 @@ function form_section() {
   }
 
   function addOption(){
-    var newOption = $(JST['templates/options_row']({locale: 'en', id: '', display_text: ''}));
+    var $this = $(this);
+    var newOption = $(JST['templates/options_row']({
+      locale: 'en',
+      id: '',
+      display_text: '',
+      editing: $this.hasClass('edit_option'),
+      locale_options: $this.data('lang')
+    }));
     newOption.find('input[type=text]').keyup(editingOption);
     newOption.find('input[type=text]').blur(addTranslatableOptions);
     newOption.find('a.field_option_remove_button').click(removeOption);
-    $(this).parent().before(newOption);
+    $this.parent().before(newOption);
   }
 
   function addTranslatableOptions(){
