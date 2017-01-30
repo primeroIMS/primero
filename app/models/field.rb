@@ -118,6 +118,7 @@ class Field
   validate :valid_presence_of_base_language_name
   validate :valid_tally_field
   validate :validate_same_datatype
+  validate :validate_option_strings_text
 
   #TODO: Any subform validations?
 
@@ -156,6 +157,41 @@ class Field
     if (base_lang_display_name.nil?||base_lang_display_name.empty?)
       errors.add(:display_name, I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language))
     end
+  end
+
+  def validate_option_strings_text
+    if option_strings_text.present?
+      unless option_strings_text.is_a?(Array)
+        errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_array"))
+        return false
+      end
+      option_strings_text.each do |option|
+        unless option.is_a?(Hash)
+          errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_hash"))
+          return false
+        end
+        if option['id'].blank?
+          errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_blank"))
+          return false
+        end
+        if option['display_text'].blank?
+          errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.display_text_blank"))
+          return false
+        end
+      end
+
+      unless self.are_options_keys_unique?
+        errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_not_unique"))
+        return false
+      end
+    end
+    return true
+  end
+
+  def are_options_keys_unique?
+    return true if self.option_strings_text.blank?
+    return true unless self.option_strings_text.is_a?(Array) && self.option_strings_text.first.is_a?(Hash)
+    self.option_strings_text.map{|o| o['id']}.uniq.length == self.option_strings_text.map{|o| o['id']}.length
   end
 
   def form
@@ -434,8 +470,7 @@ class Field
     if self.option_strings_text.present?
       self.option_strings_text.each do |option|
         if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
-          #TODO add validations
-          option['id'] = option['display_text'].parameterize.underscore
+          option['id'] = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
         end
       end
     end

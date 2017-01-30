@@ -1493,6 +1493,12 @@ en:
         unique_name_other: "Field already exists on form '%{form_name}'"
         unique_name_this: "Field already exists on this form"
         change_type_existing_field: "Can't change type of existing field on form '%{form_name}'"
+        option_strings_text:
+          not_array: "Option Strings Text is not an array"
+          not_hash: "Option Strings Text option is not a hash"
+          id_blank: "Option Strings Text option id is blank"
+          display_text_blank: "Option Strings Text option display text is blank"
+          id_not_unique: "Option Strings Text option id is not unique"
 
       form_section:
         presence_of_name: "Name must not be blank"

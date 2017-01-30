@@ -20,22 +20,12 @@ module LocalizableProperty
         end
 
         define_method "#{method}=" do |value|
+          value = generate_keyed_value(value) if options[:generate_keys].present?
           self.send "#{method}_#{I18n.default_locale}=", value
         end
 
         define_method "#{method}_all=" do |value|
-          if options[:generate_keys].present?
-            if value.present?
-              if value.is_a?(String)
-                value =
-                    value.gsub(/\r\n?/, "\n").split("\n")
-                    .map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v} : nil}
-                    .compact
-              elsif value.is_a?(Array) && value.first.is_a?(String)
-                value = value.map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v} : nil}.compact
-              end
-            end
-          end
+          value = generate_keyed_value(value) if options[:generate_keys].present?
           Primero::Application::locales.each do |locale|
             self.send "#{method}_#{locale}=", value
           end
@@ -75,6 +65,21 @@ module LocalizableProperty
   def get_property_value(property)
     value = self.send(property)
     property.include?("option_strings_text") ? value.split("\n") : value if value
+  end
+
+  private
+
+  def generate_keyed_value(value)
+    if value.present?
+      if value.is_a?(String)
+        value =
+            value.gsub(/\r\n?/, "\n").split("\n")
+                .map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v}.with_indifferent_access : nil}
+                .compact
+      elsif value.is_a?(Array) && value.first.is_a?(String)
+        value = value.map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v}.with_indifferent_access : nil}.compact
+      end
+    end
   end
 
 end
