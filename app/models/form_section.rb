@@ -110,6 +110,8 @@ class FormSection < CouchRest::Model::Base
   validate :validate_fixed_order
   validate :validate_perm_visible
 
+  before_save :generate_options_keys
+
   def inspect
     "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
   end
@@ -742,6 +744,11 @@ class FormSection < CouchRest::Model::Base
     self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
       Incident.violation_id_fields.keys.include?(f.subform_section_id)
     end
+  end
+
+  #TODO add rspec test
+  def generate_options_keys
+    self.fields.each{|field| field.generate_options_keys}
   end
 
   protected
