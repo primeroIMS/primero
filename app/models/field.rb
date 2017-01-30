@@ -429,6 +429,18 @@ class Field
     self.option_strings_source == 'Location'
   end
 
+  #TODO add rspec test
+  def generate_options_keys
+    if self.option_strings_text.present?
+      self.option_strings_text.each do |option|
+        if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
+          #TODO add validations
+          option['id'] = option['display_text'].parameterize.underscore
+        end
+      end
+    end
+  end
+
   private
 
   def create_unique_id
@@ -490,5 +502,7 @@ class Field
     #We are OK - All the fields with the same name are consistent with the type.
     true
   end
+
+
 
 end
