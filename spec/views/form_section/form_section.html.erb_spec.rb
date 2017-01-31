@@ -91,12 +91,14 @@ describe "form_section/_form_section.html.erb" do
 
       it "renders radio button fields" do
         @child = Child.new
-        @form_section.add_field Field.new_field("radio_button", "is_age_exact", ["exact", "approximate"])
+        @form_section.add_field Field.new_field("radio_button", "is_age_exact", ["Is Exact", "Approximate"])
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
-        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
+        expect(rendered).to match(/<input data-field-tags="\[\]" id="#{@form_section.name.dehumanize}_child_isageexact_is_exact" name="child\[isageexact\]" type="radio" value="is_exact" \/>/)
+        expect(rendered).to match(/<label for="#{@form_section.name.dehumanize}_child_isageexact_is_exact">Is Exact<\/label>/)
+        expect(rendered).to match(/<input data-field-tags="\[\]" id="#{@form_section.name.dehumanize}_child_isageexact_approximate" name="child\[isageexact\]" type="radio" value="approximate" \/>/)
+        expect(rendered).to match(/<label for="#{@form_section.name.dehumanize}_child_isageexact_approximate">Approximate<\/label>/)
       end
     end
 
@@ -124,21 +126,26 @@ describe "form_section/_form_section.html.erb" do
         @form_section.add_field Field.new_field("select_box", "date_of_separation", ["1-2 weeks ago", "More than a year ago"])
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-        rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">")
-        rendered.should be_include("<select data-field-tags=\"[]\" data-populate=\"null\" data-value=\"\" id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
+
+        expect(rendered).to match(/<label class="key inline" for="displayedformname_child_dateofseparation">Date of separation<\/label>/)
+        expect(rendered).to match(/<select data-field-tags="\[\]" data-populate="null" data-value="" id="displayedformname_child_dateofseparation" name="child\[dateofseparation\]">/)
+        expect(rendered).to match(/<option value="1_2_weeks_ago">1-2 weeks ago<\/option>/)
+        expect(rendered).to match(/<option value="more_than_a_year_ago">More than a year ago<\/option>/)
       end
     end
   end
 
   context "existing record" do
-
     it "renders a select box with the current value selected" do
-      @child = Child.new :date_of_separation => "1-2 weeks ago"
+      @child = Child.new :date_of_separation => "1_2_weeks_ago"
       @form_section.add_field Field.new_field("select_box","date_of_separation", ["1-2 weeks ago", "More than a year ago"])
 
       render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-      rendered.should be_include("<select data-field-tags=\"[]\" data-populate=\"null\" data-value=\"\" id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1_2_weeks_ago\">1-2 weeks ago</option>\n<option value=\"more_than_a_year_ago\">More than a year ago</option></select>")
+      expect(rendered).to match(/<label class="key inline" for="displayedformname_child_dateofseparation">Date of separation<\/label>/)
+      expect(rendered).to match(/<select data-field-tags="\[\]" data-populate="null" data-value="" id="displayedformname_child_dateofseparation" name="child\[dateofseparation\]">/)
+      expect(rendered).to match(/<option value="1_2_weeks_ago">1-2 weeks ago<\/option>/)
+      expect(rendered).to match(/<option value="more_than_a_year_ago">More than a year ago<\/option>/)
     end
   end
 

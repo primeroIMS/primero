@@ -139,8 +139,12 @@
         <div class="row">
           <div class="medium-12 columns field_panel">
             <div class="space"></div>
-            <% #TODO: BAD BAD BAD
-               @field ||= Field.new(:type => 'text_field')
+            <%
+              #TODO: BAD BAD BAD
+              #This is woven into the logic to add new fields
+              #Removing this is not a quick task
+              #This needs to be addressed when a more extensive refactor of the form editor is done
+              @field ||= Field.new(:type => 'text_field')
             %>
 
             <fieldset class="no-border">
