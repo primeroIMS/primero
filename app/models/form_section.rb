@@ -110,7 +110,7 @@ class FormSection < CouchRest::Model::Base
   validate :validate_fixed_order
   validate :validate_perm_visible
 
-  before_save :generate_options_keys
+  before_validation :generate_options_keys
 
   def inspect
     "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
