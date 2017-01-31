@@ -12,42 +12,17 @@ describe "form_section/_radio_button.html.erb" do
         :type => 'radio_button',
         :editable => true,
         :disabled => false,
-        :option_strings => Array['M', 'F'],
+        :option_strings_text_all => Array['Male Test', 'Female Test'],
         :help_text => "This is my help text"
 
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
 
-    rendered.should match(/<input data-field-tags="\[\]" id="formsection_child_new_field_m" name="child\[new field\]" type="radio" value="M" \/>/)
-    rendered.should match(/<label for="formsection_child_new_field_m">M<\/label>/)
-    rendered.should match(/<input data-field-tags="\[\]" id="formsection_child_new_field_f" name="child\[new field\]" type="radio" value="F" \/>/)
-    rendered.should match(/<label for="formsection_child_new_field_f">F<\/label>/)
-    rendered.should match(/<p class="help">This is my help text<\/p>/)
-  end
-
-  #TODO remove this test case? for help field there is not image anymore.
-  xit "should include image for tooltip when help text exists" do
-    radio_button = Field.new :name => "new field",
-    :display_name => "field name",
-    :type => 'radio_button',
-    :option_strings => Array['M', 'F'],
-    :help_text => "This is my help text"
-
-    radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
-    render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
-    rendered.should have_tag("img.vtip")
-  end
-
-  #TODO remove this test case? for help field there is not image anymore.
-  xit "should not include image for tooltip when help text not exists" do
-    radio_button = Field.new :name => "new field",
-    :display_name => "field name",
-    :type => 'radio_button',
-    :option_strings => Array['M', 'F']
-
-    radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
-    render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
-    rendered.should_not have_tag("img.vtip")
+    expect(rendered).to match(/<input data-field-tags="\[\]" id="formsection_child_new_field_male_test" name="child\[new field\]" type="radio" value="male_test" \/>/)
+    expect(rendered).to match(/<label for="formsection_child_new_field_male_test">Male Test<\/label>/)
+    expect(rendered).to match(/<input data-field-tags="\[\]" id="formsection_child_new_field_female_test" name="child\[new field\]" type="radio" value="female_test" \/>/)
+    expect(rendered).to match(/<label for="formsection_child_new_field_female_test">Female Test<\/label>/)
+    expect(rendered).to match(/<p class="help">This is my help text<\/p>/)
   end
 
 end

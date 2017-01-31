@@ -29,10 +29,10 @@ module LocalizableProperty
               if value.is_a?(String)
                 value =
                     value.gsub(/\r\n?/, "\n").split("\n")
-                    .map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v} : nil}
+                    .map{|v| v.present? ? ActiveSupport::HashWithIndifferentAccess.new(id: v.parameterize.underscore, display_text: v) : nil}
                     .compact
               elsif value.is_a?(Array) && value.first.is_a?(String)
-                value = value.map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v} : nil}.compact
+                value = value.map{|v| v.present? ? ActiveSupport::HashWithIndifferentAccess.new(id: v.parameterize.underscore, display_text: v) : nil}.compact
               end
             end
           end

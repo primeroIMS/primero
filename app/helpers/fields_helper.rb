@@ -52,12 +52,8 @@ module FieldsHelper
     if field.present? && field.selectable?
       #TODO: Add handling for locations and lookups!
       display = field.option_strings.select{|opt| opt['id'] == field_value}
-      field_value = if display.present?
-                      display.first['display_text']
-                    else
-                      #TODO: Is it better to display the untranslated key or to display nothing?
-                      ""
-                    end
+      #TODO: Is it better to display the untranslated key or to display nothing?
+      field_value = (display.present? ? display.first['display_text'] : '')
     end
 
     if field_value.is_a?(Array)
@@ -96,11 +92,7 @@ module FieldsHelper
       options = []
       if field_value.is_a?(Array)
         field_value.each do |option|
-          selected = if field.option_strings_text.is_a?(Array)
-                       field.option_strings_text.select{|o| o['id'] == option}
-                     else
-                       option
-                     end
+          selected = (field.option_strings_text.is_a?(Array) ? field.option_strings_text.select{|o| o['id'] == option} : option)
           options << selected
         end
       end
