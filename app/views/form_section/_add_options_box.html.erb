@@ -16,6 +16,7 @@
         <% if editing %>
           <% Primero::Application::LOCALES.each do |new_locale| %>
             <% if I18n.default_locale.to_s != new_locale %>
+              <input type="hidden" name="<%= "field[option_strings_text_#{new_locale}][][id]" %>" value="<%= option['id'] %>" />
               <div class="large-5 medium-5 columns <%= "translation_forms #{new_locale}"%> hide">
                 <%= text_field_tag "field[option_strings_text_#{new_locale}][][display_text]", option['display_text'], class: "option_strings_text_input" %>
               </div>

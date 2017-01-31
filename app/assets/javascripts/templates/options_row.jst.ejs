@@ -7,6 +7,7 @@
     <% _.each(locale_options, function(locale_option) { %>
       <% if (locale_option != 'en') { %>
         <div class="large-5 medium-5 columns <%= 'translation_forms ' + locale_option %> hide">
+          <input type="hidden" name="field[option_strings_text_<%= locale_option %>][][id]" value="<%= id %>" />
           <input type="text" name="field[option_strings_text_<%= locale_option %>][][display_text]" id="field_option_strings_text_<%= locale_option %>__id" value="<%= display_text %>" class: "option_strings_text_input" />
         </div>
       <% } %>
