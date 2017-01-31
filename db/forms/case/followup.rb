@@ -69,16 +69,9 @@ followup_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "If not, why?",
-             "option_strings_text_all" => [
-                { id: 'abducted', display_text: "Abducted" },
-                { id: 'at_school', display_text: "At School" },
-                { id: 'child_in_detention', display_text: "Child in Detention" },
-                { id: 'moved_onto_street_market', display_text: "Moved onto street/Market" },
-                { id: 'moved_to_live_with_another_caregiver', display_text: "Moved to live with another caregiver" },
-                { id: 'visiting_friends_relatives', display_text: "Visiting Friends/Relatives" },
-                { id: 'working_at_work', display_text: "Working /At work" },
-                { id: 'other', display_text: "Other, please specify" }
-              ]
+             "option_strings_text_all" => ["Abducted", "At School", "Child in Detention", "Moved onto street/Market",
+                                           "Moved to live with another caregiver", "Visiting Friends/Relatives",
+                                           "Working /At work", "Other, please specify"]
             }),
   Field.new({"name" => "reason_child_not_seen_other_details",
              "type" => "text_field",

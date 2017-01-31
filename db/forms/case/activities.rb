@@ -13,17 +13,17 @@ activities_fields = [
              "multi_select" => true,
              "display_name_all" => "If not, why not?",
              "option_strings_text_all" => [
-                { id: 'child_labour', display_text: "Child Labour" },
-                { id: 'early_marriage', display_text: "Early Marriage" },
-                { id: 'financial_constraints', display_text: "Financial Constraints" },
-                { id: 'ignorance', display_text: "Ignorance" },
-                { id: 'lack_of_infrastructure', display_text: "Lack of Infrastructure" },
-                { id: 'lack_of_access', display_text: "Lack of Access" },
-                { id: 'lack_of_interest', display_text: "Lack of interest" },
-                { id: 'children', display_text: "Children" },
-                { id: 'pregnancy_child', display_text: "Pregnancy/Child" },
-                { id: 'sent_abroad_for_job', display_text: "Sent abroad for job" },
-                { id: 'Other', display_text: "Other" }
+                { id: 'child_labour', display_text: "Child Labour" }.with_indifferent_access,
+                { id: 'early_marriage', display_text: "Early Marriage" }.with_indifferent_access,
+                { id: 'financial_constraints', display_text: "Financial Constraints" }.with_indifferent_access,
+                { id: 'ignorance', display_text: "Ignorance" }.with_indifferent_access,
+                { id: 'lack_of_infrastructure', display_text: "Lack of Infrastructure" }.with_indifferent_access,
+                { id: 'lack_of_access', display_text: "Lack of Access" }.with_indifferent_access,
+                { id: 'lack_of_interest', display_text: "Lack of interest" }.with_indifferent_access,
+                { id: 'children', display_text: "Children" }.with_indifferent_access,
+                { id: 'pregnancy_child', display_text: "Pregnancy/Child" }.with_indifferent_access,
+                { id: 'sent_abroad_for_job', display_text: "Sent abroad for job" }.with_indifferent_access,
+                { id: 'Other', display_text: "Other" }.with_indifferent_access
               ]
             }),
   Field.new({"name" => "activities_education_type",
@@ -74,9 +74,9 @@ activities_fields = [
              "multi_select" => true,
              "display_name_all" => "What other activities is the child involved in?",
              "option_strings_text_all" => [
-                { id: 'community_activities', display_text: "Community Activities" },
-                { id: 'livelihood_activities', display_text: "Livelihood Activities" },
-                { id: 'recreational_activities', display_text: "Recreational Activities" }
+                { id: 'community_activities', display_text: "Community Activities" }.with_indifferent_access,
+                { id: 'livelihood_activities', display_text: "Livelihood Activities" }.with_indifferent_access,
+                { id: 'recreational_activities', display_text: "Recreational Activities" }.with_indifferent_access
               ]
             }),
   Field.new({"name" => "activities_other_notes",
