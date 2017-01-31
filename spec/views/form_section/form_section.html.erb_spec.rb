@@ -138,24 +138,7 @@ describe "form_section/_form_section.html.erb" do
 
       render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-      rendered.should be_include("<select data-field-tags=\"[]\" data-populate=\"null\" data-value=\"\" id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
-    end
-  end
-
-  describe "rendering check boxes" do
-
-    context "existing record" do
-
-      it "renders checkboxes as checked if the underlying field is set to Yes" do
-        @child = Child.new :relatives => ["Brother", "Sister"]
-        @form_section.add_field Field.new_field("check_boxes", "relatives", ["Sister", "Brother", "Cousin"])
-
-        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
-      end
-
+      rendered.should be_include("<select data-field-tags=\"[]\" data-populate=\"null\" data-value=\"\" id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1_2_weeks_ago\">1-2 weeks ago</option>\n<option value=\"more_than_a_year_ago\">More than a year ago</option></select>")
     end
   end
 
