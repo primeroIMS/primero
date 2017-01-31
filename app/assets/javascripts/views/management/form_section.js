@@ -80,44 +80,13 @@ function form_section() {
       editing: $this.hasClass('edit_option'),
       locale_options: $this.data('lang')
     }));
-    newOption.find('input[type=text]').keyup(editingOption);
-    newOption.find('input[type=text]').blur(addTranslatableOptions);
     newOption.find('a.field_option_remove_button').click(removeOption);
     $this.parent().before(newOption);
-  }
-
-  function addTranslatableOptions(){
-    // TODO: Does this need to be removed or modified?
-    //var key = $(this).parent().find('input[type=hidden]').attr('value');
-    //var otherRowsWithKey = $('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + key + ']');
-    //if (key.length){
-    //  if (otherRowsWithKey.size() <= 1){
-    //    var localeOptionLists = $('.fields_option_strings_text_list');
-    //    for (var i = 0; i < localeOptionLists.size(); i++){
-    //      var lang = localeOptionLists[i].getAttribute('data');
-    //      if (lang !== 'en'){
-    //        var newOption = $(JST['templates/options_row']({locale: lang, id: key, display_text: ''}));
-    //        $(localeOptionLists[i]).find('.fields_option_strings_text_rows').append(newOption);
-    //      }
-    //    }
-    //  }
-    //}
-  }
-
-  function editingOption(){
-    // TODO: Does this need to be removed or modified?
-    //var keyInput = $(this).parent().find('input[type=hidden]');
-    //var oldKey = keyInput.attr('value');
-    //var key = textToKey(this.value);
-    //var label = key;
-    //if (!label){
-    //  label = '&nbsp;'
-    //}
-    //keyInput.attr('value', key);
-    //$(this).parent().parent().find('label').html(label);
-    //$('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + oldKey + ']')
-    //    .parent().parent().find('label').html(label);
-    //$('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value=' + oldKey + ']').attr('value', key);
+    var current_locale_selection = $('#field_details_select_box').find('#locale').val();
+    if (!_.isUndefined(current_locale_selection) &&
+        current_locale_selection !== '') {
+      newOption.find('.' + current_locale_selection).show();
+    }
   }
 
   function removeOption(){
@@ -223,7 +192,9 @@ function form_section() {
 function setTranslationFields(element) {
   var locale = $(element).val();
   $(".translation_forms").hide();
-  $("div ." + locale).show();
+  if (!_.isUndefined(locale) && locale !== '') {
+    $("div ." + locale).show();
+  }
 }
 
 function on_ready() {

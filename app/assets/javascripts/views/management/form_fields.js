@@ -71,7 +71,9 @@ $(function() {
     var language_field = $(event.target);
     var locale = language_field.val();
     $(".translation_fields").hide();
-    $("div ." + locale).show();
+    if (!_.isUndefined(locale) && locale !== '') {
+      $("div ." + locale).show();
+    }
   });
 });
 
