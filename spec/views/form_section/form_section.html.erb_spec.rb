@@ -136,7 +136,6 @@ describe "form_section/_form_section.html.erb" do
   end
 
   context "existing record" do
-
     it "renders a select box with the current value selected" do
       @child = Child.new :date_of_separation => "1_2_weeks_ago"
       @form_section.add_field Field.new_field("select_box","date_of_separation", ["1-2 weeks ago", "More than a year ago"])
@@ -147,23 +146,6 @@ describe "form_section/_form_section.html.erb" do
       expect(rendered).to match(/<select data-field-tags="\[\]" data-populate="null" data-value="" id="displayedformname_child_dateofseparation" name="child\[dateofseparation\]">/)
       expect(rendered).to match(/<option value="1_2_weeks_ago">1-2 weeks ago<\/option>/)
       expect(rendered).to match(/<option value="more_than_a_year_ago">More than a year ago<\/option>/)
-    end
-  end
-
-  describe "rendering check boxes" do
-
-    context "existing record" do
-
-      it "renders checkboxes as checked if the underlying field is set to Yes" do
-        @child = Child.new :relatives => ["Brother", "Sister"]
-        @form_section.add_field Field.new_field("check_boxes", "relatives", ["Sister", "Brother", "Cousin"])
-
-        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
-      end
-
     end
   end
 

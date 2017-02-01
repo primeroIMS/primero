@@ -25,8 +25,8 @@ describe "record field model" do
   end
 
   it "returns the html options tags for a select box with default option '(Select...)'" do
-    @field = Field.new :type => Field::SELECT_BOX, :display_name => @field_name, :option_strings_text => "option 1\noption 2"
-    @field.select_options("", []).should == [["(Select...)", ""], ["option 1", "option 1"], ["option 2", "option 2"]]
+    @field = Field.new :type => Field::SELECT_BOX, :display_name => @field_name, :option_strings_text => "Option 1\nOption 2"
+    @field.select_options("", []).should == [["(Select...)", ""], ["Option 1", "option_1"], ["Option 2", "option_2"]]
   end
 
   it "should have form type" do
@@ -35,9 +35,9 @@ describe "record field model" do
   end
 
   it "should create options from text" do
-    field = Field.new :display_name => "something", :option_strings_text => "tim\nrob"
+    field = Field.new :display_name => "something", :option_strings_text => "Tim\nRob Smith"
     field['option_strings_text'].should == nil
-    field.option_strings.should == ["tim", "rob"]
+    expect(field.option_strings).to eq([{"id"=>"tim", "display_text"=>"Tim"}, {"id"=>"rob_smith", "display_text"=>"Rob Smith"}])
   end
 
   it "should have display name with hidden text if not visible" do
@@ -245,7 +245,7 @@ describe "record field model" do
                         :option_strings_text => "option string in french")
       field.display_name_fr.should == "first name in french"
       field.help_text_fr.should == "help text in french"
-      field.option_strings_text_fr.should == "option string in french"
+      expect(field.option_strings_text_fr).to eq([{"id"=>"option_string_in_french", "display_text"=>"option string in french"}])
     end
 
 
@@ -301,12 +301,12 @@ describe "record field model" do
 
     it "should convert option_strings to option_strings_text" do
       field = Field.new :name => "test", :display_name_en => "test", :option_strings => "Uganda\nSudan"
-      field.option_strings_text.should == "Uganda\nSudan"
+      expect(field.option_strings_text).to eq([{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}])
     end
 
     it "should convert option_strings to option_strings_text" do
       field = Field.new :name => "test", :display_name_en => "test", :option_strings => ["Uganda", "Sudan"]
-      field.option_strings_text.should == "Uganda\nSudan"
+      expect(field.option_strings_text).to eq([{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}])
     end
   end
 

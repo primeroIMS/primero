@@ -42,11 +42,11 @@ consent_fields = [
              "display_name_all" => "Consent has been given to share the information collected with",
              "multi_select" => true,
              "option_strings_text_all" => [
-                { id: 'family', display_text: "Family" },
-                { id: 'authorities', display_text: "Authorities" },
-                { id: 'unhcr', display_text: "UNHCR" },
-                { id: 'other_organizations', display_text: "Other Organizations" },
-                { id: 'others', display_text: "Others, please specify" }
+                { id: 'family', display_text: "Family" }.with_indifferent_access,
+                { id: 'authorities', display_text: "Authorities" }.with_indifferent_access,
+                { id: 'unhcr', display_text: "UNHCR" }.with_indifferent_access,
+                { id: 'other_organizations', display_text: "Other Organizations" }.with_indifferent_access,
+                { id: 'others', display_text: "Others, please specify" }.with_indifferent_access
               ]
             }),
   Field.new({"name" => "consent_info_sharing_others",
@@ -62,9 +62,9 @@ consent_fields = [
              "display_name_all" => "Reason for withholding information",
              "multi_select" => true,
              "option_strings_text_all" => [
-                { id: 'fear', display_text: "Fear of harm to themselves or others" },
-                { id: 'communicate_information', display_text: "Want to communicate information themselves" },
-                { id: 'others', display_text: "Other reason, please specify" }
+                { id: 'fear', display_text: "Fear of harm to themselves or others" }.with_indifferent_access,
+                { id: 'communicate_information', display_text: "Want to communicate information themselves" }.with_indifferent_access,
+                { id: 'others', display_text: "Other reason, please specify" }.with_indifferent_access
               ]
             }),
   Field.new({"name" => "withholding_info_other_reason",
