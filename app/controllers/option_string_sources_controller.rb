@@ -26,7 +26,8 @@ class OptionStringSourcesController < ApplicationController
 
   def string_sources(source)
     case source
-    when 'Location'
+      when 'Location'
+        #TODO i18n
       {type: source, options: Location.all_names}
     end
   end

@@ -7,7 +7,7 @@ class Location < CouchRest::Model::Base
   include Memoizable
   include Disableable
 
-  #TODO - I18n - YES!!!!
+  #TODO - I18n - YES!!!! - possible as a lookup
   BASE_TYPES = ['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other', 'locality', 'sub-district']
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
@@ -26,7 +26,6 @@ class Location < CouchRest::Model::Base
   attr_accessor :parent_id
 
   design do
-    #TODO i18n
     view :by_ancestor,
             :map => "function(doc) {
               if (doc['couchrest-type'] == 'Location' && doc['hierarchy']){
@@ -36,7 +35,6 @@ class Location < CouchRest::Model::Base
               }
             }"
 
-    #TODO i18n
     view :by_parent,
          :map => "function(doc) {
               if (doc['couchrest-type'] == 'Location' && doc['hierarchy']){
@@ -45,6 +43,7 @@ class Location < CouchRest::Model::Base
               }
             }"
 
+    #TODO - i18n - can this be changed to by_type_and_disabled
     view :by_type_enabled,
          :map => "function(doc) {
                 if (doc.hasOwnProperty('type') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
@@ -52,6 +51,7 @@ class Location < CouchRest::Model::Base
                 }
               }"
 
+    #TODO - i18n - can this be changed to by_admin_level_and_disabled
     view :by_admin_level_enabled,
          :map => "function(doc) {
                 if (doc.hasOwnProperty('admin_level') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
@@ -59,23 +59,18 @@ class Location < CouchRest::Model::Base
                 }
               }"
 
-    view :by_type
+    # view :by_type
     view :by_placename
     view :by_hierarchy
     view :by_admin_level
-    view :by_admin_level_and_name
+    # view :by_admin_level_and_name
     view :by_admin_level_and_location_code
     view :by_location_code
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
   validates_presence_of :admin_level, :message => I18n.t("errors.models.location.admin_level_present"), :if => :admin_level_required?
-  #TODO - add this validation back after seeds are cleaned up
-  #       currently only the Sierra Leone location seed has location_code
-  #       none of the other location seeds have location_code
-  # NOTE that commenting this out causes rspec test related to requiring location_code to fail
-  #validates_presence_of :location_code, :message => I18n.t("errors.models.#{self.name.underscore}.code_present")
-
+  validates_presence_of :location_code, :message => I18n.t("errors.models.location.code_present")
 
   before_save do
     self.name = self.hierarchical_name
@@ -86,6 +81,7 @@ class Location < CouchRest::Model::Base
   before_save :calculate_admin_level, unless: :is_top_level?
   after_save :update_descendants_admin_level, if: :is_top_level?
 
+  #TODO - i18n - does this need to change to use location code?
   def self.get_unique_instance(attributes)
     by_name(key: attributes['name']).first
   end
@@ -109,31 +105,33 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :all
 
-    def find_by_location(placename)
-      #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
-      location = Location.by_placename(key: placename).all[0..0]
-      if location.present?
-        return location + location.first.descendants
-      end
-    end
-    memoize_in_prod :find_by_location
+    # def find_by_location(placename)
+    #   #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
+    #   location = Location.by_placename(key: placename).all[0..0]
+    #   if location.present?
+    #     return location + location.first.descendants
+    #   end
+    # end
+    # memoize_in_prod :find_by_location
 
+    #TODO i18n
     def placenames_from_name(name)
       return [] unless name.present?
       name.split('::')
     end
 
+    #TODO i18n
     def placename_from_name(name)
       placenames_from_name(name).last || ""
     end
     memoize_in_prod :placename_from_name
 
-    def get_by_location(placename)
-      #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
-      location = Location.by_placename(key: placename).all[0..0]
-      return location.first
-    end
-    memoize_in_prod :get_by_location
+    # def get_by_location(placename)
+    #   #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
+    #   location = Location.by_placename(key: placename).all[0..0]
+    #   return location.first
+    # end
+    # memoize_in_prod :get_by_location
 
     def get_by_location_code(location_code)
       location = Location.by_location_code(key: location_code).all[0..0]
@@ -141,6 +139,7 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :get_by_location_code
 
+    #TODO i18n
     def find_by_placenames(placenames)
       by_placename(keys: placenames)
     end
@@ -164,27 +163,29 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_types_in_hierarchy
 
+    #TODO i18n
     def all_names
       self.by_enabled.map{|r| r.name}
     end
     memoize_in_prod :all_names
 
-    def all_top_level_ancestors
-      response = self.by_hierarchy(key: [])
-      response.present? ? response.all : []
-    end
+    # def all_top_level_ancestors
+    #   response = self.by_hierarchy(key: [])
+    #   response.present? ? response.all : []
+    # end
 
-    def find_by_names(location_names = [])
-      response = Location.by_name(keys: location_names)
-      response.present? ? response.all : []
-    end
-    memoize_in_prod :find_by_names
+    # def find_by_names(location_names = [])
+    #   response = Location.by_name(keys: location_names)
+    #   response.present? ? response.all : []
+    # end
+    # memoize_in_prod :find_by_names
 
     def find_by_location_codes(location_codes = [])
       response = Location.by_location_code(keys: location_codes)
       response.present? ? response.all : []
     end
 
+    #TODO i18n
     def type_by_admin_level(admin_level = 0)
       Location.by_admin_level(key: admin_level).all.map{|l| l.type}.uniq
     end
@@ -196,6 +197,7 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_admin_level_enabled
 
+    #TODO i18n
     def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, reg_ex_filter = nil)
       location_names = Location.find_by_admin_level_enabled(admin_level).map{|loc| loc.name}.sort
       location_names = location_names.select{|l| l =~ Regexp.new(reg_ex_filter)} if reg_ex_filter.present?
@@ -217,15 +219,15 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :ancestor_placename_by_name_and_admin_level
 
-    def find_by_admin_level_and_names(admin_level, names)
-      Location.by_admin_level_and_name(keys: names.map{|l| [admin_level, l]})
-    end
-    memoize_in_prod :find_by_admin_level_and_names
+    # def find_by_admin_level_and_names(admin_level, names)
+    #   Location.by_admin_level_and_name(keys: names.map{|l| [admin_level, l]})
+    # end
+    # memoize_in_prod :find_by_admin_level_and_names
 
-    def find_by_admin_level_and_codes(admin_level, location_codes)
+    def find_by_admin_level_and_location_codes(admin_level, location_codes)
       Location.by_admin_level_and_location_code(keys: location_codes.map{|l| [admin_level, l]})
     end
-    memoize_in_prod :find_by_admin_level_and_codes
+    memoize_in_prod :find_by_admin_level_and_location_codes
 
   end
 
@@ -275,7 +277,7 @@ class Location < CouchRest::Model::Base
   end
 
   def ancestor_by_admin_level(admin_level)
-    Location.find_by_admin_level_and_codes(admin_level, self.hierarchy).first
+    Location.find_by_admin_level_and_location_codes(admin_level, self.hierarchy).first
   end
 
   def ancestor_by_type(type)
