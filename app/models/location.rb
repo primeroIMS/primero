@@ -21,6 +21,7 @@ class Location < CouchRest::Model::Base
   attr_accessor :parent_id
 
   design do
+    #TODO i18n
     view :by_ancestor,
             :map => "function(doc) {
               if (doc['couchrest-type'] == 'Location' && doc['hierarchy']){
@@ -30,6 +31,7 @@ class Location < CouchRest::Model::Base
               }
             }"
 
+    #TODO i18n
     view :by_parent,
          :map => "function(doc) {
               if (doc['couchrest-type'] == 'Location' && doc['hierarchy']){
@@ -57,6 +59,8 @@ class Location < CouchRest::Model::Base
     view :by_hierarchy
     view :by_admin_level
     view :by_admin_level_and_name
+    view :by_admin_level_and_location_code
+    view :by_location_code
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
@@ -126,6 +130,12 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :get_by_location
 
+    def get_by_location_code(location_code)
+      location = Location.by_location_code(key: location_code).all[0..0]
+      return location.first
+    end
+    memoize_in_prod :get_by_location_code
+
     def find_by_placenames(placenames)
       by_placename(keys: placenames)
     end
@@ -136,6 +146,7 @@ class Location < CouchRest::Model::Base
     # TODO: This method is fairly specific to the IR exporter.
     #       Is there a more generic way of expressing this? Is there a need?
     #       Don't really want to stick this on the instance to avoid the extra DB call.
+    #TODO i18n
     def find_types_in_hierarchy(name, types)
       placenames = placenames_from_name(name)
       locations = find_by_placenames(placenames)
@@ -163,6 +174,11 @@ class Location < CouchRest::Model::Base
       response.present? ? response.all : []
     end
     memoize_in_prod :find_by_names
+
+    def find_by_location_codes(location_codes = [])
+      response = Location.by_location_code(keys: location_codes)
+      response.present? ? response.all : []
+    end
 
     def type_by_admin_level(admin_level = 0)
       Location.by_admin_level(key: admin_level).all.map{|l| l.type}.uniq
@@ -201,8 +217,14 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_admin_level_and_names
 
+    def find_by_admin_level_and_codes(admin_level, location_codes)
+      Location.by_admin_level_and_location_code(keys: location_codes.map{|l| [admin_level, l]})
+    end
+    memoize_in_prod :find_by_admin_level_and_codes
+
   end
 
+  #TODO i18n
   def hierarchical_name
     if self.hierarchy.present?
       self.hierarchy + [self.placename]
@@ -220,16 +242,17 @@ class Location < CouchRest::Model::Base
   end
 
   def descendants
-    response = Location.by_ancestor(key: self.placename)
+    response = Location.by_ancestor(key: self.location_code)
     response.present? ? response.all : []
   end
 
   def direct_descendants
-    response = Location.by_parent(key: self.placename)
+    response = Location.by_parent(key: self.location_code)
     response.present? ? response.all : []
   end
 
-  def ancestor_names
+  #TODO i18n - is this method necessary?  Just use hierarchy
+  def ancestor_codes
     ancestor_list = []
 
     self.hierarchy.each_with_index {|item, index|
@@ -243,11 +266,11 @@ class Location < CouchRest::Model::Base
   end
 
   def ancestors
-    Location.find_by_names(self.ancestor_names)
+    Location.find_by_location_codes(self.ancestor_codes)
   end
 
   def ancestor_by_admin_level(admin_level)
-    Location.find_by_admin_level_and_names(admin_level, self.ancestor_names).first
+    Location.find_by_admin_level_and_codes(admin_level, self.hierarchy).first
   end
 
   def ancestor_by_type(type)
@@ -264,7 +287,7 @@ class Location < CouchRest::Model::Base
     hierarchy_of_parent = (parent && parent.hierarchy.present? ? parent.hierarchy : [])
     new_hierarchy = hierarchy_of_parent
     if parent
-      new_hierarchy << parent.placename
+      new_hierarchy << parent.location_code
     end
 
     #Update the hierarchies of all descendants
@@ -283,14 +306,14 @@ class Location < CouchRest::Model::Base
     hierarchy_of_parent = (parent && parent.hierarchy.present? ? parent.hierarchy : [])
     self.hierarchy = hierarchy_of_parent
     if parent
-      self.hierarchy << parent.placename
+      self.hierarchy << parent.location_code
     end
   end
 
   def parent
     result = nil
     if self.hierarchy.present?
-      result = Location.get_by_location(self.hierarchy.last)
+      result = Location.get_by_location_code(self.hierarchy.last)
     end
     return result
   end
@@ -299,6 +322,7 @@ class Location < CouchRest::Model::Base
     self.set_parent nil
   end
 
+  #TODO i18n
   def generate_hierarchy
     if self.parent_id.present?
       a_parent = Location.get(self.parent_id)
@@ -306,6 +330,7 @@ class Location < CouchRest::Model::Base
     end
   end
 
+  #TODO i18n
   def update_hierarchy
     if self.parent_id.present?
       a_parent = Location.get(self.parent_id)
