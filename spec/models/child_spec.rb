@@ -39,6 +39,7 @@ describe Child do
   describe "update_properties_with_user_name" do
 
     it "should replace old properties with updated ones" do
+      #TODO - i18n
       child = Child.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
       new_properties = {"name" => "Dave", "age" => "35"}
       child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
@@ -358,6 +359,7 @@ describe Child do
     end
 
     it "should save blank age" do
+      #TODO - i18n could change depending on how we want name / display to look
       User.stub(:find_by_user_name).and_return(double(:organization => "stc", :location => "my_country::my_state::my_town", :agency => "unicef-un"))
       child = Child.new(:age => "", :another_field => "blah", 'created_by' => "me", 'created_organization' => "stc")
       child.save.present?.should == true
@@ -1373,11 +1375,12 @@ describe Child do
       @permission_case ||= Permission.new(:resource => Permission::CASE,
                                           :actions => [Permission::READ, Permission::WRITE])
       @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
-      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["Guinea"]
+      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["GUI"]
       admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
       agency = Agency.create! id: "agency-unicef", agency_code: "UN", name: "UNICEF"
       a_module = PrimeroModule.create name: "Test Module"
+      #TODO - i18n
       user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                           :email => 'em@dd.net', :organization => 'agency-unicef', :role_ids => [admin_role.id, field_worker_role.id],
                           :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.name})
@@ -1780,6 +1783,7 @@ describe Child do
   private
 
   def create_child(name, options={})
+    #TODO - i18n
     options.merge!("name" => name, "last_known_location" => "new york", 'created_by' => "me", 'created_organization' => "stc")
     Child.create(options)
   end

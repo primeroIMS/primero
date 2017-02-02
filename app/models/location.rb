@@ -7,15 +7,20 @@ class Location < CouchRest::Model::Base
   include Memoizable
   include Disableable
 
-  #TODO - I18n
+  #TODO - I18n - YES!!!!
   BASE_TYPES = ['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other', 'locality', 'sub-district']
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
 
+  #TODO i18n - make localizable property so we can translate
   property :placename #This is the individual placename
   property :location_code
+
+  #TODO - i18n  - Need translation of some sort
   property :type
   property :hierarchy, type: [String]
+
+  #TODO - i18n - is this still needed?  If so, need translation
   property :hierarchical_name, read_only: true
   property :admin_level, Integer
   attr_accessor :parent_id
