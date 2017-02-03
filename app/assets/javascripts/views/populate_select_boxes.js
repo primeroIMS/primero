@@ -60,7 +60,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
         var $select_boxes = $(select_boxes);
 
         var options = _.map(model.options, function(option) {
-          return '<option value="' + option + '">' + option + '</option>'
+          return '<option value="' + option.id + '">' + option.display_text + '</option>'
         });
 
         // Ensure select box is empty

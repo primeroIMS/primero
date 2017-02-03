@@ -8,7 +8,8 @@ class Location < CouchRest::Model::Base
   include Disableable
 
   #TODO - I18n - YES!!!! - possible as a lookup
-  BASE_TYPES = ['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other', 'locality', 'sub-district']
+  BASE_TYPES = ['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp',
+                'site', 'village', 'zone', 'other', 'locality', 'sub-district']
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
 
@@ -59,11 +60,9 @@ class Location < CouchRest::Model::Base
                 }
               }"
 
-    # view :by_type
     view :by_placename
     view :by_hierarchy
     view :by_admin_level
-    # view :by_admin_level_and_name
     view :by_admin_level_and_location_code
     view :by_location_code
   end
@@ -105,15 +104,6 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :all
 
-    # def find_by_location(placename)
-    #   #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
-    #   location = Location.by_placename(key: placename).all[0..0]
-    #   if location.present?
-    #     return location + location.first.descendants
-    #   end
-    # end
-    # memoize_in_prod :find_by_location
-
     #TODO i18n
     def placenames_from_name(name)
       return [] unless name.present?
@@ -125,13 +115,6 @@ class Location < CouchRest::Model::Base
       placenames_from_name(name).last || ""
     end
     memoize_in_prod :placename_from_name
-
-    # def get_by_location(placename)
-    #   #TODO: For now this makes the bold assumption that high-level locations are uniqueish.
-    #   location = Location.by_placename(key: placename).all[0..0]
-    #   return location.first
-    # end
-    # memoize_in_prod :get_by_location
 
     def get_by_location_code(location_code)
       location = Location.by_location_code(key: location_code).all[0..0]
@@ -163,22 +146,13 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_types_in_hierarchy
 
-    #TODO i18n
+    #This method returns a list of id / display_text value pairs
+    #It is used to create the select options list for location fields
     def all_names
-      self.by_enabled.map{|r| r.name}
+      #TODO i18n - placename needs to be translated
+      self.by_enabled.map{|r| {id: r.location_code, display_text: r.placename}.with_indifferent_access}
     end
     memoize_in_prod :all_names
-
-    # def all_top_level_ancestors
-    #   response = self.by_hierarchy(key: [])
-    #   response.present? ? response.all : []
-    # end
-
-    # def find_by_names(location_names = [])
-    #   response = Location.by_name(keys: location_names)
-    #   response.present? ? response.all : []
-    # end
-    # memoize_in_prod :find_by_names
 
     def find_by_location_codes(location_codes = [])
       response = Location.by_location_code(keys: location_codes)
@@ -218,11 +192,6 @@ class Location < CouchRest::Model::Base
       end
     end
     memoize_in_prod :ancestor_placename_by_name_and_admin_level
-
-    # def find_by_admin_level_and_names(admin_level, names)
-    #   Location.by_admin_level_and_name(keys: names.map{|l| [admin_level, l]})
-    # end
-    # memoize_in_prod :find_by_admin_level_and_names
 
     def find_by_admin_level_and_location_codes(admin_level, location_codes)
       Location.by_admin_level_and_location_code(keys: location_codes.map{|l| [admin_level, l]})
