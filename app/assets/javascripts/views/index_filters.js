@@ -109,7 +109,7 @@ _primero.Views.IndexFilters = Backbone.View.extend({
   },
 
   set_remove_filter: function(filter, value) {
-    _primero.filters[filter] = value;
+    _primero.filters[filter] = _.isArray(value) ? _.uniq(value) : value;
 
     if (_primero.filters[filter].length === 1 || _primero.filters[filter] === '') {
       delete _primero.filters[filter];
@@ -118,7 +118,9 @@ _primero.Views.IndexFilters = Backbone.View.extend({
 
   set_array_filter: function(filter, value, type) {
     if (_.isArray(_primero.filters[filter])) {
-      _primero.filters[filter].push(value);
+      if (!_.contains(_primero.filters[filter], value)) {
+        _primero.filters[filter].push(value);
+      }
     } else {
       _primero.filters[filter] = [type, value];
     }
