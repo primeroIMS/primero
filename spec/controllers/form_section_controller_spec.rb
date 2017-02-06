@@ -124,16 +124,19 @@ describe FormSectionController do
             )
           ])
 
-          @country = create :location, placename: "Country1", admin_level: 0
-          @province1 = create :location, placename: "Province1", hierarchy: [@country.placename]
-          @province2 = create :location, placename: "Province2", hierarchy: [@country.placename]
-          @town1 = create :location, placename: "Town1", hierarchy: [@country.placename, @province1.placename]
+          @country = create :location, placename: "Country1", location_code: 'CTRY01', admin_level: 0
+          @province1 = create :location, placename: "Province1", hierarchy: [@country.location_code], location_code: 'PRV01'
+          @province2 = create :location, placename: "Province2", hierarchy: [@country.location_code], location_code: 'PRV02'
+          @town1 = create :location, placename: "Town1", hierarchy: [@country.location_code, @province1.location_code], location_code:'TWN01'
 
           FormSection.stub(:get_permitted_form_sections).and_return([@form_section_l])
         end
 
         it 'should return location fields with locations if mobile' do
-          expected = ["Country1", "Country1::Province1", "Country1::Province2", "Country1::Province1::Town1"];
+          expected = [{"id"=>"CTRY01", "display_text"=>"Country1"},
+                      {"id"=>"PRV01", "display_text"=>"Country1::Province1"},
+                      {"id"=>"PRV02", "display_text"=>"Country1::Province2"},
+                      {"id"=>"TWN01", "display_text"=>"Country1::Province1::Town1"}];
           get :index, mobile: true, format: :json
           returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
           expect(returned).to eq(expected)

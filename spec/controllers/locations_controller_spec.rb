@@ -4,14 +4,14 @@ describe LocationsController do
   before do
     Location.all.each &:destroy
 
-    @country = create :location, placename: "Country1", admin_level: 0
-    @country2 = create :location, placename: "Country2", admin_level: 0
-    @province1 = create :location, placename: "Province1", hierarchy: [@country.location_code]
-    @province2 = create :location, placename: "Province2", hierarchy: [@country.location_code]
-    @province3 = create :location, placename: "Province3", hierarchy: [@country.location_code]
-    @town1 = create :location, placename: "Town1", hierarchy: [@country.location_code, @province1.location_code]
-    @town2 = create :location, placename: "Town2", hierarchy: [@country.location_code, @province1.location_code], disabled: false
-    @town3 = create :location, placename: "Town3", hierarchy: [@country.location_code, @province2.location_code]
+    @country = create :location, placename: "Country1", admin_level: 0, location_code: 'CTRY01'
+    @country2 = create :location, placename: "Country2", admin_level: 0, location_code: 'CTRY02'
+    @province1 = create :location, placename: "Province1", hierarchy: [@country.location_code], location_code: 'PRV01'
+    @province2 = create :location, placename: "Province2", hierarchy: [@country.location_code], location_code: 'PRV02'
+    @province3 = create :location, placename: "Province3", hierarchy: [@country.location_code], location_code: 'PRV03'
+    @town1 = create :location, placename: "Town1", hierarchy: [@country.location_code, @province1.location_code], location_code: 'TWN01'
+    @town2 = create :location, placename: "Town2", hierarchy: [@country.location_code, @province1.location_code], location_code: 'TWN02', disabled: false
+    @town3 = create :location, placename: "Town3", hierarchy: [@country.location_code, @province2.location_code], location_code: 'TWN03'
     @disabled1 = create :location, hierarchy: [@country.location_code, @province2.location_code], disabled: true
     @disabled2 = create :location, hierarchy: [@country.location_code, @province2.location_code], disabled: true
     @permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
@@ -112,10 +112,10 @@ describe LocationsController do
       it "should create the hierarchy" do
         location = {placename: "My_Town", location_code: "my_code", type: "city", parent_id: @province3.id}
         post :create, location: location
-        my_town = Location.get_by_location("My_Town")
+        my_town = Location.get_by_location_code("my_code")
         my_hierarchy = [@country.location_code, @province3.location_code]
         expect(my_town.hierarchy).to eq(my_hierarchy)
-        #TODO i18n - it is unclear at this point how the location.name should look.  Asking Pavel
+        #TODO i18n - add tests for translations
         expect(my_town.name).to eq("#{@country.placename}::#{@province3.placename}::My_Town")
       end
     end
@@ -134,7 +134,7 @@ describe LocationsController do
         put :update, id: @province3.id, location: {placename: @province3.placename, type: "province", parent_id: @country2.id}
         province = Location.get(@province3.id)
         expect(province.hierarchy).to eq([@country2.location_code])
-        #TODO i18n - it is unclear at this point how the location.name should look.  Asking Pavel
+        #TODO i18n - add tests for translations
         expect(province.name).to eq("Country2::Province3")
       end
 
@@ -145,7 +145,7 @@ describe LocationsController do
         new_hierarchy = [@country2.location_code, @province1.location_code]
         expect(updated_town1.hierarchy).to eq(new_hierarchy)
         expect(updated_town2.hierarchy).to eq(new_hierarchy)
-        #TODO i18n - it is unclear at this point how the location.name should look.  Asking Pavel
+        #TODO i18n - add tests for translations
         expect(updated_town1.name).to eq("Country2::Province1::Town1")
         expect(updated_town2.name).to eq("Country2::Province1::Town2")
       end

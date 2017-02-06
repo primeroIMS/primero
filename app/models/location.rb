@@ -71,7 +71,8 @@ class Location < CouchRest::Model::Base
   validates_presence_of :admin_level, :message => I18n.t("errors.models.location.admin_level_present"), :if => :admin_level_required?
   validates_presence_of :location_code, :message => I18n.t("errors.models.location.code_present")
 
-  before_save do
+  before_validation do
+    #TODO i18n self.name
     self.name = self.hierarchical_name
   end
 
@@ -91,9 +92,10 @@ class Location < CouchRest::Model::Base
     true
   end
 
-  def name
-    self.hierarchical_name
-  end
+  #TODO i18n - is this necessary?  TEST!!!!!
+  # def name
+  #   self.hierarchical_name
+  # end
 
   class << self
     alias :old_all :all
@@ -149,8 +151,8 @@ class Location < CouchRest::Model::Base
     #This method returns a list of id / display_text value pairs
     #It is used to create the select options list for location fields
     def all_names
-      #TODO i18n - placename needs to be translated
-      self.by_enabled.map{|r| {id: r.location_code, display_text: r.placename}.with_indifferent_access}
+      #TODO i18n - name & placename need to be translated.  Should the key be something other than location_code?
+      self.by_enabled.map{|r| {id: r.location_code, display_text: r.name}.with_indifferent_access}
     end
     memoize_in_prod :all_names
 
@@ -202,11 +204,16 @@ class Location < CouchRest::Model::Base
 
   #TODO i18n
   def hierarchical_name
+    hierarchical_name = []
     if self.hierarchy.present?
-      self.hierarchy + [self.placename]
-    else
-      [self.placename]
-    end.join('::')
+      self.hierarchy.each do |lct_code|
+        lct = Location.get_by_location_code(lct_code)
+        #TODO i18n hierarchical_name somehow
+        hierarchical_name << lct.placename if lct.present?
+      end
+    end
+    hierarchical_name << self.placename
+    hierarchical_name.join('::')
   end
 
   def calculate_admin_level
@@ -270,7 +277,7 @@ class Location < CouchRest::Model::Base
     subtree = descendants + [self]
     subtree.each do |node|
       old_hierarchy = node.hierarchy
-      index_of_self = old_hierarchy.find_index(self.placename) || old_hierarchy.length
+      index_of_self = old_hierarchy.find_index(self.location_code) || old_hierarchy.length
       node.hierarchy = new_hierarchy +
         old_hierarchy.slice(index_of_self, old_hierarchy.length - index_of_self)
       node.save
@@ -306,7 +313,6 @@ class Location < CouchRest::Model::Base
     end
   end
 
-  #TODO i18n
   def update_hierarchy
     if self.parent_id.present?
       a_parent = Location.get(self.parent_id)
