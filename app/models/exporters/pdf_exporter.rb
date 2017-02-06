@@ -37,6 +37,31 @@ module Exporters
         :Author => "Primero",
         :CreationDate => Time.now
       })
+
+      # TODO: We should be selective about loading these fonts based on language. For now we are loading
+      # everything.
+
+      # Fallback fonts for other lanuages.
+      
+      # Arabic
+      @pdf.font_families["DejaVu"] = {
+        normal: {
+          :file => Rails.root.join('public/i18n_fonts/dejavusans.ttf'),
+          :font => "DejaVu"
+        }
+      }
+
+      # Nepali
+      @pdf.font_families["lohit_sd"] = {
+        normal: {
+          :file => Rails.root.join('public/i18n_fonts/lohit_sd.ttf'),
+          :font => "lohit_sd"
+        }
+      }
+
+      # Add fallback fonts to array
+      @pdf.fallback_fonts = ["DejaVu", "lohit_sd"]
+
       @subjects = []
     end
 
