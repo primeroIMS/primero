@@ -1383,13 +1383,13 @@ describe Child do
       #TODO - i18n
       user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                           :email => 'em@dd.net', :organization => 'agency-unicef', :role_ids => [admin_role.id, field_worker_role.id],
-                          :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.name})
+                          :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.location_code})
       user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                            :email => 'em@dd.net', :organization => 'agency-unicef', :role_ids => [admin_role.id, field_worker_role.id],
                            :module_ids => [a_module.id], :disabled => 'false', :location => ''})
       user3 = User.create!(:user_name => "tom789", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                            :email => 'em@dd.net', :organization => 'NA', :role_ids => [admin_role.id, field_worker_role.id],
-                           :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.name)
+                           :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.location_code)
     end
 
     context 'system case code format empty' do

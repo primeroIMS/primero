@@ -3,9 +3,9 @@ class Location < CouchRest::Model::Base
   use_database :location
 
   include PrimeroModel
-  include Namable
   include Memoizable
   include Disableable
+  include LocalizableProperty
 
   #TODO - I18n - YES!!!! - possible as a lookup
   BASE_TYPES = ['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp',
@@ -13,16 +13,12 @@ class Location < CouchRest::Model::Base
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
 
-  #TODO i18n - make localizable property so we can translate
-  property :placename #This is the individual placename
+  localize_properties [:name, :placename]
   property :location_code
 
   #TODO - i18n  - Need translation of some sort
   property :type
   property :hierarchy, type: [String]
-
-  #TODO - i18n - is this still needed?  If so, need translation
-  property :hierarchical_name, read_only: true
   property :admin_level, Integer
   attr_accessor :parent_id
 
@@ -60,16 +56,24 @@ class Location < CouchRest::Model::Base
                 }
               }"
 
-    view :by_placename
+    #Emit the hierarchy in the values to enable some more efficient lookups
+    view :by_location_code,
+         :map => "function(doc) {
+                if (doc.hasOwnProperty('location_code')) {
+                  emit(doc['location_code'], doc['hierarchy']);
+                }
+              }"
+
     view :by_hierarchy
     view :by_admin_level
     view :by_admin_level_and_location_code
-    view :by_location_code
+    view :by_location_code_and_type
   end
 
-  validates_presence_of :placename, :message => I18n.t("errors.models.#{self.name.underscore}.name_present")
+  validates_presence_of :placename, :message => I18n.t("errors.models.location.name_present")
   validates_presence_of :admin_level, :message => I18n.t("errors.models.location.admin_level_present"), :if => :admin_level_required?
   validates_presence_of :location_code, :message => I18n.t("errors.models.location.code_present")
+  validate :is_location_code_unique
 
   before_validation do
     #TODO i18n self.name
@@ -81,21 +85,11 @@ class Location < CouchRest::Model::Base
   before_save :calculate_admin_level, unless: :is_top_level?
   after_save :update_descendants_admin_level, if: :is_top_level?
 
-  #TODO - i18n - does this need to change to use location code?
-  def self.get_unique_instance(attributes)
-    by_name(key: attributes['name']).first
+  def is_location_code_unique
+    named_object = Location.get_by_location_code(self.location_code)
+    return true if named_object.nil? or self.id == named_object.id
+    errors.add(:name, I18n.t("errors.models.location.unique_location_code"))
   end
-
-  # Override Namable concern.
-  # Allow CouchDB to set the Location's ID as a GUID
-  def generate_id
-    true
-  end
-
-  #TODO i18n - is this necessary?  TEST!!!!!
-  # def name
-  #   self.hierarchical_name
-  # end
 
   class << self
     alias :old_all :all
@@ -106,45 +100,18 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :all
 
-    #TODO i18n
-    def placenames_from_name(name)
-      return [] unless name.present?
-      name.split('::')
-    end
-
-    #TODO i18n
-    def placename_from_name(name)
-      placenames_from_name(name).last || ""
-    end
-    memoize_in_prod :placename_from_name
-
     def get_by_location_code(location_code)
       location = Location.by_location_code(key: location_code).all[0..0]
       return location.first
     end
     memoize_in_prod :get_by_location_code
 
-    #TODO i18n
-    def find_by_placenames(placenames)
-      by_placename(keys: placenames)
-    end
-    memoize_in_prod :find_by_placenames
-
-    # Produce the location that matches a given type from the hierarchy of the given location.
-    # If multiple types are included, returns the first matched types
-    # TODO: This method is fairly specific to the IR exporter.
-    #       Is there a more generic way of expressing this? Is there a need?
-    #       Don't really want to stick this on the instance to avoid the extra DB call.
-    #TODO i18n
-    def find_types_in_hierarchy(name, types)
-      placenames = placenames_from_name(name)
-      locations = find_by_placenames(placenames)
-      result = []
-      types.each do |type|
-        result = locations.select{|loc| loc.type == type}
-        break if result
-      end
-      return result.last
+    #TODO not sure this should return 'first' but trying to keep with original
+    def find_types_in_hierarchy(location_code, location_types)
+      hierarchy = Location.by_location_code(key: location_code).values.flatten + [location_code]
+      keyz = []
+      location_types.each{|t| keyz += hierarchy.map{|h| [h, t]}}
+      Location.by_location_code_and_type(keys: keyz).first
     end
     memoize_in_prod :find_types_in_hierarchy
 
@@ -156,10 +123,16 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :all_names
 
+    def find_by_location_codes(location_code = "")
+      Location.by_location_code(key: location_code).first
+    end
+    memoize_in_prod :find_by_location_code
+
     def find_by_location_codes(location_codes = [])
       response = Location.by_location_code(keys: location_codes)
       response.present? ? response.all : []
     end
+    memoize_in_prod :find_by_location_codes
 
     #TODO i18n
     def type_by_admin_level(admin_level = 0)
@@ -180,9 +153,6 @@ class Location < CouchRest::Model::Base
       location_names
     end
     memoize_in_prod :find_names_by_admin_level_enabled
-
-    #find_by_name defined in namable concern
-    memoize_in_prod :find_by_name
 
     def ancestor_placename_by_name_and_admin_level(location_name, admin_level)
       return "" if location_name.blank? || ADMIN_LEVELS.exclude?(admin_level)

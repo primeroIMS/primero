@@ -51,7 +51,6 @@ FactoryGirl.define do
   factory :location, :traits => [ :model ] do
     placename { "location_#{counter}"}
     location_code { "code_#{counter}"}
-    description { "location_#{counter}"}
   end
 
   factory :replication, :traits => [ :model ] do

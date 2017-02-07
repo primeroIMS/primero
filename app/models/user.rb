@@ -269,8 +269,7 @@ class User < CouchRest::Model::Base
   # however, the location property really is just the location name
   # If a refactor is warranted, I would rename the location property to location_name
   def Location
-    #TODO - i18n - does this need to change to use location_code?
-    @location_obj ||= Location.get_unique_instance('name' => self.location)
+    @location_obj ||= Location.get_by_location_code(self.location)
   end
 
   def agency

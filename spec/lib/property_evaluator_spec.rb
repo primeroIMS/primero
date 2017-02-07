@@ -11,7 +11,7 @@ describe "PropertyEvaluator" do
     a_module = PrimeroModule.create name: "Test Module"
     user = User.create!({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                          :email => 'em@dd.net', :organization => 'TW', :role_ids => [admin_role.id, field_worker_role.id],
-                         :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.name})
+                         :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.location_code})
     user2 = User.create!({:user_name => "joe456", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                           :email => 'em@dd.net', :organization => 'TW', :role_ids => [admin_role.id, field_worker_role.id],
                           :module_ids => [a_module.id], :disabled => 'false', :location => ''})

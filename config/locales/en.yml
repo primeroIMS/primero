@@ -1570,6 +1570,7 @@ en:
         code_present: "must not be blank"
         admin_level_present: "must not be blank"
         unique_name: "A Location with that name already exists, please enter a different name"
+        unique_location_code: "A Location with that location code already exists, please enter a different location code"
 
       reporting_location:
         label_key: "Label Key must be one of Location Base Type values"
