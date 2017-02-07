@@ -314,7 +314,7 @@ class Field
           options_list = record.violations_list_by_unique_id.map{|k,v| {'id' => v, 'display_text' => k}}
         end
       when 'lookup'
-        options_list += Lookup.values("lookup-#{source_options.last.titleize.parameterize.dasherize}", lookups)
+        options_list += Lookup.values(source_options.last, lookups)
         if source_options.second == 'group'
           #TODO: What about I18n? What is this?
           options_list += ['Other', 'Mixed', 'Unknown']

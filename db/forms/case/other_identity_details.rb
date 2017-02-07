@@ -3,7 +3,7 @@ other_identity_details_fields = [
              "type" =>"select_box",
              "multi_select" => true,
              "display_name_all" => "Nationality",
-             "option_strings_source" => "lookup Nationality",
+             "option_strings_source" => "lookup lookup-nationality",
              "matchable" => true
             }),
   Field.new({"name" => "place_of_birth",
@@ -13,12 +13,12 @@ other_identity_details_fields = [
   Field.new({"name" => "country_of_birth",
              "type" =>"select_box",
              "display_name_all" => "Birth Country",
-             "option_strings_source" => "lookup Country"
+             "option_strings_source" => "lookup lookup-country"
             }),
   Field.new({"name" => "country_of_origin",
              "type" =>"select_box" ,
              "display_name_all" => "Country of Origin",
-             "option_strings_source" => "lookup Country"
+             "option_strings_source" => "lookup lookup-country"
             }),
   Field.new({"name" => "address_last",
              "type" => "textarea",
@@ -47,21 +47,21 @@ other_identity_details_fields = [
              "type" =>"select_box",
              "multi_select" => true,
              "display_name_all" => "Ethnicity/Clan/Tribe",
-             "option_strings_source" => "lookup Ethnicity",
+             "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
             }),
   Field.new({"name" => "sub_ethnicity_1",
              "type" =>"select_box",
              "multi_select" => true,
              "display_name_all" => "Sub Ethnicity 1",
-             "option_strings_source" => "lookup Ethnicity",
+             "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
             }),
   Field.new({"name" => "sub_ethnicity_2",
              "type" =>"select_box",
              "multi_select" => true,
              "display_name_all" => "Sub Ethnicity 2",
-             "option_strings_source" => "lookup Ethnicity",
+             "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
             }),
    #TODO configurable by admin
@@ -69,14 +69,14 @@ other_identity_details_fields = [
              "type" =>"select_box",
              "multi_select" => true,
              "display_name_all" => "Language",
-             "option_strings_source" => "lookup Language",
+             "option_strings_source" => "lookup lookup-language",
               "matchable" => true
             }),
   Field.new({"name" => "religion",
              "type" =>"select_box",
              "multi_select" => true,
              "display_name_all" => "Religion",
-             "option_strings_source" => "lookup Religion",
+             "option_strings_source" => "lookup lookup-religion",
              "matchable" => true
             })
 ]

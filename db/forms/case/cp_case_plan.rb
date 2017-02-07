@@ -84,7 +84,7 @@ case_plan_fields = [
              "type" => "select_box",
              "display_name_all" => "Protection Concerns",
              "multi_select" => true,
-             "option_strings_source" => "lookup ProtectionConcerns"
+             "option_strings_source" => "lookup lookup-protection-concerns"
            }),
   Field.new({"name" => "case_plan_header",
              "type" => "separator",

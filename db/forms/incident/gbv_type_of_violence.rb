@@ -42,7 +42,7 @@ gbv_sexual_violence_fields = [
   Field.new({"name" => "gbv_sexual_violence_type",
              "type" => "select_box",
              "display_name_all" => "Type of Incident Violence",
-             "option_strings_source" => "lookup GbvSexualViolenceType",
+             "option_strings_source" => "lookup lookup-gbv-sexual-violence-type",
              "guiding_questions" => "The six core types of GBV and their definitions are:
 
                 1. Rape—non-consensual penetration (however slight) of the vagina, anus or mouth with a penis or other body part. Also includes non-consensual penetration of the vagina or anus with an object. Examples can include but are not limited to: gang rape, marital rape, sodomy, forced oral sex. This type of GBV does not include attempted rape since no penetration has occurred.

@@ -53,7 +53,6 @@ class Lookup < CouchRest::Model::Base
   end
 
   def is_id_unique
-    binding.pry
     lookup = Lookup.get(id)
     return true if lookup.nil?
     # error message refers to name since that is what the user is inputting

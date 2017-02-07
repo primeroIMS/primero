@@ -4,9 +4,9 @@ describe LookupsController do
   before do
     Lookup.all.each &:destroy
 
-    @lookup_a = Lookup.create!(name_en: "A", lookup_values: [{id: "a", display_text: "A"}, {id: "aa", display_text: "AA"}])
-    @lookup_b = Lookup.create!(name_en: "B", lookup_values: [{id: "b", display_text: "B"}, {id: "bb", display_text: "BB"}, {id: "bbb", display_text: "BBB"}])
-    @lookup_c = Lookup.create!(name_en: "C", lookup_values: [{id: "c", display_text: "C"}, {id: "cc", display_text: "CC"}, {id: "ccc", display_text: "CCC"}, {id: "cccc", display_text: "CCCC"}])
+    @lookup_a = Lookup.create!(_id: "lookup-a", name_en: "A", lookup_values: [{id: "a", display_text: "A"}, {id: "aa", display_text: "AA"}])
+    @lookup_b = Lookup.create!(_id: "lookup-b", name_en: "B", lookup_values: [{id: "b", display_text: "B"}, {id: "bb", display_text: "BB"}, {id: "bbb", display_text: "BBB"}])
+    @lookup_c = Lookup.create!(_id: "lookup-c", name_en: "C", lookup_values: [{id: "c", display_text: "C"}, {id: "cc", display_text: "CC"}, {id: "ccc", display_text: "CCC"}, {id: "cccc", display_text: "CCCC"}])
     @permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
     user = User.new(:user_name => 'manager_of_lookups')
     user.stub(:roles).and_return([Role.new(:permissions_list => [@permission_metadata])])
@@ -69,9 +69,9 @@ describe LookupsController do
   describe "post destroy" do
     context "when on a form" do
       before do
-        @lookup_d = Lookup.create!(name_en: "D", lookup_values: ["D", "DD", "DDD", "DDDD"])
+        @lookup_d = Lookup.create!(_id: "lookup-d", name_en: "D", lookup_values: [{id: "d", display_text: "D"}, {id: "dd", display_text: "DD"}, {id: "ddd", display_text: "DDD"}, {id: "dddd", display_text: "DDDD"}])
         text_field = Field.new(name: "text_field", type: Field::TEXT_FIELD, display_name: "My Text Field")
-        select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup D" )
+        select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup lookup-d" )
         fs = create :form_section, fields: [select_box_field]
       end
 
