@@ -554,7 +554,7 @@ class HomeController < ApplicationController
 
   def build_admin_stats(stats)
     admin_stats = {}
-    protection_concerns = Lookup.values('Protection Concerns', @lookups)
+    protection_concerns = Lookup.values('lookup-protection-concerns', @lookups)
     stats.each do |k, v|
       stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
       stat_facet.rows.each do |l|
