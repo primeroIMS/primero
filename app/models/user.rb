@@ -175,6 +175,7 @@ class User < CouchRest::Model::Base
   class << self
     alias :old_all :all
     alias :by_all :all
+    alias :list_by_all :all
     alias :by_user_name_all :by_user_name
     alias :by_full_name_all :by_full_name
     alias :by_organization_all :by_organization

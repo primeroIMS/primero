@@ -94,6 +94,7 @@ class Location < CouchRest::Model::Base
   class << self
     alias :old_all :all
     alias :by_all :all
+    alias :list_by_all :all
 
     def all(*args)
       old_all(*args)
@@ -119,11 +120,11 @@ class Location < CouchRest::Model::Base
     #It is used to create the select options list for location fields
     def all_names
       #TODO i18n - name & placename need to be translated.  Should the key be something other than location_code?
-      self.by_enabled.map{|r| {id: r.location_code, display_text: r.name}.with_indifferent_access}
+      self.by_disabled(key: false).map{|r| {id: r.location_code, display_text: r.name}.with_indifferent_access}
     end
     memoize_in_prod :all_names
 
-    def find_by_location_codes(location_code = "")
+    def find_by_location_code(location_code = "")
       Location.by_location_code(key: location_code).first
     end
     memoize_in_prod :find_by_location_code

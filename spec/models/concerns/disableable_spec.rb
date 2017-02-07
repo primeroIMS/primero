@@ -23,23 +23,23 @@ describe Disableable do
 
   context 'by disabled' do
     it 'gets disabled records' do
-      expect(TestClass.by_disabled.count).to eq(2)
-      expect(TestClass.by_disabled.all).to include(@disabled1, @disabled2)
+      expect(TestClass.list_by_disabled.count).to eq(2)
+      expect(TestClass.list_by_disabled).to include(@disabled1, @disabled2)
     end
 
     it 'does not get enabled records' do
-      expect(TestClass.by_disabled.all).not_to include(@enabled1, @enabled2, @enabled3)
+      expect(TestClass.list_by_disabled).not_to include(@enabled1, @enabled2, @enabled3)
     end
   end
 
   context 'by enabled' do
     it 'gets enabled records' do
-      expect(TestClass.by_enabled.count).to eq(3)
-      expect(TestClass.by_enabled.all).to include(@enabled1, @enabled2, @enabled3)
+      expect(TestClass.list_by_enabled.count).to eq(3)
+      expect(TestClass.list_by_enabled).to include(@enabled1, @enabled2, @enabled3)
     end
 
     it 'does not get disabled records' do
-      expect(TestClass.by_enabled.all).not_to include(@disabled1, @disabled2)
+      expect(TestClass.list_by_enabled).not_to include(@disabled1, @disabled2)
     end
   end
 end

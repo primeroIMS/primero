@@ -35,6 +35,7 @@ class Agency < CouchRest::Model::Base
   class << self
     alias :old_all :all
     alias :by_all :all
+    alias :list_by_all :all
 
     def all
       old_all
@@ -42,7 +43,7 @@ class Agency < CouchRest::Model::Base
     memoize_in_prod :all
 
     def available_agency_names
-      self.by_enabled.all.collect{ |a| [ a.name, a.id ] }
+      self.list_by_enabled.collect{ |a| [ a.name, a.id ] }
     end
     memoize_in_prod :available_agency_names
 

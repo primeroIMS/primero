@@ -50,21 +50,42 @@ module FieldsHelper
     return "" unless field_value.present?
 
     if field.present? && field.selectable?
-      #TODO: Add handling for locations and lookups!
-      display = field.option_strings.select{|opt| opt['id'] == field_value}
-      #TODO: Is it better to display the untranslated key or to display nothing?
-      field_value = (display.present? ? display.first['display_text'] : '')
+      if field.option_strings_text.present?
+        display = field.option_strings.select{|opt| opt['id'] == field_value}
+        #TODO: Is it better to display the untranslated key or to display nothing?
+        field_value = (display.present? ? display.first['display_text'] : '')
+      elsif field.option_strings_source.present?
+        field_value = lookup_field_value_for_display(field_value, field)
+      end
     end
 
     if field_value.is_a?(Array)
       field_value = field_value.join ", "
-    end
-
-    if field_value.is_a?(Date)
+    elsif field_value.is_a?(Date)
       field_value = field_format_date(field_value)
     end
 
     return  field_value.to_s
+  end
+
+  def lookup_field_value_for_display(field_value, field)
+    source_options = field.option_strings_source.split
+    case source_options.first
+      when 'lookup'
+        #TODO
+        x = ""
+        # options_list += Lookup.values(source_options.last.titleize, lookups)
+        # if source_options.second == 'group'
+        #   #TODO: What about I18n? What is this?
+        #   options_list += ['Other', 'Mixed', 'Unknown']
+        # end
+        value = ''
+      when 'Location'
+        lct = Location.find_by_location_code(field_value)
+        field_value = (lct.present? ? lct.name : '')
+      else
+        field_value
+    end
   end
 
   def field_link_for_display(field_value, field)
