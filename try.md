@@ -6,7 +6,7 @@ permalink: /try/
 
 # Try
 
-You can try out Primero <a href='https://nibbed.io'>here</a>
+You can try out Primero <a href='https://nibbed.io' target='_blank'>here</a>
 
 To login as a Social Worker / Child Protection case worker use:
 cp_worker    and    Primero2017
