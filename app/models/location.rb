@@ -80,7 +80,7 @@ class Location < CouchRest::Model::Base
   # Only top level locations' admin levels are editable
   # All other locations' admin levels are calculated based on their parent's admin level
   before_save :calculate_admin_level, unless: :is_top_level?
-  after_save :update_descendants_admin_level, if: :is_top_level?
+  after_save :update_descendants,
 
   def is_location_code_unique
     named_object = Location.get_by_location_code(self.location_code)
@@ -305,13 +305,12 @@ class Location < CouchRest::Model::Base
   # HANDLE WITH CARE
   # If a top level location's admin level changes,
   # the admin level of all of its descendants must be recalculated
-  def update_descendants_admin_level
-    unless is_top_level?
-      self.calculate_admin_level
-      self.save!
-    end
+  def update_descendants
+    self.calculate_admin_level unless is_top_level?
+    self.set_name_from_hierarchical_names
+    self.save!
 
     #Here be dragons...Beware... recursion!!!
-    self.direct_descendants.each {|lct| lct.update_descendants_admin_level}
+    self.direct_descendants.each {|lct| lct.update_descendants}
   end
 end
