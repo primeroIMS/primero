@@ -101,7 +101,7 @@ class FieldsController < ApplicationController
 
   def get_lookups
     @lookups = Lookup.all
-    @lookup_options = @lookups.map{|lkp| [lkp.name, "lookup #{lkp['_id']}"]}
+    @lookup_options = @lookups.map{|lkp| [lkp.name, "lookup #{lkp.id}"]}
     @lookup_options.unshift("", "Location")
   end
 

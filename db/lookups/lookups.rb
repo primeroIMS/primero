@@ -1,5 +1,5 @@
 def create_or_update_lookup(lookup_hash)
-  lookup_id = lookup_hash[:_id].present? ? lookup_hash[:_id] : Lookup.lookup_id_from_name(lookup_hash[:name_en])
+  lookup_id = lookup_hash.id
   lookup = Lookup.get lookup_id
 
   if lookup.nil?
@@ -12,8 +12,8 @@ def create_or_update_lookup(lookup_hash)
 end
 
 create_or_update_lookup(
-  :_id => "lookup-country",
-  :name_en => "Country",
+  :id => "lookup-country",
+  :name => "Country",
   :lookup_values => [
     {id: "country1", display_text: "Country1"}.with_indifferent_access,
     {id: "country2", display_text: "Country2"}.with_indifferent_access,
@@ -29,8 +29,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-nationality",
-  :name_en => "Nationality",
+  :id => "lookup-nationality",
+  :name => "Nationality",
   :lookup_values => [
     {id: "nationality1", display_text: "Nationality1"}.with_indifferent_access,
     {id: "nationality2", display_text: "Nationality2"}.with_indifferent_access,
@@ -46,8 +46,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-ethnicity",
-  :name_en => "Ethnicity",
+  :id => "lookup-ethnicity",
+  :name => "Ethnicity",
   :lookup_values => [
     {id: "ethnicity1", display_text: "Ethnicity1"}.with_indifferent_access,
     {id: "ethnicity2", display_text: "Ethnicity2"}.with_indifferent_access,
@@ -63,8 +63,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-language",
-  :name_en => "Language",
+  :id => "lookup-language",
+  :name => "Language",
   :lookup_values => [
     {id: "language1", display_text: "Language1"}.with_indifferent_access,
     {id: "language2", display_text: "Language2"}.with_indifferent_access,
@@ -80,8 +80,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-religion",
-  :name_en => "Religion",
+  :id => "lookup-religion",
+  :name => "Religion",
   :lookup_values => [
     {id: "religion1", display_text: "Religion1"}.with_indifferent_access,
     {id: "religion2", display_text: "Religion2"}.with_indifferent_access,
@@ -97,8 +97,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-case-status",
-  :name_en => "Case Status",
+  :id => "lookup-case-status",
+  :name => "Case Status",
   :lookup_values => [
     {id: "open", display_text: "Open"}.with_indifferent_access,
     {id: "closed", display_text: "Closed"}.with_indifferent_access,
@@ -108,8 +108,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-incident-status",
-  :name_en => "Incident Status",
+  :id => "lookup-incident-status",
+  :name => "Incident Status",
   :lookup_values => [
     {id: "open", display_text: "Open"}.with_indifferent_access,
     {id: "closed", display_text: "Closed"}.with_indifferent_access,
@@ -118,8 +118,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-displacement-status",
-  :name_en => "Displacement Status",
+  :id => "lookup-displacement-status",
+  :name => "Displacement Status",
   :lookup_values => [
     {id: "resident", display_text: "Resident"}.with_indifferent_access,
     {id: "idp", display_text: "IDP"}.with_indifferent_access,
@@ -132,8 +132,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-unaccompanied-separated status",
-  :name_en => "Unaccompanied Separated Status",
+  :id => "lookup-unaccompanied-separated status",
+  :name => "Unaccompanied Separated Status",
   :lookup_values => [
     {id: "no", display_text: "No"}.with_indifferent_access,
     {id: "unaccompanied_minor", display_text: "Unaccompanied Minor"}.with_indifferent_access,
@@ -143,8 +143,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-protection-status",
-  :name_en => "Protection Status",
+  :id => "lookup-protection-status",
+  :name => "Protection Status",
   :lookup_values => [
     {id: "unaccompanied", display_text: "Unaccompanied"}.with_indifferent_access,
     {id: "separated", display_text: "Separated"}.with_indifferent_access
@@ -152,8 +152,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-verification-status",
-  :name_en => "Verification Status",
+  :id => "lookup-verification-status",
+  :name => "Verification Status",
   :lookup_values => [
     {id: "verified", display_text: "Verified"}.with_indifferent_access,
     {id: "unverified", display_text: "Unverified"}.with_indifferent_access,
@@ -164,8 +164,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-risk-level",
-  :name_en => "risk_level",
+  :id => "lookup-risk-level",
+  :name => "risk_level",
   :lookup_values => [
     {id: "high", display_text: "High"}.with_indifferent_access,
     {id: "medium", display_text: "Medium"}.with_indifferent_access,
@@ -174,8 +174,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-gbv-sexual-violence-type",
-  :name_en => "Gbv Sexual Violence Type",
+  :id => "lookup-gbv-sexual-violence-type",
+  :name => "Gbv Sexual Violence Type",
   :lookup_values => [
     {id: "rape", display_text: "Rape"}.with_indifferent_access,
     {id: "sexual_assault", display_text: "Sexual Assault"}.with_indifferent_access,
@@ -188,8 +188,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-armed-force-group-type",
-  :name_en => "Armed Force Group Type",
+  :id => "lookup-armed-force-group-type",
+  :name => "Armed Force Group Type",
   :lookup_values => [
     {id: "national_army", display_text: "National Army"}.with_indifferent_access,
     {id: "security_forces", display_text: "Security Forces"}.with_indifferent_access,
@@ -202,8 +202,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-armed-force-group-name",
-  :name_en => "Armed Force Group Name",
+  :id => "lookup-armed-force-group-name",
+  :name => "Armed Force Group Name",
   :lookup_values => [
     {id: "armed_force_or_group_1", display_text: "Armed Force or Group 1"}.with_indifferent_access,
     {id: "armed_force_or_group_2", display_text: "Armed Force or Group 2"}.with_indifferent_access,
@@ -213,8 +213,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id =>"lookup-separation-cause",
-  :name_en => "Separation Cause",
+  :id =>"lookup-separation-cause",
+  :name => "Separation Cause",
   :lookup_values => [
     {id: "conflict", display_text: "Conflict"}.with_indifferent_access,
     {id: "death", display_text: "Death"}.with_indifferent_access,
@@ -237,8 +237,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-service-type",
-  :name_en => "Service Type",
+  :id => "lookup-service-type",
+  :name => "Service Type",
   :lookup_values => [
     {id: "safehouse_service", display_text: "Safehouse Service"}.with_indifferent_access,
     {id: "health_medical_service", display_text: "Health/Medical Service"}.with_indifferent_access,
@@ -259,8 +259,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-protection-concerns",
-  :name_en => "Protection Concerns",
+  :id => "lookup-protection-concerns",
+  :name => "Protection Concerns",
   :lookup_values => [
     {id: "sexually_exploited", display_text: "Sexually Exploited"}.with_indifferent_access,
     {id: "gbv_survivor", display_text: "GBV survivor"}.with_indifferent_access,
@@ -284,8 +284,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :_id => "lookup-unhcr-needs-codes",
-  :name_en => "UNHCR Needs Codes",
+  :id => "lookup-unhcr-needs-codes",
+  :name => "UNHCR Needs Codes",
   :lookup_values => [
     {id: "cr-cp", display_text: "CR-CP"}.with_indifferent_access,
     {id: "cr-cs", display_text: "CR-CS"}.with_indifferent_access,

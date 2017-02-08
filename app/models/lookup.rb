@@ -30,15 +30,9 @@ class Lookup < CouchRest::Model::Base
     end
     memoize_in_prod :all
 
-    def lookup_id_from_name(name)
-      code = UUIDTools::UUID.random_create.to_s.last(7)
-      "lookup-#{name}-#{code}".parameterize.dasherize
-    end
-    memoize_in_prod :lookup_id_from_name
-
     def values(lookup_id, lookups = nil)
       if lookups.present?
-        lookup = lookups.select {|lkp| lkp['_id'] == lookup_id}.first
+        lookup = lookups.select {|lkp| lkp.id == lookup_id}.first
       else
         lookup = Lookup.get(lookup_id)
       end
@@ -71,7 +65,8 @@ class Lookup < CouchRest::Model::Base
   end
 
   def generate_id
-    self["_id"] ||= Lookup.lookup_id_from_name self.name_en
+    code = UUIDTools::UUID.random_create.to_s.last(7)
+    self.id ||= "lookup-#{self.name}-#{code}".parameterize.dasherize
   end
 
   def check_is_being_used

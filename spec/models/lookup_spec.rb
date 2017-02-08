@@ -14,37 +14,37 @@ describe Lookup do
   end
 
   it "should sanitize and check for lookup values" do
-    lookup = Lookup.new(:name_en => "Name", :lookup_values => [{:id => "", :display_text => ""}]) #Need empty array, can't use %w here.
+    lookup = Lookup.new(:name => "Name", :lookup_values => [{:id => "", :display_text => ""}]) #Need empty array, can't use %w here.
     lookup.should_not be_valid
     lookup.errors[:lookup_values].should == ["Field must have at least 2 options"]
   end
 
   it "should have a unique id when the name is the same as an existing lookup" do
-    lookup1 = create :lookup, :name_en => "Unique", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
-    lookup2 = create :lookup, :name_en => "Unique", :lookup_values => [{:id => "value3", :display_text => "value3"}, {:id => "value4", :display_text => "value4"}]
+    lookup1 = create :lookup, :name => "Unique", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
+    lookup2 = create :lookup, :name => "Unique", :lookup_values => [{:id => "value3", :display_text => "value3"}, {:id => "value4", :display_text => "value4"}]
     lookup1.id.should_not == lookup2.id
   end
 
   it "should titleize lookup name before validating it" do
-    lookup = Lookup.new(:name_en => "should be titleized")
+    lookup = Lookup.new(:name => "should be titleized")
     lookup.valid?
     lookup.name.should == "Should Be Titleized"
   end
 
   it "should create a valid lookup" do
-    Lookup.new(:name_en => "some_lookup", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]).should be_valid
+    Lookup.new(:name => "some_lookup", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]).should be_valid
   end
 
   it "should generate id" do
     Lookup.all.each {|lookup| lookup.destroy}
-    lookup = create :lookup, :name_en => 'test lookup 1234', :_id => nil
+    lookup = create :lookup, :name => 'test lookup 1234', :id => nil
     lookup.id.should include("lookup-test-lookup-1234")
   end
 
   describe "check being used" do
     before do
       Lookup.all.each &:destroy
-      @lookup = create :lookup, name_en: 'test lookup', lookup_values: [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
+      @lookup = create :lookup, name: 'test lookup', lookup_values: [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
     end
 
     context "when not on a form" do
@@ -55,7 +55,7 @@ describe Lookup do
 
     context "when on a form" do
       before do
-        @lookup_d = Lookup.create!(_id: "d", name: "D", lookup_values: [{id: "d", display_text: "D"}, {id: "dd", display_text: "DD"}, {id: "ddd", display_text: "DDD"}, {id: "dddd", display_text: "DDDD"}])
+        @lookup_d = Lookup.create!(id: "d", name: "D", lookup_values: [{id: "d", display_text: "D"}, {id: "dd", display_text: "DD"}, {id: "ddd", display_text: "DDD"}, {id: "dddd", display_text: "DDDD"}])
         text_field = Field.new(name: "text_field", type: Field::TEXT_FIELD, display_name: "My Text Field")
         select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup d" )
         fs = create :form_section, fields: [select_box_field]
