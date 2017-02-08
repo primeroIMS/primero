@@ -15,7 +15,6 @@ class Lookup < CouchRest::Model::Base
   end
 
   validates_presence_of :name, :message => "Name must not be blank"
-  # validate :is_id_unique, :if => :id
   validate :validate_has_2_values
 
   before_validation :generate_values_keys
@@ -52,20 +51,13 @@ class Lookup < CouchRest::Model::Base
     self.lookup_values.reject! { |value| value.blank? } if self.lookup_values
   end
 
-  def is_id_unique
-    lookup = Lookup.get(id)
-    return true if lookup.nil?
-    # error message refers to name since that is what the user is inputting
-    errors.add(:name, I18n.t("errors.models.lookup.unique_name"))
-  end
-
   def validate_has_2_values
     return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options")) if (lookup_values == nil || lookup_values.length < 2 || lookup_values[0]['display_text'] == '' || lookup_values[1]['display_text'] == '')
     true
   end
 
   def is_being_used?
-    FormSection.find_by_lookup_field(self.label).all.size > 0
+    FormSection.find_by_lookup_field(self.id).all.size > 0
   end
 
   def label

@@ -217,7 +217,6 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
       $.ajax(lookups_for_field_url).done(function(lookups_for_field){
         var constructed_options_list = [];
         constructed_options_list.push("<option value='not_null'>" + string_select_not_null_translation + "</option>")
-        console.log('lookups: ', lookups_for_field);
         for (var i in lookups_for_field) {
           if (lookups_for_field[i].constructor === Array) {
             constructed_options_list.push(
