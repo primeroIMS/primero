@@ -4,10 +4,10 @@ _primero.Views.ReferRecords = Backbone.View.extend({
 
   events: {
     'click a.referral_index_action' : 'refer_records',
-    'change div#referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
-    'change div#referral-modal select#existing_user' : 'toggle_other_user',
-    'change div#referral-modal input#other_user' : 'toggle_existing_user',
-    'click div#referral-modal input[type="submit"]' : 'close_referral'
+    'change #referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
+    'change #referral-modal select#existing_user' : 'toggle_other_user',
+    'change #referral-modal input#other_user' : 'toggle_existing_user',
+    'click #referral-modal input[type="submit"]' : 'close_referral'
   },
 
   refer_records: function(event) {
@@ -53,14 +53,15 @@ _primero.Views.ReferRecords = Backbone.View.extend({
   },
 
   close_referral: function(e) {
+    console.log(window.c = $(e.target))
     e.preventDefault();
-    var password = $('div#referral-modal input#password').val(),
-        local_user = $('div#referral-modal select#existing_user').val(),
-        remote_user = $('div#referral-modal input#other_user').val(),
-        is_remote = $('div#referral-modal input#is_remote').prop('checked'),
-        localUserErrorDiv = $("div#referral-modal .local_user_flash"),
-        remoteUserErrorDiv = $("div#referral-modal .remote_user_flash"),
-        passwordErrorDiv = $("div#referral-modal .password_flash"),
+    var password = $('#referral-modal input#password').val(),
+        local_user = $('#referral-modal select#existing_user').val(),
+        remote_user = $('#referral-modal input#other_user').val(),
+        is_remote = $('#referral-modal input#is_remote').prop('checked'),
+        localUserErrorDiv = $("#referral-modal .local_user_flash"),
+        remoteUserErrorDiv = $("#referral-modal .remote_user_flash"),
+        passwordErrorDiv = $("#referral-modal .password_flash"),
         is_valid = true;
     if(is_remote){
       //Require remote user and password
