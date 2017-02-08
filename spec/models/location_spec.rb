@@ -6,10 +6,10 @@ describe Location do
     Location.all.each &:destroy
 
     @country = create :location, admin_level: 0, placename: 'MyCountry', type: 'country', location_code: 'MC01'
-    @province1 = create :location, hierarchy: [@country.location_code], type: 'province', location_code: 'PR01'
+    @province1 = create :location, hierarchy: [@country.location_code], placename: 'Province 1', type: 'province', location_code: 'PR01'
     @province2 = create :location, hierarchy: [@country.location_code], type: 'state', location_code: 'PR02'
     @province3 = create :location, hierarchy: [@country.location_code], type: 'province', location_code: 'PR03'
-    @town1 = create :location, hierarchy: [@country.location_code, @province1.location_code], type: 'city'
+    @town1 = create :location, hierarchy: [@country.location_code, @province1.location_code], placename: 'Town 1', type: 'city'
     @town2 = create :location, hierarchy: [@country.location_code, @province1.location_code], type: 'city', disabled: false
     @town3 = create :location, hierarchy: [@country.location_code, @province2.location_code], type: 'city'
     @disabled1 = create :location, hierarchy: [@country.location_code, @province2.location_code], disabled: true
@@ -17,12 +17,16 @@ describe Location do
 
   end
 
+  #TODO - add i18n tests
   it '#hierarchical_name' do
-    expect(@town1.hierarchical_name).to eq("#{@country.placename}::#{@province1.placename}::#{@town1.placename}")
+    expect(@town1.hierarchical_names).to eq({"en"=>["MyCountry", "Province 1", "Town 1"],
+                                             "fr"=>[nil, nil, nil],
+                                             "ar"=>[nil, nil, nil],
+                                             "es"=>[nil, nil, nil]})
   end
 
   it '#name' do
-    expect(@town1.name).to eq(@town1.hierarchical_name)
+    expect(@town1.name).to eq("MyCountry::Province 1::Town 1")
   end
 
   describe 'all names' do
@@ -53,9 +57,9 @@ describe Location do
 
   it 'sets the #name to #hierarchical_name when saving' do
     @town1.placename = "Pawtucket"
-    expect(@town1.name).to_not eq(@town1.hierarchical_name)
+    expect(@town1.name).to_not eq("MyCountry::Province 1::Pawtucket")
     @town1.save
-    expect(@town1.name).to eq(@town1.hierarchical_name)
+    expect(@town1.name).to eq("MyCountry::Province 1::Pawtucket")
   end
 
   it "returns all descendants" do

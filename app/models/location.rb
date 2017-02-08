@@ -75,10 +75,7 @@ class Location < CouchRest::Model::Base
   validates_presence_of :location_code, :message => I18n.t("errors.models.location.code_present")
   validate :is_location_code_unique
 
-  before_validation do
-    #TODO i18n self.name
-    self.name = self.hierarchical_name
-  end
+  before_validation :set_name_from_hierarchical_names
 
   # Only top level locations' admin levels are editable
   # All other locations' admin levels are calculated based on their parent's admin level
@@ -173,18 +170,27 @@ class Location < CouchRest::Model::Base
 
   end
 
-  #TODO i18n
-  def hierarchical_name
-    hierarchical_name = []
+  def hierarchical_names
+    hierarchical_name = {}.with_indifferent_access
+    Primero::Application::locales.each {|locale| hierarchical_name[locale] = []}
+
     if self.hierarchy.present?
       self.hierarchy.each do |lct_code|
         lct = Location.get_by_location_code(lct_code)
-        #TODO i18n hierarchical_name somehow
-        hierarchical_name << lct.placename if lct.present?
+        if lct.present?
+          Primero::Application::locales.each {|locale| hierarchical_name[locale] << lct.send("placename_#{locale}")}
+        end
       end
     end
-    hierarchical_name << self.placename
-    hierarchical_name.join('::')
+    Primero::Application::locales.each {|locale| hierarchical_name[locale] << self.send("placename_#{locale}")}
+    hierarchical_name
+  end
+
+  def set_name_from_hierarchical_names
+    name_hash = hierarchical_names
+    if name_hash.present?
+      Primero::Application::locales.each {|locale| self.send "name_#{locale}=", name_hash[locale].reject(&:blank?).join('::') }
+    end
   end
 
   def calculate_admin_level
