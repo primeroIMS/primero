@@ -73,12 +73,6 @@ module FieldsHelper
     case source_options.first
       when 'lookup'
         #TODO
-        x = ""
-        # options_list += Lookup.values(source_options.last.titleize, lookups)
-        # if source_options.second == 'group'
-        #   #TODO: What about I18n? What is this?
-        #   options_list += ['Other', 'Mixed', 'Unknown']
-        # end
         value = ''
       when 'Location'
         lct = Location.find_by_location_code(field_value)

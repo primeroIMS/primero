@@ -40,22 +40,6 @@ class Location < CouchRest::Model::Base
               }
             }"
 
-    #TODO - i18n - can this be changed to by_type_and_disabled
-    view :by_type_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('type') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['type'], null);
-                }
-              }"
-
-    #TODO - i18n - can this be changed to by_admin_level_and_disabled
-    view :by_admin_level_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('admin_level') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['admin_level'], null);
-                }
-              }"
-
     #Emit the hierarchy in the values to enable some more efficient lookups
     view :by_location_code,
          :map => "function(doc) {
@@ -67,7 +51,9 @@ class Location < CouchRest::Model::Base
     view :by_hierarchy
     view :by_admin_level
     view :by_admin_level_and_location_code
+    view :by_admin_level_and_disabled
     view :by_location_code_and_type
+    view :by_type_and_disabled
   end
 
   validates_presence_of :placename, :message => I18n.t("errors.models.location.name_present")
@@ -139,7 +125,7 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :type_by_admin_level
 
     def find_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL)
-      response = Location.by_admin_level_enabled(key: admin_level)
+      response = Location.by_admin_level_and_disabled(key: [admin_level, false])
       response.present? ? response.all : []
     end
     memoize_in_prod :find_by_admin_level_enabled
@@ -211,7 +197,6 @@ class Location < CouchRest::Model::Base
     response.present? ? response.all : []
   end
 
-  #TODO i18n - is this method necessary?  Just use hierarchy
   def ancestor_codes
     ancestor_list = []
 
@@ -282,7 +267,6 @@ class Location < CouchRest::Model::Base
     self.set_parent nil
   end
 
-  #TODO i18n
   def generate_hierarchy
     if self.parent_id.present?
       a_parent = Location.get(self.parent_id)

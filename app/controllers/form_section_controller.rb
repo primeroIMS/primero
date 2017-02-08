@@ -21,7 +21,6 @@ class FormSectionController < ApplicationController
         #TODO: What about module and type parameters?
         if params[:mobile].present?
           @lookups = Lookup.all.all
-          #TODO - i18n
           @locations = Location.all_names
           @form_sections = format_for_mobile(@form_sections, params[:locale], params[:parent_form])
         end
