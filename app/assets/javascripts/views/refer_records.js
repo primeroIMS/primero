@@ -53,7 +53,6 @@ _primero.Views.ReferRecords = Backbone.View.extend({
   },
 
   close_referral: function(e) {
-    console.log(window.c = $(e.target))
     e.preventDefault();
     var password = $('#referral-modal input#password').val(),
         local_user = $('#referral-modal select#existing_user').val(),
