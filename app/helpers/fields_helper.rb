@@ -1,12 +1,5 @@
 module FieldsHelper
 
-  def option_fields_for form, suggested_field
-    return [] unless suggested_field.field.option_strings.present?
-    suggested_field.field.option_strings.collect do |option_string|
-      form.hidden_field("option_strings_text", { :multiple => true, :id => "option_string_" + option_string, :value => option_string+"\n" })
-    end
-  end
-
   def field_tag_name(object, field, field_keys=[])
     if field_keys.present?
       "#{object.class.name.underscore.downcase}[#{field_keys.join('][')}]"
@@ -51,7 +44,9 @@ module FieldsHelper
 
     if field.present? && field.selectable?
       if field.option_strings_text.present?
-        display = field.option_strings.select{|opt| opt['id'] == field_value}
+        #TODO i18n - refactor - option_strings method removed
+        # display = field.option_strings.select{|opt| opt['id'] == field_value}
+        display = ''
         #TODO: Is it better to display the untranslated key or to display nothing?
         field_value = (display.present? ? display.first['display_text'] : '')
       elsif field.option_strings_source.present?

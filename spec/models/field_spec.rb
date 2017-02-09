@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
+# TODO - add i18n tests for option_strings_text
+
 describe "record field model" do
 
   before :each do
     FormSection.all.each { |form| form.destroy }
     @field_name = "gender"
-    @field = Field.new :name => "gender", :display_name => @field_name, :option_strings => "male\nfemale", :type => Field::RADIO_BUTTON
+    @field = Field.new :name => "gender", :display_name => @field_name, :option_strings_text => "male\nfemale", :type => Field::RADIO_BUTTON
   end
 
   describe '#name' do
@@ -37,7 +39,7 @@ describe "record field model" do
   it "should create options from text" do
     field = Field.new :display_name => "something", :option_strings_text => "Tim\nRob Smith"
     field['option_strings_text'].should == nil
-    expect(field.option_strings).to eq([{"id"=>"tim", "display_text"=>"Tim"}, {"id"=>"rob_smith", "display_text"=>"Rob Smith"}])
+    expect(field.option_strings_text).to eq([{"id"=>"tim", "display_text"=>"Tim"}, {"id"=>"rob_smith", "display_text"=>"Rob Smith"}])
   end
 
   it "should have display name with hidden text if not visible" do
@@ -147,15 +149,6 @@ describe "record field model" do
       field.errors[:option_strings].should ==  ["Field must have at least 2 options"]
     end
 
-    it "should validate checkbox has at least 1 option to be checked" do
-      field = Field.new(:display_name => "test", :option_strings => nil, :type => Field::CHECK_BOXES)
-      form_section = FormSection.new(:parent_form => "case")
-      form_section.fields = [field]
-
-      field.valid?
-      field.errors[:option_strings].should ==  ["Checkbox must have at least 1 option"]
-    end
-
     it "should validate select box has at least 2 options" do
       field = Field.new(:display_name => "test", :option_strings => ["test"], :type => Field::SELECT_BOX)
       form_section = FormSection.new(:parent_form => "case")
@@ -164,20 +157,6 @@ describe "record field model" do
       field.valid?
       field.errors[:option_strings].should ==  ["Field must have at least 2 options"]
     end
-
-    # Test no longer valid. Now allowing sharing of fields
-
-    # it "should validate unique within other forms" do
-    #   other_form = FormSection.new(:name => "test form", :fields => [Field.new(:name => "other_test", :display_name => "other test")] )
-    #   other_form.save!
-
-    #   form = FormSection.new
-    #   field = Field.new(:display_name => "other test", :name => "other_test")
-    #   form.fields << field
-
-    #   field.valid?
-    #   field.errors[:name].should ==  ["Field already exists on form 'test form'"]
-    # end
   end
 
   describe "save" do
@@ -253,7 +232,8 @@ describe "record field model" do
       I18n.locale = "fr"
       field = Field.new(:name => "first name", :display_name_fr => "first name in french", :display_name_en => "first name in english",
                         :help_text_en => "help text in english", :help_text_fr => "help text in french",
-                        :option_strings_text_en => "option string in english", :option_strings_text_fr => "option string in french")
+                        :option_strings_text_en => [{id: "opt1", display_text: "option string in english"}.with_indifferent_access],
+                        :option_strings_text_fr => [{id: "opt1", display_text: "option string in french"}.with_indifferent_access])
       field.display_name.should == field.display_name_fr
       field.help_text.should == field.help_text_fr
       field.option_strings_text.should == field.option_strings_text_fr
@@ -263,7 +243,8 @@ describe "record field model" do
       I18n.locale = "fr"
       field = Field.new(:name => "first name", :display_name_en => "first name in english",
                         :help_text_en => "help text in english", :help_text_fr => "help text in french",
-                        :option_strings_text_en => "option string in english", :option_strings_text_fr => "option string in french")
+                        :option_strings_text_en => [{id: "opt1", display_text: "option string in english"}.with_indifferent_access],
+                        :option_strings_text_fr => [{id: "opt1", display_text: "option string in french"}.with_indifferent_access])
       field.display_name.should == field.display_name_en
       field.help_text.should == field.help_text_fr
       field.option_strings_text.should == field.option_strings_text_fr
@@ -275,37 +256,22 @@ describe "record field model" do
     it "should combine the field_name_translation into hash" do
       field = Field.new(:name => "first name", :display_name_en => "first name in english",
                         :help_text_en => "help text in english", :help_text_fr => "help text in french")
+
       field_hash = field.formatted_hash
       field_hash["display_name"].should == {"en" => "first name in english"}
       field_hash["help_text"].should == {"en" => "help text in english", "fr" => "help text in french"}
-    end
-
-    it "should return array for option_strings_text " do
-      field = Field.new(:name => "f_name", :option_strings_text_en => "Yes\nNo")
-      field_hash = field.formatted_hash
-      field_hash["option_strings_text"] == {"en" => ["Yes", "No"]}
     end
 
   end
 
   describe "normalize line endings" do
     it "should convert \\r\\n to \\n" do
-      field = Field.new :name => "test", :display_name_en => "test", :option_strings_text_en => "Uganda\r\nSudan"
-      field.option_strings.should == [ "Uganda", "Sudan" ]
-    end
-
-    it "should use \\n as it is" do
-      field = Field.new :name => "test", :display_name_en => "test", :option_strings_text_en => "Uganda\nSudan"
-      field.option_strings.should == [ "Uganda", "Sudan" ]
-    end
-
-    it "should convert option_strings to option_strings_text" do
-      field = Field.new :name => "test", :display_name_en => "test", :option_strings => "Uganda\nSudan"
+      field = Field.new :name => "test", :display_name_en => "test", :option_strings_text => "Uganda\r\nSudan"
       expect(field.option_strings_text).to eq([{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}])
     end
 
-    it "should convert option_strings to option_strings_text" do
-      field = Field.new :name => "test", :display_name_en => "test", :option_strings => ["Uganda", "Sudan"]
+    it "should use \\n as it is" do
+      field = Field.new :name => "test", :display_name_en => "test", :option_strings_text => "Uganda\nSudan"
       expect(field.option_strings_text).to eq([{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}])
     end
   end
@@ -558,7 +524,7 @@ describe "record field model" do
           Field.new({"name" => "test_yes_no",
                      "type" => "select_box",
                      "display_name_all" => "My Test Field",
-                     "option_strings" => "yes\nno"
+                     "option_strings_text_all" => "yes\nno"
                     }),
           Field.new({"name" => "test_country",
                      "type" => "select_box",

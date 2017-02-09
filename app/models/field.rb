@@ -112,7 +112,6 @@ class Field
   validate :validate_unique_name
   validate :validate_unique_display_name
   validate :validate_has_2_options
-  validate :validate_has_a_option
   validate :validate_display_name_format
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
@@ -279,22 +278,7 @@ class Field
 
   def attributes= properties
     super properties
-    if (option_strings)
-      @options = FieldOption.create_field_options(name, option_strings)
-    end
-  end
-
-  def option_strings= value
-    if value
-      value = value.gsub(/\r\n?/, "\n").split("\n") if value.is_a?(String)
-      self.option_strings_text = value.select {|x| not "#{x}".strip.empty? }.map(&:rstrip).join("\n")
-    end
-  end
-
-  def option_strings
-    return [] unless self.option_strings_text
-    return self.option_strings_text if self.option_strings_text.is_a?(Array)
-    self.option_strings_text.gsub(/\r\n?/, "\n").split("\n")
+    @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
   #TODO: Eventually, this method should be the ultimate list of options for this field.
@@ -327,7 +311,8 @@ class Field
         options_list += clazz.all.map{|r| r.name}
       end
     else
-      options_list += self.option_strings
+      #TODO - i18n - because option_strings_text has to be an array of hashes now.  No need to check for string
+      options_list += (self.option_strings_text.present? ? self.option_strings_text : [])
     end
     return options_list
   end
@@ -494,13 +479,7 @@ class Field
 
   def validate_has_2_options
     return true unless (type == RADIO_BUTTON || type == SELECT_BOX)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings == nil || option_strings.length < 2)
-    true
-  end
-
-  def validate_has_a_option
-    return true unless (type == CHECK_BOXES)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_1_option")) if option_strings == nil || option_strings.length < 1
+    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings_text.blank? || option_strings_text.length < 2)
     true
   end
 

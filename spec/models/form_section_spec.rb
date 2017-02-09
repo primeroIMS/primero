@@ -1077,7 +1077,7 @@ describe FormSection do
           Field.new({"name" => "test_yes_no",
                      "type" => "select_box",
                      "display_name_all" => "My Test Field",
-                     "option_strings" => "yes\nno"
+                     "option_strings_text" => "yes\nno"
                     }),
           Field.new({"name" => "test_country",
                      "type" => "select_box",
