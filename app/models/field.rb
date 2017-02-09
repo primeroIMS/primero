@@ -347,12 +347,12 @@ class Field
 
 
   #TODO: This should be merged with options_list above. Any HTML form specific stuff shoudl be moved to a helper
-  def select_options(record=nil, lookups=nil)
+  def select_options(record=nil, lookups=nil, exclude_empty_item=false)
     select_options = []
     if self.type == TICK_BOX
       select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
     else
-      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
+      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (self.multi_select || exclude_empty_item)
       select_options += options_list(record, lookups).map do |option|
         if option.is_a? Hash
           [option['display_text'], option['id']]
@@ -362,6 +362,16 @@ class Field
       end
     end
     return select_options
+  end
+
+  #TODO: i18n examine for further refactor.  Pulling in from reports_helper
+  def lookups_list
+    field_options = field.select_options
+    #check if the select has an empty option
+    if field_options.size > 0 && field_options[0].size > 0 && field_options[0][0] == I18n.t("fields.select_box_empty_item")
+      field_options.shift
+    end
+    return field_options
   end
 
   def is_highlighted?
