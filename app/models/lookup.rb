@@ -11,20 +11,14 @@ class Lookup < CouchRest::Model::Base
   localize_properties [:lookup_values], generate_keys: true
 
   design do
-    view :by_name,
-            :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'Lookup') && doc['name']) {
-                  emit(doc['name'], null);
-                }
-            }"
+    view :all
   end
 
   validates_presence_of :name, :message => "Name must not be blank"
-  validate :is_name_unique, :if => :name
   validate :validate_has_2_values
 
   before_validation :generate_values_keys
-  before_save :generate_id
+  before_create :generate_id
   before_destroy :check_is_being_used
 
   class << self
@@ -36,22 +30,11 @@ class Lookup < CouchRest::Model::Base
     end
     memoize_in_prod :all
 
-
-    def find_by_name(name)
-      Lookup.by_name(:key => name).first
-    end
-    memoize_in_prod :find_by_name
-
-    def lookup_id_from_name(name)
-      "lookup-#{name}".parameterize.dasherize
-    end
-    memoize_in_prod :lookup_id_from_name
-
-    def values(name, lookups = nil)
+    def values(lookup_id, lookups = nil)
       if lookups.present?
-        lookup = lookups.select {|lkp| lkp['name'] == name}.first
+        lookup = lookups.select {|lkp| lkp.id == lookup_id}.first
       else
-        lookup = self.find_by_name(name)
+        lookup = Lookup.get(lookup_id)
       end
       lookup.present? ? lookup.lookup_values : []
     end
@@ -62,19 +45,13 @@ class Lookup < CouchRest::Model::Base
     self.lookup_values.reject! { |value| value.blank? } if self.lookup_values
   end
 
-  def is_name_unique
-    lookup = Lookup.find_by_name(name)
-    return true if lookup.nil? or self.id == lookup.id
-    errors.add(:name, I18n.t("errors.models.lookup.unique_name"))
-  end
-
   def validate_has_2_values
     return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options")) if (lookup_values == nil || lookup_values.length < 2 || lookup_values[0]['display_text'] == '' || lookup_values[1]['display_text'] == '')
     true
   end
 
   def is_being_used?
-    FormSection.find_by_lookup_field(self.label).all.size > 0
+    FormSection.find_by_lookup_field(self.id).all.size > 0
   end
 
   def label
@@ -88,7 +65,8 @@ class Lookup < CouchRest::Model::Base
   end
 
   def generate_id
-    self["_id"] ||= Lookup.lookup_id_from_name self.name
+    code = UUIDTools::UUID.random_create.to_s.last(7)
+    self.id ||= "lookup-#{self.name}-#{code}".parameterize.dasherize
   end
 
   def check_is_being_used

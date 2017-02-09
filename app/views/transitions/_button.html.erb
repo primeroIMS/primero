@@ -71,7 +71,7 @@
           </div>
           <% if transition_type == "referral" %>
             <label><%=I18n.t("referral.service_label")%>
-              <%= select_tag("service", options_for_select(Lookup.values("Service Type", @lookups), ''), :include_blank => true) %>
+              <%= select_tag("service", options_for_select(Lookup.values("lookup-service-type", @lookups), ''), :include_blank => true) %>
             </label>
           <% end %>
           <label><%=I18n.t("#{transition_type}.notes_label")%>

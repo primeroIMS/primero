@@ -780,7 +780,7 @@ describe FormSection do
           "description_all" => "Details Nested Subform Section 1"
       })
       subform_section.save!
-  
+
       fields = [
         Field.new({"name" => "field_name_2",
                    "type" => "text_field",
@@ -1038,7 +1038,7 @@ describe FormSection do
           Field.new({"name" => "test_country",
                      "type" => "select_box",
                      "display_name_all" => "My Test Country",
-                     "option_strings_source" => "lookup Country"
+                     "option_strings_source" => "lookup lookup-country"
                     })
       ]
       @form_1 = FormSection.create(
@@ -1082,7 +1082,7 @@ describe FormSection do
           Field.new({"name" => "test_country",
                      "type" => "select_box",
                      "display_name_all" => "My Test Country",
-                     "option_strings_source" => "lookup Country"
+                     "option_strings_source" => "lookup lookup-country"
                     })
       ]
       @form_2 = FormSection.create(

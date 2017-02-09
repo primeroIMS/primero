@@ -443,7 +443,7 @@ describe "record field model" do
           field = Field.new({"name" => "test_not_location",
                              "type" => "select_box",
                              "display_name_all" => "My Test Field",
-                             "option_strings_source" => "lookup Country"
+                             "option_strings_source" => "lookup lookup-country"
                             })
           expect(field.is_location?).to be_false
         end
@@ -519,7 +519,7 @@ describe "record field model" do
           Field.new({"name" => "test_country",
                      "type" => "select_box",
                      "display_name_all" => "My Test Country",
-                     "option_strings_source" => "lookup Country"
+                     "option_strings_source" => "lookup lookup-country"
                     })
       ]
       @form_1 = FormSection.create(
@@ -563,7 +563,7 @@ describe "record field model" do
           Field.new({"name" => "test_country",
                      "type" => "select_box",
                      "display_name_all" => "My Test Country",
-                     "option_strings_source" => "lookup Country"
+                     "option_strings_source" => "lookup lookup-country"
                     })
       ]
       @form_2 = FormSection.create(
