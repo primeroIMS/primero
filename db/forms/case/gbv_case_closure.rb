@@ -13,7 +13,7 @@ case_closure_fields = [
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
-             "option_strings_source" => "lookup CaseStatus"
+             "option_strings_source" => "lookup lookup-case-status"
             }),
   Field.new({"name" => "closure_assessment",
              "type" => "text_field",

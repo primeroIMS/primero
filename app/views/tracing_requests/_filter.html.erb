@@ -18,7 +18,7 @@
       <%= build_filter_location(t("tracing_requests.filter_by.location_separation"), 'location_separation') %>
     <% end %>
     <% if filters_to_show.include? 'Separation Cause' %>
-      <%= build_filter_checkboxes(t("tracing_requests.filter_by.separation_cause"), 'separation_cause', Lookup.values('Separation Cause', @lookups)) %>
+      <%= build_filter_checkboxes(t("tracing_requests.filter_by.separation_cause"), 'separation_cause', Lookup.values('lookup-separation-cause', @lookups)) %>
     <% end %>
     <%# if filters_to_show.include? 'Sex' %>
       <%#= build_filter_checkboxes(t("tracing_requests.filter_by.sex"), 'sex', [t("cases.filter_by.male"), t("cases.filter_by.female")]) %>

@@ -19,12 +19,12 @@ alleged_perpetrator_subform_fields = [
   Field.new({"name" => "perpetrator_nationality",
              "type" => "select_box",
              "display_name_all" => "Nationality of alleged perpetrator",
-             "option_strings_source" => "lookup Nationality"
+             "option_strings_source" => "lookup lookup-nationality"
             }),
   Field.new({"name" => "perpetrator_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Clan or Ethnicity of alleged perpetrator",
-             "option_strings_source" => "lookup Ethnicity"
+             "option_strings_source" => "lookup lookup-ethnicity"
             }),
   Field.new({"name" => "age_group",
              "type" => "select_box",

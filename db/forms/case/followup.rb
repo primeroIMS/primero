@@ -50,7 +50,7 @@ followup_subform_fields = [
              "type" => "select_box",
              "visible" => false,
              "display_name_all" => "Type of Protection Concern ",
-             "option_strings_source" => "lookup ProtectionConcerns"
+             "option_strings_source" => "lookup lookup-protection-concerns"
             }),
   Field.new({"name" => "followup_needed_by_date",
              "type" => "date_field",

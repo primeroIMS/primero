@@ -8,14 +8,14 @@
       <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_type_list, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Violence Type' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('Gbv Sexual Violence Type', @lookups),
+      <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('lookup-gbv-sexual-violence-type', @lookups),
         { multi: true }) %>
     <% end %>
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Status' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.status"), 'status', Lookup.values('Incident Status', @lookups)) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.status"), 'status', Lookup.values('lookup-incident-status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Age Range' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.age_range"), 'age', @age_ranges, nil, nil, 'range') %>
@@ -28,7 +28,7 @@
       ]) %>
     <% end %>
     <% if filters_to_show.include? 'Verification Status' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('Verification Status', @lookups)) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.verification_status"), 'verification_status', Lookup.values('lookup-incident-status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Incident Location' %>
       <%= build_filter_location(t("incidents.filter_by.incident_location"), 'incident_location') %>
@@ -40,13 +40,13 @@
       <%= render "record_shared/filter_date", record: 'incidents', date_field_title: 'incident_date', date_field: 'incident_date_derived' %>
     <% end %>
     <% if filters_to_show.include? 'Protection Status' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('Unaccompanied Separated Status', @lookups)) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('lookup-unaccompanied-separated-status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Armed Force or Group' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_name"), 'armed_force_group_names', Lookup.values('Armed Force Group Name', @lookups)) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_name"), 'armed_force_group_names', Lookup.values('lookup-armed-force-group-name', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Armed Force or Group Type' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('Armed Force Group Type', @lookups),
+      <%= build_filter_checkboxes(t("incidents.filter_by.armed_force_group_type"), 'perpetrator_sub_categories', Lookup.values('lookup-armed-force-group-type', @lookups),
         { multi: true }) %>
     <% end %>
     <% if filters_to_show.include? 'Record State' %>

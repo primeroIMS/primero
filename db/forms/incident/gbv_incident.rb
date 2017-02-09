@@ -27,7 +27,7 @@ gbv_incident_fields = [
   Field.new({"name" => "status",
              "type" => "select_box",
              "display_name_all" => "Incident Status",
-             "option_strings_source" => "lookup IncidentStatus"
+             "option_strings_source" => "lookup lookup-incident-status"
             }),
   Field.new({"name" => "consent_reporting",
              "type" => "radio_button",
