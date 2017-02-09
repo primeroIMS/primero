@@ -12,7 +12,7 @@ $(document).ready(function() {
   });
 
   $(document).foundation({
-    abide : {
+    abide: {
       validators: {
         primeroDate: function(el, required, parent) {
           return _primero.abide_validator_date(el, required, parent);

@@ -4,6 +4,13 @@ _primero.Views.RequiredFields = Backbone.View.extend({
   events: {
     "invalid.fndtn.abide form": "show_errors",
     "valid.fndtn.abide form": "show_errors",
+    "submit.fndtn.abide form.default-form": "override_validation_event"
+  },
+
+  override_validation_event: function(e) {
+    e.preventDefault();
+    var abide = Foundation.libs.abide;
+    return abide.validate(abide.S(this).find('input, textarea, select').get(), e, false);
   },
 
   show_errors: function(e) {
