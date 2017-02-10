@@ -157,7 +157,7 @@ class Location < CouchRest::Model::Base
 
   end
 
-  def hierarchy_placenames
+  def generate_hierarchy_placenames
     hierarchical_name = {}.with_indifferent_access
     Primero::Application::locales.each {|locale| hierarchical_name[locale] = []}
 
@@ -174,7 +174,7 @@ class Location < CouchRest::Model::Base
   end
 
   def set_name_from_hierarchy_placenames
-    name_hash = hierarchy_placenames
+    name_hash = generate_hierarchy_placenames
     if name_hash.present?
       Primero::Application::locales.each {|locale| self.send "name_#{locale}=", name_hash[locale].reject(&:blank?).join('::') }
     end
