@@ -667,7 +667,7 @@ describe FormSection do
         Field.new({"name" => "separation_cause",
                    "type" => "select_box",
                    "display_name_all" => "What was the main cause of separation?",
-                   "option_strings_source" => ["Cause 1", "Cause 2"],
+                   "option_strings_text" => ["Cause 1", "Cause 2"],
                   })
       ]
       #Attempt to create a new section, no update form section

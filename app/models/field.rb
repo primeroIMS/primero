@@ -317,6 +317,30 @@ class Field
     return options_list
   end
 
+  #TODO i18n add rspec
+  def display_text(value=nil)
+    #TODO
+    if self.option_strings_text.present?
+      display = self.option_strings_text.select{|opt| opt['id'] == value}
+      #TODO: Is it better to display the untranslated key or to display nothing?
+      value = (display.present? ? display.first['display_text'] : '')
+    elsif self.option_strings_source.present?
+      source_options = self.option_strings_source.split
+      case source_options.first
+        when 'lookup'
+          display = Lookup.values(source_options.last).select{|opt| opt['id'] == value}
+          value = (display.present? ? display.first['display_text'] : '')
+        when 'Location'
+          lct = Location.find_by_location_code(value)
+          value = (lct.present? ? lct.name : '')
+        else
+          value
+      end
+    else
+      value
+    end
+  end
+
   def default_value
     raise I18n.t("errors.models.field.default_value") + type unless DEFAULT_VALUES.has_key? type
     return DEFAULT_VALUES[type]

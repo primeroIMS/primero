@@ -42,17 +42,7 @@ module FieldsHelper
   def field_value_for_display(field_value, field=nil)
     return "" unless field_value.present?
 
-    if field.present? && field.selectable?
-      if field.option_strings_text.present?
-        #TODO i18n - refactor - option_strings method removed
-        # display = field.option_strings.select{|opt| opt['id'] == field_value}
-        display = ''
-        #TODO: Is it better to display the untranslated key or to display nothing?
-        field_value = (display.present? ? display.first['display_text'] : '')
-      elsif field.option_strings_source.present?
-        field_value = lookup_field_value_for_display(field_value, field)
-      end
-    end
+    field_value = field.display_text(field_value) if (field.present? && field.selectable?)
 
     if field_value.is_a?(Array)
       field_value = field_value.join ", "
@@ -61,20 +51,6 @@ module FieldsHelper
     end
 
     return  field_value.to_s
-  end
-
-  def lookup_field_value_for_display(field_value, field)
-    source_options = field.option_strings_source.split
-    case source_options.first
-      when 'lookup'
-        #TODO
-        value = ''
-      when 'Location'
-        lct = Location.find_by_location_code(field_value)
-        field_value = (lct.present? ? lct.name : '')
-      else
-        field_value
-    end
   end
 
   def select_options(field, record=nil, lookups=nil, exclude_empty_item=false)
