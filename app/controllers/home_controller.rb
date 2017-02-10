@@ -14,8 +14,10 @@ class HomeController < ApplicationController
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
-    load_admin_information if display_admin_dashboard?
+    load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
+    #TODO: All this needs to be heavily refactored
 
+    display_case_worker_dashboard?
     display_approvals?
     display_assessment?
 
@@ -136,8 +138,12 @@ class HomeController < ApplicationController
     @display_cases_dashboard ||= @record_types.include?("case")
   end
 
+  def display_case_worker_dashboard?
+    @display_case_worker_dashboard ||= !(current_user.is_manager? || current_user.is_admin?)
+  end
+
   def display_manager_dashboard?
-    @display_manager_dashboard ||= current_user.is_manager?
+    @display_manager_dashboard ||= (current_user.is_manager? && !current_user.is_admin?)
   end
 
   def display_incidents_dashboard?
@@ -158,6 +164,14 @@ class HomeController < ApplicationController
 
   def display_assessment?
     @display_assessment ||= can?(:view_assessment, Dashboard)
+  end
+
+  def display_reporting_location?
+    @display_reporting_location ||= (can?(:dash_reporting_location, Dashboard) || current_user.is_admin?)
+  end
+
+  def display_protection_concerns?
+    @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.is_admin?)
   end
 
   def manager_case_query(query = {})

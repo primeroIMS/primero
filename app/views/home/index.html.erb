@@ -39,14 +39,18 @@
   <% if @display_cases_dashboard %>
   <div class="row collapse">
     <div id="content" class="large-9 small-9 columns dashboards">
-      <% if @display_admin_dashboard %>
+      <% if @display_reporting_location %>
         <%= render 'case_admin_reporting_location_totals', reporting_location_stats: @reporting_location_stats,
                    model: Child, reporting_location: @reporting_location, admin_level: @admin_level%>
+      <% end %>
+      <% if @display_protection_concerns %>
         <%= render 'case_protection_concerns', protection_concern_stats: @protection_concern_stats,
                    model: Child, reporting_location: @reporting_location, admin_level: @admin_level %>
-      <% elsif @display_manager_dashboard %>
+      <% end %>
+      <% if @display_manager_dashboard %>
         <%= render 'case_manager_case_totals', records: @aggregated_case_worker_stats, model: Child %>
-      <% else %>
+      <% end %>
+      <% if @display_case_worker_dashboard %>
         <%= render 'case_counts',
                    new_cases: @new_cases,
                    total_cases: @total_cases,
