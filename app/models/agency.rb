@@ -41,6 +41,7 @@ class Agency < CouchRest::Model::Base
       old_all
     end
     memoize_in_prod :all
+    memoize_in_prod :list_by_all
 
     def available_agency_names
       self.list_by_enabled.collect{ |a| [ a.name, a.id ] }

@@ -83,6 +83,7 @@ class Location < CouchRest::Model::Base
       old_all(*args)
     end
     memoize_in_prod :all
+    memoize_in_prod :list_by_all
 
     def get_by_location_code(location_code)
       location = Location.by_location_code(key: location_code).all[0..0]

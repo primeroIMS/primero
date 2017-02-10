@@ -183,6 +183,7 @@ class User < CouchRest::Model::Base
       old_all(*args)
     end
     memoize_in_prod :all
+    memoize_in_prod :list_by_all
 
     def all_unverified
       User.by_unverified
