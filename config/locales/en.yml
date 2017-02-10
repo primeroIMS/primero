@@ -1562,6 +1562,13 @@ en:
         label_key: "Label Key must be one of Location Base Type values"
         admin_level: "Admin Level must be one of Location Admin Level values"
 
+      report:
+        name_presence: "Name must not be blank"
+        module_presence: "Module must not be blank"
+        record_type_presence: "Record type must not be blank"
+        group_by_row_presence: "Group by row must not be blank"
+        use_date_ranges_presence: "Use date ranges must not be blank"
+
 
 
   select_all_results: "Select all results"
