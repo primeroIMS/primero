@@ -18,11 +18,11 @@ describe Location do
   end
 
   #TODO - add i18n tests
-  it '#hierarchical_name' do
-    expect(@town1.hierarchical_names).to eq({"en"=>["MyCountry", "Province 1", "Town 1"],
-                                             "fr"=>[nil, nil, nil],
-                                             "ar"=>[nil, nil, nil],
-                                             "es"=>[nil, nil, nil]})
+  it '#hierarchy_placenames' do
+    expect(@town1.hierarchy_placenames).to eq({"en"=>["MyCountry", "Province 1", "Town 1"],
+                                               "fr"=>[nil, nil, nil],
+                                               "ar"=>[nil, nil, nil],
+                                               "es"=>[nil, nil, nil]})
   end
 
   it '#name' do
