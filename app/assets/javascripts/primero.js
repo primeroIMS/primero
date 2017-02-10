@@ -12,7 +12,7 @@ $(document).ready(function() {
   });
 
   $(document).foundation({
-    abide : {
+    abide: {
       validators: {
         primeroDate: function(el, required, parent) {
           return _primero.abide_validator_date(el, required, parent);
@@ -26,6 +26,12 @@ $(document).ready(function() {
       }
     }
   });
+
+  // Has bad side effects if in Backbone view
+  $('form.default-form').on('submit.fndtn.abide', function(e) {
+    var abide = Foundation.libs.abide;
+    return abide.validate(abide.S(this).find('input, textarea, select').get(), e, false);
+  })
 
   new _primero.Router();
   Backbone.history.start({ pushState: true, hashChange: false })
