@@ -1491,7 +1491,7 @@ describe Child do
                    "type" => "select_box",
                    "multi_select" => true,
                    "display_name_all" => "Protection Concerns",
-                   "option_strings_source" => "lookup ProtectionConcerns"
+                   "option_strings_source" => "lookup lookup-protection-concerns"
                   })
       ]
       protection_concern_form = FormSection.create({
@@ -1513,7 +1513,7 @@ describe Child do
         Field.new({"name" => "protection_concern_type",
                    "type" => "select_box",
                    "display_name_all" => "Type of Protection Concern",
-                   "option_strings_source" => "lookup ProtectionConcerns"
+                   "option_strings_source" => "lookup lookup-protection-concerns"
                   })
       ]
 

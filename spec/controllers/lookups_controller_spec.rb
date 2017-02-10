@@ -4,9 +4,9 @@ describe LookupsController do
   before do
     Lookup.all.each &:destroy
 
-    @lookup_a = Lookup.create!(name: "A", lookup_values: ["A", "AA"])
-    @lookup_b = Lookup.create!(name: "B", lookup_values: ["B", "BB", "BBB"])
-    @lookup_c = Lookup.create!(name: "C", lookup_values: ["C", "CC", "CCC", "CCCC"])
+    @lookup_a = Lookup.create!(id: "lookup-a", name_en: "A", lookup_values: [{id: "a", display_text: "A"}, {id: "aa", display_text: "AA"}])
+    @lookup_b = Lookup.create!(id: "lookup-b", name_en: "B", lookup_values: [{id: "b", display_text: "B"}, {id: "bb", display_text: "BB"}, {id: "bbb", display_text: "BBB"}])
+    @lookup_c = Lookup.create!(id: "lookup-c", name_en: "C", lookup_values: [{id: "c", display_text: "C"}, {id: "cc", display_text: "CC"}, {id: "ccc", display_text: "CCC"}, {id: "cccc", display_text: "CCCC"}])
     @permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
     user = User.new(:user_name => 'manager_of_lookups')
     user.stub(:roles).and_return([Role.new(:permissions_list => [@permission_metadata])])
@@ -29,13 +29,13 @@ describe LookupsController do
   describe "post create" do
     it "should new form_section with order" do
       existing_count = Lookup.count
-      lookup = {:name=>"name", lookup_values: ["Z", "ZZ", "ZZZ"]}
+      lookup = {:name_en=>"name", lookup_values: [{:id => "z", :display_text => "Z"}, {:id => "zz", :display_text => "ZZ"}, {:id => "z", :display_text => "ZZ"}]}
       post :create, lookup: lookup
       expect(Lookup.count).to eq(existing_count + 1)
     end
 
     it "sets flash notice if lookup is valid and redirect_to lookups page with a flash message" do
-      lookup = {:name=>"name", lookup_values: ["Z", "ZZ", "ZZZ"]}
+      lookup = {:name_en=>"name", lookup_values: [{:id => "z", :display_text => "Z"}, {:id => "zz", :display_text => "ZZ"}, {:id => "z", :display_text => "ZZ"}]}
       post :create, lookup: lookup
       expect(request.flash[:notice]).to eq("Lookup successfully added")
       expect(response).to redirect_to(lookups_path)
@@ -43,17 +43,24 @@ describe LookupsController do
   end
 
   describe "post update" do
-    it "should save update if valid" do
-      @lookup_a.name = "lookup_1"
-      Lookup.should_receive(:get).with("lookup_1").and_return(@lookup_a)
-      post :update, id: "lookup_1"
+    it "should be valid and save when changing the name" do
+      @lookup_a.name_en = "lookup_1"
+      Lookup.should_receive(:get).with("lookup-a").and_return(@lookup_a)
+      post :update, id: "lookup-a"
       expect(response).to redirect_to(lookups_path)
     end
 
-    it "should show errors if invalid" do
-      @lookup_a.name = ""
-      Lookup.should_receive(:get).with("lookup_1").and_return(@lookup_a)
-      post :update, id: "lookup_1"
+    it "should be valid and save when adding an option" do
+      @lookup_a.lookup_values.push({id: "aaa", display_text: "AAA"})
+      Lookup.should_receive(:get).with("lookup-a").and_return(@lookup_a)
+      post :update, id: "lookup-a"
+      expect(response).to redirect_to(lookups_path)
+    end
+
+    it "should show errors and be invalid when name is blank" do
+      @lookup_a.name_en = ""
+      Lookup.should_receive(:get).with("lookup-a").and_return(@lookup_a)
+      post :update, id: "lookup-a"
       expect(response).to_not redirect_to(lookups_path)
       expect(response).to render_template("edit")
     end
@@ -62,9 +69,9 @@ describe LookupsController do
   describe "post destroy" do
     context "when on a form" do
       before do
-        @lookup_d = Lookup.create!(name: "D", lookup_values: ["D", "DD", "DDD", "DDDD"])
+        @lookup_d = Lookup.create!(id: "lookup-d", name_en: "D", lookup_values: [{id: "d", display_text: "D"}, {id: "dd", display_text: "DD"}, {id: "ddd", display_text: "DDD"}, {id: "dddd", display_text: "DDDD"}])
         text_field = Field.new(name: "text_field", type: Field::TEXT_FIELD, display_name: "My Text Field")
-        select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup D" )
+        select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup lookup-d" )
         fs = create :form_section, fields: [select_box_field]
       end
 
