@@ -110,7 +110,7 @@ class ReportsController < ApplicationController
     field_name = params[:field_name]
     field = Field.find_by_name(field_name)
     #TODO i18n - select_options may get further refactored
-    field_options = field.select_options(nil, nil, true)
+    field_options = select_options(field, nil, nil, true)
     render json: field_options
   end
 

@@ -26,11 +26,6 @@ describe "record field model" do
     @field.tag_name_attribute.should == "child[#{@field_name}]"
   end
 
-  it "returns the html options tags for a select box with default option '(Select...)'" do
-    @field = Field.new :type => Field::SELECT_BOX, :display_name => @field_name, :option_strings_text => "Option 1\nOption 2"
-    @field.select_options("", []).should == [["(Select...)", ""], ["Option 1", "option_1"], ["Option 2", "option_2"]]
-  end
-
   it "should have form type" do
     @field.type.should == "radio_button"
     @field.form_type.should == "multiple_choice"

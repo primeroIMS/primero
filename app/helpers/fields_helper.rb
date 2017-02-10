@@ -77,6 +77,17 @@ module FieldsHelper
     end
   end
 
+  def select_options(field, record=nil, lookups=nil, exclude_empty_item=false)
+    select_options = []
+    if field.type == Field::TICK_BOX
+      select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
+    else
+      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.multi_select || exclude_empty_item)
+      select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
+    end
+    return select_options
+  end
+
   def field_link_for_display(field_value, field)
     link_to(field_value, send("#{field.link_to_path}_path", id: field_value.split('::').first)) if field_value.present?
   end

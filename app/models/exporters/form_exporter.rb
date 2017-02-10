@@ -44,10 +44,11 @@ module Exporters
           if show_hidden || field.visible?
             visible = field.visible? ? 'Yes' : 'No'
             options = ''
-            if ['radio_button', 'select_box', 'check_boxes'].include?(field.type)
+            if ['radio_button', 'select_box'].include?(field.type)
               if field.option_strings_source.present? && field.option_strings_source.start_with?('Location')
                 options = 'Locations'
               else
+                #TODO i18n
                 options = field.options_list.join(', ')
               end
             elsif field.type == 'subform'

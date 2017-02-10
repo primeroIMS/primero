@@ -74,5 +74,12 @@ describe FieldsHelper do
     end
   end
 
+  describe "select_options" do
+    it "returns the html options tags for a select box with default option '(Select...)'" do
+      field = Field.new :type => Field::SELECT_BOX, :display_name => @field_name, :option_strings_text => "Option 1\nOption 2"
+      @fields_helper.select_options(field, "", []).should == [["(Select...)", ""], ["Option 1", "option_1"], ["Option 2", "option_2"]]
+    end
+  end
+
 
 end
