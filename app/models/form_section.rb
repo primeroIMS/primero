@@ -586,6 +586,7 @@ class FormSection < CouchRest::Model::Base
       if !readonly_user || (readonly_user && !field.hide_on_view_page)
         if field.is_location?
           Location::ADMIN_LEVELS.each do |admin_level|
+            #TODO - i18n
             Location.type_by_admin_level(admin_level).each do |lct_type|
               field_display = "#{field.display_name} - " + I18n.t("location.base_types.#{lct_type}") + " - ADM #{admin_level}"
               field_key = (apply_to_reports ? "#{field.name}#{admin_level}" : "#{field.name}|||location|||#{admin_level}|||#{field_display}")

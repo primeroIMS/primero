@@ -71,7 +71,7 @@ module ReportableNestedRecord
             ancestors = nil
             Location::ADMIN_LEVELS.each do |admin_level|
               string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-                location ||= Location.find_by_name(record_value(field))
+                location ||= Location.find_by_location_code(record_value(field))
                 if location.present?
                   # break if admin_level > location.admin_level
                   if admin_level == location.admin_level

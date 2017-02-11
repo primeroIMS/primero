@@ -52,7 +52,7 @@ module Searchable
         Location::ADMIN_LEVELS.each do |admin_level|
           string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
             #TODO - Possible refactor to make more efficient
-            location = Location.find_by_name(self.send(field))
+            location = Location.find_by_location_code(self.send(field))
             if location.present?
               # break if admin_level > location.admin_level
               if admin_level == location.admin_level

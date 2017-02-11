@@ -166,6 +166,7 @@ class UsersController < ApplicationController
   end
 
   def location_names
+    #TODO i18n
     @location_names = Location.all_names
   end
 

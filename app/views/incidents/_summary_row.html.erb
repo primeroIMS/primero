@@ -21,7 +21,7 @@
     <td><%= record.gbv_sexual_violence_type %></td>
   <% end %>
   <% if fields_to_show.include? 'incident_location' %>
-    <td><%= Location.placename_from_name(record.incident_location) %></td>
+    <td><% Location.get_by_location_code(record.incident_location).try(:placename) %></td>
   <% end %>
   <% if fields_to_show.include? 'violations' %>
     <td><%= render 'summary_row_violations', incident: record %></td>

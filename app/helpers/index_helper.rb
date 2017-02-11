@@ -147,6 +147,7 @@ module IndexHelper
   end
 
   def build_filter_location(title, filter)
+    #TODO - i18n
     options = [[I18n.t("fields.select_box_empty_item"), '']] + Location.all_names
     value = filter_value(filter)
     value = value.pop if value
