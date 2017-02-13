@@ -61,7 +61,7 @@ class Location < CouchRest::Model::Base
   validates_presence_of :location_code, :message => I18n.t("errors.models.location.code_present")
   validate :is_location_code_unique
 
-  before_validation :set_name_from_hierarchical_names
+  before_validation :set_name_from_hierarchy_placenames
 
   # Only top level locations' admin levels are editable
   # All other locations' admin levels are calculated based on their parent's admin level
@@ -83,6 +83,7 @@ class Location < CouchRest::Model::Base
       old_all(*args)
     end
     memoize_in_prod :all
+    memoize_in_prod :list_by_all
 
     def get_by_location_code(location_code)
       location = Location.by_location_code(key: location_code).all[0..0]
@@ -156,7 +157,7 @@ class Location < CouchRest::Model::Base
 
   end
 
-  def hierarchical_names
+  def generate_hierarchy_placenames
     hierarchical_name = {}.with_indifferent_access
     Primero::Application::locales.each {|locale| hierarchical_name[locale] = []}
 
@@ -172,8 +173,8 @@ class Location < CouchRest::Model::Base
     hierarchical_name
   end
 
-  def set_name_from_hierarchical_names
-    name_hash = hierarchical_names
+  def set_name_from_hierarchy_placenames
+    name_hash = generate_hierarchy_placenames
     if name_hash.present?
       Primero::Application::locales.each {|locale| self.send "name_#{locale}=", name_hash[locale].reject(&:blank?).join('::') }
     end
@@ -291,7 +292,7 @@ class Location < CouchRest::Model::Base
   # the admin level of all of its descendants must be recalculated
   def update_descendants
     self.calculate_admin_level unless is_top_level?
-    self.set_name_from_hierarchical_names
+    self.set_name_from_hierarchy_placenames
     self.save!
 
     #Here be dragons...Beware... recursion!!!
