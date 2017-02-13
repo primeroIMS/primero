@@ -1,4 +1,4 @@
-_primero.Views.Dashboard = Backbone.View.extend({
+_primero.Views.Dashboard = _primero.Views.Base.extend({
 
     el: '#dashboard',
 

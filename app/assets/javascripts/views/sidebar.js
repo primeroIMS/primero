@@ -1,4 +1,4 @@
-_primero.Views.tabNavigation = Backbone.View.extend({
+_primero.Views.tabNavigation = _primero.Views.Base.extend({
   is_error: false,
 
   el: '.page_container',
@@ -22,15 +22,15 @@ _primero.Views.tabNavigation = Backbone.View.extend({
       bottomSpacing: 90
     });
 
-    if ($('.errorExplanation').length || $('p.notice').length) {
+    if ($('.errorExplanation').length || $('.notice').length) {
       _primero.scrollTop();
     }
   },
 
   first_tab: function() {
     var tab = $('.tab-handles li.current').children('a').attr('href'),
-        current_tab = localStorage.getItem('current_tab'),
-        first_tab = localStorage.getItem('first_tab');
+      current_tab = localStorage.getItem('current_tab'),
+      first_tab = localStorage.getItem('first_tab');
 
     localStorage.setItem('first_tab', tab);
 
@@ -42,32 +42,32 @@ _primero.Views.tabNavigation = Backbone.View.extend({
   tabControl: function(event) {
     event.preventDefault();
 
-    var tab = $(event.target),
-        check_sub = tab.next();
+    var $tab = $(event.target),
+      $check_sub = $tab.next();
 
     $(".tab-handles li").removeClass("current");
 
-    tab.parents('.group').addClass('current');
-    tab.parent().addClass("current");
+    $tab.parents('.group').addClass('current');
+    $tab.parent().addClass("current");
 
-    if((check_sub.is('ul')) && (check_sub.is(':visible'))) {
-      tab.parent().removeClass('current');
-      check_sub.slideUp('normal');
+    if(($check_sub.is('ul')) && ($check_sub.is(':visible'))) {
+      $tab.parent().removeClass('current');
+      $check_sub.slideUp('normal');
     }
 
-    if((check_sub.is('ul')) && (!check_sub.is(':visible'))) {
-      $('ul.tab-handles ul:visible').slideUp('normal');
-      check_sub.find('li').first().addClass('current');
-      check_sub.slideDown('normal');
+    if(($check_sub.is('ul')) && (!$check_sub.is(':visible'))) {
+      $('.tab-handles ul:visible').slideUp('normal');
+      $check_sub.find('li').first().addClass('current');
+      $check_sub.slideDown('normal');
     }
 
-    if(tab.hasClass('non-group')) {
-      $('ul.tab-handles ul:visible').slideUp('normal');
+    if($tab.hasClass('non-group')) {
+      $('.tab-handles ul:visible').slideUp('normal');
     }
 
     $(".tab").hide();
 
-    var activeTab = tab.attr("href");
+    var activeTab = $tab.attr("href");
 
     this.ls_set_tab(activeTab);
 
@@ -91,12 +91,12 @@ _primero.Views.tabNavigation = Backbone.View.extend({
 
   getUrlParams: function(param) {
     var url = window.location.search.substring(1),
-        params = url.split('&');
+      params = url.split('&');
     for (var i = 0; i < params.length; i++) {
-        var name = params[i].split('=');
-        if (name[0] == param) {
-            return name[1];
-        }
+      var name = params[i].split('=');
+      if (name[0] == param) {
+        return name[1];
+      }
     }
   },
 
@@ -124,11 +124,11 @@ _primero.Views.tabNavigation = Backbone.View.extend({
 
   determine_current_tab: function(action) {
     var active_tab = localStorage.getItem(action + '_tab'),
-        tab = $(active_tab),
-        tab_nav = $('a[href="' + active_tab + '"]'),
-        subgroup = tab_nav.parents('ul.sub');
+      $tab = $(active_tab),
+      tab_nav = $('a[href="' + active_tab + '"]'),
+      subgroup = tab_nav.parents('.sub');
 
-    if (active_tab !== null && tab.length) {
+    if (active_tab !== null && $tab.length) {
       $(".tab-handles li").removeClass("current");
       $(".tab").hide();
 
@@ -138,18 +138,18 @@ _primero.Views.tabNavigation = Backbone.View.extend({
         subgroup.slideDown('normal');
       }
 
-      tab.show();
+      $tab.show();
     }
   },
 
   show_change_log: function(event) {
     event.preventDefault();
-    var show_history_button = $(event.target),
-        history_url = show_history_button.data('change_log_url'),
-        target_div = $("#" + show_history_button.data('reveal-id'));
-    if (target_div.html() === "") {
+    var $show_history_button = $(event.target),
+      history_url = $show_history_button.data('change_log_url'),
+      $target_div = $("#" + $show_history_button.data('reveal-id'));
+    if ($target_div.html() === "") {
       $.get( history_url, function(response) {
-        target_div.html(response);
+        $target_div.html(response);
       });
     }
   }

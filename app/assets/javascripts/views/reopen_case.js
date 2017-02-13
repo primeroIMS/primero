@@ -1,4 +1,4 @@
-_primero.Views.ReopenCase = Backbone.View.extend({
+_primero.Views.ReopenCase = _primero.Views.Base.extend({
   el: '[id$="_reopen_records"]',
 
   events: {
@@ -8,12 +8,12 @@ _primero.Views.ReopenCase = Backbone.View.extend({
   reopen_case: function(evt) {
     evt.preventDefault();
 
-    var target = this.$(evt.target),
-        id = target.data('id'),
-        form_action = target.data('form_action'),
-        child_status = target.data('status'),
-        case_reopened = target.data('reopen'),
-        flag_error_message = target.data('submit_error_message');
+    var $target = this.$(evt.target),
+      id = $target.data('id'),
+      form_action = $target.data('form_action'),
+      child_status = $target.data('status'),
+      case_reopened = $target.data('reopen'),
+      flag_error_message = $target.data('submit_error_message');
 
     $.post(form_action,
       {
@@ -21,12 +21,12 @@ _primero.Views.ReopenCase = Backbone.View.extend({
         'child_status': child_status,
         'case_reopened': case_reopened
       },
-      function(response){
-        if(response.success) {
+      function (response) {
+        if (response.success) {
           location.reload(true);
         } else {
           alert(response.error_message);
-          if(response.reload_page) {
+          if (response.reload_page) {
             location.reload(true);
           }
         }

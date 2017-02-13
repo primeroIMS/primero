@@ -1,4 +1,4 @@
-_primero.Views.RequestApproval = Backbone.View.extend({
+_primero.Views.RequestApproval = _primero.Views.Base.extend({
   el: '[id$="_approvals"]',
 
   events: {
@@ -8,11 +8,11 @@ _primero.Views.RequestApproval = Backbone.View.extend({
   request_approval: function(evt) {
     evt.preventDefault();
 
-    var target = this.$(evt.target),
-      id = target.data('id'),
-      form_action = target.data('form_action'),
-      approval_status = target.data('status'),
-      approval_type = target.data('approval_type');
+    var $target = this.$(evt.target),
+      id = $target.data('id'),
+      form_action = $target.data('form_action'),
+      approval_status = $target.data('status'),
+      approval_type = $target.data('approval_type');
 
     $.post(form_action,
       {
@@ -20,12 +20,12 @@ _primero.Views.RequestApproval = Backbone.View.extend({
         'approval_status': approval_status,
         'approval_type': approval_type
       },
-      function(response){
-        if(response.success) {
+      function(response) {
+        if (response.success) {
           location.reload(true);
         } else {
           alert(response.error_message);
-          if(response.reload_page) {
+          if (response.reload_page) {
             location.reload(true);
           }
         }

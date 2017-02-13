@@ -170,7 +170,7 @@ BaseMasked.prototype = {
     //so in that case we'll just have to abandon what we're doing here
     if(!/form/i.test(textbox.nodeName)) { return null; }
 
-    $(window).load(function() { textbox.reset(); });
+    $(window).on('load', function() { textbox.reset(); });
 
     //return the now-form reference
     return textbox;
