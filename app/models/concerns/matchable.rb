@@ -3,75 +3,6 @@ module Matchable
 
   module ClassMethods
 
-    #This method controls trace matching logic
-    def build_match(match={}, params)
-      phonetic_fields = { name_ph: match[:name], name_nickname_ph: match[:name_nickname] }
-
-      # The score property will give more weight to that field during matching.
-      # TODO: Figure out if we need to make certain fields more relevant than others.
-      #
-      # In Child Model
-      # def self.match_boost_fields
-      #   [
-      #       {field: 'ethnicity', match: 'ethnicity', boost: 0.5},
-      #       {field: 'sub_ethnicity_1', match: 'ethnicity', boost: 0.5},
-      #       {field: 'sub_ethnicity_2', match: 'ethnicity', boost: 0.5},
-      #       {field: 'date_of_birth', match: 'date_of_birth', boost: 0.5, date:true}
-      #   ]
-      # end
-
-      params[:bq] = boost_query_fields(match, true)
-
-      params[:q] = if phonetic_fields.values.any?{|m| m.present?}
-                     phonetic_fields.compact.map{|k, v| "#{k}:(#{v})"}.join(' OR ')
-                   else
-                     boost_query_fields(match, false)
-                   end
-
-      params[:defType] = "edismax"
-      params[:fl] = "* score"
-      params
-    end
-
-    def boost_query_fields(match, include_boost)
-      fields = build_boost_fields_with_match_value(match).map do |k, v|
-        if v[:value].present?
-          value = v[:value].is_a?(Array) ? v[:value].join(' OR ') : v[:value]
-          if v[:score].present? && include_boost.present?
-            v[:date].present? ? "#{k}:[#{value}]^#{v[:boost]}" : "#{k}:(#{value})^#{v[:boost]}"
-          else
-            v[:date].present? ? "#{k}:[#{value}]" : "#{k}:(#{value})"
-          end
-        end
-      end
-      fields.compact.join(' OR ')
-    end
-
-    def build_boost_fields_with_match_value(match)
-      fields = {}
-      self.match_boost_fields.each do |bf|
-        field = SolrUtils.indexed_field_name(self, bf[:field])
-        if field.present?
-          # This may have to change if matching on a single date and not a range.
-          value = match[bf[:match].to_sym]
-          if bf[:date].present? && value.present?
-            # To satisfy solr, dates needed to formated to utc iso8601
-            to = (value + 2.years).to_time.utc.iso8601
-            from = (value - 2.years).to_time.utc.iso8601
-            fields[field] = {value: "#{from} TO #{to}", boost: bf[:boost], date: bf[:date]}
-          else
-            fields[field] = {value: value, boost: bf[:boost]}
-          end
-        end
-      end
-      fields
-    end
-
-    def match_boost_fields
-      #To be overridden by including model
-      []
-    end
-
     def form_matchable_fields
       form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, false)
       Array.new(form_fields).map(&:name)
@@ -151,7 +82,29 @@ module Matchable
     end
 
     def boost_fields
-      []
+      [
+        {field: 'name', boost: 10},
+        {field: 'name_first', match: 'name', boost: 10},
+        {field: 'name_middle', match: 'name', boost: 10},
+        {field: 'name_last', match: 'name', boost: 10},
+        {field: 'name_other', match: 'name', boost: 10},
+        {field: 'name_nickname', boost: 10},
+        {field: 'sex', boost: 10},
+        {field: 'age', boost: 5},
+        {field: 'date_of_birth', boost: 5},
+        {field: 'relation_name', boost: 5},
+        {field: 'relation', boost: 10},
+        {field: 'relation_nickname', boost: 5},
+        {field: 'relation_age', boost: 5},
+        {field: 'relation_date_of_birth', boost: 5},
+        {field: 'relation_other_family', match: 'relation_name', boost: 5},
+        {field: 'nationality', match: 'relation_nationality', boost: 3},
+        {field: 'language', match: 'relation_language', boost: 3},
+        {field: 'religion', match: 'relation_religion', boost: 3},
+        {field: 'ethnicity', match: 'relation_ethnicity'},
+        {field: 'sub_ethnicity_1', match: 'relation_sub_ethnicity1'},
+        {field: 'sub_ethnicity_2', match: 'relation_sub_ethnicity2'}
+      ]
     end
 
     def exclude_match_field(field)
@@ -161,6 +114,8 @@ module Matchable
 
     def get_match_field(field)
       boost_field = boost_fields.select { |f| f[:field] == field }
+      #TODO: v1.3 potentially uncomment line below if we want to do a reverse mapping
+      #boost_field = boost_fields.select { |f| f[:match] == field } unless boost_field.present?
       boost_field.empty? ? field : (boost_field.first[:match] || boost_field.first[:field]).to_sym
     end
 
@@ -170,4 +125,13 @@ module Matchable
       boost_field.empty? ? default_boost_value : (boost_field.first[:boost] || default_boost_value)
     end
   end
+
+  def match_criteria(match_request=nil)
+    match_criteria = {}
+    self.class.form_matchable_fields.each do |field|
+      match_criteria[:"#{field}"] = (self[:"#{field}"].is_a? Array) ? self[:"#{field}"].join(' ') : self[:"#{field}"]
+    end
+    match_criteria.compact
+  end
+
 end

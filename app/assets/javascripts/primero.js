@@ -56,6 +56,12 @@ function primero() {
     }
   });
 
+  // Has bad side effects if in Backbone view
+  $('form.default-form').on('submit.fndtn.abide', function(e) {
+    var abide = Foundation.libs.abide;
+    return abide.validate(abide.S(this).find('input, textarea, select').get(), e, false);
+  })
+
   new _primero.Router();
   Backbone.history.start({ pushState: true, hashChange: false })
   // _primero.loading_screen_indicator('hide');
