@@ -904,6 +904,8 @@ en:
       dashboard: "Dashboard"
       view_approvals: "View Approvals"
       view_assessment: "View Assessment"
+      dash_reporting_location: "View Reporting Locations"
+      dash_protection_concerns: "View Protection Concerns"
 
   forms:
     label: "Forms"
