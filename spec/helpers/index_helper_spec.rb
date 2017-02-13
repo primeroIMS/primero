@@ -73,6 +73,7 @@ describe IndexHelper do
         before :each do
           @view.instance_variable_set(:@is_admin, true)
           @view.instance_variable_set(:@is_manager, true)
+          @view.instance_variable_set(:@can_view_reporting_filter, true)
         end
 
         it "should return filters to show" do
