@@ -1,6 +1,6 @@
 # Primero setup from scratch
 
-These instructions were followed using Ubuntu 14.04. It is assumed Ubuntu we are starting with Linux Ubuntu 14.04
+These instructions were followed using Ubuntu 16.04. It is assumed Ubuntu we are starting with Linux Ubuntu 16.04
 
 Assuming you are starting in the home directory: ~/
 
