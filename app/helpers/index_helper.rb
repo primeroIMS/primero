@@ -306,7 +306,7 @@ module IndexHelper
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
-    filters << "Reporting Location" if @is_admin
+    filters << "Reporting Location" if @can_view_reporting_filter
     filters << "Registration Date" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "No Activity"
