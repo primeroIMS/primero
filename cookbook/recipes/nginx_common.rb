@@ -1,6 +1,6 @@
 apt_repository 'phusion-passenger' do
-  uri          'https://oss-binaries.phusionpassenger.com/apt/passenger/4'
-  distribution 'trusty'
+  uri          'https://oss-binaries.phusionpassenger.com/apt/passenger'
+  distribution 'xenial'
   components   ['main']
   keyserver    'keyserver.ubuntu.com'
   key          '561F9B9CAC40B2F7'
