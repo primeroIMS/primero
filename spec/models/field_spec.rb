@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 require 'spec_helper'
 
-# TODO - add i18n tests for option_strings_text
 
 describe "record field model" do
 
