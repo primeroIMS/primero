@@ -109,7 +109,7 @@ class ReportsController < ApplicationController
     field_options = []
     field_name = params[:field_name]
     field = Field.find_by_name(field_name)
-    field_options = lookups_list_from_field(field)
+    field_options = select_options(field, nil, nil, true)
     render json: field_options
   end
 

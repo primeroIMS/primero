@@ -43,8 +43,7 @@ describe 'children/' do
     
     Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'date_field'),
     Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'radio_button', :option_strings => []),
-    Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'select_box', :option_strings => []),
-    Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'check_boxes', :option_strings => [])
+    Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'select_box', :option_strings => [])
   ]
 
   FIELDS.each do |field|

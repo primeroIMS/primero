@@ -112,7 +112,6 @@ class Field
   validate :validate_unique_name
   validate :validate_unique_display_name
   validate :validate_has_2_options
-  validate :validate_has_a_option
   validate :validate_display_name_format
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
@@ -279,26 +278,9 @@ class Field
 
   def attributes= properties
     super properties
-    if (option_strings)
-      @options = FieldOption.create_field_options(name, option_strings)
-    end
+    @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
-  def option_strings= value
-    if value
-      value = value.gsub(/\r\n?/, "\n").split("\n") if value.is_a?(String)
-      self.option_strings_text = value.select {|x| not "#{x}".strip.empty? }.map(&:rstrip).join("\n")
-    end
-  end
-
-  def option_strings
-    return [] unless self.option_strings_text
-    return self.option_strings_text if self.option_strings_text.is_a?(Array)
-    self.option_strings_text.gsub(/\r\n?/, "\n").split("\n")
-  end
-
-  #TODO: Eventually, this method should be the ultimate list of options for this field.
-  #      Any HTML form-specific formatting should take place ina helper.
   def options_list(record=nil, lookups=nil, locations=nil)
     options_list = []
 
@@ -316,7 +298,7 @@ class Field
       when 'lookup'
         options_list += Lookup.values(source_options.last, lookups)
         if source_options.second == 'group'
-          #TODO: What about I18n? What is this?
+          #TODO: i18n - JOR-417
           options_list += ['Other', 'Mixed', 'Unknown']
         end
       when 'Location'
@@ -327,9 +309,31 @@ class Field
         options_list += clazz.all.map{|r| r.name}
       end
     else
-      options_list += self.option_strings
+      options_list += (self.option_strings_text.present? ? self.option_strings_text : [])
     end
     return options_list
+  end
+
+  def display_text(value=nil)
+    if self.option_strings_text.present?
+      display = self.option_strings_text.select{|opt| opt['id'] == value}
+      #TODO: Is it better to display the untranslated key or to display nothing?
+      value = (display.present? ? display.first['display_text'] : '')
+    elsif self.option_strings_source.present?
+      source_options = self.option_strings_source.split
+      case source_options.first
+        when 'lookup'
+          display = Lookup.values(source_options.last).select{|opt| opt['id'] == value}
+          value = (display.present? ? display.first['display_text'] : '')
+        when 'Location'
+          lct = Location.find_by_location_code(value)
+          value = (lct.present? ? lct.name : '')
+        else
+          value
+      end
+    else
+      value
+    end
   end
 
   def default_value
@@ -346,23 +350,7 @@ class Field
   end
 
 
-  #TODO: This should be merged with options_list above. Any HTML form specific stuff shoudl be moved to a helper
-  def select_options(record=nil, lookups=nil)
-    select_options = []
-    if self.type == TICK_BOX
-      select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
-    else
-      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
-      select_options += options_list(record, lookups).map do |option|
-        if option.is_a? Hash
-          [option['display_text'], option['id']]
-        else
-          [option, option]
-        end
-      end
-    end
-    return select_options
-  end
+
 
   def is_highlighted?
       highlight_information[:highlighted]
@@ -484,13 +472,7 @@ class Field
 
   def validate_has_2_options
     return true unless (type == RADIO_BUTTON || type == SELECT_BOX)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings == nil || option_strings.length < 2)
-    true
-  end
-
-  def validate_has_a_option
-    return true unless (type == CHECK_BOXES)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_1_option")) if option_strings == nil || option_strings.length < 1
+    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings_text.blank? || option_strings_text.length < 2)
     true
   end
 

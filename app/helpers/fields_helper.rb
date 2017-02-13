@@ -1,12 +1,5 @@
 module FieldsHelper
 
-  def option_fields_for form, suggested_field
-    return [] unless suggested_field.field.option_strings.present?
-    suggested_field.field.option_strings.collect do |option_string|
-      form.hidden_field("option_strings_text", { :multiple => true, :id => "option_string_" + option_string, :value => option_string+"\n" })
-    end
-  end
-
   def field_tag_name(object, field, field_keys=[])
     if field_keys.present?
       "#{object.class.name.underscore.downcase}[#{field_keys.join('][')}]"
@@ -49,15 +42,7 @@ module FieldsHelper
   def field_value_for_display(field_value, field=nil)
     return "" unless field_value.present?
 
-    if field.present? && field.selectable?
-      if field.option_strings_text.present?
-        display = field.option_strings.select{|opt| opt['id'] == field_value}
-        #TODO: Is it better to display the untranslated key or to display nothing?
-        field_value = (display.present? ? display.first['display_text'] : '')
-      elsif field.option_strings_source.present?
-        field_value = lookup_field_value_for_display(field_value, field)
-      end
-    end
+    field_value = field.display_text(field_value) if (field.present? && field.selectable?)
 
     if field_value.is_a?(Array)
       field_value = field_value.join ", "
@@ -68,18 +53,15 @@ module FieldsHelper
     return  field_value.to_s
   end
 
-  def lookup_field_value_for_display(field_value, field)
-    source_options = field.option_strings_source.split
-    case source_options.first
-      when 'lookup'
-        #TODO
-        value = ''
-      when 'Location'
-        lct = Location.find_by_location_code(field_value)
-        field_value = (lct.present? ? lct.name : '')
-      else
-        field_value
+  def select_options(field, record=nil, lookups=nil, exclude_empty_item=false)
+    select_options = []
+    if field.type == Field::TICK_BOX
+      select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
+    else
+      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.multi_select || exclude_empty_item)
+      select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
     end
+    return select_options
   end
 
   def field_link_for_display(field_value, field)
