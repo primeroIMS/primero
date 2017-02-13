@@ -284,7 +284,10 @@ class Field
   def options_list(record=nil, lookups=nil, locations=nil)
     options_list = []
 
-    if self.option_strings_source.present?
+    if self.type == Field::TICK_BOX
+      options_list << {id: 'true', display_text: I18n.t('true')}
+      options_list << {id: 'false', display_text: I18n.t('false')}
+    elsif self.option_strings_source.present?
       source_options = self.option_strings_source.split
       #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
       #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
