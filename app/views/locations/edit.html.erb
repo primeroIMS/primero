@@ -6,7 +6,7 @@
   <%= render :partial => 'form_section/sidebar', :locals => {:highlight_page => 'locations'} %>
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
-      <%= render 'locations/form' %>
+      <%= render 'locations/form', editing: true %>
     </div>
   </div>
 </div>
