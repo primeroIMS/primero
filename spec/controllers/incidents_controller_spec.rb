@@ -43,8 +43,12 @@ describe IncidentsController do
 
   describe '#authorizations' do
     describe 'collection' do
-      it "GET index" do
+      before do
         Ability.any_instance.stub(:can?).with(anything, Incident).and_return(false)
+        Ability.any_instance.stub(:can?).with(anything, Dashboard).and_return(false)
+      end
+
+      it "GET index" do
         get :index
         expect(response).to be_forbidden
       end
@@ -283,7 +287,7 @@ describe IncidentsController do
         params = {:format => :csv, :password => @password, :custom_export_file_name => custom_export_file_name}
         get :index, params
       end
-    
+
       it "should use the user_name and model_name to get the file name" do
         Incident.stub :list_records => double(:results => [ @incident1, @incident2 ], :total => 2)
         Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything, anything, anything).and_return('data')
@@ -297,7 +301,7 @@ describe IncidentsController do
         params = {:format => :csv, :password => @password}
         get :index, params
       end
-    
+
       it "should use the unique_identifier to get the file name" do
         Incident.stub :list_records => double(:results => [ @incident1 ], :total => 1)
         Exporters::CSVExporter.should_receive(:export).with([ @incident1 ], anything, anything, anything).and_return('data')
