@@ -1,4 +1,3 @@
-#TODO i18n - can this go away?
 class FieldOption
 
   attr_reader :option_name

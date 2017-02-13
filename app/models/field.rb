@@ -281,8 +281,6 @@ class Field
     @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
-  #TODO: Eventually, this method should be the ultimate list of options for this field.
-  #      Any HTML form-specific formatting should take place ina helper.
   def options_list(record=nil, lookups=nil, locations=nil)
     options_list = []
 
@@ -300,7 +298,7 @@ class Field
       when 'lookup'
         options_list += Lookup.values(source_options.last, lookups)
         if source_options.second == 'group'
-          #TODO: What about I18n? What is this?
+          #TODO: i18n - JOR-417
           options_list += ['Other', 'Mixed', 'Unknown']
         end
       when 'Location'
@@ -311,15 +309,12 @@ class Field
         options_list += clazz.all.map{|r| r.name}
       end
     else
-      #TODO - i18n - because option_strings_text has to be an array of hashes now.  No need to check for string
       options_list += (self.option_strings_text.present? ? self.option_strings_text : [])
     end
     return options_list
   end
 
-  #TODO i18n add rspec
   def display_text(value=nil)
-    #TODO
     if self.option_strings_text.present?
       display = self.option_strings_text.select{|opt| opt['id'] == value}
       #TODO: Is it better to display the untranslated key or to display nothing?

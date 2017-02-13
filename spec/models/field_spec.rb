@@ -210,6 +210,126 @@ describe "record field model" do
     end
   end
 
+  describe "display_text" do
+    context 'when field is a select field' do
+      before :each do
+        @select_field = Field.new({'name' => "my_select_field",
+                            'type' => "select_box",
+                            'display_name_all' => "My Select Field",
+                            'option_strings_text_en' => [{id: 'option_one', display_text: "Option One"}.with_indifferent_access,
+                                                         {id: 'option_two', display_text: "Option Two"}.with_indifferent_access,
+                                                         {id: 'option_three', display_text: "Option Three"}.with_indifferent_access],
+                            'option_strings_text_fr' => [{id: 'option_one', display_text: "French One"}.with_indifferent_access,
+                                                         {id: 'option_two', display_text: "French Two"}.with_indifferent_access,
+                                                         {id: 'option_three', display_text: "French Three"}.with_indifferent_access],
+                            'option_strings_text_es' => [{id: 'option_one', display_text: "Spanish One"}.with_indifferent_access,
+                                                         {id: 'option_two', display_text: "Spanish Two"}.with_indifferent_access,
+                                                         {id: 'option_three', display_text: "Spanish Three"}.with_indifferent_access],
+                            'option_strings_text_ar' => [{id: 'option_one', display_text: "Arabic One"}.with_indifferent_access,
+                                                         {id: 'option_two', display_text: "Arabic Two"}.with_indifferent_access,
+                                                         {id: 'option_three', display_text: "Arabic Three"}.with_indifferent_access]
+                           })
+      end
+
+      context 'and locale is English' do
+        it 'returns the translated display text' do
+          expect(@select_field.display_text('option_two')).to eq('Option Two')
+        end
+      end
+      context 'and locale is French' do
+        before :each do
+          I18n.locale = "fr"
+        end
+        it 'returns the translated display text' do
+          expect(@select_field.display_text('option_two')).to eq('French Two')
+        end
+      end
+      context 'and locale is Spanish' do
+        before :each do
+          I18n.locale = "es"
+        end
+        it 'returns the translated display text' do
+          expect(@select_field.display_text('option_two')).to eq('Spanish Two')
+        end
+      end
+      context 'and locale is Arabic' do
+        before :each do
+          I18n.locale = "ar"
+        end
+        it 'returns the translated display text' do
+          expect(@select_field.display_text('option_two')).to eq('Arabic Two')
+        end
+      end
+    end
+
+    context 'when field is a lookup select field' do
+      before do
+        Lookup.all.each(&:destroy)
+        @lookup = Lookup.create!(id: 'lookup-ethnicity',
+                                 name: 'Ethnicity',
+                                 lookup_values_en: [{:id => "ethnicity_one", :display_text => "Ethnicity One"},
+                                                    {:id => "ethnicity_two", :display_text => "Ethnicity Two"},
+                                                    {:id => "ethnicity_three", :display_text => "Ethnicity Three"},
+                                                    {:id => "ethnicity_four", :display_text => "Ethnicity Four"},
+                                                    {:id => "ethnicity_five", :display_text => "Ethnicity Five"}],
+                                 lookup_values_fr: [{:id => "ethnicity_one", :display_text => "French Ethnicity One"},
+                                                    {:id => "ethnicity_two", :display_text => "French Ethnicity Two"},
+                                                    {:id => "ethnicity_three", :display_text => "French Ethnicity Three"},
+                                                    {:id => "ethnicity_four", :display_text => "French Ethnicity Four"},
+                                                    {:id => "ethnicity_five", :display_text => "French Ethnicity Five"}],
+                                 lookup_values_es: [{:id => "ethnicity_one", :display_text => "Spanish Ethnicity One"},
+                                                    {:id => "ethnicity_two", :display_text => "Spanish Ethnicity Two"},
+                                                    {:id => "ethnicity_three", :display_text => "Spanish Ethnicity Three"},
+                                                    {:id => "ethnicity_four", :display_text => "Spanish Ethnicity Four"},
+                                                    {:id => "ethnicity_five", :display_text => "Spanish Ethnicity Five"}],
+                                 lookup_values_ar: [{:id => "ethnicity_one", :display_text => "Arabic Ethnicity One"},
+                                                    {:id => "ethnicity_two", :display_text => "Arabic Ethnicity Two"},
+                                                    {:id => "ethnicity_three", :display_text => "Arabic Ethnicity Three"},
+                                                    {:id => "ethnicity_four", :display_text => "Arabic Ethnicity Four"},
+                                                    {:id => "ethnicity_five", :display_text => "Arabic Ethnicity Five"}]
+        )
+      end
+      before :each do
+        @lookup_field = Field.new({'name' => "my_lookup_field",
+                                   'type' => "select_box",
+                                   'display_name_all' => "My Lookup Field",
+                                   'option_strings_source' => 'lookup lookup-ethnicity'
+                                  })
+      end
+
+      context 'and locale is English' do
+        it 'returns the translated display text' do
+          expect(@lookup_field.display_text('ethnicity_four')).to eq('Ethnicity Four')
+        end
+      end
+      context 'and locale is French' do
+        before :each do
+          I18n.locale = "fr"
+        end
+        it 'returns the translated display text' do
+          expect(@lookup_field.display_text('ethnicity_four')).to eq('French Ethnicity Four')
+        end
+      end
+      context 'and locale is Spanish' do
+        before :each do
+          I18n.locale = "es"
+        end
+        it 'returns the translated display text' do
+          expect(@lookup_field.display_text('ethnicity_four')).to eq('Spanish Ethnicity Four')
+        end
+      end
+      context 'and locale is Arabic' do
+        before :each do
+          I18n.locale = "ar"
+        end
+        it 'returns the translated display text' do
+          expect(@lookup_field.display_text('ethnicity_four')).to eq('Arabic Ethnicity Four')
+        end
+      end
+    end
+
+  end
+
   describe "I18n" do
 
     it "should set the value of system language for the given field" do

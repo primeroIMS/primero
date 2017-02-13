@@ -20,17 +20,67 @@ describe "form_section/_field_display_basic.html.erb" do
     context 'and using option_strings_text' do
       before :each do
         @field = Field.new({'name' => "my_select_field",
-                       'type' => "select_box",
-                       'display_name_all' => "My Select Field",
-                       'option_strings_text_all' => ["Option One", "Option Two", "Option Three"]
+                            'type' => "select_box",
+                            'display_name_all' => "My Select Field",
+                            'option_strings_text_en' => [{id: 'option_one', display_text: "Option One"}.with_indifferent_access,
+                                                         {id: 'option_two', display_text: "Option Two"}.with_indifferent_access,
+                                                         {id: 'option_three', display_text: "Option Three"}.with_indifferent_access],
+                            'option_strings_text_fr' => [{id: 'option_one', display_text: "French One"}.with_indifferent_access,
+                                                         {id: 'option_two', display_text: "French Two"}.with_indifferent_access,
+                                                         {id: 'option_three', display_text: "French Three"}.with_indifferent_access],
+                            'option_strings_text_es' => [{id: 'option_one', display_text: "Spanish One"}.with_indifferent_access,
+                                                         {id: 'option_two', display_text: "Spanish Two"}.with_indifferent_access,
+                                                         {id: 'option_three', display_text: "Spanish Three"}.with_indifferent_access],
+                            'option_strings_text_ar' => [{id: 'option_one', display_text: "Arabic One"}.with_indifferent_access,
+                                                         {id: 'option_two', display_text: "Arabic Two"}.with_indifferent_access,
+                                                         {id: 'option_three', display_text: "Arabic Three"}.with_indifferent_access]
                       })
       end
-      it 'displays the translated display text of the value' do
-        @case['my_select_field'] = 'option_two'
-        render :partial => 'form_section/field_display_basic', :locals => { :field => @field, :formObject => @case }, :formats => [:html], :handlers => [:erb]
 
-        expect(rendered).to match(/<label class="key my_select_field">My Select Field<\/label>/)
-        expect(rendered).to match(/Option Two/)
+      context 'and locale is English' do
+        it 'displays the translated display text of the value' do
+          @case['my_select_field'] = 'option_two'
+          render :partial => 'form_section/field_display_basic', :locals => { :field => @field, :formObject => @case }, :formats => [:html], :handlers => [:erb]
+
+          expect(rendered).to match(/<label class="key my_select_field">My Select Field<\/label>/)
+          expect(rendered).to match(/Option Two/)
+        end
+      end
+      context 'and locale is French' do
+        before :each do
+          I18n.locale = "fr"
+        end
+        it 'displays the translated display text of the value' do
+          @case['my_select_field'] = 'option_two'
+          render :partial => 'form_section/field_display_basic', :locals => { :field => @field, :formObject => @case }, :formats => [:html], :handlers => [:erb]
+
+          expect(rendered).to match(/<label class="key my_select_field">My Select Field<\/label>/)
+          expect(rendered).to match(/French Two/)
+        end
+      end
+      context 'and locale is Spanish' do
+        before :each do
+          I18n.locale = "es"
+        end
+        it 'displays the translated display text of the value' do
+          @case['my_select_field'] = 'option_two'
+          render :partial => 'form_section/field_display_basic', :locals => { :field => @field, :formObject => @case }, :formats => [:html], :handlers => [:erb]
+
+          expect(rendered).to match(/<label class="key my_select_field">My Select Field<\/label>/)
+          expect(rendered).to match(/Spanish Two/)
+        end
+      end
+      context 'and locale is Arabic' do
+        before :each do
+          I18n.locale = "ar"
+        end
+        it 'displays the translated display text of the value' do
+          @case['my_select_field'] = 'option_two'
+          render :partial => 'form_section/field_display_basic', :locals => { :field => @field, :formObject => @case }, :formats => [:html], :handlers => [:erb]
+
+          expect(rendered).to match(/<label class="key my_select_field">My Select Field<\/label>/)
+          expect(rendered).to match(/Arabic Two/)
+        end
       end
     end
 
