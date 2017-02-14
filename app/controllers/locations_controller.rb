@@ -71,7 +71,7 @@ class LocationsController < ApplicationController
   end
 
   def load_types
-    @location_types = Lookup.get('lookup-location-type')
+    @location_types = Lookup.get_location_types
   end
 
   #Override method in LoggerActions.
