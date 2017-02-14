@@ -14,7 +14,7 @@ class ReportingLocation
   DEFAULT_ADMIN_LEVEL = 2
 
   def validate_label_key
-    if Location::BASE_TYPES.include? self.label_key
+    if Location.base_type_ids.include? self.label_key
       true
     else
       errors.add(:label_key, I18n.t("errors.models.reporting_location.label_key"))
