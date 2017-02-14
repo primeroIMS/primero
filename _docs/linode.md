@@ -25,7 +25,7 @@ Overview of Local Tasks (from now on this will be referred to as the `deployment
 
  - Install Chef and Knife
  - Clone the Primero repository and make sure your public SSH key has been added to the repository
- - Create a configuration file for Chef and run the confif file using chef
+ - Create a configuration file for Chef and run the config file using chef
 
 
 Tasks on the `target` machine
