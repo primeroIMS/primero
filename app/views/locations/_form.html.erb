@@ -38,7 +38,8 @@
           <%= f.label :type, t("location.type"), :class => "key" %>
         </div>
         <div class="medium-9 columns">
-          <%= select_tag 'location[type]', options_for_select(@location_types, type_selection )%>
+          <%= select_tag 'location[type]', options_for_select(@location_types["lookup_values_#{I18n.default_locale}"]
+          .map{|location_type| [location_type["display_text"], location_type["id"]]}, type_selection )%>
         </div>
       </div>
       <div class="row">

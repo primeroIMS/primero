@@ -6,7 +6,7 @@ class LocationsController < ApplicationController
 
   before_filter :load_location, :only => [:edit, :update, :destroy]
   before_filter :load_records_according_to_disable_filter, :except => [:destroy]
-  before_filter :load_types, :only => [:new, :edit]
+  before_filter :load_types, :only => [:index, :new, :edit]
 
   include LoggerActions
 
@@ -71,7 +71,7 @@ class LocationsController < ApplicationController
   end
 
   def load_types
-    @location_types = Location::BASE_TYPES
+    @location_types = Lookup.get('lookup-location-type')
   end
 
   #Override method in LoggerActions.
