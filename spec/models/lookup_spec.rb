@@ -41,6 +41,21 @@ describe Lookup do
     lookup.id.should include("lookup-test-lookup-1234")
   end
 
+  describe "get_location_types" do
+    before do
+      lookup1 = create :lookup, :id => "lookup-location-type", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
+    end
+    
+    it "should return location types" do
+      location_types = Lookup.get_location_types
+      
+      expect(location_types.lookup_values).to eq([
+        {"id"=>"value1", "display_text"=>"value1"},
+        {"id"=>"value2", "display_text"=>"value2"}
+      ])
+    end
+  end
+
   describe "check being used" do
     before do
       Lookup.all.each &:destroy

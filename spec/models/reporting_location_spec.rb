@@ -1,5 +1,11 @@
 require 'spec_helper'
 describe ReportingLocation do
+  before :all do
+    lookup1 = create :lookup, :id => "lookup-location-type", :lookup_values => [
+      {:id => "district", :display_text => "district"}, 
+      {:id => "country", :display_text => "country"}
+    ]
+  end
 
   describe 'Validation' do
     context 'with a valid label_key' do

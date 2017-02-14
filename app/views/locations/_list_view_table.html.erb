@@ -1,3 +1,7 @@
+<%
+  location_types = @location_types["lookup_values_#{I18n.default_locale}"]
+%>
+
 <table id="list_table_2" class="list_table_2 dataTable in_content_area">
   <thead>
   <tr>
@@ -16,7 +20,7 @@
             <td><%= lct.placename %></td>
             <td><%= lct.location_code %></td>
             <td><%= lct.admin_level %></td>
-            <td><%= lct.type %></td>
+            <td><%= location_types.select{|lt| lt['id'] == lct.type}.first['display_text'] %></td>
             <td><%= lct.hierarchy.join(", ") %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_location_path(lct) %>

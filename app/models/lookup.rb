@@ -39,6 +39,11 @@ class Lookup < CouchRest::Model::Base
       lookup.present? ? lookup.lookup_values : []
     end
     memoize_in_prod :values
+
+    def get_location_types
+      self.get('lookup-location-type')
+    end
+    memoize_in_prod :get_location_types
   end
 
   def sanitize_lookup_values

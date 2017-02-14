@@ -8,8 +8,6 @@ class Location < CouchRest::Model::Base
   include LocalizableProperty
 
   #TODO - I18n - YES!!!! - possible as a lookup
-  BASE_TYPES = ['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp',
-                'site', 'village', 'zone', 'other', 'locality', 'sub-district']
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
 
@@ -154,6 +152,11 @@ class Location < CouchRest::Model::Base
       Location.by_admin_level_and_location_code(keys: location_codes.map{|l| [admin_level, l]})
     end
     memoize_in_prod :find_by_admin_level_and_location_codes
+
+    def base_type_ids
+      Lookup.get_location_types.lookup_values.map{|lv| lv['id'] }
+    end
+    memoize_in_prod :base_type_ids
 
   end
 

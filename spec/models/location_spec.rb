@@ -308,17 +308,6 @@ describe Location do
     location.errors[:location_code].should == ["must not be blank"]
   end
 
-  #TODO - for now, Location::BASE_TYPES returns a string of hard coded location type values
-  #       When this is made I18n compliant, this test may need to be modified
-  #TODO - i18n - make a translatable lookup
-  it 'returns all location types' do
-    expect(Location::BASE_TYPES).to eq([
-      'country', 'region', 'province', 'district', 'governorate', 
-      'chiefdom', 'county', 'state', 'city', 'camp', 'site',
-      'village', 'zone', 'other', 'locality', 'sub-district'
-    ])
-  end
-
   describe "Batch processing" do
     before do
       Location.all.each { |location| location.destroy }
