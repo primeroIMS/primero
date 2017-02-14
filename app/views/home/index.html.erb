@@ -65,6 +65,7 @@
       <%= render 'flagged_by_me', flagged_by_me: @flagged_by_me, model: Child %>
       <% unless @display_manager_dashboard %>
         <%= render 'flagged_by_others', flagged_by_others: @flagged_by_others, model: Child %>
+      <% end %>
     </div>
   </div>
   <% end %>
