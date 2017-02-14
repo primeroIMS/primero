@@ -179,10 +179,6 @@ describe "record field model" do
       Field.new(:type=>Field::AUDIO_UPLOAD_BOX).default_value.should be_nil
     end
 
-    it "should return empty list for checkboxes fields" do
-      Field.new(:type=>Field::CHECK_BOXES).default_value.should == []
-    end
-
     it "should raise an error if can't find a default value for this field type" do
       lambda {Field.new(:type=>"INVALID_FIELD_TYPE").default_value}.should raise_error
     end

@@ -174,7 +174,7 @@ function form_section() {
     } else if(field_type == "tick_box") {
       return "#field_details_tick_box";
     } else {
-      var fields_with_options = ["check_boxes","radio_button"];
+      var fields_with_options = ["radio_button"];
       return $.inArray(field_type, fields_with_options) > -1 ? "#field_details_options" : "#field_details";
     }
   }

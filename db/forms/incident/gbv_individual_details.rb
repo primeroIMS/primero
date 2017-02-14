@@ -23,7 +23,7 @@ gbv_individual_details_fields = [
   Field.new({"name" => "estimated",
              "type" => "radio_button",
              "display_name_all" => "Is the age estimated?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "ethnicity",
              "type" => "select_box",

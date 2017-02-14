@@ -42,7 +42,6 @@ class Field
   TEXT_AREA = "textarea"
   RADIO_BUTTON = "radio_button"
   SELECT_BOX = "select_box"
-  CHECK_BOXES = "check_boxes"
   NUMERIC_FIELD = "numeric_field"
   PHOTO_UPLOAD_BOX = "photo_upload_box"
   AUDIO_UPLOAD_BOX = "audio_upload_box"
@@ -59,7 +58,6 @@ class Field
                         TEXT_AREA        => "basic",
                         RADIO_BUTTON     => "multiple_choice",
                         SELECT_BOX       => "multiple_choice",
-                        CHECK_BOXES      => "multiple_choice",
                         PHOTO_UPLOAD_BOX => "basic",
                         AUDIO_UPLOAD_BOX => "basic",
                         DOCUMENT_UPLOAD_BOX => "basic",
@@ -77,7 +75,6 @@ class Field
                         TEXT_AREA        => "basic",
                         RADIO_BUTTON     => "basic",
                         SELECT_BOX       => "basic",
-                        CHECK_BOXES      => "basic",
                         PHOTO_UPLOAD_BOX => "photo",
                         AUDIO_UPLOAD_BOX => "audio",
                         DOCUMENT_UPLOAD_BOX => "document",
@@ -96,7 +93,6 @@ class Field
                         TEXT_AREA        => "",
                         RADIO_BUTTON     => "",
                         SELECT_BOX       => "",
-                        CHECK_BOXES      => [],
                         PHOTO_UPLOAD_BOX => nil,
                         AUDIO_UPLOAD_BOX => nil,
                         DOCUMENT_UPLOAD_BOX => nil,
@@ -384,10 +380,6 @@ class Field
     Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text_all => options.join("\n"), :editable => true, :disabled => false
   end
 
-  def self.new_check_boxes_field field_name, display_name = nil, option_strings = []
-    Field.new :name => field_name, :display_name=>display_name, :type => CHECK_BOXES, :visible => true, :option_strings_text => option_strings.join("\n")
-  end
-
   def self.new_text_field field_name, display_name = nil
     field = Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => TEXT_FIELD
   end
@@ -454,6 +446,10 @@ class Field
 
   def is_location?
     self.option_strings_source == 'Location'
+  end
+
+  def is_yes_no?
+    self.option_strings_source == 'lookup lookup-yes-no' || self.option_strings_source == 'lookup lookup-yes-no-unknown'
   end
 
   #TODO add rspec test

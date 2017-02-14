@@ -1,5 +1,3 @@
-#JIRA SL-327
-
 case_plan_fields_subform = [
   Field.new({"name" => "intervention_service_to_be_provided",
              "type" => "text_field",
@@ -30,7 +28,7 @@ case_plan_fields_subform = [
   Field.new({"name" => "intervention_service_success",
              "type" => "radio_button",
              "display_name_all" => "Successfully implemented?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
             })
 ]
 

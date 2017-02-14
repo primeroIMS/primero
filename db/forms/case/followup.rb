@@ -63,7 +63,7 @@ followup_subform_fields = [
   Field.new({"name" => "child_was_seen",
              "type" => "radio_button",
              "display_name_all" => "Was the child/adult seen during the visit?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "reason_child_not_seen",
              "type" => "select_box",
@@ -80,7 +80,7 @@ followup_subform_fields = [
   Field.new({"name" => "action_taken_already",
              "type" => "radio_button",
              "display_name_all" => "Has action been taken?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "action_taken_details",
              "type" => "text_field",
@@ -93,7 +93,7 @@ followup_subform_fields = [
   Field.new({"name" => "need_follow_up_visit",
              "type" => "radio_button",
              "display_name_all" => "Is there a need for further follow up visits?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "when_follow_up_visit_should_happen",
              "type" => "date_field",
@@ -102,7 +102,7 @@ followup_subform_fields = [
   Field.new({"name" => "recommend_case_closed",
              "type" => "radio_button",
              "display_name_all" => "If not, do you recommend that the case be closed?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "followup_comments",
              "type" => "text_field",

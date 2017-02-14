@@ -51,7 +51,7 @@ interview_details_fields = [
   Field.new({"name" => "other_org_interview_status",
              "type" => "radio_button",
              "display_name_all" => "Has the child been interviewed by another organization?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "other_org_reference_no",
              "type" =>"text_field" ,

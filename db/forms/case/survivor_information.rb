@@ -110,7 +110,7 @@ survivor_information_fields = [
   Field.new({"name" => "survivor_lives_alone",
              "type" => "radio_button",
              "display_name_all" => "If the survivor is a child, does he/she live alone?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no",
              "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_caretaker",

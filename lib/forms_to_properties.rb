@@ -85,12 +85,10 @@ module FormToPropertiesConverter
         }.update(base_options)
       }
     # TODO: add validation for select_box and radio_button options
-    when "textarea", "text_field", "radio_button", "check_boxes", "numeric_field", "tick_box"
+    when "textarea", "text_field", "numeric_field", "tick_box"
       type_map = {
         :textarea => String,
         :text_field => String,
-        :radio_button => String,
-        :check_boxes => [String],
         :numeric_field => Integer,
         :tick_box => TrueClass,
       }
@@ -99,9 +97,23 @@ module FormToPropertiesConverter
           :type => type_map[field.type.to_sym]
         }.update(base_options)
       }
+    when "radio_button"
+      # binding.pry
+      # x = 0
+      {field.name => {
+          :type => field.is_yes_no? ? TrueClass : String
+        }.update(base_options)
+      }
     when "select_box"
-      { field.name => {
-          :type => field.multi_select ? [String] : String
+      if field.multi_select
+        type = [String]
+      elsif field.is_yes_no?
+        type = TrueClass
+      else
+        type = String
+      end
+      {field.name => {
+          :type => type
         }.update(base_options)
       }
     when "date_field"

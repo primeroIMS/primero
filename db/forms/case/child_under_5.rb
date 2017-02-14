@@ -50,7 +50,7 @@ child_under_5_fields = [
   Field.new({"name" => "child_belongings",
              "type" => "radio_button",
              "display_name_all" => "Are there any clothes and belongings the child was found with?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
              }),
   Field.new({"name" => "child_belongings_details",
              "type" => "text_field",

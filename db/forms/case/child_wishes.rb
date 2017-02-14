@@ -66,7 +66,7 @@ child_wishes_fields = [
   Field.new({"name" => "wishes_child_family_tracing",
              "type" => "radio_button",
              "display_name_all" => "Does child want to trace family members?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "wishes_reason_no_tracing",
              "type" => "textarea",
@@ -84,7 +84,7 @@ child_wishes_fields = [
   Field.new({"name" => "wishes_contacted",
              "type" => "radio_button",
              "display_name_all" => "Has the child heard from/been in contact with any relatives?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "wishes_contacted_details",
              "type" => "textarea",
@@ -101,7 +101,7 @@ child_wishes_fields = [
   Field.new({"name" => "wishes_care_arrangement_desired",
              "type" => "radio_button",
              "display_name_all" => "Does the child wish to continue in the current care arrangement?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "wishes_reason_no_care_arrangement",
              "type" => "textarea",

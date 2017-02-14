@@ -2,7 +2,7 @@ activities_fields = [
   Field.new({"name" => "activities_child_in_school_or_training",
              "type" => "radio_button",
              "display_name_all" => "Is the Child in school or training?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "activities_school_name",
              "type" => "text_field",

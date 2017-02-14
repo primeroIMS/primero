@@ -32,7 +32,7 @@ gbv_incident_fields = [
   Field.new({"name" => "consent_reporting",
              "type" => "radio_button",
              "display_name_all" => "Consent is given to share non-identifiable information for reporting",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "date_of_first_report",
              "type" => "date_field",
