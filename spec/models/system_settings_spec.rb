@@ -22,17 +22,6 @@ describe SystemSettings do
         end
 
       end
-
-      context 'which is invalid' do
-        before :each do
-          @system_settings.reporting_location_config.label_key = 'invalid_label'
-          @system_settings.reporting_location_config.admin_level = 2
-        end
-
-        it 'is invalid' do
-          expect(@system_settings).not_to be_valid
-        end
-      end
     end
 
     context 'without a reporting location' do
