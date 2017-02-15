@@ -44,10 +44,10 @@ module Exporters
       # Fallback fonts for other lanuages.
       
       # Arabic
-      @pdf.font_families["DejaVu"] = {
+      @pdf.font_families["Noon-Regular"] = {
         normal: {
-          :file => Rails.root.join('public/i18n_fonts/dejavusans.ttf'),
-          :font => "DejaVu"
+          :file => Rails.root.join('public/i18n_fonts/Noon-Regular.ttf'),
+          :font => "Noon-Regular"
         }
       }
 
@@ -60,7 +60,7 @@ module Exporters
       }
 
       # Add fallback fonts to array
-      @pdf.fallback_fonts = ["DejaVu", "lohit_sd"]
+      @pdf.fallback_fonts = ["Noon-Regular", "lohit_sd"]
 
       @subjects = []
     end
@@ -104,6 +104,10 @@ module Exporters
     end
 
     private
+
+    def render_rtl_text(txt)
+      txt.match(/\p{Arabic}+/) ? txt.gsub(/\p{Arabic}+/){|ar| ar.reverse!} : txt
+    end
 
     def print_heading(pdf, _case, start_page, end_page)
       if end_page > start_page
@@ -231,7 +235,7 @@ module Exporters
           ""
         end
       when String
-        value
+        render_rtl_text(value)
       when DateTime
         value.strftime("%d-%b-%Y")
       when Date
@@ -241,7 +245,7 @@ module Exporters
       #when Hash
         #value.inject {|acc, (k,v)| acc.merge({ k => format_field(field, v) }) }
       else
-        value.to_s
+        render_rtl_text(value.to_s)
       end
     end
 
