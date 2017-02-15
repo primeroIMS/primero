@@ -64,7 +64,7 @@ class Location < CouchRest::Model::Base
   # Only top level locations' admin levels are editable
   # All other locations' admin levels are calculated based on their parent's admin level
   before_save :calculate_admin_level, unless: :is_top_level?
-  after_save :update_descendants,
+  after_save :update_descendants
 
   def is_location_code_unique
     named_object = Location.get_by_location_code(self.location_code)
@@ -154,7 +154,8 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :find_by_admin_level_and_location_codes
 
     def base_type_ids
-      Lookup.get_location_types.lookup_values.map{|lv| lv['id'] }
+      lookup_values = Lookup.get_location_types.try(:lookup_values)
+      base_type_ids = (lookup_values.present? ? lookup_values.map{|lv| lv['id'] } : [])
     end
     memoize_in_prod :base_type_ids
 

@@ -36,7 +36,7 @@ class Lookup < CouchRest::Model::Base
       else
         lookup = Lookup.get(lookup_id)
       end
-      lookup.present? ? lookup.lookup_values : []
+      lookup.present? ? (lookup.lookup_values || []) : []
     end
     memoize_in_prod :values
 
