@@ -14,6 +14,7 @@ end
 create_or_update_lookup(
   :id => "lookup-location-type",
   :name => "Location Type",
+  :locked => true,
   :lookup_values => [
     {id: "country", display_text: "Country"}.with_indifferent_access,
     {id: "region", display_text: "Region"}.with_indifferent_access,

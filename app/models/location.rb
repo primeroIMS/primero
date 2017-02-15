@@ -154,7 +154,7 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :find_by_admin_level_and_location_codes
 
     def base_type_ids
-      Lookup.get_location_types.lookup_values.map{|lv| lv['id'] }
+      Lookup.get_location_types.lookup_values_en.map{|lv| lv['id'] }
     end
     memoize_in_prod :base_type_ids
 
