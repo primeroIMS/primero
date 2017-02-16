@@ -1,4 +1,5 @@
 require 'prawn/document'
+require 'arabic-letter-connector'
 
 module Exporters
   class PDFExporter < BaseExporter
@@ -44,10 +45,10 @@ module Exporters
       # Fallback fonts for other lanuages.
       
       # Arabic
-      @pdf.font_families["Noon-Regular"] = {
+      @pdf.font_families["Riwaj"] = {
         normal: {
-          :file => Rails.root.join('public/i18n_fonts/Noon-Regular.ttf'),
-          :font => "Noon-Regular"
+          :file => Rails.root.join('public/i18n_fonts/Riwaj.ttf'),
+          :font =>"Riwaj"
         }
       }
 
@@ -60,7 +61,7 @@ module Exporters
       }
 
       # Add fallback fonts to array
-      @pdf.fallback_fonts = ["Noon-Regular", "lohit_sd"]
+      @pdf.fallback_fonts = ["Riwaj", "lohit_sd"]
 
       @subjects = []
     end
@@ -106,7 +107,8 @@ module Exporters
     private
 
     def render_rtl_text(txt)
-      txt.match(/\p{Arabic}+/) ? txt.gsub(/\p{Arabic}+/){|ar| ar.reverse!} : txt
+      # binding.pry if txt.match(/\p{Arabic}+/)
+      txt.match(/\p{Arabic}+/) ? txt.gsub(/\p{Arabic}+/){|ar| ar.connect_arabic_letters.reverse!} : txt
     end
 
     def print_heading(pdf, _case, start_page, end_page)
