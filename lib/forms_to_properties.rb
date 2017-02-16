@@ -98,8 +98,6 @@ module FormToPropertiesConverter
         }.update(base_options)
       }
     when "radio_button"
-      # binding.pry
-      # x = 0
       {field.name => {
           :type => field.is_yes_no? ? TrueClass : String
         }.update(base_options)
