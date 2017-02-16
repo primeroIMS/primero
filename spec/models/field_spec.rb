@@ -460,16 +460,16 @@ describe "record field model" do
                                  :name => "Yes or No",
                                  :lookup_values_en => [{id: "true", display_text: "Yes"}.with_indifferent_access,
                                                        {id: "false", display_text: "No"}.with_indifferent_access,
-                                                       {id: "unknown", display_text: "Unknown"}.with_indifferent_access],
+                                                       {id: 'default_convert_unknown_id_to_nil', display_text: "Unknown"}.with_indifferent_access],
                                  :lookup_values_fr => [{id: "true", display_text: "French Yes"}.with_indifferent_access,
                                                        {id: "false", display_text: "French No"}.with_indifferent_access,
-                                                       {id: "unknown", display_text: "French Unknown"}.with_indifferent_access],
+                                                       {id: 'default_convert_unknown_id_to_nil', display_text: "French Unknown"}.with_indifferent_access],
                                  :lookup_values_es => [{id: "true", display_text: "Spanish Yes"}.with_indifferent_access,
                                                        {id: "false", display_text: "Spanish No"}.with_indifferent_access,
-                                                       {id: "unknown", display_text: "Spanish Unknown"}.with_indifferent_access],
+                                                       {id: 'default_convert_unknown_id_to_nil', display_text: "Spanish Unknown"}.with_indifferent_access],
                                  :lookup_values_ar => [{id: "true", display_text: "Arabic Yes"}.with_indifferent_access,
                                                        {id: "false", display_text: "Arabic No"}.with_indifferent_access,
-                                                       {id: "unknown", display_text: "Arabic Unknown"}.with_indifferent_access]
+                                                       {id: 'default_convert_unknown_id_to_nil', display_text: "Arabic Unknown"}.with_indifferent_access]
         )
       end
 

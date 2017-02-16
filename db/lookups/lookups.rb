@@ -365,7 +365,7 @@ create_or_update_lookup(
     :lookup_values => [
         {id: "true", display_text: "Yes"}.with_indifferent_access,
         {id: "false", display_text: "No"}.with_indifferent_access,
-        {id: "unknown", display_text: "Unknown"}.with_indifferent_access
+        {id: "default_convert_unknown_id_to_nil", display_text: "Unknown"}.with_indifferent_access
     ]
 )
 

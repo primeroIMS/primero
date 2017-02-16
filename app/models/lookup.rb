@@ -11,6 +11,8 @@ class Lookup < CouchRest::Model::Base
   localize_properties [:name]
   localize_properties [:lookup_values], generate_keys: true
 
+  DEFAULT_UNKNOWN_ID_TO_NIL = 'default_convert_unknown_id_to_nil'
+
   design do
     view :all
   end
@@ -84,9 +86,23 @@ class Lookup < CouchRest::Model::Base
 
   def generate_values_keys
     if self.lookup_values.present?
-      self.lookup_values.each do |option|
-        if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
-          option['id'] = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
+      self.lookup_values.each_with_index do |option, i|
+        new_option_id = nil
+        option_id_updated = false
+        if option.is_a?(Hash)
+          if option['id'].blank? && option['display_text'].present?
+            new_option_id = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
+            option_id_updated = true
+          elsif option['id'] == DEFAULT_UNKNOWN_ID_TO_NIL
+            new_option_id = nil
+            option_id_updated = true
+          end
+        end
+        if option_id_updated
+          Primero::Application::locales.each{|locale|
+            lv = self.send("lookup_values_#{locale}")
+            lv[i]['id'] = new_option_id if lv.present?
+          }
         end
       end
     end
