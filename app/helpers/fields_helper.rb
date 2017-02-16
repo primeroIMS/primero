@@ -24,6 +24,17 @@ module FieldsHelper
        # The 'template' key is later replaced with the proper index value via JavaScript
        # But for now, there is no value so just return empty string
        ''
+    elsif field.is_yes_no?
+      parent_obj = object.value_for_attr_keys(field_keys[0..-2])
+      value = parent_obj.try(field.name)
+      case value
+        when true
+          value = 'true'
+        when false
+          value = 'false'
+        else
+          value = 'unknown'
+      end
     else
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
