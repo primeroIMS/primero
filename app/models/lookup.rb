@@ -7,6 +7,7 @@ class Lookup < CouchRest::Model::Base
   include LocalizableProperty
 
   property :description
+  property :locked, TrueClass, :default => false
   localize_properties [:name]
   localize_properties [:lookup_values], generate_keys: true
 
@@ -36,9 +37,14 @@ class Lookup < CouchRest::Model::Base
       else
         lookup = Lookup.get(lookup_id)
       end
-      lookup.present? ? lookup.lookup_values : []
+      lookup.present? ? (lookup.lookup_values || []) : []
     end
     memoize_in_prod :values
+
+    def get_location_types
+      self.get('lookup-location-type')
+    end
+    memoize_in_prod :get_location_types
   end
 
   def sanitize_lookup_values

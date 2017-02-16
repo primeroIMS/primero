@@ -1120,6 +1120,7 @@ en:
       updated: "Lookup successfully added"
 
   location:
+    location_code_warning: Note that if you change an existing location code, you will need to edit re-enter the location fields for any records using this location.
     create: "New Location"
     edit: "Edit Location"
     label: "Location"

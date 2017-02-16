@@ -20,15 +20,15 @@ def isTableEmpty? model
   return empty
 end
 
-#Seed the system settings table
-puts "Seeding the system settings"
-require File.dirname(__FILE__) + "/system_settings/system_settings.rb" if should_seed? SystemSettings
-
 #Reseed the lookups
 puts "Seeding Lookups"
 require File.dirname(__FILE__) + "/lookups/lookups.rb" if should_seed? Lookup
 puts "Seeding Locations"
 require File.dirname(__FILE__) + "/lookups/locations.rb" if should_seed? Location
+
+#Seed the system settings table
+puts "Seeding the system settings"
+require File.dirname(__FILE__) + "/system_settings/system_settings.rb" if should_seed? SystemSettings
 
 #Create the forms
 puts "[Re-]Seeding the forms"
