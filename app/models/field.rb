@@ -313,7 +313,19 @@ class Field
     return options_list
   end
 
+  #TODO need rspec tests for boolean values
   def display_text(value=nil)
+    if self.is_yes_no?
+      case value
+        when true
+          value = 'true'
+        when false
+          value = 'false'
+        else
+          value = 'unknown'
+      end
+    end
+    return "" if value.blank?
     if self.option_strings_text.present?
       display = self.option_strings_text.select{|opt| opt['id'] == value}
       #TODO: Is it better to display the untranslated key or to display nothing?
