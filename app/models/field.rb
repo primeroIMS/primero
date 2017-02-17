@@ -313,17 +313,19 @@ class Field
     return options_list
   end
 
-  def display_text(value=nil)
-    if self.is_yes_no?
-      case value
-        when true
-          value = 'true'
-        when false
-          value = 'false'
-        else
-          value = nil
-      end
+  def convert_true_false_key_to_string(value)
+    case value
+      when true
+        'true'
+      when false
+        'false'
+      else
+        nil
     end
+  end
+
+  def display_text(value=nil)
+    value = self.convert_true_false_key_to_string(value) if self.is_yes_no?
     if self.option_strings_text.present?
       display = self.option_strings_text.select{|opt| opt['id'] == value}
       #TODO: Is it better to display the untranslated key or to display nothing?

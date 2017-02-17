@@ -26,15 +26,7 @@ module FieldsHelper
        ''
     elsif field.is_yes_no?
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
-      value = parent_obj.try(field.name)
-      case value
-        when true
-          value = 'true'
-        when false
-          value = 'false'
-        else
-          value = 'unknown'
-      end
+      value = field.convert_true_false_key_to_string(parent_obj.try(field.name))
     else
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
