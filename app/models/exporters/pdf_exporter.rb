@@ -1,4 +1,5 @@
 require 'prawn/document'
+require 'arabic-letter-connector'
 
 module Exporters
   class PDFExporter < BaseExporter
@@ -43,11 +44,12 @@ module Exporters
 
       # Fallback fonts for other lanuages.
       
-      # Arabic
-      @pdf.font_families["DejaVu"] = {
+      # Arabic - From what I understand, Arabic uses different diacritics we need to make sure
+      # to factor that in when choosing a font.
+      @pdf.font_families["Riwaj"] = {
         normal: {
-          :file => Rails.root.join('public/i18n_fonts/dejavusans.ttf'),
-          :font => "DejaVu"
+          :file => Rails.root.join('public/i18n_fonts/Riwaj.ttf'),
+          :font =>"Riwaj"
         }
       }
 
@@ -60,7 +62,7 @@ module Exporters
       }
 
       # Add fallback fonts to array
-      @pdf.fallback_fonts = ["DejaVu", "lohit_sd"]
+      @pdf.fallback_fonts = ["Riwaj", "lohit_sd"]
 
       @subjects = []
     end
@@ -104,6 +106,11 @@ module Exporters
     end
 
     private
+
+    def render_rtl_text(txt)
+      # binding.pry if txt.match(/\p{Arabic}+/)
+      txt.match(/\p{Arabic}+/) ? txt.gsub(/\p{Arabic}+/){|ar| ar.connect_arabic_letters.reverse!} : txt
+    end
 
     def print_heading(pdf, _case, start_page, end_page)
       if end_page > start_page
@@ -231,7 +238,7 @@ module Exporters
           ""
         end
       when String
-        value
+        render_rtl_text(value)
       when DateTime
         value.strftime("%d-%b-%Y")
       when Date
@@ -241,7 +248,7 @@ module Exporters
       #when Hash
         #value.inject {|acc, (k,v)| acc.merge({ k => format_field(field, v) }) }
       else
-        value.to_s
+        render_rtl_text(value.to_s)
       end
     end
 
