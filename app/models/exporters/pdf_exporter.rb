@@ -109,7 +109,7 @@ module Exporters
 
     def render_i18n_text(txt)
       if txt.match(/\p{Arabic}+/)
-        txt.gsub(/[ \p{Arabic}]+[\p{Arabic}]/){ |ar| ar.connect_arabic_letters.reverse! }
+        txt.gsub(/[ \p{Arabic}]+[\p{Arabic}]/){ |ar| " #{ar.connect_arabic_letters.reverse!}" }
       else
         txt
       end
