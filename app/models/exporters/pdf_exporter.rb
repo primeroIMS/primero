@@ -107,9 +107,12 @@ module Exporters
 
     private
 
-    def render_rtl_text(txt)
-      # binding.pry if txt.match(/\p{Arabic}+/)
-      txt.match(/\p{Arabic}+/) ? txt.gsub(/\p{Arabic}+/){|ar| ar.connect_arabic_letters.reverse!} : txt
+    def render_i18n_text(txt)
+      if txt.match(/\p{Arabic}+/)
+        txt.gsub(/[ \p{Arabic}]+[\p{Arabic}]/){ |ar| ar.connect_arabic_letters.reverse! }
+      else
+        txt
+      end
     end
 
     def print_heading(pdf, _case, start_page, end_page)
@@ -233,12 +236,12 @@ module Exporters
       case value
       when TrueClass, FalseClass
         if value
-          I18n.t(value.to_s)
+          render_i18n_text(I18n.t(value.to_s))
         else
           ""
         end
       when String
-        render_rtl_text(value)
+        render_i18n_text(value)
       when DateTime
         value.strftime("%d-%b-%Y")
       when Date
@@ -248,7 +251,7 @@ module Exporters
       #when Hash
         #value.inject {|acc, (k,v)| acc.merge({ k => format_field(field, v) }) }
       else
-        render_rtl_text(value.to_s)
+        render_i18n_text(value.to_s)
       end
     end
 
