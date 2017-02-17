@@ -222,8 +222,9 @@ module Exporters
           "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
           "TYPE OF ABDUCTION" => "abduction_status_time_of_incident",
           "PREVIOUSLY REPORTED THIS INCIDENT?" => ->(model) do
-            if model.gbv_reported_elsewhere == 'Yes'
-              reporting_agency = model.gbv_reported_elsewhere_subform.reduce(false) {|acc, v| acc || (v.gbv_reported_elsewhere_reporting == 'Yes') }
+            #TODO - i18n
+            if model.gbv_reported_elsewhere == true
+              reporting_agency = model.gbv_reported_elsewhere_subform.reduce(false) {|acc, v| acc || (v.gbv_reported_elsewhere_reporting == true) }
 
               if reporting_agency
                 'Yes-GBVIMS Org / Agency'
@@ -249,9 +250,8 @@ module Exporters
             incident_recorder_sex(primary_alleged_perpetrator(model).first.try(:perpetrator_sex))
           end,
           "PREVIOUS INCIDENT WITH THIS PERPETRATOR" => ->(model) do
-            former_perpetrators = primary_alleged_perpetrator(model)
-            .map{|ap| ap.try(:former_perpetrator)}
-            .select{|is_ap| is_ap != nil}
+            former_perpetrators = primary_alleged_perpetrator(model).map{|ap| ap.try(:former_perpetrator)}.select{|is_ap| is_ap != nil}
+            #TODO - i18n
             if former_perpetrators.include? 'Yes'
               'Yes'
             elsif former_perpetrators.all? { |is_fp| is_fp == 'No' }
@@ -288,13 +288,13 @@ module Exporters
           "WANTS LEGAL ACTION?" => ->(model) do
             psychosocial_counseling = model.try(:psychosocial_counseling_services_subform_section)
             if psychosocial_counseling.present?
-              legal_actions = psychosocial_counseling.
-                map{|psycs| psycs.try(:pursue_legal_action)}
-              if legal_actions.include? 'Yes'
+              legal_actions = psychosocial_counseling.map{|psycs| psycs.try(:pursue_legal_action)}
+              #TODO - i18n
+              if legal_actions.include? true
                 'Yes'
-              elsif legal_actions.include? 'No'
+              elsif legal_actions.include? false
                 'No'
-              elsif legal_actions.include? 'Undecided at time of report'
+              else
                 'Undecided at time of report'
               end
             end

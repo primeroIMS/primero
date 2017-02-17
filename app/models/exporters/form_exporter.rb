@@ -42,6 +42,7 @@ module Exporters
         worksheet.write(1, 0, header)
         form.fields.each_with_index do |field, i|
           if show_hidden || field.visible?
+            #TODO - i18n
             visible = field.visible? ? 'Yes' : 'No'
             options = ''
             if ['radio_button', 'select_box'].include?(field.type)

@@ -426,12 +426,12 @@ class Incident < CouchRest::Model::Base
     end
   end
 
-  #  TODO: The value 'Yes' may have to be translated
   def calculate_gbv_type_of_violence_exclusion
-    if self.gbv_reported_elsewhere == 'Yes' && self.gbv_reported_elsewhere_subform.any?{ |f| f.gbv_reported_elsewhere_reporting == 'Yes' }
-      self.gbv_do_not_report = ['Yes']
+    if self.gbv_reported_elsewhere == true && self.gbv_reported_elsewhere_subform.any?{ |f| f.gbv_reported_elsewhere_reporting == true }
+      #TODO - i18n  field commented out since checkboxes were removed
+      # self.gbv_do_not_report = ['Yes']
     else
-      self.gbv_do_not_report = []
+      # self.gbv_do_not_report = []
     end
   end
 

@@ -219,7 +219,7 @@ class ChildrenController < ApplicationController
         child['sex'] = individual_details['sex']
         child['date_of_birth'] = individual_details['date_of_birth']
         child['age'] = individual_details['age']
-        child['estimated'] = individual_details['estimated'] == "Yes"
+        child['estimated'] = individual_details['estimated'] = true
         child['ethnicity'] = [individual_details['ethnicity']]
         child['nationality'] = [individual_details['nationality']]
         child['religion'] = [individual_details['religion']]

@@ -80,12 +80,12 @@ module BIADerivedFields
 
   def case_transferred_for_bia
     transfers = self.try(:transitions).select{ |t| t.type == Transition::TYPE_TRANSFER }
-    return transfers.present? ? "Yes" : "No"
+    return transfers.present? ? true : false
   end
 
   def bia_transfers
     latest_transfer = []
-    if case_transferred_for_bia == "Yes"
+    if case_transferred_for_bia
       transfers = self.try(:transitions).select{ |t| t.type == Transition::TYPE_TRANSFER }
       latest_transfer = [transfers.first]
     end

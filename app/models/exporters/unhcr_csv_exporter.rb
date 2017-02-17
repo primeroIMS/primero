@@ -44,6 +44,7 @@ module Exporters
       self.buffer.write(unhcr_export)
     end
 
+    #TODO - i18n
     @field_map = {
       'Individual Progress ID' => ['unhcr_individual_no'],
       'CPIMS Code' => ['cpims_id'],
