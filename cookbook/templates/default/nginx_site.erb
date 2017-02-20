@@ -27,7 +27,7 @@ server {
 
   rails_env <%= @rails_env %>;
 
-  passenger_set_cgi_param RAILS_LOG_PATH "<%= @rails_log_dir %>";
+  passenger_env_var RAILS_LOG_PATH "<%= @rails_log_dir %>";
 
   gzip_disable "MSIE [1-6]\.";
   root <%= @current_path %>/public;

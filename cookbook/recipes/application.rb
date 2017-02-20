@@ -6,7 +6,7 @@ include_recipe 'primero::common'
    libxml2-dev
    libxslt1-dev
    imagemagick
-   openjdk-7-jre-headless
+   openjdk-8-jre-headless
    inotify-tools).each do |pkg|
   package pkg
 end
