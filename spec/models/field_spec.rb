@@ -179,10 +179,6 @@ describe "record field model" do
       Field.new(:type=>Field::AUDIO_UPLOAD_BOX).default_value.should be_nil
     end
 
-    it "should return empty list for checkboxes fields" do
-      Field.new(:type=>Field::CHECK_BOXES).default_value.should == []
-    end
-
     it "should raise an error if can't find a default value for this field type" do
       lambda {Field.new(:type=>"INVALID_FIELD_TYPE").default_value}.should raise_error
     end
@@ -327,6 +323,270 @@ describe "record field model" do
       end
     end
 
+    context 'when field is a yes/no field' do
+      before do
+        Lookup.all.each(&:destroy)
+        @lookup = Lookup.create!(:id => "lookup-yes-no",
+                                 :name => "Yes or No",
+                                 :lookup_values_en => [{id: "true", display_text: "Yes"}.with_indifferent_access,
+                                                       {id: "false", display_text: "No"}.with_indifferent_access],
+                                 :lookup_values_fr => [{id: "true", display_text: "French Yes"}.with_indifferent_access,
+                                                       {id: "false", display_text: "French No"}.with_indifferent_access],
+                                 :lookup_values_es => [{id: "true", display_text: "Spanish Yes"}.with_indifferent_access,
+                                                       {id: "false", display_text: "Spanish No"}.with_indifferent_access],
+                                 :lookup_values_ar => [{id: "true", display_text: "Arabic Yes"}.with_indifferent_access,
+                                                       {id: "false", display_text: "Arabic No"}.with_indifferent_access]
+        )
+      end
+
+      before :each do
+        @lookup_field = Field.new({'name' => "my_lookup_field",
+                                   'type' => "select_box",
+                                   'display_name_all' => "My Yes No Field",
+                                   'option_strings_source' => 'lookup lookup-yes-no'
+                                  })
+      end
+
+      context 'and value is true' do
+        before :each do
+          @field_value = true
+        end
+
+        context 'and locale is English' do
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Yes')
+          end
+        end
+        context 'and locale is French' do
+          before :each do
+            I18n.locale = "fr"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('French Yes')
+          end
+        end
+        context 'and locale is Spanish' do
+          before :each do
+            I18n.locale = "es"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Spanish Yes')
+          end
+        end
+        context 'and locale is Arabic' do
+          before :each do
+            I18n.locale = "ar"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Arabic Yes')
+          end
+        end
+      end
+      context 'and value is false' do
+        before :each do
+          @field_value = false
+        end
+
+        context 'and locale is English' do
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('No')
+          end
+        end
+        context 'and locale is French' do
+          before :each do
+            I18n.locale = "fr"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('French No')
+          end
+        end
+        context 'and locale is Spanish' do
+          before :each do
+            I18n.locale = "es"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Spanish No')
+          end
+        end
+        context 'and locale is Arabic' do
+          before :each do
+            I18n.locale = "ar"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Arabic No')
+          end
+        end
+      end
+      context 'and value is nil' do
+        before :each do
+          @field_value = nil
+        end
+
+        context 'and locale is English' do
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('')
+          end
+        end
+        context 'and locale is French' do
+          before :each do
+            I18n.locale = "fr"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('')
+          end
+        end
+        context 'and locale is Spanish' do
+          before :each do
+            I18n.locale = "es"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('')
+          end
+        end
+        context 'and locale is Arabic' do
+          before :each do
+            I18n.locale = "ar"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('')
+          end
+        end
+      end
+    end
+    context 'when field is a yes/no/unknown field' do
+      before do
+        Lookup.all.each(&:destroy)
+        @lookup = Lookup.create!(:id => "lookup-yes-no-unknown",
+                                 :name => "Yes or No",
+                                 :lookup_values_en => [{id: "true", display_text: "Yes"}.with_indifferent_access,
+                                                       {id: "false", display_text: "No"}.with_indifferent_access,
+                                                       {id: 'default_convert_unknown_id_to_nil', display_text: "Unknown"}.with_indifferent_access],
+                                 :lookup_values_fr => [{id: "true", display_text: "French Yes"}.with_indifferent_access,
+                                                       {id: "false", display_text: "French No"}.with_indifferent_access,
+                                                       {id: 'default_convert_unknown_id_to_nil', display_text: "French Unknown"}.with_indifferent_access],
+                                 :lookup_values_es => [{id: "true", display_text: "Spanish Yes"}.with_indifferent_access,
+                                                       {id: "false", display_text: "Spanish No"}.with_indifferent_access,
+                                                       {id: 'default_convert_unknown_id_to_nil', display_text: "Spanish Unknown"}.with_indifferent_access],
+                                 :lookup_values_ar => [{id: "true", display_text: "Arabic Yes"}.with_indifferent_access,
+                                                       {id: "false", display_text: "Arabic No"}.with_indifferent_access,
+                                                       {id: 'default_convert_unknown_id_to_nil', display_text: "Arabic Unknown"}.with_indifferent_access]
+        )
+      end
+
+      before :each do
+        @lookup_field = Field.new({'name' => "my_lookup_field",
+                                   'type' => "select_box",
+                                   'display_name_all' => "My Yes No Field",
+                                   'option_strings_source' => 'lookup lookup-yes-no-unknown'
+                                  })
+      end
+
+      context 'and value is true' do
+        before :each do
+          @field_value = true
+        end
+
+        context 'and locale is English' do
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Yes')
+          end
+        end
+        context 'and locale is French' do
+          before :each do
+            I18n.locale = "fr"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('French Yes')
+          end
+        end
+        context 'and locale is Spanish' do
+          before :each do
+            I18n.locale = "es"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Spanish Yes')
+          end
+        end
+        context 'and locale is Arabic' do
+          before :each do
+            I18n.locale = "ar"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Arabic Yes')
+          end
+        end
+      end
+      context 'and value is false' do
+        before :each do
+          @field_value = false
+        end
+
+        context 'and locale is English' do
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('No')
+          end
+        end
+        context 'and locale is French' do
+          before :each do
+            I18n.locale = "fr"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('French No')
+          end
+        end
+        context 'and locale is Spanish' do
+          before :each do
+            I18n.locale = "es"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Spanish No')
+          end
+        end
+        context 'and locale is Arabic' do
+          before :each do
+            I18n.locale = "ar"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Arabic No')
+          end
+        end
+      end
+      context 'and value is nil' do
+        before :each do
+          @field_value = nil
+        end
+
+        context 'and locale is English' do
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Unknown')
+          end
+        end
+        context 'and locale is French' do
+          before :each do
+            I18n.locale = "fr"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('French Unknown')
+          end
+        end
+        context 'and locale is Spanish' do
+          before :each do
+            I18n.locale = "es"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Spanish Unknown')
+          end
+        end
+        context 'and locale is Arabic' do
+          before :each do
+            I18n.locale = "ar"
+          end
+          it 'returns the translated display text' do
+            expect(@lookup_field.display_text(@field_value)).to eq('Arabic Unknown')
+          end
+        end
+      end
+    end
   end
 
   describe "I18n" do

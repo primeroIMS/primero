@@ -653,7 +653,7 @@ class FormSection < CouchRest::Model::Base
 
   def all_filterable_multi_fields
     self.fields.select  do |field|
-      [Field::SELECT_BOX, Field::CHECK_BOXES].include? field.type if field.multi_select
+      [Field::SELECT_BOX].include? field.type if field.multi_select
     end
   end
 

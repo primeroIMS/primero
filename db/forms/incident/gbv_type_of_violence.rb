@@ -18,7 +18,7 @@ gbv_reported_elsewhere_subform_fields = [
   Field.new({"name" => "gbv_reported_elsewhere_reporting",
              "type" => "radio_button",
              "display_name_all" => "Is this a GBV reporting organization?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             })
 ]
 
@@ -65,7 +65,6 @@ gbv_sexual_violence_fields = [
   Field.new({"name" => "harmful_traditional_practice",
              "type" => "select_box",
              "display_name_all" => "Was this incident a Harmful Traditional Practice",
-             "option_strings_text_all" => "Option 1\nOption 2\nOption 3\nOption 4\nOption 5\nNo",
              "option_strings_text_all" =>
                                     ["No",
                                      "Type of Practice 1",
@@ -77,7 +76,7 @@ gbv_sexual_violence_fields = [
   Field.new({"name" => "goods_money_exchanged",
              "type" => "radio_button",
              "display_name_all" => "Were money, goods, benefits, and/or services exchanged in relation to the incident?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "abduction_status_time_of_incident",
              "type" => "select_box",
@@ -91,7 +90,7 @@ gbv_sexual_violence_fields = [
   Field.new({"name" => "gbv_reported_elsewhere",
              "type" => "radio_button",
              "display_name_all" => "Has the client reported this incident anywhere else?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "gbv_reported_elsewhere_subform",
              "type" => "subform",
@@ -99,17 +98,18 @@ gbv_sexual_violence_fields = [
              "subform_section_id" => gbv_reported_elsewhere_subform.unique_id,
              "display_name_all" => "If yes, where?"
             }),
-  Field.new({"name" => "gbv_do_not_report",
-             "type" => "check_boxes",
-             "display_name_all" => "Exclude this incident from reports?",
-             "option_strings_text_all" => "Yes",
-             "editable" => false,
-             "disabled" => true
-            }),
+  #TODO - i18n check_boxes is being removed
+  # Field.new({"name" => "gbv_do_not_report",
+  #            "type" => "check_boxes",
+  #            "display_name_all" => "Exclude this incident from reports?",
+  #            "option_strings_text_all" => "Yes",
+  #            "editable" => false,
+  #            "disabled" => true
+  #           }),
   Field.new({"name" => "gbv_previous_incidents",
              "type" => "radio_button",
              "display_name_all" => "Has the client had any previous incidents of GBV perpetrated against them?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
 ]
 

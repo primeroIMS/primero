@@ -1282,6 +1282,9 @@ en:
     quarter_3: "Quarter 3"
     quarter_2: "Quarter 2"
     quarter_1: "Quarter 1"
+    gbv_reporting_agency: "Yes-GBVIMS Org / Agency"
+    non_gbv_reporting_agency: "Yes-Non GBVIMS Org / Agency"
+    undecided: "Undecided at time of report"
 
   followup_reminders:
     system_generated_followup_flag: "mandatory follow up visit"

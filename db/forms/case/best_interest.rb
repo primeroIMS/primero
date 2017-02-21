@@ -34,7 +34,7 @@ best_interest_fields = [
   Field.new({"name" => "best_interest_proposed_support_accepted",
              "type" => "radio_button",
              "display_name_all" => "Does the child accept the proposed support?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
            }),
   Field.new({"name" => "best_interest_why_support_refused",
              "type" => "text_field",

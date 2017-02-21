@@ -582,15 +582,6 @@ Primero = _primero.Views.Base.extend({
             if ($input.size() > 0) {
               value = $input.val();
             }
-          } else if (input_type == "check_boxes_type") {
-            //reflect changes of the checkboxes.
-            var checkboxes_values = [];
-            $subform_element.find("input[id^='" + input_id + "']:checked").each(function(x, el){
-              checkboxes_values.push($(el).val());
-            });
-            if (checkboxes_values.length > 0) {
-              value = checkboxes_values.join(", ");
-            }
           } else if (input_type == "tick_box_type") {
             var $input = $subform_element.find("#" + input_id + ":checked");
             value = $input.size() == 1;

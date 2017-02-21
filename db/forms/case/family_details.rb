@@ -1,6 +1,3 @@
-#JIRA PRIMERO-160
-#JIRA PRIMERO-358
-
 family_details_fields_subform = [
   Field.new({"name" => "relation_name",
              "type" => "text_field",
@@ -34,17 +31,17 @@ family_details_fields_subform = [
   Field.new({"name" => "relation_child_lived_with_pre_separation",
              "type" => "radio_button",
              "display_name_all" => "Did the child live with this person before separation?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "relation_child_is_in_contact",
              "type" => "radio_button",
              "display_name_all" => "Is the child in contact with this person?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "relation_child_is_separated_from",
              "type" => "radio_button",
              "display_name_all" => "Is the child separated from this person?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "relation_identifiers",
              "type" => "text_field",

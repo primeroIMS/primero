@@ -348,3 +348,24 @@ create_or_update_lookup(
     {id: "lp-rr", display_text: "LP-RR"}.with_indifferent_access
   ]
 )
+
+create_or_update_lookup(
+    :id => "lookup-yes-no",
+    :name => "Yes or No",
+    :lookup_values => [
+        {id: "true", display_text: "Yes"}.with_indifferent_access,
+        {id: "false", display_text: "No"}.with_indifferent_access
+    ]
+)
+
+#TODO i18n - cast unknown to nil
+create_or_update_lookup(
+    :id => "lookup-yes-no-unknown",
+    :name => "Yes, No, or Unknown",
+    :lookup_values => [
+        {id: "true", display_text: "Yes"}.with_indifferent_access,
+        {id: "false", display_text: "No"}.with_indifferent_access,
+        {id: "default_convert_unknown_id_to_nil", display_text: "Unknown"}.with_indifferent_access
+    ]
+)
+

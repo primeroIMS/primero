@@ -14,7 +14,7 @@ alleged_perpetrator_subform_fields = [
   Field.new({"name" => "former_perpetrator",
              "type" => "radio_button",
              "display_name_all" => "Past GBV by alledged perpetrator?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "perpetrator_nationality",
              "type" => "select_box",

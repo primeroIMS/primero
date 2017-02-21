@@ -42,7 +42,7 @@ module Exporters
         worksheet.write(1, 0, header)
         form.fields.each_with_index do |field, i|
           if show_hidden || field.visible?
-            visible = field.visible? ? 'Yes' : 'No'
+            visible = field.visible? ? I18n.t("true") : I18n.t("false")
             options = ''
             if ['radio_button', 'select_box'].include?(field.type)
               if field.option_strings_source.present? && field.option_strings_source.start_with?('Location')

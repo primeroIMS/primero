@@ -7,7 +7,7 @@ protection_concern_fields = [
   Field.new({"name" => "urgent_protection_concern",
              "type" => "radio_button",
              "display_name_all" => "Urgent Protection Concern?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "risk_level",
              "type" => "select_box",

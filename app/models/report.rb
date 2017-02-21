@@ -8,7 +8,6 @@ class Report < CouchRest::Model::Base
     #Field::TEXT_AREA,
     Field::RADIO_BUTTON,
     Field::SELECT_BOX,
-    Field::CHECK_BOXES,
     Field::NUMERIC_FIELD,
     Field::DATE_FIELD,
     #Field::DATE_RANGE,

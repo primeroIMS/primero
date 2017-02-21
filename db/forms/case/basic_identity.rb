@@ -90,7 +90,7 @@ basic_identity_fields = [
   Field.new({"name" => "name_given_post_separation",
              "type" => "radio_button",
              "display_name_all" => "Name(s) given to child after separation?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "registration_date",
              "type" => "date_field",

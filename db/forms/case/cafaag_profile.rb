@@ -71,7 +71,7 @@ caafag_profile_fields = [
   Field.new({"name" => "cafaag_child_owned_weapon",
              "type" => "select_box",
              "display_name_all" => "Did the child own/use a weapon",
-             "option_strings_text_all" => "Don't know\nNo\nYes",
+             "option_strings_source" => "lookup lookup-yes-no-unknown"
             }),
   Field.new({"name" => "cafaag_weapon_type",
              #TODO (get values from MRM)
@@ -136,7 +136,7 @@ caafag_profile_fields = [
   Field.new({"name" => "cafaag_demobilization_papers_served",
              "type" => "select_box",
              "display_name_all" => "Has the Child been served any demobilization papers?",
-             "option_strings_text_all" => "Don't know\nNo\nYes",
+             "option_strings_source" => "lookup lookup-yes-no-unknown"
             }),
   Field.new({"name" => "cafaag_reason_for_release_from_military",
              "type" => "select_box",

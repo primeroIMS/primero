@@ -24,6 +24,9 @@ module FieldsHelper
        # The 'template' key is later replaced with the proper index value via JavaScript
        # But for now, there is no value so just return empty string
        ''
+    elsif field.is_yes_no?
+      parent_obj = object.value_for_attr_keys(field_keys[0..-2])
+      value = field.convert_true_false_key_to_string(parent_obj.try(field.name))
     else
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
@@ -40,9 +43,8 @@ module FieldsHelper
   end
 
   def field_value_for_display(field_value, field=nil)
-    return "" unless field_value.present?
-
     field_value = field.display_text(field_value) if (field.present? && field.selectable?)
+    return '' if field_value.blank?
 
     if field_value.is_a?(Array)
       field_value = field_value.join ", "
@@ -55,13 +57,8 @@ module FieldsHelper
 
   def select_options(field, record=nil, lookups=nil, exclude_empty_item=false)
     select_options = []
-    if field.type == Field::TICK_BOX
-      select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
-    else
-      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.multi_select || exclude_empty_item)
-      select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
-    end
-    return select_options
+    select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.type == Field::TICK_BOX || field.multi_select || exclude_empty_item)
+    select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
   end
 
   def field_link_for_display(field_value, field)

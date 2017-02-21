@@ -42,7 +42,6 @@ class Field
   TEXT_AREA = "textarea"
   RADIO_BUTTON = "radio_button"
   SELECT_BOX = "select_box"
-  CHECK_BOXES = "check_boxes"
   NUMERIC_FIELD = "numeric_field"
   PHOTO_UPLOAD_BOX = "photo_upload_box"
   AUDIO_UPLOAD_BOX = "audio_upload_box"
@@ -59,7 +58,6 @@ class Field
                         TEXT_AREA        => "basic",
                         RADIO_BUTTON     => "multiple_choice",
                         SELECT_BOX       => "multiple_choice",
-                        CHECK_BOXES      => "multiple_choice",
                         PHOTO_UPLOAD_BOX => "basic",
                         AUDIO_UPLOAD_BOX => "basic",
                         DOCUMENT_UPLOAD_BOX => "basic",
@@ -77,7 +75,6 @@ class Field
                         TEXT_AREA        => "basic",
                         RADIO_BUTTON     => "basic",
                         SELECT_BOX       => "basic",
-                        CHECK_BOXES      => "basic",
                         PHOTO_UPLOAD_BOX => "photo",
                         AUDIO_UPLOAD_BOX => "audio",
                         DOCUMENT_UPLOAD_BOX => "document",
@@ -96,7 +93,6 @@ class Field
                         TEXT_AREA        => "",
                         RADIO_BUTTON     => "",
                         SELECT_BOX       => "",
-                        CHECK_BOXES      => [],
                         PHOTO_UPLOAD_BOX => nil,
                         AUDIO_UPLOAD_BOX => nil,
                         DOCUMENT_UPLOAD_BOX => nil,
@@ -284,7 +280,10 @@ class Field
   def options_list(record=nil, lookups=nil, locations=nil)
     options_list = []
 
-    if self.option_strings_source.present?
+    if self.type == Field::TICK_BOX
+      options_list << {id: 'true', display_text: I18n.t('true')}
+      options_list << {id: 'false', display_text: I18n.t('false')}
+    elsif self.option_strings_source.present?
       source_options = self.option_strings_source.split
       #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
       #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
@@ -314,7 +313,19 @@ class Field
     return options_list
   end
 
+  def convert_true_false_key_to_string(value)
+    case value
+      when true
+        'true'
+      when false
+        'false'
+      else
+        nil
+    end
+  end
+
   def display_text(value=nil)
+    value = self.convert_true_false_key_to_string(value) if self.is_yes_no?
     if self.option_strings_text.present?
       display = self.option_strings_text.select{|opt| opt['id'] == value}
       #TODO: Is it better to display the untranslated key or to display nothing?
@@ -379,10 +390,6 @@ class Field
   #TODO - remove this is just for testing
   def self.new_field(type, name, options=[])
     Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text_all => options.join("\n"), :editable => true, :disabled => false
-  end
-
-  def self.new_check_boxes_field field_name, display_name = nil, option_strings = []
-    Field.new :name => field_name, :display_name=>display_name, :type => CHECK_BOXES, :visible => true, :option_strings_text => option_strings.join("\n")
   end
 
   def self.new_text_field field_name, display_name = nil
@@ -451,6 +458,10 @@ class Field
 
   def is_location?
     self.option_strings_source == 'Location'
+  end
+
+  def is_yes_no?
+    self.option_strings_source == 'lookup lookup-yes-no' || self.option_strings_source == 'lookup lookup-yes-no-unknown'
   end
 
   #TODO add rspec test
