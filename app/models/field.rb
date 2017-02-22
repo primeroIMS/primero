@@ -302,6 +302,8 @@ class Field
         end
       when 'Location'
         options_list += locations || [] if locations.present?
+      when 'Agency'
+        options_list += Agency.all_names
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!

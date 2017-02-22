@@ -50,6 +50,7 @@ describe Agency do
     agency['_attachments']['jorge']['content_type'].should eq("image/jpg")
   end
 
+  #TODO i18n test cases
   it "should only allow unique agency names" do
     agency1 = Agency.new(:name => "irc", :agency_code => "1234")
     agency1.save

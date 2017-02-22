@@ -1,5 +1,5 @@
 def create_or_update_agency(agency_hash)
-  agency_id = Agency.id_from_name(agency_hash[:name])
+  agency_id = agency_hash[:id]
   agency = Agency.get(agency_id)
 
   if agency.nil?
@@ -13,6 +13,7 @@ def create_or_update_agency(agency_hash)
 end
 
 create_or_update_agency(
+  id: "agency-unicef",
   name: "UNICEF",
   agency_code: "UN"
 )
