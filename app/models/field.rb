@@ -337,6 +337,9 @@ class Field
         when 'Location'
           lct = Location.find_by_location_code(value)
           value = (lct.present? ? lct.name : '')
+        when 'Agency'
+          agency = Agency.get(value)
+          value = (agency.present? ? agency.name : '')
         else
           value
       end
