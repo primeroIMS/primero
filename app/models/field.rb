@@ -296,10 +296,6 @@ class Field
         end
       when 'lookup'
         options_list += Lookup.values(source_options.last, lookups)
-        if source_options.second == 'group'
-          #TODO: i18n - JOR-417
-          options_list += ['Other', 'Mixed', 'Unknown']
-        end
       when 'Location'
         options_list += locations || [] if locations.present?
       else
