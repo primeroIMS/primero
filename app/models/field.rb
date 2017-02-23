@@ -298,6 +298,8 @@ class Field
         options_list += Lookup.values(source_options.last, lookups)
       when 'Location'
         options_list += locations || [] if locations.present?
+      when 'Agency'
+        options_list += Agency.all_names
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
@@ -335,6 +337,9 @@ class Field
         when 'Location'
           lct = Location.find_by_location_code(value)
           value = (lct.present? ? lct.name : '')
+        when 'Agency'
+          agency = Agency.get(value)
+          value = (agency.present? ? agency.name : '')
         else
           value
       end
