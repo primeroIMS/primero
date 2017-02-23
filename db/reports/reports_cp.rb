@@ -45,18 +45,17 @@ Report.create_or_update({
   editable: false
 })
 
-#TODO: We need to index agaency of current record owner. What abut referrals?
-# Report.create_or_update({
-#   id: '957ade8094074ebd8b9a94baaa07d1ab',
-#   name: 'Cases by Agency',
-#   description: 'Number of cases broken down by agency',
-#   module_ids: ['CP', 'GBV'],
-#   record_type: 'case',
-#   aggregate_by: ['owned_by'],
-#   filters: default_case_filters,
-#   is_graph: true,
-#   editable: false
-# })
+Report.create_or_update({
+  id: '957ade8094074ebd8b9a94baaa07d1ab',
+  name: 'Cases by Agency',
+  description: 'Number of cases broken down by agency',
+  module_ids: [PrimeroModule::CP, PrimeroModule::GBV],
+  record_type: 'case',
+  aggregate_by: ['owned_by_agency'],
+  filters: default_case_filters,
+  is_graph: true,
+  editable: false
+})
 
 Report.create_or_update({
   id: '1b00e72e20d5419083b9ef06fd4c2705',
