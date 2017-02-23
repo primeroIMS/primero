@@ -14,22 +14,29 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
 
   initialize: function() {
     var self = this;
+    
+    this.option_string_sources = this.getStringSourcesOptions()
 
-    // TODO: Use this when adding all other options_string_sources. Currently hardcoding Locations.
-    // this.option_string_sources = _.uniq(_.map(, function(element) { 
-    //   return $(element).attr('data-populate')
-    // }));
-    this.option_string_sources = ['Location']
     this.collection = new StringSources();
     this.collection.fetch({
       data: $.param({
-        string_sources: this.option_string_sources
+        string_sources: this.option_string_sources,
+        locale: I18n.defaultLocale
       })
     }).done(function() {
       self.parseOptions();
     }).fail(function() {
       self.disableAjaxSelectBoxes();
     });
+  },
+
+  getStringSourcesOptions: function() {
+    var selects = $('form select');
+    var lookup_options = _.uniq(_.map(selects, function(element) { 
+      return $(element).attr('data-populate')
+    }));
+
+    return _.without(lookup_options, 'null', 'User');
   },
 
   disableAjaxSelectBoxes: function() {

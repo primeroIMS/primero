@@ -295,7 +295,7 @@ class Field
           options_list = record.violations_list_by_unique_id.map{|k,v| {'id' => v, 'display_text' => k}}
         end
       when 'lookup'
-        options_list += Lookup.values(source_options.last, lookups)
+        # options_list += Lookup.values(source_options.last, lookups)
       when 'Location'
         options_list += locations || [] if locations.present?
       else

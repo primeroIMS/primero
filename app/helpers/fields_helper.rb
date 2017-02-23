@@ -178,4 +178,15 @@ module FieldsHelper
       "form_section/#{field.type}"
     end
   end
+
+  def option_string_source_data_attr(source)
+    if source.present?
+      source_match = source.match /lookup-.*/
+      if source_match
+        source_match[0]
+      else  
+        source
+      end
+    end
+  end
 end
