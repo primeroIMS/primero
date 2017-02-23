@@ -2,6 +2,10 @@ class Report < CouchRest::Model::Base
   use_database :report
   include PrimeroModel
   include BelongsToModule
+  include LocalizableProperty
+
+  #TODO i18n - investigate making Localizable concern which uses LocalizableProperty
+  #TODO i18n - investigate possibility of refactoring Lookup, Agency, Location, etc to use Localizable
 
   REPORTABLE_FIELD_TYPES = [
     #Field::TEXT_FIELD,
@@ -28,8 +32,7 @@ class Report < CouchRest::Model::Base
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
 
-  property :name
-  property :description
+  localize_properties [:name, :description]
   property :module_ids, [String]
   property :record_type #case, incident, etc.
   property :aggregate_by, [String], default: [] #Y-axis
@@ -62,7 +65,6 @@ class Report < CouchRest::Model::Base
   before_save :apply_default_filters
 
   design do
-    view :by_name
     view :by_module_id,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'Report' && doc['module_ids']){
