@@ -51,7 +51,7 @@
 
           <% (subform_section.fields.select {|field| field.showable? }).each do |field| %>
             <% unless (field.name == "to_user_local_status" && formObject_i.is_remote == true) || (field.name == "to_user_local_status" && formObject_i.type == Transition::TYPE_REASSIGN) %>
-              <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject_i} %>
+              <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject_i, :lookups => lookups} %>
             <% end %>
           <% end %>
           </fieldset>

@@ -10,7 +10,7 @@
       <%
         value = field_value_for_display((formObject.try(field.name) || formObject.try(:[],field.name)), field)
         if field.multi_select.present? and field.multi_select == true
-          value = field_value_for_multi_select formObject.try(field.name), field, formObject
+          value = field_value_for_multi_select formObject.try(field.name), field, formObject, lookups
         end
         value = I18n.t("cases.hidden_text_field_text") if formObject[:hidden_name] && field.hidden_text_field
       %>

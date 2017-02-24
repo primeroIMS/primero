@@ -58,7 +58,7 @@ $(show_tools);
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <%# Removed for demo deploy %>
-      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @child} %>
+      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @child, :lookups => @lookups} %>
     </div>
     <%= render 'record_shared/header_message', record: @child, model: 'case' %>
   </div>
