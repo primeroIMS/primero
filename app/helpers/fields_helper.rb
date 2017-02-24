@@ -57,8 +57,11 @@ module FieldsHelper
 
   def select_options(field, record=nil, lookups=nil, exclude_empty_item=false)
     select_options = []
-    select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.type == Field::TICK_BOX || field.multi_select || exclude_empty_item)
-    select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
+    if field.present?
+      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.type == Field::TICK_BOX || field.multi_select || exclude_empty_item)
+      select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
+    end
+    select_options
   end
 
   def field_link_for_display(field_value, field)
