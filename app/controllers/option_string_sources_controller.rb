@@ -5,7 +5,7 @@ class OptionStringSourcesController < ApplicationController
     
     respond_to do |format|
       if sources.present?
-        format.json { render json: { success: 1, sources: sources }}
+        format.json { render json: { success: 1, sources: sources, placeholder: I18n.t("fields.select_box_empty_item") }}
       else
         format.json { render json: { message: t('string_sources_failed'), success: 0 }}
       end
@@ -25,7 +25,6 @@ class OptionStringSourcesController < ApplicationController
     lookups = Lookup.all.all.select{|lookup| params[:string_sources].include?(lookup.id)}
     
     if lookups.present?
-      # TODO: Need to pass locale
       lookups.map{|lookup| [{:type => lookup.id ,:options => lookup.lookup_values}]}
     else
       nil
@@ -33,7 +32,6 @@ class OptionStringSourcesController < ApplicationController
   end
 
   def get_locations
-    # TODO: Need to pass locale
     {type: 'Location', options: Location.all_names}
   end
 end

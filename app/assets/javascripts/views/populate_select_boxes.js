@@ -4,7 +4,8 @@ var StringSources = Backbone.Collection.extend({
   parse: function(resp) {
     this.status = resp.success;
     this.message = resp.message;
-
+    this.placeholder = resp.placeholder;
+    
     return resp.sources;
   }
 });
@@ -81,8 +82,11 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
   },
 
   updateSelectBoxes: function(select_boxes) {
+    var self = this;
+
     _.each(select_boxes, function(select) {
-      var value = select.getAttribute('data-value');
+      var this_select = $(select);
+      var value = this_select.data('value');
       var placeholder;
 
       /*
@@ -91,11 +95,12 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
       * We will need to update chosen when this is fixed.
       * https://github.com/harvesthq/chosen/issues/2638
       */
-      placeholder = select.getAttribute('data-placeholder');
-      $(select).prepend('<option value="" default selected>' + placeholder + '</option>');
+      placeholder = select.getAttribute('data-placeholder') || self.collection.placeholder;
+
+      this_select.prepend('<option value="" default selected>' + placeholder + '</option>');
       
       if (value) {
-        select.value = value;
+        this_select.val(value);
       }
     });
 
