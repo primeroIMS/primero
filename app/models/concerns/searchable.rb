@@ -56,11 +56,11 @@ module Searchable
             if location.present?
               # break if admin_level > location.admin_level
               if admin_level == location.admin_level
-                location.name
+                location.location_code
               elsif location.admin_level.present? && (admin_level < location.admin_level)
                 # find the ancestor with the current admin_level
                 lct = location.ancestors.select{|l| l.admin_level == admin_level}
-                lct.present? ? lct.first.name : nil
+                lct.present? ? lct.first.location_code : nil
               end
             end
           end
