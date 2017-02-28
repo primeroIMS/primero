@@ -117,8 +117,20 @@ describe ReportsController do
       )
       @report.apply_default_filters
       @report.save!
+
+      @report2 = Report.new(
+          id: 'testid2',
+          name: 'test report 2',
+          module_ids: [@primero_module.id],
+          record_type: 'case',
+          aggregate_by: ['owned_by_location'],
+          add_default_filters: true
+      )
+      @report2.apply_default_filters
+      @report2.save!
     end
 
+    #TODO add i18n tests
     it "should build a report for admin" do
       expected_results = {
           ["bobby"] => 2,
