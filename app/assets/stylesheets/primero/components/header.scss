@@ -1,0 +1,34 @@
+header {
+  margin-bottom: 1%;
+
+  .menu {
+    font-size: .8rem;
+  }
+
+  a.logo img {
+    height: rem_calc(53);
+  }
+
+  .sublogo {
+    font-size: $thirteen_px;
+    text-indent: .5em;
+  }
+
+  ul.links {
+    margin-right: 0;
+    margin-left: 1rem;
+
+    li:not(:last-child) {
+      border-right: 1px solid #ccc;
+      padding-right: 1rem;
+    }
+  }
+
+  ul.agency_logos {
+    margin: 1% 0;
+
+    li {
+      margin-left: rem_calc(10);
+    }
+  }
+}

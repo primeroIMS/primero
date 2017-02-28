@@ -1,0 +1,37 @@
+nav {
+  background: #333;
+  width: 100%;
+  z-index: 999;
+
+  #search_form {
+    .input-group {
+      margin-bottom: 0;
+      height: rem_calc(49);
+    }
+
+    .button {
+      height: rem_calc(49);
+    }
+  }
+
+  a {
+    padding: 1rem !important;
+    color: $white_color;
+    font-size: .9rem;
+
+    &.current {
+      color: $light_green_color;
+      border-bottom: 3px solid $green-color;
+    }
+
+    i {
+      margin-right: 0 !important;
+    }
+
+    &:hover {
+      color: $white_color;
+      background: $green_color;
+      text-decoration: none;
+    }
+  }
+}

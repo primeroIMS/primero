@@ -37,7 +37,7 @@
   </div>
 
   <% if @display_cases_dashboard %>
-    <div class="row collapse">
+    <div class="row">
       <div id="content" class="large-9 small-9 columns dashboards">
         <% if @display_tracing_request_dashboard %>
           <%= render 'match_result_statistics', match_stats: @match_stats, model: PotentialMatch %>
@@ -67,7 +67,7 @@
   <% end %>
 
   <% if @display_incidents_dashboard %>
-      <div class="row collapse">
+      <div class="row">
         <div id="content" class="large-9 small-9 columns dashboards">
           <%= render 'open_incidents', open_incidents: @open_incidents %>
         </div>
@@ -78,7 +78,7 @@
   <% end %>
 
   <% if @display_gbv_incidents_dashboard %>
-      <div class="row collapse">
+      <div class="row">
         <div id="content" class="large-9 small-9 columns dashboards">
           <%= render 'open_gbv_incidents', open_incidents: @open_gbv_incidents %>
         </div>

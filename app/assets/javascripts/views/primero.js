@@ -236,6 +236,8 @@ Primero = _primero.Views.Base.extend({
       topSpacing: control.data('top'),
       bottomSpacing: control.data('bottom')
     });
+
+    nav_stickem = $('nav').sticky()
   },
 
   start_sticky: function(evt) {
@@ -532,7 +534,7 @@ Primero = _primero.Views.Base.extend({
   },
 
   set_content_sidebar_equality: function() {
-    Foundation.libs.equalizer.reflow();
+    //Foundation.libs.equalizer.reflow();
   },
 
   scrollTop: function() {

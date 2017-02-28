@@ -56,7 +56,7 @@
                     <br>
                   <% end %>
                   <% if can?(:copy, role) %>
-                    <a data-reveal-id=<%= "copy-role-modal" %> data-role-id=<%= role.id %> class=<%= "copy-role-action" %> href="#">
+                    <a data-open=<%= "copy-role-modal" %> data-role-id=<%= role.id %> class=<%= "copy-role-action" %>>
                       <%= t("roles.actions.copy") %>
                     </a>
 

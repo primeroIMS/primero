@@ -30,24 +30,18 @@ div.scope_bar {
 // Index filters
 ////////////////////////////////////////////////
 
-.filter_title {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  padding: 0px 0 0 25px;
-  line-height: 20px;
-
+.filter-controls {
   a {
-    text-transform: none;
-    border-bottom: 1px dotted $grey_color;
-
-    &:hover {
-      text-decoration: none;
-      border-bottom: none;
-      font-weight: bold;
-    }
-
     i {
       color: $stroke_green_color;
+    }
+
+    &#apply_filter {
+      padding: 0.85em .8em
+    }
+
+    &.clear_filters {
+      font-size: .8rem;
     }
   }
 }

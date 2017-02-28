@@ -2,12 +2,12 @@
   <div class="large-6 columns collapse">
     <ul class="inline-list">
       <li>
-        <a href="#" data-reveal-id="record_info_modal"><%= t('record_panel.record_information') %></a>
+        <a data-open="record_info_modal"><%= t('record_panel.record_information') %></a>
       </li>
       <li>
         <!-- change log -->
         <a id="show_change_log" data-change_log_url="<%= "/#{model.pluralize}/#{record.id}/change_log" %>"
-           data-reveal-id="<%= model %>_<%= record.short_id%>_change_log" href="#">
+           data-open="<%= model %>_<%= record.short_id%>_change_log">
           <%= t("record_panel.change_log") %>
         </a>
         <div class="reveal-modal medium" id="<%= model %>_<%=record.short_id%>_change_log" data-reveal></div>

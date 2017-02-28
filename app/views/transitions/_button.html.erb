@@ -23,7 +23,7 @@
 <% if can?(transition_type.to_sym(), controller.model_class) %>
 <li>
   <a data-consent_count_url="<%= "/#{model_name.downcase.underscore.pluralize}/consent_count" %>"
-     data-reveal-id=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "#{transition_type}_show_action" : "#{transition_type}_index_action") %> href="#">
+     data-open=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "#{transition_type}_show_action" : "#{transition_type}_index_action") %>>
      <%= t("buttons.#{transition_type}", model: model_name) %>
   </a>
 

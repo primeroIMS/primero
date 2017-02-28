@@ -1,7 +1,7 @@
 <% if can?(:import, controller.model_class) %>
   <% active_importers = (defined? importers) ? importers : Importers::ACTIVE_IMPORTERS %>
   <li>
-    <a data-reveal-id="import-modal" href="#">
+    <a data-open="import-modal">
       <%=(defined? import_label) ? t(import_label) : t("buttons.import") %>
     </a>
 

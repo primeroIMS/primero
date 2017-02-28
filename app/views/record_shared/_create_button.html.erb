@@ -1,14 +1,14 @@
 <% if can? :create, model %>
     <% button_label = t("#{record.pluralize}.register_new_#{record}") %>
     <% if !defined?(modules) || !modules.present? %>
-        <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record),  class: 'btn green-button right' %>
+        <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record),  class: 'button hollow right' %>
     <% elsif modules.size > 1 %>
-        <%= link_to content_tag(:span, button_label), '#', :'data-dropdown' => 'modules-dropdown', :'data-options' => 'align:bottom', class: 'btn green-button right' %>
-        <ul id="modules-dropdown" class="f-dropdown" data-dropdown-content>
+        <a data-toggle="modules-dropdown" data-close-on-click="true" class="button hollow right"><%= content_tag(:span, button_label) %></a>
+        <ul id="modules-dropdown" class="dropdown-pane" data-dropdown>
         <% modules.each do |primero_module| %>
             <%# TODO: translate the module name %>
             <li>
-              <%= content_tag( :a, primero_module.name, :class => 'dropdown_link', :'data-link' => new_polymorphic_path(record, module_id: primero_module.id)) %>
+              <%= content_tag( :a, primero_module.name, :class => 'dropdown_link', :'href' => new_polymorphic_path(record, module_id: primero_module.id)) %>
             </li>
         <% end %>
         </ul>

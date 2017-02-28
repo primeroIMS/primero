@@ -3,7 +3,7 @@
   model_name = I18n.t("forms.record_types.#{model_class_name}")
 %>
 <li>
-<a data-reveal-id=<%= "approve-#{approval_type}-modal" %> class=<%= "approve_#{approval_type}_show_action" %> href="#">
+<a data-open=<%= "approve-#{approval_type}-modal" %> class=<%= "approve_#{approval_type}_show_action" %>>
   <%= t("buttons.approve_#{approval_type}", model: model_name) %>
 </a>
 

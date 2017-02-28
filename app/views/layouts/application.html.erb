@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html lang="<%= I18n.default_locale %>" dir="ltr">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=3.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
@@ -22,30 +22,11 @@
       I18n.locale = "<%= I18n.locale %>";
       I18n.fallbacks = true;
   <% end %>
-  <% #javascript_include_tag 'plugins/jquery-1.7.1.min' %>
 </head>
 <body class="<%= @body_class %>">
-  <!-- Header -->
-  <div class="header_container">
-    <div class="row">
-      <header>
-        <div class="large-12 columns">
-          <%= link_to root_path, :class => 'logo left', id: "RapidFTRlogo"  do %>
-            <%= image_tag('logo.png', alt: 'Primero') %>
-          <% end %>
-          <div class="sublogo">Protection-related information management</div>
-          <ul class="agency_logos"><% display_agency_logos %></ul>
-          <div class="right">
-            <%= render :partial => "shared/header_links" %>
-          </div>
-        </div>
-      </header>
-    </div>
-  </div>
-  <!-- End Header -->
-  <!-- Nav -->
-    <%= render 'shared/nav' %>
-  <!-- End Nav -->
+  <%= render 'shared/header' %>
+  <%= render 'shared/nav' %>
+
 <div class="page_container">
   <% if flash[:notice].present? %>
       <div class='flash row'>

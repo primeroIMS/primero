@@ -6,7 +6,7 @@
 %>
 
 <div class="index_controls_container" data-top="50" data-bottom="40">
-  <div class="row collapse">
+  <div class="row collapse align-middle">
     <div class="large-9 small-9 columns">
       <div class="row collapse">
         <div class="large-6 small-6 columns">
@@ -25,10 +25,10 @@
     <div class="large-3 small-3 columns">
       <% if options[:display_filter] %>
           <div class="filter_title left">
-            <%= t("buttons.filter_label") %><br>
+            <%= t("buttons.filter_label") %>
             <a class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_clear') %></a>
           </div>
-          <%= link_to t("buttons.filter"), '', class: 'green-button right', id: 'apply_filter' %>
+          <%= link_to t("buttons.filter"), '', class: 'button hollow right', id: 'apply_filter' %>
       <% end %>
     </div>
   </div>

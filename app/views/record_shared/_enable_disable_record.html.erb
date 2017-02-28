@@ -1,5 +1,5 @@
 <li>
-  <a data-reveal-id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" href="#"><%= instance.record_state ? t("actions.disable") :t("actions.enable") %></a>
+  <a data-open="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>"><%= instance.record_state ? t("actions.disable") :t("actions.enable") %></a>
 
   <div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" data-reveal>
     <a class="close-reveal-modal">&#215;</a>

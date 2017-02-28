@@ -79,14 +79,17 @@
   height: 50px;
   z-index: 999;
   background: $white_color;
-  padding-top: 7px;
 
-  .pagination_info {
-    margin-top: 6px;
+  .controls {
+    height: 50px;
   }
 
-  .large-9 {
-    padding: 0;
+  .button {
+    margin-bottom: 0;
+  }
+  
+  .pagination_info {
+    font-size: .9rem;
   }
 }
 
