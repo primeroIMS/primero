@@ -427,6 +427,7 @@ class Report < CouchRest::Model::Base
     number_of_pivots = pivots.size #can also be dimensionality, but the goal is to move the solr methods out
     pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(record_type, p)}.join(',')
     filter_query = build_solr_filter_query(record_type, filters)
+    result_pivots = []
     if number_of_pivots == 1
       params = {
         :q => filter_query,
@@ -437,32 +438,14 @@ class Report < CouchRest::Model::Base
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
-      pivots_value = pivots.first
-      pivots = []
       is_numeric = pivots_string.end_with? '_i' #TODO: A bit of a hack to assume that numeric Solr fields will always end with "_i"
       response['facet_counts']['facet_fields'][pivots_string].each do |v|
         if v.class == String
-          # v = v.to_i if is_numeric
-          # pivots << {'value' => v}
-          if is_numeric
-            pivots << {'value' => v.to_i}
-          else
-            field = nil
-            fm = self.field_map.select{|f| f[:id] == pivots_value}.first
-            if fm.present?
-              field = fm[:field]
-            end
-            if field.present?
-              pivots << {'value' => field.display_text(v)}
-            else
-              pivots << {'value' => v}
-            end
-          end
+          result_pivots << (is_numeric ? {'value' => v.to_i} : {'value' => v})
         else
-          pivots.last['count'] = v
+          result_pivots.last['count'] = v
         end
       end
-      result = {'pivot' => pivots}
     else
       params = {
         :q => filter_query,
@@ -473,9 +456,21 @@ class Report < CouchRest::Model::Base
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
-      result = {'pivot' => response['facet_counts']['facet_pivot'][pivots_string]}
+      result_pivots = response['facet_counts']['facet_pivot'][pivots_string]
     end
-    return result
+
+    translate_solr_response(0, result_pivots)
+    result = {'pivot' => result_pivots}
+  end
+
+  def translate_solr_response(map_index, response)
+    #The order of the values in the field map corresponds with the order of the pivots
+    field = self.field_map.try(:[], map_index).try(:[], :field)
+
+    response.each do |resp|
+      resp['value'] = field.display_text(resp['value']) if field.present?
+      translate_solr_response((map_index + 1), resp['pivot']) if resp['pivot'].present?
+    end
   end
 
 
