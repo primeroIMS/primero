@@ -52,7 +52,7 @@ module ApplicationHelper
   end
 
   def submit_button(name = t("buttons.save"))
-      submit_tag(name, :class => 'green-button btn_submit')
+      submit_tag(name, :class => 'button hollow btn_submit')
   end
 
   def cancel_button(path)
@@ -60,7 +60,7 @@ module ApplicationHelper
   end
 
   def discard_button(path)
-      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message'), turbolinks: false}, class: "grey-button"
+      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message'), turbolinks: false}, class: "button hollow"
   end
 
   def link_with_confirm(link_to, anchor, link_options = {})
@@ -165,13 +165,9 @@ module ApplicationHelper
   def ctl_create_incident_button(record)
     if record.present? and record.class.name == "Child" and record.module_id == PrimeroModule::GBV
       if current_actions(action: ['update', 'edit'])
-        content_tag :li do
-          submit_button(t("buttons.create_incident"))
-        end
+        submit_button(t("buttons.create_incident"))
       elsif current_actions(action: ['show'])
-        content_tag :li do
-          link_to t("buttons.create_incident"), child_create_incident_path(record), class: "green-button"
-        end
+        link_to t("buttons.create_incident"), child_create_incident_path(record), class: "button hollow"
       end
     end
   end

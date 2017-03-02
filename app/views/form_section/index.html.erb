@@ -3,21 +3,14 @@
 <% end %>
 
 <% content_for :record_sub_nav do %>
-  <li>
-    <%= link_to content_tag(:span, t("form_section.create"), class: 'create_user'), new_form_section_path({module_id: @module_id, parent_form: @parent_form}),  class: 'btn green-button' %>
-  </li>
-  <li>
-    <%= select_tag :parent_form,
-         options_for_select(@record_types.map{|r| [r.titleize, r]}, @parent_form),
-         :onchange => "if(this.value){window.location='?module_id=#{@module_id}&parent_form='+this.value;}" %>
-  </li>
-  <li>
-    <%= select_tag :module_id,
-                       options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id),
-                       :onchange => "if(this.value){window.location='?module_id='+this.value+'&parent_form=#{@parent_form}';}" %>
-  </li>
-  <li>
-  <a data-open="forms-export" href="#" class='btn green-button'><%= t("exports.forms.label") %></a>
+  <%= link_to content_tag(:span, t("form_section.create"), class: 'create_user'), new_form_section_path({module_id: @module_id, parent_form: @parent_form}),  class: 'button hollow' %>
+  <%= select_tag :parent_form,
+      options_for_select(@record_types.map{|r| [r.titleize, r]}, @parent_form),
+      :onchange => "if(this.value){window.location='?module_id=#{@module_id}&parent_form='+this.value;}" %>
+  <%= select_tag :module_id,
+                    options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id),
+                    :onchange => "if(this.value){window.location='?module_id='+this.value+'&parent_form=#{@parent_form}';}" %>
+  <a data-open="forms-export" href="#" class='button hollow'><%= t("exports.forms.label") %></a>
   <div class="reveal-modal tiny" id="forms-export" data-reveal>
     <a class="close-reveal-modal">&#215;</a>
     <div class="row">
@@ -34,13 +27,12 @@
       </div>
     </div>
   </div>
-  </li>
 <% end %>
 
 <div class="clearfix"></div>
-<div class="page-content-new row collapse" data-equalizer>
+<div class="page-content-new row" data-equalizer>
   <%= render :partial => 'sidebar', :locals => {:highlight_page => 'forms'} %>
-  <div class="large-8 medium-8 columns side-tab-content-container">
+  <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <% if @form_sections.present? %>
         <%= render :partial => "form_section/list_view_table", :locals => {:form_sections => @form_sections, :primero_module => @primero_module} %>

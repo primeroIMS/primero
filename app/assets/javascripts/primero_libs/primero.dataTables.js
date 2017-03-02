@@ -13757,7 +13757,7 @@
 		"sNoFooter": "no-footer",
 	
 		/* Paging buttons */
-		"sPageButton": "paginate_button",
+		"sPageButton": "button hollow",
 		"sPageButtonActive": "current",
 		"sPageButtonDisabled": "disabled",
 	

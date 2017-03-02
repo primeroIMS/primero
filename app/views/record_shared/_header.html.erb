@@ -1,12 +1,17 @@
-
-<div class="row">
+<div class="row collapse align-middle">
   <div class="column">
-    <% if model.respond_to? :by_flag %>
-      <%= render partial: 'record_shared/flag_records', locals: {model: model} %>
-    <% end %>
-    <% if display_actions %>
-      <%= render partial: 'record_shared/actions', locals: {model: model} %>
-    <% end %>
+    <div class="row">
+      <div class="column">
+        <% if model.respond_to? :by_flag %>
+          <%= render partial: 'record_shared/flag_records', locals: {model: model} %>
+        <% end %>
+      </div>
+      <div class="column">
+        <% if display_actions %>
+          <%= render partial: 'record_shared/actions', locals: {model: model} %>
+        <% end %>
+      </div>
+    </div>
   </div>
   <div class="column text-right">
     <% if display_create %>

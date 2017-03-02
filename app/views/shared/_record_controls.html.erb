@@ -1,17 +1,13 @@
-<div class="record_controls_container" data-top="50" data-bottom="120">
-  <div class="record_controls">
-    <div class="row collapse">
-      <div class="large-3 medium-3 columns">
-        <h4><%= yield :breadcrumbs %></h4>
-      </div>
-      <div class="large-9 medium-9 columns">
-        <div class="row">
-          <div class="large-12 columns">
-            <ul class="inline-list">
-              <%= yield :record_sub_nav %>
-              <%= yield :record_sub_nav_controls %>
-            </ul>
-          </div>
+<div class="record_controls_container" data-top="49" data-bottom="120">
+  <div class="record_controls row align-middle">
+    <div class="large-3 medium-3 columns controls-left">
+      <h4><%= yield :breadcrumbs %></h4>
+    </div>
+    <div class="large-9 medium-9 columns controls-right">
+      <div class="row collapse">
+        <div class="large-12 columns">
+          <%= yield :record_sub_nav %>
+          <%= yield :record_sub_nav_controls %>
         </div>
       </div>
     </div>

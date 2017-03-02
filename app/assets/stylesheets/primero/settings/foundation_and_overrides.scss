@@ -60,6 +60,7 @@ $topbar-link-color-hover: $green_color !default;
 // Import Foundation!
 ////////////////////////////////////////////////
 $global-flexbox: true;
+$global-text-direction: rtl;
 
 @import "foundation";
 @include foundation-flex-grid;
@@ -79,5 +80,10 @@ $global-flexbox: true;
 
 .sticky {
   z-index: 999;
+}
+
+.sticking {
+  -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
 }
 

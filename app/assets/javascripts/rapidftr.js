@@ -113,12 +113,12 @@ RapidFTR.showDropdown = function(){
             parent = el.parents(".ui-datepicker");
         if (parent.length == 0) {
 
-            $(".dropdown").children().each(function() {
-                if ($(this).is('form')) {
-                    $(this).remove();
-                }
-            });
-            $(".dropdown").hide();
+            // $(".dropdown").children().each(function() {
+            //     if ($(this).is('form')) {
+            //         $(this).remove();
+            //     }
+            // });
+            // $(".dropdown").hide();
         }
     });
 };

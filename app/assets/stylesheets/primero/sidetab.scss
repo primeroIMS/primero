@@ -3,11 +3,12 @@
 ////////////////////////////////////////////////
 
 .side-tab-container, .side-tab {
-  width: 250px;
+  // width: 250px;
 }
 
 .side-tab-content-container {
-  width: 750px;
+  // width: 750px;
+  padding-left: 0;
 
   .side-tab-content {
     .warning {
@@ -175,12 +176,11 @@ li.current {
 }
 
 ul.side-nav, ul.modal-side-nav {
-  width: 251px;
-
+  margin-right: 0;
+  
   li ul {
     display: none;
     list-style: none;
-    width: 231px;
   }
 
   li .panel {

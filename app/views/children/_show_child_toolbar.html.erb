@@ -1,15 +1,11 @@
 <%# TODO: Refactor this toolbar to be shared by all record types. %>
 <% if params[:match].present? %>
-  <li>
-    <%= link_to t("child.match_record"), match_record_case_path(@child, match: params[:match]), class: 'btn green-button', method: :put %>
-  </li>
+  <%= link_to t("child.match_record"), match_record_case_path(@child, match: params[:match]), class: 'button hollow', method: :put %>
 <% end %>
 <% if can? :flag, child %>
-    <li>
-        <div class="dropdown_btn dropdown_form">
-            <%= render 'record_shared/suspect_flag', record: @child %>
-        </div>
-    </li>
+  <div class="button hollow dropdown_btn dropdown_form">
+      <%= render 'record_shared/suspect_flag', record: @child %>
+  </div>
 <% end %>
 <% if can? :update, child %>
     <%= ctl_create_incident_button(@child) %>
@@ -17,7 +13,7 @@
 <% unless ["edit", "update"].include? controller.action_name %>
 <ul id="menu" class="sf-menu">
   <li class="init_btn">
-    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
+    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'button hollow action_btn' %>
     <ul>
         <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
         <% if can? :export_custom, Child %>

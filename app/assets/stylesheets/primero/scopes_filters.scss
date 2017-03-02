@@ -6,17 +6,21 @@ div.scope_bar {
   li.scope a {
     text-decoration: none;
   }
+  
   li.scope ul li {
-    padding: 5px;
+    padding: rem_calc(5);
   }
+  
   li.scope ul li:hover{
     background-color: silver;
   }
+  
   div.row > div {
-    padding-left: 0px;
+    padding-left: 0;
   }
+
   ul {
-    margin-left: 0px;
+    margin-left: 0;
     li {
       list-style: none;
       select {
@@ -47,39 +51,15 @@ div.scope_bar {
 }
 
 .index_filters {
-  padding: 0;
-  width: 225px;
-  float: right;
-
-  label {
-    display: block;
-    float: left;
-    padding-right: 10px;
-    white-space: nowrap;
-    padding-left: 22px;
-    text-indent: -22px;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  input {
-    vertical-align: middle;
-  }
-
-  label span {
-    vertical-align: middle;
-    margin-left: 4px;
-  }
-
   .filter {
-    margin-bottom: 8px;
+    margin-bottom: rem_calc(8);
 
     .chosen-container-single {
-      padding: 2px;
+      padding: rem_calc(2);
     }
 
     .filter-controls {
-      padding: 10px 3px 2px 9px;
+      padding: rem_calc(10 3 2 9);
       clear: both;
     }
 
@@ -92,13 +72,13 @@ div.scope_bar {
     }
 
     .form_date_field {
-      padding: 3px;
+      padding: rem_calc(3);
     }
   }
 
   h3 {
     font-size: $thirteen_px;
-    padding: 10px 10px 0 10px;
+    padding: rem_calc(10 10 0 10);
     margin: 0;
     font-family: 'Roboto-Medium', sans-serif;
     border-top: 1px solid $stroke_green_color;
@@ -106,7 +86,7 @@ div.scope_bar {
   }
 
   .panel {
-    padding: 0 0 20px;
+    padding: rem_calc(0 0 20);
     border: none;
     background: #f1f5ec;
   }
@@ -117,19 +97,27 @@ div.scope_bar {
   }
 
   .field-controls-multi {
-    margin: 5px 0 10px;
+    margin: rem_calc(5 0 10);
+
+    label span {
+      width: rem_calc(205)
+    }
   }
 
   label {
-    font-size: 0.8rem;
+    font-size: 0.8rem; 
 
-    &:not(.has_date) {
-      margin-right: 0 !important;
+    span {
+      width: rem_calc(220);
+      overflow: hidden;
+      display: block;
+      line-height: 1em;
+      text-overflow: ellipsis;
     }
   }
 
   .chosen-container-single {
     width: 96% !important;
-    margin: 10px 0 20px 4px !important;
+    margin: rem_calc(10 0 20 4) !important;
   }
 }
