@@ -423,6 +423,10 @@ class Field
     self.option_strings_source == 'Location'
   end
 
+  def is_mobile?
+    self.mobile_visible == true
+  end
+
   private
 
   def create_unique_id

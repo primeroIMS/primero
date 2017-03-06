@@ -6,23 +6,29 @@ class FormSectionController < ApplicationController
   include FormCustomization
 
   before_filter :get_form_section, :only => [:edit, :destroy]
-  before_filter :get_related_form_sections, :only => [:index, :edit]
+  before_filter :load_form_sections, :only => [:index, :edit]
   before_filter :get_lookups, :only => [:edit]
 
   include LoggerActions
 
   def index
-    authorize! :index, FormSection
+    #TODO - temporary for testing!!!!
+    # authorize! :index, FormSection
+    # binding.pry
+    # x = 0
     @page_name = t("form_section.manage")
 
     respond_to do |format|
       format.html
       format.json do
         #TODO: What about module and type parameters?
-        if params[:mobile].present?
+        if is_mobile? && @form_sections.present?
           @lookups = Lookup.all.all
           @locations = Location.all_names
+          @mobile_form_type = mobile_form_type(@parent_form)
           @form_sections = format_for_mobile(@form_sections, params[:locale], params[:parent_form])
+          binding.pry
+          zzz = 0
         end
         render json: @form_sections
       end
@@ -131,29 +137,36 @@ class FormSectionController < ApplicationController
 
   private
 
+  def is_mobile?
+    params[:mobile] == 'true'
+  end
+
   def get_form_section
     @form_section = FormSection.get_by_unique_id(params[:id], true)
     @parent_form = @form_section.parent_form
   end
 
-  def get_related_form_sections
-    @record_types = @primero_module.associated_record_types
+  def load_form_sections
+    if @primero_module.present?
+      @record_types = @primero_module.associated_record_types
 
-    if @parent_form.blank?
-      #only use the passed in parent_form if it is in the allowed form types for this module
-      #otherwise, default to the first allowed form type
-      if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
-        @parent_form = params[:parent_form]
-      else
-        @parent_form = @record_types.first
+      if @parent_form.blank?
+        #only use the passed in parent_form if it is in the allowed form types for this module
+        #otherwise, default to the first allowed form type
+        if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
+          @parent_form = params[:parent_form]
+        else
+          @parent_form = @record_types.first
+        end
       end
-    end
 
-    permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user, true)
-    FormSection.link_subforms(permitted_forms, true)
-    #filter out the subforms
-    no_subforms = FormSection.filter_subforms(permitted_forms, true)
-    @form_sections = FormSection.group_forms(no_subforms, true)
+      permitted_forms = is_mobile? ?
+          FormSection.get_permitted_mobile_form_sections(@primero_module, @parent_form, current_user) :
+          FormSection.get_permitted_non_subform_form_sections(@primero_module, @parent_form, current_user)
+      @form_sections = FormSection.group_forms(permitted_forms, true)
+    else
+      @form_sections = []
+    end
   end
 
   def forms_for_move
@@ -173,49 +186,56 @@ class FormSectionController < ApplicationController
   def format_for_mobile(form_sections, locale_param=nil, parent_form_param=nil)
     #Flatten out the form sections, discarding form groups
     form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
-    #Discard the non-mobile form sections
-    form_sections = form_sections.select{|f| f.mobile_form?}
-    #Transform the i18n values
-    requested_locales = if locale_param.present? && Primero::Application::locales.include?(locale_param)
-                          [locale_param]
-                        else
-                          Primero::Application::locales
-                        end
-    form_sections = form_sections.map do |form|
-      attributes = convert_localized_form_properties(form, requested_locales)
-      attributes['fields'] = form.fields.map do |f|
-        field_hash = convert_localized_field(f, requested_locales)
-        if f.subform.present?
-          embed_subform(field_hash, f.subform, requested_locales)
-        end
-        field_hash
-      end
-      attributes
-    end
+
+    form_sections = form_sections_to_hash(form_sections, locale_param)
     #Group by form type
+    #TODO RSE
     form_sections = form_sections.group_by { |f| mobile_form_type(f['parent_form']) }
     return simplify_form_content(form_sections, parent_form_param)
+  end
+
+  def form_sections_to_hash(form_sections, locale_param=nil)
+    requested_locales = ((locale_param.present? && Primero::Application::locales.include?(locale_param)) ? [locale_param] : Primero::Application::locales)
+    form_sections.map do |form|
+      attributes = convert_localized_form_properties(form, requested_locales)
+      attributes['fields'] = mobile_fields_hash(form, requested_locales)
+      attributes
+    end
+  end
+
+  def mobile_fields_hash(form, requested_locales)
+    form.all_mobile_fields.map do |f|
+      field_hash = convert_localized_field(f, requested_locales)
+      if f.subform.present?
+        embed_subform(field_hash, f.subform, requested_locales)
+      end
+      field_hash
+    end
   end
 
 
   def simplify_form_content(form_sections, parent_form_param=nil)
     #Todo: write this block of code in a simple way
-    if parent_form_param == 'case'
-      for section in form_sections["Children"]
-        section.slice!(:name, "order", :help_text, "base_language", "fields")
-        section["fields"].delete_if { |i| i["mobile_visible"]==false }
-        for field in section["fields"]
-          field.slice!("name", "editable", "multi_select", "type", "subform", "required", "show_on_minify_form","mobile_visible", :display_name, :help_text, :option_strings_text)
-          if field["type"] == "subform"
-            field["subform"].slice!(:name, "order", :help_text, "base_language", "fields")
-            field["subform"]["fields"].delete_if { |i| i["mobile_visible"]==false }
-            for subfield in field["subform"]["fields"]
-              subfield.slice!("name", "editable", "multi_select", "type", "required", "show_on_minify_form","mobile_visible", :display_name, :help_text, :option_strings_text)
-            end
+
+    form_sections[@mobile_form_type].each do |section|
+      section.slice!(:name, "order", :help_text, "base_language", "fields")
+      #TODO - RSE -  this doesn't work yet because it is a hash.  fix
+      section['fields'].each do |field|
+        field.slice!("name", "editable", "multi_select", "type", "subform", "required", "show_on_minify_form","mobile_visible", :display_name, :help_text, :option_strings_text)
+        if field["type"] == "subform"
+          binding.pry
+          x = 0
+          field["subform"].slice!(:name, "order", :help_text, "base_language", "fields")
+          #TODO RSE
+
+          field["subform"]["fields"].delete_if { |i| i["mobile_visible"]==false }
+          for subfield in field["subform"]["fields"]
+            subfield.slice!("name", "editable", "multi_select", "type", "required", "show_on_minify_form","mobile_visible", :display_name, :help_text, :option_strings_text)
           end
         end
       end
     end
+
     return form_sections
   end
 

@@ -44,6 +44,8 @@ class FormSection < CouchRest::Model::Base
     view :by_parent_form
     view :by_order
     view :by_parent_form_and_unique_id
+    view :by_parent_form_and_unique_id_and_is_nested
+    view :by_parent_form_and_unique_id_and_is_nested_and_mobile_form
     view :subform_form,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -357,9 +359,26 @@ class FormSection < CouchRest::Model::Base
     def get_permitted_form_sections(primero_module, parent_form, user)
       allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
       allowed_form_ids.present? ?
-        FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
+          FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
     end
     memoize_in_prod :get_permitted_form_sections
+
+    #TODO - api - add RSPEC
+    def get_permitted_non_subform_form_sections(primero_module, parent_form, user)
+      allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
+      allowed_form_ids.present? ?
+          #TODO add is_nested
+          FormSection.by_parent_form_and_unique_id_and_is_nested(keys: allowed_form_ids.map{|f| [parent_form, f, false]}).all : []
+    end
+    memoize_in_prod :get_permitted_non_subform_form_sections
+
+    #TODO - api - add RSPEC
+    def get_permitted_mobile_form_sections(primero_module, parent_form, user)
+      allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
+      allowed_form_ids.present? ?
+          FormSection.by_parent_form_and_unique_id_and_is_nested_and_mobile_form(keys: allowed_form_ids.map{|f| [parent_form, f, false, true]}).all : []
+    end
+    memoize_in_prod :get_permitted_mobile_form_sections
 
     #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
     def get_allowed_form_ids(primero_module, user)
@@ -666,6 +685,11 @@ class FormSection < CouchRest::Model::Base
 
   def all_location_fields
     self.fields.select{|f| f.is_location?}
+  end
+
+  #TODO api add RSPEC
+  def all_mobile_fields
+    self.fields.select{|f| f.is_mobile?}
   end
 
   def properties= properties
