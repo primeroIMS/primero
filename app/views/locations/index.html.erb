@@ -2,11 +2,9 @@
   <%= t('location.index') %>
 <% end %>
 <% content_for :record_sub_nav do %>
-  <li>
-    <% if can? :create, Location %>
-      <%= link_to content_tag(:span, t("location.create"), class: 'create_user'), new_location_path,  class: 'btn green-button right' %>
-    <% end %>
-  <li>
+  <% if can? :create, Location %>
+    <%= link_to content_tag(:span, t("location.create"), class: 'create_user'), new_location_path,  class: 'button hollow right' %>
+  <% end %>
 <% end %>
 <div class="clearfix"></div>
 <div class="page-content-new row collapse" data-equalizer>

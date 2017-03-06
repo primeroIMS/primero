@@ -1,4 +1,4 @@
-  <div id=<%="#{export_type}-exports" %> class="reveal-modal tiny"
+  <div id=<%="#{export_type}-exports" %> class="reveal reveal-modal tiny"
       data-reveal data-record-type="<%= controller.model_class == Child ? 'case' : controller.model_class.to_s.underscore %>"
       data-module-id="<%= @record.module_id if @record.present? %>"
       data-record-id="<%= @record.id if @record.present? %>"
@@ -47,7 +47,7 @@
         </div>
         <div class="clear"></div>
         <fieldset class="no-border submit_button">
-          <button id="submit_export" class="btn green-button right"><%= t('exports.custom_exports.submit') %></button>
+          <button id="submit_export" class="btn button hollow right"><%= t('exports.custom_exports.submit') %></button>
         </fieldset>
       </div>
     </form>

@@ -8,7 +8,7 @@
 <% unless ["edit", "update"].include? controller.action_name %>
 <ul id="menu" class="sf-menu">
   <li class="init_btn">
-    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
+    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn button hollow action_btn' %>
     <ul>
         <%= render partial: 'exports/button', locals: {model: Incident, instance: @incident} %>
         <% if can? :edit, @incident %>

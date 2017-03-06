@@ -8,7 +8,7 @@
   <div class="space"></div>
   <div class="row">
     <div class="large-12 columns">
-      <a class="btn green-button right"
+      <a class="button hollow right"
          id="approve_action"
          data-id="<%= instance.id %>"
          data-form_action="<%= send("#{model.name.underscore.downcase}_request_approval_path", instance) %>"
@@ -17,7 +17,7 @@
          data-approval_type="<%= approval_type %>"
          href=""><%= t("buttons.ok") %>
       </a>
-      <a class="close-reveal-modal btn green-button right"><%= t("buttons.cancel") %></a>
+      <a class="close-reveal-modal button hollow right"><%= t("buttons.cancel") %></a>
     </div>
   </div>
 </div>

@@ -16,7 +16,7 @@
           <%= select_tag("import_type", options_for_select(active_importers.map {|i| [i.display_name, i.id]}, 'csv')) %>
         </label>
         <div class="import_button">
-          <%= submit_tag(t("buttons.import"), class: 'green-button right') %>
+          <%= submit_tag(t("buttons.import"), class: 'button hollow right') %>
         </div>
         <%= content_for :page_scripts do %>
           var $import_type = $("#import_type");

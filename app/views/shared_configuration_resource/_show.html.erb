@@ -11,7 +11,7 @@
 
 <% content_for :record_sub_nav do %>
   <% if can? :update, object %>
-    <%= link_to({controller: object_name_plural, action: 'edit', id: object}, class: 'btn green-button') do %>
+    <%= link_to({controller: object_name_plural, action: 'edit', id: object}, class: 'button hollow') do %>
       <span class="edit"><%= t("buttons.edit") %></span>
     <% end %>
   <% end %>

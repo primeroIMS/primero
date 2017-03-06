@@ -2,16 +2,14 @@
   <%= t('lookup.index') %>
 <% end %>
 <% content_for :record_sub_nav do %>
-  <li>
-      <% if can? :create, Replication %>
-        <%= link_to content_tag(:span, t("lookup.create"), class: 'create_user'), new_lookup_path,  class: 'btn green-button right' %>
-      <% end %>  </li>
-  <li>
+  <% if can? :create, Replication %>
+    <%= link_to content_tag(:span, t("lookup.create"), class: 'create_user'), new_lookup_path,  class: 'button hollow right' %>
+  <% end %>
 <% end %>
 <div class="clearfix"></div>
 <div class="page-content-new row collapse" data-equalizer>
   <%= render :partial => 'form_section/sidebar', :locals => {:highlight_page => 'lookups'} %>
-  <div class="large-8 medium-8 columns side-tab-content-container">
+  <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <% if @lookups.present? %>
         <%= render :partial => "lookups/list_view_table", :locals => {:lookups => @lookups} %>

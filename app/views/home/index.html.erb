@@ -5,7 +5,7 @@
         <ul id="menu" class="sf-menu">
           <% unless (@display_manager_dashboard || @display_admin_dashboard) %>
           <li class="init_btn">
-            <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn green-button action_btn' %>
+            <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn button hollow action_btn' %>
             <ul>
               <% ["case", "incident", "tracing_request"].each do |model| %>
                   <%

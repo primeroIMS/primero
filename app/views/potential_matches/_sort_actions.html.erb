@@ -3,7 +3,7 @@
     <%
       button_label = ((@type == "tracing_request") ? t("buttons.sort_by_tr") : t("buttons.sort_by_case"))
     %>
-    <%= link_to content_tag(:span, button_label), '', class: 'btn green-button action_btn' %>
+    <%= link_to content_tag(:span, button_label), '', class: 'button hollow action_btn' %>
     <ul>
       <% if controller.model_class == PotentialMatch %>
           <%= render 'potential_matches/button', type: "tracing_request" %>

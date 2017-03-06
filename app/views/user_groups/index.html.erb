@@ -4,7 +4,7 @@
 
 <% content_for :record_sub_nav_controls do %>
   <% if can?(:create, UserGroup) %>
-    <%= link_to content_tag(:span, t("user_group.create"), :class => 'create_user'), new_user_group_path, :class => 'btn green-button' %>
+    <%= link_to content_tag(:span, t("user_group.create"), :class => 'create_user'), new_user_group_path, :class => 'button hollow' %>
   <% end %>
   <%#= render 'exports/button' %>
   <%# TODO: Hiding imports so that QA doesn't get into trouble %>

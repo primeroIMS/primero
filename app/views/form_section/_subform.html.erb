@@ -95,7 +95,7 @@
   <%# Add button %>
   <% if !subform.disabled %>
     <div>
-      <a id="subform_<%= subform.name %>_add_button" class="green-button subform_add right" <%= disable_action_buttons %>><%= t('fields.add') %></a>
+      <a id="subform_<%= subform.name %>_add_button" class="button hollow subform_add right" <%= disable_action_buttons %>><%= t('fields.add') %></a>
     </div>
   <% end %>
   <% initial_subforms = subform_section[:initial_subforms] || 0 %>

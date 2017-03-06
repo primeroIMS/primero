@@ -1,6 +1,8 @@
 <% content_for :record_sub_nav do %>
-    <li><%= discard_button(form_sections_path) %></li>
-    <li><%= submit_button t("forms.save_details") %></li>
+  <div class="button-group">
+    <%= discard_button(form_sections_path) %>
+    <%= submit_button t("forms.save_details") %>
+  </div>
 <% end %>
 
 <div class="row">

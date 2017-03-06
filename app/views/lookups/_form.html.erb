@@ -1,7 +1,9 @@
 <% editing ||= false %>
 <% content_for :record_sub_nav do %>
-  <li><%= discard_button(form_sections_path) %></li>
-  <li><%= submit_button t("buttons.save") %></li>
+  <div class="button-group">
+    <%= discard_button(form_sections_path) %>
+    <%= submit_button t("buttons.save") %>
+  </div>
 <% end %>
 
 <div class="row">
@@ -51,7 +53,7 @@
           </div>
           <%# Add button %>
           <div>
-            <a id="lookup_values_add_button" class="green-button lookup_value_add right <%= editing ? 'edit_lookup' : '' %>" data-lang="<%= Primero::Application::LOCALES %>" data-remove="<%= t('lookup.remove')%>"><%= t('lookup.add_value') %></a>
+            <a id="lookup_values_add_button" class="button hollow lookup_value_add right <%= editing ? 'edit_lookup' : '' %>" data-lang="<%= Primero::Application::LOCALES %>" data-remove="<%= t('lookup.remove')%>"><%= t('lookup.add_value') %></a>
           </div>
         </div>
       </div>

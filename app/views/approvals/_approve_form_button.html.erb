@@ -7,7 +7,7 @@
   <%= t("buttons.approve_#{approval_type}", model: model_name) %>
 </a>
 
-<div id=<%= "approve-#{approval_type}-modal" %> class="reveal-modal tiny" data-reveal>
+<div id=<%= "approve-#{approval_type}-modal" %> class="reveal reveal-modal tiny" data-reveal>
 <a class="close-reveal-modal">&#215;</a>
 <div class=<%= "approve_#{approval_type}_form_container row"%> >
   <div class="large-11">
@@ -24,7 +24,7 @@
         <%= text_area_tag("comments") %>
       </label>
       <div class="import_button">
-        <%= submit_tag(t("buttons.submit"), class: 'green-button right') %>
+        <%= submit_tag(t("buttons.submit"), class: 'button hollow right') %>
       </div>
     <% end %>
   </div>

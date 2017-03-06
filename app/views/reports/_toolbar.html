@@ -13,12 +13,12 @@
           <div class="large-12 columns">
             <ul class="inline-list">
               <li>
-                <%= link_to icon('angle-left') + t("buttons.back"), reports_path, class: 'btn green-button back-button' %>
+                <%= link_to icon('angle-left') + t("buttons.back"), reports_path, class: 'button hollow back-button' %>
               </li>
               <% if controller.action_name != 'edit' %>
                 <ul id="menu" class="sf-menu">
                   <li class="init_btn">
-                    <%= link_to content_tag(:span, t("buttons.export")), '#', class: 'btn green-button action_btn' %>
+                    <%= link_to content_tag(:span, t("buttons.export")), '#', class: 'button hollow action_btn' %>
                     <ul>
                       <li><%= link_to t("report.export.graph"), '#', class: 'report_export_graph', download: "#{@report.name.gsub(/\W/,'').downcase}_graph.png" %></li>
                       <li><%= link_to t("report.export.data"), '#', class: 'report_export_data',  download: "#{@report.name.gsub(/\W/,'').downcase}_data.csv" %></li>

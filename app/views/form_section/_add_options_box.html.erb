@@ -37,7 +37,7 @@
     <% if given_locale.to_s == 'en' %>
       <div class="row">
         <div class="medium-5 columns medium-offset-8">
-          <a id="field_option_add_button" class="green-button add_option <%= editing ? 'edit_option' : '' %>" data-lang="<%= Primero::Application::LOCALES %>">
+          <a id="field_option_add_button" class="button hollow add_option <%= editing ? 'edit_option' : '' %>" data-lang="<%= Primero::Application::LOCALES %>">
             <%= t('fields.option_strings_add_option') %>
           </a>
         </div>

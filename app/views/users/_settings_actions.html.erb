@@ -1,12 +1,12 @@
 <% if can?(:import, User) || can?(:export, User) || can?(:import, FormSection) || can?(:export, FormSection) %>
-  <ul id="menu" class="sf-menu">
+  <ul id="menu" class="dropdown menu" data-dropdown-menu>
     <li class="init_btn">
-      <%= link_to content_tag(:span, t('actions.button')), '', class: 'btn green-button action_btn' %>
-      <ul>
+      <%= link_to content_tag(:span, t('actions.button')), '', class: 'button hollow action_btn' %>
+      <ul class="menu">
         <% if can?(:import, User) || can?(:import, FormSection) %>
           <li>
             <%= link_to t('buttons.import'), '#', class: 'has_sub' %>
-            <ul>
+            <ul class="menu">
               <% if can? :import, User %>
                 <%= render partial: 'imports/button', locals: {import_label: 'users.label', importers: [Importers::JSONImporter]} %>
               <% end %>
@@ -19,7 +19,7 @@
         <% if can?(:export, User) || can?(:export, FormSection) %>
           <li>
             <%= link_to t('buttons.export'), '#', class: 'has_sub' %>
-            <ul>
+            <ul class="menu">
               <% if can? :export, User %>
                 <li>
                   <%= link_to(

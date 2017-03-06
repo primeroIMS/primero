@@ -165,7 +165,7 @@
     <!--TODO: After we got the user object in the session replace the DB query with User object-->
       <%= render_controls(@user, 'users') %>
       <% if false %>
-      <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
+      <%= link_to user_history_path(@user), :class=>'button hollow small right' do %>
           <%= icon('clock-o') %>
           <span class="log"><%= t("user.user_action_history") %></span>
       <% end %>

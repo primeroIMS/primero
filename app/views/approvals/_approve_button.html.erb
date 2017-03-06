@@ -3,7 +3,7 @@
 %>
 <li>
   <%= link_to t("buttons.approvals"), '#', class: 'has_sub', onclick: 'return false;' %>
-  <ul style="display:none;">
+  <ul class="menu">
     <% if can?(:approve_bia, controller.model_class) && available_form_ids.include?("cp_bia_form") %>
       <%= render 'approvals/approve_form_button', instance: @child, approval_type: ApprovalActions::BIA %>
     <% end %>

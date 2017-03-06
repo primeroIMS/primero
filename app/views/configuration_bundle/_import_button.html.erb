@@ -7,7 +7,7 @@
   <%= form_tag(url_for(:action => 'import_bundle', :controller => 'configuration_bundle'), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
     <%= file_field_tag("import_file") %>
     <div class="import_button">
-      <%= submit_tag(t("buttons.import"), class: 'green-button right') %>
+      <%= submit_tag(t("buttons.import"), class: 'button hollow right') %>
     </div>
   <% end %>
 </div>

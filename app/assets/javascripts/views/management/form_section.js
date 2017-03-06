@@ -16,7 +16,7 @@ function form_section() {
     }
     backToPrevious();
   }
-  $(document).on('close.fndtn.reveal', '#add_field_modal', call_back_to_previous);
+  $(document).on('closed.zf.reveal', '#add_field_modal', call_back_to_previous);
   triggerErrors();
   var $rows = $("#form_sections tbody");
   $rows.sortable({

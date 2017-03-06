@@ -10,6 +10,7 @@ Primero = _primero.Views.Base.extend({
     'change .record_types input:not([type="hidden"])': 'record_type_changed',
     'click #audio_link, .document, .bulk_export_download': '_primero_check_download_status',
     'click .download_forms': '_primero_check_status_close_modal',
+    'click .dropdown.menu a[data-open]': 'open_modal'
   },
 
   initialize: function() {
@@ -683,5 +684,11 @@ Primero = _primero.Views.Base.extend({
     } else {
       return !required;
     }
+  },
+
+  open_modal: function(e) {
+    e.preventDefault();
+    var modal = $(e.target).data('open');
+    $(modal).foundation('open')
   }
 });

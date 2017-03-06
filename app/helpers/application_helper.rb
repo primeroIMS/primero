@@ -131,35 +131,29 @@ module ApplicationHelper
 
   def ctl_edit_button(record, path=nil)
     path = path.singularize if path.instance_of? String
-    ctl_button_wrapper do
-      if path.present?
-        if record.present?
-          # This is necessary to make the translation between children and cases
-          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
-            class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
-        else
-          #TODO - sort of a hack for language edit, since it uses i18n.locale instead of a model
-          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true }),
-            class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
-        end
+    if path.present?
+      if record.present?
+        # This is necessary to make the translation between children and cases
+        link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
+          class: "button hollow #{'arrow' if current_actions(action: ['update', 'edit'])}"
       else
-        link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
-          class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        #TODO - sort of a hack for language edit, since it uses i18n.locale instead of a model
+        link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true }),
+          class: "button hollow #{'arrow' if current_actions(action: ['update', 'edit'])}"
       end
+    else
+      link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
+        class: "button hollow #{'arrow' if current_actions(action: ['update', 'edit'])}"
     end
   end
 
   def ctl_cancel_button(path)
     record = controller.controller_name.gsub('_', ' ').titleize
-    ctl_button_wrapper do
-      discard_button polymorphic_path(path)
-    end
+    discard_button polymorphic_path(path)
   end
 
   def ctl_save_button
-    ctl_button_wrapper do
-      submit_button
-    end
+    submit_button
   end
 
   def ctl_create_incident_button(record)
@@ -172,21 +166,17 @@ module ApplicationHelper
     end
   end
 
-  def ctl_button_wrapper(&block)
-    content_tag :li, class: "#{'rec_ctl' if current_actions(action: ['edit', 'update'])}" do
-      block.call
-    end
-  end
-
   def render_controls(record, path=nil)
-    if record.present? && record.new?
-      ctl_cancel_button(path || record) + ctl_save_button
-    elsif current_actions(action: ['update', 'edit'])
-      ctl_edit_button(record, path) + ctl_cancel_button(path || record) + ctl_save_button
-    elsif current_actions(action: ['edit_locale'])
-      ctl_edit_button(record, path) + ctl_cancel_button(record) + ctl_save_button
-    else
-      ctl_edit_button(record, path)
+    content_tag :div, class: 'button-group' do
+      if record.present? && record.new?
+        ctl_cancel_button(path || record) + ctl_save_button
+      elsif current_actions(action: ['update', 'edit'])
+        ctl_edit_button(record, path) + ctl_cancel_button(path || record) + ctl_save_button
+      elsif current_actions(action: ['edit_locale'])
+        ctl_edit_button(record, path) + ctl_cancel_button(record) + ctl_save_button
+      else
+        ctl_edit_button(record, path)
+      end
     end
   end
 

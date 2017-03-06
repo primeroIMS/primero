@@ -3,7 +3,7 @@
   <%= link_to t("child.match_record"), match_record_case_path(@child, match: params[:match]), class: 'button hollow', method: :put %>
 <% end %>
 <% if can? :flag, child %>
-  <div class="button hollow dropdown_btn dropdown_form">
+  <div class="dropdown_btn dropdown_form">
       <%= render 'record_shared/suspect_flag', record: @child %>
   </div>
 <% end %>
@@ -11,10 +11,10 @@
     <%= ctl_create_incident_button(@child) %>
 <% end %>
 <% unless ["edit", "update"].include? controller.action_name %>
-<ul id="menu" class="sf-menu">
+<ul id="menu" class="dropdown menu" data-dropdown-menu>
   <li class="init_btn">
     <%= link_to content_tag(:span, t("actions.button")), '#', class: 'button hollow action_btn' %>
-    <ul>
+    <ul class="menu">
         <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
         <% if can? :export_custom, Child %>
           <%= render 'exports/custom_exports_link', model: Child, export_type: 'custom' %>

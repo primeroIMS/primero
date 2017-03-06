@@ -4,7 +4,7 @@
 
 <% content_for :record_sub_nav_controls do %>
   <% if can?(:create, Agency) %>
-    <%= link_to content_tag(:span, t("agencies.actions.create"), :class => 'create_agencies'), new_agency_path, :class => 'btn green-button' %>
+    <%= link_to content_tag(:span, t("agencies.actions.create"), :class => 'create_agencies'), new_agency_path, :class => 'button hollow' %>
   <% end %>
 <% end %>
 

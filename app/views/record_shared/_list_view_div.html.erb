@@ -24,10 +24,14 @@
     </div>
     <div class="large-3 small-3 columns">
       <% if options[:display_filter] %>
-          <div class="filter_title left">
+        <div class="row collapse align-middle filter-controls">
+          <div class="column">
             <a class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_clear') %></a>
           </div>
-          <%= link_to t("buttons.filter"), '', class: 'button hollow right', id: 'apply_filter' %>
+          <div class="column shrink">
+            <%= link_to t("buttons.filter"), '', class: 'button hollow', id: 'apply_filter' %>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>

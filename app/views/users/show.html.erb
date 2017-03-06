@@ -4,13 +4,13 @@
 
 <% content_for :record_sub_nav do %>
   <% if can? :edit, User %>
-      <%= link_to I18n.t("buttons.edit"), edit_user_path(@user), class: 'btn green-button'%>
+      <%= link_to I18n.t("buttons.edit"), edit_user_path(@user), class: 'button hollow'%>
   <% else %>
-      <%= link_to I18n.t("buttons.change_password"), change_password_users_path, class: 'btn green-button' %>
+      <%= link_to I18n.t("buttons.change_password"), change_password_users_path, class: 'button hollow' %>
   <% end %>
   <%#= render partial: 'exports/button', locals: {model: User, instance: @user} %>
   <% if false %>
-  <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
+  <%= link_to user_history_path(@user), :class=>'button hollow small right' do %>
     <%= icon('clock-o') %>
     <span class="log"><%= t("user.user_action_history") %></span>
   <% end %>

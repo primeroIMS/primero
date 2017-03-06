@@ -71,6 +71,12 @@
     height: rem_calc(50);
   }
 
+  .button-group {
+    input {
+      width: inherit;
+    }
+  }
+
   .record_controls {
     .button, select {
       margin: rem_calc(0 7 0 0);
@@ -78,7 +84,8 @@
   }
 
   .button {
-    margin: 0;
+    margin-bottom: 0;
+    height: rem_calc(40.47);
   }
 
   select {
@@ -103,6 +110,14 @@
 
   .controls-right {
     padding-left: 0;
+  }
+
+  .dropdown.menu > li.is-dropdown-submenu-parent > a {
+    padding-right: 1.8rem;
+  }
+
+  .dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+    right: 8px;
   }
 }
 

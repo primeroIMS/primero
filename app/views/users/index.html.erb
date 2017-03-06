@@ -5,10 +5,12 @@
 <% end %>
 
 <% content_for :record_sub_nav_controls do %>
-  <% if can? :create,User %>
-      <%= link_to content_tag(:span, t("users.create"), :class => 'create_user'), new_user_path, :class => 'btn green-button' %>
-  <% end %>
-  <%= render partial: 'settings_actions', locals: {model: User} %>
+  <div class="button-group">
+    <% if can? :create,User %>
+        <%= link_to content_tag(:span, t("users.create"), :class => 'create_user'), new_user_path, :class => 'button hollow' %>
+    <% end %>
+    <%= render partial: 'settings_actions', locals: {model: User} %>
+  </div>
 <% end %>
 
 <% content_for :breadcrumbs do %>

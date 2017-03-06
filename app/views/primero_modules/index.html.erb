@@ -4,7 +4,7 @@
 
 <% content_for :record_sub_nav_controls do %>
   <% if can?(:create, PrimeroModule) %>
-    <%= link_to content_tag(:span, t("primero_module.create"), :class => 'create_primero_module'), new_primero_module_path, :class => 'btn green-button' %>
+    <%= link_to content_tag(:span, t("primero_module.create"), :class => 'create_primero_module'), new_primero_module_path, :class => 'button hollow' %>
   <% end %>
   <%#= render 'exports/button' %>
   <%# TODO: Hiding imports so that QA doesn't get into trouble %>
