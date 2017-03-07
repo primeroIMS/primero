@@ -623,9 +623,7 @@ class FormSection < CouchRest::Model::Base
       locales = ((locale.present? && Primero::Application::locales.include?(locale)) ? [locale] : Primero::Application::locales)
       lookups = Lookup.all.all
       locations = Location.all_names
-      form_sections.map do |form|
-        mobile_form_to_hash(form, locales, lookups, locations)
-      end
+      form_sections.map {|form| mobile_form_to_hash(form, locales, lookups, locations)}
     end
 
     def mobile_form_to_hash(form, locales, lookups, locations)
@@ -643,10 +641,10 @@ class FormSection < CouchRest::Model::Base
     end
 
     def simplify_mobile_form(form_hash)
-      form_hash.slice!(:name, "order", :help_text, "base_language", "fields")
+      form_hash.slice!('unique_id', :name, 'order', :help_text, 'base_language', 'fields')
       form_hash['fields'].each do |field|
-        field.slice!("name", "editable", "multi_select", "type", "subform", "required", "show_on_minify_form","mobile_visible", :display_name, :help_text, :option_strings_text)
-        simplify_mobile_form(field['subform']) if field["type"] == "subform"
+        field.slice!('name', 'editable', 'multi_select', 'type', 'subform', 'required', 'show_on_minify_form','mobile_visible', :display_name, :help_text, :option_strings_text)
+        simplify_mobile_form(field['subform']) if (field['type'] == 'subform' && field['subform'].present?)
       end
     end
 

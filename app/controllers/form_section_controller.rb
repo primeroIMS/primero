@@ -12,10 +12,7 @@ class FormSectionController < ApplicationController
   include LoggerActions
 
   def index
-    #TODO - temporary for testing!!!!
-    # authorize! :index, FormSection
-    # binding.pry
-    # x = 0
+    authorize! :index, FormSection
     @page_name = t("form_section.manage")
 
     respond_to do |format|
@@ -130,7 +127,7 @@ class FormSectionController < ApplicationController
   private
 
   def is_mobile?
-    params[:mobile] == 'true'
+    params[:mobile] == true || params[:mobile] == 'true'
   end
 
   def get_form_section
