@@ -284,11 +284,6 @@ describe FormSection do
       expect(@form_section_a.mobile_form).to be_false
     end
 
-    it "should find all mobile forms" do
-      expect(FormSection.find_mobile_forms.all).to include(@form_section_d, @form_section_f)
-      expect(FormSection.find_mobile_forms.all.count).to eq(2)
-    end
-
     it "should find all mobile case forms" do
       expect(FormSection.find_mobile_forms_by_parent_form('case')).to include(@form_section_d)
       expect(FormSection.find_mobile_forms_by_parent_form('case')).not_to include(@form_section_f)

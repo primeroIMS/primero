@@ -40,8 +40,8 @@ class FormSection < CouchRest::Model::Base
 
   design do
     view :by_unique_id
-    view :by_mobile_form
     view :by_parent_form
+    view :by_parent_form_and_mobile_form
     view :by_order
     view :by_parent_form_and_unique_id
     view :by_parent_form_and_unique_id_and_mobile_form
@@ -459,13 +459,8 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :list_form_group_names
 
-    def find_mobile_forms
-      by_mobile_form(key: true)
-    end
-    memoize_in_prod :find_mobile_forms
-
     def find_mobile_forms_by_parent_form(parent_form = 'case')
-      find_mobile_forms.select{|f| f.parent_form == parent_form}
+      by_parent_form_and_mobile_form(key: [parent_form, true])
     end
     memoize_in_prod :find_mobile_forms_by_parent_form
 
