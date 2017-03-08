@@ -327,6 +327,27 @@ class Field
     return select_options
   end
 
+  #TODO - i18n - review after merge with i18n code
+  def localized_attributes_hash(locales, lookups=nil, locations=nil)
+    field_hash = self.attributes.clone
+    Field.localized_properties.each do |property|
+      field_hash[property] = {}
+      Primero::Application::locales.each do |locale|
+        key = "#{property.to_s}_#{locale.to_s}"
+        value = field_hash[key]
+        if property == :option_strings_text
+          #value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
+          value = self.options_list(nil, lookups, locations)
+        elsif field_hash[key].nil?
+          value = ""
+        end
+        field_hash[property][locale] = value if locales.include? locale
+        field_hash.delete(key)
+      end
+    end
+    field_hash
+  end
+
   def is_highlighted?
       highlight_information[:highlighted]
   end
@@ -421,6 +442,10 @@ class Field
 
   def is_location?
     self.option_strings_source == 'Location'
+  end
+
+  def is_mobile?
+    self.mobile_visible == true
   end
 
   private
