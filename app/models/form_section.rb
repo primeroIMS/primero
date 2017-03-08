@@ -362,7 +362,6 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_permitted_form_sections
 
-    #TODO - api - add RSPEC
     def get_permitted_mobile_form_sections(primero_module, parent_form, user)
       allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
       allowed_form_ids.present? ?
@@ -648,7 +647,6 @@ class FormSection < CouchRest::Model::Base
       end
     end
 
-
     #This keeps the forms compatible with the mobile API
     def mobile_form_type(parent_form)
       case parent_form
@@ -730,7 +728,6 @@ class FormSection < CouchRest::Model::Base
     self.fields.select{|f| f.is_location?}
   end
 
-  #TODO api add RSPEC
   def all_mobile_fields
     self.fields.select{|f| f.is_mobile?}
   end

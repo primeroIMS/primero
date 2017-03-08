@@ -73,14 +73,20 @@ describe FormSection do
 
   describe "mobile forms" do
     before do
-
       @form_section_mobile_1_nested = FormSection.create!(unique_id: "MOBILE_1_NESTED", name: "Mobile 1 Nested",
                                                           parent_form: "case", mobile_form: true, is_nested: true, visible: false,
                                                           fields: [Field.new(name: "field1", type: "text_field", display_name_all: "field1")])
       @form_section_mobile_1 = FormSection.create!(unique_id: "MOBILE_1", name: "Mobile 1", parent_form: "case", mobile_form: true,
                                                    fields: [Field.new(name: "mobile_1_nested", type: "subform",
                                                                       subform_section_id: "MOBILE_1_NESTED", display_name_all: "Mobile 1 Nested")])
-      @form_section_mobile_2 = FormSection.create!(unique_id: "MOBILE_2", name: "Mobile 2", parent_form: "case", mobile_form: true)
+      @mobile_field1 = Field.new(name: "field1", type: "text_field", display_name_all: "field1")
+      @mobile_field2 = Field.new(name: "field2", type: "text_field", display_name_all: "field2", mobile_visible: true)
+      @mobile_field3 = Field.new(name: "field3", type: "text_field", display_name_all: "field3", mobile_visible: false)
+      @mobile_field4 = Field.new(name: "field4", type: "text_field", display_name_all: "field4", mobile_visible: false)
+      @mobile_field5 = Field.new(name: "field5", type: "text_field", display_name_all: "field5")
+      @form_section_mobile_2 = FormSection.create!(unique_id: "MOBILE_2", name: "Mobile 2", parent_form: "case", mobile_form: true,
+                                                   fields: [@mobile_field1, @mobile_field2, @mobile_field3, @mobile_field4,
+                                                            @mobile_field5])
       @mobile_module = PrimeroModule.create!(program_id: "some_program", name: "Mobile Module", associated_record_types: ['case'],
                                              associated_form_ids: ["A", "B", "MOBILE_1"])
       @roleM = Role.create!(permitted_form_ids: ["B", "C", "MOBILE_1"], name: "Test Role Mobile", permissions_list: [@permission_case_read])
@@ -122,6 +128,17 @@ describe FormSection do
                                 :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "es"=>[]}}]}]}
         form_sections = FormSection.group_forms([@form_section_mobile_1], true)
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
+      end
+    end
+
+    describe 'all_mobile_fields' do
+      it 'returns the mobile visible fields' do
+        #NOTE: The default of mobile_visible is true.
+        expect(@form_section_mobile_2.all_mobile_fields).to include(@mobile_field1, @mobile_field2, @mobile_field5)
+      end
+
+      it 'does not return fields that are not mobile visible' do
+        expect(@form_section_mobile_2.all_mobile_fields).not_to include(@mobile_field3, @mobile_field4)
       end
     end
 
