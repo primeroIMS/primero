@@ -1131,28 +1131,57 @@ describe ChildrenController do
       post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => 'new_name'}
     end
 
-    describe 'API' do
-      it 'creates a case' do
-        test_case = {owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
-                     previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker", previously_owned_by_agency: "agency-unicef",
-                     module_id: "primeromodule-gbv", created_organization: "agency-unicef", created_by: "primero_gbv",
-                     created_by_full_name: "GBV Worker", record_state: true, marked_for_mobile: false, consent_for_services: false,
-                     child_status: "Open", name: "Joe Tester", name_first: "Joe", name_last: "Tester", name_nickname: "",
-                     name_given_post_separation: "No", registration_date: "01-Feb-2007", sex: "Male", age: 10,
-                     estimated: false, address_is_permanent: false, system_generated_followup: false,
-                     family_details_section: [
+  end
+
+  describe 'API' do
+    before do
+
+    end
+    it 'creates a GBV case' do
+      gbv_case = {owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
+                   previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker", previously_owned_by_agency: "agency-unicef",
+                   module_id: "primeromodule-gbv", created_organization: "agency-unicef", created_by: "primero_gbv",
+                   created_by_full_name: "GBV Worker", record_state: true, marked_for_mobile: false, consent_for_services: false,
+                   child_status: "Open", name: "Joe Tester", name_first: "Joe", name_last: "Tester", name_nickname: "",
+                   name_given_post_separation: "No", registration_date: "01-Feb-2007", sex: "Male", age: 10,
+                   estimated: false, address_is_permanent: false, system_generated_followup: false,
+                   family_details_section: [
                        {relation_name: "Another Tester", relation: "Father", relation_is_caregiver: false,
                         relation_child_lived_with_pre_separation: "Yes", relation_child_is_in_contact: "No",
                         relation_child_is_separated_from: "Yes", relation_nickname: "", relation_is_alive: "Unknown",
                         relation_age: 40, relation_date_of_birth: "01-Jan-1977"}],
-                     case_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9", short_id: "2b127c9", hidden_name: false, posted_from: "Mobile"}
+                   case_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9", short_id: "2b127c9", hidden_name: false, posted_from: "Mobile"}
 
-        post :create, child: test_case, format: :json
+      post :create, child: gbv_case, format: :json
 
-        case1 = Child.by_short_id(key: test_case[:short_id]).first
+      case1 = Child.by_short_id(key: gbv_case[:short_id]).first
 
-        expect(case1).not_to be_nil
-        expect(case1.name).to eq('Joe Tester')
+      expect(case1).not_to be_nil
+      expect(case1.name).to eq('Joe Tester')
+    end
+
+    describe 'show' do
+      before do
+        @gbv_case = Child.create!({owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
+                    previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker", previously_owned_by_agency: "agency-unicef",
+                    module_id: "primeromodule-gbv", created_organization: "agency-unicef", created_by: "fakeadmin",
+                    created_by_full_name: "GBV Worker", record_state: true, marked_for_mobile: true, consent_for_services: false,
+                    child_status: "Open", name: "Norville Rogers", name_first: "Norville", name_last: "Rogers", name_nickname: "Shaggy",
+                    name_given_post_separation: "No", registration_date: "01-Feb-2007", sex: "Male", age: 10,
+                    estimated: false, address_is_permanent: false, system_generated_followup: false,
+                    family_details_section: [
+                        {relation_name: "Joe Rogers", relation: "Father", relation_is_caregiver: false,
+                         relation_child_lived_with_pre_separation: "Yes", relation_child_is_in_contact: "No",
+                         relation_child_is_separated_from: "Yes", relation_nickname: "", relation_is_alive: "Unknown",
+                         relation_age: 40, relation_date_of_birth: "01-Jan-1977"}], hidden_name: false})
+        @gbv_user = User.new(:user_name => 'primero_gbv', :is_manager => false)
+      end
+      it 'returns a GBV case' do
+        get :show, id: @gbv_case.id, mobile: true, format: :json
+
+        expect(assigns['record']['_id']).to eq(@gbv_case.id)
+        expect(assigns['record']['short_id']).to eq(@gbv_case.short_id)
+        expect(assigns['record']['name']).to eq(@gbv_case.name)
       end
     end
   end
