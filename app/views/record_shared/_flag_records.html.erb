@@ -1,8 +1,9 @@
-<a class="button hollow left" data-open="<%= "#{model.name.underscore.downcase}_flag_records" %>">
-  <span><%= t("buttons.flag_records") %></span>
+<a class="button hollow" data-open="<%= "#{model.name.underscore.downcase}_flag_records" %>">
+  <%= t("buttons.flag_records") %>
 </a>
 
 <div class="reveal reveal-modal medium" id="<%= "#{model.name.underscore.downcase}_flag_records" %>" style="background: none repeat scroll 0 0 #f9faf6;" data-reveal>
+  <%= render 'shared/modal_close' %>
   <form data-abide>
     <div class="row flag_records">
       <div class="column">
@@ -25,7 +26,4 @@
       </div>
     </div>
   </form>
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
 </div>

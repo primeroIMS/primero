@@ -4,14 +4,16 @@
 %>
 <% if can? :flag, record %>
     <span id="<%= mark_as_property %>" class="<%= style %>">
-      <%= link_to "#", class: button_style do %>
+      <button class="<%= button_style %>" data-toggle="<%= "#{mark_as_property}-dropdown" %>">
         <%= mark_as_label %>
         <% if record.flagged? && record.flag_count > 0 %>
           <span class="primero_jewel"><%= record.flag_count %></span>
         <% end %>
-      <% end %>
+      </button>
     </span>
-    <div class="dropdown hide"
+    <div class="dropdown-pane"
+         id="<%= "#{mark_as_property}-dropdown" %>"
+         data-dropdown
          data-model="<%= model_class_name %>"
          data-form_action="<%= send("#{model_class_name}_flag_path", record) %>"
          data-form_unflag_action="<%= send("#{model_class_name}_unflag_path", record) %>"

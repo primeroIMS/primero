@@ -27,8 +27,6 @@ $(document).on('turbolinks:before-cache', function() {
 function primero() {
   jQuery.migrateMute = true
 
-  new Primero();
-
   var $document = $(document);
   var $body = $('body');
 
@@ -41,6 +39,8 @@ function primero() {
   });
 
   $document.foundation();
+
+  new Primero();
   // $document.foundation({
   //   abide : {
   //     validators: {

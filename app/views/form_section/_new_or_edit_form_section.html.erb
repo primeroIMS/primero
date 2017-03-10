@@ -47,7 +47,7 @@
                 </div>
                 <div class="medium-9 columns">
                   <%= f.text_field "name_#{I18n.default_locale}", :id => "form_section_name", required: '' %>
-                  <small class="error"><%= t('form_section.required_field', field: t("name", :locale => I18n.default_locale)) %></small>
+                  <small class="form-error"><%= t('form_section.required_field', field: t("name", :locale => I18n.default_locale)) %></small>
                 </div>
               </div>
               <div class="row">
@@ -67,7 +67,7 @@
                       <%= f.select "form_group_name", options_for_select(@list_form_group_names, @form_section.form_group_name || ''), {},
                                    required: "", 'data-placeholder' => t("fields.select_box_empty_item"),
                                    class: "chosen-select-or-new", id: "form_section_form_group_name" %>
-                      <small class="error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => I18n.default_locale)) %></small>
+                      <small class="form-error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => I18n.default_locale)) %></small>
                     </div>
                   </div>
               <% end %>

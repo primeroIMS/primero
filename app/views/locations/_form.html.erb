@@ -20,7 +20,7 @@
   <%= form_for @location, :html => { :class => 'default-form location-new-edit', :autocomplete => "off" } do |f| %>
     <fieldset class="no-border">
       <% if editing %>
-        <div class="alert-box warning"><%= t('location.location_code_warning') %></div>
+        <div class="callout warning"><%= t('location.location_code_warning') %></div>
       <% end %>
       <%= f.error_messages :header_tag => :h2 %>
       <% if editing %>

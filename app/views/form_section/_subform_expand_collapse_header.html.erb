@@ -115,13 +115,15 @@
         <% end %>
       <% end %>
     <% end %>
-    <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
-    <% if !subform.disabled %>
-      <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", style: disable_action_buttons,
-          data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
-    <% end %>
-    <% if !formObject.new_record? && subform.name == "individual_details_subform_section" && can?(:create, Child) && params[:action] == 'show'%>
-      <%= link_to I18n.t("buttons.create_case"), create_cp_case_from_individual_details_path(formObject.id, i), {class: "grey-button"} %>
-    <% end %>
+    <div class="button-group align-right">
+      <% if !subform.disabled %>
+        <%= link_to t('fields.remove'), '', class: "subform_remove button grey hollow tiny", style: disable_action_buttons,
+            data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
+      <% end %>
+      <% if !formObject.new_record? && subform.name == "individual_details_subform_section" && can?(:create, Child) && params[:action] == 'show'%>
+        <%= link_to I18n.t("buttons.create_case"), create_cp_case_from_individual_details_path(formObject.id, i), {class: "button grey hollow small"} %>
+      <% end %>
+      <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
+    </div>
   </div>
 </div>

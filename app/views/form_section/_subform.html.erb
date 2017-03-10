@@ -17,7 +17,7 @@
        summary_section_class = "summary_section"
      end
    %>
-  <div class="subforms <%=summary_section_class%>" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_name=<%=form_group_name.dehumanize%>>
+  <div class="subforms <%=summary_section_class%> large-12 columns" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_name=<%=form_group_name.dehumanize%>>
     <% (number_of_subforms).times do |i| %>
     <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container" data-subform_index="<%= i %>">
       <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
@@ -94,7 +94,7 @@
 
   <%# Add button %>
   <% if !subform.disabled %>
-    <div>
+    <div class="large-12 columns text-right">
       <a id="subform_<%= subform.name %>_add_button" class="button hollow subform_add right" <%= disable_action_buttons %>><%= t('fields.add') %></a>
     </div>
   <% end %>

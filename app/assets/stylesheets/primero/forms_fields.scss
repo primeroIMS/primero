@@ -47,6 +47,12 @@ select:not([class^="ui-datepicker-"]), select:hover:not([class^="ui-datepicker-"
   -webkit-appearance:none;
   padding: rem_calc(0 6);
 
+  @if $global-text-direction == rtl {
+    background-position: center left rem_calc(5);
+  } @else {
+    background-position: center right rem_calc(5);
+  }
+
   &.small {
     height: 1.5rem;
   }
@@ -318,6 +324,11 @@ fieldset {
     padding-top: 5px;
     float: right;
     margin-right: 10px;
+  }
+
+  .button-group .button {
+    font-size: 0.65rem;
+    font-weight: 900;
   }
 }
 

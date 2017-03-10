@@ -14,7 +14,7 @@
 <div class="clearfix"></div>
 
 <%= form_tag child_path(@child), :method => :put, :multipart => true, :class => "edit-profile default-form data-form", :autocomplete => "off", "data-abide" => '' do %>
-  <div class="page-content-new row collapse">
+  <div class="page-content-new row">
     <div class="large-3 medium-3 columns close-side-tab side-tab-container">
       <div class="side-tab">
         <%= render :partial => 'form_section/tabs', :object => @form_sections %>

@@ -47,7 +47,7 @@ $(profile_tools);
     <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
 <% end %>
 
-<div class="page-content-new row collapse" data-equalizer>
+<div class="page-content-new row" data-equalizer>
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <div class="side-tab" data-equalizer-watch>
       <%= render :partial => 'form_section/tabs', :object => @form_sections, locals: { show_summary: true } %>

@@ -61,7 +61,7 @@ fieldset {
 
   &.no-border {
     border: none !important;
-    padding: 0 !important;
+    padding: 0;
     background: none !important;
   }
 }
@@ -229,11 +229,23 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
 }
 
 .reveal-modal {
-  top: 16% !important;
   background: $desat_green_color;
 
   .close-reveal-modal {
     color: $stroke_green_color;
+  }
+}
+
+.reveal {
+  background: $desat_green_color;
+  
+  form {
+    margin-top: 2em;
+  }
+
+  .close-button {
+    color: $stroke_green_color;
+    outline: none;
   }
 }
 
@@ -355,12 +367,22 @@ div.db_name {
   border-bottom: 1px solid $stroke_green_color;
 }
 
-table.in_content_area tbody tr td:first-child, table.in_content_area thead th:first-child {
-  border-left: none !important;
-}
+@if $global-text-direction == rtl {
+  table.in_content_area tbody tr td:first-child, table.in_content_area thead th:first-child {
+    border-right: none !important;
+  }
 
-table.in_content_area tbody tr td:last-child, table.in_content_area thead th:last-child {
-  border-right: none !important;
+  table.in_content_area tbody tr td:last-child, table.in_content_area thead th:last-child {
+    border-left: none !important;
+  }
+} @else {
+  table.in_content_area tbody tr td:first-child, table.in_content_area thead th:first-child {
+    border-left: none !important;
+  }
+
+  table.in_content_area tbody tr td:last-child, table.in_content_area thead th:last-child {
+    border-right: none !important;
+  }
 }
 
 tr td span {

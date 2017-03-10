@@ -12,6 +12,7 @@ $dashboard_table_counts:85px;
     border: 1px solid $stroke_green_color;
     background: #fff;
     padding: 0;
+    margin-bottom: 1em;
 
     .panel_content {
       padding: 0px 10px 10px 10px;
@@ -49,10 +50,6 @@ $dashboard_table_counts:85px;
     &.panel_main {
       height: 632px;
       overflow: hidden;
-    }
-
-    table tbody tr:last-of-type td {
-      border-bottom: 1px dashed #ccc !important;
     }
 
     a.stat_link, .stat_link {
@@ -129,7 +126,7 @@ $dashboard_table_counts:85px;
     }
 
     table {
-      width:746px;
+      width: 100%;
       border: none;
       margin-bottom: 0;
 

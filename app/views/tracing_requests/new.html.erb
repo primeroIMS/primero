@@ -5,7 +5,7 @@
   <%= render_controls(@tracing_request) %>
 <% end %>
 <%= form_tag tracing_requests_path, :multipart => true, :class => "default-form data-form", :autocomplete => "off", "data-abide" => '' do %>
-    <div class="page-content-new row collapse">
+    <div class="page-content-new row">
       <%= render :partial => 'tracing_requests/required_fields' %>
       <div class="large-3 medium-3 columns close-side-tab side-tab-container">
         <div class="side-tab">

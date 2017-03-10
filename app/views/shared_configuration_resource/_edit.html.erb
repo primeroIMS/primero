@@ -17,7 +17,7 @@
   <%= render_controls(object, object_name_plural) %>
 <% end %>
 
-<div class="page-content-new row collapse" data-equalizer>
+<div class="page-content-new row" data-equalizer>
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
   <% if options[:show_side_tab] %>
     <%= render partial: 'shared/side_tab', locals: {highlight_page: object_name_plural} %>

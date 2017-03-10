@@ -156,7 +156,7 @@ Primero = _primero.Views.Base.extend({
 
     $(".panel_content ul").mCustomScrollbar(_.extend(options, { setHeight: 250 }));
 
-    $(".reveal-modal .side-tab-content").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
+    $(".reveal .side-tab-content").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
     $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
@@ -687,8 +687,8 @@ Primero = _primero.Views.Base.extend({
   },
 
   open_modal: function(e) {
-    e.preventDefault();
-    var modal = $(e.target).data('open');
-    $(modal).foundation('open')
+    // e.preventDefault();
+    // var modal = $(e.target).attr('data-open');
+    // $(modal).foundation('open')
   }
 });

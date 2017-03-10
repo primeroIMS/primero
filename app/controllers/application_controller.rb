@@ -70,6 +70,7 @@ class ApplicationController < ActionController::Base
     if logged_in?
       I18n.locale = (current_user.locale || I18n.default_locale)
       Primero::Translations.set_fallbacks
+      @page_direction = I18n.locale == :ar ? 'rtl' : 'ltr'
     end
   end
 

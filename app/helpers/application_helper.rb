@@ -51,8 +51,8 @@ module ApplicationHelper
     current_session
   end
 
-  def submit_button(name = t("buttons.save"))
-      submit_tag(name, :class => 'button hollow btn_submit')
+  def submit_button(name = t("buttons.save"), additional_classes = nil)
+      submit_tag(name, :class => "button hollow btn_submit #{additional_classes}")
   end
 
   def cancel_button(path)

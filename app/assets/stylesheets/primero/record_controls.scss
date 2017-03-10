@@ -79,13 +79,20 @@
 
   .record_controls {
     .button, select {
-      margin: rem_calc(0 7 0 0);
+      @if $global-text-direction == rtl {
+        margin: rem_calc(0 0 0 7);
+      } @else {
+        margin: rem_calc(0 7 0 0);
+      }
     }
   }
 
   .button {
     margin-bottom: 0;
-    height: rem_calc(40.47);
+
+    &.action_btn {
+      height: rem_calc(40.47);
+    }
   }
 
   select {
@@ -104,12 +111,22 @@
     margin-bottom: 0;
   }
 
-  .controls-left {
-    padding-right: 0;
-  }
+  @if $global-text-direction == rtl {
+    .controls-left {
+      padding-left: 0;
+    }
 
-  .controls-right {
-    padding-left: 0;
+    .controls-right {
+      padding-right: 0;
+    }
+  } @else {
+    .controls-left {
+      padding-right: 0;
+    }
+
+    .controls-right {
+      padding-left: 0;
+    }
   }
 
   .dropdown.menu > li.is-dropdown-submenu-parent > a {

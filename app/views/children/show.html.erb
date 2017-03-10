@@ -28,12 +28,16 @@ $(show_tools);
 <% end %>
 
 <% content_for :record_sub_nav do %>
-  <%= render 'show_child_toolbar', child: @child %>
+  <div class="column shrink">
+    <%= render 'show_child_toolbar', child: @child %>
+  </div>
 <% end %>
 
 <% if can? :edit, @child %>
   <% content_for :record_sub_nav_controls do %>
-    <%= render_controls(@child, 'cases') %>
+    <div class="column shrink">
+      <%= render_controls(@child, 'cases') %>
+    </div>
   <% end %>
 <% end %>
 
@@ -47,15 +51,15 @@ $(show_tools);
     <%#= stylesheet_link_tag "jquery.lightbox-0.5" %>
 <% end %>
 
-<div class="page-content-new row" data-equalizer>
+<div class="page-content-new row">
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
-    <div class="side-tab" data-equalizer-watch>
+    <div class="side-tab">
       <%= render :partial => 'shared/sidebar' , :locals => {:model => @child} %>
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
-    <div class="side-tab-content" data-equalizer-watch>
+    <div class="side-tab-content">
       <%# Removed for demo deploy %>
       <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @child} %>
     </div>

@@ -3,7 +3,7 @@
       <%= link_to content_tag(:span, t("replication.configure_a_server"), class: 'create_user'), new_replication_path,  class: 'button hollow right' %>
     <% end %>
 <% end %>
-<div class="page-content-new row collapse">
+<div class="page-content-new row">
   <div class="large-12 medium-12 columns">
       <% if @replications.present? %>
         <%= render :partial => "replications/list_view_table", :locals => {:replications => @replications} %>
