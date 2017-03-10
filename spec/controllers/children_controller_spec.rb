@@ -1134,9 +1134,6 @@ describe ChildrenController do
   end
 
   describe 'API' do
-    before do
-
-    end
     it 'creates a GBV case' do
       gbv_case = {owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
                    previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker", previously_owned_by_agency: "agency-unicef",
