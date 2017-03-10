@@ -957,8 +957,8 @@ describe IncidentsController do
   end
 
   describe "API" do
-    it "creates a GBV incident" do
-      gbv_incident = {owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
+    before do
+      @incident_hash = {owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
                       previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker",
                       previously_owned_by_agency: "agency-unicef", module_id: "primeromodule-gbv",
                       created_organization: "agency-unicef", created_by: "primero_gbv", created_by_full_name: "GBV Worker",
@@ -967,13 +967,30 @@ describe IncidentsController do
                       name_given_post_separation: "No", registration_date: "01-Mar-2017", sex: "Male", age: 10,
                       system_generated_followup: false, incident_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9",
                       incident_case_id: "79e1883aecab33011157abe3ae5cc3c3", hidden_name: false, posted_from: "Mobile"}
+    end
+    it "creates a GBV incident" do
 
-      post :create, incident: gbv_incident, format: :json
+      post :create, incident: @incident_hash, format: :json
 
-      incident1 = Incident.by_incident_id(key: gbv_incident[:incident_id]).first
+      incident1 = Incident.by_incident_id(key: @incident_hash[:incident_id]).first
 
       expect(incident1).not_to be_nil
       expect(incident1.name).to eq('Norville Rogers')
+    end
+
+    #NOTE: This test depends on the previous test
+    #      It cannot be run alone
+    it "updates a GBV incident" do
+      Incident.stub(:permitted_property_names).and_return(['name'])
+      before_incident = Incident.by_incident_id(key: @incident_hash[:incident_id]).first
+      @incident_hash[:name] = "Fred Jones"
+
+      put :update, id:before_incident.id, incident: @incident_hash, format: :json
+
+      after_incident = Incident.by_incident_id(key: @incident_hash[:incident_id]).first
+
+      expect(after_incident).not_to be_nil
+      expect(after_incident.name).to eq('Fred Jones')
     end
   end
 
