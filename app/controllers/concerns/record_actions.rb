@@ -339,7 +339,6 @@ module RecordActions
   end
 
   def permitted_property_keys(record, user = current_user, read_only_user = false)
-    binding.pry;qq=0
     record.class.permitted_property_names(user, record.module, read_only_user) + extra_permitted_parameters
   end
 
