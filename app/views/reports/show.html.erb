@@ -3,25 +3,25 @@
   <%= render 'toolbar' %>
 
   <%# The actual report content %>
-  <ul class="tabs" data-tab role="tablist">
-    <li class="tab-title active" role="presentational" ><a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1"><%= t('reports.tabs.table') %></a></li>
+  <ul class="tabs" data-tabs role="tablist" id="reports-tabs">
+    <li class="tabs-title is-active" role="presentational" ><a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1"><%= t('reports.tabs.table') %></a></li>
     <% if @report.is_graph && @report.has_data? %>
-      <li class="tab-title" role="presentational" ><a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2"><%= t('reports.tabs.graph') %></a></li>
+      <li class="tabs-title" role="presentational" ><a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2"><%= t('reports.tabs.graph') %></a></li>
     <% end %>
   </ul>
   <div class="page-content-new">
       <div class="report_header_content">
         <div class="report_description"><%= @report.description %></div>
       </div>
-      <div class="tabs-content">
+      <div class="tabs-content" data-tabs-content="reports-tabs">
         <% if @report.is_graph && @report.has_data? %>
-        <div role="tabpanel" aria-hidden="false" class="content" id="panel2-2">
+        <div role="tabpanel" aria-hidden="false" class="content tabs-panel" id="panel2-2">
             <div class="report_chart_content">
               <canvas id="report_graph" height="500" width="1000"></canvas>
             </div>
         </div>
         <% end %>
-        <div class="report_table_content content active" role="tabpanel" aria-hidden="true" class="content" id="panel2-1">
+        <div class="report_table_content content tabs-panel is-active" role="tabpanel" aria-hidden="true" id="panel2-1">
           <% if @report.has_data? %>
             <div class='row collapse'>
               <table id="report_table">

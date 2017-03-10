@@ -196,8 +196,14 @@ $dashboard_table_counts:85px;
           font-size: 'Roboto-Medium', sans-serif;
           font-size: $thirteen_px;
 
-          &:last-of-type {
-            border-right: none;
+          @if $global-text-direction == rtl {
+            &:first-of-type {
+              border-right: none;
+            }
+          } @else {
+            &:last-of-type {
+              border-right: none;
+            }
           }
 
           &.id_column{
@@ -244,8 +250,14 @@ $dashboard_table_counts:85px;
           word-wrap:break-word;
           word-break: break-all;
 
-          &:last-of-type {
-            border-right: none;
+          @if $global-text-direction == rtl {
+            &:first-of-type {
+              border-right: none;
+            }
+          } @else {
+            &:last-of-type {
+              border-right: none;
+            }
           }
 
           &.id_column{

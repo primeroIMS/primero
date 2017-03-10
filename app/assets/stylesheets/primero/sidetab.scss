@@ -168,8 +168,14 @@ li.current {
 
   a.group:after {
     font-family: 'FontAwesome';
-    content: '\f107';
-    float: right;
+    
+    @if $global-text-direction == rtl {
+      content: '\f107';
+      float: left;
+    } @else {
+      content: '\f107';
+      float: right;
+    }
     color: $green_color;
     font-size: .9rem;
   }
@@ -177,7 +183,13 @@ li.current {
   a.non-group:after {
     font-family: 'FontAwesome';
     content: '\f105';
-    float: right;
+    
+    @if $global-text-direction == rtl {
+      float: left;
+    } @else {
+      float: right;
+    }
+
     color: $green_color;
     font-size: .9rem;
     padding: 1px 0 4px;
@@ -186,7 +198,13 @@ li.current {
   ul li.current a:after {
     font-family: 'FontAwesome';
     content: '\f105';
-    float: right;
+    
+    @if $global-text-direction == rtl {
+      float: left;
+    } @else {
+      float: right;
+    }
+    
     color: $green_color;
     font-size: .9rem;
   }
@@ -256,5 +274,12 @@ ul.side-nav, ul.modal-side-nav {
   &.up {
     border-top: none;
     border-bottom: 1px solid #ebebeb;
+  }
+}
+
+.mCS-dir-rtl > .mCSB_inside > .mCSB_container{ /* RTL direction/left-side scrollbar */  
+  @if $global-text-direction == rtl {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
   }
 }
