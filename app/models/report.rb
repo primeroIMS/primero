@@ -1,7 +1,12 @@
 class Report < CouchRest::Model::Base
   use_database :report
   include PrimeroModel
+  include Memoizable
   include BelongsToModule
+  include LocalizableProperty
+
+  #TODO i18n - investigate making Localizable concern which uses LocalizableProperty
+  #TODO i18n - investigate possibility of refactoring Lookup, Agency, Location, etc to use Localizable
 
   REPORTABLE_FIELD_TYPES = [
     #Field::TEXT_FIELD,
@@ -28,8 +33,7 @@ class Report < CouchRest::Model::Base
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
 
-  property :name
-  property :description
+  localize_properties [:name, :description]
   property :module_ids, [String]
   property :record_type #case, incident, etc.
   property :aggregate_by, [String], default: [] #Y-axis
@@ -52,6 +56,9 @@ class Report < CouchRest::Model::Base
   attr_accessor :disaggregate_by_ordered
   attr_accessor :permission_filter
 
+  # A mapping of values in aggregate_by & disaggregate_by to the form field which is used for translations
+  attr_accessor :field_map
+
   validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
@@ -62,7 +69,6 @@ class Report < CouchRest::Model::Base
   before_save :apply_default_filters
 
   design do
-    view :by_name
     view :by_module_id,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'Report' && doc['module_ids']){
@@ -73,40 +79,63 @@ class Report < CouchRest::Model::Base
               }"
   end
 
-  def self.create_or_update(report_hash)
-    report_id = report_hash[:id]
-    report = Report.get(report_id)
-    if report.nil?
-      Report.create! report_hash
-    else
-      report.update_attributes report_hash
-    end
-  end
+  class << self
 
-  def self.get_reportable_subform_record_field_name(model, record_type)
-    model = Record::model_from_name(model)
-    if model.try(:nested_reportable_types)
-      return model.nested_reportable_types.select{|nrt| nrt.model_name.param_key == record_type}.first.try(:record_field_name)
+    # Fetches the report and loads the field map which is used for translations
+    def get_report(id)
+      report = Report.get(id) if id.present?
+      if report.present?
+        report.aggregate_by
+        load_field_map(report, report.aggregate_by) if report.aggregate_by.present?
+        load_field_map(report, report.disaggregate_by) if report.disaggregate_by.present?
+      end
+      report
     end
-  end
+    memoize_in_prod :get_report
 
-  def self.get_reportable_subform_record_field_names(model)
-    model = Record::model_from_name(model)
-    if model.try(:nested_reportable_types)
-      return model.nested_reportable_types.map{|nrt| nrt.model_name.param_key}
+    def load_field_map(report, field_key_list = [])
+      report.field_map ||= []
+      field_key_list.each do |fk|
+        field = FormSection.get_field_by_field_name_and_parent_form(fk, report.record_type)
+        report.field_map << {id: fk, field: field}
+      end
     end
-  end
 
-  def self.record_type_is_nested_reportable_subform?(model, record_type)
-    get_reportable_subform_record_field_names(model).include?(record_type)
-  end
-
-  def self.get_all_nested_reportable_types
-    record_types = []
-    FormSection::RECORD_TYPES.each do |rt|
-      record_types = record_types + Record.model_from_name(rt).try(:nested_reportable_types)
+    def create_or_update(report_hash)
+      report_id = report_hash[:id]
+      report = Report.get(report_id)
+      if report.nil?
+        Report.create! report_hash
+      else
+        report.update_attributes report_hash
+      end
     end
-    record_types
+
+    def get_reportable_subform_record_field_name(model, record_type)
+      model = Record::model_from_name(model)
+      if model.try(:nested_reportable_types)
+        return model.nested_reportable_types.select{|nrt| nrt.model_name.param_key == record_type}.first.try(:record_field_name)
+      end
+    end
+
+    def get_reportable_subform_record_field_names(model)
+      model = Record::model_from_name(model)
+      if model.try(:nested_reportable_types)
+        return model.nested_reportable_types.map{|nrt| nrt.model_name.param_key}
+      end
+    end
+
+    def record_type_is_nested_reportable_subform?(model, record_type)
+      get_reportable_subform_record_field_names(model).include?(record_type)
+    end
+
+    def get_all_nested_reportable_types
+      record_types = []
+      FormSection::RECORD_TYPES.each do |rt|
+        record_types = record_types + Record.model_from_name(rt).try(:nested_reportable_types)
+      end
+      record_types
+    end
   end
 
   def modules
@@ -378,6 +407,8 @@ class Report < CouchRest::Model::Base
 
   private
 
+
+
   def report_values(record_type, pivots, filters)
     result = {}
     pivots = pivots + [self.aggregate_counts_from] if self.aggregate_counts_from.present?
@@ -396,6 +427,7 @@ class Report < CouchRest::Model::Base
     number_of_pivots = pivots.size #can also be dimensionality, but the goal is to move the solr methods out
     pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(record_type, p)}.join(',')
     filter_query = build_solr_filter_query(record_type, filters)
+    result_pivots = []
     if number_of_pivots == 1
       params = {
         :q => filter_query,
@@ -406,17 +438,14 @@ class Report < CouchRest::Model::Base
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
-      pivots = []
       is_numeric = pivots_string.end_with? '_i' #TODO: A bit of a hack to assume that numeric Solr fields will always end with "_i"
       response['facet_counts']['facet_fields'][pivots_string].each do |v|
         if v.class == String
-          v = v.to_i if is_numeric
-          pivots << {'value' => v}
+          result_pivots << (is_numeric ? {'value' => v.to_i} : {'value' => v})
         else
-          pivots.last['count'] = v
+          result_pivots.last['count'] = v
         end
       end
-      result = {'pivot' => pivots}
     else
       params = {
         :q => filter_query,
@@ -427,9 +456,21 @@ class Report < CouchRest::Model::Base
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
-      result = {'pivot' => response['facet_counts']['facet_pivot'][pivots_string]}
+      result_pivots = response['facet_counts']['facet_pivot'][pivots_string]
     end
-    return result
+
+    translate_solr_response(0, result_pivots)
+    result = {'pivot' => result_pivots}
+  end
+
+  def translate_solr_response(map_index, response)
+    #The order of the values in the field map corresponds with the order of the pivots
+    field = self.field_map.try(:[], map_index).try(:[], :field)
+
+    response.each do |resp|
+      resp['value'] = field.display_text(resp['value']) if field.present?
+      translate_solr_response((map_index + 1), resp['pivot']) if resp['pivot'].present?
+    end
   end
 
 
