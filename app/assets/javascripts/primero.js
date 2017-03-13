@@ -40,6 +40,10 @@ function primero() {
 
   $document.foundation();
 
+  if ($('html').attr('dir') === 'rtl') {
+    $('.chosen-select').addClass('chosen-rtl');
+  }
+
   new Primero();
   // $document.foundation({
   //   abide : {

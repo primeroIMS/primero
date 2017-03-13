@@ -16,7 +16,9 @@
   </div>
 </div>
 
-<div id="record_info_modal" class="reveal-modal tiny" data-reveal aria-hidden="true" role="dialog">
+<div id="record_info_modal" class="reveal tiny" data-reveal aria-hidden="true" role="dialog">
+  <%= render 'shared/modal_close' %>
+  
   <h1><%= t('record_panel.record_information') %></h1>
   <!-- record state -->
   <p>
@@ -38,5 +40,4 @@
     <span><%= t("record_panel.current_owner") %>:</span>
     <%= record.owner ? record.owner.full_name : 'None' %>
   </p>
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
