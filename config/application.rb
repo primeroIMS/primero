@@ -41,8 +41,8 @@ module Primero
     config.assets.version = '1.0'
 
     config.assets.precompile += [
-      'application-ltr.scss', 
-      'application-rtl.scss'
+      'application_ltr.scss', 
+      'application_rtl.scss'
     ]
 
     #LOCALES = ['en','fr','ar','zh','es','ru']
