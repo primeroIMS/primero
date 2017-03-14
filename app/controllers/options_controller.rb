@@ -7,7 +7,7 @@ class OptionsController < ApplicationController
       if sources.present?
         format.json { render json: { success: 1, sources: sources }}
       else
-        format.json { render json: { message: t('string_sources_failed'), success: 0 }}
+        format.json { render json: { message: I18n.t("messages.string_sources_failed"), success: 0 }}
       end
     end
   end

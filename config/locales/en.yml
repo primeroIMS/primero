@@ -62,6 +62,8 @@ en:
     scroll_up: "Scroll up to view more"
     scroll_down: "Scroll down to view more"
     forms_export: "This export provides a spreadsheet of the available Forms and form fields. This spreadsheet is used for creating the mapping of the Form configuration to be used in the implementation. Note that this spreadsheet cannot be used to import data into Primero."
+    string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
+    system_settings_failed: "System Settings failed to load."
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -1883,4 +1885,3 @@ en:
     permitted_field_list: Permitted field list
     lookups_for_field: Lookups for field
 
-  string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
