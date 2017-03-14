@@ -1,6 +1,6 @@
-class OptionStringSourcesController < ApplicationController
+class OptionsController < ApplicationController
 
-  def get_string_sources
+  def index
     sources = build_string_sources
     
     respond_to do |format|
