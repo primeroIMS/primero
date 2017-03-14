@@ -274,6 +274,7 @@ Primero::Application.routes.draw do
     resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
     resources :potential_matches, as: :potential_matches, constraints: {format: :json}, :defaults => {:format => :json}
     resources :options, constraints: {format: :json}, :defaults => {:format => :json}, :only => [:index]
+    resources :system_settings, constraints: {format: :json}, :defaults => {:format => :json}, :only => [:index]
   end
 
 #######################

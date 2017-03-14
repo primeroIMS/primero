@@ -23,7 +23,7 @@ describe OptionsController do
     response.code.should eq('401')
   end
 
-  describe "get get_string_sources" do
+  describe "get index" do
     before do
       fake_admin_login
 
