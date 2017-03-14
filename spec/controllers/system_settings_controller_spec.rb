@@ -57,7 +57,6 @@ describe SystemSettingsController do
                          "couchrest-type" => "SystemSettings"}
       }
       get :index, string_sources: ['Location'], format: :json
-      # binding.pry;x=0
       json_response = JSON.parse(response.body)
       expect(json_response).to eq(expected_response)
     end
