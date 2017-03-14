@@ -7,7 +7,7 @@
       <button class="<%= button_style %>" data-toggle="<%= "#{mark_as_property}-dropdown" %>">
         <%= mark_as_label %>
         <% if record.flagged? && record.flag_count > 0 %>
-          <span class="primero_jewel"><%= record.flag_count %></span>
+          <span class="label primary jewel"><%= record.flag_count %></span>
         <% end %>
       </button>
     </span>

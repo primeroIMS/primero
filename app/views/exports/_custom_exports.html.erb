@@ -1,4 +1,4 @@
-  <div id=<%="#{export_type}-exports" %> class="reveal reveal-modal tiny"
+  <div "id=<%="#{export_type}-exports" %> "class="reveal tiny"
       data-reveal data-record-type="<%= controller.model_class == Child ? 'case' : controller.model_class.to_s.underscore %>"
       data-module-id="<%= @record.module_id if @record.present? %>"
       data-record-id="<%= @record.id if @record.present? %>"

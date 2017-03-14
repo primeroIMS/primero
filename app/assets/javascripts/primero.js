@@ -19,11 +19,6 @@ $(document).on('turbolinks:before-cache', function() {
   $('.mCustomScrollbar').mCustomScrollbar("destroy")
 });
 
-// TODO: Add back in if they want the old loading indicator
-// $(document).on('turbolinks:visit', function() {
-//   _primero.loading_screen_indicator('show');
-// });
-
 function primero() {
   jQuery.migrateMute = true
 
@@ -45,25 +40,22 @@ function primero() {
   }
 
   new Primero();
-  // $document.foundation({
-  //   abide : {
-  //     validators: {
-  //       primeroDate: function(el, required, parent) {
-  //         return _primero.abide_validator_date(el, required, parent);
-  //       },
-  //       primeroDateNotInFuture: function(el, required, parent) {
-  //         return _primero.abide_validator_date_not_future(el, required, parent);
-  //       },
-  //       primeroPositiveNumber: function(el, required, parent) {
-  //         return _primero.abide_validator_positive_number(el, required, parent);
-  //       }
-  //     }
-  //   }
-  // });
+
+  Foundation.Abide.defaults.validators['primeroDate'] = function(el, required, parent) {
+    return _primero.abide_validator_date(el, required, parent);
+  }
+
+  Foundation.Abide.defaults.validators['primeroDateNotInFuture'] = function(el, required, parent) {
+    return _primero.abide_validator_date_not_future(el, required, parent);
+  }
+
+  Foundation.Abide.defaults.validators['primeroPositiveNumber'] = function(el, required, parent) {
+    return _primero.abide_validator_positive_number(el, required, parent);
+  }
 
   new _primero.Router();
+
   Backbone.history.start({ pushState: true, hashChange: false })
-  // _primero.loading_screen_indicator('hide');
 }
 
 $(primero);

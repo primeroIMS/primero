@@ -622,9 +622,10 @@ Primero = _primero.Views.Base.extend({
     });
   },
 
-  abide_validator_date_not_future: function(el, required, parent) {
-    if (el.getAttribute("disabled") !== "disabled") {
-      return _primero.valid_datepicker_value(el.value, required) && _primero.date_not_future(el.value, required);
+  abide_validator_date_not_future: function($el, required, parent) {
+    if (!required && !$el.val()) return true;
+    if ($el && $el.attr('disabled') !== "disabled") {
+      return _primero.valid_datepicker_value($el.val(), required) && _primero.date_not_future($el.val(), required);
     } else {
       //Don't validate disabled inputs, browser does not send anyway.
       return true;
@@ -646,9 +647,10 @@ Primero = _primero.Views.Base.extend({
     }
   },
 
-  abide_validator_date: function(el, required, parent) {
-    if (el.getAttribute("disabled") !== "disabled") {
-      return _primero.valid_datepicker_value(el.value, required);
+  abide_validator_date: function($el, required, parent) {
+    if (!required && !$el.val()) return true;
+    if ($el && $el.attr("disabled") !== "disabled") {
+      return _primero.valid_datepicker_value($el.val(), required);
     } else {
       //Don't validate disabled inputs, browser does not send anyway.
       return true;
@@ -670,9 +672,10 @@ Primero = _primero.Views.Base.extend({
     }
   },
 
-  abide_validator_positive_number: function(el, required, parent) {
-    if (el.getAttribute("disabled") !== "disabled") {
-      return _primero.valid_positive_number_value(el.value, required);
+  abide_validator_positive_number: function($el, required, parent) {
+    if (!required && !$el.val()) return true;
+    if ($el && $el.attr("disabled") !== "disabled") {
+      return _primero.valid_positive_number_value($el.val(), required);
     } else {
       return true;
     }
