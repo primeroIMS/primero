@@ -273,13 +273,7 @@ Primero::Application.routes.draw do
     resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
     resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
     resources :potential_matches, as: :potential_matches, constraints: {format: :json}, :defaults => {:format => :json}
-  end
-
-#######################
-# OPTION STRING SOURCES URLS
-#######################
-  controller :option_string_sources, :defaults => {:format => :json} do
-    get :string_sources, :action => 'get_string_sources'
+    resources :options, constraints: {format: :json}, :defaults => {:format => :json}, :only => [:index]
   end
 
 #######################
