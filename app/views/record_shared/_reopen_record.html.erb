@@ -1,7 +1,7 @@
 <li>
   <a data-open="<%= "#{model.name.underscore.downcase}_reopen_records" %>"><%= t("actions.reopen") %></a>
-  <div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_reopen_records" %>" data-reveal>
-    <a class="close-reveal-modal">&#215;</a>
+  <div class="reveal tiny" id="<%= "#{model.name.underscore.downcase}_reopen_records" %>" data-reveal>
+    <%= render 'shared/modal_close' %>
     <div class="row">
       <div class="large-12 columns">
         <%= t('messages.reopen_record') %>

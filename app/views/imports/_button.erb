@@ -6,7 +6,7 @@
     </a>
 
     <div id="import-modal" class="reveal tiny" data-reveal>
-      <a class="close-reveal-modal">&#215;</a>
+      <%= render 'shared/modal_close' %>
       <%= form_tag(url_for(:action => 'import_file'), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
         <%= file_field_tag("import_file") %>
         <label><%=I18n.t("imports.password_label")%>

@@ -453,28 +453,28 @@ span.postfix_val {
   border-left: none !important;
 }
 
-#password-prompt-dialog, #password-prompt {
-  small {
-    font-size: 65%;
-    line-height: 10px;
-    color: #777;
-  }
+// #password-prompt-dialog, #password-prompt {
+//   small {
+//     font-size: 65%;
+//     line-height: 10px;
+//     color: #777;
+//   }
 
-  label {
-    font-family: 'Roboto-Medium', sans-serif;
-    font-size: .78rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
+//   label {
+//     font-family: 'Roboto-Medium', sans-serif;
+//     font-size: .78rem;
+//     font-weight: bold;
+//     margin-bottom: 10px;
+//   }
 
-  input {
-    margin: 0px;
-  }
+//   input {
+//     margin: 0px;
+//   }
 
-  label#export-file-name-label {
-    margin-top: 15px;
-  }
-}
+//   label#export-file-name-label {
+//     margin-top: 15px;
+//   }
+// }
 
 ////////////////////////////////////////////////
 // File Upload Input

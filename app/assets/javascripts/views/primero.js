@@ -690,8 +690,8 @@ Primero = _primero.Views.Base.extend({
   },
 
   open_modal: function(e) {
-    // e.preventDefault();
-    // var modal = $(e.target).attr('data-open');
-    // $(modal).foundation('open')
+    e.preventDefault();
+    var modal = "#" + $(e.target).attr('data-open');
+    $(modal).foundation('open')
   }
 });

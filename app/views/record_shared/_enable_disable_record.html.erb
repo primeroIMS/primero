@@ -1,8 +1,8 @@
 <li>
   <a data-open="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>"><%= instance.record_state ? t("actions.disable") :t("actions.enable") %></a>
 
-  <div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" data-reveal>
-    <a class="close-reveal-modal">&#215;</a>
+  <div class="reveal tiny" id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" data-reveal>
+    <%= render 'shared/modal_close' %>
   	<% state = nil %>
     <div class="row">
       <div class="large-12 columns">

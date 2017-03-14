@@ -3,7 +3,7 @@
 </a>
 
 <div id="import-bundle-modal" class="reveal tiny" data-reveal>
-  <a class="close-reveal-modal">&#215;</a>
+  <%= render 'shared/modal_close' %>
   <%= form_tag(url_for(:action => 'import_bundle', :controller => 'configuration_bundle'), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
     <%= file_field_tag("import_file") %>
     <div class="import_button">

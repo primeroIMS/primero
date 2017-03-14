@@ -11,8 +11,8 @@
                     options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id),
                     :onchange => "if(this.value){window.location='?module_id='+this.value+'&parent_form=#{@parent_form}';}" %>
   <a data-open="forms-export" href="#" class='button hollow'><%= t("exports.forms.label") %></a>
-  <div class="reveal-modal tiny" id="forms-export" data-reveal>
-    <a class="close-reveal-modal">&#215;</a>
+  <div class="reveal tiny" id="forms-export" data-reveal>
+    <%= render 'shared/modal_close' %>
     <div class="row">
       <div class="large-12 columns">
         <%= t('messages.forms_export') %>
