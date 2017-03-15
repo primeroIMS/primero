@@ -134,6 +134,8 @@ Primero::Application.routes.draw do
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
   match '/cases/:id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
+  match '/incident-ids' => 'incident_ids#all', :as => :incident_ids, :via => [:post, :get, :put, :delete]
+
 #Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
   match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
 
