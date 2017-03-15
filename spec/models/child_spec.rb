@@ -1180,24 +1180,55 @@ describe Child do
     describe "all ids and revs" do
       before do
         Child.all.each { |child| child.destroy }
+        @owner = create :user
+        @owner2 = create :user
+        @child1 = create_child_with_created_by(@owner.user_name, :name => "child1", :marked_for_mobile => true, :module_id => PrimeroModule::GBV)
+        @child2 = create_child_with_created_by(@owner.user_name, :name => "child2", :marked_for_mobile => false, :module_id => PrimeroModule::CP)
+        @child3 = create_child_with_created_by(@owner2.user_name, :name => "child3", :marked_for_mobile => true, :module_id => PrimeroModule::CP)
+        @child4 = create_child_with_created_by(@owner2.user_name, :name => "child4", :marked_for_mobile => false, :module_id => PrimeroModule::GBV)
+
+        @child1.create!
+        @child2.create!
+        @child3.create!
+        @child4.create!
       end
 
-      it "should return all _ids and revs in the system" do
-        owner = create :user
-        owner2 = create :user
-        child1 = create_child_with_created_by(owner.user_name, :name => "child1")
-        child2 = create_child_with_created_by(owner.user_name, :name => "child2")
-        child3 = create_child_with_created_by(owner2.user_name, :name => "child3")
+      context 'when mobile' do
+        context 'and module id is CP' do
+          it 'returns all CP mobile _ids and revs' do
+            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::CP)
+            expect(ids_and_revs.count).to eq(1)
+            expect(ids_and_revs).to eq([{"_id" => @child3.id, "_rev" => @child3.rev}])
+          end
+        end
 
-        child1.create!
-        child2.create!
-        child3.create!
+        context 'and module id is GBV' do
+          it 'returns all GBV mobile _ids and revs' do
+            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::GBV)
+            expect(ids_and_revs.count).to eq(1)
+            expect(ids_and_revs).to eq([{"_id" => @child1.id, "_rev" => @child1.rev}])
+          end
+        end
 
+        context 'and module id is not provided' do
+          it 'returns all mobile _ids and revs' do
+            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', '')
+            expect(ids_and_revs.count).to eq(2)
+            expect(ids_and_revs).to include({"_id" => @child1.id, "_rev" => @child1.rev},
+                                            {"_id" => @child3.id, "_rev" => @child3.rev})
+          end
+        end
+      end
 
-
-        ids_and_revs = Child.fetch_all_ids_and_revs([owner.user_name, owner2.user_name], false, '2000/01/01')
-        ids_and_revs.count.should == 3
-        ids_and_revs.should =~ [{"_id" => child1.id, "_rev" => child1.rev}, {"_id" => child2.id, "_rev" => child2.rev}, {"_id" => child3.id, "_rev" => child3.rev}]
+      context 'when not mobile' do
+        it 'returns all _ids and revs' do
+          ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], false, '2000/01/01', '')
+          expect(ids_and_revs.count).to eq(4)
+          expect(ids_and_revs).to include({"_id" => @child1.id, "_rev" => @child1.rev},
+                                          {"_id" => @child2.id, "_rev" => @child2.rev},
+                                          {"_id" => @child3.id, "_rev" => @child3.rev},
+                                          {"_id" => @child4.id, "_rev" => @child4.rev})
+        end
       end
     end
   end
