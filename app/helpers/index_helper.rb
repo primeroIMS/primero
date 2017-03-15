@@ -61,7 +61,7 @@ module IndexHelper
   end
 
   def build_checkboxes(filter, items, type, format = true, filter_type = nil)
-    content_tag :div, class: "filter-controls #{'field-controls-multi' if type}" do
+    content_tag :div, class: "filter-controls #{'field-controls-multi' if type} row align-middle" do
       items.each do |item|
         if item.is_a?(Hash)
           key = item.keys.first
@@ -102,7 +102,7 @@ module IndexHelper
   end
 
   def build_checkboxes_group(items, group_name = nil)
-    content_tag :div, class: "filter-controls" do
+    content_tag :div, class: "filter-controls row align-middle" do
       items.each do |item|
         key = item.keys.first
         id = item[key][:id].present? ? item[key][:id] : key
@@ -132,7 +132,7 @@ module IndexHelper
   end
 
   def build_datefield(filter)
-    content_tag :div, class: 'filter-controls' do
+    content_tag :div, class: 'filter-controls row align-middle' do
       concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
     end
   end

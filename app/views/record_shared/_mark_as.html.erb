@@ -4,14 +4,14 @@
 %>
 <% if can? :flag, record %>
     <span id="<%= mark_as_property %>" class="<%= style %>">
-      <button class="<%= button_style %>" data-toggle="<%= "#{mark_as_property}-dropdown" %>">
+      <button class="<%= button_style %> flags_record_page" data-toggle="<%= "#{mark_as_property}-dropdown" %>">
         <%= mark_as_label %>
         <% if record.flagged? && record.flag_count > 0 %>
           <span class="label primary jewel"><%= record.flag_count %></span>
         <% end %>
       </button>
     </span>
-    <div class="dropdown-pane"
+    <div class="dropdown-pane large"
          id="<%= "#{mark_as_property}-dropdown" %>"
          data-dropdown
          data-model="<%= model_class_name %>"
@@ -32,7 +32,7 @@
          data-message_unflag_date="<%= mark_as_message_unflag_date %>"
          data-message_unflag_by="<%= mark_as_message_unflag_by %>"
          data-message_unflagged_label="<%= mark_as_message_unflagged_label %>" >
-        <div class="flag_unflag_header">
+        <div class="flag_unflag_header row">
           <div class="large-6 columns">
             <span><%=I18n.t("buttons.flag_model", model: model_name)%></span>
           </div>

@@ -1,5 +1,5 @@
 <div class="reveal tiny" id="<%= "#{approval_type}_approvals" %>" data-reveal>
-  <a class="close-reveal-modal">&#215;</a>
+  <%= render 'shared/modal_close' %>
   <div class="row">
     <div class="large-12 columns">
       <%= t("approvals.approve_#{approval_type}") %>
@@ -17,7 +17,7 @@
          data-approval_type="<%= approval_type %>"
          href=""><%= t("buttons.ok") %>
       </a>
-      <a class="close-reveal-modal button hollow right"><%= t("buttons.cancel") %></a>
+      <a class="close-reveal-modal button hollow right gray"><%= t("buttons.cancel") %></a>
     </div>
   </div>
 </div>

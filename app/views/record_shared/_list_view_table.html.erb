@@ -26,7 +26,7 @@
         </div>
       </div>
     </div>
-    <div class="large-3 small-3 columns">
+    <div class="large-3 small-3 columns no-padding-left">
       <% if options[:display_filter] %>
         <div class="row collapse align-middle filter-controls">
           <div class="column">
@@ -60,7 +60,7 @@
     </table>
     <div class="table_spacer"></div>
   </div>
-  <div class="large-3 small-3 columns index_filters">
+  <div class="large-3 small-3 columns no-padding-left index_filters">
     <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
   </div>
 </div>

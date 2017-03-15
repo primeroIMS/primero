@@ -19,6 +19,14 @@ ul {
   margin:0 auto;
 }
 
+.no-padding-left {
+  @if $global-text-direction == rtl {
+    padding-right: 0;
+  } @else {
+    padding-left: 0;
+  }
+}
+
 .page-content {
   width: 800px;
   padding:30px 0 0 0;
@@ -81,9 +89,16 @@ table {
 table.list_view, table.list_table, table.list_table_2, table.record_list_view {
   border:none !important;
   margin-bottom: 20px;
+  
   a.id_link{
-    float: left;
+    @if $global-text-direction == rtl {
+      float: right;
+    }  @else {
+      float: left;
+    }
+
     text-decoration: none;
+
     &:hover{
       font-weight:bold;
     }

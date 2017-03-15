@@ -9,7 +9,7 @@
 <div class="clearfix"></div>
 <div class="page-content-new row" data-equalizer>
   <%= render :partial => 'form_section/sidebar', :locals => {:highlight_page => 'locations'} %>
-  <div class="large-9 medium-9columns side-tab-content-container">
+  <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <%= render partial: 'shared_configuration_resource/table_disabled_filter'%>
       <%= render :partial => "locations/list_view_table", :locals => {:locations => @locations} %>

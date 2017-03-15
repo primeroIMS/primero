@@ -51,7 +51,7 @@
         </ul>
       <% end %>
     </div>
-    <div class="large-3 columns">
+    <div class="large-3 columns no-padding-left">
       <% if [Child, TracingRequest, Incident].include? model %>
         <% if can? :read, model %>
             <%= form_tag path_for_model(model), :method => :get, :id => "search_form", :autocomplete => "off" do %>

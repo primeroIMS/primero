@@ -3,6 +3,36 @@
 ////////////////////////////////////////////////
 
 .record_controls {
+  .dropdown-pane.large {
+    width: rem_calc(534);
+    background: $desat_green_color;
+
+    .flag_unflag_header {
+      color: $green_color;
+      border-bottom: 1px solid $stroke_green_color;
+    }
+
+    .label {
+      background: none;
+      color: $grey_color;
+      float: left;
+      width: 100%;
+      text-align: left;
+      margin: 2px;
+      text-transform: uppercase;
+      font-weight: bold;
+      padding: 0;
+    }
+
+    .add_flag {
+      margin: 1em 0;
+
+      input {
+        margin-bottom: 0;
+      }
+    }
+  }
+
   // height: rem_calc(50);
 
   // ul.inline-list {

@@ -50,4 +50,38 @@ nav {
       text-decoration: none;
     }
   }
+
+  input, button {
+    background: $light_grey_color !important;
+    border: none !important;
+    color: #fff !important;
+
+    &:first-child {
+      border-right: 1px solid $desat_green_color;
+    }
+
+    &:focus {
+      background: $grey_color !important;
+    }
+  }
+
+  input {
+    border-right: 1px solid #666 !important;
+  }
+
+  ::-webkit-input-placeholder {
+     color: #fff;
+  }
+
+  :-moz-placeholder { /* Firefox 18- */
+     color: #fff;
+  }
+
+  ::-moz-placeholder {  /* Firefox 19+ */
+     color: #fff;
+  }
+
+  :-ms-input-placeholder {
+     color: #fff;
+  }
 }

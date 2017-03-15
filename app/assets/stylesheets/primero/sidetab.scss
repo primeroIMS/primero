@@ -3,12 +3,18 @@
 ////////////////////////////////////////////////
 
 .side-nav-container {
-  width: rem_calc(300);
+  width: rem_calc(285);
 }
 
 .side-tab-content-container {
   // width: 750px;
-  padding-left: rem_calc(15);
+  
+
+  @if $global-text-direction == rtl {
+    padding-right: 0;
+  } @else {
+    padding-left: 0;
+  }
 
   .side-tab-content {
     min-height: rem_calc(500);
@@ -137,9 +143,14 @@ li.group.current {
 li.group a.group:after {
   font-family: 'FontAwesome';
   content: '\f106';
-  float: right;
   color: #ccc;
   font-size: .9rem;
+
+  @if $global-text-direction == rtl {
+    float: left;
+  } @else {
+    float: right;
+  }
 }
 
 li.group ul a {

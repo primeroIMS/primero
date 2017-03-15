@@ -51,6 +51,13 @@ div.scope_bar {
 }
 
 .index_filters {
+  .mCS-dir-rtl > .mCSB_inside > .mCSB_container{ /* RTL direction/left-side scrollbar */  
+    @if $global-text-direction == rtl {
+      margin-left: rem_calc(23) !important;
+      margin-right: 0 !important;
+    }
+  }
+
   .filter {
     margin-bottom: rem_calc(8);
 
@@ -59,7 +66,11 @@ div.scope_bar {
     }
 
     .filter-controls {
-      padding: rem_calc(10 3 2 9);
+      @if $global-text-direction == rtl {
+        padding: rem_calc(10 9 2 3);
+      } @else {
+        padding: rem_calc(10 3 2 9);
+      }
       clear: both;
     }
 
@@ -105,19 +116,30 @@ div.scope_bar {
   }
 
   label {
-    font-size: 0.8rem; 
+    font-size: 0.8rem;
+    
+    @if $global-text-direction == rtl {
+      margin-left: 1.2rem;
+    } @else {
+      margin-right: 1.2rem;
+    }
 
     span {
       width: rem_calc(220);
       overflow: hidden;
       display: block;
-      line-height: 1em;
+      line-height: 1.2em;
       text-overflow: ellipsis;
     }
   }
 
   .chosen-container-single {
     width: 96% !important;
-    margin: rem_calc(10 0 20 4) !important;
+
+    @if $global-text-direction == rtl {
+      margin: rem_calc(10 4 20 0) !important;
+    } @else {
+      margin: rem_calc(10 0 20 4) !important;
+    }
   }
 }

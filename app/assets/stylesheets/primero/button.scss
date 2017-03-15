@@ -2,39 +2,23 @@
 // Buttons
 ////////////////////////////////////////////////
 
-.green-button, .ui-button {
-  color: $green_color !important;
-  border: 1px solid $stroke_green_color !important;
-  font-family: 'Roboto', sans-serif !important;
-  font-size: $thirteen_px !important;
-  text-transform: uppercase;
-  height: 37px;
-  $padding: 0.5rem;
-  $radius: false;
-  $full-width: false;
-  $disabled: false;
-  $bg: $desat_green_color;
-  @include button($padding, $bg, $radius, $full-width, $disabled);
+.button {
+  outline: none;
+
+  .gray {
+    color: $grey_color !important;
+    border: 1px solid $grey_color;
+  }
 }
 
+.flags_record_page {
+  width: rem_calc(109);
+  padding: rem_calc(7.5);
 
-.grey-button {
-  color: $grey_color !important;
-  border: 1px solid $grey_color !important;
-  font-family: 'Roboto-Medium', sans-serif !important;
-  font-size: $thirteen_px !important;
-  text-transform: uppercase;
-  $padding: 0.5rem;
-  $radius: false;
-  $full-width: false;
-  $disabled: false;
-  $is-input: false;
-  $bg: #ebebeb;
-  @include button($padding, $bg, $radius, $full-width, $disabled);
-}
-
-.grey-button, .green-button {
-  text-decoration: none !important;
+  .jewel {
+    border-radius: 50%;
+    color: #fff;
+  }
 }
 
 .import_button {
@@ -63,11 +47,7 @@ a.ui-dialog-titlebar-close.ui-corner-all {
 ////////////////////////////////////////////////
 
 .dropdown_btn {
-  .green-button {
-   margin: 0;
-  }
-
-  .dropdown {
+  .dropdown-pane {
     // background: $desat_green_color;
     // position: absolute;
     // z-index: 998;
@@ -126,6 +106,10 @@ a.ui-dialog-titlebar-close.ui-corner-all {
 
     }
 
+    .flag_message {
+      margin-bottom: 0;
+    }
+
     span.collapse_expand_flag {
       float: right;
       font-size: 1.2rem;
@@ -138,11 +122,6 @@ a.ui-dialog-titlebar-close.ui-corner-all {
       text-align: center;
       line-height: 1rem;
       color: $green_color;
-    }
-
-    input.flag_submit {
-      margin-top: 19px;
-      padding: 0 5px  !important;
     }
 
     .remove_flag_record_container {
@@ -166,92 +145,3 @@ a.close-reveal-modal.green-button {
   font-weight: inherit;
 }
 
-////////////////////////////////////////////////
-// Nested Button Menu
-////////////////////////////////////////////////
-
-// ul.sf-menu {
-//   float: left;
-//   // margin: 0 8px 1em;
-// }
-
-// .sf-menu ul {
-//   -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
-//   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
-//   min-width: 12em; /* allow long menu items to determine submenu width */
-//   *width: 12em; /* no auto sub width for IE7, see white-space comment below */
-// }
-
-// .sf-menu a {
-//   font-size: $thirteen_px;
-//   border-top: 1px dashed #ccc;
-//   // padding: .65em 1em .75em 1em;
-//   text-decoration: none;
-//   zoom: 1; /* IE7 */
-// }
-
-// ul.sf-menu ul li:first-of-type a, ul.sf-menu ul ul li:first-of-type a {
-//   border-top: none !important;
-// }
-
-// .sf-menu a:hover {
-//   text-decoration: none;
-// }
-
-// .sf-menu li {
-//   background: #fff;
-//   white-space: nowrap; /* no need for Supersubs plugin */
-//   *white-space: normal; /* ...unless you support IE7 (let it wrap) */
-// }
-
-// .sf-menu li:hover,
-// .sf-menu li.sfHover {
-//   background: #eee;
-//   /* only transition out, not in */
-//   -webkit-transition: none;
-//   transition: none;
-// }
-
-// .sr-menu a:hover {
-//   color: #fff;
-// }
-
-// /*** arrows (for all except IE7) **/
-// .sf-arrows .sf-with-ul {
-//   padding-right: 2.5em;
-//   *padding-right: 1em; /* no CSS arrows for IE7 (lack pseudo-elements) */
-// }
-
-// /* styling for both css and generated arrows */
-// .sf-arrows .sf-with-ul:after {
-//   content: '';
-//   position: absolute;
-//   top: 50%;
-//   right: 1em;
-//   margin-top: -3px;
-//   height: 0;
-//   width: 0;
-//   /* order of following 3 rules important for fallbacks to work */
-//   border: 5px solid transparent;
-//   border-top-color: $green_color;
-// }
-
-// .sf-arrows > li > .sf-with-ul:focus:after,
-// .sf-arrows > li:hover > .sf-with-ul:after,
-// .sf-arrows > .sfHover > .sf-with-ul:after {
-//   border-top-color: #555; /* IE8 fallback colour */
-// }
-
-// /* styling for right-facing arrows */
-// .sf-arrows ul .sf-with-ul:after {
-//   margin-top: -5px;
-//   margin-right: -3px;
-//   border-color: transparent;
-//   border-left-color: $green_color;
-// }
-
-// .sf-arrows ul li > .sf-with-ul:focus:after,
-// .sf-arrows ul li:hover > .sf-with-ul:after,
-// .sf-arrows ul .sfHover > .sf-with-ul:after {
-//   border-left-color: #555;
-// }

@@ -154,8 +154,14 @@ $dashboard_table_counts:85px;
 
 
       a.id_link{
-        float: left;
         text-decoration: none;
+
+        @if $global-text-direction == rtl {
+          float: right;
+        }  @else {
+          float: left;
+        }
+
         &:hover{
           font-weight:bold;
         }
@@ -302,6 +308,10 @@ $dashboard_table_counts:85px;
       list-style-type: none;
       margin-left: 0;
       margin-bottom: 0;
+
+      @if $global-text-direction == rtl {
+        margin-right: 0;
+      }
 
       li {
         border-bottom: 1px dashed #ccc;

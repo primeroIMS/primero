@@ -3,6 +3,16 @@ header {
 
   .menu {
     font-size: .8rem;
+
+    &.simple li {
+      @if $global-text-direction == rtl {
+        margin-left: 0;
+        margin-right: 1rem;
+      } @else {
+        margin-left: 1rem;
+        margin-right: 0;
+      }
+    }
   }
 
   a.logo img {
