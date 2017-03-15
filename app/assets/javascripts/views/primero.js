@@ -158,12 +158,6 @@ Primero = _primero.Views.Base.extend({
     $(".reveal .side-tab-content").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
     $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
-
-    $(".referral_form_container").mCustomScrollbar(_.extend(options, { setHeight: 530 }));
-
-    $(".modal-content, .profile-header").mCustomScrollbar(_.extend(options, { setHeight: 370 }));
-
-    $(".transfer_form_container").mCustomScrollbar(_.extend(options, { setHeight: 460 }));
   },
 
   init_chosen_or_new: function() {

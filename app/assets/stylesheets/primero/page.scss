@@ -243,11 +243,11 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
   border-left: 1px solid $stroke_green_color;
 }
 
-.reveal-modal .side-tab-content-container {
+.reveal .side-tab-content-container {
   width: 688px;
 }
 
-.reveal-modal {
+.reveal {
   background: $desat_green_color;
 
   .close-reveal-modal {
@@ -257,6 +257,11 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
 
 .reveal {
   background: $desat_green_color;
+
+  fieldset {
+    padding: rem_calc(10);
+    margin-bottom: 1em;
+  }
   
   form {
     margin-top: 2em;
@@ -422,7 +427,7 @@ tr td span {
   padding-top: 20px;
 }
 
-.reveal-modal .mCSB_inside > .mCSB_container {
+.reveal .mCSB_inside > .mCSB_container {
   margin-right: 0;
 }
 

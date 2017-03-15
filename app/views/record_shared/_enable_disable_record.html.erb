@@ -4,7 +4,7 @@
   <div class="reveal tiny" id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" data-reveal>
     <%= render 'shared/modal_close' %>
   	<% state = nil %>
-    <div class="row">
+    <div class="row collapse">
       <div class="large-12 columns">
         <% if instance.record_state %>
           <%= t('messages.enable_disable_record', action: t('actions.description.invalid')) %>
@@ -17,7 +17,7 @@
     </div>
     <div class="space"></div>
     <div class="row">
-      <div class="large-12 columns">
+      <div class="button-group">
         <a class="button hollow right"
           id="enable_disable_action"
           data-id="<%= instance.id %>"
@@ -27,7 +27,9 @@
           data-state="<%= instance.record_state ? false : true %>"
           href=""><%= t("buttons.ok") %>
         </a>
-        <a class="close-reveal-modal button hollow gray right"><%= t("buttons.cancel") %></a>
+        <button class="button hollow gray" data-close aria-label="Close reveal" type="button">
+          <span aria-hidden="true"><%= t("buttons.cancel") %></span>
+        </button>
       </div>
     </div>
   </div>

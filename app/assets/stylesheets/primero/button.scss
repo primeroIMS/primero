@@ -5,11 +5,17 @@
 .button {
   outline: none;
 
-  .gray {
+  &.gray {
     color: $grey_color !important;
-    border: 1px solid $grey_color;
+    border: 1px solid $grey_color !important;
   }
 }
+
+@if $global-text-direction == rtl {
+  .close-button, .close-button.medium {
+    left: 1rem;
+  }
+} 
 
 .flags_record_page {
   width: rem_calc(109);

@@ -15,8 +15,10 @@
         <label><%=I18n.t("imports.format_label")%>
           <%= select_tag("import_type", options_for_select(active_importers.map {|i| [i.display_name, i.id]}, 'csv')) %>
         </label>
-        <div class="import_button">
-          <%= submit_tag(t("buttons.import"), class: 'button hollow right') %>
+        <div class="row align-right">
+          <div class="button-group">
+            <%= submit_tag(t("buttons.import"), class: 'button hollow right') %>
+          </div>
         </div>
         <%= content_for :page_scripts do %>
           var $import_type = $("#import_type");

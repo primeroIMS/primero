@@ -12,8 +12,10 @@
           <%= text_area_tag("rejected_reason") %>
         </label>
         <% end %>
-        <div class="import_button">
-          <%= submit_tag(t("buttons.ok"), class: 'button hollow right') %>
+        <div class="row align-right">
+          <div class="button-group">
+            <%= submit_tag(t("buttons.import"), class: 'button hollow right') %>
+          </div>
         </div>
       <% end %>
     </div>

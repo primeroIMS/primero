@@ -30,7 +30,7 @@
   <div id=<%= "#{transition_type}-modal" %> class="reveal tiny" data-reveal>
     <%= render 'shared/modal_close' %>
     <div class=<%= "#{transition_type}_form_container row"%> >
-      <div class="large-11">
+      <div class="large-12">
         <%= form_tag(url_for(:action => 'transition', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
           <%= hidden_field_tag "selected_records"%>
           <%= hidden_field_tag "transition_type", transition_type%>
@@ -39,17 +39,15 @@
           <% else %>
           <label class="consent">
             <span class="consent_count"><%= no_consent_count%></span>
-            <%=I18n.t("#{transition_type}.consent_label")%><br />
-            <% if can?(:consent_override, controller.model_class) %>
-              <%=I18n.t("#{transition_type}.consent_override_label")%>
-              <%= check_box_tag("consent_override", "true") %>
-            <% else %>
-              <br />
-            <% end %>
+            <%=I18n.t("#{transition_type}.consent_label")%>
           </label>
-          <label><%=I18n.t("#{transition_type}.is_remote_label")%>
-            <%= check_box_tag("is_remote", "true") %>
-          </label>
+          <% if can?(:consent_override, controller.model_class) %>
+            <%= check_box_tag("consent_override", "true") %>
+            <label for="consent_override"><%=I18n.t("#{transition_type}.consent_override_label")%></label>
+          <% end %>
+          <br>
+          <%= check_box_tag("is_remote", "true") %>
+          <label for="is_remote"><%=I18n.t("#{transition_type}.is_remote_label")%></label>
           <% end %>
           <div class="local_toggle">
             <div class='local_user_flash hide'><p class='error'></p></div>
@@ -90,12 +88,12 @@
               <%= text_field_tag("file_name") %>
             </label>
           </div>
-          <div class="import_button">
-            <%= submit_tag(t("buttons.submit"), class: 'button hollow right') %>
+          <div class="row align-right">
+            <div class="button-group">
+              <%= submit_tag(t("buttons.import"), class: 'button hollow right') %>
+            </div>
           </div>
         <% end %>
-      </div>
-      <div class="large-1">
       </div>
     </div>
   </div>

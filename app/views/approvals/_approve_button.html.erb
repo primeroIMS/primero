@@ -2,7 +2,7 @@
   available_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
 %>
 <li>
-  <%= link_to t("buttons.approvals"), '#', class: 'has_sub', onclick: 'return false;' %>
+  <a><%= t("buttons.approvals") %></a>
   <ul class="menu">
     <% if can?(:approve_bia, controller.model_class) && available_form_ids.include?("cp_bia_form") %>
       <%= render 'approvals/approve_form_button', instance: @child, approval_type: ApprovalActions::BIA %>
