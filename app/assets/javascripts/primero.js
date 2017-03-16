@@ -25,11 +25,11 @@ function primero() {
   var $document = $(document);
   var $body = $('body');
 
-  $document.on('open.fndtn.reveal', '[data-reveal]', function () {
+  $document.on('open.zf.reveal', '[data-reveal]', function () {
     $body.css('overflow','hidden');
   });
 
-  $document.on('close.fndtn.reveal', '[data-reveal]', function () {
+  $document.on('closed.zf.reveal', '[data-reveal]', function () {
     $body.css('overflow','visible');
   });
 

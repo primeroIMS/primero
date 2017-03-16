@@ -60,6 +60,8 @@ Primero = _primero.Views.Base.extend({
       $('textarea[name*="field[option_strings_text"]').parents('form').find('input[name="field[multi_select]"]').attr('disabled', true);
     }
 
+    $(document).on('closed.zf.reveal', 'body', this.clear_modal_form);
+
     window.onbeforeunload = this.load_and_redirect;
   },
 
@@ -71,13 +73,13 @@ Primero = _primero.Views.Base.extend({
         $modal.wrap("<div class='modal-scroll' />");
       }
     }
-    $document.on('opened.fndtn.reveal', '[data-reveal]', modal_wrap);
+    $document.on('open.zf.reveal', '[data-reveal]', modal_wrap);
 
     function modal_unwrap() {
       var $modal = $(this);
       $modal.unwrap("<div class='modal-scroll' />");
     }
-    $document.on('close.fndtn.reveal', '[data-reveal]', modal_unwrap);
+    $document.on('closed.zf.reveal', '[data-reveal]', modal_unwrap);
   },
 
   init_edit_listeners: function() {
@@ -154,8 +156,6 @@ Primero = _primero.Views.Base.extend({
     $(".panel_xl ul").mCustomScrollbar(_.extend(options, { setHeight: 578 }));
 
     $(".panel_content ul").mCustomScrollbar(_.extend(options, { setHeight: 250 }));
-
-    $(".reveal .side-tab-content").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
 
     $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
   },
@@ -679,6 +679,14 @@ Primero = _primero.Views.Base.extend({
       return !isNaN(value) && value >= 0;
     } else {
       return !required;
+    }
+  },
+
+  clear_modal_form: function(e) {
+    var form = $(e.target).find('form')[0]
+
+    if (form) {
+      form.reset();
     }
   }
 });

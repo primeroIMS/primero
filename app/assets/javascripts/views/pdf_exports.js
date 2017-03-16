@@ -33,7 +33,7 @@ _primero.Views.PdfExports = _primero.Views.Base.extend({
     function reset_form() {
       self.reset_form();
     }
-    $(document).on('close.fndtn.reveal', '#pdf-exports', reset_form);
+    $(document).on('closed.zf.reveal', '#pdf-exports', reset_form);
   },
 
   init_chosen_fields: function() {

@@ -101,12 +101,12 @@
   </tbody>
 </table>
 
-<div id="add_field_modal" class="reveal" data-reveal>
-  <a class="close-reveal-modal">&#215;</a>
+<div id="add_field_modal" class="reveal large" data-reveal>
+  <%= render 'shared/modal_close' %>
   <div class="sidebar_help">
     <%= @field.present? && @field.type.present? ? t("form_section.modal_sidebar_help_selected") : t("form_section.modal_sidebar_help") %>
   </div>
-  <div class="row collapse">
+  <div class="row collapse has_form">
     <div class="medium-3 columns">
       <div class="modal-side-tab">
         <div class="scrolling_indicator up"><%= t('messages.scroll_up') %></div>

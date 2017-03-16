@@ -32,7 +32,7 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
       self.reset_form();
     }
 
-    $(document).on('close.fndtn.reveal', '#custom-exports', reset_form);
+    $(document).on('closed.zf.reveal', '#custom-exports', reset_form);
   },
 
   init_chosen_fields: function() {

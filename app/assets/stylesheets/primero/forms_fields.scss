@@ -599,6 +599,8 @@ span.postfix_val {
 ////////////////////////////////////////////////
 
 fieldset {
+  position: relative;
+  
   .row {
     .footnote {
       font-size: 0.8rem;
@@ -613,7 +615,7 @@ fieldset {
     .form-section-required {
       float: right;
       position: absolute;
-      right: 0;
+      right: rem_calc(27);
       margin-right: -6px
     }
 

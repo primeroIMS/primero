@@ -77,10 +77,8 @@
         </div>
         </div>
         <div class="row">
-          <div class="translation_lang_panel">
-            <div class="medium-12 columns">
-              <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}, {:help_text => :text_field}], :fld => f, :show_drop_down => true} %>
-            </div>
+          <div class="translation_lang_panel medium-12 columns">
+            <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}, {:help_text => :text_field}], :fld => f, :show_drop_down => true} %>
             <div class="clearfix"></div>
           </div>
     <% end %>

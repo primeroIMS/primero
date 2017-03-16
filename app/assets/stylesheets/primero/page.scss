@@ -253,6 +253,10 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
   .close-reveal-modal {
     color: $stroke_green_color;
   }
+
+  .has_form {
+    margin-top: 1em;
+  }
 }
 
 .reveal {

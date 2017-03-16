@@ -10,20 +10,21 @@
   <%= select_tag :module_id,
                     options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id),
                     :onchange => "if(this.value){window.location='?module_id='+this.value+'&parent_form=#{@parent_form}';}" %>
-  <a data-open="forms-export" href="#" class='button hollow'><%= t("exports.forms.label") %></a>
+  <a data-open="forms-export" class='button hollow'><%= t("exports.forms.label") %></a>
   <div class="reveal tiny" id="forms-export" data-reveal>
     <%= render 'shared/modal_close' %>
-    <div class="row">
+    <div class="space"></div>
+    <div class="row collapse">
       <div class="large-12 columns">
         <%= t('messages.forms_export') %>
       </div>
     </div>
     <div class="space"></div>
     <div class="row">
-      <div class="large-12 columns">
+      <div class="button-group">
         <%= link_to t("exports.forms.button"), download_forms_path(current_module: @primero_module.id, parent_form: @parent_form),
-          class: "btn button hollow right download_forms" %>
-        <a class="close-reveal-modal btn button hollow gray right"><%= t("buttons.cancel") %></a>
+          class: "button hollow right download_forms" %>
+        <a class="button hollow gray right" data-close ><%= t("buttons.cancel") %></a>
       </div>
     </div>
   </div>

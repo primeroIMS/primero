@@ -113,6 +113,7 @@ RapidFTR.showDropdown = function(){
             parent = el.parents(".ui-datepicker");
         if (parent.length == 0) {
 
+            // TODO: Find out what this does. Its affecting the whole app.
             // $(".dropdown").children().each(function() {
             //     if ($(this).is('form')) {
             //         $(this).remove();
