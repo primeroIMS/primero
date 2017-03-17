@@ -36,7 +36,7 @@ function primero() {
   $document.foundation();
 
   if ($('html').attr('dir') === 'rtl') {
-    $('.chosen-select').addClass('chosen-rtl');
+    $('.chosen-select, .chosen-select-or-new').addClass('chosen-rtl');
   }
 
   new Primero();
