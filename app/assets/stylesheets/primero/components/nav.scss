@@ -2,6 +2,7 @@ nav {
   background: $grey_color;
   width: 100%;
   z-index: 999;
+  height: rem_calc(49);
 
   #search_form {
     .input-group {
