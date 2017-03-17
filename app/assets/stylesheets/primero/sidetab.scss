@@ -7,9 +7,6 @@
 }
 
 .side-tab-content-container {
-  // width: 750px;
-  
-
   @if $global-text-direction == rtl {
     padding-right: 0;
   } @else {
@@ -297,5 +294,11 @@ ul.side-nav, ul.modal-side-nav {
   @if $global-text-direction == rtl {
     margin-right: 0 !important;
     margin-left: 0 !important;
+  }
+}
+
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+  .side-nav-container {
+    width: rem_calc(236);
   }
 }

@@ -613,10 +613,17 @@ fieldset {
     }
 
     .form-section-required {
-      float: right;
       position: absolute;
-      right: rem_calc(27);
-      margin-right: -6px
+
+      @if $global-text-direction == rtl {
+        left: rem_calc(27);
+        float: left;
+        margin-left: -6px;
+      } @else {
+        right: rem_calc(27);
+        float: right;
+        margin-right: -6px;
+      }
     }
 
     .value {

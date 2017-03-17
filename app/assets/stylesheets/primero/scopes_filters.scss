@@ -148,3 +148,19 @@ div.scope_bar {
     }
   }
 }
+
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+  .index_filters {
+    width: rem_calc(250.25);
+    flex: 0 0 rem_calc(250.25);
+    max-width: rem_calc(250.25);
+
+    label span {
+      width: 11.3rem;
+    }
+
+    .field-controls-multi label span {
+      width: 9.9rem;
+    }
+  }
+}
