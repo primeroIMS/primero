@@ -1,6 +1,6 @@
 <ul id="menu" class="dropdown menu" data-dropdown-menu>
   <li class="init_btn">
-    <%= link_to content_tag(:span, t("actions.button")), '', class: 'button hollow left action_btn' %>
+    <%= link_to content_tag(:span, t("actions.button")), '', class: 'button left action_btn' %>
     <ul class="menu">
       <% if can?(:import, controller.model_class) && controller.model_class != PotentialMatch %>
           <%= render 'imports/button' %>

@@ -3,7 +3,7 @@
 <% end %>
 <% content_for :record_sub_nav do %>
   <% if can? :create, Location %>
-    <%= link_to content_tag(:span, t("location.create"), class: 'create_user'), new_location_path,  class: 'button hollow right' %>
+    <%= link_to content_tag(:span, t("location.create"), class: 'create_user'), new_location_path,  class: 'button right' %>
   <% end %>
 <% end %>
 <div class="clearfix"></div>

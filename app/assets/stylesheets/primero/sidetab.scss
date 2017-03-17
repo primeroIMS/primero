@@ -116,7 +116,11 @@
   border: 1px solid $stroke_green_color;
 
   label {
-    text-align: right;
+    @if $global-text-direction == rtl {
+      text-align: left;
+    } @else {
+      text-align: right;
+    }
     font-family: 'Roboto-Medium', sans-serif;
     font-size: $thirteen_px;
     font-weight: bold;
@@ -208,11 +212,12 @@ li.current {
 
   ul li.current a:after {
     font-family: 'FontAwesome';
-    content: '\f105';
     
     @if $global-text-direction == rtl {
       float: left;
+      content: '\f104';
     } @else {
+      content: '\f105';
       float: right;
     }
     

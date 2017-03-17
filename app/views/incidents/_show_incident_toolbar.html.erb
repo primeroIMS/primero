@@ -1,15 +1,14 @@
+<div class="button-group">
 <% if can? :flag, incident %>
-    <li>
-        <div class="dropdown_btn dropdown_form">
-            <%= render 'record_shared/suspect_flag', record: @incident %>
-        </div>
-    </li>
+    <div class="dropdown_btn dropdown_form">
+        <%= render 'record_shared/suspect_flag', record: @incident %>
+    </div>
 <% end %>
 <% unless ["edit", "update"].include? controller.action_name %>
-<ul id="menu" class="sf-menu">
+<ul id="menu" class="dropdown menu" data-dropdown-menu>
   <li class="init_btn">
-    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn button hollow action_btn' %>
-    <ul>
+    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn button action_btn' %>
+    <ul class="menu">
         <%= render partial: 'exports/button', locals: {model: Incident, instance: @incident} %>
         <% if can? :edit, @incident %>
             <%= render partial: 'record_shared/enable_disable_record', locals: {model: Incident, instance: @incident} %>
@@ -18,3 +17,4 @@
   </li>
 </ul>
 <% end %>
+</div>

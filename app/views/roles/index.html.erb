@@ -4,7 +4,7 @@
 
 <% content_for :record_sub_nav_controls do %>
   <% if can?(:create, Role) %>
-    <%= link_to content_tag(:span, t("role.create"), :class => 'create_user'), new_role_path, :class => 'button hollow' %>
+    <%= link_to content_tag(:span, t("role.create"), :class => 'create_user'), new_role_path, :class => 'button' %>
   <% end %>
   <%#= render 'exports/button' %>
   <%# TODO: Hiding imports so that QA doesn't get into trouble %>

@@ -1,4 +1,4 @@
-<a class="button hollow" data-open="<%= "#{model.name.underscore.downcase}_flag_records" %>">
+<a class="button" data-open="<%= "#{model.name.underscore.downcase}_flag_records" %>">
   <%= t("buttons.flag_records") %>
 </a>
 
@@ -17,7 +17,7 @@
     </div>
     <div class="row">
       <div class="column">
-        <a class="flag button hollow" style="margin-top:1.3rem"
+        <a class="flag button" style="margin-top:1.3rem"
           data-request_url="<%= request.url %>"
           data-form_action="<%= send("#{model.name.underscore.downcase}_flag_records_path") %>"
           data-submit_error_message="<%=t("#{model.name.underscore.downcase}.flag_records_error_message")%>"

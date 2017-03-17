@@ -3,7 +3,7 @@
 <% end %>
 <% content_for :record_sub_nav do %>
   <% if can? :create, Replication %>
-    <%= link_to content_tag(:span, t("lookup.create"), class: 'create_user'), new_lookup_path,  class: 'button hollow right' %>
+    <%= link_to content_tag(:span, t("lookup.create"), class: 'create_user'), new_lookup_path,  class: 'button right' %>
   <% end %>
 <% end %>
 <div class="clearfix"></div>

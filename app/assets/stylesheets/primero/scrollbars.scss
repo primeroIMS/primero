@@ -26,6 +26,10 @@ div#content:not(.dashboards), div.revel-modal {
   }
 }
 
+.mCSB_scrollTools {
+  overflow: hidden;
+}
+
 .scrollable {
   .mCSB_scrollTools {
     margin-right: 30px;

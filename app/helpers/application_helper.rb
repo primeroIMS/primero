@@ -52,15 +52,15 @@ module ApplicationHelper
   end
 
   def submit_button(name = t("buttons.save"), additional_classes = nil)
-      submit_tag(name, :class => "button hollow btn_submit #{additional_classes}")
+      submit_tag(name, :class => "button btn_submit #{additional_classes}")
   end
 
   def cancel_button(path)
-      link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation'), turbolinks: false}, class: "link_cancel button hollow gray"
+      link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation'), turbolinks: false}, class: "link_cancel button gray"
   end
 
   def discard_button(path)
-      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message'), turbolinks: false}, class: "button hollow gray"
+      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message'), turbolinks: false}, class: "button gray"
   end
 
   def link_with_confirm(link_to, anchor, link_options = {})
@@ -135,15 +135,15 @@ module ApplicationHelper
       if record.present?
         # This is necessary to make the translation between children and cases
         link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
-          class: "button hollow #{'arrow' if current_actions(action: ['update', 'edit'])}"
+          class: "button #{'arrow' if current_actions(action: ['update', 'edit'])}"
       else
         #TODO - sort of a hack for language edit, since it uses i18n.locale instead of a model
         link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true }),
-          class: "button hollow #{'arrow' if current_actions(action: ['update', 'edit'])}"
+          class: "button #{'arrow' if current_actions(action: ['update', 'edit'])}"
       end
     else
       link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
-        class: "button hollow #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        class: "button #{'arrow' if current_actions(action: ['update', 'edit'])}"
     end
   end
 
@@ -161,7 +161,7 @@ module ApplicationHelper
       if current_actions(action: ['update', 'edit'])
         submit_button(t("buttons.create_incident"))
       elsif current_actions(action: ['show'])
-        link_to t("buttons.create_incident"), child_create_incident_path(record), class: "button hollow"
+        link_to t("buttons.create_incident"), child_create_incident_path(record), class: "button"
       end
     end
   end

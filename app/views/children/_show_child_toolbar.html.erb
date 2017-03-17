@@ -1,7 +1,7 @@
 <div class="button-group">
   <%# TODO: Refactor this toolbar to be shared by all record types. %>
   <% if params[:match].present? %>
-    <%= link_to t("child.match_record"), match_record_case_path(@child, match: params[:match]), class: 'button hollow', method: :put %>
+    <%= link_to t("child.match_record"), match_record_case_path(@child, match: params[:match]), class: 'button', method: :put %>
   <% end %>
   <% if can? :flag, child %>
     <div class="dropdown_btn dropdown_form">
@@ -14,7 +14,7 @@
   <% unless ["edit", "update"].include? controller.action_name %>
   <ul id="menu" class="dropdown menu" data-dropdown-menu>
     <li class="init_btn">
-      <%= link_to content_tag(:span, t("actions.button")), '#', class: 'button hollow action_btn' %>
+      <%= link_to content_tag(:span, t("actions.button")), '#', class: 'button action_btn' %>
       <ul class="menu">
           <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
           <% if can? :export_custom, Child %>

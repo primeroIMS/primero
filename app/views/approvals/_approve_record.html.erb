@@ -8,7 +8,7 @@
   <div class="space"></div>
   <div class="row">
     <div class="button-group">
-      <a class="button hollow right"
+      <a class="button right"
          id="approve_action"
          data-id="<%= instance.id %>"
          data-form_action="<%= send("#{model.name.underscore.downcase}_request_approval_path", instance) %>"
@@ -17,7 +17,7 @@
          data-approval_type="<%= approval_type %>"
          href=""><%= t("buttons.ok") %>
       </a>
-      <button class="button hollow gray" data-close aria-label="Close reveal" type="button">
+      <button class="button gray" data-close aria-label="Close reveal" type="button">
         <span aria-hidden="true"><%= t("buttons.cancel") %></span>
       </button>
     </div>

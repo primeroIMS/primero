@@ -6,7 +6,7 @@
           <ul id="dropdown menu" data-dropdown-menu>
             <% unless (@display_manager_dashboard || @display_admin_dashboard) %>
             <li>
-              <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn button hollow action_btn' %>
+              <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn button action_btn' %>
               <ul class="menu">
                 <% ["case", "incident", "tracing_request"].each do |model| %>
                     <%

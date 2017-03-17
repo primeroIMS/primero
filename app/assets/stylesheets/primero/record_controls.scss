@@ -4,7 +4,7 @@
 
 .record_controls {
   .dropdown-pane.large {
-    width: rem_calc(534);
+    width: rem_calc(550);
     background: $desat_green_color;
 
     .flag_unflag_header {
@@ -118,17 +118,21 @@
   }
 
   .button {
-    height: rem_calc(40.47);
     margin-bottom: 0;
 
+    &.current {
+      background: $stroke_green_color !important;
+      color: #fff !important;
+    }
+
     &.action_btn {
-      height: rem_calc(40.47);
+      height: rem_calc(39.69);
     }
   }
 
   select {
     width: 20%;
-    height: rem_calc(40.47)
+    height: rem_calc(39.69)
   }
   
   .pagination_info {

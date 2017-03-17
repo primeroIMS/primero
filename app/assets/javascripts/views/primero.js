@@ -52,7 +52,6 @@ Primero = _primero.Views.Base.extend({
     this.populate_case_id_for_gbv_incidents();
     this.init_edit_listeners();
     this.chosen_roles();
-    this.init_modal_events();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var $textarea = $('textarea[name*="field[option_strings_text"]');
@@ -63,23 +62,6 @@ Primero = _primero.Views.Base.extend({
     $(document).on('closed.zf.reveal', 'body', this.clear_modal_form);
 
     window.onbeforeunload = this.load_and_redirect;
-  },
-
-  init_modal_events: function() {
-    var $document = $(document);
-    function modal_wrap() {
-      var $modal = $(this);
-      if (!$modal.parent('.modal-scroll').length) {
-        $modal.wrap("<div class='modal-scroll' />");
-      }
-    }
-    $document.on('open.zf.reveal', '[data-reveal]', modal_wrap);
-
-    function modal_unwrap() {
-      var $modal = $(this);
-      $modal.unwrap("<div class='modal-scroll' />");
-    }
-    $document.on('closed.zf.reveal', '[data-reveal]', modal_unwrap);
   },
 
   init_edit_listeners: function() {

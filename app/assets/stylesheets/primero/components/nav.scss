@@ -1,5 +1,5 @@
 nav {
-  background: #333;
+  background: $grey_color;
   width: 100%;
   z-index: 999;
 
@@ -11,6 +11,13 @@ nav {
 
     .button {
       height: rem_calc(49);
+    }
+  }
+
+  ul {
+    a {
+      font-size: .8125rem;
+      font-weight: normal;
     }
   }
 
@@ -66,7 +73,12 @@ nav {
   }
 
   input {
-    border-right: 1px solid #666 !important;
+     @if $global-text-direction == rtl {
+      border-left: 1px solid #fff !important;
+    } @else {
+      border-right: 1px solid #fff !important;
+    }
+    
   }
 
   ::-webkit-input-placeholder {

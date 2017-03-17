@@ -51,6 +51,10 @@ div.scope_bar {
 }
 
 .index_filters {
+  width: rem_calc(300);
+  flex: 0 0 rem_calc(300);
+  max-width: rem_calc(300);
+
   .mCS-dir-rtl > .mCSB_inside > .mCSB_container{ /* RTL direction/left-side scrollbar */  
     @if $global-text-direction == rtl {
       margin-left: rem_calc(23) !important;

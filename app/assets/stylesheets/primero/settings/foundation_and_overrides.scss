@@ -7,9 +7,6 @@ $headline-font-family: 'Roboto', sans-serif;
 $primary-font-family: 'Roboto', sans-serif;
 $secondary-font-family: 'Roboto', sans-serif;
 
-$base-font-size: 16px;
-$rem-base: $base-font-size;
-
 body {
   font-family: $body-font-family;
   -webkit-font-smoothing: antialiased;
@@ -63,7 +60,7 @@ $buttongroup-spacing: 5px;
 $buttongroup-margin: 0;
 
 $foundation-palette: (
-  primary: $stroke_green_color,
+  primary: $green_color,
   secondary: #767676,
   success: #3adb76,
   warning: #ffae00,
@@ -71,7 +68,17 @@ $foundation-palette: (
 );
 
 $anchor-color: $light_grey_color;
-$button-background-hover: $desat_green_color;
+$button-color: $green_color;
+$button-background: $desat_green_color;
+$button-background-hover: scale-color($button-background, $lightness: -8%);
+$button-sizes: (
+  tiny: 0.6rem,
+  default: .8125rem
+);
+$button-padding: 0.95em 1em;
+
+$dropdownmenu-arrow-color: $green_color;
+$dropdownmenu-arrow-size: 5px;
 
 $reveal-border: none;
 $reveal-radius: 5px;
@@ -79,15 +86,6 @@ $reveal-radius: 5px;
 @import "foundation";
 @include foundation-everything(true);
 
-// .primero_jewel {
-//   @include label(
-//     $padding: 0.25rem .5rem,
-//     $bg: $green_color,
-//     $radius: 20px
-//   );
-
-//   margin: 0 2px;
-// }
 
 .sticky {
   z-index: 999;

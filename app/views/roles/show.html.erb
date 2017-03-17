@@ -4,7 +4,7 @@
 
 <% content_for :record_sub_nav do %>
   <% if can? :update, @role %>
-    <a class="button hollow" href="<%= edit_role_path @role %>">
+    <a class="button" href="<%= edit_role_path @role %>">
       <span class="edit"><%= t("buttons.edit") %></span>
     </a>
   <% end %>

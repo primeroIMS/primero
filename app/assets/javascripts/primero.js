@@ -25,13 +25,13 @@ function primero() {
   var $document = $(document);
   var $body = $('body');
 
-  $document.on('open.zf.reveal', '[data-reveal]', function () {
-    $body.css('overflow','hidden');
-  });
+  // $document.on('open.zf.reveal', '[data-reveal]', function () {
+  //   $body.css('overflow','hidden');
+  // });
 
-  $document.on('closed.zf.reveal', '[data-reveal]', function () {
-    $body.css('overflow','visible');
-  });
+  // $document.on('closed.zf.reveal', '[data-reveal]', function () {
+  //   $body.css('overflow','visible');
+  // });
 
   $document.foundation();
 

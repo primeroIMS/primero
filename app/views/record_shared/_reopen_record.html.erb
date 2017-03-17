@@ -10,7 +10,7 @@
     <div class="space"></div>
     <div class="row">
       <div class="large-12 columns">
-        <a class="btn button hollow right"
+        <a class="btn button right"
           id="reopen_action"
           data-id="<%= instance.id %>"
           data-form_action="<%= send("#{model.name.underscore.downcase}_reopen_case_path", instance) %>"
@@ -19,7 +19,7 @@
           data-reopen="true"
           href=""><%= t("buttons.ok") %>
         </a>
-        <a class="close-reveal-modal btn button gray hollow right"><%= t("buttons.cancel") %></a>
+        <a class="close-reveal-modal btn button gray right"><%= t("buttons.cancel") %></a>
       </div>
     </div>
   </div>

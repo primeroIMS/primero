@@ -4,10 +4,17 @@
 
 .button {
   outline: none;
+  border: 1px solid $stroke_green_color;
+  text-transform: uppercase;
 
   &.gray {
     color: $grey_color !important;
     border: 1px solid $grey_color !important;
+    background: #ebebeb;
+
+    &:hover {
+      background: darken(#ebebeb, 8%)
+    }
   }
 }
 
@@ -20,6 +27,7 @@
 .flags_record_page {
   width: rem_calc(109);
   padding: rem_calc(7.5);
+  height: rem_calc(39.69);
 
   .jewel {
     border-radius: 50%;
@@ -52,15 +60,36 @@ a.ui-dialog-titlebar-close.ui-corner-all {
 // Dropdown Buttons
 ////////////////////////////////////////////////
 
+.dropdown.menu {
+  ul {
+    list-style-type: none;
+    margin-left: 0;
+    
+    li {
+      border-bottom: 1px dashed #ccc !important;
+      font-size: $thirteen_px;
+
+      a {
+        text-decoration: none;
+
+        &:hover {
+          background: #ebebeb;
+
+          &:after {
+            border-color: transparent transparent transparent $light_grey_color;
+          }
+        }
+      }
+
+      &:last-of-type {
+        border-bottom: none !important;
+      }
+    }
+  }
+}
+
 .dropdown_btn {
   .dropdown-pane {
-    // background: $desat_green_color;
-    // position: absolute;
-    // z-index: 998;
-    // -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
-    // box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
-    // padding: 10px;
-
     ul {
       list-style-type: none;
       margin-left: 0;
