@@ -392,12 +392,22 @@ fieldset {
 
       &.collapsed:before {
         content: "\f106";
-        margin-right: 100px;
+
+        @if $global-text-direction == rtl {
+          margin-left: 100px;
+        } @else {
+          margin-right: 100px;
+        }
       }
 
       &.expanded:before {
         content: "\f107";
-        margin-right: 100px;
+        
+        @if $global-text-direction == rtl {
+          margin-left: 100px;
+        } @else {
+          margin-right: 100px;
+        }
       }
     }
   }
@@ -490,6 +500,8 @@ span.postfix_val {
     padding-right: 0 !important;
   }
   .file_upload_wrapper {
+    position: relative;
+
     span {
       padding: 0.5rem 0.751rem 0.5625rem;
       margin-bottom: 0;
@@ -503,7 +515,7 @@ span.postfix_val {
     cursor: pointer;
     height: 100%;
     position: absolute;
-    right: 0px;
+    left: 0px;
     top: 0px;
     opacity: 0;
     margin-bottom: 0;

@@ -171,7 +171,6 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
   },
 
   removeSubform: function(event) {
-    console.log(event)
     event.preventDefault();
     var message = $(event.target).data('message'),
       confirm_remove = confirm(message),

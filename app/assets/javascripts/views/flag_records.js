@@ -12,7 +12,6 @@ _primero.Views.FlagRecord = _primero.Views.Base.extend({
   },
 
   flag_records: function(event) {
-    console.log('here')
     event.stopPropagation();
     var $target = $(event.target);
     var form_action = $target.data('form_action');

@@ -50,7 +50,7 @@
           <label for="is_remote"><%=I18n.t("#{transition_type}.is_remote_label")%></label>
           <% end %>
           <div class="local_toggle">
-            <div class='local_user_flash hide'><p class='error'></p></div>
+            <div class='local_user_flash hide_element'><p class='error'></p></div>
             <label><%=I18n.t("#{transition_type}.existing_user_label")%>
               <%= select_tag("existing_user", options_for_select(module_users, ''), :include_blank => true) %>
             </label>
@@ -59,7 +59,7 @@
             <label><%=I18n.t("#{transition_type}.type_label")%>
               <%= select_tag("transition_role", options_for_select(transition_role_options, '')) %>
             </label>
-            <div class='remote_user_flash hide'><p class='error'></p></div>
+            <div class='remote_user_flash hide_element'><p class='error'></p></div>
             <label><%=I18n.t("#{transition_type}.other_user_label")%>
               <%= text_field_tag("other_user") %>
             </label>
@@ -79,7 +79,7 @@
             <label><%=I18n.t("#{transition_type}.type_of_export")%>
               <%= select_tag("type_of_export", options_for_select(type_of_export_options)) %>
             </label>
-            <div class='password_flash hide'><p class='error'></p></div>
+            <div class='password_flash hide_element'><p class='error'></p></div>
             <label><%=I18n.t("encrypt.password_label")%>
               <%= password_field_tag("password") %>
             </label>

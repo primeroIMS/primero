@@ -44,8 +44,9 @@ nav {
     font-size: .9rem;
 
     &.current {
-      color: $light_green_color;
-      border-bottom: 3px solid $green-color;
+      color: $grey_color;
+      background: $white_color;
+      border-top: 1px solid #ddd;
     }
 
     i {

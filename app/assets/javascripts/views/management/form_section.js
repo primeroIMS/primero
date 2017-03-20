@@ -81,7 +81,7 @@ function form_section() {
       locale_options: $this.data('lang')
     }));
     newOption.find('a.field_option_remove_button').click(removeOption);
-    $this.parent().before(newOption);
+    $this.parents('.options_row_controls').before(newOption);
     var current_locale_selection = $('#field_details_select_box').find('#locale').val();
     if (!_.isUndefined(current_locale_selection) &&
         current_locale_selection !== '') {

@@ -59,7 +59,11 @@
                 <%= text_field_tag 'query', params[:query], placeholder: 'SEARCH', class: 'input-group-field' %>
                 <div class="input-group-button">
                   <%= button_tag  :action => path_for_model(model), :method => "get", class: 'button' do %>
-                    <%= icon('angle-right') %>
+                    <% if @page_direction == 'rtl' %>
+                      <%= icon('angle-left') %>
+                    <% else %>
+                      <%= icon('angle-right') %>
+                    <% end %>
                   <% end %>
                 </div>
               </div>
