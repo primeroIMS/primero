@@ -31,7 +31,6 @@ Primero = _primero.Views.Base.extend({
     _primero.remove_cookie = this._primero_remove_cookie;
     _primero.read_cookie = this._primero_read_cookie;
     _primero.create_cookie = this._primero_create_cookie;
-    _primero.set_content_sidebar_equality = this.set_content_sidebar_equality;
     _primero.scrollTop = this.scrollTop;
     _primero.update_subform_heading = this.update_subform_heading;
     _primero.abide_validator_date = this.abide_validator_date;
@@ -273,7 +272,6 @@ Primero = _primero.Views.Base.extend({
 
       $form.submit();
     }
-    _primero.set_content_sidebar_equality();
   },
 
   disable_default_events: function(evt) {
@@ -507,10 +505,6 @@ Primero = _primero.Views.Base.extend({
     if (_primero.getInternetExplorerVersion() > 0) {
       window.onbeforeunload = null;
     }
-  },
-
-  set_content_sidebar_equality: function() {
-    //Foundation.libs.equalizer.reflow();
   },
 
   scrollTop: function() {

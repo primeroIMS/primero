@@ -32,63 +32,6 @@
       }
     }
   }
-
-  // height: rem_calc(50);
-
-  // ul.inline-list {
-  //   overflow: visible;
-  //   padding-left: 5px;
-
-  //   li:not(.rec_ctl) {
-  //     margin-right: 10px;
-  //   }
-
-  //   .sf-menu li:not(.init_btn) {
-  //     margin-right: 0;
-  //   }
-
-  //   a.arrow:after {
-  //     content: "";
-  //     background: url(image_path("edit_carot.png")) no-repeat;
-  //     height: 37px;
-  //     width: 8px;
-  //     float: right;
-  //     margin: -9px 0 0 17px;
-  //     position: absolute;
-  //     z-index: 10;
-  //   }
-
-  //   li.rec_ctl a.grey-button {
-  //     border-top: 1px solid $stroke_green_color !important;
-  //     border-bottom: 1px solid $stroke_green_color !important;
-  //     border-right: none !important;
-  //     border-left: none !important;
-  //     background: $desat_green_color !important;
-  //     color: $green_color !important;
-  //     height: 37px !important;
-  //   }
-
-  //   li.rec_ctl a.green-button {
-  //     background: $stroke_green_color;
-  //     color: #fff !important;
-  //   }
-  // }
-
-  // ul#export-dropdown li {
-  //   margin-right: 0;
-  // }
-
-  // .label {
-  //   background: none;
-  //   color: $grey_color;
-  //   float: left;
-  //   width: 100%;
-  //   text-align: left;
-  //   margin: 2px;
-  //   text-transform: uppercase;
-  //   font-weight: bold;
-  //   padding: 0;
-  // }
 }
 
 .index_controls_container, .record_controls_container {

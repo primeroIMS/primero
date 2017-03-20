@@ -173,7 +173,6 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
 
     $('.report_filters_container').append(new_filter);
     new_filter.find('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
-    _primero.set_content_sidebar_equality();
   },
 
   remove_filter: function(e) {

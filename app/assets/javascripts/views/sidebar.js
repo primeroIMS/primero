@@ -15,7 +15,6 @@ _primero.Views.tabNavigation = _primero.Views.Base.extend({
 
     this.first_tab();
     this.tabRedirection();
-    _primero.set_content_sidebar_equality();
 
     $(".side-nav-container").sticky({
       topSpacing: 130,
@@ -72,7 +71,6 @@ _primero.Views.tabNavigation = _primero.Views.Base.extend({
     this.ls_set_tab(activeTab);
 
     $(activeTab).show();
-    _primero.set_content_sidebar_equality();
 
     //When make visible a tab, initialize the chosen in the tab.
     _primero.chosen(activeTab + ' select.chosen-select:visible');

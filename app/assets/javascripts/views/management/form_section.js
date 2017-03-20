@@ -52,7 +52,6 @@ function form_section() {
     $this.toggleClass("sel");
     $('.move_to_panel').addClass('hide');
     $this.parents('ul').siblings(".move_to_panel").toggleClass("hide");
-    _primero.set_content_sidebar_equality();
   }
 
   function triggerErrors(){
@@ -121,7 +120,6 @@ function form_section() {
     $field_details_overlay.toggleClass("hide");
     $field_details_panel.toggleClass("hide");
     configureFieldMultiSelect($(".field_types a").attr("id"));
-    // _primero.set_content_sidebar_equality();
   }
 
   function resetAddField(){
@@ -154,7 +152,6 @@ function form_section() {
     })
     $(getFieldDetails(this.id)).show();
     configureFieldMultiSelect(this.id);
-    _primero.set_content_sidebar_equality();
   }
 
   function configureFieldMultiSelect(field_type){
@@ -202,7 +199,6 @@ function on_ready() {
 
   $(".locale").change( function(event){
     setTranslationFields(event.target);
-    _primero.set_content_sidebar_equality();
   });
 };
 

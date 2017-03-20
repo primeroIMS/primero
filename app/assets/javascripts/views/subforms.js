@@ -52,7 +52,6 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
     $target.toggleClass("collapsed");
     //Hide or Shows the field depends in his current state.
     $target.parents(".subform").children(".row:gt(0)").toggle();
-    _primero.set_content_sidebar_equality();
   },
 
   add: function(event) {
@@ -151,7 +150,6 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
     $newSubform.appendTo($subforms);
 
     // set sidebar height
-    _primero.set_content_sidebar_equality();
 
     var newUUID = this.generateUUID();
     $newSubform.find("input:hidden[id$='unique_id']").val(newUUID);
@@ -201,11 +199,9 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
     $subform.fadeOut(600, function() {
       var $subform_group = $target.parents('.subforms');
       $(this).remove();
-      _primero.set_content_sidebar_equality();
       self.count_subforms($subform_group);
       $('body').trigger('violation-removed');
     });
-    _primero.set_content_sidebar_equality();
   },
 
   count_subforms: function($target) {
