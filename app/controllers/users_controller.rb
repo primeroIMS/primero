@@ -162,7 +162,7 @@ class UsersController < ApplicationController
   end
 
   def agency_names
-    @agency_names = Agency.available_agency_names
+    @agency_names = Agency.all_names
   end
 
   def location_names

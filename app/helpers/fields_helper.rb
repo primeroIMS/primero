@@ -43,7 +43,14 @@ module FieldsHelper
   end
 
   def field_value_for_display(field_value, field=nil)
-    field_value = field.display_text(field_value) if (field.present? && field.selectable?)
+    if (field.present? && field.selectable?)
+      if field_value.is_a?(Array)
+        field_value.map!{|v| field.display_text(v)}
+      else
+        field_value = field.display_text(field_value)
+      end
+    end
+
     return '' if field_value.blank?
 
     if field_value.is_a?(Array)
@@ -57,8 +64,11 @@ module FieldsHelper
 
   def select_options(field, record=nil, lookups=nil, exclude_empty_item=false)
     select_options = []
-    select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.type == Field::TICK_BOX || field.multi_select || exclude_empty_item)
-    select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
+    if field.present?
+      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.type == Field::TICK_BOX || field.multi_select || exclude_empty_item)
+      select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
+    end
+    select_options
   end
 
   def field_link_for_display(field_value, field)

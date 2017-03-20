@@ -7,25 +7,35 @@ describe ReportsController do
     PrimeroModule.all.each &:destroy
     User.all.each &:destroy
     Role.all.each &:destroy
+    Agency.all.each &:destroy
+    Location.all.each &:destroy
+    Lookup.all.each &:destroy
+
+    @agency = Agency.create(name_en: 'My English Agency', name_fr: 'My French Agency', name_es: 'My Spanish Agency',
+                            name_ar: 'My Arabic Agency', description_en: 'English Description', description_fr: 'French Description',
+                            description_es: 'Spanish Description', description_ar: 'Arabic Description', agency_code: 'xyz000')
+    @agency2 = Agency.create(name_en: 'My Other English Agency', name_fr: 'My Other French Agency', name_es: 'My Other Spanish Agency',
+                            name_ar: 'My Other Arabic Agency', description_en: 'English Description Other', description_fr: 'French Description Other',
+                            description_es: 'Spanish Description Other', description_ar: 'Arabic Description Other', agency_code: 'abc999')
+
+    @country = Location.create(admin_level: 0, placename: 'MyCountry', type: 'country', location_code: 'MC01')
+    @province1 = Location.create(hierarchy: [@country.location_code], placename: 'Province 1', type: 'province', location_code: 'PR01')
+    @town1 = Location.create(hierarchy: [@country.location_code, @province1.location_code], placename: 'Town 1', type: 'city', location_code: 'TWN01')
+
+    @lookup = Lookup.create!(id: "my_lookup", name: "My Lookup",
+                             lookup_values: [{id: "display_1", display_text: "Display One"},
+                                             {id: "display_2", display_text: "Display Two"},
+                                             {id: "display_3", display_text: "Display Three"},
+                                             {id: "display_4", display_text: "Display Four"}])
+
     fields = [
-      Field.new({"name" => "field_name_1",
-                 "type" => "numeric_field",
-                 "display_name_all" => "Field Name 1"
-                }),
-      Field.new({"name" => "field_name_2",
-                 "type" => "numeric_field",
-                 "display_name_all" => "Field Name 2"
-                }),
-      Field.new({"name" => "field_name_3",
-                 "type" => "numeric_field",
-                 "display_name_all" => "Field Name 3",
-                 "hide_on_view_page" => true
-                }),
-      Field.new({"name" => "field_name_4",
-                 "type" => "numeric_field",
-                 "display_name_all" => "Field Name 4",
-                 "visible" => false
-                })
+      Field.new(name: "field_name_1", type: "numeric_field", display_name_all: "Field Name 1"),
+      Field.new(name: "field_name_2", type: "numeric_field", display_name_all: "Field Name 2"),
+      Field.new(name: "field_name_3", type: "numeric_field", display_name_all: "Field Name 3", hide_on_view_page: true),
+      Field.new(name: "field_name_4", type: "numeric_field", display_name_all: "Field Name 4", visible: false),
+      Field.new(name: "field_lookup", type: Field::SELECT_BOX, display_name: "My Lookup", option_strings_source: "lookup my_lookup"),
+      Field.new(name: "field_location", type: Field::SELECT_BOX, display_name: "My Location", option_strings_source: "Location"),
+      Field.new(name: "field_other_agency", type: Field::SELECT_BOX, display_name: "My Agency", option_strings_source: "Agency")
     ]
     form = FormSection.new(
       :unique_id => "form_section_test_1",
@@ -76,14 +86,17 @@ describe ReportsController do
           :permitted_form_ids => ["form_section_test_1"]
       )
 
-      @owner = create :user, module_ids: [@primero_module.id], user_name: 'bobby', role_ids: [admin_role.id]
+      @owner = create :user, module_ids: [@primero_module.id], user_name: 'bobby', role_ids: [admin_role.id],
+                      organization: 'agency-xyz000', location: @town1.location_code
       @owner.stub(:roles).and_return([admin_role])
 
-      @owner2 = create :user, module_ids: [@primero_module.id], user_name: 'fred', role_ids: [role.id]
+      @owner2 = create :user, module_ids: [@primero_module.id], user_name: 'fred', role_ids: [role.id],
+                       organization: 'agency-abc999', location: @town1.location_code
       @owner2.stub(:roles).and_return([role])
 
       User.stub(:find_by_user_name).and_return(@owner)
-      @case1 = build :child, owned_by: @owner.user_name
+      @case1 = build :child, owned_by: @owner.user_name, field_location: @town1.location_code, field_lookup: 'display_2',
+                     field_other_agency: @agency2.id
       @case2 = build :child, owned_by: @owner.user_name
       @case1.save
       @case2.save
@@ -104,8 +117,20 @@ describe ReportsController do
       )
       @report.apply_default_filters
       @report.save!
+
+      @report2 = Report.new(
+          id: 'testid2',
+          name: 'test report 2',
+          module_ids: [@primero_module.id],
+          record_type: 'case',
+          aggregate_by: ['owned_by_location'],
+          add_default_filters: true
+      )
+      @report2.apply_default_filters
+      @report2.save!
     end
 
+    #TODO add i18n tests
     it "should build a report for admin" do
       expected_results = {
           ["bobby"] => 2,
@@ -152,10 +177,16 @@ describe ReportsController do
       expected_forms_sections = [
         #field_name_4 is hide on view page, for writeable users should be in the list.
         ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "numeric_field"],
-                                      ["Field Name 2", "field_name_2", "numeric_field"],
-                                      ["Field Name 3", "field_name_3", "numeric_field"],
-                                      ["Field Name 4", "field_name_4", "numeric_field"]]],
+                                     ["Field Name 2", "field_name_2", "numeric_field"],
+                                     ["Field Name 3", "field_name_3", "numeric_field"],
+                                     ["Field Name 4", "field_name_4", "numeric_field"],
+                                     ["My Lookup", "field_lookup", "select_box"],
+                                     ["My Location - Country - ADM 0", "field_location0", "select_box"],
+                                     ["My Location - Province - ADM 1", "field_location1", "select_box"],
+                                     ["My Location - City - ADM 2", "field_location2", "select_box"],
+                                     ["My Agency", "field_other_agency", "select_box"]]]
       ]
+
       params = {"record_type"=>"case", "module_ids"=>["primeromodule-cp"]}
       get :permitted_field_list, params
       json_response = JSON.parse(response.body)
@@ -180,7 +211,12 @@ describe ReportsController do
         #field_name_4 is hide on view page, for readonly users should not be in the list.
         ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "numeric_field"], 
                                       ["Field Name 2", "field_name_2", "numeric_field"],
-                                      ["Field Name 4", "field_name_4", "numeric_field"]]],
+                                      ["Field Name 4", "field_name_4", "numeric_field"],
+                                      ["My Lookup", "field_lookup", "select_box"],
+                                      ["My Location - Country - ADM 0", "field_location0", "select_box"],
+                                      ["My Location - Province - ADM 1", "field_location1", "select_box"],
+                                      ["My Location - City - ADM 2", "field_location2", "select_box"],
+                                      ["My Agency", "field_other_agency", "select_box"]]]
       ]
       params = {"record_type"=>"case", "module_ids"=>["primeromodule-cp"]}
       get :permitted_field_list, params

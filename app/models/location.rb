@@ -202,21 +202,8 @@ class Location < CouchRest::Model::Base
     response.present? ? response.all : []
   end
 
-  def ancestor_codes
-    ancestor_list = []
-
-    self.hierarchy.each_with_index {|item, index|
-      if index == 0
-        ancestor_list[index] = item
-      else
-        ancestor_list[index] = "#{ancestor_list[index-1]}::#{item}"
-      end
-    }
-    return ancestor_list
-  end
-
   def ancestors
-    Location.find_by_location_codes(self.ancestor_codes)
+    Location.find_by_location_codes(self.hierarchy)
   end
 
   def ancestor_by_admin_level(admin_level)

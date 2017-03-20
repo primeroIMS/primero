@@ -18,7 +18,7 @@ module ConfigurationResourceHelper
           show_logo_upload(object, field_id, type, tag_helper)
         elsif type == 'check_box'
           concat(label_tag(nil, class: 'left'){
-              concat(hidden_field_tag(name, ''))
+              concat(hidden_field_tag(name, false))
               concat(check_box_tag(name, '1', value.present? ? true : false))
           })
         else
