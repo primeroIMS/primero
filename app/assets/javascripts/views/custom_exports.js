@@ -245,7 +245,12 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
 
   reset_form: function() {
     var $this_el = $(this.el)
-    $this_el.find('form')[0].reset();
+    var form = $this_el.find('form')[0];
+    
+    if (form) {
+      form.reset();
+    }
+
     $this_el.find('select').val('').trigger("chosen:updated");
     this.clear_control('fields');
     this.clear_control('forms');

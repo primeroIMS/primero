@@ -28,7 +28,8 @@ function primero() {
   $document.foundation();
 
   if ($('html').attr('dir') === 'rtl') {
-    $('.chosen-select, .chosen-select-or-new').addClass('chosen-rtl');
+    $('.chosen-select, .chosen-select-or-new, .report_filter_attribute, #report_aggregate_by, #report_module_ids, #report_disaggregate_by')
+      .addClass('chosen-rtl');
   }
 
   new Primero();

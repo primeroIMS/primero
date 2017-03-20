@@ -167,6 +167,10 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
     //get rid of the template class
     new_filter.attr('class', $template.attr('class').replace(/report_filter_template/,'report_filter'));
 
+    if (I18n.direction == 'rtl') {
+      new_filter.find('select').addClass('chosen-rtl');
+    }
+
     $('.report_filters_container').append(new_filter);
     new_filter.find('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
     _primero.set_content_sidebar_equality();

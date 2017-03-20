@@ -169,7 +169,12 @@ _primero.Views.PdfExports = _primero.Views.Base.extend({
 
   reset_form: function() {
     var $this_el = $(this.el);
-    $this_el.find('form')[0].reset();
+    var form = $this_el.find('form')[0]
+
+    if (form) {
+      form.reset();
+    }
+    
     $this_el.find('select').val('').trigger("chosen:updated");
     $this_el.find('.message').empty().hide();
     this.password_control.val("");
