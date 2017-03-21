@@ -1,5 +1,6 @@
 <% stats.each do |k, v| %>
 <div>
+  <%# TODO - i18n transfer_status %>
   <%= I18n.translate('dashboard.manager_transfers_totals',
       case_count(
         {  count: v[:total_cases],
