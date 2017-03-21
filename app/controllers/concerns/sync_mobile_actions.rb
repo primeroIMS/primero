@@ -2,7 +2,7 @@ module SyncMobileActions
   extend ActiveSupport::Concern
 
   def all
-    result_json = model_class.fetch_all_ids_and_revs(managed_users, marked_for_mobile, last_update_date)
+    result_json = model_class.fetch_all_ids_and_revs(managed_users, marked_for_mobile, last_update_date, module_id)
     render :json => result_json
   end
 
@@ -18,5 +18,9 @@ module SyncMobileActions
 
   def last_update_date
     @last_update_date ||= params["last_update"]
+  end
+
+  def module_id
+    @module_id ||= params["module_id"]
   end
 end

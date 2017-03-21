@@ -40,10 +40,11 @@ class FormSection < CouchRest::Model::Base
 
   design do
     view :by_unique_id
-    view :by_mobile_form
     view :by_parent_form
+    view :by_parent_form_and_mobile_form
     view :by_order
     view :by_parent_form_and_unique_id
+    view :by_parent_form_and_unique_id_and_mobile_form
     view :subform_form,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -372,9 +373,16 @@ class FormSection < CouchRest::Model::Base
     def get_permitted_form_sections(primero_module, parent_form, user)
       allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
       allowed_form_ids.present? ?
-        FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
+          FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
     end
     memoize_in_prod :get_permitted_form_sections
+
+    def get_permitted_mobile_form_sections(primero_module, parent_form, user)
+      allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
+      allowed_form_ids.present? ?
+          FormSection.by_parent_form_and_unique_id_and_mobile_form(keys: allowed_form_ids.map{|f| [parent_form, f, true]}).all : []
+    end
+    memoize_in_prod :get_permitted_mobile_form_sections
 
     #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
     def get_allowed_form_ids(primero_module, user)
@@ -466,13 +474,8 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :list_form_group_names
 
-    def find_mobile_forms
-      by_mobile_form(key: true)
-    end
-    memoize_in_prod :find_mobile_forms
-
     def find_mobile_forms_by_parent_form(parent_form = 'case')
-      find_mobile_forms.select{|f| f.parent_form == parent_form}
+      by_parent_form_and_mobile_form(key: [parent_form, true])
     end
     memoize_in_prod :find_mobile_forms_by_parent_form
 
@@ -627,6 +630,58 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_field_by_field_name_and_parent_form
 
+    def format_forms_for_mobile(form_sections, locale=nil, parent_form=nil)
+      form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
+
+      forms_hash = mobile_forms_to_hash(form_sections, locale).group_by { |f| mobile_form_type(f['parent_form']) }
+      mobile_form_type = mobile_form_type(parent_form)
+      forms_hash[mobile_form_type].each{|form_hash| simplify_mobile_form(form_hash)}
+      forms_hash
+    end
+
+    def mobile_forms_to_hash(form_sections, locale=nil)
+      locales = ((locale.present? && Primero::Application::locales.include?(locale)) ? [locale] : Primero::Application::locales)
+      lookups = Lookup.all.all
+      locations = Location.all_names
+      form_sections.map {|form| mobile_form_to_hash(form, locales, lookups, locations)}
+    end
+
+    def mobile_form_to_hash(form, locales, lookups, locations)
+      form_hash = form.localized_attributes_hash(locales)
+      form_hash['fields'] = mobile_fields_to_hash(form, locales, lookups, locations)
+      form_hash
+    end
+
+    def mobile_fields_to_hash(form, locales, lookups, locations)
+      form.all_mobile_fields.map do |f|
+        field_hash = f.localized_attributes_hash(locales, lookups, locations)
+        field_hash['subform'] = mobile_form_to_hash(f.subform, locales, lookups, locations) if f.subform.present?
+        field_hash
+      end
+    end
+
+    def simplify_mobile_form(form_hash)
+      form_hash.slice!('unique_id', :name, 'order', :help_text, 'base_language', 'fields')
+      form_hash['fields'].each do |field|
+        field.slice!('name', 'editable', 'multi_select', 'type', 'subform', 'required', 'show_on_minify_form','mobile_visible', :display_name, :help_text, :option_strings_text)
+        simplify_mobile_form(field['subform']) if (field['type'] == 'subform' && field['subform'].present?)
+      end
+    end
+
+    #This keeps the forms compatible with the mobile API
+    def mobile_form_type(parent_form)
+      case parent_form
+        when 'case'
+          'Children'
+        when 'child'
+          'Children'
+        when 'tracing_request'
+          'Enquiries' #TODO: This may be controversial
+        else
+          parent_form.camelize.pluralize
+      end
+    end
+
   end
 
   #Returns the list of field to show in collapsed subforms.
@@ -692,6 +747,26 @@ class FormSection < CouchRest::Model::Base
 
   def all_location_fields
     self.fields.select{|f| f.is_location?}
+  end
+
+  def all_mobile_fields
+    self.fields.select{|f| f.is_mobile?}
+  end
+
+  #TODO - i18n - review after merge with i18n code
+  def localized_attributes_hash(locales)
+    attributes = self.attributes.clone
+    #convert top level attributes
+    FormSection.localized_properties.each do |property|
+      attributes[property] = {}
+      Primero::Application::locales.each do |locale|
+        key = "#{property.to_s}_#{locale.to_s}"
+        value = attributes[key].nil? ? "" : attributes[key]
+        attributes[property][locale] = value if locales.include? locale
+        attributes.delete(key)
+      end
+    end
+    attributes
   end
 
   def properties= properties

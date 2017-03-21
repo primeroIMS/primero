@@ -56,6 +56,8 @@ class Permission
   DASHBOARD = 'dashboard'
   VIEW_APPROVALS = 'view_approvals'
   VIEW_ASSESSMENT = 'view_assessment'
+  DASH_REPORTING_LOCATION = 'dash_reporting_location'
+  DASH_PROTECTION_CONCERNS = 'dash_protection_concerns'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
@@ -100,7 +102,9 @@ class Permission
       MANAGE,
       GROUP_READ,
       VIEW_APPROVALS,
-      VIEW_ASSESSMENT
+      VIEW_ASSESSMENT,
+      DASH_REPORTING_LOCATION,
+      DASH_PROTECTION_CONCERNS
     ]
   end
 
@@ -131,15 +135,15 @@ class Permission
   def self.resource_actions(resource)
      case resource
        when CASE
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT].include? a}
+         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS].include? a}
        when INCIDENT
          actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REASSIGN, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, APPROVE_BIA,
-                              APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT].include? a}
+                              APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS].include? a}
        when TRACING_REQUEST
          actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL,
                               CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL_BIA, REQUEST_APPROVAL_CASE_PLAN,
                               REQUEST_APPROVAL_CLOSURE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ,
-                              VIEW_APPROVALS, VIEW_ASSESSMENT].include? a}
+                              VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS].include? a}
        when ROLE
          [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, COPY, MANAGE]
        when USER
@@ -153,7 +157,7 @@ class Permission
        when SYSTEM
          [MANAGE]
        when DASHBOARD
-         [VIEW_APPROVALS, VIEW_ASSESSMENT, MANAGE]
+         [VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS, MANAGE]
        else
          actions
      end

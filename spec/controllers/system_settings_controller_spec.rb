@@ -4,7 +4,14 @@ require 'spec_helper'
 
 describe SystemSettingsController do
   before :each do
-    @system_settings = SystemSettings.create default_locale: "en"
+    reporting_location = ReportingLocation.new(field_key: 'owned_by_location', label_key: 'district', admin_level: 2, reg_ex_filter: 'blah')
+    @system_settings = SystemSettings.create(default_locale: 'en',
+                                             case_code_separator: '-',
+                                             reporting_location_config: reporting_location,
+                                             primero_version: '1.3.3',
+                                             age_ranges: {'primero' => ["0 - 5","6 - 11","12 - 17","18+"],
+                                                          'unhcr' => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},
+                                             primary_age_range: 'primero')
     fake_admin_login
   end
 
@@ -22,6 +29,37 @@ describe SystemSettingsController do
     put :update, :locale => "en", :id => "administrator"
     flash[:notice].should =="System Settings successfully updated."
     response.should redirect_to(edit_system_setting_path)
+  end
+
+  describe "get index" do
+    before do
+      fake_admin_login
+    end
+
+    it "should render requested sources as json." do
+      get :index, format: :json
+      expect(response.content_type.to_s).to eq('application/json')
+    end
+
+    it "should return requested sources." do
+      expected_response = {
+          "success" => 1,
+          "settings" => {"default_locale" => "en", "case_code_format" => [], "case_code_separator" => '-',
+                         "auto_populate_list" => [], "unhcr_needs_codes_mapping" => nil,
+                         "reporting_location_config" => {"field_key" => "owned_by_location",
+                                                         "label_key" => "district",
+                                                         "admin_level" => 2,
+                                                         "reg_ex_filter" => 'blah'},
+                         "primero_version" => "1.3.3",
+                         "age_ranges" => {"primero" => ["0 - 5","6 - 11","12 - 17","18+"],
+                                          "unhcr" => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},
+                         "primary_age_range" => "primero", "_id" => @system_settings.id, "_rev" => @system_settings.rev,
+                         "couchrest-type" => "SystemSettings"}
+      }
+      get :index, string_sources: ['Location'], format: :json
+      json_response = JSON.parse(response.body)
+      expect(json_response).to eq(expected_response)
+    end
   end
 end
 
