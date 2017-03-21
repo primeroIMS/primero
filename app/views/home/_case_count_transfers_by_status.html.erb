@@ -4,7 +4,7 @@
                        {
                          name: :transfer_status,
                          stat: :pending,
-                         filter: index_filters(['child_status=Open',
+                         filter: index_filters(['child_status=open',
                                                 "transfer_status=#{I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
                                                                           :locale => :en)}",
                                                 'record_state=true',
@@ -15,7 +15,7 @@
                        {
                          name: :transfer_status,
                          stat: :rejected,
-                         filter: index_filters(['child_status=Open',
+                         filter: index_filters(['child_status=open',
                                                 "transfer_status=#{I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
                                                                           :locale => :en)}",
                                                 'record_state=true'])
@@ -27,7 +27,7 @@
                        {
                          name: :in_progress_transfers,
                          stat: :in_progress,
-                         filter: index_filters(['child_status=Open',
+                         filter: index_filters(['child_status=open',
                                                 "transfer_status=#{I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
                                                                           :locale => :en)}",
                                                 'record_state=true',

@@ -1,8 +1,8 @@
 <% stats.each do |k, v| %>
   <div>
   <%= I18n.translate('dashboard.worker_count_total',
-                     case_count({case_worker: k, count: v[:total_cases], filter: index_filters(['child_status=Open', "user=#{k}", 'record_state=true'])}, nil, model)).html_safe %>
+                     case_count({case_worker: k, count: v[:total_cases], filter: index_filters(['child_status=open', "user=#{k}", 'record_state=true'])}, nil, model)).html_safe %>
   <%= I18n.translate('dashboard.count_records_new',
-                     case_count({count: v[:new_cases], filter: index_filters(["new_other", 'child_status=Open', "user=#{k}", 'record_state=true'])}, nil, model)).html_safe %>
+                     case_count({count: v[:new_cases], filter: index_filters(["new_other", 'child_status=open', "user=#{k}", 'record_state=true'])}, nil, model)).html_safe %>
   </div>
 <% end %>
