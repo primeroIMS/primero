@@ -286,10 +286,12 @@ class HomeController < ApplicationController
   end
 
   def load_cases_information
+    # binding.pry;x=0
     module_ids = @module_ids
     @stats = Child.search do
       # TODO: Check for valid
-      with(:child_status, 'Open')
+      #TODO - i18n - is it OK to hard code these values?
+      with(:child_status, 'open')
       with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:assigned_user_names, current_user.user_name)
@@ -301,28 +303,29 @@ class HomeController < ApplicationController
         end
       end
 
+      #TODO - i18n - is it ok to hard code these values?
       if display_assessment?
         facet(:risk_level, zeros: true, exclude: [referred]) do
           row(:high) do
-            with(:risk_level, 'High')
+            with(:risk_level, 'high')
             with(:not_edited_by_owner, true)
           end
           row(:high_total) do
-            with(:risk_level, 'High')
+            with(:risk_level, 'high')
           end
           row(:medium) do
-            with(:risk_level, 'Medium')
+            with(:risk_level, 'medium')
             with(:not_edited_by_owner, true)
           end
           row(:medium_total) do
-            with(:risk_level, 'Medium')
+            with(:risk_level, 'medium')
           end
           row(:low) do
-            with(:risk_level, 'Low')
+            with(:risk_level, 'low')
             with(:not_edited_by_owner, true)
           end
           row(:low_total) do
-            with(:risk_level, 'Low')
+            with(:risk_level, 'low')
           end
         end
       end
@@ -332,7 +335,7 @@ class HomeController < ApplicationController
           with(:not_edited_by_owner, true)
         end
         row(:total) do
-          with(:child_status, 'Open')
+          with(:child_status, 'open')
         end
       end
 
@@ -341,69 +344,68 @@ class HomeController < ApplicationController
           without(:last_updated_by, current_user.user_name)
         end
         row(:total) do
-          with(:child_status, 'Open')
+          with(:child_status, 'open')
         end
       end
 
+      #TODO - i18n - OK to hard code these?
       facet(:approval_status_bia, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_bia, I18n.t('approvals.status.pending'))
+          with(:approval_status_bia, 'pending')
         end
         row(:rejected) do
-          with(:approval_status_bia, I18n.t('approvals.status.rejected'))
+          with(:approval_status_bia, 'rejected')
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_bia, I18n.t('approvals.status.approved'))
+          with(:approval_status_bia, 'approved')
           with(:bia_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_case_plan, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+          with(:approval_status_case_plan, 'pending')
         end
         row(:rejected) do
-          with(:approval_status_case_plan, I18n.t('approvals.status.rejected'))
+          with(:approval_status_case_plan, 'rejected')
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_case_plan, I18n.t('approvals.status.approved'))
+          with(:approval_status_case_plan, 'approved')
           with(:case_plan_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_closure, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_closure, I18n.t('approvals.status.pending'))
+          with(:approval_status_closure, 'pending')
         end
         row(:rejected) do
-          with(:approval_status_closure, I18n.t('approvals.status.rejected'))
+          with(:approval_status_closure, 'rejected')
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_closure, I18n.t('approvals.status.approved'))
+          with(:approval_status_closure, 'approved')
           with(:closure_approved_date, bod..Time.zone.now)
         end
       end
 
+      #TODO - i18n - fix hard coding
       facet(:transfer_status, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                        :locale => :en))
+          with(:transfer_status, 'in_progress')
           with(:owned_by, current_user.user_name)
         end
         row(:rejected) do
-          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
-                                        :locale => :en))
+          with(:transfer_status, 'rejected')
           with(:owned_by, current_user.user_name)
         end
       end
 
       facet(:in_progress_transfers, zeros: true) do
         row(:in_progress) do
-          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                        :locale => :en))
+          with(:transfer_status, 'in_progress')
           with(:transferred_to_users, current_user.user_name)
         end
       end
@@ -533,27 +535,29 @@ class HomeController < ApplicationController
     this_week = DateTime.now.beginning_of_week .. DateTime.now.end_of_week
     locations = current_user.managed_users.map { |u| u.location }.compact.reject(&:empty?)
 
+    #TODO - i18n - fix hard coding
     if locations.present?
       @reporting_location_stats = build_admin_stats({
-        totals: get_admin_stat({ status: 'Open', locations: locations, by_reporting_location: true }),
-        new_last_week: get_admin_stat({ status: 'Open', new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        new_this_week: get_admin_stat({ status: 'Open', new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
-        closed_last_week: get_admin_stat({ status: 'Closed', closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        closed_this_week: get_admin_stat({ status: 'Closed', closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
+        totals: get_admin_stat({ status: 'open', locations: locations, by_reporting_location: true }),
+        new_last_week: get_admin_stat({ status: 'open', new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        new_this_week: get_admin_stat({ status: 'open', new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
+        closed_last_week: get_admin_stat({ status: 'closed', closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        closed_this_week: get_admin_stat({ status: 'closed', closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
       })
     end
 
     @protection_concern_stats = build_admin_stats({
         totals: get_admin_stat({by_protection_concern: true}),
-        open: get_admin_stat({status: 'Open', by_protection_concern: true}),
-        new_this_week: get_admin_stat({status: 'Open', by_protection_concern: true, new: true, date_range: this_week}),
-        closed_this_week: get_admin_stat({status: 'Closed', by_protection_concern: true, closed: true, date_range: this_week})
+        open: get_admin_stat({status: 'open', by_protection_concern: true}),
+        new_this_week: get_admin_stat({status: 'open', by_protection_concern: true, new: true, date_range: this_week}),
+        closed_this_week: get_admin_stat({status: 'closed', by_protection_concern: true, closed: true, date_range: this_week})
     })
   end
 
 
   def build_admin_stats(stats)
     admin_stats = {}
+    #TODO - i18n
     protection_concerns = Lookup.values('lookup-protection-concerns', @lookups)
     stats.each do |k, v|
       stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
@@ -582,6 +586,7 @@ class HomeController < ApplicationController
           end
         end
       end
+      #TODO - i18n - review... this may be ok
       with(:associated_user_names, current_user.managed_user_names)
       with(:record_state, true)
       with(:child_status, query[:status]) if query[:status].present?

@@ -30,41 +30,42 @@
     <% if reporting_location_stats.present? %>
       <table cellspacing="0" cellpadding="0" class="table-counts table-floating-header extra">
         <tbody>
+          <%# TODO - i18n reporting_location_stats %>
           <% reporting_location_stats.each do |key, val| %>
             <tr>
               <td class="id_column"><%= key.split('::').last %></td>
               <td>
                 <%=
                   build_reporting_location_stat_link(val[:totals],
-                                                     ['child_status=Open', 'record_state=true', "reporting_location=#{key}"],
+                                                     ['child_status=open', 'record_state=true', "reporting_location=#{key}"],
                                                      model, reporting_location, admin_level)
                 %>
               </td>
               <td>
                 <%=
                   build_reporting_location_stat_link(val[:new_last_week],
-                                                     ['child_status=Open', 'record_state=true', "reporting_location=#{key}", "created_at=#{last_week}"],
+                                                     ['child_status=open', 'record_state=true', "reporting_location=#{key}", "created_at=#{last_week}"],
                                                      model, reporting_location, admin_level)
                 %>
               </td>
               <td>
                 <%=
                   build_reporting_location_stat_link(val[:new_this_week],
-                                                     ['child_status=Open', 'record_state=true', "reporting_location=#{key}", "created_at=#{this_week}"],
+                                                     ['child_status=open', 'record_state=true', "reporting_location=#{key}", "created_at=#{this_week}"],
                                                      model, reporting_location, admin_level)
                 %>
               </td>
               <td>
                 <%=
                   build_reporting_location_stat_link(val[:closed_last_week],
-                                                     ['child_status=Closed', 'record_state=true', "reporting_location=#{key}", "date_closure=#{last_week}"],
+                                                     ['child_status=closed', 'record_state=true', "reporting_location=#{key}", "date_closure=#{last_week}"],
                                                      model, reporting_location, admin_level)
                 %>
               </td>
               <td>
                 <%=
                   build_reporting_location_stat_link(val[:closed_this_week],
-                                                     ['child_status=Closed', 'record_state=true', "reporting_location=#{key}", "date_closure=#{this_week}"],
+                                                     ['child_status=closed', 'record_state=true', "reporting_location=#{key}", "date_closure=#{this_week}"],
                                                      model, reporting_location, admin_level)
                 %>
               </td>

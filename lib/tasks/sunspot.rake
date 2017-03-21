@@ -54,7 +54,7 @@ namespace :sunspot do
     indexed_types = [
       Child, Incident, TracingRequest,
       Flag, ReportableFollowUp, ReportableProtectionConcern,
-      ReportableService, BulkExport
+      ReportableService, BulkExport, Violation, PotentialMatch
     ]
 
     puts "Removing the following record types from the Solr index: #{indexed_types.join(', ')}"

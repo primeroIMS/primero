@@ -16,6 +16,7 @@ module HomeHelper
   end
 
   #TODO - refactor... move query logic to dashboard model
+  #TODO - i18n
   def case_count(stat_group, query, model)
     if query.present?
       results = query.facet(stat_group[:name]).rows
