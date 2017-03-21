@@ -16,9 +16,11 @@ _primero.Views.tabNavigation = _primero.Views.Base.extend({
     this.first_tab();
     this.tabRedirection();
 
-    $(".side-nav-container").sticky({
+    var side_nav = $(".side-nav-container").sticky({
       topSpacing: 130,
-      bottomSpacing: 90
+      bottomSpacing: 90,
+      getWidthFrom: '.side-tab',
+      responsiveWidth: true
     });
 
     if ($('.errorExplanation').length || $('.notice').length) {
