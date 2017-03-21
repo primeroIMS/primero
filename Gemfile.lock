@@ -75,6 +75,7 @@ GEM
       tzinfo (~> 0.3.37)
     addressable (2.3.6)
     afm (0.2.2)
+    arabic-letter-connector (0.1.1)
     arel (4.0.2)
     arrayfields (4.9.2)
     ast (2.0.0)
@@ -475,6 +476,7 @@ PLATFORMS
 DEPENDENCIES
   activejob_backport
   addressable (~> 2.3.6)
+  arabic-letter-connector
   backburner
   better_errors
   binding_of_caller
