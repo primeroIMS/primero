@@ -8,7 +8,8 @@ module CouchChanges
 
           PhusionPassenger.locate_directories
           PhusionPassenger.require_passenger_lib 'platform_info'
-          PhusionPassenger.require_passenger_lib 'admin_tools/server_instance'
+          PhusionPassenger.require_passenger_lib 'admin_tools/instance'
+          PhusionPassenger.require_passenger_lib 'admin_tools/instance_registry'
 
           class << self
             include PhusionPassenger::AdminTools
