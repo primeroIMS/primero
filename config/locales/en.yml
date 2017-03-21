@@ -1216,7 +1216,6 @@ en:
     edit: "Edit"
 
   encrypt:
-    ok: "Ok"
     password_title: "Create Password"
     password_label: "Please enter a password that will encrypt your file."
     password_mandatory: "Enter a valid password"
