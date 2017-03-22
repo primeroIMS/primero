@@ -270,7 +270,8 @@ gbv_worker_permissions = [
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::EXPORT_UNHCR,
+      Permission::SYNC_MOBILE
     ]
   ),
   Permission.new(
@@ -286,7 +287,8 @@ gbv_worker_permissions = [
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::EXPORT_INCIDENT_RECORDER
+      Permission::EXPORT_INCIDENT_RECORDER,
+      Permission::SYNC_MOBILE
     ]
   )
 ]
@@ -311,7 +313,8 @@ gbv_manager_permissions = [
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::EXPORT_UNHCR,
+      Permission::SYNC_MOBILE
     ]
   ),
   Permission.new(
@@ -327,7 +330,8 @@ gbv_manager_permissions = [
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::EXPORT_INCIDENT_RECORDER
+      Permission::EXPORT_INCIDENT_RECORDER,
+      Permission::SYNC_MOBILE
     ]
   ),
   Permission.new(

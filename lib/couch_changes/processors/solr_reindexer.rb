@@ -35,8 +35,8 @@ module CouchChanges
                 instance.find_match_tracing_requests
               end
 
-              if instance.respond_to? :find_match_children
-                instance.find_match_children
+              if instance.respond_to? :find_match_cases
+                instance.find_match_cases
               end
 
               dfd.succeed

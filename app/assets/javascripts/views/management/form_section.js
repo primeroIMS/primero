@@ -16,7 +16,7 @@ function form_section() {
     }
     backToPrevious();
   }
-  $(document).on('close.fndtn.reveal', '#add_field_modal', call_back_to_previous);
+  $(document).on('closed.zf.reveal', '#add_field_modal', call_back_to_previous);
   triggerErrors();
   var $rows = $("#form_sections tbody");
   $rows.sortable({
@@ -52,7 +52,6 @@ function form_section() {
     $this.toggleClass("sel");
     $('.move_to_panel').addClass('hide');
     $this.parents('ul').siblings(".move_to_panel").toggleClass("hide");
-    _primero.set_content_sidebar_equality();
   }
 
   function triggerErrors(){
@@ -81,7 +80,7 @@ function form_section() {
       locale_options: $this.data('lang')
     }));
     newOption.find('a.field_option_remove_button').click(removeOption);
-    $this.parent().before(newOption);
+    $this.parents('.options_row_controls').before(newOption);
     var current_locale_selection = $('#field_details_select_box').find('#locale').val();
     if (!_.isUndefined(current_locale_selection) &&
         current_locale_selection !== '') {
@@ -121,7 +120,6 @@ function form_section() {
     $field_details_overlay.toggleClass("hide");
     $field_details_panel.toggleClass("hide");
     configureFieldMultiSelect($(".field_types a").attr("id"));
-    // _primero.set_content_sidebar_equality();
   }
 
   function resetAddField(){
@@ -154,7 +152,6 @@ function form_section() {
     })
     $(getFieldDetails(this.id)).show();
     configureFieldMultiSelect(this.id);
-    _primero.set_content_sidebar_equality();
   }
 
   function configureFieldMultiSelect(field_type){
@@ -202,7 +199,6 @@ function on_ready() {
 
   $(".locale").change( function(event){
     setTranslationFields(event.target);
-    _primero.set_content_sidebar_equality();
   });
 };
 

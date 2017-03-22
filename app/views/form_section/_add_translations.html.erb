@@ -16,7 +16,7 @@
   <% end %>
   <% Primero::Application::LOCALES.each do |given_locale| %>
       <% if I18n.default_locale.to_s != given_locale %>
-        <div class="<%= "translation_forms #{given_locale}"%> hide">
+        <div class="<%= "translation_forms #{given_locale}"%> hide_element">
           <%= render :partial => 'form_section/fields', :locals => {:fields => fields, :fld => fld, :given_locale => given_locale, :is_translation => true, :is_field_edit => is_field_edit}%>
         </div>
       <% end %>

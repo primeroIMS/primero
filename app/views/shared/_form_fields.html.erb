@@ -1,4 +1,4 @@
-<div class="form-fields-container hide">
+<div class="form-fields-container hide_elements">
   <div class="criteria_menu">
   <a class='close-link'><%= image_tag("dialog-close.png") %></a>
   <div class='box-shadow content'>
@@ -28,7 +28,7 @@
   $("ul.forms li:first, ul.fields:first").addClass('selected');
 
   $(".add_field").click(function(){
-    $(".form-fields-container").toggleClass("hide");
+    $(".form-fields-container").toggleClass("hide_element");
   });
 
   $("ul.forms li").click(function(){
@@ -42,7 +42,7 @@
   });
 
   $(".close-link").click(function(){
-    $(".form-fields-container").addClass("hide");
+    $(".form-fields-container").addClass("hide_element");
   });
 
   $("ul.fields li").click(function() {

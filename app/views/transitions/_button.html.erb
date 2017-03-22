@@ -23,14 +23,14 @@
 <% if can?(transition_type.to_sym(), controller.model_class) %>
 <li>
   <a data-consent_count_url="<%= "/#{model_name.downcase.underscore.pluralize}/consent_count" %>"
-     data-reveal-id=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "#{transition_type}_show_action" : "#{transition_type}_index_action") %> href="#">
+     data-open=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "#{transition_type}_show_action" : "#{transition_type}_index_action") %>>
      <%= t("buttons.#{transition_type}", model: model_name) %>
   </a>
 
-  <div id=<%= "#{transition_type}-modal" %> class="reveal-modal tiny" data-reveal>
-    <a class="close-reveal-modal">&#215;</a>
+  <div id=<%= "#{transition_type}-modal" %> class="reveal tiny" data-reveal>
+    <%= render 'shared/modal_close' %>
     <div class=<%= "#{transition_type}_form_container row"%> >
-      <div class="large-11">
+      <div class="large-12">
         <%= form_tag(url_for(:action => 'transition', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
           <%= hidden_field_tag "selected_records"%>
           <%= hidden_field_tag "transition_type", transition_type%>
@@ -39,20 +39,18 @@
           <% else %>
           <label class="consent">
             <span class="consent_count"><%= no_consent_count%></span>
-            <%=I18n.t("#{transition_type}.consent_label")%><br />
-            <% if can?(:consent_override, controller.model_class) %>
-              <%=I18n.t("#{transition_type}.consent_override_label")%>
-              <%= check_box_tag("consent_override", "true") %>
-            <% else %>
-              <br />
-            <% end %>
+            <%=I18n.t("#{transition_type}.consent_label")%>
           </label>
-          <label><%=I18n.t("#{transition_type}.is_remote_label")%>
-            <%= check_box_tag("is_remote", "true") %>
-          </label>
+          <% if can?(:consent_override, controller.model_class) %>
+            <%= check_box_tag("consent_override", "true") %>
+            <label for="consent_override"><%=I18n.t("#{transition_type}.consent_override_label")%></label>
+          <% end %>
+          <br>
+          <%= check_box_tag("is_remote", "true") %>
+          <label for="is_remote"><%=I18n.t("#{transition_type}.is_remote_label")%></label>
           <% end %>
           <div class="local_toggle">
-            <div class='local_user_flash hide'><p class='error'></p></div>
+            <div class='local_user_flash hide_element'><p class='error'></p></div>
             <label><%=I18n.t("#{transition_type}.existing_user_label")%>
               <%= select_tag("existing_user", options_for_select(module_users, ''), :include_blank => true) %>
             </label>
@@ -61,7 +59,7 @@
             <label><%=I18n.t("#{transition_type}.type_label")%>
               <%= select_tag("transition_role", options_for_select(transition_role_options, '')) %>
             </label>
-            <div class='remote_user_flash hide'><p class='error'></p></div>
+            <div class='remote_user_flash hide_element'><p class='error'></p></div>
             <label><%=I18n.t("#{transition_type}.other_user_label")%>
               <%= text_field_tag("other_user") %>
             </label>
@@ -81,7 +79,7 @@
             <label><%=I18n.t("#{transition_type}.type_of_export")%>
               <%= select_tag("type_of_export", options_for_select(type_of_export_options)) %>
             </label>
-            <div class='password_flash hide'><p class='error'></p></div>
+            <div class='password_flash hide_element'><p class='error'></p></div>
             <label><%=I18n.t("encrypt.password_label")%>
               <%= password_field_tag("password") %>
             </label>
@@ -90,12 +88,12 @@
               <%= text_field_tag("file_name") %>
             </label>
           </div>
-          <div class="import_button">
-            <%= submit_tag(t("buttons.submit"), class: 'green-button right') %>
+          <div class="row align-right">
+            <div class="button-group">
+              <%= submit_tag(t("buttons.import"), class: 'button right') %>
+            </div>
           </div>
         <% end %>
-      </div>
-      <div class="large-1">
       </div>
     </div>
   </div>

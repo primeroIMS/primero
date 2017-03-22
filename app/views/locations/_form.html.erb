@@ -10,15 +10,17 @@
 %>
 
 <% content_for :record_sub_nav do %>
-  <li><%= discard_button(locations_path) %></li>
-  <li><%= submit_button t("buttons.save") %></li>
+  <div class="button-group">
+    <%= discard_button(locations_path) %>
+    <%= submit_button t("buttons.save") %>
+  </div>
 <% end %>
 
 <div class="row">
   <%= form_for @location, :html => { :class => 'default-form location-new-edit', :autocomplete => "off" } do |f| %>
     <fieldset class="no-border">
       <% if editing %>
-        <div class="alert-box warning"><%= t('location.location_code_warning') %></div>
+        <div class="callout warning"><%= t('location.location_code_warning') %></div>
       <% end %>
       <%= f.error_messages :header_tag => :h2 %>
       <% if editing %>
@@ -40,7 +42,7 @@
         <% if editing %>
           <% Primero::Application::LOCALES.each do |new_locale| %>
             <% if I18n.default_locale.to_s != new_locale %>
-              <div class="<%= editing ? 'medium-4' : 'medium-9' %> columns <%= "translation_forms #{new_locale}"%> hide">
+              <div class="<%= editing ? 'medium-4' : 'medium-9' %> columns <%= "translation_forms #{new_locale}"%> hide_element">
                 <%= f.text_field "placename_#{new_locale}" || [] %>
               </div>
             <% end %>

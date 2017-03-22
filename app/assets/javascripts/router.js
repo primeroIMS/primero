@@ -55,7 +55,7 @@ _primero.Router = Backbone.Router.extend({
   },
 
   passwordPrompt: function() {
-    _primero.Views.PasswordPrompt.initialize();
+    new _primero.Views.PasswordPrompt();
   },
 
   recordActions: function() {

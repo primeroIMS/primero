@@ -29,34 +29,36 @@
   <% end %>
 <% else %>
   <div class="row">
-    <div id="<%= subform.name %>" class="subforms" <%=data_shared_subform%> data-form_group_name="<%= shared_subform_section_group.dehumanize unless shared_subform_section_group.nil? %>">
-      <% (number_of_subforms).times do |i| %>
-        <%
-          formObject_i = subform_object[i]
-          formObject_i[:hidden_name] = formObject.hidden_name
-        %>
-        <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
-          <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
-          <%= render partial: "form_section/subform_expand_collapse_header",
-                     object: formObject,
-                     locals: { formObject: formObject,
-                               subform: subform,
-                               subform_section: subform_section,
-                               i: i,
-                               form_group_name: form_group_name,
-                               view_mode: true,
-                               subform_object: formObject_i
-                             }
+    <div class="large-12 columns">
+      <div id="<%= subform.name %>" class="subforms" <%=data_shared_subform%> data-form_group_name="<%= shared_subform_section_group.dehumanize unless shared_subform_section_group.nil? %>">
+        <% (number_of_subforms).times do |i| %>
+          <%
+            formObject_i = subform_object[i]
+            formObject_i[:hidden_name] = formObject.hidden_name
           %>
+          <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
+            <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
+            <%= render partial: "form_section/subform_expand_collapse_header",
+                      object: formObject,
+                      locals: { formObject: formObject,
+                                subform: subform,
+                                subform_section: subform_section,
+                                i: i,
+                                form_group_name: form_group_name,
+                                view_mode: true,
+                                subform_object: formObject_i
+                              }
+            %>
 
-          <% (subform_section.fields.select {|field| field.showable? }).each do |field| %>
-            <% unless (field.name == "to_user_local_status" && formObject_i.is_remote == true) || (field.name == "to_user_local_status" && formObject_i.type == Transition::TYPE_REASSIGN) %>
-              <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject_i, :lookups => lookups} %>
+            <% (subform_section.fields.select {|field| field.showable? }).each do |field| %>
+              <% unless (field.name == "to_user_local_status" && formObject_i.is_remote == true) || (field.name == "to_user_local_status" && formObject_i.type == Transition::TYPE_REASSIGN) %>
+                <%= render :partial => "form_section/field_display_#{field.display_type}",  :locals=>{:field => field, :formObject=>formObject_i} %>
+              <% end %>
             <% end %>
-          <% end %>
-          </fieldset>
-        </div>
-      <% end %>
+            </fieldset>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 <% end %>

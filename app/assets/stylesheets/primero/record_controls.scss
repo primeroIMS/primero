@@ -3,94 +3,116 @@
 ////////////////////////////////////////////////
 
 .record_controls {
-  padding-top: 7px;
+  .dropdown-pane.large {
+    width: rem_calc(550);
+    background: $desat_green_color;
 
-  ul.inline-list {
-    overflow: visible;
-    padding-left: 5px;
-
-    li:not(.rec_ctl) {
-      margin-right: 10px;
+    .flag_unflag_header {
+      color: $green_color;
+      border-bottom: 1px solid $stroke_green_color;
     }
 
-    .sf-menu li:not(.init_btn) {
-      margin-right: 0;
+    .label {
+      background: none;
+      color: $grey_color;
+      float: left;
+      width: 100%;
+      text-align: left;
+      margin: 2px;
+      text-transform: uppercase;
+      font-weight: bold;
+      padding: 0;
     }
 
-    a.arrow:after {
-      content: "";
-      background: url(image_path("edit_carot.png")) no-repeat;
-      height: 37px;
-      width: 8px;
-      float: right;
-      margin: -9px 0 0 17px;
-      position: absolute;
-      z-index: 10;
-    }
+    .add_flag {
+      margin: 1em 0;
 
-    li.rec_ctl a.grey-button {
-      border-top: 1px solid $stroke_green_color !important;
-      border-bottom: 1px solid $stroke_green_color !important;
-      border-right: none !important;
-      border-left: none !important;
-      background: $desat_green_color !important;
-      color: $green_color !important;
-      height: 37px !important;
+      input {
+        margin-bottom: 0;
+      }
     }
+  }
+}
 
-    li.rec_ctl a.green-button {
-      background: $stroke_green_color;
+.index_controls_container, .record_controls_container {
+  width: 100%;
+  height: rem_calc(50);
+  z-index: 999;
+  background: $white_color;
+
+  .controls, .record_controls {
+    height: rem_calc(50);
+  }
+
+  .button-group {
+    input {
+      width: inherit;
+    }
+  }
+
+  .record_controls {
+    .button, select {
+      @if $global-text-direction == rtl {
+        margin: rem_calc(0 0 0 7);
+      } @else {
+        margin: rem_calc(0 7 0 0);
+      }
+    }
+  }
+
+  .button {
+    margin-bottom: 0;
+
+    &.current {
+      background: $stroke_green_color !important;
       color: #fff !important;
     }
+
+    &.action_btn {
+      height: rem_calc(39.69);
+    }
   }
 
-  ul#export-dropdown li {
-    margin-right: 0;
+  select {
+    width: 20%;
+    height: rem_calc(39.69)
   }
-
-  .label {
-    background: none;
-    color: $grey_color;
-    float: left;
-    width: 100%;
-    text-align: left;
-    margin: 2px;
-    text-transform: uppercase;
-    font-weight: bold;
-    padding: 0;
+  
+  .pagination_info {
+    font-size: .9rem;
   }
 
   h4 {
     font-size: .88rem;
     font-family: 'Roboto-Medium', sans-serif;
     color: $green_color;
+    margin-bottom: 0;
+  }
+
+  @if $global-text-direction == rtl {
+    .controls-left {
+      padding-left: 0;
+    }
+
+    .controls-right {
+      padding-right: 0;
+    }
+  } @else {
+    .controls-left {
+      padding-right: 0;
+    }
+
+    .controls-right {
+      padding-left: 0;
+    }
+  }
+
+  .dropdown.menu > li.is-dropdown-submenu-parent > a {
+    padding-right: 1.8rem;
+  }
+
+  .dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+    right: 8px;
   }
 }
 
-.record_controls_container {
-  width: 100%;
-  height: 51px;
-  z-index: 999;
-  background: $white_color;
-}
-
-.index_controls_container {
-  width: 100%;
-  height: 50px;
-  z-index: 999;
-  background: $white_color;
-  padding-top: 7px;
-
-  .pagination_info {
-    margin-top: 6px;
-  }
-
-  .large-9 {
-    padding: 0;
-  }
-}
-
-.sticking {
-  -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.2);
-}

@@ -32,7 +32,7 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
       self.reset_form();
     }
 
-    $(document).on('close.fndtn.reveal', '#custom-exports', reset_form);
+    $(document).on('closed.zf.reveal', '#custom-exports', reset_form);
   },
 
   init_chosen_fields: function() {
@@ -41,6 +41,10 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
     $this_el.find('select[name="module"]').chosen().change(function() {
       self.set_form_state();
     });
+
+    if (I18n.direction == 'rtl') {
+      $this_el.find('select').addClass('chosen-rtl');
+    }
 
     $this_el.find('select[name="fields"]').chosen();
     $this_el.find('select[name="forms"]').chosen();
@@ -210,7 +214,10 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
       file_location += window.location.search.length ? '&' : '?';
       file_location += $.param(data);
       file_location += '&format=' + this.filter_type;
-      file_location += !_primero.get_param('page') ? '&page=all&per_page=all' : undefined;
+
+      if (!_primero.get_param('page')) {
+        file_location += '&page=all&per_page=all';
+      }
 
       this.reset_form();
       $this_el.foundation('reveal', 'close');
@@ -241,7 +248,12 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
 
   reset_form: function() {
     var $this_el = $(this.el)
-    $this_el.find('form')[0].reset();
+    var form = $this_el.find('form')[0];
+    
+    if (form) {
+      form.reset();
+    }
+
     $this_el.find('select').val('').trigger("chosen:updated");
     this.clear_control('fields');
     this.clear_control('forms');

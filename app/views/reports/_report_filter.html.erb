@@ -16,8 +16,8 @@
   end
 %>
 <div class="row collapse <%= hidden ? 'report_filter_template' : 'report_filter' %>">
-  <div class="report_filter_attribute_row">
-    <div class="medium-11 columns">
+  <div class="report_filter_attribute_row column row">
+    <div class="column">
       <select class="<%= hidden ? 'report_filter_attribute_template' : 'report_filter_attribute' %>"
               data-placeholder="<%= t('fields.select_box_empty_item') %>"
               id="<%= "report_filters_#{index}_attribute"%>"
@@ -30,7 +30,7 @@
         %>
       </select>
     </div>
-    <div class="medium-1 column">
+    <div class="column shrink">
       <a class="report_filter_remove_button">
         <%= icon('close') %>
       </a>

@@ -3,18 +3,22 @@ _primero.Views.FlagChild = _primero.Views.Base.extend({
   el: 'body',
 
   events: {
-    'click .dropdown_btn': 'show_hide_dropdown',
-    'click .dropdown': 'stop_propagation',
     'click .collapse_expand_flag': 'collapse_expand_flag',
-    'click .view_history_flags': 'view_history_flags'
+    'click .view_history_flags': 'view_history_flags',
+    'show.zf.dropdown body': 'show_hide_dropdown'
   },
 
-  stop_propagation: function(event) {
-    event.stopPropagation();
+  initialize: function() {
+    var self = this;
+    
+    $('body').on('show.zf.dropdown', function(e) {
+      self.generate_form($(e.target));
+      e.stopPropagation();
+    });
   },
 
   show_hide_dropdown: function(event) {
-    var $dropdown = $(event.target).parents('.dropdown_btn').find('.dropdown');
+    var $dropdown = $(event.target).parents('.flags_record_page').find('.dropdown-pane');
 
     $dropdown.toggleClass('hide').show();
     this.generate_form($dropdown);

@@ -16,6 +16,7 @@ field_notes_subform_fields = [
 field_notes_subform_section = FormSection.create_or_update_form_section({
   "visible" => false,
   "is_nested" => true,
+  :mobile_form => true,
   :order_form_group => 110,
   :order => 20,
   :order_subform => 1,

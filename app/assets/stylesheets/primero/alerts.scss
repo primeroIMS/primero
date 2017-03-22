@@ -2,7 +2,7 @@
 // Alert box
 ////////////////////////////////////////////////
 
-.alert-box {
+.callout {
   margin-bottom: .5rem !important;
 }
 
@@ -31,10 +31,17 @@
   width: 40px;
   height: 23px;
   position: relative;
-  float: right;
   font-size: 0.75rem;
   color: #fff;
   padding: 3px 0 0 3px;
+
+  @if $global-text-direction == rtl {
+    float: left;
+    padding: 2px 6px 0;
+    text-align: left;
+  }  @else {
+    float: right;
+  }
 }
 
 #dialog {

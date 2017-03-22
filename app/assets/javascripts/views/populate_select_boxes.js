@@ -1,5 +1,5 @@
 var StringSources = Backbone.Collection.extend({
-  url: '/string_sources',
+  url: '/api/options',
   
   parse: function(resp) {
     this.status = resp.success;
@@ -54,7 +54,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
 
     if (message) {
       $('.side-tab-content')
-        .prepend('<div data-alert class="alert-box warning">' + message + '</div>');
+        .prepend('<div data-alert class="callout warning">' + message + '</div>');
     }
   },
 

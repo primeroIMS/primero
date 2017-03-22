@@ -70,9 +70,9 @@ $(function() {
   $("#locale").change(function(event) {
     var language_field = $(event.target);
     var locale = language_field.val();
-    $(".translation_fields").hide();
+    $(".translation_fields").hide().addClass('hide_element');
     if (!_.isUndefined(locale) && locale !== '') {
-      $("div ." + locale).show();
+      $("div ." + locale).show().removeClass('hide_element');
     }
   });
 });

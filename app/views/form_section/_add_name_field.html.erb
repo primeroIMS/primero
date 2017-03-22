@@ -17,7 +17,7 @@
             <%# TODO - add pattern matching %>
             <%# fld.text_field "name", required: '', pattern: '[a-z_]' %>
             <%= fld.text_field "name", required: '' %>
-            <small class="error"><%= t('errors.models.field.name_presence') %></small>
+            <small class="form-error"><%= t('errors.models.field.name_presence') %></small>
           <% end %>
         <% else %>
           <div class="db_name"><%= fld.object["#{field_name}".to_sym] %></div>

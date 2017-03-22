@@ -17,14 +17,14 @@
   <div class="medium-8 columns">
     <% if select_box.required %><span class="required form-section-required">*</span><% end %>
     <% if select_box.multi_select %>
-      <%= select_tag name, options_for_select(select_options(select_box, formObject, nil), value), 'multiple' => '',
-          'class' => 'chosen-select', 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
-          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value}, 
+      <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value), 'multiple' => '',
+          'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
+          :data => { :field_tags => field_tags, :populate => select_box.option_strings_source, value: value}, 
           required: select_box.required, :disabled => select_box.disabled %>
     <% elsif select_box.searchable_select %>
-      <%= select_tag name, options_for_select(select_options(select_box, formObject, nil), value),
-          'class' => 'chosen-select', 'data-placeholder' => t("fields.select_box_empty_item"), :id => field_id,
-          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value}, 
+      <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value),
+          'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.select_box_empty_item"), :id => field_id,
+          :data => { :field_tags => field_tags, :populate => select_box.option_strings_source, value: value}, 
           required: select_box.required, :disabled => select_box.disabled %>
     <% else %>
       <%
@@ -45,16 +45,7 @@
           :disabled => select_box.disabled, :required => select_box.required %>
     <% end %>
     <% if select_box.guiding_questions.present? %>
-      <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_popovers', tabindex: '0',
-                  data: {
-                      toggle: 'popover',
-                      trigger: 'focus',
-                      title: t('buttons.guiding_questions'),
-                      html: true
-                  }) %>
-      <div class='popover_content' style="display:none;">
-        <%=  select_box.guiding_questions %>
-      </div>
+      <%= render 'form_section/guiding_questions', guiding_questions_text: select_box.guiding_questions %>
     <% end %>
     <% if select_box.help_text.present? %><p class="help"><%= select_box.help_text  %></p><% end %>
   </div>

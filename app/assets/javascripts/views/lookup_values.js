@@ -28,6 +28,7 @@ _primero.Views.LookupValueView = _primero.Views.Base.extend({
         current_locale_selection !== '') {
       newLookup.find('.' + current_locale_selection).show();
     }
+    $("#locale").trigger('change')
   },
 
   removeLookup: function(event) {
