@@ -5,8 +5,7 @@
                          name: :transfer_status,
                          stat: :pending,
                          filter: index_filters(['child_status=open',
-                                                "transfer_status=#{I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                                                          :locale => :en)}",
+                                                "transfer_status=in_progress}",
                                                 'record_state=true',
                                                 "owned_by=#{current_user.user_name}"])
                        }, stats, model)).html_safe %>

@@ -397,6 +397,11 @@ module Record
     end
   end
 
+  def display_field(field_name)
+    fd = field_definitions.select{|f| f.name == field_name}.first
+    fd.display_text(self.send(field_name))
+  end
+
   def update_with_attachments(params, user)
     new_photo = params[:child].delete("photo")
     new_photo = (params[:child][:photo] || "") if new_photo.nil?
