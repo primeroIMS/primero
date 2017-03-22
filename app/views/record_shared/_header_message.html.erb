@@ -1,22 +1,24 @@
 <div class="row form-footer">
   <div class="large-6 columns collapse">
-    <ul class="inline-list">
+    <ul class="menu simple">
       <li>
-        <a href="#" data-reveal-id="record_info_modal"><%= t('record_panel.record_information') %></a>
+        <a data-open="record_info_modal"><%= t('record_panel.record_information') %></a>
       </li>
       <li>
         <!-- change log -->
         <a id="show_change_log" data-change_log_url="<%= "/#{model.pluralize}/#{record.id}/change_log" %>"
-           data-reveal-id="<%= model %>_<%= record.short_id%>_change_log" href="#">
+           data-open="<%= model %>_<%= record.short_id%>_change_log">
           <%= t("record_panel.change_log") %>
         </a>
-        <div class="reveal-modal medium" id="<%= model %>_<%=record.short_id%>_change_log" data-reveal></div>
+        <div class="reveal medium" id="<%= model %>_<%=record.short_id%>_change_log" data-reveal></div>
       </li>
     </ul>
   </div>
 </div>
 
-<div id="record_info_modal" class="reveal-modal tiny" data-reveal aria-hidden="true" role="dialog">
+<div id="record_info_modal" class="reveal tiny" data-reveal aria-hidden="true" role="dialog">
+  <%= render 'shared/modal_close' %>
+  
   <h1><%= t('record_panel.record_information') %></h1>
   <!-- record state -->
   <p>
@@ -38,5 +40,4 @@
     <span><%= t("record_panel.current_owner") %>:</span>
     <%= record.owner ? record.owner.full_name : 'None' %>
   </p>
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>

@@ -65,7 +65,7 @@ a:hover {
   zoom: 1;
 }
 
-.hide{
+.hide_element {
   display:none;
 }
 
@@ -424,18 +424,5 @@ a.mark_as_duplicate {
     .next_page {
       border-right: none;
     }
-  }
-}
-
-#password-prompt-dialog {
-  display: none;
-
-  label {
-    width: 100%;
-  }
-
-  input {
-    width: 100%;
-    font-size: 125%;
   }
 }

@@ -1,12 +1,12 @@
 <% if can?(:import, controller.model_class) %>
   <% active_importers = (defined? importers) ? importers : Importers::ACTIVE_IMPORTERS %>
   <li>
-    <a data-reveal-id="import-modal" href="#">
+    <a data-open="import-modal">
       <%=(defined? import_label) ? t(import_label) : t("buttons.import") %>
     </a>
 
-    <div id="import-modal" class="reveal-modal tiny" data-reveal>
-      <a class="close-reveal-modal">&#215;</a>
+    <div id="import-modal" class="reveal tiny" data-reveal>
+      <%= render 'shared/modal_close' %>
       <%= form_tag(url_for(:action => 'import_file'), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
         <%= file_field_tag("import_file") %>
         <label><%=I18n.t("imports.password_label")%>
@@ -15,8 +15,10 @@
         <label><%=I18n.t("imports.format_label")%>
           <%= select_tag("import_type", options_for_select(active_importers.map {|i| [i.display_name, i.id]}, 'csv')) %>
         </label>
-        <div class="import_button">
-          <%= submit_tag(t("buttons.import"), class: 'green-button right') %>
+        <div class="row align-right">
+          <div class="button-group">
+            <%= submit_tag(t("buttons.import"), class: 'button right') %>
+          </div>
         </div>
         <%= content_for :page_scripts do %>
           var $import_type = $("#import_type");

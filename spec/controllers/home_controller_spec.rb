@@ -3,6 +3,8 @@ require 'spec_helper'
 describe HomeController do
   render_views
 
+  #TODO: Please write tests after we refactor dashboards!!!!!
+
   describe "GET index", skip_session: true do
 
     xit "should display information for user manager" do
