@@ -394,18 +394,18 @@ class HomeController < ApplicationController
       #TODO - i18n - fix hard coding
       facet(:transfer_status, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:transfer_status, 'in_progress')
+          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
           with(:owned_by, current_user.user_name)
         end
         row(:rejected) do
-          with(:transfer_status, 'rejected')
+          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_REJECTED)
           with(:owned_by, current_user.user_name)
         end
       end
 
       facet(:in_progress_transfers, zeros: true) do
         row(:in_progress) do
-          with(:transfer_status, 'in_progress')
+          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
           with(:transferred_to_users, current_user.user_name)
         end
       end
