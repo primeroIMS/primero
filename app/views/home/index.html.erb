@@ -1,43 +1,45 @@
 <div id="dashboard">
-  <div class="index_controls_container" data-top="50" data-bottom="40">
-    <div class="row collapse">
-      <div class="large-6 small-6 columns">
-        <ul id="menu" class="sf-menu">
-          <% unless (@display_manager_dashboard || @display_admin_dashboard) %>
-          <li class="init_btn">
-            <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn green-button action_btn' %>
-            <ul>
-              <% ["case", "incident", "tracing_request"].each do |model| %>
-                  <%
-                    model_class = model == "case" ? "child" : model
-                    button_label = I18n.t("buttons.create_new_record", model: model.titleize)
-                  %>
-                  <% if can? :create, model_class.camelize.constantize %>
-                      <li>
-                        <% modules = current_user.modules.select { |m| m.associated_record_types.include? model } %>
-                        <% if modules.size > 1 %>
-                            <%= link_to content_tag(:span, button_label), '#', :'data-dropdown' => "#{model}-modules-dropdown" %>
-                            <ul id="<%= model %>-modules-dropdown" class="f-dropdown" data-dropdown-content>
-                              <% modules.each do |primero_module| %>
-                                  <li><%= link_to primero_module.name, new_polymorphic_path(model, module_id: primero_module.id) %></li>
-                              <% end %>
-                            </ul>
-                        <% elsif modules.size == 1 %>
-                            <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(model, {module_id: modules.first.id}) %>
-                        <% end %>
-                      </li>
-                  <% end %>
-              <% end %>
-            </ul>
-          </li>
-          <% end %>
-        </ul>
+  <div class="index_controls_container" data-top="49" data-bottom="40">
+    <div class="row collapse align-middle">
+      <div class="large-12 columns">
+        <div class="button-group">
+          <ul id="dropdown menu" data-dropdown-menu>
+            <% unless (@display_manager_dashboard || @display_admin_dashboard) %>
+            <li>
+              <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn button action_btn' %>
+              <ul class="menu">
+                <% ["case", "incident", "tracing_request"].each do |model| %>
+                    <%
+                      model_class = model == "case" ? "child" : model
+                      button_label = I18n.t("buttons.create_new_record", model: model.titleize)
+                    %>
+                    <% if can? :create, model_class.camelize.constantize %>
+                        <li>
+                          <% modules = current_user.modules.select { |m| m.associated_record_types.include? model } %>
+                          <% if modules.size > 1 %>
+                              <%= link_to content_tag(:span, button_label), '#', :'data-dropdown' => "#{model}-modules-dropdown" %>
+                              <ul id="<%= model %>-modules-dropdown" class="f-dropdown" data-dropdown-content>
+                                <% modules.each do |primero_module| %>
+                                    <li><%= link_to primero_module.name, new_polymorphic_path(model, module_id: primero_module.id) %></li>
+                                <% end %>
+                              </ul>
+                          <% elsif modules.size == 1 %>
+                              <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(model, {module_id: modules.first.id}) %>
+                          <% end %>
+                        </li>
+                    <% end %>
+                <% end %>
+              </ul>
+            </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
 
   <% if @display_cases_dashboard %>
-  <div class="row collapse">
+  <div class="row">
     <div id="content" class="large-9 small-9 columns dashboards">
       <% if @display_tracing_request_dashboard %>
           <%= render 'match_result_statistics', match_stats: @match_stats, model: PotentialMatch %>
@@ -71,22 +73,22 @@
   <% end %>
 
   <% if @display_incidents_dashboard %>
-      <div class="row collapse">
+      <div class="row">
         <div id="content" class="large-9 small-9 columns dashboards">
           <%= render 'open_incidents', open_incidents: @open_incidents %>
         </div>
-        <div id="sidebar" class="large-3 small-3 columns">
+        <div id="sidebar" class="large-3 small-3 columns no-padding-left">
           <%= render 'flagged_by_me', flagged_by_me: @incidents_recently_flagged, model: Incident %>
         </div>
       </div>
   <% end %>
 
   <% if @display_gbv_incidents_dashboard %>
-      <div class="row collapse">
+      <div class="row">
         <div id="content" class="large-9 small-9 columns dashboards">
           <%= render 'open_gbv_incidents', open_incidents: @open_gbv_incidents %>
         </div>
-        <div id="sidebar" class="large-3 small-3 columns">
+        <div id="sidebar" class="large-3 small-3 columns no-padding-left">
           <%= render 'flagged_by_me', flagged_by_me: @gbv_incidents_recently_flagged, model: Incident %>
         </div>
       </div>

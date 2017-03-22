@@ -104,25 +104,6 @@ RapidFTR.childPhotoRotation = {
     }
 };
 
-RapidFTR.showDropdown = function(){
-    $('html').click(function(event){
-        //Inspect if the click event was triggered or not
-        //by a datepicker widget, we don't want to close
-        //the flag form in this case.
-        var el = $(event.target),
-            parent = el.parents(".ui-datepicker");
-        if (parent.length == 0) {
-
-            $(".dropdown").children().each(function() {
-                if ($(this).is('form')) {
-                    $(this).remove();
-                }
-            });
-            $(".dropdown").hide();
-        }
-    });
-};
-
 RapidFTR.Utils = {
     dehumanize: function(val){
         return jQuery.trim(val.toString()).replace(/\s/g, "_").replace(/\W/g, "").toLowerCase();
@@ -162,7 +143,6 @@ function on_page_load() {
   }
 
   RapidFTR.Utils.enableFormErrorChecking();
-  RapidFTR.showDropdown();
   //Initialize chosen in the current tab. There is a chance that
   //the element we get is a group, if that is the case we need to
   //lookup inside the group to find what is really the current tab.

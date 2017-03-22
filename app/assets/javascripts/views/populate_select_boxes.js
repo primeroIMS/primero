@@ -46,7 +46,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
 
     if (message) {
       $('.side-tab-content')
-        .prepend('<div data-alert class="alert-box warning">' + message + '</div>');
+        .prepend('<div data-alert class="callout warning">' + message + '</div>');
     }
   },
 
