@@ -8,10 +8,10 @@
       display_actions: model.to_s =="PotentialMatch" ? false : true,
       display_create: display_create}.merge(opts)
 %>
-<div class="index_controls_container" data-top="50" data-bottom="40">
-  <div class="row collapse">
+<div class="index_controls_container" data-top="49" data-bottom="40">
+  <div class="row align-middle controls">
     <div class="large-9 small-9 columns">
-      <div class="row collapse">
+      <div class="row collapse align-middle">
         <div class="large-6 small-6 columns">
           <div class="pagination_info"><%= page_entries_info collection %></div>
         </div>
@@ -26,18 +26,21 @@
         </div>
       </div>
     </div>
-    <div class="large-3 small-3 columns">
+    <div class="large-3 small-3 columns no-padding-left">
       <% if options[:display_filter] %>
-          <div class="filter_title left">
-            <%= t("buttons.filter_label") %><br>
+        <div class="row collapse align-middle filter-controls">
+          <div class="column">
             <a class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_clear') %></a>
           </div>
-          <%= link_to t("buttons.filter"), '', class: 'green-button right', id: 'apply_filter' %>
+          <div class="column shrink">
+            <%= link_to t("buttons.filter"), '', class: 'button small', id: 'apply_filter' %>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>
 </div>
-<div class="row collapse">
+<div class="row">
   <div class="large-9 small-9 columns">
     <div class="clearfix"></div>
     <table style="width: 100%;" class="record_list_view dataTable no-footer collapsed dtr-inline" cellpadding="0" cellspacing="0">
@@ -57,7 +60,7 @@
     </table>
     <div class="table_spacer"></div>
   </div>
-  <div class="large-3 small-3 columns index_filters">
+  <div class="large-3 small-3 columns no-padding-left index_filters">
     <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
   </div>
 </div>

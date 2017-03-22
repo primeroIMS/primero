@@ -3,9 +3,9 @@
   name = field_tag_name formObject, radio_button, field_keys
   field_id = "#{radio_button.form.name.dehumanize}_#{sanitize_to_id name}"
   value ||= field_value formObject, radio_button, field_keys
+  options_list = radio_button.options_list
   field_tags = radio_button.field_tags.present? ? radio_button.field_tags : []
-  show_horizontal = (radio_button.options.select{|o| o.option_name['display_text'].length > 8}.blank?) &&
-                    (radio_button.options.length <= 3)
+  show_horizontal = (options_list.length <= 3) && (options_list.select{|o| o['display_text'].length > 8}.blank?)
 %>
 <div class="row">
   <div class="medium-4 columns">
@@ -13,25 +13,17 @@
   </div>
 
   <div class="medium-8 columns">
-    <% radio_button.options.each do |option| %>
-      <%radio_button_id = "#{radio_button.form.name.dehumanize}_#{sanitize_to_id(name)}_#{option.option_name['id']}"%>
-      <%= radio_button_tag name, option.option_name['id'], (value||[]).include?(option.option_name['id']),  :id => radio_button_id, :disabled => radio_button.disabled, :data => { :field_tags => field_tags } %>
-      <%= label_tag radio_button_id, option.option_name['display_text'] %>
+    <% options_list.each do |option| %>
+      <%radio_button_id = "#{radio_button.form.name.dehumanize}_#{sanitize_to_id(name)}_#{option['id']}"%>
+      <% #TODO handle unknown %>
+      <%= radio_button_tag name, option['id'], value.to_s == option['id'],  :id => radio_button_id, :disabled => radio_button.disabled, :data => { :field_tags => field_tags } %>
+      <%= label_tag radio_button_id, option['display_text'] %>
       <% unless show_horizontal %>
         <br>
       <% end %>
     <% end %>
     <% if radio_button.guiding_questions.present? %>
-      <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_popovers', tabindex: '0',
-            data: {
-              toggle: 'popover',
-              trigger: 'focus',
-              title: t('buttons.guiding_questions'),
-              html: true
-            }) %>
-      <div class='popover_content' style="display:none;">
-        <%=  radio_button.guiding_questions %>
-      </div>
+      <%= render 'form_section/guiding_questions', guiding_questions_text: radio_button.guiding_questions %>
     <% end %>
     <p class="help"><%= radio_button.help_text if radio_button.help_text.present? %></p>
   </div>

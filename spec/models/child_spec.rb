@@ -39,6 +39,7 @@ describe Child do
   describe "update_properties_with_user_name" do
 
     it "should replace old properties with updated ones" do
+      #TODO - i18n
       child = Child.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
       new_properties = {"name" => "Dave", "age" => "35"}
       child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
@@ -53,23 +54,6 @@ describe Child do
       child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       child['last_known_location'].should == "Manchester"
       child['origin'].should == "Croydon"
-    end
-
-    # This spec is almost always failing randomly, need to fix this spec if possible or think of other ways to test this?
-    xit "should not add changes to history if its already added to the history" do
-      FormSection.stub(:all_visible_form_fields =>
-                            [Field.new(:type => Field::TEXT_FIELD, :name => "name", :display_name => "Name"),
-                             Field.new(:type => Field::CHECK_BOXES, :name => "not_name")])
-      child = Child.new("name" => "old", "last_updated_at" => "2012-12-12 00:00:00UTC")
-      child.save!
-      sleep 1
-      changed_properties = {"name" => "new", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
-      child.save!
-      sleep 1
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
-      child.save!
-      child["histories"].size.should == 1
     end
 
     it "should populate last_updated_by field with the user_name who is updating" do
@@ -358,6 +342,7 @@ describe Child do
     end
 
     it "should save blank age" do
+      #TODO - i18n could change depending on how we want name / display to look
       User.stub(:find_by_user_name).and_return(double(:organization => "stc", :location => "my_country::my_state::my_town", :agency => "unicef-un"))
       child = Child.new(:age => "", :another_field => "blah", 'created_by' => "me", 'created_organization' => "stc")
       child.save.present?.should == true
@@ -1180,24 +1165,55 @@ describe Child do
     describe "all ids and revs" do
       before do
         Child.all.each { |child| child.destroy }
+        @owner = create :user
+        @owner2 = create :user
+        @child1 = create_child_with_created_by(@owner.user_name, :name => "child1", :marked_for_mobile => true, :module_id => PrimeroModule::GBV)
+        @child2 = create_child_with_created_by(@owner.user_name, :name => "child2", :marked_for_mobile => false, :module_id => PrimeroModule::CP)
+        @child3 = create_child_with_created_by(@owner2.user_name, :name => "child3", :marked_for_mobile => true, :module_id => PrimeroModule::CP)
+        @child4 = create_child_with_created_by(@owner2.user_name, :name => "child4", :marked_for_mobile => false, :module_id => PrimeroModule::GBV)
+
+        @child1.create!
+        @child2.create!
+        @child3.create!
+        @child4.create!
       end
 
-      it "should return all _ids and revs in the system" do
-        owner = create :user
-        owner2 = create :user
-        child1 = create_child_with_created_by(owner.user_name, :name => "child1")
-        child2 = create_child_with_created_by(owner.user_name, :name => "child2")
-        child3 = create_child_with_created_by(owner2.user_name, :name => "child3")
+      context 'when mobile' do
+        context 'and module id is CP' do
+          it 'returns all CP mobile _ids and revs' do
+            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::CP)
+            expect(ids_and_revs.count).to eq(1)
+            expect(ids_and_revs).to eq([{"_id" => @child3.id, "_rev" => @child3.rev}])
+          end
+        end
 
-        child1.create!
-        child2.create!
-        child3.create!
+        context 'and module id is GBV' do
+          it 'returns all GBV mobile _ids and revs' do
+            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::GBV)
+            expect(ids_and_revs.count).to eq(1)
+            expect(ids_and_revs).to eq([{"_id" => @child1.id, "_rev" => @child1.rev}])
+          end
+        end
 
+        context 'and module id is not provided' do
+          it 'returns all mobile _ids and revs' do
+            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', '')
+            expect(ids_and_revs.count).to eq(2)
+            expect(ids_and_revs).to include({"_id" => @child1.id, "_rev" => @child1.rev},
+                                            {"_id" => @child3.id, "_rev" => @child3.rev})
+          end
+        end
+      end
 
-
-        ids_and_revs = Child.fetch_all_ids_and_revs([owner.user_name, owner2.user_name], false, '2000/01/01')
-        ids_and_revs.count.should == 3
-        ids_and_revs.should =~ [{"_id" => child1.id, "_rev" => child1.rev}, {"_id" => child2.id, "_rev" => child2.rev}, {"_id" => child3.id, "_rev" => child3.rev}]
+      context 'when not mobile' do
+        it 'returns all _ids and revs' do
+          ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], false, '2000/01/01', '')
+          expect(ids_and_revs.count).to eq(4)
+          expect(ids_and_revs).to include({"_id" => @child1.id, "_rev" => @child1.rev},
+                                          {"_id" => @child2.id, "_rev" => @child2.rev},
+                                          {"_id" => @child3.id, "_rev" => @child3.rev},
+                                          {"_id" => @child4.id, "_rev" => @child4.rev})
+        end
       end
     end
   end
@@ -1373,20 +1389,21 @@ describe Child do
       @permission_case ||= Permission.new(:resource => Permission::CASE,
                                           :actions => [Permission::READ, Permission::WRITE])
       @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
-      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["Guinea"]
+      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["GUI"]
       admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
       agency = Agency.create! id: "agency-unicef", agency_code: "UN", name: "UNICEF"
       a_module = PrimeroModule.create name: "Test Module"
+      #TODO - i18n
       user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                           :email => 'em@dd.net', :organization => 'agency-unicef', :role_ids => [admin_role.id, field_worker_role.id],
-                          :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.name})
+                          :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.location_code})
       user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                            :email => 'em@dd.net', :organization => 'agency-unicef', :role_ids => [admin_role.id, field_worker_role.id],
                            :module_ids => [a_module.id], :disabled => 'false', :location => ''})
       user3 = User.create!(:user_name => "tom789", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                            :email => 'em@dd.net', :organization => 'NA', :role_ids => [admin_role.id, field_worker_role.id],
-                           :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.name)
+                           :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.location_code)
     end
 
     context 'system case code format empty' do
@@ -1488,7 +1505,7 @@ describe Child do
                    "type" => "select_box",
                    "multi_select" => true,
                    "display_name_all" => "Protection Concerns",
-                   "option_strings_source" => "lookup ProtectionConcerns"
+                   "option_strings_source" => "lookup lookup-protection-concerns"
                   })
       ]
       protection_concern_form = FormSection.create({
@@ -1510,7 +1527,7 @@ describe Child do
         Field.new({"name" => "protection_concern_type",
                    "type" => "select_box",
                    "display_name_all" => "Type of Protection Concern",
-                   "option_strings_source" => "lookup ProtectionConcerns"
+                   "option_strings_source" => "lookup lookup-protection-concerns"
                   })
       ]
 
@@ -1780,6 +1797,7 @@ describe Child do
   private
 
   def create_child(name, options={})
+    #TODO - i18n
     options.merge!("name" => name, "last_known_location" => "new york", 'created_by' => "me", 'created_organization' => "stc")
     Child.create(options)
   end

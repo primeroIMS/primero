@@ -62,6 +62,8 @@ en:
     scroll_up: "Scroll up to view more"
     scroll_down: "Scroll down to view more"
     forms_export: "This export provides a spreadsheet of the available Forms and form fields. This spreadsheet is used for creating the mapping of the Form configuration to be used in the implementation. Note that this spreadsheet cannot be used to import data into Primero."
+    string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
+    system_settings_failed: "System Settings failed to load."
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -904,6 +906,8 @@ en:
       dashboard: "Dashboard"
       view_approvals: "View Approvals"
       view_assessment: "View Assessment"
+      dash_reporting_location: "View Reporting Locations"
+      dash_protection_concerns: "View Protection Concerns"
 
   forms:
     label: "Forms"
@@ -1120,6 +1124,7 @@ en:
       updated: "Lookup successfully added"
 
   location:
+    location_code_warning: Note that if you change an existing location code, you will need to edit re-enter the location fields for any records using this location.
     create: "New Location"
     edit: "Edit Location"
     label: "Location"
@@ -1281,6 +1286,9 @@ en:
     quarter_3: "Quarter 3"
     quarter_2: "Quarter 2"
     quarter_1: "Quarter 1"
+    gbv_reporting_agency: "Yes-GBVIMS Org / Agency"
+    non_gbv_reporting_agency: "Yes-Non GBVIMS Org / Agency"
+    undecided: "Undecided at time of report"
 
   followup_reminders:
     system_generated_followup_flag: "mandatory follow up visit"
@@ -1570,10 +1578,18 @@ en:
         code_present: "must not be blank"
         admin_level_present: "must not be blank"
         unique_name: "A Location with that name already exists, please enter a different name"
+        unique_location_code: "A Location with that location code already exists, please enter a different location code"
 
       reporting_location:
         label_key: "Label Key must be one of Location Base Type values"
         admin_level: "Admin Level must be one of Location Admin Level values"
+
+      report:
+        name_presence: "Name must not be blank"
+        module_presence: "Module must not be blank"
+        record_type_presence: "Record type must not be blank"
+        group_by_row_presence: "Group by row must not be blank"
+        use_date_ranges_presence: "Use date ranges must not be blank"
 
 
 

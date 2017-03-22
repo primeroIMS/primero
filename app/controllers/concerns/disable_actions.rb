@@ -4,7 +4,7 @@ module DisableActions extend ActiveSupport::Concern
     filter_option = params[:filter] || "enabled"
 
     @records = sort_option.present? ? model_class.send("by_#{sort_option}_#{filter_option}").all :
-                                      model_class.send("by_#{filter_option}").all
+                                      model_class.send("list_by_#{filter_option}")
 
     instance_variable_set("@#{model_class.name.pluralize.underscore}", @records)
   end

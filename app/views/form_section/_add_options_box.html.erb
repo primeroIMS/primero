@@ -9,7 +9,7 @@
   <div class="large-9 medium-9 columns fields_option_strings_text_rows">
     <% options.each_with_index do |option, index| %>
       <div class="row fields_option_strings_text_row">
-        <div class="<%= editing ? 'large-5 medium-5 medium-offset-1 large-offset-1' : 'large-6 medium-6' %> columns">
+        <div class="column">
           <input type="hidden" name="<%= "field[option_strings_text_#{given_locale}][][id]" %>" value="<%= option['id'] %>" />
           <%= text_field_tag "field[option_strings_text_#{given_locale}][][display_text]", option['display_text'], class: "option_strings_text_input" %>
         </div>
@@ -19,13 +19,13 @@
               <% locale_options = @field.send("option_strings_text_#{new_locale}") || [] %>
               <% locale_option_text = locale_options[index].present? && locale_options[index]['display_text'].present? ? locale_options[index]['display_text'] : ''%>
               <input type="hidden" name="<%= "field[option_strings_text_#{new_locale}][][id]" %>" value="<%= option['id'] %>" />
-              <div class="large-5 medium-5 columns <%= "translation_forms #{new_locale}"%> hide">
+              <div class="column hide_element">
                 <%= text_field_tag "field[option_strings_text_#{new_locale}][][display_text]", locale_option_text, class: "option_strings_text_input" %>
               </div>
             <% end %>
           <% end %>
         <% end %>
-        <div class="large-1 medium-1 column">
+        <div class="column">
           <% if given_locale.to_s == 'en' %>
             <a class="field_option_remove_button">
               <%= icon('close') %>
@@ -35,9 +35,9 @@
       </div>
     <% end %>
     <% if given_locale.to_s == 'en' %>
-      <div class="row">
-        <div class="medium-5 columns medium-offset-8">
-          <a id="field_option_add_button" class="green-button add_option <%= editing ? 'edit_option' : '' %>" data-lang="<%= Primero::Application::LOCALES %>">
+      <div class="row options_row_controls">
+        <div class="column">
+          <a id="field_option_add_button" class="button add_option <%= editing ? 'edit_option' : '' %>" data-lang="<%= Primero::Application::LOCALES %>">
             <%= t('fields.option_strings_add_option') %>
           </a>
         </div>

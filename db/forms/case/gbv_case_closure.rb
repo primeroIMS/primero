@@ -13,7 +13,7 @@ case_closure_fields = [
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
-             "option_strings_source" => "lookup CaseStatus"
+             "option_strings_source" => "lookup lookup-case-status"
             }),
   Field.new({"name" => "closure_assessment",
              "type" => "text_field",
@@ -26,7 +26,7 @@ case_closure_fields = [
   Field.new({"name" => "closure_needs_met",
              "type" => "radio_button",
              "display_name_all" => "Survivor’s needs have been met to the extent possible or there has been no client contact for a specified period (e.g., more than 30 days)",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_needs_met_explain",
              "type" => "text_field",
@@ -35,7 +35,7 @@ case_closure_fields = [
   Field.new({"name" => "closure_safety_plan",
              "type" => "radio_button",
              "display_name_all" => "Survivor’s safety plan has been reviewed and is in place",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_safety_plan_explain",
              "type" => "text_field",
@@ -44,7 +44,7 @@ case_closure_fields = [
   Field.new({"name" => "closure_case_plan_complete",
              "type" => "radio_button",
              "display_name_all" => "The case plan is complete and satisfactory, and follow-up is finished",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_case_plan_complete_explain",
              "type" => "text_field",
@@ -53,7 +53,7 @@ case_closure_fields = [
   Field.new({"name" => "closure_no_further_support",
              "type" => "radio_button",
              "display_name_all" => "The survivor client and caseworker agree that no further support is needed",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_no_further_support_explain",
              "type" => "text_field",
@@ -62,7 +62,7 @@ case_closure_fields = [
   Field.new({"name" => "closure_resume_notification",
              "type" => "radio_button",
              "display_name_all" => "Survivor has been informed that she can resume services at any time",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_resume_notification_explain",
              "type" => "text_field",
@@ -71,7 +71,7 @@ case_closure_fields = [
   Field.new({"name" => "closure_supervisor_review",
              "type" => "radio_button",
              "display_name_all" => "Case supervisor has reviewed case closure/exit plan",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_supervisor_review_explain",
              "type" => "text_field",

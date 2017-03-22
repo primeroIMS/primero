@@ -1,5 +1,5 @@
 var StringSources = Backbone.Collection.extend({
-  url: '/string_sources',
+  url: '/api/options',
   
   parse: function(resp) {
     this.status = resp.success;
@@ -46,7 +46,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
 
     if (message) {
       $('.side-tab-content')
-        .prepend('<div data-alert class="alert-box warning">' + message + '</div>');
+        .prepend('<div data-alert class="callout warning">' + message + '</div>');
     }
   },
 
@@ -60,7 +60,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
         var $select_boxes = $(select_boxes);
 
         var options = _.map(model.options, function(option) {
-          return '<option value="' + option + '">' + option + '</option>'
+          return '<option value="' + option.id + '">' + option.display_text + '</option>'
         });
 
         // Ensure select box is empty

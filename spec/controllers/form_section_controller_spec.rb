@@ -59,7 +59,7 @@ describe FormSectionController do
     @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: "case", mobile_form: true, fields: [
       Field.new(name: "nested_e", type: "subform", subform_section_id: "E", display_name_all: "nested_e")
     ])
-    @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: "case", is_nested: true, visible: false, fields: [
+    @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: "case", mobile_form: true, is_nested: true, visible: false, fields: [
       Field.new(name: "field1", type: "text_field", display_name_all: "field1")
     ])
     @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B", "D"], associated_record_types: ['case'])
@@ -77,6 +77,7 @@ describe FormSectionController do
       assigns[:form_sections].should == grouped_forms
     end
 
+    #TODO - add incident rspecs
     describe "mobile API" do
       it "only shows mobile forms" do
         get :index, mobile: true, :format => :json
@@ -124,16 +125,22 @@ describe FormSectionController do
             )
           ])
 
-          @country = create :location, placename: "Country1", admin_level: 0
-          @province1 = create :location, placename: "Province1", hierarchy: [@country.placename]
-          @province2 = create :location, placename: "Province2", hierarchy: [@country.placename]
-          @town1 = create :location, placename: "Town1", hierarchy: [@country.placename, @province1.placename]
+          @country = create :location, placename: "Country1", location_code: 'CTRY01', admin_level: 0
+          @province1 = create :location, placename: "Province1", hierarchy: [@country.location_code], location_code: 'PRV01'
+          @province2 = create :location, placename: "Province2", hierarchy: [@country.location_code], location_code: 'PRV02'
+          @town1 = create :location, placename: "Town1", hierarchy: [@country.location_code, @province1.location_code], location_code:'TWN01'
 
-          FormSection.stub(:get_permitted_form_sections).and_return([@form_section_l])
+          @primero_module2 = PrimeroModule.create!(program_id: "some_program", name: "Test 2 Module", associated_form_ids: ["F"], associated_record_types: ['test'])
+          user = User.new(:user_name => 'manager2_of_forms', module_ids: [@primero_module2.id])
+          user.stub(:roles).and_return([Role.new(permissions_list: [@permission_metadata])])
+          fake_login user
         end
 
         it 'should return location fields with locations if mobile' do
-          expected = ["Country1", "Country1::Province1", "Country1::Province2", "Country1::Province1::Town1"];
+          expected = [{"id"=>"CTRY01", "display_text"=>"Country1"},
+                      {"id"=>"PRV01", "display_text"=>"Country1::Province1"},
+                      {"id"=>"PRV02", "display_text"=>"Country1::Province2"},
+                      {"id"=>"TWN01", "display_text"=>"Country1::Province1::Town1"}];
           get :index, mobile: true, format: :json
           returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
           expect(returned).to eq(expected)

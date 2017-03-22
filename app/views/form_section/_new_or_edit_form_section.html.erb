@@ -1,6 +1,8 @@
 <% content_for :record_sub_nav do %>
-    <li><%= discard_button(form_sections_path) %></li>
-    <li><%= submit_button t("forms.save_details") %></li>
+  <div class="button-group">
+    <%= discard_button(form_sections_path) %>
+    <%= submit_button t("forms.save_details") %>
+  </div>
 <% end %>
 
 <div class="row">
@@ -45,7 +47,7 @@
                 </div>
                 <div class="medium-9 columns">
                   <%= f.text_field "name_#{I18n.default_locale}", :id => "form_section_name", required: '' %>
-                  <small class="error"><%= t('form_section.required_field', field: t("name", :locale => I18n.default_locale)) %></small>
+                  <small class="form-error"><%= t('form_section.required_field', field: t("name", :locale => I18n.default_locale)) %></small>
                 </div>
               </div>
               <div class="row">
@@ -65,7 +67,7 @@
                       <%= f.select "form_group_name", options_for_select(@list_form_group_names, @form_section.form_group_name || ''), {},
                                    required: "", 'data-placeholder' => t("fields.select_box_empty_item"),
                                    class: "chosen-select-or-new", id: "form_section_form_group_name" %>
-                      <small class="error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => I18n.default_locale)) %></small>
+                      <small class="form-error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => I18n.default_locale)) %></small>
                     </div>
                   </div>
               <% end %>
@@ -75,10 +77,8 @@
         </div>
         </div>
         <div class="row">
-          <div class="translation_lang_panel">
-            <div class="medium-12 columns">
-              <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}, {:help_text => :text_field}], :fld => f, :show_drop_down => true} %>
-            </div>
+          <div class="translation_lang_panel medium-12 columns">
+            <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}, {:help_text => :text_field}], :fld => f, :show_drop_down => true} %>
             <div class="clearfix"></div>
           </div>
     <% end %>

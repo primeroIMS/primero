@@ -43,8 +43,12 @@ describe TracingRequestsController do
 
   describe '#authorizations' do
     describe 'collection' do
-      it "GET index" do
+      before do
         Ability.any_instance.stub(:can?).with(anything, TracingRequest).and_return(false)
+        Ability.any_instance.stub(:can?).with(anything, Dashboard).and_return(false)
+      end
+
+      it "GET index" do
         controller.stub :get_form_sections
         get :index
         expect(response).to be_forbidden

@@ -50,7 +50,7 @@ reunification_subform = [
     Field.new({"name" => "child_reunited_with_verified_adult",
                "type" => "radio_button",
                "display_name_all" => "Was the child reunified with the verfified adult?",
-               "option_strings_text_all" => "Yes\nNo",
+               "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "not_reunited_with_verified_adult_reason",
                "type" => "select_box",
@@ -67,12 +67,12 @@ reunification_subform = [
     Field.new({"name" => "reunification_follow_up_needed",
                "type" => "radio_button",
                "display_name_all" => "Is there a need for follow up?",
-               "option_strings_text_all" => "Yes\nNo",
+               "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "closure_recommendation",
                "type" => "radio_button",
                "display_name_all" => "If not, do you recommend that the case be closed?",
-               "option_strings_text_all" => "Yes\nNo",
+               "option_strings_source" => "lookup lookup-yes-no"
               })
 ]
 

@@ -8,7 +8,7 @@
       <input name="<%= message_id %>" type="hidden" value="<%= flag_message %>">
       <input id="<%=  model  %>_redirect_url" name="redirect_url" type="hidden" value="<%=  redirect_url  %>">
     </div>
-    <div class="row collapse">
+    <div class="row collapse align-bottom">
       <div class="medium-2 columns">
         <label class="inline" for="<%= model %>_un<%= message_id %>"><%= unflag_message %></label>
       </div>
@@ -16,7 +16,7 @@
         <input id="<%= model %>_un<%= message_id %>" name="un<%= message_id %>" size="30" type="text" value="" class="flag_message">
       </div>
       <div class="medium-2 columns">
-        <input class="mark-as-submit green-button flag_submit" data-error-message="<%= submit_error_message %>" id="<%= model %>_submit" name="commit" type="submit" value="<%= unflag_submit_label %>">
+        <input class="mark-as-submit button flag_submit" data-error-message="<%= submit_error_message %>" id="<%= model %>_submit" name="commit" type="submit" value="<%= unflag_submit_label %>">
       </div>
     </div>
   </form>

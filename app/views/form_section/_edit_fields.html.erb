@@ -3,7 +3,7 @@
   <% if @form_section.editable? %>
     <div class="large-12 medium-12 columns">
       <h4 class="left"><%= t("fields.label") %></h4>
-      <a href="#" data-reveal-id="add_field_modal" class="btn green-button right add_field_button">
+      <a data-open="add_field_modal" class="button right add_field_button">
         <%=t("fields.add")%>
       </a>
     </div>
@@ -86,7 +86,7 @@
               <% end %>
             </ul>
             <% if @forms_for_move.present? %>
-              <div class="move_to_panel hide">
+              <div class="move_to_panel hide_element">
                 <%= form_tag change_form_form_section_fields_path(@form_section), :html => {:method => :post, :autocomplete => "off"} do -%>
                   <input type='hidden' name='id' value='<%= field.name %>' style="display:none;"/>
                   <input type='hidden' class="destination_form_id" name='destination_form_id' style="display:none;"/>
@@ -101,12 +101,12 @@
   </tbody>
 </table>
 
-<div id="add_field_modal" class="reveal-modal" data-reveal>
-  <a class="close-reveal-modal">&#215;</a>
+<div id="add_field_modal" class="reveal large" data-reveal>
+  <%= render 'shared/modal_close' %>
   <div class="sidebar_help">
     <%= @field.present? && @field.type.present? ? t("form_section.modal_sidebar_help_selected") : t("form_section.modal_sidebar_help") %>
   </div>
-  <div class="row collapse">
+  <div class="row collapse has_form">
     <div class="medium-3 columns">
       <div class="modal-side-tab">
         <div class="scrolling_indicator up"><%= t('messages.scroll_up') %></div>
@@ -117,7 +117,6 @@
           <% else %>
             <li class="current"><%= link_to t("fields.text_field"),'', :id => "text_field", :class => "field_links sel" %> </li>
             <li><%= link_to t("fields.text_area"),'', :id => "textarea", :class => "field_links" %></li>
-            <li><%= link_to t("fields.check_box"),'', :id => "check_boxes", :class => "field_links" %></li>
             <li><%= link_to t("fields.tick_box"),'', :id => "tick_box", :class => "field_links" %></li>
             <li><%= link_to t("fields.select_box"),'', :id => "select_box", :class => "field_links" %></li>
             <li><%= link_to t("fields.radio_button"),'', :id => "radio_button", :class => "field_links" %></li>

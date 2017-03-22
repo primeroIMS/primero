@@ -11,8 +11,24 @@
   }
 }
 
+.hide_element {
+  display:none;
+}
+
+ul {
+  list-style: none;
+}
+
 .page_content {
   margin:0 auto;
+}
+
+.no-padding-left {
+  @if $global-text-direction == rtl {
+    padding-right: 0;
+  } @else {
+    padding-left: 0;
+  }
 }
 
 .page-content {
@@ -61,7 +77,7 @@ fieldset {
 
   &.no-border {
     border: none !important;
-    padding: 0 !important;
+    padding: 0;
     background: none !important;
   }
 }
@@ -77,9 +93,16 @@ table {
 table.list_view, table.list_table, table.list_table_2, table.record_list_view {
   border:none !important;
   margin-bottom: 20px;
+  
   a.id_link{
-    float: left;
+    @if $global-text-direction == rtl {
+      float: right;
+    }  @else {
+      float: left;
+    }
+
     text-decoration: none;
+
     &:hover{
       font-weight:bold;
     }
@@ -224,30 +247,42 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
   border-left: 1px solid $stroke_green_color;
 }
 
-.reveal-modal .side-tab-content-container {
+.reveal .side-tab-content-container {
   width: 688px;
 }
 
-.reveal-modal {
-  top: 16% !important;
+.reveal {
   background: $desat_green_color;
 
   .close-reveal-modal {
     color: $stroke_green_color;
   }
+
+  .has_form {
+    margin-top: 1em;
+  }
+}
+
+.reveal {
+  background: $desat_green_color;
+
+  fieldset {
+    padding: rem_calc(10);
+    margin-bottom: 1em;
+  }
+  
+  form {
+    margin-top: 2em;
+  }
+
+  .close-button {
+    color: $stroke_green_color;
+    outline: none;
+  }
 }
 
 .modal-content {
   margin-bottom: 10px;
-}
-
-.modal-scroll {
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  top: 0;
-  z-index: 9999;
-  overflow: scroll;
 }
 
 .loading-screen {
@@ -355,12 +390,22 @@ div.db_name {
   border-bottom: 1px solid $stroke_green_color;
 }
 
-table.in_content_area tbody tr td:first-child, table.in_content_area thead th:first-child {
-  border-left: none !important;
-}
+@if $global-text-direction == rtl {
+  table.in_content_area tbody tr td:first-child, table.in_content_area thead th:first-child {
+    border-right: none !important;
+  }
 
-table.in_content_area tbody tr td:last-child, table.in_content_area thead th:last-child {
-  border-right: none !important;
+  table.in_content_area tbody tr td:last-child, table.in_content_area thead th:last-child {
+    border-left: none !important;
+  }
+} @else {
+  table.in_content_area tbody tr td:first-child, table.in_content_area thead th:first-child {
+    border-left: none !important;
+  }
+
+  table.in_content_area tbody tr td:last-child, table.in_content_area thead th:last-child {
+    border-right: none !important;
+  }
 }
 
 tr td span {
@@ -381,7 +426,7 @@ tr td span {
   padding-top: 20px;
 }
 
-.reveal-modal .mCSB_inside > .mCSB_container {
+.reveal .mCSB_inside > .mCSB_container {
   margin-right: 0;
 }
 

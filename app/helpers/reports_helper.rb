@@ -99,17 +99,4 @@ module ReportsHelper
     return grouped_fields_options
   end
 
-  #TODO: This logically belongs with fields
-  def lookups_list_from_field(field)
-    field_options = []
-    if field.present?
-      field_options = field.select_options
-      #check if the select has an empty option
-      if field_options.size > 0 && field_options[0].size > 0 && field_options[0][0] == I18n.t("fields.select_box_empty_item")
-        field_options.shift
-      end
-    end
-    return field_options
-  end
-
 end

@@ -82,10 +82,7 @@ psychosocial_counseling_services_subform_fields = [
   Field.new({"name" => "pursue_legal_action",
              "type" => "radio_button",
              "display_name_all" => "Does the client want to pursue legal action?",
-             "option_strings_text_all" =>
-                                    ["Yes",
-                                     "No",
-                                     "Undecided at time of report"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no-unknown"
             })
 ]
 

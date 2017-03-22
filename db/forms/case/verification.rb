@@ -47,17 +47,17 @@ verification_subform_fields = [
     Field.new({"name" => "verification_inquirer_wants_to_care_for_child",
                "type" => "radio_button",
                "display_name_all" => "Do you want the child to come and live with you?",
-               "option_strings_text_all" => ["Yes", "No"].join("\n")
+               "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "verification_inquirer_able_to_care_for_child",
                "type" => "radio_button",
                "display_name_all" => "Are you able to care for him/her/them?",
-               "option_strings_text_all" => ["Yes", "No"].join("\n")
+               "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "verification_alternate_caregiver_exists",
                "type" => "radio_button",
                "display_name_all" => "If not, is there any other family member who could take the child?",
-               "option_strings_text_all" => ["Yes", "No"].join("\n")
+               "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "verification_alternate_caregiver_name",
                "type" => "text_field",
@@ -100,17 +100,17 @@ verification_subform_fields = [
     Field.new({"name" => "verification_inquirer_known_to_child",
                "type" => "radio_button",
                "display_name_all" => "Does the child know the adult requesting verification?",
-               "option_strings_text_all" => ["Yes", "No"].join("\n")
+               "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "verification_inquirer_child_wishes_reunification_with",
                "type" => "radio_button",
                "display_name_all" => "Does the child wish to be reunified with that person?",
-               "option_strings_text_all" => ["Yes", "No"].join("\n")
+               "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "verification_inquirer_information_match",
                "type" => "radio_button",
                "display_name_all" => "Does the information given by the child and adult match?",
-               "option_strings_text_all" => ["Yes", "No"].join("\n")
+               "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "verification_inquierer_recommendation",
                "type" => "select_box",

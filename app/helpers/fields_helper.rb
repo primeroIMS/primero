@@ -1,12 +1,5 @@
 module FieldsHelper
 
-  def option_fields_for form, suggested_field
-    return [] unless suggested_field.field.option_strings.present?
-    suggested_field.field.option_strings.collect do |option_string|
-      form.hidden_field("option_strings_text", { :multiple => true, :id => "option_string_" + option_string, :value => option_string+"\n" })
-    end
-  end
-
   def field_tag_name(object, field, field_keys=[])
     if field_keys.present?
       "#{object.class.name.underscore.downcase}[#{field_keys.join('][')}]"
@@ -31,6 +24,9 @@ module FieldsHelper
        # The 'template' key is later replaced with the proper index value via JavaScript
        # But for now, there is no value so just return empty string
        ''
+    elsif field.is_yes_no?
+      parent_obj = object.value_for_attr_keys(field_keys[0..-2])
+      value = field.convert_true_false_key_to_string(parent_obj.try(field.name))
     else
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
@@ -47,24 +43,32 @@ module FieldsHelper
   end
 
   def field_value_for_display(field_value, field=nil)
-    return "" unless field_value.present?
-
-    if field.present? && field.selectable?
-      #TODO: Add handling for locations and lookups!
-      display = field.option_strings.select{|opt| opt['id'] == field_value}
-      #TODO: Is it better to display the untranslated key or to display nothing?
-      field_value = (display.present? ? display.first['display_text'] : '')
+    if (field.present? && field.selectable?)
+      if field_value.is_a?(Array)
+        field_value.map!{|v| field.display_text(v)}
+      else
+        field_value = field.display_text(field_value)
+      end
     end
+
+    return '' if field_value.blank?
 
     if field_value.is_a?(Array)
       field_value = field_value.join ", "
-    end
-
-    if field_value.is_a?(Date)
+    elsif field_value.is_a?(Date)
       field_value = field_format_date(field_value)
     end
 
     return  field_value.to_s
+  end
+
+  def select_options(field, record=nil, lookups=nil, exclude_empty_item=false)
+    select_options = []
+    if field.present?
+      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.type == Field::TICK_BOX || field.multi_select || exclude_empty_item)
+      select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
+    end
+    select_options
   end
 
   def field_link_for_display(field_value, field)

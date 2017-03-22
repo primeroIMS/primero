@@ -16,6 +16,7 @@ reopened_subform = [
 reopened_logs = FormSection.create_or_update_form_section({
      "visible"=>false,
      "is_nested"=>true,
+     :mobile_form => true,
      :order_form_group => 150,
      :order => 10,
      :order_subform => 1,
@@ -48,30 +49,12 @@ record_owner_fields = [
              "editable" => false,
              "disabled" => true
           }),
-  #TODO reconcile difference between Agency and Other Agency
-  #TODO: Move data to hardcoded record status panel
-  Field.new({"name" => "agency_name",
-             "type" =>"select_box" ,
+  Field.new({"name" => "owned_by_agency",
+             "type" => "select_box",
              "display_name_all" => "Agency",
-             "visible" => false,
-             "option_strings_text_all" =>
-                          ["German Technical Cooperation",
-                           "GTZ",
-                           "ICRC",
-                           "International Rescue Committee",
-                           "IRC",
-                           "IRC K",
-                           "IRC KV",
-                           "IRC Legal",
-                           "IRC NH",
-                           "IRC NZ",
-                           "IRC NZV",
-                           "Save the Children",
-                           "SCUK",
-                           "SCUK-LF",
-                           "SCUK-MOT",
-                           "UNICEF",
-                           "United Nations Childrens Fund"].join("\n")
+             "editable" => false,
+             "disabled" => true,
+             "option_strings_source" => "Agency"
             }),
   #TODO: Move data to hardcoded record status panel
   Field.new({"name" => "telephone_agency",

@@ -222,16 +222,16 @@ module Exporters
           "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
           "TYPE OF ABDUCTION" => "abduction_status_time_of_incident",
           "PREVIOUSLY REPORTED THIS INCIDENT?" => ->(model) do
-            if model.gbv_reported_elsewhere == 'Yes'
-              reporting_agency = model.gbv_reported_elsewhere_subform.reduce(false) {|acc, v| acc || (v.gbv_reported_elsewhere_reporting == 'Yes') }
+            if model.gbv_reported_elsewhere == true
+              reporting_agency = model.gbv_reported_elsewhere_subform.reduce(false) {|acc, v| acc || (v.gbv_reported_elsewhere_reporting == true) }
 
               if reporting_agency
-                'Yes-GBVIMS Org / Agency'
+                I18n.t("gbv_report.gbv_reporting_agency")
               else
-                'Yes-Non GBVIMS Org / Agency'
+                I18n.t("gbv_report.non_gbv_reporting_agency")
               end
             else
-              'No'
+              I18n.t("gbv_report.no")
             end
           end,
           "PREVIOUS GBV INCIDENTS?" => "gbv_previous_incidents",
@@ -249,13 +249,11 @@ module Exporters
             incident_recorder_sex(primary_alleged_perpetrator(model).first.try(:perpetrator_sex))
           end,
           "PREVIOUS INCIDENT WITH THIS PERPETRATOR" => ->(model) do
-            former_perpetrators = primary_alleged_perpetrator(model)
-            .map{|ap| ap.try(:former_perpetrator)}
-            .select{|is_ap| is_ap != nil}
+            former_perpetrators = primary_alleged_perpetrator(model).map{|ap| ap.try(:former_perpetrator)}.select{|is_ap| is_ap != nil}
             if former_perpetrators.include? 'Yes'
-              'Yes'
+              I18n.t("gbv_report.yes")
             elsif former_perpetrators.all? { |is_fp| is_fp == 'No' }
-              'No'
+              I18n.t("gbv_report.no")
             end
           end,
           "ALLEGED PERPETRATOR AGE GROUP" => ->(model) do
@@ -288,14 +286,13 @@ module Exporters
           "WANTS LEGAL ACTION?" => ->(model) do
             psychosocial_counseling = model.try(:psychosocial_counseling_services_subform_section)
             if psychosocial_counseling.present?
-              legal_actions = psychosocial_counseling.
-                map{|psycs| psycs.try(:pursue_legal_action)}
-              if legal_actions.include? 'Yes'
-                'Yes'
-              elsif legal_actions.include? 'No'
-                'No'
-              elsif legal_actions.include? 'Undecided at time of report'
-                'Undecided at time of report'
+              legal_actions = psychosocial_counseling.map{|psycs| psycs.try(:pursue_legal_action)}
+              if legal_actions.include? true
+                I18n.t("gbv_report.yes")
+              elsif legal_actions.include? false
+                I18n.t("gbv_report.no")
+              else
+                I18n.t("gbv_report.undecided")
               end
             end
           end,

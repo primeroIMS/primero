@@ -4,18 +4,18 @@
 
 <% content_for :record_sub_nav_controls do %>
   <% if can?(:create, UserGroup) %>
-    <%= link_to content_tag(:span, t("user_group.create"), :class => 'create_user'), new_user_group_path, :class => 'btn green-button' %>
+    <%= link_to content_tag(:span, t("user_group.create"), :class => 'create_user'), new_user_group_path, :class => 'button' %>
   <% end %>
   <%#= render 'exports/button' %>
   <%# TODO: Hiding imports so that QA doesn't get into trouble %>
   <%#= render 'imports/button' %>
 <% end %>
 
-<div class="page-content-new row collapse" data-equalizer>
-  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
+<div class="page-content-new row" data-equalizer>
+  <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'user_groups'} %>
   </div>
-  <div class="large-8 medium-8 columns side-tab-content-container">
+  <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <%= render partial: 'shared_configuration_resource/table',
                  locals: {objects: @user_groups,

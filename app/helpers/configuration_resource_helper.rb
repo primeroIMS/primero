@@ -1,5 +1,5 @@
 module ConfigurationResourceHelper
-  def resource_edit_field(object, field, label_key, type, required=false, disabled=false, help_text=nil)
+  def resource_edit_field(object, field, label_key, type, required=false, disabled=false, help_text=nil, error_text=nil)
     field_id = "#{object.class.name.underscore}_#{field}"
     name = "#{object.class.name.underscore}[#{field}]"
     value = object.send(field)
@@ -18,12 +18,15 @@ module ConfigurationResourceHelper
           show_logo_upload(object, field_id, type, tag_helper)
         elsif type == 'check_box'
           concat(label_tag(nil, class: 'left'){
-              concat(hidden_field_tag(name, ''))
+              concat(hidden_field_tag(name, false))
               concat(check_box_tag(name, '1', value.present? ? true : false))
           })
         else
           concat(self.send(tag_helper, name, h(value), id: field_id, autocomplete: 'off',
-            class: ((type == 'date') ? 'form_date_field' : ''), disabled: disabled))
+            class: ((type == 'date') ? 'form_date_field' : ''), disabled: disabled, required: required))
+          if required && !error_text.nil?
+            concat(content_tag(:small, t(error_text), class: 'error'))
+          end
         end
         if help_text.present?
           concat(content_tag(:p, help_text, class: 'help'))

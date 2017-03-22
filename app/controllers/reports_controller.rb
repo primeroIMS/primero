@@ -7,7 +7,8 @@ class ReportsController < ApplicationController
   include DeleteAction
 
   #include RecordActions
-  before_filter :load_report, except: [:new]
+  before_filter :load_report, except: [:new, :show]
+  before_filter :load_report_with_translations, only: [:show]
 
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
@@ -63,9 +64,13 @@ class ReportsController < ApplicationController
   def create
     authorize! :create, Report
     @report = Report.new(params[:report])
-    return redirect_to report_path(@report) if @report.save
-    set_reportable_fields
-    render :new
+    if (@report.valid?)
+      redirect_to report_path(@report) if @report.save
+    else
+      load_age_range
+      set_reportable_fields
+      render :new
+    end
   end
 
   def edit
@@ -80,6 +85,7 @@ class ReportsController < ApplicationController
       flash[:notice] = t("report.successfully_updated")
       redirect_to(report_path(@report))
     else
+      load_age_range
       set_reportable_fields
       flash[:error] = t("report.error_in_updating")
       render :action => "edit"
@@ -109,7 +115,7 @@ class ReportsController < ApplicationController
     field_options = []
     field_name = params[:field_name]
     field = Field.find_by_name(field_name)
-    field_options = lookups_list_from_field(field)
+    field_options = select_options(field, nil, nil, true)
     render json: field_options
   end
 
@@ -184,6 +190,10 @@ class ReportsController < ApplicationController
 
   def load_report
     @report = Report.get(params[:id])
+  end
+
+  def load_report_with_translations
+    @report = Report.get_report(params[:id])
   end
 
   def action_class

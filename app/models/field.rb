@@ -42,7 +42,6 @@ class Field
   TEXT_AREA = "textarea"
   RADIO_BUTTON = "radio_button"
   SELECT_BOX = "select_box"
-  CHECK_BOXES = "check_boxes"
   NUMERIC_FIELD = "numeric_field"
   PHOTO_UPLOAD_BOX = "photo_upload_box"
   AUDIO_UPLOAD_BOX = "audio_upload_box"
@@ -59,7 +58,6 @@ class Field
                         TEXT_AREA        => "basic",
                         RADIO_BUTTON     => "multiple_choice",
                         SELECT_BOX       => "multiple_choice",
-                        CHECK_BOXES      => "multiple_choice",
                         PHOTO_UPLOAD_BOX => "basic",
                         AUDIO_UPLOAD_BOX => "basic",
                         DOCUMENT_UPLOAD_BOX => "basic",
@@ -77,7 +75,6 @@ class Field
                         TEXT_AREA        => "basic",
                         RADIO_BUTTON     => "basic",
                         SELECT_BOX       => "basic",
-                        CHECK_BOXES      => "basic",
                         PHOTO_UPLOAD_BOX => "photo",
                         AUDIO_UPLOAD_BOX => "audio",
                         DOCUMENT_UPLOAD_BOX => "document",
@@ -96,7 +93,6 @@ class Field
                         TEXT_AREA        => "",
                         RADIO_BUTTON     => "",
                         SELECT_BOX       => "",
-                        CHECK_BOXES      => [],
                         PHOTO_UPLOAD_BOX => nil,
                         AUDIO_UPLOAD_BOX => nil,
                         DOCUMENT_UPLOAD_BOX => nil,
@@ -112,7 +108,6 @@ class Field
   validate :validate_unique_name
   validate :validate_unique_display_name
   validate :validate_has_2_options
-  validate :validate_has_a_option
   validate :validate_display_name_format
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
@@ -279,30 +274,16 @@ class Field
 
   def attributes= properties
     super properties
-    if (option_strings)
-      @options = FieldOption.create_field_options(name, option_strings)
-    end
+    @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
-  def option_strings= value
-    if value
-      value = value.gsub(/\r\n?/, "\n").split("\n") if value.is_a?(String)
-      self.option_strings_text = value.select {|x| not "#{x}".strip.empty? }.map(&:rstrip).join("\n")
-    end
-  end
-
-  def option_strings
-    return [] unless self.option_strings_text
-    return self.option_strings_text if self.option_strings_text.is_a?(Array)
-    self.option_strings_text.gsub(/\r\n?/, "\n").split("\n")
-  end
-
-  #TODO: Eventually, this method should be the ultimate list of options for this field.
-  #      Any HTML form-specific formatting should take place ina helper.
   def options_list(record=nil, lookups=nil, locations=nil)
     options_list = []
 
-    if self.option_strings_source.present?
+    if self.type == Field::TICK_BOX
+      options_list << {id: 'true', display_text: I18n.t('true')}
+      options_list << {id: 'false', display_text: I18n.t('false')}
+    elsif self.option_strings_source.present?
       source_options = self.option_strings_source.split
       #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
       #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
@@ -314,22 +295,57 @@ class Field
           options_list = record.violations_list_by_unique_id.map{|k,v| {'id' => v, 'display_text' => k}}
         end
       when 'lookup'
-        options_list += Lookup.values(source_options.last.titleize, lookups)
-        if source_options.second == 'group'
-          #TODO: What about I18n? What is this?
-          options_list += ['Other', 'Mixed', 'Unknown']
-        end
+        options_list += Lookup.values(source_options.last, lookups)
       when 'Location'
         options_list += locations || [] if locations.present?
+      when 'Agency'
+        options_list += Agency.all_names
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
         options_list += clazz.all.map{|r| r.name}
       end
     else
-      options_list += self.option_strings
+      options_list += (self.option_strings_text.present? ? self.option_strings_text : [])
     end
     return options_list
+  end
+
+  def convert_true_false_key_to_string(value)
+    case value
+      when true
+        'true'
+      when false
+        'false'
+      else
+        nil
+    end
+  end
+
+  def display_text(value=nil)
+    value = self.convert_true_false_key_to_string(value) if self.is_yes_no?
+    if self.option_strings_text.present?
+      display = self.option_strings_text.select{|opt| opt['id'] == value}
+      #TODO: Is it better to display the untranslated key or to display nothing?
+      value = (display.present? ? display.first['display_text'] : '')
+    elsif self.option_strings_source.present?
+      source_options = self.option_strings_source.split
+      case source_options.first
+        when 'lookup'
+          display = Lookup.values(source_options.last).select{|opt| opt['id'] == value}
+          value = (display.present? ? display.first['display_text'] : '')
+        when 'Location'
+          lct = Location.find_by_location_code(value)
+          value = (lct.present? ? lct.name : '')
+        when 'Agency'
+          agency = Agency.get(value)
+          value = (agency.present? ? agency.name : '')
+        else
+          value
+      end
+    else
+      value
+    end
   end
 
   def default_value
@@ -346,22 +362,27 @@ class Field
   end
 
 
-  #TODO: This should be merged with options_list above. Any HTML form specific stuff shoudl be moved to a helper
-  def select_options(record=nil, lookups=nil)
-    select_options = []
-    if self.type == TICK_BOX
-      select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
-    else
-      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
-      select_options += options_list(record, lookups).map do |option|
-        if option.is_a? Hash
-          [option['display_text'], option['id']]
-        else
-          [option, option]
+
+
+  #TODO - i18n - review after merge with i18n code
+  def localized_attributes_hash(locales, lookups=nil, locations=nil)
+    field_hash = self.attributes.clone
+    Field.localized_properties.each do |property|
+      field_hash[property] = {}
+      Primero::Application::locales.each do |locale|
+        key = "#{property.to_s}_#{locale.to_s}"
+        value = field_hash[key]
+        if property == :option_strings_text
+          #value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
+          value = self.options_list(nil, lookups, locations)
+        elsif field_hash[key].nil?
+          value = ""
         end
+        field_hash[property][locale] = value if locales.include? locale
+        field_hash.delete(key)
       end
     end
-    return select_options
+    field_hash
   end
 
   def is_highlighted?
@@ -391,10 +412,6 @@ class Field
   #TODO - remove this is just for testing
   def self.new_field(type, name, options=[])
     Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text_all => options.join("\n"), :editable => true, :disabled => false
-  end
-
-  def self.new_check_boxes_field field_name, display_name = nil, option_strings = []
-    Field.new :name => field_name, :display_name=>display_name, :type => CHECK_BOXES, :visible => true, :option_strings_text => option_strings.join("\n")
   end
 
   def self.new_text_field field_name, display_name = nil
@@ -465,6 +482,10 @@ class Field
     self.option_strings_source == 'Location'
   end
 
+  def is_yes_no?
+    self.option_strings_source == 'lookup lookup-yes-no' || self.option_strings_source == 'lookup lookup-yes-no-unknown'
+  end
+
   #TODO add rspec test
   def generate_options_keys
     if self.option_strings_text.present?
@@ -476,6 +497,10 @@ class Field
     end
   end
 
+  def is_mobile?
+    self.mobile_visible == true
+  end
+
   private
 
   def create_unique_id
@@ -484,13 +509,7 @@ class Field
 
   def validate_has_2_options
     return true unless (type == RADIO_BUTTON || type == SELECT_BOX)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings == nil || option_strings.length < 2)
-    true
-  end
-
-  def validate_has_a_option
-    return true unless (type == CHECK_BOXES)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_1_option")) if option_strings == nil || option_strings.length < 1
+    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings_text.blank? || option_strings_text.length < 2)
     true
   end
 

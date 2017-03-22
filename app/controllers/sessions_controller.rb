@@ -120,6 +120,8 @@ class SessionsController < ApplicationController
       },
       :db_key => MobileDbKey.find_or_create_by_imei(session.imei).db_key,
       :organization => user.organization,
+      :module_ids => user.module_ids,
+      :role_ids => user.role_ids,
       :language => I18n.default_locale,
       :verified => user.verified?
     }

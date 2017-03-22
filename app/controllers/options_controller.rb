@@ -1,13 +1,13 @@
-class OptionStringSourcesController < ApplicationController
+class OptionsController < ApplicationController
 
-  def get_string_sources
+  def index
     sources = build_string_sources
     
     respond_to do |format|
       if sources.present?
         format.json { render json: { success: 1, sources: sources }}
       else
-        format.json { render json: { message: t('string_sources_failed'), success: 0 }}
+        format.json { render json: { message: I18n.t("messages.string_sources_failed"), success: 0 }}
       end
     end
   end
@@ -26,7 +26,7 @@ class OptionStringSourcesController < ApplicationController
 
   def string_sources(source)
     case source
-    when 'Location'
+      when 'Location'
       {type: source, options: Location.all_names}
     end
   end

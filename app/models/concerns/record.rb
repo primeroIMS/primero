@@ -17,7 +17,6 @@ module Record
       Field::TEXT_AREA,
       Field::RADIO_BUTTON,
       Field::SELECT_BOX,
-      Field::CHECK_BOXES,
       Field::NUMERIC_FIELD,
       Field::DATE_FIELD,
       Field::DATE_RANGE,
@@ -496,24 +495,6 @@ module Record
     mapping.each do |source_key, target_key|
       self[target_key] = source[source_key] if source[source_key].present?
     end
-  end
-
-  def match_criteria(match_request=nil)
-    match_criteria = {}
-    #TODO v1.3: facepalm :/
-    if self.class.to_s == 'TracingRequest'
-      self.class.subform_matchable_fields.each do |field|
-        match_criteria[:"#{field}"] = (match_request[:"#{field}"].is_a? Array) ? match_request[:"#{field}"].join(' ') : match_request[:"#{field}"]
-      end
-    elsif self.class.to_s == 'Child'
-      self.class.subform_matchable_fields.each do |field|
-        match_criteria[:"#{field}"] = self.family_details_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ')
-      end
-    end
-    self.class.form_matchable_fields.each do |field|
-      match_criteria[:"#{field}"] = (self[:"#{field}"].is_a? Array) ? self[:"#{field}"].join(' ') : self[:"#{field}"]
-    end
-    match_criteria.compact
   end
 
 end

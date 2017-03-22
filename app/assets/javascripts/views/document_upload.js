@@ -51,7 +51,6 @@ _primero.Views.FileUploadField = _primero.Views.Base.extend({
     if ($file_group.find('.file').length >= 10) {
       action_link.remove();
     }
-    _primero.set_content_sidebar_equality();
   },
 
   validate_document: function(event) {

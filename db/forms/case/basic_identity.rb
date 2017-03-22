@@ -35,7 +35,7 @@ basic_identity_fields = [
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
-             "option_strings_source" => "lookup CaseStatus"
+             "option_strings_source" => "lookup lookup-case-status"
             }),
   Field.new({"name" => "case_status_reopened",
              "type" => "tick_box",
@@ -46,7 +46,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "name", #TODO v1.3: Confirm taht we are not using HighlightInformation
              "type" => "text_field",
-             "display_name_all" => "Full Name",             
+             "display_name_all" => "Full Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "required" => true,
              "show_on_minify_form" => true,
@@ -90,7 +90,7 @@ basic_identity_fields = [
   Field.new({"name" => "name_given_post_separation",
              "type" => "radio_button",
              "display_name_all" => "Name(s) given to child after separation?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "registration_date",
              "type" => "date_field",

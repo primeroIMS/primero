@@ -6,17 +6,21 @@ div.scope_bar {
   li.scope a {
     text-decoration: none;
   }
+  
   li.scope ul li {
-    padding: 5px;
+    padding: rem_calc(5);
   }
+  
   li.scope ul li:hover{
     background-color: silver;
   }
+  
   div.row > div {
-    padding-left: 0px;
+    padding-left: 0;
   }
+
   ul {
-    margin-left: 0px;
+    margin-left: 0;
     li {
       list-style: none;
       select {
@@ -30,62 +34,47 @@ div.scope_bar {
 // Index filters
 ////////////////////////////////////////////////
 
-.filter_title {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  padding: 0px 0 0 25px;
-  line-height: 20px;
-
+.filter-controls {
   a {
-    text-transform: none;
-    border-bottom: 1px dotted $grey_color;
-
-    &:hover {
-      text-decoration: none;
-      border-bottom: none;
-      font-weight: bold;
-    }
-
     i {
       color: $stroke_green_color;
+    }
+
+    &#apply_filter {
+      padding: 0.85em .8em
+    }
+
+    &.clear_filters {
+      font-size: .8rem;
     }
   }
 }
 
 .index_filters {
-  padding: 0;
-  width: 225px;
-  float: right;
+  width: rem_calc(300);
+  flex: 0 0 rem_calc(300);
+  max-width: rem_calc(300);
 
-  label {
-    display: block;
-    float: left;
-    padding-right: 10px;
-    white-space: nowrap;
-    padding-left: 22px;
-    text-indent: -22px;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  input {
-    vertical-align: middle;
-  }
-
-  label span {
-    vertical-align: middle;
-    margin-left: 4px;
+  .mCS-dir-rtl > .mCSB_inside > .mCSB_container{ /* RTL direction/left-side scrollbar */  
+    @if $global-text-direction == rtl {
+      margin-left: rem_calc(23) !important;
+      margin-right: 0 !important;
+    }
   }
 
   .filter {
-    margin-bottom: 8px;
+    margin-bottom: rem_calc(8);
 
     .chosen-container-single {
-      padding: 2px;
+      padding: rem_calc(2);
     }
 
     .filter-controls {
-      padding: 10px 3px 2px 9px;
+      @if $global-text-direction == rtl {
+        padding: rem_calc(10 9 2 3);
+      } @else {
+        padding: rem_calc(10 3 2 9);
+      }
       clear: both;
     }
 
@@ -98,13 +87,13 @@ div.scope_bar {
     }
 
     .form_date_field {
-      padding: 3px;
+      padding: rem_calc(3);
     }
   }
 
   h3 {
     font-size: $thirteen_px;
-    padding: 10px 10px 0 10px;
+    padding: rem_calc(10 10 0 10);
     margin: 0;
     font-family: 'Roboto-Medium', sans-serif;
     border-top: 1px solid $stroke_green_color;
@@ -112,7 +101,7 @@ div.scope_bar {
   }
 
   .panel {
-    padding: 0 0 20px;
+    padding: rem_calc(0 0 20);
     border: none;
     background: #f1f5ec;
   }
@@ -123,19 +112,55 @@ div.scope_bar {
   }
 
   .field-controls-multi {
-    margin: 5px 0 10px;
+    margin: rem_calc(5 0 10);
+
+    label span {
+      width: rem_calc(205)
+    }
   }
 
   label {
     font-size: 0.8rem;
+    
+    @if $global-text-direction == rtl {
+      margin-left: 1.2rem;
+    } @else {
+      margin-right: 1.2rem;
+    }
 
-    &:not(.has_date) {
-      margin-right: 0 !important;
+    span {
+      width: rem_calc(220);
+      overflow: hidden;
+      display: block;
+      line-height: 1.2em;
+      text-overflow: ellipsis;
+      color: #4d4d4d
     }
   }
 
   .chosen-container-single {
     width: 96% !important;
-    margin: 10px 0 20px 4px !important;
+
+    @if $global-text-direction == rtl {
+      margin: rem_calc(10 4 20 0) !important;
+    } @else {
+      margin: rem_calc(10 0 20 4) !important;
+    }
+  }
+}
+
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+  .index_filters {
+    width: rem_calc(250.25) !important;
+    flex: 0 0 rem_calc(250.25) !important;
+    max-width: rem_calc(250.25) !important;
+
+    label span {
+      width: 11.3rem;
+    }
+
+    .field-controls-multi label span {
+      width: 9.9rem;
+    }
   }
 }

@@ -54,7 +54,7 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
-  after_save :find_match_tracing_requests
+  after_save :find_match_tracing_requests unless (Rails.env == 'production')
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -153,22 +153,8 @@ class Child < CouchRest::Model::Base
   def self.quicksearch_fields
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
-      'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no', 
+      'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
       'other_agency_id', 'survivor_code_no'
-    ]
-  end
-
-  def self.match_boost_fields
-    [
-        {field: 'sex', match: 'sex', boost: 0.5},
-        {field: 'language', match: 'language', boost: 0.5},
-        {field: 'religion', match: 'religion', boost: 0.5},
-        {field: 'nationality', match: 'nationality', boost: 0.5},
-        {field: 'ethnicity', match: 'ethnicity', boost: 0.5},
-        {field: 'sub_ethnicity_1', match: 'ethnicity', boost: 0.5},
-        {field: 'sub_ethnicity_2', match: 'ethnicity', boost: 0.5},
-        {field: 'relations', match: 'relation', boost: 0.5},
-        {field: 'date_of_birth', match: 'date_of_birth', boost: 0.5, date: true}
     ]
   end
 
@@ -234,32 +220,6 @@ class Child < CouchRest::Model::Base
       sort_hash match_results
     end
 
-    #TODO - verify fields
-    def boost_fields
-      [
-        {field: 'name', boost: 10},
-        {field: 'name_first', match: 'name', boost: 10},
-        {field: 'name_middle', match: 'name', boost: 10},
-        {field: 'name_last', match: 'name', boost: 10},
-        {field: 'name_other', match: 'name', boost: 10},
-        {field: 'name_nickname', boost: 10},
-        {field: 'sex', boost: 10},
-        {field: 'age', boost: 5},
-        {field: 'date_of_birth', boost: 5},
-        {field: 'relation_name', boost: 5},
-        {field: 'relation', boost: 10},
-        {field: 'relation_nickname', boost: 5},
-        {field: 'relation_age', boost: 5},
-        {field: 'relation_date_of_birth', boost: 5},
-        {field: 'relation_other_family', match: 'relation_name', boost: 5},
-        {field: 'nationality', match: 'relation_nationality', boost: 3},
-        {field: 'language', match: 'relation_language', boost: 3},
-        {field: 'religion', match: 'relation_religion', boost: 3},
-        {field: 'ethnicity', match: 'relation_ethnicity'},
-        {field: 'sub_ethnicity_1', match: 'relation_sub_ethnicity1'},
-        {field: 'sub_ethnicity_2', match: 'relation_sub_ethnicity2'}
-      ]
-    end
   end
 
   def self.report_filters
@@ -408,7 +368,7 @@ class Child < CouchRest::Model::Base
   end
 
   def caregivers_name
-    self.name_caregiver || self.family_details_section.select { |fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
+    self.name_caregiver || self.family_details_section.select { |fd| fd.relation_is_caregiver == true }.first.try(:relation_name) if self.family_details_section.present?
   end
 
   # Solution below taken from...
@@ -430,13 +390,20 @@ class Child < CouchRest::Model::Base
 
   #TODO v1.3: Need rspec test
   def find_match_tracing_requests
-    match_class = TracingRequest
-    #TODO - where is match_criteria populated?
-    match_result = self.class.find_match_records(match_criteria, match_class)
+    match_result = Child.find_match_records(match_criteria, TracingRequest)
     tracing_request_ids = match_result==[] ? [] : match_result.keys
-    all_results = TracingRequest.match_tracing_requests_for_child(self.id, tracing_request_ids).uniq
+    all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
     results = all_results.sort_by { |result| result[:score] }.reverse.slice(0, 20)
     PotentialMatch.update_matches_for_child(self.id, results)
+  end
+
+  alias :inherited_match_criteria :match_criteria
+  def match_criteria(match_request=nil)
+    match_criteria = inherited_match_criteria(match_request)
+    Child.subform_matchable_fields.each do |field|
+      match_criteria[:"#{field}"] = self.family_details_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ')
+    end
+    match_criteria.compact
   end
 
   private

@@ -23,32 +23,32 @@ gbv_individual_details_fields = [
   Field.new({"name" => "estimated",
              "type" => "radio_button",
              "display_name_all" => "Is the age estimated?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "ethnicity",
              "type" => "select_box",
              "display_name_all" => "What is the ethnic affiliation of the survivor?",
-             "option_strings_source" => "lookup Ethnicity"
+             "option_strings_source" => "lookup lookup-ethnicity"
             }),
   Field.new({"name" => "nationality",
              "type" => "select_box",
              "display_name_all" => "What is the national affiliation of the survivor?",
-             "option_strings_source" => "lookup Nationality"
+             "option_strings_source" => "lookup lookup-nationality"
             }),
   Field.new({"name" => "religion",
              "type" => "select_box",
              "display_name_all" => "What is the religious affiliation of the survivor?",
-             "option_strings_source" => "lookup Religion"
+             "option_strings_source" => "lookup lookup-religion"
             }),
   Field.new({"name" => "country_of_origin",
              "type" => "select_box",
              "display_name_all" => "Country of Origin",
-             "option_strings_source" => "lookup Country"
+             "option_strings_source" => "lookup lookup-country"
             }),
   Field.new({"name" => "displacement_status",
              "type" => "select_box",
              "display_name_all" => "Displacement Status at time of report",
-             "option_strings_source" => "lookup DisplacementStatus"
+             "option_strings_source" => "lookup lookup-displacement-status"
             }),
   Field.new({"name" => "maritial_status",
              "type" => "select_box",
@@ -70,7 +70,7 @@ gbv_individual_details_fields = [
   Field.new({"name" => "unaccompanied_separated_status",
              "type" => "select_box",
              "display_name_all" => "Is the survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
-             "option_strings_source" => "lookup UnaccompaniedSeparatedStatus",
+             "option_strings_source" => "lookup lookup-unaccompanied-separated-status",
             })
 ]
 

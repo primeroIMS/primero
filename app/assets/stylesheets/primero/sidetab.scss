@@ -2,20 +2,30 @@
 // Side Tab
 ////////////////////////////////////////////////
 
-.side-tab-container, .side-tab {
-  width: 250px;
+.side-nav-container {
+  // width: rem_calc(285);
 }
 
 .side-tab-content-container {
-  width: 750px;
+  @if $global-text-direction == rtl {
+    padding-right: 0;
+  } @else {
+    padding-left: 0;
+  }
 
   .side-tab-content {
+    min-height: rem_calc(500);
+
     .warning {
       margin: .5em;
       background: #FEEFB3;
       color: #9F6000;
       border: 1px solid #9F6000;
     }
+  }
+
+  fieldset {
+    padding: 2em 0;
   }
 }
 
@@ -39,6 +49,8 @@
     font-size: $fifteen_px;
     padding: 0.4rem 1rem;
     font-family: 'Roboto', sans-serif;
+    width: 100%;
+    display: block;
 
     &:hover {
       color: #fff !important;
@@ -101,7 +113,11 @@
   border: 1px solid $stroke_green_color;
 
   label {
-    text-align: right;
+    @if $global-text-direction == rtl {
+      text-align: left;
+    } @else {
+      text-align: right;
+    }
     font-family: 'Roboto-Medium', sans-serif;
     font-size: $thirteen_px;
     font-weight: bold;
@@ -113,20 +129,29 @@
 }
 
 .close-side-tab {
-  padding-right: 0
+  @if $global-text-direction == rtl {
+    padding-left: 0
+  } @else {
+    padding-right: 0
+  }
 }
 
 li.group.current {
   background: $desat_green_color;
-  border-right: 1px solid $stroke_green_color;
+  padding-bottom: .7em;
 }
 
 li.group a.group:after {
   font-family: 'FontAwesome';
   content: '\f106';
-  float: right;
   color: #ccc;
   font-size: .9rem;
+
+  @if $global-text-direction == rtl {
+    float: left;
+  } @else {
+    float: right;
+  }
 }
 
 li.group ul a {
@@ -141,7 +166,12 @@ li.current {
 
   &:not(.group) {
     background: $light_green_color;
-    border-left: 1px solid $stroke_green_color;
+
+    @if $global-text-direction == rtl {
+      border-right: 1px solid $stroke_green_color;
+    } @else {
+      border-left: 1px solid $stroke_green_color;
+    }
 
     a {
       color: $green_color !important;
@@ -150,8 +180,14 @@ li.current {
 
   a.group:after {
     font-family: 'FontAwesome';
-    content: '\f107';
-    float: right;
+    
+    @if $global-text-direction == rtl {
+      content: '\f107';
+      float: left;
+    } @else {
+      content: '\f107';
+      float: right;
+    }
     color: $green_color;
     font-size: .9rem;
   }
@@ -159,7 +195,13 @@ li.current {
   a.non-group:after {
     font-family: 'FontAwesome';
     content: '\f105';
-    float: right;
+    
+    @if $global-text-direction == rtl {
+      float: left;
+    } @else {
+      float: right;
+    }
+
     color: $green_color;
     font-size: .9rem;
     padding: 1px 0 4px;
@@ -167,20 +209,26 @@ li.current {
 
   ul li.current a:after {
     font-family: 'FontAwesome';
-    content: '\f105';
-    float: right;
+    
+    @if $global-text-direction == rtl {
+      float: left;
+      content: '\f104';
+    } @else {
+      content: '\f105';
+      float: right;
+    }
+    
     color: $green_color;
     font-size: .9rem;
   }
 }
 
 ul.side-nav, ul.modal-side-nav {
-  width: 251px;
-
+  margin: 0;
+  
   li ul {
     display: none;
     list-style: none;
-    width: 231px;
   }
 
   li .panel {
@@ -239,5 +287,18 @@ ul.side-nav, ul.modal-side-nav {
   &.up {
     border-top: none;
     border-bottom: 1px solid #ebebeb;
+  }
+}
+
+.mCS-dir-rtl > .mCSB_inside > .mCSB_container{ /* RTL direction/left-side scrollbar */  
+  @if $global-text-direction == rtl {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+}
+
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+  .side-nav-container {
+    width: rem_calc(236);
   }
 }
