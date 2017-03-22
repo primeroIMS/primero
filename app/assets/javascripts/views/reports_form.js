@@ -3,8 +3,8 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
   el: '.reports_form',
 
   events: {
-    'change #report_module_ids': 'reload_field_lookups',
-    'change #report_record_type': 'reload_field_lookups',
+    'change #report_module_ids': 'change_reload_field_lookups',
+    'change #report_record_type': 'change_reload_field_lookups',
     'click #report_filter_add_button': 'add_filter',
     'click .report_filter_remove_button': 'remove_filter',
     'change #report_aggregate_by': 'change_set_chosen_order',
@@ -14,7 +14,7 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
   initialize: function() {
     if (this.$el.length){
       this.init_multi_select();
-      this.reload_field_lookups();
+      this.reload_field_lookups(true);
     }
   },
 
@@ -39,6 +39,10 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
         self.set_chosen_order($(element), true);
       });
     }, 100);
+  },
+
+  change_reload_field_lookups: function() {
+    this.reload_field_lookups(false);
   },
 
   set_chosen_order: function($element, is_init) {
@@ -84,7 +88,7 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
 
   field_type_map: {},
 
-  reload_field_lookups: function() {
+  reload_field_lookups: function(is_init) {
     var self = this;
     //get the lookup values via ajax call
     var params = {
@@ -143,6 +147,10 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
       });
       //prepend the empty selection option to filter attributes and template
       $('.report_filter_attribute, .report_filter_attribute_template').prepend(empty_selection);
+
+      if (!is_init) {
+        $('#report_aggregate_by, #report_disaggregate_by').find('option:selected').removeAttr('selected');
+      }
       //trigger the chosen reload
       $('#report_aggregate_by, #report_disaggregate_by, .report_filter_attribute').trigger("chosen:updated");
       self.init_chosen_order($('#report_aggregate_by, #report_disaggregate_by'));

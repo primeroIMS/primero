@@ -214,7 +214,10 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
       file_location += window.location.search.length ? '&' : '?';
       file_location += $.param(data);
       file_location += '&format=' + this.filter_type;
-      file_location += !_primero.get_param('page') ? '&page=all&per_page=all' : undefined;
+
+      if (!_primero.get_param('page')) {
+        file_location += '&page=all&per_page=all';
+      }
 
       this.reset_form();
       $this_el.foundation('reveal', 'close');

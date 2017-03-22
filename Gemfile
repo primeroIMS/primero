@@ -60,6 +60,7 @@ gem 'momentjs-rails', '~> 2.10.3'
 
 gem 'turbolinks', '~> 5'
 gem 'jquery-turbolinks'
+gem 'arabic-letter-connector'
 
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do

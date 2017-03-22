@@ -56,9 +56,11 @@ module AudioUploader
     attachment_key = self['audio_attachments']['original']
     return nil unless has_attachment? attachment_key
 
-    data = read_attachment attachment_key
-    content_type = self['_attachments'][attachment_key]['content_type']
-    FileAttachment.new attachment_key, content_type, data
+    if self.valid?
+      data = read_attachment attachment_key
+      content_type = self['_attachments'][attachment_key]['content_type']
+      FileAttachment.new attachment_key, content_type, data
+    end
   end
 
   def delete_audio

@@ -4,6 +4,7 @@ Primero = _primero.Views.Base.extend({
   events: {
     'click .btn_submit': 'submit_form',
     'click .gq_popovers': 'engage_popover',
+    'click .gq_select_popovers': 'engage_select_popover',
     'sticky-start .record_controls_container, .index_controls_container': 'start_sticky',
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
@@ -203,6 +204,12 @@ Primero = _primero.Views.Base.extend({
     evt.preventDefault();
     var $selected_input = $(evt.target).parent().find('input, textarea, select');
     $selected_input.trigger('focus');
+  },
+
+  engage_select_popover: function(evt) {
+     evt.preventDefault();
+     var guided_link = $(evt.target);
+     guided_link.popover('toggle');
   },
 
   init_sticky: function() {

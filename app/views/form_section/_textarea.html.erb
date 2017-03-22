@@ -19,16 +19,7 @@
       <% end %>
     <% if textarea.help_text %><p class="help"><%= textarea.help_text %></p><% end %>
     <% if textarea.guiding_questions.present? %>
-      <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_popovers', tabindex: '0',
-        data: {
-          toggle: 'popover',
-          trigger: 'focus',
-          title: t('buttons.guiding_questions'),
-          html: true
-        }) %>
-      <div class='popover_content' style="display:none;">
-        <%=  textarea.guiding_questions %>
-      </div>
+      <%= render 'form_section/guiding_questions', guiding_questions_text: textarea.guiding_questions %>
     <% end %>
   </div>
 </div>

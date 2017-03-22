@@ -137,6 +137,8 @@ Primero::Application.routes.draw do
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
   match '/cases/:id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
 
+  match '/incident-ids' => 'incident_ids#all', :as => :incident_ids, :via => [:post, :get, :put, :delete]
+
 #Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
   match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
 
@@ -276,13 +278,8 @@ Primero::Application.routes.draw do
     resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
     resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
     resources :potential_matches, as: :potential_matches, constraints: {format: :json}, :defaults => {:format => :json}
-  end
-
-#######################
-# OPTION STRING SOURCES URLS
-#######################
-  controller :option_string_sources, :defaults => {:format => :json} do
-    get :string_sources, :action => 'get_string_sources'
+    resources :options, constraints: {format: :json}, :defaults => {:format => :json}, :only => [:index]
+    resources :system_settings, constraints: {format: :json}, :defaults => {:format => :json}, :only => [:index]
   end
 
 #######################
