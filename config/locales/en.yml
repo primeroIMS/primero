@@ -31,6 +31,9 @@ en:
     enter_valid_date: "Please enter the date in a valid format (dd-mmm-yyyy)"
     enter_valid_field_value: "Please enter a valid field value."
     enter_valid_number_in_tally: "%{field}: %{tally} must be a valid number"
+    enter_valid_number: "%{field} must be a valid number"
+    more_than_200_chars: "%{field} cannot be more than 200 characters long"
+    no_more_than_x_chars: "%{field} cannot be more than %{length} characters long"
     valid_search_criteria: "Please enter at least one search criteria"
     show_hide_forms: "Please select form(s) you want to show/hide."
     show_forms: "Are you sure you want to make these form(s) visible?"
@@ -70,6 +73,12 @@ en:
   login:
     details: "Login details"
     username: "User Name"
+    notification:
+      enter_user_name: 'Enter your user name'
+      users_requested_password_reset: "These users requested password reset. Please contact them immediately."
+      users_does_not_exist: "%{user} at %{created}. This username does not currently exist in the system. "
+      at: "at %{created}."
+      cannot_remember_username: "If you don't remember your user name, just enter any name and information an administrator can use to identify and contact you."
     password:
       label: "Password"
       reset: "Request Password Reset"
@@ -572,6 +581,8 @@ en:
     reg_date: 'registration date'
     social_worker: 'social worker'
     score: 'score'
+    show_more: 'show more'
+    show_less: 'show less'
 
 
 
@@ -1594,6 +1605,8 @@ en:
     deleted_by: "deleted by"
     referral: "Referred to %{to_user} by %{by_user}"
     transfer: "Transferred to %{to_user} by %{by_user}"
+    record_by: "Record created by"
+    child_status_changed: "Child status changed to reunited by"
 
     system_logs:
       records_performed_by: "records performed by"
@@ -1893,6 +1906,10 @@ en:
 
   string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
 
+  error_message:
+    notice: 'Errors prohibited this record from being saved'
+    fields_notice: 'There were problems with the following fields:'
+
   error_page:
     internal_server_error:
       code: 500
@@ -1904,3 +1921,9 @@ en:
       something_went_wrong: Sorry, Something when wrong!
       contact_admin: If you believe you are here by error, please contact your admin.
       server_error: Page not found
+  
+  audio:
+    update_browser:
+      title: 'Update Required'
+      message: "To play the media you will need to either update your browser to a recent version or update your"
+      link_text: "Flash plugin"
