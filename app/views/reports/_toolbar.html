@@ -20,7 +20,9 @@
                   <li class="init_btn">
                     <%= link_to content_tag(:span, t("buttons.export")), '#', class: 'btn green-button action_btn' %>
                     <ul>
-                      <li><%= link_to t("report.export.graph"), '#', class: 'report_export_graph', download: "#{@report.name.gsub(/\W/,'').downcase}_graph.png" %></li>
+                      <% if @report.is_graph? %>
+                        <li><%= link_to t("report.export.graph"), '#', class: 'report_export_graph', download: "#{@report.name.gsub(/\W/,'').downcase}_graph.png" %></li>
+                      <% end %>
                       <li><%= link_to t("report.export.data"), '#', class: 'report_export_data',  download: "#{@report.name.gsub(/\W/,'').downcase}_data.csv" %></li>
                     </ul>
                   </li>

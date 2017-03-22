@@ -1,5 +1,5 @@
 var StringSources = Backbone.Collection.extend({
-  url: '/string_sources',
+  url: '/api/options',
   
   parse: function(resp) {
     this.status = resp.success;

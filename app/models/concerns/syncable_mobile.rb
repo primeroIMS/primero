@@ -17,6 +17,13 @@ module SyncableMobile
               }
             }"
 
+      view :ids_and_revs_by_owned_by_and_marked_for_mobile_and_module_id,
+           :map => "function(doc) {
+              if (doc['couchrest-type'] == '#{self.model.name}' && doc.hasOwnProperty('owned_by') && doc.hasOwnProperty('marked_for_mobile')){
+                emit([doc.owned_by, doc.marked_for_mobile, doc.module_id], {_id: doc._id, _rev: doc._rev, last_updated_at: doc.last_updated_at});
+              }
+            }"
+
     end
   end
 
@@ -27,9 +34,13 @@ module SyncableMobile
       FormSection.find_mobile_forms_by_parent_form(parent_form).count > 0
     end
 
-    def fetch_all_ids_and_revs(owned_by_ids = [], marked_for_mobile, last_update_date)
+    def fetch_all_ids_and_revs(owned_by_ids = [], marked_for_mobile, last_update_date, module_id)
       if marked_for_mobile
-        all_rows = self.ids_and_revs_by_owned_by_and_marked_for_mobile(keys: owned_by_ids.map{|id| [id, true]}).rows
+        if module_id.present?
+          all_rows = self.ids_and_revs_by_owned_by_and_marked_for_mobile_and_module_id(keys: owned_by_ids.map{|id| [id, true, module_id]}).rows
+        else
+          all_rows = self.ids_and_revs_by_owned_by_and_marked_for_mobile(keys: owned_by_ids.map{|id| [id, true]}).rows
+        end
       else
         all_rows = self.ids_and_revs_by_owned_by(keys: owned_by_ids).rows
       end

@@ -369,12 +369,12 @@ class Report < CouchRest::Model::Base
     [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
       if data[k].present?
         data[k] = data[k].map do |value|
-          value.map{|v| translate(v)}  
+          value.map{|v| translate(v)}
         end
       end
     end
     if data[:values].present?
-      data[:values] = data[:values].map do |key,value| 
+      data[:values] = data[:values].map do |key,value|
         [key.map{|k| translate(k)}, value]
       end.to_h
     end
