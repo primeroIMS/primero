@@ -57,7 +57,7 @@ $(profile_tools);
     <div class="side-tab-content" data-equalizer-watch>
       <%# Removed for demo deploy %>
       <%= render :partial => 'shared/sidebar' if false %>
-      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident} %>
+      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident, :lookups => @lookups} %>
     </div>
     <%= render 'record_shared/header_message', record: @incident, model: 'incident' %>
   </div>

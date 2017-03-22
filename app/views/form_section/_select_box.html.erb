@@ -19,12 +19,12 @@
     <% if select_box.multi_select %>
       <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value), 'multiple' => '',
           'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
-          :data => { :field_tags => field_tags, :populate => select_box.option_strings_source, value: value}, 
+          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value}, 
           required: select_box.required, :disabled => select_box.disabled %>
     <% elsif select_box.searchable_select %>
       <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value),
           'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.select_box_empty_item"), :id => field_id,
-          :data => { :field_tags => field_tags, :populate => select_box.option_strings_source, value: value}, 
+          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value}, 
           required: select_box.required, :disabled => select_box.disabled %>
     <% else %>
       <%

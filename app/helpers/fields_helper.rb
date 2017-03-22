@@ -101,7 +101,7 @@ module FieldsHelper
         
         field_value.each do |option|
           if lookup.present?
-            lookup_value = lookup.lookup_values.select{|lv| lv["id"] == option}.first
+            lookup_value = lookup.lookup_values.select{|lv| lv["display_text"] == option}.first
             options << lookup_value["display_text"] if lookup_value.present?
           else
             selected = (field.option_strings_text.is_a?(Array) ? field.option_strings_text.select{|o| o['id'] == option} : option)
@@ -201,6 +201,7 @@ module FieldsHelper
   def option_string_source_data_attr(source)
     if source.present?
       source_match = source.match /lookup-.*/
+
       if source_match
         source_match[0]
       else  
