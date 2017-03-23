@@ -33,26 +33,23 @@
           <%= fld.check_box :disabled?, {}, "true", "false" %>
         </div>
       </div>
-        <%# TODO v1.3: Do these mobile-type fields need to be limited to the cp module? %>
-      <% if ['primeromodule-cp'].include? @module_id %>
-        <div class="row mobile_visible">
-          <div class="medium-4 columns">
-            <%= fld.label :mobile_visible, t("visible_for_mobile"), :class => 'key inline' %>
-          </div>
-          <div class="medium-8 columns">
-            <%= fld.check_box :mobile_visible?, {:class => 'visible_on_mobile'}, "true", "false" %>
-            <%= fld.hidden_field :type, :class => "field_type" %>
-          </div>
+      <div class="row mobile_visible">
+        <div class="medium-4 columns">
+          <%= fld.label :mobile_visible, t("visible_for_mobile"), :class => 'key inline' %>
         </div>
-        <div class="row short_form">
-          <div class="medium-4 columns">
-            <%= fld.label :show_on_minify_form, t("show_on_short_form"), :class => 'key inline' %>
-          </div>
-          <div class="medium-8 columns">
-            <%= fld.check_box :show_on_minify_form?, {}, "true", "false" %>
-          </div>
-        </div>          
-      <% end %>
+        <div class="medium-8 columns">
+          <%= fld.check_box :mobile_visible?, {:class => 'visible_on_mobile'}, "true", "false" %>
+          <%= fld.hidden_field :type, :class => "field_type" %>
+        </div>
+      </div>
+      <div class="row short_form">
+        <div class="medium-4 columns">
+          <%= fld.label :show_on_minify_form, t("show_on_short_form"), :class => 'key inline' %>
+        </div>
+        <div class="medium-8 columns">
+          <%= fld.check_box :show_on_minify_form?, {}, "true", "false" %>
+        </div>
+      </div>
       <% if @field.type == 'date_field' %>
           <p class="date_validation_method">
             <%= render :partial => "form_section/add_date_validation", :locals => {:fields => fields, :fld => fld, :show_drop_down => @show_add_field.present?, :is_field_edit => true} %>
