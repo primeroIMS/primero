@@ -40,13 +40,11 @@ class Transition
   end
 
   def is_referral_active?
-    #TODO - i18n ???
-    self.to_user_local_status == I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en)
+    self.to_user_local_status == Transition::TO_USER_LOCAL_STATUS_INPROGRESS
   end
 
   def is_transfer_in_progress?
-    #TODO - i18n ???
-    self.to_user_local_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en)
+    self.to_user_local_status == Transition::TO_USER_LOCAL_STATUS_INPROGRESS
   end
 
   def is_assigned_to_user_local?(user)

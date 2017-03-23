@@ -122,7 +122,8 @@ class ChildrenController < ApplicationController
     referral = child.referrals.select { |r| r.id == referral_id }.first
 
     # TODO: This will need to be refactored once we implement real i18n-able keyvalue pairs
-    referral.to_user_local_status = I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_DONE}", :locale => :en)
+    #TODO - i18n review!!!!
+    referral.to_user_local_status = Transition::TO_USER_LOCAL_STATUS_DONE
 
     if active_transitions_count == 0
       child.assigned_user_names = child.assigned_user_names.reject{|u| u == @current_user.user_name}
@@ -181,7 +182,7 @@ class ChildrenController < ApplicationController
           format.html { redirect_after_update }
         when :transition_transfer_status_updated
           if @child.save
-            if transition_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
+            if transition_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
               flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
               redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
               return
