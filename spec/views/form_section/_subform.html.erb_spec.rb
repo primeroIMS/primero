@@ -212,7 +212,7 @@ describe "_subform.html.erb" do
                  :form_group_name => form.form_group_name
                 },
              :formats => [:html], :handlers => [:erb]
-       rendered.should match(/<div class="subforms " id="subform_section_1"  data-form_group_name=form_section_test>/)
+       rendered.should match(/<div class="subforms  large-12 columns" id="subform_section_1"  data-form_group_name=form_section_test>/)
        rendered.should match(/<div id="subform_container_subform_section_1_0" class="subform_container" data-subform_index="0">/)
        rendered.should match(/<fieldset id="subform_subform_section_1_0" class="subform_section_1 subform no-border">/)
        #formObject should contains an hash "subform_section_1" which is the field name instead the subform unique_id
@@ -230,7 +230,7 @@ describe "_subform.html.erb" do
                  :form_group_name => form.form_group_name
                 },
              :formats => [:html], :handlers => [:erb]
-       rendered.should match(/<div class="subforms " id="subform_section_2"  data-form_group_name=form_section_test>/)
+       rendered.should match(/<div class="subforms  large-12 columns" id="subform_section_2"  data-form_group_name=form_section_test>/)
        rendered.should match(/<div id="subform_container_subform_section_2_0" class="subform_container" data-subform_index="0">/)
        rendered.should match(/<fieldset id="subform_subform_section_2_0" class="subform_section_2 subform no-border">/)
        #formObject should contains an hash "subform_section_2" which is the field name instead the subform unique_id

@@ -33,10 +33,22 @@ describe OptionsController do
           {
             "type"=>"Location",
             "options" => [
-              "Country1",
-              "Country1::Province1",
-              "Country1::Province2",
-              "Country1::Province1::Town1"
+              {
+                "id"=>"code_1000000",
+                "display_text"=>"Country1"
+              },
+              { 
+                "id"=>"code_1000001", 
+                "display_text"=>"Province1"
+              }, 
+              {
+                "id"=>"code_1000002",
+                "display_text"=>"Province2"
+              }, 
+              {
+                "id"=>"code_1000003", 
+                "display_text"=>"Town1"
+              }
             ]
           }
         ]
