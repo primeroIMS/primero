@@ -51,7 +51,8 @@ describe OptionsController do
               }
             ]
           }
-        ]
+        ],
+        "placeholder" => "(Select...)"
       }  
     end
     

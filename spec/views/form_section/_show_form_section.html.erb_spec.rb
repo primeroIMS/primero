@@ -171,7 +171,7 @@ describe "form_section/_show_form_section.html.erb" do
     form = FormSection.get_by_unique_id("form_section_test_1")
     assign(:form_sections, {"Form Section Test" => [form]})
     render :partial => 'form_section/show_form_section',
-           :locals => { :formObject => @formObject },
+           :locals => { :formObject => @formObject, :lookups => @lookups },
            :formats => [:html], :handlers => [:erb]
 
     rendered.should match(/<fieldset id='tab_form_section_test_1' class='form_section_test_1 tab no-border ' data-first-tab="false">/)

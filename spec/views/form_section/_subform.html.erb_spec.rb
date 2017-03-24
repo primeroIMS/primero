@@ -118,7 +118,8 @@ describe "_subform.html.erb" do
                 {
                  :field => form.fields[1],
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name
+                 :form_group_name => form.form_group_name,
+                 :lookups => @lookups
                 },
              :formats => [:html], :handlers => [:erb]
        #The value should not be singularize.
@@ -129,7 +130,8 @@ describe "_subform.html.erb" do
                  {
                   :field => form.fields[2],
                   :formObject => @formObject,
-                  :form_group_name => form.form_group_name
+                  :form_group_name => form.form_group_name,
+                  :lookups => @lookups
                  },
               :formats => [:html], :handlers => [:erb]
        rendered.should match(/<label class="key" for="subform_section_2">Another Subform<\/label>/)
@@ -142,7 +144,8 @@ describe "_subform.html.erb" do
                 {
                  :field => form.fields[1],
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name
+                 :form_group_name => form.form_group_name,
+                 :lookups => @lookups
                 },
              :formats => [:html], :handlers => [:erb]
        rendered.should match(/<div id="subform_section_1" class="subforms"  data-form_group_name="">/)
@@ -156,7 +159,8 @@ describe "_subform.html.erb" do
                     {
                      :field => form.fields[2],
                      :formObject => @formObject,
-                     :form_group_name => form.form_group_name
+                     :form_group_name => form.form_group_name,
+                     :lookups => @lookups
                     },
                  :formats => [:html], :handlers => [:erb]
        rendered.should match(/<div id="subform_section_2" class="subforms"  data-form_group_name="">/)
