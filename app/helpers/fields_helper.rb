@@ -75,7 +75,7 @@ module FieldsHelper
     link_to(field_value, send("#{field.link_to_path}_path", id: field_value.split('::').first)) if field_value.present?
   end
 
-  def field_value_for_multi_select(field_value, field, parent_obj=nil)
+  def field_value_for_multi_select(field_value, field, parent_obj=nil, lookups=nil)
     if field_value.blank?
       ""
     elsif field.option_strings_source == 'violations'
@@ -95,9 +95,18 @@ module FieldsHelper
     else
       options = []
       if field_value.is_a?(Array)
+        has_lookup = field.option_strings_source.match(/lookup-.*/)
+        
+        lookup = lookups.select{|l| l.id == has_lookup[0]}.first if has_lookup
+        
         field_value.each do |option|
-          selected = (field.option_strings_text.is_a?(Array) ? field.option_strings_text.select{|o| o['id'] == option} : option)
-          options << selected
+          if lookup.present?
+            lookup_value = lookup.lookup_values.select{|lv| lv["display_text"] == option}.first
+            options << lookup_value["display_text"] if lookup_value.present?
+          else
+            selected = (field.option_strings_text.is_a?(Array) ? field.option_strings_text.select{|o| o['id'] == option} : option)
+            options << selected
+          end
         end
       end
       return options.flatten.collect{|a| a['display_text'] || a }.join(', ')
@@ -186,6 +195,18 @@ module FieldsHelper
       "form_section/field_display_#{field.display_type}"
     else
       "form_section/#{field.type}"
+    end
+  end
+
+  def option_string_source_data_attr(source)
+    if source.present?
+      source_match = source.match /lookup-.*/
+
+      if source_match
+        source_match[0]
+      else  
+        source
+      end
     end
   end
 end
