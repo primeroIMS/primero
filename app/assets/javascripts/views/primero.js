@@ -4,12 +4,13 @@ Primero = _primero.Views.Base.extend({
   events: {
     'click .btn_submit': 'submit_form',
     'click .gq_popovers': 'engage_popover',
+    'click .gq_select_popovers': 'engage_select_popover',
     'sticky-start .record_controls_container, .index_controls_container': 'start_sticky',
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
     'change .record_types input:not([type="hidden"])': 'record_type_changed',
     'click #audio_link, .document, .bulk_export_download': '_primero_check_download_status',
-    'click .download_forms': '_primero_check_status_close_modal',
+    'click .download_forms': '_primero_check_status_close_modal'
   },
 
   initialize: function() {
@@ -31,7 +32,6 @@ Primero = _primero.Views.Base.extend({
     _primero.remove_cookie = this._primero_remove_cookie;
     _primero.read_cookie = this._primero_read_cookie;
     _primero.create_cookie = this._primero_create_cookie;
-    _primero.set_content_sidebar_equality = this.set_content_sidebar_equality;
     _primero.scrollTop = this.scrollTop;
     _primero.update_subform_heading = this.update_subform_heading;
     _primero.abide_validator_date = this.abide_validator_date;
@@ -52,7 +52,6 @@ Primero = _primero.Views.Base.extend({
     this.populate_case_id_for_gbv_incidents();
     this.init_edit_listeners();
     this.chosen_roles();
-    this.init_modal_events();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var $textarea = $('textarea[name*="field[option_strings_text"]');
@@ -60,24 +59,9 @@ Primero = _primero.Views.Base.extend({
       $('textarea[name*="field[option_strings_text"]').parents('form').find('input[name="field[multi_select]"]').attr('disabled', true);
     }
 
+    $(document).on('closed.zf.reveal', 'body', this.clear_modal_form);
+
     window.onbeforeunload = this.load_and_redirect;
-  },
-
-  init_modal_events: function() {
-    var $document = $(document);
-    function modal_wrap() {
-      var $modal = $(this);
-      if (!$modal.parent('.modal-scroll').length) {
-        $modal.wrap("<div class='modal-scroll' />");
-      }
-    }
-    $document.on('opened.fndtn.reveal', '[data-reveal]', modal_wrap);
-
-    function modal_unwrap() {
-      var $modal = $(this);
-      $modal.unwrap("<div class='modal-scroll' />");
-    }
-    $document.on('close.fndtn.reveal', '[data-reveal]', modal_unwrap);
   },
 
   init_edit_listeners: function() {
@@ -155,15 +139,7 @@ Primero = _primero.Views.Base.extend({
 
     $(".panel_content ul").mCustomScrollbar(_.extend(options, { setHeight: 250 }));
 
-    $(".reveal-modal .side-tab-content").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
-
     $(".panel_main").mCustomScrollbar(_.extend(options, { setHeight: 400 }));
-
-    $(".referral_form_container").mCustomScrollbar(_.extend(options, { setHeight: 530 }));
-
-    $(".modal-content, .profile-header").mCustomScrollbar(_.extend(options, { setHeight: 370 }));
-
-    $(".transfer_form_container").mCustomScrollbar(_.extend(options, { setHeight: 460 }));
   },
 
   init_chosen_or_new: function() {
@@ -230,12 +206,20 @@ Primero = _primero.Views.Base.extend({
     $selected_input.trigger('focus');
   },
 
+  engage_select_popover: function(evt) {
+     evt.preventDefault();
+     var guided_link = $(evt.target);
+     guided_link.popover('toggle');
+  },
+
   init_sticky: function() {
     var control = $(".record_controls_container, .index_controls_container"),
     stickem = control.sticky({
       topSpacing: control.data('top'),
       bottomSpacing: control.data('bottom')
     });
+
+    nav_stickem = $('nav').sticky()
   },
 
   start_sticky: function(evt) {
@@ -295,7 +279,6 @@ Primero = _primero.Views.Base.extend({
 
       $form.submit();
     }
-    _primero.set_content_sidebar_equality();
   },
 
   disable_default_events: function(evt) {
@@ -531,10 +514,6 @@ Primero = _primero.Views.Base.extend({
     }
   },
 
-  set_content_sidebar_equality: function() {
-    Foundation.libs.equalizer.reflow();
-  },
-
   scrollTop: function() {
     window.scrollTo(0,0);
   },
@@ -619,9 +598,10 @@ Primero = _primero.Views.Base.extend({
     });
   },
 
-  abide_validator_date_not_future: function(el, required, parent) {
-    if (el.getAttribute("disabled") !== "disabled") {
-      return _primero.valid_datepicker_value(el.value, required) && _primero.date_not_future(el.value, required);
+  abide_validator_date_not_future: function($el, required, parent) {
+    if (!required && !$el.val()) return true;
+    if ($el && $el.attr('disabled') !== "disabled") {
+      return _primero.valid_datepicker_value($el.val(), required) && _primero.date_not_future($el.val(), required);
     } else {
       //Don't validate disabled inputs, browser does not send anyway.
       return true;
@@ -643,9 +623,10 @@ Primero = _primero.Views.Base.extend({
     }
   },
 
-  abide_validator_date: function(el, required, parent) {
-    if (el.getAttribute("disabled") !== "disabled") {
-      return _primero.valid_datepicker_value(el.value, required);
+  abide_validator_date: function($el, required, parent) {
+    if (!required && !$el.val()) return true;
+    if ($el && $el.attr("disabled") !== "disabled") {
+      return _primero.valid_datepicker_value($el.val(), required);
     } else {
       //Don't validate disabled inputs, browser does not send anyway.
       return true;
@@ -667,9 +648,10 @@ Primero = _primero.Views.Base.extend({
     }
   },
 
-  abide_validator_positive_number: function(el, required, parent) {
-    if (el.getAttribute("disabled") !== "disabled") {
-      return _primero.valid_positive_number_value(el.value, required);
+  abide_validator_positive_number: function($el, required, parent) {
+    if (!required && !$el.val()) return true;
+    if ($el && $el.attr("disabled") !== "disabled") {
+      return _primero.valid_positive_number_value($el.val(), required);
     } else {
       return true;
     }
@@ -680,6 +662,14 @@ Primero = _primero.Views.Base.extend({
       return !isNaN(value) && value >= 0;
     } else {
       return !required;
+    }
+  },
+
+  clear_modal_form: function(e) {
+    var form = $(e.target).find('form')[0]
+
+    if (form) {
+      form.reset();
     }
   }
 });

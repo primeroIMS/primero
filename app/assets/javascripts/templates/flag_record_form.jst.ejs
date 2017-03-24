@@ -5,17 +5,17 @@
     <input name="authenticity_token" type="hidden" value="<%=  authenticity_token  %>">
     <input id="<%=  model  %>_redirect_url" name="redirect_url" type="hidden" value="<%=  redirect_url  %>">
   </div>
-  <div class="row">
-    <div class="medium-5 columns">
+  <div class="row add_flag align-bottom">
+    <div class="column">
       <label for="<%= model %>_<%= message_id %>"><%= message %></label>
       <input id="<%= model %>_<%= message_id %>" name="<%= message_id %>" size="30" type="text" value="" class="flag_message">
     </div>
-    <div class="medium-5 columns">
+    <div class="column">
       <label for="<%= model %>_<%= message_date_id %>"><%= message_date %></label>
       <input id="<%= model %>_<%= message_date_id %>" name="<%= message_date_id %>" size="12" type="text" class="form_date_field">
     </div>
-    <div class="medium-2 columns">
-      <input class="mark-as-submit green-button flag_submit" data-error-message="<%= submit_error_message %>" id="<%= model %>_submit" name="commit" type="submit" value="<%= submit_label %>">
+    <div class="column">
+      <input class="mark-as-submit button flag_submit" data-error-message="<%= submit_error_message %>" id="<%= model %>_submit" name="commit" type="submit" value="<%= submit_label %>">
     </div>
   </div>
 </form>

@@ -38,10 +38,9 @@ gem 'daemons',         '~> 1.1.9',  :require => false
 gem 'activejob_backport'
 gem 'backburner', require: false
 
-gem 'foundation-rails', '~> 5.5.3.2'
-
-gem 'sass-rails',    '~> 5.0.4'
-gem 'compass-rails', '~> 2.0.1'
+gem 'foundation-rails', '~> 6.3.0.0'
+gem 'sass-rails',    '~> 5.0.6'
+gem 'compass-rails', '~> 3.0.2'
 gem 'coffee-rails',  '~> 4.0.1'
 gem 'chosen-rails',  '~> 1.1.0'
 gem 'ejs', '~> 1.1.1'
@@ -61,6 +60,7 @@ gem 'momentjs-rails', '~> 2.10.3'
 
 gem 'turbolinks', '~> 5'
 gem 'jquery-turbolinks'
+gem 'arabic-letter-connector'
 
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do

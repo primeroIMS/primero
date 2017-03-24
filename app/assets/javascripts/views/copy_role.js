@@ -13,7 +13,7 @@ _primero.Views.CopyRole = _primero.Views.Base.extend({
         copy_url = '/roles/'+id+'/copy';
     var $copy_role_modal = $('#copy-role-modal');
     $copy_role_modal.find('form').attr('action', copy_url);
-    $copy_role_modal.foundation('reveal', 'open')
+    $copy_role_modal.foundation('open')
   },
 
   submit_copy: function(e) {

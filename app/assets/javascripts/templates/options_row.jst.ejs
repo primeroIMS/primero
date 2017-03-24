@@ -1,19 +1,19 @@
-<div class="fields_option_strings_text_row">
-  <div class="<%= editing ? 'large-5 medium-5 medium-offset-1 large-offset-1 ' : 'large-11 medium-11 ' %> columns">
+<div class="row fields_option_strings_text_row">
+  <div class="column">
     <input type="hidden" name="field[option_strings_text_<%= locale %>][][id]" value="<%= id %>" />
     <input type="text" name="field[option_strings_text_<%= locale %>][][display_text]" id="field_option_strings_text_<%= locale %>__id" value="<%= display_text %>" class: "option_strings_text_input" />
   </div>
   <% if (editing) { %>
     <% _.each(locale_options, function(locale_option) { %>
       <% if (locale_option != locale) { %>
-        <div class="large-5 medium-5 columns <%= 'translation_forms ' + locale_option %> hide">
+        <div class="column <%= 'translation_forms ' + locale_option %> hide_element">
           <input type="hidden" name="field[option_strings_text_<%= locale_option %>][][id]" value="<%= id %>" />
           <input type="text" name="field[option_strings_text_<%= locale_option %>][][display_text]" id="field_option_strings_text_<%= locale_option %>__id" value="<%= display_text %>" class: "option_strings_text_input" />
         </div>
       <% } %>
     <% }); %>
   <% } %>
-  <div class="large-1 medium-1 column">
+  <div class="column">
     <% if (locale == 'en'){ %>
       <a class="field_option_remove_button">
         <i class="fa fa-close" />

@@ -37,7 +37,7 @@
       <% if editing %>
         <% Primero::Application::LOCALES.each do |new_locale| %>
           <% if I18n.default_locale.to_s != new_locale %>
-            <div class="large-4 medium-4 columns <%= "translation_forms #{new_locale}"%> hide">
+            <div class="large-4 medium-4 columns <%= "translation_forms #{new_locale}"%> hide_element">
               <%
                 disabled = false
                 if field_type == :text_area && fld.object[:multi_select] && field_name == :option_strings_text && fld.object[:"option_strings_text_#{new_locale}"].is_a?(Array)

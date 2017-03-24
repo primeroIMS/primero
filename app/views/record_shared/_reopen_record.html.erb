@@ -1,7 +1,7 @@
 <li>
-  <a data-reveal-id="<%= "#{model.name.underscore.downcase}_reopen_records" %>" href="#"><%= t("actions.reopen") %></a>
-  <div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_reopen_records" %>" data-reveal>
-    <a class="close-reveal-modal">&#215;</a>
+  <a data-open="<%= "#{model.name.underscore.downcase}_reopen_records" %>"><%= t("actions.reopen") %></a>
+  <div class="reveal tiny" id="<%= "#{model.name.underscore.downcase}_reopen_records" %>" data-reveal>
+    <%= render 'shared/modal_close' %>
     <div class="row">
       <div class="large-12 columns">
         <%= t('messages.reopen_record') %>
@@ -10,7 +10,7 @@
     <div class="space"></div>
     <div class="row">
       <div class="large-12 columns">
-        <a class="btn green-button right"
+        <a class="btn button right"
           id="reopen_action"
           data-id="<%= instance.id %>"
           data-form_action="<%= send("#{model.name.underscore.downcase}_reopen_case_path", instance) %>"
@@ -19,7 +19,7 @@
           data-reopen="true"
           href=""><%= t("buttons.ok") %>
         </a>
-        <a class="close-reveal-modal btn green-button right"><%= t("buttons.cancel") %></a>
+        <a class="close-reveal-modal btn button gray right"><%= t("buttons.cancel") %></a>
       </div>
     </div>
   </div>

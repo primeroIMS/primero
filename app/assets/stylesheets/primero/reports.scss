@@ -73,14 +73,20 @@ div.reports_form .side-tab-content .row .row {
   }
 
   ul.tabs {
+    border: none;
     border-bottom: 1px solid $stroke_green_color;
     margin-top: 20px;
     height: 39px;
   }
 
-  .tab-title {
+  .tabs-title {
     background: none;
     border: none;
+    height: rem_calc(39);
+    
+    a {
+      outline: none;
+    }
 
     &:first-of-type {
       margin-left: 15%;
@@ -99,7 +105,7 @@ div.reports_form .side-tab-content .row .row {
     }
   }
 
-  .tab-title.active {
+  .tabs-title.is-active {
     background: $desat_green_color;
     border: 1px solid $stroke_green_color;
     border-bottom: none;
