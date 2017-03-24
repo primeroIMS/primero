@@ -342,10 +342,9 @@ Primero = _primero.Views.Base.extend({
     var $form = $(form);
     if ($form.find("#errorExplanation").length === 0) {
       $form.find(".tab div.clearfix").each(function(x, el) {
-        //TODO make i18n able.
         $(el).after("<div id='errorExplanation' class='errorExplanation'>" +
-          "<h2>Errors prohibited this record from being saved</h2>" +
-          "<p>There were problems with the following fields:</p>" +
+          "<h2>" + I18n.t('error_message.notice') + "</h2>" +
+          "<p>" + I18n.t('error_message.fields_notice') + "</p>" +
           "<ul/>" +
           "</div>");
       });

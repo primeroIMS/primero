@@ -6,7 +6,6 @@ class Lookup < CouchRest::Model::Base
   include Memoizable
   include LocalizableProperty
 
-  property :description
   property :locked, TrueClass, :default => false
   localize_properties [:name]
   localize_properties [:lookup_values], generate_keys: true

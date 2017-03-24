@@ -5,7 +5,7 @@ class OptionsController < ApplicationController
     
     respond_to do |format|
       if sources.present?
-        format.json { render json: { success: 1, sources: sources }}
+        format.json { render json: { success: 1, sources: sources, placeholder: I18n.t("fields.select_box_empty_item") }}
       else
         format.json { render json: { message: I18n.t("messages.string_sources_failed"), success: 0 }}
       end
@@ -16,18 +16,22 @@ class OptionsController < ApplicationController
 
   def build_string_sources
     sources = []
-
-    if params[:string_sources].present?
-      params[:string_sources].each{|source| sources << string_sources(source)}
-    end
-
-    sources.reject{|source| source.nil?}
+    sources << get_lookups
+    sources << get_locations if params[:string_sources].include?('Location')
+    sources.reject{|source| source.nil?}.flatten
   end
 
-  def string_sources(source)
-    case source
-      when 'Location'
-      {type: source, options: Location.all_names}
+  def get_lookups
+    lookups = Lookup.all.all.select{|lookup| params[:string_sources].include?(lookup.id)}
+    
+    if lookups.present?
+      lookups.map{|lookup| [{:type => lookup.id ,:options => lookup.lookup_values}]}
+    else
+      nil
     end
+  end
+
+  def get_locations
+    {type: 'Location', options: Location.all_names}
   end
 end

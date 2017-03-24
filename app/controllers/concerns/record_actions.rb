@@ -13,7 +13,7 @@ module RecordActions
 
     before_filter :load_record, :except => [:new, :create, :index, :reindex]
     before_filter :current_user, :except => [:reindex]
-    before_filter :get_lookups, :only => [:new, :edit, :index]
+    before_filter :get_lookups, :only => [:show, :new, :edit, :index]
     before_filter :current_modules, :only => [:show, :index]
     before_filter :is_manager, :only => [:index]
     before_filter :is_admin, :only => [:index]
