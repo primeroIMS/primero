@@ -17,7 +17,7 @@
         var $this = $(this);
         var $target = $(event.target);
         var tr_id = $target.attr('id').split("_")[2];
-        $this.text('show less');
+        $this.text(I18n.t('potential_match.show_less'));
         $this.attr("id", "show_less_" + tr_id);
         $("#myTable_" + tr_id).find("tr").css({'display': 'table-row'});
       }
@@ -27,7 +27,7 @@
         var $this = $(this);
         var $target = $(event.target);
         var tr_id = $target.attr('id').split("_")[2];
-        $this.text('show more');
+        $this.text(I18n.t('potential_match.show_more'));
         $this.attr("id", "show_more_" + tr_id);
         $("#myTable_" + tr_id).find("tr:not(:first-child)").css({'display': 'none'});
       }

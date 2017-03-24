@@ -1,14 +1,14 @@
 <% if can? :update, User %>
   <% unless @notifications.empty? %>
-    <p>These users requested password reset. Please contact them immediately.</p>
+    <p><%= t('login.notification.users_requested_password_reset') %></p>
     <ul>
       <% @notifications.each do |notification| %>
         <% notification_for_user = User.find_by_user_name notification.user_name %>
         <li>
           <% if notification_for_user.nil? %>
-                 <%= "#{notification.user_name} at #{notification.created_at.strftime('%Y/%m/%d')}. This username does not currently exist in the system. " %>
+            <%= t('login.notification.users_does_not_exist', user: notification.user_name, created: notification.created_at.strftime('%Y/%m/%d')) %>
           <% else %>
-            <%= link_to notification.user_name, user_path(notification_for_user) %><%= "at #{notification.created_at.strftime('%Y/%m/%d')}." %>
+            <%= link_to notification.user_name, user_path(notification_for_user) %><%= t('at', created: notification.created_at.strftime('%Y/%m/%d')) %>
           <% end %>
         </li>
       <% end %>
