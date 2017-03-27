@@ -549,19 +549,19 @@ class HomeController < ApplicationController
     #TODO - i18n - fix hard coding
     if locations.present?
       @reporting_location_stats = build_admin_stats({
-        totals: get_admin_stat({ status: 'open', locations: locations, by_reporting_location: true }),
-        new_last_week: get_admin_stat({ status: 'open', new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        new_this_week: get_admin_stat({ status: 'open', new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
-        closed_last_week: get_admin_stat({ status: 'closed', closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        closed_this_week: get_admin_stat({ status: 'closed', closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
+        totals: get_admin_stat({ status: Child::STATUS_OPEN, locations: locations, by_reporting_location: true }),
+        new_last_week: get_admin_stat({ status: Child::STATUS_OPEN, new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        new_this_week: get_admin_stat({ status: Child::STATUS_OPEN, new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
+        closed_last_week: get_admin_stat({ status: Child::STATUS_CLOSED, closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        closed_this_week: get_admin_stat({ status: Child::STATUS_CLOSED, closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
       })
     end
 
     @protection_concern_stats = build_admin_stats({
         totals: get_admin_stat({by_protection_concern: true}),
-        open: get_admin_stat({status: 'open', by_protection_concern: true}),
-        new_this_week: get_admin_stat({status: 'open', by_protection_concern: true, new: true, date_range: this_week}),
-        closed_this_week: get_admin_stat({status: 'closed', by_protection_concern: true, closed: true, date_range: this_week})
+        open: get_admin_stat({status: Child::STATUS_OPEN, by_protection_concern: true}),
+        new_this_week: get_admin_stat({status: Child::STATUS_OPEN, by_protection_concern: true, new: true, date_range: this_week}),
+        closed_this_week: get_admin_stat({status: Child::STATUS_CLOSED, by_protection_concern: true, closed: true, date_range: this_week})
     })
   end
 
