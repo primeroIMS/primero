@@ -402,7 +402,6 @@ class HomeController < ApplicationController
         end
       end
 
-      #TODO - i18n - fix hard coding
       facet(:transfer_status, zeros: true, exclude: [referred]) do
         row(:pending) do
           with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
@@ -546,7 +545,6 @@ class HomeController < ApplicationController
     this_week = DateTime.now.beginning_of_week .. DateTime.now.end_of_week
     locations = current_user.managed_users.map { |u| u.location }.compact.reject(&:empty?)
 
-    #TODO - i18n - fix hard coding
     if locations.present?
       @reporting_location_stats = build_admin_stats({
         totals: get_admin_stat({ status: Child::STATUS_OPEN, locations: locations, by_reporting_location: true }),
@@ -568,7 +566,6 @@ class HomeController < ApplicationController
 
   def build_admin_stats(stats)
     admin_stats = {}
-    #TODO - i18n
     protection_concerns = Lookup.values('lookup-protection-concerns', @lookups)
     stats.each do |k, v|
       stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
@@ -597,7 +594,6 @@ class HomeController < ApplicationController
           end
         end
       end
-      #TODO - i18n - review... this may be ok
       with(:associated_user_names, current_user.managed_user_names)
       with(:record_state, true)
       with(:child_status, query[:status]) if query[:status].present?
