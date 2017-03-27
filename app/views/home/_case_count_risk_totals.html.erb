@@ -4,7 +4,8 @@
                          {
                             name: :risk_level,
                             stat: :high_total,
-                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'risk_level=High', 'record_state=true']),
+                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                   "risk_level=#{Child::RISK_LEVEL_HIGH}", 'record_state=true']),
                             stat_type: 'high'
                          }, stats, model)).html_safe %>
   <%= I18n.translate('dashboard.count_risk_level_new',
@@ -12,7 +13,8 @@
                          {
                             name: :risk_level,
                             stat: :high,
-                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'risk_level=high', 'new_other', 'record_state=true']),
+                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                   "risk_level=#{Child::RISK_LEVEL_HIGH}", 'new_other', 'record_state=true']),
                             stat_type: 'high'
                          }, stats, model)).html_safe %>
 </div>
@@ -22,7 +24,8 @@
                          {
                              name: :risk_level,
                              stat: :medium_total,
-                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'risk_level=medium', 'record_state=true']),
+                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                    "risk_level=#{Child::RISK_LEVEL_MEDIUM}", 'record_state=true']),
                              stat_type: 'medium'
                          }, stats, model)).html_safe %>
   <%= I18n.translate('dashboard.count_risk_level_new',
@@ -30,7 +33,8 @@
                          {
                              name: :risk_level,
                              stat: :medium,
-                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'risk_level=medium', 'new_other', 'record_state=true']),
+                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                    "risk_level=#{Child::RISK_LEVEL_MEDIUM}", 'new_other', 'record_state=true']),
                              stat_type: 'medium'
                          }, stats, model)).html_safe %>
 </div>
@@ -40,7 +44,8 @@
                          {
                              name: :risk_level,
                              stat: :low_total,
-                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'risk_level=low', 'record_state=true']),
+                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                    "risk_level=#{Child::RISK_LEVEL_LOW}", 'record_state=true']),
                              stat_type: 'low'
                          }, stats, model)).html_safe %>
   <%= I18n.translate('dashboard.count_risk_level_new',
@@ -48,7 +53,8 @@
                          {
                              name: :risk_level,
                              stat: :low,
-                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'risk_level=low', 'new_other', 'record_state=true']),
+                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                    "risk_level=#{Child::RISK_LEVEL_LOW}", 'new_other', 'record_state=true']),
                              stat_type: 'low'
                          }, stats, model)).html_safe %>
 </div>

@@ -204,25 +204,25 @@ class HomeController < ApplicationController
       if query[:by_risk_level].present?
         facet(:risk_level, zeros: true) do
           row(:high) do
-            with(:risk_level, 'High')
+            with(:risk_level, Child::RISK_LEVEL_HIGH)
             with(:not_edited_by_owner, true)
           end
           row(:high_total) do
-            with(:risk_level, 'High')
+            with(:risk_level, Child::RISK_LEVEL_HIGH)
           end
           row(:medium) do
-            with(:risk_level, 'Medium')
+            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
             with(:not_edited_by_owner, true)
           end
           row(:medium_total) do
-            with(:risk_level, 'Medium')
+            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
           end
           row(:low) do
-            with(:risk_level, 'Low')
+            with(:risk_level, Child::RISK_LEVEL_LOW)
             with(:not_edited_by_owner, true)
           end
           row(:low_total) do
-            with(:risk_level, 'Low')
+            with(:risk_level, Child::RISK_LEVEL_LOW)
           end
         end
       end
@@ -316,29 +316,28 @@ class HomeController < ApplicationController
         end
       end
 
-      #TODO - i18n - is it ok to hard code these values?
       if display_assessment?
         facet(:risk_level, zeros: true, exclude: [referred]) do
           row(:high) do
-            with(:risk_level, 'high')
+            with(:risk_level, Child::RISK_LEVEL_HIGH)
             with(:not_edited_by_owner, true)
           end
           row(:high_total) do
-            with(:risk_level, 'high')
+            with(:risk_level, Child::RISK_LEVEL_HIGH)
           end
           row(:medium) do
-            with(:risk_level, 'medium')
+            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
             with(:not_edited_by_owner, true)
           end
           row(:medium_total) do
-            with(:risk_level, 'medium')
+            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
           end
           row(:low) do
-            with(:risk_level, 'low')
+            with(:risk_level, Child::RISK_LEVEL_LOW)
             with(:not_edited_by_owner, true)
           end
           row(:low_total) do
-            with(:risk_level, 'low')
+            with(:risk_level, Child::RISK_LEVEL_LOW)
           end
         end
       end

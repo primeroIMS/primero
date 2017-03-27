@@ -4,6 +4,9 @@ class Child < CouchRest::Model::Base
   CHILD_PREFERENCE_MAX = 3
   STATUS_OPEN = 'open'
   STATUS_CLOSED = 'closed'
+  RISK_LEVEL_LOW = 'low'
+  RISK_LEVEL_MEDIUM = 'medium'
+  RISK_LEVEL_HIGH = 'high'
 
   def self.parent_form
     'case'
