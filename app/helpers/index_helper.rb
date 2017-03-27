@@ -64,13 +64,18 @@ module IndexHelper
     content_tag :div, class: "filter-controls #{'field-controls-multi' if type} row align-middle" do
       items.each do |item|
         if item.is_a?(Hash)
-          key = item.keys.first
-          if item[key].is_a?(Hash)
-            label = item[key][:label]
-            item = item[key][:value]
+          if(item['id'].present? && item['display_text'].present?)
+            label = item['display_text']
+            item = item['id']
           else
-            label = item[key]
-            item = key.to_s
+            key = item.keys.first
+            if item[key].is_a?(Hash)
+              label = item[key][:label]
+              item = item[key][:value]
+            else
+              label = item[key]
+              item = key.to_s
+            end
           end
         else
           label = item.split('::').last
