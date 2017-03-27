@@ -127,6 +127,9 @@ module Record
     end
   end
 
+  STATUS_OPEN = 'open'
+  STATUS_CLOSED = 'closed'
+
   def self.model_from_name(name)
     name == 'case' ? Child : Object.const_get(name.camelize)
   end
