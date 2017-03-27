@@ -1,1 +1,4 @@
-Dir[File.dirname(__FILE__) + '/migrations/**/*.rb'].each{|file| require file }
+require File.join(Rails.root, File.dirname(__FILE__) + '/migration_helper.rb')
+# require File.join(Rails.root, File.dirname(__FILE__) + '/migrations/forms.rb')
+require File.join(Rails.root, File.dirname(__FILE__) + '/migrations/records.rb')
+# require File.join(Rails.root, File.dirname(__FILE__) + '/migrations/lookups.rb')
