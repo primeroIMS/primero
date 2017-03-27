@@ -11,7 +11,7 @@
   	<div class="side-tab-content" data-equalizer-watch>
   		<div class="row">
 	  		<div class="large-12 columns">
-			    <%= render :partial => "editable_user", :object => @user %>
+			    <%= render :partial => "editable_user", :object => @user, :locals => {:new_user => true} %>
 		    </div>
 	    </div>
     </div>
