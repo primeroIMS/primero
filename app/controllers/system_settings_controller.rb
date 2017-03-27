@@ -1,7 +1,7 @@
 class SystemSettingsController < ApplicationController
 
-  before_filter do
-    authorize!(:manage, SystemUsers) #This sounds arbitrary, but implies that the user can manage other System settings
+  before_filter :only => [:show, :edit, :update] do
+    authorize!(:manage, SystemSettings)
   end
   before_filter :load_system_settings, :only => [:show, :index, :edit, :update]
 
@@ -21,6 +21,7 @@ class SystemSettingsController < ApplicationController
   #NOTE: By rule, there should only be 1 SystemSettings row
   #      So, the index only returns 1 record
   def index
+    authorize!(:index, SystemSettings)
     respond_to do |format|
       if @system_settings.present?
         format.json { render json: { success: 1, settings: @system_settings }}
