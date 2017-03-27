@@ -2,6 +2,8 @@ class Child < CouchRest::Model::Base
   use_database :child
 
   CHILD_PREFERENCE_MAX = 3
+  STATUS_OPEN = 'open'
+  STATUS_CLOSED = 'closed'
 
   def self.parent_form
     'case'

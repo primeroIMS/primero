@@ -34,27 +34,28 @@
             <td>
               <%=
                 build_reporting_location_stat_link(val[:totals],
-                                                   ['child_status=open||closed', 'record_state=true', "protection_concern=#{key}"],
+                                                   ["child_status=#{Child::STATUS_OPEN}||#{Child::STATUS_CLOSED}",
+                                                    'record_state=true', "protection_concern=#{key}"],
                                                    model, reporting_location, admin_level)
               %>
             </td>
             <td>
               <%=
                 build_reporting_location_stat_link(val[:open],
-                                                   ['child_status=open', 'record_state=true', "protection_concern=#{key}"],
+                                                   ["child_status=#{Child::STATUS_OPEN}", 'record_state=true', "protection_concern=#{key}"],
                                                    model, reporting_location, admin_level)
               %>
             </td>
             <td>
               <%= build_reporting_location_stat_link(val[:new_this_week],
-                                                     ['child_status=open', 'record_state=true', "created_at=#{this_week}", "protection_concern=#{key}"],
+                                                     ["child_status=#{Child::STATUS_OPEN}", 'record_state=true', "created_at=#{this_week}", "protection_concern=#{key}"],
                                                      model, reporting_location, admin_level)
               %>
             </td>
             <td>
               <%=
                 build_reporting_location_stat_link(val[:closed_this_week],
-                                                   ['child_status=Closed', 'record_state=true', "date_closure=#{this_week}", "protection_concern=#{key}"],
+                                                   ["child_status=#{Child::STATUS_CLOSED}", 'record_state=true', "date_closure=#{this_week}", "protection_concern=#{key}"],
                                                    model, reporting_location, admin_level)
               %>
             </td>

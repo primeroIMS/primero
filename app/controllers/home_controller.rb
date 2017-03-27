@@ -301,12 +301,10 @@ class HomeController < ApplicationController
   end
 
   def load_cases_information
-    # binding.pry;x=0
     module_ids = @module_ids
     @stats = Child.search do
       # TODO: Check for valid
-      #TODO - i18n - is it OK to hard code these values?
-      with(:child_status, 'open')
+      with(:child_status, Child::STATUS_OPEN)
       with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:assigned_user_names, current_user.user_name)
@@ -350,7 +348,7 @@ class HomeController < ApplicationController
           with(:not_edited_by_owner, true)
         end
         row(:total) do
-          with(:child_status, 'open')
+          with(:child_status, Child::STATUS_OPEN)
         end
       end
 
@@ -359,7 +357,7 @@ class HomeController < ApplicationController
           without(:last_updated_by, current_user.user_name)
         end
         row(:total) do
-          with(:child_status, 'open')
+          with(:child_status, Child::STATUS_OPEN)
         end
       end
 

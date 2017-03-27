@@ -5,7 +5,7 @@
       case_count(
         {  count: v[:total_cases],
            stat_type: k,
-           filter: index_filters(['child_status=open', "transfer_status=#{k}" ,'record_state=true'])
+           filter: index_filters(["child_status=#{Child::STATUS_OPEN}", "transfer_status=#{k}" ,'record_state=true'])
         }, nil, model)).html_safe %>
 </div>
 <% end %>

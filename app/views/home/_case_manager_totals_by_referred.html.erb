@@ -2,10 +2,10 @@
   <% if k.present? %>
   <div>
     <%= I18n.translate('dashboard.worker_count_referrals_total',
-                       case_count({case_worker: k, count: v[:total_cases], filter: index_filters(['child_status=open', "referred_user=#{k}", 'record_state=true'])}, {}, model)).html_safe %>
+                       case_count({case_worker: k, count: v[:total_cases], filter: index_filters(["child_status=#{Child::STATUS_OPEN}", "referred_user=#{k}", 'record_state=true'])}, {}, model)).html_safe %>
     <%= I18n.translate('dashboard.count_referrals_new',
                        case_count({count: v[:new_cases],
-                                   filter: index_filters(['child_status=open', 'new_other', "referred_user=#{k}", 'record_state=true'])}, {}, model)).html_safe %>
+                                   filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'new_other', "referred_user=#{k}", 'record_state=true'])}, {}, model)).html_safe %>
   </div>
   <% end %>
 <% end %>
