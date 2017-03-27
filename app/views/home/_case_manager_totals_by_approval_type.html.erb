@@ -5,7 +5,9 @@
                          {
                            name: :approval_type,
                            stat: :bia,
-                           filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'approval_status_bia=pending', 'record_state=true']),
+                           filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                  "approval_status_bia=#{Child::APPROVAL_STATUS_PENDING}",
+                                                  'record_state=true']),
                            stat_type: "#{I18n.t('approvals.bia')}"
                          }, stats, model)).html_safe %>
   </div>
@@ -17,7 +19,9 @@
                          {
                            name: :approval_type,
                            stat: :case_plan,
-                           filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'approval_status_case_plan=pending', 'record_state=true']),
+                           filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                  "approval_status_case_plan=#{Child::APPROVAL_STATUS_PENDING}",
+                                                  'record_state=true']),
                            stat_type: "#{I18n.t('approvals.case_plan')}"
                          }, stats, model)).html_safe %>
   </div>
@@ -29,7 +33,9 @@
                          {
                            name: :approval_type,
                            stat: :closure,
-                           filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'approval_status_closure=Pending', 'record_state=true']),
+                           filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                  "approval_status_closure=#{Child::APPROVAL_STATUS_PENDING}",
+                                                  'record_state=true']),
                            stat_type: "#{I18n.t('approvals.closure')}"
                          }, stats, model)).html_safe %>
   </div>

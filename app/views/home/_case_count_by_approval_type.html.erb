@@ -6,7 +6,7 @@
                            name: :approval_status_bia,
                            stat: :pending,
                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
-                                                  "approval_status_bia=pending",
+                                                  "approval_status_bia=#{Child::APPROVAL_STATUS_PENDING}",
                                                   'record_state=true']),
                            stat_type: "#{I18n.t('approvals.bia')}"
                          }, stats, model)).html_safe %>
@@ -16,7 +16,7 @@
                            name: :approval_status_bia,
                            stat: :rejected,
                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
-                                                  "approval_status_bia=rejected",
+                                                  "approval_status_bia=#{Child::APPROVAL_STATUS_REJECTED}",
                                                   'record_state=true']),
                            stat_type: "#{I18n.t('approvals.bia')}"
                          }, stats, model)).html_safe %>
@@ -30,7 +30,7 @@
                            name: :approval_status_case_plan,
                            stat: :pending,
                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
-                                                  "approval_status_case_plan=pending",
+                                                  "approval_status_case_plan=#{Child::APPROVAL_STATUS_PENDING}",
                                                   'record_state=true']),
                            stat_type: "#{I18n.t('approvals.case_plan')}"
                          }, stats, model)).html_safe %>
@@ -40,7 +40,7 @@
                            name: :approval_status_case_plan,
                            stat: :rejected,
                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
-                                                  "approval_status_case_plan=rejected",
+                                                  "approval_status_case_plan=#{Child::APPROVAL_STATUS_REJECTED}",
                                                   'record_state=true']),
                            stat_type: "#{I18n.t('approvals.case_plan')}"
                          }, stats, model)).html_safe %>
@@ -54,7 +54,7 @@
                            name: :approval_status_closure,
                            stat: :pending,
                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
-                                                  "approval_status_closure=pending",
+                                                  "approval_status_closure=#{Child::APPROVAL_STATUS_PENDING}",
                                                   'record_state=true']),
                            stat_type: "#{I18n.t('approvals.closure')}"
                          }, stats, model)).html_safe %>
@@ -64,7 +64,7 @@
                            name: :approval_status_closure,
                            stat: :rejected,
                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
-                                                  "approval_status_closure=rejected",
+                                                  "approval_status_closure=#{Child::APPROVAL_STATUS_REJECTED}",
                                                   'record_state=true']),
                            stat_type: "#{I18n.t('approvals.closure')}"
                          }, stats, model)).html_safe %>
@@ -81,7 +81,7 @@
                            stat_type: "#{I18n.t('approvals.bia')}",
                            filter: index_filters(
                              ["child_status=#{Child::STATUS_OPEN}",
-                              "approval_status_bia=approved",
+                              "approval_status_bia=#{Child::APPROVAL_STATUS_APPROVED}",
                               "bia_approved_date=#{last_ten_days}",
                               'record_state=true']
                            )
@@ -101,7 +101,7 @@
                            stat_type: "#{I18n.t('approvals.case_plan')}",
                            filter: index_filters(
                              ["child_status=#{Child::STATUS_OPEN}",
-                              "approval_status_case_plan=approved",
+                              "approval_status_case_plan=#{Child::APPROVAL_STATUS_APPROVED}",
                               "case_plan_approved_date=#{last_ten_days}",
                               'record_state=true']
                            )
@@ -121,7 +121,7 @@
                            stat_type: "#{I18n.t('approvals.closure')}",
                            filter: index_filters(
                              ["child_status=#{Child::STATUS_OPEN}",
-                              "approval_status_closure=approved",
+                              "approval_status_closure=#{Child::APPROVAL_STATUS_APPROVED}",
                               "closure_approved_date=#{last_ten_days}",
                               'record_state=true']
                            )

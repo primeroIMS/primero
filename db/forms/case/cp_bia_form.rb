@@ -21,10 +21,7 @@ bia_fields = [
     Field.new({"name" => "approval_status_bia",
                "type" => "select_box",
                "display_name_all" => "Approval Status",
-               "option_strings_text_all" =>
-                   ["Pending",
-                    "Approved",
-                    "Rejected"].join("\n"),
+               "option_strings_source" => "lookup lookup-approval-status",
                "disabled" => true,
                "editable" => false
               }),

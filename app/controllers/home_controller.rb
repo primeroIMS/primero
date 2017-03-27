@@ -230,13 +230,13 @@ class HomeController < ApplicationController
       if query[:by_approval_type].present?
         facet(:approval_type, zeros: true) do
           row(:bia) do
-            with(:approval_status_bia, I18n.t('approvals.status.pending'))
+            with(:approval_status_bia, Child::APPROVAL_STATUS_PENDING)
           end
           row(:case_plan) do
-            with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+            with(:approval_status_case_plan, Child::APPROVAL_STATUS_PENDING)
           end
           row(:closure) do
-            with(:approval_status_closure, I18n.t('approvals.status.pending'))
+            with(:approval_status_closure, Child::APPROVAL_STATUS_PENDING)
           end
         end
       end
@@ -258,14 +258,14 @@ class HomeController < ApplicationController
     #   modules: @module_ids
     # })
     queries = {
-      totals_by_case_worker: manager_case_query({ by_owner: true, status: 'Open' }),
-      new_by_case_worker: manager_case_query({ by_owner: true, status: 'Open', new_records: true }),
-      risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
+      totals_by_case_worker: manager_case_query({ by_owner: true, status: Child::STATUS_OPEN }),
+      new_by_case_worker: manager_case_query({ by_owner: true, status: Child::STATUS_OPEN, new_records: true }),
+      risk_level: manager_case_query({ by_risk_level: true, status: Child::STATUS_OPEN }),
       manager_totals: manager_case_query({ by_case_status: true}),
-      referred_total: manager_case_query({ referred: true, status: 'Open' }),
-      referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
-      approval_type: manager_case_query({ by_approval_type: true, status: 'Open'}),
-      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: 'Open'})
+      referred_total: manager_case_query({ referred: true, status: Child::STATUS_OPEN }),
+      referred_new: manager_case_query({ referred: true, status: Child::STATUS_OPEN, new_records: true }),
+      approval_type: manager_case_query({ by_approval_type: true, status: Child::STATUS_OPEN}),
+      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: Child::STATUS_OPEN})
     }
     build_manager_stats(queries)
   end
@@ -360,45 +360,44 @@ class HomeController < ApplicationController
         end
       end
 
-      #TODO - i18n - OK to hard code these?
       facet(:approval_status_bia, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_bia, 'pending')
+          with(:approval_status_bia, Child::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_bia, 'rejected')
+          with(:approval_status_bia, Child::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_bia, 'approved')
+          with(:approval_status_bia, Child::APPROVAL_STATUS_APPROVED)
           with(:bia_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_case_plan, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_case_plan, 'pending')
+          with(:approval_status_case_plan, Child::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_case_plan, 'rejected')
+          with(:approval_status_case_plan, Child::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_case_plan, 'approved')
+          with(:approval_status_case_plan, Child::APPROVAL_STATUS_APPROVED)
           with(:case_plan_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_closure, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_closure, 'pending')
+          with(:approval_status_closure, Child::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_closure, 'rejected')
+          with(:approval_status_closure, Child::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_closure, 'approved')
+          with(:approval_status_closure, Child::APPROVAL_STATUS_APPROVED)
           with(:closure_approved_date, bod..Time.zone.now)
         end
       end
