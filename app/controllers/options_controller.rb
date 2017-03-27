@@ -11,14 +11,17 @@ class OptionsController < ApplicationController
       end
     end
   end
-
+  
   private
 
   def build_string_sources
     sources = []
-    sources << get_lookups
-    sources << get_locations if params[:string_sources].include?('Location')
-    sources.reject{|source| source.nil?}.flatten
+    
+    if params[:string_sources].present?
+      sources << get_lookups
+      sources << get_locations if params[:string_sources].include?('Location')
+      sources.reject{|source| source.nil?}.flatten
+    end
   end
 
   def get_lookups
