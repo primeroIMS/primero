@@ -73,10 +73,7 @@ case_plan_fields = [
                "display_name_all" => "Approval Status",
                "editable"=> false,
                "disabled"=> true,
-               "option_strings_text_all" =>
-                   ["Pending",
-                    "Approved",
-                    "Rejected"].join("\n")
+               "option_strings_source" => "lookup lookup-approval-status"
               }),
     Field.new({"name" => "protection_concerns",
              "type" => "select_box",

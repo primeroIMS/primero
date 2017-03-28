@@ -193,7 +193,7 @@ describe ChildrenController do
         assigns["type_of_export_exporter"].should eq(Exporters::CSVExporter) if params["type_of_export"] == "Non-Primero"
         assigns["type_of_export_exporter"].should eq(Exporters::PDFExporter) if params["type_of_export"] == "PDF export"
       else
-        referral.to_user_local_status.should eq("In Progress")
+        referral.to_user_local_status.should eq(Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
         referral.to_user_local.should eq(existing_user)
         referral.to_user_remote.should eq("")
       end

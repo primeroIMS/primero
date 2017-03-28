@@ -28,7 +28,7 @@
             </td>
             <td><%= incident.date_of_first_report %></td>
             <td><%= incident.incident_date %></td>
-            <td><%= incident.gbv_sexual_violence_type %></td>
+            <td><%= incident.display_field('gbv_sexual_violence_type') %></td>
           </tr>
         <% end %>
       </tbody>

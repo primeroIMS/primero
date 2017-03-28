@@ -369,3 +369,13 @@ create_or_update_lookup(
     ]
 )
 
+create_or_update_lookup(
+    :id => "lookup-approval-status",
+    :name => "Approval Status",
+    :lookup_values => [
+        {id: "pending", display_text: "Pending"}.with_indifferent_access,
+        {id: "approved", display_text: "Approved"}.with_indifferent_access,
+        {id: "rejected", display_text: "Rejected"}.with_indifferent_access
+    ]
+)
+

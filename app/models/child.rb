@@ -2,6 +2,12 @@ class Child < CouchRest::Model::Base
   use_database :child
 
   CHILD_PREFERENCE_MAX = 3
+  RISK_LEVEL_LOW = 'low'
+  RISK_LEVEL_MEDIUM = 'medium'
+  RISK_LEVEL_HIGH = 'high'
+  APPROVAL_STATUS_PENDING = 'pending'
+  APPROVAL_STATUS_APPROVED = 'approved'
+  APPROVAL_STATUS_REJECTED = 'rejected'
 
   def self.parent_form
     'case'

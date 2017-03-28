@@ -4,9 +4,8 @@
                        {
                          name: :transfer_status,
                          stat: :pending,
-                         filter: index_filters(['child_status=Open',
-                                                "transfer_status=#{I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                                                          :locale => :en)}",
+                         filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                "transfer_status=#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
                                                 'record_state=true',
                                                 "owned_by=#{current_user.user_name}"])
                        }, stats, model)).html_safe %>
@@ -15,9 +14,8 @@
                        {
                          name: :transfer_status,
                          stat: :rejected,
-                         filter: index_filters(['child_status=Open',
-                                                "transfer_status=#{I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
-                                                                          :locale => :en)}",
+                         filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                "transfer_status=#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
                                                 'record_state=true'])
                        }, stats, model)).html_safe %>
 </div>
@@ -27,9 +25,8 @@
                        {
                          name: :in_progress_transfers,
                          stat: :in_progress,
-                         filter: index_filters(['child_status=Open',
-                                                "transfer_status=#{I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                                                          :locale => :en)}",
+                         filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                                                "transfer_status=#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
                                                 'record_state=true',
                                                 'transferred_to_users'])
                        }, stats, model)).html_safe %>

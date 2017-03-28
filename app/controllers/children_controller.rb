@@ -121,8 +121,7 @@ class ChildrenController < ApplicationController
     active_transitions_count = child.referrals.select { |t| t.id != referral_id && t.is_referral_active? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
     referral = child.referrals.select { |r| r.id == referral_id }.first
 
-    # TODO: This will need to be refactored once we implement real i18n-able keyvalue pairs
-    referral.to_user_local_status = I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_DONE}", :locale => :en)
+    referral.to_user_local_status = Transition::TO_USER_LOCAL_STATUS_DONE
 
     if active_transitions_count == 0
       child.assigned_user_names = child.assigned_user_names.reject{|u| u == @current_user.user_name}
@@ -131,7 +130,7 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       if child.save
         flash[:notice] = t("referral.done_success_message")
-        redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
+        redirect_to cases_path(scope: {:child_status => "list||#{Child::STATUS_OPEN}", :record_state => "list||true"})
         return
       else
         flash[:notice] = child.errors.messages
@@ -181,9 +180,9 @@ class ChildrenController < ApplicationController
           format.html { redirect_after_update }
         when :transition_transfer_status_updated
           if @child.save
-            if transition_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
+            if transition_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
               flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
-              redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
+              redirect_to cases_path(scope: {:child_status => "list||#{Child::STATUS_OPEN}", :record_state => "list||true"})
               return
             else
               flash[:notice] = t('transfer.success', record_type: model_class.parent_form.titleize, id: @child.short_id)
@@ -232,7 +231,7 @@ class ChildrenController < ApplicationController
   end
 
   def initialize_created_record rec
-    rec['child_status'] = "Open" if rec['child_status'].blank?
+    rec['child_status'] = Child::STATUS_OPEN if rec['child_status'].blank?
     rec['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
   end
 
