@@ -379,3 +379,12 @@ create_or_update_lookup(
     ]
 )
 
+create_or_update_lookup(
+    :id => "lookup-gender",
+    :name => "gender",
+    :lookup_values => [
+        {id: "male", display_text: "Male"}.with_indifferent_access,
+        {id: "female", display_text: "Female"}.with_indifferent_access
+    ]
+)
+

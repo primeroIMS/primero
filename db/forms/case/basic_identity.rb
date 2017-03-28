@@ -100,10 +100,10 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "sex",
              "type" => "select_box",
-             "option_strings_text_all" => "Male\nFemale",
              "show_on_minify_form" => true,
              "required" => true,
              "display_name_all" => "Sex",
+             "option_strings_source" => "lookup lookup-gender",
              "matchable" => true
             }),
   Field.new({"name" => "age",

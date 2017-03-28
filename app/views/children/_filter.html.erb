@@ -46,7 +46,7 @@
       <%= build_filter_checkboxes(t("cases.filter_by.age_range"), 'age', @age_ranges, nil, nil, 'range') %>
     <% end %>
     <% if filters_to_show.include? 'Sex' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.sex"), 'sex', [t("cases.filter_by.male"), t("cases.filter_by.female")]) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.sex"), 'sex', Lookup.values('lookup-gender', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'GBV Displacement Status' %>
       <%= build_filter_checkboxes(t("cases.filter_by.displacement_status"), 'gbv_displacement_status', Lookup.values('lookup-displacement-status', @lookups)) %>
