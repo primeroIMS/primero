@@ -9,7 +9,7 @@ module ConfigurationResourceHelper
     content_tag :div, class: 'row' do
       concat(content_tag(:div, class: 'medium-3 columns'){
         content_tag(:span, class: 'tool-tip-label'){
-          label_tag(field_id, label_text, class: 'key inline')
+          label_tag(field_id, label_text, class: 'key inline') if label_key.present?
         }
       })
       concat(

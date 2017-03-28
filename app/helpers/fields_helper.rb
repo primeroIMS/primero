@@ -62,11 +62,11 @@ module FieldsHelper
     return  field_value.to_s
   end
 
-  def select_options(field, record=nil, lookups=nil, exclude_empty_item=false)
+  def select_options(field, record=nil, lookups=nil, exclude_empty_item=false, add_lookups=false)
     select_options = []
     if field.present?
       select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.type == Field::TICK_BOX || field.multi_select || exclude_empty_item)
-      select_options += field.options_list(record, lookups).map {|option| [option['display_text'], option['id']]}
+      select_options += field.options_list(record, lookups, add_lookups).map {|option| [option['display_text'], option['id']]}
     end
     select_options
   end
