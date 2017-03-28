@@ -149,18 +149,19 @@ module IndexHelper
     end
   end
 
+  # The location options are now populated by ajax
   def build_filter_location(title, filter)
-    #TODO - i18n
-    options = [[I18n.t("fields.select_box_empty_item"), '']] + Location.all_names
     value = filter_value(filter)
     value = value.pop if value
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
       concat(select_tag filter,
-             options_for_select(options, value),
-             'class' => 'chosen-select',
+             options_for_select([], value),
+             'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}",
              'filter_type' => 'location',
-             'data-placeholder' => t("fields.select_box_empty_item"), :id => filter)
+             'data-placeholder' => t("fields.select_box_empty_item"), :id => filter,
+             'data' => { :field_tags => [], :populate => 'Location', value: value}
+             )
     end
   end
 
