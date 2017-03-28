@@ -29,7 +29,7 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
     var self = this;
     setTimeout(function() {
       self.set_chosen_order($(e.target), false);
-    }, 100);
+    }, 500);
   },
 
   init_chosen_order: function(elements) {
@@ -51,10 +51,6 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
       order = is_init ? $parent.data('actual-order') : $target.getSelectionOrder(true);
       counter = 0,
       $select_control = $parent.find('select');
-
-    if (!is_init) {
-      $select_control.find("option:selected").removeAttr("selected");
-    }
 
     $parent.find('.order_field').remove();
     var select_controls = [];
@@ -229,11 +225,11 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
         var constructed_options_list = [];
         constructed_options_list.push("<option value='not_null'>" + string_select_not_null_translation + "</option>")
         for (var i in lookups_for_field) {
-          if (lookups_for_field[i].constructor === Array) {
+          if (lookups_for_field[i].constructor === Array || lookups_for_field[i].constructor === Object) {
             constructed_options_list.push(
-              "<option value=\"" + lookups_for_field[i][1] + "\">" + lookups_for_field[i][0] + "</option>"
+              "<option value=\"" + lookups_for_field[i].id + "\">" + lookups_for_field[i].display_text + "</option>"
             );
-          }  else {
+          }  else if (lookups_for_field[i].constructor === String) {
             constructed_options_list.push(
               "<option>" + lookups_for_field[i] + "</option>"
             );

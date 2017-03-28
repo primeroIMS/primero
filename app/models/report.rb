@@ -282,17 +282,37 @@ class Report < CouchRest::Model::Base
     return d
   end
 
+  def translated_graph_label(label, aggregate=false)
+    if label.present?
+      type = aggregate ? self.disaggregate_by : self.aggregate_by
+
+      label_selection = translated_label_options[type.first].select{|option_list| option_list["id"] === label}.first
+      label = label_selection["display_text"] if label_selection.present?
+    end
+    label
+  end
+
+  def translated_label_options
+    self.field_map.map{|fm| [fm[:id], fm[:field].options_list(nil, nil, nil, true)]}.to_h
+  end
+
   #TODO: This method currently builds data for 1D and 2D reports
   def graph_data
     labels = []
     chart_datasets_hash = {}
+    
+    Report.load_field_map(self, self.aggregate_by)
+    Report.load_field_map(self, self.disaggregate_by)
+
     number_of_blanks = dimensionality - self.data[:graph_value_range].first.size
+
     self.data[:graph_value_range].each do |key|
       #The key to the global report data
       data_key = key + [""] * number_of_blanks
       #The label (as understood by chart.js), is always the first dimension value
-      label = key[0].to_s
+      label =  translated_graph_label(key[0].to_s)
       labels << label if label != labels.last
+
       #The key to the
       chart_datasets_key = (key.size > 1) ? key[1].to_s : ""
       if chart_datasets_hash.key? chart_datasets_key
@@ -306,7 +326,7 @@ class Report < CouchRest::Model::Base
     chart_datasets_hash.keys.each do |key|
       datasets << {
         label: key,
-        title: key,
+        title: translated_graph_label(key, true),
         data: chart_datasets_hash[key]
       }
     end
