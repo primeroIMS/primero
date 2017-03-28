@@ -33,7 +33,7 @@
           <%# TODO - i18n reporting_location_stats %>
           <% reporting_location_stats.each do |key, val| %>
             <tr>
-              <td class="id_column"><%= key.split('::').last %></td>
+              <td class="id_column"><%= location_display(key) %></td>
               <td>
                 <%=
                   build_reporting_location_stat_link(val[:totals],
