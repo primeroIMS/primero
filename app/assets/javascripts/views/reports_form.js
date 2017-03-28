@@ -52,10 +52,6 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
       counter = 0,
       $select_control = $parent.find('select');
 
-    // if (!is_init) {
-    //   $select_control.find("option:selected").removeAttr("selected");
-    // }
-
     $parent.find('.order_field').remove();
     var select_controls = [];
 
