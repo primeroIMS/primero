@@ -65,6 +65,7 @@ module IndexHelper
       items.each do |item|
         if item.is_a?(Hash)
           if(item['id'].present? && item['display_text'].present?)
+            format = false
             label = item['display_text']
             item = item['id']
           else

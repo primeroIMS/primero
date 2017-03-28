@@ -277,7 +277,7 @@ class Field
     @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
-  def options_list(record=nil, lookups=nil, locations=nil)
+  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil)
     options_list = []
 
     if self.type == Field::TICK_BOX
@@ -295,6 +295,7 @@ class Field
           options_list = record.violations_list_by_unique_id.map{|k,v| {'id' => v, 'display_text' => k}}
         end
       when 'lookup'
+        options_list += Lookup.values(source_options.last, lookups) if add_lookups.present?
       when 'Location'
         options_list += locations || [] if locations.present?
       when 'Agency'

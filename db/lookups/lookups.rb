@@ -388,3 +388,12 @@ create_or_update_lookup(
     ]
 )
 
+create_or_update_lookup(
+    :id => "lookup-inquiry-status",
+    :name => "gender",
+    :lookup_values => [
+        {id: "open", display_text: "Open"}.with_indifferent_access,
+        {id: "closed", display_text: "Closed"}.with_indifferent_access
+    ]
+)
+

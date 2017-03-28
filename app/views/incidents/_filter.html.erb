@@ -50,7 +50,8 @@
         { multi: true }) %>
     <% end %>
     <% if filters_to_show.include? 'Record State' %>
-      <%= build_filter_checkboxes(t("incidents.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}]) %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.record_state"), 'record_state',
+                                  [{'true' => t("valid")}, {'false' => t("invalid")}]) %>
     <% end %>
   </form>
   <div class="clearfix"></div>
