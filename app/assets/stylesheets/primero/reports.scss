@@ -44,6 +44,20 @@ div.reports_form .side-tab-content .row .row {
   padding-left: 0px;
 }
 
+.report_filter {
+  border-bottom: 1px dotted $stroke_green_color;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+
+.report_filter_attribute_row .column {
+  @if $global-text-direction == rtl {
+    padding-left: 0;
+  } @else {
+    padding-right: 0;
+  }
+}
+
 .reports_form {
   .report_filter_template{
     display: none;
@@ -51,8 +65,6 @@ div.reports_form .side-tab-content .row .row {
   
   .report_filter_remove_button{
     color: $green_color;
-    padding-left: 1rem;
-    margin-left: 5px;
   }
 }
 
