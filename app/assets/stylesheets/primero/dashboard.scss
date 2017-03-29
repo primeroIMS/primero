@@ -7,7 +7,6 @@ $dashboard_table_col6:100px;
 $dashboard_table_counts:85px;
 
 #dashboard {
-
   .panel {
     border: 1px solid $stroke_green_color;
     background: #fff;
@@ -125,7 +124,7 @@ $dashboard_table_counts:85px;
     }
 
     table {
-      width: 100%;
+      width: rem_calc(868);
       border: none;
       margin-bottom: 0;
 
