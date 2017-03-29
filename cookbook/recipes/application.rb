@@ -64,6 +64,12 @@ template git_wrapper_path do
   })
 end
 
+bashrc_file = "#{node[:primero][:home_dir]}/.bashrc"
+execute 'Autoload RVM on sudo' do
+  command "echo 'source ~/.rvm/scripts/rvm' >> #{bashrc_file}"
+  not_if ::File.readlines(bashrc_file).grep(/rvm\/scripts\/rvm/).size > 0
+end
+
 # Hack to get around https://github.com/fnichol/chef-rvm/issues/227
 sudo "#{node[:primero][:app_user]}-rvm" do
   user node[:primero][:app_user]
