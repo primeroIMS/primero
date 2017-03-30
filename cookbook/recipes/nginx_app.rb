@@ -24,13 +24,10 @@ ssl_files.each do |ext|
   end
 end
 
-template "#{node[:nginx_dir]}/conf.d/passenger.conf" do
-  source 'passenger.conf.erb'
+template "#{node[:nginx_dir]}/conf.d/primero.conf" do
+  source 'primero.conf.erb'
   user 'root'
   group 'root'
-  variables({
-    :conf => node[:primero][:passenger_conf],
-  })
   notifies :reload, 'service[nginx]'
 end
 
@@ -53,7 +50,6 @@ template site_conf_file do
     :ssl_cert_path => ::File.join(ssl_dir, 'primero.crt'),
     :ssl_key_path => ::File.join(ssl_dir, 'primero.key'),
     :ssl_client_ca => ssl_client_ca_path,
-    :passenger_conf => node[:primero][:passenger_conf],
     :dh_param => "#{node[:nginx_dir]}/ssl/dhparam.pem",
   })
   notifies :restart, 'service[nginx]'
