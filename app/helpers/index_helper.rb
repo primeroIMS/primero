@@ -158,7 +158,7 @@ module IndexHelper
       concat(content_tag(:h3, title))
       concat(select_tag filter,
              options_for_select([], value),
-             'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}",
+             'class' => 'chosen-select',
              'filter_type' => 'location',
              'data-placeholder' => t("fields.select_box_empty_item"), :id => filter,
              'data' => { :field_tags => [], :populate => 'Location', value: value}
