@@ -3,7 +3,7 @@
   name = field_tag_name formObject, radio_button, field_keys
   field_id = "#{radio_button.form.name.dehumanize}_#{sanitize_to_id name}"
   value ||= field_value formObject, radio_button, field_keys
-  options_list = radio_button.options_list
+  options_list = radio_button.options_list(nil, nil, nil, true)
   field_tags = radio_button.field_tags.present? ? radio_button.field_tags : []
   show_horizontal = (options_list.length <= 3) && (options_list.select{|o| o['display_text'].length > 8}.blank?)
 %>

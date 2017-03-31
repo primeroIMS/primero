@@ -39,6 +39,11 @@ module HomeHelper
     end
   end
 
+  def location_display(location_code)
+    lct = Location.find_by_location_code(location_code.upcase)
+    location_text = (lct.present? ? lct.placename : '')
+  end
+
   def build_reporting_location_stat_link(stat, filters=nil, model, reporting_location, admin_level)
     if stat == 0
       return stat

@@ -22,7 +22,7 @@ tracing_request_inquirer_fields = [
              "type" =>"select_box" ,
              "display_name_all" => "Inquiry Status",
              "show_on_minify_form" => true,
-             "option_strings_text_all" => "Open\nClosed"
+             "option_strings_source" => "lookup lookup-inquiry-status"
             }),
   Field.new({"name" => "inquirer_details_section",
              "type" => "separator",

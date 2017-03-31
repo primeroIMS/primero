@@ -64,13 +64,19 @@ module IndexHelper
     content_tag :div, class: "filter-controls #{'field-controls-multi' if type} row align-middle" do
       items.each do |item|
         if item.is_a?(Hash)
-          key = item.keys.first
-          if item[key].is_a?(Hash)
-            label = item[key][:label]
-            item = item[key][:value]
+          if(item['id'].present? && item['display_text'].present?)
+            format = false
+            label = item['display_text']
+            item = item['id']
           else
-            label = item[key]
-            item = key.to_s
+            key = item.keys.first
+            if item[key].is_a?(Hash)
+              label = item[key][:label]
+              item = item[key][:value]
+            else
+              label = item[key]
+              item = key.to_s
+            end
           end
         else
           label = item.split('::').last
@@ -144,18 +150,19 @@ module IndexHelper
     end
   end
 
+  # The location options are now populated by ajax
   def build_filter_location(title, filter)
-    #TODO - i18n
-    options = [[I18n.t("fields.select_box_empty_item"), '']] + Location.all_names
     value = filter_value(filter)
     value = value.pop if value
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
       concat(select_tag filter,
-             options_for_select(options, value),
+             options_for_select([], value),
              'class' => 'chosen-select',
              'filter_type' => 'location',
-             'data-placeholder' => t("fields.select_box_empty_item"), :id => filter)
+             'data-placeholder' => t("fields.select_box_empty_item"), :id => filter,
+             'data' => { :field_tags => [], :populate => 'Location', value: value}
+             )
     end
   end
 

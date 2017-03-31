@@ -25,12 +25,12 @@
       <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filters, "my_cases") %>
     <% end %>
     <% if filters_to_show.include? 'Approvals' %>
-      <% ['pending', 'approved', 'rejected'].each do |status| %>
+      <% [Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].each do |status| %>
         <%
           approval_filters =  []
-          approval_filters << {:approval_status_bia => {:id => "#{status}_bia", :label => t("approvals.bia"), :value => t("approvals.status.#{status}")}} if filters_to_show.include? 'cp_bia_form'
-          approval_filters << {:approval_status_case_plan => {:id => "#{status}_case_plan", :label => t("approvals.case_plan"), :value => t("approvals.status.#{status}")}} if filters_to_show.include? 'cp_case_plan'
-          approval_filters << {:approval_status_closure => {:id => "#{status}_closure", :label => t("approvals.closure"), :value => t("approvals.status.#{status}")}} if filters_to_show.include? 'closure_form'
+          approval_filters << {:approval_status_bia => {:id => "#{status}_bia", :label => t("approvals.bia"), :value => status}} if filters_to_show.include? 'cp_bia_form'
+          approval_filters << {:approval_status_case_plan => {:id => "#{status}_case_plan", :label => t("approvals.case_plan"), :value => status}} if filters_to_show.include? 'cp_case_plan'
+          approval_filters << {:approval_status_closure => {:id => "#{status}_closure", :label => t("approvals.closure"), :value => status}} if filters_to_show.include? 'closure_form'
         %>
         <%= build_filter_checkboxes_group(t("cases.filter_by.approvals.#{status}"), approval_filters, "approval_status") %>
       <% end %>
@@ -46,19 +46,23 @@
       <%= build_filter_checkboxes(t("cases.filter_by.age_range"), 'age', @age_ranges, nil, nil, 'range') %>
     <% end %>
     <% if filters_to_show.include? 'Sex' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.sex"), 'sex', [t("cases.filter_by.male"), t("cases.filter_by.female")]) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.sex"), 'sex', Lookup.values('lookup-gender', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'GBV Displacement Status' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.displacement_status"), 'gbv_displacement_status', Lookup.values('lookup-case-status', @lookups)) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.displacement_status"), 'gbv_displacement_status',
+                                  Lookup.values('lookup-displacement-status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Protection Status' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.protection_status"), 'protection_status', Lookup.values('lookup-protection-status', @lookups)) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.protection_status"), 'protection_status',
+                                  Lookup.values('lookup-protection-status', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Urgent Protection Concern' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.urgent_protection_concern"), 'urgent_protection_concern', [t("true"), t("false")]) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.urgent_protection_concern"), 'urgent_protection_concern',
+                                  Lookup.values('lookup-yes-no', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Protection Concerns' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.protection_concerns"), 'protection_concerns', Lookup.values('lookup-protection-concerns', @lookups), { multi: true }, false) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.protection_concerns"), 'protection_concerns',
+                                  Lookup.values('lookup-protection-concerns', @lookups), { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include?('Risk Level') && @display_assessment %>
       <%= build_filter_checkboxes(t("cases.filter_by.risk_level"), 'risk_level', Lookup.values('lookup-risk-level', @lookups)) %>
@@ -79,7 +83,8 @@
       <%= build_filter_checkboxes(t("cases.filter_by.no_activity"), 'last_updated_at', inactivity_filters, nil, nil, 'date_range') %>
     <% end %>
     <% if filters_to_show.include? 'Record State' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}]) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.record_state"), 'record_state',
+                                  [{'true' => t("valid")}, {'false' => t("invalid")}]) %>
     <% end %>
     <% if filters_to_show.include? 'Photo' %>
       <%= build_filter_checkboxes(t("cases.filter_by.photo"), 'has_photo', [

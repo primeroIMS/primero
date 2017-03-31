@@ -5,6 +5,8 @@
 en:
   "true": "Yes"
   "false": "No"
+  valid: "Valid"
+  invalid: "Invalid"
   home:
     fr: "Français"
     en: "English"
