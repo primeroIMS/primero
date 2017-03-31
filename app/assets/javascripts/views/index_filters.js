@@ -15,8 +15,10 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
   },
 
   initialize: function() {
+    _primero.filters = {};
     this.set_current_scope();
     _primero.chosen('select.chosen-select:visible');
+
   },
 
   clear_filters: function(e) {
@@ -123,6 +125,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
   },
 
   set_array_filter: function(filter, value, type) {
+    console.log(filter, value)
     if (_.isArray(_primero.filters[filter])) {
       if (!_.contains(_primero.filters[filter], value)) {
         _primero.filters[filter].push(value);
