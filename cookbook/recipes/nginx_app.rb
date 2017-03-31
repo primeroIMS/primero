@@ -1,4 +1,5 @@
 include_recipe 'primero::nginx_common'
+include_recipe 'primero::passenger'
 
 unless node[:primero][:server_hostname]
   Chef::Application.fatal!("You must specify the nginx server hostname in node[:primero][:server_hostname]!")
