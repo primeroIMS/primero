@@ -68,7 +68,9 @@ bashrc_file = "#{node[:primero][:home_dir]}/.bashrc"
 execute 'Autoload RVM on sudo' do
   user node[:primero][:app_user]
   command "echo 'source ~/.rvm/scripts/rvm' >> #{bashrc_file}"
-  not_if (::File.readlines(bashrc_file).grep(/rvm\/scripts\/rvm/).size > 0)
+  not_if do
+    ::File.readlines(bashrc_file).grep(/rvm\/scripts\/rvm/).size > 0
+  end
 end
 
 # Hack to get around https://github.com/fnichol/chef-rvm/issues/227
