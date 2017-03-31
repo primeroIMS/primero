@@ -66,8 +66,9 @@ end
 
 bashrc_file = "#{node[:primero][:home_dir]}/.bashrc"
 execute 'Autoload RVM on sudo' do
+  user node[:primero][:app_user]
   command "echo 'source ~/.rvm/scripts/rvm' >> #{bashrc_file}"
-  not_if ::File.readlines(bashrc_file).grep(/rvm\/scripts\/rvm/).size > 0
+  not_if (::File.readlines(bashrc_file).grep(/rvm\/scripts\/rvm/).size > 0)
 end
 
 # Hack to get around https://github.com/fnichol/chef-rvm/issues/227
@@ -115,7 +116,6 @@ default_rails_log_dir = ::File.join(node[:primero][:app_dir], 'log')
 scheduler_log_dir = ::File.join(node[:primero][:log_dir], 'scheduler')
 [File.join(node[:primero][:log_dir], 'nginx'),
  scheduler_log_dir,
- File.join(node[:primero][:log_dir], 'couch_watcher'),
  File.join(node[:primero][:log_dir], 'rails'),
  default_rails_log_dir].each do |log_dir|
   directory log_dir do
@@ -180,9 +180,6 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   mode '444'
 end
 
-include_recipe 'primero::solr'
-include_recipe 'primero::queue'
-
 app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
 directory app_tmp_dir do
   action :create
@@ -190,90 +187,10 @@ directory app_tmp_dir do
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
 end
-couch_watcher_dir = ::File.join(node[:primero][:log_dir], 'couch_watcher')
-directory couch_watcher_dir do
-  action :create
-  mode '0755'
-end
 
-[::File.join(node[:primero][:app_dir], 'tmp/couch_watcher_history.json'),
- ::File.join(node[:primero][:app_dir], 'tmp/couch_watcher_restart.txt'),
- ::File.join(node[:primero][:log_dir], 'couch_watcher/production.log')
-].each do |f|
-  file f do
-    #content ''
-    #NOTE: couch_watcher_restart.txt must be 0666 to allow any user importing a config bundle
-    #      to be able to touch the file, triggering a restart of couch_watcher
-    mode '0666' #TODO: This is a hack
-    owner 'root'
-    group 'root'
-    #action :create_if_missing
-  end
-end
-
-supervisor_service 'couch-watcher' do
-  command <<-EOH
-    #{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} \
-    capsh --drop=all --caps='cap_dac_read_search+ep' -- -c ' \
-      RAILS_ENV=production RAILS_LOG_PATH=#{::File.join(node[:primero][:log_dir], 'couch_watcher')} \
-        #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec \
-          rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}'
-  EOH
-  environment({
-    'RAILS_ENV' => 'production',
-    'RAILS_LOG_PATH' => ::File.join(node[:primero][:log_dir], 'couch_watcher'),
-    'rvmsudo_secure_path' => '1',
-  })
-  autostart true
-  autorestart true
-  user node[:primero][:app_user]
-  directory node[:primero][:app_dir]
-  numprocs 1
-  killasgroup true
-  stopasgroup true
-  redirect_stderr true
-  stdout_logfile ::File.join(node[:primero][:log_dir], 'couch_watcher/output.log')
-  stdout_logfile_maxbytes '20MB'
-  stdout_logfile_backups 0
-  # We want to stop the watcher before doing seeds/migrations so that it
-  # doesn't go crazy with all the updates.  Make sure that everything that it
-  # does is also done in this recipe (e.g. reindex solr, reset memoization,
-  # etc..)
-  action [:enable, :stop]
-end
-
-file "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh" do
-  mode '0755'
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-  content <<-EOH
-#!/bin/bash
-#Look for any changes to /tmp/couch_watcher_restart.txt.
-#When a change occurrs to that file, restart couch-watcher
-inotifywait #{::File.join(node[:primero][:app_dir], 'tmp')}/couch_watcher_restart.txt && supervisorctl restart couch-watcher
-EOH
-end
-
-supervisor_service 'who-watches-the-couch-watcher' do
-  command "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh"
-  autostart true
-  autorestart true
-  user 'root'
-  directory node[:primero][:app_dir]
-  numprocs 1
-  killasgroup true
-  stopasgroup true
-  redirect_stderr true
-  stdout_logfile ::File.join(node[:primero][:log_dir], 'couch_watcher/restart.log')
-  stdout_logfile_maxbytes '20MB'
-  stdout_logfile_backups 0
-  # We want to stop the watcher before doing seeds/migrations so that it
-  # doesn't go crazy with all the updates.  Make sure that everything that it
-  # does is also done in this recipe (e.g. reindex solr, reset memoization,
-  # etc..)
-  action [:enable, :stop]
-end
-
+include_recipe 'primero::solr'
+include_recipe 'primero::queue'
+include_recipe 'primero::couch_watcher'
 include_recipe 'primero::queue_consumer'
 
 execute_bundle 'setup-db-migrate-design-views' do
@@ -319,6 +236,7 @@ end
 # This will set the latest sequence numbers in the couch history log so that it
 # doesn't try to reprocess things from the seed/migration
 execute_bundle 'prime-couch-watcher-sequence-numbers' do
+  #TODO: Will this fail?
   command "#{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} rake couch_changes:prime_sequence_numbers"
   environment({"RAILS_LOG_PATH" => ::File.join(node[:primero][:log_dir], 'couch_watcher')})
 end
