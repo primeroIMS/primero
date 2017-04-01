@@ -1,7 +1,7 @@
 passenger_worker_file = "#{node[:primero][:app_dir]}/passenger-worker.sh"
 
 template passenger_worker_file do
-  source 'passenger_worker.erb'
+  source 'passenger_worker.sh.erb'
   mode '0755'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
@@ -15,7 +15,7 @@ supervisor_service 'passenger' do
   stopasgroup true
 
   redirect_stderr true
-  stdout_logfile ::File.join(log_base_dir, 'passenger.log')
+  stdout_logfile ::File.join(node[:primero][:home_dir], 'logs', 'rails', 'passenger.log')
   stdout_logfile_maxbytes '5MB'
   stdout_logfile_backups 0
 

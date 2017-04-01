@@ -14,7 +14,9 @@ end
     #content ''
     #NOTE: couch_watcher_restart.txt must be 0666 to allow any user importing a config bundle
     #      to be able to touch the file, triggering a restart of couch_watcher
-    mode '0666' #TODO: This is a hack
+    #TODO: This is a hack, and probably no longer needed now that couch_watcher and passenger
+    #      run as 'primero'
+    mode '0666'
     owner node[:primero][:app_user]
     group node[:primero][:app_group]
     #action :create_if_missing
@@ -72,7 +74,7 @@ supervisor_service 'who-watches-the-couch-watcher' do
   command "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh"
   autostart true
   autorestart true
-  user 'root'
+  user node[:primero][:app_user]
   directory node[:primero][:app_dir]
   numprocs 1
   killasgroup true
