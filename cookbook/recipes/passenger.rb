@@ -1,7 +1,7 @@
 # Based on Passenger Systemd integration presented here:
 # https://github.com/mtgrosser/passenger-systemd
 
-passenger_worker_file = "#{node[:primero][:app_dir]}/passenger-worker.sh"
+passenger_worker_file = "#{node[:primero][:daemons_dir]}/passenger-worker.sh"
 passenger_pid = "#{node[:primero][:app_dir]}/tmp/passenger.pid"
 passenger_log = "#{node[:primero][:log_dir]}/rails/passenger.log"
 

@@ -96,6 +96,12 @@ directory node[:primero][:app_dir] do
   group node[:primero][:app_group]
 end
 
+directory node[:primero][:daemons_dir] do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
 rvm_ruby_name = "#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}"
 execute_with_ruby 'prod-ruby' do
   command <<-EOH

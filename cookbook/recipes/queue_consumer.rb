@@ -18,7 +18,7 @@ directory log_base_dir do
   group node[:primero][:app_group]
 end
 
-backburner_worker_file = "#{node[:primero][:app_dir]}/backburner-worker.sh"
+backburner_worker_file = "#{node[:primero][:daemons_dir]}/backburner-worker.sh"
 
 file backburner_worker_file do
   mode '0755'

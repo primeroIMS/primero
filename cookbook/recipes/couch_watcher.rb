@@ -23,7 +23,7 @@ end
   end
 end
 
-couchwatcher_worker_file = "#{node[:primero][:app_dir]}/couch-watcher-worker.sh"
+couchwatcher_worker_file = "#{node[:primero][:daemons_dir]}/couch-watcher-worker.sh"
 file couchwatcher_worker_file do
   mode '0755'
   owner node[:primero][:app_user]
@@ -58,7 +58,9 @@ supervisor_service 'couch-watcher' do
   action [:enable, :stop]
 end
 
-file "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh" do
+who_watches_worker_file = "#{node[:primero][:daemons_dir]}/who-watches-the-couch-watcher.sh"
+
+file who_watches_worker_file do
   mode '0755'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
@@ -71,7 +73,7 @@ EOH
 end
 
 supervisor_service 'who-watches-the-couch-watcher' do
-  command "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh"
+  command who_watches_worker_file
   autostart true
   autorestart true
   user node[:primero][:app_user]
