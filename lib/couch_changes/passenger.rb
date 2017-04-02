@@ -4,7 +4,6 @@ module CouchChanges
     class << self
       def initialize_passenger
         if !@_passenger_loaded
-          #ENV["PASSENGER_LOCATION_CONFIGURATION_FILE"] = "/usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini"
           require 'phusion_passenger'
 
           PhusionPassenger.locate_directories

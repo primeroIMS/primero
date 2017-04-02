@@ -26,6 +26,7 @@ init() {
   LOGFILE=<%= @passenger_log %>
   MAX_POOL_SIZE=<%= @conf['max_pool_size'] || 6 %>
   MIN_INSTANCES=<%= @conf['min_instances'] || 1 %>
+  export PASSENGER_TEMP_DIR=<%= node[:primero][:app_dir] %>/tmp
   cd "$APPDIR"
 }
 
