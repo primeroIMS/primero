@@ -25,7 +25,7 @@ init() {
   PIDFILE=<%= @passenger_pid %>
   LOGFILE=<%= @passenger_log %>
   MAX_POOL_SIZE=<%= @conf['max_pool_size'] || 6 %>
-  MIN_INSTANCES=<%= @passenger_conf['min_instances'] || 1 %>
+  MIN_INSTANCES=<%= @conf['min_instances'] || 1 %>
   cd "$APPDIR"
 }
 
@@ -40,6 +40,8 @@ status() {
 start() {
   bundle exec passenger start \
     --daemonize \
+    --address 127.0.0.1 \
+    --port 4000 \
     --log-file ${LOGFILE} \
     --pid-file ${PIDFILE} \
     --max-pool-size ${MAX_POOL_SIZE} \
