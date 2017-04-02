@@ -1,26 +1,34 @@
+# Based on Passenger Systemd integration presented here:
+# https://github.com/mtgrosser/passenger-systemd
+
 passenger_worker_file = "#{node[:primero][:app_dir]}/passenger-worker.sh"
+passenger_pid = "#{node[:primero][:app_dir]}/tmp/passenger.pid"
+passenger_log = "#{node[:primero][:log_dir]}/rails/passenger.log"
 
 template passenger_worker_file do
-  source 'passenger_worker.sh.erb'
+  source 'passenger/passenger-worker.erb'
   mode '0755'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
+  variables({
+    passenger_pid: passenger_pid,
+    passenger_log: passenger_log,
+    conf: node[:primero][:passenger_conf]
+  })
 end
 
-#Launch passenger via supervisord
-supervisor_service 'passenger' do
-  command passenger_worker_file
-  autostart true
-  autorestart true
-  stopasgroup true
+template '/etc/systemd/system/passenger.service' do
+  source 'passenger/passenger.service.erb'
+  variables({
+    passenger_app: passenger_worker_file,
+    passenger_pid: passenger_pid
+  })
+end
 
-  redirect_stderr true
-  stdout_logfile ::File.join(node[:primero][:home_dir], 'logs', 'rails', 'passenger.log')
-  stdout_logfile_maxbytes '5MB'
-  stdout_logfile_backups 0
+execute 'Reload Systemd' do
+  command 'systemctl daemon-reload'
+end
 
-  user node[:primero][:app_user]
-  directory node[:primero][:app_dir]
-  numprocs 1
-  action [:enable, :restart]
+execute 'Reload Passenger' do
+  command 'systemctl restart passenger'
 end
