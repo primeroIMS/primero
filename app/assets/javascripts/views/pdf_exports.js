@@ -143,7 +143,7 @@ _primero.Views.PdfExports = _primero.Views.Base.extend({
       file_location += !_primero.get_param('page') ? '&page=all&per_page=all' : undefined;
 
       this.reset_form();
-      $(this.el).foundation('reveal', 'close');
+      $(this.el).foundation('close');
       _primero.check_download_status();
       window.location = file_location;
     } else {
