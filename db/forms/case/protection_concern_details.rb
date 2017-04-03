@@ -2,7 +2,7 @@ protection_concern_detail_subform_fields = [
   Field.new({"name" => "protection_concern_type",
     "type" => "select_box",
     "display_name_all" => "Type of Protection Concern",
-    "option_strings_source" => "lookup ProtectionConcerns"
+    "option_strings_source" => "lookup lookup-protection-concerns"
   }),
   Field.new({"name" => "date_concern_identified",
     "type" => "select_box",
@@ -73,7 +73,7 @@ protection_concern_detail_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Protection Concerns",
-             "option_strings_source" => "lookup ProtectionConcerns"
+             "option_strings_source" => "lookup lookup-protection-concerns"
             }),
   Field.new({"name" => "protection_concern_detail_subform_section",
              "type" => "subform",

@@ -55,7 +55,7 @@ _primero.Router = Backbone.Router.extend({
   },
 
   passwordPrompt: function() {
-    _primero.Views.PasswordPrompt.initialize();
+    new _primero.Views.PasswordPrompt();
   },
 
   recordActions: function() {
@@ -73,6 +73,7 @@ _primero.Router = Backbone.Router.extend({
   recordIndexPage: function() {
     this.initIndexTable();
     this.recordActions();
+    new _primero.Views.PopulateSelectBoxes();
     new _primero.Views.IndexFilters();
     this.maskedUserAndPasswordReferal();
     this.maskedUserAndPasswordTransfer();

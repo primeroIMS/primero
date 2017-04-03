@@ -16,6 +16,7 @@ module HomeHelper
   end
 
   #TODO - refactor... move query logic to dashboard model
+  #TODO - i18n
   def case_count(stat_group, query, model)
     if query.present?
       results = query.facet(stat_group[:name]).rows
@@ -23,7 +24,7 @@ module HomeHelper
     else
       total = stat_group[:count]
     end
-    total = 0 if !total.present?
+    total = 0 if total.blank?
     link = stat_link(total, stat_group, model)
     return { count: total, stat: link, stat_type: stat_group[:stat_type], case_worker: stat_group[:case_worker] }
   end
@@ -36,6 +37,11 @@ module HomeHelper
       filter = stat_group[:filter] || ''
       return link_to(total, send("#{model}_path") + filter, class: 'stat_link')
     end
+  end
+
+  def location_display(location_code)
+    lct = Location.find_by_location_code(location_code.upcase)
+    location_text = (lct.present? ? lct.placename : '')
   end
 
   def build_reporting_location_stat_link(stat, filters=nil, model, reporting_location, admin_level)

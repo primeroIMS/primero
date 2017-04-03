@@ -22,7 +22,7 @@ tracing_request_inquirer_fields = [
              "type" =>"select_box" ,
              "display_name_all" => "Inquiry Status",
              "show_on_minify_form" => true,
-             "option_strings_text_all" => "Open\nClosed"
+             "option_strings_source" => "lookup lookup-inquiry-status"
             }),
   Field.new({"name" => "inquirer_details_section",
              "type" => "separator",
@@ -56,32 +56,32 @@ tracing_request_inquirer_fields = [
              "type" => "select_box",
              "display_name_all" => "Language",
              "multi_select" => true,
-             "option_strings_source" => "lookup Language",
+             "option_strings_source" => "lookup lookup-language",
              "matchable" => true
            }),
   Field.new({"name" => "relation_religion",
              "type" => "select_box",
              "display_name_all" => "Religion",
              "multi_select" => true,
-             "option_strings_source" => "lookup Religion",
+             "option_strings_source" => "lookup lookup-religion",
              "matchable" => true
              }),
   Field.new({"name" => "relation_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Ethnicity",
-             "option_strings_source" => "lookup Ethnicity",
+             "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
              }),
   Field.new({"name" => "relation_sub_ethnicity1",
              "type" => "select_box",
              "display_name_all" => "Sub Ethnicity 1",
-             "option_strings_source" => "lookup Ethnicity",
+             "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
              }),
   Field.new({"name" => "relation_sub_ethnicity2",
              "type" => "select_box",
              "display_name_all" => "Sub Ethnicity 2",
-             "option_strings_source" => "lookup Ethnicity",
+             "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
            }),
   Field.new({"name" => "relation_nationality",
@@ -89,7 +89,7 @@ tracing_request_inquirer_fields = [
              "display_name_all" => "Nationality",
              "multi_select" => true,
              "show_on_minify_form" => true,
-             "option_strings_source" => "lookup Nationality",
+             "option_strings_source" => "lookup lookup-nationality",
              "matchable" => true
            }),
   Field.new({"name" => "relation_comments",

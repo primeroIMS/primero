@@ -17,7 +17,6 @@ module Record
       Field::TEXT_AREA,
       Field::RADIO_BUTTON,
       Field::SELECT_BOX,
-      Field::CHECK_BOXES,
       Field::NUMERIC_FIELD,
       Field::DATE_FIELD,
       Field::DATE_RANGE,
@@ -127,6 +126,9 @@ module Record
 
     end
   end
+
+  STATUS_OPEN = 'open'
+  STATUS_CLOSED = 'closed'
 
   def self.model_from_name(name)
     name == 'case' ? Child : Object.const_get(name.camelize)
@@ -396,6 +398,11 @@ module Record
           order: lookup.order }
       errors.add(:section_errors, error_info)
     end
+  end
+
+  def display_field(field_name)
+    fd = field_definitions.select{|f| f.name == field_name}.first
+    fd.display_text(self.send(field_name))
   end
 
   def update_with_attachments(params, user)

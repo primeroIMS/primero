@@ -11,10 +11,10 @@
       <% lookups.each do |lkp| %>
           <tr>
             <td><%= lkp.name %></td>
-            <td><%= lkp.lookup_values.join(", ") %></td>
+            <td><%= lkp['lookup_values_en'].map {|r| r['display_text']} .join(', ') %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_lookup_path(lkp) %>
-              <% unless lkp.is_being_used? %>
+              <% unless lkp.is_being_used? || lkp.locked %>
                 <br>
                 <%= link_to t("buttons.delete"), lookup_path(lkp), data: {confirm: t("lookup.confirm_delete")}, method: :delete %>
               <% end %>

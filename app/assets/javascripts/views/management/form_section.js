@@ -8,13 +8,15 @@ function form_section() {
   $(".field_types a").click(showFieldDetails);
   $(".field_hide_show").bind('change',fieldHideShow);
   $(".link_moveto").click(showMovePanel);
+  $("a#field_option_add_button").click(addOption);
+  $("a.field_option_remove_button").click(removeOption);
   function call_back_to_previous(e) {
     if (e.namespace !== 'fndtn.reveal') {
       return;
     }
     backToPrevious();
   }
-  $(document).on('close.fndtn.reveal', '#add_field_modal', call_back_to_previous);
+  $(document).on('closed.zf.reveal', '#add_field_modal', call_back_to_previous);
   triggerErrors();
   var $rows = $("#form_sections tbody");
   $rows.sortable({
@@ -50,7 +52,6 @@ function form_section() {
     $this.toggleClass("sel");
     $('.move_to_panel').addClass('hide');
     $this.parents('ul').siblings(".move_to_panel").toggleClass("hide");
-    _primero.set_content_sidebar_equality();
   }
 
   function triggerErrors(){
@@ -67,6 +68,32 @@ function form_section() {
     if(((typeof(edit_field_mode) != 'undefined') && (edit_field_mode)) || ($("#add_field_modal").find("#errorExplanation").length > 0)){
       window.history.back();
     }
+  }
+
+  function addOption(){
+    var $this = $(this);
+    var newOption = $(JST['templates/options_row']({
+      locale: 'en',
+      id: '',
+      display_text: '',
+      editing: $this.hasClass('edit_option'),
+      locale_options: $this.data('lang')
+    }));
+    newOption.find('a.field_option_remove_button').click(removeOption);
+    $this.parents('.options_row_controls').before(newOption);
+    var current_locale_selection = $('#field_details_select_box').find('#locale').val();
+    if (!_.isUndefined(current_locale_selection) &&
+        current_locale_selection !== '') {
+      newOption.find('.' + current_locale_selection).show();
+    }
+  }
+
+  function removeOption(){
+    var row = $(this).parent().parent();
+    var key = row.find('input[type=hidden]').attr('value');
+    $('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value='+key+']')
+        .parent().parent()
+        .remove();
   }
 
   function clearFlashMsg(){
@@ -93,7 +120,6 @@ function form_section() {
     $field_details_overlay.toggleClass("hide");
     $field_details_panel.toggleClass("hide");
     configureFieldMultiSelect($(".field_types a").attr("id"));
-    // _primero.set_content_sidebar_equality();
   }
 
   function resetAddField(){
@@ -126,7 +152,6 @@ function form_section() {
     })
     $(getFieldDetails(this.id)).show();
     configureFieldMultiSelect(this.id);
-    _primero.set_content_sidebar_equality();
   }
 
   function configureFieldMultiSelect(field_type){
@@ -146,7 +171,7 @@ function form_section() {
     } else if(field_type == "tick_box") {
       return "#field_details_tick_box";
     } else {
-      var fields_with_options = ["check_boxes","radio_button"];
+      var fields_with_options = ["radio_button"];
       return $.inArray(field_type, fields_with_options) > -1 ? "#field_details_options" : "#field_details";
     }
   }
@@ -164,7 +189,9 @@ function form_section() {
 function setTranslationFields(element) {
   var locale = $(element).val();
   $(".translation_forms").hide();
-  $("div ." + locale).show();
+  if (!_.isUndefined(locale) && locale !== '') {
+    $("div ." + locale).show();
+  }
 }
 
 function on_ready() {
@@ -172,7 +199,6 @@ function on_ready() {
 
   $(".locale").change( function(event){
     setTranslationFields(event.target);
-    _primero.set_content_sidebar_equality();
   });
 };
 

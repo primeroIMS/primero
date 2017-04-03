@@ -9,7 +9,7 @@ module ConfigurationResourceHelper
     content_tag :div, class: 'row' do
       concat(content_tag(:div, class: 'medium-3 columns'){
         content_tag(:span, class: 'tool-tip-label'){
-          label_tag(field_id, label_text, class: 'key inline')
+          label_tag(field_id, label_text, class: 'key inline') if label_key.present?
         }
       })
       concat(
@@ -18,7 +18,7 @@ module ConfigurationResourceHelper
           show_logo_upload(object, field_id, type, tag_helper)
         elsif type == 'check_box'
           concat(label_tag(nil, class: 'left'){
-              concat(hidden_field_tag(name, ''))
+              concat(hidden_field_tag(name, false))
               concat(check_box_tag(name, '1', value.present? ? true : false))
           })
         else

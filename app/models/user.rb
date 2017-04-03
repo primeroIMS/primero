@@ -175,6 +175,7 @@ class User < CouchRest::Model::Base
   class << self
     alias :old_all :all
     alias :by_all :all
+    alias :list_by_all :all
     alias :by_user_name_all :by_user_name
     alias :by_full_name_all :by_full_name
     alias :by_organization_all :by_organization
@@ -182,6 +183,7 @@ class User < CouchRest::Model::Base
       old_all(*args)
     end
     memoize_in_prod :all
+    memoize_in_prod :list_by_all
 
     def all_unverified
       User.by_unverified
@@ -269,7 +271,7 @@ class User < CouchRest::Model::Base
   # however, the location property really is just the location name
   # If a refactor is warranted, I would rename the location property to location_name
   def Location
-    @location_obj ||= Location.get_unique_instance('name' => self.location)
+    @location_obj ||= Location.get_by_location_code(self.location)
   end
 
   def agency

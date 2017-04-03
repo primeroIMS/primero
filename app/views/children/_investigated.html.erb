@@ -9,7 +9,7 @@
                            :mark_as_submit_label => t("child.actions.mark_as_investigated"),
                            :error_message => t("child.messages.investigation_error_message"),
                            :style => "flag",
-                           :button_style => "green-button"
+                           :button_style => "button"
                          } %>
 <% else %>
     <%= render :partial => "mark_as",
@@ -22,6 +22,6 @@
                            :mark_as_submit_label => t("child.actions.undo_investigated"),
                            :error_message => t("child.messages.undo_investigation_error_message"),
                            :style => "flag",
-                           :button_style => "green-button"
+                           :button_style => "button"
                          } %>
 <% end %>

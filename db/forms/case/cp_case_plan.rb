@@ -1,5 +1,3 @@
-#JIRA SL-327
-
 case_plan_fields_subform = [
   Field.new({"name" => "intervention_service_to_be_provided",
              "type" => "text_field",
@@ -30,7 +28,7 @@ case_plan_fields_subform = [
   Field.new({"name" => "intervention_service_success",
              "type" => "radio_button",
              "display_name_all" => "Successfully implemented?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
             })
 ]
 
@@ -75,16 +73,13 @@ case_plan_fields = [
                "display_name_all" => "Approval Status",
                "editable"=> false,
                "disabled"=> true,
-               "option_strings_text_all" =>
-                   ["Pending",
-                    "Approved",
-                    "Rejected"].join("\n")
+               "option_strings_source" => "lookup lookup-approval-status"
               }),
     Field.new({"name" => "protection_concerns",
              "type" => "select_box",
              "display_name_all" => "Protection Concerns",
              "multi_select" => true,
-             "option_strings_source" => "lookup ProtectionConcerns"
+             "option_strings_source" => "lookup lookup-protection-concerns"
            }),
   Field.new({"name" => "case_plan_header",
              "type" => "separator",

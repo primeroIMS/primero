@@ -74,9 +74,9 @@ module Exporters
       end,
       'Reunification Status ' => ->(c) do
         if c.tracing_status.present?
-          return c.tracing_status == "Reunified" ? "Yes" : "No"
+          return c.tracing_status == "Reunified" ? I18n.t("true") : I18n.t("false")
         else
-          "No"
+          I18n.t("false")
         end
       end,
       'Case Status' => ['child_status']

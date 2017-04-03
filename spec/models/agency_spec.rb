@@ -6,20 +6,95 @@ describe Agency do
     Agency.all.each {|a| a.destroy}
   end
 
-  it "should create a valid lookup" do
-    Agency.new(:name => "unicef", :agency_code => "abc123").should be_valid
+  describe 'validations' do
+    context 'when name is empty' do
+      it 'is not valid' do
+        agency1 = Agency.new(agency_code: "1234")
+
+        expect(agency1).not_to be_valid
+        expect(agency1.errors[:name]).to eq(['must not be blank'])
+      end
+    end
+
+    context 'when agency code is empty' do
+      it 'is not valid' do
+        agency1 = Agency.new(name: "blah")
+
+        expect(agency1).not_to be_valid
+        expect(agency1.errors[:agency_code]).to eq(['must not be blank'])
+      end
+    end
+
+    context 'when name and agency code are present' do
+      it 'is valid' do
+        agency1 = Agency.new(name: "unicef", agency_code: "abc123")
+        expect(agency1).to be_valid
+      end
+    end
   end
 
-  it "should not be valid if name is empty" do
-    agency = Agency.new(:agency_code => "abc123")
-    agency.should_not be_valid
-    agency.errors[:name].should == ["must not be blank"]
-  end
+  describe 'agency id' do
+    context 'when passed in' do
+      before do
+        @agency1 = Agency.new(id: 'agency-unicef-foo', name: 'UNICEF', agency_code: 'abc123')
+      end
 
-  it "should not be valid if agency code is empty" do
-    agency = Agency.new(:name => "unicef")
-    agency.should_not be_valid
-    agency.errors[:agency_code].should == ["must not be blank"]
+      context 'before save' do
+        it 'id is the value passed in' do
+          expect(@agency1.id).to eq('agency-unicef-foo')
+        end
+
+        it 'is valid' do
+          expect(@agency1).to be_valid
+        end
+      end
+
+      context 'after save' do
+        before do
+          @agency1.save
+        end
+
+        it 'id is the value passed in' do
+          expect(@agency1.id).to eq('agency-unicef-foo')
+        end
+
+        it 'is valid' do
+          expect(@agency1).to be_valid
+        end
+      end
+    end
+
+    context 'when not passed in' do
+      context 'when passed in' do
+        before do
+          @agency2 = Agency.new(name: 'My Test Agency', agency_code: 'def456')
+        end
+
+        context 'before save' do
+          it 'id is empty' do
+            expect(@agency2.id).to be_nil
+          end
+
+          it 'is valid' do
+            expect(@agency2).to be_valid
+          end
+        end
+
+        context 'after save' do
+          before do
+            @agency2.save
+          end
+
+          it 'id is calculated from agency code' do
+            expect(@agency2.id).to eq('agency-def456')
+          end
+
+          it 'is valid' do
+            expect(@agency2).to be_valid
+          end
+        end
+      end
+    end
   end
 
   it "should not allow invalid logo uploads" do
@@ -50,14 +125,6 @@ describe Agency do
     agency['_attachments']['jorge']['content_type'].should eq("image/jpg")
   end
 
-  it "should only allow unique agency names" do
-    agency1 = Agency.new(:name => "irc", :agency_code => "1234")
-    agency1.save
-    agency2 = Agency.new(:name => "irc", :agency_code => "5678")
-    agency2.save
-    agency2.errors[:name].should == ["An Agency with that name already exists, please enter a different name"]
-  end
-
   it "should return all the available agency names" do
     agency1 = Agency.new(:name => "agency1", :agency_code => "1111")
     agency2 = Agency.new(:name => "agency2", :agency_code => "2222")
@@ -65,11 +132,9 @@ describe Agency do
     agency1.save
     agency2.save
     agency3.save
-    Agency.available_agency_names.should == [
-      ["agency1", 'agency-agency1'],
-      ["agency2", 'agency-agency2'],
-      ["agency3", 'agency-agency3']
-    ]
+    expect(Agency.all_names).to eq([{"id"=>"agency-1111", "display_text"=>"agency1"},
+                                    {"id"=>"agency-2222", "display_text"=>"agency2"},
+                                    {"id"=>"agency-3333", "display_text"=>"agency3"}])
   end
 
   it "should return all available agency logos for the header" do
@@ -84,16 +149,95 @@ describe Agency do
     agency3 = Agency.new(:name => "agency3", :agency_code => "3333", :logo_enabled => true,  'upload_logo' => {'logo' => uploadable_photo_gif})
     agency3.save
 
-    logos = Agency.retrieve_logo_ids
-    logos.should == [
-      {
-        id: 'agency-agency1',
-        filename: 'small'
-      },
-      {
-        id: 'agency-agency3',
-        filename: 'small'
-      }
-    ]
+    expect(Agency.retrieve_logo_ids).to eq([{:id=>"agency-1111", :filename=>"small"}, {:id=>"agency-3333", :filename=>"small"}])
+  end
+
+  describe 'internationalization' do
+    before do
+      @agency3 = Agency.create(name_en: 'My English Agency', name_fr: 'My French Agency', name_es: 'My Spanish Agency',
+                               name_ar: 'My Arabic Agency', description_en: 'English Description', description_fr: 'French Description',
+                               description_es: 'Spanish Description', description_ar: 'Arabic Description', agency_code: 'xyz000')
+    end
+
+    context 'and locale is English' do
+      it 'is valid' do
+        expect(@agency3).to be_valid
+      end
+
+      it 'returns English name' do
+        expect(@agency3.name).to eq('My English Agency')
+      end
+
+      it 'returns English description' do
+        expect(@agency3.description).to eq('English Description')
+      end
+
+      it 'id is calculated from agency code' do
+        expect(@agency3.id).to eq('agency-xyz000')
+      end
+    end
+
+    context 'and locale is French' do
+      before :each do
+        I18n.locale = "fr"
+      end
+      it 'is valid' do
+        expect(@agency3).to be_valid
+      end
+
+      it 'returns French name' do
+        expect(@agency3.name).to eq('My French Agency')
+      end
+
+      it 'returns French description' do
+        expect(@agency3.description).to eq('French Description')
+      end
+
+      it 'id is calculated from agency code' do
+        expect(@agency3.id).to eq('agency-xyz000')
+      end
+    end
+
+    context 'and locale is Spanish' do
+      before :each do
+        I18n.locale = "es"
+      end
+      it 'is valid' do
+        expect(@agency3).to be_valid
+      end
+
+      it 'returns Spanish name' do
+        expect(@agency3.name).to eq('My Spanish Agency')
+      end
+
+      it 'returns Spanish description' do
+        expect(@agency3.description).to eq('Spanish Description')
+      end
+
+      it 'id is calculated from agency code' do
+        expect(@agency3.id).to eq('agency-xyz000')
+      end
+    end
+
+    context 'and locale is Arabic' do
+      before :each do
+        I18n.locale = "ar"
+      end
+      it 'is valid' do
+        expect(@agency3).to be_valid
+      end
+
+      it 'returns Arabic name' do
+        expect(@agency3.name).to eq('My Arabic Agency')
+      end
+
+      it 'returns Arabic description' do
+        expect(@agency3.description).to eq('Arabic Description')
+      end
+
+      it 'id is calculated from agency code' do
+        expect(@agency3.id).to eq('agency-xyz000')
+      end
+    end
   end
 end

@@ -50,7 +50,7 @@ followup_subform_fields = [
              "type" => "select_box",
              "visible" => false,
              "display_name_all" => "Type of Protection Concern ",
-             "option_strings_source" => "lookup ProtectionConcerns"
+             "option_strings_source" => "lookup lookup-protection-concerns"
             }),
   Field.new({"name" => "followup_needed_by_date",
              "type" => "date_field",
@@ -63,22 +63,15 @@ followup_subform_fields = [
   Field.new({"name" => "child_was_seen",
              "type" => "radio_button",
              "display_name_all" => "Was the child/adult seen during the visit?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "reason_child_not_seen",
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "If not, why?",
-             "option_strings_text_all" => [
-                { id: 'abducted', display_text: "Abducted" },
-                { id: 'at_school', display_text: "At School" },
-                { id: 'child_in_detention', display_text: "Child in Detention" },
-                { id: 'moved_onto_street_market', display_text: "Moved onto street/Market" },
-                { id: 'moved_to_live_with_another_caregiver', display_text: "Moved to live with another caregiver" },
-                { id: 'visiting_friends_relatives', display_text: "Visiting Friends/Relatives" },
-                { id: 'working_at_work', display_text: "Working /At work" },
-                { id: 'other', display_text: "Other, please specify" }
-              ]
+             "option_strings_text_all" => ["Abducted", "At School", "Child in Detention", "Moved onto street/Market",
+                                           "Moved to live with another caregiver", "Visiting Friends/Relatives",
+                                           "Working /At work", "Other, please specify"]
             }),
   Field.new({"name" => "reason_child_not_seen_other_details",
              "type" => "text_field",
@@ -87,7 +80,7 @@ followup_subform_fields = [
   Field.new({"name" => "action_taken_already",
              "type" => "radio_button",
              "display_name_all" => "Has action been taken?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "action_taken_details",
              "type" => "text_field",
@@ -100,7 +93,7 @@ followup_subform_fields = [
   Field.new({"name" => "need_follow_up_visit",
              "type" => "radio_button",
              "display_name_all" => "Is there a need for further follow up visits?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "when_follow_up_visit_should_happen",
              "type" => "date_field",
@@ -109,7 +102,7 @@ followup_subform_fields = [
   Field.new({"name" => "recommend_case_closed",
              "type" => "radio_button",
              "display_name_all" => "If not, do you recommend that the case be closed?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "followup_comments",
              "type" => "text_field",

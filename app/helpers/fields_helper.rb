@@ -1,12 +1,5 @@
 module FieldsHelper
 
-  def option_fields_for form, suggested_field
-    return [] unless suggested_field.field.option_strings.present?
-    suggested_field.field.option_strings.collect do |option_string|
-      form.hidden_field("option_strings_text", { :multiple => true, :id => "option_string_" + option_string, :value => option_string+"\n" })
-    end
-  end
-
   def field_tag_name(object, field, field_keys=[])
     if field_keys.present?
       "#{object.class.name.underscore.downcase}[#{field_keys.join('][')}]"
@@ -31,6 +24,9 @@ module FieldsHelper
        # The 'template' key is later replaced with the proper index value via JavaScript
        # But for now, there is no value so just return empty string
        ''
+    elsif field.is_yes_no?
+      parent_obj = object.value_for_attr_keys(field_keys[0..-2])
+      value = field.convert_true_false_key_to_string(parent_obj.try(field.name))
     else
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
@@ -46,26 +42,40 @@ module FieldsHelper
     end
   end
 
-  def field_value_for_display field_value
-    case
-    when field_value.nil?
-      ""
-    when field_value.respond_to?(:length) && field_value.length == 0
-      ""
-    when field_value.is_a?(Array)
-      field_value.join ", "
-    when field_value.is_a?(Date)
-      field_format_date(field_value)
-    else
-      field_value.to_s
+  def field_value_for_display(field_value, field=nil)
+    if (field.present? && field.selectable?)
+      if field_value.is_a?(Array)
+        field_value.map!{|v| field.display_text(v)}
+      else
+        field_value = field.display_text(field_value)
+      end
     end
+
+    return '' if field_value.blank?
+
+    if field_value.is_a?(Array)
+      field_value = field_value.join ", "
+    elsif field_value.is_a?(Date)
+      field_value = field_format_date(field_value)
+    end
+
+    return  field_value.to_s
   end
 
-  def field_link_for_display field, field_value
+  def select_options(field, record=nil, lookups=nil, exclude_empty_item=false, add_lookups=false)
+    select_options = []
+    if field.present?
+      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.type == Field::TICK_BOX || field.multi_select || exclude_empty_item)
+      select_options += field.options_list(record, lookups, add_lookups).map {|option| [option['display_text'], option['id']]}
+    end
+    select_options
+  end
+
+  def field_link_for_display(field_value, field)
     link_to(field_value, send("#{field.link_to_path}_path", id: field_value.split('::').first)) if field_value.present?
   end
 
-  def field_value_for_multi_select field_value, field, parent_obj=nil
+  def field_value_for_multi_select(field_value, field, parent_obj=nil, lookups=nil)
     if field_value.blank?
       ""
     elsif field.option_strings_source == 'violations'
@@ -85,9 +95,19 @@ module FieldsHelper
     else
       options = []
       if field_value.is_a?(Array)
-        field_value.each{|option| selected = field["option_strings_text_#{I18n.locale.to_s}"].is_a?(Array) ?
-          field["option_strings_text_#{I18n.locale.to_s}"]
-          .select{|o| o['id'] == option} : option; options << selected }
+        has_lookup = field.option_strings_source.match(/lookup-.*/)
+        
+        lookup = lookups.select{|l| l.id == has_lookup[0]}.first if has_lookup
+        
+        field_value.each do |option|
+          if lookup.present?
+            lookup_value = lookup.lookup_values.select{|lv| lv["display_text"] == option}.first
+            options << lookup_value["display_text"] if lookup_value.present?
+          else
+            selected = (field.option_strings_text.is_a?(Array) ? field.option_strings_text.select{|o| o['id'] == option} : option)
+            options << selected
+          end
+        end
       end
       return options.flatten.collect{|a| a['display_text'] || a }.join(', ')
     end
@@ -175,6 +195,18 @@ module FieldsHelper
       "form_section/field_display_#{field.display_type}"
     else
       "form_section/#{field.type}"
+    end
+  end
+
+  def option_string_source_data_attr(source)
+    if source.present?
+      source_match = source.match /lookup-.*/
+
+      if source_match
+        source_match[0]
+      else  
+        source
+      end
     end
   end
 end

@@ -65,8 +65,8 @@
       </div>
       <div class="medium-8 columns">
         <% date_for_display = field_value_for_display document["date"] %>
-        <%= text_field_tag "#{name}[date]", date_for_display, :class => 'form_date_field has_help', :id => date_field_id, "data-abide-validator" => date_validator %>
-        <small class="error"><%= I18n.t(error_msg)%></small>
+        <%= text_field_tag "#{name}[date]", date_for_display, :class => 'form_date_field has_help', :id => date_field_id, "data-validator" => date_validator %>
+        <small class="form-error"><%= I18n.t(error_msg)%></small>
         <p class="help"><%= t("fields.date_help") %></p>
       </div>
     </div>
@@ -126,8 +126,8 @@
           <label class="key">Document Date</label>
         </div>
         <div class="medium-8 columns">
-          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][date]", "", :tag => "date", :class => 'form_date_field has_help', :id => date_upload_id, "data-abide-validator" => date_validator %>
-          <small class="error"><%= I18n.t(error_msg)%></small>
+          <%= text_field_tag "#{record_class_name}[#{upload_document}][0][date]", "", :tag => "date", :class => 'form_date_field has_help', :id => date_upload_id, "data-validator" => date_validator %>
+          <small class="form-error"><%= I18n.t(error_msg)%></small>
           <p class="help"><%= t("fields.date_help") %></p>
         </div>
       </div>
@@ -155,7 +155,7 @@
   </div>
   <div class="row">
     <div class="large-12 columns">
-      <%= link_to I18n.t('fields.file_upload_box.add_new_document_button_text'), '', id: 'add-file-upload-field', class: 'green-button right' %>
+      <%= link_to I18n.t('fields.file_upload_box.add_new_document_button_text'), '', id: 'add-file-upload-field', class: 'button right' %>
     </div>
   </div>
 </div>

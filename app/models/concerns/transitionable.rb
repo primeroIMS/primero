@@ -27,8 +27,8 @@ module Transitionable
     end
 
     def transitions_transfer_status(transfer_id, transfer_status, user, rejected_reason)
-      if transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en) ||
-         transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
+      if transfer_status == Transition::TO_USER_LOCAL_STATUS_ACCEPTED ||
+         transfer_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
         #Retrieve the transfer that user accept/reject.
         transfer = self.transfers.select{|t| t.id == transfer_id }.first
         if transfer.present?
@@ -45,7 +45,7 @@ module Transitionable
             #Either way Accept or Reject the current user should be removed from the associated users.
             #So, it will have no access to the record anymore.
             self.assigned_user_names = self.assigned_user_names.reject{|u| u == user.user_name}
-            if transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en)
+            if transfer_status == Transition::TO_USER_LOCAL_STATUS_ACCEPTED
               #In case the transfer is accepted the current user is the new owner of the record.
               self.previously_owned_by = self.owned_by
               self.owned_by = user.user_name
@@ -68,11 +68,11 @@ module Transitionable
   end
 
   def referrals
-    self.transitions.select{|t| t.type == 'referral'}
+    self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL}
   end
 
   def transfers
-    self.transitions.select{|t| t.type == 'transfer'}
+    self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER}
   end
 
   def has_referrals

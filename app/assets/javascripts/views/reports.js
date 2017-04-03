@@ -2,6 +2,11 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
 
   el: '.reports',
 
+  events: {
+    'click .report_export_graph': 'export_graph',
+    'click .report_export_data': 'export_data'
+  },
+
   initialize: function() {
     this.init_report_table();
     this.init_report_chart();
@@ -9,12 +14,12 @@ _primero.Views.ReportTable = _primero.Views.Base.extend({
     function resize_window(event, tab) {
       $(window).trigger('resize');
     }
-    $('.tabs').on('toggled', resize_window);
+
+    $('.tabs').on('change.zf.tabs', resize_window);
   },
 
-  events: {
-    'click .report_export_graph': 'export_graph',
-    'click .report_export_data': 'export_data'
+  resize_window: function (event, tab) {
+    $(window).trigger('resize');
   },
 
   init_report_table: function() {

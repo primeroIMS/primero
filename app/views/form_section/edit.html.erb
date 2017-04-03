@@ -2,7 +2,7 @@
   <%= t('form_section.edit') %>
 <% end %>
 
-<div class="page-content-new row collapse" data-equalizer>
+<div class="page-content-new row" data-equalizer>
   <%= render :partial => 'form_section/sidebar', :locals => {:highlight_page => 'forms'} %>
   <div class="large-8 medium-8 columns side-tab-content-container form_page">
     <div class="side-tab-content" data-equalizer-watch>
@@ -18,6 +18,6 @@
 </script>
 <%= content_for :page_scripts do %>
   if(show_add_field){
-    $("#add_field_modal").foundation('reveal', 'open');
+    $("#add_field_modal").foundation('open');
   }
 <% end %>

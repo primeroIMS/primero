@@ -5,6 +5,8 @@
 en:
   "true": "Yes"
   "false": "No"
+  valid: "Valid"
+  invalid: "Invalid"
   home:
     fr: "Français"
     en: "English"
@@ -31,6 +33,9 @@ en:
     enter_valid_date: "Please enter the date in a valid format (dd-mmm-yyyy)"
     enter_valid_field_value: "Please enter a valid field value."
     enter_valid_number_in_tally: "%{field}: %{tally} must be a valid number"
+    enter_valid_number: "%{field} must be a valid number"
+    more_than_200_chars: "%{field} cannot be more than 200 characters long"
+    no_more_than_x_chars: "%{field} cannot be more than %{length} characters long"
     valid_search_criteria: "Please enter at least one search criteria"
     show_hide_forms: "Please select form(s) you want to show/hide."
     show_forms: "Are you sure you want to make these form(s) visible?"
@@ -62,6 +67,8 @@ en:
     scroll_up: "Scroll up to view more"
     scroll_down: "Scroll down to view more"
     forms_export: "This export provides a spreadsheet of the available Forms and form fields. This spreadsheet is used for creating the mapping of the Form configuration to be used in the implementation. Note that this spreadsheet cannot be used to import data into Primero."
+    string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
+    system_settings_failed: "System Settings failed to load."
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -70,6 +77,12 @@ en:
   login:
     details: "Login details"
     username: "User Name"
+    notification:
+      enter_user_name: 'Enter your user name'
+      users_requested_password_reset: "These users requested password reset. Please contact them immediately."
+      users_does_not_exist: "%{user} at %{created}. This username does not currently exist in the system. "
+      at: "at %{created}."
+      cannot_remember_username: "If you don't remember your user name, just enter any name and information an administrator can use to identify and contact you."
     password:
       label: "Password"
       reset: "Request Password Reset"
@@ -572,6 +585,8 @@ en:
     reg_date: 'registration date'
     social_worker: 'social worker'
     score: 'score'
+    show_more: 'show more'
+    show_less: 'show less'
 
 
 
@@ -935,10 +950,13 @@ en:
     ordering: "Ordering"
     details: "Form details"
     label: "Form"
+    group: "Group"
+    help_text: "Help Text"
+    details: "Details"
     back: "Back To Forms Page"
     help_text: "Help Text"
     actions:
-      actions: "Actions"
+      label: "Actions"
       add_custom_field: "Add Custom Field"
       save_order: "Save Order"
     messages:
@@ -1026,7 +1044,10 @@ en:
     help_text: "Help Text"
     actions: "Actions"
     option_strings_text: "Options"
+    option_strings_text_key: "Option Key"
+    option_strings_text_display: "Option Text"
     option_strings_source: "Lookups"
+    option_strings_add_option: "Add Option"
     form_name: "Form Name"
     action: "Action"
     remove: "Remove"
@@ -1116,6 +1137,7 @@ en:
       updated: "Lookup successfully added"
 
   location:
+    location_code_warning: Note that if you change an existing location code, you will need to edit re-enter the location fields for any records using this location.
     create: "New Location"
     edit: "Edit Location"
     label: "Location"
@@ -1277,6 +1299,9 @@ en:
     quarter_3: "Quarter 3"
     quarter_2: "Quarter 2"
     quarter_1: "Quarter 1"
+    gbv_reporting_agency: "Yes-GBVIMS Org / Agency"
+    non_gbv_reporting_agency: "Yes-Non GBVIMS Org / Agency"
+    undecided: "Undecided at time of report"
 
   followup_reminders:
     system_generated_followup_flag: "mandatory follow up visit"
@@ -1489,6 +1514,12 @@ en:
         unique_name_other: "Field already exists on form '%{form_name}'"
         unique_name_this: "Field already exists on this form"
         change_type_existing_field: "Can't change type of existing field on form '%{form_name}'"
+        option_strings_text:
+          not_array: "Option Strings Text is not an array"
+          not_hash: "Option Strings Text option is not a hash"
+          id_blank: "Option Strings Text option id is blank"
+          display_text_blank: "Option Strings Text option display text is blank"
+          id_not_unique: "Option Strings Text option id is not unique"
 
       form_section:
         presence_of_name: "Name must not be blank"
@@ -1560,6 +1591,7 @@ en:
         code_present: "must not be blank"
         admin_level_present: "must not be blank"
         unique_name: "A Location with that name already exists, please enter a different name"
+        unique_location_code: "A Location with that location code already exists, please enter a different location code"
 
       reporting_location:
         label_key: "Label Key must be one of Location Base Type values"
@@ -1586,6 +1618,8 @@ en:
     deleted_by: "deleted by"
     referral: "Referred to %{to_user} by %{by_user}"
     transfer: "Transferred to %{to_user} by %{by_user}"
+    record_by: "Record created by"
+    child_status_changed: "Child status changed to reunited by"
 
     system_logs:
       records_performed_by: "records performed by"
@@ -1885,6 +1919,10 @@ en:
 
   string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
 
+  error_message:
+    notice: 'Errors prohibited this record from being saved'
+    fields_notice: 'There were problems with the following fields:'
+
   error_page:
     internal_server_error:
       code: 500
@@ -1896,3 +1934,9 @@ en:
       something_went_wrong: Sorry, Something when wrong!
       contact_admin: If you believe you are here by error, please contact your admin.
       server_error: Page not found
+      
+  audio:
+    update_browser:
+      title: 'Update Required'
+      message: "To play the media you will need to either update your browser to a recent version or update your"
+      link_text: "Flash plugin"

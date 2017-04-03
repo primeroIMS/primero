@@ -47,7 +47,7 @@ describe "children/_filter.html.erb" do
       Field.new({"name" => "gbv_displacement_status",
                  "type" => "select_box",
                  "display_name_all" => "Displacement Status at time of report",
-                 "option_strings_source" => "lookup DisplacementStatus"
+                 "option_strings_source" => "lookup lookup-displacement-status"
                 }),
     ]
     @form_gbv = FormSection.new(
@@ -94,7 +94,7 @@ describe "children/_filter.html.erb" do
     fields = [
       Field.new({"name" => "protection_status",
                  "type" => "select_box",
-                 "option_strings_source" => "lookup ProtectionStatus",
+                 "option_strings_source" => "lookup lookup-protection-status",
                  "display_name_all" => "Protection Status"
                 })
     ]

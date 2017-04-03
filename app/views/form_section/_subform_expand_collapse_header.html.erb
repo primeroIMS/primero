@@ -97,13 +97,13 @@
               subform_instance.is_assigned_to_user_local?(@current_user.user_name) %>
           <%= render :partial => "transitions/transition_status_button",
                                     locals: { :transition_id => subform_instance.id,
-                                              :transition_status => t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en),
+                                              :transition_status => Transition::TO_USER_LOCAL_STATUS_ACCEPTED,
                                               :button_label => t('buttons.accept'),
                                               :transfer_dialog_text => t("transfer.accept_label"),
                                               :dialog_key => 'accept' } %>
           <%= render :partial => "transitions/transition_status_button",
                                     locals: { :transition_id => subform_instance.id,
-                                              :transition_status => t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en),
+                                              :transition_status => Transition::TO_USER_LOCAL_STATUS_REJECTED,
                                               :button_label => t('buttons.reject'),
                                               :transfer_dialog_text => t("transfer.reject_label"),
                                               :dialog_key => 'reject' } %>
@@ -115,13 +115,15 @@
         <% end %>
       <% end %>
     <% end %>
-    <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
-    <% if !subform.disabled %>
-      <%= link_to t('fields.remove'), '', class: "subform_remove grey-button", style: disable_action_buttons,
-          data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
-    <% end %>
-    <% if !formObject.new_record? && subform.name == "individual_details_subform_section" && can?(:create, Child) && params[:action] == 'show'%>
-      <%= link_to I18n.t("buttons.create_case"), create_cp_case_from_individual_details_path(formObject.id, i), {class: "grey-button"} %>
-    <% end %>
+    <div class="button-group align-right">
+      <% if !subform.disabled %>
+        <%= link_to t('fields.remove'), '', class: "subform_remove button grey tiny", style: disable_action_buttons,
+            data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
+      <% end %>
+      <% if !formObject.new_record? && subform.name == "individual_details_subform_section" && can?(:create, Child) && params[:action] == 'show'%>
+        <%= link_to I18n.t("buttons.create_case"), create_cp_case_from_individual_details_path(formObject.id, i), {class: "button grey small"} %>
+      <% end %>
+      <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
+    </div>
   </div>
 </div>

@@ -204,25 +204,25 @@ class HomeController < ApplicationController
       if query[:by_risk_level].present?
         facet(:risk_level, zeros: true) do
           row(:high) do
-            with(:risk_level, 'High')
+            with(:risk_level, Child::RISK_LEVEL_HIGH)
             with(:not_edited_by_owner, true)
           end
           row(:high_total) do
-            with(:risk_level, 'High')
+            with(:risk_level, Child::RISK_LEVEL_HIGH)
           end
           row(:medium) do
-            with(:risk_level, 'Medium')
+            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
             with(:not_edited_by_owner, true)
           end
           row(:medium_total) do
-            with(:risk_level, 'Medium')
+            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
           end
           row(:low) do
-            with(:risk_level, 'Low')
+            with(:risk_level, Child::RISK_LEVEL_LOW)
             with(:not_edited_by_owner, true)
           end
           row(:low_total) do
-            with(:risk_level, 'Low')
+            with(:risk_level, Child::RISK_LEVEL_LOW)
           end
         end
       end
@@ -230,13 +230,13 @@ class HomeController < ApplicationController
       if query[:by_approval_type].present?
         facet(:approval_type, zeros: true) do
           row(:bia) do
-            with(:approval_status_bia, I18n.t('approvals.status.pending'))
+            with(:approval_status_bia, Child::APPROVAL_STATUS_PENDING)
           end
           row(:case_plan) do
-            with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+            with(:approval_status_case_plan, Child::APPROVAL_STATUS_PENDING)
           end
           row(:closure) do
-            with(:approval_status_closure, I18n.t('approvals.status.pending'))
+            with(:approval_status_closure, Child::APPROVAL_STATUS_PENDING)
           end
         end
       end
@@ -258,14 +258,14 @@ class HomeController < ApplicationController
     #   modules: @module_ids
     # })
     queries = {
-      totals_by_case_worker: manager_case_query({ by_owner: true, status: 'Open' }),
-      new_by_case_worker: manager_case_query({ by_owner: true, status: 'Open', new_records: true }),
-      risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
+      totals_by_case_worker: manager_case_query({ by_owner: true, status: Child::STATUS_OPEN }),
+      new_by_case_worker: manager_case_query({ by_owner: true, status: Child::STATUS_OPEN, new_records: true }),
+      risk_level: manager_case_query({ by_risk_level: true, status: Child::STATUS_OPEN }),
       manager_totals: manager_case_query({ by_case_status: true}),
-      referred_total: manager_case_query({ referred: true, status: 'Open' }),
-      referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
-      approval_type: manager_case_query({ by_approval_type: true, status: 'Open'}),
-      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: 'Open'})
+      referred_total: manager_case_query({ referred: true, status: Child::STATUS_OPEN }),
+      referred_new: manager_case_query({ referred: true, status: Child::STATUS_OPEN, new_records: true }),
+      approval_type: manager_case_query({ by_approval_type: true, status: Child::STATUS_OPEN}),
+      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: Child::STATUS_OPEN})
     }
     build_manager_stats(queries)
   end
@@ -304,7 +304,7 @@ class HomeController < ApplicationController
     module_ids = @module_ids
     @stats = Child.search do
       # TODO: Check for valid
-      with(:child_status, 'Open')
+      with(:child_status, Child::STATUS_OPEN)
       with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:assigned_user_names, current_user.user_name)
@@ -319,25 +319,25 @@ class HomeController < ApplicationController
       if display_assessment?
         facet(:risk_level, zeros: true, exclude: [referred]) do
           row(:high) do
-            with(:risk_level, 'High')
+            with(:risk_level, Child::RISK_LEVEL_HIGH)
             with(:not_edited_by_owner, true)
           end
           row(:high_total) do
-            with(:risk_level, 'High')
+            with(:risk_level, Child::RISK_LEVEL_HIGH)
           end
           row(:medium) do
-            with(:risk_level, 'Medium')
+            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
             with(:not_edited_by_owner, true)
           end
           row(:medium_total) do
-            with(:risk_level, 'Medium')
+            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
           end
           row(:low) do
-            with(:risk_level, 'Low')
+            with(:risk_level, Child::RISK_LEVEL_LOW)
             with(:not_edited_by_owner, true)
           end
           row(:low_total) do
-            with(:risk_level, 'Low')
+            with(:risk_level, Child::RISK_LEVEL_LOW)
           end
         end
       end
@@ -347,7 +347,7 @@ class HomeController < ApplicationController
           with(:not_edited_by_owner, true)
         end
         row(:total) do
-          with(:child_status, 'Open')
+          with(:child_status, Child::STATUS_OPEN)
         end
       end
 
@@ -356,69 +356,66 @@ class HomeController < ApplicationController
           without(:last_updated_by, current_user.user_name)
         end
         row(:total) do
-          with(:child_status, 'Open')
+          with(:child_status, Child::STATUS_OPEN)
         end
       end
 
       facet(:approval_status_bia, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_bia, I18n.t('approvals.status.pending'))
+          with(:approval_status_bia, Child::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_bia, I18n.t('approvals.status.rejected'))
+          with(:approval_status_bia, Child::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_bia, I18n.t('approvals.status.approved'))
+          with(:approval_status_bia, Child::APPROVAL_STATUS_APPROVED)
           with(:bia_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_case_plan, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+          with(:approval_status_case_plan, Child::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_case_plan, I18n.t('approvals.status.rejected'))
+          with(:approval_status_case_plan, Child::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_case_plan, I18n.t('approvals.status.approved'))
+          with(:approval_status_case_plan, Child::APPROVAL_STATUS_APPROVED)
           with(:case_plan_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_closure, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_closure, I18n.t('approvals.status.pending'))
+          with(:approval_status_closure, Child::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_closure, I18n.t('approvals.status.rejected'))
+          with(:approval_status_closure, Child::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_closure, I18n.t('approvals.status.approved'))
+          with(:approval_status_closure, Child::APPROVAL_STATUS_APPROVED)
           with(:closure_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:transfer_status, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                        :locale => :en))
+          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
           with(:owned_by, current_user.user_name)
         end
         row(:rejected) do
-          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
-                                        :locale => :en))
+          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_REJECTED)
           with(:owned_by, current_user.user_name)
         end
       end
 
       facet(:in_progress_transfers, zeros: true) do
         row(:in_progress) do
-          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                        :locale => :en))
+          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
           with(:transferred_to_users, current_user.user_name)
         end
       end
@@ -550,26 +547,26 @@ class HomeController < ApplicationController
 
     if locations.present?
       @reporting_location_stats = build_admin_stats({
-        totals: get_admin_stat({ status: 'Open', locations: locations, by_reporting_location: true }),
-        new_last_week: get_admin_stat({ status: 'Open', new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        new_this_week: get_admin_stat({ status: 'Open', new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
-        closed_last_week: get_admin_stat({ status: 'Closed', closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        closed_this_week: get_admin_stat({ status: 'Closed', closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
+        totals: get_admin_stat({ status: Child::STATUS_OPEN, locations: locations, by_reporting_location: true }),
+        new_last_week: get_admin_stat({ status: Child::STATUS_OPEN, new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        new_this_week: get_admin_stat({ status: Child::STATUS_OPEN, new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
+        closed_last_week: get_admin_stat({ status: Child::STATUS_CLOSED, closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        closed_this_week: get_admin_stat({ status: Child::STATUS_CLOSED, closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
       })
     end
 
     @protection_concern_stats = build_admin_stats({
         totals: get_admin_stat({by_protection_concern: true}),
-        open: get_admin_stat({status: 'Open', by_protection_concern: true}),
-        new_this_week: get_admin_stat({status: 'Open', by_protection_concern: true, new: true, date_range: this_week}),
-        closed_this_week: get_admin_stat({status: 'Closed', by_protection_concern: true, closed: true, date_range: this_week})
+        open: get_admin_stat({status: Child::STATUS_OPEN, by_protection_concern: true}),
+        new_this_week: get_admin_stat({status: Child::STATUS_OPEN, by_protection_concern: true, new: true, date_range: this_week}),
+        closed_this_week: get_admin_stat({status: Child::STATUS_CLOSED, by_protection_concern: true, closed: true, date_range: this_week})
     })
   end
 
 
   def build_admin_stats(stats)
     admin_stats = {}
-    protection_concerns = Lookup.values('Protection Concerns', @lookups)
+    protection_concerns = Lookup.values('lookup-protection-concerns', @lookups)
     stats.each do |k, v|
       stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
       stat_facet.rows.each do |l|

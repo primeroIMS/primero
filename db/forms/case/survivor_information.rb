@@ -16,7 +16,7 @@ survivor_information_fields = [
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
-             "option_strings_source" => "lookup CaseStatus"
+             "option_strings_source" => "lookup lookup-case-status"
             }),
   Field.new({"name" => "name",
              "type" => "text_field",
@@ -45,22 +45,22 @@ survivor_information_fields = [
   Field.new({"name" => "gbv_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Clan or Ethnicity",
-             "option_strings_source" => "lookup Ethnicity"
+             "option_strings_source" => "lookup lookup-ethnicity"
             }),
   Field.new({"name" => "country_of_origin",
              "type" => "select_box",
              "display_name_all" => "Country of Origin",
-             "option_strings_source" => "lookup Country"
+             "option_strings_source" => "lookup lookup-country"
             }),
   Field.new({"name" => "gbv_nationality",
              "type" => "select_box",
              "display_name_all" => "Nationality (if different than country of origin)",
-             "option_strings_source" => "lookup Nationality"
+             "option_strings_source" => "lookup lookup-nationality"
             }),
   Field.new({"name" => "gbv_religion",
              "type" => "select_box",
              "display_name_all" => "Religion",
-             "option_strings_source" => "lookup Religion"
+             "option_strings_source" => "lookup lookup-religion"
             }),
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,
@@ -82,7 +82,7 @@ survivor_information_fields = [
   Field.new({"name" => "gbv_displacement_status",
              "type" => "select_box",
              "display_name_all" => "Displacement Status at time of report",
-             "option_strings_source" => "lookup DisplacementStatus"
+             "option_strings_source" => "lookup lookup-displacement-status"
             }),
   Field.new({"name" => "gbv_disability_type",
              "type" => "select_box",
@@ -110,7 +110,7 @@ survivor_information_fields = [
   Field.new({"name" => "survivor_lives_alone",
              "type" => "radio_button",
              "display_name_all" => "If the survivor is a child, does he/she live alone?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no",
              "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_caretaker",

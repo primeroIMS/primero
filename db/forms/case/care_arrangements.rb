@@ -2,7 +2,7 @@ care_arrangements_fields = [
   Field.new({"name" => "child_caregiver_status",
              "type" => "radio_button",
              "display_name_all" => "Is this a same caregiver as was previously entered for the child?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
            }),
   Field.new({"name" => "child_caregiver_reason_change",
              "type" => "select_box",
@@ -87,7 +87,7 @@ care_arrangements_fields = [
   Field.new({"name" => "caregiver_location_status",
              "type" => "radio_button",
              "display_name_all" => "Is the caregiver's current location temporary",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
            }),
   Field.new({"name" => "address_caregiver_future",
              "type" => "textarea",
@@ -106,7 +106,7 @@ care_arrangements_fields = [
   Field.new({"name" => "caregiver_willing_to_continue",
              "type" => "radio_button",
              "display_name_all" => "Is caregiver willing to continue taking care of the child?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
            }),
   Field.new({"name" => "caregiver_willing_to_continue_for_how_long",
              "type" => "text_field",
@@ -115,7 +115,7 @@ care_arrangements_fields = [
   Field.new({"name" => "caregiver_know_family",
              "type" => "radio_button",
              "display_name_all" => "Does the caregiver know the family of the child?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
            }),
   Field.new({"name" => "other_information_from_caregiver",
              "type" => "textarea",

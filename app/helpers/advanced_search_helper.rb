@@ -27,19 +27,4 @@ module AdvancedSearchHelper
     html += REMOVE_LINK
     "<p class='criterion-selected'>#{html.gsub("#INDEX", criteria.index)}</p>"
   end
-
-  private
-  def select_box_criteria(criteria, field)
-    html = %Q{<span class="criteria-values"/><select class="criteria-value-select" value="" name="criteria_list[#INDEX][value]" style="">}
-    field.option_strings.each{|option| html += "<option #{criteria.value == option ? "selected=\"selected\"" : ""} value=\"#{option}\">#{option}</option>"}
-    html += "</select>"
-  end
-
-  def text_field_criteria(criteria, field)
-    %Q{<span class="criteria-values"/><input class="criteria-value-text" type="text" value="#{criteria.value}" name="criteria_list[#INDEX][value]" style="">}
-  end
-
-  def textarea_criteria(criteria, field)
-    text_field(criteria, field)
-  end
 end

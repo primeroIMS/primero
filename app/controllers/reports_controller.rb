@@ -4,15 +4,18 @@ class ReportsController < ApplicationController
 
   include RecordFilteringPagination
   include ReportsHelper
+  include FieldsHelper
   include DeleteAction
 
   #include RecordActions
-  before_filter :load_report, except: [:new]
+  before_filter :load_report, except: [:new, :show]
+  before_filter :load_report_with_translations, only: [:show]
 
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
   before_filter :set_aggregate_order, only: [:create, :update]
   before_filter :load_age_range, only: [:new, :edit]
+  before_filter :get_lookups, only: [:lookups_for_field]
 
   include LoggerActions
 
@@ -114,7 +117,7 @@ class ReportsController < ApplicationController
     field_options = []
     field_name = params[:field_name]
     field = Field.find_by_name(field_name)
-    field_options = lookups_list_from_field(field)
+    field_options = field.options_list(nil, nil, nil, true)
     render json: field_options
   end
 
@@ -187,8 +190,16 @@ class ReportsController < ApplicationController
 
   private
 
+  def get_lookups
+    @lookups = Lookup.all
+  end
+
   def load_report
     @report = Report.get(params[:id])
+  end
+
+  def load_report_with_translations
+    @report = Report.get_report(params[:id])
   end
 
   def action_class

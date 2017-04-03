@@ -1,0 +1,23 @@
+<div class="row fields_option_strings_text_row">
+  <div class="column">
+    <input type="hidden" name="field[option_strings_text_<%= locale %>][][id]" value="<%= id %>" />
+    <input type="text" name="field[option_strings_text_<%= locale %>][][display_text]" id="field_option_strings_text_<%= locale %>__id" value="<%= display_text %>" class: "option_strings_text_input" />
+  </div>
+  <% if (editing) { %>
+    <% _.each(locale_options, function(locale_option) { %>
+      <% if (locale_option != locale) { %>
+        <div class="column <%= 'translation_forms ' + locale_option %> hide_element">
+          <input type="hidden" name="field[option_strings_text_<%= locale_option %>][][id]" value="<%= id %>" />
+          <input type="text" name="field[option_strings_text_<%= locale_option %>][][display_text]" id="field_option_strings_text_<%= locale_option %>__id" value="<%= display_text %>" class: "option_strings_text_input" />
+        </div>
+      <% } %>
+    <% }); %>
+  <% } %>
+  <div class="column">
+    <% if (locale == 'en'){ %>
+      <a class="field_option_remove_button">
+        <i class="fa fa-close" />
+      </a>
+    <% } %>
+  </div>
+</div>

@@ -956,6 +956,95 @@ describe IncidentsController do
     end
   end
 
+  describe "API" do
+    before do
+      @incident_hash = {owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
+                      previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker",
+                      previously_owned_by_agency: "agency-unicef", module_id: "primeromodule-gbv",
+                      created_organization: "agency-unicef", created_by: "primero_gbv", created_by_full_name: "GBV Worker",
+                      record_state: true, marked_for_mobile: false, consent_for_services: false, incident_status: "Open",
+                      name: "Norville Rogers", name_first: "Norville", name_last: "Rogers", name_nickname: "Shaggy",
+                      name_given_post_separation: "No", registration_date: "01-Mar-2017", sex: "Male", age: 10,
+                      system_generated_followup: false, incident_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9",
+                      incident_case_id: "79e1883aecab33011157abe3ae5cc3c3", hidden_name: false, posted_from: "Mobile"}
+    end
+    it "creates a GBV incident" do
+
+      post :create, incident: @incident_hash, format: :json
+
+      incident1 = Incident.by_incident_id(key: @incident_hash[:incident_id]).first
+
+      expect(incident1).not_to be_nil
+      expect(incident1.name).to eq('Norville Rogers')
+    end
+
+    #NOTE: This test depends on the previous test
+    #      It cannot be run alone
+    it "updates a GBV incident" do
+      Incident.stub(:permitted_property_names).and_return(['name'])
+      before_incident = Incident.by_incident_id(key: @incident_hash[:incident_id]).first
+      @incident_hash[:name] = "Fred Jones"
+
+      put :update, id:before_incident.id, incident: @incident_hash, format: :json
+
+      after_incident = Incident.by_incident_id(key: @incident_hash[:incident_id]).first
+
+      expect(after_incident).not_to be_nil
+      expect(after_incident.name).to eq('Fred Jones')
+    end
+
+    describe 'GET' do
+      before do
+        @gbv_incident_1 = Incident.create!(owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
+                                           previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker",
+                                           previously_owned_by_agency: "agency-unicef", module_id: "primeromodule-gbv",
+                                           created_organization: "agency-unicef", created_by: "fakeadmin", created_by_full_name: "GBV Worker",
+                                           record_state: true, marked_for_mobile: false, consent_for_services: false, incident_status: "Open",
+                                           name: "Fred Jones", name_first: "Fred", name_last: "Jones")
+        @gbv_incident_2 = Incident.create!(owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
+                                           previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker",
+                                           previously_owned_by_agency: "agency-unicef", module_id: "primeromodule-gbv",
+                                           created_organization: "agency-unicef", created_by: "fakeadmin", created_by_full_name: "GBV Worker",
+                                           record_state: true, marked_for_mobile: true, consent_for_services: false, incident_status: "Open",
+                                           name: "Daphne Blake", name_first: "Daphne", name_last: "Blake")
+        @gbv_incident_3 = Incident.create!(owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
+                                           previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker",
+                                           previously_owned_by_agency: "agency-unicef", module_id: "primeromodule-gbv",
+                                           created_organization: "agency-unicef", created_by: "fakeadmin", created_by_full_name: "GBV Worker",
+                                           record_state: true, marked_for_mobile: true, consent_for_services: false, incident_status: "Open",
+                                           name: "Velma Dinkley", name_first: "Velma", name_last: "Dinkley")
+        @gbv_user = User.new(:user_name => 'primero_gbv', :is_manager => false)
+      end
+
+
+      context 'show' do
+        it 'returns a GBV incident' do
+          get :show, id: @gbv_incident_1.id, mobile: true, format: :json
+
+          expect(assigns['record']['_id']).to eq(@gbv_incident_1.id)
+          expect(assigns['record']['short_id']).to eq(@gbv_incident_1.short_id)
+          expect(assigns['record']['name']).to eq(@gbv_incident_1.name)
+        end
+      end
+
+      context 'index' do
+        before do
+          @incidents = [@gbv_incident_1, @gbv_incident_2, @gbv_incident_3]
+          search = double(Sunspot::Search::StandardSearch)
+          search.should_receive(:results).and_return(@incidents)
+          search.should_receive(:total).and_return(3)
+          Incident.should_receive(:list_records).and_return(search)
+        end
+        it 'returns a list of GBV incidents' do
+          get :index, mobile: true, module_id: PrimeroModule::GBV, format: :json
+
+          expect(assigns['records'].count).to eq(2)
+          expect(assigns['records'].map{|r| r['name']}).to include("Daphne Blake", "Velma Dinkley")
+        end
+      end
+    end
+  end
+
 	describe "reindex_params_subforms" do
 
 		it "should correct indexing for nested subforms" do

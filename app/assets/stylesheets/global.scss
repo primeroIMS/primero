@@ -1,5 +1,8 @@
+@import "primero/settings/fonts";
+@import "primero/settings/colors";
+@import "primero/settings/foundation_and_overrides";
 @import "primero/scrollbars";
-@import "primero/foundation_and_overrides";
+@import "primero/settings/icons";
 @import "primero/page";
 @import "primero/button";
 @import "primero/typography_icons";
@@ -7,8 +10,8 @@
 @import "primero/record_controls";
 @import "primero/search";
 @import "primero/alerts";
-@import "primero/header";
-@import "primero/navbar";
+@import "primero/components/header";
+@import "primero/components/nav";
 @import "primero/header_sections";
 @import "primero/login";
 @import "primero/sidetab";

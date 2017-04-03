@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe PropertiesLocalization do
+describe LocalizableProperty do
 
   before :each do
     Primero::Application.stub :locales => [ "a", "b" ]
     @klass = Class.new(CouchRest::Model::Base) do
-      include PropertiesLocalization
+      include LocalizableProperty
     end
     @klass.localize_properties [ :name ]
     @object = @klass.new

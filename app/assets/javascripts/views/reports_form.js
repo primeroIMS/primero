@@ -29,7 +29,7 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
     var self = this;
     setTimeout(function() {
       self.set_chosen_order($(e.target), false);
-    }, 100);
+    }, 500);
   },
 
   init_chosen_order: function(elements) {
@@ -41,20 +41,19 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
     }, 100);
   },
 
-
   change_reload_field_lookups: function() {
     this.reload_field_lookups(false);
   },
 
   set_chosen_order: function($element, is_init) {
     var $target = $element,
-        $parent = $target.parent(),
-        order = is_init ? $parent.data('actual-order') : $target.getSelectionOrder(true);
-        counter = 0,
-        $select_control = $parent.find('select'),
-        select_controls = [];
+      $parent = $target.parent(),
+      order = is_init ? $parent.data('actual-order') : $target.getSelectionOrder(true);
+      counter = 0,
+      $select_control = $parent.find('select');
 
     $parent.find('.order_field').remove();
+    var select_controls = [];
 
     _.each(order, function(item) {
       var data = {
@@ -172,9 +171,12 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
     //get rid of the template class
     new_filter.attr('class', $template.attr('class').replace(/report_filter_template/,'report_filter'));
 
+    if (I18n.direction == 'rtl') {
+      new_filter.find('select').addClass('chosen-rtl');
+    }
+
     $('.report_filters_container').append(new_filter);
     new_filter.find('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
-    _primero.set_content_sidebar_equality();
   },
 
   remove_filter: function(e) {
@@ -223,11 +225,11 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
         var constructed_options_list = [];
         constructed_options_list.push("<option value='not_null'>" + string_select_not_null_translation + "</option>")
         for (var i in lookups_for_field) {
-          if (lookups_for_field[i].constructor === Array) {
+          if (lookups_for_field[i].constructor === Array || lookups_for_field[i].constructor === Object) {
             constructed_options_list.push(
-              "<option value=\"" + lookups_for_field[i][1] + "\">" + lookups_for_field[i][0] + "</option>"
+              "<option value=\"" + lookups_for_field[i].id + "\">" + lookups_for_field[i].display_text + "</option>"
             );
-          }  else {
+          }  else if (lookups_for_field[i].constructor === String) {
             constructed_options_list.push(
               "<option>" + lookups_for_field[i] + "</option>"
             );

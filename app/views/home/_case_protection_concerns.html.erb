@@ -24,6 +24,7 @@
     </table>
   </div>
   <div class="panel_content no-padding panel_main">
+    <%# TODO - i18n protection_concern_stats %>
     <% if protection_concern_stats.present? %>
       <table cellspacing="0" cellpadding="0" class="table-counts table-floating-header extra">
         <tbody>
@@ -33,27 +34,28 @@
             <td>
               <%=
                 build_reporting_location_stat_link(val[:totals],
-                                                   ['child_status=Open||Closed', 'record_state=true', "protection_concern=#{key}"],
+                                                   ["child_status=#{Child::STATUS_OPEN}||#{Child::STATUS_CLOSED}",
+                                                    'record_state=true', "protection_concern=#{key}"],
                                                    model, reporting_location, admin_level)
               %>
             </td>
             <td>
               <%=
                 build_reporting_location_stat_link(val[:open],
-                                                   ['child_status=Open', 'record_state=true', "protection_concern=#{key}"],
+                                                   ["child_status=#{Child::STATUS_OPEN}", 'record_state=true', "protection_concern=#{key}"],
                                                    model, reporting_location, admin_level)
               %>
             </td>
             <td>
               <%= build_reporting_location_stat_link(val[:new_this_week],
-                                                     ['child_status=Open', 'record_state=true', "created_at=#{this_week}", "protection_concern=#{key}"],
+                                                     ["child_status=#{Child::STATUS_OPEN}", 'record_state=true', "created_at=#{this_week}", "protection_concern=#{key}"],
                                                      model, reporting_location, admin_level)
               %>
             </td>
             <td>
               <%=
                 build_reporting_location_stat_link(val[:closed_this_week],
-                                                   ['child_status=Closed', 'record_state=true', "date_closure=#{this_week}", "protection_concern=#{key}"],
+                                                   ["child_status=#{Child::STATUS_CLOSED}", 'record_state=true', "date_closure=#{this_week}", "protection_concern=#{key}"],
                                                    model, reporting_location, admin_level)
               %>
             </td>

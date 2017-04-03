@@ -4,25 +4,23 @@ class Lookup < CouchRest::Model::Base
 
   include PrimeroModel
   include Memoizable
+  include LocalizableProperty
 
-  property :name
-  property :description
-  property :lookup_values, :type => [String]
+  property :locked, TrueClass, :default => false
+  localize_properties [:name]
+  localize_properties [:lookup_values], generate_keys: true
+
+  DEFAULT_UNKNOWN_ID_TO_NIL = 'default_convert_unknown_id_to_nil'
 
   design do
-    view :by_name,
-            :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'Lookup') && doc['name']) {
-                  emit(doc['name'], null);
-                }
-            }"
+    view :all
   end
 
   validates_presence_of :name, :message => "Name must not be blank"
-  validates_presence_of :lookup_values, :message => I18n.t("errors.models.lookup.value_presence")
-  validate :is_name_unique, :if => :name
+  validate :validate_has_2_values
 
-  before_save :generate_id
+  before_validation :generate_values_keys
+  before_create :generate_id
   before_destroy :check_is_being_used
 
   class << self
@@ -34,40 +32,33 @@ class Lookup < CouchRest::Model::Base
     end
     memoize_in_prod :all
 
-
-    def find_by_name(name)
-      Lookup.by_name(:key => name).first
-    end
-    memoize_in_prod :find_by_name
-
-    def lookup_id_from_name(name)
-      "lookup-#{name}".parameterize.dasherize
-    end
-    memoize_in_prod :lookup_id_from_name
-
-    def values(name, lookups = nil)
+    def values(lookup_id, lookups = nil)
       if lookups.present?
-        lookup = lookups.select {|lkp| lkp['name'] == name}.first
+        lookup = lookups.select {|lkp| lkp.id == lookup_id}.first
       else
-        lookup = self.find_by_name(name)
+        lookup = Lookup.get(lookup_id)
       end
-      lookup.present? ? lookup.lookup_values : []
+      lookup.present? ? (lookup.lookup_values || []) : []
     end
     memoize_in_prod :values
+
+    def get_location_types
+      self.get('lookup-location-type')
+    end
+    memoize_in_prod :get_location_types
   end
 
   def sanitize_lookup_values
     self.lookup_values.reject! { |value| value.blank? } if self.lookup_values
   end
 
-  def is_name_unique
-    lookup = Lookup.find_by_name(name)
-    return true if lookup.nil? or self.id == lookup.id
-    errors.add(:name, I18n.t("errors.models.lookup.unique_name"))
+  def validate_has_2_values
+    return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options")) if (lookup_values == nil || lookup_values.length < 2 || lookup_values[0]['display_text'] == '' || lookup_values[1]['display_text'] == '')
+    true
   end
 
   def is_being_used?
-    FormSection.find_by_lookup_field(self.label).all.size > 0
+    FormSection.find_by_lookup_field(self.id).all.size > 0
   end
 
   def label
@@ -81,7 +72,8 @@ class Lookup < CouchRest::Model::Base
   end
 
   def generate_id
-    self["_id"] ||= Lookup.lookup_id_from_name self.name
+    code = UUIDTools::UUID.random_create.to_s.last(7)
+    self.id ||= "lookup-#{self.name}-#{code}".parameterize.dasherize
   end
 
   def check_is_being_used
@@ -91,5 +83,28 @@ class Lookup < CouchRest::Model::Base
     end
   end
 
+  def generate_values_keys
+    if self.lookup_values.present?
+      self.lookup_values.each_with_index do |option, i|
+        new_option_id = nil
+        option_id_updated = false
+        if option.is_a?(Hash)
+          if option['id'].blank? && option['display_text'].present?
+            new_option_id = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
+            option_id_updated = true
+          elsif option['id'] == DEFAULT_UNKNOWN_ID_TO_NIL
+            new_option_id = nil
+            option_id_updated = true
+          end
+        end
+        if option_id_updated
+          Primero::Application::locales.each{|locale|
+            lv = self.send("lookup_values_#{locale}")
+            lv[i]['id'] = new_option_id if lv.present?
+          }
+        end
+      end
+    end
+  end
 end
 

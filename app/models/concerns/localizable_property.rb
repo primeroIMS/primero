@@ -1,8 +1,9 @@
-module PropertiesLocalization
+module LocalizableProperty
+  extend ActiveSupport::Concern
 
   module ClassMethods
 
-    def localize_properties(properties)
+    def localize_properties(properties, options={})
       Primero::Application::locales.each do |locale|
         properties.each { |key| property "#{key}_#{locale}" }
       end
@@ -19,13 +20,13 @@ module PropertiesLocalization
         end
 
         define_method "#{method}=" do |value|
+          value = generate_keyed_value(value) if options[:generate_keys].present?
           self.send "#{method}_#{I18n.default_locale}=", value
         end
 
         define_method "#{method}_all=" do |value|
-          Primero::Application::locales.each do |locale|
-            self.send "#{method}_#{locale}=", value
-          end
+          value = generate_keyed_value(value) if options[:generate_keys].present?
+          Primero::Application::locales.each{|locale| self.send "#{method}_#{locale}=", value }
         end
       end
       @localized_properties ||= []
@@ -38,11 +39,6 @@ module PropertiesLocalization
 
   end
 
-
-
-  def self.included klass
-    klass.extend ClassMethods
-  end
 
   def formatted_hash
     properties_hash = {}
@@ -67,6 +63,25 @@ module PropertiesLocalization
   def get_property_value(property)
     value = self.send(property)
     property.include?("option_strings_text") ? value.split("\n") : value if value
+  end
+
+  private
+
+  def generate_keyed_value(value)
+    if value.present?
+      if value.is_a?(String)
+        value =
+            value.gsub(/\r\n?/, "\n").split("\n")
+                .map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v}.with_indifferent_access : nil}
+                .compact
+      elsif value.is_a?(Array)
+        if value.first.is_a?(String)
+          value = value.map{|v| v.present? ? {id: v.parameterize.underscore, display_text: v}.with_indifferent_access : nil}.compact
+        elsif value.first.is_a?(Hash)
+          value
+        end
+      end
+    end
   end
 
 end

@@ -1,18 +1,18 @@
 protection_concern_fields = [
   Field.new({"name" => "protection_status",
              "type" => "select_box",
-             "option_strings_source" => "lookup ProtectionStatus",
+             "option_strings_source" => "lookup lookup-protection-status",
              "display_name_all" => "Protection Status"
             }),
   Field.new({"name" => "urgent_protection_concern",
              "type" => "radio_button",
              "display_name_all" => "Urgent Protection Concern?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "risk_level",
              "type" => "select_box",
              "display_name_all" => "Risk Level",
-             "option_strings_source" => "lookup RiskLevel"
+             "option_strings_source" => "lookup lookup-risk-level"
             }),
   Field.new({"name" => "system_generated_followup",
              "type" => "tick_box",
@@ -21,7 +21,7 @@ protection_concern_fields = [
   Field.new({"name" => "displacement_status",
              "type" =>"select_box" ,
              "display_name_all" => "Displacement Status",
-             "option_strings_source" => "lookup DisplacementStatus"
+             "option_strings_source" => "lookup lookup-risk-level"
             }),
   Field.new({"name" => "unhcr_protection_code",
              "type" => "text_field",
@@ -36,7 +36,7 @@ protection_concern_fields = [
              "multi_select" => true,
              "display_name_all" => "Protection Concerns",
              "required" => false,
-             "option_strings_source" => "lookup ProtectionConcerns"
+             "option_strings_source" => "lookup lookup-protection-concerns"
             }),
   Field.new({"name" => "protection_concerns_other",
              "type" => "text_field",
@@ -46,7 +46,7 @@ protection_concern_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "UNHCR Needs Codes",
-             "option_strings_source" => "lookup UnhcrNeedsCodes"
+             "option_strings_source" => "lookup lookup-unhcr-needs-codes"
             }),
   Field.new({"name" => "disability_type",
              "type" =>"select_box" ,

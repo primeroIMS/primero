@@ -23,11 +23,11 @@ class Transition
   TYPE_REASSIGN = "reassign"
   TYPE_TRANSFER = "transfer"
 
-  TO_USER_LOCAL_STATUS_PENDING = "user_local_status_pending"
-  TO_USER_LOCAL_STATUS_ACCEPTED = "user_local_status_accepted"
-  TO_USER_LOCAL_STATUS_REJECTED = "user_local_status_rejected"
-  TO_USER_LOCAL_STATUS_DONE = "user_local_status_done"
-  TO_USER_LOCAL_STATUS_INPROGRESS = "user_local_status_inprogress"
+  TO_USER_LOCAL_STATUS_PENDING = "pending"
+  TO_USER_LOCAL_STATUS_ACCEPTED = "accepted"
+  TO_USER_LOCAL_STATUS_REJECTED = "rejected"
+  TO_USER_LOCAL_STATUS_DONE = "done"
+  TO_USER_LOCAL_STATUS_INPROGRESS = "in_progress"
 
   def initialize *args
     super
@@ -40,11 +40,11 @@ class Transition
   end
 
   def is_referral_active?
-    self.to_user_local_status == I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en)
+    self.to_user_local_status == Transition::TO_USER_LOCAL_STATUS_INPROGRESS
   end
 
   def is_transfer_in_progress?
-    self.to_user_local_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en)
+    self.to_user_local_status == Transition::TO_USER_LOCAL_STATUS_INPROGRESS
   end
 
   def is_assigned_to_user_local?(user)

@@ -2,6 +2,18 @@
 require 'spec_helper'
 
 describe FormSection do
+  before do
+    FormSection.all.each &:destroy
+    PrimeroModule.all.each &:destroy
+    Role.all.each &:destroy
+    @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_name: "M")
+    @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_name: "X")
+    @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case', form_group_name: "Y")
+    @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
+    @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+    @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
+    @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
+  end
 
   def create_formsection(stubs={})
     stubs.reverse_merge!(:fields=>[], :save => true, :editable => true, :base_language => "en")
@@ -36,124 +48,167 @@ describe FormSection do
     f.all_searchable_fields.should == [text_area]
   end
 
-
-  describe "loading subforms in controller" do
-
-    describe "get_permitted_form_sections" do
-      before do
-        FormSection.all.each &:destroy
-        PrimeroModule.all.each &:destroy
-        Role.all.each &:destroy
-
-        @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case')
-        @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case')
-        @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case')
-        @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
-        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
-        @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
-      end
-
-      it "returns all FormSection objects that are bound to the case's module that the user has access to" do
-        child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
-        expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, @user)).to eq([@form_section_b])
-      end
-
-      it "returns no FormSection objects if the user cannot view the permitted module forms" do
-        role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions_list: [@permission_case_read])
-        user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
-        child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
-        expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([])
-      end
-
-      it "returns the FormSection objects that correspond to the record's type" do
-        form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'incident')
-        primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module With different records", associated_record_types: ['case', 'incident'], associated_form_ids: ["A", "B", "D"])
-        user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [primero_module.id])
-        child = Child.new(unique_identifier: "123", module_id: primero_module.id)
-
-        expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([@form_section_b])
-      end
+  describe "get_permitted_form_sections" do
+    it "returns all FormSection objects that are bound to the case's module that the user has access to" do
+      child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+      expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, @user)).to eq([@form_section_b])
     end
 
-    describe "list_form_group_names" do
-      before do
-        FormSection.all.each &:destroy
-        PrimeroModule.all.each &:destroy
-        Role.all.each &:destroy
-        @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_name: "M")
-        @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_name: "X")
-        @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case', form_group_name: "Y")
-        @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
-        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-        @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
-        @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
-      end
-
-      it "return form group name that correspond to the current module" do
-        form_group_names = FormSection.list_form_group_names(@primero_module, 'case', @user)
-        expect(form_group_names).to match_array(["X"])
-      end
-
-      it "add new form group and ensure group order" do
-        @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'case', form_group_name: "G")
-        @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: 'case', form_group_name: "K")
-        @primero_module.associated_form_ids << "E"
-        @primero_module.associated_form_ids << "D"
-        @primero_module.save!
-        @role.permitted_form_ids << "D"
-        @role.permitted_form_ids << "E"
-        @role.save!
-        form_group_names = FormSection.list_form_group_names(@primero_module, 'case', @user)
-        expect(form_group_names).to match_array(["G", "K", "X"])
-      end
+    it "returns no FormSection objects if the user cannot view the permitted module forms" do
+      role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions_list: [@permission_case_read])
+      user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
+      child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+      expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([])
     end
 
-    describe "group_forms" do
-      it "groups forms by the group name" do
-        form_section_a = FormSection.new(unique_id: "A", name: "A", form_group_name: "X")
-        form_section_b = FormSection.new(unique_id: "B", name: "B", form_group_name: "X")
-        form_section_c = FormSection.new(unique_id: "C", name: "C", form_group_name: "Y")
+    it "returns the FormSection objects that correspond to the record's type" do
+      form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'incident')
+      primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module With different records", associated_record_types: ['case', 'incident'], associated_form_ids: ["A", "B", "D"])
+      user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [primero_module.id])
+      child = Child.new(unique_identifier: "123", module_id: primero_module.id)
 
-        result = FormSection.group_forms([form_section_a, form_section_b, form_section_c])
-
-        expect(result).to be_a Hash
-        expect(result.keys).to match_array(["X", "Y"])
-        expect(result["X"]).to match_array([form_section_a, form_section_b])
-        expect(result["Y"]).to match_array([form_section_c])
-      end
-    end
-
-    describe "link_subforms" do
-      it "links forms to subforms if both are provided in the input list" do
-
-        fields_a = [
-          Field.new(name: "a_0", type: Field::TEXT_FIELD),
-          Field.new(name: "a_1", type: Field::TEXT_FIELD)
-        ]
-        form_section_a = FormSection.new(unique_id: "A", name: "A", fields: fields_a, visible: false)
-
-        fields_b = [
-          Field.new(name: "b_0", type: Field::TEXT_FIELD),
-          Field.new(name: "b_1", type: Field::TEXT_FIELD)
-        ]
-        form_section_b = FormSection.new(unique_id: "B", name: "B", fields: fields_b)
-
-        fields_c = [
-          Field.new(name: "c_0", type: Field::TEXT_FIELD),
-          Field.new(name: "c_1", type: Field::SUBFORM, subform_section_id: "A")
-        ]
-        form_section_c = FormSection.new(unique_id: "C", name: "C", fields: fields_c)
-
-        result = FormSection.link_subforms([form_section_a, form_section_b, form_section_c])
-        result_subform_field = result.select{|f|f.unique_id=='C'}.first.fields.select{|f|f.name=='c_1'}.first
-
-        expect(result).to be_an Array
-        expect(result_subform_field.subform).to be_a FormSection
-        expect(result_subform_field.subform.unique_id).to eq("A")
-      end
+      expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([@form_section_b])
     end
   end
+
+  describe "mobile forms" do
+    before do
+      @form_section_mobile_1_nested = FormSection.create!(unique_id: "MOBILE_1_NESTED", name: "Mobile 1 Nested",
+                                                          parent_form: "case", mobile_form: true, is_nested: true, visible: false,
+                                                          fields: [Field.new(name: "field1", type: "text_field", display_name_all: "field1")])
+      @form_section_mobile_1 = FormSection.create!(unique_id: "MOBILE_1", name: "Mobile 1", parent_form: "case", mobile_form: true,
+                                                   fields: [Field.new(name: "mobile_1_nested", type: "subform",
+                                                                      subform_section_id: "MOBILE_1_NESTED", display_name_all: "Mobile 1 Nested")])
+      @mobile_field1 = Field.new(name: "field1", type: "text_field", display_name_all: "field1")
+      @mobile_field2 = Field.new(name: "field2", type: "text_field", display_name_all: "field2", mobile_visible: true)
+      @mobile_field3 = Field.new(name: "field3", type: "text_field", display_name_all: "field3", mobile_visible: false)
+      @mobile_field4 = Field.new(name: "field4", type: "text_field", display_name_all: "field4", mobile_visible: false)
+      @mobile_field5 = Field.new(name: "field5", type: "text_field", display_name_all: "field5")
+      @form_section_mobile_2 = FormSection.create!(unique_id: "MOBILE_2", name: "Mobile 2", parent_form: "case", mobile_form: true,
+                                                   fields: [@mobile_field1, @mobile_field2, @mobile_field3, @mobile_field4,
+                                                            @mobile_field5])
+      @mobile_module = PrimeroModule.create!(program_id: "some_program", name: "Mobile Module", associated_record_types: ['case'],
+                                             associated_form_ids: ["A", "B", "MOBILE_1"])
+      @roleM = Role.create!(permitted_form_ids: ["B", "C", "MOBILE_1"], name: "Test Role Mobile", permissions_list: [@permission_case_read])
+      @userM = User.new(user_name: "test_user_m", role_ids: [@roleM.id], module_ids: [@primero_module.id])
+    end
+
+    describe "get_permitted_mobile_form_sections" do
+      it "returns mobile forms" do
+        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).to include(@form_section_mobile_1)
+      end
+
+      it "does not return non mobile forms" do
+        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).not_to include(@form_section_b)
+      end
+
+      it "does not return forms that the user does not have access to" do
+        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).not_to include(@form_section_mobile_2)
+      end
+    end
+
+    describe 'format_forms_for_mobile' do
+      it 'formats for moble' do
+        expected = {"Children"=>
+                        [{"unique_id"=>"MOBILE_1",
+                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "es"=>""},
+                          "order"=>0,
+                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
+                          "base_language"=>"en",
+                          "fields"=>
+                              [{"name"=>"mobile_1_nested",
+                                "editable"=>true,
+                                "multi_select"=>false,
+                                "type"=>"subform",
+                                "required"=>false,
+                                "show_on_minify_form"=>false,
+                                "mobile_visible"=>true,
+                                :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested"},
+                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "es"=>[]}}]}]}
+        form_sections = FormSection.group_forms([@form_section_mobile_1], true)
+        expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
+      end
+    end
+
+    describe 'all_mobile_fields' do
+      it 'returns the mobile visible fields' do
+        #NOTE: The default of mobile_visible is true.
+        expect(@form_section_mobile_2.all_mobile_fields).to include(@mobile_field1, @mobile_field2, @mobile_field5)
+      end
+
+      it 'does not return fields that are not mobile visible' do
+        expect(@form_section_mobile_2.all_mobile_fields).not_to include(@mobile_field3, @mobile_field4)
+      end
+    end
+
+  end
+
+  describe "list_form_group_names" do
+    it "return form group name that correspond to the current module" do
+      form_group_names = FormSection.list_form_group_names(@primero_module, 'case', @user)
+      expect(form_group_names).to match_array(["X"])
+    end
+
+    it "add new form group and ensure group order" do
+      @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'case', form_group_name: "G")
+      @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: 'case', form_group_name: "K")
+      @primero_module.associated_form_ids << "E"
+      @primero_module.associated_form_ids << "D"
+      @primero_module.save!
+      @role.permitted_form_ids << "D"
+      @role.permitted_form_ids << "E"
+      @role.save!
+      form_group_names = FormSection.list_form_group_names(@primero_module, 'case', @user)
+      expect(form_group_names).to match_array(["G", "K", "X"])
+    end
+  end
+
+  describe "group_forms" do
+    it "groups forms by the group name" do
+      form_section_a = FormSection.new(unique_id: "A", name: "A", form_group_name: "X")
+      form_section_b = FormSection.new(unique_id: "B", name: "B", form_group_name: "X")
+      form_section_c = FormSection.new(unique_id: "C", name: "C", form_group_name: "Y")
+
+      result = FormSection.group_forms([form_section_a, form_section_b, form_section_c])
+
+      expect(result).to be_a Hash
+      expect(result.keys).to match_array(["X", "Y"])
+      expect(result["X"]).to match_array([form_section_a, form_section_b])
+      expect(result["Y"]).to match_array([form_section_c])
+    end
+  end
+
+  describe "link_subforms" do
+    it "links forms to subforms if both are provided in the input list" do
+
+      fields_a = [
+        Field.new(name: "a_0", type: Field::TEXT_FIELD),
+        Field.new(name: "a_1", type: Field::TEXT_FIELD)
+      ]
+      form_section_a = FormSection.new(unique_id: "A", name: "A", fields: fields_a, visible: false)
+
+      fields_b = [
+        Field.new(name: "b_0", type: Field::TEXT_FIELD),
+        Field.new(name: "b_1", type: Field::TEXT_FIELD)
+      ]
+      form_section_b = FormSection.new(unique_id: "B", name: "B", fields: fields_b)
+
+      fields_c = [
+        Field.new(name: "c_0", type: Field::TEXT_FIELD),
+        Field.new(name: "c_1", type: Field::SUBFORM, subform_section_id: "A")
+      ]
+      form_section_c = FormSection.new(unique_id: "C", name: "C", fields: fields_c)
+
+      result = FormSection.link_subforms([form_section_a, form_section_b, form_section_c])
+      result_subform_field = result.select{|f|f.unique_id=='C'}.first.fields.select{|f|f.name=='c_1'}.first
+
+      expect(result).to be_an Array
+      expect(result_subform_field.subform).to be_a FormSection
+      expect(result_subform_field.subform.unique_id).to eq("A")
+    end
+  end
+
 
   describe '#unique_id' do
     it "should be generated when not provided" do
@@ -227,11 +282,6 @@ describe FormSection do
 
     it "should create new form with default mobile_form value false" do
       expect(@form_section_a.mobile_form).to be_false
-    end
-
-    it "should find all mobile forms" do
-      expect(FormSection.find_mobile_forms.all).to include(@form_section_d, @form_section_f)
-      expect(FormSection.find_mobile_forms.all.count).to eq(2)
     end
 
     it "should find all mobile case forms" do
@@ -667,7 +717,7 @@ describe FormSection do
         Field.new({"name" => "separation_cause",
                    "type" => "select_box",
                    "display_name_all" => "What was the main cause of separation?",
-                   "option_strings_source" => ["Cause 1", "Cause 2"],
+                   "option_strings_text" => ["Cause 1", "Cause 2"],
                   })
       ]
       #Attempt to create a new section, no update form section
@@ -780,7 +830,7 @@ describe FormSection do
           "description_all" => "Details Nested Subform Section 1"
       })
       subform_section.save!
-  
+
       fields = [
         Field.new({"name" => "field_name_2",
                    "type" => "text_field",
@@ -1038,7 +1088,7 @@ describe FormSection do
           Field.new({"name" => "test_country",
                      "type" => "select_box",
                      "display_name_all" => "My Test Country",
-                     "option_strings_source" => "lookup Country"
+                     "option_strings_source" => "lookup lookup-country"
                     })
       ]
       @form_1 = FormSection.create(
@@ -1077,12 +1127,12 @@ describe FormSection do
           Field.new({"name" => "test_yes_no",
                      "type" => "select_box",
                      "display_name_all" => "My Test Field",
-                     "option_strings" => "yes\nno"
+                     "option_strings_text" => "yes\nno"
                     }),
           Field.new({"name" => "test_country",
                      "type" => "select_box",
                      "display_name_all" => "My Test Country",
-                     "option_strings_source" => "lookup Country"
+                     "option_strings_source" => "lookup lookup-country"
                     })
       ]
       @form_2 = FormSection.create(

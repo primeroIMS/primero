@@ -7,11 +7,10 @@ $dashboard_table_col6:100px;
 $dashboard_table_counts:85px;
 
 #dashboard {
-
   .panel {
     border: 1px solid $stroke_green_color;
     background: #fff;
-    padding: 0;
+    margin-bottom: 1em;
 
     .panel_content {
       padding: 0px 10px 10px 10px;
@@ -49,10 +48,6 @@ $dashboard_table_counts:85px;
     &.panel_main {
       height: 632px;
       overflow: hidden;
-    }
-
-    table tbody tr:last-of-type td {
-      border-bottom: 1px dashed #ccc !important;
     }
 
     a.stat_link, .stat_link {
@@ -129,7 +124,7 @@ $dashboard_table_counts:85px;
     }
 
     table {
-      width:746px;
+      width: rem_calc(868);
       border: none;
       margin-bottom: 0;
 
@@ -157,8 +152,14 @@ $dashboard_table_counts:85px;
 
 
       a.id_link{
-        float: left;
         text-decoration: none;
+
+        @if $global-text-direction == rtl {
+          float: right;
+        }  @else {
+          float: left;
+        }
+
         &:hover{
           font-weight:bold;
         }
@@ -199,8 +200,14 @@ $dashboard_table_counts:85px;
           font-size: 'Roboto-Medium', sans-serif;
           font-size: $thirteen_px;
 
-          &:last-of-type {
-            border-right: none;
+          @if $global-text-direction == rtl {
+            &:first-of-type {
+              border-right: none;
+            }
+          } @else {
+            &:last-of-type {
+              border-right: none;
+            }
           }
 
           &.id_column{
@@ -247,8 +254,14 @@ $dashboard_table_counts:85px;
           word-wrap:break-word;
           word-break: break-all;
 
-          &:last-of-type {
-            border-right: none;
+          @if $global-text-direction == rtl {
+            &:first-of-type {
+              border-right: none;
+            }
+          } @else {
+            &:last-of-type {
+              border-right: none;
+            }
           }
 
           &.id_column{
@@ -293,6 +306,10 @@ $dashboard_table_counts:85px;
       list-style-type: none;
       margin-left: 0;
       margin-bottom: 0;
+
+      @if $global-text-direction == rtl {
+        margin-right: 0;
+      }
 
       li {
         border-bottom: 1px dashed #ccc;
