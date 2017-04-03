@@ -66,6 +66,10 @@ group :production do
   gem 'passenger', '4.0.59', require: false
 end
 
+group :production do
+  gem 'passenger', '4.0.59', require: false
+end
+
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
