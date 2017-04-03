@@ -15,8 +15,10 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
   },
 
   initialize: function() {
+    _primero.filters = {};
     this.set_current_scope();
     _primero.chosen('select.chosen-select:visible');
+
   },
 
   clear_filters: function(e) {
