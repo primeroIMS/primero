@@ -125,7 +125,6 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
   },
 
   set_array_filter: function(filter, value, type) {
-    console.log(filter, value)
     if (_.isArray(_primero.filters[filter])) {
       if (!_.contains(_primero.filters[filter], value)) {
         _primero.filters[filter].push(value);
