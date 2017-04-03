@@ -64,15 +64,6 @@ template git_wrapper_path do
   })
 end
 
-bashrc_file = "#{node[:primero][:home_dir]}/.bashrc"
-execute 'Autoload RVM on sudo' do
-  user node[:primero][:app_user]
-  command "echo 'source ~/.rvm/scripts/rvm' >> #{bashrc_file}"
-  not_if do
-    ::File.readlines(bashrc_file).grep(/rvm\/scripts\/rvm/).size > 0
-  end
-end
-
 # Hack to get around https://github.com/fnichol/chef-rvm/issues/227
 sudo "#{node[:primero][:app_user]}-rvm" do
   user node[:primero][:app_user]
@@ -84,19 +75,21 @@ end
 
 include_recipe 'rvm::user_install'
 
+bashrc_file = "#{node[:primero][:home_dir]}/.bashrc"
+execute 'Autoload RVM on sudo' do
+  user node[:primero][:app_user]
+  command "echo 'source ~/.rvm/scripts/rvm' >> #{bashrc_file}"
+  not_if do
+    ::File.readlines(bashrc_file).grep(/rvm\/scripts\/rvm/).size > 0
+  end
+end
+
 railsexpress_patch_setup 'prod' do
   user node[:primero][:app_user]
   group node[:primero][:app_group]
 end
 
-#why this wasn't before?
 directory node[:primero][:app_dir] do
-  action :create
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-end
-
-directory node[:primero][:daemons_dir] do
   action :create
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
@@ -120,6 +113,12 @@ git node[:primero][:app_dir] do
   ssh_wrapper git_wrapper_path
 end
 
+directory node[:primero][:daemons_dir] do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
 default_rails_log_dir = ::File.join(node[:primero][:app_dir], 'log')
 scheduler_log_dir = ::File.join(node[:primero][:log_dir], 'scheduler')
 [File.join(node[:primero][:log_dir], 'nginx'),
@@ -140,6 +139,11 @@ unless node[:primero][:rails_env]
   Chef::Application.fatal!("You must specify the Primero Rails environment in node[:primero][:rails_env]!")
 end
 
+update_bundler 'prod-stack'
+execute_with_ruby 'bundle-install' do
+  command "bundle install --clean --without development test cucumber"
+  cwd node[:primero][:app_dir]
+end
 
 template File.join(node[:primero][:app_dir], 'config', 'sunspot.yml') do
   source "sunspot.yml.erb"
@@ -154,7 +158,6 @@ template File.join(node[:primero][:app_dir], 'config', 'sunspot.yml') do
   group node[:primero][:app_group]
 end
 
-
 template File.join(node[:primero][:app_dir], "public", "version.txt") do
   source 'version.txt.erb'
   variables({
@@ -167,12 +170,6 @@ template File.join(node[:primero][:app_dir], "public", "version.txt") do
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
-end
-
-update_bundler 'prod-stack'
-execute_with_ruby 'bundle-install' do
-  command "bundle install --clean --without development test cucumber"
-  cwd node[:primero][:app_dir]
 end
 
 template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
