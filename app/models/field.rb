@@ -364,7 +364,6 @@ class Field
 
 
 
-  #TODO - i18n - review after merge with i18n code
   def localized_attributes_hash(locales, lookups=nil, locations=nil)
     field_hash = self.attributes.clone
     Field.localized_properties.each do |property|
