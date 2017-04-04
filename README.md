@@ -69,6 +69,8 @@ You should now be able to access your development server in the browser on [http
 
 Automatic development server reloads based on code changes have been disabled. This is intentional. **Do not change that!**
 
+For more on making code contributions, have a look at the file `CONTRIBUTING.md`.
+
 
 ### Deploy keys
 

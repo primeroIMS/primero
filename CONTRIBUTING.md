@@ -8,14 +8,12 @@ The minor version usually means an ongoing development effort and there are thre
 
 * 1.2 -> which is under support for some current implementations. These implementations should look to upgrade to v1.3
 
-* 1.3 -> which is the current stable maintenace release. It is compatible withe the Primero mobile app.
+* 1.3 -> which is the current stable maintenance release. It is compatible with the Primero mobile app.
 
-* 1.4 -> the development effort which includes major changes brought about by implementing internationalization. A data migration effort will be needed to move v1.2/v1.3 implemention to v1.4
+* 1.4 -> the development effort which includes major changes brought about by implementing internationalization. A data migration effort will be needed to move v1.2/v1.3 implementation to v1.4
 
 
-1.4 is in active development so the successive builds will be v1.4.0.1, v1.4.0.2, etc. 1.3 is in maintenance mode and is incremented with support versions as v1.3.5, v1.3.6, etc
-
-Everything fixed in a lower release is merged up. So if its a core bugfix, we try to do it in the v1.3 maint version and then apply up
+1.4 is in active development so the successive builds will be v1.4.0.1, v1.4.0.2, etc. 1.3 is in maintenance mode and is incremented with support versions as v1.3.5, v1.3.6, and so on. Everything fixed in a lower release is merged up. So if its a core bugfix, we try to do it in the v1.3 maint version and then apply up
 
 #  Branches
 
@@ -27,9 +25,9 @@ Everything fixed in a lower release is merged up. So if its a core bugfix, we tr
 
 # New Features
 
-To make a change, you should <u><b> make a new feature branch </b></u>from the tip of the main branch of what you want to work on (mobile, new development or bug fixes). Doing this allows raising multiple pull requests at the same time if necessary. It is also a good way to keep productivity independent from the rate at which the pull requests are looked at
+To make a change, you should **make a new feature branch** from the tip of the main branch of what you want to work on (mobile, new development or bug fixes). Doing this allows raising multiple pull requests at the same time if necessary. It is also a good way to keep productivity independent from the rate at which the pull requests are looked at
 
-<u><b> Example of creating a separate branch for your feature or user story: </b></u>
+##Example of creating a separate branch for your feature or user story:
 
 * Move to the correct branch. For example `git checkout maint_1.3`
 * Create a new branch with an appropriate name (<b>also add a story number if there is one and a short description</b>) and switch to the branch
@@ -39,14 +37,13 @@ To make a change, you should <u><b> make a new feature branch </b></u>from the t
 `git push`
 * On github, navigate to your branch and raise a pull request.
 * After that you can checkout to master or create a new branch for the next feature or bug
-* Also take a look at the excellent OpenMRS guide to using git: https://wiki.openmrs.org/display/docs/Using+Git
+* Also take a look at the excellent [OpenMRS guide to using git](https://wiki.openmrs.org/display/docs/Using+Git)
 
 #Tests
 
 **Make sure all Rspec tests pass before making a pull request!!!** Currently the Cucumber feature tests are not used or maintained, but may be resurrected in the future to act as a smoke-test suite.
 
 
-<u>Note about the Release Target</u>
+#Note about the Release Target
 
-There is also a version file in the code itself in `config/version.rb` which is incremented that after a release.
-So for example if we just released v1.4.0.5, we increment it to v1.4.0.6
+There is also a version file in the code itself in `config/version.rb` which is incremented that after a release. So for example if we just released v1.4.0.5, we increment it to v1.4.0.6
