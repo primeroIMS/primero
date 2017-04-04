@@ -9,8 +9,6 @@ To develop the application locally, you will need to do the following:
 - Install [Chef DK 0.9.0](https://downloads.chef.io/chef-dk/).
 **Note that currently the latest supported Chef DK version is 0.9.0**
 
-**Note:** If you are using a Quoin standard machine, then you need to apply [Pavel's patch to Ruby's ssh library](https://bitbucket.org/quoin/quoin-toolbox) (look under the *Baseline Tools* section) on your host machine so that your SSH cert keys don't make vagrant bomb out.
-
 **Note:** Primero v1.4+ (currently on the development branch) uses Ubuntu 16.04. Primero v1.3 or below uses Ubuntu 14.04. If you wish to do development on either stream, it's recommended to clone this project into separate directories to manage separate Vagrant boxes.
 
 Once you have Vagrant installed, run the following to install the right plugins:
