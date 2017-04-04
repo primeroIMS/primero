@@ -30,10 +30,10 @@ To make a change, you should **make a new feature branch** from the tip of the m
 ##Example of creating a separate branch for your feature or user story:
 
 * Move to the correct branch. For example `git checkout maint_1.3`
-* Create a new branch with an appropriate name (<b>also add a story number if there is one and a short description</b>) and switch to the branch
+* Create a new branch with an appropriate name (**also add a story number if there is one and a short description**) and switch to the branch
 `git checkout -b <your_branch_name>`
 1833_add_follow_up_forms could be an example of the branch name.
-* Work on this branch as normal (<b>regularly pulling/rebasing to keep up to date and avoid conflicts. Also run tests before and after rebase with master</b>). After committing your code, push as normal to your new branch
+* Work on this branch as normal (**regularly pulling/rebasing to keep up to date and avoid conflicts. Also run tests before and after rebase with master**). After committing your code, push as normal to your new branch
 `git push`
 * On github, navigate to your branch and raise a pull request.
 * After that you can checkout to master or create a new branch for the next feature or bug
