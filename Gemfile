@@ -4,7 +4,7 @@ ruby '2.1.5'
 gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', :branch => 'master'
 gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
 
-gem 'couchrest_model', '~> 2.0.3', :git => "https://github.com/Quoin/couchrest_model.git", :ref => "72b801720ff225e5615db13bdbe9c7b8962ef13e"
+gem 'couchrest_model', '~> 2.0.3', :git => 'https://github.com/Quoin/couchrest_model.git', :ref => '72b801720ff225e5615db13bdbe9c7b8962ef13e'
 gem 'mime-types',     '1.16'
 gem 'mini_magick',    '1.3.2'
 gem 'pdf-reader',     '1.3.3'
@@ -27,7 +27,7 @@ gem 'thin',           '~> 1.6.1', :platforms => :ruby, :require => false
 gem 'request_exception_handler'
 gem 'multi_json',     '~> 1.8.2'
 gem 'addressable',    '~> 2.3.6'
-gem 'zipruby-compat', :require => 'zipruby', :git => "https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git", :tag => "v0.3.7"
+gem 'zipruby-compat', :require => 'zipruby', :git => 'https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git', :tag => 'v0.3.7'
 
 gem 'sunspot_rails',  '2.2.0'
 gem 'sunspot_solr',   '2.2.0'
@@ -53,7 +53,7 @@ gem 'progress_bar'
 
 gem 'writeexcel', '~> 1.0.3'
 gem 'spreadsheet', '~> 1.0.0'
-gem "deep_merge", :require => 'deep_merge/rails_compat'
+gem 'deep_merge', :require => 'deep_merge/rails_compat'
 gem 'memoist', '~> 0.11.0'
 
 gem 'momentjs-rails', '~> 2.10.3'
@@ -62,16 +62,24 @@ gem 'turbolinks', '~> 5'
 gem 'jquery-turbolinks'
 gem 'arabic-letter-connector'
 
+group :production do
+  gem 'passenger', '4.0.59', require: false
+end
+
+group :production do
+  gem 'passenger', '4.0.59', require: false
+end
+
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 2.0.1'
 end
 
 group :development do
-  gem "better_errors"
-  gem "binding_of_caller"
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'ruby-prof'
-  gem 'request_profiler', :git => "git://github.com/justinweiss/request_profiler.git"
+  gem 'request_profiler', :git => 'git://github.com/justinweiss/request_profiler.git'
 end
 
 group :test, :cucumber, :development do
@@ -93,13 +101,13 @@ group :test, :cucumber do
   gem 'cucumber-rails',     '~> 1.4.0', :require => false
   gem 'selenium-webdriver', '~> 2.43.0'
   gem 'hpricot',            '~> 0.8.6'
-  gem "json_spec",          '~> 1.1.1'
+  gem 'json_spec',          '~> 1.1.1'
   gem 'rubocop'
   gem 'metric_fu'
   gem 'simplecov',          '~> 0.8.2'
   gem 'simplecov-rcov',     '~> 0.2.3'
   gem 'ci_reporter',        '~> 1.9.1'
-  gem "pdf-inspector",      '~> 1.1.0', :require => 'pdf/inspector'
+  gem 'pdf-inspector',      '~> 1.1.0', :require => 'pdf/inspector'
 end
 
 #TODO: Does this get installed?

@@ -753,7 +753,6 @@ class FormSection < CouchRest::Model::Base
     self.fields.select{|f| f.is_mobile?}
   end
 
-  #TODO - i18n - review after merge with i18n code
   def localized_attributes_hash(locales)
     attributes = self.attributes.clone
     #convert top level attributes

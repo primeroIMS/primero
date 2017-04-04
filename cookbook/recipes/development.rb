@@ -117,8 +117,8 @@ cookbook_file '/etc/profile.d/xvfb_display.sh' do
   mode '0644'
 end
 
-cookbook_file '/etc/init/xvfb.conf' do
-  source 'xvfb/upstart_script.conf'
+cookbook_file '/lib/systemd/system/xvfb.service' do
+  source 'xvfb/systemd_script.conf'
   owner 'root'
   group 'root'
   mode '0644'
@@ -133,5 +133,5 @@ end
 
 service 'xvfb' do
   action [:enable, :start]
-  provider Chef::Provider::Service::Upstart
+  provider Chef::Provider::Service::Systemd
 end

@@ -6,6 +6,7 @@ default[:primero].tap do |p|
   p[:home_dir] = '/srv/primero'
   p[:app_dir] = File.join(node[:primero][:home_dir], 'application')
   p[:log_dir] = File.join(node[:primero][:home_dir], 'logs')
+  p[:daemons_dir] = File.join(node[:primero][:app_dir], 'daemons')
   p[:app_user] = 'primero'
   p[:app_group] = 'primero'
   p[:solr_user] = 'solr'
