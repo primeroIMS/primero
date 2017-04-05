@@ -325,7 +325,8 @@ class Field
   def display_text(value=nil)
     value = self.convert_true_false_key_to_string(value) if self.is_yes_no?
     if self.type == Field::TICK_BOX
-      value = I18n.t(value.to_s)
+      selected_option = self.options_list.select{|ol| ol[:id] == value.to_s}.first
+      value = selected_option.present? ? selected_option[:display_text] : value
     elsif self.option_strings_text.present?
       display = self.option_strings_text.select{|opt| opt['id'] == value}
       #TODO: Is it better to display the untranslated key or to display nothing?
