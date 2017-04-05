@@ -189,45 +189,6 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
   end
 
-  class << self
-    def match_results(results)
-      results.map{|c| [['case_id', c.case_id], ['child_id', c._id], ['age', c.age], ['sex', c.sex],
-                       ['registration_date', c.registration_date], ['match_details', []]].to_h}
-    end
-
-    #TODO v1.3: can this be refactored further?
-    def all_match_details(match_results=[], potential_matches=[], associated_user_names)
-      for match_result in match_results
-        count = 0
-        for potential_match in potential_matches
-          if potential_match["case_id"] == match_result["case_id"]
-            match_detail = {}
-            match_detail["tracing_request_id"] = potential_match.tr_id
-            inquiry = TracingRequest.find_by_tracing_request_id potential_match.tr_id
-            match_detail["tr_uuid"] = inquiry._id
-            for subform in inquiry.tracing_request_subform_section
-              if subform.unique_id == potential_match.tr_subform_id
-                match_detail["subform_tracing_request_name"] = is_match_visible?(inquiry.owned_by, associated_user_names) ? subform.name : "***"
-              end
-            end
-            match_detail["inquiry_date"] = is_match_visible?(inquiry.owned_by, associated_user_names) ? inquiry.inquiry_date : "***"
-            match_detail["relation_name"] = is_match_visible?(inquiry.owned_by, associated_user_names) ? inquiry.relation_name : "***"
-            match_detail["visible"] = is_match_visible?(inquiry.owned_by, associated_user_names)
-            match_detail["average_rating"] =potential_match.average_rating
-            match_detail["owned_by"] =inquiry.owned_by
-            match_result["match_details"] << match_detail
-            count += 1
-          end
-        end
-        match_result["match_details"] = match_result["match_details"].sort_by { |hash| -hash["average_rating"] }
-                                            .first(20)
-      end
-      compact_result match_results
-      sort_hash match_results
-    end
-
-  end
-
   def self.report_filters
     [
         {'attribute' => 'child_status', 'value' => ['Open']},

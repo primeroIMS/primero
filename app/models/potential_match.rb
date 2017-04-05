@@ -33,6 +33,8 @@ class PotentialMatch < CouchRest::Model::Base
   property :child_gender
   property :child_age
 
+  attr_accessor :visible
+
   validates :child_id, :uniqueness => {:scope => :tr_subform_id}
 
   before_create :create_identification
@@ -40,6 +42,7 @@ class PotentialMatch < CouchRest::Model::Base
   ALL_FILTER = 'all'
   POTENTIAL = 'POTENTIAL'
   DELETED = 'DELETED'
+  FIELD_MASK = '***'
 
   design do
     view :by_tracing_request_id
@@ -145,6 +148,47 @@ class PotentialMatch < CouchRest::Model::Base
     false
   end
 
+  def set_visible(associated_user_names, type = 'tracing_request')
+    self.visible = (associated_user_names.first == 'all' || associated_user_names.include?(self.send("#{type}_owned_by")))
+  end
+
+  def case_age
+    age = self.visible ? self.child.age : FIELD_MASK
+  end
+
+  def case_sex
+    sex = self.visible ? self.child.display_field('sex') : FIELD_MASK
+  end
+
+  def case_registration_date
+    registration_date = self.visible ? self.child.registration_date : FIELD_MASK
+  end
+
+  def case_owned_by
+    self.child.owned_by
+  end
+
+  def tracing_request_uuid
+    self.tracing_request_id
+  end
+
+  def tracing_request_inquiry_date
+    inquiry_date = self.visible ? self.tracing_request.inquiry_date : FIELD_MASK
+  end
+
+  def tracing_request_relation_name
+    relation_name = self.visible ? self.tracing_request.relation_name : FIELD_MASK
+  end
+
+  def tracing_request_name
+    name = self.visible ? self.tracing_request.tracing_request_subform_section.select{|tr| tr.unique_id == self.tr_subform_id}.first.try(:name)
+                        : FIELD_MASK
+  end
+
+  def tracing_request_owned_by
+    self.tracing_request.owned_by
+  end
+
   class << self
     alias :old_all :all
     alias :get_all :all
@@ -184,6 +228,20 @@ class PotentialMatch < CouchRest::Model::Base
       end
     end
 
+    def sort_list(potential_matches)
+      sorted_list = potential_matches.sort_by { |pm| -find_max_score_element(pm.last).try(:average_rating) }
+    end
+
+    # This is a bit of a hack to format the list of potential_matches to look the same as the old match_results
+    # hash that was used before the refactor.
+    def format_list_for_json(potential_matches, type)
+      if type == 'case'
+        format_case_list_for_json(potential_matches)
+      else
+        format_tr_list_for_json(potential_matches)
+      end
+    end
+
     private
 
     def update_potential_match(child_id, tracing_request_id, score, subform_id, tr_age, tr_sex)
@@ -211,6 +269,83 @@ class PotentialMatch < CouchRest::Model::Base
       potential_match = by_child_id_and_tr_subform_id.key([child_id, subform_id]).first
       return potential_match unless potential_match.nil?
       PotentialMatch.new :tracing_request_id => tracing_request_id, :child_id => child_id, :tr_subform_id => subform_id
+    end
+
+    def find_max_score_element(potential_match_detail_list)
+      max_element = potential_match_detail_list.max_by(&:average_rating)
+    end
+
+    def format_case_list_for_json(potential_matches)
+      match_list = []
+      potential_matches.each do |record|
+        # record.first is the key [child_id]
+        # record.last is the list of potential_match records
+        # use the first potential_match record to build the header
+        match_1 = record.last.first
+        match_hash = {'case_id' => match_1.case_id,
+                      'child_id' => match_1.child_id,
+                      'age' => match_1.child_age,
+                      'sex' => match_1.case_sex,
+                      'registration_date' => match_1.case_registration_date,
+                      'match_details' => format_case_match_details(record.last)
+        }
+        match_list << match_hash
+      end
+      match_list
+    end
+
+    def format_case_match_details(potential_match_list)
+      match_details = []
+      potential_match_list.each do |potential_match|
+        match_detail = {'tracing_request_id' => potential_match.tr_id,
+                        'tr_uuid' => potential_match.tracing_request_uuid,
+                        'subform_tracing_request_name' => potential_match.tracing_request_name,
+                        'inquiry_date' => potential_match.tracing_request_inquiry_date,
+                        'relation_name' => potential_match.tracing_request_relation_name,
+                        'visible' => potential_match.visible,
+                        'average_rating' => potential_match.average_rating,
+                        'owned_by' => potential_match.case_owned_by
+        }
+        match_details << match_detail
+      end
+      match_details
+    end
+
+    def format_tr_list_for_json(potential_matches)
+      match_list = []
+      potential_matches.each do |record|
+        # record.first is the key [tracing_request_id, tr_subform_id]
+        # record.last is the list of potential_match records
+        # use the first potential_match record to build the header
+        match_1 = record.last.first
+        match_hash = {'tracing_request_id' => match_1.tr_id,
+                      'tr_uuid' => match_1.tracing_request_uuid,
+                      'relation_name' => match_1.tracing_request_relation_name,
+                      'inquiry_date' => match_1.tracing_request_inquiry_date,
+                      'subform_tracing_request_id' => match_1.tr_subform_id,
+                      'subform_tracing_request_name' => match_1.tracing_request_name,
+                      'match_details' => format_tr_match_details(record.last)
+        }
+        match_list << match_hash
+      end
+      match_list
+    end
+
+    def format_tr_match_details(potential_match_list)
+      match_details = []
+      potential_match_list.each do |potential_match|
+        match_detail = {'child_id' => potential_match.child_id,
+                        'case_id' => potential_match.case_id,
+                        'age' => potential_match.case_age,
+                        'sex' => potential_match.case_sex,
+                        'registration_date' => potential_match.case_registration_date,
+                        'owned_by' => potential_match.case_owned_by,
+                        'visible' => potential_match.visible,
+                        'average_rating' => potential_match.average_rating
+        }
+        match_details << match_detail
+      end
+      match_details
     end
 
   end
