@@ -168,7 +168,7 @@ module Exporters
             # still 0-based
             acc[prop - 1]
           else
-            get_model_value(acc, prop)
+            acc[prop]
           end
         end
       end
@@ -207,17 +207,21 @@ module Exporters
       end
 
       def translate_value(prop_name, value)
-        binding.pry if value = 'open'
-        name = prop_name.is_a?(Array) ? prop_name.first.name : prop_name
+        name = prop_name.is_a?(Array) ? prop_name[0].try(:name) : prop_name
         field = @fields.select{|f| f.name == name}.first if @fields.present?
 
-        if prop_name.is_a?(Array) && field.type == Field::SUBFORM
+        if field.present?
+          if prop_name.is_a?(Array) && field.type == Field::SUBFORM
+            prop_names = prop_name.map{|pn| pn.try(:name)}
             sub_fields = field.subform_section.try(:fields)
-            sub_field = sub_fields.select{|sf| sf.name == prop_name.last.name}.first
+            sub_field = sub_fields.select{|sf| prop_names.include?(sf.name)}.first
             map_field_to_translated_value(sub_field, value)
+          else
+            map_field_to_translated_value(field, value)
+          end    
         else
-          map_field_to_translated_value(field, value)
-        end        
+          value
+        end    
       end
 
       def get_model_location_value(model, property)
