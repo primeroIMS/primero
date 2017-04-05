@@ -59,6 +59,8 @@ module Exporters
 
     # @returns: a String with the Excel file data
     def export(models, properties_by_module, current_user, custom_export_options, *args)
+      self.class.load_fields(models.first)
+
       if @props.blank?
         properties_by_module = self.class.properties_to_export(properties_by_module, custom_export_options)
         #Bulk export will call the exporter several times and so
@@ -125,7 +127,8 @@ module Exporters
       elsif property.is_a?(Array)
         #This assumes that the only properties that are Arrays are locations
         #Which is true at the time of this coding
-        self.class.get_model_location_value(model, property)
+        # self.class.get_model_location_value(model, property)
+        self.class.translate_value(property.name, model.send(property.name))
       elsif property.array
         if property.type.include?(CouchRest::Model::Embeddable)
           #data from the subform.
@@ -137,7 +140,7 @@ module Exporters
           end
         else
           #multi_select fields.
-          (model.send(property.name) || []).join(" ||| ")
+          (self.class.translate_value(property.name, model.send(property.name)) || []).join(" ||| ")
         end
       else
         #regular fields.

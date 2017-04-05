@@ -29,11 +29,13 @@ module Exporters
         rows << [' ID'] + UnhcrCSVExporter.field_map.keys if @called_first_time.nil?
         @called_first_time ||= true
 
+        self.class.load_fields(cases.first)
+
         cases.each_with_index do |c, index|
           values = UnhcrCSVExporter.field_map.map do |_, generator|
             case generator
             when Array
-              c.value_for_attr_keys(generator)
+              self.class.translate_value(generator.first, c.value_for_attr_keys(generator))
             when Proc
               generator.call(c)
             end
@@ -50,7 +52,7 @@ module Exporters
       'Date of Identification' => ['identification_date'],
       'Primary Protection Concerns' => ['protection_status'],
       'Secondary Protection Concerns' => ->(c) do
-        c.unhcr_needs_codes.join(', ') if c.unhcr_needs_codes.present?
+        self.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
       end,
       'Governorate - Country' => ->(c) do
         if c.location_current.present?

@@ -39,6 +39,8 @@ module Exporters
         build_sheets_definition(properties_by_module)
       end
 
+      self.class.load_fields(models.first)
+
       models.each do |model|
         sheets_def = get_sheets_by_module(model.module_id)
         counter = 0
@@ -89,7 +91,7 @@ module Exporters
             end
           end
         else
-          (model.send(property.name) || []).join(" ||| ")
+          (self.class.translate_value(property.name, model.send(property.name)) || []).join(" ||| ")
         end
       else
         self.class.get_model_value(model, property)

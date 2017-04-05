@@ -220,7 +220,7 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
       }
 
       this.reset_form();
-      $this_el.foundation('reveal', 'close');
+      $this_el.foundation('close');
       _primero.check_download_status();
       window.location = file_location;
     } else {
