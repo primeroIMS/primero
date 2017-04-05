@@ -38,6 +38,8 @@ module Exporters
     def export(models, properties, current_user, params)
       field_map = build_field_map(models.first.class.name, current_user)
 
+      self.class.load_fields(models.first)
+
       csv_list = CSV.generate do |rows|
         # @called_first_time is a trick for batching purposes,
         # so that headers are saved only once 
@@ -48,11 +50,11 @@ module Exporters
           rows << field_map.map do |_, generator|
             case generator
             when Array
-              model.value_for_attr_keys(generator)
+              self.class.translate_value(generator.first, model.value_for_attr_keys(generator))
             when Proc
               generator.call(model)
             else
-              CSVExporterListView.to_exported_value(model.try(generator.to_sym))
+              self.class.translate_value(generator, CSVExporterListView.to_exported_value(model.try(generator.to_sym)))
             end
           end
         end

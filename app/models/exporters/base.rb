@@ -142,7 +142,7 @@ module Exporters
           # TODO: RENAME Child to Case like we should have done months ago
           model_type = {'Child' => 'Case'}.fetch(m.class.name, m.class.name)
           row = [m.id, model_type] + emit_columns.call(properties) do |prop_tree|
-            get_value_from_prop_tree(m, prop_tree)
+            translate_value(prop_tree, get_value_from_prop_tree(m, prop_tree))
           end
 
           yield row
@@ -189,13 +189,44 @@ module Exporters
         if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
         else
-          model.send(property.name)
+          value = model.send(property.name) 
+          translate_value(property.name, value)
         end
+      end
+
+      def map_field_to_translated_value(field, value)
+        if field.present? && [Field::RADIO_BUTTON, Field::SELECT_BOX, Field::TICK_BOX].include?(field.type)
+          if value.is_a?(Array)
+            value.map{|v| field.display_text(v) }
+          else
+            field.display_text(value)
+          end
+        else
+          value
+        end
+      end
+
+      def translate_value(prop_name, value)
+        binding.pry if value = 'open'
+        name = prop_name.is_a?(Array) ? prop_name.first.name : prop_name
+        field = @fields.select{|f| f.name == name}.first if @fields.present?
+
+        if prop_name.is_a?(Array) && field.type == Field::SUBFORM
+            sub_fields = field.subform_section.try(:fields)
+            sub_field = sub_fields.select{|sf| sf.name == prop_name.last.name}.first
+            map_field_to_translated_value(sub_field, value)
+        else
+          map_field_to_translated_value(field, value)
+        end        
       end
 
       def get_model_location_value(model, property)
         #TODO - i18n
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
+      end
+
+      def load_fields(model)
+        @fields = model.field_definitions if model.present?
       end
     end
 

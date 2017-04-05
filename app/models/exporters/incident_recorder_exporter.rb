@@ -129,6 +129,7 @@ module Exporters
       end
 
       def export(models)
+        self.class.load_fields(models.first)
         incident_data(models)
       end
 
