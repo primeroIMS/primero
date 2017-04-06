@@ -129,7 +129,7 @@ module Exporters
       end
 
       def export(models)
-        self.class.load_fields(models.first)
+        self.class.load_fields(models.first) if models.present?
         incident_data(models)
       end
 

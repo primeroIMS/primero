@@ -59,7 +59,7 @@ module Exporters
 
     # @returns: a String with the Excel file data
     def export(models, properties_by_module, current_user, custom_export_options, *args)
-      self.class.load_fields(models.first)
+      self.class.load_fields(models.first) if models.present?
 
       if @props.blank?
         properties_by_module = self.class.properties_to_export(properties_by_module, custom_export_options)
@@ -122,7 +122,7 @@ module Exporters
         if property == "model_type"
           {'Child' => 'Case'}.fetch(model.class.name, model.class.name)
         else
-          model.send(property)
+          self.class.translate_value(property, model.send(property))
         end
       elsif property.is_a?(Array)
         #This assumes that the only properties that are Arrays are locations
@@ -131,7 +131,7 @@ module Exporters
         self.class.translate_value(property.name, model.send(property.name))
       elsif property.array
         if property.type.include?(CouchRest::Model::Embeddable)
-          #data from the subform.
+          #data from the subform.!
           (model.send(property.name) || []).map do |row|
             #Remove unique_id field for subforms.
             property.type.properties.select{|p| p.name != 'unique_id'}.map do |p|

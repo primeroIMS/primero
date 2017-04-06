@@ -26,7 +26,8 @@ module Exporters
                              :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_2")
       form.fields << Field.new(:name => "relationship", :type => Field::TEXT_FIELD, :display_name => "relationship")
       form.fields << Field.new(:name => "array_field", :type => Field::SELECT_BOX, :display_name => "array_field", :multi_select => true,
-                               :option_strings_text => ["Option1", "Option2"])
+                               :option_strings_text_all => ["Option1", "Option2", "Option5", "Option4"])
+                               
       form.save!
       #### Build Form Section with none subforms fields ######
 
@@ -60,7 +61,7 @@ module Exporters
 
       @records = [Child.new("module_id" => "primeromodule-cp", "first_name" => "John", "last_name" => "Doe",
                            "_id" => "00000000001",
-                           "relationship"=>"Mother", "array_field"=> ["Option1", "Option2"],
+                           "relationship"=>"Mother", "array_field"=> ["option1", "option2"],
                            "subform_field_1" => [{"unique_id" =>"1", "field_1" => "field_1 value", "field_2" => "field_2 value"},
                                                  {"unique_id" =>"11", "field_1" => "field_11 value", "field_2" => "field_22 value"},
                                                  {"unique_id" =>"12", "field_1" => "field_12 value", "field_2" => "field_23 value"}],
@@ -68,7 +69,7 @@ module Exporters
                                                  {"unique_id" =>"21", "field_3" => "field_33 value", "field_4" => "field_44 value"}]),
                  Child.new("module_id" => "primeromodule-cp", "first_name" => "Jane", "last_name" => "Doe Doe",
                            "_id" => "00000000002",
-                           "relationship"=>"Father", "array_field"=> ["Option4", "Option5"],
+                           "relationship"=>"Father", "array_field"=> ["option4", "option5"],
                            "subform_field_2" => [{"unique_id" =>"21", "field_3" => "field_31 value", "field_4" => "field_41 value"},
                                                  {"unique_id" =>"211", "field_3" => "field_331 value", "field_4" => "field_441 value"}]),
                  Child.new("module_id" => "primeromodule-cp", "first_name" => "Jimmy", "last_name" => "James", "_id" => "00000000003"),

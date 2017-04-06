@@ -39,7 +39,7 @@ module Exporters
         build_sheets_definition(properties_by_module)
       end
 
-      self.class.load_fields(models.first)
+      self.class.load_fields(models.first) if models.present?
 
       models.each do |model|
         sheets_def = get_sheets_by_module(model.module_id)
