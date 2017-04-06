@@ -19,11 +19,10 @@ class PotentialMatchesController < ApplicationController
 
     @potential_matches, @total_records = retrieve_records_and_total(@filters)
 
-    # TODO figure out user filter
     match_model_class
     @associated_user_names = users_filter
     set_visibility(@potential_matches, @associated_user_names)
-    @grouped_potential_matches = grouped_records(@potential_matches)
+    @grouped_potential_matches = PotentialMatch.group_match_records(@potential_matches, @type)
 
     @per_page = per_page
     @grouped_potential_matches = @grouped_potential_matches.paginate(:page => page, :per_page => per_page)
@@ -74,16 +73,5 @@ class PotentialMatchesController < ApplicationController
   def match_model_class
     @type ||= params[:type] || "tracing_request"
     @match_model_class ||= (@type == 'case' ? 'child' : @type).camelize.constantize
-  end
-
-  def grouped_records(records=[])
-    grouped_records = []
-    if @type == 'case'
-      grouped_records = records.group_by(&:child_id).to_a
-    elsif @type == 'tracing_request'
-      grouped_records = records.group_by{|r| [r.tracing_request_id, r.tr_subform_id]}.to_a
-    end
-    grouped_records = PotentialMatch.sort_list(grouped_records) if grouped_records.present?
-    grouped_records
   end
 end

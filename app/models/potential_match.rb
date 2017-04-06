@@ -228,6 +228,17 @@ class PotentialMatch < CouchRest::Model::Base
       end
     end
 
+    def group_match_records(match_records=[], type)
+      grouped_records = []
+      if type == 'case'
+        grouped_records = match_records.group_by(&:child_id).to_a
+      elsif type == 'tracing_request'
+        grouped_records = match_records.group_by{|r| [r.tracing_request_id, r.tr_subform_id]}.to_a
+      end
+      grouped_records = self.sort_list(grouped_records) if grouped_records.present?
+      grouped_records
+    end
+
     def sort_list(potential_matches)
       sorted_list = potential_matches.sort_by { |pm| -find_max_score_element(pm.last).try(:average_rating) }
     end
