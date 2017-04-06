@@ -51,10 +51,6 @@ div.scope_bar {
 }
 
 .index_filters {
-  width: rem_calc(300);
-  flex: 0 0 rem_calc(300);
-  max-width: rem_calc(300);
-
   .mCS-dir-rtl > .mCSB_inside > .mCSB_container{ /* RTL direction/left-side scrollbar */  
     @if $global-text-direction == rtl {
       margin-left: rem_calc(23) !important;
@@ -104,6 +100,7 @@ div.scope_bar {
     padding: rem_calc(0 0 20);
     border: none;
     background: #f1f5ec;
+    width: 100%;
   }
 
   input[type="text"] {
@@ -134,7 +131,8 @@ div.scope_bar {
       display: block;
       line-height: 1.2em;
       text-overflow: ellipsis;
-      color: #4d4d4d
+      color: #4d4d4d;
+      white-space: nowrap;
     }
   }
 
@@ -149,7 +147,7 @@ div.scope_bar {
   }
 }
 
-@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+@media screen and (min-width: rem_calc(924)) and (max-width: rem_calc(1155)) {
   .index_filters {
     width: rem_calc(250.25) !important;
     flex: 0 0 rem_calc(250.25) !important;
