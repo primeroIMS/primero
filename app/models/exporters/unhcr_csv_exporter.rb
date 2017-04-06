@@ -29,7 +29,7 @@ module Exporters
         rows << [' ID'] + UnhcrCSVExporter.field_map.keys if @called_first_time.nil?
         @called_first_time ||= true
 
-        self.class.load_fields(cases.first)
+        self.class.load_fields(cases.first) if cases.present?
 
         cases.each_with_index do |c, index|
           values = UnhcrCSVExporter.field_map.map do |_, generator|
