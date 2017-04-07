@@ -22,6 +22,8 @@ _primero.Router = Backbone.Router.extend({
     'forms/:id/edit': 'formSectionEditPage',
     'forms/:form_section_id/fields/:id/edit': 'fieldEditPage',
     'users': 'passwordPrompt',
+    'users/new': 'userCreatePage',
+    'users/:id/edit': 'userCreatePage',
     'roles': 'roleIndexPage',
     'login' : 'maskedUserAndPasswordLogin',
     'sessions/new': 'maskedUserAndPasswordLogin',
@@ -77,6 +79,10 @@ _primero.Router = Backbone.Router.extend({
     new _primero.Views.IndexFilters();
     this.maskedUserAndPasswordReferal();
     this.maskedUserAndPasswordTransfer();
+  },
+
+  userCreatePage: function() {
+    new _primero.Views.PopulateSelectBoxes();
   },
 
   recordShowPage: function() {

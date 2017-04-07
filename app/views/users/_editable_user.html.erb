@@ -130,14 +130,19 @@
 
     <div class="row">
       <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <label class="key" for="user_location" ><%= t("user.location") %></label>
-        </span>
+      <span class="tool-tip-label">
+        <label class="key" for="user_location" ><%= t("user.location") %></label>
+      </span>
       </div>
       <div class="medium-8 columns">
-        <%= f.select :location, @location_names,
-            { include_blank: t('fields.select_box_empty_item') },
-            { class: 'chosen-select' }
+        <%
+          #TODO - figure this out
+          value = ''
+        %>
+        <%= f.select :location,
+                     options_for_select([], value), {},
+                     {class: 'chosen-select',
+                     data: {:placeholder => t("fields.select_box_empty_item"), :field_tags => [], :populate => 'Location', value: value}}
         %>
       </div>
       <div class="medium-1 columns"></div>

@@ -52,6 +52,7 @@ Primero = _primero.Views.Base.extend({
     this.populate_case_id_for_gbv_incidents();
     this.init_edit_listeners();
     this.chosen_roles();
+    this.location_chosen();
 
     // TODO: Temp for form customization. Disabling changing a multi-select if options is populated and disabled.
     var $textarea = $('textarea[name*="field[option_strings_text"]');
@@ -103,7 +104,6 @@ Primero = _primero.Views.Base.extend({
       autoHideScrollbar: false,
       theme: 'dark'
     };
-
     $(".side-nav").mCustomScrollbar(
       _.extend(options, {
         setHeight: 460,
@@ -157,6 +157,10 @@ Primero = _primero.Views.Base.extend({
       select.val(add);
       $(chosen).trigger("chosen:updated");
     });
+  },
+
+  location_chosen: function() {
+    _primero.chosen("default-form.select.chosen-select")
   },
 
   init_action_menu: function() {
