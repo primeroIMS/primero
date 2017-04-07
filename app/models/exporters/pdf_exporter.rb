@@ -54,15 +54,15 @@ module Exporters
       }
 
       # Nepali
-      @pdf.font_families["lohit_sd"] = {
+      @pdf.font_families["Kalimati_Regular"] = {
         normal: {
-          :file => Rails.root.join('public/i18n_fonts/lohit_sd.ttf'),
-          :font => "lohit_sd"
+          :file => Rails.root.join('public/i18n_fonts/Kalimati_Regular.ttf'),
+          :font => "Kalimati_Regular"
         }
       }
 
       # Add fallback fonts to array
-      @pdf.fallback_fonts = ["Riwaj", "lohit_sd"]
+      @pdf.fallback_fonts = ["Riwaj", "Kalimati_Regular"]
 
       @subjects = []
     end
