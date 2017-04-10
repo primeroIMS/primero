@@ -50,7 +50,7 @@ describe SystemSettingsController do
                                                          "label_key" => "district",
                                                          "admin_level" => 2,
                                                          "reg_ex_filter" => 'blah'},
-                         "primero_version" => "1.3.3",
+                         "primero_version" => @system_settings.primero_version,
                          "age_ranges" => {"primero" => ["0 - 5","6 - 11","12 - 17","18+"],
                                           "unhcr" => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},
                          "primary_age_range" => "primero", "_id" => @system_settings.id, "_rev" => @system_settings.rev,
