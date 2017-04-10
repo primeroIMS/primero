@@ -81,7 +81,7 @@ describe FormSectionController do
     describe "mobile API" do
       it "only shows mobile forms" do
         get :index, mobile: true, :format => :json
-        expect(assigns[:form_sections]['Children'].size).to eq(2)
+        expect(assigns[:form_sections]['Children'].size).to eq(3)
         expect(assigns[:form_sections]['Children']).not_to be_nil
         expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
       end
