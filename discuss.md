@@ -6,21 +6,26 @@ permalink: /discuss/
 
 # Discuss Primero
 
-## Notes
+{% raw %}
 
 
-I'd like to...
 
-Help Share and Promote Primero
+<div>
+ <iframe id="forum_embed"
+  src="javascript:void(0)"
+  scrolling="no"
+  frameborder="0"
+  width="900"
+  height="700">
+</iframe>
+<script type="text/javascript">
+  document.getElementById('forum_embed').src =
+     'https://groups.google.com/forum/embed/?place=forum/primero-jedis'
+     + '&showsearch=true&showpopout=true&showtabs=false'
+     + '&parenturl=' + encodeURIComponent(window.location.href);
+</script>
+</div>
 
-Report A Bug
-
-Help With Documentation
-
-Learn How To Develop on Primero
-
-Contribute Code (Features or Bugfixes)
-
-Configure Primero
 
  
+{% endraw %}
