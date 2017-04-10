@@ -236,12 +236,12 @@ module Exporters
       case value
       when TrueClass, FalseClass
         if value
-          render_i18n_text(I18n.t(value.to_s))
+          render_i18n_text(field.display_text(value))
         else
           ""
         end
       when String
-        render_i18n_text(value)
+        render_i18n_text(field.display_text(value))
       when DateTime
         value.strftime("%d-%b-%Y")
       when Date
