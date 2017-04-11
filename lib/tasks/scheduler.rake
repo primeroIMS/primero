@@ -51,7 +51,8 @@ namespace :scheduler do
 
     [
       CleansingTmpDir, ArchiveBulkExports,
-      ChildRiskLevelFollowUp, RecalculateAge
+      ChildRiskLevelFollowUp, RecalculateAge,
+      OptimizeSolr
     ].each{|job| job.schedule(scheduler)}
 
     logger.info 'Rufus scheduler initialized'
