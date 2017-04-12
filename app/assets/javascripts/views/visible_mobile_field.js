@@ -1,8 +1,8 @@
 _primero.Views.VisibleMobileField = Backbone.View.extend({
     el: '.field_details',
     events: {
-        'change #field_details .visible' : 'form_visible_change',
-        'change #field_details .visible_on_mobile' : 'form_visible_change_mobile'
+        'change input.visible' : 'form_visible_change',
+        'change input.visible_on_mobile' : 'form_visible_change_mobile'
 
     },
 
