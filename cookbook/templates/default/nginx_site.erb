@@ -26,7 +26,7 @@ server {
   add_header X-Frame-Options DENY;
   add_header X-Content-Type-Options nosniff;
 
-  if ($request_method = ^(HEAD)$ ) {
+  if ($request_method = HEAD ) {
     return 444;
   }
 
