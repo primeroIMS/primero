@@ -127,7 +127,7 @@ class FormSectionController < ApplicationController
   private
 
   def is_mobile?
-    params[:mobile] == true || params[:mobile] == 'true'
+    @is_mobile ||= params[:mobile] == true || params[:mobile] == 'true'
   end
 
   def get_form_section
@@ -154,8 +154,8 @@ class FormSectionController < ApplicationController
           FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
       FormSection.link_subforms(permitted_forms, true)
       #filter out the subforms
-      no_subforms = FormSection.filter_subforms(permitted_forms, true)
-      @form_sections = FormSection.group_forms(no_subforms, true)
+      permitted_forms = FormSection.filter_subforms(permitted_forms, true) unless is_mobile?
+      @form_sections = FormSection.group_forms(permitted_forms, true)
     else
       @form_sections = []
     end
