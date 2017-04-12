@@ -59,13 +59,6 @@ class Child < CouchRest::Model::Base
   def initialize *args
     self['photo_keys'] ||= []
     self['document_keys'] ||= []
-    arguments = args.first
-
-    if arguments.is_a?(Hash) && arguments["current_photo_key"]
-      self['current_photo_key'] = arguments["current_photo_key"]
-      arguments.delete("current_photo_key")
-    end
-
     self['histories'] = []
 
     super *args
