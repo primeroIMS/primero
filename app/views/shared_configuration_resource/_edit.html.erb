@@ -17,14 +17,14 @@
   <%= render_controls(object, object_name_plural) %>
 <% end %>
 
-<div class="page-content-new row" data-equalizer>
+<div class="page-content-new row">
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
   <% if options[:show_side_tab] %>
     <%= render partial: 'shared/side_tab', locals: {highlight_page: object_name_plural} %>
   <% end %>
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
-    <div class="side-tab-content" data-equalizer-watch>
+    <div class="side-tab-content">
       <div class="row">
         <div class="large-12 columns">
           <%= form_for object, html: {class: 'default-form', :multipart => true, :autocomplete => "off", "data-abide" => ''} do |f| %>
