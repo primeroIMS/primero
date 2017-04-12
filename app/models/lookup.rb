@@ -32,13 +32,18 @@ class Lookup < CouchRest::Model::Base
     end
     memoize_in_prod :all
 
-    def values(lookup_id, lookups = nil)
+    def values(lookup_id, lookups = nil, opts={})
+      locale = if opts[:locale].present?
+        opts[:locale]
+      else
+        [I18n.locale]
+      end
       if lookups.present?
         lookup = lookups.select {|lkp| lkp.id == lookup_id}.first
       else
         lookup = Lookup.get(lookup_id)
       end
-      lookup.present? ? (lookup.lookup_values || []) : []
+      lookup.present? ? lookup.values_for_locales(lookup, locale) : []
     end
     memoize_in_prod :values
 
@@ -105,6 +110,11 @@ class Lookup < CouchRest::Model::Base
         end
       end
     end
+  end
+
+  def values_for_locales(lookup, locales)
+    values_hash = {}
+    return locales.map { |locale| (lookup.lookup_values(locale) || []) }
   end
 end
 

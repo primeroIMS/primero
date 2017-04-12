@@ -277,12 +277,16 @@ class Field
     @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
-  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil)
+  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={})
+    locale = if opts[:locale].present?
+      opts[:locale]
+    else
+      I18n.locale
+    end
     options_list = []
-
     if self.type == Field::TICK_BOX
-      options_list << {id: 'true', display_text: I18n.t('true')}
-      options_list << {id: 'false', display_text: I18n.t('false')}
+      options_list << {id: 'true', display_text: I18n.t('true',locale)}
+      options_list << {id: 'false', display_text: I18n.t('false',locale)}
     elsif self.option_strings_source.present?
       source_options = self.option_strings_source.split
       #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
@@ -295,7 +299,7 @@ class Field
           options_list = record.violations_list_by_unique_id.map{|k,v| {'id' => v, 'display_text' => k}}
         end
       when 'lookup'
-        options_list += Lookup.values(source_options.last, lookups) if add_lookups.present?
+        options_list += Lookup.values(source_options.last, lookups, locale: locale) if add_lookups.present?
       when 'Location'
         options_list += locations || [] if locations.present?
       when 'Agency'
@@ -306,7 +310,7 @@ class Field
         options_list += clazz.all.map{|r| r.name}
       end
     else
-      options_list += (self.option_strings_text.present? ? self.option_strings_text : [])
+      options_list += (self.option_strings_text.present? ? self.option_strings_text(locale) : [])
     end
     return options_list
   end

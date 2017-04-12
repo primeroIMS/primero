@@ -12,19 +12,43 @@ module Exporters
       "audio_upload_box" => nil, #TODO
       "document_upload_box" => nil, #TODO
       "date_field" => 'dateTime',
-      "date_range" => nil,
-      "subform" => 'subform',
+      "date_range" => nil, #TODO
+      "subform" => 'subform', #TODO
       "separator" => 'note',
       "tick_box" => 'acknowledge',
       "tally_field" => nil, #TODO
       "custom" => nil #TODO
     }
 
-    def initialize(export_file=nil)
-      @export_file_name = export_file || CleansingTmpDir.temp_file_name
+    def dir_name(record_type, primero_module)
+      File.join Rails.root.join('tmp','exports'), "forms_export_#{record_type}_#{primero_module.name.downcase}_#{DateTime.now.strftime("%Y%m%d.%I%M%S")}"
+    end
+
+    def dir(record_type, primero_module)
+      FileUtils.mkdir_p dir_name(record_type, primero_module)
+      dir_name(record_type, primero_module)
+    end
+
+    def excel_file_name(file_name='default')
+      filename = File.join @export_dir_path, file_name
+    end
+
+    def initialize(record_type='case', module_id='primeromodule-cp', input_locales=[], export_path=nil)
+      @record_type = record_type
+      @primero_module = PrimeroModule.get(module_id)
+      @export_dir_path = if export_path 
+        File.join Rails.root.join("#{export_path}")
+      else
+        dir(@record_type, @primero_module)
+      end
+      @locales = compute_locales(input_locales)
+    end
+
+    def create_file_for_form(export_file=nil)
+      @export_file_name = excel_file_name(export_file.to_s)
       @io = File.new(@export_file_name, "w")
       @workbook = WriteExcel.new(@io)
-      @form_sheet = @workbook.add_worksheet('form')
+      @form_sheet = @workbook.add_worksheet('survey')
       @form_pointer = 1
       @choices_sheet = @workbook.add_worksheet('choices')
       @choices_pointer = 1
@@ -37,13 +61,22 @@ module Exporters
       return @io
     end
 
+    def export_forms_to_spreadsheet
+      forms = @primero_module.associated_forms_grouped_by_record_type(true)
+      forms_record_type = forms[@record_type]
+      forms_record_type.each do |form|
+        create_file_for_form(form.unique_id)
+        write_form(form)
+        complete
+      end
+    end
+
     def write_form(form_section)
       #fill out the settings tab
       write_form_settings(form_section)
-
-      form_headers = ['type', 'name'] + localize_header('label')
+      form_headers = ['type', 'name'] + localize_header('label') + localize_header('hint') + localize_header('guidance')
       @form_sheet.write(0, 0, form_headers)
-      choices_header = ['list_name', 'name'] + localize_header('label')
+      choices_header = ['list name', 'name'] + localize_header('label')
       @choices_sheet.write(0, 0, choices_header)
       form_section.fields.each do |field|
         write_field(field)
@@ -64,35 +97,34 @@ module Exporters
       when nil
       when 'select_one', 'select_multiple'
         write_select(field, type)
-      when 'subform'
-        write_subform(field)
       else
         write_field_row(field, type)
       end
     end
 
     def write_select(field, type)
-      #TODO: Locations
-      binding.pry
+      #TODO: Locales for lookups
       if field.option_strings_source.present? && field.option_strings_source.start_with?('lookup')
         option_source = field.option_strings_source.split
-        option_name = option_source.last.titleize
-        lookup = Lookup.find_by_name(option_name)
-        option_name = option_name.underscore
-        write_options(option_name, get_localized_property(lookup, 'lookup_values'))
+        option_name = "#{field.name}_opts"
+        lookup = field.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: @locales)
+        options = lookup
+        write_options(option_name, options)
+        type = "#{type} #{option_name}"
+        write_field_row(field, type)
       elsif field.option_strings_text.present?
         option_name = "#{field.name}_opts"
-        write_options(option_name, get_localized_property(field, 'option_strings_text'))
+        options = get_localized_property(field, 'option_strings_text')
+        write_options(option_name, options)
+        type = "#{type} #{option_name}"
+        write_field_row(field, type)
       end
-      type = "#{type} #{option_name}"
-      write_field_row(field, type)
     end
 
 
     def write_subform(subform_field)
       #TODO: implement
     end
-
 
 
     def write_field_row(field, type)
@@ -103,7 +135,6 @@ module Exporters
     end
 
     def write_options(name, options)
-      binding.pry
       option_rows = options.first.map{|option| [name, option['id']]}
       options.each do |localized_options|
         localized_options.each_with_index do |option, i|
@@ -112,7 +143,7 @@ module Exporters
       end
       option_rows.each do |row|
         @choices_sheet.write(@choices_pointer, 0, row)
-        @choices_pointer += @choices_pointer
+        @choices_pointer += 1
       end
     end
 
@@ -130,16 +161,23 @@ module Exporters
 
     private
 
-    def locales
-      Primero::Application::locales
+    def compute_locales(input_locales=nil)
+      all_locales = Primero::Application::locales
+      correct_locales = all_locales & input_locales
+      if input_locales.empty? or correct_locales.empty?
+        @locales = all_locales
+      else
+        @locales = ['en'] | correct_locales
+      end
+      return @locales
     end
 
     def localize_header(header)
-      locales.map{|loc| "#{header}::#{loc}"}
+      @locales.map{|loc| "#{header}::#{loc}"}
     end
 
     def get_localized_property(object, field_name)
-      locales.map do |loc|
+      @locales.map do |loc|
         object.try("#{field_name}_#{loc}")
       end
     end
