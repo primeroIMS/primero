@@ -95,13 +95,11 @@ module FieldsHelper
     else
       options = []
       if field_value.is_a?(Array)
-        has_lookup = field.option_strings_source.match(/lookup-.*/)
-        
-        lookup = lookups.select{|l| l.id == has_lookup[0]}.first if has_lookup
+        lookup = field.options_list(nil, nil, nil, true)
         
         field_value.each do |option|
           if lookup.present?
-            lookup_value = lookup.lookup_values.select{|lv| lv["display_text"] == option}.first
+            lookup_value = lookup.select{|lv| lv["display_text"] == option}.first
             options << lookup_value["display_text"] if lookup_value.present?
           else
             selected = (field.option_strings_text.is_a?(Array) ? field.option_strings_text.select{|o| o['id'] == option} : option)
