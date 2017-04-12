@@ -26,6 +26,10 @@ server {
   add_header X-Frame-Options DENY;
   add_header X-Content-Type-Options nosniff;
 
+  if ($request_method = ^(HEAD)$ ) {
+    return 444;
+  }
+
   ssl_dhparam <%= @dh_param %>;
 
   passenger_enabled on;
