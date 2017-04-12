@@ -18,7 +18,7 @@
 
 <%= resource_edit_field(object, 'agency_code', 'agency.code', 'text_field', true) %>
 
-<%= resource_edit_field(object, 'description', 'description', 'text_field') %>
+<%= resource_edit_field(object, 'description', 'description', 'text_area') %>
 <% Primero::Application::LOCALES.each do |new_locale| %>
   <% if I18n.default_locale.to_s != new_locale %>
     <div class="row <%= "translation_forms #{new_locale}"%> hide_element">
