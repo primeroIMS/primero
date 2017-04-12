@@ -21,7 +21,7 @@ module Exporters
     }
 
     def dir_name(record_type, primero_module)
-      File.join Rails.root.join('tmp','exports'), "forms_export_#{record_type}_#{primero_module.name.downcase}_#{DateTime.now.strftime("%Y%m%d.%I%M%S")}"
+      File.join Rails.root.join('tmp', 'exports'), "forms_export_#{record_type}_#{primero_module.name.downcase}_#{DateTime.now.strftime("%Y%m%d.%I%M%S")}"
     end
 
     def dir(record_type, primero_module)
@@ -36,11 +36,8 @@ module Exporters
     def initialize(record_type='case', module_id='primeromodule-cp', input_locales=[], export_path=nil)
       @record_type = record_type
       @primero_module = PrimeroModule.get(module_id)
-      @export_dir_path = if export_path 
-        File.join Rails.root.join("#{export_path}")
-      else
-        dir(@record_type, @primero_module)
-      end
+      #TODO: Implement used defined export path
+      @export_dir_path = dir(@record_type, @primero_module)
       @locales = compute_locales(input_locales)
     end
 
