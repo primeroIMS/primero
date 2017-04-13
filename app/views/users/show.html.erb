@@ -67,9 +67,9 @@
 
         <%= resource_show_field @user, 'phone', 'contact.field.phone' %>
         <%= resource_show_field @user, 'email', 'email' %>
-        <%= resource_show_field @user, 'organization', 'organization' %>
+        <%= resource_show_field @user, 'organization', 'organization', Agency %>
         <%= resource_show_field @user, 'position', 'position' %>
-        <%= resource_show_field @user, 'location', 'user.location' %>
+        <%= resource_show_field @user, 'location', 'user.location', Location %>
 
         <div class="row">
           <div class="medium-4 columns">

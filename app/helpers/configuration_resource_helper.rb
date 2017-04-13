@@ -39,9 +39,10 @@ module ConfigurationResourceHelper
     end
   end
 
-  def resource_show_field(object, field, label_key)
+  def resource_show_field(object, field, label_key, translation_class=nil)
     label_text = I18n.t(label_key)
     value = object.send(field)
+    value = eval("#{translation_class}.display_text('#{value}')") if translation_class.present?
 
     content_tag :div, class: 'row' do
       concat(content_tag(:div, class: 'medium-4 columns'){

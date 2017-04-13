@@ -158,6 +158,12 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :base_type_ids
 
+    def display_text(location_code)
+      lct = Location.find_by_location_code(location_code)
+      value = (lct.present? ? lct.name : '')
+    end
+    memoize_in_prod :display_text
+
   end
 
   def generate_hierarchy_placenames
