@@ -103,7 +103,6 @@ Primero = _primero.Views.Base.extend({
       autoHideScrollbar: false,
       theme: 'dark'
     };
-
     $(".side-nav").mCustomScrollbar(
       _.extend(options, {
         setHeight: 460,
