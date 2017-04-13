@@ -695,11 +695,11 @@ Primero = Backbone.View.extend({
 
   generate_download_link: function(url) {
     var download_link = document.createElement("a");
-		download_link.href = url;
+    download_link.href = url;
     download_link.setAttribute('data-turbolinks', false);
-		document.body.appendChild(download_link);
-		download_link.click();
-		document.body.removeChild(download_link);
+    document.body.appendChild(download_link);
+    download_link.click();
+    document.body.removeChild(download_link);
     this._primero_loading_screen_indicator('hide');
   }
 });
