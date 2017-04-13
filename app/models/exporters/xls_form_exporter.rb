@@ -103,9 +103,12 @@ module Exporters
       if field.option_strings_source.present? && field.option_strings_source.start_with?('lookup')
         option_source = field.option_strings_source.split
         option_name = "#{field.name}_opts"
-        lookup = @locales.map { |locale| field.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: locale) }
-        options = lookup
-        write_options(option_name, options)
+        options = @locales.map { |locale| field.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: locale) }
+        if field.option_strings_source.present?
+          write_options(option_name, options, lookup_id: field.option_strings_source.split.last)
+        else
+          write_options(option_name, options)
+        end
         type = "#{type} #{option_name}"
         write_field_row(field, type)
       elsif field.option_strings_text.present?
@@ -130,8 +133,13 @@ module Exporters
       @form_pointer += 1
     end
 
-    def write_options(name, options)
-      option_rows = options.first.map{|option| [name, option['id']]}
+    def write_options(name, options, opts={})
+      option_rows = if opts[:lookup_id].present?
+        options.first.map{|option| [name, opts[:lookup_id]]}
+      else
+        options.first.map{|option| [name, option['id']]}
+      end
+      # option_rows = options.first.map{|option| [name, option['id']]}
       options.each do |localized_options|
         localized_options.each_with_index do |option, i|
           option_rows[i] << option['display_text']
