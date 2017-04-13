@@ -100,11 +100,10 @@ module Exporters
     end
 
     def write_select(field, type)
-      #TODO: Locales for lookups
       if field.option_strings_source.present? && field.option_strings_source.start_with?('lookup')
         option_source = field.option_strings_source.split
         option_name = "#{field.name}_opts"
-        lookup = field.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: @locales)
+        lookup = @locales.map { |locale| field.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: locale) }
         options = lookup
         write_options(option_name, options)
         type = "#{type} #{option_name}"
