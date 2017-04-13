@@ -210,7 +210,7 @@ _primero.Views.CustomExports = Backbone.View.extend({
       this.reset_form();
       $(this.el).foundation('reveal', 'close');
       _primero.check_download_status();
-      window.location = file_location;
+      _primero.generate_download_link(file_location)
     } else {
 
       var errors = [];
