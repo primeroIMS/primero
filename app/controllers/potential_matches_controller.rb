@@ -7,7 +7,6 @@ class PotentialMatchesController < ApplicationController
   require "will_paginate/array"
 
 
-  #TODO v1.3: This controller should be merged with RecordActions and the business logic refactored into the models
   #TODO v1.3: need controller rspec for this
   def index
     authorize! :index, model_class
@@ -17,43 +16,32 @@ class PotentialMatchesController < ApplicationController
     @filters = record_filter(filter)
     #make sure to get all records when querying for ids to sync down to mobile
     params["page"] = "all" if params["mobile"] && params["ids"]
-    @records, @total_records = retrieve_records_and_total(@filters)
 
-    @referral_roles = Role.by_referral.all
-    @transfer_roles = Role.by_transfer.all
-    module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
-    @associated_agencies = User.agencies_by_user_list(@associated_users).map { |a| {a.id => a.name} }
-    #TODO v1.3: This should be removed/meregd with Record actions
-    #TODO i18n
-    @options_districts = Location.by_type_and_disabled(key: ['district', false]).all.map { |loc| loc.placename }.sort
-    module_users(module_ids) if module_ids.present?
-    instance_variable_set("@#{list_variable_name}", @records)
+    @potential_matches, @total_records = retrieve_records_and_total(@filters)
 
-    #TODO v1.3: this next section needs to be refactored - WIP
-    #Most of this index method is a carbon copy of the one in record_actions
     match_model_class
     @associated_user_names = users_filter
-    @match_results = @match_model_class.all_matches(@associated_user_names)
-    @match_results = @match_model_class.all_match_details(@match_results, @potential_matches, @associated_user_names) if @match_results.present?
+    set_visibility(@potential_matches, @associated_user_names)
+    @grouped_potential_matches = PotentialMatch.group_match_records(@potential_matches, @type)
 
     @per_page = per_page
-    @match_results = @match_results.paginate(:page => page, :per_page => per_page)
-    @total_records = @match_results.total_entries
+    @grouped_potential_matches = @grouped_potential_matches.paginate(:page => page, :per_page => per_page)
+    @total_records = @grouped_potential_matches.total_entries
 
     respond_to do |format|
       format.html
       unless params[:password]
         format.json do
-          render :json => @match_results
+          render :json => PotentialMatch.format_list_for_json(@grouped_potential_matches, @type)
         end
       end
       unless params[:format].nil? || params[:format] == :json
-        if @potential_matches.empty?
+        if @grouped_potential_matches.blank?
           flash[:notice] = t("exports.no_records")
           redirect_to :action => :index and return
         end
       end
-      respond_to_export format, @records
+      respond_to_export format, @potential_matches
     end
   end
 
@@ -78,8 +66,11 @@ class PotentialMatchesController < ApplicationController
 
   private
 
+  def set_visibility(records=[], associated_user_names)
+    records.each{|r| r.set_visible(associated_user_names, @type)}
+  end
+
   def match_model_class
-    #TODO v1.3: I know this is a little hokey, but @type is used in the view
     @type ||= params[:type] || "tracing_request"
     @match_model_class ||= (@type == 'case' ? 'child' : @type).camelize.constantize
   end
