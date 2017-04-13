@@ -36,7 +36,7 @@ class Lookup < CouchRest::Model::Base
       locale = if opts[:locale].present?
         opts[:locale]
       else
-        [I18n.locale]
+        I18n.locale
       end
       if lookups.present?
         lookup = lookups.select {|lkp| lkp.id == lookup_id}.first
@@ -110,11 +110,6 @@ class Lookup < CouchRest::Model::Base
         end
       end
     end
-  end
-
-  def values_for_locales(lookup, locales)
-    values_hash = {}
-    return locales.map { |locale| (lookup.lookup_values(locale) || []) }
   end
 end
 
