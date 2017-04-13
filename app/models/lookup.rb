@@ -43,7 +43,7 @@ class Lookup < CouchRest::Model::Base
       else
         lookup = Lookup.get(lookup_id)
       end
-      lookup.present? ? lookup.values_for_locales(lookup, locale) : []
+      lookup.present? ? (lookup.lookup_values || []) : []
     end
     memoize_in_prod :values
 
