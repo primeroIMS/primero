@@ -1,6 +1,14 @@
 module Exporters
   class XlsFormExporter
 
+    def initialize(record_type='case', module_id='primeromodule-cp', input_locales=[], export_path=nil)
+      @record_type = record_type
+      @primero_module = PrimeroModule.get(module_id)
+      #TODO: Implement user defined export path
+      @export_dir_path = dir(@record_type, @primero_module)
+      @locales = compute_locales(input_locales)
+    end
+
     MAPPING = {
       "text_field" => "text",
       "textarea" => "text",
@@ -21,7 +29,7 @@ module Exporters
     }
 
     def dir_name(record_type, primero_module)
-      File.join Rails.root.join('tmp', 'exports'), "forms_export_#{record_type}_#{primero_module.name.downcase}_#{DateTime.now.strftime("%Y%m%d.%I%M%S")}"
+      File.join(Rails.root.join('tmp', 'exports'), "forms_export_#{record_type}_#{primero_module.name.downcase}_#{DateTime.now.strftime("%Y%m%d.%I%M%S")}")
     end
 
     def dir(record_type, primero_module)
@@ -30,15 +38,7 @@ module Exporters
     end
 
     def excel_file_name(file_name='default')
-      filename = File.join @export_dir_path, file_name
-    end
-
-    def initialize(record_type='case', module_id='primeromodule-cp', input_locales=[], export_path=nil)
-      @record_type = record_type
-      @primero_module = PrimeroModule.get(module_id)
-      #TODO: Implement used defined export path
-      @export_dir_path = dir(@record_type, @primero_module)
-      @locales = compute_locales(input_locales)
+      filename = File.join(@export_dir_path, file_name)
     end
 
     def create_file_for_form(export_file=nil)
@@ -88,7 +88,6 @@ module Exporters
     end
 
     def write_field(field)
-      #TODO: Read only
       type = type_mapping(field)
       case type
       when nil

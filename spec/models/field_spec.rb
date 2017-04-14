@@ -1056,13 +1056,13 @@ describe "record field model" do
 
     context "when field lookup has many locales" do
       it "should return settings for specified locale" do
-        expect(@field_multi_locales.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: 'ar')[0]["id"]).to eq 'ar1'
+        expect(@field_multi_locales.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: 'ar')[0]["id"]).to eq('ar1')
       end
     end
 
     context "when field is looking up non-specified locale" do
       it "should return the default locale" do
-        expect(@field_no_locales.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: 'ar')[0]["id"]).to eq 'default1'
+        expect(@field_no_locales.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: 'ar')[0]["id"]).to eq('default1')
       end
     end
   end

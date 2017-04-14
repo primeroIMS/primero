@@ -278,11 +278,7 @@ class Field
   end
 
   def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={})
-    locale = if opts[:locale].present?
-      opts[:locale]
-    else
-      I18n.locale
-    end
+    locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     options_list = []
     if self.type == Field::TICK_BOX
       options_list << {id: 'true', display_text: I18n.t('true')}

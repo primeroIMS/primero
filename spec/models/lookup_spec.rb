@@ -92,13 +92,13 @@ describe Lookup do
     context "when lookup has many locales" do
 
       it "should return settings for specified locale" do
-        expect(Lookup.values('test',nil,locale:'ar')[0]['id']).to eq 'ar1'
+        expect(Lookup.values('test',nil,locale:'ar')[0]['id']).to eq('ar1')
       end
     end
 
     context "when lookup is does not specify all locales" do
       it "should return the default locale for any missing locales" do
-        expect(Lookup.values('default',nil,locale:'ar')[0]['id']).to eq 'default1'
+        expect(Lookup.values('default',nil,locale:'ar')[0]['id']).to eq('default1')
       end
     end
   end
