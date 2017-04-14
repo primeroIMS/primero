@@ -153,11 +153,7 @@ module Exporters
     def type_mapping(field)
       type = MAPPING[field.type]
       if type == 'select'
-        if field.multi_select?
-          type = 'select_multiple'
-        else
-          type = 'select_one'
-        end
+        type = (field.multi_select? ? 'select_multiple' : 'select_one')
       end
       return type
     end
