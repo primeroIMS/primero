@@ -37,7 +37,7 @@ record_classes.each do |record_type|
     end
     
     if records_to_save.present?
-      # record_type.save_all!(records_to_save)
+      record_type.save_all!(records_to_save)
     end
   end
 end
