@@ -136,12 +136,76 @@ describe FormSectionController do
           fake_login user
         end
 
-        it 'should return location fields with locations if mobile' do
-          expected = ["Country1", "Country1::Province1", "Country1::Province2", "Country1::Province1::Town1"];
-          get :index, mobile: true, format: :json
-          returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
-          expect(returned).to eq(expected)
+        context 'when mobile is true' do
+          before do
+            SystemSettings.all.each &:destroy
+            SystemSettings.create(default_locale: "en",
+                                  primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+          end
+
+          context 'and number of locations is less than max limit' do
+            before :each do
+              Location.stub(:count).and_return(180)
+            end
+
+            context 'and number of locations is less than System Settings max location limit' do
+              before :each do
+                SystemSettings.any_instance.stub(:location_limit_for_api).and_return(190)
+              end
+
+              it 'should return location fields with locations' do
+                expected = ["Country1", "Country1::Province1", "Country1::Province2", "Country1::Province1::Town1"];
+                get :index, mobile: true, format: :json
+                returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
+                expect(returned).to eq(expected)
+              end
+            end
+
+            context 'and number of locations is greater than System Settings max location limit' do
+              before :each do
+                SystemSettings.any_instance.stub(:location_limit_for_api).and_return(170)
+              end
+
+              it 'should return location fields without locations' do
+                get :index, mobile: true, format: :json
+                returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
+                expect(returned).to eq([])
+              end
+            end
+          end
+
+          context 'and number of locations is greater than max limit' do
+            before :each do
+              Location.stub(:count).and_return(201)
+            end
+
+            context 'and number of locations is less than System Settings max location limit' do
+              before :each do
+                SystemSettings.any_instance.stub(:location_limit_for_api).and_return(210)
+              end
+
+              it 'should return location fields without locations' do
+                get :index, mobile: true, format: :json
+                returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
+                expect(returned).to eq([])
+              end
+            end
+
+            context 'and number of locations is greater than System Settings max location limit' do
+              before :each do
+                SystemSettings.any_instance.stub(:location_limit_for_api).and_return(100)
+              end
+
+              it 'should return location fields without locations' do
+                get :index, mobile: true, format: :json
+                returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
+                expect(returned).to eq([])
+              end
+            end
+          end
         end
+
+
       end
     end
   end
