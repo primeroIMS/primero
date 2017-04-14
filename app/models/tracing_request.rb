@@ -71,49 +71,6 @@ class TracingRequest < CouchRest::Model::Base
 
   end
 
-  class << self
-    def match_results(results)
-      match_result=[]
-      results.each do |r|
-        result = r.tracing_request_subform_section.map{|s| [['tracing_request_id', (r.tracing_request_id || '')], ['tr_uuid', (r._id || '')],
-                                                            ['relation_name', (r.relation_name || '')], ['inquiry_date', (r.inquiry_date || '')],
-                                                            ['subform_tracing_request_id', s.unique_id], ['subform_tracing_request_name', s.name],
-                                                            ['match_details', []]].to_h}
-        match_result += result
-      end
-      match_result
-    end
-
-    #TODO v1.3: can this be refactored further?
-    def all_match_details(match_results=[], potential_matches=[], associated_user_names)
-      for match_result in match_results
-        count = 0
-        for potential_match in potential_matches
-          if potential_match["tr_id"] == match_result["tracing_request_id"] && potential_match["tr_subform_id"] == match_result["subform_tracing_request_id"]
-            match_detail = {}
-            match_detail["child_id"] = potential_match.child_id
-            child = Child.get(potential_match.child_id)
-            if child.present?
-              match_detail["case_id"] = potential_match.case_id
-              match_detail["age"] = is_match_visible?(child.owned_by, associated_user_names) ? child.age : "***"
-              match_detail["sex"] = is_match_visible?(child.owned_by, associated_user_names) ? child.sex : "***"
-              match_detail["registration_date"] = is_match_visible?(child.owned_by, associated_user_names) ? child.registration_date : "***"
-              match_detail["owned_by"] = child.owned_by
-              match_detail["visible"] = is_match_visible?(child.owned_by, associated_user_names)
-              match_detail["average_rating"] =potential_match.average_rating
-              match_result["match_details"] << match_detail
-              count += 1
-            end
-          end
-        end
-        match_result["match_details"] = match_result["match_details"].sort_by { |hash| -hash["average_rating"] }
-                                            .first(20)
-      end
-      compact_result match_results
-      sort_hash match_results
-    end
-  end
-
   def self.find_by_tracing_request_id(tracing_request_id)
     by_tracing_request_id(:key => tracing_request_id).first
   end

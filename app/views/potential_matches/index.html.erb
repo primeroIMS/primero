@@ -35,4 +35,4 @@
     </script>
 <% end %>
 
-<%= render 'record_shared/list_view_div', model: PotentialMatch, record: 'potential_match', collection: @match_results %>
+<%= render 'potential_matches/list_view', model: PotentialMatch, record: 'potential_match', collection: @grouped_potential_matches %>

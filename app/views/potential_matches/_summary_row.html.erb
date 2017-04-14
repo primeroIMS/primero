@@ -1,78 +1,8 @@
 <div class="pm_div">
   <% if @type == "tracing_request" %>
-      <table style="width:100%" class="pm_table">
-        <thead>
-        <tr>
-          <th><%= t("potential_match.inquirer_id") %></th>
-          <th><%= t("potential_match.inquirer_name") %></th>
-          <th><%= t("potential_match.inquiry_date") %></th>
-          <th><%= t("potential_match.inquirer_tr_name") %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="id_column"><%= link_to text_to_identify_potential_match_tracing_request(record), tracing_request_path(record["tr_uuid"]), class: 'id_link ' %></td>
-          <td><%= record["relation_name"] %></td>
-          <td><%= record["inquiry_date"] %></td>
-          <td><%= record["subform_tracing_request_name"] %></td>
-        </tr>
-        </tbody>
-      </table>
-      <table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table tablesorter" id="myTable_<%= record["subform_tracing_request_id"] %>">
-        <thead>
-        <tr>
-          <th><%= t("potential_match.child_id") %></th>
-          <th><%= t("potential_match.child_age") %></th>
-          <th><%= t("potential_match.child_gender") %></th>
-          <th><%= t("potential_match.reg_date") %></th>
-          <th><%= t("potential_match.social_worker") %></th>
-          <th><%= t("potential_match.score") %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <%= render :partial => "#{controller.controller_name}/child_summary_row", collection: record["match_details"], as: :detail %>
-        </tbody>
-      </table>
-      <% if record["match_details"].size > 1 %>
-          <button style="width:100%" id="show_more_<%= record["subform_tracing_request_id"] %>">show more</button>
-      <% end %>
+    <%= render 'potential_matches/summary_row_tracing_request', record: record %>
   <% end %>
   <% if @type == "case" %>
-      <table style="width:100%" class="pm_table">
-        <thead>
-        <tr>
-          <th><%= t("potential_match.child_id") %></th>
-          <th><%= t("potential_match.child_age") %></th>
-          <th><%= t("potential_match.child_gender") %></th>
-          <th><%= t("potential_match.reg_date") %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td class="id_column"><%= link_to text_to_identify_potential_match_child(record), case_path(record["child_id"]), class: 'id_link' %></td>
-          <td><%= record["age"] %></td>
-          <td><%= record["sex"] %></td>
-          <td><%= record["registration_date"] %></td>
-        </tr>
-        </tbody>
-      </table>
-      <table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table tablesorter" id="myTable_<%= record["child_id"] %>">
-        <thead>
-        <tr>
-          <th><%= t("potential_match.inquirer_id") %></th>
-          <th><%= t("potential_match.inquirer_name") %></th>
-          <th><%= t("potential_match.inquiry_date") %></th>
-          <th><%= t("potential_match.inquirer_tr_name") %></th>
-          <th><%= t("potential_match.social_worker") %></th>
-          <th><%= t("potential_match.score") %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <%= render :partial => "#{controller.controller_name}/child_summary_row", collection: record["match_details"], as: :detail %>
-        </tbody>
-      </table>
-      <% if record["match_details"].size > 1 %>
-          <button style="width:100%" id="show_more_<%= record["child_id"] %>">show more</button>
-      <% end %>
+    <%= render 'potential_matches/summary_row_case', record: record %>
   <% end %>
 </div>

@@ -57,6 +57,12 @@ class Agency < CouchRest::Model::Base
           .collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
     end
     memoize_in_prod :retrieve_logo_ids
+
+    def display_text(agency_id)
+      agency = Agency.get(agency_id)
+      value = (agency.present? ? agency.name : '')
+    end
+    memoize_in_prod :display_text
   end
 
   def generate_id
