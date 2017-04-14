@@ -1,5 +1,7 @@
 puts 'Migrating (i81n): FormSections'
 
+include MigrationHelper
+
 FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
   fs['fields'].each do |field|
     case field['type']

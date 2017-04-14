@@ -1,5 +1,7 @@
 puts 'Migrating (i81n): Lookups'
 
+include MigrationHelper
+
 # What if repo adds new lookups and user added options
 Lookup.all.rows.map {|r| Lookup.database.get(r["id"]) }.each do |lookup|
   if lookup["lookup_values"].present?
