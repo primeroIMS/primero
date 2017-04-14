@@ -17,7 +17,14 @@ locations.each do |location|
       end
     end
 
-    location['hierarchy'] = hierarchy
+    if hierarchy.present?
+      location['hierarchy'] = hierarchy
+    end
+    
+    MigrationHelper.create_locales do |locale|
+      location["name_#{locale}"] = location['name']
+    end
+
     location.save
   end
 end

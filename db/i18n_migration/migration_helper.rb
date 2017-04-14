@@ -22,16 +22,48 @@ module MigrationHelper
     end
   end
 
+  def get_fields(form_section)
+    field_types = ['select_box', 'tick_box', 'radio_button', 'subform']
+    form_section.fields.select{|f| field_types.include?(f.type) || f.is_location? }
+  end
+
+  def get_option_list(field, locations)
+    field.options_list(nil, nil, locations, true)
+  end
+
+  def get_value(value, options)
+    if value.present? && options.present?
+      if value.is_a?(Array)
+        value = options.select{|option| value.include?(option['display_text'])}
+               .map{|option| option['id']}
+        value if value.present?
+      else
+        option = options.select{|option| option['display_text'] == value}.first
+        option['id'] if option.present?
+      end
+    end
+  end
+
   def get_field_options(prefix)
     fields = {}
     prefix = 'case' if prefix == 'child'
-    field_types = ['select_box', 'tick_box', 'radio_button']
+    locations = Location.all_names
 
     FormSection.find_by_parent_form(prefix).each do |fs|
-      i18n_fields = fs.fields.select{|f| field_types.include?(f.type)}
+      i18n_fields = get_fields(fs)
 
-      i18n_fields.each do |f|
-        fields[f.name] = f.options_list if f.options_list.present?
+      i18n_fields.each do |field|
+        if field.subform_section.present?
+          fields[field.name] = {} unless fields[field.name].present?
+          sub_fields = get_fields(field.subform_section)
+          sub_fields.each do |sf|
+            sub_options = get_option_list(sf, locations)
+            fields[field.name][sf.name] = sub_options if sub_options.present?
+          end
+        else
+          options = get_option_list(field, locations)
+          fields[field.name] = options if options.present?
+        end
       end
     end
 
