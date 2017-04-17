@@ -74,7 +74,7 @@ describe FormSection do
   describe "mobile forms" do
     before do
       @form_section_mobile_1_nested = FormSection.create!(unique_id: "MOBILE_1_NESTED", name: "Mobile 1 Nested",
-                                                          parent_form: "case", mobile_form: true, is_nested: true, visible: false,
+                                                          parent_form: "case", mobile_form: false, is_nested: true, visible: false,
                                                           fields: [Field.new(name: "field1", type: "text_field", display_name_all: "field1")])
       @form_section_mobile_1 = FormSection.create!(unique_id: "MOBILE_1", name: "Mobile 1", parent_form: "case", mobile_form: true,
                                                    fields: [Field.new(name: "mobile_1_nested", type: "subform",
@@ -96,6 +96,10 @@ describe FormSection do
     describe "get_permitted_mobile_form_sections" do
       it "returns mobile forms" do
         expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).to include(@form_section_mobile_1)
+      end
+
+      it "returns subforms for mobile forms" do
+        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).to include(@form_section_mobile_1_nested)
       end
 
       it "does not return non mobile forms" do

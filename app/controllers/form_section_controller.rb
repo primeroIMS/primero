@@ -154,7 +154,7 @@ class FormSectionController < ApplicationController
           FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
       FormSection.link_subforms(permitted_forms, true)
       #filter out the subforms
-      permitted_forms = FormSection.filter_subforms(permitted_forms, true) unless is_mobile?
+      permitted_forms = FormSection.filter_subforms(permitted_forms, true)
       @form_sections = FormSection.group_forms(permitted_forms, true)
     else
       @form_sections = []
