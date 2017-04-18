@@ -20,8 +20,7 @@
 <div class="row collapse_expand_subform_header">
   <div class="medium-7 columns">
     <span class="subform_header">
-      <% #TODO refactoring next line when refactoring i18n %>
-      <%= label_tag subform.name, t(subform.name, :default => subform.display_name), :class=>'key' %><%= unique_id %><%= violation_status(formObject, form_group_name, subform_name, i) %>
+      <%= label_tag subform.name, subform.display_name, :class=>'key' %><%= unique_id %><%= violation_status(formObject, form_group_name, subform_name, i) %>
     </span>
     <div class="display_field">
       <% fields_id=[]
