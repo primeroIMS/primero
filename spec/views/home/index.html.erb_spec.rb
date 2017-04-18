@@ -40,25 +40,53 @@ describe "home/index.html.erb" do
       view.stub(:can?).and_return(false) #TODO: maybe move when we have more tests
     end
 
-    it 'should display the protection concerns dashboard permission indicated' do
-      assign(:display_cases_dashboard, true)
-      assign(:display_protection_concerns, true)
-      render
-      expect(rendered).to include('dash_protection_concerns')
-    end
+    describe 'cases dashboard' do
+      before do
+        assign(:display_cases_dashboard, true)
+      end
 
-    it 'should display the reporting location dashboard when permission indicated' do
-      assign(:display_cases_dashboard, true)
-      assign(:display_reporting_location, true)
-      render
-      expect(rendered).to include('dash_reporting_location')
-    end
+      it 'should display the protection concerns dashboard permission indicated' do
+        assign(:display_protection_concerns, true)
+        render
+        expect(rendered).to include('dash_protection_concerns')
+      end
 
-    it 'should display the caseworker dashboard if the user is a case worker and has case permissions' do
-      assign(:display_cases_dashboard, true)
-      assign(:display_case_worker_dashboard, true)
-      render
-      expect(rendered).to include('dash_case_worker')
+      it 'should display the reporting location dashboard when permission indicated' do
+        assign(:display_reporting_location, true)
+        render
+        expect(rendered).to include('dash_reporting_location')
+      end
+
+      it 'should display the caseworker dashboard if the user is a case worker and has case permissions' do
+        assign(:display_case_worker_dashboard, true)
+        render
+        expect(rendered).to include('dash_case_worker')
+      end
+
+      describe 'matching results dashboard' do
+        context 'when user has matching results permission' do
+          before do
+            assign(:match_stats, {})
+            assign(:display_matching_results_dashboard, true)
+          end
+
+          it 'displays' do
+            render
+            expect(rendered).to include('dash_matching_results')
+          end
+        end
+
+        context 'when user does not have matching results permission' do
+          before do
+            assign(:display_matching_results_dashboard, false)
+          end
+
+          it 'does not display' do
+            render
+            expect(rendered).not_to include('dash_matching_results')
+          end
+        end
+      end
     end
 
   end

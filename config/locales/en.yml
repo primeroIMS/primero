@@ -921,6 +921,7 @@ en:
       view_assessment: "View Assessment"
       dash_reporting_location: "View Reporting Locations"
       dash_protection_concerns: "View Protection Concerns"
+      dash_matching_results: "View Matching Results"
 
   forms:
     label: "Forms"
