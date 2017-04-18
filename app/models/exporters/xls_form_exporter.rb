@@ -66,6 +66,11 @@ module Exporters
         write_form(form)
         complete
       end
+      Rails.logger.info {"Building exporter for: "}
+      Rails.logger.info {"Record type: '#{@record_type}'"}
+      Rails.logger.info {"Module ID: '#{@primero_module.id}'"}
+      Rails.logger.info {"Languages: '#{@locales}'"}
+      Rails.logger.info {"File written to directory location: '#{@export_dir_path}"}
     end
 
     def write_form(form_section)
