@@ -54,13 +54,14 @@ $(show_tools);
 <div class="page-content-new row">
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <div class="side-tab">
-      <%= render :partial => 'shared/sidebar' , :locals => {:model => @child} %>
+
+      <%# link_to image_tag(child_resized_photo_path(model, model.primary_photo_id, 328, :ts => model.last_updated_at), :alt => 'Profile Image'), child_resized_photo_path(model, model.primary_photo_id, 640) %>
+
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content">
-      <%# Removed for demo deploy %>
       <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @child, :lookups => @lookups} %>
     </div>
     <%= render 'record_shared/header_message', record: @child, model: 'case' %>
