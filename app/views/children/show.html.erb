@@ -55,8 +55,16 @@ $(show_tools);
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <div class="side-tab">
 
-      <%# link_to image_tag(child_resized_photo_path(model, model.primary_photo_id, 328, :ts => model.last_updated_at), :alt => 'Profile Image'), child_resized_photo_path(model, model.primary_photo_id, 640) %>
+      <%# link_to image_tag(child_resized_photo_path(@child, @child.primary_photo_id, 328, :ts => @child.last_updated_at), :alt => 'Profile Image'), child_resized_photo_path(@child, @child.primary_photo_id, 640) %>
 
+      <%= link_to('BLAH', child_resized_photo_path(@child, @child.primary_photo_id, 328, :ts => @child.last_updated_at)) %>
+      <div class="icon"><%= icon('camera') if @child.photo_keys.present? %></div>
+      <div class="photo">
+        <% @child.photos.each_with_index do |photo,index| %>
+          <% photo_path = send("child_resized_photo_path", @child, photo.name || @child.current_photo_key, 328, :ts => @child.last_updated_at) %>
+          <div class="photo_link" style="display: none" ><%= link_to ' ', photo_path%></div>
+        <% end %>
+      </div>
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>
