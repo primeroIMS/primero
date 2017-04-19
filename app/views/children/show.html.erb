@@ -2,7 +2,7 @@
 <script type="text/javascript" language="javascript">
 function show_tools() {
   var $profile_tools = $(".profile-tools");
-  $(".profile-image .image a").click( function(event){
+  $(".photo-link .image a").click( function(event){
     $('.thumbnails .thumbnail a')[0].click();
     return false;
   });
@@ -54,17 +54,14 @@ $(show_tools);
 <div class="page-content-new row">
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <div class="side-tab">
+      <% if @child.photos.present? %>
+        <div class="photo-link">
+          <div class='image'>
+            <%= link_to icon('camera'), child_resized_photo_path(@child, @child.primary_photo_id, 640) %>
+          </div>
+        </div>
+      <% end %>
 
-      <%# link_to image_tag(child_resized_photo_path(@child, @child.primary_photo_id, 328, :ts => @child.last_updated_at), :alt => 'Profile Image'), child_resized_photo_path(@child, @child.primary_photo_id, 640) %>
-
-      <%= link_to('BLAH', child_resized_photo_path(@child, @child.primary_photo_id, 328, :ts => @child.last_updated_at)) %>
-      <div class="icon"><%= icon('camera') if @child.photo_keys.present? %></div>
-      <div class="photo">
-        <% @child.photos.each_with_index do |photo,index| %>
-          <% photo_path = send("child_resized_photo_path", @child, photo.name || @child.current_photo_key, 328, :ts => @child.last_updated_at) %>
-          <div class="photo_link" style="display: none" ><%= link_to ' ', photo_path%></div>
-        <% end %>
-      </div>
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>
