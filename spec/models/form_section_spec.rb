@@ -93,21 +93,17 @@ describe FormSection do
       @userM = User.new(user_name: "test_user_m", role_ids: [@roleM.id], module_ids: [@primero_module.id])
     end
 
-    describe "get_permitted_mobile_form_sections" do
-      it "returns mobile forms" do
-        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).to include(@form_section_mobile_1)
+    describe "filter_for_subforms" do
+      before do
+        fs = FormSection.get_permitted_form_sections(@mobile_module, 'case', @userM)
+        @mobile_forms = FormSection.filter_for_mobile(fs)
+      end
+      it "returns only mobile forms" do
+        expect(@mobile_forms).to include(@form_section_mobile_1)
       end
 
-      it "returns subforms for mobile forms" do
-        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).to include(@form_section_mobile_1_nested)
-      end
-
-      it "does not return non mobile forms" do
-        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).not_to include(@form_section_b)
-      end
-
-      it "does not return forms that the user does not have access to" do
-        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).not_to include(@form_section_mobile_2)
+      it "does not return non-mobile forms" do
+        expect(@mobile_forms).not_to include(@form_section_b)
       end
     end
 
