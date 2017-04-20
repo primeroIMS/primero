@@ -139,11 +139,10 @@ module Exporters
 
     def write_options(name, options, opts={})
       option_rows = if opts[:lookup_id].present?
-        options.first.map{|option| [name, opts[:lookup_id]]}
+        options.first.map{|option| [name, "#{opts[:lookup_id]} #{option['id']}"]}
       else
         options.first.map{|option| [name, option['id']]}
       end
-      # option_rows = options.first.map{|option| [name, option['id']]}
       options.each do |localized_options|
         localized_options.each_with_index do |option, i|
           option_rows[i] << option['display_text']
