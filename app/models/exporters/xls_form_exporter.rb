@@ -38,7 +38,7 @@ module Exporters
     end
 
     def excel_file_name(file_name='default')
-      filename = File.join(@export_dir_path, file_name)
+      filename = File.join(@export_dir_path, "#{file_name}.xls")
     end
 
     def create_file_for_form(export_file=nil)
