@@ -17,6 +17,7 @@ module Importers
       @choices = @book.worksheet(1)
       @settings = @book.worksheet(2)
       @locales = determine_locales(@survey)
+      update_values_survey(form,create_survey_hash(@survey))
       update_values_choices(form,create_choices_hash(@choices))
     end
 
@@ -45,10 +46,11 @@ module Importers
     end
 
     def update_values_survey(db_form, sheet_hash)
-      if sheet_field[name: db_field.name].present?
-        @locales.each do |locale|
-	     # form['case'][0].fields[2].display_name_en
-          eval("db_field.display_name_#{locale}='???'")
+      db_form.fields.each do |db_field|
+        if sheet_hash[db_field.name].present?
+          @locales.each do |locale|
+            eval("db_field.display_name_#{locale}=sheet_hash[db_field.name]['label'][locale]")
+          end
         end
       end
     end
