@@ -338,9 +338,11 @@ class Field
           display = Lookup.values(source_options.last).select{|opt| opt['id'] == value}
           value = (display.present? ? display.first['display_text'] : '')
         when 'Location'
-          value = Location.display_text(value)
+          lct = Location.find_by_location_code(value)
+          value = (lct.present? ? lct.name : '')
         when 'Agency'
-          value = Agency.display_text(value)
+          agency = Agency.get(value)
+          value = (agency.present? ? agency.name : '')
         else
           value
       end
