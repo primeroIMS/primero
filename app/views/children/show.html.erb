@@ -45,6 +45,13 @@ $(show_tools);
 <% content_for :breadcrumbs do %>
   <div class="label"><%= t("case.label") %></div>
   #<%= text_to_identify_child(@child) %>
+  <% if @child.photos.present? %>
+    <div class="photo-link">
+      <div class='image'>
+        <%= link_to icon('camera'), child_resized_photo_path(@child, @child.primary_photo_id, 640) %>
+      </div>
+    </div>
+  <% end %>
 <% end %>
 
 <% content_for :stylesheet do %>
@@ -54,14 +61,6 @@ $(show_tools);
 <div class="page-content-new row">
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <div class="side-tab">
-      <% if @child.photos.present? %>
-        <div class="photo-link">
-          <div class='image'>
-            <%= link_to icon('camera'), child_resized_photo_path(@child, @child.primary_photo_id, 640) %>
-          </div>
-        </div>
-      <% end %>
-
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>
