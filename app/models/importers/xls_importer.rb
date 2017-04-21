@@ -5,19 +5,26 @@ module Importers
       @record_type = record_type
       @primero_module = PrimeroModule.get(module_id)
       @file_path = file_path
-      @spreadsheet_forms = Dir.entries(@file_path)
-      @spreadsheet_forms.delete(".")
-      @spreadsheet_forms.delete("..")
+      @spreadsheet_forms = get_spreadsheet_list
+    end
+
+    def get_spreadsheet_list
+      spreadsheet_forms = Dir.entries(@file_path)
+      spreadsheet_forms.delete(".")
+      spreadsheet_forms.delete("..")
+      spreadsheet_forms
     end
 
     def define_spreadsheet(form)
-      form_path = File.join(@file_path, "#{form.name.downcase}.xls")
+      form_path = File.join(@file_path, "#{form.unique_id}.xls")
+      puts form_path
       @book = Spreadsheet.open(form_path)
       @survey = @book.worksheet(0)
       @choices = @book.worksheet(1)
       @settings = @book.worksheet(2)
-      @locales = determine_locales(@survey)
+      @locales = determine_locales(@settings)
       update_values_survey(form,create_survey_hash(@survey))
+      puts form.name
       update_values_choices(form,create_choices_hash(@choices))
       update_values_settings(form,create_settings_hash(@settings))
     end
@@ -25,23 +32,19 @@ module Importers
     def import_forms_from_spreadsheet
       all_db_forms = @primero_module.associated_forms_grouped_by_record_type(true)
       record_db_forms = all_db_forms[@record_type]
+      Rails.logger.info {"Importing the forms in the follwoing directory: #{@file_path}"}
       record_db_forms.each do |form|
-        if @spreadsheet_forms.include?("#{form.name.downcase}.xls")
+        if @spreadsheet_forms.include?("#{form.unique_id}.xls")
           define_spreadsheet(form)
         end
       end
     end
 
     def determine_locales(sheet)
-      prev_column = nil
-      prev_language = nil
       locales = []
       sheet.rows[0].each do |column|
         curr_column = column.split("::")
-        if curr_column.length > 1
-          locales = locales | [curr_column[1]]
-        end
-        prev_column = curr_column[0]
+        locales = (curr_column[1].present? ? locales | [curr_column[1]] : locales)
       end
       locales
     end
@@ -50,9 +53,13 @@ module Importers
       #TODO: Implement 'hint' and 'guidance' labels
       db_form.fields.each do |db_field|
         if sheet_hash[db_field.name].present?
+          puts "Updating #{db_field.name} for #{db_form.name}"
           @locales.each do |locale|
             eval("db_field.display_name_#{locale}=sheet_hash[db_field.name]['label'][locale]")
           end
+        else
+          Rails.logger.info {"The questions for #{db_field.name} were not included in the Survey sheet of the #{db_form.unique_id}.xls spreadsheet and were not updated"}
+          # puts sheet_hash
         end
       end
     end
@@ -71,9 +78,10 @@ module Importers
               eval("lookup.lookup_values_#{locale}=new_value")
               lookup.save
             end
+          else
+          	Rails.logger.info {"The lookup for #{db_field.name} was not included in the Choices sheet of the #{db_form.unique_id}.xls spreadsheet and was not updated"}
           end
         elsif db_field.option_strings_text.present?
-          index = 0
           db_field.option_strings_text.each do |option|
             if sheet_hash[db_field.name][option['id']].present?
               @locales.each do |locale|
@@ -83,8 +91,9 @@ module Importers
                 end
                 eval("db_field.option_strings_text_#{locale}=#{new_value}")
               end
+            else
+              Rails.logger.info {"The choices for #{db_field.name} were not included in the Choices sheet of the #{db_form.unique_id}.xls spreadsheet and were not updated"}
             end
-          index = index + 1
           end
           #NOTE: THIS MAKES IT TAKE FOREVER
           db_form.save
@@ -93,28 +102,14 @@ module Importers
     end
 
     def update_values_settings(db_form, sheet_hash)
-      puts sheet_hash
       if sheet_hash[db_form.unique_id].present?
         @locales.each do |locale|
           eval("db_form.name_#{locale}=sheet_hash[db_form.unique_id][locale]")
         end
+        db_form.save
+      else
+      	Rails.logger.info {"The form_id in the #{db_form.unique_id} Settings sheet of spreadsheet was not included or did not match its unique_id in the database, and so the name was not updated"}
       end
-      db_form.save
-    end
-
-    def determine_column_headers(sheet)
-      prev_column = nil
-      heading = []
-      sheet.rows[0].each do |column|
-        curr_column = column.split("::")
-        if curr_column[1].length > 1
-          heading << {heading: curr_column[0], locale: curr_column[1]}
-        else
-          heading << {heading: curr_column[0]}
-        end
-        prev_column = curr_column[0]
-      end
-      heading
     end
 
     def create_survey_hash(sheet)
@@ -130,10 +125,7 @@ module Importers
             when "type"
             when "name"
               name = column
-              survey_hash[name] = {}
-              survey_hash[name]["label"] = {}
-              survey_hash[name]["hint"] = {}
-              survey_hash[name]["guidance"] = {}
+              survey_hash[name] = {"label"=>{},"hint"=>{},"guidance"=>{}}
             when "label"
               survey_hash[name]["label"][column_type[1]] = column
             when "hint"
@@ -141,8 +133,7 @@ module Importers
             when "guidance"
               survey_hash[name]["guidance"][column_type[1]] = column
             end
-            index = index + 1
-
+            index += 1
           end
         end
       end
@@ -188,9 +179,8 @@ module Importers
                 choices_hash[field_name][choice_name][column_type[1]] = column
               end
             end
-            index = index + 1
+            index += 1
           end
-
         end
       end
       choices_hash
@@ -212,8 +202,7 @@ module Importers
             when "form_title"
               settings_hash[unique_name][column_type[1]] = column
             end
-            index = index + 1
-
+            index += 1
           end
         end
       end
