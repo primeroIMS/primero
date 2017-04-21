@@ -116,11 +116,11 @@ create_or_update_user(
 
 create_or_update_user(
   "user_name" => "primero_mrm",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primero2017",
+  "password_confirmation" => "primero2017",
   "full_name" => "MRM Worker",
   "email" => "primero_mrm@primero.com",
-  "disabled" => "false",
+  "disabled" => "true",
   "organization" => "agency-unicef",
   "role_ids" => [
     Role.by_name(key: "MRM Specialist (editing)").first.id
@@ -131,11 +131,11 @@ create_or_update_user(
 
 create_or_update_user(
   "user_name" => "primero_mgr_mrm",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primero2017",
+  "password_confirmation" => "primero2017",
   "full_name" => "MRM Manager",
   "email" => "primero_mgr_mrm@primero.com",
-  "disabled" => "false",
+  "disabled" => "true",
   "organization" => "agency-unicef",
   "role_ids" => [
     Role.by_name(key: "MRM Co-chair (editing)").first.id
