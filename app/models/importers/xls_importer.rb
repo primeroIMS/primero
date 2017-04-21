@@ -17,14 +17,12 @@ module Importers
 
     def define_spreadsheet(form)
       form_path = File.join(@file_path, "#{form.unique_id}.xls")
-      puts form_path
       @book = Spreadsheet.open(form_path)
       @survey = @book.worksheet(0)
       @choices = @book.worksheet(1)
       @settings = @book.worksheet(2)
       @locales = determine_locales(@settings)
       update_values_survey(form,create_survey_hash(@survey))
-      puts form.name
       update_values_choices(form,create_choices_hash(@choices))
       update_values_settings(form,create_settings_hash(@settings))
     end
@@ -53,13 +51,11 @@ module Importers
       #TODO: Implement 'hint' and 'guidance' labels
       db_form.fields.each do |db_field|
         if sheet_hash[db_field.name].present?
-          puts "Updating #{db_field.name} for #{db_form.name}"
           @locales.each do |locale|
             eval("db_field.display_name_#{locale}=sheet_hash[db_field.name]['label'][locale]")
           end
         else
           Rails.logger.info {"The questions for #{db_field.name} were not included in the Survey sheet of the #{db_form.unique_id}.xls spreadsheet and were not updated"}
-          # puts sheet_hash
         end
       end
     end
