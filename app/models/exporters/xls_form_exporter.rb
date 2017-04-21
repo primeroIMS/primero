@@ -126,6 +126,16 @@ module Exporters
         option_name = "#{field.name}_opts"
         type = "#{type} #{option_name}"
         write_field_row(field, type)
+      elsif field.option_strings_source.present? && field.option_strings_source.start_with?('User')
+        #NOTE: The User options are not added to the Choices spreadsheet, because I do not think locations have a localization option
+        option_name = "#{field.name}_opts"
+        type = "#{type} #{option_name}"
+        write_field_row(field, type)
+      elsif field.option_strings_source.present? && field.option_strings_source.start_with?('Agency')
+        #NOTE: The Agency options are not added to the Choices spreadsheet, because I do not think locations have a localization option
+        option_name = "#{field.name}_opts"
+        type = "#{type} #{option_name}"
+        write_field_row(field, type)
       else
         Rails.logger.info {"The field #{field.display_name} was not added"}
       end
