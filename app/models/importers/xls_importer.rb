@@ -19,6 +19,7 @@ module Importers
       @locales = determine_locales(@survey)
       update_values_survey(form,create_survey_hash(@survey))
       update_values_choices(form,create_choices_hash(@choices))
+      update_values_settings(form,create_settings_hash(@settings))
     end
 
     def import_forms_from_spreadsheet
@@ -46,6 +47,7 @@ module Importers
     end
 
     def update_values_survey(db_form, sheet_hash)
+      #TODO: Implement 'hint' and 'guidance' labels
       db_form.fields.each do |db_field|
         if sheet_hash[db_field.name].present?
           @locales.each do |locale|
@@ -58,12 +60,12 @@ module Importers
     def update_values_choices(db_form, sheet_hash)
       db_form.fields.each do |db_field|
         if db_field.option_strings_source.present? && db_field.option_strings_source.start_with?('lookup')
-      	  option_source = db_field.option_strings_source.split.last
-      	  lookup = Lookup.get(option_source)
-      	  if sheet_hash[db_field.name]["lookup"].present?
-      	    @locales.each do |locale|
-      	      new_value = []
-      	      sheet_hash[db_field.name][option_source].each do |lookup_choice_id, lookup_choice_value|
+          option_source = db_field.option_strings_source.split.last
+          lookup = Lookup.get(option_source)
+          if sheet_hash[db_field.name]["lookup"].present?
+            @locales.each do |locale|
+              new_value = []
+              sheet_hash[db_field.name][option_source].each do |lookup_choice_id, lookup_choice_value|
                 new_value << {"id" => lookup_choice_id, "display_text" => lookup_choice_value[locale]}
               end
               eval("lookup.lookup_values_#{locale}=new_value")
@@ -88,7 +90,17 @@ module Importers
           db_form.save
         end
       end
-    end 
+    end
+
+    def update_values_settings(db_form, sheet_hash)
+      puts sheet_hash
+      if sheet_hash[db_form.unique_id].present?
+        @locales.each do |locale|
+          eval("db_form.name_#{locale}=sheet_hash[db_form.unique_id][locale]")
+        end
+      end
+      db_form.save
+    end
 
     def determine_column_headers(sheet)
       prev_column = nil
@@ -182,6 +194,30 @@ module Importers
         end
       end
       choices_hash
+    end
+
+    def create_settings_hash(sheet)
+      settings_hash = {}
+      heading = sheet.rows[0]
+      sheet.rows.each do |row|
+        if (row != heading)
+          index = 0
+          unique_name = nil
+          row.each do |column|
+            column_type = heading[index].split("::")
+            case column_type[0]
+            when "form_id"
+              unique_name = column
+              settings_hash[unique_name] = {}
+            when "form_title"
+              settings_hash[unique_name][column_type[1]] = column
+            end
+            index = index + 1
+
+          end
+        end
+      end
+      settings_hash
     end
 
   end
