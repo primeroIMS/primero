@@ -2,10 +2,6 @@
 <script type="text/javascript" language="javascript">
 function profile_tools() {
   var $profile_tools = $(".profile-tools");
-  $(".profile-image .image a").click( function(event){
-      $('.thumbnails .thumbnail a')[0].click();
-      return false;
-  });
 
   $(".accordion").accordion({
     header: "h2",
@@ -72,7 +68,6 @@ $(profile_tools);
 <div class="page-content-new row" data-equalizer>
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <div class="side-tab" data-equalizer-watch>
-      <%= render :partial => 'shared/sidebar' , :locals => {:model => @tracing_request} %>
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>

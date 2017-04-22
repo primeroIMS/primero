@@ -60,6 +60,13 @@
   }
 }
 
+.side-tab .photo-link {
+  a:hover {
+    color: $grey_color !important;
+    background: none !important;
+  }
+}
+
 .side-tab .profile-image {
   padding: 10px;
   background: $light_green_color;

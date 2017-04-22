@@ -2,7 +2,7 @@
 <script type="text/javascript" language="javascript">
 function show_tools() {
   var $profile_tools = $(".profile-tools");
-  $(".profile-image .image a").click( function(event){
+  $(".photo-link .image a").click( function(event){
     $('.thumbnails .thumbnail a')[0].click();
     return false;
   });
@@ -45,6 +45,13 @@ $(show_tools);
 <% content_for :breadcrumbs do %>
   <div class="label"><%= t("case.label") %></div>
   #<%= text_to_identify_child(@child) %>
+  <% if @child.photos.present? %>
+    <div class="photo-link">
+      <div class='image'>
+        <%= link_to icon('camera'), child_resized_photo_path(@child, @child.primary_photo_id, 640) %>
+      </div>
+    </div>
+  <% end %>
 <% end %>
 
 <% content_for :stylesheet do %>
@@ -54,13 +61,11 @@ $(show_tools);
 <div class="page-content-new row">
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <div class="side-tab">
-      <%= render :partial => 'shared/sidebar' , :locals => {:model => @child} %>
       <%= render :partial => 'form_section/tabs', :object => @form_sections %>
     </div>
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content">
-      <%# Removed for demo deploy %>
       <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @child, :lookups => @lookups} %>
     </div>
     <%= render 'record_shared/header_message', record: @child, model: 'case' %>

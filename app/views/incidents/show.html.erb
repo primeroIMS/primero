@@ -2,10 +2,6 @@
 <script type="text/javascript" language="javascript">
 function profile_tools() {
   var $profile_tools = $(".profile-tools");
-  $(".profile-image .image a").click( function(event){
-    $('.thumbnails .thumbnail a')[0].click();
-    return false;
-  });
 
   $(".accordion").accordion({ header: "h2", autoHeight: false, collapsible: true, active: false });
 
@@ -55,8 +51,6 @@ $(profile_tools);
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
-      <%# Removed for demo deploy %>
-      <%= render :partial => 'shared/sidebar' if false %>
       <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident, :lookups => @lookups} %>
     </div>
     <%= render 'record_shared/header_message', record: @incident, model: 'incident' %>
