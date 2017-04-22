@@ -74,7 +74,7 @@ describe FormSection do
   describe "mobile forms" do
     before do
       @form_section_mobile_1_nested = FormSection.create!(unique_id: "MOBILE_1_NESTED", name: "Mobile 1 Nested",
-                                                          parent_form: "case", mobile_form: true, is_nested: true, visible: false,
+                                                          parent_form: "case", mobile_form: false, is_nested: true, visible: false,
                                                           fields: [Field.new(name: "field1", type: "text_field", display_name_all: "field1")])
       @form_section_mobile_1 = FormSection.create!(unique_id: "MOBILE_1", name: "Mobile 1", parent_form: "case", mobile_form: true,
                                                    fields: [Field.new(name: "mobile_1_nested", type: "subform",
@@ -93,17 +93,17 @@ describe FormSection do
       @userM = User.new(user_name: "test_user_m", role_ids: [@roleM.id], module_ids: [@primero_module.id])
     end
 
-    describe "get_permitted_mobile_form_sections" do
-      it "returns mobile forms" do
-        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).to include(@form_section_mobile_1)
+    describe "filter_for_subforms" do
+      before do
+        fs = FormSection.get_permitted_form_sections(@mobile_module, 'case', @userM)
+        @mobile_forms = FormSection.filter_for_mobile(fs)
+      end
+      it "returns only mobile forms" do
+        expect(@mobile_forms).to include(@form_section_mobile_1)
       end
 
-      it "does not return non mobile forms" do
-        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).not_to include(@form_section_b)
-      end
-
-      it "does not return forms that the user does not have access to" do
-        expect(FormSection.get_permitted_mobile_form_sections(@mobile_module, 'case', @userM)).not_to include(@form_section_mobile_2)
+      it "does not return non-mobile forms" do
+        expect(@mobile_forms).not_to include(@form_section_b)
       end
     end
 

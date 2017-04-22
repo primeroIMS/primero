@@ -59,7 +59,7 @@ describe FormSectionController do
     @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: "case", mobile_form: true, fields: [
       Field.new(name: "nested_e", type: "subform", subform_section_id: "E", display_name_all: "nested_e")
     ])
-    @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: "case", mobile_form: true, is_nested: true, visible: false, fields: [
+    @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: "case", mobile_form: false, is_nested: true, visible: false, fields: [
       Field.new(name: "field1", type: "text_field", display_name_all: "field1")
     ])
     @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B", "D"], associated_record_types: ['case'])
@@ -81,9 +81,40 @@ describe FormSectionController do
     describe "mobile API" do
       it "only shows mobile forms" do
         get :index, mobile: true, :format => :json
-        expect(assigns[:form_sections]['Children'].size).to eq(3)
-        expect(assigns[:form_sections]['Children']).not_to be_nil
-        expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
+        expect(assigns[:form_sections]['Children'].size).to eq(2)
+        expect(assigns[:form_sections]['Children'].map{|fs| fs['unique_id']}).to include('B', 'D')
+      end
+
+      it 'shows subforms for mobile forms' do
+        expected = [{"name"=>"nested_e",
+                     "editable"=>true,
+                     "multi_select"=>false,
+                     "type"=>"subform",
+                     "subform"=>
+                         {"unique_id"=>"E",
+                          :name=>{"en"=>"E", "fr"=>"", "ar"=>"", "es"=>""},
+                          "order"=>0,
+                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
+                          "base_language"=>"en",
+                          "fields"=>
+                              [{"name"=>"field1",
+                                "editable"=>true,
+                                "multi_select"=>false,
+                                "type"=>"text_field",
+                                "required"=>false,
+                                "show_on_minify_form"=>false,
+                                "mobile_visible"=>true,
+                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "es"=>"field1"},
+                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "es"=>[]}}]},
+                     "required"=>false,
+                     "show_on_minify_form"=>false,
+                     "mobile_visible"=>true,
+                     :display_name=>{"en"=>"nested_e", "fr"=>"nested_e", "ar"=>"nested_e", "es"=>"nested_e"},
+                     :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
+                     :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "es"=>[]}}]
+        get :index, mobile: true, :format => :json
+        expect(assigns[:form_sections]['Children'].select{|f| f['unique_id'] == 'D'}.first['fields']).to eq(expected)
       end
 
       it "sets null values on forms to be an empty string" do

@@ -44,20 +44,6 @@ class FormSection < CouchRest::Model::Base
     view :by_parent_form_and_mobile_form
     view :by_order
     view :by_parent_form_and_unique_id
-    view :by_parent_form_and_unique_id_and_mobile_form
-    view :subform_form,
-      :map => "function(doc) {
-                if (doc['couchrest-type'] == 'FormSection'){
-                  if (doc['fields'] != null){
-                    for(var i = 0; i<doc['fields'].length; i++){
-                      var field = doc['fields'][i];
-                      if (field['subform_section_id'] != null){
-                        emit(field['subform_section_id'], null);
-                      }
-                    }
-                  }
-                }
-              }"
 
     view :by_lookup_field,
       :map => "function(doc) {
@@ -343,6 +329,13 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :filter_subforms
 
+    def filter_for_mobile(form_sections)
+      forms = []
+      forms = form_sections.select{|f| f.mobile_form == true} if form_sections.present?
+
+      return forms
+    end
+
     def get_matchable_fields_by_parent_form(parent_form, subform=true)
       form_sections = FormSection.by_parent_form(:key => parent_form).all
       if subform
@@ -361,13 +354,6 @@ class FormSection < CouchRest::Model::Base
           FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
     end
     memoize_in_prod :get_permitted_form_sections
-
-    def get_permitted_mobile_form_sections(primero_module, parent_form, user)
-      allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
-      allowed_form_ids.present? ?
-          FormSection.by_parent_form_and_unique_id_and_mobile_form(keys: allowed_form_ids.map{|f| [parent_form, f, true]}).all : []
-    end
-    memoize_in_prod :get_permitted_mobile_form_sections
 
     #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
     def get_allowed_form_ids(primero_module, user)
