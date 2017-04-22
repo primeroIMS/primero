@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
-    load_match_result if display_tracing_request_dashboard?
+    load_match_result if display_matching_results_dashboard?
     load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
     #TODO: All this needs to be heavily refactored
 
@@ -139,8 +139,8 @@ class HomeController < ApplicationController
     @display_cases_dashboard ||= @record_types.include?("case")
   end
 
-  def display_tracing_request_dashboard?
-    @display_tracing_request_dashboard ||= @record_types.include?("tracing_request")
+  def display_matching_results_dashboard?
+    @display_matching_results_dashboard ||= (can?(:dash_matching_results, Dashboard) && @record_types.include?("tracing_request"))
   end
 
   def display_case_worker_dashboard?
