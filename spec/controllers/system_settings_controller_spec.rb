@@ -11,7 +11,8 @@ describe SystemSettingsController do
                                              primero_version: '1.3.3',
                                              age_ranges: {'primero' => ["0 - 5","6 - 11","12 - 17","18+"],
                                                           'unhcr' => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},
-                                             primary_age_range: 'primero')
+                                             primary_age_range: 'primero',
+                                             location_limit_for_api: 150)
     fake_admin_login
   end
 
@@ -53,7 +54,9 @@ describe SystemSettingsController do
                          "primero_version" => @system_settings.primero_version,
                          "age_ranges" => {"primero" => ["0 - 5","6 - 11","12 - 17","18+"],
                                           "unhcr" => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},
-                         "primary_age_range" => "primero", "_id" => @system_settings.id, "_rev" => @system_settings.rev,
+                         "primary_age_range" => "primero",
+                         "location_limit_for_api"=>150,
+                         "_id" => @system_settings.id, "_rev" => @system_settings.rev,
                          "couchrest-type" => "SystemSettings"}
       }
       get :index, string_sources: ['Location'], format: :json

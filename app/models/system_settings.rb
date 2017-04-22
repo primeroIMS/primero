@@ -13,6 +13,7 @@ class SystemSettings < CouchRest::Model::Base
   property :primero_version
   property :age_ranges, { String => [AgeRange] }
   property :primary_age_range, String
+  property :location_limit_for_api
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version

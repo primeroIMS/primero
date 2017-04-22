@@ -616,7 +616,7 @@ class FormSection < CouchRest::Model::Base
     def mobile_forms_to_hash(form_sections, locale=nil)
       locales = ((locale.present? && Primero::Application::locales.include?(locale)) ? [locale] : Primero::Application::locales)
       lookups = Lookup.all.all
-      locations = Location.all_names
+      locations = self.include_locations_for_mobile? ? Location.all_names : []
       form_sections.map {|form| mobile_form_to_hash(form, locales, lookups, locations)}
     end
 
@@ -868,6 +868,17 @@ class FormSection < CouchRest::Model::Base
 
   def create_unique_id
     self.unique_id = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.unique_id.nil?
+  end
+
+  private
+
+  # Location::LIMIT_FOR_API is a hard limit
+  # The SystemSettings limit is a soft limit that lets us adjust down below the hard limit if necessary
+  def self.include_locations_for_mobile?
+    location_count = Location.count
+    return false if location_count > Location::LIMIT_FOR_API
+    ss_limit = SystemSettings.current.try(:location_limit_for_api)
+    return_value = ss_limit.present? ? location_count < ss_limit : true
   end
 
 end
