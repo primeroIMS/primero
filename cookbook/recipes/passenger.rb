@@ -29,6 +29,10 @@ execute 'Reload Systemd' do
   command 'systemctl daemon-reload'
 end
 
+execute 'Enable Passenger' do
+  command 'systemctl enable passenger.service'
+end
+
 execute 'Reload Passenger' do
   command 'systemctl restart passenger'
 end

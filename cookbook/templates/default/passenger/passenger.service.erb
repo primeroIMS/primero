@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 Type=forking
+Restart=always
 PrivateTmp=yes
 User=<%= node[:primero][:app_user] %>
 Group=<%= node[:primero][:app_group] %>
