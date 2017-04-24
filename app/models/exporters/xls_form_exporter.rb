@@ -150,6 +150,8 @@ module Exporters
     def write_field_row(field, type)
       #TODO: handle help text and guiding questions
       field_row = [type, field.name] + get_localized_property(field, 'display_name')
+      field_row = field_row + get_localized_property(field, 'help_text')
+      field_row = field_row + get_localized_property(field, 'guiding_questions')
       @form_sheet.write(@form_pointer, 0, field_row)
       @form_pointer += 1
     end
