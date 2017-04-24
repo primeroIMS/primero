@@ -10,22 +10,22 @@ module Exporters
     end
 
     MAPPING = {
-      "text_field" => "text",
-      "textarea" => "text",
-      "radio_button" => "select",
-      "select_box" => "select",
-      "check_boxes" => "select",
-      "numeric_field" => "integer",
-      "photo_upload_box" => nil, #TODO
-      "audio_upload_box" => nil, #TODO
-      "document_upload_box" => nil, #TODO
+      "text_field" => 'text',
+      "textarea" => 'text',
+      "radio_button" => 'select',
+      "select_box" => 'select',
+      "check_boxes" => 'select',
+      "numeric_field" => 'integer',
+      "photo_upload_box" => 'photo_upload_box', #TODO: Not mapped to canonical xls forms type
+      "audio_upload_box" => 'audio_upload_box', #TODO: Not mapped to canonical xls forms type
+      "document_upload_box" => 'document_upload_box', #TODO: Not mapped to canonical xls forms type
       "date_field" => 'dateTime',
-      "date_range" => nil, #TODO
+      "date_range" => 'date_range', #TODO: Not mapped to canonical xls forms type
       "subform" => 'subform', #TODO: Not mapped to canonical xls forms type
       "separator" => 'note',
       "tick_box" => 'acknowledge',
-      "tally_field" => nil, #TODO
-      "custom" => nil #TODO
+      "tally_field" => 'tally_field', #TODO: Not mapped to canonical xls forms type
+      "custom" => 'custom' #TODO: Not mapped to canonical xls forms type
     }
 
     def dir_name(record_type, primero_module)
@@ -137,7 +137,10 @@ module Exporters
         type = "#{type} #{option_name}"
         write_field_row(field, type)
       else
-        Rails.logger.info {"The field #{field.display_name} was not added"}
+        #NOTE: The Agency options are not added to the Choices spreadsheet, because I do not think locations have a localization option
+        option_name = "#{field.name}_opts"
+        type = "#{type} #{option_name}"
+        write_field_row(field, type)
       end
     end
 
