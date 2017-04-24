@@ -32,13 +32,14 @@ class Lookup < CouchRest::Model::Base
     end
     memoize_in_prod :all
 
-    def values(lookup_id, lookups = nil)
+    def values(lookup_id, lookups = nil, opts={})
+      locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
       if lookups.present?
         lookup = lookups.select {|lkp| lkp.id == lookup_id}.first
       else
         lookup = Lookup.get(lookup_id)
       end
-      lookup.present? ? (lookup.lookup_values || []) : []
+      lookup.present? ? (lookup.lookup_values(locale) || []) : []
     end
     memoize_in_prod :values
 

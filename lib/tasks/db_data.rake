@@ -300,6 +300,18 @@ namespace :db do
       RecalculateAge::recalculate!
     end
 
+    desc "Export All form Fields and Options"
+
+    #USAGE: $bundle exec rake db:data:xls_export['cape','primeromodule-cp',"fr es"]
+    #NOTE: Must pass locales as string separated by spaces e.g. "en fr"
+    task :xls_export, [:record_type, :module_id, :locales] => :environment do |t, args|
+      module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
+      record_type = args[:record_type].present? ? args[:record_type] : 'case'
+      locales = args[:locales].present? ? args[:locales].split(' ') : []
+      Rails.logger = Logger.new(STDOUT)
+      form = Exporters::XlsFormExporter.new(record_type,module_id,locales)
+      form.export_forms_to_spreadsheet
+    end
   end
 
 
