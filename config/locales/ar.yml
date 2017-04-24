@@ -3,6 +3,23 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 ar:
+  date:
+    today: 'Today'
+    clear: 'Clear'
+    first_day: 1
+    abbr_day_names_short:
+    - Su
+    - Mo
+    - Tu
+    - We
+    - Th
+    - Fr
+    - Sa
+    formats:
+      default: "%d-%b-%Y"
+  time:
+    formats:
+      default: "%d-%b-%Y"
   "true": "Yes"
   "false": "No"
   home:

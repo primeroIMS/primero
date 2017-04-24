@@ -3,6 +3,37 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 fr:
+  date:
+    today: "Aujourd'hui"
+    clear: 'Effacer'
+    first_day: 0
+    abbr_day_names_short:
+    - Di
+    - Lu
+    - Ma
+    - Me
+    - Je
+    - Ve
+    - Sa
+    abbr_month_names:
+    -
+    - jan
+    - fév
+    - mar
+    - avr
+    - mai
+    - juin
+    - juil
+    - août
+    - sept
+    - oct
+    - nov
+    - déc
+    formats:
+      default: "%d-%b-%Y"
+  time:
+    formats:
+      default: "%d-%b-%Y"
   "true": "Yes"
   "false": "No"
   home:

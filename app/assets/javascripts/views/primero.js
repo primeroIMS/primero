@@ -609,7 +609,7 @@ Primero = _primero.Views.Base.extend({
   date_not_future: function(value, required) {
     if (value !== "") {
       try {
-          var date = $.datepicker.parseDate($.datepicker.defaultDateFormat, value);
+          var date = _primero.dates.parseDate(value);
           return date < Date.now();
       } catch(e) {
           console.error("An error occurs parsing date value." + e);
@@ -634,7 +634,7 @@ Primero = _primero.Views.Base.extend({
   valid_datepicker_value: function(value, required) {
     if (value !== "") {
       try {
-          var date = $.datepicker.parseDate($.datepicker.defaultDateFormat, value);
+          var date = _primero.dates.parseDate(value);
           return date !== null && date !== undefined;
       } catch(e) {
           console.error("An error occurs parsing date value." + e);

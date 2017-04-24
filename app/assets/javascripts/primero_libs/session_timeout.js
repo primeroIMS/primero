@@ -4,16 +4,16 @@ IdleSessionTimeout.start = function() {
     var dialog_buttons = {};
     dialog_buttons[I18n.t("messages.keep_working")] = function () {$(this).dialog('close');};
     dialog_buttons[I18n.t("messages.logoff")] = function () {$.idleTimeout.options.onTimeout.call(this);};
-    $("#dialog").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 400,
-        height: 200,
-        closeOnEscape: false,
-        draggable: false,
-        resizable: false,
-        buttons: dialog_buttons
-    });
+    // $("#dialog").dialog({
+    //     autoOpen: false,
+    //     modal: true,
+    //     width: 400,
+    //     height: 200,
+    //     closeOnEscape: false,
+    //     draggable: false,
+    //     resizable: false,
+    //     buttons: dialog_buttons
+    // });
 
     $.idleTimeout('#dialog', 'div.ui-dialog-buttonpane button:first', {
         idleAfter: 900,

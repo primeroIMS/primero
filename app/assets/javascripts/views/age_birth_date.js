@@ -22,7 +22,7 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
         var age_name = date_of_birth_name.replace(/date_of_birth\]$/, "age]");
         $context_element.find("input[name='" + age_name + "']").each(function(x, age_el){
           try {
-            var date_of_birth_date = $.datepicker.parseDate($.datepicker.defaultDateFormat, date_of_birth_value);
+            var date_of_birth_date = _primero.dates.parseDate(date_of_birth_value);
             var current_moment_date = moment(new Date);
             var date_of_birth_moment_date = moment(date_of_birth_date);
             var age = current_moment_date.diff(date_of_birth_moment_date, "years");
@@ -52,11 +52,10 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
         $date_of_birth_field.val("");
       } else {
         if (!$date_of_birth_field.hasClass("hasDatepicker")) {
-          $.datepicker.initialize_datepicker($date_of_birth_field);
+          $date_of_birth_field.datepicker(_primero.dates.options)
         }
-        var date_format = $date_of_birth_field.datepicker("option", "dateFormat");
         var year_of_birth = (new Date).getFullYear() - $age_field.val();
-        var date_of_birth = $.datepicker.formatDate(date_format, $.datepicker.parseDate($.datepicker.defaultDateFormat, '01-Jan-' + year_of_birth));
+        var date_of_birth = _primero.dates.formatDate(_primero.dates.parseDate('01-Jan-' + year_of_birth));
         $date_of_birth_field.val(date_of_birth);
       }
     }
@@ -66,6 +65,7 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
 
   //This method will be called when the birth of date was changed.
   update_age: function(event) {
+    console.log('age')
     event.preventDefault();
     var $date_of_birth_field = $(event.target);
     //Find the corresponding age field related to the birth date field changed.
@@ -74,8 +74,7 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
 
     if ($age_field.length > 0) {
       try {
-          var date_format = $date_of_birth_field.datepicker("option", "dateFormat");
-          var date_of_birth = $.datepicker.parseDate(date_format, $date_of_birth_field.val());
+          var date_of_birth = _primero.dates.parseDate($date_of_birth_field.val());
           var current_moment_date = moment(new Date);
           var date_of_birth_moment_date = moment(date_of_birth);
           var age = current_moment_date.diff(date_of_birth_moment_date, "years");

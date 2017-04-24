@@ -10,7 +10,7 @@ module FieldsHelper
 
   def field_format_date(a_date)
     if a_date.present? && a_date.is_a?(Date) || a_date.is_a?(Time)
-      a_date.strftime("%d-%b-%Y")
+      I18n.l(a_date)
     else
       a_date
     end

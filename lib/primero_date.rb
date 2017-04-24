@@ -1,5 +1,23 @@
 class PrimeroDate < Date
+  CONVERTIONS = {
+    month_names: ::Date::MONTHNAMES,
+    abbr_month_names: ::Date::ABBR_MONTHNAMES,
+    day_names: ::Date::DAYNAMES,
+    abbr_day_names: ::Date::ABBR_DAYNAMES
+  }
 
+  def self.unlocalize_date_string(string, locale = nil)
+    locale ||= I18n.config.locale
+    I18n.enforce_available_locales!(locale)
+    conv = CONVERTIONS.reduce(string) do |str, (type, replacements)|
+      map = I18n.t(type, scope: "date", locale: locale)
+                .zip(replacements)
+                .to_h
+                .tap { |h| h.delete(nil) }
+      str.gsub(/\b(#{map.keys.join("|")})\b/) { |match| map[match] }
+    end
+  end
+ 
   def self.couchrest_typecast(parent, property, value)
     begin
       # The value comes from the database as a string with the format 'yyyy/mm/dd'
@@ -30,10 +48,10 @@ class PrimeroDate < Date
     if match_data
       # Determine whether we are given the month number or the month name
       month_format = match_data[2].match(/^(0[1-9]|[1-9]|1[0-2])$/).nil? ? "%b" : "%m"
-      # Determine whether the year has two-digits format or four-digits format
+      # Determine whether the year has two-digits format or four-digits formatI18n
       year_format = match_data[3].match(/^(\d{2})$/).nil? ? "%Y" : "%y"
       # Try to parse the value with the detected format
-      return Date.strptime value, "%d-#{month_format}-#{year_format}"
+      return Date.strptime self.unlocalize_date_string(value), "%d-#{month_format}-#{year_format}"
     end
     raise ArgumentError, "invalid date"
   end

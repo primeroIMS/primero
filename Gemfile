@@ -62,6 +62,8 @@ gem 'turbolinks', '~> 5'
 gem 'jquery-turbolinks'
 gem 'arabic-letter-connector'
 
+gem 'rails-i18n', '~> 4.0.0'
+
 group :production do
   gem 'passenger', '4.0.59', require: false
 end
