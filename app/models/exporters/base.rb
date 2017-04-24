@@ -202,7 +202,7 @@ module Exporters
             field.display_text(value)
           end
         else
-          value
+          to_exported_value(value)
         end
       end
 

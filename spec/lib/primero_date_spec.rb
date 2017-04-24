@@ -53,11 +53,11 @@ describe PrimeroDate do
     date = Date.strptime "2014-July-05", "%Y-%b-%d"
     I18n.config.locale = :fr
     values = ["05-juil-2014", "05-juillet-2014", "5-juil-2014", "5-juillet-2014",
-      "05-juil-14", "05-juillet-14", "5-juil-14", "05-juillet-14",
+      "05-Juil-14", "05-juillet-14", "5-juil-14", "05-Juillet-14",
       "05-07-2014", "05-7-2014", "5-07-2014", "5-7-2014",
       "05-07-14", "05-7-14", "5-07-14", "5-7-14",
-      "05/juil/2014", "05/juillet/2014", "5/juil/2014", "5/juillet/2014",
-      "05/juil/14", "05/juillet/14", "5/juil/14", "05/juillet/14",
+      "05/juil/2014", "05/juillet/2014", "5/juil/2014", "5/Juillet/2014",
+      "05/Juil/14", "05/juillet/14", "5/juil/14", "05/juillet/14",
       "05/07/2014", "05/7/2014", "5/07/2014", "5/7/2014",
       "05/07/14", "05/7/14", "5/07/14", "5/7/14"]
     values.each do |value|
@@ -83,7 +83,6 @@ describe PrimeroDate do
       "05/07/2014", "05/7/2014", "5/07/2014", "5/7/2014",
       "05/07/14", "05/7/14", "5/07/14", "5/7/14"]
     values.each do |value|
-      puts value
       PrimeroDate.parse_with_format(value).should eq(date)
       PrimeroDate.parse_with_format(value.gsub('-', ' - ')).should eq(date)
       PrimeroDate.parse_with_format(value.gsub('/', ' / ')).should eq(date)

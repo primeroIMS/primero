@@ -3,7 +3,6 @@
         pluginName = 'datepicker',
         autoInitSelector = '.datepicker-here',
         $body, $datepickersContainer,
-        containerBuilt = false,
         baseTemplate = '' +
             '<div class="datepicker">' +
             '<i class="datepicker--pointer"></i>' +
@@ -146,9 +145,12 @@
         viewIndexes: ['days', 'months', 'years'],
 
         init: function () {
-            if (!containerBuilt && !this.opts.inline && this.elIsInput) {
-                this._buildDatepickersContainer();
+            if (!this.opts.inline && this.elIsInput) {
+                if (!$datepickersContainer) {
+                    this._buildDatepickersContainer();
+                }
             }
+
             this._buildBaseHtml();
             this._defineLocale(this.opts.language);
             this._syncWithMinMaxDates();
@@ -261,8 +263,7 @@
         },
 
         _buildDatepickersContainer: function () {
-            containerBuilt = true;
-            $body.append('<div class="datepickers-container" id="datepickers-container"></div>');
+            $('body').append('<div class="datepickers-container" id="datepickers-container"></div>');
             $datepickersContainer = $('#datepickers-container');
         },
 
@@ -1490,6 +1491,10 @@
         $(autoInitSelector).datepicker();
     })
 
+    $(document).on('turbolinks:before-render', function() {
+        $body = $('body');
+        $datepickersContainer = null;
+    });
 })();
 
 ;(function () {

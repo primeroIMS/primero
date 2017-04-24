@@ -14,6 +14,7 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
 	},
 
 	initialize: function() {
+		var self = this;
 		this.create_locales();
 		this.setup_date_parser();
 
@@ -27,7 +28,21 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
     	}
 		};
 
-		$('.form_date_field').datepicker(_primero.dates.options);
+		this.date_control = $('.form_date_field');
+
+		self.date_control.datepicker(_primero.dates.options);
+
+		dispatcher.on('CloseView', this.destroy_datepicker, this );
+	},
+
+	destroy_datepicker: function() {
+		_.each(this.date_control, function(control) {
+			var control_instance = $(control).data('datepicker');
+			
+			if (control_instance) {
+				control_instance.destroy();
+			}
+		});
 	},
 
 	create_locales: function() {

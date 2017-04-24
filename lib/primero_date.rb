@@ -1,5 +1,5 @@
 class PrimeroDate < Date
-  CONVERTIONS = {
+  CONVERSIONS = {
     month_names: ::Date::MONTHNAMES,
     abbr_month_names: ::Date::ABBR_MONTHNAMES,
     day_names: ::Date::DAYNAMES,
@@ -9,7 +9,8 @@ class PrimeroDate < Date
   def self.unlocalize_date_string(string, locale = nil)
     locale ||= I18n.config.locale
     I18n.enforce_available_locales!(locale)
-    conv = CONVERTIONS.reduce(string) do |str, (type, replacements)|
+
+    conv = CONVERSIONS.reduce(string.downcase) do |str, (type, replacements)|
       map = I18n.t(type, scope: "date", locale: locale)
                 .zip(replacements)
                 .to_h
