@@ -21,7 +21,7 @@ module Exporters
       "document_upload_box" => nil, #TODO
       "date_field" => 'dateTime',
       "date_range" => nil, #TODO
-      "subform" => 'subform', #TODO
+      "subform" => 'subform', #TODO: Not mapped to canonical xls forms type
       "separator" => 'note',
       "tick_box" => 'acknowledge',
       "tally_field" => nil, #TODO
@@ -140,12 +140,6 @@ module Exporters
         Rails.logger.info {"The field #{field.display_name} was not added"}
       end
     end
-
-
-    def write_subform(subform_field)
-      #TODO: implement
-    end
-
 
     def write_field_row(field, type)
       #TODO: handle help text and guiding questions
