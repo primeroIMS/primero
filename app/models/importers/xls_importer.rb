@@ -53,6 +53,8 @@ module Importers
         if sheet_hash[db_field.name].present?
           @locales.each do |locale|
             eval("db_field.display_name_#{locale}=sheet_hash[db_field.name]['label'][locale]")
+            eval("db_field.help_text_#{locale}=sheet_hash[db_field.name]['hint'][locale]")
+            eval("db_field.guiding_questions_#{locale}=sheet_hash[db_field.name]['guidance'][locale]")
           end
         else
           Rails.logger.info {"The questions for #{db_field.name} were not included in the Survey sheet of the #{db_form.unique_id}.xls spreadsheet and were not updated"}
