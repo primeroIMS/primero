@@ -65,7 +65,6 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
 
   //This method will be called when the birth of date was changed.
   update_age: function(event) {
-    console.log('age')
     event.preventDefault();
     var $date_of_birth_field = $(event.target);
     //Find the corresponding age field related to the birth date field changed.

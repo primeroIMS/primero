@@ -88,26 +88,26 @@ ManageUsers.init = function () {
   window.App = new AppView;
 
   //create confirm dialog box
-  // $('#modal-dialog').dialog({
-  //   autoOpen: false,
-  //   modal: true,
-  //   closeOnEscape: false,
-  //   open: function(event, ui){ $('.ui-dialog-titlebar-close', ui.dialog).hide(); },
-  //   buttons: {
-  //     "Yes" : function() {
-  //       var $this = $(this);
-  //       var opt = $this.dialog('option');
-  //       window.App.changeDisabledStatus(opt.userName, opt.newStatus);
-  //       $this.dialog("close");
-  //     },
-  //     "Cancel" : function() {
-  //       var $this = $(this);
-  //       var opt = $this.dialog('option');
-  //       window.App.toggleCheckbox(opt.userName);
-  //       $this.dialog("close");
-  //     }
-  //   }
-  // });
+  $('#modal-dialog').dialog({
+    autoOpen: false,
+    modal: true,
+    closeOnEscape: false,
+    open: function(event, ui){ $('.ui-dialog-titlebar-close', ui.dialog).hide(); },
+    buttons: {
+      "Yes" : function() {
+        var $this = $(this);
+        var opt = $this.dialog('option');
+        window.App.changeDisabledStatus(opt.userName, opt.newStatus);
+        $this.dialog("close");
+      },
+      "Cancel" : function() {
+        var $this = $(this);
+        var opt = $this.dialog('option');
+        window.App.toggleCheckbox(opt.userName);
+        $this.dialog("close");
+      }
+    }
+  });
 
 };
 
