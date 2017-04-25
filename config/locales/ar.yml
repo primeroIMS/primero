@@ -3,67 +3,6 @@
 # See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 ar:
-  date:
-    today: 'Today'
-    clear: 'Clear'
-    first_day: 1
-    abbr_day_names_short:
-    - Su
-    - Mo
-    - Tu
-    - We
-    - Th
-    - Fr
-    - Sa
-    abbr_month_names:
-    -
-    - ينا
-    - فبر
-    - مار
-    - أبر
-    - ماي
-    - يون
-    - يول
-    - أغس
-    - سبت
-    - أكت
-    - نوف
-    - ديس
-    month_names:
-    -
-    - يناير
-    - فبراير
-    - مارس
-    - أبريل
-    - مايو
-    - يونيو
-    - يوليو
-    - أغسطس
-    - سبتمبر
-    - أكتوبر
-    - نوفمبر
-    - ديسمبر
-    day_names:
-    - الأحد
-    - الإثنين
-    - الثّلاثاء
-    - الأربعاء
-    - الخميس
-    - الجمعة
-    - السّبت
-    abbr_day_names:
-    - الأحد
-    - الإثنين
-    - الثّلاثاء
-    - الأربعاء
-    - الخميس
-    - الجمعة
-    - السّبت
-    formats:
-      default: "%d-%b-%Y"
-  time:
-    formats:
-      default: "%d-%b-%Y"
   "true": "Yes"
   "false": "No"
   home:

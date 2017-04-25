@@ -1,0 +1,56 @@
+en:
+  date:
+    today: 'Today'
+    clear: 'Clear'
+    first_day: 1
+    abbr_day_names_short:
+    - Su
+    - Mo
+    - Tu
+    - We
+    - Th
+    - Fr
+    - Sa
+    abbr_month_names:
+    -
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+    day_names:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
+    month_names:
+    -
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+    formats:
+      default: "%d-%b-%Y"
+  time:
+    formats:
+      default: "%d-%b-%Y"
+  "true": "Yes"
+  "false": "No"
