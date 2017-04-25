@@ -15,6 +15,36 @@ fr:
     - Je
     - Ve
     - Sa
+    abbr_day_names:
+    - dim
+    - lun
+    - mar
+    - mer
+    - jeu
+    - ven
+    - sam
+    day_names:
+    - dimanche
+    - lundi
+    - mardi
+    - mercredi
+    - jeudi
+    - vendredi
+    - samedi
+    month_names:
+    -
+    - janvier
+    - février
+    - mars
+    - avril
+    - mai
+    - juin
+    - juillet
+    - août
+    - septembre
+    - octobre
+    - novembre
+    - décembre
     abbr_month_names:
     -
     - jan

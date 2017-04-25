@@ -341,9 +341,6 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 4.0.13)
       sprockets-rails (~> 2.0)
-    rails-i18n (4.0.9)
-      i18n (~> 0.7)
-      railties (~> 4.0)
     rails_best_practices (1.15.4)
       activesupport
       awesome_print
@@ -544,7 +541,6 @@ DEPENDENCIES
   pry-byebug
   rack-mini-profiler
   rails (= 4.0.13)
-  rails-i18n (~> 4.0.0)
   rake (= 0.9.3)
   rapidftr_addon!
   rapidftr_addon_cpims!

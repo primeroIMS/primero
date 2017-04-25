@@ -51,7 +51,7 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
       if (isNaN($age_field.val()) || $age_field.val() < 0) {
         $date_of_birth_field.val("");
       } else {
-        if (!$date_of_birth_field.hasClass("hasDatepicker")) {
+        if (!$date_of_birth_field.hasClass("form_date_field")) {
           $date_of_birth_field.datepicker(_primero.dates.options)
         }
         var year_of_birth = (new Date).getFullYear() - $age_field.val();
