@@ -48,6 +48,8 @@ _primero.Views.FlagChild = _primero.Views.Base.extend({
       unflagged_label: dropdown.data('message_unflagged_label')
     };
     dropdown.find('.add_flag_form').html(JST['templates/flag_record_form'](this.data));
+
+    $('.form_date_field').datepicker(_primero.dates.options)
   },
 
   collapse_expand_flag: function(event) {
