@@ -277,9 +277,9 @@ class Field
     @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
-  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={})
-    locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
+  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil)
     options_list = []
+
     if self.type == Field::TICK_BOX
       options_list << {id: 'true', display_text: I18n.t('true')}
       options_list << {id: 'false', display_text: I18n.t('false')}
@@ -295,7 +295,7 @@ class Field
           options_list = record.violations_list_by_unique_id.map{|k,v| {'id' => v, 'display_text' => k}}
         end
       when 'lookup'
-        options_list += Lookup.values(source_options.last, lookups, locale: locale) if add_lookups.present?
+        options_list += Lookup.values(source_options.last, lookups) if add_lookups.present?
       when 'Location'
         options_list += locations || [] if locations.present?
       when 'Agency'
@@ -306,7 +306,7 @@ class Field
         options_list += clazz.all.map{|r| r.name}
       end
     else
-      options_list += (self.option_strings_text.present? ? self.option_strings_text(locale) : [])
+      options_list += (self.option_strings_text.present? ? self.option_strings_text : [])
     end
     return options_list
   end
@@ -338,11 +338,9 @@ class Field
           display = Lookup.values(source_options.last).select{|opt| opt['id'] == value}
           value = (display.present? ? display.first['display_text'] : '')
         when 'Location'
-          lct = Location.find_by_location_code(value)
-          value = (lct.present? ? lct.name : '')
+          value = Location.display_text(value)
         when 'Agency'
-          agency = Agency.get(value)
-          value = (agency.present? ? agency.name : '')
+          value = Agency.display_text(value)
         else
           value
       end
