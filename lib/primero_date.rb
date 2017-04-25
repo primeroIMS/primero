@@ -49,7 +49,7 @@ class PrimeroDate < Date
     if match_data
       # Determine whether we are given the month number or the month name
       month_format = match_data[2].match(/^(0[1-9]|[1-9]|1[0-2])$/).nil? ? "%b" : "%m"
-      # Determine whether the year has two-digits format or four-digits formatI18n
+      # Determine whether the year has two-digits format or four-digits format
       year_format = match_data[3].match(/^(\d{2})$/).nil? ? "%Y" : "%y"
       # Try to parse the value with the detected format
       return Date.strptime self.unlocalize_date_string(value), "%d-#{month_format}-#{year_format}"
