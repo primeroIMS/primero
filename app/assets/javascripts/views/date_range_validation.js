@@ -2,7 +2,7 @@ _primero.Views.DateRangeValidation = _primero.Views.Base.extend({
   el: '.page_content .data-form',
 
   events: {
-    // 'submit' : 'validate'
+    'submit' : 'validate'
   },
 
   validate: function(event) {
