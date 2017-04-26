@@ -4,8 +4,8 @@
 
 <div class="reveal medium" id="<%= "#{model.name.underscore.downcase}_flag_records" %>" style="background: none repeat scroll 0 0 #f9faf6;" data-reveal>
   <%= render 'shared/modal_close' %>
-  <form data-abide class="flag_records">
-    <div class="row">
+  <form data-abide>
+    <div class="row flag_records">
       <div class="column">
         <label for="<%=model.name.underscore.downcase%>_flag_message"><%=t("#{model.name.underscore.downcase}.flag_reason")%></label>
         <input type="text" class="flag_message" value="" size="30" name="flag_message" id="<%=model.name.underscore.downcase%>_flag_message" autocomplete="off">
