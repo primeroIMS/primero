@@ -25,6 +25,20 @@ nav {
   .menu {
     height: rem_calc(49);
 
+    li {
+      border-right: 1px solid #f9faf6;
+
+      @if $global-text-direction == rtl {
+        &:last-of-type {
+          border-left: 1px solid #f9faf6;
+        }
+      } @else {
+        &:first-of-type {
+          border-left: 1px solid #f9faf6;
+        }
+      }
+    }
+
     li, a {
       height: rem_calc(49);
     }
