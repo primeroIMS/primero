@@ -90,11 +90,11 @@ module IndexHelper
           checked = true if filter_value(filter).include? item.gsub('_', '')
         end
 
-        concat(
-          check_box_tag(filter, item, nil, 
-            id: "#{filter}_#{item.gsub(' ', '_')}", filter_type: filter_type, checked: checked) +
-          label_tag("#{filter}_#{item}", content_tag(:span, label)) + tag(:br)
-        )
+        concat(label_tag("#{filter}_#{item}",
+          check_box_tag(filter, item, nil, id: "#{filter}_#{item.gsub(' ', '_')}",
+                  filter_type: filter_type, checked: checked) +
+          content_tag(:span, label)
+        ))
       end
     end
   end
@@ -122,8 +122,10 @@ module IndexHelper
         end
 
         concat(
-          check_box_tag(name, value, nil, id: id, filter_type: filter_type) +
-          label_tag(id, content_tag(:span, label)) + tag(:br)
+          label_tag(id,
+            check_box_tag(name, value, nil, id: id, filter_type: filter_type) +
+            content_tag(:span, label)
+          )
         )
       end
     end
