@@ -390,10 +390,29 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :id => "lookup-inquiry-status",
-    :name => "gender",
+    :name => "Inquiry Status",
     :lookup_values => [
         {id: "open", display_text: "Open"}.with_indifferent_access,
         {id: "closed", display_text: "Closed"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-export-options-referral",
+    :name => "Export Options for Referral",
+    :lookup_values => [
+        {id: "primero", display_text: "Primero"}.with_indifferent_access,
+        {id: "non_primero", display_text: "Non-Primero"}.with_indifferent_access,
+        {id: "pdf_export", display_text: "PDF export"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-export-options-transfer",
+    :name => "Export Options for Transfer",
+    :lookup_values => [
+        {id: "primero", display_text: "Primero"}.with_indifferent_access,
+        {id: "non_primero", display_text: "Non-Primero"}.with_indifferent_access
     ]
 )
 

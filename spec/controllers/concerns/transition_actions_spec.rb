@@ -47,7 +47,7 @@ describe TransitionActions, type: :controller do
         :transition_role => "role-referral",
         :service => "Safehouse Service",
         :notes => "test",
-        :type_of_export => "Primero",
+        :type_of_export => Transitionable::EXPORT_TYPE_PRIMERO,
       }
       post :transition, params
       flash[:notice].should eq("2 Referral(s) successfully made")

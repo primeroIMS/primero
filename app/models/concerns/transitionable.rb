@@ -67,6 +67,10 @@ module Transitionable
 
   end
 
+  EXPORT_TYPE_PRIMERO = 'primero'
+  EXPORT_TYPE_NON_PRIMERO = 'non_primero'
+  EXPORT_TYPE_PDF = 'pdf_export'
+
   def referrals
     self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL}
   end

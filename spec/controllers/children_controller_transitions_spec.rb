@@ -23,7 +23,7 @@ describe ChildrenController do
         "other_user_agency"=>"UNICEF",
         "service"=>"Other Service",
         "notes"=>"Testing",
-        "type_of_export"=>"Primero", #This value define that is a JSON file.
+        "type_of_export"=>Transitionable::EXPORT_TYPE_PRIMERO, #This value define that is a JSON file.
         "password"=>"password",
         "file_name"=>""
       }
@@ -56,7 +56,7 @@ describe ChildrenController do
         "other_user_agency"=>"UNICEF",
         "service"=>"Other Service",
         "notes"=>"Testing",
-        "type_of_export"=>"Non-Primero", #This value define that is a CSV file.
+        "type_of_export"=>Transitionable::EXPORT_TYPE_NON_PRIMERO, #This value define that is a CSV file.
         "password"=>"password",
         "file_name"=>""
       }
@@ -89,7 +89,7 @@ describe ChildrenController do
         "other_user_agency"=>"UNICEF",
         "service"=>"Other Service",
         "notes"=>"Testing",
-        "type_of_export"=>"PDF export", #This value define that is a PDF file.
+        "type_of_export"=>Transitionable::EXPORT_TYPE_PDF, #This value define that is a PDF file.
         "password"=>"password",
         "file_name"=>""
       }

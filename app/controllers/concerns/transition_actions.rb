@@ -207,15 +207,15 @@ module TransitionActions
   end
 
   def type_of_export_exporter
-    @type_of_export_exporter ||= if type_of_export == "Primero"
-      Exporters::JSONExporter
-    elsif type_of_export == "Non-Primero"
-      Exporters::CSVExporter
-    elsif type_of_export == "PDF export"
-      Exporters::PDFExporter
-    else
-      nil
-    end
+    @type_of_export_exporter ||= (if type_of_export == Transitionable::EXPORT_TYPE_PRIMERO
+                                    Exporters::JSONExporter
+                                  elsif type_of_export == Transitionable::EXPORT_TYPE_NON_PRIMERO
+                                    Exporters::CSVExporter
+                                  elsif type_of_export == Transitionable::EXPORT_TYPE_PDF
+                                    Exporters::PDFExporter
+                                  else
+                                    nil
+                                  end)
   end
 
   def is_single_or_batch?

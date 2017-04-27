@@ -79,7 +79,7 @@ describe ChildrenController do
         "other_user_agency"=>"",
         "service"=>"Safehouse Service",
         "notes"=>"This should fails No consent grant",
-        "type_of_export"=>"Primero",
+        "type_of_export"=>Transitionable::EXPORT_TYPE_PRIMERO,
         "file_name"=>"",
         "id"=>id
       }
@@ -135,7 +135,7 @@ describe ChildrenController do
         "transition_type"=>"referral",
         "transition_role"=>"role-referral",
         "other_user_agency"=>"",
-        "service"=>"Safehouse Service",
+        "service"=>"safehouse_service",
         "notes"=>"Cases Referred Successfully.",
         "file_name"=>"",
         "id"=>id
@@ -150,7 +150,7 @@ describe ChildrenController do
       params["type_of_export"] = if defined?(type_of_export)
         type_of_export
       else
-        "Primero"
+        Transitionable::EXPORT_TYPE_PRIMERO
       end
 
       if remote_referral
@@ -164,7 +164,7 @@ describe ChildrenController do
       end
 
       #There is other test testing this.
-      if params["type_of_export"] == "PDF export"
+      if params["type_of_export"] == Transitionable::EXPORT_TYPE_PDF
         Exporters::PDFExporter.stub :export
         controller.stub :filename
         controller.stub :encrypt_data_to_zip
@@ -189,9 +189,9 @@ describe ChildrenController do
         referral.to_user_remote.should eq(other_user)
 
         assigns["password"].should eq("password")
-        assigns["type_of_export_exporter"].should eq(Exporters::JSONExporter) if params["type_of_export"] == "Primero"
-        assigns["type_of_export_exporter"].should eq(Exporters::CSVExporter) if params["type_of_export"] == "Non-Primero"
-        assigns["type_of_export_exporter"].should eq(Exporters::PDFExporter) if params["type_of_export"] == "PDF export"
+        assigns["type_of_export_exporter"].should eq(Exporters::JSONExporter) if params["type_of_export"] == Transitionable::EXPORT_TYPE_PRIMERO
+        assigns["type_of_export_exporter"].should eq(Exporters::CSVExporter) if params["type_of_export"] == Transitionable::EXPORT_TYPE_NON_PRIMERO
+        assigns["type_of_export_exporter"].should eq(Exporters::PDFExporter) if params["type_of_export"] == Transitionable::EXPORT_TYPE_PDF
       else
         referral.to_user_local_status.should eq(Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
         referral.to_user_local.should eq(existing_user)
@@ -203,7 +203,7 @@ describe ChildrenController do
 
       referral.to_user_agency.should eq("")
       referral.notes.should eq("Cases Referred Successfully.")
-      referral.service.should eq("Safehouse Service")
+      referral.service.should eq("safehouse_service")
       referral.is_remote.should eq(remote_referral)
       referral.type_of_export.should eq(params["type_of_export"])
 
@@ -313,7 +313,7 @@ describe ChildrenController do
           let(:id) {@case_no_consent.id}
           let(:remote_referral) {true}
           let(:instance) {@case_no_consent}
-          let(:type_of_export) {"Non-Primero"}
+          let(:type_of_export) {Transitionable::EXPORT_TYPE_NON_PRIMERO}
         end
 
         it_behaves_like "Consent" do
@@ -322,7 +322,7 @@ describe ChildrenController do
           let(:id) {@case_no_consent.id}
           let(:remote_referral) {true}
           let(:instance) {@case_no_consent}
-          let(:type_of_export) {"PDF export"}
+          let(:type_of_export) {Transitionable::EXPORT_TYPE_PDF}
         end
       end
 
@@ -349,7 +349,7 @@ describe ChildrenController do
           let(:id) {@case_no_consent_to_share.id}
           let(:remote_referral) {true}
           let(:instance) {@case_no_consent_to_share}
-          let(:type_of_export) {"Non-Primero"}
+          let(:type_of_export) {Transitionable::EXPORT_TYPE_NON_PRIMERO}
         end
 
         it_behaves_like "Consent" do
@@ -358,7 +358,7 @@ describe ChildrenController do
           let(:id) {@case_no_consent_to_share.id}
           let(:remote_referral) {true}
           let(:instance) {@case_no_consent_to_share}
-          let(:type_of_export) {"PDF export"}
+          let(:type_of_export) {Transitionable::EXPORT_TYPE_PDF}
         end
       end
 
@@ -385,7 +385,7 @@ describe ChildrenController do
           let(:id) {@case_no_consent_to_service.id}
           let(:remote_referral) {true}
           let(:instance) {@case_no_consent_to_service}
-          let(:type_of_export) {"Non-Primero"}
+          let(:type_of_export) {Transitionable::EXPORT_TYPE_NON_PRIMERO}
         end
 
         it_behaves_like "Consent" do
@@ -394,7 +394,7 @@ describe ChildrenController do
           let(:id) {@case_no_consent_to_service.id}
           let(:remote_referral) {true}
           let(:instance) {@case_no_consent_to_service}
-          let(:type_of_export) {"PDF export"}
+          let(:type_of_export) {Transitionable::EXPORT_TYPE_PDF}
         end
       end
 
@@ -421,7 +421,7 @@ describe ChildrenController do
           let(:id) {@case_consent.id}
           let(:remote_referral) {true}
           let(:instance) {@case_consent}
-          let(:type_of_export) {"Non-Primero"}
+          let(:type_of_export) {Transitionable::EXPORT_TYPE_NON_PRIMERO}
         end
 
         it_behaves_like "Consent" do
@@ -430,7 +430,7 @@ describe ChildrenController do
           let(:id) {@case_consent.id}
           let(:remote_referral) {true}
           let(:instance) {@case_consent}
-          let(:type_of_export) {"PDF export"}
+          let(:type_of_export) {Transitionable::EXPORT_TYPE_PDF}
         end
       end
 
