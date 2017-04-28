@@ -7,13 +7,16 @@
     if transition_type == "referral"
       transition_role_options = @referral_roles.map {|r| [r.name, r.id]}
       no_consent_count = ((@referral_consent.present? && @referral_consent == true) ? 0 : 1)
-      #TODO how i18n?
-      type_of_export_options = ["Primero", "Non-Primero", "PDF export"]
+      type_of_export_options = [
+          [I18n.t("transition.export_type.#{Transitionable::EXPORT_TYPE_PRIMERO}"), Transitionable::EXPORT_TYPE_PRIMERO],
+          [I18n.t("transition.export_type.#{Transitionable::EXPORT_TYPE_NON_PRIMERO}"), Transitionable::EXPORT_TYPE_NON_PRIMERO],
+          [I18n.t("transition.export_type.#{Transitionable::EXPORT_TYPE_PDF}"), Transitionable::EXPORT_TYPE_PDF]]
     elsif transition_type == "transfer"
       transition_role_options = @transfer_roles.map {|r| [r.name, r.id]}
       no_consent_count = ((@transfer_consent.present? && @transfer_consent == true) ? 0 : 1)
-      #TODO how i18n?
-      type_of_export_options = ["Primero", "Non-Primero"]
+      type_of_export_options = [
+          [I18n.t("transition.export_type.#{Transitionable::EXPORT_TYPE_PRIMERO}"), Transitionable::EXPORT_TYPE_PRIMERO],
+          [I18n.t("transition.export_type.#{Transitionable::EXPORT_TYPE_NON_PRIMERO}"), Transitionable::EXPORT_TYPE_NON_PRIMERO]]
     else
       transition_role_options = []
       no_consent_count = 0
@@ -69,7 +72,7 @@
           </div>
           <% if transition_type == "referral" %>
             <label><%=I18n.t("referral.service_label")%>
-              <%= select_tag("service", options_for_select(Lookup.values("lookup-service-type", @lookups), ''), :include_blank => true) %>
+              <%= select_tag("service", options_for_select(Lookup.values_for_select('lookup-service-type', @lookups), ''), :include_blank => true) %>
             </label>
           <% end %>
           <label><%=I18n.t("#{transition_type}.notes_label")%>

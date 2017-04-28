@@ -43,6 +43,10 @@ class Lookup < CouchRest::Model::Base
     end
     memoize_in_prod :values
 
+    def values_for_select(lookup_id, lookups = nil, opts={})
+      self.values(lookup_id, lookups, opts).map{|option| [option['display_text'], option['id']]}
+    end
+
     def get_location_types
       self.get('lookup-location-type')
     end

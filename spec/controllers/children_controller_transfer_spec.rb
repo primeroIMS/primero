@@ -61,7 +61,7 @@ describe ChildrenController do
         "transition_role"=>"role-transfer",
         "other_user_agency"=>"",
         "notes"=>"Successfully transferred",
-        "type_of_export"=>"Primero",
+        "type_of_export"=>Transitionable::EXPORT_TYPE_PRIMERO,
         "file_name"=>"",
         "is_remote"=>false,
         "id"=>instance.id
@@ -88,7 +88,7 @@ describe ChildrenController do
       transfer.transitioned_by.should eq(@user.user_name)
       transfer.service.should eq("")
       transfer.is_remote.should eq(false)
-      transfer.type_of_export.should eq("Primero")
+      transfer.type_of_export.should eq(Transitionable::EXPORT_TYPE_PRIMERO)
       transfer.consent_overridden.should eq(false)
 
     end
@@ -103,7 +103,7 @@ describe ChildrenController do
         @case_to_transfer.owner = @user
         @case_to_transfer.owned_by = @user.user_name
         @case_to_transfer.add_transition("transfer", @user2.user_name, "", "", Transition::TO_USER_LOCAL_STATUS_INPROGRESS,
-            "do you take care?", false, "Primero", @user.user_name, false, "")
+            "do you take care?", false, Transitionable::EXPORT_TYPE_PRIMERO, @user.user_name, false, "")
         @case_to_transfer.save!
       end
 
