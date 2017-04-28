@@ -78,10 +78,6 @@ div.scope_bar {
       width: 80%;
     }
 
-    input[type="checkbox"] {
-      margin: 0;
-    }
-
     .form_date_field {
       padding: rem_calc(3);
     }
@@ -110,6 +106,7 @@ div.scope_bar {
 
   .field-controls-multi {
     margin: rem_calc(5 0 10);
+    overflow: hidden;
 
     label span {
       width: rem_calc(205)
@@ -118,11 +115,22 @@ div.scope_bar {
 
   label {
     font-size: 0.8rem;
+    margin-bottom: .7em;
     
     @if $global-text-direction == rtl {
       margin-left: 1.2rem;
     } @else {
       margin-right: 1.2rem;
+    }
+
+    input[type="checkbox"] {
+      @if $global-text-direction == rtl {
+        float: right;
+        margin: .2em 0 0 .5em;
+      } @else {
+        float: left;
+        margin: .2em .5em 0 .5em;
+      }
     }
 
     span {
