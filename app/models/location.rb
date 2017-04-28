@@ -83,11 +83,10 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :all
     memoize_in_prod :list_by_all
 
+    #WARNING: Do not memoize this method.  Doing so will break the Location seeds.
     def get_by_location_code(location_code)
-      location = Location.by_location_code(key: location_code).all[0..0]
-      return location.first
+      Location.by_location_code(key: location_code).first
     end
-    memoize_in_prod :get_by_location_code
 
     #TODO not sure this should return 'first' but trying to keep with original
     def find_types_in_hierarchy(location_code, location_types)
@@ -101,7 +100,6 @@ class Location < CouchRest::Model::Base
     #This method returns a list of id / display_text value pairs
     #It is used to create the select options list for location fields
     def all_names
-      #TODO i18n - name & placename need to be translated.  Should the key be something other than location_code?
       self.by_disabled(key: false).map{|r| {id: r.location_code, display_text: r.name}.with_indifferent_access}
     end
     memoize_in_prod :all_names
@@ -117,7 +115,6 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_location_codes
 
-    #TODO i18n
     def type_by_admin_level(admin_level = 0)
       Location.by_admin_level(key: admin_level).all.map{|l| l.type}.uniq
     end
