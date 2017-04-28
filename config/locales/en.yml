@@ -1814,6 +1814,12 @@ en:
     unknown_transfer: "%{record_type} %{id} invalid transfer"
     not_valid_transfer: "%{record_type} %{id} invalid transfer, can't update is not in progress or you have not permission on the case"
 
+  transition:
+    export_type:
+      primero: "Primero"
+      non_primero: "Non-Primero"
+      pdf_export: "PDF export"
+
   mark_for_mobile:
     no_records_selected: "No records selected"
     failure: "%{record_type} %{id} mark as mobile failed"
