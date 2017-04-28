@@ -21,7 +21,7 @@ protection_concern_fields = [
   Field.new({"name" => "displacement_status",
              "type" =>"select_box" ,
              "display_name_all" => "Displacement Status",
-             "option_strings_source" => "lookup lookup-risk-level"
+             "option_strings_source" => "lookup lookup-displacement-status"
             }),
   Field.new({"name" => "unhcr_protection_code",
              "type" => "text_field",

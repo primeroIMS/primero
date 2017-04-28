@@ -16,6 +16,6 @@
     <%= check_box_tag name, "true", value == true, :disabled => tick_box.disabled, :id => field_id, :editable => tick_box.editable, :class => "tick_box", required: tick_box.required %>
     <%= label_tag field_id, label, class: "tick_box_label" if label.present? %>
     <%= hidden_field_tag name, "false", :id => "#{field_id}_" %>
+    <% if tick_box.help_text %><p class="help"><%= tick_box.help_text %></p><% end %>
   </div>
-  <% if tick_box.help_text %><p class="help"><%= tick_box.help_text %></p><% end %>
 </div>

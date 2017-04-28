@@ -156,6 +156,18 @@ basic_identity_fields = [
             "type" => "text_field",
             "display_name_all" => "UN Number"
             }),
+  Field.new({"name" => "national_id_no",
+            "type" => "text_field",
+            "display_name_all" => "National ID Number"
+            }),
+  Field.new({"name" => "other_id_type",
+            "type" => "text_field",
+            "display_name_all" => "Type of ID Document"
+            }),
+  Field.new({"name" => "other_id_no",
+            "type" => "text_field",
+            "display_name_all" => "Number of ID Document"
+            }),
   Field.new({"name" => "other_agency_id",
             "type" => "text_field",
             "display_name_all" => "Other Agency ID"
