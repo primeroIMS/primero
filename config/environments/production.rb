@@ -34,4 +34,8 @@ Primero::Application.configure do
   config.eager_load = true
 
   config.filter_parameters += [:child, :incident, :tracing_request]
+
+  # WARNING **
+  # NEVER UNSET THIS OR YOU WILL BREAK THINGS!
+  # config.force_ssl = true
 end
