@@ -20,5 +20,8 @@
     "data-validator" => date_validator, required: date_field.required %>
     <small class="form-error"><%= I18n.t(error_msg)%></small>
     <p class="help"><%= t("fields.date_help") %></p>
+    <% if date_field.guiding_questions.present? %>
+      <%= render 'form_section/guiding_questions', guiding_questions_text: date_field.guiding_questions %>
+    <% end %>
   </div>
 </div>
