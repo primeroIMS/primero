@@ -60,7 +60,7 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
-  after_save :find_match_tracing_requests unless (Rails.env == 'production')
+  after_save :find_match_tracing_requests, if: :has_tracing_request?, unless: :is_produciton?
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -353,6 +353,14 @@ class Child < CouchRest::Model::Base
     if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc.try(:protection_concern_type) }).compact.uniq
     end
+  end
+
+  def has_tracing_request?
+    self.module.present? && self.module.associated_record_types.include?('tracing-request')
+  end
+
+  def is_produciton?
+    Rails.env == 'production'
   end
 
   #TODO v1.3: Need rspec test
