@@ -1,0 +1,42 @@
+#report_filter_controls {
+  h3 {
+    font-size: 0.8125rem;
+    padding-bottom: rem_calc(10);
+    margin-bottom: rem_calc(5);
+    font-family: 'Roboto-Medium', sans-serif;
+    border-bottom: 1px solid #aec687;
+    text-transform: uppercase;
+  }
+
+  .panel {
+    display: none;
+    position: relative;
+    background: $desat-green-color;
+    border: 1px solid $stroke-green-color;
+    border-left: none;
+    border-right: none;
+    padding-bottom: 0;
+  }
+
+  .form-row {
+    position: relative;
+  }
+
+  .btn.open {
+    margin-bottom: 0;
+
+    &.currently {
+      border-bottom: 1px solid $desat-green-color !important;
+    }
+  }
+
+  .close {
+    font-size: 1.2rem;
+    line-height: 1;
+    position: absolute;
+    right: 0;
+    color: $green-color;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}

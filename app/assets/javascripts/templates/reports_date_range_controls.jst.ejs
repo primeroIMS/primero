@@ -1,0 +1,22 @@
+<!-- if by -->
+<% if (m.filter_type == 'by') { %>
+<div class="large-3 columns end">
+  <label><%= m.filter_type_display %></label>
+  <select></select>
+</div>
+<% } %>
+<!-- if range -->
+<% if (m.filter_type == 'range') { %>
+<div class="large-6 columns end">
+  <div class="row">
+    <div class="large-6 columns">
+      <label>From</label>
+      <input type="text" />
+    </div>
+    <div class="large-6 columns">
+      <label>To</label>
+      <input type="text" />
+    </div>
+  </div>
+</div>
+<% } %>
