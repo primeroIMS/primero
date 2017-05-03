@@ -7,7 +7,7 @@
         </div>
         <div class="medium-8 columns">
           <% document_url = send("#{formObject.class.name.underscore.downcase}_document_url", formObject.id, document["attachment_key"]) %>
-          <%= link_to document["file_name"], document_url, :class => "document" %>
+          <%= link_to document["file_name"], document_url, :class => "document", data: { turbolinks: false } %>
         </div>
       </div>
       <div class="row">
