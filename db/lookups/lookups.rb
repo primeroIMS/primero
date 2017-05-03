@@ -24,6 +24,7 @@ create_or_update_lookup(
     {id: "chiefdom", display_text: "Chiefdom"}.with_indifferent_access,
     {id: "state", display_text: "State"}.with_indifferent_access,
     {id: "city", display_text: "City"}.with_indifferent_access,
+    {id: "county", display_text: "County"}.with_indifferent_access,
     {id: "camp", display_text: "Camp"}.with_indifferent_access,
     {id: "site", display_text: "Site"}.with_indifferent_access,
     {id: "village", display_text: "Village"}.with_indifferent_access,
