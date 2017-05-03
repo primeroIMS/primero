@@ -146,7 +146,7 @@ _primero.Views.tabNavigation = _primero.Views.Base.extend({
     event.preventDefault();
     var $show_history_button = $(event.target),
       history_url = $show_history_button.data('change_log_url'),
-      $target_div = $("#" + $show_history_button.data('reveal-id'));
+      $target_div = $("#" + $show_history_button.data('open'));
     if ($target_div.html() === "") {
       $.get( history_url, function(response) {
         $target_div.html(response);
