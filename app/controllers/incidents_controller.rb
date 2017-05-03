@@ -50,7 +50,7 @@ class IncidentsController < ApplicationController
   def make_new_record
     Incident.new.tap do |incident|
       incident['record_state'] = true
-      incident['mrm_verification_status'] = "Pending"
+      incident['mrm_verification_status'] = "pending"
       incident['module_id'] = params['module_id']
       incident['status'] = Incident::STATUS_OPEN
 

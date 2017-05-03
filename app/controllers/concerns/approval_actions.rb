@@ -4,8 +4,8 @@ module ApprovalActions
   BIA = "bia"
   CASE_PLAN = "case_plan"
   CLOSURE = "closure"
-  APPROVED_STATUS = "approvals.status.approved"
-  REJECTED_STATUS = "approvals.status.rejected"
+  APPROVED_STATUS = "approved"
+  REJECTED_STATUS = "rejected"
 
   def approve_form
     authorize! :"approve_#{params[:approval_type]}", model_class
@@ -26,7 +26,7 @@ module ApprovalActions
   private
 
   def set_approval
-    approval_status = ((params[:approval].present?) && params[:approval] == 'true') ? I18n.t(APPROVED_STATUS) : I18n.t(REJECTED_STATUS)
+    approval_status = ((params[:approval].present?) && params[:approval] == 'true') ? APPROVED_STATUS : REJECTED_STATUS
     approved = ((params[:approval].present?) && params[:approval] == 'true') ? true : false
 
     if params[:approval_type].present?
