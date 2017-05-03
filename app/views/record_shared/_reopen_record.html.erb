@@ -3,7 +3,7 @@
   <div class="reveal tiny" id="<%= "#{model.name.underscore.downcase}_reopen_records" %>" data-reveal>
     <%= render 'shared/modal_close' %>
     <div class="row">
-      <div class="large-12 columns">
+      <div class="large-11 end columns">
         <%= t('messages.reopen_record') %>
       </div>
     </div>
@@ -19,7 +19,9 @@
           data-reopen="true"
           href=""><%= t("buttons.ok") %>
         </a>
-        <a class="close-reveal-modal btn button gray right"><%= t("buttons.cancel") %></a>
+        <button class="button gray" data-close aria-label="Close reveal" type="button">
+          <span aria-hidden="true"><%= t("buttons.cancel") %></span>
+        </button>
       </div>
     </div>
   </div>
