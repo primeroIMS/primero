@@ -94,9 +94,8 @@ module FieldsHelper
       end.join('; ')
     else
       options = []
+      lookup = field.options_list(nil, nil, nil, true)
       if field_value.is_a?(Array)
-        lookup = field.options_list(nil, nil, nil, true)
-        
         field_value.each do |option|
           if lookup.present?
             lookup_value = lookup.select{|lv| lv["display_text"] == option}.first
@@ -106,6 +105,9 @@ module FieldsHelper
             options << selected
           end
         end
+      else
+        selected = lookup.select{|lv| lv["id"] == field_value}.first
+        options << selected
       end
       return options.flatten.collect{|a| a['display_text'] || a }.join(', ')
     end
