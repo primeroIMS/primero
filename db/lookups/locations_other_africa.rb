@@ -1,7 +1,0 @@
-Location.create! placename: "Sudan", admin_level: 0, type: "country"
-Location.create! placename: "Chad", admin_level: 0, type: "country"
-Location.create! placename: "Rwanda", admin_level: 0, type: "country"
-Location.create! placename: "Ethiopia", admin_level: 0, type: "country"
-Location.create! placename: "Democratic Republic of the Congo (DRC)", admin_level: 0, type: "country"
-Location.create! placename: "Central African Republic (CAR)", admin_level: 0, type: "country"
-Location.create! placename: "Other Country", admin_level: 0, type: "country"
