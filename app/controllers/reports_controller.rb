@@ -8,9 +8,7 @@ class ReportsController < ApplicationController
   include DeleteAction
 
   #include RecordActions
-  before_filter :load_report, except: [:new, :show]
-  before_filter :load_report_with_translations, only: [:show]
-
+  before_filter :load_report, except: [:new]
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
   before_filter :set_aggregate_order, only: [:create, :update]
@@ -196,10 +194,6 @@ class ReportsController < ApplicationController
 
   def load_report
     @report = Report.get(params[:id])
-  end
-
-  def load_report_with_translations
-    @report = Report.get_report(params[:id])
   end
 
   def action_class

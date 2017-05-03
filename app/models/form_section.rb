@@ -73,18 +73,6 @@ class FormSection < CouchRest::Model::Base
                 }
               }"
 
-    view :by_field_name,
-         :map => "function(doc) {
-                if (doc['couchrest-type'] == 'FormSection'){
-                  if (doc['fields'] != null){
-                    for(var i = 0; i<doc['fields'].length; i++){
-                      var field = doc['fields'][i];
-                      emit([doc['parent_form'], field['name']], i);
-                    }
-                  }
-                }
-              }"
-
     view :fields,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -619,16 +607,6 @@ class FormSection < CouchRest::Model::Base
       having_location_fields_by_parent_form(key: parent_form).all
     end
     memoize_in_prod :find_locations_by_parent_form
-
-    def get_field_by_field_name_and_parent_form(field_name = '', parent_form = 'case')
-      fs = FormSection.by_field_name(key: [parent_form, field_name])
-      if fs.present? && fs.values.present?
-        #values contains the field index
-        value = fs.values.first
-        fs.first.fields[value]
-      end
-    end
-    memoize_in_prod :get_field_by_field_name_and_parent_form
 
     def format_forms_for_mobile(form_sections, locale=nil, parent_form=nil)
       form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten

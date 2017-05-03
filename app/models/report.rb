@@ -56,9 +56,6 @@ class Report < CouchRest::Model::Base
   attr_accessor :disaggregate_by_ordered
   attr_accessor :permission_filter
 
-  # A mapping of values in aggregate_by & disaggregate_by to the form field which is used for translations
-  attr_accessor :field_map
-
   validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
@@ -80,26 +77,6 @@ class Report < CouchRest::Model::Base
   end
 
   class << self
-
-    # Fetches the report and loads the field map which is used for translations
-    def get_report(id)
-      report = Report.get(id) if id.present?
-      if report.present?
-        report.aggregate_by
-        load_field_map(report, report.aggregate_by) if report.aggregate_by.present?
-        load_field_map(report, report.disaggregate_by) if report.disaggregate_by.present?
-      end
-      report
-    end
-    memoize_in_prod :get_report
-
-    def load_field_map(report, field_key_list = [])
-      report.field_map ||= []
-      field_key_list.each do |fk|
-        field = FormSection.get_field_by_field_name_and_parent_form(fk, report.record_type)
-        report.field_map << {id: fk, field: field}
-      end
-    end
 
     def create_or_update(report_hash)
       report_id = report_hash[:id]
@@ -142,9 +119,16 @@ class Report < CouchRest::Model::Base
     @modules ||= PrimeroModule.all(keys: self.module_ids).all if self.module_ids.present?
   end
 
+  def field_map
+    return @pivot_fields
+  end
+
   # Run the Solr query that calculates the pivots and format the output.
   #TODO: Break up into self contained, testable methods
   def build_report
+    # Prepopulates pivot fields
+    pivot_fields
+
     if permission_filter.present?
       filters << permission_filter
     end
@@ -285,7 +269,6 @@ class Report < CouchRest::Model::Base
   def translated_graph_label(label, aggregate=false)
     if label.present?
       type = aggregate ? self.disaggregate_by : self.aggregate_by
-
       label_selection = translated_label_options[type.first].select{|option_list| option_list["id"] === label}.first
       label = label_selection["display_text"] if label_selection.present?
     end
@@ -293,17 +276,17 @@ class Report < CouchRest::Model::Base
   end
 
   def translated_label_options
-    self.field_map.map{|fm| [fm[:id], fm[:field].options_list(nil, nil, nil, true)]}.to_h
+    self.field_map.map{|v, fm| [v, fm.options_list(nil, nil, nil, true)]}.to_h
   end
 
   #TODO: This method currently builds data for 1D and 2D reports
   def graph_data
+    # Prepopulates pivot fields
+    pivot_fields
+    
     labels = []
     chart_datasets_hash = {}
     
-    Report.load_field_map(self, self.aggregate_by)
-    Report.load_field_map(self, self.disaggregate_by)
-
     number_of_blanks = dimensionality - self.data[:graph_value_range].first.size
 
     self.data[:graph_value_range].each do |key|
