@@ -306,19 +306,19 @@ services_fields = [
              "multi_select" => true,
              "display_name_all" => "Who referred the client to you?",
              "option_strings_text_all" => [
-                { id: 'health_medical_services', display_text: "Health / Medical Services" },
-                { id: 'psychosocial_counseling_services', display_text: "Psychosocial / Counseling Services" },
-                { id: 'police_other_security_actor', display_text: "Police / Other Security Actor" },
-                { id: 'legal_assistance_services', display_text: "Legal Assistance Services" },
-                { id: 'livelihoods_program', display_text: "Livelihoods Program" },
-                { id: 'self_referral_first_point_of_contact', display_text: "Self Referral / First Point of Contact" },
-                { id: 'teacher_school_official', display_text: "Teacher / School Official" },
-                { id: 'community_or_camp_leader', display_text: "Community or Camp Leader" },
-                { id: 'safe_house_shelter', display_text: "Safe House / Shelter" },
-                { id: 'other_humanitarian_or_development_actor', display_text: "Other Humanitarian or Development Actor" },
-                { id: 'other_government_service', display_text: "Other Government Service" },
-                { id: 'other', display_text: "Other" }
-              ]
+                "Health / Medical Services",
+                "Psychosocial / Counseling Services",
+                "Police / Other Security Actor",
+                "Legal Assistance Services",
+                "Livelihoods Program",
+                "Self Referral / First Point of Contact",
+                "Teacher / School Official",
+                "Community or Camp Leader",
+                "Safe House / Shelter",
+                "Other Humanitarian or Development Actor",
+                "Other Government Service",
+                "Other"
+              ].join("\n")
             }),
   Field.new({"name" => "service_referred_from_other",
              "type" => "text_field",
