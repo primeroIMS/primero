@@ -38,6 +38,15 @@ alleged_perpetrator_subform_fields = [
                            "61+",
                            "Unknown"].join("\n")
             }),
+  Field.new({"name" => "age_type",
+             "type" => "select_box",
+             "display_name_all" => "Age type of alleged perpetrator",
+             "visible" => false,
+             "option_strings_text_all" =>
+                 ["Adult",
+                  "Minor",
+                  "Unknown"].join("\n")
+            }),
   Field.new({"name" => "perpetrator_relationship",
              "type" => "select_box",
              "display_name_all" => "Alleged perpetrator relationship with survivor",
