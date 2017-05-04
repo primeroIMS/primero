@@ -159,6 +159,11 @@ module Exporters
       end
       memoize :primary_alleged_perpetrator
 
+      def all_alleged_perpetrators(model)
+        alleged_perpetrators = model.try(:alleged_perpetrator)
+        alleged_perpetrators.present? ? alleged_perpetrators : []
+      end
+
       def location_from_hierarchy(location_name, types)
         location = Location.find_types_in_hierarchy(location_name, types)
         location ? location.placename : ""
@@ -237,7 +242,7 @@ module Exporters
           "PREVIOUS GBV INCIDENTS?" => "gbv_previous_incidents",
           ##### ALLEGED PERPETRATOR INFORMATION #####
           "No. ALLEGED PRIMARY PERPETRATOR(S)" => ->(model) do
-            calculated = primary_alleged_perpetrator(model).size
+            calculated = all_alleged_perpetrators(model).size
             from_ir = model.try(:number_of_individual_perpetrators_from_ir)
             if from_ir.present?
               (calculated.present? && calculated > 1) ? calculated : from_ir
