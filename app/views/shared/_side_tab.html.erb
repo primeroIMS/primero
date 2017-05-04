@@ -19,7 +19,7 @@
       <li class=<%= (highlight_page == 'contact_information' ? 'current' : '') %>>
         <%= link_to t("contact.info_label"), edit_contact_information_path("administrator") if can?(:edit, ContactInformation) %></li>
       <li class=<%= (highlight_page == 'system_settings' ? 'current' : '') %>>
-        <%= link_to t("system_settings.label"), edit_system_setting_path("administrator") if can?(:manage, SystemUsers) %></li>
+        <%= link_to t("system_settings.label"), edit_system_setting_path("administrator") if can?(:manage, SystemSettings) %></li>
       <li class=<%= (highlight_page == 'replication' ? 'current' : '') %>>
         <%= link_to t("navigation.replications"), replications_path if can?(:manage, Replication) %></li>
     </ul>

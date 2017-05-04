@@ -49,12 +49,12 @@ class Child < CouchRest::Model::Base
   property :risk_level
   property :child_status
   property :system_generated_followup, TrueClass, default: false
-  property :registration_date, Date
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [String], :default => []
 
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
+  validate :validate_registration_date
   validate :validate_child_wishes
   # validate :validate_date_closure
 
@@ -65,13 +65,6 @@ class Child < CouchRest::Model::Base
   def initialize *args
     self['photo_keys'] ||= []
     self['document_keys'] ||= []
-    arguments = args.first
-
-    if arguments.is_a?(Hash) && arguments["current_photo_key"]
-      self['current_photo_key'] = arguments["current_photo_key"]
-      arguments.delete("current_photo_key")
-    end
-
     self['histories'] = []
 
     super *args
@@ -232,6 +225,16 @@ class Child < CouchRest::Model::Base
     if date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
       errors.add(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
       error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
+      false
+    else
+      true
+    end
+  end
+
+  def validate_registration_date
+    if registration_date.present? && (!registration_date.is_a?(Date) || registration_date.year > Date.today.year)
+      errors.add(:registration_date, I18n.t("messages.enter_valid_date"))
+      error_with_section(:registration_date, I18n.t("messages.enter_valid_date"))
       false
     else
       true

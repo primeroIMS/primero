@@ -6,7 +6,21 @@ _primero.Views.MarkForMobile = _primero.Views.Base.extend({
     'click .mark_for_mobile' : 'mark_records_for_mobile'
   },
 
+  show_error_message: function(message) {
+    var $flash = $('.flash');
+    $flash.remove();
+    $('.page_container').prepend(JST['templates/mark_for_mobile_error']({message: message}))
+    setTimeout(function(){
+      $flash.remove();
+    },7000);
+  },
+
+  reload_location: function() {
+    location.reload(true);
+  },
+
   mark_records_for_mobile: function(event) {
+    var self = this;
     var selected_recs = _primero.indexTable.get_selected_records(),
         mobile_button = $(event.target),
         request_url = mobile_button.data('mark_mobile_url'),
@@ -20,16 +34,10 @@ _primero.Views.MarkForMobile = _primero.Views.Base.extend({
         'id': id
       },
       function(response){
-        var $flash = $('.flash');
         if (response.success) {
-          location.reload(true);
+          self.reload_location();
         } else {
-          $flash.remove();
-          var message = '<div class="flash row"> <p class="error large-12">' + response.message + '</p></div>';
-          $('.page_container').prepend(message);
-          setTimeout(function(){
-            $flash.remove();
-          },7000);
+          self.show_error_message(response.message);
         }
       }
     );

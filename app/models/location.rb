@@ -10,6 +10,7 @@ class Location < CouchRest::Model::Base
   #TODO - I18n - YES!!!! - possible as a lookup
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
+  LIMIT_FOR_API = 200
 
   localize_properties [:name, :placename]
   property :location_code
