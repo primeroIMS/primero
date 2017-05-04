@@ -1675,6 +1675,10 @@ en:
       all:  Incident Recorder
       one:  Incident Recorder
       selected:  Selected to Incident Recorder
+      gender:
+        male: "M"
+        female: "F"
+        both: "M and F"
     json:
       all:  JSON
       one:  JSON

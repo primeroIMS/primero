@@ -137,6 +137,20 @@ module Exporters
         r.present? ? r : sex
       end
 
+      def perpetrators_sex(perpetrators=[])
+        if perpetrators.present?
+          gender_list = perpetrators.map{|p| p.perpetrator_sex}
+          male_count = gender_list.count {|g| g.try(:downcase) == 'male'}
+          female_count = gender_list.count {|g| g.try(:downcase) == 'female'}
+
+          if male_count > 0
+            (female_count > 0) ? I18n.t("exports.incident_recorder_xls.gender.both") : I18n.t("exports.incident_recorder_xls.gender.male")
+          elsif female_count > 0
+            I18n.t("exports.incident_recorder_xls.gender.female")
+          end
+        end
+      end
+
       def incident_recorder_age(age)
         r = AGE_GROUP[age]
         r.present? ? r : age
@@ -251,7 +265,7 @@ module Exporters
             end
           end,
           "ALLEGED PERPETRATOR SEX" => ->(model) do
-            incident_recorder_sex(primary_alleged_perpetrator(model).first.try(:perpetrator_sex))
+            perpetrators_sex(all_alleged_perpetrators(model))
           end,
           "PREVIOUS INCIDENT WITH THIS PERPETRATOR" => ->(model) do
             former_perpetrators = primary_alleged_perpetrator(model)
