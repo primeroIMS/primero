@@ -23,8 +23,6 @@ end
 #Reseed the lookups
 puts "Seeding Lookups"
 require File.dirname(__FILE__) + "/lookups/lookups.rb" if should_seed? Lookup
-puts "Seeding Locations"
-require File.dirname(__FILE__) + "/lookups/locations.rb" if should_seed? Location
 
 #Seed the system settings table
 puts "Seeding the system settings"

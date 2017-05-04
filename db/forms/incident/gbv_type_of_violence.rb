@@ -98,19 +98,11 @@ gbv_sexual_violence_fields = [
              "subform_section_id" => gbv_reported_elsewhere_subform.unique_id,
              "display_name_all" => "If yes, where?"
             }),
-  #TODO - i18n check_boxes is being removed
-  # Field.new({"name" => "gbv_do_not_report",
-  #            "type" => "check_boxes",
-  #            "display_name_all" => "Exclude this incident from reports?",
-  #            "option_strings_text_all" => "Yes",
-  #            "editable" => false,
-  #            "disabled" => true
-  #           }),
   Field.new({"name" => "gbv_previous_incidents",
              "type" => "radio_button",
              "display_name_all" => "Has the client had any previous incidents of GBV perpetrated against them?",
              "option_strings_source" => "lookup lookup-yes-no"
-            }),
+            })
 ]
 
 FormSection.create_or_update_form_section({
