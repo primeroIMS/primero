@@ -30,16 +30,14 @@
                       <%= f.check_box :visible?, {:class => 'visible'}, "true", "false" %>
                     </div>
                   </div>
-                  <% if ['primeromodule-cp'].include? @module_id %>
-                      <div class="row mobile_form">
-                        <div class="medium-3 columns">
-                          <%= f.label :mobile_form, t("visible_for_mobile", :locale => I18n.default_locale), :class => 'key inline' %>
-                        </div>
-                        <div class="medium-9 columns">
-                          <%= f.check_box :mobile_form?, {}, "true", "false" %>
-                        </div>
-                      </div>
-                  <% end %>
+                  <div class="row mobile_form">
+                    <div class="medium-3 columns">
+                      <%= f.label :mobile_form, t("visible_for_mobile", :locale => I18n.default_locale), :class => 'key inline' %>
+                    </div>
+                    <div class="medium-9 columns">
+                      <%= f.check_box :mobile_form?, {}, "true", "false" %>
+                    </div>
+                  </div>
               <% end %>
               <div class="row name-field">
                 <div class="medium-3 columns">

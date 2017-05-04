@@ -40,6 +40,7 @@ Primero = _primero.Views.Base.extend({
     _primero.valid_datepicker_value = this.valid_datepicker_value;
     _primero.abide_validator_positive_number = this.abide_validator_positive_number;
     _primero.valid_positive_number_value = this.valid_positive_number_value;
+    _primero.generate_download_link = this.generate_download_link;
 
     this.init_trunc();
     this.init_sticky();
@@ -669,5 +670,15 @@ Primero = _primero.Views.Base.extend({
     if (form) {
       form.reset();
     }
+  },
+
+  generate_download_link: function(url) {
+    var download_link = document.createElement("a");
+    download_link.href = url;
+    download_link.setAttribute('data-turbolinks', false);
+    document.body.appendChild(download_link);
+    download_link.click();
+    document.body.removeChild(download_link);
+    this._primero_loading_screen_indicator('hide');
   }
 });

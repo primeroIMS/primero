@@ -498,7 +498,7 @@ class Field
   end
 
   def is_mobile?
-    self.mobile_visible == true
+    self.mobile_visible == true && self.visible == true
   end
 
   private

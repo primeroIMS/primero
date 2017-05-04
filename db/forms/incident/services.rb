@@ -307,7 +307,7 @@ services_fields = [
                                            "Livelihoods Program", "Self Referral / First Point of Contact",
                                            "Teacher / School Official", "Community or Camp Leader",
                                            "Safe House / Shelter", "Other Humanitarian or Development Actor",
-                                           "Other Government Service", "Other"]
+                                           "Other Government Service", "Other"].join('\n')
             }),
   Field.new({"name" => "service_referred_from_other",
              "type" => "text_field",

@@ -862,12 +862,11 @@ describe Child do
       end
 
       it "should take the current photo key during child creation and update it appropriately with the correct format" do
-        @child = Child.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'current_photo_key' => uploadable_photo_jeff.original_filename, 'created_by' => "me", 'created_organization' => "stc")
+        @child = Child.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
         @child.save
         @child.primary_photo.name.should == @child.photos.first.name
         @child.primary_photo.name.should == "jorge"
       end
-
 
       it "should not log anything if no photo changes have been made" do
         @child["last_known_location"] = "Moscow"

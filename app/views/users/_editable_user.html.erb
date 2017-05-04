@@ -20,8 +20,8 @@
       TODO: Lost a little tip panel for the user name: <span class="footnote"><%= t("user.no_blank") ></span> .
       Surely there is a prettier way to add that info back in using Foundation.
     %>
-    <%= resource_edit_field @user, 'password', 'login.password.label', 'password_field', true, false, t("user.password_strength") %>
-    <%= resource_edit_field @user, 'password_confirmation', 'login.password.re_enter', 'password_field', true %>
+    <%= resource_edit_field @user, 'password', 'login.password.label', 'password_field', new_user, false, t("user.password_strength") %>
+    <%= resource_edit_field @user, 'password_confirmation', 'login.password.re_enter', 'password_field', new_user %>
 
     <% if !trying_to_edit_ourself && can?(:edit, @user) %>
     <div class="row">
