@@ -144,6 +144,11 @@ p.help {
   min-height: 70px;
 }
 
+.popover > .arrow,
+.popover > .arrow:after {
+  display: none;
+}
+
 .summary_group {
   .row:first-of-type {
     padding-left: 0 !important;
@@ -402,7 +407,7 @@ fieldset {
 
       &.expanded:before {
         content: "\f107";
-        
+
         @if $global-text-direction == rtl {
           margin-left: 100px;
         } @else {
@@ -590,7 +595,7 @@ span.postfix_val {
 
 fieldset {
   position: relative;
-  
+
   .row {
     .footnote {
       font-size: 0.8rem;
