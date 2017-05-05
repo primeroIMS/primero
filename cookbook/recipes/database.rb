@@ -78,7 +78,7 @@ template '/etc/couchdb/local.ini' do
   notifies :restart, 'service[couchdb]', :immediately
 end
 
-cookbook_file '/etc/init/couch.conf' do
+cookbook_file '/etc/init/couchdb.conf' do
   source 'couchdb.conf'
 end
 
