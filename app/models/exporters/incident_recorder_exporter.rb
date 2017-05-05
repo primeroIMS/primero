@@ -74,12 +74,12 @@ module Exporters
       }
 
       SERVICE_REFERRAL = {
-        "Referred" => "Referred",
-        "No referral, Service provided by your agency" => "Service provided by your agency",
-        "No referral, Services already received from another agency" => "Services already received from another agency",
-        "No referral, Service not applicable" => "Service not applicable",
-        "No, Referral declined by survivor" => "Referral declined by survivor",
-        "No referral, Service unavailable" => "Service unavailable"
+        "Referred" => I18n.t("exports.incident_recorder_xls.service_referral.referred"),
+        "No referral, Service provided by your agency" => I18n.t("exports.incident_recorder_xls.service_referral.your_agency"),
+        "No referral, Services already received from another agency" => I18n.t("exports.incident_recorder_xls.service_referral.another_agency"),
+        "No referral, Service not applicable" => I18n.t("exports.incident_recorder_xls.service_referral.not_applicable"),
+        "No, Referral declined by survivor" => I18n.t("exports.incident_recorder_xls.service_referral.declined"),
+        "No referral, Service unavailable" => I18n.t("exports.incident_recorder_xls.service_referral.unavailable")
       }
 
       def close
@@ -358,9 +358,8 @@ module Exporters
             incident_recorder_service_referral(model.try(:service_safehouse_referral))
           end,
           "HEALTH / MEDICAL SERVICES" => ->(model) do
-            health_medical = model.try(:health_medical_referral_subform_section)
-            health_medical.map{|hmr| incident_recorder_service_referral(hmr.try(:service_medical_referral))}.
-                            uniq.join(" & ") if health_medical.present?
+            service_value = model.health_medical_referral_subform_section.try(:first).try(:service_medical_referral)
+            incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "PSYCHOSOCIAL SERVICES" => ->(model) do
             psychosocial = model.try(:psychosocial_counseling_services_subform_section)

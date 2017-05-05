@@ -1688,6 +1688,13 @@ en:
         minor: "Minor"
         both: "Adult & Minor"
         unknown: "Unknown"
+      service_referral:
+        referred: "Referred"
+        your_agency: "Service provided by your agency"
+        another_agency: "Services already received from another agency"
+        not_applicable: "Service not applicable"
+        declined: "Referral declined by survivor"
+        unavailable: "Service unavailable"
     json:
       all:  JSON
       one:  JSON
