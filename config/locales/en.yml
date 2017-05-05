@@ -1675,6 +1675,28 @@ en:
       all:  Incident Recorder
       one:  Incident Recorder
       selected:  Selected to Incident Recorder
+      gender:
+        male: "M"
+        female: "F"
+        both: "M and F"
+      age_group:
+        age: "Age"
+        61_older: "61 & Older"
+        unknown: "Unknown"
+        header: "ALLEGED PERPETRATOR AGE GROUP"
+      age_type:
+        adult: "Adult"
+        minor: "Minor"
+        both: "Adult & Minor"
+        unknown: "Unknown"
+        header: "ALLEGED PERPETRATOR AGE TYPE"
+      service_referral:
+        referred: "Referred"
+        your_agency: "Service provided by your agency"
+        another_agency: "Services already received from another agency"
+        not_applicable: "Service not applicable"
+        declined: "Referral declined by survivor"
+        unavailable: "Service unavailable"
     json:
       all:  JSON
       one:  JSON
