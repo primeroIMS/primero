@@ -1,3 +1,4 @@
+#TODO - The Service Referral options in each subform are all the same.  They need to be moved to a lookup
 health_medical_referral_subform_fields = [
   Field.new({"name" => "service_medical_referral",
              "type" => "select_box",

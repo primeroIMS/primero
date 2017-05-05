@@ -362,9 +362,8 @@ module Exporters
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "PSYCHOSOCIAL SERVICES" => ->(model) do
-            psychosocial = model.try(:psychosocial_counseling_services_subform_section)
-            psychosocial.map{|psycs| incident_recorder_service_referral(psycs.try(:service_psycho_referral))}.
-                          uniq.join(" & ") if psychosocial.present?
+            service_value = model.psychosocial_counseling_services_subform_section.try(:first).try(:service_psycho_referral)
+            incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "WANTS LEGAL ACTION?" => ->(model) do
             psychosocial_counseling = model.try(:psychosocial_counseling_services_subform_section)
@@ -381,19 +380,16 @@ module Exporters
             end
           end,
           "LEGAL ASSISTANCE SERVICES" => ->(model) do
-            legal = model.try(:legal_assistance_services_subform_section)
-            legal.map{|psycs| incident_recorder_service_referral(psycs.try(:service_legal_referral))}.
-                    uniq.join(" & ") if legal.present?
+            service_value = model.legal_assistance_services_subform_section.try(:first).try(:service_legal_referral)
+            incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "POLICE / OTHER SECURITY ACTOR" => ->(model) do
-            police = model.try(:police_or_other_type_of_security_services_subform_section)
-            police.map{|psycs| incident_recorder_service_referral(psycs.try(:service_police_referral))}.
-                    uniq.join(" & ") if police.present?
+            service_value = model.police_or_other_type_of_security_services_subform_section.try(:first).try(:service_police_referral)
+            incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "LIVELIHOODS PROGRAM" => ->(model) do
-            livelihoods = model.try(:livelihoods_services_subform_section)
-            livelihoods.map{|psycs| incident_recorder_service_referral(psycs.try(:service_livelihoods_referral))}.
-                          uniq.join(" & ") if livelihoods.present?
+            service_value = model.livelihoods_services_subform_section.try(:first).try(:service_livelihoods_referral)
+            incident_recorder_service_referral(service_value) if service_value.present?
           end,
           ##### ADMINISTRATION 2 #####
           "CHILD PROTECTION SERVICES / EDUCATION SERVICES" => ->(model) do
