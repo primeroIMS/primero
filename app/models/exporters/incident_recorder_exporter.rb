@@ -249,6 +249,7 @@ module Exporters
       def props
          ##### ADMINISTRATIVE INFORMATION #####
          #TODO - discuss with Pavel to see if this needs to change per SL-542
+         #TODO - i18n - need translations for all of these hash keys / column headings
         {"INCIDENT ID" => "incidentid_ir",
          "SURVIVOR CODE" => "survivor_code",
          "CASE MANAGER CODE" => ->(model) do
@@ -393,9 +394,8 @@ module Exporters
           end,
           ##### ADMINISTRATION 2 #####
           "CHILD PROTECTION SERVICES / EDUCATION SERVICES" => ->(model) do
-            service_protection_referrals = model.try(:child_protection_services_subform_section)
-            service_protection_referrals.map{|psycs| incident_recorder_service_referral(psycs.try(:service_protection_referral))}.
-                          uniq.join(" & ") if service_protection_referrals.present?
+            service_value = model.child_protection_services_subform_section.try(:first).try(:service_protection_referral)
+            incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "CONSENT GIVEN" => "consent_reporting",
           "REPORTING AGENCY CODE" => "agency_organization"
