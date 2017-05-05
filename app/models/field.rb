@@ -298,12 +298,10 @@ class Field
         options_list += Lookup.values(source_options.last, lookups, locale: locale) if add_lookups.present?
       when 'Location'
         options_list += locations || [] if locations.present?
-      when 'Agency'
-        options_list += Agency.all_names
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
-        options_list += clazz.all.map{|r| r.name}
+        options_list += clazz.all.map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
       end
     else
       options_list += (self.option_strings_text.present? ? self.option_strings_text(locale) : [])
