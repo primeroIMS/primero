@@ -50,13 +50,13 @@ module Exporters
 
       #TODO: should we change the value in the form section ?.
       #      spreadsheet is expecting the "Age" at the beginning and the dash between blanks.
-      AGE_GROUP = { "0-11" => "Age 0 - 11",
-                    "12-17" => "Age 12 - 17",
-                    "18-25" => "Age 18 - 25",
-                    "26-40" => "Age 26 - 40",
-                    "41-60" => "Age 41 - 60",
-                    "61+" => "Age 61 & Older",
-                    "Unknown" =>"Unknown" }
+      AGE_GROUP = { "0-11" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 0 - 11",
+                    "12-17" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 12 - 17",
+                    "18-25" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 18 - 25",
+                    "26-40" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 26 - 40",
+                    "41-60" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 41 - 60",
+                    "61+" => I18n.t("exports.incident_recorder_xls.age_group.61_older"),
+                    "Unknown" => I18n.t("exports.incident_recorder_xls.age_group.unknown") }
 
       SERVICE_REFERRED_FROM = {
         "health_medical_services" => "Health / Medical Services",
@@ -100,6 +100,8 @@ module Exporters
         @camps = {}
         @locations = {}
         @caseworker_code = {}
+        @age_group_count = -1
+        @age_type_count = -1
 
         @workbook = WriteExcel.new(buffer)
         @data_worksheet = @workbook.add_worksheet('Incident Data')
@@ -151,9 +153,70 @@ module Exporters
         end
       end
 
-      def incident_recorder_age(age)
+      def age_group_or_age_type(age_group_count, age_type_count)
+        if age_type_count > 0 && age_group_count <= 0
+          'age_type'
+        else
+          'age_group'
+        end
+      end
+
+      def age_group_and_type_count
+        age_group_count = 0
+        age_type_count = 0
+        fs = FormSection.by_unique_id(key: 'alleged_perpetrator').first
+        if fs.present?
+          age_group_count = fs.fields.count{|f| f.name == 'age_group' and f.visible?}
+          age_type_count = fs.fields.count{|f| f.name == 'age_type' and f.visible?}
+        end
+        return age_group_count, age_type_count
+      end
+
+      def alleged_perpetrator_header
+        #Only calculate these once
+        if @age_group_count < 0 || @age_type_count < 0
+          @age_group_count, @age_type_count = age_group_and_type_count
+        end
+
+        #TODO - add translations
+        case age_group_or_age_type(@age_group_count, @age_type_count)
+          when 'age_type'
+            "ALLEGED PERPETRATOR AGE TYPE"
+          else
+            "ALLEGED PERPETRATOR AGE GROUP"
+        end
+      end
+
+      def incident_recorder_age(perpetrators)
+        case age_group_or_age_type(@age_group_count, @age_type_count)
+          when 'age_type'
+            incident_recorder_age_type(perpetrators)
+          else
+            incident_recorder_age_group(perpetrators)
+        end
+      end
+
+      def incident_recorder_age_group(perpetrators)
+        age = perpetrators.first.try(:age_group)
         r = AGE_GROUP[age]
         r.present? ? r : age
+      end
+
+      def incident_recorder_age_type(perpetrators)
+        if perpetrators.present?
+          age_type_list = perpetrators.map{|p| p.age_type}
+          adult_count = age_type_list.count {|at| at.try(:downcase) == 'adult'}
+          minor_count = age_type_list.count {|at| at.try(:downcase) == 'minor'}
+          unknown_count = age_type_list.count {|at| at.try(:downcase) == 'unknown'}
+
+          if adult_count > 0
+            (minor_count > 0) ? I18n.t("exports.incident_recorder_xls.age_type.both") : I18n.t("exports.incident_recorder_xls.age_type.adult")
+          elsif minor_count > 0
+            I18n.t("exports.incident_recorder_xls.age_type.minor")
+          elsif unknown_count > 0
+            I18n.t("exports.incident_recorder_xls.age_type.unknown")
+          end
+        end
       end
 
       def incident_recorder_service_referral_from(service_referral_from)
@@ -277,8 +340,8 @@ module Exporters
               'No'
             end
           end,
-          "ALLEGED PERPETRATOR AGE GROUP" => ->(model) do
-            incident_recorder_age(primary_alleged_perpetrator(model).first.try(:age_group))
+          alleged_perpetrator_header => ->(model) do
+            incident_recorder_age(all_alleged_perpetrators(model))
           end,
           "ALLEGED PERPETRATOR - SURVIVOR RELATIONSHIP" => ->(model) do
             primary_alleged_perpetrator(model).first.try(:perpetrator_relationship)

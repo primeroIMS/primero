@@ -1679,6 +1679,15 @@ en:
         male: "M"
         female: "F"
         both: "M and F"
+      age_group:
+        age: "Age"
+        61_older: "61 & Older"
+        unknown: "Unknown"
+      age_type:
+        adult: "Adult"
+        minor: "Minor"
+        both: "Adult & Minor"
+        unknown: "Unknown"
     json:
       all:  JSON
       one:  JSON
