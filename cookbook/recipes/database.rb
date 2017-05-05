@@ -78,10 +78,15 @@ template '/etc/couchdb/local.ini' do
   notifies :restart, 'service[couchdb]', :immediately
 end
 
+cookbook_file '/etc/init/couch.conf' do
+  source 'couchdb.conf'
+end
+
 service 'couchdb' do
   action [:enable, :restart]
   provider Chef::Provider::Service::Upstart
 end
+
 
 logrotate_app 'couchdb' do
   path ::File.join(couchdb_log_dir, '*.log')
