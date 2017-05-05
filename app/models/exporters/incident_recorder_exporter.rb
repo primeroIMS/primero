@@ -178,12 +178,11 @@ module Exporters
           @age_group_count, @age_type_count = age_group_and_type_count
         end
 
-        #TODO - add translations
         case age_group_or_age_type(@age_group_count, @age_type_count)
           when 'age_type'
-            "ALLEGED PERPETRATOR AGE TYPE"
+            I18n.t("exports.incident_recorder_xls.age_type.header")
           else
-            "ALLEGED PERPETRATOR AGE GROUP"
+            I18n.t("exports.incident_recorder_xls.age_group.header")
         end
       end
 

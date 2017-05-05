@@ -1683,11 +1683,13 @@ en:
         age: "Age"
         61_older: "61 & Older"
         unknown: "Unknown"
+        header: "ALLEGED PERPETRATOR AGE GROUP"
       age_type:
         adult: "Adult"
         minor: "Minor"
         both: "Adult & Minor"
         unknown: "Unknown"
+        header: "ALLEGED PERPETRATOR AGE TYPE"
       service_referral:
         referred: "Referred"
         your_agency: "Service provided by your agency"
