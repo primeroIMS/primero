@@ -1490,7 +1490,7 @@ en:
         has_1_option: "Checkbox must have at least 1 option"
         unique_name_other: "Field already exists on form '%{form_name}'"
         unique_name_this: "Field already exists on this form"
-        change_type_existing_field: "Can't change type of existing field on form '%{form_name}'"
+        change_type_existing_field: "Can't change type of existing field '%{field_name}' on form '%{form_name}'"
 
       form_section:
         presence_of_name: "Name must not be blank"
