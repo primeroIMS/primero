@@ -138,10 +138,11 @@ function on_page_load() {
   RapidFTR.hideDirectionalButtons();
   RapidFTR.followTextFieldControl("#field_display_name", "#field_name", RapidFTR.Utils.dehumanize);
   RapidFTR.childPhotoRotation.init();
+ 
   if (window.location.href.indexOf('login') === -1) {
       IdleSessionTimeout.start();
   }
-
+  
   RapidFTR.Utils.enableFormErrorChecking();
   //Initialize chosen in the current tab. There is a chance that
   //the element we get is a group, if that is the case we need to

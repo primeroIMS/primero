@@ -29,15 +29,23 @@
 						self._idle();
 					}
 				});
-				
-				// bind continue link
-				this.resume.bind("click", function(e){
-					e.preventDefault();
-					
+
+				var resetTimer = function() {
 					window.clearInterval(self.countdown); // stop the countdown
 					self.countdownOpen = false; // stop countdown
 					self._startTimer(); // start up the timer again
 					options.onResume.call( self.warning ); // call the resume callback
+				}
+				
+				// bind continue link
+				this.resume.on("click", function(e){
+					e.preventDefault();
+					resetTimer();
+				});
+
+				// Added support for turbolinks
+				$(document).on('turbolinks:before-render', function() {
+					resetTimer();
 				});
 			},
 			
