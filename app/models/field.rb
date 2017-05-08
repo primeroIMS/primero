@@ -105,17 +105,17 @@ class Field
                       }
 
   validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")
-  validate :validate_unique_name
-  validate :validate_unique_display_name
-  validate :validate_has_2_options
-  validate :validate_display_name_format
-  validate :validate_name_format
-  validate :valid_presence_of_base_language_name
-  validate :valid_tally_field
-  validate :validate_same_datatype
-  validate :validate_option_strings_text
+  # validate :validate_unique_name
+  # validate :validate_unique_display_name
+  # validate :validate_has_2_options
+  # validate :validate_display_name_format
+  # validate :validate_name_format
+  # validate :valid_presence_of_base_language_name
+  # validate :valid_tally_field
+  # validate :validate_same_datatype
+  # validate :validate_option_strings_text
 
-  #TODO: Any subform validations?
+  # #TODO: Any subform validations?
 
   def validate_display_name_format
     special_characters = /[*!@#%$\^]/
