@@ -5,10 +5,7 @@
         <div class="lang_title medium-5 columns">
           <%= t("forms.initial_language") %>: <span><%= t("home.#{I18n.default_locale}") %></span>
         </div>
-          <%= render :partial => "form_section/add_translations_inline", :locals => {:fields => fields, :fld => fld, :show_drop_down => @show_add_field.present?, :is_field_edit => true} %>
-
         <div class="space"></div>
-        <div class="clearfix"></div>
         <%= render :partial => 'form_section/fields', :locals => {:fld => fld, :fields => fields, :given_locale => I18n.default_locale, :lookup_options => @lookup_options, :is_field_edit => true, :is_translation => false, :editing => @show_add_field.present?} %>
       </div>
       <div class="row">
@@ -72,6 +69,10 @@
             </div>
           </div>
       <% end %>
+      <div class="clearfix"></div>
+      <div class="translation_lang_panel">
+        <%= render :partial => "form_section/add_translations_inline", :locals => {:fields => fields, :fld => fld, :show_drop_down => @show_add_field.present?, :is_field_edit => true} %>
+      </div>
       <div class="clearfix"></div>
       <div class="btn_panel">
         <%= submit_button t("forms.save_details") %>
