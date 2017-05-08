@@ -162,11 +162,11 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "other_id_type",
             "type" => "text_field",
-            "display_name_all" => "Type of ID Document"
+            "display_name_all" => "Type of Other ID Document"
             }),
   Field.new({"name" => "other_id_no",
             "type" => "text_field",
-            "display_name_all" => "Number of ID Document"
+            "display_name_all" => "Number of Other ID Document"
             }),
   Field.new({"name" => "other_agency_id",
             "type" => "text_field",
