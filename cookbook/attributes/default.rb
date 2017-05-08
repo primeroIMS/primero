@@ -22,7 +22,7 @@ default[:primero].tap do |p|
 
   p[:git].tap do |git|
     git[:repo] = 'git@bitbucket.org:primeroims/primero.git'
-    git[:revision] = 'JOR-554_login_session'
+    git[:revision] = 'development'
   end
 
   p[:couchdb].tap do |c|
