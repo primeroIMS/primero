@@ -1,8 +1,13 @@
 <div class="row">
-  <div class="medium-4 medium-offset-8 columns">
-    <div class="lang_title">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :program_id, t("provide_translation"), class: 'key' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <span class="lang_title">
       <%= select_tag("locale", options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != I18n.default_locale.to_s }), :class => 'locale') %>
-    </div>
+    </span>
   </div>
 </div>
 
