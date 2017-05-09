@@ -116,7 +116,6 @@ execute 'require-couchdb-auth' do
   notifies :restart, 'service[couchdb]', :immediately
 end
 
-
 logrotate_app 'couchdb' do
   path ::File.join(couchdb_log_dir, '*.log')
   size 50 * 1024 * 1024
