@@ -298,18 +298,17 @@ child_protection_services_subform_section = FormSection.create_or_update_form_se
 })
 
 services_fields = [
-  #TODO: temporarily commenting out this field to get around validation error
-  # Field.new({"name" => "service_referred_from",
-  #            "type" => "select_box",
-  #            "multi_select" => true,
-  #            "display_name_all" => "Who referred the client to you?",
-  #            "option_strings_text_all" => ["Health / Medical Services", "Psychosocial / Counseling Services",
-  #                                          "Police / Other Security Actor", "Legal Assistance Services",
-  #                                          "Livelihoods Program", "Self Referral / First Point of Contact",
-  #                                          "Teacher / School Official", "Community or Camp Leader",
-  #                                          "Safe House / Shelter", "Other Humanitarian or Development Actor",
-  #                                          "Other Government Service", "Other"].join('\n')
-  #           }),
+  Field.new({"name" => "service_referred_from",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "Who referred the client to you?",
+             "option_strings_text_all" => ["Health / Medical Services", "Psychosocial / Counseling Services",
+                                           "Police / Other Security Actor", "Legal Assistance Services",
+                                           "Livelihoods Program", "Self Referral / First Point of Contact",
+                                           "Teacher / School Official", "Community or Camp Leader",
+                                           "Safe House / Shelter", "Other Humanitarian or Development Actor",
+                                           "Other Government Service", "Other"].join("\n")
+            }),
   Field.new({"name" => "service_referred_from_other",
              "type" => "text_field",
              "display_name_all" => "If survivor referred from Other, please specify."
