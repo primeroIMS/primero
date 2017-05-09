@@ -63,7 +63,12 @@ class FormSection < CouchRest::Model::Base
                 if (doc['couchrest-type'] == 'FormSection'){
                   if (doc['fields'] != null){
                     for(var i = 0; i<doc['fields'].length; i++){
-                      var field = doc['fields'][i];
+                      var field = {};
+                      for (var k in doc['fields'][i]) {
+                        field[k] = doc['fields'][i][k];
+                      }
+                      field['on_nested'] = doc['is_nested'];
+                      field['parent_form'] = doc['parent_form'];
                       emit(field['name'], field);
                     }
                   }
@@ -92,10 +97,10 @@ class FormSection < CouchRest::Model::Base
   validate :valid_presence_of_base_language_name
   validate :validate_name_format
   validate :validate_unique_id
-  validate :validate_unique_name
   validate :validate_visible_field
   validate :validate_fixed_order
   validate :validate_perm_visible
+  validate :validate_datatypes
 
   def inspect
     "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
@@ -847,9 +852,26 @@ class FormSection < CouchRest::Model::Base
     unique || errors.add(:unique_id, I18n.t("errors.models.form_section.unique_id", :unique_id => unique_id))
   end
 
-  def validate_unique_name
-  unique = FormSection.all.all? { |f| id == f.id || name == nil || name.empty? || name!= f.name || parent_form != f.parent_form }
-  unique || errors.add(:name, I18n.t("errors.models.form_section.unique_name", :name => name))
+  #Make sure that within the record, the same field isn't defined with differing data types
+  def validate_datatypes
+    if !self.is_nested && self.fields.present?
+      field_names = self.fields.map(&:name)
+      all_current_fields = FormSection.fields(keys: field_names).rows.reduce({}) do |accum, row|
+        if !row.value['on_nested'] && (self.parent_form == row.value['parent_form'])
+          type = row.value['type']
+          accum[row.key] = [type, row.value['multi_select'].present?]
+        end
+        accum
+      end
+      fields.each do |field|
+        current_type = all_current_fields[field.name]
+        if current_type.present? && (current_type != [field.type, field.multi_select.present?])
+          errors.add(:fields, I18n.t("errors.models.field.change_type_existing_field", field_name: field.name, form_name: self.name))
+          return false
+        end
+      end
+    end
+    return true
   end
 
   def create_unique_id

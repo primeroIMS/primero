@@ -517,16 +517,6 @@ describe FormSection do
       form_section.errors[:name].should_not be_present
     end
 
-    it "should validate name is unique" do
-      same_name = 'Same Name'
-      valid_attributes = {:name => same_name, :unique_id => same_name.dehumanize, :description => '', :visible => true, :order => 0}
-      FormSection.create! valid_attributes.dup
-      form_section = FormSection.new valid_attributes.dup
-      form_section.should_not be_valid
-      form_section.errors[:name].should be_present
-      form_section.errors[:unique_id].should be_present
-    end
-
     it "should not occur error  about the name is not unique  when the name is not filled in" do
       form_section = FormSection.new(:name=>"")
       form_section.should_not be_valid
@@ -830,7 +820,7 @@ describe FormSection do
           "description_all" => "Details Nested Subform Section 1"
       })
       subform_section.save!
-  
+
       fields = [
         Field.new({"name" => "field_name_2",
                    "type" => "text_field",
@@ -892,38 +882,7 @@ describe FormSection do
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
-      end
-
-      it "should not add subform with different type" do
-        #This field is a subform in another form.
-        fields = [
-          Field.new({"name" => "field_name_3",
-                     "type" => "textarea",
-                     "display_name_all" => "Field Name 3"
-                    })
-        ]
-        form = FormSection.new(
-          :unique_id => "form_section_test_2",
-          :parent_form=>"case",
-          "visible" => true,
-          :order_form_group => 1,
-          :order => 1,
-          :order_subform => 0,
-          :form_group_name => "Form Section Test",
-          "editable" => true,
-          "name_all" => "Form Section Test 2",
-          "description_all" => "Form Section Test 2",
-          :fields => fields
-        )
-        form.save
-
-        #Form was not save.
-        form.new_record?.should be_true
-
-        #There is other field with the same on other form section
-        #so, we can't change the type.
-        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+        expect(form.errors.messages[:fields]).to eq(["Can't change type of existing field 'field_name_2' on form 'Form Section Test 2'"])
       end
 
       it "should allow fields with the same name on different subforms" do
@@ -1013,20 +972,7 @@ describe FormSection do
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
-      end
-
-      it "should not add subform with different type" do
-        #This field is a subform in another form.
-        @form.fields << Field.new({"name" => "field_name_3",
-                                  "type" => "textarea",
-                                  "display_name_all" => "Field Name 3"
-                                 })
-        @form.save.should be_false
-
-        #There is other field with the same on other form section
-        #so, we can't change the type.
-        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+        expect(@form.errors.messages[:fields]).to eq(["Can't change type of existing field 'field_name_2' on form 'Form Section Test 2'"])
       end
 
       it "should allow fields with the same name on different subforms" do
