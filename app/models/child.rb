@@ -363,7 +363,6 @@ class Child < CouchRest::Model::Base
   #TODO v1.3: Need rspec test
   def find_match_tracing_requests
     if has_tracing_request?
-      binding.pry
       match_result = Child.find_match_records(match_criteria, TracingRequest)
       tracing_request_ids = match_result==[] ? [] : match_result.keys
       all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
