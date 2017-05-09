@@ -301,7 +301,7 @@ class Field
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
-        options_list += clazz.all.map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
+        options_list += clazz.all_names
       end
     else
       options_list += (self.option_strings_text.present? ? self.option_strings_text(locale) : [])

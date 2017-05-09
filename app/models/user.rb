@@ -6,6 +6,7 @@ class User < CouchRest::Model::Base
   include Importable
   include Memoizable
   include Disableable
+  include Namable
 
   include Primero::CouchRestRailsBackward
 

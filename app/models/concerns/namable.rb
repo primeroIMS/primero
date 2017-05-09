@@ -43,6 +43,11 @@ module Namable
       "#{self.name}-#{name}".parameterize.dasherize
     end
 
+    #This method returns a list of id / display_text value pairs
+    #It is used to create the select options list for fields
+    def all_names
+      self.by_disabled(key: false).map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
+    end
   end
 
 end
