@@ -106,16 +106,14 @@ class Field
 
   validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")
   validate :validate_unique_name
-  validate :validate_unique_display_name
   validate :validate_has_2_options
   validate :validate_display_name_format
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
   validate :valid_tally_field
-  validate :validate_same_datatype
   validate :validate_option_strings_text
-
   #TODO: Any subform validations?
+
 
   def validate_display_name_format
     special_characters = /[*!@#%$\^]/
@@ -255,6 +253,7 @@ class Field
     "#{display_name}#{hidden_text}"
   end
 
+  #TODO: Use CouchRest Model property defaults here instead
   def initialize properties={}
     self.visible = true if properties["visible"].nil?
     self.mobile_visible = true if properties["mobile_visible"].nil?
@@ -274,6 +273,7 @@ class Field
 
   def attributes= properties
     super properties
+    #TODO: FieldOption should just be a regular embedded object that CouchRest Model supports
     @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
@@ -408,12 +408,7 @@ class Field
     self.option_strings_source.present? || self.option_strings_text.present?
   end
 
-
-  #TODO - remove this is just for testing
-  def self.new_field(type, name, options=[])
-    Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text_all => options.join("\n"), :editable => true, :disabled => false
-  end
-
+  #TODO - remove this is just for testing, refactor rspecs, use factories instead!
   def self.new_text_field field_name, display_name = nil
     field = Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => TEXT_FIELD
   end
@@ -514,27 +509,10 @@ class Field
   end
 
   def validate_unique_name
-    #Does not make sense use new? for validity ?
-    #it is perfectly valid FormSection.new(...) then add several field then save and
-    #the validation should work rejecting the duplicate fields.
-    #Also with new? still possible duplicate things for example change the
-    #name/display_name for existing fields.
-    #What we really need is avoid check the field with itself.
-    #return true unless new? && form
     return true unless form
-    #return errors.add(:name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.new? && field.name == name})
-    return errors.add(:name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.equal?(self) && field.name == name})
-    # other_form = FormSection.get_form_containing_field name
-    # return errors.add(:name, I18n.t("errors.models.field.unique_name_other", :form_name => other_form.name)) if (other_form != nil && form.id != other_form.id && self.form.is_nested)
-    true
-  end
-
-  def validate_unique_display_name
-    #See comment at validate_unique_name.
-    #return true unless new? && form
-    return true unless form
-    #return errors.add(:display_name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.new? && field.display_name == display_name})
-    return errors.add(:display_name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.equal?(self) && field.display_name == display_name})
+    if (form.fields.any? {|field| !field.equal?(self) && field.name == name})
+      return errors.add(:name, I18n.t("errors.models.field.unique_name_this"))
+    end
     true
   end
 
@@ -545,18 +523,5 @@ class Field
     end
     true
   end
-
-  def validate_same_datatype
-    #Find field with the same name.
-    fields = FormSection.get_fields_by_name_and_parent_form(name, form.parent_form, false)
-    #Check if the types are the same.
-    fields = fields.select{|field| field.type != type}
-    #Error if the type is different.
-    return errors.add(:name, I18n.t("errors.models.field.change_type_existing_field", :form_name => fields.first.form.name)) if fields.present?
-    #We are OK - All the fields with the same name are consistent with the type.
-    true
-  end
-
-
 
 end
