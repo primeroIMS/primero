@@ -32,7 +32,7 @@ describe FieldsController do
       FormSection.stub(:add_field_to_formsection)
       FormSection.stub(:list_form_group_names)
       Field.should_receive(:new).and_return(@field)
-      @field.should_receive(:errors).and_return(["errors"])
+      @field.stub(:errors){["errors"]}
       post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"
       assigns[:show_add_field].should == {:show_add_field => true}
       response.should be_success
