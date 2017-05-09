@@ -116,7 +116,7 @@ class TracingRequest < CouchRest::Model::Base
 
   def create_class_specific_fields(fields)
     self['inquiry_date'] ||= DateTime.now.strftime("%d-%b-%Y")
-    self['inquiry_status'] ||= "Open"
+    self['inquiry_status'] ||= STATUS_OPEN
   end
 
   def find_match_cases(child_id=nil)

@@ -7,11 +7,11 @@ children.each do |child|
   #Update child_status on old records.
   if child[:child_status].blank?
     puts "adding missing child_status field to case #{child.short_id}..."
-    child.merge! child_status: 'open'
+    child.merge! child_status: Child::STATUS_OPEN
     record_modified = true
   elsif not valid_record_status.include? child[:child_status].strip
     puts "updating child_status field to case #{child.short_id} from '#{child[:child_status]}' to 'Open'..."
-    child.merge! child_status: 'open'
+    child.merge! child_status: Child::STATUS_OPEN
     record_modified = true
   end
 

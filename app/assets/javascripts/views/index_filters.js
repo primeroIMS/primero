@@ -33,7 +33,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     }
 
     if (_primero.model_object === 'child' || _primero.model_object === 'tracing_request') {
-      filter[default_filter] = 'list||Open';
+      filter[default_filter] = 'list||open';
       filter['record_state'] = 'list||true';
     }
 

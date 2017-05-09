@@ -248,7 +248,6 @@ class HomeController < ApplicationController
   end
 
   def load_manager_information
-    # TODO: Will Open be translated?
     # module_ids = @module_ids
     # flags = search_flags({
     #   field: :flag_date,
