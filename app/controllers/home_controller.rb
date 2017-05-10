@@ -570,12 +570,15 @@ class HomeController < ApplicationController
       stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
       stat_facet.rows.each do |l|
         admin_stats[l.value] = {} unless admin_stats[l.value].present?
+        protection_concern = protection_concerns.select{|pc| pc['id'] == l.value}
         admin_stats[l.value][k] = l.count ||= 0
-        if v.facet(:protection_concerns).present? && !protection_concerns.include?(l.value)
+        admin_stats[l.value][:display_text] = protection_concern.first['display_text'] if protection_concern.present?
+        if v.facet(:protection_concerns).present? && !protection_concern.present?
           admin_stats.delete(l.value)
         end
       end
     end
+
     admin_stats
   end
 
