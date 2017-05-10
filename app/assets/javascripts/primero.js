@@ -23,8 +23,10 @@ $(document).ready(function() {
     $('body').css('overflow','hidden');
   });
 
-  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
-    $(document).foundation('abide', 'reflow');
+  $(document).on('opened.fndtn.reveal', '[data-reveal]', function (e) {
+    if ($(e.target).find('form').length == 1) {
+      $(document).foundation('abide', 'reflow');
+    }  
   });
 
   $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
