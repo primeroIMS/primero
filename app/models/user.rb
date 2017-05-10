@@ -6,7 +6,6 @@ class User < CouchRest::Model::Base
   include Importable
   include Memoizable
   include Disableable
-  include Namable
 
   include Primero::CouchRestRailsBackward
 
@@ -233,6 +232,13 @@ class User < CouchRest::Model::Base
     def default_sort_field
       'full_name'
     end
+
+    #This method returns a list of id / display_text value pairs
+    #It is used to create the select options list for User fields
+    def all_names
+      self.by_disabled(key: false).map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
+    end
+    memoize_in_prod :all_names
   end
 
   def email_entered?

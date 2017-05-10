@@ -7,7 +7,6 @@ class Agency < CouchRest::Model::Base
   include Memoizable
   include Disableable
   include LocalizableProperty
-  include Namable
 
   #TODO - i18n name and description came from Nameable.  Need cleaner way to handle this
   localize_properties [:name, :description]
@@ -31,6 +30,7 @@ class Agency < CouchRest::Model::Base
   end
 
   validates_presence_of :agency_code, :message => I18n.t("errors.models.agency.code_present")
+  validates_presence_of :name, :message => I18n.t("errors.models.agency.name_present")
 
   before_create :generate_id
 
@@ -44,6 +44,13 @@ class Agency < CouchRest::Model::Base
     end
     memoize_in_prod :all
     memoize_in_prod :list_by_all
+
+    #This method returns a list of id / display_text value pairs
+    #It is used to create the select options list for Agency fields
+    def all_names
+      self.by_disabled(key: false).map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
+    end
+    memoize_in_prod :all_names
 
     def retrieve_logo_ids
       self.by_order.select{|l| l.logo_enabled == true }
