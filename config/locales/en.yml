@@ -1955,12 +1955,12 @@ en:
   error_page:
     internal_server_error:
       code: 500
-      something_went_wrong: Sorry, Something when wrong!
+      something_went_wrong: Sorry, Something went wrong!
       contact_admin: Please contact your admin if the problem persists.
       server_error: Server Error
     not_found:
       code: 404
-      something_went_wrong: Sorry, Something when wrong!
+      something_went_wrong: Sorry, Something went wrong!
       contact_admin: If you believe you are here by error, please contact your admin.
       server_error: Page not found
 

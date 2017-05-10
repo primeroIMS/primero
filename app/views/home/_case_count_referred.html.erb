@@ -1,6 +1,6 @@
 <div><%= I18n.translate('dashboard.count_referrals_total',
-                   case_count({name: :referred, stat: :total, filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'referred_users', 'record_state=true'])}, stats, model)).html_safe %>
+                   case_count({name: :referred, stat: :total, filter: index_filters(["child_status=#{Record::STATUS_OPEN}", 'referred_users', 'record_state=true'])}, stats, model)).html_safe %>
 <%= I18n.translate('dashboard.count_referrals_new',
                    case_count({name: :referred, stat: :new,
-                               filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'new', 'referred_users', 'record_state=true'])}, stats, model)).html_safe %>
+                               filter: index_filters(["child_status=#{Record::STATUS_OPEN}", 'new', 'referred_users', 'record_state=true'])}, stats, model)).html_safe %>
 </div>

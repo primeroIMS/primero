@@ -130,7 +130,7 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       if child.save
         flash[:notice] = t("referral.done_success_message")
-        redirect_to cases_path(scope: {:child_status => "list||#{Child::STATUS_OPEN}", :record_state => "list||true"})
+        redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
         return
       else
         flash[:notice] = child.errors.messages
@@ -182,7 +182,7 @@ class ChildrenController < ApplicationController
           if @child.save
             if transition_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
               flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
-              redirect_to cases_path(scope: {:child_status => "list||#{Child::STATUS_OPEN}", :record_state => "list||true"})
+              redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
               return
             else
               flash[:notice] = t('transfer.success', record_type: model_class.parent_form.titleize, id: @child.short_id)
@@ -210,7 +210,7 @@ class ChildrenController < ApplicationController
     Child.new.tap do |child|
       child.registration_date = Date.today
       child['record_state'] = true
-      child['child_status'] = ["Open"]
+      child['child_status'] = [Record::STATUS_OPEN]
       child['module_id'] = params['module_id']
       if incident_id.present? && individual_details_subform_section.present?
         incident = Incident.get(incident_id)
@@ -231,7 +231,7 @@ class ChildrenController < ApplicationController
   end
 
   def initialize_created_record rec
-    rec['child_status'] = Child::STATUS_OPEN if rec['child_status'].blank?
+    rec['child_status'] = Record::STATUS_OPEN if rec['child_status'].blank?
     rec['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
   end
 

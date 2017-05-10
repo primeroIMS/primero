@@ -248,7 +248,6 @@ class HomeController < ApplicationController
   end
 
   def load_manager_information
-    # TODO: Will Open be translated?
     # module_ids = @module_ids
     # flags = search_flags({
     #   field: :flag_date,
@@ -258,14 +257,14 @@ class HomeController < ApplicationController
     #   modules: @module_ids
     # })
     queries = {
-      totals_by_case_worker: manager_case_query({ by_owner: true, status: Child::STATUS_OPEN }),
-      new_by_case_worker: manager_case_query({ by_owner: true, status: Child::STATUS_OPEN, new_records: true }),
-      risk_level: manager_case_query({ by_risk_level: true, status: Child::STATUS_OPEN }),
+      totals_by_case_worker: manager_case_query({ by_owner: true, status: Record::STATUS_OPEN }),
+      new_by_case_worker: manager_case_query({ by_owner: true, status: Record::STATUS_OPEN, new_records: true }),
+      risk_level: manager_case_query({ by_risk_level: true, status: Record::STATUS_OPEN }),
       manager_totals: manager_case_query({ by_case_status: true}),
-      referred_total: manager_case_query({ referred: true, status: Child::STATUS_OPEN }),
-      referred_new: manager_case_query({ referred: true, status: Child::STATUS_OPEN, new_records: true }),
-      approval_type: manager_case_query({ by_approval_type: true, status: Child::STATUS_OPEN}),
-      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: Child::STATUS_OPEN})
+      referred_total: manager_case_query({ referred: true, status: Record::STATUS_OPEN }),
+      referred_new: manager_case_query({ referred: true, status: Record::STATUS_OPEN, new_records: true }),
+      approval_type: manager_case_query({ by_approval_type: true, status: Record::STATUS_OPEN}),
+      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: Record::STATUS_OPEN})
     }
     build_manager_stats(queries)
   end
@@ -304,7 +303,7 @@ class HomeController < ApplicationController
     module_ids = @module_ids
     @stats = Child.search do
       # TODO: Check for valid
-      with(:child_status, Child::STATUS_OPEN)
+      with(:child_status, Record::STATUS_OPEN)
       with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:assigned_user_names, current_user.user_name)
@@ -347,7 +346,7 @@ class HomeController < ApplicationController
           with(:not_edited_by_owner, true)
         end
         row(:total) do
-          with(:child_status, Child::STATUS_OPEN)
+          with(:child_status, Record::STATUS_OPEN)
         end
       end
 
@@ -356,7 +355,7 @@ class HomeController < ApplicationController
           without(:last_updated_by, current_user.user_name)
         end
         row(:total) do
-          with(:child_status, Child::STATUS_OPEN)
+          with(:child_status, Record::STATUS_OPEN)
         end
       end
 
@@ -547,19 +546,19 @@ class HomeController < ApplicationController
 
     if locations.present?
       @reporting_location_stats = build_admin_stats({
-        totals: get_admin_stat({ status: Child::STATUS_OPEN, locations: locations, by_reporting_location: true }),
-        new_last_week: get_admin_stat({ status: Child::STATUS_OPEN, new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        new_this_week: get_admin_stat({ status: Child::STATUS_OPEN, new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
-        closed_last_week: get_admin_stat({ status: Child::STATUS_CLOSED, closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        closed_this_week: get_admin_stat({ status: Child::STATUS_CLOSED, closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
+        totals: get_admin_stat({ status: Record::STATUS_OPEN, locations: locations, by_reporting_location: true }),
+        new_last_week: get_admin_stat({ status: Record::STATUS_OPEN, new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        new_this_week: get_admin_stat({ status: Record::STATUS_OPEN, new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
+        closed_last_week: get_admin_stat({ status: Record::STATUS_CLOSED, closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        closed_this_week: get_admin_stat({ status: Record::STATUS_CLOSED, closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
       })
     end
 
     @protection_concern_stats = build_admin_stats({
         totals: get_admin_stat({by_protection_concern: true}),
-        open: get_admin_stat({status: Child::STATUS_OPEN, by_protection_concern: true}),
-        new_this_week: get_admin_stat({status: Child::STATUS_OPEN, by_protection_concern: true, new: true, date_range: this_week}),
-        closed_this_week: get_admin_stat({status: Child::STATUS_CLOSED, by_protection_concern: true, closed: true, date_range: this_week})
+        open: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true}),
+        new_this_week: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true, new: true, date_range: this_week}),
+        closed_this_week: get_admin_stat({status: Record::STATUS_CLOSED, by_protection_concern: true, closed: true, date_range: this_week})
     })
   end
 

@@ -184,7 +184,7 @@ class Child < CouchRest::Model::Base
 
   def self.report_filters
     [
-        {'attribute' => 'child_status', 'value' => ['Open']},
+        {'attribute' => 'child_status', 'value' => [STATUS_OPEN]},
         {'attribute' => 'record_state', 'value' => ['true']}
     ]
   end

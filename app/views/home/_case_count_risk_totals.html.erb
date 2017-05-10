@@ -4,7 +4,7 @@
                          {
                             name: :risk_level,
                             stat: :high_total,
-                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                            filter: index_filters(["child_status=#{Record::STATUS_OPEN}",
                                                    "risk_level=#{Child::RISK_LEVEL_HIGH}", 'record_state=true']),
                             stat_type: 'high'
                          }, stats, model)).html_safe %>
@@ -13,7 +13,7 @@
                          {
                             name: :risk_level,
                             stat: :high,
-                            filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                            filter: index_filters(["child_status=#{Record::STATUS_OPEN}",
                                                    "risk_level=#{Child::RISK_LEVEL_HIGH}", 'new_other', 'record_state=true']),
                             stat_type: 'high'
                          }, stats, model)).html_safe %>
@@ -24,7 +24,7 @@
                          {
                              name: :risk_level,
                              stat: :medium_total,
-                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                             filter: index_filters(["child_status=#{Record::STATUS_OPEN}",
                                                     "risk_level=#{Child::RISK_LEVEL_MEDIUM}", 'record_state=true']),
                              stat_type: 'medium'
                          }, stats, model)).html_safe %>
@@ -33,7 +33,7 @@
                          {
                              name: :risk_level,
                              stat: :medium,
-                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                             filter: index_filters(["child_status=#{Record::STATUS_OPEN}",
                                                     "risk_level=#{Child::RISK_LEVEL_MEDIUM}", 'new_other', 'record_state=true']),
                              stat_type: 'medium'
                          }, stats, model)).html_safe %>
@@ -44,7 +44,7 @@
                          {
                              name: :risk_level,
                              stat: :low_total,
-                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                             filter: index_filters(["child_status=#{Record::STATUS_OPEN}",
                                                     "risk_level=#{Child::RISK_LEVEL_LOW}", 'record_state=true']),
                              stat_type: 'low'
                          }, stats, model)).html_safe %>
@@ -53,7 +53,7 @@
                          {
                              name: :risk_level,
                              stat: :low,
-                             filter: index_filters(["child_status=#{Child::STATUS_OPEN}",
+                             filter: index_filters(["child_status=#{Record::STATUS_OPEN}",
                                                     "risk_level=#{Child::RISK_LEVEL_LOW}", 'new_other', 'record_state=true']),
                              stat_type: 'low'
                          }, stats, model)).html_safe %>

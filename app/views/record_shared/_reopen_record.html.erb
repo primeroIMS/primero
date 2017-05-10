@@ -15,7 +15,7 @@
           data-id="<%= instance.id %>"
           data-form_action="<%= send("#{model.name.underscore.downcase}_reopen_case_path", instance) %>"
           data-submit_error_message="<%# t("#{model.name.underscore.downcase}.record_status_error_message")%>"
-          data-status="Open"
+          data-status="<%= Record::STATUS_OPEN %>"
           data-reopen="true"
           href=""><%= t("buttons.ok") %>
         </a>

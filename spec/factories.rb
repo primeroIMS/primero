@@ -16,7 +16,7 @@ FactoryGirl.define do
     created_by "test_user"
     owned_by "test_user"
     module_id "CP"
-    child_status "Open"
+    child_status Record::STATUS_OPEN
     case_id_display "display_1234"
 
     after_build do |child, factory|

@@ -52,7 +52,7 @@ class IncidentsController < ApplicationController
       incident['record_state'] = true
       incident['mrm_verification_status'] = "pending"
       incident['module_id'] = params['module_id']
-      incident['status'] = Incident::STATUS_OPEN
+      incident['status'] = Record::STATUS_OPEN
 
       if params['case_id'].present?
         case_record = Child.get(params['case_id'])
@@ -77,7 +77,7 @@ class IncidentsController < ApplicationController
   end
 
   def initialize_created_record incident
-    incident['status'] = Incident::STATUS_OPEN if incident['status'].blank?
+    incident['status'] = Record::STATUS_OPEN if incident['status'].blank?
   end
 
   def redirect_after_update

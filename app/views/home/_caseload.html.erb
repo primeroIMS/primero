@@ -29,7 +29,7 @@
           <tr>
             <td class="id_column">
               <% if u.present? %>
-                <%= link_to u, cases_path(scope: { owned_by: "list||#{u}", child_status: "list||#{Child::STATUS_OPEN}" }), class: 'id_link' %>
+                <%= link_to u, cases_path(scope: { owned_by: "list||#{u}", child_status: "list||#{Record::STATUS_OPEN}" }), class: 'id_link' %>
               <% else %>
                 <%= t('dashboard.system_user') %>
               <% end %>
