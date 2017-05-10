@@ -563,6 +563,11 @@ Primero = _primero.Views.Base.extend({
           } else if (input_type == "tick_box_type") {
             var $input = $subform_element.find("#" + input_id + ":checked");
             value = $input.size() == 1;
+          }else if (input_type == "select_box_type") {
+            var $input = $subform_element.find("#" + input_id + " option:selected");
+            if ($input.html() !== "" && $input.html() !== "(Select...)") {
+              value = $input.html();
+            }
           } else {
             //Probably there is other widget that should be manage differently.
             var $input = $subform_element.find("#" + input_id);

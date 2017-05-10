@@ -106,6 +106,15 @@ FactoryGirl.define do
     fields []
   end
 
+  factory :field, :traits => [:model] do
+    type Field::TEXT_FIELD
+    name 'name'
+    display_name 'Name'
+    visible true
+    editable true
+    disabled false
+  end
+
   factory :primero_program, :traits => [:model] do
     name { "test_program_#{counter}"}
     description "test description"

@@ -3,7 +3,6 @@ require 'spec_helper'
 describe "form_section/_form_section.html.erb" do
 
   before :each do
-    #@form_section = FormSection.new "unique_id" => "translated", "name" => "displayed_form_name"
     @form_section = FormSection.new({
       "unique_id" => "translated",
       "name" => "displayed_form_name",
@@ -58,9 +57,7 @@ describe "form_section/_form_section.html.erb" do
     context "new record" do
 
       it "renders text fields with a corresponding label" do
-        field = Field.new_field("text_field", "name")
-        @form_section.add_field(field)
-
+        @form_section.add_field(build(:field))
         @child = Child.new
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
@@ -76,8 +73,7 @@ describe "form_section/_form_section.html.erb" do
 
       it "prepopulates the text field with the existing value" do
         @child = Child.new :name => "Jessica"
-        @form_section.add_field(Field.new_field("text_field", "name"))
-
+        @form_section.add_field(build(:field))
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
         rendered.should be_include("<input autocomplete=\"off\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_name\" name=\"child[name]\" type=\"text\" value=\"Jessica\" />")
@@ -91,8 +87,9 @@ describe "form_section/_form_section.html.erb" do
 
       it "renders radio button fields" do
         @child = Child.new
-        @form_section.add_field Field.new_field("radio_button", "is_age_exact", ["Is Exact", "Approximate"])
-
+        @form_section.add_field(build(:field, type: "radio_button", name: "is_age_exact".dehumanize,
+                                      display_name: "is_age_exact".humanize,
+                                      option_strings_text_all: ["Is Exact", "Approximate"].join("\n")))
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
         expect(rendered).to match(/<input data-field-tags="\[\]" id="#{@form_section.name.dehumanize}_child_isageexact_is_exact" name="child\[isageexact\]" type="radio" value="is_exact" \/>/)
@@ -106,8 +103,9 @@ describe "form_section/_form_section.html.erb" do
 
       it "renders a radio button with the current option selected" do
         @child = Child.new :isageexact => "approximate"
-
-        @form_section.add_field Field.new_field("radio_button", "is_age_exact", ["exact", "approximate"])
+        @form_section.add_field(build(:field, type: "radio_button", name: "is_age_exact".dehumanize,
+                                      display_name: "is_age_exact".humanize,
+                                      option_strings_text_all: ["exact", "approximate"].join("\n")))
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
@@ -123,7 +121,9 @@ describe "form_section/_form_section.html.erb" do
 
       it "render select boxes" do
         @child = Child.new
-        @form_section.add_field Field.new_field("select_box", "date_of_separation", ["1-2 weeks ago", "More than a year ago"])
+        @form_section.add_field(build(:field, type: "select_box", name: "date_of_separation".dehumanize,
+                                      display_name: "date_of_separation".humanize,
+                                      option_strings_text_all: ["1-2 weeks ago", "More than a year ago"].join("\n")))
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
@@ -138,7 +138,9 @@ describe "form_section/_form_section.html.erb" do
   context "existing record" do
     it "renders a select box with the current value selected" do
       @child = Child.new :date_of_separation => "1_2_weeks_ago"
-      @form_section.add_field Field.new_field("select_box","date_of_separation", ["1-2 weeks ago", "More than a year ago"])
+      @form_section.add_field(build(:field, type: "select_box", name: "date_of_separation".dehumanize,
+                                    display_name: "date_of_separation".humanize,
+                                    option_strings_text_all: ["1-2 weeks ago", "More than a year ago"].join("\n")))
 
       render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
@@ -224,7 +226,7 @@ describe "form_section/_form_section.html.erb" do
     #context "new record" do
     #  it "renders date field" do
     #    @child = Child.new
-    #    @form_section.add_field Field.new_field("date_field", "Some date")
+    #      @form_section.add_field(build(:field, type: "date_field", name: "Some date".dehumanize, display_name: "Some date".humanize))
     #
     #    render :partial => 'form_section/form_section', :locals => { :form_section => @form_section }, :formats => [:html], :handlers => [:erb]
     #    rendered.should be_include("label for=\"child_some_date\"")
@@ -237,7 +239,7 @@ describe "form_section/_form_section.html.erb" do
     #
     #  it "renders date field with the previous date" do
     #    @child = Child.new :some_date => "13/05/2004"
-    #    @form_section.add_field Field.new_field("date_field", "Some date")
+    #      @form_section.add_field(build(:field, type: "date_field", name: "Some date".dehumanize, display_name: "Some date".humanize))
     #
     #    render :partial => 'form_section/form_section', :locals => { :form_section => @form_section }, :formats => [:html], :handlers => [:erb]
     #

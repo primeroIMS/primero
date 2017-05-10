@@ -408,31 +408,6 @@ class Field
     self.option_strings_source.present? || self.option_strings_text.present?
   end
 
-  #TODO - remove this is just for testing, refactor rspecs, use factories instead!
-  def self.new_text_field field_name, display_name = nil
-    field = Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => TEXT_FIELD
-  end
-
-  def self.new_textarea field_name, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => TEXT_AREA
-  end
-
-  def self.new_photo_upload_box field_name, display_name  = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => PHOTO_UPLOAD_BOX
-  end
-
-  def self.new_audio_upload_box field_name, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => AUDIO_UPLOAD_BOX
-  end
-
-  def self.new_radio_button field_name, option_strings, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => RADIO_BUTTON, :option_strings_text_all => option_strings.join("\n")
-  end
-
-  def self.new_select_box field_name, option_strings, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => SELECT_BOX, :option_strings_text_all => option_strings.join("\n")
-  end
-
   # This is a rework of the original RapidFTR method that never worked.
   # It depends on a 'fields' view existing on the FormSection that indexes the fields out of the FormSection.
   # TODO: This has been renamed to allow a hack to wrap it
