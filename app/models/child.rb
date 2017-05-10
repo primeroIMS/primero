@@ -358,13 +358,20 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  def has_tracing_request?
+    # TODO: this assumes if tracing-request is in associated_record_types then the tracing request forms are also present. Add check for tracing-request forms.
+    self.module.present? && self.module.associated_record_types.include?('tracing-request')
+  end
+
   #TODO v1.3: Need rspec test
   def find_match_tracing_requests
-    match_result = Child.find_match_records(match_criteria, TracingRequest)
-    tracing_request_ids = match_result==[] ? [] : match_result.keys
-    all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
-    results = all_results.sort_by { |result| result[:score] }.reverse.slice(0, 20)
-    PotentialMatch.update_matches_for_child(self.id, results)
+    if has_tracing_request?
+      match_result = Child.find_match_records(match_criteria, TracingRequest)
+      tracing_request_ids = match_result==[] ? [] : match_result.keys
+      all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
+      results = all_results.sort_by { |result| result[:score] }.reverse.slice(0, 20)
+      PotentialMatch.update_matches_for_child(self.id, results)
+    end
   end
 
   alias :inherited_match_criteria :match_criteria
