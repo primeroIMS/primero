@@ -365,23 +365,24 @@ module Exporters
             service_value = model.psychosocial_counseling_services_subform_section.try(:first).try(:service_psycho_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-          "WANTS LEGAL ACTION?" => ->(model) do
-            psychosocial_counseling = model.try(:psychosocial_counseling_services_subform_section)
-            if psychosocial_counseling.present?
-              legal_actions = psychosocial_counseling.
-                map{|psycs| psycs.try(:pursue_legal_action)}
-              if legal_actions.include? 'Yes'
-                'Yes'
-              elsif legal_actions.include? 'No'
-                'No'
-              elsif legal_actions.include? 'Undecided at time of report'
-                'Undecided at time of report'
-              end
-            end
-          end,
+
           "LEGAL ASSISTANCE SERVICES" => ->(model) do
             service_value = model.legal_assistance_services_subform_section.try(:first).try(:service_legal_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
+          end,
+          "WANTS LEGAL ACTION?" => ->(model) do
+            legal_counseling = model.try(:legal_assistance_services_subform_section)
+            if legal_counseling.present?
+              legal_actions = legal_counseling.
+                  map{|l| l.try(:pursue_legal_action)}
+              if legal_actions.include? 'Yes'
+                I18n.t("true")
+              elsif legal_actions.include? 'No'
+                I18n.t("false")
+              elsif legal_actions.include? 'Undecided at time of report'
+                I18n.t("exports.incident_recorder_xls.service_referral.undecided")
+              end
+            end
           end,
           "POLICE / OTHER SECURITY ACTOR" => ->(model) do
             service_value = model.police_or_other_type_of_security_services_subform_section.try(:first).try(:service_police_referral)
