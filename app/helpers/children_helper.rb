@@ -55,7 +55,7 @@ module ChildrenHelper
 
   def select_box_default(model, field)
     if field == 'status'
-      return Child::STATUS_OPEN
+      return Record::STATUS_OPEN
     else
       return (model[field] || '')
     end

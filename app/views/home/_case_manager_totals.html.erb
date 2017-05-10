@@ -1,6 +1,6 @@
 <div>
   <%= I18n.translate('dashboard.manager_count_open_total',
-                     case_count({count: stats['open'], filter: index_filters(["child_status=#{Child::STATUS_OPEN}", 'record_state=true'])}, nil, model)).html_safe %>
+                     case_count({count: stats['open'], filter: index_filters(["child_status=#{Record::STATUS_OPEN}", 'record_state=true'])}, nil, model)).html_safe %>
   <%= I18n.translate('dashboard.manager_count_closed_total',
-                     case_count({count: stats['closed'], filter: index_filters(["child_status=#{Child::STATUS_CLOSED}", 'record_state=true'])}, nil, model)).html_safe %>
+                     case_count({count: stats['closed'], filter: index_filters(["child_status=#{Record::STATUS_CLOSED}", 'record_state=true'])}, nil, model)).html_safe %>
 </div>
