@@ -384,4 +384,9 @@ module IndexHelper
     fields.any?{|f| f.visible?}
   end
 
+  def translate_location_type(location_types, type)
+    selected_type = location_types.select{|lt| lt['id'] == type}.first
+    selected_type.present? ? selected_type['display_text'] : ''
+  end
+
 end
