@@ -3,10 +3,11 @@ module ConfigurationResourceHelper
     field_id = "#{object.class.name.underscore}_#{field}"
     name = "#{object.class.name.underscore}[#{field}]"
     value = object.send(field)
-    if I18n.available_locales.include? field.split('_').last.to_sym
-      label_text = I18n.t(label_key, locale: field.split('_').last.to_sym)
+    locale = field.split('_').last.to_sym
+    label_text = if I18n.available_locales.include?(locale)
+      I18n.t(label_key, locale: locale)
     else
-      label_text = I18n.t(label_key)
+      I18n.t(label_key)
     end
     tag_helper = (type == 'date') ? 'text_field_tag' : "#{type}_tag"
 
