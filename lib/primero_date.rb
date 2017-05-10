@@ -1,22 +1,23 @@
 class PrimeroDate < Date
-  CONVERSIONS = {
-    month_names: ::Date::MONTHNAMES,
-    abbr_month_names: ::Date::ABBR_MONTHNAMES,
-    day_names: ::Date::DAYNAMES,
-    abbr_day_names: ::Date::ABBR_DAYNAMES
-  }
 
-  def self.unlocalize_date_string(string, locale = nil)
-    locale ||= I18n.config.locale
-    I18n.enforce_available_locales!(locale)
+  CONVERSIONS = I18n.available_locales.reject{|l| l == :ru || l == :zh}.map{|l| [l, {
+    month_names: I18n.t('abbr_month_names', scope: 'date', locale: l),
+    abbr_month_names: I18n.t('month_names', scope: 'date', locale: l)
+  }]}.to_h
 
-    conv = CONVERSIONS.reduce(string.downcase) do |str, (type, replacements)|
-      map = I18n.t(type, scope: "date", locale: locale)
-                .zip(replacements)
-                .to_h
-                .tap { |h| h.delete(nil) }
-      str.gsub(/\b(#{map.keys.join("|")})\b/) { |match| map[match] }
+  def self.unlocalize_date_string(string)
+    locale = I18n.config.locale
+
+    str = string.split('-')
+
+    CONVERSIONS[locale].each do |k, m|
+      month = m.index(str[1].downcase)
+      if month.present?
+        str[1] = CONVERSIONS[:en][:month_names][month]
+      end
     end
+
+    str.join('-')
   end
  
   def self.couchrest_typecast(parent, property, value)
