@@ -30,7 +30,7 @@
         <tbody>
         <% protection_concern_stats.each do |key, val| %>
           <tr>
-            <td class="id_column"><%= key %></td>
+            <td class="id_column"><%= val[:display_text] || key %></td>
             <td>
               <%=
                 build_reporting_location_stat_link(val[:totals],
