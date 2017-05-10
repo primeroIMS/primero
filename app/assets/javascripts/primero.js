@@ -3,14 +3,6 @@ $(document).ready(function() {
 
   new Primero();
 
-  $(document).on('open.fndtn.reveal', '[data-reveal]', function () {
-    $('body').css('overflow','hidden');
-  });
-
-  $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
-    $('body').css('overflow','visible');
-  });
-
   $(document).foundation({
     abide: {
       validators: {
@@ -25,6 +17,18 @@ $(document).ready(function() {
         }
       }
     }
+  });
+
+  $(document).on('open.fndtn.reveal', '[data-reveal]', function () {
+    $('body').css('overflow','hidden');
+  });
+
+  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+    $(document).foundation('abide', 'reflow');
+  });
+
+  $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+    $('body').css('overflow','visible');
   });
 
   new _primero.Router();
