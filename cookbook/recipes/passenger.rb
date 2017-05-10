@@ -3,7 +3,8 @@
 
 passenger_worker_file = "#{node[:primero][:daemons_dir]}/passenger-worker.sh"
 passenger_pid = "#{node[:primero][:app_dir]}/tmp/passenger.pid"
-passenger_log = "#{node[:primero][:log_dir]}/rails/passenger.log"
+rails_log_dir = "#{node[:primero][:log_dir]}/rails/"
+passenger_log = "#{rails_log_dir}/passenger.log"
 
 template passenger_worker_file do
   source 'passenger/passenger-worker.erb'
@@ -13,6 +14,7 @@ template passenger_worker_file do
   variables({
     passenger_pid: passenger_pid,
     passenger_log: passenger_log,
+    rails_log_dir: rails_log_dir,
     conf: node[:primero][:passenger_conf]
   })
 end

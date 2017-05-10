@@ -5,6 +5,7 @@
     "server_hostname": "primero.dev",
     "http_port": 8000,
     "https_port": 8443,
+    "no_reseed": true,
     "git": {
       "repo": "git@bitbucket.org:quoin/primero.git",
       "revision": "development"
