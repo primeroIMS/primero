@@ -17,6 +17,7 @@
 //= require plugins/filesaver
 //= require foundation
 //= require_tree ./templates
+//= require plugins/datepicker
 //= require plugins/underscore
 //= require plugins/backbone
 //= require plugins/stickem

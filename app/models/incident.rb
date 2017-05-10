@@ -413,9 +413,9 @@ class Incident < CouchRest::Model::Base
     if self.date_of_incident_from.present? && self.date_of_incident_to.present?
       "#{self.date_of_incident_from.strftime('%d-%b-%Y')} - #{self.date_of_incident_to.strftime('%d-%b-%Y')}"
     elsif self.date_of_incident.present?
-      self.date_of_incident.strftime("%d-%b-%Y")
+      I18n.l(self.date_of_incident)
     elsif self.incident_date.present?
-      self.incident_date.strftime("%d-%b-%Y")
+      I18n.l(self.incident_date)
     end
   end
 

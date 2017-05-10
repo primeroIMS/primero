@@ -412,7 +412,7 @@ module Exporters
                 value = model.try(prop.to_sym)
               end
               if value.is_a?(Date)
-                formatted_value = value.strftime("%d-%b-%Y")
+                formatted_value = I18n.l(value)
               else
                 formatted_value = value
               end

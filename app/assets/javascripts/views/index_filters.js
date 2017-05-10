@@ -148,7 +148,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       } else {
         this.set_remove_filter(filter, _.without(_primero.filters[filter], selected_val));
       }
-    } else if ($target.is("input") && $target.hasClass('hasDatepicker')) {
+    } else if ($target.is("input") && $target.hasClass('form_date_field')) {
       // Date Ranges
       var $date_inputs = $target.parents('.filter-controls').find('input');
       date_values = [ $($date_inputs[0]).val(), $($date_inputs[1]).val()];
