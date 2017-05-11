@@ -48,9 +48,8 @@ module RecordActions
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
-    @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_reg_ex)
+    @options_reporting_locations = Location.find_by_type_and_hierarchy("governorate", ["JOR"]).map{|place| place.name}
     module_users(module_ids) if module_ids.present?
-
     # Alias @records to the record-specific name since ERB templates use that
     # right now
     # TODO: change the ERB templates to just accept the @records instance
