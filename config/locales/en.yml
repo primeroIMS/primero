@@ -1697,6 +1697,7 @@ en:
         not_applicable: "Service not applicable"
         declined: "Referral declined by survivor"
         unavailable: "Service unavailable"
+        undecided: "Undecided at time of report"
     json:
       all:  JSON
       one:  JSON
