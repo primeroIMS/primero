@@ -12,7 +12,7 @@
         <div class="medium-2 columns">
           <%= fld.label :visible, t("visible_for_web"), :class => 'key inline' %>
         </div>
-        <div class="medium-10 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :visible?, {:class => 'visible'}, "true", "false" %>
           <%= fld.hidden_field :type, :class => "field_type" %>
         </div>
@@ -21,7 +21,7 @@
         <div class="medium-2 columns">
           <%= fld.label :hide_on_view_page, t("hide_on_view_page"), :class => 'key inline' %>
         </div>
-        <div class="medium-10 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :hide_on_view_page?, {}, "true", "false" %>
         </div>
       </div>
@@ -29,7 +29,7 @@
         <div class="medium-2 columns">
           <%= fld.label :disabled, t("disabled"), :class => 'key inline' %>
         </div>
-        <div class="medium-10 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :disabled?, {}, "true", "false" %>
         </div>
       </div>
@@ -37,7 +37,7 @@
         <div class="medium-2 columns">
           <%= fld.label :mobile_visible, t("visible_for_mobile"), :class => 'key inline' %>
         </div>
-        <div class="medium-10 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :mobile_visible?, {:class => 'visible_on_mobile'}, "true", "false" %>
           <%= fld.hidden_field :type, :class => "field_type" %>
         </div>
@@ -46,7 +46,7 @@
         <div class="medium-2 columns">
           <%= fld.label :show_on_minify_form, t("show_on_short_form"), :class => 'key inline' %>
         </div>
-        <div class="medium-10 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :show_on_minify_form?, {}, "true", "false" %>
         </div>
       </div>
