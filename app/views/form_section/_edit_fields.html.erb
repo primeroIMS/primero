@@ -145,13 +145,17 @@
               #This needs to be addressed when a more extensive refactor of the form editor is done
               @field ||= Field.new(:type => 'text_field')
             %>
-
+          <% if "#{error_messages_for  :field,
+                                      :header_tag => :h2,
+                                      :header_message => t("form_section.messages.cannot_create"),
+                                      :message => t('form_section.messages.correct_errors')}"==" " %>
             <fieldset class="no-border">
               <%= error_messages_for  :field,
                                       :header_tag => :h2,
                                       :header_message => t("form_section.messages.cannot_create"),
                                       :message => t('form_section.messages.correct_errors') %>
             </fieldset>
+          <% end %>
             <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [
                 {:display_name => :text_field},
                 {:name => :text_field},
