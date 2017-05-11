@@ -355,4 +355,20 @@ describe Location do
 
   end
 
+  describe 'find_by_type_and_hierarchy' do
+    before do
+      Location.all.each { |location| location.destroy }
+      @country = create :location, admin_level: 0, placename: 'Country', type: 'country'
+      @province = create :location, hierarchy: [@country.location_code], type: 'province'
+      @another_province = create :location, hierarchy: [@country.location_code], type: 'province'
+      @town = create :location, hierarchy: [@country.location_code, @province.location_code], type: 'city'
+      @another_town = create :location, hierarchy: [@country.location_code, @another_province.location_code], type: 'city'
+    end
+    it "should return the location list if the type and hierarchy match" do
+      expect(Location.find_by_type_and_hierarchy("city",[@country.location_code])).to eq([])
+      expect(Location.find_by_type_and_hierarchy("city",[@country.location_code, @another_province.location_code])).to eq([@another_town])
+      expect(Location.find_by_type_and_hierarchy("province",[@country.location_code])).to eq([@province,@another_province])
+    end
+  end
+
 end

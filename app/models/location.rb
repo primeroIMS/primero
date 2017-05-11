@@ -134,6 +134,12 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_names_by_admin_level_enabled
 
+    def find_by_type_and_hierarchy(type, hierarchy=[])
+      type_and_disabled= [type, false]
+      find_by_type = Location.by_type_and_disabled(key: type_and_disabled)
+      find_by_type.select{|location| location[:hierarchy]==hierarchy}.sort_by!{ |m| m.placename.downcase }
+    end
+
     def ancestor_placename_by_name_and_admin_level(location_name, admin_level)
       return "" if location_name.blank? || ADMIN_LEVELS.exclude?(admin_level)
       lct = Location.by_name(key: location_name).first
