@@ -140,7 +140,7 @@ _primero.Router = Backbone.Router.extend({
   reports: function() {
     this.initIndexTable();
     new _primero.Views.ReportTable();
-    new _primero.Views.ReportsDateRange();
+    new _primero.Views.ReportFilters();
   },
 
   bulk_exports: function(){

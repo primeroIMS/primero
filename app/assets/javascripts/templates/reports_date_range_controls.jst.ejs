@@ -1,21 +1,32 @@
 <!-- if by -->
-<% if (m.filter_type == 'by') { %>
+<% if (_.contains(['month', 'year'], m.type)) { %>
 <div class="large-3 columns end">
-  <label><%= m.filter_type_display %></label>
-  <select></select>
+  <label><%= m.display %></label>
+  <select>
+    <% if (m.type == 'month') { %>
+      <% _.each(m.options.months, function(month) { %>
+        <option><%= month %></option>
+      <% }) %>
+    <% } %>
+    <% if (m.type == 'year') { %>
+      <% for (i = new Date().getFullYear(); i > 1900; i--) { %>
+        <option value="<%= i %>"><%= i %></option>
+      <% } %>
+    <% } %>
+  </select>
 </div>
 <% } %>
 <!-- if range -->
-<% if (m.filter_type == 'range') { %>
+<% if (_.contains(['day', 'week'], m.type)) { %>
 <div class="large-6 columns end">
   <div class="row">
     <div class="large-6 columns">
       <label>From</label>
-      <input type="text" />
+      <input type="text" class="form_date_field" />
     </div>
     <div class="large-6 columns">
       <label>To</label>
-      <input type="text" />
+      <input type="text" class="form_date_field" />
     </div>
   </div>
 </div>
