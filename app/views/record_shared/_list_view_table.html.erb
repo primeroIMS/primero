@@ -41,7 +41,11 @@
   </div>
 </div>
 <div class="row">
-  <div class="large-9 small-9 columns">
+  <% if options[:display_filter] %>
+    <div class="large-9 small-9 columns">
+  <% else %>
+    <div class="large-12 small-12 columns">
+  <% end %>
     <div class="clearfix"></div>
     <table style="width: 100%;" class="record_list_view dataTable no-footer collapsed dtr-inline" cellpadding="0" cellspacing="0">
       <% header_list = list_view_header(record) %>
@@ -60,8 +64,10 @@
     </table>
     <div class="table_spacer"></div>
   </div>
-  <div class="large-3 small-3 columns no-padding-left index_filters">
-    <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
-  </div>
+  <% if options[:display_filter] %>
+    <div class="large-3 small-3 columns index_filters">
+      <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
+    </div>
+  <% end %>
 </div>
 <%= render :partial => 'shared/pagination', :locals => {:results => collection, :total => @total_records, :per => @per_page} %>
