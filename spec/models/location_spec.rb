@@ -364,9 +364,13 @@ describe Location do
       @town = create :location, hierarchy: [@country.location_code, @province.location_code], type: 'city'
       @another_town = create :location, hierarchy: [@country.location_code, @another_province.location_code], type: 'city'
     end
-    it "should return the location list if the type and hierarchy match" do
+    it "should return nothing because the city's complete hierarchy is not given" do
       expect(Location.find_by_type_and_hierarchy("city",[@country.location_code])).to eq([])
+    end
+    it "should return 'another_town' because correct type and complete hierachy is given" do
       expect(Location.find_by_type_and_hierarchy("city",[@country.location_code, @another_province.location_code])).to eq([@another_town])
+    end
+    it "should return both provinces, because both are described by data given" do
       expect(Location.find_by_type_and_hierarchy("province",[@country.location_code])).to eq([@province,@another_province])
     end
   end
