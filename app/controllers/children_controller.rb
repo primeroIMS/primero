@@ -67,11 +67,24 @@ class ChildrenController < ApplicationController
     end
   end
 
+  def get_incident_module child
+    current_module = PrimeroModule.get(child.module_id);
+    field_map = (!(defined?(current_module)).nil? and current_module.has_key?("field_map")) ? current_module["field_map"] : {}
+    return field_map.has_key?("map_to") ? field_map["map_to"] : child.module_id
+  end
+
   def create_incident
     authorize! :create, Incident
     child = Child.get(params[:child_id])
     #It is a GBV cases and the user indicate that want to create a GBV incident.
-    redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
+    redirect_to new_incident_path({:module_id => get_incident_module(child), :case_id => child.id, :from_module_id => child.module_id})
+  end
+
+  def create_incident_cp
+    authorize! :create, Incident
+    child = Child.get(params[:child_id])
+    #TODO: add modal confirmation
+    redirect_to new_incident_path({:module_id => get_incident_module(child), :case_id => child.id, :from_module_id => child.module_id})
   end
 
   def reopen_case

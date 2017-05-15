@@ -402,7 +402,7 @@ module Record
 
   def display_field(field_name)
     fd = field_definitions.select{|f| f.name == field_name}.first
-    fd.display_text(self.send(field_name))
+    fd.nil? ? "" : fd.display_text(self.send(field_name))
   end
 
   def update_with_attachments(params, user)
@@ -500,8 +500,14 @@ module Record
   #The mapping parameter has the form as
   # { "field_name in source object" => "field_name in target object" }.
   def copy_fields(source, mapping)
-    mapping.each do |source_key, target_key|
-      self[target_key] = source[source_key] if source[source_key].present?
+    mapping.each do |original_field|
+      source_value = source
+      target_key = original_field["target"]
+      original_field["source"].each do |path|
+        source_value = source_value[path]
+      end
+
+      self[target_key] = source_value if source_value.present?
     end
   end
 

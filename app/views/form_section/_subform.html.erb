@@ -43,7 +43,7 @@
 
       <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
         <% fk = field_keys(subform_name, i, field.name, form_group_name) %>
-        <%= render partial: "form_section/#{field.type}",
+        <%= render partial: field_template_path(field, false),
                    object: field,
                    locals: {
                      field_keys: fk,
@@ -80,7 +80,7 @@
     <%# TODO: Render the individual fields %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
       <% fk = field_keys(subform_name, 'template', field.name, form_group_name) %>
-      <%= render partial: "form_section/#{field.type}",
+      <%= render partial: field_template_path(field, false),
                  object: field,
                  locals: {
                    field_keys: fk,

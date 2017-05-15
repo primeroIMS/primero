@@ -13,6 +13,7 @@ class PrimeroModule < CouchRest::Model::Base
   property :associated_record_types, :type => [String]
   property :associated_form_ids, :type => [String]
   property :core_resource, TrueClass, :default => false
+  property :incident_map, Hash, :default => {}
 
   before_save :add_associated_subforms
 

@@ -272,21 +272,8 @@ class Incident < CouchRest::Model::Base
   end
 
   #Copy some fields values from Survivor Information to GBV Individual Details.
-  def copy_survivor_information(case_record)
-    copy_fields(case_record, {
-        "survivor_code_no" => "survivor_code",
-        "age" => "age",
-        "date_of_birth" => "date_of_birth",
-        "sex" => "sex",
-        "gbv_ethnicity" => "ethnicity",
-        "country_of_origin" => "country_of_origin",
-        "gbv_nationality" => "nationality",
-        "gbv_religion"  => "religion",
-        "maritial_status" => "maritial_status",
-        "gbv_displacement_status" => "displacement_status",
-        "gbv_disability_type" => "disability_type",
-        "unaccompanied_separated_status" => "unaccompanied_separated_status"
-     })
+  def copy_survivor_information(case_record, incident_map)
+    copy_fields(case_record, incident_map)
   end
 
   def individual_ids

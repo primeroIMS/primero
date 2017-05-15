@@ -156,7 +156,7 @@ module FieldsHelper
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     #TODO: This code is being temporarily removed until JOR-141 (users should only see their own referrals) is again revisited,
-    #      Pending a full refactor of how we do nested forms headers  
+    #      Pending a full refactor of how we do nested forms headers
     # elsif subform_name == "transitions"
     #   subform_object = object.try(:"#{subform_name}")
     #   #if user is record owner, they can see all referrals
@@ -204,7 +204,7 @@ module FieldsHelper
 
       if source_match
         source_match[0]
-      else  
+      else
         source
       end
     end
