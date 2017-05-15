@@ -3,7 +3,7 @@ _primero.Models.ReportFilter = Backbone.Model.extend({
     filters: [{
       name: 'date',
       display: null,
-      type: 'month',
+      type: '',
       value: null,
       options: {
         months: I18n.t('date.month_names')

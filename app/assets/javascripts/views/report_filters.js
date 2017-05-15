@@ -7,7 +7,8 @@ _primero.Views.ReportFilters = Backbone.View.extend({
 
   events: {
     'change select[name="filter-control"]': 'filter_type_event',
-    'click .close, .open': 'toggle_filter_panel'
+    'click .close, .open': 'toggle_filter_panel',
+    'click .clear_filters': 'clear_filters'
   },
 
   initialize: function() {
@@ -91,6 +92,11 @@ _primero.Views.ReportFilters = Backbone.View.extend({
       else params[k] = v;
     }
     return params;
+  },
+
+  clear_filters: function() {
+    window.location = window.location.origin + window.location.pathname;
+    return false;
   },
 
   render: function() {
