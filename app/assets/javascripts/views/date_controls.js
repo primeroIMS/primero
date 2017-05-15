@@ -10,7 +10,16 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
   ],
 
   events: {
+    'focus .form_date_field': 'init_date_field',
     'change .form_date_field': 'format_date_input'
+  },
+
+  init_date_field: function(e) {
+    var control = $(e.target);
+
+    if (!control.data('datepicker')) {
+      control.datepicker(_primero.dates.options);
+    }
   },
 
   initialize: function() {
@@ -30,15 +39,13 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
 
     this.date_control = $('.form_date_field');
 
-    self.date_control.datepicker(_primero.dates.options);
-
-    dispatcher.on('CloseView', this.destroy_datepicker, this );
+    dispatcher.on('CloseView', this.destroy_datepicker, this);
   },
 
   destroy_datepicker: function() {
     _.each(this.date_control, function(control) {
       var control_instance = $(control).data('datepicker');
-      
+
       if (control_instance) {
         control_instance.destroy();
       }
