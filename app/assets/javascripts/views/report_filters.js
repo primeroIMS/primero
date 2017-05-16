@@ -8,13 +8,34 @@ _primero.Views.ReportFilters = Backbone.View.extend({
   events: {
     'change select[name="filter-control"]': 'filter_type_event',
     'click .close, .open': 'toggle_filter_panel',
-    'click .clear_filters': 'clear_filters'
+    'click .clear_filters': 'clear_filters',
+    'click .submit_filters': 'filter'
   },
 
   initialize: function() {
     this.render();
-    this.set_filter_type();
     this.set_params();
+  },
+
+  filter: function(e) {
+    var control = $(e.target);
+    var form = control.parents('form');
+    var data = form.serializeArray();
+    var filter_values = [];
+
+    var filter_control = form.find('select#filter-control');
+    var filter = filter_control.val();
+    var filter_display = filter_control.find('option:selected').text()
+
+    _.each(data, function(k) {
+      if (k.name != 'filter-control') {
+        filter_values.push(k.value);
+      }
+    });
+
+    this.model.updateFilter('date', filter, filter_values, filter_display);
+
+    window.location.search = this.model.build_query();
   },
 
   set_params: function() {
@@ -34,7 +55,23 @@ _primero.Views.ReportFilters = Backbone.View.extend({
     if (params) {
       _.each(params, function(v, k) {
         var filter = v.split('.');
-        self.model.updateFilter(k, filter.shift(), filter);
+        var type = filter.shift();
+
+        // TODO: This will have to change when we add more filters.
+        var filter_control = $('.filter-control-' + k);
+        var display = filter_control.find('option[value="' + type + '"]');
+
+        display.attr('selected','selected');
+
+        self.model.updateFilter(k, type, filter, display.text());
+
+        var inputs = filter_control.parents('form').find('.controls input');
+
+        if (_.isArray(filter)) {
+          for (var i = 0; i < inputs.length; i++) {
+            inputs[i].value = filter[i];
+          }
+        }
       });
     }
   },
@@ -58,20 +95,11 @@ _primero.Views.ReportFilters = Backbone.View.extend({
 
   filter_type_event: function(e) {
     e.preventDefault();
-    var value = e.target.value;
-    var text = $(e.target).find('option:selected').text();
+    var control = $(e.target);
+    var value = control.val();
+    var text = control.find('option:selected').text();
+
     this.model.updateFilter('date', value, null, text);
-    console.log(this.model.attributes)
-  },
-
-  // TODO: Temp hardcoding select values. Also I18n?
-  set_filter_type: function(value = null) {
-    var filter_type_control = $('select[name="filter-control"]');
-    var selected_option_text = $('select[name="filter-control"] option:selected').text();
-
-    this.model.set('filter_type_display', selected_option_text);
-    this.model.set('filter_type', filter_type_control.val());
-    console.log(this.model)
   },
 
   parse_params: function(query) {

@@ -31,6 +31,7 @@ class ReportsController < ApplicationController
   def show
     authorize!(:read_reports, @report)
     begin
+      @report.data_filters = build_data_filters
       @report.permission_filter = report_permission_filter(current_user)
       @report.build_report
     rescue Sunspot::UnrecognizedFieldError => e
@@ -181,6 +182,17 @@ class ReportsController < ApplicationController
   end
 
   private
+
+  def build_data_filters
+    filters = []
+    # params[:scope].each do |k, fitler|
+    #   value = filter.split('.').last
+    #   filters << {attribute: , value: value}
+    # end
+
+    # binding.pry; x = 0
+    filters
+  end
 
   def load_report
     @report = Report.get(params[:id])

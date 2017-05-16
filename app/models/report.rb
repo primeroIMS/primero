@@ -52,6 +52,7 @@ class Report < CouchRest::Model::Base
   attr_accessor :aggregate_by_ordered
   attr_accessor :disaggregate_by_ordered
   attr_accessor :permission_filter
+  attr_accessor :data_filters
 
   validates_presence_of :name
   validates_presence_of :record_type
@@ -341,12 +342,12 @@ class Report < CouchRest::Model::Base
     [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
       if data[k].present?
         data[k] = data[k].map do |value|
-          value.map{|v| translate(v)}  
+          value.map{|v| translate(v)}
         end
       end
     end
     if data[:values].present?
-      data[:values] = data[:values].map do |key,value| 
+      data[:values] = data[:values].map do |key,value|
         [key.map{|k| translate(k)}, value]
       end.to_h
     end
@@ -435,8 +436,9 @@ class Report < CouchRest::Model::Base
 
 
   def build_solr_filter_query(record_type, filters)
-
+    # TODO: Merge self.data_filters if present
     filters_query = "type:#{solr_record_type(record_type)}"
+    # binding.pry
     if filters.present?
       filters_query = filters_query + ' ' + filters.map do |filter|
         attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])

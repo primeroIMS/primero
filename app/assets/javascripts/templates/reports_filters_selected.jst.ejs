@@ -1,1 +1,5 @@
-<span class="label"><%= m.params.date %></span>
+<% _.each(m.filters, function(filter) { %>
+  <span class="label">
+    <%= filter.display %>: <% if (filter.value && _.isArray(filter.value)) { %><%= filter.value.join(' - ') %><% } %>
+  </span>
+<% }) %>

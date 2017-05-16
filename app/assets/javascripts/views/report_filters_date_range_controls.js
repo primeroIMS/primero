@@ -17,7 +17,6 @@ _primero.Views.ReportFiltersDateRangeControl = Backbone.View.extend({
   },
 
   render: function() {
-    console.log('rendering...')
     var filter = _.findWhere(this.model.get('filters'), {name: 'date'});
 
     $(this.el).find('.controls').html(this.template({ m: filter }));
