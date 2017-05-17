@@ -304,7 +304,6 @@ child_protection_services_subform_section = FormSection.create_or_update_form_se
 services_fields = [
   Field.new({"name" => "service_referred_from",
              "type" => "select_box",
-             "multi_select" => true,
              "display_name_all" => "Who referred the client to you?",
              "option_strings_text_all" => [
                 "Health / Medical Services",
