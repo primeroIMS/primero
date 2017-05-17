@@ -352,7 +352,13 @@ module Exporters
           ##### REFERRAL PATHWAY DATA #####
           "REFERRED TO YOU FROM?" => ->(model) do
             services = model.try(:service_referred_from)
-            services.map{|srf| incident_recorder_service_referral_from(srf) }.join(" & ") if services.present?
+            if services.present?
+              if services.is_a?(Array)
+                services.map{|srf| incident_recorder_service_referral_from(srf) }.join(" & ")
+              else
+                incident_recorder_service_referral_from(services)
+              end
+            end
           end,
           "SAFE HOUSE / SHELTER" => ->(model) do
             incident_recorder_service_referral(model.try(:service_safehouse_referral))
