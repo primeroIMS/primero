@@ -39,7 +39,7 @@ _primero.Views.ReportFilters = Backbone.View.extend({
   },
 
   set_params: function() {
-    var params = this.parse_params(window.location.search.split('?')[1] || '')
+    var params = this.parse_params(window.location.search.split('?')[1] || '');
 
     if (params) {
       this.model.set('params', params);
@@ -53,7 +53,7 @@ _primero.Views.ReportFilters = Backbone.View.extend({
     var params = this.model.get('params');
 
     if (params) {
-      _.each(params, function(v, k) {
+      _.each(params.scope, function(v, k) {
         var filter = v.split('.');
         var type = filter.shift();
 
@@ -113,12 +113,21 @@ _primero.Views.ReportFilters = Backbone.View.extend({
 
     while (e = re.exec(query)) {
       var k = decode(e[1]), v = decode(e[2]);
+      var b = k.match(/^(\w*)\b\[(\w+)\]/);
+
       if (k.substring(k.length - 2) === '[]') {
         k = k.substring(0, k.length - 2);
         (params[k] || (params[k] = [])).push(v);
+      } else if (b) {
+        if (!params[b[1]]) {
+          params[b[1]] = {};
+        }
+        params[b[1]][b[2]] = v
+      } else {
+        params[k] = v;
       }
-      else params[k] = v;
     }
+
     return params;
   },
 
