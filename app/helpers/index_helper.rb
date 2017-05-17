@@ -320,6 +320,7 @@ module IndexHelper
     filters = []
 
     filters << "Flagged"
+    filters << "Mobile"
     filters << "Violation" if @is_mrm
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
