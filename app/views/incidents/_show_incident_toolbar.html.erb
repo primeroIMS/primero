@@ -14,6 +14,10 @@
         <% if can? :edit, @incident %>
             <%= render partial: 'record_shared/enable_disable_record', locals: {model: Incident, instance: @incident} %>
         <% end %>
+        <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
+          <%= render 'record_shared/mark_for_mobile_button', instance: @incident, mobile_value: true  %>
+          <%= render 'record_shared/mark_for_mobile_button', instance: @incident, mobile_value: false  %>
+        <% end %>
     </ul>
   </li>
 </ul>
