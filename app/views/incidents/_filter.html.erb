@@ -4,6 +4,9 @@
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}], nil, nil, 'single') %>
     <% end %>
+    <% if filters_to_show.include? 'Mobile' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.mobile"), 'marked_for_mobile', [{true: t("incidents.filter_by.mobile_label")}], nil, nil, 'single') %>
+    <% end %>
     <% if filters_to_show.include? 'Violation' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_type_list, { multi: true }, false) %>
     <% end %>
