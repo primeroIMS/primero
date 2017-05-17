@@ -50,7 +50,56 @@ class IncidentsController < ApplicationController
   def make_new_record
     from_module = PrimeroModule.get(params['from_module_id'])
     from_field_map = from_module.has_key?('field_map') ? from_module['field_map'] : {}
-    incident_map = from_field_map.has_key?('fields') ? from_field_map['fields'] : []
+    incident_map = from_field_map.has_key?('fields') ? from_field_map['fields'] : [
+      {
+        "source" => ["survivor_code_no"],
+        "target" => "survivor_code_no"
+      },
+      {
+        "source" => ["age"],
+        "target" => "age"
+      },
+      {
+        "source" => ["date_of_birth"],
+        "target" => "date_of_birth"
+      },
+      {
+        "source" => ["sex"],
+        "target" => "sex"
+      },
+      {
+        "source" => ["gbv_ethnicity"],
+        "target" => "ethnicity"
+      },
+      {
+        "source" => ["country_of_origin"],
+        "target" => "country_of_origin"
+      },
+      {
+        "source" => ["gbv_nationality"],
+        "target" => "nationality"
+      },
+      {
+        "source" => ["gbv_religion"],
+        "target" => "religion"
+      },
+      {
+        "source" => ["maritial_status"],
+        "target" => "maritial_status"
+      },
+      {
+        "source" => ["gbv_displacement_status"],
+        "target" => "displacement_status"
+      },
+      {
+        "source" => ["gbv_disability_type"],
+        "target" => "disability_type"
+      },
+      {
+        "source" => ["unaccompanied_separated_status"],
+        "target" => "unaccompanied_separated_status"
+      }
+    ]
 
     Incident.new.tap do |incident|
       incident['record_state'] = true
@@ -61,7 +110,7 @@ class IncidentsController < ApplicationController
       if params['case_id'].present?
         case_record = Child.get(params['case_id'])
         if case_record.present?
-           incident.copy_survivor_information(case_record, incident_map)
+           incident.copy_survivor_information(case_record, incident_map, params['incident_id'])
         end
       end
     end
@@ -70,11 +119,21 @@ class IncidentsController < ApplicationController
   def post_save_processing incident
     # This is for operation after saving the record.
     case_id = params["incident_case_id"]
+    incident_details_id = params["incident_detail_id"]
     if case_id.present? && incident.valid?
       #The Incident is being created from a GBV Case.
       #track the incident in the GBV case (incident_links)
       case_record = Child.get(case_id)
       case_record.incident_links << incident.id
+
+      if incident_details_id.present?
+        incident_detail_record = case_record.incident_details_subform_section.find {|incident_detail| incident_detail.unique_id == incident_details_id}
+        if !incident_detail_record.has_key?('incident_links')
+          incident_detail_record["incident_links"] = []
+        end
+
+        incident_detail_record["incident_links"] << incident.id
+      end
       #TODO what if fails to save at this point? should rollback the incident?
       case_record.save
     end

@@ -1,8 +1,4 @@
-<% if current_actions(action: ['update', 'edit', 'show']) %>
-  <div class="row">
-    <div class="large-12 columns">
-      <%= link_to t("buttons.create_incident"), child_create_incident_cp_path(@child), class: "button create_cp_incident" %>
-      </a>
-    </div>
-  </div>
+<% if current_actions(action: ['show']) %>
+  <%= link_to t("buttons.create_incident"), child_create_incident_cp_path(@child, :params => {:incident_id => incident_id}), class: "button create_cp_incident" %>
+  </a>
 <% end %>

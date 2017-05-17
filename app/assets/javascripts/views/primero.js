@@ -50,7 +50,7 @@ Primero = _primero.Views.Base.extend({
     this.init_chosen_or_new();
     this.show_hide_record_type();
     this.init_scrollbar();
-    this.populate_case_id_for_gbv_incidents();
+    this.populate_case_and_incident_detail_id_for_incidents();
     this.init_edit_listeners();
     this.chosen_roles();
 
@@ -248,10 +248,15 @@ Primero = _primero.Views.Base.extend({
 
   //Adding the case_id from which the GBV incident is being created.
   //GBV Case should hold list of GBV incidents created using this case.
-  populate_case_id_for_gbv_incidents: function() {
+  populate_case_and_incident_detail_id_for_incidents: function() {
+    console.log("test stuff: ", _primero.get_param("case_id"), _primero.get_param("incident_id"));
     case_id = _primero.get_param("case_id");
+    incident_detail_id = _primero.get_param("incident_id");
     if (case_id) {
       $(".new-incident-form").prepend("<input id='incident_case_id' name='incident_case_id' type='hidden' value='" + case_id + "'>");
+    }
+    if (incident_detail_id) {
+      $(".new-incident-form").prepend("<input id='incident_detail_id' name='incident_detail_id' type='hidden' value='" + incident_detail_id + "'>");
     }
   },
 

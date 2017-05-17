@@ -272,8 +272,8 @@ class Incident < CouchRest::Model::Base
   end
 
   #Copy some fields values from Survivor Information to GBV Individual Details.
-  def copy_survivor_information(case_record, incident_map)
-    copy_fields(case_record, incident_map)
+  def copy_survivor_information(case_record, incident_map, incident_id)
+    copy_fields(case_record, incident_map, incident_id)
   end
 
   def individual_ids

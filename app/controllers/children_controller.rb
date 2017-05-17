@@ -84,7 +84,7 @@ class ChildrenController < ApplicationController
     authorize! :create, Incident
     child = Child.get(params[:child_id])
     #TODO: add modal confirmation
-    redirect_to new_incident_path({:module_id => get_incident_module(child), :case_id => child.id, :from_module_id => child.module_id})
+    redirect_to new_incident_path({:incident_id => params[:incident_id], :module_id => get_incident_module(child), :case_id => child.id, :from_module_id => child.module_id})
   end
 
   def reopen_case

@@ -1,0 +1,18 @@
+<% #Incident Links are only viewable on edit/update screen. %>
+<% if current_actions(action: ['update', 'edit', 'show']) && formObject.incident_links.present? %>
+<div class="row">
+  <div class="medium-8 columns">
+    <ul class="incident_links">
+
+    <%
+    binding.pry
+    current_incident_detail = formObject.incident_details_subform_section.find {|incident_detail| incident_detail.unique_id == current_incident_id}
+    if !current_incident_detail["incident_links"].nil?
+      current_incident_detail["incident_links"].each do |incident_id| %>
+        <li><%= link_to incident_id, incident_path(incident_id) %></li>
+      <% end %>
+    <% end %>
+    <ul>
+  </div>
+</div>
+<% end %>
