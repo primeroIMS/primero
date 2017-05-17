@@ -14,11 +14,6 @@ gbv_reported_elsewhere_subform_fields = [
   Field.new({"name" => "gbv_reported_elsewhere_organization_provider",
              "type" => "text_field",
              "display_name_all" => "Name of the service provider"
-            }),
-  Field.new({"name" => "gbv_reported_elsewhere_reporting",
-             "type" => "radio_button",
-             "display_name_all" => "Is this a GBV reporting organization?",
-             "option_strings_text_all" => "Yes\nNo"
             })
 ]
 
@@ -91,7 +86,8 @@ gbv_sexual_violence_fields = [
   Field.new({"name" => "gbv_reported_elsewhere",
              "type" => "radio_button",
              "display_name_all" => "Has the client reported this incident anywhere else?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_text_all" =>
+                 ["No", "Yes-GBVIMS Org / Agency", "Yes-Non GBVIMS Org / Agency"].join("\n")
             }),
   Field.new({"name" => "gbv_reported_elsewhere_subform",
              "type" => "subform",
