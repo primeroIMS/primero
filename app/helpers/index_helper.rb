@@ -283,7 +283,7 @@ module IndexHelper
                   .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
     filters << "Flagged"
-    filters << "Mobile" if @is_cp
+    filters << "Mobile"
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
     filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
