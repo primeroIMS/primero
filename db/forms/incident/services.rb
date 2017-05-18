@@ -3,13 +3,7 @@ health_medical_referral_subform_fields = [
   Field.new({"name" => "service_medical_referral",
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Health/Medical Services?",
-             "option_strings_text_all" =>
-                                    ["Referred",
-                                     "No referral, Service provided by your agency",
-                                     "No referral, Services already received from another agency",
-                                     "No referral, Service not applicable",
-                                     "No, Referral declined by survivor",
-                                     "No referral, Service unavailable"].join("\n")
+             "option_strings_source" => "lookup ServiceReferred",
             }),
   Field.new({"name" => "service_medical_appointment_date",
              "type" => "date_field",
@@ -52,13 +46,7 @@ psychosocial_counseling_services_subform_fields = [
   Field.new({"name" => "service_psycho_referral",
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Psychosocial/Counseling services?",
-             "option_strings_text_all" =>
-                                    ["Referred",
-                                     "No referral, Service provided by your agency",
-                                     "No referral, Services already received from another agency",
-                                     "No referral, Service not applicable",
-                                     "No, Referral declined by survivor",
-                                     "No referral, Service unavailable"].join("\n")
+             "option_strings_source" => "lookup ServiceReferred",
             }),
   Field.new({"name" => "service_psycho_appointment_date",
              "type" => "date_field",
@@ -101,13 +89,7 @@ legal_assistance_services_subform_fields = [
   Field.new({"name" => "service_legal_referral",
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Legal services?",
-             "option_strings_text_all" =>
-                                    ["Referred",
-                                     "No referral, Service provided by your agency",
-                                     "No referral, Services already received from another agency",
-                                     "No referral, Service not applicable",
-                                     "No, Referral declined by survivor",
-                                     "No referral, Service unavailable"].join("\n")
+             "option_strings_source" => "lookup ServiceReferred",
             }),
   Field.new({"name" => "service_legal_appointment_date",
              "type" => "date_field",
@@ -135,7 +117,7 @@ legal_assistance_services_subform_fields = [
              "option_strings_text_all" =>
                  ["Yes",
                   "No",
-                  "Undecided at time of report"].join("\n")
+                  "Undecided"].join("\n")
             })
 ]
 
@@ -158,13 +140,7 @@ police_or_other_type_of_security_services_subform_fields = [
   Field.new({"name" => "service_police_referral",
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Police/Other services?",
-             "option_strings_text_all" =>
-                                    ["Referred",
-                                     "No referral, Service provided by your agency",
-                                     "No referral, Services already received from another agency",
-                                     "No referral, Service not applicable",
-                                     "No, Referral declined by survivor",
-                                     "No referral, Service unavailable"].join("\n")
+             "option_strings_source" => "lookup ServiceReferred",
             }),
   Field.new({"name" => "service_police_appointment_date",
              "type" => "date_field",
@@ -207,13 +183,7 @@ livelihoods_services_subform_fields = [
   Field.new({"name" => "service_livelihoods_referral",
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to a livelihoods program?",
-             "option_strings_text_all" =>
-                                    ["Referred",
-                                     "No referral, Service provided by your agency",
-                                     "No referral, Services already received from another agency",
-                                     "No referral, Service not applicable",
-                                     "No, Referral declined by survivor",
-                                     "No referral, Service unavailable"].join("\n")
+             "option_strings_source" => "lookup ServiceReferred",
             }),
   Field.new({"name" => "service_livelihoods_appointment_date",
              "type" => "date_field",
@@ -256,13 +226,7 @@ child_protection_services_subform_fields = [
   Field.new({"name" => "service_protection_referral",
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Child Protection services?",
-             "option_strings_text_all" =>
-                                    ["Referred",
-                                     "No referral, Service provided by your agency",
-                                     "No referral, Services already received from another agency",
-                                     "No referral, Service not applicable",
-                                     "No, Referral declined by survivor",
-                                     "No referral, Service unavailable"].join("\n")
+             "option_strings_source" => "lookup ServiceReferred",
             }),
   Field.new({"name" => "service_protection_appointment_date",
              "type" => "date_field",
@@ -310,7 +274,7 @@ services_fields = [
                 "Psychosocial / Counseling Services",
                 "Police / Other Security Actor",
                 "Legal Assistance Services",
-                "Livelihoods Program",
+                "Livelihoods Services",
                 "Self Referral / First Point of Contact",
                 "Teacher / School Official",
                 "Community or Camp Leader",
@@ -331,13 +295,7 @@ services_fields = [
   Field.new({"name" => "service_safehouse_referral",
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to a safe house/safe shelter?",
-             "option_strings_text_all" =>
-                                    ["Referred",
-                                     "No referral, Service provided by your agency",
-                                     "No referral, Services already received from another agency",
-                                     "No referral, Service not applicable",
-                                     "No, Referral declined by survivor",
-                                     "No referral, Service unavailable"].join("\n")
+             "option_strings_source" => "lookup ServiceReferred",
             }),
   Field.new({"name" => "service_safehouse_appointment_date",
              "type" => "date_field",
