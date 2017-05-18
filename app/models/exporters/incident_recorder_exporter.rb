@@ -303,19 +303,7 @@ module Exporters
           "HARMFUL TRADITIONAL PRACTICE" => "harmful_traditional_practice",
           "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
           "TYPE OF ABDUCTION" => "abduction_status_time_of_incident",
-          "PREVIOUSLY REPORTED THIS INCIDENT?" => ->(model) do
-            if model.gbv_reported_elsewhere == 'Yes'
-              reporting_agency = model.gbv_reported_elsewhere_subform.reduce(false) {|acc, v| acc || (v.gbv_reported_elsewhere_reporting == 'Yes') }
-
-              if reporting_agency
-                'Yes-GBVIMS Org / Agency'
-              else
-                'Yes-Non GBVIMS Org / Agency'
-              end
-            else
-              'No'
-            end
-          end,
+          "PREVIOUSLY REPORTED THIS INCIDENT?" => "gbv_reported_elsewhere",
           "PREVIOUS GBV INCIDENTS?" => "gbv_previous_incidents",
           ##### ALLEGED PERPETRATOR INFORMATION #####
           "No. ALLEGED PRIMARY PERPETRATOR(S)" => ->(model) do
