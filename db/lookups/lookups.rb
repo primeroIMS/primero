@@ -132,7 +132,7 @@ create_or_update_lookup(
     "No",
     "Unaccompanied Minor",
     "Separated Child",
-    "Other Vulnerable Child"
+    "Orphan or Vulnerable Child"
   ]
 )
 
@@ -171,7 +171,7 @@ create_or_update_lookup(
     "Sexual Assault",
     "Physical Assault",
     "Forced Marriage",
-    "Denial of Resources, Opportunities, or Services",
+    "Denial of Resources, Opportunities or Services",
     "Psychological / Emotional Abuse",
     "Non-GBV"
   ]
@@ -306,5 +306,17 @@ create_or_update_lookup(
             "LP-MD",
             "LP-MS",
             "LP-RR"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "service_referred",
+    :lookup_values => [
+        "Referred",
+        "Service provided by your agency",
+        "Services already received from another agency",
+        "Service not applicable",
+        "Referral declined by survivor",
+        "Service unavailable"
     ]
 )
