@@ -249,7 +249,6 @@ Primero = _primero.Views.Base.extend({
   //Adding the case_id from which the GBV incident is being created.
   //GBV Case should hold list of GBV incidents created using this case.
   populate_case_and_incident_detail_id_for_incidents: function() {
-    console.log("test stuff: ", _primero.get_param("case_id"), _primero.get_param("incident_id"));
     case_id = _primero.get_param("case_id");
     incident_detail_id = _primero.get_param("incident_id");
     if (case_id) {

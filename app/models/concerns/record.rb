@@ -503,9 +503,9 @@ module Record
     mapping.each do |original_field|
       source_value = source
       target_key = original_field["target"]
-      if original_field["source"][0] == "incident_details_subform_section"
+      if original_field["source"][0] == "incident_details"
         incident_key = original_field["source"][1]
-        incidents = source_value["incident_details_subform_section"]
+        incidents = source_value["incident_details"]
         selected_incident = incidents.find{|incident| incident["unique_id"] == incident_id}
         source_value = selected_incident[incident_key]
       else

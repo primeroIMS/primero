@@ -49,7 +49,7 @@ class IncidentsController < ApplicationController
 
   def make_new_record
     from_module = PrimeroModule.get(params['from_module_id'])
-    from_field_map = from_module.has_key?('field_map') ? from_module['field_map'] : {}
+    from_field_map = (!(defined?(from_module)).nil? && !from_module.nil? && from_module.has_key?('field_map')) ? from_module['field_map'] : {}
     incident_map = from_field_map.has_key?('fields') ? from_field_map['fields'] : [
       {
         "source" => ["survivor_code_no"],
@@ -124,15 +124,12 @@ class IncidentsController < ApplicationController
       #The Incident is being created from a GBV Case.
       #track the incident in the GBV case (incident_links)
       case_record = Child.get(case_id)
-      case_record.incident_links << incident.id
+
 
       if incident_details_id.present?
-        incident_detail_record = case_record.incident_details_subform_section.find {|incident_detail| incident_detail.unique_id == incident_details_id}
-        if !incident_detail_record.has_key?('incident_links')
-          incident_detail_record["incident_links"] = []
-        end
-
-        incident_detail_record["incident_links"] << incident.id
+        case_record.incident_links << {"incident_details" => incident_details_id, "incident_id" => incident.id}
+      else
+        case_record.incident_links << incident.id
       end
       #TODO what if fails to save at this point? should rollback the incident?
       case_record.save
