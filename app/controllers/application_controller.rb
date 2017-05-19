@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
   before_filter :check_authentication
   before_filter :set_locale
 
+  around_filter :with_timezone
+
   rescue_from( AuthenticationFailure ) { |e| handle_authentication_failure(e) }
   rescue_from( AuthorizationFailure ) { |e| handle_authorization_failure(e) }
   rescue_from( ErrorResponse ) { |e| render_error_response(e) }
@@ -118,6 +120,11 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def with_timezone
+    timezone = Time.find_zone(cookies[:timezone])
+    Time.use_zone(timezone) { yield }
+  end
 
   def mobile_locale
     mobile_locale =  ((params['mobile'] == true || params['mobile'] == 'true') &&

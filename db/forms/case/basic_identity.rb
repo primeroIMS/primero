@@ -98,6 +98,12 @@ basic_identity_fields = [
              "display_name_all" => "Date of Registration or Interview",
              "date_validation" => "not_future_date"
             }),
+  Field.new({"name" => "test_time_date",
+            "type" => "date_field",
+            "required" => false,
+            "display_name_all" => "Test Time Date",
+            "date_include_time" => true # TODO: TEMP FOR TESTING, IF YOU SEE THIS WHILE PR'ING THIS IS WRONG!!!!
+          }),
   Field.new({"name" => "sex",
              "type" => "select_box",
              "show_on_minify_form" => true,

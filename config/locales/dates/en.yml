@@ -49,8 +49,10 @@ en:
     - December
     formats:
       default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
   time:
     formats:
       default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
   "true": "Yes"
   "false": "No"

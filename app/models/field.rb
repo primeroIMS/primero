@@ -32,6 +32,7 @@ class Field
   property :subform_sort_by
   property :required, TrueClass, :default => false
   property :date_validation, :default => 'default_date_validation'
+  property :date_include_time, TrueClass, :default => false
   property :matchable, TrueClass, :default => false
 
   DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]

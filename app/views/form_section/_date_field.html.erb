@@ -17,7 +17,7 @@
     <% if date_field.required %><span class="required form-section-required">*</span><% end %>
     <%= text_field_tag name, value, :class => 'form_date_field has_help', :id => field_id,
     :disabled => date_field.disabled,
-    "data-validator" => date_validator, required: date_field.required %>
+    "data-validator" => date_validator, "data-timepicker" => date_field.date_include_time, required: date_field.required %>
     <small class="form-error"><%= I18n.t(error_msg)%></small>
     <p class="help"><%= t("fields.date_help") %></p>
     <% if date_field.guiding_questions.present? %>

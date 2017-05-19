@@ -51,4 +51,7 @@ function primero() {
   Backbone.history.start({ pushState: true, hashChange: false })
 }
 
+current_time = new Date();
+document.cookie = "timezone=" + moment.tz.guess();
+
 $(primero);
