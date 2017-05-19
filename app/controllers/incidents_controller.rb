@@ -125,7 +125,6 @@ class IncidentsController < ApplicationController
       #track the incident in the GBV case (incident_links)
       case_record = Child.get(case_id)
 
-
       if incident_details_id.present?
         case_record.incident_links << {"incident_details" => incident_details_id, "incident_id" => incident.id, "incident_short_id" => incident.short_id }
       else

@@ -134,7 +134,7 @@ class Incident < CouchRest::Model::Base
   end
 
   def set_create_date
-      self.cp_created_date ||= self.created_at
+    self.cp_created_date ||= self.created_at
   end
 
   def create_class_specific_fields(fields)
