@@ -17,8 +17,8 @@ _primero.Views.DateRangeValidation = _primero.Views.Base.extend({
       var date_from = $(el).parent().parent().find("input[name='" + name_from + "']");
       var date_to = $(el).parent().parent().find("input[name='" + name_to + "']");
       //Parse the values.
-      var date_from_date = $.datepicker.parseDate($.datepicker.defaultDateFormat, date_from.val());
-      var date_to_date = $.datepicker.parseDate($.datepicker.defaultDateFormat, date_to.val());
+      var date_from_date = _primero.dates.parseDate(date_from.val());
+      var date_to_date = _primero.dates.parseDate(date_to.val());
 
       //Allow null values for both, but validate if at least one is there.
       if ((date_from_date == null && date_to_date != null) || (date_from_date != null && date_to_date == null) || (date_from_date > date_to_date)) {

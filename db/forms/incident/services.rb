@@ -1,3 +1,4 @@
+#TODO - The Service Referral options in each subform are all the same.  They need to be moved to a lookup
 health_medical_referral_subform_fields = [
   Field.new({"name" => "service_medical_referral",
              "type" => "select_box",
@@ -307,7 +308,7 @@ services_fields = [
                                            "Livelihoods Program", "Self Referral / First Point of Contact",
                                            "Teacher / School Official", "Community or Camp Leader",
                                            "Safe House / Shelter", "Other Humanitarian or Development Actor",
-                                           "Other Government Service", "Other"].join('\n')
+                                           "Other Government Service", "Other"].join("\n")
             }),
   Field.new({"name" => "service_referred_from_other",
              "type" => "text_field",

@@ -436,13 +436,13 @@ describe IncidentsController do
 
         Sunspot.remove_all!
 
-        create(:incident, name: "Name 1", status: "Open", age: "5")
-        @incident_age_7 = create(:incident, name: "Name 2", status: "Open", age: "7")
-        create(:incident, name: "Name 3", status: "Closed", age: "7")
-        @incident_age_15 = create(:incident, name: "Name 4", status: "Open", age: "15")
-        create(:incident, name: "Name 5", status: "Closed", age: "15")
-        @incident_age_21 = create(:incident, name: "Name 6", status: "Open", age: "21")
-        create(:incident, name: "Name 7", status: "Closed", age: "21")
+        create(:incident, name: "Name 1", status: Record::STATUS_OPEN, age: "5")
+        @incident_age_7 = create(:incident, name: "Name 2", status: Record::STATUS_OPEN, age: "7")
+        create(:incident, name: "Name 3", status: Record::STATUS_CLOSED, age: "7")
+        @incident_age_15 = create(:incident, name: "Name 4", status: Record::STATUS_OPEN, age: "15")
+        create(:incident, name: "Name 5", status: Record::STATUS_CLOSED, age: "15")
+        @incident_age_21 = create(:incident, name: "Name 6", status: Record::STATUS_OPEN, age: "21")
+        create(:incident, name: "Name 7", status: Record::STATUS_CLOSED, age: "21")
 
         Sunspot.commit
       end
@@ -456,30 +456,30 @@ describe IncidentsController do
       end
 
       it "should filter by one range" do
-        params = {"scope" => {"status" => "list||Open", "age" => "range||6-11"}}
+        params = {"scope" => {"status" => "list||#{Record::STATUS_OPEN}", "age" => "range||6-11"}}
         get :index, params
 
-        filters = {"status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
+        filters = {"status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
         expect(assigns[:filters]).to eq(filters)
         expect(assigns[:incidents].length).to eq(1)
         expect(assigns[:incidents].first).to eq(@incident_age_7)
       end
 
       it "should filter more than one range" do
-        params = {"scope"=>{"status"=>"list||Open", "age"=>"range||6-11||12-17"}}
+        params = {"scope"=>{"status"=>"list||#{Record::STATUS_OPEN}", "age"=>"range||6-11||12-17"}}
         get :index, params
 
-        filters = {"status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
+        filters = {"status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
         expect(assigns[:filters]).to eq(filters)
         expect(assigns[:incidents].length).to eq(2)
         expect(assigns[:incidents]).to eq([@incident_age_7, @incident_age_15])
       end
 
       it "should filter with open range" do
-        params = {"scope"=>{"status"=>"list||Open", "age"=>"range||18 "}}
+        params = {"scope"=>{"status"=>"list||#{Record::STATUS_OPEN}", "age"=>"range||18 "}}
         get :index, params
 
-        filters = {"status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
+        filters = {"status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
         expect(assigns[:filters]).to eq(filters)
         expect(assigns[:incidents].length).to eq(1)
         expect(assigns[:incidents].first).to eq(@incident_age_21)
@@ -962,7 +962,7 @@ describe IncidentsController do
                       previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker",
                       previously_owned_by_agency: "agency-unicef", module_id: "primeromodule-gbv",
                       created_organization: "agency-unicef", created_by: "primero_gbv", created_by_full_name: "GBV Worker",
-                      record_state: true, marked_for_mobile: false, consent_for_services: false, incident_status: "Open",
+                      record_state: true, marked_for_mobile: false, consent_for_services: false, incident_status: Record::STATUS_OPEN,
                       name: "Norville Rogers", name_first: "Norville", name_last: "Rogers", name_nickname: "Shaggy",
                       name_given_post_separation: "No", registration_date: "01-Mar-2017", sex: "Male", age: 10,
                       system_generated_followup: false, incident_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9",
@@ -999,19 +999,19 @@ describe IncidentsController do
                                            previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker",
                                            previously_owned_by_agency: "agency-unicef", module_id: "primeromodule-gbv",
                                            created_organization: "agency-unicef", created_by: "fakeadmin", created_by_full_name: "GBV Worker",
-                                           record_state: true, marked_for_mobile: false, consent_for_services: false, incident_status: "Open",
+                                           record_state: true, marked_for_mobile: false, consent_for_services: false, incident_status: Record::STATUS_OPEN,
                                            name: "Fred Jones", name_first: "Fred", name_last: "Jones")
         @gbv_incident_2 = Incident.create!(owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
                                            previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker",
                                            previously_owned_by_agency: "agency-unicef", module_id: "primeromodule-gbv",
                                            created_organization: "agency-unicef", created_by: "fakeadmin", created_by_full_name: "GBV Worker",
-                                           record_state: true, marked_for_mobile: true, consent_for_services: false, incident_status: "Open",
+                                           record_state: true, marked_for_mobile: true, consent_for_services: false, incident_status: Record::STATUS_OPEN,
                                            name: "Daphne Blake", name_first: "Daphne", name_last: "Blake")
         @gbv_incident_3 = Incident.create!(owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
                                            previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker",
                                            previously_owned_by_agency: "agency-unicef", module_id: "primeromodule-gbv",
                                            created_organization: "agency-unicef", created_by: "fakeadmin", created_by_full_name: "GBV Worker",
-                                           record_state: true, marked_for_mobile: true, consent_for_services: false, incident_status: "Open",
+                                           record_state: true, marked_for_mobile: true, consent_for_services: false, incident_status: Record::STATUS_OPEN,
                                            name: "Velma Dinkley", name_first: "Velma", name_last: "Dinkley")
         @gbv_user = User.new(:user_name => 'primero_gbv', :is_manager => false)
       end

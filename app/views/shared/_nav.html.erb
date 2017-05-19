@@ -1,4 +1,4 @@
-<nav>
+<nav id="main">
   <div class="row align-middle">
     <div class="large-9 columns">
       <% model = controller.model_class %>
@@ -10,13 +10,13 @@
             </a>
           </li>
           <% if can? :read, Child %>
-            <li><%= link_to t("navigation.cases"), cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"}), class: current_menu("cases") %></li>
+            <li><%= link_to t("navigation.cases"), cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("cases") %></li>
           <% end  %>
           <% if can? :read, TracingRequest %>
-            <li><%= link_to t("navigation.tracing_request"), tracing_requests_path(scope: {:inquiry_status => "list||Open", :record_state => "list||true"}), class: current_menu("tracings") %></li>
+            <li><%= link_to t("navigation.tracing_request"), tracing_requests_path(scope: {:inquiry_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("tracings") %></li>
           <% end  %>
           <% if can? :read, Incident %>
-            <li><%= link_to t("navigation.incidents"), incidents_path(scope: {:status => "list||Open", :record_state => "list||true"}), class: current_menu("incidents") %></li>
+            <li><%= link_to t("navigation.incidents"), incidents_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("incidents") %></li>
           <% end  %>
           <% if can? :read, PotentialMatch %>
             <li><%= link_to t("navigation.potential_match"), potential_matches_path(:type => "tracing_request"), class: current_menu("matches") %></li>

@@ -270,7 +270,7 @@ module Record
 
     def report_filters
       [
-        {'attribute' => 'status', 'value' => ['Open']},
+        {'attribute' => 'status', 'value' => [STATUS_OPEN]},
         {'attribute' => 'record_state', 'value' => ['true']}
       ]
     end

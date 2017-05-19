@@ -167,19 +167,17 @@ class Incident < CouchRest::Model::Base
   #Returns the 20 latest open incidents.
   #TODO refactoring pagination?
   def self.open_incidents(user)
-    #TODO do we need I18n for "Open" string?
     filters = { "record_state" =>{:type => "single", :value => "true"},
                 "module_id" => {:type => "single", :value => PrimeroModule::MRM},
-                "status" => {:type => "single", :value => "Open"},
+                "status" => {:type => "single", :value => STATUS_OPEN},
               }
     self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 
   def self.open_gbv_incidents(user)
-    #TODO do we need I18n for "Open" string?
     filters = { "record_state" =>{:type => "single", :value => "true"},
                 "module_id" => {:type => "single", :value => PrimeroModule::GBV},
-                "status" => {:type => "single", :value => "Open"},
+                "status" => {:type => "single", :value => STATUS_OPEN},
               }
     self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
@@ -413,9 +411,9 @@ class Incident < CouchRest::Model::Base
     if self.date_of_incident_from.present? && self.date_of_incident_to.present?
       "#{self.date_of_incident_from.strftime('%d-%b-%Y')} - #{self.date_of_incident_to.strftime('%d-%b-%Y')}"
     elsif self.date_of_incident.present?
-      self.date_of_incident.strftime("%d-%b-%Y")
+      I18n.l(self.date_of_incident)
     elsif self.incident_date.present?
-      self.incident_date.strftime("%d-%b-%Y")
+      I18n.l(self.incident_date)
     end
   end
 

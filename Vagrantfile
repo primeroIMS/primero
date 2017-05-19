@@ -30,7 +30,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.berkshelf.berksfile_path = 'cookbook/Berksfile'
 
   config.vm.provision :chef_solo do |chef|
-    nodedata = JSON.parse(File.read(project_path("dev-node.json")))
+    node_file = if File.exists?(project_path("dev-node.json"))
+      project_path("dev-node.json")
+    else
+      project_path("dev-node.json.sample")
+    end
+    nodedata = JSON.parse(File.read(node_file))
     chef.run_list = nodedata.delete('run_list')
     chef.json = nodedata
     chef.log_level = 'debug'

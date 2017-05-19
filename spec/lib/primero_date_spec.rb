@@ -48,8 +48,53 @@ describe PrimeroDate do
     end
   end
 
+  it "should parse valid date formats in french" do
+    incident = Incident.new
+    date = Date.strptime "2014-July-05", "%Y-%b-%d"
+    I18n.config.locale = :fr
+    values = ["05-juil-2014", "05-juillet-2014", "5-juil-2014", "5-juillet-2014",
+      "05-Juil-14", "05-juillet-14", "5-juil-14", "05-Juillet-14",
+      "05-07-2014", "05-7-2014", "5-07-2014", "5-7-2014",
+      "05-07-14", "05-7-14", "5-07-14", "5-7-14",
+      "05/juil/2014", "05/juillet/2014", "5/juil/2014", "5/Juillet/2014",
+      "05/Juil/14", "05/juillet/14", "5/juil/14", "05/juillet/14",
+      "05/07/2014", "05/7/2014", "5/07/2014", "5/7/2014",
+      "05/07/14", "05/7/14", "5/07/14", "5/7/14"]
+    values.each do |value|
+      PrimeroDate.parse_with_format(value).should eq(date)
+      PrimeroDate.parse_with_format(value.gsub('-', ' - ')).should eq(date)
+      PrimeroDate.parse_with_format(value.gsub('/', ' / ')).should eq(date)
+      incident.incident_date_test = value
+      incident.incident_date_test.should eq(date)
+      incident.valid?.should eq(true)
+    end
+  end
+
+  it "should parse valid date formats in arabic" do
+    incident = Incident.new
+    date = Date.strptime "2014-July-05", "%Y-%b-%d"
+    I18n.config.locale = :ar
+    values = ["05-يول-2014", "05-يوليو-2014", "5-يول-2014", "5-يوليو-2014",
+      "05-يول-14", "05-يوليو-14", "5-يول-14", "05-يوليو-14",
+      "05-07-2014", "05-7-2014", "5-07-2014", "5-7-2014",
+      "05-07-14", "05-7-14", "5-07-14", "5-7-14",
+      "05/يول/2014", "05/يوليو/2014", "5/يول/2014", "5/يوليو/2014",
+      "05/يول/14", "05/يوليو/14", "5/يول/14", "05/يوليو/14",
+      "05/07/2014", "05/7/2014", "5/07/2014", "5/7/2014",
+      "05/07/14", "05/7/14", "5/07/14", "5/7/14"]
+    values.each do |value|
+      PrimeroDate.parse_with_format(value).should eq(date)
+      PrimeroDate.parse_with_format(value.gsub('-', ' - ')).should eq(date)
+      PrimeroDate.parse_with_format(value.gsub('/', ' / ')).should eq(date)
+      incident.incident_date_test = value
+      incident.incident_date_test.should eq(date)
+      incident.valid?.should eq(true)
+    end
+  end
+
   it "should not parse invalid date formats" do
     incident = Incident.new
+    I18n.config.locale = :en
     values = ["05-jly-2014", "September-05-2014", "5-Sip-2014", "5-Sept-2014",
       "09-15-2014", "09-15-14", "10 -jly-2014", "05/jly/2014", "September/05/2014",
       "5/Sip/2014", "5/Sept/2014", "09/15/2014", "09/15/14", "10 /jly/2014",

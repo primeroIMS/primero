@@ -243,9 +243,9 @@ module Exporters
       when String
         render_i18n_text(field.display_text(value))
       when DateTime
-        value.strftime("%d-%b-%Y")
+        I18n.l(value)
       when Date
-        value.strftime("%d-%b-%Y")
+        I18n.l(value)
       when Array
         value.map {|el| format_field(field, el) }.join(', ')
       #when Hash

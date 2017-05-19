@@ -45,10 +45,10 @@ class TracingRequestsController < ApplicationController
 
   def make_new_record
     TracingRequest.new.tap do |tracing_request|
-      tracing_request['inquiry_date'] = DateTime.now.strftime("%d-%b-%Y")
+      tracing_request['inquiry_date'] = I18n.l(DateTime.now)
       tracing_request['status'] = ["Active"]
       tracing_request['record_state'] = true
-      tracing_request['inquiry_status'] = [TracingRequest::STATUS_OPEN]
+      tracing_request['inquiry_status'] = [Record::STATUS_OPEN]
       tracing_request['mrm_verification_status'] = "pending"
       tracing_request['module_id'] = params['module_id']
     end

@@ -1514,7 +1514,7 @@ en:
         has_1_option: "Checkbox must have at least 1 option"
         unique_name_other: "Field already exists on form '%{form_name}'"
         unique_name_this: "Field already exists on this form"
-        change_type_existing_field: "Can't change type of existing field on form '%{form_name}'"
+        change_type_existing_field: "Can't change type of existing field '%{field_name}' on form '%{form_name}'"
         option_strings_text:
           not_array: "Option Strings Text is not an array"
           not_hash: "Option Strings Text option is not a hash"
@@ -1708,6 +1708,28 @@ en:
       all:  Incident Recorder
       one:  Incident Recorder
       selected:  Selected to Incident Recorder
+      gender:
+        male: "M"
+        female: "F"
+        both: "M and F"
+      age_group:
+        age: "Age"
+        61_older: "61 & Older"
+        unknown: "Unknown"
+        header: "ALLEGED PERPETRATOR AGE GROUP"
+      age_type:
+        adult: "Adult"
+        minor: "Minor"
+        both: "Adult & Minor"
+        unknown: "Unknown"
+        header: "ALLEGED PERPETRATOR AGE TYPE"
+      service_referral:
+        referred: "Referred"
+        your_agency: "Service provided by your agency"
+        another_agency: "Services already received from another agency"
+        not_applicable: "Service not applicable"
+        declined: "Referral declined by survivor"
+        unavailable: "Service unavailable"
     json:
       all:  JSON
       one:  JSON
@@ -1933,15 +1955,15 @@ en:
   error_page:
     internal_server_error:
       code: 500
-      something_went_wrong: Sorry, Something when wrong!
+      something_went_wrong: Sorry, Something went wrong!
       contact_admin: Please contact your admin if the problem persists.
       server_error: Server Error
     not_found:
       code: 404
-      something_went_wrong: Sorry, Something when wrong!
+      something_went_wrong: Sorry, Something went wrong!
       contact_admin: If you believe you are here by error, please contact your admin.
       server_error: Page not found
-      
+
   audio:
     update_browser:
       title: 'Update Required'

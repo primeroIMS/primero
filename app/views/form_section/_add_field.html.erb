@@ -5,51 +5,48 @@
         <div class="lang_title medium-5 columns">
           <%= t("forms.initial_language") %>: <span><%= t("home.#{I18n.default_locale}") %></span>
         </div>
-          <%= render :partial => "form_section/add_translations_inline", :locals => {:fields => fields, :fld => fld, :show_drop_down => @show_add_field.present?, :is_field_edit => true} %>
-
         <div class="space"></div>
-        <div class="clearfix"></div>
         <%= render :partial => 'form_section/fields', :locals => {:fld => fld, :fields => fields, :given_locale => I18n.default_locale, :lookup_options => @lookup_options, :is_field_edit => true, :is_translation => false, :editing => @show_add_field.present?} %>
       </div>
       <div class="row">
-        <div class="medium-4 columns">
+        <div class="medium-2 columns">
           <%= fld.label :visible, t("visible_for_web"), :class => 'key inline' %>
         </div>
-        <div class="medium-8 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :visible?, {:class => 'visible'}, "true", "false" %>
           <%= fld.hidden_field :type, :class => "field_type" %>
         </div>
       </div>
       <div class="row">
-        <div class="medium-4 columns">
+        <div class="medium-2 columns">
           <%= fld.label :hide_on_view_page, t("hide_on_view_page"), :class => 'key inline' %>
         </div>
-        <div class="medium-8 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :hide_on_view_page?, {}, "true", "false" %>
         </div>
       </div>
       <div class="row">
-        <div class="medium-3 columns">
+        <div class="medium-2 columns">
           <%= fld.label :disabled, t("disabled"), :class => 'key inline' %>
         </div>
-        <div class="medium-9 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :disabled?, {}, "true", "false" %>
         </div>
       </div>
       <div class="row mobile_visible">
-        <div class="medium-4 columns">
+        <div class="medium-2 columns">
           <%= fld.label :mobile_visible, t("visible_for_mobile"), :class => 'key inline' %>
         </div>
-        <div class="medium-8 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :mobile_visible?, {:class => 'visible_on_mobile'}, "true", "false" %>
           <%= fld.hidden_field :type, :class => "field_type" %>
         </div>
       </div>
       <div class="row short_form">
-        <div class="medium-4 columns">
+        <div class="medium-2 columns">
           <%= fld.label :show_on_minify_form, t("show_on_short_form"), :class => 'key inline' %>
         </div>
-        <div class="medium-8 columns">
+        <div class="medium-5 columns">
           <%= fld.check_box :show_on_minify_form?, {}, "true", "false" %>
         </div>
       </div>
@@ -72,6 +69,10 @@
             </div>
           </div>
       <% end %>
+      <div class="clearfix"></div>
+      <div class="translation_lang_panel">
+        <%= render :partial => "form_section/add_translations_inline", :locals => {:fields => fields, :fld => fld, :show_drop_down => @show_add_field.present?, :is_field_edit => true} %>
+      </div>
       <div class="clearfix"></div>
       <div class="btn_panel">
         <%= submit_button t("forms.save_details") %>

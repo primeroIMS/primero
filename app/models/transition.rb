@@ -23,6 +23,8 @@ class Transition
   TYPE_REASSIGN = "reassign"
   TYPE_TRANSFER = "transfer"
 
+  TRANSFERRED_STATUS = 'transferred'
+
   TO_USER_LOCAL_STATUS_PENDING = "pending"
   TO_USER_LOCAL_STATUS_ACCEPTED = "accepted"
   TO_USER_LOCAL_STATUS_REJECTED = "rejected"

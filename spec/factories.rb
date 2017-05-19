@@ -16,7 +16,7 @@ FactoryGirl.define do
     created_by "test_user"
     owned_by "test_user"
     module_id "CP"
-    child_status "Open"
+    child_status Record::STATUS_OPEN
     case_id_display "display_1234"
 
     after_build do |child, factory|
@@ -104,6 +104,15 @@ FactoryGirl.define do
     unique_id { "form_section_#{counter}" }
     name { "Form Section #{counter}" }
     fields []
+  end
+
+  factory :field, :traits => [:model] do
+    type Field::TEXT_FIELD
+    name 'name'
+    display_name 'Name'
+    visible true
+    editable true
+    disabled false
   end
 
   factory :primero_program, :traits => [:model] do

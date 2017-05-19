@@ -22,7 +22,7 @@ module IncidentsHelper
 
   def select_box_default(model, field)
     if field == 'status'
-      return 'Open'
+      return INCIDENT::STATUS_OPEN
     else
       return (model[field] || '')
     end

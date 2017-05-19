@@ -106,16 +106,14 @@ class Field
 
   validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")
   validate :validate_unique_name
-  validate :validate_unique_display_name
   validate :validate_has_2_options
   validate :validate_display_name_format
   validate :validate_name_format
   validate :valid_presence_of_base_language_name
   validate :valid_tally_field
-  validate :validate_same_datatype
   validate :validate_option_strings_text
-
   #TODO: Any subform validations?
+
 
   def validate_display_name_format
     special_characters = /[*!@#%$\^]/
@@ -255,6 +253,7 @@ class Field
     "#{display_name}#{hidden_text}"
   end
 
+  #TODO: Use CouchRest Model property defaults here instead
   def initialize properties={}
     self.visible = true if properties["visible"].nil?
     self.mobile_visible = true if properties["mobile_visible"].nil?
@@ -274,6 +273,7 @@ class Field
 
   def attributes= properties
     super properties
+    #TODO: FieldOption should just be a regular embedded object that CouchRest Model supports
     @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
@@ -298,12 +298,10 @@ class Field
         options_list += Lookup.values(source_options.last, lookups, locale: locale) if add_lookups.present?
       when 'Location'
         options_list += locations || [] if locations.present?
-      when 'Agency'
-        options_list += Agency.all_names
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
-        options_list += clazz.all.map{|r| r.name}
+        options_list += clazz.all_names
       end
     else
       options_list += (self.option_strings_text.present? ? self.option_strings_text(locale) : [])
@@ -408,36 +406,6 @@ class Field
     self.option_strings_source.present? || self.option_strings_text.present?
   end
 
-
-  #TODO - remove this is just for testing
-  def self.new_field(type, name, options=[])
-    Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text_all => options.join("\n"), :editable => true, :disabled => false
-  end
-
-  def self.new_text_field field_name, display_name = nil
-    field = Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => TEXT_FIELD
-  end
-
-  def self.new_textarea field_name, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => TEXT_AREA
-  end
-
-  def self.new_photo_upload_box field_name, display_name  = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => PHOTO_UPLOAD_BOX
-  end
-
-  def self.new_audio_upload_box field_name, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => AUDIO_UPLOAD_BOX
-  end
-
-  def self.new_radio_button field_name, option_strings, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => RADIO_BUTTON, :option_strings_text_all => option_strings.join("\n")
-  end
-
-  def self.new_select_box field_name, option_strings, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => SELECT_BOX, :option_strings_text_all => option_strings.join("\n")
-  end
-
   # This is a rework of the original RapidFTR method that never worked.
   # It depends on a 'fields' view existing on the FormSection that indexes the fields out of the FormSection.
   # TODO: This has been renamed to allow a hack to wrap it
@@ -514,27 +482,10 @@ class Field
   end
 
   def validate_unique_name
-    #Does not make sense use new? for validity ?
-    #it is perfectly valid FormSection.new(...) then add several field then save and
-    #the validation should work rejecting the duplicate fields.
-    #Also with new? still possible duplicate things for example change the
-    #name/display_name for existing fields.
-    #What we really need is avoid check the field with itself.
-    #return true unless new? && form
     return true unless form
-    #return errors.add(:name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.new? && field.name == name})
-    return errors.add(:name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.equal?(self) && field.name == name})
-    # other_form = FormSection.get_form_containing_field name
-    # return errors.add(:name, I18n.t("errors.models.field.unique_name_other", :form_name => other_form.name)) if (other_form != nil && form.id != other_form.id && self.form.is_nested)
-    true
-  end
-
-  def validate_unique_display_name
-    #See comment at validate_unique_name.
-    #return true unless new? && form
-    return true unless form
-    #return errors.add(:display_name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.new? && field.display_name == display_name})
-    return errors.add(:display_name, I18n.t("errors.models.field.unique_name_this")) if (form.fields.any? {|field| !field.equal?(self) && field.display_name == display_name})
+    if (form.fields.any? {|field| !field.equal?(self) && field.name == name})
+      return errors.add(:name, I18n.t("errors.models.field.unique_name_this"))
+    end
     true
   end
 
@@ -545,18 +496,5 @@ class Field
     end
     true
   end
-
-  def validate_same_datatype
-    #Find field with the same name.
-    fields = FormSection.get_fields_by_name_and_parent_form(name, form.parent_form, false)
-    #Check if the types are the same.
-    fields = fields.select{|field| field.type != type}
-    #Error if the type is different.
-    return errors.add(:name, I18n.t("errors.models.field.change_type_existing_field", :form_name => fields.first.form.name)) if fields.present?
-    #We are OK - All the fields with the same name are consistent with the type.
-    true
-  end
-
-
 
 end

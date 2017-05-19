@@ -177,7 +177,7 @@ module Exporters
       #and they should be exported using the same format.
       def to_exported_value(value)
         if value.is_a?(Date)
-          value.strftime("%d-%b-%Y")
+          I18n.l(value)
         else
           #Returns original value.
           value
@@ -202,7 +202,7 @@ module Exporters
             field.display_text(value)
           end
         else
-          value
+          to_exported_value(value)
         end
       end
 

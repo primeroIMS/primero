@@ -19,10 +19,10 @@
     <%= render "form_section/add_options_box", given_locale: given_locale, editing: editing %>
   <% else %>
     <div class="row">
-      <div class="large-4 medium-4 columns">
+      <div class="large-2 medium-2 columns">
         <label class="key inline"><%= t("fields.#{field_name.to_sym}", :locale => given_locale.to_sym) %></label>
       </div>
-      <div class="<%= editing ? 'large-4 medium-4' : 'large-8 medium-8' %> columns">
+      <div class="<%= editing ? 'large-5 medium-5' : 'large-10 medium-10' %> columns">
         <%
           disabled = false
           if field_type == :text_area && fld.object[:multi_select] && field_name == :option_strings_text && fld.object[:"option_strings_text_#{given_locale}"].is_a?(Array)
@@ -37,7 +37,7 @@
       <% if editing %>
         <% Primero::Application::LOCALES.each do |new_locale| %>
           <% if I18n.default_locale.to_s != new_locale %>
-            <div class="large-4 medium-4 columns <%= "translation_forms #{new_locale}"%> hide_element">
+            <div class="large-5 medium-5 columns <%= "translation_forms #{new_locale}"%> hide_element">
               <%
                 disabled = false
                 if field_type == :text_area && fld.object[:multi_select] && field_name == :option_strings_text && fld.object[:"option_strings_text_#{new_locale}"].is_a?(Array)

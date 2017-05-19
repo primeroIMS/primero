@@ -325,7 +325,7 @@ describe FormSection do
   describe "add_field_to_formsection" do
 
     it "adds the field to the formsection" do
-      field = Field.new_text_field("name")
+      field = build(:field)
       formsection = create_formsection :fields => [new_field(), new_field()], :save => true
       FormSection.add_field_to_formsection formsection, field
       formsection.fields.length.should == 3
@@ -333,14 +333,14 @@ describe FormSection do
     end
 
     it "adds base_language to fields in formsection" do
-      field = Field.new_textarea("name")
+      field = build(:field, type: Field::TEXT_AREA)
       formsection = create_formsection :fields => [new_field(), new_field()], :save=>true
       FormSection.add_field_to_formsection formsection, field
       formsection.fields[2].should have_key("base_language")
     end
 
     it "saves the formsection" do
-      field = Field.new_text_field("name")
+      field = build(:field)
       formsection = create_formsection
       formsection.should_receive(:save)
       FormSection.add_field_to_formsection formsection, field
@@ -358,7 +358,7 @@ describe FormSection do
   describe "add_textarea_field_to_formsection" do
 
     it "adds the textarea to the formsection" do
-      field = Field.new_textarea("name")
+      field = build(:field, type: Field::TEXT_AREA)
       formsection = create_formsection :fields => [new_field(), new_field()], :save=>true
       FormSection.add_field_to_formsection formsection, field
       formsection.fields.length.should == 3
@@ -366,7 +366,7 @@ describe FormSection do
     end
 
     it "saves the formsection with textarea field" do
-      field = Field.new_textarea("name")
+      field = build(:field, type: Field::TEXT_AREA)
       formsection = create_formsection
       formsection.should_receive(:save)
       FormSection.add_field_to_formsection formsection, field
@@ -377,7 +377,7 @@ describe FormSection do
   describe "add_select_drop_down_field_to_formsection" do
 
     it "adds the select drop down to the formsection" do
-      field = Field.new_select_box("name", ["some", ""])
+      field = build(:field, type: Field::SELECT_BOX, option_strings_text_all: ["some", ""].join("\n"))
       formsection = create_formsection :fields => [new_field(), new_field()], :save=>true
       FormSection.add_field_to_formsection formsection, field
       formsection.fields.length.should == 3
@@ -385,7 +385,7 @@ describe FormSection do
     end
 
     it "saves the formsection with select drop down field" do
-      field = Field.new_select_box("name", ["some", ""])
+      field = build(:field, type: Field::SELECT_BOX, option_strings_text_all: ["some", ""].join("\n"))
       formsection = create_formsection
       formsection.should_receive(:save)
       FormSection.add_field_to_formsection formsection, field
@@ -515,16 +515,6 @@ describe FormSection do
       form_section = FormSection.new(:name=>"العربية")
       form_section.should be_valid
       form_section.errors[:name].should_not be_present
-    end
-
-    it "should validate name is unique" do
-      same_name = 'Same Name'
-      valid_attributes = {:name => same_name, :unique_id => same_name.dehumanize, :description => '', :visible => true, :order => 0}
-      FormSection.create! valid_attributes.dup
-      form_section = FormSection.new valid_attributes.dup
-      form_section.should_not be_valid
-      form_section.errors[:name].should be_present
-      form_section.errors[:unique_id].should be_present
     end
 
     it "should not occur error  about the name is not unique  when the name is not filled in" do
@@ -715,7 +705,7 @@ describe FormSection do
                    "display_name_all" => "Date of Separation All"
                   }),
         Field.new({"name" => "separation_cause",
-                   "type" => "select_box",
+                   "type" => Field::SELECT_BOX,
                    "display_name_all" => "What was the main cause of separation?",
                    "option_strings_text" => ["Cause 1", "Cause 2"],
                   })
@@ -775,11 +765,11 @@ describe FormSection do
     it "should add Field" do
       fields = [
         Field.new({"name" => "date_of_separation",
-                   "type" => "text_field",
+                   "type" => Field::TEXT_FIELD,
                    "display_name_all" => "Date of Separation All"
                   }),
         Field.new({"name" => "separation_cause",
-                   "type" => "select_box",
+                   "type" => Field::SELECT_BOX,
                    "display_name_all" => "What was the main cause of separation?",
                    "option_strings_source" => ["Cause 1", "Cause 2"],
                   })
@@ -811,7 +801,7 @@ describe FormSection do
       FormSection.all.each &:destroy
       subform_fields = [
         Field.new({"name" => "field_name_1",
-                   "type" => "text_field",
+                   "type" => Field::TEXT_FIELD,
                    "display_name_all" => "Field name 1"
                   })
       ]
@@ -833,7 +823,7 @@ describe FormSection do
 
       fields = [
         Field.new({"name" => "field_name_2",
-                   "type" => "text_field",
+                   "type" => Field::TEXT_FIELD,
                    "display_name_all" => "Field Name 2"
                   }),
         Field.new({"name" => "field_name_3",
@@ -892,38 +882,7 @@ describe FormSection do
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
-      end
-
-      it "should not add subform with different type" do
-        #This field is a subform in another form.
-        fields = [
-          Field.new({"name" => "field_name_3",
-                     "type" => "textarea",
-                     "display_name_all" => "Field Name 3"
-                    })
-        ]
-        form = FormSection.new(
-          :unique_id => "form_section_test_2",
-          :parent_form=>"case",
-          "visible" => true,
-          :order_form_group => 1,
-          :order => 1,
-          :order_subform => 0,
-          :form_group_name => "Form Section Test",
-          "editable" => true,
-          "name_all" => "Form Section Test 2",
-          "description_all" => "Form Section Test 2",
-          :fields => fields
-        )
-        form.save
-
-        #Form was not save.
-        form.new_record?.should be_true
-
-        #There is other field with the same on other form section
-        #so, we can't change the type.
-        expect(form.fields.first.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+        expect(form.errors.messages[:fields]).to eq(["Can't change type of existing field 'field_name_2' on form 'Form Section Test 2'"])
       end
 
       it "should allow fields with the same name on different subforms" do
@@ -1013,20 +972,7 @@ describe FormSection do
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
-      end
-
-      it "should not add subform with different type" do
-        #This field is a subform in another form.
-        @form.fields << Field.new({"name" => "field_name_3",
-                                  "type" => "textarea",
-                                  "display_name_all" => "Field Name 3"
-                                 })
-        @form.save.should be_false
-
-        #There is other field with the same on other form section
-        #so, we can't change the type.
-        expect(@form.fields.last.errors.messages[:name]).to eq(["Can't change type of existing field on form 'Form Section Test 1'"])
+        expect(@form.errors.messages[:fields]).to eq(["Can't change type of existing field 'field_name_2' on form 'Form Section Test 2'"])
       end
 
       it "should allow fields with the same name on different subforms" do
@@ -1049,11 +995,11 @@ describe FormSection do
 
       fields = [
           Field.new({"name" => "field_name_1",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 1"
                     }),
           Field.new({"name" => "field_name_2",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 2"
                     })
       ]
@@ -1073,20 +1019,20 @@ describe FormSection do
 
       fields = [
           Field.new({"name" => "test_location",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 1",
                      "option_strings_source" => "Location"
                     }),
           Field.new({"name" => "field_name_1",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 1"
                     }),
           Field.new({"name" => "field_name_2",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 2"
                     }),
           Field.new({"name" => "test_country",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "My Test Country",
                      "option_strings_source" => "lookup lookup-country"
                     })
@@ -1107,30 +1053,30 @@ describe FormSection do
 
       fields = [
           Field.new({"name" => "test_location_2",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 2",
                      "option_strings_source" => "Location"
                     }),
           Field.new({"name" => "test_location_3",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 3",
                      "option_strings_source" => "Location"
                     }),
           Field.new({"name" => "field_name_1",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 1"
                     }),
           Field.new({"name" => "field_name_2",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 2"
                     }),
           Field.new({"name" => "test_yes_no",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "My Test Field",
                      "option_strings_text" => "yes\nno"
                     }),
           Field.new({"name" => "test_country",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "My Test Country",
                      "option_strings_source" => "lookup lookup-country"
                     })
@@ -1151,25 +1097,25 @@ describe FormSection do
 
       fields = [
           Field.new({"name" => "test_location_4",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 4",
                      "option_strings_source" => "Location"
                     }),
           Field.new({"name" => "test_location_5",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 5",
                      "option_strings_source" => "Location"
                     }),
           Field.new({"name" => "field_name_1",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 1"
                     }),
           Field.new({"name" => "field_name_2",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 2"
                     }),
           Field.new({"name" => "test_location_6",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 6",
                      "option_strings_source" => "Location"
                     })
@@ -1190,30 +1136,30 @@ describe FormSection do
 
       fields = [
           Field.new({"name" => "test_location_7",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 7",
                      "option_strings_source" => "Location"
                     }),
           Field.new({"name" => "test_location_8",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 8",
                      "option_strings_source" => "Location"
                     }),
           Field.new({"name" => "field_name_1",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 1"
                     }),
           Field.new({"name" => "field_name_2",
-                     "type" => "text_field",
+                     "type" => Field::TEXT_FIELD,
                      "display_name_all" => "Field Name 2"
                     }),
           Field.new({"name" => "test_location_9",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 9",
                      "option_strings_source" => "Location"
                     }),
           Field.new({"name" => "test_location_10",
-                     "type" => "select_box",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Test Location 10",
                      "option_strings_source" => "Location"
                     })

@@ -20,7 +20,7 @@
             <td><%= lct.placename %></td>
             <td><%= lct.location_code %></td>
             <td><%= lct.admin_level %></td>
-            <td><%= location_types.select{|lt| lt['id'] == lct.type}.first['display_text'] %></td>
+            <td><%= translate_location_type(location_types, lct.type) %></td>
             <td><%= lct.hierarchy.join(", ") %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_location_path(lct) %>

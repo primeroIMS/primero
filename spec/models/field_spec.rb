@@ -124,16 +124,6 @@ describe "record field model" do
       expect(field.valid?).to be true
     end
 
-    it "should validate unique within form" do
-      form = FormSection.new(:fields => [Field.new(:name => "other", :display_name => "other")] )
-      field = Field.new(:display_name => "other", :name => "other")
-      form.fields << field
-
-      field.valid?
-      field.errors[:name].should ==  ["Field already exists on this form"]
-      field.errors[:display_name].should ==  ["Field already exists on this form"]
-    end
-
     it "should validate radio button has at least 2 options" do
       field = Field.new(:display_name => "test", :option_strings => ["test"], :type => Field::RADIO_BUTTON)
       form_section = FormSection.new(:parent_form => "case")

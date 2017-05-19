@@ -23,6 +23,7 @@ debug.html
 .redcar/*
 .rvmrc
 .vagrant
+dev-node.json
 bin
 capybara_features/resources/huge.jpg
 capybara_features/resources/huge.mp3
