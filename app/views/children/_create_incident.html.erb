@@ -13,7 +13,7 @@
       <div class="large-12">
         <div class="row align-right">
           <div class="button-group">
-            <%= link_to t("yes_label"), child_create_incident_cp_path(@child, :params => {:incident_id => incident_id}), class: "button create_cp_incident", "data-open" => "incident-modal" %>
+            <%= link_to t("yes_label"), child_create_incident_path(@child, :params => {:incident_detail_id => incident_detail_id}), class: "button create_cp_incident", "data-open" => "incident-modal" %>
             <button class="button gray" data-close aria-label="Close reveal" type="button">
               <span aria-hidden="true"><%= t("buttons.cancel") %></span>
             </button>

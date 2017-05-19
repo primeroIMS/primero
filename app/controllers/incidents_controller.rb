@@ -48,10 +48,6 @@ class IncidentsController < ApplicationController
   end
 
   def make_new_record
-    from_module = PrimeroModule.get(params['from_module_id'])
-    from_field_map = (!(defined?(from_module)).nil? && !from_module.nil? && from_module.has_key?('field_map')) ? from_module['field_map'] : {}
-    incident_map = from_field_map.has_key?('fields') ? from_field_map['fields'] : nil
-
     Incident.new.tap do |incident|
       incident['record_state'] = true
       incident['mrm_verification_status'] = "pending"
@@ -61,7 +57,14 @@ class IncidentsController < ApplicationController
       if params['case_id'].present?
         case_record = Child.get(params['case_id'])
         if case_record.present?
-           incident.copy_survivor_information(case_record, incident_map, params['incident_id'])
+          incident_map = Incident::DEFAULT_INCIDENT_MAPPING
+          if params['from_module_id'].present?
+            from_module = PrimeroModule.get(params['from_module_id'])
+            if from_module.present?
+              incident_map = from_module.field_map_fields
+            end
+          end
+          incident.copy_survivor_information(case_record, incident_map, params['incident_detail_id'])
         end
       end
     end
