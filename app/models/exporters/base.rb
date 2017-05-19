@@ -178,6 +178,8 @@ module Exporters
       def to_exported_value(value)
         if value.is_a?(Date)
           I18n.l(value)
+        elsif value.is_a?(Time)
+          I18n.l(value, format: :with_time)
         else
           #Returns original value.
           value
@@ -189,7 +191,7 @@ module Exporters
         if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
         else
-          value = model.send(property.name) 
+          value = model.send(property.name)
           translate_value(property.name, value)
         end
       end
@@ -218,10 +220,10 @@ module Exporters
             map_field_to_translated_value(sub_field, value)
           else
             map_field_to_translated_value(field, value)
-          end    
+          end
         else
           value
-        end    
+        end
       end
 
       def get_model_location_value(model, property)
