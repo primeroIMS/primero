@@ -50,56 +50,7 @@ class IncidentsController < ApplicationController
   def make_new_record
     from_module = PrimeroModule.get(params['from_module_id'])
     from_field_map = (!(defined?(from_module)).nil? && !from_module.nil? && from_module.has_key?('field_map')) ? from_module['field_map'] : {}
-    incident_map = from_field_map.has_key?('fields') ? from_field_map['fields'] : [
-      {
-        "source" => ["survivor_code_no"],
-        "target" => "survivor_code_no"
-      },
-      {
-        "source" => ["age"],
-        "target" => "age"
-      },
-      {
-        "source" => ["date_of_birth"],
-        "target" => "date_of_birth"
-      },
-      {
-        "source" => ["sex"],
-        "target" => "sex"
-      },
-      {
-        "source" => ["gbv_ethnicity"],
-        "target" => "ethnicity"
-      },
-      {
-        "source" => ["country_of_origin"],
-        "target" => "country_of_origin"
-      },
-      {
-        "source" => ["gbv_nationality"],
-        "target" => "nationality"
-      },
-      {
-        "source" => ["gbv_religion"],
-        "target" => "religion"
-      },
-      {
-        "source" => ["maritial_status"],
-        "target" => "maritial_status"
-      },
-      {
-        "source" => ["gbv_displacement_status"],
-        "target" => "displacement_status"
-      },
-      {
-        "source" => ["gbv_disability_type"],
-        "target" => "disability_type"
-      },
-      {
-        "source" => ["unaccompanied_separated_status"],
-        "target" => "unaccompanied_separated_status"
-      }
-    ]
+    incident_map = from_field_map.has_key?('fields') ? from_field_map['fields'] : nil
 
     Incident.new.tap do |incident|
       incident['record_state'] = true
