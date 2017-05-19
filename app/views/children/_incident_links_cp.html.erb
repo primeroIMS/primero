@@ -1,9 +1,4 @@
 <% if current_actions(action: ['update', 'edit', 'show']) && formObject.incident_links.present? %>
-  <div class="row">
-    <div class="medium-12 columns">
-      <ul class="incident_links">
-        <li><%= link_to associated_incident_id, incident_path(associated_incident_id) %></li>
-      <ul>
-    </div>
-  </div>
+  <div class="incident_link_label"><%= t('incident.incident_short_id') %></div>
+  <div class="incident_link"><%= link_to incident_short_id, incident_path(associated_incident_id) %></div>
 <% end %>

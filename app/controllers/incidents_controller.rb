@@ -127,7 +127,7 @@ class IncidentsController < ApplicationController
 
 
       if incident_details_id.present?
-        case_record.incident_links << {"incident_details" => incident_details_id, "incident_id" => incident.id}
+        case_record.incident_links << {"incident_details" => incident_details_id, "incident_id" => incident.id, "incident_short_id" => incident.short_id }
       else
         case_record.incident_links << incident.id
       end

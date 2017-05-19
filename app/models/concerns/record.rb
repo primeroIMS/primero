@@ -27,6 +27,7 @@ module Record
 
   included do
     before_create :create_identification
+    before_create :create_created_at_date
     #TODO: Will this be around in production as well? In Prod we are deferring to the notifier to index
     after_save :index_nested_reportables
     after_destroy :unindex_nested_reportables
@@ -452,6 +453,12 @@ module Record
     self.short_id ||= self.unique_identifier.last 7
     #Method should be defined by the derived classes.
     self.set_instance_id
+  end
+
+  def create_created_at_date
+    if self.respond_to?('set_create_date')
+      self.set_create_date
+    end
   end
 
   def nested_reportables_hash
