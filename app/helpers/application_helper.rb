@@ -59,8 +59,8 @@ module ApplicationHelper
       link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation'), turbolinks: false}, class: "link_cancel button gray"
   end
 
-  def discard_button(path)
-      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message'), turbolinks: false}, class: "button gray"
+  def discard_button(path, additional_classes = nil )
+      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message'), turbolinks: false}, class: "button #{additional_classes}"
   end
 
   def link_with_confirm(link_to, anchor, link_options = {})
@@ -133,9 +133,14 @@ module ApplicationHelper
     path = path.singularize if path.instance_of? String
     if path.present?
       if record.present?
-        # This is necessary to make the translation between children and cases
-        link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
-          class: "button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        if current_actions(action: ['update', 'edit'])
+          # This is necessary to make the translation between children and cases
+          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
+            class: "button green #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        else
+          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
+            class: "button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        end
       else
         #TODO - sort of a hack for language edit, since it uses i18n.locale instead of a model
         link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true }),
@@ -147,9 +152,9 @@ module ApplicationHelper
     end
   end
 
-  def ctl_cancel_button(path)
+  def ctl_cancel_button(path, additional_classes = nil)
     record = controller.controller_name.gsub('_', ' ').titleize
-    discard_button polymorphic_path(path)
+    discard_button(polymorphic_path(path), additional_classes)
   end
 
   def ctl_save_button
@@ -171,7 +176,7 @@ module ApplicationHelper
       if record.present? && record.new?
         ctl_cancel_button(path || record) + ctl_save_button
       elsif current_actions(action: ['update', 'edit'])
-        ctl_edit_button(record, path) + ctl_cancel_button(path || record) + ctl_save_button
+        ctl_edit_button(record, path) + ctl_cancel_button(path || record, "middle_btn") + ctl_save_button
       elsif current_actions(action: ['edit_locale'])
         ctl_edit_button(record, path) + ctl_cancel_button(record) + ctl_save_button
       else
