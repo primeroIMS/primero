@@ -173,10 +173,6 @@ class Incident < CouchRest::Model::Base
     self.incident_id ||= self.unique_identifier
   end
 
-  def set_create_date
-    self.cp_created_date ||= self.created_at
-  end
-
   def create_class_specific_fields(fields)
     self['description'] = fields['description'] || self.description || ''
   end
