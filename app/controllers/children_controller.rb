@@ -208,7 +208,7 @@ class ChildrenController < ApplicationController
     individual_details_subform_section = params['individual_details_subform_section']
 
     Child.new.tap do |child|
-      child.registration_date = Date.today
+      child.registration_date = DateTime.now
       child['record_state'] = true
       child['child_status'] = [Record::STATUS_OPEN]
       child['module_id'] = params['module_id']

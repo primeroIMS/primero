@@ -12,6 +12,7 @@ describe "Searchable" do
     form.fields << Field.new(:name => "tick_field1", :type => Field::TICK_BOX, :display_name => "Tick Field 1")
     form.fields << Field.new(:name => "tick_field2", :type => Field::TICK_BOX, :display_name => "Tick Field 2")
     form.fields << Field.new(:name => "date_field1", :type => Field::DATE_FIELD, :display_name => "Date Field 1")
+    form.fields << Field.new(:name => "registration_date", :type => Field::DATE_FIELD, :display_name => "Date Field 1", :date_include_time => true)
     form.save!
   end
 
@@ -60,14 +61,18 @@ describe "Searchable" do
 
 
   describe "Solr schema" do
-
     it "should build with date search fields" do
-      expect(Child.searchable_date_fields).to include("created_at", "last_updated_at", "registration_date", "date_field1")
+      expect(Child.searchable_date_fields).to include("date_field1")
+    end
+
+
+    it "should build with date time search fields" do
+      expect(Child.searchable_date_time_fields).to include("created_at", "last_updated_at", "registration_date")
     end
 
     it "should build with boolean search fields" do
       expect(Child.searchable_boolean_fields).to include(
-        'duplicate', 'flag', 'has_photo', 'record_state', 
+        'duplicate', 'flag', 'has_photo', 'record_state',
         'case_status_reopened', 'tick_field1', 'tick_field2'
       )
     end

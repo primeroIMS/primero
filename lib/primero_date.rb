@@ -28,9 +28,11 @@ class PrimeroDate < Date
         month = $2.to_i
         day = $3.to_i
 
+        database_datetime_format = /^(\d{4})[\-|\/](\d{2})[\-|\/](\d{2,4})\s(\d{1,2}:\d{1,2}:\d{1,2})(\s[\+|-]\d{1,4})?$/
+        rails_datetime_format = /\d{4}[\-|\/]\d{2}[\-|\/]\d{2}T\d{2}:\d{2}:\d{2}/
         # Faster than parsing the date
-        if value.to_s =~ /^(\d{4})[\-|\/](\d{2})[\-|\/](\d{2,4})\s(\d{1,2}:\d{1,2}:\d{1,2})(\s[\+|-]\d{1,4})?$/
-          Time.zone.parse(value)
+        if value.to_s =~ database_datetime_format || value.to_s =~ rails_datetime_format
+          Time.zone.parse(value.to_s)
         else
           Date.new(year, month, day)
         end

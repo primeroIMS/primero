@@ -96,7 +96,8 @@ basic_identity_fields = [
              "type" => "date_field",
              "required" => false,
              "display_name_all" => "Date of Registration or Interview",
-             "date_validation" => "not_future_date"
+             "date_validation" => "not_future_date",
+             "date_include_time" => true
             }),
   Field.new({"name" => "sex",
              "type" => "select_box",
