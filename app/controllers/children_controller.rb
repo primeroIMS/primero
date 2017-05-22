@@ -67,12 +67,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def get_incident_module child
-    current_module = PrimeroModule.get(child.module_id);
-    field_map = (!(defined?(current_module)).nil? && !current_module.nil? && current_module.has_key?("field_map")) ? current_module["field_map"] : {}
-    return field_map.has_key?("map_to") ? field_map["map_to"] : child.module_id
-  end
-
   def create_incident
     authorize! :create, Incident
     child = Child.get(params[:child_id])

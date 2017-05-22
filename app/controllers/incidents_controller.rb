@@ -64,7 +64,7 @@ class IncidentsController < ApplicationController
               incident_map = from_module.field_map_fields
             end
           end
-          incident.copy_survivor_information(case_record, incident_map, params['incident_detail_id'])
+          incident.copy_case_information(case_record, incident_map, params['incident_detail_id'])
         end
       end
     end
@@ -73,14 +73,14 @@ class IncidentsController < ApplicationController
   def post_save_processing incident
     # This is for operation after saving the record.
     case_id = params["incident_case_id"]
-    incident_details_id = params["incident_detail_id"]
+    incident_detail_id = params["incident_detail_id"]
     if case_id.present? && incident.valid?
       #The Incident is being created from a GBV Case.
       #track the incident in the GBV case (incident_links)
       case_record = Child.get(case_id)
 
-      if incident_details_id.present?
-        case_record.incident_links << {"incident_details" => incident_details_id, "incident_id" => incident.id, "incident_short_id" => incident.short_id }
+      if incident_detail_id.present?
+        case_record.incident_links << {"incident_details" => incident_detail_id, "incident_id" => incident.id, "incident_short_id" => incident.short_id }
       else
         case_record.incident_links << incident.id
       end
