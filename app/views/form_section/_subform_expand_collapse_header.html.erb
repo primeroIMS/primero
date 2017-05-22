@@ -115,6 +115,22 @@
       <% end %>
     <% end %>
     <div class="button-group align-right">
+      <% if subform_instance.present? && subform_name == "incident_details" %>
+        <% link_for_current_details = formObject.incident_links.find{|link| link["incident_details"] == subform_instance.unique_id} %>
+        <% if link_for_current_details.present? %>
+          <%= render :partial =>"children/incident_links_cp",
+            locals: {
+              :formObject => formObject,
+              :associated_incident_id => link_for_current_details["incident_id"],
+              :incident_short_id => link_for_current_details["incident_short_id"]
+            } %>
+        <% else %>
+          <%= render :partial => "children/create_incident",
+            locals: {
+              :incident_detail_id => subform_instance.unique_id
+            } %>
+        <% end %>
+      <% end %>
       <% if !subform.disabled %>
         <%= link_to t('fields.remove'), '', class: "subform_remove button grey tiny", style: disable_action_buttons,
             data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>

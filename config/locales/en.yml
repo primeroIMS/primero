@@ -468,6 +468,8 @@ en:
     violation_status_verified: "Verified"
     empty_violation: "To add violations, add the Violation Category on the Incident form to see the corresponding violation form."
     add_violations: "Click add to enter violation details."
+    create_incident_cp: "Create a reportable incident record?"
+    link_to_incident: "Link To Incident"
 
     messages:
       update_success: "Incident %{record_id} was successfully updated."

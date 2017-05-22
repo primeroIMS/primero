@@ -155,6 +155,7 @@ class HomeController < ApplicationController
     @display_incidents_dashboard ||= @record_types.include?("incident") && @module_ids.include?(PrimeroModule::MRM)
   end
 
+  #TODO: CP Incidents - either remove the conditional check for GBV here or create a new display_CP_incidents_dashboard
   def display_gbv_incidents_dashboard?
     @display_gbv_incidents_dashboard ||= @record_types.include?("incident") && @module_ids.include?(PrimeroModule::GBV)
   end

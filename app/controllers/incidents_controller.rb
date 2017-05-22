@@ -19,7 +19,7 @@ class IncidentsController < ApplicationController
       params['incident']['violations'].each do |k, v|
         if v.present?
           v.each do |sk, sv|
-            has_values_present = sv.any? do |fk, fv| 
+            has_values_present = sv.any? do |fk, fv|
               fk == 'unique_id' ? false : fv.present?
             end
             unless has_values_present
@@ -57,7 +57,14 @@ class IncidentsController < ApplicationController
       if params['case_id'].present?
         case_record = Child.get(params['case_id'])
         if case_record.present?
-           incident.copy_survivor_information(case_record)
+          incident_map = Incident::DEFAULT_INCIDENT_MAPPING
+          if params['from_module_id'].present?
+            from_module = PrimeroModule.get(params['from_module_id'])
+            if from_module.present?
+              incident_map = from_module.field_map_fields
+            end
+          end
+          incident.copy_survivor_information(case_record, incident_map, params['incident_detail_id'])
         end
       end
     end
@@ -66,11 +73,17 @@ class IncidentsController < ApplicationController
   def post_save_processing incident
     # This is for operation after saving the record.
     case_id = params["incident_case_id"]
+    incident_details_id = params["incident_detail_id"]
     if case_id.present? && incident.valid?
       #The Incident is being created from a GBV Case.
       #track the incident in the GBV case (incident_links)
       case_record = Child.get(case_id)
-      case_record.incident_links << incident.id
+
+      if incident_details_id.present?
+        case_record.incident_links << {"incident_details" => incident_details_id, "incident_id" => incident.id, "incident_short_id" => incident.short_id }
+      else
+        case_record.incident_links << incident.id
+      end
       #TODO what if fails to save at this point? should rollback the incident?
       case_record.save
     end

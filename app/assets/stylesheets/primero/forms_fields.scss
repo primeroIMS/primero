@@ -324,6 +324,18 @@ fieldset {
     color: $green_color;
   }
 
+  .incident_link_label,
+  .incident_link {
+    display: inline-block;
+    padding: 3px 10px 3px 0;
+    font-family: 'Roboto-Medium', sans-serif;
+    font-size: $thirteen_px;
+  }
+
+  .incident_link_label {
+    font-weight: bold;
+  }
+
   .grey-button {
     height: 30px;
     padding-top: 5px;

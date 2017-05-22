@@ -1,6 +1,46 @@
 class Incident < CouchRest::Model::Base
   use_database :incident
 
+  DEFAULT_INCIDENT_MAPPING = [
+    {
+      "source" => ["survivor_code_no"],
+      "target" => "survivor_code_no"
+    }, {
+      "source" => ["age"],
+      "target" => "age"
+    }, {
+      "source" => ["date_of_birth"],
+      "target" => "date_of_birth"
+    }, {
+      "source" => ["sex"],
+      "target" => "sex"
+    }, {
+      "source" => ["gbv_ethnicity"],
+      "target" => "ethnicity"
+    }, {
+      "source" => ["country_of_origin"],
+      "target" => "country_of_origin"
+    }, {
+      "source" => ["gbv_nationality"],
+      "target" => "nationality"
+    }, {
+      "source" => ["gbv_religion"],
+      "target" => "religion"
+    }, {
+      "source" => ["maritial_status"],
+      "target" => "maritial_status"
+    }, {
+      "source" => ["gbv_displacement_status"],
+      "target" => "displacement_status"
+    }, {
+      "source" => ["gbv_disability_type"],
+      "target" => "disability_type"
+    }, {
+      "source" => ["unaccompanied_separated_status"],
+      "target" => "unaccompanied_separated_status"
+    }
+  ]
+
   include PrimeroModel
   include Primero::CouchRestRailsBackward
 
@@ -272,21 +312,8 @@ class Incident < CouchRest::Model::Base
   end
 
   #Copy some fields values from Survivor Information to GBV Individual Details.
-  def copy_survivor_information(case_record)
-    copy_fields(case_record, {
-        "survivor_code_no" => "survivor_code",
-        "age" => "age",
-        "date_of_birth" => "date_of_birth",
-        "sex" => "sex",
-        "gbv_ethnicity" => "ethnicity",
-        "country_of_origin" => "country_of_origin",
-        "gbv_nationality" => "nationality",
-        "gbv_religion"  => "religion",
-        "maritial_status" => "maritial_status",
-        "gbv_displacement_status" => "displacement_status",
-        "gbv_disability_type" => "disability_type",
-        "unaccompanied_separated_status" => "unaccompanied_separated_status"
-     })
+  def copy_survivor_information(case_record, incident_map, incident_id)
+    copy_fields(case_record, incident_map, incident_id)
   end
 
   def individual_ids
