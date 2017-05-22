@@ -80,7 +80,18 @@ class ChildrenController < ApplicationController
     if from_module.present?
       new_incident_params[:from_module_id] = from_module.id
     end
-    redirect_to new_incident_path(new_incident_params)
+
+    # TODO: this really needs to be refactored (refresh view with short id instead of redirect)
+    if from_module.present? && params[:incident_detail_id].present?
+      incident = Incident.make_incident_from_case(child, to_module_id, from_module.id, params[:incident_detail_id])
+      incident.save
+      # TODO: move to an after save for incidents
+      child.incident_links << {"incident_details" => params[:incident_detail_id], "incident_id" => incident.id, "incident_short_id" => incident.short_id }
+      child.save
+      redirect_to case_path(child, { follow: true })
+    else
+      redirect_to new_incident_path(new_incident_params)
+    end
   end
 
   def reopen_case

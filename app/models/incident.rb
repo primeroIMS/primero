@@ -116,6 +116,33 @@ class Incident < CouchRest::Model::Base
 
   end
 
+  def self.make_incident_from_case(child, module_id, from_module_id=nil, incident_detail_id=nil)
+    Incident.new.tap do |incident|
+      incident['record_state'] = true
+      incident['mrm_verification_status'] = "pending"
+      incident['module_id'] = module_id
+      incident['status'] = Record::STATUS_OPEN
+
+      if child.present?
+        # case_record = Child.get(case_id)
+        # if case_record.present?
+        incident['incident_case_id'] = child.id
+        incident_map = Incident::DEFAULT_INCIDENT_MAPPING
+        if from_module_id.present?
+          from_module = PrimeroModule.get(from_module_id)
+          if from_module.present?
+            incident_map = from_module.field_map_fields
+            if incident_detail_id.present?
+              incident['incident_detail_id'] = incident_detail_id
+            end
+          end
+        end
+        incident.copy_survivor_information(child, incident_map, incident_detail_id)
+        # end
+      end
+    end
+  end
+
   def ensure_violation_categories_exist
     if self.violations.present?
       self.violations.to_hash.compact.each_key do |key|
