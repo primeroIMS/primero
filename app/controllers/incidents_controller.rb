@@ -48,12 +48,8 @@ class IncidentsController < ApplicationController
   end
 
   def make_new_record
-    #TODO - move record_state, mrm_verification_status, status
     Incident.new.tap do |incident|
-      incident['record_state'] = true
-      incident['mrm_verification_status'] = "pending"
       incident['module_id'] = params['module_id']
-      incident['status'] = Record::STATUS_OPEN
 
       if params['case_id'].present?
         case_record = Child.get(params['case_id'])

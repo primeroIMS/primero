@@ -26,6 +26,7 @@ gbv_incident_fields = [
             }),
   Field.new({"name" => "status",
              "type" => "select_box",
+             "selected_value" => Record::STATUS_OPEN,
              "display_name_all" => "Incident Status",
              "option_strings_source" => "lookup lookup-incident-status"
             }),
