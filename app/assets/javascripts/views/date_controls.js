@@ -32,6 +32,8 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
       todayButton: new Date(),
       dateFormat: "dd-M-yyyy",
       clearButton: true,
+      autoClose: true,
+      toggleSelected: false,
       onSelect: function(formattedDate, date, inst) {
         $(inst.el).trigger('change');
       }
