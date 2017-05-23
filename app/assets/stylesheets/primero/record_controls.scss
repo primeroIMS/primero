@@ -34,6 +34,10 @@
   }
 }
 
+.record_controls_container, .index_controls_container {
+  position: relative;
+}
+
 .index_controls_container, .record_controls_container {
   width: 100%;
   height: rem_calc(50);
@@ -77,7 +81,7 @@
     width: 20%;
     height: rem_calc(39.69)
   }
-  
+
   .pagination_info {
     font-size: .9rem;
   }

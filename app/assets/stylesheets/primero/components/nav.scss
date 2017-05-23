@@ -1,4 +1,5 @@
 nav#main {
+  position: relative;
   background: $grey_color;
   width: 100%;
   z-index: 999;
@@ -94,7 +95,7 @@ nav#main {
     } @else {
       border-right: 1px solid #fff !important;
     }
-    
+
   }
 
   ::-webkit-input-placeholder {
