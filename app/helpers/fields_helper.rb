@@ -209,4 +209,35 @@ module FieldsHelper
       end
     end
   end
+
+  #TODO - date format isn't quite right
+  #TODO - create rspec tests for this
+  # Valid inputs are as follows
+  # 'yesterday'
+  # 'today'
+  # 'tomorrow'
+  # '<integer> <date/time unit> <ago|from_now>'
+  # example: '10 days ago'  or  '3 weeks from_now'
+  def selected_date_value(date_value)
+    if date_value.present? && date_value.is_a?(String)
+      date_format = date_value.split(' ')
+      case date_format.length
+        when 1
+          df = date_format.first.downcase
+          ['yesterday', 'today', 'tomorrow'].include?(df) ? Date.send(df) : ""
+        when 3
+          if (true if Integer(date_format.first) rescue false) == true &&
+             ['day', 'days', 'week', 'weeks', 'month', 'months', 'year', 'years'].include?(date_format[1]) &&
+             ['ago', 'from_now'].include?(date_format.last)
+            eval(date_format.join('.')).to_date
+          else
+            ""
+          end
+        else
+          ""
+      end
+    else
+      ""
+    end
+  end
 end
