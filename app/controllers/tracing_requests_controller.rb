@@ -44,8 +44,10 @@ class TracingRequestsController < ApplicationController
   end
 
   def make_new_record
+    #TODO - move inquiry_date, status, record_state, inquiry_status, mrm_verification_status
     TracingRequest.new.tap do |tracing_request|
       tracing_request['inquiry_date'] = I18n.l(DateTime.now)
+      #TODO - why is this an array?
       tracing_request['status'] = ["Active"]
       tracing_request['record_state'] = true
       tracing_request['inquiry_status'] = [Record::STATUS_OPEN]

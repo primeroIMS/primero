@@ -210,7 +210,6 @@ module FieldsHelper
     end
   end
 
-  #TODO - date format isn't quite right
   #TODO - create rspec tests for this
   # Valid inputs are as follows
   # 'yesterday'
@@ -224,12 +223,12 @@ module FieldsHelper
       case date_format.length
         when 1
           df = date_format.first.downcase
-          ['yesterday', 'today', 'tomorrow'].include?(df) ? Date.send(df) : ""
+          ['yesterday', 'today', 'tomorrow'].include?(df) ? I18n.l(Date.send(df)) : ""
         when 3
           if (true if Integer(date_format.first) rescue false) == true &&
              ['day', 'days', 'week', 'weeks', 'month', 'months', 'year', 'years'].include?(date_format[1]) &&
              ['ago', 'from_now'].include?(date_format.last)
-            eval(date_format.join('.')).to_date
+            I18n.l(eval(date_format.join('.')).to_date)
           else
             ""
           end
