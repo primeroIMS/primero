@@ -211,7 +211,6 @@ module FieldsHelper
   end
 
   #TODO - create rspec tests for this
-  #TODO - handle DateTime
   # Valid inputs are as follows
   # 'current'
   # 'now'

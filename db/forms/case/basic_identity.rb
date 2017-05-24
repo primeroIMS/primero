@@ -95,7 +95,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "registration_date",
              "type" => "date_field",
-             "selected_value" => "today",
+             "selected_value" => "now",
              "required" => false,
              "display_name_all" => "Date of Registration or Interview",
              "date_validation" => "not_future_date"
