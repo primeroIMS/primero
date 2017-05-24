@@ -11,7 +11,7 @@ module FieldsHelper
   def field_format_date(a_date)
     if a_date.present? && a_date.is_a?(Date)
       I18n.l(a_date)
-    elsif a_date.is_a?(Time)
+    elsif a_date.present? && a_date.is_a?(Time)
       I18n.l(a_date, format: :with_time)
     else
       a_date
