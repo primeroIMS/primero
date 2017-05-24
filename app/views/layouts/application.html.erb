@@ -54,10 +54,17 @@
 </div>
 
 <!-- idle dialog window markup -->
-<div id="dialog" title="<%= t("session.about_to_expire") %>">
-  <p> <%= t('messages.logoff_warning_prefix') %> <span id="dialog-countdown"></span> <%= t("messages.logoff_warning_suffix") %></p>
-
-  <p><%= t("messages.logoff_confirmation") %></p>
+<div id="idleModal" class="reveal tiny" title="<%= t("session.about_to_expire") %>" data-reveal data-close-on-click="false" data-close-on-esc="false">
+  <h5 class="text-center"> <%= t('messages.logoff_warning_prefix') %> <span id="dialog-countdown"></span> <%= t("messages.logoff_warning_suffix") %></h5>
+  <p class="text-center"><%= t("messages.logoff_confirmation") %></p>
+  <div class="row align-center">
+    <div class="shrink columns">
+      <div class="button-group">
+        <button class="button green keepworking"><%= I18n.t("messages.keep_working") %></button>
+        <button class="button gray logout"><%= I18n.t("messages.logoff") %></button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <%= render 'exports/password_prompt' %>
@@ -77,6 +84,7 @@
       required: "<%= t('form_section.required_field_js') %>",
       form_message: "<%= t('errors.template.header.body_js')%>"
     };
+    window._primero.check_connectivity = <%= ENV['CHECK_ONLINE_STATUS'] || true %>
   }
 </script>
 <%= javascript_tag do %>

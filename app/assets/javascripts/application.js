@@ -40,6 +40,7 @@
 //= require plugins/jquery.mCustomScrollbar.min
 //= require chosen-jquery
 //= require moment
+//= require plugins/moment.timezone
 //= require i18n
 //= require i18n/translations
 //= require plugins/ChartNew

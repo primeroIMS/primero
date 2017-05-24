@@ -7,6 +7,7 @@ en:
   "false": "No"
   valid: "Valid"
   invalid: "Invalid"
+  offline: The application is offline.
   home:
     fr: "Français"
     en: "English"
@@ -1084,6 +1085,7 @@ en:
     chosen_placeholder: "Select all that apply"
     multi_select: "Multiple Selection"
     date_help: "dd-mmm-yyyy"
+    date_help_with_time: "dd-mmm-yyyy hh:ss"
     date_range:
       from: "From"
       to: "To"

@@ -32,6 +32,7 @@ class Field
   property :subform_sort_by
   property :required, TrueClass, :default => false
   property :date_validation, :default => 'default_date_validation'
+  property :date_include_time, TrueClass, :default => false
   property :matchable, TrueClass, :default => false
 
   DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
@@ -222,6 +223,10 @@ class Field
 
   def self.all_searchable_date_field_names(parent_form = 'case')
     FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
+  end
+
+  def self.all_searchable_date_time_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_time_fields.map(&:name) }.flatten
   end
 
   def self.all_searchable_boolean_field_names(parent_form='case')

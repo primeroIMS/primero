@@ -71,6 +71,12 @@ small {
   }
 }
 
+#idleModal {
+  h5 {
+    font-weight: 900
+  }
+}
+
 fieldset {
   background: $desat_green_color;
   border: 1px solid $stroke_green_color;
@@ -93,7 +99,7 @@ table {
 table.list_view, table.list_table, table.list_table_2, table.record_list_view {
   border:none !important;
   margin-bottom: 20px;
-  
+
   a.id_link{
     @if $global-text-direction == rtl {
       float: right;
@@ -270,7 +276,7 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
     padding: rem_calc(10);
     margin-bottom: 1em;
   }
-  
+
   form {
     margin-top: 2em;
   }
@@ -493,4 +499,24 @@ tr td span {
     border-top: 1px solid $stroke_green_color;
     padding-top: 1rem;
   }
+}
+
+#connectivity-message {
+  text-align: center;
+  height: 3.15em;
+  padding-top: .7em;
+  background: #ff797f;
+  color: #fff;
+  bottom: 0;
+  font-weight: 600;
+  opacity: .95;
+  position: absolute;
+  width: 100%;
+  z-index: 99999999;
+}
+
+.disabled {
+  pointer-events: none !important;
+  opacity: 0.25 !important;
+  cursor: not-allowed !important;
 }

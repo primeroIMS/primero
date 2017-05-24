@@ -17,6 +17,7 @@ module Searchable
       # searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
       searchable_date_fields.each {|f| date f}
+      searchable_date_time_fields.each {|f| time f}
       searchable_numeric_fields.each {|f| integer f} if search_numeric_fields?
       searchable_boolean_fields.each {|f| boolean f}
       #TODO: This needs to be a derived field/method in the ownable concern
@@ -149,7 +150,7 @@ module Searchable
                   values.each do |k, v|
                     with(k, v)
                   end
-                end  
+                end
               else
                 with(filter, values) unless values == 'all'
               end
@@ -167,13 +168,17 @@ module Searchable
     end
 
     def searchable_date_fields
-      ["created_at", "last_updated_at", "registration_date"] +
       searchable_approvable_date_fields +
       Field.all_searchable_date_field_names(self.parent_form)
     end
 
+    def searchable_date_time_fields
+      ["created_at", "last_updated_at"] +
+      Field.all_searchable_date_time_field_names(self.parent_form)
+    end
+
     def searchable_boolean_fields
-      (['duplicate', 'flag', 'has_photo', 'record_state', 'case_status_reopened'] + 
+      (['duplicate', 'flag', 'has_photo', 'record_state', 'case_status_reopened'] +
       Field.all_searchable_boolean_field_names(self.parent_form)).uniq
     end
 

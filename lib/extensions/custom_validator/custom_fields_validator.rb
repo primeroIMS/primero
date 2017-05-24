@@ -137,7 +137,7 @@ end
 class DateFieldsValidator < CustomFieldsValidator
   # Blackberry client can only parse specific date formats
   def is_not_valid value
-    return false if value.is_a?(Date)
+    return false if value.is_a?(Date) || value.is_a?(Time)
     begin
       PrimeroDate.parse_with_format(value)
       false

@@ -1,21 +1,18 @@
 var IdleSessionTimeout = {};
 
 IdleSessionTimeout.start = function() {
-    var dialog_buttons = {};
-    dialog_buttons[I18n.t("messages.keep_working")] = function () {$(this).dialog('close');};
-    dialog_buttons[I18n.t("messages.logoff")] = function () {$.idleTimeout.options.onTimeout.call(this);};
-    $("#dialog").dialog({
-        autoOpen: false,
-        modal: true,
-        width: 400,
-        height: 200,
-        closeOnEscape: false,
-        draggable: false,
-        resizable: false,
-        buttons: dialog_buttons
+    var element = new Foundation.Reveal($('#idleModal'));
+
+    $('#idleModal .keepworking').on('click', function(e) {
+        element.close();
     });
 
-    $.idleTimeout('#dialog', 'div.ui-dialog-buttonpane button:first', {
+    $('#idleModal .logout').on('click', function(e) {
+        e.preventDefault();
+        $.idleTimeout.options.onTimeout.call(this);
+    });
+
+    $.idleTimeout('#idleModal', 'button.keepworking', {
         idleAfter: 900,
         pollingInterval: 180,
         warningLength: 300,
@@ -25,7 +22,7 @@ IdleSessionTimeout.start = function() {
             window.location = "/logout";
         },
         onIdle: function() {
-            $(this).dialog("open");
+            element.open();
         },
         onCountdown: function(counter) {
             $("#dialog-countdown").html(counter);

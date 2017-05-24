@@ -43,7 +43,7 @@ module Exporters
       # everything.
 
       # Fallback fonts for other lanuages.
-      
+
       # Arabic - From what I understand, Arabic uses different diacritics we need to make sure
       # to factor that in when choosing a font.
       @pdf.font_families["Riwaj"] = {
@@ -246,6 +246,8 @@ module Exporters
         I18n.l(value)
       when Date
         I18n.l(value)
+      when Time
+        I18n.l(value, format: :with_time)
       when Array
         value.map {|el| format_field(field, el) }.join(', ')
       #when Hash
