@@ -81,5 +81,69 @@ describe FieldsHelper do
     end
   end
 
+  #TODO - WHEN RAILS version is upgraded, use travel_to helper from ActiveSupport::Testing::TimeHelpers
+  #TODO - travel_to can replace Timecop gem
+  describe 'selected_date_value' do
+    before do
+      Timecop.travel(Time.zone.local(2016, 5, 23, 16, 7, 0))
+    end
+
+    after do
+      Timecop.return
+    end
+
+    it 'returns time for current' do
+      expect(@fields_helper.selected_date_value('current')).to eq('23-May-2016 16:07')
+    end
+
+    it 'returns time for now' do
+      expect(@fields_helper.selected_date_value('now')).to eq('23-May-2016 16:07')
+    end
+
+    it 'returns date for yesterday' do
+      expect(@fields_helper.selected_date_value('yesterday')).to eq('22-May-2016')
+    end
+
+    it 'returns date for today' do
+      expect(@fields_helper.selected_date_value('today')).to eq('23-May-2016')
+    end
+
+    it 'returns date for tomorrow' do
+      expect(@fields_helper.selected_date_value('tomorrow')).to eq('24-May-2016')
+    end
+
+    it 'returns date for 1 day ago' do
+      expect(@fields_helper.selected_date_value('1 day ago')).to eq('22-May-2016')
+    end
+
+    it 'returns date for 10 days ago' do
+      expect(@fields_helper.selected_date_value('10 days ago')).to eq('13-May-2016')
+    end
+
+    it 'returns date for 1 day from now' do
+      expect(@fields_helper.selected_date_value('1 day from_now')).to eq('24-May-2016')
+    end
+
+    it 'returns date for 10 days from now' do
+      expect(@fields_helper.selected_date_value('10 days from_now')).to eq('02-Jun-2016')
+    end
+
+    it 'returns date for 1 year ago' do
+      expect(@fields_helper.selected_date_value('1 year ago')).to eq('23-May-2015')
+    end
+
+    it 'returns date for 1 year from now' do
+      expect(@fields_helper.selected_date_value('1 year from_now')).to eq('23-May-2017')
+    end
+
+    it 'returns date for 10 years from ago' do
+      expect(@fields_helper.selected_date_value('10 years ago')).to eq('23-May-2006')
+    end
+
+    it 'returns date for 10 years from now' do
+      expect(@fields_helper.selected_date_value('10 years from_now')).to eq('23-May-2026')
+    end
+  end
+
 
 end

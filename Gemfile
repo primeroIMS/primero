@@ -104,6 +104,9 @@ group :test, :cucumber do
   gem 'simplecov-rcov',     '~> 0.2.3'
   gem 'ci_reporter',        '~> 1.9.1'
   gem 'pdf-inspector',      '~> 1.1.0', :require => 'pdf/inspector'
+
+  #TODO: this can be removed when rails is upgraded.  replace with travel_to test helper
+  gem 'timecop',            '~> 0.8.1'
 end
 
 #TODO: Does this get installed?

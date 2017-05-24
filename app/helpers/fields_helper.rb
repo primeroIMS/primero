@@ -212,7 +212,6 @@ module FieldsHelper
     end
   end
 
-  #TODO - create rspec tests for this
   # Valid inputs are as follows
   # 'current'
   # 'now'
@@ -242,14 +241,14 @@ module FieldsHelper
     if ['yesterday', 'today', 'tomorrow'].include?(df)
       I18n.l(Date.send(df))
     elsif ['current', 'now'].include?(df)
-      #TODO - tweak this after Josh's PR is merged
-      I18n.l(DateTime.send(df))
+      I18n.l(DateTime.send(df), format: :with_time)
     else
       ""
     end
   end
 
   def selected_date_three_values(date_format)
+    #First element must be an integer - ex:  '10 days ago'
     if (true if Integer(date_format.first) rescue false) == true &&
         ['day', 'days', 'week', 'weeks', 'month', 'months', 'year', 'years'].include?(date_format[1]) &&
         ['ago', 'from_now'].include?(date_format.last)
