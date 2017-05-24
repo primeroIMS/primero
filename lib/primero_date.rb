@@ -19,13 +19,23 @@ class PrimeroDate < Date
 
     str.join('-')
   end
- 
+
   def self.couchrest_typecast(parent, property, value)
     begin
       # The value comes from the database as a string with the format 'yyyy/mm/dd'
       if value.to_s =~ /(\d{4})[\-|\/](\d{2})[\-|\/](\d{2})/
+        year = $1.to_i
+        month = $2.to_i
+        day = $3.to_i
+
+        database_datetime_format = /^(\d{4})[\-|\/](\d{2})[\-|\/](\d{2,4})\s(\d{1,2}:\d{1,2}:\d{1,2})(\s[\+|-]\d{1,4})?$/
+        rails_datetime_format = /\d{4}[\-|\/]\d{2}[\-|\/]\d{2}T\d{2}:\d{2}:\d{2}/
         # Faster than parsing the date
-        Date.new($1.to_i, $2.to_i, $3.to_i)
+        if value.to_s =~ database_datetime_format || value.to_s =~ rails_datetime_format
+          Time.zone.parse(value.to_s)
+        else
+          Date.new(year, month, day)
+        end
       else
         self.parse_with_format(value)
       end
@@ -34,8 +44,16 @@ class PrimeroDate < Date
     end
   end
 
+  def self.determine_format(data)
+    # Determine whether we are given the month number or the month name
+    @month_format = data[2].match(/^(0[1-9]|[1-9]|1[0-2])$/).nil? ? "%b" : "%m"
+    # Determine whether the year has two-digits format or four-digits format
+    @year_format = data[3].match(/^(\d{2})$/).nil? ? "%Y" : "%y"
+  end
+
   def self.parse_with_format(value)
-    return value if value.is_a?(Date) || (value.is_a? PrimeroDate)
+    return value if value.is_a?(Date) || (value.is_a? PrimeroDate) || (value.is_a? Time)
+
     # Separator can be "-" or "/". Valid formats:
     #   "%d-%b-%Y" # 05-Sep-2014 | 05-September-2014 | 5-Sep-2014 | 5-September-2014
     #   "%d-%b-%y" # 05-Sep-14   | 05-September-14   | 5-Sep-14   | 05-September-14
@@ -47,14 +65,17 @@ class PrimeroDate < Date
     # If the value to parse has a valid format, get the format and parse the value.
     # It should be day month year
     match_data = value.match /^(\d{1,2})-(.*)-(\d{2,4})$/
+    match_data_with_time = value.match /^(\d{1,2})-(.*)-(\d{2,4})\s(\d{1,2}:\d{1,2})(\s[\+|-]\d{1,4})?$/
+
     if match_data
-      # Determine whether we are given the month number or the month name
-      month_format = match_data[2].match(/^(0[1-9]|[1-9]|1[0-2])$/).nil? ? "%b" : "%m"
-      # Determine whether the year has two-digits format or four-digits format
-      year_format = match_data[3].match(/^(\d{2})$/).nil? ? "%Y" : "%y"
+      self.determine_format(match_data)
       # Try to parse the value with the detected format
-      return Date.strptime self.unlocalize_date_string(value), "%d-#{month_format}-#{year_format}"
+      return Date.strptime self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format}"
+    elsif match_data_with_time
+      self.determine_format(match_data_with_time)
+      return DateTime.parse(Time.strptime(self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format} %H:%M").to_s)
     end
+
     raise ArgumentError, "invalid date"
   end
 end

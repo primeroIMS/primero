@@ -6,7 +6,12 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
     "DD/MM/YYYY",
     "DD MM YYYY",
     "DD-MMM-YYYY",
-    "DD/MMM/YYYY"
+    "DD/MMM/YYYY",
+    "DD-MM-YYYY H:mm",
+    "DD/MM/YYYY H:mm",
+    "DD MM YYYY H:mm",
+    "DD-MMM-YYYY H:mm",
+    "DD/MMM/YYYY H:mm",
   ],
 
   events: {
@@ -75,6 +80,7 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
   setup_date_parser: function() {
     _primero.dates = {};
     _primero.dates.defaultDateFormat = 'DD-MMM-YYYY';
+    _primero.dates.defaultDateTimeFormat = 'DD-MMM-YYYY H:mm'
     _primero.dates.inputFormats = this.allowed_formats;
 
     _primero.dates.parseDate = function(value) {
@@ -82,8 +88,9 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
       return date === 'Invalid date' ? undefined : date;
     }
 
-    _primero.dates.formatDate = function(value) {
-      var date = moment(value).format(_primero.dates.defaultDateFormat)
+    _primero.dates.formatDate = function(value, time) {
+      var format = time ? 'defaultDateTimeFormat' : 'defaultDateFormat';
+      var date = moment(value).format(_primero.dates[format]);
       return date === 'Invalid date' ? undefined : date;
     }
   },
@@ -93,7 +100,8 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
     var date = _primero.dates.parseDate($control.val());
 
     if (date != undefined && date != null) {
-      $control.val(_primero.dates.formatDate(date));
+      has_time = $control.data('timepicker')
+      $control.val(_primero.dates.formatDate(date, has_time));
     }
   }
 });

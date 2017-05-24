@@ -682,7 +682,13 @@ class FormSection < CouchRest::Model::Base
 
   def all_searchable_date_fields
     self.fields.select do |field|
-      [Field::DATE_FIELD, Field::DATE_RANGE].include? field.type
+      [Field::DATE_FIELD, Field::DATE_RANGE].include?(field.type) && !field.date_include_time
+    end
+  end
+
+  def all_searchable_date_time_fields
+    self.fields.select do |field|
+      [Field::DATE_FIELD, Field::DATE_RANGE].include?(field.type) && field.date_include_time
     end
   end
 

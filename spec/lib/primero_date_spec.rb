@@ -48,6 +48,28 @@ describe PrimeroDate do
     end
   end
 
+  it "should parse valid date/time formats" do
+    incident = Incident.new
+    date = Time.strptime "2014-September-05 13:15", "%Y-%b-%d %H:%M"
+    values = ["05-Sep-2014 13:15", "05-September-2014 13:15", "5-Sep-2014 13:15", "5-September-2014 13:15",
+      "05-Sep-14 13:15", "05-September-14 13:15", "5-Sep-14 13:15", "05-September-14 13:15",
+      "05-09-2014 13:15", "05-9-2014 13:15", "5-09-2014 13:15", "5-9-2014 13:15",
+      "05-09-14 13:15", "05-9-14 13:15", "5-09-14 13:15", "5-9-14 13:15",
+      "05/Sep/2014 13:15", "05/September/2014 13:15", "5/Sep/2014 13:15", "5/September/2014 13:15",
+      "05/Sep/14 13:15", "05/September/14 13:15", "5/Sep/14 13:15", "05/September/14 13:15",
+      "05/09/2014 13:15", "05/9/2014 13:15", "5/09/2014 13:15", "5/9/2014 13:15",
+      "05/09/14 13:15", "05/9/14 13:15", "5/09/14 13:15", "5/9/14 13:15"]
+
+    values.each do |value|
+      PrimeroDate.parse_with_format(value).should eq(date)
+      PrimeroDate.parse_with_format(value.gsub('-', ' - ')).should eq(date)
+      PrimeroDate.parse_with_format(value.gsub('/', ' / ')).should eq(date)
+      incident.incident_date_test = value
+      incident.incident_date_test.should eq(date)
+      incident.valid?.should eq(true)
+    end
+  end
+
   it "should parse valid date formats in french" do
     incident = Incident.new
     date = Date.strptime "2014-July-05", "%Y-%b-%d"
@@ -105,5 +127,18 @@ describe PrimeroDate do
       incident.incident_date_test.should eq(value)
       incident.valid?.should eq(false)
     end
+  end
+
+  # TODO: Find better way to test.
+  it "should return date/time with correct timezone" do
+    database_formated_date = "2017/05/27 18:05:00 -0400"
+    i18n_atlantic_date_time = "27-May-2017 19:05"
+    i18n_istanbul_date_time = "28-May-2017 01:05"
+
+    Time.zone = 'Atlantic Time (Canada)'
+    expect(I18n.l(PrimeroDate.couchrest_typecast(nil, nil, database_formated_date), format: :with_time)).to eql(i18n_atlantic_date_time)
+
+    Time.zone = 'Istanbul'
+    expect(I18n.l(PrimeroDate.couchrest_typecast(nil, nil, database_formated_date), format: :with_time)).to eql(i18n_istanbul_date_time)
   end
 end

@@ -9,8 +9,10 @@ module FieldsHelper
   end
 
   def field_format_date(a_date)
-    if a_date.present? && a_date.is_a?(Date) || a_date.is_a?(Time)
+    if a_date.present? && a_date.is_a?(Date)
       I18n.l(a_date)
+    elsif a_date.present? && a_date.is_a?(Time)
+      I18n.l(a_date, format: :with_time)
     else
       a_date
     end
@@ -55,7 +57,7 @@ module FieldsHelper
 
     if field_value.is_a?(Array)
       field_value = field_value.join ", "
-    elsif field_value.is_a?(Date)
+    elsif field_value.is_a?(Date) || field_value.is_a?(Time)
       field_value = field_format_date(field_value)
     end
 
@@ -156,7 +158,7 @@ module FieldsHelper
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     #TODO: This code is being temporarily removed until JOR-141 (users should only see their own referrals) is again revisited,
-    #      Pending a full refactor of how we do nested forms headers  
+    #      Pending a full refactor of how we do nested forms headers
     # elsif subform_name == "transitions"
     #   subform_object = object.try(:"#{subform_name}")
     #   #if user is record owner, they can see all referrals
@@ -204,7 +206,7 @@ module FieldsHelper
 
       if source_match
         source_match[0]
-      else  
+      else
         source
       end
     end
