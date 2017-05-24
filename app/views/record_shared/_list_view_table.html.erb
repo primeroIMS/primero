@@ -64,7 +64,7 @@
     </table>
     <div class="table_spacer"></div>
   </div>
-  <% if options[:display_filter] %>
+  <% if options[:display_filter].present? %>
     <div class="large-3 small-3 columns index_filters">
       <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
     </div>
