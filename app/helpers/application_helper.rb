@@ -133,22 +133,17 @@ module ApplicationHelper
     path = path.singularize if path.instance_of? String
     if path.present?
       if record.present?
-        if current_actions(action: ['update', 'edit'])
-          # This is necessary to make the translation between children and cases
-          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
-            class: "button green #{'arrow' if current_actions(action: ['update', 'edit'])}"
-        else
-          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
-            class: "button #{'arrow' if current_actions(action: ['update', 'edit'])}"
-        end
+        # This is necessary to make the translation between children and cases
+        link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
+          class: "button #{'green arrow' if current_actions(action: ['update', 'edit'])}"
       else
         #TODO - sort of a hack for language edit, since it uses i18n.locale instead of a model
         link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true }),
-          class: "button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+          class: "button #{'green arrow' if current_actions(action: ['update', 'edit'])}"
       end
     else
       link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
-        class: "button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        class: "button #{'green arrow' if current_actions(action: ['update', 'edit'])}"
     end
   end
 
