@@ -138,8 +138,11 @@ function on_page_load() {
   RapidFTR.hideDirectionalButtons();
   RapidFTR.followTextFieldControl("#field_display_name", "#field_name", RapidFTR.Utils.dehumanize);
   RapidFTR.childPhotoRotation.init();
+
   if (window.location.href.indexOf('login') === -1) {
-      IdleSessionTimeout.start();
+    document.addEventListener("turbolinks:load", function() {
+        IdleSessionTimeout.start();
+    });
   }
 
   RapidFTR.Utils.enableFormErrorChecking();
