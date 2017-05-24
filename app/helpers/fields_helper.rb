@@ -211,7 +211,10 @@ module FieldsHelper
   end
 
   #TODO - create rspec tests for this
+  #TODO - handle DateTime
   # Valid inputs are as follows
+  # 'current'
+  # 'now'
   # 'yesterday'
   # 'today'
   # 'tomorrow'
@@ -222,19 +225,34 @@ module FieldsHelper
       date_format = date_value.split(' ')
       case date_format.length
         when 1
-          df = date_format.first.downcase
-          ['yesterday', 'today', 'tomorrow'].include?(df) ? I18n.l(Date.send(df)) : ""
+          selected_date_single_value(date_format)
         when 3
-          if (true if Integer(date_format.first) rescue false) == true &&
-             ['day', 'days', 'week', 'weeks', 'month', 'months', 'year', 'years'].include?(date_format[1]) &&
-             ['ago', 'from_now'].include?(date_format.last)
-            I18n.l(eval(date_format.join('.')).to_date)
-          else
-            ""
-          end
+          selected_date_three_values(date_format)
         else
           ""
       end
+    else
+      ""
+    end
+  end
+
+  def selected_date_single_value(date_format)
+    df = date_format.first.downcase
+    if ['yesterday', 'today', 'tomorrow'].include?(df)
+      I18n.l(Date.send(df))
+    elsif ['current', 'now'].include?(df)
+      #TODO - tweak this after Josh's PR is merged
+      I18n.l(DateTime.send(df))
+    else
+      ""
+    end
+  end
+
+  def selected_date_three_values(date_format)
+    if (true if Integer(date_format.first) rescue false) == true &&
+        ['day', 'days', 'week', 'weeks', 'month', 'months', 'year', 'years'].include?(date_format[1]) &&
+        ['ago', 'from_now'].include?(date_format.last)
+      I18n.l(eval(date_format.join('.')))
     else
       ""
     end
