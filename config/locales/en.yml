@@ -7,6 +7,7 @@ en:
   "false": "No"
   valid: "Valid"
   invalid: "Invalid"
+  offline: The application is offline.
   home:
     fr: "Français"
     en: "English"

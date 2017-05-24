@@ -1,11 +1,11 @@
 var StringSources = Backbone.Collection.extend({
   url: '/api/options',
-  
+
   parse: function(resp) {
     this.status = resp.success;
     this.message = resp.message;
     this.placeholder = resp.placeholder;
-    
+
     return resp.sources;
   }
 });
@@ -15,7 +15,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
 
   initialize: function() {
     var self = this;
-    
+
     this.option_string_sources = this.getStringSourcesOptions()
 
     this.collection = new StringSources();
@@ -33,7 +33,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
 
   getStringSourcesOptions: function() {
     var selects = $('form select');
-    var lookup_options = _.uniq(_.map(selects, function(element) { 
+    var lookup_options = _.uniq(_.map(selects, function(element) {
       return $(element).attr('data-populate')
     }));
 
@@ -98,7 +98,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
       placeholder = select.getAttribute('data-placeholder') || self.collection.placeholder;
 
       this_select.prepend('<option value="" default selected>' + placeholder + '</option>');
-      
+
       if (value) {
         this_select.val(value);
       }
