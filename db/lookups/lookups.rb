@@ -606,7 +606,7 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-    :id => "lookup-service-referred"
+    :id => "lookup-service-referred",
     :name => "Service Referred",
     :lookup_values => [
         "Referred",
