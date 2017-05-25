@@ -87,7 +87,7 @@ class PotentialMatch < CouchRest::Model::Base
     ['child_id', 'tracing_request_id', 'tr_subform_id', 'average_rating']
   end
 
-  def self.searchable_date_fields
+  def self.searchable_date_time_fields
     ["created_at", "last_updated_at"]
   end
 
