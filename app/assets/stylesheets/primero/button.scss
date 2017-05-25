@@ -16,6 +16,43 @@
       background: darken(#ebebeb, 8%)
     }
   }
+
+  &.green {
+    color: #FFFFFF !important;
+    border: 1px solid $stroke_green_color;
+    background-color: $stroke_green_color;
+    text-transform: uppercase;
+  }
+}
+
+a.arrow:after {
+    content: "";
+    background: url(image_path("edit_carot.png")) no-repeat;
+    height: 37px;
+    width: 8px;
+    @if $global-text-direction == rtl {
+      float: left;
+      margin: -9px 14px 0 0;
+      transform: rotate(180deg);
+    }
+    @else {
+      float: right;
+      margin: -9px 0 0 14px;
+      position: absolute;
+    }
+    position: absolute;
+    z-index: 10;
+}
+
+a.arrow, a.middle_btn {
+  @if $global-text-direction == rtl {
+    margin-left: 0px !important;
+    border-left: none !important;
+  }
+  @else {
+    margin-right: 0px !important;
+    border-right: none !important;
+  }
 }
 
 @if $global-text-direction == rtl {
