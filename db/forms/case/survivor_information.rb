@@ -1,5 +1,6 @@
 survivor_information_fields = [
   Field.new({"name" => "case_id",
+             "mobile_visible" => false,
              "type" => "text_field",
              "display_name_all" => "Long ID",
              "editable" => false,
@@ -7,6 +8,7 @@ survivor_information_fields = [
              "create_property" => false
             }),
   Field.new({"name" => "short_id",
+             "mobile_visible" => false,
              "type" => "text_field",
              "display_name_all" => "Case ID",
              "editable" => false,
@@ -14,6 +16,7 @@ survivor_information_fields = [
              "create_property" => false
             }),
   Field.new({"name" => "marked_for_mobile",
+             "mobile_visible" => false,
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
              "display_name_all" => "Marked for mobile?",
@@ -22,55 +25,72 @@ survivor_information_fields = [
              "create_property" => false
             }),
   Field.new({"name" => "child_status",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
              "option_strings_source" => "lookup CaseStatus"
             }),
   Field.new({"name" => "name",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "text_field",
              "display_name_all" => "Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "hidden_text_field" => true
             }),
   Field.new({"name" => "survivor_code_no",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "text_field",
              "display_name_all" => "Survivor Code"
             }),
   Field.new({"name" => "age",
+            "mobile_visible" => false,
             "type" => "numeric_field",
             "display_name_all" => "Age"
             }),
   Field.new({"name" => "date_of_birth",
+            "show_on_minify_form" => true,
+            "mobile_visible" => true,
             "type" => "date_field",
             "display_name_all" => "Date of Birth",
             "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "sex",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "select_box",
              "option_strings_text_all" => "Female\nMale",
              "display_name_all" => "Sex"
             }),
   Field.new({"name" => "gbv_ethnicity",
+             "mobile_visible" => false,
              "type" => "select_box",
              "display_name_all" => "Clan or Ethnicity",
              "option_strings_source" => "lookup Ethnicity"
             }),
   Field.new({"name" => "country_of_origin",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Country of Origin",
              "option_strings_source" => "lookup Country"
             }),
   Field.new({"name" => "gbv_nationality",
+             "mobile_visible" => false,
              "type" => "select_box",
              "display_name_all" => "Nationality (if different than country of origin)",
              "option_strings_source" => "lookup Nationality"
             }),
   Field.new({"name" => "gbv_religion",
+             "mobile_visible" => false,
              "type" => "select_box",
              "display_name_all" => "Religion",
              "option_strings_source" => "lookup Religion"
             }),
   Field.new({"name" => "maritial_status",
+             "mobile_visible" => true,
              "type" =>"select_box" ,
              "display_name_all" => "Current Civil/Marital Status",
              "option_strings_text_all" =>
@@ -80,19 +100,25 @@ survivor_information_fields = [
                            "Widowed"].join("\n")
             }),
   Field.new({"name" => "dependents_no",
+             "mobile_visible" => false,
              "type" =>"textarea" ,
              "display_name_all" => "Number and age of children and other dependents"
             }),
   Field.new({"name" => "occupation",
+             "mobile_visible" => false,
              "type" => "text_field",
              "display_name_all" => "Occupation"
             }),
   Field.new({"name" => "gbv_displacement_status",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Displacement Status at time of report",
              "option_strings_source" => "lookup DisplacementStatus"
             }),
   Field.new({"name" => "gbv_disability_type",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Is the Survivor a Person with Disabilities?",
              "option_strings_text_all" =>
@@ -102,6 +128,8 @@ survivor_information_fields = [
                            "Both"].join("\n")
             }),
   Field.new({"name" => "unaccompanied_separated_status",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Is the Survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
              "option_strings_text_all" =>
@@ -111,17 +139,20 @@ survivor_information_fields = [
                            "Other Vulnerable Child"].join("\n")
             }),
   Field.new({"name" => "section_heading_child_survivors_less_than_18_years_old",
+             "mobile_visible" => false,
              "type" => "separator",
              "display_name_all" => "Child Survivors (less than 18 years old)",
              "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_lives_alone",
+             "mobile_visible" => false,
              "type" => "radio_button",
              "display_name_all" => "If the survivor is a child, does he/she live alone?",
              "option_strings_text_all" => "Yes\nNo",
              "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_caretaker",
+             "mobile_visible" => false,
              "type" => "select_box",
              "display_name_all" => "If the survivor lives with someone, what is the relation between her/him and the caretaker?",
              "option_strings_text_all" =>
@@ -132,11 +163,13 @@ survivor_information_fields = [
              "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_caretaker_other",
+             "mobile_visible" => false,
              "type" => "text_field",
              "display_name_all" => "If other relation between her/him and the caretaker, please specify.",
              "field_tags" => ['child']
             }),
   Field.new({"name" => "caretaker_marital_status",
+             "mobile_visible" => false,
              "type" => "select_box",
              "display_name_all" => "What is the caretaker's current marital status?",
              "option_strings_text_all" =>
@@ -148,6 +181,7 @@ survivor_information_fields = [
              "field_tags" => ['child']
             }),
   Field.new({"name" => "caretaker_occupation",
+             "mobile_visible" => false,
              "type" => "text_field",
              "display_name_all" => "What is the caretaker's primary occupation?",
              "field_tags" => ['child']
@@ -155,16 +189,17 @@ survivor_information_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id=>"gbv_survivor_information",
-  :parent_form=>"case",
-  "visible" => true,
-  :order_form_group => 40,
-  :order => 60,
-  :order_subform => 0,
-  :form_group_name => "Identification / Registration",
-  "editable" => true,
-  :fields => survivor_information_fields,
-  :is_first_tab => true,
-  "name_all" => "Survivor Information",
-  "description_all" => "Survivor Information"
+  unique_id: "gbv_survivor_information",
+  parent_form: "case",
+  visible: true,
+  order_form_group: 40,
+  order: 60,
+  order_subform: 0,
+  form_group_name: "Identification / Registration",
+  editable: true,
+  fields: survivor_information_fields,
+  is_first_tab: true,
+  mobile_form: true,
+  name_all: "Survivor Information",
+  description_all: "Survivor Information"
 })

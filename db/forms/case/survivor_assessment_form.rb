@@ -1,5 +1,7 @@
 survivor_assessment_fields = [
   Field.new({"name" => "assessment_emotional_state_start",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "textarea",
              "display_name_all" => "Survivor Profile",
              "guiding_questions" => "What is the survivor's name and age? 
@@ -12,6 +14,8 @@ survivor_assessment_fields = [
              "
              }),
   Field.new({"name" => "assessment_emotional_state_end",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "textarea",
              "display_name_all" => "Explain what happened to the survivor",
              "guiding_questions" => "What has happened to her? It is crucial to find out if physical force and weapons were used, whether there is any severe pain (especially head injuries) or bleeding, and whether there was vaginal/anal penetration. Immediate medical care and treatment is highly indicated in these circumstances. 
@@ -26,6 +30,8 @@ survivor_assessment_fields = [
              "
              }),
   Field.new({"name" => "assessment_main_concerns",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "textarea",
              "display_name_all" => "Explain the survivor's main concerns",
              "guiding_questions" => "What does the survivor identify that she wants help with?"
@@ -33,15 +39,16 @@ survivor_assessment_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "survivor_assessment_form",
-  :parent_form=>"case",
-  "visible" => true,
-  :order_form_group => 50,
-  :order => 40,
-  :order_subform => 0,
-  :form_group_name => "Survivor Assessment",
-  "editable" => true,
-  :fields => survivor_assessment_fields,
-  "name_all" => "Survivor Assessment",
-  "description_all" => "Survivor Assessment"
+  unique_id: "survivor_assessment_form",
+  parent_form: "case",
+  mobile_form: true,
+  visible: true,
+  order_form_group: 50,
+  order: 40,
+  order_subform: 0,
+  form_group_name: "Survivor Assessment",
+  editable: true,
+  fields: survivor_assessment_fields,
+  name_all: "Survivor Assessment",
+  description_all: "Survivor Assessment"
 })
