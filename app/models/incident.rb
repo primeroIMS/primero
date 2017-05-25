@@ -122,10 +122,9 @@ class Incident < CouchRest::Model::Base
       incident['mrm_verification_status'] = "pending"
       incident['module_id'] = module_id
       incident['status'] = Record::STATUS_OPEN
+      incident['date_of_first_report'] = Date.today
 
       if child.present?
-        # case_record = Child.get(case_id)
-        # if case_record.present?
         incident['incident_case_id'] = child.id
         incident_map = Incident::DEFAULT_INCIDENT_MAPPING
         if from_module_id.present?
@@ -137,8 +136,7 @@ class Incident < CouchRest::Model::Base
             end
           end
         end
-        incident.copy_survivor_information(child, incident_map, incident_detail_id)
-        # end
+        incident.copy_case_information(child, incident_map, incident_detail_id)
       end
     end
   end

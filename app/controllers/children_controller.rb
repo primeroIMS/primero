@@ -81,14 +81,19 @@ class ChildrenController < ApplicationController
       new_incident_params[:from_module_id] = from_module.id
     end
 
-    # TODO: this really needs to be refactored (refresh view with short id instead of redirect)
     if from_module.present? && params[:incident_detail_id].present?
       incident = Incident.make_incident_from_case(child, to_module_id, from_module.id, params[:incident_detail_id])
       incident.save
-      # TODO: move to an after save for incidents
-      child.incident_links << {"incident_details" => params[:incident_detail_id], "incident_id" => incident.id, "incident_short_id" => incident.short_id }
-      child.save
-      redirect_to case_path(child, { follow: true })
+      Child.add_incident_links(child, params[:incident_detail_id], incident.id, incident.short_id)
+      content = {
+        incident_link_label: t('incident.link_to_incident'),
+        incident_link: view_context.link_to(incident.short_id, incident_path(incident.id))
+      }
+      json_content = content.to_json
+      respond_to do |format|
+        format.html {render :json => json_content}
+        format.json {render :json => json_content}
+      end
     else
       redirect_to new_incident_path(new_incident_params)
     end
