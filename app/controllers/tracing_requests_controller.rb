@@ -45,8 +45,6 @@ class TracingRequestsController < ApplicationController
 
   def make_new_record
     TracingRequest.new.tap do |tracing_request|
-      #TODO - not sure 'status' is still used.  I don't see it referenced anywhere.  Leaving in for now.
-      tracing_request['status'] = ["Active"]
       tracing_request['module_id'] = params['module_id']
     end
   end
