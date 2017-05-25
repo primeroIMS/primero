@@ -67,6 +67,7 @@ describe "incidents/edit.html.erb" do
     controller.should_receive(:can?).with(:flag, @incident).and_return(false)
     controller.should_receive(:can?).with(:edit, @incident).and_return(true)
     controller.should_receive(:can?).with(:export, Incident).and_return(false)
+    controller.should_receive(:can?).with(:sync_mobile, Incident).and_return(true)
   end
 
   it "should have record owner fields hidden and disabled" do

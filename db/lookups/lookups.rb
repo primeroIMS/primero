@@ -349,7 +349,7 @@ create_or_update_lookup(
     {id: "no", display_text: "No"}.with_indifferent_access,
     {id: "unaccompanied_minor", display_text: "Unaccompanied Minor"}.with_indifferent_access,
     {id: "separated_child", display_text: "Separated Child"}.with_indifferent_access,
-    {id: "other_vulnerable_child", display_text: "Other Vulnerable Child"}.with_indifferent_access
+    {id: "other_vulnerable_child", display_text: "Orphan or Vulnerable Child"}.with_indifferent_access
   ]
 )
 
@@ -392,7 +392,7 @@ create_or_update_lookup(
     {id: "sexual_assault", display_text: "Sexual Assault"}.with_indifferent_access,
     {id: "physical_assault", display_text: "Physical Assault"}.with_indifferent_access,
     {id: "forced_marriage", display_text: "Forced Marriage"}.with_indifferent_access,
-    {id: "denial_of_resources_opportunities_or_services", display_text: "Denial of Resources, Opportunities, or Services"}.with_indifferent_access,
+    {id: "denial_of_resources_opportunities_or_services", display_text: "Denial of Resources, Opportunities or Services"}.with_indifferent_access,
     {id: "psychological_emotional_abuse", display_text: "Psychological / Emotional Abuse"}.with_indifferent_access,
     {id: "non-gbv", display_text: "Non-GBV"}.with_indifferent_access
   ]
@@ -558,6 +558,26 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+    :id => "lookup-yes-no-undecided",
+    :name => "Yes, No, or Undecided",
+    :lookup_values => [
+        {id: "true", display_text: "Yes"}.with_indifferent_access,
+        {id: "false", display_text: "No"}.with_indifferent_access,
+        {id: "default_convert_unknown_id_to_nil", display_text: "Undecided"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-gbv-reported-elsewhere",
+    :name => "Yes, No, or Unknown",
+    :lookup_values => [
+        {id: "no", display_text: "No"}.with_indifferent_access,
+        {id: "gbvims-org", display_text: "Yes-GBVIMS Org / Agency"}.with_indifferent_access,
+        {id: "non-gbvims-org", display_text: "Yes-Non GBVIMS Org / Agency"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
     :id => "lookup-approval-status",
     :name => "Approval Status",
     :lookup_values => [
@@ -585,3 +605,15 @@ create_or_update_lookup(
     ]
 )
 
+create_or_update_lookup(
+    :id => "lookup-service-referred",
+    :name => "Service Referred",
+    :lookup_values => [
+        "Referred",
+        "Service provided by your agency",
+        "Services already received from another agency",
+        "Service not applicable",
+        "Referral declined by survivor",
+        "Service unavailable"
+    ]
+)

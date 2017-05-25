@@ -200,6 +200,7 @@ Primero::Application.routes.draw do
     collection do
       # post :sync_unverified
       post :import_file
+      post :mark_for_mobile
       # get :advanced_search
       get :search
     end
