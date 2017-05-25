@@ -37,10 +37,16 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
       todayButton: new Date(),
       dateFormat: "dd-M-yyyy",
       clearButton: true,
+      autoClose: true,
+      toggleSelected: false,
       onSelect: function(formattedDate, date, inst) {
         $(inst.el).trigger('change');
       }
     };
+
+    if ($('html').attr('dir') === 'rtl') {
+      _primero.dates.options['position'] = 'bottom right';
+    }
 
     this.date_control = $('.form_date_field');
 
@@ -68,7 +74,7 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
       monthsShort: _.compact(dateI18n.abbr_month_names),
       today: dateI18n.today,
       clear: dateI18n.clear,
-      firstDay: dateI18n.first_day
+      firstDay: dateI18n.first_day || 0,
     };
 
     moment.locale(I18n.currentLocale(), {

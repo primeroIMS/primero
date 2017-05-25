@@ -13,6 +13,14 @@ gbv_incident_fields = [
              "display_name_all" => "Incident ID",
              "create_property" => false
             }),
+  Field.new({"name" => "marked_for_mobile",
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Marked for mobile?",
+             "editable" => false,
+             "disabled" => true,
+             "create_property" => false
+            }),
   Field.new({"name" => "incident_code",
              "type" => "text_field",
              "editable" => false,
@@ -51,7 +59,7 @@ gbv_incident_fields = [
              "type" => "select_box",
              "display_name_all" => "Stage of displacement at time of incident",
              "option_strings_text_all" => [
-                "Not Displaced / Home Country",
+                "Not Displaced / Home Community",
                 "Pre-displacement",
                 "During Flight",
                 "During Refuge",

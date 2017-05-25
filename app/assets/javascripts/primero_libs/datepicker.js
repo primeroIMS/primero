@@ -155,6 +155,8 @@
             this._defineLocale(this.opts.language);
             this._syncWithMinMaxDates();
 
+            this.direction = $('html').attr('dir') === 'rtl' ? 'right' : 'left';
+
             if (this.elIsInput) {
                 if (!this.opts.inline) {
                     // Set extra classes for proper transitions
@@ -805,7 +807,8 @@
             this.$datepicker
                 .css({
                     left: left,
-                    top: top
+                    top: top,
+                    right: ""
                 })
         },
 
@@ -823,12 +826,13 @@
 
         hide: function () {
             var onHide = this.opts.onHide;
+            var direction_css = {}
+
+            direction_css[this.direction] = '-100000px';
 
             this.$datepicker
                 .removeClass('active')
-                .css({
-                    left: '-100000px'
-                });
+                .css(direction_css);
 
             this.focused = '';
             this.keys = [];
@@ -1810,14 +1814,23 @@
 })();
 
 ;(function () {
-    var template = '' +
-        '<div class="datepicker--nav-action" data-action="prev">#{prevHtml}</div>' +
-        '<div class="datepicker--nav-title">#{title}</div>' +
-        '<div class="datepicker--nav-action" data-action="next">#{nextHtml}</div>',
-        buttonsContainerTemplate = '<div class="datepicker--buttons"></div>',
-        button = '<span class="datepicker--button" data-action="#{action}">#{label}</span>',
-        datepicker = $.fn.datepicker,
-        dp = datepicker.Constructor;
+    if ($('html').attr('dir') === 'rtl') {
+        var template = '' +
+            '<div class="datepicker--nav-action" data-action="next">#{nextHtml}</div>' +
+            '<div class="datepicker--nav-title">#{title}</div>' +
+            '<div class="datepicker--nav-action" data-action="prev">#{prevHtml}</div>';
+
+    } else {
+        var template = '' +
+            '<div class="datepicker--nav-action" data-action="prev">#{prevHtml}</div>' +
+            '<div class="datepicker--nav-title">#{title}</div>' +
+            '<div class="datepicker--nav-action" data-action="next">#{nextHtml}</div>';
+    }
+
+    var buttonsContainerTemplate = '<div class="datepicker--buttons"></div>',
+    button = '<span class="datepicker--button" data-action="#{action}">#{label}</span>',
+    datepicker = $.fn.datepicker,
+    dp = datepicker.Constructor;
 
     datepicker.Navigation = function (d, opts) {
         this.d = d;
@@ -2206,7 +2219,7 @@
         _onChangeRange: function (e) {
             var $target = $(e.target),
                 name = $target.attr('name');
-            
+
             this.d.timepickerIsActive = true;
 
             this[name] = $target.val();

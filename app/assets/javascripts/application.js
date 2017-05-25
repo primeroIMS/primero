@@ -17,7 +17,7 @@
 //= require plugins/filesaver
 //= require foundation
 //= require_tree ./templates
-//= require plugins/datepicker
+//= require primero_libs/datepicker
 //= require plugins/underscore
 //= require plugins/backbone
 //= require plugins/stickem
