@@ -82,6 +82,12 @@ module Exporters
         "No referral, Service unavailable" => I18n.t("exports.incident_recorder_xls.service_referral.unavailable")
       }
 
+      REPORTED_ELSEWHERE = {
+        "no" => "No",
+        "gbvims-org" => "Yes-GBVIMS Org / Agency",
+        "non-gbvims-org" => "Yes-Non GBVIMS Org / Agency"
+      }
+
       def close
         #Print at the end of the processing the data collected
         #because this is batch mode, this is the end of the processing
@@ -305,17 +311,7 @@ module Exporters
           "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
           "TYPE OF ABDUCTION" => "abduction_status_time_of_incident",
           "PREVIOUSLY REPORTED THIS INCIDENT?" => ->(model) do
-            if model.gbv_reported_elsewhere == true
-              reporting_agency = model.gbv_reported_elsewhere_subform.reduce(false) {|acc, v| acc || (v.gbv_reported_elsewhere_reporting == true) }
-
-              if reporting_agency
-                I18n.t("gbv_report.gbv_reporting_agency")
-              else
-                I18n.t("gbv_report.non_gbv_reporting_agency")
-              end
-            else
-              I18n.t("gbv_report.no")
-            end
+            REPORTED_ELSEWHERE[model.try(:gbv_reported_elsewhere)]
           end,
           "PREVIOUS GBV INCIDENTS?" => "gbv_previous_incidents",
           ##### ALLEGED PERPETRATOR INFORMATION #####
@@ -351,7 +347,13 @@ module Exporters
           ##### REFERRAL PATHWAY DATA #####
           "REFERRED TO YOU FROM?" => ->(model) do
             services = model.try(:service_referred_from)
-            services.map{|srf| incident_recorder_service_referral_from(srf) }.join(" & ") if services.present?
+            if services.present?
+              if services.is_a?(Array)
+                services.map{|srf| incident_recorder_service_referral_from(srf) }.join(" & ")
+              else
+                incident_recorder_service_referral_from(services)
+              end
+            end
           end,
           "SAFE HOUSE / SHELTER" => ->(model) do
             incident_recorder_service_referral(model.try(:service_safehouse_referral))
@@ -364,22 +366,23 @@ module Exporters
             service_value = model.psychosocial_counseling_services_subform_section.try(:first).try(:service_psycho_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-          "WANTS LEGAL ACTION?" => ->(model) do
-            psychosocial_counseling = model.try(:psychosocial_counseling_services_subform_section)
-            if psychosocial_counseling.present?
-              legal_actions = psychosocial_counseling.map{|psycs| psycs.try(:pursue_legal_action)}
-              if legal_actions.include? true
-                I18n.t("gbv_report.yes")
-              elsif legal_actions.include? false
-                I18n.t("gbv_report.no")
-              else
-                I18n.t("gbv_report.undecided")
-              end
-            end
-          end,
           "LEGAL ASSISTANCE SERVICES" => ->(model) do
             service_value = model.legal_assistance_services_subform_section.try(:first).try(:service_legal_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
+          end,
+          "WANTS LEGAL ACTION?" => ->(model) do
+            legal_counseling = model.try(:legal_assistance_services_subform_section)
+            if legal_counseling.present?
+              legal_actions = legal_counseling.
+                  map{|l| l.try(:pursue_legal_action)}
+              if legal_actions.include? true
+                'Yes'
+              elsif legal_actions.include? false
+                'No'
+              elsif legal_actions.include? nil
+                'Undecided at time of report'
+              end
+            end
           end,
           "POLICE / OTHER SECURITY ACTOR" => ->(model) do
             service_value = model.police_or_other_type_of_security_services_subform_section.try(:first).try(:service_police_referral)

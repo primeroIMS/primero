@@ -421,6 +421,8 @@ en:
     filter_by:
       flag: "Flagged:"
       flag_label: "Flagged?"
+      mobile: "Mobile:"
+      mobile_label: "Marked for mobile?"
       violation: "Violation:"
       violence_type: "Violence Type:"
       social_worker: "Case Worker:"
@@ -1734,6 +1736,7 @@ en:
         not_applicable: "Service not applicable"
         declined: "Referral declined by survivor"
         unavailable: "Service unavailable"
+        undecided: "Undecided at time of report"
     json:
       all:  JSON
       one:  JSON

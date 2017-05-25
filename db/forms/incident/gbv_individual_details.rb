@@ -6,10 +6,7 @@ gbv_individual_details_fields = [
   Field.new({"name" => "sex",
              "type" => "radio_button",
              "display_name_all" => "What is the sex of the survivor?",
-             "option_strings_text_all" =>
-                          ["Female",
-                           "Male",
-                           "Unknown"].join("\n")
+             "option_strings_source" => "lookup lookup-gender"
             }),
   Field.new({"name" => "date_of_birth",
              "type" => "date_field",
@@ -63,9 +60,7 @@ gbv_individual_details_fields = [
              "type" => "radio_button",
              "display_name_all" => "Disability Type",
              "option_strings_text_all" =>
-                          ["Mental Disability",
-                           "Physical Disability",
-                           "Both"].join("\n")
+                          ["No", "Mental Disability", "Physical Disability", "Mental & Physical Disability"].join("\n")
             }),
   Field.new({"name" => "unaccompanied_separated_status",
              "type" => "select_box",

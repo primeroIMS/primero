@@ -46,6 +46,22 @@ function primero() {
     return _primero.abide_validator_positive_number(el, required, parent);
   }
 
+//TODO: JT: Please review and merge!!!!
+
+  // $(document).on('open.fndtn.reveal', '[data-reveal]', function () {
+  //   $('body').css('overflow','hidden');
+  // });
+
+  // $(document).on('opened.fndtn.reveal', '[data-reveal]', function (e) {
+  //   if ($(e.target).find('form').length == 1) {
+  //     $(document).foundation('abide', 'reflow');
+  //   }
+  // });
+
+  // $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
+  //   $('body').css('overflow','visible');
+  // });
+
   new _primero.Router();
 
   Backbone.history.start({ pushState: true, hashChange: false })

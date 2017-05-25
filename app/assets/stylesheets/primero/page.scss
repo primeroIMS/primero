@@ -260,18 +260,6 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
 .reveal {
   background: $desat_green_color;
 
-  .close-reveal-modal {
-    color: $stroke_green_color;
-  }
-
-  .has_form {
-    margin-top: 1em;
-  }
-}
-
-.reveal {
-  background: $desat_green_color;
-
   fieldset {
     padding: rem_calc(10);
     margin-bottom: 1em;
@@ -284,6 +272,14 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
   .close-button {
     color: $stroke_green_color;
     outline: none;
+  }
+
+  .close-reveal-modal {
+    color: $stroke_green_color;
+  }
+
+  .has_form {
+    margin-top: 1em;
   }
 }
 
