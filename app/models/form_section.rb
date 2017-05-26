@@ -102,6 +102,8 @@ class FormSection < CouchRest::Model::Base
   validate :validate_perm_visible
   validate :validate_datatypes
 
+  after_save :recalculate_subform_permissions
+
   def inspect
     "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
   end
@@ -811,6 +813,23 @@ class FormSection < CouchRest::Model::Base
   end
 
   protected
+
+  def recalculate_subform_permissions
+    if self.fields.any?{|f| f.type == Field::SUBFORM}
+      Role.all.each do |role|
+        if role.permitted_form_ids.include?(self.unique_id)
+          role.add_permitted_subforms
+          role.save
+        end
+      end
+      PrimeroModule.all.each do |primero_module|
+        if primero_module.associated_form_ids.include?(self.unique_id)
+          primero_module.add_associated_subforms
+          primero_module.save
+        end
+      end
+    end
+  end
 
   def validate_name_format
     special_characters = /[*!@#%$\^]/
