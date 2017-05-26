@@ -927,6 +927,7 @@ en:
       dash_reporting_location: "View Reporting Locations"
       dash_protection_concerns: "View Protection Concerns"
       dash_matching_results: "View Matching Results"
+      search_owned_by_others: "Search for case records owned by other users"
 
   forms:
     label: "Forms"
