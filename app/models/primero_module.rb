@@ -66,8 +66,6 @@ class PrimeroModule < CouchRest::Model::Base
     [CP, GBV, MRM].include?(self.id) || self.old_core_resource
   end
 
-  private
-
   def add_associated_subforms
     if self.associated_form_ids.present?
       subforms = FormSection.get_subforms(associated_forms)
