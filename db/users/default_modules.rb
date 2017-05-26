@@ -47,7 +47,8 @@ create_or_update_module(
     "tracing_request_photos_and_audio", "followup", "reunification_details", "other_reportable_fields_case",
     "other_reportable_fields_tracing_request", "referral_transfer", "notes", "cp_case_plan", "cp_bia_form"
   ],
-  program_id: PrimeroProgram.by_name(:key => "Primero").first.id
+  program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
+  allow_searchable_national_ids: true
 )
 
 
