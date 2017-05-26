@@ -5,7 +5,7 @@ describe "PropertyEvaluator" do
   before :all do
     @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
     @location_region = Location.create! placename:"Kindia", type: "region", location_code: "GUI01", hierarchy: ["GUI"]
-    @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+    @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
     admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
     field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case_read_write])
     a_module = PrimeroModule.create name: "Test Module"
