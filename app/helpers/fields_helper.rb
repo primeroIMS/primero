@@ -212,49 +212,8 @@ module FieldsHelper
     end
   end
 
-  # Valid inputs are as follows
-  # 'current'
-  # 'now'
-  # 'yesterday'
-  # 'today'
-  # 'tomorrow'
-  # '<integer> <date/time unit> <ago|from_now>'
-  # example: '10 days ago'  or  '3 weeks from_now'
-  def selected_date_value(date_value)
-    if date_value.present? && date_value.is_a?(String)
-      date_format = date_value.split(' ')
-      case date_format.length
-        when 1
-          selected_date_single_value(date_format)
-        when 3
-          selected_date_three_values(date_format)
-        else
-          ""
-      end
-    else
-      ""
-    end
-  end
-
-  def selected_date_single_value(date_format)
-    df = date_format.first.downcase
-    if ['yesterday', 'today', 'tomorrow'].include?(df)
-      I18n.l(Date.send(df))
-    elsif ['current', 'now'].include?(df)
-      I18n.l(DateTime.send(df), format: :with_time)
-    else
-      ""
-    end
-  end
-
-  def selected_date_three_values(date_format)
-    #First element must be an integer - ex:  '10 days ago'
-    if (true if Integer(date_format.first) rescue false) == true &&
-        ['day', 'days', 'week', 'weeks', 'month', 'months', 'year', 'years'].include?(date_format[1]) &&
-        ['ago', 'from_now'].include?(date_format.last)
-      I18n.l(eval(date_format.join('.')))
-    else
-      ""
-    end
+  def selected_date_value(value_string)
+    date_value = PrimeroDate.date_value(value_string)
+    ['current', 'now'].include?(value_string) ? I18n.l(date_value, format: :with_time) : I18n.l(date_value)
   end
 end
