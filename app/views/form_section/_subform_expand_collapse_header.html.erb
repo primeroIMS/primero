@@ -117,7 +117,7 @@
     <div class="button-group align-right">
       <% if subform_instance.present? && subform_name == "incident_details" %>
         <% link_for_current_details = formObject.incident_links.find{|link| link["incident_details"] == subform_instance.unique_id} %>
-        <% if link_for_current_details.present? %>
+        <% if link_for_current_details.present? && (can? :incident_from_case, @child) %>
           <%= render :partial =>"children/incident_links_cp",
             locals: {
               :formObject => formObject,

@@ -59,6 +59,7 @@ class Permission
   DASH_REPORTING_LOCATION = 'dash_reporting_location'
   DASH_PROTECTION_CONCERNS = 'dash_protection_concerns'
   DASH_MATCHING_RESULTS = 'dash_matching_results'
+  INCIDENT_FROM_CASE = 'incident_from_case'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
@@ -106,7 +107,8 @@ class Permission
       VIEW_ASSESSMENT,
       DASH_REPORTING_LOCATION,
       DASH_PROTECTION_CONCERNS,
-      DASH_MATCHING_RESULTS
+      DASH_MATCHING_RESULTS,
+      INCIDENT_FROM_CASE
     ]
   end
 
