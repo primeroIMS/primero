@@ -41,7 +41,7 @@ class Child < CouchRest::Model::Base
   property :name
   property :protection_concerns
   property :hidden_name, TrueClass, :default => false
-  property :registration_date, Date
+  property :registration_date, DateTime
   property :reunited, TrueClass
   property :reunited_message, String
   property :investigated, TrueClass
@@ -232,7 +232,8 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_registration_date
-    if registration_date.present? && (!registration_date.is_a?(Date) || registration_date.year > Date.today.year)
+    if registration_date.present? && (!registration_date.is_a?(DateTime) || registration_date.year > Date.today.year)
+      binding.pry
       errors.add(:registration_date, I18n.t("messages.enter_valid_date"))
       error_with_section(:registration_date, I18n.t("messages.enter_valid_date"))
       false
@@ -316,7 +317,7 @@ class Child < CouchRest::Model::Base
   end
 
   def create_class_specific_fields(fields)
-    self.registration_date ||= Date.today
+    self.registration_date ||= DateTime.now
   end
 
   def sortable_name
