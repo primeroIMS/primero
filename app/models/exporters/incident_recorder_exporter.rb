@@ -392,7 +392,9 @@ module Exporters
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "CONSENT GIVEN" => "consent_reporting",
-          "REPORTING AGENCY CODE" => "agency_organization"
+          "REPORTING AGENCY CODE" => ->(model) do
+            User.get(model.owned_by).try(:agency).try(:agency_code)
+          end
         }
       end
 
