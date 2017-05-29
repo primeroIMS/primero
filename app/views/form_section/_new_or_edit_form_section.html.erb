@@ -57,13 +57,13 @@
               <% unless @form_section.is_nested %>
                   <div class="row">
                     <div class="medium-3 columns">
-                      <%= f.label :form_group_name, t("form_section.form_group_name", :locale => I18n.default_locale), :class => 'key inline' %>
+                      <%= f.label :form_group_name, form_section.form_group_name, :class => 'key inline' %>
                     </div>
                     <div class="medium-9 columns">
                       <%= f.select "form_group_name", options_for_select(@list_form_group_names, @form_section.form_group_name || ''), {},
                                    required: "", 'data-placeholder' => t("fields.select_box_empty_item"),
                                    class: "chosen-select-or-new", id: "form_section_form_group_name" %>
-                      <small class="error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => I18n.default_locale)) %></small>
+                      <small class="error"><%= t('form_section.required_field', field: form_section.form_group_name) %></small>
                     </div>
                   </div>
               <% end %>
