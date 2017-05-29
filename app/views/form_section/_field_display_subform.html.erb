@@ -23,7 +23,7 @@
 <% if number_of_subforms == 0 %>
   <% if !subform.disabled %>
     <% unless subform.subform_section.is_summary_section %>
-      <div class="placeholder_text"> <%= subform_placeholder(field) %></div>
+      <div class="placeholder_text"> <%= subform_placeholder(field, subform) %></div>
     <% end %>
   <% end %>
 <% else %>
