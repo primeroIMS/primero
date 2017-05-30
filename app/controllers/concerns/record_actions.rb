@@ -241,7 +241,7 @@ module RecordActions
     # 'all' should not be used for other invocations.
     # When mobile is implemented, it should not use 'all'
   elsif params[:page] != 'all'
-      @national_id_search = params[:national_id_search]
+      @id_search = params[:id_search]
       search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
       records = search.results
       total_records = search.total
