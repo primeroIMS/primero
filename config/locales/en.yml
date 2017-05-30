@@ -333,6 +333,7 @@ en:
     history_of: "History of %{short_id}"
 
   case:
+    create_cp_case: "Create CP Case"
     label: "Case ID"
     flagged_by: "Flagged By"
     last_updated: "Last updated"

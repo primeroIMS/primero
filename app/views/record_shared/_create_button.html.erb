@@ -12,9 +12,9 @@
             <% if primero_module.allow_searchable_national_ids %>
               <a data-open="national-ids-search"><%= primero_module.name %></a>
               <div class="reveal" id="national-ids-search" data-reveal>
-                <h1>Search</h1>
+                <h4><%= t('search') %></h4>
                 <div class="button-group">
-                  <%= link_to 'Create CP Case', new_polymorphic_path(record, module_id: primero_module.id), class: 'button' %>
+                  <%= link_to t('case.create_cp_case'), new_polymorphic_path(record, module_id: primero_module.id), class: 'button' %>
                 </div>
               </div>
             <% else %>
