@@ -369,6 +369,8 @@ en:
     survivor_code: "Survivor Code"
     case_opening_date: "Case Open Date"
     photo: "Photo"
+    owned_by: 'Record Owner'
+    owned_by_agency: 'Record Owner Agency'
 
     messages:
       update_success: "Case %{record_id} was successfully updated."

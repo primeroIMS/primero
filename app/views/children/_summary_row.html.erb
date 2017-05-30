@@ -2,16 +2,19 @@
   <td class="select_record"><input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= text_to_identify_child record %>"></td>
   <% if fields_to_show.include? 'short_id' %>
     <td id="child_<%= record.id %>" class="id_column">
-      <% if @tracing_request.present? && @match_request.present?%>
-        <%= link_to text_to_identify_child(record), case_path(record, match: "#{@tracing_request.id}::#{@match_request.unique_id}"), class: 'id_link' %>
+      <% if can?(:read, record) %>
+        <% if @tracing_request.present? && @match_request.present?%>
+          <%= link_to text_to_identify_child(record), case_path(record, match: "#{@tracing_request.id}::#{@match_request.unique_id}"), class: 'id_link' %>
+        <% else %>
+          <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>
+        <% end %>
+        <% if record.flagged? && record.flag_count > 0 %>
+          <div class="flag_icon">
+            <%= record.flag_count %>
+          </div>
+        <% end %>
       <% else %>
-        <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>
-      <% end %>
-      <% #content_tag(:div, nil, :class => 'flag reunited') if record.reunited? %>
-      <% if record.flagged? && record.flag_count > 0 %>
-        <div class="flag_icon">
-          <%= record.flag_count %>
-        </div>
+        <%= text_to_identify_child(record) %>
       <% end %>
     </td>
   <% end %>
@@ -51,5 +54,8 @@
   <% if fields_to_show.include? 'owned_by' %>
     <% #TODO - Get name or code.  Prob should be in helper. Should this be owned_by_text?%>
     <td><%= record.owned_by %></td>
+  <% end %>
+  <% if fields_to_show.include? 'owned_by_agency' %>
+    <td><%= record.owned_by_agency %></td>
   <% end %>
 </tr>
