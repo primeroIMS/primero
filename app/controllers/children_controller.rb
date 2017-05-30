@@ -235,9 +235,6 @@ class ChildrenController < ApplicationController
     individual_details_subform_section = params['individual_details_subform_section']
 
     Child.new.tap do |child|
-      child.registration_date = Date.today
-      child['record_state'] = true
-      child['child_status'] = [Record::STATUS_OPEN]
       child['module_id'] = params['module_id']
       if incident_id.present? && individual_details_subform_section.present?
         incident = Incident.get(incident_id)

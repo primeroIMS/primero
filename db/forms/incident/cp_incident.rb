@@ -21,11 +21,9 @@ cp_incident_fields = [
   Field.new({
     "name" => "status",
     "type" => "select_box",
+    "selected_value" => Record::STATUS_OPEN,
     "display_name_all" => "Incident Status",
-    "option_strings_text_all" => [
-      "Open",
-      "Closed"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-incident-status"
   }),
   Field.new({
     "name" => "cp_incident_identification_violence",
