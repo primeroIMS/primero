@@ -2,6 +2,7 @@
   field_keys ||= []
   name = field_tag_name formObject, numeric_field, field_keys
   field_id = "#{numeric_field.form.name.dehumanize}_#{sanitize_to_id name}"
+  value = numeric_field.selected_value if numeric_field.selected_value.present? && formObject.new_record?
   value ||= field_value formObject, numeric_field, field_keys
   field_class = ""
   autosum_group = ""

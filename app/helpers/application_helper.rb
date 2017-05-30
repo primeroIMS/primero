@@ -157,7 +157,7 @@ module ApplicationHelper
   end
 
   def ctl_create_incident_button(record)
-    if record.present? and record.class.name == "Child" and record.module_id == PrimeroModule::GBV
+    if record.present? and record.class.name == "Child" and record.module_id == PrimeroModule::GBV and (can? :incident_from_case, record)
       if current_actions(action: ['update', 'edit'])
         submit_button(t("buttons.create_incident"))
       elsif current_actions(action: ['show'])
