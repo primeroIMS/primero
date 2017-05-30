@@ -116,6 +116,31 @@ class Incident < CouchRest::Model::Base
 
   end
 
+  def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil)
+    Incident.new.tap do |incident|
+      incident['record_state'] = true
+      incident['mrm_verification_status'] = "pending"
+      incident['module_id'] = module_id
+      incident['status'] = Record::STATUS_OPEN
+      incident['date_of_first_report'] = Date.today
+
+      if child.present?
+        incident['incident_case_id'] = child.id
+        incident_map = Incident::DEFAULT_INCIDENT_MAPPING
+        if from_module_id.present?
+          from_module = PrimeroModule.get(from_module_id)
+          if from_module.present?
+            incident_map = from_module.field_map_fields
+            if incident_detail_id.present?
+              incident['incident_detail_id'] = incident_detail_id
+            end
+          end
+        end
+        incident.copy_case_information(child, incident_map, incident_detail_id)
+      end
+    end
+  end
+
   def ensure_violation_categories_exist
     if self.violations.present?
       self.violations.to_hash.compact.each_key do |key|
@@ -312,7 +337,7 @@ class Incident < CouchRest::Model::Base
   end
 
   #Copy some fields values from Survivor Information to GBV Individual Details.
-  def copy_survivor_information(case_record, incident_map, incident_id)
+  def copy_case_information(case_record, incident_map, incident_id)
     copy_fields(case_record, incident_map, incident_id)
   end
 
