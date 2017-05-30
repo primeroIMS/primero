@@ -33,6 +33,7 @@ cp_admin_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
+      Permission::SEARCH_OWNED_BY_OTHERS
       Permission::CREATE
     ]
   ),
@@ -142,6 +143,7 @@ cp_caseworker_permissions = [
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
       Permission::REQUEST_APPROVAL_CASE_PLAN,
+      Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::INCIDENT_FROM_CASE,
       Permission::CREATE
     ]
@@ -210,6 +212,7 @@ cp_manager_permissions = [
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
       Permission::APPROVE_CASE_PLAN,
+      Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::INCIDENT_FROM_CASE
     ]
   ),

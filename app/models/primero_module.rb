@@ -10,7 +10,7 @@ class PrimeroModule < CouchRest::Model::Base
   include Namable #delivers "name" and "description" fields
 
   property :program_id
-  property :allow_searchable_national_ids, TrueClass
+  property :allow_searchable_ids, TrueClass
   property :associated_record_types, :type => [String]
   property :associated_form_ids, :type => [String]
   property :core_resource, TrueClass, :default => false
