@@ -211,4 +211,9 @@ module FieldsHelper
       end
     end
   end
+
+  def selected_date_value(value_string)
+    date_value = PrimeroDate.date_value(value_string)
+    ['current', 'now'].include?(value_string) ? I18n.l(date_value, format: :with_time) : I18n.l(date_value)
+  end
 end

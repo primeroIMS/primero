@@ -67,12 +67,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def get_incident_module child
-    current_module = PrimeroModule.get(child.module_id);
-    field_map = (!(defined?(current_module)).nil? && !current_module.nil? && current_module.has_key?("field_map")) ? current_module["field_map"] : {}
-    return field_map.has_key?("map_to") ? field_map["map_to"] : child.module_id
-  end
-
   def create_incident
     authorize! :create, Incident
     child = Child.get(params[:child_id])
@@ -86,7 +80,25 @@ class ChildrenController < ApplicationController
     if from_module.present?
       new_incident_params[:from_module_id] = from_module.id
     end
-    redirect_to new_incident_path(new_incident_params)
+
+    if from_module.present? && params[:incident_detail_id].present?
+      incident = Incident.make_new_incident(to_module_id, child, from_module.id, params[:incident_detail_id])
+      incident.save
+      child.add_incident_links(params[:incident_detail_id], incident.id, incident.short_id)
+      child.save
+
+      content = {
+        incident_link_label: t('incident.link_to_incident'),
+        incident_link: view_context.link_to(incident.short_id, incident_path(incident.id))
+      }
+      json_content = content.to_json
+      respond_to do |format|
+        format.html {render :json => json_content}
+        format.json {render :json => json_content}
+      end
+    else
+      redirect_to new_incident_path(new_incident_params)
+    end
   end
 
   def reopen_case
@@ -223,9 +235,6 @@ class ChildrenController < ApplicationController
     individual_details_subform_section = params['individual_details_subform_section']
 
     Child.new.tap do |child|
-      child.registration_date = DateTime.now
-      child['record_state'] = true
-      child['child_status'] = [Record::STATUS_OPEN]
       child['module_id'] = params['module_id']
       if incident_id.present? && individual_details_subform_section.present?
         incident = Incident.get(incident_id)
