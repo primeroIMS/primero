@@ -350,6 +350,7 @@ cp_user_manager_permissions = [
         :resource => Permission::USER,
         :actions => [
             Permission::READ,
+            Permission::CREATE,
             Permission::WRITE,
             Permission::EXPORT_CUSTOM,
             Permission::EXPORT_LIST_VIEW,
@@ -561,6 +562,7 @@ gbv_user_manager_permissions = [
         :resource => Permission::USER,
         :actions => [
             Permission::READ,
+            Permission::CREATE,
             Permission::WRITE,
             Permission::EXPORT_CUSTOM,
             Permission::EXPORT_LIST_VIEW,
