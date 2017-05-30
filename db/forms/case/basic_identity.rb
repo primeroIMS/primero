@@ -34,6 +34,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
+             "selected_value" => Record::STATUS_OPEN,
              "display_name_all" => "Case Status",
              "option_strings_source" => "lookup lookup-case-status"
             }),
@@ -94,6 +95,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "registration_date",
              "type" => "date_field",
+             "selected_value" => "today",
              "required" => false,
              "display_name_all" => "Date of Registration or Interview",
              "date_validation" => "not_future_date"

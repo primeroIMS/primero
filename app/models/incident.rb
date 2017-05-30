@@ -118,11 +118,7 @@ class Incident < CouchRest::Model::Base
 
   def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil)
     Incident.new.tap do |incident|
-      incident['record_state'] = true
-      incident['mrm_verification_status'] = "pending"
       incident['module_id'] = module_id
-      incident['status'] = Record::STATUS_OPEN
-      incident['date_of_first_report'] = Date.today
 
       if child.present?
         incident['incident_case_id'] = child.id

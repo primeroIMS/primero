@@ -78,4 +78,53 @@ class PrimeroDate < Date
 
     raise ArgumentError, "invalid date"
   end
+
+  # This is a wrapper for some of the Date and DateTime helpers
+  # Valid inputs are as follows
+  # 'current'
+  # 'now'
+  # 'yesterday'
+  # 'today'
+  # 'tomorrow'
+  # '<integer> <date/time unit> <ago|from_now>'
+  # example: '10 days ago'  or  '3 weeks from_now'
+  def self.date_value(value_string)
+    if value_string.present? && value_string.is_a?(String)
+      date_format = value_string.split(' ')
+      case date_format.length
+        when 1
+          parse_single_value(date_format)
+        when 3
+          parse_three_values(date_format)
+        else
+          ''
+      end
+    else
+      ''
+    end
+  end
+
+  private
+
+  def self.parse_single_value(date_format)
+    df = date_format.first.downcase
+    if ['yesterday', 'today', 'tomorrow'].include?(df)
+      Date.send(df)
+    elsif ['current', 'now'].include?(df)
+      DateTime.send(df)
+    else
+      ''
+    end
+  end
+
+  def self.parse_three_values(date_format)
+    #First element must be an integer - ex:  '10 days ago'
+    if (true if Integer(date_format.first) rescue false) == true &&
+        ['day', 'days', 'week', 'weeks', 'month', 'months', 'year', 'years'].include?(date_format[1]) &&
+        ['ago', 'from_now'].include?(date_format.last)
+      eval(date_format.join('.'))
+    else
+      ''
+    end
+  end
 end
