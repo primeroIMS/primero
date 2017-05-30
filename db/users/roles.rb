@@ -128,7 +128,8 @@ cp_caseworker_permissions = [
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
-      Permission::REQUEST_APPROVAL_CASE_PLAN
+      Permission::REQUEST_APPROVAL_CASE_PLAN,
+      Permission::INCIDENT_FROM_CASE
     ]
   ),
   Permission.new(
@@ -185,7 +186,8 @@ cp_manager_permissions = [
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
-      Permission::APPROVE_CASE_PLAN
+      Permission::APPROVE_CASE_PLAN,
+      Permission::INCIDENT_FROM_CASE
     ]
   ),
   Permission.new(
@@ -271,7 +273,8 @@ gbv_worker_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::INCIDENT_FROM_CASE
     ]
   ),
   Permission.new(
