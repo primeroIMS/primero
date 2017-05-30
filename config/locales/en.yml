@@ -333,6 +333,8 @@ en:
     history_of: "History of %{short_id}"
 
   case:
+    create_cp_case: "Create CP Case"
+    enter_id_number: "Enter the ID number to search for an existing record"
     label: "Case ID"
     flagged_by: "Flagged By"
     last_updated: "Last updated"
