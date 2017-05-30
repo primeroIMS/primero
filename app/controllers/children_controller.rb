@@ -82,9 +82,11 @@ class ChildrenController < ApplicationController
     end
 
     if from_module.present? && params[:incident_detail_id].present?
-      incident = Incident.make_incident_from_case(child, to_module_id, from_module.id, params[:incident_detail_id])
+      incident = Incident.make_new_incident(to_module_id, child, from_module.id, params[:incident_detail_id])
       incident.save
-      Child.add_incident_links(child, params[:incident_detail_id], incident.id, incident.short_id)
+      child.add_incident_links(params[:incident_detail_id], incident.id, incident.short_id)
+      child.save
+
       content = {
         incident_link_label: t('incident.link_to_incident'),
         incident_link: view_context.link_to(incident.short_id, incident_path(incident.id))

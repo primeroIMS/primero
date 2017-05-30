@@ -13,7 +13,7 @@
             locals: {
               :formObject => formObject,
               :associated_incident_id => link_for_current_details["incident_id"],
-              :incident_short_id => link_for_current_details["incident_short_id"]
+              :incident_display_id => link_for_current_details["incident_display_id"]
             } %>
         <% else %>
           <%= render :partial => "children/create_incident",

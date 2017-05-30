@@ -116,7 +116,7 @@ class Incident < CouchRest::Model::Base
 
   end
 
-  def self.make_incident_from_case(child, module_id, from_module_id=nil, incident_detail_id=nil)
+  def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil)
     Incident.new.tap do |incident|
       incident['record_state'] = true
       incident['mrm_verification_status'] = "pending"

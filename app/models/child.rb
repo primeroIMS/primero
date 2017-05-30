@@ -149,11 +149,6 @@ class Child < CouchRest::Model::Base
               }"
   end
 
-  def self.add_incident_links(child, incident_detail_id, incident_id, incident_short_id)
-    child.incident_links << {"incident_details" => incident_detail_id, "incident_id" => incident_id, "incident_short_id" => incident_short_id}
-    child.save
-  end
-
   def self.quicksearch_fields
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
@@ -211,12 +206,14 @@ class Child < CouchRest::Model::Base
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
-
-
   def self.by_date_of_birth_range(startDate, endDate)
     if startDate.is_a?(Date) && endDate.is_a?(Date)
       self.by_date_of_birth_month_day(:startkey => [startDate.month, startDate.day], :endkey => [endDate.month, endDate.day]).all
     end
+  end
+
+  def add_incident_links(incident_detail_id, incident_id, incident_display_id)
+    self.incident_links << {"incident_details" => incident_detail_id, "incident_id" => incident_id, "incident_display_id" => incident_display_id}
   end
 
   def validate_has_at_least_one_field_value
@@ -292,7 +289,6 @@ class Child < CouchRest::Model::Base
     end
     return age, gender
   end
-
 
   def auto_populate_name
     #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
@@ -411,5 +407,4 @@ class Child < CouchRest::Model::Base
     existing_fields = system_fields + field_definitions.map { |x| x.name }
     self.reject { |k, v| existing_fields.include? k }
   end
-
 end
