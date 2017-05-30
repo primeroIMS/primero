@@ -50,7 +50,7 @@ describe Role do
   describe "has_permission" do
     before do
       @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-      @permission_incident_read_write = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::WRITE])
+      @permission_incident_read_write = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       @permission_role_assign = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN])
     end
 

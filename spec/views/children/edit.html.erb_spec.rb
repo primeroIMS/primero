@@ -61,7 +61,7 @@ describe "children/edit.html.erb" do
 
     User.stub(:find_by_user_name).with("me").and_return(double(:organization => "stc"))
     @user = User.new
-    @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::USER])
+    @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::USER])
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(Child)
     controller.should_receive(:can?).with(:flag, @child).and_return(false)

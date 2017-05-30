@@ -1386,7 +1386,7 @@ describe Child do
       PrimeroModule.all.each &:destroy
 
       @permission_case ||= Permission.new(:resource => Permission::CASE,
-                                          :actions => [Permission::READ, Permission::WRITE])
+                                          :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
       @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
       @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["GUI"]
       admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)

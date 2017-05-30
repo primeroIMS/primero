@@ -34,6 +34,7 @@ cp_admin_permissions = [
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SEARCH_OWNED_BY_OTHERS
+      Permission::CREATE
     ]
   ),
   Permission.new(
@@ -51,7 +52,8 @@ cp_admin_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::EXPORT_UNHCR,
+      Permission::CREATE
     ]
   ),
   Permission.new(
@@ -66,7 +68,8 @@ cp_admin_permissions = [
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF
+      Permission::EXPORT_PDF,
+      Permission::CREATE
     ],
     :role_ids => [
       'role-cp-case-worker',
@@ -86,14 +89,16 @@ cp_admin_permissions = [
       Permission::EXPORT_CSV,
       Permission::EXPORT_EXCEL,
       Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF
+      Permission::EXPORT_PDF,
+      Permission::CREATE
     ]
   ),
   Permission.new(
     :resource => Permission::REPORT,
     :actions => [
       Permission::READ,
-      Permission::WRITE
+      Permission::WRITE,
+      Permission::CREATE
     ]
   ),
   Permission.new(
@@ -103,6 +108,14 @@ cp_admin_permissions = [
   Permission.new(
     :resource => Permission::SYSTEM,
     :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::INCIDENT,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::CREATE
+    ]
   )
 ]
 
@@ -131,7 +144,8 @@ cp_caseworker_permissions = [
       Permission::SYNC_MOBILE,
       Permission::REQUEST_APPROVAL_CASE_PLAN,
       Permission::SEARCH_OWNED_BY_OTHERS,
-      Permission::INCIDENT_FROM_CASE
+      Permission::INCIDENT_FROM_CASE,
+      Permission::CREATE
     ]
   ),
   Permission.new(
@@ -146,7 +160,8 @@ cp_caseworker_permissions = [
       Permission::EXPORT_JSON,
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::EXPORT_UNHCR,
+      Permission::CREATE
     ]
   ),
   Permission.new(
@@ -160,6 +175,14 @@ cp_caseworker_permissions = [
     :actions => [
       Permission::VIEW_APPROVALS,
       Permission::VIEW_ASSESSMENT
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::INCIDENT,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::CREATE
     ]
   )
 ]
@@ -219,7 +242,8 @@ cp_manager_permissions = [
     :resource => Permission::REPORT,
     :actions => [
       Permission::READ,
-      Permission::WRITE
+      Permission::WRITE,
+      Permission::CREATE
     ]
   ),
   Permission.new(
@@ -277,7 +301,8 @@ gbv_worker_permissions = [
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
-      Permission::INCIDENT_FROM_CASE
+      Permission::INCIDENT_FROM_CASE,
+      Permission::CREATE
     ]
   ),
   Permission.new(
@@ -294,7 +319,8 @@ gbv_worker_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR,
       Permission::EXPORT_INCIDENT_RECORDER,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::CREATE
     ]
   )
 ]
@@ -344,7 +370,8 @@ gbv_manager_permissions = [
     :resource => Permission::REPORT,
     :actions => [
       Permission::READ,
-      Permission::WRITE
+      Permission::WRITE,
+      Permission::CREATE
     ]
   ),
   Permission.new(
@@ -397,7 +424,8 @@ referral_permissions = [
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::EXPORT_UNHCR,
+      Permission::CREATE
     ]
   )
 ]
@@ -422,7 +450,8 @@ transfer_permissions = [
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::EXPORT_UNHCR,
+      Permission::CREATE
     ]
   )
 ]
@@ -434,44 +463,54 @@ create_or_update_role(
 )
 
 ftr_manager_permissions = [
-    Permission.new(
-        :resource => Permission::CASE,
-        :actions => [
-            Permission::READ,
-            Permission::WRITE,
-            Permission::FLAG,
-            Permission::EXPORT_LIST_VIEW,
-            Permission::EXPORT_CSV,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_JSON,
-            Permission::EXPORT_PHOTO_WALL,
-            Permission::EXPORT_PDF,
-            Permission::EXPORT_CASE_PDF,
-            Permission::EXPORT_UNHCR,
-            Permission::SYNC_MOBILE
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::TRACING_REQUEST,
-        :actions => [
-            Permission::READ,
-            Permission::WRITE,
-            Permission::FLAG,
-            Permission::EXPORT_LIST_VIEW,
-            Permission::EXPORT_CSV,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_JSON,
-            Permission::EXPORT_PHOTO_WALL,
-            Permission::EXPORT_PDF,
-            Permission::EXPORT_UNHCR
-        ]
-    ),
-    Permission.new(
-      :resource => Permission::POTENTIAL_MATCH,
+  Permission.new(
+      :resource => Permission::CASE,
       :actions => [
-        Permission::READ
+          Permission::READ,
+          Permission::WRITE,
+          Permission::FLAG,
+          Permission::EXPORT_LIST_VIEW,
+          Permission::EXPORT_CSV,
+          Permission::EXPORT_EXCEL,
+          Permission::EXPORT_JSON,
+          Permission::EXPORT_PHOTO_WALL,
+          Permission::EXPORT_PDF,
+          Permission::EXPORT_CASE_PDF,
+          Permission::EXPORT_UNHCR,
+          Permission::SYNC_MOBILE,
+          Permission::CREATE
       ]
-    )
+  ),
+  Permission.new(
+      :resource => Permission::TRACING_REQUEST,
+      :actions => [
+          Permission::READ,
+          Permission::WRITE,
+          Permission::FLAG,
+          Permission::EXPORT_LIST_VIEW,
+          Permission::EXPORT_CSV,
+          Permission::EXPORT_EXCEL,
+          Permission::EXPORT_JSON,
+          Permission::EXPORT_PHOTO_WALL,
+          Permission::EXPORT_PDF,
+          Permission::EXPORT_UNHCR,
+          Permission::CREATE
+      ]
+  ),
+  Permission.new(
+    :resource => Permission::POTENTIAL_MATCH,
+    :actions => [
+      Permission::READ
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::INCIDENT,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::CREATE
+    ]
+  )
 ]
 
 create_or_update_role(

@@ -280,7 +280,7 @@ describe User do
 
   describe "user roles" do
     it "should store the roles and retrive them back as Roles" do
-      permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+      permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [permission_case_read_write])
       user = User.create({:user_name => "user_123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
@@ -334,7 +334,7 @@ describe User do
       User.all.each &:destroy
       Role.all.each &:destroy
 
-      @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
+      @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       @permission_user_read = Permission.new(resource: Permission::USER, actions: [Permission::READ])
       @manager_role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::GROUP
       @grunt_role = create :role, permissions_list: [@permission_user_read]

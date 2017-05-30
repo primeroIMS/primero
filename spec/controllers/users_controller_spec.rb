@@ -13,7 +13,7 @@ describe UsersController do
     @role_incident_read = create :role, permissions_list: [@permission_incident_read]
     @a_module = PrimeroModule.create name: "Test Module"
 
-    @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
+    @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
   end
 
   def mock_user(stubs={})
@@ -377,7 +377,7 @@ describe UsersController do
 
     context "when user has permission to assign none of the roles" do
       before do
-        @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE])
+        @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
         fake_login_with_permissions([@permission_user_read_write, @permission_role_read_write])
       end
 
@@ -408,7 +408,7 @@ describe UsersController do
     end
 
     it "should allow editing a non-self user for user having edit permission" do
-      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE], Permission::ALL)
+      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
       mock_user = stub_model(User, :full_name => "Test Name", :user_name => 'fakeuser')
       User.stub(:get).with("24").and_return(mock_user)
       get :edit, :id => "24"
@@ -440,7 +440,7 @@ describe UsersController do
     end
 
     it "should allow user deletion for relevant user role" do
-      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE], Permission::ALL)
+      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
       mock_user = stub_model User
       User.should_receive(:get).with("37").and_return(mock_user)
       mock_user.should_receive(:destroy).and_return(true)
@@ -473,7 +473,7 @@ describe UsersController do
       end
 
       it "should allow to edit disable fields for disable users" do
-        fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE], Permission::ALL)
+        fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
         user = stub_model User, :user_name => 'some name'
         params = { :id => '24', :user => { :disabled => true } }
         User.stub :get => user
@@ -485,7 +485,7 @@ describe UsersController do
     end
     context "create a user" do
       it "should create admin user if the admin user type is specified" do
-        fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE], Permission::ALL)
+        fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
         mock_user = User.new
         User.should_receive(:new).with({"role_ids" => %w(abcd)}).and_return(mock_user)
         mock_user.should_receive(:save).and_return(true)

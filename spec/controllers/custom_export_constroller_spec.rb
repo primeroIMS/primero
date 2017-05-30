@@ -258,8 +258,8 @@ describe CustomExportsController do
       end
 
       it "returns only permitted forms per user per role" do
-        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
-        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
+        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
         role = Role.new(
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => Permission::ALL,
@@ -290,7 +290,7 @@ describe CustomExportsController do
     describe "permitted_fields_list" do
 
       it "returns only permitted fields per user" do
-        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
         role = Role.new(
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => [],
@@ -329,8 +329,8 @@ describe CustomExportsController do
       end
 
       it "returns only permitted fields for writeable users" do
-        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
-        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
+        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
         role = Role.new(
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => Permission::ALL,
