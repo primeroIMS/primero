@@ -333,6 +333,7 @@ en:
     history_of: "History of %{short_id}"
 
   case:
+    create_cp_case: "Create CP Case"
     label: "Case ID"
     flagged_by: "Flagged By"
     last_updated: "Last updated"
@@ -927,6 +928,8 @@ en:
       dash_reporting_location: "View Reporting Locations"
       dash_protection_concerns: "View Protection Concerns"
       dash_matching_results: "View Matching Results"
+      incident_from_case: "Create an incident from a case"
+      create: "Create"
 
   forms:
     label: "Forms"
