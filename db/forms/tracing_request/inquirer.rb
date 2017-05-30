@@ -15,7 +15,7 @@ tracing_request_inquirer_fields = [
             }),
   Field.new({"name" => "inquiry_date",
              "type" => "date_field",
-             "selected_value" => "now",
+             "selected_value" => "today",
              "show_on_minify_form" => true,
              "display_name_all" => "Date of Inquiry"
             }),
