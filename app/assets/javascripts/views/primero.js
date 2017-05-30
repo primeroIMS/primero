@@ -10,7 +10,9 @@ Primero = _primero.Views.Base.extend({
     'click .action_btn': 'disable_default_events',
     'change .record_types input:not([type="hidden"])': 'record_type_changed',
     'click #audio_link, .document, .bulk_export_download': '_primero_check_download_status',
-    'click .download_forms': '_primero_check_status_close_modal'
+    'click .download_forms': '_primero_check_status_close_modal',
+    'click .create_cp_incident_modal': 'load_and_redirect'
+
   },
 
   initialize: function() {
