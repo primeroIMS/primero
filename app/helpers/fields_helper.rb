@@ -12,7 +12,7 @@ module FieldsHelper
     if a_date.present? && a_date.instance_of?(Date)
       I18n.l(a_date)
     elsif a_date.present? && a_date.instance_of?(DateTime)
-      a_date.in_time_zone(Time.zone.name).strftime('%d-%b-%Y %H:%M')
+      I18n.l(a_date.in_time_zone(Time.zone.name), format: :with_time)
     else
       a_date
     end

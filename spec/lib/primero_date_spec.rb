@@ -135,10 +135,11 @@ describe PrimeroDate do
     i18n_atlantic_date_time = "27-May-2017 19:05"
     i18n_istanbul_date_time = "28-May-2017 01:05"
     a_date = PrimeroDate.couchrest_typecast(nil, nil, database_formated_date)
+
     Time.zone = 'Atlantic Time (Canada)'
-    expect(a_date.in_time_zone(Time.zone.name).strftime('%d-%b-%Y %H:%M')).to eql(i18n_atlantic_date_time)
+    expect(I18n.l(a_date.in_time_zone(Time.zone.name), format: :with_time)).to eql(i18n_atlantic_date_time)
 
     Time.zone = 'Istanbul'
-    expect(a_date.in_time_zone(Time.zone.name).strftime('%d-%b-%Y %H:%M')).to eql(i18n_istanbul_date_time)
+    expect(I18n.l(a_date.in_time_zone(Time.zone.name), format: :with_time)).to eql(i18n_istanbul_date_time)
   end
 end
