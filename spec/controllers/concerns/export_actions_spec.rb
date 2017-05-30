@@ -98,7 +98,7 @@ describe ExportActions, type: :controller do
     end
 
     it "keeps fields that are hidden on view page for users with edit permissions" do
-      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       @role.permissions_list = [case_permission]
       @user.stub(:roles).and_return([@role])
 

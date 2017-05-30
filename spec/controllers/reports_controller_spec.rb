@@ -162,7 +162,7 @@ describe ReportsController do
     end
 
     it "returns all fields for writeable users" do
-      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       role = Role.new(
         :id=> "role-test", :name => "Test Role", :description => "Test Role",
         :group_permission => [],
@@ -209,7 +209,7 @@ describe ReportsController do
       expected_forms_sections = [
         #field_name_3 is not visible.
         #field_name_4 is hide on view page, for readonly users should not be in the list.
-        ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "numeric_field"], 
+        ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "numeric_field"],
                                       ["Field Name 2", "field_name_2", "numeric_field"],
                                       ["Field Name 4", "field_name_4", "numeric_field"],
                                       ["My Lookup", "field_lookup", "select_box"],

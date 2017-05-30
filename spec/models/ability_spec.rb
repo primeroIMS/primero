@@ -8,7 +8,7 @@ describe Ability do
     @user1 = create :user
     @user2 = create :user
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-    @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+    @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
   end
 
   describe "Records" do
@@ -153,7 +153,7 @@ describe Ability do
   describe "Roles" do
     before :each do
       @permission_role_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ])
-      @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE])
+      @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
     end
 
     it "allows a user with read permissions to read but not edit roles" do
@@ -239,7 +239,7 @@ describe Ability do
 
       context "is set with read write access" do
         before :each do
-          @permission_role_specific_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE],
+          @permission_role_specific_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE],
                                                               role_ids: [@role_case_read.id, @role_incident_read.id])
           @role_role_specific_read_write = create :role, permissions_list: [@permission_role_specific_read_write], group_permission: Permission::GROUP
           @user1.role_ids = [@role_role_specific_read_write.id]
@@ -269,7 +269,7 @@ describe Ability do
 
       context "is not set" do
         before :each do
-          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE])
+          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
           @role_non_role_specific_read_write = create :role, permissions_list: [@permission_role_read_write]
           @user1.role_ids = [@role_non_role_specific_read_write.id]
           @user1.save
@@ -304,7 +304,7 @@ describe Ability do
         @role_tracing_request_read = create :role, permissions_list: [@permission_tracing_request_read]
         @permission_incident_read = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
         @role_incident_read = create :role, permissions_list: [@permission_incident_read]
-        @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
+        @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       end
 
       context "and specifies 2 roles" do
@@ -362,7 +362,7 @@ describe Ability do
 
       context "and specifies no roles" do
         before :each do
-          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE])
+          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
           @role_role_assign_none = create :role, permissions_list: [@permission_user_read_write, @permission_role_read_write],
                                                  group_permission: Permission::GROUP
           @user1.role_ids = [@role_role_assign_none.id]
@@ -407,7 +407,7 @@ describe Ability do
   describe "Users" do
     before :each do
       @permission_user_read = Permission.new(resource: Permission::USER, actions: [Permission::READ])
-      @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
+      @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
     end
 
     it "allows a user with read permissions to manage their own user" do
@@ -499,7 +499,7 @@ describe Ability do
 
   describe "Other resources" do
     it "allows viewing and editing of Metadata resources if that permission is set along with 'read' and 'write'" do
-      permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::READ, Permission::WRITE])
+      permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       role = create :role, permissions_list: [permission_metadata]
       @user1.role_ids = [role.id]
       @user1.save
@@ -513,7 +513,7 @@ describe Ability do
     end
 
     it "allows viewing and editing of System resources if that permission is set along with 'read' and 'write'" do
-      permission_system = Permission.new(resource: Permission::SYSTEM, actions: [Permission::READ, Permission::WRITE])
+      permission_system = Permission.new(resource: Permission::SYSTEM, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       role = create :role, permissions_list: [permission_system]
       @user1.role_ids = [role.id]
       @user1.save
