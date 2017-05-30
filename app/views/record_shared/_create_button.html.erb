@@ -8,10 +8,19 @@
         <a data-toggle="modules-dropdown" data-close-on-click="true" class="button"><%= content_tag(:span, button_label) %></a>
         <ul class="menu">
         <% modules.each do |primero_module| %>
-            <%# TODO: translate the module name %>
-            <li>
+          <li>
+            <% if primero_module.allow_searchable_national_ids %>
+              <a data-open="national-ids-search"><%= primero_module.name %></a>
+              <div class="reveal" id="national-ids-search" data-reveal>
+                <h1>Search</h1>
+                <div class="button-group">
+                  <%= link_to 'Create CP Case', new_polymorphic_path(record, module_id: primero_module.id), class: 'button' %>
+                </div>
+              </div>
+            <% else %>
               <%= content_tag( :a, primero_module.name, :class => 'dropdown_link', :'href' => new_polymorphic_path(record, module_id: primero_module.id)) %>
-            </li>
+            <% end %>
+          </li>
         <% end %>
         </ul>
       </li>
