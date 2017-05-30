@@ -9,9 +9,9 @@
         <ul class="menu">
         <% modules.each do |primero_module| %>
           <li>
-            <% if primero_module.allow_searchable_national_ids %>
-              <a data-open="national-ids-search"><%= primero_module.name %></a>
-              <div class="reveal" id="national-ids-search" data-reveal>
+            <% if primero_module.allow_searchable_ids %>
+              <a data-open="ids-search"><%= primero_module.name %></a>
+              <div class="reveal" id="ids-search" data-reveal>
                 <h4><%= t('search') %></h4>
                 <div class="button-group">
                   <%= link_to t('case.create_cp_case'), new_polymorphic_path(record, module_id: primero_module.id), class: 'button' %>

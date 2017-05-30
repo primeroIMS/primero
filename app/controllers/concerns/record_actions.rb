@@ -240,7 +240,8 @@ module RecordActions
     # That's fine.  The record retrieval is handled in bulk export.
     # 'all' should not be used for other invocations.
     # When mobile is implemented, it should not use 'all'
-    elsif params[:page] != 'all'
+  elsif params[:page] != 'all'
+      @id_search = params[:id_search]
       search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
       records = search.results
       total_records = search.total
