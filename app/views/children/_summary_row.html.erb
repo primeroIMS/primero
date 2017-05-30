@@ -8,7 +8,6 @@
         <% else %>
           <%= link_to text_to_identify_child(record), case_path(record), class: 'id_link' %>
         <% end %>
-        <% #content_tag(:div, nil, :class => 'flag reunited') if record.reunited? %>
         <% if record.flagged? && record.flag_count > 0 %>
           <div class="flag_icon">
             <%= record.flag_count %>
