@@ -48,39 +48,18 @@ class IncidentsController < ApplicationController
   end
 
   def make_new_record
-    Incident.new.tap do |incident|
-      incident['module_id'] = params['module_id']
-
-      if params['case_id'].present?
-        case_record = Child.get(params['case_id'])
-        if case_record.present?
-          incident_map = Incident::DEFAULT_INCIDENT_MAPPING
-          if params['from_module_id'].present?
-            from_module = PrimeroModule.get(params['from_module_id'])
-            if from_module.present?
-              incident_map = from_module.field_map_fields
-            end
-          end
-          incident.copy_survivor_information(case_record, incident_map, params['incident_detail_id'])
-        end
-      end
-    end
+    case_record = params['case_id'].present? ? Child.get(params['case_id']) : nil
+    Incident.make_new_incident(params['module_id'], case_record)
   end
 
   def post_save_processing incident
     # This is for operation after saving the record.
     case_id = params["incident_case_id"]
-    incident_details_id = params["incident_detail_id"]
     if case_id.present? && incident.valid?
       #The Incident is being created from a GBV Case.
       #track the incident in the GBV case (incident_links)
       case_record = Child.get(case_id)
-
-      if incident_details_id.present?
-        case_record.incident_links << {"incident_details" => incident_details_id, "incident_id" => incident.id, "incident_short_id" => incident.short_id }
-      else
-        case_record.incident_links << incident.id
-      end
+      case_record.incident_links << incident.id
       #TODO what if fails to save at this point? should rollback the incident?
       case_record.save
     end
