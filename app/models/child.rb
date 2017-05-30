@@ -233,7 +233,6 @@ class Child < CouchRest::Model::Base
 
   def validate_registration_date
     if registration_date.present? && (!registration_date.is_a?(DateTime) || registration_date.year > Date.today.year)
-      binding.pry
       errors.add(:registration_date, I18n.t("messages.enter_valid_date"))
       error_with_section(:registration_date, I18n.t("messages.enter_valid_date"))
       false

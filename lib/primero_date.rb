@@ -31,7 +31,6 @@ class PrimeroDate < Date
         database_datetime_format = /^(\d{4})[\-|\/](\d{2})[\-|\/](\d{2,4})\s(\d{1,2}:\d{1,2}:\d{1,2})(\s[\+|-]\d{1,4})?$/
         rails_datetime_format = /\d{4}[\-|\/]\d{2}[\-|\/]\d{2}T\d{2}:\d{2}:\d{2}/
         # Faster than parsing the date
-        # binding.pry
         if value.to_s =~ database_datetime_format || value.to_s =~ rails_datetime_format
           DateTime.parse(value.to_s)
         else
