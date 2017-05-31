@@ -33,7 +33,7 @@ cp_admin_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::SEARCH_OWNED_BY_OTHERS
+      Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::CREATE
     ]
   ),
