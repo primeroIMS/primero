@@ -14,7 +14,11 @@
         <% end %>
         <div class="row align-right">
           <div class="button-group">
+          <% if dialog_key == "reject" %>
+            <%= submit_tag(t("buttons.reject"), class: 'button right') %>
+          <% else %>
             <%= submit_tag(t("buttons.accept"), class: 'button right') %>
+          <% end %>
           </div>
         </div>
       <% end %>
