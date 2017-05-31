@@ -9,9 +9,9 @@
         <ul class="menu">
         <% modules.each do |primero_module| %>
           <li>
-            <% if primero_module.allow_searchable_national_ids %>
-              <a data-open="national-ids-search"><%= primero_module.name %></a>
-              <div class="reveal" id="national-ids-search" data-reveal>
+            <% if primero_module.allow_searchable_ids %>
+              <a data-open="ids-search"><%= primero_module.name %></a>
+              <div class="reveal" id="ids-search" data-reveal>
                 <h4>Search</h4>
                 <form>
                   <label for="id_number"><%= t('case.enter_id_number') %></label>

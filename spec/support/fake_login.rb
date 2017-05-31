@@ -1,17 +1,17 @@
 module FakeLogin
   def permission_case
     @permission_case ||= Permission.new(:resource => Permission::CASE,
-                                     :actions => [Permission::READ, Permission::WRITE])
+                                     :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
   end
 
   def permission_incident
     @permission_incident ||= Permission.new(:resource => Permission::INCIDENT,
-                                     :actions => [Permission::READ, Permission::WRITE])
+                                     :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
   end
 
   def permission_tracing_request
     @permission_tracing_request ||= Permission.new(:resource => Permission::TRACING_REQUEST,
-                                     :actions => [Permission::READ, Permission::WRITE])
+                                     :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
   end
 
 

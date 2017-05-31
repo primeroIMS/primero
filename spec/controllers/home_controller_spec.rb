@@ -43,7 +43,7 @@ describe HomeController do
       Role.all.each &:destroy
       @case3 = build :child, :unique_identifier => "1234"
       User.stub(:find_by_user_name).and_return(@user)
-      @case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::WRITE])
+      @case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::WRITE, Permission::CREATE])
     end
 
     context 'when logged in as a worker' do

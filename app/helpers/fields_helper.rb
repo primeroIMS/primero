@@ -9,10 +9,10 @@ module FieldsHelper
   end
 
   def field_format_date(a_date)
-    if a_date.present? && a_date.is_a?(Date)
+    if a_date.present? && a_date.instance_of?(Date)
       I18n.l(a_date)
-    elsif a_date.present? && a_date.is_a?(Time)
-      I18n.l(a_date, format: :with_time)
+    elsif a_date.present? && a_date.instance_of?(DateTime)
+      I18n.l(a_date.in_time_zone(Time.zone.name), format: :with_time)
     else
       a_date
     end
@@ -210,5 +210,10 @@ module FieldsHelper
         source
       end
     end
+  end
+
+  def selected_date_value(value_string)
+    date_value = PrimeroDate.date_value(value_string)
+    ['current', 'now'].include?(value_string) ? I18n.l(date_value, format: :with_time) : I18n.l(date_value)
   end
 end

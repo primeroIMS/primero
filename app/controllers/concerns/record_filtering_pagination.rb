@@ -83,8 +83,8 @@ module RecordFilteringPagination
   end
 
   def users_filter
-    unless @national_id_search.present? && can?(:search_owned_by_others, model_class)
-      if params[:scope].present? and params[:scope][:users].present?
+    unless @id_search.present? && can?(:search_owned_by_others, model_class)
+      if params[:scope].present? && params[:scope][:users].present?
         users = params[:scope][:users].split(',')
         users.shift
         users

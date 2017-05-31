@@ -2,6 +2,7 @@
   field_keys ||= []
   name = field_tag_name formObject, tick_box, field_keys
   field_id = "#{tick_box.form.name.dehumanize}_#{sanitize_to_id name}"
+  value = tick_box.selected_value if tick_box.selected_value.present? && formObject.new_record?
   value ||= field_value formObject, tick_box, field_keys
   label = tick_box.tick_box_label
 %>

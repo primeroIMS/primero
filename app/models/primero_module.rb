@@ -10,7 +10,7 @@ class PrimeroModule < CouchRest::Model::Base
   include Namable #delivers "name" and "description" fields
 
   property :program_id
-  property :allow_searchable_national_ids, TrueClass
+  property :allow_searchable_ids, TrueClass
   property :associated_record_types, :type => [String]
   property :associated_form_ids, :type => [String]
   property :core_resource, TrueClass, :default => false
@@ -81,7 +81,6 @@ class PrimeroModule < CouchRest::Model::Base
 
   def field_map_fields
     self.field_map.present? ? self.field_map['fields'] : nil
-    #return field_map.has_key?('fields') ? field_map['fields'] : incident::DEFAULT_INCIDENT_MAPPING
   end
 
   private

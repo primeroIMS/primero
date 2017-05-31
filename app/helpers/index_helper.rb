@@ -211,25 +211,18 @@ module IndexHelper
 
   def list_view_header_case
     header_list = []
-    if @national_id_search.present?
-      header_list << {title: '', sort_title: 'select'}
-      header_list << {title: 'id', sort_title: 'short_id'}
-      header_list << {title: 'age', sort_title: 'age'} if @is_cp
-      header_list << {title: 'sex', sort_title: 'sex'} if @is_cp
-      header_list << {title: 'owned_by', sort_title: 'owned_by'} if @is_cp
-      header_list << {title: 'owned_by_agency', sort_title: 'owned_by_agency'} if @is_cp
-    else
-      header_list << {title: '', sort_title: 'select'}
-      header_list << {title: 'id', sort_title: 'short_id'}
-      header_list << {title: 'name', sort_title: 'sortable_name'} if (@is_cp && !@is_manager)
-      header_list << {title: 'survivor_code', sort_title: 'survivor_code_no'} if (@is_gbv && !@is_manager)
-      header_list << {title: 'age', sort_title: 'age'} if @is_cp
-      header_list << {title: 'sex', sort_title: 'sex'} if @is_cp
-      header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp
-      header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv
-      header_list << {title: 'photo', sort_title: 'photo'} if @is_cp
-      header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager
-    end
+    header_list << {title: '', sort_title: 'select'}
+    header_list << {title: 'id', sort_title: 'short_id'}
+    header_list << {title: 'name', sort_title: 'sortable_name'} if (@is_cp && !@is_manager && !@id_search.present?)
+    header_list << {title: 'survivor_code', sort_title: 'survivor_code_no'} if (@is_gbv && !@is_manager)
+    header_list << {title: 'age', sort_title: 'age'} if @is_cp || @id_search.present?
+    header_list << {title: 'sex', sort_title: 'sex'} if @is_cp || @id_search.present?
+    header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp && !@id_search.present?
+    header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv && !@id_search.present?
+    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp && !@id_search.present?
+    header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager && !@id_search.present?
+    header_list << {title: 'owned_by', sort_title: 'owned_by'} if @is_cp && @id_search.present?
+    header_list << {title: 'owned_by_agency', sort_title: 'owned_by_agency'} if @is_cp && @id_search.present?
 
     return header_list
   end

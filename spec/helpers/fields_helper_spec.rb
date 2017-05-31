@@ -81,5 +81,68 @@ describe FieldsHelper do
     end
   end
 
+  #TODO - WHEN RAILS version is upgraded, use travel_to helper from ActiveSupport::Testing::TimeHelpers
+  #TODO - that will eliminate need for each individual Date/DateTime stub
+  #TODO - also it will allow us to re-enable the xit'ed tests below
+  #TODO - NOTE: Tried using gem Timecop but ran into issues with lib/primero_date
+  describe 'selected_date_value' do
+    it 'returns time for current' do
+      DateTime.stub(:current).and_return(Time.utc(2016, "may", 23, 16, 7, 0))
+      expect(@fields_helper.selected_date_value('current')).to eq('23-May-2016 16:07')
+    end
+
+    it 'returns time for now' do
+      DateTime.stub(:now).and_return(Time.utc(2016, "may", 23, 16, 7, 0))
+      expect(@fields_helper.selected_date_value('now')).to eq('23-May-2016 16:07')
+    end
+
+    it 'returns date for yesterday' do
+      Date.stub(:yesterday).and_return(Date.new(2016, 5, 22))
+      expect(@fields_helper.selected_date_value('yesterday')).to eq('22-May-2016')
+    end
+
+    it 'returns date for today' do
+      Date.stub(:today).and_return(Date.new(2016, 5, 23))
+      expect(@fields_helper.selected_date_value('today')).to eq('23-May-2016')
+    end
+
+    it 'returns date for tomorrow' do
+      Date.stub(:tomorrow).and_return(Date.new(2016, 5, 24))
+      expect(@fields_helper.selected_date_value('tomorrow')).to eq('24-May-2016')
+    end
+
+    xit 'returns date for 1 day ago' do
+      expect(@fields_helper.selected_date_value('1 day ago')).to eq('22-May-2016')
+    end
+
+    xit 'returns date for 10 days ago' do
+      expect(@fields_helper.selected_date_value('10 days ago')).to eq('13-May-2016')
+    end
+
+    xit 'returns date for 1 day from now' do
+      expect(@fields_helper.selected_date_value('1 day from_now')).to eq('24-May-2016')
+    end
+
+    xit 'returns date for 10 days from now' do
+      expect(@fields_helper.selected_date_value('10 days from_now')).to eq('02-Jun-2016')
+    end
+
+    xit 'returns date for 1 year ago' do
+      expect(@fields_helper.selected_date_value('1 year ago')).to eq('23-May-2015')
+    end
+
+    xit 'returns date for 1 year from now' do
+      expect(@fields_helper.selected_date_value('1 year from_now')).to eq('23-May-2017')
+    end
+
+    xit 'returns date for 10 years from ago' do
+      expect(@fields_helper.selected_date_value('10 years ago')).to eq('23-May-2006')
+    end
+
+    xit 'returns date for 10 years from now' do
+      expect(@fields_helper.selected_date_value('10 years from_now')).to eq('23-May-2026')
+    end
+  end
+
 
 end
