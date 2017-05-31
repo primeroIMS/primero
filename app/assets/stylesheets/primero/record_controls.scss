@@ -84,6 +84,11 @@
 
   .pagination_info {
     font-size: .9rem;
+
+    span {
+      color: $green_color;
+      font-style: italic;
+    }
   }
 
   h4 {
