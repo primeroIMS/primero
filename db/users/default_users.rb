@@ -144,3 +144,19 @@ create_or_update_user(
   "user_group_ids" => [UserGroup.by_name(key: "Primero MRM").first.id],
   "is_manager" => true
 )
+
+create_or_update_user(
+    "user_name" => "primero_user_mgr_mrm",
+    "password" => "primero2017",
+    "password_confirmation" => "primero2017",
+    "full_name" => "MRM User Manager",
+    "email" => "primero_user_mgr_mrm@primero.com",
+    "disabled" => "true",
+    "organization" => "agency-unicef",
+    "role_ids" => [
+        Role.by_name(key: "MRM User Manager").first.id
+    ],
+    "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
+    "user_group_ids" => [UserGroup.by_name(key: "Primero MRM").first.id],
+    "is_manager" => true
+)
