@@ -8,7 +8,7 @@
         :transition_status => Transition::TO_USER_LOCAL_STATUS_ACCEPTED,
         :button_label => t('buttons.accept'),
         :transfer_dialog_text => t("transfer.accept_label"),
-        :dialog_key => 'accept'
+        :dialog_key => Transition::TO_USER_LOCAL_STATUS_ACCEPTED
       } %>
     <%= render :partial => "transitions/transition_status_button",
       locals: {
@@ -16,7 +16,7 @@
         :transition_status => Transition::TO_USER_LOCAL_STATUS_REJECTED,
         :button_label => t('buttons.reject'),
         :transfer_dialog_text => t("transfer.reject_label"),
-        :dialog_key => 'reject'
+        :dialog_key => Transition::TO_USER_LOCAL_STATUS_REJECTED
       } %>
   <% end %>
   <% if subform_instance.type == Transition::TYPE_REFERRAL &&
