@@ -236,7 +236,7 @@ module Exporters
       memoize :primary_alleged_perpetrator
 
       def all_alleged_perpetrators(model)
-        alleged_perpetrators = model.try(:alleged_perpetrator)
+        alleged_perpetrators = model.try(:alleged_perpetrators)
         alleged_perpetrators.present? ? alleged_perpetrators : []
       end
 

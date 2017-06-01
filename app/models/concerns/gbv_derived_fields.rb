@@ -66,6 +66,12 @@ module GBVDerivedFields
     end
   end
 
+  def alleged_perpetrators
+    ap = self.try(:alleged_perpetrator)
+    # Weed out empty records (excluding the id, of course)
+    ap.present? ? ap.reject{|a| a.attributes.except("unique_id").values.any? == false} : []
+  end
+
   def gbv_child_sexual_abuse
     if is_child? and is_sexual_violence?
       I18n.t("gbv_report.child_sexual_abuse")

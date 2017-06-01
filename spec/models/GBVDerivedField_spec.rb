@@ -474,4 +474,25 @@ describe GBVDerivedFields do
 
   end
 
+  describe 'alleged_perpetrators' do
+    context 'when there is 1 blank record' do
+      before :each do
+        @incident1 = Incident.new(module_id: "primeromodule-gbv", alleged_perpetrator: [{"uniquie_id" => "abc123"}])
+      end
+
+      it 'returns an empty array' do
+        expect(@incident1.alleged_perpetrators).to eq([])
+      end
+    end
+
+    context 'when there is 1 populated record' do
+      before :each do
+        @incident1 = Incident.new(module_id: "primeromodule-gbv", alleged_perpetrator: [{"uniquie_id" => "abc123", "perpetrator_relationship" => "foo"}])
+      end
+      it 'returns an array containing the populated record' do
+        expect(@incident1.alleged_perpetrators.size).to eq(1)
+      end
+    end
+  end
+
 end
