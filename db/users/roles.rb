@@ -285,6 +285,99 @@ create_or_update_role(
   :group_permission => Permission::GROUP
 )
 
+cp_user_manager_permissions = [
+    Permission.new(
+        :resource => Permission::CASE,
+        :actions => [
+            Permission::READ,
+            Permission::FLAG,
+            Permission::ASSIGN,
+            Permission::REASSIGN,
+            Permission::CONSENT_OVERRIDE,
+            Permission::EXPORT_CUSTOM,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_CASE_PDF,
+            Permission::EXPORT_UNHCR,
+            Permission::SYNC_MOBILE,
+            Permission::APPROVE_CASE_PLAN
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::TRACING_REQUEST,
+        :actions => [
+            Permission::READ,
+            Permission::FLAG,
+            Permission::ASSIGN,
+            Permission::EXPORT_CUSTOM,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::POTENTIAL_MATCH,
+        :actions => [
+            Permission::READ
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::REPORT,
+        :actions => [
+            Permission::READ,
+            Permission::WRITE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::ROLE,
+        :actions => [
+            Permission::READ,
+            Permission::ASSIGN,
+            Permission::EXPORT_CUSTOM,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PDF
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::USER,
+        :actions => [
+            Permission::READ,
+            Permission::CREATE,
+            Permission::WRITE,
+            Permission::EXPORT_CUSTOM,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PDF
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::DASHBOARD,
+        :actions => [
+            Permission::VIEW_APPROVALS,
+            Permission::VIEW_ASSESSMENT
+        ]
+    )
+]
+
+create_or_update_role(
+    :name => "CP User Manager",
+    :permissions_list => cp_user_manager_permissions,
+    :group_permission => Permission::GROUP
+)
+
 gbv_worker_permissions = [
   Permission.new(
     :resource => Permission::CASE,
@@ -408,6 +501,88 @@ create_or_update_role(
   :name => "GBV Manager",
   :permissions_list => gbv_manager_permissions,
   :group_permission => Permission::GROUP
+)
+
+gbv_user_manager_permissions = [
+    Permission.new(
+        :resource => Permission::CASE,
+        :actions => [
+            Permission::READ,
+            Permission::FLAG,
+            Permission::ASSIGN,
+            Permission::CONSENT_OVERRIDE,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_CASE_PDF,
+            Permission::EXPORT_UNHCR,
+            Permission::SYNC_MOBILE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::INCIDENT,
+        :actions => [
+            Permission::READ,
+            Permission::FLAG,
+            Permission::ASSIGN,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR,
+            Permission::EXPORT_INCIDENT_RECORDER,
+            Permission::SYNC_MOBILE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::REPORT,
+        :actions => [
+            Permission::READ,
+            Permission::WRITE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::ROLE,
+        :actions => [
+            Permission::READ,
+            Permission::ASSIGN,
+            Permission::EXPORT_CUSTOM,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::USER,
+        :actions => [
+            Permission::READ,
+            Permission::CREATE,
+            Permission::WRITE,
+            Permission::EXPORT_CUSTOM,
+            Permission::EXPORT_LIST_VIEW,
+            Permission::EXPORT_CSV,
+            Permission::EXPORT_EXCEL,
+            Permission::EXPORT_JSON,
+            Permission::EXPORT_PHOTO_WALL,
+            Permission::EXPORT_PDF,
+            Permission::EXPORT_UNHCR
+        ]
+    )
+]
+
+create_or_update_role(
+    :name => "GBV User Manager",
+    :permissions_list => gbv_user_manager_permissions,
+    :group_permission => Permission::GROUP
 )
 
 referral_permissions = [
