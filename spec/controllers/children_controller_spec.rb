@@ -899,6 +899,50 @@ describe ChildrenController do
 
   end
 
+  describe "GET id search", search: true, skip_session: true do
+    before do
+      User.all.each{|u| u.destroy}
+      Child.all.each{|c| c.destroy}
+      Sunspot.remove_all!
+
+      permission_case1 = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+      roles1 = [Role.new(permissions_list: [permission_case1])]
+
+      permission_case2 = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SEARCH_OWNED_BY_OTHERS])
+      roles2 = [Role.new(permissions_list: [permission_case2])]
+
+      Child.any_instance.stub(:child_status).and_return(Record::STATUS_OPEN)
+      @case_worker1 = create(:user)
+      @case_worker1.stub(:roles).and_return(roles1)
+      @case_worker2 = create(:user)
+      @case_worker2.stub(:roles).and_return(roles2)
+
+      @case1 = create(:child, owned_by: @case_worker1.user_name)
+      @case2 = create(:child, owned_by: @case_worker1.user_name)
+      @case3 = create(:child, owned_by: @case_worker2.user_name)
+
+      Sunspot.commit
+    end
+
+    it "should query id and return correct case allowed by user" do
+      session = fake_login @case_worker1
+      get(:index, format: 'html', query: @case1.short_id, id_search: true)
+      expect(assigns[:children]).to match_array([@case1])
+    end
+
+    it "should query id and return all cases matched with search owned by others permission active" do
+      session = fake_login @case_worker2
+      get(:index, format: 'html', query: @case1.short_id, id_search: true)
+      expect(assigns[:children]).to match_array([@case1])
+    end
+
+    it "should redirect if no results found" do
+      session = fake_login @case_worker2
+      get(:index, format: 'html', query: '0034952', id_search: true, module_id: 'test_module')
+      expect(response).to redirect_to '/cases/new?module_id=test_module'
+    end
+  end
+
   describe "GET search" do
     it "should not render error by default" do
       get(:search, :format => 'html')

@@ -334,6 +334,10 @@ en:
 
   case:
     create_cp_case: "Create CP Case"
+    enter_id_number: "Enter the ID number to search for an existing record"
+    id_number_required: "Id number is required"
+    id_search_no_results: "There is no match in the system for “%{id}”, please create a new record."
+    id_search_results_html: "for <span>%{id}</span>"
     label: "Case ID"
     flagged_by: "Flagged By"
     last_updated: "Last updated"

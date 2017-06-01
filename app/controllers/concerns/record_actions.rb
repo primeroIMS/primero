@@ -60,7 +60,12 @@ module RecordActions
 
     # @highlighted_fields = []
     respond_to do |format|
-      format.html
+      format.html do
+        if params[:query].present? && @id_search.present? && !@records.present?
+          flash[:notice] = t('case.id_search_no_results', id: params[:query])
+          redirect_to new_case_path(module_id: params[:module_id])
+        end
+      end
       unless params[:password]
         format.json do
           @records = @records.select{|r| r.marked_for_mobile} if params[:mobile].present?

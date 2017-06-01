@@ -13,7 +13,9 @@
     <div class="large-9 small-9 columns">
       <div class="row collapse align-middle">
         <div class="large-6 small-6 columns">
-          <div class="pagination_info"><%= page_entries_info collection %></div>
+          <div class="pagination_info">
+            <%= page_entries_info collection %> <%= t('case.id_search_results_html', id: params[:query]) if params[:id_search].present? && params[:query].present? %>
+          </div>
         </div>
         <div class="large-6 small-6 columns">
           <%= render partial: "record_shared/header",

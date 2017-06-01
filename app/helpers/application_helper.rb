@@ -237,7 +237,7 @@ module ApplicationHelper
   # imposes on all missed translation keys. Occasionally they break HTML.
   def t(key, options={})
     begin
-      I18n.t(key, options.merge({raise: true}))
+      I18n.t(key, options.merge({raise: true})).html_safe
     rescue I18n::MissingTranslationData
       key
     end
