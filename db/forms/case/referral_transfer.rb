@@ -26,7 +26,8 @@ transitions_subform = [
                    ["In Progress",
                     "Pending",
                     "Accepted",
-                    "Rejected"
+                    "Rejected",
+                    "Done"
                    ].join("\n")
               }),
     Field.new({"name" => "rejected_reason",
