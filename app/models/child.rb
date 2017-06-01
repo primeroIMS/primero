@@ -212,6 +212,10 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  def self.create_unique_id
+    return UUIDTools::UUID.random_create.to_s
+  end
+
   def add_incident_links(incident_detail_id, incident_id, incident_display_id)
     self.incident_links << {"incident_details" => incident_detail_id, "incident_id" => incident_id, "incident_display_id" => incident_display_id}
   end

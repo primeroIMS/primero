@@ -22,6 +22,9 @@
           <%= render 'record_shared/mark_for_mobile_button', mobile_value: true %>
           <%= render 'record_shared/mark_for_mobile_button', mobile_value: false %>
       <% end %>
+      <% if can?(:incident_details_from_case, controller.model_class) && model == Child %>
+        <%= render 'record_shared/incident_details_from_case' %>
+      <% end %>
     </ul>
   </li>
 </ul>

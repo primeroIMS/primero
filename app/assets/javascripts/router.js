@@ -72,6 +72,7 @@ _primero.Router = Backbone.Router.extend({
     new _primero.Views.FlagRecord();
     new _primero.Views.MarkForMobile();
     new _primero.Views.IncidentFromCase();
+    new _primero.Views.IncidentDetailsFromCase();
   },
 
   recordIndexPage: function() {
