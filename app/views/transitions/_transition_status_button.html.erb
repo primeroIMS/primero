@@ -7,14 +7,18 @@
         <%= hidden_field_tag("transition_id", transition_id) %>
         <%= hidden_field_tag("transition_status", transition_status) %>
         <label><%= transfer_dialog_text %></label>
-        <% if dialog_key == "reject" %>
+        <% if dialog_key == Transition::TO_USER_LOCAL_STATUS_REJECTED %>
         <label><%=I18n.t("transfer.reject")%>
           <%= text_area_tag("rejected_reason") %>
         </label>
         <% end %>
         <div class="row align-right">
           <div class="button-group">
+          <% if dialog_key == Transition::TO_USER_LOCAL_STATUS_REJECTED %>
+            <%= submit_tag(t("buttons.reject"), class: 'button right') %>
+          <% else %>
             <%= submit_tag(t("buttons.accept"), class: 'button right') %>
+          <% end %>
           </div>
         </div>
       <% end %>
