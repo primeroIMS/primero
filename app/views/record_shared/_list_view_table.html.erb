@@ -14,7 +14,7 @@
       <div class="row collapse align-middle">
         <div class="large-6 small-6 columns">
           <div class="pagination_info">
-            <%= page_entries_info collection %> <%= t('case.id_search_results_html', id: params[:query]) if params[:id_search].present? && params[:query].present? %>
+            <%= page_entries_info collection %> <%= t('case.id_search_results_html', id: params[:query]).html_safe if params[:id_search].present? && params[:query].present? %>
           </div>
         </div>
         <div class="large-6 small-6 columns">
