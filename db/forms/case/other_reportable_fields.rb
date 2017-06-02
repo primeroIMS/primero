@@ -34,6 +34,13 @@ fields = [
         "editable" => false,
         "disabled" => true,
         "create_property" => false
+        }),
+  Field.new({"name" => "workflow",
+        "type" =>"select_box",
+        "display_name_all" => "Workflow",
+        "editable" => false,
+        "disabled" => true,
+        "option_strings_source" => "lookup lookup-workflow"
         })
 ]
 

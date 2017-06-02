@@ -8,6 +8,9 @@ class Child < CouchRest::Model::Base
   APPROVAL_STATUS_PENDING = 'pending'
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
+  WORKFLOW_NEW = 'new'
+  WORKFLOW_CLOSED = 'closed'
+  WORKFLOW_OPEN = 'open'
 
   def self.parent_form
     'case'
@@ -58,6 +61,8 @@ class Child < CouchRest::Model::Base
   validate :validate_child_wishes
   # validate :validate_date_closure
 
+  #TODO - should this be a before_save and handle other scenarios?
+  before_create :set_workflow
   before_save :sync_protection_concerns
   before_save :auto_populate_name
   after_save :find_match_tracing_requests unless (Rails.env == 'production')
@@ -349,6 +354,10 @@ class Child < CouchRest::Model::Base
       now = Date.current
       now.year - date_of_birth.year - ((now.month > date_of_birth.month || (now.month == date_of_birth.month && now.day >= date_of_birth.day)) ? 0 : 1)
     end
+  end
+
+  def set_workflow
+    self.workflow = WORKFLOW_NEW
   end
 
   def sync_protection_concerns
