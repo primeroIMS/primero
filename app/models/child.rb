@@ -10,7 +10,7 @@ class Child < CouchRest::Model::Base
   APPROVAL_STATUS_REJECTED = 'rejected'
   WORKFLOW_NEW = 'new'
   WORKFLOW_CLOSED = 'closed'
-  WORKFLOW_OPEN = 'open'
+  WORKFLOW_REOPENED = 'reopened'
 
   def self.parent_form
     'case'
@@ -62,7 +62,8 @@ class Child < CouchRest::Model::Base
   # validate :validate_date_closure
 
   #TODO - should this be a before_save and handle other scenarios?
-  before_create :set_workflow
+  before_create :set_workflow_new
+  before_save :set_workflow
   before_save :sync_protection_concerns
   before_save :auto_populate_name
   after_save :find_match_tracing_requests unless (Rails.env == 'production')
@@ -356,8 +357,22 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def set_workflow
+  def set_workflow_new
     self.workflow = WORKFLOW_NEW
+  end
+
+  def set_workflow
+    case self.child_status
+      when Record::STATUS_OPEN
+        self.workflow = WORKFLOW_REOPENED if self.case_status_reopened
+      when Record::STATUS_CLOSED
+        self.workflow = WORKFLOW_CLOSED
+      else
+        # Nothing to do
+    end
+
+
+    Record::STATUS_OPEN
   end
 
   def sync_protection_concerns
