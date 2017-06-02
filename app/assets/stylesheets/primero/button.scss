@@ -27,17 +27,20 @@
 
 a.arrow:after {
     content: "";
-    background: url(image_path("edit_carot.png")) no-repeat;
-    height: 37px;
+    border-top: 11px solid transparent;
+	  border-left: 9px solid $stroke-green-color;
+	  border-bottom: 11px solid transparent;
+    height: 22px;
     width: 8px;
+
     @if $global-text-direction == rtl {
       float: left;
-      margin: -9px 14px 0 0;
+      margin: -4.5px 14px 0 0;
       transform: rotate(180deg);
     }
     @else {
       float: right;
-      margin: -9px 0 0 14px;
+      margin: -4.5px 0 0 14px;
       position: absolute;
     }
     position: absolute;
@@ -59,7 +62,7 @@ a.arrow, a.middle_btn {
   .close-button, .close-button.medium {
     left: 1rem;
   }
-} 
+}
 
 .flags_record_page {
   width: rem_calc(109);
@@ -101,7 +104,7 @@ a.ui-dialog-titlebar-close.ui-corner-all {
   ul {
     list-style-type: none;
     margin-left: 0;
-    
+
     li {
       border-bottom: 1px dashed #ccc !important;
       font-size: $thirteen_px;
