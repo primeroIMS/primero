@@ -52,7 +52,6 @@ class Report < CouchRest::Model::Base
   attr_accessor :aggregate_by_ordered
   attr_accessor :disaggregate_by_ordered
   attr_accessor :permission_filter
-  attr_accessor :data_filters
 
   validates_presence_of :name
   validates_presence_of :record_type
@@ -436,15 +435,15 @@ class Report < CouchRest::Model::Base
 
 
   def build_solr_filter_query(record_type, filters)
-    # TODO: Merge self.data_filters if present
     filters_query = "type:#{solr_record_type(record_type)}"
-    # binding.pry
+
     if filters.present?
       filters_query = filters_query + ' ' + filters.map do |filter|
         attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
         constraint = filter['constraint']
         value = filter['value']
         query = nil
+
         if attribute.present? && value.present?
           if constraint.present?
             value = Date.parse(value).xmlschema unless value.is_number?
@@ -460,6 +459,8 @@ class Report < CouchRest::Model::Base
               '(' + value.map{|v|
                 if v == "not_null"
                   "#{attribute}:[* TO *]"
+                elsif v.match(/^\[.*\]$/)
+                  "#{attribute}:#{v}"
                 else
                   "#{attribute}:\"#{v}\""
                 end

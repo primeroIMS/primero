@@ -24,11 +24,13 @@ def create_children(id, num_children, names, lastnames)
       "#{id}#{i}" => ->(c) do
         randommonth = 10 + rand(2)
         randomday = 1 + rand(29)
-        
+        randommonthabbr = [05, 06].sample
+
         c.module_id = 'primeromodule-cp'
         c.name = ''
-        c.child_status = ['Open', 'Closed'].sample
+        c.child_status = ['open', 'closed'].sample
         c.record_state = [true, false].sample
+        c.registration_date = Date.new(2017, randommonthabbr, randomday)
         c.created_at = DateTime.new(2014, randommonth, randomday)
         #random name and last name
         c.name = "#{names[rand(names.size-1)]} #{lastnames[rand(lastnames.size-1)]}"
