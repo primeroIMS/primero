@@ -6,15 +6,15 @@ div.scope_bar {
   li.scope a {
     text-decoration: none;
   }
-  
+
   li.scope ul li {
     padding: rem_calc(5);
   }
-  
+
   li.scope ul li:hover{
     background-color: silver;
   }
-  
+
   div.row > div {
     padding-left: 0;
   }
@@ -51,7 +51,7 @@ div.scope_bar {
 }
 
 .index_filters {
-  .mCS-dir-rtl > .mCSB_inside > .mCSB_container{ /* RTL direction/left-side scrollbar */  
+  .mCS-dir-rtl > .mCSB_inside > .mCSB_container{ /* RTL direction/left-side scrollbar */
     @if $global-text-direction == rtl {
       margin-left: rem_calc(23) !important;
       margin-right: 0 !important;
@@ -116,12 +116,6 @@ div.scope_bar {
   label {
     font-size: 0.8rem;
     margin-bottom: .7em;
-    
-    @if $global-text-direction == rtl {
-      margin-left: 1.2rem;
-    } @else {
-      margin-right: 1.2rem;
-    }
 
     input[type="checkbox"] {
       @if $global-text-direction == rtl {
