@@ -938,7 +938,7 @@ en:
       dash_matching_results: "View Matching Results"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
-      incident_details_from_case: "Add Incident Details to Case"
+      incident_details_from_case: "Add Incident Details to another user's case"
       create: "Create"
 
   forms:

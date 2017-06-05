@@ -108,7 +108,7 @@ class ChildrenController < ApplicationController
 
   def create_incident_details
     child = Child.get(params['child_id'])
-    authorize! :incident_details_from_case, child
+    authorize! :incident_details_from_case, Child
     subform_section = FormSection.get_by_unique_id("incident_details_subform_section")
     html = ChildrenController.new.render_to_string(partial: "children/create_incident_details", layout: false, locals: {
       child: child,
@@ -124,7 +124,7 @@ class ChildrenController < ApplicationController
 
   def save_incident_details
     child = Child.get(params['child_id'])
-    authorize! :incident_details_from_case, child
+    authorize! :incident_details_from_case, Child
     new_incident_details = params['child']['incident_details']['template']
     new_incident_details['unique_id'] = Child.generate_unique_id
     child.incident_details << new_incident_details
