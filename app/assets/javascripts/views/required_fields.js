@@ -2,7 +2,12 @@ _primero.Views.RequiredFields = _primero.Views.Base.extend({
   el: 'body',
 
   events: {
-    "forminvalid.zf.abide form": "show_errors",
+    "invalid.zf.abide form": "hide_indicator",
+    "forminvalid.zf.abide form": "show_errors"
+  },
+
+  hide_indicator: function() {
+    _primero.loading_screen_indicator('hide');
   },
 
   show_errors: function(e) {
