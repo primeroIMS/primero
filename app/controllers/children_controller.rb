@@ -108,6 +108,7 @@ class ChildrenController < ApplicationController
 
   def create_incident_details
     child = Child.get(params['child_id'])
+    authorize! :incident_details_from_case, child
     subform_section = FormSection.get_by_unique_id("incident_details_subform_section")
     html = ChildrenController.new.render_to_string(partial: "children/create_incident_details", layout: false, locals: {
       child: child,
@@ -123,8 +124,9 @@ class ChildrenController < ApplicationController
 
   def save_incident_details
     child = Child.get(params['child_id'])
+    authorize! :incident_details_from_case, child
     new_incident_details = params['child']['incident_details']['template']
-    new_incident_details['unique_id'] = Child.create_unique_id
+    new_incident_details['unique_id'] = Child.generate_unique_id
     child.incident_details << new_incident_details
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)

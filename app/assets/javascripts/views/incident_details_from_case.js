@@ -11,7 +11,7 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
     if (selected_records.length === 1) {
       $('#number_of_cases_error').remove();
       var create_incident_details_url = '/cases/' + selected_records[0] + '/create_incident_details';
-      $.get(create_incident_details_url, {}, function(response) {
+      $.get(create_incident_details_url, {uuid: 'test'}, function(response) {
         if (response) {
           // TODO: get date of birth and age fields to match in this form
           $('#incident-details-modal .incident_details_container').html(response);
