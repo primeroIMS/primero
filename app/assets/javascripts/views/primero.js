@@ -517,14 +517,12 @@ Primero = _primero.Views.Base.extend({
   },
 
   load_and_redirect: function() {
-    console.log('LR...')
     if (window.disable_loading_indicator === undefined) {
       _primero.loading_screen_indicator('show');
     }
     window.disable_loading_indicator = undefined;
 
     if (_primero.getInternetExplorerVersion() > 0) {
-      console.log('IE...')
       window.onbeforeunload = null;
     }
   },

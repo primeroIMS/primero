@@ -25,6 +25,7 @@ debug.html
 .vagrant
 dev-node.json
 bin
+primero-configuration
 capybara_features/resources/huge.jpg
 capybara_features/resources/huge.mp3
 tags

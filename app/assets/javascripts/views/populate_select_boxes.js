@@ -15,20 +15,23 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
 
   initialize: function() {
     var self = this;
+    _primero.populate_select_boxes = function() {
+      self.option_string_sources = self.getStringSourcesOptions()
 
-    this.option_string_sources = this.getStringSourcesOptions()
+      self.collection = new StringSources();
+      self.collection.fetch({
+        data: $.param({
+          string_sources: self.option_string_sources,
+          locale: I18n.defaultLocale
+        })
+      }).done(function() {
+        self.parseOptions();
+      }).fail(function() {
+        self.disableAjaxSelectBoxes();
+      });
+    };
 
-    this.collection = new StringSources();
-    this.collection.fetch({
-      data: $.param({
-        string_sources: this.option_string_sources,
-        locale: I18n.defaultLocale
-      })
-    }).done(function() {
-      self.parseOptions();
-    }).fail(function() {
-      self.disableAjaxSelectBoxes();
-    });
+    _primero.populate_select_boxes();
   },
 
   getStringSourcesOptions: function() {

@@ -147,6 +147,10 @@ module Record
       record
     end
 
+    def generate_unique_id
+      return UUIDTools::UUID.random_create.to_s
+    end
+
     def parent_form
       self.name.underscore.downcase
     end

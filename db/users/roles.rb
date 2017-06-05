@@ -145,7 +145,8 @@ cp_caseworker_permissions = [
       Permission::REQUEST_APPROVAL_CASE_PLAN,
       Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::INCIDENT_FROM_CASE,
-      Permission::CREATE
+      Permission::CREATE,
+      Permission::INCIDENT_DETAILS_FROM_CASE
     ]
   ),
   Permission.new(
