@@ -41,8 +41,22 @@ module ChildrenHelper
     link_to(order_id.capitalize, child_filter_path(:filter => filter, :order_by => order))
   end
 
-  def text_to_identify_child child
+  def text_to_identify_child(child)
     child.case_id_display.present? ? child.case_id_display : child.short_id
+  end
+
+  def case_status_text(child)
+    workflow_text = Lookup.display_value('lookup-workflow', child.workflow)
+    case child.workflow
+      when Child::WORKFLOW_NEW
+        "#{workflow_text} #{t("case.workflow.created_on")} #{I18n.l(child.created_at)}"
+      when Child::WORKFLOW_CLOSED
+        "#{workflow_text} #{t("case.workflow.on_label")} #{I18n.l(child.date_closure)}"
+      when Child::WORKFLOW_REOPENED
+        "#{workflow_text} #{t("case.workflow.on_label")} #{I18n.l(child.reopened_date)}"
+      else
+        "#{workflow_text} #{t("case.workflow.in_progress")}"
+    end
   end
 
   def toolbar_for_child child

@@ -370,9 +370,10 @@ class Child < CouchRest::Model::Base
       else
         # Nothing to do
     end
+  end
 
-
-    Record::STATUS_OPEN
+  def reopened_date
+    self.reopened_logs.last.try(:reopened_date) if self.workflow == WORKFLOW_REOPENED
   end
 
   def sync_protection_concerns
