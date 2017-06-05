@@ -4,6 +4,7 @@ class ChildrenController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
   include ApprovalActions
+  include FieldsHelper
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
   #TODO: This should go away once filters are configurable in the role
@@ -98,7 +99,38 @@ class ChildrenController < ApplicationController
       end
     else
       redirect_to new_incident_path(new_incident_params)
+      respond_to do |format|
+        format.html {render :json => json_content}
+        format.json {render :json => json_content}
+      end
     end
+  end
+
+  def create_incident_details
+    child = Child.get(params['child_id'])
+    authorize! :incident_details_from_case, child
+    subform_section = FormSection.get_by_unique_id("incident_details_subform_section")
+    html = ChildrenController.new.render_to_string(partial: "children/create_incident_details", layout: false, locals: {
+      child: child,
+      subform_section: subform_section,
+      subform_name: 'incident_details',
+      form_group_name: '',
+      form_link: child_save_incident_details_path(child)
+    })
+    respond_to do |format|
+      format.html {render text: html}
+    end
+  end
+
+  def save_incident_details
+    child = Child.get(params['child_id'])
+    authorize! :incident_details_from_case, child
+    new_incident_details = params['child']['incident_details']['template']
+    new_incident_details['unique_id'] = Child.generate_unique_id
+    child.incident_details << new_incident_details
+    child.save
+    flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
+    redirect_to cases_path()
   end
 
   def reopen_case
