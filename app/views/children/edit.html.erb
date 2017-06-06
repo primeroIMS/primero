@@ -13,7 +13,7 @@
 
 <div class="clearfix"></div>
 
-<%= form_tag child_path(@child), :method => :put, :multipart => true, :class => "edit-profile default-form data-form", :autocomplete => "off", "data-abide" => '' do %>
+<%= form_tag child_path(@child), :method => :put, :multipart => true, :class => "edit-profile default-form data-form", :autocomplete => "off", "data-abide" => '', :novalidate => 'novalidate' do %>
   <div class="page-content-new row">
     <div class="large-3 medium-3 columns close-side-tab side-tab-container">
       <div class="side-tab">
