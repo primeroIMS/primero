@@ -14,10 +14,10 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
     _primero.update_date = this.update_date;
     _primero.update_child_fields = this.update_child_fields;
 
-    var context = this.el;
-    var $context_element = $(context);
+    var $context_element = $(this.el);
     //Find every date_of_birth field in order to update the age that there is a change to be wrong
     //according the current year.
+    //incident forms are excluded here because the scope has been expanded to include them and we want to intentionally skip incident forms
     $context_element.find("form:not(.incident-form) input[id$='_date_of_birth']").each(function(x, date_of_birth_el){
       var $date_of_birth_el = $(date_of_birth_el);
       var date_of_birth_name = $date_of_birth_el.attr("name");
