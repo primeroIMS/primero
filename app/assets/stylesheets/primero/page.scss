@@ -256,6 +256,9 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
 .reveal .side-tab-content-container {
   width: 688px;
 }
+.reveal-overlay {
+  z-index: 2000;
+}
 
 .reveal {
   background: $desat_green_color;

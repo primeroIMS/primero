@@ -293,6 +293,7 @@ en:
       creation_success: "Case record %{record_id} successfully created."
       not_found: "Child with the given id is not found"
       confirm_duplicate: "Are you sure you want to continue? If so, click OK. If not, click Cancel."
+      create_details_error: "Make sure only one case is selected"
 
     actions:
       mark_as_investigated: "Mark as Investigated"
@@ -426,6 +427,7 @@ en:
     edit: "Edit Case"
     mark_child_as_duplicate: "Mark %{short_id} as Duplicate"
     history_of: "History of %{short_id}"
+    incident_details_separator: "Incident Details"
 
   incidents:
     label: "Incidents"
@@ -941,6 +943,7 @@ en:
       dash_matching_results: "View Matching Results"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
+      incident_details_from_case: "Add Incident Details to another user's case"
       create: "Create"
 
   forms:
@@ -1673,6 +1676,7 @@ en:
     enable: "Enable"
     disable: "Disable"
     reopen: "Reopen"
+    incident_details_from_case: "Add Incident"
     description:
       valid: "Valid record"
       invalid: "Invalid record"

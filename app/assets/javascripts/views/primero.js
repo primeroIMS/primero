@@ -262,29 +262,31 @@ Primero = _primero.Views.Base.extend({
   },
 
   submit_form: function(evt) {
-    var $button = $(evt.target),
-        //find out if the submit button is part of the form or not.
-        //if not part will need to add the "commit" parameter to let it know
-        //the controller what was triggered.
-        $parent = $button.parents("form.default-form");
+    _primero.loading_screen_indicator('show', function() {
+      var $button = $(evt.target),
+          //find out if the submit button is part of the form or not.
+          //if not part will need to add the "commit" parameter to let it know
+          //the controller what was triggered.
+          $parent = $button.parents("form.default-form");
 
-    if ($parent.length > 0) {
-      //Just a regular submit in the form.
-      $parent.submit();
-    } else {
-      //Because some design thing we need to add the "commit" parameter
-      //to the form because the submit triggered is outside of the form.
-      var $form = $('form.default-form'),
-          $commit = $form.find("input[class='submit-outside-form']");
-
-      if ($commit.length === 0) {
-        $form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + $button.val() + "'/>");
+      if ($parent.length > 0) {
+        //Just a regular submit in the form.
+        $parent.submit();
       } else {
-        $($commit).val($button.val());
-      }
+        //Because some design thing we need to add the "commit" parameter
+        //to the form because the submit triggered is outside of the form.
+        var $form = $('form.default-form'),
+            $commit = $form.find("input[class='submit-outside-form']");
 
-      $form.submit();
-    }
+        if ($commit.length === 0) {
+          $form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + $button.val() + "'/>");
+        } else {
+          $($commit).val($button.val());
+        }
+
+        $form.submit();
+      }
+    });
   },
 
   disable_default_events: function(evt) {
@@ -416,7 +418,7 @@ Primero = _primero.Views.Base.extend({
     }
   },
 
-  _primero_loading_screen_indicator: function(action) {
+  _primero_loading_screen_indicator: function(action, callback) {
     var $loading_screen = $('.loading-screen'),
         $body = $('body, html');
 
@@ -429,6 +431,12 @@ Primero = _primero.Views.Base.extend({
         $loading_screen.hide();
         $body.css('overflow', 'visible');
         break;
+    }
+
+    if (callback) {
+      setTimeout(function() {
+        callback();
+      }, 1000);
     }
   },
 
