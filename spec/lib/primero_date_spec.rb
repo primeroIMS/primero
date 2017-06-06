@@ -129,17 +129,27 @@ describe PrimeroDate do
     end
   end
 
-  # TODO: Find better way to test.
-  it "should return date/time with correct timezone" do
-    database_formated_date = "2017/05/27 18:05:00 -0400"
-    i18n_atlantic_date_time = "27-May-2017 19:05"
-    i18n_istanbul_date_time = "28-May-2017 01:05"
-    a_date = PrimeroDate.couchrest_typecast(nil, nil, database_formated_date)
+  describe "Timezone conversion" do
+    before do
+      @before_zone = Time.zone
+      database_formated_date = "2017/05/27 18:05:00 -0400"
+      @i18n_atlantic_date_time = "27-May-2017 19:05"
+      @i18n_istanbul_date_time = "28-May-2017 01:05"
+      @a_date = PrimeroDate.couchrest_typecast(nil, nil, database_formated_date)
+    end
+    # TODO: Find better way to test.
+    it "should return date/time with correct timezone for Atlantic" do
+      Time.zone = 'Atlantic Time (Canada)'
+      expect(I18n.l(@a_date.in_time_zone(Time.zone.name), format: :with_time)).to eql(@i18n_atlantic_date_time)
+    end
 
-    Time.zone = 'Atlantic Time (Canada)'
-    expect(I18n.l(a_date.in_time_zone(Time.zone.name), format: :with_time)).to eql(i18n_atlantic_date_time)
+    it "should return date/time with correct timezone for Istanbul" do
+      Time.zone = 'Istanbul'
+      expect(I18n.l(@a_date.in_time_zone(Time.zone.name), format: :with_time)).to eql(@i18n_istanbul_date_time)
+    end
 
-    Time.zone = 'Istanbul'
-    expect(I18n.l(a_date.in_time_zone(Time.zone.name), format: :with_time)).to eql(i18n_istanbul_date_time)
+    after do
+      Time.zone = @before_zone
+    end
   end
 end
