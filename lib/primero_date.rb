@@ -8,7 +8,7 @@ class PrimeroDate < Date
   def self.unlocalize_date_string(string)
     locale = I18n.config.locale
 
-    str = string.split('-')
+    str = string.split(/[\/,-]/)
 
     CONVERSIONS[locale].each do |k, m|
       month = m.index(str[1].downcase)
@@ -79,7 +79,8 @@ class PrimeroDate < Date
       return Date.strptime self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format}"
     elsif match_data_with_time
       self.determine_format(match_data_with_time)
-      return Time.zone.parse(self.unlocalize_date_string(value)).to_datetime.utc
+      datetime_eval = DateTime.strptime(self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format} %H:%M")
+      return datetime_eval.change(:offset => Time.now.in_time_zone.zone).utc
     end
 
     raise ArgumentError, "invalid date"

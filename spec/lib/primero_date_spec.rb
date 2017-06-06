@@ -50,7 +50,7 @@ describe PrimeroDate do
 
   it "should parse valid date/time formats" do
     incident = Incident.new
-    date = Time.strptime "2014-September-05 13:15", "%Y-%b-%d %H:%M"
+    date = DateTime.strptime "2014-September-05 13:15", "%Y-%b-%d %H:%M"
     values = ["05-Sep-2014 13:15", "05-September-2014 13:15", "5-Sep-2014 13:15", "5-September-2014 13:15",
       "05-Sep-14 13:15", "05-September-14 13:15", "5-Sep-14 13:15", "05-September-14 13:15",
       "05-09-2014 13:15", "05-9-2014 13:15", "5-09-2014 13:15", "5-9-2014 13:15",
