@@ -48,6 +48,10 @@
     height: rem_calc(50);
   }
 
+  .button, select {
+    height: rem_calc(39.69);
+  }
+
   .button-group {
     input {
       width: inherit;
