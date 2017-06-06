@@ -23,6 +23,8 @@ class PrimeroDate < Date
   def self.couchrest_typecast(parent, property, value)
     begin
       # The value comes from the database as a string with the format 'yyyy/mm/dd'
+      # If this statement is true data comes from the database and is in UTC
+      # It should return a datetime in local time for application
       if value.to_s =~ /(\d{4})[\-|\/](\d{2})[\-|\/](\d{2})/
         year = $1.to_i
         month = $2.to_i
@@ -32,10 +34,12 @@ class PrimeroDate < Date
         rails_datetime_format = /\d{4}[\-|\/]\d{2}[\-|\/]\d{2}T\d{2}:\d{2}:\d{2}/
         # Faster than parsing the date
         if value.to_s =~ database_datetime_format || value.to_s =~ rails_datetime_format
-          DateTime.parse(value.to_s)
+          DateTime.parse(value.to_s).in_time_zone.to_datetime
         else
           Date.new(year, month, day)
         end
+      # Else, the data comes from the application and is in local time
+      # We should then return a datetime in UTC for the database to store
       else
         self.parse_with_format(value)
       end
@@ -51,6 +55,8 @@ class PrimeroDate < Date
     @year_format = data[3].match(/^(\d{2})$/).nil? ? "%Y" : "%y"
   end
 
+  # This function only deals with dates from the application, which are in local time.
+  # It should return a Datetime in UTC for the database
   def self.parse_with_format(value)
     return value if value.is_a?(Date) || (value.is_a? PrimeroDate) || (value.is_a? Time)
 
@@ -73,7 +79,7 @@ class PrimeroDate < Date
       return Date.strptime self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format}"
     elsif match_data_with_time
       self.determine_format(match_data_with_time)
-      return DateTime.strptime(self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format} %H:%M")
+      return Time.zone.parse(self.unlocalize_date_string(value)).to_datetime.utc
     end
 
     raise ArgumentError, "invalid date"
@@ -111,7 +117,7 @@ class PrimeroDate < Date
     if ['yesterday', 'today', 'tomorrow'].include?(df)
       Date.send(df)
     elsif ['current', 'now'].include?(df)
-      DateTime.send(df)
+      DateTime.send(df).in_time_zone.in_datetime
     else
       ''
     end
