@@ -117,7 +117,7 @@ class PrimeroDate < Date
     if ['yesterday', 'today', 'tomorrow'].include?(df)
       Date.send(df)
     elsif ['current', 'now'].include?(df)
-      DateTime.send(df).in_time_zone.in_datetime
+      DateTime.send(df).in_time_zone.to_datetime
     else
       ''
     end
