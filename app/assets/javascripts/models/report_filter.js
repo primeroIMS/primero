@@ -13,18 +13,13 @@ _primero.Models.ReportFilter = Backbone.Model.extend({
   },
 
   build_query: function() {
-    var filters = [];
+    var scope = {};
 
     _.each(this.get('filters'), function(v) {
-      var param = v.name + '=' + [v.type, v.value.join('.')].join('.')
-      filters.push(param)
+      scope[v.name] = [v.type, v.value.join('.')].join('||')
     });
 
-    if (filters.length > 1) {
-      return filters.join('&');
-    } else {
-      return filters[0]
-    }
+    return _primero.object_to_params(scope);
   },
 
   updateFilter: function(name, type, value, display) {

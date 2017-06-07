@@ -211,6 +211,30 @@ class Report < CouchRest::Model::Base
     end
   end
 
+  def parse_filter_dates(type, dates)
+    dates = dates.split('.')
+    parsed_dates = []
+
+    case type
+    when 'month'
+      parsed_dates << format_date(dates.first, :beginning_of_month) << format_date(dates.last, :end_of_month)
+    when 'year'
+      parsed_dates << format_date(DateTime.new(dates.first.to_i), :beginning_of_year) << format_date(DateTime.new(dates.last.to_i), :end_of_year)
+    when 'week'
+      parsed_dates << format_date(dates.first, :beginning_of_week) << format_date(dates.last, :end_of_week)
+    when 'quarter'
+      parsed_dates << format_date(dates.first, :beginning_of_quarter, true) << format_date(dates.first, :end_of_quarter, true)
+    else
+      parsed_dates << format_date(dates.first) << format_date(dates.last)
+    end
+
+    if parsed_dates.count == 2
+      return ['[' + parsed_dates.first + ' TO ' + parsed_dates.last  + ']']
+    else
+      return parsed_dates.first
+    end
+  end
+
   #TODO: Do we need the total?
   # def total
   #   self.data[:total]
@@ -480,4 +504,24 @@ class Report < CouchRest::Model::Base
     record_type.camelize
   end
 
+  def format_date(date, calculation=nil, is_quarter=false)
+    parsed_date =
+      if date.is_a?(DateTime)
+        date
+      elsif date.is_a?(String) && is_quarter
+        if calculation == :beginning_of_quarter
+          DateTime.new(Date.today.year, date.to_i * 3 - 2)
+        else
+          DateTime.new(Date.today.year, date.to_i * 3 - 2)
+        end
+      else
+        DateTime.parse(date)
+      end
+
+    if calculation.present?
+      parsed_date = parsed_date.send(calculation)
+    end
+
+    parsed_date.strftime("%Y-%m-%dT%H:%M:%SZ")
+  end
 end

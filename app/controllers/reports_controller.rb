@@ -49,6 +49,7 @@ class ReportsController < ApplicationController
   #       but really this isn't worth it unless we find that this is a performance bottleneck.
   def graph_data
     authorize!(:read_reports, @report)
+    @report.filters = build_data_filters
     @report.permission_filter = report_permission_filter(current_user)
     @report.build_report #TODO: Get rid of this once the rebuild works
     render json: @report.graph_data
@@ -183,7 +184,6 @@ class ReportsController < ApplicationController
 
   private
 
-  # TODO: Refactor next three methods. Move to report model?
   def build_data_filters
     filters = []
 
@@ -192,7 +192,7 @@ class ReportsController < ApplicationController
         filter = v.split('||')
 
         if k == 'date'
-          dates = parse_filter_dates(filter.first, filter.last)
+          dates = @report.parse_filter_dates(filter.first, filter.last)
           attribute = @report.record_type == 'case' && k == 'date' ? 'registration_date' : 'incident_date'
           @report.filters.reject!{|s| s['attribute'] == attribute}
           filters << { "attribute" => attribute , "value" => dates}
@@ -201,34 +201,6 @@ class ReportsController < ApplicationController
     end
 
     @report.filters + filters
-  end
-
-  def parse_filter_dates(type, dates)
-    dates = dates.split('.')
-    parsed_dates = []
-    binding.pry
-    dates.each do |date|
-      case type
-      when 'day'
-        parsed_dates << format_date(date)
-      when 'month'
-        parsed_dates << format_date(date).beginning_of_month << format_date(date).end_of_month
-      when 'year'
-        parsed_dates << format_date(date).beginning_of_year << format_date(date).end_of_year
-      when 'week'
-
-      end
-    end
-
-    if parsed_dates.count == 2
-      return ['[' + parsed_dates.first + ' TO ' + parsed_dates.last  + ']']
-    else
-      return parsed_dates.first
-    end
-  end
-
-  def format_date(date)
-    DateTime.parse(date).strftime("%Y-%m-%dT%H:%M:%SZ")
   end
 
   def load_report

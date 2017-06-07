@@ -54,8 +54,9 @@ _primero.Views.ReportFilters = Backbone.View.extend({
 
     if (params) {
       _.each(params.scope, function(v, k) {
-        var filter = v.split('.');
-        var type = filter.shift();
+        var filter = v.split('||');
+        var type = filter[0];
+        var values = filter[1].split('.');
 
         // TODO: This will have to change when we add more filters.
         var filter_control = $('.filter-control-' + k);
@@ -63,13 +64,13 @@ _primero.Views.ReportFilters = Backbone.View.extend({
 
         display.attr('selected','selected');
 
-        self.model.updateFilter(k, type, filter, display.text());
+        self.model.updateFilter(k, type, values, display.text());
 
-        var inputs = filter_control.parents('form').find('.controls input');
+        var inputs = filter_control.parents('form').find('.controls input, .controls select');
 
-        if (_.isArray(filter)) {
+        if (_.isArray(values)) {
           for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = filter[i];
+            inputs[i].value = values[i];
           }
         }
       });

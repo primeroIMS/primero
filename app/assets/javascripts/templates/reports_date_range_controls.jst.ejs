@@ -1,5 +1,5 @@
 <!-- if by -->
-<% if (_.contains(['month', 'year'], m.type)) { %>
+<% if (_.contains(['month', 'year', 'quarter'], m.type)) { %>
 <div class="large-3 columns end">
   <label><%= m.display %></label>
   <select name="select-control">
@@ -10,6 +10,11 @@
     <% } %>
     <% if (m.type == 'year') { %>
       <% for (i = new Date().getFullYear(); i > 1900; i--) { %>
+        <option value="<%= i %>"><%= i %></option>
+      <% } %>
+    <% } %>
+    <% if (m.type == 'quarter') { %>
+      <% for (i = 1; i < 5; i++) { %>
         <option value="<%= i %>"><%= i %></option>
       <% } %>
     <% } %>

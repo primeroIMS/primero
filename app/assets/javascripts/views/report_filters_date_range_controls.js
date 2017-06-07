@@ -3,9 +3,22 @@ _primero.Views.ReportFiltersDateRangeControl = Backbone.View.extend({
 
   el: '#report_filter_controls',
 
+  events: {
+    'change input[name="date_from_control"]': 'populateTo'
+  },
+
   initialize: function() {
     _.bindAll(this, "render");
     this.model.bind('change', this.render);
+  },
+
+  populateTo: function(e) {
+    var from_field = $(e.target);
+    var to_field = $('input[name="date_to_control"]')
+
+    if (!to_field.val() && from_field.val()) {
+      to_field.val(from_field.val());
+    }
   },
 
   setControlValue: function() {
