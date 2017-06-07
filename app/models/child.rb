@@ -11,6 +11,10 @@ class Child < CouchRest::Model::Base
   WORKFLOW_NEW = 'new'
   WORKFLOW_CLOSED = 'closed'
   WORKFLOW_REOPENED = 'reopened'
+  WORKFLOW_IMMEDIATE_RESPONSE = 'immediate_response'
+  WORKFLOW_COMPREHENSIVE_NEED = 'comprehensive_need_intervention'
+  WORKFLOW_SERVICE_DELIVERY = 'service_delivery'
+  IMMEDIATE_SERVICE_PROVIDERS = 'immediate_response_service_providers'
 
   def self.parent_form
     'case'
@@ -364,11 +368,21 @@ class Child < CouchRest::Model::Base
   def set_workflow
     case self.child_status
       when Record::STATUS_OPEN
-        self.workflow = WORKFLOW_REOPENED if self.case_status_reopened
+        set_workflow_open
       when Record::STATUS_CLOSED
         self.workflow = WORKFLOW_CLOSED
       else
         # Nothing to do
+    end
+  end
+
+  def set_workflow_open
+    if self.services_section.present? &&
+        self.services_section.any? {|s| s.service_response_type.present? &&
+            Lookup.values('lookup-service-response-type').map {|sr| sr['id']}.include?(s.service_response_type)}
+      #TODO
+    elsif self.case_status_reopened
+      self.workflow = WORKFLOW_REOPENED
     end
   end
 
