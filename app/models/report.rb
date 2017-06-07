@@ -235,6 +235,25 @@ class Report < CouchRest::Model::Base
     end
   end
 
+  def build_data_filters(scope)
+    filters = []
+
+    if scope.present?
+      scope.each do |k, v|
+        filter = v.split('||')
+
+        if k == 'date'
+          dates = parse_filter_dates(filter.first, filter.last)
+          attribute = self.record_type == 'case' && k == 'date' ? 'registration_date' : 'incident_date'
+          self.filters.reject!{|s| s['attribute'] == attribute}
+          filters << { "attribute" => attribute , "value" => dates}
+        end
+      end
+    end
+
+    self.filters + filters
+  end
+
   #TODO: Do we need the total?
   # def total
   #   self.data[:total]
