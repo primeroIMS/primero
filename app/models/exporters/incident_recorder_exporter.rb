@@ -393,7 +393,7 @@ module Exporters
           end,
           "CONSENT GIVEN" => "consent_reporting",
           "REPORTING AGENCY CODE" => ->(model) do
-            User.get(model.owned_by).try(:agency).try(:agency_code)
+            model.owner.try(:agency).try(:agency_code)
           end
         }
       end
