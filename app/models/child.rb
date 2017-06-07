@@ -361,9 +361,12 @@ class Child < CouchRest::Model::Base
   end
 
   def update_implement_field
-    services = self.services_section.first
-    if services.service_response_day_time.present? && services.service_implemented != "implemented"
-      services.service_implemented="implemented"
+    services = self.services_section || []
+    done = "implemented"
+    services.each do |service|
+      if service.service_response_day_time.present? && service.service_implemented != done
+        service.service_implemented=done
+      end
     end
   end
 
