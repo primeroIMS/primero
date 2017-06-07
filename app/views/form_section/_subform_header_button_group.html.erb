@@ -8,7 +8,7 @@
           :associated_incident_id => link_for_current_details["incident_id"],
           :incident_display_id => link_for_current_details["incident_display_id"]
         } %>
-    <% else %>
+    <% elsif can? :incident_from_case, Child %>
       <%= render :partial => "children/create_incident",
         locals: {
           :incident_detail_id => subform_instance.unique_id
