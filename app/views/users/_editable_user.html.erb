@@ -119,7 +119,7 @@
       </div>
       <div class="medium-8 columns">
         <%= f.select :organization, @agency_names.map {|option| [option['display_text'], option['id']]},
-                     { include_blank: t('agencies.select_prompt') } %>
+                     { include_blank: t('agencies.select_prompt') }, {class: 'chosen-select'} %>
       </div>
       <div class="medium-1 columns">
         <span class="required">*</span>

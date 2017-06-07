@@ -64,6 +64,10 @@ Primero = _primero.Views.Base.extend({
 
     $(document).on('closed.zf.reveal', 'body', this.clear_modal_form);
 
+    $(document).on('open.zf.reveal', 'body', function() {
+      _primero.chosen('.chosen-select');
+    });
+
     window.onbeforeunload = this.load_and_redirect;
   },
 

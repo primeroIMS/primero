@@ -55,7 +55,7 @@
           <div class="local_toggle">
             <div class='local_user_flash hide_element'><p class='error'></p></div>
             <label><%=I18n.t("#{transition_type}.existing_user_label")%>
-              <%= select_tag("existing_user", options_for_select(module_users, ''), :include_blank => true) %>
+              <%= select_tag("existing_user", options_for_select(module_users, ''), {:include_blank => true, :class => 'chosen-select'}) %>
             </label>
           </div>
           <div class="remote_toggle" style="display:none">
