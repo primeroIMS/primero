@@ -23,7 +23,7 @@
     <div class="row">
       <div class="button-group">
         <%= link_to t("exports.forms.button"), download_forms_path(current_module: @primero_module.id, parent_form: @parent_form),
-          class: "button right download_forms" %>
+          class: "button right download_forms", data: { turbolinks: false } %>
         <a class="button gray right" data-close ><%= t("buttons.cancel") %></a>
       </div>
     </div>
