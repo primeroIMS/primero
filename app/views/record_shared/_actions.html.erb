@@ -1,27 +1,29 @@
-<ul id="menu" class="sf-menu">
-  <li class="init_btn">
-    <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn green-button action_btn' %>
-    <ul>
-      <% if can?(:import, controller.model_class) && controller.model_class != PotentialMatch %>
-          <%= render 'imports/button' %>
-      <% end %>
-      <% if controller.model_class != PotentialMatch %>
-          <%= render 'exports/button', locals: {model: model} %>
-      <% end %>
-      <% if can?(:export_custom, controller.model_class) && controller.model_class != Incident && controller.model_class != PotentialMatch %>
-          <%= render 'exports/custom_exports_link', model: model, export_type: 'custom' %>
-      <% end %>
-      <% if model == Child %>
-        <%= render 'transitions/button', type: Transition::TYPE_REFERRAL %>
-        <% if can?(:reassign, controller.model_class) %>
-          <%= render 'transitions/button', type: Transition::TYPE_REASSIGN %>
+<% if has_index_actions(controller.model_class) %>
+  <ul id="menu" class="sf-menu">
+    <li class="init_btn">
+      <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn green-button action_btn' %>
+      <ul>
+        <% if can?(:import, controller.model_class) && controller.model_class != PotentialMatch %>
+            <%= render 'imports/button' %>
         <% end %>
-        <%= render 'transitions/button', type: Transition::TYPE_TRANSFER %>
-      <% end %>
-      <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
-          <%= render 'record_shared/mark_for_mobile_button', mobile_value: true %>
-          <%= render 'record_shared/mark_for_mobile_button', mobile_value: false %>
-      <% end %>
-    </ul>
-  </li>
-</ul>
+        <% if controller.model_class != PotentialMatch %>
+            <%= render 'exports/button', locals: {model: model} %>
+        <% end %>
+        <% if can?(:export_custom, controller.model_class) && controller.model_class != Incident && controller.model_class != PotentialMatch %>
+            <%= render 'exports/custom_exports_link', model: model, export_type: 'custom' %>
+        <% end %>
+        <% if model == Child %>
+          <%= render 'transitions/button', type: Transition::TYPE_REFERRAL %>
+          <% if can?(:reassign, controller.model_class) %>
+            <%= render 'transitions/button', type: Transition::TYPE_REASSIGN %>
+          <% end %>
+          <%= render 'transitions/button', type: Transition::TYPE_TRANSFER %>
+        <% end %>
+        <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
+            <%= render 'record_shared/mark_for_mobile_button', mobile_value: true %>
+            <%= render 'record_shared/mark_for_mobile_button', mobile_value: false %>
+        <% end %>
+      </ul>
+    </li>
+  </ul>
+<% end %>
