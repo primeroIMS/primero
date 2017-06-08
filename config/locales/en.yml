@@ -341,7 +341,6 @@ en:
     id_search_results_html: "for <span>%{id}</span>"
     label: "Case ID"
     workflow:
-      label: "Case status"
       created_on: "created on"
       on_label: "on"
       in_progress: "in progress"

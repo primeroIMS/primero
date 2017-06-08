@@ -111,7 +111,7 @@ module FieldsHelper
         selected = lookup.select{|lv| lv["id"] == field_value}.first
         options << selected
       end
-      return options.flatten.collect{|a| a['display_text'] || a }.join(', ')
+      return options.flatten.collect{|a| a.try(:[], 'display_text') || a }.join(', ')
     end
   end
 

@@ -11,10 +11,7 @@ class Child < CouchRest::Model::Base
   WORKFLOW_NEW = 'new'
   WORKFLOW_CLOSED = 'closed'
   WORKFLOW_REOPENED = 'reopened'
-  WORKFLOW_IMMEDIATE_RESPONSE = 'immediate_response'
-  WORKFLOW_COMPREHENSIVE_NEED = 'comprehensive_need_intervention'
-  WORKFLOW_SERVICE_DELIVERY = 'service_delivery'
-  IMMEDIATE_RESPONSE_SERVICE_PROVIDERS = 'immediate_response_service_providers'
+  WORKFLOW_SERVICE_PROVISION = 'service_provision'
 
   def self.parent_form
     'case'
@@ -378,14 +375,8 @@ class Child < CouchRest::Model::Base
 
   #TODO RSPEC!!!!
   def set_workflow_open
-    service_types = Lookup.values('lookup-service-response-type').map {|sr| sr['id']}
-
-    if self.services_section.present? &&
-        self.services_section.any? {|s| s.service_response_type.present? && service_types.include?(s.service_response_type)}
-
-      #Base the workflow status on the most recently entered service response type
-      most_recent_service_type_response = self.services_section.select{|s| s.service_response_type.present? && service_types.include?(s.service_response_type)}.last.try(:service_response_type)
-      self.workflow = (most_recent_service_type_response == IMMEDIATE_RESPONSE_SERVICE_PROVIDERS ? WORKFLOW_IMMEDIATE_RESPONSE : most_recent_service_type_response)
+    if self.services_section.present? && self.services_section.any? {|s| s.service_response_type.present?}
+      self.workflow = WORKFLOW_SERVICE_PROVISION
     elsif self.case_status_reopened
       self.workflow = WORKFLOW_REOPENED
     end

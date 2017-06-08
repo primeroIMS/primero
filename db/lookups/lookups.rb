@@ -625,6 +625,18 @@ create_or_update_lookup(
     :lookup_values => [
         {id: "new", display_text: "New case"}.with_indifferent_access,
         {id: "closed", display_text: "Case closed"}.with_indifferent_access,
-        {id: "reopened", display_text: "Case reopened"}.with_indifferent_access
+        {id: "reopened", display_text: "Case reopened"}.with_indifferent_access,
+        {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-service-response-type",
+    :name => "Service Response Type",
+    :locked => true,
+    :lookup_values => [
+        {id: "care_plan", display_text: "Care plan"}.with_indifferent_access,
+        {id: "action_plan", display_text: "Action plan"}.with_indifferent_access,
+        {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
     ]
 )

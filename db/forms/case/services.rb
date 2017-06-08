@@ -1,5 +1,11 @@
 services_subform = [
   Field.new({
+    "name" => "service_response_type",
+    "type" => "select_box",
+    "display_name_all" => "Type of Response",
+    "option_strings_source" => "lookup lookup-service-response-type"
+  }),
+  Field.new({
     "name" => "service_type",
     "type" => "select_box",
     "display_name_all" => "Type of Service",

@@ -45,9 +45,6 @@ $(show_tools);
 <% content_for :breadcrumbs do %>
   <div class="label"><%= t("case.label") %></div>
   #<%= text_to_identify_child(@child) %>
-  <br>
-  <div class="label"><%= t("case.workflow.label") %></div>
-  <%= case_status_text(@child) %>
   <% if @child.photos.present? %>
     <div class="photo-link">
       <div class='image'>
@@ -55,6 +52,8 @@ $(show_tools);
       </div>
     </div>
   <% end %>
+  <br>
+  <%= case_status_text(@child) %>
 <% end %>
 
 <% content_for :stylesheet do %>
