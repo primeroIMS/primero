@@ -52,6 +52,8 @@ class Child < CouchRest::Model::Base
   property :verified, TrueClass
   property :risk_level
   property :child_status
+  property :workflow, String, :default => WORKFLOW_NEW
+  property :case_status_reopened, TrueClass, :default => false
   property :system_generated_followup, TrueClass, default: false
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [], :default => []
@@ -373,7 +375,6 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  #TODO RSPEC!!!!
   def set_workflow_open
     if self.services_section.present? && self.services_section.any? {|s| s.service_response_type.present?}
       self.workflow = WORKFLOW_SERVICE_PROVISION
