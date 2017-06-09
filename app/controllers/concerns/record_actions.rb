@@ -407,11 +407,14 @@ module RecordActions
 
   def create_or_update_record(id)
     @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]
-
     if @record.nil?
       @record = model_class.new_with_user_name(current_user, record_params)
     else
       @record = update_record_from(id)
+    end
+
+    if current_user.user_name == @record.owned_by && @record.update_alerts.present?
+      @record.update_alerts.delete_if{|x| x['type'] == 'incident_details'}
     end
 
     instance_variable_set("@#{model_class.name.underscore}", @record)

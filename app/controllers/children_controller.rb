@@ -132,6 +132,12 @@ class ChildrenController < ApplicationController
     new_incident_details = params['child']['incident_details']['template']
     new_incident_details['unique_id'] = Child.generate_unique_id
     child.incident_details << new_incident_details
+    if current_user.user_name == child.owned_by && child.update_alerts.present?
+      child.update_alerts.delete_if{|x| x[:type] == 'incident_details'}
+    elsif child.update_alerts != nil
+      child.update_alerts << {type: 'incident_details', date: Date.today}
+    end
+
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
     redirect_to cases_path()

@@ -51,6 +51,7 @@ class Child < CouchRest::Model::Base
   property :system_generated_followup, TrueClass, default: false
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [], :default => []
+  property :update_alerts, [], :default => []
 
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
