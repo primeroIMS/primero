@@ -381,6 +381,9 @@ module IndexHelper
     exporters.any? { |ex| can?("export_#{ex.id}".to_sym, controller.model_class) }
   end
 
+  # TODO: 1.4 has added permission (Permission::INCIDENT_DETAILS_FROM_CASE).
+  # Can diff to figure out differences
+  # use https://bitbucket.org/quoin/primero/pull-requests/1955/jor-660-action-button-permission/diff
   def has_index_actions(model)
     actions = [
       Permission::IMPORT,
