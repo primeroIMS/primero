@@ -32,6 +32,28 @@
       }
     }
   }
+
+  .controls-left {
+    .photo-link {
+      @if $global-text-direction == rtl {
+        float: left;
+        margin-left: 25px;
+      }
+      @else {
+        float: right;
+        margin-right: 25px;
+      }
+    }
+    .description {
+      padding-right: 10px;
+      overflow: hidden;
+      display: block;
+      line-height: 1.2em;
+      text-overflow: ellipsis;
+      color: #4d4d4d;
+      white-space: nowrap;
+    }
+  }
 }
 
 .record_controls_container, .index_controls_container {
