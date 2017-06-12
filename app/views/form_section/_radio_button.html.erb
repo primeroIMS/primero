@@ -4,6 +4,8 @@
   field_id = "#{radio_button.form.name.dehumanize}_#{sanitize_to_id name}"
   value ||= field_value formObject, radio_button, field_keys
   field_tags = radio_button.field_tags.present? ? radio_button.field_tags : []
+  is_disabled = radio_button.disabled
+  disabled = (defined?(is_subform) && is_subform) ? true : is_disabled
 %>
 <div class="row">
   <div class="medium-4 columns">
@@ -14,7 +16,7 @@
     <% show_horizontal = radio_button.options.select { |option| option.option_name.length > 8 }.blank? && radio_button.options.length <= 3 %>
     <% radio_button.options.each do |option| %>
       <%radio_button_id = "#{radio_button.form.name.dehumanize}_#{sanitize_to_id(name)}_#{option.option_name.dehumanize}"%>
-      <%= radio_button_tag name, option.option_name, (value||[]).include?(option.option_name),  :id => radio_button_id, :disabled => radio_button.disabled, :data => { :field_tags => field_tags } %>
+      <%= radio_button_tag name, option.option_name, (value||[]).include?(option.option_name),  :id => radio_button_id, :disabled => disabled, :is_disabled => is_disabled, :data => { :field_tags => field_tags } %>
       <%= label_tag radio_button_id, option.option_name %>
       <% unless show_horizontal %>
         <br>

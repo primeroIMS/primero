@@ -4,7 +4,8 @@
   field_id = "#{check_boxes.form.name.dehumanize}_#{sanitize_to_id name}"
   value ||= field_value formObject, check_boxes, field_keys
   field_tags = check_boxes.field_tags.present? ? check_boxes.field_tags : []
-  disable_checkbox = check_boxes.disabled
+  is_disabled = check_boxes.disabled
+  disabled = (defined?(is_subform) && is_subform) ? true : is_disabled
 %>
 
 <div class="row">
@@ -16,7 +17,7 @@
     <% check_boxes.options.each do |option| %>
       <%checkbox_id = "#{check_boxes.form.name.dehumanize}_#{sanitize_to_id(name)}_#{option.option_name.dehumanize}"%>
       <%= check_box_tag name+"[]", option.option_name, (value||[]).include?(option.option_name), :id => checkbox_id,
-          :data => { :field_tags => field_tags }, :disabled => disable_checkbox %>
+          :data => { :field_tags => field_tags }, :disabled => disabled, :is_disabled => is_disabled %>
       <%= label_tag checkbox_id, option.option_name %>
       <br>
     <% end %>
