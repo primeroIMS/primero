@@ -25,9 +25,10 @@ module FormSectionHelper
       end
     else
       content_tag :li, class: "#{init_tab(form, show_summary)}" do
+        form_name = build_form_name(form)
         concat(
           link_to("#tab_#{form.section_name}", class: 'non-group') do
-            concat(t(form.unique_id, :default => form.name))
+            concat(form_name)
           end
         )
       end
@@ -38,10 +39,7 @@ module FormSectionHelper
     group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
     content_tag :ul , class: 'sub', id: group_id do
       for form in forms
-        section_name = t(form.unique_id, :default => form.name)
-        if form.unique_id == "incident_details_container" && @child.alerts.any? {|u| u['type'] == "incident_details"}
-          section_name = raw("<span id='new_incident_details'>! </span>") + section_name
-        end
+        section_name = build_form_name(form)
         concat(content_tag(:li,
           link_to("#tab_#{form.section_name}") do
             concat(section_name)
@@ -49,6 +47,15 @@ module FormSectionHelper
         ))
       end
     end
+  end
+
+  def build_form_name(form)
+    form_name = t(form.unique_id, :default => form.name)
+    if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id}
+      form_name = raw("<span id='new_incident_details'>! </span>") + form_name
+    end
+
+    return form_name
   end
 
   def init_tab(form, show_summary)

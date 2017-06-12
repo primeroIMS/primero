@@ -52,6 +52,10 @@
     width: 100%;
     display: block;
 
+    #new_incident_details {
+      color: $red_color;
+    }
+
     &:hover {
       color: #fff !important;
       background: $grey_color !important;
@@ -168,7 +172,6 @@ li.group ul a {
 
   #new_incident_details {
     color: $red_color;
-
   }
 }
 
