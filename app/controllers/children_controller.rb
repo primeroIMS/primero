@@ -69,7 +69,11 @@ class ChildrenController < ApplicationController
   end
 
   def create_incident
-    authorize! :create, Incident
+    begin
+      authorize! :create, Incident
+    rescue CanCan::AccessDenied
+      authorize! :incident_from_case, Child
+    end
     child = Child.get(params[:child_id])
     from_module = params[:incident_detail_id].present? ? child.module : nil
     to_module_id = from_module.present? ? from_module.field_map_to_module_id : child.module_id
