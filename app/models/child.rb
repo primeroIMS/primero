@@ -8,6 +8,7 @@ class Child < CouchRest::Model::Base
   APPROVAL_STATUS_PENDING = 'pending'
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
+  STATUS_IMPLEMENTED = 'implemented'
 
   def self.parent_form
     'case'
@@ -362,10 +363,9 @@ class Child < CouchRest::Model::Base
 
   def update_implement_field
     services = self.services_section || []
-    done = "implemented"
     services.each do |service|
-      if service.service_response_day_time.present? && service.service_implemented != done
-        service.service_implemented=done
+      if service.service_response_day_time.present? && service.service_implemented != STATUS_IMPLEMENTED
+        service.service_implemented=STATUS_IMPLEMENTED
       end
     end
   end
