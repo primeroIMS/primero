@@ -1883,6 +1883,7 @@ en:
     approve_care_plan: "Request Approval for the Case Plan form?"
     approve_case_plan_label: "Approve Case Plan"
     approve_case_plan: "Request Approval for the Case Plan form?"
+    approve_case_plan_with_selectable_type: "Request Approval for the Case Plan?"
     approve_closure: "Request Approval for the Closure form?"
     approve_closure_label: "Approve Closure Form"
     bia: "BIA"
