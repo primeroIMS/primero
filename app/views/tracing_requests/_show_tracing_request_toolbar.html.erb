@@ -5,19 +5,21 @@
         </div>
     </li>
 <% end %>
-<% unless ["edit", "update"].include? controller.action_name %>
-<ul id="menu" class="sf-menu">
-  <li class="init_btn">
-    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
-    <ul>
-        <%= render partial: 'exports/button', locals: {model: TracingRequest, instance: @tracing_request} %>
-        <% if can? :export_custom, @tracing_request %>
-          <%= render 'exports/custom_exports_link', model: TracingRequest, export_type: 'custom' %>
-        <% end %>
-        <% if can? :edit, @tracing_request %>
-            <%= render partial: 'record_shared/enable_disable_record', locals: {model: TracingRequest, instance: @tracing_request}%>
-        <% end %>
-    </ul>
-  </li>
-</ul>
+<% if has_index_actions(@tracing_request) %>
+    <% unless ["edit", "update"].include? controller.action_name %>
+        <ul id="menu" class="sf-menu">
+        <li class="init_btn">
+            <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
+            <ul>
+                <%= render partial: 'exports/button', locals: {model: TracingRequest, instance: @tracing_request} %>
+                <% if can? :export_custom, @tracing_request %>
+                <%= render 'exports/custom_exports_link', model: TracingRequest, export_type: 'custom' %>
+                <% end %>
+                <% if can? :edit, @tracing_request %>
+                    <%= render partial: 'record_shared/enable_disable_record', locals: {model: TracingRequest, instance: @tracing_request}%>
+                <% end %>
+            </ul>
+        </li>
+        </ul>
+    <% end %>
 <% end %>
