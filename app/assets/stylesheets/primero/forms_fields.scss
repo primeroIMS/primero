@@ -845,3 +845,20 @@ select.ui-datepicker-year {
 #lightbox-container-image-data-box {
   line-height: 5.4em !important;
 }
+
+#case_plan_approvals {
+  .copy {
+    margin: 1em 0;
+  }
+
+  .error {
+    color: $red_color;
+    padding: 1em 0;
+    font-size: .9rem;
+    display: none;
+  }
+
+  form {
+    margin-top: 0;
+  }
+}

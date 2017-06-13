@@ -12,13 +12,25 @@ _primero.Views.RequestApproval = _primero.Views.Base.extend({
       id = $target.data('id'),
       form_action = $target.data('form_action'),
       approval_status = $target.data('status'),
-      approval_type = $target.data('approval_type');
+      approval_type = $target.data('approval_type'),
+      approval_status_type = '',
+      select = $target.parents('.reveal').find('form select'),
+      error_message = $('.reveal .error');
+
+    if (select && select.val() === '') {
+      error_message.show();
+      return false;
+    } else if (select && select.val()) {
+      error_message.hide();
+      approval_status_type = select.val();
+    }
 
     $.post(form_action,
       {
         'child_id': id,
         'approval_status': approval_status,
-        'approval_type': approval_type
+        'approval_type': approval_type,
+        'approval_status_type': approval_status_type
       },
       function(response) {
         if (response.success) {

@@ -15,6 +15,7 @@ class PrimeroModule < CouchRest::Model::Base
   property :associated_form_ids, :type => [String]
   property :core_resource, TrueClass, :default => false
   property :field_map, Hash, :default => {}
+  property :selectable_approval_types, TrueClass, :default => false
 
   before_save :add_associated_subforms
 
