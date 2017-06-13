@@ -171,6 +171,13 @@ class ChildrenController < ApplicationController
         render :json => {:success => false, :error_message => 'Unkown Approval Status', :reload_page => true }
     end
 
+    child.approval_subforms << log_action(
+      params[:approval_type],
+      nil,
+      params[:approval_status_type],
+      params[:approval_status]
+    )
+
     if child.save
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else

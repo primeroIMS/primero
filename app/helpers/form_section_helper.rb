@@ -27,7 +27,7 @@ module FormSectionHelper
       content_tag :li, class: "#{init_tab(form, show_summary)}" do
         concat(
           link_to("#tab_#{form.section_name}", class: 'non-group') do
-            concat(t(form.unique_id, :default => form.name))
+            concat(form.name)
           end
         )
       end
