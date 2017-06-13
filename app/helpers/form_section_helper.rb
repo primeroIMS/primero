@@ -39,7 +39,7 @@ module FormSectionHelper
     content_tag :ul , class: 'sub', id: group_id do
       for form in forms
         section_name = t(form.unique_id, :default => form.name)
-        if form.unique_id == "incident_details_container" && @child.update_alerts.any? {|u| u['type'] == "incident_details"}
+        if form.unique_id == "incident_details_container" && @child.alerts.any? {|u| u['type'] == "incident_details"}
           section_name = raw("<span id='new_incident_details'>! </span>") + section_name
         end
         concat(content_tag(:li,

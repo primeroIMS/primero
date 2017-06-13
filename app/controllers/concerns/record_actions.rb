@@ -413,9 +413,7 @@ module RecordActions
       @record = update_record_from(id)
     end
 
-    if current_user.user_name == @record.owned_by && @record.update_alerts.present?
-      @record.update_alerts.delete_if{|x| x['type'] == 'incident_details'}
-    end
+    @record.add_remove_subform_alert(current_user, 'incident_details')
 
     instance_variable_set("@#{model_class.name.underscore}", @record)
   end
