@@ -8,6 +8,7 @@ class Child < CouchRest::Model::Base
   APPROVAL_STATUS_PENDING = 'pending'
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
+  STATUS_IMPLEMENTED = 'implemented'
 
   def self.parent_form
     'case'
@@ -60,6 +61,7 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
+  before_save :update_implement_field
   after_save :find_match_tracing_requests unless (Rails.env == 'production')
 
   def initialize *args
@@ -356,6 +358,15 @@ class Child < CouchRest::Model::Base
     protection_concern_subforms = self.try(:protection_concern_detail_subform_section)
     if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc.try(:protection_concern_type) }).compact.uniq
+    end
+  end
+
+  def update_implement_field
+    services = self.services_section || []
+    services.each do |service|
+      if service.service_response_day_time.present? && service.service_implemented != STATUS_IMPLEMENTED
+        service.service_implemented=STATUS_IMPLEMENTED
+      end
     end
   end
 
