@@ -64,7 +64,6 @@ class Child < CouchRest::Model::Base
   validate :validate_child_wishes
   # validate :validate_date_closure
 
-  #TODO - should this be a before_save and handle other scenarios?
   before_create :set_workflow_new
   before_save :set_workflow
   before_save :sync_protection_concerns

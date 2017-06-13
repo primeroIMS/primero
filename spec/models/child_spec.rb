@@ -1859,6 +1859,8 @@ describe Child do
         "description_all" => "Services form",
       })
 
+      Child.refresh_form_properties
+
       @case1 = Child.create(name: 'Workflow Tester')
     end
 
@@ -1869,9 +1871,12 @@ describe Child do
     end
 
     context 'when case is open' do
+      before :each do
+        @case1.child_status = Record::STATUS_OPEN
+      end
+
       context 'and service response type is set' do
         before do
-          #TODO - this isn't working... check how other specs test subforms
           @case1.services_section << {service_response_type: 'care_plan'}
           @case1.save!
         end
