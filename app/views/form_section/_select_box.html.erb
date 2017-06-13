@@ -18,18 +18,18 @@
     <% if select_box.required %><span class="required form-section-required">*</span><% end %>
     <% if select_box.multi_select %>
       <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value), 'multiple' => '',
-          'class' => "chosen-select", 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
-          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value}, 
+          'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
+          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value},
           required: select_box.required, :disabled => select_box.disabled %>
     <% elsif select_box.searchable_select %>
       <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value),
           'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.select_box_empty_item"), :id => field_id,
-          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value}, 
+          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value},
           required: select_box.required, :disabled => select_box.disabled %>
     <% else %>
       <%
         #TODO: We should combine single and multi selects and simplify this code
-        # select_box.searchable_select is a hack, refactor, refactor, refactor!  
+        # select_box.searchable_select is a hack, refactor, refactor, refactor!
 
         #TODO: Pending disabled for choosen.
         #workaround to avoid present the default value (Select...) when the select_box
@@ -41,7 +41,8 @@
         end
       %>
       <%= select_tag name, options_for_select(select_box_select_options, value), :id => field_id,
-          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value}, 
+          'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}",
+          :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value},
           :disabled => select_box.disabled, :required => select_box.required %>
     <% end %>
     <% if select_box.guiding_questions.present? %>
