@@ -37,8 +37,12 @@ module TransitionActions
           redirect_to :back
         end
       else
-        local_transition(@records)
-        redirect_to :back
+        begin
+          local_transition(@records)
+          redirect_to action: :index and return
+        rescue => error
+          redirect_to :back
+        end
       end
     end
   end
