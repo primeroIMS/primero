@@ -1,12 +1,15 @@
 module Exporters
   class XlsFormExporter
 
-    def initialize(record_type='case', module_id='primeromodule-cp', input_locales=[], export_path=nil)
+    def initialize(record_type='case', module_id='primeromodule-cp', opts={})
       @record_type = record_type
       @primero_module = PrimeroModule.get(module_id)
-      #TODO: Implement user defined export path
+      #TODO: Implement user defined export path: opts[:export_path]
       @export_dir_path = dir(@record_type, @primero_module)
-      @locales = compute_locales(input_locales)
+      locales = opts[:locales] || []
+      @show_hidden_forms = opts[:show_hidden_forms].present?
+      @show_hidden_fields = opts[:show_hidden_fields].present?
+      @locales = compute_locales(locales)
     end
 
     MAPPING = {
@@ -61,6 +64,14 @@ module Exporters
     def export_forms_to_spreadsheet
       forms = @primero_module.associated_forms_grouped_by_record_type(true)
       forms_record_type = forms[@record_type]
+      unless @show_hidden_forms
+        visible_top_forms = forms_record_type.select{|f| f.visible? && !f.is_nested?}
+        visible_subform_ids = visible_top_forms
+          .map{|form| form.fields.map{|f| f.subform_section_id}}
+          .flatten.compact
+        visible_subforms = forms_record_type.select{|f| f.is_nested? && visible_subform_ids.include?(f.unique_id)}
+        forms_record_type = visible_top_forms + visible_subforms
+      end
       forms_record_type.each do |form|
         create_file_for_form(form.unique_id)
         write_form(form)
@@ -80,7 +91,9 @@ module Exporters
       @form_sheet.write(0, 0, form_headers)
       choices_header = ['list name', 'name'] + localize_header('label')
       @choices_sheet.write(0, 0, choices_header)
-      form_section.fields.each do |field|
+      fields = form_section.fields
+      fields = fields.select{|f| f.visible?} unless @show_hidden_fields
+      fields.each do |field|
         write_field(field)
       end
     end
