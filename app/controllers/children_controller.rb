@@ -156,19 +156,19 @@ class ChildrenController < ApplicationController
     child = Child.get(params[:child_id])
     authorize! :update, child
 
-    case params[:approval_status_type]
+    case params[:approval_type]
       when "bia"
         child.approval_status_bia = params[:approval_status]
       when "case_plan"
         child.approval_status_case_plan = params[:approval_status]
+
+        if child.module.selectable_approval_types.present?
+          child.case_plan_approval_type = params[:approval_status_type]
+        end
       when "closure"
         child.approval_status_closure = params[:approval_status]
       else
         render :json => {:success => false, :error_message => 'Unkown Approval Status', :reload_page => true }
-    end
-
-    if params[:approval_status_type] == ApprovalActions::CASE_PLAN && child.module.selectable_approval_types
-      child.case_plan_approval_type = params[:approval_type]
     end
 
     if child.save

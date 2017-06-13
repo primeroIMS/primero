@@ -12,8 +12,8 @@ _primero.Views.RequestApproval = _primero.Views.Base.extend({
       id = $target.data('id'),
       form_action = $target.data('form_action'),
       approval_status = $target.data('status'),
-      approval_status_type = $target.data('approval_type'),
-      approval_type = approval_status_type,
+      approval_type = $target.data('approval_type'),
+      approval_status_type = '',
       select = $target.parents('.reveal').find('form select'),
       error_message = $('.reveal .error');
 
@@ -22,7 +22,7 @@ _primero.Views.RequestApproval = _primero.Views.Base.extend({
       return false;
     } else if (select && select.val()) {
       error_message.hide();
-      approval_type = select.val();
+      approval_status_type = select.val();
     }
 
     $.post(form_action,
