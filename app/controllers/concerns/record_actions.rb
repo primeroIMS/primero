@@ -413,7 +413,7 @@ module RecordActions
       @record = update_record_from(id)
     end
 
-    @record.add_remove_subform_alert(current_user, 'incident_details')
+    @record.add_remove_alert(current_user, 'incident_details')
 
     instance_variable_set("@#{model_class.name.underscore}", @record)
   end
