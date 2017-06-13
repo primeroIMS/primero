@@ -49,6 +49,13 @@ case_plan_section = FormSection.create_or_update_form_section({
 })
 
 case_plan_fields = [
+    Field.new({"name" => "case_plan_approval_type",
+              "type" => "select_box",
+              "display_name_all" => "Approval Type",
+              "editable"=> false,
+              "disabled"=> true,
+              "option_strings_source" => "lookup lookup-approval-type"
+            }),
     Field.new({"name" => "case_plan_approved",
                "type" => "tick_box",
                "tick_box_label_all" => "Yes",

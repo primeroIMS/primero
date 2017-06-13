@@ -578,6 +578,16 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+    :id => "lookup-approval-type",
+    :name => "Approval Type",
+    :lookup_values => [
+        {id: "case_plan", display_text: "Case Plan"}.with_indifferent_access,
+        {id: "action_plan", display_text: "Action Plan"}.with_indifferent_access,
+        {id: "service_provision", display_text: "Service Provision"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
     :id => "lookup-approval-status",
     :name => "Approval Status",
     :lookup_values => [
