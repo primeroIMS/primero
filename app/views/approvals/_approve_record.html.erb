@@ -2,7 +2,7 @@
 <div class="reveal tiny" id="<%= "#{approval_type}_approvals" %>" data-reveal>
   <%= render 'shared/modal_close' %>
   <div class="row collapse">
-    <div class="large-12 columns">
+    <div class="large-12 columns copy">
       <% if selectable_approval_types  %>
         <%= t('approvals.approve_case_plan_with_selectable_type') %>
       <% else %>
@@ -13,6 +13,7 @@
   <% if selectable_approval_types %>
     <div class="row collapse">
       <div class="large-12 columns">
+        <div class="error"><%= t('approvals.error_select_an_approval_type') %></div>
         <form>
           <select class="chosen-select" data-populate="lookup-approval-type"></select>
         </form>

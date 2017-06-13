@@ -18,17 +18,19 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
     _primero.populate_select_boxes = function() {
       self.option_string_sources = self.getStringSourcesOptions()
 
-      self.collection = new StringSources();
-      self.collection.fetch({
-        data: $.param({
-          string_sources: self.option_string_sources,
-          locale: I18n.defaultLocale
-        })
-      }).done(function() {
-        self.parseOptions();
-      }).fail(function() {
-        self.disableAjaxSelectBoxes();
-      });
+      if (self.option_string_sources.length > 0) {
+        self.collection = new StringSources();
+        self.collection.fetch({
+          data: $.param({
+            string_sources: self.option_string_sources,
+            locale: I18n.defaultLocale
+          })
+        }).done(function() {
+          self.parseOptions();
+        }).fail(function() {
+          self.disableAjaxSelectBoxes();
+        });
+      }
     };
 
     _primero.populate_select_boxes();
@@ -40,7 +42,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
       return $(element).attr('data-populate')
     }));
 
-    return _.without(lookup_options, 'null', 'User');
+    return _.without(lookup_options, 'null', 'User', undefined);
   },
 
   disableAjaxSelectBoxes: function() {
