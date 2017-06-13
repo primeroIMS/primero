@@ -35,7 +35,7 @@
           <% incident_alert = @child.alerts.select {|u| u['type'] == subform.name} %>
           <% form_section_name = subform["display_name_#{subform.base_language}"].downcase %>
           <div id="#{subform.name}_change_alert" class="flash subform_message row">
-            <p class="notice large-12"><%= t('messages.form_sections_case_update_alert', form_section_name: form_section_name, alert_time: incident_alert[0]['date']) %></p>
+            <p class="notice large-12"><%= t('messages.form_sections_case_update_alert', form_section_name: form_section_name, alert_time: incident_alert.first.try(:[], 'date')) %></p>
           </div>
         <% end %>
         <% (number_of_subforms).times do |i| %>
