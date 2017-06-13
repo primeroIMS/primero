@@ -132,6 +132,7 @@ class ChildrenController < ApplicationController
     new_incident_details = params['child']['incident_details']['template']
     new_incident_details['unique_id'] = Child.generate_unique_id
     child.incident_details << new_incident_details
+    child.add_remove_alert(current_user, 'incident_details')
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
     redirect_to cases_path()
