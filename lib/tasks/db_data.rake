@@ -304,18 +304,20 @@ namespace :db do
 
     #USAGE: $bundle exec rake db:data:xls_export['cape','primeromodule-cp',"fr es"]
     #NOTE: Must pass locales as string separated by spaces e.g. "en fr"
-    task :xls_export, [:record_type, :module_id, :locales] => :environment do |t, args|
+    task :xls_export, [:record_type, :module_id, :locales, :show_hidden_forms, :show_hidden_fields] => :environment do |t, args|
       module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
       record_type = args[:record_type].present? ? args[:record_type] : 'case'
       locales = args[:locales].present? ? args[:locales].split(' ') : []
+      show_hidden_forms = args[:show_hidden_forms].present? && ['Y','y','T','t'].include?(args[:show_hidden_forms][0])
+      show_hidden_fields = args[:show_hidden_fields].present? && ['Y','y','T','t'].include?(args[:show_hidden_fields][0])
       Rails.logger = Logger.new(STDOUT)
-      form = Exporters::XlsFormExporter.new(record_type,module_id,locales)
-      form.export_forms_to_spreadsheet
+      exporter = Exporters::XlsFormExporter.new(record_type, module_id, locales: locales, show_hidden_forms: show_hidden_forms, show_hidden_fields: show_hidden_fields)
+      exporter.export_forms_to_spreadsheet
     end
 
     desc "Import Forms from spreadsheets directory"
     #USAGE: $bundle exec rake db:data:xls_import['/vagrant/tmp/exports/forms_export_case_cp_YYYYMMDD.HHMMSS/','case','primeromodule-cp']
-    #NOTE: The location being passed is a DIRECTORY in which resides any spreadsheets representation of a form 
+    #NOTE: The location being passed is a DIRECTORY in which resides any spreadsheets representation of a form
     task :xls_import, [:spreadsheet_dir, :record_type, :module_id] => :environment do |t, args|
       module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
       record_type = args[:record_type].present? ? args[:record_type] : 'case'
