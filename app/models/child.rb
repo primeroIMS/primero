@@ -8,7 +8,6 @@ class Child < CouchRest::Model::Base
   APPROVAL_STATUS_PENDING = 'pending'
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
-
   STATUS_IMPLEMENTED = 'implemented'
 
   def self.parent_form

@@ -14,7 +14,6 @@ module Workflow
 
     property :workflow, String, :default => WORKFLOW_NEW
 
-
     def set_workflow_new
       self.workflow = WORKFLOW_NEW
     end
