@@ -245,7 +245,7 @@ namespace :db do
       file_name = "forms.xls"
       puts "Writing #{type} #{module_id} forms to #{file_name}"
       forms_exporter = Exporters::FormExporter.new(file_name)
-      forms_exporter.export_forms_to_spreadsheet
+      forms_exporter.export_forms_to_spreadsheet(type, module_id, show_hidden)
       puts "Done!"
     end
 
