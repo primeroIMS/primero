@@ -8,6 +8,8 @@
   field_class += " autosum" if numeric_field["autosum_group"].present? && numeric_field['autosum_total'].blank?
   field_class += " autosum_total" if numeric_field["autosum_total"] == true
   autosum_group += numeric_field["autosum_group"]
+  is_disabled = numeric_field.disabled
+  disabled = (defined?(is_subform) && is_subform) ? true : is_disabled
 %>
 <div class="row">
   <div class="medium-4 columns">
@@ -18,7 +20,7 @@
   <div class="medium-8 columns">
     <% if numeric_field.required %><span class="required form-section-required">*</span><% end %>
     <% # NOTE: The field is readonly instead of disabled in order to send the calculated value to the server so we don't have to look for the list of autosum fields in the formsection and calculate again because it is an expensive task. %>
-    <%= text_field_tag name, value, :class => field_class.strip, :autosum_group => autosum_group.strip, :disabled => numeric_field.disabled, :readonly => numeric_field['autosum_total'], :id => field_id, "data-abide-validator" => "primeroPositiveNumber", required: numeric_field.required %>
+    <%= text_field_tag name, value, :class => field_class.strip, :autosum_group => autosum_group.strip, :disabled => disabled, :is_disabled => is_disabled, :readonly => numeric_field['autosum_total'], :id => field_id, "data-abide-validator" => "primeroPositiveNumber", required: numeric_field.required %>
     <small class="error"><%= I18n.t("fields.number_not_valid")%></small>
     <% if numeric_field.help_text %><p class="help"><%= numeric_field.help_text %></p><% end %>
   </div>
