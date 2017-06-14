@@ -65,7 +65,8 @@
                          subform: subform,
                          subform_section: subform_section,
                          i: 'template',
-                         form_group_name: form_group_name
+                         form_group_name: form_group_name,
+                         is_subform: true
                        }
     %>
 
@@ -85,7 +86,8 @@
                  locals: {
                    field_keys: fk,
                    value: "",
-                   formObject: formObject
+                   formObject: formObject,
+                   is_subform: true
                  }
       %>
     <% end %>
