@@ -341,6 +341,10 @@ en:
     id_search_no_results: "There is no match in the system for “%{id}”, please create a new record."
     id_search_results_html: "for <span>%{id}</span>"
     label: "Case ID"
+    workflow:
+      created_on: "created on"
+      on_label: "on"
+      in_progress: "in progress"
     flagged_by: "Flagged By"
     last_updated: "Last updated"
     registered_by: "Registered by"

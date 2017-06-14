@@ -5,6 +5,14 @@
 $lg_input_height: 47px;
 $lg_input_font_size: 2rem;
 
+#jquery-overlay {
+  z-index:9998 !important;
+}
+
+#jquery-lightbox {
+  z-index:9999 !important;
+}
+
 input:focus{
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;

@@ -57,6 +57,8 @@ describe ChildrenController do
                                                 "record_state"=>true,
                                                 "marked_for_mobile"=>true,
                                                 "hidden_name"=>false,
+                                                "workflow"=>"new",
+                                                "case_status_reopened"=>false,
                                                 "system_generated_followup"=>false,
                                                 "_id"=>"child1",
                                                 "couchrest-type"=>"Child"},
@@ -64,6 +66,8 @@ describe ChildrenController do
                                                 "record_state"=>true,
                                                 "marked_for_mobile"=>true,
                                                 "hidden_name"=>false,
+                                                "workflow"=>"new",
+                                                "case_status_reopened"=>false,
                                                 "system_generated_followup"=>false,
                                                 "_id"=>"child2",
                                                 "couchrest-type"=>"Child"}])

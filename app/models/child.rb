@@ -34,6 +34,7 @@ class Child < CouchRest::Model::Base
   include Matchable
   include AudioUploader
   include AutoPopulatable
+  include Workflow
 
   property :case_id
   property :case_id_code
@@ -49,6 +50,7 @@ class Child < CouchRest::Model::Base
   property :verified, TrueClass
   property :risk_level
   property :child_status
+  property :case_status_reopened, TrueClass, :default => false
   property :system_generated_followup, TrueClass, default: false
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [], :default => []

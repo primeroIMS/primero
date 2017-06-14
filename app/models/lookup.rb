@@ -47,6 +47,10 @@ class Lookup < CouchRest::Model::Base
       self.values(lookup_id, lookups, opts).map{|option| [option['display_text'], option['id']]}
     end
 
+    def display_value(lookup_id, option_id, lookups = nil, opts={})
+      self.values(lookup_id, lookups, opts).select{|l| l["id"] == option_id}.first.try(:[], 'display_text')
+    end
+
     def get_location_types
       self.get('lookup-location-type')
     end
