@@ -8,10 +8,7 @@ class Child < CouchRest::Model::Base
   APPROVAL_STATUS_PENDING = 'pending'
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
-  WORKFLOW_NEW = 'new'
-  WORKFLOW_CLOSED = 'closed'
-  WORKFLOW_REOPENED = 'reopened'
-  WORKFLOW_SERVICE_PROVISION = 'service_provision'
+
   STATUS_IMPLEMENTED = 'implemented'
 
   def self.parent_form
@@ -38,6 +35,7 @@ class Child < CouchRest::Model::Base
   include Matchable
   include AudioUploader
   include AutoPopulatable
+  include Workflow
 
   property :case_id
   property :case_id_code
@@ -53,7 +51,6 @@ class Child < CouchRest::Model::Base
   property :verified, TrueClass
   property :risk_level
   property :child_status
-  property :workflow, String, :default => WORKFLOW_NEW
   property :case_status_reopened, TrueClass, :default => false
   property :system_generated_followup, TrueClass, default: false
   #To hold the list of GBV Incidents created from a GBV Case.
@@ -65,8 +62,6 @@ class Child < CouchRest::Model::Base
   validate :validate_child_wishes
   # validate :validate_date_closure
 
-  before_create :set_workflow_new
-  before_save :set_workflow
   before_save :sync_protection_concerns
   before_save :auto_populate_name
   before_save :update_implement_field
@@ -361,32 +356,7 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def set_workflow_new
-    self.workflow = WORKFLOW_NEW
-  end
 
-  def set_workflow
-    case self.child_status
-      when Record::STATUS_OPEN
-        set_workflow_open
-      when Record::STATUS_CLOSED
-        self.workflow = WORKFLOW_CLOSED
-      else
-        # Nothing to do
-    end
-  end
-
-  def set_workflow_open
-    if self.services_section.present? && self.services_section.any? {|s| s.service_response_type.present?}
-      self.workflow = WORKFLOW_SERVICE_PROVISION
-    elsif self.case_status_reopened
-      self.workflow = WORKFLOW_REOPENED
-    end
-  end
-
-  def reopened_date
-    self.reopened_logs.last.try(:reopened_date) if self.workflow == WORKFLOW_REOPENED
-  end
 
   def sync_protection_concerns
     protection_concerns = self.protection_concerns
