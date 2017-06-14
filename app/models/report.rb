@@ -1,7 +1,6 @@
 class Report < CouchRest::Model::Base
   use_database :report
   include PrimeroModel
-  include BelongsToModule
 
   REPORTABLE_FIELD_TYPES = [
     #Field::TEXT_FIELD,
@@ -56,9 +55,7 @@ class Report < CouchRest::Model::Base
   validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
-  validate do |report|
-    report.validate_modules_present(:module_ids)
-  end
+  validate :modules_present
 
   before_save :apply_default_filters
 
@@ -215,6 +212,16 @@ class Report < CouchRest::Model::Base
   # def total
   #   self.data[:total]
   # end
+
+  def modules_present
+    if self.module_ids.present? && self.module_ids.length >= 1
+      self.module_ids.each do |module_id|
+        return I18n.t("errors.models.report.module_syntax") if module_id.split('-').first != 'primeromodule'
+      end
+      return true
+    end
+    return I18n.t("errors.models.report.module_presence")
+  end
 
   def has_data?
     self.data[:values].present?
