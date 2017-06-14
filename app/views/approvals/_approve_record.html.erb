@@ -15,7 +15,7 @@
       <div class="large-12 columns">
         <div class="error"><%= t('approvals.error_select_an_approval_type') %></div>
         <form>
-          <label><%= t('') %></label>
+          <label><%= t('approvals.case_plan_type_label') %></label>
           <select class="chosen-select" data-populate="lookup-approval-type"></select>
         </form>
       </div>
@@ -29,7 +29,7 @@
          data-id="<%= instance.id %>"
          data-form_action="<%= send("#{model.name.underscore.downcase}_request_approval_path", instance) %>"
          data-submit_error_message="<%# t("#{model.name.underscore.downcase}.record_status_error_message")%>"
-         data-status="pending"
+         data-status="requested"
          data-approval_type="<%= approval_type %>"
          href=""><%= t("buttons.ok") %>
       </a>
