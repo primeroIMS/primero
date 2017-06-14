@@ -60,6 +60,7 @@ en:
     enter_each_in_one_line: "Enter each option on a new line"
     record_count: "Showing %{start} to %{end} of %{total} records"
     form_sections_help_text_for_edit: "Click the EDIT button to add %{form_section_name} details"
+    form_sections_case_update_alert: "A new %{form_section_name} was added to the case on %{alert_time}"
     enable_disable_record: "Clicking OK will change the state of this record to '%{action}'"
     reopen_record: "Clicking OK will change the status of this case to Open"
     flag_multiple_records_error_message: "There was an error trying to flag records:"
@@ -1887,12 +1888,14 @@ en:
     approve_care_plan: "Request Approval for the Case Plan form?"
     approve_case_plan_label: "Approve Case Plan"
     approve_case_plan: "Request Approval for the Case Plan form?"
+    approve_case_plan_with_selectable_type: "Request Approval for the Case Plan?"
     approve_closure: "Request Approval for the Closure form?"
     approve_closure_label: "Approve Closure Form"
     bia: "BIA"
     case_plan: "Case Plan"
     closure: "Closure"
     comments_label: "Comments"
+    error_select_an_approval_type: "Please select an approval type"
 
     status:
       pending: "Pending"

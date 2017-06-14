@@ -132,6 +132,7 @@ class ChildrenController < ApplicationController
     new_incident_details = params['child']['incident_details']['template']
     new_incident_details['unique_id'] = Child.generate_unique_id
     child.incident_details << new_incident_details
+    child.add_remove_alert(current_user, 'incident_details')
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
     redirect_to cases_path()
@@ -155,15 +156,20 @@ class ChildrenController < ApplicationController
     #TODO move business logic to the model.
     child = Child.get(params[:child_id])
     authorize! :update, child
+
     case params[:approval_type]
       when "bia"
         child.approval_status_bia = params[:approval_status]
       when "case_plan"
         child.approval_status_case_plan = params[:approval_status]
+
+        if child.module.selectable_approval_types.present?
+          child.case_plan_approval_type = params[:approval_status_type]
+        end
       when "closure"
         child.approval_status_closure = params[:approval_status]
       else
-        render :json => {:success => false, :error_message => 'Unkown Approval Type', :reload_page => true }
+        render :json => {:success => false, :error_message => 'Unkown Approval Status', :reload_page => true }
     end
 
     if child.save

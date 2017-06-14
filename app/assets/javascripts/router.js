@@ -110,6 +110,7 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.Actions();
       new _primero.Views.ReopenCase();
       new _primero.Views.RequestApproval();
+      new _primero.Views.PopulateSelectBoxes();
       this.maskedUserAndPasswordReferal();
       this.maskedUserAndPasswordTransfer();
     }

@@ -38,9 +38,13 @@ module FormSectionHelper
     group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
     content_tag :ul , class: 'sub', id: group_id do
       for form in forms
+        section_name = t(form.unique_id, :default => form.name)
+        if form.unique_id == "incident_details_container" && @child.alerts.any? {|u| u['type'] == "incident_details"}
+          section_name = raw("<span id='new_incident_details'>! </span>") + section_name
+        end
         concat(content_tag(:li,
           link_to("#tab_#{form.section_name}") do
-            concat(t(form.unique_id, :default => form.name))
+            concat(section_name)
           end, class: "#{form.is_first_tab ? 'current': ''}"
         ))
       end
