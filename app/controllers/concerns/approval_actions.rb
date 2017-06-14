@@ -40,8 +40,6 @@ module ApprovalActions
   def set_approval
     approval_status = ((params[:approval].present?) && params[:approval] == 'true') ? APPROVED_STATUS : REJECTED_STATUS
     approved = ((params[:approval].present?) && params[:approval] == 'true') ? true : false
-    comments = nil
-    status = nil
 
     if params[:approval_type].present?
       case params[:approval_type]
