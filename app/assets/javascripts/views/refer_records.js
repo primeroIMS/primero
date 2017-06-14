@@ -3,6 +3,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
   el: 'body',
 
   events: {
+    'click .service_referral_button' : 'refer_from_service',
     'click .referral_index_action' : 'refer_records',
     'change #referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
     'change #referral-modal select#existing_user' : 'toggle_other_user',
@@ -21,6 +22,17 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
             no_consent_cnt = total - consent_cnt;
         $("#referral-modal").find(".consent_count").replaceWith(no_consent_cnt.toString());
     });
+  },
+
+  refer_from_service: function(event) {
+    var $referral_button = $(event.target),
+        service_type = $referral_button.data('service-type'),
+        service_user_name = $referral_button.data('service-user-name');
+    $("#referral-modal").find("#service").val(service_type);
+    var $existing_user_select = $("#referral-modal").find("#existing_user");
+    $existing_user_select.val(service_user_name);
+    $existing_user_select.trigger("chosen:updated");
+
   },
 
   toggle_remote_primero: function() {
