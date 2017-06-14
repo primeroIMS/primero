@@ -52,7 +52,7 @@ $(show_tools);
       </div>
     </div>
   <% end %>
-  <div class="description"><%= case_status_text(@child) %></div>
+  <div class="description"><%= case_status_text(@child, @lookups) %></div>
 <% end %>
 
 <% content_for :stylesheet do %>

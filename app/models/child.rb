@@ -356,8 +356,6 @@ class Child < CouchRest::Model::Base
     end
   end
 
-
-
   def sync_protection_concerns
     protection_concerns = self.protection_concerns
     protection_concern_subforms = self.try(:protection_concern_detail_subform_section)

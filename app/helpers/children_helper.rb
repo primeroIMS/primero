@@ -45,8 +45,8 @@ module ChildrenHelper
     child.case_id_display.present? ? child.case_id_display : child.short_id
   end
 
-  def case_status_text(child)
-    workflow_text = Lookup.display_value('lookup-workflow', child.workflow)
+  def case_status_text(child, lookups)
+    workflow_text = Lookup.display_value('lookup-workflow', child.workflow, lookups)
     case child.workflow
       when Child::WORKFLOW_NEW
         "#{workflow_text} #{t("case.workflow.created_on")} #{I18n.l(child.created_at)}"
