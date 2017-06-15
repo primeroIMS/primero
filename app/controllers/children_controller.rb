@@ -171,7 +171,7 @@ class ChildrenController < ApplicationController
       when "closure"
         child.approval_status_closure = params[:approval_status]
       else
-        approval_type_error = Unkown Approval Status
+        approval_type_error = 'Unknown Approval Status'
     end
 
     child.approval_subforms << log_action(
