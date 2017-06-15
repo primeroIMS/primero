@@ -57,7 +57,9 @@
             <%= form_tag path_for_model(model), :method => :get, :id => "search_form", :autocomplete => "off" do %>
               <div class="input-group">
                 <%= text_field_tag 'query', params[:query], placeholder: 'SEARCH', class: 'input-group-field' %>
-                <%= hidden_field_tag 'id_search', true %>
+                <% if can? :search_owned_by_others, model %>
+                  <%= hidden_field_tag 'id_search', true %>
+                <% end %>
                 <div class="input-group-button">
                   <%= button_tag  :action => path_for_model(model), :method => "get", class: 'button' do %>
                     <% if @page_direction == 'rtl' %>
