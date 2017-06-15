@@ -19,7 +19,8 @@ _primero.Views.IdSearch = _primero.Views.Base.extend({
       params = {
         id_search: true,
         query: input.val(),
-        module_id: target.data('module')
+        module_id: target.data('module'),
+        redirect_not_found: true
       }
 
       window.location.search = $.param(params);
