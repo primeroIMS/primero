@@ -103,10 +103,6 @@ class ChildrenController < ApplicationController
       end
     else
       redirect_to new_incident_path(new_incident_params)
-      respond_to do |format|
-        format.html {render :json => json_content}
-        format.json {render :json => json_content}
-      end
     end
   end
 
