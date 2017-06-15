@@ -58,6 +58,12 @@ services_subform = [
     "type" => "text_field",
     "display_name_all" => "Service Provider"
   }),
+  Field.new({"name" => "service_status_referred",
+    "type" => "tick_box",
+    "tick_box_label_all" => "Yes",
+    "display_name_all" => "Referred?",
+    "disabled" => true,
+  }),
   Field.new({
     "name" => "service_location",
     "type" => "text_field",

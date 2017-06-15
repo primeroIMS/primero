@@ -27,8 +27,10 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
   refer_from_service: function(event) {
     var $referral_button = $(event.target),
         service_type = $referral_button.data('service-type'),
-        service_user_name = $referral_button.data('service-user-name');
+        service_user_name = $referral_button.data('service-user-name'),
+        service_object_id = $referral_button.data('service-object-id');
     $("#referral-modal").find("#service").val(service_type);
+    $("#referral-modal").find("#service_object_id").val(service_object_id);
     var $existing_user_select = $("#referral-modal").find("#existing_user");
     $existing_user_select.val(service_user_name);
     $existing_user_select.trigger("chosen:updated");

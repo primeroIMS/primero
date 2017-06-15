@@ -186,6 +186,7 @@ module TransitionActions
                             is_remote?, type_of_export, current_user.user_name, consent_overridden(record), service)
       #TODO - should this be done here or somewhere else?
       #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
+      record.set_service_as_referred( service_object_id )
       record.save if is_remote?
     end
   end
@@ -266,6 +267,10 @@ module TransitionActions
 
   def service
     @service ||= (params[:service].present? ? params[:service] : "")
+  end
+
+  def service_object_id
+    @service_object_id ||= (params[:service_object_id].present? ? params[:service_object_id] : "")
   end
 
   def notes

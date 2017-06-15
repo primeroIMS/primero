@@ -37,6 +37,7 @@
         <%= form_tag(url_for(:action => 'transition', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
           <%= hidden_field_tag "selected_records"%>
           <%= hidden_field_tag "transition_type", transition_type%>
+          <%= hidden_field_tag "service_object_id" %>
           <% if transition_type == Transition::TYPE_REASSIGN %>
             <%= t("reassign.reassign_case_title") %>
           <% else %>
