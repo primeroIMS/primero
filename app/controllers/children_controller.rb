@@ -112,8 +112,9 @@ class ChildrenController < ApplicationController
 
   def create_subform
     child = Child.get(params['child_id'])
-    authorize! :services_section_from_case, child
     type = params['form_type']
+    #TODO: we should have a tighter link between type and forms to avoid hacking since this is coming from javascript
+    authorize! "#{type}_from_case".to_sym(), child
     form_id = params['form_id']
     form_sidebar_id = params['form_sidebar_id']
     subform_section = FormSection.get_by_unique_id(form_id)
