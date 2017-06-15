@@ -84,8 +84,6 @@ class PrimeroModule < CouchRest::Model::Base
     self.field_map.present? ? self.field_map['fields'] : nil
   end
 
-  private
-
   def add_associated_subforms
     if self.associated_form_ids.present?
       subforms = FormSection.get_subforms(associated_forms)

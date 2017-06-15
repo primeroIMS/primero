@@ -243,7 +243,7 @@ module Exporters
       memoize :primary_alleged_perpetrator
 
       def all_alleged_perpetrators(model)
-        alleged_perpetrators = model.try(:alleged_perpetrator)
+        alleged_perpetrators = model.try(:alleged_perpetrators)
         alleged_perpetrators.present? ? alleged_perpetrators : []
       end
 
@@ -398,7 +398,9 @@ module Exporters
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "CONSENT GIVEN" => "consent_reporting",
-          "REPORTING AGENCY CODE" => "agency_organization"
+          "REPORTING AGENCY CODE" => ->(model) do
+            model.owner.try(:agency).try(:agency_code)
+          end
         }
       end
 

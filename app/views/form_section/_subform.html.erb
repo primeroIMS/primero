@@ -65,7 +65,8 @@
                          subform: subform,
                          subform_section: subform_section,
                          i: 'template',
-                         form_group_name: form_group_name
+                         form_group_name: form_group_name,
+                         is_subform: true
                        }
     %>
 
@@ -75,7 +76,7 @@
       unique_field_id = "#{subform.name.dehumanize}_#{sanitize_to_id unique_tag_name}"
       unique_field_value = ''
     %>
-    <%= hidden_field_tag(unique_tag_name, '') %>
+    <%= hidden_field_tag(unique_tag_name, '', disabled: 'disabled') %>
 
     <%# TODO: Render the individual fields %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
@@ -85,7 +86,8 @@
                  locals: {
                    field_keys: fk,
                    value: "",
-                   formObject: formObject
+                   formObject: formObject,
+                   is_subform: true
                  }
       %>
     <% end %>

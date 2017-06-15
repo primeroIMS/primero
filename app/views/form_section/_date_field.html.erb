@@ -6,6 +6,8 @@
    value ||= field_value formObject, date_field, field_keys
    date_validator = date_field.date_validation == 'not_future_date' ? "primeroDateNotInFuture" : "primeroDate"
    error_msg = date_field.date_validation == 'not_future_date' ? "fields.future_date_not_valid" : "fields.date_not_valid"
+   is_disabled = date_field.disabled
+   disabled = (defined?(is_subform) && is_subform) ? true : is_disabled
 %>
 
 <div class="row">
@@ -17,7 +19,7 @@
   <div class="medium-8 columns">
     <% if date_field.required %><span class="required form-section-required">*</span><% end %>
     <%= text_field_tag name, value, :class => 'form_date_field has_help', :id => field_id,
-    :disabled => date_field.disabled,
+    :disabled => date_field.disabled, is_disabled => is_disabled,
     "data-validator" => date_validator, "data-timepicker" => date_field.date_include_time, required: date_field.required %>
     <small class="form-error"><%= I18n.t(error_msg)%></small>
     <p class="help"><%= date_field.date_include_time ? t("fields.date_help_with_time") : t("fields.date_help") %></p>
