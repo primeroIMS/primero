@@ -7,6 +7,8 @@
    date_or_date_range = formObject["#{date_range[:name]}_date_or_date_range"] || "date_range"
    value_from, value_to = ["", ""] if date_or_date_range == "date"
    value_date_field = "" if date_or_date_range == "date_range"
+   is_disabled = date_range.disabled
+   disabled = (defined?(is_subform) && is_subform) ? true : is_disabled
 %>
 
 <div class="row">
@@ -25,14 +27,14 @@
       <% end %>
     </div>
     <div class="date" style ="<%= "display:none;" if date_or_date_range == "date_range" %>">
-      <%= text_field_tag name, value_date_field, :class => 'form_date_field has_help', :disabled => date_range.disabled, :id => field_id %>
+      <%= text_field_tag name, value_date_field, :class => 'form_date_field has_help', :disabled => disabled, :is_disabled => is_disabled, :id => field_id %>
       <p class="help"><%= t("fields.date_help") %></p>
     </div>
     <div class="date_range" style ="<%= "display:none;" if date_or_date_range == "date" %>" data-on-errors="<%= t('errors.models.date_range_invalid', :field_name => date_range.display_name) %>">
       <span><%="#{I18n.t("fields.date_range.from")}:"%></span>
-      <%= text_field_tag name.gsub(date_range[:name], "#{date_range[:name]}_from"), value_from, :class => 'form_date_field', :disabled => date_range.disabled, :id => "#{field_id}_from" %>
+      <%= text_field_tag name.gsub(date_range[:name], "#{date_range[:name]}_from"), value_from, :class => 'form_date_field', :disabled => disabled, :is_disabled => is_disabled, :id => "#{field_id}_from" %>
       <span><%="#{I18n.t("fields.date_range.to")}:"%></span>
-      <%= text_field_tag name.gsub(date_range[:name], "#{date_range[:name]}_to"), value_to, :class => 'form_date_field has_help', :disabled => date_range.disabled, :id => "#{field_id}_to" %>
+      <%= text_field_tag name.gsub(date_range[:name], "#{date_range[:name]}_to"), value_to, :class => 'form_date_field has_help', :disabled => disabled, :is_disabled => is_disabled, :id => "#{field_id}_to" %>
         <p class="help"><%= t("fields.date_help") %></p>
     </div>
   </div>
