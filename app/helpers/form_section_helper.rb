@@ -16,7 +16,7 @@ module FormSectionHelper
   def build_form_tabs(group, forms, show_summary = false)
     form = forms.first
     if forms.count > 1
-      group_name = raw(t(group, :default => group) + group_alert_prefix(forms, group))
+      group_name = raw(group + group_alert_prefix(forms))
       content_tag :li, class: 'group' do
         concat(
           link_to("#tab_#{form.section_name}", class: 'group',
@@ -61,7 +61,7 @@ module FormSectionHelper
     return form_name
   end
 
-  def group_alert_prefix(forms, group)
+  def group_alert_prefix(forms)
     alert = ''
     forms.each do |form|
       if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
