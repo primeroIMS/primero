@@ -53,7 +53,7 @@ module FormSectionHelper
   end
 
   def build_form_name(form)
-    form_name = t(form.unique_id, :default => form.name)
+    form_name = form.name
     if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
       form_name = raw(form_name + ALERT_PREFIX)
     end
