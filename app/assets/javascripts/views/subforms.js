@@ -146,7 +146,7 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
       class: newSubformClass
     });
     $newSubform.fadeIn(600);
-    // $newSubform.find("input, select, textarea").filter('[is_disabled=false]').removeAttr("disabled");
+    $newSubform.find("input, select, textarea").filter('[is_disabled=false]').removeAttr("disabled");
     $newSubform.appendTo($subforms);
 
     // set sidebar height
