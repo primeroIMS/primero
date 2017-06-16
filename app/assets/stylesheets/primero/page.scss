@@ -262,6 +262,7 @@ table.dataTable.dtr-inline.collapsed tbody tr.parent th:first-child:before {
 
 .reveal {
   background: $desat_green_color;
+  overflow-y: initial;
 
   fieldset {
     padding: rem_calc(10);
