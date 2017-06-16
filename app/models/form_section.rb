@@ -104,6 +104,7 @@ class FormSection < CouchRest::Model::Base
   validate :validate_datatypes
 
   before_validation :generate_options_keys
+  after_save :recalculate_subform_permissions
 
   def inspect
     "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
@@ -448,10 +449,9 @@ class FormSection < CouchRest::Model::Base
     end
 
     def list_form_group_names(selected_module, parent_form, user)
-      self.get_permitted_form_sections(selected_module, parent_form, user)
+      self.get_permitted_form_sections(selected_module, parent_form, user, true)
           .collect(&:form_group_name).compact.uniq.sort
     end
-    memoize_in_prod :list_form_group_names
 
     def find_mobile_forms_by_parent_form(parent_form = 'case')
       by_parent_form_and_mobile_form(key: [parent_form, true])
@@ -825,6 +825,23 @@ class FormSection < CouchRest::Model::Base
   end
 
   protected
+
+  def recalculate_subform_permissions
+    if self.fields.any?{|f| f.type == Field::SUBFORM}
+      Role.all.each do |role|
+        if role.permitted_form_ids.include?(self.unique_id)
+          role.add_permitted_subforms
+          role.save
+        end
+      end
+      PrimeroModule.all.each do |primero_module|
+        if primero_module.associated_form_ids.include?(self.unique_id)
+          primero_module.add_associated_subforms
+          primero_module.save
+        end
+      end
+    end
+  end
 
   def validate_name_format
     special_characters = /[*!@#%$\^]/

@@ -80,6 +80,11 @@ module FormSectionHelper
     end
   end
 
+  def subform_placeholder(field, subform)
+    form_string = field.base_doc.is_violation? ? t("incident.violation.violation") : subform.display_name
+    t('placeholders.subforms', form: form_string)
+  end
+
   def display_help_text_on_view?(formObject, form_section)
     return false unless form_section.display_help_text_view
 
