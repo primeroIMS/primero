@@ -13,25 +13,25 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     'click #referral-modal input[type="submit"]' : 'close_referral'
   },
 
+  refer_records_empty: function(event) {
+    var $service_type = $("#referral-modal").find("[id='service']");
+    $service_type.filter("[type='hidden']").attr("disabled","disabled");
+    var $existing_user_select = $("#referral-modal").find("[id='existing_user']");
+    $existing_user_select.filter("[type='hidden']").attr("disabled","disabled");
+  },
+
   refer_records: function(event) {
     var selected_recs = _primero.indexTable.get_selected_records(),
         $referral_button = $(event.target),
         consent_url = $referral_button.data('consent_count_url');
     $("#selected_records").val(selected_recs);
+    this.refer_records_empty(event);
     $.get( consent_url, {selected_records: selected_recs.join(","), transition_type: "referral"}, function(response) {
         var total = response['record_count'],
             consent_cnt = response['consent_count'],
             no_consent_cnt = total - consent_cnt;
         $("#referral-modal").find(".consent_count").replaceWith(no_consent_cnt.toString());
     });
-    refer_records_empty()
-  },
-
-  refer_records_empty: function(event) {
-    var $service_type = $("#referral-modal").find("[id='service']");
-    $service_type.filter("[type='hidden']").attr("disabled","disabled");
-    var $existing_user_select = $("#referral-modal").find("[id='existing_user']");
-    $existing_user_select.filter("[type='hidden']").attr("disabled","disabled");
   },
 
   refer_from_service: function(event) {
@@ -124,15 +124,15 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
       $remoteUserErrorDiv.hide();
       $passwordErrorDiv.hide();
       $(e.target).parents('form').submit();
-      $referral_modal.foundation('reveal', 'close');
+      $referral_modal.foundation('close');
       $referral_modal.find('form')[0].reset();
       $referral_modal.find('.remote_toggle').hide();
       $referral_modal.find('.local_toggle').show();
+      this.clear_referral(e);
       window.disable_loading_indicator = true;
     } else {
       return false;
     }
-    clear_referral();
   },
 
 });
