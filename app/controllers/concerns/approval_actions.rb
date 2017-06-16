@@ -23,6 +23,18 @@ module ApprovalActions
     redirect_to :back
   end
 
+  def log_action(action_requested=nil, action_response=nil, type=nil, status=nil, comments=nil, approved_by=nil)
+    {
+      approval_requested_for: action_requested,
+      approval_response_for: action_response,
+      approval_for_type: type,
+      approval_date: Date.today,
+      approval_manager_comments: comments,
+      approval_status: status,
+      approved_by: approved_by
+    }
+  end
+
   private
 
   def set_approval
@@ -49,6 +61,15 @@ module ApprovalActions
         else
           raise("Invalid Approval Type")
       end
+
+      @record.approval_subforms << log_action(
+        nil,
+        params[:approval_type],
+        @record.case_plan_approval_type,
+        approval_status,
+        params[:comments],
+        current_user.user_name
+      )
     end
   end
 end

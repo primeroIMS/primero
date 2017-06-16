@@ -63,7 +63,7 @@ module RecordActions
       format.html do
         if params[:query].present? && @id_search.present? && !@records.present?
           flash[:notice] = t('case.id_search_no_results', id: params[:query])
-          redirect_to new_case_path(module_id: params[:module_id])
+          redirect_to new_case_path(module_id: params[:module_id]) if params[:redirect_not_found].present?
         end
       end
       unless params[:password]
@@ -413,7 +413,7 @@ module RecordActions
       @record = update_record_from(id)
     end
 
-    @record.add_remove_alert(current_user, 'incident_details')
+    @record.add_remove_alert(current_user)
 
     instance_variable_set("@#{model_class.name.underscore}", @record)
   end

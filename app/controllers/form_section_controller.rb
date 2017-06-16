@@ -43,7 +43,7 @@ class FormSectionController < ApplicationController
         @primero_module.save
       end
       flash[:notice] = t("form_section.messages.updated")
-      redirect_to edit_form_section_path(form_section.unique_id)
+      redirect_to edit_form_section_path(id: form_section.unique_id, module_id: params[:module_id], parent_form: params[:parent_form])
     else
       get_form_group_names
       @form_section = form_section
@@ -63,7 +63,10 @@ class FormSectionController < ApplicationController
     @form_section.properties = params[:form_section]
     if (@form_section.valid?)
       @form_section.save!
-      redirect_to edit_form_section_path(@form_section.unique_id)
+      redirect_to edit_form_section_path(
+        id: @form_section.unique_id,
+        module_id: params[:module_id],
+        parent_form: params[:form_section][:parent_form])
     else
       get_form_group_names
       render :action => :edit

@@ -1,4 +1,6 @@
 module FormSectionHelper
+  ALERT_PREFIX = "<sup id='new_incident_details'>!</sup>"
+
   def sorted_highlighted_fields
     FormSection.sorted_highlighted_fields
   end
@@ -14,20 +16,22 @@ module FormSectionHelper
   def build_form_tabs(group, forms, show_summary = false)
     form = forms.first
     if forms.count > 1
+      group_name = raw(group + group_alert_prefix(forms))
       content_tag :li, class: 'group' do
         concat(
           link_to("#tab_#{form.section_name}", class: 'group',
             data: { violation: form.form_group_name == 'Violations' ? true : false }) do
-            concat(t(group, :default => group))
+            concat(group_name)
           end
         )
         concat(build_group_tabs(forms))
       end
     else
       content_tag :li, class: "#{init_tab(form, show_summary)}" do
+        form_name = build_form_name(form)
         concat(
           link_to("#tab_#{form.section_name}", class: 'non-group') do
-            concat(t(form.unique_id, :default => form.name))
+            concat(form_name)
           end
         )
       end
@@ -38,10 +42,7 @@ module FormSectionHelper
     group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
     content_tag :ul , class: 'sub', id: group_id do
       for form in forms
-        section_name = t(form.unique_id, :default => form.name)
-        if form.unique_id == "incident_details_container" && @child.alerts.any? {|u| u['type'] == "incident_details"}
-          section_name = raw("<span id='new_incident_details'>! </span>") + section_name
-        end
+        section_name = build_form_name(form)
         concat(content_tag(:li,
           link_to("#tab_#{form.section_name}") do
             concat(section_name)
@@ -51,12 +52,37 @@ module FormSectionHelper
     end
   end
 
+  def build_form_name(form)
+    form_name = form.name
+    if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
+      form_name = raw(form_name + ALERT_PREFIX)
+    end
+
+    return form_name
+  end
+
+  def group_alert_prefix(forms)
+    alert = ''
+    forms.each do |form|
+      if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
+        alert = ALERT_PREFIX
+      end
+      break if alert != ''
+    end
+    return alert
+  end
+
   def init_tab(form, show_summary)
     if show_summary && form.section_name == 'mrm_summary_page' || form.is_first_tab
       "current"
     else
       ""
     end
+  end
+
+  def subform_placeholder(field, subform)
+    form_string = field.base_doc.is_violation? ? t("incident.violation.violation") : subform.display_name
+    t('placeholders.subforms', form: form_string)
   end
 
   def display_help_text_on_view?(formObject, form_section)

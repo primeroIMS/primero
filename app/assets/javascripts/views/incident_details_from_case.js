@@ -2,29 +2,33 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
   el: 'body',
 
   events: {
-    'click #incident_details_from_case_button' : 'populate_modal'
+    'click #incident_details_from_case_button' : 'populate_modal',
+    'click #services_section_from_case_button' : 'populate_modal'
   },
 
   populate_modal: function(event) {
-    var self = this;
     event.preventDefault();
+    var self = this;
+    var form_type = $(event.currentTarget).data('form-type');
+    var form_id = $(event.currentTarget).data('form-id');
+    var form_sidebar_id = $(event.currentTarget).data('form-sidebar-id');
     var selected_records = _primero.indexTable.get_selected_records();
     if (selected_records.length === 1) {
       $('#number_of_cases_error').remove();
-      var create_incident_details_url = '/cases/' + selected_records[0] + '/create_incident_details';
-      $.get(create_incident_details_url, {uuid: 'test'}, function(response) {
+      var create_subform_url = '/cases/' + selected_records[0] + '/create_subform';
+      $.get(create_subform_url, {form_type: form_type, form_id: form_id, form_sidebar_id: form_sidebar_id}, function(response) {
         if (response) {
           // TODO: get date of birth and age fields to match in this form
-          $(self.el).find('#incident-details-modal .incident_details_container').html(response);
-          _primero.chosen('#incident-details-modal form select');
+          $(self.el).find('#' + form_type + '_modal .' + form_type + '_container').html(response);
+          _primero.chosen('#' + form_type + '_modal form select');
           _primero.populate_select_boxes();
           // to get foundation validation to run on new form
-          $('#incident-details-modal form').foundation();
-          $('#incident-details-modal').foundation('open');
-          $('#incident-details-modal form #nested_incident_details_subform_child_incident_details_template_cp_incident_perpetrator_date_of_birth').change(function(event) {
+          $('#' + form_type + '_modal form').foundation();
+          $('#' + form_type + '_modal').foundation('open');
+          $('#' + form_type + '_modal form input[id$="_date_of_birth"]').change(function(event) {
             _primero.update_age(event);
           });
-          $('#incident-details-modal form #nested_incident_details_subform_child_incident_details_template_cp_incident_perpetrator_age').change(function(event) {
+          $('#' + form_type + '_modal form input[id$="_age"]').change(function(event) {
             _primero.update_date(event);
           });
         }

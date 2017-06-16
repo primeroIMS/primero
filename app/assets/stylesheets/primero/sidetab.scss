@@ -52,6 +52,12 @@
     width: 100%;
     display: block;
 
+    #new_incident_details {
+      color: $red_color_bright;
+      font-weight: 600;
+      padding-left: 4px;
+    }
+
     &:hover {
       color: #fff !important;
       background: $grey_color !important;
@@ -167,8 +173,9 @@ li.group ul a {
   font-size: $thirteen_px;
 
   #new_incident_details {
-    color: $red_color;
-
+    color: $red_color_bright;
+    font-weight: 700;
+    padding-left: 4px;
   }
 }
 

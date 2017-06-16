@@ -20,7 +20,7 @@
       </li>
     </ul>
   <% elsif modules.size == 1 %>
-    <% if modules.first.allow_searchable_ids %>
+    <% if modules.first.allow_searchable_ids && record == 'case' %>
       <%= render 'record_shared/search_ids', primero_module: modules.first, record: record, single: true, label: content_tag(:span, button_label, class: 'create_user') %>
     <% else %>
       <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record, {module_id: modules.first.id}),  class: 'button right' %>
