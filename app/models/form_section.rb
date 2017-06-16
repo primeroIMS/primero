@@ -37,6 +37,7 @@ class FormSection < CouchRest::Model::Base
   property :shared_subform_group
   property :is_summary_section, TrueClass, :default => false
   property :mobile_form, TrueClass, :default => false
+  property :header_message_link, String, :default => ""
 
   design do
     view :by_unique_id
