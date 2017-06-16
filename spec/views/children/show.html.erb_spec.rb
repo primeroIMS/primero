@@ -99,8 +99,8 @@ describe "children/show.html.erb" do
       end
 
       it "should show link to change log if child has been updated by multiple people" do
-        child = Child.create(:age => "27", :unique_identifier => "georgelon12345", 
-                             :_id => "id12345", :created_by => 'jsmith', :created_at => "July 19 2010 13:05:32UTC", 
+        child = Child.create(:age => "27", :unique_identifier => "georgelon12345",
+                             :_id => "id12345", :created_by => 'jsmith', :created_at => "July 19 2010 13:05:32UTC",
                              :last_updated_by => "jdoe", :last_updated_at => "July 20 2010 14:15:59UTC",
                              :owned_by_full_name => 'Jose Smith')
         child.stub(:has_one_interviewer?).and_return(false)
