@@ -1,4 +1,6 @@
 module FormSectionHelper
+  ALERT_PREFIX = "<sup id='new_incident_details'>!</sup>"
+
   def sorted_highlighted_fields
     FormSection.sorted_highlighted_fields
   end
@@ -14,11 +16,12 @@ module FormSectionHelper
   def build_form_tabs(group, forms, show_summary = false)
     form = forms.first
     if forms.count > 1
+      group_name = raw(t(group, :default => group) + group_alert_prefix(forms, group))
       content_tag :li, class: 'group' do
         concat(
           link_to("#tab_#{form.section_name}", class: 'group',
             data: { violation: form.form_group_name == 'Violations' ? true : false }) do
-            concat(t(group, :default => group))
+            concat(group_name)
           end
         )
         concat(build_group_tabs(forms))
@@ -51,11 +54,22 @@ module FormSectionHelper
 
   def build_form_name(form)
     form_name = t(form.unique_id, :default => form.name)
-    if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id}
-      form_name = raw("<span id='new_incident_details'>! </span>") + form_name
+    if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
+      form_name = raw(form_name + ALERT_PREFIX)
     end
 
     return form_name
+  end
+
+  def group_alert_prefix(forms, group)
+    alert = ''
+    forms.each do |form|
+      if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
+        alert = ALERT_PREFIX
+      end
+      break if alert != ''
+    end
+    return alert
   end
 
   def init_tab(form, show_summary)
