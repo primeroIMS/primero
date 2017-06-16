@@ -8,7 +8,7 @@
 %>
 <% if service_object.present? %>
   <% if service_object.service_status_referred
-      service_referral_button_class = 'service_referral_button'
+      service_referral_button_class = 'refer_again_link service_referral_button'
       model_name = "again"
     else
       service_referral_button_class = 'button service_referral_button' 
