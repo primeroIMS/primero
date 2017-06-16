@@ -5,6 +5,8 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
   events: {
     'click .service_referral_button' : 'refer_from_service',
     'click .referral_index_action' : 'refer_records',
+    'click .referral_show_action' : 'refer_records_empty',
+    'click .close-button': 'clear_referral',
     'change #referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
     'change #referral-modal select#existing_user' : 'toggle_other_user',
     'change #referral-modal input#other_user' : 'toggle_existing_user',
@@ -22,6 +24,14 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
             no_consent_cnt = total - consent_cnt;
         $("#referral-modal").find(".consent_count").replaceWith(no_consent_cnt.toString());
     });
+    refer_records_empty()
+  },
+
+  refer_records_empty: function(event) {
+    var $service_type = $("#referral-modal").find("[id='service']");
+    $service_type.filter("[type='hidden']").attr("disabled","disabled");
+    var $existing_user_select = $("#referral-modal").find("[id='existing_user']");
+    $existing_user_select.filter("[type='hidden']").attr("disabled","disabled");
   },
 
   refer_from_service: function(event) {
@@ -29,12 +39,13 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         service_type = $referral_button.data('service-type'),
         service_user_name = $referral_button.data('service-user-name'),
         service_object_id = $referral_button.data('service-object-id');
-    $("#referral-modal").find("#service").val(service_type);
-    $("#referral-modal").find("#service_object_id").val(service_object_id);
-    var $existing_user_select = $("#referral-modal").find("#existing_user");
+    var $service_type = $("#referral-modal").find("[id='service']");
+    $service_type.val(service_type);
+    $service_type.not("hidden").attr("disabled","disabled");
+    var $existing_user_select = $("#referral-modal").find("[id='existing_user']");
     $existing_user_select.val(service_user_name);
+    $existing_user_select.not("hidden").attr("disabled","disabled");
     $existing_user_select.trigger("chosen:updated");
-
   },
 
   toggle_remote_primero: function() {
@@ -67,11 +78,20 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
      }
   },
 
+  clear_referral: function(e) {
+    var $service_type = $("#referral-modal").find("[id='service']");
+    $service_type.filter("[disabled='disabled']").removeAttr("disabled");
+    var $existing_user_select = $("#referral-modal").find("[id='existing_user']");
+    $existing_user_select.filter("[disabled='disabled']").removeAttr("disabled");
+    $existing_user_select.filter("chosen-disabled").removeAttr("chose-disabled");
+    $existing_user_select.trigger("chosen:updated");
+  },
+
   close_referral: function(e) {
     e.preventDefault();
     var $referral_modal = $('#referral-modal');
     var password = $referral_modal.find('#password').val(),
-        local_user = $referral_modal.find('#existing_user').val(),
+        local_user = $referral_modal.find("[id='existing_user']").not("[disabled='disabled']").val(),
         remote_user = $referral_modal.find('#other_user').val(),
         is_remote = $referral_modal.find('#is_remote').prop('checked'),
         $localUserErrorDiv = $referral_modal.find(".local_user_flash"),
@@ -98,7 +118,6 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         is_valid = false;
       }
     }
-
     if(is_valid){
       $localUserErrorDiv.hide();
       $remoteUserErrorDiv.hide();
@@ -112,5 +131,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     } else {
       return false;
     }
-  }
+    clear_referral();
+  },
+
 });
