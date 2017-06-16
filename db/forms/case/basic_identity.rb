@@ -234,5 +234,6 @@ FormSection.create_or_update_form_section({
   :is_first_tab => true,
   "name_all" => "Basic Identity",
   "description_all" => "Basic identity information about a separated or unaccompanied child.",
-  :mobile_form => true
+  :mobile_form => true,
+  :header_message_link => "workflow_status"
 })
