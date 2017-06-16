@@ -7,11 +7,19 @@
   end
 %>
 <% if service_object.present? %>
+  <% if service_object.service_status_referred
+      service_referral_button_class = 'service_referral_button'
+      model_name = "again"
+    else
+      service_referral_button_class = 'button service_referral_button' 
+      model_name = ""
+    end
+  %>
 <a data-consent_count_url="cases/consent_count"
 	data-service-type="<%= service_object.service_type %>"
 	data-service-user-name="<%= service_object.service_implementing_agency_individual %>"
   data-service-object-id="<%= service_object_id %>"
- 	data-open=<%= "referral-modal"%> class="button service_referral_button">
- 	<%= t("buttons.referral", model: "case") %>
+ 	data-open=<%= "referral-modal"%> class="<%= service_referral_button_class %>">
+ 	<%= t("buttons.referral", model: model_name) %>
 </a>
 <% end %>

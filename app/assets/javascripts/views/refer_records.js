@@ -41,11 +41,12 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         service_object_id = $referral_button.data('service-object-id');
     var $service_type = $("#referral-modal").find("[id='service']");
     $service_type.val(service_type);
-    $service_type.not("hidden").attr("disabled","disabled");
+    $service_type.not("[type='hidden']").attr("disabled","disabled");
     var $existing_user_select = $("#referral-modal").find("[id='existing_user']");
     $existing_user_select.val(service_user_name);
-    $existing_user_select.not("hidden").attr("disabled","disabled");
+    $existing_user_select.not("[type='hidden']").attr("disabled","disabled");
     $existing_user_select.trigger("chosen:updated");
+    $("#referral-modal").find("[id='service_object_id']").val(service_object_id);
   },
 
   toggle_remote_primero: function() {
