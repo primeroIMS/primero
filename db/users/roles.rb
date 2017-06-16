@@ -74,6 +74,7 @@ cp_admin_permissions = [
     :role_ids => [
       'role-cp-case-worker',
       'role-cp-manager',
+      'role-cp-user-manager',
       'role-referral',
       'role-transfer'
     ]
@@ -499,9 +500,9 @@ gbv_manager_permissions = [
 ]
 
 create_or_update_role(
-  :name => "GBV Manager",
-  :permissions_list => gbv_manager_permissions,
-  :group_permission => Permission::GROUP
+    :name => "GBV Manager",
+    :permissions_list => gbv_manager_permissions,
+    :group_permission => Permission::GROUP
 )
 
 gbv_user_manager_permissions = [

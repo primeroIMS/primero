@@ -2,7 +2,7 @@
 require 'spec_helper'
 
 describe FormSection do
-  before do
+  before :each do
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
     Role.all.each &:destroy
@@ -68,6 +68,30 @@ describe FormSection do
       child = Child.new(unique_identifier: "123", module_id: primero_module.id)
 
       expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([@form_section_b])
+    end
+  end
+
+  describe "permitted subforms" do
+    before do
+      @subform = FormSection.create!(unique_id: "A-SUBFORM", name: "A-SUBFORM", parent_form: 'case', form_group_name: "M")
+      @subform_field = Field.new({
+        "name" => "a_subform_field",
+        "type" => Field::SUBFORM,
+        "display_name_all" => "A SUBFORM FIELD",
+        "subform_section_id" => @subform.unique_id
+      })
+      @form_section_b.fields = [@subform_field]
+      @form_section_b.save!
+    end
+
+    it "updates permitted subforms associated with roles when a new subform is added" do
+      role = Role.get(@role.id)
+      expect(role.permitted_form_ids).to include(@subform.unique_id)
+    end
+
+    it "updates permitted subforms associated with modules when a new subform is added" do
+      primero_module = PrimeroModule.get(@primero_module.id)
+      expect(primero_module.associated_form_ids).to include(@subform.unique_id)
     end
   end
 

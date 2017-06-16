@@ -620,11 +620,34 @@ create_or_update_lookup(
     :id => "lookup-service-referred",
     :name => "Service Referred",
     :lookup_values => [
-        "Referred",
-        "Service provided by your agency",
-        "Services already received from another agency",
-        "Service not applicable",
-        "Referral declined by survivor",
-        "Service unavailable"
+        {id: "referred", display_text: "Referred"}.with_indifferent_access,
+        {id: "service_provided_by_your_agency", display_text: "Service provided by your agency"}.with_indifferent_access,
+        {id: "services_already_received_from_another_agency", display_text: "Services already received from another agency"}.with_indifferent_access,
+        {id: "service_not_applicable", display_text: "Service not applicable"}.with_indifferent_access,
+        {id: "referral_declined_by_survivor", display_text: "Referral declined by survivor"}.with_indifferent_access,
+        {id: "service_unavailable", display_text: "Service unavailable"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-workflow",
+    :name => "Workflow",
+    :locked => true,
+    :lookup_values => [
+        {id: "new", display_text: "New case"}.with_indifferent_access,
+        {id: "closed", display_text: "Case closed"}.with_indifferent_access,
+        {id: "reopened", display_text: "Case reopened"}.with_indifferent_access,
+        {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-service-response-type",
+    :name => "Service Response Type",
+    :locked => true,
+    :lookup_values => [
+        {id: "care_plan", display_text: "Care plan"}.with_indifferent_access,
+        {id: "action_plan", display_text: "Action plan"}.with_indifferent_access,
+        {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
     ]
 )

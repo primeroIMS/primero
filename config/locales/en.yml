@@ -341,6 +341,10 @@ en:
     id_search_no_results: "There is no match in the system for “%{id}”, please create a new record."
     id_search_results_html: "for <span>%{id}</span>"
     label: "Case ID"
+    workflow:
+      created_on: "created on"
+      on_label: "on"
+      in_progress: "in progress"
     flagged_by: "Flagged By"
     last_updated: "Last updated"
     registered_by: "Registered by"
@@ -1101,7 +1105,7 @@ en:
     chosen_placeholder: "Select all that apply"
     multi_select: "Multiple Selection"
     date_help: "dd-mmm-yyyy"
-    date_help_with_time: "dd-mmm-yyyy hh:ss"
+    date_help_with_time: "dd-mmm-yyyy hh:mm"
     date_range:
       from: "From"
       to: "To"
@@ -1621,6 +1625,7 @@ en:
       report:
         name_presence: "Name must not be blank"
         module_presence: "Module must not be blank"
+        module_syntax: "All report modules must already exist"
         record_type_presence: "Record type must not be blank"
         group_by_row_presence: "Group by row must not be blank"
         use_date_ranges_presence: "Use date ranges must not be blank"

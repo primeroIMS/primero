@@ -146,7 +146,7 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
       class: newSubformClass
     });
     $newSubform.fadeIn(600);
-    $newSubform.find("input[editable!='false'], select, textarea").removeAttr("disabled");
+    $newSubform.find("input, select, textarea").filter('[is_disabled=false]').removeAttr("disabled");
     $newSubform.appendTo($subforms);
 
     // set sidebar height
@@ -229,10 +229,3 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
     }
   }
 });
-
-function disable_tempate_inputs() {
-  //Disable all template inputs
-  $('.template').find('input, select, textarea').attr("disabled","disabled");
-}
-
-$(disable_tempate_inputs);

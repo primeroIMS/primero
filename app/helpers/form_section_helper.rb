@@ -18,7 +18,7 @@ module FormSectionHelper
         concat(
           link_to("#tab_#{form.section_name}", class: 'group',
             data: { violation: form.form_group_name == 'Violations' ? true : false }) do
-            concat(t(group, :default => group))
+            concat(group)
           end
         )
         concat(build_group_tabs(forms))
@@ -38,7 +38,7 @@ module FormSectionHelper
     group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
     content_tag :ul , class: 'sub', id: group_id do
       for form in forms
-        section_name = t(form.unique_id, :default => form.name)
+        section_name = form.name
         if form.unique_id == "incident_details_container" && @child.alerts.any? {|u| u['type'] == "incident_details"}
           section_name = raw("<span id='new_incident_details'>! </span>") + section_name
         end
@@ -57,6 +57,11 @@ module FormSectionHelper
     else
       ""
     end
+  end
+
+  def subform_placeholder(field, subform)
+    form_string = field.base_doc.is_violation? ? t("incident.violation.violation") : subform.display_name
+    t('placeholders.subforms', form: form_string)
   end
 
   def display_help_text_on_view?(formObject, form_section)

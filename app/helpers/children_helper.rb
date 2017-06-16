@@ -41,8 +41,43 @@ module ChildrenHelper
     link_to(order_id.capitalize, child_filter_path(:filter => filter, :order_by => order))
   end
 
-  def text_to_identify_child child
+  def text_to_identify_child(child)
     child.case_id_display.present? ? child.case_id_display : child.short_id
+  end
+
+  def case_status_text(child, lookups)
+    workflow_text = Lookup.display_value('lookup-workflow', child.workflow, lookups)
+    case child.workflow
+      when Child::WORKFLOW_NEW
+        "#{workflow_text} #{t("case.workflow.created_on")} #{I18n.l(child.created_at)}"
+      when Child::WORKFLOW_CLOSED
+        case_status_date_text(workflow_text, child.date_closure)
+      when Child::WORKFLOW_REOPENED
+        case_status_date_text(workflow_text, child.reopened_date)
+      when Child::WORKFLOW_SERVICE_PROVISION
+        service_provision_text(child)
+      else
+        "#{workflow_text} #{t("case.workflow.in_progress")}"
+    end
+  end
+
+  # Display text is based on the last entered Service Response Type
+  def service_provision_text(child)
+    if child.services_section.present?
+      most_recent_service_type_response = child.services_section.map{|s| s.service_response_type}.reject(&:blank?).last
+      service_provision_text = Lookup.display_value('lookup-service-response-type', most_recent_service_type_response)
+      "#{service_provision_text} #{t("case.workflow.in_progress")}"
+    else
+      ""
+    end
+  end
+
+  def case_status_date_text(text, a_date)
+    if a_date.present? && (a_date.is_a?(Date) || a_date.is_a?(DateTime))
+      "#{text} #{t("case.workflow.on_label")} #{I18n.l(a_date)}"
+    else
+      "#{text}"
+    end
   end
 
   def toolbar_for_child child

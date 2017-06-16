@@ -391,4 +391,41 @@ module IndexHelper
     selected_type.present? ? selected_type['display_text'] : ''
   end
 
+  def allowed_to_export(exporters)
+    exporters.any? { |ex| can?("export_#{ex.id}".to_sym, controller.model_class) }
+  end
+
+  # TODO: 1.4 has added permission (Permission::INCIDENT_DETAILS_FROM_CASE).
+  # Can diff to figure out differences
+  # use https://bitbucket.org/quoin/primero/pull-requests/1955/jor-660-action-button-permission/diff
+  def has_index_actions(model)
+    actions = [
+      Permission::IMPORT,
+      Permission::EXPORT_CUSTOM,
+      Permission::REASSIGN,
+      Permission::SYNC_MOBILE,
+      Permission::ASSIGN,
+      Permission::TRANSFER,
+      Permission::REFERRAL,
+      Permission::INCIDENT_DETAILS_FROM_CASE
+    ]
+    actions.any?{ |p| can?(p.to_sym, model) }
+  end
+
+  def has_show_actions(model)
+    actions = [
+      Permission::IMPORT,
+      Permission::EXPORT_CUSTOM,
+      Permission::REASSIGN,
+      Permission::SYNC_MOBILE,
+      Permission::ASSIGN,
+      Permission::TRANSFER,
+      Permission::REFERRAL,
+      Permission::REQUEST_APPROVAL_BIA,
+      Permission::APPROVE_BIA,
+      Permission::INCIDENT_DETAILS_FROM_CASE,
+      'edit',
+    ]
+    actions.any?{ |p| can?(p.to_sym, model) }
+  end
 end

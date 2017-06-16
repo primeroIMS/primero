@@ -1793,6 +1793,118 @@ describe Child do
 
   end
 
+  describe 'workflow' do
+    before do
+      FormSection.all.each &:destroy
+      Lookup.all.each &:destroy
+
+      Lookup.create(
+          :id => "lookup-service-response-type",
+          :name => "Service Response Type",
+          :locked => true,
+          :lookup_values => [
+              {id: "care_plan", display_text: "Care plan"}.with_indifferent_access,
+              {id: "action_plan", display_text: "Action plan"}.with_indifferent_access,
+              {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
+          ]
+      )
+
+      services_subform = [
+        Field.new({
+          "name" => "service_response_type",
+          "type" => "select_box",
+          "display_name_all" => "Type of Response",
+          "option_strings_source" => "lookup lookup-service-response-type"
+        })
+      ]
+
+      services_section = FormSection.create_or_update_form_section({
+        "visible"=>false,
+        "is_nested"=>true,
+        :order_form_group => 110,
+        :order => 30,
+        :order_subform => 1,
+        :unique_id=>"services_section",
+        :parent_form=>"case",
+        "editable"=>true,
+        :fields => services_subform,
+        :initial_subforms => 1,
+        "name_all" => "Nested Services",
+        "description_all" => "Services Subform",
+        "collapsed_fields" => ["service_type", "service_appointment_date"]
+      })
+
+      services_fields = [
+        Field.new({
+          "name" => "services_section",
+          "type" => "subform",
+          "editable" => true,
+          "subform_section_id" => services_section.unique_id,
+          "display_name_all" => "Services",
+          "subform_sort_by" => "service_appointment_date"
+        })
+      ]
+
+      FormSection.create_or_update_form_section({
+        :unique_id => "services",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 110,
+        :order => 30,
+        :order_subform => 0,
+        :form_group_name => "Services / Follow Up",
+        :fields => services_fields,
+        "editable" => false,
+        "name_all" => "Services",
+        "description_all" => "Services form",
+      })
+
+      Child.refresh_form_properties
+
+      @case1 = Child.create(name: 'Workflow Tester')
+    end
+
+    context 'when case is new' do
+      it 'workflow status should be NEW' do
+        expect(@case1.workflow).to eq(Child::WORKFLOW_NEW)
+      end
+    end
+
+    context 'when case is open' do
+      before :each do
+        @case1.child_status = Record::STATUS_OPEN
+      end
+
+      context 'and service response type is set' do
+        before do
+          @case1.services_section << {service_response_type: 'care_plan'}
+          @case1.save!
+        end
+        it 'workflow status should be SERVICE PROVISION' do
+          expect(@case1.workflow).to eq(Child::WORKFLOW_SERVICE_PROVISION)
+        end
+      end
+
+      context 'and service response type is not set' do
+        context 'and case has been reopened' do
+          before do
+            @case1.case_status_reopened = true
+            @case1.save
+          end
+          it 'workflow status should be REOPENED' do
+            expect(@case1.workflow).to eq(Child::WORKFLOW_REOPENED)
+          end
+        end
+      end
+
+    end
+
+    context 'when case is closed' do
+
+    end
+
+  end
+
   private
 
   def create_child(name, options={})
