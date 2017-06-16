@@ -29,6 +29,7 @@ class Permission
   ASSIGN = 'assign'
   TRANSFER = 'transfer'
   REFERRAL = 'referral'
+  REFERRAL_FROM_SERVICE = 'referral_from_service'
   REASSIGN = 'reassign'
   CASE = 'case'
   INCIDENT = 'incident'
