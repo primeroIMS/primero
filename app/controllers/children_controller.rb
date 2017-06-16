@@ -106,29 +106,35 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def create_incident_details
+  def create_subform
     child = Child.get(params['child_id'])
-    authorize! :incident_details_from_case, Child
-    subform_section = FormSection.get_by_unique_id("incident_details_subform_section")
-    html = ChildrenController.new.render_to_string(partial: "children/create_incident_details", layout: false, locals: {
+    type = params['form_type']
+    #TODO: we should have a tighter link between type and forms to avoid hacking since this is coming from javascript
+    authorize! "#{type}_from_case".to_sym(), child
+    form_id = params['form_id']
+    form_sidebar_id = params['form_sidebar_id']
+    subform_section = FormSection.get_by_unique_id(form_id)
+    html = ChildrenController.new.render_to_string(partial: "children/create_subform", layout: false, locals: {
       child: child,
       subform_section: subform_section,
-      subform_name: 'incident_details',
+      subform_name: type,
       form_group_name: '',
-      form_link: child_save_incident_details_path(child)
+      form_link: child_save_subform_path(child, subform: type, form_sidebar_id: form_sidebar_id),
     })
     respond_to do |format|
       format.html {render text: html}
     end
   end
 
-  def save_incident_details
+  def save_subform
+    subform = params['subform']
+    form_sidebar_id = params['form_sidebar_id']
     child = Child.get(params['child_id'])
-    authorize! :incident_details_from_case, Child
-    new_incident_details = params['child']['incident_details']['template']
-    new_incident_details['unique_id'] = Child.generate_unique_id
-    child.incident_details << new_incident_details
-    child.add_remove_alert(current_user, 'incident_details')
+    authorize! :incident_details_from_case, child
+    new_subform = params['child'][subform]['template']
+    new_subform['unique_id'] = Child.generate_unique_id
+    child[subform] << new_subform
+    child.add_remove_alert(current_user, subform, form_sidebar_id)
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
     redirect_to cases_path()
