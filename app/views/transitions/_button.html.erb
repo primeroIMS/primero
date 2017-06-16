@@ -55,7 +55,7 @@
           <% end %>
           <div class="local_toggle">
             <div class='local_user_flash hide_element'><p class='error'></p></div>
-            <%= hidden_field_tag "existing_user" %>
+            <%= hidden_field_tag "existing_user", "", {:id => "existing_user_hidden"} %>
             <label><%=I18n.t("#{transition_type}.existing_user_label")%>
               <%= select_tag("existing_user", options_for_select(module_users, ''), {:include_blank => true, :class => 'chosen-select'}) %>
             </label>
@@ -73,7 +73,7 @@
             </label>
           </div>
           <% if transition_type == "referral" %>
-            <%= hidden_field_tag "service" %>
+            <%= hidden_field_tag "service" , "", {:id => "service_hidden"}%>
             <label><%=I18n.t("referral.service_label")%>
               <%= select_tag("service", options_for_select(Lookup.values_for_select('lookup-service-type', @lookups), ''), :include_blank => true) %>
             </label>
