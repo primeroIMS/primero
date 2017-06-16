@@ -86,6 +86,6 @@ describe "incidents/edit.html.erb" do
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='incident[previously_owned_by]']")
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='incident[module_id]'][value='primeromodule-cp']")
     #Inspect editable fields.
-    rendered.should have_tag("select[class='chosen-select'][name='incident[assigned_user_names][]']")
+    rendered.should have_tag("select.chosen-select[name='incident[assigned_user_names][]']")
   end
 end

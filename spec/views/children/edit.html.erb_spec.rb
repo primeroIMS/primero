@@ -113,6 +113,6 @@ describe "children/edit.html.erb" do
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[previously_owned_by]']")
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[module_id]'][value='primeromodule-cp']")
     #Inspect editable fields.
-    rendered.should have_tag("select[class='chosen-select'][name='child[assigned_user_names][]']")
+    rendered.should have_tag("select.chosen-select[name='child[assigned_user_names][]']")
   end
 end

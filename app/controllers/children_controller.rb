@@ -159,6 +159,8 @@ class ChildrenController < ApplicationController
     child = Child.get(params[:child_id])
     authorize! :update, child
 
+    approval_type_error = nil
+
     case params[:approval_type]
       when "bia"
         child.approval_status_bia = params[:approval_status]
@@ -171,13 +173,21 @@ class ChildrenController < ApplicationController
       when "closure"
         child.approval_status_closure = params[:approval_status]
       else
-        render :json => {:success => false, :error_message => 'Unkown Approval Status', :reload_page => true }
+        approval_type_error = 'Unknown Approval Status'
     end
+
+    child.approval_subforms << log_action(
+      params[:approval_type],
+      nil,
+      params[:approval_status_type],
+      params[:approval_status]
+    )
 
     if child.save
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
-      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
+      errors = approval_type_error || child.errors.messages
+      render :json => { :success => false, :error_message => errors, :reload_page => true }
     end
   end
 
