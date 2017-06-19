@@ -68,6 +68,10 @@ Primero = _primero.Views.Base.extend({
       _primero.chosen('.chosen-select');
     });
 
+    $('.alert_message').each(function() {
+      $(this).parents('fieldset').prepend(this)
+    });
+
     window.onbeforeunload = this.load_and_redirect;
   },
 
