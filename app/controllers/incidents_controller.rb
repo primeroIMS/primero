@@ -77,6 +77,10 @@ class IncidentsController < ApplicationController
     redirect_to(incidents_url)
   end
 
+  def redirect_to_list
+    redirect_to incidents_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
+  end
+
   def record_filter filter
     #The 'Incident Recorder' should retrieve only GBV Incidents.
     filter["module_id"] = {:type => "single", :value => "#{PrimeroModule::GBV}"} if params["format"] == "incident_recorder_xls"

@@ -327,6 +327,10 @@ class ChildrenController < ApplicationController
     redirect_to(children_url)
   end
 
+  def redirect_to_list
+    redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
+  end
+
   #TODO: We need to define the filter values as Constants
   def record_filter(filter)
     #The UNHCR report should retrieve only CP cases.
