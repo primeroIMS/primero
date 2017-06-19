@@ -39,7 +39,7 @@ module TransitionActions
       else
         begin
           local_transition(@records)
-          redirect_to action: :index and return
+          redirect_to_list and return
         rescue => error
           redirect_to :back
         end
