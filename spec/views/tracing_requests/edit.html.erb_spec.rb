@@ -94,6 +94,6 @@ describe "tracing_requests/edit.html.erb" do
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='tracing_request[previously_owned_by]']")
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='tracing_request[module_id]'][value='primeromodule-cp']")
     #Inspect editable fields.
-    rendered.should have_tag("select[class='chosen-select'][name='tracing_request[assigned_user_names][]']")
+    rendered.should have_tag("select.chosen-select[name='tracing_request[assigned_user_names][]']")
   end
 end

@@ -23,8 +23,7 @@
 <% if number_of_subforms == 0 %>
   <% if !subform.disabled %>
     <% unless subform.subform_section.is_summary_section %>
-      <% #TODO refactoring next line when refactoring i18n %>
-      <div class="placeholder_text"><%= t('placeholders.subforms', :form => t(form_group_name == "Violations" ? "incident.violation.violation" : subform.name, :default => subform.display_name)) %></div>
+      <div class="placeholder_text"> <%= subform_placeholder(field, subform) %></div>
     <% end %>
   <% end %>
 <% else %>
@@ -34,7 +33,7 @@
         <% if subform.name.present? && @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['type'] == subform.name} %>
           <% incident_alert = @child.alerts.select {|u| u['type'] == subform.name} %>
           <% form_section_name = subform["display_name_#{subform.base_language}"].downcase %>
-          <div id="#{subform.name}_change_alert" class="flash subform_message row">
+          <div id="#{subform.name}_change_alert" class="flash header_message row">
             <p class="notice large-12"><%= t('messages.form_sections_case_update_alert', form_section_name: form_section_name, alert_time: incident_alert.first.try(:[], 'date')) %></p>
           </div>
         <% end %>

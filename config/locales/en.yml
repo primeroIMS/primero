@@ -428,6 +428,7 @@ en:
     mark_child_as_duplicate: "Mark %{short_id} as Duplicate"
     history_of: "History of %{short_id}"
     incident_details_separator: "Incident Details"
+    services_section_separator: "Response Overview"
 
   incidents:
     label: "Incidents"
@@ -945,6 +946,7 @@ en:
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
+      services_section_from_case: "Add Service provision to another user's case"
       create: "Create"
 
   forms:
@@ -1626,6 +1628,7 @@ en:
       report:
         name_presence: "Name must not be blank"
         module_presence: "Module must not be blank"
+        module_syntax: "All report modules must already exist"
         record_type_presence: "Record type must not be blank"
         group_by_row_presence: "Group by row must not be blank"
         use_date_ranges_presence: "Use date ranges must not be blank"
@@ -1678,6 +1681,7 @@ en:
     disable: "Disable"
     reopen: "Reopen"
     incident_details_from_case: "Add Incident"
+    services_section_from_case: "Add Service Provision"
     description:
       valid: "Valid record"
       invalid: "Invalid record"
@@ -1897,6 +1901,7 @@ en:
     closure: "Closure"
     comments_label: "Comments"
     error_select_an_approval_type: "Please select an approval type"
+    case_plan_type_label: "Case plan type:"
 
     status:
       pending: "Pending"

@@ -61,14 +61,14 @@ class Role < CouchRest::Model::Base
     self.permitted_form_ids.include? form_id
   end
 
-  #TODO: Can probably be a before_save callback. How often do we update?
   def add_permitted_subforms
     if self.permitted_form_ids.present?
-      permitted_forms =  FormSection.by_unique_id(keys: permitted_form_ids).all
+      permitted_forms =  FormSection.by_unique_id(keys: self.permitted_form_ids).all
       subforms = FormSection.get_subforms(permitted_forms)
       all_permitted_form_ids = permitted_forms.map(&:unique_id) | subforms.map(&:unique_id)
-      if all_permitted_form_ids.present?
-        permitted_form_ids = all_permitted_form_ids
+      all_permitted_form_ids = all_permitted_form_ids.select{|id| id.present?}
+      unless all_permitted_form_ids.nil?
+        self.permitted_form_ids = all_permitted_form_ids
       end
     end
   end

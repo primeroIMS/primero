@@ -7,6 +7,9 @@
         <div class="placeholder_text"><%= t("messages.form_sections_help_text_for_edit", :form_section_name => t(section.unique_id, :default => section.name)) %></div>
       </div>
       <% end %>
+      <% if section.header_message_link.present? %>
+        <%= render partial: "form_section/header_message_#{section.header_message_link}" %>
+      <% end %>
       <% (section.fields.select{|field| field.showable?}).each do |field| %>
         <%= render :partial => field_template_path(field, true), :locals=>{:field => field, :formObject => formObject, :form_group_name => form_group_name, :form_id => section.unique_id, :display_audio_delete_checkbox => false, :lookups => lookups} %>
       <% end %>

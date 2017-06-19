@@ -19,7 +19,7 @@ module Exporters
 
     # Exports forms to an Excel spreadsheet
     def export_forms_to_spreadsheet(type = 'case', module_id = 'primeromodule-cp', show_hidden = false)
-      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'Options', 'Help Text', 'Guiding Questions']
+      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'On Mobile?', 'On Short Form?', 'Options', 'Help Text', 'Guiding Questions']
 
       primero_module = PrimeroModule.get(module_id)
       forms = primero_module.associated_forms_grouped_by_record_type(false)
@@ -58,7 +58,9 @@ module Exporters
             end
             field_type = field.type
             field_type += " (multi)" if field.type == 'select_box' && field.multi_select
-            worksheet.write((i+2),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, options, field.help_text, field.guiding_questions])
+            mobile_visible = ((form.visible || form.is_nested) && form.mobile_form && field.mobile_visible) ? 'Yes' : 'No'
+            minify_visible = field.show_on_minify_form ? 'Yes' : 'No'
+            worksheet.write((i+2),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, mobile_visible, minify_visible, options, field.help_text, field.guiding_questions])
           end
         end
       end

@@ -106,29 +106,35 @@ class ChildrenController < ApplicationController
     end
   end
 
-  def create_incident_details
+  def create_subform
     child = Child.get(params['child_id'])
-    authorize! :incident_details_from_case, Child
-    subform_section = FormSection.get_by_unique_id("incident_details_subform_section")
-    html = ChildrenController.new.render_to_string(partial: "children/create_incident_details", layout: false, locals: {
+    type = params['form_type']
+    #TODO: we should have a tighter link between type and forms to avoid hacking since this is coming from javascript
+    authorize! "#{type}_from_case".to_sym(), child
+    form_id = params['form_id']
+    form_sidebar_id = params['form_sidebar_id']
+    subform_section = FormSection.get_by_unique_id(form_id)
+    html = ChildrenController.new.render_to_string(partial: "children/create_subform", layout: false, locals: {
       child: child,
       subform_section: subform_section,
-      subform_name: 'incident_details',
+      subform_name: type,
       form_group_name: '',
-      form_link: child_save_incident_details_path(child)
+      form_link: child_save_subform_path(child, subform: type, form_sidebar_id: form_sidebar_id),
     })
     respond_to do |format|
       format.html {render text: html}
     end
   end
 
-  def save_incident_details
+  def save_subform
+    subform = params['subform']
+    form_sidebar_id = params['form_sidebar_id']
     child = Child.get(params['child_id'])
-    authorize! :incident_details_from_case, Child
-    new_incident_details = params['child']['incident_details']['template']
-    new_incident_details['unique_id'] = Child.generate_unique_id
-    child.incident_details << new_incident_details
-    child.add_remove_alert(current_user, 'incident_details')
+    authorize! :incident_details_from_case, child
+    new_subform = params['child'][subform]['template']
+    new_subform['unique_id'] = Child.generate_unique_id
+    child[subform] << new_subform
+    child.add_remove_alert(current_user, subform, form_sidebar_id)
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
     redirect_to cases_path()
@@ -153,6 +159,8 @@ class ChildrenController < ApplicationController
     child = Child.get(params[:child_id])
     authorize! :update, child
 
+    approval_type_error = nil
+
     case params[:approval_type]
       when "bia"
         child.approval_status_bia = params[:approval_status]
@@ -165,13 +173,21 @@ class ChildrenController < ApplicationController
       when "closure"
         child.approval_status_closure = params[:approval_status]
       else
-        render :json => {:success => false, :error_message => 'Unkown Approval Status', :reload_page => true }
+        approval_type_error = 'Unknown Approval Status'
     end
+
+    child.approval_subforms << log_action(
+      params[:approval_type],
+      nil,
+      params[:approval_status_type],
+      params[:approval_status]
+    )
 
     if child.save
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
-      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
+      errors = approval_type_error || child.errors.messages
+      render :json => { :success => false, :error_message => errors, :reload_page => true }
     end
   end
 
