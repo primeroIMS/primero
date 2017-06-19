@@ -110,7 +110,7 @@ class ChildrenController < ApplicationController
     child = Child.get(params['child_id'])
     type = params['form_type']
     #TODO: we should have a tighter link between type and forms to avoid hacking since this is coming from javascript
-    authorize! "#{type}_from_case".to_sym(), child
+    authorize! "#{type}_from_case".to_sym, Child
     form_id = params['form_id']
     form_sidebar_id = params['form_sidebar_id']
     subform_section = FormSection.get_by_unique_id(form_id)
@@ -130,7 +130,7 @@ class ChildrenController < ApplicationController
     subform = params['subform']
     form_sidebar_id = params['form_sidebar_id']
     child = Child.get(params['child_id'])
-    authorize! :incident_details_from_case, child
+    authorize! "#{subform}_from_case".to_sym, Child
     new_subform = params['child'][subform]['template']
     new_subform['unique_id'] = Child.generate_unique_id
     child[subform] << new_subform
