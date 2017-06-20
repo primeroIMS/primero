@@ -95,6 +95,14 @@ cp_admin_permissions = [
     ]
   ),
   Permission.new(
+      :resource => Permission::AGENCY,
+      :actions => [
+          Permission::READ,
+          Permission::WRITE
+          Permission::CREATE
+      ]
+  ),
+  Permission.new(
     :resource => Permission::REPORT,
     :actions => [
       Permission::READ,
@@ -276,6 +284,12 @@ cp_manager_permissions = [
     ]
   ),
   Permission.new(
+      :resource => Permission::AGENCY,
+      :actions => [
+          Permission::READ
+      ]
+  ),
+  Permission.new(
     :resource => Permission::DASHBOARD,
     :actions => [
       Permission::VIEW_APPROVALS,
@@ -366,6 +380,14 @@ cp_user_manager_permissions = [
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_JSON,
             Permission::EXPORT_PDF
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::AGENCY,
+        :actions => [
+            Permission::READ,
+            Permission::CREATE,
+            Permission::WRITE
         ]
     ),
     Permission.new(
@@ -499,6 +521,12 @@ gbv_manager_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_UNHCR
     ]
+  ),
+  Permission.new(
+      :resource => Permission::AGENCY,
+      :actions => [
+          Permission::READ
+      ]
   )
 ]
 
@@ -580,6 +608,14 @@ gbv_user_manager_permissions = [
             Permission::EXPORT_PHOTO_WALL,
             Permission::EXPORT_PDF,
             Permission::EXPORT_UNHCR
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::AGENCY,
+        :actions => [
+            Permission::READ,
+            Permission::CREATE,
+            Permission::WRITE
         ]
     )
 ]
@@ -726,6 +762,10 @@ superuser_permissions = [
   Permission.new(
     :resource => Permission::USER,
     :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+      :resource => Permission::AGENCY,
+      :actions => [Permission::MANAGE]
   ),
   Permission.new(
     :resource => Permission::METADATA,

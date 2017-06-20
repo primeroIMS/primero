@@ -861,11 +861,13 @@ select.ui-datepicker-year {
   line-height: 5.4em !important;
 }
 
-#case_plan_approvals {
+.reveal {
   .copy {
     margin: 1em 0;
   }
+}
 
+#case_plan_approvals {
   .error {
     color: $red_color;
     padding: 1em 0;

@@ -32,9 +32,14 @@
       <div id="<%= subform.name %>" class="subforms" <%=data_shared_subform%> data-form_group_name="<%= shared_subform_section_group.dehumanize unless shared_subform_section_group.nil? %>">
         <% if subform.name.present? && @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['type'] == subform.name} %>
           <% incident_alert = @child.alerts.select {|u| u['type'] == subform.name} %>
-          <% form_section_name = subform["display_name_#{subform.base_language}"].downcase %>
-          <div id="#{subform.name}_change_alert" class="flash subform_message row">
-            <p class="notice large-12"><%= t('messages.form_sections_case_update_alert', form_section_name: form_section_name, alert_time: incident_alert.first.try(:[], 'date')) %></p>
+          <% if subform.name == 'services_section'
+              form_section_name = I18n.t('messages.service_provision')
+             else
+              form_section_name = subform["display_name_#{subform.base_language}"].downcase
+             end
+          %>
+          <div id="<%= subform.name %>_change_alert" class="flash header_message alert_message row">
+            <p class="notice large-12"><%= t('messages.form_sections_case_update_alert', form_section_name: form_section_name, alert_time: I18n.l(Date.parse(incident_alert.first.try(:[], 'date')))) %></p>
           </div>
         <% end %>
         <% (number_of_subforms).times do |i| %>
