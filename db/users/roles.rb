@@ -98,7 +98,7 @@ cp_admin_permissions = [
       :resource => Permission::AGENCY,
       :actions => [
           Permission::READ,
-          Permission::WRITE
+          Permission::WRITE,
           Permission::CREATE
       ]
   ),
