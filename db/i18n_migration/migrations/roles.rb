@@ -11,5 +11,13 @@ Role.all.each do |role|
     end
   end
 
+  resources = role.permissions_list.map{|pl| pl.resource}
+  if resources.include?('user') && resources.exclude?('agency')
+    agency_resource = role.permissions_list.select{|pl| pl.resource. == 'user'}.first.dup
+    agency_resource.resource = 'agency'
+    role.permissions_list << agency_resource
+    changed = true
+  end
+
   role.save! if changed
 end

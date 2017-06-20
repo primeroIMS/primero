@@ -82,17 +82,20 @@ record_owner_fields = [
              "mobile_visible" => false,
              "type" =>"select_box",
              "display_name_all" => "Database Operator",
-             "option_strings_source" => "User"
+             "option_strings_source" => "User",
+             "visible" => false
             }),
   Field.new({"name" => "address_registration",
            "mobile_visible" => false,
            "type" => "textarea",
-           "display_name_all" => "Registration Address"
+           "display_name_all" => "Registration Address",
+           "visible" => false
           }),
- 	Field.new({"name" => "location_registration",
+  Field.new({"name" => "location_registration",
           "mobile_visible" => false,
-        	"type" => "text_field",
-        	"display_name_all" => "Location Address"
+          "type" => "text_field",
+          "display_name_all" => "Location Address",
+          "visible" => false
           }),
   #TODO: get rid of
  	Field.new({"name" => "record_history_separator",
@@ -103,7 +106,7 @@ record_owner_fields = [
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "created_by",
           "mobile_visible" => false,
-        	"type" => "text_field",
+          "type" => "text_field",
           "display_name_all" => "Record created by",
           "editable" => false,
           "disabled" => true
@@ -111,13 +114,14 @@ record_owner_fields = [
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "created_by_agency",
           "mobile_visible" => false,
-        	"type" => "text_field",
-        	"display_name_all" => "Created by agency"
+          "type" => "text_field",
+          "display_name_all" => "Created by agency",
+          "disabled" => true
           }),
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "previously_owned_by",
           "mobile_visible" => false,
-        	"type" => "text_field",
+          "type" => "text_field",
           "display_name_all" => "Previous Owner",
           "editable" => false,
           "disabled" => true
@@ -125,8 +129,9 @@ record_owner_fields = [
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "previous_agency",
           "mobile_visible" => false,
-        	"type" => "text_field",
-        	"display_name_all" => "Previous Agency"
+          "type" => "text_field",
+          "display_name_all" => "Previous Agency",
+          "disabled" => true
           }),
   #TODO: This is needed to preserve the module on record creation. Can we make this elegant?
   #TODO: Move data to hardcoded record status panel

@@ -59,6 +59,7 @@ approvals_section = FormSection.create_or_update_form_section({
     "editable"=>true,
     :fields => approvals_fields_subform,
     :initial_subforms => 0,
+    :is_summary_section => true,
     "name_all" => "Approval Subform",
     "description_all" => "Approval Subform",
     "collapsed_fields" => [

@@ -10,6 +10,7 @@ class Permission
   # That restricts this role to only be able to manage those associated roles
   # If the role_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
   property :role_ids, [String], :default => []
+  property :agency_ids, [String], :default => []
 
   READ = 'read'
   WRITE = 'write'
@@ -36,6 +37,7 @@ class Permission
   POTENTIAL_MATCH = 'potential_match'
   USER = 'user'
   ROLE = 'role'
+  AGENCY = 'agency'
   METADATA = 'metadata'
   SYSTEM = 'system'
   REPORT = 'report'
@@ -122,7 +124,7 @@ class Permission
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, METADATA, SYSTEM, REPORT, DASHBOARD]
+    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, AGENCY, METADATA, SYSTEM, REPORT, DASHBOARD]
   end
 
   def self.management
@@ -154,9 +156,11 @@ class Permission
        when TRACING_REQUEST
          [READ, CREATE, WRITE, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PHOTO_WALL, EXPORT_PDF, EXPORT_UNHCR, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, REASSIGN, MANAGE]
        when ROLE
-         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, COPY, MANAGE]
+         [READ, WRITE, ASSIGN, COPY, MANAGE]
        when USER
-         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
+         [READ, WRITE, ASSIGN, MANAGE]
+       when AGENCY
+         [READ, WRITE, ASSIGN, MANAGE]
        when REPORT
          [READ, GROUP_READ, WRITE]
        when METADATA
@@ -181,6 +185,7 @@ class Permission
       self.new(:resource => REPORT, :actions => [MANAGE]),
       self.new(:resource => ROLE, :actions => [MANAGE]),
       self.new(:resource => USER, :actions => [MANAGE]),
+      self.new(:resource => AGENCY, :actions => [MANAGE]),
       self.new(:resource => METADATA, :actions => [MANAGE]),
       self.new(:resource => SYSTEM, :actions => [MANAGE]),
       self.new(:resource => DASHBOARD, :actions => [MANAGE])
