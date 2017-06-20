@@ -949,6 +949,7 @@ en:
       incident_details_from_case: "Add Incident Details to another user's case"
       services_section_from_case: "Add Service provision to another user's case"
       create: "Create"
+      referral_from_service: "Refer Case from Service form"
 
   forms:
     label: "Forms"
