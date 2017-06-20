@@ -60,6 +60,10 @@ class TracingRequestsController < ApplicationController
     redirect_to(tracing_requests_url)
   end
 
+  def redirect_to_list
+    redirect_to tracing_requests_path(scope: {:inquiry_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
+  end
+
   def record_filter(filter)
     filter["record_state"] ||= {:type => "single", :value => true}
     filter
