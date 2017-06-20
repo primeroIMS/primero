@@ -92,13 +92,6 @@ cp_admin_permissions = [
       :actions => [
           Permission::READ,
           Permission::WRITE,
-          Permission::IMPORT,
-          Permission::EXPORT_CUSTOM,
-          Permission::EXPORT_LIST_VIEW,
-          Permission::EXPORT_CSV,
-          Permission::EXPORT_EXCEL,
-          Permission::EXPORT_JSON,
-          Permission::EXPORT_PDF,
           Permission::CREATE,
           Permission::ASSIGN
       ]
