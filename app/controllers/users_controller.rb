@@ -184,10 +184,10 @@ class UsersController < ApplicationController
 
   def load_lookups
     #Only fetch the ROLES that this user is allowed to assign
-    @roles = Role.all.select{|r| can? :assign, r}
+    @roles = Role.all.select{|r| can?(:assign, r)}
 
     @modules = PrimeroModule.all
-    @user_groups = UserGroup.all
+    @user_groups = UserGroup.all.select{|ug| can?(:assign, ug)}
   end
 
   #Override method in LoggerActions.
