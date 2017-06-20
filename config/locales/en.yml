@@ -901,6 +901,7 @@ en:
       potential_match: "Potential Match"
       role: "Roles"
       user: "Users, Groups"
+      agency: "Agency"
       metadata: "Forms, Lookups"
       system: "System"
       report: "Report"
