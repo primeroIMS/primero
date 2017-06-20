@@ -5,7 +5,7 @@
     <%= render 'shared/modal_close' %>
   	<% state = nil %>
     <div class="row collapse">
-      <div class="large-12 columns">
+      <div class="large-12 columns copy">
         <% if instance.record_state %>
           <%= t('messages.enable_disable_record', action: t('actions.description.invalid')) %>
         	<% state = 'disable' %>

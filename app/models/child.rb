@@ -370,7 +370,9 @@ class Child < CouchRest::Model::Base
       if service.try(:service_implemented_day_time) && service.service_implemented != STATUS_IMPLEMENTED
         service.service_implemented = STATUS_IMPLEMENTED
       else
-        service.service_implemented = STATUS_NOT_IMPLEMENTED
+        if service.try(:service_type)
+          service.service_implemented = STATUS_NOT_IMPLEMENTED
+        end
       end
     end
   end
