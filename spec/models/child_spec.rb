@@ -1815,7 +1815,17 @@ describe Child do
           "type" => "select_box",
           "display_name_all" => "Type of Response",
           "option_strings_source" => "lookup lookup-service-response-type"
-        })
+        }),
+        Field.new({
+          "name" => "service_implemented",
+          "type" => "select_box",
+          "selected_value" => "not_implemented",
+          "display_name_all" => "Service Implemented",
+          "option_strings_text_all" => [
+            { id: 'not_implemented', display_text: "Not Implemented" }.with_indifferent_access,
+            { id: 'implemented', display_text: "Implemented" }.with_indifferent_access
+          ]
+        }),
       ]
 
       services_section = FormSection.create_or_update_form_section({
@@ -1877,7 +1887,7 @@ describe Child do
 
       context 'and service response type is set' do
         before do
-          @case1.services_section << {service_response_type: 'care_plan'}
+          @case1.services_section << {service_response_type: 'care_plan', service_implemented: Child::STATUS_NOT_IMPLEMENTED}
           @case1.save!
         end
         it 'workflow status should be SERVICE PROVISION' do

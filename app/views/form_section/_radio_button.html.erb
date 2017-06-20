@@ -23,7 +23,7 @@
     <% options_list.each do |option| %>
       <%radio_button_id = "#{radio_button.form.name.dehumanize}_#{sanitize_to_id(name)}_#{option['id']}"%>
       <% #TODO handle unknown %>
-      <%= radio_button_tag name, option['id'], value.to_s == option['id'],  :id => radio_button_id, :disabled => radio_button.disabled, :is_disabled => is_disabled, :data => { :field_tags => field_tags } %>
+      <%= radio_button_tag name, option['id'], value.to_s == option['id'],  :id => radio_button_id, :disabled => radio_button.disabled, :is_disabled => is_disabled, :data => { :field_tags => field_tags }, :disabled => disabled%>
       <%= label_tag radio_button_id, option['display_text'] %>
       <% unless show_horizontal %>
         <br>

@@ -54,7 +54,7 @@ describe "form_section/_radio_button.html.erb" do
     radio_button = Field.new :name => "new field",
     :display_name => "field name",
     :type => 'radio_button',
-    :option_strings => Array['M', 'F']
+    :option_strings_text_all => ['M', 'F']
     radio_button.disabled = true
 
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
@@ -66,7 +66,7 @@ describe "form_section/_radio_button.html.erb" do
     radio_button = Field.new :name => "new field",
     :display_name => "field name",
     :type => 'radio_button',
-    :option_strings => Array['M', 'F']
+    :option_strings_text_all => Array['M', 'F']
     radio_button.disabled = false
 
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
@@ -78,7 +78,7 @@ describe "form_section/_radio_button.html.erb" do
     radio_button = Field.new :name => "new field",
     :display_name => "field name",
     :type => 'radio_button',
-    :option_strings => Array['M', 'F']
+    :option_strings_text_all => Array['M', 'F']
     radio_button.disabled = false
 
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))

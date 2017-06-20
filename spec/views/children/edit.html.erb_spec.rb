@@ -1,4 +1,5 @@
   require 'spec_helper'
+  require 'cancan/matchers'
 
 describe "children/edit.html.erb" do
 
@@ -64,21 +65,23 @@ describe "children/edit.html.erb" do
     @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::USER])
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(Child)
-    controller.should_receive(:can?).with(:flag, @child).and_return(false)
-    controller.should_receive(:can?).with(:update, @child).and_return(true)
-    controller.should_receive(:can?).with(:edit, @child).and_return(true)
-    controller.should_receive(:can?).with(:export, Child).and_return(false)
-    controller.should_receive(:can?).with(:export_custom, Child).and_return(false)
-    controller.should_receive(:can?).with(:referral, Child).and_return(false)
-    controller.should_receive(:can?).with(:reassign, Child).and_return(false)
-    controller.should_receive(:can?).with(:transfer, Child).and_return(false)
-    controller.should_receive(:can?).with(:sync_mobile, Child).and_return(false)
-    controller.should_receive(:can?).with(:request_approval_bia, Child).and_return(false)
-    controller.should_receive(:can?).with(:request_approval_case_plan, Child).and_return(false)
-    controller.should_receive(:can?).with(:request_approval_closure, Child).and_return(false)
-    controller.should_receive(:can?).with(:approve_bia, Child).and_return(false)
-    controller.should_receive(:can?).with(:approve_case_plan, Child).and_return(false)
-    controller.should_receive(:can?).with(:approve_closure, Child).and_return(false)
+    controller.stub(:can?)
+    controller.should_not be_able_to(:flag, @child)
+    binding.pry
+    controller.should be_able_to(:update, @child)
+    controller.should be_able_to(:edit, @child)
+    controller.should_not be_able_to(:export, Child)
+    controller.should_not be_able_to(:export_custom, Child)
+    controller.should_not be_able_to(:referral, Child)
+    controller.should_not be_able_to(:reassign, Child)
+    controller.should_not be_able_to(:transfer, Child)
+    controller.should_not be_able_to(:sync_mobile, Child)
+    controller.should_not be_able_to(:request_approval_bia, Child)
+    controller.should_not be_able_to(:request_approval_case_plan, Child)
+    controller.should_not be_able_to(:request_approval_closure, Child)
+    controller.should_not be_able_to(:approve_bia, Child)
+    controller.should_not be_able_to(:approve_case_plan, Child)
+    controller.should_not be_able_to(:approve_closure, Child)
   end
 
   xit "renders a form that posts to the children url" do
