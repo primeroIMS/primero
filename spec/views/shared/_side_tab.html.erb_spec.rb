@@ -16,7 +16,9 @@ describe 'shared/_side_tab.html.erb' do
 
     context 'with User MANAGE permissions' do
       before do
-        fake_user_login(Permission.new(resource: Permission::USER, actions: [Permission::MANAGE]))
+        # We use UserGroup here instead of User because all users have access to manage themselves.
+        # Therefore... can? :edit, User always returns true
+        fake_user_login(Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE]))
       end
 
       it 'has a Users link' do

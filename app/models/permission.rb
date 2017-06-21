@@ -37,6 +37,7 @@ class Permission
   TRACING_REQUEST = 'tracing_request'
   POTENTIAL_MATCH = 'potential_match'
   USER = 'user'
+  USER_GROUP = 'user_group'
   ROLE = 'role'
   AGENCY = 'agency'
   METADATA = 'metadata'
@@ -125,7 +126,7 @@ class Permission
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, AGENCY, METADATA, SYSTEM, REPORT, DASHBOARD]
+    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, USER_GROUP, AGENCY, METADATA, SYSTEM, REPORT, DASHBOARD]
   end
 
   def self.management
@@ -160,6 +161,8 @@ class Permission
          [READ, WRITE, ASSIGN, COPY, MANAGE]
        when USER
          [READ, WRITE, ASSIGN, MANAGE]
+       when USER_GROUP
+         [READ, WRITE, ASSIGN, MANAGE]
        when AGENCY
          [READ, WRITE, ASSIGN, MANAGE]
        when REPORT
@@ -186,6 +189,7 @@ class Permission
       self.new(:resource => REPORT, :actions => [MANAGE]),
       self.new(:resource => ROLE, :actions => [MANAGE]),
       self.new(:resource => USER, :actions => [MANAGE]),
+      self.new(:resource => USER_GROUP, :actions => [MANAGE]),
       self.new(:resource => AGENCY, :actions => [MANAGE]),
       self.new(:resource => METADATA, :actions => [MANAGE]),
       self.new(:resource => SYSTEM, :actions => [MANAGE]),

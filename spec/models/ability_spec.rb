@@ -471,17 +471,6 @@ describe Ability do
       expect(ability).to_not authorize(:write, user3)
     end
 
-    it "allows viewing and editing of Groups if the 'user' permission is set along with 'read' and 'write'" do
-      role = create :role, permissions_list: [@permission_user_read_write]
-      @user1.role_ids = [role.id]
-      @user1.save
-
-      ability = Ability.new @user1
-
-      expect(ability).to authorize(:read, UserGroup)
-      expect(ability).to authorize(:write, UserGroup)
-    end
-
     it "does not allow viewing and editing of Roles if the 'user' permission is set along with 'read' and 'write'" do
       role = create :role, permissions_list: [@permission_user_read_write]
       @user1.role_ids = [role.id]
@@ -491,6 +480,46 @@ describe Ability do
 
       expect(ability).not_to authorize(:read, Role)
       expect(ability).not_to authorize(:write, Role)
+    end
+  end
+
+  describe "User Groups" do
+    before :each do
+      @permission_user_group_read = Permission.new(resource: Permission::USER_GROUP, actions: [Permission::READ])
+      @permission_user_group_read_write = Permission.new(resource: Permission::USER_GROUP, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+    end
+
+    it "allows a user with read permissions to read but not edit user groups" do
+      role = create :role, permissions_list: [@permission_user_group_read]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, UserGroup)
+      expect(ability).not_to authorize(:write, UserGroup)
+    end
+
+    it "allows a user with read and write permissions to read and edit user groups" do
+      role = create :role, permissions_list: [@permission_user_group_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, UserGroup)
+      expect(ability).to authorize(:write, UserGroup)
+    end
+
+    it "doesn't allow a user with only 'user group' permission to manage another user" do
+      role = create :role, permissions_list: [@permission_user_group_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:read, @user2)
+      expect(ability).not_to authorize(:write, @user2)
     end
   end
 

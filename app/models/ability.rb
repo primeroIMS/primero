@@ -20,6 +20,8 @@ class Ability
       case permission.resource
         when Permission::USER
           user_permissions permission.action_symbols
+        when Permission::USER_GROUP
+          user_group_permissions permission.action_symbols
         when Permission::ROLE
           role_permissions permission
         when Permission::AGENCY
@@ -41,24 +43,24 @@ class Ability
 
   def user_permissions actions
     can actions, User do |uzer|
-      if user.has_group_permission? Permission::ALL
+      if user.has_group_permission?(Permission::ALL)
         true
-      elsif user.has_group_permission? Permission::GROUP
+      elsif user.has_group_permission?(Permission::GROUP)
         (user.user_group_ids & uzer.user_group_ids).size > 0
       else
         uzer.user_name == user.user_name
       end
     end
+  end
 
+  def user_group_permissions actions
     can actions, UserGroup do |instance|
-      if user.has_group_permission? Permission::ALL
+      if user.has_group_permission?(Permission::ALL)
         true
-      elsif user.has_group_permission? Permission::GROUP
-        #TODO - restrict User Group access
-        true
+      elsif user.has_group_permission?(Permission::GROUP)
+        user.user_group_ids.include? instance.id
       else
-        #TODO
-        true
+        false
       end
     end
   end
