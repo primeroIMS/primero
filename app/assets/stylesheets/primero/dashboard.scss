@@ -39,6 +39,15 @@ $dashboard_table_counts:85px;
         text-transform: uppercase;
         border-bottom: 1px solid $stroke_green_color;
       }
+
+      .table-floating-header {
+        padding-right: 15px;
+        border-bottom: 1px solid $stroke_green_color !important;
+
+        thead th {
+          border-bottom: none !important;
+        }
+      }
     }
 
     .no-padding {
@@ -124,7 +133,7 @@ $dashboard_table_counts:85px;
     }
 
     table {
-      width: rem_calc(868);
+      // width: rem_calc(868);
       border: none;
       margin-bottom: 0;
 
