@@ -3,25 +3,27 @@
   <li class="init_btn">
     <%= link_to content_tag(:span, t("actions.button")), '', class: 'button left action_btn' %>
     <ul class="menu">
-      <% if can?(:import, controller.model_class) && controller.model_class != PotentialMatch %>
-          <%= render 'imports/button' %>
-      <% end %>
-      <% if controller.model_class != PotentialMatch %>
-          <%= render 'exports/button', locals: {model: model} %>
-      <% end %>
-      <% if can?(:export_custom, controller.model_class) && controller.model_class != Incident && controller.model_class != PotentialMatch %>
-          <%= render 'exports/custom_exports_link', model: model, export_type: 'custom' %>
-      <% end %>
-      <% if model == Child %>
-        <%= render 'transitions/button', type: Transition::TYPE_REFERRAL %>
-        <% if can?(:reassign, controller.model_class) %>
-          <%= render 'transitions/button', type: Transition::TYPE_REASSIGN %>
+      <% unless params[:id_search].present? && can?(:search_owned_by_others, controller.model_class) %>
+        <% if can?(:import, controller.model_class) && controller.model_class != PotentialMatch %>
+            <%= render 'imports/button' %>
         <% end %>
-        <%= render 'transitions/button', type: Transition::TYPE_TRANSFER %>
-      <% end %>
-      <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
-          <%= render 'record_shared/mark_for_mobile_button', mobile_value: true %>
-          <%= render 'record_shared/mark_for_mobile_button', mobile_value: false %>
+        <% if controller.model_class != PotentialMatch %>
+            <%= render 'exports/button', locals: {model: model} %>
+        <% end %>
+        <% if can?(:export_custom, controller.model_class) && controller.model_class != Incident && controller.model_class != PotentialMatch %>
+            <%= render 'exports/custom_exports_link', model: model, export_type: 'custom' %>
+        <% end %>
+        <% if model == Child %>
+          <%= render 'transitions/button', type: Transition::TYPE_REFERRAL %>
+          <% if can?(:reassign, controller.model_class) %>
+            <%= render 'transitions/button', type: Transition::TYPE_REASSIGN %>
+          <% end %>
+          <%= render 'transitions/button', type: Transition::TYPE_TRANSFER %>
+        <% end %>
+        <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
+            <%= render 'record_shared/mark_for_mobile_button', mobile_value: true %>
+            <%= render 'record_shared/mark_for_mobile_button', mobile_value: false %>
+        <% end %>
       <% end %>
       <% if can?(:incident_details_from_case, controller.model_class) && model == Child %>
         <%= render 'record_shared/subform_from_case', form_type: 'incident_details', form_id: 'incident_details_subform_section', form_sidebar_id: 'incident_details_container' %>

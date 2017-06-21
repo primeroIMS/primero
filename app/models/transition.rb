@@ -12,7 +12,7 @@ class Transition
   property :rejected_reason, String
   property :notes, String
   property :transitioned_by, String
-  property :service, String
+  property :service, String #service referers to the 'Type of Service'
   property :is_remote, TrueClass
   property :type_of_export, String
   property :consent_overridden, TrueClass

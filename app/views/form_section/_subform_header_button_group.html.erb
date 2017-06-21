@@ -14,6 +14,14 @@
           :incident_detail_id => subform_instance.unique_id
         } %>
     <% end %>
+  <% elsif subform_instance.present? && subform_name == "services_section" && can?(:referral_from_service, Child) && can?(:referral, Child)%>
+    <%= render :partial => 'transitions/refer_from_service_button',
+      locals: {
+        :formObject => formObject,
+        :type => Transition::TYPE_REFERRAL,
+        :service_object_id => formObject.services_section[i].unique_id,
+      }
+    %>
   <% end %>
   <% if !subform.disabled %>
     <%= link_to t('fields.remove'), '', class: "subform_remove button grey tiny", style: disable_action_buttons,

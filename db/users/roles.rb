@@ -84,15 +84,17 @@ cp_admin_permissions = [
     :actions => [
       Permission::READ,
       Permission::WRITE,
-      Permission::IMPORT,
-      Permission::EXPORT_CUSTOM,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF,
       Permission::CREATE
     ]
+  ),
+  Permission.new(
+      :resource => Permission::USER_GROUP,
+      :actions => [
+          Permission::READ,
+          Permission::WRITE,
+          Permission::CREATE,
+          Permission::ASSIGN
+      ]
   ),
   Permission.new(
       :resource => Permission::AGENCY,
@@ -156,7 +158,9 @@ cp_caseworker_permissions = [
       Permission::INCIDENT_FROM_CASE,
       Permission::CREATE,
       Permission::INCIDENT_DETAILS_FROM_CASE,
-      Permission::SERVICES_SECTION_FROM_CASE
+      Permission::SERVICES_SECTION_FROM_CASE,
+      Permission::REFERRAL_FROM_SERVICE,
+      Permission::REFERRAL
     ]
   ),
   Permission.new(
@@ -272,14 +276,14 @@ cp_manager_permissions = [
   Permission.new(
     :resource => Permission::USER,
     :actions => [
-      Permission::READ,
-      Permission::EXPORT_CUSTOM,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PDF
+      Permission::READ
     ]
+  ),
+  Permission.new(
+      :resource => Permission::USER_GROUP,
+      :actions => [
+          Permission::READ
+      ]
   ),
   Permission.new(
       :resource => Permission::AGENCY,
@@ -371,13 +375,16 @@ cp_user_manager_permissions = [
         :actions => [
             Permission::READ,
             Permission::CREATE,
+            Permission::WRITE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::USER_GROUP,
+        :actions => [
+            Permission::READ,
+            Permission::CREATE,
             Permission::WRITE,
-            Permission::EXPORT_CUSTOM,
-            Permission::EXPORT_LIST_VIEW,
-            Permission::EXPORT_CSV,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_JSON,
-            Permission::EXPORT_PDF
+            Permission::ASSIGN
         ]
     ),
     Permission.new(
@@ -509,16 +516,14 @@ gbv_manager_permissions = [
   Permission.new(
     :resource => Permission::USER,
     :actions => [
-      Permission::READ,
-      Permission::EXPORT_CUSTOM,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL,
-      Permission::EXPORT_JSON,
-      Permission::EXPORT_PHOTO_WALL,
-      Permission::EXPORT_PDF,
-      Permission::EXPORT_UNHCR
+      Permission::READ
     ]
+  ),
+  Permission.new(
+      :resource => Permission::USER_GROUP,
+      :actions => [
+          Permission::READ
+      ]
   ),
   Permission.new(
       :resource => Permission::AGENCY,
@@ -597,15 +602,16 @@ gbv_user_manager_permissions = [
         :actions => [
             Permission::READ,
             Permission::CREATE,
+            Permission::WRITE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::USER_GROUP,
+        :actions => [
+            Permission::READ,
+            Permission::CREATE,
             Permission::WRITE,
-            Permission::EXPORT_CUSTOM,
-            Permission::EXPORT_LIST_VIEW,
-            Permission::EXPORT_CSV,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_JSON,
-            Permission::EXPORT_PHOTO_WALL,
-            Permission::EXPORT_PDF,
-            Permission::EXPORT_UNHCR
+            Permission::ASSIGN
         ]
     ),
     Permission.new(
@@ -760,6 +766,10 @@ superuser_permissions = [
   Permission.new(
     :resource => Permission::USER,
     :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+      :resource => Permission::USER_GROUP,
+      :actions => [Permission::MANAGE]
   ),
   Permission.new(
       :resource => Permission::AGENCY,

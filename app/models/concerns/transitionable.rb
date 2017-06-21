@@ -23,7 +23,6 @@ module Transitionable
                     :consent_overridden => consent_overridden,
                     :created_at => DateTime.now)
       self.transitions.unshift(transition)
-      transition
     end
 
     def transitions_transfer_status(transfer_id, transfer_status, user, rejected_reason)
@@ -73,6 +72,13 @@ module Transitionable
 
   def referrals
     self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL}
+  end
+
+  def set_service_as_referred( service_object_id )
+    if service_object_id.present?
+      service_object = self.services_section.select {|s| s.unique_id == service_object_id}.first
+      service_object.service_status_referred=true if defined?(service_object.service_status_referred)
+    end
   end
 
   def transfers
