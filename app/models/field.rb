@@ -26,6 +26,7 @@ class Field
   property :create_property, TrueClass, :default => true
   property :searchable_select, TrueClass, :default => false
   property :link_to_path, :default => ""  #Used to handle a text field as a link on the show pages
+  property :link_to_path_external, TrueClass, :default => true
   property :field_tags, [String], :default => []
   property :custom_template, :default => nil #Custom type should set the path to the template.
   property :expose_unique_id, TrueClass, :default => false
