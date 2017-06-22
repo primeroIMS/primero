@@ -355,24 +355,4 @@ describe Location do
 
   end
 
-  describe 'find_by_type_and_hierarchy' do
-    before do
-      Location.all.each { |location| location.destroy }
-      @country = create :location, admin_level: 0, placename: 'Country', type: 'country'
-      @province = create :location, hierarchy: [@country.location_code], type: 'province'
-      @another_province = create :location, hierarchy: [@country.location_code], type: 'province'
-      @town = create :location, hierarchy: [@country.location_code, @province.location_code], type: 'city'
-      @another_town = create :location, hierarchy: [@country.location_code, @another_province.location_code], type: 'city'
-    end
-    it "should return nothing because the city's complete hierarchy is not given" do
-      expect(Location.find_by_type_and_hierarchy("city",[@country.location_code])).to eq([])
-    end
-    it "should return 'another_town' because correct type and complete hierachy is given" do
-      expect(Location.find_by_type_and_hierarchy("city",[@country.location_code, @another_province.location_code])).to eq([@another_town])
-    end
-    it "should return both provinces, because both are described by data given" do
-      expect(Location.find_by_type_and_hierarchy("province",[@country.location_code])).to eq([@province,@another_province])
-    end
-  end
-
 end
