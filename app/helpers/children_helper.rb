@@ -101,4 +101,23 @@ module ChildrenHelper
       "<span>#{h(error[:translated_section])}:</span> #{h(error[:message])}".html_safe
     end
   end
+
+  # <ul class="overview_status">
+  #   <li><div class="label"><%= @child.workflow %></div></li>
+  #   <li class="status">Immediate Response</li>
+  #   <li class="is_closed">Closed</li>
+  # </ul>
+  def display_workflow_status(child, lookups)
+    new_or_reopened_text =
+      if [Child::WORKFLOW_NEW, Child::WORKFLOW_REOPENED].include?(child.workflow)
+        I18n.t("case.workflow.#{child.workflow}")
+      end
+    closed_text = child.workflow == Child::WORKFLOW_CLOSED ? I18n.t("case.workflow.closed") : nil
+    content_tag :ul, class: 'overview_status' do
+      label = content_tag(:div, new_or_reopened_text, class: 'label')
+      concat(content_tag(:li, label)) if new_or_reopened_text.present?
+      concat(content_tag(:li, 'Ir', class: 'status'))
+      concat(content_tag(:li, 'closed', class: 'is_closed')) if closed_text.present?
+    end
+  end
 end
