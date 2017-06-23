@@ -56,6 +56,8 @@ module ChildrenHelper
         case_status_date_text(workflow_text, child.reopened_date)
       when Child::WORKFLOW_SERVICE_PROVISION
         service_provision_text(child)
+      when Child::WORKFLOW_SERVICE_IMPLEMENTED
+        "#{workflow_text}"
       else
         "#{workflow_text} #{t("case.workflow.in_progress")}"
     end
@@ -64,8 +66,8 @@ module ChildrenHelper
   # Display text is based on the last entered Service Response Type
   def service_provision_text(child)
     if child.services_section.present?
-      most_recent_service_type_response = child.services_section.map{|s| s.service_response_type}.reject(&:blank?).last
-      service_provision_text = Lookup.display_value('lookup-service-response-type', most_recent_service_type_response)
+      most_recent_service = child.most_recent_service(Serviceable::SERVICE_NOT_IMPLEMENTED)
+      service_provision_text = Lookup.display_value('lookup-service-response-type', most_recent_service.try(:service_response_type))
       "#{service_provision_text} #{t("case.workflow.in_progress")}"
     else
       ""

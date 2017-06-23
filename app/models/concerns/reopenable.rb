@@ -12,6 +12,10 @@ module Reopenable
       self.reopened_logs.unshift(log)
       reopened_logs
     end
+
+    def reopened_date
+      self.try(:reopened_logs).try(:last).try(:reopened_date)
+    end
   end
 
 end
