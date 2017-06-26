@@ -85,6 +85,34 @@ module FormSectionHelper
     t('placeholders.subforms', form: form_string)
   end
 
+  #Returns a hash of tuples {subform_group_label => [subform_object, index]}.
+  #sorted by the optional subform grouping and the subform sort field
+  def grouped_subforms(formObject, subform_field)
+    objects = formObject.try(subform_field.name)
+    if objects.present?
+      objects = objects.map.with_index{|o,i| [o,i]}
+      subform_group_by_field = subform_field.subform_group_by_field
+      if subform_group_by_field.present?
+        subform_group_by_values = subform_field.subform_group_by_values
+        #This bit of non-Ruby contortion is done to assure ordering:
+        #  1. The groups need to be in the same order as the lookup
+        #  2. Within each group, the object order is determined by the sort field
+        groups = subform_group_by_values.map{|_,v| [v,[]]}.to_h
+        objects.each do |object|
+          group_label = object.first.try(subform_group_by_field.name)
+          group_label = subform_group_by_values[group_label]
+          groups[group_label] << object if groups.key?(group_label)
+        end
+        objects = groups.map{|k,group| [k, group.sort_by{|o| o[1].try(subform_field.subform_sort_by)}]}.to_h
+      else
+        objects = {'' => objects}
+      end
+    else
+      objects = {}
+    end
+    return objects
+  end
+
   def display_help_text_on_view?(formObject, form_section)
     return false unless form_section.display_help_text_view
 

@@ -30,6 +30,7 @@ class Field
   property :custom_template, :default => nil #Custom type should set the path to the template.
   property :expose_unique_id, TrueClass, :default => false
   property :subform_sort_by
+  property :subform_group_by
   property :required, TrueClass, :default => false
   property :date_validation, :default => 'default_date_validation'
   property :date_include_time, TrueClass, :default => false
@@ -365,7 +366,32 @@ class Field
     "#{objName}[#{name}]"
   end
 
+  def subform_group_by_field
+    # This is an extra DB query, but should be fine on record edit/show pages
+    # where the subforms are pre-linked
+    if self.type == SUBFORM && self.subform_group_by.present?
+      unless @subform_group_by_field.present?
+        subform = self.subform_section
+        if subform.present?
+          @subform_group_by_field = subform.fields.select{|f|
+            (f.name == self.subform_group_by) && f.selectable?
+          }.first
+        end
+      end
+    end
+    return @subform_group_by_field
+  end
 
+  def subform_group_by_values
+    subform_group_by_values = []
+    subform_group_by_field = self.subform_group_by_field
+    if subform_group_by_field.present?
+      subform_group_by_values = subform_group_by_field.options_list(nil,nil,nil,true).map do |o|
+        [o['id'], o['display_text']]
+      end.to_h
+    end
+    return subform_group_by_values
+  end
 
 
   def localized_attributes_hash(locales, lookups=nil, locations=nil)
