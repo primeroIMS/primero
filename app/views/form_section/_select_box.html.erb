@@ -3,7 +3,11 @@
    name = field_tag_name formObject, select_box, field_keys
    name += "[]" if select_box.multi_select
    field_id = "#{select_box.form.name.dehumanize}_#{sanitize_to_id name}"
-   value = select_box.selected_value if select_box.selected_value.present? && formObject.new_record?
+   should_default =
+    (defined?(is_subform) && is_subform) ||
+    (defined?(is_modal_subform) && is_modal_subform) ||
+    formObject.new_record?
+   value = select_box.selected_value if select_box.selected_value.present? && should_default
    value ||= field_value formObject, select_box, field_keys
    field_tags = select_box.field_tags.present? ? select_box.field_tags : []
    is_disabled = select_box.disabled

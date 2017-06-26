@@ -2,7 +2,11 @@
   field_keys ||= []
   name = field_tag_name formObject, tick_box, field_keys
   field_id = "#{tick_box.form.name.dehumanize}_#{sanitize_to_id name}"
-  value = tick_box.selected_value if tick_box.selected_value.present? && formObject.new_record?
+  should_default =
+    (defined?(is_subform) && is_subform) ||
+    (defined?(is_modal_subform) && is_modal_subform) ||
+    formObject.new_record?
+  value = tick_box.selected_value if tick_box.selected_value.present? && should_default
   value ||= field_value formObject, tick_box, field_keys
   label = tick_box.tick_box_label
   is_disabled = tick_box.disabled
