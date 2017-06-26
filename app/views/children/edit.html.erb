@@ -7,34 +7,9 @@
 <% end %>
 
 <% content_for :record_status do %>
-  <% display_workflow_status(@child, @lookups) %>
-  <div class="ui mini steps">
-  <div class="step">
-    <div class="content">
-      <div class="description"><b>New</b></div>
-    </div>
-  </div>
-  <div class="step">
-    <div class="content">
-      <div class="description">Immediate Response</div>
-    </div>
-  </div>
-  <div class="active step">
-    <div class="content">
-      <div class="description">Comprehensive Need / Intervention</div>
-    </div>
-  </div>
-  <div class="step">
-    <div class="content">
-      <div class="description">Services Implemented</div>
-    </div>
-  </div>
-  <div class="step">
-    <div class="content">
-      <div class="description">Closed</div>
-    </div>
-  </div>
-</div>
+  <% if @record.module.workflow_status_indicator.present? %>
+    <%= display_workflow_status(@child, @lookups) %>
+  <% end %>
 <% end %>
 
 <% content_for :breadcrumbs do %>

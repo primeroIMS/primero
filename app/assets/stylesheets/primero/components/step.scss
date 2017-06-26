@@ -420,13 +420,14 @@
 /* Disabled */
 .ui.steps .disabled.step {
   cursor: auto;
-  background: #FFFFFF;
+  background: transparent;
   pointer-events: none;
 }
 .ui.steps .disabled.step,
 .ui.steps .disabled.step .title,
 .ui.steps .disabled.step .description {
-  color: rgba($green_color, 1);
+  color: rgba($grey_color, 1);
+  opacity: .8 !important;
 }
 .ui.steps .disabled.step:after {
   background: #FFFFFF;
