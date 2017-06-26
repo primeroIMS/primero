@@ -43,6 +43,7 @@ module Serviceable
 
     def most_recent_service(status = SERVICE_NOT_IMPLEMENTED)
       if self.services_section.present?
+        # TODO: This doesn't work and is wrong
         self.services_section.select {|s| s.service_implemented == status}.last
       end
     end
