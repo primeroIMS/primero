@@ -383,7 +383,7 @@ class Field
   end
 
   def subform_group_by_values
-    subform_group_by_values = []
+    subform_group_by_values = {}
     subform_group_by_field = self.subform_group_by_field
     if subform_group_by_field.present?
       subform_group_by_values = subform_group_by_field.options_list(nil,nil,nil,true).map do |o|

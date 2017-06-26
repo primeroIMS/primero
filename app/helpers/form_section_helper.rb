@@ -86,7 +86,6 @@ module FormSectionHelper
   end
 
   #Returns a hash of tuples {subform_group_label => [subform_object, index]}.
-  #sorted by the optional subform grouping and the subform sort field
   def grouped_subforms(formObject, subform_field)
     objects = formObject.try(subform_field.name)
     if objects.present?
@@ -105,7 +104,7 @@ module FormSectionHelper
         end
         objects = groups.map{|k,group| [k, group.sort_by{|o| o[1].try(subform_field.subform_sort_by)}]}.to_h
       else
-        objects = {'' => objects}
+        objects = {'' => objects} #objects are already pre-sorted
       end
     else
       objects = {}
