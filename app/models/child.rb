@@ -368,6 +368,13 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  #This method returns nil if object is nil
+  def service_field_value(service_object, service_field)
+    if service_object.present?
+      service_object.try(service_field.to_sym)
+    end
+  end
+
   def has_tracing_request?
     # TODO: this assumes if tracing-request is in associated_record_types then the tracing request forms are also present. Add check for tracing-request forms.
     self.module.present? && self.module.associated_record_types.include?('tracing-request')
