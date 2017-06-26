@@ -1,3 +1,21 @@
+
+<div class="row section-stat-detailed">
+    <div class="column shrink">
+        <a>3 <span class="label primary">High Risk</span></a>
+    </div>
+    <div class="column additional-detail shrink">
+        <a><div class="new">2 <span>New</span></div></a>
+    </div>
+</div>
+<div class="row section-stat-detailed">
+    <div class="column shrink">
+        <a>3 <span class="label primary">Low Risk</span></a>
+    </div>
+    <div class="column additional-detail shrink">
+        <a><div class="new">2 <span>New</span></div></a>
+    </div>
+</div>
+<% if false %>
 <div>
   <%= I18n.translate('dashboard.count_risk_level_total',
                      case_count(
@@ -58,3 +76,4 @@
                              stat_type: 'low'
                          }, stats, model)).html_safe %>
 </div>
+<% end %>

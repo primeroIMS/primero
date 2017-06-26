@@ -1,6 +1,17 @@
-<div>
-  <%= I18n.translate('dashboard.count_records_total',
-                   case_count({name: :records, stat: :total, filter: index_filters(["child_status=#{Record::STATUS_OPEN}", 'record_state=true'])}, stats, model)).html_safe %>
-  <%= I18n.translate('dashboard.count_records_new',
-                   case_count({name: :records, stat: :new, filter: index_filters(['new_other', "child_status=#{Record::STATUS_OPEN}", 'record_state=true'])}, stats, model)).html_safe %>
-</div>
+<%= display_stat({
+  name: :records,
+  stat: :total,
+  stats: stats,
+  model: model,
+  text: t('dashboard.total'),
+  filters: ["child_status=#{Record::STATUS_OPEN}", 'record_state=true']
+}) %>
+
+<%= display_stat({
+  name: :records,
+  stat: :new,
+  stats: stats,
+  model: model,
+  text: t('dashboard.new'),
+  filters: ['new_other', "child_status=#{Record::STATUS_OPEN}", 'record_state=true']
+}) %>

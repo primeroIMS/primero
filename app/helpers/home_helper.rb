@@ -29,6 +29,43 @@ module HomeHelper
     return { count: total, stat: link, stat_type: stat_group[:stat_type], case_worker: stat_group[:case_worker] }
   end
 
+  def case_stat(stat_group, query, model)
+    if query.present?
+      results = query.facet(stat_group[:name]).rows
+      total = results.select{|v| v.value == stat_group[:stat]}.first.count
+    else
+      total = stat_group[:count]
+    end
+    total = 0 if total.blank?
+    return total
+  end
+
+  def display_stat(data={})
+    model = model_name_class(data[:model]).pluralize
+    count = case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model])
+
+    link_to send("#{model}_path") + index_filters(data[:filters]), class: 'column section-stat' do
+      content_tag :div, class: "stats" do
+        content_tag(:div, count, class: 'stat') +
+        content_tag(:p, data[:text])
+      end
+    end
+  end
+
+  # <div class="row section-stat-detailed">
+  #     <div class="column shrink">
+  #         <a>3 <span class="label primary">High Risk</span></a>
+  #     </div>
+  #     <div class="column additional-detail shrink">
+  #         <a><div class="new">2 <span>New</span></div></a>
+  #     </div>
+  #     <div class="column additional-detail">
+  #         <a><div class="new">2 <span>New</span></div></a>
+  #     </div>
+  # </div>
+  def display_stat_detailed(data={})
+  end
+
   def stat_link(total, stat_group, model)
     if total == 0
       return content_tag(:div, total, class: 'stat_link')

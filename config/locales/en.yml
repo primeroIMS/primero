@@ -1347,6 +1347,13 @@ en:
     child_status_duplicate: "Duplicate"
 
   dashboard:
+    total: 'Total'
+    new: 'New'
+    pending_transfers: 'Pending Transfers'
+    rejected_transfers: 'Rejected Transfers'
+    transers_awaiting_acceptance: 'Transfers Awaiting Acceptance'
+    high_risk: 'High Risk'
+
     flagged_by: "Flagged by:"
     no_recent_activities: "No Recent Activities"
     no_scheduled_activities: "No Scheduled Activities"

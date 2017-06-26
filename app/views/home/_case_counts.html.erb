@@ -1,6 +1,28 @@
+<% if @stats.present? %>
+  <div class="dashboard-group">
+    <h4 class="stat_heading"><%= t("dashboard.case_stats") %></h4>
+    <div class="row align-middle">
+      <%= render 'case_count_new_totals', stats: @stats, model: model %>
+      <%= render 'case_count_transfers_by_status', stats: @stats, model: model %>
+    </div>
+
+    <h5 class="stat_heading"><%= t('dashboard.case_stat_by_assessment_level') %></h5>
+    <%= render 'case_count_risk_totals', stats: @stats, model: model %>
+  </div>
+  <% if @display_assessment %>
+    <div class="dashboard-group">
+      <h4 class="stat_heading"><%= t("dashboard.case_stat_referrals") %></h4>
+      <div class="row align-middle">
+        <%= render 'case_count_referred', stats: @stats, model: model %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+
 <div class="panel dash_case_worker">
   <div class="panel_header">
-    <h4><%= t("dashboard.case_stats") %></h4>
+
   </div>
   <div class="panel_content no-padding panel_main">
     <% if @stats.present? %>
@@ -9,8 +31,8 @@
         <tr>
           <td>
             <div class="stat_title"><%= t("dashboard.case_stats") %></div>
-            <%= render 'case_count_new_totals', stats: @stats, model: model %>
-            <%= render 'case_count_transfers_by_status', stats: @stats, model: model %>
+
+
           </td>
         </tr>
         <% if @display_approvals && @can_approvals %>
@@ -24,15 +46,15 @@
         <% if @display_assessment %>
           <tr>
             <td>
-              <div class="stat_title"><%= t('dashboard.case_stat_by_assessment_level') %></div>
-              <%= render 'case_count_risk_totals', stats: @stats, model: model %>
+              <div class="stat_title"></div>
+
             </td>
           </tr>
         <% end %>
         <tr>
           <td>
-            <div class="stat_title"><%= t("dashboard.case_stat_referrals") %></div>
-            <%= render 'case_count_referred', stats: @stats, model: model %>
+            <div class="stat_title"></div>
+
           </td>
         </tr>
       </tbody>
