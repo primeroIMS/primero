@@ -346,6 +346,10 @@ en:
       created_on: "created on"
       on_label: "on"
       in_progress: "in progress"
+      new: "New"
+      closed: "Closed"
+      reopened: "Reopened"
+      service_implemented: Service Implemented
     flagged_by: "Flagged By"
     last_updated: "Last updated"
     registered_by: "Registered by"

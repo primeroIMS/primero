@@ -103,4 +103,56 @@ module ChildrenHelper
       "<span>#{h(error[:translated_section])}:</span> #{h(error[:message])}".html_safe
     end
   end
+
+  def create_step(desc, active=false, disabled=false)
+    step_class = 'step'
+    step_class += ' active' if active.present?
+    step_class += ' disabled' if disabled.present?
+
+    content_tag :div, class: step_class do
+      content_tag :div, class: 'content' do
+        content_tag :div, desc, class: 'description'
+      end
+    end
+  end
+
+  def build_steps(child, lookups)
+    closed_text = Lookup.display_value('lookup-case-status', Record::STATUS_CLOSED, lookups)
+    service_response_types = Lookup.values_for_select('lookup-service-response-type', lookups)
+    new_text =
+      if child.case_status_reopened.present?
+        [I18n.t("case.workflow.reopened"), 'reopened']
+      else
+        [I18n.t("case.workflow.new"), 'new']
+      end
+
+    steps = []
+    steps << new_text
+    steps << [service_response_types, 'service_provision']
+    steps << [I18n.t("case.workflow.service_implemented"), 'services_implemented']
+    steps << [closed_text, Record::STATUS_CLOSED]
+    steps
+  end
+
+  def display_workflow_status(child, lookups)
+    steps = build_steps(child, lookups)
+    recent_service = child.most_recent_service.try(:service_response_type)
+
+    content_tag :div, class: 'ui mini steps' do
+      disable = false
+
+      steps.each do |st|
+        if st[0].is_a?(Array)
+          st[0].each do |sub|
+            active = child.workflow == st[1] && recent_service == sub[1]
+            concat(create_step(sub[0], active, disable && !active))
+          end
+        else
+          active = child.workflow == st[1]
+          disable = true if active
+          concat(create_step(st[0], active, disable && !active))
+        end
+      end
+    end
+  end
 end
