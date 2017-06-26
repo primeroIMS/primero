@@ -936,10 +936,10 @@ describe ChildrenController do
       expect(assigns[:children]).to match_array([@case1])
     end
 
-    it "should redirect if no results found" do
+    it "should go through and return no results if no results found" do
       session = fake_login @case_worker2
       get(:index, format: 'html', query: '0034952', id_search: true, module_id: 'test_module')
-      expect(response).to redirect_to '/cases/new?module_id=test_module'
+      expect(assigns[:children]).to match_array([])
     end
   end
 
