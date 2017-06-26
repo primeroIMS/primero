@@ -6,6 +6,7 @@ class Child < CouchRest::Model::Base
   RISK_LEVEL_MEDIUM = 'medium'
   RISK_LEVEL_HIGH = 'high'
   APPROVAL_STATUS_PENDING = 'pending'
+  APPROVAL_STATUS_REQUESTED = 'requested'
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
 

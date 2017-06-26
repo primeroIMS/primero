@@ -385,6 +385,14 @@ fieldset {
     padding-right: 0;
   }
 
+  .subform_grouping_header {
+    font-family: 'Roboto-Light', sans-serif;
+    font-size: $twenty_px;
+    text-align: left;
+    font-weight: bold;
+    color: #575757 !important;
+  }
+
   .collapse_expand_subform_header {
     border-top: 1px solid $stroke_green_color;
     padding: 10px 0 20px 0 !important;

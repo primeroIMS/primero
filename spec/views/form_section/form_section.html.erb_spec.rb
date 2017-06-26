@@ -91,8 +91,9 @@ describe "form_section/_form_section.html.erb" do
                                       display_name: "is_age_exact".humanize,
                                       option_strings_text_all: ["Is Exact", "Approximate"].join("\n")))
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
+        
 
-        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" is_disabled=\"false\" name=\"child[isageexact]\" type=\"radio\" value=\"is_exact\" />")
+        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_is_exact\" is_disabled=\"false\" name=\"child[isageexact]\" type=\"radio\" value=\"is_exact\" />")
         expect(rendered).to match(/<label for="#{@form_section.name.dehumanize}_child_isageexact_is_exact">Is Exact<\/label>/)
         rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" is_disabled=\"false\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
         expect(rendered).to match(/<label for="#{@form_section.name.dehumanize}_child_isageexact_approximate">Approximate<\/label>/)
@@ -127,7 +128,7 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
         rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">Date of separation<\/label>")
-        rendered.should be_include("<select class=\"chosen-select \" data-field-tags=\"[]\" data-populate=\"null\" data-value=\"\" id=\"displayedformname_child_dateofseparation\" is_disabled=\"false\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
+        rendered.should be_include("<select class=\"chosen-select \" data-field-tags=\"[]\" data-populate=\"null\" data-value=\"\" id=\"displayedformname_child_dateofseparation\" is_disabled=\"false\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1_2_weeks_ago\">1-2 weeks ago</option>\n<option value=\"more_than_a_year_ago\">More than a year ago</option></select>")
         expect(rendered).to match(/<option value="1_2_weeks_ago">1-2 weeks ago<\/option>/)
         expect(rendered).to match(/<option value="more_than_a_year_ago">More than a year ago<\/option>/)
       end
@@ -142,28 +143,10 @@ describe "form_section/_form_section.html.erb" do
                                     option_strings_text_all: ["1-2 weeks ago", "More than a year ago"].join("\n")))
 
       render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-
       expect(rendered).to match(/<label class="key inline" for="displayedformname_child_dateofseparation">Date of separation<\/label>/)
-      expect(rendered).to match(/<select class=\"chosen-select \ data-field-tags="\[\]" data-populate="null" data-value="" id="displayedformname_child_dateofseparation" is_disabled=\"false\" name="child\[dateofseparation\]">/)
+      expect(rendered).to match(/<select class=\"chosen-select \" data-field-tags="\[\]" data-populate="null" data-value="" id="displayedformname_child_dateofseparation" is_disabled=\"false\" name="child\[dateofseparation\]">/)
       expect(rendered).to match(/<option value="1_2_weeks_ago">1-2 weeks ago<\/option>/)
       expect(rendered).to match(/<option value="more_than_a_year_ago">More than a year ago<\/option>/)
-    end
-  end
-
-  describe "rendering check boxes" do
-
-    context "existing record" do
-
-      it "renders checkboxes as checked if the underlying field is set to Yes" do
-        #TODO: Please fix to be compatible with i18n
-        @child = Child.new :relatives => ["Brother", "Sister"]
-        @form_section.add_field Field.new_field("check_boxes", "relatives", ["Sister", "Brother", "Cousin"])
-
-        render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" is_disabled=\"false\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" is_disabled=\"false\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
-      end
     end
   end
 

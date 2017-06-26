@@ -15,7 +15,8 @@
             <%= render partial: field_template_path(field, false), object: field, locals: {
               field_keys: fk,
               value: "",
-              formObject: child
+              formObject: child,
+              is_modal_subform: true
             } %>
           <% end %>
           <div class="space"></div>

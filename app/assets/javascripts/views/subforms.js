@@ -90,11 +90,15 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
     //grab the correct template
     var $template = $target.parent().prev(),
       //figure out the subforms
-      $subforms = $template.prev(),
+      $subforms_container = $template.prev(),
+      $subforms = $subforms_container.children(".subform_container"),
       //figure out the next i
       i = 0;
-    if ($subforms.children().size() > 0) {
-      i = parseInt($subforms.children(":last").attr("id").split("_").pop()) + 1;
+    if ($subforms.size() > 0) {
+      i = Math.max.apply(null, $.map($subforms, function(subform){
+        return parseInt($(subform).attr("id").split("_").pop());
+      }));
+      i += 1
     }
 
     //clone the template
@@ -140,14 +144,14 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
       el.setAttribute("for", id);
     });
 
-    var newSubformClass = $newSubform.attr("class").replace("template", "subform");
+    var newSubformClass = $newSubform.attr("class").replace("template", "subform_container");
     $newSubform.attr({
       'data-subform_index': i,
       class: newSubformClass
     });
     $newSubform.fadeIn(600);
     $newSubform.find("input, select, textarea").filter('[is_disabled=false]').removeAttr("disabled");
-    $newSubform.appendTo($subforms);
+    $newSubform.appendTo($subforms_container);
 
     // set sidebar height
 
@@ -159,7 +163,7 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
 
     //After add rows, remove the field that allow remove fields on the server side
     //when all rows were removed.
-    $subforms.parent().find("#" + _primero.model_object + "_" + $subforms.attr("id") + "_empty_subform").remove();
+    $subforms_container.parent().find("#" + _primero.model_object + "_" + $subforms_container.attr("id") + "_empty_subform").remove();
 
     if($newSubform.find('textarea').length > 0) {
       autosize($('textarea'));
@@ -195,6 +199,7 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
   },
 
   remove_subform: function($target, self) {
+    //TODO: This code has not been tested with grouped subforms. It might not work correctly.
     var $subform = $target.parents('fieldset.subform');
     $subform.fadeOut(600, function() {
       var $subform_group = $target.parents('.subforms');

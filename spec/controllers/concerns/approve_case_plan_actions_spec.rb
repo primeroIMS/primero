@@ -149,7 +149,6 @@ describe ApprovalActions, type: :controller do
 
       User.stub(:find_by_user_name).and_return(@user)
       permission_approval = Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_CASE_PLAN])
-      Role.create(id: 'approver', name: 'approver', permissions_list: [permission_approval], group_permission: Permission::GROUP)
       @user = User.new(:user_name => 'approval_user', :role_ids => ['approver'])
       @session = fake_login @user
     end

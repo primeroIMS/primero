@@ -1,6 +1,6 @@
-<li>
+<li class="is-dropdown-submenu-parent">
   <a><%= t("buttons.request_approval") %></a>
-  <ul class="menu">
+  <ul class="menu is-dropdown-submenu">
     <li>
       <% if can?(:request_approval_bia, controller.model_class) %>
         <a data-open="bia_approvals"><%= t("approvals.bia") %></a>
