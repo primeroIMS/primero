@@ -1887,7 +1887,7 @@ describe Child do
 
       context 'and service response type is set' do
         before do
-          @case1.services_section << {service_response_type: 'care_plan', service_implemented: Child::STATUS_NOT_IMPLEMENTED}
+          @case1.services_section << {service_response_type: 'care_plan', service_implemented: Child::SERVICE_NOT_IMPLEMENTED}
           @case1.save!
         end
         it 'workflow status should be SERVICE PROVISION' do
