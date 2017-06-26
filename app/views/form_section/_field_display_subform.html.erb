@@ -3,6 +3,8 @@
    subform_section = field.subform_section
    shared_subform_section = FormSection.get_by_unique_id subform_section.shared_subform
    shared_subform_section_group = subform_section.shared_subform_group
+
+   #TODO: a little redundant to re-count the subforms? (see grouped_subforms(formObject, subform))
    number_of_subforms = subforms_count formObject, subform, form_group_name
    data_shared_subform = ""
 
@@ -42,32 +44,43 @@
             <p class="notice large-12"><%= t('messages.form_sections_case_update_alert', form_section_name: form_section_name, alert_time: I18n.l(Date.parse(incident_alert.first.try(:[], 'date')))) %></p>
           </div>
         <% end %>
-        <% (number_of_subforms).times do |i| %>
-          <%
-            formObject_i = subform_object[i]
-            formObject_i[:hidden_name] = formObject.hidden_name
-          %>
-          <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
-            <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
-            <%= render partial: "form_section/subform_expand_collapse_header",
-                      object: formObject,
-                      locals: { formObject: formObject,
-                                subform: subform,
-                                subform_section: subform_section,
-                                i: i,
-                                form_group_name: form_group_name,
-                                view_mode: true,
-                                subform_object: formObject_i
-                              }
+        <% grouped_subforms(formObject, subform).each do |grouped_subforms_header, grouped_subform_objects| %>
+          <% if grouped_subforms_header.present? && grouped_subform_objects.present? %>
+            <div class="subform_grouping_header row">
+              <span class="subform_header medium-7 columns">
+                <%= grouped_subforms_header %>
+              </span>
+            </div>
+          <% end %>
+          <% grouped_subform_objects.each do |grouped_subform_object| %>
+            <%
+              i = grouped_subform_object[1]
+              formObject_i = subform_object[i]
+              formObject_i[:hidden_name] = formObject.hidden_name
             %>
+            <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
+              <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
+              <%= render partial: "form_section/subform_expand_collapse_header",
+                        object: formObject,
+                        locals: { formObject: formObject,
+                                  subform: subform,
+                                  subform_section: subform_section,
+                                  i: i,
+                                  form_group_name: form_group_name,
+                                  view_mode: true,
+                                  subform_object: formObject_i,
+                                  grouped_subforms_header: grouped_subforms_header
+                                }
+              %>
 
-            <% (subform_section.fields.select {|field| field.showable? }).each do |field| %>
-              <% unless (field.name == "to_user_local_status" && formObject_i.is_remote == true) || (field.name == "to_user_local_status" && formObject_i.type == Transition::TYPE_REASSIGN) %>
-                <%= render :partial => field_template_path(field, true),  :locals=>{:field => field, :formObject=>formObject_i, :lookups => lookups} %>
+              <% (subform_section.fields.select {|field| field.showable? }).each do |field| %>
+                <% unless (field.name == "to_user_local_status" && formObject_i.is_remote == true) || (field.name == "to_user_local_status" && formObject_i.type == Transition::TYPE_REASSIGN) %>
+                  <%= render :partial => field_template_path(field, true),  :locals=>{:field => field, :formObject=>formObject_i, :lookups => lookups} %>
+                <% end %>
               <% end %>
-            <% end %>
-            </fieldset>
-          </div>
+              </fieldset>
+            </div>
+          <% end %>
         <% end %>
       </div>
     </div>
