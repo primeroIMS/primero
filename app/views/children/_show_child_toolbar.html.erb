@@ -14,9 +14,9 @@
   <% if has_show_actions(controller.model_class) %>
     <% unless ["edit", "update"].include? controller.action_name %>
     <ul id="menu" class="dropdown menu" data-dropdown-menu>
-      <li class="init_btn">
+      <li class="init_btn is-dropdown-submenu-parent">
         <%= link_to content_tag(:span, t("actions.button")), '#', class: 'button action_btn' %>
-        <ul class="menu">
+        <ul class="menu is-dropdown-submenu">
             <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
             <% if can? :export_custom, Child %>
               <%= render 'exports/custom_exports_link', model: Child, export_type: 'custom' %>
