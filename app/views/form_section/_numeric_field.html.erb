@@ -2,7 +2,11 @@
   field_keys ||= []
   name = field_tag_name formObject, numeric_field, field_keys
   field_id = "#{numeric_field.form.name.dehumanize}_#{sanitize_to_id name}"
-  value = numeric_field.selected_value if numeric_field.selected_value.present? && formObject.new_record?
+  should_default =
+    (defined?(is_subform) && is_subform) ||
+    (defined?(is_modal_subform) && is_modal_subform) ||
+    formObject.new_record?
+  value = numeric_field.selected_value if numeric_field.selected_value.present? && should_default
   value ||= field_value formObject, numeric_field, field_keys
   field_class = ""
   autosum_group = ""
