@@ -17,7 +17,7 @@ describe "form_section/_select_box.html.erb" do
     render :partial => 'form_section/select_box', :locals => { :select_box => select_box, :formObject => @child}, :formats => [:html], :handlers => [:erb]
 
     expect(rendered).to match(/<label class="key inline" for="formsection_child_new_field">field name<\/label>/)
-    expect(rendered).to match(/<select class="chosen-select " data-field-tags="\[\]" data-populate="null" data-value="" id="formsection_child_new_field" name="child\[new field\]">/)
+    expect(rendered).to match(/<select class="chosen-select " data-field-tags="\[\]" data-populate="null" data-value="" id="formsection_child_new_field" is_disabled="false" name="child\[new field\]">/)
     expect(rendered).to match(/<option value="male_test">Male Test<\/option>/)
     expect(rendered).to match(/<option value="female_test">Female Test<\/option>/)
     expect(rendered).to match(/<p class="help">This is my help text<\/p>/)

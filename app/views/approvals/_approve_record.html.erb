@@ -29,7 +29,7 @@
          data-id="<%= instance.id %>"
          data-form_action="<%= send("#{model.name.underscore.downcase}_request_approval_path", instance) %>"
          data-submit_error_message="<%# t("#{model.name.underscore.downcase}.record_status_error_message")%>"
-         data-status="requested"
+         data-status="pending"
          data-approval_type="<%= approval_type %>"
          href=""><%= t("buttons.ok") %>
       </a>

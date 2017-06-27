@@ -2,7 +2,11 @@
    field_keys ||= []
    name = field_tag_name formObject, date_field, field_keys
    field_id = "#{date_field.form.name.dehumanize}_#{sanitize_to_id name}"
-   value = selected_date_value(date_field.selected_value) if date_field.selected_value.present? && formObject.new_record?
+   should_default =
+    (defined?(is_subform) && is_subform) ||
+    (defined?(is_modal_subform) && is_modal_subform) ||
+    formObject.new_record?
+   value = selected_date_value(date_field.selected_value) if date_field.selected_value.present? && should_default
    value ||= field_value formObject, date_field, field_keys
    date_validator = date_field.date_validation == 'not_future_date' ? "primeroDateNotInFuture" : "primeroDate"
    error_msg = date_field.date_validation == 'not_future_date' ? "fields.future_date_not_valid" : "fields.date_not_valid"

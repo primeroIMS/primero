@@ -1,6 +1,10 @@
 module Serviceable
   extend ActiveSupport::Concern
 
+  #TODO: This will need to be reconciled with the ReportableService object.
+  #      Since we are hardcoding everything, we may as well define it as an
+  #      explicit nested CouchRestRails object with explicit properties.
+
   included do
     SERVICE_IMPLEMENTED = 'implemented'
     SERVICE_NOT_IMPLEMENTED = 'not_implemented'
@@ -13,11 +17,11 @@ module Serviceable
     def update_implement_field
       services = self.services_section || []
       services.each do |service|
-        if service.try(:service_implemented_day_time) && service.service_implemented != SERVICE_IMPLEMENTED
-          service.service_implemented = SERVICE_IMPLEMENTED
+        if service.try(:service_implemented_day_time) && service.try(:service_implemented) != SERVICE_IMPLEMENTED
+          service.try(:service_implemented=, SERVICE_IMPLEMENTED)
         else
           if service.try(:service_type)
-            service.service_implemented = SERVICE_NOT_IMPLEMENTED
+            service.try(:service_implemented=, SERVICE_NOT_IMPLEMENTED)
           end
         end
       end
@@ -25,9 +29,9 @@ module Serviceable
 
     def services_status
       if self.services_section.present?
-        if self.services_section.all? {|s| s.service_implemented == SERVICE_IMPLEMENTED}
+        if self.services_section.all? {|s| s.try(:service_implemented) == SERVICE_IMPLEMENTED}
           SERVICES_ALL_IMPLEMENTED
-        elsif self.services_section.any? {|s| s.service_implemented == SERVICE_NOT_IMPLEMENTED}
+        elsif self.services_section.any? {|s| s.try(:service_implemented) == SERVICE_NOT_IMPLEMENTED}
           SERVICES_IN_PROGRESS
         else
           SERVICES_NONE
@@ -38,12 +42,16 @@ module Serviceable
     end
 
     def service_response_present?
-      self.services_section.present? && self.services_section.any? {|s| s.service_response_type.present?}
+      self.services_section.present? && self.services_section.any? {|s| s.try(:service_response_type).present?}
     end
 
     def most_recent_service(status = SERVICE_NOT_IMPLEMENTED)
       if self.services_section.present?
-        self.services_section.select {|s| s.service_implemented == status}.last
+        first_day = Date.new
+        self.services_section
+          .select {|s| s.try(:service_response_type).present? && s.try(:service_implemented) == status}
+          .sort_by {|s| s.try(:service_response_day_time) || first_day}
+          .last
       end
     end
   end

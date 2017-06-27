@@ -6,6 +6,7 @@ class Child < CouchRest::Model::Base
   RISK_LEVEL_MEDIUM = 'medium'
   RISK_LEVEL_HIGH = 'high'
   APPROVAL_STATUS_PENDING = 'pending'
+  APPROVAL_STATUS_REQUESTED = 'requested'
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
 
@@ -364,6 +365,13 @@ class Child < CouchRest::Model::Base
     protection_concern_subforms = self.try(:protection_concern_detail_subform_section)
     if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc.try(:protection_concern_type) }).compact.uniq
+    end
+  end
+
+  #This method returns nil if object is nil
+  def service_field_value(service_object, service_field)
+    if service_object.present?
+      service_object.try(service_field.to_sym)
     end
   end
 
