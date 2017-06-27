@@ -16,6 +16,17 @@ module Workflow
 
     property :workflow, String, :default => WORKFLOW_NEW
 
+    def workflow_status
+      if (self.workflow == WORKFLOW_SERVICE_PROVISION) && self.services_section.present?
+        most_recent_service = self.most_recent_service(Serviceable::SERVICE_NOT_IMPLEMENTED)
+        if most_recent_service.present?
+          most_recent_service.try(:service_response_type)
+        end
+      else
+        self.workflow
+      end
+    end
+
     def set_workflow_new
       self.workflow = WORKFLOW_NEW
     end
