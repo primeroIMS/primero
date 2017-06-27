@@ -8,6 +8,7 @@ module FieldsHelper
     end
   end
 
+  #Use to return date or datetime as string for display in local time
   def field_format_date(a_date)
     if a_date.present? && a_date.instance_of?(Date)
       I18n.l(a_date)
@@ -214,6 +215,6 @@ module FieldsHelper
 
   def selected_date_value(value_string)
     date_value = PrimeroDate.date_value(value_string)
-    ['current', 'now'].include?(value_string) ? I18n.l(date_value, format: :with_time) : I18n.l(date_value)
+    field_format_date(date_value)
   end
 end

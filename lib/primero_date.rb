@@ -113,12 +113,15 @@ class PrimeroDate < Date
 
   private
 
+  #Returns requested Time or Date object exclusively in local time
   def self.parse_single_value(date_format)
     df = date_format.first.downcase
-    if ['yesterday', 'today', 'tomorrow'].include?(df)
-      Date.send(df)
+    if ['today'].include?(df)
+      DateTime.send('current').to_date
     elsif ['current', 'now'].include?(df)
       DateTime.send(df).in_time_zone.to_datetime
+    elsif ['yesterday', 'tomorrow'].include?(df)
+      DateTime.send(df)
     else
       ''
     end
