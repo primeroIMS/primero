@@ -191,6 +191,8 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
   end
 
+  include Alertable
+
   def self.report_filters
     [
         {'attribute' => 'child_status', 'value' => [STATUS_OPEN]},
