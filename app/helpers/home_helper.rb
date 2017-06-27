@@ -52,18 +52,33 @@ module HomeHelper
     end
   end
 
-  # <div class="row section-stat-detailed">
-  #     <div class="column shrink">
-  #         <a>3 <span class="label primary">High Risk</span></a>
-  #     </div>
-  #     <div class="column additional-detail shrink">
-  #         <a><div class="new">2 <span>New</span></div></a>
-  #     </div>
-  #     <div class="column additional-detail">
-  #         <a><div class="new">2 <span>New</span></div></a>
-  #     </div>
-  # </div>
   def display_stat_detailed(data={})
+    model = model_name_class(data[:model]).pluralize
+    model_path = send("#{model}_path")
+
+    content_tag :div, class: 'row section-stat-detailed align-middle' do
+      total_link = model_path
+      total_link += index_filters(data[:filters]) if data[:filters].present?
+
+      total_stat =  link_to total_link do
+        if data[:stat].present?
+          concat(content_tag(:div, case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model]), class: 'count'))
+        end
+        concat(content_tag(:span, data[:text], class: 'label primary'))
+      end
+
+      concat(content_tag(:div, total_stat, class: "column shrink"))
+      concat(content_tag(:ul) {
+        data[:additional_details].each do |detail|
+          count = case_stat({name: data[:name], stat: detail[:stat]}, data[:stats], data[:model])
+          detail_link = link_to model_path + index_filters(detail[:filters]) do
+            concat(count)
+            concat(content_tag(:span, detail[:text]))
+          end
+          concat(content_tag(:li, detail_link, class: "additional-detail"))
+        end
+      })
+    end
   end
 
   def stat_link(total, stat_group, model)

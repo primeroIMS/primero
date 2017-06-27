@@ -316,6 +316,39 @@ class HomeController < ApplicationController
         end
       end
 
+      facet(:comprehensive_response_in_progress, zeros: true, exclude: [referred]) do
+        row(:high_near) do
+          with(:risk_level, Child::RISK_LEVEL_HIGH)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:no_near) do
+          with(:risk_level, nil)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:low_near) do
+          with(:risk_level, Child::RISK_LEVEL_LOW)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:high_due) do
+          with(:risk_level, Child::RISK_LEVEL_HIGH)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:no_due) do
+          with(:risk_level, nil)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:low_due) do
+          with(:risk_level, Child::RISK_LEVEL_LOW)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+      end
+
       if display_assessment?
         facet(:risk_level, zeros: true, exclude: [referred]) do
           row(:high) do

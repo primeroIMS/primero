@@ -46,6 +46,5 @@ module Serviceable
         self.services_section.select {|s| s.service_implemented == status}.last
       end
     end
-
   end
 end
