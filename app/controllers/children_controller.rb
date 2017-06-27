@@ -160,7 +160,7 @@ class ChildrenController < ApplicationController
     authorize! :update, child
 
     approval_type_error = nil
-
+    child.add_approval_alert(params[:approval_type])
     case params[:approval_type]
       when "bia"
         child.approval_status_bia = params[:approval_status]

@@ -13,6 +13,7 @@ module ApprovalActions
     if @record.present?
       begin
         set_approval
+        @record.remove_approval_alert(params[:approval_type])
         @record.save!
       rescue => error
         logger.error "Case #{@record.id} approve #{params[:approval_type]}... failure"

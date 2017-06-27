@@ -23,5 +23,20 @@ create_or_update_system_setting(
   :age_ranges => {
     "primero" => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
     "unhcr" => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
-  }
+  },
+  :hide_alerts => false,
+  :approval_form_to_alert => [
+    {
+      :form_ => "cp_bia_form",
+      :alert => "bia"
+    },
+    {
+      :form => "services",
+      :alert => "case_plan"
+    },
+    {
+      :form => "closure_form",
+      :alert => "closure"
+    }
+  ]
 )

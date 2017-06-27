@@ -10,6 +10,10 @@
       <% if section.header_message_link.present? %>
         <%= render partial: "form_section/header_message_#{section.header_message_link}" %>
       <% end %>
+      <% display_alert = display_approval_alert?(formObject, section) %>
+      <% if display_alert %>
+        <%= render partial: "form_section/header_message_approval", locals: {display_alert: display_alert} %>
+      <% end %>
       <% (section.fields.select{|field| field.showable?}).each do |field| %>
         <%= render :partial => field_template_path(field, true), :locals=>{:field => field, :formObject => formObject, :form_group_name => form_group_name, :form_id => section.unique_id, :display_audio_delete_checkbox => false, :lookups => lookups} %>
       <% end %>

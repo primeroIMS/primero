@@ -1,5 +1,12 @@
 module FormSectionHelper
+  extend Memoist
+
   ALERT_PREFIX = "<sup id='new_incident_details'>!</sup>"
+
+  def hide_alerts?
+    return SystemSettings.current.present? && SystemSettings.current["hide_alerts"] ? SystemSettings.current["hide_alerts"] : false
+  end
+  memoize :hide_alerts?
 
   def sorted_highlighted_fields
     FormSection.sorted_highlighted_fields
@@ -54,7 +61,7 @@ module FormSectionHelper
 
   def build_form_name(form)
     form_name = form.name
-    if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
+    if !hide_alerts? && @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
       form_name = raw(form_name + ALERT_PREFIX)
     end
 
@@ -63,12 +70,15 @@ module FormSectionHelper
 
   def group_alert_prefix(forms)
     alert = ''
-    forms.each do |form|
-      if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
-        alert = ALERT_PREFIX
+    if !hide_alerts?
+      forms.each do |form|
+        if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
+          alert = ALERT_PREFIX
+        end
+        break if alert != ''
       end
-      break if alert != ''
     end
+
     return alert
   end
 
@@ -111,6 +121,17 @@ module FormSectionHelper
       objects = {}
     end
     return objects
+  end
+
+  def display_approval_alert?(formObject, section)
+    alerts_config = SystemSettings.current["approval_form_to_alert"]
+    display_alert = nil
+    if !hide_alerts? && alerts_config.present? && formObject.alerts.present?
+      alert_type = alerts_config.find{|a| a["form"] == section.section_name}
+      display_alert = alert_type.present? && formObject.alerts.any?{|a| a["type"] == alert_type["alert"]} ? section.name : nil
+    end
+
+    return display_alert
   end
 
   def display_help_text_on_view?(formObject, form_section)
