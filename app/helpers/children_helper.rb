@@ -45,32 +45,24 @@ module ChildrenHelper
     child.case_id_display.present? ? child.case_id_display : child.short_id
   end
 
-  def case_status_text(child, lookups)
-    workflow_text = Lookup.display_value('lookup-workflow', child.workflow, lookups)
-    case child.workflow
-      when Child::WORKFLOW_NEW
-        "#{workflow_text} #{t("case.workflow.created_on")} #{I18n.l(child.created_at)}"
-      when Child::WORKFLOW_CLOSED
-        case_status_date_text(workflow_text, child.date_closure)
-      when Child::WORKFLOW_REOPENED
-        case_status_date_text(workflow_text, child.reopened_date)
-      when Child::WORKFLOW_SERVICE_PROVISION
-        service_provision_text(child)
-      when Child::WORKFLOW_SERVICE_IMPLEMENTED
-        "#{workflow_text}"
-      else
-        "#{workflow_text} #{t("case.workflow.in_progress")}"
-    end
-  end
-
-  # Display text is based on the last entered Service Response Type
-  def service_provision_text(child)
-    if child.services_section.present?
-      most_recent_service = child.most_recent_service(Serviceable::SERVICE_NOT_IMPLEMENTED)
-      service_provision_text = Lookup.display_value('lookup-service-response-type', most_recent_service.try(:service_response_type))
-      "#{service_provision_text} #{t("case.workflow.in_progress")}"
+  def case_workflow_status_text(child, lookups)
+    workflow_text = Lookup.display_value('lookup-workflow', child.workflow_status, lookups)
+    case child.workflow_status
+    when Child::WORKFLOW_NEW
+      "#{workflow_text} #{t("case.workflow.created_on")} #{I18n.l(child.created_at)}"
+    when Child::WORKFLOW_CLOSED
+      case_status_date_text(workflow_text, child.date_closure)
+    when Child::WORKFLOW_REOPENED
+      case_status_date_text(workflow_text, child.reopened_date)
+    when Child::WORKFLOW_SERVICE_IMPLEMENTED
+      "#{workflow_text}"
     else
-      ""
+      service_provision_text = Lookup.display_value('lookup-service-response-type', child.workflow_status, lookups)
+      if service_provision_text.present?
+        "#{service_provision_text} #{t("case.workflow.in_progress")}"
+      else
+        t("case.workflow.in_progress")
+      end
     end
   end
 
@@ -103,4 +95,49 @@ module ChildrenHelper
       "<span>#{h(error[:translated_section])}:</span> #{h(error[:message])}".html_safe
     end
   end
+
+  def create_step(desc, active=false, disabled=false)
+    step_class = 'step'
+    step_class += ' active' if active.present?
+    step_class += ' disabled' if disabled.present?
+
+    content_tag :div, class: step_class do
+      content_tag :div, class: 'content' do
+        content_tag :div, desc, class: 'description'
+      end
+    end
+  end
+
+  def build_steps(child, lookups)
+    closed_text = Lookup.display_value('lookup-case-status', Record::STATUS_CLOSED, lookups)
+    service_response_types = Lookup.values_for_select('lookup-service-response-type', lookups)
+    new_step =
+      if child.case_status_reopened.present?
+        [I18n.t("case.workflow.reopened"), Child::WORKFLOW_REOPENED]
+      else
+        [I18n.t("case.workflow.new"), Child::WORKFLOW_NEW]
+      end
+
+    steps = []
+    steps << new_step
+    steps += service_response_types
+    steps << [I18n.t("case.workflow.service_implemented"), 'services_implemented']
+    steps << [closed_text, Record::STATUS_CLOSED]
+    steps
+  end
+
+  def display_workflow_status(child, lookups)
+    steps = build_steps(child, lookups)
+
+    content_tag :div, class: 'ui mini steps' do
+      disable = false
+
+      steps.each do |step|
+        active = child.workflow_status == step[1]
+        concat(create_step(step[0], active, disable && !active))
+        disable = true if active
+      end
+    end
+  end
+
 end

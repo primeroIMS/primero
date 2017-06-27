@@ -23,7 +23,7 @@
       }
     %>
   <% end %>
-  <% if !subform.disabled %>
+  <% if !subform.disabled && !subform.subform_section.subform_prevent_item_removal %>
     <%= link_to t('fields.remove'), '', class: "subform_remove button grey tiny", style: disable_action_buttons,
         data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
   <% end %>
