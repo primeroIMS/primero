@@ -1,8 +1,19 @@
 module Alertable
   extend ActiveSupport::Concern
 
+  ALERT_INCIDENT = 'incident_details'
+  ALERT_SERVICE = 'services_section'
+
   included do
     property :alerts, [], :default => []
+
+    searchable do
+      string :current_alert_types, multiple: true
+    end
+  end
+
+  def current_alert_types
+    self.alerts.map {|a| a[:type]}.uniq
   end
 
   def add_remove_alert(current_user, type = nil, form_sidebar_id = nil)
