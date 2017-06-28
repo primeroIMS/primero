@@ -25,31 +25,6 @@
 
 <%= display_stat_detailed({
   name: :risk_level,
-  stat: :medium_total,
-  filters: [
-    "child_status=#{Record::STATUS_OPEN}",
-    "risk_level=#{Child::RISK_LEVEL_MEDIUM}",
-    'record_state=true'
-  ],
-  additional_details: [
-    {
-      stat: :medium,
-      filters: [
-        "child_status=#{Record::STATUS_OPEN}",
-        "risk_level=#{Child::RISK_LEVEL_MEDIUM}",
-        'new_other',
-        'record_state=true'
-      ],
-      text: t('dashboard.new')
-    }
-  ],
-  stats: stats,
-  model: model,
-  text: t('dashboard.medium_risk'),
-}) %>
-
-<%= display_stat_detailed({
-  name: :risk_level,
   stat: :low_total,
   filters: [
     "child_status=#{Record::STATUS_OPEN}",

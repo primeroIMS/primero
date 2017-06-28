@@ -12,6 +12,7 @@ class HomeController < ApplicationController
 
     #TODO - Refactor to reduce number of solr queries
     load_cases_information if display_cases_dashboard?
+    load_case_service_information if display_cases_dashboard?
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
@@ -300,6 +301,106 @@ class HomeController < ApplicationController
     Child.list_records({}, {:last_updated_at => :desc}, {page: 1, per_page: 20}, current_user.managed_user_names)
   end
 
+  def load_case_service_information
+    @service_stats = ReportableService.search do
+      facet(:comprehensive_response_in_progress, zeros: true) do
+        row(:high_total) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_HIGH)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:no_total) do
+          with(:service_case_risk_level, nil)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:low_total) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_LOW)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:high_near) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_HIGH)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:no_near) do
+          with(:service_case_risk_level, nil)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:low_near) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_LOW)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:high_due) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_HIGH)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:no_due) do
+          with(:service_case_risk_level, nil)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:low_due) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_LOW)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+      end
+
+      facet(:immediate_response_in_progress, zeros: true) do
+        row(:high_total) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_HIGH)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:no_total) do
+          with(:service_case_risk_level, nil)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:low_total) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_LOW)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:high_near) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_HIGH)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:no_near) do
+          with(:service_case_risk_level, nil)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:low_near) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_LOW)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:high_due) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_HIGH)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:no_due) do
+          with(:service_case_risk_level, nil)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+        row(:low_due) do
+          with(:service_case_risk_level, Child::RISK_LEVEL_LOW)
+          with(:service_response_type, 'comprehensive_need_intervention')
+          with(:service_case_workflow, Child::WORKFLOW_SERVICE_PROVISION)
+        end
+      end
+    end
+  end
+
   def load_cases_information
     module_ids = @module_ids
     @stats = Child.search do
@@ -313,39 +414,6 @@ class HomeController < ApplicationController
           module_ids.each do |m|
             with(:module_id, m)
           end
-        end
-      end
-
-      facet(:comprehensive_response_in_progress, zeros: true, exclude: [referred]) do
-        row(:high_near) do
-          with(:risk_level, Child::RISK_LEVEL_HIGH)
-          with(:service_response_type, 'comprehensive_need_intervention')
-          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
-        end
-        row(:no_near) do
-          with(:risk_level, nil)
-          with(:service_response_type, 'comprehensive_need_intervention')
-          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
-        end
-        row(:low_near) do
-          with(:risk_level, Child::RISK_LEVEL_LOW)
-          with(:service_response_type, 'comprehensive_need_intervention')
-          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
-        end
-        row(:high_due) do
-          with(:risk_level, Child::RISK_LEVEL_HIGH)
-          with(:service_response_type, 'comprehensive_need_intervention')
-          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
-        end
-        row(:no_due) do
-          with(:risk_level, nil)
-          with(:service_response_type, 'comprehensive_need_intervention')
-          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
-        end
-        row(:low_due) do
-          with(:risk_level, Child::RISK_LEVEL_LOW)
-          with(:service_response_type, 'comprehensive_need_intervention')
-          with(:workflow, Child::WORKFLOW_SERVICE_PROVISION)
         end
       end
 

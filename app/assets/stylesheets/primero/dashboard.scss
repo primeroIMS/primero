@@ -17,13 +17,14 @@ $dashboard_table_counts:85px;
     font-size: 1.4em;
     padding-bottom: .8em;
     margin-bottom: 0;
+    margin-top: 1.5em;
   }
 
   h5.stat_heading {
     font-size: 1em;
     border-bottom: 1px dashed rgba(0, 0, 0, .2);
     padding-bottom: .5em;
-    margin-bottom: 0.8em;
+    margin: 2em 0 0.8em;
     text-indent: 1.6em;
   }
 
@@ -104,18 +105,16 @@ $dashboard_table_counts:85px;
         &.additional-detail {
           position: relative;
 
-          &:first-child{
-            &:after {
-              content: "/";
-              padding: .2em .1em;
-              position: absolute;
-              right: -7px;
-              top: 0;
-              color: #575757;
-            }
+          &:after {
+            content: "/";
+            padding: .2em .1em;
+            position: absolute;
+            right: -7px;
+            top: 0;
+            color: #575757;
           }
 
-          &:only-child {
+          &:only-child, &:last-child {
             &:after {
               content: "";
             }

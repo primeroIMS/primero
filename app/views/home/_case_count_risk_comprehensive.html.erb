@@ -1,0 +1,104 @@
+<%= display_stat_detailed({
+  name: :comprehensive_response_in_progress,
+  stat: :high_total,
+  filters: [
+    "child_status=#{Record::STATUS_OPEN}",
+    "risk_level=#{Child::RISK_LEVEL_LOW}",
+    'record_state=true'
+  ],
+  additional_details: [
+    {
+      stat: :high_near,
+      filters: [
+        "child_status=#{Record::STATUS_OPEN}",
+        "risk_level=#{Child::RISK_LEVEL_LOW}",
+        'new_other',
+        'record_state=true'
+      ],
+      text: t('dashboard.near_deadline')
+    },
+    {
+      stat: :high_due,
+      filters: [
+        "child_status=#{Record::STATUS_OPEN}",
+        "risk_level=#{Child::RISK_LEVEL_LOW}",
+        'new_other',
+        'record_state=true'
+      ],
+      text: t('dashboard.due')
+    }
+  ],
+  stats: stats,
+  model: model,
+  text: t('dashboard.high_risk'),
+}) %>
+
+<%= display_stat_detailed({
+  name: :comprehensive_response_in_progress,
+  stat: :high_total,
+  filters: [
+    "child_status=#{Record::STATUS_OPEN}",
+    "risk_level=#{Child::RISK_LEVEL_LOW}",
+    'record_state=true'
+  ],
+  additional_details: [
+    {
+      stat: :low_near,
+      filters: [
+        "child_status=#{Record::STATUS_OPEN}",
+        "risk_level=#{Child::RISK_LEVEL_LOW}",
+        'new_other',
+        'record_state=true'
+      ],
+      text: t('dashboard.near_deadline')
+    },
+    {
+      stat: :low_due,
+      filters: [
+        "child_status=#{Record::STATUS_OPEN}",
+        "risk_level=#{Child::RISK_LEVEL_LOW}",
+        'new_other',
+        'record_state=true'
+      ],
+      text: t('dashboard.due')
+    }
+  ],
+  stats: stats,
+  model: model,
+  text: t('dashboard.low_risk'),
+}) %>
+
+<%= display_stat_detailed({
+  name: :comprehensive_response_in_progress,
+  stat: :no_total,
+  filters: [
+    "child_status=#{Record::STATUS_OPEN}",
+    "risk_level=#{Child::RISK_LEVEL_LOW}",
+    'record_state=true'
+  ],
+  additional_details: [
+    {
+      stat: :no_near,
+      filters: [
+        "child_status=#{Record::STATUS_OPEN}",
+        "risk_level=#{Child::RISK_LEVEL_LOW}",
+        'new_other',
+        'record_state=true'
+      ],
+      text: t('dashboard.near_deadline')
+    },
+    {
+      stat: :no_due,
+      filters: [
+        "child_status=#{Record::STATUS_OPEN}",
+        "risk_level=#{Child::RISK_LEVEL_LOW}",
+        'new_other',
+        'record_state=true'
+      ],
+      text: t('dashboard.due')
+    }
+  ],
+  stats: stats,
+  model: model,
+  text: t('dashboard.no_risk'),
+}) %>

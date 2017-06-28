@@ -23,6 +23,14 @@ class ReportableService
   searchable do
     extend ReportableNestedRecord::Searchable
     configure_searchable(ReportableService)
+
+    string :service_case_workflow, :stored => true do
+      self.parent_record.workflow
+    end
+
+    string :service_case_risk_level, :stored => true do
+      self.parent_record.workflow
+    end
   end
 
   def id

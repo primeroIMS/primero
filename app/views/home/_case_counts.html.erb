@@ -19,6 +19,18 @@
         </div>
       <% end %>
     </div>
+
+    <h4 class="stat_heading"><%= t("dashboard.response").html_safe %></h4>
+    <div class="row">
+      <div class="column">
+        <h5 class="stat_heading"><%= t("dashboard.immediate_response") %></h5>
+        <%= render 'case_count_risk_immediate', stats: @service_stats, model: model %>
+      </div>
+      <div class="column">
+        <h5 class="stat_heading"><%= t("dashboard.comprehensive_response") %></h5>
+        <%= render 'case_count_risk_comprehensive', stats: @service_stats, model: model %>
+      </div>
+    </div>
   </div>
 <% else %>
   <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
