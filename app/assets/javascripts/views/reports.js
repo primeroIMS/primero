@@ -130,4 +130,4 @@ $(window).on('load', function () {
   if ($reportTable.length){
     $reportTable.dataTable().fnAdjustColumnSizing( false );
   }
-} );
+});

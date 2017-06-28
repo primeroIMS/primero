@@ -471,19 +471,6 @@ describe Ability do
       expect(ability).to_not authorize(:write, user3)
     end
 
-    it "allows viewing and editing of Groups, and Agencies if the 'user' permission is set along with 'read' and 'write'" do
-      role = create :role, permissions_list: [@permission_user_read_write]
-      @user1.role_ids = [role.id]
-      @user1.save
-
-      ability = Ability.new @user1
-
-      [UserGroup, Agency].each do |resource|
-        expect(ability).to authorize(:read, resource)
-        expect(ability).to authorize(:write, resource)
-      end
-    end
-
     it "does not allow viewing and editing of Roles if the 'user' permission is set along with 'read' and 'write'" do
       role = create :role, permissions_list: [@permission_user_read_write]
       @user1.role_ids = [role.id]
@@ -494,7 +481,301 @@ describe Ability do
       expect(ability).not_to authorize(:read, Role)
       expect(ability).not_to authorize(:write, Role)
     end
+  end
 
+  describe "User Groups" do
+    before :each do
+      @permission_user_group_read = Permission.new(resource: Permission::USER_GROUP, actions: [Permission::READ])
+      @permission_user_group_read_write = Permission.new(resource: Permission::USER_GROUP, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+    end
+
+    it "allows a user with read permissions to read but not edit user groups" do
+      role = create :role, permissions_list: [@permission_user_group_read]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, UserGroup)
+      expect(ability).not_to authorize(:write, UserGroup)
+    end
+
+    it "allows a user with read and write permissions to read and edit user groups" do
+      role = create :role, permissions_list: [@permission_user_group_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, UserGroup)
+      expect(ability).to authorize(:write, UserGroup)
+    end
+
+    it "doesn't allow a user with only 'user group' permission to manage another user" do
+      role = create :role, permissions_list: [@permission_user_group_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:read, @user2)
+      expect(ability).not_to authorize(:write, @user2)
+    end
+  end
+
+  describe "Agencies" do
+    before :each do
+      @permission_agency_read = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ])
+      @permission_agency_read_write = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+    end
+
+    it "allows a user with read permissions to read but not edit agencies" do
+      role = create :role, permissions_list: [@permission_agency_read]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, Agency)
+      expect(ability).not_to authorize(:write, Agency)
+    end
+
+    it "allows a user with read and write permissions to read and edit agencies" do
+      role = create :role, permissions_list: [@permission_agency_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).to authorize(:read, Agency)
+      expect(ability).to authorize(:write, Agency)
+    end
+
+    it "doesn't allow a user with only 'agency' permission to manage another user" do
+      role = create :role, permissions_list: [@permission_agency_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:read, @user2)
+      expect(ability).not_to authorize(:write, @user2)
+    end
+
+    it "doesn't allow viewing and editing of Groups if only the 'agency' permission is set" do
+      role = create :role, permissions_list: [@permission_agency_read_write]
+      @user1.role_ids = [role.id]
+      @user1.save
+
+      ability = Ability.new @user1
+
+      expect(ability).not_to authorize(:read, UserGroup)
+      expect(ability).not_to authorize(:write, UserGroup)
+    end
+
+    context "when Agency Specific permission" do
+      before do
+        Agency.all.each &:destroy
+        @agency1 = Agency.create(name: "agency one", agency_code: "1111")
+        @agency2 = Agency.create(name: "agency two", agency_code: "2222")
+        @agency3 = Agency.create(name: "agency three", agency_code: "3333")
+        @agency4 = Agency.create(name: "agency four", agency_code: "4444")
+      end
+
+      context "is set with read access" do
+        before :each do
+          @permission_agency_specific_read = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ], agency_ids: [@agency1.id])
+          @role_agency_specific_read = create :role, permissions_list: [@permission_agency_specific_read], group_permission: Permission::GROUP
+          @user1.role_ids = [@role_agency_specific_read.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to read agencies assigned to them" do
+          expect(@ability).to authorize(:read, @agency1)
+        end
+
+        it "does not allow user to read agencies not assigned to them" do
+          expect(@ability).not_to authorize(:read, @agency2)
+          expect(@ability).not_to authorize(:read, @agency3)
+          expect(@ability).not_to authorize(:read, @agency4)
+        end
+
+        it "does not allow user to edit agencies assigned to them" do
+          expect(@ability).not_to authorize(:edit, @agency1)
+        end
+      end
+
+      context "is set with read write access" do
+        before :each do
+          @permission_agency_specific_read_write = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ, Permission::WRITE, Permission::CREATE],
+                                                                  agency_ids: [@agency1.id, @agency3.id])
+          @role_agency_specific_read_write = create :role, permissions_list: [@permission_agency_specific_read_write], group_permission: Permission::GROUP
+          @user1.role_ids = [@role_agency_specific_read_write.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to read agencies assigned to them" do
+          expect(@ability).to authorize(:read, @agency1)
+          expect(@ability).to authorize(:read, @agency3)
+        end
+
+        it "does not allow user to read agencies not assigned to them" do
+          expect(@ability).not_to authorize(:read, @agency2)
+          expect(@ability).not_to authorize(:read, @agency4)
+        end
+
+        it "allows user to edit roles assigned to them" do
+          expect(@ability).to authorize(:edit, @agency1)
+          expect(@ability).to authorize(:edit, @agency3)
+        end
+
+        it "does not allow user to edit agencies not assigned to them" do
+          expect(@ability).not_to authorize(:edit, @agency2)
+          expect(@ability).not_to authorize(:edit, @agency4)
+        end
+      end
+
+      context "is not set" do
+        before :each do
+          @permission_agency_read_write = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+          @role_non_agency_specific_read_write = create :role, permissions_list: [@permission_agency_read_write]
+          @user1.role_ids = [@role_non_agency_specific_read_write.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to read all agencies" do
+          expect(@ability).to authorize(:read, @agency1)
+          expect(@ability).to authorize(:read, @agency2)
+          expect(@ability).to authorize(:read, @agency3)
+          expect(@ability).to authorize(:read, @agency4)
+        end
+
+        it "allows user to edit all agencies" do
+          expect(@ability).to authorize(:edit, @agency1)
+          expect(@ability).to authorize(:edit, @agency2)
+          expect(@ability).to authorize(:edit, @agency3)
+          expect(@ability).to authorize(:edit, @agency4)
+        end
+      end
+
+      after do
+        Agency.all.each &:destroy
+      end
+    end
+
+    context "when specifying which ROLES can be assigned" do
+      before do
+        Role.all.each &:destroy
+        @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role_case_read = create :role, permissions_list: [@permission_case_read]
+        @permission_tracing_request_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+        @role_tracing_request_read = create :role, permissions_list: [@permission_tracing_request_read]
+        @permission_incident_read = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ])
+        @role_incident_read = create :role, permissions_list: [@permission_incident_read]
+        @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+      end
+
+      context "and specifies 2 roles" do
+        before :each do
+          @permission_role_assign_2 = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN],
+                                                     role_ids: [@role_case_read.id, @role_incident_read.id])
+          @role_role_assign_2 = create :role, permissions_list: [@permission_user_read_write, @permission_role_assign_2],
+                                       group_permission: Permission::GROUP
+          @user1.role_ids = [@role_role_assign_2.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to assign the 2 roles specified" do
+          expect(@ability).to authorize(:assign, @role_case_read)
+          expect(@ability).to authorize(:assign, @role_incident_read)
+        end
+
+        it "does not allow user to assign the role not specified" do
+          expect(@ability).not_to authorize(:assign, @role_tracing_request)
+        end
+
+        it "does not allow user to read any of the roles" do
+          expect(@ability).not_to authorize(:read, @role_case_read)
+          expect(@ability).not_to authorize(:read, @role_incident_read)
+          expect(@ability).not_to authorize(:read, @role_tracing_request_read)
+        end
+
+        it "does not allow user to edit any of the roles" do
+          expect(@ability).not_to authorize(:edit, @role_case_read)
+          expect(@ability).not_to authorize(:edit, @role_incident_read)
+          expect(@ability).not_to authorize(:edit, @role_tracing_request_read)
+        end
+      end
+
+      context "and specifies ALL roles" do
+        before :each do
+          @permission_role_assign_all = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN])
+          @role_role_assign_all = create :role, permissions_list: [@permission_user_read_write, @permission_role_assign_all],
+                                         group_permission: Permission::GROUP
+          @user1.role_ids = [@role_role_assign_all.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to assign all of the roles" do
+          expect(@ability).to authorize(:assign, @role_case_read)
+          expect(@ability).to authorize(:assign, @role_incident_read)
+          expect(@ability).to authorize(:assign, @role_tracing_request_read)
+          expect(@ability).to authorize(:assign, @role_role_assign_all)
+        end
+      end
+
+      context "and specifies no roles" do
+        before :each do
+          @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+          @role_role_assign_none = create :role, permissions_list: [@permission_user_read_write, @permission_role_read_write],
+                                          group_permission: Permission::GROUP
+          @user1.role_ids = [@role_role_assign_none.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "does not allow user to assign any of the roles" do
+          expect(@ability).not_to authorize(:assign, @role_case_read)
+          expect(@ability).not_to authorize(:assign, @role_incident_read)
+          expect(@ability).not_to authorize(:assign, @role_tracing_request_read)
+          expect(@ability).not_to authorize(:assign, @role_role_assign_none)
+        end
+      end
+
+      context "and user has MANAGE permission on ROLE" do
+        before :each do
+          @permission_role_manage = Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+          @role_role_manage = create :role, permissions_list: [@permission_user_read_write, @permission_role_manage],
+                                     group_permission: Permission::GROUP
+          @user1.role_ids = [@role_role_manage.id]
+          @user1.save
+
+          @ability = Ability.new @user1
+        end
+
+        it "allows user to assign all of the roles" do
+          expect(@ability).to authorize(:assign, @role_case_read)
+          expect(@ability).to authorize(:assign, @role_incident_read)
+          expect(@ability).to authorize(:assign, @role_tracing_request_read)
+          expect(@ability).to authorize(:assign, @role_role_manage)
+        end
+      end
+
+      after do
+        Role.all.each &:destroy
+      end
+    end
   end
 
   describe "Other resources" do

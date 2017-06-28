@@ -20,8 +20,12 @@ class Ability
       case permission.resource
         when Permission::USER
           user_permissions permission.action_symbols
+        when Permission::USER_GROUP
+          user_group_permissions permission.action_symbols
         when Permission::ROLE
           role_permissions permission
+        when Permission::AGENCY
+          agency_permissions permission
         when Permission::METADATA
           metadata_permissions
         when Permission::SYSTEM
@@ -39,24 +43,44 @@ class Ability
 
   def user_permissions actions
     can actions, User do |uzer|
-      if user.has_group_permission? Permission::ALL
+      if user.has_group_permission?(Permission::ALL)
         true
-      elsif user.has_group_permission? Permission::GROUP
+      elsif user.has_group_permission?(Permission::GROUP)
         (user.user_group_ids & uzer.user_group_ids).size > 0
       else
         uzer.user_name == user.user_name
       end
     end
-    [UserGroup, Agency].each do |resource|
-      configure_resource resource, actions
+  end
+
+  def user_group_permissions actions
+    can actions, UserGroup do |instance|
+      if user.has_group_permission?(Permission::ALL)
+        true
+      elsif user.has_group_permission?(Permission::GROUP)
+        user.user_group_ids.include? instance.id
+      else
+        false
+      end
     end
   end
 
   def role_permissions permission
     actions = permission.action_symbols
     can actions, Role do |instance|
-      if (actions.include? Permission::ASSIGN.to_sym) || (actions.include? Permission::READ.to_sym) || (actions.include? Permission::WRITE.to_sym)
+      if [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
         permission.role_ids.present? ? (permission.role_ids.include? instance.id) : true
+      else
+        true
+      end
+    end
+  end
+
+  def agency_permissions permission
+    actions = permission.action_symbols
+    can actions, Agency do |instance|
+      if [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
+        permission.agency_ids.present? ? (permission.agency_ids.include? instance.id) : true
       else
         true
       end

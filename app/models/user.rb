@@ -236,7 +236,7 @@ class User < CouchRest::Model::Base
     #This method returns a list of id / display_text value pairs
     #It is used to create the select options list for User fields
     def all_names
-      self.by_disabled(key: false).map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
+      self.by_disabled(key: false).map{|r| {id: r.name, display_text: r.name}.with_indifferent_access}
     end
     memoize_in_prod :all_names
   end

@@ -18,41 +18,52 @@
      end
    %>
   <div class="subforms <%=summary_section_class%> large-12 columns" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_name=<%=form_group_name.dehumanize%>>
-    <% (number_of_subforms).times do |i| %>
-    <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container" data-subform_index="<%= i %>">
-      <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
-
-      <%= render partial: "form_section/subform_expand_collapse_header",
-                 object: formObject,
-                 locals: { formObject: formObject,
-                           subform: subform,
-                           subform_section: subform_section,
-                           i: i,
-                           form_group_name: form_group_name
-                         }
-      %>
-
-      <%
-        fk_unique_id = field_keys(subform_name, i, 'unique_id', form_group_name)
-        unique_tag_name = field_tag_name(formObject, nil, fk_unique_id)
-        unique_field_id = "#{subform.name.dehumanize}_#{sanitize_to_id unique_tag_name}"
-        unique_field_value = field_value(formObject, nil, fk_unique_id)
-      %>
-      <%= hidden_field_tag(unique_tag_name,
-                           field_value(formObject, nil, fk_unique_id)) %>
-
-      <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-        <% fk = field_keys(subform_name, i, field.name, form_group_name) %>
-        <%= render partial: field_template_path(field, false),
-                   object: field,
-                   locals: {
-                     field_keys: fk,
-                     formObject: formObject
-                   }
-        %>
+    <% grouped_subforms(formObject, subform).each do |grouped_subforms_header, subform_objects| %>
+      <% if grouped_subforms_header.present? && subform_objects.present? %>
+        <div class="subform_grouping_header row">
+          <span class="subform_header medium-7 columns">
+            <%= grouped_subforms_header %>
+          </span>
+        </div>
       <% end %>
-      </fieldset>
-    </div>
+      <% subform_objects.each do |subform_object| %>
+        <% i = subform_object[1] %>
+        <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container" data-subform_index="<%= i %>">
+          <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
+
+          <%= render partial: "form_section/subform_expand_collapse_header",
+                     object: formObject,
+                     locals: { formObject: formObject,
+                               subform: subform,
+                               subform_section: subform_section,
+                               i: i,
+                               form_group_name: form_group_name,
+                               grouped_subforms_header: grouped_subforms_header
+                             }
+          %>
+
+          <%
+            fk_unique_id = field_keys(subform_name, i, 'unique_id', form_group_name)
+            unique_tag_name = field_tag_name(formObject, nil, fk_unique_id)
+            unique_field_id = "#{subform.name.dehumanize}_#{sanitize_to_id unique_tag_name}"
+            unique_field_value = field_value(formObject, nil, fk_unique_id)
+          %>
+          <%= hidden_field_tag(unique_tag_name,
+                               field_value(formObject, nil, fk_unique_id)) %>
+
+          <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+            <% fk = field_keys(subform_name, i, field.name, form_group_name) %>
+            <%= render partial: field_template_path(field, false),
+                       object: field,
+                       locals: {
+                         field_keys: fk,
+                         formObject: formObject
+                       }
+            %>
+          <% end %>
+          </fieldset>
+        </div>
+      <% end %>
     <% end %>
   </div>
 
@@ -66,6 +77,7 @@
                          subform_section: subform_section,
                          i: 'template',
                          form_group_name: form_group_name,
+                         grouped_subforms_header: nil,
                          is_subform: true
                        }
     %>

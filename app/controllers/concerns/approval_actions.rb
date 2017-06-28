@@ -30,7 +30,7 @@ module ApprovalActions
       approval_for_type: type,
       approval_date: Date.today,
       approval_manager_comments: comments,
-      approval_status: status,
+      approval_status: status == Child::APPROVAL_STATUS_PENDING ? Child::APPROVAL_STATUS_REQUESTED : status,
       approved_by: approved_by
     }
   end

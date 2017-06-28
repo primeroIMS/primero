@@ -6,10 +6,10 @@ class Child < CouchRest::Model::Base
   RISK_LEVEL_MEDIUM = 'medium'
   RISK_LEVEL_HIGH = 'high'
   APPROVAL_STATUS_PENDING = 'pending'
+  APPROVAL_STATUS_REQUESTED = 'requested'
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
-  STATUS_IMPLEMENTED = 'implemented'
-  STATUS_NOT_IMPLEMENTED = 'not_implemented'
+
 
   def self.parent_form
     'case'
@@ -35,6 +35,10 @@ class Child < CouchRest::Model::Base
   include Matchable
   include AudioUploader
   include AutoPopulatable
+
+  #It is important that Workflow is included AFTER Serviceable
+  #Workflow statuses is expecting the servicable callbacks to have already happened
+  include Serviceable
   include Workflow
 
   property :case_id
@@ -64,7 +68,7 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
-  before_save :update_implement_field
+
   after_save :find_match_tracing_requests unless (Rails.env == 'production')
 
   def initialize *args
@@ -186,6 +190,8 @@ class Child < CouchRest::Model::Base
     boolean :estimated
     boolean :consent_for_services
   end
+
+  include Alertable
 
   def self.report_filters
     [
@@ -364,14 +370,10 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def update_implement_field
-    services = self.services_section || []
-    services.each do |service|
-      if service.try(:service_implemented_day_time) && service.service_implemented != STATUS_IMPLEMENTED
-        service.service_implemented = STATUS_IMPLEMENTED
-      else
-        service.service_implemented = STATUS_NOT_IMPLEMENTED
-      end
+  #This method returns nil if object is nil
+  def service_field_value(service_object, service_field)
+    if service_object.present?
+      service_object.try(service_field.to_sym)
     end
   end
 

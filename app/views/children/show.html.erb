@@ -41,6 +41,12 @@ $(show_tools);
   <% end %>
 <% end %>
 
+<% content_for :record_status do %>
+  <% if @child.module.workflow_status_indicator.present? %>
+    <%= display_workflow_status(@child, @lookups) %>
+  <% end %>
+<% end %>
+
 
 <% content_for :breadcrumbs do %>
   <div class="label"><%= t("case.label") %></div>

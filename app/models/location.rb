@@ -128,17 +128,14 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :find_by_admin_level_enabled
 
     def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, reg_ex_filter = nil)
-      location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, display_text: r.placename}.with_indifferent_access}.sort_by!{|l| l['display_text']}
+      #We need the fully qualified :: separated location name here so the reg_ex filter below will work
+      location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, display_text: r.name}.with_indifferent_access}.sort_by!{|l| l['display_text']}
       location_names = location_names.select{|l| l['display_text'] =~ Regexp.new(reg_ex_filter)} if reg_ex_filter.present?
+      #Now reduce the display text down to just the placename for display
+      location_names.each {|l| l['display_text'] = l['display_text'].split('::').last}
       location_names
     end
     memoize_in_prod :find_names_by_admin_level_enabled
-
-    def find_by_type_and_hierarchy(type, hierarchy=[])
-      type_and_disabled= [type, false]
-      find_by_type = Location.by_type_and_disabled(key: type_and_disabled)
-      find_by_type.select{|location| location[:hierarchy]==hierarchy}.sort_by!{ |m| m.placename.downcase }
-    end
 
     def ancestor_placename_by_name_and_admin_level(location_name, admin_level)
       return "" if location_name.blank? || ADMIN_LEVELS.exclude?(admin_level)

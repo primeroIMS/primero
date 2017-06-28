@@ -30,12 +30,14 @@ class FormSection < CouchRest::Model::Base
   property :is_first_tab, TrueClass, :default => false
   property :initial_subforms, Integer, :default => 0
   property :collapsed_fields, [String], :default => []
+  property :subform_prevent_item_removal, :default => false
   property :subform_header_links, [String], :default => []
   #Will display a help text on show page if the section is empty.
   property :display_help_text_view, TrueClass, :default => false
   property :shared_subform
   property :shared_subform_group
   property :is_summary_section, TrueClass, :default => false
+  property :hide_subform_placeholder, TrueClass, :default => false
   property :mobile_form, TrueClass, :default => false
   property :header_message_link, String, :default => ""
 

@@ -407,7 +407,8 @@ module IndexHelper
       Permission::ASSIGN,
       Permission::TRANSFER,
       Permission::REFERRAL,
-      Permission::INCIDENT_DETAILS_FROM_CASE
+      Permission::INCIDENT_DETAILS_FROM_CASE,
+      Permission::SERVICES_SECTION_FROM_CASE
     ]
     actions.any?{ |p| can?(p.to_sym, model) }
   end
@@ -424,6 +425,7 @@ module IndexHelper
       Permission::REQUEST_APPROVAL_BIA,
       Permission::APPROVE_BIA,
       Permission::INCIDENT_DETAILS_FROM_CASE,
+      Permission::SERVICES_SECTION_FROM_CASE,
       'edit',
     ]
     actions.any?{ |p| can?(p.to_sym, model) }
