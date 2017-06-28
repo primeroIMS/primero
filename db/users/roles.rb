@@ -292,11 +292,11 @@ cp_manager_permissions = [
       ]
   ),
   Permission.new(
-    :resource => Permission::DASHBOARD,
-    :actions => [
-      Permission::VIEW_APPROVALS,
-      Permission::VIEW_ASSESSMENT
-    ]
+      :resource => Permission::DASHBOARD,
+      :actions => [
+        Permission::VIEW_APPROVALS,
+        Permission::VIEW_ASSESSMENT
+      ]
   )
 ]
 
@@ -398,8 +398,8 @@ cp_user_manager_permissions = [
     Permission.new(
         :resource => Permission::DASHBOARD,
         :actions => [
-            Permission::VIEW_APPROVALS,
-            Permission::VIEW_ASSESSMENT
+          Permission::VIEW_APPROVALS,
+          Permission::VIEW_ASSESSMENT
         ]
     )
 ]
