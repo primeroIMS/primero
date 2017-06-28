@@ -292,11 +292,11 @@ cp_manager_permissions = [
       ]
   ),
   Permission.new(
-    :resource => Permission::DASHBOARD,
-    :actions => [
-      Permission::VIEW_APPROVALS,
-      Permission::VIEW_ASSESSMENT
-    ]
+      :resource => Permission::DASHBOARD,
+      :actions => [
+        Permission::VIEW_APPROVALS,
+        Permission::VIEW_ASSESSMENT
+      ]
   )
 ]
 
@@ -399,8 +399,7 @@ cp_user_manager_permissions = [
         :resource => Permission::DASHBOARD,
         :actions => [
           Permission::VIEW_APPROVALS,
-          Permission::VIEW_ASSESSMENT,
-          Permission::DASH_REPORTING_LOCATION
+          Permission::VIEW_ASSESSMENT
         ]
     )
 ]
@@ -621,14 +620,6 @@ gbv_user_manager_permissions = [
             Permission::READ,
             Permission::CREATE,
             Permission::WRITE
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::DASHBOARD,
-        :actions => [
-          Permission::VIEW_APPROVALS,
-          Permission::VIEW_ASSESSMENT,
-          Permission::DASH_REPORTING_LOCATION
         ]
     )
 ]

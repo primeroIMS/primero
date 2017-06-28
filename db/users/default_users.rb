@@ -142,7 +142,8 @@ create_or_update_user(
     Role.by_name(key: "CP User Manager").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id]
+  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "is_manager" => true
 )
 
 create_or_update_user(
@@ -157,5 +158,6 @@ create_or_update_user(
     Role.by_name(key: "GBV User Manager").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id]
+  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "is_manager" => true
 )
