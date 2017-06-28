@@ -217,7 +217,14 @@ module FieldsHelper
   end
 
   def selected_date_value(value_string)
-    date_value = PrimeroDate.date_value(value_string)
+    #TODO-time: This if statement is a temporary fix
+    #When the 'parse_single_value' is updated the statement should be replaced with
+    #just the contents of the else: 'date_value = PrimeroDate.date_value(value_string)'
+    if value_string.downcase == 'today'
+      date_value = DateTime.send('current').to_date
+    else
+      date_value = PrimeroDate.date_value(value_string)
+    end
     field_format_date(date_value)
   end
 end
