@@ -42,7 +42,7 @@ $(show_tools);
 <% end %>
 
 <% content_for :record_status do %>
-  <% if @record.module.workflow_status_indicator.present? %>
+  <% if @child.module.workflow_status_indicator.present? %>
     <%= display_workflow_status(@child, @lookups) %>
   <% end %>
 <% end %>
