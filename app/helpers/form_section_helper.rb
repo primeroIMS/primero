@@ -97,10 +97,11 @@ module FormSectionHelper
         #  1. The groups need to be in the same order as the lookup
         #  2. Within each group, the object order is determined by the sort field
         groups = subform_group_by_values.map{|_,v| [v,[]]}.to_h
+        groups[''] = []
         objects.each do |object|
           group_label = object.first.try(subform_group_by_field.name)
-          group_label = subform_group_by_values[group_label]
-          groups[group_label] << object if groups.key?(group_label)
+          group_label = subform_group_by_values[group_label] || ''
+          groups[group_label] << object #if groups.key?(group_label)
         end
         objects = groups.map{|k,group| [k, group.sort_by{|o| o[1].try(subform_field.subform_sort_by)}]}.to_h
       else
