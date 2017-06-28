@@ -398,8 +398,9 @@ cp_user_manager_permissions = [
     Permission.new(
         :resource => Permission::DASHBOARD,
         :actions => [
-            Permission::VIEW_APPROVALS,
-            Permission::VIEW_ASSESSMENT
+          Permission::VIEW_APPROVALS,
+          Permission::VIEW_ASSESSMENT,
+          Permission::DASH_REPORTING_LOCATION
         ]
     )
 ]
@@ -620,6 +621,14 @@ gbv_user_manager_permissions = [
             Permission::READ,
             Permission::CREATE,
             Permission::WRITE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::DASHBOARD,
+        :actions => [
+          Permission::VIEW_APPROVALS,
+          Permission::VIEW_ASSESSMENT,
+          Permission::DASH_REPORTING_LOCATION
         ]
     )
 ]
