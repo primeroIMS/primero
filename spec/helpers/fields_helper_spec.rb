@@ -99,7 +99,7 @@ describe FieldsHelper do
     # TODO-time: IF/WHEN self.parse_single_value in lib/primero_date is updated according to TODO:
     # TODO-time: Replace Date.stub with DateTime.stub
     it 'returns date for yesterday' do
-      DateTime.stub(:yesterday).and_return(Date.new(2016, 5, 22))
+      Date.stub(:yesterday).and_return(Date.new(2016, 5, 22))
       expect(@fields_helper.selected_date_value('yesterday')).to eq('22-May-2016')
     end
 
@@ -113,7 +113,7 @@ describe FieldsHelper do
     # TODO-time: IF/WHEN self.parse_single_value in lib/primero_date is updated according to TODO:
     # TODO-time: Replace Date.stub with DateTime.stub
     it 'returns date for tomorrow' do
-      DateTime.stub(:tomorrow).and_return(Date.new(2016, 5, 24))
+      Date.stub(:tomorrow).and_return(Date.new(2016, 5, 24))
       expect(@fields_helper.selected_date_value('tomorrow')).to eq('24-May-2016')
     end
 
