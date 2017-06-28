@@ -24,8 +24,10 @@ class PrimeroDate < Date
   def self.couchrest_typecast(parent, property, value)
     begin
       # The value comes from the database as a string with the format 'yyyy/mm/dd'
-      # If this statement is true data comes from the database and is in UTC
+      # And a DateTime object converted to string has the same format 'yyyy/mm/dd'
+      # If this statement is true data comes from the database or a model
       # It should return a datetime in local time for application
+      # TODO: # It should return a datetime in utc time because the time remains on the backend
       if value.to_s =~ /(\d{4})[\-|\/](\d{2})[\-|\/](\d{2})/
         year = $1.to_i
         month = $2.to_i
@@ -122,12 +124,10 @@ class PrimeroDate < Date
   #TODO-time: elsif ['yesterday', 'tomorrow'].include?(df): DateTime.send(df)
   def self.parse_single_value(date_format)
     df = date_format.first.downcase
-    if ['today'].include?(df)
-      DateTime.send('current').to_date
+    if ['yesterday', 'today', 'tomorrow'].include?(df)
+      Date.send(df)
     elsif ['current', 'now'].include?(df)
       DateTime.send(df).in_time_zone.to_datetime
-    elsif ['yesterday', 'tomorrow'].include?(df)
-      DateTime.send(df)
     else
       ''
     end
