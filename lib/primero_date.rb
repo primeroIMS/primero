@@ -20,6 +20,7 @@ class PrimeroDate < Date
     str.join('-')
   end
 
+  # TODO-time: Keep all backend times in UTC
   def self.couchrest_typecast(parent, property, value)
     begin
       # The value comes from the database as a string with the format 'yyyy/mm/dd'
@@ -34,11 +35,12 @@ class PrimeroDate < Date
         rails_datetime_format = /\d{4}[\-|\/]\d{2}[\-|\/]\d{2}T\d{2}:\d{2}:\d{2}/
         # Faster than parsing the date
         if value.to_s =~ database_datetime_format || value.to_s =~ rails_datetime_format
+        # TODO-time: Change 'in_time_zone' to 'utc'
           DateTime.parse(value.to_s).in_time_zone.to_datetime
         else
           Date.new(year, month, day)
         end
-      # Else, the data comes from the application and is in local time
+      # Else, the data is a string being read from the browser application and is in local time
       # We should then return a datetime in UTC for the database to store
       else
         self.parse_with_format(value)
@@ -113,7 +115,11 @@ class PrimeroDate < Date
 
   private
 
-  #Returns requested Time or Date object exclusively in local time
+  #TODO-time: Returns requested Time or Date object exclusively in local time
+  #TODO-time: This function should only be used to create new DateTimes for display in browser
+  #TODO-time: Date.send('today') returns the date based on utc, which can give you a day in the future
+  #TODO-time: if ['today'].include?(df): DateTime.send('current').to_date
+  #TODO-time: elsif ['yesterday', 'tomorrow'].include?(df): DateTime.send(df)
   def self.parse_single_value(date_format)
     df = date_format.first.downcase
     if ['today'].include?(df)

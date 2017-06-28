@@ -9,6 +9,8 @@ module FieldsHelper
   end
 
   #Use to return date or datetime as string for display in local time
+  #TODO-time: This function converts the UTC DateTimes in the model to local time for display in the browser
+  #ALL browser displayed times should pass through this function
   def field_format_date(a_date)
     if a_date.present? && a_date.instance_of?(Date)
       I18n.l(a_date)
@@ -59,6 +61,7 @@ module FieldsHelper
     if field_value.is_a?(Array)
       field_value = field_value.join ", "
     elsif field_value.is_a?(Date) || field_value.is_a?(Time)
+      #This function is IMPORTANT. It presents the Date/Time in the right format and converts it to local time 
       field_value = field_format_date(field_value)
     end
 
