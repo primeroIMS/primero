@@ -36,10 +36,17 @@ module TransitionActions
           message_failure_transition
           redirect_to :back
         end
-      else
+      elsif is_reassign?
         begin
           local_transition(@records)
           redirect_to_list and return
+        rescue => error
+          redirect_to :back
+        end
+      else
+        begin
+          local_transition(@records)
+          redirect_to :back
         rescue => error
           redirect_to :back
         end
