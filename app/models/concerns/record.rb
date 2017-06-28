@@ -11,7 +11,6 @@ module Record
   include Syncable
   include SyncableMobile
   include Importable
-  include Alertable
 
   EXPORTABLE_FIELD_TYPES = [
       Field::TEXT_FIELD,
