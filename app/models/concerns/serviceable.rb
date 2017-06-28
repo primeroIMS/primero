@@ -17,12 +17,10 @@ module Serviceable
     def update_implement_field
       services = self.services_section || []
       services.each do |service|
-        if service.try(:service_implemented_day_time) && service.try(:service_implemented) != SERVICE_IMPLEMENTED
+        if service_implemented?(service)
           service.try(:service_implemented=, SERVICE_IMPLEMENTED)
-        else
-          if service.try(:service_type)
-            service.try(:service_implemented=, SERVICE_NOT_IMPLEMENTED)
-          end
+        elsif service_not_implemented?(service)
+          service.try(:service_implemented=, SERVICE_NOT_IMPLEMENTED)
         end
       end
     end
@@ -53,6 +51,18 @@ module Serviceable
           .sort_by {|s| s.try(:service_response_day_time) || first_day}
           .last
       end
+    end
+
+    private
+
+    def service_implemented?(service)
+      service.try(:service_implemented_day_time).present? &&
+      (service.try(:service_implemented) != SERVICE_IMPLEMENTED)
+    end
+
+    def service_not_implemented?(service)
+      service.try(:service_type).present? &&
+      service.try(:service_implemented_day_time).blank?
     end
 
   end
