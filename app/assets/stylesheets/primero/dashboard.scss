@@ -41,6 +41,10 @@ $dashboard_table_counts:85px;
     text-indent: 1.6em;
   }
 
+  .admin_only_info {
+    font-size: 1em;
+  }
+
   a.section-stat {
     text-align: center;
     text-decoration: none;
@@ -476,9 +480,5 @@ $dashboard_table_counts:85px;
         font-family: 'Roboto-Medium', san-serif;
       }
     }
-  }
-  .admin_only_info {
-    font-size: $fifteen_px;
-    font-family: 'Roboto-Medium', san-serif;
   }
 }
