@@ -123,7 +123,7 @@ module FormSectionHelper
   end
 
   def display_approval_alert?(formObject, section)
-    alerts_config = @system_settings["approval_form_to_alert"]
+    alerts_config = @system_settings.present? ? @system_settings["approval_form_to_alert"] : nil
     display_alert = nil
     if !hide_alerts? && alerts_config.present? && formObject.alerts.present?
       alert_type = alerts_config.find{|a| a["form"] == section.section_name}
