@@ -29,10 +29,27 @@ module Alertable
     end
   end
 
-  def add_approval_alert(approval_type)
+  def get_alert(approval_type, system_settings)
+    alert_form = nil
+    system_settings ||= SystemSettings.current
+    if system_settings.present?
+      form_to_alert_map = system_settings["approval_form_to_alert"]
+
+      if form_to_alert_map.present?
+        alert = form_to_alert_map.find{|a| a["alert"] == approval_type}
+
+        if alert.present?
+          alert_form = alert["form"]
+        end
+      end
+    end
+
+    return alert_form
+  end
+
+  def add_approval_alert(approval_type, system_settings)
     if !alerts.any?{|a| a.type == approval_type}
-      alert_form = SystemSettings.current["approval_form_to_alert"].present? ? SystemSettings.current["approval_form_to_alert"].find{|a| a["alert"] == approval_type} : nil
-      alert = Alert.new(type: approval_type, date: Date.today, form_sidebar_id: alert_form["form"], alert_for: 'approval')
+      alert = Alert.new(type: approval_type, date: Date.today, form_sidebar_id: get_alert(approval_type, system_settings), alert_for: 'approval')
       self.alerts << alert
     end
   end
