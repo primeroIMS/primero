@@ -18,10 +18,10 @@ module HomeHelper
   def index_admin_only
     access = []
     if can? :manage, FormSection
-      access.append(link_to t("navigation.forms"), form_sections_path, {style:'font-weight: bold;', class: current_menu("forms")})
+      access.append(link_to t("dashboard.forms"), form_sections_path, {style:'font-weight: bold;', class: current_menu("forms")})
     end
     if can? :edit, Role or can? :edit, UserGroup
-      access.append(link_to t("navigation.users"), users_path, {style:'font-weight: bold;', class: current_menu("users")})
+      access.append(link_to t("dashboard.users"), users_path, {style:'font-weight: bold;', class: current_menu("users")})
     end
 
     if access.present?
