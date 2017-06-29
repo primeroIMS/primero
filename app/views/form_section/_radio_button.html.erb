@@ -21,9 +21,10 @@
 
   <div class="medium-8 columns">
     <% options_list.each do |option| %>
+      <% if radio_button.required %><span class="required form-section-required">*</span><% end %>
       <%radio_button_id = "#{radio_button.form.name.dehumanize}_#{sanitize_to_id(name)}_#{option['id']}"%>
       <% #TODO handle unknown %>
-      <%= radio_button_tag name, option['id'], value.to_s == option['id'],  :id => radio_button_id, :disabled => radio_button.disabled, :is_disabled => is_disabled, :data => { :field_tags => field_tags }, :disabled => disabled%>
+      <%= radio_button_tag name, option['id'], value.to_s == option['id'],  :id => radio_button_id, :disabled => disabled, :is_disabled => is_disabled, :data => { :field_tags => field_tags }, required: radio_button.required %>
       <%= label_tag radio_button_id, option['display_text'] %>
       <% unless show_horizontal %>
         <br>
