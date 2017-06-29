@@ -3,8 +3,8 @@ module FormSectionHelper
 
   ALERT_PREFIX = "<sup id='new_incident_details'>!</sup>"
 
-  def hide_alerts?
-    return @system_settings.present? && @system_settings["hide_alerts"] ? @system_settings["hide_alerts"] : false
+  def show_alerts?
+    return @system_settings.present? && @system_settings["show_alerts"] ? @system_settings["show_alerts"] : false
   end
 
   def sorted_highlighted_fields
@@ -60,7 +60,7 @@ module FormSectionHelper
 
   def build_form_name(form)
     form_name = form.name
-    if !hide_alerts? && @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
+    if show_alerts? && @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
       form_name = raw(form_name + ALERT_PREFIX)
     end
 
@@ -69,7 +69,7 @@ module FormSectionHelper
 
   def group_alert_prefix(forms)
     alert = ''
-    if !hide_alerts?
+    if show_alerts?
       forms.each do |form|
         if @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['form_sidebar_id'] == form.unique_id }
           alert = ALERT_PREFIX
@@ -125,7 +125,7 @@ module FormSectionHelper
   def display_approval_alert?(formObject, section)
     alerts_config = @system_settings.present? ? @system_settings["approval_form_to_alert"] : nil
     display_alert = nil
-    if !hide_alerts? && alerts_config.present? && formObject.alerts.present?
+    if show_alerts? && alerts_config.present? && formObject.alerts.present?
       alert_type = alerts_config.find{|a| a["form"] == section.section_name}
       display_alert = alert_type.present? && formObject.alerts.any?{|a| a["type"] == alert_type["alert"]} ? section.name : nil
     end
