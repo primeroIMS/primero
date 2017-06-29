@@ -27,7 +27,7 @@ create_or_update_system_setting(
   :hide_alerts => false,
   :approval_form_to_alert => [
     {
-      :form_ => "cp_bia_form",
+      :form => "cp_bia_form",
       :alert => "bia"
     },
     {
