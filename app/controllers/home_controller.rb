@@ -83,7 +83,6 @@ class HomeController < ApplicationController
 
     }
 
-    # TODO: Don't hard-code
     @workflow_order = [
       Record::STATUS_OPEN,
       Workflow::WORKFLOW_NEW,
