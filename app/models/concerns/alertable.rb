@@ -31,8 +31,7 @@ module Alertable
 
   def add_approval_alert(approval_type)
     if !alerts.any?{|a| a.type == approval_type}
-      alerts_config = SystemSettings.current["alerts_config"]
-      alert_form = alerts_config["approval_form_to_alert"].present? ? alerts_config["approval_form_to_alert"].find{|a| a["alert"] == approval_type} : nil
+      alert_form = SystemSettings.current["approval_form_to_alert"].present? ? SystemSettings.current["approval_form_to_alert"].find{|a| a["alert"] == approval_type} : nil
       alert = Alert.new(type: approval_type, date: Date.today, form_sidebar_id: alert_form["form"], alert_for: 'approval')
       self.alerts << alert
     end

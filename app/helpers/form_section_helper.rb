@@ -1,12 +1,11 @@
 module FormSectionHelper
-  extend Memoist
+
 
   ALERT_PREFIX = "<sup id='new_incident_details'>!</sup>"
 
   def hide_alerts?
-    return SystemSettings.current.present? && SystemSettings.current["hide_alerts"] ? SystemSettings.current["hide_alerts"] : false
+    return @system_settings.present? && @system_settings["hide_alerts"] ? @system_settings["hide_alerts"] : false
   end
-  memoize :hide_alerts?
 
   def sorted_highlighted_fields
     FormSection.sorted_highlighted_fields
@@ -124,7 +123,7 @@ module FormSectionHelper
   end
 
   def display_approval_alert?(formObject, section)
-    alerts_config = SystemSettings.current["approval_form_to_alert"]
+    alerts_config = @system_settings["approval_form_to_alert"]
     display_alert = nil
     if !hide_alerts? && alerts_config.present? && formObject.alerts.present?
       alert_type = alerts_config.find{|a| a["form"] == section.section_name}
