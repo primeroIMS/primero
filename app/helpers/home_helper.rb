@@ -46,8 +46,12 @@ module HomeHelper
     if query.present?
       results = query.facet_response['facet_pivot'].values.first
       sub_group = results.select{|v| v["value"] == stat_group[:name]}.first
-      pivot = sub_group["pivot"].select{|v| v["value"] == stat_group[:stat]}.first
-      total = pivot["count"]
+      if sub_group.present?
+        pivot = sub_group["pivot"].select{|v| v["value"] == stat_group[:stat]}.first
+        if pivot.present?
+          total = pivot["count"]
+        end
+      end
     end
     total = 0 if total.blank?
     return total
@@ -161,7 +165,10 @@ module HomeHelper
     filters.each do |filter|
       filter = filter.split('=')
       if filter.size > 1
-        list << index_filters_list[filter.first.to_sym] + filter.last
+        value = filter.last
+        if value.present?  && value != 'nil'
+          list << index_filters_list[filter.first.to_sym] + value
+        end
       elsif
         list << index_filters_list[filter.first.to_sym]
       end
@@ -170,7 +177,7 @@ module HomeHelper
   end
 
   def overdue
-    "#{Time.now.strftime("%d-%b-%Y %H:%M")}"
+    "#{DateTime.new(1,1,1).strftime("%d-%b-%Y %H:%M")}.#{Time.now.strftime("%d-%b-%Y %H:%M")}"
   end
 
   def near_due
