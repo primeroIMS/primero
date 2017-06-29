@@ -62,6 +62,7 @@ class Permission
   VIEW_ASSESSMENT = 'view_assessment'
   DASH_REPORTING_LOCATION = 'dash_reporting_location'
   DASH_PROTECTION_CONCERNS = 'dash_protection_concerns'
+  DASH_SERVICE_PROVISIONS = 'dash_service_provisions'
   DASH_MATCHING_RESULTS = 'dash_matching_results'
   SEARCH_OWNED_BY_OTHERS = 'search_owned_by_others'
   INCIDENT_FROM_CASE = 'incident_from_case'
@@ -121,7 +122,8 @@ class Permission
       DASH_PROTECTION_CONCERNS,
       SEARCH_OWNED_BY_OTHERS,
       INCIDENT_FROM_CASE,
-      DASH_MATCHING_RESULTS
+      DASH_MATCHING_RESULTS,
+      DASH_SERVICE_PROVISIONS
     ]
   end
 
@@ -174,7 +176,7 @@ class Permission
        when SYSTEM
          [MANAGE]
        when DASHBOARD
-         [VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS, DASH_MATCHING_RESULTS, MANAGE]
+         [VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS, DASH_MATCHING_RESULTS, MANAGE, DASH_SERVICE_PROVISIONS]
        else
          actions
      end

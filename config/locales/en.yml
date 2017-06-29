@@ -1361,16 +1361,19 @@ en:
     new_referred: "New Referrals"
     high_risk: 'High Priority'
     low_risk: 'Low Priority'
-    no_risk: 'No Priority'
+    _risk: 'No Priority'
     medium_risk: 'Medium Priority'
     pending: 'Pending'
     rejected: 'Rejected'
     approvals: 'Approvals'
     near_deadline: 'Near Deadline'
-    due: 'Due'
+    due: 'Overdue'
     response: 'Response <span>(In Progress)</span>'
     immediate_response: 'Immediate Response'
-    comprehensive_response: 'Comprehensive Response'
+    comprehensive_need_intervention: 'Comprehensive Response'
+    new_incident: 'New Incidents'
+    new_service_provision: 'New Service Provisions'
+    all_services_implemented: 'All Services Implemented'
 
     flagged_by: "Flagged by:"
     no_recent_activities: "No Recent Activities"

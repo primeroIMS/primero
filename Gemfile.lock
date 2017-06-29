@@ -502,6 +502,7 @@ DEPENDENCIES
   capistrano (~> 2.14.2)
   capybara (~> 2.2.1)
   chosen-rails (~> 1.1.0)
+  chronic (= 0.10.2)
   ci_reporter (~> 1.9.1)
   closure-compiler
   coffee-rails (~> 4.0.1)

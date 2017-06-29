@@ -40,6 +40,19 @@ module HomeHelper
     return total
   end
 
+  def pivot_case_stat(stat_group, queries={}, group)
+    query = queries[group]
+
+    if query.present?
+      results = query.facet_response['facet_pivot'].values.first
+      sub_group = results.select{|v| v["value"] == stat_group[:name]}.first
+      pivot = sub_group["pivot"].select{|v| v["value"] == stat_group[:stat]}.first
+      total = pivot["count"]
+    end
+    total = 0 if total.blank?
+    return total
+  end
+
   def display_stat(data={})
     model = model_name_class(data[:model]).pluralize
     count = case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model])
@@ -61,8 +74,13 @@ module HomeHelper
       total_link += index_filters(data[:filters]) if data[:filters].present?
 
       total_stat =  link_to total_link do
-        if data[:stat].present?
-          concat(content_tag(:div, case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model]), class: 'count'))
+        if data[:pivoted].present?
+          total = pivot_case_stat({name: data[:name], stat: data[:stat]}, data[:stats], :total)
+          concat(content_tag(:div, total, class: 'count'))
+        else
+          if data[:stat].present?
+            concat(content_tag(:div, case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model]), class: 'count'))
+          end
         end
         concat(content_tag(:span, data[:text], class: 'label primary'))
       end
@@ -70,7 +88,11 @@ module HomeHelper
       concat(content_tag(:div, total_stat, class: "column shrink"))
       concat(content_tag(:ul) {
         data[:additional_details].each do |detail|
-          count = case_stat({name: data[:name], stat: detail[:stat]}, data[:stats], data[:model])
+          if data[:pivoted].present?
+            count = pivot_case_stat({name: data[:name], stat: data[:stat]}, data[:stats], detail[:group])
+          else
+            count = case_stat({name: data[:name], stat: detail[:stat]}, data[:stats], data[:model])
+          end
           detail_link = link_to model_path + index_filters(detail[:filters]) do
             concat(count)
             concat(content_tag(:span, detail[:text]))
@@ -130,7 +152,11 @@ module HomeHelper
       case_plan_approved_date: "scope[case_plan_approved_date]=date_range||",
       closure_approved_date: "scope[closure_approved_date]=date_range||",
       transfer_status: "scope[transfer_status]=list||",
-      transferred_to_users: "scope[transferred_to_users]=list||#{current_user.user_name}"
+      transferred_to_users: "scope[transferred_to_users]=list||#{current_user.user_name}",
+      current_alert_types: "scope[current_alert_types]=list||",
+      workflow: "scope[workflow]=list||",
+      workflow_status: "scope[workflow_status]=list||",
+      service_due_dates: "scope[service_due_dates]=date_range||"
     }
     filters.each do |filter|
       filter = filter.split('=')
@@ -141,6 +167,14 @@ module HomeHelper
       end
     end
     return "?" + list.join('&')
+  end
+
+  def overdue
+    "#{Time.now.strftime("%d-%b-%Y %H:%M")}"
+  end
+
+  def near_due
+    "#{Time.now.strftime("%d-%b-%Y ")}.#{24.hours.from_now.strftime("%d-%b-%Y %H:%M")}"
   end
 
   def last_week

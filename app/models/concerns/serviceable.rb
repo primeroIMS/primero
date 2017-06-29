@@ -1,3 +1,5 @@
+require 'chronic'
+
 module Serviceable
   extend ActiveSupport::Concern
 

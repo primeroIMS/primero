@@ -18,6 +18,15 @@ $dashboard_table_counts:85px;
     padding-bottom: .8em;
     margin-bottom: 0;
     margin-top: 1.5em;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+
+    span {
+      font-size: .7em;
+      color: $green_color;
+    }
   }
 
   h5.stat_heading {

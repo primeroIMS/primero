@@ -44,6 +44,7 @@ gem 'compass-rails', '~> 3.0.2'
 gem 'coffee-rails',  '~> 4.0.1'
 gem 'chosen-rails',  '~> 1.1.0'
 gem 'ejs', '~> 1.1.1'
+gem 'chronic', '0.10.2'
 
 gem 'rack-mini-profiler', require: false
 

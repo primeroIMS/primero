@@ -189,6 +189,10 @@ class Child < CouchRest::Model::Base
 
     boolean :estimated
     boolean :consent_for_services
+
+    time :service_due_dates, :multiple => true
+
+    string :workflow_status, as: 'workflow_status_sci'
   end
 
   include Alertable
@@ -205,7 +209,7 @@ class Child < CouchRest::Model::Base
   def self.minimum_reportable_fields
     {
         'boolean' => ['record_state'],
-         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by'],
+         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'risk_level'],
     'multistring' => ['associated_user_names'],
            'date' => ['registration_date'],
         'integer' => ['age'],
@@ -400,6 +404,13 @@ class Child < CouchRest::Model::Base
       match_criteria[:"#{field}"] = self.family_details_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ')
     end
     match_criteria.compact
+  end
+
+  def service_due_dates
+    # TODO: only use services that is of the type of the current workflow
+    self.nested_reportables_hash[ReportableService].map do |service|
+      service.service_due_date
+    end.compact
   end
 
   private

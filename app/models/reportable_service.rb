@@ -24,12 +24,24 @@ class ReportableService
     extend ReportableNestedRecord::Searchable
     configure_searchable(ReportableService)
 
-    string :service_case_workflow, :stored => true do
-      self.parent_record.workflow
-    end
+    time :service_due_date
+  end
 
-    string :service_case_risk_level, :stored => true do
-      self.parent_record.workflow
+  def service_due_date
+    created_on = object_value('service_response_day_time')
+    timeframe = object_value('service_response_timeframe')
+
+    if created_on.present? && timeframe.present?
+      converted_timeframe = convert_time(timeframe)
+      converted_timeframe.present? ? created_on + converted_timeframe : nil
+    end
+  end
+
+  def convert_time(string)
+    times = string.split('_')
+
+    if times.size >= 2
+      times[0].to_i.send(times[1])
     end
   end
 
