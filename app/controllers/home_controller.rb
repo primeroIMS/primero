@@ -261,12 +261,12 @@ class HomeController < ApplicationController
     module_ids = @module_ids
     results = Child.search do
       with(:record_state, true)
-      with(:associated_user_names, current_user.managed_user_names) unless query[:assigned].present?
-      with(:assigned_user_names, current_user.user_name) if query[:assigned].present?
+      with(:associated_user_names, current_user.managed_user_names) unless query[:cases_to_assign].present?
       with(:child_status, query[:status]) if query[:status].present?
       with(:not_edited_by_owner, true) if query[:new_records].present?
 
       facet(:assigned_user_names, zeros: true) if query[:referred].present?
+      with(:owned_by, current_user.user_name) if query[:cases_to_assign].present?
 
       if module_ids.present?
         any_of do

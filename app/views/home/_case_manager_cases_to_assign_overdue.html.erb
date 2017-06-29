@@ -9,7 +9,7 @@
         "child_status=#{Record::STATUS_OPEN}",
         "risk_level=#{Child::RISK_LEVEL_HIGH}",
         'record_state=true',
-        "referred_users",
+        "owned_by=#{current_user.user_name}",
         "reassigned_tranferred_on=#{one_hour_overdue}"
       ],
       text: t('dashboard.high_risk')
@@ -20,7 +20,7 @@
         "child_status=#{Record::STATUS_OPEN}",
         "risk_level=#{Child::RISK_LEVEL_LOW}",
         'record_state=true',
-        "referred_users",
+        "owned_by=#{current_user.user_name}",
         "reassigned_tranferred_on=#{three_hours_overdue}"
       ],
       text: t('dashboard.low_risk')
