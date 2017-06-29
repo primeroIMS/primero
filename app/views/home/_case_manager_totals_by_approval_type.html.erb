@@ -42,7 +42,7 @@
   }) %>
 <% end %>
 
-<% if @count_pending_approval_total %>
+<% if @can_approval_closure %>
   <%= display_stat_detailed({
     name: :approval_type,
     stat: nil,
