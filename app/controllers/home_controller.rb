@@ -13,7 +13,7 @@ class HomeController < ApplicationController
     #TODO - Refactor to reduce number of solr queries
     load_cases_information if display_cases_dashboard?
 
-    @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v} << nil
+    @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v} #<< nil #TODO: for now removing the no-priority cases
     @service_response_types = Lookup.values_for_select('lookup-service-response-type').map{|h,v| v}
     @service_stats_near = load_case_service_information('near') if display_cases_dashboard?
     @service_stats_overdue = load_case_service_information('overdue') if display_cases_dashboard?
