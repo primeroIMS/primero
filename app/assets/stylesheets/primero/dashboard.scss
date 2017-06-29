@@ -7,6 +7,132 @@ $dashboard_table_col6:100px;
 $dashboard_table_counts:85px;
 
 #dashboard {
+  .dashboard-group {
+    margin-bottom: 3em;
+  }
+
+  h4.stat_heading {
+    text-align: center;
+    border-bottom: 1px solid $stroke_green_color;
+    font-size: 1.4em;
+    padding-bottom: .8em;
+    margin-bottom: 0;
+    margin-top: 1.5em;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+
+    span {
+      font-size: .7em;
+      color: $green_color;
+    }
+  }
+
+  h5.stat_heading {
+    font-size: 1em;
+    border-bottom: 1px dashed rgba(0, 0, 0, .2);
+    padding-bottom: .5em;
+    margin: 2em 0 0.8em;
+    text-indent: 1.6em;
+  }
+
+  a.section-stat {
+    text-align: center;
+    text-decoration: none;
+    padding: 1em 0;
+    height: rem_calc(115);
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      background: rgba(0, 0, 0, .04);
+    }
+
+    .stat {
+      color: $green_color;
+      text-align: center;
+    }
+
+    p {
+      font-size: .8rem;
+      margin-bottom: 0;
+    }
+  }
+
+  .section-stat-detailed {
+    font-size: 1.4em;
+    color: $green_color;
+
+    .column {
+      padding-right: 0;
+    }
+
+    span {
+      font-size: .6em;
+      color: #575757;
+    }
+
+    .label {
+      background: none;
+      border: 1px solid $stroke_green_color;
+      color: $green_color;
+      align-self: center;
+    }
+
+    a {
+      text-decoration: none;
+      display: flex;
+      padding: .2em .5em;
+      color: $green_color;
+
+      .count {
+        margin-right: .5em;
+      }
+
+      span {
+        color: #575757;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, .04);
+      }
+    }
+    ul {
+      margin: 0;
+      display: inline-flex;
+
+      li {
+        a {
+          align-items: center;
+
+          span {
+            margin-left: .8em;
+          }
+        }
+
+        &.additional-detail {
+          position: relative;
+
+          &:after {
+            content: "/";
+            padding: .2em .1em;
+            position: absolute;
+            right: -7px;
+            top: 0;
+            color: #575757;
+          }
+
+          &:only-child, &:last-child {
+            &:after {
+              content: "";
+            }
+          }
+        }
+      }
+    }
+  }
+
   .panel {
     border: 1px solid $stroke_green_color;
     background: #fff;

@@ -51,6 +51,9 @@ module ReportableNestedRecord
 
   module Searchable
     def configure_searchable(record_class)
+      string :parent_record_id do |f|
+        f.record_value('id')
+      end
       record_class.parent_record_type.minimum_reportable_fields.each do |type, fields|
         case type
         when 'string'

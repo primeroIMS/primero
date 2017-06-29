@@ -1351,6 +1351,30 @@ en:
     child_status_duplicate: "Duplicate"
 
   dashboard:
+    total: 'Total'
+    new: 'New'
+    pending_transfers: 'Pending Transfers'
+    rejected_transfers: 'Rejected Transfers'
+    transers_awaiting_acceptance: 'Transfers Awaiting Acceptance'
+    high_risk: 'High Risk'
+    total_referred: "Total Referrals"
+    new_referred: "New Referrals"
+    high_risk: 'High Priority'
+    low_risk: 'Low Priority'
+    _risk: 'No Priority'
+    medium_risk: 'Medium Priority'
+    pending: 'Pending'
+    rejected: 'Rejected'
+    approvals: 'Approvals'
+    near_deadline: 'Near Deadline'
+    due: 'Overdue'
+    response: 'Response <span>(In Progress)</span>'
+    immediate_response: 'Immediate Response'
+    comprehensive_need_intervention: 'Comprehensive Response'
+    new_incident: 'New Incidents'
+    new_service_provision: 'New Service Provisions'
+    all_services_implemented: 'All Services Implemented'
+
     flagged_by: "Flagged by:"
     no_recent_activities: "No Recent Activities"
     no_scheduled_activities: "No Scheduled Activities"

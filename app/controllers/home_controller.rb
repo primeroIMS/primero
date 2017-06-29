@@ -12,6 +12,13 @@ class HomeController < ApplicationController
 
     #TODO - Refactor to reduce number of solr queries
     load_cases_information if display_cases_dashboard?
+
+    @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v} << nil
+    @service_response_types = Lookup.values_for_select('lookup-service-response-type').map{|h,v| v}
+    @service_stats_near = load_case_service_information('near') if display_cases_dashboard?
+    @service_stats_overdue = load_case_service_information('overdue') if display_cases_dashboard?
+    @service_stats_totals = load_case_service_information if display_cases_dashboard?
+
     load_incidents_information if display_incidents_dashboard?
     load_manager_information if display_manager_dashboard?
     load_gbv_incidents_information if display_gbv_incidents_dashboard?
@@ -180,6 +187,10 @@ class HomeController < ApplicationController
     @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.is_admin?)
   end
 
+  def display_service_provisions?
+    @display_service_provisions ||= can?(:dash_service_provisions, Dashboard)
+  end
+
   def manager_case_query(query = {})
     module_ids = @module_ids
     results = Child.search do
@@ -300,6 +311,34 @@ class HomeController < ApplicationController
     Child.list_records({}, {:last_updated_at => :desc}, {page: 1, per_page: 20}, current_user.managed_user_names)
   end
 
+  def load_case_service_information(timeframe=nil)
+    pivots = [
+      'workflow_status',
+      'risk_level'
+    ]
+
+    Child.search do
+      with(:child_status, Record::STATUS_OPEN)
+      with(:record_state, true)
+      with(:associated_user_names, current_user.user_name)
+
+      case timeframe
+      when 'near'
+        with(:service_due_dates).between(Time.now..24.hours.from_now.to_time)
+      when 'overdue'
+        with(:service_due_dates).less_than(Time.now)
+      end
+
+      adjust_solr_params do |params|
+        params['facet'] = 'true'
+        params['facet.missing'] = 'true'
+        params['facet.pivot'] = pivots.map{|p| SolrUtils.indexed_field_name('case', p)}.join(',')
+        params['facet.pivot.mincount'] = '-1'
+        params['facet.pivot.limit'] = '-1'
+      end
+    end
+  end
+
   def load_cases_information
     module_ids = @module_ids
     @stats = Child.search do
@@ -417,6 +456,22 @@ class HomeController < ApplicationController
         row(:in_progress) do
           with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
           with(:transferred_to_users, current_user.user_name)
+        end
+      end
+
+      facet(:services_implemented, zeros: true, exclude: [referred]) do
+        row(:total) do
+          with(:workflow, Child::WORKFLOW_SERVICE_IMPLEMENTED)
+        end
+      end
+
+      facet(:alerts, zeros: true, exclude: [referred]) do
+        row(:new_incidents) do
+          with(:current_alert_types, Child::ALERT_INCIDENT)
+        end
+
+        row(:new_services) do
+          with(:current_alert_types, Child::ALERT_SERVICE)
         end
       end
     end

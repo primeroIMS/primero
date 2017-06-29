@@ -1,44 +1,32 @@
-<div class="panel dash_case_worker">
-  <div class="panel_header">
-    <h4><%= t("dashboard.case_stats") %></h4>
+<% if @stats.present? %>
+  <div class="dashboard-group">
+    <h4 class="stat_heading"><%= t("dashboard.case_stats") %></h4>
+    <div class="row align-middle large-up-5">
+      <%= render 'case_count_new_totals', stats: @stats, model: model %>
+      <%= render 'case_count_transfers_awaiting.html', stats: @stats, model: model %>
+      <%= render 'case_count_new_incident', stats: @stats, model: model %>
+      <%= render 'case_count_services_implemented', stats: @stats, model: model %>
+      <%= render 'case_count_referred', stats: @stats, model: model if @display_assessment %>
+      <%= render 'case_count_new_service_provision', stats: @stats, model: model if @display_service_provisions %>
+      <%= render 'case_count_transfers_by_status', stats: @stats, model: model %>
+    </div>
+
+    <div class="row">
+      <div class="column">
+        <h5 class="stat_heading"><%= t('dashboard.case_stat_by_assessment_level') %></h5>
+        <%= render 'case_count_risk_totals', stats: @stats, model: model %>
+      </div>
+      <% if @display_approvals && @can_approvals %>
+        <div class="column">
+          <h5 class="stat_heading"><%= t("dashboard.case_stat_by_approval_type") %></h5>
+          <%= render 'case_count_by_approval_type', stats: @stats, model: model %>
+        </div>
+      <% end %>
+    </div>
+
+    <h4 class="stat_heading"><%= t("dashboard.response").html_safe %></h4>
+    <%= render 'case_count_risk_response', stats_total: @service_stats_totals, stats_near: @service_stats_near, stats_overdue: @service_stats_overdue, model: model %>
   </div>
-  <div class="panel_content no-padding panel_main">
-    <% if @stats.present? %>
-    <table cellspacing="0" cellpadding="0" class="table-floating-header dashboard_counts">
-      <tbody>
-        <tr>
-          <td>
-            <div class="stat_title"><%= t("dashboard.case_stats") %></div>
-            <%= render 'case_count_new_totals', stats: @stats, model: model %>
-            <%= render 'case_count_transfers_by_status', stats: @stats, model: model %>
-          </td>
-        </tr>
-        <% if @display_approvals && @can_approvals %>
-          <tr>
-            <td>
-              <div class="stat_title"><%= t("dashboard.case_stat_by_approval_type") %></div>
-              <%= render 'case_count_by_approval_type', stats: @stats, model: model %>
-            </td>
-          </tr>
-        <% end %>
-        <% if @display_assessment %>
-          <tr>
-            <td>
-              <div class="stat_title"><%= t('dashboard.case_stat_by_assessment_level') %></div>
-              <%= render 'case_count_risk_totals', stats: @stats, model: model %>
-            </td>
-          </tr>
-        <% end %>
-        <tr>
-          <td>
-            <div class="stat_title"><%= t("dashboard.case_stat_referrals") %></div>
-            <%= render 'case_count_referred', stats: @stats, model: model %>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <% else %>
-      <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
-    <% end %>
-  </div>
-</div>
+<% else %>
+  <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
+<% end %>

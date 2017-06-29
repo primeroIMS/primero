@@ -64,6 +64,5 @@ module Serviceable
       service.try(:service_type).present? &&
       service.try(:service_implemented_day_time).blank?
     end
-
   end
 end
