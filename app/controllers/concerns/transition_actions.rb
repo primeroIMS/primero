@@ -145,10 +145,12 @@ module TransitionActions
             transfer_record.previously_owned_by = transfer_record.owned_by
             transfer_record.owned_by = @new_user.user_name
             transfer_record.owned_by_full_name = @new_user.full_name
+            transfer_record.reassigned_tranferred_on = DateTime.now
           elsif is_transfer?
             #Referred users will be on the assigned users until the user accept or reject the referral.
             transfer_record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
             transfer_record.transfer_status = to_user_local_status
+            transfer_record.reassigned_tranferred_on = DateTime.now
           end
           unless transfer_record.save
             failed_count += 1

@@ -74,7 +74,11 @@ module HomeHelper
 
   def display_stat(data={})
     model = model_name_class(data[:model]).pluralize
-    count = case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model])
+    count = if data[:name].present? && data[:stats].present?
+      case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model])
+    else
+      data[:stat] || 0
+    end
 
     link_to send("#{model}_path") + index_filters(data[:filters]), class: 'column section-stat' do
       content_tag :div, class: "stats" do
@@ -175,7 +179,8 @@ module HomeHelper
       current_alert_types: "scope[current_alert_types]=list||",
       workflow: "scope[workflow]=list||",
       workflow_status: "scope[workflow_status]=list||",
-      service_due_dates: "scope[service_due_dates]=date_range||"
+      service_due_dates: "scope[service_due_dates]=date_range||",
+      reassigned_tranferred_on: "scope[reassigned_tranferred_on]=date_range||"
     }
     filters.each do |filter|
       filter = filter.split('=')
@@ -189,6 +194,14 @@ module HomeHelper
       end
     end
     return "?" + list.join('&')
+  end
+
+  def one_hour_overdue
+    "#{DateTime.new(1,1,1).strftime("%d-%b-%Y %H:%M")}.#{1.hour.from_now.strftime("%d-%b-%Y %H:%M")}"
+  end
+
+  def three_hours_overdue
+    "#{DateTime.new(1,1,1).strftime("%d-%b-%Y %H:%M")}.#{3.hours.from_now.strftime("%d-%b-%Y %H:%M")}"
   end
 
   def overdue

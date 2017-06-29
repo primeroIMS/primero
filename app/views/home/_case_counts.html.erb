@@ -19,7 +19,7 @@
         </div>
       <% end %>
       <% if @display_approvals && @can_approvals %>
-        <div class="column">
+        <div class="large-7 column">
           <h5 class="stat_heading"><%= t("dashboard.case_stat_by_approval_type") %></h5>
           <%= render 'case_count_by_approval_type', stats: @stats, model: model %>
         </div>

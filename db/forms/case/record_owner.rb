@@ -54,6 +54,13 @@ record_owner_fields = [
              "editable" => false,
              "disabled" => true
           }),
+  Field.new({"name" => "reassigned_tranferred_on",
+            "type" => "date_field",
+            "display_name_all" => "Reassigned / Transferred On",
+            "date_include_time" => true,
+            "editable" => false,
+            "disabled" => true
+          }),
   Field.new({"name" => "owned_by_agency",
              "type" => "select_box",
              "mobile_visible" => false,

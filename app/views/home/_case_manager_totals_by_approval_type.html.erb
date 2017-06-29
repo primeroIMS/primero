@@ -1,42 +1,65 @@
 <% if @can_approval_bia %>
-  <div>
-    <%= I18n.translate("dashboard.count_pending_approval_total",
-                       case_count(
-                         {
-                           name: :approval_type,
-                           stat: :bia,
-                           filter: index_filters(["child_status=#{Record::STATUS_OPEN}",
-                                                  "approval_status_bia=#{Child::APPROVAL_STATUS_PENDING}",
-                                                  'record_state=true']),
-                           stat_type: "#{I18n.t('approvals.bia')}"
-                         }, stats, model)).html_safe %>
-  </div>
+  <%= display_stat_detailed({
+    name: :approval_type,
+    stat: nil,
+    filters: [],
+    additional_details: [
+      {
+        stat: :bia,
+        filters: [
+          "child_status=#{Record::STATUS_OPEN}",
+          "approval_status_bia=#{Child::APPROVAL_STATUS_PENDING}",
+          'record_state=true'
+        ],
+        text: t('dashboard.pending')
+      }
+    ],
+    stats: stats,
+    model: model,
+    text: t('approvals.bia'),
+  }) %>
 <% end %>
+
 <% if @can_approval_case_plan %>
-  <div>
-    <%= I18n.translate("dashboard.count_pending_approval_total",
-                       case_count(
-                         {
-                           name: :approval_type,
-                           stat: :case_plan,
-                           filter: index_filters(["child_status=#{Record::STATUS_OPEN}",
-                                                  "approval_status_case_plan=#{Child::APPROVAL_STATUS_PENDING}",
-                                                  'record_state=true']),
-                           stat_type: "#{I18n.t('approvals.case_plan')}"
-                         }, stats, model)).html_safe %>
-  </div>
+  <%= display_stat_detailed({
+    name: :approval_type,
+    stat: nil,
+    filters: [],
+    additional_details: [
+      {
+        stat: :case_plan,
+        filters: [
+          "child_status=#{Record::STATUS_OPEN}",
+          "approval_status_case_plan=#{Child::APPROVAL_STATUS_PENDING}",
+          'record_state=true'
+        ],
+        text: t('dashboard.pending')
+      }
+    ],
+    stats: stats,
+    model: model,
+    text: t('approvals.case_plan'),
+  }) %>
 <% end %>
-<% if @can_approval_closure %>
-  <div>
-    <%= I18n.translate("dashboard.count_pending_approval_total",
-                       case_count(
-                         {
-                           name: :approval_type,
-                           stat: :closure,
-                           filter: index_filters(["child_status=#{Record::STATUS_OPEN}",
-                                                  "approval_status_closure=#{Child::APPROVAL_STATUS_PENDING}",
-                                                  'record_state=true']),
-                           stat_type: "#{I18n.t('approvals.closure')}"
-                         }, stats, model)).html_safe %>
-  </div>
+
+<% if @count_pending_approval_total %>
+  <%= display_stat_detailed({
+    name: :approval_type,
+    stat: nil,
+    filters: [],
+    additional_details: [
+      {
+        stat: :closure,
+        filters: [
+          "child_status=#{Record::STATUS_OPEN}",
+          "approval_status_closure=#{Child::APPROVAL_STATUS_PENDING}",
+          'record_state=true'
+        ],
+        text: t('dashboard.pending')
+      }
+    ],
+    stats: stats,
+    model: model,
+    text: t('approvals.closure'),
+  }) %>
 <% end %>
