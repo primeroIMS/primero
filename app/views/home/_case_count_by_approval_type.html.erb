@@ -49,7 +49,7 @@
         stat: :pending,
         filters: [
           "child_status=#{Record::STATUS_OPEN}",
-          "approval_status_bia=#{Child::APPROVAL_STATUS_PENDING}",
+          "approval_status_case_plan=#{Child::APPROVAL_STATUS_PENDING}",
           'record_state=true'
         ],
         text: t('dashboard.pending')
@@ -58,7 +58,7 @@
         stat: :rejected,
         filters: [
           "child_status=#{Record::STATUS_OPEN}",
-          "approval_status_bia=#{Child::APPROVAL_STATUS_REJECTED}",
+          "approval_status_case_plan=#{Child::APPROVAL_STATUS_REJECTED}",
           'record_state=true'
         ],
         text: t('dashboard.rejected')
@@ -90,7 +90,7 @@
         stat: :pending,
         filters: [
           "child_status=#{Record::STATUS_OPEN}",
-          "approval_status_bia=#{Child::APPROVAL_STATUS_PENDING}",
+          "approval_status_closure=#{Child::APPROVAL_STATUS_PENDING}",
           'record_state=true'
         ],
         text: t('dashboard.pending')
@@ -99,7 +99,7 @@
         stat: :rejected,
         filters: [
           "child_status=#{Record::STATUS_OPEN}",
-          "approval_status_bia=#{Child::APPROVAL_STATUS_REJECTED}",
+          "approval_status_closure=#{Child::APPROVAL_STATUS_REJECTED}",
           'record_state=true'
         ],
         text: t('dashboard.rejected')

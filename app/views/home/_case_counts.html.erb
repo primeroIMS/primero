@@ -12,10 +12,12 @@
     </div>
 
     <div class="row">
-      <div class="column">
-        <h5 class="stat_heading"><%= t('dashboard.case_stat_by_assessment_level') %></h5>
-        <%= render 'case_count_risk_totals', stats: @stats, model: model %>
-      </div>
+      <% if @display_assessment %>
+        <div class="column">
+          <h5 class="stat_heading"><%= t('dashboard.case_stat_by_assessment_level') %></h5>
+          <%= render 'case_count_risk_totals', stats: @stats, model: model %>
+        </div>
+      <% end %>
       <% if @display_approvals && @can_approvals %>
         <div class="large-7 column">
           <h5 class="stat_heading"><%= t("dashboard.case_stat_by_approval_type") %></h5>

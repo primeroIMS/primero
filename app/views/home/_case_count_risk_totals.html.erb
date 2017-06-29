@@ -1,3 +1,7 @@
+<%#
+  TODO: this is hardcoding risk level and deliberately exclusing medium risk.
+  That's a bug! Risk levels shoudl be obtained dynamically and iterated.
+%>
 <%= display_stat_detailed({
   name: :risk_level,
   stat: :high_total,

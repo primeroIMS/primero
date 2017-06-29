@@ -7,14 +7,7 @@ def create_or_update_user(user_hash)
     User.create! user_hash
   else
     puts "Updating user #{user_id}"
-    user_attributes = {
-       "user_name" => user_hash["user_name"],
-       "full_name" => user_hash["full_name"],
-       "role_ids" => user_hash["role_ids"],
-       "module_ids" => user_hash["module_ids"],
-       "user_group_ids" => user_hash["user_group_ids"]
-    }
-    user.update_attributes user_attributes
+    user.update_attributes user_hash
   end
 
 end
