@@ -171,6 +171,7 @@ en:
   placeholders:
     subforms: "Click the edit button to add %{form} details"
 
+
   cases:
     label: "Cases"
     register_new_case: "New Case"
@@ -913,6 +914,7 @@ en:
       self: "Access only my records or user"
       group: "Access all records or users in my group"
       all: "Access all records or users"
+      admin_only: "No records - Admin functionality only"
       All: "All"
       specific_roles: "Access specified list of roles"
       consent_override: "Consent override"
@@ -1375,7 +1377,7 @@ en:
     new_incident: 'New Incidents'
     new_service_provision: 'New Service Provisions'
     all_services_implemented: 'All Services Implemented'
-
+    admin_only: "Click on %{links} icon to make changes to the application."
     flagged_by: "Flagged by:"
     no_recent_activities: "No Recent Activities"
     no_scheduled_activities: "No Scheduled Activities"
