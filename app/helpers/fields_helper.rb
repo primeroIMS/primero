@@ -8,6 +8,9 @@ module FieldsHelper
     end
   end
 
+  #Use to return date or datetime as string for display in local time
+  #TODO-time: This function converts the UTC DateTimes in the model to local time for display in the browser
+  #ALL browser displayed times should pass through this function
   def field_format_date(a_date)
     if a_date.present? && a_date.instance_of?(Date)
       I18n.l(a_date)
@@ -58,6 +61,7 @@ module FieldsHelper
     if field_value.is_a?(Array)
       field_value = field_value.join ", "
     elsif field_value.is_a?(Date) || field_value.is_a?(Time)
+      #This function is IMPORTANT. It presents the Date/Time in the right format and converts it to local time 
       field_value = field_format_date(field_value)
     end
 
@@ -213,7 +217,14 @@ module FieldsHelper
   end
 
   def selected_date_value(value_string)
-    date_value = PrimeroDate.date_value(value_string)
-    ['current', 'now'].include?(value_string) ? I18n.l(date_value, format: :with_time) : I18n.l(date_value)
+    #TODO-time: This if statement is a temporary fix
+    #When the 'parse_single_value' is updated the statement should be replaced with
+    #just the contents of the else: 'date_value = PrimeroDate.date_value(value_string)'
+    if value_string.downcase == 'today'
+      date_value = DateTime.send('current').to_date
+    else
+      date_value = PrimeroDate.date_value(value_string)
+    end
+    field_format_date(date_value)
   end
 end
