@@ -253,12 +253,14 @@ $dashboard_table_counts:85px;
     }
 
     table.table-counts {
+      table-layout: fixed;
+
       th:not(:first-child), td:not(:first-child) {
         width: $dashboard_table_counts !important;
       }
 
       th:first-child, td:first-child {
-        width: 253px !important;
+        width: 200px !important;
       }
     }
 
@@ -336,7 +338,7 @@ $dashboard_table_counts:85px;
           text-transform: uppercase;
           color: $green_color;
           font-size: 'Roboto-Medium', sans-serif;
-          font-size: $thirteen_px;
+          font-size: .75em;
 
           @if $global-text-direction == rtl {
             &:first-of-type {
