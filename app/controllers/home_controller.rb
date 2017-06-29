@@ -82,7 +82,6 @@ class HomeController < ApplicationController
       approval_types: {},
       manager_transfers: {},
       workflow_totals: {}
-
     }
 
     @workflow_order = [
@@ -149,7 +148,7 @@ class HomeController < ApplicationController
             stat['pivot'].each do |p|
               pivot_key = p['value']
 
-              if pivot_key.present?
+              if pivot_key.present? && @aggregated_case_manager_stats[:worker_totals][key].present?
                 @aggregated_case_manager_stats[:workflow_totals][key]['open'] = @aggregated_case_manager_stats[:worker_totals].present? ? @aggregated_case_manager_stats[:worker_totals][key][:total_cases] : 0
                 @aggregated_case_manager_stats[:workflow_totals][key][pivot_key] = p['count']
               end
