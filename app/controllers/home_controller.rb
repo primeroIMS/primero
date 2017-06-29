@@ -10,31 +10,33 @@ class HomeController < ApplicationController
     @notifications = PasswordRecoveryRequest.to_display
     load_user_module_data
 
-    #TODO - Refactor to reduce number of solr queries
-    load_cases_information if display_cases_dashboard?
+    if !display_admin_only?
+      #TODO - Refactor to reduce number of solr queries
+      load_cases_information if display_cases_dashboard?
 
-    @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v} #<< nil #TODO: for now removing the no-priority cases
-    @service_response_types = Lookup.values_for_select('lookup-service-response-type').map{|h,v| v}
-    @service_stats_near = load_case_service_information('near') if display_cases_dashboard?
-    @service_stats_overdue = load_case_service_information('overdue') if display_cases_dashboard?
-    @service_stats_totals = load_case_service_information if display_cases_dashboard?
+      @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v} #<< nil #TODO: for now removing the no-priority cases
+      @service_response_types = Lookup.values_for_select('lookup-service-response-type').map{|h,v| v}
+      @service_stats_near = load_case_service_information('near') if display_cases_dashboard?
+      @service_stats_overdue = load_case_service_information('overdue') if display_cases_dashboard?
+      @service_stats_totals = load_case_service_information if display_cases_dashboard?
 
-    load_incidents_information if display_incidents_dashboard?
-    load_manager_information if display_manager_dashboard?
-    load_gbv_incidents_information if display_gbv_incidents_dashboard?
-    load_match_result if display_matching_results_dashboard?
-    load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
-    #TODO: All this needs to be heavily refactored
+      load_incidents_information if display_incidents_dashboard?
+      load_manager_information if display_manager_dashboard?
+      load_gbv_incidents_information if display_gbv_incidents_dashboard?
+      load_match_result if display_matching_results_dashboard?
+      load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
+      #TODO: All this needs to be heavily refactored
 
-    display_case_worker_dashboard?
-    display_approvals?
-    display_assessment?
-    display_service_provisions?
-    display_cases_to_assign?
-    display_cases_by_workflow?
-    display_referrals_by_socal_worker?
-    display_cases_by_socal_worker?
-    display_transfers_by_socal_worker?
+      display_case_worker_dashboard?
+      display_approvals?
+      display_assessment?
+      display_service_provisions?
+      display_cases_to_assign?
+      display_cases_by_workflow?
+      display_referrals_by_socal_worker?
+      display_cases_by_socal_worker?
+      display_transfers_by_socal_worker?
+    end
   end
 
   private
@@ -148,7 +150,7 @@ class HomeController < ApplicationController
               pivot_key = p['value']
 
               if pivot_key.present?
-                @aggregated_case_manager_stats[:workflow_totals][key]['open'] = @aggregated_case_manager_stats[:worker_totals][key][:total_cases]
+                @aggregated_case_manager_stats[:workflow_totals][key]['open'] = @aggregated_case_manager_stats[:worker_totals].present? ? @aggregated_case_manager_stats[:worker_totals][key][:total_cases] : 0
                 @aggregated_case_manager_stats[:workflow_totals][key][pivot_key] = p['count']
               end
             end
@@ -181,6 +183,10 @@ class HomeController < ApplicationController
     #         end
     #       end
     @aggregated_case_manager_stats
+  end
+
+  def display_admin_only?
+    @display_admin_only ||= current_user.group_permissions.include?(Permission::ADMIN_ONLY)
   end
 
   def display_cases_dashboard?

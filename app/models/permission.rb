@@ -75,6 +75,7 @@ class Permission
   INCIDENT_DETAILS_FROM_CASE = 'incident_details_from_case'
   SERVICES_SECTION_FROM_CASE = 'services_section_from_case'
   CREATE = 'create'
+  ADMIN_ONLY = 'admin_only'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
@@ -144,7 +145,7 @@ class Permission
   end
 
   def self.management
-    [SELF, GROUP, ALL]
+    [SELF, GROUP, ALL, ADMIN_ONLY]
   end
 
   def self.all

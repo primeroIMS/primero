@@ -15,6 +15,21 @@ module HomeHelper
     send("#{model}_path") + "?scope[flag]=single||flag"
   end
 
+  def index_admin_only
+    access = []
+    if can? :manage, FormSection
+      access.append(link_to t("navigation.forms"), form_sections_path, {style:'font-weight: bold;', class: current_menu("forms")})
+    end
+    if can? :edit, Role or can? :edit, UserGroup
+      access.append(link_to t("navigation.users"), users_path, {style:'font-weight: bold;', class: current_menu("users")})
+    end
+
+    if access.present?
+      links = access.to_sentence
+      I18n.t("dashboard.admin_only", links: links).html_safe
+    end
+  end
+
   #TODO - refactor... move query logic to dashboard model
   #TODO - i18n
   def case_count(stat_group, query, model)
