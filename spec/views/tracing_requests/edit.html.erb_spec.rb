@@ -68,6 +68,7 @@ describe "tracing_requests/edit.html.erb" do
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(TracingRequest)
     controller.should_receive(:can?).with(:flag, @tracing_request).and_return(false)
+    controller.should_receive(:can?).with(:import, @tracing_request).and_return(true)
     controller.should_receive(:can?).with(:edit, @tracing_request).and_return(true)
     controller.should_receive(:can?).with(:export, TracingRequest).and_return(false)
     controller.should_receive(:can?).with(:export_custom, @tracing_request).and_return(false)

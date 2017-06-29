@@ -106,9 +106,6 @@ describe ChildrenController do
       #So, make sure this code is called with the corresponding instance.
       controller.should_receive(:is_consent_given?).with(instance).and_call_original
 
-      #Call method :is_reassign? when test the authorize and when test the consent.
-      controller.should_receive(:is_reassign?).twice.and_call_original
-
       #Call method :consent_override when test the consent and when create the history.
       controller.should_receive(:consent_override).twice.and_call_original
 
@@ -125,9 +122,11 @@ describe ChildrenController do
         controller.should_not_receive(:local_transition)
         controller.should_receive(:remote_transition).with([instance]).and_call_original
         controller.should_receive(:message_success_transition).with([instance].size).and_call_original
+        controller.should_receive(:is_reassign?).twice.and_call_original
       else
         controller.should_not_receive(:remote_transition)
         controller.should_receive(:local_transition).with([instance]).and_call_original
+        controller.should_receive(:is_reassign?).exactly(3).times.and_call_original
       end
 
       params = {
