@@ -408,9 +408,12 @@ class Child < CouchRest::Model::Base
 
   def service_due_dates
     # TODO: only use services that is of the type of the current workflow
-    self.nested_reportables_hash[ReportableService].map do |service|
-      service.service_due_date
-    end.compact
+    reportable_services = self.nested_reportables_hash[ReportableService]
+    if reportable_services.present?
+      reportable_services.map do |service|
+        service.service_due_date
+      end.compact
+    end
   end
 
   private
