@@ -1,7 +1,5 @@
 class HomeController < ApplicationController
   ALL_FILTER = "all"
-  IMMEDIATE_RESPONSE = 'immediate_response'
-  COMPREHENSIVE_NEED_INTERVENTION = 'comprehensive_need_intervention'
 
   before_filter :load_system_settings, :only => [:index]
   before_filter :can_access_approvals, :only => [:index]
