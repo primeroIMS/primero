@@ -1391,6 +1391,8 @@ en:
     approved: 'Approved'
     cases_by_workflow: 'Cases By Workflow'
     admin_only: "Click on %{links} icon to make changes to the application."
+    forms: "FORMS tab"
+    users: "SETTINGS icon"
     flagged_by: "Flagged by:"
     no_recent_activities: "No Recent Activities"
     no_scheduled_activities: "No Scheduled Activities"
