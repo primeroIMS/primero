@@ -133,12 +133,13 @@ class Incident < CouchRest::Model::Base
           end
         end
         incident.copy_case_information(child, incident_map, incident_detail_id)
+        #TODO: All Primero handing of dates should be refactored
         #This provides the current date according to local time
         #Typically things saved to models should be in UTC, but this is an exception
         #What matters here is the date for the person creating the incident
         #After its creation the date will not have a timezone
-        incident.date_of_first_report= DateTime.send('current').to_date
-        incident.status= STATUS_OPEN
+        incident.date_of_first_report = DateTime.current.to_date
+        incident.status = STATUS_OPEN
       end
     end
   end
