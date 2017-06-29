@@ -949,6 +949,8 @@ en:
       dash_reporting_location: "View Reporting Locations"
       dash_protection_concerns: "View Protection Concerns"
       dash_matching_results: "View Matching Results"
+      dash_service_provisions: "View Service Provisions"
+      dash_referrals_by_socal_worker: "View Referrals By Social Worker"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
@@ -1370,11 +1372,17 @@ en:
     due: 'Overdue'
     response: 'Response <span>(In Progress)</span>'
     immediate_response: 'Immediate Response'
+    cases_to_assign: 'Cases To Assign'
+    overdue_cases_to_assign: 'Overdue Cases To Assign'
+    approved: 'Approved'
+    closed: 'Closed'
     comprehensive_need_intervention: 'Comprehensive Response'
     new_incident: 'New Incidents'
     new_service_provision: 'New Service Provisions'
     all_services_implemented: 'All Services Implemented'
-
+    services_implemented: 'Services Implemented'
+    approved: 'Approved'
+    cases_by_workflow: 'Cases By Workflow'
     flagged_by: "Flagged by:"
     no_recent_activities: "No Recent Activities"
     no_scheduled_activities: "No Scheduled Activities"

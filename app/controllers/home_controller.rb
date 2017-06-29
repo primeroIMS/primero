@@ -29,6 +29,12 @@ class HomeController < ApplicationController
     display_case_worker_dashboard?
     display_approvals?
     display_assessment?
+    display_service_provisions?
+    display_cases_to_assign?
+    display_cases_by_workflow?
+    display_referrals_by_socal_worker?
+    display_cases_by_socal_worker?
+    display_transfers_by_socal_worker?
   end
 
   private
@@ -72,10 +78,23 @@ class HomeController < ApplicationController
       manager_totals: {},
       referred_totals: {},
       approval_types: {},
-      manager_transfers: {}
+      manager_transfers: {},
+      workflow_totals: {}
+
     }
 
+    # TODO: Don't hard-code
+    @workflow_order = [
+      Record::STATUS_OPEN,
+      Workflow::WORKFLOW_NEW,
+      @service_response_types,
+      Workflow::WORKFLOW_SERVICE_IMPLEMENTED
+    ].flatten
+
     managed_users = current_user.managed_user_names
+
+    @aggregated_case_manager_stats[:cases_to_assign] = queries[:cases_to_assign]
+    @aggregated_case_manager_stats[:cases_to_assign_overdue] = queries[:cases_to_assign_overdue]
 
     queries[:totals_by_case_worker].facet(:associated_user_names).rows.each do |c|
       if managed_users.include? c.value
@@ -113,6 +132,29 @@ class HomeController < ApplicationController
       if statuses.include? c.value
         @aggregated_case_manager_stats[:manager_transfers][c.value] = {}
         @aggregated_case_manager_stats[:manager_transfers][c.value][:total_cases] = c.count
+      end
+    end
+
+    workflow_query = queries[:case_by_workflow].facet_response['facet_pivot'].values.first
+
+    if workflow_query.present?
+      workflow_query.each do |stat|
+        key = stat['value']
+
+        if key.present?
+          @aggregated_case_manager_stats[:workflow_totals][key] = {}
+
+          if stat['pivot'].present?
+            stat['pivot'].each do |p|
+              pivot_key = p['value']
+
+              if pivot_key.present?
+                @aggregated_case_manager_stats[:workflow_totals][key]['open'] = @aggregated_case_manager_stats[:worker_totals][key][:total_cases]
+                @aggregated_case_manager_stats[:workflow_totals][key][pivot_key] = p['count']
+              end
+            end
+          end
+        end
       end
     end
 
@@ -191,14 +233,37 @@ class HomeController < ApplicationController
     @display_service_provisions ||= can?(:dash_service_provisions, Dashboard)
   end
 
+  def display_cases_to_assign?
+    @display_cases_to_assign ||= can?(:dash_cases_to_assign, Dashboard)
+  end
+
+  def display_cases_by_workflow?
+    @display_cases_by_workflow ||= can?(:dash_cases_by_workflow, Dashboard)
+  end
+
+  def display_referrals_by_socal_worker?
+    @display_referrals_by_socal_worker ||= can?(:dash_referrals_by_socal_worker, Dashboard)
+  end
+
+  def display_cases_by_socal_worker?
+    @display_cases_by_socal_worker ||= can?(:dash_cases_by_social_worker, Dashboard)
+  end
+
+  def display_transfers_by_socal_worker?
+    @display_transfers_by_socal_worker ||= can?(:dash_transfers_by_socal_worker, Dashboard)
+  end
+
   def manager_case_query(query = {})
     module_ids = @module_ids
     results = Child.search do
       with(:record_state, true)
-      with(:associated_user_names, current_user.managed_user_names)
+      with(:associated_user_names, current_user.managed_user_names) unless query[:assigned].present?
+      with(:assigned_user_names, current_user.user_name) if query[:assigned].present?
       with(:child_status, query[:status]) if query[:status].present?
       with(:not_edited_by_owner, true) if query[:new_records].present?
+
       facet(:assigned_user_names, zeros: true) if query[:referred].present?
+
       if module_ids.present?
         any_of do
           module_ids.each do |m|
@@ -206,13 +271,43 @@ class HomeController < ApplicationController
           end
         end
       end
+
+      if query[:cases_to_assign].present?
+        facet(:cases_to_assign, zeros: true) do
+          row(:high) do
+            with(:risk_level, Child::RISK_LEVEL_HIGH)
+            with(:reassigned_tranferred_on).less_than(1.hour.from_now.to_time) if query[:overdue].present?
+          end
+          row(:low) do
+            with(:risk_level, Child::RISK_LEVEL_LOW)
+            with(:reassigned_tranferred_on).less_than(3.hour.from_now.to_time) if query[:overdue].present?
+          end
+        end
+      end
+
       if query[:by_owner].present?
         facet :associated_user_names, limit: -1, zeros: true
         adjust_solr_params do |params|
           params['f.owned_by_s.facet.mincount'] = 0
         end
       end
+
+      if query[:by_workflow].present?
+        pivots = [
+          'associated_user_names',
+          'workflow_status'
+        ]
+        adjust_solr_params do |params|
+          params['facet'] = 'true'
+          params['facet.missing'] = 'true'
+          params['facet.pivot'] = pivots.map{|p| SolrUtils.indexed_field_name('case', p)}.join(',')
+          params['facet.pivot.mincount'] = '-1'
+          params['facet.pivot.limit'] = '-1'
+        end
+      end
+
       facet(:child_status, zeros: true) if query[:by_case_status].present?
+
       if query[:by_risk_level].present?
         facet(:risk_level, zeros: true) do
           row(:high) do
@@ -276,8 +371,12 @@ class HomeController < ApplicationController
       referred_total: manager_case_query({ referred: true, status: Record::STATUS_OPEN }),
       referred_new: manager_case_query({ referred: true, status: Record::STATUS_OPEN, new_records: true }),
       approval_type: manager_case_query({ by_approval_type: true, status: Record::STATUS_OPEN}),
-      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: Record::STATUS_OPEN})
+      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: Record::STATUS_OPEN}),
+      case_by_workflow: manager_case_query({ by_workflow: true, status: Record::STATUS_OPEN}),
+      cases_to_assign: manager_case_query({ cases_to_assign: true, assigned: true }),
+      cases_to_assign_overdue: manager_case_query({ cases_to_assign: true, assigned: true, overdue: true })
     }
+
     build_manager_stats(queries)
   end
 

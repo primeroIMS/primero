@@ -9,6 +9,10 @@ $dashboard_table_counts:85px;
 #dashboard {
   .dashboard-group {
     margin-bottom: 3em;
+
+    > .panel {
+      margin-top: 3em;
+    }
   }
 
   h4.stat_heading {

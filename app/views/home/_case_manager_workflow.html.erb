@@ -1,0 +1,41 @@
+<div class="panel">
+  <div class="panel_header">
+    <h4><%= t('dashboard.cases_by_workflow') %></h4>
+    <table cellspacing="0" cellpadding="0" class="table-counts table-floating-header">
+      <thead>
+      <tr>
+        <th>User</th>
+        <% @workflow_order.each do |wo|%>
+          <th><%= t("dashboard.#{wo}") %></th>
+        <% end %>
+      </tr>
+      </thead>
+    </table>
+  </div>
+  <div class="panel_content no-padding panel_main">
+    <% if stats.present? %>
+      <table cellspacing="0" cellpadding="0" class="table-counts table-floating-header extra">
+        <tbody>
+          <% stats.each do |key, val| %>
+            <tr>
+              <td class="id_column"><%= key %></td>
+              <% @workflow_order.each do |wo|%>
+                <%
+                  filters = [
+                    "child_status=#{Record::STATUS_OPEN}",
+                    'record_state=true',
+                    "user=#{key}"
+                  ]
+                  filters << "workflow_status=#{wo}" unless wo == Record::STATUS_OPEN
+                %>
+                <td><%= stat_link(val[wo], {filter: index_filters(filters)}, model) %></td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
+    <% end %>
+  </div>
+</div>
