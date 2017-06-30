@@ -19,7 +19,7 @@
    %>
   <div class="subforms <%=summary_section_class%> large-12 columns" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_name=<%=form_group_name.dehumanize%>>
     <% grouped_subforms(formObject, subform).each do |grouped_subforms_header, subform_objects| %>
-      <% if grouped_subforms_header.present? && subform_objects.present? %>
+      <% if try(:grouped_subforms_header) && subform_objects.present? %>
         <div class="subform_grouping_header row">
           <span class="subform_header medium-7 columns">
             <%= grouped_subforms_header %>
