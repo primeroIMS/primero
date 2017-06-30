@@ -33,15 +33,17 @@ _primero.Views.RequiredFields = _primero.Views.Base.extend({
       if (prev_label != label) {
         errors.push(message);
       }
-      prev_label = label;
 
-      if (group) {
+      if (group && prev_label != label) {
         self.show_tab_errors(group);
       }
 
-      if (form) {
+      if (form && prev_label != label) {
         self.show_tab_errors(form);
       }
+
+      prev_label = label;
+
     });
 
     if (errors.length > 0) {
