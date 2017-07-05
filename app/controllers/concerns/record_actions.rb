@@ -413,10 +413,6 @@ module RecordActions
       @record = update_record_from(id)
     end
 
-    if @record.class == Child
-      @record.add_remove_alert(current_user)
-    end
-
     instance_variable_set("@#{model_class.name.underscore}", @record)
   end
 

@@ -10,22 +10,32 @@ module Alertable
     searchable do
       string :current_alert_types, multiple: true
     end
+
+    before_save :remove_alert_on_save
+  end
+
+  def remove_alert_on_save
+    self.remove_alert(self.last_updated_by)
   end
 
   def current_alert_types
     self.alerts.map {|a| a[:type]}.uniq
   end
 
-  def add_remove_alert(current_user, type = nil, form_sidebar_id = nil)
-    if current_user.user_name == self.owned_by && self.alerts != nil
+  def add_alert(current_user_name, type = nil, form_sidebar_id = nil)
+    if current_user_name != self.owned_by && self.alerts != nil
+      alert = Alert.new(type: type, date: Date.today, form_sidebar_id: form_sidebar_id, alert_for: 'new_form')
+      self.alerts << alert
+    end
+  end
+
+  def remove_alert(current_user_name, type = nil, form_sidebar_id = nil)
+    if current_user_name == self.owned_by && self.alerts != nil
       if type.present?
         self.alerts.delete_if{|a| a[:type] == type}
       else
         self.alerts.delete_if{|a| a[:alert_for] == 'new_form'}
       end
-    elsif current_user.user_name != self.owned_by && self.alerts != nil
-      alert = Alert.new(type: type, date: Date.today, form_sidebar_id: form_sidebar_id, alert_for: 'new_form')
-      self.alerts << alert
     end
   end
 
