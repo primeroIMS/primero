@@ -28,7 +28,7 @@
                   ]
                   filters << "workflow_status=#{wo}" unless wo == Record::STATUS_OPEN
                 %>
-                <td><%= stat_link(val[wo], {filter: index_filters(filters)}, model).html_safe %></td>
+                <td><%= stat_link(val[wo], {filter: index_filters(filters)}, model) %></td>
               <% end %>
             </tr>
           <% end %>
