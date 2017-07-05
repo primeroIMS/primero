@@ -127,12 +127,12 @@ module HomeHelper
   end
 
   def stat_link(total, stat_group, model)
-    if total == 0
-      return content_tag(:div, total, class: 'stat_link')
-    else
+    if total.present? && total > 0
       model = model_name_class(model).pluralize
       filter = stat_group[:filter] || ''
       return link_to(total, send("#{model}_path") + filter, class: 'stat_link')
+    else
+      return content_tag(:div, 0, class: 'stat_link')
     end
   end
 
