@@ -86,7 +86,7 @@ class Location < CouchRest::Model::Base
 
     #WARNING: Do not memoize this method.  Doing so will break the Location seeds.
     def get_by_location_code(location_code)
-      Location.by_location_code(key: location_code).first
+      Location.by_location_code(key: location_code).first if location_code.present?
     end
 
     #TODO not sure this should return 'first' but trying to keep with original
@@ -106,12 +106,12 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :all_names
 
     def find_by_location_code(location_code = "")
-      Location.by_location_code(key: location_code).first
+      Location.by_location_code(key: location_code).first if location_code.present?
     end
     memoize_in_prod :find_by_location_code
 
     def find_by_location_codes(location_codes = [])
-      response = Location.by_location_code(keys: location_codes)
+      response = Location.by_location_code(keys: location_codes) if location_codes.present?
       response.present? ? response.all : []
     end
     memoize_in_prod :find_by_location_codes
@@ -160,7 +160,7 @@ class Location < CouchRest::Model::Base
     memoize_in_prod :base_type_ids
 
     def display_text(location_code)
-      lct = Location.find_by_location_code(location_code)
+      lct = (location_code.present? ? Location.find_by_location_code(location_code) : '')
       value = (lct.present? ? lct.name : '')
     end
     memoize_in_prod :display_text
