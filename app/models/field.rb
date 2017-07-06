@@ -195,7 +195,7 @@ class Field
   end
 
   def subform_section
-    if (not self.subform and self.subform_section_id.present?)
+    if (self.subform.blank? && self.subform_section_id.present?)
       self.subform = FormSection.get_by_unique_id(subform_section_id)
     end
     return self.subform

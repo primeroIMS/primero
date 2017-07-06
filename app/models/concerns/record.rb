@@ -427,11 +427,18 @@ module Record
   end
 
   def field_definitions
-    # It assumes that there is only one module associated with the user/record. If we have multiple modules per user in the future
-    # this will not work.
-    parent_form = self.class.parent_form
-    forms = (self.module.present? ? self.module.associated_forms_grouped_by_record_type[parent_form] : [])
-    @field_definitions ||= (forms.present? ? forms.map{|form| form.fields }.flatten : [])
+    if @field_definitions.blank?
+      @field_definitions = []
+      # It assumes that there is only one module associated with the user/record. If we have multiple modules per user in the future
+      # this will not work.
+      parent_form = self.class.parent_form
+      forms = (self.module.present? ? self.module.associated_forms_grouped_by_record_type(true)[parent_form] : [])
+      if forms.present?
+        FormSection.link_subforms(forms)
+        @field_definitions = forms.map{|form| form.fields }.flatten
+      end
+    end
+    @field_definitions
   end
 
   def update_properties(properties, user_name)
