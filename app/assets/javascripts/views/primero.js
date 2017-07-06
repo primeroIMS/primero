@@ -43,6 +43,7 @@ Primero = _primero.Views.Base.extend({
     _primero.abide_validator_positive_number = this.abide_validator_positive_number;
     _primero.valid_positive_number_value = this.valid_positive_number_value;
     _primero.generate_download_link = this.generate_download_link;
+    _primero.init_autosize = this.init_autosize;
 
     this.init_trunc();
     this.init_sticky();
