@@ -15,6 +15,7 @@ _primero.Views.RequiredFields = _primero.Views.Base.extend({
       $invalid_fields = $(e.target).find('[data-invalid]'),
       error_container = JST['templates/form_error_message'],
       errors = [];
+      prev_label = '';
 
     $('.errorExplanation').remove();
     $('.side-tab a span.label').remove();
@@ -29,15 +30,20 @@ _primero.Views.RequiredFields = _primero.Views.Base.extend({
         has_group = group ? group + " - " : "",
         message = "<li><span>" + has_group + form + " " + "</span><span>" + label + "</span>" +  " " + required_text + "</li>";
 
-      errors.push(message);
+      if (prev_label != label) {
+        errors.push(message);
+      }
 
-      if (group) {
+      if (group && prev_label != label) {
         self.show_tab_errors(group);
       }
 
-      if (form) {
+      if (form && prev_label != label) {
         self.show_tab_errors(form);
       }
+
+      prev_label = label;
+
     });
 
     if (errors.length > 0) {
