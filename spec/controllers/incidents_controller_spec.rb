@@ -523,7 +523,8 @@ describe IncidentsController do
       response.should redirect_to(:action => :index)
     end
 
-    it "should include duplicate records in the response" do
+    #TODO - duplicates fetch commented out for performance reasons
+    xit "should include duplicate records in the response" do
       Incident.stub(:allowed_formsections).and_return({})
       Incident.stub(:get).with("37").and_return(mock_incident({:module_id => 'primeromodule-mrm'}))
       duplicates = [Incident.new(:name => "duplicated")]

@@ -431,7 +431,8 @@ describe TracingRequestsController do
       response.should redirect_to(:action => :index)
     end
 
-    it "should include duplicate records in the response" do
+    #TODO - duplicates fetch commented out for performance reasons
+    xit "should include duplicate records in the response" do
       TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
       duplicates = [TracingRequest.new(:name => "duplicated")]

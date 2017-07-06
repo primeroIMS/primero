@@ -108,6 +108,8 @@ module RecordActions
 
         @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
         @body_class = 'profile-page'
+        #TODO - commented out for performance - could not find any places where it was being used
+        # @duplicates = model_class.duplicates_of(params[:id])
         @form_sections = @record.class.allowed_formsections(current_user, @record.module)
       end
 
