@@ -70,6 +70,8 @@ class Ability
     can actions, Role do |instance|
       if [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
         permission.role_ids.present? ? (permission.role_ids.include? instance.id) : true
+      elsif (user.role_ids.include?(instance._id) && !user.has_group_permission?(Permission::ALL))
+        false
       else
         true
       end
