@@ -394,7 +394,10 @@ describe Ability do
           expect(@ability).to authorize(:assign, @role_case_read)
           expect(@ability).to authorize(:assign, @role_incident_read)
           expect(@ability).to authorize(:assign, @role_tracing_request_read)
-          expect(@ability).to authorize(:assign, @role_role_manage)
+        end
+
+        it "does not allow user to assign its own role" do
+          expect(@ability).not_to authorize(:assign, @role_role_manage)
         end
       end
 
@@ -768,7 +771,10 @@ describe Ability do
           expect(@ability).to authorize(:assign, @role_case_read)
           expect(@ability).to authorize(:assign, @role_incident_read)
           expect(@ability).to authorize(:assign, @role_tracing_request_read)
-          expect(@ability).to authorize(:assign, @role_role_manage)
+        end
+
+        it "does not allow user to assign its own role" do
+          expect(@ability).not_to authorize(:assign, @role_role_manage)
         end
       end
 
