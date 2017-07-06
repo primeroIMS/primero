@@ -183,6 +183,7 @@ describe "_subform.html.erb" do
                  :subform_section => subform_section,
                  :formObject => @formObject,
                  :form_group_name => form.form_group_name,
+                 :grouped_subforms_header => nil,
                  :i => 0
                 },
              :formats => [:html], :handlers => [:erb]
@@ -197,6 +198,7 @@ describe "_subform.html.erb" do
                  :subform_section => subform_section,
                  :formObject => @formObject,
                  :form_group_name => form.form_group_name,
+                 :grouped_subforms_header => nil,
                  :i => 0
                 },
              :formats => [:html], :handlers => [:erb]
@@ -213,7 +215,8 @@ describe "_subform.html.erb" do
                 {
                  :subform => form.fields[1],
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name
+                 :form_group_name => form.form_group_name,
+                 :grouped_subforms_header => nil,
                 },
              :formats => [:html], :handlers => [:erb]
        rendered.should match(/<div class="subforms  large-12 columns" id="subform_section_1"  data-form_group_name=form_section_test>/)
@@ -231,7 +234,8 @@ describe "_subform.html.erb" do
                 {
                  :subform => form.fields[2],
                  :formObject => @formObject,
-                 :form_group_name => form.form_group_name
+                 :form_group_name => form.form_group_name,
+                 :grouped_subforms_header => nil,
                 },
              :formats => [:html], :handlers => [:erb]
        rendered.should match(/<div class="subforms  large-12 columns" id="subform_section_2"  data-form_group_name=form_section_test>/)

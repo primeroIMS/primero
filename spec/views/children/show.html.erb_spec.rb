@@ -7,6 +7,7 @@ describe "children/show.html.erb" do
 
   describe "displaying a child's details"  do
     before :all do
+      PrimeroModule.all.each &:destroy
       @mod ||= PrimeroModule.create!(_id: 'primeromodule-cp', program_id: 'fakeprogram',
                                   name: 'CP', associated_record_types: ['case'],
                                   associated_form_ids: ['xxxxx'],
