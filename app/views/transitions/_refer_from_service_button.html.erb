@@ -9,7 +9,7 @@
   end
 %>
 <% if service_type.present? && service_user_name.present? %>
-  <% if service_object.service_status_referred
+  <% if service_object.try(:service_status_referred).present?
       service_referral_button_class = 'refer_again_link service_referral_button'
       model_name = "again"
     else
