@@ -18,6 +18,7 @@ _primero.Views.IncidentFromCase = _primero.Views.Base.extend({
         incident_link_label: response.incident_link_label,
         incident_link: response.incident_link
       }));
+      _primero.init_autosize(create_incident_button.parents('.reveal').find('textarea'))
     });
   },
 });

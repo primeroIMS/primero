@@ -43,7 +43,7 @@ class Ability
 
   def user_permissions actions
     can actions, User do |uzer|
-      if user.has_group_permission?(Permission::ALL)
+      if (user.has_group_permission?(Permission::ALL) || user.has_group_permission?(Permission::ADMIN_ONLY))
         true
       elsif user.has_group_permission?(Permission::GROUP)
         (user.user_group_ids & uzer.user_group_ids).size > 0
@@ -55,7 +55,7 @@ class Ability
 
   def user_group_permissions actions
     can actions, UserGroup do |instance|
-      if user.has_group_permission?(Permission::ALL)
+      if (user.has_group_permission?(Permission::ALL) || user.has_group_permission?(Permission::ADMIN_ONLY))
         true
       elsif user.has_group_permission?(Permission::GROUP)
         user.user_group_ids.include? instance.id
@@ -70,6 +70,8 @@ class Ability
     can actions, Role do |instance|
       if [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
         permission.role_ids.present? ? (permission.role_ids.include? instance.id) : true
+      elsif (user.role_ids.include?(instance._id) && !user.has_group_permission?(Permission::ALL))
+        false
       else
         true
       end

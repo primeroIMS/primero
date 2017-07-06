@@ -31,6 +31,8 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
           $('#' + form_type + '_modal form input[id$="_age"]').change(function(event) {
             _primero.update_date(event);
           });
+
+          _primero.init_autosize($('#' + form_type + '_modal').find('textarea'));
         }
       });
     } else {

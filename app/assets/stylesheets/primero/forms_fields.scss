@@ -887,3 +887,8 @@ select.ui-datepicker-year {
     margin-top: 0;
   }
 }
+
+select[data-invalid] + div.chosen-container:not(.chosen-container-active) {
+  border-color: #cc4b37;
+  background-color: #f9ecea;
+}
