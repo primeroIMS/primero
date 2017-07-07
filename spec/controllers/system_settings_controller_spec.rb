@@ -56,6 +56,7 @@ describe SystemSettingsController do
                                           "unhcr" => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},
                          "primary_age_range" => "primero",
                          "location_limit_for_api"=>150,
+                         "approval_forms_to_alert"=>nil,
                          "_id" => @system_settings.id, "_rev" => @system_settings.rev,
                          "couchrest-type" => "SystemSettings"}
       }
