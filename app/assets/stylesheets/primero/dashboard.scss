@@ -73,7 +73,11 @@ $dashboard_table_counts:85px;
     color: $green_color;
 
     .column {
-      padding-right: 0;
+      @if $global-text-direction == rtl {
+        padding-left: 0;
+      }  @else {
+        padding-right: 0;
+      }
     }
 
     span {
@@ -95,7 +99,11 @@ $dashboard_table_counts:85px;
       color: $green_color;
 
       .count {
-        margin-right: .5em;
+        @if $global-text-direction == rtl {
+          margin-left: .5em;
+        }  @else {
+          margin-right: .5em;
+        }
       }
 
       span {
@@ -115,7 +123,11 @@ $dashboard_table_counts:85px;
           align-items: center;
 
           span {
-            margin-left: .8em;
+            @if $global-text-direction == rtl {
+              margin-right: .8em;
+            }  @else {
+              margin-left: .8em;
+            }
           }
         }
 
@@ -131,9 +143,17 @@ $dashboard_table_counts:85px;
             color: #575757;
           }
 
-          &:only-child, &:last-child {
-            &:after {
-              content: "";
+          @if $global-text-direction == rtl {
+            &:only-child, &:first-child {
+              &:after {
+                content: "";
+              }
+            }
+          } @else {
+            &:only-child, &:last-child {
+              &:after {
+                content: "";
+              }
             }
           }
         }
