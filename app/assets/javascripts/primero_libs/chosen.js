@@ -1,4 +1,7 @@
 _primero.chosen = function (selector) {
+  if ($('html').attr('dir') === 'rtl') {
+    $(selector).addClass('chosen-rtl');
+  }
   //Initialize the chosen widget and set the code to manage when the user
   //clear the chosen selection.
   $(selector).chosen({display_selected_options:false, width:'100%', search_contains: true}).change(function() {
