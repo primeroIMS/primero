@@ -3,7 +3,16 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
 
   events: {
     'click #incident_details_from_case_button' : 'populate_modal',
-    'click #services_section_from_case_button' : 'populate_modal'
+    'click #services_section_from_case_button' : 'populate_modal',
+    'click .create_subform_submit': 'submit_form'
+  },
+
+  submit_form: function(event) {
+    event.preventDefault();
+    var form = $(event.target).parents('form');
+    _primero.loading_screen_indicator('show');
+
+    form.submit();
   },
 
   populate_modal: function(event) {
