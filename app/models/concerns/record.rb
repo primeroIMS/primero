@@ -404,9 +404,9 @@ module Record
     end
   end
 
-  def display_field(field_name)
+  def display_field(field_name, lookups = nil)
     fd = field_definitions.select{|f| f.name == field_name}.first
-    fd.nil? ? "" : fd.display_text(self.send(field_name))
+    fd.nil? ? "" : fd.display_text(self.send(field_name), lookups)
   end
 
   def update_with_attachments(params, user)
