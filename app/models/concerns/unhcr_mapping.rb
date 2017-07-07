@@ -9,7 +9,8 @@ module UNHCRMapping
 
   def map_protection_concerns_to_unhcr_codes
     if self.is_a? Child
-      unhcr_mapping = SystemSettings.current.unhcr_needs_codes_mapping if SystemSettings.current.present?
+      @system_settings ||= SystemSettings.current
+      unhcr_mapping = @system_settings.unhcr_needs_codes_mapping if @system_settings.present?
 
       if unhcr_mapping.present?
         concerns = self.protection_concerns
