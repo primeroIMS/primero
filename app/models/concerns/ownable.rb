@@ -85,4 +85,10 @@ module Ownable
       self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
     end
   end
+
+  def update_last_updated_by(current_user)
+    self.last_updated_by = current_user.user_name
+    self.last_updated_by_full_name = current_user.full_name
+    self.last_updated_at = DateTime.now
+  end
 end

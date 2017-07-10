@@ -22,9 +22,11 @@ module RecordActions
     before_filter :is_mrm, :only => [:index]
     before_filter :load_consent, :only => [:show]
     before_filter :sort_subforms, :only => [:show, :edit]
-    before_filter :load_system_settings, :only => [:index]
+    before_filter :load_system_settings, :only => [:index, :show, :edit, :request_approval]
     before_filter :log_controller_action, :except => [:new]
     before_filter :can_access_approvals, :only => [:index]
+    before_filter :can_sync_mobile, :only => [:index]
+    before_filter :can_view_protection_concerns_filter, :only => [:index]
     before_filter :view_reporting_filter, :only => [:index]
   end
 
@@ -328,6 +330,14 @@ module RecordActions
     @can_approvals = @can_approval_bia || @can_approval_case_plan || @can_approval_closure
   end
 
+  def can_view_protection_concerns_filter
+    @can_view_protection_concerns_filter = can?(:view_protection_concerns_filter, model_class)
+  end
+
+  def can_sync_mobile
+    @can_sync_mobile = can?(:sync_mobile, model_class)
+  end
+
   def view_reporting_filter
     #TODO: This will change once the filters become configurable
     @can_view_reporting_filter ||= (can?(:dash_reporting_location, Dashboard) | is_admin | is_manager)
@@ -412,10 +422,6 @@ module RecordActions
       @record = model_class.new_with_user_name(current_user, record_params)
     else
       @record = update_record_from(id)
-    end
-
-    if @record.class == Child
-      @record.add_remove_alert(current_user)
     end
 
     instance_variable_set("@#{model_class.name.underscore}", @record)

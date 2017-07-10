@@ -33,7 +33,7 @@
   <div class="row">
     <div class="large-12 columns">
       <div id="<%= subform.name %>" class="subforms" <%=data_shared_subform%> data-form_group_name="<%= shared_subform_section_group.dehumanize unless shared_subform_section_group.nil? %>">
-        <% if subform.name.present? && @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['type'] == subform.name} %>
+        <% if show_alerts? && subform.name.present? && @child.present? && @child.alerts != nil && @child.alerts.any? {|u| u['type'] == subform.name} %>
           <% incident_alert = @child.alerts.select {|u| u['type'] == subform.name} %>
           <% if subform.name == 'services_section'
               form_section_name = I18n.t('messages.service_provision')

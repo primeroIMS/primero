@@ -8,7 +8,9 @@
     <%= render 'case_count_services_implemented', stats: @stats, model: model %>
     <%= render 'case_count_referred', stats: @stats, model: model if @display_assessment %>
     <%= render 'case_count_new_service_provision', stats: @stats, model: model if @display_service_provisions %>
-    <%= render 'case_count_transfers_by_status', stats: @stats, model: model %>
+    <% if can?(Transition::TYPE_TRANSFER.to_sym(), model) %>
+      <%= render 'case_count_transfers_by_status', stats: @stats, model: model %>
+    <% end %>
   </div>
 
   <div class="row">

@@ -292,7 +292,7 @@ module IndexHelper
                   .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
     filters << "Flagged"
-    filters << "Mobile"
+    filters << "Mobile" if @can_sync_mobile
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
     filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
@@ -306,10 +306,12 @@ module IndexHelper
     filters << "Age Range"
     filters << "Sex"
 
+
     field_protection_concerns = forms.map{|fs| fs.fields.find{|f| f.name == "protection_concerns"} }.compact.first
-    if field_protection_concerns.present?
+    if field_protection_concerns.present? && @can_view_protection_concerns_filter
       filters << "Protection Concerns"
     end
+
     filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
     filters << "Protection Status" if visible_filter_field?("protection_status", forms)
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
@@ -329,7 +331,7 @@ module IndexHelper
     filters = []
 
     filters << "Flagged"
-    filters << "Mobile"
+    filters << "Mobile" if @can_sync_mobile
     filters << "Violation" if @is_mrm
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
