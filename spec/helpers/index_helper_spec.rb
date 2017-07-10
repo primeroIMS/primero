@@ -30,6 +30,7 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @view.instance_variable_set(:@can_sync_mobile, true)
           @current_user.should_receive(:modules).and_return([])
           @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
@@ -58,6 +59,7 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @view.instance_variable_set(:@can_sync_mobile, true)
           @current_user.should_receive(:modules).and_return([])
           @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
@@ -74,6 +76,7 @@ describe IndexHelper do
           @view.instance_variable_set(:@is_admin, true)
           @view.instance_variable_set(:@is_manager, true)
           @view.instance_variable_set(:@can_view_reporting_filter, true)
+          @view.instance_variable_set(:@can_sync_mobile, true)
         end
 
         it "should return filters to show" do
@@ -109,6 +112,7 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @view.instance_variable_set(:@can_sync_mobile, true)
           @current_user.should_receive(:modules).and_return([])
           @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
@@ -133,6 +137,7 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @view.instance_variable_set(:@can_sync_mobile, true)
           @current_user.should_receive(:modules).and_return([])
           @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
@@ -167,6 +172,7 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @view.instance_variable_set(:@can_sync_mobile, true)
           @view.index_filters_to_show('incident').should == [
                                                          "Flagged", "Mobile", "Violation", "Status", "Age Range", "Children", "Verification Status",
                                                          "Incident Location", "Incident Date", "Armed Force or Group", "Armed Force or Group Type", "Record State"
@@ -190,6 +196,7 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @view.instance_variable_set(:@can_sync_mobile, true)
           @view.index_filters_to_show('incident').should == [
                                                          "Flagged", "Mobile", "Violation", "Social Worker", "Status", "Age Range", "Children", "Verification Status",
                                                          "Incident Location", "Incident Date", "Armed Force or Group", "Armed Force or Group Type", "Record State"
@@ -219,6 +226,7 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @view.instance_variable_set(:@can_sync_mobile, true)
           @view.index_filters_to_show('incident').should == [
                                                          "Flagged", "Mobile", "Violence Type", "Status", "Age Range",
                                                          "Incident Location", "Interview Date", "Incident Date", "Protection Status", "Record State"
@@ -242,6 +250,7 @@ describe IndexHelper do
         end
 
         it "should return filters to show" do
+          @view.instance_variable_set(:@can_sync_mobile, true)
           @view.index_filters_to_show('incident').should == [
                                                          "Flagged", "Mobile", "Violence Type", "Social Worker", "Status", "Age Range",
                                                          "Incident Location", "Interview Date", "Incident Date", "Protection Status", "Record State"
