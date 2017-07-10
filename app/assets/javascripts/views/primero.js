@@ -218,9 +218,24 @@ Primero = _primero.Views.Base.extend({
   },
 
   engage_select_popover: function(evt) {
-     evt.preventDefault();
-     var guided_link = $(evt.target);
-     guided_link.popover('toggle');
+    evt.preventDefault();
+    var guided_link = $(evt.target);
+    guided_link.popover('show');
+
+    function remove_popover_close_event() {
+      document.removeEventListener('mouseup', close_popover_on_click_outside);
+    };
+
+    function close_popover_on_click_outside(evt) {
+      if ($(evt.target).closest('.popover').length === 0) {
+        if ($('.popover').is(':visible')) {
+          guided_link.popover('toggle');
+          remove_popover_close_event();
+        }
+      }
+    };
+
+    document.addEventListener('mouseup', close_popover_on_click_outside);
   },
 
   init_sticky: function() {
