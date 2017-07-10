@@ -189,7 +189,8 @@ cp_caseworker_permissions = [
     :resource => Permission::DASHBOARD,
     :actions => [
       Permission::VIEW_APPROVALS,
-      Permission::VIEW_ASSESSMENT
+      Permission::VIEW_ASSESSMENT,
+      Permission::VIEW_PROTECTION_CONCERNS_FILTER
     ]
   ),
   Permission.new(
@@ -295,7 +296,8 @@ cp_manager_permissions = [
       :resource => Permission::DASHBOARD,
       :actions => [
         Permission::VIEW_APPROVALS,
-        Permission::VIEW_ASSESSMENT
+        Permission::VIEW_ASSESSMENT,
+        Permission::VIEW_PROTECTION_CONCERNS_FILTER
       ]
   )
 ]
@@ -399,7 +401,8 @@ cp_user_manager_permissions = [
         :resource => Permission::DASHBOARD,
         :actions => [
           Permission::VIEW_APPROVALS,
-          Permission::VIEW_ASSESSMENT
+          Permission::VIEW_ASSESSMENT,
+          Permission::VIEW_PROTECTION_CONCERNS_FILTER
         ]
     )
 ]

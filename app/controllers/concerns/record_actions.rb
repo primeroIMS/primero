@@ -25,6 +25,8 @@ module RecordActions
     before_filter :load_system_settings, :only => [:index]
     before_filter :log_controller_action, :except => [:new]
     before_filter :can_access_approvals, :only => [:index]
+    before_filter :can_sync_mobile, :only => [:index]
+    before_filter :can_view_protection_concerns_filter, :only => [:index]
     before_filter :view_reporting_filter, :only => [:index]
   end
 
@@ -325,6 +327,14 @@ module RecordActions
     @can_approval_case_plan = can?(:approve_case_plan, model_class) || can?(:request_approval_case_plan, model_class)
     @can_approval_closure = can?(:approve_closure, model_class) || can?(:request_approval_closure, model_class)
     @can_approvals = @can_approval_bia || @can_approval_case_plan || @can_approval_closure
+  end
+
+  def can_view_protection_concerns_filter
+    @can_view_protection_concerns_filter = can?(:view_protection_concerns_filter, model_class)
+  end
+
+  def can_sync_mobile
+    @can_sync_mobile = can?(:sync_mobile, model_class)
   end
 
   def view_reporting_filter
