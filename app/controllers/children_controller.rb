@@ -134,7 +134,8 @@ class ChildrenController < ApplicationController
     new_subform = params['child'][subform]['template']
     new_subform['unique_id'] = Child.generate_unique_id
     child[subform] << new_subform
-    child.add_remove_alert(current_user, subform, form_sidebar_id)
+    child.update_last_updated_by(current_user)
+    child.add_alert(current_user.user_name, subform, form_sidebar_id)
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
     redirect_to cases_path()
@@ -160,7 +161,7 @@ class ChildrenController < ApplicationController
     authorize! :update, child
 
     approval_type_error = nil
-
+    child.add_approval_alert(params[:approval_type], @system_settings)
     case params[:approval_type]
       when "bia"
         child.approval_status_bia = params[:approval_status]
