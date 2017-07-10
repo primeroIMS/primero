@@ -965,6 +965,7 @@ en:
       services_section_from_case: "Add Service provision to another user's case"
       create: "Create"
       referral_from_service: "Refer Case from Service form"
+      view_protection_concerns_filter: "View Protection Concerns Filter"
 
   forms:
     label: "Forms"

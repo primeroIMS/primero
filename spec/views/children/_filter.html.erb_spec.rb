@@ -224,10 +224,9 @@ describe "children/_filter.html.erb" do
       :fields => fields
     )
     other_form_cp.save!
-
+    @can_view_protection_concerns_filter = true
     @primero_module_cp.associated_form_ids << other_form_cp.unique_id
     @primero_module_cp.save!
-
     @current_user = User.new
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
