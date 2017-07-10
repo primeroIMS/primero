@@ -51,7 +51,6 @@ module ReportableNestedRecord
 
   module Searchable
     def configure_searchable(record_class)
-      extend Indexable::Searchable
 
       string :parent_record_id do |f|
         f.record_value('id')
@@ -69,7 +68,28 @@ module ReportableNestedRecord
         when 'integer'
           fields.each{|f| integer(f){record_value(f)}}
         when 'location'
-          fields.each{|f| indexable_location(f)}
+          fields.each do |field|
+            #TODO - Refactor needed
+            #TODO - There is a lot of similarity to Admin Level code in searchable concern
+            location = nil
+            ancestors = nil
+            Location::ADMIN_LEVELS.each do |admin_level|
+              string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
+                location ||= Location.find_by_location_code(record_value(field))
+                if location.present?
+                  # break if admin_level > location.admin_level
+                  if admin_level == location.admin_level
+                    location.location_code
+                  elsif location.admin_level.present? && (admin_level < location.admin_level)
+                    ancestors ||= location.ancestors
+                    # find the ancestor with the current admin_level
+                    lct = ancestors.select{|l| l.admin_level == admin_level}
+                    lct.present? ? lct.first.location_code : nil
+                  end
+                end
+              end
+            end
+          end
         #TODO: arrays?
         end
       end

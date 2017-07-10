@@ -4,12 +4,10 @@ module Searchable
   ALL_FILTER = 'all'
 
   included do
-    include Indexable
+    include Sunspot::Rails::Searchable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Passenger.
     searchable do
-      extend Indexable::Searchable
-
       string :record_id do |f|
         f.id
       end
@@ -53,8 +51,33 @@ module Searchable
       #TODO - searchable_location_fields currently used by filtering
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
 
-      all_searchable_location_fields.each {|f| indexable_location(f)}
+      all_searchable_location_fields.each do |field|
+        #TODO - Refactor needed
+        #TODO - There is a lot of similarity to Admin Level code in reportable_nested_record concern
+        location = nil
+        ancestors = nil
+        Location::ADMIN_LEVELS.each do |admin_level|
+          string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
+            #TODO - Possible refactor to make more efficient
+            location ||= Location.find_by_location_code(self.send(field))
+            if location.present?
+              # break if admin_level > location.admin_level
+              if admin_level == location.admin_level
+                location.location_code
+              elsif location.admin_level.present? && (admin_level < location.admin_level)
+                ancestors ||= location.ancestors
+                # find the ancestor with the current admin_level
+                lct = ancestors.select{|l| l.admin_level == admin_level}
+                lct.present? ? lct.first.location_code : nil
+              end
+            end
+          end
+        end
+      end
     end
+
+    Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
+    Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
   end
 
 
