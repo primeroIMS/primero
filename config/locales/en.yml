@@ -2030,6 +2030,9 @@ en:
     graph_data: "Viewing graph data"
     permitted_field_list: Permitted field list
     lookups_for_field: Lookups for field
+  job:
+    status:
+      complete: 'Complete'
 
   string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
 
