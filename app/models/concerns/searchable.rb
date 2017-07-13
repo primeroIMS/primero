@@ -36,6 +36,9 @@ module Searchable
       if self.include?(Ownable)
         string :associated_user_names, multiple: true
         string :owned_by
+        string :owned_by_groups, multiple: true do
+          self.owner.try(:user_group_ids) if self.owner.present?
+        end
       end
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
@@ -153,7 +156,7 @@ module Searchable
                   values.each do |k, v|
                     with(k, v)
                   end
-                end  
+                end
               else
                 with(filter, values) unless values == 'all'
               end
@@ -175,7 +178,7 @@ module Searchable
     end
 
     def searchable_boolean_fields
-      (['duplicate', 'flag', 'has_photo', 'record_state', 'case_status_reopened'] + 
+      (['duplicate', 'flag', 'has_photo', 'record_state', 'case_status_reopened'] +
       Field.all_searchable_boolean_field_names(self.parent_form)).uniq
     end
 

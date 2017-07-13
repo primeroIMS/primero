@@ -76,7 +76,7 @@ describe ReportsController do
           :permitted_form_ids => ["form_section_test_1"]
       )
 
-      @owner = create :user, module_ids: [@primero_module.id], user_name: 'bobby', role_ids: [admin_role.id]
+      @owner = create :user, module_ids: [@primero_module.id], user_name: 'bobby', role_ids: [admin_role.id], user_group_ids: ['Test', 'Test2']
       @owner.stub(:roles).and_return([admin_role])
 
       @owner2 = create :user, module_ids: [@primero_module.id], user_name: 'fred', role_ids: [role.id]
@@ -121,7 +121,7 @@ describe ReportsController do
     it "should build a report for group member" do
       expected_results = {
           ["fred"] => 1 ,
-          ["bobby"] => 0,
+          ["bobby"] => 2,
           [""] => nil
       }
       session = fake_login @owner2
@@ -178,7 +178,7 @@ describe ReportsController do
       expected_forms_sections = [
         #field_name_3 is not visible.
         #field_name_4 is hide on view page, for readonly users should not be in the list.
-        ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "numeric_field"], 
+        ["Form Section Test 1 (CP)", [["Field Name 1", "field_name_1", "numeric_field"],
                                       ["Field Name 2", "field_name_2", "numeric_field"],
                                       ["Field Name 4", "field_name_4", "numeric_field"]]],
       ]
