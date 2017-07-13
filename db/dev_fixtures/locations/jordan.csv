@@ -1,0 +1,199 @@
+Lebanon::Baalbek-El Hermel
+Lebanon::Akkar
+Syria::Rural Damascus
+Iraq::Wassit
+Iraq::Kirkuk
+Iraq::Salah al-Din
+Iraq::Qadissiya
+Iraq::Najaf
+Iraq::Muthanna
+Iraq::Missan
+Iraq::Kerbala
+Jordan::Azraq Camp
+Jordan::Zaatari Camp
+Iraq
+Iraq::Anbar
+Iraq::Babil
+Iraq::Baghdad
+Iraq::Basrah
+Iraq::Thi-Qar
+Iraq::Diyala
+Iraq::Dahuk
+Iraq::Erbil
+Iraq::Ninewa
+Iraq::Sulaymaniyah
+Lebanon
+Lebanon::Mount Lebanon
+Lebanon::North Lebanon
+Lebanon::Bekaa
+Lebanon::South Lebanon
+Lebanon::Beirut
+Lebanon::El Nabatieh
+Syria
+Syria::Aleppo
+Syria::Al-Hasakeh
+Syria::Ar-Raqqa
+Syria::As-Sweida
+Syria::Damascus
+Syria::Dara
+Syria::Deir-ez-Zor
+Syria::Hama
+Syria::Homs
+Syria::Idleb
+Syria::Lattakia
+Syria::Quneitra
+Syria::Tartous
+Turkey
+Jordan
+Jordan::Ajloun
+Jordan::Balqa
+Jordan::Aqaba
+Jordan::Karak
+Jordan::Amman
+Jordan::Tafiela
+Jordan::Irbid
+Jordan::Jerash
+Jordan::Maan
+Jordan::Madaba
+Jordan::Mafraq
+Jordan::Zarqa
+Jordan::Ajloun::Kufranjah
+Jordan::Ajloun::Ajlun Qasabah
+Jordan::Balqa::Shoonah Janoobiyah
+Jordan::Balqa::Ain Albasha
+Jordan::Balqa::Dair Alla
+Jordan::Balqa::Mahes and Fuhais
+Jordan::Balqa::Salt Qasabah
+Jordan::Aqaba::Quairah
+Jordan::Aqaba::Aqaba Qasabah
+Jordan::Karak::Aghwar Janoobiyah
+Jordan::Karak::Qasr
+Jordan::Karak::Qatraneh
+Jordan::Karak::Mazar Janoobi
+Jordan::Karak::Ayy
+Jordan::Karak::Faqo'e
+Jordan::Karak::Karak Qasabah
+Jordan::Amman::Al-Jami'ah
+Jordan::Amman::Jizeh
+Jordan::Amman::Alquaismeh
+Jordan::Amman::Marka
+Jordan::Amman::Mowaqqar
+Jordan::Amman::Na'oor
+Jordan::Amman::Amman Qasabah
+Jordan::Amman::Sahab
+Jordan::Amman::Wadi Essier
+Jordan::Tafiela::Hasa
+Jordan::Tafiela::Tafiela Qasabah
+Jordan::Tafiela::Bsaira
+Jordan::Irbid::Aghwar Shamaliyah
+Jordan::Irbid::Koorah
+Jordan::Irbid::Mazar Shamali
+Jordan::Irbid::Wastiyyah
+Jordan::Irbid::Taybeh
+Jordan::Irbid::Bani Kenanah
+Jordan::Irbid::Bani Obeid
+Jordan::Irbid::Qasabah Irbid
+Jordan::Irbid::Ramtha
+Jordan::Jerash::Jarash Qasabah
+Jordan::Maan::Ma'an Qasabah
+Jordan::Maan::Huseiniya (District in Maa.)
+Jordan::Maan::Petra
+Jordan::Maan::Shobak
+Jordan::Madaba::Madaba Qasabah
+Jordan::Madaba::Dieban
+Jordan::Mafraq::Rwaished
+Jordan::Mafraq::Badiah Shamaliyah
+Jordan::Mafraq::Badiah Sh.Gh.
+Jordan::Mafraq::Mafraq Qasabah
+Jordan::Zarqa::Russeifa
+Jordan::Zarqa::Zarqa Qasabah
+Jordan::Zarqa::Hashemiyah (District in Zar.)
+Jordan::Ajloun::Kufranjah::Kufranjah (Sub-district in Kuf.)
+Jordan::Ajloun::Ajlun Qasabah::Ajlun
+Jordan::Ajloun::Ajlun Qasabah::Orjan
+Jordan::Ajloun::Ajlun Qasabah::Sakhrah
+Jordan::Balqa::Shoonah Janoobiyah::Shoonah Janoobiyah (Sub-district in Sho.)
+Jordan::Balqa::Ain Albasha::Ain Albasha (Sub-district in Ain.)
+Jordan::Balqa::Dair Alla::Dair Alla (Sub-district in Dai.)
+Jordan::Balqa::Mahes and Fuhais::Mahes and Fuhais (Sub-district in Mah.)
+Jordan::Balqa::Salt Qasabah::Al-Ardha
+Jordan::Balqa::Salt Qasabah::Allan and Zayy
+Jordan::Balqa::Salt Qasabah::Salt Qasabah (Sub-district in Sal.)
+Jordan::Balqa::Salt Qasabah::Ira and Yargha
+Jordan::Aqaba::Quairah::Diesah
+Jordan::Aqaba::Quairah::Quairah (Sub-district in Qua.)
+Jordan::Aqaba::Aqaba Qasabah::Aqaba (Sub-district in Aqa.)
+Jordan::Aqaba::Aqaba Qasabah::Wadi Araba
+Jordan::Karak::Aghwar Janoobiyah::Ghawr Almazra'a
+Jordan::Karak::Aghwar Janoobiyah::Safi
+Jordan::Karak::Qasr::Qasr (Sub-district in Qas.)
+Jordan::Karak::Qasr::Mowjeb
+Jordan::Karak::Qatraneh::Qatraneh (Sub-district in Qat.)
+Jordan::Karak::Mazar Janoobi::Mazar Janoobee (Sub-district in Maz.)
+Jordan::Karak::Mazar Janoobi::Mo'aab
+Jordan::Karak::Ayy::Ayy (Sub-district in Ayy.)
+Jordan::Karak::Faqo'e::Faqo'e (Sub-district in Faq.)
+Jordan::Karak::Karak Qasabah::Karak (Sub-district in Kar.)
+Jordan::Amman::Al-Jami'ah::Al-Jami'ah (Sub-district in Al-.)
+Jordan::Amman::Jizeh::Jizeh (Sub-district in Jiz.)
+Jordan::Amman::Jizeh::Um Rsas
+Jordan::Amman::Alquaismeh::Alquaismeh (Sub-district in Alq.)
+Jordan::Amman::Marka::Marka (Sub-district in Mar.)
+Jordan::Amman::Mowaqqar::Mowaqqar (Sub-district in Mow.)
+Jordan::Amman::Mowaqqar::Rojom Shami
+Jordan::Amman::Na'oor::Hesban
+Jordan::Amman::Na'oor::Na'oor (Sub-district in Na'.)
+Jordan::Amman::Na'oor::Um El-Basatien
+Jordan::Amman::Amman Qasabah::Amman (Sub-district in Amm.)
+Jordan::Amman::Sahab::Sahab (Sub-district in Sah.)
+Jordan::Amman::Wadi Essier::Wadi Essier (Sub-district in Wad.)
+Jordan::Tafiela::Hasa::Hassa
+Jordan::Tafiela::Tafiela Qasabah::Tafiela (Sub-district in Taf.)
+Jordan::Tafiela::Bsaira::Bsaira (Sub-district in Bsa.)
+Jordan::Irbid::Aghwar Shamaliyah::Aghwar Shamaliyah (Sub-district in Agh.)
+Jordan::Irbid::Koorah::Koorah (Sub-district in Koo.)
+Jordan::Irbid::Mazar Shamali::Mazar Shamali (Sub-district in Maz.)
+Jordan::Irbid::Wastiyyah::Wastiyyah (Sub-district in Was.)
+Jordan::Irbid::Taybeh::Taybeh (Sub-district in Tay.)
+Jordan::Irbid::Bani Kenanah::Bani Kenanah (Sub-district in Ban.)
+Jordan::Irbid::Bani Obeid::Bani Obeid (Sub-district in Ban.)
+Jordan::Irbid::Qasabah Irbid::Irbid (Sub-district in Qas.)
+Jordan::Irbid::Ramtha::Ramtha (Sub-district in Ram.)
+Jordan::Jerash::Jarash Qasabah::Mestabah
+Jordan::Jerash::Jarash Qasabah::Burma
+Jordan::Jerash::Jarash Qasabah::Jarash
+Jordan::Maan::Ma'an Qasabah::Athroh
+Jordan::Maan::Ma'an Qasabah::Iel
+Jordan::Maan::Ma'an Qasabah::Jafr
+Jordan::Maan::Ma'an Qasabah::Mraighah (Sub-district in Ma'.)
+Jordan::Maan::Ma'an Qasabah::Ma'an
+Jordan::Maan::Huseiniya (District in Maa.)::Huseiniya (Sub-district in Hus.)
+Jordan::Maan::Petra::Petra (Sub-district in Pet.)
+Jordan::Maan::Shobak::Shobak (Sub-district in Sho.)
+Jordan::Madaba::Madaba Qasabah::Faisaliyyeh (Sub-district in Mad.)
+Jordan::Madaba::Madaba Qasabah::Jrainah
+Jordan::Madaba::Madaba Qasabah::Madaba Qasabah (Sub-district in Mad.)
+Jordan::Madaba::Madaba Qasabah::Maeen
+Jordan::Madaba::Dieban::Areedh
+Jordan::Madaba::Dieban::Mlaih
+Jordan::Madaba::Dieban::Dieban (Sub-district in Die.)
+Jordan::Mafraq::Rwaished::Rwaished (Sub-district in Rwa.)
+Jordan::Mafraq::Badiah Shamaliyah::Salhiya (Sub-district in Bad.)
+Jordan::Mafraq::Badiah Shamaliyah::Dair Al Kahf
+Jordan::Mafraq::Badiah Shamaliyah::Sabha
+Jordan::Mafraq::Badiah Shamaliyah::Um Al-Jemal
+Jordan::Mafraq::Badiah Shamaliyah::Um-Elqotain
+Jordan::Mafraq::Badiah Sh.Gh.::Badiah Sh.Gh. (Sub-district in Bad.)
+Jordan::Mafraq::Badiah Sh.Gh.::Khaldiyah (Sub-district in Bad.)
+Jordan::Mafraq::Badiah Sh.Gh.::Hosha
+Jordan::Mafraq::Badiah Sh.Gh.::Serhan
+Jordan::Mafraq::Mafraq Qasabah::Mafraq (Sub-district in Maf.)
+Jordan::Mafraq::Mafraq Qasabah::Manshiyah (Sub-district in Maf.)
+Jordan::Mafraq::Mafraq Qasabah::Bal'ama
+Jordan::Mafraq::Mafraq Qasabah::Irhab
+Jordan::Zarqa::Russeifa::Russeifa (Sub-district in Rus.)
+Jordan::Zarqa::Zarqa Qasabah::Dhlail
+Jordan::Zarqa::Zarqa Qasabah::Zarqa Qasabah (Sub-district in Zar.)
+Jordan::Zarqa::Zarqa Qasabah::Bierain
+Jordan::Zarqa::Zarqa Qasabah::Azraq
+Jordan::Zarqa::Hashemiyah (District in Zar.)::Hashemiyah (Sub-district in Has.)
