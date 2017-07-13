@@ -36,9 +36,7 @@ module Searchable
       if self.include?(Ownable)
         string :associated_user_names, multiple: true
         string :owned_by
-        string :owned_by_groups, multiple: true do
-          self.owner.try(:user_group_ids) if self.owner.present?
-        end
+        string :owned_by_groups, multiple: true
       end
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
@@ -197,6 +195,7 @@ module Searchable
     end
 
     def searchable_multi_fields
+      ["owned_by_groups"] +
       Field.all_filterable_multi_field_names(self.parent_form)
     end
 
