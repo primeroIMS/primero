@@ -195,7 +195,6 @@ module Searchable
     end
 
     def searchable_multi_fields
-      ["owned_by_groups"] +
       Field.all_filterable_multi_field_names(self.parent_form)
     end
 
