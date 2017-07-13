@@ -38,7 +38,7 @@ class PrimeroDate < Date
         # Faster than parsing the date
         if value.to_s =~ database_datetime_format || value.to_s =~ rails_datetime_format
         # TODO-time: Change 'in_time_zone' to 'utc'
-          DateTime.parse(value.to_s).in_time_zone.to_datetime
+          DateTime.parse(value.to_s).utc.to_datetime
         else
           Date.new(year, month, day)
         end
@@ -61,7 +61,7 @@ class PrimeroDate < Date
 
   # This function only deals with dates from the application, which are in local time.
   # It should return a Datetime in UTC for the database
-  def self.parse_with_format(value)
+  def self.parse_with_format(value, skip_offset=false)
     return value if value.is_a?(Date) || (value.is_a? PrimeroDate) || (value.is_a? Time)
 
     # Separator can be "-" or "/". Valid formats:
@@ -84,7 +84,9 @@ class PrimeroDate < Date
     elsif match_data_with_time
       self.determine_format(match_data_with_time)
       datetime_eval = DateTime.strptime(self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format} %H:%M")
-      return datetime_eval.change(:offset => Time.now.in_time_zone.zone).utc
+      datetime_eval = datetime_eval.change(:offset => Time.now.in_time_zone.zone).utc unless skip_offset
+
+      return datetime_eval
     end
 
     raise ArgumentError, "invalid date"
@@ -120,12 +122,12 @@ class PrimeroDate < Date
   #TODO-time: Returns requested Time or Date object exclusively in local time
   #TODO-time: This function should only be used to create new DateTimes for display in browser
   #TODO-time: Date.send('today') returns the date based on utc, which can give you a day in the future
-  #TODO-time: if ['today'].include?(df): DateTime.send('current').to_date
-  #TODO-time: elsif ['yesterday', 'tomorrow'].include?(df): DateTime.send(df)
   def self.parse_single_value(date_format)
     df = date_format.first.downcase
-    if ['yesterday', 'today', 'tomorrow'].include?(df)
-      Date.send(df)
+    if ['today'].include?(df)
+      DateTime.send('current').to_date
+    elsif ['yesterday', 'tomorrow'].include?(df)
+      DateTime.send(df)
     elsif ['current', 'now'].include?(df)
       DateTime.send(df).in_time_zone.to_datetime
     else

@@ -205,11 +205,11 @@ module HomeHelper
   end
 
   def overdue
-    "#{DateTime.new(1,1,1).strftime("%d-%b-%Y %H:%M")}.#{Time.now.strftime("%d-%b-%Y %H:%M")}"
+    "#{DateTime.new(1,1,1).strftime("%d-%b-%Y %H:%M")}.#{DateTime.now.strftime("%d-%b-%Y %H:%M")}"
   end
 
   def near_due
-    "#{Time.now.strftime("%d-%b-%Y ")}.#{24.hours.from_now.strftime("%d-%b-%Y %H:%M")}"
+    "#{DateTime.now.strftime("%d-%b-%Y %H:%M")}.#{24.hours.from_now.strftime("%d-%b-%Y %H:%M")}"
   end
 
   def last_week
