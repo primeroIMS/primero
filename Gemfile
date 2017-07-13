@@ -38,7 +38,7 @@ gem 'daemons',         '~> 1.1.9',  :require => false
 gem 'activejob_backport'
 gem 'backburner', require: false
 
-gem 'foundation-rails', '~> 5.5.3.2'
+gem 'foundation-rails', :git => "https://github.com/Quoin/foundation-rails.git", :branch => "5.5.3.2_hidden_hack"
 
 gem 'sass-rails',    '~> 5.0.4'
 gem 'compass-rails', '~> 2.0.1'
