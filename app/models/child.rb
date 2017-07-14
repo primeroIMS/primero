@@ -416,6 +416,12 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  def reopen(status, reopen_status, user_name)
+    self.child_status = status
+    self.case_status_reopened = reopen_status
+    self.add_reopened_log(user_name)
+  end
+
   private
 
   def deprecated_fields
