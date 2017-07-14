@@ -122,12 +122,12 @@ class PrimeroDate < Date
   #TODO-time: Returns requested Time or Date object exclusively in local time
   #TODO-time: This function should only be used to create new DateTimes for display in browser
   #TODO-time: Date.send('today') returns the date based on utc, which can give you a day in the future
+  #TODO-time: if ['today'].include?(df): DateTime.send('current').to_date
+  #TODO-time: elsif ['yesterday', 'tomorrow'].include?(df): DateTime.send(df)
   def self.parse_single_value(date_format)
     df = date_format.first.downcase
-    if ['today'].include?(df)
-      DateTime.send('current').to_date
-    elsif ['yesterday', 'tomorrow'].include?(df)
-      DateTime.send(df)
+    if ['yesterday', 'today', 'tomorrow'].include?(df)
+      Date.send(df)
     elsif ['current', 'now'].include?(df)
       DateTime.send(df).in_time_zone.to_datetime
     else
