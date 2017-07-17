@@ -54,6 +54,8 @@ supervisor_service 'solr' do
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
+  stopasgroup true
+  killasgroup true
 
   redirect_stderr true
   stdout_logfile ::File.join(log_base_dir, 'output.log')
