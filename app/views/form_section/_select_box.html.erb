@@ -40,7 +40,7 @@
         #TODO: Pending disabled for choosen.
         #workaround to avoid present the default value (Select...) when the select_box
         #is disable and we are on new record.
-        if disable && value.blank? && formObject.new_record?
+        if is_disabled && value.blank? && formObject.new_record?
           select_box_select_options = []
         else
           select_box_select_options = select_options(select_box, formObject, nil)
