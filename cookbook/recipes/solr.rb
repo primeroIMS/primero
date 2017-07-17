@@ -31,8 +31,26 @@ execute 'change solr owner' do
   only_if { ::File.exists?(node[:primero][:solr_data_dir])}
 end
 
+solr_worker_file = "#{node[:primero][:app_dir]}/solr.sh"
+
+file solr_worker_file do
+  mode '0755'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  content <<-EOH
+#!/bin/bash
+#Launch the Solr worker
+source #{::File.join(node[:primero][:home_dir],'.rvm','scripts','rvm')}
+if [ -z "#{ node[:primero][:solr_memory]}"]; then
+  RAILS_ENV=#{node[:primero][:rails_env]} java -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
+else
+  RAILS_ENV=#{node[:primero][:rails_env]} java -Xms#{node[:primero][:solr_memory]} -Xmx#{node[:primero][:solr_memory]} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
+fi
+EOH
+end
+
 supervisor_service 'solr' do
-  command "java -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar"
+  command solr_worker_file
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
@@ -60,4 +78,3 @@ file "/etc/cron.daily/solr_restart" do
 supervisorctl restart solr
 EOH
 end
-
