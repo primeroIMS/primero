@@ -10,13 +10,14 @@ function form_section() {
   $(".link_moveto").click(showMovePanel);
   $("a#field_option_add_button").click(addOption);
   $("a.field_option_remove_button").click(removeOption);
-  function call_back_to_previous(e) {
-    if (e.namespace !== 'fndtn.reveal') {
+
+  $("#add_field_modal").on('closed.zf.reveal', function(e){
+    e.preventDefault();
+    if (e.namespace !== 'reveal.zf') {
       return;
     }
     backToPrevious();
-  }
-  $(document).on('closed.zf.reveal', '#add_field_modal', call_back_to_previous);
+  })
   triggerErrors();
   var $rows = $("#form_sections tbody");
   $rows.sortable({
