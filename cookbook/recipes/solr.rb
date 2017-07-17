@@ -44,7 +44,7 @@ source #{::File.join(node[:primero][:home_dir],'.rvm','scripts','rvm')}
 if [ -z "#{ node[:primero][:solr_memory]}"]; then
   RAILS_ENV=#{node[:primero][:rails_env]} java -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
 else
-  RAILS_ENV=#{node[:primero][:rails_env]} java -Xms#{node[:primero][:solr_memory]} -Xmx#{node[:primero][:solr_memory]} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
+  RAILS_ENV=#{node[:primero][:rails_env]} java -Xmx#{node[:primero][:solr_memory]} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
 fi
 EOH
 end
