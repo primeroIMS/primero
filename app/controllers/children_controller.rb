@@ -136,6 +136,9 @@ class ChildrenController < ApplicationController
     child[subform] << new_subform
     child.update_last_updated_by(current_user)
     child.add_alert(current_user.user_name, subform, form_sidebar_id)
+    if child.child_status == Record::STATUS_CLOSED
+      child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
+    end
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
     redirect_to cases_path()
@@ -144,10 +147,7 @@ class ChildrenController < ApplicationController
   def reopen_case
     child = Child.get(params[:child_id])
     authorize! :update, child
-    child.child_status = params[:child_status]
-    child.case_status_reopened = params[:case_reopened]
-    child.add_reopened_log(current_user.user_name)
-
+    child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
     if child.save
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
