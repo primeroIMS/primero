@@ -349,6 +349,7 @@ class Child < CouchRest::Model::Base
   end
 
   def create_class_specific_fields(fields)
+    #TODO - handle timezone adjustment  (See incident.date_of_first_report)
     self.registration_date ||= Date.today
   end
 
