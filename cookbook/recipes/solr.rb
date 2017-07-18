@@ -32,6 +32,8 @@ execute 'change solr owner' do
 end
 
 solr_worker_file = "#{node[:primero][:app_dir]}/solr.sh"
+solr_memory = node[:primero][:solr_memory]
+memory_param = solr_memory ? "-Xmx#{solr_memory}" : ""
 
 file solr_worker_file do
   mode '0755'
@@ -41,11 +43,7 @@ file solr_worker_file do
 #!/bin/bash
 #Launch the Solr worker
 source #{::File.join(node[:primero][:home_dir],'.rvm','scripts','rvm')}
-if [ -z "#{ node[:primero][:solr_memory]}"]; then
-  RAILS_ENV=#{node[:primero][:rails_env]} java -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
-else
-  RAILS_ENV=#{node[:primero][:rails_env]} java -Xmx#{node[:primero][:solr_memory]} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
-fi
+RAILS_ENV=#{node[:primero][:rails_env]} java #{memory_param} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
 EOH
 end
 
