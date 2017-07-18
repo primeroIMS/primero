@@ -13,7 +13,7 @@ class Incident < CouchRest::Model::Base
   property :incident_id
   property :incidentid_ir
   property :description
-  property :date_of_first_report, Date, default: Date.today
+  property :date_of_first_report, Date, default: DateTime.current.to_date
 
   validate :validate_date_of_first_report
 
@@ -144,7 +144,7 @@ class Incident < CouchRest::Model::Base
 
   def create_class_specific_fields(fields)
     self['description'] = fields['description'] || self.description || ''
-    self.date_of_first_report ||= Date.today
+    self.date_of_first_report ||= DateTime.current.to_date
   end
 
   def incident_code
