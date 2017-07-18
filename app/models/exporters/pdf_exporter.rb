@@ -183,17 +183,13 @@ module Exporters
 
         pdf.text subf.display_name, :style => :bold, :size => 12
 
-        if prop[form_section.name].count == 1 && prop[form_section.name][subf.subform_section_id].present?
-          render_blank_subform(pdf, filtered_subforms)
-        else
-          if (form_data.try(:length) || 0) > 0
-            form_data.each do |el|
-              render_fields(pdf, el, filtered_subforms)
-              pdf.move_down 10
-            end
-          else
-            render_blank_subform(pdf, filtered_subforms)
+        if (form_data.try(:length) || 0) > 0
+          form_data.each do |el|
+            render_fields(pdf, el, filtered_subforms)
+            pdf.move_down 10
           end
+        else
+          render_blank_subform(pdf, filtered_subforms)
         end
       end
     end
