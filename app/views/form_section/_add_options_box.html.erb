@@ -12,6 +12,9 @@
         <div class="column">
           <input type="hidden" name="<%= "field[option_strings_text_#{given_locale}][][id]" %>" value="<%= option['id'] %>" />
           <%= text_field_tag "field[option_strings_text_#{given_locale}][][display_text]", option['display_text'], class: "option_strings_text_input" %>
+          <span class='help-text'>
+            <%= t("home.#{given_locale}") %>
+          </span>
         </div>
         <% if editing %>
           <% Primero::Application::LOCALES.each do |new_locale| %>
@@ -21,6 +24,9 @@
               <input type="hidden" name="<%= "field[option_strings_text_#{new_locale}][][id]" %>" value="<%= option['id'] %>" />
               <div class="column hide_element">
                 <%= text_field_tag "field[option_strings_text_#{new_locale}][][display_text]", locale_option_text, class: "option_strings_text_input" %>
+                <span class='help-text'>
+                  <%= t("form_section.translation") %>
+                </span>
               </div>
             <% end %>
           <% end %>
