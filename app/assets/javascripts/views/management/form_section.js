@@ -90,11 +90,7 @@ function form_section() {
   }
 
   function removeOption(){
-    var row = $(this).parent().parent();
-    var key = row.find('input[type=hidden]').attr('value');
-    $('.fields_option_strings_text_list .fields_option_strings_text_row input[type=hidden][value='+key+']')
-        .parent().parent()
-        .remove();
+    $(this).parent().parent().remove();
   }
 
   function clearFlashMsg(){
