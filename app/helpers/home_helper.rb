@@ -103,6 +103,7 @@ module HomeHelper
     model_path = send("#{model}_path")
 
     content_tag :div, class: 'row section-stat-detailed align-middle' do
+      #TODO: Checks for filters to decide if it is a link. None of these dashboard sections represent the full case list now but if that changes we may want to add an explicit property to signify no link.
       if data[:filters].present?
         total_stat = link_to(model_path + index_filters(data[:filters])) do
           inner_value(data)
