@@ -321,7 +321,7 @@ namespace :db do
     task :xls_import, [:spreadsheet_dir, :record_type, :module_id] => :environment do |t, args|
       module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
       record_type = args[:record_type].present? ? args[:record_type] : 'case'
-      spreadsheet_dir = args[:spreadsheet_dir].present? ? args[:spreadsheet_dir] : Dir['/vagrant/tmp/exports/*'].sort { |a,b| File.mtime(a) <=> File.mtime(b) }.last
+      spreadsheet_dir = args[:spreadsheet_dir].present? ? args[:spreadsheet_dir] : Dir['#{Rails.root}/tmp/imports/*'].sort { |a,b| File.mtime(a) <=> File.mtime(b) }.last
       Rails.logger = Logger.new(STDOUT)
       importer = Importers::XlsImporter.new(spreadsheet_dir,record_type,module_id)
       importer.import_forms_from_spreadsheet

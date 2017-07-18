@@ -49,7 +49,6 @@ module Importers
 
     def update_values_survey(db_form, sheet_hash)
       #TODO: Implement 'hint' and 'guidance' labels
-      puts sheet_hash
       db_form.fields.each do |db_field|
         if sheet_hash[db_field.name].present?
           @locales.each do |locale|
