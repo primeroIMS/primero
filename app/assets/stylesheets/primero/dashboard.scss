@@ -92,7 +92,11 @@ $dashboard_table_counts:85px;
       align-self: center;
     }
 
-    a {
+    a .label {
+      cursor: pointer;
+    }
+
+    a, .no_link {
       text-decoration: none;
       display: flex;
       padding: .2em .5em;
