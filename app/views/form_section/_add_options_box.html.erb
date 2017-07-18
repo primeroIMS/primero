@@ -3,13 +3,13 @@
   options = @field.send("option_strings_text_#{given_locale}") || []
 %>
 <div class="row fields_option_strings_text_list" data="<%=given_locale%>">
-  <div class="large-3 medium-3 columns">
+  <div class="large-2 medium-2 columns">
     <%= label_tag :option_strings_text, t("fields.option_strings_text") %>
   </div>
-  <div class="large-9 medium-9 columns fields_option_strings_text_rows">
+  <div class="large-10 medium-10 columns fields_option_strings_text_rows">
     <% options.each_with_index do |option, index| %>
       <div class="row fields_option_strings_text_row">
-        <div class="column">
+        <div class="large-5 medium-5 columns">
           <input type="hidden" name="<%= "field[option_strings_text_#{given_locale}][][id]" %>" value="<%= option['id'] %>" />
           <%= text_field_tag "field[option_strings_text_#{given_locale}][][display_text]", option['display_text'], class: "option_strings_text_input" %>
         </div>
@@ -19,13 +19,13 @@
               <% locale_options = @field.send("option_strings_text_#{new_locale}") || [] %>
               <% locale_option_text = locale_options[index].present? && locale_options[index]['display_text'].present? ? locale_options[index]['display_text'] : ''%>
               <input type="hidden" name="<%= "field[option_strings_text_#{new_locale}][][id]" %>" value="<%= option['id'] %>" />
-              <div class="column hide_element">
+              <div class="large-5 medium-5 columns <%= "translation_forms #{new_locale}"%> hide_element">
                 <%= text_field_tag "field[option_strings_text_#{new_locale}][][display_text]", locale_option_text, class: "option_strings_text_input" %>
               </div>
             <% end %>
           <% end %>
         <% end %>
-        <div class="column">
+        <div class="large-2 medium-2 columns">
           <% if given_locale.to_s == 'en' %>
             <a class="field_option_remove_button">
               <%= icon('close') %>
