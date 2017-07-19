@@ -873,6 +873,7 @@ en:
   devices: "Devices"
   replications: "Replications"
   provide_translation: "Provide translation for"
+  select_language: "Select a language"
   hide_on_view_page: "Hide On View Page"
   show_on_short_form: "Show On Short Form"
   last_login: "Last Login"
