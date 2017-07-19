@@ -33,6 +33,7 @@ module Importers
       Rails.logger.info {"Importing the forms in the follwoing directory: #{@file_path}"}
       record_db_forms.each do |form|
         if @spreadsheet_forms.include?("#{form.unique_id}.xls")
+          Rails.logger.info {"Importing form from #{form.unique_id}.xls"}
           define_spreadsheet(form)
         end
       end
@@ -118,7 +119,7 @@ module Importers
           index = 0
           name = nil
           row.each do |column|
-            column_type = heading[index].split("::")
+            column_type = (heading[index] || "").split("::")
             case column_type[0]
             when "type"
             when "name"
@@ -149,7 +150,7 @@ module Importers
           lookup = nil
           lookup_choice_id = nil
           row.each do |column|
-            column_type = heading[index].split("::")
+            column_type = (heading[index] || "").split("::")
             case column_type[0]
             when "list name"
               field_name = column.split("_opts")[0]
