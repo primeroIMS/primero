@@ -1094,6 +1094,7 @@ en:
     option_strings_text_display: "Option Text"
     option_strings_source: "Lookups"
     option_strings_add_option: "Add Option"
+    options_or_lookup_warning: "Please add Options or select a Lookup. Do not enter both."
     form_name: "Form Name"
     action: "Action"
     remove: "Remove"
