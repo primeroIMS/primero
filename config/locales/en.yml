@@ -1025,6 +1025,7 @@ en:
     form_group_name: "Form Group Name"
     modal_sidebar_help: "Select type of field"
     modal_sidebar_help_selected: "Type of field"
+    translation: "Translation"
 
   advanced_search:
     instruction: "Separate words by OR to search for more than one option eg. Tim OR Rahul"
@@ -2030,6 +2031,9 @@ en:
     graph_data: "Viewing graph data"
     permitted_field_list: Permitted field list
     lookups_for_field: Lookups for field
+  job:
+    status:
+      complete: 'Complete'
 
   string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
 

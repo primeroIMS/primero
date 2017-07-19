@@ -110,7 +110,7 @@ module RecordFilteringPagination
   def sanitize_date_range_filter (date_range)
     date_range.each_with_index do |value, i|
       begin
-        date_range[i] = PrimeroDate.parse_with_format value
+        date_range[i] = PrimeroDate.parse_with_format(value, true)
       rescue ArgumentError => arg_error
         @invalid_date_filter_value = true
         return []

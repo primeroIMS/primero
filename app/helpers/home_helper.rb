@@ -88,24 +88,30 @@ module HomeHelper
     end
   end
 
+  def inner_value(data)
+    if data[:pivoted].present?
+      total = pivot_case_stat({name: data[:name], stat: data[:stat]}, data[:stats], :total)
+      concat(content_tag(:div, total, class: 'count'))
+    elsif data[:stat].present?
+      concat(content_tag(:div, case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model]), class: 'count'))
+    end
+    concat(content_tag(:span, data[:text], class: 'label primary'))
+  end
+
   def display_stat_detailed(data={})
     model = model_name_class(data[:model]).pluralize
     model_path = send("#{model}_path")
 
     content_tag :div, class: 'row section-stat-detailed align-middle' do
-      total_link = model_path
-      total_link += index_filters(data[:filters]) if data[:filters].present?
-
-      total_stat =  link_to total_link do
-        if data[:pivoted].present?
-          total = pivot_case_stat({name: data[:name], stat: data[:stat]}, data[:stats], :total)
-          concat(content_tag(:div, total, class: 'count'))
-        else
-          if data[:stat].present?
-            concat(content_tag(:div, case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model]), class: 'count'))
-          end
+      #TODO: Checks for filters to decide if it is a link. None of these dashboard sections represent the full case list now but if that changes we may want to add an explicit property to signify no link.
+      if data[:filters].present?
+        total_stat = link_to(model_path + index_filters(data[:filters])) do
+          inner_value(data)
         end
-        concat(content_tag(:span, data[:text], class: 'label primary'))
+      else
+        total_stat = content_tag('div', class: 'no_link') do
+          inner_value(data)
+        end
       end
 
       concat(content_tag(:div, total_stat, class: "column shrink"))
@@ -205,11 +211,11 @@ module HomeHelper
   end
 
   def overdue
-    "#{DateTime.new(1,1,1).strftime("%d-%b-%Y %H:%M")}.#{Time.now.strftime("%d-%b-%Y %H:%M")}"
+    "#{DateTime.new(1,1,1).strftime("%d-%b-%Y %H:%M")}.#{DateTime.now.strftime("%d-%b-%Y %H:%M")}"
   end
 
   def near_due
-    "#{Time.now.strftime("%d-%b-%Y ")}.#{24.hours.from_now.strftime("%d-%b-%Y %H:%M")}"
+    "#{DateTime.now.strftime("%d-%b-%Y %H:%M")}.#{24.hours.from_now.strftime("%d-%b-%Y %H:%M")}"
   end
 
   def last_week
