@@ -1026,6 +1026,7 @@ en:
     modal_sidebar_help: "Select type of field"
     modal_sidebar_help_selected: "Type of field"
     translation: "Translation"
+    initial_lang_help_text: "Field must be created in %{lang} before translation can be added."
 
   advanced_search:
     instruction: "Separate words by OR to search for more than one option eg. Tim OR Rahul"
