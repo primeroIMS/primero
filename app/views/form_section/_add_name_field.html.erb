@@ -28,10 +28,13 @@
 <% else %>
   <div class="row">
     <div class="large-2 medium-2 columns">
-      <label class="key inline"><%= t(field_name.to_sym, :locale => given_locale.to_sym) %></label>
+      <label class="key inline"><%= t("form_section.name") %></label>
     </div>
-    <div class="large-5 medium-5 columns goodbye">
+    <div class="<%= is_field_edit ? 'large-5 medium-5' : 'large-10 medium-10' %> columns goodbye">
       <%= fld.send "#{field_type}", "#{field_name}_#{given_locale}".to_sym %>
+      <span class='help-text'>
+        <%= t("form_section.translation") %>
+      </span>
     </div>
   </div>
 <% end %>
