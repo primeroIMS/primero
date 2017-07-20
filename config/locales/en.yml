@@ -1026,6 +1026,7 @@ en:
     modal_sidebar_help: "Select type of field"
     modal_sidebar_help_selected: "Type of field"
     translation: "Translation"
+    field_db_help_text: "If left blank, DB Name will be generated. Only Latin letters, numbers, and underscores are allowed."
 
   advanced_search:
     instruction: "Separate words by OR to search for more than one option eg. Tim OR Rahul"
