@@ -1,5 +1,5 @@
 <tr>
-  <td class="select_record"><input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= text_to_identify_child record %>"></td>
+  <td class="select_record"><input type="checkbox" class="select_record" value="<%= record.id %>" id="<%= text_to_identify_child(record) %>"></td>
   <% if fields_to_show.include? 'short_id' %>
     <td id="child_<%= record.id %>" class="id_column">
       <% if can?(:read, record) %>
@@ -32,7 +32,7 @@
     <td><%= record.age %></td>
   <% end %>
   <% if fields_to_show.include? 'sex' %>
-    <td><%= record.display_field('sex')%></td>
+    <td><%= record.display_field('sex', @lookups)%></td>
   <% end %>
   <% if fields_to_show.include? 'registration_date' %>
     <td><%= field_format_date(record.registration_date) %></td>

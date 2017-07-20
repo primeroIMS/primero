@@ -47,12 +47,12 @@ module FieldsHelper
     end
   end
 
-  def field_value_for_display(field_value, field=nil)
+  def field_value_for_display(field_value, field=nil, lookups=nil)
     if (field.present? && field.selectable?)
       if field_value.is_a?(Array)
         field_value.map!{|v| field.display_text(v)}
       else
-        field_value = field.display_text(field_value)
+        field_value = field.display_text(field_value, lookups)
       end
     end
 

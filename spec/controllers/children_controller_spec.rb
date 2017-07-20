@@ -724,7 +724,8 @@ describe ChildrenController do
       response.should redirect_to(:action => :index)
     end
 
-    it "should include duplicate records in the response" do
+    #TODO - duplicates fetch commented out for performance reasons
+    xit "should include duplicate records in the response" do
       child = mock_child({:module_id => 'primeromodule-cp'})
       Child.stub(:allowed_formsections).and_return({})
       Child.stub(:get).with("37").and_return(child)

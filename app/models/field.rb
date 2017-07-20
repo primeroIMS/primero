@@ -195,7 +195,7 @@ class Field
   end
 
   def subform_section
-    if (not self.subform and self.subform_section_id.present?)
+    if (self.subform.blank? && self.subform_section_id.present?)
       self.subform = FormSection.get_by_unique_id(subform_section_id)
     end
     return self.subform
@@ -327,7 +327,7 @@ class Field
     end
   end
 
-  def display_text(value=nil)
+  def display_text(value=nil, lookups = nil)
     value = self.convert_true_false_key_to_string(value) if self.is_yes_no?
     if self.type == Field::TICK_BOX
       selected_option = self.options_list.select{|ol| ol[:id] == value.to_s}.first
@@ -338,9 +338,10 @@ class Field
       value = (display.present? ? display.first['display_text'] : '')
     elsif self.option_strings_source.present?
       source_options = self.option_strings_source.split
+      #TODO pass in locations and agencies
       case source_options.first
         when 'lookup'
-          display = Lookup.values(source_options.last).select{|opt| opt['id'] == value}
+          display = Lookup.values(source_options.last, lookups).select{|opt| opt['id'] == value}
           value = (display.present? ? display.first['display_text'] : '')
         when 'Location'
           value = Location.display_text(value)
