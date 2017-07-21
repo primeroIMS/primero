@@ -2,6 +2,7 @@ class Field
   include CouchRest::Model::CastedModel
   include PrimeroModel
   include LocalizableProperty
+  DEFAULT_BASE_LANGUAGE = 'en'
 
   property :name
   property :visible, TrueClass, :default => true
@@ -18,7 +19,7 @@ class Field
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
   property :option_strings_source  #If options are dynamic, this is where to fetch them
-  property :base_language, :default=>'en'
+  property :base_language, :default => DEFAULT_BASE_LANGUAGE
   property :subform_section_id
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
@@ -107,12 +108,11 @@ class Field
                         TALLY_FIELD      => ""
                       }
 
-  validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")
   validate :validate_unique_name
   validate :validate_has_2_options
   validate :validate_display_name_format
   validate :validate_name_format
-  validate :valid_presence_of_base_language_name
+  validate :validate_display_name_in_base_language
   validate :valid_tally_field
   validate :validate_option_strings_text
   #TODO: Any subform validations?
@@ -145,9 +145,11 @@ class Field
     end
   end
 
-  def valid_presence_of_base_language_name
-    if base_language.nil? || (base_language != self.form.base_language)
-      errors.add(:display_name, I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language))
+  def validate_display_name_in_base_language
+    display_name = "display_name_#{DEFAULT_BASE_LANGUAGE}"
+    unless (self.send(display_name).present?)
+      errors.add(:display_name, I18n.t("errors.models.field.display_name_presence"))
+      return false
     end
   end
 

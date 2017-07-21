@@ -5,7 +5,7 @@ class FormSection < CouchRest::Model::Base
   include Memoizable
 
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
-
+  DEFAULT_BASE_LANGUAGE = 'en'
   #TODO - include Namable - will require a fair amount of refactoring
 
   use_database :form_section
@@ -25,7 +25,7 @@ class FormSection < CouchRest::Model::Base
   property :perm_enabled, TrueClass, :default => false
   property :core_form, TrueClass, :default => true
   property :validations, [String]
-  property :base_language, :default=>'en'
+  property :base_language, :default => DEFAULT_BASE_LANGUAGE
   property :is_nested, TrueClass, :default => false
   property :is_first_tab, TrueClass, :default => false
   property :initial_subforms, Integer, :default => 0
@@ -97,8 +97,7 @@ class FormSection < CouchRest::Model::Base
               }"
   end
 
-  validates_presence_of "name_#{I18n.default_locale}", :message => I18n.t("errors.models.form_section.presence_of_name")
-  validate :valid_presence_of_base_language_name
+  validate :validate_name_in_base_language
   validate :validate_name_format
   validate :validate_unique_id
   validate :validate_visible_field
@@ -113,9 +112,12 @@ class FormSection < CouchRest::Model::Base
     "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
   end
 
-  def valid_presence_of_base_language_name
-    base_lang_name = self.send("name_#{base_language}")
-    [!(base_language.nil?), I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language)]
+  def validate_name_in_base_language
+    name = "name_#{DEFAULT_BASE_LANGUAGE}"
+    unless (self.send(name).present?)
+      errors.add(:name, I18n.t("errors.models.form_section.presence_of_name"))
+      return false
+    end
   end
 
   def initialize(properties={}, options={})

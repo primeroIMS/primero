@@ -51,7 +51,7 @@ describe "record field model" do
       form_section = FormSection.new(:parent_form => "case")
       form_section.fields = [field]
       expect(field.valid?).to be false
-      expect(field.errors[:display_name].first).to eq "The name of the base language 'en' can not be blank"
+      expect(field.errors[:display_name].first).to eq "Display name must not be blank"
     end
 
     it "should not allows empty field display_name of field base language " do
