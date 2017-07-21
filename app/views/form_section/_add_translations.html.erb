@@ -1,9 +1,10 @@
 <%
   is_field_edit ||= false
+  given_locale ||= I18n.default_locale.to_s
 %>
 <div class="translation">
   <% if show_drop_down %>
-    <%= render 'shared/locale_select' %>
+    <%= render 'shared/locale_select', :locals => {:current_locale => given_locale} %>
   <% end %>
   <% Primero::Application::LOCALES.each do |new_locale| %>
     <% if given_locale != new_locale %>
