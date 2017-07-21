@@ -1,11 +1,12 @@
 <%
    subform = field
    subform_section = field.subform_section
-   shared_subform_section = FormSection.get_by_unique_id subform_section.shared_subform
+   #TODO - booo!!!!  This is bad. Refactor needed.  Don't do a DB query in a template
+   shared_subform_section = (subform_section.shared_subform.present? ? FormSection.get_by_unique_id(subform_section.shared_subform) : nil)
    shared_subform_section_group = subform_section.shared_subform_group
 
    #TODO: a little redundant to re-count the subforms? (see grouped_subforms(formObject, subform))
-   number_of_subforms = subforms_count formObject, subform, form_group_name
+   number_of_subforms = subforms_count(formObject, subform, form_group_name)
    data_shared_subform = ""
 
    if shared_subform_section.present?

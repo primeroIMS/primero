@@ -33,7 +33,7 @@
       if field['option_strings_text_en'].present? && field['option_strings_text_en'].is_a?(Array)
         value_to_display = field_value_for_multi_select value, field
       else
-        value_to_display = field_value_for_display value, field
+        value_to_display = field_value_for_display(value, field, @lookups)
       end
       value_fields << value_to_display
     end

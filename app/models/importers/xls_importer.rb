@@ -18,9 +18,9 @@ module Importers
     def define_spreadsheet(form)
       form_path = File.join(@file_path, "#{form.unique_id}.xls")
       @book = Spreadsheet.open(form_path)
-      @survey = @book.worksheet(0)
-      @choices = @book.worksheet(1)
-      @settings = @book.worksheet(2)
+      @survey = @book.worksheet('survey')
+      @choices = @book.worksheet('choices')
+      @settings = @book.worksheet('settings')
       @locales = determine_locales(@settings)
       update_values_survey(form,create_survey_hash(@survey))
       update_values_choices(form,create_choices_hash(@choices))
@@ -33,6 +33,7 @@ module Importers
       Rails.logger.info {"Importing the forms in the follwoing directory: #{@file_path}"}
       record_db_forms.each do |form|
         if @spreadsheet_forms.include?("#{form.unique_id}.xls")
+          Rails.logger.info {"Importing form from #{form.unique_id}.xls"}
           define_spreadsheet(form)
         end
       end
@@ -67,7 +68,7 @@ module Importers
         if db_field.option_strings_source.present? && db_field.option_strings_source.start_with?('lookup')
           option_source = db_field.option_strings_source.split.last
           lookup = Lookup.get(option_source)
-          if sheet_hash[db_field.name]["lookup"].present?
+          if sheet_hash[db_field.name].present? && sheet_hash[db_field.name]["lookup"].present?
             @locales.each do |locale|
               new_value = []
               sheet_hash[db_field.name][option_source].each do |lookup_choice_id, lookup_choice_value|
@@ -81,7 +82,7 @@ module Importers
           end
         elsif db_field.option_strings_text.present?
           db_field.option_strings_text.each do |option|
-            if sheet_hash[db_field.name][option['id']].present?
+            if sheet_hash[db_field.name].present? && sheet_hash[db_field.name][option['id']].present?
               @locales.each do |locale|
               	new_value = []
                 sheet_hash[db_field.name].each do |choice_id, choice_value|
@@ -118,7 +119,7 @@ module Importers
           index = 0
           name = nil
           row.each do |column|
-            column_type = heading[index].split("::")
+            column_type = (heading[index] || "").split("::")
             case column_type[0]
             when "type"
             when "name"
@@ -149,7 +150,7 @@ module Importers
           lookup = nil
           lookup_choice_id = nil
           row.each do |column|
-            column_type = heading[index].split("::")
+            column_type = (heading[index] || "").split("::")
             case column_type[0]
             when "list name"
               field_name = column.split("_opts")[0]
@@ -192,7 +193,8 @@ module Importers
           index = 0
           unique_name = nil
           row.each do |column|
-            column_type = heading[index].split("::")
+            # Check to see if heading is nil. This happens sometimes.
+            column_type = heading[index].nil? ? [] : heading[index].split("::")
             case column_type[0]
             when "form_id"
               unique_name = column

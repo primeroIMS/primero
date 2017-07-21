@@ -110,7 +110,8 @@ module RecordActions
 
         @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
         @body_class = 'profile-page'
-        @duplicates = model_class.duplicates_of(params[:id])
+        #TODO - commented out for performance - could not find any places where it was being used
+        # @duplicates = model_class.duplicates_of(params[:id])
         @form_sections = @record.class.allowed_formsections(current_user, @record.module)
       end
 
@@ -258,7 +259,7 @@ module RecordActions
 
   #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.
   def get_lookups
-    @lookups = Lookup.all
+    @lookups = Lookup.all.all
   end
 
   def load_system_settings
