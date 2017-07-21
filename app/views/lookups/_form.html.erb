@@ -1,4 +1,7 @@
-<% editing ||= false %>
+<%
+  given_locale = @lookup.base_language
+  editing ||= false
+%>
 <% content_for :record_sub_nav do %>
   <div class="button-group">
     <%= discard_button(form_sections_path) %>
@@ -14,7 +17,7 @@
         <% if editing %>
           <div class="row">
             <div class="medium-9 medium-offset-3 columns">
-              <%= render 'shared/locale_select' %>
+              <%= render 'shared/locale_select', current_locale: given_locale %>
             </div>
           </div>
         <% end %>
@@ -43,16 +46,16 @@
             <div id="lookup_values">
               <% if @lookup.lookup_values.present? %>
                 <% @lookup.lookup_values.each_with_index do |lookup_value, index| %>
-                  <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: lookup_value, given_locale: I18n.default_locale, option_index: index, editing: editing} %>
+                  <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: lookup_value, given_locale: given_locale, option_index: index, editing: editing} %>
                 <% end %>
               <% else %>
-                  <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: {}, given_locale: I18n.default_locale, option_index: 0, editing: editing} %>
-                  <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: {}, given_locale: I18n.default_locale, option_index: 1, editing: editing} %>
+                  <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: {}, given_locale: given_locale, option_index: 0, editing: editing} %>
+                  <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: {}, given_locale: given_locale, option_index: 1, editing: editing} %>
               <% end %>
             </div>
             <%# Add button %>
             <div>
-              <a id="lookup_values_add_button" class="button lookup_value_add right <%= editing ? 'edit_lookup' : '' %>" data-lang="<%= Primero::Application::LOCALES %>" data-remove="<%= t('lookup.remove')%>"><%= t('lookup.add_value') %></a>
+              <a id="lookup_values_add_button" class="button lookup_value_add right <%= editing ? 'edit_lookup' : '' %>" data-lang="<%= Primero::Application::LOCALES %>" data-given_locale="<%= given_locale %>" data-remove="<%= t('lookup.remove')%>" data-help_text="<%= t("lookup.initial_lang_help_text", :lang => t("home.#{given_locale}")) %>"><%= t('lookup.add_value') %></a>
             </div>
           </div>
         </div>
