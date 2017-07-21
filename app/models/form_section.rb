@@ -97,7 +97,7 @@ class FormSection < CouchRest::Model::Base
               }"
   end
 
-  validates_presence_of "name_#{I18n.default_locale}", :message => I18n.t("errors.models.form_section.presence_of_name")
+  validates_presence_of "name_#{base_language}", :message => I18n.t("errors.models.form_section.presence_of_name")
   validate :valid_presence_of_base_language_name
   validate :validate_name_format
   validate :validate_unique_id
@@ -114,11 +114,8 @@ class FormSection < CouchRest::Model::Base
   end
 
   def valid_presence_of_base_language_name
-    if base_language.nil?
-      self.base_language = 'en'
-    end
     base_lang_name = self.send("name_#{base_language}")
-    [!(base_lang_name.nil?||base_lang_name.empty?), I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language)]
+    [!(base_language.nil?), I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language)]
   end
 
   def initialize(properties={}, options={})
@@ -126,6 +123,7 @@ class FormSection < CouchRest::Model::Base
     self["shared_subform"] ||= ""
     self["shared_subform_group"] ||= ""
     self["is_summary_section"] ||= false
+    self["base_language"] ||= 'en'
     super properties, options
     create_unique_id
   end
@@ -442,7 +440,6 @@ class FormSection < CouchRest::Model::Base
 
       fs = FormSection.new(form_section)
       fs.unique_id = "#{module_name}_#{fs.name}".parameterize.underscore
-      fs.base_language = I18n.default_locale
       return fs
     end
 

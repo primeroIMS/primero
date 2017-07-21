@@ -18,7 +18,7 @@
         </div>
         <% if editing %>
           <% Primero::Application::LOCALES.each do |new_locale| %>
-            <% if I18n.default_locale.to_s != new_locale %>
+            <% if given_locale != new_locale %>
               <% locale_options = @field.send("option_strings_text_#{new_locale}") || [] %>
               <% locale_option_text = locale_options[index].present? && locale_options[index]['display_text'].present? ? locale_options[index]['display_text'] : ''%>
               <input type="hidden" name="<%= "field[option_strings_text_#{new_locale}][][id]" %>" value="<%= option['id'] %>" />
@@ -32,22 +32,18 @@
           <% end %>
         <% end %>
         <div class="large-2 medium-2 columns">
-          <% if given_locale.to_s == 'en' %>
-            <a class="field_option_remove_button">
-              <%= icon('close') %>
-            </a>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-    <% if given_locale.to_s == 'en' %>
-      <div class="row options_row_controls">
-        <div class="column">
-          <a id="field_option_add_button" class="button add_option <%= editing ? 'edit_option' : '' %>" data-lang="<%= Primero::Application::LOCALES %>">
-            <%= t('fields.option_strings_add_option') %>
+          <a class="field_option_remove_button">
+            <%= icon('close') %>
           </a>
         </div>
       </div>
     <% end %>
+    <div class="row options_row_controls">
+      <div class="column">
+        <a id="field_option_add_button" class="button add_option <%= editing ? 'edit_option' : '' %>" data-lang="<%= Primero::Application::LOCALES %>">
+          <%= t('fields.option_strings_add_option') %>
+        </a>
+      </div>
+    </div>
   </div>
 </div>
