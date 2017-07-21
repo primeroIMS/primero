@@ -25,10 +25,8 @@
       <%= f.error_messages :header_tag => :h2 %>
       <% if editing %>
         <div class="row">
-          <div class="medium-4 medium-offset-8 columns">
-            <div class="lang_title">
-              <%= select_tag("locale", options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != I18n.default_locale.to_s }), :class => 'locale') %>
-            </div>
+          <div class="medium-9 medium-offset-3 columns">
+            <%= render 'shared/locale_select' %>
           </div>
         </div>
       <% end %>
