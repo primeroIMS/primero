@@ -152,7 +152,7 @@ class Child < CouchRest::Model::Base
   def self.quicksearch_fields
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
-      'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no', 
+      'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
       'other_agency_id', 'survivor_code_no'
     ]
   end
@@ -211,7 +211,7 @@ class Child < CouchRest::Model::Base
     {
           'boolean' => ['record_state'],
            'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by'],
-      'multistring' => ['associated_user_names'],
+      'multistring' => ['associated_user_names', 'owned_by_groups'],
              'date' => ['registration_date'],
           'integer' => ['age'],
          'location' => ['owned_by_location', 'location_current']

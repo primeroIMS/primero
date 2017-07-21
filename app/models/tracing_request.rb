@@ -72,7 +72,7 @@ class TracingRequest < CouchRest::Model::Base
     {
       'boolean' => ['record_state'],
       'string' => ['inquiry_status', 'owned_by'],
-      'multistring' => ['associated_user_names'],
+      'multistring' => ['associated_user_names', 'owned_by_groups'],
       'date' => ['inquiry_date']
     }
   end
