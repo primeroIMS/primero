@@ -34,7 +34,11 @@
         %>
         <%= fld.send "#{field_type}", "#{field_name}_#{given_locale}".to_sym, value: value, disabled: disabled %>
         <span class='help-text'>
-          <%= t("form_section.base_language_help_text", :lang => t("home.#{given_locale}")) %>
+          <% if is_field_edit %>
+            <%= t("form_section.base_language_help_text", :lang => t("home.#{given_locale}")) %>
+          <% else %>
+            <%= t("form_section.translation") %>
+          <% end %>
         </span>
       </div>
       <% if editing %>
