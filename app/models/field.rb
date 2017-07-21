@@ -107,7 +107,7 @@ class Field
                         TALLY_FIELD      => ""
                       }
 
-  validates_presence_of "display_name_#{base_language}", :message=> I18n.t("errors.models.field.display_name_presence")
+  validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")
   validate :validate_unique_name
   validate :validate_has_2_options
   validate :validate_display_name_format
