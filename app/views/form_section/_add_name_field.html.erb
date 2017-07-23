@@ -22,6 +22,9 @@
         <% else %>
           <div class="db_name"><%= fld.object["#{field_name}".to_sym] %></div>
         <% end %>
+        <span class='help-text'>
+          <%= t("form_section.field_db_help_text") %>
+        </span>
       </div>
     </div>
   <% end %>
