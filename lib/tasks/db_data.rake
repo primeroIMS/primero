@@ -302,7 +302,7 @@ namespace :db do
 
     desc "Export All form Fields and Options"
 
-    #USAGE: $bundle exec rake db:data:xls_export['cape','primeromodule-cp',"fr es"]
+    #USAGE: $bundle exec rake db:data:xls_export['case','primeromodule-cp',"fr es"]
     #NOTE: Must pass locales as string separated by spaces e.g. "en fr"
     task :xls_export, [:record_type, :module_id, :locales, :show_hidden_forms, :show_hidden_fields] => :environment do |t, args|
       module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
@@ -329,4 +329,3 @@ namespace :db do
 
   end
 end
-
