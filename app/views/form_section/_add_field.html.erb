@@ -7,7 +7,13 @@
         </div>
         <div class="space"></div>
         <div class="translation_lang_panel">
-          <%= render :partial => "form_section/add_translations_inline", :locals => {:fields => fields, :fld => fld, :show_drop_down => @show_add_field.present?, :is_field_edit => true} %>
+          <div class="translation">
+            <% if @show_add_field.present? %>
+              <div class="medium-9 medium-offset-3 columns">
+                <%= render 'shared/locale_select' %>
+              </div>
+            <% end %>
+          </div>
         </div>
         <div class="clearfix"></div>
         <%= render :partial => 'form_section/fields', :locals => {:fld => fld, :fields => fields, :given_locale => @form_section.base_language, :lookup_options => @lookup_options, :is_field_edit => true, :is_translation => false, :editing => @show_add_field.present?} %>

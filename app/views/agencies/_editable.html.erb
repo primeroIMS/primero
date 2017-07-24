@@ -8,6 +8,7 @@
     <span class="lang_title">
       <%= select_tag("locale", options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != I18n.default_locale.to_s }), :class => 'locale') %>
     </span>
+    <p class="help"><%= t(:select_language) %></p>
   </div>
 </div>
 
