@@ -18,9 +18,9 @@ module Importers
     def define_spreadsheet(form)
       form_path = File.join(@file_path, "#{form.unique_id}.xls")
       @book = Spreadsheet.open(form_path)
-      @survey = @book.worksheet('survey')
-      @choices = @book.worksheet('choices')
-      @settings = @book.worksheet('settings')
+      @survey = @book.worksheets.find{|w| w.name.gsub(/\u0000/, "") == 'survey'}
+      @choices = @book.worksheets.find{|w| w.name.gsub(/\u0000/, "") == 'choices'}
+      @settings = @book.worksheets.find{|w| w.name.gsub(/\u0000/, "") == 'settings'}
       @locales = determine_locales(@settings)
       update_values_survey(form,create_survey_hash(@survey))
       update_values_choices(form,create_choices_hash(@choices))
