@@ -2,28 +2,7 @@
   name: :cases_to_assign,
   stat: nil,
   filters: [],
-  additional_details: [
-    {
-      stat: :high,
-      filters: [
-        "child_status=#{Record::STATUS_OPEN}",
-        "risk_level=#{Child::RISK_LEVEL_HIGH}",
-        'record_state=true',
-        "owned_by=#{current_user.user_name}"
-      ],
-      text: t('dashboard.high_risk')
-    },
-    {
-      stat: :low,
-      filters: [
-        "child_status=#{Record::STATUS_OPEN}",
-        "risk_level=#{Child::RISK_LEVEL_LOW}",
-        'record_state=true',
-        "owned_by=#{current_user.user_name}"
-      ],
-      text: t('dashboard.low_risk')
-    }
-  ],
+  additional_details: build_dashboard_risk_details(true)
   stats: stats,
   model: model,
   text: t('dashboard.cases_to_assign'),

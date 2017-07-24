@@ -2,52 +2,29 @@
   TODO: this is hardcoding risk level and deliberately exclusing medium risk.
   That's a bug! Risk levels shoudl be obtained dynamically and iterated.
 %>
-<%= display_stat_detailed({
-  name: :risk_level,
-  stat: :high_total,
-  filters: [
-    "child_status=#{Record::STATUS_OPEN}",
-    "risk_level=#{Child::RISK_LEVEL_HIGH}",
-    'record_state=true'
-  ],
-  additional_details: [
-    {
-      stat: :high,
-      filters: [
-        "child_status=#{Record::STATUS_OPEN}",
-        "risk_level=#{Child::RISK_LEVEL_HIGH}",
-        'new_other',
-        'record_state=true'
-      ],
-      text: t('dashboard.new')
-    }
-  ],
-  stats: stats,
-  model: model,
-  text: t('dashboard.high_risk'),
-}) %>
-
-<%= display_stat_detailed({
-  name: :risk_level,
-  stat: :low_total,
-  filters: [
-    "child_status=#{Record::STATUS_OPEN}",
-    "risk_level=#{Child::RISK_LEVEL_LOW}",
-    'record_state=true'
-  ],
-  additional_details: [
-    {
-      stat: :low,
-      filters: [
-        "child_status=#{Record::STATUS_OPEN}",
-        "risk_level=#{Child::RISK_LEVEL_LOW}",
-        'new_other',
-        'record_state=true'
-      ],
-      text: t('dashboard.new')
-    }
-  ],
-  stats: stats,
-  model: model,
-  text: t('dashboard.low_risk'),
-}) %>
+<% @risk_levels.each do | risk_level| %>
+  <%= display_stat_detailed({
+    name: :risk_level,
+    stat: "#{risk_level}_total".to_sym,
+    filters: [
+      "child_status=#{Record::STATUS_OPEN}",
+      "risk_level=#{risk_level}",
+      'record_state=true'
+    ],
+    additional_details: [
+      {
+        stat: risk_level.to_sym,
+        filters: [
+          "child_status=#{Record::STATUS_OPEN}",
+          "risk_level=#{risk_level}",
+          'new_other',
+          'record_state=true'
+        ],
+        text: t('dashboard.new')
+      }
+    ],
+    stats: stats,
+    model: model,
+    text: t("dashboard.#{risk_level}_risk"),
+  }) %>
+<% end %>
