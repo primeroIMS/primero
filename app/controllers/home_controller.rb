@@ -42,10 +42,11 @@ class HomeController < ApplicationController
   private
 
   def load_risk_levels
-    @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v}
-    # TODO: If dashboard permission
-    @risk_levels << Child::RISK_LEVEL_NONE
-    @risk_levels
+    if !display_admin_only?
+      @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v}
+      @risk_levels << Child::RISK_LEVEL_NONE if can?(:dash_show_none_values, Dashboard)
+      @risk_levels
+    end
   end
 
   def risk_level_timeline(risk_level)
