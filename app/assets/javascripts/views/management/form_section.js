@@ -11,6 +11,14 @@ function form_section() {
   $("a#field_option_add_button").click(addOption);
   $("a.field_option_remove_button").click(removeOption);
 
+  document.addEventListener('turbolinks:before-cache', function() {
+    $('select').chosen('destroy');
+  });
+
+  document.addEventListener("turbolinks:load", function() {
+    _primero.chosen('select');
+  });
+
   $("#add_field_modal").on('closed.zf.reveal', function(e){
     e.preventDefault();
     if (e.namespace !== 'reveal.zf') {
