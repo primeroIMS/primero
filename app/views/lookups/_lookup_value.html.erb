@@ -17,6 +17,7 @@
           <% locale_option_text = locale_options[option_index].present? && locale_options[option_index]['display_text'].present? ? locale_options[option_index]['display_text'] : ''%>
           <%= text_field_tag "lookup[lookup_values_#{new_locale}][][display_text]", locale_option_text %>
           <%= hidden_field_tag "lookup[lookup_values_#{new_locale}][][id]", lookup_value['id'] %>
+          <p class="help"><%= t("lookup.initial_lang_help_text", :lang => t("home.#{new_locale}")) %></p>
         </div>
       <% end %>
     <% end %>

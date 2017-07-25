@@ -1,5 +1,6 @@
 <%
   given_locale = @lookup.base_language
+  lookup_values = @lookup.send("lookup_values_#{given_locale}")
   editing ||= false
 %>
 <% content_for :record_sub_nav do %>
@@ -26,13 +27,15 @@
             <%= f.label :name, t("lookup.name"), :class => "key inline" %>
           </div>
           <div class="<%= editing ? 'medium-4' : 'medium-9' %> columns">
-            <%= f.text_field :name %>
+            <%= f.text_field "name_#{given_locale}" %>
+            <p class="help"><%= t("lookup.initial_lang_help_text", :lang => t("home.#{given_locale}")) %></p>
           </div>
           <% if editing %>
             <% Primero::Application::LOCALES.each do |new_locale| %>
-              <% if I18n.default_locale.to_s != new_locale %>
+              <% if given_locale != new_locale %>
                 <div class="<%= editing ? 'medium-4' : 'medium-9' %> columns <%= "translation_forms #{new_locale}"%> hide_element">
                   <%= f.text_field "name_#{new_locale}" || [] %>
+                  <p class="help"><%= t("lookup.initial_lang_help_text", :lang => t("home.#{new_locale}")) %></p>
                 </div>
               <% end %>
             <% end %>
@@ -44,8 +47,8 @@
           </div>
           <div class="column">
             <div id="lookup_values">
-              <% if @lookup.lookup_values.present? %>
-                <% @lookup.lookup_values.each_with_index do |lookup_value, index| %>
+              <% if lookup_values.present? %>
+                <% lookup_values.each_with_index do |lookup_value, index| %>
                   <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: lookup_value, given_locale: given_locale, option_index: index, editing: editing} %>
                 <% end %>
               <% else %>
