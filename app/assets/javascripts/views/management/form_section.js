@@ -11,13 +11,23 @@ function form_section() {
   $("a#field_option_add_button").click(addOption);
   $("a.field_option_remove_button").click(removeOption);
 
-  $("#add_field_modal").on('closed.zf.reveal', function(e){
-    e.preventDefault();
-    if (e.namespace !== 'reveal.zf') {
+  $('#add_field_modal').parent('.reveal-overlay').unbind('click');
+  $('#add_field_modal .close-button').unbind('click');
+
+  $('#add_field_modal').parent('.reveal-overlay').on('click', function(e) {
+    if( e.target !== this) {
       return;
     }
-    backToPrevious();
-  })
+    e.preventDefault();
+    _primero.request_confirmation(backToPrevious);
+  });
+
+  $('#add_field_modal .close-button').on('click', function(e) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    _primero.request_confirmation(backToPrevious);
+  });
+
   triggerErrors();
   var $rows = $("#form_sections tbody");
   $rows.sortable({
@@ -68,6 +78,8 @@ function form_section() {
     //For add field, stay at this url unless there are errors
     if(((typeof(edit_field_mode) != 'undefined') && (edit_field_mode)) || ($("#add_field_modal").find("#errorExplanation").length > 0)){
       window.history.back();
+    } else {
+      $('#add_field_modal').foundation('close');
     }
   }
 
