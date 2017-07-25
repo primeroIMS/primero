@@ -2,7 +2,6 @@ class Field
   include CouchRest::Model::CastedModel
   include PrimeroModel
   include LocalizableProperty
-  DEFAULT_BASE_LANGUAGE = 'en'
 
   property :name
   property :visible, TrueClass, :default => true
@@ -19,7 +18,7 @@ class Field
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
   property :option_strings_source  #If options are dynamic, this is where to fetch them
-  property :base_language, :default => DEFAULT_BASE_LANGUAGE
+  property :base_language, :default => FormSection::DEFAULT_BASE_LANGUAGE
   property :subform_section_id
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
@@ -146,7 +145,7 @@ class Field
   end
 
   def validate_display_name_in_base_language
-    display_name = "display_name_#{DEFAULT_BASE_LANGUAGE}"
+    display_name = "display_name_#{FormSection::DEFAULT_BASE_LANGUAGE}"
     unless (self.send(display_name).present?)
       errors.add(:display_name, I18n.t("errors.models.field.display_name_presence"))
       return false
