@@ -2,8 +2,6 @@ class Child < CouchRest::Model::Base
   use_database :child
 
   CHILD_PREFERENCE_MAX = 3
-  RISK_LEVEL_LOW = 'low'
-  RISK_LEVEL_MEDIUM = 'medium'
   RISK_LEVEL_HIGH = 'high'
   RISK_LEVEL_NONE = 'none'
 
