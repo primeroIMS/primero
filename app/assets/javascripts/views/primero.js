@@ -74,6 +74,30 @@ Primero = _primero.Views.Base.extend({
       $(this).parents('fieldset').prepend(this)
     });
 
+    var targetNodes = $('*[data-equalizer-watch]').children();
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    var myObserver = new MutationObserver(mutationHandler);
+    var obsConfig = {
+      childList: true,
+      attributes: true,
+      subtree: true,
+      attributeOldValue: true
+    };
+
+    targetNodes.each(function() {
+      myObserver.observe(this, obsConfig);
+    });
+
+    function mutationHandler(mutations) {
+      dom_change = _.find(mutations, function(mutation) {
+        return (mutation.addedNodes && mutation.addedNodes.length > 0) || (mutation.attributeName == 'style' && (mutation.oldValue == 'display: block;' || mutation.oldValue == 'display: none;'));
+      });
+
+      if (typeof dom_change !== 'undefined') {
+        Foundation.reInit('equalizer');
+      }
+    }
+
     window.onbeforeunload = this.load_and_redirect;
   },
 
