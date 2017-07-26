@@ -960,6 +960,7 @@ en:
       dash_manager_transfers: "View Manager Transfers"
       dash_cases_by_workflow: "View Cases By Workflow"
       dash_cases_to_assign: "View Cases To Assign"
+      dash_show_none_values: "View None Values"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
@@ -1028,6 +1029,8 @@ en:
     modal_sidebar_help_selected: "Type of field"
     translation: "Translation"
     translation_missing: "(Translation missing for %{lang})"
+    base_language_help_text: "This must be entered in %{lang}."
+    initial_lang_help_text: "Field must be created in %{lang} before translation can be added."
     field_db_help_text: "If left blank, DB Name will be generated. Only Latin letters, numbers, and underscores are allowed."
 
   advanced_search:
@@ -1377,7 +1380,7 @@ en:
     new_referred: "New Referrals"
     high_risk: 'High Priority'
     low_risk: 'Low Priority'
-    _risk: 'No Priority'
+    none_risk: 'No Priority'
     medium_risk: 'Medium Priority'
     pending: 'Pending'
     rejected: 'Rejected'

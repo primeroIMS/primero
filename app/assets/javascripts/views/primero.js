@@ -44,6 +44,7 @@ Primero = _primero.Views.Base.extend({
     _primero.valid_positive_number_value = this.valid_positive_number_value;
     _primero.generate_download_link = this.generate_download_link;
     _primero.init_autosize = this.init_autosize;
+    _primero.request_confirmation = this.request_confirmation;
 
     this.init_trunc();
     this.init_sticky();
@@ -73,26 +74,66 @@ Primero = _primero.Views.Base.extend({
       $(this).parents('fieldset').prepend(this)
     });
 
+    var targetNodes = $('*[data-equalizer-watch]').children();
+    var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+    var myObserver = new MutationObserver(mutationHandler);
+    var obsConfig = {
+      childList: true,
+      attributes: true,
+      subtree: true,
+      attributeOldValue: true
+    };
+
+    targetNodes.each(function() {
+      myObserver.observe(this, obsConfig);
+    });
+
+    function mutationHandler(mutations) {
+      dom_change = _.find(mutations, function(mutation) {
+        return (mutation.addedNodes && mutation.addedNodes.length > 0) || (mutation.attributeName == 'style' && (mutation.oldValue == 'display: block;' || mutation.oldValue == 'display: none;'));
+      });
+
+      if (typeof dom_change !== 'undefined') {
+        Foundation.reInit('equalizer');
+      }
+    }
+
     window.onbeforeunload = this.load_and_redirect;
+  },
+
+  request_confirmation: function(callback) {
+    var warn_leaving = confirm(_primero.discard_message);
+    if (warn_leaving) {
+      callback();
+    } else {
+      return false;
+    }
   },
 
   init_edit_listeners: function() {
     if ((_.indexOf(['new', 'edit', 'update'], _primero.current_action) > -1) &&
         (['session','contact_information','system_setting'].indexOf(_primero.model_object) < 0)) {
       function redirect_with_warning(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
         var $target = $(this);
-        var warn_leaving = confirm(_primero.discard_message);
-        if (warn_leaving) {
+        _primero.request_confirmation(function() {
           if ($target.is(':button')) {
             $target.submit();
           } else {
             window.location = $target.attr('href');
           }
-        } else {
-          return false;
-        }
+        });
       }
-      $(document).on('click', 'nav a, nav button, header a, .static_links a', redirect_with_warning);
+
+      var event_selector = 'nav a, nav button, header a, .static_links a';
+      var exit_handler = _.find($(document).data('events').click, function(handler) {
+        return handler.selector == event_selector;
+      });
+
+      if (typeof exit_handler === 'undefined') {
+        $(document).on('click', event_selector, redirect_with_warning);
+      }
     }
   },
 

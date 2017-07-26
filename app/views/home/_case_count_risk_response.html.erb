@@ -3,49 +3,51 @@
     <div class="column">
       <h5 class="stat_heading"><%= t("dashboard.#{response}") %></h5>
       <% @risk_levels.each do |risk| %>
-        <%= display_stat_detailed({
-          name: response,
-          stat: risk,
-          group: :total,
-          filters: [
-            "child_status=#{Record::STATUS_OPEN}",
-            "risk_level=#{risk || 'nil'}",
-            'record_state=true',
-            "workflow_status=#{response}"
-          ],
-          additional_details: [
-            {
-              group: :near,
-              filters: [
-                "child_status=#{Record::STATUS_OPEN}",
-                "risk_level=#{risk || 'nil'}",
-                'record_state=true',
-                "workflow_status=#{response}",
-                "service_due_dates=#{near_due}"
-              ],
-              text: t('dashboard.near_deadline')
+        <% unless risk == Child::RISK_LEVEL_NONE %>
+          <%= display_stat_detailed({
+            name: response,
+            stat: risk,
+            group: :total,
+            filters: [
+              "child_status=#{Record::STATUS_OPEN}",
+              "risk_level=#{risk || 'nil'}",
+              'record_state=true',
+              "workflow_status=#{response}"
+            ],
+            additional_details: [
+              {
+                group: :near,
+                filters: [
+                  "child_status=#{Record::STATUS_OPEN}",
+                  "risk_level=#{risk || 'nil'}",
+                  'record_state=true',
+                  "workflow_status=#{response}",
+                  "service_due_dates=#{near_due}"
+                ],
+                text: t('dashboard.near_deadline')
+              },
+              {
+                group: :overdue,
+                filters: [
+                  "child_status=#{Record::STATUS_OPEN}",
+                  "risk_level=#{risk || 'nil'}",
+                  'record_state=true',
+                  "workflow_status=#{response}",
+                  "service_due_dates=#{overdue}"
+                ],
+                text: t('dashboard.due')
+              }
+            ],
+            stats: {
+              total: stats_total,
+              near: stats_near,
+              overdue: stats_overdue
             },
-            {
-              group: :overdue,
-              filters: [
-                "child_status=#{Record::STATUS_OPEN}",
-                "risk_level=#{risk || 'nil'}",
-                'record_state=true',
-                "workflow_status=#{response}",
-                "service_due_dates=#{overdue}"
-              ],
-              text: t('dashboard.due')
-            }
-          ],
-          stats: {
-            total: stats_total,
-            near: stats_near,
-            overdue: stats_overdue
-          },
-          model: model,
-          text: t("dashboard.#{risk}_risk"),
-          pivoted: true
-        }) %>
+            model: model,
+            text: t("dashboard.#{risk}_risk"),
+            pivoted: true
+          }) %>
+        <% end %>
       <% end %>
     </div>
   <% end %>

@@ -61,6 +61,15 @@ a.arrow, a.middle_btn {
 @if $global-text-direction == rtl {
   .close-button, .close-button.medium {
     left: 1rem;
+    right: auto;
+    float: left;
+  }
+}
+@else {
+  .close-button, .close-button.medium {
+    right: 1rem;
+    left: auto;
+    float: right;
   }
 }
 

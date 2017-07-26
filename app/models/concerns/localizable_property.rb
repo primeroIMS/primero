@@ -13,7 +13,8 @@ module LocalizableProperty
           locale = args.first || I18n.locale
           locale_field_value = self.send("#{method}_#{locale}")
           if locale_field_value.nil? || locale_field_value.empty?
-            self.send "#{method}_#{I18n.default_locale}"
+            #If value for the default locale is nil, return the English translation
+            self.send("#{method}_#{I18n.default_locale}") || self.send("#{method}_en")
           else
             locale_field_value
           end
