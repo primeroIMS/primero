@@ -9,6 +9,7 @@ class Lookup < CouchRest::Model::Base
   property :locked, TrueClass, :default => false
   localize_properties [:name]
   localize_properties [:lookup_values], generate_keys: true
+  property :base_language, :default=>Primero::Application::LOCALE_ENGLISH
 
   DEFAULT_UNKNOWN_ID_TO_NIL = 'default_convert_unknown_id_to_nil'
 
