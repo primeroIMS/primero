@@ -209,10 +209,10 @@ module Exporters
 
     def get_localized_property(object, field_name)
       @locales.map do |loc|
-        locale_tick_box_label = nil
         localized_property = object.try("#{field_name}_#{loc}")
-        if (field_name == 'display_name') && localized_property && (locale_tick_box_label = object.try("tick_box_label_#{loc}"))
-          localized_property += "::#{locale_tick_box_label}"
+        if field_name == 'display_name'
+          locale_tick_box_label = object.try("tick_box_label_#{loc}")
+          localized_property += "::#{locale_tick_box_label}" if (localized_property && locale_tick_box_label)
         end
         localized_property
       end
