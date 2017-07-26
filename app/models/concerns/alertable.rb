@@ -4,6 +4,8 @@ module Alertable
   ALERT_INCIDENT = 'incident_details'
   ALERT_SERVICE = 'services_section'
   NEW_FORM = 'new_form'
+  APPROVAL = 'approval'
+  FIELD_CHANGE = 'field_change'
 
   included do
     property :alerts, [Alert], :default => []
@@ -35,7 +37,7 @@ module Alertable
       if type.present?
         self.alerts.delete_if{|a| a[:type] == type}
       else
-        self.alerts.delete_if{|a| a[:alert_for] == NEW_FORM}
+        self.alerts.delete_if{|a| a[:alert_for] == NEW_FORM || a[:alert_for] == FIELD_CHANGE}
       end
     end
   end
@@ -56,12 +58,28 @@ module Alertable
 
   def add_approval_alert(approval_type, system_settings)
     if !alerts.any?{|a| a.type == approval_type}
-      alert = Alert.new(type: approval_type, date: DateTime.now.to_date, form_sidebar_id: get_alert(approval_type, system_settings), alert_for: 'approval')
+      alert = Alert.new(type: approval_type, date: DateTime.now.to_date, form_sidebar_id: get_alert(approval_type, system_settings), alert_for: APPROVAL)
       self.alerts << alert
     end
   end
 
   def remove_approval_alert(approval_type)
     self.alerts.delete_if{|a| a[:type] == approval_type}
+  end
+
+  def add_field_alert(current_user_name, type = nil)
+    if current_user_name != self.owned_by && self.alerts != nil
+      found_alert = false
+      self.alerts.each {|a|
+        if a.type == type
+          a.date = DateTime.now.strftime("%Y-%m-%d")
+          found_alert = true
+        end
+      }
+      if !found_alert
+        alert = Alert.new(type: type, date: DateTime.now.strftime("%Y-%m-%d"), form_sidebar_id: type, alert_for: FIELD_CHANGE)
+        self.alerts << alert
+      end
+    end
   end
 end
