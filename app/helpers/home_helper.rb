@@ -255,4 +255,25 @@ module HomeHelper
     model
   end
 
+  def build_dashboard_risk_details(overdue_details=false)
+    details = []
+    @risk_levels.each do | risk_level|
+      rl = {
+        stat: risk_level.to_sym,
+        filters: [
+          "child_status=#{Record::STATUS_OPEN}",
+          "risk_level=#{risk_level}",
+          'record_state=true',
+          "owned_by=#{current_user.user_name}"
+        ],
+        text: t("dashboard.#{risk_level}_risk")
+      }
+
+      rl[:filters] << "reassigned_tranferred_on=#{one_hour_overdue}" if overdue_details
+
+      details << rl
+    end
+    details
+  end
+
 end

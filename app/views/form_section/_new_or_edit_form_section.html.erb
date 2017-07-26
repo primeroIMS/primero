@@ -13,10 +13,9 @@
           <div class="default_lang_panel">
             <div class="lang_title">
               <%= t("forms.initial_language") %>: <span><%= t("home.#{given_locale}") %></span>
-              <br />
-              <span class='help-text'>
+              <p class='help'>
                 <%= t("form_section.initial_lang_help_text", :lang => t("home.#{given_locale}")) %>
-              </span>
+              </p>
             </div>
             <fieldset class="no-border">
               <%= error_messages_for :form_section,
@@ -49,8 +48,11 @@
                   <%= f.label :name, t("form_section.name", :locale => I18n.default_locale), :class => 'key inline' %>
                 </div>
                 <div class="medium-9 columns">
-                  <%= f.text_field "name_#{I18n.default_locale}", :id => "form_section_name", required: '' %>
+                  <%= f.text_field "name_#{given_locale}", :id => "form_section_name", required: '' %>
                   <small class="form-error"><%= t('form_section.required_field', field: t("name", :locale => I18n.default_locale)) %></small>
+                  <span class='help-text'>
+                    <%= t("form_section.base_language_help_text", :lang => t("home.#{given_locale}")) %>
+                  </span>
                 </div>
               </div>
               <div class="row">
@@ -58,7 +60,10 @@
                   <%= f.label :description, t("description", :locale => I18n.default_locale), :class => 'key inline' %>
                 </div>
                 <div class="medium-9 columns">
-                  <%= f.text_area "description_#{I18n.default_locale}", :id => "form_section_description" %>
+                  <%= f.text_area "description_#{given_locale}", :id => "form_section_description" %>
+                  <span class='help-text'>
+                    <%= t("form_section.base_language_help_text", :lang => t("home.#{given_locale}")) %>
+                  </span>
                 </div>
               </div>
               <% unless @form_section.is_nested %>
@@ -74,6 +79,7 @@
                     </div>
                   </div>
               <% end %>
+
             </fieldset>
           </div>
         </div>

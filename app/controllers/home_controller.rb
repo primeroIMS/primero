@@ -3,6 +3,7 @@ class HomeController < ApplicationController
 
   before_filter :load_system_settings, :only => [:index]
   before_filter :can_access_approvals, :only => [:index]
+  before_filter :load_risk_levels, :only => [:index]
 
   def index
     @page_name = t("home.label")
@@ -14,7 +15,6 @@ class HomeController < ApplicationController
       #TODO - Refactor to reduce number of solr queries
       load_cases_information if display_cases_dashboard?
 
-      @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v} #<< nil #TODO: for now removing the no-priority cases
       @service_response_types = Lookup.values_for_select('lookup-service-response-type').map{|h,v| v}
       @service_stats_near = load_case_service_information('near') if display_cases_dashboard?
       @service_stats_overdue = load_case_service_information('overdue') if display_cases_dashboard?
@@ -40,6 +40,24 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def load_risk_levels
+    if !display_admin_only?
+      @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v}
+      @risk_levels << Child::RISK_LEVEL_NONE if can?(:dash_show_none_values, Dashboard)
+      @risk_levels
+    end
+  end
+
+  # TODO: This will be later configurable
+  def time_to_assign_for_risk_level(risk_level)
+    case risk_level
+    when Child::RISK_LEVEL_HIGH
+      1.hour.from_now.to_time
+    else
+      3.hour.from_now.to_time
+    end
+  end
 
   def search_flags(options={})
     managed_users = options[:is_manager] ? current_user.managed_user_names : current_user.user_name
@@ -259,6 +277,8 @@ class HomeController < ApplicationController
 
   def manager_case_query(query = {})
     module_ids = @module_ids
+    risk_levels = @risk_levels
+
     results = Child.search do
       with(:record_state, true)
       with(:associated_user_names, current_user.managed_user_names) unless query[:cases_to_assign].present?
@@ -278,13 +298,13 @@ class HomeController < ApplicationController
 
       if query[:cases_to_assign].present?
         facet(:cases_to_assign, zeros: true) do
-          row(:high) do
-            with(:risk_level, Child::RISK_LEVEL_HIGH)
-            with(:reassigned_tranferred_on).less_than(1.hour.from_now.to_time) if query[:overdue].present?
-          end
-          row(:low) do
-            with(:risk_level, Child::RISK_LEVEL_LOW)
-            with(:reassigned_tranferred_on).less_than(3.hour.from_now.to_time) if query[:overdue].present?
+          risk_levels.each do |risk_level|
+            timeline = time_to_assign_for_risk_level(risk_level)
+
+            row(risk_level.to_sym) do
+              with(:risk_level, risk_level)
+              with(:reassigned_tranferred_on).less_than(timeline) if query[:overdue].present?
+            end
           end
         end
       end
@@ -314,26 +334,14 @@ class HomeController < ApplicationController
 
       if query[:by_risk_level].present?
         facet(:risk_level, zeros: true) do
-          row(:high) do
-            with(:risk_level, Child::RISK_LEVEL_HIGH)
-            with(:not_edited_by_owner, true)
-          end
-          row(:high_total) do
-            with(:risk_level, Child::RISK_LEVEL_HIGH)
-          end
-          row(:medium) do
-            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
-            with(:not_edited_by_owner, true)
-          end
-          row(:medium_total) do
-            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
-          end
-          row(:low) do
-            with(:risk_level, Child::RISK_LEVEL_LOW)
-            with(:not_edited_by_owner, true)
-          end
-          row(:low_total) do
-            with(:risk_level, Child::RISK_LEVEL_LOW)
+          risk_levels.each do |risk_level|
+            row(risk_level.to_sym) do
+              with(:risk_level, risk_level)
+              with(:not_edited_by_owner, true)
+            end
+            row("#{risk_level}_total".to_sym) do
+              with(:risk_level, risk_level)
+            end
           end
         end
       end
@@ -444,6 +452,8 @@ class HomeController < ApplicationController
 
   def load_cases_information
     module_ids = @module_ids
+    risk_levels = @risk_levels
+
     @stats = Child.search do
       # TODO: Check for valid
       with(:child_status, Record::STATUS_OPEN)
@@ -460,26 +470,14 @@ class HomeController < ApplicationController
 
       if display_assessment?
         facet(:risk_level, zeros: true, exclude: [referred]) do
-          row(:high) do
-            with(:risk_level, Child::RISK_LEVEL_HIGH)
-            with(:not_edited_by_owner, true)
-          end
-          row(:high_total) do
-            with(:risk_level, Child::RISK_LEVEL_HIGH)
-          end
-          row(:medium) do
-            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
-            with(:not_edited_by_owner, true)
-          end
-          row(:medium_total) do
-            with(:risk_level, Child::RISK_LEVEL_MEDIUM)
-          end
-          row(:low) do
-            with(:risk_level, Child::RISK_LEVEL_LOW)
-            with(:not_edited_by_owner, true)
-          end
-          row(:low_total) do
-            with(:risk_level, Child::RISK_LEVEL_LOW)
+          risk_levels.each do |risk_level|
+            row(risk_level.to_sym) do
+              with(:risk_level, risk_level)
+              with(:not_edited_by_owner, true)
+            end
+            row("#{risk_level}_total".to_sym) do
+              with(:risk_level, risk_level)
+            end
           end
         end
       end
