@@ -15,12 +15,13 @@ _primero.Views.LookupValueView = _primero.Views.Base.extend({
     var $value_list = $(this.el).find('#lookup_values');
     var current_locale_selection = $('#locale').val();
     var newLookup = $(JST['templates/lookups_row']({
-      locale: 'en',
+      locale: $this.data('given_locale'),
       id: '',
       display_text: '',
       editing: $this.hasClass('edit_lookup'),
       locale_options: $this.data('lang'),
-      remove_text: $this.data('remove')
+      remove_text: $this.data('remove'),
+      help_text: $this.data('help_text')
     }));
     newLookup.find('a.field_option_remove_button').click(self.removeLookup);
     $value_list.append(newLookup);

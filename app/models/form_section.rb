@@ -5,7 +5,7 @@ class FormSection < CouchRest::Model::Base
   include Memoizable
 
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
-  DEFAULT_BASE_LANGUAGE = 'en'
+  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
   #TODO - include Namable - will require a fair amount of refactoring
 
   use_database :form_section
