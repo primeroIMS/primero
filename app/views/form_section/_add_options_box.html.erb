@@ -13,7 +13,7 @@
           <input type="hidden" name="<%= "field[option_strings_text_#{given_locale}][][id]" %>" value="<%= option['id'] %>" />
           <%= text_field_tag "field[option_strings_text_#{given_locale}][][display_text]", option['display_text'], class: "option_strings_text_input" %>
           <span class='help-text'>
-            <%= t("home.#{given_locale}") %>
+            <%= t("form_section.base_language_help_text", :lang => t("home.#{given_locale}")) %>
           </span>
         </div>
         <% if editing %>
@@ -43,7 +43,8 @@
     <% if given_locale.to_s == 'en' %>
       <div class="row options_row_controls">
         <div class="column">
-          <a id="field_option_add_button" class="button add_option <%= editing ? 'edit_option' : '' %>" data-lang="<%= Primero::Application::LOCALES %>">
+          <% help = t("form_section.base_language_help_text", :lang => t("home.#{given_locale}")) %>
+          <a id="field_option_add_button" class="button add_option <%= editing ? 'edit_option' : '' %>" data-given-lang="<%= "#{given_locale}" %>" data-lang="<%= Primero::Application::LOCALES %>" data-help-text="<%= "#{help}" %>">
             <%= t('fields.option_strings_add_option') %>
           </a>
         </div>

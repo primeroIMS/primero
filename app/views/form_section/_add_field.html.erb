@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="clearfix"></div>
-        <%= render :partial => 'form_section/fields', :locals => {:fld => fld, :fields => fields, :given_locale => I18n.default_locale, :lookup_options => @lookup_options, :is_field_edit => true, :is_translation => false, :editing => @show_add_field.present?} %>
+        <%= render :partial => 'form_section/fields', :locals => {:fld => fld, :fields => fields, :given_locale => @form_section.base_language, :lookup_options => @lookup_options, :is_field_edit => true, :is_translation => false, :editing => @show_add_field.present?} %>
       </div>
       <div class="row">
         <div class="medium-2 columns">

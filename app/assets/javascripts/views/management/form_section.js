@@ -11,6 +11,14 @@ function form_section() {
   $("a#field_option_add_button").click(addOption);
   $("a.field_option_remove_button").click(removeOption);
 
+  document.addEventListener('turbolinks:before-cache', function() {
+    $('select').chosen('destroy');
+  });
+
+  document.addEventListener("turbolinks:load", function() {
+    _primero.chosen('select');
+  });
+
   $('#add_field_modal').parent('.reveal-overlay').unbind('click');
   $('#add_field_modal .close-button').unbind('click');
 
@@ -86,11 +94,12 @@ function form_section() {
   function addOption(){
     var $this = $(this);
     var newOption = $(JST['templates/options_row']({
-      locale: 'en',
+      locale: $this.data('given-lang'),
       id: '',
       display_text: '',
       editing: $this.hasClass('edit_option'),
-      locale_options: $this.data('lang')
+      locale_options: $this.data('lang'),
+      help_text: $this.data('help-text')
     }));
     newOption.find('a.field_option_remove_button').click(removeOption);
     $this.parents('.options_row_controls').before(newOption);
