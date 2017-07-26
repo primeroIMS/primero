@@ -25,7 +25,7 @@ class FormSection < CouchRest::Model::Base
   property :perm_enabled, TrueClass, :default => false
   property :core_form, TrueClass, :default => true
   property :validations, [String]
-  property :base_language, :default=>'en'
+  property :base_language, :default=>Primero::Application::LOCALE_ENGLISH
   property :is_nested, TrueClass, :default => false
   property :is_first_tab, TrueClass, :default => false
   property :initial_subforms, Integer, :default => 0

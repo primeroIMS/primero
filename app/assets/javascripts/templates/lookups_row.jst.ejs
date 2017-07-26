@@ -2,6 +2,7 @@
   <div class="column">
     <input type="hidden" name="lookup[lookup_values_<%= locale %>][][id]" value="<%= id %>" />
     <input type="text" name="lookup[lookup_values_<%= locale %>][][display_text]" id="lookup_lookup_values_<%= locale %>__display_text" value="<%= display_text %>" />
+    <p class="help"><%= help_text %></p>
   </div>
   <% if (editing) { %>
     <% _.each(locale_options, function(locale_option) { %>
