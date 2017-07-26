@@ -960,6 +960,7 @@ en:
       dash_manager_transfers: "View Manager Transfers"
       dash_cases_by_workflow: "View Cases By Workflow"
       dash_cases_to_assign: "View Cases To Assign"
+      dash_show_none_values: "View None Values"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
@@ -1378,7 +1379,7 @@ en:
     new_referred: "New Referrals"
     high_risk: 'High Priority'
     low_risk: 'Low Priority'
-    _risk: 'No Priority'
+    none_risk: 'No Priority'
     medium_risk: 'Medium Priority'
     pending: 'Pending'
     rejected: 'Rejected'
