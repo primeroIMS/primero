@@ -30,7 +30,7 @@ module Importers
     def import_forms_from_spreadsheet
       all_db_forms = @primero_module.associated_forms_grouped_by_record_type(true)
       record_db_forms = all_db_forms[@record_type]
-      Rails.logger.info {"Importing the forms in the follwoing directory: #{@file_path}"}
+      Rails.logger.info {"Importing the forms in the following directory: #{@file_path}"}
       record_db_forms.each do |form|
         if @spreadsheet_forms.include?("#{form.unique_id}.xls")
           Rails.logger.info {"Importing form from #{form.unique_id}.xls"}
@@ -54,11 +54,12 @@ module Importers
         if sheet_hash[db_field.name].present?
           @locales.each do |locale|
             eval("db_field.display_name_#{locale}=sheet_hash[db_field.name]['label'][locale]")
+            eval("db_field.tick_box_label_#{locale}=sheet_hash[db_field.name]['tick_box_label'][locale]")
             eval("db_field.help_text_#{locale}=sheet_hash[db_field.name]['hint'][locale]")
             eval("db_field.guiding_questions_#{locale}=sheet_hash[db_field.name]['guidance'][locale]")
           end
         else
-          Rails.logger.info {"The questions for #{db_field.name} were not included in the Survey sheet of the #{db_form.unique_id}.xls spreadsheet and were not updated"}
+          Rails.logger.warn {"The questions for #{db_field.name} were not included in the Survey sheet of the #{db_form.unique_id}.xls spreadsheet and were not updated"}
         end
       end
     end
@@ -78,7 +79,7 @@ module Importers
               lookup.save
             end
           else
-          	Rails.logger.info {"The lookup for #{db_field.name} was not included in the Choices sheet of the #{db_form.unique_id}.xls spreadsheet and was not updated"}
+          	Rails.logger.warn {"The lookup for #{db_field.name} was not included in the Choices sheet of the #{db_form.unique_id}.xls spreadsheet and was not updated"}
           end
         elsif db_field.option_strings_text.present?
           db_field.option_strings_text.each do |option|
@@ -91,7 +92,7 @@ module Importers
                 eval("db_field.option_strings_text_#{locale}=#{new_value}")
               end
             else
-              Rails.logger.info {"The choices for #{db_field.name} were not included in the Choices sheet of the #{db_form.unique_id}.xls spreadsheet and were not updated"}
+              Rails.logger.warn {"The choices for #{db_field.name} were not included in the Choices sheet of the #{db_form.unique_id}.xls spreadsheet and were not updated"}
             end
           end
           #NOTE: THIS MAKES IT TAKE FOREVER
@@ -107,7 +108,7 @@ module Importers
         end
         db_form.save
       else
-      	Rails.logger.info {"The form_id in the #{db_form.unique_id} Settings sheet of spreadsheet was not included or did not match its unique_id in the database, and so the name was not updated"}
+      	Rails.logger.warn {"The form_id in the #{db_form.unique_id} Settings sheet of spreadsheet was not included or did not match its unique_id in the database, and so the name was not updated"}
       end
     end
 
@@ -124,9 +125,13 @@ module Importers
             when "type"
             when "name"
               name = column
-              survey_hash[name] = {"label"=>{},"hint"=>{},"guidance"=>{}}
+              survey_hash[name] = {"label"=>{},"hint"=>{},"guidance"=>{}, "tick_box_label"=>{}}
             when "label"
-              survey_hash[name]["label"][column_type[1]] = column
+              column_entries = (column && column.split("::")) || []
+              survey_hash[name]["label"][column_type[1]] = column_entries[0]
+              if column_entries[1]
+                survey_hash[name]["tick_box_label"][column_type[1]] = column_entries[1]
+              end
             when "hint"
               survey_hash[name]["hint"][column_type[1]] = column
             when "guidance"
