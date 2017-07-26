@@ -1,7 +1,3 @@
-<%#
-  TODO: this is hardcoding risk level and deliberately exclusing medium risk.
-  That's a bug! Risk levels shoudl be obtained dynamically and iterated.
-%>
 <% @risk_levels.each do | risk_level| %>
   <%= display_stat_detailed({
     name: :risk_level,
