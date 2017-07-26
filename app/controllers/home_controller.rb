@@ -49,6 +49,16 @@ class HomeController < ApplicationController
     end
   end
 
+  # TODO: This will be later configurable
+  def time_to_assign_for_risk_level(risk_level)
+    case risk_level
+    when Child::RISK_LEVEL_HIGH
+      1.hour.from_now.to_time
+    else
+      3.hour.from_now.to_time
+    end
+  end
+
   def search_flags(options={})
     managed_users = options[:is_manager] ? current_user.managed_user_names : current_user.user_name
     map_flags(Flag.search{
@@ -289,9 +299,7 @@ class HomeController < ApplicationController
       if query[:cases_to_assign].present?
         facet(:cases_to_assign, zeros: true) do
           risk_levels.each do |risk_level|
-            timeline = risk_level == Child::RISK_LEVEL_HIGH && query[:overdue].present? ?
-              1.hour.from_now.to_time :
-              3.hour.from_now.to_time
+            timeline = time_to_assign_for_risk_level(risk_level)
 
             row(risk_level.to_sym) do
               with(:risk_level, risk_level)
