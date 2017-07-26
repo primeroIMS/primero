@@ -1,10 +1,4 @@
-# encoding: utf-8
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 ar:
-  "true": "Yes"
-  "false": "No"
   home:
     fr: "Français"
     en: "English"
@@ -60,11 +54,9 @@ ar:
     invalid_date_filter_value: "بعض عوامل التصفية لم تطبق نتيجة عدم صلاحية قيمة التاريخ. الرجاء التحقق من قيم عامل تصفية التاريخ"
     scroll_up: "تصفح للأعلى لعرض المزيد"
     scroll_down: "تصفح للأسفل لعرض المزيد"
-
   data_base:
     delete_all_documents: "جميع وثائق الطفل محذوفة"
     operation_not_allowed: "العملية غير مسموح بها في بيئة %{rails_env}"
-
   login:
     details: "تفاصيل تسجيل الدخول"
     username: "اسم المستخدم"
@@ -74,7 +66,6 @@ ar:
       re_enter: "إعادة إدخال كلمة المرور"
       success_notice: "شكراً. سيتصل بك مسؤول RapidFTR قريباً. اتصل بالمسؤول مباشرة إذا أمكن."
       successfully_hidden: "تم إخفاء إشعار طلب كلمة المرور بنجاح."
-
     label: "تسجيل الدخول"
   header:
     contact: "الاتصال و المساعدة"
@@ -83,60 +74,56 @@ ar:
     logout: "تسجيل الخروج"
     my_account: "حسابي"
     system_settings: "إعدادات النظام"
-
   navigation:
-     home: "الصفحة الرئيسية"
-     cases: "الحالات"
-     tracing_request: "طلبات التتبع"
-     incidents: "الحوادث"
-     children: "الأطفال"
-     forms: "النماذج"
-     lookups: "عمليات البحث"
-     users: "الإعدادات"
-     replications: "المزامنة"
-     reports: "التقارير"
-     advanced_search: "بحث متقدم"
-     go: "انتقال"
-     search: "بحث"
-     locations: "المواقع"
-
+    home: "الصفحة الرئيسية"
+    cases: "الحالات"
+    tracing_request: "طلبات التتبع"
+    incidents: "الحوادث"
+    children: "الأطفال"
+    forms: "النماذج"
+    lookups: "عمليات البحث"
+    users: "الإعدادات"
+    replications: "المزامنة"
+    reports: "التقارير"
+    advanced_search: "بحث متقدم"
+    go: "انتقال"
+    search: "بحث"
+    locations: "المواقع"
   buttons:
-     delete: "حذف"
-     save: "حفظ"
-     login: "تسجيل الدخول"
-     reunite: "إعادة لمّ الشمل"
-     edit: "تحرير"
-     back: "السابق"
-     submit: "إرسال"
-     export: "تصدير"
-     import: "استيراد"
-     change_password: "تغيير كلمة المرور"
-     enable_photo_wall: "تفعيل photo wall"
-     disable_photo_wall: "تعطيل photo wall"
-     create_incident: "إنشاء حادث"
-     create_case: "إنشاء حالة"
-     guiding_questions: "أسئلة توجيهية"
-     filter_label: "عامل التصفية:"
-     filter: "تطبيق عامل التصفية"
-     filter_clear: "مسح عوامل التصفية"
-     flag_records: "وضع علامة"
-     flag_model: "وضع علامة %{model}"
-     unflag_model: "إزالة العلامة %{model}"
-     ok: 'موافق'
-     cancel: "إلغاء"
-     edit_subform: 'تحرير النموذج الفرعي'
-     create_new_record: "إنشاء %{model} جديد"
-     bundle_import: "حزمة التكوين"
-     bundle_export: "حزمة التكوين"
-     transfer: "تحويل %{model}"
-     referral: "إحالة %{model}"
-     mark_for_mobile: "وضع علامة للمحمول"
-     unmark_for_mobile: "إزالة علامة للمحمول"
-     approve_case_plan: "المواقفة على خطة الحالة"
-
+    delete: "حذف"
+    save: "حفظ"
+    login: "تسجيل الدخول"
+    reunite: "إعادة لمّ الشمل"
+    edit: "تحرير"
+    back: "السابق"
+    submit: "إرسال"
+    export: "تصدير"
+    import: "استيراد"
+    change_password: "تغيير كلمة المرور"
+    enable_photo_wall: "تفعيل photo wall"
+    disable_photo_wall: "تعطيل photo wall"
+    create_incident: "إنشاء حادث"
+    create_case: "إنشاء حالة"
+    guiding_questions: "أسئلة توجيهية"
+    filter_label: "عامل التصفية:"
+    filter: "تطبيق عامل التصفية"
+    filter_clear: "مسح عوامل التصفية"
+    flag_records: "وضع علامة"
+    flag_model: "وضع علامة %{model}"
+    unflag_model: "إزالة العلامة %{model}"
+    ok: 'موافق'
+    cancel: "إلغاء"
+    edit_subform: 'تحرير النموذج الفرعي'
+    create_new_record: "إنشاء %{model} جديد"
+    bundle_import: "حزمة التكوين"
+    bundle_export: "حزمة التكوين"
+    transfer: "تحويل %{model}"
+    referral: "إحالة %{model}"
+    mark_for_mobile: "وضع علامة للمحمول"
+    unmark_for_mobile: "إزالة علامة للمحمول"
+    approve_case_plan: "المواقفة على خطة الحالة"
   placeholders:
     subforms: "انقر فوق زر تحرير لإضافة تفاصيل %{form}"
-
   cases:
     label: "الحالات"
     register_new_case: "حالة جديدة"
@@ -170,17 +157,14 @@ ar:
       label: "ترتيب حسب"
       name: "الاسم"
     flag_summary: "ملخص العلامة"
-
     filer_by:
       all: "الكل"
       active: "نشط"
-
     hidden_text_field_text: "*****"
     hide_name: "إخفاء الاسم"
     view_name: "عرض الاسم"
     ok: "موافق"
     hide_name_error: "حدث خطأ عند حفظ التغييرات. الرجاء المحاولة مرة أخرى."
-
   children:
     label: "الأطفال"
     register_new_child: "تسجيل طفل جديد"
@@ -197,13 +181,11 @@ ar:
       label: "ترتيب حسب"
       name: "الاسم"
     flag_summary: "ملخص العلامة"
-
     filer_by:
       all: "الكل"
       active: "نشط"
       reunited: "إعادة لمّ الشمل"
       flagged: "مُميز بعلامة"
-
   child:
     flagged_by: "تم تمييزه بعلامة بواسطة"
     last_updated: "التحديث الأخير"
@@ -220,14 +202,12 @@ ar:
     id_of_record_this_duplicate_of: "أدخل مُعرف السجل المكرر له: "
     duplicate_header: "تعليم %{child_name} بعلامة مكرر"
     flag_error_message: "الرجاء توضيح سبب تمييز هذا السجل بعلامة."
-    flag_records_error_message: "الرجاء توضيح سبب تمييز هذه السجلات بعلامة."
     selected_records_error_message: "الرجاء تحديد سجل واحد أو أكثر لتمييزه بعلامة."
     investigation_details: "تفاصيل التحقيق:"
     reunite_details: "تفاصيل إعادة لمّ الشمل:"
     another_duplicate_before_link: "تم تعليم سجل آخر بعلامة مكرر لهذا السجل. انقر فوق"
     another_duplicate_after_link: " لرؤية السجل المكرر."
     export_error: "لا توجد سجلات متوفرة!"
-    # TODO: Possibly use another method to label the list view columns
     id: "مُعرف#"
     name: "الاسم"
     age: "العمر"
@@ -237,11 +217,9 @@ ar:
     match_record: "مطابق"
     match_record_success: "تطابق السجلات"
     match_record_failed: "لا يوجد مطابقة"
-
     messages:
       update_success: "تم تحديث الحالة %{record_id} بنجاح."
       investigation_error_message: "الرجاء تأكيد أن السجل المميز بعلامة يجب أن يكون مُعلمًا بعلامة تم التحقق منه، وإدخال أي تفاصيل لديك."
-      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
       undo_investigation_error_message: "التراجع عن تفاصيل التحقيق:"
       reunite_error_message: "الرجاء تأكيد أن هذا الطفل تم إعادة لمّ شمله مع عائلته أو مقدمي الرعاية، وإدخال أي تفاصيل لديك."
       undo_reunite_error_message: "الرجاء تأكيد أن الطفل مُعلم بعلامة لم يُعاد لمّ شمله، وإدخال أي تفاصيل لديك. "
@@ -249,7 +227,6 @@ ar:
       creation_success: "تم إنشاء سجل الحالة %{record_id}  بنجاح."
       not_found: "لم يتم العثورعلى طفل بهذا المُعرف"
       confirm_duplicate: "هل أنت متأكد أنك تريد المتابعة؟ إذا كان الأمر كذلك، انقر فوق موافق. إذا لم يكن كذلك، انقر فوق إلغاء."
-
     actions:
       mark_as_investigated: "وضع علامة تم التحقق منه"
       mark_as_reunited: "وضع علامة إعادة لمّ الشمل"
@@ -276,18 +253,15 @@ ar:
       restore_image: "استعادة الصورة الأصلية"
       rotate_clockwise: "تدوير باتجاه عقارب الساعة"
       view_full_size_photo: "عرض حجم الصورة الكاملة"
-
     change_log: "سجل التغيير"
     flagged_as_suspected: "تم تمييزه بعلامة بواسطة"
     posted_from_mobile: "نشر من عميل المحمول على:"
     edit_photo: "تحرير الصورة"
     manage_photos: "إدارة الصور"
-
     view: "عرض الحالة %{short_id}"
     edit: "تحرير الحالة"
     mark_child_as_duplicate: "تعليم %{short_id} بعلامة مكرر"
     history_of: "تاريخ %{short_id}"
-
   case:
     label: "مُعرف الحالة"
     flagged_by: "تم تمييزه بعلامة بواسطة"
@@ -309,7 +283,6 @@ ar:
     reunite_details: "تفاصيل إعادة لمّ الشمل:"
     another_duplicate_before_link: "تم تعليم سجل آخر بعلامة مكرر من هذا السجل. انقر فوق"
     another_duplicate_after_link: "لرؤية السجل المكرر."
-    # TODO: Possibly use another method to label the list view columns
     select: "تحديد"
     id: "المُعرف#"
     name: "الاسم"
@@ -321,11 +294,9 @@ ar:
     survivor_code: "رمز الناجي "
     case_opening_date: "تاريخ حالة الفتح"
     photo: "الصورة"
-
     messages:
       update_success: "تم تحديث الحالة %{record_id} بنجاح."
       investigation_error_message: "الرجاء تأكيد أن السجل المميز بعلامة يكون مُعلمًا بعلامة تم التحقق منه، وإدخال أي تفاصيل لديك."
-      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
       undo_investigation_error_message: "التراجع عن تفاصيل التحقيق:"
       reunite_error_message: "الرجاء تأكيد إعادة لمّ شمل هذه الحالة مع العائلة أو مقدمي الرعاية، وإدخال أي تفاصيل لديك."
       undo_reunite_error_message: "الرجاء تأكيد أن الحالة مُعلمة بعلامة \"لم يُعاد لمّ الشمل\"، وإدخال اي تفاصيل لديك."
@@ -333,7 +304,6 @@ ar:
       creation_success: "تم إنشاء سجل الحالة بنجاح."
       not_found: "لم يتم العثور على طفل بهذا المُعرف"
       confirm_duplicate: "هل أنت متأكد أنك تريد المتابعة؟ إذا كان الأمر كذلك، انقر فوق موافق. إذا لم يكن كذلك، انقر فوق إلغاء."
-
     actions:
       mark_as_investigated: "وضع علامة تم التحقق منه"
       mark_as_reunited: "وضع علامة إعادة لمّ الشمل"
@@ -356,18 +326,15 @@ ar:
       restore_image: "استعادة الصورة الأصلية"
       rotate_clockwise: "اتجاه عقارب الساعة"
       view_full_size_photo: "عرض حجم الصورة الكاملة"
-
     change_log: "سجل التغيير "
     flagged_as_suspected: "تم تمييزه بعلامة بواسطة"
     posted_from_mobile: "تم النشر من عميل المحمول على:"
     edit_photo: "تحرير صورة"
     manage_photos: "إدارة الصور"
-
     view: "عرض حالة %{short_id}"
     edit: "تحرير الحالة"
     mark_child_as_duplicate: "تعليم %{short_id} بعلامة مكرر "
     history_of: "تاريخ %{short_id}"
-
   incidents:
     label: "حوادث"
     register_new_incident: "حادث جديد"
@@ -390,7 +357,6 @@ ar:
       armed_force_group_name: "القوات المسلحة أو المجموعة:"
       armed_force_group_type: "القوات المسلحة أو نوع المجموعة:"
       record_state: "حالة التسجيل:"
-
   incident:
     label: "مُعرف الحادث"
     flagged_by: "تم تمييزه بعلامة بواسطة"
@@ -409,7 +375,6 @@ ar:
     id_of_record_this_duplicate_of: "أدخل مُعرف السجل المكرر لـ:"
     duplicate_header: "تعليم %{child_name} بعلامة مكرر "
     flag_error_message: "الرجاء توضيح سبب تمييز هذا السجل بعلامة."
-    flag_records_error_message: "الرجاء توضيح سبب تمييز هذه السجلات بعلامة."
     selected_records_error_message: "الرجاء تحديد سجل واحد أو أكثر لتمييزه بعلامة."
     investigation_details: "تفاصيل التحقيق:"
     reunite_details: "تفاصيل إعادة لمّ الشمل: "
@@ -418,11 +383,9 @@ ar:
     violation_status_verified: "تم التحقق منه"
     empty_violation: "لإضافة انتهاكات، أضف فئة الانتهاكات إلى نموذج الحوادث لمشاهدة نموذج الانتهاكات المقابل."
     add_violations: "انقر فوق إضافة لإدخال تفاصيل الانتهاكات. "
-
     messages:
       update_success: "تم تحديث الحادث %{record_id} بنجاح."
       creation_success: "تم إنشاء سجل الحادث %{record_id}  بنجاح."
-
     view: "عرض الحادث %{short_id}"
     edit: "تحرير حادث"
     select: "تحديد "
@@ -436,12 +399,9 @@ ar:
     violations: "الانتهاكات"
     social_worker: "العامل الاجتماعي"
     change_log: "سجل التغيير "
-
     actions:
       change_log: "سجل التغيير "
-
     history_of: "تاريخ %{short_id}"
-
     violation:
       violation: "انتهاك"
       pending: 'تحقق من الصحة معلق'
@@ -454,11 +414,9 @@ ar:
       attack_on_hospitals: "الهجوم على المستشفيات"
       denial_humanitarian_access: "الحرمان من الوصول إلى الخدمات الإنسانية"
       other_violation: "انتهاك آخر"
-
   tracing_request:
     label: "مُعرف المُستعلِم"
     register_new_tracing_request: "طلب تتبع جديد"
-    change_log: "Change Log"
     name_of_inquirer: "إسم المُستعلِم"
     date_of_inquiry: "تاريخ الاستعلام"
     tracing_requests: "طلبات التتبع"
@@ -470,7 +428,6 @@ ar:
     flag_label: "علامة"
     flag_reason: "تمييز السبب بعلامة "
     flag_reason_date: "التاريخ (اختياري)"
-    flag_records_error_message: "الرجاء توضيح سبب تمييز هذه السجلات بعلامة."
     selected_records_error_message: "الرجاء تحديد سجل واحد أو أكثر لتمييزه بعلامة."
     unflag_record: "إزالة علامة السجل "
     unflag_reason: "إزالة علامة السبب"
@@ -479,25 +436,20 @@ ar:
     flag_error_message: "الرجاء توضيح سبب تمييز هذا السجل بعلامة."
     flagged_as_suspected: "تم تمييزه بعلامة بواسطة"
     find_match: "إيجاد تطابق"
-
     actions:
       change_log: "سجل التغيير "
       delete_photo: "حذف الصورة؟"
       delete_audio: "حذف السجل الصوتي؟"
-
     messages:
       update_success: "تم تحديث طلب التتبع %{record_id} بنجاح. "
       creation_success: "تم إنشاء سجل طلب التتبع %{record_id} بنجاح. "
-
     view: "عرض طلب التتبع %{short_id} "
     edit: "تحرير طلب التتبع "
     select: "تحديد "
     id: "المُعرف#"
     enquirer_name: "إسم المُستعلِم"
     enquirer_date: "تاريخ الإستعلام"
-
     history_of: "تاريخ %{short_id}"
-
   tracing_requests:
     register_new_tracing_request: "طلب تتبع جديد "
     export: "تصديرات"
@@ -510,16 +462,13 @@ ar:
       location_separation: "موقع الإنفصال:"
       separation_cause: "سبب الإنفصال:"
       record_state: "حالة السجل:"
-
   preposition:
     on_label: "عن"
     because: "بسبب"
     at_label: "لدى"
-
   pagination:
     zero: "%{model} غير موجود"
     page_entries_info: Displaying _START_ to _END_ of _TOTAL_ %{model}
-
   will_paginate:
     previous_label: "&#8592: السابق"
     next_label: "التالي &#8594;"
@@ -530,28 +479,6 @@ ar:
         one: "عرض <b>1</b> %{model} "
         other: "عرض  <b>جميع %{count}</b> %{model}"
       multi_page_html: "عرض %{model} <b>%{from} - %{to}</b> من <b>%{count}</b> إجمالًا"
-    models:
-      report:
-        zero: "تقرير"
-        one: "تقرير"
-        two: "تقارير"
-        few: "تقارير"
-        many: "تقارير"
-        other: "تقارير"
-      child:
-        zero: "حالة"
-        one: "حالة"
-        two: "حالات"
-        few: "حالات"
-        many: "حالات"
-        other: "حالات"
-      incident:
-        zero: "حادث"
-        one: "حادث"
-        two: "حوادث"
-        few: "حوادث"
-        many: "حوادث"
-        other: "حوادث"
   users:
     unverified: "مستخدمين لم يتم التحقق منهم"
     select_role: "الرجاء تحديد الدور قبل التحقق من المسخدم "
@@ -568,7 +495,6 @@ ar:
       label: "فرز حسب"
       full_name: "الاسم الكامل"
       agency: "وكالة"
-
   roles:
     label: "الأدوار"
     list: "لائحة الأدوار"
@@ -588,7 +514,6 @@ ar:
     view: "عرض الدور"
     messages:
       confirmation: "هل أنت متأكد أنك تريد حذف هذا الدور؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف الدور. "
-
   role:
     create: "إنشاء دور"
     edit: "تحرير الدور"
@@ -602,7 +527,6 @@ ar:
     referral_label: "هل يمكن استخدام هذا الدور للإحالات؟"
     group_permission_label: "ما السجلات التي يؤثر فيها هذا الدور؟"
     role_ids_label: "الأدوار الأخرى التي يديرها هذا الدور"
-
   agencies:
     logo: 'الشعار'
     logo_enabled: 'هل الشعار مُمكن؟'
@@ -621,19 +545,16 @@ ar:
       confirmation: "هل أنت متأكد أنك تريد حذف هذه الوكالة؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف الوكالة. "
     select_prompt: "الرجاء تحديد وكالة"
     error_in_updating: "خطأ في تحديث بيانات الوكالة."
-
   agency:
     edit: 'تحرير الوكالة'
     name: 'اسم الوكالة'
     code: 'رمز الوكالة'
-
   system_settings:
     label: "إعدادات النظام"
     edit: "تحرير إعدادات النظام"
     show: "إعدادات النظام"
     updated: "تحديث إعدادات النظام بنجاح."
     primero_version: "نسخة النظام"
-
   primero_modules:
     label: "الوحدات النمطية"
     view: "عرض الوحدة النمطية"
@@ -647,7 +568,6 @@ ar:
     messages:
       confirmation: "هل أنت متأكد أنك تريد حذف هذه الوحدة النمطية؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف الوحدة النمطية."
       invalid: "الوحدة (الوحدات) النمطية غير صالحة"
-
   primero_module:
     create: "إنشاء وحدة نمطية"
     edit: "تحرير وحدة نمطية"
@@ -661,8 +581,6 @@ ar:
     program: "البرنامج"
     associated_record_types: "أنواع السجلات المرتبطة"
     associated_form_ids: "تعريفات النماذج المرتبطة"
-
-
   primero_programs:
     label: "البرنامج"
     view: "عرض البرنامج"
@@ -675,7 +593,6 @@ ar:
       delete: "حذف"
     messages:
       confirmation: "هل أنت متأكد أنك تريد حذف الوحدة النمطية للبرنامج؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف البرنامج. "
-
   primero_program:
     create: "إنشاء برنامج"
     edit: "تحرير البرنامج"
@@ -686,7 +603,6 @@ ar:
     end_date: "تاريخ إنتهاء البرنامج"
     successfully_updated: "تم تحديث تفاصيل البرنامج بنجاح."
     error_in_updating: "خطأ في تحديث تفاصيل البرنامج."
-
   user_groups:
     label: "مجموعات المستخدم"
     view: "عرض مجموعة المستخدم"
@@ -699,7 +615,6 @@ ar:
       delete: "حذف"
     messages:
       confirmation: "هل أنت متأكد أنك تريد حذف مجموعة المستخدمين هذه؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف مجموعة المستخدمين. "
-
   user_group:
     create: "إنشاء مجموعة المستخدم"
     edit: "تحرير مجموعة المستخدم"
@@ -707,13 +622,11 @@ ar:
     description: "الوصف"
     successfully_updated: "تم تحديث تفاصيل مجموعة المستخدم بنجاح."
     error_in_updating: "خطأ في تحديث تفاصيل مجموعة المستخدم."
-
   user:
     label: "المستخدم"
     full_name: "الاسم الكامل"
     history_of: "تاريخ %{user_name} "
     disabled: "مُعطل "
-    agency: "Agency"
     actions:
       delete: "حذف"
     messages:
@@ -731,7 +644,6 @@ ar:
     manage_password: "تغيير كلمة المرور"
     old_password: "كلمة المرور القديمة"
     new_password: "كلمة المرور الجديدة"
-    password_strength: "يجب أن لا تقل كلمة المرور عن 6 أحرف وتتضمن حروف وأرقام"
     new_password_confirmation: "أكّد كلمة المرور الجديدة"
     new: "مستخدم جديد"
     user_action_history: "سجل إجراءات المستخدم"
@@ -740,26 +652,22 @@ ar:
     organization: "المنظمة"
     agency: "الوكالة"
     manager: "المدير"
-
-  actions: "actions"
   phone: "الهاتف"
   email: "البريد الإلكتروني"
   organization: "المؤسسة"
   position: "المنصب"
-  false: "خطأ"
-  true: "صواب"
+  'false': "لا"
+  'true': "نعم"
   mandatory_field: "الحقول المُعلّمة بعلامة تكون إلزاميّة"
   add: "إضافة"
   belonging_to: "ينتمي إلى"
   hello: "مرحباً"
   imei: "الهوية الدولية للأجهزة المتنقلة IMEI"
   blacklisted: "هل هو مدرج بالقائمة السوداء ؟"
-  visible: "مرئي"
   hidden: "مخفي"
   help_text: "نص المساعدة"
   multi_select: "متعدد الاختيارات"
   option_strings_source: "مصدر سلاسل الخيارات"
-  cancel: "Cancel"
   discard: "تجاهل"
   form: "نموذج"
   details: "تفاصيل"
@@ -770,15 +678,9 @@ ar:
   provide_translation: "توفير ترجمة لـ"
   hide_on_view_page: "إخفاء صفحة العرض"
   last_login: "آخر تسجيل للدخول"
-
-
   record: "سجل"
   description: "الوصف"
-  #TODO - The name translation is commented out so we revert back to using the name translation defined in the form section field
-  #       Longer term, need to refactor how that translation is handled
-  #name: "Name"
   unique_id: "معرف فريد"
-
   permissions:
     label: "أذونات"
     Actions: "إجراءات"
@@ -789,7 +691,6 @@ ar:
       resources: "موارد"
       resource: "موارد"
       management: "إدارة"
-
     permission:
       read: "قراءة"
       write: "كتابة"
@@ -799,7 +700,6 @@ ar:
       incident: "حادث"
       tracing_request: "طلب التتبع"
       role: "أدوار"
-      user: "المستخدمون، المجموعات"
       metadata: "النماذج، البحث"
       system: "نظام"
       report: "تقرير"
@@ -824,10 +724,8 @@ ar:
       transfer: "تحويل"
       referral: "إحالة"
       sync_mobile: "مزامنة مع جهاز المحمول"
-      approve_case_plan: "الموافقة على خطة الحالة"
       copy: "نسخ"
       manage: "إدارة"
-
   forms:
     label: "نماذج"
     save: "حفظ النموذج"
@@ -842,20 +740,16 @@ ar:
       incident: "حادث"
       tracing_request: "طلب التتبع"
       violation: "انتهاك"
-
   form_section:
     name: "الاسم"
-    group: "المجموعة"
     description: "وصف"
-    create: "قسم النموذج الجديد"
     visibility: "رؤية"
     ordering: "ترتيب"
-    details: "تفاصيل النموذج"
     label: "نموذج"
+    group: "المجموعة"
     back: "عودة إلى صفحة النماذج"
     help_text: "نص المساعدة"
     actions:
-      actions: "إجراءات"
       add_custom_field: "إضافة حقل مخصص"
       save_order: "حفظ الترتيب"
     messages:
@@ -875,11 +769,9 @@ ar:
     options: "خيارات"
     confirm_delete: "هل أنت متأكد أنك تريد إلغاء هذا النموذج؟"
     required_field: "%{field} مطلوب"
-    required_field_js: "لا يمكن أن يكون هذا الحقل فارغًا"
     form_group_name: "اسم مجموعة النموذج"
     modal_sidebar_help: "حدد نوع الحقل"
     modal_sidebar_help_selected: "نوع الحقل"
-
   advanced_search:
     instruction: "افصل الكلمات بكلمة أو OR للبحث عن أكثر من خيار، على سبيل المثال تيم أو OR راؤول "
     date_instruction: "أدخل التاريخ (سنة-شهر-يوم) في الخانة الأولى للبحث عن السجلات التي تم إنشائها أو تحديثها بعد هذا التاريخ. أدخل التاريخ (سنة-شهر-يوم) في الخانة الثانية لعرض السجلات التي تم إنشائها أو تحديثها قبل هذا التاريخ. أدخل التواريخ في كل من الخانات لعرض السجلات التي تم إنشائها بين التواريخ."
@@ -904,7 +796,6 @@ ar:
   date_format: "السنة-الشهر-اليوم"
   yes_label: "نعم"
   cancel: "إلغاء"
-
   contact:
     message: "إذا واجهت أي مشكلات مع RapidFTR، أو تعتقد أنه تم الكشف عن كلمة المرور الخاصة بك، الرجاء الاتصال بمسؤول النظام على الفور."
     field:
@@ -920,7 +811,6 @@ ar:
     edit_info: "تحرير معلومات جهة الإتصال"
     info_label: "معلومات الاتصال"
     not_found: "لا يمكن العثور على معلومات الاتصال الخاصة بالمعرف %{id}"
-
   device:
     blacklist: "جهاز القائمة السوداء"
     messages:
@@ -930,14 +820,12 @@ ar:
     information: "معلومات الجهاز"
     mobile_number: "رقم المحمول"
     timestamp: "طابع زمني"
-
   admin:
     contact_info: "معلومات الاتصال بالمسؤول"
     highlight_fields: "تظليل الحقول"
     manage_system_users: "إدارة مستخدمي مزامنة الخادم"
     create_system_user: إنشاء مستخدم للنظام
     system_logs: "سجلات النظام"
-
   fields:
     label: "الحقول"
     field_name: "اسم الحقل"
@@ -982,14 +870,12 @@ ar:
     file_upload_box:
       select_file_button_text: "انتقِ ملف"
       no_file_selected: "لم يتم انتقاء ملف."
-      document_file_restrictions_message: "لا ينبغي أن تكون الملفات أكبر من 2 ميجابايت (لا يمكن تحميل الملفات  القابلة للتنفيذ (.exe)). "
       photo_file_restrictions_message: "لا ينبغي أن تكون الصور أكبر من 10 ميجابايت. لا ينبغي أن تكون ملفات الصوت أكبر من 10 ميجابايت. كلما كانت الملفات أصغر كان ذلك أفضل."
       add_document_label: "إضافة مستند"
       add_photo_label: "إضافة صورة"
       add_new_document_button_text: "إضافة مستند آخر"
       add_new_photo_button_text: "إضافة صورة أخرى"
       document_description: "وصف المستند"
-
   replication:
     label: نسخ متماثلة
     index: إدارة النسخ المتماثلة
@@ -1010,7 +896,6 @@ ar:
     configure_a_server: جاري تكوين الخادم
     reindex_pending: إعادة الفهرسة معلّقة
     is_continuous: مستمر
-
   lookup:
     edit: "تحرير البحث"
     create: "بحث جديد"
@@ -1025,7 +910,6 @@ ar:
       cannot_create: "لا يمكن إنشاء البحث"
       correct_errors: "الرجاء تصحيح الأخطاء التالية وإعادة الإرسال:"
       updated: "تم إضافة البحث بنجاح"
-
   location:
     create: "موقع جديد"
     edit: "تحرير الموقع"
@@ -1043,7 +927,6 @@ ar:
       correct_errors: "الرجاء تصحيح الأخطاء التالية وإعادة الإرسال:"
       updated: "تم إضافة الموقع بنجاح"
       deleted: "تم حذف الموقع بنجاح"
-
   session:
     about_to_expire: "جلستك الخاصة على وشك الانتهاء!"
     has_expired: "انتهت صلاحية جلسة العمل الخاصة بك. الرجاء إعادة تسجيل الدخول."
@@ -1052,7 +935,6 @@ ar:
     invalid_token: "رمز الجلسة غير صالح"
     no_token_provided: "لم يتم توفير رمز الجلسة "
     no_token_in_header: "لا يوجد رمز للجلسة  في العناوين أو ملفات تعريف الارتباط"
-
   reports:
     register_new_report: "إنشاء تقرير"
     label: "تقارير"
@@ -1063,7 +945,6 @@ ar:
       delete: "حذف"
     messages:
       confirmation: "هل أنت متأكد أنك تريد حذف هذا التقرير؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف التقرير."
-
   report:
     name: "الاسم"
     description: "الوصف"
@@ -1102,21 +983,17 @@ ar:
     messages:
       delete_success: "تم حذف التقرير بنجاح"
     edit: "تحرير"
-
   encrypt:
     password_title: "إنشاء كلمة مرور"
     password_label: "الرجاء إدخال كلمة المرور التي سوف تشفّر ملفك."
     password_mandatory: "أدخل كلمة مرور صالحة"
     password_extra_info: "سوف ترتبط كلمة المرور هذه بالملف المصدر وينبغي إدخالها بواسطة أي شخص يفتح هذا الملف مستقبلاً."
     file_name: "قم بإنشاء اسم الملف الخاص بك (اختياري)"
-
   administration: "الإدارة"
   new: "جديد"
   saved: "محفوظ"
   account: "حساب"
   moved_from: "%{field_name} انتقل من %{from_fs} إلى %{to_fs}"
-
-  # validation error messages
   couchrest:
     fields:
       Name: "الاسم"
@@ -1124,14 +1001,11 @@ ar:
       Password: "كلمة المرور"
       Description: "وصف"
       "Remote app url": "محدد موقع معلومات بعيد"
-
     attributes:
       report:
         aggregate_by: "مجموعات حسب الصف"
-
     validations:
       blank: "%s يجب ألا يكون فارغًا"
-
   gbv_report:
     18_and_over_age: "18 عامًا وأكثر"
     12_17_age: "12-17"
@@ -1139,8 +1013,8 @@ ar:
     unknown: "غير معروف"
     adult: "بالغ"
     child: "طفل"
-    "yes": "نعم"
-    "no": "لا"
+    'yes': "نعم"
+    'no': "لا"
     none: " لا يوجد"
     uam_sc_ovc: "قاصر بلا مرافق/ طفل منفصل/ طفل ضعيف آخر"
     unaccompanied_minor: "قاصر بلا مرافق"
@@ -1170,7 +1044,6 @@ ar:
     quarter_3: "الربع 3"
     quarter_2: "الربع 2"
     quarter_1: "الربع 1"
-
   followup_reminders:
     system_generated_followup_flag: "زيارة متابعة إلزامية"
     system_generated_followup_unflag: "منتهي الصلاحية"
@@ -1182,7 +1055,6 @@ ar:
     child_status_closed: "مغلق"
     child_status_transferred: "تم التحويل"
     child_status_duplicate: "مكرر"
-
   dashboard:
     flagged_by: "تم تمييزه بعلامة بواسطة:"
     no_recent_activities: "لا يوجد أنشطة حديثة"
@@ -1232,7 +1104,6 @@ ar:
     case_stat_by_assessment_level: "الحالات بواسطة مستوى التقييم"
     case_stat_referrals: "الإحالات"
     protection_concern: "شؤون الحماية"
-    preliminary_protection_concerns: "شؤون الحماية الأولية"
     geographic_area: "المنطقة الجغرافية"
     all_cases: "جميع الحالات"
     open: "مفتوح"
@@ -1311,50 +1182,40 @@ ar:
     new_this_week: "جديد <span>(الاسبوع الحالي)</span>"
     closed_last_week: "مغلق <span>(الاسبوع الماضي)</span>"
     closed_this_week: "مغلق <span>(الاسبوع الحالي)</span>"
-
   errors:
-
     template:
       header:
         one: "1 خطأ حظر هذا %{model} من الحفظ"
         other: "%{count} اخطاء منعت هذا %{model} من الحفظ"
         body: "هناك مشكلات في الحقول التالية:"
         body_js: "لحفظ السجل، يجب معالجة المشاكل في الحقول التالية:"
-
     agencies:
       logo_size: "الرجاء تحميل ملف أصغر من 10 ميجابايت"
       logo_format: "الرجاء تحميل ملف شعارات صالح بصيغة (jpg أو gif أو png)"
-
     models:
       flags:
-         message: "العلامات: حقل الرسالة غير صالح"
-         date: "العلامات: حقل التاريخ غير صالح"
-         index: "العلامات: غير قادر على إزالة العلم في موقف %{index}"
-
+        message: "العلامات: حقل الرسالة غير صالح"
+        date: "العلامات: حقل التاريخ غير صالح"
+        index: "العلامات: غير قادر على إزالة العلم في موقف %{index}"
       date_range_invalid: "<span>%{field_name}:</span> الرجاء إدخال نطاق تاريخ ساري \"من:\" يجب أن يكون قبل \"إلى:\""
-
       photo:
         primary_photo_id: "الفشل في محاولة ضبط '%{photo_id}' إلى الصورة الأولية: لا يوجد مفتاح لمثل هذه الصورة"
         photo_size: "الرجاء تحميل ملف أصغر من 10 ميجابايت"
         photo_format: "الرجاء تحميل ملف صورة صالح بصيغة (jpg أو png) لهذا %{model_name} السجل"
         photo_count: "مسموح لك فقط %{photos_count} صور لكل %{model_name}."
-
       audio:
         audio_size: "الرجاء تحميل ملف أصغر من 10 ميجابايت"
         audio_format: "الرجاء تحميل ملف صوتي صالح بصيغة (amr  أو mp3) لهذا %{model_name} السجل"
-
       user:
         full_name: "الرجاء إدخال الاسم الكامل للمستخدم"
         password_confirmation: "الرجاء إدخال تأكيد كلمة السر"
         password_mismatch: "حقول كلمة المرور لا تحمل نفس كلمة المرور"
-        password_text: "- الرجاء إنشاء كلمة مرور لا تقل عن 6 أحرف وتحتوي على حروف وأرقام."
         role_ids: "الرجاء تحديد دور واحد على الأقل"
         organization: "الرجاء إدخال اسم منظمة المستخدم"
         user_name: "الرجاء إدخال اسم مستخدم صالح"
         email: "الرجاء إدخال عنوان بريد إلكتروني صالح"
         user_name_uniqueness: "اسم المستخدم هذا مُستخدم بالفعل! الرجاء تحديد اسم مستخدم جديد"
         authenticate: "لا يمكن مصادقة مستخدم غير محفوظ"
-
       child:
         at_least_one_field: "الرجاء تعبئة حقل واحد على الأقل أو تحميل ملف"
         age: "يجب أن يكون العمر ما بين 0 و 130"
@@ -1362,16 +1223,13 @@ ar:
         date_of_birth: "الرجاء إدخال تاريخ ميلاد صالح لسجل الحالة هذه"
         wishes_preferences_count: "مسموح لك فقط %{preferences_count} تفضيلات الطفل."
         value_range: "%{field_name} يجب أن تكون بين %{min} و %{max}"
-        document_size: "الرجاء تحميل ملف أصغر من 10 ميجابايت"
         documents_count: "مسموح لك فقط %{documents_count} مستندات لكل حالة."
         document_format: "غير مسموح بالملفات القابلة للتنفيذ."
         date_closure: "ينبغي أن يكون تاريخ إغلاق الحالة أكبر من أو يساوي تاريخ فتح الحالة."
-
       incident:
         document_size: "الرجاء تحميل ملف أصغر من 10 ميجابايت"
         documents_count: "مسموح لك فقط %{documents_count} مستندات لكل حالة."
         document_format: "غير مسموح بالملفات القابلة للتنفيذ."
-
       field:
         display_name_presence: "لا يجب أن يكون اسم العرض فارغًا"
         display_name_format: "يجب أن يحتوي اسم العرض على حرف أبجدي واحد على الأقل."
@@ -1383,8 +1241,6 @@ ar:
         has_1_option: "يجب أن تتضمن خانة الاختيار 1 خيار على الأقل"
         unique_name_other: "الحقل موجود بالفعل على النموذج '%{form_name}'"
         unique_name_this: "الحقل موجود بالفعل على هذا النموذج"
-        change_type_existing_field: "لا يمكن تغيير نوع الحقل الموجود على النموذج '%{form_name}'"
-
       form_section:
         presence_of_name: "لا يجب أن يكون الاسم فارغاً"
         presence_of_base_language_name: "لا يمكن أن يكون اسم اللغة الأساسية '%{base_language}' فارغًا"
@@ -1396,7 +1252,6 @@ ar:
         delete_field: "لا يمكن حذف الحقل غير القابل للتعديل"
         unique_name: "اسم المستخدم '%{name}' مستخدم بالفعل."
         unique_id: "المعرف الفريد '%{unique_id}' مُستخدم بالفعل."
-
       enquiry:
         presence_of_criteria: "الرجاء إضافة معايير إلى استفسارك"
         presence_of_enquirer_name: "الرجاء إضافة اسم المستفسر إلى استفسارك"
@@ -1404,61 +1259,46 @@ ar:
         create_forbidden: "ممنوع"
         not_found: "لم يتم العثور عليه"
         malformed_query: "طلب غير صالح"
-
       role:
         name_present: "لا يجب أن يكون الاسم فارغاً"
         permission_presence: "الرجاء تحديد إذن واحد على الأقل"
         unique_name: "يوجد دور يحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
-
         permission:
           resource_presence: "الرجاء تحديد مصدر"
-
       primero_module:
         name_present: "لا يجب أن يكون الاسم فارغاً"
         unique_name: "توجد وحدة نمطية تحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
         program: "يجب أن يكون هناك برنامج مرتبطًا بهذه الوحدة النمطية"
         associated_form_ids: "يجب أن يرتبط نموذج واحد على الأقل بهذه الوحدة النمطية"
         associated_record_types: "يجب أن يرتبط نوع واحد من السجلات على الأقل بهذه الوحدة النمطية"
-
       primero_program:
         name_present: "لا يجب أن يكون الاسم فارغاً"
         unique_name: "يوجد برنامج بهذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
-
       lookup:
         value_presence: "الرجاء تحديد قيمة بحث واحدة على الأقل"
         unique_name: "يوجد بحث يحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
         being_used: "هذا البحث في الاستخدام  ولا يمكن حذفه"
-
       system_users:
         username_unique: "اسم المستخدم هذا مُستخدم بالفعل! الرجاء تحديد اسم مستخدم جديد"
-
       replication:
         remote_app_uri: "الرجاء إدخال عنوان بريميرو URL صالح"
         remote_unauthorized: "اسم المستخدم أو كلمة المرور التي أدخلتها غير صحيحة"
         remote_error: "لا يمكن الاتصال بالخادم عن بعد"
         is_continuous: 'هل لديك نسخة متماثلة مستمرة؟'
-
       password_recovery_request:
         user_name_mandatory: "الرجاء إدخال اسم مستخدم صالح"
-
       ownership:
         associated_user_names_present: "يجب ربط مستخدم بهذا السجل"
         module_id_prsesnt: "يجب ربط وحدة نمطية بهذا السجل"
-
       agency:
         unique_name: "يوجد وكالة تحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
         name_present: "لا يجب أن يكون فارغًا"
         code_present: "لا يجب أن يكون فارغًا"
-
       location:
         name_present: "لا يجب أن يكون فارغًا"
         code_present: "لا يجب أن يكون فارغًا"
         unique_name: "يوجد موقع يحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
-
-
-
   select_all_results: "حدد كل النتائج"
-
   histories:
     of: "من"
     to: "إلى"
@@ -1469,32 +1309,25 @@ ar:
     deleted_by: "تم الحذف بواسطة"
     referral: "تمت الإحالة إلى %{to_user} بواسطة %{by_user}"
     transfer: "تم التحويل إلى %{to_user} بواسطة %{by_user}"
-
     system_logs:
       records_performed_by: "تم تنفيذ السجلات بواسطة"
       performed_by: "تم التنفيذ بواسطة"
       of_child_with_id: "طفل ذو مُعرف"
-
     audio:
       audio: "سمعي"
       audio_change: "تم تغييرالسجل الصوتي من"
-
     duplicate:
       mark_as_duplicate: "تعليم هذا السجل بعلامة مكرر لـ"
       no_longer_active: "السجل الحالي لم يعد ناشطاً أو قابل للتعديل"
-
     flag:
       record_flagged_by: "تم تمييز السجل بعلامة بواسطة"
       record_unflagged_by: "تم إزالة علامة السجل بواسطة"
-
     investigated:
       mark_as_investigated_by: "تم تعليم السجل بعلامة تم التحقق منه بواسطة"
       mark_as_not_investigated_by: "تم تعليم السجل بعلامة لم يتم التحقق منه بواسطة"
-
     reunited:
       child_status_changed: "تغيير حالة الطفل إلى نشط بواسطة"
       with_details: "بهذه التفاصيل:"
-
   actions:
     button: "إجراءات"
     enable: "تفعيل"
@@ -1502,7 +1335,6 @@ ar:
     description:
       valid: "سجل صالح"
       invalid: "سجل غير صالح"
-
   record_panel:
     valid: "سجل صالح"
     invalid: "سجل غير صالح"
@@ -1513,52 +1345,51 @@ ar:
     change_log: "سجل التغيير"
     record_information: "تسجيل المعلومات"
     name_date_seperator: "عن"
-
   exports:
     no_records: "لا يوجد سجلات متاحة!"
     pdf:
-      all:  PDF
-      one:  PDF
-      selected:  تحديد إلى PDF
+      all: PDF
+      one: PDF
+      selected: تحديد إلى PDF
     photowall:
-      all:  Photo Wall
-      one:  Photo Wall
-      selected:  تحديد إلى Photo Wall
+      all: Photo Wall
+      one: Photo Wall
+      selected: تحديد إلى Photo Wall
     case_pdf:
-      all:  PDF
-      one:  PDF
-      selected:  تحديد إلى PDF
+      all: PDF
+      one: PDF
+      selected: تحديد إلى PDF
     list_view_csv:
-      all:  تصدير عرض القائمة
-      selected:  تحديد إلى CSV
+      all: تصدير عرض القائمة
+      selected: تحديد إلى CSV
     csv:
-      all:  CSV
-      one:  CSV
-      selected:  تحديد إلى CSV
+      all: CSV
+      one: CSV
+      selected: تحديد إلى CSV
     xls:
-      all:  Excel
-      one:  Excel
-      selected:  تحديد إلى Excel
+      all: Excel
+      one: Excel
+      selected: تحديد إلى Excel
     selected_xls:
-      all:  Excel
-      one:  Excel
-      selected:  تحديد إلى Excel
+      all: Excel
+      one: Excel
+      selected: تحديد إلى Excel
     incident_recorder_xls:
-      all:  مسجل الحوادث
-      one:  مسجل الحوادث
-      selected:  تحديد إلى مسجل الحوادث
+      all: مسجل الحوادث
+      one: مسجل الحوادث
+      selected: تحديد إلى مسجل الحوادث
     json:
-      all:  JSON
-      one:  JSON
-      selected:  تحديد إلى JSON
+      all: JSON
+      one: JSON
+      selected: تحديد إلى JSON
     unhcr_csv:
-      all:  المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
-      one:  المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
-      selected:  تحديد إلى المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
+      all: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
+      one: المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
+      selected: تحديد إلى المفوضية السامية للأمم المتحدة لشؤون اللاجئين UNHCR
     mrm_violation_xls:
-      all:  انتهاكات آلية المراقبة والإبلاغ MRM
-      one:  انتهاكات آلية المراقبة والإبلاغ MRM
-      selected:  تحدد إلى انتهاكات آلية المراقبة والإبلاغ MRM
+      all: انتهاكات آلية المراقبة والإبلاغ MRM
+      one: انتهاكات آلية المراقبة والإبلاغ MRM
+      selected: تحدد إلى انتهاكات آلية المراقبة والإبلاغ MRM
     custom_exports:
       label: عمليات التصدير المخصصة
       format_label: حدد صيغة
@@ -1576,7 +1407,6 @@ ar:
       empty_module: الرجاء تحديد وحدة نمطية لتصديرها.
     pdf_exports:
       label: PDF
-
   imports:
     password_label: "كلمة المرور (إذا لزم الأمر)"
     format_label: "صيغة"
@@ -1588,7 +1418,6 @@ ar:
     guess_file_type_option: "كشف تلقائي استنادًا إلى ملحق الملف"
     zip_file:
       unknown_type: "الأرشيف يحتوي على ملف واحد أو أكثر من نوع غير معروف"
-
   referral:
     type_label: "نوع الإحالة"
     existing_user_label: "مستخدم موجود"
@@ -1606,7 +1435,6 @@ ar:
     success: "تمت إحالة %{record_type} %{id} بنجاح"
     failure_batch: "فشل %{failed_count} إحالة (إحالات) (تحقق من تحديد حقول الموافقة)"
     success_batch: "إجراء %{success_count} إحالة (إحالات) بنجاح"
-
   transfer:
     type_label: "نوع التحويل"
     existing_user_label: "مستخدم موجود"
@@ -1622,24 +1450,28 @@ ar:
     success: "تم تحويل %{record_type} %{id}  بنجاح"
     failure_batch: "فشل %{failed_count} تحويل (تحويلات) (تحقق من تحديد حقول الموافقة)"
     success_batch: "إجراء %{success_count} تحويل (تحويلات) بنجاح"
-
   mark_for_mobile:
     no_records_selected: "لم يتم تحديد سجلات"
     failure: "تعليم %{record_type} %{id} بعلامة فشل المحمول"
     success: "تعليم %{record_type} %{id} بعلامة محمول بنجاح"
     failure_batch: "فشل تعليم %{failed_count} سجل (سجلات) بعلامة محمول"
     success_batch: "تعليم %{success_count} سجل (سجلات) بعلامة محمول بنجاح"
-
   unmark_for_mobile:
     failure: "فشل إزالة علامة %{record_type} %{id} كمحمول"
     success: "إزالة علامة %{record_type} %{id} كمحمول بنجاح"
     failure_batch: "فشل إزالة علامة %{failed_count} سجل (سجلات) كمحمول"
     success_batch: "إزالة علامة %{success_count} سجل (سجلات) كمحمول بنجاح"
-
-  approve_case_plan:
-    approve_case_plan_label: "الموافقة على خطة الحالة"
-    comments_label: "تعليقات"
-
   per_page_translation: "لكل صفحة _MENU_"
   total: المجموع
   caregiver: "(مقدم الرعاية)"
+  disabled:
+    status:
+      label: "الحالة"
+  sort_by:
+    label: "ترتيب حسب"
+  logger:
+    to: "الى"
+    to_user: "للمستخدم"
+    by_user: "من قبل المستخدم"
+    login: "تسجيل الدخول"
+    logout: "تسجيل الخروج"
