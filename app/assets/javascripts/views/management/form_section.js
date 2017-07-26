@@ -86,11 +86,12 @@ function form_section() {
   function addOption(){
     var $this = $(this);
     var newOption = $(JST['templates/options_row']({
-      locale: 'en',
+      locale: $this.data('given-lang'),
       id: '',
       display_text: '',
       editing: $this.hasClass('edit_option'),
-      locale_options: $this.data('lang')
+      locale_options: $this.data('lang'),
+      help_text: $this.data('help-text')
     }));
     newOption.find('a.field_option_remove_button').click(removeOption);
     $this.parents('.options_row_controls').before(newOption);
