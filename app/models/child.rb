@@ -2,9 +2,9 @@ class Child < CouchRest::Model::Base
   use_database :child
 
   CHILD_PREFERENCE_MAX = 3
-  RISK_LEVEL_LOW = 'low'
-  RISK_LEVEL_MEDIUM = 'medium'
   RISK_LEVEL_HIGH = 'high'
+  RISK_LEVEL_NONE = 'none'
+
   APPROVAL_STATUS_PENDING = 'pending'
   APPROVAL_STATUS_REQUESTED = 'requested'
   APPROVAL_STATUS_APPROVED = 'approved'
@@ -193,6 +193,10 @@ class Child < CouchRest::Model::Base
     time :service_due_dates, :multiple => true
 
     string :workflow_status, as: 'workflow_status_sci'
+
+    string :risk_level, as: 'risk_level_sci' do
+      self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
+    end
   end
 
   include Alertable

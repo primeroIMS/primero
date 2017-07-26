@@ -218,11 +218,12 @@ li.current {
 
   a.non-group:after {
     font-family: 'FontAwesome';
-    content: '\f105';
 
     @if $global-text-direction == rtl {
       float: left;
+      content: '\f104';
     } @else {
+      content: '\f105';
       float: right;
     }
 
