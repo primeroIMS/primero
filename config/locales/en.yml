@@ -1372,7 +1372,7 @@ en:
 
   dashboard:
     total: 'Total'
-    new: 'New'
+    new: 'New & Updated'
     pending_transfers: 'Pending Transfers'
     rejected_transfers: 'Rejected Transfers'
     transers_awaiting_acceptance: 'Transfers Awaiting Acceptance'
