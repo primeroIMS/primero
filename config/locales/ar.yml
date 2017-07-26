@@ -1000,7 +1000,7 @@ ar:
       Username: "اسم المستخدم"
       Password: "كلمة المرور"
       Description: "وصف"
-      Remote app url: "محدد موقع معلومات بعيد"
+      "Remote app url": "محدد موقع معلومات بعيد"
     attributes:
       report:
         aggregate_by: "مجموعات حسب الصف"
