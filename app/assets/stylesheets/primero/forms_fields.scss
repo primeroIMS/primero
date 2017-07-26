@@ -800,9 +800,15 @@ select.ui-datepicker-year {
 
       &:first-of-type {
         color: #333;
-        margin-right: 10px;
-        padding-right: 5px;
-        border-right: 4px solid #F76F6F
+        @if $global-text-direction == rtl {
+          margin-left: 10px;
+          padding-left: 5px;
+          border-left: 4px solid #F76F6F
+        } @else {
+          margin-right: 10px;
+          padding-right: 5px;
+          border-right: 4px solid #F76F6F
+        }
       }
 
       &:last-of-type {
