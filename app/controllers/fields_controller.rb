@@ -21,7 +21,6 @@ class FieldsController < ApplicationController
     @field = Field.new clean_field(params[:field])
     @field.sanitize_name
     FormSection.add_field_to_formsection @form_section, @field
-    @field.base_language = I18n.default_locale
 
     if @field.errors.present? || @form_section.errors.present?
       get_form_group_names

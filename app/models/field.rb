@@ -18,7 +18,7 @@ class Field
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
   property :option_strings_source  #If options are dynamic, this is where to fetch them
-  property :base_language, :default=>'en'
+  property :base_language, :default => FormSection::DEFAULT_BASE_LANGUAGE
   property :subform_section_id
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
@@ -107,12 +107,11 @@ class Field
                         TALLY_FIELD      => ""
                       }
 
-  validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")
   validate :validate_unique_name
   validate :validate_has_2_options
   validate :validate_display_name_format
   validate :validate_name_format
-  validate :valid_presence_of_base_language_name
+  validate :validate_display_name_in_base_language
   validate :valid_tally_field
   validate :validate_option_strings_text
   #TODO: Any subform validations?
@@ -145,13 +144,11 @@ class Field
     end
   end
 
-  def valid_presence_of_base_language_name
-    if base_language==nil
-      self.base_language='en'
-    end
-    base_lang_display_name = self.send("display_name_#{base_language}")
-    if (base_lang_display_name.nil?||base_lang_display_name.empty?)
-      errors.add(:display_name, I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language))
+  def validate_display_name_in_base_language
+    display_name = "display_name_#{FormSection::DEFAULT_BASE_LANGUAGE}"
+    unless (self.send(display_name).present?)
+      errors.add(:display_name, I18n.t("errors.models.field.display_name_presence"))
+      return false
     end
   end
 
@@ -261,7 +258,7 @@ class Field
   end
 
   #TODO: Use CouchRest Model property defaults here instead
-  def initialize properties={}
+  def initialize(properties={})
     self.visible = true if properties["visible"].nil?
     self.mobile_visible = true if properties["mobile_visible"].nil?
     self.highlight_information = HighlightInformation.new
@@ -276,6 +273,7 @@ class Field
     self.create_property ||= true
     self.hide_on_view_page ||= false
     self.attributes = properties
+    self.base_language = self.form.base_language if self.form.present?
   end
 
   def attributes= properties

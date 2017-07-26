@@ -43,7 +43,13 @@
         <tr data="<%= field.name %>" class="<%= field.visible? ? "rowEnabled" : "rowDisabled" %>">
           <td>
             <% if @form_section.editable? && field.editable? %>
-              <%= link_to field.display_name,
+              <%
+                display_base_language = "display_name_#{field.base_language}".to_sym
+                display_system_language = "display_name_#{I18n.default_locale}".to_sym
+                translation_missing = t("form_section.translation_missing", :lang => t("home.#{I18n.default_locale}"))
+                field_label = field[display_system_language] ? field[display_system_language]  : "#{field[display_base_language]} #{translation_missing}"
+              %>
+              <%= link_to field_label,
                           edit_form_section_field_path(form_section_id: @form_section.unique_id, id: field.name, module_id: @module_id),
                           :id => "#{field.name}_edit"
               %>            <% else %>
@@ -54,7 +60,7 @@
           <td>
             <%= field.help_text %>
           </td>
-          <td><%= field.type.try(:humanize) %><br><small><%= "(multi-select)" if field.multi_select %></small></td>
+          <td><%= I18n.t("fields.#{field.type}") %><br><small><%= "(multi-select)" if field.multi_select %></small></td>
           <td align="center">
             <% if @form_section.editable? %>
               <%= check_box_tag "fields[]", field.name, !field.visible? , {:id => "fields_#{field.name}", :class => "field_hide_show"} %>

@@ -1,4 +1,7 @@
-<% given_locale = @form_section.base_language %>
+<% 
+given_locale = @form_section.base_language 
+system_locale = I18n.locale
+%>
 <% content_for :record_sub_nav do %>
   <div class="button-group">
     <%= discard_button(form_sections_path) %>
@@ -28,7 +31,7 @@
               <% unless @form_section.perm_enabled? %>
                   <div class="row">
                     <div class="medium-3 columns">
-                      <%= f.label :visible, t("visible_for_web", :locale => I18n.default_locale), :class => 'key inline' %>
+                      <%= f.label :visible, t("visible_for_web", :locale => system_locale), :class => 'key inline' %>
                     </div>
                     <div class="medium-9 columns">
                       <%= f.check_box :visible?, {:class => 'visible'}, "true", "false" %>
@@ -36,7 +39,7 @@
                   </div>
                   <div class="row mobile_form">
                     <div class="medium-3 columns">
-                      <%= f.label :mobile_form, t("visible_for_mobile", :locale => I18n.default_locale), :class => 'key inline' %>
+                      <%= f.label :mobile_form, t("visible_for_mobile", :locale => system_locale), :class => 'key inline' %>
                     </div>
                     <div class="medium-9 columns">
                       <%= f.check_box :mobile_form?, {}, "true", "false" %>
@@ -45,11 +48,11 @@
               <% end %>
               <div class="row name-field">
                 <div class="medium-3 columns">
-                  <%= f.label :name, t("form_section.name", :locale => I18n.default_locale), :class => 'key inline' %>
+                  <%= f.label :name, t("form_section.name", :locale => system_locale), :class => 'key inline' %>
                 </div>
                 <div class="medium-9 columns">
                   <%= f.text_field "name_#{given_locale}", :id => "form_section_name", required: '' %>
-                  <small class="form-error"><%= t('form_section.required_field', field: t("name", :locale => I18n.default_locale)) %></small>
+                  <small class="form-error"><%= t('form_section.required_field', field: t("name", :locale => system_locale)) %></small>
                   <span class='help-text'>
                     <%= t("form_section.base_language_help_text", :lang => t("home.#{given_locale}")) %>
                   </span>
@@ -57,7 +60,7 @@
               </div>
               <div class="row">
                 <div class="medium-3 columns">
-                  <%= f.label :description, t("description", :locale => I18n.default_locale), :class => 'key inline' %>
+                  <%= f.label :description, t("description", :locale => system_locale), :class => 'key inline' %>
                 </div>
                 <div class="medium-9 columns">
                   <%= f.text_area "description_#{given_locale}", :id => "form_section_description" %>
@@ -69,13 +72,13 @@
               <% unless @form_section.is_nested %>
                   <div class="row">
                     <div class="medium-3 columns">
-                      <%= f.label :form_group_name, t("form_section.form_group_name", :locale => I18n.default_locale), :class => 'key inline' %>
+                      <%= f.label :form_group_name, t("form_section.form_group_name", :locale => system_locale), :class => 'key inline' %>
                     </div>
                     <div class="medium-9 columns">
                       <%= f.select "form_group_name", options_for_select(@list_form_group_names, @form_section.form_group_name || ''), {},
                                    required: "", 'data-placeholder' => t("fields.select_box_empty_item"),
                                    class: "chosen-select-or-new", id: "form_section_form_group_name" %>
-                      <small class="form-error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => I18n.default_locale)) %></small>
+                      <small class="form-error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => system_locale)) %></small>
                     </div>
                   </div>
               <% end %>
@@ -87,7 +90,7 @@
         </div>
         <div class="row">
           <div class="translation_lang_panel medium-12 columns">
-            <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}, {:help_text => :text_field}], :fld => f, :show_drop_down => true} %>
+            <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}], :fld => f, :show_drop_down => true, given_locale: given_locale} %>
             <div class="clearfix"></div>
           </div>
     <% end %>

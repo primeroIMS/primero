@@ -511,7 +511,7 @@ describe FormSection do
     it "should validate name is filled in" do
       form_section = FormSection.new()
       form_section.should_not be_valid
-      form_section.errors["name_#{I18n.default_locale}"].should be_present
+      form_section.errors[:name].should be_present
     end
 
     it "should not allows empty form names in form base_language " do
