@@ -7,8 +7,8 @@ _primero.Views.ReportForm = Backbone.View.extend({
     'change #report_record_type': 'reload_field_lookups',
     'click #report_filter_add_button': 'add_filter',
     'click .report_filter_remove_button': 'remove_filter',
-    'change #report_aggregate_by': 'change_set_chosen_order',
-    'change #report_disaggregate_by': 'change_set_chosen_order'
+    'change #report_aggregate_by': 'compute_aggregate_fields',
+    'change #report_disaggregate_by': 'compute_aggregate_fields'
   },
 
   initialize: function() {
@@ -26,8 +26,27 @@ _primero.Views.ReportForm = Backbone.View.extend({
 
   },
 
-  change_set_chosen_order: function(e) {
+  compute_aggregate_fields: function(e, value) {
     var self = this;
+    var field = $(e.target);
+    var selectedOption = field.find('option[value="' + value.selected + '"]');
+
+    var oppositeField = e.target.id == 'report_aggregate_by' ?
+     $('#report_disaggregate_by') : $('#report_aggregate_by');
+
+    if (selectedOption.attr('data-type') == 'date_field') {
+      field
+        .find('option[data-type="date_field"][value!="' + value.selected + '"]')
+        .attr('disabled', true);
+
+      oppositeField.find('option[data-type="date_field"]').attr('disabled', true);
+
+      aggregateFields.trigger('chosen:updated');
+      oppositeField.trigger('chosen:updated');
+    }
+
+
+
     setTimeout(function() {
       self.set_chosen_order($(e.target), false);
     }, 100);
@@ -102,11 +121,11 @@ _primero.Views.ReportForm = Backbone.View.extend({
         );
         for (var j in form_fields){
           constructed_options_list.push(
-            "<option value=\"" + form_fields[j][1] + "\">" + form_fields[j][0] + "</option>"
+            "<option data-type=\"" + form_fields[j][2] + "\" value=\"" + form_fields[j][1] + "\">" + form_fields[j][0] + "</option>"
           );
           if (form_fields[j][2] === 'tally_field' || form_fields[j][2] === 'numeric_field'){
             constructed_options_list_numeric.push(
-              "<option value=\"" + form_fields[j][1] + "\">" + form_fields[j][0] + "</option>"
+              "<option data-type=\"" + form_fields[j][2] + "\" value=\"" + form_fields[j][1] + "\">" + form_fields[j][0] + "</option>"
             );
           }
           self.field_type_map[form_fields[j][1]] = form_fields[j][2];
