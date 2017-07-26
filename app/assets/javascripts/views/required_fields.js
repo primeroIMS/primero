@@ -26,7 +26,7 @@ _primero.Views.RequiredFields = _primero.Views.Base.extend({
         group = $fieldset.data('form-section-group-name'),
         form = $fieldset.data('form-name'),
         required_text = _primero.form_error_messages.required,
-        label = $("label[for='"+$field.attr('id')+"']").text(),
+        label = $("label[for='" + $field.attr('id') + "']:first").text(),
         has_group = group ? group + " - " : "",
         message = "<li><span>" + has_group + form + " " + "</span><span>" + label + "</span>" +  " " + required_text + "</li>";
 
