@@ -23,33 +23,51 @@ _primero.Views.ReportForm = Backbone.View.extend({
     $('#report_aggregate_by, #report_disaggregate_by').chosen(this.chosen_options);
     $('.report_filter_value_string_row select.report_filter_input').chosen($.extend({},this.chosen_options,{max_selected_options: Infinity}));
     $('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
-
   },
 
+  // TODO: max_selected_options not working in chosen
   compute_aggregate_fields: function(e, value) {
     var self = this;
     var field = $(e.target);
-    var selectedOption = field.find('option[value="' + value.selected + '"]');
+    var selected = value.selected || value.deselected
+    var selectedOption = field.find('option[value="' + selected + '"]');
+    var dateOptionQuery = 'option[data-type="date_field"]';
 
     var oppositeField = e.target.id == 'report_aggregate_by' ?
-     $('#report_disaggregate_by') : $('#report_aggregate_by');
+      $('#report_disaggregate_by') : $('#report_aggregate_by');
+
+    this.disallow_third_pivot();
 
     if (selectedOption.attr('data-type') == 'date_field') {
-      field
-        .find('option[data-type="date_field"][value!="' + value.selected + '"]')
-        .attr('disabled', true);
+      if (value.selected) {
+        field
+          .find('option[data-type="date_field"][value!="' + selected + '"]')
+          .attr('disabled', true);
 
-      oppositeField.find('option[data-type="date_field"]').attr('disabled', true);
+        oppositeField.find(dateOptionQuery).attr('disabled', true);
+      } else if (value.deselected) {
+        field.find(dateOptionQuery).attr('disabled', false);
+        oppositeField.find(dateOptionQuery).attr('disabled', false);
+      }
 
-      aggregateFields.trigger('chosen:updated');
+      field.trigger('chosen:updated');
       oppositeField.trigger('chosen:updated');
     }
 
+    self.set_chosen_order($(e.target), false);
+  },
 
+  disallow_third_pivot: function() {
+    var dateOptionQuery = 'option[data-type="date_field"]:selected';
+    var hasDisaggreageDateValue = $('#report_disaggregate_by').find(dateOptionQuery);
+    var aggregateField = $('#report_aggregate_by');
 
-    setTimeout(function() {
-      self.set_chosen_order($(e.target), false);
-    }, 100);
+    if (hasDisaggreageDateValue.length) {
+      aggregateField.val(_.last(aggregateField.val()));
+      aggregateField.data('chosen').max_selected_options = 1;
+    } else {
+      aggregateField.data('chosen').max_selected_options = 2;
+    }
   },
 
   init_chosen_order: function(elements) {
@@ -64,12 +82,7 @@ _primero.Views.ReportForm = Backbone.View.extend({
   set_chosen_order: function(element, is_init) {
     var target = element,
         order = is_init ? target.parent().data('actual-order') : target.getSelectionOrder(true);
-        counter = 0,
         select_control = target.parent().find('select');
-
-    if (!is_init) {
-      select_control.find("option:selected").removeAttr("selected");
-    }
 
     target.parent().find('.order_field').remove();
 
@@ -79,20 +92,18 @@ _primero.Views.ReportForm = Backbone.View.extend({
         name: select_control.attr('name').replace(/\]\[]/, '_ordered][]')
       };
       target.parent().append(JST['templates/chosen_ordering_hidden_field'](data));
-      counter++;
     });
 
     if (_.isArray(order) && is_init) {
       $(target).setSelectionOrder(order, true, true);
     }
-
   },
 
   chosen_options: {
     display_selected_options: false,
     width:'100%',
     search_contains: true,
-    max_selected_options: 3
+    max_selected_options: 2
   },
 
   permitted_field_list_url: '/reports/permitted_field_list',
