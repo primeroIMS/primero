@@ -90,7 +90,7 @@ Primero = _primero.Views.Base.extend({
 
     function mutationHandler(mutations) {
       dom_change = _.find(mutations, function(mutation) {
-        return (mutation.addedNodes && mutation.addedNodes.length > 0) || (mutation.attributeName == 'style' && (mutation.oldValue == 'display: block;' || mutation.oldValue == 'display: none;'));
+        return (mutation.attributeName == 'style' && (mutation.oldValue == 'display: block;' || mutation.oldValue == 'display: none;')) && mutation.target.nodeName !== 'SELECT';
       });
 
       if (typeof dom_change !== 'undefined') {
