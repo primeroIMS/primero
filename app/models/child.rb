@@ -204,6 +204,7 @@ class Child < CouchRest::Model::Base
 
   def add_form_change_alert
     if self.owned_by != self.last_updated_by
+      #TODO: This can be optimized. Filter by configured fields first
       ignored_root_properties = %w{
         _force_save
         last_updated_at

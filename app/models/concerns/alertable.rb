@@ -68,6 +68,7 @@ module Alertable
   end
 
   def add_field_alert(current_user_name, system_settings, type = nil)
+    #TODO: This can be optimized. Currently this is called for each field
     if current_user_name != self.owned_by && self.alerts != nil
       system_settings ||= SystemSettings.current
       if system_settings.present? && system_settings.changes_field_to_form.present? && system_settings.changes_field_to_form.has_key?(type)
