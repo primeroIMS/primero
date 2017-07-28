@@ -43,12 +43,12 @@ file solr_worker_file do
 #!/bin/bash
 #Launch the Solr worker
 source #{::File.join(node[:primero][:home_dir],'.rvm','scripts','rvm')}
-RAILS_ENV=#{node[:primero][:rails_env]} java #{memory_param} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
+RAILS_ENV=#{node[:primero][:rails_env]}
 EOH
 end
 
 supervisor_service 'solr' do
-  command solr_worker_file
+  command "java #{memory_param} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar"
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
