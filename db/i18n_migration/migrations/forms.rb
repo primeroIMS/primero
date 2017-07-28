@@ -16,7 +16,9 @@ default_changes = [
 ]
 
 FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
+  fs['base_language'] = FormSection::DEFAULT_BASE_LANGUAGE
   fs['fields'].each do |field|
+    field['base_language'] = FormSection::DEFAULT_BASE_LANGUAGE
     default_change = default_changes.select {|dc| dc[:form] == fs['unique_id'] && dc[:field] == field['name']}.first
     field['selected_value'] = default_change[:value] if default_change.present?
 
