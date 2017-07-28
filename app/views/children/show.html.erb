@@ -58,6 +58,11 @@ $(show_tools);
       </div>
     </div>
   <% end %>
+  <% if @child.module.agency_code_indicator.present? %>
+    <div class="record_agency_code">
+      <%= "#{@child.owner.try(:agency).try(:agency_code)} #{t('forms.record_types.case')}" %>
+    </div>
+  <% end %>
 <% end %>
 
 <% content_for :stylesheet do %>

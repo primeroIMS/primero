@@ -15,6 +15,11 @@
 <% content_for :breadcrumbs do %>
   <div class="label"><%= t("case.label") %></div>
   #<%= text_to_identify_child(@child) %>
+  <% if @child.module.agency_code_indicator.present? %>
+    <div class="record_agency_code">
+      <%= "#{@child.owner.try(:agency).try(:agency_code)} #{t('forms.record_types.case')}" %>
+    </div>
+  <% end %>
 <% end %>
 
 <div class="clearfix"></div>
