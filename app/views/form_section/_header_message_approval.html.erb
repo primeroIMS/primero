@@ -1,5 +1,6 @@
+<% date = defined?(form_date) && (form_date != '') ? DateTime.parse(form_date).strftime("%d-%b-%Y") : '' %>
 <div class="flash header_message row">
   <p class="notice large-12">
-    <%= t("messages.approval_alert", :form_name => display_alert) %>
+    <%= t("messages.#{alert_type}_alert", :form_name => display_alert, :form_date => date) %>
   </p>
 </div>

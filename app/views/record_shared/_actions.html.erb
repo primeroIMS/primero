@@ -25,6 +25,7 @@
             <%= render 'record_shared/mark_for_mobile_button', mobile_value: false %>
         <% end %>
       <% end %>
+      <% #TODO: form_sidebar_id shouldn't be hardcoded here. Find a way to get the top level field id from the sub-form id. %>
       <% if can?(:incident_details_from_case, controller.model_class) && model == Child %>
         <%= render 'record_shared/subform_from_case', form_type: 'incident_details', form_id: 'incident_details_subform_section', form_sidebar_id: 'incident_details_container' %>
       <% end %>
