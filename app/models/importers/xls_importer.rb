@@ -21,7 +21,7 @@ module Importers
       @survey = @book.worksheets.find{|w| w.name.gsub(/\u0000/, "") == 'survey'}
       @choices = @book.worksheets.find{|w| w.name.gsub(/\u0000/, "") == 'choices'}
       @settings = @book.worksheets.find{|w| w.name.gsub(/\u0000/, "") == 'settings'}
-      @locales = determine_locales(@settings)
+      @locales = determine_locales(@settings).reject{|e| e == 'en'} #TODO: do not update english for now
       update_values_survey(form,create_survey_hash(@survey))
       update_values_choices(form,create_choices_hash(@choices))
       update_values_settings(form,create_settings_hash(@settings))
