@@ -131,7 +131,7 @@ class ReportsController < ApplicationController
 
   def report_permission_filter(user)
     unless can?(:read, @report)
-      { "attribute" => "associated_user_names", "value" => user.managed_user_names }
+      { "attribute" => "owned_by_groups", "value" => user.user_group_ids_sanitized }
     end
   end
 
