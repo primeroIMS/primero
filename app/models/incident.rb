@@ -13,7 +13,7 @@ class Incident < CouchRest::Model::Base
   property :incident_id
   property :incidentid_ir
   property :description
-  property :date_of_first_report, Date, default: DateTime.current.to_date
+  property :date_of_first_report, Date
 
   validate :validate_date_of_first_report
 
@@ -144,7 +144,7 @@ class Incident < CouchRest::Model::Base
 
   def create_class_specific_fields(fields)
     self['description'] = fields['description'] || self.description || ''
-    self.date_of_first_report ||= DateTime.current.to_date
+    self.date_of_first_report ||= Date.current
   end
 
   def incident_code
@@ -310,13 +310,9 @@ class Incident < CouchRest::Model::Base
   end
 
   def validate_date_of_first_report
-    if date_of_first_report.blank? || !date_of_first_report.is_a?(Date)
+    if date_of_first_report.present? && (!date_of_first_report.is_a?(Date) || date_of_first_report > Date.today)
       errors.add(:date_of_first_report, I18n.t("messages.enter_valid_date"))
       error_with_section(:date_of_first_report, I18n.t("messages.enter_valid_date"))
-      false
-    elsif date_of_first_report > Date.today
-      errors.add(:date_of_first_report, I18n.t("fields.future_date_not_valid"))
-      error_with_section(:date_of_first_report, I18n.t("fields.future_date_not_valid"))
       false
     else
       true
