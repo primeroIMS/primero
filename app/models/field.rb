@@ -258,6 +258,8 @@ class Field
   end
 
   #TODO: Use CouchRest Model property defaults here instead
+  #TODO: Testing from console shows the property defaults aren't working for this Field model making these initialize setters necessary
+  #TODO: Dig deeper to determine why defaults are not working
   def initialize(properties={})
     self.visible = true if properties["visible"].nil?
     self.mobile_visible = true if properties["mobile_visible"].nil?
