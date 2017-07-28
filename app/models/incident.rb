@@ -111,7 +111,7 @@ class Incident < CouchRest::Model::Base
     {
       'boolean' => ['record_state'],
       'string' => ['status', 'owned_by'],
-      'multistring' => ['associated_user_names'],
+      'multistring' => ['associated_user_names', 'owned_by_groups'],
       'date' => ['incident_date_derived']
     }
   end

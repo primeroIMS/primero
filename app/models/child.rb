@@ -226,12 +226,12 @@ class Child < CouchRest::Model::Base
   #TODO - does this need the reporting_location_config field key
   def self.minimum_reportable_fields
     {
-        'boolean' => ['record_state'],
-         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by'],
-    'multistring' => ['associated_user_names'],
-           'date' => ['registration_date'],
-        'integer' => ['age'],
-       'location' => ['owned_by_location', 'location_current']
+          'boolean' => ['record_state'],
+           'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by'],
+      'multistring' => ['associated_user_names', 'owned_by_groups'],
+             'date' => ['registration_date'],
+          'integer' => ['age'],
+         'location' => ['owned_by_location', 'location_current']
     }
   end
 
