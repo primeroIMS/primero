@@ -15,7 +15,7 @@
           <div class="translation">
             <% if @show_add_field.present? %>
               <div class="medium-9 medium-offset-3 columns">
-                <%= render 'shared/locale_select', :locals => {:current_locale => given_locale} %>
+                <%= render 'shared/locale_select', current_locale: given_locale %>
               </div>
             <% end %>
           </div>
