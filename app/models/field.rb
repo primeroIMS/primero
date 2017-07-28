@@ -273,7 +273,7 @@ class Field
     self.create_property ||= true
     self.hide_on_view_page ||= false
     self.attributes = properties
-    self.base_language = self.form.base_language if self.form.present?
+    self.base_language = FormSection::DEFAULT_BASE_LANGUAGE
   end
 
   def attributes= properties
