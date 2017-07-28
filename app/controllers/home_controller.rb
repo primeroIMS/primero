@@ -180,6 +180,9 @@ class HomeController < ApplicationController
 
     @aggregated_case_manager_stats[:approval_types] = queries[:approval_type]
 
+    @aggregated_case_manager_stats[:transfer_awaiting] = queries[:transfer_awaiting]
+    @aggregated_case_manager_stats[:transfer_status] = queries[:transfer_status]
+
     # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
     #      .group_by{|g| g[:flagged_by]}
     #      .each do |g, fz|
@@ -360,6 +363,30 @@ class HomeController < ApplicationController
         end
       end
 
+      if query[:transfer_status].present?
+        referred = with(:assigned_user_names, current_user.user_name)
+
+        facet(:transfer_status, zeros: true, exclude: [referred]) do
+          row(:pending) do
+            with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
+            with(:owned_by, current_user.user_name)
+          end
+          row(:rejected) do
+            with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_REJECTED)
+            with(:owned_by, current_user.user_name)
+          end
+        end
+      end
+
+      if query[:transfer_awaiting].present?
+        facet(:in_progress_transfers, zeros: true) do
+          row(:in_progress) do
+            with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
+            with(:transferred_to_users, current_user.user_name)
+          end
+        end
+      end
+
       facet(:transfer_status, zeros: true) if query[:transferred].present?
 
       paginate page: 1, per_page: 0
@@ -386,7 +413,9 @@ class HomeController < ApplicationController
       transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: Record::STATUS_OPEN}),
       case_by_workflow: manager_case_query({ by_workflow: true, status: Record::STATUS_OPEN}),
       cases_to_assign: manager_case_query({ cases_to_assign: true, assigned: true }),
-      cases_to_assign_overdue: manager_case_query({ cases_to_assign: true, assigned: true, overdue: true })
+      cases_to_assign_overdue: manager_case_query({ cases_to_assign: true, assigned: true, overdue: true }),
+      transfer_status: manager_case_query({ transfer_status: true }),
+      transfer_awaiting: manager_case_query({ transfer_awaiting: true })
     }
 
     build_manager_stats(queries)

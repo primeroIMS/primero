@@ -44,6 +44,19 @@
         margin-right: 25px;
       }
     }
+
+    .record_agency_code{
+      font-size: 1.2rem;
+      margin-top: 5px;
+      @if $global-text-direction == rtl {
+        margin-left: 25px;
+        text-align: left;
+      }
+      @else {
+        margin-right: 25px;
+        text-align: right;
+      }
+    }
   }
 
   .menu {

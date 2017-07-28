@@ -53,6 +53,9 @@ class Incident < CouchRest::Model::Base
   property :incident_id
   property :incidentid_ir
   property :description
+  property :date_of_first_report, Date, default: DateTime.current.to_date
+
+  validate :validate_date_of_first_report
 
   def initialize *args
     self['histories'] = []
@@ -170,7 +173,7 @@ class Incident < CouchRest::Model::Base
     {
       'boolean' => ['record_state'],
       'string' => ['status', 'owned_by'],
-      'multistring' => ['associated_user_names'],
+      'multistring' => ['associated_user_names', 'owned_by_groups'],
       'date' => ['incident_date_derived']
     }
   end
@@ -203,6 +206,7 @@ class Incident < CouchRest::Model::Base
 
   def create_class_specific_fields(fields)
     self['description'] = fields['description'] || self.description || ''
+    self.date_of_first_report ||= DateTime.current.to_date
   end
 
   def incident_code
@@ -350,6 +354,20 @@ class Incident < CouchRest::Model::Base
       ids = self.individual_details_subform_section.map(&:id_number).compact
     end
     return ids
+  end
+
+  def validate_date_of_first_report
+    if date_of_first_report.blank? || !date_of_first_report.is_a?(Date)
+      errors.add(:date_of_first_report, I18n.t("messages.enter_valid_date"))
+      error_with_section(:date_of_first_report, I18n.t("messages.enter_valid_date"))
+      false
+    elsif date_of_first_report > Date.today
+      errors.add(:date_of_first_report, I18n.t("fields.future_date_not_valid"))
+      error_with_section(:date_of_first_report, I18n.t("fields.future_date_not_valid"))
+      false
+    else
+      true
+    end
   end
 
   def set_violation_verification_default

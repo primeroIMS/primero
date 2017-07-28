@@ -214,7 +214,7 @@ class Child < CouchRest::Model::Base
     {
         'boolean' => ['record_state'],
          'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'risk_level'],
-    'multistring' => ['associated_user_names'],
+    'multistring' => ['associated_user_names', 'owned_by_groups'],
            'date' => ['registration_date'],
         'integer' => ['age'],
        'location' => ['owned_by_location', 'location_current']
@@ -336,6 +336,7 @@ class Child < CouchRest::Model::Base
   end
 
   def create_class_specific_fields(fields)
+    #TODO - handle timezone adjustment  (See incident.date_of_first_report)
     self.registration_date ||= Date.today
   end
 
