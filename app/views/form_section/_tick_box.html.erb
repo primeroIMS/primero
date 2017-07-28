@@ -20,7 +20,7 @@
 
   <div class="medium-8 columns">
     <% if tick_box.required %><span class="required form-section-required">*</span><% end %>
-    <%= check_box_tag name, "true", value == true, :disabled => disabled, :is_disabled => is_disabled, :id => field_id, :editable => tick_box.editable, :class => "tick_box", required: tick_box.required %>
+    <%= check_box_tag name, "true", value == true, :disabled => disabled, :is_disabled => is_disabled, :id => field_id, :editable => tick_box.editable, :class => "tick_box", required: tick_box.required, :"data-abide-ignore" => tick_box.required ? nil : "" %>
     <%= label_tag field_id, label, class: "tick_box_label" if label.present? %>
     <%= hidden_field_tag name, "false", :id => "#{field_id}_", :disabled => disabled, :is_disabled => is_disabled %>
     <% if tick_box.help_text %><p class="help"><%= tick_box.help_text %></p><% end %>

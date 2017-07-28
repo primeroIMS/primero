@@ -26,12 +26,12 @@
       <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value), 'multiple' => '',
           'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.chosen_placeholder"), 'id' => field_id,
           :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value},
-          required: select_box.required, :disabled => disable, :is_disabled => is_disabled  %>
+          required: select_box.required, :disabled => disable, :is_disabled => is_disabled, :"data-abide-ignore" => select_box.required ? nil : ""  %>
     <% elsif select_box.searchable_select %>
       <%= select_tag name, options_for_select(select_options(select_box, formObject, @lookups), value),
           'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}", 'data-placeholder' => t("fields.select_box_empty_item"), :id => field_id,
           :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value},
-          required: select_box.required, :disabled => disable, :is_disabled => is_disabled  %>
+          required: select_box.required, :disabled => disable, :is_disabled => is_disabled, :"data-abide-ignore" => select_box.required ? nil : ""  %>
     <% else %>
       <%
         #TODO: We should combine single and multi selects and simplify this code
@@ -49,7 +49,7 @@
       <%= select_tag name, options_for_select(select_box_select_options, value), :id => field_id,
           'class' => "chosen-select #{'chosen-rtl' if @page_direction == 'rtl'}",
           :data => { :field_tags => field_tags, :populate => option_string_source_data_attr(select_box.option_strings_source), value: value},
-          :disabled => disable, :required => select_box.required, :is_disabled => is_disabled  %>
+          :disabled => disable, :required => select_box.required, :is_disabled => is_disabled, :"data-abide-ignore" => select_box.required ? nil : ""  %>
     <% end %>
     <% if select_box.guiding_questions.present? %>
       <%= render 'form_section/guiding_questions', guiding_questions_text: select_box.guiding_questions %>
