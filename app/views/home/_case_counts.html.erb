@@ -3,7 +3,7 @@
   <h4 class="stat_heading"><%= t("dashboard.case_stats") %></h4>
   <div class="row align-middle large-up-5">
     <%= render 'case_count_new_totals', stats: @stats, model: model %>
-    <%= render 'case_count_transfers_awaiting.html', stats: @stats, model: model %>
+    <%= render 'case_count_transfers_awaiting', stats: @stats, model: model %>
     <%= render 'case_count_new_incident', stats: @stats, model: model %>
     <%= render 'case_count_services_implemented', stats: @stats, model: model %>
     <%= render 'case_count_referred', stats: @stats, model: model if @display_assessment %>

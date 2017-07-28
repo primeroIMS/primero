@@ -3,6 +3,8 @@
   <% if @stats.present? %>
     <div class="row align-middle large-up-5">
       <%= render 'case_manager_totals', stats: @aggregated_case_manager_stats[:manager_totals], model: model %>
+      <%= render 'case_count_transfers_awaiting', stats: @aggregated_case_manager_stats[:transfer_awaiting], model: model %>
+      <%= render 'case_count_transfers_by_status', stats: @aggregated_case_manager_stats[:transfer_status], model: model %>
     </div>
 
     <% if @display_cases_to_assign %>
