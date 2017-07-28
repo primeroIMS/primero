@@ -31,11 +31,29 @@ execute 'change solr owner' do
   only_if { ::File.exists?(node[:primero][:solr_data_dir])}
 end
 
+solr_worker_file = "#{node[:primero][:app_dir]}/solr.sh"
+solr_memory = node[:primero][:solr_memory]
+memory_param = solr_memory ? "-Xmx#{solr_memory}" : ""
+
+file solr_worker_file do
+  mode '0755'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  content <<-EOH
+#!/bin/bash
+#Launch the Solr worker
+source #{::File.join(node[:primero][:home_dir],'.rvm','scripts','rvm')}
+RAILS_ENV=#{node[:primero][:rails_env]} java #{memory_param} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar
+EOH
+end
+
 supervisor_service 'solr' do
-  command "java -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar"
+  command solr_worker_file
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
+  stopasgroup true
+  killasgroup true
 
   redirect_stderr true
   stdout_logfile ::File.join(log_base_dir, 'output.log')
@@ -60,4 +78,3 @@ file "/etc/cron.daily/solr_restart" do
 supervisorctl restart solr
 EOH
 end
-

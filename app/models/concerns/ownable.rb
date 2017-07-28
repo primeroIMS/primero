@@ -9,6 +9,7 @@ module Ownable
     property :owned_by, String
     property :owned_by_full_name, String
     property :owned_by_agency, String
+    property :owned_by_groups, [String]
     property :owned_by_location, String
 
     #TODO - this field is deprecated
@@ -80,6 +81,7 @@ module Ownable
 
     if (self.changes['owned_by'].present? || self.new?) && self.owned_by.present?
       self.owned_by_agency = self.owner.organization
+      self.owned_by_groups = self.owner.user_group_ids
       self.owned_by_location = self.owner.location
       self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
       self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location

@@ -1245,6 +1245,7 @@ en:
       graph: "Graph"
     actions:
       delete: "Delete"
+    limited_pivots: "Select only one date field to pivot on for this report. A date field may only be the first or the second pivot."
     messages:
       confirmation: "Are you sure you want to delete this report? Deletion can not be undone. Click OK To Delete Report."
 
