@@ -1,6 +1,6 @@
-<% form_date.present? ? DateTime.parse(form_date).strftime("%d-%b-%Y") : '' %>
+<% date = defined?(form_date) && (form_date != '') ? DateTime.parse(form_date).strftime("%d-%b-%Y") : '' %>
 <div class="flash header_message row">
   <p class="notice large-12">
-    <%= t("messages.#{alert_type}_alert", :form_name => display_alert, :form_date => form_date) %>
+    <%= t("messages.#{alert_type}_alert", :form_name => display_alert, :form_date => date) %>
   </p>
 </div>

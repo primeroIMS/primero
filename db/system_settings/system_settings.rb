@@ -29,5 +29,18 @@ create_or_update_system_setting(
     "cp_bia_form" => "bia",
     "services" => "case_plan",
     "closure_form" => "closure"
+  },
+  :changes_field_to_form => {
+    "service_provider_details_medical_subform_section" => "service_provider_details_medical",
+    "service_provider_details_psychiatric_subform_section" => "service_provider_details_psychiatric",
+    "service_provider_details_psycho_social_subform_section" => "service_provider_details_psycho_social",
+    "service_provider_details_social_services_subform_section" => "service_provider_details_social_services",
+    "service_provider_details_judicial_subform_section" => "service_provider_details_judicial",
+    "service_provider_details_forensic_subform_section" => "service_provider_details_forensic",
+    "service_provider_details_legal_subform_section" => "service_provider_details_legal",
+    "service_provider_details_administrative_subform_section" => "service_provider_details_administrative",
+    "service_provider_details_educational_subform_section" => "service_provider_details_educational",
+    "service_provider_details_economic_empowerment_subform_section" => "service_provider_details_economic_empowerment",
+    "service_provider_details_other_subform_section" => "service_provider_details_other"
   }
 )

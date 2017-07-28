@@ -214,7 +214,7 @@ class Child < CouchRest::Model::Base
 
       changed_fields = self.changed.reject{|x| ignored_root_properties.include? x}
       changed_fields.each do |field|
-        add_field_alert(self.last_updated_by, field)
+        add_field_alert(self.last_updated_by, @system_settings, field)
       end
     end
   end

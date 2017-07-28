@@ -57,7 +57,9 @@ describe SystemSettingsController do
                          "primary_age_range" => "primero",
                          "location_limit_for_api"=>150,
                          "approval_forms_to_alert"=>nil,
-                         "_id" => @system_settings.id, "_rev" => @system_settings.rev,
+                         "_id" => @system_settings.id,
+                         "changes_field_to_form"=>nil,
+                         "_rev" => @system_settings.rev,
                          "couchrest-type" => "SystemSettings"}
       }
       get :index, string_sources: ['Location'], format: :json

@@ -62,9 +62,8 @@ module FormSectionHelper
   def build_form_name(form)
     form_name = form.name
     if show_alerts? && @child.present? && @child.alerts != nil
-      fields = form.fields.map {|field| field.name}
       #TODO: currently filtering for service provider details form field changes only
-      has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].include?('service_provider_details_') && fields.include?(alert[TYPE]) && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+      has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].include?('service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
 
       if @child.alerts.any? {|u| u[FORM_SIDEBAR_ID] == form.unique_id} || has_service_field_alert
         form_name = raw(form_name + ALERT_PREFIX)
@@ -78,9 +77,8 @@ module FormSectionHelper
     alert = ''
     if show_alerts? && @child.present? && @child.alerts != nil
       forms.each do |form|
-        fields = form.fields.map {|field| field.name}
         #TODO: currently filtering for service provider details form field changes only
-        has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].include?('service_provider_details_') && fields.include?(alert[TYPE]) && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+        has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].include?('service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
         if @child.alerts.any? {|u| u[FORM_SIDEBAR_ID] == form.unique_id} || has_service_field_alert
           alert = ALERT_PREFIX
         end
@@ -146,9 +144,8 @@ module FormSectionHelper
   def display_field_change_alert?(section, formObject)
     display_alert = nil
     if show_alerts? && formObject.alerts.present?
-      field_names = section.fields.map {|field| field.name}
       #TODO: currently filtering for service provider details form field changes only
-      found_alerts = @child.alerts.select {|alert| alert[TYPE].include?('service_provider_details_') && field_names.include?(alert[TYPE]) && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+      found_alerts = @child.alerts.select {|alert| alert[TYPE].include?('service_provider_details_') && section.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
       if found_alerts.count > 0
         found_alert = found_alerts.max_by(&:date)
         display_alert = {

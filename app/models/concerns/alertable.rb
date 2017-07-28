@@ -67,18 +67,21 @@ module Alertable
     self.alerts.delete_if{|a| a[:type] == approval_type}
   end
 
-  def add_field_alert(current_user_name, type = nil)
+  def add_field_alert(current_user_name, system_settings, type = nil)
     if current_user_name != self.owned_by && self.alerts != nil
-      found_alert = false
-      self.alerts.each {|a|
-        if a.type == type
-          a.date = DateTime.now.strftime("%Y-%m-%d")
-          found_alert = true
+      system_settings ||= SystemSettings.current
+      if system_settings.present? && system_settings.changes_field_to_form.present? && system_settings.changes_field_to_form.has_key?(type)
+        found_alert = false
+        self.alerts.each {|a|
+          if a.type == system_settings.changes_field_to_form[type]
+            a.date = DateTime.now.strftime("%Y-%m-%d")
+            found_alert = true
+          end
+        }
+        if !found_alert
+          alert = Alert.new(type: system_settings.changes_field_to_form[type], date: DateTime.now.strftime("%Y-%m-%d"), form_sidebar_id: system_settings.changes_field_to_form[type], alert_for: FIELD_CHANGE)
+          self.alerts << alert
         end
-      }
-      if !found_alert
-        alert = Alert.new(type: type, date: DateTime.now.strftime("%Y-%m-%d"), form_sidebar_id: type, alert_for: FIELD_CHANGE)
-        self.alerts << alert
       end
     end
   end
