@@ -56,7 +56,8 @@ gbv_incident_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "date_field",
-             "display_name_all" => "Date of Interview"
+             "display_name_all" => "Date of Interview",
+             "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "incident_date",
              "show_on_minify_form" => true,

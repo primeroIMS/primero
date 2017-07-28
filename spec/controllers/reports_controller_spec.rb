@@ -87,7 +87,8 @@ describe ReportsController do
       )
 
       @owner = create :user, module_ids: [@primero_module.id], user_name: 'bobby', role_ids: [admin_role.id],
-                      organization: 'agency-xyz000', location: @town1.location_code
+                      user_group_ids: ['Test2'], organization: 'agency-xyz000', location: @town1.location_code
+
       @owner.stub(:roles).and_return([admin_role])
 
       @owner2 = create :user, module_ids: [@primero_module.id], user_name: 'fred', role_ids: [role.id],
