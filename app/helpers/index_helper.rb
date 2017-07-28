@@ -389,8 +389,10 @@ module IndexHelper
   end
 
   def translate_location_type(location_types, type)
-    selected_type = location_types.select{|lt| lt['id'] == type}.first
-    selected_type.present? ? selected_type['display_text'] : ''
+    if location_types.present? && type.present?
+      selected_type = location_types.select{|lt| lt['id'] == type}.first
+      selected_type.present? ? selected_type['display_text'] : ''
+    end
   end
 
   def allowed_to_export(exporters)
