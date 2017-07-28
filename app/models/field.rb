@@ -258,6 +258,8 @@ class Field
   end
 
   #TODO: Use CouchRest Model property defaults here instead
+  #TODO: Testing from console shows the property defaults aren't working for this Field model making these initialize setters necessary
+  #TODO: Dig deeper to determine why defaults are not working
   def initialize(properties={})
     self.visible = true if properties["visible"].nil?
     self.mobile_visible = true if properties["mobile_visible"].nil?
@@ -273,7 +275,7 @@ class Field
     self.create_property ||= true
     self.hide_on_view_page ||= false
     self.attributes = properties
-    self.base_language = self.form.base_language if self.form.present?
+    self.base_language = FormSection::DEFAULT_BASE_LANGUAGE
   end
 
   def attributes= properties
