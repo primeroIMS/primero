@@ -187,7 +187,7 @@ describe RolesController do
   describe "DELETE" do
     it "should allow a valid user to delete a role" do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
-      role = build :role
+      role = build :role, :permissions_list => []
       role.should_receive(:destroy).and_return(true)
       Role.should_receive(:get).with("test-role").and_return(role)
       delete :destroy, id: "test-role"

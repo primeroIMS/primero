@@ -440,6 +440,14 @@ class User < CouchRest::Model::Base
     self.group_permissions.include?(Permission::ALL)
   end
 
+  def is_super_user?
+    (self.roles.any?{|r| r.is_super_user_role?} && self.is_admin?)
+  end
+
+  def is_user_admin?
+    (self.roles.any?{|r| r.is_user_admin_role?} && self.group_permissions.include?(Permission::ADMIN_ONLY))
+end
+
   private
 
   def save_devices

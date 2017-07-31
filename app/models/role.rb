@@ -95,5 +95,32 @@ class Role < CouchRest::Model::Base
     self.permissions_list.select{|p| p.resource == 'role'}.map{|p| p[:role_ids]}.flatten if permissions_list.present?
   end
 
+
+  def is_super_user_role?
+    superuser_resources = [
+      Permission::CASE, Permission::INCIDENT, Permission::REPORT,
+      Permission::ROLE, Permission::USER, Permission::USER_GROUP,
+      Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
+    ]
+    has_managed_resources?(superuser_resources)
+  end
+
+  def is_user_admin_role?
+    admin_only_resources = [
+      Permission::ROLE, Permission::USER, Permission::USER_GROUP,
+      Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
+    ]
+    has_managed_resources?(admin_only_resources)
+  end
+
+  private
+
+  def has_managed_resources?(resources)
+    current_managed_resources = self.permissions_list
+      .select{|p| p.actions == [Permission::MANAGE]}
+      .map{|p| p.resource}
+    (resources - current_managed_resources).empty?
+  end
+
 end
 

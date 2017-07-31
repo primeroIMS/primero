@@ -43,9 +43,13 @@ class Ability
 
   def user_permissions actions
     can actions, User do |uzer|
-      if (user.has_group_permission?(Permission::ALL) || user.has_group_permission?(Permission::ADMIN_ONLY))
+      if (user.is_super_user?)
         true
-      elsif user.has_group_permission?(Permission::GROUP)
+      elsif (uzer.is_super_user?)
+        false
+      elsif (user.is_user_admin?)
+        true
+      elsif user.has_group_permission?(Permission::GROUP) || user.has_group_permission?(Permission::ALL)
         (user.user_group_ids & uzer.user_group_ids).size > 0
       else
         uzer.user_name == user.user_name
@@ -68,9 +72,11 @@ class Ability
   def role_permissions permission
     actions = permission.action_symbols
     can actions, Role do |instance|
-      if [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
+      if instance.is_super_user_role?
+        false
+      elsif [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
         permission.role_ids.present? ? (permission.role_ids.include? instance.id) : true
-      elsif (user.role_ids.include?(instance._id) && !user.has_group_permission?(Permission::ALL))
+      elsif (user.role_ids.include?(instance.id) && !user.has_group_permission?(Permission::ALL))
         false
       else
         true
