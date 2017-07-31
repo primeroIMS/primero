@@ -1,5 +1,5 @@
-<% 
-given_locale = @form_section.base_language 
+<%
+given_locale = @form_section.base_language
 system_locale = I18n.locale
 %>
 <% content_for :record_sub_nav do %>
@@ -75,9 +75,7 @@ system_locale = I18n.locale
                       <%= f.label :form_group_name, t("form_section.form_group_name", :locale => system_locale), :class => 'key inline' %>
                     </div>
                     <div class="medium-9 columns">
-                      <%= f.select "form_group_name", options_for_select(@list_form_group_names, @form_section.form_group_name || ''), {},
-                                   required: "", 'data-placeholder' => t("fields.select_box_empty_item"),
-                                   class: "chosen-select-or-new", id: "form_section_form_group_name" %>
+                      <%= f.select "form_group_name", options_for_select(@list_form_group_names, @form_section.form_group_name || ''), {}, required: "", 'data-placeholder' => t("fields.select_box_empty_item"), class: "chosen-select-or-new #{'chosen-rtl' if @page_direction == 'rtl'}", id: "form_section_form_group_name" %>
                       <small class="form-error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => system_locale)) %></small>
                     </div>
                   </div>
