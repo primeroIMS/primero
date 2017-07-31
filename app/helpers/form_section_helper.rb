@@ -63,7 +63,7 @@ module FormSectionHelper
     form_name = form.name
     if show_alerts? && @child.present? && @child.alerts != nil
       #TODO: currently filtering for service provider details form field changes only
-      has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].include?('service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+      has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
 
       if @child.alerts.any? {|u| u[FORM_SIDEBAR_ID] == form.unique_id} || has_service_field_alert
         form_name = raw(form_name + ALERT_PREFIX)
@@ -78,7 +78,7 @@ module FormSectionHelper
     if show_alerts? && @child.present? && @child.alerts != nil
       forms.each do |form|
         #TODO: currently filtering for service provider details form field changes only
-        has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].include?('service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+        has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
         if @child.alerts.any? {|u| u[FORM_SIDEBAR_ID] == form.unique_id} || has_service_field_alert
           alert = ALERT_PREFIX
         end
