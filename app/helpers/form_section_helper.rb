@@ -145,7 +145,7 @@ module FormSectionHelper
     display_alert = nil
     if show_alerts? && formObject.alerts.present?
       #TODO: currently filtering for service provider details form field changes only
-      found_alerts = @child.alerts.select {|alert| alert[TYPE].include?('service_provider_details_') && section.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+      found_alerts = @child.alerts.select {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && section.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
       if found_alerts.count > 0
         found_alert = found_alerts.max_by(&:date)
         display_alert = {
