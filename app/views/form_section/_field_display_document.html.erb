@@ -12,7 +12,7 @@
       </div>
       <div class="row">
         <div class="medium-4 columns">
-          <label class="key">Is this the current document?</label>
+          <label class="key"><%= I18n.t("fields.document.current") %></label>
         </div>
         <div class="medium-8 columns">
           <% value = document["is_current"]
@@ -23,7 +23,7 @@
       </div>
       <div class="row">
         <div class="medium-4 columns">
-          <label class="key">Document Name</label>
+          <label class="key"><%= I18n.t("fields.document.name") %></label>
         </div>
         <div class="medium-8 columns">
           <% value = document["document_description"] || "" %>
@@ -32,7 +32,7 @@
       </div>
       <div class="row">
         <div class="medium-4 columns">
-          <label class="key">Document Date</label>
+          <label class="key"><%= I18n.t("fields.document.date") %></label>
         </div>
         <div class="medium-8 columns">
           <% value = field_value_for_display document["date"] || "" %>
@@ -41,7 +41,7 @@
       </div>
       <div class="row">
         <div class="medium-4 columns">
-          <label class="key">Comments</label>
+          <label class="key"><%= I18n.t("fields.document.comments") %></label>
         </div>
         <div class="medium-8 columns">
           <% value = document["comments"] || "" %>

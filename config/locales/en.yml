@@ -1154,6 +1154,11 @@ en:
     upload_bia_document: "BIA Document"
     upload_bid_document: "BID Document"
     upload_other_document: "Other Document"
+    document:
+      comments: "Comments"
+      date: "Document Date"
+      name: "Document Name"
+      current: "Is this the current document?"
 
   replication:
     label: Replication
