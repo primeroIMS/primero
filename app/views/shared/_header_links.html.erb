@@ -4,13 +4,13 @@
       <%= t("header.logged_in_as") %> <%= current_user.user_name %>
     </li>
     <li>
-      <%= link_with_confirm t("header.logout"), logout_path, id: "logout" %>
+      <%= link_to t("header.logout"), logout_path, id: "logout" %>
     </li>
     <li>
-      <%= link_with_confirm t("header.my_account"), user_path(current_user.id) %>
+      <%= link_to t("header.my_account"), user_path(current_user.id) %>
     </li>
   <% end %>
   <li>
-    <%= link_with_confirm t("header.contact"), contact_information_path("administrator") %>
+    <%= link_to t("header.contact"), contact_information_path("administrator") %>
   </li>
 </ul>
