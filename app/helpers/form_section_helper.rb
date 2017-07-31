@@ -1,4 +1,5 @@
 module FormSectionHelper
+  include FieldsHelper
   ALERT_PREFIX = "<sup id='new_incident_details'>!</sup>"
   TYPE = 'type'
   ALERT_FOR = 'alert_for'
@@ -150,7 +151,7 @@ module FormSectionHelper
         found_alert = found_alerts.max_by(&:date)
         display_alert = {
           "name" => section["name_#{I18n.locale}"],
-          "date" => found_alert.date
+          "date" => field_format_date(Date.parse(found_alert.date))
         }.to_h
       end
     end
