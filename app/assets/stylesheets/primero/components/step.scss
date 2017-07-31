@@ -87,9 +87,14 @@
   box-shadow: none;
   border-radius: 0em;
   border: none;
-  border-right: 1px solid $stroke_green_color;
   -webkit-transition: background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
   transition: background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
+
+  @if $global-text-direction == rtl {
+    border-left: 1px solid $stroke_green_color;
+  } @else {
+    border-right: 1px solid $stroke_green_color;
+  }
 }
 
 /* Arrow */
@@ -99,33 +104,50 @@
   z-index: 2;
   content: '';
   top: 50%;
-  right: 0%;
   border: medium none;
   background-color: #FFFFFF;
   width: .8em;
   height: .8em;
   border-style: solid;
   border-color: $stroke_green_color;
-  border-width: 0px 1px 1px 0px;
   -webkit-transition: background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
   transition: background-color 0.1s ease, opacity 0.1s ease, color 0.1s ease, box-shadow 0.1s ease;
-  -webkit-transform: translateY(-50%) translateX(50%) rotate(-45deg);
-          transform: translateY(-50%) translateX(50%) rotate(-45deg);
+
+  @if $global-text-direction == rtl {
+    left: 0%;
+    border-width: 1px 0px 0px 1px;
+    -webkit-transform: translateY(-50%) translateX(-55%) rotate(-45deg);
+          transform: translateY(-50%) translateX(-55%) rotate(-45deg);
+  } @else {
+    right: 0%;
+    border-width: 0px 1px 1px 0px;
+    -webkit-transform: translateY(-50%) translateX(55%) rotate(-45deg);
+          transform: translateY(-50%) translateX(55%) rotate(-45deg);
+  }
 }
 
 /* First Step */
 .ui.steps .step:first-child {
-  padding-left: 1em;
-  border-radius: 0.28571429rem 0em 0em 0.28571429rem;
+  @if $global-text-direction == rtl {
+    padding-right: 1em;
+    border-radius: 0em 0.28571429rem 0.28571429rem 0em;
+  } @else {
+    padding-left: 1em;
+    border-radius: 0.28571429rem 0em 0em 0.28571429rem;
+  }
 }
 
 /* Last Step */
 .ui.steps .step:last-child {
-  border-radius: 0em 0.28571429rem 0.28571429rem 0em;
-}
-.ui.steps .step:last-child {
-  border-right: none;
-  margin-right: 0em;
+  @if $global-text-direction == rtl {
+    border-left: none;
+    margin-left: 0em;
+    border-radius: 0.28571429rem 0em 0em 0.28571429rem;
+  } @else {
+    border-right: none;
+    margin-right: 0em;
+    border-radius: 0em 0.28571429rem 0.28571429rem 0em;
+  }
 }
 
 /* Only Step */
