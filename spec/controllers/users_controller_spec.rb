@@ -408,8 +408,8 @@ describe UsersController do
     end
 
     it "should allow editing a non-self user for user having edit permission" do
-      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
-      mock_user = stub_model(User, :full_name => "Test Name", :user_name => 'fakeuser')
+      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL, ['test_group'])
+      mock_user = stub_model(User, :full_name => "Test Name", :user_name => 'fakeuser', user_group_ids: ['test_group'])
       User.stub(:get).with("24").and_return(mock_user)
       get :edit, :id => "24"
       response.status.should_not == 403
@@ -440,8 +440,8 @@ describe UsersController do
     end
 
     it "should allow user deletion for relevant user role" do
-      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
-      mock_user = stub_model User
+      fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL, ['test_group'])
+      mock_user = stub_model User, user_group_ids: ['test_group']
       User.should_receive(:get).with("37").and_return(mock_user)
       mock_user.should_receive(:destroy).and_return(true)
       delete :destroy, :id => "37"
@@ -473,8 +473,8 @@ describe UsersController do
       end
 
       it "should allow to edit disable fields for disable users" do
-        fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
-        user = stub_model User, :user_name => 'some name'
+        fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL, ['test_group'])
+        user = stub_model User, :user_name => 'some name', user_group_ids: ['test_group']
         params = { :id => '24', :user => { :disabled => true } }
         User.stub :get => user
         User.stub(:find_by_user_name).with(user.user_name).and_return(user)

@@ -64,10 +64,10 @@ module FakeLogin
     fake_login user
   end
 
-  def fake_login_as(resource = nil, actions = [], group_permission = Permission::SELF)
+  def fake_login_as(resource = nil, actions = [], group_permission = Permission::SELF, user_group_ids = [])
     permission_list = (resource.blank? || actions.blank?) ? Permission.all_permissions_list :
                                                             [Permission.new(resource: resource, actions: actions)]
-    user = User.new(:user_name => 'fakelimited')
+    user = User.new(:user_name => 'fakelimited', :user_group_ids => user_group_ids)
     user.stub(:roles).and_return([Role.new(permissions_list: permission_list, group_permission: group_permission)])
     fake_login user
   end
