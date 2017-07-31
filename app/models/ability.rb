@@ -49,6 +49,8 @@ class Ability
         false
       elsif (user.is_user_admin?)
         true
+      elsif (uzer.is_user_admin?)
+        false
       elsif user.has_group_permission?(Permission::GROUP) || user.has_group_permission?(Permission::ALL)
         (user.user_group_ids & uzer.user_group_ids).size > 0
       else
@@ -73,6 +75,8 @@ class Ability
     actions = permission.action_symbols
     can actions, Role do |instance|
       if instance.is_super_user_role?
+        false
+      elsif instance.is_user_admin_role? && !user.is_super_user?
         false
       elsif [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
         permission.role_ids.present? ? (permission.role_ids.include? instance.id) : true
