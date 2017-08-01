@@ -153,7 +153,85 @@ describe Ability do
   describe "Roles" do
     before :each do
       @permission_role_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ])
-      @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+      @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN])
+    end
+
+    context "super user" do
+      before :each do
+        super_user_permissions_to_manage = [
+          Permission::CASE, Permission::INCIDENT, Permission::REPORT,
+          Permission::ROLE, Permission::USER, Permission::USER_GROUP,
+          Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
+        ]
+        @permissions_super_user_list = super_user_permissions_to_manage.map{|p| Permission.new(resource: p, actions: [Permission::MANAGE])}
+        user_admin_permissions_to_manage = [
+          Permission::ROLE, Permission::USER, Permission::USER_GROUP,
+          Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
+        ]
+        @permissions_user_admin_list = user_admin_permissions_to_manage.map{|p| Permission.new(resource: p, actions: [Permission::MANAGE])}
+        @super_role = create :role, name: "super_user_role", permissions_list: @permissions_super_user_list, group_permission: Permission::ALL
+      end
+
+      it "doesn't allow a user with super user status to edit another super user role" do
+        super_role2 = create :role, name: "super_user_role2", permissions_list: @permissions_super_user_list, group_permission: Permission::ALL
+        @user1.role_ids = [@super_role.id]
+        @user1.save
+
+        ability = Ability.new @user1
+
+        expect(@user1.is_super_user?).to be_true
+        expect(super_role2.is_super_user_role?).to be_true
+        expect(ability).not_to authorize(:write, super_role2)
+      end
+
+      # TODO-permission: uncomment when this fucntionality is implemented in ability.rb
+      xit "allow a user with super user status to assign its own role or another super user role" do
+        super_role2 = create :role, name: "super_user_role2", permissions_list: @permissions_super_user_list, group_permission: Permission::ALL
+        @user1.role_ids = [@super_role.id]
+        @user1.save
+
+        ability = Ability.new @user1
+
+        expect(@user1.is_super_user?).to be_true
+        expect(super_role2.is_super_user_role?).to be_true
+        expect(ability).to authorize(:assign, @super_role)
+        expect(ability).to authorize(:assign, super_role2)
+      end
+
+      it "doesn't allow a user with super user status to edit its own role" do
+        @user1.role_ids = [@super_role.id]
+        @user1.save
+
+        ability = Ability.new @user1
+
+        expect(@user1.is_super_user?).to be_true
+        expect(ability).not_to authorize(:write, @super_role)
+      end
+
+      it "doesn't allow a user to edit or assign a super user role" do
+        user_admin_role = create :role, name: "user_admin_role", permissions_list: @permissions_user_admin_list, group_permission: Permission::ADMIN_ONLY
+        user_role = create :role, name: "user_role", permissions_list: [@permission_role_read_write], group_permission: Permission::ALL
+
+        @user1.role_ids = [user_admin_role.id]
+        @user1.save
+        @user2.role_ids = [user_role.id]
+        @user2.save
+
+        ability1 = Ability.new @user1
+        ability2 = Ability.new @user2
+
+        expect(@user1.is_super_user?).to be_false
+        expect(@user2.is_super_user?).to be_false
+        expect(@super_role.is_super_user_role?).to be_true
+        expect(ability1).not_to authorize(:write, @super_role)
+        expect(ability1).not_to authorize(:assign, @super_role)
+        expect(ability2).not_to authorize(:write, @super_role)
+        expect(ability2).not_to authorize(:assign, @super_role)
+      end
+
+      after :each do
+        Role.all.each &:destroy
+      end
     end
 
     it "allows a user with read permissions to read but not edit roles" do
@@ -457,21 +535,30 @@ describe Ability do
       expect(ability).to_not authorize(:write, @user2)
     end
 
-    it "allows a user with group scope to only edit another user in that group" do
-      role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::GROUP
-      @user1.role_ids = [role.id]
+    it "allows a user with group scope to only edit another user in that group if the user is specified in the permissions role_ids" do
+      role2 = create :role, permissions_list: [@permission_user_read], group_permission: Permission::GROUP
+      @permission_user_read_write_group = Permission.new(
+                                            resource: Permission::USER,
+                                            actions: [Permission::READ, Permission::WRITE, Permission::CREATE],
+                                            role_ids: [role2.id]
+                                          )
+      role1 = create :role, permissions_list: [@permission_user_read_write_group], group_permission: Permission::GROUP
+      @user1.role_ids = [role1.id]
       @user1.user_group_ids = ['test_group']
       @user1.save
-      @user2.user_group_ids = ['test_group']
-      @user2.save
-      user3 = create :user, user_group_ids: ['other_test_group']
+      user2 = create :user, user_group_ids: ['test_group'], role_ids: [role2.id]
+      user3 = create :user, user_group_ids: ['test_group']
+      user4 = create :user, user_group_ids: ['other_test_group'], role_ids: [role2.id]
 
       ability = Ability.new @user1
 
-      expect(ability).to authorize(:read, @user2)
-      expect(ability).to authorize(:write, @user2)
-      expect(ability).to_not authorize(:read, user3)
-      expect(ability).to_not authorize(:write, user3)
+      expect(ability).to authorize(:read, user2)
+      expect(ability).to authorize(:write, user2)
+      # TODO-permission: Uncomment when user editing based on role ids is implmented
+      # expect(ability).to_not authorize(:read, user3)
+      # expect(ability).to_not authorize(:write, user3)
+      expect(ability).to_not authorize(:read, user4)
+      expect(ability).to_not authorize(:write, user4)
     end
 
     it "does not allow viewing and editing of Roles if the 'user' permission is set along with 'read' and 'write'" do
