@@ -50,7 +50,7 @@ module RecordActions
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
-    @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_reg_ex)
+    @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter)
     module_users(module_ids) if module_ids.present?
     # Alias @records to the record-specific name since ERB templates use that
     # right now
@@ -268,12 +268,13 @@ module RecordActions
       @admin_level ||= @system_settings.reporting_location_config.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       @reporting_location ||= @system_settings.reporting_location_config.field_key || ReportingLocation::DEFAULT_FIELD_KEY
       @reporting_location_label ||= @system_settings.reporting_location_config.label_key || ReportingLocation::DEFAULT_LABEL_KEY
-      @reporting_location_reg_ex ||= @system_settings.reporting_location_config.reg_ex_filter || nil
+      #NOTE: @system_settings.reporting_location_config.reg_ex_filter is deprecated
+      @reporting_location_hierarchy_filter ||= @system_settings.reporting_location_config.hierarchy_filter || nil
     else
       @admin_level ||= ReportingLocation::DEFAULT_ADMIN_LEVEL
       @reporting_location ||= ReportingLocation::DEFAULT_FIELD_KEY
       @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
-      @reporting_location_reg_ex ||= nil
+      @reporting_location_hierarchy_filter ||= nil
     end
   end
 

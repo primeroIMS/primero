@@ -5,6 +5,7 @@ class ReportingLocation
   property :label_key
   property :admin_level, Integer, :default => 0
   property :reg_ex_filter
+  property :hierarchy_filter, [], :default => []
 
   before_save :set_default_label_key
   validate :validate_admin_level
