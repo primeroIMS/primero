@@ -6,6 +6,13 @@ module Alertable
   NEW_FORM = 'new_form'
   APPROVAL = 'approval'
   FIELD_CHANGE = 'field_change'
+  IGNORED_ROOT_PROPERTIES = %w{
+    _force_save
+    last_updated_at
+    last_updated_by
+    last_updated_by_full_name
+    histories
+  }
 
   included do
     property :alerts, [Alert], :default => []
@@ -15,6 +22,7 @@ module Alertable
     end
 
     before_save :remove_alert_on_save
+    before_save :add_form_change_alert
   end
 
   def remove_alert_on_save
@@ -67,22 +75,36 @@ module Alertable
     self.alerts.delete_if{|a| a[:type] == approval_type}
   end
 
+  def append_alert(form)
+    Alert.new(type: form, date: DateTime.now.strftime("%Y-%m-%d"), form_sidebar_id: form, alert_for: FIELD_CHANGE)
+  end
+
   def add_field_alert(current_user_name, system_settings, type = nil)
-    #TODO: This can be optimized. Currently this is called for each field
-    if current_user_name != self.owned_by && self.alerts != nil
+    found_alert = false
+    found_forms = system_settings.changes_field_to_form[type]
+    found_forms_is_array = found_forms.kind_of?(Array)
+    found_alert = self.alerts.find {|alert| found_forms_is_array && found_forms.include?(alert.type) || alert.type == found_forms}
+
+    if found_alert.present?
+      found_alert.date = DateTime.now.strftime("%Y-%m-%d")
+    else
+      if found_forms_is_array
+        self.alerts += found_forms.map {|form| self.append_alert(form)}
+      else
+        self.alerts << self.append_alert(found_forms)
+      end
+    end
+  end
+
+  def add_form_change_alert
+    if self.owned_by != self.last_updated_by && self.alerts != nil
+      changed_fields = self.changed.reject{|x| IGNORED_ROOT_PROPERTIES.include? x}
       system_settings ||= SystemSettings.current
-      if system_settings.present? && system_settings.changes_field_to_form.present? && system_settings.changes_field_to_form.has_key?(type)
-        found_alert = false
-        self.alerts.each {|a|
-          if a.type == system_settings.changes_field_to_form[type]
-            a.date = DateTime.now.strftime("%Y-%m-%d")
-            found_alert = true
-          end
-        }
-        if !found_alert
-          alert = Alert.new(type: system_settings.changes_field_to_form[type], date: DateTime.now.strftime("%Y-%m-%d"), form_sidebar_id: system_settings.changes_field_to_form[type], alert_for: FIELD_CHANGE)
-          self.alerts << alert
-        end
+      changed_fields_in_map = changed_fields.select {|field|
+        system_settings.present? && system_settings.changes_field_to_form.present? && system_settings.changes_field_to_form.has_key?(field)
+      }
+      changed_fields_in_map.each do |field|
+        add_field_alert(self.last_updated_by, system_settings, field)
       end
     end
   end
