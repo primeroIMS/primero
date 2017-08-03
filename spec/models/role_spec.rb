@@ -124,4 +124,63 @@ describe Role do
       end
     end
   end
+
+  describe "is_super_user_role?" do
+    before do
+      super_user_permissions_to_manage = [
+        Permission::CASE, Permission::INCIDENT, Permission::REPORT,
+        Permission::ROLE, Permission::USER, Permission::USER_GROUP,
+        Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
+      ]
+      @permissions_super_user = super_user_permissions_to_manage.map{|p| Permission.new(resource: p, actions: [Permission::MANAGE])}
+      @permission_not_super_user = Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+    end
+
+    context 'depending on the permissions of a role' do
+      before do
+        @role_super_user = Role.new(name: "super_user_role", permissions_list: @permissions_super_user)
+        @role_not_super_user = Role.new(name: "not_super_user_role", permissions_list: [@permission_not_super_user])
+      end
+      context 'if the role manages all of the permissions of the super user' do
+        it "should return true for is_super_user_role?" do
+          expect(@role_super_user.is_super_user_role?).to be_true
+        end
+      end
+
+      context 'if the role does not manage all of the permissions of the super user' do
+        it "should return false for is_super_user_role?" do
+          expect(@role_not_super_user.is_super_user_role?).to be_false
+        end
+      end
+    end
+  end
+
+  describe "is_user_admin_role?" do
+    before do
+      user_admin_permissions_to_manage = [
+        Permission::ROLE, Permission::USER, Permission::USER_GROUP,
+        Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
+      ]
+      @permissions_user_admin = user_admin_permissions_to_manage.map{|p| Permission.new(resource: p, actions: [Permission::MANAGE])}
+      @permission_not_user_admin = Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+    end
+
+    context 'depending on the permissions of a role' do
+      before do
+        @role_user_admin = Role.new(name: "super_user_role", permissions_list: @permissions_user_admin)
+        @role_not_user_admin = Role.new(name: "not_super_user_role", permissions_list: [@permission_not_user_admin])
+      end
+      context 'if the role manages all of the permissions of the user admin' do
+        it "should return true for is_user_admin_role?" do
+          expect(@role_user_admin.is_user_admin_role?).to be_true
+        end
+      end
+
+      context 'if the role does not manage all of the permissions of the user admin' do
+        it "should return false for is_user_admin_role?" do
+          expect(@role_not_user_admin.is_user_admin_role?).to be_false
+        end
+      end
+    end
+  end
 end
