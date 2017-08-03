@@ -76,35 +76,42 @@ module Alertable
   end
 
   def append_alert(form)
-    Alert.new(type: form, date: DateTime.now.strftime("%Y-%m-%d"), form_sidebar_id: form, alert_for: FIELD_CHANGE)
+    Alert.new(type: form, date: Date.current.to_s, form_sidebar_id: form, alert_for: FIELD_CHANGE)
   end
 
-  def add_field_alert(current_user_name, system_settings, type = nil)
-    found_alert = false
-    found_forms = system_settings.changes_field_to_form[type]
-    found_forms_is_array = found_forms.kind_of?(Array)
-    found_alert = self.alerts.find {|alert| found_forms_is_array && found_forms.include?(alert.type) || alert.type == found_forms}
+  def append_one_or_more_alerts(is_array, found_forms, form)
+    if is_array
+      self.alerts += found_forms.map {|form| self.append_alert(form)}
+    elsif found_forms.try(:kind_of?, String)
+      self.alerts << self.append_alert(found_forms)
+    end
+  end
+
+  def add_field_alert(current_user_name, type = nil)
+    found_forms = @system_settings.try(:changes_field_to_form).try(:[], type)
+    found_forms_is_array = found_forms.try(:kind_of?, Array)
+    found_alert = self.alerts.find {|alert| (found_forms_is_array && found_forms.include?(alert.type)) || alert.type == found_forms}
 
     if found_alert.present?
-      found_alert.date = DateTime.now.strftime("%Y-%m-%d")
+      #If alert already exists, update the date
+      found_alert.date = Date.current.to_s
     else
-      if found_forms_is_array
-        self.alerts += found_forms.map {|form| self.append_alert(form)}
-      else
-        self.alerts << self.append_alert(found_forms)
-      end
+      self.append_one_or_more_alerts(found_forms_is_array, found_forms, form)
     end
   end
 
   def add_form_change_alert
     if self.owned_by != self.last_updated_by && self.alerts != nil
       changed_fields = self.changed.reject{|x| IGNORED_ROOT_PROPERTIES.include? x}
-      system_settings ||= SystemSettings.current
-      changed_fields_in_map = changed_fields.select {|field|
-        system_settings.present? && system_settings.changes_field_to_form.present? && system_settings.changes_field_to_form.has_key?(field)
-      }
-      changed_fields_in_map.each do |field|
-        add_field_alert(self.last_updated_by, system_settings, field)
+      @system_settings ||= SystemSettings.current
+      if @system_settings.present? && @system_settings.try(:changes_field_to_form)
+        changed_fields_in_map = changed_fields.select {|field|
+          @system_settings.changes_field_to_form.try(:has_key?, field)
+        }
+
+        changed_fields_in_map.each do |field|
+          add_field_alert(self.last_updated_by, field)
+        end
       end
     end
   end
