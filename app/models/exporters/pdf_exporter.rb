@@ -91,7 +91,7 @@ module Exporters
       end
 
       unless @form_sections.present?
-        @form_sections = form_sections_by_module(cases, current_user)
+        @form_sections = self.class.form_sections_by_module(cases, current_user)
       end
 
       cases.each do |cs|
@@ -126,14 +126,6 @@ module Exporters
       end
     end
 
-    def form_sections_by_module(cases, current_user)
-      cases.map(&:module).compact.uniq.inject({}) do |acc, mod|
-        acc.merge({mod.name => FormSection.get_permitted_form_sections(mod, 'case', current_user)
-                                     .select(&:visible)
-                                     .sort {|a, b| [a.order_form_group, a.order] <=> [b.order_form_group, b.order] } })
-      end
-    end
-
     def section_title(_case)
       _case.short_id
     end
@@ -141,7 +133,7 @@ module Exporters
     def render_case(pdf, _case, base_subforms, prop)
       #Only print the case if the case's module matches the selected module
       if prop.present?
-        base_subforms = base_subforms.select{|sf| prop.keys.include?(sf.name)}
+        base_subforms = base_subforms.select{|sf| prop.keys.include?(sf.unique_id)}
 
         render_title(pdf, _case)
 

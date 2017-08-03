@@ -63,6 +63,14 @@ module Exporters
         return filtered_props
       end
 
+      def form_sections_by_module(cases, current_user)
+        cases.map(&:module).compact.uniq.inject({}) do |acc, mod|
+          acc.merge({mod.name => FormSection.get_permitted_form_sections(mod, 'case', current_user)
+                                      .select(&:visible)
+                                      .sort {|a, b| [a.order_form_group, a.order] <=> [b.order_form_group, b.order] } })
+        end
+      end
+
       def properties_to_keys(props)
         #This flattens out the properties by modules by form,
         # while maintaining form order and discarding dupes
