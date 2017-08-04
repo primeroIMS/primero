@@ -239,3 +239,7 @@ supervisor_service 'who-watches-the-couch-watcher' do
 end
 
 include_recipe 'primero::nginx_app'
+
+execute 'Reload Passenger' do
+  command 'systemctl restart passenger'
+end

@@ -896,6 +896,7 @@ ar:
       photo_file_restrictions_message: "لا ينبغي أن تكون الصور أكبر من 10 ميجابايت. لا ينبغي أن تكون ملفات الصوت أكبر من 10 ميجابايت. كلما كانت الملفات أصغر كان ذلك أفضل."
       add_document_label: "إضافة مستند"
       add_photo_label: "إضافة صورة"
+      recorded_audio_label: "التسجيل الصوتي المسجل"
       add_new_document_button_text: "إضافة مستند آخر"
       add_new_photo_button_text: "إضافة صورة أخرى"
       document_description: "وصف المستند"

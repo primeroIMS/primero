@@ -127,11 +127,9 @@ module Importers
               name = column
               survey_hash[name] = {"label"=>{},"hint"=>{},"guidance"=>{}, "tick_box_label"=>{}}
             when "label"
-              column_entries = (column && column.split("::")) || []
-              survey_hash[name]["label"][column_type[1]] = column_entries[0]
-              if column_entries[1]
-                survey_hash[name]["tick_box_label"][column_type[1]] = column_entries[1]
-              end
+              survey_hash[name]["label"][column_type[1]] = column
+            when "tick_box_label"
+              survey_hash[name]["tick_box_label"][column_type[1]] = column
             when "hint"
               survey_hash[name]["hint"][column_type[1]] = column
             when "guidance"

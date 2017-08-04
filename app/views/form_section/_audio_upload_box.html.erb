@@ -1,6 +1,6 @@
 <div class="row">
   <div class="file medium-4 columns">
-    <%= label_tag "#{formObject.class.name.underscore.downcase}[audio]", "Recorded Audio", :class=>'key inline' %>
+    <%= label_tag "#{formObject.class.name.underscore.downcase}[audio]", I18n.t("fields.file_upload_box.recorded_audio_label"), :class=>'key inline' %>
   </div>
   <div class="medium-8 columns file_upload">
     <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[audio]", id: "#{formObject.class.name.underscore.downcase}_audio", help_text: ""%>

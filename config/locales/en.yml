@@ -1148,6 +1148,7 @@ en:
       photo_file_restrictions_message: "Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better."
       add_document_label: "Add Document"
       add_photo_label: "Add Photo"
+      recorded_audio_label: "Recorded Audio"
       add_new_document_button_text: "Add another document"
       add_new_photo_button_text: "Add another photo"
       document_description: "Document Description"
@@ -1159,6 +1160,8 @@ en:
       date: "Document Date"
       name: "Document Name"
       current: "Is this the current document?"
+    audio:
+      current: "Current Audio"
 
   replication:
     label: Replication

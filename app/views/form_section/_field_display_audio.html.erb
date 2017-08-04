@@ -5,7 +5,7 @@
         <hr>
         <div class="audio row">
             <div class="medium-12 columns">
-              <span class="profile-section-label"><strong><%= field ? field.display_name : 'Current Audio' %></strong></span>
+              <span class="profile-section-label"><strong><%= field ? field.display_name : I18n.t("fields.audio.current") %></strong></span>
               <%= link_to "Download", audio_url, {:id => "audio_link", class: 'right button'} %>
               <% if display_audio_delete_checkbox %>
               <div class="delete_check_box">

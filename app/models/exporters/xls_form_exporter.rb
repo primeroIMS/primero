@@ -87,7 +87,7 @@ module Exporters
     def write_form(form_section)
       #fill out the settings tab
       write_form_settings(form_section)
-      form_headers = ['type', 'name'] + localize_header('label') + localize_header('hint') + localize_header('guidance')
+      form_headers = ['type', 'name'] + localize_header('label') + localize_header('hint') + localize_header('guidance') + localize_header('tick_box_label')
       @form_sheet.write(0, 0, form_headers)
       choices_header = ['list name', 'name'] + localize_header('label')
       @choices_sheet.write(0, 0, choices_header)
@@ -161,6 +161,7 @@ module Exporters
       field_row = [type, field.name] + get_localized_property(field, 'display_name')
       field_row = field_row + get_localized_property(field, 'help_text')
       field_row = field_row + get_localized_property(field, 'guiding_questions')
+      field_row = field_row + get_localized_property(field, 'tick_box_label')
       @form_sheet.write(@form_pointer, 0, field_row)
       @form_pointer += 1
     end
@@ -209,12 +210,7 @@ module Exporters
 
     def get_localized_property(object, field_name)
       @locales.map do |loc|
-        localized_property = object.try("#{field_name}_#{loc}")
-        if field_name == 'display_name'
-          locale_tick_box_label = object.try("tick_box_label_#{loc}")
-          localized_property += "::#{locale_tick_box_label}" if (localized_property && locale_tick_box_label)
-        end
-        localized_property
+        object.try("#{field_name}_#{loc}")
       end
     end
 
