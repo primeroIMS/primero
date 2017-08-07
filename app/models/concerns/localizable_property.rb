@@ -66,6 +66,11 @@ module LocalizableProperty
     property.include?("option_strings_text") ? value.split("\n") : value if value
   end
 
+  def localized_hash(locale='en')
+    lp = self.class.localized_properties.reject{|p| p == :option_strings_text}.map{|p| "#{p.to_s}_#{locale}"}
+    self.as_json(:only => lp)
+  end
+
   private
 
   def generate_keyed_value(value)
