@@ -63,7 +63,8 @@ module Exporters
         return filtered_props
       end
 
-      def form_sections_by_module(cases, current_user)
+      # TODO: Make this method generic
+      def case_form_sections_by_module(cases, current_user)
         cases.map(&:module).compact.uniq.inject({}) do |acc, mod|
           acc.merge({mod.name => FormSection.get_permitted_form_sections(mod, 'case', current_user)
                                       .select(&:visible)

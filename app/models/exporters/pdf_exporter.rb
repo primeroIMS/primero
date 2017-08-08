@@ -91,7 +91,7 @@ module Exporters
       end
 
       unless @form_sections.present?
-        @form_sections = self.class.form_sections_by_module(cases, current_user)
+        @form_sections = self.class.case_form_sections_by_module(cases, current_user)
       end
 
       cases.each do |cs|

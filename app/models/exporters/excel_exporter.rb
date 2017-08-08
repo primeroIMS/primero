@@ -35,7 +35,7 @@ module Exporters
     # @returns: a String with the Excel file data
     def export(models, properties_by_module, current_user, custom_export_options, *args)
       properties_by_module = self.class.properties_to_export(properties_by_module, custom_export_options, models)
-      @form_sections = self.class.form_sections_by_module(models, current_user)
+      @form_sections = self.class.case_form_sections_by_module(models, current_user)
 
       unless @sheets.present?
         build_sheets_definition(properties_by_module, models.first.try(:module).try(:name))
@@ -125,7 +125,9 @@ module Exporters
             prop.is_a?(Hash) || (prop.array == true && prop.type.include?(CouchRest::Model::Embeddable))
           end
           others = (properties.to_a - subforms.to_a).to_h
-          name = @form_sections[model_module].select{|fs| fs.unique_id == fs_name}.first.try(:name) || fs_name
+
+          get_name = module_module.present? ? @form_sections[model_module].select{|fs| fs.unique_id == fs_name}.first.try(:name) : nil
+          name = get_name || fs_name
           if subforms.blank? || (subforms.length == 1 && others.blank?)
             #The section does not have subforms or
             #there is just one subform in the form section.
