@@ -68,7 +68,6 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
-  before_save :add_form_change_alert
 
   after_save :find_match_tracing_requests unless (Rails.env == 'production')
 
@@ -201,24 +200,6 @@ class Child < CouchRest::Model::Base
   end
 
   include Alertable
-
-  def add_form_change_alert
-    if self.owned_by != self.last_updated_by
-      #TODO: This can be optimized. Filter by configured fields first
-      ignored_root_properties = %w{
-        _force_save
-        last_updated_at
-        last_updated_by
-        last_updated_by_full_name
-        histories
-      }
-
-      changed_fields = self.changed.reject{|x| ignored_root_properties.include? x}
-      changed_fields.each do |field|
-        add_field_alert(self.last_updated_by, @system_settings, field)
-      end
-    end
-  end
 
   def self.report_filters
     [

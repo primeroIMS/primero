@@ -15,6 +15,7 @@ module Alertable
     end
 
     before_save :remove_alert_on_save
+    before_save :add_form_change_alert
   end
 
   def remove_alert_on_save
@@ -67,21 +68,44 @@ module Alertable
     self.alerts.delete_if{|a| a[:type] == approval_type}
   end
 
-  def add_field_alert(current_user_name, system_settings, type = nil)
-    #TODO: This can be optimized. Currently this is called for each field
-    if current_user_name != self.owned_by && self.alerts != nil
-      system_settings ||= SystemSettings.current
-      if system_settings.present? && system_settings.changes_field_to_form.present? && system_settings.changes_field_to_form.has_key?(type)
-        found_alert = false
-        self.alerts.each {|a|
-          if a.type == system_settings.changes_field_to_form[type]
-            a.date = DateTime.now.strftime("%Y-%m-%d")
-            found_alert = true
-          end
+  def create_alert(form)
+    Alert.new(type: form, date: Date.current.to_s, form_sidebar_id: form, alert_for: FIELD_CHANGE)
+  end
+
+  def append_one_or_more_alerts(forms_to_check, form)
+    if forms_to_check.kind_of?(Array)
+      self.alerts += forms_to_check.map {|form| self.create_alert(form)}
+    elsif forms_to_check.try(:kind_of?, String)
+      self.alerts << self.create_alert(forms_to_check)
+    end
+  end
+
+  def add_field_alert(current_user_name, type = nil)
+    forms_to_check = @system_settings.try(:changes_field_to_form).try(:[], type)
+    existing_alert = self.alerts.find do |alert|
+      (forms_to_check.kind_of?(Array) &&
+        forms_to_check.include?(alert.type)) ||
+        alert.type == forms_to_check
+    end
+
+    if existing_alert.present?
+      #If alert already exists, update the date
+      existing_alert.date = Date.current.to_s
+    else
+      self.append_one_or_more_alerts(forms_to_check, form)
+    end
+  end
+
+  def add_form_change_alert
+    if self.owned_by != self.last_updated_by && self.alerts != nil
+      @system_settings ||= SystemSettings.current
+      if @system_settings.present? && @system_settings.try(:changes_field_to_form)
+        changed_fields_in_map = self.changed.select {|field|
+          @system_settings.changes_field_to_form.try(:has_key?, field)
         }
-        if !found_alert
-          alert = Alert.new(type: system_settings.changes_field_to_form[type], date: DateTime.now.strftime("%Y-%m-%d"), form_sidebar_id: system_settings.changes_field_to_form[type], alert_for: FIELD_CHANGE)
-          self.alerts << alert
+
+        changed_fields_in_map.each do |field|
+          add_field_alert(self.last_updated_by, field)
         end
       end
     end
