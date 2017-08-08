@@ -61,7 +61,7 @@ module FieldsHelper
     if field_value.is_a?(Array)
       field_value = field_value.join ", "
     elsif field_value.is_a?(Date) || field_value.is_a?(Time)
-      #This function is IMPORTANT. It presents the Date/Time in the right format and converts it to local time 
+      #This function is IMPORTANT. It presents the Date/Time in the right format and converts it to local time
       field_value = field_format_date(field_value)
     end
 
