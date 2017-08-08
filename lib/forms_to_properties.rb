@@ -3,7 +3,7 @@ require "uuidtools"
 module FormToPropertiesConverter
   def properties_hash_from_forms(form_sections)
     prop_hash = form_sections.reject {|fs| fs.is_nested}.inject({}) do |acc, fs|
-      acc.deep_merge((fs.form_group_keyed ? fs.form_group_name : fs.name) => process_form(fs))
+      acc.deep_merge((fs.form_group_keyed ? fs.form_group_name : fs.unique_id) => process_form(fs))
     end
 
     # Handling stuff like violations.  How to make it clearer and cleaner??

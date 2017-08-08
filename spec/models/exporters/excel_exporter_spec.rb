@@ -15,14 +15,16 @@ module Exporters
       subform.save!
 
       form = FormSection.new(:name => "cases_test_form_3", :parent_form => "case", "visible" => true,
-                             :order_form_group => 2, :order => 0, :order_subform => 0, :form_group_name => "Case Form 3")
+                             :order_form_group => 2, :order => 0, :order_subform => 0, :form_group_name => "Case Form 3",
+                             :unique_id => "cases_test_form_3")
       form.fields << Field.new(:name => "subform_field_2", :type => Field::SUBFORM, :display_name => "subform field", "subform_section_id" => subform.unique_id)
       form.save!
       #### Build Form Section with subforms fields only ######
 
       #### Build Form Section with none subforms fields ######
       form = FormSection.new(:name => "cases_test_form_2", :parent_form => "case", "visible" => true,
-                             :order_form_group => 1, :order => 0, :order_subform => 0, :form_group_name => "Case Form 2")
+                             :order_form_group => 1, :order => 0, :order_subform => 0, :form_group_name => "Case Form 2",
+                             :unique_id => "cases_test_form_2")
       form.fields << Field.new(:name => "relationship", :type => Field::TEXT_FIELD, :display_name => "relationship")
       form.fields << Field.new(:name => "array_field", :type => Field::SELECT_BOX, :display_name => "array_field", :multi_select => true,
                                :option_strings_text => ["Option1", "Option2"])
@@ -45,7 +47,8 @@ module Exporters
       subform.save!
 
       form = FormSection.new(:name => "cases_test_form_1", :parent_form => "case", "visible" => true,
-                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "Case Form 1")
+                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "Case Form 1",
+                             :unique_id => "cases_test_form_1")
       form.fields << Field.new(:name => "first_name", :type => Field::TEXT_FIELD, :display_name => "first_name")
       form.fields << Field.new(:name => "last_name", :type => Field::TEXT_FIELD, :display_name => "last_name")
       form.fields << Field.new(:name => "subform_field_1", :type => Field::SUBFORM, :display_name => "subform field", "subform_section_id" => "cases_test_subform_1")
@@ -61,12 +64,23 @@ module Exporters
                                :option_strings_text => ["عقبت 1", "لدّفاع 2"])
       form.save!
 
+      @primero_module = PrimeroModule.create!(
+        program_id: "primeroprogram-primero",
+        name: "CP",
+        description: "Child Protection",
+        associated_form_ids: ["cases_test_subform_2", "cases_test_form_3", "cases_test_form_2", "cases_test_subform_1",
+                              "cases_test_subform_3", "cases_test_form_1"],
+        associated_record_types: ['case']
+      )
+
       Child.refresh_form_properties
 
       @properties_by_module = {"primeromodule-cp" => Child.properties_by_form }
 
+      @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
+
       @records = [Child.new("module_id" => "primeromodule-cp", "first_name" => "John", "last_name" => "Doe",
-                           "relationship"=>"Mother", "array_field"=> ["Option1", "Option2"],
+                           "relationship"=>"Mother", "array_field"=> ["option1", "option2"],
                             "arabic_text" => "لدّفاع", "arabic_array" => ["النفط", "المشتّتون"],
                            "subform_field_1" => [{"unique_id" =>"1", "field_1" => "field_1 value", "field_2" => "field_2 value"}],
                            "subform_field_2" => [{"unique_id" =>"2", "field_3" => "field_3 value", "field_4" => "field_4 value"}],
@@ -87,10 +101,11 @@ module Exporters
         Child.form_properties_by_name.delete key
       end
       FormSection.all.each { |form| form.destroy }
+      PrimeroModule.all.each { |fm| fm.destroy }
     end
 
     it "converts data to Excel format" do
-      data = ExcelExporter.export(@records, @properties_by_module, nil, nil)
+      data = ExcelExporter.export(@records, @properties_by_module, @user, nil)
 
       book = Spreadsheet.open(StringIO.new(data))
       sheet = book.worksheets[0]
@@ -137,7 +152,7 @@ module Exporters
       field = subform.type.properties.select{|p| p.name == "field_6"}.first
       @properties_by_module["primeromodule-cp"]["cases_test_form_1"]["subform_field_3"] = {field.name => field}
 
-      data = ExcelExporter.export(@records, @properties_by_module, nil, nil)
+      data = ExcelExporter.export(@records, @properties_by_module, @user, nil)
 
       book = Spreadsheet.open(StringIO.new(data))
       sheet = book.worksheets[0]

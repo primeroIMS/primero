@@ -320,12 +320,12 @@ module Record
         form_sections = form_sections.map{|key, forms| forms }.flatten
         properties_by_module[primero_module.id] = {}
         form_sections.each do |section|
-          properties = self.properties_by_form[section.name]
+          properties = self.properties_by_form[section.unique_id]
           if read_only_user
             readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
             properties = properties.select{|k,v| readable_props.include?(k)}
           end
-          properties_by_module[primero_module.id][section.name] = properties
+          properties_by_module[primero_module.id][section.unique_id] = properties
         end
       end
       properties_by_module
@@ -346,7 +346,7 @@ module Record
         if section.is_violation_wrapper?
           properties = Incident.properties.select{|p| p.name == 'violations'}
         else
-          properties = self.properties_by_form[section.name].values
+          properties = self.properties_by_form[section.unique_id].values
           if read_only_user
             readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
             properties = properties.select{|p| readable_props.include?(p.name)}

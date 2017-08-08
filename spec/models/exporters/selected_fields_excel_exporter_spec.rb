@@ -27,7 +27,7 @@ module Exporters
       form.fields << Field.new(:name => "relationship", :type => Field::TEXT_FIELD, :display_name => "relationship")
       form.fields << Field.new(:name => "array_field", :type => Field::SELECT_BOX, :display_name => "array_field", :multi_select => true,
                                :option_strings_text_all => ["Option1", "Option2", "Option5", "Option4"])
-                               
+
       form.save!
       #### Build Form Section with none subforms fields ######
 
@@ -83,8 +83,8 @@ module Exporters
 
     after :each do
       # TODO: Change this for a better approach. This is a work arround.
-      # Custom validators are registered for the subforms when saved, 
-      #they keep registered in the execution of the rspecs and some test breaks up because 
+      # Custom validators are registered for the subforms when saved,
+      #they keep registered in the execution of the rspecs and some test breaks up because
       #the subforms are no longer available (which is ok, they shouldn't be).
       # Should the validators be registered on Child when a Child with subform is saved?
       FormSection.all.map{|f| f.fields}
@@ -136,12 +136,12 @@ module Exporters
       #Will export a few fields.
       subform = @properties_by_module["primeromodule-cp"]["cases_test_form_1"]["subform_field_1"]
       field = subform.type.properties.select{|p| p.name == "field_2"}.first
-      @properties_by_module["primeromodule-cp"]["cases_test_form_1"]["subform_field_1"] = {field.name => field}
+      @properties_by_module["primeromodule-cp"]["cases_test_form_1"]["subform_field_1"] = {field.unique_id => field}
 
       #Will export a few fields.
       subform = @properties_by_module["primeromodule-cp"]["cases_test_form_3"]["subform_field_2"]
       field = subform.type.properties.select{|p| p.name == "field_4"}.first
-      @properties_by_module["primeromodule-cp"]["cases_test_form_3"]["subform_field_2"] = {field.name => field}
+      @properties_by_module["primeromodule-cp"]["cases_test_form_3"]["subform_field_2"] = {field.unique_id => field}
 
       data = SelectedFieldsExcelExporter.export(@records, @properties_by_module, @user, {})
       book = Spreadsheet.open(StringIO.new(data))
