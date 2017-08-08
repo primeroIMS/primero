@@ -153,19 +153,23 @@ class PotentialMatch < CouchRest::Model::Base
   end
 
   def case_age
-    age = self.visible ? self.child.age : FIELD_MASK
+    if self.child.present?
+      self.visible ? self.child.age : FIELD_MASK
+    else
+      ""
+    end
   end
 
   def case_sex
-    sex = self.visible ? self.child.display_field('sex') : FIELD_MASK
+    sex = self.visible ? self.child.try(:display_field, 'sex') : FIELD_MASK
   end
 
   def case_registration_date
-    registration_date = self.visible ? self.child.registration_date : FIELD_MASK
+    registration_date = self.visible ? self.child.try(:registration_date) : FIELD_MASK
   end
 
   def case_owned_by
-    self.child.owned_by
+    self.child.try(:owned_by)
   end
 
   def tracing_request_uuid
@@ -173,20 +177,24 @@ class PotentialMatch < CouchRest::Model::Base
   end
 
   def tracing_request_inquiry_date
-    inquiry_date = self.visible ? self.tracing_request.inquiry_date : FIELD_MASK
+    if self.tracing_request.present?
+      self.visible ? self.tracing_request.inquiry_date : FIELD_MASK
+    else
+      ""
+    end
   end
 
   def tracing_request_relation_name
-    relation_name = self.visible ? self.tracing_request.relation_name : FIELD_MASK
+    relation_name = self.visible ? self.tracing_request.try(:relation_name) : FIELD_MASK
   end
 
   def tracing_request_name
-    name = self.visible ? self.tracing_request.tracing_request_subform_section.select{|tr| tr.unique_id == self.tr_subform_id}.first.try(:name)
+    name = self.visible ? self.tracing_request.try(:tracing_request_subform_section).try(:select){|tr| tr.unique_id == self.tr_subform_id}.try(:first).try(:name)
                         : FIELD_MASK
   end
 
   def tracing_request_owned_by
-    self.tracing_request.owned_by
+    self.tracing_request.try(:owned_by)
   end
 
   class << self
