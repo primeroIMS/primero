@@ -6,13 +6,6 @@ module Alertable
   NEW_FORM = 'new_form'
   APPROVAL = 'approval'
   FIELD_CHANGE = 'field_change'
-  IGNORED_ROOT_PROPERTIES = %w{
-    _force_save
-    last_updated_at
-    last_updated_by
-    last_updated_by_full_name
-    histories
-  }
 
   included do
     property :alerts, [Alert], :default => []
@@ -75,37 +68,39 @@ module Alertable
     self.alerts.delete_if{|a| a[:type] == approval_type}
   end
 
-  def append_alert(form)
+  def create_alert(form)
     Alert.new(type: form, date: Date.current.to_s, form_sidebar_id: form, alert_for: FIELD_CHANGE)
   end
 
-  def append_one_or_more_alerts(is_array, found_forms, form)
-    if is_array
-      self.alerts += found_forms.map {|form| self.append_alert(form)}
-    elsif found_forms.try(:kind_of?, String)
-      self.alerts << self.append_alert(found_forms)
+  def append_one_or_more_alerts(forms_to_check, form)
+    if forms_to_check.kind_of?(Array)
+      self.alerts += forms_to_check.map {|form| self.create_alert(form)}
+    elsif forms_to_check.try(:kind_of?, String)
+      self.alerts << self.create_alert(forms_to_check)
     end
   end
 
   def add_field_alert(current_user_name, type = nil)
-    found_forms = @system_settings.try(:changes_field_to_form).try(:[], type)
-    found_forms_is_array = found_forms.try(:kind_of?, Array)
-    found_alert = self.alerts.find {|alert| (found_forms_is_array && found_forms.include?(alert.type)) || alert.type == found_forms}
+    forms_to_check = @system_settings.try(:changes_field_to_form).try(:[], type)
+    existing_alert = self.alerts.find do |alert|
+      (forms_to_check.kind_of?(Array) &&
+        forms_to_check.include?(alert.type)) ||
+        alert.type == forms_to_check
+    end
 
-    if found_alert.present?
+    if existing_alert.present?
       #If alert already exists, update the date
-      found_alert.date = Date.current.to_s
+      existing_alert.date = Date.current.to_s
     else
-      self.append_one_or_more_alerts(found_forms_is_array, found_forms, form)
+      self.append_one_or_more_alerts(forms_to_check, form)
     end
   end
 
   def add_form_change_alert
     if self.owned_by != self.last_updated_by && self.alerts != nil
-      changed_fields = self.changed.reject{|x| IGNORED_ROOT_PROPERTIES.include? x}
       @system_settings ||= SystemSettings.current
       if @system_settings.present? && @system_settings.try(:changes_field_to_form)
-        changed_fields_in_map = changed_fields.select {|field|
+        changed_fields_in_map = self.changed.select {|field|
           @system_settings.changes_field_to_form.try(:has_key?, field)
         }
 
