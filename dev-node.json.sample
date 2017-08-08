@@ -10,7 +10,6 @@
       "repo": "git@bitbucket.org:quoin/primero.git",
       "revision": "development"
     },
-    "nginx_default_site": false,
     "couchdb": {
       "password": "primero",
       "ssl": {
@@ -36,5 +35,6 @@
       }
     ]
   },
+  "nginx_default_site": false,
   "run_list": [ "rvm::vagrant", "recipe[primero::default]", "recipe[primero::development]" ]
 }
