@@ -116,6 +116,15 @@ class Field
   validate :validate_option_strings_text
   #TODO: Any subform validations?
 
+  def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
+    lh = localized_hash(locale)
+    if self.option_strings_text.present?
+      fh = {}
+      self["option_strings_text_#{locale}"].each{|os| fh[os['id']] = os['display_text']}
+      lh['option_strings_text'] = fh
+    end
+    lh
+  end
 
   def validate_display_name_format
     special_characters = /[*!@#%$\^]/

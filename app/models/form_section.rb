@@ -108,11 +108,10 @@ class FormSection < CouchRest::Model::Base
   before_validation :generate_options_keys
   after_save :recalculate_subform_permissions
 
-  #TODO figure out subforms
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE)
     lh = localized_hash(locale)
     fldz = {}
-    self.fields.each_with_index { |f, i|  fldz["field_#{i}"] = f.localized_hash}
+    self.fields.each { |f| fldz[f.name] = f.localized_property_hash}
     lh['fields'] = fldz
     lh
   end
