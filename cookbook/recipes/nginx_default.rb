@@ -1,4 +1,5 @@
 default_conf_file = "#{node[:nginx_dir]}/sites-available/000-default"
+enabled_conf_file = "#{node[:nginx_dir]}/sites-enabled/000-default"
 
 if node[:nginx_default_site]
   rails_log_dir = ::File.join(node[:primero][:log_dir], 'default')
@@ -26,11 +27,13 @@ if node[:nginx_default_site]
     notifies :restart, 'service[nginx]'
   end
 
-  link "#{node[:nginx_dir]}/sites-enabled/000-default" do
+  link enabled_conf_file do
     to default_conf_file
   end
 else
-  file default_conf_file do
+
+  link enabled_conf_file do
     action :delete
   end
+
 end
