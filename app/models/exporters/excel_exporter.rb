@@ -126,7 +126,7 @@ module Exporters
           end
           others = (properties.to_a - subforms.to_a).to_h
 
-          get_name = module_module.present? ? @form_sections[model_module].select{|fs| fs.unique_id == fs_name}.first.try(:name) : nil
+          get_name = model_module.present? ? @form_sections[model_module].select{|fs| fs.unique_id == fs_name}.first.try(:name) : nil
           name = get_name || fs_name
           if subforms.blank? || (subforms.length == 1 && others.blank?)
             #The section does not have subforms or
