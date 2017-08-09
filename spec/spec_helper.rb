@@ -14,6 +14,8 @@ require 'csv'
 require 'active_support/inflector'
 require 'sunspot/rails/spec_helper'
 require 'sunspot_test/rspec'
+require 'capybara/rails'
+require 'selenium/webdriver'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -22,6 +24,23 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 # This clears couchdb between tests.
 FactoryGirl.find_definitions
 Mime::Type.register 'application/zip', :mock
+
+Capybara.register_driver :chrome do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
+
+Capybara.register_driver :headless_chrome do |app|
+  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+    chromeOptions: { args: %w(headless disable-gpu) }
+  )
+
+  Capybara::Selenium::Driver.new app,
+    browser: :chrome,
+    desired_capabilities: capabilities
+end
+
+Capybara.default_max_wait_time = 6
+Capybara.javascript_driver = :headless_chrome
 
 module VerifyAndResetHelpers
   def verify(object)
@@ -49,13 +68,14 @@ end
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
-
+  config.include Capybara::DSL
   config.include FactoryGirl::Syntax::Methods
   config.include UploadableFiles
   config.include ChildFinder
   config.include FakeLogin, :type => :controller
   config.include VerifyAndResetHelpers
   config.include Conflicts
+  config.include CapybaraHelpers
 
   # Cleaner backtrace for failure messages
   config.backtrace_exclusion_patterns = [
