@@ -34,11 +34,35 @@ module Exporters
       complete
     end
 
+    def make_workbook_name_unique(workbook_name, idx=0)
+      if @workbook.worksheets.find{|w| w.name.gsub(/\u0000/, "") == workbook_name}.nil?
+        return workbook_name
+      else
+        idx += 1
+        return modify_workbook_name(workbook_name, idx)
+      end        
+    end
+
+    def modify_workbook_name(workbook_name, idx=0)
+      letters_to_replace = Math.log10(idx).to_i + 1
+      workbook_name.slice!((31-letters_to_replace)..30)
+      workbook_name += idx.to_s
+      return make_workbook_name_unique(workbook_name, idx)
+    end
+
+    def get_workbook_name(form)
+      idx ||= 1
+      workbook_name = "#{((form.unique_id).gsub(/[^0-9a-z ]/i, ''))[0..30]}"
+      return make_workbook_name_unique(workbook_name)
+    end
+
     def write_out_form(form, header, show_hidden)
       if show_hidden || form.visible? || form.is_nested?
         # TODO: This should be probably some logging rather than puts?
-        worksheet = @workbook.add_worksheet("#{(form.name)[0..30].gsub(/[^0-9a-z ]/i, '')}")
-        worksheet.write(0, 0, form.name)
+
+        workbook_name = get_workbook_name(form)
+        worksheet = @workbook.add_worksheet(workbook_name)
+        worksheet.write(0, 0, form.unique_id)
         worksheet.write(1, 0, header)
         form.fields.each_with_index do |field, i|
           if show_hidden || field.visible?
