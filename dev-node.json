@@ -34,5 +34,6 @@
       }
     ]
   },
+  "nginx_default_site": true,
   "run_list": [ "rvm::vagrant", "recipe[primero::default]", "recipe[primero::development]" ]
 }
