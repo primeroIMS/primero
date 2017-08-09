@@ -109,14 +109,15 @@
   <%# Add button %>
   <% if !subform.disabled %>
     <div class="large-12 columns text-right">
-      <a id="subform_<%= subform.name %>_add_button" class="button subform_add right" <%= disable_action_buttons %>><%= t('fields.add') %></a>
+      <a id="subform_<%= subform.subform_section_id %>_add_button" class="button subform_add right" <%= disable_action_buttons %>><%= t('fields.add') %></a>
     </div>
   <% end %>
   <% initial_subforms = subform_section[:initial_subforms] || 0 %>
   <% if initial_subforms > 0 && formObject.new_record? && !formObject.errors.any? && subform_section.shared_subform.blank? %>
     <% content_for :page_scripts do %>
       <% subform_section[:initial_subforms].times do %>
-        $('a#subform_<%=j subform.name %>_add_button').click();
+        <% #TODO: This shouldn't be using javascript to click the button to add the forms. Switch to renering a template. Also add tests for this. %>
+        $('a#subform_<%=j subform.subform_section_id %>_add_button').click();
       <% end %>
     <% end %>
   <% end %>

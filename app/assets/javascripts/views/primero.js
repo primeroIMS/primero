@@ -327,31 +327,29 @@ Primero = _primero.Views.Base.extend({
   },
 
   submit_form: function(evt) {
-    _primero.loading_screen_indicator('show', function() {
-      var $button = $(evt.target),
-          //find out if the submit button is part of the form or not.
-          //if not part will need to add the "commit" parameter to let it know
-          //the controller what was triggered.
-          $parent = $button.parents("form.default-form");
+    var $button = $(evt.target),
+    //find out if the submit button is part of the form or not.
+    //if not part will need to add the "commit" parameter to let it know
+    //the controller what was triggered.
+    $parent = $button.parents("form.default-form");
 
-      if ($parent.length > 0) {
-        //Just a regular submit in the form.
-        $parent.submit();
+    if ($parent.length > 0) {
+      //Just a regular submit in the form.
+      $parent.submit();
+    } else {
+      //Because some design thing we need to add the "commit" parameter
+      //to the form because the submit triggered is outside of the form.
+      var $form = $('form.default-form'),
+          $commit = $form.find("input[class='submit-outside-form']");
+
+      if ($commit.length === 0) {
+        $form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + $button.val() + "'/>");
       } else {
-        //Because some design thing we need to add the "commit" parameter
-        //to the form because the submit triggered is outside of the form.
-        var $form = $('form.default-form'),
-            $commit = $form.find("input[class='submit-outside-form']");
-
-        if ($commit.length === 0) {
-          $form.append("<input class='submit-outside-form' type='hidden' name='commit' value='" + $button.val() + "'/>");
-        } else {
-          $($commit).val($button.val());
-        }
-
-        $form.submit();
+        $($commit).val($button.val());
       }
-    });
+
+      $form.submit();
+    }
   },
 
   disable_default_events: function(evt) {

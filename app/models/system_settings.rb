@@ -59,6 +59,11 @@ class SystemSettings < CouchRest::Model::Base
   def self.handle_changes
     system_settings = SystemSettings.first
     system_settings.update_default_locale if system_settings.present?
+    flush_dependencies
+  end
+
+  def self.memoized_dependencies
+    CouchChanges::Processors::Notifier.supported_models
   end
 
   class << self
