@@ -10,7 +10,7 @@
               :locals => {:organization => history.user_organization, :user_name => history.user_name, :datetime => @user.localize_date(history.datetime, "%Y-%m-%d %H:%M:%S %Z")} %>
           </div>
         </li>
-      <% else %>
+      <% elsif history.changes.present? %>
         <% history.changes.each_pair do |field, change| %>
           <% history_entry = history_entry_for(history, field, change) %>
           <% if history_entry.present? %>

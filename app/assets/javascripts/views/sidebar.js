@@ -148,8 +148,12 @@ _primero.Views.tabNavigation = _primero.Views.Base.extend({
       history_url = $show_history_button.data('change_log_url'),
       $target_div = $("#" + $show_history_button.data('open'));
     if ($target_div.html() === "") {
-      $.get( history_url, function(response) {
-        $target_div.html(response);
+      $.get({
+        url: history_url,
+        success: function(response) {
+          $target_div.html(response);
+        },
+        timeout: 10000
       });
     }
   }
