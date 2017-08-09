@@ -2,11 +2,7 @@ incident_details_subform_fields = [
   Field.new({"name" => "cp_incident_identification_violence",
              "type" => "select_box",
              "display_name_all" => "Identification of Incident",
-             "option_strings_text_all" =>
-                          ["Disclosure / complaint by the abused person or family member",
-                           "Discovered by service provider",
-                           "Report by the institution providing the service (discovery)",
-                           "Other"].join("\n")
+             "option_strings_source" => "lookup lookup-incident-identification"
             }),
   Field.new({"name" => "cp_incident_violence_header",
              "type" => "separator",
@@ -19,12 +15,7 @@ incident_details_subform_fields = [
   Field.new({"name" => "cp_incident_location_type",
              "type" => "select_box",
              "display_name_all" => "Area of the Incident",
-             "option_strings_text_all" =>
-                          ["Home",
-                           "Street",
-                           "School",
-                           "Work Place",
-                           "Other"].join("\n")
+             "option_strings_source" => "lookup lookup-incident-location"
             }),
   Field.new({"name" => "cp_incident_location_type_other",
              "type" => "text_field",
@@ -38,11 +29,7 @@ incident_details_subform_fields = [
   Field.new({"name" => "cp_incident_timeofday",
              "type" => "select_box",
              "display_name_all" => "Time of Incident",
-             "option_strings_text_all" =>
-                          ["Morning",
-                           "Noon",
-                           "Evening",
-                           "Night"].join("\n")
+             "option_strings_source" => "lookup lookup-time-of-day"
             }),
   Field.new({"name" => "cp_incident_timeofday_actual",
              "type" => "text_field",
@@ -51,7 +38,7 @@ incident_details_subform_fields = [
   Field.new({"name" => "cp_incident_sexual_violence_type",
              "type" => "select_box",
              "display_name_all" => "Type of Violence",
-             "option_strings_source" => "lookup lookup-gbv-sexual-violence-type"
+             "option_strings_source" => "lookup lookup-cp-sexual-violence-type"
             }),
   Field.new({"name" => "cp_incident_previous_incidents",
              "type" => "radio_button",
@@ -104,11 +91,7 @@ incident_details_subform_fields = [
              "type" =>"select_box" ,
              "display_name_all" => "Social Status",
              "show_on_minify_form" => true,
-             "option_strings_text_all" =>
-                          ["Single",
-                           "Married/Cohabitating",
-                           "Divorced/Separated",
-                           "Widowed"].join("\n")
+             "option_strings_source" => "lookup lookup-marital-status"
             }),
   Field.new({"name" => "cp_incident_perpetrator_mobile_phone",
              "type" => "text_field",
@@ -122,28 +105,14 @@ incident_details_subform_fields = [
              "type" => "textarea",
              "display_name_all" => "Address"
             }),
-  Field.new({"name" => "cp_incident_perpetrator_occupation",
-             "type" => "text_field",
-             "display_name_all" => "Occupation"
+  Field.new({"name" => "cp_incident_perpetrator_occupation_lookup",
+              "type" =>"text_field",
+              "display_name_all" => "Occupation"
             }),
   Field.new({"name" => "cp_incident_perpetrator_relationship",
              "type" =>"select_box" ,
              "display_name_all" => "Relationship with the victim",
-             "option_strings_text_all" =>
-                          ["Intimate Partner / Former Partner",
-                           "Primary Caregiver",
-                           "Family other than spouse or caregiver",
-                           "Supervisor / Employer",
-                           "Schoolmate",
-                           "Teacher / School Official",
-                           "Service Provider",
-                           "Cotenant / Housemate",
-                           "Family Friend/Neighbor",
-                           "Other refugee / IDP / Returnee",
-                           "Other resident community member",
-                           "Other",
-                           "No relation",
-                           "Unknown"].join("\n")
+             "option_strings_source" => "lookup lookup-perpetrator-relationship"
             })
 ]
 

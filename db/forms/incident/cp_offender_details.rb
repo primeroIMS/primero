@@ -42,41 +42,18 @@ cp_offender_details_fields = [
     "type" =>"select_box" ,
     "display_name_all" => "Social Status",
     "show_on_minify_form" => true,
-    "option_strings_text_all" => [
-      "Single",
-      "Married",
-      "Divorced",
-      "Separated",
-      "Widow"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-marital-status"
   }),
   Field.new({
-    "name" => "cp_incident_perpetrator_educational_status",
-    "type" =>"select_box" ,
-    "display_name_all" => "Educational Status",
-    "option_strings_text_all" => [
-      "Illiterate",
-      "Basic",
-      "Secondary",
-      "Bachelor",
-      "Post-graduate Studies"
-    ].join("\n")
-  }),
-  Field.new({
-    "name" => "cp_incident_perpetrator_occupation_lookup",
-    "type" =>"select_box",
-    "display_name_all" => "Profession",
-    "option_strings_source" => "lookup lookup-perpetrator-occupation"
+    "name" => "cp_incident_perpetrator_occupation",
+    "type" =>"text_field",
+    "display_name_all" => "Occupation"
   }),
   Field.new({
     "name" => "cp_incident_perpetrator_relationship",
     "type" =>"select_box" ,
     "display_name_all" => "Relationship with the abused",
-    "option_strings_text_all" => [
-      "Husband (or ex-husband)",
-      "Family member",
-      "Other"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-perpetrator-relationship"
   })
 ]
 

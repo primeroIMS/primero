@@ -399,6 +399,20 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+  :id => "lookup-cp-sexual-violence-type",
+  :name => "CP Sexual Violence Type",
+  :lookup_values => [
+    {id: "rape", display_text: "Rape"}.with_indifferent_access,
+    {id: "sexual_assault", display_text: "Sexual Assault"}.with_indifferent_access,
+    {id: "physical_assault", display_text: "Physical Assault"}.with_indifferent_access,
+    {id: "forced_marriage", display_text: "Forced Marriage"}.with_indifferent_access,
+    {id: "denial_of_resources_opportunities_or_services", display_text: "Denial of Resources, Opportunities or Services"}.with_indifferent_access,
+    {id: "psychological_emotional_abuse", display_text: "Psychological / Emotional Abuse"}.with_indifferent_access,
+    {id: "non-gbv", display_text: "Non-GBV"}.with_indifferent_access
+  ]
+)
+
+create_or_update_lookup(
   :id => "lookup-armed-force-group-type",
   :name => "Armed Force Group Type",
   :lookup_values => [
@@ -650,5 +664,72 @@ create_or_update_lookup(
         {id: "care_plan", display_text: "Care plan"}.with_indifferent_access,
         {id: "action_plan", display_text: "Action plan"}.with_indifferent_access,
         {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-marital-status",
+    :name => "Marital Status",
+    :lookup_values => [
+      {id: "single", display_text: "Single"},
+      {id:"married", display_text: "Married"},
+      {id: "divorced", display_text: "Divorced"},
+      {id: "separated", display_text: "Separated"},
+      {id: "widow", display_text: "Widow"}
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-perpetrator-relationship",
+    :name => "Perpetrator Relationship",
+    :lookup_values => [
+        {id: "intimate_partner_former_partner", display_text: "Intimate Partner / Former Partner"},
+        {id: "primary_caregiver", display_text: "Primary Caregiver"},
+        {id: "family_other_than_spouse_or_caregiver", display_text: "Family other than spouse or caregiver"},
+        {id: "supervisor_employer", display_text: "Supervisor / Employer"},
+        {id: "schoolmate", display_text: "Schoolmate"},
+        {id: "teacher_school_official", display_text: "Teacher / School Official"},
+        {id: "service_provider", display_text: "Service Provider"},
+        {id: "cotenant_housemate", display_text: "Cotenant / Housemate"},
+        {id: "family_friend_neighbor", display_text: "Family Friend/Neighbor"},
+        {id: "other_refugee_idp_returnee", display_text: "Other refugee / IDP / Returnee"},
+        {id: "other_resident_community_member", display_text: "Other resident community member"},
+        {id: "other", display_text: "Other"},
+        {id: "no_relation", display_text: "No relation"},
+        {id: "unknown", display_text: "Unknown"}
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-time-of-day",
+    :name => "Time of Day",
+    :lookup_values => [
+        {id: "morning", display_text: "Morning"},
+        {id: "noon", display_text: "Noon"},
+        {id: "evening", display_text: "Evening"},
+        {id: "night", display_text: "Night"}
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-incident-location",
+    :name => "Incident Location",
+    :lookup_values => [
+        {id: "home", display_text: "Home"},
+        {id: "street", display_text: "Street"},
+        {id: "school", display_text: "School"},
+        {id: "work_place", display_text: "Work Place"},
+        {id: "other", display_text: "Other"}
+    ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-incident-identification",
+    :name => "Incident Identification",
+    :lookup_values => [
+        {id: "disclosure_complaint_by_the_abused_person_or_family_member", display_text: "Disclosure / complaint by the abused person or family member"},
+        {id: "discovered_by_service_provider", display_text: "Discovered by service provider"},
+        {id: "report_by_the_institution_providing_the_service_discovery", display_text: "Report by the institution providing the service (discovery)"},
+        {id: "other", display_text: "Other"}
     ]
 )
