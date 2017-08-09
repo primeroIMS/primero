@@ -1,7 +1,4 @@
 Primero::Application.routes.draw do
-
-  mount JasmineRails::Engine => '/specs' if defined?(JasmineRails)
-
   match '/' => 'home#index', :as => :root, :via => :get
   match '/_notify_change' => 'couch_changes#notify', :via => :get
 
