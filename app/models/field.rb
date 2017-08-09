@@ -517,7 +517,7 @@ class Field
         if key == 'option_strings_text'
           update_option_strings_translations(value, locale)
         else
-          self["#{key}_#{locale}"] = value
+          self.send("#{key}_#{locale}=", value)
         end
       end
     else

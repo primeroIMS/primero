@@ -668,7 +668,6 @@ class FormSection < CouchRest::Model::Base
           form = self.get_by_unique_id(unique_id)
           if form.present?
             form.update_translations(form_hash.values.first, locale)
-            #TODO FIX!!! This save isn't working because form.changed? == false
             Rails.logger.info "Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]"
             form.save!
           else
@@ -865,7 +864,7 @@ class FormSection < CouchRest::Model::Base
         if key == 'fields'
           update_field_translations(value, locale)
         else
-          self["#{key}_#{locale}"] = value
+          self.send("#{key}_#{locale}=", value)
         end
       end
 
