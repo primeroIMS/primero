@@ -51,15 +51,7 @@ incident_details_subform_fields = [
   Field.new({"name" => "cp_incident_sexual_violence_type",
              "type" => "select_box",
              "display_name_all" => "Type of Violence",
-             "option_strings_text_all" =>
-                          ["Rape",
-                           "Sexual Assault",
-                           "Physical Assault",
-                           "Forced Marriage",
-                           "Denial of Resources, Opportunities, or Services",
-                           "Psychological / Emotional Abuse",
-                           "Non-GBV"
-                          ].join("\n")
+             "option_strings_source" => "lookup lookup-gbv-sexual-violence-type"
             }),
   Field.new({"name" => "cp_incident_previous_incidents",
              "type" => "radio_button",
@@ -86,7 +78,7 @@ incident_details_subform_fields = [
   Field.new({"name" => "perpetrator_sex",
              "type" => "radio_button",
              "display_name_all" => "Sex",
-             "option_strings_text_all" => ["Male", "Female"].join("\n")
+             "option_strings_source" => "lookup lookup-gender"
             }),
   Field.new({"name" => "cp_incident_perpetrator_date_of_birth",
             "type" => "date_field",
