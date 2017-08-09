@@ -511,6 +511,20 @@ class Field
     self.mobile_visible == true && self.visible == true
   end
 
+  def update_translations(field_hash={}, locale)
+    if locale.present? && Primero::Application::locales.include?(locale)
+      field_hash.each do |key, value|
+        if key == 'option_strings_text'
+          update_option_strings_translations(value, locale)
+        else
+          self["#{key}_#{locale}"] = value
+        end
+      end
+    else
+      Rails.logger.error "Field translation not updated: Invalid locale [#{locale}]"
+    end
+  end
+
   private
 
   def create_unique_id
@@ -537,6 +551,13 @@ class Field
       self.autosum_total ||= true
     end
     true
+  end
+
+  def update_option_strings_translations(options_hash, locale)
+    options_hash.each do |key, value|
+      os = self["option_strings_text_#{locale}"].find{|os| os['id'] == key}
+      os['display_text'] = value if os.present?
+    end
   end
 
 end

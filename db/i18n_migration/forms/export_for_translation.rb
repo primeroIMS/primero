@@ -29,8 +29,10 @@ end
 def export_form(form_section)
   puts "Creating file #{form_section.unique_id}.yml"
   file = File.new("#{form_section.unique_id}.yml", 'w')
+  form_hash = {}
+  form_hash[form_section.unique_id] = form_section.localized_property_hash
   file_hash = {}
-  file_hash['en'] = form_section.localized_property_hash
+  file_hash['en'] = form_hash
   file << file_hash.to_yaml
   file.close
 end
