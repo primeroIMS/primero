@@ -1,8 +1,8 @@
 server {
-  listen *:<%= @http_port %> default_server;
-  listen [::]:<%= @http_port %> default_server ssl;
-  listen *:<%= @https_port %> default_server;
-  listen [::]:<%= @https_port %> default_server ssl;
+  listen *:<%= @http_port %>;
+  listen [::]:<%= @http_port %>;
+  listen *:<%= @https_port %> ssl;
+  listen [::]:<%= @https_port %> ssl;
   ssl_certificate <%= @ssl_cert_path %>;
   ssl_certificate_key <%= @ssl_key_path %>;
   ssl_session_tickets off;

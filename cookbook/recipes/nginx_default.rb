@@ -2,13 +2,7 @@ default_conf_file = "#{node[:nginx_dir]}/sites-available/000-default"
 enabled_conf_file = "#{node[:nginx_dir]}/sites-enabled/000-default"
 
 if node[:nginx_default_site]
-  rails_log_dir = ::File.join(node[:primero][:log_dir], 'default')
-
-  directory rails_log_dir do
-    action :create
-    owner 'root'
-    group 'root'
-  end
+  rails_log_dir = ::File.join(node[:primero][:log_dir], 'rails')
 
   ssl_dir = ::File.join(node[:nginx_dir], 'ssl')
 
