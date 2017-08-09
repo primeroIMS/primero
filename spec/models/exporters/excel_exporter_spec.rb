@@ -6,6 +6,7 @@ module Exporters
   describe ExcelExporter do
     before :each do
       FormSection.all.each &:destroy
+      PrimeroModule.all.each &:destroy
       #### Build Form Section with subforms fields only ######
       subform = FormSection.new(:name => "cases_test_subform_2", :parent_form => "case", "visible" => false, "is_nested"=>true,
                                 :order_form_group => 2, :order => 0, :order_subform => 0, :form_group_name => "Case Form 3",
