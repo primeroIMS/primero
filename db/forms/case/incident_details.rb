@@ -1,7 +1,7 @@
 incident_details_subform_fields = [
   Field.new({"name" => "cp_incident_identification_violence",
              "type" => "select_box",
-             "display_name_all" => "Identification of Violence Case",
+             "display_name_all" => "Identification of Incident",
              "option_strings_text_all" =>
                           ["Disclosure / complaint by the abused person or family member",
                            "Discovered by service provider",
@@ -10,7 +10,7 @@ incident_details_subform_fields = [
             }),
   Field.new({"name" => "cp_incident_violence_header",
              "type" => "separator",
-             "display_name_all" => "Violence Incident",
+             "display_name_all" => "Incident",
             }),
   Field.new({"name" => "cp_incident_date",
             "type" => "date_field",
@@ -32,13 +32,12 @@ incident_details_subform_fields = [
             }),
   Field.new({"name" => "cp_incident_location",
              "type" => "select_box",
-             "display_name_all" => "Governorate / District of the Incident",
+             "display_name_all" => "Location of the Incident",
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "cp_incident_timeofday",
              "type" => "select_box",
              "display_name_all" => "Time of Incident",
-             "help_text_all" => "(This information is entered by the case coordinator.)",
              "option_strings_text_all" =>
                           ["Morning",
                            "Noon",
@@ -47,71 +46,37 @@ incident_details_subform_fields = [
             }),
   Field.new({"name" => "cp_incident_timeofday_actual",
              "type" => "text_field",
-             "display_name_all" => "Please specify the actual time of the Incident",
-             "help_text_all" => "(This information is entered by the case coordinator.)"
+             "display_name_all" => "Please specify the actual time of the Incident"
             }),
   Field.new({"name" => "cp_incident_sexual_violence_type",
              "type" => "select_box",
              "display_name_all" => "Type of Violence",
              "option_strings_text_all" =>
-                          ["Physical",
-                           "Sexual - within the family",
-                           "Sexual - outside the family",
-                           "Neglect",
-                           "Other"].join("\n")
-            }),
-  Field.new({"name" => "cp_incident_family_members_affected",
-             "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "Family members affected by the incident",
-             "option_strings_text_all" =>
-                          ["Wife",
-                           "Child/Children",
-                           "Wife and Children",
-                           "Others"].join("\n")
+                          ["Rape",
+                           "Sexual Assault",
+                           "Physical Assault",
+                           "Forced Marriage",
+                           "Denial of Resources, Opportunities, or Services",
+                           "Psychological / Emotional Abuse",
+                           "Non-GBV"
+                          ].join("\n")
             }),
   Field.new({"name" => "cp_incident_previous_incidents",
              "type" => "radio_button",
              "display_name_all" => "Has the case been previously abused?",
-             "help_text_all" => "(This information is entered by the case coordinator.)",
              "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "cp_incident_previous_incidents_description",
              "type" => "textarea",
-             "display_name_all" => "If yes please describe in brief",
-             "help_text_all" => "(This information is entered by the case coordinator.)"
+             "display_name_all" => "If yes please describe in brief"
             }),
   Field.new({"name" => "cp_incident_abuser_header",
              "type" => "separator",
-             "display_name_all" => "Abuser information",
+             "display_name_all" => "Perpetrator information",
             }),
   Field.new({"name" => "cp_incident_abuser_name",
              "type" => "text_field",
              "display_name_all" => "Name"
-            }),
-  Field.new({"name" => "cp_incident_abuser_psychological_problem",
-             "type" => "radio_button",
-             "display_name_all" => "Does the abuser suffer from psychological problem",
-             "help_text_all" => "(This information is entered by the case coordinator.)",
-             "option_strings_source" => "lookup lookup-yes-no"
-            }),
-  Field.new({"name" => "cp_incident_abuser_alcohol_drugs",
-             "type" => "radio_button",
-             "display_name_all" => "Is the abuser suffer from addiction to alcohol or drugs",
-             "help_text_all" => "(This information is entered by the case coordinator.)",
-             "option_strings_source" => "lookup lookup-yes-no"
-            }),
-  Field.new({"name" => "cp_incident_abuser_criminal_record",
-             "type" => "radio_button",
-             "display_name_all" => "Does the abuser have a criminal record",
-             "help_text_all" => "(This information is entered by the case coordinator.)",
-             "option_strings_source" => "lookup lookup-yes-no"
-            }),
-  Field.new({"name" => "cp_incident_abuser_threaten_abused_family",
-             "type" => "radio_button",
-             "display_name_all" => "Did the abuser threaten the abused or any family member",
-             "help_text_all" => "(This information is entered by the case coordinator.)",
-             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "cp_incident_perpetrator_nationality",
              "type" => "select_box",
@@ -133,15 +98,15 @@ incident_details_subform_fields = [
             }),
   Field.new({"name" => "cp_incident_perpetrator_national_id_no",
              "type" => "text_field",
-             "display_name_all" => "National ID Number for Jordanian"
+             "display_name_all" => "National ID Number"
             }),
   Field.new({"name" => "cp_incident_perpetrator_other_id_type",
              "type" => "text_field",
-             "display_name_all" => "Type of Other ID Document (for non Jordanian)"
+             "display_name_all" => "Type of Other ID Document"
             }),
   Field.new({"name" => "cp_incident_perpetrator_other_id_no",
              "type" => "text_field",
-             "display_name_all" => "Number of Other ID Document (for non Jordanian) "
+             "display_name_all" => "Number of Other ID Document"
             }),
   Field.new({"name" => "cp_incident_perpetrator_marital_status",
              "type" =>"select_box" ,
@@ -149,15 +114,9 @@ incident_details_subform_fields = [
              "show_on_minify_form" => true,
              "option_strings_text_all" =>
                           ["Single",
-                           "Married",
-                           "Divorced",
-                           "Separated",
-                           "Widow"].join("\n")
-            }),
-  Field.new({"name" => "cp_incident_perpetrator_educational_status",
-             "type" =>"select_box" ,
-             "display_name_all" => "Educational Status",
-             "option_strings_source" => "lookup lookup-perpetrator-education"
+                           "Married/Cohabitating",
+                           "Divorced/Separated",
+                           "Widowed"].join("\n")
             }),
   Field.new({"name" => "cp_incident_perpetrator_mobile_phone",
              "type" => "text_field",
@@ -173,115 +132,26 @@ incident_details_subform_fields = [
             }),
   Field.new({"name" => "cp_incident_perpetrator_occupation",
              "type" => "text_field",
-             "display_name_all" => "Profession",
-             "visible" => false
-            }),
-  Field.new({"name" => "cp_incident_perpetrator_occupation_lookup",
-             "type" =>"select_box",
-             "display_name_all" => "Profession",
-             "option_strings_source" => "lookup lookup-perpetrator-occupation"
-            }),
-  Field.new({"name" => "cp_incident_perpetrator_work_place",
-             "type" => "text_field",
-             "display_name_all" => "Work Place",
-            }),
-  Field.new({"name" => "cp_incident_perpetrator_work_phone",
-             "type" => "text_field",
-             "display_name_all" => "Work Phone",
-            }),
-  Field.new({"name" => "cp_incident_perpetrator_work_address",
-             "type" => "textarea",
-             "display_name_all" => "Work Address",
+             "display_name_all" => "Occupation"
             }),
   Field.new({"name" => "cp_incident_perpetrator_relationship",
              "type" =>"select_box" ,
-             "display_name_all" => "Relationship with the abused",
+             "display_name_all" => "Relationship with the victim",
              "option_strings_text_all" =>
-                          ["Husband (or ex-husband)",
-                           "Family member",
-                           "Other"].join("\n")
-            }),
-  Field.new({"name" => "primary_risk_indicators_header",
-             "type" => "separator",
-             "display_name_all" => "Primary Risk Indicators",
-             "visible" => false
-            }),
-  Field.new({"name" => "primary_risk_indicators_physical",
-             "type" => "radio_button",
-             "display_name_all" => "Does the abused suffer from physical injuries?",
-             "option_strings_source" => "lookup lookup-yes-no",
-             "visible" => false
-            }),
-  Field.new({"name" => "primary_risk_indicators_mental",
-             "type" => "radio_button",
-             "display_name_all" => "Does the abused suffer from mental instability?",
-             "option_strings_source" => "lookup lookup-yes-no",
-             "visible" => false
-            }),
-  Field.new({"name" => "primary_risk_indicators_safety",
-             "type" => "radio_button",
-             "display_name_all" => "Does the abused show fear on safety for himself or other family members?",
-             "option_strings_source" => "lookup lookup-yes-no",
-             "visible" => false
-            }),
-  Field.new({"name" => "primary_risk_indicators_violence_now",
-             "type" => "radio_button",
-             "display_name_all" => "Is the violence incident happening now?",
-             "option_strings_source" => "lookup lookup-yes-no",
-             "visible" => false
-            }),
-  Field.new({"name" => "cp_incident_violence_header_2",
-             "type" => "separator",
-             "display_name_all" => "Violence Incident "
-            }),
-  Field.new({"name" => "cp_incident_reported_elsewhere",
-             "type" => "radio_button",
-             "display_name_all" => "Did the Abused report on the incident?",
-             "help_text_all" => "(This information is entered by the case coordinator.)",
-             "option_strings_source" => "lookup lookup-yes-no"
-            }),
-  Field.new({"name" => "cp_incident_reported_elsewhere_organization_type",
-             "type" =>"select_box" ,
-             "display_name_all" => "If yes please specify the institution",
-             "help_text_all" => "(This information is entered by the case coordinator.)",
-             "option_strings_text_all" =>
-                          ["Family Protection Department",
-                           "Institution concerned with Domestic Violence",
-                           "Health Institution",
-                           "Psychosocial Institution",
-                           "Legal Institution",
-                           "Other"].join("\n")
-            }),
-  Field.new({"name" => "cp_incident_procedure_performed",
-             "type" => "textarea",
-             "help_text_all" => "(This information is entered by the case coordinator.)",
-             "display_name_all" => "What procedure has been carried out (in case of reporting)?"
-            }),
-  Field.new({"name" => "cp_incident_reporting",
-             "type" => "radio_button",
-             "display_name_all" => "Does this incident meet the criteria for Mandatory Reporting",
-             "help_text_all" => "(This determination is made by the supervisor or case coordinator.)",
-             "guiding_questions" => "Criteria of Mandatory Reporting
-                  Reporting is made in the following cases :
-                  1.        If the abused desires to report or to lodge a complaint, regardless of the risk criteria.
-                  2.        Any case of sexual violence or suspicion of sexual violence.
-                  3.        Any violence on a child or on an incapable person.
-                  4.        If there might be a life threat on the abused by the abuser, the family or the abused himself/ herself.
-
-                  If all of the above are not applicable, Conduct Critical Risk Factors Assessment to determine urgency and/or reporting need.
-
-                  The case should be managed as an emergency/priority case and/or  consider  reporting  to the Family Protection Department in the case of any (one single factor) of the following risk factors
-
-                  •        Does the case suffer from  physical injuries that need medical interventions?
-                  •        Has the case been assaulted by several abusers?
-                  •        Has the abused been assaulted/threatened  by a weapon or sharp tools?
-                  •        Does the abused suffer of any of the following symptoms  : Bouts of severe crying, aggressiveness, stupor, confusion, confusion, inability to concentrate, fear, trembling, anxiety?
-                  •        Does the abused show suicidal tendencies  or thoughts?
-                  •        Does the abused represent a treat on others?
-                  •        Is there a direct threat from the abuser or any of his family members?
-                  •        Does the abused indicate fear on herself or other family members?
-                  •        Had the abused been seriously assaulted previously in an incident of violence?",
-             "option_strings_source" => "lookup lookup-yes-no"
+                          ["Intimate Partner / Former Partner",
+                           "Primary Caregiver",
+                           "Family other than spouse or caregiver",
+                           "Supervisor / Employer",
+                           "Schoolmate",
+                           "Teacher / School Official",
+                           "Service Provider",
+                           "Cotenant / Housemate",
+                           "Family Friend/Neighbor",
+                           "Other refugee / IDP / Returnee",
+                           "Other resident community member",
+                           "Other",
+                           "No relation",
+                           "Unknown"].join("\n")
             })
 ]
 
