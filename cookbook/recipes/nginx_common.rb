@@ -30,3 +30,4 @@ service 'nginx' do
   action [:enable, :start]
 end
 
+include_recipe 'primero::nginx_default'
