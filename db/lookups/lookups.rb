@@ -343,7 +343,7 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :id => "lookup-unaccompanied-separated status",
+  :id => "lookup-unaccompanied-separated-status",
   :name => "Unaccompanied Separated Status",
   :lookup_values => [
     {id: "no", display_text: "No"}.with_indifferent_access,

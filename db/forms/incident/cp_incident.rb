@@ -84,13 +84,7 @@ cp_incident_fields = [
     "name" => "cp_incident_sexual_violence_type",
     "type" => "select_box",
     "display_name_all" => "Type of Violence",
-    "option_strings_text_all" => [
-      "Physical",
-      "Sexual - within the family",
-      "Sexual - outside the family",
-      "Neglect",
-      "Other"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-gbv-sexual-violence-type"
   }),
   Field.new({
     "name" => "cp_incident_family_members_affected",

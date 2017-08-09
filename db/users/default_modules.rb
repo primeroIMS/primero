@@ -48,6 +48,188 @@ create_or_update_module(
     "other_reportable_fields_tracing_request", "referral_transfer", "notes", "cp_case_plan", "cp_bia_form",
     "approvals", "incident_details_container"
   ],
+  field_map: {
+    map_to: "primeromodule-cp",
+    fields: [
+      {
+        source: [
+          "incident_details",
+          "cp_incident_identification_violence"
+        ],
+        target: "cp_incident_identification_violence"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_date"
+        ],
+        target: "incident_date"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_location_type"
+        ],
+        target: "cp_incident_location_type"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_location_type_other"
+        ],
+        target: "cp_incident_location_type_other"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_location"
+        ],
+        target: "cp_incident_location"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_timeofday"
+        ],
+        target: "cp_incident_timeofday"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_timeofday_actual"
+        ],
+        target: "cp_incident_timeofday_actual"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_sexual_violence_type"
+        ],
+        target: "cp_sexual_violence_type"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_previous_incidents"
+        ],
+        target: "cp_incident_previous_incidents"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_previous_incidents_description"
+        ],
+        target: "cp_incident_previous_incidents_description"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_abuser_name"
+        ],
+        target: "cp_incident_abuser_name"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_perpetrator_nationality"
+        ],
+        target: "cp_incident_perpetrator_nationality"
+      },
+      {
+        source: [
+          "incident_details",
+          "perpetrator_sex"
+        ],
+        target: "perpetrator_sex"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_perpetrator_age"
+        ],
+        target: "cp_incident_perpetrator_age"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_perpetrator_national_id_no"
+        ],
+        target: "cp_incident_perpetrator_national_id_no"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_perpetrator_other_id_type"
+        ],
+        target: "cp_incident_perpetrator_other_id_type"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_perpetrator_other_id_no"
+        ],
+        target: "cp_incident_perpetrator_other_id_no"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_perpetrator_marital_status"
+        ],
+        target: "cp_incident_perpetrator_marital_status"
+      },
+      {
+        source: [
+          "incident_details",
+          "cp_incident_perpetrator_relationship"
+        ],
+        target: "cp_incident_perpetrator_relationship"
+      },
+      {
+        source: ["age"],
+        target: "age"
+      },
+      {
+        source: ["sex"],
+        target: "cp_sex"
+      },
+      {
+        source: ["nationality"],
+        target: "cp_nationality"
+      },
+      {
+        source: ["national_id_no"],
+        target: "national_id_no"
+      },
+      {
+        source: ["other_id_type"],
+        target: "other_id_type"
+      },
+      {
+        source: ["other_id_no"],
+        target: "other_id_no"
+      },
+      {
+        source: ["maritial_status"],
+        target: "maritial_status"
+      },
+      {
+        source: ["educational_status"],
+        target: "educational_status"
+      },
+      {
+        source: ["occupation_lookup"],
+        target: "occupation_lookup"
+      },
+      {
+        source: ["disability_type"],
+        target: "cp_disability_type"
+      },
+      {
+        source: ["owned_by"],
+        target: "owned_by"
+      }
+    ]
+  },
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
   allow_searchable_ids: true
 )

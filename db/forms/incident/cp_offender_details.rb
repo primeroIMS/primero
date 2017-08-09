@@ -15,7 +15,7 @@ cp_offender_details_fields = [
     "name" => "perpetrator_sex",
     "type" => "radio_button",
     "display_name_all" => "Sex",
-    "option_strings_text_all" => ["Male", "Female"].join("\n")
+    "option_strings_text_all" => "lookup lookup-gender"
   }),
   Field.new({
     "name" => "cp_incident_perpetrator_age",
