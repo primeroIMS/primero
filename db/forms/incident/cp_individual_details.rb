@@ -40,13 +40,7 @@ cp_individual_details_fields = [
     "type" =>"select_box" ,
     "display_name_all" => "Social Status",
     "show_on_minify_form" => true,
-    "option_strings_text_all" => [
-      "Single",
-      "Married",
-      "Divorced",
-      "Separated",
-      "Widow"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-marital-status"
   }),
   Field.new({
     "name" => "educational_status",
@@ -61,22 +55,15 @@ cp_individual_details_fields = [
     ].join("\n")
   }),
   Field.new({
-    "name" => "occupation_lookup",
-    "type" =>"select_box",
-    "display_name_all" => "Profession",
-    "option_strings_source" => "lookup lookup-victim-occupation"
+    "name" => "occupation",
+    "type" => "text_field",
+    "display_name_all" => "Occupation"
   }),
   Field.new({
     "name" => "cp_disability_type",
     "type" =>"select_box" ,
     "display_name_all" => "Disability Type",
-    "option_strings_text_all" => [
-      "Physical",
-      "Audio",
-      "Visual",
-      "Mobility",
-      "Others"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-disability-type"
   })
 ]
 
