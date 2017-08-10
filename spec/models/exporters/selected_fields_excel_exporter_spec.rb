@@ -16,14 +16,16 @@ module Exporters
       subform.save!
 
       form = FormSection.new(:name => "cases_test_form_3", :parent_form => "case", "visible" => true,
-                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_3")
+                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_3",
+                             :unique_id => "cases_test_form_3")
       form.fields << Field.new(:name => "subform_field_2", :type => Field::SUBFORM, :display_name => "subform field", "subform_section_id" => subform.unique_id)
       form.save!
       #### Build Form Section with subforms fields only ######
 
       #### Build Form Section with none subforms fields ######
       form = FormSection.new(:name => "cases_test_form_2", :parent_form => "case", "visible" => true,
-                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_2")
+                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_2",
+                             :unique_id => "cases_test_form_2")
       form.fields << Field.new(:name => "relationship", :type => Field::TEXT_FIELD, :display_name => "relationship")
       form.fields << Field.new(:name => "array_field", :type => Field::SELECT_BOX, :display_name => "array_field", :multi_select => true,
                                :option_strings_text_all => ["Option1", "Option2", "Option5", "Option4"])
@@ -40,7 +42,8 @@ module Exporters
       subform.save!
 
       form = FormSection.new(:name => "cases_test_form_1", :parent_form => "case", "visible" => true,
-                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_1")
+                             :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "cases_test_form_1",
+                             :unique_id => "cases_test_form_1")
       form.fields << Field.new(:name => "first_name", :type => Field::TEXT_FIELD, :display_name => "first_name")
       form.fields << Field.new(:name => "last_name", :type => Field::TEXT_FIELD, :display_name => "last_name")
       form.fields << Field.new(:name => "subform_field_1", :type => Field::SUBFORM, :display_name => "subform field", "subform_section_id" => subform.unique_id)
@@ -136,12 +139,12 @@ module Exporters
       #Will export a few fields.
       subform = @properties_by_module["primeromodule-cp"]["cases_test_form_1"]["subform_field_1"]
       field = subform.type.properties.select{|p| p.name == "field_2"}.first
-      @properties_by_module["primeromodule-cp"]["cases_test_form_1"]["subform_field_1"] = {field.unique_id => field}
+      @properties_by_module["primeromodule-cp"]["cases_test_form_1"]["subform_field_1"] = {field.name => field}
 
       #Will export a few fields.
       subform = @properties_by_module["primeromodule-cp"]["cases_test_form_3"]["subform_field_2"]
       field = subform.type.properties.select{|p| p.name == "field_4"}.first
-      @properties_by_module["primeromodule-cp"]["cases_test_form_3"]["subform_field_2"] = {field.unique_id => field}
+      @properties_by_module["primeromodule-cp"]["cases_test_form_3"]["subform_field_2"] = {field.name => field}
 
       data = SelectedFieldsExcelExporter.export(@records, @properties_by_module, @user, {})
       book = Spreadsheet.open(StringIO.new(data))
