@@ -76,7 +76,7 @@ class ChildrenController < ApplicationController
     end
     child = Child.get(params[:child_id])
     from_module = params[:incident_detail_id].present? ? child.module : nil
-    to_module_id = from_module.present? ? from_module.field_map_to_module_id : child.module_id
+    to_module_id = from_module.present? && from_module.field_map_to_module_id.present? ? from_module.field_map_to_module_id : child.module_id
 
     new_incident_params = {case_id: child.id, module_id: to_module_id}
     if params[:incident_detail_id].present?
