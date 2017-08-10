@@ -399,8 +399,8 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
-  :id => "lookup-cp-sexual-violence-type",
-  :name => "CP Sexual Violence Type",
+  :id => "lookup-cp-violence-type",
+  :name => "CP Violence Type",
   :lookup_values => [
     {id: "rape", display_text: "Rape"}.with_indifferent_access,
     {id: "sexual_assault", display_text: "Sexual Assault"}.with_indifferent_access,
@@ -672,10 +672,9 @@ create_or_update_lookup(
     :name => "Marital Status",
     :lookup_values => [
       {id: "single", display_text: "Single"},
-      {id:"married", display_text: "Married"},
-      {id: "divorced", display_text: "Divorced"},
-      {id: "separated", display_text: "Separated"},
-      {id: "widow", display_text: "Widow"}
+      {id: "married_cohabitating", display_text: "Married/Cohabitating"},
+      {id: "divorced_separated", display_text: "Divorced/Separated"},
+      {id: "widowed", display_text: "Widowed"}
     ]
 )
 

@@ -40,13 +40,7 @@ cp_individual_details_fields = [
     "type" =>"select_box" ,
     "display_name_all" => "Social Status",
     "show_on_minify_form" => true,
-    "option_strings_text_all" => [
-      "Single",
-      "Married",
-      "Divorced",
-      "Separated",
-      "Widow"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-marital-status"
   }),
   Field.new({
     "name" => "educational_status",

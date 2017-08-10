@@ -65,10 +65,10 @@ cp_incident_fields = [
     "display_name_all" => "Please specify the actual time of the Incident"
   }),
   Field.new({
-    "name" => "cp_incident_sexual_violence_type",
+    "name" => "cp_incident_violence_type",
     "type" => "select_box",
     "display_name_all" => "Type of Violence",
-    "option_strings_source" => "lookup lookup-cp-sexual-violence-type"
+    "option_strings_source" => "lookup lookup-cp-violence-type"
   }),
   Field.new({
     "name" => "cp_incident_previous_incidents",

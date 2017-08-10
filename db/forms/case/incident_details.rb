@@ -35,10 +35,10 @@ incident_details_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "Please specify the actual time of the Incident"
             }),
-  Field.new({"name" => "cp_incident_sexual_violence_type",
+  Field.new({"name" => "cp_incident_violence_type",
              "type" => "select_box",
              "display_name_all" => "Type of Violence",
-             "option_strings_source" => "lookup lookup-cp-sexual-violence-type"
+             "option_strings_source" => "lookup lookup-cp-violence-type"
             }),
   Field.new({"name" => "cp_incident_previous_incidents",
              "type" => "radio_button",
@@ -129,7 +129,7 @@ incident_details_subform_section = FormSection.create_or_update_form_section({
   :initial_subforms => 1,
   "name_all" => "Nested Incident Details Subform",
   "description_all" => "Nested Incident Details Subform",
-  "collapsed_fields" => ["cp_incident_sexual_violence_type", "cp_incident_date"]
+  "collapsed_fields" => ["cp_incident_violence_type", "cp_incident_date"]
 })
 
 incident_details_fields = [
