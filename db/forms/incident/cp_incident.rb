@@ -83,7 +83,7 @@ cp_incident_fields = [
   })
 ]
 
-y = FormSection.create_or_update_form_section({
+FormSection.create_or_update_form_section({
   :unique_id => "cp_incident_form",
   :parent_form=>"incident",
   "visible" => true,
