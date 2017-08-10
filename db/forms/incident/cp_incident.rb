@@ -29,7 +29,7 @@ cp_incident_fields = [
     "name" => "cp_incident_identification_violence",
     "type" => "select_box",
     "display_name_all" => "Identification of Violence Case",
-    "option_strings_text_all" => "lookup lookup-incident-identification"
+    "option_strings_source" => "lookup lookup-incident-identification"
   }),
   Field.new({
     "name" => "cp_incident_date",
@@ -83,7 +83,7 @@ cp_incident_fields = [
   })
 ]
 
-FormSection.create_or_update_form_section({
+y = FormSection.create_or_update_form_section({
   :unique_id => "cp_incident_form",
   :parent_form=>"incident",
   "visible" => true,

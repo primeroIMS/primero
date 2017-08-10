@@ -105,7 +105,7 @@ incident_details_subform_fields = [
              "type" => "textarea",
              "display_name_all" => "Address"
             }),
-  Field.new({"name" => "cp_incident_perpetrator_occupation_lookup",
+  Field.new({"name" => "cp_incident_perpetrator_occupation",
               "type" =>"text_field",
               "display_name_all" => "Occupation"
             }),

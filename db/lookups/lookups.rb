@@ -733,3 +733,13 @@ create_or_update_lookup(
         {id: "other", display_text: "Other"}
     ]
 )
+
+create_or_update_lookup(
+    :id => "lookup-disability-type",
+    :name => "Disability Type",
+    :lookup_values => [
+        {id: "mental_disability", display_text: "Mental Disability"},
+        {id: "physical_disability", display_text: "Physical Disability"},
+        {id: "both", display_text: "Both"}
+    ]
+)

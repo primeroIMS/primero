@@ -46,7 +46,8 @@ create_or_update_module(
     "tracing_request_inquirer", "tracing_request_record_owner", "tracing_request_tracing_request",
     "tracing_request_photos_and_audio", "followup", "reunification_details", "other_reportable_fields_case",
     "other_reportable_fields_tracing_request", "referral_transfer", "notes", "cp_case_plan", "cp_bia_form",
-    "approvals", "incident_details_container"
+    # "cp_incident_form", "cp_individual_details", "cp_offender_details", "cp_other_reportable_fields", "cp_incident_record_owner", "incident_details_container", # Comment/Un-comment this line to remove/add cp incident forms to CP module
+    "approvals"
   ],
   field_map: {
     map_to: "primeromodule-cp",
@@ -63,7 +64,7 @@ create_or_update_module(
           "incident_details",
           "cp_incident_date"
         ],
-        target: "incident_date"
+        target: "cp_incident_date"
       },
       {
         source: [
@@ -105,7 +106,7 @@ create_or_update_module(
           "incident_details",
           "cp_incident_sexual_violence_type"
         ],
-        target: "cp_sexual_violence_type"
+        target: "cp_incident_sexual_violence_type"
       },
       {
         source: [
@@ -180,6 +181,13 @@ create_or_update_module(
       {
         source: [
           "incident_details",
+          "cp_incident_perpetrator_occupation"
+        ],
+        target: "cp_incident_perpetrator_occupation"
+      },
+      {
+        source: [
+          "incident_details",
           "cp_incident_perpetrator_relationship"
         ],
         target: "cp_incident_perpetrator_relationship"
@@ -217,8 +225,8 @@ create_or_update_module(
         target: "educational_status"
       },
       {
-        source: ["occupation_lookup"],
-        target: "occupation_lookup"
+        source: ["occupation"],
+        target: "occupation"
       },
       {
         source: ["disability_type"],

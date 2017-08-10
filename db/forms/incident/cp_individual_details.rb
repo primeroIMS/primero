@@ -61,22 +61,15 @@ cp_individual_details_fields = [
     ].join("\n")
   }),
   Field.new({
-    "name" => "occupation_lookup",
-    "type" =>"select_box",
-    "display_name_all" => "Profession",
-    "option_strings_source" => "lookup lookup-victim-occupation"
+    "name" => "occupation",
+    "type" => "text_field",
+    "display_name_all" => "Occupation"
   }),
   Field.new({
     "name" => "cp_disability_type",
     "type" =>"select_box" ,
     "display_name_all" => "Disability Type",
-    "option_strings_text_all" => [
-      "Physical",
-      "Audio",
-      "Visual",
-      "Mobility",
-      "Others"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-disability-type"
   })
 ]
 
