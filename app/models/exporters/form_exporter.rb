@@ -19,7 +19,7 @@ module Exporters
 
     # Exports forms to an Excel spreadsheet
     def export_forms_to_spreadsheet(type = 'case', module_id = 'primeromodule-cp', show_hidden = false)
-      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'On Mobile?', 'On Short Form?', 'Options', 'Help Text', 'Guiding Questions']
+      header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Visible?', 'Required', 'On Mobile?', 'On Short Form?', 'Options', 'Help Text', 'Guiding Questions']
 
       primero_module = PrimeroModule.get(module_id)
       forms = primero_module.associated_forms_grouped_by_record_type(false)
@@ -52,7 +52,7 @@ module Exporters
 
     def get_workbook_name(form)
       idx ||= 1
-      workbook_name = "#{((form.unique_id).gsub(/[^0-9a-z ]/i, ''))[0..30]}"
+      workbook_name = "#{((form.name).gsub(/[^0-9a-z ]/i, ''))[0..30]}"
       return make_workbook_name_unique(workbook_name)
     end
 
@@ -67,13 +67,17 @@ module Exporters
         form.fields.each_with_index do |field, i|
           if show_hidden || field.visible?
             visible = field.visible? ? I18n.t("true") : I18n.t("false")
+            required = field.required ? I18n.t("true") : I18n.t("false")
             options = ''
             if ['radio_button', 'select_box'].include?(field.type)
               if field.option_strings_source.present? && field.option_strings_source.start_with?('Location')
                 options = 'Locations'
               else
                 #TODO i18n
-                options = field.options_list.join(', ')
+                options_list = field.options_list
+                # If a list of strings, just display the strings. If specified as an object, display the display_text.
+                options = options_list.map {|o| (o.is_a? String) ? o : o['display_text']}
+                options = options.join(', ')
               end
             elsif field.type == 'subform'
               subform = field.subform_section
@@ -84,7 +88,7 @@ module Exporters
             field_type += " (multi)" if field.type == 'select_box' && field.multi_select
             mobile_visible = ((form.visible || form.is_nested) && form.mobile_form && field.mobile_visible) ? 'Yes' : 'No'
             minify_visible = field.show_on_minify_form ? 'Yes' : 'No'
-            worksheet.write((i+2),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, mobile_visible, minify_visible, options, field.help_text, field.guiding_questions])
+            worksheet.write((i+2),0,[form.form_group_name, form.name, field.name, field_type, field.display_name, visible, required, mobile_visible, minify_visible, options, field.help_text, field.guiding_questions])
           end
         end
       end
