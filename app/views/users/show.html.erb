@@ -38,6 +38,15 @@
         <%= resource_show_field @user, 'user_name', 'login.username' %>
         <%= resource_show_field @user, 'code', 'user.code' %>
 
+      <div class="row">
+        <div class="medium-4 columns">
+          <label class="key"><%= t("home.language") %></label>
+        </div>
+        <div class="medium-8 columns">
+          <span class="value"><%= t("home.#{@user.locale}") if @user.locale.present? %></span>
+        </div>
+      </div>
+
         <div class="row">
           <div class="medium-4 columns">
             <label class="key"><%= t("roles.label") %></label>

@@ -23,6 +23,19 @@
     <%= resource_edit_field @user, 'password', 'login.password.label', 'password_field', new_user, false, t("user.password_strength") %>
     <%= resource_edit_field @user, 'password_confirmation', 'login.password.re_enter', 'password_field', new_user %>
 
+    <div class="row">
+      <div class="medium-3 columns">
+        <span class="tool-tip-label">
+          <label class="key" for="user_locale" ><%= t("home.language") %></label>
+        </span>
+      </div>
+      <div class="medium-8 columns">
+        <% value = @user.try(:locale) %>
+        <%= f.select :locale, Primero::Application::LOCALES.map {|option| [I18n.t("home.#{option}"), option.to_sym]}, { include_blank: t('select_language') }, {class: 'chosen-select', data: {value: value}} %>
+      </div>
+      <div class="medium-1 columns"> </div>
+    </div>
+
     <% if !trying_to_edit_ourself && can?(:edit, @user) %>
     <div class="row">
       <div class="medium-3 columns">
