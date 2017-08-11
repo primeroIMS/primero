@@ -97,9 +97,7 @@ module Exporters
               row_array = row_array.insert(VISIBLE_COLUMN_INDEX, visible)
             end
             worksheet.write((i+2),0,row_array)
-            i+=1
-          # else
-          #   i-=1
+            i+=1 # Using the each_with_index method leaves empty rows for hidden fields, so we increment the index manually.
           end
         end
       end
