@@ -25,4 +25,6 @@ Primero::Application.configure do
   config.static_cache_control = "public, max-age=3600"
 
   config.eager_load = false
+
+  config.middleware.use RackSessionAccess::Middleware
 end
