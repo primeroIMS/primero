@@ -525,9 +525,8 @@ module Record
           source_value = source[form_key]
         end
 
-        self[target_key] = source_value if source_value.present?
+        self[target_key] = source_value unless source_value.nil?
       end
     end
   end
-
 end

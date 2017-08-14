@@ -3,7 +3,7 @@ other_identity_details_fields = [
              "type" =>"select_box",
              "multi_select" => true,
              "display_name_all" => "Nationality",
-             "option_strings_source" => "lookup lookup-nationality",
+             "option_strings_source" => "lookup lookup-country",
              "matchable" => true
             }),
   Field.new({"name" => "place_of_birth",
