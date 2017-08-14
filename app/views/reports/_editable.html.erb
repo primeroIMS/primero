@@ -1,5 +1,5 @@
-
-<% if object.name.present? %>
+<% editable = object.name.present? %>
+<% if editable %>
   <div class="row">
     <div class="medium-4 medium-offset-8 columns">
       <div class="lang_title">
@@ -10,7 +10,7 @@
 <% end %>
 
 <%= resource_edit_field(object, 'name', 'report.name', 'text_field', true, false, nil, 'errors.models.report.name_presence', I18n.locale) %>
-<% if object.name.present? %>
+<% if editable %>
   <% Primero::Application::LOCALES.each do |new_locale| %>
     <% if new_locale != "en" %>
       <div class="row <%= "translation_forms #{new_locale}"%> hide_element">
