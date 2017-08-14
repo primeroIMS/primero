@@ -28,7 +28,6 @@ class Agency < CouchRest::Model::Base
                    }
                 }"
   end
-
   validates_presence_of :agency_code, :message => I18n.t("errors.models.agency.code_present")
   validates_presence_of :name, :message => I18n.t("errors.models.agency.name_present")
 

@@ -55,7 +55,7 @@ class Report < CouchRest::Model::Base
   attr_accessor :disaggregate_by_ordered
   attr_accessor :permission_filter
 
-  validates_presence_of :name
+  validates_presence_of :name_en
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
   validate :modules_present

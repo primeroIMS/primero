@@ -1,25 +1,30 @@
-<div class="row">
-  <div class="medium-9 medium-offset-3 columns">
-    <%= render 'shared/locale_select' %>
-  </div>
-</div>
-
-<%= resource_edit_field(object, 'name', 'agency.name', 'text_field', true) %>
-<% Primero::Application::LOCALES.each do |new_locale| %>
-  <% if I18n.default_locale.to_s != new_locale %>
-    <div class="<%= "translation_forms #{new_locale}"%> hide_element">
-      <%= resource_edit_field(object, "name_#{new_locale}", 'agency.name', 'text_field', false, false, nil, 'errors.models.agency.name_present') %>
+<% if object.name.present? %>
+  <div class="row">
+    <div class="medium-9 medium-offset-3 columns">
+      <%= render 'shared/locale_select', current_locale: "en"%>
     </div>
+  </div>
+<% end %>
+<%= resource_edit_field(object, 'name', 'agency.name', 'text_field', true, false, nil, nil, I18n.locale) %>
+<% if object.name.present? %>
+  <% Primero::Application::LOCALES.each do |new_locale| %>
+    <% if new_locale != "en" %>
+      <div class="row <%= "translation_forms #{new_locale}"%> hide_element">
+        <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>
+        <%= resource_edit_field(object, "name_#{new_locale}", nil, 'text_field', false, false, nil, 'errors.models.agency.name_present') %>
+      </div>
+    <% end %>
   <% end %>
 <% end %>
 
 <%= resource_edit_field(object, 'agency_code', 'agency.code', 'text_field', true) %>
 
-<%= resource_edit_field(object, 'description', 'description', 'text_area') %>
+<%= resource_edit_field(object, 'description', 'description', 'text_area', false, false, nil, nil, I18n.locale) %>
 <% Primero::Application::LOCALES.each do |new_locale| %>
-  <% if I18n.default_locale.to_s != new_locale %>
+  <% if new_locale != "en" %>
     <div class="<%= "translation_forms #{new_locale}"%> hide_element">
-      <%= resource_edit_field(object, "description_#{new_locale}", 'description', 'text_area') %>
+      <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>
+      <%= resource_edit_field(object, "description_#{new_locale}", nil, 'text_area') %>
     </div>
   <% end %>
 <% end %>
