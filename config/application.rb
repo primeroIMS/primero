@@ -41,7 +41,7 @@ module Primero
     config.assets.version = '1.0'
 
     config.assets.precompile += [
-      'application_ltr.scss', 
+      'application_ltr.scss',
       'application_rtl.scss'
     ]
 
@@ -49,10 +49,16 @@ module Primero
     LOCALE_FRENCH = 'fr'
     LOCALE_ARABIC = 'ar'
     LOCALE_SPANISH = 'es'
-    #LOCALES = ['en','fr','ar','zh','es','ru']
-    #LOCALES_WITH_DESCRIPTION = [['-', nil],['العربية','ar'],['中文','zh'],['English', 'en'],['Français', 'fr'],['Русский', 'ru'],['Español', 'es']]
-    LOCALES = [LOCALE_ENGLISH,LOCALE_FRENCH,LOCALE_ARABIC,LOCALE_SPANISH]
-    LOCALES_WITH_DESCRIPTION = [['-', nil],['English', LOCALE_ENGLISH],['Français', LOCALE_FRENCH],['العربية',LOCALE_ARABIC],['Español', LOCALE_SPANISH]]
+    LOCALE_LEBANON = 'ar-LB'
+    LOCALES = [LOCALE_ENGLISH,LOCALE_FRENCH,LOCALE_ARABIC,LOCALE_LEBANON,LOCALE_SPANISH]
+    LOCALES_WITH_DESCRIPTION = [
+      ['-', nil],
+      ['English', LOCALE_ENGLISH],
+      ['Français', LOCALE_FRENCH],
+      ['العربية', LOCALE_ARABIC],
+      ['العربية (اللبنانية)', LOCALE_LEBANON],
+      ['Español', LOCALE_SPANISH]
+    ]
 
     if ENV['RAILS_LOG_PATH'].present?
       config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"

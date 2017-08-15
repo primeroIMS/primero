@@ -12,6 +12,7 @@ en:
     fr: "Français"
     en: "English"
     ar: "العربية"
+    ar-LB: "العربية (اللبنانية)"
     zh: "中文"
     es: "Español"
     ru: "Русский"
@@ -1702,6 +1703,9 @@ en:
         record_type_presence: "Record type must not be blank"
         group_by_row_presence: "Group by row must not be blank"
         use_date_ranges_presence: "Use date ranges must not be blank"
+
+      system_settings:
+        default_locale: "System locale must not be blank"
 
 
 

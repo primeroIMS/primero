@@ -4,7 +4,7 @@ class SystemSettings < CouchRest::Model::Base
   include PrimeroModel
   include Memoizable
 
-  property :default_locale, String
+  property :default_locale, String, :default => 'en'
   property :case_code_format, [String], :default => []
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
@@ -16,6 +16,8 @@ class SystemSettings < CouchRest::Model::Base
   property :location_limit_for_api
   property :approval_forms_to_alert
   property :changes_field_to_form
+
+  validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version

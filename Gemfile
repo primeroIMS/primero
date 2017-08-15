@@ -20,7 +20,7 @@ gem 'cancancan', '~> 1.7'
 gem 'capistrano',     '~> 2.14.2'
 gem 'highline',       '1.6.16'
 gem 'will_paginate',  '~> 3.1.0'
-gem 'i18n-js',        '~> 2.1.2'
+gem 'i18n-js',        '~> 3.0.1'
 gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 0.9.6'
 gem 'thin',           '~> 1.6.1', :platforms => :ruby, :require => false
