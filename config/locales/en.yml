@@ -1937,6 +1937,9 @@ en:
     unknown_status: "Unknown transfer status: %{status}"
     unknown_transfer: "%{record_type} %{id} invalid transfer"
     not_valid_transfer: "%{record_type} %{id} invalid transfer, can't update is not in progress or you have not permission on the case"
+    search:
+      rejected: "Rejected"
+      in_progress: "In Progress"
 
   transition:
     export_type:

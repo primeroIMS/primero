@@ -16,7 +16,7 @@
         <tbody>
           <% stats.each do |k, v| %>
             <tr>
-              <td class="id_column"><%= k %></td>
+              <td class="id_column"><%= I18n.t("transfer.search.#{k}") %></td>
               <td>
                 <%= stat_link(v[:total_cases], {filter: index_filters(["child_status=#{Record::STATUS_OPEN}", "transfer_status=#{k}" ,'record_state=true'])}, model) %>
               </td>
