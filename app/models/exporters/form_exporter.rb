@@ -77,7 +77,7 @@ module Exporters
                 options = 'Locations'
               else
                 #TODO i18n
-                options_list = field.options_list
+                options_list = field.options_list(nil, nil, nil, true)
                 # If a list of strings, just display the strings. If specified as an object, display the display_text.
                 options = options_list.map {|o| (o.is_a? String) ? o : o['display_text']}
                 options = options.join(', ')
