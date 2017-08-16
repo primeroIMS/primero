@@ -51,10 +51,7 @@ protection_concern_fields = [
   Field.new({"name" => "disability_type",
              "type" =>"select_box" ,
              "display_name_all" => "Disability Type",
-             "option_strings_text_all" =>
-                          ["Mental Disability",
-                           "Physical Disability",
-                           "Both"].join("\n")
+             "option_strings_source" => "lookup lookup-disability-type"
             })
 ]
 

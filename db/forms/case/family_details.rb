@@ -108,7 +108,7 @@ family_details_fields_subform = [
              "type" => "select_box",
              "display_name_all" => "Nationality",
              "multi_select" => true,
-             "option_strings_source" => "lookup lookup-nationality",
+             "option_strings_source" => "lookup lookup-country",
              "matchable" => true
            }),
   Field.new({"name" => "relation_comments",
