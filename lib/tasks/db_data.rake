@@ -68,6 +68,21 @@ namespace :db do
       end
     end
 
+    desc "Export the forms to a yaml file to be translated"
+    task :export_form_translation, [:form_name, :type, :module, :show_hidden] => :environment do |t, args|
+      form_name = args[:form_name].present? ? args[:form_name] : ''
+      module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
+      type = args[:type].present? ? args[:type] : 'case'
+      show_hidden = args[:show_hidden].present?
+      # file_name = "forms.xls"
+      # puts "Writing #{type} #{module_id} forms to #{file_name}"
+      #TODO fix parameter handling... can I pass in nill form name?
+      #TODO add comments
+      forms_exporter = Exporters::YmlFormExporter.new(form_name)
+      forms_exporter.export_forms_to_yaml
+      puts "Done!"
+    end
+
 
     # Creates Location.create! statements which can be used as a Location seed file
     # USAGE:   $bundle exec rake db:data:generate_locations[json,layers,regions]
