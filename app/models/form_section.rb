@@ -108,6 +108,14 @@ class FormSection < CouchRest::Model::Base
   before_validation :generate_options_keys
   after_save :recalculate_subform_permissions
 
+  def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
+    lh = localized_hash(locale)
+    fldz = {}
+    self.fields.each { |f| fldz[f.name] = f.localized_property_hash if (show_hidden_fields || f.visible?)}
+    lh['fields'] = fldz
+    lh
+  end
+
   def inspect
     "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
   end
@@ -653,6 +661,26 @@ class FormSection < CouchRest::Model::Base
       end
     end
 
+    def import_translations(form_hash={}, locale)
+      if locale.present? && Primero::Application::locales.include?(locale)
+        unique_id = form_hash.keys.first
+        if unique_id.present?
+          form = self.get_by_unique_id(unique_id)
+          if form.present?
+            form.update_translations(form_hash.values.first, locale)
+            Rails.logger.info "Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]"
+            form.save!
+          else
+            Rails.logger.error "Error importing translations: Form for ID [#{unique_id}] not found"
+          end
+        else
+          Rails.logger.error "Error importing translations: Form ID not present"
+        end
+      else
+        Rails.logger.error "Error importing translations: locale not present"
+      end
+    end
+
   end
 
   #Returns the list of field to show in collapsed subforms.
@@ -826,6 +854,24 @@ class FormSection < CouchRest::Model::Base
     self.fields.each{|field| field.generate_options_keys}
   end
 
+  def field_by_name(field_name)
+    self.fields.find{|f| f.name == field_name}
+  end
+
+  def update_translations(form_hash={}, locale)
+    if locale.present? && Primero::Application::locales.include?(locale)
+      form_hash.each do |key, value|
+        if key == 'fields'
+          update_field_translations(value, locale)
+        else
+          self.send("#{key}_#{locale}=", value)
+        end
+      end
+    else
+      Rails.logger.error "Form translation not updated: Invalid locale [#{locale}]"
+    end
+  end
+
   protected
 
   def recalculate_subform_permissions
@@ -920,6 +966,15 @@ class FormSection < CouchRest::Model::Base
     return false if location_count > Location::LIMIT_FOR_API
     ss_limit = SystemSettings.current.try(:location_limit_for_api)
     return_value = ss_limit.present? ? location_count < ss_limit : true
+  end
+
+  def update_field_translations(fields_hash={}, locale)
+    fields_hash.each do |key, value|
+      field = self.field_by_name(key)
+      if field.present?
+        field.update_translations(value, locale)
+      end
+    end
   end
 
 end

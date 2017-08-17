@@ -14,7 +14,7 @@ feature "forms" do
       )
 
       @user = setup_user(form_sections: [@form_section])
-      login_user(@user)
+      create_session(@user, 'password123')
     end
 
     scenario "throws error on invalid required fields" do

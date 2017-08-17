@@ -116,6 +116,15 @@ class Field
   validate :validate_option_strings_text
   #TODO: Any subform validations?
 
+  def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
+    lh = localized_hash(locale)
+    if self.option_strings_text.present?
+      fh = {}
+      self["option_strings_text_#{locale}"].each{|os| fh[os['id']] = os['display_text']}
+      lh['option_strings_text'] = fh
+    end
+    lh
+  end
 
   def validate_display_name_format
     special_characters = /[*!@#%$\^]/
@@ -502,6 +511,20 @@ class Field
     self.mobile_visible == true && self.visible == true
   end
 
+  def update_translations(field_hash={}, locale)
+    if locale.present? && Primero::Application::locales.include?(locale)
+      field_hash.each do |key, value|
+        if key == 'option_strings_text'
+          update_option_strings_translations(value, locale)
+        else
+          self.send("#{key}_#{locale}=", value)
+        end
+      end
+    else
+      Rails.logger.error "Field translation not updated: Invalid locale [#{locale}]"
+    end
+  end
+
   private
 
   def create_unique_id
@@ -528,6 +551,13 @@ class Field
       self.autosum_total ||= true
     end
     true
+  end
+
+  def update_option_strings_translations(options_hash, locale)
+    options_hash.each do |key, value|
+      os = self["option_strings_text_#{locale}"].find{|os| os['id'] == key}
+      os['display_text'] = value if os.present?
+    end
   end
 
 end

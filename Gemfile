@@ -102,6 +102,7 @@ group :test, :cucumber do
   gem 'simplecov-rcov',     '~> 0.2.3'
   gem 'ci_reporter',        '~> 1.9.1'
   gem 'pdf-inspector',      '~> 1.1.0', :require => 'pdf/inspector'
+  gem 'rack_session_access'
 end
 
 #TODO: Does this get installed?

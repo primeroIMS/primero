@@ -182,6 +182,13 @@ basic_identity_fields = [
              "type" => "textarea",
              "display_name_all" => "List of documents carried by the child"
             }),
+  Field.new({"name" => "nationality",
+             "type" =>"select_box",
+             "multi_select" => true,
+             "display_name_all" => "Nationality",
+             "option_strings_source" => "lookup lookup-country",
+             "matchable" => true
+            }),
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,
              "display_name_all" => "Current Civil/Marital Status",

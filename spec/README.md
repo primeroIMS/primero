@@ -5,6 +5,11 @@ We use rspec for testing. Rspec test are located in the /spec directory. There s
 * [Rspec](https://relishapp.com/rspec)
 * [Capybara](http://www.rubydoc.info/github/teamcapybara/capybara/master)
 
+## Prep
+You will need to install the latest version of chrome to your vagrant box.
+
+`sudo apt-get install chromium-browser libgconf-2-4`
+
 ## Commands
 * `rspec spec` - Run entire suite (models, integration, controller, views, etc).
 * `rspec spec/integration` - Run integration suite.
@@ -97,4 +102,15 @@ Building form sections is done throught factory girl. Notice below you can creat
     ])
   ]
 )
+
+#### Create a user session for spec
+
+To create a user session use `create_session(user, password)` before visiting a page.
+
+```
+  scenario "create user session (Example)" do
+    create_session(@user, 'password123')
+    visit '/'
+    expect(page).to have_content "Logged in as: #{@user.user_name}"
+  end
 ```
