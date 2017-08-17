@@ -80,3 +80,21 @@ feature "signin process" do
   end
 end
 ```
+
+Building form sections is done throught factory girl. Notice below you can create a form section with the `form_section` factory. Add the fields you want to the fields property (array). You can also build a subform wit the `subform_field` factory and pass in your desired fields in the fields property (array).
+
+```
+@form_section = create(:form_section,
+  is_first_tab: true,
+  fields: [
+    # Example field outside of subform
+    build(:field, required: false)
+    # Example subform
+    build(:subform_field, fields: [
+      # Example subform fields
+      build(:field, required: true),
+      build(:field)
+    ])
+  ]
+)
+```
