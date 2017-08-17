@@ -20,7 +20,7 @@ gem 'cancancan', '~> 1.7'
 gem 'capistrano',     '~> 2.14.2'
 gem 'highline',       '1.6.16'
 gem 'will_paginate',  '~> 3.1.0'
-gem 'i18n-js',        '~> 2.1.2'
+gem 'i18n-js',        '~> 3.0.1'
 gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 0.9.6'
 gem 'thin',           '~> 1.6.1', :platforms => :ruby, :require => false
@@ -102,6 +102,7 @@ group :test, :cucumber do
   gem 'simplecov-rcov',     '~> 0.2.3'
   gem 'ci_reporter',        '~> 1.9.1'
   gem 'pdf-inspector',      '~> 1.1.0', :require => 'pdf/inspector'
+  gem 'rack_session_access'
 end
 
 #TODO: Does this get installed?

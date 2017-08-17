@@ -19,10 +19,7 @@ describe Location do
 
   #TODO - add i18n tests
   it '#generate_hierarchy_placenames' do
-    expect(@town1.generate_hierarchy_placenames).to eq({"en"=>["MyCountry", "Province 1", "Town 1"],
-                                                        "fr"=>[nil, nil, nil],
-                                                        "ar"=>[nil, nil, nil],
-                                                        "es"=>[nil, nil, nil]})
+    expect(@town1.generate_hierarchy_placenames).to include("en"=>["MyCountry", "Province 1", "Town 1"])
   end
 
   it '#name' do

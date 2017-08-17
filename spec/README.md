@@ -80,3 +80,15 @@ feature "signin process" do
   end
 end
 ```
+
+#### Create a user session for spec
+
+To create a user session use `create_session(user, password)` before visiting a page.
+
+```
+  scenario "create user session (Example)" do
+    create_session(@user, 'password123')
+    visit '/'
+    expect(page).to have_content "Logged in as: #{@user.user_name}"
+  end
+```
