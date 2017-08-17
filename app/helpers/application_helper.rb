@@ -232,17 +232,6 @@ module ApplicationHelper
                         [t("disabled.status.all"), "all"]], filter)
   end
 
-
-  # This is a hack to avoid getting the special HTML wrappers that the I18n library
-  # imposes on all missed translation keys. Occasionally they break HTML.
-  def t(key, options={})
-    begin
-      I18n.t(key, options.merge({raise: true}))
-    rescue I18n::MissingTranslationData
-      key
-    end
-  end
-
   def icon(icon, text = nil, html_options = {})
     text, html_options = nil, text if text.is_a?(Hash)
 

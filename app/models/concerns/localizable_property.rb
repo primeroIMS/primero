@@ -14,7 +14,11 @@ module LocalizableProperty
           locale_field_value = self.send("#{method}_#{locale}")
           if locale_field_value.nil? || locale_field_value.empty?
             #If value for the default locale is nil, return the English translation
-            self.send("#{method}_#{I18n.default_locale}") || self.send("#{method}_en")
+            locale_language = locale.to_s.split('-')[0] # discard region
+            default_locale = I18n.default_locale
+            self.send("#{method}_#{locale_language}") ||
+            self.send("#{method}_#{default_locale}") ||
+            self.send("#{method}_en")
           else
             locale_field_value
           end
