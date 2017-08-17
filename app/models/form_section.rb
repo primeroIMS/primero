@@ -867,7 +867,6 @@ class FormSection < CouchRest::Model::Base
           self.send("#{key}_#{locale}=", value)
         end
       end
-
     else
       Rails.logger.error "Form translation not updated: Invalid locale [#{locale}]"
     end
