@@ -31,7 +31,7 @@
       </div>
       <div class="medium-8 columns">
         <% value = @user.try(:locale) %>
-        <%= f.select :locale, Primero::Application::LOCALES.map {|option| [I18n.t("home.#{option}"), option.to_sym]}, { include_blank: t('select_language') }, {class: 'chosen-select', data: {value: value}} %>
+        <%= f.select :locale, Primero::Application::LOCALES_WITH_DESCRIPTION, {class: 'chosen-select', data: {value: value}} %>
       </div>
       <div class="medium-1 columns"> </div>
     </div>

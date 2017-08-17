@@ -1,9 +1,9 @@
 module ConfigurationResourceHelper
-  def resource_edit_field(object, field, label_key, type, required=false, disabled=false, help_text=nil, error_text=nil, locale=nil)
+  def resource_edit_field(object, field, label_key, type, required=false, disabled=false, help_text=nil, error_text=nil)
     field_id = "#{object.class.name.underscore}_#{field}"
     name = "#{object.class.name.underscore}[#{field}]"
     value = object.send(field)
-    locale ||= field.split('_').last.to_sym
+    locale = field.split('_').last.to_sym
     label_text = if I18n.available_locales.include?(locale)
       I18n.t(label_key, locale: locale)
     else

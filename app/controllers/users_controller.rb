@@ -7,6 +7,7 @@ class UsersController < ApplicationController
 
   before_filter :clean_role_ids, :only => [:update, :create]
   before_filter :clean_module_ids, :only => [:update, :create]
+  before_filter :clean_user_locale, :only => [:update, :create]
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
   before_filter :load_records_according_to_disable_filter, :only => [:index]
   before_filter :agency_names, :only => [:new, :create, :edit, :update]
@@ -170,6 +171,10 @@ class UsersController < ApplicationController
 
   def clean_module_ids
     params[:user][:module_ids] = clean_params(params[:user][:module_ids]) if params[:user][:module_ids]
+  end
+
+  def clean_user_locale
+    params[:user][:locale] = params[:user][:locale].present? ? params[:user][:locale] : nil
   end
 
   def users_details
