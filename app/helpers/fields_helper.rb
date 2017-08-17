@@ -227,4 +227,9 @@ module FieldsHelper
     end
     field_format_date(date_value)
   end
+
+  def locale_name_from_abbreviation(object)
+    locale_abbr = object.send('locale')
+    locale_abbr.present? ? t("home.#{locale_abbr}") : ""
+  end
 end

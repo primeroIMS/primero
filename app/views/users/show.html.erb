@@ -43,7 +43,7 @@
           <label class="key"><%= t("home.language") %></label>
         </div>
         <div class="medium-8 columns">
-          <span class="value"><%= t("home.#{@user.locale}") if @user.locale.present? %></span>
+          <span class="value"><%= locale_name_from_abbreviation(@user) %></span>
         </div>
       </div>
 
