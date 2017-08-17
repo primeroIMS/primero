@@ -75,7 +75,9 @@ namespace :db do
     #   module_id          - (ex. 'primeromodule-cp', 'primeromodule-gbv')                    DEFAULT: 'primeromodule-cp'
     #   show_hidden_forms  - Whether or not to include hidden forms                           DEFAULT: false
     #   show_hidden_fields - whether or not to include hidden fields                          DEFAULT: false
-    #   locale             - (ex. 'en', 'fr')                                                 DEFAULT: 'en'
+    #   locale             - (ex. 'en', 'es', 'fr', 'ar')                                     DEFAULT: 'en'
+    # NOTE:
+    #   No spaces between arguments in argument list
     # Examples:
     #   Defaults to exporting all forms for 'case' & 'primeromodule-cp'
     #      bundle exec rake db:data:export_form_translation
@@ -106,7 +108,7 @@ namespace :db do
     # ARGS:    json - full path and file name of json file
     #          layers - Number of layers in regions list
     #          regions - colon separated list of regions within the country.  List does not include the country name
-    # NOTE:    No spaces between arguments in argement list
+    # NOTE:    No spaces between arguments in argument list
     # EXAMPLE: $bundle exec rake db:data:generate_locations[/tmp/my_file.json,3,province:district:chiefdom]
     desc "Add locations from a JSON. Regions should be split by colons ex: province:region:prefecture"
     task :generate_locations, :json_file, :layers, :regions do |t, args|
