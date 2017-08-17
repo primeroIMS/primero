@@ -221,8 +221,8 @@ GEM
     hpricot (0.8.6)
     http_parser.rb (0.6.0)
     i18n (0.8.1)
-    i18n-js (2.1.2)
-      i18n
+    i18n-js (3.0.1)
+      i18n (~> 0.6, >= 0.6.6)
     io-like (0.3.0)
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
@@ -510,7 +510,7 @@ DEPENDENCIES
   foundation-rails (~> 6.3.0.0)
   highline (= 1.6.16)
   hpricot (~> 0.8.6)
-  i18n-js (~> 2.1.2)
+  i18n-js (~> 3.0.1)
   jquery-rails
   jquery-turbolinks
   json_spec (~> 1.1.1)

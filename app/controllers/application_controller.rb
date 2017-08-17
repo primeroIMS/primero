@@ -71,10 +71,8 @@ class ApplicationController < ActionController::Base
   def set_locale
     if logged_in?
       I18n.locale = (mobile_locale || current_user.locale || I18n.default_locale)
-      Primero::Translations.set_fallbacks
     end
-
-    @page_direction = I18n.locale == :ar ? 'rtl' : 'ltr'
+    @page_direction = I18n.locale.to_s.start_with?('ar') ? 'rtl' : 'ltr'
   end
 
   def clean_params(param)
