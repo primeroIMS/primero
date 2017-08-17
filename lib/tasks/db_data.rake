@@ -68,17 +68,34 @@ namespace :db do
       end
     end
 
+    # USAGE: bundle exec rake db:data:export_form_translation[form_name,type,module_id,show_hidden_forms,show_hidden_fields,locale]
+    # Args:
+    #   form_name          - if this is passed in, will only export that 1 form  (ex. 'basic_identity')
+    #   type               - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
+    #   module_id          - (ex. 'primeromodule-cp', 'primeromodule-gbv')                    DEFAULT: 'primeromodule-cp'
+    #   show_hidden_forms  - Whether or not to include hidden forms                           DEFAULT: false
+    #   show_hidden_fields - whether or not to include hidden fields                          DEFAULT: false
+    #   locale             - (ex. 'en', 'fr')                                                 DEFAULT: 'en'
+    # Examples:
+    #   Defaults to exporting all forms for 'case' & 'primeromodule-cp'
+    #      bundle exec rake db:data:export_form_translation
+    #
+    #   Exports only 'basic_identity' form
+    #      bundle exec rake db:data:export_form_translation[basic_identity]
+    #
+    #   Exports only tracing_request forms for CP, including hidden forms & fields
+    #      bundle exec rake db:data:export_form_translation['',tracing_request,primeromodule-cp,true,true,en]
     desc "Export the forms to a yaml file to be translated"
-    task :export_form_translation, [:form_name, :type, :module, :show_hidden] => :environment do |t, args|
-      form_name = args[:form_name].present? ? args[:form_name] : ''
-      module_id = args[:module].present? ? args[:module] : 'primeromodule-cp'
+    task :export_form_translation, [:form_id, :type, :module_id, :show_hidden_forms, :show_hidden_fields, :locale] => :environment do |t, args|
+      form_id = args[:form_id].present? ? args[:form_id] : ''
+      module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
       type = args[:type].present? ? args[:type] : 'case'
-      show_hidden = args[:show_hidden].present?
-      # file_name = "forms.xls"
-      # puts "Writing #{type} #{module_id} forms to #{file_name}"
-      #TODO fix parameter handling... can I pass in nill form name?
-      #TODO add comments
-      forms_exporter = Exporters::YmlFormExporter.new(form_name)
+      show_hidden_forms = args[:show_hidden_forms].present? && ['Y','y','T','t'].include?(args[:show_hidden_forms][0])
+      show_hidden_fields = args[:show_hidden_fields].present? && ['Y','y','T','t'].include?(args[:show_hidden_fields][0])
+      locale = args[:locale].present? ? args[:locale] : ''
+      puts "Exporting forms... Check rails log for details..."
+      forms_exporter = Exporters::YmlFormExporter.new(form_id, type, module_id, show_hidden_forms: show_hidden_forms,
+                                                      show_hidden_fields: show_hidden_fields, locale: locale)
       forms_exporter.export_forms_to_yaml
       puts "Done!"
     end

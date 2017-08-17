@@ -1,26 +1,27 @@
 module Exporters
   class YmlFormExporter
 
-    def initialize(form_name, record_type='case', module_id='primeromodule-cp', opts={})
-      if form_name.present?
-        @form_name = form_name
+    def initialize(form_id, record_type='case', module_id='primeromodule-cp', opts={})
+      if form_id.present?
+        @form_id = form_id
       else
         @record_type = record_type
         @primero_module = PrimeroModule.get(module_id)
+        if @primero_module.blank?
+          Rails.logger.error {"YmlFormExporter: Invalid Module ID: #{module_id}"}
+          raise ArgumentError.new("Invalid Module ID: #{module_id}")
+        end
       end
-      #TODO: Implement user defined export path: opts[:export_path]
       @export_dir_path = dir
-      locales = opts[:locales] || []
       @show_hidden_forms = opts[:show_hidden_forms].present?
       @show_hidden_fields = opts[:show_hidden_fields].present?
-      # @locales = compute_locales(locales)
-      @locales = 'en'
+      @locale = opts[:locale].present? ? opts[:locale] : FormSection::DEFAULT_BASE_LANGUAGE
     end
 
     def dir_name
       name_ext = ''
-      if @form_name.present?
-        name_ext = @form_name
+      if @form_id.present?
+        name_ext = @form_id
       else
         name_ext = "#{@record_type}_#{@primero_module.name.downcase}"
       end
@@ -37,8 +38,9 @@ module Exporters
     end
 
     def create_file_for_form(export_file=nil)
-      @export_file_name = yml_file_name(export_file.to_s)
-      @io = File.new(@export_file_name, "w")
+      Rails.logger.info {"Creating file #{export_file}.yml"}
+      export_file_name = yml_file_name(export_file.to_s)
+      @io = File.new(export_file_name, "w")
     end
 
     def complete
@@ -47,30 +49,26 @@ module Exporters
     end
 
     def export_forms_to_yaml
-      # Rails.logger.info {"Building exporter for: "}
-      # Rails.logger.info {"Record type: '#{@record_type}'"}
-      # Rails.logger.info {"Module ID: '#{@primero_module.id}'"}
-      # Rails.logger.info {"Languages: '#{@locales}'"}
-      # Rails.logger.info {"File written to directory location: '#{@export_dir_path}"}
-
-      @form_name.present? ? export_one_form : export_multiple_forms
+      Rails.logger.info {"Begging of Forms YAML Exporter..."}
+      Rails.logger.info {"Writing files to directory location: '#{@export_dir_path}"}
+      @form_id.present? ? export_one_form : export_multiple_forms
     end
 
     def export_one_form
-      fs = FormSection.by_unique_id(key: @form_name).first
+
+      fs = FormSection.by_unique_id(key: @form_id).first
       if fs.present?
+        Rails.logger.info {"Form ID: #{@form_id}, Show Hidden Forms: #{@show_hidden_forms}, Show Hidden Fields: #{@show_hidden_fields}, Locale: #{@locale}"}
         export_form(fs)
       else
-        Rails.logger.warn {"No FormSection found for #{form_name}"}
+        Rails.logger.warn {"No FormSection found for #{@form_id}"}
       end
     end
 
     def export_multiple_forms
-      #TODO add hidden form handling
-      #TODO add record type & module filtering
-
       forms = @primero_module.associated_forms_grouped_by_record_type(true)
       if forms.present?
+        Rails.logger.info {"Record Type: #{@record_type}, Module: #{@primero_module.id}, Show Hidden Forms: #{@show_hidden_forms}, Show Hidden Fields: #{@show_hidden_fields}, Locale: #{@locale}"}
         forms_record_type = forms[@record_type]
         unless @show_hidden_forms
           visible_top_forms = forms_record_type.select{|f| f.visible? && !f.is_nested?}
@@ -81,37 +79,19 @@ module Exporters
           forms_record_type = visible_top_forms + visible_subforms
         end
         forms_record_type.each{|fs| export_form(fs)}
+      else
+        Rails.logger.warn {"No FormSections found for #{@primero_module.id}"}
       end
-
-
-      # FormSection.all.each{|fs| export_form(fs)}
     end
 
     def export_form(form_section)
-      Rails.logger.info {"Creating file #{form_section.unique_id}.yml"}
-      #TODO better handle file location
       create_file_for_form(form_section.unique_id)
-      # file = File.new("#{form_section.unique_id}.yml", 'w')
       form_hash = {}
-      form_hash[form_section.unique_id] = form_section.localized_property_hash
+      form_hash[form_section.unique_id] = form_section.localized_property_hash(@locale, @show_hidden_fields)
       file_hash = {}
       file_hash['en'] = form_hash
       @io << file_hash.to_yaml
       complete
     end
-
-    private
-
-    # def compute_locales(input_locales=nil)
-    #   all_locales = Primero::Application::locales
-    #   correct_locales = all_locales & input_locales
-    #   if input_locales.empty? or correct_locales.empty?
-    #     @locales = all_locales
-    #   else
-    #     @locales = ['en'] | correct_locales
-    #   end
-    #   return @locales
-    # end
-
   end
 end
