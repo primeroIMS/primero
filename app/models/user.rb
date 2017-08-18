@@ -446,7 +446,12 @@ class User < CouchRest::Model::Base
 
   def is_user_admin?
     (self.roles.any?{|r| r.is_user_admin_role?} && self.group_permissions.include?(Permission::ADMIN_ONLY))
-end
+  end
+
+  def send_welcome_email
+    #TODO async deliver...
+    UserMailer.welcome(self).deliver if self.email.present?
+  end
 
   private
 
