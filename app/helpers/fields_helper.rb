@@ -228,8 +228,8 @@ module FieldsHelper
     field_format_date(date_value)
   end
 
-  def locale_name_from_abbreviation(object)
-    locale_abbr = object.send('locale')
-    locale_abbr.present? ? t("home.#{locale_abbr}") : ""
+  def locale_name_from_abbreviation(locale)
+    loc = Primero::Application::LOCALES_WITH_DESCRIPTION.select{|loc| loc[1] == locale.to_s}[0]
+    loc.present? ? loc[0] : locale
   end
 end
