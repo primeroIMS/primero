@@ -66,6 +66,8 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if @user.save
+      #TODO async deliver...
+      UserMailer.welcome(@user).deliver if @user.email.present?
       flash[:notice] = t("user.messages.created")
       redirect_to(@user)
     else

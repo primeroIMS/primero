@@ -1,0 +1,42 @@
+#Mail configuration.
+#TODO: plug in actual mail address/domain values
+
+# Production SMTP configuration
+production:
+  smtp_conf:
+    :address: 'smtp.gmail.com'
+    :port: 587
+    :domain: 'mail.example.com'
+    :authentication: 'plain'
+    :user_name: 'test@mail.example.com'
+    :password: '??????'
+    :enable_starttls_auto: true
+  notifications:
+      host: 'mail.example.com'
+
+# Development SMTP configuration
+development:
+  smtp_conf:
+    :address: 'smtp.gmail.com'
+    :port: 587
+    :domain: 'mail.example.com'
+    :authentication: 'plain'
+    :user_name: 'test@mail.example.com'
+    :password: '?????'
+    :enable_starttls_auto: true
+  notifications:
+      host: 'localhost:3000'
+      
+
+# Test SMTP configuration
+test:
+  smtp_conf:
+    :address: 'smtp.gmail.com'
+    :port: 587
+    :domain: 'mail.example.com'
+    :authentication: 'plain'
+    :user_name: 'emailtesterquoininc@gmail.com'
+    :password: 'Email#2013'
+    :enable_starttls_auto: true
+  notifications:
+      :host: 'localhost:3000'
