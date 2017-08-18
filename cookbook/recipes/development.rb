@@ -12,7 +12,7 @@ apt_repository "pi-rho" do
   notifies :run, 'execute[apt-get update]', :immediately
 end
 
-%w(tmux vim curl firefox xvfb).each do |pkg|
+%w(tmux vim curl chromium-browser libgconf-2-4).each do |pkg|
   package pkg
 end
 
@@ -106,38 +106,9 @@ directory '/home/vagrant/primero/log' do
   group 'vagrant'
 end
 
-template '/home/vagrant/primero/config/selenium.yml' do
-  source "selenium.yml.erb"
-  variables({
-    :selenium_server => node[:primero][:selenium_server],
-    :integration_server => node[:primero][:integration_server],
-  })
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-end
-
-cookbook_file '/etc/profile.d/xvfb_display.sh' do
-  source 'xvfb/set_display.sh'
-  owner 'root'
-  group 'root'
-  mode '0644'
-end
-
-cookbook_file '/lib/systemd/system/xvfb.service' do
-  source 'xvfb/systemd_script.conf'
-  owner 'root'
-  group 'root'
-  mode '0644'
-end
-
 cookbook_file '/home/vagrant/.pryrc' do
   source 'development/pryrc'
   owner 'vagrant'
   group 'vagrant'
   mode '0644'
-end
-
-service 'xvfb' do
-  action [:enable, :start]
-  provider Chef::Provider::Service::Systemd
 end
