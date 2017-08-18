@@ -8,7 +8,7 @@ FactoryGirl.define do
     password 'test_password'
     couch_target_uri PrimeroURI.parse("https://couch.example.com:5984/replication_test")
 
-    after_build do |replication|
+    after(:build) do |replication|
       replication.stub :fetch_remote_couch_config => true
     end
   end

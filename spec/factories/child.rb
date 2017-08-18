@@ -8,7 +8,7 @@ FactoryGirl.define do
     child_status Record::STATUS_OPEN
     case_id_display "display_1234"
 
-    after_build do |child, factory|
+    after(:build) do |child, factory|
       Child.stub(:get).with(child.id).and_return(child)
     end
   end

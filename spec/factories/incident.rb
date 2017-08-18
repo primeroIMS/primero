@@ -6,7 +6,7 @@ FactoryGirl.define do
     owned_by "test_user"
     module_id "CP"
 
-    after_build do |incident, factory|
+    after(:build) do |incident, factory|
       Incident.stub(:get).with(incident.id).and_return(incident)
     end
   end

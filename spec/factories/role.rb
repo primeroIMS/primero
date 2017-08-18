@@ -3,6 +3,5 @@ FactoryGirl.define do
     name { "test_role_#{counter}" }
     description "test description"
     permissions_list { Permission.all_permissions_list }
-    group_permission { Permission::ALL }
   end
 end

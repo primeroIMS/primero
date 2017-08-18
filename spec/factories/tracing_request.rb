@@ -6,7 +6,7 @@ FactoryGirl.define do
     owned_by "test_user"
     module_id "CP"
 
-    after_build do |tracing_request, factory|
+    after(:build) do |tracing_request, factory|
       TracingRequest.stub(:get).with(tracing_request.id).and_return(tracing_request)
     end
   end
