@@ -25,8 +25,5 @@ Primero::Application.configure do
   # BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
   BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
 
-
-  config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.raise_delivery_errors = false
-  # config.action_mailer.preview_path = "#{Rails.root}/tmp/mailer_previews"
 end
