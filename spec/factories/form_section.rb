@@ -15,7 +15,7 @@ FactoryGirl.define do
     fields []
     is_first_tab false
     is_nested true
-    initial_subforms 2
+    initial_subforms 1
     parent_form 'case'
     visible false
   end

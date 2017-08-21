@@ -6,7 +6,7 @@ feature "forms" do
       @form_section = create(:form_section,
         is_first_tab: true,
         fields: [
-          build(:subform_field, fields: [
+          build(:subform_field, initial_subforms: 2, fields: [
             build(:field, required: true),
             build(:field)
           ])
