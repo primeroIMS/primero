@@ -57,7 +57,7 @@ describe "form_section/_form_section.html.erb" do
     context "new record" do
 
       it "renders text fields with a corresponding label" do
-        @form_section.add_field(build(:field))
+        @form_section.add_field(build(:field, name: 'name'))
         @child = Child.new
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
@@ -72,9 +72,8 @@ describe "form_section/_form_section.html.erb" do
 
       it "prepopulates the text field with the existing value" do
         @child = Child.new :name => "Jessica"
-        @form_section.add_field(build(:field))
+        @form_section.add_field(build(:field, name: 'name'))
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-
         rendered.should be_include("<input autocomplete=\"off\" data-abide-ignore=\"\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_name\" is_disabled=\"false\" name=\"child[name]\" type=\"text\" value=\"Jessica\" />")
       end
     end
