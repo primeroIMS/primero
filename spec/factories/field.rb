@@ -11,6 +11,7 @@ FactoryGirl.define do
   factory :subform_field, class: Field, :traits => [:model] do
     transient do
       fields []
+      initial_subforms 1
     end
 
     type Field::SUBFORM
@@ -21,7 +22,9 @@ FactoryGirl.define do
     disabled false
 
     after(:build) do |field, evaluator|
-      fs = create :subform_section, fields: evaluator.fields
+      fs = create :subform_section,
+        initial_subforms: evaluator.initial_subforms,
+        fields: evaluator.fields
       field.subform_section_id = fs.unique_id
     end
   end
