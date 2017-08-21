@@ -145,8 +145,7 @@ class HomeController < ApplicationController
     end
 
     queries[:transferred_by_status].facet(:transfer_status).rows.each do |c|
-      statuses = [Transition::TO_USER_LOCAL_STATUS_INPROGRESS, Transition::TO_USER_LOCAL_STATUS_REJECTED].map{
-          |t| I18n.t("referral.#{t}", :locale => :en).downcase}
+      statuses = [Transition::TO_USER_LOCAL_STATUS_INPROGRESS, Transition::TO_USER_LOCAL_STATUS_REJECTED]
       if statuses.include? c.value
         @aggregated_case_manager_stats[:manager_transfers][c.value] = {}
         @aggregated_case_manager_stats[:manager_transfers][c.value][:total_cases] = c.count
