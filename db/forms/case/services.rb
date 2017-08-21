@@ -31,6 +31,25 @@ services_subform = [
     ].join("\n")
   }),
   Field.new({
+      "name" => "service_response_day_time",
+      "type" => "date_field",
+      "selected_value" => "now",
+      "display_name_all" => "Created on",
+      "date_include_time" => true
+  }),
+Field.new({
+      "name" => "service_response_timeframe",
+      "type" => "select_box",
+      "display_name_all" => "Implementation Timeframe",
+      "option_strings_text_all" => [
+          { id: '1_hour', display_text: "One hour" },
+          { id: '3_hours', display_text: "Three hours" },
+          { id: '1_day', display_text: "One day" },
+          { id: '3_days', display_text: "Three days" }
+      ].map(&:with_indifferent_access),
+      "help_text_all" => "Enter the Implementation Timeframe for the service; the timeframe is used in the dashboard to indicate if services are overdue.",
+  }),
+  Field.new({
     "name" => "service_referral",
     "type" => "select_box",
     "display_name_all" => "Did you refer the client for this service?",
@@ -54,6 +73,13 @@ services_subform = [
     "display_name_all" => "Appointment Time"
   }),
   Field.new({
+    "name" => "service_implementing_agency_individual",
+    "type" => "select_box",
+    "display_name_all" => "Service Provider Name",
+    "option_strings_source" => "User",
+    "help_text_all" => "This field is used for the Workflow status. This field must be filled in to refer the case for the service."
+  }),
+  Field.new({
     "name" => "service_provider",
     "type" => "text_field",
     "display_name_all" => "Service Provider"
@@ -73,6 +99,17 @@ services_subform = [
     "name" => "service_referral_notes",
     "type" => "textarea",
     "display_name_all" => "Notes"
+  }),
+  Field.new({
+    "name" => "service_implemented",
+    "type" => "select_box",
+    "selected_value" => "not_implemented",
+    "disabled" => true,
+    "display_name_all" => "Service Implemented",
+    "option_strings_text_all" => [
+        { id: 'not_implemented', display_text: "Not Implemented" }.with_indifferent_access,
+        { id: 'implemented', display_text: "Implemented" }.with_indifferent_access
+    ]
   }),
   Field.new({
     "name" => "service_implemented_day_time",

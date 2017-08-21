@@ -38,4 +38,22 @@ describe Record do
       c.last_updated_by.should == 'primero'
     end
   end
+
+  describe 'incident from case' do
+    it 'should copy field values from case to incident even with value of false' do
+      child = _Child.new("name" => "existing name", "incident_details" => [{"unique_id" => "incident_123", "cp_incident_previous_incidents" => "false"}])
+      incident = Incident.new.tap do |incident|
+        incident.copy_case_information(child, [{"source"=>["incident_details", "cp_incident_previous_incidents"], "target" => "cp_incident_previous_incidents"}], "incident_123")
+      end
+      incident["cp_incident_previous_incidents"].should == "false"
+    end
+
+    it 'should create incident from case even with no case to incident mapping' do
+      child = _Child.new("name" => "existing name", "incident_details" => [{"unique_id" => "incident_123", "cp_incident_previous_incidents" => "false"}])
+      incident = Incident.new.tap do |incident|
+        incident.copy_case_information(child, nil, "incident_123")
+      end
+      incident["age"].should == nil
+    end
+  end
 end

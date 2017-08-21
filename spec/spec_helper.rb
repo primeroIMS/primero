@@ -16,6 +16,7 @@ require 'sunspot/rails/spec_helper'
 require 'sunspot_test/rspec'
 require 'capybara/rails'
 require 'selenium/webdriver'
+require 'rack_session_access/capybara'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -31,7 +32,7 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w(headless disable-gpu) }
+    'chromeOptions' => { args: %w(headless no-sandbox disable-gpu) }
   )
 
   Capybara::Selenium::Driver.new app,
@@ -39,7 +40,8 @@ Capybara.register_driver :headless_chrome do |app|
     desired_capabilities: capabilities
 end
 
-Capybara.default_max_wait_time = 6
+Capybara.default_driver  = :headless_chrome
+Capybara.default_max_wait_time = 6 # In seconds
 Capybara.javascript_driver = :headless_chrome
 
 module VerifyAndResetHelpers
