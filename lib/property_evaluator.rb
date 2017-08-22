@@ -12,7 +12,9 @@ class PropertyEvaluator
         else
           [particle]
         end
-        acc.try(*particles)
+        property = acc.try(*particles)
+        property = property.strftime("%Y%m%d") if property.methods.include? :strftime
+        property
       end
     end
   end

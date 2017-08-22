@@ -129,7 +129,7 @@ class Incident < CouchRest::Model::Base
         if from_module_id.present?
           from_module = PrimeroModule.get(from_module_id)
           if from_module.present?
-            incident_map = from_module.field_map_fields
+            incident_map = from_module.field_map_fields if from_module.field_map_fields.present?
             if incident_detail_id.present?
               incident['incident_detail_id'] = incident_detail_id
             end

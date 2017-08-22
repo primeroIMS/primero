@@ -1462,6 +1462,7 @@ en:
     cases_by_social_worker: "Cases by social worker"
     approvals: "Approvals"
     referrals_by_social_worker: "Referrals by social worker"
+    transfers_by_social_worker: "Transfers by social worker"
     case_stat_by_assessment_level: "Cases by Assessment Level"
     case_stat_by_approval_type: "Approvals"
     case_stat_referrals: "Referrals"
@@ -1940,6 +1941,9 @@ en:
     unknown_status: "Unknown transfer status: %{status}"
     unknown_transfer: "%{record_type} %{id} invalid transfer"
     not_valid_transfer: "%{record_type} %{id} invalid transfer, can't update is not in progress or you have not permission on the case"
+    search:
+      rejected: "Rejected"
+      in_progress: "In Progress"
 
   transition:
     export_type:
