@@ -2,7 +2,7 @@
 <% @environments.each do |env| %>
 <%= env %>:
   :delivery_method: :smtp
-  smtp_conf:
+  :smtp_conf:
     :address: <%= @mailer_address %>
     :port: <%= @mailer_port %>
     :domain: <%= @mailer_domain %>
@@ -10,7 +10,7 @@
     :user_name: <%= @mailer_user %>
     :password: <%= @mailer_password %>
     :enable_starttls_auto: true
-  notifications:
+  :notifications:
     host: <%= @mailer_host %>
   :default_options:
     :from: <%= @mailer_from_address %>
