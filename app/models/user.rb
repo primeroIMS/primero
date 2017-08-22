@@ -158,6 +158,7 @@ class User < CouchRest::Model::Base
   validate :is_user_name_unique
 
   before_save :generate_id
+  after_create :send_welcome_email
 
   #In order to track changes on attributes declared as attr_accessor and
   #trigger the callbacks we need to use attribute_will_change! method.
@@ -449,8 +450,7 @@ class User < CouchRest::Model::Base
   end
 
   def send_welcome_email
-    #TODO async deliver...
-    UserMailer.welcome(self).deliver if self.email.present?
+    MailJob.perform_later(self.id) if self.email.present?
   end
 
   private

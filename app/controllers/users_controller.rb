@@ -67,7 +67,6 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if @user.save
-      @user.send_welcome_email
       flash[:notice] = t("user.messages.created")
       redirect_to(@user)
     else

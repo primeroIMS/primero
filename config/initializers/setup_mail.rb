@@ -1,5 +1,3 @@
-#TODO: plug in actual mail address/domain values
-
 email_settings = YAML::load(File.open("#{Rails.root.to_s}/config/mailers.yml"))[Rails.env.to_s]
 Rails.application.config.action_mailer.delivery_method = email_settings[:delivery_method]
 Rails.application.config.action_mailer.default_options = email_settings[:default_options] if email_settings[:default_options].present?

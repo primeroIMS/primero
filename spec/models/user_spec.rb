@@ -493,7 +493,7 @@ describe User do
   describe "mailer" do
     context 'when user has an email address' do
       before do
-        @user = build_user
+        @user = build_and_save_user
       end
 
       it "sends a welcome email" do
