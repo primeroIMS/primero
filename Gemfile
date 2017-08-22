@@ -18,7 +18,7 @@ gem 'rake',           '0.9.3'
 gem 'jquery-rails'
 gem 'cancancan', '~> 1.7'
 gem 'capistrano',     '~> 2.14.2'
-gem 'highline',       '1.6.16'
+gem 'highline',       '~> 1.7.8'
 gem 'will_paginate',  '~> 3.1.0'
 gem 'i18n-js',        '~> 3.0.1'
 gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
@@ -50,7 +50,7 @@ gem 'rack-mini-profiler', require: false
 
 gem 'yui-compressor'
 gem 'closure-compiler'
-gem 'progress_bar'
+gem 'progress_bar', '~> 1.1.0'
 
 gem 'writeexcel', '~> 1.0.3'
 gem 'spreadsheet', '~> 1.0.0'
@@ -73,6 +73,7 @@ group :development, :assets, :cucumber do
 end
 
 group :development do
+  gem 'i18n-tasks', '~> 0.9.18'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'ruby-prof'
@@ -96,8 +97,7 @@ group :test, :cucumber do
   gem 'chromedriver-helper'
   gem 'hpricot',            '~> 0.8.6'
   gem 'json_spec',          '~> 1.1.1'
-  gem 'rubocop'
-  gem 'metric_fu'
+  gem 'rubocop',            '~> 0.49.1'
   gem 'simplecov',          '~> 0.8.2'
   gem 'simplecov-rcov',     '~> 0.2.3'
   gem 'ci_reporter',        '~> 1.9.1'
