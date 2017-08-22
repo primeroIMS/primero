@@ -1,6 +1,6 @@
 <% subform_index = unique_ending == 'template' ? '' : unique_ending %>
 <div id="subform_container_<%= subform.name %>_<%= unique_ending %>" <% if(unique_ending == 'template') %>class="template" style="display:none;"<% else %>class="subform_container"<% end %> data-subform_index="<%= subform_index %>">
-  <fieldset id="subform_<%= subform.name %>_<%= unique_ending %>" class="<%= subform.name %> subform no-border">
+  <fieldset id="subform_<%= subform.name %>_<%= unique_ending %>" class="<%= subform.name %> subform no-border <%= action %>">
   <%= render partial: "form_section/subform_expand_collapse_header",
     object: formObject,
     locals: {
@@ -16,6 +16,7 @@
     unique_tag_name = field_tag_name(formObject, nil, fk_unique_id)
     unique_field_id = "#{subform.name.dehumanize}_#{sanitize_to_id unique_tag_name}"
     unique_field_value = action == 'edit' ? field_value(formObject, nil, fk_unique_id) : ''
+    is_subform = unique_ending == 'template'
   %>
   <% if unique_ending == 'template' %>
     <%= hidden_field_tag(unique_tag_name, '', disabled: 'disabled') %>
@@ -31,7 +32,8 @@
       object: field,
       locals: {
         field_keys: fk,
-        formObject: formObject
+        formObject: formObject,
+        is_subform: is_subform
       } %>
   <% end %>
   </fieldset>

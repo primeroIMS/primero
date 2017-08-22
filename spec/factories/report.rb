@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :report, :traits => [ :model ] do
-    ignore do
+    transient do
       filename "test_report.csv"
       content_type "text/csv"
       data "test report"
