@@ -185,6 +185,24 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   mode '444'
 end
 
+
+template File.join(node[:primero][:app_dir], 'config/mailers.yml') do
+  source 'mailers.yml.erb'
+  variables({
+    :environments => [ node[:primero][:rails_env] ],
+    :mailer_address => node[:primero][:mailer][:address],
+    :mailer_port => node[:primero][:mailer][:port],
+    :mailer_domain => node[:primero][:mailer][:domain],
+    :mailer_user => node[:primero][:mailer][:user],
+    :mailer_password => node[:primero][:mailer][:password],
+    :mailer_host => node[:primero][:mailer][:host],
+    :mailer_from_address => node[:primero][:mailer][:from_address]
+  })
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '444'
+end
+
 app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
 directory app_tmp_dir do
   action :create

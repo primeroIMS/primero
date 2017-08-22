@@ -66,6 +66,16 @@ default[:primero].tap do |p|
     pc[:min_instances] = 1
     pc[:max_pool_size] = 6
   end
+
+  p[:mailer].tap do |m|
+    m[:address] = 'smtp.gmail.com'
+    m[:port] = 587
+    m[:domain] = 'mail.example.com'
+    m[:user] = 'test@mail.example.com'
+    m[:password] = '????'
+    m[:host] = 'mail.example.com'
+    m[:from_address] = 'noreply@mail.example.com'
+  end
 end
 
 default[:rvm].tap do |rvm|

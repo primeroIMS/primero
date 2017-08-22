@@ -5,5 +5,4 @@ class MailJob < ActiveJob::Base
     UserMailer.welcome(user_id).deliver
   end
 
-
 end
