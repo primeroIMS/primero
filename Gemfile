@@ -87,7 +87,7 @@ group :test, :cucumber, :development do
 end
 
 group :test, :cucumber do
-  gem 'factory_girl',     '~> 2.6'
+  gem 'factory_girl',     '~> 4.8.0'
   gem 'rspec',            '~> 2.14.1'
   gem 'rspec-rails',      '~> 2.14.1'
   gem 'rspec-instafail',  '~> 0.2.4'

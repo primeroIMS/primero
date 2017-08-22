@@ -64,6 +64,7 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
 
     //Replicate the event on shared subforms
     var $target_subform = $target.parent().parent().find('.subforms');
+
     if ($target_subform.data('is_shared_subform')) {
       $add_button = $('#' + $target_subform.data('shared_subform')).parent().find('.subform_add');
       self.add_subform($add_button);
@@ -137,6 +138,9 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
         el.setAttribute("name", name);
       }
 
+      if (el.getAttribute('required') || el.getAttribute('data-validator')) {
+        el.removeAttribute('data-abide-ignore');
+      }
     });
 
     $newSubform.find("label").each(function(x, el){
@@ -170,6 +174,8 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
     }
 
     _primero.show_add_violation_message();
+
+    Foundation.reInit('abide');
   },
 
   removeSubform: function(event) {

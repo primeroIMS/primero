@@ -1,32 +1,35 @@
-
-<div class="row">
-  <div class="medium-4 medium-offset-8 columns">
-    <div class="lang_title">
-      <%= select_tag("locale", options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != I18n.default_locale.to_s }), :class => 'locale') %>
+<% editable = object.name.present? %>
+<% if editable %>
+  <div class="row">
+    <div class="medium-4 medium-offset-8 columns">
+      <div class="lang_title">
+        <%= select_tag("locale", options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != "en" }), :class => 'locale') %>
+      </div>
     </div>
   </div>
-</div>
-
-<%= resource_edit_field(object, 'name', 'report.name', 'text_field', true, false, nil, 'errors.models.report.name_presence') %>
-
-<% Primero::Application::LOCALES.each do |new_locale| %>
-    <% if I18n.default_locale.to_s != new_locale %>
-        <div class="row <%= "translation_forms #{new_locale}"%> hide_element">
-          <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>
-          <%= resource_edit_field(object, "name_#{new_locale}", nil, 'text_field', false, false, nil, 'errors.models.report.name_presence') %>
-        </div>
-    <% end %>
 <% end %>
 
-<%= resource_edit_field(object, 'description', 'report.description', 'text_area') %>
+<%= resource_edit_field(object, 'name', 'report.name', 'text_field', true, false, nil, 'errors.models.report.name_presence', I18n.locale) %>
+<% if editable %>
+  <% Primero::Application::LOCALES.each do |new_locale| %>
+    <% if new_locale != "en" %>
+      <div class="row <%= "translation_forms #{new_locale}"%> hide_element">
+        <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>
+        <%= resource_edit_field(object, "name_#{new_locale}", nil, 'text_field', false, false, nil, 'errors.models.report.name_presence') %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= resource_edit_field(object, 'description', 'report.description', 'text_area', false, false, nil, nil, I18n.locale) %>
 
 <% Primero::Application::LOCALES.each do |new_locale| %>
-    <% if I18n.default_locale.to_s != new_locale %>
-        <div class="row <%= "translation_forms #{new_locale}"%> hide_element">
-          <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>
-          <%= resource_edit_field(object, "description_#{new_locale}", nil, 'text_area') %>
-        </div>
-    <% end %>
+  <% if new_locale != "en" %>
+    <div class="row <%= "translation_forms #{new_locale}"%> hide_element">
+      <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>
+      <%= resource_edit_field(object, "description_#{new_locale}", nil, 'text_area') %>
+    </div>
+  <% end %>
 <% end %>
 
 
