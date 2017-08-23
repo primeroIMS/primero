@@ -17,7 +17,7 @@ development:
 
 production:
   :delivery_method: :smtp
-  smtp_conf:
+  :smtp_conf:
     :address: 'smtp.gmail.com'
     :port: 587
     :domain: 'mail.example.com'
@@ -25,7 +25,7 @@ production:
     :user_name: 'test@mail.example.com'
     :password: '??????'
     :enable_starttls_auto: true
-  notifications:
+  :notifications:
     host: 'mail.example.com'
   :default_options:
     :from: 'noreply@mail.example.com'
