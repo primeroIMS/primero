@@ -7,7 +7,8 @@ include_recipe 'primero::common'
    libxslt1-dev
    imagemagick
    openjdk-8-jre-headless
-   inotify-tools).each do |pkg|
+   inotify-tools
+   mailutils).each do |pkg|
   package pkg
 end
 
@@ -190,11 +191,6 @@ template File.join(node[:primero][:app_dir], 'config/mailers.yml') do
   source 'mailers.yml.erb'
   variables({
     :environments => [ node[:primero][:rails_env] ],
-    :mailer_address => node[:primero][:mailer][:address],
-    :mailer_port => node[:primero][:mailer][:port],
-    :mailer_domain => node[:primero][:mailer][:domain],
-    :mailer_user => node[:primero][:mailer][:user],
-    :mailer_password => node[:primero][:mailer][:password],
     :mailer_host => node[:primero][:mailer][:host],
     :mailer_from_address => node[:primero][:mailer][:from_address]
   })
@@ -257,10 +253,6 @@ supervisor_service 'who-watches-the-couch-watcher' do
 end
 
 include_recipe 'primero::nginx_app'
-
-package 'mailutils' do
-  action :install
-end
 
 execute 'Reload Passenger' do
   command 'systemctl restart passenger'

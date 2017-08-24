@@ -1,5 +1,4 @@
 #Mail configuration.
-#TODO: plug in actual mail address/domain values
 
 test:
   :delivery_method: :test
@@ -16,16 +15,23 @@ development:
     :from: 'dev-noreply@mail.example.com'
 
 production:
-  :delivery_method: :smtp
-  :smtp_conf:
-    :address: 'smtp.gmail.com'
-    :port: 587
-    :domain: 'mail.example.com'
-    :authentication: 'plain'
-    :user_name: 'test@mail.example.com'
-    :password: '??????'
-    :enable_starttls_auto: true
+  :delivery_method: :sendmail
   :notifications:
-    host: 'mail.example.com'
+    :host: 'localhost:3000'
   :default_options:
-    :from: 'noreply@mail.example.com'
+    :from: 'dev-noreply@mail.example.com'
+
+#production:
+#  :delivery_method: :smtp
+#  :smtp_conf:
+#    :address: 'smtp.gmail.com'
+#    :port: 587
+#    :domain: 'mail.example.com'
+#    :authentication: 'plain'
+#    :user_name: 'test@mail.example.com'
+#    :password: '??????'
+#    :enable_starttls_auto: true
+#  :notifications:
+#    host: 'mail.example.com'
+#  :default_options:
+#    :from: 'noreply@mail.example.com'
