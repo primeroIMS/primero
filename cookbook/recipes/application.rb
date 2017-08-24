@@ -258,6 +258,10 @@ end
 
 include_recipe 'primero::nginx_app'
 
+package 'mailutils' do
+  action :install
+end
+
 execute 'Reload Passenger' do
   command 'systemctl restart passenger'
 end
