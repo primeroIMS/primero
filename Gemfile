@@ -62,7 +62,6 @@ gem 'momentjs-rails', '~> 2.10.3'
 gem 'turbolinks', '~> 5'
 gem 'jquery-turbolinks'
 gem 'arabic-letter-connector'
-gem 'beanstalkd_view'
 
 group :production do
   gem 'passenger', '4.0.59', require: false
