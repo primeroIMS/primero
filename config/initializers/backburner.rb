@@ -17,7 +17,8 @@ if Rails.env == 'production'
     config.respond_timeout     = 60 * 60 * 3 # Seconds. 2 hours to finish a queued job. Can't be 0!
     config.default_worker      = Backburner::Workers::Forking
     config.logger              = Logger.new(STDOUT)
-    config.primary_queue       = "export"
+    # config.primary_queue       = "export"
+    config.primary_queue       = "mailer"
     #config.priority_labels     = { :custom => 50, :useless => 1000 }
     config.reserve_timeout     = nil
   end
