@@ -27,6 +27,7 @@ class HomeController < ApplicationController
       load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
       #TODO: All this needs to be heavily refactored
 
+
       display_case_worker_dashboard?
       display_approvals?
       display_assessment?
@@ -275,6 +276,10 @@ class HomeController < ApplicationController
 
   def display_transfers_by_socal_worker?
     @display_transfers_by_socal_worker ||= can?(:dash_transfers_by_socal_worker, Dashboard)
+  end
+
+  def display_services_implemented?
+    @display_services_implemented ||= PrimeroModule.cp.whitelisted_workflows.include? Child::WORKFLOW_SERVICE_IMPLEMENTED
   end
 
   def manager_case_query(query = {})
@@ -588,9 +593,12 @@ class HomeController < ApplicationController
         end
       end
 
-      facet(:services_implemented, zeros: true, exclude: [referred]) do
-        row(:total) do
-          with(:workflow, Child::WORKFLOW_SERVICE_IMPLEMENTED)
+      # TODO: Just checking cp module for now. Need to refactor to handle other modules
+      if display_services_implemented?
+        facet(:services_implemented, zeros: true, exclude: [referred]) do
+          row(:total) do
+            with(:workflow, Child::WORKFLOW_SERVICE_IMPLEMENTED)
+          end
         end
       end
 
