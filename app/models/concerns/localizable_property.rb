@@ -70,6 +70,16 @@ module LocalizableProperty
     property.include?("option_strings_text") ? value.split("\n") : value if value
   end
 
+  def localized_hash(locale='en')
+    #Do not include option_strings_text... there is special handling of that in the Field model
+    lp = self.class.localized_properties.reject{|p| p == :option_strings_text}.map{|p| "#{p.to_s}_#{locale}"}
+    lh = self.as_json(only: lp)
+
+    #remove the locale tag from the keys
+    lh.keys.each{|k| new_key = k.split('_')[0..-2].join('_'); lh[new_key] = lh.delete k}
+    lh
+  end
+
   private
 
   def generate_keyed_value(value)

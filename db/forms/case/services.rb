@@ -48,13 +48,6 @@ Field.new({
           { id: '3_days', display_text: "Three days" }
       ].map(&:with_indifferent_access),
       "help_text_all" => "Enter the Implementation Timeframe for the service; the timeframe is used in the dashboard to indicate if services are overdue.",
-      "guiding_questions" => "•        The procedures starts within an hour For a high priority cases
-
-      •        The procedures start within 3 hours for a low priority case.
-
-      •        The case coordinator to send referral forms for service delivery according to the agreed tasks within 1 hour
-
-      •        The case coordinator to review received service deliver form, review and follow up with recommendation and further tasks within 1 hour"
   }),
   Field.new({
     "name" => "service_referral",

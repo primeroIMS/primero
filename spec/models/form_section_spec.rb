@@ -135,9 +135,9 @@ describe FormSection do
       it 'formats for moble' do
         expected = {"Children"=>
                         [{"unique_id"=>"MOBILE_1",
-                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "es"=>""},
+                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "es"=>""},
                           "order"=>0,
-                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
+                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "es"=>""},
                           "base_language"=>"en",
                           "fields"=>
                               [{"name"=>"mobile_1_nested",
@@ -147,9 +147,9 @@ describe FormSection do
                                 "required"=>false,
                                 "show_on_minify_form"=>false,
                                 "mobile_visible"=>true,
-                                :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested"},
-                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "es"=>[]}}]}]}
+                                :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested", "ar-LB"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested"},
+                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "es"=>""},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "es"=>[]}}]}]}
         form_sections = FormSection.group_forms([@form_section_mobile_1], true)
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
       end
@@ -1267,6 +1267,102 @@ describe FormSection do
     it "identifies a violation wrapper" do
       expect(@wrapper_form.is_violation_wrapper?).to be_true
       expect(@other_form.is_violation_wrapper?).to be_false
+    end
+
+    after do
+      FormSection.all.each &:destroy
+    end
+
+  end
+
+  describe "localized_property_hash" do
+    before do
+      FormSection.all.each &:destroy
+
+      fields = [
+          Field.new({"name" => "field_name_1",
+                     "type" => Field::TEXT_FIELD,
+                     "display_name_all" => "Field Name 1"
+                    }),
+          Field.new({"name" => "field_name_2",
+                     "type" => Field::TEXT_FIELD,
+                     "display_name_all" => "Field Name 2"
+                    }),
+          Field.new({"name" => "field_name_3",
+                     "type" => Field::TEXT_FIELD,
+                     "display_name_all" => "Field Name 3"
+                    }),
+          Field.new({"name" => "field_name_4",
+                     "type" => Field::TEXT_FIELD,
+                     "display_name_all" => "Field Name 4"
+                    }),
+          Field.new({"name" => "field_name_5",
+                     "type" => Field::TEXT_FIELD,
+                     "display_name_all" => "Field Name 5",
+                     "visible" => false
+                    }),
+          Field.new({"name" => "field_select",
+                     "type" => Field::SELECT_BOX,
+                     "display_name_all" => "Test Select Field",
+                     "option_strings_text" => ["Option 1", "Option 2", "Option 3"]
+                    })
+      ]
+      @form1 = FormSection.create_or_update_form_section({
+        unique_id: "form1",
+        name: "Form One",
+        description: "Test Form One Description",
+        help_text: "Form One Help Text",
+        parent_form: "case",
+        fields: fields
+      })
+    end
+
+    context "when passed locale is en" do
+      context "and show_hidden_fields is not passed" do
+        it "does not include hidden fields" do
+          expected = {"name"=>"Form One",
+                      "help_text"=>"Form One Help Text",
+                      "description"=>"Test Form One Description",
+                      "fields"=>
+                          {"field_name_1"=>{"display_name"=>"Field Name 1"},
+                           "field_name_2"=>{"display_name"=>"Field Name 2"},
+                           "field_name_3"=>{"display_name"=>"Field Name 3"},
+                           "field_name_4"=>{"display_name"=>"Field Name 4"},
+                           "field_select"=>{"display_name"=>"Test Select Field", "option_strings_text"=>{"option_1"=>"Option 1", "option_2"=>"Option 2", "option_3"=>"Option 3"}}}}
+          expect(@form1.localized_property_hash('en')).to eq(expected)
+        end
+      end
+
+      context "and show_hidden_fields is passed as false" do
+        it "does not include hidden fields" do
+          expected = {"name"=>"Form One",
+                      "help_text"=>"Form One Help Text",
+                      "description"=>"Test Form One Description",
+                      "fields"=>
+                          {"field_name_1"=>{"display_name"=>"Field Name 1"},
+                           "field_name_2"=>{"display_name"=>"Field Name 2"},
+                           "field_name_3"=>{"display_name"=>"Field Name 3"},
+                           "field_name_4"=>{"display_name"=>"Field Name 4"},
+                           "field_select"=>{"display_name"=>"Test Select Field", "option_strings_text"=>{"option_1"=>"Option 1", "option_2"=>"Option 2", "option_3"=>"Option 3"}}}}
+          expect(@form1.localized_property_hash('en', false)).to eq(expected)
+        end
+      end
+
+      context "and show_hidden_fields is passed as true" do
+        it "includes hidden fields" do
+          expected = {"name"=>"Form One",
+                      "help_text"=>"Form One Help Text",
+                      "description"=>"Test Form One Description",
+                      "fields"=>
+                          {"field_name_1"=>{"display_name"=>"Field Name 1"},
+                           "field_name_2"=>{"display_name"=>"Field Name 2"},
+                           "field_name_3"=>{"display_name"=>"Field Name 3"},
+                           "field_name_4"=>{"display_name"=>"Field Name 4"},
+                           "field_name_5"=>{"display_name"=>"Field Name 5"},
+                           "field_select"=>{"display_name"=>"Test Select Field", "option_strings_text"=>{"option_1"=>"Option 1", "option_2"=>"Option 2", "option_3"=>"Option 3"}}}}
+          expect(@form1.localized_property_hash('en', true)).to eq(expected)
+        end
+      end
     end
 
     after do
