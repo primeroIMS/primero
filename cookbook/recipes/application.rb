@@ -7,7 +7,8 @@ include_recipe 'primero::common'
    libxslt1-dev
    imagemagick
    openjdk-8-jre-headless
-   inotify-tools).each do |pkg|
+   inotify-tools
+   mailutils).each do |pkg|
   package pkg
 end
 
@@ -179,6 +180,19 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
     :couchdb_host => node[:primero][:couchdb][:host],
     :couchdb_username => node[:primero][:couchdb][:username],
     :couchdb_password => node[:primero][:couchdb][:password],
+  })
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '444'
+end
+
+
+template File.join(node[:primero][:app_dir], 'config/mailers.yml') do
+  source 'mailers.yml.erb'
+  variables({
+    :environments => [ node[:primero][:rails_env] ],
+    :mailer_host => node[:primero][:mailer][:host],
+    :mailer_from_address => node[:primero][:mailer][:from_address]
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]

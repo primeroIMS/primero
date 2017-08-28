@@ -16,6 +16,7 @@ default[:primero].tap do |p|
     queue[:host] = 'localhost'
     queue[:port] = '11300'
     queue[:storage_dir] = File.join(node[:primero][:home_dir], 'beanstalkd')
+    queue[:queue_list] = 'mailer,export'
   end
 
   p[:no_reseed] = false
@@ -65,6 +66,11 @@ default[:primero].tap do |p|
   p[:passenger_conf].tap do |pc|
     pc[:min_instances] = 1
     pc[:max_pool_size] = 6
+  end
+
+  p[:mailer].tap do |m|
+    m[:host] = 'mail.example.com'
+    m[:from_address] = 'noreply@mail.example.com'
   end
 end
 

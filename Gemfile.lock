@@ -237,6 +237,8 @@ GEM
       rspec (>= 2.0, < 4.0)
     launchy (2.4.2)
       addressable (~> 2.3)
+    letter_opener (1.4.1)
+      launchy (~> 2.2)
     libv8 (3.16.14.11)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
@@ -514,6 +516,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   json_spec (~> 1.1.1)
+  letter_opener
   memoist (~> 0.11.0)
   metric_fu
   mime-types (= 1.16)
