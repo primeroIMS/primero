@@ -5,7 +5,7 @@
     <%= render 'case_count_new_totals', stats: @stats, model: model %>
     <%= render 'case_count_transfers_awaiting', stats: @stats, model: model %>
     <%= render 'case_count_new_incident', stats: @stats, model: model %>
-    <%= render 'case_count_services_implemented', stats: @stats, model: model %>
+    <%= render 'case_count_services_implemented', stats: @stats, model: model if @display_services_implemented %>
     <%= render 'case_count_referred', stats: @stats, model: model if @display_assessment %>
     <%= render 'case_count_new_service_provision', stats: @stats, model: model if @display_service_provisions %>
     <% if can?(Transition::TYPE_TRANSFER.to_sym(), model) %>
