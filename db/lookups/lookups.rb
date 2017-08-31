@@ -657,6 +657,16 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+    :id => "lookup-service-implemented",
+    :name => "Service Implemented",
+    :locked => true,
+    :lookup_values => [
+        {id: "not-implemented", display_text: "Not Implemented"}.with_indifferent_access,
+        {id: "implemented", display_text: "Implemented"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
     :id => "lookup-service-response-type",
     :name => "Service Response Type",
     :locked => true,
