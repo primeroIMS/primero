@@ -108,17 +108,6 @@ services_subform = [
   Field.new({
     "name" => "service_implemented",
     "type" => "select_box",
-    "selected_value" => "not_implemented",
-    "disabled" => true,
-    "display_name_all" => "Service Implemented",
-    "option_strings_text_all" => [
-        { id: 'not_implemented', display_text: "Not Implemented" }.with_indifferent_access,
-        { id: 'implemented', display_text: "Implemented" }.with_indifferent_access
-    ]
-  }),
-  Field.new({
-    "name" => "service_implemented",
-    "type" => "select_box",
     "display_name_all" => "Service implemented",
     "option_strings_source" => "lookup lookup-service-implemented",
     "selected_value" => "not-implemented",
