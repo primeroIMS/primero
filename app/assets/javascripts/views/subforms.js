@@ -15,10 +15,10 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
       var $subform_container = $(el);
       //Hide Regular inputs by default unless it is a summary section.
       if (!$subform_container.find('span.collapse_expand_subform').hasClass('summary_section')) {
-        $subform_container.find(".subform").children(".row").not(":first").hide();
+        $subform_container.find(".subform:not(.new)").children(".row").not(":first").hide();
       }
 
-      $subform_container.find(".subform div[class='row collapse_expand_subform_header'] span.collapse_expand_subform").each(function(x, el){
+      $subform_container.find(".subform.subform:not(.new) div[class='row collapse_expand_subform_header'] span.collapse_expand_subform").each(function(x, el){
         var $subform = $(el);
         $subform.text("+");
         $subform.addClass("collapsed");

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   trait :model do
-    ignore do
+    transient do
       sequence(:counter, 1_000_000)
     end
 
