@@ -78,6 +78,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'ruby-prof'
   gem 'request_profiler', :git => 'git://github.com/justinweiss/request_profiler.git'
+  gem 'letter_opener'
 end
 
 group :test, :cucumber, :development do
