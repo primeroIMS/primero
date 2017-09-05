@@ -44,7 +44,6 @@ class FormSection < CouchRest::Model::Base
   design do
     view :by_unique_id
     view :by_parent_form
-    view :by_parent_form_and_is_nested
     view :by_parent_form_and_mobile_form
     view :by_order
     view :by_parent_form_and_unique_id
@@ -358,7 +357,13 @@ class FormSection < CouchRest::Model::Base
     end
 
     def get_matchable_fields_by_parent_form(parent_form, is_nested=true)
-      FormSection.by_parent_form_and_is_nested(key: [parent_form, is_nested]).map{|fs| fs.all_matchable_fields}.flatten
+      form_sections = FormSection.by_parent_form(:key => parent_form).all
+      if subform
+        form_fields = form_sections.select{|f| (f.is_nested.present? && f.is_nested == true)}.map{|fs| fs.all_matchable_fields}.flatten
+      else
+        form_fields = filter_subforms(form_sections).map{|fs| fs.all_matchable_fields}.flatten
+      end
+      form_fields
     end
     memoize_in_prod :get_matchable_fields_by_parent_form
 
