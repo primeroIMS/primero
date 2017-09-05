@@ -10,6 +10,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     'click .filter-controls input[type="checkbox"]': 'change_scope',
     'change .filter-controls input[type="text"]': 'change_scope',
     'change select[filter_type="location"]': 'change_scope',
+    'change select[filter_type="list"]': 'change_scope',
     'click #apply_filter': 'apply_filters',
     'click .clear_filters': 'clear_filters'
   },
@@ -66,6 +67,13 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
         self.set_array_filter(name, $this.val(), type);
       }
 
+      if($this.is('select') && type === 'list') {
+        if (current_scope !== false) {
+          $this.val(current_scope)
+          self.set_remove_filter(name, current_scope)
+        }
+      }
+
       if (type === 'date_range') {
         fields = $this.parents('.filter-controls').find('input');
         current_scope = _.without(current_scope, type);
@@ -79,7 +87,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
           self.set_date_range(date_values, name, type);
         }
       }
-      else if (type === 'location') {
+      else if (type === 'location' ) {
         if (current_scope !== false) {
           self.set_remove_filter(name, current_scope);
         }
@@ -153,7 +161,10 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       var $date_inputs = $target.parents('.filter-controls').find('input');
       date_values = [ $($date_inputs[0]).val(), $($date_inputs[1]).val()];
       this.set_date_range(date_values, filter, filter_type);
-    } else if ($target.is("select") && filter_type === 'location'){
+    } else if ($target.is("select") && filter_type === 'list') {
+      var filter_values = (selected_val) ? _.flatten([filter_type, selected_val]) : "";
+      this.set_remove_filter(filter, filter_values);
+    } else if ($target.is("select") && filter_type === 'location') {
       if (selected_val === "") {
         filter_values = ""
       }
