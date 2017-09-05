@@ -8,6 +8,7 @@ en:
   valid: "Valid"
   invalid: "Invalid"
   offline: The application is offline.
+  name: "Name"
   home:
     fr: "Français"
     en: "English"
@@ -628,33 +629,6 @@ en:
     zero: "No %{model} found"
     page_entries_info: Displaying _START_ to _END_ of _TOTAL_ %{model}
 
-  will_paginate:
-    previous_label: "&#8592; Previous"
-    next_label: "Next &#8594;"
-    page_gap: "&hellip;"
-    page_entries_info:
-      single_page_html:
-        zero: "No %{model} found"
-        one: "Displaying <b>1</b> %{model}"
-        other: "Displaying <b>all %{count}</b> %{model}"
-      multi_page_html: "Displaying %{model} <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
-    models:
-      report:
-        one: "Report"
-        other: "Reports"
-      child:
-        one: "Case"
-        other: "Cases"
-      incident:
-        one: "Incident"
-        other: "Incidents"
-      hash:
-        one: "Matching Result"
-        other: "Matching Results"
-      bulk_export:
-        one: "Bulk file export"
-        other: "Bulk file exports"
-
   users:
     unverified: "Unverified Users"
     select_role: "Please select a role before verifying the user"
@@ -857,7 +831,6 @@ en:
   mandatory_field: "marked fields are mandatory"
   add: "add"
   belonging_to: "belonging to"
-  hello: "Hello"
   imei: "IMEI"
   blacklisted: "Blacklisted?"
   visible_for_web: "Visible for web app"
@@ -929,7 +902,6 @@ en:
       export_pdf: "Export pdf"
       export_unhcr_csv: "Export unhcr csv"
       export_mrm_violation_xls: "Export mrm violation xls"
-      export_incident_recorder_xls: "Export incident recorder xls"
       export_case_pdf: "Export case pdf"
       export_json: "Export json"
       export_custom: "Export custom"
@@ -1186,6 +1158,7 @@ en:
     is_continuous: Is Continuous
 
   lookup:
+    actions: "Actions"
     edit: "Edit Lookup"
     create: "New Lookup"
     label: "Lookup"
@@ -1365,8 +1338,6 @@ en:
     quarter_3: "Quarter 3"
     quarter_2: "Quarter 2"
     quarter_1: "Quarter 1"
-    gbv_reporting_agency: "Yes-GBVIMS Org / Agency"
-    non_gbv_reporting_agency: "Yes-Non GBVIMS Org / Agency"
     undecided: "Undecided at time of report"
 
   followup_reminders:
@@ -1809,33 +1780,6 @@ en:
       all:  Excel
       one:  Excel
       selected:  Selected to Excel
-    incident_recorder_xls:
-      all:  Incident Recorder
-      one:  Incident Recorder
-      selected:  Selected to Incident Recorder
-      gender:
-        male: "M"
-        female: "F"
-        both: "M and F"
-      age_group:
-        age: "Age"
-        61_older: "61 & Older"
-        unknown: "Unknown"
-        header: "ALLEGED PERPETRATOR AGE GROUP"
-      age_type:
-        adult: "Adult"
-        minor: "Minor"
-        both: "Adult & Minor"
-        unknown: "Unknown"
-        header: "ALLEGED PERPETRATOR AGE TYPE"
-      service_referral:
-        referred: "Referred"
-        your_agency: "Service provided by your agency"
-        another_agency: "Services already received from another agency"
-        not_applicable: "Service not applicable"
-        declined: "Referral declined by survivor"
-        unavailable: "Service unavailable"
-        undecided: "Undecided at time of report"
     json:
       all:  JSON
       one:  JSON
