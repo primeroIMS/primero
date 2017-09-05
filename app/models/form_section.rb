@@ -44,6 +44,7 @@ class FormSection < CouchRest::Model::Base
   design do
     view :by_unique_id
     view :by_parent_form
+    view :by_parent_form_and_is_nested
     view :by_parent_form_and_mobile_form
     view :by_order
     view :by_parent_form_and_unique_id
@@ -305,7 +306,7 @@ class FormSection < CouchRest::Model::Base
     #TODO: Potentially this method is expensive
     def link_subforms(forms)
       subforms_hash = forms.reduce({}) do |hash, form|
-        hash[form.unique_id] = form unless form.visible?
+        hash[form.unique_id] = form if form.is_nested?
         hash
       end
 
@@ -356,14 +357,8 @@ class FormSection < CouchRest::Model::Base
       return forms
     end
 
-    def get_matchable_fields_by_parent_form(parent_form, subform=true)
-      form_sections = FormSection.by_parent_form(:key => parent_form).all
-      if subform
-        form_fields = form_sections.select{|f| (f.is_nested.present? && f.is_nested == true)}.map{|fs| fs.all_matchable_fields}.flatten
-      else
-        form_fields = filter_subforms(form_sections).map{|fs| fs.all_matchable_fields}.flatten
-      end
-      form_fields
+    def get_matchable_fields_by_parent_form(parent_form, is_nested=true)
+      FormSection.by_parent_form_and_is_nested(key: [parent_form, is_nested]).map{|fs| fs.all_matchable_fields}.flatten
     end
     memoize_in_prod :get_matchable_fields_by_parent_form
 
@@ -431,13 +426,6 @@ class FormSection < CouchRest::Model::Base
       all.find { |form| form.fields.find { |field| field.name == field_name || field.display_name == field_name } }
     end
     memoize_in_prod :get_form_containing_field
-
-    def get_fields_by_name_and_parent_form(field_name, parent_form, include_subforms)
-      all.select{|form| form.parent_form == parent_form && (include_subforms == true || form.is_nested == false)}
-         .map{|form| form.fields.select{|field| field.name == field_name || field.display_name == field_name } }
-         .flatten
-    end
-    memoize_in_prod :get_fields_by_name_and_parent_form
 
     def new_custom form_section, module_name = "CP"
       form_section[:core_form] = false   #Indicates this is a user-added form
