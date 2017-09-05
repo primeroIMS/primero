@@ -356,7 +356,7 @@ class FormSection < CouchRest::Model::Base
       return forms
     end
 
-    def get_matchable_fields_by_parent_form(parent_form, is_nested=true)
+    def get_matchable_fields_by_parent_form(parent_form, subform=true)
       form_sections = FormSection.by_parent_form(:key => parent_form).all
       if subform
         form_fields = form_sections.select{|f| (f.is_nested.present? && f.is_nested == true)}.map{|fs| fs.all_matchable_fields}.flatten
