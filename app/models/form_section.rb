@@ -305,7 +305,7 @@ class FormSection < CouchRest::Model::Base
     #TODO: Potentially this method is expensive
     def link_subforms(forms)
       subforms_hash = forms.reduce({}) do |hash, form|
-        hash[form.unique_id] = form unless form.visible?
+        hash[form.unique_id] = form if form.is_nested?
         hash
       end
 
@@ -431,13 +431,6 @@ class FormSection < CouchRest::Model::Base
       all.find { |form| form.fields.find { |field| field.name == field_name || field.display_name == field_name } }
     end
     memoize_in_prod :get_form_containing_field
-
-    def get_fields_by_name_and_parent_form(field_name, parent_form, include_subforms)
-      all.select{|form| form.parent_form == parent_form && (include_subforms == true || form.is_nested == false)}
-         .map{|form| form.fields.select{|field| field.name == field_name || field.display_name == field_name } }
-         .flatten
-    end
-    memoize_in_prod :get_fields_by_name_and_parent_form
 
     def new_custom form_section, module_name = "CP"
       form_section[:core_form] = false   #Indicates this is a user-added form
