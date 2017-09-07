@@ -14,7 +14,7 @@ consent_fields = [
   Field.new({"name" => "consent_for_services",
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
-             "display_name_all" => "Consent has been obtained for the child to receive services",
+             "display_name_all" => "Consent has been obtained for the child to receive case management services",
              "help_text" => "This includes consent for sharing information with other organizations providing services"
             }),
   Field.new({"name" => "consent_reporting",
@@ -30,7 +30,8 @@ consent_fields = [
   Field.new({"name" => "disclosure_other_orgs",
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
-             "display_name_all" => "The individual providing consent agrees to share collected information with other organizations?"
+             "display_name_all" => "The individual providing consent agrees to share collected information with other "\
+                                   "organizations for service provision?"
             }),
   Field.new({"name" => "consent_share_separator",
              "type" => "separator",
@@ -40,6 +41,7 @@ consent_fields = [
              "type" => "select_box",
              "display_name_all" => "Consent has been given to share the information collected with",
              "multi_select" => true,
+             "visible" => false,
              "option_strings_text_all" => [
                 { id: 'family', display_text: "Family" }.with_indifferent_access,
                 { id: 'authorities', display_text: "Authorities" }.with_indifferent_access,
@@ -50,7 +52,8 @@ consent_fields = [
             }),
   Field.new({"name" => "consent_info_sharing_others",
              "type" => "text_field",
-             "display_name_all" => "If information can be shared with others, please specify who"
+             "display_name_all" => "If information can be shared with others, please specify who",
+             "visible" => false
             }),
   Field.new({"name" => "disclosure_deny_details",
              "type" => "text_field",
