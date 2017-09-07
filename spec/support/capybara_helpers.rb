@@ -1,4 +1,9 @@
 module CapybaraHelpers
+  def pause
+    $stderr.write 'Press enter to continue'
+    $stdin.gets
+  end
+
   def login_user(user)
     visit '/'
     within(".login_page form") do
@@ -31,7 +36,14 @@ module CapybaraHelpers
     form_sections = args[:form_sections].present? ? args[:form_sections].map{ |fs| fs.unique_id } : []
     user_factory = args[:user].present? ? args[:user].to_sym : :user
     program = create(:primero_program)
-    primero_module = create(:primero_module, program_id: program.id, associated_form_ids: form_sections)
+
+    module_options = { program_id: program.id, associated_form_ids: form_sections }
+
+    if args[:primero_module].present?
+      module_options.merge!(args[:primero_module])
+    end
+
+    primero_module = create(:primero_module, module_options)
     roles = args[:roles] || create(:role)
     user_group = args[:user_groups] || create(:user_group)
     user = create(user_factory,

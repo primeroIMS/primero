@@ -8,7 +8,7 @@
 
 <% content_for :record_status do %>
   <% if @child.module.workflow_status_indicator.present? %>
-    <%= display_workflow_status(@child, @lookups, @child.module.whitelisted_workflows) %>
+    <%= display_workflow_status(@child, @lookups, @child.module.blacklisted_workflows) %>
   <% end %>
 <% end %>
 
