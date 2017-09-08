@@ -30,10 +30,33 @@ module CapybaraHelpers
     system_settings = SystemSettings.first || SystemSettings.create!(system_settings_hash)
   end
 
+  def build_form(form_section)
+    forms = []
+
+    if form_section.present?
+      forms = form_section
+    else
+      forms << create(:form_section,
+        is_first_tab: true,
+        fields: [
+          build(:field)
+        ]
+      )
+    end
+
+    forms.map{ |fs| fs.unique_id }
+  end
+
+  def create_lookup(id, options)
+    create(:lookup, id: id,
+      lookup_values: options.map(&:with_indifferent_access))
+  end
+
   def setup_user(args = {})
     create_system_setting
 
-    form_sections = args[:form_sections].present? ? args[:form_sections].map{ |fs| fs.unique_id } : []
+    form_sections = build_form(args[:form_section])
+
     user_factory = args[:user].present? ? args[:user].to_sym : :user
     program = create(:primero_program)
 
