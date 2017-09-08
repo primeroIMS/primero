@@ -1,32 +1,10 @@
 <div class="panel">
   <div class="button-group align-center">
-    <a class="button clear_filters">Clear</a>
-    <a class="button" data-open="save_filters">Save</a>
-    <a id="apply_filter" class="button">Apply</a>
+    <a class="button clear_filters"><%= t('button.clear') %></a>
+    <a class="button save_search" data-open="save_filters"><%= t('button.save') %></a>
+    <a id="apply_filter" class="button"><%= t('button.apply') %></a>
   </div>
-  <div class="reveal" id="save_filters" data-reveal>
-    <% #TODO: i18n/ move to partial %>
-    <h5>Save Filter</h5>
-    <div class="message"></div>
-    <label>Name</label>
-    <div class="input-group">
-      <input type="text" name="name" class="input-group-field" />
-      <div class="input-group-button">
-        <button type="button" class="button save_user_filters">Save</button>
-      </div>
-    </div>
-    <div id="filter-list">
-      <% if @saved_filters.present? %>
-        <%= @saved_filters.each do |filter| %>
-        <% end %>
-      <% else %>
-        <p>You have no saved filters.</p>
-      <% end %>
-    </div>
-    <button class="close-button" data-close aria-label="Close modal" type="button">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
+  <%= render 'record_shared/saved_search_modal' %>
   <form id="index_filter_form" autocomplete="off">
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("cases.filter_by.flag"), 'flag', [

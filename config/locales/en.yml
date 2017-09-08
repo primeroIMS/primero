@@ -2084,3 +2084,8 @@ en:
       title: 'Update Required'
       message: "To play the media you will need to either update your browser to a recent version or update your"
       link_text: "Flash plugin"
+
+  saved_searches:
+    no_save_searches: "You have no saved searches."
+    name: "Name"
+    save_search: "Save Search"

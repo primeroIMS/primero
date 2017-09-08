@@ -12,7 +12,8 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     'change select[filter_type="location"]': 'change_scope',
     'change select[filter_type="list"]': 'change_scope',
     'click #apply_filter': 'apply_filters',
-    'click .clear_filters': 'clear_filters'
+    'click .clear_filters': 'clear_filters',
+    'click .user_filter': 'get_filters'
   },
 
   initialize: function() {
@@ -20,6 +21,31 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     this.set_current_scope();
     _primero.chosen('select.chosen-select:visible');
 
+
+    console.log(this.allow_save())
+    if (this.allow_save()) {
+      $('.save_search').show();
+    } else {
+      $('.save_search').hide();
+    }
+  },
+
+  allow_save: function() {
+    // TODO: find a better way of doing this when backend finished
+    var default_filters = '?scope%5Bchild_status%5D=list%7C%7Copen&scope%5Brecord_state%5D=list%7C%7Ctrue';
+    return location.search !== default_filters
+  },
+
+  get_filters: function(e) {
+    e.preventDefault();
+
+    var params = $(e.target).attr('data-filter');
+    var self = this;
+
+    $.get('/', params, function(data) {
+      _primero.filters = data;
+      self.apply_filters(e);
+    });
   },
 
   clear_filters: function(e) {

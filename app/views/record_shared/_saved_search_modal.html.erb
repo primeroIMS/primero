@@ -1,0 +1,23 @@
+  <div class="reveal" id="save_filters" data-reveal>
+    <% #TODO: i18n/ move to partial %>
+    <h5><%= t('saved_searches.save_search') %></h5>
+    <div class="message"></div>
+    <label><%= t('saved_searches.name') %></label>
+    <div class="input-group">
+      <input type="text" name="name" class="input-group-field" />
+      <div class="input-group-button">
+        <button type="button" class="button save_user_filters"><%= t('button.save') %></button>
+      </div>
+    </div>
+    <div id="filter-list">
+      <% if @saved_filters.present? %>
+        <%= @saved_filters.each do |filter| %>
+        <% end %>
+      <% else %>
+        <p><%= t('saved_searches.no_save_searches') %></p>
+      <% end %>
+    </div>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
