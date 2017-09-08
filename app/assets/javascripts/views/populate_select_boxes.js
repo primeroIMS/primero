@@ -92,6 +92,20 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
     _.each(select_boxes, function(select) {
       var this_select = $(select);
       var value = this_select.data('value');
+      var placeholder;
+      var multiple;
+
+      multiple = select.getAttribute('multiple')
+      if(multiple != "multiple"){
+        /*
+         * Add back placeholder - BUT only for Single Selects
+         * There is currently a bug in chose that won't add back the placeholder when update is triggered.
+         * We will need to update chosen when this is fixed.
+         * https://github.com/harvesthq/chosen/issues/2638
+         */
+        placeholder = select.getAttribute('data-placeholder') || self.collection.placeholder;
+        this_select.prepend('<option value="" default selected>' + placeholder + '</option>');
+      }
 
       if (value) {
         this_select.val(value);
