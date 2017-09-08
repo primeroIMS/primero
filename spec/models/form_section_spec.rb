@@ -210,7 +210,7 @@ describe FormSection do
         Field.new(name: "a_0", type: Field::TEXT_FIELD),
         Field.new(name: "a_1", type: Field::TEXT_FIELD)
       ]
-      form_section_a = FormSection.new(unique_id: "A", name: "A", fields: fields_a, visible: false)
+      form_section_a = FormSection.new(unique_id: "A", name: "A", fields: fields_a, visible: false, is_nested: true)
 
       fields_b = [
         Field.new(name: "b_0", type: Field::TEXT_FIELD),

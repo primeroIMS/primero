@@ -489,4 +489,26 @@ describe User do
       end
     end
   end
+
+  describe "mailer" do
+    context 'when user has an email address' do
+      before do
+        @user = build_and_save_user
+      end
+
+      it "sends a welcome email" do
+        expect { @user.send_welcome_email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      end
+    end
+
+    context 'when user does not have an email address' do
+      before do
+        @user = user = build_user(email: '')
+      end
+
+      it "does not send a welcome email" do
+        expect { @user.send_welcome_email }.to change { ActionMailer::Base.deliveries.count }.by(0)
+      end
+    end
+  end
 end

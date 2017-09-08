@@ -1,0 +1,9 @@
+---
+<% @environments.each do |env| %>
+<%= env %>:
+  :delivery_method: :sendmail
+  :notifications:
+    host: <%= @mailer_host %>
+  :default_options:
+    :from: <%= @mailer_from_address %>
+<% end %>
