@@ -40,9 +40,9 @@ Capybara.register_driver :headless_chrome do |app|
     desired_capabilities: capabilities
 end
 
-Capybara.default_driver  = :chrome
+Capybara.default_driver  = :headless_chrome
 Capybara.default_max_wait_time = 6 # In seconds
-Capybara.javascript_driver = :chrome
+Capybara.javascript_driver = :headless_chrome
 
 module VerifyAndResetHelpers
   def verify(object)
