@@ -114,3 +114,29 @@ To create a user session use `create_session(user, password)` before visiting a 
     expect(page).to have_content "Logged in as: #{@user.user_name}"
   end
 ```
+
+#### Use of SOLR
+You will need to call `Sunspot.commit` to index records. Also make sure your test is tagged with `search: true`
+
+```
+  feature "test features, search: true do
+  before do
+    @case = create(:child)
+    @case2 = create(:child, name: 'Josh')
+    Sunspot.commit
+  end
+
+  ...
+
+  end
+```
+
+#### Pausing
+You are able to pause a test by inserting pause into a test. Useful if testing outside of vagrant
+
+```
+  scenario "testing" do
+    pause
+    expect(page).to have_content("Hello World)
+  end
+```

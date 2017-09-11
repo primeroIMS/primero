@@ -18,7 +18,7 @@ class PrimeroModule < CouchRest::Model::Base
   property :selectable_approval_types, TrueClass, :default => false
   property :workflow_status_indicator, TrueClass, :default => false
   property :agency_code_indicator, TrueClass, :default => false
-  property :whitelisted_workflows, :type => [String]
+  property :blacklisted_workflows, :type => [String]
 
   before_save :add_associated_subforms
 

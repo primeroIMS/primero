@@ -279,7 +279,7 @@ class HomeController < ApplicationController
   end
 
   def display_services_implemented?
-    @display_services_implemented ||= PrimeroModule.cp.whitelisted_workflows.include? Child::WORKFLOW_SERVICE_IMPLEMENTED
+    @display_services_implemented ||= PrimeroModule.cp.blacklisted_workflows.exclude? Child::WORKFLOW_SERVICE_IMPLEMENTED
   end
 
   def manager_case_query(query = {})
