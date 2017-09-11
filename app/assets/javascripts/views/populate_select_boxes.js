@@ -93,10 +93,8 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
       var this_select = $(select);
       var value = this_select.data('value');
       var placeholder;
-      var multiple;
 
-      multiple = select.getAttribute('multiple')
-      if(multiple != "multiple"){
+      if (!select.multiple) {
         /*
          * Add back placeholder - BUT only for Single Selects
          * There is currently a bug in chose that won't add back the placeholder when update is triggered.
