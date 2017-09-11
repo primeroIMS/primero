@@ -118,9 +118,8 @@ GEM
       selenium-webdriver
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
-    chosen-rails (1.1.0)
+    chosen-rails (1.5.2)
       coffee-rails (>= 3.2)
-      compass-rails (>= 1.1.2)
       railties (>= 3.0)
       sass-rails (>= 3.2)
     chromedriver-helper (1.1.0)
@@ -442,7 +441,7 @@ DEPENDENCIES
   capistrano (~> 2.14.2)
   capybara (~> 2.15.1)
   capybara-selenium
-  chosen-rails (~> 1.1.0)
+  chosen-rails (~> 1.5.2)
   chromedriver-helper
   ci_reporter (~> 1.9.1)
   closure-compiler
