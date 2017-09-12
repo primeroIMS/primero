@@ -136,7 +136,7 @@ module Historical
   end
 
   def created_by_user
-    @created_by_user ||= (self.created_by.present? ? User.find_by_user_name(self.created_by) : '')
+    @created_by_user ||= (self.created_by.present? ? User.find_by_user_name(self.created_by) : nil)
   end
 
   def update_last_updated_at()
