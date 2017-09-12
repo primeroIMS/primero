@@ -3,7 +3,7 @@ module CouchChanges
   class Watcher
     def initialize(models_to_watch, history_path=nil)
       @models = models_to_watch
-      @sequencer = Sequencer.new(history_path)
+      @sequencer = Sequencer.new(history_path, true)
     end
 
     def watch_for_changes

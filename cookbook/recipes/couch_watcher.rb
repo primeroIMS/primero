@@ -77,7 +77,6 @@ supervisor_service 'who-watches-the-couch-watcher' do
   command who_watches_worker_file
   autostart true
   autorestart true
-  user node[:primero][:app_user]
   directory node[:primero][:app_dir]
   numprocs 1
   killasgroup true
