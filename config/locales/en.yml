@@ -341,7 +341,8 @@ en:
 
   saved_search:
       save_success: "Search saved successfully"
-      save_error: "Save faled"
+      save_error: "Save failed"
+      deleted: "Deleted Successfully"
 
   case:
     create_new_case: "Create New Case"

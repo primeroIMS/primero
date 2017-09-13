@@ -8,6 +8,7 @@ class SavedSearchesController < ApplicationController
     user_id = current_user.id
     module_id = current_user.module_ids
     authorize! :save_search, SavedSearch
+
     new_search = SavedSearch.new(name: filter_name, module_id: module_id, record_type: record_type, user_id: user_id)
 
     filters.each do |key, filter|
@@ -25,6 +26,7 @@ class SavedSearchesController < ApplicationController
 
   def index
     authorize! :save_search, SavedSearch
+
     searches_by_user = SavedSearch.by_user_id(key: current_user.id)
     respond_to do |format|
       format.json {render :json => searches_by_user}
@@ -34,9 +36,22 @@ class SavedSearchesController < ApplicationController
 
   def show
     authorize! :save_search, SavedSearch
+
     searches_by_id = SavedSearch.by_unique_id(key: params['id'])
     respond_to do |format|
       format.json {render :json => searches_by_id}
+    end
+  end
+
+  def destroy
+    authorize! :save_search, SavedSearch
+
+    @searches_by_id = SavedSearch.find(params['id'])
+
+    if @searches_by_id.destroy
+      respond_to do |format|
+        format.html {redirect_to(request.referrer, notice: I18n.t('saved_search.deleted'))}
+      end
     end
   end
 end

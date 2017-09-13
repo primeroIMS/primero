@@ -3,7 +3,11 @@ _primero.Views.SaveFilters = _primero.Views.Base.extend({
 
   events: {
     'click .save_user_filters': 'save_user_filters',
-    'click .get_filters': 'get_filters'
+    'click .user_filter': 'get_filter'
+  },
+
+  get_filter: function(e) {
+    _primero.get_filter(e);
   },
 
   save_user_filters: function() {
@@ -25,13 +29,5 @@ _primero.Views.SaveFilters = _primero.Views.Base.extend({
     } else {
       $(this.el).find('.message').show();
     }
-  },
-
-  get_filters: function() {
-    var self = this;
-    var url = "/saved_searches";
-    $.get(url, function(response) {
-      console.log('response', response);
-    });
   }
 });

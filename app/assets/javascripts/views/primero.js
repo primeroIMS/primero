@@ -45,6 +45,9 @@ Primero = _primero.Views.Base.extend({
     _primero.generate_download_link = this.generate_download_link;
     _primero.init_autosize = this.init_autosize;
     _primero.request_confirmation = this.request_confirmation;
+    _primero.map_filter_object = this.map_filter_object;
+    _primero.get_filter = this.get_filter;
+    _primero.apply_filters = this.apply_filters;
 
     this.init_trunc();
     this.init_sticky();
@@ -354,6 +357,51 @@ Primero = _primero.Views.Base.extend({
 
   disable_default_events: function(evt) {
     evt.preventDefault();
+  },
+
+  apply_filters: function(evt) {
+    evt.preventDefault();
+
+    var prev_params = _primero.clean_page_params(['scope', 'page']);
+    var url_string = _primero.object_to_params(_primero.filters);
+    var add_amp = '&';
+    var search;
+
+    if (prev_params && url_string === '' || !prev_params || !prev_params && url_string === '') {
+      add_amp = '';
+    }
+
+    search = prev_params + add_amp + url_string;
+    Turbolinks.visit(window.location.pathname + '?' + url_string);
+  },
+
+  map_filter_object: function(filters) {
+    var new_filters = {};
+    _.each(filters, function(filter) {
+      if (Array.isArray(filter.value)) {
+        new_filters[filter.name] = filter.value;
+      } else {
+        _.each(filter.value, function(sub_filter, sub_key) {
+          var key = filter.name + '[' + sub_key + ']';
+          new_filters[key] = sub_filter;
+        });
+      }
+    });
+
+    return new_filters;
+  },
+
+  get_filter: function(e) {
+    e.preventDefault();
+
+    var filter_id = $(e.target).attr('data-id');
+    var self = this;
+
+    $.get('/saved_searches/' + filter_id, function(data) {
+      var filters = self.map_filter_object(data[0].filters);
+      _primero.filters = filters;
+      self.apply_filters(e);
+    });
   },
 
   _primero_clean_page_params: function(q_param) {
