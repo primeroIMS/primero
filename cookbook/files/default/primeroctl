@@ -1,0 +1,106 @@
+#! /usr/bin/env bash
+
+
+#  Manage the following Primero services:
+#    nginx                             (systemd)
+#    passenger                         (systemd)
+#    couch-watcher                     (supervisor)
+#    who-watches-the-couch-watcher     (supervisor)
+#    primero-scheduler                 (supervisor)
+#    backburner                        (supervisor)
+#    beanstalkd                        (systemd)
+#    solr                              (supervisor)
+#    couchdb                           (systemd)
+
+
+systemctl_status () {
+  status=`systemctl status "${1}" | awk -F"e:" '/Active/ {print $2}'`
+  echo "${1}:                  ${status}"
+}
+
+status () {
+  echo "Primero status:"
+  systemctl_status nginx
+  systemctl_status passenger
+  supervisorctl status couch-watcher
+  supervisorctl status who-watches-the-couch-watcher
+  supervisorctl status primero-scheduler
+  supervisorctl status backburner
+  systemctl_status beanstalkd
+  supervisorctl status solr
+  systemctl_status couchdb
+}
+
+stop () {
+  echo "Stopping Primero services"
+  systemctl stop nginx
+  systemctl_status nginx
+
+  systemctl stop passenger
+  systemctl_status passenger
+
+  supervisorctl stop couch-watcher && supervisorctl stop who-watches-the-couch-watcher
+
+  supervisorctl stop primero-scheduler
+
+  supervisorctl stop backburner
+
+  systemctl stop beanstalkd
+  systemctl_status beanstalkd
+
+  supervisorctl stop solr
+
+  systemctl stop couchdb
+  systemctl_status couchdb
+  echo "Primero services stopped"
+}
+
+start () {
+  echo "Starting Primero services"
+  systemctl start nginx
+  systemctl_status nginx
+
+  systemctl start passenger
+  systemctl_status passenger
+
+  supervisorctl start couch-watcher && supervisorctl start who-watches-the-couch-watcher
+
+  supervisorctl start primero-scheduler
+
+  supervisorctl start backburner
+
+  systemctl start beanstalkd
+  systemctl_status beanstalkd
+
+  supervisorctl start solr
+
+  systemctl start couchdb
+  systemctl_status couchdb
+  echo "Primero services started"
+}
+
+restart() {
+  stop
+  start
+}
+
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    restart
+    ;;
+  status)
+    status
+    ;;
+  *)
+    echo "Usage: primeroctl {start|stop|restart|status}"
+    ;;
+esac
+
+
