@@ -55,7 +55,7 @@ module CapybaraHelpers
   def setup_user(args = {})
     create_system_setting
 
-    form_sections = build_form(args[:form_section])
+    form_sections = build_form(args[:form_sections])
 
     user_factory = args[:user].present? ? args[:user].to_sym : :user
     program = create(:primero_program)
