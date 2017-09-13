@@ -4,8 +4,12 @@ module CouchChanges
   class Sequencer
     DEFAULT_HISTORY_PATH = File.join(Rails.application.config.root, 'tmp/couch_watcher_history.json')
 
-    def initialize(history_path=nil)
+    def initialize(history_path=nil, preloader=false)
       @history_path = history_path || DEFAULT_HISTORY_PATH
+
+      if preloader
+        @sequences ||= load_sequencers
+      end
     end
 
     def for_model(model)
@@ -19,7 +23,7 @@ module CouchChanges
       seq = self.new(history_path)
       seq.instance_exec(self) do
         @sequences = sequence_data.inject({}) do |acc, (db_name, last_seq)|
-          acc.merge(db_name => ModelSequence.new(db_name, last_seq, seq)) 
+          acc.merge(db_name => ModelSequence.new(db_name, last_seq, seq))
         end
         save_sequence_numbers
       end
