@@ -1,7 +1,7 @@
 <div class="row">
-  <% @service_response_types.each do |response| %>
+  <% @service_response_types.each do |key, response| %>
     <div class="column">
-      <h5 class="stat_heading"><%= t("dashboard.#{response}") %></h5>
+      <h5 class="stat_heading"><%= key %></h5>
       <% @risk_levels.each do |risk| %>
         <% unless risk == Child::RISK_LEVEL_NONE %>
           <%= display_stat_detailed({
