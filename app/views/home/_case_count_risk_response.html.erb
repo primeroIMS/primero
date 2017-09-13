@@ -1,9 +1,9 @@
 <div class="row">
-  <% @service_response_types.each do |response| %>
+  <% @service_response_types.each do |key, response| %>
     <% if @service_response_types.count > 2 %>
       <div class="row stats_inline collapse">
         <div class="column shrink">
-          <h5><%= t("dashboard.#{response}") %></h5>
+          <h5><%= key %></h5>
         </div>
         <% @risk_levels.each do |risk| %>
           <% unless risk == Child::RISK_LEVEL_NONE %>
@@ -57,7 +57,7 @@
       </div>
     <% else %>
       <div class="column">
-        <h5 class="stat_heading"><%= t("dashboard.#{response}") %></h5>
+        <h5 class="stat_heading"><%= key %></h5>
         <% @risk_levels.each do |risk| %>
           <% unless risk == Child::RISK_LEVEL_NONE %>
             <%= display_stat_detailed({
