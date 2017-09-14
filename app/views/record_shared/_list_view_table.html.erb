@@ -72,23 +72,27 @@
     <div class="large-3 small-3 columns index_filters">
       <ul class="tabs" data-tabs id="filter-area">
         <li class="tabs-title is-active"><a href="#filters" aria-selected="true">Filters</a></li>
-        <li class="tabs-title"><a data-tabs-target="#saved-searches" href="#saved-searches">Saved Searches</a></li>
+        <% if can?(:manage, SavedSearch) %>
+          <li class="tabs-title"><a data-tabs-target="#saved-searches" href="#saved-searches">Saved Searches</a></li>
+        <% end %>
       </ul>
       <div class="tabs-content" data-tabs-content="filter-area">
         <div class="tabs-panel is-active" id="filters">
           <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
         </div>
-        <div class="tabs-panel" id="saved-searches">
-          <h5>My Filters</h5>
-          <ul class="save-searches">
-            <% @saved_searches.each do |filter| %>
-              <li>
-                <a class="user_filter" data-id="<%= filter.unique_id %>"><%= filter.name %></a>
-                <%= link_to 'x', filter, method: :delete, data: {confirm: 'Are you sure?'}, class: "delete_saved_search" %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
+        <% if can?(:manage, SavedSearch) %>
+          <div class="tabs-panel" id="saved-searches">
+            <h5>My Filters</h5>
+            <ul class="save-searches">
+              <% @saved_searches.each do |filter| %>
+                <li>
+                  <a class="user_filter" data-id="<%= filter.unique_id %>"><%= filter.name %></a>
+                  <%= link_to 'x', filter, method: :delete, data: {confirm: 'Are you sure?'}, class: "delete_saved_search" %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
       </div>
 
     </div>
