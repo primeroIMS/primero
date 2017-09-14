@@ -13,7 +13,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     'change select[filter_type="list"]': 'change_scope',
     'click #apply_filter': 'apply_filters',
     'click .clear_filters': 'clear_filters',
-    'click .user_filter': 'get_filters'
+    'click .user_filter': 'get_filter'
   },
 
   initialize: function() {
@@ -22,30 +22,27 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     _primero.chosen('select.chosen-select:visible');
 
 
-    console.log(this.allow_save())
-    if (this.allow_save()) {
-      $('.save_search').show();
-    } else {
-      $('.save_search').hide();
-    }
+    // console.log(this.allow_save())
+    // if (this.allow_save()) {
+    //   $('.save_search').show();
+    // } else {
+    //   $('.save_search').hide();
+    // }
   },
 
-  allow_save: function() {
-    // TODO: find a better way of doing this when backend finished
-    var default_filters = '?scope%5Bchild_status%5D=list%7C%7Copen&scope%5Brecord_state%5D=list%7C%7Ctrue';
-    return location.search !== default_filters
+  //TODO: only show save if selected filters are applied
+  // allow_save: function() {
+  //   // TODO: find a better way of doing this when backend finished
+  //   var default_filters = '?scope%5Bchild_status%5D=list%7C%7Copen&scope%5Brecord_state%5D=list%7C%7Ctrue';
+  //   return location.search !== default_filters
+  // },
+
+  get_filter: function(e) {
+    _primero.get_filter(e);
   },
 
-  get_filters: function(e) {
-    e.preventDefault();
-
-    var params = $(e.target).attr('data-filter');
-    var self = this;
-
-    $.get('/', params, function(data) {
-      _primero.filters = data;
-      self.apply_filters(e);
-    });
+   apply_filters: function(e) {
+    _primero.apply_filters(e);
   },
 
   clear_filters: function(e) {
@@ -119,21 +116,6 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
         }
       }
     });
-  },
-
-  apply_filters: function(evt) {
-    evt.preventDefault();
-
-    var prev_params = _primero.clean_page_params(['scope', 'page']),
-        url_string = _primero.object_to_params(_primero.filters),
-        add_amp = '&',
-        search;
-
-    if (prev_params && url_string === '' || !prev_params || !prev_params && url_string === '') {
-      add_amp = '';
-    }
-    search = prev_params + add_amp + url_string;
-    Turbolinks.visit(window.location.pathname + '?' + url_string);
   },
 
   set_date_range: function(date_values, filter, filter_type) {

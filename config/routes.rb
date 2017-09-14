@@ -40,6 +40,7 @@ Primero::Application.routes.draw do
   # end
 
   resources :system_settings, only: [:show, :edit, :update]
+  resources :saved_searches, only: [:create, :index, :show, :destroy]
 
   resources :roles do
     collection do

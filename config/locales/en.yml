@@ -339,6 +339,11 @@ en:
     mark_child_as_duplicate: "Mark %{short_id} as Duplicate"
     history_of: "History of %{short_id}"
 
+  saved_search:
+      save_success: "Search saved successfully"
+      save_error: "Save failed"
+      deleted: "Deleted Successfully"
+
   case:
     create_new_case: "Create New Case"
     enter_id_number: "Enter the ID number to search for an existing record"
@@ -970,6 +975,8 @@ en:
       create: "Create"
       referral_from_service: "Refer Case from Service form"
       view_protection_concerns_filter: "View Protection Concerns Filter"
+      saved_search: "Saved Search"
+      save_search: "Save Searches"
 
   forms:
     label: "Forms"

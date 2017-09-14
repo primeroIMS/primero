@@ -76,14 +76,17 @@
       </ul>
       <div class="tabs-content" data-tabs-content="filter-area">
         <div class="tabs-panel is-active" id="filters">
-          <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>        </div>
+          <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
+        </div>
         <div class="tabs-panel" id="saved-searches">
           <h5>My Filters</h5>
-          <% # TODO: Added links when backend ticket is done %>
           <ul class="save-searches">
-            <li><%= link_to 'Save Search 1', '', data: {filter: ''}, class: 'user_filter' %></li>
-            <li><%= link_to 'Save Search 2', '', data: {filter: ''}, class: 'user_filter' %></li>
-            <li><%= link_to 'Save Search 3', '', data: {filter: ''}, class: 'user_filter' %></li>
+            <% @saved_searches.each do |filter| %>
+              <li>
+                <a class="user_filter" data-id="<%= filter.unique_id %>"><%= filter.name %></a>
+                <%= link_to 'x', filter, method: :delete, data: {confirm: 'Are you sure?'}, class: "delete_saved_search" %>
+              </li>
+            <% end %>
           </ul>
         </div>
       </div>
