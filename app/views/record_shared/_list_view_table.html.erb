@@ -72,7 +72,7 @@
     <div class="large-3 small-3 columns index_filters">
       <ul class="tabs" data-tabs id="filter-area">
         <li class="tabs-title is-active"><a href="#filters" aria-selected="true">Filters</a></li>
-        <% if can?(:manage, SavedSearch) %>
+        <% if can?(:save_search, SavedSearch) %>
           <li class="tabs-title"><a data-tabs-target="#saved-searches" href="#saved-searches">Saved Searches</a></li>
         <% end %>
       </ul>
@@ -80,7 +80,7 @@
         <div class="tabs-panel is-active" id="filters">
           <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
         </div>
-        <% if can?(:manage, SavedSearch) %>
+        <% if can?(:save_search, SavedSearch) %>
           <div class="tabs-panel" id="saved-searches">
             <h5>My Filters</h5>
             <ul class="save-searches">
