@@ -10,23 +10,8 @@ class SavedSearch < CouchRest::Model::Base
   property :unique_id
 
   design do
-    view :by_user_id,
-      :map => "function(doc) {
-        if (doc['couchrest-type'] == 'SavedSearch') {
-          if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-            emit(doc['user_id'], null);
-          }
-        }
-      }"
-
-    view :by_unique_id,
-      :map => "function(doc) {
-        if (doc['couchrest-type'] == 'SavedSearch') {
-          if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-            emit(doc['unique_id'], null);
-          }
-        }
-      }"
+    view :by_user_id
+    view :by_unique_id
   end
 
   def initialize *args
@@ -35,16 +20,18 @@ class SavedSearch < CouchRest::Model::Base
     self.unique_id ||= UUIDTools::UUID.random_create.to_s
   end
 
-  def self.by_user(user_id)
-    self.by_user_id(:user_id => user_id).all
-  end
-
-  def self.by_id(id)
-    self.by_unique_id(:unique_id => id).all
-  end
-
   def add_filter(name, filter)
     filter = SearchValue.new(name: name, value: filter)
     self.filters << filter
+  end
+
+  class << self
+    def by_user(user_id)
+      self.by_user_id(key: user_id).all
+    end
+
+    def by_id(id)
+      self.by_unique_id(key: id).all
+    end
   end
 end

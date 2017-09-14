@@ -2,12 +2,12 @@ class SavedSearchesController < ApplicationController
   @model_class = SavedSearch
 
   def create
+    authorize! :save_search, SavedSearch
     filter_name = params['name']
     filters = params['filter']
     record_type = params['record_type']
     user_id = current_user.id
     module_id = current_user.module_ids
-    authorize! :save_search, SavedSearch
 
     new_search = SavedSearch.new(name: filter_name, module_id: module_id, record_type: record_type, user_id: user_id)
 
