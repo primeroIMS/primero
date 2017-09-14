@@ -83,7 +83,7 @@
             <% @saved_searches.each do |filter| %>
               <li>
                 <a class="user_filter" data-id="<%= filter.unique_id %>"><%= filter.name %></a>
-                <%= link_to 'x', filter, method: :delete, data: {confirm: 'Are you sure?'} %>
+                <%= link_to 'x', filter, method: :delete, data: {confirm: 'Are you sure?'}, class: "delete_saved_search" %>
               </li>
             <% end %>
           </ul>
