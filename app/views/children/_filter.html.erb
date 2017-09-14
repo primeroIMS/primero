@@ -1,7 +1,9 @@
 <div class="panel">
   <div class="button-group align-center">
     <a class="button clear_filters"><%= t('button.clear') %></a>
-    <a class="button save_search" data-open="save_filters"><%= t('button.save') %></a>
+    <% if can?(:manage, SavedSearch) %>
+      <a class="button save_search" data-open="save_filters"><%= t('button.save') %></a>
+    <% end %>
     <a id="apply_filter" class="button"><%= t('button.apply') %></a>
   </div>
   <%= render 'record_shared/saved_search_modal' %>
