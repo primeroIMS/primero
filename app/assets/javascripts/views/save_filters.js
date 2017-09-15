@@ -7,10 +7,6 @@ _primero.Views.SaveFilters = _primero.Views.Base.extend({
     'keyup input[name="name"]': 'disable_enable_submit'
   },
 
-  get_filter: function(e) {
-    _primero.get_filter(e);
-  },
-
   disable_enable_submit: function(e) {
     var btn = $(this.el).find('button');
 
@@ -34,7 +30,6 @@ _primero.Views.SaveFilters = _primero.Views.Base.extend({
 
     if (name){
       $.post(url, payload, function(response) {
-        console.log('message', response);
         $(self.el).find('.message').html(response.message).fadeIn();
       });
     } else {
