@@ -340,9 +340,9 @@ en:
     history_of: "History of %{short_id}"
 
   saved_search:
-      save_success: "Search saved successfully"
-      save_error: "Save failed"
-      deleted: "Deleted Successfully"
+      save_success: "Search saved successfully."
+      save_error: "Save failed."
+      deleted: "Search deleted successfully."
 
   case:
     create_new_case: "Create New Case"

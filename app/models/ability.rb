@@ -35,9 +35,21 @@ class Ability
       end
     end
 
+    baseline_permissions
+
     if user.has_permission? Permission::SYNC_MOBILE
       can :index, FormSection
       can :index, SystemSettings
+    end
+  end
+
+  def baseline_permissions
+    can [:read, :write, :create], SavedSearch do |search|
+      if (user.user_name = search.user_id)
+        true
+     else
+        false
+      end
     end
   end
 

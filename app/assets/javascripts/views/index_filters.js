@@ -20,22 +20,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     _primero.filters = {};
     this.set_current_scope();
     _primero.chosen('select.chosen-select:visible');
-
-
-    // console.log(this.allow_save())
-    // if (this.allow_save()) {
-    //   $('.save_search').show();
-    // } else {
-    //   $('.save_search').hide();
-    // }
   },
-
-  //TODO: only show save if selected filters are applied
-  // allow_save: function() {
-  //   // TODO: find a better way of doing this when backend finished
-  //   var default_filters = '?scope%5Bchild_status%5D=list%7C%7Copen&scope%5Brecord_state%5D=list%7C%7Ctrue';
-  //   return location.search !== default_filters
-  // },
 
   get_filter: function(e) {
     _primero.get_filter(e);

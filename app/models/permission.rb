@@ -76,8 +76,6 @@ class Permission
   INCIDENT_FROM_CASE = 'incident_from_case'
   INCIDENT_DETAILS_FROM_CASE = 'incident_details_from_case'
   SERVICES_SECTION_FROM_CASE = 'services_section_from_case'
-  SAVED_SEARCH = 'saved_search'
-  SAVE_SEARCH = 'save_search'
   CREATE = 'create'
   ADMIN_ONLY = 'admin_only'
 
@@ -142,13 +140,12 @@ class Permission
       DASH_CASES_BY_SOCIAL_WORKER,
       DASH_REFFERALS_BY_SOCIAL_WORKER,
       DASH_TRANSERS_BY_SOCIAL_WORKER,
-      DASH_SHOW_NONE_VALUES,
-      SAVE_SEARCH
+      DASH_SHOW_NONE_VALUES
     ]
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, USER_GROUP, AGENCY, METADATA, SYSTEM, REPORT, DASHBOARD, SAVED_SEARCH]
+    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, USER_GROUP, AGENCY, METADATA, SYSTEM, REPORT, DASHBOARD]
   end
 
   def self.management
@@ -189,8 +186,6 @@ class Permission
          [READ, WRITE, ASSIGN, MANAGE]
        when REPORT
          [READ, GROUP_READ, WRITE]
-       when SAVED_SEARCH
-         [SAVE_SEARCH]
        when METADATA
          [MANAGE]
        when POTENTIAL_MATCH
@@ -217,8 +212,7 @@ class Permission
       self.new(:resource => AGENCY, :actions => [MANAGE]),
       self.new(:resource => METADATA, :actions => [MANAGE]),
       self.new(:resource => SYSTEM, :actions => [MANAGE]),
-      self.new(:resource => DASHBOARD, :actions => [MANAGE]),
-      self.new(:resource => SAVED_SEARCH, :actions => [SAVE_SEARCH]),
+      self.new(:resource => DASHBOARD, :actions => [MANAGE])
     ]
   end
 

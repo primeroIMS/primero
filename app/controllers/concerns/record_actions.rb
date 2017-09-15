@@ -40,7 +40,7 @@ module RecordActions
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
     @filters = record_filter(filter)
-    @saved_searches = SavedSearch.by_user_id(key: current_user.id) if can? :save_search, SavedSearch
+    @saved_searches = SavedSearch.by_user_id(key: current_user.id) if can? :read, SavedSearch
     #make sure to get all records when querying for ids to sync down to mobile
     #TODO: This is questionable for large databases. May break the phone? the server?
     #      Revisit when integrating in v1.3.x

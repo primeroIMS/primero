@@ -7,8 +7,14 @@ _primero.Views.SaveFilters = _primero.Views.Base.extend({
     'keyup input[name="name"]': 'disable_enable_submit'
   },
 
-  get_filter: function(e) {
-    _primero.get_filter(e);
+  initialize: function() {
+    $('#save_filters input').keyup(function(){
+      if($(this).val().length !=0) {
+        $('.save_user_filters').attr('disabled', false);
+      } else {
+        $('.save_user_filters').attr('disabled',true);
+      }
+    });
   },
 
   disable_enable_submit: function(e) {
@@ -34,7 +40,6 @@ _primero.Views.SaveFilters = _primero.Views.Base.extend({
 
     if (name){
       $.post(url, payload, function(response) {
-        console.log('message', response);
         $(self.el).find('.message').html(response.message).fadeIn();
       });
     } else {
