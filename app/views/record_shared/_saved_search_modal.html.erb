@@ -6,16 +6,18 @@
     <div class="input-group">
       <input type="text" name="name" class="input-group-field" />
       <div class="input-group-button">
-        <button type="button" class="button save_user_filters"><%= t('button.save') %></button>
+        <button type="button" class="button save_user_filters" disabled="disabled"><%= t('button.save') %></button>
       </div>
     </div>
-    <div id="filter-list" class="large-8 small-8 columns index_filters">
+    <div id="filter-list" class="large-12 small-12 columns index_filters">
       <% if @saved_searches.present? %>
         <ul class="save-searches">
           <% @saved_searches.each do |filter| %>
             <li>
               <a class="user_filter" data-id="<%= filter.unique_id %>"><%= filter.name %></a>
-              <%= link_to 'x', filter, method: :delete, data: {confirm: 'Are you sure?'}, class: "delete_saved_search" %>
+              <%= link_to  filter, method: :delete, data: { confirm: t('saved_searches.delete', filter_name: filter.name) }, class: "delete_saved_search" do %>
+                <span aria-hidden="true">&times;</span>
+              <% end %>
             </li>
           <% end %>
         </ul>

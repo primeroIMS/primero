@@ -2096,3 +2096,4 @@ en:
     no_save_searches: "You have no saved searches."
     name: "Name"
     save_search: "Save Search"
+    delete: "Clicking ok will delete \"%{filter_name}\""

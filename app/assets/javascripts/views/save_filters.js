@@ -3,11 +3,22 @@ _primero.Views.SaveFilters = _primero.Views.Base.extend({
 
   events: {
     'click .save_user_filters': 'save_user_filters',
-    'click .user_filter': 'get_filter'
+    'click .user_filter': 'get_filter',
+    'keyup input[name="name"]': 'disable_enable_submit'
   },
 
   get_filter: function(e) {
     _primero.get_filter(e);
+  },
+
+  disable_enable_submit: function(e) {
+    var btn = $(this.el).find('button');
+
+    if ($(e.target).val()) {
+      btn.removeAttr('disabled')
+    } else {
+      btn.attr('disabled', 'disabled')
+    }
   },
 
   save_user_filters: function() {
