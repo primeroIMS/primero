@@ -63,12 +63,16 @@ div.scope_bar {
 
   ul.save-searches {
     margin: 0;
-    padding: 0 .8em .8em;
+    padding: 0;
 
     li {
       font-size: .9rem;
-      padding: .8em 0;
+      padding: .9em;
       border-bottom: 1px dashed rgba($stroke_green_color,.8);
+
+      a:hover {
+        text-decoration: none;
+      }
 
       &:first-of-type {
         padding-top: none;
@@ -76,6 +80,10 @@ div.scope_bar {
 
       &:last-of-type {
         border-bottom: 0;
+      }
+
+      &:hover {
+        background: darken(#f1f5ec, 8%);
       }
     }
   }
@@ -102,9 +110,13 @@ div.scope_bar {
 
     .tabs-title > a {
       text-decoration: none;
+      font-size: rem_calc(13);
+      text-transform: uppercase;
+      padding: .9rem 1.5rem;
     }
 
     .tabs-title > a:focus, .tabs-title > a[aria-selected='true'] {
+      font-weight: 900;
       background: #f1f5ec;
     }
   }
@@ -248,14 +260,24 @@ div.scope_bar {
   .input-group input {
     border-right: none;
   }
+
+  .button.disabled, .button[disabled] {
+    opacity: .5;
+  }
 }
 
 #filter-list {
   border-top: 1px dashed $stroke_green_color;
-  padding-top: 1em;
+  padding: 0;
 }
 
 .delete_saved_search {
   float: right;
   color: #86a05d;
+  font-size: 1.4em;
+  line-height: 1.2em;
+
+  &:hover {
+    text-decoration: none;
+  }
 }
