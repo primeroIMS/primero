@@ -110,13 +110,13 @@ div.scope_bar {
 
     .tabs-title > a {
       text-decoration: none;
-      font-size: .85rem;
+      font-size: rem_calc(13);
       text-transform: uppercase;
+      padding: .9rem 1.5rem;
     }
 
     .tabs-title > a:focus, .tabs-title > a[aria-selected='true'] {
       font-weight: 900;
-      border-top: 2px solid $stroke_green_color;
       background: #f1f5ec;
     }
   }
@@ -259,6 +259,10 @@ div.scope_bar {
 #save_filters {
   .input-group input {
     border-right: none;
+  }
+
+  .button.disabled, .button[disabled] {
+    opacity: .5;
   }
 }
 
