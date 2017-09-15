@@ -15,6 +15,33 @@ $dashboard_table_counts:85px;
     }
   }
 
+  .stats_inline {
+    font-size: .9rem;
+    margin-top: .4em;
+
+    .column.shrink {
+      align-items: center;
+      display: flex;
+    }
+
+    h5 {
+      font-weight: bold;
+      font-size: .9rem;
+      margin-bottom: 0;
+    }
+
+    .section-stat-detailed {
+      .column.shrink {
+        padding-left: .2em !important;
+      }
+
+      .label {
+        font-size: 0.7rem;
+        padding: .35rem;
+      }
+    }
+  }
+
   h4.stat_heading {
     text-align: center;
     border-bottom: 1px solid $stroke_green_color;

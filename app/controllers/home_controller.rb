@@ -15,7 +15,7 @@ class HomeController < ApplicationController
       #TODO - Refactor to reduce number of solr queries
       load_cases_information if display_cases_dashboard?
 
-      @service_response_types = Lookup.values_for_select('lookup-service-response-type').map{|h,v| v}
+      @service_response_types = Lookup.values_for_select('lookup-service-response-type')
       @service_stats_near = load_case_service_information('near') if display_cases_dashboard?
       @service_stats_overdue = load_case_service_information('overdue') if display_cases_dashboard?
       @service_stats_totals = load_case_service_information if display_cases_dashboard?
@@ -106,7 +106,7 @@ class HomeController < ApplicationController
     @workflow_order = [
       Record::STATUS_OPEN,
       Workflow::WORKFLOW_NEW,
-      @service_response_types,
+      @service_response_types.map{ |h,v| v },
       Workflow::WORKFLOW_SERVICE_IMPLEMENTED
     ].flatten
 
