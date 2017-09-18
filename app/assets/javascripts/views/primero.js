@@ -45,6 +45,9 @@ Primero = _primero.Views.Base.extend({
     _primero.generate_download_link = this.generate_download_link;
     _primero.init_autosize = this.init_autosize;
     _primero.request_confirmation = this.request_confirmation;
+    _primero.map_filter_object = this.map_filter_object;
+    _primero.get_filter = this.get_filter;
+    _primero.apply_filters = this.apply_filters;
 
     this.init_trunc();
     this.init_sticky();

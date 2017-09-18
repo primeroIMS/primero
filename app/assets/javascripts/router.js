@@ -81,6 +81,7 @@ _primero.Router = Backbone.Router.extend({
     new _primero.Views.AutoCalculateAgeDOB()
     new _primero.Views.PopulateSelectBoxes();
     new _primero.Views.IndexFilters();
+    new _primero.Views.SaveFilters();
     this.maskedUserAndPasswordReferal();
     this.maskedUserAndPasswordTransfer();
 

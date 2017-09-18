@@ -340,6 +340,11 @@ en:
     mark_child_as_duplicate: "Mark %{short_id} as Duplicate"
     history_of: "History of %{short_id}"
 
+  saved_search:
+      save_success: "Search saved successfully."
+      save_error: "Save failed."
+      deleted: "Search deleted successfully."
+
   case:
     create_new_case: "Create New Case"
     enter_id_number: "Enter the ID number to search for an existing record"
@@ -942,6 +947,8 @@ en:
       create: "Create"
       referral_from_service: "Refer Case from Service form"
       view_protection_concerns_filter: "View Protection Concerns Filter"
+      saved_search: "Saved Search"
+      save_search: "Save Searches"
 
   forms:
     label: "Forms"
@@ -2028,3 +2035,9 @@ en:
       title: 'Update Required'
       message: "To play the media you will need to either update your browser to a recent version or update your"
       link_text: "Flash plugin"
+
+  saved_searches:
+    no_save_searches: "You have no saved searches."
+    name: "Name"
+    save_search: "Save Search"
+    delete: "Clicking ok will delete \"%{filter_name}\""

@@ -85,6 +85,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should_not match(/<div class="filter"><h3>Protection Status:<\/h3>/)
@@ -120,6 +121,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id, other_form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should match(/<div class="filter"><h3>Protection Status:<\/h3>/)
@@ -131,6 +133,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_gbv])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_gbv, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_gbv.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
 
     #We need this one because there is other call.
@@ -151,6 +154,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_gbv])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_gbv, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_gbv.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
 
     #We need this one because there is other call.
@@ -169,6 +173,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
 
     #We need this one because there is other call.
@@ -189,6 +194,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
 
     #We need this one because there is other call.
@@ -231,6 +237,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id, other_form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should match(/<div class="filter"><h3>Protection Concerns:<\/h3>/)
@@ -243,6 +250,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([])
     FormSection.should_not_receive(:get_allowed_form_ids)
     @current_user.should_not_receive(:permitted_form_ids)
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
     should_receive(:visible_filter_field?).with("gbv_displacement_status", []).and_call_original
     should_receive(:visible_filter_field?).with("protection_status", []).and_call_original
@@ -260,6 +268,7 @@ describe "children/_filter.html.erb" do
       @current_user.should_receive(:modules).and_return([@primero_module_cp])
       FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
       @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+      controller.stub(:current_user).and_return(@current_user)
       FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
       @associated_users = ["test_user_1", "test_user_2", "test_user_3"]
       @options_reporting_locations = ["Country1::Region1::District 1", "Country1::Region1::District 2", "Country2::Region2::District 3"]
@@ -341,6 +350,7 @@ describe "children/_filter.html.erb" do
     before :each do
       @current_user = User.new
       @current_user.should_receive(:modules).and_return([@primero_module_cp])
+      controller.stub(:current_user).and_return(@current_user)
       @can_approval_bia = true
       @can_approvals = true
     end
