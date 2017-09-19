@@ -50,8 +50,16 @@ if node[:primero][:seed][:enabled]
   end
 
   config_script = node[:primero][:seed][:script]
+  json_file = node[:primero][:seed][:bundle]
   if config_script
-    #TODO
-    command ""
+    config_script_path = node[:primero][:config_dir] + config_script
+    execute_bundle 'run-config-script' do
+      command "rails r #{config_script_path}"
+    end
+  elsif json_file
+    json_file_path = node[:primero][:config_dir] + json_file
+    execute_bundle 'load-config-bundle' do
+      command "rake db:data:import_config_bundle[#{json_file_path}]"
+    end
   end
 end
