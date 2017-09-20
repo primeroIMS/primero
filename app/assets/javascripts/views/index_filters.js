@@ -10,15 +10,24 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     'click .filter-controls input[type="checkbox"]': 'change_scope',
     'change .filter-controls input[type="text"]': 'change_scope',
     'change select[filter_type="location"]': 'change_scope',
+    'change select[filter_type="list"]': 'change_scope',
     'click #apply_filter': 'apply_filters',
-    'click .clear_filters': 'clear_filters'
+    'click .clear_filters': 'clear_filters',
+    'click .user_filter': 'get_filter'
   },
 
   initialize: function() {
     _primero.filters = {};
     this.set_current_scope();
     _primero.chosen('select.chosen-select:visible');
+  },
 
+  get_filter: function(e) {
+    _primero.get_filter(e);
+  },
+
+   apply_filters: function(e) {
+    _primero.apply_filters(e);
   },
 
   clear_filters: function(e) {
@@ -66,6 +75,13 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
         self.set_array_filter(name, $this.val(), type);
       }
 
+      if($this.is('select') && type === 'list') {
+        if (current_scope !== false) {
+          $this.val(current_scope)
+          self.set_remove_filter(name, current_scope)
+        }
+      }
+
       if (type === 'date_range') {
         fields = $this.parents('.filter-controls').find('input');
         current_scope = _.without(current_scope, type);
@@ -79,27 +95,12 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
           self.set_date_range(date_values, name, type);
         }
       }
-      else if (type === 'location') {
+      else if (type === 'location' ) {
         if (current_scope !== false) {
           self.set_remove_filter(name, current_scope);
         }
       }
     });
-  },
-
-  apply_filters: function(evt) {
-    evt.preventDefault();
-
-    var prev_params = _primero.clean_page_params(['scope', 'page']),
-        url_string = _primero.object_to_params(_primero.filters),
-        add_amp = '&',
-        search;
-
-    if (prev_params && url_string === '' || !prev_params || !prev_params && url_string === '') {
-      add_amp = '';
-    }
-    search = prev_params + add_amp + url_string;
-    Turbolinks.visit(window.location.pathname + '?' + url_string);
   },
 
   set_date_range: function(date_values, filter, filter_type) {
@@ -153,7 +154,10 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       var $date_inputs = $target.parents('.filter-controls').find('input');
       date_values = [ $($date_inputs[0]).val(), $($date_inputs[1]).val()];
       this.set_date_range(date_values, filter, filter_type);
-    } else if ($target.is("select") && filter_type === 'location'){
+    } else if ($target.is("select") && filter_type === 'list') {
+      var filter_values = (selected_val) ? _.flatten([filter_type, selected_val]) : "";
+      this.set_remove_filter(filter, filter_values);
+    } else if ($target.is("select") && filter_type === 'location') {
       if (selected_val === "") {
         filter_values = ""
       }
