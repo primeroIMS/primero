@@ -1,4 +1,5 @@
-if node[:primero][:seed][:enabled]
+no_reseed_file = node[:primero][:config_dir] + '/no_reseed.txt'
+if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
   directory node[:primero][:config_dir] do
     action :create
     owner node[:primero][:app_user]
@@ -60,6 +61,14 @@ if node[:primero][:seed][:enabled]
     json_file_path = node[:primero][:config_dir] + json_file
     execute_bundle 'load-config-bundle' do
       command "rake db:data:import_config_bundle[#{json_file_path}]"
+    end
+  end
+
+  if node[:primero][:no_reseed]
+    file no_reseed_file do
+      mode '0644'
+      owner node[:primero][:app_user]
+      group node[:primero][:app_group]
     end
   end
 end

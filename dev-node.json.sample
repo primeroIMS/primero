@@ -11,7 +11,7 @@
       "revision": "development"
     },
     "seed": {
-      "enabled": true,
+      "enabled": false,
       "git": {
         "repo": "git@bitbucket.org:quoin/primero-configuration.git",
         "revision": "master"
@@ -46,5 +46,5 @@
     ]
   },
   "nginx_default_site": false,
-  "run_list": [ "rvm::vagrant", "recipe[primero::default]", "recipe[primero::development]" ]
+  "run_list": [ "rvm::vagrant", "recipe[primero::default]", "recipe[primero::configuration]", "recipe[primero::development]" ]
 }
