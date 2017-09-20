@@ -359,11 +359,6 @@ module Exporters
             service_value = model.psychosocial_counseling_services_subform_section.try(:first).try(:service_psycho_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-
-          "LEGAL ASSISTANCE SERVICES" => ->(model) do
-            service_value = model.legal_assistance_services_subform_section.try(:first).try(:service_legal_referral)
-            incident_recorder_service_referral(service_value) if service_value.present?
-          end,
           "WANTS LEGAL ACTION?" => ->(model) do
             legal_counseling = model.try(:legal_assistance_services_subform_section)
             if legal_counseling.present?
@@ -377,6 +372,10 @@ module Exporters
                 'Undecided at time of report'
               end
             end
+          end,
+          "LEGAL ASSISTANCE SERVICES" => ->(model) do
+            service_value = model.legal_assistance_services_subform_section.try(:first).try(:service_legal_referral)
+            incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "POLICE / OTHER SECURITY ACTOR" => ->(model) do
             service_value = model.police_or_other_type_of_security_services_subform_section.try(:first).try(:service_police_referral)
