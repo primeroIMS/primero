@@ -557,6 +557,10 @@ span.postfix_val {
       height: 2.5rem;
       input[type="text"] {
         height: 2rem !important;
+
+        &.default {
+          width: 100% !important;
+        }
       }
     }
   }
