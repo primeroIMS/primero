@@ -293,12 +293,7 @@ module Exporters
             @districts[district_name] = district_name if district_name.present?
             district_name
           end,
-          "INCIDENT CAMP / TOWN" => ->(model) do
-            camp_town_name = location_from_hierarchy(model.try(:incident_location),['camp', 'city', 'village'])
-            #Collect information to the "2. Menu Data sheet."
-            @camps[camp_town_name] = camp_town_name if camp_town_name.present?
-            camp_town_name
-          end,
+          "INCIDENT CAMP / TOWN" => "incident_camp_town",
           "GBV TYPE" => "gbv_sexual_violence_type",
           "HARMFUL TRADITIONAL PRACTICE" => "harmful_traditional_practice",
           "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
