@@ -51,7 +51,11 @@ div.scope_bar {
 }
 
 .index_filters {
-  padding-left: 0;
+  @if $global-text-direction == rtl {
+    padding-right: 0;
+  } @else {
+    padding-left: 0;
+  }
 
   h5 {
     padding: .7em;
@@ -96,11 +100,19 @@ div.scope_bar {
       padding: .5em 1em;
 
       &:first-of-type {
-        border-right: none;
+        @if $global-text-direction == rtl {
+          border-left: none;
+        } @else {
+          border-right: none;
+        }
       }
 
       &:last-of-type {
-        border-left: none;
+        @if $global-text-direction == rtl {
+          border-right: none;
+        } @else {
+          border-left: none;
+        }
       }
     }
   }
@@ -258,7 +270,11 @@ div.scope_bar {
 
 #save_filters {
   .input-group input {
-    border-right: none;
+    @if $global-text-direction == rtl {
+      border-left: none;
+    } @else {
+      border-right: none;
+    }
   }
 
   .button.disabled, .button[disabled] {
@@ -272,10 +288,15 @@ div.scope_bar {
 }
 
 .delete_saved_search {
-  float: right;
   color: #86a05d;
   font-size: 1.4em;
   line-height: 1.2em;
+
+  @if $global-text-direction == rtl {
+    float: left;
+  } @else {
+    float: right;
+  }
 
   &:hover {
     text-decoration: none;
