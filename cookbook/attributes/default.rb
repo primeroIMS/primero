@@ -69,9 +69,32 @@ default[:primero].tap do |p|
   end
 
   p[:mailer].tap do |m|
+    m[:delivery_method] = 'sendmail'
     m[:host] = 'mail.example.com'
     m[:from_address] = 'noreply@mail.example.com'
+
+    m[:smtp_conf].tap do |s|
+      s[:address] = 'smtp.gmail.com'
+      s[:port] = 587
+      s[:domain] = 'mail.example.com'
+      s[:authentication] = 'plain'
+      s[:user_name] = 'test@mail.example.com'
+      s[:password] = '??????'
+      s[:enable_starttls_auto] = true
+    end
   end
+end
+
+default[:postfix].tap do |pf|
+  pf[:admin] = 'root'
+  pf[:admin_email] = 'noreply@email.example.com'
+  pf[:alias_path] = '/etc/aliases'
+  pf[:alias_maps] = 'hash:/etc/aliases'
+  pf[:alias_database] = 'hash:/etc/aliases'
+  pf[:message_size_limit] = 10240
+  pf[:mailbox_size_limit] = 51200000
+  pf[:qmgr_message_active_limit] = 50000
+  pf[:home_mailbox] = 'mail'
 end
 
 default[:rvm].tap do |rvm|
@@ -86,6 +109,8 @@ end
 
 default[:nginx_dir] = '/etc/nginx'
 default[:nginx_default_site] = true
+
+default[:postfix_dir] = '/etc/postfix'
 
 default[:python][:install_method] = 'package'
 default[:python][:setuptools_version] = '3.4.4'
