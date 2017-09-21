@@ -344,6 +344,9 @@ en:
       save_success: "Search saved successfully."
       save_error: "Save failed."
       deleted: "Search deleted successfully."
+      delete_error: "Delete failed."
+      saved_searches_tab: "Saved Searches"
+      filters_tab: "Filters"
 
   case:
     create_new_case: "Create New Case"

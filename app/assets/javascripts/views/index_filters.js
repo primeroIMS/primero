@@ -22,14 +22,6 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     _primero.chosen('select.chosen-select:visible');
   },
 
-  get_filter: function(e) {
-    _primero.get_filter(e);
-  },
-
-   apply_filters: function(e) {
-    _primero.apply_filters(e);
-  },
-
   clear_filters: function(e) {
     var default_filter, filter = {}, url_string;
 
