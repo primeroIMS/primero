@@ -1,15 +1,18 @@
 <% editable = object.name.present? %>
 <% if editable %>
   <div class="row">
-    <div class="medium-4 medium-offset-8 columns">
+    <div class="medium-3 medium-offset-5 columns">
+      <label class="key inline"><%= t(:provide_translation) %></label>
+    </div>
+    <div class="medium-4 columns">
       <div class="lang_title">
-        <%= select_tag("locale", options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != "en" }), :class => 'locale') %>
+        <%= select_tag("locale", options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != I18n.default_locale.to_s }), :class => 'locale') %>
       </div>
     </div>
   </div>
 <% end %>
 
-<%= resource_edit_field(object, 'name', 'report.name', 'text_field', true, false, nil, 'errors.models.report.name_presence', I18n.locale) %>
+<%= resource_edit_field(object, 'name', 'report.name', 'text_field', true, false, nil, 'errors.models.report.name_presence') %>
 <% if editable %>
   <% Primero::Application::LOCALES.each do |new_locale| %>
     <% if new_locale != "en" %>
@@ -21,7 +24,7 @@
   <% end %>
 <% end %>
 
-<%= resource_edit_field(object, 'description', 'report.description', 'text_area', false, false, nil, nil, I18n.locale) %>
+<%= resource_edit_field(object, 'description', 'report.description', 'text_area', false, false, nil, nil) %>
 
 <% Primero::Application::LOCALES.each do |new_locale| %>
   <% if new_locale != "en" %>
