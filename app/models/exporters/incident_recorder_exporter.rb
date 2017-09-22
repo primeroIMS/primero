@@ -300,12 +300,7 @@ module Exporters
             @districts[district_name] = district_name if district_name.present?
             district_name
           end,
-          "INCIDENT CAMP / TOWN" => ->(model) do
-            camp_town_name = location_from_hierarchy(model.try(:incident_location),['camp', 'city', 'village'])
-            #Collect information to the "2. Menu Data sheet."
-            @camps[camp_town_name] = camp_town_name if camp_town_name.present?
-            camp_town_name
-          end,
+          "INCIDENT CAMP / TOWN" => "incident_camp_town",
           "GBV TYPE" => "gbv_sexual_violence_type",
           "HARMFUL TRADITIONAL PRACTICE" => "harmful_traditional_practice",
           "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
@@ -366,10 +361,6 @@ module Exporters
             service_value = model.psychosocial_counseling_services_subform_section.try(:first).try(:service_psycho_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-          "LEGAL ASSISTANCE SERVICES" => ->(model) do
-            service_value = model.legal_assistance_services_subform_section.try(:first).try(:service_legal_referral)
-            incident_recorder_service_referral(service_value) if service_value.present?
-          end,
           "WANTS LEGAL ACTION?" => ->(model) do
             legal_counseling = model.try(:legal_assistance_services_subform_section)
             if legal_counseling.present?
@@ -383,6 +374,10 @@ module Exporters
                 'Undecided at time of report'
               end
             end
+          end,
+          "LEGAL ASSISTANCE SERVICES" => ->(model) do
+            service_value = model.legal_assistance_services_subform_section.try(:first).try(:service_legal_referral)
+            incident_recorder_service_referral(service_value) if service_value.present?
           end,
           "POLICE / OTHER SECURITY ACTOR" => ->(model) do
             service_value = model.police_or_other_type_of_security_services_subform_section.try(:first).try(:service_police_referral)
