@@ -53,7 +53,7 @@ _primero.Views.Base = Backbone.View.extend({
     var self = this;
 
     $.get('/saved_searches/' + filter_id, function(data) {
-      var filters = self.map_filter_object(data[0].filters);
+      var filters = self.map_filter_object(data.filters);
       _primero.filters = filters;
       self.apply_filters(e);
     });

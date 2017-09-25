@@ -12,6 +12,8 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
   },
 
   initialize: function() {
+    this.rtl_chosen();
+
     if (this.$el.length){
       this.init_multi_select();
       this.reload_field_lookups(true);
@@ -23,6 +25,12 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
     $('#report_aggregate_by, #report_disaggregate_by').chosen(this.chosen_options);
     $('.report_filter_value_string_row select.report_filter_input').chosen($.extend({},this.chosen_options,{max_selected_options: Infinity}));
     $('.report_filter_attribute').chosen(this.chosen_options).change(this, this.filter_attribute_selected);
+  },
+
+  rtl_chosen: function(selector) {
+    if ($('html').attr('dir') === 'rtl') {
+      $('#report_aggregate_by, #report_disaggregate_by, .report_filter_value_string_row select.report_filter_input, .report_filter_attribute').addClass('chosen-rtl');
+    }
   },
 
   // TODO: max_selected_options not working in chosen

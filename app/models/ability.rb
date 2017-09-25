@@ -45,7 +45,7 @@ class Ability
 
   def baseline_permissions
     can [:read, :write, :create], SavedSearch do |search|
-      user.user_name == search.user_id
+      user.user_name == search.user_name
     end
   end
 

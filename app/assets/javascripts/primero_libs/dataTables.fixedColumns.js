@@ -715,8 +715,8 @@
 							'</div>'+
 							'</div>'+
 							'</div>')[0];
-			var nLeft = nSWrapper.childNodes[0];
-			var nRight = nSWrapper.childNodes[1];
+			var nLeft = nSWrapper.childNodes[$('html').attr('dir') === 'rtl'? 1 : 0];
+			var nRight = nSWrapper.childNodes[$('html').attr('dir') === 'rtl' ? 0 : 1];
 
 			this.dom.grid.dt.parentNode.insertBefore( nSWrapper, this.dom.grid.dt );
 			nSWrapper.appendChild( this.dom.grid.dt );
@@ -780,10 +780,17 @@
 			var iBodyHeight = $(this.s.dt.nTable.parentNode).outerHeight();
 			var iFullHeight = $(this.s.dt.nTable.parentNode.parentNode).outerHeight();
 			var oOverflow = this._fnDTOverflow();
-			var
-				iLeftWidth = this.s.iLeftWidth,
-				iRightWidth = this.s.iRightWidth,
-				iRight;
+			if ($('html').attr('dir') === 'rtl') {
+				var
+					iLeftWidth = this.s.iRightWidth,
+					iRightWidth = this.s.iLeftWidth,
+					iRight;
+			} else {
+				var
+					iLeftWidth = this.s.iLeftWidth,
+					iRightWidth = this.s.iRightWidth,
+					iRight;
+			}
 			var scrollbarAdjust = function ( node, width ) {
 				if ( ! oOverflow.bar ) {
 					// If there is no scrollbar (Macs) we need to hide the auto scrollbar
@@ -814,7 +821,9 @@
 					oGrid.left.foot.style.top = (oOverflow.x ? oOverflow.bar : 0)+"px"; // shift footer for scrollbar
 				}
 
-				scrollbarAdjust( oGrid.left.liner, iLeftWidth );
+				var adjustLeft = $('html').attr('dir') === 'rtl' ? iRightWidth : iLeftWidth
+
+				scrollbarAdjust( oGrid.left.liner, adjustLeft );
 				oGrid.left.liner.style.height = iBodyHeight+"px";
 			}
 
@@ -834,7 +843,9 @@
 					oGrid.right.foot.style.top = (oOverflow.x ? oOverflow.bar : 0)+"px";
 				}
 
-				scrollbarAdjust( oGrid.right.liner, iRightWidth );
+				var adjustRight = $('html').attr('dir') === 'rtl' ? iLeftWidth : iRightWidth
+
+				scrollbarAdjust( oGrid.right.liner, adjustRight );
 				oGrid.right.liner.style.height = iBodyHeight+"px";
 
 				oGrid.right.headBlock.style.display = oOverflow.y ? 'block' : 'none';
@@ -1310,7 +1321,6 @@
 
 			for ( i=0, iLen=anClone.length ; i<iLen ; i++ )
 			{
-				console.log(anClone[i], heights[i])
 				anClone[i].style.height = heights[i]+"px";
 				anOriginal[i].style.height = heights[i]+"px";
 			}
