@@ -13,7 +13,7 @@ class ReportsController < ApplicationController
   before_filter :sanitize_filters, only: [:create, :update]
   before_filter :set_aggregate_order, only: [:create, :update]
   before_filter :load_age_range, only: [:new, :edit]
-  before_filter :get_lookups, only: [:lookups_for_field]
+  before_filter :get_lookups, only: [:lookups_for_field, :edit]
 
   include LoggerActions
 
@@ -64,6 +64,13 @@ class ReportsController < ApplicationController
   def create
     authorize! :create, Report
     @report = Report.new(params[:report])
+
+    Primero::Application::locales.each do |locale|
+      unless @report["name_#{locale}"].present?
+        @report["name_#{locale}"] = @report.name
+      end
+    end
+
     if (@report.valid?)
       redirect_to report_path(@report) if @report.save
     else

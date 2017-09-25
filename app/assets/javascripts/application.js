@@ -31,7 +31,7 @@
 //= require plugins/outside_events.min
 //= require primero_libs/primero.dataTables.js
 //= require plugins/dataTables.responsive
-//= require plugins/dataTables.fixedColumns
+//= require primero_libs/dataTables.fixedColumns
 //= require plugins/popovers
 //= require plugins/autosize
 //= require plugins/hoverintent
