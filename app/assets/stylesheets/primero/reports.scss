@@ -6,7 +6,13 @@ td.report_sidebar_value{
 
 .report_table_content table {
   border: none !important;
-  margin-left: 0px;
+
+  @if $global-text-direction == rtl {
+    margin-right: 0px;
+  } @else {
+    margin-left: 0px;
+  }
+
 
   tbody tr.report_row_aggregate td{
     background: #ebf0e4;
@@ -101,7 +107,11 @@ div.reports_form .side-tab-content .row .row {
     }
 
     &:first-of-type {
-      margin-left: 15%;
+      @if $global-text-direction == rtl {
+        margin-right: 15%;
+      } @else {
+        margin-left: 15%;
+      }
     }
 
     a {
@@ -135,13 +145,21 @@ div.reports_form .side-tab-content .row .row {
 div.DTFC_LeftHeadWrapper table,
 div.DTFC_LeftBodyWrapper table,
 div.DTFC_LeftFootWrapper table {
-  border-right-width: 0;
+  @if $global-text-direction == rtl {
+    border-left-width: 0;
+  } @else {
+    border-right-width: 0;
+  }
 }
 
 div.DTFC_RightHeadWrapper table,
 div.DTFC_RightBodyWrapper table,
 div.DTFC_RightFootWrapper table {
-  border-left-width: 0;
+  @if $global-text-direction == rtl {
+    border-right-width: 0;
+  } @else {
+    border-left-width: 0;
+  }
 }
 
 div.DTFC_LeftHeadWrapper table,
@@ -170,8 +188,11 @@ div.DTFC_RightFootWrapper table {
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   .DTFC_LeftBodyWrapper {
-    border-right: 1px solid $stroke_green_color;
-
+    @if $global-text-direction == rtl {
+      border-left: 1px solid $stroke_green_color;
+    } @else {
+      border-right: 1px solid $stroke_green_color;
+    }
   }
 
   .DTFC_LeftBodyLiner, .DTFC_RightBodyLiner  {
@@ -179,6 +200,10 @@ div.DTFC_RightFootWrapper table {
   }
 
   .DTFC_LeftBodyLiner .DTFC_Cloned {
-    border-right: 1px solid $stroke_green_color;
+    @if $global-text-direction == rtl {
+      border-left: 1px solid $stroke_green_color;
+    } @else {
+      border-right: 1px solid $stroke_green_color;
+    }
   }
 }
