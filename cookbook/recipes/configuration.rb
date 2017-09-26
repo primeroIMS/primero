@@ -1,4 +1,10 @@
 no_reseed_file = node[:primero][:config_dir] + '/no_reseed.txt'
+if !node[:primero][:no_reseed]
+  file no_reseed_file do
+    action :delete
+  end
+end
+
 if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
   directory node[:primero][:config_dir] do
     action :create
