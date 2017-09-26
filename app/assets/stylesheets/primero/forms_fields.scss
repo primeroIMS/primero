@@ -551,7 +551,11 @@ span.postfix_val {
 .chosen-container-multi {
   .chosen-choices {
     li.search-choice {
-      margin: 0.4rem 0rem 0rem 0.35rem;
+      @if $global-text-direction == rtl {
+        margin: 0.35rem 0.4rem 0rem 0rem;
+      } @else {
+        margin: 0.35rem 0rem 0rem 0.4rem;
+      }
     }
     li.search-field {
       height: 2.5rem;
