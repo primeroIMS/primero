@@ -77,4 +77,18 @@ if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
       group node[:primero][:app_group]
     end
   end
+
+  execute 'Reload Passenger' do
+    command 'systemctl restart passenger'
+  end
+
+  execute 'Reload Scheduler' do
+    command 'supervisorctl restart primero-scheduler'
+  end
+
+  execute 'Reload Backburner' do
+    command 'supervisorctl restart backburner'
+  end
+
+
 end
