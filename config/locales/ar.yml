@@ -123,7 +123,7 @@ ar:
     edit: "تعديل"
     back: "السابق"
     submit: "إرسال"
-    export: "تصدير"
+    export: "تصدير ملف"
     import: "استيراد"
     change_password: "تغيير كلمة المرور"
     enable_photo_wall: "تفعيل photo wall"
@@ -145,7 +145,7 @@ ar:
     bundle_import: "حزمة التكوين"
     bundle_export: "حزمة التكوين"
     transfer: "نقل %{model}"
-    reassign: "نقل/تخصيص %{model}"
+    reassign: "تعيين %{model}"
     referral: "إحالة %{model}"
     mark_for_mobile: "وضع علامة للمحمول"
     unmark_for_mobile: "إزالة علامة للمحمول"
@@ -165,7 +165,7 @@ ar:
   cases:
     label: "الحالات"
     register_new_case: "حالة جديدة"
-    export: "تصدير"
+    export: "تصدير ملف"
     filter_by:
       flag: "مُميز بعلامة:"
       flag_label: "هل كان مُميزًا بعلامة؟"
@@ -176,7 +176,7 @@ ar:
       no_activity: "غير مفعلة:"
       3month_inactivity: "لمدة أكثر من 3 أشهر"
       referred_cases: "الحالات التي تم إحالتها لي"
-      agency: "الوكالة:"
+      agency: "المؤسسة:"
       status: "الحالة:"
       age_range: "الفئة العمرية:"
       sex: "الجنس:"
@@ -214,7 +214,7 @@ ar:
   children:
     label: "الأطفال"
     register_new_child: "تسجيل طفل جديد"
-    export: "تصدير"
+    export: "تصدير ملف"
     filter_by:
       label: "تصفية حسب"
       all: "الكل"
@@ -281,9 +281,9 @@ ar:
     actions:
       mark_as_investigated: "وضع علامة تم التحقق منه"
       mark_as_reunited: "وضع علامة إعادة لمّ الشمل"
-      export_to_photo_wall: "التصدير إلى photo wall "
-      export_to_pdf: "تصدير إلى PDF"
-      export_to_csv: "تصدير إلى CSV"
+      export_to_photo_wall: "تصدير ملف إلى photo wall "
+      export_to_pdf: "تصدير ملف إلى PDF"
+      export_to_csv: "تصدير ملف إلى CSV"
       change_log: "سجل التغيير"
       mark_as_not_investigated: "وضع علامة لم يتم التحقق منه"
       reunited: "وضع علامة إعادة لمّ الشمل"
@@ -362,7 +362,7 @@ ar:
     case_opening_date: "تاريخ حالة الفتح"
     photo: "الصورة"
     owned_by: 'تسجيل المالك'
-    owned_by_agency: 'تسجيل وكالة المالك'
+    owned_by_agency: 'تسجيل المؤسسة المالك'
     messages:
       update_success: "تم تحديث الحالة %{record_id} بنجاح."
       investigation_error_message: "الرجاء تأكيد أن السجل المميز بعلامة يكون مُعلمًا بعلامة تم التحقق منه، وإدخال أي تفاصيل لديك."
@@ -536,7 +536,7 @@ ar:
     history_of: "تاريخ %{short_id}"
   tracing_requests:
     register_new_tracing_request: "طلب تتبع جديد "
-    export: "تصديرات"
+    export: "تصديرات ملف"
     filter_by:
       flag: "مُميز بعلامة:"
       flag_label: "هل كان مُميز بعلامة؟"
@@ -591,7 +591,7 @@ ar:
     sort_by:
       label: "فرز حسب"
       full_name: "الاسم الكامل"
-      agency: "وكالة"
+      agency: "مؤسسة"
   roles:
     label: "الأدوار"
     list: "لائحة الأدوار"
@@ -627,10 +627,10 @@ ar:
   agencies:
     logo: 'الشعار'
     logo_enabled: 'هل الشعار مُمكن؟'
-    label: "الوكالة"
-    view: "عرض الوكالة"
-    successfully_created: "تم إنشاء الوكالة بنجاح."
-    successfully_updated: "تم تحديث الوكالة بنجاح."
+    label: "مؤسسة"
+    view: "عرض المؤسسة"
+    successfully_created: "تم إنشاء المؤسسة بنجاح."
+    successfully_updated: "تم تحديث المؤسسة بنجاح."
     actions:
       show_all: "عرض الكل"
       show: "عرض"
@@ -639,13 +639,13 @@ ar:
       create: "إنشاء"
       delete: "حذف"
     messages:
-      confirmation: "هل أنت متأكد أنك تريد حذف هذه الوكالة؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف الوكالة. "
-    select_prompt: "الرجاء تحديد وكالة"
-    error_in_updating: "خطأ في تحديث بيانات الوكالة."
+      confirmation: "هل أنت متأكد أنك تريد حذف هذه المؤسسة؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف المؤسسة. "
+    select_prompt: "الرجاء تحديد مؤسسة"
+    error_in_updating: "خطأ في تحديث بيانات المؤسسة."
   agency:
-    edit: 'تعديل الوكالة'
-    name: 'اسم الوكالة'
-    code: 'رمز الوكالة'
+    edit: 'تعديل المؤسسة'
+    name: 'اسم المؤسسة'
+    code: 'رمز المؤسسة'
   system_settings:
     label: "إعدادات النظام"
     edit: "تعديل إعدادات النظام"
@@ -749,8 +749,8 @@ ar:
     user_action_history: "سجل إجراءات المستخدم"
     no_activity: "ليس لديه نشاط"
     location: "الموقع"
-    organization: "المنظمة"
-    agency: "الوكالة"
+    organization: "المؤسسة"
+    agency: "المؤسسة"
     manager: "المدير"
   phone: "الهاتف"
   email: "البريد الإلكتروني"
@@ -798,7 +798,7 @@ ar:
       read: "قراءة"
       write: "كتابة"
       flag: "تمييز بعلامة"
-      assign: "نقل/تخصيص"
+      assign: "تعيين "
       case: "حالة"
       incident: "حادث"
       tracing_request: "طلب التتبع"
@@ -806,7 +806,7 @@ ar:
       role: "أدوار"
       user: "مستخدمون"
       user_group: "مجموعات المستخدمين"
-      agency: "وكالة"
+      agency: "مؤسسة"
       metadata: "النماذج، البحث"
       system: "نظام"
       report: "تقرير"
@@ -817,19 +817,19 @@ ar:
       All: "الكل"
       specific_roles: "الوصول لقائمة الأدوار المحددة"
       consent_override: "تجاوز الموافقة"
-      export_list_view_csv: "تصدير عرض قائمة csv"
-      export_csv: "تصدير csv"
-      export_xls: "تصدير xls"
-      export_photowall: "تصدير photowall"
-      export_pdf: "تصدير pdf"
-      export_unhcr_csv: "تصدير unhcr csv"
-      export_mrm_violation_xls: "تصدير انتهاك آلية الرصد والإبلاغ  mrm بصيغة xls"
-      export_case_pdf: "تصدير حالة pdf"
-      export_json: "تصدير json"
-      export_custom: "تصدير مخصص"
+      export_list_view_csv: "تصدير ملف عرض قائمة csv"
+      export_csv: "تصدير ملف csv"
+      export_xls: "تصدير ملف xls"
+      export_photowall: "تصدير ملف photowall"
+      export_pdf: "تصدير ملف pdf"
+      export_unhcr_csv: "تصدير ملف unhcr csv"
+      export_mrm_violation_xls: "تصدير ملف انتهاك آلية الرصد والإبلاغ  mrm بصيغة xls"
+      export_case_pdf: "تصدير ملف حالة pdf"
+      export_json: "تصدير ملف json"
+      export_custom: "تصدير ملف مخصص"
       import: "استيراد"
       transfer: "نقل"
-      reassign: "إعادة نقل/تخصيص"
+      reassign: "إعادة تعيين "
       referral: "إحالة"
       sync_mobile: "مزامنة مع جهاز المحمول"
       request_approval: "طلب للمصادقة"
@@ -855,7 +855,7 @@ ar:
       dash_cases_by_social_worker: "عرض الحالات التي تولاها الأخصائي الاجتماعي"
       dash_manager_transfers: "عرض عمليات النقل الخاصة بالمدير"
       dash_cases_by_workflow: "عرض الحالات حسب مخطط سير العمل"
-      dash_cases_to_assign: "عرض الحالات التي بانتظار النقل/التخصيص"
+      dash_cases_to_assign: "عرض الحالات التي بانتظار التعيين"
       dash_show_none_values: "عرض غير القيم"
       search_owned_by_others: "البحث عن سجل الحالة من خلال مستخدم آخر"
       incident_from_case: "إنشاء حادثة من حالة"
@@ -950,7 +950,7 @@ ar:
     field:
       name: "الاسم"
       position: "المنصب"
-      organization: "المنظمة"
+      organization: "المؤسسة"
       email: "البريد الإلكتروني"
       phone: "الهاتف"
       location: "الموقع"
@@ -1235,16 +1235,16 @@ ar:
     new_referred: "إحالات جديدة"
     high_risk: 'أولوية عالية'
     low_risk: 'أولوية منخفضة'
-    none_risk: ' لا يوجد أولوية'
+    none_risk: 'لم تحدد الاولوية'
     medium_risk: 'أولوية متوسطة'
-    pending: 'موقوف'
+    pending: 'قيد الانتظار'
     rejected: 'مرفوض'
     near_deadline: 'قاربت الانتهاء'
     due: 'تأخرت'
     response: 'تصنيف نوع الاستجابة قيد الاجراء'
     immediate_response: 'استجابة فورية '
-    cases_to_assign: 'الحالات منتظرة النقل/التخصيص'
-    overdue_cases_to_assign: 'الحالات المتأخرة بانتظار النقل/التخصيص '
+    cases_to_assign: 'الحالات منتظرة التعيين'
+    overdue_cases_to_assign: 'الحالات المتأخرة بانتظار التعيين'
     closed: 'أغلقت'
     comprehensive_need_intervention: 'تدخل شامل'
     new_incident: 'حالات جديدة'
@@ -1274,8 +1274,8 @@ ar:
     date: "التاريخ"
     incident_id: "معرف #الحادث"
     incident_location: "موقع الحادث"
-    new_child_assigned_to_you: "حالات جديدة تم النقل/التخصيص لك"
-    new_incident_assigned_to_you: "حوادث جديدة تم النقل/التخصيص لك"
+    new_child_assigned_to_you: "حالات جديدة تم التعيين لك"
+    new_incident_assigned_to_you: "حوادث جديدة تم التعيين لك"
     recently_flagged_child: "حالات مميزة بعلامة مؤخرًا"
     flagged_by_me: "تم تمييزه بعلامة بواسطتي"
     flagged_by_other: "تم تمييزه بواسطة شخص آخر"
@@ -1423,7 +1423,7 @@ ar:
         password_confirmation: "الرجاء إدخال تأكيد كلمة السر"
         password_mismatch: "حقول كلمة المرور لا تحمل نفس كلمة المرور"
         role_ids: "الرجاء تحديد دور واحد على الأقل"
-        organization: "الرجاء إدخال اسم منظمة المستخدم"
+        organization: "الرجاء إدخال اسم مؤسسة المستخدم"
         user_name: "الرجاء إدخال اسم مستخدم صالح"
         email: "الرجاء إدخال عنوان بريد إلكتروني صالح"
         user_name_uniqueness: "اسم المستخدم هذا مُستخدم بالفعل! الرجاء تحديد اسم مستخدم جديد"
@@ -1503,7 +1503,7 @@ ar:
         associated_user_names_present: "يجب ربط مستخدم بهذا السجل"
         module_id_prsesnt: "يجب ربط وحدة نمطية بهذا السجل"
       agency:
-        unique_name: "يوجد وكالة تحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
+        unique_name: "يوجد مؤسسة تحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
         name_present: "لا يجب أن يكون فارغًا"
         code_present: "لا يجب أن يكون فارغًا"
       location:
@@ -1584,7 +1584,7 @@ ar:
       one: PDF
       selected: تحديد إلى PDF
     list_view_csv:
-      all: تصدير عرض القائمة
+      all: تصدير ملف عرض القائمة
       selected: تحديد إلى CSV
     csv:
       all: CSV
@@ -1611,12 +1611,12 @@ ar:
       one: انتهاكات آلية المراقبة والإبلاغ MRM
       selected: تحدد إلى انتهاكات آلية المراقبة والإبلاغ MRM
     custom_exports:
-      label: عمليات التصدير المخصصة
+      label: عمليات تصدير الملف المخصصة
       format_label: حدد صيغة
       field_label: الحقل
       form_label: النموذج
-      forms: حدد نماذج للتصدير
-      fields: حدد حقول للتصدير
+      forms: حدد نماذج لتصدير الملف
+      fields: حدد حقول لتصدير الملف
       submit: موافق
       select_module: حدد وحدة نمطية
       choose_fields: هل تريد اختيار حقول فردية من أجل نموذج؟
@@ -1627,6 +1627,8 @@ ar:
       empty_module: الرجاء تحديد وحدة نمطية لتصديرها.
     pdf_exports:
       label: PDF
+    forms:
+      label: تصدير ملف
   imports:
     password_label: "كلمة المرور (إذا لزم الأمر)"
     format_label: "صيغة"
@@ -1642,12 +1644,12 @@ ar:
     type_label: "نوع الإحالة"
     existing_user_label: "مستخدم موجود"
     other_user_label: "مستخدم آخر"
-    other_user_agency_label: "وكالة مستخدم آخر"
+    other_user_agency_label: "مؤسسة مستخدم آخر"
     service_label: "خدمة"
     consent_label: "لم توفر السجلات الموافقة."
     consent_override_label: "هل ترغب في تجاوز هذا الإعداد؟"
     is_remote_label: "هل تشير إلى النظام البعيد؟"
-    type_of_export: "ما نوع التصدير الذي تريده"
+    type_of_export: "ما نوع تصدير الملف الذي تريده"
     notes_label: "ملاحظات"
     user_mandatory: "مطلوب ادخال اسم المستخدم"
     no_records_selected: "لم يتم تحديد أي سجلات"
@@ -1656,7 +1658,7 @@ ar:
     failure_batch: "فشل %{failed_count} إحالة (إحالات) (تحقق من تحديد حقول الموافقة)"
     success_batch: "إجراء %{success_count} إحالة (إحالات) بنجاح"
     to_user_local_status_label: "الوضع"
-    user_local_status_pending: "موقوفة"
+    user_local_status_pending: "قيد الانتظار"
     user_local_status_accepted: "قُبلت"
     user_local_status_rejected: "رُفضت"
     user_local_status_inprogress: "جاري"
@@ -1664,7 +1666,7 @@ ar:
     complete_referral_label: "يُشير الضغط على حسنا إلى انتهائك من\nعمل الإحالة المرتبط بهذه الحالة. بمجرد أن\nتضغط على حسنا لن تستطيع بعد الآن الاطلاع على هذا\nالسجل."
     done_success_message: "تمت عملية الإحالة"
   reassign:
-    reassign_case_title: "نقل/تخصيص حالة (حالات) ل:"
+    reassign_case_title: "تعيين حالة (حالات) ل:"
     existing_user_label: "مستخدم موجود"
     user_mandatory: "مطلوب ادخال اسم المستخدم"
     notes_label: "ملاحظات"
@@ -1672,11 +1674,11 @@ ar:
     type_label: "نوع النقل"
     existing_user_label: "مستخدم موجود"
     other_user_label: "مستخدم آخر"
-    other_user_agency_label: "وكالة مستخدم آخر"
+    other_user_agency_label: "مؤسسة مستخدم آخر"
     consent_label: "لم توفر السجلات الموافقة."
     consent_override_label: "هل ترغب في تجاوز هذا الإعداد؟"
     is_remote_label: "هل تقوم بالنقل إلى نظام بعيد؟"
-    type_of_export: "ما نوع التصدير الذي تريده"
+    type_of_export: "ما نوع تصدير الملف الذي تريده"
     notes_label: "ملاحظات"
     user_mandatory: "مطلوب ادخال اسم المستخدم"
     failure: "فشل نقل %{record_type} %{id} (تحقق من تحديد حقول الموافقة)"
@@ -1684,6 +1686,10 @@ ar:
     rejected: "تم رفض عملية النقل ل%{record_type} %{id}"
     failure_batch: "فشل %{failed_count} عملية/عمليات النقل (تحقق من تحديد حقول الموافقة)"
     success_batch: "إجراء %{success_count} عملية/عمليات النقل بنجاح"
+    user_local_status_pending: "قيد الانتظار"
+  transition:
+    export_type:
+      pdf_export: "تصدير ملف PDF"
   mark_for_mobile:
     no_records_selected: "لم يتم تحديد سجلات"
     failure: "تعليم %{record_type} %{id} بعلامة فشل المحمول"
@@ -1705,6 +1711,8 @@ ar:
     case_plan: "خطة الحالة"
     closure: "اغلاق ملف الحالة"
     case_plan_type_label: "نوع خطة الحالة:"
+    status:
+      pending: "قيد الانتظار"
   per_page_translation: "لكل صفحة _MENU_"
   total: المجموع
   caregiver: "(مقدم الرعاية)"
@@ -1725,7 +1733,7 @@ ar:
     update: "جاري التحديث"
     export: "نقل بيانات إلى"
     referral: "جاري الإحالة"
-    reassign: "جاري النقل/التخصيص"
+    reassign: "جاري التعيين"
     relinquish_referral: "تم إرجاع الإحالة"
     flag: وضع علامة
     unflag: إزالة علامة
