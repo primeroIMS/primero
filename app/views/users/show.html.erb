@@ -88,6 +88,14 @@
             <span class="value"><%= h @user.disabled ? t("user.disabled") : t("enabled") %></span>
           </div>
         </div>
+        <div class="row">
+          <div class="medium-4 columns">
+            <label class="key"><%= t("user.send_mail") %>:</label>
+          </div>
+          <div class="medium-8 columns">
+            <span class="value"><%= h @user.send_mail ? t("user.enabled") : t("disabled") %></span>
+          </div>
+        </div>
         <% if false %>
         <div class="row">
           <div class="medium-4 columns">

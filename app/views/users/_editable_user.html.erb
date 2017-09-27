@@ -172,6 +172,18 @@
         </div>
     <% end %>
 
+    <div class="row">
+      <div class="medium-3 columns">
+        <span class="tool-tip-label">
+          <%= f.label :send_mail, t("user.send_mail"), :class=>'key inline' %>
+        </span>
+      </div>
+      <div class="medium-8 columns">
+        <%= f.check_box :send_mail, {}, "true", "false" %>
+      </div>
+      <div class="medium-1 columns"></div>
+    </div>
+
     <%= f.hidden_field :verified, :value => true %>
 
     </fieldset>

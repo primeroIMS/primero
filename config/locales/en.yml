@@ -828,6 +828,7 @@ en:
     organization: "Organization"
     agency: "Agency"
     manager: "Manager"
+    send_mail: "Receive email notifications?"
 
   actions: "actions"
   phone: "Phone"
