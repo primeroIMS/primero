@@ -57,11 +57,10 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
         field.find(dateOptionQuery).attr('disabled', false);
         oppositeField.find(dateOptionQuery).attr('disabled', false);
       }
-
-      field.trigger('chosen:updated');
-      oppositeField.trigger('chosen:updated');
     }
 
+    field.trigger('chosen:updated');
+    oppositeField.trigger('chosen:updated');
     self.set_chosen_order($(e.target), false);
   },
 
