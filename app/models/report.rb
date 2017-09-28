@@ -393,7 +393,7 @@ class Report < CouchRest::Model::Base
 
   #TODO: When we have true I18n we will discard this method and just use I18n.t()
   def translate(string)
-    ['false', 'true'].include?(string) ? I18n.t(string) : string
+    ['false', 'true'].include?(string) ? I18n.t(string) : translated_graph_label(string)
   end
 
   def pivots
