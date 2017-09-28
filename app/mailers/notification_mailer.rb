@@ -1,7 +1,7 @@
 class NotificationMailer < ActionMailer::Base
   def manager_approval_request(user_id, case_id, approval_type)
     @user = User.get(user_id)
-    @recipients = @user.managers.select{ |manager| manager.send_mail }
+    @recipients = @user.managers.select{ |manager| manager.email.present? && manager.send_mail }
     @child = Child.get(case_id)
 
     @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
@@ -25,7 +25,7 @@ class NotificationMailer < ActionMailer::Base
       @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
       @approval = approval == 'true' ? t('approvals.status.approved') : t('approvals.status.rejected')
 
-      if @owner.present? && @child.present?
+      if @owner.present? && @owner.email.present? && @child.present?
         mail(:to => @owner.email,
           :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
           :subject => "Case: #{@child.case_id_display} - Approval Response")
