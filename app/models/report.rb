@@ -275,8 +275,13 @@ class Report < CouchRest::Model::Base
 
   def translated_graph_label(label, aggregate=false)
     if label.present?
-      type = aggregate ? self.disaggregate_by : self.aggregate_by
-      label_selection = translated_label_options[type.first].select{|option_list| option_list["id"] === label}.first
+      types = aggregate ? self.disaggregate_by : self.aggregate_by
+      type = types.select {|type|
+        selection = translated_label_options[type].select{|option_list| option_list["id"] === label}.first if type.present? && translated_label_options[type].present?
+        selection != nil
+      }.first
+
+      label_selection = translated_label_options[type].select{|option_list| option_list["id"] === label}.first if type.present?
       label = label_selection["display_text"] if label_selection.present?
     end
     label
@@ -377,23 +382,26 @@ class Report < CouchRest::Model::Base
   def translate_data(data)
     #TODO: Eventually we want all i18n to be applied through this method
     [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
+      disaggregate = k == :disaggregate_value_range
       if data[k].present?
         data[k] = data[k].map do |value|
-          value.map{|v| translate(v)}
+          value.map{|v| translate(v, disaggregate)}
         end
       end
     end
+
     if data[:values].present?
       data[:values] = data[:values].map do |key,value|
         [key.map{|k| translate(k)}, value]
       end.to_h
     end
+
     return data
   end
 
   #TODO: When we have true I18n we will discard this method and just use I18n.t()
-  def translate(string)
-    ['false', 'true'].include?(string) ? I18n.t(string) : string
+  def translate(string, disaggregate=false)
+    translated_graph_label(string, disaggregate)
   end
 
   def pivots
