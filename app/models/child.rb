@@ -431,6 +431,10 @@ class Child < CouchRest::Model::Base
     ApprovalRequestJob.perform_later(self.owner.id, self.id, approval_type)
   end
 
+  def send_approval_response_mail(approval_type, approval)
+    ApprovalResponseJob.perform_later(self.owner.id, self.id, approval_type, approval)
+  end
+
   private
 
   def deprecated_fields

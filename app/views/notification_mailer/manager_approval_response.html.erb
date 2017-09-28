@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p><%= t('email.approval_response_html', user: @user.user_name, status: @approval.downcase, approval_type: @approval_type.downcase, case_id: @child.case_id_display).html_safe  %></p>
+  </body>
+</html>

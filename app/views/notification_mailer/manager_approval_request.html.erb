@@ -4,6 +4,6 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <p>The user <strong><%= @user.user_name %></strong> is requesting approval for <strong><%= @approval_type %></strong> on case <strong><%= @child.case_id_display %></strong>.</p>
+    <p><%= t('email.approval_request_html', user: @user.user_name, approval_type: @approval_type, case_id: @child.case_id_display) %></p>
   </body>
 </html>
