@@ -19,19 +19,17 @@ class NotificationMailer < ActionMailer::Base
     @child = Child.get(case_id)
     @owner = @child.owner
 
-    if @owner.send_mail
+    if @owner.send_mail && @owner.present? && @owner.email.present? && @child.present?
       @manager = User.get(manager_id)
 
       @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
       @approval = approval == 'true' ? t('approvals.status.approved') : t('approvals.status.rejected')
 
-      if @owner.present? && @owner.email.present? && @child.present?
-        mail(:to => @owner.email,
-          :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
-          :subject => "Case: #{@child.case_id_display} - Approval Response")
-      else
-        Rails.logger.error "Mail not sent - User [#{manager_id}] not found"
-      end
+      mail(:to => @owner.email,
+        :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
+        :subject => "Case: #{@child.case_id_display} - Approval Response")
+    else
+      Rails.logger.error "Mail not sent - User [#{manager_id}] not found"
     end
   end
 end
