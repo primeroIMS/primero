@@ -828,6 +828,7 @@ en:
     organization: "Organization"
     agency: "Agency"
     manager: "Manager"
+    send_mail: "Receive email notifications?"
 
   actions: "actions"
   phone: "Phone"
@@ -2044,3 +2045,9 @@ en:
     name: "Name"
     save_search: "Save Search"
     delete: "Clicking ok will delete \"%{filter_name}\""
+
+  email_notification:
+    approval_request: "The user %{user} is requesting approval for %{approval_type} on case %{case_id}."
+    approval_response: "%{user} has %{status} the request for approval for %{approval_type} for case %{case_id}."
+    approval_request_html: "The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>."
+    approval_response_html: "<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>."

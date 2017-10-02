@@ -427,6 +427,14 @@ class Child < CouchRest::Model::Base
     self.add_reopened_log(user_name)
   end
 
+  def send_approval_request_mail(approval_type)
+    ApprovalRequestJob.perform_later(self.owner.id, self.id, approval_type)
+  end
+
+  def send_approval_response_mail(manager_id, approval_type, approval)
+    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval)
+  end
+
   private
 
   def deprecated_fields

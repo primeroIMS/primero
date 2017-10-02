@@ -26,6 +26,8 @@ class User < CouchRest::Model::Base
   property :module_ids, :type => [String]
   property :user_group_ids, :type => [String], :default => []
   property :is_manager, TrueClass, :default => false
+  property :send_mail, TrueClass, :default => true
+
   alias_method :agency, :organization
   alias_method :agency=, :organization=
   alias_method :name, :user_name
@@ -378,6 +380,16 @@ class User < CouchRest::Model::Base
   def managed_user_names
     managed_users
     return @managed_user_names
+  end
+
+  def user_managers
+    user_group_ids = self.user_group_ids_sanitized
+    @managers = User.all.select{ |u| (u.user_group_ids & user_group_ids).any? &&  u.is_manager }
+  end
+
+  def managers
+    user_managers
+    return @managers
   end
 
   def record_scope
