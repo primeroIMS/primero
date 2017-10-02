@@ -38,7 +38,6 @@ class User < CouchRest::Model::Base
   timestamps!
 
   design do
-    view :by_user_group_ids_and_is_manager
     view :by_user_name,
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'User') && doc['user_name']) {
@@ -385,7 +384,7 @@ class User < CouchRest::Model::Base
 
   def user_managers
     user_group_ids = self.user_group_ids_sanitized
-    @managers = User.by_user_group_ids_and_is_manager(key: [user_group_ids, true]).all
+    @managers = User.all.select{ |u| (u.user_group_ids & user_group_ids).any? &&  u.is_manager }
   end
 
   def managers
