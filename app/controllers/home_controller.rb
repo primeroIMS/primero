@@ -101,11 +101,12 @@ class HomeController < ApplicationController
       manager_transfers: {},
       workflow_totals: {}
     }
+
     @workflow_order = [
-      {id: Record::STATUS_OPEN, display_text: t("dashboard.#{Record::STATUS_OPEN}")},
-      {id: Workflow::WORKFLOW_NEW, display_text: t("dashboard.#{Workflow::WORKFLOW_NEW}")},
-      @service_response_types.map{ |h,v| {id: v, display_text: h}},
-      {id: Workflow::WORKFLOW_SERVICE_IMPLEMENTED, display_text: t("dashboard.#{Workflow::WORKFLOW_SERVICE_IMPLEMENTED}")}
+      Record::STATUS_OPEN,
+      Workflow::WORKFLOW_NEW,
+      @service_response_types.map{ |h,v| v },
+      Workflow::WORKFLOW_SERVICE_IMPLEMENTED
     ].flatten
 
     managed_users = current_user.managed_user_names
