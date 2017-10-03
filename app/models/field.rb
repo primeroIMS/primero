@@ -468,6 +468,12 @@ class Field
   def self.find_by_name(field_name)
     field = nil
     if field_name.present?
+      field_name.select{|s|
+        s.match("location_current(\\d)+")
+      }.each{|s|
+        s.replace("location_current")
+      }
+
       field = find_by_name_from_view(field_name)
       unless field.present?
         if field_name.last.is_number? && field_name.length > 1
