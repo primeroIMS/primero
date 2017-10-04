@@ -462,7 +462,8 @@ class User < CouchRest::Model::Base
   end
 
   def send_welcome_email
-    MailJob.perform_later(self.id) if self.email.present?
+    @system_settings ||= SystemSettings.current
+    MailJob.perform_later(self.id) if self.email.present? && @system_settings.try(:welcome_email_enabled) == true
   end
 
   private
