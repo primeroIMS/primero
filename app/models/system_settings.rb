@@ -16,6 +16,7 @@ class SystemSettings < CouchRest::Model::Base
   property :location_limit_for_api
   property :approval_forms_to_alert
   property :changes_field_to_form
+  property :welcome_email_enabled, TrueClass, :default => false
 
   validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
 

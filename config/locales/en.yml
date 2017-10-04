@@ -719,6 +719,7 @@ en:
     show: "System Settings"
     updated: "System Settings successfully updated."
     primero_version: "System Version"
+    welcome_email_enabled: "Send Welcome Email?"
 
   primero_modules:
     label: "Modules"
