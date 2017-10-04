@@ -29,5 +29,6 @@ create_or_update_system_setting(
     "cp_bia_form" => "bia",
     "services" => "case_plan",
     "closure_form" => "closure"
-  }
+  },
+  :due_date_from_appointment_date => false
 )
