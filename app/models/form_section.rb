@@ -432,6 +432,12 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_form_containing_field
 
+    def has_photo_form
+      photo_form = get_by_unique_id('photos_and_audio')
+      photo_form.present? && photo_form.fields.select{ |field| field.type == 'photo_upload_box' && !field.disabled }.present?
+    end
+    memoize_in_prod :has_photo_form
+
     def new_custom form_section, module_name = "CP"
       form_section[:core_form] = false   #Indicates this is a user-added form
 
