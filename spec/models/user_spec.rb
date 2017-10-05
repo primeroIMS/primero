@@ -491,6 +491,10 @@ describe User do
   end
 
   describe "mailer" do
+    before do
+      ActiveJob::Base.queue_adapter = :inline
+    end
+
     context 'when user has an email address' do
       before do
         @user = build_and_save_user
