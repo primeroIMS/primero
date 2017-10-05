@@ -507,7 +507,7 @@ class Field
 
       Primero::Application::locales.each do |locale|
         option_strings_locale = self.send("option_strings_text_#{locale}")
-        if locale != "en" && option_strings_locale.present?
+        if locale != Primero::Application::LOCALE_ENGLISH && option_strings_locale.present?
           self.send("option_strings_text_#{locale}").each_with_index do |option, index|
             if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
               option['id'] = self.option_strings_text[index]['id']
