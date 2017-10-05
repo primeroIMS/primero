@@ -20,7 +20,7 @@ describe NotificationMailer, :type => :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to include("The user jnelson is requesting approval for value1 on case 12345")
+      expect(mail.body.encoded).to match("The user jnelson is requesting approval for value1 on case .*12345")
     end
   end
 
@@ -33,7 +33,7 @@ describe NotificationMailer, :type => :mailer do
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to include("manager1 has rejected the request for approval for value1 for case 12345")
+      expect(mail.body.encoded).to match("manager1 has rejected the request for approval for value1 for case .*12345")
     end
   end
 
