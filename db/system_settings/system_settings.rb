@@ -30,5 +30,6 @@ create_or_update_system_setting(
     "services" => "case_plan",
     "closure_form" => "closure"
   },
-  welcome_email_enabled: true
+  welcome_email_enabled: true,
+  welcome_email_text: "Welcome to Primero"
 )

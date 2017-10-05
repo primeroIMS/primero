@@ -3,6 +3,7 @@ class UserMailer < ActionMailer::Base
     @user = User.get(user_id)
     if @user.present?
       @url = host_url
+      @system_settings ||= SystemSettings.current
       mail(:to => @user.email,
            :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
            :subject => "#{@user.full_name} - First time Login")

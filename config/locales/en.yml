@@ -833,6 +833,7 @@ en:
       welcome_label: "Welcome to Primero"
       url_label: "Click HERE to log into Primero"
       enabled_label: "Send Welcome Email?"
+      text_label: "Welcome Email Text"
 
   actions: "actions"
   phone: "Phone"

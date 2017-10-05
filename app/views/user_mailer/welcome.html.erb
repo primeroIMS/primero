@@ -4,12 +4,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
   </head>
   <body>
-    <h1><%= "#{t('user.welcome_email.welcome_label')}, #{@user.full_name}"%></h1>
-    <p>
-      <%# TODO @system_settings.welcome_email_text %>
-    </p>
-    <p>
-      <%= link_to(t('user.welcome_email.url_label'), @url) %>
-    </p>
+    <p><%= @system_settings.try(:welcome_email_text) %></p>
+    <p><%= link_to(t('user.welcome_email.url_label'), @url) %></p>
   </body>
 </html>
