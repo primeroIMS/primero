@@ -719,7 +719,6 @@ en:
     show: "System Settings"
     updated: "System Settings successfully updated."
     primero_version: "System Version"
-    welcome_email_enabled: "Send Welcome Email?"
 
   primero_modules:
     label: "Modules"
@@ -830,6 +829,10 @@ en:
     agency: "Agency"
     manager: "Manager"
     send_mail: "Receive email notifications?"
+    welcome_email:
+      welcome_label: "Welcome to Primero"
+      url_label: "Click HERE to log into Primero"
+      enabled_label: "Send Welcome Email?"
 
   actions: "actions"
   phone: "Phone"
