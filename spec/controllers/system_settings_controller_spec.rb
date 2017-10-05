@@ -62,6 +62,7 @@ describe SystemSettingsController do
                          "approval_forms_to_alert"=>nil,
                          "changes_field_to_form"=>nil,
                          "welcome_email_enabled"=>false,
+                         "welcome_email_text"=>nil,
                          "_id" => @system_settings.id,
                          "_rev" => @system_settings.rev,
                          "couchrest-type" => "SystemSettings"}
