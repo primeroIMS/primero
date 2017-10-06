@@ -1,3 +1,7 @@
+<%
+  notification_email_disabled = !@system_settings.try(:notification_email_enabled)
+%>
+
 <% if flash[:verify] %>
 <div class='flash'>
   <p class='notice'><%= flash[:verify] %></p>
@@ -179,7 +183,7 @@
         </span>
       </div>
       <div class="medium-8 columns">
-        <%= f.check_box :send_mail, {}, "true", "false" %>
+        <%= f.check_box :send_mail, {disabled: notification_email_disabled}, "true", "false" %>
       </div>
       <div class="medium-1 columns"></div>
     </div>
