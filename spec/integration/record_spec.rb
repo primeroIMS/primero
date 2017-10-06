@@ -42,6 +42,7 @@ feature "show page" do
 
       within(".ui.mini.steps") do
         expect(page).to have_content "New"
+        expect(page).to have_content "Case Plan"
         expect(page).to have_content "Test1"
         expect(page).to have_content "Test2"
         expect(page).to have_content "Test3"
