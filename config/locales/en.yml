@@ -830,8 +830,8 @@ en:
     manager: "Manager"
     send_mail: "Receive email notifications?"
     welcome_email:
-      welcome_label: "Welcome to Primero"
-      url_label: "Click HERE to log into Primero"
+      greeting: "Welcome to Primero,"
+      url_label: "Primero"
       enabled_label: "Send Welcome Email?"
       text_label: "Welcome Email Text"
 
