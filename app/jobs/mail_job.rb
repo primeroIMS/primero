@@ -1,8 +1,8 @@
 class MailJob < ActiveJob::Base
   queue_as :mailer
 
-  def perform(user_id, opts={})
-    UserMailer.welcome(user_id).deliver
+  def perform(user_id, host_url, opts={})
+    UserMailer.welcome(user_id, host_url).deliver
   end
 
 end

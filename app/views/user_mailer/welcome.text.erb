@@ -1,10 +1,5 @@
-Welcome to Primero, <%= @user.full_name %>
 ===============================================
- 
-You have successfully signed up to Primero,
-your username is: <%= @user.user_name %>
-your password is: TODO
 
-To login to the site, just follow this link: TODO.
- 
-Thanks for joining and have a great day!
+<%= @system_settings.try(:welcome_email_text) %>
+
+<%= link_to(t("user.welcome_email.url_label"), @url) %>

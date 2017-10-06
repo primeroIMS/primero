@@ -22,12 +22,14 @@ describe SystemSettingsController do
   end
 
   it "should set the given locale as default" do
-    put :update, :locale => "fr", :id => "administrator"
+    ss_hash = {default_locale: 'fr'}
+    put :update, :system_settings => ss_hash, :id => "administrator"
     I18n.default_locale.should == :fr
   end
 
   it "should flash a update message when the system language is changed and affected by language changed " do
-    put :update, :locale => "en", :id => "administrator"
+    ss_hash = {default_locale: 'en'}
+    put :update, :system_settings => ss_hash, :id => "administrator"
     flash[:notice].should =="System Settings successfully updated."
     response.should redirect_to(edit_system_setting_path)
   end
@@ -58,8 +60,10 @@ describe SystemSettingsController do
                          "primary_age_range" => "primero",
                          "location_limit_for_api"=>150,
                          "approval_forms_to_alert"=>nil,
-                         "_id" => @system_settings.id,
                          "changes_field_to_form"=>nil,
+                         "welcome_email_enabled"=>false,
+                         "welcome_email_text"=>nil,
+                         "_id" => @system_settings.id,
                          "_rev" => @system_settings.rev,
                          "couchrest-type" => "SystemSettings"}
       }
