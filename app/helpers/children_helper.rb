@@ -108,7 +108,7 @@ module ChildrenHelper
     end
   end
 
-  def build_steps(child, lookups, blacklisted=[])
+  def build_steps(child, lookups, blacklisted=[], display_case_plan_in_stepper)
     closed_text = Lookup.display_value('lookup-case-status', Record::STATUS_CLOSED, lookups)
     service_response_types = Lookup.values_for_select('lookup-service-response-type', lookups)
     new_step =
@@ -120,14 +120,15 @@ module ChildrenHelper
 
     steps = []
     steps << new_step
+    steps << [I18n.t("case.workflow.case_plan"), Child::WORKFLOW_CASE_PLAN] if display_case_plan_in_stepper
     steps += service_response_types
     steps << [I18n.t("case.workflow.service_implemented"), 'services_implemented']
     steps << [closed_text, Record::STATUS_CLOSED]
     steps.reject{ |st|  blacklisted.include? st[1] }
   end
 
-  def display_workflow_status(child, lookups, blacklisted=[])
-    steps = build_steps(child, lookups, blacklisted)
+  def display_workflow_status(child, lookups, blacklisted=[], display_case_plan_in_stepper)
+    steps = build_steps(child, lookups, blacklisted, display_case_plan_in_stepper)
 
     content_tag :div, class: 'ui mini steps' do
       disable = false
