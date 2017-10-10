@@ -465,6 +465,14 @@ class User < CouchRest::Model::Base
     MailJob.perform_later(self.id, host_url) if self.email.present? && @system_settings.try(:welcome_email_enabled) == true
   end
 
+  def is_agency_user_admin?
+    (self.roles.any?{|r| r.is_user_agency_user_admin_role?})
+  end
+
+  def can_edit_user_by_agency?(agency=nil)
+    self.has_permission?(Permission::ALL_AGENCY_USERS) || (agency.present? && self.agency == agency)
+  end
+
   private
 
   def save_devices

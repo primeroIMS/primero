@@ -113,6 +113,10 @@ class Role < CouchRest::Model::Base
     has_managed_resources?(admin_only_resources)
   end
 
+  def is_user_agency_user_admin_role?
+    self.id == "role-agency-user-administrator"
+  end
+
   private
 
   def has_managed_resources?(resources)

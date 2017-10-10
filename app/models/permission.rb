@@ -76,6 +76,7 @@ class Permission
   INCIDENT_FROM_CASE = 'incident_from_case'
   INCIDENT_DETAILS_FROM_CASE = 'incident_details_from_case'
   SERVICES_SECTION_FROM_CASE = 'services_section_from_case'
+  ALL_AGENCY_USERS = 'all_agency_users'
   CREATE = 'create'
   ADMIN_ONLY = 'admin_only'
 
@@ -140,7 +141,8 @@ class Permission
       DASH_CASES_BY_SOCIAL_WORKER,
       DASH_REFFERALS_BY_SOCIAL_WORKER,
       DASH_TRANSERS_BY_SOCIAL_WORKER,
-      DASH_SHOW_NONE_VALUES
+      DASH_SHOW_NONE_VALUES,
+      ALL_AGENCY_USERS
     ]
   end
 
@@ -179,7 +181,7 @@ class Permission
        when ROLE
          [READ, WRITE, ASSIGN, COPY, MANAGE]
        when USER
-         [READ, WRITE, ASSIGN, MANAGE]
+         [READ, WRITE, ASSIGN, ALL_AGENCY_USERS, MANAGE]
        when USER_GROUP
          [READ, WRITE, ASSIGN, MANAGE]
        when AGENCY

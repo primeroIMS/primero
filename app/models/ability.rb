@@ -59,7 +59,10 @@ class Ability
         true
       elsif (uzer.is_user_admin?)
         false
-      elsif user.has_group_permission?(Permission::GROUP) || user.has_group_permission?(Permission::ALL)
+      elsif (user.is_agency_user_admin? && user.can_edit_user_by_agency?(uzer.agency))
+        true
+      # TODO: should this be limited in a more generic way rather than by not agency user admin?
+      elsif !user.is_agency_user_admin? && (user.has_group_permission?(Permission::GROUP) || user.has_group_permission?(Permission::ALL))
         # TODO-permission: Add check that the current user has the ability to edit the uzer's role
         # True if, The user's role's associated_role_ids include the uzer's role_id
         (user.user_group_ids & uzer.user_group_ids).size > 0

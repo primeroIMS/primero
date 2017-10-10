@@ -22,6 +22,7 @@ class UsersController < ApplicationController
 
     @page_name = t("home.users")
     @users_details = users_details
+    @editable_users = editable_users
 
     respond_to do |format|
       format.html
@@ -190,6 +191,12 @@ class UsersController < ApplicationController
           :user_name => user.user_name,
           :token => form_authenticity_token
       }
+    end
+  end
+
+  def editable_users
+    @users.select do |user|
+      !current_user.is_agency_user_admin? || current_user.can_edit_user_by_agency?(user.agency)
     end
   end
 
