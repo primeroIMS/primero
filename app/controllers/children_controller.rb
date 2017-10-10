@@ -168,7 +168,7 @@ class ChildrenController < ApplicationController
       when "case_plan"
         child.approval_status_case_plan = params[:approval_status]
 
-        if child.module.selectable_approval_types.present?
+        if child.module.try(:selectable_approval_types).present?
           child.case_plan_approval_type = params[:approval_status_type]
         end
       when "closure"

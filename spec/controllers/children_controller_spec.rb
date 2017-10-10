@@ -19,7 +19,7 @@ describe ChildrenController do
 
   before do
     SystemSettings.all.each &:destroy
-    SystemSettings.create(default_locale: "en",
+    @system_settings = SystemSettings.create(default_locale: "en",
       primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
   end
 
@@ -1109,6 +1109,51 @@ describe ChildrenController do
         put :select_primary_photo, :child_id => @child.id, :photo_id => @photo_key
 
         response.should be_error
+      end
+    end
+  end
+
+  describe "POST request_approval" do
+    before do
+      User.all.each {|user| user.destroy}
+      User.stub(:find_by_user_name).with('test_owner').and_return nil
+      User.stub(:find_by_user_name).with('manager1').and_return nil
+      @owner = create :user, user_name: 'test_owner', full_name: 'Test Owner', email: 'owner@primero.dev', organization: 'UNICEF'
+      @manager1 = create :user, is_manager: true, email: 'manager1@primero.dev', send_mail: true, user_name: 'manager1'
+      @child = Child.new_with_user_name @owner, :name => "child1", :module_id => PrimeroModule::CP, case_id_display: '12345'
+      p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
+      @child.stub(:module).and_return p_module
+      @child.save
+      User.stub(:get).with(@owner.id).and_return @owner
+      @owner.stub(:managers).and_return [@manager1]
+      ActiveJob::Base.queue_adapter = :inline
+    end
+
+    context 'when notification emails are enabled' do
+      before do
+        @system_settings.notification_email_enabled = true
+        @system_settings.save
+      end
+
+      it 'sends a request approval email' do
+        before_count = ActionMailer::Base.deliveries.count
+        post :request_approval, id: @child.id, child_id: @child.id, approval_type: 'case_plan', approval_status: 'pending', model_class: 'Child'
+        expect(ActionMailer::Base.deliveries.count).to eq(before_count + 1)
+        expect(response).to be_success
+      end
+    end
+
+    context 'when notification emails are disabled' do
+      before do
+        @system_settings.notification_email_enabled = false
+        @system_settings.save
+      end
+
+      it 'does not send a request approval email' do
+        before_count = ActionMailer::Base.deliveries.count
+        post :request_approval, id: @child.id, child_id: @child.id, approval_type: 'case_plan', approval_status: 'pending', model_class: 'Child'
+        expect(ActionMailer::Base.deliveries.count).to eq(before_count)
+        expect(response).to be_success
       end
     end
   end
