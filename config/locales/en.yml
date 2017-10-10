@@ -363,6 +363,7 @@ en:
       closed: "Closed"
       reopened: "Reopened"
       service_implemented: Service Implemented
+      case_plan: "Case Plan"
     flagged_by: "Flagged By"
     last_updated: "Last updated"
     registered_by: "Registered by"

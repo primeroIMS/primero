@@ -19,6 +19,7 @@ class PrimeroModule < CouchRest::Model::Base
   property :workflow_status_indicator, TrueClass, :default => false
   property :agency_code_indicator, TrueClass, :default => false
   property :blacklisted_workflows, :type => [String]
+  property :display_case_plan_in_stepper, TrueClass, :default => true
 
   before_save :add_associated_subforms
 

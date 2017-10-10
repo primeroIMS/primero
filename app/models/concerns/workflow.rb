@@ -10,6 +10,7 @@ module Workflow
     WORKFLOW_REOPENED = 'reopened'
     WORKFLOW_SERVICE_PROVISION = 'service_provision'
     WORKFLOW_SERVICE_IMPLEMENTED = 'services_implemented'
+    WORKFLOW_CASE_PLAN = 'case_plan'
 
     before_create :set_workflow_new
     before_save :set_workflow
@@ -54,6 +55,7 @@ module Workflow
         when Serviceable::SERVICES_ALL_IMPLEMENTED
           self.workflow = is_reopened_most_recent?(Serviceable::SERVICE_IMPLEMENTED) ? WORKFLOW_REOPENED : WORKFLOW_SERVICE_IMPLEMENTED
         else
+          self.workflow = WORKFLOW_CASE_PLAN if self.date_case_plan_initiated.present? && self.module.display_case_plan_in_stepper
           self.workflow = WORKFLOW_REOPENED if self.case_status_reopened
       end
     end
