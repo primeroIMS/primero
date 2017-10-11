@@ -24,27 +24,6 @@ class Report < CouchRest::Model::Base
     Field::TALLY_FIELD,
   ]
 
-  #TODO: should this be made generic?
-  AGE_FIELDS = [
-    'age',
-    'relation_age',
-    'caregiver_age',
-    'care_arrangement_other_age',
-    'other_caregiver_age',
-    'verification_inquirer_age',
-    'cp_incident_perpetrator_age',
-    'wishes_age',
-    'wishes_name_age',
-    'fds_0_relation_age',
-    'fds_1_relation_age',
-    'fds_2_relation_age',
-    'caregiver_organization_worker_age',
-    'closure_caregiver_age',
-    'new_caregiver_age',
-    'reunification_age',
-    'mc_adult_age'
-  ]
-
   DAY = 'date' #eg. 13-Jan-2015
   WEEK = 'week' #eg. Week 2 Jan-2015
   MONTH = 'month' #eg. Jan-2015
@@ -145,6 +124,10 @@ class Report < CouchRest::Model::Base
     # Prepopulates pivot fields
     pivot_fields
 
+    sys = SystemSettings.current
+    primary_range = sys.primary_age_range
+    age_ranges = sys.age_ranges[primary_range]
+
     if permission_filter.present?
       filters << permission_filter
     end
@@ -191,13 +174,9 @@ class Report < CouchRest::Model::Base
       end
 
       pivots.each do |pivot|
-        if pivot.in?(AGE_FIELDS)
+        if /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) && field_map['cp_incident_perpetrator_age']['type'] == 'numeric_field'
           age_field_index = pivot_index(pivot)
           if group_ages && age_field_index && age_field_index < dimensionality
-            sys = SystemSettings.current
-            primary_range = sys.primary_age_range
-            age_ranges = sys.age_ranges[primary_range]
-
             self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
               age_ranges.find{|range| range.cover? pivot_name}
             end
@@ -316,7 +295,7 @@ class Report < CouchRest::Model::Base
   end
 
   def translated_label_options
-    self.field_map.map{|v, fm| [v, fm.options_list(nil, nil, Location.all_names, true)]}.to_h
+    @translated_label_options ||= self.field_map.map{|v, fm| [v, fm.options_list(nil, nil, Location.all_names, true)]}.to_h
   end
 
   #TODO: This method currently builds data for 1D and 2D reports
