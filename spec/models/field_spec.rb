@@ -1056,4 +1056,35 @@ describe "record field model" do
       end
     end
   end
+
+  describe "aggregate or disaggregate with number at the end should be able to match with a field" do
+    before do
+      FormSection.all.each &:destroy
+
+      fields = [
+        Field.new({
+          "name" => "field_name",
+          "type" => "text_field",
+          "display_name_all" => "Field Name"
+        })
+      ]
+
+      @form_0 = FormSection.create(
+        :unique_id => "form_section_name",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 1,
+        :order => 1,
+        :order_subform => 0,
+        :form_group_name => "Form Section Test",
+        "editable" => true,
+        "name_all" => "Form Section Name",
+        "description_all" => "Form Section Name",
+        :fields => fields
+      )
+    end
+    it "should return a field" do
+      expect(Field.find_by_name('field_name1')['name']).to eq('field_name')
+    end
+  end
 end
