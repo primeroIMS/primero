@@ -114,7 +114,13 @@ class Role < CouchRest::Model::Base
   end
 
   def is_user_agency_user_admin_role?
-    self.id == "role-agency-user-administrator"
+    agency_user_admin_resources = [
+      Permission::ROLE, Permission::USER, Permission::USER_GROUP
+    ]
+    current_managed_resources = self.permissions_list
+      .select{|p| (p.resource == Permission::ROLE && p.actions == [Permission::READ, Permission::ASSIGN]) || p.actions == [Permission::READ, Permission::CREATE, Permission::WRITE, Permission::ASSIGN]}
+      .map{|p| p.resource}
+    (agency_user_admin_resources - current_managed_resources).empty?
   end
 
   private
