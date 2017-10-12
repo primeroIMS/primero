@@ -1797,6 +1797,7 @@ describe Child do
     before do
       FormSection.all.each &:destroy
       Lookup.all.each &:destroy
+      PrimeroModule.all.each &:destroy
 
       Lookup.create(
           :id => "lookup-service-response-type",
@@ -1855,7 +1856,30 @@ describe Child do
         })
       ]
 
-      FormSection.create_or_update_form_section({
+      case_plan_fields = [
+        Field.new({"name" => "date_case_plan_initiated",
+          "type" => "date_field",
+          "display_name_all" => "Date Case Plan Initiated",
+          "editable" => true,
+          "disabled" => false
+        })
+      ]
+
+      form1 = FormSection.create_or_update_form_section({
+        :unique_id => "cp_case_plan",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 80,
+        :order => 10,
+        :order_subform => 0,
+        :form_group_name => "Case Plan",
+        "editable" => true,
+        :fields => case_plan_fields,
+        "name_all" => "Case Plan",
+        "description_all" => "Case Plan"
+      })
+
+      form2 = FormSection.create_or_update_form_section({
         :unique_id => "services",
         :parent_form=>"case",
         "visible" => true,
@@ -1869,9 +1893,17 @@ describe Child do
         "description_all" => "Services form",
       })
 
+
+      a_module = PrimeroModule.create!(
+        program_id: "some_program",
+        associated_record_types: ['case'],
+        name: "Test Module",
+        associated_form_ids: [form1.id, form2.id]
+      )
+
       Child.refresh_form_properties
 
-      @case1 = Child.create(name: 'Workflow Tester')
+      @case1 = create_child_with_created_by('bob123', name: 'Workflow Tester', module_id: a_module.id)
     end
 
     context 'when case is new' do
@@ -1883,6 +1915,17 @@ describe Child do
     context 'when case is open' do
       before :each do
         @case1.child_status = Record::STATUS_OPEN
+      end
+
+      context 'and date case plan initiated is set' do
+        before do
+          @case1.date_case_plan_initiated = Date.current
+          @case1.save!
+        end
+
+        it 'workflow status should be CASE PLAN' do
+          expect(@case1.workflow).to eq(Child::WORKFLOW_CASE_PLAN)
+        end
       end
 
       context 'and service response type is set' do

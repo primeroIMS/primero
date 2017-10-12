@@ -237,7 +237,7 @@ module IndexHelper
     header_list << {title: 'sex', sort_title: 'sex'} if @is_cp || @id_search.present?
     header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp && !@id_search.present?
     header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv && !@id_search.present?
-    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp && !@id_search.present?
+    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp && !@id_search.present? && FormSection.has_photo_form
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager && !@id_search.present?
     header_list << {title: 'owned_by', sort_title: 'owned_by'} if @is_cp && @id_search.present?
     header_list << {title: 'owned_by_agency', sort_title: 'owned_by_agency'} if @is_cp && @id_search.present?

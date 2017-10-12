@@ -468,6 +468,16 @@ class Field
   def self.find_by_name(field_name)
     field = nil
     if field_name.present?
+      if field_name.kind_of?(Array)
+        field_name.select{|s|
+          s.match(".*(\\d)+") && !find_by_name_from_view(s).present?
+        }.each{|s|
+          s.gsub!(/ *\d+$/, '')
+        }
+      elsif field_name.match(".*(\\d)+") && !find_by_name_from_view(field_name).present?
+        field_name.gsub!(/ *\d+$/, '')
+      end
+
       field = find_by_name_from_view(field_name)
       unless field.present?
         if field_name.last.is_number? && field_name.length > 1
@@ -502,6 +512,17 @@ class Field
       self.option_strings_text.each do |option|
         if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
           option['id'] = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
+        end
+      end
+
+      Primero::Application::locales.each do |locale|
+        option_strings_locale = self.send("option_strings_text_#{locale}")
+        if locale != Primero::Application::LOCALE_ENGLISH && option_strings_locale.present?
+          self.send("option_strings_text_#{locale}").each_with_index do |option, index|
+            if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
+              option['id'] = self.option_strings_text[index]['id']
+            end
+          end
         end
       end
     end

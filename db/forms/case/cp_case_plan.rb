@@ -69,6 +69,12 @@ case_plan_fields = [
                "disabled" => true,
                "display_name_all" => "Date"
               }),
+    Field.new({"name" => "date_case_plan_initiated",
+              "type" => "date_field",
+              "display_name_all" => "Date Case Plan Initiated",
+              "editable" => true,
+              "disabled" => false
+             }),
     Field.new({"name" => "case_plan_approved_comments",
                "type" => "textarea",
                "editable" => false,
