@@ -183,32 +183,4 @@ describe Role do
       end
     end
   end
-
-  describe "is_user_agency_user_admin_role?" do
-    before do
-      user_agency_user_admin_permissions_to_manage = [
-        Permission::ROLE, Permission::USER, Permission::USER_GROUP
-      ]
-      @permissions_agency_user_admin = user_agency_user_admin_permissions_to_manage.map{|p| (p == Permission::ROLE && Permission.new(resource: p, actions: [Permission::READ, Permission::ASSIGN])) || Permission.new(resource: p, actions: [Permission::READ, Permission::CREATE, Permission::WRITE, Permission::ASSIGN])}
-      @permission_not_agency_user_admin = Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
-    end
-
-    context 'depending on the permissions of a role' do
-      before do
-        @role_agency_user_admin = Role.new(name: "agency_user_admin_role", permissions_list: @permissions_agency_user_admin)
-        @role_not_agency_user_admin = Role.new(name: "not_agency_user_admin_role", permissions_list: [@permission_not_agency_user_admin])
-      end
-      context 'if the role manages all of the permissions of the agency user admin' do
-        it "should return true for is_user_agency_user_admin_role?" do
-          expect(@role_agency_user_admin.is_user_agency_user_admin_role?).to be_true
-        end
-      end
-
-      context 'if the role does not manage all of the permissions of the agency user admin' do
-        it "should return false for is_user_agency_user_admin_role?" do
-          expect(@role_not_agency_user_admin.is_user_agency_user_admin_role?).to be_false
-        end
-      end
-    end
-  end
 end
