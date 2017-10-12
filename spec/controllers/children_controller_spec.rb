@@ -19,7 +19,7 @@ describe ChildrenController do
 
   before do
     SystemSettings.all.each &:destroy
-    SystemSettings.create(default_locale: "en",
+    @system_settings = SystemSettings.create(default_locale: "en",
       primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
   end
 
@@ -1109,6 +1109,101 @@ describe ChildrenController do
         put :select_primary_photo, :child_id => @child.id, :photo_id => @photo_key
 
         response.should be_error
+      end
+    end
+  end
+
+  describe "POST request_approval" do
+    before do
+      #TODO: This FormSection setup will not be necessary once the approvable_subforms property in approvable concern is fixed
+      FormSection.all.each &:destroy
+      approvals_fields_subform = [
+          Field.new({"name" => "approval_test",
+                     "type" => "textarea",
+                     "display_name_all" => "Approval Test"
+                    })
+      ]
+
+      approvals_section = FormSection.create_or_update_form_section({
+          "visible"=>false,
+          "is_nested"=>true,
+          :order_form_group => 999,
+          :order => 999,
+          :order_subform => 1,
+          :unique_id=>"approval_subforms",
+          :parent_form=>"case",
+          "editable"=>true,
+          :fields => approvals_fields_subform,
+          :initial_subforms => 0,
+          :hide_subform_placeholder => true,
+          "name_all" => "Approval Subform",
+          "description_all" => "Approval Subform"
+      })
+
+      fields = [
+          Field.new({"name" => "approval_subforms",
+                     "type" => "subform",
+                     "editable" => false,
+                     "subform_section_id" => approvals_section.unique_id,
+                     "display_name_all" => "Approval"
+                    }),
+      ]
+      form = FormSection.new(
+          :unique_id => "form_section_test",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 50,
+          :order => 15,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test",
+          "description_all" => "Form Section Test",
+          :fields => fields
+      )
+      form.save!
+      Child.any_instance.stub(:field_definitions).and_return(fields)
+      Child.refresh_form_properties
+
+      User.all.each {|user| user.destroy}
+      User.stub(:find_by_user_name).with('test_owner').and_return nil
+      User.stub(:find_by_user_name).with('manager1').and_return nil
+      @owner = create :user, user_name: 'test_owner', full_name: 'Test Owner', email: 'owner@primero.dev', organization: 'UNICEF'
+      @manager1 = create :user, is_manager: true, email: 'manager1@primero.dev', send_mail: true, user_name: 'manager1'
+      @child = Child.new_with_user_name @owner, :name => "child1", :module_id => PrimeroModule::CP, case_id_display: '12345'
+      p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
+      @child.stub(:module).and_return p_module
+      @child.save
+      User.stub(:get).with(@owner.id).and_return @owner
+      @owner.stub(:managers).and_return [@manager1]
+      ActiveJob::Base.queue_adapter = :inline
+    end
+
+    context 'when notification emails are enabled' do
+      before do
+        @system_settings.notification_email_enabled = true
+        @system_settings.save
+      end
+
+      it 'sends a request approval email' do
+        before_count = ActionMailer::Base.deliveries.count
+        post :request_approval, id: @child.id, child_id: @child.id, approval_type: 'case_plan', approval_status: 'pending', model_class: 'Child'
+        expect(ActionMailer::Base.deliveries.count).to eq(before_count + 1)
+        expect(response).to be_success
+      end
+    end
+
+    context 'when notification emails are disabled' do
+      before do
+        @system_settings.notification_email_enabled = false
+        @system_settings.save
+      end
+
+      it 'does not send a request approval email' do
+        before_count = ActionMailer::Base.deliveries.count
+        post :request_approval, id: @child.id, child_id: @child.id, approval_type: 'case_plan', approval_status: 'pending', model_class: 'Child'
+        expect(ActionMailer::Base.deliveries.count).to eq(before_count)
+        expect(response).to be_success
       end
     end
   end

@@ -61,6 +61,7 @@ describe SystemSettingsController do
                          "location_limit_for_api"=>150,
                          "approval_forms_to_alert"=>nil,
                          "changes_field_to_form"=>nil,
+                         "notification_email_enabled"=>false,
                          "welcome_email_enabled"=>false,
                          "welcome_email_text"=>nil,
                          "_id" => @system_settings.id,

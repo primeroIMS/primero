@@ -7,6 +7,10 @@ module Approvable
     property :approval_status_closure, String
     property :bia_approved_date, DateTime
     property :closure_approved_date, DateTime
-    property :approval_subform, [], default: []
+
+    #TODO: having this causes validations to fail whith no method error:  valid? for Hash
+    #TODO: To really fix this, need new Approval class and change this to be an array of Approvals
+    #TODO: When you do this, you can remove the FormSection setup in the Request Approval Mailer specs in children_controller_spec
+    # property :approval_subforms, [], default: []
   end
 end
