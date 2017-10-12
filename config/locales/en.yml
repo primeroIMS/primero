@@ -363,6 +363,7 @@ en:
       closed: "Closed"
       reopened: "Reopened"
       service_implemented: Service Implemented
+      case_plan: "Case Plan"
     flagged_by: "Flagged By"
     last_updated: "Last updated"
     registered_by: "Registered by"
@@ -829,6 +830,11 @@ en:
     agency: "Agency"
     manager: "Manager"
     send_mail: "Receive email notifications?"
+    welcome_email:
+      greeting: "Welcome to Primero,"
+      url_label: "Primero"
+      enabled_label: "Send Welcome Email?"
+      text_label: "Welcome Email Text"
 
   actions: "actions"
   phone: "Phone"
@@ -2047,6 +2053,8 @@ en:
     delete: "Clicking ok will delete \"%{filter_name}\""
 
   email_notification:
+    approval_request_subject: "%{name} - Approval Request"
+    approval_response_subject: "Case: %{id} - Approval Response"
     approval_request: "The user %{user} is requesting approval for %{approval_type} on case %{case_id}."
     approval_response: "%{user} has %{status} the request for approval for %{approval_type} for case %{case_id}."
     approval_request_html: "The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>."

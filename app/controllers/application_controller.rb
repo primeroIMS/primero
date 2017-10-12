@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
 
   def handle_authentication_failure(auth_failure)
     respond_to do |format|
+      store_location_for(request.original_fullpath)
       format.html { redirect_to(:login) }
       format.any(:xml,:json) { render_error_response ErrorResponse.unauthorized(I18n.t("session.invalid_token")) }
     end
@@ -47,6 +48,20 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       format.any { render_error_response ErrorResponse.new(403, authorization_failure.message) }
     end
+  end
+
+  def store_location_for(path)
+    uri = URI.parse path
+
+    if uri.present?
+      path = [uri.path.sub(/\A\/+/, '/'), uri.query].compact.join('?')
+      path = [path, uri.fragment].compact.join('#')
+      session[:stored_location] = path
+    end
+  end
+
+  def clear_store_location
+    session.delete(:stored_location)
   end
 
   def handle_device_blacklisted(session)

@@ -43,7 +43,7 @@ $(show_tools);
 
 <% content_for :record_status do %>
   <% if @child.module.workflow_status_indicator.present? %>
-    <%= display_workflow_status(@child, @lookups, @child.module.blacklisted_workflows) %>
+    <%= display_workflow_status(@child, @lookups, @child.module.blacklisted_workflows, @child.module.display_case_plan_in_stepper) %>
   <% end %>
 <% end %>
 

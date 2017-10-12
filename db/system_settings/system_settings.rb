@@ -19,15 +19,17 @@ create_or_update_system_setting(
     label_key: "district",
     admin_level: 2
   },
-  :primary_age_range => "primero",
-  :age_ranges => {
+  primary_age_range: "primero",
+  age_ranges: {
     "primero" => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
     "unhcr" => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX]
   },
-  :show_alerts => true,
-  :approval_forms_to_alert => {
+  show_alerts: true,
+  approval_forms_to_alert: {
     "cp_bia_form" => "bia",
     "services" => "case_plan",
     "closure_form" => "closure"
-  }
+  },
+  welcome_email_enabled: false,
+  welcome_email_text: "Click link below to log into Primero.  Please see your system administrator if you have any issues."
 )

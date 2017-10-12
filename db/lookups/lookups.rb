@@ -652,7 +652,8 @@ create_or_update_lookup(
         {id: "closed", display_text: "Case closed"}.with_indifferent_access,
         {id: "reopened", display_text: "Case reopened"}.with_indifferent_access,
         {id: "service_provision", display_text: "Service provision"}.with_indifferent_access,
-        {id: "services_implemented", display_text: "All response services implemented"}.with_indifferent_access
+        {id: "services_implemented", display_text: "All response services implemented"}.with_indifferent_access,
+        {id: "case_plan", display_text: "Case Plan"}.with_indifferent_access
     ]
 )
 

@@ -11,7 +11,7 @@ class NotificationMailer < ActionMailer::Base
         if manager.email.present? && manager.send_mail
           mail(:to => manager.email,
             :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
-            :subject => "#{@user.full_name} - Approval Request")
+            :subject => t("email_notification.approval_request_subject", name: @user.full_name))
         end
       end
     else
@@ -31,7 +31,7 @@ class NotificationMailer < ActionMailer::Base
 
       mail(:to => @owner.email,
         :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
-        :subject => "Case: #{@child.case_id_display} - Approval Response")
+        :subject => t("email_notification.approval_response_subject", id: @child.case_id_display))
     else
       Rails.logger.error "Mail not sent - User [#{manager_id}] not found"
     end

@@ -240,7 +240,8 @@ create_or_update_module(
     ]
   },
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
-  allow_searchable_ids: true
+  allow_searchable_ids: true,
+  display_case_plan_in_stepper: true
 )
 
 
