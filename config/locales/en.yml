@@ -936,6 +936,7 @@ en:
       manage: "Manage"
       administrator_read: "Administrator Read"
       group_read: "Group Read"
+      agency_read: "Agency Read"
       dashboard: "Dashboard"
       view_approvals: "View Approvals"
       view_assessment: "View Assessment"

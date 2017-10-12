@@ -304,6 +304,10 @@ class User < CouchRest::Model::Base
     permissions && permissions.map{|p| p.actions}.flatten.include?(permission)
   end
 
+  def has_permission_by_permission_type?(permission_type, permission)
+    permissions.select {|perm| perm['resource'] == permission_type}[0]['actions'].include?(permission)
+  end
+
   def has_group_permission?(permission)
     group_permissions && group_permissions.include?(permission)
   end
@@ -463,10 +467,6 @@ class User < CouchRest::Model::Base
   def send_welcome_email(host_url='http://example.com')
     @system_settings ||= SystemSettings.current
     MailJob.perform_later(self.id, host_url) if self.email.present? && @system_settings.try(:welcome_email_enabled) == true
-  end
-
-  def is_agency_user_admin?
-    (self.roles.any?{|r| r.is_user_agency_user_admin_role?})
   end
 
   def can_edit_user_by_agency?(agency=nil)

@@ -196,7 +196,7 @@ class UsersController < ApplicationController
 
   def editable_users
     @users.select do |user|
-      !current_user.is_agency_user_admin? || current_user.can_edit_user_by_agency?(user.agency)
+      (current_user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) && current_user.agency == user.agency) || !current_user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
     end
   end
 
