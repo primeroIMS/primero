@@ -74,7 +74,7 @@ table.dataTable thead .sorting_desc_disabled {
   background: url(image_path("dataTables/sort_desc_disabled.png")) no-repeat center right;
 }
 table.dataTable tbody tr {
-  
+
 }
 table.dataTable tbody tr.selected {
   background-color: #b0bed9;
@@ -501,6 +501,39 @@ table.dataTable td li {
     margin-top: 0.5em;
   }
 }
+
+// Block out what is behind the fixed column's header and footer
+table.DTFC_Cloned thead,
+table.DTFC_Cloned tfoot {
+	background-color: white;
+}
+
+// Block out the gap above the scrollbar on the right, when there is a fixed
+// right column
+div.DTFC_Blocker {
+	background-color: white;
+}
+
+div.DTFC_LeftWrapper table.dataTable,
+div.DTFC_RightWrapper table.dataTable {
+	margin-bottom: 0;
+	z-index: 2;
+
+	&.no-footer {
+		border-bottom: none;
+	}
+}
+
+div.DTFC_LeftBodyWrapper, div.DTFC_RightBodyWrapper {
+  border-top: 1px solid $stroke_green_color;
+
+  @if $global-text-direction == rtl {
+    border-left: 1px solid $stroke_green_color;
+  } @else {
+    border-right: 1px solid $stroke_green_color;
+  }
+}
+
 @media screen and (max-width: 640px) {
   .dataTables_wrapper .dataTables_length,
   .dataTables_wrapper .dataTables_filter {

@@ -42,12 +42,12 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
       self.set_form_state();
     });
 
-    if (I18n.direction == 'rtl') {
-      $this_el.find('select').addClass('chosen-rtl');
-    }
-
     $this_el.find('select[name="fields"]').chosen();
     $this_el.find('select[name="forms"]').chosen();
+
+    if (I18n.direction == 'rtl') {
+      $this_el.find('select, .chosen-container').addClass('chosen-rtl');
+    }
   },
 
   toggle_field_selection: function(e) {
@@ -249,7 +249,7 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
   reset_form: function() {
     var $this_el = $(this.el)
     var form = $this_el.find('form')[0];
-    
+
     if (form) {
       form.reset();
     }
