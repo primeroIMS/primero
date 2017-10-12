@@ -22,6 +22,7 @@ class UsersController < ApplicationController
 
     @page_name = t("home.users")
     @users_details = users_details
+    @editable_users = editable_users
 
     respond_to do |format|
       format.html
@@ -164,7 +165,13 @@ class UsersController < ApplicationController
   end
 
   def agency_names
-    @agency_names = Agency.all_names
+    if has_agency_read
+      @agency_names = Agency.all_names.select do |agency|
+        agency['id'] == current_user.agency.id
+      end
+    else
+      @agency_names = Agency.all_names
+    end
   end
 
   def clean_role_ids
@@ -190,6 +197,16 @@ class UsersController < ApplicationController
           :user_name => user.user_name,
           :token => form_authenticity_token
       }
+    end
+  end
+
+  def has_agency_read
+    @has_agency_read = current_user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+  end
+
+  def editable_users
+    @users.select do |user|
+      (has_agency_read && current_user.agency == user.agency) || !has_agency_read
     end
   end
 

@@ -78,6 +78,7 @@ class Permission
   SERVICES_SECTION_FROM_CASE = 'services_section_from_case'
   CREATE = 'create'
   ADMIN_ONLY = 'admin_only'
+  AGENCY_READ = 'agency_read'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
@@ -140,7 +141,8 @@ class Permission
       DASH_CASES_BY_SOCIAL_WORKER,
       DASH_REFFERALS_BY_SOCIAL_WORKER,
       DASH_TRANSERS_BY_SOCIAL_WORKER,
-      DASH_SHOW_NONE_VALUES
+      DASH_SHOW_NONE_VALUES,
+      AGENCY_READ
     ]
   end
 
@@ -179,7 +181,7 @@ class Permission
        when ROLE
          [READ, WRITE, ASSIGN, COPY, MANAGE]
        when USER
-         [READ, WRITE, ASSIGN, MANAGE]
+         [READ, AGENCY_READ, WRITE, ASSIGN, MANAGE]
        when USER_GROUP
          [READ, WRITE, ASSIGN, MANAGE]
        when AGENCY
