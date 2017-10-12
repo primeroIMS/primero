@@ -1,3 +1,3 @@
 ===============================================
 
-<%= t('email_notification.approval_response', user: @manager.user_name, status: @approval.downcase, approval_type: @approval_type.downcase, case_id: link_to(@child.case_id_display, case_url(@child))).html_safe  %>
+<%= t('email_notification.approval_response', user: @manager.user_name, status: @approval.downcase, approval_type: @approval_type.downcase, case_id: link_to(@child.case_id_display, @url + '/cases/' + @child.id)).html_safe  %>

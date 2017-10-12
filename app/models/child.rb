@@ -427,12 +427,12 @@ class Child < CouchRest::Model::Base
     self.add_reopened_log(user_name)
   end
 
-  def send_approval_request_mail(approval_type)
-    ApprovalRequestJob.perform_later(self.owner.id, self.id, approval_type)
+  def send_approval_request_mail(approval_type, host_url)
+    ApprovalRequestJob.perform_later(self.owner.id, self.id, approval_type, host_url)
   end
 
-  def send_approval_response_mail(manager_id, approval_type, approval)
-    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval)
+  def send_approval_response_mail(manager_id, approval_type, approval, host_url)
+    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url)
   end
 
   private
