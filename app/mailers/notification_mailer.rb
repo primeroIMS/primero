@@ -1,8 +1,9 @@
 class NotificationMailer < ActionMailer::Base
-  def manager_approval_request(user_id, case_id, approval_type)
+  def manager_approval_request(user_id, case_id, approval_type, host_url)
     @user = User.get(user_id)
     @recipients = @user.managers.select{ |manager| manager.email.present? && manager.send_mail }
     @child = Child.get(case_id)
+    @url = host_url
 
     @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
 
@@ -19,9 +20,10 @@ class NotificationMailer < ActionMailer::Base
     end
   end
 
-  def manager_approval_response(manager_id, case_id, approval_type, approval)
+  def manager_approval_response(manager_id, case_id, approval_type, approval, host_url)
     @child = Child.get(case_id)
     @owner = @child.owner
+    @url = host_url
 
     if @owner.send_mail && @owner.present? && @owner.email.present? && @child.present?
       @manager = User.get(manager_id)

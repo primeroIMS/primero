@@ -185,7 +185,7 @@ class ChildrenController < ApplicationController
     )
 
     if child.save
-      child.send_approval_request_mail(params[:approval_type])
+      child.send_approval_request_mail(params[:approval_type], request.base_url)
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
       errors = approval_type_error || child.errors.messages

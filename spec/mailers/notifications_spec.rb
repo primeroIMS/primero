@@ -12,7 +12,7 @@ describe NotificationMailer, :type => :mailer do
   end
 
   describe "manager_approval_request" do
-    let(:mail) { NotificationMailer.manager_approval_request(@owner.id, @child.id, 'value1') }
+    let(:mail) { NotificationMailer.manager_approval_request(@owner.id, @child.id, 'value1', 'example.com') }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Jordy Nelson - Approval Request")
@@ -25,7 +25,7 @@ describe NotificationMailer, :type => :mailer do
   end
 
   describe "manager_approval_response" do
-    let(:mail) { NotificationMailer.manager_approval_response(@manager1.id, @child.id, 'value1', true) }
+    let(:mail) { NotificationMailer.manager_approval_response(@manager1.id, @child.id, 'value1', true, 'example.com') }
 
     it "renders the headers" do
       expect(mail.subject).to eq("Case: 12345 - Approval Response")
