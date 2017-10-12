@@ -465,7 +465,7 @@ class User < CouchRest::Model::Base
     (self.roles.any?{|r| r.is_user_admin_role?} && self.group_permissions.include?(Permission::ADMIN_ONLY))
   end
 
-  def send_welcome_email(host_url='http://example.com')
+  def send_welcome_email(host_url)
     @system_settings ||= SystemSettings.current
     MailJob.perform_later(self.id, host_url) if self.email.present? && @system_settings.try(:welcome_email_enabled) == true
   end
