@@ -305,7 +305,8 @@ class User < CouchRest::Model::Base
   end
 
   def has_permission_by_permission_type?(permission_type, permission)
-    permissions.select {|perm| perm['resource'] == permission_type}[0]['actions'].include?(permission)
+    permissions_for_type = permissions.select {|perm| perm['resource'] == permission_type}
+    permissions_for_type.present? && permissions_for_type[0]['actions'].include?(permission)
   end
 
   def has_group_permission?(permission)
