@@ -31,6 +31,17 @@
               <div class="row">
                 <div class="medium-3 columns">
                   <span class="tool-tip-label">
+                    <%= f.label :notification_email_enabled, t("email_notification.enabled_label"), :class=>'key inline' %>
+                  </span>
+                </div>
+                <div class="medium-8 columns">
+                  <%= f.check_box :notification_email_enabled, {}, "true", "false" %>
+                </div>
+                <div class="medium-1 columns"></div>
+              </div>
+              <div class="row">
+                <div class="medium-3 columns">
+                  <span class="tool-tip-label">
                     <%= f.label :welcome_email_enabled, t("user.welcome_email.enabled_label"), :class=>'key inline' %>
                   </span>
                 </div>

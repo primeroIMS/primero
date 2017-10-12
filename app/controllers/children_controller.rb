@@ -155,6 +155,7 @@ class ChildrenController < ApplicationController
     end
   end
 
+  #TODO: move this to approval_actions concern
   def request_approval
     #TODO move business logic to the model.
     child = Child.get(params[:child_id])
@@ -168,7 +169,7 @@ class ChildrenController < ApplicationController
       when "case_plan"
         child.approval_status_case_plan = params[:approval_status]
 
-        if child.module.selectable_approval_types.present?
+        if child.module.try(:selectable_approval_types).present?
           child.case_plan_approval_type = params[:approval_status_type]
         end
       when "closure"
@@ -185,7 +186,7 @@ class ChildrenController < ApplicationController
     )
 
     if child.save
-      child.send_approval_request_mail(params[:approval_type], request.base_url)
+      child.send_approval_request_mail(params[:approval_type], request.base_url) if @system_settings.try(:notification_email_enabled)
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
       errors = approval_type_error || child.errors.messages

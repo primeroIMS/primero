@@ -30,6 +30,7 @@ create_or_update_system_setting(
     "services" => "case_plan",
     "closure_form" => "closure"
   },
+  notification_email_enabled: true,
   welcome_email_enabled: false,
   welcome_email_text: "Click link below to log into Primero.  Please see your system administrator if you have any issues."
 )

@@ -12,6 +12,7 @@ class UsersController < ApplicationController
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
   before_filter :load_records_according_to_disable_filter, :only => [:index]
   before_filter :agency_names, :only => [:new, :create, :edit, :update]
+  before_filter :load_system_settings, :only => [:new, :edit]
 
   skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
 
@@ -22,6 +23,7 @@ class UsersController < ApplicationController
 
     @page_name = t("home.users")
     @users_details = users_details
+    @editable_users = editable_users
 
     respond_to do |format|
       format.html
@@ -164,7 +166,17 @@ class UsersController < ApplicationController
   end
 
   def agency_names
-    @agency_names = Agency.all_names
+    if has_agency_read
+      @agency_names = Agency.all_names.select do |agency|
+        agency['id'] == current_user.agency.id
+      end
+    else
+      @agency_names = Agency.all_names
+    end
+  end
+
+  def load_system_settings
+    @system_settings ||= SystemSettings.current
   end
 
   def clean_role_ids
@@ -190,6 +202,16 @@ class UsersController < ApplicationController
           :user_name => user.user_name,
           :token => form_authenticity_token
       }
+    end
+  end
+
+  def has_agency_read
+    @has_agency_read = current_user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+  end
+
+  def editable_users
+    @users.select do |user|
+      (has_agency_read && current_user.agency == user.agency) || !has_agency_read
     end
   end
 
