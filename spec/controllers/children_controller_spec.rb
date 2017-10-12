@@ -1115,6 +1115,56 @@ describe ChildrenController do
 
   describe "POST request_approval" do
     before do
+      #TODO: This FormSection setup will not be necessary once the approvable_subforms property in approvable concern is fixed
+      FormSection.all.each &:destroy
+      approvals_fields_subform = [
+          Field.new({"name" => "approval_test",
+                     "type" => "textarea",
+                     "display_name_all" => "Approval Test"
+                    })
+      ]
+
+      approvals_section = FormSection.create_or_update_form_section({
+          "visible"=>false,
+          "is_nested"=>true,
+          :order_form_group => 999,
+          :order => 999,
+          :order_subform => 1,
+          :unique_id=>"approval_subforms",
+          :parent_form=>"case",
+          "editable"=>true,
+          :fields => approvals_fields_subform,
+          :initial_subforms => 0,
+          :hide_subform_placeholder => true,
+          "name_all" => "Approval Subform",
+          "description_all" => "Approval Subform"
+      })
+
+      fields = [
+          Field.new({"name" => "approval_subforms",
+                     "type" => "subform",
+                     "editable" => false,
+                     "subform_section_id" => approvals_section.unique_id,
+                     "display_name_all" => "Approval"
+                    }),
+      ]
+      form = FormSection.new(
+          :unique_id => "form_section_test",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 50,
+          :order => 15,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test",
+          "description_all" => "Form Section Test",
+          :fields => fields
+      )
+      form.save!
+      Child.any_instance.stub(:field_definitions).and_return(fields)
+      Child.refresh_form_properties
+
       User.all.each {|user| user.destroy}
       User.stub(:find_by_user_name).with('test_owner').and_return nil
       User.stub(:find_by_user_name).with('manager1').and_return nil
