@@ -7,9 +7,13 @@ class NotificationMailer < ActionMailer::Base
     @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
 
     if @recipients.present? && @child.present?
-      mail(:to => @recipients.map(&:email).uniq,
-        :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
-        :subject => "#{@user.full_name} - Approval Request")
+      @recipients.each do |manager|
+        if manager.email.present? && manager.send_mail
+          mail(:to => manager.email,
+            :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
+            :subject => "#{@user.full_name} - Approval Request")
+        end
+      end
     else
       Rails.logger.error "Mail not sent - User [#{user_id}] not found"
     end
