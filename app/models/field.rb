@@ -468,6 +468,16 @@ class Field
   def self.find_by_name(field_name)
     field = nil
     if field_name.present?
+      if field_name.kind_of?(Array)
+        field_name.select{|s|
+          s.match(".*(\\d)+") && !find_by_name_from_view(s).present?
+        }.each{|s|
+          s.gsub!(/ *\d+$/, '')
+        }
+      elsif field_name.match(".*(\\d)+") && !find_by_name_from_view(field_name).present?
+        field_name.gsub!(/ *\d+$/, '')
+      end
+
       field = find_by_name_from_view(field_name)
       unless field.present?
         if field_name.last.is_number? && field_name.length > 1

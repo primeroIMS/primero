@@ -830,7 +830,7 @@ $.extend( FixedColumns.prototype , {
 			if ( ! oOverflow.bar ) {
 				// If there is no scrollbar (Macs) we need to hide the auto scrollbar
 				node.style.width = (width+20)+"px";
-				node.style.paddingRight = "20px";
+				node.style.paddingRight = rtl ? "0" : "20px";
 				node.style.boxSizing = "border-box";
 			}
 			else if ( that._firefoxScrollError() ) {
