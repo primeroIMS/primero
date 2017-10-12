@@ -1,3 +1,5 @@
+#NOTE: This depends on record_actions concern
+#      It requires @system_settings which is loaded by a before_filter in record_actions
 module ApprovalActions
   extend ActiveSupport::Concern
 
@@ -11,7 +13,6 @@ module ApprovalActions
     authorize! :"approve_#{params[:approval_type]}", model_class
     load_record
     if @record.present?
-      @system_settings ||= SystemSettings.current
       begin
         set_approval
         @record.remove_approval_alert(params[:approval_type])

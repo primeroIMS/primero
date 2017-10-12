@@ -155,6 +155,7 @@ class ChildrenController < ApplicationController
     end
   end
 
+  #TODO: move this to approval_actions concern
   def request_approval
     #TODO move business logic to the model.
     child = Child.get(params[:child_id])
