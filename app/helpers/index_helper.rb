@@ -340,7 +340,7 @@ module IndexHelper
     filters << "Case Open Date" if @is_gbv
     filters << "No Activity"
     filters << "Record State"
-    filters << "Photo" if @is_cp
+    filters << "Photo" if @is_cp && FormSection.has_photo_form
 
     return filters
   end
