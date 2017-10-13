@@ -13,83 +13,169 @@ describe IndexHelper do
         @view.instance_variable_set(:@is_gbv, false)
       end
 
-      context "when the signed in user is a field worker" do
-        before :each do
-          @view.instance_variable_set(:@is_manager, false)
-        end
-        it "should return a header list" do
-          @view.list_view_header('case').should == [
-                                                    {title: '', sort_title: 'select'},
-                                                    {title: "id", sort_title: "short_id"},
-                                                    {title: "name", sort_title: "sortable_name"},
-                                                    {title: "age", sort_title: "age"},
-                                                    {title: "sex", sort_title: "sex"},
-                                                    {title: "registration_date", sort_title: "registration_date"},
-                                                    {title: "photo", sort_title: "photo"}
-                                                   ]
+      context "and photo form field exists" do
+        before do
+          FormSection.stub(:has_photo_form).and_return(true)
         end
 
-        it "should return filters to show" do
-          @view.instance_variable_set(:@can_sync_mobile, true)
-          @current_user.should_receive(:modules).and_return([])
-          @view.should_receive(:visible_filter_field?).and_return(true, true)
-          @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Mobile", "My Cases", "Status",
-                                                         "Age Range", "Sex", "Protection Status",
-                                                         "Urgent Protection Concern", "Risk Level", "Current Location",
-                                                         "Registration Date", "No Activity", "Record State", "Photo"
-                                                        ]
+        context "when the signed in user is a field worker" do
+          before :each do
+            @view.instance_variable_set(:@is_manager, false)
+          end
+          it "should return a header list" do
+            @view.list_view_header('case').should == [
+                                                      {title: '', sort_title: 'select'},
+                                                      {title: "id", sort_title: "short_id"},
+                                                      {title: "name", sort_title: "sortable_name"},
+                                                      {title: "age", sort_title: "age"},
+                                                      {title: "sex", sort_title: "sex"},
+                                                      {title: "registration_date", sort_title: "registration_date"},
+                                                      {title: "photo", sort_title: "photo"}
+                                                     ]
+          end
+
+          it "should return filters to show" do
+            @view.instance_variable_set(:@can_sync_mobile, true)
+            @current_user.should_receive(:modules).and_return([])
+            @view.should_receive(:visible_filter_field?).and_return(true, true)
+            @view.index_filters_to_show('case').should == [
+                                                           "Flagged", "Mobile", "My Cases", "Status",
+                                                           "Age Range", "Sex", "Protection Status",
+                                                           "Urgent Protection Concern", "Risk Level", "Current Location",
+                                                           "Registration Date", "No Activity", "Record State", "Photo"
+                                                          ]
+          end
+        end
+
+        context "when the signed in user is a manager" do
+          before :each do
+            @view.instance_variable_set(:@is_manager, true)
+          end
+          it "should return a header list" do
+            @view.list_view_header('case').should == [
+                                                      {title: '', sort_title: 'select'},
+                                                      {title: "id", sort_title: "short_id"},
+                                                      {title: "age", sort_title: "age"},
+                                                      {title: "sex", sort_title: "sex"},
+                                                      {title: "registration_date", sort_title: "registration_date"},
+                                                      {title: "photo", sort_title: "photo"},
+                                                      {title: "social_worker", sort_title: "owned_by"}
+                                                     ]
+          end
+
+          it "should return filters to show" do
+            @view.instance_variable_set(:@can_sync_mobile, true)
+            @current_user.should_receive(:modules).and_return([])
+            @view.should_receive(:visible_filter_field?).and_return(true, true)
+            @view.index_filters_to_show('case').should == [
+                                                           "Flagged", "Mobile", "Social Worker", "My Cases",
+                                                           "Agency", "Status", "Age Range",
+                                                           "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
+                                                           "Current Location", "Registration Date", "No Activity", "Record State", "Photo"
+                                                          ]
+          end
+        end
+
+        context "when the signed in user is a admin" do
+          before :each do
+            @view.instance_variable_set(:@is_admin, true)
+            @view.instance_variable_set(:@is_manager, true)
+            @view.instance_variable_set(:@can_view_reporting_filter, true)
+            @view.instance_variable_set(:@can_sync_mobile, true)
+          end
+
+          it "should return filters to show" do
+            @current_user.should_receive(:modules).and_return([])
+            @view.should_receive(:visible_filter_field?).and_return(true, true)
+            @view.index_filters_to_show('case').should == [
+                "Flagged", "Mobile", "Social Worker", "My Cases", "Agency", "Status", "Age Range",
+                "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
+                "Current Location", "Reporting Location", "Registration Date", "No Activity", "Record State", "Photo"
+            ]
+          end
         end
       end
 
-      context "when the signed in user is a manager" do
-        before :each do
-          @view.instance_variable_set(:@is_manager, true)
-        end
-        it "should return a header list" do
-          @view.list_view_header('case').should == [
-                                                    {title: '', sort_title: 'select'},
-                                                    {title: "id", sort_title: "short_id"},
-                                                    {title: "age", sort_title: "age"},
-                                                    {title: "sex", sort_title: "sex"},
-                                                    {title: "registration_date", sort_title: "registration_date"},
-                                                    {title: "photo", sort_title: "photo"},
-                                                    {title: "social_worker", sort_title: "owned_by"}
-                                                   ]
+      context "and photo form field does not exist" do
+        before do
+          FormSection.stub(:has_photo_form).and_return(false)
         end
 
-        it "should return filters to show" do
-          @view.instance_variable_set(:@can_sync_mobile, true)
-          @current_user.should_receive(:modules).and_return([])
-          @view.should_receive(:visible_filter_field?).and_return(true, true)
-          @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Mobile", "Social Worker", "My Cases",
-                                                         "Agency", "Status", "Age Range",
-                                                         "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
-                                                         "Current Location", "Registration Date", "No Activity", "Record State", "Photo"
-                                                        ]
+        context "when the signed in user is a field worker" do
+          before :each do
+            @view.instance_variable_set(:@is_manager, false)
+          end
+          it "should return a header list" do
+            @view.list_view_header('case').should == [
+                {title: '', sort_title: 'select'},
+                {title: "id", sort_title: "short_id"},
+                {title: "name", sort_title: "sortable_name"},
+                {title: "age", sort_title: "age"},
+                {title: "sex", sort_title: "sex"},
+                {title: "registration_date", sort_title: "registration_date"}
+            ]
+          end
+
+          it "should return filters to show" do
+            @view.instance_variable_set(:@can_sync_mobile, true)
+            @current_user.should_receive(:modules).and_return([])
+            @view.should_receive(:visible_filter_field?).and_return(true, true)
+            @view.index_filters_to_show('case').should == [
+                "Flagged", "Mobile", "My Cases", "Status",
+                "Age Range", "Sex", "Protection Status",
+                "Urgent Protection Concern", "Risk Level", "Current Location",
+                "Registration Date", "No Activity", "Record State"
+            ]
+          end
+        end
+
+        context "when the signed in user is a manager" do
+          before :each do
+            @view.instance_variable_set(:@is_manager, true)
+          end
+          it "should return a header list" do
+            @view.list_view_header('case').should == [
+                {title: '', sort_title: 'select'},
+                {title: "id", sort_title: "short_id"},
+                {title: "age", sort_title: "age"},
+                {title: "sex", sort_title: "sex"},
+                {title: "registration_date", sort_title: "registration_date"},
+                {title: "social_worker", sort_title: "owned_by"}
+            ]
+          end
+
+          it "should return filters to show" do
+            @view.instance_variable_set(:@can_sync_mobile, true)
+            @current_user.should_receive(:modules).and_return([])
+            @view.should_receive(:visible_filter_field?).and_return(true, true)
+            @view.index_filters_to_show('case').should == [
+                "Flagged", "Mobile", "Social Worker", "My Cases",
+                "Agency", "Status", "Age Range",
+                "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
+                "Current Location", "Registration Date", "No Activity", "Record State"
+            ]
+          end
+        end
+
+        context "when the signed in user is a admin" do
+          before :each do
+            @view.instance_variable_set(:@is_admin, true)
+            @view.instance_variable_set(:@is_manager, true)
+            @view.instance_variable_set(:@can_view_reporting_filter, true)
+            @view.instance_variable_set(:@can_sync_mobile, true)
+          end
+
+          it "should return filters to show" do
+            @current_user.should_receive(:modules).and_return([])
+            @view.should_receive(:visible_filter_field?).and_return(true, true)
+            @view.index_filters_to_show('case').should == [
+                "Flagged", "Mobile", "Social Worker", "My Cases", "Agency", "Status", "Age Range",
+                "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
+                "Current Location", "Reporting Location", "Registration Date", "No Activity", "Record State"
+            ]
+          end
         end
       end
-
-      context "when the signed in user is a admin" do
-        before :each do
-          @view.instance_variable_set(:@is_admin, true)
-          @view.instance_variable_set(:@is_manager, true)
-          @view.instance_variable_set(:@can_view_reporting_filter, true)
-          @view.instance_variable_set(:@can_sync_mobile, true)
-        end
-
-        it "should return filters to show" do
-          @current_user.should_receive(:modules).and_return([])
-          @view.should_receive(:visible_filter_field?).and_return(true, true)
-          @view.index_filters_to_show('case').should == [
-              "Flagged", "Mobile", "Social Worker", "My Cases", "Agency", "Status", "Age Range",
-              "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
-              "Current Location", "Reporting Location", "Registration Date", "No Activity", "Record State", "Photo"
-          ]
-        end
-      end
-
     end
 
     context "when GBV" do
