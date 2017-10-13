@@ -37,9 +37,9 @@ class ReportableService
     end
   end
 
-  def service_implemented
+  def service_implemented?
     implemented = object_value("service_implemented")
-    implemented.present? && implemented == "not_implemented"
+    implemented.present? && implemented == "implemented"
   end
 
   def convert_time(string)

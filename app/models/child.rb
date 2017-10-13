@@ -416,7 +416,7 @@ class Child < CouchRest::Model::Base
     reportable_services = self.nested_reportables_hash[ReportableService]
     if reportable_services.present?
       reportable_services.select do |service|
-        service.service_implemented
+        !service.service_implemented?
       end.map do |service|
         service.service_due_date
       end.compact
