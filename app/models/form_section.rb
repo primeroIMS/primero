@@ -434,7 +434,7 @@ class FormSection < CouchRest::Model::Base
 
     def has_photo_form
       photo_form = get_by_unique_id('photos_and_audio')
-      photo_form.present? && photo_form.fields.select{ |field| field.type == 'photo_upload_box' && !field.disabled }.present?
+      photo_form.present? && photo_form.visible
     end
 
     def new_custom form_section, module_name = "CP"
