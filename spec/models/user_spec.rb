@@ -493,6 +493,7 @@ describe User do
   describe "mailer" do
     before do
       ActiveJob::Base.queue_adapter = :inline
+      @test_url = "http://test.com"
     end
 
     context 'when welcome email is enabled' do
@@ -507,7 +508,7 @@ describe User do
         end
 
         it "sends a welcome email" do
-          expect { @user.send_welcome_email }.to change { ActionMailer::Base.deliveries.count }.by(1)
+          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(1)
         end
       end
 
@@ -517,7 +518,7 @@ describe User do
         end
 
         it "does not send a welcome email" do
-          expect { @user.send_welcome_email }.to change { ActionMailer::Base.deliveries.count }.by(0)
+          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
         end
       end
     end
@@ -534,7 +535,7 @@ describe User do
         end
 
         it "does not send a welcome email" do
-          expect { @user.send_welcome_email }.to change { ActionMailer::Base.deliveries.count }.by(0)
+          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
         end
       end
 
@@ -544,7 +545,7 @@ describe User do
         end
 
         it "does not send a welcome email" do
-          expect { @user.send_welcome_email }.to change { ActionMailer::Base.deliveries.count }.by(0)
+          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
         end
       end
     end
