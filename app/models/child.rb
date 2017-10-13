@@ -430,8 +430,10 @@ class Child < CouchRest::Model::Base
   def send_approval_request_mail(approval_type, host_url)
     managers = self.owner.managers.select{ |manager| manager.email.present? && manager.send_mail }
 
-    managers.each do |manager|
-      ApprovalRequestJob.perform_later(self.owner.id, manager.id, self.id, approval_type, host_url)
+    if managers.present?
+      managers.each do |manager|
+        ApprovalRequestJob.perform_later(self.owner.id, manager.id, self.id, approval_type, host_url)
+      end
     end
   end
 
