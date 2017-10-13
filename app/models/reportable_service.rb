@@ -28,12 +28,21 @@ class ReportableService
   end
 
   def service_due_date
+    @system_settings ||= SystemSettings.current
     created_on = object_value('service_response_day_time')
     timeframe = object_value('service_response_timeframe')
+    appointment_date = object_value('service_appointment_date')
+    appointment_time = object_value('service_appointment_time')
 
-    if created_on.present? && timeframe.present?
-      converted_timeframe = convert_time(timeframe)
-      converted_timeframe.present? ? created_on + converted_timeframe : nil
+    if @system_settings.present? && created_on.present? && appointment_date.present?
+      if @system_settings['due_date_from_appointment_date'].present?
+        appointment_date_time = "#{appointment_date} #{appointment_time}"
+
+        appointment_date_time_converted = DateTime.parse(appointment_date_time)
+      elsif timeframe.present?
+        converted_timeframe = convert_time(timeframe)
+        converted_timeframe.present? ? created_on + converted_timeframe : nil
+      end
     end
   end
 
