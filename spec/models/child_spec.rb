@@ -1857,7 +1857,7 @@ describe Child do
       ]
 
       case_plan_fields = [
-        Field.new({"name" => "date_case_plan_initiated",
+        Field.new({"name" => "date_case_plan",
           "type" => "date_field",
           "display_name_all" => "Date Case Plan Initiated",
           "editable" => true,
@@ -1919,7 +1919,7 @@ describe Child do
 
       context 'and date case plan initiated is set' do
         before do
-          @case1.date_case_plan_initiated = Date.current
+          @case1.date_case_plan = Date.current
           @case1.save!
         end
 
