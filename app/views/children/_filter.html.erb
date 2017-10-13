@@ -32,6 +32,9 @@
       %>
       <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filters, "my_cases") %>
     <% end %>
+    <% if filters_to_show.include? 'Workflow' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.workflow"), 'workflow', Lookup.values('lookup-workflow', @lookups), { multi: true }, false) %>
+    <% end %>
     <% if filters_to_show.include? 'Approvals' %>
       <% [Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].each do |status| %>
         <%
