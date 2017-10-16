@@ -1175,6 +1175,7 @@ describe ChildrenController do
       @child.stub(:module).and_return p_module
       @child.save
       User.stub(:get).with(@owner.id).and_return @owner
+      User.stub(:get).with(@manager1.id).and_return @manager1
       @owner.stub(:managers).and_return [@manager1]
       ActiveJob::Base.queue_adapter = :inline
     end
