@@ -436,6 +436,7 @@ class FormSection < CouchRest::Model::Base
       photo_form = get_by_unique_id('photos_and_audio')
       photo_form.present? && photo_form.visible
     end
+    memoize_in_prod :has_photo_form
 
     def new_custom form_section, module_name = "CP"
       form_section[:core_form] = false   #Indicates this is a user-added form
