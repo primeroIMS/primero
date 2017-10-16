@@ -23,10 +23,7 @@ feature "show page" do
 
       @user2 = setup_user(primero_module: {
         workflow_status_indicator: true,
-        blacklisted_workflows: [
-          'test2',
-          Child::WORKFLOW_SERVICE_IMPLEMENTED
-        ]
+        use_workflow_service_implemented: false
       })
 
       @case = create(:child, owned_by: @user.user_name, module_id: @user.module_ids.first)
