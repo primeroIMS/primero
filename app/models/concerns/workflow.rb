@@ -7,7 +7,7 @@ module Workflow
     WORKFLOW_NEW = 'new'
     WORKFLOW_CLOSED = 'closed'
     WORKFLOW_REOPENED = 'reopened'
-    WORKFLOW_SERVICE_PROVISION = 'service_provision'
+    WORKFLOW_SERVICE_PROVISION = 'service_provision' #Note, this status is deprecated
     WORKFLOW_SERVICE_IMPLEMENTED = 'services_implemented'
     WORKFLOW_CASE_PLAN = 'case_plan'
     WORKFLOW_ASSESSMENT = 'assessment'
@@ -20,30 +20,6 @@ module Workflow
 
     def set_workflow_new
       self.workflow = WORKFLOW_NEW
-    end
-
-    def workflow_sequence_strings(lookups=nil)
-      #TODO: move the logic to a class method and have this method just pull out the open/reopen?
-      sequence = []
-      if self.case_status_reopened.present?
-        sequence << workflow_key_value(WORKFLOW_REOPENED)
-      else
-        sequence << workflow_key_value(WORKFLOW_NEW)
-      end
-      if self.module.use_workflow_assessment?
-        sequence << workflow_key_value(WORKFLOW_ASSESSMENT)
-      end
-      if self.module.use_workflow_case_plan?
-        sequence << workflow_key_value(WORKFLOW_CASE_PLAN)
-      end
-      sequence += Lookup.values_for_select('lookup-service-response-type', lookups)
-      if self.module.use_workflow_service_implemented?
-        #sequence << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED)
-        sequence << [I18n.t("case.workflow.service_implemented"), WORKFLOW_SERVICE_IMPLEMENTED]
-      end
-      closed_text = Lookup.display_value('lookup-case-status', Record::STATUS_CLOSED, lookups)
-      sequence << [closed_text, Record::STATUS_CLOSED]
-      return sequence
     end
 
     def calculate_workflow
@@ -93,6 +69,30 @@ module Workflow
       self.changed.include?('assessment_requested_on') &&
       self.try(:assessment_requested_on).present? &&
       self.module.use_workflow_assessment?
+    end
+
+    def workflow_sequence_strings(lookups=nil)
+      #TODO: move the logic to a class method and have this method just pull out the open/reopen?
+      sequence = []
+      if self.case_status_reopened.present?
+        sequence << workflow_key_value(WORKFLOW_REOPENED)
+      else
+        sequence << workflow_key_value(WORKFLOW_NEW)
+      end
+      if self.module.use_workflow_assessment?
+        sequence << workflow_key_value(WORKFLOW_ASSESSMENT)
+      end
+      if self.module.use_workflow_case_plan?
+        sequence << workflow_key_value(WORKFLOW_CASE_PLAN)
+      end
+      sequence += Lookup.values_for_select('lookup-service-response-type', lookups)
+      if self.module.use_workflow_service_implemented?
+        #sequence << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED)
+        sequence << [I18n.t("case.workflow.service_implemented"), WORKFLOW_SERVICE_IMPLEMENTED]
+      end
+      closed_text = Lookup.display_value('lookup-case-status', Record::STATUS_CLOSED, lookups)
+      sequence << [closed_text, Record::STATUS_CLOSED]
+      return sequence
     end
 
     private
