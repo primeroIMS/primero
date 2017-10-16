@@ -415,7 +415,9 @@ class Child < CouchRest::Model::Base
     # TODO: only use services that is of the type of the current workflow
     reportable_services = self.nested_reportables_hash[ReportableService]
     if reportable_services.present?
-      reportable_services.map do |service|
+      reportable_services.select do |service|
+        !service.service_implemented?
+      end.map do |service|
         service.service_due_date
       end.compact
     end
