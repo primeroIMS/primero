@@ -9,6 +9,7 @@ class ChildrenController < ApplicationController
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
   #TODO: This should go away once filters are configurable in the role
   before_filter :filter_risk_level, :only => [:index]
+  before_filter :toggle_photo_indicators, :only => [:show]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
@@ -365,4 +366,7 @@ class ChildrenController < ApplicationController
     end
   end
 
+  def toggle_photo_indicators
+    @has_photo_form = FormSection.has_photo_form
+  end
 end
