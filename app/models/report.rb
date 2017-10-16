@@ -174,7 +174,7 @@ class Report < CouchRest::Model::Base
       end
 
       pivots.each do |pivot|
-        if /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) && field_map['cp_incident_perpetrator_age']['type'] == 'numeric_field'
+        if /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) && field_map[pivot].present? && field_map[pivot]['type'] == 'numeric_field'
           age_field_index = pivot_index(pivot)
           if group_ages && age_field_index && age_field_index < dimensionality
             self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
