@@ -123,7 +123,6 @@ class Report < CouchRest::Model::Base
   def build_report
     # Prepopulates pivot fields
     pivot_fields
-
     sys = SystemSettings.current
     primary_range = sys.primary_age_range
     age_ranges = sys.age_ranges[primary_range]
@@ -399,7 +398,7 @@ class Report < CouchRest::Model::Base
 
     if data[:values].present?
       data[:values] = data[:values].map do |key,value|
-        [key.map{|k| translate(k)}, value]
+        [key.map{|k, i| i == 0 ? translate(k) : translate(k, true)}, value]
       end.to_h
     end
 
