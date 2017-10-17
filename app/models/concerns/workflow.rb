@@ -44,7 +44,8 @@ module Workflow
     end
 
     def workflow_case_reopened?
-      self.changed.include?('case_status_reopened') &&
+      (self.changed.include?('case_status_reopened') ||
+       self.changed.include?('child_status')) &&
       self.case_status_reopened
     end
 
