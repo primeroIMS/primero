@@ -16,7 +16,7 @@ assessment_fields = [
 FormSection.create_or_update_form_section({
   unique_id: 'assessment',
   parent_form: 'case',
-  visible: => false,
+  visible: false,
   order_form_group: 50,
   order: 10,
   order_subform: 0,
