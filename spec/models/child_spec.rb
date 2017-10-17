@@ -1862,7 +1862,13 @@ describe Child do
           "display_name_all" => "Date Case Plan Initiated",
           "editable" => true,
           "disabled" => false
-        })
+        }),
+        Field.new({"name" => "assessment_requested_on",
+          "type" => "date_field",
+          "display_name_all" => "Assesment Requested On",
+          "editable" => true,
+          "disabled" => false
+        }),
       ]
 
       form1 = FormSection.create_or_update_form_section({
@@ -1898,7 +1904,9 @@ describe Child do
         program_id: "some_program",
         associated_record_types: ['case'],
         name: "Test Module",
-        associated_form_ids: [form1.id, form2.id]
+        associated_form_ids: [form1.id, form2.id],
+        use_workflow_case_plan: true,
+        use_workflow_assessment: true
       )
 
       Child.refresh_form_properties
@@ -1917,10 +1925,21 @@ describe Child do
         @case1.child_status = Record::STATUS_OPEN
       end
 
+      context 'and date assesment initiated is set' do
+        before do
+          @case1.assessment_requested_on = Date.current
+          @case1.save
+        end
+
+        it 'workflow status should be ASSESMENT' do
+          expect(@case1.workflow).to eq(Child::WORKFLOW_ASSESSMENT)
+        end
+      end
+
       context 'and date case plan initiated is set' do
         before do
           @case1.date_case_plan = Date.current
-          @case1.save!
+          @case1.save
         end
 
         it 'workflow status should be CASE PLAN' do
@@ -1930,11 +1949,11 @@ describe Child do
 
       context 'and service response type is set' do
         before do
-          @case1.services_section << {service_response_type: 'care_plan', service_implemented: Child::SERVICE_NOT_IMPLEMENTED}
+          @case1.services_section << {service_response_type: 'action_plan', service_implemented: Child::SERVICE_NOT_IMPLEMENTED}
           @case1.save!
         end
-        it 'workflow status should be SERVICE PROVISION' do
-          expect(@case1.workflow).to eq(Child::WORKFLOW_SERVICE_PROVISION)
+        it 'workflow status should be the response type of the service' do
+          expect(@case1.workflow).to eq('action_plan')
         end
       end
 

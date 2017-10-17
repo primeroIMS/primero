@@ -43,7 +43,7 @@ $(show_tools);
 
 <% content_for :record_status do %>
   <% if @child.module.workflow_status_indicator.present? %>
-    <%= display_workflow_status(@child, @lookups, @child.module.blacklisted_workflows, @child.module.display_case_plan_in_stepper) %>
+    <%= display_workflow_status(@child, @lookups) %>
   <% end %>
 <% end %>
 
@@ -51,7 +51,7 @@ $(show_tools);
 <% content_for :breadcrumbs do %>
   <div class="label"><%= t("case.label") %></div>
   #<%= text_to_identify_child(@child) %>
-  <% if @child.photos.present? && @child.module.associated_form_ids.include?('photo_and_audio') %>
+  <% if @child.photos.present? && @has_photo_form %>
     <div class="photo-link">
       <div class='image'>
         <%= link_to icon('camera'), child_resized_photo_path(@child, @child.primary_photo_id, 640) %>

@@ -9,6 +9,7 @@ describe IndexHelper do
   context "Viewing cases"  do
     context "when CP" do
       before :each do
+        FormSection.stub(:has_photo_form).and_return(true)
         @view.instance_variable_set(:@is_cp, true)
         @view.instance_variable_set(:@is_gbv, false)
       end
