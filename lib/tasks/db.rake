@@ -12,7 +12,7 @@ end
 
 namespace :db do
 
-    namespace :test do
+  namespace :test do
     task :prepare do
       # do nothing - work around
       # cucumber is calling this
@@ -94,7 +94,6 @@ namespace :db do
     task :fastforward, [:migration] => :environment do |t, args|
       all = Migration.all_migrations
       applied = Migration.applied_migrations
-
       ff_index = all.find_index(args[:migration])
       all[0..ff_index].each do |migration|
         if applied.include? migration

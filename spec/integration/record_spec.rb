@@ -18,15 +18,14 @@ feature "show page" do
 
     before do
       @user = setup_user(primero_module: {
-        workflow_status_indicator: true
+        workflow_status_indicator: true,
+        use_workflow_case_plan: true,
+        use_workflow_service_implemented: true
       })
 
       @user2 = setup_user(primero_module: {
         workflow_status_indicator: true,
-        blacklisted_workflows: [
-          'test2',
-          Child::WORKFLOW_SERVICE_IMPLEMENTED
-        ]
+        use_workflow_service_implemented: false
       })
 
       @case = create(:child, owned_by: @user.user_name, module_id: @user.module_ids.first)
@@ -51,14 +50,15 @@ feature "show page" do
       end
     end
 
-    scenario "blacklists workflow steps", search: true do
+    scenario "doesnt render a workflow status if not enabled", search: true do
       create_session(@user2, 'password123')
 
       visit "/cases"
       click_on 'display_1234'
 
       within(".ui.mini.steps") do
-        expect(page).to_not have_content "Test2"
+        expect(page).to_not have_content "Assessment"
+        expect(page).to_not have_content "Case Plan"
         expect(page).to_not have_content "Service Implemented"
       end
     end
