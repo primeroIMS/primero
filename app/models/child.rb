@@ -193,6 +193,7 @@ class Child < CouchRest::Model::Base
     time :service_due_dates, :multiple => true
 
     string :workflow_status, as: 'workflow_status_sci'
+    string :workflow, as: 'workflow_sci'
 
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
@@ -213,7 +214,7 @@ class Child < CouchRest::Model::Base
   def self.minimum_reportable_fields
     {
         'boolean' => ['record_state'],
-         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'risk_level'],
+         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
     'multistring' => ['associated_user_names', 'owned_by_groups'],
            'date' => ['registration_date'],
         'integer' => ['age'],

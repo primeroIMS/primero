@@ -109,3 +109,16 @@ Report.create_or_update({
   is_graph: true,
   editable: false
 })
+
+Report.create_or_update({
+  id: 'c2422c9ff40e432aa7c97653dc67d9b7',
+  name: 'Workflow Status',
+  description: 'Cases broken down by current workflow status',
+  module_ids: [PrimeroModule::CP],
+  record_type: 'case',
+  aggregate_by: ['workflow_status'],
+  group_ages: true,
+  filters: default_case_filters,
+  is_graph: true,
+  editable: false
+})
