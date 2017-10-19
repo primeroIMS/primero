@@ -73,34 +73,33 @@ module Workflow
     end
 
     def workflow_sequence_strings(lookups=nil)
-      #TODO: move the logic to a class method and have this method just pull out the open/reopen?
-      sequence = []
+      status_list = self.class.workflow_statuses([self.module], lookups)
       if self.case_status_reopened.present?
-        sequence << workflow_key_value(WORKFLOW_REOPENED)
+        status_list.reject! {|status| status['id'] == WORKFLOW_NEW}
       else
-        sequence << workflow_key_value(WORKFLOW_NEW)
+        status_list.reject! {|status| status['id'] == WORKFLOW_REOPENED}
       end
-      if self.module.use_workflow_assessment?
-        sequence << workflow_key_value(WORKFLOW_ASSESSMENT)
-      end
-      if self.module.use_workflow_case_plan?
-        sequence << workflow_key_value(WORKFLOW_CASE_PLAN)
-      end
-      sequence += Lookup.values_for_select('lookup-service-response-type', lookups)
-      if self.module.use_workflow_service_implemented?
-        #sequence << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED)
-        sequence << [I18n.t("case.workflow.service_implemented"), WORKFLOW_SERVICE_IMPLEMENTED]
-      end
-      closed_text = Lookup.display_value('lookup-case-status', Record::STATUS_CLOSED, lookups)
-      sequence << [closed_text, Record::STATUS_CLOSED]
-      return sequence
+      status_list.map {|status| [status['display_text'], status['id']]}
+    end
+  end
+
+  module ClassMethods
+    def workflow_statuses(modules=[], lookups=nil)
+      status_list = []
+      status_list << workflow_key_value(WORKFLOW_NEW)
+      status_list << workflow_key_value(WORKFLOW_REOPENED)
+      status_list << workflow_key_value(WORKFLOW_ASSESSMENT) if modules.any? {|m| m.use_workflow_assessment?}
+      status_list << workflow_key_value(WORKFLOW_CASE_PLAN) if modules.any? {|m| m.use_workflow_case_plan?}
+      status_list += Lookup.values('lookup-service-response-type', lookups)
+      status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED) if modules.any? {|m| m.use_workflow_service_implemented?}
+      status_list << workflow_key_value(WORKFLOW_CLOSED)
+      status_list
     end
 
     private
 
     def workflow_key_value(status)
-      [I18n.t("case.workflow.#{status}"), status]
+      {'id' => status, 'display_text' => I18n.t("case.workflow.#{status}")}
     end
-
   end
 end
