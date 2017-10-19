@@ -25,26 +25,6 @@ module CapybaraHelpers
     system_settings = SystemSettings.first || SystemSettings.create!(system_settings_hash)
   end
 
-  # def setup_user(args = {})
-  #   create_system_setting
-
-  #   form_sections = args[:form_sections].present? ? args[:form_sections].map{ |fs| fs.unique_id } : []
-  #   user_factory = args[:user].present? ? args[:user].to_sym : :user
-  #   program = create(:primero_program)
-  #   primero_module = create(:primero_module, program_id: program.id, associated_form_ids: form_sections)
-  #   roles = args[:roles] || create(:role)
-  #   user_group = args[:user_groups] || create(:user_group)
-  #   user = create(user_factory,
-  #     password: 'password123',
-  #     password_confirmation: 'password123',
-  #     role_ids: [roles.id],
-  #     module_ids: [primero_module.id],
-  #     user_group_ids: [user_group.id]
-  #   )
-
-  #   user
-  # end
-
   def build_form(form_section)
     forms = []
 

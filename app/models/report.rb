@@ -123,6 +123,7 @@ class Report < CouchRest::Model::Base
   def build_report
     # Prepopulates pivot fields
     pivot_fields
+
     sys = SystemSettings.current
     primary_range = sys.primary_age_range
     age_ranges = sys.age_ranges[primary_range]
@@ -283,7 +284,6 @@ class Report < CouchRest::Model::Base
       }.first
       label = label_selection["display_text"] if label_selection.present?
     end
-
     label
   end
 
@@ -310,7 +310,6 @@ class Report < CouchRest::Model::Base
 
       #The key to the
       chart_datasets_key = (key.size > 1) ? key[1].to_s : ""
-
       if chart_datasets_hash.key? chart_datasets_key
         chart_datasets_hash[chart_datasets_key] << self.data[:values][data_key]
       else
@@ -329,6 +328,7 @@ class Report < CouchRest::Model::Base
 
     aggregate_field = Field.find_by_name(aggregate_by.first)
     aggregate = aggregate_field ? aggregate_field.display_name : aggregate_by.first.humanize
+
     #We are discarding the totals TODO: will that work for a 1X?
     return {aggregate: aggregate, labels: labels, datasets: datasets}
   end
