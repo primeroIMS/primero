@@ -126,4 +126,197 @@ describe Workflow do
       end
     end
   end
+
+  describe 'calculate_workflow' do
+    before do
+      FormSection.all.each &:destroy
+      Lookup.all.each &:destroy
+      PrimeroModule.all.each &:destroy
+
+      Lookup.create(
+          :id => "lookup-service-response-type",
+          :name => "Service Response Type",
+          :locked => true,
+          :lookup_values => [
+              {id: "care_plan", display_text: "Care plan"}.with_indifferent_access,
+              {id: "action_plan", display_text: "Action plan"}.with_indifferent_access,
+              {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
+          ]
+      )
+
+      services_subform = [
+          Field.new({
+                        "name" => "service_response_type",
+                        "type" => "select_box",
+                        "display_name_all" => "Type of Response",
+                        "option_strings_source" => "lookup lookup-service-response-type"
+                    }),
+          Field.new({
+                        "name" => "service_implemented",
+                        "type" => "select_box",
+                        "selected_value" => "not_implemented",
+                        "display_name_all" => "Service Implemented",
+                        "option_strings_text_all" => [
+                            { id: 'not_implemented', display_text: "Not Implemented" }.with_indifferent_access,
+                            { id: 'implemented', display_text: "Implemented" }.with_indifferent_access
+                        ]
+                    }),
+      ]
+
+      services_section = FormSection.create_or_update_form_section({
+                                                                       "visible"=>false,
+                                                                       "is_nested"=>true,
+                                                                       :order_form_group => 110,
+                                                                       :order => 30,
+                                                                       :order_subform => 1,
+                                                                       :unique_id=>"services_section",
+                                                                       :parent_form=>"case",
+                                                                       "editable"=>true,
+                                                                       :fields => services_subform,
+                                                                       :initial_subforms => 1,
+                                                                       "name_all" => "Nested Services",
+                                                                       "description_all" => "Services Subform",
+                                                                       "collapsed_fields" => ["service_type", "service_appointment_date"]
+                                                                   })
+
+      services_fields = [
+          Field.new({
+                        "name" => "services_section",
+                        "type" => "subform",
+                        "editable" => true,
+                        "subform_section_id" => services_section.unique_id,
+                        "display_name_all" => "Services",
+                        "subform_sort_by" => "service_appointment_date"
+                    })
+      ]
+
+      case_plan_fields = [
+          Field.new({"name" => "date_case_plan",
+                     "type" => "date_field",
+                     "display_name_all" => "Date Case Plan Initiated",
+                     "editable" => true,
+                     "disabled" => false
+                    }),
+          Field.new({"name" => "assessment_requested_on",
+                     "type" => "date_field",
+                     "display_name_all" => "Assesment Requested On",
+                     "editable" => true,
+                     "disabled" => false
+                    }),
+      ]
+
+      form1 = FormSection.create_or_update_form_section({
+                                                            :unique_id => "cp_case_plan",
+                                                            :parent_form=>"case",
+                                                            "visible" => true,
+                                                            :order_form_group => 80,
+                                                            :order => 10,
+                                                            :order_subform => 0,
+                                                            :form_group_name => "Case Plan",
+                                                            "editable" => true,
+                                                            :fields => case_plan_fields,
+                                                            "name_all" => "Case Plan",
+                                                            "description_all" => "Case Plan"
+                                                        })
+
+      form2 = FormSection.create_or_update_form_section({
+                                                            :unique_id => "services",
+                                                            :parent_form=>"case",
+                                                            "visible" => true,
+                                                            :order_form_group => 110,
+                                                            :order => 30,
+                                                            :order_subform => 0,
+                                                            :form_group_name => "Services / Follow Up",
+                                                            :fields => services_fields,
+                                                            "editable" => false,
+                                                            "name_all" => "Services",
+                                                            "description_all" => "Services form",
+                                                        })
+
+
+      a_module = PrimeroModule.create!(
+          program_id: "some_program",
+          associated_record_types: ['case'],
+          name: "Test Module",
+          associated_form_ids: [form1.id, form2.id],
+          use_workflow_case_plan: true,
+          use_workflow_assessment: true
+      )
+
+      Child.refresh_form_properties
+
+      # @case1 = create_child_with_created_by('bob123', name: 'Workflow Tester', module_id: a_module.id)
+      user = User.new({:user_name => 'bob123', :organization=> "UNICEF"})
+      @case1 = Child.new_with_user_name user, {name: 'Workflow Tester', module_id: a_module.id}
+    end
+
+    context 'when case is new' do
+      it 'workflow status should be NEW' do
+        expect(@case1.workflow).to eq(Workflow::WORKFLOW_NEW)
+      end
+    end
+
+    context 'when case is open' do
+      before :each do
+        @case1.child_status = Record::STATUS_OPEN
+      end
+
+      context 'and date assesment initiated is set' do
+        before do
+          @case1.assessment_requested_on = Date.current
+          @case1.save
+        end
+
+        it 'workflow status should be ASSESMENT' do
+          expect(@case1.workflow).to eq(Workflow::WORKFLOW_ASSESSMENT)
+        end
+      end
+
+      context 'and date case plan initiated is set' do
+        before do
+          @case1.date_case_plan = Date.current
+          @case1.save
+        end
+
+        it 'workflow status should be CASE PLAN' do
+          expect(@case1.workflow).to eq(Workflow::WORKFLOW_CASE_PLAN)
+        end
+      end
+
+      context 'and service response type is set' do
+        before do
+          @case1.services_section << {service_response_type: 'action_plan', service_implemented: Serviceable::SERVICE_NOT_IMPLEMENTED}
+          @case1.save!
+        end
+        it 'workflow status should be the response type of the service' do
+          expect(@case1.workflow).to eq('action_plan')
+        end
+      end
+
+      context 'and service response type is not set' do
+        context 'and case has been reopened' do
+          before do
+            @case1.case_status_reopened = true
+            @case1.save
+          end
+          it 'workflow status should be REOPENED' do
+            expect(@case1.workflow).to eq(Workflow::WORKFLOW_REOPENED)
+          end
+        end
+      end
+
+    end
+
+    context 'when case is closed' do
+      before do
+        @case1.child_status = Record::STATUS_CLOSED
+        @case1.save!
+      end
+
+      it 'workflow status should be CLOSED' do
+        expect(@case1.workflow).to eq(Workflow::WORKFLOW_CLOSED)
+      end
+    end
+
+  end
 end
