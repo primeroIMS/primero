@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-class TestWorkflowClass < CouchRest::Model::Base
-  include Workflow
-end
-
 describe Workflow do
   before do
     lookup = Lookup.new(:id => "lookup-service-response-type",
@@ -42,7 +38,7 @@ describe Workflow do
       end
 
       it 'returns a workflow status hash list' do
-        status_list = TestWorkflowClass.workflow_statuses(@modules, @lookups)
+        status_list = Child.workflow_statuses(@modules, @lookups)
         expect(status_list).to include(include('id' => Workflow::WORKFLOW_NEW))
         expect(status_list).to include(include('id' => Workflow::WORKFLOW_REOPENED))
         expect(status_list).to include(include('id' => 'care_plan'))
@@ -58,7 +54,7 @@ describe Workflow do
         end
 
         it 'does not include Workflow Assessment in the status list' do
-          expect(TestWorkflowClass.workflow_statuses(@modules, @lookups)).not_to include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+          expect(Child.workflow_statuses(@modules, @lookups)).not_to include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
         end
       end
 
@@ -69,7 +65,7 @@ describe Workflow do
         end
 
         it 'does include Workflow Assessment in the status list' do
-          expect(TestWorkflowClass.workflow_statuses(@modules, @lookups)).to include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+          expect(Child.workflow_statuses(@modules, @lookups)).to include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
         end
       end
 
@@ -80,7 +76,7 @@ describe Workflow do
         end
 
         it 'does include Workflow Assessment in the status list' do
-          expect(TestWorkflowClass.workflow_statuses(@modules, @lookups)).to include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+          expect(Child.workflow_statuses(@modules, @lookups)).to include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
         end
       end
     end
@@ -88,7 +84,7 @@ describe Workflow do
 
   describe 'workflow_sequence_strings' do
     before do
-      @test_obj = TestWorkflowClass.new
+      @test_obj = Child.new
       @test_obj.stub(:module).and_return(@module_a)
       @test_obj.stub(:case_status_reopened).and_return(false)
     end

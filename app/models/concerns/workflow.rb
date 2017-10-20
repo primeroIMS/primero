@@ -4,7 +4,7 @@ module Workflow
   extend ActiveSupport::Concern
 
   included do
-    WORKFLOW_NEW ||= 'new'
+    WORKFLOW_NEW = 'new'
     WORKFLOW_CLOSED = 'closed'
     WORKFLOW_REOPENED = 'reopened'
     WORKFLOW_SERVICE_PROVISION = 'service_provision' #Note, this status is deprecated
