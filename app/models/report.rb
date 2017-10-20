@@ -502,7 +502,7 @@ class Report < CouchRest::Model::Base
         query = nil
         if attribute.present? && value.present?
           if constraint.present?
-            value = Date.parse(value).xmlschema unless value.is_number?
+            value = Date.parse(value).strftime("%FT%H:%M:%SZ") unless value.is_number?
             query = if constraint == '>'
               "#{attribute}:[#{value} TO *]"
             elsif constraint == '<'
