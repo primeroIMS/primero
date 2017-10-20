@@ -102,6 +102,10 @@ Building form sections is done throught factory girl. Notice below you can creat
     ])
   ]
 )
+```
+
+After building a form section be sure to refresh the form properties:
+```Child.refresh_form_properties```
 
 #### Create a user session for spec
 

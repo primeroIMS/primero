@@ -25,21 +25,48 @@ module CapybaraHelpers
     system_settings = SystemSettings.first || SystemSettings.create!(system_settings_hash)
   end
 
+  def build_form(form_section)
+    forms = []
+
+    if form_section.present?
+      forms = form_section
+    else
+      forms << create(:form_section,
+        is_first_tab: true,
+        fields: [
+          build(:field)
+        ]
+      )
+    end
+
+    forms.map{ |fs| fs.unique_id }
+  end
+
   def setup_user(args = {})
     create_system_setting
 
-    form_sections = args[:form_sections].present? ? args[:form_sections].map{ |fs| fs.unique_id } : []
+    form_sections = build_form(args[:form_sections])
+
     user_factory = args[:user].present? ? args[:user].to_sym : :user
     program = create(:primero_program)
-    primero_module = create(:primero_module, program_id: program.id, associated_form_ids: form_sections)
+
+    module_options = { program_id: program.id, associated_form_ids: form_sections }
+
+    if args[:primero_module].present?
+      module_options.merge!(args[:primero_module])
+    end
+
+    primero_module = create(:primero_module, module_options)
     roles = args[:roles] || create(:role)
     user_group = args[:user_groups] || create(:user_group)
+    user_org = args[:organization] || 'agency-unicef'
     user = create(user_factory,
       password: 'password123',
       password_confirmation: 'password123',
       role_ids: [roles.id],
       module_ids: [primero_module.id],
-      user_group_ids: [user_group.id]
+      user_group_ids: [user_group.id],
+      organization: user_org
     )
 
     user
