@@ -305,7 +305,7 @@ module IndexHelper
     allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
     #Retrieve the forms where the fields appears and if is in the allowed for the user.
     #TODO should look on subforms? for now lookup on top forms.
-    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns"]
+    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns", "type_of_risk"]
     forms = FormSection.fields(:keys => field_names)
                   .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
@@ -333,6 +333,7 @@ module IndexHelper
     filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
     filters << "Protection Status" if visible_filter_field?("protection_status", forms)
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
+    filters << "Type of Risk" if @is_cp && visible_filter_field?("type_of_risk", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Reporting Location" if @can_view_reporting_filter

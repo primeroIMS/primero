@@ -200,6 +200,7 @@ en:
       protection_status: "Protection Status:"
       urgent_protection_concern: "Urgent Protection Concern:"
       protection_concerns: "Protection Concerns:"
+      type_of_risk: "Type of Risk:"
       risk_level: "Risk Level:"
       current_location: "Current Location:"
       district: "District:"

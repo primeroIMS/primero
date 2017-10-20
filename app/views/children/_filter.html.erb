@@ -72,6 +72,10 @@
       <%= build_filter_checkboxes(t("cases.filter_by.protection_concerns"), 'protection_concerns',
                                   Lookup.values('lookup-protection-concerns', @lookups), { multi: true }, false) %>
     <% end %>
+    <% if filters_to_show.include? 'Type of Risk' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.type_of_risk"), 'type_of_risk',
+                                  Lookup.values('lookup-risk-type', @lookups), { multi: true }, false) %>
+    <% end %>
     <% if filters_to_show.include?('Risk Level') && @display_assessment %>
       <%= build_filter_checkboxes(t("cases.filter_by.risk_level"), 'risk_level', Lookup.values('lookup-risk-level', @lookups)) %>
     <% end %>
