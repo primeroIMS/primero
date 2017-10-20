@@ -64,6 +64,9 @@ module RecordFilteringPagination
         case filter_type
         when "range"
           filter_values = filter_values.map{|filter| filter.split "-"}
+        when "date_selectable"
+          key, *dates = filter_values.first.split(".")
+          filter_values = sanitize_date_range_filter(dates)
         when "date_range"
           filter_values = sanitize_date_range_filter(filter_values.first.split("."))
         else

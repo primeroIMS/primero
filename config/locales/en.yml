@@ -208,6 +208,8 @@ en:
       record_state: "Record State:"
       photo: "Photo:"
       photo_label: "Has Photo?"
+      by_date: 'By Date:'
+      date: 'Date'
       approvals:
         pending: "Pending Approvals"
         approved: "Approved"
@@ -233,6 +235,12 @@ en:
     label: "Children"
     register_new_child: "Register New Child"
     export: "Export"
+    selectable_date_options:
+      registration_date: 'Date of Registration'
+      assessment_requested_on: 'Date of Assessment'
+      date_case_plan_initiated: 'Date of Case Plan'
+      closure_approved_date: 'Date of Case Closure '
+      created_at: 'Case Open Date'
     filter_by:
       label: "Filter by"
       all: "All"

@@ -236,7 +236,7 @@ module IndexHelper
     header_list << {title: 'age', sort_title: 'age'} if @is_cp || @id_search.present?
     header_list << {title: 'sex', sort_title: 'sex'} if @is_cp || @id_search.present?
     header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp && !@id_search.present?
-    header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv && !@id_search.present?
+    # header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv && !@id_search.present?
     header_list << {title: 'photo', sort_title: 'photo'} if @is_cp && !@id_search.present? && FormSection.has_photo_form
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager && !@id_search.present?
     header_list << {title: 'owned_by', sort_title: 'owned_by'} if @is_cp && @id_search.present?
@@ -336,7 +336,7 @@ module IndexHelper
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Reporting Location" if @can_view_reporting_filter
-    filters << "Registration Date" if @is_cp
+    filters << "Dates" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "No Activity"
     filters << "Record State"
@@ -390,6 +390,16 @@ module IndexHelper
     filters << "Score Range"
 
     return filters
+  end
+
+  def selectable_filter_date_options
+    options = []
+    options << [t('children.selectable_date_options.registration_date'), 'registration_date']
+    options << [t('children.selectable_date_options.assessment_requested_on'), 'assessment_requested_on']
+    options << [t('children.selectable_date_options.date_case_plan_initiated'), 'date_case_plan_initiated']
+    options << [t('children.selectable_date_options.closure_approved_date'), 'closure_approved_date']
+    options << [t('children.selectable_date_options.created_at'), 'created_at'] if @is_gbv
+    return options
   end
 
   def visible_filter_field?(field_name, forms)

@@ -13,7 +13,8 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     'change select[filter_type="list"]': 'change_scope',
     'click #apply_filter': 'apply_filters',
     'click .clear_filters': 'clear_filters',
-    'click .user_filter': 'get_filter'
+    'click .user_filter': 'get_filter',
+    'change .selectable_date': 'changed_selectable_date'
   },
 
   initialize: function() {
@@ -40,6 +41,12 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
 
     url_string = _primero.object_to_params(filter);
     Turbolinks.visit(window.location.pathname + '?' + url_string);
+  },
+
+  changed_selectable_date: function(e) {
+    e.preventDefault();
+
+    $(e.target).parents('.date_range').find('input.to, input.from').val('');
   },
 
   set_current_scope: function() {
@@ -75,7 +82,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       }
 
       if (type === 'date_range') {
-        fields = $this.parents('.filter-controls').find('input');
+        fields = $this.parents('.filter-controls').find('input.to, input.from');
         current_scope = _.without(current_scope, type);
         if (current_scope.length > 0) {
           date_values = current_scope[0].split('.');
@@ -87,6 +94,26 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
           self.set_date_range(date_values, name, type);
         }
       }
+
+      if (type === 'date_selectable') {
+        var parent = $this.parents('div.date_range');
+        var date_select = parent.find('select.selectable_date');
+
+        fields = parent.find('input.to, input.from');
+
+        current_scope = _.without(current_scope, type);
+        if (current_scope.length > 0) {
+          date_values = current_scope[0].split('.');
+          if (fields.length == 2) {
+            // Preserve selected dates in datepickers 'from' and 'to'
+            date_select.val(date_values[0])
+            $(fields[0]).val(date_values[1]);
+            $(fields[1]).val(date_values[2]);
+          }
+          self.set_date_range(_.rest(date_values), name, type, date_values[0], true);
+        }
+      }
+
       else if (type === 'location' ) {
         if (current_scope !== false) {
           self.set_remove_filter(name, current_scope);
@@ -95,7 +122,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     });
   },
 
-  set_date_range: function(date_values, filter, filter_type) {
+  set_date_range: function(date_values, filter, filter_type, field, selectable) {
     var date_from = date_values[0],
       date_to = date_values[1],
       date_separator = date_from && date_to ? '.': '';
@@ -103,7 +130,11 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     if (!date_to && !date_from) {
       date_range = '';
     } else {
-      date_range = [filter_type, date_from + date_separator + date_to];
+      if (selectable) {
+        date_range = [filter_type, _.compact([field, date_from, date_to]).join('.')];
+      } else {
+        date_range = [filter_type, date_from + date_separator + date_to];
+      }
     }
 
     this.set_remove_filter(filter, date_range);
@@ -142,10 +173,17 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
         this.set_remove_filter(filter, _.without(_primero.filters[filter], selected_val));
       }
     } else if ($target.is("input") && $target.hasClass('form_date_field')) {
-      // Date Ranges
-      var $date_inputs = $target.parents('.filter-controls').find('input');
+      // Date Ranges / Date Selectable
+      var $date_inputs = $target.parents('.filter-controls').find('input.from, input.to');
       date_values = [ $($date_inputs[0]).val(), $($date_inputs[1]).val()];
-      this.set_date_range(date_values, filter, filter_type);
+
+      if ($target.attr('filter_type') == 'date_selectable') {
+        window.targ = $target;
+        var field = $target.parents('.date_range').find('select.selectable_date').val();
+        this.set_date_range(date_values, filter, filter_type, field, true);
+      } else {
+        this.set_date_range(date_values, filter, filter_type);
+      }
     } else if ($target.is("select") && filter_type === 'list') {
       var filter_values = (selected_val) ? _.flatten([filter_type, selected_val]) : "";
       this.set_remove_filter(filter, filter_values);
