@@ -100,6 +100,13 @@ basic_identity_fields = [
              "display_name_all" => "Date of Registration or Interview",
              "date_validation" => "not_future_date"
             }),
+  Field.new({"name" => "assessment_due_date",
+             "type" => "date_field",
+             "required" => false,
+             "editable" => false,
+             "display_name_all" => "Date Assessment Due",
+             "visible" => false
+            }),
   Field.new({"name" => "sex",
              "type" => "select_box",
              "show_on_minify_form" => true,
