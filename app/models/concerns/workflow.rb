@@ -98,6 +98,7 @@ module Workflow
 
     private
 
+    #TODO - concept of 'display_text' would fit better in a helper
     def workflow_key_value(status)
       {'id' => status, 'display_text' => I18n.t("case.workflow.#{status}")}
     end
