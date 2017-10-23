@@ -34,6 +34,8 @@ module IndexHelper
         list_view_header_potential_match
       when "bulk_export"
         list_view_header_bulk_export
+      when "task"
+        list_view_header_task
       else
         []
     end
@@ -296,6 +298,16 @@ module IndexHelper
       {title: 'file_name', sort_title: 'file_name'},
       {title: 'record_type', sort_title: 'record_type'},
       {title: 'started_on', sort_title: 'started_on'}
+    ]
+  end
+
+  def list_view_header_task
+    [
+      #{title: '', sort_title: 'select'},
+      {title: 'id', sort_title: 'case_id'},
+      {title: 'priority', sort_title: 'priority'},
+      {title: 'type', sort_title: 'type'},
+      {title: 'due_date', sort_title: 'due_date'}
     ]
   end
 

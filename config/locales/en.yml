@@ -123,6 +123,7 @@ en:
      search: "Search"
      locations: "LOCATIONS"
      bulk_exports: "BULK EXPORTS"
+     tasks: "TASKS"
 
   buttons:
      delete: "Delete"
