@@ -295,6 +295,11 @@ class HomeController < ApplicationController
       facet(:assigned_user_names, zeros: true) if query[:referred].present?
       with(:owned_by, current_user.user_name) if query[:cases_to_assign].present?
 
+      with(:task_services_due).less_than(Time.now) if query[:services_overdue].present?
+      with(:task_assessment_due).less_than(Time.now) if query[:services_overdue].present?
+      with(:task_case_plan_due).less_than(Time.now) if query[:services_overdue].present?
+      with(:task_followup_due).less_than(Time.now) if query[:services_overdue].present?
+
       if module_ids.present?
         any_of do
           module_ids.each do |m|
@@ -419,7 +424,10 @@ class HomeController < ApplicationController
       cases_to_assign: manager_case_query({ cases_to_assign: true, assigned: true }),
       cases_to_assign_overdue: manager_case_query({ cases_to_assign: true, assigned: true, overdue: true }),
       transfer_status: manager_case_query({ transfer_status: true }),
-      transfer_awaiting: manager_case_query({ transfer_awaiting: true })
+      transfer_awaiting: manager_case_query({ transfer_awaiting: true }),
+      task_overdue: {
+        services: manager_case_query({ by_owner: true, services_overdue: true})
+      }
     }
 
     build_manager_stats(queries)
