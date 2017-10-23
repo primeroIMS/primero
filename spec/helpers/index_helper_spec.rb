@@ -40,7 +40,7 @@ describe IndexHelper do
             @current_user.should_receive(:modules).and_return([])
             @view.should_receive(:visible_filter_field?).and_return(true, true)
             @view.index_filters_to_show('case').should == [
-                                                           "Flagged", "Mobile", "My Cases", "Status",
+                                                           "Flagged", "Mobile", "My Cases", "Workflow", "Status",
                                                            "Age Range", "Sex", "Protection Status",
                                                            "Urgent Protection Concern", "Risk Level", "Current Location",
                                                            "Registration Date", "No Activity", "Record State", "Photo"
@@ -69,7 +69,7 @@ describe IndexHelper do
             @current_user.should_receive(:modules).and_return([])
             @view.should_receive(:visible_filter_field?).and_return(true, true)
             @view.index_filters_to_show('case').should == [
-                                                           "Flagged", "Mobile", "Social Worker", "My Cases",
+                                                           "Flagged", "Mobile", "Social Worker", "My Cases", "Workflow",
                                                            "Agency", "Status", "Age Range",
                                                            "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
                                                            "Current Location", "Registration Date", "No Activity", "Record State", "Photo"
@@ -89,7 +89,7 @@ describe IndexHelper do
             @current_user.should_receive(:modules).and_return([])
             @view.should_receive(:visible_filter_field?).and_return(true, true)
             @view.index_filters_to_show('case').should == [
-                "Flagged", "Mobile", "Social Worker", "My Cases", "Agency", "Status", "Age Range",
+                "Flagged", "Mobile", "Social Worker", "My Cases", "Workflow", "Agency", "Status", "Age Range",
                 "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
                 "Current Location", "Reporting Location", "Registration Date", "No Activity", "Record State", "Photo"
             ]
@@ -122,7 +122,7 @@ describe IndexHelper do
             @current_user.should_receive(:modules).and_return([])
             @view.should_receive(:visible_filter_field?).and_return(true, true)
             @view.index_filters_to_show('case').should == [
-                "Flagged", "Mobile", "My Cases", "Status",
+                "Flagged", "Mobile", "My Cases", "Workflow", "Status",
                 "Age Range", "Sex", "Protection Status",
                 "Urgent Protection Concern", "Risk Level", "Current Location",
                 "Registration Date", "No Activity", "Record State"
@@ -150,7 +150,7 @@ describe IndexHelper do
             @current_user.should_receive(:modules).and_return([])
             @view.should_receive(:visible_filter_field?).and_return(true, true)
             @view.index_filters_to_show('case').should == [
-                "Flagged", "Mobile", "Social Worker", "My Cases",
+                "Flagged", "Mobile", "Social Worker", "My Cases", "Workflow",
                 "Agency", "Status", "Age Range",
                 "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
                 "Current Location", "Registration Date", "No Activity", "Record State"
@@ -170,7 +170,7 @@ describe IndexHelper do
             @current_user.should_receive(:modules).and_return([])
             @view.should_receive(:visible_filter_field?).and_return(true, true)
             @view.index_filters_to_show('case').should == [
-                "Flagged", "Mobile", "Social Worker", "My Cases", "Agency", "Status", "Age Range",
+                "Flagged", "Mobile", "Social Worker", "My Cases", "Workflow", "Agency", "Status", "Age Range",
                 "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
                 "Current Location", "Reporting Location", "Registration Date", "No Activity", "Record State"
             ]
@@ -203,7 +203,7 @@ describe IndexHelper do
           @current_user.should_receive(:modules).and_return([])
           @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Mobile", "My Cases",  "Status", "Age Range",
+                                                         "Flagged", "Mobile", "My Cases", "Workflow", "Status", "Age Range",
                                                          "Sex", "GBV Displacement Status", "Protection Status",
                                                          "Case Open Date", "No Activity", "Record State"
                                                         ]
@@ -228,7 +228,7 @@ describe IndexHelper do
           @current_user.should_receive(:modules).and_return([])
           @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Mobile", "Social Worker", "My Cases", "Agency",
+                                                         "Flagged", "Mobile", "Social Worker", "My Cases", "Workflow", "Agency",
                                                          "Status", "Age Range", "Sex", "GBV Displacement Status",
                                                          "Protection Status", "Case Open Date", "No Activity","Record State"
                                                         ]
