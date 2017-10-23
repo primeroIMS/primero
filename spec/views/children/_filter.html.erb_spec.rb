@@ -42,6 +42,7 @@ describe "children/_filter.html.erb" do
       :associated_form_ids => [@form_cp.unique_id]
     )
     @primero_module_cp.save!
+    @current_modules = [@primero_module_cp]
 
     fields = [
       Field.new({"name" => "gbv_displacement_status",

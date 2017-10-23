@@ -187,6 +187,7 @@ en:
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
       my_cases: "My Cases"
+      workflow: "Cases by Workflow"
       no_activity: "No Activity"
       3month_inactivity: "For 3+ months"
       referred_cases: "Cases referred to me"
@@ -364,6 +365,7 @@ en:
       closed: "Closed"
       reopened: "Reopened"
       service_implemented: Service Implemented
+      services_implemented: Service Implemented
       case_plan: "Case Plan"
       assessment: "Assessment"
     flagged_by: "Flagged By"
