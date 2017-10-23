@@ -11,6 +11,14 @@ assessment_fields = [
     type: 'date_field',
     editable: false
   })
+  Field.new({
+    type: 'date_field',
+    display_name_all: 'Date Case Plan Due',
+    name: 'case_plan_due_date',
+    required: false,
+    editable: false,
+    visible: false
+  }),
 ]
 
 FormSection.create_or_update_form_section({
