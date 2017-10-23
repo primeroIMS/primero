@@ -17,6 +17,14 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     'change .selectable_date': 'changed_selectable_date'
   },
 
+  date_select_options: [
+    'registration_date',
+    'assessment_requested_on',
+    'date_case_plan_initiated',
+    'closure_approved_date',
+    'created_at'
+  ],
+
   initialize: function() {
     _primero.filters = {};
     this.set_current_scope();
@@ -46,7 +54,10 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
   changed_selectable_date: function(e) {
     e.preventDefault();
 
-    $(e.target).parents('.date_range').find('input.to, input.from').val('');
+    $(e.target).parents('.date_range')
+      .find('input.to, input.from').attr('name', e.target.value).val('');
+
+    this.clear_date_filters('', true)
   },
 
   set_current_scope: function() {
@@ -82,35 +93,35 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       }
 
       if (type === 'date_range') {
-        fields = $this.parents('.filter-controls').find('input.to, input.from');
-        current_scope = _.without(current_scope, type);
-        if (current_scope.length > 0) {
-          date_values = current_scope[0].split('.');
-          if (fields.length == 2) {
-            // Preserve selected dates in datepickers 'from' and 'to'
-            $(fields[0]).val(date_values[0]);
-            $(fields[1]).val(date_values[1]);
+        var option_selected = null;
+        var selectable_control = $this.closest('.filter-controls').find('.selectable_date');
+
+        if (selectable_control.length) {
+          _.each(self.date_select_options, function(field) {
+            var params = _primero.get_param("scope[" + field + "]");
+
+            if (params.length) {
+              option_selected = field;
+              current_scope = _.without(params.split('||'), type);
+            }
+          })
+
+          if (current_scope !== false) {
+            selectable_control.val(option_selected)
+
+            fields = $this.parents('.filter-controls').find('input.to, input.from');
+            fields.attr('name', option_selected);
+
+            if (current_scope.length > 0) {
+              date_values = current_scope[0].split('.');
+              if (fields.length == 2) {
+                // Preserve selected dates in datepickers 'from' and 'to'
+                $(fields[0]).val(date_values[0]);
+                $(fields[1]).val(date_values[1]);
+              }
+              self.set_date_range(date_values, name, type);
+            }
           }
-          self.set_date_range(date_values, name, type);
-        }
-      }
-
-      if (type === 'date_selectable') {
-        var parent = $this.parents('div.date_range');
-        var date_select = parent.find('select.selectable_date');
-
-        fields = parent.find('input.to, input.from');
-
-        current_scope = _.without(current_scope, type);
-        if (current_scope.length > 0) {
-          date_values = current_scope[0].split('.');
-          if (fields.length == 2) {
-            // Preserve selected dates in datepickers 'from' and 'to'
-            date_select.val(date_values[0])
-            $(fields[0]).val(date_values[1]);
-            $(fields[1]).val(date_values[2]);
-          }
-          self.set_date_range(_.rest(date_values), name, type, date_values[0], true);
         }
       }
 
@@ -122,29 +133,37 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     });
   },
 
-  set_date_range: function(date_values, filter, filter_type, field, selectable) {
+  set_date_range: function(date_values, filter, filter_type) {
     var date_from = date_values[0],
       date_to = date_values[1],
       date_separator = date_from && date_to ? '.': '';
 
-    if (!date_to && !date_from) {
-      date_range = '';
-    } else {
-      if (selectable) {
-        date_range = [filter_type, _.compact([field, date_from, date_to]).join('.')];
+    if (filter) {
+      if (!date_to && !date_from) {
+        date_range = '';
       } else {
         date_range = [filter_type, date_from + date_separator + date_to];
       }
-    }
 
-    this.set_remove_filter(filter, date_range);
+      this.set_remove_filter(filter, date_range);
+    }
   },
 
   set_remove_filter: function(filter, value) {
+    this.clear_date_filters(filter);
+
     _primero.filters[filter] = _.isArray(value) ? _.uniq(value) : value;
 
     if (_primero.filters[filter].length === 1 || _primero.filters[filter] === '') {
       delete _primero.filters[filter];
+    }
+  },
+
+  clear_date_filters: function(filter, purge_dates) {
+    if (_.contains(this.date_select_options, filter) || purge_dates) {
+      _.each(this.date_select_options, function(filter) {
+        delete _primero.filters[filter]
+      })
     }
   },
 
@@ -173,17 +192,11 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
         this.set_remove_filter(filter, _.without(_primero.filters[filter], selected_val));
       }
     } else if ($target.is("input") && $target.hasClass('form_date_field')) {
-      // Date Ranges / Date Selectable
-      var $date_inputs = $target.parents('.filter-controls').find('input.from, input.to');
+      // Date Ranges
+      var $date_inputs = $target.parents('.filter-controls').find('input.to, input.from');
+      $date_inputs.attr('name', $target.parents('.filter-controls').find('.selectable_date').val())
       date_values = [ $($date_inputs[0]).val(), $($date_inputs[1]).val()];
-
-      if ($target.attr('filter_type') == 'date_selectable') {
-        window.targ = $target;
-        var field = $target.parents('.date_range').find('select.selectable_date').val();
-        this.set_date_range(date_values, filter, filter_type, field, true);
-      } else {
-        this.set_date_range(date_values, filter, filter_type);
-      }
+      this.set_date_range(date_values, filter, filter_type);
     } else if ($target.is("select") && filter_type === 'list') {
       var filter_values = (selected_val) ? _.flatten([filter_type, selected_val]) : "";
       this.set_remove_filter(filter, filter_values);

@@ -139,7 +139,7 @@ module Searchable
                     with(filter, range_start...range_stop)
                   end
                 end
-              when 'date_range', 'date_selectable'
+              when 'date_range'
                 if values.count > 1
                   to, from = values.first, values.last
                   with(filter).between(to..from)
