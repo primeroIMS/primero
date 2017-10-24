@@ -9,26 +9,7 @@ services_subform = [
     "name" => "service_type",
     "type" => "select_box",
     "display_name_all" => "Type of Service",
-    "option_strings_text_all" => [
-      "Safehouse",
-      "Health/Medical",
-      "Psychosocial/Counseling",
-      "Legal Assistance",
-      "Police or Other Type of Security",
-      "Livelihoods",
-      "Child Protection",
-      "Family Mediation",
-      "Family Reunification",
-      "Social Support",
-      "Education",
-      "BID or BIA / Care-Plan",
-      "NFI/Clothes/Shoes",
-      "Water/Sanitation",
-      "Care Arrangement",
-      "Refugee Registration",
-      "Food",
-      "Other"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-service-type"
   }),
   Field.new({
       "name" => "service_response_day_time",
