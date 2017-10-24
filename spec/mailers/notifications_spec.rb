@@ -15,12 +15,12 @@ describe NotificationMailer, :type => :mailer do
     let(:mail) { NotificationMailer.manager_approval_request(@owner.id, @manager2.id, @child.id, 'value1', 'example.com') }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Jordy Nelson - Approval Request")
+      expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Request")
       expect(mail.to).to eq(["manager2@primero.dev"])
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("The user jnelson is requesting approval for value1 on case .*12345")
+      expect(mail.body.encoded).to match("The user jnelson is requesting approval for value1 on case .*#{@child.short_id}")
     end
   end
 
@@ -28,12 +28,12 @@ describe NotificationMailer, :type => :mailer do
     let(:mail) { NotificationMailer.manager_approval_response(@manager1.id, @child.id, 'value1', true, 'example.com') }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Case: 12345 - Approval Response")
+      expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Response")
       expect(mail.to).to eq(["owner@primero.dev"])
     end
 
     it "renders the body" do
-      expect(mail.body.encoded).to match("manager1 has rejected the request for approval for value1 for case .*12345")
+      expect(mail.body.encoded).to match("manager1 has rejected the request for approval for value1 for case .*#{@child.short_id}")
     end
   end
 

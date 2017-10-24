@@ -128,21 +128,22 @@
 
     <%= resource_edit_field @user, 'phone', 'phone', 'text_field' %>
     <%= resource_edit_field @user, 'email', 'email', 'text_field' %>
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <label class="key" for="user_organization" ><%= t("user.agency") %></label>
-        </span>
+    <% if !trying_to_edit_ourself %>
+      <div class="row">
+        <div class="medium-3 columns">
+          <span class="tool-tip-label">
+            <label class="key" for="user_organization" ><%= t("user.agency") %></label>
+          </span>
+        </div>
+        <div class="medium-8 columns">
+          <%= f.select :organization, @agency_names.map {|option| [option['display_text'], option['id']]},
+                       { include_blank: t('agencies.select_prompt') }, {class: 'chosen-select'} %>
+        </div>
+        <div class="medium-1 columns">
+          <span class="required">*</span>
+        </div>
       </div>
-      <div class="medium-8 columns">
-        <%= f.select :organization, @agency_names.map {|option| [option['display_text'], option['id']]},
-                     { include_blank: t('agencies.select_prompt') }, {class: 'chosen-select'} %>
-      </div>
-      <div class="medium-1 columns">
-        <span class="required">*</span>
-      </div>
-    </div>
-
+    <% end %>
     <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
 
     <div class="row">

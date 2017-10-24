@@ -123,6 +123,7 @@ en:
      search: "Search"
      locations: "LOCATIONS"
      bulk_exports: "BULK EXPORTS"
+     tasks: "TASKS"
 
   buttons:
      delete: "Delete"
@@ -187,6 +188,7 @@ en:
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
       my_cases: "My Cases"
+      workflow: "Cases by Workflow"
       no_activity: "No Activity"
       3month_inactivity: "For 3+ months"
       referred_cases: "Cases referred to me"
@@ -200,6 +202,7 @@ en:
       protection_status: "Protection Status:"
       urgent_protection_concern: "Urgent Protection Concern:"
       protection_concerns: "Protection Concerns:"
+      type_of_risk: "Type of Risk:"
       risk_level: "Risk Level:"
       current_location: "Current Location:"
       district: "District:"
@@ -356,6 +359,18 @@ en:
       saved_searches_tab: "Saved Searches"
       filters_tab: "Filters"
 
+  task:
+    id: "ID"
+    priority: "Priority Level"
+    type: "Type of Action"
+    due_date: "Due Date"
+    types:
+      assessment: "Assesment"
+      case_plan: "Case Plan"
+      follow_up: "Follow Up - %{subtype}"
+      service: "Service - %{subtype}"
+
+
   case:
     create_new_case: "Create New Case"
     enter_id_number: "Enter the ID number to search for an existing record"
@@ -371,6 +386,7 @@ en:
       closed: "Closed"
       reopened: "Reopened"
       service_implemented: Service Implemented
+      services_implemented: Service Implemented
       case_plan: "Case Plan"
       assessment: "Assessment"
     flagged_by: "Flagged By"
@@ -958,6 +974,7 @@ en:
       dash_cases_by_social_worker: "View Cases By Social Worker"
       dash_manager_transfers: "View Manager Transfers"
       dash_cases_by_workflow: "View Cases By Workflow"
+      dash_cases_by_task_overdue: "View Cases By Task Overdue"
       dash_cases_to_assign: "View Cases To Assign"
       dash_show_none_values: "View None Values"
       search_owned_by_others: "Search for case records owned by other users"
@@ -1410,6 +1427,11 @@ en:
     services_implemented: 'Services Implemented'
     approved: 'Approved'
     cases_by_workflow: 'Cases By Workflow'
+    cases_by_task_overdue: 'Overdue Task'
+    assessment: 'Assessment'
+    case_plan: 'Case Plan'
+    follow_up: 'Follow Up'
+    services: 'Services'
     admin_only: "Click on %{links} to make changes to the application."
     forms: "FORMS tab"
     users: "SETTINGS icon"
@@ -2064,7 +2086,7 @@ en:
 
   email_notification:
     enabled_label: "Send Email Notifications?"
-    approval_request_subject: "%{name} - Approval Request"
+    approval_request_subject: "Case: %{id} - Approval Request"
     approval_response_subject: "Case: %{id} - Approval Response"
     approval_request: "The user %{user} is requesting approval for %{approval_type} on case %{case_id}."
     approval_response: "%{user} has %{status} the request for approval for %{approval_type} for case %{case_id}."

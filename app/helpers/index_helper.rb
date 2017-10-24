@@ -34,6 +34,8 @@ module IndexHelper
         list_view_header_potential_match
       when "bulk_export"
         list_view_header_bulk_export
+      when "task"
+        list_view_header_task
       else
         []
     end
@@ -299,13 +301,23 @@ module IndexHelper
     ]
   end
 
+  def list_view_header_task
+    [
+      #{title: '', sort_title: 'select'},
+      {title: 'id', sort_title: 'case_id'},
+      {title: 'priority', sort_title: 'priority'},
+      {title: 'type', sort_title: 'type'},
+      {title: 'due_date', sort_title: 'due_date'}
+    ]
+  end
+
   def index_filters_case
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
     allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
     #Retrieve the forms where the fields appears and if is in the allowed for the user.
     #TODO should look on subforms? for now lookup on top forms.
-    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns"]
+    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns", "type_of_risk"]
     forms = FormSection.fields(:keys => field_names)
                   .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
@@ -313,6 +325,7 @@ module IndexHelper
     filters << "Mobile" if @can_sync_mobile
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
+    filters << "Workflow"
     filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
     #Check independently the checkboxes on the view.
     filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form") && @can_approval_bia
@@ -333,6 +346,7 @@ module IndexHelper
     filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
     filters << "Protection Status" if visible_filter_field?("protection_status", forms)
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
+    filters << "Type of Risk" if @is_cp && visible_filter_field?("type_of_risk", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Reporting Location" if @can_view_reporting_filter
