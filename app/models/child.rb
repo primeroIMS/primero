@@ -191,7 +191,6 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
 
     time :service_due_dates, :multiple => true
-    # date :service_due_josh, multiple: true
 
     string :workflow_status, as: 'workflow_status_sci'
 
@@ -455,10 +454,6 @@ class Child < CouchRest::Model::Base
   def send_approval_response_mail(manager_id, approval_type, approval, host_url)
     ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url)
   end
-
-  # def service_due_josh
-  #   Tasks::ServiceTask.from_case(self).map &:due_date
-  # end
 
   private
 
