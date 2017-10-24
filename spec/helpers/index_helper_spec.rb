@@ -43,7 +43,7 @@ describe IndexHelper do
                                                            "Flagged", "Mobile", "My Cases", "Status",
                                                            "Age Range", "Sex", "Protection Status",
                                                            "Urgent Protection Concern", "Risk Level", "Current Location",
-                                                           "Registration Date", "No Activity", "Record State", "Photo"
+                                                           "Dates", "No Activity", "Record State", "Photo"
                                                           ]
           end
         end
@@ -72,7 +72,7 @@ describe IndexHelper do
                                                            "Flagged", "Mobile", "Social Worker", "My Cases",
                                                            "Agency", "Status", "Age Range",
                                                            "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
-                                                           "Current Location", "Registration Date", "No Activity", "Record State", "Photo"
+                                                           "Current Location", "Dates", "No Activity", "Record State", "Photo"
                                                           ]
           end
         end
@@ -91,7 +91,7 @@ describe IndexHelper do
             @view.index_filters_to_show('case').should == [
                 "Flagged", "Mobile", "Social Worker", "My Cases", "Agency", "Status", "Age Range",
                 "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
-                "Current Location", "Reporting Location", "Registration Date", "No Activity", "Record State", "Photo"
+                "Current Location", "Reporting Location", "Dates", "No Activity", "Record State", "Photo"
             ]
           end
         end
@@ -125,7 +125,7 @@ describe IndexHelper do
                 "Flagged", "Mobile", "My Cases", "Status",
                 "Age Range", "Sex", "Protection Status",
                 "Urgent Protection Concern", "Risk Level", "Current Location",
-                "Registration Date", "No Activity", "Record State"
+                "Dates", "No Activity", "Record State"
             ]
           end
         end
@@ -153,7 +153,7 @@ describe IndexHelper do
                 "Flagged", "Mobile", "Social Worker", "My Cases",
                 "Agency", "Status", "Age Range",
                 "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
-                "Current Location", "Registration Date", "No Activity", "Record State"
+                "Current Location", "Dates", "No Activity", "Record State"
             ]
           end
         end
@@ -172,7 +172,7 @@ describe IndexHelper do
             @view.index_filters_to_show('case').should == [
                 "Flagged", "Mobile", "Social Worker", "My Cases", "Agency", "Status", "Age Range",
                 "Sex", "Protection Status", "Urgent Protection Concern", "Risk Level",
-                "Current Location", "Reporting Location", "Registration Date", "No Activity", "Record State"
+                "Current Location", "Reporting Location", "Dates", "No Activity", "Record State"
             ]
           end
         end
