@@ -49,43 +49,6 @@ module Searchable
       end
       string :sortable_name, as: :sortable_name_sci
 
-      date :task_services_due, multiple: true do
-        binding.pry
-        if self.services_section.present?
-          self.services_section.map{ |ss|
-            unless ss.service_implemented_day_time.present?
-              ss.service_appointment_date
-            end
-          }.flatten.compact.uniq
-        end
-      end
-
-      # JT NOTE: Check if on top level, Does have field to look for?
-      date :task_assessment_due do
-        if self.assessment_due_date.present?
-          self.assessment_due_date
-        end
-      end
-
-      # JT NOTE: Check if on top level, Does have field to look for?
-      date :task_case_plan_due, multiple: true do
-        if self.assessment_section.present?
-          self.assessment_section.map{ |ss|
-            ss.case_plan_due_date if ss.case_plan_due_date.present?
-          }.flatten.compact.uniq
-        end
-      end
-
-      date :task_followup_due, multiple: true do
-        if self.followup_subform_section.present?
-          self.followup_subform_section.map{ |fss|
-            unless fss.followup_date.present?
-              fss.followup_needed_by_date
-            end
-          }.flatten.compact.uniq
-        end
-      end
-
       #TODO - This is likely deprecated and needs to be refactored away
       #TODO - searchable_location_fields currently used by filtering
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}

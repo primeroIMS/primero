@@ -25,7 +25,7 @@
                     "child_status=#{Record::STATUS_OPEN}",
                     "owned_by=#{k}",
                     'record_state=true',
-                    'task_assessment_due'
+                    'assessment_due_dates'
                   ]
                 )}, model) %>
               </td>
@@ -34,7 +34,7 @@
                     "child_status=#{Record::STATUS_OPEN}",
                     "owned_by=#{k}",
                     'record_state=true',
-                    'task_case_plan_due'
+                    'case_plan_due_dates'
                   ]
                 )}, model) %>
               </td>
@@ -43,7 +43,7 @@
                     "child_status=#{Record::STATUS_OPEN}",
                     "owned_by=#{k}",
                     'record_state=true',
-                    'task_followup_due'
+                    'followup_due_dates'
                   ]
                 )}, model) %>
               </td>
@@ -52,7 +52,7 @@
                     "child_status=#{Record::STATUS_OPEN}",
                     "owned_by=#{k}",
                     'record_state=true',
-                    'task_services_due'
+                    "service_due_dates=#{overdue}"
                   ]
                 )}, model) %>
               </td>

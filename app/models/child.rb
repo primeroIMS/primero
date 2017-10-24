@@ -191,11 +191,24 @@ class Child < CouchRest::Model::Base
     boolean :consent_for_services
 
     time :service_due_dates, :multiple => true
+    # date :service_due_josh, multiple: true
 
     string :workflow_status, as: 'workflow_status_sci'
 
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
+    end
+
+    date :assessment_due_dates, multiple: true do
+      Tasks::AssessmentTask.from_case(self).map &:due_date
+    end
+
+    date :case_plan_due_dates, multiple: true do
+      Tasks::CasePlanTask.from_case(self).map &:due_date
+    end
+
+    date :followup_due_dates, multiple: true do
+      Tasks::FollowUpTask.from_case(self).map &:due_date
     end
   end
 
@@ -442,6 +455,10 @@ class Child < CouchRest::Model::Base
   def send_approval_response_mail(manager_id, approval_type, approval, host_url)
     ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url)
   end
+
+  # def service_due_josh
+  #   Tasks::ServiceTask.from_case(self).map &:due_date
+  # end
 
   private
 

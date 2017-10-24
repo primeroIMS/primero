@@ -316,10 +316,10 @@ class HomeController < ApplicationController
       facet(:assigned_user_names, zeros: true) if query[:referred].present?
       with(:owned_by, current_user.user_name) if query[:cases_to_assign].present?
 
-      with(:task_services_due).less_than(Time.now) if query[:services_overdue].present?
-      with(:task_assessment_due).less_than(Time.now) if query[:assessment_overdue].present?
-      with(:task_case_plan_due).less_than(Time.now) if query[:case_plan_overdue].present?
-      with(:task_followup_due).less_than(Time.now) if query[:followup_overdue].present?
+      with(:service_due_dates).less_than(Time.now) if query[:services_overdue].present?
+      with(:assessment_due_dates).less_than(Time.now) if query[:assessment_overdue].present?
+      with(:case_plan_due_dates).less_than(Time.now) if query[:case_plan_overdue].present?
+      with(:followup_due_dates).less_than(Time.now) if query[:followup_overdue].present?
 
       if module_ids.present?
         any_of do
