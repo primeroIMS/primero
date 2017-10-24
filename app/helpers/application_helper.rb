@@ -20,7 +20,8 @@ module ApplicationHelper
     "ContactInformation" => "setting",
     "Replications" => "replications",
     "Reports" => "reports",
-    "BulkExports" => "bulk_exports"
+    "BulkExports" => "bulk_exports",
+    "Tasks" => "tasks"
   }
 
   @@alias_role_action_label = {
