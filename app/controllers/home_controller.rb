@@ -103,13 +103,22 @@ class HomeController < ApplicationController
       workflow_totals: {}
     }
 
-    @workflow_order = [
-      Record::STATUS_OPEN,
-      Workflow::WORKFLOW_NEW,
-      @service_response_types.map{ |h,v| v },
-      Workflow::WORKFLOW_SERVICE_IMPLEMENTED
-    ].flatten
+    @workflow_order = [{id: Workflow::WORKFLOW_NEW, display: t("case.workflow.#{Workflow::WORKFLOW_NEW}")}]
+    if @modules.present?
+      if @modules.first['use_workflow_reopened']
+        @workflow_order << {id: Workflow::WORKFLOW_REOPENED, display: t("case.workflow.#{Workflow::WORKFLOW_REOPENED}")}
+      end
 
+      if @modules.first['use_workflow_assessment']
+        @workflow_order << {id: Workflow::WORKFLOW_ASSESSMENT, display: t("case.workflow.#{Workflow::WORKFLOW_ASSESSMENT}")}
+      end
+
+      if @modules.first['use_workflow_case_plan']
+        @workflow_order << {id: Workflow::WORKFLOW_CASE_PLAN, display: t("case.workflow.#{Workflow::WORKFLOW_CASE_PLAN}")}
+      end
+    end
+    @workflow_order << @service_response_types.map{|h,v| {id: v, display: h}}
+    @workflow_order.flatten!
     managed_users = current_user.managed_user_names
 
     @aggregated_case_manager_stats[:cases_to_assign] = queries[:cases_to_assign]
