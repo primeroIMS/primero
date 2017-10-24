@@ -85,11 +85,8 @@
     <% if filters_to_show.include? 'Current Location' %>
       <%= build_filter_location(t("cases.filter_by.current_location"), 'location_current') %>
     <% end %>
-    <% if filters_to_show.include? 'Registration Date' %>
-      <%= render "record_shared/filter_date", record: 'cases', date_field_title: 'registration_date', date_field: 'registration_date' %>
-    <% end %>
-    <% if filters_to_show.include? 'Case Open Date' %>
-      <%= render "record_shared/filter_date", record: 'cases', date_field_title: 'case_open_date', date_field: 'created_at' %>
+    <% if filters_to_show.include? 'Dates' %>
+      <%= render "record_shared/filter_date", record: 'cases', date_field_title: 'date', date_field: 'date' %>
     <% end %>
     <% if filters_to_show.include? 'No Activity'
       inactivity_filters = []
