@@ -82,6 +82,10 @@ case_plan_fields = [
                "disabled"=> true,
                "option_strings_source" => "lookup lookup-approval-status"
               }),
+    Field.new({"name" => "case_plan_section_header",
+                "type" => "separator",
+                "display_name_all" => "Case Plan"
+              }),
     Field.new({"name" => "date_case_plan",
               "type" => "date_field",
               "display_name_all" => "Date Case Plan Initiated",
