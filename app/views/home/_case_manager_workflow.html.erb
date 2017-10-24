@@ -6,7 +6,7 @@
       <tr>
         <th></th>
         <% @workflow_order.each do |wo|%>
-          <th><%= t("dashboard.#{wo}") %></th>
+          <th><%= wo[:display] %></th>
         <% end %>
       </tr>
       </thead>
@@ -22,13 +22,12 @@
               <% @workflow_order.each do |wo|%>
                 <%
                   filters = [
-                    "child_status=#{Record::STATUS_OPEN}",
                     'record_state=true',
                     "user=#{key}"
                   ]
-                  filters << "workflow_status=#{wo}" unless wo == Record::STATUS_OPEN
+                  filters << "workflow_status=#{wo[:id]}"
                 %>
-                <td><%= stat_link(val[wo], {filter: index_filters(filters)}, model) %></td>
+                <td><%= stat_link(val[wo[:id]], {filter: index_filters(filters)}, model) %></td>
               <% end %>
             </tr>
           <% end %>

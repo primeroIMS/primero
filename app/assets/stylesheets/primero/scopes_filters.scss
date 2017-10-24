@@ -179,6 +179,18 @@ div.scope_bar {
 
     .date_range {
       width: 80%;
+
+      .selectable {
+
+        label {
+          margin-bottom: 0;
+        }
+
+        .chosen-container-single {
+          margin-top: 0 !important;
+        }
+      }
+
     }
 
     .form_date_field {

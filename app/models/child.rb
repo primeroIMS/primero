@@ -197,6 +197,18 @@ class Child < CouchRest::Model::Base
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
+
+    date :assessment_due_dates, multiple: true do
+      Tasks::AssessmentTask.from_case(self).map &:due_date
+    end
+
+    date :case_plan_due_dates, multiple: true do
+      Tasks::CasePlanTask.from_case(self).map &:due_date
+    end
+
+    date :followup_due_dates, multiple: true do
+      Tasks::FollowUpTask.from_case(self).map &:due_date
+    end
   end
 
   include Alertable

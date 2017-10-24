@@ -34,6 +34,8 @@ module IndexHelper
         list_view_header_potential_match
       when "bulk_export"
         list_view_header_bulk_export
+      when "task"
+        list_view_header_task
       else
         []
     end
@@ -299,6 +301,16 @@ module IndexHelper
     ]
   end
 
+  def list_view_header_task
+    [
+      #{title: '', sort_title: 'select'},
+      {title: 'id', sort_title: 'case_id'},
+      {title: 'priority', sort_title: 'priority'},
+      {title: 'type', sort_title: 'type'},
+      {title: 'due_date', sort_title: 'due_date'}
+    ]
+  end
+
   def index_filters_case
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
@@ -338,7 +350,7 @@ module IndexHelper
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Reporting Location" if @can_view_reporting_filter
-    filters << "Registration Date" if @is_cp
+    filters << "Dates" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "No Activity"
     filters << "Record State"
@@ -392,6 +404,16 @@ module IndexHelper
     filters << "Score Range"
 
     return filters
+  end
+
+  def selectable_filter_date_options
+    options = []
+    options << [t('children.selectable_date_options.registration_date'), 'registration_date']
+    options << [t('children.selectable_date_options.assessment_requested_on'), 'assessment_requested_on']
+    options << [t('children.selectable_date_options.date_case_plan_initiated'), 'date_case_plan_initiated']
+    options << [t('children.selectable_date_options.closure_approved_date'), 'closure_approved_date']
+    options << [t('children.selectable_date_options.created_at'), 'created_at'] if @is_gbv
+    return options
   end
 
   def visible_filter_field?(field_name, forms)

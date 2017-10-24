@@ -17,6 +17,7 @@ _primero.Router = Backbone.Router.extend({
     'reports': 'reports',
     'reports/:id': 'reports',
     'bulk_exports': 'bulk_exports',
+    'tasks': 'tasks',
     'lookups/new': 'lookups',
     'lookups/:id/edit': 'lookups',
     'forms/:id/edit': 'formSectionEditPage',
@@ -166,6 +167,10 @@ _primero.Router = Backbone.Router.extend({
   },
 
   bulk_exports: function(){
+    this.initIndexTable();
+  },
+
+  tasks: function(){
     this.initIndexTable();
   },
 
