@@ -6,26 +6,9 @@ class Task
     records = [records] unless records.is_a?(Array)
     tasks = []
     records.each do |record|
-      if AssessmentTask.has_task?(record)
-        tasks << AssessmentTask.new(record)
-      end
-      if CasePlanTask.has_task?(record)
-        tasks << CasePlanTask.new(record)
-      end
-      if record.try(:followup_subform_section).present?
-        record.followup_subform_section.each do |followup|
-          if FollowUpTask.has_task?(followup)
-            tasks << FollowUpTask.new(record, followup)
-          end
-        end
-      end
-      if record.try(:services_section).present?
-        record.services_section.each do |service|
-          if ServiceTask.has_task?(service)
-            tasks << ServiceTask.new(record, service)
-          end
-        end
-      end
+      tasks += [AssessmentTask, CasePlanTask, FollowUpTask, ServiceTask].map do |task_clazz|
+        task_clazz.from_case(record)
+      end.flatten
     end
     tasks.sort_by!(&:due_date)
   end
@@ -55,6 +38,14 @@ class Task
 end
 
 class AssessmentTask < Task
+  def self.from_case(record)
+    tasks = []
+    if has_task?(record)
+      tasks = [AssessmentTask.new(record)]
+    end
+    return tasks
+  end
+
   def self.has_task?(record)
     record.try(:assessment_due_date).present? &&
     !record.try(:assessment_requested_on).present?
@@ -66,6 +57,14 @@ class AssessmentTask < Task
 end
 
 class CasePlanTask < Task
+  def self.from_case(record)
+    tasks = []
+    if has_task?(record)
+      tasks = [CasePlanTask.new(record)]
+    end
+    return tasks
+  end
+
   def self.has_task?(record)
     record.try(:case_plan_due_date).present? &&
     !record.try(:date_case_plan).present?
@@ -78,6 +77,18 @@ end
 
 class FollowUpTask < Task
   attr_accessor :followup
+
+  def self.from_case(record)
+    tasks = []
+    if record.try(:followup_subform_section).present?
+      record.followup_subform_section.each do |followup|
+        if has_task?(followup)
+          tasks << FollowUpTask.new(record, followup)
+        end
+      end
+    end
+    tasks
+  end
 
   def self.has_task?(followup)
     followup.try(:followup_needed_by_date).present? &&
@@ -101,6 +112,18 @@ end
 
 class ServiceTask < Task
   attr_accessor :service
+
+  def self.from_case(record)
+    tasks = []
+    if record.try(:services_section).present?
+      record.services_section.each do |service|
+        if has_task?(service)
+          tasks << ServiceTask.new(record, service)
+        end
+      end
+    end
+    tasks
+  end
 
   def self.has_task?(service)
     #TODO: or should use service.try(:service_implemented) == Child::SERVICE_NOT_IMPLEMENTED
