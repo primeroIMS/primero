@@ -156,8 +156,7 @@ module TransitionActions
           end
           if transfer_record.save
             #TODO - do I need sep logic for reassign / transfer?
-            #TODO - check for notification_email_enabled?
-            transfer_record.send_transfer_email(request.base_url)
+            transfer_record.send_transfer_email(request.base_url) if @system_settings.try(:notification_email_enabled)
           else
             failed_count += 1
           end

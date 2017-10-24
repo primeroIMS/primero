@@ -69,7 +69,7 @@ module Transitionable
     end
 
     def send_transfer_email(host_url)
-      TransferJob.perform_later(self.class, self.id, self.transitions.first.id, host_url)
+      TransferJob.perform_later(self.class.to_s, self.id, self.transitions.first.id, host_url)
     end
 
   end
@@ -95,6 +95,10 @@ module Transitionable
 
   def transfers
     self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER}
+  end
+
+  def transfer_by_id(id)
+    self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER && t.id == id}.first
   end
 
   def has_referrals
