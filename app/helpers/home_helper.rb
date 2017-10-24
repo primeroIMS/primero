@@ -47,7 +47,8 @@ module HomeHelper
   def case_stat(stat_group, query, model)
     if query.present?
       results = query.facet(stat_group[:name]).rows
-      total = results.select{|v| v.value == stat_group[:stat]}.first.count
+      totals = results.select{|v| v.value == stat_group[:stat]}
+      total = totals.present? ? totals.first.count : 0
     else
       total = stat_group[:count]
     end
