@@ -34,6 +34,7 @@ class HomeController < ApplicationController
       display_service_provisions?
       display_cases_to_assign?
       display_cases_by_workflow?
+      display_cases_by_task_overdue?
       display_referrals_by_socal_worker?
       display_cases_by_socal_worker?
       display_transfers_by_socal_worker?
@@ -183,6 +184,22 @@ class HomeController < ApplicationController
     @aggregated_case_manager_stats[:transfer_awaiting] = queries[:transfer_awaiting]
     @aggregated_case_manager_stats[:transfer_status] = queries[:transfer_status]
 
+    queries[:task_overdue].each do |stat, query|
+      facet = query.facet(:associated_user_names).rows
+
+      unless @aggregated_case_manager_stats[:task_overdue].present?
+        @aggregated_case_manager_stats[:task_overdue] = {}
+      end
+
+      facet.each do |c|
+        unless @aggregated_case_manager_stats[:task_overdue][c.value].present?
+          @aggregated_case_manager_stats[:task_overdue][c.value] = {}
+        end
+
+        @aggregated_case_manager_stats[:task_overdue][c.value][stat] = c.count
+      end
+    end
+
     # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
     #      .group_by{|g| g[:flagged_by]}
     #      .each do |g, fz|
@@ -266,6 +283,10 @@ class HomeController < ApplicationController
     @display_cases_by_workflow ||= can?(:dash_cases_by_workflow, Dashboard)
   end
 
+  def display_cases_by_task_overdue?
+    @display_cases_by_task_overdue ||= can?(:dash_cases_by_task_overdue, Dashboard)
+  end
+
   def display_referrals_by_socal_worker?
     @display_referrals_by_socal_worker ||= can?(:dash_referrals_by_socal_worker, Dashboard)
   end
@@ -296,9 +317,9 @@ class HomeController < ApplicationController
       with(:owned_by, current_user.user_name) if query[:cases_to_assign].present?
 
       with(:task_services_due).less_than(Time.now) if query[:services_overdue].present?
-      with(:task_assessment_due).less_than(Time.now) if query[:services_overdue].present?
-      with(:task_case_plan_due).less_than(Time.now) if query[:services_overdue].present?
-      with(:task_followup_due).less_than(Time.now) if query[:services_overdue].present?
+      with(:task_assessment_due).less_than(Time.now) if query[:assessment_overdue].present?
+      with(:task_case_plan_due).less_than(Time.now) if query[:case_plan_overdue].present?
+      with(:task_followup_due).less_than(Time.now) if query[:followup_overdue].present?
 
       if module_ids.present?
         any_of do
@@ -426,6 +447,9 @@ class HomeController < ApplicationController
       transfer_status: manager_case_query({ transfer_status: true }),
       transfer_awaiting: manager_case_query({ transfer_awaiting: true }),
       task_overdue: {
+        assessment: manager_case_query({ by_owner: true, assessment_overdue: true}),
+        case_plan: manager_case_query({ by_owner: true, case_plan_overdue: true}),
+        follow_up: manager_case_query({ by_owner: true, followup_overdue: true}),
         services: manager_case_query({ by_owner: true, services_overdue: true})
       }
     }

@@ -299,7 +299,8 @@ cp_manager_permissions = [
       :actions => [
         Permission::VIEW_APPROVALS,
         Permission::VIEW_ASSESSMENT,
-        Permission::VIEW_PROTECTION_CONCERNS_FILTER
+        Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+        Permission::DASH_CASES_BY_TASK_OVERDUE
       ]
   )
 ]
