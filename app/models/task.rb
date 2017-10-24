@@ -20,7 +20,7 @@ class Task
   end
 
   def type
-    self.class.name[0..-5].underscore
+    self.class.name.demodulize[0..-5].underscore
   end
 
   def type_display(lookups=nil)

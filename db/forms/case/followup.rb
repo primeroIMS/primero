@@ -2,34 +2,12 @@ followup_subform_fields = [
   Field.new({"name" => "followup_type",
              "type" => "select_box",
              "display_name_all" => "Type of follow up",
-             "option_strings_text_all" =>
-                          ["Follow up After Reunification",
-                           "Follow up in Care",
-                           "Follow up for Service",
-                           "Follow up for Assessment"].join("\n")
+             "option_strings_source" => "lookup lookup-followup-type"
             }),
   Field.new({"name" => "followup_service_type",
              "type" => "select_box",
              "display_name_all" => "Type of service",
-             "option_strings_text_all" =>
-                           ["Safehouse Service",
-                            "Health/Medical Service",
-                            "Psychosocial Service",
-                            "Police/Other Service",
-                            "Legal Assistance Service",
-                            "Livelihoods Service",
-                            "Child Protection Service",
-                            "Family Mediation Service",
-                            "Family Reunification Service",
-                            "Social Support Service",
-                            "Education Service",
-                            "BID or BIA / Care Plan Service",
-                            "NFI/Clothes/Shoes Service",
-                            "Water/Sanitation Service",
-                            "Care Arrangement Service",
-                            "Registration Service",
-                            "Food Service",
-                            "Other Service"].join("\n")
+             "option_strings_source" => "lookup lookup-service-type"
             }),
   Field.new({"name" => "followup_assessment_type",
              "type" => "select_box",
