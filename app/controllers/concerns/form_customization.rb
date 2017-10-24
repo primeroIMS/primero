@@ -15,7 +15,7 @@ module FormCustomization
 
   def current_modules
     @current_modules ||= current_user.modules #TODO: This is a memoized call and may get us in trouble.
-    @module_id = params[:module_id] || @current_modules.first.id
+    @module_id = params[:module_id] || @current_modules.present? && @current_modules.first.id
     @primero_module = @current_modules.select{|m| m.id == @module_id}.first
   end
 

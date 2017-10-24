@@ -1,7 +1,13 @@
 require 'spec_helper'
 
 feature "signin process" do
-  before do
+  before(:all) do
+    FormSection.all.each &:destroy
+    PrimeroModule.all.each &:destroy
+
+    program = create(:primero_program)
+    module_options = { program_id: program.id}
+    primero_module = create(:primero_module, module_options)
     @user = create(:user, password: 'password123', password_confirmation: 'password123')
   end
 

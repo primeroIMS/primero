@@ -105,13 +105,10 @@ class HomeController < ApplicationController
     }
 
     @workflow_order = [{id: Workflow::WORKFLOW_NEW, display: t("case.workflow.#{Workflow::WORKFLOW_NEW}")}]
-    @workflow_order.push({id: Workflow::WORKFLOW_REOPENED, display: t("case.workflow.#{Workflow::WORKFLOW_REOPENED}")}) if @primero_module['use_workflow_reopened'].present?
-    @workflow_order.push({id: Workflow::WORKFLOW_ASSESSMENT, display: t("case.workflow.#{Workflow::WORKFLOW_ASSESSMENT}")}) if @primero_module['use_workflow_assessment'].present?
-    @workflow_order.push({id: Workflow::WORKFLOW_CASE_PLAN, display: t("case.workflow.#{Workflow::WORKFLOW_CASE_PLAN}")}) if @primero_module['use_workflow_case_plan'].present?
+    @workflow_order.push({id: Workflow::WORKFLOW_REOPENED, display: t("case.workflow.#{Workflow::WORKFLOW_REOPENED}")}) if @primero_module.present? && @primero_module['use_workflow_reopened'].present?
+    @workflow_order.push({id: Workflow::WORKFLOW_ASSESSMENT, display: t("case.workflow.#{Workflow::WORKFLOW_ASSESSMENT}")}) if @primero_module.present? && @primero_module['use_workflow_assessment'].present?
+    @workflow_order.push({id: Workflow::WORKFLOW_CASE_PLAN, display: t("case.workflow.#{Workflow::WORKFLOW_CASE_PLAN}")}) if @primero_module.present? && @primero_module['use_workflow_case_plan'].present?
     @workflow_order.push(@service_response_types.map{|h,v| {id: v, display: h}})
-    @workflow_order.push({id: Workflow::WORKFLOW_SERVICE_IMPLEMENTED, display: t("case.workflow.#{Workflow::WORKFLOW_SERVICE_IMPLEMENTED}")}) if @primero_module['use_workflow_service_implemented'].present?
-    @workflow_order.flatten!
-
     managed_users = current_user.managed_user_names
 
     @aggregated_case_manager_stats[:cases_to_assign] = queries[:cases_to_assign]
