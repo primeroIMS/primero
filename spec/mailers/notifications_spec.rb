@@ -15,7 +15,7 @@ describe NotificationMailer, :type => :mailer do
     let(:mail) { NotificationMailer.manager_approval_request(@owner.id, @manager2.id, @child.id, 'value1', 'example.com') }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Jordy Nelson - Approval Request")
+      expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Request")
       expect(mail.to).to eq(["manager2@primero.dev"])
     end
 
