@@ -484,6 +484,17 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+  :id => "lookup-followup-type",
+  :name => "Followup Type",
+  :lookup_values => [
+     {id: 'after_reunification', display_text: "Follow up After Reunification"},
+     {id: 'in_care', display_text: "Follow up in Care"},
+     {id: 'for_service', display_text: "Follow up for Service"},
+     {id: 'for_assesment', display_text: "Follow up for Assessment"}
+  ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
   :id => "lookup-protection-concerns",
   :name => "Protection Concerns",
   :lookup_values => [
