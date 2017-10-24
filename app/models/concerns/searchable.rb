@@ -50,6 +50,7 @@ module Searchable
       string :sortable_name, as: :sortable_name_sci
 
       date :task_services_due, multiple: true do
+        binding.pry
         if self.services_section.present?
           self.services_section.map{ |ss|
             unless ss.service_implemented_day_time.present?

@@ -9,6 +9,13 @@
               <i class="fa fa-home"></i>
             </a>
           </li>
+          <% if can? :index, Task %>
+            <li>
+              <a class="<%= current_menu('tasks') %>" href="<%= tasks_path %>" title="<%= t('navigation.tasks') %>" >
+                <i class="fa fa-calendar"></i>
+              </a>
+            </li>
+          <% end %>
           <% if can? :read, Child %>
             <li><%= link_to t("navigation.cases"), cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("cases") %></li>
           <% end  %>

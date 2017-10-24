@@ -123,6 +123,7 @@ en:
      search: "Search"
      locations: "LOCATIONS"
      bulk_exports: "BULK EXPORTS"
+     tasks: "TASKS"
 
   buttons:
      delete: "Delete"
@@ -357,6 +358,18 @@ en:
       delete_error: "Delete failed."
       saved_searches_tab: "Saved Searches"
       filters_tab: "Filters"
+
+  task:
+    id: "ID"
+    priority: "Priority Level"
+    type: "Type of Action"
+    due_date: "Due Date"
+    types:
+      assessment: "Assesment"
+      case_plan: "Case Plan"
+      follow_up: "Follow Up - %{subtype}"
+      service: "Service - %{subtype}"
+
 
   case:
     create_new_case: "Create New Case"

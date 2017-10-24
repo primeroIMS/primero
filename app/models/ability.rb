@@ -151,6 +151,10 @@ class Ability
           instance.associated_user_names.include? user.user_name
         end
       end
+      if ((resource == Child) &&
+          user.has_permission?(Permission::DASH_TASKS))
+        can :index, Task
+      end
       can [:index, :show], BulkExport do |instance|
         instance.owned_by == user.user_name
       end
