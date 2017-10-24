@@ -2080,7 +2080,7 @@ en:
 
   email_notification:
     enabled_label: "Send Email Notifications?"
-    approval_request_subject: "%{name} - Approval Request"
+    approval_request_subject: "Case: %{id} - Approval Request"
     approval_response_subject: "Case: %{id} - Approval Response"
     approval_request: "The user %{user} is requesting approval for %{approval_type} on case %{case_id}."
     approval_response: "%{user} has %{status} the request for approval for %{approval_type} for case %{case_id}."
