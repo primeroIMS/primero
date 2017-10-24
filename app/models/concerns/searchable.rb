@@ -211,6 +211,7 @@ module Searchable
 
     def searchable_date_fields
       searchable_approvable_date_fields +
+      ["date_case_plan_initiated", "assessment_requested_on"] +
       Field.all_searchable_date_field_names(self.parent_form)
     end
 

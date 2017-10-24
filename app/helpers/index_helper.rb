@@ -305,7 +305,7 @@ module IndexHelper
     allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
     #Retrieve the forms where the fields appears and if is in the allowed for the user.
     #TODO should look on subforms? for now lookup on top forms.
-    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns"]
+    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns", "type_of_risk"]
     forms = FormSection.fields(:keys => field_names)
                   .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
@@ -313,6 +313,7 @@ module IndexHelper
     filters << "Mobile" if @can_sync_mobile
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
+    filters << "Workflow"
     filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
     #Check independently the checkboxes on the view.
     filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form") && @can_approval_bia
@@ -333,10 +334,11 @@ module IndexHelper
     filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
     filters << "Protection Status" if visible_filter_field?("protection_status", forms)
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
+    filters << "Type of Risk" if @is_cp && visible_filter_field?("type_of_risk", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Reporting Location" if @can_view_reporting_filter
-    filters << "Registration Date" if @is_cp
+    filters << "Dates" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "No Activity"
     filters << "Record State"
@@ -390,6 +392,16 @@ module IndexHelper
     filters << "Score Range"
 
     return filters
+  end
+
+  def selectable_filter_date_options
+    options = []
+    options << [t('children.selectable_date_options.registration_date'), 'registration_date']
+    options << [t('children.selectable_date_options.assessment_requested_on'), 'assessment_requested_on']
+    options << [t('children.selectable_date_options.date_case_plan_initiated'), 'date_case_plan_initiated']
+    options << [t('children.selectable_date_options.closure_approved_date'), 'closure_approved_date']
+    options << [t('children.selectable_date_options.created_at'), 'created_at'] if @is_gbv
+    return options
   end
 
   def visible_filter_field?(field_name, forms)

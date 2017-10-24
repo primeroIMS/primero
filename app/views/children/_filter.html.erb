@@ -32,6 +32,9 @@
       %>
       <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filters, "my_cases") %>
     <% end %>
+    <% if filters_to_show.include? 'Workflow' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.workflow"), 'workflow', Child.workflow_statuses(@current_modules, @lookups), { multi: true }, false) %>
+    <% end %>
     <% if filters_to_show.include? 'Approvals' %>
       <% [Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].each do |status| %>
         <%
@@ -72,17 +75,17 @@
       <%= build_filter_checkboxes(t("cases.filter_by.protection_concerns"), 'protection_concerns',
                                   Lookup.values('lookup-protection-concerns', @lookups), { multi: true }, false) %>
     <% end %>
+    <% if filters_to_show.include? 'Type of Risk' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.type_of_risk"), 'type_of_risk', Lookup.values('lookup-risk-type', @lookups)) %>
+    <% end %>
     <% if filters_to_show.include?('Risk Level') && @display_assessment %>
       <%= build_filter_checkboxes(t("cases.filter_by.risk_level"), 'risk_level', Lookup.values('lookup-risk-level', @lookups)) %>
     <% end %>
     <% if filters_to_show.include? 'Current Location' %>
       <%= build_filter_location(t("cases.filter_by.current_location"), 'location_current') %>
     <% end %>
-    <% if filters_to_show.include? 'Registration Date' %>
-      <%= render "record_shared/filter_date", record: 'cases', date_field_title: 'registration_date', date_field: 'registration_date' %>
-    <% end %>
-    <% if filters_to_show.include? 'Case Open Date' %>
-      <%= render "record_shared/filter_date", record: 'cases', date_field_title: 'case_open_date', date_field: 'created_at' %>
+    <% if filters_to_show.include? 'Dates' %>
+      <%= render "record_shared/filter_date", record: 'cases', date_field_title: 'date', date_field: 'date' %>
     <% end %>
     <% if filters_to_show.include? 'No Activity'
       inactivity_filters = []

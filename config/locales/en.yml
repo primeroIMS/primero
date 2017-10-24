@@ -187,6 +187,7 @@ en:
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
       my_cases: "My Cases"
+      workflow: "Cases by Workflow"
       no_activity: "No Activity"
       3month_inactivity: "For 3+ months"
       referred_cases: "Cases referred to me"
@@ -200,6 +201,7 @@ en:
       protection_status: "Protection Status:"
       urgent_protection_concern: "Urgent Protection Concern:"
       protection_concerns: "Protection Concerns:"
+      type_of_risk: "Type of Risk:"
       risk_level: "Risk Level:"
       current_location: "Current Location:"
       district: "District:"
@@ -208,6 +210,8 @@ en:
       record_state: "Record State:"
       photo: "Photo:"
       photo_label: "Has Photo?"
+      by_date: 'By Date:'
+      date: 'Date'
       approvals:
         pending: "Pending Approvals"
         approved: "Approved"
@@ -233,6 +237,12 @@ en:
     label: "Children"
     register_new_child: "Register New Child"
     export: "Export"
+    selectable_date_options:
+      registration_date: 'Date of Registration'
+      assessment_requested_on: 'Date of Assessment'
+      date_case_plan_initiated: 'Date of Case Plan'
+      closure_approved_date: 'Date of Case Closure '
+      created_at: 'Case Open Date'
     filter_by:
       label: "Filter by"
       all: "All"
@@ -363,6 +373,7 @@ en:
       closed: "Closed"
       reopened: "Reopened"
       service_implemented: Service Implemented
+      services_implemented: Service Implemented
       case_plan: "Case Plan"
       assessment: "Assessment"
     flagged_by: "Flagged By"
