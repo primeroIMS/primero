@@ -11,14 +11,14 @@
       <%= text_to_identify_child(record.parent_case) %>
     <% end %>
     <% if record.overdue? %>
-      <i class="fa fa-exclamation"></i>
+      <i class="fa fa-exclamation stress-error"></i>
     <% elsif record.upcoming_soon? %>
-      <i class="fa fa-clock-o"></i>
+      <i class="fa fa-clock-o stress-warning"></i>
     <% end %>
   </td>
   <td><%= Lookup.display_value('lookup-risk-level', record.priority, @lookups) %></td>
   <td><%= record.type_display %></td>
-  <td>
+  <td <%= record.overdue? ? "class=stress-error" : '' %> >
     <%= field_format_date(record.due_date) %>
   </td>
 </tr>
