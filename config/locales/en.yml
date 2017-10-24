@@ -974,6 +974,7 @@ en:
       dash_cases_by_social_worker: "View Cases By Social Worker"
       dash_manager_transfers: "View Manager Transfers"
       dash_cases_by_workflow: "View Cases By Workflow"
+      dash_cases_by_task_overdue: "View Cases By Task Overdue"
       dash_cases_to_assign: "View Cases To Assign"
       dash_show_none_values: "View None Values"
       search_owned_by_others: "Search for case records owned by other users"
@@ -1426,6 +1427,11 @@ en:
     services_implemented: 'Services Implemented'
     approved: 'Approved'
     cases_by_workflow: 'Cases By Workflow'
+    cases_by_task_overdue: 'Overdue Task'
+    assessment: 'Assessment'
+    case_plan: 'Case Plan'
+    follow_up: 'Follow Up'
+    services: 'Services'
     admin_only: "Click on %{links} to make changes to the application."
     forms: "FORMS tab"
     users: "SETTINGS icon"

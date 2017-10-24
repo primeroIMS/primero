@@ -187,7 +187,10 @@ module HomeHelper
       workflow: "scope[workflow]=list||",
       workflow_status: "scope[workflow_status]=list||",
       service_due_dates: "scope[service_due_dates]=date_range||",
-      reassigned_tranferred_on: "scope[reassigned_tranferred_on]=date_range||"
+      reassigned_tranferred_on: "scope[reassigned_tranferred_on]=date_range||",
+      case_plan_due_dates: "scope[case_plan_due_dates]=date_range||#{overdue}",
+      assessment_due_dates: "scope[assessment_due_dates]=date_range||#{overdue}",
+      followup_due_dates: "scope[followup_due_dates]=date_range||#{overdue}"
     }
     filters.each do |filter|
       filter = filter.split('=')

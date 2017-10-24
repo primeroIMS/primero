@@ -48,6 +48,7 @@ module Searchable
         boolean :marked_for_mobile
       end
       string :sortable_name, as: :sortable_name_sci
+
       #TODO - This is likely deprecated and needs to be refactored away
       #TODO - searchable_location_fields currently used by filtering
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
