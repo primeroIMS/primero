@@ -36,6 +36,7 @@ class NotificationMailer < ActionMailer::Base
     end
   end
 
+  #TODO - there is a lot of similar code in referral() and transfer().   Can it be cleaned up?
   def referral(record_class, record_id, transition_id, host_url)
     @model_class = record_class.constantize
     @record = @model_class.get(record_id)
