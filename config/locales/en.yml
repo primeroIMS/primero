@@ -349,6 +349,18 @@ en:
       saved_searches_tab: "Saved Searches"
       filters_tab: "Filters"
 
+  task:
+    id: "ID"
+    priority: "Priority Level"
+    type: "Type of Action"
+    due_date: "Due Date"
+    types:
+      assessment: "Assesment"
+      case_plan: "Case Plan"
+      follow_up: "Follow Up - %{subtype}"
+      service: "Service - %{subtype}"
+
+
   case:
     create_new_case: "Create New Case"
     enter_id_number: "Enter the ID number to search for an existing record"

@@ -6,8 +6,8 @@ class Task
     records = [records] unless records.is_a?(Array)
     tasks = []
     records.each do |record|
-      if AssesmentTask.has_task?(record)
-        tasks << AssesmentTask.new(record)
+      if AssessmentTask.has_task?(record)
+        tasks << AssessmentTask.new(record)
       end
       if CasePlanTask.has_task?(record)
         tasks << CasePlanTask.new(record)
@@ -27,7 +27,7 @@ class Task
         end
       end
     end
-    tasks.sort_by! &:due_date
+    tasks.sort_by!(&:due_date)
   end
 
   def initialize(record)
@@ -40,17 +40,21 @@ class Task
     self.class.name[0..-5].underscore
   end
 
+  def type_display(lookups=nil)
+    I18n.t("task.types.#{self.type}")
+  end
+
   def overdue?
     self.due_date < Date.today
   end
 
   def upcoming_soon?
-    !self.overdue && self.due_date <= 7.days.from_now
+    !self.overdue? && self.due_date <= 7.days.from_now
   end
 
 end
 
-class AssesmentTask < Task
+class AssessmentTask < Task
   def self.has_task?(record)
     record.try(:assessment_due_date).present? &&
     !record.try(:assessment_requested_on).present?
@@ -88,6 +92,11 @@ class FollowUpTask < Task
   def due_date
     self.followup.followup_needed_by_date
   end
+
+  def type_display(lookups=nil)
+    I18n.t("task.types.#{self.type}",
+           subtype:  Lookup.display_value('lookup-followup-type', followup.try(:followup_type), lookups))
+  end
 end
 
 class ServiceTask < Task
@@ -106,5 +115,10 @@ class ServiceTask < Task
 
   def due_date
     self.service.service_appointment_date
+  end
+
+  def type_display(lookups=nil)
+    I18n.t("task.types.#{self.type}",
+           subtype:  Lookup.display_value('lookup-service-type', service.try(:service_type), lookups))
   end
 end
