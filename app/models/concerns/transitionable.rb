@@ -64,6 +64,14 @@ module Transitionable
       status_changed
     end
 
+    def send_referral_email(host_url)
+      ReferralJob.perform_later(self.class.to_s, self.id, self.transitions.first.id, host_url)
+    end
+
+    def send_transfer_email(host_url)
+      TransferJob.perform_later(self.class, self.id, self.transitions.first.id, host_url)
+    end
+
   end
 
   EXPORT_TYPE_PRIMERO = 'primero'
@@ -72,6 +80,10 @@ module Transitionable
 
   def referrals
     self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL}
+  end
+
+  def referral_by_id(id)
+    self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL && t.id == id}.first
   end
 
   def set_service_as_referred( service_object_id )
