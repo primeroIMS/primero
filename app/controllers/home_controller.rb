@@ -104,12 +104,11 @@ class HomeController < ApplicationController
       workflow_totals: {}
     }
 
-    @workflow_order = [{id: Workflow::WORKFLOW_NEW, display: t("case.workflow.#{Workflow::WORKFLOW_NEW}")}]
+    @workflow_order = [
+      {id: Workflow::WORKFLOW_NEW, display: t("case.workflow.#{Workflow::WORKFLOW_NEW}")},
+      {id: Workflow::WORKFLOW_REOPENED, display: t("case.workflow.#{Workflow::WORKFLOW_REOPENED}")}
+    ]
     if @modules.present?
-      if @modules.first['use_workflow_reopened']
-        @workflow_order << {id: Workflow::WORKFLOW_REOPENED, display: t("case.workflow.#{Workflow::WORKFLOW_REOPENED}")}
-      end
-
       if @modules.first['use_workflow_assessment']
         @workflow_order << {id: Workflow::WORKFLOW_ASSESSMENT, display: t("case.workflow.#{Workflow::WORKFLOW_ASSESSMENT}")}
       end
