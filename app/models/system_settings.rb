@@ -3,6 +3,7 @@ class SystemSettings < CouchRest::Model::Base
 
   include PrimeroModel
   include Memoizable
+  include LocalizableProperty
 
   property :default_locale, String, :default => 'en'
   property :case_code_format, [String], :default => []
@@ -18,7 +19,7 @@ class SystemSettings < CouchRest::Model::Base
   property :changes_field_to_form
   property :notification_email_enabled, TrueClass, :default => false
   property :welcome_email_enabled, TrueClass, :default => false
-  property :welcome_email_text, String
+  localize_properties [:welcome_email_text]
 
   validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
 
