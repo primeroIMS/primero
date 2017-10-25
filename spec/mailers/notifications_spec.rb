@@ -37,6 +37,8 @@ describe NotificationMailer, :type => :mailer do
     end
   end
 
+  #TODO - add referral, transfer, reassign
+
   private
 
   def create_child_with_created_by(created_by,options = {})

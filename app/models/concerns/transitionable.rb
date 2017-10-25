@@ -65,15 +65,15 @@ module Transitionable
     end
 
     def send_referral_email(host_url)
-      ReferralJob.perform_later(self.class.to_s, self.id, self.transitions.first.id, host_url)
+      ReferralJob.perform_later(self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
     end
 
     def send_transfer_email(host_url)
-      TransferJob.perform_later(self.class.to_s, self.id, self.transitions.first.id, host_url)
+      TransferJob.perform_later(self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
     end
 
     def send_reassign_email(host_url)
-      ReassignJob.perform_later(self.class.to_s, self.id, self.transitions.first.id, host_url)
+      ReassignJob.perform_later(self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
     end
 
   end
