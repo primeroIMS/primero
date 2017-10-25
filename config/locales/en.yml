@@ -360,7 +360,7 @@ en:
       filters_tab: "Filters"
 
   task:
-    id: "ID"
+    id: "ID#"
     priority: "Priority Level"
     type: "Type of Action"
     due_date: "Due Date"
