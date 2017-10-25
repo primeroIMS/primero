@@ -43,6 +43,8 @@ module Searchable
         string :associated_user_names, multiple: true
         string :owned_by
         string :owned_by_groups, multiple: true
+        string :assigned_user_names, multiple: true
+        string :module_id, as: :module_id_sci
       end
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
