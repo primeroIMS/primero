@@ -20,8 +20,8 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
   date_select_options: [
     'registration_date',
     'assessment_requested_on',
-    'date_case_plan_initiated',
-    'closure_approved_date',
+    'date_case_plan',
+    'date_closure',
     'created_at'
   ],
 
