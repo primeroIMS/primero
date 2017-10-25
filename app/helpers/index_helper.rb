@@ -410,8 +410,8 @@ module IndexHelper
     options = []
     options << [t('children.selectable_date_options.registration_date'), 'registration_date']
     options << [t('children.selectable_date_options.assessment_requested_on'), 'assessment_requested_on']
-    options << [t('children.selectable_date_options.date_case_plan_initiated'), 'date_case_plan_initiated']
-    options << [t('children.selectable_date_options.closure_approved_date'), 'closure_approved_date']
+    options << [t('children.selectable_date_options.date_case_plan_initiated'), 'date_case_plan']
+    options << [t('children.selectable_date_options.closure_approved_date'), 'date_closure']
     options << [t('children.selectable_date_options.created_at'), 'created_at'] if @is_gbv
     return options
   end
