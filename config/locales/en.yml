@@ -1427,7 +1427,7 @@ en:
     services_implemented: 'Services Implemented'
     approved: 'Approved'
     cases_by_workflow: 'Cases By Workflow'
-    cases_by_task_overdue: 'Overdue Task'
+    cases_by_task_overdue: 'Overdue Tasks'
     assessment: 'Assessment'
     case_plan: 'Case Plan'
     follow_up: 'Follow Up'
