@@ -2101,3 +2101,33 @@ en:
     referral_html: "<strong>%{user}</strong> has referred the following %{record_type} to you: <strong>%{record_id}</strong>."
     transfer_html: "<strong>%{user}</strong> has transferred the following %{record_type} to you: <strong>%{record_id}</strong>."
     reassign_html: "<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>."
+  will_paginate:
+    previous_label: "&#8592; Previous"
+    next_label: "Next &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page_html:
+        zero: "No %{model} found"
+        one: "Displaying <b>1</b> %{model}"
+        other: "Displaying <b>all %{count}</b> %{model}"
+      multi_page_html: "Displaying %{model} <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
+    models:
+      report:
+        one: "Report"
+        other: "Reports"
+      child:
+        one: "Case"
+        other: "Cases"
+      incident:
+        one: "Incident"
+        other: "Incidents"
+      hash:
+        one: "Matching Result"
+        other: "Matching Results"
+      bulk_export:
+        one: "Bulk file export"
+        other: "Bulk file exports"
+      task:
+        one: "Task"
+        other: "Tasks"
+
