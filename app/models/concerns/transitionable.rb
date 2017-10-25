@@ -72,6 +72,10 @@ module Transitionable
       TransferJob.perform_later(self.class.to_s, self.id, self.transitions.first.id, host_url)
     end
 
+    def send_reassign_email(host_url)
+      ReassignJob.perform_later(self.class.to_s, self.id, self.transitions.first.id, host_url)
+    end
+
   end
 
   EXPORT_TYPE_PRIMERO = 'primero'
@@ -99,6 +103,10 @@ module Transitionable
 
   def transfer_by_id(id)
     self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER && t.id == id}.first
+  end
+
+  def reassign_by_id(id)
+    self.transitions.select{|t| t.type == Transition::TYPE_REASSIGN && t.id == id}.first
   end
 
   def has_referrals

@@ -46,7 +46,7 @@ describe ChildrenController do
       controller.stub :redirect_to
 
       controller.should_receive(:is_consent_given?).with(instance).and_call_original
-      controller.should_receive(:is_reassign?).exactly(5).times.and_call_original
+      controller.should_receive(:is_reassign?).exactly(6).times.and_call_original
       controller.should_receive(:consent_override).twice.and_call_original
       controller.should_receive(:log_to_history).with([instance]).and_call_original
       controller.should_receive(:is_remote?).exactly(6).times.and_call_original
