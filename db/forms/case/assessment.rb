@@ -10,7 +10,7 @@ assessment_fields = [
     help_text_all: 'This field is used for the Workflow status.',
     type: 'date_field',
     editable: false
-  })
+  }),
   Field.new({
     type: 'date_field',
     display_name_all: 'Date Case Plan Due',
@@ -18,7 +18,7 @@ assessment_fields = [
     required: false,
     editable: false,
     visible: false
-  }),
+  })
 ]
 
 FormSection.create_or_update_form_section({
