@@ -56,6 +56,11 @@ module ChildrenHelper
       case_status_date_text(workflow_text, child.reopened_date)
     when Child::WORKFLOW_SERVICE_IMPLEMENTED
       "#{workflow_text}"
+    when Child::WORKFLOW_ASSESSMENT
+      #TODO: This label may only make sense in English
+      "#{t('case.workflow.assessment')} #{t('case.workflow.in_progress')}"
+    when Child::WORKFLOW_CASE_PLAN
+      "#{t('case.workflow.case_plan')} #{t('case.workflow.in_progress')}"
     else
       service_provision_text = Lookup.display_value('lookup-service-response-type', child.workflow_status, lookups)
       if service_provision_text.present?
