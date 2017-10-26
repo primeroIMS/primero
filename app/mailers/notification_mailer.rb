@@ -36,14 +36,13 @@ class NotificationMailer < ActionMailer::Base
     end
   end
 
-  #TODO - there is a lot of similar code in referral() and transfer() and reassign().
-  #TODO - refactor and DRY this up
-  def referral(record_class, record_id, transition_id, host_url)
+  def transition_notify(transition_type, record_class, record_id, transition_id, host_url)
     @model_class = record_class.constantize
     @record = @model_class.get(record_id)
     if @record.present? && @record.transitions.present?
-      transition = @record.referral_by_id(transition_id)
+      transition = @record.transition_by_type_and_id(transition_type, transition_id)
       if transition.present?
+        @transition_type = transition_type
         @user_to = User.find_by_user_name(transition.to_user_local)
         @user_from = User.find_by_user_name(transition.transitioned_by)
         if @user_to.present? && @user_to.email.present? && @user_to.send_mail && @user_from.present?
@@ -51,52 +50,10 @@ class NotificationMailer < ActionMailer::Base
           @record_type = @model_class.parent_form.titleize
           mail(:to => @user_to.email,
                :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
-               :subject => t("email_notification.referral_subject", record_type: @record_type, id: @record.short_id))
+               :subject => t("email_notification.#{transition_type}_subject", record_type: @record_type, id: @record.short_id))
         end
       else
-        Rails.logger.error "Referral Mail not sent - Transition not found for [RecordType: #{record_class} ID: #{record_id}]"
-      end
-    end
-  end
-
-  def transfer(record_class, record_id, transition_id, host_url)
-    @model_class = record_class.constantize
-    @record = @model_class.get(record_id)
-    if @record.present? && @record.transitions.present?
-      transition = @record.transfer_by_id(transition_id)
-      if transition.present?
-        @user_to = User.find_by_user_name(transition.to_user_local)
-        @user_from = User.find_by_user_name(transition.transitioned_by)
-        if @user_to.present? && @user_to.email.present? && @user_to.send_mail && @user_from.present?
-          @url = "#{host_url}/#{@model_class.parent_form.pluralize}/#{@record.id}"
-          @record_type = @model_class.parent_form.titleize
-          mail(:to => @user_to.email,
-               :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
-               :subject => t("email_notification.transfer_subject", record_type: @record_type, id: @record.short_id))
-        end
-      else
-        Rails.logger.error "Transfer Mail not sent - Transition not found for [RecordType: #{record_class} ID: #{record_id}]"
-      end
-    end
-  end
-
-  def reassign(record_class, record_id, transition_id, host_url)
-    @model_class = record_class.constantize
-    @record = @model_class.get(record_id)
-    if @record.present? && @record.transitions.present?
-      transition = @record.reassign_by_id(transition_id)
-      if transition.present?
-        @user_to = User.find_by_user_name(transition.to_user_local)
-        @user_from = User.find_by_user_name(transition.transitioned_by)
-        if @user_to.present? && @user_to.email.present? && @user_to.send_mail && @user_from.present?
-          @url = "#{host_url}/#{@model_class.parent_form.pluralize}/#{@record.id}"
-          @record_type = @model_class.parent_form.titleize
-          mail(:to => @user_to.email,
-               :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
-               :subject => t("email_notification.reassign_subject", record_type: @record_type, id: @record.short_id))
-        end
-      else
-        Rails.logger.error "Assign Mail not sent - Transition not found for [RecordType: #{record_class} ID: #{record_id}]"
+        Rails.logger.error "#{transition_type} Mail not sent - Transition not found for [RecordType: #{record_class} ID: #{record_id}]"
       end
     end
   end

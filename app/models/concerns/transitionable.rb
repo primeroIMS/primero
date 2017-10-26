@@ -65,15 +65,15 @@ module Transitionable
     end
 
     def send_referral_email(host_url)
-      ReferralJob.perform_later(self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
+      TransitionNotifyJob.perform_later(Transition::TYPE_REFERRAL, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
     end
 
     def send_transfer_email(host_url)
-      TransferJob.perform_later(self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
+      TransitionNotifyJob.perform_later(Transition::TYPE_TRANSFER, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
     end
 
     def send_reassign_email(host_url)
-      ReassignJob.perform_later(self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
+      TransitionNotifyJob.perform_later(Transition::TYPE_REASSIGN, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
     end
 
   end
@@ -107,6 +107,10 @@ module Transitionable
 
   def reassign_by_id(id)
     self.transitions.select{|t| t.type == Transition::TYPE_REASSIGN && t.id == id}.first
+  end
+
+  def transition_by_type_and_id(type, id)
+    self.transitions.select{|t| t.type == type && t.id == id}.first
   end
 
   def has_referrals
