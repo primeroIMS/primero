@@ -1,4 +1,5 @@
 class Task
+  extend ActiveModel::Naming
 
   attr_accessor :parent_case, :priority, :case_id
 
@@ -11,6 +12,11 @@ class Task
       end.flatten
     end
     tasks.sort_by!(&:due_date)
+  end
+
+  #Need to use the same model name string for all tasks for i18n
+  def self.model_name
+    ActiveModel::Name.new(self.class, nil, 'Task')
   end
 
   def initialize(record)

@@ -200,11 +200,13 @@ class HomeController < ApplicationController
       end
 
       facet.each do |c|
-        unless @aggregated_case_manager_stats[:task_overdue][c.value].present?
-          @aggregated_case_manager_stats[:task_overdue][c.value] = {}
-        end
+        if c.count > 0
+          unless @aggregated_case_manager_stats[:task_overdue][c.value].present?
+            @aggregated_case_manager_stats[:task_overdue][c.value] = {}
+          end
 
-        @aggregated_case_manager_stats[:task_overdue][c.value][stat] = c.count
+          @aggregated_case_manager_stats[:task_overdue][c.value][stat] = c.count
+        end
       end
     end
 
