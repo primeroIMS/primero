@@ -104,15 +104,15 @@ describe Transitionable do
       end
 
       it 'does not send a referral email' do
-        expect { @case1.send_referral_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        expect { @case1.send_transition_email(Transition::TYPE_REFERRAL, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
 
       it 'does not send a transfer email' do
-        expect { @case1.send_transfer_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        expect { @case1.send_transition_email(Transition::TYPE_TRANSFER, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
 
       it 'does not send a reassign email' do
-        expect { @case1.send_reassign_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        expect { @case1.send_transition_email(Transition::TYPE_REASSIGN, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
     end
 
@@ -131,15 +131,15 @@ describe Transitionable do
       end
 
       it 'sends a referral email' do
-        expect { @case1.send_referral_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        expect { @case1.send_transition_email(Transition::TYPE_REFERRAL, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(1)
       end
 
       it 'does not send a transfer email' do
-        expect { @case1.send_transfer_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        expect { @case1.send_transition_email(Transition::TYPE_TRANSFER, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
 
       it 'does not send a reassign email' do
-        expect { @case1.send_reassign_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        expect { @case1.send_transition_email(Transition::TYPE_REASSIGN, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
     end
 
@@ -158,15 +158,15 @@ describe Transitionable do
       end
 
       it 'sends a transfer email' do
-        expect { @case1.send_transfer_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        expect { @case1.send_transition_email(Transition::TYPE_TRANSFER, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(1)
       end
 
       it 'does not send a referral email' do
-        expect { @case1.send_referral_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        expect { @case1.send_transition_email(Transition::TYPE_REFERRAL, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
 
       it 'does not send a reassign email' do
-        expect { @case1.send_reassign_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        expect { @case1.send_transition_email(Transition::TYPE_REASSIGN, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
     end
 
@@ -189,15 +189,15 @@ describe Transitionable do
       end
 
       it 'sends a reassign email' do
-        expect { @case1.send_reassign_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        expect { @case1.send_transition_email(Transition::TYPE_REASSIGN, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(1)
       end
 
       it 'does not send a referral email' do
-        expect { @case1.send_referral_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        expect { @case1.send_transition_email(Transition::TYPE_REFERRAL, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
 
       it 'does not send a transfer email' do
-        expect { @case1.send_transfer_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        expect { @case1.send_transition_email(Transition::TYPE_TRANSFER, @test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
       end
     end
   end

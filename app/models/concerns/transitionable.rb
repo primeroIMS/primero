@@ -64,16 +64,8 @@ module Transitionable
       status_changed
     end
 
-    def send_referral_email(host_url)
-      TransitionNotifyJob.perform_later(Transition::TYPE_REFERRAL, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
-    end
-
-    def send_transfer_email(host_url)
-      TransitionNotifyJob.perform_later(Transition::TYPE_TRANSFER, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
-    end
-
-    def send_reassign_email(host_url)
-      TransitionNotifyJob.perform_later(Transition::TYPE_REASSIGN, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
+    def send_transition_email(transition_type, host_url)
+      TransitionNotifyJob.perform_later(transition_type, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
     end
 
   end
@@ -86,10 +78,6 @@ module Transitionable
     self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL}
   end
 
-  def referral_by_id(id)
-    self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL && t.id == id}.first
-  end
-
   def set_service_as_referred( service_object_id )
     if service_object_id.present?
       service_object = self.services_section.select {|s| s.unique_id == service_object_id}.first
@@ -99,14 +87,6 @@ module Transitionable
 
   def transfers
     self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER}
-  end
-
-  def transfer_by_id(id)
-    self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER && t.id == id}.first
-  end
-
-  def reassign_by_id(id)
-    self.transitions.select{|t| t.type == Transition::TYPE_REASSIGN && t.id == id}.first
   end
 
   def transition_by_type_and_id(type, id)
