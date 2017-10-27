@@ -120,7 +120,7 @@ module TransitionActions
       if transition_valid(record, @new_user)
         record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
         if record.save
-          record.send_referral_email(request.base_url) if @system_settings.try(:notification_email_enabled)
+          record.send_transition_email(Transition::TYPE_REFERRAL, request.base_url) if @system_settings.try(:notification_email_enabled)
         else
           failed_count += 1
         end
@@ -155,11 +155,7 @@ module TransitionActions
             transfer_record.reassigned_tranferred_on = DateTime.now
           end
           if transfer_record.save
-            if is_reassign?
-              transfer_record.send_reassign_email(request.base_url) if @system_settings.try(:notification_email_enabled)
-            elsif is_transfer?
-              transfer_record.send_transfer_email(request.base_url) if @system_settings.try(:notification_email_enabled)
-            end
+            record.send_transition_email(transition_type, request.base_url) if @system_settings.try(:notification_email_enabled)
           else
             failed_count += 1
           end

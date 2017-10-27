@@ -277,25 +277,18 @@ class Report < CouchRest::Model::Base
     return d
   end
 
-  def translated_graph_label(label, aggregate=false)
+  def translated_label(label)
     if label.present?
-      types = aggregate ? self.disaggregate_by : self.aggregate_by
-      type = types.select {|type|
-        selection = translated_label_options[type].select{|option_list|
-          option_list["id"].downcase == label.downcase
-        }.first if type.present? && translated_label_options[type].present?
-        selection != nil
-      }.first
-      label_selection = translated_label_options[type].select{|option_list|
+      label_selection = translated_label_options.select{|option_list|
         option_list["id"].downcase == label.downcase
-      }.first if type.present?
+      }.first
       label = label_selection["display_text"] if label_selection.present?
     end
     label
   end
 
   def translated_label_options
-    @translated_label_options ||= self.field_map.map{|v, fm| [v, fm.options_list(nil, nil, Location.all_names, true)]}.to_h
+    @translated_label_options ||= self.field_map.map{|v, fm| fm.options_list(nil, nil, Location.all_names, true)}.flatten(1)
   end
 
   #TODO: This method currently builds data for 1D and 2D reports
@@ -312,15 +305,15 @@ class Report < CouchRest::Model::Base
       #The key to the global report data
       data_key = key + [""] * number_of_blanks
       #The label (as understood by chart.js), is always the first dimension value
-      label =  translated_graph_label(key[0].to_s)
+      label =  translated_label(key[0].to_s)
       labels << label if label != labels.last
 
       #The key to the
       chart_datasets_key = (key.size > 1) ? key[1].to_s : ""
       if chart_datasets_hash.key? chart_datasets_key
-        chart_datasets_hash[chart_datasets_key] << self.values[data_key]
+        chart_datasets_hash[chart_datasets_key] << self.data[:values][data_key]
       else
-        chart_datasets_hash[chart_datasets_key] = [self.values[data_key]]
+        chart_datasets_hash[chart_datasets_key] = [self.data[:values][data_key]]
       end
     end
 
@@ -328,7 +321,7 @@ class Report < CouchRest::Model::Base
     chart_datasets_hash.keys.each do |key|
       datasets << {
         label: key,
-        title: translated_graph_label(key.to_s, true),
+        title: translated_label(key.to_s),
         data: chart_datasets_hash[key]
       }
     end
@@ -389,10 +382,9 @@ class Report < CouchRest::Model::Base
   def translate_data(data)
     #TODO: Eventually we want all i18n to be applied through this method
     [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
-      disaggregate = k == :disaggregate_value_range
       if data[k].present?
         data[k] = data[k].map do |value|
-          value.map{|v| translate(v, disaggregate)}
+          value.map{|v| translate(v)}
         end
       end
     end
@@ -407,8 +399,8 @@ class Report < CouchRest::Model::Base
   end
 
   #TODO: When we have true I18n we will discard this method and just use I18n.t()
-  def translate(string, disaggregate=false)
-    [false, true, 'false', 'true'].include?(string) ? I18n.t(string.to_s) : translated_graph_label(string.to_s, disaggregate)
+  def translate(string)
+    [false, true, 'false', 'true'].include?(string) ? I18n.t(string.to_s) : translated_label(string.to_s)
   end
 
   def pivots
@@ -510,7 +502,7 @@ class Report < CouchRest::Model::Base
         query = nil
         if attribute.present? && value.present?
           if constraint.present?
-            value = Date.parse(value).xmlschema unless value.is_number?
+            value = Date.parse(value).strftime("%FT%H:%M:%SZ") unless value.is_number?
             query = if constraint == '>'
               "#{attribute}:[#{value} TO *]"
             elsif constraint == '<'
