@@ -1,6 +1,5 @@
-#TODO - WARNING!!! Currently this concern contains logic / fields specific to Child/Case.
-#TODO - Before using this concern in any model other than the Child model, some refactoring will be necessary
-#WARNING - This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
+#Note: Currently this concern contains logic / fields specific to Child/Case.
+#Note: This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
 module Workflow
   extend ActiveSupport::Concern
 
@@ -8,66 +7,100 @@ module Workflow
     WORKFLOW_NEW = 'new'
     WORKFLOW_CLOSED = 'closed'
     WORKFLOW_REOPENED = 'reopened'
-    WORKFLOW_SERVICE_PROVISION = 'service_provision'
+    WORKFLOW_SERVICE_PROVISION = 'service_provision' #Note, this status is deprecated
     WORKFLOW_SERVICE_IMPLEMENTED = 'services_implemented'
+    WORKFLOW_CASE_PLAN = 'case_plan'
+    WORKFLOW_ASSESSMENT = 'assessment'
 
     before_create :set_workflow_new
-    before_save :set_workflow
+    before_save :calculate_workflow
 
     property :workflow, String, :default => WORKFLOW_NEW
-
-    def workflow_status
-      if (self.workflow == WORKFLOW_SERVICE_PROVISION) && self.services_section.present?
-        most_recent_service = self.most_recent_service(Serviceable::SERVICE_NOT_IMPLEMENTED)
-        if most_recent_service.present?
-          most_recent_service.try(:service_response_type)
-        end
-      else
-        self.workflow
-      end
-    end
+    alias_method :workflow_status, :workflow
 
     def set_workflow_new
       self.workflow = WORKFLOW_NEW
     end
 
-    #TODO - WARNING - Case specific code
-    def set_workflow
-      case self.child_status
-        when Record::STATUS_OPEN
-          set_workflow_open
-        when Record::STATUS_CLOSED
-          self.workflow = WORKFLOW_CLOSED
-        else
-          # Nothing to do
+    def calculate_workflow
+      if self.child_status == Record::STATUS_OPEN
+        if workflow_case_reopened?
+          self.workflow = WORKFLOW_REOPENED
+        elsif workflow_services_implemented?
+          self.workflow = WORKFLOW_SERVICE_IMPLEMENTED
+        elsif workflow_service_response?
+          most_recent_service = self.most_recent_service(Serviceable::SERVICE_NOT_IMPLEMENTED)
+          if most_recent_service.present?
+            self.workflow = most_recent_service.try(:service_response_type)
+          end
+        elsif workflow_case_plan?
+          self.workflow = WORKFLOW_CASE_PLAN
+        elsif workflow_assessment?
+          self.workflow = WORKFLOW_ASSESSMENT
+        end
+      elsif self.child_status == Record::STATUS_CLOSED
+        self.workflow = WORKFLOW_CLOSED
       end
     end
 
-    #TODO - WARNING - Case specific code
-    # If there are in progress services, the status is based on the service status
-    # UNLESS the case has been reopened
-    # If the case has been reopened, the status is based on what has happend most recently: the reopen or a new service
-    def set_workflow_open
-      case self.services_status
-        when Serviceable::SERVICES_IN_PROGRESS
-          self.workflow = is_reopened_most_recent?(Serviceable::SERVICE_NOT_IMPLEMENTED) ? WORKFLOW_REOPENED : WORKFLOW_SERVICE_PROVISION
-        when Serviceable::SERVICES_ALL_IMPLEMENTED
-          self.workflow = is_reopened_most_recent?(Serviceable::SERVICE_IMPLEMENTED) ? WORKFLOW_REOPENED : WORKFLOW_SERVICE_IMPLEMENTED
-        else
-          self.workflow = WORKFLOW_REOPENED if self.case_status_reopened
-      end
+    def workflow_case_reopened?
+      (self.changed.include?('case_status_reopened') ||
+       self.changed.include?('child_status')) &&
+      self.case_status_reopened
     end
 
-    # REOPENED status is used only if it is the most recent thing that happened
-    # Otherwise, the most recent service determines the status
-    def is_reopened_most_recent?(status)
-      if self.case_status_reopened
-        most_recent_service = self.most_recent_service(status)
-        service_date = most_recent_service.try(:service_response_day_time)
-        (service_date.present? && service_date.is_a?(DateTime)) ? (self.reopened_date > service_date) : true
+    def workflow_services_implemented?
+      self.changed.include?('services_section') &&
+      self.services_status == Serviceable::SERVICES_ALL_IMPLEMENTED &&
+      self.module.use_workflow_service_implemented?
+    end
+
+    def workflow_service_response?
+      self.changed.include?('services_section') &&
+      self.services_section.present?
+    end
+
+    def workflow_case_plan?
+      self.changed.include?('date_case_plan') &&
+      self.try(:date_case_plan).present? &&
+      self.module.use_workflow_case_plan?
+    end
+
+    def workflow_assessment?
+      self.changed.include?('assessment_requested_on') &&
+      self.try(:assessment_requested_on).present? &&
+      self.module.use_workflow_assessment?
+    end
+
+    def workflow_sequence_strings(lookups=nil)
+      status_list = self.class.workflow_statuses([self.module], lookups)
+      if self.case_status_reopened.present?
+        status_list.reject! {|status| status['id'] == WORKFLOW_NEW}
       else
-        false
+        status_list.reject! {|status| status['id'] == WORKFLOW_REOPENED}
       end
+      status_list.map {|status| [status['display_text'], status['id']]}
+    end
+  end
+
+  module ClassMethods
+    def workflow_statuses(modules=[], lookups=nil)
+      status_list = []
+      status_list << workflow_key_value(WORKFLOW_NEW)
+      status_list << workflow_key_value(WORKFLOW_REOPENED)
+      status_list << workflow_key_value(WORKFLOW_ASSESSMENT) if modules.try(:any?) {|m| m.use_workflow_assessment?}
+      status_list << workflow_key_value(WORKFLOW_CASE_PLAN) if modules.try(:any?) {|m| m.use_workflow_case_plan?}
+      status_list += Lookup.values('lookup-service-response-type', lookups)
+      status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED) if modules.try(:any?) {|m| m.use_workflow_service_implemented?}
+      status_list << workflow_key_value(WORKFLOW_CLOSED)
+      status_list
+    end
+
+    private
+
+    #TODO - concept of 'display_text' would fit better in a helper
+    def workflow_key_value(status)
+      {'id' => status, 'display_text' => I18n.t("case.workflow.#{status}")}
     end
   end
 end

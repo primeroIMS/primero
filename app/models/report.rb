@@ -24,8 +24,6 @@ class Report < CouchRest::Model::Base
     Field::TALLY_FIELD,
   ]
 
-  AGE_FIELD = 'age' #TODO: should this be made generic?
-
   DAY = 'date' #eg. 13-Jan-2015
   WEEK = 'week' #eg. Week 2 Jan-2015
   MONTH = 'month' #eg. Jan-2015
@@ -126,6 +124,10 @@ class Report < CouchRest::Model::Base
     # Prepopulates pivot fields
     pivot_fields
 
+    sys = SystemSettings.current
+    primary_range = sys.primary_age_range
+    age_ranges = sys.age_ranges[primary_range]
+
     if permission_filter.present?
       filters << permission_filter
     end
@@ -170,16 +172,18 @@ class Report < CouchRest::Model::Base
           end
         end
       end
-      age_field_index = pivot_index(AGE_FIELD)
-      if group_ages && age_field_index && age_field_index < dimensionality
-        sys = SystemSettings.current
-        primary_range = sys.primary_age_range
-        age_ranges = sys.age_ranges[primary_range]
 
-        self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
-          age_ranges.find{|range| range.cover? pivot_name}
+      pivots.each do |pivot|
+        if /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) && field_map[pivot].present? && field_map[pivot]['type'] == 'numeric_field'
+          age_field_index = pivot_index(pivot)
+          if group_ages && age_field_index && age_field_index < dimensionality
+            self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
+              age_ranges.find{|range| range.cover? pivot_name}
+            end
+          end
         end
       end
+
       if group_dates_by.present?
         date_fields = pivot_fields.select{|_, f| f.type == Field::DATE_FIELD}
         date_fields.each do |field_name, _|
@@ -275,15 +279,23 @@ class Report < CouchRest::Model::Base
 
   def translated_graph_label(label, aggregate=false)
     if label.present?
-      type = aggregate ? self.disaggregate_by : self.aggregate_by
-      label_selection = translated_label_options[type.first].select{|option_list| option_list["id"] === label}.first
+      types = aggregate ? self.disaggregate_by : self.aggregate_by
+      type = types.select {|type|
+        selection = translated_label_options[type].select{|option_list|
+          option_list["id"].downcase == label.downcase
+        }.first if type.present? && translated_label_options[type].present?
+        selection != nil
+      }.first
+      label_selection = translated_label_options[type].select{|option_list|
+        option_list["id"].downcase == label.downcase
+      }.first if type.present?
       label = label_selection["display_text"] if label_selection.present?
     end
     label
   end
 
   def translated_label_options
-    self.field_map.map{|v, fm| [v, fm.options_list(nil, nil, nil, true)]}.to_h
+    @translated_label_options ||= self.field_map.map{|v, fm| [v, fm.options_list(nil, nil, Location.all_names, true)]}.to_h
   end
 
   #TODO: This method currently builds data for 1D and 2D reports
@@ -316,7 +328,7 @@ class Report < CouchRest::Model::Base
     chart_datasets_hash.keys.each do |key|
       datasets << {
         label: key,
-        title: translated_graph_label(key, true),
+        title: translated_graph_label(key.to_s, true),
         data: chart_datasets_hash[key]
       }
     end
@@ -377,23 +389,26 @@ class Report < CouchRest::Model::Base
   def translate_data(data)
     #TODO: Eventually we want all i18n to be applied through this method
     [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
+      disaggregate = k == :disaggregate_value_range
       if data[k].present?
         data[k] = data[k].map do |value|
-          value.map{|v| translate(v)}
+          value.map{|v| translate(v, disaggregate)}
         end
       end
     end
+
     if data[:values].present?
       data[:values] = data[:values].map do |key,value|
         [key.map{|k| translate(k)}, value]
       end.to_h
     end
+
     return data
   end
 
   #TODO: When we have true I18n we will discard this method and just use I18n.t()
-  def translate(string)
-    ['false', 'true'].include?(string) ? I18n.t(string) : string
+  def translate(string, disaggregate=false)
+    [false, true, 'false', 'true'].include?(string) ? I18n.t(string.to_s) : translated_graph_label(string.to_s, disaggregate)
   end
 
   def pivots

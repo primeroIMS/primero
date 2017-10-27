@@ -14,19 +14,44 @@
     <div class="side-tab-content" data-equalizer-watch>
       <div class="row">
         <div class="large-12 columns">
-          <%= form_tag system_setting_path, :method => "put", :class => 'default-form', :autocomplete => "off", :id => "0" do %>
+          <%= form_for @system_settings, :html => {:class => 'default-form', :autocomplete => "off"} do |f| %>
             <fieldset class="no-border">
-            <%= resource_edit_field(@system_settings, 'primero_version', 'system_settings.primero_version', 'text_field', false, true) %>
-            <div class="row">
-              <div class="medium-3 columns">
-                <%= label_tag "user_locale", t("home.language") %>
+              <%= resource_edit_field(@system_settings, 'primero_version', 'system_settings.primero_version', 'text_field', false, true) %>
+              <div class="row">
+                <div class="medium-3 columns">
+                  <span class="tool-tip-label">
+                    <label class="key" for="default_locale" ><%= t("home.language") %></label>
+                  </span>
+                </div>
+                <div class="medium-8 columns">
+                  <%= f.select :default_locale, Primero::Application::LOCALES_WITH_DESCRIPTION, {class: 'chosen-select', data: {value: I18n.default_locale}} %>
+                </div>
+                <div class="medium-1 columns"> </div>
               </div>
-              <div class="medium-8 columns">
-                <%= select_tag :locale, options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION, I18n.default_locale) %>
+              <div class="row">
+                <div class="medium-3 columns">
+                  <span class="tool-tip-label">
+                    <%= f.label :notification_email_enabled, t("email_notification.enabled_label"), :class=>'key inline' %>
+                  </span>
+                </div>
+                <div class="medium-8 columns">
+                  <%= f.check_box :notification_email_enabled, {}, "true", "false" %>
+                </div>
+                <div class="medium-1 columns"></div>
               </div>
-              <div class="medium-1 columns"> </div>
-            </div>
-          </fieldset>
+              <div class="row">
+                <div class="medium-3 columns">
+                  <span class="tool-tip-label">
+                    <%= f.label :welcome_email_enabled, t("user.welcome_email.enabled_label"), :class=>'key inline' %>
+                  </span>
+                </div>
+                <div class="medium-8 columns">
+                  <%= f.check_box :welcome_email_enabled, {}, "true", "false" %>
+                </div>
+                <div class="medium-1 columns"></div>
+              </div>
+              <%= resource_edit_field(@system_settings, 'welcome_email_text', 'user.welcome_email.text_label', 'text_area') %>
+            </fieldset>
           <% end %>
         </div>
       </div>

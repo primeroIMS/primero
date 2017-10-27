@@ -56,6 +56,11 @@ module ChildrenHelper
       case_status_date_text(workflow_text, child.reopened_date)
     when Child::WORKFLOW_SERVICE_IMPLEMENTED
       "#{workflow_text}"
+    when Child::WORKFLOW_ASSESSMENT
+      #TODO: This label may only make sense in English
+      "#{t('case.workflow.assessment')} #{t('case.workflow.in_progress')}"
+    when Child::WORKFLOW_CASE_PLAN
+      "#{t('case.workflow.case_plan')} #{t('case.workflow.in_progress')}"
     else
       service_provision_text = Lookup.display_value('lookup-service-response-type', child.workflow_status, lookups)
       if service_provision_text.present?
@@ -108,26 +113,8 @@ module ChildrenHelper
     end
   end
 
-  def build_steps(child, lookups, blacklisted=[])
-    closed_text = Lookup.display_value('lookup-case-status', Record::STATUS_CLOSED, lookups)
-    service_response_types = Lookup.values_for_select('lookup-service-response-type', lookups)
-    new_step =
-      if child.case_status_reopened.present?
-        [I18n.t("case.workflow.reopened"), Child::WORKFLOW_REOPENED]
-      else
-        [I18n.t("case.workflow.new"), Child::WORKFLOW_NEW]
-      end
-
-    steps = []
-    steps << new_step
-    steps += service_response_types
-    steps << [I18n.t("case.workflow.service_implemented"), 'services_implemented']
-    steps << [closed_text, Record::STATUS_CLOSED]
-    steps.reject{ |st|  blacklisted.include? st[1] }
-  end
-
-  def display_workflow_status(child, lookups, blacklisted=[])
-    steps = build_steps(child, lookups, blacklisted)
+  def display_workflow_status(child, lookups)
+    steps = child.workflow_sequence_strings(lookups)
 
     content_tag :div, class: 'ui mini steps' do
       disable = false

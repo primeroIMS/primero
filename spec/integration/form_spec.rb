@@ -48,5 +48,12 @@ feature "forms" do
       click_on('Save')
       expect(page).to have_content(/Case record (.*) successfully created./)
     end
+
+    scenario "agency not avaliable when editing My Account" do
+      visit '/'
+      click_on('My Account')
+      click_on('Edit')
+      expect(page).to_not have_selector(".default-form .key[for='user_organization']")
+    end
   end
 end

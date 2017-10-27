@@ -1,0 +1,3 @@
+===============================================
+
+<%= t('email_notification.approval_response', user: @manager.user_name, status: @approval.downcase, approval_type: @approval_type.downcase, case_id: link_to(@child.short_id, @url + '/cases/' + @child.id)).html_safe  %>

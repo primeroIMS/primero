@@ -69,12 +69,14 @@ module CapybaraHelpers
     primero_module = create(:primero_module, module_options)
     roles = args[:roles] || create(:role)
     user_group = args[:user_groups] || create(:user_group)
+    user_org = args[:organization] || 'agency-unicef'
     user = create(user_factory,
       password: 'password123',
       password_confirmation: 'password123',
       role_ids: [roles.id],
       module_ids: [primero_module.id],
-      user_group_ids: [user_group.id]
+      user_group_ids: [user_group.id],
+      organization: user_org
     )
 
     user

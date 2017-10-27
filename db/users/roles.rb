@@ -34,7 +34,8 @@ cp_admin_permissions = [
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SEARCH_OWNED_BY_OTHERS,
-      Permission::CREATE
+      Permission::CREATE,
+      Permission::VIEW_PROTECTION_CONCERNS_FILTER
     ]
   ),
   Permission.new(
@@ -159,7 +160,8 @@ cp_caseworker_permissions = [
       Permission::CREATE,
       Permission::SERVICES_SECTION_FROM_CASE,
       Permission::REFERRAL_FROM_SERVICE,
-      Permission::REFERRAL
+      Permission::REFERRAL,
+      Permission::VIEW_PROTECTION_CONCERNS_FILTER
     ]
   ),
   Permission.new(
@@ -189,7 +191,8 @@ cp_caseworker_permissions = [
     :actions => [
       Permission::VIEW_APPROVALS,
       Permission::VIEW_ASSESSMENT,
-      Permission::VIEW_PROTECTION_CONCERNS_FILTER
+      Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+      Permission::DASH_TASKS
     ]
   ),
   Permission.new(
@@ -228,7 +231,8 @@ cp_manager_permissions = [
       Permission::SYNC_MOBILE,
       Permission::APPROVE_CASE_PLAN,
       Permission::SEARCH_OWNED_BY_OTHERS,
-      Permission::INCIDENT_FROM_CASE
+      Permission::INCIDENT_FROM_CASE,
+      Permission::VIEW_PROTECTION_CONCERNS_FILTER
     ]
   ),
   Permission.new(
@@ -296,7 +300,8 @@ cp_manager_permissions = [
       :actions => [
         Permission::VIEW_APPROVALS,
         Permission::VIEW_ASSESSMENT,
-        Permission::VIEW_PROTECTION_CONCERNS_FILTER
+        Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+        Permission::DASH_CASES_BY_TASK_OVERDUE
       ]
   )
 ]
@@ -326,7 +331,8 @@ cp_user_manager_permissions = [
             Permission::EXPORT_CASE_PDF,
             Permission::EXPORT_UNHCR,
             Permission::SYNC_MOBILE,
-            Permission::APPROVE_CASE_PLAN
+            Permission::APPROVE_CASE_PLAN,
+            Permission::VIEW_PROTECTION_CONCERNS_FILTER
         ]
     ),
     Permission.new(
@@ -429,7 +435,8 @@ gbv_worker_permissions = [
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
       Permission::INCIDENT_FROM_CASE,
-      Permission::CREATE
+      Permission::CREATE,
+      Permission::VIEW_PROTECTION_CONCERNS_FILTER
     ]
   ),
   Permission.new(
@@ -473,7 +480,8 @@ gbv_manager_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::SYNC_MOBILE
+      Permission::SYNC_MOBILE,
+      Permission::VIEW_PROTECTION_CONCERNS_FILTER
     ]
   ),
   Permission.new(
@@ -557,7 +565,8 @@ gbv_user_manager_permissions = [
             Permission::EXPORT_PDF,
             Permission::EXPORT_CASE_PDF,
             Permission::EXPORT_UNHCR,
-            Permission::SYNC_MOBILE
+            Permission::SYNC_MOBILE,
+            Permission::VIEW_PROTECTION_CONCERNS_FILTER
         ]
     ),
     Permission.new(
@@ -647,7 +656,8 @@ referral_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::CREATE
+      Permission::CREATE,
+      Permission::VIEW_PROTECTION_CONCERNS_FILTER
     ]
   )
 ]
@@ -673,7 +683,8 @@ transfer_permissions = [
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
-      Permission::CREATE
+      Permission::CREATE,
+      Permission::VIEW_PROTECTION_CONCERNS_FILTER
     ]
   )
 ]
@@ -700,7 +711,8 @@ ftr_manager_permissions = [
           Permission::EXPORT_CASE_PDF,
           Permission::EXPORT_UNHCR,
           Permission::SYNC_MOBILE,
-          Permission::CREATE
+          Permission::CREATE,
+          Permission::VIEW_PROTECTION_CONCERNS_FILTER
       ]
   ),
   Permission.new(

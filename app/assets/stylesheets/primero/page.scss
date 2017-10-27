@@ -11,6 +11,14 @@
   }
 }
 
+table {
+  @if $global-text-direction == rtl {
+    direction: rtl
+  } @else {
+    direction: ltr
+  }
+}
+
 .hide_element {
   display:none;
 }
@@ -90,6 +98,14 @@ fieldset {
 
 ul.inline-list {
   font-size: 1.2rem;
+}
+
+.stress-error {
+  color: $red_color_bright;
+}
+
+.stress-warning {
+  color: $blue_color;
 }
 
 table {

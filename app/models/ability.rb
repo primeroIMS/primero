@@ -59,7 +59,10 @@ class Ability
         true
       elsif (uzer.is_user_admin?)
         false
-      elsif user.has_group_permission?(Permission::GROUP) || user.has_group_permission?(Permission::ALL)
+      elsif (user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) && user.agency == uzer.agency)
+        true
+      # TODO: should this be limited in a more generic way rather than by not agency user admin?
+      elsif !user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) && (user.has_group_permission?(Permission::GROUP) || user.has_group_permission?(Permission::ALL))
         # TODO-permission: Add check that the current user has the ability to edit the uzer's role
         # True if, The user's role's associated_role_ids include the uzer's role_id
         (user.user_group_ids & uzer.user_group_ids).size > 0
@@ -147,6 +150,10 @@ class Ability
         else
           instance.associated_user_names.include? user.user_name
         end
+      end
+      if ((resource == Child) &&
+          user.has_permission?(Permission::DASH_TASKS))
+        can :index, Task
       end
       can [:index, :show], BulkExport do |instance|
         instance.owned_by == user.user_name

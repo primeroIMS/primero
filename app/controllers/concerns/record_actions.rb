@@ -22,7 +22,7 @@ module RecordActions
     before_filter :is_mrm, :only => [:index]
     before_filter :load_consent, :only => [:show]
     before_filter :sort_subforms, :only => [:show, :edit]
-    before_filter :load_system_settings, :only => [:index, :show, :edit, :request_approval]
+    before_filter :load_system_settings, :only => [:index, :show, :edit, :request_approval, :approve_form, :transition]
     before_filter :log_controller_action, :except => [:new]
     before_filter :can_access_approvals, :only => [:index]
     before_filter :can_sync_mobile, :only => [:index]

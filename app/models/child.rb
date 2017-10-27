@@ -197,6 +197,18 @@ class Child < CouchRest::Model::Base
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
+
+    date :assessment_due_dates, multiple: true do
+      Tasks::AssessmentTask.from_case(self).map &:due_date
+    end
+
+    date :case_plan_due_dates, multiple: true do
+      Tasks::CasePlanTask.from_case(self).map &:due_date
+    end
+
+    date :followup_due_dates, multiple: true do
+      Tasks::FollowUpTask.from_case(self).map &:due_date
+    end
   end
 
   include Alertable
@@ -415,7 +427,9 @@ class Child < CouchRest::Model::Base
     # TODO: only use services that is of the type of the current workflow
     reportable_services = self.nested_reportables_hash[ReportableService]
     if reportable_services.present?
-      reportable_services.map do |service|
+      reportable_services.select do |service|
+        !service.service_implemented?
+      end.map do |service|
         service.service_due_date
       end.compact
     end
@@ -425,6 +439,20 @@ class Child < CouchRest::Model::Base
     self.child_status = status
     self.case_status_reopened = reopen_status
     self.add_reopened_log(user_name)
+  end
+
+  def send_approval_request_mail(approval_type, host_url)
+    managers = self.owner.managers.select{ |manager| manager.email.present? && manager.send_mail }
+
+    if managers.present?
+      managers.each do |manager|
+        ApprovalRequestJob.perform_later(self.owner.id, manager.id, self.id, approval_type, host_url)
+      end
+    end
+  end
+
+  def send_approval_response_mail(manager_id, approval_type, approval, host_url)
+    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url)
   end
 
   private
