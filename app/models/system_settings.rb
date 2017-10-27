@@ -35,7 +35,7 @@ class SystemSettings < CouchRest::Model::Base
     super(*args)
     # CouchDB stores JSON Objects, and Range is not a proper JSON Object
     # so upon fetching ranges from CouchDB, they need to be recreated
-    age_ranges = args.first["age_ranges"]
+    age_ranges = args.first.try(:[], 'age_ranges')
     if age_ranges.present?
       age_ranges.each do |name, range_array|
         self.age_ranges[name] = range_array.map{ |r| AgeRange.from_string(r) }
