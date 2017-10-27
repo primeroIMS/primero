@@ -10,16 +10,6 @@
       "repo": "git@bitbucket.org:quoin/primero.git",
       "revision": "development"
     },
-    "seed": {
-      "enabled": false,
-      "git": {
-        "repo": "git@bitbucket.org:quoin/primero-configuration.git",
-        "revision": "master"
-      },
-      "script": "/lebanon/seed-files/load_configuration.rb",
-      "bundle": "/jordan/configuration-bundle.json",
-      "deploy_key": ""
-    },
     "couchdb": {
       "password": "primero",
       "ssl": {
@@ -46,5 +36,5 @@
     ]
   },
   "nginx_default_site": false,
-  "run_list": [ "rvm::vagrant", "recipe[primero::default]", "recipe[primero::configuration]", "recipe[primero::development]" ]
+  "run_list": [ "rvm::vagrant", "recipe[primero::default]", "recipe[primero::development]" ]
 }

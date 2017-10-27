@@ -216,14 +216,10 @@ execute_bundle 'setup-db-migrate-design-views' do
   command "rake db:migrate:design"
 end
 
-#TODO: testing found that not_if inside execute_bundle block did not work as it does inside an execute block
-#      that is why I've handled it with an if statement external to the block
-#TODO: Verify this
 if !node[:primero][:seed][:enabled]
   execute_bundle 'setup-db-seed' do
     command "rake db:seed"
     environment({"NO_RESEED" => "true"}) if node[:primero][:no_reseed]
-    # not_if { node[:primero][:seed][:enabled] }
   end
 end
 

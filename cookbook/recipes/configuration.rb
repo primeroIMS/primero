@@ -1,4 +1,4 @@
-no_reseed_file = node[:primero][:config_dir] + '/no_reseed.txt'
+no_reseed_file = ::File.join(node[:primero][:config_dir], 'no_reseed.txt')
 if !node[:primero][:no_reseed]
   file no_reseed_file do
     action :delete
@@ -12,7 +12,7 @@ if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
     group node[:primero][:app_group]
   end
 
-  ssh_dir = File.join(node[:primero][:home_dir], '.ssh')
+  ssh_dir = ::File.join(node[:primero][:home_dir], '.ssh')
   directory ssh_dir do
     owner node[:primero][:app_user]
     group node[:primero][:app_group]
@@ -35,7 +35,7 @@ if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
     mode '0400'
   end
 
-  git_wrapper_path = File.join(ssh_dir, 'git-wrapper-config.sh')
+  git_wrapper_path = ::File.join(ssh_dir, 'git-wrapper-config.sh')
   template git_wrapper_path do
     source 'ssh_wrapper.sh.erb'
     mode '0744'
