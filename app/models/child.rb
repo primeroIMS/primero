@@ -449,6 +449,8 @@ class Child < CouchRest::Model::Base
       managers.each do |manager|
         ApprovalRequestJob.perform_later(self.owner.id, manager.id, self.id, approval_type, host_url)
       end
+    else
+      Rails.logger.info "Approval Request Mail not sent.  No managers present with send_mail enabled.  User - [#{self.owner.id}]"
     end
   end
 

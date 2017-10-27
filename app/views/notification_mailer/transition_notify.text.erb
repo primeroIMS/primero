@@ -1,0 +1,3 @@
+===============================================
+
+<%= t("email_notification.#{@transition_type}", user: @user_from.user_name, record_type: @record_type, record_id: link_to(@record.short_id, @url)).html_safe %>
