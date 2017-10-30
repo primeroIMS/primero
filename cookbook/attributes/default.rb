@@ -29,11 +29,6 @@ default[:primero].tap do |p|
 
   p[:seed].tap do |seed|
     seed[:enabled] = false
-
-    seed[:git].tap do |git|
-      git[:repo] = 'git@bitbucket.org:primeroims/primero-configuration.git'
-      git[:revision] = 'master'
-    end
   end
 
   p[:couchdb].tap do |c|
