@@ -5,6 +5,7 @@ default[:primero].tap do |p|
   p[:rails_env] = 'production'
   p[:home_dir] = '/srv/primero'
   p[:app_dir] = File.join(node[:primero][:home_dir], 'application')
+  p[:config_dir] = File.join(node[:primero][:home_dir], 'configuration')
   p[:log_dir] = File.join(node[:primero][:home_dir], 'logs')
   p[:daemons_dir] = File.join(node[:primero][:app_dir], 'daemons')
   p[:app_user] = 'primero'
@@ -24,6 +25,10 @@ default[:primero].tap do |p|
   p[:git].tap do |git|
     git[:repo] = 'git@bitbucket.org:primeroims/primero.git'
     git[:revision] = 'development'
+  end
+
+  p[:seed].tap do |seed|
+    seed[:enabled] = false
   end
 
   p[:couchdb].tap do |c|
