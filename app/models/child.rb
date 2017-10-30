@@ -192,8 +192,9 @@ class Child < CouchRest::Model::Base
 
     time :service_due_dates, :multiple => true
 
-    #TODO: this property should be explicitly defined
+    # TODO Core Fields: this property should be explicitly defined since it is a core field for the home dashboard solr search
     date :case_plan_approved_date
+    date :reassigned_tranferred_on
 
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
