@@ -37,8 +37,6 @@ feature "home view" do
         )
       ])
 
-      Child.refresh_form_properties
-
       @user = setup_user(primero_module: {
         id: PrimeroModule::CP,
         workflow_status_indicator: true,
