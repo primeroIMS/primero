@@ -66,6 +66,8 @@ module CapybaraHelpers
       module_options.merge!(args[:primero_module])
     end
 
+    manager = args[:is_manager] || false
+
     primero_module = create(:primero_module, module_options)
     roles = args[:roles] || create(:role)
     user_group = args[:user_groups] || create(:user_group)
@@ -76,7 +78,8 @@ module CapybaraHelpers
       role_ids: [roles.id],
       module_ids: [primero_module.id],
       user_group_ids: [user_group.id],
-      organization: user_org
+      organization: user_org,
+      is_manager: manager
     )
 
     user
@@ -99,5 +102,16 @@ module CapybaraHelpers
         raise I18n.t("session.login_error")
       end
     end
+  end
+
+  def clean_up_objects
+    FormSection.all.each &:destroy
+    PrimeroModule.all.each &:destroy
+    Report.all.each &:destroy
+    SystemSettings.all.each &:destroy
+    User.all.each &:destroy
+    Child.all.each &:destroy
+    Lookup.all.each &:destroy
+    Sunspot.commit
   end
 end
