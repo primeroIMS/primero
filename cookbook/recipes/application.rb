@@ -216,9 +216,11 @@ execute_bundle 'setup-db-migrate-design-views' do
   command "rake db:migrate:design"
 end
 
-execute_bundle 'setup-db-seed' do
-  command "rake db:seed"
-  environment({"NO_RESEED" => "true"}) if node[:primero][:no_reseed]
+if !node[:primero][:seed][:enabled]
+  execute_bundle 'setup-db-seed' do
+    command "rake db:seed"
+    environment({"NO_RESEED" => "true"}) if node[:primero][:no_reseed]
+  end
 end
 
 execute_bundle 'setup-db-migrate' do
