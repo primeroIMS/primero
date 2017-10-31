@@ -26,7 +26,9 @@ module Tasks
     end
 
     def due_date
-      self.service.service_appointment_date
+      #TODO - service_due_date comes back as date_time instead of date
+      # self.service.service_appointment_date
+      @task_due_date ||= self.parent_case.service_due_date(self.service)
     end
 
     def type_display(lookups=nil)

@@ -53,6 +53,27 @@ module Serviceable
       end
     end
 
+    def service_due_date(service)
+      # service.service_appointment_date
+
+      @system_settings ||= SystemSettings.current
+      created_on = service_value(service, 'service_response_day_time')
+      timeframe = service_value(service, 'service_response_timeframe')
+      appointment_date = service_value(service, 'service_appointment_date')
+      appointment_time = service_value(service, 'service_appointment_time')
+
+      if @system_settings.present? && created_on.present? && appointment_date.present?
+        if @system_settings['due_date_from_appointment_date'].present?
+          appointment_date_time = "#{appointment_date} #{appointment_time}"
+
+          appointment_date_time_converted = DateTime.parse(appointment_date_time)
+        elsif timeframe.present?
+          converted_timeframe = convert_time(timeframe)
+          converted_timeframe.present? ? created_on + converted_timeframe : nil
+        end
+      end
+    end
+
     private
 
     def service_implemented?(service)
@@ -63,6 +84,18 @@ module Serviceable
     def service_not_implemented?(service)
       service.try(:service_type).present? &&
       service.try(:service_implemented_day_time).blank?
+    end
+
+    def service_value(service, field_name)
+      service.send(field_name) if service.present? && service.respond_to?(field_name)
+    end
+
+    def convert_time(string)
+      times = string.split('_')
+
+      if times.size >= 2
+        times[0].to_i.send(times[1])
+      end
     end
   end
 end
