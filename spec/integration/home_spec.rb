@@ -59,7 +59,6 @@ feature "home view" do
     scenario "has workflow", search: true do
       create_session(@user, 'password123')
       visit "/"
-      expect(page).to have_content "Logged in as: #{@user.user_name}"
       expect(page).to have_content "NEW"
       expect(page).to have_content "REOPENED"
       expect(page).to have_content "CASE PLAN"
