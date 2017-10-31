@@ -4,13 +4,7 @@ require 'sunspot'
 feature "home view" do
   feature "workflow module", search: true do
     before(:all) do
-      FormSection.all.each &:destroy
-      PrimeroModule.all.each &:destroy
-      Report.all.each &:destroy
-      SystemSettings.all.each &:destroy
-      User.all.each &:destroy
-      Child.all.each &:destroy
-      Lookup.all.each &:destroy
+      clean_up_objects
 
       create_lookup('lookup-service-response-type', [
         { id: 'test1', display_text: 'Test1' },
@@ -78,14 +72,7 @@ feature "home view" do
     end
 
     after(:all, :search => true) do
-      FormSection.all.each &:destroy
-      PrimeroModule.all.each &:destroy
-      Report.all.each &:destroy
-      SystemSettings.all.each &:destroy
-      User.all.each &:destroy
-      Child.all.each &:destroy
-      Lookup.all.each &:destroy
-      Sunspot.commit
+      clean_up_objects
     end
   end
 end

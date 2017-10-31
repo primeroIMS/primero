@@ -103,4 +103,15 @@ module CapybaraHelpers
       end
     end
   end
+
+  def clean_up_objects
+    FormSection.all.each &:destroy
+    PrimeroModule.all.each &:destroy
+    Report.all.each &:destroy
+    SystemSettings.all.each &:destroy
+    User.all.each &:destroy
+    Child.all.each &:destroy
+    Lookup.all.each &:destroy
+    Sunspot.commit
+  end
 end
