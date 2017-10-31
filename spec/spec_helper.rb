@@ -40,6 +40,12 @@ Capybara.register_driver :headless_chrome do |app|
     desired_capabilities: capabilities
 end
 
+Capybara.register_server :thin do |app, port, host|
+  require 'rack/handler/thin'
+  Rack::Handler::Thin.run(app, :Port => port, :Host => host)
+end
+
+Capybara.server = :thin
 Capybara.default_driver  = :headless_chrome
 Capybara.default_max_wait_time = 6 # In seconds
 Capybara.javascript_driver = :headless_chrome
