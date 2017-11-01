@@ -19,6 +19,6 @@
   <td><%= Lookup.display_value('lookup-risk-level', record.priority, @lookups) %></td>
   <td><%= record.type_display %></td>
   <td <%= record.overdue? ? "class=stress-error" : '' %> >
-    <%= field_format_date(record.due_date) %>
+    <%= field_format_date(record.due_date.try(:to_date)) %>
   </td>
 </tr>

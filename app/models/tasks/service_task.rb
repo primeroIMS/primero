@@ -26,7 +26,7 @@ module Tasks
     end
 
     def due_date
-      @due_date ||= self.parent_case.service_due_date(self.service, 'date')
+      @due_date ||= self.parent_case.service_due_date(self.service)
     end
 
     def type_display(lookups=nil)

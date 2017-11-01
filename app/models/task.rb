@@ -34,7 +34,7 @@ class Task
   end
 
   def overdue?
-    self.due_date < Date.today
+    @overdue ||= self.due_date < Date.today
   end
 
   def upcoming_soon?
