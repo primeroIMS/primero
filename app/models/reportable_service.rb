@@ -28,7 +28,7 @@ class ReportableService
   end
 
   def service_due_date
-    @service_due_date ||= @parent_record.service_due_date(@object)
+    @service_due_date ||= @parent_record.service_due_date(@object, 'date_time')
   end
 
   def service_implemented?

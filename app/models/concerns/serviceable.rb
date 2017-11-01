@@ -53,9 +53,7 @@ module Serviceable
       end
     end
 
-    def service_due_date(service)
-      # service.service_appointment_date
-
+    def service_due_date(service, date_or_date_time='date_time')
       @system_settings ||= SystemSettings.current
       created_on = service_value(service, 'service_response_day_time')
       timeframe = service_value(service, 'service_response_timeframe')
@@ -64,9 +62,12 @@ module Serviceable
 
       if @system_settings.present? && created_on.present? && appointment_date.present?
         if @system_settings['due_date_from_appointment_date'].present?
-          appointment_date_time = "#{appointment_date} #{appointment_time}"
-
-          appointment_date_time_converted = DateTime.parse(appointment_date_time)
+          if(date_or_date_time == 'date')
+            appointment_date
+          else
+            appointment_date_time = "#{appointment_date} #{appointment_time}"
+            appointment_date_time_converted = DateTime.parse(appointment_date_time)
+          end
         elsif timeframe.present?
           converted_timeframe = convert_time(timeframe)
           converted_timeframe.present? ? created_on + converted_timeframe : nil
