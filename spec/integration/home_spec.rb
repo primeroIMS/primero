@@ -78,7 +78,6 @@ feature "home view" do
     before do
       @case = create(:child,
         owned_by: @user.user_name,
-        module_id: @user.module_ids.first,
         associated_user_names: @user.user_name,
         child_status: Record::STATUS_OPEN,
         assigned_user_names: [@user.user_name],
