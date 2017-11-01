@@ -7,6 +7,7 @@ module Approvable
     property :approval_status_closure, String
     property :bia_approved_date, DateTime
     property :closure_approved_date, DateTime
+    property :case_plan_approved_date, DateTime
 
     #TODO: having this causes validations to fail whith no method error:  valid? for Hash
     #TODO: To really fix this, need new Approval class and change this to be an array of Approvals

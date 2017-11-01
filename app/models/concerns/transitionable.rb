@@ -5,6 +5,7 @@ module Transitionable
   included do
     property :transfer_status, String
     property :transitions, [Transition], :default => []
+    property :reassigned_tranferred_on, DateTime
 
 
     def add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
