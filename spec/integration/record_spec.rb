@@ -10,8 +10,6 @@ feature "index page" do
         fields: [
           build(:field, name: 'date_closure', type: 'date_field', display_name: 'Date of Closure'),
           build(:field, name: 'date_case_plan', type: 'date_field', display_name: 'Date Case Plan Due'),
-          build(:field, name: "assigned_user_names", display_name: "Assigned User Names", type: Field::SELECT_BOX, option_strings_source: "User", multi_select: true, create_property: false),
-          build(:field, name: 'module_id')
         ]
       )
 
@@ -31,10 +29,10 @@ feature "index page" do
         module_id: @user.module_ids.first
       )
 
+      # TODO: Eventually we will do something similar to Child.refresh_form_properties for Sunspot.
       Sunspot.setup(Child) do
         date 'date_closure', as: :date_closure_d
         date 'date_case_plan', as: :date_case_plan_d
-        string 'module_id', as: :module_id_sci
       end
 
       Child.refresh_form_properties
