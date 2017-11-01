@@ -1,6 +1,63 @@
 require 'spec_helper'
 require 'sunspot'
 
+feature "index page" do
+  feature "date filter", search: true do
+    before do
+      @form_section = create(:form_section,
+        unique_id: 'test_form',
+        is_first_tab: true,
+        fields: [
+          build(:field, name: 'date_closure', type: 'date_field', display_name: 'Date of Closure'),
+          build(:field, name: 'date_case_plan', type: 'date_field', display_name: 'Date Case Plan Due'),
+        ]
+      )
+
+      @user = setup_user(form_sections: [@form_section], primero_module: {id: PrimeroModule::CP})
+
+      @case_date_closure = create(:child,
+        date_closure: DateTime.now,
+        owned_by: @user.user_name,
+        case_id_display: 'Case 1',
+        module_id: @user.module_ids.first
+      )
+
+      @case_case_plan = create(:child,
+        date_case_plan: DateTime.now,
+        owned_by: @user.user_name,
+        case_id_display: 'Case 2',
+        module_id: @user.module_ids.first
+      )
+
+      # TODO: Eventually we will do something similar to Child.refresh_form_properties for Sunspot.
+      Sunspot.setup(Child) do
+        date 'date_closure', as: :date_closure_d
+        date 'date_case_plan', as: :date_case_plan_d
+      end
+
+      Child.refresh_form_properties
+
+      Sunspot.commit
+    end
+
+    scenario "filters records by selected date field", search: true do
+      create_session(@user, 'password123')
+      visit "/cases"
+      scroll_to('.date_range')
+      select_from_chosen('Date of Case Closure', from: 'date')
+      select_from_date_input('date_from', DateTime.now - 3.days)
+      select_from_date_input('date_to', DateTime.now + 3.days)
+      scroll_to('body')
+      find('#apply_filter').click
+      scroll_to('body')
+      within('table.record_list_view ') do
+        expect(page).to have_content 'CASE 1'
+        expect(page).to have_no_content 'CASE 2'
+      end
+    end
+  end
+end
+
 feature "show page" do
   feature "workflow status stepper", search: true do
     before(:all) do

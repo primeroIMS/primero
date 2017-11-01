@@ -144,3 +144,22 @@ You are able to pause a test by inserting pause into a test. Useful if testing o
     expect(page).to have_content("Hello World)
   end
 ```
+
+#### Notes
+
+- Make sure to use Capybara methods that uses Capybara waiting behaviour.
+  Example: Checking to see if something is not in a js table.
+
+  Will not wait for async:
+
+  ```
+  expect(page).to_not have_content 'CASE 2'
+  ```
+
+  Will wait for async:
+
+  ```
+  expect(page).to have_not_content 'CASE 2
+  ```
+
+  For more details: [Capybara Asynchronous JavaScript](https://github.com/teamcapybara/capybara#asynchronous-javascript-ajax-and-friends)

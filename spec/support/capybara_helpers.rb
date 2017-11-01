@@ -104,6 +104,29 @@ module CapybaraHelpers
     end
   end
 
+  def select_from_chosen(item_text, options)
+    field = find_field(options[:from], :visible => false)
+    find("##{field[:id]}_chosen").click
+    find("##{field[:id]}_chosen ul.chosen-results li", :text => item_text).click
+  end
+
+  def scroll_to(element)
+    page.evaluate_script("window.scroll(0, $('#{element}').offset().top)")
+  end
+
+  def select_from_date_input(element, date)
+    month = date.month - 1
+
+    find("##{element}").click
+    find('.datepicker--nav-title').click
+    within('.datepicker--cells.datepicker--cells-months') do
+      find(".datepicker--cell.datepicker--cell-month[data-month='#{month}']", match: :first).click
+    end
+    within('.datepicker--days.datepicker--body') do
+      find(".datepicker--cell-day[data-month='#{month}']", text: date.day, match: :first).click
+    end
+  end
+
   def clean_up_objects
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
