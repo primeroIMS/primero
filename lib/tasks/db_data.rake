@@ -51,6 +51,17 @@ namespace :db do
       end
     end
 
+    desc "Export the configuration bundle"
+    task :export_config_bundle, [:json_file] => :environment do |t, args|
+      bundle_json = ConfigurationBundle.export_as_json
+      if args[:json_file].present?
+        puts "Exporting config bundle JSON to #{args[:json_file]}"
+        File.open(args[:json_file], 'w') {|f| f.write(bundle_json) }
+      else
+        puts bundle_json
+      end
+    end
+
     desc "Import the form translations yaml"
     task :import_form_translation, [:yaml_file] => :environment do |t, args|
       file_name = args[:yaml_file]
