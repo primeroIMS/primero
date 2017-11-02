@@ -16,6 +16,11 @@
         <div class="large-12 columns">
           <%= form_for @system_settings, :html => {:class => 'default-form', :autocomplete => "off"} do |f| %>
             <fieldset class="no-border">
+              <div class="row">
+                <div class="medium-9 medium-offset-3 columns">
+                  <%= render 'shared/locale_select', current_locale: "en" %>
+                </div>
+              </div>
               <%= resource_edit_field(@system_settings, 'primero_version', 'system_settings.primero_version', 'text_field', false, true) %>
               <div class="row">
                 <div class="medium-3 columns">
@@ -51,6 +56,14 @@
                 <div class="medium-1 columns"></div>
               </div>
               <%= resource_edit_field(@system_settings, 'welcome_email_text', 'user.welcome_email.text_label', 'text_area') %>
+              <% Primero::Application::LOCALES.each do |new_locale| %>
+                <% unless new_locale == "en" %>
+                  <div class="<%= "translation_forms #{new_locale}"%> hide_element">
+                    <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>
+                    <%= resource_edit_field(@system_settings, "welcome_email_text_#{new_locale}", nil, 'text_area') %>
+                  </div>
+                <% end %>
+              <% end %>
             </fieldset>
           <% end %>
         </div>

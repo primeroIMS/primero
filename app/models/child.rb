@@ -192,9 +192,12 @@ class Child < CouchRest::Model::Base
 
     time :service_due_dates, :multiple => true
 
+    #TODO: this property should be explicitly defined
+    date :case_plan_approved_date
+
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
-
+    string :child_status, as: 'child_status_sci'
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
