@@ -16,6 +16,7 @@ class SystemSettings < CouchRest::Model::Base
   property :location_limit_for_api
   property :approval_forms_to_alert
   property :changes_field_to_form
+  property :due_date_from_appointment_date, TrueClass, :default => false
   property :notification_email_enabled, TrueClass, :default => false
   property :welcome_email_enabled, TrueClass, :default => false
   property :welcome_email_text, String
