@@ -46,6 +46,12 @@ module Searchable
         string :assigned_user_names, multiple: true
         string :module_id, as: :module_id_sci
       end
+      if self.include?(Approvable)
+        date :case_plan_approved_date
+      end
+      if self.include?(Transitionable)
+        date :reassigned_tranferred_on
+      end
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
       end
