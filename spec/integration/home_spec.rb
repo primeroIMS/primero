@@ -22,11 +22,7 @@ feature "home view" do
         {id: "low", display_text: "Low"}
       ])
 
-      @system = SystemSettings.create(reporting_location_config: {
-        field_key: "owned_by_location",
-        label_key: "country",
-        admin_level: 0
-      })
+      @system = create(:system_settings)
 
       @roles = create(:role, :group_permission => Permission::GROUP, permissions_list: [
         Permission.new(
@@ -46,7 +42,7 @@ feature "home view" do
         )
       ])
 
-      @location = create(:location, placename: "test_location", location_code: "test_location", admin_level: "0")
+      @location = create(:location, placename: "test_location", location_code: "test_location")
 
       # TODO Core Fields: this adds fields that are core fields for some of the dashboard modules but don't break the rendering of the page if they aren't present
       @form_section = create(:form_section,
@@ -72,6 +68,7 @@ feature "home view" do
         date "service_response_day_time"
         date "service_appointment_date"
         string "service_implemented", as: "risk_level_sci"
+        #TODO: we aren't currently testing locations, this is just here to get around solr errors
         string "owned_by_location0", as: "owned_by_location0_sci"
         date "date_closure", as: "date_closure_d"
         string "protection_concerns", :multiple => true
