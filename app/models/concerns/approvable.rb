@@ -5,6 +5,7 @@ module Approvable
     property :approval_status_bia, String
     property :approval_status_case_plan, String
     property :approval_status_closure, String
+    # TODO: these DateTime fields are set to Date fields in searchable_string_fields in searchable based on not having the property date_include_time on the form field.
     property :bia_approved_date, DateTime
     property :closure_approved_date, DateTime
     property :case_plan_approved_date, DateTime
