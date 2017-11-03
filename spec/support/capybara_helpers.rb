@@ -67,11 +67,12 @@ module CapybaraHelpers
     end
 
     manager = args[:is_manager] || false
-
-    primero_module = create(:primero_module, module_options)
+    exisiting_primero_module = PrimeroModule.find(module_options[:id])
+    primero_module = exisiting_primero_module.present? ? exisiting_primero_module : create(:primero_module, module_options)
     roles = args[:roles] || create(:role)
     user_group = args[:user_groups] || create(:user_group)
     user_org = args[:organization] || 'agency-unicef'
+    user_location = args[:location] || create(:location)
     user = create(user_factory,
       password: 'password123',
       password_confirmation: 'password123',
@@ -79,7 +80,8 @@ module CapybaraHelpers
       module_ids: [primero_module.id],
       user_group_ids: [user_group.id],
       organization: user_org,
-      is_manager: manager
+      is_manager: manager,
+      location: user_location
     )
 
     user
