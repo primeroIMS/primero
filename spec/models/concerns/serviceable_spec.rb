@@ -1,22 +1,5 @@
 require 'spec_helper'
 
-class TestServiceClass < CouchRest::Model::Base
-  property :unique_id
-  property :service_response_type
-  property :service_objective
-  property :service_type
-  property :service_response_day_time
-  property :service_appointment_date
-  property :service_response_timeframe
-  property :service_implementing_agency
-  property :service_provider
-  property :service_implementing_agency_individual
-  property :service_status_referred
-  property :service_referral_notes
-  property :service_implemented
-  property :service_implemented_day_time
-end
-
 describe Serviceable do
   before do
     @date_time = DateTime.parse("2017/11/01 12:54:55 -0400")
@@ -25,15 +8,10 @@ describe Serviceable do
     @case1 = Child.new()
   end
 
-  #TODO
   describe 'service_due_date' do
     before do
       @service_appointment_date = (@date_time + 7.days).to_date
-      @service = TestServiceClass.new({unique_id: "abc123", service_response_type: "intervention_judicial", service_objective: nil,
-                  service_type: nil, service_response_day_time: @date_time,
-                  service_appointment_date: @service_appointment_date, service_implementing_agency: nil,
-                  service_provider: nil, service_implementing_agency_individual: nil, service_status_referred: nil,
-                  service_referral_notes: nil, service_implemented: nil, service_implemented_day_time: nil})
+      @service = build(:service, service_response_day_time: @date_time, service_appointment_date: @service_appointment_date)
     end
     context 'when system is configured for due_date_from_appointment_date' do
       before do
