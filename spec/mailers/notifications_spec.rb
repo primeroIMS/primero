@@ -41,6 +41,12 @@ describe NotificationMailer, :type => :mailer do
 
   describe "transitions" do
     before do
+      Lookup.all.each &:destroy
+      Lookup.create(id: "lookup-service-type", name: "Service Type",
+          lookup_values: [{id: "safehouse_service", display_text: "Safehouse Service"}.with_indifferent_access,
+                          {id: "health_medical_service", display_text: "Health/Medical Service"}.with_indifferent_access]
+      )
+
       @test_url = "http://test.com"
       @date_time = DateTime.parse("2016/08/01 12:54:55 -0400")
       DateTime.stub(:now).and_return(@date_time)
@@ -48,6 +54,8 @@ describe NotificationMailer, :type => :mailer do
       @user_to_local = User.new(user_name: 'Uzer To', email: 'uzer_to@test.com', send_mail: true)
       User.stub(:find_by_user_name).with('Uzer From').and_return(@user)
       User.stub(:find_by_user_name).with('Uzer To').and_return(@user_to_local)
+      @agency = Agency.new(name: 'Test Agency')
+      User.any_instance.stub(:agency).and_return(@agency)
       @referral = Transition.new(
           :type => "referral",
           :to_user_local => @user_to_local.user_name,
@@ -57,7 +65,7 @@ describe NotificationMailer, :type => :mailer do
           :notes => "bla bla bla",
           :is_remote => true,
           :type_of_export => nil,
-          :service => nil,
+          :service => 'safehouse_service',
           :consent_overridden => true,
           :created_at => DateTime.now)
       @transfer = Transition.new(
@@ -108,7 +116,7 @@ describe NotificationMailer, :type => :mailer do
       end
 
       it "renders the body" do
-        expect(mail.body.encoded).to match("Uzer From has referred the following Case to you: .*#{@case1.short_id}.")
+        expect(mail.body.encoded).to match("Uzer From from Test Agency has referred the following Case to you: (.*short_123)(.*for Safehouse Service).")
       end
     end
 

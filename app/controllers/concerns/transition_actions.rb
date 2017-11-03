@@ -155,7 +155,7 @@ module TransitionActions
             transfer_record.reassigned_tranferred_on = DateTime.now
           end
           if transfer_record.save
-            record.send_transition_email(transition_type, request.base_url) if @system_settings.try(:notification_email_enabled)
+            transfer_record.send_transition_email(transition_type, request.base_url) if @system_settings.try(:notification_email_enabled)
           else
             failed_count += 1
           end
