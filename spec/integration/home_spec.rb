@@ -210,11 +210,6 @@ feature "home view" do
       end
     end
 
-    after(:each, :search => true) do
-      Child.all.each &:destroy
-      Sunspot.commit
-    end
-
     scenario "has cases by location", search: true do
       create_session(@admin, 'password123')
       visit "/"
@@ -240,6 +235,11 @@ feature "home view" do
       within("#content.columns.dashboards > div:nth-of-type(2) .table-counts tr:first-of-type td:first-of-type") do
         expect(page).to have_content "TEST1"
       end
+    end
+
+    after(:each, :search => true) do
+      Child.all.each &:destroy
+      Sunspot.commit
     end
 
     after(:all, :search => true) do
