@@ -116,7 +116,7 @@ describe NotificationMailer, :type => :mailer do
       end
 
       it "renders the body" do
-        expect(mail.body.encoded).to match("Uzer From from Test Agency has referred the following Case to you: .*#{@case1.short_id}.")
+        expect(mail.body.encoded).to match("Uzer From from Test Agency has referred the following Case to you: (.*short_123)(.*for Safehouse Service).")
       end
     end
 
