@@ -192,8 +192,6 @@ class Child < CouchRest::Model::Base
 
     time :service_due_dates, :multiple => true
 
-    date :reassigned_tranferred_on
-
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
     string :child_status, as: 'child_status_sci'

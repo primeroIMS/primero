@@ -50,7 +50,7 @@ module Searchable
         date :case_plan_approved_date
       end
       if self.include?(Transitionable)
-        date :reassigned_tranferred_on
+        time :reassigned_tranferred_on
       end
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
