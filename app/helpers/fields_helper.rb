@@ -48,24 +48,23 @@ module FieldsHelper
   end
 
   def field_value_for_display(field_value, field=nil, lookups=nil)
-    if (field.present? && field.selectable?)
-      if field_value.is_a?(Array)
-        field_value.map!{|v| field.display_text(v)}
+    value = if field_value.is_a?(Array)
+      values = field_value
+      values = values.map{ |v| field.display_text(v) } if field.present? && field.selectable?
+      values.join(', ')
+    elsif field_value.is_a?(Date) || field_value.is_a?(Time)
+      field_format_date(field_value)
+    elsif field_value.blank?
+      ""
+    else
+      if field.present?
+        field.display_text(field_value, lookups)
       else
-        field_value = field.display_text(field_value, lookups)
+        field_value
       end
     end
 
-    return '' if field_value.blank?
-
-    if field_value.is_a?(Array)
-      field_value = field_value.join ", "
-    elsif field_value.is_a?(Date) || field_value.is_a?(Time)
-      #This function is IMPORTANT. It presents the Date/Time in the right format and converts it to local time
-      field_value = field_format_date(field_value)
-    end
-
-    return  field_value.to_s
+    return value.to_s
   end
 
   def select_options(field, record=nil, lookups=nil, exclude_empty_item=false, add_lookups=false)
@@ -106,7 +105,7 @@ module FieldsHelper
       if field_value.is_a?(Array)
         field_value.each do |option|
           if lookup.present?
-            lookup_value = lookup.select{|lv| lv["display_text"] == option}.first
+            lookup_value = lookup.select{|lv| lv["id"] == option}.first
             options << lookup_value["display_text"] if lookup_value.present?
           else
             selected = (field.option_strings_text.is_a?(Array) ? field.option_strings_text.select{|o| o['id'] == option} : option)
