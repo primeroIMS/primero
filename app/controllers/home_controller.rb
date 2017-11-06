@@ -8,6 +8,7 @@ class HomeController < ApplicationController
   def index
     @page_name = t("home.label")
     @user = User.find_by_user_name(current_user_name)
+    @associated_users = @user.managed_user_names
     @notifications = PasswordRecoveryRequest.to_display
     load_user_module_data
 
@@ -167,8 +168,7 @@ class HomeController < ApplicationController
     if workflow_query.present?
       workflow_query.each do |stat|
         key = stat['value']
-
-        if key.present?
+        if key.present? && @associated_users.include?(key)
           @aggregated_case_manager_stats[:workflow_totals][key] = {}
 
           if stat['pivot'].present?
