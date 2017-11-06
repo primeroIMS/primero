@@ -53,7 +53,12 @@ class ApplicationController < ActionController::Base
   def store_location_for(path)
     uri = URI.parse path
 
-    if uri.present?
+    blacklisted_stored_paths =[
+      '/logout',
+      '/login'
+    ]
+
+    if uri.present? && !blacklisted_stored_paths.include?(request.fullpath)
       path = [uri.path.sub(/\A\/+/, '/'), uri.query].compact.join('?')
       path = [path, uri.fragment].compact.join('#')
       session[:stored_location] = path
