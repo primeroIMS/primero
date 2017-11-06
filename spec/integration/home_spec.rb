@@ -57,7 +57,9 @@ feature "home view" do
             build(:field, name: "service_implemented", display_name: "Service Implemented", create_property: false)
           ]),
           build(:field, name: "date_closure", display_name: "date_closure", type: Field::DATE_FIELD, create_property: false),
-          build(:field, name: "protection_concerns", display_name: "protection_concerns", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-protection-concerns", create_property: false)
+          build(:field, name: "protection_concerns", display_name: "protection_concerns", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-protection-concerns", create_property: false),
+          build(:field, name: 'date_case_plan', type: 'date_field', display_name: 'Date Case Plan Due'),
+          build(:field, name: 'case_plan_due_date', type: 'date_field', display_name: 'Date Case Plan Due')
         ]
       )
 
@@ -71,6 +73,8 @@ feature "home view" do
         #TODO: we aren't currently testing locations, this is just here to get around solr errors
         string "owned_by_location0", as: "owned_by_location0_sci"
         date "date_closure", as: "date_closure_d"
+        date "date_case_plan", as: "date_case_plan_d"
+        date "case_plan_due_date", as: "case_plan_due_date_d"
         string "protection_concerns", :multiple => true
       end
       Sunspot.commit
@@ -251,13 +255,34 @@ feature "home view" do
       end
     end
 
+    scenario "displays overdue case plan in overdue tasks for manager" do
+      case_common = {
+        owned_by: @user.user_name,
+        module_id: @user.module_ids.first,
+        associated_user_names: @user.user_name,
+        assigned_user_names: [@user.user_name],
+        record_state: true,
+        child_status: 'open'
+      }
+
+      @case3 = create(:child, case_common.merge!(case_plan_due_date: DateTime.now - 3.days))
+      @case4 = create(:child, case_common.merge!(case_plan_due_date: DateTime.now + 3.days))
+      @case5 = create(:child, case_common.merge!(case_plan_due_date: DateTime.now - 3.days, date_case_plan: DateTime.now))
+
+      Sunspot.commit
+      create_session(@user, 'password123')
+      visit "/"
+      within(".dashboard-group div:nth-of-type(4) .panel_content table td:nth-of-type(3)") do
+        expect(page).to have_content "1"
+      end
+    end
+
     scenario "has cases by location", search: true do
       create_session(@admin, 'password123')
       visit "/"
       within("#content.columns.dashboards > div:first-of-type .panel_header > h4") do
         expect(page).to have_content "CASES"
       end
-      page.save_screenshot('screenshot.png')
       within("#content.columns.dashboards > div:first-of-type .panel_header th:first-of-type") do
         expect(page).to have_content "COUNTRY"
       end
