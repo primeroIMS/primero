@@ -209,14 +209,18 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
   remove_subform: function($target, self) {
     //TODO: This code has not been tested with grouped subforms. It might not work correctly.
     var $subform = $target.parents('fieldset.subform');
+    has_required_fields = $subform.find('input[required], select[required]').length;
+
     $subform.fadeOut(600, function() {
       var $subform_group = $target.parents('.subforms');
-      has_required_fields = $(this).find('input[required="required"]').length
+
       $(this).remove();
       self.count_subforms($subform_group);
       $('body').trigger('violation-removed');
 
-      Foundation.reInit('abide');
+      if (has_required_fields) {
+        Foundation.reInit('abide');
+      }
     });
   },
 
