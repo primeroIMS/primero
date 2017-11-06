@@ -62,6 +62,8 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
     var $add_button;
     self.add_subform($target);
 
+    $target.prev('.placeholder_text').hide();
+
     //Replicate the event on shared subforms
     var $target_subform = $target.parent().parent().find('.subforms');
 
@@ -207,11 +209,18 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
   remove_subform: function($target, self) {
     //TODO: This code has not been tested with grouped subforms. It might not work correctly.
     var $subform = $target.parents('fieldset.subform');
+    has_required_fields = $subform.find('input[required], select[required]').length;
+
     $subform.fadeOut(600, function() {
       var $subform_group = $target.parents('.subforms');
+
       $(this).remove();
       self.count_subforms($subform_group);
       $('body').trigger('violation-removed');
+
+      if (has_required_fields) {
+        Foundation.reInit('abide');
+      }
     });
   },
 
@@ -237,6 +246,7 @@ _primero.Views.SubformView = _primero.Views.Base.extend({
       name += "[" + focus + "]";
       //don't add the input as a child of the subforms container, this will break the generation of id's.
       $target.parent().append("<input id=\"" + id + "\" type=\"hidden\" name=\"" + name + "\" value=\"\" />");
+      $target.parent().find('.placeholder_text').show();
     }
   }
 });

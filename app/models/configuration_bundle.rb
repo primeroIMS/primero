@@ -42,6 +42,40 @@ class ConfigurationBundle < CouchRest::Model::Base
     Rails.logger.info "Successfully completed configuration bundle import."
   end
 
+  def self.export
+    bundle_data = {}
+    bundle_models.each do |model|
+      model_data = model.database.all_docs(include_docs: true)['rows']
+        .reject{|r| r['id'].start_with?('_design')}
+        .map do |r|
+          doc = r['doc'].except('_rev')
+          if doc.include?('_attachments')
+            doc['_attachments'] = doc['_attachments'].inject({}) do |acc, (name, data)|
+              acc.merge(name => {
+                "content_type" => data['content_type'],
+                "data" => Base64.encode64(model.database.fetch_attachment(doc, name))
+              })
+            end
+          end
+          doc
+        end
+      bundle_data[model.name] = model_data
+    end
+    bundle_data
+  end
+
+  def self.export_as_json
+    JSON.pretty_generate(export)
+  end
+
+  def self.bundle_models
+    [
+      Agency, ContactInformation, FormSection, Location, Lookup,
+      PrimeroModule, PrimeroProgram, Replication, Report, Role,
+      SystemUsers, UserGroup, SystemSettings
+    ]
+  end
+
 
   #Although nothing is truly memoized on this class, changes to this will trigger a refresh
   #of the memoization cache for all metadata-type classes

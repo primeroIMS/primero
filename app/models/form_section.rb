@@ -264,7 +264,7 @@ class FormSection < CouchRest::Model::Base
       ids = Incident.violation_id_fields.keys
       FormSection.by_unique_id(keys: ids).all
     end
-    memoize :violation_forms #This can be memoized always
+    memoize_in_prod :violation_forms
 
     #TODO: This needs to be made not hard-coded
     def binary_form_names
