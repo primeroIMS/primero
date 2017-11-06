@@ -45,4 +45,14 @@ feature "signin process" do
     click_button 'Log in'
     expect(page).to have_content "Not Authorized"
   end
+
+  scenario "does not store logout as stored location" do
+    visit "/logout"
+    within(".login_page form") do
+      fill_in "User Name", with: @user.user_name
+      fill_in "Password", with: 'password123'
+    end
+    click_button 'Log in'
+    expect(page.current_path).to eq "/"
+  end
 end
