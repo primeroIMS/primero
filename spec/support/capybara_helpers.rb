@@ -67,8 +67,9 @@ module CapybaraHelpers
     end
 
     manager = args[:is_manager] || false
-    exisiting_primero_module = PrimeroModule.find(module_options[:id])
-    primero_module = exisiting_primero_module.present? ? exisiting_primero_module : create(:primero_module, module_options)
+
+    primero_module = PrimeroModule.get(module_options[:id])
+    primero_module = create(:primero_module, module_options) if primero_module.blank?
     roles = args[:roles] || create(:role)
     user_group = args[:user_groups] || create(:user_group)
     user_org = args[:organization] || 'agency-unicef'

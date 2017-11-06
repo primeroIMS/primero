@@ -75,6 +75,9 @@ feature "home view" do
       end
       Sunspot.commit
 
+      @user_group = build(:user_group)
+      @user_group.save
+
       @user = setup_user(
         form_sections: [@form_section],
         primero_module: {
@@ -87,7 +90,18 @@ feature "home view" do
         is_manager: true,
         location: "test_location"
       )
-
+      @user2 = setup_user(
+          form_sections: [@form_section],
+          primero_module: {
+              id: PrimeroModule::CP,
+              workflow_status_indicator: true,
+              use_workflow_case_plan: true,
+              use_workflow_service_implemented: true
+          },
+          roles: @roles,
+          is_manager: true,
+          user_group: @user_group
+      )
       @admin = setup_user(primero_module: {
         id: PrimeroModule::CP
       }, form_sections: [@form_section], location: "test_location")
@@ -120,6 +134,31 @@ feature "home view" do
       )
 
       @case2 = create(:child,
+                     owned_by: @user2.user_name,
+                     associated_user_names: @user2.user_name,
+                     child_status: Record::STATUS_OPEN,
+                     assigned_user_names: [@user2.user_name],
+                     module_id: @user2.modules.first.id,
+                     case_plan_approved_date: DateTime.now.to_date,
+                     owned_by_location2: "test",
+                     date_closure: DateTime.now.to_date,
+                     protection_concerns: "test1",
+                     workflow: Child::WORKFLOW_SERVICE_IMPLEMENTED,
+                     record_state: true,
+                     risk_level: "high",
+                     approval_status_case_plan: Child::APPROVAL_STATUS_PENDING,
+                     service_due_dates: ["2017/10/23"],
+                     services_section: [
+                         {
+                             service_response_type: "intervention_non_judicial",
+                             service_response_day_time: Time.now - 2.day,
+                             service_appointment_date: Time.now - 1.day,
+                             service_implemented: "not_implemented"
+                         }
+                     ]
+      )
+
+      @case3 = create(:child,
         owned_by: @admin.user_name,
         module_id: @admin.module_ids.first,
         associated_user_names: @admin.user_name,
@@ -145,9 +184,14 @@ feature "home view" do
       expect(page).to have_content "TEST1"
       expect(page).to have_content "TEST2"
       expect(page).to have_content "CASES BY WORKFLOW"
+
       within(".dashboard-group div:nth-of-type(3) .table-counts tr:first-of-type td:nth-of-type(2)") do
         expect(page).to have_content "1"
       end
+
+      user_ids = page.all(".dashboard-group div:nth-of-type(3) .panel_content .table-counts td:first-of-type").map(&:text)
+      expect(user_ids).to include(@user.user_name.upcase)
+      expect(user_ids).not_to include(@user2.user_name.upcase)
     end
 
     scenario "has case module", search: true do
