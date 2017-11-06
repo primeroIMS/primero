@@ -1,4 +1,9 @@
 module CapybaraHelpers
+  def pause
+    $stderr.write 'Press enter to continue'
+    $stdin.gets
+  end
+
   def login_user(user)
     visit '/'
     within(".login_page form") do
