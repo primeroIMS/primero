@@ -11,9 +11,9 @@ feature "home view" do
         { id: 'test2', display_text: 'Test2' }
       ])
 
-      create_lookup('lookup-case-status', [
-        { id: 'open', display_text: 'Open' },
-        { id: 'closed', display_text: 'Closed' },
+      create_lookup('lookup-protection-concerns', [
+        {id: "test1", display_text: "test1"},
+        {id: "test2", display_text: "test2"}
       ])
 
       create_lookup('lookup-risk-level', [
@@ -21,6 +21,8 @@ feature "home view" do
         {id: "medium", display_text: "Medium"},
         {id: "low", display_text: "Low"}
       ])
+
+      @system = create(:system_settings)
 
       @roles = create(:role, :group_permission => Permission::GROUP, permissions_list: [
         Permission.new(
@@ -40,6 +42,8 @@ feature "home view" do
         )
       ])
 
+      @location = create(:location, placename: "test_location", location_code: "test_location")
+
       # TODO Core Fields: this adds fields that are core fields for some of the dashboard modules but don't break the rendering of the page if they aren't present
       @form_section = create(:form_section,
         is_first_tab: true,
@@ -51,16 +55,25 @@ feature "home view" do
             build(:field, name: "service_response_day_time", type: Field::DATE_FIELD, display_name: "Service Response Day Time", create_property: false),
             build(:field, name: "service_appointment_date", type: Field::DATE_FIELD, display_name: "Service Appointment Date", create_property: false),
             build(:field, name: "service_implemented", display_name: "Service Implemented", create_property: false)
-          ])
+          ]),
+          build(:field, name: "date_closure", display_name: "date_closure", type: Field::DATE_FIELD, create_property: false),
+          build(:field, name: "protection_concerns", display_name: "protection_concerns", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-protection-concerns", create_property: false)
         ]
       )
 
       Child.refresh_form_properties
-      Sunspot.setup(Child) {string "risk_level", as: "risk_level_sci"}
-      Sunspot.setup(Child) {string "approval_status_case_plan", as: "approval_status_case_plan_sci"}
-      Sunspot.setup(Child) {date "service_response_day_time"}
-      Sunspot.setup(Child) {date "service_appointment_date"}
-      Sunspot.setup(Child) {string "service_implemented", as: "risk_level_sci"}
+      Sunspot.setup(Child) do
+        string "risk_level", as: "risk_level_sci"
+        string "approval_status_case_plan", as: "approval_status_case_plan_sci"
+        date "service_response_day_time"
+        date "service_appointment_date"
+        string "service_implemented", as: "risk_level_sci"
+        #TODO: we aren't currently testing locations, this is just here to get around solr errors
+        string "owned_by_location0", as: "owned_by_location0_sci"
+        date "date_closure", as: "date_closure_d"
+        string "protection_concerns", :multiple => true
+      end
+      Sunspot.commit
 
       @user_group = build(:user_group)
       @user_group.save
@@ -74,9 +87,9 @@ feature "home view" do
           use_workflow_service_implemented: true
         },
         roles: @roles,
-        is_manager: true
+        is_manager: true,
+        location: "test_location"
       )
-
       @user2 = setup_user(
           form_sections: [@form_section],
           primero_module: {
@@ -89,6 +102,9 @@ feature "home view" do
           is_manager: true,
           user_group: @user_group
       )
+      @admin = setup_user(primero_module: {
+        id: PrimeroModule::CP
+      }, form_sections: [@form_section], location: "test_location")
     end
 
     before do
@@ -140,6 +156,20 @@ feature "home view" do
                              service_implemented: "not_implemented"
                          }
                      ]
+      )
+
+      @case3 = create(:child,
+        owned_by: @admin.user_name,
+        module_id: @admin.module_ids.first,
+        associated_user_names: @admin.user_name,
+        child_status: "open",
+        assigned_user_names: [@admin.user_name],
+        module_id: @admin.modules.first.id,
+        case_plan_approved_date: DateTime.now.to_date,
+        date_closure: DateTime.now.to_date,
+        protection_concerns: "test1",
+        workflow: Child::WORKFLOW_SERVICE_IMPLEMENTED,
+        record_state: true
       )
 
       Sunspot.commit
@@ -218,6 +248,33 @@ feature "home view" do
       end
       within(".dashboard-group div:nth-of-type(4) .panel_content table td:nth-of-type(5)") do
         expect(page).to have_content "1"
+      end
+    end
+
+    scenario "has cases by location", search: true do
+      create_session(@admin, 'password123')
+      visit "/"
+      within("#content.columns.dashboards > div:first-of-type .panel_header > h4") do
+        expect(page).to have_content "CASES"
+      end
+      page.save_screenshot('screenshot.png')
+      within("#content.columns.dashboards > div:first-of-type .panel_header th:first-of-type") do
+        expect(page).to have_content "COUNTRY"
+      end
+      # TODO: this requires the owned_by_location0 field to be added to the db for cases, once searchable location code is refactored, revisit this test.
+      # within("#content.columns.dashboards > div:first-of-type .table-counts tr:first-of-type td:first-of-type") do
+      #   expect(page).to have_content "test_location"
+      # end
+    end
+
+    scenario "has cases by protection concern", search: true do
+      create_session(@admin, 'password123')
+      visit "/"
+      within("#content.columns.dashboards > div:nth-of-type(2) .panel_header > h4") do
+        expect(page).to have_content "PROTECTION CONCERNS"
+      end
+      within("#content.columns.dashboards > div:nth-of-type(2) .table-counts tr:first-of-type td:first-of-type") do
+        expect(page).to have_content "TEST1"
       end
     end
 
