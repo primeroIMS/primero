@@ -175,6 +175,7 @@ en:
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
+    editing_subforms: "Click the ADD button to add details about the %{form}"
 
 
   cases:

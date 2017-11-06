@@ -43,6 +43,11 @@ _primero.Views.SharedFields = _primero.Views.Base.extend({
         if ($this.is('span')) {
           $this.html($target.val());
         } else {
+          if ($this.prop('required')) {
+            $('form.default-form').foundation('validateInput', $this);
+            $this.prev('input[type="hidden"]').remove();
+          }
+
           $this.val($target.val());
         }
 

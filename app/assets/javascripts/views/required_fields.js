@@ -60,11 +60,11 @@ _primero.Views.RequiredFields = _primero.Views.Base.extend({
     var $jewel_container = $('<span class="label alert"></span>');
 
     if ($jewel.length > 0) {
-      var count = parseInt($jewel.text());
+      var count = parseInt($jewel.html());
       count++
-      $jewel.text(count);
+      $jewel.html(count);
     } else {
-      anchor.append($jewel_container.text(1));
+      anchor.append($jewel_container.html(1));
     }
   }
 });

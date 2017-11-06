@@ -78,6 +78,11 @@
   <%# Add button %>
   <% if !subform.disabled %>
     <div class="large-12 columns text-right">
+      <% if number_of_subforms == 0 %>
+        <% unless subform.subform_section.is_summary_section || subform.subform_section.hide_subform_placeholder %>
+          <div class="placeholder_text"> <%= subform_placeholder(field, subform, true) %></div>
+        <% end %>
+      <% end %>
       <a id="subform_<%= subform.subform_section_id %>_add_button" class="button subform_add right" <%= disable_action_buttons %>><%= t('fields.add') %></a>
     </div>
   <% end %>
