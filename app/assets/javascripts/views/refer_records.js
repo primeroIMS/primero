@@ -29,7 +29,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         var total = response['record_count'],
             consent_cnt = response['consent_count'],
             no_consent_cnt = total - consent_cnt;
-        $("#referral-modal").find(".consent_count").replaceWith(no_consent_cnt.toString());
+        $("#referral-modal").find(".consent_count").html(no_consent_cnt.toString());
     });
   },
 
