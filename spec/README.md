@@ -118,3 +118,12 @@ To create a user session use `create_session(user, password)` before visiting a 
     expect(page).to have_content "Logged in as: #{@user.user_name}"
   end
 ```
+To accept or cancel confirmations/alerts. Place before the element that will trigger the alert/confirmation.
+
+```
+page.evaluate_script('window.confirm = function() { return true; }')
+```
+
+```
+page.evaluate_script('window.alert = function() { return true; }')
+```
