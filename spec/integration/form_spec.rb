@@ -55,5 +55,29 @@ feature "forms" do
       click_on('Edit')
       expect(page).to_not have_selector(".default-form .key[for='user_organization']")
     end
+
+    scenario "saves form when subform with required fields removed" do
+      visit '/cases'
+      click_on('New Case')
+
+      page.evaluate_script('window.confirm = function() { return true; }')
+
+      click_on('Remove', match: :first)
+
+      click_on('Save')
+
+      expect(page).to have_selector('div.form-errors')
+      within '.label.alert' do
+        expect(page).to have_content(1)
+      end
+
+      click_on('Remove')
+
+      # Need manual sleep here, accepting the confirm modal does not wait for clicking on save
+      sleep 2.seconds
+
+      click_on('Save')
+      expect(page).to have_content(/Case record (.*) successfully created./)
+    end
   end
 end

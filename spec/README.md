@@ -163,3 +163,13 @@ You are able to pause a test by inserting pause into a test. Useful if testing o
   ```
 
   For more details: [Capybara Asynchronous JavaScript](https://github.com/teamcapybara/capybara#asynchronous-javascript-ajax-and-friends)
+
+- To accept or cancel confirmations/alerts. Place before the element that will trigger the alert/confirmation.
+
+  ```
+  page.evaluate_script('window.confirm = function() { return true; }')
+  ```
+
+  ```
+  page.evaluate_script('window.alert = function() { return true; }')
+  ```
