@@ -8,10 +8,12 @@ en:
   valid: "Valid"
   invalid: "Invalid"
   offline: The application is offline.
+  name: "Name"
   home:
     fr: "Français"
     en: "English"
     ar: "العربية"
+    ar-LB: "العربية (اللبنانية)"
     zh: "中文"
     es: "Español"
     ru: "Русский"
@@ -121,6 +123,7 @@ en:
      search: "Search"
      locations: "LOCATIONS"
      bulk_exports: "BULK EXPORTS"
+     tasks: "TASKS"
 
   buttons:
      delete: "Delete"
@@ -186,6 +189,7 @@ en:
       mobile_label: "Marked for mobile?"
       social_worker: "Field/Case/Social Worker:"
       my_cases: "My Cases"
+      workflow: "Cases by Workflow"
       no_activity: "No Activity"
       3month_inactivity: "For 3+ months"
       referred_cases: "Cases referred to me"
@@ -199,6 +203,7 @@ en:
       protection_status: "Protection Status:"
       urgent_protection_concern: "Urgent Protection Concern:"
       protection_concerns: "Protection Concerns:"
+      type_of_risk: "Type of Risk:"
       risk_level: "Risk Level:"
       current_location: "Current Location:"
       district: "District:"
@@ -207,6 +212,8 @@ en:
       record_state: "Record State:"
       photo: "Photo:"
       photo_label: "Has Photo?"
+      by_date: 'By Date:'
+      date: 'Date'
       approvals:
         pending: "Pending Approvals"
         approved: "Approved"
@@ -232,6 +239,12 @@ en:
     label: "Children"
     register_new_child: "Register New Child"
     export: "Export"
+    selectable_date_options:
+      registration_date: 'Date of Registration'
+      assessment_requested_on: 'Date of Assessment'
+      date_case_plan_initiated: 'Date of Case Plan'
+      closure_approved_date: 'Date of Case Closure '
+      created_at: 'Case Open Date'
     filter_by:
       label: "Filter by"
       all: "All"
@@ -339,6 +352,26 @@ en:
     mark_child_as_duplicate: "Mark %{short_id} as Duplicate"
     history_of: "History of %{short_id}"
 
+  saved_search:
+      save_success: "Search saved successfully."
+      save_error: "Save failed."
+      deleted: "Search deleted successfully."
+      delete_error: "Delete failed."
+      saved_searches_tab: "Saved Searches"
+      filters_tab: "Filters"
+
+  task:
+    id: "ID#"
+    priority: "Priority Level"
+    type: "Type of Action"
+    due_date: "Due Date"
+    types:
+      assessment: "Assesment"
+      case_plan: "Case Plan"
+      follow_up: "Follow Up - %{subtype}"
+      service: "Service - %{subtype}"
+
+
   case:
     create_new_case: "Create New Case"
     enter_id_number: "Enter the ID number to search for an existing record"
@@ -354,6 +387,9 @@ en:
       closed: "Closed"
       reopened: "Reopened"
       service_implemented: Service Implemented
+      services_implemented: Service Implemented
+      case_plan: "Case Plan"
+      assessment: "Assessment"
     flagged_by: "Flagged By"
     last_updated: "Last updated"
     registered_by: "Registered by"
@@ -628,33 +664,6 @@ en:
     zero: "No %{model} found"
     page_entries_info: Displaying _START_ to _END_ of _TOTAL_ %{model}
 
-  will_paginate:
-    previous_label: "&#8592; Previous"
-    next_label: "Next &#8594;"
-    page_gap: "&hellip;"
-    page_entries_info:
-      single_page_html:
-        zero: "No %{model} found"
-        one: "Displaying <b>1</b> %{model}"
-        other: "Displaying <b>all %{count}</b> %{model}"
-      multi_page_html: "Displaying %{model} <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
-    models:
-      report:
-        one: "Report"
-        other: "Reports"
-      child:
-        one: "Case"
-        other: "Cases"
-      incident:
-        one: "Incident"
-        other: "Incidents"
-      hash:
-        one: "Matching Result"
-        other: "Matching Results"
-      bulk_export:
-        one: "Bulk file export"
-        other: "Bulk file exports"
-
   users:
     unverified: "Unverified Users"
     select_role: "Please select a role before verifying the user"
@@ -846,6 +855,12 @@ en:
     organization: "Organization"
     agency: "Agency"
     manager: "Manager"
+    send_mail: "Receive email notifications?"
+    welcome_email:
+      greeting: "Welcome to Primero,"
+      url_label: "Primero"
+      enabled_label: "Send Welcome Email?"
+      text_label: "Welcome Email Text"
 
   actions: "actions"
   phone: "Phone"
@@ -857,7 +872,6 @@ en:
   mandatory_field: "marked fields are mandatory"
   add: "add"
   belonging_to: "belonging to"
-  hello: "Hello"
   imei: "IMEI"
   blacklisted: "Blacklisted?"
   visible_for_web: "Visible for web app"
@@ -929,7 +943,6 @@ en:
       export_pdf: "Export pdf"
       export_unhcr_csv: "Export unhcr csv"
       export_mrm_violation_xls: "Export mrm violation xls"
-      export_incident_recorder_xls: "Export incident recorder xls"
       export_case_pdf: "Export case pdf"
       export_json: "Export json"
       export_custom: "Export custom"
@@ -949,6 +962,7 @@ en:
       manage: "Manage"
       administrator_read: "Administrator Read"
       group_read: "Group Read"
+      agency_read: "Agency Read"
       dashboard: "Dashboard"
       view_approvals: "View Approvals"
       view_assessment: "View Assessment"
@@ -961,6 +975,7 @@ en:
       dash_cases_by_social_worker: "View Cases By Social Worker"
       dash_manager_transfers: "View Manager Transfers"
       dash_cases_by_workflow: "View Cases By Workflow"
+      dash_cases_by_task_overdue: "View Cases By Task Overdue"
       dash_cases_to_assign: "View Cases To Assign"
       dash_show_none_values: "View None Values"
       search_owned_by_others: "Search for case records owned by other users"
@@ -970,6 +985,8 @@ en:
       create: "Create"
       referral_from_service: "Refer Case from Service form"
       view_protection_concerns_filter: "View Protection Concerns Filter"
+      saved_search: "Saved Search"
+      save_search: "Save Searches"
 
   forms:
     label: "Forms"
@@ -1186,6 +1203,7 @@ en:
     is_continuous: Is Continuous
 
   lookup:
+    actions: "Actions"
     edit: "Edit Lookup"
     create: "New Lookup"
     label: "Lookup"
@@ -1365,8 +1383,6 @@ en:
     quarter_3: "Quarter 3"
     quarter_2: "Quarter 2"
     quarter_1: "Quarter 1"
-    gbv_reporting_agency: "Yes-GBVIMS Org / Agency"
-    non_gbv_reporting_agency: "Yes-Non GBVIMS Org / Agency"
     undecided: "Undecided at time of report"
 
   followup_reminders:
@@ -1412,6 +1428,11 @@ en:
     services_implemented: 'Services Implemented'
     approved: 'Approved'
     cases_by_workflow: 'Cases By Workflow'
+    cases_by_task_overdue: 'Overdue Tasks'
+    assessment: 'Assessment'
+    case_plan: 'Case Plan'
+    follow_up: 'Follow Up'
+    services: 'Services'
     admin_only: "Click on %{links} to make changes to the application."
     forms: "FORMS tab"
     users: "SETTINGS icon"
@@ -1705,6 +1726,9 @@ en:
         group_by_row_presence: "Group by row must not be blank"
         use_date_ranges_presence: "Use date ranges must not be blank"
 
+      system_settings:
+        default_locale: "System locale must not be blank"
+
 
 
   select_all_results: "Select all results"
@@ -1806,33 +1830,6 @@ en:
       all:  Excel
       one:  Excel
       selected:  Selected to Excel
-    incident_recorder_xls:
-      all:  Incident Recorder
-      one:  Incident Recorder
-      selected:  Selected to Incident Recorder
-      gender:
-        male: "M"
-        female: "F"
-        both: "M and F"
-      age_group:
-        age: "Age"
-        61_older: "61 & Older"
-        unknown: "Unknown"
-        header: "ALLEGED PERPETRATOR AGE GROUP"
-      age_type:
-        adult: "Adult"
-        minor: "Minor"
-        both: "Adult & Minor"
-        unknown: "Unknown"
-        header: "ALLEGED PERPETRATOR AGE TYPE"
-      service_referral:
-        referred: "Referred"
-        your_agency: "Service provided by your agency"
-        another_agency: "Services already received from another agency"
-        not_applicable: "Service not applicable"
-        declined: "Referral declined by survivor"
-        unavailable: "Service unavailable"
-        undecided: "Undecided at time of report"
     json:
       all:  JSON
       one:  JSON
@@ -2081,3 +2078,57 @@ en:
       title: 'Update Required'
       message: "To play the media you will need to either update your browser to a recent version or update your"
       link_text: "Flash plugin"
+
+  saved_searches:
+    no_save_searches: "You have no saved searches."
+    name: "Name"
+    save_search: "Save Search"
+    delete: "Clicking ok will delete \"%{filter_name}\""
+
+  email_notification:
+    enabled_label: "Send Email Notifications?"
+    approval_request_subject: "Case: %{id} - Approval Request"
+    approval_response_subject: "Case: %{id} - Approval Response"
+    referral_subject: "%{record_type}: %{id} - Referral"
+    transfer_subject: "%{record_type}: %{id} - Transfer"
+    reassign_subject: "%{record_type}: %{id} - Assigned to you"
+    approval_request: "The user %{user} is requesting approval for %{approval_type} on case %{case_id}."
+    approval_response: "%{user} has %{status} the request for approval for %{approval_type} for case %{case_id}."
+    referral: "%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}."
+    transfer: "%{user} has transferred the following %{record_type} to you: %{record_id}."
+    reassign: "%{user} has assigned the following %{record_type} to you: %{record_id}."
+    approval_request_html: "The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>."
+    approval_response_html: "<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>."
+    referral_html: "<strong>%{user}</strong> from %{agency} has referred the following %{record_type} to you: <strong>%{record_id}</strong> for %{service_type}."
+    transfer_html: "<strong>%{user}</strong> has transferred the following %{record_type} to you: <strong>%{record_id}</strong>."
+    reassign_html: "<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>."
+  will_paginate:
+    previous_label: "&#8592; Previous"
+    next_label: "Next &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page_html:
+        zero: "No %{model} found"
+        one: "Displaying <b>1</b> %{model}"
+        other: "Displaying <b>all %{count}</b> %{model}"
+      multi_page_html: "Displaying %{model} <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
+    models:
+      report:
+        one: "Report"
+        other: "Reports"
+      child:
+        one: "Case"
+        other: "Cases"
+      incident:
+        one: "Incident"
+        other: "Incidents"
+      hash:
+        one: "Matching Result"
+        other: "Matching Results"
+      bulk_export:
+        one: "Bulk file export"
+        other: "Bulk file exports"
+      task:
+        one: "Task"
+        other: "Tasks"
+
