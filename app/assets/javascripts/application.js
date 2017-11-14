@@ -21,8 +21,8 @@
 //= require plugins/underscore
 //= require plugins/backbone
 //= require plugins/stickem
-//= require plugins/jquery.idletimer
-//= require plugins/jquery.idletimeout
+//= require primero_libs/jquery.idletimer
+//= require primero_libs/jquery.idletimeout
 //= require plugins/jquery.lightbox-0.5.min
 //= require plugins/jquery.tablesorter.min
 //= require plugins/jquery.jplayer
