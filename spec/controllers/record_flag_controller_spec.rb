@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe RecordFlagController do
+describe RecordFlagController, :type => :controller do
   before :all do
     @created_at = DateTime.now
     @unflagged_at = @created_at
