@@ -393,6 +393,8 @@ GEM
       sunspot_rails (>= 1.2.1)
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
+    test-unit-minitest (0.9.1)
+      minitest (~> 4.7)
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
@@ -462,7 +464,6 @@ DEPENDENCIES
   memoist (~> 0.11.0)
   mime-types (= 1.16)
   mini_magick (= 1.3.2)
-  minitest (~> 4.7.5)
   momentjs-rails (~> 2.10.3)
   multi_json (~> 1.8.2)
   os (~> 0.9.6)
@@ -496,6 +497,7 @@ DEPENDENCIES
   sunspot_rails (= 2.2.0)
   sunspot_solr (= 2.2.0)
   sunspot_test
+  test-unit-minitest
   therubyracer (~> 0.12.2)
   thin (~> 1.6.1)
   turbolinks (~> 5)
