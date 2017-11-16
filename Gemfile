@@ -89,9 +89,9 @@ end
 
 group :test, :cucumber do
   gem 'factory_girl',     '~> 4.8.0'
-  gem 'rspec',            '~> 3.6.0'
-  gem 'rspec-rails',      '~> 3.6.1'
-  gem 'rspec-instafail',  '~> 1.0.0'
+  gem 'rspec',            '~> 2.99.0'
+  gem 'rspec-rails',      '~> 2.99.0'
+  gem 'rspec-instafail',  '~> 0.2.4'
   gem 'capybara',         '~> 2.15.1'
   gem 'selenium-webdriver', '~> 2.43.0'
   gem 'capybara-selenium'
