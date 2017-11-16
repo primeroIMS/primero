@@ -52,7 +52,7 @@ gem 'yui-compressor'
 gem 'closure-compiler'
 gem 'progress_bar', '~> 1.1.0'
 
-gem 'writeexcel', '~> 1.0.3'
+gem 'writeexcel', '~> 1.0.5'
 gem 'spreadsheet', '~> 1.0.0'
 gem 'deep_merge', :require => 'deep_merge/rails_compat'
 gem 'memoist', '~> 0.11.0'
