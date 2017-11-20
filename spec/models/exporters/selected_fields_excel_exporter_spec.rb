@@ -80,7 +80,7 @@ module Exporters
                  Child.new("module_id" => "primeromodule-cp", "first_name" => "Charlie", "last_name" => "Sheen", "_id" => "00000000005",
                            "subform_field_1" => [{"unique_id" =>"21"}]),
                  Child.new("module_id" => "primeromodule-cp", "first_name" => "Emilio", "last_name" => "Steves", "_id" => "00000000006",
-                           "subform_field_1" => [{"unique_id" =>"99"}], "subform_field_1" => [{"unique_id" =>"66"}])]
+                           "subform_field_1" => [{"unique_id" =>"99"}], "subform_field_2" => [{"unique_id" =>"66"}])]
       @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
     end
 

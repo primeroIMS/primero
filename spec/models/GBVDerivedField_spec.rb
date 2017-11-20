@@ -101,7 +101,6 @@ describe GBVDerivedFields do
         Field.new({"name" => "harmful_traditional_practice",
                    "type" => "select_box",
                    "display_name_all" => "Was this incident a Harmful Traditional Practice",
-                   "option_strings_text_all" => "Option 1\nOption 2\nOption 3\nOption 4\nOption 5\nNo",
                    "option_strings_text_all" =>
                                           ["No",
                                            "Type of Practice 1",
