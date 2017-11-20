@@ -34,6 +34,9 @@ describe SystemUsers do
 end
 
 describe "SystemUsers - Others Validations" do
+  before do
+    SystemUsers.all.each &:destroy
+  end
 
   #NOTE: Don't remove all the records from this table
   #There is not test table for this records
