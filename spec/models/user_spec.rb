@@ -38,6 +38,10 @@ describe User do
   end
 
   describe "last login timestamp" do
+    before do
+      LoginActivity.all.each &:destroy
+    end
+
     it "shouldn't return last login activity if user has never logged in" do
       user = build_user :user_name => 'Billy'
       last_login = User.last_login_timestamp(user.user_name)
