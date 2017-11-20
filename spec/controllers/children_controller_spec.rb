@@ -15,7 +15,7 @@ def stub_out_child_get(mock_child = double(Child))
 	mock_child
 end
 
-describe ChildrenController do
+describe ChildrenController, :type => :controller do
 
   before do
     SystemSettings.all.each &:destroy

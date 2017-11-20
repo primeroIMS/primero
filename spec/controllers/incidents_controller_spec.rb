@@ -15,7 +15,7 @@ def stub_out_incident_get(mock_incident = double(Incident))
 	mock_incident
 end
 
-describe IncidentsController do
+describe IncidentsController, :type => :controller do
 
   before do
     SystemSettings.all.each &:destroy

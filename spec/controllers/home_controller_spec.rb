@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe HomeController do
+describe HomeController, :type => :controller do
   render_views
 
   #TODO: Please write tests after we refactor dashboards!!!!!

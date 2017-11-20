@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.5'
+ruby '2.2.8'
 
 gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', :branch => 'master'
 gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
@@ -52,7 +52,7 @@ gem 'yui-compressor'
 gem 'closure-compiler'
 gem 'progress_bar', '~> 1.1.0'
 
-gem 'writeexcel', '~> 1.0.3'
+gem 'writeexcel', '~> 1.0.5'
 gem 'spreadsheet', '~> 1.0.0'
 gem 'deep_merge', :require => 'deep_merge/rails_compat'
 gem 'memoist', '~> 0.11.0'
@@ -89,6 +89,7 @@ end
 
 group :test, :cucumber do
   gem 'factory_girl',     '~> 4.8.0'
+  gem 'test-unit-minitest'
   gem 'rspec',            '~> 2.14.1'
   gem 'rspec-rails',      '~> 2.14.1'
   gem 'rspec-instafail',  '~> 0.2.4'
