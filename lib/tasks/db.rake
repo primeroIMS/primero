@@ -1,4 +1,4 @@
-# require 'restclient'
+require 'restclient'
 require 'fileutils'
 require 'erb'
 require 'readline'
