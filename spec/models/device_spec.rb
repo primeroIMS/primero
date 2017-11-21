@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Device do
   describe "set_appropriate_data_type" do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 # def inject_export_generator( fake_export_generator, incident_data )
 	# ExportGenerator.stub(:new).with(incident_data).and_return( fake_export_generator )

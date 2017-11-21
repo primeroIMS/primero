@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 def inject_export_generator( fake_export_generator, tracing_request_data )
   ExportGenerator.stub(:new).with(tracing_request_data).and_return( fake_export_generator )

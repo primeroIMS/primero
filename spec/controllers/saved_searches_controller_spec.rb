@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 def stub_out_saved_search_get(mock_saved_search = double(SavedSearch))
   SavedSearch.stub(:get).and_return( mock_saved_search )

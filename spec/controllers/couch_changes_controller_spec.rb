@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe CouchChangesController do
   it 'notifies observers on the given model class' do

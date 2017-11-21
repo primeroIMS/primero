@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe SystemSettings do
   before :each do
     @system_settings = SystemSettings.create(default_locale: "en",
