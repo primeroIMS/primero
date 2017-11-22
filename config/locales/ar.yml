@@ -162,6 +162,7 @@ ar:
     done: "تمت"
   placeholders:
     subforms: "انقر فوق زر تعديل لإضافة تفاصيل %{form}"
+    editing_subforms: "اضغط على \"إضافة\" للإضافة معلومات عن %{form}"
   cases:
     label: "الحالات"
     register_new_case: "حالة جديدة"
@@ -1018,7 +1019,7 @@ ar:
     select_date_validation: "اختر طريقة للتأكد من سلامة التاريخ"
     not_future_date: "ليس تاريخ مستقبلي"
     default_date_validation: "التأكد من صحة التاريخ الافتراضي"
-    date_not_valid: "التاريخ ليس سليم"
+    date_not_valid: "التاريخ غير صحيح"
     future_date_not_valid: "لا يمكن للتاريخ أن يكون تاريخا مستقبليا"
     number_not_valid: "أرجو ادخل بيانات رقمية"
     separator: "فاصل"
