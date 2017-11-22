@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ReplicationsController do
 
-  describe :new do
+  describe 'new' do
 
     it "should show page name" do
       fake_login_as
