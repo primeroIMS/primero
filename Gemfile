@@ -46,7 +46,7 @@ gem 'daemons',         '~> 1.2.5',  :require => false
 gem 'activejob_backport'
 gem 'backburner', require: false
 
-gem 'foundation-rails', '~> 6.4.1.3'
+gem 'foundation-rails', '~> 6.3.0.0'
 gem 'sass-rails',    '~> 5.0.6'
 gem 'compass-rails', '~> 3.0.2'
 
