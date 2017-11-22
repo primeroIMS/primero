@@ -339,9 +339,9 @@ describe FormSectionController do
       form_section1 = FormSection.create!({:name=>"name1", :description=>"desc", :visible=>"true", :unique_id=>"form_1"})
       form_section2 = FormSection.create!({:name=>"name2", :description=>"desc", :visible=>"false", :unique_id=>"form_2"})
       post :toggle, :id => "form_1"
-      FormSection.get_by_unique_id(form_section1.unique_id).visible.should be_false
+      FormSection.get_by_unique_id(form_section1.unique_id).visible.should be_falsey
       post :toggle, :id => "form_2"
-      FormSection.get_by_unique_id(form_section2.unique_id).visible.should be_true
+      FormSection.get_by_unique_id(form_section2.unique_id).visible.should be_truthy
     end
   end
 

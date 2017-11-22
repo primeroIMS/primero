@@ -511,7 +511,7 @@ describe UsersController do
       controller.stub(:authorize!).and_return(true)
       User.should_receive(:get).with("unique_id").and_return(double("user", :update_attributes => false, :verified? => false))
       post :update, {:id => "unique_id", :user => {:verified => true}}
-      controller.params[:verify].should be_true
+      controller.params[:verify].should be_truthy
     end
 
     it "should update all the children of recently verified users" do

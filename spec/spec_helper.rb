@@ -23,7 +23,7 @@ require 'rack_session_access/capybara'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 # This clears couchdb between tests.
-FactoryGirl.find_definitions
+FactoryBot.find_definitions
 Mime::Type.register 'application/zip', :mock
 
 Capybara.register_driver :chrome do |app|
@@ -78,13 +78,15 @@ end
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.include Capybara::DSL
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include UploadableFiles
   config.include ChildFinder
   config.include FakeLogin, :type => :controller
   config.include VerifyAndResetHelpers
   config.include Conflicts
   config.include CapybaraHelpers
+
+  config.formatter = :progress
 
   # Cleaner backtrace for failure messages
   config.backtrace_exclusion_patterns = [
@@ -101,6 +103,12 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
+  #
+  # config.expect_with(:rspec) { |c| c.syntax = [:should, :expect] }
+
+  # config.mock_with :rspec do |mocks|
+  #   mocks.syntax = [:should, :receive]
+  # end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   #config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -114,6 +122,7 @@ RSpec.configure do |config|
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = true
+  config.infer_spec_type_from_file_location!
 
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
@@ -135,13 +144,13 @@ RSpec.configure do |config|
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
 
-  config.before(:each) do
+  config.before(:each) do |example|
     unless example.metadata[:search]
       ::Sunspot.session = ::Sunspot::Rails::StubSessionProxy.new(::Sunspot.session)
     end
   end
 
-  config.after(:each) do
+  config.after(:each) do |example|
     unless example.metadata[:search]
       ::Sunspot.session = ::Sunspot.session.original_session
     end

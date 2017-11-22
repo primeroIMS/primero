@@ -64,7 +64,7 @@ describe Lookup do
 
     context "when not on a form" do
       it "should return that it is not being used" do
-        expect(@lookup.is_being_used?).to be_false
+        expect(@lookup.is_being_used?).to be_falsey
       end
     end
 
@@ -77,7 +77,7 @@ describe Lookup do
       end
 
       it "should return that it is being used" do
-        expect(@lookup_d.is_being_used?).to be_true
+        expect(@lookup_d.is_being_used?).to be_truthy
       end
     end
   end

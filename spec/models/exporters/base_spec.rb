@@ -104,12 +104,12 @@ module Exporters
         props_with_metadata = BaseExporter.include_metadata_properties(props, Child)
 
         expect(props_with_metadata['primeromodule-cp'].keys.last).to eq('__record__')
-        expect(props_with_metadata['primeromodule-cp']['__record__'].present?).to be_true
+        expect(props_with_metadata['primeromodule-cp']['__record__'].present?).to be_truthy
         expect(props_with_metadata['primeromodule-cp']['__record__'].values.first).to be_an(CouchRest::Model::Property)
 
 
         expect(props_with_metadata['primeromodule-gbv'].keys.last).to eq('__record__')
-        expect(props_with_metadata['primeromodule-gbv']['__record__'].present?).to be_true
+        expect(props_with_metadata['primeromodule-gbv']['__record__'].present?).to be_truthy
         expect(props_with_metadata['primeromodule-gbv']['__record__'].values.first).to be_an(CouchRest::Model::Property)
       end
     end

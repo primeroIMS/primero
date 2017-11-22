@@ -110,7 +110,7 @@ describe Forms::ChangePasswordForm do
                             :new_password => "new_passw0rd",
                             :new_password_confirmation => "wrong_new_passw0rd"
 
-      password_form.execute.should be_false
+      password_form.execute.should be_falsey
     end
   end
 end

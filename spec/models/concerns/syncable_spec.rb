@@ -457,7 +457,7 @@ describe Syncable do
       resolved = _Child.get(@child._id)
       m = resolved.violations.maiming[0]
       m.notes.should == 'maim 1'
-      m.eyewitness.should be_true
+      m.eyewitness.should be_truthy
     end
 
     it 'merges data from a nested array with in a nested array' do

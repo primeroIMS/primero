@@ -96,7 +96,7 @@ describe User do
 
     it "should default disabled to false" do
       user = User.new :disabled => nil
-      user.disabled.should be_false
+      user.disabled.should be_falsey
     end
 
     it "should generate id" do
@@ -177,17 +177,17 @@ describe User do
 
   it "can authenticate with the right password" do
     user = build_and_save_user(:password => "b00h00h00")
-    user.authenticate("b00h00h00").should be_true
+    user.authenticate("b00h00h00").should be_truthy
   end
 
   it "can't authenticate with the wrong password" do
     user = build_and_save_user(:password => "onepassw0rd")
-    user.authenticate("otherpassw0rd").should be_false
+    user.authenticate("otherpassw0rd").should be_falsey
   end
 
   it "can't authenticate if disabled" do
     user = build_and_save_user(:disabled => "true", :password => "thep4sswd")
-    user.authenticate("thep4sswd").should be_false
+    user.authenticate("thep4sswd").should be_falsey
   end
 
   it "can't look up password in database" do
@@ -197,7 +197,7 @@ describe User do
 
   it "can authenticate if not disabled" do
     user = build_and_save_user(:disabled => "false", :password => "thep4sswd")
-    user.authenticate("thep4sswd").should be_true
+    user.authenticate("thep4sswd").should be_truthy
   end
 
   it "should be able to select a user's mobile login events from a list of login events" do
@@ -238,7 +238,7 @@ describe User do
     user.create!
     user.add_mobile_login_event("an imei", "a mobile")
 
-    Device.all.all? { |device| device.blacklisted? }.should be_false
+    Device.all.all? { |device| device.blacklisted? }.should be_falsey
   end
 
   it "should save blacklisted devices to the device list" do
@@ -351,9 +351,9 @@ describe User do
     end
 
     it "is a manager if set flag" do
-      expect(@manager.is_manager?).to be_true
-      expect(@grunt1.is_manager?).to be_false
-      expect(@grunt2.is_manager?).to be_false
+      expect(@manager.is_manager?).to be_truthy
+      expect(@grunt1.is_manager?).to be_falsey
+      expect(@grunt2.is_manager?).to be_falsey
     end
 
     it "manages all people in its group including itself" do
@@ -401,19 +401,19 @@ describe User do
     end
 
     it "should have READ permission" do
-      expect(@user_perm.has_permission? Permission::READ).to be_true
+      expect(@user_perm.has_permission? Permission::READ).to be_truthy
     end
 
     it "should have SYNC_MOBILE permission" do
-      expect(@user_perm.has_permission? Permission::SYNC_MOBILE).to be_true
+      expect(@user_perm.has_permission? Permission::SYNC_MOBILE).to be_truthy
     end
 
     it "should have APPROVE_CASE_PLAN permission" do
-      expect(@user_perm.has_permission? Permission::APPROVE_CASE_PLAN).to be_true
+      expect(@user_perm.has_permission? Permission::APPROVE_CASE_PLAN).to be_truthy
     end
 
     it "should not have WRITE permission" do
-      expect(@user_perm.has_permission? Permission::WRITE).to be_false
+      expect(@user_perm.has_permission? Permission::WRITE).to be_falsey
     end
   end
 
@@ -429,11 +429,11 @@ describe User do
       end
 
       it "should not have GROUP permission" do
-        expect(@user_group.has_group_permission? Permission::GROUP).to be_false
+        expect(@user_group.has_group_permission? Permission::GROUP).to be_falsey
       end
 
       it "should not have ALL permission" do
-        expect(@user_group.has_group_permission? Permission::ALL).to be_false
+        expect(@user_group.has_group_permission? Permission::ALL).to be_falsey
       end
     end
 
@@ -444,11 +444,11 @@ describe User do
       end
 
       it "should have GROUP permission" do
-        expect(@user_group.has_group_permission? Permission::GROUP).to be_true
+        expect(@user_group.has_group_permission? Permission::GROUP).to be_truthy
       end
 
       it "should not have ALL permission" do
-        expect(@user_group.has_group_permission? Permission::ALL).to be_false
+        expect(@user_group.has_group_permission? Permission::ALL).to be_falsey
       end
     end
 
@@ -459,11 +459,11 @@ describe User do
       end
 
       it "should not have GROUP permission" do
-        expect(@user_group.has_group_permission? Permission::GROUP).to be_false
+        expect(@user_group.has_group_permission? Permission::GROUP).to be_falsey
       end
 
       it "should have ALL permission" do
-        expect(@user_group.has_group_permission? Permission::ALL).to be_true
+        expect(@user_group.has_group_permission? Permission::ALL).to be_truthy
       end
     end
   end

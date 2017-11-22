@@ -107,21 +107,21 @@ describe PotentialMatch do
       context 'when all is passed in for associated_users' do
         it 'sets visible to true' do
           @potential_match.set_visible(['all'], @type)
-          expect(@potential_match.visible).to be_true
+          expect(@potential_match.visible).to be_truthy
         end
       end
 
       context 'when associated_users is the same as owned by' do
         it 'sets visible to true' do
           @potential_match.set_visible([@case.owned_by], @type)
-          expect(@potential_match.visible).to be_true
+          expect(@potential_match.visible).to be_truthy
         end
       end
 
       context 'when associated_users is different than owned by' do
         it 'sets visible to false' do
           @potential_match.set_visible(['some_other_user', 'yet_another_user'], @type)
-          expect(@potential_match.visible).to be_false
+          expect(@potential_match.visible).to be_falsey
         end
       end
     end
@@ -134,21 +134,21 @@ describe PotentialMatch do
       context 'when all is passed in for associated_users' do
         it 'sets visible to true' do
           @potential_match.set_visible(['all'], @type)
-          expect(@potential_match.visible).to be_true
+          expect(@potential_match.visible).to be_truthy
         end
       end
 
       context 'when associated_users is the same as owned by' do
         it 'sets visible to true' do
           @potential_match.set_visible([@tracing_request.owned_by], @type)
-          expect(@potential_match.visible).to be_true
+          expect(@potential_match.visible).to be_truthy
         end
       end
 
       context 'when associated_users is different than owned by' do
         it 'sets visible to false' do
           @potential_match.set_visible(['some_other_user', 'yet_another_user'], @type)
-          expect(@potential_match.visible).to be_false
+          expect(@potential_match.visible).to be_falsey
         end
       end
     end

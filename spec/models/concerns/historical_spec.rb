@@ -198,7 +198,7 @@ describe Historical do
       @inst.create_attachment(:file => file, :name => 'file.jpg')
 
       @inst.save!
-      @inst.histories[0].changes['_attachments']['to']['file.jpg']['stub'].should be_true
+      @inst.histories[0].changes['_attachments']['to']['file.jpg']['stub'].should be_truthy
     end
   end
 
