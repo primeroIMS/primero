@@ -23,7 +23,7 @@ gem 'dynamic_form',   '~> 1.1.4'
 gem 'rake',           '~> 12.3.0'
 gem 'jquery-rails'
 
-#TODO - keeping cancancan at 1.9.2 for now.  Newer versions seem to break.   RSE
+#TODO - keeping cancancan at 1.9.2 for now.  Newer versions seem to break.
 gem 'cancancan',      '~> 1.9.2'
 gem 'capistrano',     '~> 3.10.0'
 gem 'highline',       '~> 1.7.8'
@@ -46,7 +46,9 @@ gem 'daemons',         '~> 1.2.5',  :require => false
 gem 'activejob_backport'
 gem 'backburner', require: false
 
+#TODO - Going to more recent version of foundation-rails throws off our layouts
 gem 'foundation-rails', '~> 6.3.0.0'
+
 gem 'sass-rails',    '~> 5.0.6'
 gem 'compass-rails', '~> 3.0.2'
 
