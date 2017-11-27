@@ -17,7 +17,7 @@ gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
 gem 'prawn-table',    '~> 0.2.2'
-gem 'rails',          '4.0.13'
+gem 'rails',          '4.1.16'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
 gem 'dynamic_form',   '~> 1.1.4'
@@ -101,7 +101,6 @@ end
 
 group :test, :cucumber do
   gem 'factory_bot',                '~> 4.8.2'
-  gem 'test-unit-minitest',         '~> 0.9.1'
   gem 'rspec-activemodel-mocks',    '~> 1.0.3'
   gem 'rspec-collection_matchers',  '~> 1.1.3'
   gem 'rspec',                      '~> 3.7.0'
