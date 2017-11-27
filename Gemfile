@@ -5,8 +5,10 @@ gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', 
 gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
 
 # gem 'couchrest_model', '~> 2.0.3', :git => 'https://github.com/Quoin/couchrest_model.git', :ref => '72b801720ff225e5615db13bdbe9c7b8962ef13e'
-gem 'couchrest_model', '~> 2.0.4'
+gem 'couchrest_model', '2.1.0.rc1'
 #TODO - bump couchrest from 1.2.1 to 2.0.1
+#TODO - to do this, must upgrade version of couchrest_model.   Version 2.0.4 requires couchrest 1.2.1
+#TODO - BUT... later versions of couchrest_model are still in beta / rc
 
 #TODO - Our current version of couchrest has a restriction that mim-types MUST be less than 3.0
 gem 'mime-types',     '2.99.3'
