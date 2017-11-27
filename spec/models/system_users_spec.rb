@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe SystemUsers do
 
   before :each do
@@ -22,7 +22,7 @@ describe SystemUsers do
   it "should not save if the username already exists" do
     @sys_user.save
     another_sys_user = build :system_users
-    another_sys_user.save.should be_false
+    another_sys_user.save.should be_falsey
     another_sys_user.errors[:name].should == ["User name has already been taken! Please select a new User name"]
   end
 
@@ -44,7 +44,7 @@ describe "SystemUsers - Others Validations" do
 
   it "should not be valid because missing required fields" do
     sys_user = SystemUsers.new
-    sys_user.save.should be_false
+    sys_user.save.should be_falsey
     sys_user.errors[:name].should == ["can't be blank"]
     sys_user.errors[:password].should == ["can't be blank"]
   end
@@ -52,14 +52,14 @@ describe "SystemUsers - Others Validations" do
   it "should update system users password" do
     #Create new user and expected to save
     sys_user = SystemUsers.new(:name => "another_user_name", :password => "some password")
-    sys_user.save.should be_true
-    sys_user.errors.messages.empty?.should be_true
+    sys_user.save.should be_truthy
+    sys_user.errors.messages.empty?.should be_truthy
 
     #Retrieve from the database and change the password
     sys_user = SystemUsers.get(sys_user._id)
     sys_user.password = "Change password"
-    sys_user.save.should be_true
-    sys_user.errors.messages.empty?.should be_true
+    sys_user.save.should be_truthy
+    sys_user.errors.messages.empty?.should be_truthy
 
     sys_user.destroy
   end

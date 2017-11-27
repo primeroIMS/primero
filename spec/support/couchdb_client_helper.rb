@@ -1,5 +1,4 @@
 require 'json'
-require 'restclient'
 
 module CouchdbClientHelper
     def get_object(dbname, object_id)

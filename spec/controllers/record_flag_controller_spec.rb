@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe RecordFlagController, :type => :controller do
   before :all do
@@ -6,7 +6,7 @@ describe RecordFlagController, :type => :controller do
     @unflagged_at = @created_at
   end
 
-  before :each do
+  before :each do |example|
     Incident.any_instance.stub(:field_definitions).and_return([])
     TracingRequest.any_instance.stub(:field_definitions).and_return([])
     FormSection.all.all.each { |form| form.destroy }
@@ -71,6 +71,7 @@ describe RecordFlagController, :type => :controller do
     end
 
     it "should not flag the record with invalid date parameter" do
+      #TODO - this is currently failing
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "Testing Flag", :flag_date => "21-21-2014"
       JSON.parse(response.body).should eq({"error" => ["Flags is invalid", "Date Flags: date field is invalid"]})
       record_db = model.get(record.id)
@@ -100,16 +101,16 @@ describe RecordFlagController, :type => :controller do
 
     it "should flag the record with empty date parameter" do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => ""
-      JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag", "date" => "",
+      JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag", "date" => nil,
         "flagged_by" => "#{@user.user_name}", "removed" => nil,
         "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
         "unflag_message" => nil, "unflagged_by" => nil, "unflagged_date" => nil})
       record_db = model.get(record.id)
       record_db.flag.should eq(true)
       flag = record_db.flags.last
-      flag.message.should eq("#{model.name} Testing Flag")
-      flag.flagged_by.should eq(@user.user_name)
-      flag.date.should eq("")
+      expect(flag.message).to eq("#{model.name} Testing Flag")
+      expect(flag.flagged_by).to eq(@user.user_name)
+      expect(flag.date).to be_nil
     end
 
     it "should flag the record with no date parameter" do

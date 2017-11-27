@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 # TODO: Clean this up and add view test in views/form_section
 

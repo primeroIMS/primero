@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 class TestClass < CouchRest::Model::Base
   include Reopenable

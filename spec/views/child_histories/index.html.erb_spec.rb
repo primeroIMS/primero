@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'helpers/fake_record_with_history'
 
 describe "child_histories/index.html.erb" do

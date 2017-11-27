@@ -59,7 +59,7 @@ class FileAttachment
   private
 
   def resized_blob(new_size)
-    MiniMagick::Image.from_blob(data.read).resize(new_size).to_blob
+    MiniMagick::Image.read(data.read).resize(new_size).to_blob
   end
 
 end

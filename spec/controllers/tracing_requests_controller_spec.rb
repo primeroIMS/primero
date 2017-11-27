@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 def inject_export_generator( fake_export_generator, tracing_request_data )
   ExportGenerator.stub(:new).with(tracing_request_data).and_return( fake_export_generator )
@@ -15,14 +15,14 @@ def stub_out_tracing_request_get(mock_tracing_request = double(TracingRequest))
   mock_tracing_request
 end
 
-describe TracingRequestsController do
+describe TracingRequestsController, :type => :controller do
   before do
     SystemSettings.all.each &:destroy
     SystemSettings.create(default_locale: "en",
       primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
   end
 
-  before :each do
+  before :each do |example|
     TracingRequest.any_instance.stub(:field_definitions).and_return([])
     TracingRequest.any_instance.stub(:permitted_properties).and_return(TracingRequest.properties)
     unless example.metadata[:skip_session]
@@ -83,32 +83,32 @@ describe TracingRequestsController do
       end
 
       it "GET show" do
-        @controller.current_ability.should_receive(:can?).with(:read, @tracing_request_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:read, @tracing_request).and_return(false);
         controller.stub :get_form_sections
         get :show, :id => @tracing_request.id
         response.status.should == 403
       end
 
       it "PUT update" do
-        @controller.current_ability.should_receive(:can?).with(:update, @tracing_request_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:update, @tracing_request).and_return(false);
         put :update, :id => @tracing_request.id
         response.status.should == 403
       end
 
       it "PUT edit_photo" do
-        @controller.current_ability.should_receive(:can?).with(:update, @tracing_request_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:update, @tracing_request).and_return(false);
         put :edit_photo, :id => @tracing_request.id
         response.status.should == 403
       end
 
       it "PUT update_photo" do
-        @controller.current_ability.should_receive(:can?).with(:update, @tracing_request_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:update, @tracing_request).and_return(false);
         put :update_photo, :id => @tracing_request.id
         response.status.should == 403
       end
 
       it "PUT select_primary_photo" do
-        @controller.current_ability.should_receive(:can?).with(:update, @tracing_request_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:update, @tracing_request).and_return(false);
         put :select_primary_photo, :tracing_request_id => @tracing_request.id, :photo_id => 0
         response.status.should == 403
       end
@@ -851,7 +851,7 @@ describe TracingRequestsController do
       controller.reindex_hash params['tracing_request']
       expected_subform = params["tracing_request"]["nested_form_section"]["1"]
 
-      expect(expected_subform.present?).to be_true
+      expect(expected_subform.present?).to be_truthy
       expect(expected_subform).to eq({"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"})
     end
 

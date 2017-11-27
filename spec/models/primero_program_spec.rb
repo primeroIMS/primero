@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe PrimeroProgram do
   it "should not be valid if name is empty" do
