@@ -7,8 +7,8 @@
     "https_port": 8443,
     "no_reseed": true,
     "git": {
-      "repo": "git@bitbucket.org:quoin/primero.git",
-      "revision": "development"
+      "repo": "https://github.com/primeroIMS/primero.git",
+      "revision": "maint_1.4"
     },
     "couchdb": {
       "password": "primero",
