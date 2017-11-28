@@ -32,7 +32,7 @@ class ConfigurationBundle < CouchRest::Model::Base
 
     Rails.logger.info "Saving configuration data"
     model_data.each do |model_clazz, data_arr|
-      model_clazz.database.bulk_save(data_arr, {use_uuids: false, all_or_nothing: false})
+      model_clazz.database.bulk_save(data_arr, false, false)
     end
 
     reset_couch_watcher_sequences
