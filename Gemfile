@@ -26,7 +26,6 @@ gem 'jquery-rails'
 
 #TODO - keeping cancancan at 1.9.2 for now.  Newer versions seem to break.
 gem 'cancancan',      '~> 1.9.2'
-gem 'capistrano',     '~> 3.10.0'
 gem 'highline',       '~> 1.7.8'
 gem 'will_paginate',  '~> 3.1.0'
 gem 'i18n-js',        '~> 3.0.1'
