@@ -197,8 +197,6 @@ GEM
     execjs (2.7.0)
     factory_bot (4.8.2)
       activesupport (>= 3.0.0)
-    faraday (0.13.1)
-      multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
     foundation-rails (6.3.0.0)
       railties (>= 3.1.0)
@@ -258,7 +256,6 @@ GEM
     momentjs-rails (2.17.1)
       railties (>= 3.1)
     multi_json (1.12.2)
-    multipart-post (2.0.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (4.2.0)
@@ -345,9 +342,8 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    rsolr (2.1.0)
+    rsolr (1.0.13)
       builder (>= 2.1.2)
-      faraday (>= 0.9.0)
     rspec (3.7.0)
       rspec-core (~> 3.7.0)
       rspec-expectations (~> 3.7.0)
@@ -424,14 +420,14 @@ GEM
     sshkit (1.15.1)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    sunspot (2.2.7)
+    sunspot (2.2.0)
       pr_geohash (~> 1.0)
-      rsolr (>= 1.1.1, < 3)
-    sunspot_rails (2.2.7)
+      rsolr (~> 1.0.7)
+    sunspot_rails (2.2.0)
       nokogiri
       rails (>= 3)
-      sunspot (= 2.2.7)
-    sunspot_solr (2.2.7)
+      sunspot (= 2.2.0)
+    sunspot_solr (2.2.0)
     sunspot_test (0.4.0)
       sunspot_rails (>= 1.2.1)
     terminal-table (1.8.0)
@@ -539,8 +535,8 @@ DEPENDENCIES
   simplecov (~> 0.15.1)
   simplecov-rcov (~> 0.2.3)
   spreadsheet (~> 1.1.5)
-  sunspot_rails (~> 2.2.7)
-  sunspot_solr (~> 2.2.7)
+  sunspot_rails (= 2.2.0)
+  sunspot_solr (= 2.2.0)
   sunspot_test
   therubyracer (~> 0.12.2)
   thin (~> 1.7.2)
@@ -552,6 +548,9 @@ DEPENDENCIES
   writeexcel (~> 1.0.5)
   yui-compressor
   zipruby-compat!
+
+RUBY VERSION
+   ruby 2.2.8p477
 
 BUNDLED WITH
    1.16.0

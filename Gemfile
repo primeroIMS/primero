@@ -38,8 +38,8 @@ gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
 gem 'zipruby-compat', :require => 'zipruby', :git => 'https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git', :tag => 'v0.3.7'
 
-gem 'sunspot_rails',  '~> 2.2.7'
-gem 'sunspot_solr',   '~> 2.2.7'
+gem 'sunspot_rails',  '2.2.0'
+gem 'sunspot_solr',   '2.2.0'
 
 gem 'rufus-scheduler', '~> 3.4.2', :require => false
 gem 'daemons',         '~> 1.2.5',  :require => false
