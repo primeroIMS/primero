@@ -396,7 +396,7 @@ describe Syncable do
       end
 
       @saved_first.save
-      _Child.database.bulk_save([@saved_last], true, true)
+      _Child.database.bulk_save([@saved_last], {use_uuids: true, all_or_nothing: true})
     end
 
     it 'should select the latest update in a conflict on the same field' do

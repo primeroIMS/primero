@@ -10,6 +10,6 @@ module Conflicts
       raise 'You must provide an instance with at least one update history'
     end
 
-    dup.database.bulk_save([dup], true, true)
+    dup.database.bulk_save([dup], {use_uuids: true, all_or_nothing: true})
   end
 end
