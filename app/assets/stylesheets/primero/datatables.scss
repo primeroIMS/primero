@@ -34,6 +34,12 @@ table.dataTable thead td {
 }
 
 @if $global-text-direction == rtl {
+  table tbody {
+    border: none;
+  }
+}
+
+@if $global-text-direction == rtl {
   table.dataTable thead th:last-child {
     border-left: 1px solid $stroke_green_color;
   }
@@ -102,9 +108,7 @@ table.dataTable tbody td {
 table.dataTable tbody tr:last-child td {
   border-bottom: 1px solid $stroke_green_color;
 }
-table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {
-  border-top: 1px solid #dddddd;
-}
+
 table.dataTable.row-border tbody tr:first-child th,
 table.dataTable.row-border tbody tr:first-child td, table.dataTable.display tbody tr:first-child th,
 table.dataTable.display tbody tr:first-child td {
