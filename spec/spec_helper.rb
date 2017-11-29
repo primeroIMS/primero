@@ -53,11 +53,11 @@ Capybara.page.driver.browser.manage.window.resize_to(2000, 2000)
 
 module VerifyAndResetHelpers
   def verify(object)
-    RSpec::Mocks.proxy_for(object).verify
+    RSpec::Mocks.space.proxy_for(object).verify
   end
 
   def reset(object)
-    RSpec::Mocks.proxy_for(object).reset
+    RSpec::Mocks.space.proxy_for(object).reset
   end
 end
 
