@@ -5,9 +5,9 @@ class FormSectionController < ApplicationController
   include ImportActions
   include FormCustomization
 
-  before_filter :get_form_section, :only => [:edit, :destroy]
-  before_filter :load_form_sections, :only => [:index, :edit]
-  before_filter :get_lookups, :only => [:edit]
+  before_action :get_form_section, :only => [:edit, :destroy]
+  before_action :load_form_sections, :only => [:index, :edit]
+  before_action :get_lookups, :only => [:edit]
 
   include LoggerActions
 

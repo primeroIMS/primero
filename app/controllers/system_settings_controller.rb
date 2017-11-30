@@ -1,9 +1,9 @@
 class SystemSettingsController < ApplicationController
 
-  before_filter :only => [:show, :edit, :update] do
+  before_action :only => [:show, :edit, :update] do
     authorize!(:manage, SystemSettings)
   end
-  before_filter :load_system_settings, :only => [:show, :index, :edit, :update]
+  before_action :load_system_settings, :only => [:show, :index, :edit, :update]
 
   @model_class = SystemSettings
 

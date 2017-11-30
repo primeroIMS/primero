@@ -2,7 +2,7 @@ class LookupsController < ApplicationController
 
   @model_class = Lookup
 
-  before_filter :load_lookup, :only => [:edit, :update, :destroy]
+  before_action :load_lookup, :only => [:edit, :update, :destroy]
 
   include LoggerActions
 

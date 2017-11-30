@@ -1,9 +1,9 @@
 class HomeController < ApplicationController
   ALL_FILTER = "all"
 
-  before_filter :load_system_settings, :only => [:index]
-  before_filter :can_access_approvals, :only => [:index]
-  before_filter :load_risk_levels, :only => [:index]
+  before_action :load_system_settings, :only => [:index]
+  before_action :can_access_approvals, :only => [:index]
+  before_action :load_risk_levels, :only => [:index]
 
   def index
     @page_name = t("home.label")

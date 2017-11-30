@@ -1,5 +1,5 @@
 class RecordStatusController < ApplicationController
-  before_filter :set_class_name
+  before_action :set_class_name
 
   include LoggerActions
 

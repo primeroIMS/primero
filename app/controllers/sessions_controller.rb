@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-  skip_before_filter :check_authentication, :only => %w{new create active}
+  skip_before_action :check_authentication, :only => %w{new create active}
 
   @model_class = Session
 

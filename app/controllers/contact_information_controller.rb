@@ -1,6 +1,6 @@
 class ContactInformationController < ApplicationController
-  skip_before_filter :check_authentication, :only => %w{show}
-  before_filter :system_settings, :only => [:show, :edit]
+  skip_before_action :check_authentication, :only => %w{show}
+  before_action :system_settings, :only => [:show, :edit]
 
   @model_class = ContactInformation
 

@@ -3,7 +3,7 @@ class CustomExportsController < ApplicationController
   include ReportsHelper
   include ExportActions
 
-  before_filter :get_modules
+  before_action :get_modules
 
   def permitted_forms_list
     record_type = params[:record_type]

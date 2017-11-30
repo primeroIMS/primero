@@ -2,8 +2,8 @@ module RecordFilteringPagination
   extend ActiveSupport::Concern
 
   included do
-    before_filter :load_age_range, :only => [:index]
-    before_filter :load_inactivity_range, :only => [:index]
+    before_action :load_age_range, :only => [:index]
+    before_action :load_inactivity_range, :only => [:index]
   end
 
   def page

@@ -5,16 +5,16 @@ class UsersController < ApplicationController
   include ImportActions
   include DisableActions
 
-  before_filter :clean_role_ids, :only => [:update, :create]
-  before_filter :clean_module_ids, :only => [:update, :create]
-  before_filter :clean_user_locale, :only => [:update, :create]
-  before_filter :clean_group_ids, :only => [:update, :create]
-  before_filter :load_user, :only => [:show, :edit, :update, :destroy]
-  before_filter :load_records_according_to_disable_filter, :only => [:index]
-  before_filter :agency_names, :only => [:new, :create, :edit, :update]
-  before_filter :load_system_settings, :only => [:new, :edit]
+  before_action :clean_role_ids, :only => [:update, :create]
+  before_action :clean_module_ids, :only => [:update, :create]
+  before_action :clean_user_locale, :only => [:update, :create]
+  before_action :clean_group_ids, :only => [:update, :create]
+  before_action :load_user, :only => [:show, :edit, :update, :destroy]
+  before_action :load_records_according_to_disable_filter, :only => [:index]
+  before_action :agency_names, :only => [:new, :create, :edit, :update]
+  before_action :load_system_settings, :only => [:new, :edit]
 
-  skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
+  skip_before_action :check_authentication, :set_locale, :only => :register_unverified
 
   include LoggerActions
 
