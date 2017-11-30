@@ -8,8 +8,8 @@ module RecordActions
   include LoggerActions
 
   included do
-    skip_before_filter :verify_authenticity_token
-    skip_before_filter :check_authentication, :only => [:reindex]
+    skip_before_action :verify_authenticity_token, raise: false
+    skip_before_action :check_authentication, :only => [:reindex], raise: false
 
     before_filter :load_record, :except => [:new, :create, :index, :reindex]
     before_filter :current_user, :except => [:reindex]
