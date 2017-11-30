@@ -4,20 +4,19 @@ ruby '2.2.8'
 gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', :branch => 'master'
 gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
 
-# gem 'couchrest_model', '~> 2.0.3', :git => 'https://github.com/Quoin/couchrest_model.git', :ref => '72b801720ff225e5615db13bdbe9c7b8962ef13e'
-gem 'couchrest_model', '2.1.0.rc1'
 #TODO - bump couchrest from 1.2.1 to 2.0.1
 #TODO - to do this, must upgrade version of couchrest_model.   Version 2.0.4 requires couchrest 1.2.1
 #TODO - BUT... later versions of couchrest_model are still in beta / rc
+gem 'couchrest_model', '2.0.4'
 
 #TODO - Our current version of couchrest has a restriction that mim-types MUST be less than 3.0
-gem 'mime-types',     '2.99.3'
+gem 'mime-types',     '1.16'
 
 gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
 gem 'prawn-table',    '~> 0.2.2'
-gem 'rails',          '4.1.16'
+gem 'rails',          '4.2.10'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
 gem 'dynamic_form',   '~> 1.1.4'
@@ -27,7 +26,6 @@ gem 'jquery-rails'
 
 #TODO - keeping cancancan at 1.9.2 for now.  Newer versions seem to break.
 gem 'cancancan',      '~> 1.9.2'
-gem 'capistrano',     '~> 3.10.0'
 gem 'highline',       '~> 1.7.8'
 gem 'will_paginate',  '~> 3.1.0'
 gem 'i18n-js',        '~> 3.0.1'
@@ -39,8 +37,8 @@ gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
 gem 'zipruby-compat', :require => 'zipruby', :git => 'https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git', :tag => 'v0.3.7'
 
-gem 'sunspot_rails',  '~> 2.2.7'
-gem 'sunspot_solr',   '~> 2.2.7'
+gem 'sunspot_rails',  '2.2.0'
+gem 'sunspot_solr',   '2.2.0'
 
 gem 'rufus-scheduler', '~> 3.4.2', :require => false
 gem 'daemons',         '~> 1.2.5',  :require => false
@@ -67,7 +65,7 @@ gem 'progress_bar', '~> 1.1.0'
 gem 'writeexcel', '~> 1.0.5'
 gem 'spreadsheet', '~> 1.1.5'
 gem 'deep_merge', :require => 'deep_merge/rails_compat'
-gem 'memoist', '~> 0.16.0'
+gem 'memoist', '~> 0.11.0'
 
 gem 'momentjs-rails', '~> 2.17.1'
 
@@ -76,7 +74,8 @@ gem 'jquery-turbolinks'
 gem 'arabic-letter-connector'
 
 group :production do
-  gem 'passenger', '5.1.11', require: false
+  #TODO - Do not upgrade passenger
+  gem 'passenger', '4.0.59', require: false
 end
 
 #TODO: Are these getting installed?

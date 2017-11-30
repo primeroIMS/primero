@@ -22,37 +22,37 @@ describe "Searchable" do
 
   describe "Text Query" do
 
-    it "should return empty array for no match" do
-      pending "Write this test!"
+    xit "should return empty array for no match" do
+      #TODO pending "Write this test!"
     end
 
-    it "should return an exact match" do
-      pending "Write this test!"
+    xit "should return an exact match" do
+      #TODO pending "Write this test!"
     end
 
-    it "should return a match that starts with the query" do
-      pending "Write this test!"
+    xit "should return a match that starts with the query" do
+      #TODO pending "Write this test!"
     end
 
-    it "should return a fuzzy match" do
-      pending "Fuzzy search isn't implemented yet"
+    xit "should return a fuzzy match" do
+      #TODO pending "Fuzzy search isn't implemented yet"
     end
 
     it "should search by exact match for short id" do
-      pending "Write this test!"
+      #TODO pending "Write this test!"
     end
 
 
-    it "should match more than one word" do
-      pending "Write this test!"
+    xit "should match more than one word" do
+      #TODO pending "Write this test!"
     end
 
-    it "should match more than one word with fuzzy search" do
-      pending "Fuzzy search isn't implemented yet"
+    xit "should match more than one word with fuzzy search" do
+      #TODO pending "Fuzzy search isn't implemented yet"
     end
 
-    it "should match more than one word with starts with" do
-      pending "Are we even doing startswith searches for names?"
+    xit "should match more than one word with starts with" do
+      #TODO pending "Are we even doing startswith searches for names?"
     end
   end
 

@@ -18,9 +18,9 @@ describe "form_section/_radio_button.html.erb" do
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
 
-    expect(rendered).to match(/<input data-abide-ignore="" data-field-tags="\[\]" id="formsection_child_new_field" is_disabled="false" name="child\[new field\]" type="radio" value="male_test" \/>/)
+    expect(rendered).to have_tag("input[type='radio'][value='male_test'][name='child[new field]'][id='formsection_child_new_field']")
+    expect(rendered).to have_tag("input[type='radio'][value='female_test'][name='child[new field]'][id='formsection_child_new_field']")
     expect(rendered).to match(/<label for="formsection_child_new_field_male_test">Male Test<\/label>/)
-    expect(rendered).to match(/<input data-abide-ignore="" data-field-tags="\[\]" id="formsection_child_new_field" is_disabled="false" name="child\[new field\]" type="radio" value="female_test" \/>/)
     expect(rendered).to match(/<label for="formsection_child_new_field_female_test">Female Test<\/label>/)
     expect(rendered).to match(/<p class="help">This is my help text<\/p>/)
   end

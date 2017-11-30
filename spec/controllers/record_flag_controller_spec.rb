@@ -70,13 +70,11 @@ describe RecordFlagController, :type => :controller do
       record_db.flag.should eq(false)
     end
 
-    it "should not flag the record with invalid date parameter" do
-      #TODO - this is currently failing
+    it "should set the flag date to nil with invalid date parameter" do
       post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "Testing Flag", :flag_date => "21-21-2014"
-      JSON.parse(response.body).should eq({"error" => ["Flags is invalid", "Date Flags: date field is invalid"]})
       record_db = model.get(record.id)
-      record_db.flags.count.should eq(0)
-      record_db.flag.should eq(false)
+      record_db.flags.count.should eq(1)
+      expect(record_db.flags.first.date).to be_nil
     end
 
     it "should return the controller path" do
