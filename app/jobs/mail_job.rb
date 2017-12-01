@@ -1,4 +1,4 @@
-class MailJob < ActiveJob::Base
+class MailJob < ApplicationJob
   queue_as :mailer
 
   def perform(user_id, host_url, opts={})
