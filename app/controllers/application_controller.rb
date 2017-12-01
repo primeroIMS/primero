@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   def extend_session_lifetime
-    request.env[Rack::Session::Abstract::ENV_SESSION_OPTIONS_KEY][:expire_after] = 1.week if request.format.json?
+    request.env[Rack::RACK_SESSION][:expire_after] = 1.week if request.format.json?
   end
 
   def authorize_profiler

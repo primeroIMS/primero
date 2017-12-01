@@ -42,7 +42,6 @@ gem 'sunspot_solr',   '2.2.0'
 gem 'rufus-scheduler', '~> 3.4.2', :require => false
 gem 'daemons',         '~> 1.2.5',  :require => false
 
-gem 'activejob_backport'
 gem 'backburner', require: false
 
 #TODO - Going to more recent version of foundation-rails throws off our layouts

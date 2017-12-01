@@ -63,8 +63,6 @@ GEM
     activejob (5.0.6)
       activesupport (= 5.0.6)
       globalid (>= 0.3.6)
-    activejob_backport (0.0.3)
-      activesupport (>= 4.0.0)
     activemodel (5.0.6)
       activesupport (= 5.0.6)
     activerecord (5.0.6)
@@ -462,7 +460,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activejob_backport
   addressable (~> 2.5.2)
   arabic-letter-connector
   backburner
