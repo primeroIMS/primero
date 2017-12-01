@@ -5,7 +5,7 @@ env:
 cache: bundler
 before_script:
   - mkdir -p log
-  - curl -X PUT localhost:5984/_config/admins/primero -d '\"primero\"'
+  - curl -X PUT localhost:5984/_config/admins/primero -d '"primero"'
   - cp config/travis/couchdb.yml config/
   - cp config/travis/sunspot.yml config/
 script:
