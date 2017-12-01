@@ -10,7 +10,7 @@ before_script:
 - cp config/travis/sunspot.yml config/
 script:
 - bundle exec rake sunspot:solr:start
-- bundle exec rspec spec
+- COVERAGE=true bundle exec rake rspec:ci
 services:
 - couchdb
 branches:
