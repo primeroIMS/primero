@@ -1,3 +1,3 @@
-class ApplicationRecord < ActiveRecord::Base
-  self.abstract_class = true
+class ApplicationRecord < CouchRest::Model::Base
+  # self.abstract_class = true
 end
