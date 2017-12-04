@@ -3,4 +3,8 @@ pipelines:
     maint_1.4:
       - step:
           script:
-            - git push https://$primeroimstoken@github.com/primeroims/primero.git maint_1.4
+            - git push git@github.com:primeroIMS/primero.git maint_1.4
+    development:
+      - step:
+          script:
+            - git push git@github.com:primeroIMS/primero.git development
