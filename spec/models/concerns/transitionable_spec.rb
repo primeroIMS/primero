@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-class TestClass < CouchRest::Model::Base
+class TestClass < ApplicationRecord
   include Transitionable
 end
 

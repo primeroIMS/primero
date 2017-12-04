@@ -1,4 +1,4 @@
-class SystemUsers < CouchRest::Model::Base
+class SystemUsers < ApplicationRecord
 
   include PrimeroModel
   self.database = COUCHDB_SERVER.database("_users")

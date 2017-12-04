@@ -1,4 +1,4 @@
-class Session < CouchRest::Model::Base
+class Session < ApplicationRecord
   use_database :sessions
 
   include PrimeroModel

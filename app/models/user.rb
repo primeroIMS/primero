@@ -1,5 +1,5 @@
 require 'digest/sha2'
-class User < CouchRest::Model::Base
+class User < ApplicationRecord
   use_database :user
 
   include PrimeroModel

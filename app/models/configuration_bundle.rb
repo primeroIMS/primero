@@ -1,4 +1,4 @@
-class ConfigurationBundle < CouchRest::Model::Base
+class ConfigurationBundle < ApplicationRecord
   use_database :configuration_bundle
 
   include PrimeroModel

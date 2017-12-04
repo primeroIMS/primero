@@ -1,4 +1,4 @@
-class ContactInformation < CouchRest::Model::Base
+class ContactInformation < ApplicationRecord
   use_database :contact_information
 
   include PrimeroModel

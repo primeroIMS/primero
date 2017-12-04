@@ -1,4 +1,4 @@
-class Agency < CouchRest::Model::Base
+class Agency < ApplicationRecord
   use_database :agency
 
   include PrimeroModel

@@ -1,4 +1,4 @@
-class FormSection < CouchRest::Model::Base
+class FormSection < ApplicationRecord
   include PrimeroModel
   include LocalizableProperty
   include Importable
