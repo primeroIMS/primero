@@ -1,0 +1,6 @@
+pipelines:
+  branches:
+    maint_1.4:
+      - step:
+          script:
+            - git push https://$primeroimstoken@github.com/primeroims/primero.git maint_1.4
