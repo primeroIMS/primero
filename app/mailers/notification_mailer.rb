@@ -1,4 +1,4 @@
-class NotificationMailer < ActionMailer::Base
+class NotificationMailer < ApplicationMailer
   def manager_approval_request(user_id, manager_id, case_id, approval_type, host_url)
     @user = User.get(user_id)
     @manager = User.get(manager_id)

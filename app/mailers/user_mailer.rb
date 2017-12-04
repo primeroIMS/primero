@@ -1,4 +1,4 @@
-class UserMailer < ActionMailer::Base
+class UserMailer < ApplicationMailer
   def welcome(user_id, host_url)
     @user = User.get(user_id)
     if @user.present?
