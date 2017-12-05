@@ -934,9 +934,8 @@ describe FormSection do
         })
         subform_section.save
 
-        subform_section.new_record?.should be_falsey
-
-        expect(subform_section.fields.first.errors.messages[:name]).to eq(nil)
+        expect(subform_section.new_record?).to be_falsey
+        expect(subform_section.fields.first.errors.messages[:name]).to be_blank
       end
    end
 
@@ -1005,9 +1004,8 @@ describe FormSection do
         field.name = "field_name_1"
 
         #Save the record and check the status
-        @subform_section.save.should be_truthy
-
-        expect(@subform_section.fields.first.errors.messages[:name]).to eq(nil)
+        expect(@subform_section.save).to be_truthy
+        expect(@subform_section.fields.first.errors.messages[:name]).to be_blank
       end
    end
 

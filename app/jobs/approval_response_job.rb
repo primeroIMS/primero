@@ -1,4 +1,4 @@
-class ApprovalResponseJob < ActiveJob::Base
+class ApprovalResponseJob < ApplicationJob
   queue_as :mailer
 
   def perform(user_id, case_id, approval_type, approval, host_url)

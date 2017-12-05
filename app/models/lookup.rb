@@ -1,5 +1,5 @@
 #TODO - add i18n
-class Lookup < CouchRest::Model::Base
+class Lookup < ApplicationRecord
   use_database :lookup
 
   include PrimeroModel

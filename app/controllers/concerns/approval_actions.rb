@@ -1,5 +1,5 @@
 #NOTE: This depends on record_actions concern
-#      It requires @system_settings which is loaded by a before_filter in record_actions
+#      It requires @system_settings which is loaded by a before_action in record_actions
 module ApprovalActions
   extend ActiveSupport::Concern
 

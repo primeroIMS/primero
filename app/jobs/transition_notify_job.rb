@@ -1,4 +1,4 @@
-class TransitionNotifyJob < ActiveJob::Base
+class TransitionNotifyJob < ApplicationJob
   queue_as :mailer
 
   def perform(transition_type, record_class, record_id, transition_id, host_url)

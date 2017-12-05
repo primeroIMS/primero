@@ -1,3 +1,5 @@
+#TODO: For now leaving CouchRest::Model::Base
+#TODO: Inheriting from ApplicationRecord breaks created_at in the Historical Concern for some reason
 class TracingRequest < CouchRest::Model::Base
   use_database :tracing_request
 

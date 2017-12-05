@@ -1,4 +1,4 @@
-class SavedSearch < CouchRest::Model::Base
+class SavedSearch < ApplicationRecord
   use_database :saved_search
   include PrimeroModel
 

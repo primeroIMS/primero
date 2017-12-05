@@ -4,9 +4,9 @@ class LocationsController < ApplicationController
 
   include DisableActions
 
-  before_filter :load_location, :only => [:edit, :update, :destroy]
-  before_filter :load_records_according_to_disable_filter, :except => [:destroy]
-  before_filter :load_types, :only => [:index, :new, :edit]
+  before_action :load_location, :only => [:edit, :update, :destroy]
+  before_action :load_records_according_to_disable_filter, :except => [:destroy]
+  before_action :load_types, :only => [:index, :new, :edit]
 
   include LoggerActions
 

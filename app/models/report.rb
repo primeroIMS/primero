@@ -1,4 +1,4 @@
-class Report < CouchRest::Model::Base
+class Report < ApplicationRecord
   use_database :report
   include PrimeroModel
   include Memoizable

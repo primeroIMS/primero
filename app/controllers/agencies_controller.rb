@@ -5,9 +5,9 @@ class AgenciesController < ApplicationController
   include MediaActions
   include DisableActions
 
-  before_filter :filter_params_array_duplicates, :only => [:create, :update]
-  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
-  before_filter :load_records_according_to_disable_filter, :only => [:index]
+  before_action :filter_params_array_duplicates, :only => [:create, :update]
+  before_action :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
+  before_action :load_records_according_to_disable_filter, :only => [:index]
 
   include LoggerActions
 

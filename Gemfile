@@ -16,7 +16,7 @@ gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
 gem 'prawn-table',    '~> 0.2.2'
-gem 'rails',          '4.2.10'
+gem 'rails',          '5.0.6'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
 gem 'dynamic_form',   '~> 1.1.4'
@@ -32,7 +32,6 @@ gem 'i18n-js',        '~> 3.0.1'
 gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 1.0.0'
 gem 'thin',           '~> 1.7.2', :platforms => :ruby, :require => false
-gem 'request_exception_handler'
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
 gem 'zipruby-compat', :require => 'zipruby', :git => 'https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git', :tag => 'v0.3.7'
@@ -43,7 +42,6 @@ gem 'sunspot_solr',   '2.2.0'
 gem 'rufus-scheduler', '~> 3.4.2', :require => false
 gem 'daemons',         '~> 1.2.5',  :require => false
 
-gem 'activejob_backport'
 gem 'backburner', require: false
 
 #TODO - Going to more recent version of foundation-rails throws off our layouts
@@ -99,6 +97,7 @@ group :test, :cucumber, :development do
 end
 
 group :test, :cucumber do
+  gem 'rails-controller-testing',   '~> 1.0.2'
   gem 'factory_bot',                '~> 4.8.2'
   gem 'rspec-activemodel-mocks',    '~> 1.0.3'
   gem 'rspec-collection_matchers',  '~> 1.1.3'

@@ -3,11 +3,11 @@ class FieldsController < ApplicationController
 
   @model_class = Field
 
-  before_filter { authorize! :manage, Field }
-  before_filter :read_form_section
-  before_filter :module_id, :only => [:create, :update, :destroy]
-  before_filter :get_lookups, :only => [:edit, :update, :create]
-  after_filter :refresh_properties, :only => [:create, :update, :destroy]
+  before_action { authorize! :manage, Field }
+  before_action :read_form_section
+  before_action :module_id, :only => [:create, :update, :destroy]
+  before_action :get_lookups, :only => [:edit, :update, :create]
+  after_action :refresh_properties, :only => [:create, :update, :destroy]
 
   FIELD_TYPES = %w{ text_field textarea check_box select_box radio_button numeric_field date_field }
 

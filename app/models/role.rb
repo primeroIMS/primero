@@ -1,4 +1,4 @@
-class Role < CouchRest::Model::Base
+class Role < ApplicationRecord
   use_database :role
 
   include PrimeroModel
