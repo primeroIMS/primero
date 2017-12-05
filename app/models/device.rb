@@ -1,4 +1,4 @@
-class Device < ApplicationRecord
+class Device < CouchRest::Model::Base
   use_database :device
 
   include PrimeroModel

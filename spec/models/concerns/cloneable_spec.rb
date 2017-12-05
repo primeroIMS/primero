@@ -1,7 +1,7 @@
 
 require 'rails_helper'
 
-class TestClass < ApplicationRecord
+class TestClass < CouchRest::Model::Base
   include Cloneable
 
   property :name, String, :default => 'A name'

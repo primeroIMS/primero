@@ -1,4 +1,4 @@
-class SuggestedField   < ApplicationRecord
+class SuggestedField   < CouchRest::Model::Base
   use_database :suggested_field
 
   include PrimeroModel

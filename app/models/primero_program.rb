@@ -1,4 +1,4 @@
-class PrimeroProgram < ApplicationRecord
+class PrimeroProgram < CouchRest::Model::Base
 
   use_database :primero_program
 

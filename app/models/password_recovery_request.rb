@@ -1,4 +1,4 @@
-class PasswordRecoveryRequest < ApplicationRecord
+class PasswordRecoveryRequest < CouchRest::Model::Base
   use_database :password_recovery_request
 
   include PrimeroModel

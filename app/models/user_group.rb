@@ -1,4 +1,4 @@
-class UserGroup < ApplicationRecord
+class UserGroup < CouchRest::Model::Base
 
   use_database :user_group
 
