@@ -83,7 +83,7 @@ module CapybaraHelpers
     end
   end
 
-  def create_session(user, password)
+  def create_session(user, password="password123")
     if user.present? && password.present?
       login = Login.new user_name: user.user_name, password: password
       session = login.authenticate_user
