@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-class TestRecord < ApplicationRecord
+class TestRecord < CouchRest::Model::Base
   use_database :test_record
   include PhotoUploader
   include Record

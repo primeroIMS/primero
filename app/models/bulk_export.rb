@@ -1,4 +1,4 @@
-class BulkExport < ApplicationRecord
+class BulkExport < CouchRest::Model::Base
   use_database :bulk_export
 
   include PrimeroModel

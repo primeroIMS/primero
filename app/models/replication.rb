@@ -1,5 +1,5 @@
 
-class Replication < ApplicationRecord
+class Replication < CouchRest::Model::Base
   MODELS_TO_SYNC = [ Child, Incident, TracingRequest ]
 
   include PrimeroModel

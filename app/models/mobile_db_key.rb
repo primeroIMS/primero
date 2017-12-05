@@ -1,4 +1,4 @@
-class MobileDbKey < ApplicationRecord
+class MobileDbKey < CouchRest::Model::Base
   use_database :mobile_db_key
 
   include PrimeroModel

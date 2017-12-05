@@ -1,4 +1,4 @@
-class SystemSettings < ApplicationRecord
+class SystemSettings < CouchRest::Model::Base
   use_database :system_settings
 
   include PrimeroModel

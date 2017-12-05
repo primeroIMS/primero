@@ -1,4 +1,4 @@
-class LogEntry < ApplicationRecord
+class LogEntry < CouchRest::Model::Base
   include PrimeroModel
 
   use_database :log_entry

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-class TestClass < ApplicationRecord
+class TestClass < CouchRest::Model::Base
   include Disableable
 
   property :name, String

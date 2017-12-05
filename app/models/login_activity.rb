@@ -1,4 +1,4 @@
-class LoginActivity < ApplicationRecord
+class LoginActivity < CouchRest::Model::Base
   use_database :login_activity
 
   include PrimeroModel

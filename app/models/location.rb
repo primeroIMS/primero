@@ -1,4 +1,4 @@
-class Location < ApplicationRecord
+class Location < CouchRest::Model::Base
 
   use_database :location
 

@@ -1,4 +1,4 @@
-class PrimeroModule < ApplicationRecord
+class PrimeroModule < CouchRest::Model::Base
   CP = 'primeromodule-cp'
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
