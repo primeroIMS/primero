@@ -75,7 +75,7 @@ describe ChildrenController do
         "id"=>id
       }
 
-      post :transition, params
+      post :transition, params: params
 
       flash[:notice].should eq("Case #{instance.short_id} successfully transferred")
       assigns[:records].should eq([instance])

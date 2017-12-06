@@ -47,7 +47,7 @@ describe CopyActions, type: :controller do
 
       context 'passing no name' do
         it 'creates a new role having name starting with copy of' do
-          post :copy, :id => @test_role.id
+          post :copy, params: {:id => @test_role.id}
           flash[:notice].should == "Role successfully copied."
         end
 
@@ -55,7 +55,7 @@ describe CopyActions, type: :controller do
           #It should fail gracefully with an error message
           it 'does not copy the role and returns error message' do
             Role.create(id: 'role-copy-of-test-role', name: 'copy of Test Role', permissions_list: [@permission_role_read_copy, @permission_case_read_write], group_permission: Permission::GROUP)
-            post :copy, :id => @test_role.id
+            post :copy, params: {:id => @test_role.id}
             flash[:notice].should == "Error copying Role.  Ensure the name does not conflict with another Role."
           end
         end
@@ -63,7 +63,7 @@ describe CopyActions, type: :controller do
 
       context 'passing a name' do
         it 'creates a new role having the passed in name' do
-          post :copy, :id => @test_role.id, :name => 'New Role Name'
+          post :copy, params: {:id => @test_role.id, :name => 'New Role Name'}
           flash[:notice].should == "Role successfully copied."
         end
 
@@ -71,7 +71,7 @@ describe CopyActions, type: :controller do
           #It should fail gracefully with an error message
           it 'does not copy the role and returns error message' do
             Role.create(id: 'role-new-role-name', name: 'New Role Name', permissions_list: [@permission_role_read_copy, @permission_case_read_write], group_permission: Permission::GROUP)
-            post :copy, :id => @test_role.id, :name => 'New Role Name'
+            post :copy, params: {:id => @test_role.id, :name => 'New Role Name'}
             flash[:notice].should == "Error copying Role.  Ensure the name does not conflict with another Role."
           end
         end
