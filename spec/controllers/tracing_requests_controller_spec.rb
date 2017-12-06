@@ -466,7 +466,7 @@ describe TracingRequestsController, :type => :controller do
       TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       controller.stub :get_form_sections
-      get :edit, param: { :id => "37" }
+      get :edit, params: { :id => "37" }
       assigns[:tracing_request].should equal(mock_tracing_request)
     end
 
