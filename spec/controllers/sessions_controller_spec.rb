@@ -14,7 +14,7 @@ describe SessionsController do
     Login.stub(:new).and_return(double(:authenticate_user =>
                               mock_model(Session, :authenticate_user => true, :device_blacklisted? => false, :imei => "IMEI_NUMBER",
                                    :save => true, :put_in_cookie => true, :user_name => "dummy", :token => "some_token", :extractable_options? => false)))
-    post :create, :user_name => "dummy", :password => "dummy", :imei => "IMEI_NUMBER", :format => "json"
+    post :create, params: {:user_name => "dummy", :password => "dummy", :imei => "IMEI_NUMBER", :format => "json"}
 
     JSON.parse(response.body)["db_key"].should == "unique_key"
     JSON.parse(response.body)["organization"].should == "TW"
@@ -38,7 +38,7 @@ describe SessionsController do
                                              mock_model(Session, :authenticate_user => true, :device_blacklisted? => false, :imei => "IMEI_NUMBER",
                                                         :save => true, :put_in_cookie => true, :user_name => "dummy", :token => "some_token", :extractable_options? => false)))
       expect(Rails.logger).to receive(:info).with("Login  by user 'test_user'")
-      post :create, :user_name => "test_user", :password => "test1234"
+      post :create, params: { :user_name => "test_user", :password => "test1234" }
     end
 
     it "logs a Logout message" do

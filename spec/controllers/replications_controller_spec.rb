@@ -16,7 +16,7 @@ describe ReplicationsController do
     config = { "a" => "a", "b" => "b", "c" => "c" }
     CouchSettings.instance.should_receive(:authenticate).with("rapidftr", "rapidftr").and_return(true)
     Replication.should_receive(:couch_config).and_return(config)
-    post :configuration, { :user_name => "rapidftr", :password => "rapidftr" }
+    post :configuration, params: { :user_name => "rapidftr", :password => "rapidftr" }
     target_json = JSON.parse(response.body)
     target_json.should == config
   end

@@ -189,7 +189,7 @@ describe ReportsController do
       ]
 
       params = {"record_type"=>"case", "module_ids"=>["primeromodule-cp"]}
-      get :permitted_field_list, params
+      get :permitted_field_list, params: params
       json_response = JSON.parse(response.body)
       expect(json_response).to eq(expected_forms_sections)
     end
@@ -220,7 +220,7 @@ describe ReportsController do
                                       ["My Agency", "field_other_agency", "select_box"]]]
       ]
       params = {"record_type"=>"case", "module_ids"=>["primeromodule-cp"]}
-      get :permitted_field_list, params
+      get :permitted_field_list, params: params
       json_response = JSON.parse(response.body)
       expect(json_response).to eq(expected_forms_sections)
     end
