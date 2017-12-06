@@ -85,13 +85,13 @@ describe IncidentsController, :type => :controller do
       it "GET show" do
         @controller.current_ability.should_receive(:can?).with(:read, @incident).and_return(false);
         controller.stub :get_form_sections
-        get :show, :id => @incident.id
+        get :show, params: {:id => @incident.id}
         response.status.should == 403
       end
 
       it "PUT update" do
         @controller.current_ability.should_receive(:can?).with(:update, @incident).and_return(false);
-        put :update, :id => @incident.id
+        put :update, params: {:id => @incident.id}
         response.status.should == 403
       end
 
@@ -126,7 +126,7 @@ describe IncidentsController, :type => :controller do
           incidents.stub(:paginate).and_return(incidents)
           Incident.should_receive(:list_records).with(scope, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakemrmadmin"], nil, nil).and_return(incidents)
 
-          get :index, :scope => scope
+          get :index, params: {:scope => scope}
           assigns[:incidents].should == incidents
         end
       end
@@ -149,7 +149,7 @@ describe IncidentsController, :type => :controller do
           incidents.stub(:paginate).and_return(incidents)
           Incident.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakemrmworker", nil, nil).and_return(incidents)
           @params.merge!(:scope => @status)
-          get :index, @params
+          get :index, params: @params
           assigns[:incidents].should == incidents
         end
       end
@@ -179,7 +179,7 @@ describe IncidentsController, :type => :controller do
         search.should_receive(:total).and_return(100)
         Incident.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakemrmworker"], nil, nil).and_return(search)
         params = {"page" => "all"}
-        get :index, params
+        get :index, params: params
         assigns[:incidents].should == collection
         assigns[:total_records].should == 100
       end
@@ -285,7 +285,7 @@ describe IncidentsController, :type => :controller do
         ##### Main part of the test ####
         controller.stub :render
         params = {:format => :csv, :password => @password, :custom_export_file_name => custom_export_file_name}
-        get :index, params
+        get :index, params: params
       end
 
       it "should use the user_name and model_name to get the file name" do
@@ -299,7 +299,7 @@ describe IncidentsController, :type => :controller do
         ##### Main part of the test ####
         controller.stub :render
         params = {:format => :csv, :password => @password}
-        get :index, params
+        get :index, params: params
       end
 
       it "should use the unique_identifier to get the file name" do
@@ -313,7 +313,7 @@ describe IncidentsController, :type => :controller do
         ##### Main part of the test ####
         controller.stub :render
         params = {:format => :csv, :password => @password}
-        get :index, params
+        get :index, params: params
       end
     end
 
@@ -457,7 +457,7 @@ describe IncidentsController, :type => :controller do
 
       it "should filter by one range" do
         params = {"scope" => {"status" => "list||#{Record::STATUS_OPEN}", "age" => "range||6-11"}}
-        get :index, params
+        get :index, params: params
 
         filters = {"status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
         expect(assigns[:filters]).to eq(filters)
@@ -467,7 +467,7 @@ describe IncidentsController, :type => :controller do
 
       it "should filter more than one range" do
         params = {"scope"=>{"status"=>"list||#{Record::STATUS_OPEN}", "age"=>"range||6-11||12-17"}}
-        get :index, params
+        get :index, params: params
 
         filters = {"status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
         expect(assigns[:filters]).to eq(filters)
@@ -477,7 +477,7 @@ describe IncidentsController, :type => :controller do
 
       it "should filter with open range" do
         params = {"scope"=>{"status"=>"list||#{Record::STATUS_OPEN}", "age"=>"range||18 "}}
-        get :index, params
+        get :index, params: params
 
         filters = {"status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
         expect(assigns[:filters]).to eq(filters)
@@ -494,7 +494,7 @@ describe IncidentsController, :type => :controller do
       incident = build :incident
       controller.stub :render
       controller.stub :get_form_sections
-      get :show, :id => incident.id
+      get :show, params: {:id => incident.id}
       assigns[:page_name].should == "View Incident #{incident.short_id}"
     end
 
@@ -502,7 +502,7 @@ describe IncidentsController, :type => :controller do
       Incident.stub(:allowed_formsections).and_return({})
       Incident.stub(:get).with("37").and_return(mock_incident({:module_id => 'primeromodule-mrm'}))
       controller.stub :get_form_sections
-      get :show, :id => "37"
+      get :show, params: {:id => "37"}
       assigns[:incident].should equal(mock_incident)
     end
 
@@ -511,14 +511,14 @@ describe IncidentsController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       Incident.stub(:allowed_formsections).and_return(grouped_forms)
-      get :show, :id => "37"
+      get :show, params: {:id => "37"}
       assigns[:form_sections].should == grouped_forms
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
       Incident.stub(:get).with("invalid record").and_return(nil)
       controller.stub :get_form_sections
-      get :show, :id=> "invalid record"
+      get :show, params: {:id=> "invalid record"}
       flash[:error].should == "Incident with the given id is not found"
       response.should redirect_to(:action => :index)
     end
@@ -530,7 +530,7 @@ describe IncidentsController, :type => :controller do
       duplicates = [Incident.new(:name => "duplicated")]
       controller.stub :get_form_sections
       Incident.should_receive(:duplicates_of).with("37").and_return(duplicates)
-      get :show, :id => "37"
+      get :show, params: {:id => "37"}
       assigns[:duplicates].should == duplicates
     end
   end
@@ -549,7 +549,7 @@ describe IncidentsController, :type => :controller do
       Incident.stub(:allowed_formsections).and_return(forms)
       Incident.stub(:get).with("37").and_return(mock_incident)
 
-      get :new, :id => "37"
+      get :new, params: {:id => "37"}
       assigns[:form_sections].should == forms
     end
   end
@@ -559,7 +559,7 @@ describe IncidentsController, :type => :controller do
       Incident.stub(:allowed_formsections).and_return({})
       Incident.stub(:get).with("37").and_return(mock_incident)
       controller.stub :get_form_sections
-      get :edit, :id => "37"
+      get :edit, params: {:id => "37"}
       assigns[:incident].should equal(mock_incident)
     end
 
@@ -568,7 +568,7 @@ describe IncidentsController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       Incident.stub(:allowed_formsections).and_return(grouped_forms)
-      get :edit, :id => "37"
+      get :edit, params: {:id => "37"}
       assigns[:form_sections].should == grouped_forms
     end
   end
@@ -726,7 +726,7 @@ describe IncidentsController, :type => :controller do
 
   describe "GET search" do
     it "should not render error by default" do
-      get(:search, :format => 'html')
+      get(:search, params: {:format => 'html'})
       assigns[:search].should be_nil
     end
 
@@ -802,7 +802,7 @@ describe IncidentsController, :type => :controller do
       incidents.should == [ incident1, incident2 ]
     }
 
-    get :index, :format => :mock
+    get :index, params: {:format => :mock}
   end
 
   it 'should export incident using #respond_to_export' do
@@ -815,7 +815,7 @@ describe IncidentsController, :type => :controller do
       incidents.should == [ incident ]
     }
 
-    get :show, :id => incident.id, :format => :mock
+    get :show, params: {:id => incident.id, :format => :mock}
   end
 
    describe '#respond_to_export' do
@@ -828,14 +828,14 @@ describe IncidentsController, :type => :controller do
 
      it "should handle CSV" do
        Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything, anything, anything).and_return('data')
-       get :index, :format => :csv
+       get :index, params: {:format => :csv}
      end
 
      it "should encrypt result" do
        Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything, anything, anything).and_return('data')
        controller.should_receive(:export_filename).with([ @incident1, @incident2 ], Exporters::CSVExporter).and_return("test_filename")
        controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', anything).and_return(true)
-       get :index, :format => :csv
+       get :index, params: {:format => :csv}
      end
 
      xit "should generate filename based on incident ID and addon ID when there is only one incident" do
@@ -950,7 +950,7 @@ describe IncidentsController, :type => :controller do
       incident.save
       fake_admin_login
       controller.stub(:authorize!)
-      post :create, :incident => {:unique_identifier => incident.unique_identifier, :description => 'new incident'}
+      post :create, params: {:incident => {:unique_identifier => incident.unique_identifier, :description => 'new incident'}}
       updated_incident = Incident.by_short_id(:key => incident.short_id)
       updated_incident.all.size.should == 1
       updated_incident.first.description.should == 'new incident'
@@ -971,7 +971,7 @@ describe IncidentsController, :type => :controller do
     end
     it "creates a GBV incident" do
 
-      post :create, incident: @incident_hash, format: :json
+      post :create, params: {incident: @incident_hash, format: :json}
 
       incident1 = Incident.by_incident_id(key: @incident_hash[:incident_id]).first
 
@@ -986,7 +986,7 @@ describe IncidentsController, :type => :controller do
       before_incident = Incident.by_incident_id(key: @incident_hash[:incident_id]).first
       @incident_hash[:name] = "Fred Jones"
 
-      put :update, id:before_incident.id, incident: @incident_hash, format: :json
+      put :update, params: {id: before_incident.id, incident: @incident_hash, format: :json}
 
       after_incident = Incident.by_incident_id(key: @incident_hash[:incident_id]).first
 
@@ -1020,7 +1020,7 @@ describe IncidentsController, :type => :controller do
 
       context 'show' do
         it 'returns a GBV incident' do
-          get :show, id: @gbv_incident_1.id, mobile: true, format: :json
+          get :show, params: {id: @gbv_incident_1.id, mobile: true, format: :json}
 
           expect(assigns['record']['_id']).to eq(@gbv_incident_1.id)
           expect(assigns['record']['short_id']).to eq(@gbv_incident_1.short_id)
@@ -1037,7 +1037,7 @@ describe IncidentsController, :type => :controller do
           Incident.should_receive(:list_records).and_return(search)
         end
         it 'returns a list of GBV incidents' do
-          get :index, mobile: true, module_id: PrimeroModule::GBV, format: :json
+          get :index, params: {mobile: true, module_id: PrimeroModule::GBV, format: :json}
 
           expect(assigns['records'].count).to eq(2)
           expect(assigns['records'].map{|r| r['name']}).to include("Daphne Blake", "Velma Dinkley")

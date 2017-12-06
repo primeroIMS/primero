@@ -53,12 +53,12 @@ describe UsersController do
         end
 
         it "populates the view with all the disabled users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_d, @user_e])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
@@ -69,12 +69,12 @@ describe UsersController do
         end
 
         it "populates the view with all the enabled users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
@@ -85,24 +85,24 @@ describe UsersController do
         end
 
         it "populates the view with all the users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_a, @user_b, @user_c, @user_d, @user_e])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
 
       context "with no filter" do
         it "populates the view with all the users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
@@ -119,12 +119,12 @@ describe UsersController do
         end
 
         it "populates the view with all the disabled users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_e, @user_d])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
@@ -135,12 +135,12 @@ describe UsersController do
         end
 
         it "populates the view with all the enabled users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_c, @user_b, @user_a])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
@@ -151,24 +151,24 @@ describe UsersController do
         end
 
         it "populates the view with all the users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_e, @user_d, @user_c, @user_b, @user_a])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
 
       context "with no filter" do
         it "populates the view with all the users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_c, @user_b, @user_a])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
@@ -185,12 +185,12 @@ describe UsersController do
         end
 
         it "populates the view with all the disabled users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_e, @user_d])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
@@ -201,12 +201,12 @@ describe UsersController do
         end
 
         it "populates the view with all the enabled users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_b, @user_a, @user_c])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
@@ -217,24 +217,24 @@ describe UsersController do
         end
 
         it "populates the view with all the users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_b, @user_e, @user_a, @user_d, @user_c])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
 
       context "with no filter" do
         it "populates the view with all the users" do
-          get :index, @params
+          get :index, params: @params
           expect(assigns(:users)).to eq([@user_b, @user_a, @user_c])
         end
 
         it "renders the index template" do
-          get :index, @params
+          get :index, params: @params
           expect(response).to render_template("index")
         end
       end
@@ -243,7 +243,7 @@ describe UsersController do
     context 'when exporting' do
       it 'exports users' do
         params = {"action"=>"index", "controller"=>"users", "page"=>"all", "per_page"=>"all", "password"=>"111", "selected_records"=>"", "format"=>"json"}
-        get :index, params
+        get :index, params: params
         expect(response.status).to eq(200)
       end
     end
@@ -293,20 +293,20 @@ describe UsersController do
     it "assigns the requested user as @user" do
       mock_user = double(:user_name => "fakeadmin")
       User.stub(:get).with("37").and_return(mock_user)
-      get :show, :id => "37"
+      get :show, params: {:id => "37"}
       assigns[:user].should equal(mock_user)
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
       User.stub(:get).with("invalid record").and_return(nil)
-      get :show, :id => "invalid record"
+      get :show, params: {:id => "invalid record"}
       flash[:error].should == "User with the given id is not found"
       response.should redirect_to(:action => :index)
     end
 
     it "should show self user for non-admin" do
       session = fake_login
-      get :show, :id => session.user.id
+      get :show, params: {:id => session.user.id}
       response.should_not be_forbidden
     end
 
@@ -314,7 +314,7 @@ describe UsersController do
       fake_login
       mock_user = double({:user_name => 'some_random'})
       User.stub(:get).with("37").and_return(mock_user)
-      get :show, :id => "37"
+      get :show, params: {:id => "37"}
       response.status.should == 403
     end
   end
@@ -395,7 +395,7 @@ describe UsersController do
       fake_admin_login
       mock_user = stub_model(User, :user_name => "Test Name", :full_name => "Test")
       User.stub(:get).with("37").and_return(mock_user)
-      get :edit, :id => "37"
+      get :edit, params: {:id => "37"}
       expect(assigns[:user]).to eq(mock_user)
       expect(assigns[:roles]).to include(@role_case_read, @role_tracing_request_read, @role_incident_read)
     end
@@ -403,7 +403,7 @@ describe UsersController do
     it "should not allow editing a non-self user for users without access" do
       fake_login_as(Permission::USER, [Permission::READ])
       User.stub(:get).with("37").and_return(mock_user(:full_name => "Test Name"))
-      get :edit, :id => "37"
+      get :edit, params: {:id => "37"}
       response.should be_forbidden
     end
 
@@ -411,7 +411,7 @@ describe UsersController do
       fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL, ['test_group'])
       mock_user = stub_model(User, :full_name => "Test Name", :user_name => 'fakeuser', user_group_ids: ['test_group'])
       User.stub(:get).with("24").and_return(mock_user)
-      get :edit, :id => "24"
+      get :edit, params: {:id => "24"}
       response.status.should_not == 403
     end
   end
@@ -422,20 +422,20 @@ describe UsersController do
       fake_admin_login
       User.should_receive(:get).with("37").and_return(mock_user)
       mock_user.should_receive(:destroy)
-      delete :destroy, :id => "37"
+      delete :destroy, params: {:id => "37"}
     end
 
     it "redirects to the users list" do
       fake_admin_login
       User.stub(:get).and_return(mock_user(:destroy => true))
-      delete :destroy, :id => "1"
+      delete :destroy, params: {:id => "1"}
       response.should redirect_to(users_url)
     end
 
     it "should not allow a destroy" do
       fake_login_as(Permission::USER, [Permission::READ], Permission::ALL)
       User.stub(:get).and_return(mock_user(:destroy => true))
-      delete :destroy, :id => "37"
+      delete :destroy, params: {:id => "37"}
       response.status.should == 403
     end
 
@@ -444,7 +444,7 @@ describe UsersController do
       mock_user = stub_model User, user_group_ids: ['test_group']
       User.should_receive(:get).with("37").and_return(mock_user)
       mock_user.should_receive(:destroy).and_return(true)
-      delete :destroy, :id => "37"
+      delete :destroy, params: {:id => "37"}
       response.status.should_not == 403
     end
   end
@@ -457,7 +457,7 @@ describe UsersController do
         User.stub(:get).with("24").and_return(mock_user)
         controller.stub(:current_user_name).and_return("test_user")
         mock_user.stub(:has_role_ids?).and_return(false)
-        post :update, {:id => "24", :user => {:user_type => "Administrator"}}
+        post :update, params: {:id => "24", :user => {:user_type => "Administrator"}}
         response.status.should == 403
       end
     end
@@ -468,7 +468,7 @@ describe UsersController do
         user = stub_model User, :user_name => 'some name'
         params = { :id => '24', :user => { :disabled => true } }
         User.stub :get => user
-        post :update, params
+        post :update, params: params
         response.should be_forbidden
       end
 
@@ -478,7 +478,7 @@ describe UsersController do
         params = { :id => '24', :user => { :disabled => true } }
         User.stub :get => user
         User.stub(:find_by_user_name).with(user.user_name).and_return(user)
-        post :update, params
+        post :update, params: params
         response.should_not be_forbidden
       end
 
@@ -489,7 +489,7 @@ describe UsersController do
         mock_user = User.new
         User.should_receive(:new).with({"role_ids" => %w(abcd), "locale" => nil}).and_return(mock_user)
         mock_user.should_receive(:save).and_return(true)
-        post :create, {"user" => {"role_ids" => %w(abcd)}}
+        post :create, params: {"user" => {"role_ids" => %w(abcd)}}
       end
 
       it "should render new if the given user is invalid and assign user,roles" do
@@ -497,7 +497,7 @@ describe UsersController do
         mock_user = User.new
         User.should_receive(:new).and_return(mock_user)
         mock_user.should_receive(:save).and_return(false)
-        post :create, {:user => {:role_ids => ["wxyz"]}}
+        post :create, params: {:user => {:role_ids => ["wxyz"]}}
         response.should render_template :new
         expect(assigns[:user]).to eq(mock_user)
         expect(assigns[:roles]).to include(@role_case_read, @role_tracing_request_read, @role_incident_read)
@@ -510,7 +510,7 @@ describe UsersController do
       fake_admin_login
       controller.stub(:authorize!).and_return(true)
       User.should_receive(:get).with("unique_id").and_return(double("user", :update_attributes => false, :verified? => false))
-      post :update, {:id => "unique_id", :user => {:verified => true}}
+      post :update, params: {:id => "unique_id", :user => {:verified => true}}
       controller.params[:verify].should be_truthy
     end
 
@@ -527,7 +527,7 @@ describe UsersController do
       child2.should_receive(:verified=).with(true)
       child2.should_receive(:save)
       Child.should_receive(:all_by_creator).with("user").and_return([child1,child2])
-      post :update, {:id => "unique_id", :user => {:verified => true}}
+      post :update, params: {:id => "unique_id", :user => {:verified => true}}
     end
 
     it "should call verify_children only for recently verified users" do
@@ -536,7 +536,7 @@ describe UsersController do
       mock_user.stub(:update_attributes).and_return(true)
       User.should_receive(:get).with("unique_id").and_return(mock_user)
       Child.should_not_receive(:all_by_creator)
-      post :update, {:id => "unique_id", :user => {:verified => true}}
+      post :update, params: {:id => "unique_id", :user => {:verified => true}}
     end
   end
 
@@ -560,7 +560,7 @@ describe UsersController do
       @mock_change_form.should_receive(:user=).with(@user).and_return(nil)
       @mock_change_form.should_receive(:execute).and_return(true)
 
-      post :update_password, { :forms_change_password_form => @mock_params }
+      post :update_password, params: { :forms_change_password_form => @mock_params }
       flash[:notice].should == "Password changed successfully"
       response.should redirect_to :action => :show, :id => @user.id
     end
@@ -569,7 +569,7 @@ describe UsersController do
       @mock_change_form.should_receive(:user=).with(@user).and_return(nil)
       @mock_change_form.should_receive(:execute).and_return(false)
 
-      post :update_password, { :forms_change_password_form => @mock_params }
+      post :update_password, params: { :forms_change_password_form => @mock_params }
       response.should render_template :change_password
     end
   end
@@ -580,7 +580,7 @@ describe UsersController do
       User.should_receive(:new).with("user_name" => "salvador", "verified" => false, "password" => "password", "password_confirmation" => "password").and_return(user = "some_user")
       user.should_receive :save!
 
-      post :register_unverified, {:format => :json, :user => {:user_name => "salvador", "unauthenticated_password" => "password"}}
+      post :register_unverified, params: {:format => :json, :user => {:user_name => "salvador", "unauthenticated_password" => "password"}}
 
       response.should be_ok
     end
@@ -589,7 +589,7 @@ describe UsersController do
       User.should_receive(:find_by_user_name).and_return("something that is not nil")
       User.should_not_receive(:new)
 
-      post :register_unverified, {:format => :json, :user => {:user_name => "salvador", "unauthenticated_password" => "password"}}
+      post :register_unverified, params: {:format => :json, :user => {:user_name => "salvador", "unauthenticated_password" => "password"}}
       response.should be_ok
     end
   end
