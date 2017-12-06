@@ -82,31 +82,31 @@ describe ChildrenController, :type => :controller do
 
       it "GET show" do
         @controller.current_ability.should_receive(:can?).with(:read, @child).and_return(false)
-         get :show, :id => @child.id
+         get :show, params: {id: @child.id}
          response.status.should == 403
       end
 
       it "PUT update" do
         @controller.current_ability.should_receive(:can?).with(:update, @child).and_return(false)
-        put :update, :id => @child.id
+        put :update, params: {id: @child.id}
         response.status.should == 403
       end
 
       it "PUT edit_photo" do
         @controller.current_ability.should_receive(:can?).with(:update, @child).and_return(false)
-        put :edit_photo, :id => @child.id
+        put :edit_photo, params: {id: @child.id}
         response.status.should == 403
       end
 
       it "PUT update_photo" do
         @controller.current_ability.should_receive(:can?).with(:update, @child).and_return(false)
-        put :update_photo, :id => @child.id
+        put :update_photo, params: {id: @child.id}
         response.status.should == 403
       end
 
       it "PUT select_primary_photo" do
         @controller.current_ability.should_receive(:can?).with(:update, @child).and_return(false)
-        put :select_primary_photo, :child_id => @child.id, :photo_id => 0
+        put :select_primary_photo, params: {child_id: @child.id, photo_id: 0}
         response.status.should == 403
       end
 
@@ -141,7 +141,7 @@ describe ChildrenController, :type => :controller do
           children.stub(:paginate).and_return(children)
           Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => Record::STATUS_OPEN}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(children)
 
-          get :index, :scope => scope
+          get :index, params: {scope: scope}
           assigns[:children].should == children
         end
       end
@@ -177,8 +177,7 @@ describe ChildrenController, :type => :controller do
         controller.should_receive(:encrypt_data_to_zip).with('data', "#{custom_export_file_name}.csv", @password).and_return(true)
         ##### Main part of the test ####
         controller.stub :render
-        params = {:format => :csv, :password => @password, :custom_export_file_name => custom_export_file_name}
-        get :index, params
+        get :index, params: {format: :csv, password: @password, custom_export_file_name: custom_export_file_name}
       end
 
       it "should use the user_name and model_name to get the file name" do
@@ -191,8 +190,7 @@ describe ChildrenController, :type => :controller do
         controller.should_receive(:encrypt_data_to_zip).with('data', "#{@session.user.user_name}-child.csv", @password).and_return(true)
         ##### Main part of the test ####
         controller.stub :render
-        params = {:format => :csv, :password => @password}
-        get :index, params
+        get :index, params: {format: :csv, password: @password}
       end
 
       it "should use the unique_identifier to get the file name" do
@@ -205,8 +203,7 @@ describe ChildrenController, :type => :controller do
         controller.should_receive(:encrypt_data_to_zip).with('data', "#{@child1.unique_identifier}.csv", @password).and_return(true)
         ##### Main part of the test ####
         controller.stub :render
-        params = {:format => :csv, :password => @password}
-        get :index, params
+        get :index, params: {format: :csv, password: @password}
       end
     end
 
@@ -270,48 +267,37 @@ describe ChildrenController, :type => :controller do
 
       context "when search query is the exact english name" do
         it "should find english name" do
-
           names = ["Kevin", "Albin", "Alder", "Michael", "Aubrey", "Christian"]
           @children_cases = []
           names.each do |c|
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-
           Sunspot.commit
 
           session = fake_login @case_worker
-
-          params = {"query" => @children_cases.first.name}
-          get :index, params
-
+          get :index, params: {query: @children_cases.first.name}
           expect(assigns[:children]).to match_array([@children_cases.first])
-
         end
       end
 
       context "when search query is a shortcurt" do
         it "should find no name" do
-
           names = ["Kevin", "Albin", "Alder", "Michael", "Aubrey", "Christian"]
           @children_cases = []
           names.each do |c|
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-
           Sunspot.commit
 
           session = fake_login @case_worker
 
-          params = {"query" => "Chris"}
-          get :index, params
+          get :index, params: {query: 'Chris'}
           expect(assigns[:children]).to match_array([])
 
-          params = {"query" => "Mike"}
-          get :index, params
+          get :index, params: {query: 'Mike'}
           expect(assigns[:children]).to match_array([])
-
         end
       end
 
@@ -324,15 +310,11 @@ describe ChildrenController, :type => :controller do
             child = create(:child, name: c, owned_by: @case_worker.user_name)
             @children_cases.push(child)
           end
-
           Sunspot.commit
 
           session = fake_login @case_worker
-          params = {"query" => @children_cases.first.name}
-          get :index, params
-
+          get :index, params: {query: @children_cases.first.name}
           expect(assigns[:children]).to have(@children_cases.count).things
-
         end
       end
 
@@ -353,10 +335,8 @@ describe ChildrenController, :type => :controller do
 
           session = fake_login @case_worker
 
-          params = {"query" => "Abdool"}
-          get :index, params
+          get :index, params: {query: 'Abdool'}
           expect(assigns[:children]).to have_at_least(20).things
-
         end
       end
 
@@ -376,25 +356,19 @@ describe ChildrenController, :type => :controller do
 
           session = fake_login @case_worker
 
-          params = {"query" => "Abdool"}
-          get :index, params
+          get :index, params: {query: 'Abdool'}
           expect(assigns[:children]).to have(2).things
 
-          params = {"query" => "Hasib"}
-          get :index, params
+          get :index, params: {query: 'Hasib'}
           expect(assigns[:children]).to match_array([@children_cases.first])
 
-
-          params = {"query" => "Nassir"}
-          get :index, params
+          get :index, params: {query: 'Nassir'}
           expect(assigns[:children]).to match_array([@children_cases.last])
 
-          params = {"query" => "Abdool-Hasib"}
-          get :index, params
+          get :index, params: {query: 'Abdool-Hasib'}
           expect(assigns[:children]).to match_array([@children_cases.first])
 
-          params = {"query" => "Abdool Nassir"}
-          get :index, params
+          get :index, params: {query: 'Abdool Nassir'}
           expect(assigns[:children]).to match_array([@children_cases.first, @children_cases.last])
         end
       end
@@ -408,6 +382,7 @@ describe ChildrenController, :type => :controller do
       end
       it "should flash notice when exporting no records" do
         format = "unhcr_csv"
+        #TODO - investigate this params.merge
         @params.merge!(:format => format)
         get :index, @params
         #flash[:notice].should == "No Records Available!"
@@ -536,8 +511,7 @@ describe ChildrenController, :type => :controller do
       context "filter" do
         context "by age range" do
           it "should filter by one range" do
-            params = {"scope" => {"child_status" => "list||#{Record::STATUS_OPEN}", "age" => "range||6-11"}}
-            get :index, params
+            get :index, params: {scope: {child_status: "list||#{Record::STATUS_OPEN}", age: "range||6-11"}}
 
             filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
             expect(assigns[:filters]).to eq(filters)
@@ -546,8 +520,7 @@ describe ChildrenController, :type => :controller do
           end
 
           it "should filter more than one range" do
-            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "age"=>"range||6-11||12-17"}}
-            get :index, params
+            get :index, params: {scope: {child_status: "list||#{Record::STATUS_OPEN}", age: "range||6-11||12-17"}}
 
             filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
             expect(assigns[:filters]).to eq(filters)
@@ -556,8 +529,7 @@ describe ChildrenController, :type => :controller do
           end
 
           it "should filter with open range" do
-            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "age"=>"range||18 "}}
-            get :index, params
+            get :index, params: {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "age"=>"range||18 "}}
 
             filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
             expect(assigns[:filters]).to eq(filters)
@@ -568,8 +540,7 @@ describe ChildrenController, :type => :controller do
 
         context "by mobile" do
           it "should filter by marked for mobile true" do
-            params = {"scope" => {"child_status" => "list||#{Record::STATUS_OPEN}", "marked_for_mobile" => "single||true"}}
-            get :index, params
+            get :index, params: {"scope" => {"child_status" => "list||#{Record::STATUS_OPEN}", "marked_for_mobile" => "single||true"}}
 
             filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "marked_for_mobile"=>{:type=>"single", :value=>true}}
             expect(assigns[:filters]).to eq(filters)
@@ -580,8 +551,7 @@ describe ChildrenController, :type => :controller do
 
         context "by agency" do
           it "should filter by agency agency_1" do
-            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_agency"=>"list||agency-1"}}
-            get :index, params
+            get :index, params: {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_agency"=>"list||agency-1"}}
 
             filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1"]}}
             expect(assigns[:filters]).to eq(filters)
@@ -590,8 +560,7 @@ describe ChildrenController, :type => :controller do
           end
 
           it "should filter by agency agency_1 and agency_4" do
-            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_agency"=>"list||agency-1||agency-4"}}
-            get :index, params
+            get :index, params: {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_agency"=>"list||agency-1||agency-4"}}
 
             filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1", "agency-4"]}}
             expect(assigns[:filters]).to eq(filters)
@@ -603,8 +572,7 @@ describe ChildrenController, :type => :controller do
         #TODO - change district to reporting location
         context "by_district" do
           xit "should filter by district Bonthe" do
-            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_location_district"=>"list||Bonthe"}}
-            get :index, params
+            get :index, params: {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_location_district"=>"list||Bonthe"}}
 
             filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
             expect(assigns[:filters]).to eq(filters)
@@ -616,8 +584,7 @@ describe ChildrenController, :type => :controller do
       context "search" do
         context "by case ID" do
           it "should find cases" do
-            params = {"query"=> "UN-TEST-0002"}
-            get :index, params
+            get :index, params: {"query"=> "UN-TEST-0002"}
             expect(assigns[:children].length).to eq(1)
             expect(assigns[:children].first).to eq(@child_age_7)
           end
@@ -625,9 +592,8 @@ describe ChildrenController, :type => :controller do
       end
       context "dasboard links" do
         it "should list BIA approvals within a date range" do
-          params = {"scope" => {"child_status" => "list||#{Record::STATUS_OPEN}", "approval_status_bia" => "list||Approved",
-                                "bia_approved_date" => "date_range||22-10-2016.02-11-2016"}}
-          get :index, params
+          get :index, params: {"scope" => {"child_status" => "list||#{Record::STATUS_OPEN}", "approval_status_bia" => "list||Approved",
+                                           "bia_approved_date" => "date_range||22-10-2016.02-11-2016"}}
           expect(assigns[:children]).to match_array([@child_1, @child_age_7])
         end
       end
@@ -651,22 +617,18 @@ describe ChildrenController, :type => :controller do
     end
 
     it "should treated as terms words separated by blank" do
-      params = {"query"=> "Robert Smith"}
-      get :index, params
+      get :index, params: {"query"=> "Robert Smith"}
       expect(assigns[:children]).to match_array([@child1])
 
-      params = {"query"=> "Robert Smith Jonathan Carter"}
-      get :index, params
+      get :index, params: {"query"=> "Robert Smith Jonathan Carter"}
       expect(assigns[:children]).to match_array([@child2, @child1])
     end
 
     it "should treated as phrase words double quoted" do
-      params = {"query"=> "\"Robert Smith\""}
-      get :index, params
+      get :index, params: {"query"=> "\"Robert Smith\""}
       expect(assigns[:children]).to match_array([])
 
-      params = {"query"=> "\"Jonh Smith\" \"James Carter\""}
-      get :index, params
+      get :index, params: {"query"=> "\"Jonh Smith\" \"James Carter\""}
       expect(assigns[:children]).to match_array([@child2, @child1])
     end
   end
@@ -675,7 +637,7 @@ describe ChildrenController, :type => :controller do
     it 'does not assign child name in page name' do
       child = build :child, :unique_identifier => "1234"
       controller.stub :render
-      get :show, :id => child.id
+      get :show, params: {id: child.id}
       assigns[:page_name].should == "View Case #{child.short_id}"
     end
 
@@ -683,7 +645,7 @@ describe ChildrenController, :type => :controller do
       Child.any_instance.stub(:allowed_formsections).and_return({})
       child = Child.new(:module_id => 'primeromodule-cp')
       Child.stub(:get).with("37").and_return(child)
-      get :show, :id => "37"
+      get :show, params: {id: '37'}
       assigns[:child].should equal(child)
     end
 
@@ -694,7 +656,7 @@ describe ChildrenController, :type => :controller do
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
 
       controller.stub :render
-      get(:show, :format => 'csv', :id => "37")
+      get :show, params: {format: 'csv', id: '37'}
     end
 
     it "should set current photo key as blank instead of nil" do
@@ -702,7 +664,7 @@ describe ChildrenController, :type => :controller do
       child = Child.create('last_known_location' => "London", :created_by => "uname")
       Child.stub(:get).with("37").and_return(child)
       assigns[child[:current_photo_key]] == ""
-      get(:show, :format => 'json', :id => "37")
+      get :show, params: {format: 'json', id: '37'}
     end
 
 
@@ -712,14 +674,14 @@ describe ChildrenController, :type => :controller do
       child = mock_child({:module_id => 'primeromodule-cp'})
       Child.stub(:allowed_formsections).and_return(grouped_forms)
       Child.stub(:get).with("37").and_return(child)
-      get :show, :id => "37"
+      get :show, params: {id: '37'}
       assigns[:form_sections].should == grouped_forms
       #TODO: Do we need to test ordering of forms in the controller?
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
       Child.stub(:get).with("invalid record").and_return(nil)
-      get :show, :id=> "invalid record"
+      get :show, params: {id: 'invalid record'}
       flash[:error].should == "Child with the given id is not found"
       response.should redirect_to(:action => :index)
     end
@@ -731,7 +693,7 @@ describe ChildrenController, :type => :controller do
       Child.stub(:get).with("37").and_return(child)
       duplicates = [Child.new(:name => "duplicated")]
       Child.stub(:duplicates_of).with("37").and_return(duplicates)
-      get :show, :id => "37"
+      get :show, params: {id: '37'}
       assigns[:duplicates].should == duplicates
     end
 
@@ -739,7 +701,7 @@ describe ChildrenController, :type => :controller do
       child = build :child, :unique_identifier => "1234"
       controller.stub :render
       expect(Rails.logger).to receive(:info).with("Viewing case '#{child.case_id_display}' by user '#{@user.user_name}'")
-      get :show, :id => child.id
+      get :show, params: {id: child.id}
     end
   end
 
@@ -756,7 +718,7 @@ describe ChildrenController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       Child.should_receive(:allowed_formsections).and_return(grouped_forms)
-      get :new, :id => "37"
+      get :new, params: {id: '37'}
       assigns[:form_sections].should == grouped_forms
     end
   end
@@ -765,7 +727,7 @@ describe ChildrenController, :type => :controller do
     it "assigns the requested child as @child" do
       Child.stub(:allowed_formsections).and_return({})
       Child.stub(:get).with("37").and_return(mock_child)
-      get :edit, :id => "37"
+      get :edit, params: {id: '37'}
       assigns[:child].should equal(mock_child)
     end
 
@@ -774,7 +736,7 @@ describe ChildrenController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       Child.should_receive(:allowed_formsections).and_return(grouped_forms)
-      get :edit, :id => "37"
+      get :edit, params: {id: '37'}
       assigns[:form_sections].should == grouped_forms
     end
 
@@ -782,7 +744,7 @@ describe ChildrenController, :type => :controller do
       child = build :child, :unique_identifier => "1234"
       controller.stub :render
       expect(Rails.logger).to receive(:info).with("Editing case '#{child.case_id_display}' by user '#{@user.user_name}'")
-      get :edit, :id => child.id
+      get :edit, params: {id: child.id}
     end
   end
 
@@ -796,10 +758,7 @@ describe ChildrenController, :type => :controller do
       child = Child.create('name' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-      put :update, :id => child.id,
-        :child => {
-          :name => "Manchester",
-          :photo => Rack::Test::UploadedFile.new(uploadable_photo_jeff) }
+      put :update, params: {id: child.id, child: {name: "Manchester", photo: Rack::Test::UploadedFile.new(uploadable_photo_jeff)}}
 
       assigns[:child]['name'].should == "Manchester"
       assigns[:child]['_attachments'].size.should == 2
@@ -810,10 +769,7 @@ describe ChildrenController, :type => :controller do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       child = Child.create('name' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
-      put :update, :id => child.id,
-        :child => {
-          :name => "Manchester",
-          :reunited => true}
+      put :update, params: {id: child.id, child: {name: "Manchester", reunited: true}}
 
       assigns[:child]['name'].should == "Manchester"
       assigns[:child]['reunited'].should be_truthy
@@ -822,13 +778,7 @@ describe ChildrenController, :type => :controller do
 
     it "should allow a records ID to be specified to create a new record with a known id" do
       new_uuid = UUIDTools::UUID.random_create
-      put :update, :id => new_uuid.to_s,
-        :child => {
-            :id => new_uuid.to_s,
-            :_id => new_uuid.to_s,
-            :name => "London",
-            :reunited => true
-        }
+      put :update, params: {id: new_uuid.to_s, child: {id: new_uuid.to_s, _id: new_uuid.to_s, name: "London", reunited: true}}
       Child.get(new_uuid.to_s)[:unique_identifier].should_not be_nil
     end
 
@@ -838,7 +788,7 @@ describe ChildrenController, :type => :controller do
       Child.stub(:get).with("123").and_return(child)
       subject.should_receive('current_user_full_name').and_return('Bill Clinton')
 
-      put :update, :id => 123, :child => {:flag => true, :flag_message => "Test"}
+      put :update, params: {id: 123, child: {flag: true, flag_message: "Test"}}
 
       child.last_updated_by_full_name.should=='Bill Clinton'
     end
@@ -850,7 +800,7 @@ describe ChildrenController, :type => :controller do
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
-      put :update, :id => '1', :child => params_child
+      put :update, params: {id: '1', child: params_child}
       end
 
     it "should delete the audio if checked delete_child_audio checkbox" do
@@ -860,7 +810,7 @@ describe ChildrenController, :type => :controller do
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_child)
       Child.stub(:get).and_return(child)
-      put :update, :id => '1', :child => params_child, :delete_child_audio => "1"
+      put :update, params: {id: '1', child: params_child, delete_child_audio: "1"}
     end
 
     it "should redirect to redirect_url if it is present in params" do
@@ -870,7 +820,7 @@ describe ChildrenController, :type => :controller do
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
-      put :update, :id => '1', :child => params_child, :redirect_url => '/cases'
+      put :update, params: {id: '1', child: params_child, redirect_url: '/cases'}
       response.should redirect_to '/cases?follow=true'
     end
 
@@ -882,7 +832,7 @@ describe ChildrenController, :type => :controller do
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
-      put :update, :id => '1', :child => params_child
+      put :update, params: {id: '1', child: params_child}
       response.should redirect_to "/cases/#{child.id}?follow=true"
     end
 
@@ -895,7 +845,7 @@ describe ChildrenController, :type => :controller do
       child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
       expect(Rails.logger).to receive(:info).with("Updating case '#{child.case_id_display}' by user '#{@user.user_name}'")
-      put :update, :id => '1', :child => params_child
+      put :update, params: {id: '1', child: params_child}
     end
 
   end
@@ -927,26 +877,26 @@ describe ChildrenController, :type => :controller do
 
     it "should query id and return correct case allowed by user" do
       session = fake_login @case_worker1
-      get(:index, format: 'html', query: @case1.short_id, id_search: true)
+      get :index, params: {format: 'html', query: @case1.short_id, id_search: true}
       expect(assigns[:children]).to match_array([@case1])
     end
 
     it "should query id and return all cases matched with search owned by others permission active" do
       session = fake_login @case_worker2
-      get(:index, format: 'html', query: @case1.short_id, id_search: true)
+      get :index, params: {format: 'html', query: @case1.short_id, id_search: true}
       expect(assigns[:children]).to match_array([@case1])
     end
 
     it "should go through and return no results if no results found" do
       session = fake_login @case_worker2
-      get(:index, format: 'html', query: '0034952', id_search: true, module_id: 'test_module')
+      get :index, params: {format: 'html', query: '0034952', id_search: true, module_id: 'test_module'}
       expect(assigns[:children]).to match_array([])
     end
   end
 
   describe "GET search" do
     it "should not render error by default" do
-      get(:search, :format => 'html')
+      get :search, params: {format: 'html'}
       assigns[:search].should be_nil
     end
 
@@ -977,7 +927,7 @@ describe ChildrenController, :type => :controller do
 
     describe "with no results" do
       before do
-        get(:search, :query => 'blah')
+        get :search, params: {query: 'blah'}
       end
 
       xit 'asks view to not show csv export link if there are no results' do
@@ -1020,7 +970,7 @@ describe ChildrenController, :type => :controller do
       children.should == [ child1, child2 ]
     }
 
-    get :index, :format => :mock
+    get :index, params: {format: :mock}
   end
 
   it 'should export child using #respond_to_export' do
@@ -1033,7 +983,7 @@ describe ChildrenController, :type => :controller do
       children.should == [ child ]
     }
 
-    get :show, :id => child.id, :format => :mock
+    get :show, params: {id: child.id, format: :mock}
   end
 
   describe '#respond_to_export' do
@@ -1046,7 +996,7 @@ describe ChildrenController, :type => :controller do
 
     it "should handle CSV" do
       Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
-      get :index, :format => :csv
+      get :index, params: {format: :csv}
     end
 
     it "should encrypt result" do
@@ -1054,9 +1004,10 @@ describe ChildrenController, :type => :controller do
       Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
       controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_return("test_filename")
       controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', password).and_return(true)
-      get :index, :format => :csv, :password => password
+      get :index, params: {format: :csv, password: password}
     end
 
+    #TODO - would this test be better suited for the Logger Actions concern tests?
     xit "should create a log_entry when record is exported" do
       fake_login User.new(:user_name => 'fakeuser', :organization => "STC", :role_ids => ["abcd"])
       @controller.stub(:authorize!)
@@ -1064,7 +1015,7 @@ describe ChildrenController, :type => :controller do
 
       LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organization => "STC", :child_ids => [@child1.id, @child2.id]
 
-      get :index, :format => :cpims
+      get :index, params: {format: :cpims}
     end
 
     xit "should generate filename based on child ID and addon ID when there is only one child" do
@@ -1091,12 +1042,11 @@ describe ChildrenController, :type => :controller do
       @child.should_receive(:primary_photo_id=).with(@photo_key)
       @child.should_receive(:save)
 
-      put :select_primary_photo, :child_id => @child.id, :photo_id => @photo_key
+      put :select_primary_photo, params: {child_id: @child.id, photo_id: @photo_key}
     end
 
     it "should return success" do
-      put :select_primary_photo, :child_id => @child.id, :photo_id => @photo_key
-
+      put :select_primary_photo, params: {child_id: @child.id, photo_id: @photo_key}
       response.should be_success
     end
 
@@ -1106,8 +1056,7 @@ describe ChildrenController, :type => :controller do
       end
 
       it "should return error" do
-        put :select_primary_photo, :child_id => @child.id, :photo_id => @photo_key
-
+        put :select_primary_photo, params: {child_id: @child.id, photo_id: @photo_key}
         response.should be_error
       end
     end
@@ -1188,7 +1137,7 @@ describe ChildrenController, :type => :controller do
 
       it 'sends a request approval email' do
         before_count = ActionMailer::Base.deliveries.count
-        post :request_approval, id: @child.id, child_id: @child.id, approval_type: 'case_plan', approval_status: 'pending', model_class: 'Child'
+        post :request_approval, params: {id: @child.id, child_id: @child.id, approval_type: 'case_plan', approval_status: 'pending', model_class: 'Child'}
         expect(ActionMailer::Base.deliveries.count).to eq(before_count + 1)
         expect(response).to be_success
       end
@@ -1202,7 +1151,7 @@ describe ChildrenController, :type => :controller do
 
       it 'does not send a request approval email' do
         before_count = ActionMailer::Base.deliveries.count
-        post :request_approval, id: @child.id, child_id: @child.id, approval_type: 'case_plan', approval_status: 'pending', model_class: 'Child'
+        post :request_approval, params: {id: @child.id, child_id: @child.id, approval_type: 'case_plan', approval_status: 'pending', model_class: 'Child'}
         expect(ActionMailer::Base.deliveries.count).to eq(before_count)
         expect(response).to be_success
       end
@@ -1220,7 +1169,7 @@ describe ChildrenController, :type => :controller do
       child.save
       fake_admin_login
       controller.stub(:authorize!)
-      post :create, :child => {:unique_identifier => child.unique_identifier, :name => 'new name'}
+      post :create, params: {child: {:unique_identifier => child.unique_identifier, :name => 'new name'}}
       updated_child = Child.by_short_id(:key => child.short_id)
       updated_child.all.size.should == 1
       updated_child.first.name.should == 'new name'
@@ -1232,8 +1181,8 @@ describe ChildrenController, :type => :controller do
       child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
       child.save
 
-      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => new_name}
-      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => original_name}
+      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
+      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: original_name}}
 
       updated_child = Child.by_short_id(:key => child.short_id).first
       updated_child.name.should == new_name
@@ -1244,9 +1193,8 @@ describe ChildrenController, :type => :controller do
       new_name = 'Juan Lopez'
       child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
       child.save
-
-      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :nickname => 'Johnny'}
-      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => new_name}
+      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: 'Johnny'}}
+      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
 
       updated_child = Child.by_short_id(:key => child.short_id).first
       updated_child.name.should == new_name
@@ -1258,9 +1206,8 @@ describe ChildrenController, :type => :controller do
       newer_name = 'Juan Rodriguez'
       child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
       child.save
-
-      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => new_name}
-      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => newer_name}
+      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
+      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: newer_name}}
 
       updated_child = Child.by_short_id(:key => child.short_id).first
       updated_child.name.should == newer_name
@@ -1269,7 +1216,7 @@ describe ChildrenController, :type => :controller do
     it 'logs a create message' do
       child = build :child, :unique_identifier => "1234"
       expect(Rails.logger).to receive(:info).with("Creating case by user '#{@user.user_name}'")
-      post :create, :child => {:unique_identifier => child.unique_identifier, :base_revision => child._rev, :name => 'new_name'}
+      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
     end
 
   end
@@ -1290,7 +1237,7 @@ describe ChildrenController, :type => :controller do
                         relation_age: 40, relation_date_of_birth: "01-Jan-1977"}],
                    case_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9", short_id: "2b127c9", hidden_name: false, posted_from: "Mobile"}
 
-      post :create, child: gbv_case, format: :json
+      post :create, params: {child: gbv_case, format: :json}
 
       case1 = Child.by_short_id(key: gbv_case[:short_id]).first
 
@@ -1315,7 +1262,7 @@ describe ChildrenController, :type => :controller do
         @gbv_user = User.new(:user_name => 'primero_gbv', :is_manager => false)
       end
       it 'returns a GBV case' do
-        get :show, id: @gbv_case.id, mobile: true, format: :json
+        get :show, params: {id: @gbv_case.id, mobile: true, format: :json}
 
         expect(assigns['record']['_id']).to eq(@gbv_case.id)
         expect(assigns['record']['short_id']).to eq(@gbv_case.short_id)
@@ -1431,7 +1378,7 @@ describe ChildrenController, :type => :controller do
       child.save!
       Child.any_instance.stub(:field_definitions).and_return(@followup_fields)
 
-      get :show, :id => child.id
+      get :show, params: {id: child.id}
       child_params = params["child"]["followup_subform_section"]
       expect(assigns[:child][:followup_subform_section]).to eq([child_params["2"], child_params["0"], child_params["1"]])
     end
@@ -1466,7 +1413,7 @@ describe ChildrenController, :type => :controller do
       child.save!
       Child.any_instance.stub(:field_definitions).and_return(@followup_fields)
 
-      get :show, :id => child.id
+      get :show, params: {id: child.id}
       child_params = params["child"]["followup_subform_section"]
       expect(assigns[:child][:followup_subform_section]).to eq([child_params["1"], child_params["2"], child_params["0"]])
     end
