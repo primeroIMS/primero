@@ -47,7 +47,7 @@ module RecordFilteringPagination
       model_class ||= params[:controller].camelize.singularize.constantize
       params[:scope].reject{|k,v| k == 'users'}
       params[:scope][:module_id] = "list||#{current_user.modules.map{|m| m.id}.join('||')}"
-      params[:scope].each_key do |key|
+      params[:scope].keys.each do |key|
         if params[:scope][key].instance_of? String
           filter_values = params[:scope][key].split "||"
           filter_type = filter_values.shift
