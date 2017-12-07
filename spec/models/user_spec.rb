@@ -172,7 +172,7 @@ describe User do
 
   it "can't authenticate which isn't saved" do
     user = build_user(:password => "b00h00h00")
-    lambda { user.authenticate("thepass") }.should raise_error
+    expect { user.authenticate("thepass") }.to raise_error(Exception, "Can't authenticate an un-saved user")
   end
 
   it "can authenticate with the right password" do
