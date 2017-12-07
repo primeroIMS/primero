@@ -916,6 +916,7 @@ en:
     permission:
       read: "Read"
       write: "Write"
+      enable_disable_record: "Disable"
       flag: "Flag"
       assign: "Assign"
       case: "Case"

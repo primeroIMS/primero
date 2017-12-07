@@ -2,6 +2,48 @@ require 'spec_helper'
 require 'sunspot'
 
 feature "show page", search: true do
+  feature 'actions' do
+    before(:all) do
+      @role1 = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
+        Permission::WRITE,
+        Permission::READ
+      ])])
+      @role2 = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
+        Permission::WRITE,
+        Permission::READ,
+        Permission::ENABLE_DISABLE_RECORD
+      ])])
+      @user1 = setup_user(roles: @role1)
+      @user2 = setup_user(roles: @role2)
+    end
+
+    before do
+      @case1 = create(:child, owned_by: @user1.user_name, module_id: @user1.module_ids.first)
+      @case2 = create(:child, owned_by: @user2.user_name, module_id: @user2.module_ids.first)
+    end
+
+    scenario 'should not show disable action if not permitted' do
+      create_session(@user1, 'password123')
+      visit("/cases/#{@case1.id}")
+      save_screenshot
+      click_on('Actions')
+
+      within('#menu') do
+        expect(page).to_not have_content "Disable"
+      end
+    end
+
+    scenario 'should show disable action if permitted' do
+      create_session(@user2, 'password123')
+      visit("/cases/#{@case2.id}")
+      click_on('Actions')
+
+      within('#menu') do
+        expect(page).to have_content "Disable"
+      end
+    end
+  end
+
   feature "form fields" do
     before(:all) do
       create(:lookup, id: 'lookup-multi-test', lookup_values: [

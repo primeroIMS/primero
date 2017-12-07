@@ -27,7 +27,9 @@
             <% end %>
             <%= render 'transitions/button', instance: @child, type: Transition::TYPE_TRANSFER %>
             <% if can? :edit, @child %>
+              <% if can? :enable_disable_record, Child %>
                 <%= render partial: 'record_shared/enable_disable_record', locals: {model: Child, instance: @child} %>
+              <% end %>
               <% if @child.child_status != Record::STATUS_OPEN %>
                   <%= render partial: 'record_shared/reopen_record', locals: {model: Child, instance: @child} %>
               <% end %>
