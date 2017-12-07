@@ -89,7 +89,7 @@ class Lookup < CouchRest::Model::Base
   def check_is_being_used
     if self.is_being_used?
       errors.add(:name, I18n.t("errors.models.lookup.being_used"))
-      return false
+      throw(:abort)
     end
   end
 
