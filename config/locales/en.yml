@@ -172,6 +172,7 @@ en:
      accept: "Accept"
      reject: "Reject"
      done: "Done"
+     remove_referrals: "Remove referrals"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -988,6 +989,7 @@ en:
       view_protection_concerns_filter: "View Protection Concerns Filter"
       saved_search: "Saved Search"
       save_search: "Save Searches"
+      remove_assigned_users: "Remove other assigned users (referrals)"
 
   forms:
     label: "Forms"

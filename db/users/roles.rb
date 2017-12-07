@@ -161,6 +161,7 @@ cp_caseworker_permissions = [
       Permission::SERVICES_SECTION_FROM_CASE,
       Permission::REFERRAL_FROM_SERVICE,
       Permission::REFERRAL,
+      Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD
     ]
   ),
@@ -478,6 +479,7 @@ gbv_manager_permissions = [
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
+      Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD
     ]
   ),
