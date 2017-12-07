@@ -73,6 +73,7 @@ describe "children/edit.html.erb" do
     controller.should_receive(:can?).with(:referral, Child).and_return(false)
     controller.should_receive(:can?).with(:reassign, Child).and_return(false)
     controller.should_receive(:can?).with(:transfer, Child).and_return(false)
+    controller.should_receive(:can?).with(:enable_disable_record, Child).and_return(false)
     controller.should_receive(:can?).with(:sync_mobile, Child).and_return(false)
     controller.should_receive(:can?).with(:remove_assigned_users, Child).and_return(false)
     controller.should_receive(:can?).with(:request_approval_bia, Child).and_return(false)

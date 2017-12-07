@@ -34,7 +34,8 @@ cp_admin_permissions = [
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SEARCH_OWNED_BY_OTHERS,
-      Permission::CREATE
+      Permission::CREATE,
+      Permission::ENABLE_DISABLE_RECORD
     ]
   ),
   Permission.new(
@@ -160,7 +161,8 @@ cp_caseworker_permissions = [
       Permission::SERVICES_SECTION_FROM_CASE,
       Permission::REFERRAL_FROM_SERVICE,
       Permission::REFERRAL,
-      Permission::REMOVE_ASSIGNED_USERS
+      Permission::REMOVE_ASSIGNED_USERS,
+      Permission::ENABLE_DISABLE_RECORD
     ]
   ),
   Permission.new(
@@ -229,7 +231,8 @@ cp_manager_permissions = [
       Permission::SYNC_MOBILE,
       Permission::APPROVE_CASE_PLAN,
       Permission::SEARCH_OWNED_BY_OTHERS,
-      Permission::INCIDENT_FROM_CASE
+      Permission::INCIDENT_FROM_CASE,
+      Permission::ENABLE_DISABLE_RECORD
     ]
   ),
   Permission.new(
@@ -430,7 +433,8 @@ gbv_worker_permissions = [
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
       Permission::INCIDENT_FROM_CASE,
-      Permission::CREATE
+      Permission::CREATE,
+      Permission::ENABLE_DISABLE_RECORD
     ]
   ),
   Permission.new(
@@ -475,7 +479,8 @@ gbv_manager_permissions = [
       Permission::EXPORT_CASE_PDF,
       Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
-      Permission::REMOVE_ASSIGNED_USERS
+      Permission::REMOVE_ASSIGNED_USERS,
+      Permission::ENABLE_DISABLE_RECORD
     ]
   ),
   Permission.new(
