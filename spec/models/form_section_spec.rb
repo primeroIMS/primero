@@ -250,7 +250,7 @@ describe FormSection do
 
       expect {
         FormSection.new(:unique_id => "test").save!
-      }.to raise_error
+      }.to raise_error(CouchRest::Model::Errors::Validations)
 
       expect {
         FormSection.get_by_unique_id("test").save!
@@ -373,7 +373,7 @@ describe FormSection do
     it "should raise an error if adding a field to a non editable form section" do
       field = new_field :name=>'field_one'
       formsection = FormSection.new :editable => false
-      lambda { FormSection.add_field_to_formsection formsection, field }.should raise_error
+      expect { FormSection.add_field_to_formsection(formsection, field) }.to raise_error(RuntimeError, 'Form section not editable')
     end
 
   end
@@ -476,7 +476,7 @@ describe FormSection do
     it "should not delete uneditable fields" do
       @field = new_field(:name=>"field3", :editable => false)
       form_section = FormSection.new :fields=>[@field]
-      lambda {form_section.delete_field(@field.name)}.should raise_error("Uneditable field cannot be deleted")
+      expect {form_section.delete_field(@field.name)}.to raise_error(RuntimeError, 'Uneditable field cannot be deleted')
     end
   end
 
@@ -520,7 +520,7 @@ describe FormSection do
      expect {
        form_section[:name_en]=''
        form_section.save!
-     }.to raise_error
+     }.to raise_error(CouchRest::Model::Errors::Validations, 'Validation Failed: Name Name must not be blank')
     end
 
     it "should validate name is alpha_num" do

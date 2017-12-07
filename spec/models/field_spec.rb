@@ -54,15 +54,6 @@ describe "record field model" do
       field.errors[:display_name].should be_present
     end
 
-    it "should not allows empty field display_name of field base language " do
-      field = Field.new(:display_name_en => 'English', :display_name_zh=>'Chinese')
-      I18n.default_locale='zh'
-      expect {
-        field[:display_name_en]=''
-        field.save!
-      }.to raise_error
-    end
-
     it "should not allow display name without alphabetic characters" do
       field = Field.new(:display_name => "!@£$@")
       form_section = FormSection.new(:parent_form => "case")
@@ -170,7 +161,7 @@ describe "record field model" do
     end
 
     it "should raise an error if can't find a default value for this field type" do
-      lambda {Field.new(:type=>"INVALID_FIELD_TYPE").default_value}.should raise_error
+      expect {Field.new(:type=>"INVALID_FIELD_TYPE").default_value}.to raise_error(RuntimeError, 'Cannot find default value for type INVALID_FIELD_TYPE')
     end
   end
 

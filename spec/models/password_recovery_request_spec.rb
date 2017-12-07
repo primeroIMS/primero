@@ -13,14 +13,15 @@ describe PasswordRecoveryRequest do
     end
 
     it "should raise error if username is empty" do
-      lambda {PasswordRecoveryRequest.create! :user_name => ""}.should raise_error
+      expect {PasswordRecoveryRequest.create! :user_name => ""}.to raise_error(CouchRest::Model::Errors::Validations,
+                                                                               'Validation Failed: User name Please enter a valid user name')
     end
 
     it "should hide password requests" do
       request = PasswordRecoveryRequest.create! :user_name => "moderateduck"
       request.hide!
 
-      PasswordRecoveryRequest.to_display.map(&:user_name).should_not include("moderateduck")
+      expect(PasswordRecoveryRequest.to_display.map(&:user_name)).not_to include("moderateduck")
     end
   end
 end
