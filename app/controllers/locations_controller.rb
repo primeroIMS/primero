@@ -23,7 +23,7 @@ class LocationsController < ApplicationController
 
   def create
     authorize! :create, Location
-    location = Location.new(params[:location])
+    location = Location.new(params[:location].to_h)
     location.generate_hierarchy
 
     if (location.valid?)
@@ -44,7 +44,7 @@ class LocationsController < ApplicationController
 
   def update
     authorize! :update, Location
-    @location.update_attributes params[:location]
+    @location.update_attributes params[:location].to_h
     @location.update_hierarchy
 
     if @location.save

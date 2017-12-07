@@ -37,7 +37,7 @@ class ReplicationsController < ApplicationController
 
   def create
     authorize! :create, Replication
-    @replication = Replication.new params[:replication]
+    @replication = Replication.new params[:replication].to_h
 
     if @replication.save
       redirect_to replications_path
@@ -52,7 +52,7 @@ class ReplicationsController < ApplicationController
 
   def update
     authorize! :update, @replication
-    @replication.update_attributes params[:replication]
+    @replication.update_attributes params[:replication].to_h
 
     if @replication.save
       redirect_to replications_path

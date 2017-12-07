@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
   include AgencyLogos
   include Security::Authentication
 
+  before_action :permit_all_params
   before_action :extend_session_lifetime
   before_action :check_authentication
   before_action :set_locale
@@ -139,6 +140,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def permit_all_params
+    params.permit!
+  end
 
   def with_timezone
     timezone = Time.find_zone(cookies[:timezone])

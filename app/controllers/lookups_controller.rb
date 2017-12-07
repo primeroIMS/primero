@@ -20,7 +20,7 @@ class LookupsController < ApplicationController
 
   def create
     authorize! :create, Lookup
-    lookup = Lookup.new(params[:lookup])
+    lookup = Lookup.new(params[:lookup].to_h)
 
     if (lookup.valid?)
       lookup.create
@@ -39,7 +39,7 @@ class LookupsController < ApplicationController
 
   def update
     authorize! :update, Lookup
-    @lookup.update_attributes params[:lookup]
+    @lookup.update_attributes params[:lookup].to_h
 
     if @lookup.save
       redirect_to lookups_path

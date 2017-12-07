@@ -37,7 +37,7 @@ class SystemSettingsController < ApplicationController
 
   def update
     if @system_settings.present?
-      if (@system_settings.update_attributes(params[:system_settings]))
+      if (@system_settings.update_attributes(params[:system_settings].to_h))
         @system_settings.update_default_locale
       end
     end

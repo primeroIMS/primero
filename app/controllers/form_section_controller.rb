@@ -29,7 +29,7 @@ class FormSectionController < ApplicationController
   def new
     authorize! :create, FormSection
     @page_name = t("form_section.create")
-    @form_section = FormSection.new(params[:form_section])
+    @form_section = FormSection.new(params[:form_section].to_h)
   end
 
   def create
@@ -60,7 +60,7 @@ class FormSectionController < ApplicationController
   def update
     authorize! :update, FormSection
     @form_section = FormSection.get_by_unique_id(params[:id], true)
-    @form_section.properties = params[:form_section]
+    @form_section.properties = params[:form_section].to_h
     if (@form_section.valid?)
       @form_section.save!
       redirect_to edit_form_section_path(

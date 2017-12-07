@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
       return redirect_to(root_path)
     end
 
-    @session = Session.new(params[:login])
+    @session = Session.new(params[:login].to_h)
 
     @page_name = t("login.label")
 
@@ -43,7 +43,7 @@ class SessionsController < ApplicationController
   # POST /sessions
   # POST /sessions.xml
   def create
-    @login = Login.new(params)
+    @login = Login.new(params.to_h)
     @session = @login.authenticate_user
 
     if not @session

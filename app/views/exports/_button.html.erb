@@ -13,7 +13,7 @@
           <% else %>
             <li>
               <%= link_to(t("exports.#{exporter.id}.#{defined?(instance) ? 'one' : 'all'}"),
-                        url_for(:format => exporter.id, :page => "all", :per_page => :all, :id => (defined?(instance) ? instance.id : nil), :params => exporter_params_page(exporter.id, params)),
+                        url_for(:format => exporter.id, :page => "all", :per_page => :all, :id => (defined?(instance) ? instance.id : nil), :params => exporter_params_page(exporter.id, params.to_h)),
                         :class => "password-prompt") %>
             </li>
           <% end %>

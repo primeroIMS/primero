@@ -38,7 +38,7 @@ class PrimeroModulesController < ApplicationController
     @primero_module = PrimeroModule.get(params[:id])
     authorize! :update, @primero_module
 
-    if @primero_module.update_attributes(params[:primero_module])
+    if @primero_module.update_attributes(params[:primero_module].to_h)
       flash[:notice] = t("primero_module.successfully_updated")
       redirect_to(primero_modules_path)
     else
@@ -56,7 +56,7 @@ class PrimeroModulesController < ApplicationController
 
   def create
     authorize! :create, PrimeroModule
-    @primero_module = PrimeroModule.new(params[:primero_module])
+    @primero_module = PrimeroModule.new(params[:primero_module].to_h)
     if @primero_module.save
       return redirect_to primero_modules_path
     else
