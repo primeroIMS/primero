@@ -28,7 +28,7 @@ describe ChildrenController do
       # child_arg = hash_including("_id" => child.id)
 
       @controller.current_ability.should_receive(:can?).with(:read, child).and_return(false)
-      get :show, :id => child.id, :format => :json
+      get :show, params: {:id => child.id, :format => :json}
       response.should be_forbidden
     end
 
@@ -51,7 +51,7 @@ describe ChildrenController do
     end
 
     it "should filter out all the non-mobile records" do
-      get :index, format: :json, mobile: 'true'
+      get :index, params: {format: :json, mobile: 'true'}
       #What is returned isn't the entire Case record, but a stripped down version with only the populated fields
       expect(assigns[:records]).to match_array([{"module_id"=>"cp",
                                                 "record_state"=>true,
@@ -74,7 +74,7 @@ describe ChildrenController do
     end
 
     it "should return ids of all mobile-syncable records when using the ids parameter" do
-      get :index, format: :json, mobile: 'true', ids: 'true'
+      get :index, params: {format: :json, mobile: 'true', ids: 'true'}
       expect(assigns[:records]).to match_array(['child1', 'child2'])
     end
   end
@@ -91,14 +91,14 @@ describe ChildrenController do
       child = Child.new(:module_id => 'primeromodule-cp')
       child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', some_array: []})
       Child.should_receive(:get).with("123").and_return(child)
-      get :show, :id => "123", :format => :json, :mobile => 'true'
+      get :show, params: {:id => "123", :format => :json, :mobile => 'true'}
     end
 
     it "will discard empty arrays in the JSON representation if queried from the mobile client" do
       child = Child.new(:module_id => 'primeromodule-cp')
       child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', empty_array_attr: []})
       Child.should_receive(:get).with("123").and_return(child)
-      get :show, :id => "123", :format => :json, :mobile => 'true'
+      get :show, params: {:id => "123", :format => :json, :mobile => 'true'}
       expect(assigns[:record][:id]).to eq('123')
       expect(assigns[:record].key?(:empty_array_attr)).to be_falsey
     end
@@ -107,7 +107,7 @@ describe ChildrenController do
       child = Child.new(:module_id => 'primeromodule-cp')
       child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', a_nested_subform: [{field1: 'A', empty_array_attr: []}]})
       Child.should_receive(:get).with("123").and_return(child)
-      get :show, :id => "123", :format => :json, :mobile => 'true'
+      get :show, params: {:id => "123", :format => :json, :mobile => 'true'}
       expect(assigns[:record][:id]).to eq('123')
       expect(assigns[:record][:a_nested_subform].first.key?(:empty_array_attr)).to be_falsey
     end
@@ -116,14 +116,14 @@ describe ChildrenController do
       child = Child.new(:module_id => 'primeromodule-cp')
       child.should_receive(:as_couch_json).and_return({module_id: 'primeromodule-cp', id: '123', nationality: ["Angola", "Antigua and Barbuda", "Argentina"]})
       Child.should_receive(:get).with("123").and_return(child)
-      get :show, :id => "123", :format => :json, :mobile => 'true'
+      get :show, params: {:id => "123", :format => :json, :mobile => 'true'}
       expect(assigns[:record][:id]).to eq('123')
       expect(assigns[:record][:nationality]).to match_array(["Angola", "Antigua and Barbuda", "Argentina"])
     end
 
     it "should return a 404 with empty body if no child record is found" do
       Child.should_receive(:get).with("123").and_return(nil)
-      get :show, :id => "123", :format => :json
+      get :show, params: {:id => "123", :format => :json}
       response.response_code.should == 404
       response.body.should == ""
     end
@@ -132,7 +132,7 @@ describe ChildrenController do
 
   describe "GET show integration", :type => :request do
     it "should render a child record as json" do
-      get '/api/children', id: '123'
+      get '/api/children', params: {id: '123'}
       expect(response.content_type.to_s).to eq('application/json')
     end
   end
@@ -144,7 +144,7 @@ describe ChildrenController do
       child = Child.new_with_user_name(user, {:name => 'old name'})
       child.save!
       controller.stub(:authorize!)
-      post :create, :child => {:unique_identifier => child.unique_identifier, :name => 'new name'}, :format => :json
+      post :create, params: {:child => {:unique_identifier => child.unique_identifier, :name => 'new name'}, :format => :json}
 
       updated_child = Child.by_short_id(:key => child.short_id)
       updated_child.rows.size.should == 1
@@ -156,7 +156,7 @@ describe ChildrenController do
   describe "PUT update" do
     it "should allow a records ID to be specified to create a new record with a known id" do
       new_uuid = UUIDTools::UUID.random_create()
-      put :update, :id => new_uuid.to_s, :child => {:id => new_uuid.to_s, :_id => new_uuid.to_s, :last_known_location => "London", :age => "7"}
+      put :update, params: {:id => new_uuid.to_s, :child => {:id => new_uuid.to_s, :_id => new_uuid.to_s, :last_known_location => "London", :age => "7"}}
 
       Child.get(new_uuid.to_s)[:unique_identifier].should_not be_nil
     end
