@@ -18,7 +18,7 @@ class FieldsController < ApplicationController
   end
 
   def create
-    @field = Field.new clean_field(params[:field])
+    @field = Field.new clean_field(params[:field].to_h)
     @field.sanitize_name
     FormSection.add_field_to_formsection @form_section, @field
 
@@ -52,7 +52,7 @@ class FieldsController < ApplicationController
 
   def update
     @field = fetch_field params[:id]
-    @field.attributes = convert_multi_selects(params[:field]) unless params[:field].nil?
+    @field.attributes = convert_multi_selects(params[:field].to_h) unless params[:field].nil?
     @form_section.save
 
     if @field.errors.present? || @form_section.errors.present?

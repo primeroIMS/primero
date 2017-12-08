@@ -28,7 +28,7 @@ class ContactInformationController < ApplicationController
     @contact_information = ContactInformation.get_by_id(params[:id])
     authorize! :update, @contact_information
 
-    @contact_information.update_attributes(params[:contact_information])
+    @contact_information.update_attributes(params[:contact_information].to_h)
     @contact_information.save!
     flash[:notice] = I18n.t("contact.updated")
     redirect_to edit_contact_information_path(params[:id])

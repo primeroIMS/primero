@@ -63,7 +63,7 @@ class ReportsController < ApplicationController
 
   def create
     authorize! :create, Report
-    @report = Report.new(params[:report])
+    @report = Report.new(params[:report].to_h)
 
     Primero::Application::locales.each do |locale|
       unless @report["name_#{locale}"].present?
@@ -88,7 +88,7 @@ class ReportsController < ApplicationController
   def update
     authorize! :update, @report
 
-    if @report.update_attributes(params[:report])
+    if @report.update_attributes(params[:report].to_h)
       flash[:notice] = t("report.successfully_updated")
       redirect_to(report_path(@report))
     else

@@ -7,7 +7,7 @@ class PasswordRecoveryRequestsController < ApplicationController
   end
 
   def create
-    @password_recovery_request = PasswordRecoveryRequest.new params[:password_recovery_request]
+    @password_recovery_request = PasswordRecoveryRequest.new params[:password_recovery_request].to_h
     respond_to do |format|
       if @password_recovery_request.save
         success_notice = t("login.password.success_notice")

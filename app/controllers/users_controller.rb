@@ -67,7 +67,8 @@ class UsersController < ApplicationController
 
   def create
     authorize! :create, User
-    @user = User.new(params[:user])
+
+    @user = User.new(params[:user].to_h)
 
     if @user.save
       @user.send_welcome_email(request.base_url)
@@ -103,7 +104,7 @@ class UsersController < ApplicationController
   end
 
   def update_password
-    @change_password_request = Forms::ChangePasswordForm.new params[:forms_change_password_form]
+    @change_password_request = Forms::ChangePasswordForm.new params[:forms_change_password_form].to_h
     @change_password_request.user = current_user
     if @change_password_request.execute
       respond_to do |format|
@@ -135,7 +136,7 @@ class UsersController < ApplicationController
         password = params[:user]["unauthenticated_password"]
         updated_params = params[:user].merge(:verified => false, :password => password, :password_confirmation => password)
         updated_params.delete("unauthenticated_password")
-        user = User.new(updated_params)
+        user = User.new(updated_params.to_h)
 
         user.save!
         render :json => {:response => "ok"}.to_json

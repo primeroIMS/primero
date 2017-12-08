@@ -40,7 +40,7 @@ class RolesController < ApplicationController
     @role = Role.get(params[:id])
     authorize! :update, @role
 
-    if @role.update_attributes(role_from_params)
+    if @role.update_attributes(role_from_params.to_h)
       flash[:notice] = t('role.successfully_updated')
       redirect_to(roles_path)
     else
@@ -58,7 +58,7 @@ class RolesController < ApplicationController
 
   def create
     authorize! :create, Role
-    @role = Role.new(role_from_params)
+    @role = Role.new(role_from_params.to_h)
     return redirect_to roles_path if @role.save
     @forms_by_record_type = FormSection.all_forms_grouped_by_parent
     render :new
