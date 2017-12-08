@@ -347,7 +347,7 @@ module RecordActions
 
   def record_params
     param_root = model_class.name.underscore
-    params[param_root] || {}
+    params[param_root].try(:to_h) || {}
   end
 
   # All the stuff that isn't properties that should be allowed
