@@ -123,7 +123,7 @@ class ChildrenController < ApplicationController
       form_link: child_save_subform_path(child, subform: type, form_sidebar_id: form_sidebar_id),
     })
     respond_to do |format|
-      format.html {render text: html}
+      format.html {render plain: html}
     end
   end
 

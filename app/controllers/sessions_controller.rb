@@ -92,7 +92,7 @@ class SessionsController < ApplicationController
   end
 
   def active
-    render :text => 'OK'
+    render plain: 'OK'
   end
 
   private

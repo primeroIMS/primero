@@ -18,49 +18,49 @@ describe FieldsController do
     end
 
     it "should add the new field to the formsection" do
-      FormSection.should_receive(:add_field_to_formsection).with(@form_section, @field)
+      expect(FormSection).to receive(:add_field_to_formsection).with(@form_section, @field)
       post :create, params: {:form_section_id => @form_section.unique_id, :module_id => 'test_module', :field => JSON.parse(@field.to_json)}
     end
 
     it "should redirect back to the fields page" do
       FormSection.stub(:add_field_to_formsection)
       post :create, params: {:form_section_id => @form_section.unique_id, :module_id => "test_module", :field => JSON.parse(@field.to_json)}
-      response.should redirect_to(edit_form_section_path(@form_section.unique_id, :module_id => "test_module"))
+      expect(response).to redirect_to(edit_form_section_path(@form_section.unique_id, :module_id => "test_module"))
     end
 
     it "should render edit form section page if field has errors" do
       FormSection.stub(:add_field_to_formsection)
       FormSection.stub(:list_form_group_names)
-      Field.should_receive(:new).and_return(@field)
+      expect(Field).to receive(:new).and_return(@field)
       @field.stub(:errors){["errors"]}
       post :create, params: {:form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"}
-      assigns[:show_add_field].should == {:show_add_field => true}
-      response.should be_success
-      response.should render_template("form_section/edit")
+      expect(assigns[:show_add_field]).to eq({:show_add_field => true})
+      expect(response).to be_success
+      expect(response).to render_template("form_section/edit")
     end
 
     it "should show a flash message" do
       FormSection.stub(:add_field_to_formsection)
       post :create, params: {:form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"}
-      request.flash[:notice].should == "Field successfully added"
+      expect(request.flash[:notice]).to eq("Field successfully added")
     end
 
     it "should mark suggested field as used if one is supplied" do
       FormSection.stub(:add_field_to_formsection)
       suggested_field = "this_is_my_field"
-      SuggestedField.should_receive(:mark_as_used).with(suggested_field)
+      expect(SuggestedField).to receive(:mark_as_used).with(suggested_field)
       post :create, params: {:form_section_id => @form_section.unique_id, :from_suggested_field => suggested_field, :field => JSON.parse(@field.to_json),
                     :module_id => "test_module"}
     end
 
     it "should not mark suggested field as used if there is not one supplied" do
       FormSection.stub(:add_field_to_formsection)
-      SuggestedField.should_not_receive(:mark_as_used)
+      expect(SuggestedField).not_to receive(:mark_as_used)
       post :create, params: {:form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"}
     end
 
     it "should use the display name to form the field name if no field name is supplied" do
-      FormSection.should_receive(:add_field_to_formsection).with(anything(), instance_of(Field))
+      expect(FormSection).to receive(:add_field_to_formsection).with(anything(), instance_of(Field))
       post :create, params: {:form_section_id => @form_section.unique_id, :field => {:display_name => "My brilliant new field"}, :module_id => "test_module"}
     end
 
@@ -74,10 +74,10 @@ describe FieldsController do
       FormSection.stub(:get_by_unique_id).with('unique_id').and_return(@form_section)
       FormSection.stub(:list_form_group_names)
       get :edit, params: {:form_section_id => "unique_id", :id => 'field1', :module_id => "test_module"}
-      assigns[:body_class].should == "forms-page"
-      assigns[:field].should == field
-      assigns[:show_add_field].should == {:show_add_field => true, :edit_field_mode => true}
-      response.should render_template('form_section/edit')
+      expect(assigns[:body_class]).to eq("forms-page")
+      expect(assigns[:field]).to eq(field)
+      expect(assigns[:show_add_field]).to eq({:show_add_field => true, :edit_field_mode => true})
+      expect(response).to render_template('form_section/edit')
     end
   end
 
@@ -90,9 +90,9 @@ describe FieldsController do
     end
 
     it "should save the given field in the same order as given" do
-      @form_section.should_receive(:order_fields).with(["field_one", "field_two"])
+      expect(@form_section).to receive(:order_fields).with(["field_one", "field_two"])
       post :save_order, params: {:form_section_id => @form_section_id, :ids => ["field_one", "field_two"]}
-      response.should redirect_to(edit_form_section_path(@form_section_id))
+      expect(response).to redirect_to(edit_form_section_path(@form_section_id))
     end
 
   end
@@ -108,12 +108,12 @@ describe FieldsController do
     it "should toggle the given field" do
       fields = [double(:field, :name => 'bla', :visible => true)]
 
-      @form_section.should_receive(:fields).and_return(fields)
-      fields.first.should_receive(:visible=).with(false)
-      @form_section.should_receive(:save)
+      expect(@form_section).to receive(:fields).and_return(fields)
+      expect(fields.first).to receive(:visible=).with(false)
+      expect(@form_section).to receive(:save)
 
       post :toggle_fields, params: {:form_section_id => @form_section_id, :id => 'bla'}
-      response.body.should == "OK"
+      expect(response.body).to eq("OK")
     end
 
   end
@@ -130,10 +130,10 @@ describe FieldsController do
         :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text" }}
 
       updated_field = FormSection.get(some_form.id).fields.first
-      updated_field.display_name.should == "What Country Are You From"
-      updated_field.visible.should == false
-      updated_field.help_text.should == "new help text"
-      response.should redirect_to(edit_form_section_path(some_form.unique_id, :module_id => "test_module"))
+      expect(updated_field.display_name).to eq("What Country Are You From")
+      expect(updated_field.visible).to be_falsey
+      expect(updated_field.help_text).to eq("new help text")
+      expect(response).to redirect_to(edit_form_section_path(some_form.unique_id, :module_id => "test_module"))
     end
 
     it "should display errors if field could not be saved" do
@@ -143,8 +143,8 @@ describe FieldsController do
       put :update, params: { :id => "field", :form_section_id => "unique_id", :module_id => "primeromodule-cp",
           :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text" }}
 
-      assigns[:show_add_field].should == {:show_add_field => true}
-      response.should render_template("form_section/edit")
+      expect(assigns[:show_add_field]).to eq({:show_add_field => true})
+      expect(response).to render_template("form_section/edit")
     end
 
     it "should move the field to the given form_section" do
@@ -155,10 +155,10 @@ describe FieldsController do
 
       put :change_form, params: {:id => mothers_name_field.name, :form_section_id => family_details_form.unique_id, :destination_form_id => mother_details_form.unique_id}
 
-      FormSection.get(family_details_form.id).fields.find {|field| field.name == "mothers_name"}.should be_nil
+      expect(FormSection.get(family_details_form.id).fields.find {|field| field.name == "mothers_name"}).to be_nil
       updated_field = FormSection.get(mother_details_form.id).fields.find {|field| field.name == "mothers_name"}
-      request.flash[:notice].should == "Mother's Name moved from Family Details to Mother Details"
-      response.should redirect_to(edit_form_section_path(family_details_form.unique_id))
+      expect(request.flash[:notice]).to eq("Mother's Name moved from Family Details to Mother Details")
+      expect(response).to redirect_to(edit_form_section_path(family_details_form.unique_id))
     end
 
   end

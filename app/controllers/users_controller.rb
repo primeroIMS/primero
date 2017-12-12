@@ -88,7 +88,7 @@ class UsersController < ApplicationController
     if (@user.update_attributes(params[:user]))
       verify_children if params[:verify]
       if request.xhr?
-        render :text => "OK"
+        render plain: 'OK'
       else
         flash[:notice] = t("user.messages.updated")
         redirect_to(@user)

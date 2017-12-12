@@ -90,7 +90,7 @@ class FieldsController < ApplicationController
     field =  fetch_field params[:id]
     field.visible = !field.visible
     @form_section.save
-    render :text => "OK"
+    render plain: 'OK'
   end
 
   private

@@ -84,7 +84,7 @@ class FormSectionController < ApplicationController
     form = FormSection.get_by_unique_id(params[:id], true)
     form.visible = !form.visible?
     form.save!
-    render :text => "OK"
+    render plain: 'OK'
   end
 
   def save_order

@@ -81,7 +81,7 @@ class ApplicationController < ActionController::Base
         render :template => "shared/error_response",:status => ex.status_code, :locals => { :exception => ex }
       end
       format.any(:xml,:json) do
-        render :text => nil, :status => ex.status_code
+        render plain: nil, :status => ex.status_code
       end
     end
   end
@@ -125,10 +125,6 @@ class ApplicationController < ActionController::Base
       end
     end
     params
-  end
-
-  def redirect_back_or_default(default = root_path, options = {})
-    redirect_to (request.referer.present? ? :back : default), options
   end
 
   class << self

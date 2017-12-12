@@ -24,7 +24,7 @@ module ApprovalActions
         logger.error error.backtrace
       end
     end
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 
   def log_action(action_requested=nil, action_response=nil, type=nil, status=nil, comments=nil, approved_by=nil)
