@@ -5,9 +5,9 @@ class DatabaseController < ApplicationController
       Child.all.each do |child|
         child.destroy
       end
-      render :text => t("data_base.delete_all_documents")
+      render plain: t("data_base.delete_all_documents")
     else
-      render :text => t("data_base.operation_not_allowed", :rails_env => Rails.env)
+      render plain: t("data_base.operation_not_allowed", :rails_env => Rails.env)
     end
 
   end
