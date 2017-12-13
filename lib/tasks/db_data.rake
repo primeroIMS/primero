@@ -113,6 +113,24 @@ namespace :db do
       puts "Done!"
     end
 
+    # USAGE: bundle exec rake db:data:export_lookup_translation[locale]
+    # Args:
+    #   locale             - (ex. 'en', 'es', 'fr', 'ar')                                     DEFAULT: 'en'
+    # NOTE:
+    #   No spaces between arguments in argument list
+    # Examples:
+    #   bundle exec rake db:data:export_lookup_translation
+    #
+    #   bundle exec rake db:data:export_lookup_translation[en]
+    desc "Export the lookups to a yaml file to be translated"
+    task :export_lookup_translation, [:locale] => :environment do |t, args|
+      locale = args[:locale].present? ? args[:locale] : ''
+      puts "Exporting lookups... Check rails log for details..."
+      lookup_exporter = Exporters::YmlLookupExporter.new(locale: locale)
+      lookup_exporter.export_lookups_to_yaml
+      puts "Done!"
+    end
+
 
     # Creates Location.create! statements which can be used as a Location seed file
     # USAGE:   $bundle exec rake db:data:generate_locations[json,layers,regions]
