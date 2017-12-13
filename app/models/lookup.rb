@@ -58,6 +58,14 @@ class Lookup < CouchRest::Model::Base
     memoize_in_prod :get_location_types
   end
 
+  def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
+    lh = localized_hash(locale)
+    lvh = {}
+    self["lookup_values_#{locale}"].try(:each) {|lv| lvh[lv['id']] = lv['display_text']}
+    lh['lookup_values'] = lvh
+    lh
+  end
+
   def sanitize_lookup_values
     self.lookup_values.reject! { |value| value.blank? } if self.lookup_values
   end
