@@ -170,21 +170,29 @@ describe Lookup do
                                            "lookup_values" => {"option_1"=>"French Option 1 Translated", "option_2"=>"French Option 2 Translated"}},
                             "lookup_2" => {"name" => "French Two Translated",
                                            "lookup_values" => {"option_1"=>"French Option One Translated", "option_2"=>"French Option Two Translated"}}}
+        Lookup.import_translations(@translated_hash, @locale)
+        @lkp1 = Lookup.get('lookup_1')
+        @lkp2 = Lookup.get('lookup_2')
       end
 
-      it 'updates the French translations for each lookup' do
-        Lookup.import_translations(@translated_hash, @locale)
-        lkp1 = Lookup.get('lookup_1')
-        lkp2 = Lookup.get('lookup_2')
-        expect(lkp1.name_en).to eq('English')
-        expect(lkp1.name_fr).to eq('French Translated')
-        expect(lkp1.lookup_values_en).to eq([{'id'=>'option_1', 'display_text'=>'English Option 1'}, {'id'=>'option_2', 'display_text'=>'English Option 2'}])
-        expect(lkp1.lookup_values_fr).to eq([{'id'=>'option_1', 'display_text'=>'French Option 1 Translated'}, {'id'=>'option_2', 'display_text'=>'French Option 2 Translated'}])
+      it 'does not change the English names' do
+        expect(@lkp1.name_en).to eq('English')
+        expect(@lkp2.name_en).to eq('English Two')
+      end
 
-        expect(lkp2.name_en).to eq('English Two')
-        expect(lkp2.name_fr).to eq('French Two Translated')
-        expect(lkp2.lookup_values_en).to eq([{'id'=>'option_1', 'display_text'=>'English Option One'}, {'id'=>'option_2', 'display_text'=>'English Option Two'}])
-        expect(lkp2.lookup_values_fr).to eq([{'id'=>'option_1', 'display_text'=>'French Option One Translated'}, {'id'=>'option_2', 'display_text'=>'French Option Two Translated'}])
+      it 'updates the translations for the French names' do
+        expect(@lkp1.name_fr).to eq('French Translated')
+        expect(@lkp2.name_fr).to eq('French Two Translated')
+      end
+
+      it 'does not change the English lookup values' do
+        expect(@lkp1.lookup_values_en).to eq([{'id'=>'option_1', 'display_text'=>'English Option 1'}, {'id'=>'option_2', 'display_text'=>'English Option 2'}])
+        expect(@lkp2.lookup_values_en).to eq([{'id'=>'option_1', 'display_text'=>'English Option One'}, {'id'=>'option_2', 'display_text'=>'English Option Two'}])
+      end
+
+      it 'updates the translations for the French lookup values' do
+        expect(@lkp1.lookup_values_fr).to eq([{'id'=>'option_1', 'display_text'=>'French Option 1 Translated'}, {'id'=>'option_2', 'display_text'=>'French Option 2 Translated'}])
+        expect(@lkp2.lookup_values_fr).to eq([{'id'=>'option_1', 'display_text'=>'French Option One Translated'}, {'id'=>'option_2', 'display_text'=>'French Option Two Translated'}])
       end
     end
   end
