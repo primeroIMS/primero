@@ -131,6 +131,30 @@ namespace :db do
       puts "Done!"
     end
 
+    # USAGE: bundle exec rake db:data:import_lookup_translation[yaml_file]
+    # Args:
+    #   yaml_file             - The translated file to be imported
+    # NOTE:
+    #   No spaces between arguments in argument list
+    # Examples:
+    #   bundle exec rake db:data:import_lookup_translation[for_use_primero_lookupsyml_fr.yml]
+    desc "Import the lookup translations yaml"
+    task :import_lookup_translation, [:yaml_file] => :environment do |t, args|
+      file_name = args[:yaml_file]
+      if file_name.present?
+        puts "Importing lookup translation from #{file_name}"
+        file_hash = YAML.load_file(file_name)
+        if file_hash.present? && file_hash.is_a?(Hash)
+          locale = file_hash.keys.first
+          file_hash.values.each{|fh| Lookup.import_translations(fh, locale)}
+        else
+          puts "Error parsing yaml file"
+        end
+      else
+        puts "ERROR: No input file provided"
+      end
+    end
+
 
     # Creates Location.create! statements which can be used as a Location seed file
     # USAGE:   $bundle exec rake db:data:generate_locations[json,layers,regions]

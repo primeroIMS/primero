@@ -36,20 +36,16 @@ module Exporters
       lookups = Lookup.all.all
       if lookups.present?
         Rails.logger.info {"Locale: #{@locale}"}
-        lookups.each {|lkp| export_lookup(lkp)}
+        create_file_for_lookup('lookups')
+        lookup_hash = {}
+        lookups.each {|lkp| lookup_hash[lkp.id] = lkp.localized_property_hash(@locale)}
+        file_hash = {}
+        file_hash['en'] = lookup_hash
+        @io << file_hash.to_yaml
+        complete
       else
         Rails.logger.warn {'No Lookups found'}
       end
-    end
-
-    def export_lookup(lookup)
-      create_file_for_lookup(lookup.id)
-      lookup_hash = {}
-      lookup_hash[lookup.id] = lookup.localized_property_hash(@locale)
-      file_hash = {}
-      file_hash['en'] = lookup_hash
-      @io << lookup_hash.to_yaml
-      complete
     end
   end
 end
