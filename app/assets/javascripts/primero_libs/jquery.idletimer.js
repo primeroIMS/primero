@@ -71,7 +71,7 @@ $.idleTimer = function f(newTimeout){
         enabled = false;
 
         //clear any pending timeouts
-        clearTimeout($.idleTimer.tId);
+        clearTimeout(window.idleTimer);
 
         //detach the event handlers
         $(document).unbind('.idleTimer');
@@ -86,7 +86,7 @@ $.idleTimer = function f(newTimeout){
     handleUserEvent = function(){
 
         //clear any existing timeout
-        clearTimeout($.idleTimer.tId);
+        clearTimeout(window.idleTimer);
 
 
 
@@ -100,7 +100,7 @@ $.idleTimer = function f(newTimeout){
             }
 
             //set a new timeout
-            $.idleTimer.tId = setTimeout(toggleIdleState, timeout);
+            window.idleTimer = setTimeout(toggleIdleState, timeout);
 
         }
      };
@@ -133,7 +133,7 @@ $.idleTimer = function f(newTimeout){
 
 
     //set a timeout to toggle state
-    $.idleTimer.tId = setTimeout(toggleIdleState, timeout);
+    window.idleTimer = setTimeout(toggleIdleState, timeout);
 
     // assume the user is active for the first x seconds.
     $.data(document,'idleTimer',"active");

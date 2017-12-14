@@ -72,6 +72,7 @@ describe "tracing_requests/edit.html.erb" do
     controller.should_receive(:can?).with(:edit, @tracing_request).and_return(true)
     controller.should_receive(:can?).with(:export, TracingRequest).and_return(false)
     controller.should_receive(:can?).with(:export_custom, @tracing_request).and_return(false)
+    controller.should_receive(:can?).with(:remove_assigned_users, TracingRequest).and_return(false)
   end
 
   after :all do

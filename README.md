@@ -1,5 +1,7 @@
 Primero
 ========
+[![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=master)](https://travis-ci.org/primeroIMS/primero)
+
 
 ## Development
 To develop the application locally, you will need to do the following:
