@@ -7,6 +7,7 @@ class ChildrenController < ApplicationController
   include FieldsHelper
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
+  before_filter :filter_params_by_permission, :only => [:create, :update]
   #TODO: This should go away once filters are configurable in the role
   before_filter :filter_risk_level, :only => [:index]
   before_filter :toggle_photo_indicators, :only => [:show]

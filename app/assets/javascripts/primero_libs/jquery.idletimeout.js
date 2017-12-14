@@ -70,7 +70,7 @@
 			options.onCountdown.call(warning, counter);
 
 			// create a timer that runs every second
-			this.countdown = win.setInterval(function(){
+			window.countdown = this.countdown = win.setInterval(function(){
 				if(--counter === 0){
 					window.clearInterval(self.countdown);
 					options.onTimeout.call(warning);
@@ -84,7 +84,7 @@
 		_startTimer: function(){
 			var self = this;
 
-			this.timer = win.setTimeout(function(){
+			window.timer = this.timer = win.setTimeout(function(){
 				self._keepAlive();
 			}, this.options.pollingInterval * 1000);
 		},

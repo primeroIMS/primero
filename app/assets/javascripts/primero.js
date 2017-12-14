@@ -6,17 +6,27 @@ window.pagination_details = {};
 
 window.dispatcher = _.clone(Backbone.Events)
 
+function clearTimers() {
+  window.clearInterval(window.idleTimer);
+  window.clearInterval(window.countdown);
+  window.clearTimeout(window.timer);
+}
+
 $(document).on('turbolinks:before-render', function() {
   if (_primero.Router) {
     Backbone.history.stop();
     dispatcher.trigger( 'CloseView' );
   }
+
+  clearTimers()
 });
 
 $(document).on('turbolinks:before-cache', function() {
   $('.sf-menu').superfish('destroy');
   $('.dataTables_length, .dataTables_paginate').remove();
   $('.mCustomScrollbar').mCustomScrollbar("destroy")
+
+  clearTimers();
 });
 
 function primero() {
@@ -44,6 +54,10 @@ function primero() {
   new _primero.Router();
 
   Backbone.history.start({ pushState: true, hashChange: false })
+
+  if (window.location.href.indexOf('login') === -1) {
+    IdleSessionTimeout.start();
+  }
 }
 
 document.cookie = "timezone=" + moment.tz.guess() + "; path=/;";
