@@ -103,4 +103,90 @@ describe Lookup do
     end
   end
 
+  describe 'localized_property_hash' do
+    before do
+      Lookup.all.each &:destroy
+      @lookup_multi_locales = Lookup.create!(id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", name_es: "Spanish",
+                                             lookup_values_en: [{id: "option_1", display_text: "English Option 1"}, {id: "option_2", display_text: "English Option 2"}],
+                                             lookup_values_fr: [{id: "option_1", display_text: "French Option 1"}, {id: "option_2", display_text: "French Option 2"}],
+                                             lookup_values_ar: [{id: "option_1", display_text: "Arabic Option 1"}, {id: "option_2", display_text: "Arabic Option 2"}],
+                                             lookup_values_es: [{id: "option_1", display_text: "Spanish Option 1"}, {id: "option_2", display_text: "Spanish Option 2"}])
+      @lookup_no_locales = Lookup.create!(id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
+    end
+
+    context "when passed locale is en" do
+      it "returns a hash of the English values" do
+        expected = {"name" => "English",
+                    "lookup_values" =>
+                        {"option_1" => "English Option 1",
+                         "option_2" => "English Option 2"}
+        }
+        lkp1 = Lookup.get(@lookup_multi_locales.id)
+        expect(lkp1.localized_property_hash('en')).to eq(expected)
+      end
+    end
+
+    context "when passed locale is fr" do
+      it "returns a hash of the French values" do
+        expected = {"name" => "French",
+                    "lookup_values" =>
+                        {"option_1" => "French Option 1",
+                         "option_2" => "French Option 2"}
+        }
+        lkp1 = Lookup.get(@lookup_multi_locales.id)
+        expect(lkp1.localized_property_hash('fr')).to eq(expected)
+      end
+    end
+
+    context "when no locale is passed in" do
+      it "returns a hash of the English values" do
+        expected = {"name" => "English",
+                    "lookup_values" =>
+                        {"option_1" => "English Option 1",
+                         "option_2" => "English Option 2"}
+        }
+        lkp1 = Lookup.get(@lookup_multi_locales.id)
+        expect(lkp1.localized_property_hash).to eq(expected)
+      end
+    end
+  end
+
+  describe 'import_translations' do
+    before do
+      Lookup.all.each &:destroy
+      Lookup.create!(id: "lookup_1", name_en: "English", name_fr: "French", name_ar: "Arabic", name_es: "Spanish",
+                     lookup_values_en: [{id: "option_1", display_text: "English Option 1"}, {id: "option_2", display_text: "English Option 2"}],
+                     lookup_values_fr: [{id: "option_1", display_text: "French Option 1"}, {id: "option_2", display_text: "French Option 2"}],
+                     lookup_values_ar: [{id: "option_1", display_text: "Arabic Option 1"}, {id: "option_2", display_text: "Arabic Option 2"}],
+                     lookup_values_es: [{id: "option_1", display_text: "Spanish Option 1"}, {id: "option_2", display_text: "Spanish Option 2"}])
+      Lookup.create!(id: "lookup_2", name_en: "English Two",
+                     lookup_values_en: [{id: "option_1", display_text: "English Option One"}, {id: "option_2", display_text: "English Option Two"}])
+    end
+
+    context "when translations are French" do
+      before do
+        @locale = 'fr'
+        @translated_hash = {"lookup_1" => {"name" => "French Translated",
+                                           "lookup_values" => {"option_1"=>"French Option 1 Translated", "option_2"=>"French Option 2 Translated"}},
+                            "lookup_2" => {"name" => "French Two Translated",
+                                           "lookup_values" => {"option_1"=>"French Option One Translated", "option_2"=>"French Option Two Translated"}}}
+      end
+
+      it 'updates the French translations for each lookup' do
+        Lookup.import_translations(@translated_hash, @locale)
+        lkp1 = Lookup.get('lookup_1')
+        lkp2 = Lookup.get('lookup_2')
+        expect(lkp1.name_en).to eq('English')
+        expect(lkp1.name_fr).to eq('French Translated')
+        expect(lkp1.lookup_values_en).to eq([{'id'=>'option_1', 'display_text'=>'English Option 1'}, {'id'=>'option_2', 'display_text'=>'English Option 2'}])
+        expect(lkp1.lookup_values_fr).to eq([{'id'=>'option_1', 'display_text'=>'French Option 1 Translated'}, {'id'=>'option_2', 'display_text'=>'French Option 2 Translated'}])
+
+        expect(lkp2.name_en).to eq('English Two')
+        expect(lkp2.name_fr).to eq('French Two Translated')
+        expect(lkp2.lookup_values_en).to eq([{'id'=>'option_1', 'display_text'=>'English Option One'}, {'id'=>'option_2', 'display_text'=>'English Option Two'}])
+        expect(lkp2.lookup_values_fr).to eq([{'id'=>'option_1', 'display_text'=>'French Option One Translated'}, {'id'=>'option_2', 'display_text'=>'French Option Two Translated'}])
+      end
+    end
+  end
+
 end
