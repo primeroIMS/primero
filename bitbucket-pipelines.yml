@@ -1,3 +1,5 @@
+clone:
+  depth: full
 pipelines:
   branches:
     maint_1.4:
