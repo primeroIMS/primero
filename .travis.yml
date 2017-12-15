@@ -24,10 +24,11 @@ branches:
 - maint_1.4
 - maint_1.5
 - development
+- master
 notifications:
   hipchat:
     rooms:
       secure: PUGFh38+Rp/RH46xJTfr0W5XnwIheW5gfddK7FVrP8V928O9WYla3ydtws8n5roa0GGVL4dYFyDJy1DSIemkUKRAXrE5ZVo22PbkKrfBVReSQlKm6w8z2ACu57kkM7xFFs11rKqNL2fFPPre/NeBXfYY/Fc1ydhJW02pQcNrf5AMKu0Pxlj9ms8SeClOBpNH2q2ohCYi6ILrthw2OK9vu1gOptof/6bPtucEqP1lEtMPH7guQngFH3jCippvqph9raMoaXfQlXjcdTkIf0czLlvJBhkTa/gulQBv2BonGBwB13V4evE2bQJMUZfY/FqFq6maBjZU+JEpjP4LqplLLWD8OiE80BKmFW7BDXivR3HCosVHtfpzIQIDqyvK4+DMHI80weentbjTKIqnhE3kpxPyXQdYsvdFLSbHulWS3yB1J0r2GOPAzL5ZlL1dO2zDt9hG/NtoBfSFBEmAxaQWWH+Dw+p/oLRBjBwOoLh/vgbi7vzAOUZ67xN0TgwQ0zNe7RGD8eK2boMf2w9eegaL37Gd/Z4iYLYpHQcOe/y0j1yCflUdsgced0FZ0s0Jmm8sHrQVk1iFCrkGHkx7qXV3xxq+1AzoaWKSCIv3OVGUG1iev5xZYbCAdTQbmsjzc45sEjVDm7wr6AjBaCL7PxtV7aqPT15kp73PrIdxZTkbgug=
     template:
-      - 'Test run completed for %{repository}/%{branch}: <a href="%{build_url}">%{message}</a> Run duration: %{elapsed_time}'
+      - 'Test run completed for %{repository}/<b>%{branch}</b>: <a href="%{build_url}">%{message}</a> Run duration: %{elapsed_time}'
     format: html
