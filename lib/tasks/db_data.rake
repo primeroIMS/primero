@@ -79,6 +79,7 @@ namespace :db do
       end
     end
 
+    # Exports Forms for translation & Exports Lookups for translation
     # USAGE: bundle exec rake db:data:export_form_translation[form_name,type,module_id,show_hidden_forms,show_hidden_fields,locale]
     # Args:
     #   form_name          - if this is passed in, will only export that 1 form  (ex. 'basic_identity')
@@ -110,24 +111,6 @@ namespace :db do
       forms_exporter = Exporters::YmlFormExporter.new(form_id, type, module_id, show_hidden_forms: show_hidden_forms,
                                                       show_hidden_fields: show_hidden_fields, locale: locale)
       forms_exporter.export_forms_to_yaml
-      puts "Done!"
-    end
-
-    # USAGE: bundle exec rake db:data:export_lookup_translation[locale]
-    # Args:
-    #   locale             - (ex. 'en', 'es', 'fr', 'ar')                                     DEFAULT: 'en'
-    # NOTE:
-    #   No spaces between arguments in argument list
-    # Examples:
-    #   bundle exec rake db:data:export_lookup_translation
-    #
-    #   bundle exec rake db:data:export_lookup_translation[en]
-    desc "Export the lookups to a yaml file to be translated"
-    task :export_lookup_translation, [:locale] => :environment do |t, args|
-      locale = args[:locale].present? ? args[:locale] : ''
-      puts "Exporting lookups... Check rails log for details..."
-      lookup_exporter = Exporters::YmlLookupExporter.new(locale: locale)
-      lookup_exporter.export_lookups_to_yaml
       puts "Done!"
     end
 
