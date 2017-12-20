@@ -185,135 +185,74 @@ describe IncidentsController, :type => :controller do
       end
     end
 
-    # shared_examples_for "Export List" do |user_type|
-    #   before do
-    #     @session = fake_admin_login
-    #   end
-    #
-    #   it "should export columns in the current list view for #{user_type} user" do
-    #     collection = [Incident.new(:id => "1"), Incident.new(:id => "2")]
-    #     collection.should_receive(:next_page).twice.and_return(nil)
-    #     search = double(Sunspot::Search::StandardSearch)
-    #     search.should_receive(:results).and_return(collection)
-    #     search.should_receive(:total).and_return(2)
-    #     Incident.should_receive(:list_records).with({}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["all"], nil, nil).and_return(search)
-    #
-    #     #User
-    #     @session.user.should_receive(:has_module?).with(PrimeroModule::CP).and_return(cp_result)
-    #     @session.user.should_receive(:has_module?).with(PrimeroModule::GBV).and_return(gbv_result)
-    #     @session.user.should_receive(:has_module?).with(PrimeroModule::MRM).and_return(mrm_result)
-    #     @session.user.should_receive(:is_manager?).and_return(manager_result)
-    #
-    #     ##### Main part of the test ####
-    #     controller.should_receive(:list_view_header).with("incident").and_call_original
-    #     #Test if the exporter receive the list of field expected.
-    #     Exporters::CSVExporterListView.should_receive(:export).with(collection, expected_properties, @session.user).and_return('data')
-    #     ##### Main part of the test ####
-    #
-    #     controller.should_receive(:export_filename).with(collection, Exporters::CSVExporterListView).and_return("test_filename")
-    #     controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', nil).and_return(true)
-    #     controller.stub :render
-    #     #Prepare parameters to call the corresponding exporter.
-    #     params = {"page" => "all", "export_list_view" => "true", "format" => "list_view_csv"}
-    #     get :index, params
-    #   end
-    # end
-    #
-    # it_behaves_like "Export List", "admin" do
-    #   let(:cp_result) { true }
-    #   let(:gbv_result) { true }
-    #   let(:mrm_result) { true }
-    #   let(:manager_result) { true }
-    #   let(:expected_properties) { {
-    #     :type => "incident",
-    #     :fields => {
-    #       "Id" => "short_id",
-    #       "Date Of Interview" => "date_of_first_report",
-    #       "Date Of Incident" => "incident_date_derived",
-    #       "Violence Type" => "gbv_sexual_violence_type",
-    #       "Incident Location" => "incident_location",
-    #       "Violations" => "violations",
-    #       "Social Worker" => "owned_by"} } }
-    # end
-    #
-    # it_behaves_like "Export List", "mrm" do
-    #   let(:cp_result) { false }
-    #   let(:gbv_result) { false }
-    #   let(:mrm_result) { true }
-    #   let(:manager_result) { false }
-    #   let(:expected_properties) { {
-    #     :type => "incident",
-    #     :fields => {
-    #       "Id" => "short_id",
-    #       "Date Of Incident" => "incident_date_derived",
-    #       "Incident Location" => "incident_location",
-    #       "Violations" => "violations"} } }
-    # end
-    #
-    # it_behaves_like "Export List", "gbv" do
-    #   let(:cp_result) { false }
-    #   let(:gbv_result) { true }
-    #   let(:mrm_result) { false }
-    #   let(:manager_result) { false }
-    #   let(:expected_properties) { {
-    #     :type => "incident",
-    #     :fields => {
-    #       "Id" => "short_id",
-    #       "Date Of Interview" => "date_of_first_report",
-    #       "Date Of Incident" => "incident_date_derived",
-    #       "Violence Type" => "gbv_sexual_violence_type"} } }
-    # end
-
-    describe "export_filename" do
-      before :each do
+    describe "export list filename" do
+      before do
         @password = 's3cr3t'
         @session = fake_field_worker_login
         @incident1 = Incident.new(:id => "1", :unique_identifier=> "unique_identifier-1")
         @incident2 = Incident.new(:id => "2", :unique_identifier=> "unique_identifier-2")
       end
 
-      it "should use the file name provided by the user" do
-        Incident.stub :list_records => double(:results => [ @incident1, @incident2 ], :total => 2)
-        #This is the file name provided by the user and should be sent as parameter.
-        custom_export_file_name = "user file name"
-        Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @incident1, @incident2 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{custom_export_file_name}.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        params = {:format => :csv, :password => @password, :custom_export_file_name => custom_export_file_name}
-        get :index, params: params
+      context 'when there are multiple records' do
+        before do
+          Incident.stub :list_records => double(:results => [ @incident1, @incident2 ], :total => 2)
+        end
+
+        it 'exports records' do
+          get :index, format: :csv
+          expect(response.header['Content-Type']).to include 'application/zip'
+        end
+
+        context 'when the file name is provided' do
+          before do
+            @custom_export_file_name = "user_file_name"
+          end
+
+          it 'exports using the file name provided' do
+            get :index, params: {password: @password, custom_export_file_name: @custom_export_file_name}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@custom_export_file_name}.csv.zip")
+          end
+        end
+
+        context 'when the file name is not provided' do
+          it 'uses the user_name and model_name to create the file name' do
+            get :index, params: {password: @password}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@session.user.user_name}-incident.csv.zip")
+          end
+        end
       end
 
-      it "should use the user_name and model_name to get the file name" do
-        Incident.stub :list_records => double(:results => [ @incident1, @incident2 ], :total => 2)
-        Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @incident1, @incident2 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@session.user.user_name}-incident.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        params = {:format => :csv, :password => @password}
-        get :index, params: params
-      end
+      context 'when there is only 1 record' do
+        before do
+          Incident.stub :list_records => double(:results => [ @incident1 ], :total => 1)
+        end
 
-      it "should use the unique_identifier to get the file name" do
-        Incident.stub :list_records => double(:results => [ @incident1 ], :total => 1)
-        Exporters::CSVExporter.should_receive(:export).with([ @incident1 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @incident1 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@incident1.unique_identifier}.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        params = {:format => :csv, :password => @password}
-        get :index, params: params
+        it 'exports records' do
+          get :index, format: :csv
+          expect(response.header['Content-Type']).to include 'application/zip'
+        end
+
+        context 'when the file name is provided' do
+          before do
+            @custom_export_file_name = "user_file_name"
+          end
+
+          it 'exports using the file name provided' do
+            get :index, params: {password: @password, custom_export_file_name: @custom_export_file_name}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@custom_export_file_name}.csv.zip")
+          end
+        end
+
+        context 'when the file name is not provided' do
+          it 'uses the unique_identifier to create the file name' do
+            get :index, params: {password: @password}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@incident1.unique_identifier}.csv.zip")
+          end
+        end
       end
     end
 
@@ -789,65 +728,40 @@ describe IncidentsController, :type => :controller do
   #     assigns[:results].should == fake_results
   #   end
   # end
+  describe '#respond_to_export' do
+    before :each do
+      @incident1 = build :incident
+      @incident2 = build :incident
+      controller.stub :paginated_collection => [ @incident1, @incident2 ], :render => true
+      Incident.stub :list_records => double(:results => [@incident1, @incident2 ], :total => 2)
+    end
 
-  xit 'should export incidents using #respond_to_export' do
-    incident1 = build :incident
-    incident2 = build :incident
-    controller.stub :paginated_collection => [ incident1, incident2 ], :render => true
-    controller.stub :get_form_sections
-    controller.should_receive(:YAY).and_return(true)
+    context 'show' do
+      it 'exports 1 record' do
+        get :show, params: {id: @incident1.id}, format: :csv
+        expect(response.header['Content-Type']).to include 'application/zip'
+        expect(response.header['Content-Disposition']).to include "#{@incident1.unique_identifier}.csv.zip"
+      end
+    end
 
-    controller.should_receive(:respond_to_export) { |format, incidents|
-      format.mock { controller.send :YAY }
-      incidents.should == [ incident1, incident2 ]
-    }
+    context 'index' do
+      it "should handle CSV" do
+        Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything, anything, anything).and_return('data')
+        get :index, format: :csv
+      end
 
-    get :index, params: {:format => :mock}
+      it "should encrypt result" do
+        password = 's3cr3t'
+        Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything, anything, anything).and_return('data')
+        # controller.should_receive(:export_filename).with([ @incident1, @incident2 ], Exporters::CSVExporter).and_return("test_filename")
+        # controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', password).and_return(true)
+        get :index, params: {password: password, custom_export_file_name: 'test_filename'}, format: :csv
+        #TODO - what else to test?
+        expect(response.header['Content-Type']).to include 'application/zip'
+        expect(response.header['Content-Disposition']).to include "test_filename.csv.zip"
+      end
+    end
   end
-
-  it 'should export incident using #respond_to_export' do
-    incident = build :incident
-    controller.stub :render => true
-    controller.should_receive(:YAY).and_return(true)
-
-    controller.should_receive(:respond_to_export) { |format, incidents|
-      format.mock { controller.send :YAY }
-      incidents.should == [ incident ]
-    }
-
-    get :show, params: {:id => incident.id, :format => :mock}
-  end
-
-   describe '#respond_to_export' do
-     before :each do
-       @incident1 = build :incident
-       @incident2 = build :incident
-       controller.stub :paginated_collection => [ @incident1, @incident2 ], :render => true
-       Incident.stub :list_records => double(:results => [@incident1, @incident2 ], :total => 2)
-     end
-
-     it "should handle CSV" do
-       Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything, anything, anything).and_return('data')
-       get :index, params: {:format => :csv}
-     end
-
-     it "should encrypt result" do
-       Exporters::CSVExporter.should_receive(:export).with([ @incident1, @incident2 ], anything, anything, anything).and_return('data')
-       controller.should_receive(:export_filename).with([ @incident1, @incident2 ], Exporters::CSVExporter).and_return("test_filename")
-       controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', anything).and_return(true)
-       get :index, params: {:format => :csv}
-     end
-
-     xit "should generate filename based on incident ID and addon ID when there is only one incident" do
-       @incident1.stub :short_id => 'test_short_id'
-       controller.send(:export_filename, [ @incident1 ], Addons::PhotowallExportTask).should == "test_short_id_photowall.zip"
-     end
-
-     xit "should generate filename based on username and addon ID when there are multiple incidents" do
-       controller.stub :current_user_name => 'test_user'
-       controller.send(:export_filename, [ @incident1, @incident2 ], Addons::PdfExportTask).should == "test_user_pdf.zip"
-     end
-   end
 
   # describe "PUT select_primary_photo" do
     # before :each do
