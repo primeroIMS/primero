@@ -157,7 +157,7 @@ describe ChildrenController, :type => :controller do
       end
     end
 
-    describe "export_filename" do
+    describe "export list filename" do
       before :each do
         @password = 's3cr3t'
         @session = fake_field_worker_login
@@ -165,45 +165,66 @@ describe ChildrenController, :type => :controller do
         @child2 = Child.new(:id => "2", :unique_identifier=> "unique_identifier-2")
       end
 
-      it "should use the file name provided by the user" do
-        Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
-        #This is the file name provided by the user and should be sent as parameter.
-        custom_export_file_name = "user file name"
-        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{custom_export_file_name}.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        get :index, params: {format: :csv, password: @password, custom_export_file_name: custom_export_file_name}
+      context 'when there are multiple records' do
+        before do
+          Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
+        end
+
+        it 'exports records' do
+          get :index, format: :csv
+          expect(response.header['Content-Type']).to include 'application/zip'
+        end
+
+        context 'when the file name is provided' do
+          before do
+            @custom_export_file_name = "user_file_name"
+          end
+
+          it 'exports using the file name provided' do
+            get :index, params: {password: @password, custom_export_file_name: @custom_export_file_name}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@custom_export_file_name}.csv.zip")
+          end
+        end
+
+        context 'when the file name is not provided' do
+          it 'uses the user_name and model_name to create the file name' do
+            get :index, params: {password: @password}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@session.user.user_name}-child.csv.zip")
+          end
+        end
       end
 
-      it "should use the user_name and model_name to get the file name" do
-        Child.stub :list_records => double(:results => [ @child1, @child2 ], :total => 2)
-        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@session.user.user_name}-child.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        get :index, params: {format: :csv, password: @password}
-      end
+      context 'when there is only 1 record' do
+        before do
+          Child.stub :list_records => double(:results => [ @child1 ], :total => 1)
+        end
 
-      it "should use the unique_identifier to get the file name" do
-        Child.stub :list_records => double(:results => [ @child1 ], :total => 1)
-        Exporters::CSVExporter.should_receive(:export).with([ @child1 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @child1 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@child1.unique_identifier}.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        get :index, params: {format: :csv, password: @password}
+        it 'exports records' do
+          get :index, format: :csv
+          expect(response.header['Content-Type']).to include 'application/zip'
+        end
+
+        context 'when the file name is provided' do
+          before do
+            @custom_export_file_name = "user_file_name"
+          end
+
+          it 'exports using the file name provided' do
+            get :index, params: {password: @password, custom_export_file_name: @custom_export_file_name}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@custom_export_file_name}.csv.zip")
+          end
+        end
+
+        context 'when the file name is not provided' do
+          it 'uses the unique_identifier to create the file name' do
+            get :index, params: {password: @password}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@child1.unique_identifier}.csv.zip")
+          end
+        end
       end
     end
 
@@ -941,51 +962,6 @@ describe ChildrenController, :type => :controller do
     end
   end
 
-  # TODO: full text searching not implemented yet.
-  # describe "searching as field worker" do
-  #   before :each do
-  #     @session = fake_field_worker_login
-  #   end
-  #   it "should only list the children which the user has registered" do
-  #     search = double("search", :query => 'some_name', :valid? => true, :page => 1)
-  #     Search.stub(:new).and_return(search)
-
-  #     fake_results = [:fake_child,:fake_child]
-  #     fake_full_results =  [:fake_child,:fake_child, :fake_child, :fake_child]
-  #     Child.should_receive(:search_by_created_user).with(search, @session.user_name, 1).and_return([fake_results, fake_full_results])
-
-  #     get(:search, :query => 'some_name')
-  #     assigns[:results].should == fake_results
-  #   end
-  # end
-
-  xit 'should export children using #respond_to_export' do
-    child1 = build :child
-    child2 = build :child
-    controller.stub :paginated_collection => [ child1, child2 ], :render => true
-    controller.should_receive(:YAY).and_return(true)
-
-    controller.should_receive(:respond_to_export) { |format, children|
-      format.mock { controller.send :YAY }
-      children.should == [ child1, child2 ]
-    }
-
-    get :index, params: {format: :mock}
-  end
-
-  it 'should export child using #respond_to_export' do
-    child = build :child
-    controller.stub :render => true
-    controller.should_receive(:YAY).and_return(true)
-
-    controller.should_receive(:respond_to_export) { |format, children|
-      format.mock { controller.send :YAY }
-      children.should == [ child ]
-    }
-
-    get :show, params: {id: child.id, format: :mock}
-  end
-
   describe '#respond_to_export' do
     before :each do
       @child1 = build :child
@@ -994,38 +970,30 @@ describe ChildrenController, :type => :controller do
       Child.stub :list_records => double(:results => [@child1, @child2 ], :total => 2)
     end
 
-    it "should handle CSV" do
-      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
-      get :index, params: {format: :csv}
+    context 'show' do
+      it 'exports 1 record' do
+        get :show, params: {id: @child1.id}, format: :csv
+        expect(response.header['Content-Type']).to include 'application/zip'
+        expect(response.header['Content-Disposition']).to include "#{@child1.unique_identifier}.csv.zip"
+      end
     end
 
-    it "should encrypt result" do
-      password = 's3cr3t'
-      Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
-      controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_return("test_filename")
-      controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', password).and_return(true)
-      get :index, params: {format: :csv, password: password}
-    end
+    context 'index' do
+      it "should handle CSV" do
+        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
+        get :index, format: :csv
+      end
 
-    #TODO - would this test be better suited for the Logger Actions concern tests?
-    xit "should create a log_entry when record is exported" do
-      fake_login User.new(:user_name => 'fakeuser', :organization => "STC", :role_ids => ["abcd"])
-      @controller.stub(:authorize!)
-      RapidftrAddonCpims::ExportTask.any_instance.should_receive(:export).with([ @child1, @child2 ]).and_return('data')
-
-      LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organization => "STC", :child_ids => [@child1.id, @child2.id]
-
-      get :index, params: {format: :cpims}
-    end
-
-    xit "should generate filename based on child ID and addon ID when there is only one child" do
-      @child1.stub :short_id => 'test_short_id'
-      controller.send(:export_filename, [ @child1 ], Addons::PhotowallExportTask).should == "test_short_id_photowall.zip"
-    end
-
-    xit "should generate filename based on username and addon ID when there are multiple children" do
-      controller.stub :current_user_name => 'test_user'
-      controller.send(:export_filename, [ @child1, @child2 ], Addons::PdfExportTask).should == "test_user_pdf.zip"
+      it "should encrypt result" do
+        password = 's3cr3t'
+        Exporters::CSVExporter.should_receive(:export).with([ @child1, @child2 ], anything, anything, anything).and_return('data')
+        # controller.should_receive(:export_filename).with([ @child1, @child2 ], Exporters::CSVExporter).and_return("test_filename")
+        # controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', password).and_return(true)
+        get :index, params: {password: password, custom_export_file_name: 'test_filename'}, format: :csv
+        #TODO - what else to test?
+        expect(response.header['Content-Type']).to include 'application/zip'
+        expect(response.header['Content-Disposition']).to include "test_filename.csv.zip"
+      end
     end
   end
 
@@ -1215,6 +1183,7 @@ describe ChildrenController, :type => :controller do
 
     it 'logs a create message' do
       child = build :child, :unique_identifier => "1234"
+      new_name = 'Juan Lopez'
       expect(Rails.logger).to receive(:info).with("Creating case by user '#{@user.user_name}'")
       post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
     end
