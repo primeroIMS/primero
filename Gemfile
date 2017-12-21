@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.8'
+ruby '2.3.5'
 
 gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', :branch => 'master'
 gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
@@ -78,7 +78,7 @@ end
 
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
-  gem 'uglifier',      '~> 3.2.0'
+  gem 'uglifier',      '~> 4.0.2'
 end
 
 group :development do

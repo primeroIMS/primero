@@ -439,7 +439,7 @@ GEM
     turbolinks-source (5.0.3)
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
-    uglifier (3.2.0)
+    uglifier (4.0.2)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
@@ -532,13 +532,16 @@ DEPENDENCIES
   therubyracer (~> 0.12.2)
   thin (~> 1.7.2)
   turbolinks (~> 5)
-  uglifier (~> 3.2.0)
+  uglifier (~> 4.0.2)
   uuidtools (~> 2.1.1)
   validatable (= 1.6.7)
   will_paginate (~> 3.1.0)
   writeexcel (~> 1.0.5)
   yui-compressor
   zipruby-compat!
+
+RUBY VERSION
+   ruby 2.3.5p376
 
 BUNDLED WITH
    1.16.0
