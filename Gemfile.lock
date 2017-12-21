@@ -540,8 +540,5 @@ DEPENDENCIES
   yui-compressor
   zipruby-compat!
 
-RUBY VERSION
-   ruby 2.3.5p376
-
 BUNDLED WITH
    1.16.0
