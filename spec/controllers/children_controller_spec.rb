@@ -995,7 +995,6 @@ describe ChildrenController, :type => :controller do
         expect(response.header['Content-Disposition']).to include "test_filename.csv.zip"
       end
     end
-
   end
 
   describe "PUT select_primary_photo" do

@@ -245,7 +245,7 @@ describe TracingRequestsController, :type => :controller do
       end
     end
 
-    describe "export_filename" do
+    describe "export list filename" do
       before :each do
         @password = 's3cr3t'
         @session = fake_field_worker_login
@@ -253,48 +253,66 @@ describe TracingRequestsController, :type => :controller do
         @tracing_request2 = TracingRequest.new(:id => "2", :unique_identifier=> "unique_identifier-2")
       end
 
-      it "should use the file name provided by the user" do
-        TracingRequest.stub :list_records => double(:results => [ @tracing_request1, @tracing_request2 ], :total => 2)
-        #This is the file name provided by the user and should be sent as parameter.
-        custom_export_file_name = "user file name"
-        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{custom_export_file_name}.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        params = {:format => :csv, :password => @password, :custom_export_file_name => custom_export_file_name}
-        get :index, params: params
+      context 'when there are multiple records' do
+        before do
+          TracingRequest.stub :list_records => double(:results => [ @tracing_request1, @tracing_request2 ], :total => 2)
+        end
+
+        it 'exports records' do
+          get :index, format: :csv
+          expect(response.header['Content-Type']).to include 'application/zip'
+        end
+
+        context 'when the file name is provided' do
+          before do
+            @custom_export_file_name = "user_file_name"
+          end
+
+          it 'exports using the file name provided' do
+            get :index, params: {password: @password, custom_export_file_name: @custom_export_file_name}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@custom_export_file_name}.csv.zip")
+          end
+        end
+
+        context 'when the file name is not provided' do
+          it 'uses the user_name and model_name to create the file name' do
+            get :index, params: {password: @password}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@session.user.user_name}-tracing_request.csv.zip")
+          end
+        end
       end
 
-      it "should use the user_name and model_name to get the file name" do
-        TracingRequest.stub :list_records => double(:results => [ @tracing_request1, @tracing_request2 ], :total => 2)
-        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@session.user.user_name}-tracing_request.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        params = {:format => :csv, :password => @password}
-        get :index, params: params
-      end
+      context 'when there is only 1 record' do
+        before do
+          TracingRequest.stub :list_records => double(:results => [ @tracing_request1 ], :total => 1)
+        end
 
-      it "should use the unique_identifier to get the file name" do
-        TracingRequest.stub :list_records => double(:results => [ @tracing_request1 ], :total => 1)
-        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @tracing_request1 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@tracing_request1.unique_identifier}.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        params = {:format => :csv, :password => @password}
-        get :index, params: params
+        it 'exports records' do
+          get :index, format: :csv
+          expect(response.header['Content-Type']).to include 'application/zip'
+        end
+
+        context 'when the file name is provided' do
+          before do
+            @custom_export_file_name = "user_file_name"
+          end
+
+          it 'exports using the file name provided' do
+            get :index, params: {password: @password, custom_export_file_name: @custom_export_file_name}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@custom_export_file_name}.csv.zip")
+          end
+        end
+
+        context 'when the file name is not provided' do
+          it 'uses the unique_identifier to create the file name' do
+            get :index, params: {password: @password}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@tracing_request1.unique_identifier}.csv.zip")
+          end
+        end
       end
     end
 
@@ -660,74 +678,39 @@ describe TracingRequestsController, :type => :controller do
     get :index, params: { :format => :mock }
   end
 
-  it 'should export tracing request using #respond_to_export' do
-    tracing_request = build :tracing_request
-    controller.stub :render => true
-    controller.should_receive(:YAY).and_return(true)
-
-    controller.should_receive(:respond_to_export) { |format, tracing_requests|
-      format.mock { controller.send :YAY }
-      tracing_requests.should == [ tracing_request ]
-    }
-
-    get :show, params: { :id => tracing_request.id, :format => :mock }
-  end
-
   describe '#respond_to_export' do
     before :each do
       @tracing_request1 = build :tracing_request
       @tracing_request2 = build :tracing_request
       controller.stub :paginated_collection => [ @tracing_request1, @tracing_request2 ], :render => true
-      TracingRequest.stub :list_records => double(:results => [@child1, @child2 ], :total => 2)
+      TracingRequest.stub :list_records => double(:results => [@tracing_request1, @tracing_request2 ], :total => 2)
     end
 
-    xit "should handle full PDF" do
-      Addons::PdfExportTask.any_instance.should_receive(:export).with([ @tracing_request1, @tracing_request2 ]).and_return('data')
-      get :index, params: { :format => :pdf }
+    context 'show' do
+      it 'exports 1 record' do
+        get :show, params: {id: @tracing_request1.id}, format: :csv
+        expect(response.header['Content-Type']).to include 'application/zip'
+        expect(response.header['Content-Disposition']).to include "#{@tracing_request1.unique_identifier}.csv.zip"
+      end
     end
 
-    xit "should handle Photowall PDF" do
-      Addons::PhotowallExportTask.any_instance.should_receive(:export).with([ @tracing_request1, @tracing_request2 ]).and_return('data')
-      get :index, params: { :format => :photowall }
+    context 'index' do
+      it "should handle CSV" do
+        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
+        get :index, format: :csv
+      end
+
+      it "should encrypt result" do
+        password = 's3cr3t'
+        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
+        # controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_return("test_filename")
+        # controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', password).and_return(true)
+        get :index, params: {password: password, custom_export_file_name: 'test_filename'}, format: :csv
+        #TODO - what else to test?
+        expect(response.header['Content-Type']).to include 'application/zip'
+        expect(response.header['Content-Disposition']).to include "test_filename.csv.zip"
+      end
     end
-
-    xit "should handle CSV" do
-      Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything).and_return('data')
-      get :index, params: { :format => :csv }
-    end
-
-    xit "should encrypt result" do
-      Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything).and_return('data')
-      controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_return("test_filename")
-      controller.should_receive(:encrypt_exported_files).with('data', 'test_filename').and_return(true)
-      get :index, params: { :format => :csv }
-    end
-
-    xit "should create a log_entry when record is exported" do
-      fake_login User.new(:user_name => 'fakeuser', :organization => "STC", :role_ids => ["abcd"])
-      @controller.stub(:authorize!)
-      RapidftrAddonCpims::ExportTask.any_instance.should_receive(:export).with([ @tracing_request1, @tracing_request2 ]).and_return('data')
-
-      LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organization => "STC", :tracing_request_ids => [@tracing_request1.id, @tracing_request2.id]
-
-      get :index, params: { :format => :cpims }
-    end
-
-    xit "should generate filename based on tracing request ID and addon ID when there is only one tracing request" do
-      @tracing_request1.stub :short_id => 'test_short_id'
-      controller.send(:export_filename, [ @tracing_request1 ], Addons::PhotowallExportTask).should == "test_short_id_photowall.zip"
-    end
-
-    xit "should generate filename based on username and addon ID when there are multiple tracing requests" do
-      controller.stub :current_user_name => 'test_user'
-      controller.send(:export_filename, [ @tracing_request1, @tracing_request2 ], Addons::PdfExportTask).should == "test_user_pdf.zip"
-    end
-
-    xit "should handle CSV" do
-      Exporters::CSVExporter.any_instance.should_receive(:export).with([ @tracing_request1, @tracing_request2 ]).and_return('data')
-      get :index, params: { :format => :csv }
-    end
-
   end
 
   describe "PUT select_primary_photo" do
