@@ -71,7 +71,7 @@
     <!-- *** This fieldType is used by Sunspot! *** -->
     <fieldType name="boolean" class="solr.BoolField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
-    <fieldType name="date" class="solr.DateField" omitNorms="true"/>
+    <fieldType name="date" class="solr.TrieDateField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
     <fieldType name="sdouble" class="solr.SortableDoubleField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
