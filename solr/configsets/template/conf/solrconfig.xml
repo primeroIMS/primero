@@ -459,7 +459,7 @@
        </lst>
   </requestHandler>
 
-  <requestHandler name="/update/csv" class="solr.CSVRequestHandler">
+  <requestHandler name="/update/csv" class="solr.UpdateRequestHandler">
         <lst name="defaults">
          <str name="stream.contentType">application/csv</str>
        </lst>
