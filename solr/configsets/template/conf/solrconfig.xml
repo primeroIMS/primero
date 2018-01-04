@@ -453,7 +453,7 @@
   <requestHandler name="/update" class="solr.UpdateRequestHandler">
   </requestHandler>
 
-  <requestHandler name="/update/json" class="solr.JsonUpdateRequestHandler">
+  <requestHandler name="/update/json" class="solr.UpdateRequestHandler">
         <lst name="defaults">
          <str name="stream.contentType">application/json</str>
        </lst>
