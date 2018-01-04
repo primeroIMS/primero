@@ -1,4 +1,9 @@
 
+# Install the unzip package
+package "unzip" do
+  action :install
+end
+
 group node[:primero][:solr_group] do
   system true
 end
@@ -35,7 +40,8 @@ solr_memory = node[:primero][:solr_memory]
 memory_param = solr_memory ? "-Xmx#{solr_memory}" : ""
 
 supervisor_service 'solr' do
-  command "java #{memory_param} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar"
+  # command "java #{memory_param} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar"
+  command "bin/solr start -f -p 8983 -s /srv/primero/application/solr"
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
