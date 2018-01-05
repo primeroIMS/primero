@@ -39,9 +39,11 @@ end
 solr_memory = node[:primero][:solr_memory]
 memory_param = solr_memory ? "-Xmx#{solr_memory}" : ""
 
+solr_bin_dir = "#{node[:primero][:home_dir]}/.rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/gems/sunspot_solr-2.2.7/solr/bin"
+
 supervisor_service 'solr' do
   # command "java #{memory_param} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar"
-  command "./solr start -f -p 8983 -s /srv/primero/application/solr"
+  command "#{solr_bin_dir}/solr start -f -p 8983 -s /srv/primero/application/solr"
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
@@ -56,7 +58,7 @@ supervisor_service 'solr' do
   user node[:primero][:solr_user]
   # TODO: figure out how to make this more dynamic so we aren't hardcoding the
   # sunspot_solr gem dir.  That, or install solr outside of gems
-  directory "#{node[:primero][:home_dir]}/.rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/gems/sunspot_solr-2.2.7/solr/bin/"
+  directory solr_bin_dir
   numprocs 1
   action [:enable, :restart]
 end
