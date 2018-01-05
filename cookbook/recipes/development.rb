@@ -92,26 +92,24 @@ template '/home/vagrant/primero/config/sunspot.yml' do
   group 'vagrant'
 end
 
-
-execute 'setup development solr cores' do
-  ['development', 'uat'].each do |core_name|
-    core_dir = File.join(node[:primero][:solr_core_dir], core_name)
-    directory core_dir do
-      action :create
-      mode '0700'
-      owner node[:primero][:solr_user]
-      group node[:primero][:solr_group]
-    end
-    template File.join(core_dir, 'core.properties') do
-      source "core.properties.erb"
-      variables({
-        :data_dir => File.join(node[:primero][:solr_data_dir], core_name)
-      })
-      owner node[:primero][:solr_user]
-      group node[:primero][:solr_group]
-    end
+['development', 'uat'].each do |core_name|
+  core_dir = File.join(node[:primero][:solr_core_dir], core_name)
+  directory core_dir do
+    action :create
+    mode '0700'
+    owner node[:primero][:solr_user]
+    group node[:primero][:solr_group]
+    only_if { ::File.exists?(node[:primero][:solr_core_dir])}
   end
-  only_if { ::File.exists?(node[:primero][:solr_core_dir])}
+  template File.join(core_dir, 'core.properties') do
+    source "core.properties.erb"
+    variables({
+      :data_dir => File.join(node[:primero][:solr_data_dir], core_name)
+    })
+    owner node[:primero][:solr_user]
+    group node[:primero][:solr_group]
+    only_if { ::File.exists?(core_dir)}
+  end
 end
 
 directory '/home/vagrant/primero/log' do
