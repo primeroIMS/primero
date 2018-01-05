@@ -92,7 +92,7 @@ template '/home/vagrant/primero/config/sunspot.yml' do
   group 'vagrant'
 end
 
-['development', 'uat'].each do |core_name|
+['development', 'test'].each do |core_name|
   core_dir = File.join(node[:primero][:solr_core_dir], core_name)
   directory core_dir do
     action :create
