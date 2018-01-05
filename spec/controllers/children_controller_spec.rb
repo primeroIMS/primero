@@ -721,6 +721,7 @@ describe ChildrenController, :type => :controller do
     it 'logs a veiw message' do
       child = build :child, :unique_identifier => "1234"
       controller.stub :render
+      allow(Rails.logger).to receive(:info)
       expect(Rails.logger).to receive(:info).with("Viewing case '#{child.case_id_display}' by user '#{@user.user_name}'")
       get :show, params: {id: child.id}
     end
@@ -764,6 +765,7 @@ describe ChildrenController, :type => :controller do
     it 'logs an edit message' do
       child = build :child, :unique_identifier => "1234"
       controller.stub :render
+      allow(Rails.logger).to receive(:info)
       expect(Rails.logger).to receive(:info).with("Editing case '#{child.case_id_display}' by user '#{@user.user_name}'")
       get :edit, params: {id: child.id}
     end
@@ -865,6 +867,7 @@ describe ChildrenController, :type => :controller do
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_child)
       Child.stub(:get).and_return(child)
+      allow(Rails.logger).to receive(:info)
       expect(Rails.logger).to receive(:info).with("Updating case '#{child.case_id_display}' by user '#{@user.user_name}'")
       put :update, params: {id: '1', child: params_child}
     end
@@ -1184,6 +1187,7 @@ describe ChildrenController, :type => :controller do
     it 'logs a create message' do
       child = build :child, :unique_identifier => "1234"
       new_name = 'Juan Lopez'
+      allow(Rails.logger).to receive(:info)
       expect(Rails.logger).to receive(:info).with("Creating case by user '#{@user.user_name}'")
       post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
     end

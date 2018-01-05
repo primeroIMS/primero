@@ -16,7 +16,7 @@ gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
 gem 'prawn-table',    '~> 0.2.2'
-gem 'rails',          '5.0.6'
+gem 'rails',          '5.1.4'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
 gem 'dynamic_form',   '~> 1.1.4'
@@ -31,7 +31,6 @@ gem 'will_paginate',  '~> 3.1.0'
 gem 'i18n-js',        '~> 3.0.1'
 gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 1.0.0'
-gem 'thin',           '~> 1.7.2', :platforms => :ruby, :require => false
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
 gem 'zipruby-compat', :require => 'zipruby', :git => 'https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git', :tag => 'v0.3.7'
@@ -91,6 +90,7 @@ group :development do
 end
 
 group :test, :cucumber, :development do
+  gem 'puma', '~> 3.7'
   gem 'pry'
   gem 'pry-byebug'
   gem 'sunspot_test', require: false
@@ -116,6 +116,12 @@ group :test, :cucumber do
   gem 'ci_reporter'
   gem 'pdf-inspector', :require => 'pdf/inspector'
   gem 'rack_session_access'
+
+  # This is a temp thing. There is a recent (DEC 2017) bug in rack-test.
+  # Should be able to just remove after a patch is released.
+  # https://github.com/rack-test/rack-test/issues/211
+  # https://github.com/rack-test/rack-test/pull/215
+  gem 'rack-test', github: 'rack-test', branch: 'fix/uploaded-file-regression-v2'
 end
 
 #TODO: Does this get installed?

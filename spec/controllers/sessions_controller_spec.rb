@@ -31,6 +31,7 @@ describe SessionsController do
       case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::WRITE, Permission::CREATE])
       Role.create(id: 'tester', name: 'tester', permissions_list: [case_permission], group_permission: Permission::GROUP)
       @user = User.new(:user_name => 'test_user', :role_ids => ['tester'])
+      allow(Rails.logger).to receive(:info)
     end
 
     it "logs a Login message" do
