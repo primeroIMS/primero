@@ -72,7 +72,7 @@ end
 template '/home/vagrant/primero/config/sunspot.yml' do
   source "sunspot.yml.erb"
   variables({
-    :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
+    :environments => [ 'development', 'test', 'production' ],
     :hostnames => {'development' => 'localhost',
                    'test' => 'localhost',
                    'production' => node[:primero][:solr_hostname]},
@@ -90,6 +90,17 @@ template '/home/vagrant/primero/config/sunspot.yml' do
   })
   owner 'vagrant'
   group 'vagrant'
+end
+
+['development', 'uat'].each do |core_name|
+  template File.join(node[:primero][:solr_core_dir], core_name, 'core.properties') do
+    source "core.properties.erb"
+    variables({
+      :data_dir => File.join(node[:primero][:solr_data_dir], core_name)
+    })
+    owner 'solr'
+    group 'solr'
+  end
 end
 
 directory '/home/vagrant/primero/log' do

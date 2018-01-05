@@ -39,6 +39,17 @@ end
 solr_memory = node[:primero][:solr_memory]
 memory_param = solr_memory ? "-Xmx#{solr_memory}" : ""
 
+['production'].each do |core_name|
+  template File.join(node[:primero][:solr_core_dir], core_name, 'core.properties') do
+    source "core.properties.erb"
+    variables({
+      :data_dir => File.join(node[:primero][:solr_data_dir], core_name)
+    })
+    owner 'solr'
+    group 'solr'
+  end
+end
+
 solr_bin_dir = "#{node[:primero][:home_dir]}/.rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/gems/sunspot_solr-2.2.7/solr/bin"
 
 supervisor_service 'solr' do
