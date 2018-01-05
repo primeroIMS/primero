@@ -41,7 +41,8 @@ memory_param = solr_memory ? "-Xmx#{solr_memory}" : ""
 
 supervisor_service 'solr' do
   # command "java #{memory_param} -Djetty.port=8983 -Dsolr.data.dir=#{node[:primero][:solr_data_dir]}/production -Dsolr.solr.home=#{node[:primero][:app_dir]}/solr -Djava.awt.headless=true -jar start.jar"
-  command "./solr start -f -p 8983 -s /srv/primero/application/solr"
+  # command "./solr start -f -p 8983 -s /srv/primero/application/solr"
+  command "echo 'HELLO WORLD!!!!!!!'"
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true
