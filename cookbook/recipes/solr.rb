@@ -31,6 +31,13 @@ directory node[:primero][:solr_data_dir] do
   group node[:primero][:solr_group]
 end
 
+directory node[:primero][:solr_core_dir] do
+  action :create
+  mode '0700'
+  owner node[:primero][:solr_user]
+  group node[:primero][:solr_group]
+end
+
 execute 'change solr owner' do
   command "chown #{node[:primero][:solr_user]}.#{node[:primero][:solr_group]} -R #{node[:primero][:solr_data_dir]}"
   only_if { ::File.exists?(node[:primero][:solr_data_dir])}
@@ -40,13 +47,20 @@ solr_memory = node[:primero][:solr_memory]
 memory_param = solr_memory ? "-Xmx#{solr_memory}" : ""
 
 ['production'].each do |core_name|
-  template File.join(node[:primero][:solr_core_dir], core_name, 'core.properties') do
+  core_dir = File.join(node[:primero][:solr_core_dir], core_name)
+  directory core_dir do
+    action :create
+    mode '0700'
+    owner node[:primero][:solr_user]
+    group node[:primero][:solr_group]
+  end
+  template File.join(core_dir, 'core.properties') do
     source "core.properties.erb"
     variables({
       :data_dir => File.join(node[:primero][:solr_data_dir], core_name)
     })
-    owner 'solr'
-    group 'solr'
+    owner node[:primero][:solr_user]
+    group node[:primero][:solr_group]
   end
 end
 
