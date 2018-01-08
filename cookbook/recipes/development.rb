@@ -112,6 +112,11 @@ end
   end
 end
 
+execute 'Restart Solr' do
+  command 'supervisorctl restart solr'
+  only_if { ::File.exists?(node[:primero][:solr_core_dir])}
+end
+
 directory '/home/vagrant/primero/log' do
   action :create
   owner 'vagrant'
