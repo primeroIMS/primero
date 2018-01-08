@@ -29,6 +29,7 @@ describe LoggerActions, type: :controller do
     @user = User.new(:user_name => 'test_user', :role_ids => ['tester'])
     @session = fake_login @user
     controller.stub :render
+    allow(Rails.logger).to receive(:info)
   end
 
   it 'logs a veiw message' do
