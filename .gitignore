@@ -56,7 +56,9 @@ capybara_features/reports/
 .ruby-gemset
 solr/data
 solr/pids
+solr/development
 solr/default
+solr/test
 jmeter/logs/
 jmeter/*.log
 jmeter/*.csv
