@@ -244,7 +244,7 @@ class Report < CouchRest::Model::Base
 
         if k == 'date'
           dates = parse_filter_dates(filter.first, filter.last)
-          attribute = self.record_type == 'case' && k == 'date' ? 'registration_date' : 'incident_date'
+          attribute = self.record_type == 'case' && k == 'date' ? 'registration_date' : 'date_of_incident'
           self.filters.reject!{|s| s['attribute'] == attribute}
           filters << { "attribute" => attribute , "value" => dates}
         end
