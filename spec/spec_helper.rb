@@ -86,6 +86,10 @@ RSpec.configure do |config|
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = true
 
+  config.formatter = :progress
+
+  config.infer_spec_type_from_file_location!
+
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
@@ -106,13 +110,13 @@ RSpec.configure do |config|
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
 
-  config.before(:each) do
+  config.before(:each) do |example|
     unless example.metadata[:search]
       ::Sunspot.session = ::Sunspot::Rails::StubSessionProxy.new(::Sunspot.session)
     end
   end
 
-  config.after(:each) do
+  config.after(:each) do |example|
     unless example.metadata[:search]
       ::Sunspot.session = ::Sunspot.session.original_session
     end

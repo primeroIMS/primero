@@ -1,5 +1,5 @@
 require 'fiber'
-require 'spec_helper'
+require 'rails_helper'
 
 # TODO: Abstract all of the EventMachine and async stuff so that these tests
 # are cleaner

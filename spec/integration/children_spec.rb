@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'support/couchdb_client_helper'
 
 describe Child do
@@ -14,7 +14,7 @@ describe Child do
         "age" => "28",
         "last_known_location" => "London",
         "photo" => photo})
-    child.save.should be_true
+    child.save.should be_truthy
   end
 
   it "should load an existing child record from the database" do

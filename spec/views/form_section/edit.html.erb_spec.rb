@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'nokogiri'
 
 describe "form_section/edit.html.erb" do

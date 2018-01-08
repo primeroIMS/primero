@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe GBVDerivedFields do
 
@@ -112,7 +112,7 @@ describe GBVDerivedFields do
                   }),
         #### subform
         Field.new({"name" => "gbv_reported_elsewhere_subform",
-                   "type" => "subform", 
+                   "type" => "subform",
                    "editable" => true,
                    "subform_section_id" => gbv_reported_elsewhere_subform.unique_id,
                    "display_name_all" => "If yes, where?"
@@ -201,7 +201,7 @@ describe GBVDerivedFields do
     it_behaves_like "GBV Calculated/Derived fields", "gbv_disability" do
       let(:expected_values) { {"gbv_disability" => "Disability"} }
       let(:incident_gbv) { Incident.new(:module_id => "primeromodule-gbv", :disability_type => "Mental Disability") }
-    end 
+    end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_disability" do
       let(:expected_values) { {"gbv_disability" => "Disability"} }
       let(:incident_gbv) { Incident.new(:module_id => "primeromodule-gbv", :disability_type => "Physical Disability") }
@@ -339,7 +339,7 @@ describe GBVDerivedFields do
 
     it_behaves_like "GBV Calculated/Derived fields", "gbv_intimate_partner_violence" do
       let(:expected_values) { {"gbv_intimate_partner_violence" => nil} }
-      let(:incident_gbv) { 
+      let(:incident_gbv) {
         Incident.new(:module_id => "primeromodule-gbv",
                      :gbv_sexual_violence_type => "Rape",
                      :alleged_perpetrator => [
@@ -351,7 +351,7 @@ describe GBVDerivedFields do
     end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_intimate_partner_violence" do
       let(:expected_values) { {"gbv_intimate_partner_violence" => "Intimate Partner Violence"} }
-      let(:incident_gbv) { 
+      let(:incident_gbv) {
         Incident.new(:module_id => "primeromodule-gbv",
                      :gbv_sexual_violence_type => "Rape",
                      :alleged_perpetrator => [
@@ -363,7 +363,7 @@ describe GBVDerivedFields do
     end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_intimate_partner_violence" do
       let(:expected_values) { {"gbv_intimate_partner_violence" => nil} }
-      let(:incident_gbv) { 
+      let(:incident_gbv) {
         Incident.new(:module_id => "primeromodule-gbv",
                      :gbv_sexual_violence_type => "Non-GBV",
                      :alleged_perpetrator => [
@@ -375,7 +375,7 @@ describe GBVDerivedFields do
     end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_intimate_partner_violence" do
       let(:expected_values) { {"gbv_intimate_partner_violence" => nil} }
-      let(:incident_gbv) { 
+      let(:incident_gbv) {
         Incident.new(:module_id => "primeromodule-gbv",
                      :gbv_sexual_violence_type => "Rape",
                      :alleged_perpetrator => []
@@ -385,7 +385,7 @@ describe GBVDerivedFields do
 
     it_behaves_like "GBV Calculated/Derived fields", "gbv_excluded_from_statistics" do
       let(:expected_values) { {"gbv_excluded_from_statistics" => "Exclude"} }
-      let(:incident_gbv) { 
+      let(:incident_gbv) {
         Incident.new(:module_id => "primeromodule-gbv",
                      :gbv_reported_elsewhere_subform => [
                        { :gbv_reported_elsewhere_reporting => "No" },
@@ -396,7 +396,7 @@ describe GBVDerivedFields do
     end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_excluded_from_statistics" do
       let(:expected_values) { {"gbv_excluded_from_statistics" => "Include"} }
-      let(:incident_gbv) { 
+      let(:incident_gbv) {
         Incident.new(:module_id => "primeromodule-gbv",
                      :gbv_reported_elsewhere_subform => [
                        { :gbv_reported_elsewhere_reporting => "No" },
@@ -407,7 +407,7 @@ describe GBVDerivedFields do
     end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_excluded_from_statistics" do
       let(:expected_values) { {"gbv_excluded_from_statistics" => nil} }
-      let(:incident_gbv) { 
+      let(:incident_gbv) {
         Incident.new(:module_id => "primeromodule-gbv",
                      :gbv_reported_elsewhere_subform => []
                     )
@@ -432,40 +432,40 @@ describe GBVDerivedFields do
     end
 
     it_behaves_like "GBV Calculated/Derived fields", "gbv_age_group_at_time_of_incident, gbv_adult_or_child_at_time_of_incident, gbv_age_at_time_of_incident, gbv_child_sexual_abuse, gbv_early_marriage" do
-      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "0-11", 
-                          "gbv_adult_or_child_at_time_of_incident" => "Child", 
+      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "0-11",
+                          "gbv_adult_or_child_at_time_of_incident" => "Child",
                           "gbv_age_at_time_of_incident" => 7,
                           "gbv_child_sexual_abuse" => "Child Sexual Abuse",
                           "gbv_early_marriage" => nil} }
       let(:incident_gbv) {  Incident.new(:module_id => "primeromodule-gbv", :age => 7, :gbv_sexual_violence_type => "Rape") }
     end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_age_group_at_time_of_incident, gbv_adult_or_child_at_time_of_incident, gbv_age_at_time_of_incident, gbv_child_sexual_abuse, gbv_early_marriage" do
-      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "0-11", 
-                          "gbv_adult_or_child_at_time_of_incident" => "Child", 
+      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "0-11",
+                          "gbv_adult_or_child_at_time_of_incident" => "Child",
                           "gbv_age_at_time_of_incident" => 7,
                           "gbv_child_sexual_abuse" => "Child Sexual Abuse",
                           "gbv_early_marriage" => nil} }
       let(:incident_gbv) {  Incident.new(:module_id => "primeromodule-gbv", :age => 7, :gbv_sexual_violence_type => "Sexual Assault") }
     end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_age_group_at_time_of_incident, gbv_adult_or_child_at_time_of_incident, gbv_age_at_time_of_incident, gbv_child_sexual_abuse, gbv_early_marriage" do
-      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "0-11", 
-                          "gbv_adult_or_child_at_time_of_incident" => "Child", 
+      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "0-11",
+                          "gbv_adult_or_child_at_time_of_incident" => "Child",
                           "gbv_age_at_time_of_incident" => 7,
                           "gbv_child_sexual_abuse" => nil,
                           "gbv_early_marriage" => nil} }
       let(:incident_gbv) {  Incident.new(:module_id => "primeromodule-gbv", :age => 7, :gbv_sexual_violence_type => "Any Value") }
     end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_age_group_at_time_of_incident, gbv_adult_or_child_at_time_of_incident, gbv_age_at_time_of_incident, gbv_child_sexual_abuse, gbv_early_marriage" do
-      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "0-11", 
-                          "gbv_adult_or_child_at_time_of_incident" => "Child", 
+      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "0-11",
+                          "gbv_adult_or_child_at_time_of_incident" => "Child",
                           "gbv_age_at_time_of_incident" => 7,
                           "gbv_child_sexual_abuse" => nil,
                           "gbv_early_marriage" => "Early Marriage"} }
       let(:incident_gbv) {  Incident.new(:module_id => "primeromodule-gbv", :age => 7, :gbv_sexual_violence_type => "Forced Marriage") }
     end
     it_behaves_like "GBV Calculated/Derived fields", "gbv_age_group_at_time_of_incident, gbv_adult_or_child_at_time_of_incident, gbv_age_at_time_of_incident, gbv_child_sexual_abuse, gbv_early_marriage" do
-      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "Age 18 and over", 
-                          "gbv_adult_or_child_at_time_of_incident" => "Adult", 
+      let(:expected_values) { {"gbv_age_group_at_time_of_incident" => "Age 18 and over",
+                          "gbv_adult_or_child_at_time_of_incident" => "Adult",
                           "gbv_age_at_time_of_incident" => 19,
                           "gbv_child_sexual_abuse" => nil,
                           "gbv_early_marriage" => nil} }

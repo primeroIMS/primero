@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe FormSection do
   before :each do
@@ -305,7 +305,7 @@ describe FormSection do
     end
 
     it "should create new form with default mobile_form value false" do
-      expect(@form_section_a.mobile_form).to be_false
+      expect(@form_section_a.mobile_form).to be_falsey
     end
 
     it "should find all mobile case forms" do
@@ -421,7 +421,7 @@ describe FormSection do
 
     it "should be editable by default" do
       formsection = FormSection.new
-      formsection.editable?.should be_true
+      formsection.editable?.should be_truthy
     end
 
   end
@@ -429,39 +429,39 @@ describe FormSection do
   describe "perm_visible" do
     it "should not be perm_enabled by default" do
       formsection = FormSection.new
-      formsection.perm_visible?.should be_false
+      formsection.perm_visible?.should be_falsey
     end
 
     it "should be perm_visible when set" do
       formsection = FormSection.new(:perm_visible => true)
-      formsection.perm_visible?.should be_true
+      formsection.perm_visible?.should be_truthy
     end
   end
 
   describe "fixed_order" do
     it "should not be fixed)order by default" do
       formsection = FormSection.new
-      formsection.fixed_order?.should be_false
+      formsection.fixed_order?.should be_falsey
     end
 
     it "should be fixed_order when set" do
       formsection = FormSection.new(:fixed_order => true)
-      formsection.fixed_order?.should be_true
+      formsection.fixed_order?.should be_truthy
     end
   end
 
   describe "perm_enabled" do
     it "should not be perm_enabled by default" do
       formsection = FormSection.new
-      formsection.perm_enabled?.should be_false
+      formsection.perm_enabled?.should be_falsey
     end
 
     it "should be perm_enabled when set" do
       formsection = FormSection.create!(:name => "test", :uniq_id => "test_id", :perm_enabled => true)
-      formsection.perm_enabled?.should be_true
-      formsection.perm_visible?.should be_true
-      formsection.fixed_order?.should be_true
-      formsection.visible?.should be_true
+      formsection.perm_enabled?.should be_truthy
+      formsection.perm_visible?.should be_truthy
+      formsection.fixed_order?.should be_truthy
+      formsection.visible?.should be_truthy
     end
   end
 
@@ -591,7 +591,7 @@ describe FormSection do
         FormSection.stub(:all).and_return([form])
         form.update_field_as_highlighted attrs[:field_name]
         existing_field.highlight_information.order.should == 1
-        existing_field.is_highlighted?.should be_true
+        existing_field.is_highlighted?.should be_truthy
       end
 
       it "should increment order of the field to be highlighted" do
@@ -604,7 +604,7 @@ describe FormSection do
                                :fields => [existing_field, existing_highlighted_field])
         FormSection.stub(:all).and_return([form])
         form.update_field_as_highlighted attrs[:field_name]
-        existing_field.is_highlighted?.should be_true
+        existing_field.is_highlighted?.should be_truthy
         existing_field.highlight_information.order.should == 4
       end
 
@@ -615,7 +615,7 @@ describe FormSection do
                                :fields => [existing_highlighted_field])
         FormSection.stub(:all).and_return([form])
         form.remove_field_as_highlighted existing_highlighted_field.name
-        existing_highlighted_field.is_highlighted?.should be_false
+        existing_highlighted_field.is_highlighted?.should be_falsey
       end
     end
 
@@ -902,7 +902,7 @@ describe FormSection do
         form.save
 
         #Form was not save.
-        form.new_record?.should be_true
+        form.new_record?.should be_truthy
 
         #There is other field with the same on other form section
         #so, we can't change the type.
@@ -934,7 +934,7 @@ describe FormSection do
         })
         subform_section.save
 
-        subform_section.new_record?.should be_false
+        subform_section.new_record?.should be_falsey
 
         expect(subform_section.fields.first.errors.messages[:name]).to eq(nil)
       end
@@ -992,7 +992,7 @@ describe FormSection do
                                    "type" => "textarea",
                                    "display_name_all" => "Field Name 2"
                                   })
-        @form.save.should be_false
+        @form.save.should be_falsey
 
         #There is other field with the same on other form section
         #so, we can't change the type.
@@ -1005,7 +1005,7 @@ describe FormSection do
         field.name = "field_name_1"
 
         #Save the record and check the status
-        @subform_section.save.should be_true
+        @subform_section.save.should be_truthy
 
         expect(@subform_section.fields.first.errors.messages[:name]).to eq(nil)
       end
@@ -1260,13 +1260,13 @@ describe FormSection do
     end
 
     it "identifies a violation form" do
-      expect(@violation.is_violation?).to be_true
-      expect(@other_form.is_violation?).to be_false
+      expect(@violation.is_violation?).to be_truthy
+      expect(@other_form.is_violation?).to be_falsey
     end
 
     it "identifies a violation wrapper" do
-      expect(@wrapper_form.is_violation_wrapper?).to be_true
-      expect(@other_form.is_violation_wrapper?).to be_false
+      expect(@wrapper_form.is_violation_wrapper?).to be_truthy
+      expect(@other_form.is_violation_wrapper?).to be_falsey
     end
 
     after do

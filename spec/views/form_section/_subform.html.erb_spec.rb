@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "_subform.html.erb" do
   before :each do
@@ -123,7 +123,7 @@ describe "_subform.html.erb" do
              :formats => [:html], :handlers => [:erb]
        #The value should not be singularize.
        rendered.should match(/<label class="key" for="subform_section_1">First of the Subforms<\/label>/)
-    
+
        render :partial => 'form_section/field_display_subform',
               :locals =>
                  {

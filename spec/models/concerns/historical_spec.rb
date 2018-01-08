@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 _Child = Class.new(CouchRest::Model::Base) do
   include Historical
@@ -198,7 +198,7 @@ describe Historical do
       @inst.create_attachment(:file => file, :name => 'file.jpg')
 
       @inst.save!
-      @inst.histories[0].changes['_attachments']['to']['file.jpg']['stub'].should be_true
+      @inst.histories[0].changes['_attachments']['to']['file.jpg']['stub'].should be_truthy
     end
   end
 
