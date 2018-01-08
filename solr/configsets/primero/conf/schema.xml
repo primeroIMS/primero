@@ -71,15 +71,15 @@
     <!-- *** This fieldType is used by Sunspot! *** -->
     <fieldType name="boolean" class="solr.BoolField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
-    <fieldType name="date" class="solr.DateField" omitNorms="true"/>
+    <fieldType name="date" class="solr.TrieDateField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
-    <fieldType name="sdouble" class="solr.SortableDoubleField" omitNorms="true"/>
+    <fieldType name="sdouble" class="solr.TrieDoubleField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
-    <fieldType name="sfloat" class="solr.SortableFloatField" omitNorms="true"/>
+    <fieldType name="sfloat" class="solr.TrieFloatField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
-    <fieldType name="sint" class="solr.SortableIntField" omitNorms="true"/>
+    <fieldType name="sint" class="solr.TrieIntField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
-    <fieldType name="slong" class="solr.SortableLongField" omitNorms="true"/>
+    <fieldType name="slong" class="solr.TrieLongField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
     <fieldType name="tint" class="solr.TrieIntField" omitNorms="true"/>
     <!-- *** This fieldType is used by Sunspot! *** -->
@@ -110,7 +110,7 @@
       <analyzer type="index">
         <tokenizer class="solr.KeywordTokenizerFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
-        <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="70" side="front"/>
+        <filter class="solr.EdgeNGramFilterFactory" minGramSize="2" maxGramSize="70"/>
       </analyzer>
       <analyzer type="query">
         <tokenizer class="solr.KeywordTokenizerFactory"/>
