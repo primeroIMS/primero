@@ -65,6 +65,7 @@ default[:primero].tap do |p|
   p[:solr_port] = 8983
   p[:solr_log_level] = 'INFO'
   p[:solr_data_dir] =  File.join(node[:primero][:app_dir], 'solr', 'data')
+  p[:solr_core_dir] = File.join(node[:primero][:app_dir], 'solr', 'cores')
   p[:ruby_version] = '2.4.3'
   p[:ruby_patch] = 'railsexpress'
 

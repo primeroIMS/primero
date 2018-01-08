@@ -78,11 +78,11 @@ describe "incidents/show.html.erb" do
       end
 
       it "should show links to export when user has appropriate permissions" do
-      link = incident_path @incident, :format => :csv, :action => :show, :controller => :incidents, :id => @incident.id, :page => :all, :per_page => :all
-      @user.stub(:has_permission?).with([Permission::READ]).and_return(true)
+        link = incident_path @incident, :format => :csv, :action => :show, :controller => :incidents, :id => @incident.id, :page => :all, :per_page => :all
+        @user.stub(:has_permission?).with([Permission::READ]).and_return(true)
 
-      render :partial => "incidents/show_incident_toolbar", :locals => {:incident => @incident}
-      rendered.should have_xpath("//a[contains(@href, '#{link}')]", :visible => false)
+        render :partial => "incidents/show_incident_toolbar", :locals => {:incident => @incident}
+        rendered.should have_xpath("//a[contains(@href, '#{link}')]", :visible => false)
       end
     end
 
