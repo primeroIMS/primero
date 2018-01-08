@@ -128,9 +128,9 @@ ar:
     change_password: "تغيير كلمة المرور"
     enable_photo_wall: "تفعيل photo wall"
     disable_photo_wall: "تعطيل photo wall"
-    create_incident: "إنشاء حادث"
+    create_incident: "إنشاء حادثة جديدة"
     create_case: "إنشاء حالة"
-    guiding_questions: "أسئلة توجيهية"
+    guiding_questions: "نصوص توجيهية"
     filter_label: "عامل التصفية:"
     filter: "تطبيق عامل التصفية"
     filter_clear: "مسح عوامل التصفية"
@@ -145,7 +145,7 @@ ar:
     bundle_import: "حزمة التكوين"
     bundle_export: "حزمة التكوين"
     transfer: "نقل %{model}"
-    reassign: "تعيين %{model}"
+    reassign: "تعيين/نقل %{model}"
     referral: "إحالة %{model}"
     mark_for_mobile: "وضع علامة للمحمول"
     unmark_for_mobile: "إزالة علامة للمحمول"
@@ -162,6 +162,7 @@ ar:
     done: "تمت"
   placeholders:
     subforms: "انقر فوق زر تعديل لإضافة تفاصيل %{form}"
+    editing_subforms: "اضغط على \"إضافة\" للإضافة معلومات عن %{form}"
   cases:
     label: "الحالات"
     register_new_case: "حالة جديدة"
@@ -194,6 +195,7 @@ ar:
       record_state: "وضع ملف الحالة:"
       photo: "الصورة:"
       photo_label: "هل لديك صورة؟"
+      date: 'تاريخ'
       approvals:
         pending: "المصادقات قيد الانتظار"
         approved: "تم المصادقة عليها"
@@ -215,6 +217,8 @@ ar:
     label: "الأطفال"
     register_new_child: "تسجيل طفل جديد"
     export: "تصدير ملف"
+    selectable_date_options:
+      created_at: 'تاريخ حالة الفتح'
     filter_by:
       label: "تصفية حسب"
       all: "الكل"
@@ -313,21 +317,29 @@ ar:
     edit: "تعديل الحالة"
     mark_child_as_duplicate: "تعليم %{short_id} بعلامة مكرر"
     history_of: "تاريخ %{short_id}"
+  saved_search:
+    filters_tab: "مرشحات"
+  task:
+    id: "المُعرف#"
+    types:
+      case_plan: "خطة الحالة"
   case:
-    create_new_case: "عمل حالة جديدة"
-    enter_id_number: "قم بإدخال رقم تعريف الهوية الشخصية لسجل موجود"
+    create_new_case: "انشاء حالة جديدة"
+    enter_id_number: "قم بإدخال رقم الهوية الشخصية/الوثيقة التعريفية لسجل موجود"
     id_number_required: "مطلوب رقم تعريف الهوية الشخصية"
     id_search_no_results: "لا يوجد متشابه في النظام ل \"%{id}\"، يُرجى عمل سجل جديد."
     id_search_results_html: "ل 1 %{id} 1"
     label: "رقم ملف الحالة"
     workflow:
-      created_on: "تم عملها في"
+      created_on: "تم تسجيل حالة جديدة في"
       on_label: "في"
       in_progress: "جاري"
       new: "جديد"
       closed: "غلق"
       reopened: "إعادة الفتح"
       service_implemented: تطبيق الخدمة
+      services_implemented: تطبيق الخدمة
+      case_plan: "خطة الحالة"
     flagged_by: "تم تمييزه بعلامة بواسطة"
     last_updated: "التحديث الأخير"
     registered_by: "تم تسجيله بواسطة"
@@ -404,11 +416,11 @@ ar:
     edit: "تعديل الحالة"
     mark_child_as_duplicate: "تعليم %{short_id} بعلامة مكرر "
     history_of: "تاريخ %{short_id}"
-    incident_details_separator: "تفاصيل الحادث"
+    incident_details_separator: "تفاصيل الحادثة"
     services_section_separator: "لمحة عامة عن الرد"
   incidents:
     label: "حوادث"
-    register_new_incident: "حادث جديد"
+    register_new_incident: "حادثة جديدة"
     filter_by:
       flag: "مُميز بعلامة:"
       flag_label: "هل كان مُميز بعلامة؟"
@@ -424,15 +436,15 @@ ar:
       girls: "الفتيات"
       unknown: "غير معروف"
       verification_status: "حالة التحقق:"
-      incident_location: "موقع الحادث:"
-      incident_date: "تاريخ الحادث:"
+      incident_location: "موقع الحادثة:"
+      incident_date: "تاريخ الحادثة:"
       unaccompanied_separated_status: "حالة الحماية:"
       armed_force_group_name: "القوات المسلحة أو المجموعة:"
       armed_force_group_type: "القوات المسلحة أو نوع المجموعة:"
       record_state: "حالة التسجيل:"
       interview_date: "تاريخ المقابلة:"
   incident:
-    label: "مُعرف الحادث"
+    label: "مُعرف الحادثة"
     flagged_by: "تم تمييزه بعلامة بواسطة"
     last_updated: "التحديث الأخير"
     registered_by: "تم تسجيله بواسطة"
@@ -461,21 +473,21 @@ ar:
     violation_status_verified: "تم التحقق منه"
     empty_violation: "لإضافة انتهاكات، أضف فئة الانتهاكات إلى نموذج الحوادث لمشاهدة نموذج الانتهاكات المقابل."
     add_violations: "انقر فوق إضافة لإدخال تفاصيل الانتهاكات. "
-    create_incident_cp: "عمل سجل حادثة يمكن الإبلاغ بها؟"
+    create_incident_cp: "توثيق الحالة ليتم عكسها على التقارير"
     link_to_incident: "رابط حادثة"
     messages:
-      update_success: "تم تحديث الحادث %{record_id} بنجاح."
-      creation_success: "تم إنشاء سجل الحادث %{record_id}  بنجاح."
-    view: "عرض الحادث %{short_id}"
-    edit: "تعديل حادث"
+      update_success: "تم تحديث الحادثة %{record_id} بنجاح."
+      creation_success: "تم تسجيل حادثة جديدة %{record_id}  بنجاح."
+    view: "عرض الحادثة %{short_id}"
+    edit: "تعديل الحادثة"
     select: "تحديد "
     id: "المُعرف#"
     survivor_code: "رمز الناجي "
     case_worker_code: "رمز الأخصائي الاجتماعي"
     date_of_interview: "تاريخ المقابلة"
-    date_of_incident: "تاريخ الحادث"
+    date_of_incident: "تاريخ الحادثة"
     violence_type: "نوع العنف"
-    incident_location: "موقع الحادث"
+    incident_location: "موقع الحادثة"
     violations: "الانتهاكات"
     social_worker: "العامل الاجتماعي"
     change_log: "سجل التغيير "
@@ -574,7 +586,7 @@ ar:
     at_label: "لدى"
   pagination:
     zero: "%{model} غير موجود"
-    page_entries_info: Displaying _START_ to _END_ of _TOTAL_ %{model}
+    page_entries_info: عرض _START_ إلى _END_ من _TOTAL_ %{model}
   users:
     unverified: "مستخدمين لم يتم التحقق منهم"
     select_role: "الرجاء تحديد الدور قبل التحقق من المسخدم "
@@ -593,8 +605,8 @@ ar:
       full_name: "الاسم الكامل"
       agency: "مؤسسة"
   roles:
-    label: "الأدوار"
-    list: "لائحة الأدوار"
+    label: "أدوار المستخدم"
+    list: "لائحة أدوار المستخدم"
     sort_by:
       label: "فرز حسب"
       ascending: "تصاعدياً"
@@ -722,7 +734,7 @@ ar:
   user:
     label: "المستخدم"
     full_name: "الاسم الكامل"
-    code: "كود المستخدم"
+    code: "رمز المستخدم "
     history_of: "تاريخ %{user_name} "
     disabled: "مُعطل "
     position: وضع
@@ -755,7 +767,7 @@ ar:
   phone: "الهاتف"
   email: "البريد الإلكتروني"
   organization: "المؤسسة"
-  position: "المنصب"
+  position: "المسمى الوظيفي"
   'false': "لا"
   'true': "نعم"
   mandatory_field: "الحقول المُعلّمة بعلامة تكون إلزاميّة"
@@ -798,12 +810,12 @@ ar:
       read: "قراءة"
       write: "كتابة"
       flag: "تمييز بعلامة"
-      assign: "تعيين "
+      assign: "تعيين/نقل"
       case: "حالة"
-      incident: "حادث"
+      incident: "حادثة"
       tracing_request: "طلب التتبع"
       potential_match: "تشابه محتمل"
-      role: "أدوار"
+      role: "أدوار المستخدم"
       user: "مستخدمون"
       user_group: "مجموعات المستخدمين"
       agency: "مؤسسة"
@@ -815,7 +827,7 @@ ar:
       all: "الوصول لجميع السجلات أو المستخدمين"
       admin_only: "لا توجد سجلات - وظائف المشرف فقط"
       All: "الكل"
-      specific_roles: "الوصول لقائمة الأدوار المحددة"
+      specific_roles: "الوصول لقائمة أدوار المستخدم المحددة"
       consent_override: "تجاوز الموافقة"
       export_list_view_csv: "تصدير ملف عرض قائمة csv"
       export_csv: "تصدير ملف csv"
@@ -829,7 +841,7 @@ ar:
       export_custom: "تصدير ملف مخصص"
       import: "استيراد"
       transfer: "نقل"
-      reassign: "إعادة تعيين "
+      reassign: "إعادة تعيين/نقل"
       referral: "إحالة"
       sync_mobile: "مزامنة مع جهاز المحمول"
       request_approval: "طلب للمصادقة"
@@ -875,7 +887,7 @@ ar:
     record_types:
       case: "حالة"
       child: "حالة"
-      incident: "حادث"
+      incident: "حادثة"
       tracing_request: "طلب التتبع"
       potential_match: "تشابه محتمل"
       violation: "انتهاك"
@@ -949,13 +961,13 @@ ar:
     message: "إذا واجهت أي مشكلات مع RapidFTR، أو تعتقد أنه تم الكشف عن كلمة المرور الخاصة بك، الرجاء الاتصال بمسؤول النظام على الفور."
     field:
       name: "الاسم"
-      position: "المنصب"
+      position: "المسمى الوظيفي"
       organization: "المؤسسة"
       email: "البريد الإلكتروني"
       phone: "الهاتف"
       location: "الموقع"
       other_information: "معلومات أخرى"
-      support_forum: "منتدى الدعم"
+      support_forum: "رابط المساعدة"
     updated: "تم تحديث معلومات الاتصال بنجاح."
     edit_info: "تعديل معلومات جهة الإتصال"
     info_label: "معلومات الاتصال"
@@ -990,8 +1002,8 @@ ar:
     options_or_lookup_warning: "يُرجى إضافة خيارات أواختر بحث. لا تقوم بإدخالهما معا."
     form_name: "اسم النموذج"
     action: "إجراء"
-    remove: "إزالة"
-    subform_remove_message: "هل أنت متأكد أنك تريد إزالة هذا النموذج الفرعي؟"
+    remove: "حذف"
+    subform_remove_message: "هل أنت متأكد من حذف هذا النموذج الفرعي؟"
     text_field: "حقل النص"
     check_box: "خانات اختيار"
     select_box: "حدد القائمة المنسدلة"
@@ -1007,7 +1019,7 @@ ar:
     select_date_validation: "اختر طريقة للتأكد من سلامة التاريخ"
     not_future_date: "ليس تاريخ مستقبلي"
     default_date_validation: "التأكد من صحة التاريخ الافتراضي"
-    date_not_valid: "التاريخ ليس سليم"
+    date_not_valid: "التاريخ غير صحيح"
     future_date_not_valid: "لا يمكن للتاريخ أن يكون تاريخا مستقبليا"
     number_not_valid: "أرجو ادخل بيانات رقمية"
     separator: "فاصل"
@@ -1045,6 +1057,9 @@ ar:
       comments: "ملاحظات"
       date: "تاريخ الملف"
       name: "اسم الملف"
+      current: "هل هذه الوثيقة محدثة؟"
+    audio:
+      current: "التسجيل الحالي"
   replication:
     label: نسخ متماثلة
     index: إدارة النسخ المتماثلة
@@ -1066,6 +1081,7 @@ ar:
     reindex_pending: إعادة الفهرسة معلّقة
     is_continuous: مستمر
   lookup:
+    actions: "أعمال"
     edit: "تعديل البحث"
     create: "بحث جديد"
     label: "بحث"
@@ -1073,8 +1089,9 @@ ar:
     name: "الاسم"
     values: "خيارات"
     add_value: "إضافة خيار"
-    remove: "إزالة"
+    remove: "حذف"
     confirm_delete: هل أنت متأكد أنك تريد حذف هذا البحث؟
+    initial_lang_help_text: "يجب إدخال ذلك في شكل %{lang}."
     messages:
       cannot_create: "لا يمكن إنشاء البحث"
       correct_errors: "الرجاء تصحيح الأخطاء التالية وإعادة الإرسال:"
@@ -1097,6 +1114,16 @@ ar:
       correct_errors: "الرجاء تصحيح الأخطاء التالية وإعادة الإرسال:"
       updated: "تم إضافة الموقع بنجاح"
       deleted: "تم حذف الموقع بنجاح"
+    base_types:
+      country: 'دولة'
+      region: 'منطقة'
+      state: 'ولاية'
+      city: 'مدينة'
+      camp: 'مخيم'
+      site: 'موقع'
+      village: 'قرية'
+      zone: 'منطقة'
+      other: 'أشياء أخرى'
   session:
     about_to_expire: "جلستك الخاصة على وشك الانتهاء!"
     has_expired: "انتهت صلاحية جلسة العمل الخاصة بك. الرجاء إعادة تسجيل الدخول."
@@ -1113,6 +1140,7 @@ ar:
       graph: "مخطّط بياني"
     actions:
       delete: "حذف"
+    limited_pivots: "اختر حقل تاريخ واحد فقط ليرتكز عليه هذا التقرير. يمكن أن يكون حقل التاريخ هو أول أو ثاني مركز."
     messages:
       confirmation: "هل أنت متأكد أنك تريد حذف هذا التقرير؟ لا يمكن التراجع عن الحذف. انقر فوق موافق لحذف التقرير."
   report:
@@ -1214,6 +1242,7 @@ ar:
     quarter_3: "الربع 3"
     quarter_2: "الربع 2"
     quarter_1: "الربع 1"
+    undecided: "لم يتم اتخاذ قرار وقت الإبلاغ"
   followup_reminders:
     system_generated_followup_flag: "زيارة متابعة إلزامية"
     system_generated_followup_unflag: "منتهي الصلاحية"
@@ -1253,6 +1282,9 @@ ar:
     services_implemented: 'تم تقديم الخدمة'
     approved: 'تم المصادقة عليها'
     cases_by_workflow: 'الحالات حسب سريان العمل'
+    case_plan: 'خطة الحالة'
+    follow_up: 'متابعة'
+    services: 'الخدمات'
     admin_only: "اضغط على %{links} لعمل تغييرات على التطبيق."
     forms: "تبويب النماذج"
     users: "أيقونة الإعدادات"
@@ -1272,8 +1304,8 @@ ar:
     name: "الاسم"
     activity: "النشاط"
     date: "التاريخ"
-    incident_id: "معرف #الحادث"
-    incident_location: "موقع الحادث"
+    incident_id: "معرف #الحادثة"
+    incident_location: "موقع الحادثة"
     new_child_assigned_to_you: "حالات جديدة تم التعيين لك"
     new_incident_assigned_to_you: "حوادث جديدة تم التعيين لك"
     recently_flagged_child: "حالات مميزة بعلامة مؤخرًا"
@@ -1291,7 +1323,7 @@ ar:
     total_cases: "إجمالي الحالات"
     cases_this_week: "الحالات هذا الأسبوع"
     missed_cases: "الحالات الفائتة"
-    date_of_incident: "تاريخ الحادث"
+    date_of_incident: "تاريخ الحادثة"
     violence_type: "نوع العنف"
     date_of_interview: "تاريخ المقابلة"
     system_user: "النظام"
@@ -1435,6 +1467,8 @@ ar:
         date_of_birth: "الرجاء إدخال تاريخ ميلاد صالح لسجل الحالة هذه"
         wishes_preferences_count: "مسموح لك فقط %{preferences_count} تفضيلات الطفل."
         value_range: "%{field_name} يجب أن تكون بين %{min} و %{max}"
+        document_type: "النوع %{type} غير صحيح"
+        document_size: "من فضلك قم بتحميل وثيقة حجمها أقل من 2 ميجا بايت."
         documents_count: "مسموح لك فقط %{documents_count} مستندات لكل حالة."
         document_format: "غير مسموح بالملفات القابلة للتنفيذ."
         date_closure: "ينبغي أن يكون تاريخ إغلاق الحالة أكبر من أو يساوي تاريخ فتح الحالة."
@@ -1511,6 +1545,8 @@ ar:
         code_present: "لا يجب أن يكون فارغًا"
         admin_level_present: "لا يجب أن يكون فارغا"
         unique_name: "يوجد موقع يحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
+      report:
+        name_presence: "لا يجب أن يكون الاسم فارغاً"
   select_all_results: "حدد كل النتائج"
   histories:
     of: "من"
@@ -1642,13 +1678,13 @@ ar:
       unknown_type: "الأرشيف يحتوي على ملف واحد أو أكثر من نوع غير معروف"
   referral:
     type_label: "نوع الإحالة"
-    existing_user_label: "مستخدم موجود"
+    existing_user_label: "اسم المستخدم"
     other_user_label: "مستخدم آخر"
     other_user_agency_label: "مؤسسة مستخدم آخر"
     service_label: "خدمة"
     consent_label: "لم توفر السجلات الموافقة."
-    consent_override_label: "هل ترغب في تجاوز هذا الإعداد؟"
-    is_remote_label: "هل تشير إلى النظام البعيد؟"
+    consent_override_label: "هل ترغب في تجاوز تعبئة نموذج الموافقة؟"
+    is_remote_label: "هل ترغب في احالة الحالة لمؤسسة من خارج النظام؟"
     type_of_export: "ما نوع تصدير الملف الذي تريده"
     notes_label: "ملاحظات"
     user_mandatory: "مطلوب ادخال اسم المستخدم"
@@ -1663,20 +1699,21 @@ ar:
     user_local_status_rejected: "رُفضت"
     user_local_status_inprogress: "جاري"
     user_local_status_done: "تم عمله"
-    complete_referral_label: "يُشير الضغط على حسنا إلى انتهائك من\nعمل الإحالة المرتبط بهذه الحالة. بمجرد أن\nتضغط على حسنا لن تستطيع بعد الآن الاطلاع على هذا\nالسجل."
+    complete_referral_label: "يُشير الضغط على موافق إلى انتهائك من الإحالة المرتبط \nبهذه الحالة. بمجرد أن تضغط على موافق لن تستطيع بعد\nالآن الاطلاع على سجل الحالة."
     done_success_message: "تمت عملية الإحالة"
   reassign:
-    reassign_case_title: "تعيين حالة (حالات) ل:"
-    existing_user_label: "مستخدم موجود"
+    reassign_case_title: "تعيين/نقل حالة (حالات) ل:"
+    existing_user_label: "اسم المستخدم"
     user_mandatory: "مطلوب ادخال اسم المستخدم"
+    no_records_selected: "لم يتم تحديد أي سجلات"
     notes_label: "ملاحظات"
   transfer:
     type_label: "نوع النقل"
-    existing_user_label: "مستخدم موجود"
+    existing_user_label: "اسم المستخدم"
     other_user_label: "مستخدم آخر"
     other_user_agency_label: "مؤسسة مستخدم آخر"
     consent_label: "لم توفر السجلات الموافقة."
-    consent_override_label: "هل ترغب في تجاوز هذا الإعداد؟"
+    consent_override_label: "هل ترغب في تجاوز تعبئة نموذج الموافقة؟"
     is_remote_label: "هل تقوم بالنقل إلى نظام بعيد؟"
     type_of_export: "ما نوع تصدير الملف الذي تريده"
     notes_label: "ملاحظات"
@@ -1686,7 +1723,14 @@ ar:
     rejected: "تم رفض عملية النقل ل%{record_type} %{id}"
     failure_batch: "فشل %{failed_count} عملية/عمليات النقل (تحقق من تحديد حقول الموافقة)"
     success_batch: "إجراء %{success_count} عملية/عمليات النقل بنجاح"
+    to_user_local_status_label: "حالة"
     user_local_status_pending: "قيد الانتظار"
+    user_local_status_accepted: "قُبلت"
+    user_local_status_rejected: "مرفوض"
+    user_local_status_inprogress: "جاري"
+    search:
+      rejected: "مرفوض"
+      in_progress: "جاري"
   transition:
     export_type:
       pdf_export: "تصدير ملف PDF"
@@ -1702,23 +1746,29 @@ ar:
     failure_batch: "فشل إزالة علامة %{failed_count} سجل (سجلات) كمحمول"
     success_batch: "إزالة علامة %{success_count} سجل (سجلات) كمحمول بنجاح"
   approvals:
-    approve_care_plan: "طلب مصادقة على نموذج خطة الحالة؟"
+    approve_care_plan: "طلب مصادقة المشرف على نموذج خطة الحالة؟"
     approve_case_plan_label: "المصادقة على خطة الحالة"
-    approve_case_plan: "طلب مصادقة على نموذج خطة الحالة؟"
-    approve_case_plan_with_selectable_type: "طلب مصادقة على خطة الحالة؟"
+    approve_case_plan: "طلب مصادقة المشرف على نموذج خطة الحالة؟"
+    approve_case_plan_with_selectable_type: "طلب مصادقة المشرف على خطة الحالة"
     approve_closure: "طلب مصادقة على نموذج الإغلاق؟"
     approve_closure_label: "نموذج المصادقة على الإغلاق"
     case_plan: "خطة الحالة"
     closure: "اغلاق ملف الحالة"
+    comments_label: "ملاحظات"
     case_plan_type_label: "نوع خطة الحالة:"
     status:
       pending: "قيد الانتظار"
+      approved: "تم المصادقة عليها"
+      rejected: "مرفوض"
   per_page_translation: "لكل صفحة _MENU_"
   total: المجموع
   caregiver: "(مقدم الرعاية)"
   disabled:
+    filter_label: "عرض"
     status:
+      enabled: "مُفعل"
       disabled: "تعطيل"
+      all: "الكل"
       label: "الحالة"
   sort_by:
     label: "ترتيب حسب"
@@ -1753,6 +1803,8 @@ ar:
       bia: "نموذج BIA"
       case_plan: "نموذج خطة الحالة"
       closure: "نموذج إغلاق"
+    mark_for_mobile:
+      'true': "وضع علامة للمحمول"
     record_state:
       'true': "تشغيل"
     graph_data: "عرض بيانات الرسم البياني"
@@ -1772,3 +1824,36 @@ ar:
       server_error: خطأ في الخادم
     not_found:
       something_went_wrong: نأسف, يوجد خطأ.
+      contact_admin: إذا كنت تعتقد إنك جئت إلى هنا بالخطأ يرجى الاتصال بالمشرف.
+      server_error: لم يتم العثور على الصفحة
+  audio:
+    update_browser:
+      title: 'مطلوب تحديث'
+      link_text: "ملحق الضوء"
+  saved_searches:
+    name: "الاسم"
+  will_paginate:
+    previous_label: "&#8592: السابق"
+    next_label: "التالي &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page_html:
+        zero: "غير %{model} موجود"
+        one: "عرض <b>1</b> %{model} "
+        other: "عرض  <b> %{count}</b> %{model} إجمالي"
+      multi_page_html: "عرض %{model} <b>%{from} - %{to}</b> من <b>%{count}</b> إجمالي"
+    models:
+      child:
+        zero: "حالات"
+        one: "حالة"
+        two: "حالات"
+        few: "حالات"
+        many: "حالات"
+        other: "حالات"
+      incident:
+        zero: "حادثات"
+        one: "حادثة"
+        two: "حادثات"
+        few: "حادثات"
+        many: "حادثات"
+        other: "حادثات"

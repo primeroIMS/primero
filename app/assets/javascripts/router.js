@@ -142,6 +142,7 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.HiddenTextField();
       new _primero.Views.TickBoxField();
       new _primero.Views.FileUploadField();
+      new _primero.Views.ToggableField();
       this.initAudio();
       this.subforms();
     }

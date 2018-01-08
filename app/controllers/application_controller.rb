@@ -127,6 +127,18 @@ class ApplicationController < ActionController::Base
     params
   end
 
+  def filter_params_by_permission
+    controller = params['controller'].singularize
+
+    if params[controller].present? && !can?(:remove_assigned_users, model_class)
+      params[controller].delete 'assigned_user_names'
+    end
+  end
+
+  def redirect_back_or_default(default = root_path, options = {})
+    redirect_to (request.referer.present? ? :back : default), options
+  end
+
   class << self
     attr_accessor :model_class
   end

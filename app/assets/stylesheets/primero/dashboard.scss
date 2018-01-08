@@ -226,7 +226,12 @@ $dashboard_table_counts:85px;
       }
 
       .table-floating-header {
-        padding-right: 15px;
+        @if $global-text-direction == rtl {
+          padding-right: 0;
+        }  @else {
+          padding-right: 15px;
+        }
+
         border-bottom: 1px solid $stroke_green_color !important;
 
         thead th {
