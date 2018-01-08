@@ -212,14 +212,13 @@ describe "_subform.html.erb" do
                  :form_group_name => form.form_group_name
                 },
              :formats => [:html], :handlers => [:erb]
-       rendered.should match(/<div class="subforms " id="subform_section_1"  data-form_group_name=form_section_test>/)
-       rendered.should match(/<div id="subform_container_subform_section_1_0" class="subform_container" data-subform_index="0">/)
-       rendered.should match(/<fieldset id="subform_subform_section_1_0" class="subform_section_1 subform no-border">/)
-       #formObject should contains an hash "subform_section_1" which is the field name instead the subform unique_id
-       #With that in mind will generate the next bunch of elements.
-       rendered.should match(/<input id="child_subform_section_1_0_unique_id" name="child\[subform_section_1\]\[0\]\[unique_id\]" type="hidden" value="1" \/>/)
-       rendered.should match(/<label class="key inline" for="nested_subform_section_1_child_subform_section_1_0_field_name_1">Field Name 1<\/label>/)
-       rendered.should match(/<input(.*)name="child\[subform_section_1\]\[0\]\[field_name_1\]" type="text" value="Field Name 1 Test Name" \/>/)
+
+      expect(rendered).to have_selector('div', id: 'subform_section_1')
+      expect(rendered).to have_selector('div', id: 'subform_container_subform_section_1_0')
+      expect(rendered).to have_selector('fieldset', id: 'subform_subform_section_1_0')
+      expect(rendered).to have_selector('input', id: 'nested_subform_section_1_child_subform_section_1_0_field_name_1')
+      expect(rendered).to have_tag("input[type='hidden'][name='child[subform_section_1][0][unique_id]']")
+      rendered.should match(/<label class="key inline" for="nested_subform_section_1_child_subform_section_1_0_field_name_1">Field Name 1<\/label>/)
 
        subform_section = FormSection.get_by_unique_id("nested_subform_section_2")
        render :partial => 'form_section/subform',
@@ -230,14 +229,13 @@ describe "_subform.html.erb" do
                  :form_group_name => form.form_group_name
                 },
              :formats => [:html], :handlers => [:erb]
-       rendered.should match(/<div class="subforms " id="subform_section_2"  data-form_group_name=form_section_test>/)
-       rendered.should match(/<div id="subform_container_subform_section_2_0" class="subform_container" data-subform_index="0">/)
-       rendered.should match(/<fieldset id="subform_subform_section_2_0" class="subform_section_2 subform no-border">/)
-       #formObject should contains an hash "subform_section_2" which is the field name instead the subform unique_id
-       #With that in mind will generate the next bunch of elements.
-       rendered.should match(/<input id="child_subform_section_2_0_unique_id" name="child\[subform_section_2\]\[0\]\[unique_id\]" type="hidden" value="2" \/>/)
-       rendered.should match(/<label class="key inline" for="nested_subform_section_2_child_subform_section_2_0_field_name_2">Field Name 2<\/label>/)
-       rendered.should match(/<input(.*)name="child\[subform_section_2\]\[0\]\[field_name_2\]" type="text" value="Field Name 2 Test Name" \/>/)
+
+      expect(rendered).to have_selector('div', id: 'subform_section_2')
+      expect(rendered).to have_selector('div', id: 'subform_container_subform_section_2_0')
+      expect(rendered).to have_selector('fieldset', id: 'subform_subform_section_2_0')
+      expect(rendered).to have_selector('input', id: 'nested_subform_section_2_child_subform_section_2_0_field_name_2')
+      expect(rendered).to have_tag("input[type='hidden'][name='child[subform_section_2][0][unique_id]']")
+      rendered.should match(/<label class="key inline" for="nested_subform_section_2_child_subform_section_2_0_field_name_2">Field Name 2<\/label>/)
     end
 
   end

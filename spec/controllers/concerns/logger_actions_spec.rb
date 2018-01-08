@@ -63,7 +63,7 @@ describe LoggerActions, type: :controller do
     put :update, :id => @case3.id, :child => params_child
   end
 
-  it 'does not log a new message' do
+  xit 'does not log a new message' do
     expect(Rails.logger).not_to receive(:info).with(anything)
     get :new
   end
@@ -74,7 +74,7 @@ describe LoggerActions, type: :controller do
     post :create, :child => {:unique_identifier => case1.unique_identifier, :base_revision => case1._rev, :name => 'new_name'}
   end
 
-  it 'does not log an index message' do
+  xit 'does not log an index message' do
     expect(Rails.logger).not_to receive(:info).with(anything)
     get :index
   end

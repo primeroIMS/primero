@@ -6,7 +6,7 @@ gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-
 
 gem 'couchrest_model', '~> 2.0.3', :git => "https://github.com/Quoin/couchrest_model.git", :ref => "72b801720ff225e5615db13bdbe9c7b8962ef13e"
 gem 'mime-types',     '1.16'
-gem 'mini_magick',    '1.3.2'
+gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '1.3.3'
 gem 'prawn',          '~> 1.2.1'
 gem 'prawn-table',    '~> 0.1.1'
@@ -88,10 +88,11 @@ group :test, :cucumber do
   gem 'rspec-instafail',  '~> 0.2.4'
   gem 'jasmine',          '~> 1.3.2'
 
-  gem 'capybara',         '~> 2.2.1'
+  gem 'capybara',         '~> 2.16.1'
   gem 'cucumber',           '~> 1.3.11'
   gem 'cucumber-rails',     '~> 1.4.0', :require => false
-  gem 'selenium-webdriver', '~> 2.43.0'
+  gem 'selenium-webdriver', '~> 3.7.0'
+  gem 'capybara-selenium',  '~> 0.0.6'
   gem 'hpricot',            '~> 0.8.6'
   gem "json_spec",          '~> 1.1.1'
   gem 'rubocop'
