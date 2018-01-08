@@ -177,7 +177,7 @@ status = ['open', 'closed']
     secondary_violation_id_field = violation_type_id_fields[type][2]
     if secondary_violation_id_field
       secondary_violation_id_field_value = violation_type_id_fields[type][3][rand(violation_type_id_fields[type][3].size)]
-      violation[secondary_id_field] = secondary_violation_id_field_value
+      violation[secondary_violation_id_field] = secondary_violation_id_field_value
     end
     if violations[type].present?
       violations[type] << violation
