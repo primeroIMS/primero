@@ -120,8 +120,7 @@ feature "show page", search: true do
       end
     end
   end
-# =======
-# feature "show page", search: true do
+
   feature 'actions' do
     before(:all) do
       @role1 = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
@@ -160,7 +159,6 @@ feature "show page", search: true do
 
       within('#menu') do
         expect(page).to have_content "Disable"
-# >>>>>>> maint_1.4
       end
     end
   end
