@@ -48,6 +48,8 @@ describe "children/new.html.erb" do
       })
     @child = Child.new
     assign(:form_sections,[@form_section].group_by{|e| e.form_group_name})
+
+    controller.should_receive(:can?).with(:remove_assigned_users, Child).and_return(false)
   end
 
   it "renders a form that posts to the cases url" do

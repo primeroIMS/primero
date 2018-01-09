@@ -43,8 +43,7 @@ execute 'change solr owner' do
   only_if { ::File.exists?(node[:primero][:solr_data_dir])}
 end
 
-solr_memory = node[:primero][:solr_memory]
-memory_param = solr_memory ? "-Xmx#{solr_memory}" : ""
+
 
 ['production'].each do |core_name|
   core_dir = File.join(node[:primero][:solr_core_dir], core_name)
@@ -64,11 +63,14 @@ memory_param = solr_memory ? "-Xmx#{solr_memory}" : ""
   end
 end
 
+solr_memory = node[:primero][:solr_memory]
+memory_param = solr_memory ? "-m #{solr_memory}" : ""
+
 # TODO: figure out how to make this more dynamic so we aren't hardcoding the
 # sunspot_solr gem dir.  That, or install solr outside of gems
 solr_bin_dir = "#{node[:primero][:home_dir]}/.rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/gems/sunspot_solr-2.2.7/solr/bin"
 supervisor_service 'solr' do
-  command "#{solr_bin_dir}/solr start -f -p 8983 -s /srv/primero/application/solr"
+  command "#{solr_bin_dir}/solr start -f -p 8983 -s /srv/primero/application/solr #{memory_param}"
   environment({'RAILS_ENV' => 'production'})
   autostart true
   autorestart true

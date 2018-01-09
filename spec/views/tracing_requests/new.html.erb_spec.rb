@@ -47,6 +47,9 @@ describe "tracing_requests/new.html.erb" do
         :form_group_name => "Test Group"
       })
     @tracing_request = TracingRequest.new
+
+    controller.should_receive(:can?).with(:remove_assigned_users, TracingRequest).and_return(false)
+
     assign(:form_sections,[@form_section].group_by{|e| e.form_group_name})
   end
 
