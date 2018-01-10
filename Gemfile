@@ -26,7 +26,7 @@ gem 'thin',           '~> 1.6.1', :platforms => :ruby, :require => false
 gem 'request_exception_handler'
 gem 'multi_json',     '~> 1.8.2'
 gem 'addressable',    '~> 2.3.6'
-gem 'rubyzip',        '~> 1.2.1'
+gem 'rubyzip',        '~> 1.2.1', require: 'zip'
 
 gem 'sunspot_rails',  '2.2.0'
 gem 'sunspot_solr',   '2.2.0'

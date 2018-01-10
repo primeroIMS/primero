@@ -84,7 +84,7 @@ class ApplicationController < ActionController::Base
     encrypt = password ? Zip::TraditionalEncrypter.new(password): nil
 
     Zip::OutputStream.open(enc_filename, encrypt) do |out|
-      out.put_next_entry(File.basename(enc_filename))
+      out.put_next_entry(data_filename)
       out.write data
     end
 
