@@ -40,7 +40,7 @@ module ImportActions
   end
 
   def import_zip_file zip_file, password, type
-    ZipRuby::Archive.open(zip_file) do |archive|
+    Zip::File.open(zip_file) do |archive|
       # Try to decrypt the file if the user gives a password to decrypt it
       if password.present?
         if !archive.decrypt(password)
@@ -55,7 +55,7 @@ module ImportActions
           self.rewind
           block.call(self) if block
           return self
-        end 
+        end
         if !import_single_file(temp_file, ext)
           return [false, t('imports.zip_file.unknown_type')]
         end
