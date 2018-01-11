@@ -4,6 +4,10 @@ module Exporters
       def id
         'json'
       end
+
+      def excluded_properties
+        ['crypted_password', 'salt']
+      end
     end
 
     def export(models, properties, *args)
