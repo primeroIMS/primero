@@ -157,6 +157,21 @@ describe ChildrenController do
       end
     end
 
+    describe "import_file" do
+      it 'import zip password protected zip files' do
+        permission_import = Permission.new(resource: Permission::CASE, actions: [Permission::IMPORT])
+        Role.create(id: 'importer', name: 'importer', permissions_list: [permission_import], group_permission: Permission::GROUP)
+
+        @user = User.new(:user_name => 'importing_user', :role_ids => ['importer'])
+        @session = fake_login @user
+
+        post :import_file, import_file: uploadable_zip_file, password: 'password', import_type: 'guess'
+
+        expect(response).to redirect_to action: :index
+        expect(flash[:notice]).to eq I18n.t('imports.successful')
+      end
+    end
+
     describe "export_filename" do
       before :each do
         @password = 's3cr3t'
