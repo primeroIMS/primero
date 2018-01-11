@@ -5,7 +5,7 @@ def project_path(path)
 end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "boxcutter/ubuntu1604"
+  config.vm.box = "bento/ubuntu-16.04"
 
   config.vm.network :forwarded_port, guest: 3000, host: 3000
   config.vm.network :forwarded_port, guest: 3001, host: 3001 # Second server for testing replication

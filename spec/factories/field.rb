@@ -8,6 +8,17 @@ FactoryGirl.define do
     disabled false
   end
 
+  factory :select_field, class: Field, traits: [:model] do
+    type Field::SELECT_BOX
+    name { "select_field_#{counter}" }
+    display_name { "Select Field #{counter}" }
+    visible true
+    editable true
+    disabled false
+    multi_select true
+    option_strings_text_all %W(test1, test2, test3)
+  end
+
   factory :subform_field, class: Field, :traits => [:model] do
     transient do
       fields []
