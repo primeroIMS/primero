@@ -67,6 +67,7 @@ namespace :db do
       file_name = args[:yaml_file]
       if file_name.present?
         puts "Importing form translation from #{file_name}"
+        #TODO extract this code into a re-usable module in the application
         file_hash = YAML.load_file(file_name)
         if file_hash.present? && file_hash.is_a?(Hash)
           locale = file_hash.keys.first
@@ -126,6 +127,7 @@ namespace :db do
       file_name = args[:yaml_file]
       if file_name.present?
         puts "Importing lookup translation from #{file_name}"
+        #TODO extract this code into a re-usable module in the application
         file_hash = YAML.load_file(file_name)
         if file_hash.present? && file_hash.is_a?(Hash)
           locale = file_hash.keys.first
