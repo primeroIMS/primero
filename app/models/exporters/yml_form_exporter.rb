@@ -81,6 +81,7 @@ module Exporters
       else
         Rails.logger.warn {"No FormSections found for #{@primero_module.id}"}
       end
+      export_lookups
     end
 
     def export_form(form_section)
@@ -91,6 +92,23 @@ module Exporters
       file_hash['en'] = form_hash
       @io << file_hash.to_yaml
       complete
+    end
+
+    def export_lookups
+      Rails.logger.info {"Exporting Lookups..."}
+      lookups = Lookup.all.all
+      if lookups.present?
+        Rails.logger.info {"Locale: #{@locale}"}
+        create_file_for_form('lookups')
+        lookup_hash = {}
+        lookups.each {|lkp| lookup_hash[lkp.id] = lkp.localized_property_hash(@locale)}
+        file_hash = {}
+        file_hash['en'] = lookup_hash
+        @io << file_hash.to_yaml
+        complete
+      else
+        Rails.logger.warn {'No Lookups found'}
+      end
     end
   end
 end

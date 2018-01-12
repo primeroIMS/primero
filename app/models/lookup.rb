@@ -56,6 +56,35 @@ class Lookup < CouchRest::Model::Base
       self.get('lookup-location-type')
     end
     memoize_in_prod :get_location_types
+
+    def import_translations(lookups_hash={}, locale)
+      if locale.present? && Primero::Application::locales.include?(locale)
+        lookups_hash.each do |key, value|
+          if key.present?
+            lookup = self.get(key)
+            if lookup.present?
+              lookup.update_translations(value, locale)
+              Rails.logger.info "Updating Lookup translation: Lookup [#{lookup.id}] locale [#{locale}]"
+              lookup.save!
+            else
+              Rails.logger.error "Error importing translations: Lookup for ID [#{key}] not found"
+            end
+          else
+            Rails.logger.error "Error importing translations: Lookup ID not present"
+          end
+        end
+      else
+        Rails.logger.error "Error importing translations: locale not present"
+      end
+    end
+  end
+
+  def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
+    lh = localized_hash(locale)
+    lvh = {}
+    self["lookup_values_#{locale}"].try(:each) {|lv| lvh[lv['id']] = lv['display_text']}
+    lh['lookup_values'] = lvh
+    lh
   end
 
   def sanitize_lookup_values
@@ -113,6 +142,39 @@ class Lookup < CouchRest::Model::Base
             lv[i]['id'] = new_option_id if lv.present?
           }
         end
+      end
+    end
+  end
+
+  def update_translations(lookup_hash={}, locale)
+    if locale.present? && Primero::Application::locales.include?(locale)
+      lookup_hash.each do |key, value|
+        if key == 'lookup_values'
+          update_lookup_values_translations(value, locale)
+        else
+          self.send("#{key}_#{locale}=", value)
+        end
+      end
+    else
+      Rails.logger.error "Lookup translation not updated: Invalid locale [#{locale}]"
+    end
+  end
+
+  private
+
+  def update_lookup_values_translations(lookup_values_hash, locale)
+    if self["lookup_values_#{locale}"].present?
+      lookup_values_hash.each do |key, value|
+        lookup_value = self["lookup_values_#{locale}"].find{|lv| lv['id'] == key}
+        lookup_value['display_text'] = value if lookup_value.present?
+      end
+    else
+      self["lookup_values_#{locale}"] = []
+      lookup_values_hash.each do |key, value|
+        lh = {}
+        lh['id'] = key
+        lh['display_text'] = value
+        self["lookup_values_#{locale}"] << lh
       end
     end
   end
