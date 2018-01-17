@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 module Exporters
   describe UnhcrCSVExporter do

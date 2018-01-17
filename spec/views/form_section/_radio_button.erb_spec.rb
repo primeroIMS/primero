@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "form_section/_radio_button.html.erb" do
   before :each do
@@ -18,11 +18,11 @@ describe "form_section/_radio_button.html.erb" do
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
 
-    rendered.should match(/<input data-field-tags="\[\]" id="formsection_child_new_field_m" is_disabled="false" name="child\[new field\]" type="radio" value="M" \/>/)
-    rendered.should match(/<label for="formsection_child_new_field_m">M<\/label>/)
-    rendered.should match(/<input data-field-tags="\[\]" id="formsection_child_new_field_f" is_disabled="false" name="child\[new field\]" type="radio" value="F" \/>/)
-    rendered.should match(/<label for="formsection_child_new_field_f">F<\/label>/)
-    rendered.should match(/<p class="help">This is my help text<\/p>/)
+    expect(rendered).to have_tag("input[type='radio'][name='child[new field]'][id='formsection_child_new_field_m'][value='M']")
+    expect(rendered).to have_tag("input[type='radio'][name='child[new field]'][id='formsection_child_new_field_f'][value='F']")
+    expect(rendered).to match(/<label for="formsection_child_new_field_m">M<\/label>/)
+    expect(rendered).to match(/<label for="formsection_child_new_field_f">F<\/label>/)
+    expect(rendered).to match(/<p class="help">This is my help text<\/p>/)
   end
 
   #TODO remove this test case? for help field there is not image anymore.

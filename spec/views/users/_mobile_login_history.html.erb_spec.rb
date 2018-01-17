@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "users/_mobile_login_history.html.erb" do
   describe "Viewing a user's mobile login history" do

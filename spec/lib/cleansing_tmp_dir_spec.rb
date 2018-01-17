@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe CleansingTmpDir do
   it 'should cleanup every 30 minutes' do

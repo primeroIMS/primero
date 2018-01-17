@@ -1,9 +1,9 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Record do
 
   def create_form_section_date_field(parent_form)
-    form = FormSection.new(:name => "#{parent_form}_test_form", :parent_form => parent_form, "visible" => true, 
+    form = FormSection.new(:name => "#{parent_form}_test_form", :parent_form => parent_form, "visible" => true,
                            :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "#{parent_form}_test_form")
     form.fields << Field.new(:name => "a_date_field", :type => Field::DATE_FIELD, :display_name => "a_date_field")
     form.save!
@@ -42,7 +42,7 @@ describe Record do
 
     it "should keep unique_identifier, short_id and #{record_id_name} if they are provided" do
       unique_identifier = "123456789"
-      short_id = "1234567", 
+      short_id = "1234567",
       record_id = "987654321"
 
       record = model_class.new(:unique_identifier => unique_identifier, :short_id => short_id, "#{record_id_name}" => record_id)
@@ -59,7 +59,7 @@ describe Record do
       db_record.short_id.should eq(short_id)
       db_record.send(record_id_name).should eq(record_id)
     end
-    
+
     it "should keep unique_identifier, short_id and #{record_id_name} nil if some error" do
       record = model_class.new
 
@@ -75,7 +75,7 @@ describe Record do
     it "should not change unique_identifier, short_id and #{record_id_name} on saving operations" do
       date_value = "21-Jul-1990"
       unique_identifier = "123456789"
-      short_id = "1234567", 
+      short_id = "1234567",
       record_id = "987654321"
       record = model_class.new(:unique_identifier => unique_identifier, :short_id => short_id, "#{record_id_name}" => record_id)
       record.save

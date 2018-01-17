@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "form_section/_field_display_basic.html.erb" do
   it "It should display field label without ':' at the end" do

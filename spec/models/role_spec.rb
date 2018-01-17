@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Role do
   it "should not be valid if name is empty" do
@@ -61,22 +61,22 @@ describe Role do
       context 'and a single action string is passed in' do
         it "should only grant permissions that are assigned to a role" do
           expect(@role).to be_valid
-          expect(@role.has_permission(Permission::READ)).to be_true
-          expect(@role.has_permission(Permission::WRITE)).to be_false
+          expect(@role.has_permission(Permission::READ)).to be_truthy
+          expect(@role.has_permission(Permission::WRITE)).to be_falsey
         end
       end
 
       context 'and a colon separated action string is passed in' do
         it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("actions:#{Permission::READ}")).to be_true
-          expect(@role.has_permission("actions:#{Permission::WRITE}")).to be_false
+          expect(@role.has_permission("actions:#{Permission::READ}")).to be_truthy
+          expect(@role.has_permission("actions:#{Permission::WRITE}")).to be_falsey
         end
       end
 
       context 'and a colon separated resource string is passed in' do
         it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("resource:#{Permission::CASE}")).to be_true
-          expect(@role.has_permission("resource:#{Permission::INCIDENT}")).to be_false
+          expect(@role.has_permission("resource:#{Permission::CASE}")).to be_truthy
+          expect(@role.has_permission("resource:#{Permission::INCIDENT}")).to be_falsey
         end
       end
     end
@@ -90,36 +90,36 @@ describe Role do
       context 'and a single action string is passed in' do
         it "should only grant permissions that are assigned to a role" do
           expect(@role).to be_valid
-          expect(@role.has_permission(Permission::READ)).to be_true
-          expect(@role.has_permission(Permission::WRITE)).to be_true
-          expect(@role.has_permission(Permission::ASSIGN)).to be_true
-          expect(@role.has_permission(Permission::FLAG)).to be_false
+          expect(@role.has_permission(Permission::READ)).to be_truthy
+          expect(@role.has_permission(Permission::WRITE)).to be_truthy
+          expect(@role.has_permission(Permission::ASSIGN)).to be_truthy
+          expect(@role.has_permission(Permission::FLAG)).to be_falsey
         end
       end
 
       context 'and a colon separated action string is passed in' do
         it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("actions:#{Permission::READ}")).to be_true
-          expect(@role.has_permission("actions:#{Permission::WRITE}")).to be_true
-          expect(@role.has_permission("actions:#{Permission::ASSIGN}")).to be_true
-          expect(@role.has_permission("actions:#{Permission::FLAG}")).to be_false
+          expect(@role.has_permission("actions:#{Permission::READ}")).to be_truthy
+          expect(@role.has_permission("actions:#{Permission::WRITE}")).to be_truthy
+          expect(@role.has_permission("actions:#{Permission::ASSIGN}")).to be_truthy
+          expect(@role.has_permission("actions:#{Permission::FLAG}")).to be_falsey
         end
       end
 
       context 'and a colon separated resource string is passed in' do
         it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("resource:#{Permission::CASE}")).to be_true
-          expect(@role.has_permission("resource:#{Permission::INCIDENT}")).to be_true
-          expect(@role.has_permission("resource:#{Permission::ROLE}")).to be_true
-          expect(@role.has_permission("resource:#{Permission::TRACING_REQUEST}")).to be_false
+          expect(@role.has_permission("resource:#{Permission::CASE}")).to be_truthy
+          expect(@role.has_permission("resource:#{Permission::INCIDENT}")).to be_truthy
+          expect(@role.has_permission("resource:#{Permission::ROLE}")).to be_truthy
+          expect(@role.has_permission("resource:#{Permission::TRACING_REQUEST}")).to be_falsey
         end
       end
 
       context 'amd a colon separated management string is passed in' do
         it "should only grant permissions that are assigned to a role" do
-          expect(@role.has_permission("management:#{Permission::SELF}")).to be_false
-          expect(@role.has_permission("management:#{Permission::GROUP}")).to be_true
-          expect(@role.has_permission("management:#{Permission::ALL}")).to be_false
+          expect(@role.has_permission("management:#{Permission::SELF}")).to be_falsey
+          expect(@role.has_permission("management:#{Permission::GROUP}")).to be_truthy
+          expect(@role.has_permission("management:#{Permission::ALL}")).to be_falsey
         end
       end
     end

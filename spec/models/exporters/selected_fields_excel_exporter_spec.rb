@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 require 'spreadsheet'
 
@@ -82,8 +82,8 @@ module Exporters
 
     after :each do
       # TODO: Change this for a better approach. This is a work arround.
-      # Custom validators are registered for the subforms when saved, 
-      #they keep registered in the execution of the rspecs and some test breaks up because 
+      # Custom validators are registered for the subforms when saved,
+      #they keep registered in the execution of the rspecs and some test breaks up because
       #the subforms are no longer available (which is ok, they shouldn't be).
       # Should the validators be registered on Child when a Child with subform is saved?
       FormSection.all.map{|f| f.fields}

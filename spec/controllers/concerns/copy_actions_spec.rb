@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe CopyActions, type: :controller do
   controller(ApplicationController) do

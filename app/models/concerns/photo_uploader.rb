@@ -48,7 +48,7 @@ module PhotoUploader
 
   def rotate_photo(angle)
     existing_photo = primary_photo
-    image = MiniMagick::Image.from_blob(existing_photo.data.read)
+    image = MiniMagick::Image.read(existing_photo.data.read)
     image.rotate(angle)
 
     attachment = FileAttachment.new(existing_photo.name, existing_photo.content_type, image.to_blob, self)
