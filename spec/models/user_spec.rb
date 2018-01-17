@@ -489,4 +489,58 @@ describe User do
       end
     end
   end
+
+  describe 'import' do
+    before do
+      User.all.each &:destroy
+      Role.all.each &:destroy
+
+      @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE])
+      @role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::GROUP
+    end
+
+    context 'when input has no password' do
+      before do
+        @input = {"disabled"=>false,
+                  "full_name"=>"CP Administrator",
+                  "user_name"=>"primero_admin_cp",
+                  "verified"=>true,
+                  "code"=>nil,
+                  "phone"=>nil,
+                  "email"=>"primero_admin_cp@primero.com",
+                  "organization"=>"agency-unicef",
+                  "position"=>nil,
+                  "location"=>nil,
+                  "role_ids"=>[@role.id],
+                  "time_zone"=>"UTC",
+                  "locale"=>nil,
+                  "module_ids"=>[""],
+                  "user_group_ids"=>[""],
+                  "is_manager"=>true,
+                  "updated_at"=>"2018-01-10T14:51:16.565Z",
+                  "created_at"=>"2018-01-10T14:51:16.565Z",
+                  "model_type"=>"User",
+                  "_id"=>"user-primero-admin-cp"}
+      end
+
+      context 'and user does not exist' do
+        it 'creates a user with a random password' do
+          User.import(@input, nil).save!
+          expect(User.find_by_user_name('primero_admin_cp').try(:crypted_password)).not_to be_empty
+        end
+      end
+
+      context 'and user already exists' do
+        before do
+          @user = build_user({user_name: "primero_admin_cp"})
+          @user.save
+        end
+
+        it 'retains the users current password' do
+          User.import(@input, nil).save!
+          expect(User.find_by_user_name('primero_admin_cp').try(:crypted_password)).to eq(@user.crypted_password)
+        end
+      end
+    end
+  end
 end
