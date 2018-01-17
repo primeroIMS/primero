@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'hpricot'
 
 include HpricotSearch
@@ -13,7 +13,7 @@ describe "children/search.html.erb" do
       @user.stub(:has_permission?).and_return(true)
       controller.stub(:current_user).and_return(@user)
       view.stub(:current_user).and_return(@user)
-      
+
       @results = Array.new(4){ |i| random_child_summary("some_id_#{i}") }
       @results.stub :total_entries => 100, :offset => 1, :total_pages => 10, :current_page => 1
 
@@ -24,7 +24,7 @@ describe "children/search.html.erb" do
       assign(:current_user, @user)
       assign(:results, @results)
     end
-    
+
     # TODO: full text searching not implemented yet
     # it "should render items for each record in the results" do
     #   render
@@ -89,7 +89,7 @@ describe "children/search.html.erb" do
     #    check_box['value'].should == @results[i]['_id']
     #  end
     #end
-    
+
     # TODO: full text searching not implemented yet
     # it "should have a button to export to pdf" do
     #   render

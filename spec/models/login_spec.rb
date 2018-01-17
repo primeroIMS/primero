@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Login do
   describe "authenticate" do
@@ -27,7 +27,7 @@ describe Login do
       User.stub(:find_by_user_name).and_return(user)
       user.stub(:authenticate).and_return false
       user.stub(:devices).and_return([])
-      
+
       user.should_not_receive(:add_mobile_login_event).with(imei, mobile_number)
 
       params = {:imei => imei, :mobile_number => mobile_number}
@@ -40,7 +40,7 @@ describe Login do
       User.stub(:find_by_user_name).and_return(user)
       user.stub(:authenticate).and_return true
       user.stub(:devices).and_return([])
-      
+
       user.should_not_receive(:add_mobile_login_event)
 
       params = {}
@@ -61,6 +61,6 @@ describe Login do
       login = Login.new(params)
       login.authenticate_user
     end
-      
+
   end
 end

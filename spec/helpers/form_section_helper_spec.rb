@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe FormSectionHelper do
   it "should return create url if field is new" do

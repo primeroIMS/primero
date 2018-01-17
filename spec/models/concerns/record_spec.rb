@@ -1,5 +1,5 @@
 
-require 'spec_helper'
+require 'rails_helper'
 
 _Child = Class.new(CouchRest::Model::Base) do
   def self.parent_form

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Location do
 
@@ -300,7 +300,7 @@ describe Location do
   #       When this is made I18n compliant, this test may need to be modified
   it 'returns all location types' do
     expect(Location::BASE_TYPES).to eq([
-      'country', 'region', 'province', 'district', 'governorate', 
+      'country', 'region', 'province', 'district', 'governorate',
       'chiefdom', 'county', 'state', 'city', 'camp', 'site',
       'village', 'zone', 'other', 'locality', 'sub-district'
     ])

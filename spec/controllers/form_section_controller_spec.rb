@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 class MockFormSection
 
@@ -148,8 +148,8 @@ describe FormSectionController do
 
           @form_section_l = FormSection.create!(unique_id: "F", name: "F", parent_form: "test", mobile_form: true, fields: [
             Field.new(
-              name: "field1", 
-              type: "select_box", 
+              name: "field1",
+              type: "select_box",
               display_name_all: "field1",
               searchable_select: true,
               option_strings_source: 'Location'
@@ -239,7 +239,7 @@ describe FormSectionController do
     end
   end
 
-  describe "forms API", :type => :request do 
+  describe "forms API", :type => :request do
     it "gets the forms as JSON if accessed through the API url" do
       get '/api/forms'
       expect(response.content_type.to_s).to eq('application/json')
@@ -323,9 +323,9 @@ describe FormSectionController do
       form_section1 = FormSection.create!({:name=>"name1", :description=>"desc", :visible=>"true", :unique_id=>"form_1"})
       form_section2 = FormSection.create!({:name=>"name2", :description=>"desc", :visible=>"false", :unique_id=>"form_2"})
       post :toggle, :id => "form_1"
-      FormSection.get_by_unique_id(form_section1.unique_id).visible.should be_false
+      FormSection.get_by_unique_id(form_section1.unique_id).visible.should be_falsey
       post :toggle, :id => "form_2"
-      FormSection.get_by_unique_id(form_section2.unique_id).visible.should be_true
+      FormSection.get_by_unique_id(form_section2.unique_id).visible.should be_truthy
     end
   end
 

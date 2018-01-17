@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe RecordFlagController do
   before :all do
@@ -6,7 +6,7 @@ describe RecordFlagController do
     @unflagged_at = @created_at
   end
 
-  before :each do
+  before :each do |example|
     Incident.any_instance.stub(:field_definitions).and_return([])
     TracingRequest.any_instance.stub(:field_definitions).and_return([])
     FormSection.all.all.each { |form| form.destroy }

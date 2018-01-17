@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 # TODO: Clean this up and add view test in views/form_section
 
@@ -40,9 +40,9 @@ describe OptionsController do
             ]
           }
         ]
-      }  
+      }
     end
-    
+
     it "should render requested sources as json." do
       get :index, format: :json
       expect(response.content_type.to_s).to eq('application/json')

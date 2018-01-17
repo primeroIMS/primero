@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "form_section/_check_boxes.html.erb" do
   before :each do

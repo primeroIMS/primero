@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 class TestClass < CouchRest::Model::Base
   include Transitionable
@@ -47,11 +47,11 @@ describe Transitionable do
     fake_now = DateTime.parse("2016/09/02 20:00:00 -0400")
     DateTime.stub(:now).and_return(fake_now)
 
-    test.add_transition(@referral.type, @referral.to_user_local, 
-                        @referral.to_user_remote, @referral.to_user_agency, 
+    test.add_transition(@referral.type, @referral.to_user_local,
+                        @referral.to_user_remote, @referral.to_user_agency,
                         @referral.notes, @referral.is_remote, @referral.type_of_export,
                         @user_name, @referral.consent_overridden, @referral.service)
-    
+
     expect(test.transitions.count).to equal(1)
     expect(test.transitions.first.created_at).to eq(fake_now.to_date)
   end
@@ -59,16 +59,16 @@ describe Transitionable do
   it 'returns transfers and referrals properly' do
     test = TestClass.new()
 
-    test.add_transition(@referral.type, @referral.to_user_local, 
-                        @referral.to_user_remote, @referral.to_user_agency, 
+    test.add_transition(@referral.type, @referral.to_user_local,
+                        @referral.to_user_remote, @referral.to_user_agency,
                         @referral.notes, @referral.is_remote, @referral.type_of_export,
                         @user_name, @referral.consent_overridden, @referral.service)
-    test.add_transition(@referral.type, @referral.to_user_local, 
-                        @referral.to_user_remote, @referral.to_user_agency, 
+    test.add_transition(@referral.type, @referral.to_user_local,
+                        @referral.to_user_remote, @referral.to_user_agency,
                         @referral.notes, @referral.is_remote, @referral.type_of_export,
                         @user_name, @referral.consent_overridden, @referral.service)
-    test.add_transition(@transfer.type, @transfer.to_user_local, 
-                        @transfer.to_user_remote, @transfer.to_user_agency, 
+    test.add_transition(@transfer.type, @transfer.to_user_local,
+                        @transfer.to_user_remote, @transfer.to_user_agency,
                         @transfer.notes, @transfer.is_remote, @transfer.type_of_export,
                         @user_name, @transfer.consent_overridden, @transfer.service)
 
