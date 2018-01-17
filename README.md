@@ -4,8 +4,8 @@ Primero
 ## Development
 To develop the application locally, you will need to do the following:
 
-- Install [VirtualBox 5.x](https://www.virtualbox.org/wiki/Downloads)
-- Install [Vagrant 1.8.x](https://www.vagrantup.com/downloads.html)
+- Install [VirtualBox 5.2.4](https://www.virtualbox.org/wiki/Downloads)
+- Install [Vagrant 2.0.1](https://www.vagrantup.com/downloads.html)
 - Install [Chef DK 0.9.0](https://downloads.chef.io/chef-dk/).
 **Note that currently the latest supported Chef DK version is 0.9.0**
 
@@ -13,8 +13,8 @@ To develop the application locally, you will need to do the following:
 
 Once you have Vagrant installed, run the following to install the right plugins:
 
-    $ vagrant plugin install vagrant-berkshelf --plugin-version 4.1.0
-    $ vagrant plugin install vagrant-omnibus --plugin-version 1.4.1
+    $ vagrant plugin install vagrant-berkshelf --plugin-version 5.1.2
+    $ vagrant plugin install vagrant-omnibus --plugin-version 1.5.0
 
  **Note:** If you are using OS X, make sure to run the following command due to a 1.8.x [Vagrant bug](https://github.com/mitchellh/vagrant/issues/7997)
 
