@@ -28,7 +28,7 @@ recruitment_subform_fields = [
             }),
   Field.new({"name" => "recruitment_campaign",
               "type" => "textarea",
-              "display_name_all" => "If yes, please provide additional details.",
+              "display_name_all" => "If yes, please provide additional details",
             }),
   Field.new({"name" => "re_recruitment",
              "type" => "select_box",
@@ -126,7 +126,7 @@ recruitment_subform_fields = [
               "type" => "select_box",
               "multi_select" => true,
               "display_name_all" => "Select the entity responsible for the deprivation of liberty",
-              "option_strings_source" => [
+              "option_strings_text_all" => [
                 "Armed force",
                 "Armed group",
                 "Other party to the conflict",
