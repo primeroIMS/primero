@@ -21,6 +21,15 @@ recruitment_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "If 'Other', please provide details"
             }),
+  Field.new({"name" => "recruitment_campaign_details",
+              "type" => "select_box",
+              "display_name_all" => "Was/were the child(ren) recruited during a recruitment campaign?",
+              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
+  Field.new({"name" => "recruitment_campaign",
+              "type" => "textarea",
+              "display_name_all" => "If yes, please provide additional details.",
+            }),
   Field.new({"name" => "re_recruitment",
              "type" => "select_box",
              "display_name_all" => "Was this a case of re-recruitment (by either the same or a different armed force/group)?",
@@ -29,23 +38,6 @@ recruitment_subform_fields = [
   Field.new({"name" => "re_recruitment_details",
              "type" => "textarea",
              "display_name_all" => "If yes, please provide details:",
-            }),
-  Field.new({"name" => "associated_violation_status",
-             "type" => "select_box",
-             "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
-             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
-            }),
-  #NOTE: The following is a multi-select, but made it violation instead of violations so as not to conflict with reload violations JS
-  Field.new({"name" => "associated_violation",
-             "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "If 'Yes', please specify:",
-             "option_strings_source" => "lookup ViolationType"
-            }),
-  Field.new({"name" => "recruitment_crossborder",
-             "type" => "select_box",
-             "display_name_all" => "Was this a cross-border violation?",
-             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "child_role_association_status",
              "type" => "select_box",
@@ -68,14 +60,7 @@ recruitment_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "If 'Other', please provide details "
             }),
-  Field.new({"name" => "child_role_torture",
-             "type" => "select_box",
-             "display_name_all" => "Was/were the child(ren) subject to torture or other cruel, inhuman or degrading "\
-                                   "treatment or punishment while deprived of liberty",
-             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n"),
-             "help_text_all" => "This should be reflected as necessary in the 'Killing', 'Maiming' and/or 'Rape and/or "\
-                                "other grave sexual violence' forms as appropriate."
-            }),
+
   Field.new({"name" => "child_role",
              "type" => "select_box",
              "display_name_all" => "What role did the child(ren) play in the armed force/group?",
@@ -150,6 +135,41 @@ recruitment_subform_fields = [
              "option_strings_text_all" => ["Captured", "Surrendered", "Community/family brokered",
                                            "Dissolution of armed force/group", "Informal release",
                                            "Formal release/demobilisation process"].join("\n")
+            }),
+
+
+
+
+
+
+
+  Field.new({"name" => "child_role_torture",
+              "type" => "select_box",
+              "display_name_all" => "Was/were the child(ren) subject to torture or other cruel, inhuman or degrading "\
+                                    "treatment or punishment while deprived of liberty",
+              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n"),
+              "help_text_all" => "e.g. strip-searching, verbal and physical violence."
+            }),
+  Field.new({"name" => "torture_details",
+              "type" => "textarea",
+              "display_name_all" => "If yes, please provide details.",
+            })
+  Field.new({"name" => "associated_violation_status",
+              "type" => "select_box",
+              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
+              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
+  #NOTE: The following is a multi-select, but made it violation instead of violations so as not to conflict with reload violations JS
+  Field.new({"name" => "associated_violation",
+              "type" => "select_box",
+              "multi_select" => true,
+              "display_name_all" => "If 'Yes', please specify:",
+              "option_strings_source" => "lookup ViolationType"
+            }),
+  Field.new({"name" => "recruitment_crossborder",
+              "type" => "select_box",
+              "display_name_all" => "Was this a cross-border violation?",
+              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",

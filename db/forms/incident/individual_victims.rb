@@ -18,6 +18,7 @@ individual_victims_fields = [
   Field.new({"name" => "individual_age",
              "type" => "numeric_field",
              "display_name_all" => "Victim's age",
+             "help_text_all" => "At the time of violation."
             }),
   Field.new({"name" => "date_of_birth",
              "type" => "date_field",

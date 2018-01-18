@@ -330,10 +330,24 @@ mrm_summary_page_fields = [
              "tally_all" => ['boys', 'girls', 'unknown'],
              "autosum_total" => true,
             }),
+  Field.new({"name" => "date_of_incident",
+             "type" => "date_range",
+             "display_name_all" => "Date of the incident"
+            }),
+  Field.new({"name" => "incident_location",
+              "type" => "select_box",
+              "display_name_all" => "Incident location",
+              "option_strings_source" => "Location",
+              "searchable_select" => true
+            }),
   Field.new({"name" => "incident_description",
              "type" => "textarea",
              "display_name_all" => "Account of Incident",
              "editable" => false
+            }),
+  Field.new({"name" => "incident_update",
+              "type" => "textarea",
+              "display_name_all" => "Update of Incident"
             }),
   Field.new({"name" => "killing_summary",
              "type" => "subform", "editable" => true,
