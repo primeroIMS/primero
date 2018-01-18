@@ -39,28 +39,6 @@ recruitment_subform_fields = [
              "type" => "textarea",
              "display_name_all" => "If yes, please provide details:",
             }),
-  Field.new({"name" => "child_role_association_status",
-             "type" => "select_box",
-             "display_name_all" => "Was/were the victim(s) recruited and/or used while deprived of liberty due to alleged "\
-                                   "association with armed forces/armed groups?",
-             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n"),
-             "help_text_all" => "This should be reflected as necessary in the 'Killing', 'Maiming' and/or 'Rape and/or "\
-                                "other grave sexual violence' forms as appropriate."
-            }),
-  Field.new({"name" => "child_role_association",
-             "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "If so, please select the the facilty where the victims(s) was/were being held when "\
-                                   "the recruitment and/or use occurred",
-             "option_strings_text_all" => ["Civilian infrastructure", "Informal detention facility",
-                                           "Intelligence agency premises", "Juvenile detention center",
-                                           "Military facility", "Prison", "Other"].join("\n")
-            }),
-  Field.new({"name" => "child_role_association_other",
-             "type" => "text_field",
-             "display_name_all" => "If 'Other', please provide details "
-            }),
-
   Field.new({"name" => "child_role",
              "type" => "select_box",
              "display_name_all" => "What role did the child(ren) play in the armed force/group?",
@@ -71,7 +49,7 @@ recruitment_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "If the child played a combatant role, please select from the following",
-             "option_strings_text_all" => ["Fighter", "Laying mines", "Intelligence gathering/Spy/Informant", "Other"].join("\n")
+             "option_strings_text_all" => ["Fighter", "Intelligence gathering/Spy/Informant", "Guard", "Laying mines", "Manning checkpoints", "Suicide bomber", "Other"].join("\n")
             }),
   Field.new({"name" => "child_role_combatant_other",
              "type" => "text_field",
@@ -81,7 +59,7 @@ recruitment_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "If the child played a non-combatant role, please select from the following",
-             "option_strings_text_all" => ["Cook", "Human shield", "Porter", "Sexual purposes", "Other"].join("\n")
+             "option_strings_text_all" => ["Cook", "Domestic worker", "Human shield", "Porter", "Sexual purposes", "Other"].join("\n")
             }),
   Field.new({"name" => "child_role_noncombatant_other",
              "type" => "text_field",
@@ -132,17 +110,79 @@ recruitment_subform_fields = [
   Field.new({"name" => "how_did_child_leave_armed_group",
              "type" => "select_box",
              "display_name_all" => "If the child(ren) left the armed force/group, how did it happen?",
-             "option_strings_text_all" => ["Captured", "Surrendered", "Community/family brokered",
+             "option_strings_text_all" => ["Arrested", "Captured", "Surrendered", "Community/family brokered",
                                            "Dissolution of armed force/group", "Informal release",
                                            "Formal release/demobilisation process"].join("\n")
             }),
-
-
-
-
-
-
-
+  Field.new({"name" => "child_role_association_status",
+            "type" => "select_box",
+            "display_name_all" => "Was/were the victim(s) deprived of liberty due to "\
+                                  "alleged association with armed forces/groups?",
+            "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n"),
+            "help_text_all" => "This should be reflected as necessary in the 'Killing', 'Maiming' and/or 'Rape and/or "\
+                               "other grave sexual violence' forms as appropriate."
+           }),
+  Field.new({"name" => "deprivation_liberty_perpetrator",
+              "type" => "select_box",
+              "multi_select" => true,
+              "display_name_all" => "Select the entity responsible for the deprivation of liberty",
+              "option_strings_source" => [
+                "Armed force",
+                "Armed group",
+                "Other party to the conflict",
+                "Unknown"
+              ].join("\n")
+            }),
+  Field.new({"name" => "armed_force_name",
+              "type" => "select_box",
+              "multi_select" => true,
+              "display_name_all" => "If armed force, please select as appropriate",
+              "option_strings_source" => "lookup ArmedForceName"
+            }),
+  Field.new({"name" => "armed_group_name",
+              "type" => "select_box",
+              "multi_select" => true,
+              "display_name_all" => "If armed group, please select as appropriate",
+              "option_strings_source" => "lookup ArmedGroupName"
+            }),
+  Field.new({"name" => "other_party_name",
+              "type" => "select_box",
+              "multi_select" => true,
+              "display_name_all" => "If other party to the conflict, please select as appropriate",
+              "option_strings_source" => "lookup OtherPartyName"
+            }),
+  Field.new({"name" => "child_role_association",
+              "type" => "select_box",
+              "multi_select" => true,
+              "display_name_all" => "Please select the facilty where the victims(s) was/were being held",
+              "option_strings_text_all" => ["Civilian infrastructure", "Informal detention facility",
+                                            "Intelligence agency premises", "Juvenile detention center",
+                                            "Military facility", "Prison", "Other"].join("\n")
+            }),
+  Field.new({"name" => "child_role_association_other",
+              "type" => "text_field",
+              "display_name_all" => "If 'Other', please provide details "
+            }),
+  Field.new({"name" => "deprivation_of_liberty_reasons",
+              "type" => "textarea",
+              "display_name_all" => "Please provide details on the reasons for deprivation of liberty",
+            }),
+  Field.new({"name" => "deprivation_of_liberty_length",
+              "type" => "select_box",
+              "multi_select" => true,
+              "display_name_all" => "Please select length of deprivation of liberty",
+              "option_strings_text_all" => [
+                "Less than a month",
+                "1 to 3 months",
+                "6 months",
+                "6 to 12 months",
+                "More than a year"
+              ].join("\n")
+            }),
+  Field.new({"name" => "deprivation_of_liberty_exceed_year",
+              "type" => "text_field",
+              "display_name_all" => "If deprivation of liberty exceeded a year, please precise exact duration"
+            }),
   Field.new({"name" => "child_role_torture",
               "type" => "select_box",
               "display_name_all" => "Was/were the child(ren) subject to torture or other cruel, inhuman or degrading "\
@@ -153,7 +193,7 @@ recruitment_subform_fields = [
   Field.new({"name" => "torture_details",
               "type" => "textarea",
               "display_name_all" => "If yes, please provide details.",
-            })
+            }),
   Field.new({"name" => "associated_violation_status",
               "type" => "select_box",
               "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
