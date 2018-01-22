@@ -13,12 +13,14 @@ individual_victims_fields = [
   Field.new({"name" => "individual_sex",
              "type" => "select_box",
              "display_name_all" => "Sex of the victim",
-             "option_strings_text_all" => ["Female", "Male", "Unknown"].join("\n")
+             "option_strings_text_all" => ["Female", "Male", "Unknown"].join("\n"),
+             "help_text_all" => "This field is mandatory"
             }),
   Field.new({"name" => "individual_age",
              "type" => "numeric_field",
              "display_name_all" => "Victim's age",
-             "help_text_all" => "At the time of violation."
+             "help_text_all" => "At the time of violation.",
+             "help_text_all" => "This field is mandatory"
             }),
   Field.new({"name" => "date_of_birth",
              "type" => "date_field",

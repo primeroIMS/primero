@@ -21,7 +21,8 @@ perpetrator_subform_fields = [
                                     "Government's command and control.  Other party to the conflict: Includes international "\
                                     "forces, whether United Nations (UN) or non-UN-mandated.  Unknown: Even when the "\
                                     "perpetrator is unknown, the CTFMR needs to be satisified that the violation was "\
-                                    "perpetrated by a party to the conflict, and thus conflict-related"
+                                    "perpetrated by a party to the conflict, and thus conflict-related",
+              "help_text_all" => "This field is mandatory"
             }),
   #TODO: perpetrator_sub_category is supposed to be removed.
   # Hiding for now.
