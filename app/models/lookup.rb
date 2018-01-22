@@ -45,10 +45,12 @@ class Lookup < CouchRest::Model::Base
     memoize_in_prod :values
 
     def values_for_select(lookup_id, lookups = nil, opts={})
+      opts[:locale] = I18n.locale
       self.values(lookup_id, lookups, opts).map{|option| [option['display_text'], option['id']]}
     end
 
     def display_value(lookup_id, option_id, lookups = nil, opts={})
+      opts[:locale] = I18n.locale
       self.values(lookup_id, lookups, opts).select{|l| l["id"] == option_id}.first.try(:[], 'display_text')
     end
 
