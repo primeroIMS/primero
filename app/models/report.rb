@@ -288,7 +288,7 @@ class Report < CouchRest::Model::Base
   end
 
   def translated_label_options
-    @translated_label_options ||= self.field_map.map{|v, fm| fm.options_list(nil, nil, Location.all_names, true)}.flatten(1)
+    @translated_label_options ||= self.field_map.map{|v, fm| fm.options_list(nil, nil, Location.all_names(locale: I18n.locale), true)}.flatten(1)
   end
 
   #TODO: This method currently builds data for 1D and 2D reports
