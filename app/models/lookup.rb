@@ -11,6 +11,8 @@ class Lookup < CouchRest::Model::Base
   localize_properties [:lookup_values], generate_keys: true
   property :base_language, :default=>Primero::Application::LOCALE_ENGLISH
 
+  #TODO - seems to be causing trouble
+  #TODO - remove  (No longer using in lookup seeds / config)
   DEFAULT_UNKNOWN_ID_TO_NIL = 'default_convert_unknown_id_to_nil'
 
   design do
@@ -132,9 +134,13 @@ class Lookup < CouchRest::Model::Base
         option_id_updated = false
         if option.is_a?(Hash)
           if option['id'].blank? && option['display_text'].present?
+            #TODO - examine if this is proper
+            #TODO - Using a random number at the end screws things up when exporting the lookup.yml to load into Transifex
             new_option_id = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
             option_id_updated = true
           elsif option['id'] == DEFAULT_UNKNOWN_ID_TO_NIL
+            #TODO - seems to be causing trouble
+            #TODO - remove  (No longer using in lookup seeds / config)
             new_option_id = nil
             option_id_updated = true
           end
