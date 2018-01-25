@@ -2,12 +2,12 @@
 <% @environments.each do |env| %>
 <%= env %>:
   <% if @delivery_method == 'sendmail' %>
-  delivery_method: sendmail
+  :delivery_method: :sendmail
   <% else %>
-  delivery_method: smtp
-  smtp_conf:
+  :delivery_method: :smtp
+  :smtp_conf:
     <% @smtp_conf.each |k,v| %>
-      <%= k %>: <%= v %>
+      :<%= k %>: <%= v %>
     <% end %>
   <% end %>
   :notifications:
