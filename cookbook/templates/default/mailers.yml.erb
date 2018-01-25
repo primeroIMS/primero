@@ -6,13 +6,9 @@
   <% else %>
   :delivery_method: :smtp
   :smtp_conf:
-    :address: <%= @smtp_conf.address %>
-    :port: <%= @smtp_conf.port %>
-    :domain: <%= @smtp_conf.domain %>
-    :authentication: <%= @smtp_conf.authentication %>
-    :user_name: <%= @smtp_conf.user_name %>
-    :password: <%= @smtp_conf.password %>
-    :enable_starttls_auto: <%= @smtp_conf.enable_starttls_auto %>
+    <% @smtp_conf.each do |k,v| %>
+      :<%= k %>: <%= v %>
+    <% end %>
   <% end %>
   :notifications:
     :host: <%= @mailer_host %>
