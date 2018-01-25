@@ -128,7 +128,7 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_admin_level_enabled
 
-    def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, hierarchy_filter = nil)
+    def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, hierarchy_filter = nil, opts: {})
       #We need the fully qualified :: separated location name here so the reg_ex filter below will work
       location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, hierarchy: r.hierarchy, display_text: r.name}.with_indifferent_access}.sort_by!{|l| l['display_text']}
       hierarchy_set = hierarchy_filter.to_set if hierarchy_filter.present?
