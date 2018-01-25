@@ -6,7 +6,7 @@
   <% else %>
   :delivery_method: :smtp
   :smtp_conf:
-    <% @smtp_conf.each |k,v| %>
+    <% @smtp_conf.each do |k,v| %>
       :<%= k %>: <%= v %>
     <% end %>
   <% end %>
