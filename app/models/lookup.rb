@@ -21,6 +21,7 @@ class Lookup < CouchRest::Model::Base
   validate :validate_has_2_values
 
   before_validation :generate_values_keys
+  before_validation :sync_lookup_values
   before_create :generate_id
   before_destroy :check_is_being_used
 
@@ -148,6 +149,17 @@ class Lookup < CouchRest::Model::Base
     end
   end
 
+  def sync_lookup_values
+    #Do not create any new lookup values that do not have a matching lookup value in the default language
+    default_ids = self.send("lookup_values_#{base_language}").map{|lv| lv['id']}
+    if default_ids.present?
+      Primero::Application::locales.each do |locale|
+        next if locale == base_language
+        self.send("lookup_values_#{locale}").try(:reject!){|lv| default_ids.exclude?(lv['id'])}
+      end
+    end
+  end
+
   def update_translations(lookup_hash={}, locale)
     if locale.present? && Primero::Application::locales.include?(locale)
       lookup_hash.each do |key, value|
@@ -165,20 +177,15 @@ class Lookup < CouchRest::Model::Base
   private
 
   def update_lookup_values_translations(lookup_values_hash, locale)
-    if self["lookup_values_#{locale}"].present?
-      lookup_values_hash.each do |key, value|
-        lookup_value = self["lookup_values_#{locale}"].find{|lv| lv['id'] == key}
-        lookup_value['display_text'] = value if lookup_value.present?
-      end
-    else
-      self["lookup_values_#{locale}"] = []
-      lookup_values_hash.each do |key, value|
-        lh = {}
-        lh['id'] = key
-        lh['display_text'] = value
-        self["lookup_values_#{locale}"] << lh
-      end
+    #Go ahead and allow update of the lookup values.  Erroneous values will be kicked out by the sync method before save
+    values = []
+    lookup_values_hash.each do |key, value|
+      lh = {}
+      lh['id'] = key
+      lh['display_text'] = value
+      values << lh
     end
+    self.send("lookup_values_#{locale}=", values)
   end
 end
 
