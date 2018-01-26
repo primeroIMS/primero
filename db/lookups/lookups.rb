@@ -347,10 +347,14 @@ create_or_update_lookup(
     :lookup_values => [
       "Aerial bomb",
       "Barrel bomb",
+      "Baton",
+      "Beheading",
+      "Burned alive",
       "Booby trap",
       "Biological weapons",
       "Chemical weapons",
       "Dirty/atomic weapons (e.g. depleted uranium ammunition)",
+      "Hanging",
       "Explosive remnant of war – ERW (includes unexploded ordnance and abandoned ordnance)",
       "Improvised Explosive Device (IED) – Command-wire operated",
       "Improvised Explosive Device (IED) – Flying IED",
@@ -366,6 +370,10 @@ create_or_update_lookup(
       "Sharp weapon",
       "Small arm (e.g. AK-47)",
       "Submunition (e.g. cluster munitions)",
+      "Stoning",
+      "Tear gas",
+      "Unmaned aerial vehicle",
+      "Water cannons",
       "Other weapon",
       "Unknown"
     ]
@@ -376,17 +384,10 @@ create_or_update_lookup(
     :lookup_values => [
       "Aerial attack",
       "Arson",
-      "Improvised Explosive Device (IED) attack (select the corresponding weapon in the ‘Type of weapon dropdown menu)",
       "Land-based attack",
-      "Laying mines (includes pressure-plate IEDs and booby traps)",
-      "Occupation of building(s)",
-      "Other shooting",
-      "Physical assault",
       "Sea-based attack",
       "Shooting (e.g. sniper)",
-      "Tactical use of building(s)",
-      "Threat/Intimidation/Harassment",
-      "Unmanned aerial vehicle (UAV) (e.g. drone)",
+      "Suicide attack",
       "Other"
     ]
 )

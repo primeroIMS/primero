@@ -67,11 +67,6 @@ abduction_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "If ‘Other', please provide details "
             }),
-  Field.new({"name" => "abduction_freedom_is_date_estimated",
-             "type" => "tick_box",
-             "tick_box_label_all" => "Yes",
-             "display_name_all" => "Is the date estimated? "
-            }),
   Field.new({"name" => "additional_notes",
              "type" => "textarea",
              "display_name_all" => "Additional details"

@@ -21,7 +21,8 @@ perpetrator_subform_fields = [
                                     "Government's command and control.  Other party to the conflict: Includes international "\
                                     "forces, whether United Nations (UN) or non-UN-mandated.  Unknown: Even when the "\
                                     "perpetrator is unknown, the CTFMR needs to be satisified that the violation was "\
-                                    "perpetrated by a party to the conflict, and thus conflict-related"
+                                    "perpetrated by a party to the conflict, and thus conflict-related",
+              "help_text_all" => "This field is mandatory"
             }),
   #TODO: perpetrator_sub_category is supposed to be removed.
   # Hiding for now.
@@ -99,6 +100,41 @@ perpetrator_subform_fields = [
              "display_name_all" => "Ethnicity of the perpetrator",
              "option_strings_source" => "lookup Ethnicity"
             }),
+  Field.new({"name" => "name_perpetrator",
+              "type" => "textarea",
+              "display_name_all" => "Name/nickname of the perpetrator(s)",
+            }),
+  Field.new({"name" => "rank_perpetrator",
+            "type" => "text_field",
+            "display_name_all" => "Rank of the perpetrator",
+            }),
+  Field.new({"name" => "perpetrator_arrest",
+            "type" => "select_box",
+            "display_name_all" => "Was the perpetrator arrested?",
+            "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+          }),
+  Field.new({"name" => "arrest_details",
+            "type" => "textarea",
+            "display_name_all" => "Please provide additional details",
+          }),
+  Field.new({"name" => "perpetrator_detention",
+            "type" => "select_box",
+            "display_name_all" => "Was the perpetrator detained?",
+            "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+          }),
+  Field.new({"name" => "details_detention",
+            "type" => "textarea",
+            "display_name_all" => "Please provide additional details",
+          }),
+  Field.new({"name" => "perpetrator_conviction",
+            "type" => "select_box",
+            "display_name_all" => "Was the perpetrator convicted?",
+            "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+          }),
+  Field.new({"name" => "details_conviction",
+            "type" => "textarea",
+            "display_name_all" => "Please provide additional details",
+          }),
   Field.new({"name" => "perpetrator_additional_details",
              "type" => "textarea",
              "display_name_all" => "Additional details",

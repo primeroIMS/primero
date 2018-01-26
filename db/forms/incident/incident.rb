@@ -23,12 +23,14 @@ incident_fields = [
              "type" => "select_box",
              "display_name_all" => "Incident Status",
              "option_strings_source" => "lookup IncidentStatus",
-             "help_text_all" => "Please select duplicate if the incident was mistakenly entered multiple times in the database."
+             "help_text_all" => "Please select duplicate if the incident was mistakenly entered multiple times in the database.",
+             "required" => true
             }),
   Field.new({"name" => "incident_title",
              "type" => "text_field",
              "display_name_all" => "Incident title",
-             "help_text_all" => "One-line description of the incident"
+             "help_text_all" => "One-line description of the incident",
+             "required" => true
             }),
   Field.new({"name" => "violation_category",
              "type" => "select_box",
@@ -52,7 +54,8 @@ incident_fields = [
                              "\n"\
                              "Please do not click on the Action -> Disable button to remove a single violation subform, "\
                              "as the ‘Disable’ button will disable (and exclude from the reports) the whole incident, "\
-                             "and not just a single violation."
+                             "and not just a single violation.",
+              "required" => true
             }),
   Field.new({"name" => "date_of_first_report",
              "type" => "date_field",
@@ -60,7 +63,8 @@ incident_fields = [
             }),
   Field.new({"name" => "date_of_incident",
              "type" => "date_range",
-             "display_name_all" => "Date of the incident"
+             "display_name_all" => "Date of the incident",
+             "required" => true
             }),
   Field.new({"name" => "estimated_indicator",
              "type" => "tick_box",
@@ -90,7 +94,8 @@ incident_fields = [
               "type" => "select_box",
               "display_name_all" => "Incident location",
               "option_strings_source" => "Location",
-              "searchable_select" => true
+              "searchable_select" => true,
+              "required" => true
             }),
   Field.new({"name" => "incident_latitude",
              "type" => "text_field",
@@ -107,6 +112,7 @@ incident_fields = [
   Field.new({"name" => "incident_description",
              "type" => "textarea",
              "display_name_all" => "Account of the incident (strictly confidential)",
+             "required" => true,
              "guiding_questions_all" => "The information entered here is intended to be exclusively shared with authorized CTFMR members, and not for public dissemination."
             }),
   Field.new({"name" => "incident_description_for_public_sharing",
@@ -120,6 +126,7 @@ incident_fields = [
        "autosum_group" => "incident_number_of_victims_survivors",
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
+       "required" => true
       }),
   Field.new({"name" => "number_of_individual_perpetrators",
              "type" => "select_box",

@@ -51,7 +51,8 @@ source_subform_fields = [
                                     "personally sees, hears or otherwise perceives it through direct experience: "\
                                     "Secondary source:  A source is a person who is in a position to provide secondary "\
                                     "information, including contextual information, about a human rights violation, but "\
-                                    "who did not suffer, did not directly experience or was not present when it occurred."
+                                    "who did not suffer, did not directly experience or was not present when it occurred.",
+              "help_text_all" => "This field is mandatory"
             }),
   Field.new({"name" => "source_type",
              "type" => "select_box",

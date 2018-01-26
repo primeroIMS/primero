@@ -13,10 +13,18 @@ attack_on_subform_fields = [
                                     "2014 (available at: https://childrenandarmedconflict.un.org/publications/AttacksonSchoolsHospitals.pdf), page 6.",
              "help_text_all" => "This field is required for reporting."
             }),
-
+  Field.new({"name" => "attack_type",
+              "type" => "select_box",
+              "display_name_all" => "Type of attack",
+              "option_strings_source" => "lookup AttackType"
+            }),
+  Field.new({"name" => "attack_type_other",
+              "type" => "text_field",
+              "display_name_all" => "If ‘Other', please provide details"
+            }),
   Field.new({"name" => "weapon_type",
              "type" => "select_box",
-             "display_name_all" => "Type of weapon used",
+             "display_name_all" => "Type of weapon/method used",
              "option_strings_source" => "lookup WeaponType",
              "guiding_questions" => "For further guidance, please refer to UNMAS 'Glossary of mine action terms, "\
                                     "definitions and abbreviations', available at: "\
@@ -30,14 +38,10 @@ attack_on_subform_fields = [
              "type" => "text_field",
              "display_name_all" => "If ‘Other', please provide details "
             }),
-  Field.new({"name" => "attack_type",
-             "type" => "select_box",
-             "display_name_all" => "Type of attack",
-             "option_strings_source" => "lookup AttackType"
-            }),
-  Field.new({"name" => "attack_type_other",
-             "type" => "text_field",
-             "display_name_all" => "If ‘Other', please provide details"
+  Field.new({"name" => "recurrent_attack",
+              "type" => "select_box",
+              "display_name_all" => "Was it a recurrent attack?",
+              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "facility_operational_before",
              "type" => "select_box",
@@ -58,16 +62,16 @@ attack_on_subform_fields = [
              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
+  Field.new({"name" => "associated_violation",
+              "type" => "select_box",
+              "multi_select" => true,
+              "display_name_all" => "If 'Yes', please specify:",
+              "option_strings_source" => "lookup ViolationType"
+            }),
   Field.new({"name" => "attacks_schools_crossborder",
              "type" => "select_box",
              "display_name_all" => "Was this a cross-border violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
-            }),
-  Field.new({"name" => "associated_violation",
-             "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "If 'Yes', please specify:",
-             "option_strings_source" => "lookup ViolationType"
             }),
   Field.new({"name" => "attacks_on_schools",
              "type" => "separator",
@@ -172,12 +176,6 @@ attack_on_subform_fields = [
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
              "display_name_all" => "Is this number estimated?",
-            }),
-  Field.new({"name" => "were_children_recruited",
-             "type" => "radio_button",
-             "display_name_all" => "Were any children recruited/abducted during the attack?",
-             "option_strings_text_all" => "Yes\nNo",
-             "help_text_all" => "If 'Yes', please fill in/refer to the corresponding 'Violation' section"
             }),
   Field.new({"name" => "facility_impact_section",
              "type" => "separator",

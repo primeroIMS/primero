@@ -13,7 +13,7 @@ sexual_violence_subform_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "Form(s) of sexual violence",
-             "option_strings_text_all" => ["Rape", "Sexual assault", "Sexual slavery and/or trafficking",
+             "option_strings_text_all" => ["Rape", "Gang rape", "Sexual assault", "Sexual slavery and/or trafficking",
                                            "Enforced prostitution", "Enforced sterilization",
                                            "Forced pregnancy", "Forced abortion",
                                            "Forced marriage", "Sexual mutilation"].join("\n"),
@@ -24,32 +24,37 @@ sexual_violence_subform_fields = [
                                     "or in the profile of the victim(s). Incidents of Sexual Exploitation and "\
                                     "Abuse (SEA) should not be recorded in the MRMIMS+."
              }),
+  Field.new({"name" => "sexual_violence_military_operations",
+             "type" => "select_box",
+             "display_name_all" => "Did the violation occurred during military operations?",
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+            }),
+  #NOTE: The following is a multi-select, but made it violation instead of violations so as not to conflict with reload violations JS
+  Field.new({"name" => "sexual_violence_implications",
+      "type" => "select_box",
+      "multi_select" => true,
+      "display_name_all" => "What implications did the sexual violence have?",
+      "option_strings_text_all" => ["Child(ren) born out of rape", "Complications from unsafe abortion",
+                                    "Infanticide", "Death", "Injuries", "Disability/Physical impairment",
+                                    "Acute/chronic illness", "Sexually transmitted diseases (e.g. HIV/AIDS)",
+                                    "Mental health problems (e.g. depression, anxiety, post-traumatic stress disorder)",
+                                    "Suicide", "Family rejection", "Social stigma/Community ostracism",
+                                    "Investigation/prosecution/arrest", "School dropout"].join("\n"),
+      "guiding_questions" => "This field is not compulsory.  The relevant information should not be actively "\
+                            "sought/pursued by the MRM monitors, and should only be recorded in the database if "\
+                            "spontaneously provided by the victim or otherwise available without interviewing the victim."
+    }),
   Field.new({"name" => "associated_violation_status",
              "type" => "select_box",
              "display_name_all" => "Did the violation occur during or as a direct result of, or was related to, another violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
-  #NOTE: The following is a multi-select, but made it violation instead of violations so as not to conflict with reload violations JS
   Field.new({"name" => "associated_violation",
-             "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "If yes, please specify:",
-             "option_strings_source" => "lookup ViolationType"
-            }),
-  Field.new({"name" => "sexual_violence_implications",
-             "type" => "select_box",
-             "multi_select" => true,
-             "display_name_all" => "What implications did the sexual violence have?",
-             "option_strings_text_all" => ["Child(ren) born out of rape", "Complications from unsafe abortion",
-                                           "Infanticide", "Death", "Injuries", "Disability/Physical impairment",
-                                           "Acute/chronic illness", "Sexually transmitted diseases (e.g. HIV/AIDS)",
-                                           "Mental health problems (e.g. depression, anxiety, post-traumatic stress disorder)",
-                                           "Suicide", "Family rejection", "Social stigma/Community ostracism",
-                                           "Investigation/prosecution/arrest", "School dropout"].join("\n"),
-             "guiding_questions" => "This field is not compulsory.  The relevant information should not be actively "\
-                                    "sought/pursued by the MRM monitors, and should only be recorded in the database if "\
-                                    "spontaneously provided by the victim or otherwise available without interviewing the victim."
-            }),
+            "type" => "select_box",
+            "multi_select" => true,
+            "display_name_all" => "If yes, please specify:",
+            "option_strings_source" => "lookup ViolationType"
+          }),
   Field.new({"name" => "sexual_violence_crossborder",
              "type" => "select_box",
              "display_name_all" => "Was this a cross-border violation?",

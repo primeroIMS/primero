@@ -7,18 +7,6 @@ military_use_subform_fields = [
                "option_strings_text_all" => ["Military use of school", "Military use of hospital"].join("\n"),
                "help_text_all" => "This field is required for reporting."
               }),
-    Field.new({"name" => "weapon_type",
-               "type" => "select_box",
-               "display_name_all" => "Type of weapon used",
-               "option_strings_source" => "lookup WeaponType",
-               "guiding_questions" => "For further guidance, please refer to UNMAS 'Glossary of mine action terms, "\
-                                    "definitions and abbreviations', available at: "\
-                                    "http://www.mineactionstandards.org/fileadmin/MAS/documents/imas-international-standards/english/series 04/IMAS_04.10_Glossary_of_mine_action_terms__definitions_and_abbreviations.pdf; "\
-                                    "to the UN Coordinating Action on Small Arms (CASA) 'Glossary of terms, definitions "\
-                                    "and abbreviations', available at: http://www.smallarmsstandards.org/isacs/0120-en.pdf; "\
-                                    "and to UNIDIR 'Addressing Improvised Explosive Devices' paper, pp. 14-15 "\
-                                    "available at: http://www.unidir.org/files/publications/pdfs/-en-641.pdf.",
-              }),
     Field.new({"name" => "weapon_type_other",
                "type" => "text_field",
                "display_name_all" => "If ‘Other', please provide details"

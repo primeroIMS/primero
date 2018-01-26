@@ -2,16 +2,38 @@ require_relative './mrm_verification.rb' unless defined? MRM_VERIFICATION_FIELDS
 
 maiming_subform_fields = [
   Field.new({"name" => "violation_tally",
-         "type" => "tally_field",
-         "display_name_all" => "Number of victims",
-         "autosum_group" => "maiming_number_of_survivors",
-         "tally_all" => ['boys', 'girls', 'unknown'],
-         "autosum_total" => true,
-         "help_text_all" => "This field is required for reporting."
-        }),
+            "type" => "tally_field",
+            "display_name_all" => "Number of victims",
+            "autosum_group" => "maiming_number_of_survivors",
+            "tally_all" => ['boys', 'girls', 'unknown'],
+            "autosum_total" => true,
+            "help_text_all" => "This field is required for reporting."
+            }),
+  Field.new({"name" => "context_km",
+              "type" => "select_box",
+              "display_name_all" => "Context",
+              "option_strings_text_all" => [
+                "Military clashes",
+                "ERW",
+                "Political violence",
+                "Arrest/search operations",
+                "Single murder",
+                "Result of torture",
+                "Cruel or inhumane treatment"
+              ].join("\n")
+            }),
+  Field.new({"name" => "attack_type",
+              "type" => "select_box",
+              "display_name_all" => "Type of attack",
+              "option_strings_source" => "lookup AttackType"
+            }),
+  Field.new({"name" => "attack_typeattack_type_other",
+              "type" => "text_field",
+              "display_name_all" => "If ‘Other', please provide details "
+            }),
   Field.new({"name" => "weapon_type",
              "type" => "select_box",
-             "display_name_all" => "Type of weapon used",
+             "display_name_all" => "Type of weapon/method used",
              "option_strings_source" => "lookup WeaponType",
              "guiding_questions" => "For further guidance, please refer to UNMAS 'Glossary of mine action terms, "\
                                     "definitions and abbreviations', available at: "\
@@ -24,15 +46,6 @@ maiming_subform_fields = [
   Field.new({"name" => "weapon_type_other",
              "type" => "text_field",
              "display_name_all" => "If 'Other weapon', please specify"
-            }),
-  Field.new({"name" => "attack_type",
-             "type" => "select_box",
-             "display_name_all" => "Type of attack",
-             "option_strings_source" => "lookup AttackType"
-            }),
-  Field.new({"name" => "attack_typeattack_type_other",
-             "type" => "text_field",
-             "display_name_all" => "If ‘Other', please provide details "
             }),
   Field.new({"name" => "consequences",
              "type" => "select_box",
@@ -51,13 +64,19 @@ maiming_subform_fields = [
             }),
   Field.new({"name" => "victim_a_participant",
              "type" => "select_box",
-             "display_name_all" => "Was/were the victim(s) directly participating in hostilities at the time of the violation?",
+             "display_name_all" => "Was/were the victim(s) participating in hostilities at the time of the violation?",
              "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
             }),
   Field.new({"name" => "indiscriminate_nature",
              "type" => "select_box",
              "display_name_all" => "Any elements pointing to the indiscriminate nature of the attack?",
-             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n")
+             "option_strings_text_all" => ["Yes", "No", "Unknown"].join("\n"),
+             "guiding_questions" => "Indiscriminate attacks are those of a nature to "\
+                                    "strike military objectives and civilians or civilian "\
+                                    "objects without distinction. e.g. mass bombing, shooting "\
+                                    "into a crowd because the enemy is hidden somewhere, use "\
+                                    "of certain weapons (chemical and biological, cluster munitions, "\
+                                    "barrel bombs, etc.)"
             }),
   Field.new({"name" => "indiscriminate_nature_yes",
              "type" => "text_field",
