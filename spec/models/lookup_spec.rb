@@ -151,6 +151,8 @@ describe Lookup do
     end
   end
 
+  #TODO add rspec tests for sync lookup values
+  #TODO add rspec tests for bad data in the translation hash
   describe 'import_translations' do
     before do
       Lookup.all.each &:destroy

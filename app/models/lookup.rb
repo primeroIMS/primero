@@ -23,7 +23,7 @@ class Lookup < CouchRest::Model::Base
   validate :validate_has_2_values
 
   before_validation :generate_values_keys
-  before_validation :sync_lookup_values
+  before_save :sync_lookup_values
   before_create :generate_id
   before_destroy :check_is_being_used
 
@@ -157,7 +157,7 @@ class Lookup < CouchRest::Model::Base
 
   def sync_lookup_values
     #Do not create any new lookup values that do not have a matching lookup value in the default language
-    default_ids = self.send("lookup_values_#{base_language}").map{|lv| lv['id']}
+    default_ids = self.send("lookup_values_#{base_language}").try(:map){|lv| lv['id']}
     if default_ids.present?
       Primero::Application::locales.each do |locale|
         next if locale == base_language
