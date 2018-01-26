@@ -9,8 +9,7 @@ class NotificationMailer < ActionMailer::Base
 
     if @manager.present? && @child.present?
       mail(:to => @manager.email,
-      :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
-      :subject => t("email_notification.approval_request_subject", id: @child.short_id))
+           :subject => t("email_notification.approval_request_subject", id: @child.short_id))
     else
       Rails.logger.error "Mail not sent - User [#{user_id}] or Manager [#{manager_id}] not found"
     end
@@ -31,8 +30,7 @@ class NotificationMailer < ActionMailer::Base
         @approval = approval == 'true' ? t('approvals.status.approved') : t('approvals.status.rejected')
 
         mail(:to => @owner.email,
-          :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
-          :subject => t("email_notification.approval_response_subject", id: @child.short_id))
+             :subject => t("email_notification.approval_response_subject", id: @child.short_id))
       else
         Rails.logger.error "Approval Response Mail not sent - invalid owner. [Owner: #{@owner.try(:id)}  "\
                            "Owner email: #{@owner.try(:email)}  Owner send_mail: #{@owner.try(:send_mail)}]"
@@ -55,7 +53,6 @@ class NotificationMailer < ActionMailer::Base
           @url = "#{host_url}/#{@model_class.parent_form.pluralize}/#{@record.id}"
           @record_type = @model_class.parent_form.titleize
           mail(:to => @user_to.email,
-               :from => Rails.application.config.action_mailer[:default_options].try(:[], :from),
                :subject => t("email_notification.#{transition_type}_subject", record_type: @record_type, id: @record.short_id))
         else
           Rails.logger.error "#{transition_type} Mail not sent - Valid user not found for [RecordType: #{record_class}  "\

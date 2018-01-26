@@ -75,18 +75,8 @@ default[:primero].tap do |p|
 
   p[:mailer].tap do |m|
     m[:delivery_method] = 'sendmail'
-    m[:host] = 'mail.example.com'
-    m[:from_address] = 'noreply@mail.example.com'
-
-    m[:smtp_conf].tap do |s|
-      s[:address] = 'smtp.gmail.com'
-      s[:port] = 587
-      s[:domain] = 'mail.example.com'
-      s[:authentication] = 'plain'
-      s[:user_name] = 'test@mail.example.com'
-      s[:password] = '??????'
-      s[:enable_starttls_auto] = true
-    end
+    m[:host] = 'primero.org'
+    m[:from_address] = 'noreply@primero.org'
   end
 end
 

@@ -100,8 +100,9 @@ class Location < CouchRest::Model::Base
 
     #This method returns a list of id / display_text value pairs
     #It is used to create the select options list for location fields
-    def all_names
-      self.by_disabled(key: false).map{|r| {id: r.location_code, display_text: r.name}.with_indifferent_access}
+    def all_names(opts={})
+      locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
+      self.by_disabled(key: false).map{|r| {id: r.location_code, display_text: r.name(locale)}.with_indifferent_access}
     end
     memoize_in_prod :all_names
 
@@ -127,9 +128,10 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_admin_level_enabled
 
-    def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, hierarchy_filter = nil)
+    def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, hierarchy_filter = nil, opts={})
+      locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
       #We need the fully qualified :: separated location name here so the reg_ex filter below will work
-      location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, hierarchy: r.hierarchy, display_text: r.name}.with_indifferent_access}.sort_by!{|l| l['display_text']}
+      location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, hierarchy: r.hierarchy, display_text: r.name(locale)}.with_indifferent_access}.sort_by!{|l| l['display_text']}
       hierarchy_set = hierarchy_filter.to_set if hierarchy_filter.present?
       location_names = location_names.select{|l| l['hierarchy'].present? && (l['hierarchy'].to_set ^ hierarchy_set).length == 0} if hierarchy_filter.present?
       #Now reduce the display text down to just the placename for display
