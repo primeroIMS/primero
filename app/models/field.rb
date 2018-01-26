@@ -353,9 +353,9 @@ class Field
           display = Lookup.values(source_options.last, lookups, locale: I18n.locale).select{|opt| opt['id'] == value}
           value = (display.present? ? display.first['display_text'] : '')
         when 'Location'
-          value = Location.display_text(value)
+          value = Location.display_text(value, locale: I18n.locale)
         when 'Agency'
-          value = Agency.display_text(value)
+          value = Agency.display_text(value, locale: I18n.locale)
         else
           value
       end

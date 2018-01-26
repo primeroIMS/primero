@@ -162,9 +162,10 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :base_type_ids
 
-    def display_text(location_code)
+    def display_text(location_code, opts={})
+      locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
       lct = (location_code.present? ? Location.find_by_location_code(location_code) : '')
-      value = (lct.present? ? lct.name : '')
+      value = (lct.present? ? lct.name(locale) : '')
     end
     memoize_in_prod :display_text
 
