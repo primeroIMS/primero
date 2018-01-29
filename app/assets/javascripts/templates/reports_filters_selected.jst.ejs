@@ -1,0 +1,5 @@
+<% _.each(m.filters, function(filter) { %>
+  <span class="label">
+    <%= filter.display %>: <% if (filter.value && _.isArray(filter.value)) { %><%= filter.value.join(' - ') %><% } %>
+  </span>
+<% }) %>
