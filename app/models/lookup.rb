@@ -21,9 +21,10 @@ class Lookup < CouchRest::Model::Base
 
   validates_presence_of :name, :message => "Name must not be blank"
   validate :validate_has_2_values
+  validate :validate_values_keys_match
 
   before_validation :generate_values_keys
-  before_save :sync_lookup_values
+  before_validation :sync_lookup_values
   before_create :generate_id
   before_destroy :check_is_being_used
 
@@ -98,6 +99,18 @@ class Lookup < CouchRest::Model::Base
 
   def validate_has_2_values
     return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options")) if (lookup_values == nil || lookup_values.length < 2 || lookup_values[0]['display_text'] == '' || lookup_values[1]['display_text'] == '')
+    true
+  end
+
+  def validate_values_keys_match
+    default_ids = self.send("lookup_values_#{base_language}").try(:map){|lv| lv['id']}
+    if default_ids.present?
+      Primero::Application::locales.each do |locale|
+        next if locale == base_language || self.send("lookup_values_#{locale}").blank?
+        locale_ids = self.send("lookup_values_#{locale}").try(:map){|lv| lv['id']}
+        return errors.add(:lookup_values, I18n.t("errors.models.field.translated_options_do_not_match")) if locale_ids != default_ids
+      end
+    end
     true
   end
 
@@ -183,15 +196,18 @@ class Lookup < CouchRest::Model::Base
   private
 
   def update_lookup_values_translations(lookup_values_hash, locale)
-    #Go ahead and allow update of the lookup values.  Erroneous values will be kicked out by the sync method before save
-    values = []
+    self.send("lookup_values_#{locale}=", []) if self["lookup_values_#{locale}"].blank?
     lookup_values_hash.each do |key, value|
-      lh = {}
-      lh['id'] = key
-      lh['display_text'] = value
-      values << lh
+      lookup_value = self["lookup_values_#{locale}"].try(:find){|lv| lv['id'] == key}
+      if lookup_value.present?
+        lookup_value['display_text'] = value
+      else
+        lh = {}
+        lh['id'] = key
+        lh['display_text'] = value
+        self["lookup_values_#{locale}"] << lh
+      end
     end
-    self.send("lookup_values_#{locale}=", values)
   end
 end
 
