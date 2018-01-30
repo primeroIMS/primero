@@ -1156,6 +1156,8 @@ en:
       week: "Week"
       month: "Month"
       year: "Year"
+      quarter: "Quarter"
+      quarter_abbr: "Q%{quarter}"
     filters:
       label: "Report filters"
       attribute: "Filter"
