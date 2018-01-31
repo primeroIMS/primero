@@ -106,6 +106,7 @@ class FormSection < CouchRest::Model::Base
   validate :validate_datatypes
 
   before_validation :generate_options_keys
+  before_validation :sync_options_keys
   after_save :recalculate_subform_permissions
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
@@ -851,6 +852,10 @@ class FormSection < CouchRest::Model::Base
   #TODO add rspec test
   def generate_options_keys
     self.fields.each{|field| field.generate_options_keys}
+  end
+
+  def sync_options_keys
+    self.fields.each{|field| field.sync_options_keys}
   end
 
   def field_by_name(field_name)

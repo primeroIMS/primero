@@ -543,6 +543,19 @@ class Field
     end
   end
 
+  def sync_options_keys
+    if self.option_strings_text.present? && self.option_strings_text.is_a?(Array) && self.option_strings_text.first.is_a?(Hash)
+      #Do not create any new option strings that do not have a matching lookup value in the default language
+      default_ids = self.send("option_strings_text_#{base_language}").try(:map){|op| op['id']}
+      if default_ids.present?
+        Primero::Application::locales.each do |locale|
+          next if locale == base_language
+          self.send("option_strings_text_#{locale}").try(:reject!){|op| default_ids.exclude?(op['id'])}
+        end
+      end
+    end
+  end
+
   def is_mobile?
     self.mobile_visible == true && self.visible == true
   end
@@ -590,9 +603,17 @@ class Field
   end
 
   def update_option_strings_translations(options_hash, locale)
+    self.send("option_strings_text_#{locale}=", []) if self["option_strings_text_#{locale}"].blank?
     options_hash.each do |key, value|
-      os = self["option_strings_text_#{locale}"].find{|os| os['id'] == key}
-      os['display_text'] = value if os.present?
+      os = self["option_strings_text_#{locale}"].try(:find){|os| os['id'] == key}
+      if os.present?
+        os['display_text'] = value
+      else
+        osh = {}
+        osh['id'] = key
+        osh['display_text'] = value
+        self["option_strings_text_#{locale}"] << osh
+      end
     end
   end
 
