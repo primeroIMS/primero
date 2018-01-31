@@ -28,7 +28,7 @@ class Report < CouchRest::Model::Base
   MONTH = 'month' #eg. Jan-2015
   YEAR = 'year' #eg. 2015
   QUARTER = 'quarter'
-  DATE_RANGES = [DAY, WEEK, MONTH, YEAR, QUARTER]
+  DATE_RANGES = [DAY, WEEK, MONTH, QUARTER, YEAR]
 
   property :name
   property :description
