@@ -31,6 +31,7 @@ class ReportsController < ApplicationController
   def show
     authorize!(:read_reports, @report)
     begin
+      @report.filters = @report.build_data_filters(params[:scope])
       @report.permission_filter = report_permission_filter(current_user)
       @report.build_report
     rescue Sunspot::UnrecognizedFieldError => e
@@ -48,6 +49,7 @@ class ReportsController < ApplicationController
   #       but really this isn't worth it unless we find that this is a performance bottleneck.
   def graph_data
     authorize!(:read_reports, @report)
+    @report.filters = @report.build_data_filters(params[:scope])
     @report.permission_filter = report_permission_filter(current_user)
     @report.build_report #TODO: Get rid of this once the rebuild works
     render json: @report.graph_data
