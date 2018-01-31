@@ -20,11 +20,11 @@
           <label>Filter</label>
           <select id="filter-control" class="filter-control-date" name="filter-control">
             <option value="" disabled selected>Select One</option>
-            <option value="day">Day</option>
-            <option value="month">Month</option>
-            <option value="week">Week</option>
-            <option value="year">Year</option>
-            <option value="quarter">Quarter</option>
+            <option value="day"><%= I18n.t('report.date_ranges.date') %></option>
+            <!-- <option value="month"><%= I18n.t('report.date_ranges.month') %></option> -->
+            <!-- <option value="week"><%= I18n.t('report.date_ranges.week') %></option> -->
+            <option value="year"><%= I18n.t('report.date_ranges.year') %></option>
+            <!-- <option value="quarter"><%= I18n.t('report.date_ranges.quarter') %></option> -->
           </select>
         </div>
         <div class="controls"></div>
