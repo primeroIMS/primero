@@ -1,7 +1,7 @@
-require 'factory_bot'
+require 'factory_girl'
 require 'addressable/uri'
 
-FactoryBot.define do
+FactoryGirl.define do
   trait :model do
     ignore do
       sequence(:counter, 1000000)
