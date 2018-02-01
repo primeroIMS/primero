@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe ReportingLocation do
   before :all do
     lookup1 = create :lookup, :id => "lookup-location-type", :lookup_values => [

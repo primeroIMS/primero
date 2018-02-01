@@ -123,7 +123,6 @@ class BulkExport < CouchRest::Model::Base
     return name
   end
 
-
   def process_records_in_batches(batch_size=500, &block)
     #TODO: this is a good candidate for multithreading
     #TODO: Right now this is duplicated code with what appears in the record_actions controller concern
@@ -145,13 +144,13 @@ class BulkExport < CouchRest::Model::Base
     #TODO: Add an else statement that throws an error if the file is empty!
     #TODO: This code is currently duplicated in the application controller
     if File.size? self.stored_file_name
-      ZipRuby::Archive.open(self.encrypted_file_name, ZipRuby::CREATE) do |ar|
-        #ar.add_or_replace_buffer self.file_name, data
-        ar.add_file(self.stored_file_name)
-        if self.password
-          ar.encrypt self.password
-        end
+      encrypt = password ? Zip::TraditionalEncrypter.new(password) : nil
+
+      Zip::OutputStream.open(self.encrypted_file_name, encrypt) do |out|
+        out.put_next_entry(File.basename(self.stored_file_name))
+        out.write open(self.stored_file_name).read
       end
+
       File.delete self.stored_file_name
     end
   end

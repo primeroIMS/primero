@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'support/tracing_request_builder'
 
 describe TracingRequestMediaController do

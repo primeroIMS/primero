@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 describe ContactInformation do
   before :each do
     ContactInformation.all.each {|contact_info| contact_info.destroy}

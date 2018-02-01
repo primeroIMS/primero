@@ -21,6 +21,7 @@ services:
 - couchdb
 branches:
 - travisci
+- maint_1.3
 - maint_1.4
 - maint_1.5
 - development

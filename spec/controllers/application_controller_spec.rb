@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ApplicationController do
 
@@ -64,12 +64,9 @@ describe ApplicationController do
       filename = "test"
 
       controller.should_receive(:send_file) do |file, opts|
-        ZipRuby::Archive.open(file) do |ar|
-          ar.num_files.should == 1
-          ar.decrypt password
-          ar.fopen(filename) do |f|
-            f.read.should == data
-          end
+        Zip::InputStream.open(file, 0, Zip::TraditionalDecrypter.new(password)) do |ar|
+          entry = ar.get_next_entry
+          ar.read.should == data
         end
       end
 
@@ -78,7 +75,7 @@ describe ApplicationController do
 
     it 'should send proper filename to the browser' do
       CleansingTmpDir.stub :temp_file_name => 'encrypted_file'
-      ZipRuby::Archive.stub :open => true
+      Zip::File.stub :open => true
 
       controller.should_receive(:send_file).with('encrypted_file', hash_including(:filename => 'test_filename.csv.zip', :type => 'application/zip', :disposition => "inline"))
       controller.encrypt_data_to_zip '', 'test_filename.csv', ''

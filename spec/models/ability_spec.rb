@@ -1,10 +1,12 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Ability do
 
   CRUD = [:index, :create, :view, :edit, :update, :destroy]
 
   before do
+    User.all.each &:destroy
+    Child.all.each &:destroy
     @user1 = create :user
     @user2 = create :user
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])

@@ -1,10 +1,10 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe CouchChangesController do
   it 'notifies observers on the given model class' do
     id = '4'
     Child.should_receive(:notify_observers) do |*args|
-      Child.changed?.should be_true
+      Child.changed?.should be_truthy
     end
 
     get :notify, :id => id, :deleted => 'false', :models_changed => ['Child']

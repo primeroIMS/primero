@@ -1,10 +1,10 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe DatabaseController do
   before do
     fake_admin_login
   end
-  
+
   before do
     @original_rails_env = Rails.env
     Rails.env = "android"
@@ -19,9 +19,9 @@ describe DatabaseController do
     User.stub(:find_by_user_name).with("me").and_return(double(:organization => "stc"))
     Child.create('last_known_location' => "London", :created_by => "me")
     Child.create('last_known_location' => "India", :created_by => "me")
-    
+
     delete :delete_children
-    
+
     Child.all.should be_empty
   end
 end

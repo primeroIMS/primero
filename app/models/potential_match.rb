@@ -37,7 +37,9 @@ class PotentialMatch < CouchRest::Model::Base
 
   validates :child_id, :uniqueness => {:scope => :tr_subform_id}
 
-  before_create :create_identification
+  # TODO - this is failing as we are upgrading ruby & rails.
+  # TODO - need to add back after couchrest version is upgraded
+  # before_create :create_identification
 
   ALL_FILTER = 'all'
   POTENTIAL = 'POTENTIAL'

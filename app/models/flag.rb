@@ -85,12 +85,6 @@ class Flag
 
   def validate_record
     errors.add(:message, I18n.t("errors.models.flags.message")) unless self.message.present?
-    unless self.date.blank? || self.date.is_a?(Date)
-      begin
-        Date.parse(self.date)
-      rescue
-        errors.add(:date, I18n.t("errors.models.flags.date"))
-      end
-    end
+    errors.add(:date, I18n.t("errors.models.flags.date")) unless self.date.blank? || self.date.is_a?(Date)
   end
 end

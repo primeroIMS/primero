@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'support/child_builder'
 
 describe ChildMediaController do
