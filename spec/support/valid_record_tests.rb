@@ -47,20 +47,6 @@ shared_examples "a valid record" do
     record.should be_valid
   end
 
-  it "created_at should be a be a valid ISO date" do
-    record.created_at = 'I am not a date'
-    record.should_not be_valid
-    record.created_at = DateTime.parse('2010-01-14 14:05:00UTC')
-    record.should be_valid
-  end
-
-  it "last_updated_at should be a be a valid ISO date" do
-    record.last_updated_at = 'I am not a date'
-    record.should_not be_valid
-    record.last_updated_at = DateTime.parse('2010-01-14 14:05:00UTC')
-    record.should be_valid
-  end
-
   describe "duplicate of validation" do
     context "duplicate is true" do
       context "duplicate of is blank" do

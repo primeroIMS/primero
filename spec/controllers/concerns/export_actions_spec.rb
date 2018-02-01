@@ -8,17 +8,7 @@ describe ExportActions, type: :controller do
     def model_class
       Child
     end
-
-    # def redirect_to *args
-    #   super(:action => :index, :controller => :home)
-    # end
   end
-
-  # before do
-  #   routes.draw {
-  #     post 'transition' => 'anonymous#transition'
-  #   }
-  # end
 
   describe 'filter_fields_read_only_users' do
 
