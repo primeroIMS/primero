@@ -17,9 +17,7 @@ maiming_subform_fields = [
                 "ERW",
                 "Political violence",
                 "Arrest/search operations",
-                "Single murder",
-                "Result of torture",
-                "Cruel or inhumane treatment"
+                "Result of torture, cruel or inhumane treatment"
               ].join("\n")
             }),
   Field.new({"name" => "attack_type",

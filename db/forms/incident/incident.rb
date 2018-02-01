@@ -64,7 +64,8 @@ incident_fields = [
   Field.new({"name" => "date_of_incident",
              "type" => "date_range",
              "display_name_all" => "Date of the incident",
-             "required" => true
+             "required" => true,
+             "help_text_all" => "dd-mmm-yyyy (This field is mandatory)"
             }),
   Field.new({"name" => "estimated_indicator",
              "type" => "tick_box",
@@ -126,7 +127,8 @@ incident_fields = [
        "autosum_group" => "incident_number_of_victims_survivors",
        "tally_all" => ['boys', 'girls', 'unknown'],
        "autosum_total" => true,
-       "required" => true
+       "required" => true,
+       "help_text_all" => "This field is mandatory"
       }),
   Field.new({"name" => "number_of_individual_perpetrators",
              "type" => "select_box",
