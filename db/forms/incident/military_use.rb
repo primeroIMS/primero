@@ -7,19 +7,6 @@ military_use_subform_fields = [
                "option_strings_text_all" => ["Military use of school", "Military use of hospital"].join("\n"),
                "help_text_all" => "This field is required for reporting."
               }),
-    Field.new({"name" => "weapon_type_other",
-               "type" => "text_field",
-               "display_name_all" => "If ‘Other', please provide details"
-              }),
-    Field.new({"name" => "attack_type",
-               "type" => "select_box",
-               "display_name_all" => "Type of attack",
-               "option_strings_source" => "lookup AttackType"
-              }),
-    Field.new({"name" => "attack_type_other",
-               "type" => "text_field",
-               "display_name_all" => "If ‘Other', please provide details "
-              }),
     Field.new({"name" => "facility_operational_before",
                "type" => "select_box",
                "display_name_all" => "Was the facility operational before the military use?",
