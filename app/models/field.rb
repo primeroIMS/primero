@@ -114,6 +114,7 @@ class Field
   validate :validate_display_name_in_base_language
   validate :valid_tally_field
   validate :validate_option_strings_text
+  validate :validate_option_strings_keys_match
   #TODO: Any subform validations?
 
   def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
@@ -188,6 +189,20 @@ class Field
       end
     end
     return true
+  end
+
+  def validate_option_strings_keys_match
+    if option_strings_text.present?
+      default_ids = self.send("option_strings_text_#{base_language}").try(:map){|op| op['id']}
+      if default_ids.present?
+        Primero::Application::locales.each do |locale|
+          next if locale == base_language || self.send("option_strings_text_#{locale}").blank?
+          locale_ids = self.send("option_strings_text_#{locale}").try(:map){|op| op['id']}
+          return errors.add(:option_strings_text, I18n.t("errors.models.field.translated_options_do_not_match")) if locale_ids != default_ids
+        end
+      end
+    end
+    true
   end
 
   def are_options_keys_unique?
@@ -528,6 +543,19 @@ class Field
     end
   end
 
+  def sync_options_keys
+    if self.option_strings_text.present? && self.option_strings_text.is_a?(Array) && self.option_strings_text.first.is_a?(Hash)
+      #Do not create any new option strings that do not have a matching lookup value in the default language
+      default_ids = self.send("option_strings_text_#{base_language}").try(:map){|op| op['id']}
+      if default_ids.present?
+        Primero::Application::locales.each do |locale|
+          next if locale == base_language
+          self.send("option_strings_text_#{locale}").try(:reject!){|op| default_ids.exclude?(op['id'])}
+        end
+      end
+    end
+  end
+
   def is_mobile?
     self.mobile_visible == true && self.visible == true
   end
@@ -575,10 +603,16 @@ class Field
   end
 
   def update_option_strings_translations(options_hash, locale)
+    options = (self.send("option_strings_text_#{locale}").present? ? self.send("option_strings_text_#{locale}") : [])
     options_hash.each do |key, value|
-      os = self["option_strings_text_#{locale}"].find{|os| os['id'] == key}
-      os['display_text'] = value if os.present?
+      os = options.try(:find){|os| os['id'] == key}
+      if os.present?
+        os['display_text'] = value
+      else
+        options << {'id' => key, 'display_text' => value}
+      end
     end
+    self.send("option_strings_text_#{locale}=", options)
   end
 
 end

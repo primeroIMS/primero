@@ -21,8 +21,10 @@ class Lookup < CouchRest::Model::Base
 
   validates_presence_of :name, :message => "Name must not be blank"
   validate :validate_has_2_values
+  validate :validate_values_keys_match
 
   before_validation :generate_values_keys
+  before_validation :sync_lookup_values
   before_create :generate_id
   before_destroy :check_is_being_used
 
@@ -100,6 +102,18 @@ class Lookup < CouchRest::Model::Base
     true
   end
 
+  def validate_values_keys_match
+    default_ids = self.send("lookup_values_#{base_language}").try(:map){|lv| lv['id']}
+    if default_ids.present?
+      Primero::Application::locales.each do |locale|
+        next if locale == base_language || self.send("lookup_values_#{locale}").blank?
+        locale_ids = self.send("lookup_values_#{locale}").try(:map){|lv| lv['id']}
+        return errors.add(:lookup_values, I18n.t("errors.models.field.translated_options_do_not_match")) if locale_ids != default_ids
+      end
+    end
+    true
+  end
+
   def is_being_used?
     FormSection.find_by_lookup_field(self.id).all.size > 0
   end
@@ -154,6 +168,17 @@ class Lookup < CouchRest::Model::Base
     end
   end
 
+  def sync_lookup_values
+    #Do not create any new lookup values that do not have a matching lookup value in the default language
+    default_ids = self.send("lookup_values_#{base_language}").try(:map){|lv| lv['id']}
+    if default_ids.present?
+      Primero::Application::locales.each do |locale|
+        next if locale == base_language
+        self.send("lookup_values_#{locale}").try(:reject!){|lv| default_ids.exclude?(lv['id'])}
+      end
+    end
+  end
+
   def update_translations(lookup_hash={}, locale)
     if locale.present? && Primero::Application::locales.include?(locale)
       lookup_hash.each do |key, value|
@@ -171,20 +196,16 @@ class Lookup < CouchRest::Model::Base
   private
 
   def update_lookup_values_translations(lookup_values_hash, locale)
-    if self["lookup_values_#{locale}"].present?
-      lookup_values_hash.each do |key, value|
-        lookup_value = self["lookup_values_#{locale}"].find{|lv| lv['id'] == key}
-        lookup_value['display_text'] = value if lookup_value.present?
-      end
-    else
-      self["lookup_values_#{locale}"] = []
-      lookup_values_hash.each do |key, value|
-        lh = {}
-        lh['id'] = key
-        lh['display_text'] = value
-        self["lookup_values_#{locale}"] << lh
+    options = (self.send("lookup_values_#{locale}").present? ? self.send("lookup_values_#{locale}") : [])
+    lookup_values_hash.each do |key, value|
+      lookup_value = options.try(:find){|lv| lv['id'] == key}
+      if lookup_value.present?
+        lookup_value['display_text'] = value
+      else
+        options << {'id' => key, 'display_text' => value}
       end
     end
+    self.send("lookup_values_#{locale}=", options)
   end
 end
 

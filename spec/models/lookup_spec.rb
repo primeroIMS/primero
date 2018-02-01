@@ -195,6 +195,199 @@ describe Lookup do
         expect(@lkp2.lookup_values_fr).to eq([{'id'=>'option_1', 'display_text'=>'French Option One Translated'}, {'id'=>'option_2', 'display_text'=>'French Option Two Translated'}])
       end
     end
-  end
 
+    describe 'handles bad input data' do
+      before do
+        @locale = 'es'
+      end
+      context 'when locale translations do not exist' do
+        context 'and input has all of the options' do
+          before do
+            Lookup.create!(id: "lookup_3", name_en: "English Three",
+                           lookup_values_en: [{id: "option_1", display_text: "English Option One"},
+                                              {id: "option_2", display_text: "English Option Two"},
+                                              {id: "option_3", display_text: "English Option Three"}])
+            @translated_hash = {"lookup_3" => {"name" => "Spanish Three Translated",
+                                               "lookup_values" => {"option_1"=>"Spanish Option One Translated",
+                                                                   "option_2"=>"Spanish Option Two Translated",
+                                                                   "option_3"=>"Spanish Option Three Translated"}}}
+            Lookup.import_translations(@translated_hash, @locale)
+            @lkp3 = Lookup.get('lookup_3')
+          end
+
+          it 'adds translated options for the specified locale' do
+            expect(@lkp3.lookup_values_es).to eq([{'id'=>'option_1', 'display_text'=>'Spanish Option One Translated'},
+                                                  {'id'=>'option_2', 'display_text'=>'Spanish Option Two Translated'},
+                                                  {'id'=>'option_3', 'display_text'=>'Spanish Option Three Translated'}])
+          end
+        end
+
+        context 'and input has only some of the options' do
+          before do
+            Lookup.create!(id: "lookup_4", name_en: "English Four",
+                           lookup_values_en: [{id: "option_1", display_text: "English Option One"},
+                                              {id: "option_2", display_text: "English Option Two"},
+                                              {id: "option_3", display_text: "English Option Three"}])
+            @translated_hash = {"lookup_4" => {"name" => "Spanish Four Translated",
+                                               "lookup_values" => {"option_1"=>"Spanish Option One Translated",
+                                                                   "option_2"=>"Spanish Option Two Translated"}}}
+          end
+
+          it 'does not allow the translations to be saved' do
+            expect{Lookup.import_translations(@translated_hash, @locale)}.to raise_error(CouchRest::Model::Errors::Validations,
+                                                                                         'Validation Failed: Lookup values Field translated options must have same ids')
+          end
+        end
+
+        context 'and input has too many options' do
+          before do
+            Lookup.create!(id: "lookup_5", name_en: "English Five",
+                           lookup_values_en: [{id: "option_1", display_text: "English Option One"},
+                                              {id: "option_2", display_text: "English Option Two"},
+                                              {id: "option_3", display_text: "English Option Three"}])
+            @translated_hash = {"lookup_5" => {"name" => "Spanish Five Translated",
+                                               "lookup_values" => {"option_1"=>"Spanish Option One Translated",
+                                                                   "option_2"=>"Spanish Option Two Translated",
+                                                                   "option_3"=>"Spanish Option Three Translated",
+                                                                   "option_4"=>"Spanish Option Four Translated"}}}
+            Lookup.import_translations(@translated_hash, @locale)
+            @lkp5 = Lookup.get('lookup_5')
+          end
+
+          it 'adds only the translated options that also exist in the default locale' do
+            expect(@lkp5.lookup_values_es).to eq([{'id'=>'option_1', 'display_text'=>'Spanish Option One Translated'},
+                                                  {'id'=>'option_2', 'display_text'=>'Spanish Option Two Translated'},
+                                                  {'id'=>'option_3', 'display_text'=>'Spanish Option Three Translated'}])
+          end
+
+          it 'does not add an option that does not exist in the default locale' do
+            expect(@lkp5.lookup_values_es.map{|lv| lv['id']}).not_to include('option_4')
+          end
+        end
+
+        context 'and input has completely different options' do
+          before do
+            Lookup.create!(id: "lookup_6", name_en: "English Six",
+                           lookup_values_en: [{id: "option_1", display_text: "English Option One"},
+                                              {id: "option_2", display_text: "English Option Two"},
+                                              {id: "option_3", display_text: "English Option Three"}])
+            @translated_hash = {"lookup_6" => {"name" => "Spanish Six Translated",
+                                               "lookup_values" => {"option_4"=>"Spanish Option Four Translated",
+                                                                   "option_5"=>"Spanish Option Five Translated",
+                                                                   "option_6"=>"Spanish Option Six Translated",
+                                                                   "option_7"=>"Spanish Option Seven Translated"}}}
+            Lookup.import_translations(@translated_hash, @locale)
+            @lkp6 = Lookup.get('lookup_6')
+          end
+
+          it 'does not add any option that does not exist in the default locale' do
+            expect(@lkp6.lookup_values_es).to be_empty
+          end
+        end
+
+      end
+      context 'locale translations do exist' do
+        context 'and input has all of the options' do
+          before do
+            Lookup.create!(id: "lookup_7", name_en: "English Seven",
+                           lookup_values_en: [{id: "option_1", display_text: "English Option One"},
+                                              {id: "option_2", display_text: "English Option Two"},
+                                              {id: "option_3", display_text: "English Option Three"}],
+                           lookup_values_es: [{id: "option_1", display_text: "Spanish Option One"},
+                                              {id: "option_2", display_text: "Spanish Option Two"},
+                                              {id: "option_3", display_text: "Spanish Option Three"}])
+            @translated_hash = {"lookup_7" => {"name" => "Spanish Seven Translated",
+                                               "lookup_values" => {"option_1"=>"Spanish Option One Translated",
+                                                                   "option_2"=>"Spanish Option Two Translated",
+                                                                   "option_3"=>"Spanish Option Three Translated"}}}
+            Lookup.import_translations(@translated_hash, @locale)
+            @lkp7 = Lookup.get('lookup_7')
+          end
+
+          it 'adds translated options for the specified locale' do
+            expect(@lkp7.lookup_values_es).to eq([{'id'=>'option_1', 'display_text'=>'Spanish Option One Translated'},
+                                                  {'id'=>'option_2', 'display_text'=>'Spanish Option Two Translated'},
+                                                  {'id'=>'option_3', 'display_text'=>'Spanish Option Three Translated'}])
+          end
+        end
+
+        context 'and input has only some of the options' do
+          before do
+            Lookup.create!(id: "lookup_8", name_en: "English Eight",
+                           lookup_values_en: [{id: "option_1", display_text: "English Option One"},
+                                              {id: "option_2", display_text: "English Option Two"},
+                                              {id: "option_3", display_text: "English Option Three"}],
+                           lookup_values_es: [{id: "option_1", display_text: "Spanish Option One"},
+                                              {id: "option_2", display_text: "Spanish Option Two"},
+                                              {id: "option_3", display_text: "Spanish Option Three"}])
+            @translated_hash = {"lookup_8" => {"name" => "Spanish Eight Translated",
+                                               "lookup_values" => {"option_1"=>"Spanish Option One Translated",
+                                                                   "option_2"=>"Spanish Option Two Translated"}}}
+            Lookup.import_translations(@translated_hash, @locale)
+            @lkp8 = Lookup.get('lookup_8')
+          end
+
+          it 'updates only the translated options provided for the specified locale' do
+            expect(@lkp8.lookup_values_es).to eq([{'id'=>'option_1', 'display_text'=>'Spanish Option One Translated'},
+                                                  {'id'=>'option_2', 'display_text'=>'Spanish Option Two Translated'},
+                                                  {'id'=>'option_3', 'display_text'=>'Spanish Option Three'}])
+          end
+        end
+
+        context 'and input has too many options' do
+          before do
+            Lookup.create!(id: "lookup_9", name_en: "English Nine",
+                           lookup_values_en: [{id: "option_1", display_text: "English Option One"},
+                                              {id: "option_2", display_text: "English Option Two"},
+                                              {id: "option_3", display_text: "English Option Three"}],
+                           lookup_values_es: [{id: "option_1", display_text: "Spanish Option One"},
+                                              {id: "option_2", display_text: "Spanish Option Two"},
+                                              {id: "option_3", display_text: "Spanish Option Three"}])
+            @translated_hash = {"lookup_9" => {"name" => "Spanish Nine Translated",
+                                               "lookup_values" => {"option_1"=>"Spanish Option One Translated",
+                                                                   "option_2"=>"Spanish Option Two Translated",
+                                                                   "option_3"=>"Spanish Option Three Translated",
+                                                                   "option_4"=>"Spanish Option Four Translated"}}}
+            Lookup.import_translations(@translated_hash, @locale)
+            @lkp9 = Lookup.get('lookup_9')
+          end
+
+          it 'adds only the translated options that also exist in the default locale' do
+            expect(@lkp9.lookup_values_es).to eq([{'id'=>'option_1', 'display_text'=>'Spanish Option One Translated'},
+                                                  {'id'=>'option_2', 'display_text'=>'Spanish Option Two Translated'},
+                                                  {'id'=>'option_3', 'display_text'=>'Spanish Option Three Translated'}])
+          end
+
+          it 'does not add an option that does not exist in the default locale' do
+            expect(@lkp9.lookup_values_es.map{|lv| lv['id']}).not_to include('option_4')
+          end
+        end
+
+        context 'and input has completely different options' do
+          before do
+            Lookup.create!(id: "lookup_10", name_en: "English Ten",
+                           lookup_values_en: [{id: "option_1", display_text: "English Option One"},
+                                              {id: "option_2", display_text: "English Option Two"},
+                                              {id: "option_3", display_text: "English Option Three"}],
+                           lookup_values_es: [{id: "option_1", display_text: "Spanish Option One"},
+                                              {id: "option_2", display_text: "Spanish Option Two"},
+                                              {id: "option_3", display_text: "Spanish Option Three"}])
+            @translated_hash = {"lookup_10" => {"name" => "Spanish Ten Translated",
+                                               "lookup_values" => {"option_4"=>"Spanish Option Four Translated",
+                                                                   "option_5"=>"Spanish Option Five Translated",
+                                                                   "option_6"=>"Spanish Option Six Translated",
+                                                                   "option_7"=>"Spanish Option Seven Translated"}}}
+            Lookup.import_translations(@translated_hash, @locale)
+            @lkp10 = Lookup.get('lookup_10')
+          end
+
+          it 'does not add any option that does not exist in the default locale' do
+            expect(@lkp10.lookup_values_es).to eq([{'id'=>'option_1', 'display_text'=>'Spanish Option One'},
+                                                  {'id'=>'option_2', 'display_text'=>'Spanish Option Two'},
+                                                  {'id'=>'option_3', 'display_text'=>'Spanish Option Three'}])
+          end
+        end
+      end
+    end
+  end
 end
