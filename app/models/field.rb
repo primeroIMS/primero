@@ -603,18 +603,16 @@ class Field
   end
 
   def update_option_strings_translations(options_hash, locale)
-    self.send("option_strings_text_#{locale}=", []) if self["option_strings_text_#{locale}"].blank?
+    options = (self.send("option_strings_text_#{locale}").present? ? self.send("option_strings_text_#{locale}") : [])
     options_hash.each do |key, value|
-      os = self["option_strings_text_#{locale}"].try(:find){|os| os['id'] == key}
+      os = options.try(:find){|os| os['id'] == key}
       if os.present?
         os['display_text'] = value
       else
-        osh = {}
-        osh['id'] = key
-        osh['display_text'] = value
-        self["option_strings_text_#{locale}"] << osh
+        options << {'id' => key, 'display_text' => value}
       end
     end
+    self.send("option_strings_text_#{locale}=", options)
   end
 
 end

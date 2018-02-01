@@ -196,18 +196,16 @@ class Lookup < CouchRest::Model::Base
   private
 
   def update_lookup_values_translations(lookup_values_hash, locale)
-    self.send("lookup_values_#{locale}=", []) if self["lookup_values_#{locale}"].blank?
+    options = (self.send("lookup_values_#{locale}").present? ? self.send("lookup_values_#{locale}") : [])
     lookup_values_hash.each do |key, value|
-      lookup_value = self["lookup_values_#{locale}"].try(:find){|lv| lv['id'] == key}
+      lookup_value = options.try(:find){|lv| lv['id'] == key}
       if lookup_value.present?
         lookup_value['display_text'] = value
       else
-        lh = {}
-        lh['id'] = key
-        lh['display_text'] = value
-        self["lookup_values_#{locale}"] << lh
+        options << {'id' => key, 'display_text' => value}
       end
     end
+    self.send("lookup_values_#{locale}=", options)
   end
 end
 
