@@ -332,7 +332,8 @@ mrm_summary_page_fields = [
             }),
   Field.new({"name" => "date_of_incident",
              "type" => "date_range",
-             "display_name_all" => "Date of the incident"
+             "display_name_all" => "Date of the incident",
+             "disabled" => true
             }),
   Field.new({"name" => "incident_location",
               "type" => "select_box",
