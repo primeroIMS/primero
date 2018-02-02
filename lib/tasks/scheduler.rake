@@ -47,11 +47,15 @@ namespace :scheduler do
   task :run => :environment do
     require 'rufus/scheduler'
     logger = Rails.logger = Logger.new(STDOUT, Rails.logger.level)
+    if ENV['RAILS_SCHEDULER_LOG_DIR'].present?
+      logger = Rails.logger = Logger.new(File.join(ENV['RAILS_SCHEDULER_LOG_DIR'], 'primero-scheduler.output'))
+    end
     scheduler = Rufus::Scheduler.start_new
 
     [
       CleansingTmpDir, ArchiveBulkExports,
-      ChildRiskLevelFollowUp, RecalculateAge
+      ChildRiskLevelFollowUp, RecalculateAge,
+      OptimizeSolr
     ].each{|job| job.schedule(scheduler)}
 
     logger.info 'Rufus scheduler initialized'

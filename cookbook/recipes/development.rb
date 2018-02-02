@@ -100,6 +100,12 @@ template '/home/vagrant/primero/config/sunspot.yml' do
   group 'vagrant'
 end
 
+directory '/home/vagrant/primero/log' do
+  action :create
+  owner 'vagrant'
+  group 'vagrant'
+end
+
 template '/home/vagrant/primero/config/selenium.yml' do
   source "selenium.yml.erb"
   variables({

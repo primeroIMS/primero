@@ -2,36 +2,6 @@
   <div class="index_controls_container" data-top="50" data-bottom="40">
     <div class="row collapse">
       <div class="large-6 small-6 columns">
-        <ul id="menu" class="sf-menu">
-          <% unless (@display_manager_dashboard || @display_admin_dashboard) %>
-          <li class="init_btn">
-            <%= link_to content_tag(:span, t("actions.button")), '', class: 'btn green-button action_btn' %>
-            <ul>
-              <% ["case", "incident", "tracing_request"].each do |model| %>
-                <%
-                  model_class = model == "case" ? "child" : model
-                  button_label = I18n.t("buttons.create_new_record", model: model.titleize)
-                %>
-                <% if can? :create, model_class.camelize.constantize %>
-                  <li>
-                    <% modules = current_user.modules.select{|m| m.associated_record_types.include? model} %>
-                    <% if modules.size > 1 %>
-                      <%= link_to content_tag(:span, button_label), '#', :'data-dropdown' => "#{model}-modules-dropdown" %>
-                      <ul id="<%=model%>-modules-dropdown" class="f-dropdown" data-dropdown-content>
-                        <% modules.each do |primero_module| %>
-                          <li><%= link_to primero_module.name, new_polymorphic_path(model, module_id: primero_module.id) %></li>
-                        <% end %>
-                      </ul>
-                    <% elsif modules.size == 1 %>
-                      <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(model, {module_id: modules.first.id}) %>
-                    <% end %>
-                  </li>
-                <% end %>
-              <% end %>
-            </ul>
-          </li>
-          <% end %>
-        </ul>
       </div>
     </div>
   </div>
@@ -39,14 +9,21 @@
   <% if @display_cases_dashboard %>
   <div class="row collapse">
     <div id="content" class="large-9 small-9 columns dashboards">
-      <% if @display_admin_dashboard %>
+      <% if @display_tracing_request_dashboard %>
+          <%= render 'match_result_statistics', match_stats: @match_stats, model: PotentialMatch %>
+      <% end %>
+      <% if @display_reporting_location %>
         <%= render 'case_admin_reporting_location_totals', reporting_location_stats: @reporting_location_stats,
                    model: Child, reporting_location: @reporting_location, admin_level: @admin_level%>
+      <% end %>
+      <% if @display_protection_concerns %>
         <%= render 'case_protection_concerns', protection_concern_stats: @protection_concern_stats,
                    model: Child, reporting_location: @reporting_location, admin_level: @admin_level %>
-      <% elsif @display_manager_dashboard %>
+      <% end %>
+      <% if @display_manager_dashboard %>
         <%= render 'case_manager_case_totals', records: @aggregated_case_worker_stats, model: Child %>
-      <% else %>
+      <% end %>
+      <% if @display_case_worker_dashboard %>
         <%= render 'case_counts',
                    new_cases: @new_cases,
                    total_cases: @total_cases,
@@ -64,24 +41,24 @@
   <% end %>
 
   <% if @display_incidents_dashboard %>
-  <div class="row collapse">
-    <div id="content" class="large-9 small-9 columns dashboards">
-      <%= render 'open_incidents', open_incidents: @open_incidents %>
-    </div>
-    <div id="sidebar" class="large-3 small-3 columns">
-      <%= render 'flagged_by_me', flagged_by_me: @incidents_recently_flagged, model: Incident %>
-    </div>
-  </div>
+      <div class="row collapse">
+        <div id="content" class="large-9 small-9 columns dashboards">
+          <%= render 'open_incidents', open_incidents: @open_incidents %>
+        </div>
+        <div id="sidebar" class="large-3 small-3 columns">
+          <%= render 'flagged_by_me', flagged_by_me: @incidents_recently_flagged, model: Incident %>
+        </div>
+      </div>
   <% end %>
 
   <% if @display_gbv_incidents_dashboard %>
-  <div class="row collapse">
-    <div id="content" class="large-9 small-9 columns dashboards">
-      <%= render 'open_gbv_incidents', open_incidents: @open_gbv_incidents %>
-    </div>
-    <div id="sidebar" class="large-3 small-3 columns">
-      <%= render 'flagged_by_me', flagged_by_me: @gbv_incidents_recently_flagged, model: Incident %>
-    </div>
-  </div>
+      <div class="row collapse">
+        <div id="content" class="large-9 small-9 columns dashboards">
+          <%= render 'open_gbv_incidents', open_incidents: @open_gbv_incidents %>
+        </div>
+        <div id="sidebar" class="large-3 small-3 columns">
+          <%= render 'flagged_by_me', flagged_by_me: @gbv_incidents_recently_flagged, model: Incident %>
+        </div>
+      </div>
   <% end %>
 </div>

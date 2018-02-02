@@ -10,14 +10,16 @@ module Searchable
     searchable do
       quicksearch_fields.each {|f| text f}
       searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
-      searchable_multi_fields.each {|f| string f, multiple: true}
+      searchable_multi_fields.each {|f| string f, multiple: true} if search_multi_fields?
 
       #if instance is a child do phonetic search on names
-      searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
+      #TODO v1.3 - why is the line below commented out?
+      # searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
       searchable_date_fields.each {|f| date f}
-      searchable_numeric_fields.each {|f| integer f}
+      searchable_numeric_fields.each {|f| integer f} if search_numeric_fields?
       searchable_boolean_fields.each {|f| boolean f}
+      #TODO: This needs to be a derived field/method in the ownable concern
       boolean :not_edited_by_owner do
         (self.last_updated_by != self.owned_by) && self.last_updated_by.present?
       end
@@ -32,15 +34,15 @@ module Searchable
               .map{|er| er.to_user_local}.uniq
         end
       end
-      string :sortable_name, as: :sortable_name_sci
       if self.include?(Ownable)
         string :associated_user_names, multiple: true
         string :owned_by
+        string :owned_by_groups, multiple: true
       end
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
       end
-
+      string :sortable_name, as: :sortable_name_sci
       #TODO - This is likely deprecated and needs to be refactored away
       #TODO - searchable_location_fields currently used by filtering
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
@@ -77,12 +79,12 @@ module Searchable
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
     # TODO: Also need integration/unit test for filters.
-    def list_records(filters={}, sort={:created_at => :desc}, pagination={}, associated_user_names=[], query=nil, match={})
+    def list_records(filters={}, sort={:created_at => :desc}, pagination_parms={}, associated_user_names=[], query=nil, match=nil)
       self.search do
         if filters.present?
           build_filters(self, filters)
         end
-        if match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
+        if filter_associated_users?(match, associated_user_names)
           any_of do
             associated_user_names.each do |user_name|
               with(:associated_user_names, user_name)
@@ -98,15 +100,10 @@ module Searchable
             fields(*self.quicksearch_fields)
           end
         end
-        if match.present?
-          adjust_solr_params do |params|
-            self.build_match(match, params)
-          end
 
-          sort={:score => :desc}
-        end
-        sort.each{|sort_field,order| order_by(sort_field, order)}
-        paginate pagination
+        sort={:average_rating => :desc} if match.present?
+        sort.each {|sort_field, order| order_by(sort_field, order)}
+        paginate pagination(pagination_parms)
       end
     end
 
@@ -153,7 +150,7 @@ module Searchable
                   values.each do |k, v|
                     with(k, v)
                   end
-                end  
+                end
               else
                 with(filter, values) unless values == 'all'
               end
@@ -163,6 +160,8 @@ module Searchable
       end
     end
 
+    # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.
+    #      Currently nothing calls this?
     def reindex!
       Sunspot.remove_all(self)
       self.all.each { |record| Sunspot.index!(record) }
@@ -175,7 +174,7 @@ module Searchable
     end
 
     def searchable_boolean_fields
-      (['duplicate', 'flag', 'has_photo', 'record_state', 'case_status_reopened'] + 
+      (['duplicate', 'flag', 'has_photo', 'record_state', 'case_status_reopened'] +
       Field.all_searchable_boolean_field_names(self.parent_form)).uniq
     end
 
@@ -224,6 +223,23 @@ module Searchable
     #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
     def searchable_transition_fields
       ['transfer_status']
+    end
+
+    def pagination(pagination_parms={})
+      #This is to allow pagination to be overriden in the parent class
+      pagination_parms
+    end
+
+    def filter_associated_users?(match=nil, associated_user_names=nil)
+      match.blank? && associated_user_names.present? && associated_user_names.first != ALL_FILTER
+    end
+
+    def search_multi_fields?
+      true
+    end
+
+    def search_numeric_fields?
+      true
     end
 
   end

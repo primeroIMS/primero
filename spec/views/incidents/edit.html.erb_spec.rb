@@ -1,4 +1,4 @@
-  require 'spec_helper'
+  require 'rails_helper'
 
 describe "incidents/edit.html.erb" do
 
@@ -65,8 +65,10 @@ describe "incidents/edit.html.erb" do
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(Incident)
     controller.should_receive(:can?).with(:flag, @incident).and_return(false)
+    controller.should_receive(:can?).with(:import, @incident).and_return(true)
     controller.should_receive(:can?).with(:edit, @incident).and_return(true)
     controller.should_receive(:can?).with(:export, Incident).and_return(false)
+    controller.should_receive(:can?).with(:sync_mobile, Incident).and_return(true)
   end
 
   it "should have record owner fields hidden and disabled" do

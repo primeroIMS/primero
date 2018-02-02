@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "form_section/_date_field.html.erb" do
   before :each do
@@ -15,6 +15,39 @@ describe "form_section/_date_field.html.erb" do
     date_field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/date_field', :locals => { :date_field => date_field, :formObject => @child  }, :formats => [:html], :handlers => [:erb]
     rendered.should have_tag("p.help")
+  end
+
+  it "should have 'is_disabled=true' when is disabled" do
+    date_field = Field.new :name => "new field",
+    :display_name => "field name",
+    :type => 'date_field'
+    date_field.disabled = true
+
+    date_field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
+    render :partial => 'form_section/date_field', :locals => { :date_field => date_field, :formObject => @child, :is_subform => true }, :formats => [:html], :handlers => [:erb]
+    expect(rendered).to include('is_disabled="true"')
+  end
+
+  it "should have 'is_disabled=false' when is not disabled" do
+    date_field = Field.new :name => "new field",
+    :display_name => "field name",
+    :type => 'date_field'
+    date_field.disabled = false
+
+    date_field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
+    render :partial => 'form_section/date_field', :locals => { :date_field => date_field, :formObject => @child, :is_subform => true }, :formats => [:html], :handlers => [:erb]
+    expect(rendered).to include('is_disabled="false"')
+  end
+
+  it "should have 'disable' attribute when is_subform even if disabled is false" do
+    date_field = Field.new :name => "new field",
+    :display_name => "field name",
+    :type => 'date_field'
+    date_field.disabled = false
+
+    date_field.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
+    render :partial => 'form_section/date_field', :locals => { :date_field => date_field, :formObject => @child, :is_subform => true }, :formats => [:html], :handlers => [:erb]
+    expect(rendered).to include('disabled="disabled"')
   end
 
   # Date fields now default to help text with format if no help text is provided, so date field will always have tag img.vtip

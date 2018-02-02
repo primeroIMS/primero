@@ -1,4 +1,5 @@
 require 'prawn/document'
+require 'arabic-letter-connector'
 
 module Exporters
   class PDFExporter < BaseExporter
@@ -37,6 +38,32 @@ module Exporters
         :Author => "Primero",
         :CreationDate => Time.now
       })
+
+      # TODO: We should be selective about loading these fonts based on language. For now we are loading
+      # everything.
+
+      # Fallback fonts for other lanuages.
+      
+      # Arabic - From what I understand, Arabic uses different diacritics we need to make sure
+      # to factor that in when choosing a font.
+      @pdf.font_families["Riwaj"] = {
+        normal: {
+          :file => Rails.root.join('public/i18n_fonts/Riwaj.ttf'),
+          :font =>"Riwaj"
+        }
+      }
+
+      # Nepali
+      @pdf.font_families["Kalimati_Regular"] = {
+        normal: {
+          :file => Rails.root.join('public/i18n_fonts/Kalimati_Regular.ttf'),
+          :font => "Kalimati_Regular"
+        }
+      }
+
+      # Add fallback fonts to array
+      @pdf.fallback_fonts = ["Riwaj", "Kalimati_Regular"]
+
       @subjects = []
     end
 
@@ -79,6 +106,14 @@ module Exporters
     end
 
     private
+
+    def render_i18n_text(txt)
+      if txt.match(/\p{Arabic}+/)
+        txt.gsub(/[ \p{Arabic}]+[\p{Arabic}]/){ |ar| " #{ar.connect_arabic_letters.reverse!}" }
+      else
+        txt
+      end
+    end
 
     def print_heading(pdf, _case, start_page, end_page)
       if end_page > start_page
@@ -148,17 +183,13 @@ module Exporters
 
         pdf.text subf.display_name, :style => :bold, :size => 12
 
-        if prop[form_section.name].count == 1 && prop[form_section.name][subf.subform_section_id].present?
-          render_blank_subform(pdf, filtered_subforms)
-        else
-          if (form_data.try(:length) || 0) > 0
-            form_data.each do |el|
-              render_fields(pdf, el, filtered_subforms)
-              pdf.move_down 10
-            end
-          else
-            render_blank_subform(pdf, filtered_subforms)
+        if (form_data.try(:length) || 0) > 0
+          form_data.each do |el|
+            render_fields(pdf, el, filtered_subforms)
+            pdf.move_down 10
           end
+        else
+          render_blank_subform(pdf, filtered_subforms)
         end
       end
     end
@@ -201,12 +232,12 @@ module Exporters
       case value
       when TrueClass, FalseClass
         if value
-          I18n.t(value.to_s)
+          render_i18n_text(I18n.t(value.to_s))
         else
           ""
         end
       when String
-        value
+        render_i18n_text(value)
       when DateTime
         value.strftime("%d-%b-%Y")
       when Date
@@ -216,7 +247,7 @@ module Exporters
       #when Hash
         #value.inject {|acc, (k,v)| acc.merge({ k => format_field(field, v) }) }
       else
-        value.to_s
+        render_i18n_text(value.to_s)
       end
     end
 

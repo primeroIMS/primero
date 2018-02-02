@@ -63,9 +63,13 @@ class ReportsController < ApplicationController
   def create
     authorize! :create, Report
     @report = Report.new(params[:report])
-    return redirect_to report_path(@report) if @report.save
-    set_reportable_fields
-    render :new
+    if (@report.valid?)
+      redirect_to report_path(@report) if @report.save
+    else
+      load_age_range
+      set_reportable_fields
+      render :new
+    end
   end
 
   def edit
@@ -80,6 +84,7 @@ class ReportsController < ApplicationController
       flash[:notice] = t("report.successfully_updated")
       redirect_to(report_path(@report))
     else
+      load_age_range
       set_reportable_fields
       flash[:error] = t("report.error_in_updating")
       render :action => "edit"
@@ -126,7 +131,7 @@ class ReportsController < ApplicationController
 
   def report_permission_filter(user)
     unless can?(:read, @report)
-      { "attribute" => "associated_user_names", "value" => user.managed_user_names }
+      { "attribute" => "owned_by_groups", "value" => user.user_group_ids_sanitized }
     end
   end
 

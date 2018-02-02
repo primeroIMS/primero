@@ -16,10 +16,10 @@
     <%= render "form_section/add_name_field", fld: fld, field_name: field_name, field_type: field_type, given_locale: given_locale, is_field_edit: is_field_edit, is_translation: is_translation %>
   <% else %>
     <div class="row">
-      <div class="large-3 medium-3 columns">
+      <div class="large-4 medium-4 columns">
         <label class="key inline"><%= t("fields.#{field_name.to_sym}", :locale => given_locale.to_sym) %></label>
       </div>
-      <div class="large-9 medium-9 columns">
+      <div class="large-8 medium-8 columns">
         <%
           disabled = false
           if field_type == :text_area && fld.object[:multi_select] && field_name == :option_strings_text && fld.object[:"option_strings_text_#{given_locale}"].is_a?(Array)

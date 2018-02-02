@@ -7,6 +7,7 @@ module ImportActions
     if params[:import_file].is_a? ActionDispatch::Http::UploadedFile
       file = params[:import_file]
       type = params[:import_type] || file.original_filename.split('.')[-1]
+
       file_extension = file.original_filename.split('.').pop
       password = params[:password]
 
@@ -14,6 +15,7 @@ module ImportActions
         # If the uploaded file is a zip file try to open it and process the content file(s)
         if file_extension.downcase == "zip"
           success, message = import_zip_file(file.tempfile.path, password, type)
+
           if !success
             flash[:error] = message
             redirect_to :action => :index and return
@@ -40,28 +42,33 @@ module ImportActions
   end
 
   def import_zip_file zip_file, password, type
-    ZipRuby::Archive.open(zip_file) do |archive|
-      # Try to decrypt the file if the user gives a password to decrypt it
-      if password.present?
-        if !archive.decrypt(password)
-          return [false, I18n.t("imports.decrypt_error")]
+    decrypter = password.present? ? Zip::TraditionalDecrypter.new(password) : nil?
+
+    Zip::InputStream.open(zip_file, 0, decrypter) do |io|
+      while (file = io.get_next_entry)
+        unless io.eof
+          begin
+            name = file.name
+            ext = type == 'guess' ? name.split('.').pop : type
+            temp_file = StringIO.new io.read
+          rescue
+            return [false, I18n.t("imports.decrypt_error")]
+          end
+
+          def temp_file.open(*mode, &block)
+            self.rewind
+            block.call(self) if block
+            return self
+          end
+
+          if !import_single_file(temp_file, ext)
+            return [false, t('imports.zip_file.unknown_type')]
+          end
         end
       end
-      archive.each do |file|
-        name = file.name
-        ext = type == "guess" ? name.split('.').pop : type
-        temp_file = StringIO.new file.read
-        def temp_file.open(*mode, &block)
-          self.rewind
-          block.call(self) if block
-          return self
-        end 
-        if !import_single_file(temp_file, ext)
-          return [false, t('imports.zip_file.unknown_type')]
-        end
-      end
+
+      [true, '']
     end
-    [true, ""]
   end
 
   def import_single_file file, type

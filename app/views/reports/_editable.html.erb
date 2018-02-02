@@ -1,4 +1,4 @@
-<%= resource_edit_field(object, 'name', 'report.name', 'text_field', true) %>
+<%= resource_edit_field(object, 'name', 'report.name', 'text_field', true, false, nil, 'errors.models.report.name_presence') %>
 <%= resource_edit_field(object, 'description', 'report.description', 'text_area') %>
 <%# Modules input %>
 <div class="row">
@@ -10,14 +10,15 @@
   <div class="medium-8 columns">
     <span class="value value_form">
       <%= form_builder.select(
-            :module_ids,
-            options_for_select(
-              @current_user.modules.map{|p|[p.name, p.id]},
-              @report.module_ids
-            ),
-            {}, {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item")}
-          )
-      %>
+        :module_ids,
+        options_for_select(
+          @current_user.modules.map{|p|[p.name, p.id]},
+          @report.module_ids
+        ),
+        {},
+        {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item"), :required => ""}
+      ) %>
+      <small class="error"><%= t('errors.models.report.module_presence') %></small>
     </span>
   </div>
   <div class="medium-1 columns">
@@ -34,14 +35,15 @@
   <div class="medium-8 columns">
     <span class="value value_form">
       <%= form_builder.select(
-            :record_type,
-            options_for_select(
-              Report.reportable_record_types.map{|rt|[t("forms.record_types.#{rt}"), rt]},
-              @report.record_type
-            ),
-            {include_blank: t("fields.select_box_empty_item")}, {:'data-placeholder' => t("fields.select_box_empty_item")}
-          )
-      %>
+        :record_type,
+        options_for_select(
+          Report.reportable_record_types.map{|rt|[t("forms.record_types.#{rt}"), rt]},
+          @report.record_type
+        ),
+        {include_blank: t("fields.select_box_empty_item")},
+        {:'data-placeholder' => t("fields.select_box_empty_item"), :required => ""}
+      ) %>
+      <small class="error"><%= t('errors.models.report.record_type_presence') %></small>
     </span>
   </div>
   <div class="medium-1 columns">
@@ -58,15 +60,17 @@
   <div class="medium-8 columns">
     <span class="value value_form" data-actual-order="<%= @report.aggregate_by %>">
       <%= form_builder.select(
-            :aggregate_by,
-            grouped_options_for_select(
-              select_options_fields_grouped_by_form(@reportable_fields),
-              @report.aggregate_by
-            ),
-            {}, {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item")}
-          )
-      %>
+        :aggregate_by,
+        grouped_options_for_select(
+          select_options_fields_grouped_by_form(@reportable_fields),
+          @report.aggregate_by
+        ),
+        {},
+        {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item"), :required => ""}
+      ) %>
+      <small class="error"><%= t('errors.models.report.group_by_row_presence') %></small>
     </span>
+    <p class="help"><%= t("reports.limited_pivots") %></p>
   </div>
   <div class="medium-1 columns">
     <span class="required">*</span>
@@ -82,14 +86,13 @@
   <div class="medium-8 columns">
     <span class="value value_form" data-actual-order="<%= @report.disaggregate_by %>">
       <%= form_builder.select(
-            :disaggregate_by,
-            grouped_options_for_select(
-              select_options_fields_grouped_by_form(@reportable_fields),
-              @report.disaggregate_by
-            ),
-            {}, {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item")}
-          )
-      %>
+        :disaggregate_by,
+        grouped_options_for_select(
+          select_options_fields_grouped_by_form(@reportable_fields),
+          @report.disaggregate_by
+        ),
+        {}, {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item")}
+      ) %>
     </span>
   </div>
   <div class="medium-1 columns">
@@ -106,14 +109,14 @@
   <div class="medium-8 columns">
     <span class="value value_form">
       <%= form_builder.select(
-            :aggregate_counts_from,
-            grouped_options_for_select(
-              select_options_fields_grouped_by_form(@reportable_fields_aggregate_counts_from),
-              @report.aggregate_counts_from
-            ),
-            {include_blank: t("fields.select_box_empty_item")}, {:'data-placeholder' => t("fields.select_box_empty_item")}
-          )
-      %>
+        :aggregate_counts_from,
+        grouped_options_for_select(
+          select_options_fields_grouped_by_form(@reportable_fields_aggregate_counts_from),
+          @report.aggregate_counts_from
+        ),
+        {include_blank: t("fields.select_box_empty_item")},
+        {:'data-placeholder' => t("fields.select_box_empty_item")}
+      ) %>
     </span>
   </div>
   <div class="medium-1 columns">
@@ -129,7 +132,7 @@
   </div>
   <div class="medium-8 columns">
     <%= form_builder.check_box :group_ages, {}, "true", "false" %>
-    <small><%= @age_ranges.join(", ") %></small>
+    <small><%= @age_ranges ? @age_ranges.join(", ") : '' %></small>
   </div>
   <div class="medium-1 columns"> </div>
 </div>
@@ -143,13 +146,15 @@
   <div class="medium-8 columns">
     <span class="value value_form">
       <%= form_builder.select(
-            :group_dates_by,
-            options_for_select(
-              Report::DATE_RANGES.map{|r|[t("report.date_ranges.#{r}"), r]},
-              @report.group_dates_by
-            )
-          )
-      %>
+        :group_dates_by,
+        options_for_select(
+          Report::DATE_RANGES.map{|r|[t("report.date_ranges.#{r}"), r]},
+          @report.group_dates_by,
+        ),
+        {},
+        {:required => ""}
+      ) %>
+      <small class="error"><%= t('errors.models.report.use_date_ranges_presence') %></small>
     </span>
   </div>
   <div class="medium-1 columns">

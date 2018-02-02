@@ -1,4 +1,4 @@
-require "spec_helper"
+require "rails_helper"
 
 def mock_suggestedfield(stubs={})
   stubs.reverse_merge!(:is_used= =>false, :save=>true)
@@ -36,7 +36,7 @@ describe SuggestedField do
     it "only return the suggested fields that have not been used" do
       suggested_fields = [SuggestedField.new, SuggestedField.new]
       SuggestedField.stub(:by_is_used).with(:key=>false).and_return(suggested_fields)
-      SuggestedField.all_unused().should == suggested_fields  
+      SuggestedField.all_unused().should == suggested_fields
     end
   end
 end

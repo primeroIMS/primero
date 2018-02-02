@@ -1,5 +1,5 @@
 <% if model.respond_to? :by_flag %>
-  <%= render partial: 'record_shared/flag_records', locals: {model: model} %>
+    <%= render partial: 'record_shared/flag_records', locals: {model: model} %>
 <% end %>
 <% if display_actions %>
   <%= render partial: 'record_shared/actions', locals: {model: model} %>

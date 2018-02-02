@@ -30,8 +30,11 @@ _primero.Views.IndexFilters = Backbone.View.extend({
       default_filter = 'status'
     }
 
-    filter[default_filter] = 'list||Open';
-    filter['record_state'] = 'list||true';
+    if (_primero.model_object === 'child' || _primero.model_object === 'tracing_request') {
+      filter[default_filter] = 'list||Open';
+      filter['record_state'] = 'list||true';
+    }
+    
     url_string = _primero.object_to_params(filter);
     window.location.search = url_string;
   },
@@ -109,7 +112,7 @@ _primero.Views.IndexFilters = Backbone.View.extend({
   },
 
   set_remove_filter: function(filter, value) {
-    _primero.filters[filter] = value;
+    _primero.filters[filter] = _.isArray(value) ? _.uniq(value) : value;
 
     if (_primero.filters[filter].length === 1 || _primero.filters[filter] === '') {
       delete _primero.filters[filter];
@@ -118,7 +121,9 @@ _primero.Views.IndexFilters = Backbone.View.extend({
 
   set_array_filter: function(filter, value, type) {
     if (_.isArray(_primero.filters[filter])) {
-      _primero.filters[filter].push(value);
+      if (!_.contains(_primero.filters[filter], value)) {
+        _primero.filters[filter].push(value);
+      }
     } else {
       _primero.filters[filter] = [type, value];
     }

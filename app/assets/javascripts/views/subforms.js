@@ -141,7 +141,7 @@ _primero.Views.SubformView = Backbone.View.extend({
     newSubform.attr('data-subform_index', i);
     newSubform.attr("class", newSubformClass);
     newSubform.fadeIn(600);
-    newSubform.find("input[editable!='false'], select, textarea").removeAttr("disabled");
+    newSubform.find("input, select, textarea").filter('[is_disabled=false]').removeAttr("disabled");
     newSubform.appendTo(subforms);
 
     // set sidebar height
@@ -156,7 +156,10 @@ _primero.Views.SubformView = Backbone.View.extend({
     //After add rows, remove the field that allow remove fields on the server side
     //when all rows were removed.
     $(subforms).parent().find("#" + _primero.model_object + "_" + subforms.attr("id") + "_empty_subform").remove();
-    $('textarea').autogrow();
+
+    if(newSubform.find('textarea').length > 0) {
+      autosize($('textarea'));
+    }
 
     _primero.show_add_violation_message();
   },
@@ -221,9 +224,4 @@ _primero.Views.SubformView = Backbone.View.extend({
       $(target).parent().append("<input id=\"" + id + "\" type=\"hidden\" name=\"" + name + "\" value=\"\" />");
     }
   }
-});
-
-$(document).ready(function() {
-  //Disable all template inputs
-  $('div.template').find('input, select, textarea').attr("disabled","disabled");
 });

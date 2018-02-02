@@ -115,32 +115,17 @@ create_or_update_user(
 )
 
 create_or_update_user(
-  "user_name" => "primero_mrm",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
-  "full_name" => "MRM Worker",
-  "email" => "primero_mrm@primero.com",
-  "disabled" => "false",
-  "organization" => "agency-unicef",
-  "role_ids" => [
-    Role.by_name(key: "MRM Worker").first.id
-  ],
-  "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero MRM").first.id]
-)
-
-create_or_update_user(
-  "user_name" => "primero_mgr_mrm",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
-  "full_name" => "MRM Manager",
-  "email" => "primero_mgr_mrm@primero.com",
-  "disabled" => "false",
-  "organization" => "agency-unicef",
-  "role_ids" => [
-    Role.by_name(key: "MRM Manager").first.id
-  ],
-  "module_ids" => [PrimeroModule.by_name(key: "MRM").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero MRM").first.id],
-  "is_manager" => true
+    "user_name" => "primero_ftr_manager",
+    "password" => "qu01n23!",
+    "password_confirmation" => "qu01n23!",
+    "full_name" => "FTR Manager",
+    "email" => "primero_ftr_manager@primero.com",
+    "disabled" => "false",
+    "organization" => "agency-unicef",
+    "role_ids" => [
+        Role.by_name(key: "FTR Manager").first.id
+    ],
+    "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
+    "user_group_ids" => [UserGroup.by_name(key: "Primero FTR").first.id],
+    "is_manager" => true
 )

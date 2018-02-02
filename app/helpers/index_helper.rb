@@ -30,6 +30,8 @@ module IndexHelper
         list_view_header_tracing_request
       when "report"
         list_view_header_report
+      when "potential_match"
+        list_view_header_potential_match
       when "bulk_export"
         list_view_header_bulk_export
       else
@@ -51,6 +53,8 @@ module IndexHelper
         index_filters_incident
       when "tracing_request"
         index_filters_tracing_request
+      when "potential_match"
+        index_filters_potential_match
       else
         []
     end
@@ -208,7 +212,7 @@ module IndexHelper
     header_list << {title: 'sex', sort_title: 'sex'} if @is_cp
     header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp
     header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv
-    header_list << {title: '', sort_title: 'photo'} if @is_cp
+    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager
 
     return header_list
@@ -234,7 +238,6 @@ module IndexHelper
   def list_view_header_tracing_request
     return [
         {title: '', sort_title: 'select'},
-        {title: '', sort_title: 'flag'},
         {title: 'id', sort_title: 'short_id'},
         {title: 'name_of_inquirer', sort_title: 'relation_name'},
         {title: 'date_of_inquiry', sort_title: 'inquiry_date'},
@@ -248,6 +251,15 @@ module IndexHelper
       {title: 'name', sort_title: 'name'},
       {title: 'description', sort_title: 'description'},
       {title: '', sort_title: ''},
+    ]
+  end
+
+  def list_view_header_potential_match
+    [
+      {title: 'inquirer_id', sort_title: 'tracing_request_id'},
+      {title: 'tr_id', sort_title: 'tr_subform_id'},
+      {title: 'child_id', sort_title: 'child_id'},
+      {title: 'average_rating', sort_title: 'average_rating'},
     ]
   end
 
@@ -271,7 +283,7 @@ module IndexHelper
                   .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
     filters << "Flagged"
-    filters << "Mobile" if @is_cp
+    filters << "Mobile"
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
     filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
@@ -294,7 +306,7 @@ module IndexHelper
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
-    filters << "Reporting Location" if @is_admin
+    filters << "Reporting Location" if @can_view_reporting_filter
     filters << "Registration Date" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "No Activity"
@@ -308,6 +320,7 @@ module IndexHelper
     filters = []
 
     filters << "Flagged"
+    filters << "Mobile"
     filters << "Violation" if @is_mrm
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
@@ -341,6 +354,15 @@ module IndexHelper
     return filters
   end
 
+  def index_filters_potential_match
+    filters = []
+    filters << "Sex"
+    filters << "Age Range"
+    filters << "Score Range"
+
+    return filters
+  end
+
   def visible_filter_field?(field_name, forms)
     return false if forms.blank?
     fields = forms.map{|fs| fs.fields.select{|f| f.name == field_name} }.flatten
@@ -355,4 +377,39 @@ module IndexHelper
     fields.any?{|f| f.visible?}
   end
 
+  def allowed_to_export(exporters)
+    exporters.any? { |ex| can?("export_#{ex.id}".to_sym, controller.model_class) }
+  end
+
+  # TODO: 1.4 has added permission (Permission::INCIDENT_DETAILS_FROM_CASE).
+  # Can diff to figure out differences
+  # use https://bitbucket.org/quoin/primero/pull-requests/1955/jor-660-action-button-permission/diff
+  def has_index_actions(model)
+    actions = [
+      Permission::IMPORT,
+      Permission::EXPORT_CUSTOM,
+      Permission::REASSIGN,
+      Permission::SYNC_MOBILE,
+      Permission::ASSIGN,
+      Permission::TRANSFER,
+      Permission::REFERRAL
+    ]
+    actions.any?{ |p| can?(p.to_sym, model) }
+  end
+
+  def has_show_actions(model)
+    actions = [
+      Permission::IMPORT,
+      Permission::EXPORT_CUSTOM,
+      Permission::REASSIGN,
+      Permission::SYNC_MOBILE,
+      Permission::ASSIGN,
+      Permission::TRANSFER,
+      Permission::REFERRAL,
+      Permission::REQUEST_APPROVAL_BIA,
+      Permission::APPROVE_BIA,
+      'edit',
+    ]
+    actions.any?{ |p| can?(p.to_sym, model) }
+  end
 end

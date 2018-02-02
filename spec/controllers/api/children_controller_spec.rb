@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ChildrenController do
 
@@ -25,9 +25,8 @@ describe ChildrenController do
 
     it "should fail GET show when unauthorized" do
       child = Child.create(:short_id => 'short_id', :created_by => "fakeadmin")
-      child_arg = hash_including("_id" => child.id)
 
-      @controller.current_ability.should_receive(:can?).with(:read, child_arg).and_return(false)
+      @controller.current_ability.should_receive(:can?).with(:read, child).and_return(false)
       get :show, :id => child.id, :format => :json
       response.should be_forbidden
     end
@@ -52,7 +51,21 @@ describe ChildrenController do
 
     it "should filter out all the non-mobile records" do
       get :index, format: :json, mobile: 'true'
-      expect(assigns[:records]).to match_array([@c1, @c2])
+      #What is returned isn't the entire Case record, but a stripped down version with only the populated fields
+      expect(assigns[:records]).to match_array([{"module_id"=>"cp",
+                                                "record_state"=>true,
+                                                "marked_for_mobile"=>true,
+                                                "hidden_name"=>false,
+                                                "system_generated_followup"=>false,
+                                                "_id"=>"child1",
+                                                "couchrest-type"=>"Child"},
+                                               {"module_id"=>"cp",
+                                                "record_state"=>true,
+                                                "marked_for_mobile"=>true,
+                                                "hidden_name"=>false,
+                                                "system_generated_followup"=>false,
+                                                "_id"=>"child2",
+                                                "couchrest-type"=>"Child"}])
     end
 
     it "should return ids of all mobile-syncable records when using the ids parameter" do
@@ -82,7 +95,7 @@ describe ChildrenController do
       Child.should_receive(:get).with("123").and_return(child)
       get :show, :id => "123", :format => :json, :mobile => 'true'
       expect(assigns[:record][:id]).to eq('123')
-      expect(assigns[:record].key?(:empty_array_attr)).to be_false
+      expect(assigns[:record].key?(:empty_array_attr)).to be_falsey
     end
 
     it "will discard empty arrays in the nested subforms in the JSON representation if queried from the mobile client" do
@@ -91,7 +104,7 @@ describe ChildrenController do
       Child.should_receive(:get).with("123").and_return(child)
       get :show, :id => "123", :format => :json, :mobile => 'true'
       expect(assigns[:record][:id]).to eq('123')
-      expect(assigns[:record][:a_nested_subform].first.key?(:empty_array_attr)).to be_false
+      expect(assigns[:record][:a_nested_subform].first.key?(:empty_array_attr)).to be_falsey
     end
 
     it "will not discard child array attributes" do

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Enquiry do
 
@@ -206,7 +206,7 @@ describe Enquiry do
         end
 
         # TODO: full text searching not implemented yet. Effects the next 3 test.
-        
+
         # it "should update match_updated_at timestamp when new matching children are found on creation of an Enquiry" do
         #   enquiry = Enquiry.create!(:criteria => {"name" => "Eduardo", "location" => "Kampala"}, :enquirer_name => "Kisitu")
         #   enquiry.match_updated_at.should == Time.utc(2013, "jan", 01, 00, 00, 0).to_s

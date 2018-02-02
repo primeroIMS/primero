@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Incident do
 
@@ -366,7 +366,7 @@ describe Incident do
         incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
         incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique', 'short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
         incident_duplicate.mark_as_duplicate incident_active['short_id']
-        incident_duplicate.duplicate?.should be_true
+        incident_duplicate.duplicate?.should be_truthy
         incident_duplicate.duplicate_of.should == incident_active.id
       end
 
@@ -380,7 +380,7 @@ describe Incident do
         incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
         incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique','short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
         incident_duplicate.mark_as_duplicate incident_active['short_id']
-        incident_duplicate.duplicate?.should be_true
+        incident_duplicate.duplicate?.should be_truthy
         incident_duplicate.duplicate_of.should == incident_active.id
       end
     end
@@ -551,6 +551,61 @@ describe Incident do
       records.should eq([])
     end
 
+  end
+
+  describe "all ids and revs" do
+    before do
+      Incident.all.each &:destroy
+      @owner = create :user
+      @owner2 = create :user
+      @incident1 = create_incident_with_created_by(@owner.user_name, :marked_for_mobile => true, :module_id => PrimeroModule::GBV)
+      @incident2 = create_incident_with_created_by(@owner.user_name, :marked_for_mobile => false, :module_id => PrimeroModule::MRM)
+      @incident3 = create_incident_with_created_by(@owner2.user_name, :marked_for_mobile => true, :module_id => PrimeroModule::MRM)
+      @incident4 = create_incident_with_created_by(@owner2.user_name, :marked_for_mobile => false, :module_id => PrimeroModule::GBV)
+
+      @incident1.create!
+      @incident2.create!
+      @incident3.create!
+      @incident4.create!
+    end
+
+    context 'when mobile' do
+      context 'and module id is MRM' do
+        it 'returns all MRM mobile _ids and revs' do
+          ids_and_revs = Incident.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::MRM)
+          expect(ids_and_revs.count).to eq(1)
+          expect(ids_and_revs).to eq([{"_id" => @incident3.id, "_rev" => @incident3.rev}])
+        end
+      end
+
+      context 'and module id is GBV' do
+        it 'returns all GBV mobile _ids and revs' do
+          ids_and_revs = Incident.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::GBV)
+          expect(ids_and_revs.count).to eq(1)
+          expect(ids_and_revs).to eq([{"_id" => @incident1.id, "_rev" => @incident1.rev}])
+        end
+      end
+
+      context 'and module id is not provided' do
+        it 'returns all mobile _ids and revs' do
+          ids_and_revs = Incident.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', '')
+          expect(ids_and_revs.count).to eq(2)
+          expect(ids_and_revs).to include({"_id" => @incident1.id, "_rev" => @incident1.rev},
+                                          {"_id" => @incident3.id, "_rev" => @incident3.rev})
+        end
+      end
+    end
+
+    context 'when not mobile' do
+      it 'returns all _ids and revs' do
+        ids_and_revs = Incident.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], false, '2000/01/01', '')
+        expect(ids_and_revs.count).to eq(4)
+        expect(ids_and_revs).to include({"_id" => @incident1.id, "_rev" => @incident1.rev},
+                                        {"_id" => @incident2.id, "_rev" => @incident2.rev},
+                                        {"_id" => @incident3.id, "_rev" => @incident3.rev},
+                                        {"_id" => @incident4.id, "_rev" => @incident4.rev})
+      end
+    end
   end
 
   private

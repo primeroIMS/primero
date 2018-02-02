@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe SessionsController do
 
@@ -9,7 +9,7 @@ describe SessionsController do
 
   it "should return the required fields when the user is authenticated successfully via a mobile device" do
     MobileDbKey.should_receive(:find_or_create_by_imei).with("IMEI_NUMBER").and_return(double(:db_key => "unique_key"))
-    mock_user = double({:organization => "TW", :verified? => true})
+    mock_user = double({:organization => "TW", :verified? => true, :module_ids => ["primeromodule-cp"], :role_ids => ["role-cp-case-worker"]})
     User.should_receive(:find_by_user_name).with(anything).and_return(mock_user)
     Login.stub(:new).and_return(double(:authenticate_user =>
                               mock_model(Session, :authenticate_user => true, :device_blacklisted? => false, :imei => "IMEI_NUMBER",
@@ -18,6 +18,8 @@ describe SessionsController do
 
     JSON.parse(response.body)["db_key"].should == "unique_key"
     JSON.parse(response.body)["organization"].should == "TW"
+    JSON.parse(response.body)["module_ids"].should == ["primeromodule-cp"]
+    JSON.parse(response.body)["role_ids"].should == ["role-cp-case-worker"]
     JSON.parse(response.body)["language"].should == "en"
     JSON.parse(response.body)["verified"].should == mock_user.verified?
   end

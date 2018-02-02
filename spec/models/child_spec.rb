@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'sunspot'
 
 describe Child do
@@ -877,12 +877,11 @@ describe Child do
       end
 
       it "should take the current photo key during child creation and update it appropriately with the correct format" do
-        @child = Child.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'current_photo_key' => uploadable_photo_jeff.original_filename, 'created_by' => "me", 'created_organization' => "stc")
+        @child = Child.create('photo' => {"0" => uploadable_photo, "1" => uploadable_photo_jeff}, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
         @child.save
         @child.primary_photo.name.should == @child.photos.first.name
         @child.primary_photo.name.should == "jorge"
       end
-
 
       it "should not log anything if no photo changes have been made" do
         @child["last_known_location"] = "Moscow"
@@ -952,7 +951,7 @@ describe Child do
 
     it "should be true if was created and not updated" do
       child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
-      child.has_one_interviewer?.should be_true
+      child.has_one_interviewer?.should be_truthy
     end
 
     it "should be true if was created and updated by the same person" do
@@ -968,7 +967,7 @@ describe Child do
                                            "user_name"=>"john",
                                            "datetime"=>"03/02/2011 21:33"}]
       child['last_updated_by'] = 'john'
-      child.has_one_interviewer?.should be_true
+      child.has_one_interviewer?.should be_truthy
     end
 
     it "should be false if created by one person and updated by another" do
@@ -984,13 +983,13 @@ describe Child do
                                            "user_name"=>"john",
                                            "datetime"=>"03/02/2011 21:33"}]
       child['last_updated_by'] = 'jane'
-      child.has_one_interviewer?.should be_false
+      child.has_one_interviewer?.should be_falsey
     end
 
     it "should be false if histories is empty" do
       child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
       child['histories'] = []
-      child.has_one_interviewer?.should be_true
+      child.has_one_interviewer?.should be_truthy
     end
 
   end
@@ -1085,7 +1084,7 @@ describe Child do
         child_duplicate = Child.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
         child_active = Child.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique', 'short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
         child_duplicate.mark_as_duplicate child_active['short_id']
-        child_duplicate.duplicate?.should be_true
+        child_duplicate.duplicate?.should be_truthy
         child_duplicate.duplicate_of.should == child_active.id
       end
 
@@ -1099,7 +1098,7 @@ describe Child do
         child_duplicate = Child.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
         child_active = Child.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique','short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
         child_duplicate.mark_as_duplicate child_active['short_id']
-        child_duplicate.duplicate?.should be_true
+        child_duplicate.duplicate?.should be_truthy
         child_duplicate.duplicate_of.should == child_active.id
       end
     end
@@ -1180,19 +1179,55 @@ describe Child do
     describe "all ids and revs" do
       before do
         Child.all.each { |child| child.destroy }
+        @owner = create :user
+        @owner2 = create :user
+        @child1 = create_child_with_created_by(@owner.user_name, :name => "child1", :marked_for_mobile => true, :module_id => PrimeroModule::GBV)
+        @child2 = create_child_with_created_by(@owner.user_name, :name => "child2", :marked_for_mobile => false, :module_id => PrimeroModule::CP)
+        @child3 = create_child_with_created_by(@owner2.user_name, :name => "child3", :marked_for_mobile => true, :module_id => PrimeroModule::CP)
+        @child4 = create_child_with_created_by(@owner2.user_name, :name => "child4", :marked_for_mobile => false, :module_id => PrimeroModule::GBV)
+
+        @child1.create!
+        @child2.create!
+        @child3.create!
+        @child4.create!
       end
 
-      it "should return all _ids and revs in the system" do
-        child1 = create_child_with_created_by("user1", :name => "child1")
-        child2 = create_child_with_created_by("user2", :name => "child2")
-        child3 = create_child_with_created_by("user3", :name => "child3")
-        child1.create!
-        child2.create!
-        child3.create!
+      context 'when mobile' do
+        context 'and module id is CP' do
+          it 'returns all CP mobile _ids and revs' do
+            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::CP)
+            expect(ids_and_revs.count).to eq(1)
+            expect(ids_and_revs).to eq([{"_id" => @child3.id, "_rev" => @child3.rev}])
+          end
+        end
 
-        ids_and_revs = Child.fetch_all_ids_and_revs
-        ids_and_revs.count.should == 3
-        ids_and_revs.should =~ [{"_id" => child1.id, "_rev" => child1.rev}, {"_id" => child2.id, "_rev" => child2.rev}, {"_id" => child3.id, "_rev" => child3.rev}]
+        context 'and module id is GBV' do
+          it 'returns all GBV mobile _ids and revs' do
+            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::GBV)
+            expect(ids_and_revs.count).to eq(1)
+            expect(ids_and_revs).to eq([{"_id" => @child1.id, "_rev" => @child1.rev}])
+          end
+        end
+
+        context 'and module id is not provided' do
+          it 'returns all mobile _ids and revs' do
+            ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', '')
+            expect(ids_and_revs.count).to eq(2)
+            expect(ids_and_revs).to include({"_id" => @child1.id, "_rev" => @child1.rev},
+                                            {"_id" => @child3.id, "_rev" => @child3.rev})
+          end
+        end
+      end
+
+      context 'when not mobile' do
+        it 'returns all _ids and revs' do
+          ids_and_revs = Child.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], false, '2000/01/01', '')
+          expect(ids_and_revs.count).to eq(4)
+          expect(ids_and_revs).to include({"_id" => @child1.id, "_rev" => @child1.rev},
+                                          {"_id" => @child2.id, "_rev" => @child2.rev},
+                                          {"_id" => @child3.id, "_rev" => @child3.rev},
+                                          {"_id" => @child4.id, "_rev" => @child4.rev})
+        end
       end
     end
   end

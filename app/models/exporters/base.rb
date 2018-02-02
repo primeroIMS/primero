@@ -44,7 +44,7 @@ module Exporters
       def properties_to_export(props)
         props = exclude_forms(props) if self.excluded_forms.present?
         props = properties_to_keys(props)
-        props.reject {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
+        props.reject! {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
         return props
       end
 
@@ -186,7 +186,7 @@ module Exporters
 
       def get_model_value(model, property)
         exclude_name_mime_types = ['xls', 'csv', 'selected_xls']
-        if property.name == 'name' &&  model.module_id == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
+        if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
         else
           model.send(property.name)
