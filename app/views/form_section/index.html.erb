@@ -14,7 +14,7 @@
   <li>
     <%= select_tag :module_id,
                        options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id),
-                       :onchange => "if(this.value){window.location='?module_id='+this.value+'&parent_form=#{@parent_form}';}" %>
+                       :onchange => "if(this.value){window.location='?module_id='+this.value;}" %>
   </li>
 <% end %>
 
