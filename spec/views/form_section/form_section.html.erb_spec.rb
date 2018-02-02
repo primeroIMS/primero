@@ -82,14 +82,13 @@ describe "form_section/_form_section.html.erb" do
   describe "rendering radio buttons" do
 
     context "new record" do
-
       it "renders radio button fields" do
         @child = Child.new
         @form_section.add_field(build(:field, type: "radio_button", name: "is_age_exact".dehumanize,
                                       display_name: "is_age_exact".humanize,
                                       option_strings_text_all: ["Is Exact", "Approximate"].join("\n")))
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-        expect(rendered).to have_tag("input[type='radio'][value='exact']")
+        expect(rendered).to have_tag("input[type='radio'][value='is_exact']")
         expect(rendered).to have_tag("input[type='radio'][value='approximate']")
       end
     end
@@ -113,7 +112,6 @@ describe "form_section/_form_section.html.erb" do
   describe "rendering select boxes" do
 
     context "new record" do
-
       it "render select boxes" do
         @child = Child.new
         @form_section.add_field(build(:field, type: "select_box", name: "date_of_separation".dehumanize,
@@ -122,8 +120,8 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
         expect(rendered).to have_selector('select', id: "displayedformname_child_dateofseparation")
-        expect(rendered).to have_tag("option[value='1-2 weeks ago']")
-        expect(rendered).to have_tag("option[value='More than a year ago']")
+        expect(rendered).to have_tag("option[value='1_2_weeks_ago']")
+        expect(rendered).to have_tag("option[value='more_than_a_year_ago']")
       end
     end
   end
@@ -136,10 +134,9 @@ describe "form_section/_form_section.html.erb" do
                                     option_strings_text_all: ["1-2 weeks ago", "More than a year ago"].join("\n")))
 
       render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-
       expect(rendered).to have_selector('select', id: "displayedformname_child_dateofseparation")
-      expect(rendered).to have_tag("option[value='1-2 weeks ago']")
-      expect(rendered).to have_tag("option[value='More than a year ago']")
+      expect(rendered).to have_tag("option[value='1_2_weeks_ago']")
+      expect(rendered).to have_tag("option[value='more_than_a_year_ago']")
     end
   end
 
