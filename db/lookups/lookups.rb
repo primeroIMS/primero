@@ -42,7 +42,8 @@ create_or_update_lookup(
     "Nationality7",
     "Nationality8",
     "Nationality9",
-    "Nationality10"
+    "Nationality10",
+    "Unknown"
   ]
 )
 
@@ -58,7 +59,8 @@ create_or_update_lookup(
     "Ethnicity7",
     "Ethnicity8",
     "Ethnicity9",
-    "Ethnicity10"
+    "Ethnicity10",
+    "Unknown"
   ]
 )
 
@@ -90,7 +92,8 @@ create_or_update_lookup(
     "Religion7",
     "Religion8",
     "Religion9",
-    "Religion10"
+    "Religion10",
+    "Unknown"
   ]
 )
 
@@ -148,10 +151,9 @@ create_or_update_lookup(
   :name => "verification_status",
   :lookup_values => [
     "Verified",
-    "Unverified",
-    "Pending Verification",
-    "Falsely Attributed",
-    "Rejected"
+    "Report pending verification",
+    "Not MRM",
+    "Verification found that incident did not occur"
   ]
 )
 
@@ -190,6 +192,7 @@ create_or_update_lookup(
   ]
 )
 
+#TODO See if this can be deleted
 create_or_update_lookup(
   :name => "armed_force_group_name",
   :lookup_values => [
@@ -198,6 +201,36 @@ create_or_update_lookup(
     "Armed Force or Group 3",
     "Other, please specify"
   ]
+)
+
+create_or_update_lookup(
+    :name => "armed_force_name",
+    :lookup_values => [
+        "Armed Force 1",
+        "Armed Force 2",
+        "Armed Force 3",
+        "Unknown"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "armed_group_name",
+    :lookup_values => [
+        "Armed Group 1",
+        "Armed Group 2",
+        "Armed Group 3",
+        "Unknown"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "other_party_name",
+    :lookup_values => [
+        "Other Party 1",
+        "Other Party 2",
+        "Other Party 3",
+        "Unknown"
+    ]
 )
 
 create_or_update_lookup(
@@ -306,5 +339,164 @@ create_or_update_lookup(
             "LP-MD",
             "LP-MS",
             "LP-RR"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "weapon_type",
+    :lookup_values => [
+      "Aerial bomb",
+      "Barrel bomb",
+      "Baton",
+      "Beheading",
+      "Burned alive",
+      "Booby trap",
+      "Biological weapons",
+      "Chemical weapons",
+      "Dirty/atomic weapons (e.g. depleted uranium ammunition)",
+      "Hanging",
+      "Explosive remnant of war – ERW (includes unexploded ordnance and abandoned ordnance)",
+      "Improvised Explosive Device (IED) – Command-wire operated",
+      "Improvised Explosive Device (IED) – Flying IED",
+      "Improvised Explosive Device (IED) - Person-borne IED",
+      "Improvised Explosive Device (IED) - Remote-controlled IED",
+      "Improvised Explosive Device (IED) - Timer-operated IED",
+      "Improvised Explosive Device (IED) - Vehicle-borne IED",
+      "Improvised Explosive Device (IED) - Grenade",
+      "Landmine (includes anti-personnel and anti-vehicle landmine, both factory-made and improvised, and pressure-plate IEDs)",
+      "Light weapons (designed to be used by several persons, i.e. heavy machine guns, air defence weapons, etc.)",
+      "Missile",
+      "Mortar/Rocket",
+      "Sharp weapon",
+      "Small arm (e.g. AK-47)",
+      "Submunition (e.g. cluster munitions)",
+      "Stoning",
+      "Tear gas",
+      "Unmaned aerial vehicle",
+      "Water cannons",
+      "Other weapon",
+      "Unknown"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "attack_type",
+    :lookup_values => [
+      "Aerial attack",
+      "Arson",
+      "Land-based attack",
+      "Sea-based attack",
+      "Shooting (e.g. sniper)",
+      "Suicide attack",
+      "Other"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "violation_type",
+    :lookup_values => [
+      "Killing",
+      "Maiming",
+      "Recruitment and/or use",
+      "Rape and/or other grave sexual violence",
+      "Abduction",
+      "Attacks on schools and/or hospitals",
+      "Military use of schools and/or hospitals",
+      "Denial of humanitarian access for children"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "vulnerability_type",
+    :lookup_values => [
+        "Abducted",
+        "Asylum seeker",
+        "Detained",
+        "Disabled",
+        "Internally Displaced",
+        "Unaccompanied",
+        "Recruited",
+        "Refugee",
+        "Returnee",
+        "Separated",
+        "Stateless",
+        "Unknown"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "school_type",
+    :lookup_values => [
+      "Early childhood/pre-primary",
+      "Primary",
+      "Secondary",
+      "Vocational",
+      "Religious",
+      "Secular",
+      "Formal",
+      "Informal",
+      "Other"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "school_age_level",
+    :lookup_values => [
+      "0 - 5",
+      "6 - 10",
+      "11 - 13",
+      "14 - 18"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "school_sex_type",
+    :lookup_values => [
+      "Male school",
+      "Female school",
+      "Mixed school",
+      "Unknown"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "healthcare_facility_type",
+    :lookup_values => [
+      "Hospital",
+      "Health centre",
+      "Dispensary",
+      "Mobile health unit",
+      "Ambulance",
+      "Other"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "facility_impact_type",
+    :lookup_values => [
+      "Total destruction",
+      "Serious damage",
+      "Minor damage",
+      "None"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "ctfmr_followup_partner",
+    :lookup_values => [
+      "Partner 1",
+      "Partner 2",
+      "Partner 3",
+      "Other"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "ctfmr_member_or_partner",
+    :lookup_values => [
+      "Partner 1",
+      "Partner 2",
+      "Partner 3",
+      "Other"
     ]
 )

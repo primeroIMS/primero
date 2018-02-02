@@ -4,6 +4,7 @@ Primero = Backbone.View.extend({
   events: {
     'click .btn_submit': 'submit_form',
     'click .gq_popovers': 'engage_popover',
+    'click .gq_select_popovers': 'engage_select_popover',
     'sticky-start .record_controls_container, .index_controls_container': 'start_sticky',
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
@@ -36,11 +37,13 @@ Primero = Backbone.View.extend({
     _primero.abide_validator_date_not_future = this.abide_validator_date_not_future;
     _primero.date_not_future = this.date_not_future;
     _primero.valid_datepicker_value = this.valid_datepicker_value;
+    _primero.abide_validator_positive_number = this.abide_validator_positive_number;
+    _primero.valid_positive_number_value = this.valid_positive_number_value;
 
     this.init_trunc();
     this.init_sticky();
     this.init_popovers();
-    this.init_autogrow();
+    this.init_autosize();
     this.init_action_menu();
     this.init_chosen_or_new();
     this.show_hide_record_type();
@@ -184,8 +187,8 @@ Primero = Backbone.View.extend({
     });
   },
 
-  init_autogrow: function() {
-    $('textarea').autogrow();
+  init_autosize: function() {
+    autosize($('textarea'));
   },
 
   init_popovers: function() {
@@ -222,6 +225,12 @@ Primero = Backbone.View.extend({
     var selected_input = $(evt.target).parent().find('input, textarea, select');
 
     selected_input.trigger('focus');
+  },
+
+  engage_select_popover: function(evt) {
+    evt.preventDefault();
+    var guided_link = $(evt.target);
+    guided_link.popover('toggle');
   },
 
   init_sticky: function() {
@@ -655,6 +664,21 @@ Primero = Backbone.View.extend({
       //If value is empty check if required or not.
       return !required;
     }
-  }
+  },
 
+  abide_validator_positive_number: function(el, required, parent) {
+    if (el.getAttribute("disabled") !== "disabled") {
+      return _primero.valid_positive_number_value(el.value, required);
+    } else {
+      return true;
+    }
+  },
+
+  valid_positive_number_value: function(value, required) {
+    if (value !== "") {
+      return !isNaN(value) && value >= 0;
+    } else {
+      return !required;
+    }
+  }
 });

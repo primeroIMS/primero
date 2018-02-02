@@ -156,7 +156,10 @@ _primero.Views.SubformView = Backbone.View.extend({
     //After add rows, remove the field that allow remove fields on the server side
     //when all rows were removed.
     $(subforms).parent().find("#" + _primero.model_object + "_" + subforms.attr("id") + "_empty_subform").remove();
-    $('textarea').autogrow();
+
+    if(newSubform.find('textarea').length > 0) {
+      autosize($('textarea'));
+    }
 
     _primero.show_add_violation_message();
   },

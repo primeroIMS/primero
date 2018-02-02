@@ -119,7 +119,7 @@ en:
      disable_photo_wall: "Disable photo wall"
      create_incident: "Create Incident"
      create_case: "Create Case"
-     guiding_questions: "Guiding Questions"
+     guiding_questions: "Guidance"
      filter_label: "Filter:"
      filter: "Apply Filter"
      filter_clear: "Clear Filters"
@@ -416,7 +416,8 @@ en:
       incident_location: "Incident Location:"
       incident_date: "Incident Date:"
       unaccompanied_separated_status: "Protection Status:"
-      armed_force_group_name: "Armed Force or Group:"
+      armed_force_name: "Armed Force:"
+      armed_group_name: "Armed Group:"
       armed_force_group_type: "Armed Force or Group Type:"
       record_state: "Record State:"
       interview_date: "Interview Date:"
@@ -472,20 +473,21 @@ en:
 
     actions:
       change_log: "Change Log"
+      delete_document: "Delete document?"
 
     history_of: "History of %{short_id}"
 
     violation:
       violation: "Violation"
-      pending: 'Pending Verification'
+      pending: 'Report pending verification'
       killing: "Killing"
       maiming: "Maiming"
-      recruitment: "Recruitment"
-      sexual_violence: "Sexual Violence"
+      recruitment: "Recruitment and/or use"
+      sexual_violence: "Rape and/or other grave sexual violence"
       abduction: "Abduction"
-      attack_on_schools: "Attack on Schools"
-      attack_on_hospitals: "Attack on Hospitals"
-      denial_humanitarian_access: "Denial of Humanitarian Access"
+      attack_on: "Attacks on schools and/or hospitals"
+      military_use: "Military use of schools and/or hospitals"
+      denial_humanitarian_access: "Denial of humanitarian access for children"
       other_violation: "Other Violation"
 
   tracing_request:
@@ -1011,6 +1013,7 @@ en:
     default_date_validation: "Default date validation"
     date_not_valid: "This date is not valid."
     future_date_not_valid: "This date cannot be in future."
+    number_not_valid: "Please enter numeric data"
     separator: "Separator"
     successfully_added: "Field successfully added"
     updated: "Field updated"
@@ -1032,14 +1035,30 @@ en:
       no_file_selected: "No file selected."
       document_file_restrictions_message: "Files should be no larger than 2 MB (executable (.exe) files cannot be uploaded)."
       photo_file_restrictions_message: "Photos should be no larger than 10mb. Audio files should be no larger than 10mb. The smaller the better."
-      add_document_label: "Add Document"
       add_photo_label: "Add Photo"
-      add_new_document_button_text: "Add another document"
+
       add_new_photo_button_text: "Add another photo"
       document_description: "Document Description"
+      document:
+        add_document_label: "Add Document"
+        current_document_label: "Is this the current document?"
+        document_name_label: "Document Name"
+        document_date_label: "Document Date"
+        comment_label: "Comments"
+        add_button_text: "Add another document"
+      material:
+        add_document_label: "Add file"
+        current_document_label: "Is this the current file?"
+        document_name_label: "File name"
+        document_date_label: "File date"
+        comment_label: "File description"
+        add_button_text: "Add another file"
+
     upload_bia_document: "BIA Document"
     upload_bid_document: "BID Document"
     upload_other_document: "Other Document"
+    upload_supporting_material: "File"
+
 
   replication:
     label: Replication
@@ -1156,6 +1175,8 @@ en:
       week: "Week"
       month: "Month"
       year: "Year"
+      quarter: "Quarter"
+      quarter_abbr: "Q%{quarter}"
     filters:
       label: "Report filters"
       attribute: "Filter"

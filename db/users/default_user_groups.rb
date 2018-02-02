@@ -18,10 +18,10 @@ create_or_update_user_group(
   description: "Default Primero User Group for CP"
 )
 
-create_or_update_user_group(
-  name: "Primero GBV",
-  description: "Default Primero User Group for GBV"
-)
+# create_or_update_user_group(
+#   name: "Primero GBV",
+#   description: "Default Primero User Group for GBV"
+# )
 
 create_or_update_user_group(
   name: "Primero MRM",

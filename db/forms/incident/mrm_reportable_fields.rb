@@ -11,14 +11,16 @@ fields = [
            { id: 'killing', display_text: "Killing of Children" },
            { id: 'maiming', display_text: "Maiming of Children" },
            { id: 'abduction', display_text: "Abduction" },
-           { id: 'recruitment', display_text: "Recruitment or Use of Child Soldiers" },
-           { id: 'sexual_violence', display_text: "Rape or Other Grave Sexual Violence" },
-           { id: 'attack_on_schools', display_text: "Attacks on Schools" },
-           { id: 'attack_on_hospitals', display_text: "Attacks on Hospitals" },
-           { id: 'denial_humanitarian_access', display_text: "Denial of Humanitarian Access" },
+           { id: 'recruitment', display_text: "Recruitment and/or use of children" },
+           { id: 'sexual_violence', display_text: "Rape and/or other forms of sexual violence" },
+           { id: 'attack_on', display_text: "Attacks on schools and/or hospitals" },
+           { id: 'military_use', display_text: "Military use of schools and/or hospitals" },
+           { id: 'denial_humanitarian_access', display_text: "Denial of humanitarian access for children" },
            { id: 'other', display_text: "Other" }
         ],
-        "help_text" => "When removing a violation category, please ensure that you have removed all Violation forms associated with the violation category. To do this, navigate to the Violations forms, find the specific violation type, and click the remove button on all sub-forms for the violation category."
+        "help_text" => "When removing a violation category, please ensure that you have removed all Violation forms "\
+                       "associated with the violation category. To do this, navigate to the Violations forms, find the "\
+                       "specific violation type, and click the remove button on all sub-forms for the violation category."
         }),
   Field.new({"name" => "armed_force_group_names",
          "type" => "select_box",

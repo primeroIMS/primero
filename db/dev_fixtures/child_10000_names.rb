@@ -24,7 +24,7 @@ def create_children(id, num_children, names, lastnames)
       "#{id}#{i}" => ->(c) do
         randommonth = 10 + rand(2)
         randomday = 1 + rand(29)
-        
+
         c.module_id = 'primeromodule-cp'
         c.name = ''
         c.child_status = ['Open', 'Closed'].sample
