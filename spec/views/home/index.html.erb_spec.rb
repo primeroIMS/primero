@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "home/index.html.erb" do
   it "should display time for notifications in yyyy/mm/dd format for users who do not already exist" do

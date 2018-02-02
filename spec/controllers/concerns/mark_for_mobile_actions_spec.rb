@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe MarkForMobileActions, type: :controller do
   controller(ApplicationController) do

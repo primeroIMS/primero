@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :system_settings, :traits => [ :model ] do
     default_locale "en"
     primary_age_range "primero"

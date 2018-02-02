@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :form_section, :traits => [:model] do
     unique_id { "form_section_#{counter}" }
     form_group_name { "form_section_#{counter}" }

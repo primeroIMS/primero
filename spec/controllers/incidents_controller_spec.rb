@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 # def inject_export_generator( fake_export_generator, incident_data )
 	# ExportGenerator.stub(:new).with(incident_data).and_return( fake_export_generator )
@@ -15,7 +15,7 @@ def stub_out_incident_get(mock_incident = double(Incident))
 	mock_incident
 end
 
-describe IncidentsController do
+describe IncidentsController, :type => :controller do
 
   before do
     SystemSettings.all.each &:destroy
@@ -23,7 +23,7 @@ describe IncidentsController do
       primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
   end
 
-  before :each do
+  before :each do |example|
     Incident.any_instance.stub(:field_definitions).and_return([])
     Incident.any_instance.stub(:permitted_properties).and_return(Incident.properties)
     unless example.metadata[:skip_session]
@@ -79,18 +79,18 @@ describe IncidentsController do
       before :each do
         User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
         @incident = Incident.create('last_known_location' => "London", :short_id => 'short_id', :created_by => "uname")
-        @incident_arg = hash_including("_id" => @incident.id)
+        # @incident_arg = hash_including("_id" => @incident.id)
       end
 
       it "GET show" do
-        @controller.current_ability.should_receive(:can?).with(:read, @incident_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:read, @incident).and_return(false);
         controller.stub :get_form_sections
         get :show, :id => @incident.id
         response.status.should == 403
       end
 
       it "PUT update" do
-        @controller.current_ability.should_receive(:can?).with(:update, @incident_arg).and_return(false);
+        @controller.current_ability.should_receive(:can?).with(:update, @incident).and_return(false);
         put :update, :id => @incident.id
         response.status.should == 403
       end
@@ -649,7 +649,7 @@ describe IncidentsController do
           # :flag => true,
           # :flag_message => "Possible Duplicate"
         # }
-      # assigns[:incident]['flag'].should be_true
+      # assigns[:incident]['flag'].should be_truthy
       # assigns[:incident]['flag_message'].should == "Possible Duplicate"
     # end
 
@@ -1061,7 +1061,7 @@ describe IncidentsController do
 			controller.reindex_hash params['incident']
 			expected_subform = params["incident"]["nested_form_section"]["1"]
 
-			expect(expected_subform.present?).to be_true
+			expect(expected_subform.present?).to be_truthy
 			expect(expected_subform).to eq({"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"})
 		end
 
