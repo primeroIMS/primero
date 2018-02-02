@@ -8,12 +8,12 @@
   </li>
   <li>
     <%= select_tag :parent_form,
-         options_for_select(@record_types.map{|r| [r.titleize, r]}, @parent_form), :prompt=>"Select parent record",
+         options_for_select(@record_types.map{|r| [r.titleize, r]}, @parent_form),
          :onchange => "if(this.value){window.location='?module_id=#{@module_id}&parent_form='+this.value;}" %>
   </li>
   <li>
     <%= select_tag :module_id,
-                       options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id), :prompt=>"Select module",
+                       options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id),
                        :onchange => "if(this.value){window.location='?module_id='+this.value;}" %>
   </li>
 <% end %>
