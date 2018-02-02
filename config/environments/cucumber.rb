@@ -12,7 +12,7 @@ Primero::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Asset pipeline
-  config.serve_static_assets = true
+  config.serve_static_files = true
   config.static_cache_control = "public, max-age=3600"
 
   config.eager_load = false

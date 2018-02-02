@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Incident do
 
@@ -366,7 +366,7 @@ describe Incident do
         incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
         incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique', 'short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
         incident_duplicate.mark_as_duplicate incident_active['short_id']
-        incident_duplicate.duplicate?.should be_true
+        incident_duplicate.duplicate?.should be_truthy
         incident_duplicate.duplicate_of.should == incident_active.id
       end
 
@@ -380,7 +380,7 @@ describe Incident do
         incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
         incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique','short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
         incident_duplicate.mark_as_duplicate incident_active['short_id']
-        incident_duplicate.duplicate?.should be_true
+        incident_duplicate.duplicate?.should be_truthy
         incident_duplicate.duplicate_of.should == incident_active.id
       end
     end

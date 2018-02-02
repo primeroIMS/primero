@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 # TODO - Structure of these tests need some refactoring
 # TODO - The wording of these tests is poorly written

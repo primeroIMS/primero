@@ -1,0 +1,1 @@
+Rails.application.config.assets.precompile += %w( jquery.lightbox-0.5.css )

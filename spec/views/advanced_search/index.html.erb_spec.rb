@@ -1,7 +1,7 @@
 #TODO: All tests in this file have been disabled. Keeping them around for reference only.
 #      When advanced search is fully re-implemnted, everything here should be rewritten.
 
-require 'spec_helper'
+require 'rails_helper'
 require 'nokogiri'
 
 describe "advanced_search/index.html.erb" do

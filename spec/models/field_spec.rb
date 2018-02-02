@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 
 describe "record field model" do
@@ -289,20 +289,20 @@ describe "record field model" do
 
     it "should initialize with empty highlight information" do
       field = Field.new(:name => "No highlight")
-      field.is_highlighted?.should be_false
+      field.is_highlighted?.should be_falsey
     end
 
     it "should set highlight information" do
       field = Field.new(:name => "highlighted")
       field.highlight_with_order 6
-      field.is_highlighted?.should be_true
+      field.is_highlighted?.should be_truthy
     end
 
     it "should unhighlight a field" do
       field = Field.new(:name => "new highlighted")
       field.highlight_with_order 1
       field.unhighlight
-      field.is_highlighted?.should be_false
+      field.is_highlighted?.should be_falsey
     end
   end
 
@@ -754,9 +754,9 @@ describe "record field model" do
   it "should show that the field is new until the field is saved" do
      form = FormSection.create! :name => 'test_form', :unique_id => 'test_form'
      field = Field.new :name => "test_field", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
-     expect(field.new?).to be_true
+     expect(field.new?).to be_truthy
      FormSection.add_field_to_formsection form, field
-     expect(field.new?).to be_false
+     expect(field.new?).to be_falsey
   end
 
   it "should show that the field is new after the field fails validation" do
@@ -768,7 +768,7 @@ describe "record field model" do
     FormSection.add_field_to_formsection form, field
     expect(field.errors.length).to be > 0
     field.errors[:name].should == ["Field already exists on this form"]
-    expect(field.new?).to be_true
+    expect(field.new?).to be_truthy
   end
 
   it "should fails save because fields are duplicated and fields remains as new" do
@@ -781,8 +781,8 @@ describe "record field model" do
     expect(fields.last.errors.length).to be > 0
     fields.last.errors[:name].should == ["Field already exists on this form"]
     #Because it fails save, field remains new.
-    expect(fields.first.new?).to be_true
-    expect(fields.last.new?).to be_true
+    expect(fields.first.new?).to be_truthy
+    expect(fields.last.new?).to be_truthy
   end
 
   it "should fails save because fields changes make them duplicate" do
@@ -791,9 +791,9 @@ describe "record field model" do
               Field.new(:name => "test_field2", :display_name_en => "test_field2", :type=>Field::TEXT_FIELD)]
     form = FormSection.create :name => 'test_form2', :unique_id => 'test_form', :fields => fields
     expect(fields.first.errors.length).to be == 0
-    expect(fields.first.new?).to be_false
+    expect(fields.first.new?).to be_falsey
     expect(fields.last.errors.length).to be == 0
-    expect(fields.last.new?).to be_false
+    expect(fields.last.new?).to be_falsey
 
     #Update the first one to have the same name of the second,
     #This make fails saving the FormSection.
@@ -804,8 +804,8 @@ describe "record field model" do
     fields.first.errors[:name].should == ["Field already exists on this form"]
 
     #because field already came from the database should remains false
-    expect(fields.first.new?).to be_false
-    expect(fields.last.new?).to be_false
+    expect(fields.first.new?).to be_falsey
+    expect(fields.last.new?).to be_falsey
 
     #Fix the field and save again
     fields.first.name ="something_else"
@@ -875,7 +875,7 @@ describe "record field model" do
                              "display_name_all" => "My Test Field",
                              "option_strings_source" => "Location"
                             })
-          expect(field.is_location?).to be_true
+          expect(field.is_location?).to be_truthy
         end
       end
 
@@ -886,7 +886,7 @@ describe "record field model" do
                              "display_name_all" => "My Test Field",
                              "option_strings_source" => "lookup lookup-country"
                             })
-          expect(field.is_location?).to be_false
+          expect(field.is_location?).to be_falsey
         end
       end
 
@@ -897,7 +897,7 @@ describe "record field model" do
                              "display_name_all" => "My Test Field",
                              "option_strings" => "yes\nno"
                             })
-          expect(field.is_location?).to be_false
+          expect(field.is_location?).to be_falsey
         end
 
       end
@@ -910,7 +910,7 @@ describe "record field model" do
                            "type" => "text_field",
                            "display_name_all" => "My Test Field"
                           })
-        expect(field.is_location?).to be_false
+        expect(field.is_location?).to be_falsey
       end
     end
   end

@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 def inject_export_generator( fake_export_generator, child_data )
 	ExportGenerator.stub(:new).with(child_data).and_return( fake_export_generator )
@@ -15,7 +15,7 @@ def stub_out_child_get(mock_child = double(Child))
 	mock_child
 end
 
-describe ChildrenController do
+describe ChildrenController, :type => :controller do
 
   before do
     SystemSettings.all.each &:destroy
@@ -23,7 +23,7 @@ describe ChildrenController do
       primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
   end
 
-  before :each do
+  before :each do |example|
     Child.any_instance.stub(:field_definitions).and_return([])
     Child.any_instance.stub(:permitted_properties).and_return(Child.properties)
     unless example.metadata[:skip_session]
@@ -77,35 +77,35 @@ describe ChildrenController do
       before :each do
         User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
         @child = Child.create('last_known_location' => "London", :short_id => 'short_id', :created_by => "uname")
-        @child_arg = hash_including("_id" => @child.id)
+        # @child_arg = hash_including("_id" => @child.id)
       end
 
       it "GET show" do
-        @controller.current_ability.should_receive(:can?).with(:read, @child_arg).and_return(false)
+        @controller.current_ability.should_receive(:can?).with(:read, @child).and_return(false)
          get :show, :id => @child.id
          response.status.should == 403
       end
 
       it "PUT update" do
-        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false)
+        @controller.current_ability.should_receive(:can?).with(:update, @child).and_return(false)
         put :update, :id => @child.id
         response.status.should == 403
       end
 
       it "PUT edit_photo" do
-        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false)
+        @controller.current_ability.should_receive(:can?).with(:update, @child).and_return(false)
         put :edit_photo, :id => @child.id
         response.status.should == 403
       end
 
       it "PUT update_photo" do
-        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false)
+        @controller.current_ability.should_receive(:can?).with(:update, @child).and_return(false)
         put :update_photo, :id => @child.id
         response.status.should == 403
       end
 
       it "PUT select_primary_photo" do
-        @controller.current_ability.should_receive(:can?).with(:update, @child_arg).and_return(false)
+        @controller.current_ability.should_receive(:can?).with(:update, @child).and_return(false)
         put :select_primary_photo, :child_id => @child.id, :photo_id => 0
         response.status.should == 403
       end
@@ -154,6 +154,21 @@ describe ChildrenController do
         before { scope = {} }
         before {@options = {:startkey=>["all"], :endkey=>["all", {}], :page=>1, :per_page=>20, :view_name=>:by_valid_record_view_name}}
         it_should_behave_like "viewing children by user with access to all data"
+      end
+    end
+
+    describe "import_file" do
+      it 'import zip password protected zip files' do
+        permission_import = Permission.new(resource: Permission::CASE, actions: [Permission::IMPORT])
+        Role.create(id: 'importer', name: 'importer', permissions_list: [permission_import], group_permission: Permission::GROUP)
+
+        @user = User.new(:user_name => 'importing_user', :role_ids => ['importer'])
+        @session = fake_login @user
+
+        post :import_file, import_file: uploadable_zip_file, password: 'password', import_type: 'guess'
+
+        expect(response).to redirect_to action: :index
+        expect(flash[:notice]).to eq I18n.t('imports.successful')
       end
     end
 
@@ -816,7 +831,7 @@ describe ChildrenController do
           :reunited => true}
 
       assigns[:child]['name'].should == "Manchester"
-      assigns[:child]['reunited'].should be_true
+      assigns[:child]['reunited'].should be_truthy
       assigns[:child]['_attachments'].size.should == 1
     end
 
@@ -1339,7 +1354,7 @@ describe ChildrenController do
 			controller.reindex_hash params['child']
 			expected_subform = params["child"]["nested_form_section"]["1"]
 
-			expect(expected_subform.present?).to be_true
+			expect(expected_subform.present?).to be_truthy
 			expect(expected_subform).to eq({"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"})
 		end
 

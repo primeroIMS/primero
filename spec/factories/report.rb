@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :report, :traits => [ :model ] do
     name_en "test_age_location_report"
     record_type "case"

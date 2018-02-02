@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :tracing_request, :traits => [ :model ] do
     unique_identifier { counter.to_s }
     enquirer_name { "Test Tracing Request #{counter}" }

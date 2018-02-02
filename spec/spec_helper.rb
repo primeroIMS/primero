@@ -23,7 +23,7 @@ require 'rack_session_access/capybara'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 # This clears couchdb between tests.
-FactoryGirl.find_definitions
+FactoryBot.find_definitions
 Mime::Type.register 'application/zip', :mock
 
 Capybara.register_driver :chrome do |app|
@@ -53,11 +53,11 @@ Capybara.page.driver.browser.manage.window.resize_to(2000, 2000)
 
 module VerifyAndResetHelpers
   def verify(object)
-    RSpec::Mocks.proxy_for(object).verify
+    RSpec::Mocks.space.proxy_for(object).verify
   end
 
   def reset(object)
-    RSpec::Mocks.proxy_for(object).reset
+    RSpec::Mocks.space.proxy_for(object).reset
   end
 end
 
@@ -78,7 +78,7 @@ end
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.include Capybara::DSL
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include UploadableFiles
   config.include ChildFinder
   config.include FakeLogin, :type => :controller
@@ -115,6 +115,10 @@ RSpec.configure do |config|
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = true
 
+  config.formatter = :progress
+
+  config.infer_spec_type_from_file_location!
+
   # Run specs in random order to surface order dependencies. If you find an
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
@@ -135,13 +139,13 @@ RSpec.configure do |config|
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
 
-  config.before(:each) do
+  config.before(:each) do |example|
     unless example.metadata[:search]
       ::Sunspot.session = ::Sunspot::Rails::StubSessionProxy.new(::Sunspot.session)
     end
   end
 
-  config.after(:each) do
+  config.after(:each) do |example|
     unless example.metadata[:search]
       ::Sunspot.session = ::Sunspot.session.original_session
     end

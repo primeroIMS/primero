@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe PasswordRecoveryRequest do
   context 'a new request' do
