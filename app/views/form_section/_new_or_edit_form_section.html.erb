@@ -17,6 +17,7 @@
                           :header_message => t("form_section.messages.cannot_create"),
                           :message => t('form_section.messages.correct_errors') %>
             <%= hidden_field_tag "module_id", @module_id, :id => "form_section_module_id" %>
+            <%= hidden_field_tag "parent_form", @parent_form, :id => "form_section_parent_form" %>
             <%= hidden_field_tag "form_section[parent_form]", @parent_form, :id => "form_section_parent_form" %>
 
             <% unless @form_section.perm_enabled? %>

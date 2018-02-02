@@ -68,7 +68,7 @@ class FormSectionController < ApplicationController
     @form_section.properties = params[:form_section]
     if (@form_section.valid?)
       @form_section.save!
-      redirect_to edit_form_section_path(id: form_section.unique_id, module_id: params[:module_id], parent_form: params[:parent_form])
+      redirect_to edit_form_section_path(id: @form_section.unique_id, module_id: params[:module_id], parent_form: params[:parent_form])
     else
       get_form_group_names
       render :action => :edit
