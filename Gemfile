@@ -83,7 +83,7 @@ group :test, :cucumber, :development do
 end
 
 group :test, :cucumber do
-  gem 'factory_girl',     '~> 2.6'
+  gem 'factory_bot',                '~> 4.8.2'
   gem 'rspec-activemodel-mocks',    '~> 1.0.3'
   gem 'rspec-collection_matchers',  '~> 1.1.3'
   gem 'rspec',            '~> 3.7.0'

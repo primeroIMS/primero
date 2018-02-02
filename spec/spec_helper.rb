@@ -23,7 +23,7 @@ require 'rack_session_access/capybara'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 # This clears couchdb between tests.
-FactoryGirl.find_definitions
+FactoryBot.find_definitions
 Mime::Type.register 'application/zip', :mock
 
 Capybara.register_driver :chrome do |app|
@@ -77,7 +77,7 @@ end
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.include Capybara::DSL
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include UploadableFiles
   config.include ChildFinder
   config.include FakeLogin, :type => :controller

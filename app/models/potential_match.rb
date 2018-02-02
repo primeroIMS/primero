@@ -35,11 +35,10 @@ class PotentialMatch < CouchRest::Model::Base
 
   attr_accessor :visible
 
-  validates :child_id, :uniqueness => {:scope => :tr_subform_id}
-
   # TODO - this is failing as we are upgrading ruby & rails.
   # TODO - need to add back after couchrest version is upgraded
-  # before_create :create_identification
+  # validates :child_id, :uniqueness => {:scope => :tr_subform_id}
+  before_create :create_identification
 
   ALL_FILTER = 'all'
   POTENTIAL = 'POTENTIAL'

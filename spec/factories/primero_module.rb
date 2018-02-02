@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :primero_module, :traits => [:model] do
     name { "test_module_#{counter}"}
     description "test description"

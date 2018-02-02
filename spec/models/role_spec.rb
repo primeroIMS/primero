@@ -143,13 +143,13 @@ describe Role do
       end
       context 'if the role manages all of the permissions of the super user' do
         it "should return true for is_super_user_role?" do
-          expect(@role_super_user.is_super_user_role?).to be_true
+          expect(@role_super_user.is_super_user_role?).to be_truthy
         end
       end
 
       context 'if the role does not manage all of the permissions of the super user' do
         it "should return false for is_super_user_role?" do
-          expect(@role_not_super_user.is_super_user_role?).to be_false
+          expect(@role_not_super_user.is_super_user_role?).to be_falsey
         end
       end
     end
@@ -172,13 +172,13 @@ describe Role do
       end
       context 'if the role manages all of the permissions of the user admin' do
         it "should return true for is_user_admin_role?" do
-          expect(@role_user_admin.is_user_admin_role?).to be_true
+          expect(@role_user_admin.is_user_admin_role?).to be_truthy
         end
       end
 
       context 'if the role does not manage all of the permissions of the user admin' do
         it "should return false for is_user_admin_role?" do
-          expect(@role_not_user_admin.is_user_admin_role?).to be_false
+          expect(@role_not_user_admin.is_user_admin_role?).to be_falsey
         end
       end
     end
