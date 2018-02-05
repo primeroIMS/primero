@@ -24,7 +24,7 @@ class FieldsController < ApplicationController
     @field.base_language = I18n.default_locale
     if (@field.errors.length == 0)
       SuggestedField.mark_as_used(params[:from_suggested_field]) if params.has_key? :from_suggested_field
-      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id), flash: {notice: t("fields.successfully_added")} )
+      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id, parent_form: @parent_form), flash: {notice: t("fields.successfully_added")} )
     else
       get_form_group_names
       @show_add_field = {:show_add_field => true}
@@ -61,7 +61,7 @@ class FieldsController < ApplicationController
       if (request.xhr?)
         render :json => message
       else
-        redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
+        redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id, parent_form: @parent_form))
       end
     else
       get_form_group_names
@@ -83,7 +83,7 @@ class FieldsController < ApplicationController
     field = @form_section.fields.find { |field| field.name == params[:field_name] }
     @form_section.delete_field(field.name)
     flash[:notice] = t("fields.deleted", :display_name => field.display_name)
-    redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
+    redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id, parent_form: @parent_form))
   end
 
   def toggle_fields
