@@ -105,11 +105,11 @@ class ApplicationController < ActionController::Base
     #TODO: The encrypted zipfile is corrupt when data is "". Fix it.
     enc_filename = CleansingTmpDir.temp_file_name
 
-    ZipRuby::Archive.open(enc_filename, ZipRuby::CREATE) do |ar|
-      ar.add_or_replace_buffer data_filename, data
-      if password
-        ar.encrypt password
-      end
+    encrypt = password ? Zip::TraditionalEncrypter.new(password): nil
+
+    Zip::OutputStream.open(enc_filename, encrypt) do |out|
+      out.put_next_entry(data_filename)
+      out.write data
     end
 
     send_file enc_filename, :filename => "#{data_filename}.zip", :disposition => "inline", :type => 'application/zip'

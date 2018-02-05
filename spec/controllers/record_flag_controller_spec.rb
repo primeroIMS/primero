@@ -83,7 +83,6 @@ describe RecordFlagController, :type => :controller do
     end
 
     it "should flag the record with all parameters" do
-
       post :flag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => "15-Jul-2014"}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag", "date" => "2014/07/15",
         "flagged_by" => "#{@user.user_name}", "removed" => nil,
@@ -104,7 +103,7 @@ describe RecordFlagController, :type => :controller do
         "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
         "unflag_message" => nil, "unflagged_by" => nil, "unflagged_date" => nil})
       record_db = model.get(record.id)
-      record_db.flag.should eq(true)
+      expect(record_db.flag).to be_truthy
       flag = record_db.flags.last
       expect(flag.message).to eq("#{model.name} Testing Flag")
       expect(flag.flagged_by).to eq(@user.user_name)

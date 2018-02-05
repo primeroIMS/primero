@@ -40,7 +40,7 @@ describe 'children/' do
     # Audio upload and photo upload boxes are using Static labels instead of field.display_name
     # Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'audio_upload_box'),
     # Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'photo_upload_box'),
-    
+
     Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'date_field'),
     Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'radio_button', :option_strings => []),
     Field.new(:name => 'new_field', :display_name => 'This is a New Field', :type => 'select_box', :option_strings => [])

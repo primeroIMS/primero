@@ -79,7 +79,7 @@ describe TracingRequestsController, :type => :controller do
       before :each do
         User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
         @tracing_request = TracingRequest.create('last_known_location' => "London", :short_id => 'short_id', :created_by => "uname")
-        @tracing_request_arg = hash_including("_id" => @tracing_request.id)
+        # @tracing_request_arg = hash_including("_id" => @tracing_request.id)
       end
 
       it "GET show" do

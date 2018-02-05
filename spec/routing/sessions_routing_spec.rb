@@ -12,11 +12,11 @@ describe SessionsController do
     end
 
     it "recognizes and generates #create" do
-      { :post => "/sessions" }.should route_to(:controller => "sessions", :action => "create") 
+      { :post => "/sessions" }.should route_to(:controller => "sessions", :action => "create")
     end
 
     it "recognizes and generates #destroy" do
-      { :delete => "/sessions/1" }.should route_to(:controller => "sessions", :action => "destroy", :id => "1") 
+      { :delete => "/sessions/1" }.should route_to(:controller => "sessions", :action => "destroy", :id => "1")
     end
 
     it "recognizes and generates #active" do

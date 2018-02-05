@@ -45,9 +45,13 @@ module ConfigurationResourceHelper
   end
 
   def resource_show_field(object, field, label_key, translation_class=nil)
+    cached_display_text_classes = [Agency, Location]
     label_text = I18n.t(label_key)
     value = object.send(field)
-    value = eval("#{translation_class}.display_text('#{value}')") if translation_class.present?
+
+    value = cached_display_text_classes.include?(translation_class) ?
+      eval("#{translation_class}.display_text('#{value}', locale: '#{I18n.locale}')") :
+      eval("#{translation_class}.display_text('#{value}')") if translation_class.present?
 
     content_tag :div, class: 'row' do
       concat(content_tag(:div, class: 'medium-4 columns'){

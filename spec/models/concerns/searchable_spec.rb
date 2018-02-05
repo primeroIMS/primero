@@ -38,7 +38,7 @@ describe "Searchable" do
       #TODO pending "Fuzzy search isn't implemented yet"
     end
 
-    it "should search by exact match for short id" do
+    xit "should search by exact match for short id" do
       #TODO pending "Write this test!"
     end
 

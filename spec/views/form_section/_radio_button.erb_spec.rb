@@ -8,12 +8,12 @@ describe "form_section/_radio_button.html.erb" do
 
   it "should display radio button" do
     radio_button = Field.new :name => "new field",
-        :display_name => "field name",
-        :type => 'radio_button',
-        :editable => true,
-        :disabled => false,
-        :option_strings_text_all => Array['Male Test', 'Female Test'],
-        :help_text => "This is my help text"
+                             :display_name => "field name",
+                             :type => 'radio_button',
+                             :editable => true,
+                             :disabled => false,
+                             :option_strings_text_all => Array['Male Test', 'Female Test'],
+                             :help_text => "This is my help text"
 
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
