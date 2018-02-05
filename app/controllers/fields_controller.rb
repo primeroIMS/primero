@@ -29,7 +29,7 @@ class FieldsController < ApplicationController
       render :template => "form_section/edit", :locals => @show_add_field
     else
       SuggestedField.mark_as_used(params[:from_suggested_field]) if params.has_key? :from_suggested_field
-      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id), flash: {notice: t("fields.successfully_added")} )
+      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id, parent_form: @parent_form), flash: {notice: t("fields.successfully_added")} )
     end
   end
 
