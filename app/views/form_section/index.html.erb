@@ -14,7 +14,7 @@
   <li>
     <%= select_tag :module_id,
                        options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id),
-                       :onchange => "if(this.value){window.location='?module_id='+this.value+'&parent_form=#{@parent_form}';}" %>
+                       :onchange => "if(this.value){window.location='?module_id='+this.value;}" %>
   </li>
 <% end %>
 
@@ -24,7 +24,7 @@
   <div class="large-8 medium-8 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <% if @form_sections.present? %>
-        <%= render :partial => "form_section/list_view_table", :locals => {:form_sections => @form_sections, :primero_module => @primero_module} %>
+        <%= render :partial => "form_section/list_view_table", :locals => {:form_sections => @form_sections, :primero_module => @primero_module, :parent_form => @parent_form} %>
       <% end %>
       <div id="modal-dialog" class="hide"></div>
       </div>

@@ -27,7 +27,8 @@ class Report < CouchRest::Model::Base
   WEEK = 'week' #eg. Week 2 Jan-2015
   MONTH = 'month' #eg. Jan-2015
   YEAR = 'year' #eg. 2015
-  DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
+  QUARTER = 'quarter'
+  DATE_RANGES = [DAY, WEEK, MONTH, QUARTER, YEAR]
 
   property :name
   property :description
@@ -211,6 +212,49 @@ class Report < CouchRest::Model::Base
     end
   end
 
+  def parse_filter_dates(type, dates)
+    dates = dates.split('.')
+    parsed_dates = []
+
+    case type
+    when 'month'
+      parsed_dates << format_date(dates.first, :beginning_of_month) << format_date(dates.last, :end_of_month)
+    when 'year'
+      parsed_dates << format_date(DateTime.new(dates.first.to_i), :beginning_of_year) << format_date(DateTime.new(dates.last.to_i), :end_of_year)
+    when 'week'
+      parsed_dates << format_date(dates.first, :beginning_of_week) << format_date(dates.last, :end_of_week)
+    when 'quarter'
+      parsed_dates << format_date(dates.first, :beginning_of_quarter, true) << format_date(dates.first, :end_of_quarter, true)
+    else
+      parsed_dates << format_date(dates.first) << format_date(dates.last)
+    end
+
+    if parsed_dates.count == 2
+      return ['[' + parsed_dates.first + ' TO ' + parsed_dates.last  + ']']
+    else
+      return parsed_dates.first
+    end
+  end
+
+  def build_data_filters(scope)
+    filters = []
+
+    if scope.present?
+      scope.each do |k, v|
+        filter = v.split('||')
+
+        if k == 'date'
+          dates = parse_filter_dates(filter.first, filter.last)
+          attribute = self.record_type == 'case' && k == 'date' ? 'registration_date' : 'date_of_incident'
+          self.filters.reject!{|s| s['attribute'] == attribute}
+          filters << { "attribute" => attribute , "value" => dates}
+        end
+      end
+    end
+
+    self.filters + filters
+  end
+
   #TODO: Do we need the total?
   # def total
   #   self.data[:total]
@@ -341,12 +385,12 @@ class Report < CouchRest::Model::Base
     [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
       if data[k].present?
         data[k] = data[k].map do |value|
-          value.map{|v| translate(v)}  
+          value.map{|v| translate(v)}
         end
       end
     end
     if data[:values].present?
-      data[:values] = data[:values].map do |key,value| 
+      data[:values] = data[:values].map do |key,value|
         [key.map{|k| translate(k)}, value]
       end.to_h
     end
@@ -435,14 +479,15 @@ class Report < CouchRest::Model::Base
 
 
   def build_solr_filter_query(record_type, filters)
-
     filters_query = "type:#{solr_record_type(record_type)}"
+
     if filters.present?
       filters_query = filters_query + ' ' + filters.map do |filter|
         attribute = SolrUtils.indexed_field_name(record_type, filter['attribute'])
         constraint = filter['constraint']
         value = filter['value']
         query = nil
+
         if attribute.present? && value.present?
           if constraint.present?
             value = Date.parse(value).xmlschema unless value.is_number?
@@ -458,6 +503,8 @@ class Report < CouchRest::Model::Base
               '(' + value.map{|v|
                 if v == "not_null"
                   "#{attribute}:[* TO *]"
+                elsif v.match(/^\[.*\]$/)
+                  "#{attribute}:#{v}"
                 else
                   "#{attribute}:\"#{v}\""
                 end
@@ -477,4 +524,24 @@ class Report < CouchRest::Model::Base
     record_type.camelize
   end
 
+  def format_date(date, calculation=nil, is_quarter=false)
+    parsed_date =
+      if date.is_a?(DateTime)
+        date
+      elsif date.is_a?(String) && is_quarter
+        if calculation == :beginning_of_quarter
+          DateTime.new(Date.today.year, date.to_i * 3 - 2)
+        else
+          DateTime.new(Date.today.year, date.to_i * 3 - 2)
+        end
+      else
+        DateTime.parse(date)
+      end
+
+    if calculation.present?
+      parsed_date = parsed_date.send(calculation)
+    end
+
+    parsed_date.strftime("%Y-%m-%dT%H:%M:%SZ")
+  end
 end

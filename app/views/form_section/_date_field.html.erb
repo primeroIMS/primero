@@ -19,6 +19,10 @@
     :disabled => date_field.disabled,
     "data-abide-validator" => date_validator, required: date_field.required %>
     <small class="error"><%= I18n.t(error_msg)%></small>
-    <p class="help"><%= t("fields.date_help") %></p>
+    <% if date_field.help_text.present? %>
+      <p class="help"><%= date_field.help_text  %></p>
+    <% else %>
+      <p class="help"><%= t("fields.date_help") %></p>
+    <% end %>
   </div>
 </div>

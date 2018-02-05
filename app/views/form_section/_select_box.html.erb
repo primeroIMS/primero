@@ -3,7 +3,7 @@
    name = field_tag_name formObject, select_box, field_keys
    name += "[]" if select_box.multi_select
    field_id = "#{select_box.form.name.dehumanize}_#{sanitize_to_id name}"
-   value = select_box.selected_value if select_box.selected_value.present? && formObject.new_record?
+   value = select_box.selected_value if select_box.selected_value.present? && (formObject.new_record? || select_box.disabled)
    value ||= field_value formObject, select_box, field_keys
    field_tags = select_box.field_tags.present? ? select_box.field_tags : []
 %>
@@ -42,16 +42,7 @@
           :data => { :field_tags => field_tags}, :disabled => select_box.disabled, :required => select_box.required %>
     <% end %>
     <% if select_box.guiding_questions.present? %>
-      <%= link_to(t('buttons.guiding_questions'), '', class: 'gq_popovers', tabindex: '0',
-                  data: {
-                      toggle: 'popover',
-                      trigger: 'focus',
-                      title: t('buttons.guiding_questions'),
-                      html: true
-                  }) %>
-      <div class='popover_content' style="display:none;">
-        <%=  select_box.guiding_questions %>
-      </div>
+      <%= render 'form_section/guiding_questions', guiding_questions_text: select_box.guiding_questions %>
     <% end %>
     <% if select_box.help_text.present? %><p class="help"><%= select_box.help_text  %></p><% end %>
   </div>

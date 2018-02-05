@@ -20,7 +20,7 @@
 //= require plugins/dataTables.responsive
 //= require plugins/dataTables.fixedColumns
 //= require plugins/popovers
-//= require plugins/autogrow
+//= require plugins/autosize
 //= require plugins/hoverintent
 //= require plugins/superfish
 //= require plugins/jquery.mousewheel.min
@@ -42,6 +42,7 @@
 //= require rapidftr
 //= require primero_libs/advanced_search
 //= require_tree ./views/management
+//= require_tree ./models
 //= require_tree ./views
 //= require router
 

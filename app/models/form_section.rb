@@ -438,7 +438,6 @@ class FormSection < CouchRest::Model::Base
       self.get_permitted_form_sections(selected_module, parent_form, user)
           .collect(&:form_group_name).compact.uniq.sort
     end
-    memoize_in_prod :list_form_group_names
 
     def find_mobile_forms
       by_mobile_form(key: true)

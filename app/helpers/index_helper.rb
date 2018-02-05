@@ -312,15 +312,17 @@ module IndexHelper
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
     filters << "Status"
-    filters << "Age Range"
+    filters << "Age Range" if @is_gbv
     filters << "Children" if @is_mrm
     filters << "Verification Status" if @is_mrm
     filters << "Incident Location"
     filters << "Interview Date" if @is_gbv
     filters << "Incident Date"
     filters << "Protection Status" if @is_gbv
-    filters << "Armed Force or Group" if @is_mrm
-    filters << "Armed Force or Group Type" if @is_mrm
+    filters << "Armed Force" if @is_mrm
+    filters << "Armed Group" if @is_mrm
+    #TODO perpetrator_sub_category has been removed
+    # filters << "Armed Force or Group Type" if @is_mrm
     filters << "Record State"
 
     return filters
