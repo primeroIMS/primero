@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user, :traits => [ :model ] do
     user_name { "user_name_#{counter}" }
     full_name 'full name'

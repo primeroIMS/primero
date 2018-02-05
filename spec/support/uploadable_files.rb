@@ -22,6 +22,14 @@ module UploadableFiles
     photo
   end
 
+  def uploadable_zip_file(zip_path = 'spec/resources/example.csv.zip')
+    ActionDispatch::Http::UploadedFile.new(
+      tempfile: File.new(Rails.root.join(zip_path)),
+      filename: zip_path.split('/').last,
+      type: 'application/zip'
+    )
+  end
+
   def uploadable_executable_file
     executable_file = File.new("capybara_features/resources/exe_file.exe")
 

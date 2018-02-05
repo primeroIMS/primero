@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 TestModel = Class.new(CouchRest::Model::Base) do
   include Memoizable

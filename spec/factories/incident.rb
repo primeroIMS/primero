@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :incident, :traits => [ :model ] do
     unique_identifier { counter.to_s }
     description { "Test Incident #{counter}" }

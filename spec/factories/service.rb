@@ -16,7 +16,7 @@ class Service
   attr_accessor :service_implemented_day_time
 end
 
-FactoryGirl.define do
+FactoryBot.define do
   factory :service, :traits => [ :model ] do
     _id {"service#{counter}"}
     unique_id {"service#{counter}"}

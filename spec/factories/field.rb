@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :field, :traits => [:model] do
     type Field::TEXT_FIELD
     name { "field_#{counter}" }

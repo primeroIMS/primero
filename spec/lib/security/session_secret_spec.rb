@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 module Security
   describe SessionSecret do
@@ -30,7 +30,7 @@ module Security
     end
 
     it 'should return current rails env' do
-      RSpec::Mocks.proxy_for(SessionSecret).reset
+      RSpec::Mocks.space.proxy_for(SessionSecret).reset
       SessionSecret.env.should == Rails.env
     end
 

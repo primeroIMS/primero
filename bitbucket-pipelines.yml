@@ -2,6 +2,10 @@ clone:
   depth: full
 pipelines:
   branches:
+    maint_1.3:
+      - step:
+          script:
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.3 --tags
     maint_1.4:
       - step:
           script:

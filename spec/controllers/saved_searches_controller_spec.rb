@@ -1,17 +1,15 @@
-require 'spec_helper'
+require 'rails_helper'
 
 def stub_out_saved_search_get(mock_saved_search = double(SavedSearch))
   SavedSearch.stub(:get).and_return( mock_saved_search )
   mock_saved_search
 end
 
-describe SavedSearchesController do
+describe SavedSearchesController, :type => :controller do
   before :each do
     SavedSearch.any_instance.stub(:permitted_properties).and_return(SavedSearch.properties)
-    unless example.metadata[:skip_session]
-      @user = User.new(:user_name => 'zuul')
-      @session = fake_admin_login @user
-    end
+    @user = User.new(:user_name => 'zuul')
+    @session = fake_admin_login @user
   end
 
   def mock_saved_search(stubs={})

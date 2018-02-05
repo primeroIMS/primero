@@ -23,6 +23,7 @@ feature "forms" do
     scenario "throws error on invalid required fields" do
       visit '/cases'
       click_on('New Case')
+      sleep 2
       click_on('Save')
       expect(page).to have_selector('div.form-errors')
       expect(page).to have_css('input.is-invalid-input', count: 2)

@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :child, :traits => [ :model ] do
     unique_identifier { counter.to_s }
     name { "Test Child #{counter}" }

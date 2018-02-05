@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 # PRIMERO-72
 # Removed Request Password Reset link as part of demo cleanup
