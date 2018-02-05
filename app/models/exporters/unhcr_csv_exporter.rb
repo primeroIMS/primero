@@ -45,7 +45,7 @@ module Exporters
     end
 
     @field_map = {
-      'Individual Progress ID' => ['unhcr_id_no'],
+      'Individual Progress ID' => ['unhcr_individual_no'],
       'CPIMS Code' => ['cpims_id'],
       'Date of Identification' => ['identification_date'],
       'Primary Protection Concerns' => ['protection_status'],

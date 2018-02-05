@@ -13,6 +13,9 @@ class Incident < CouchRest::Model::Base
   property :incident_id
   property :incidentid_ir
   property :description
+  property :date_of_first_report, Date
+
+  validate :validate_date_of_first_report
 
   def initialize *args
     self['histories'] = []
@@ -37,7 +40,6 @@ class Incident < CouchRest::Model::Base
   after_save :index_violations
   after_destroy :unindex_violations
   before_save :ensure_violation_categories_exist
-  before_save :calculate_gbv_type_of_violence_exclusion
 
   before_update :clean_incident_date
 
@@ -77,6 +79,12 @@ class Incident < CouchRest::Model::Base
 
   end
 
+  class << self
+    def all_matches
+      []
+    end
+  end
+
   def ensure_violation_categories_exist
     if self.violations.present?
       self.violations.to_hash.compact.each_key do |key|
@@ -103,7 +111,7 @@ class Incident < CouchRest::Model::Base
     {
       'boolean' => ['record_state'],
       'string' => ['status', 'owned_by'],
-      'multistring' => ['associated_user_names'],
+      'multistring' => ['associated_user_names', 'owned_by_groups'],
       'date' => ['incident_date_derived']
     }
   end
@@ -136,6 +144,7 @@ class Incident < CouchRest::Model::Base
 
   def create_class_specific_fields(fields)
     self['description'] = fields['description'] || self.description || ''
+    self.date_of_first_report ||= Date.current
   end
 
   def incident_code
@@ -300,6 +309,16 @@ class Incident < CouchRest::Model::Base
     return ids
   end
 
+  def validate_date_of_first_report
+    if date_of_first_report.present? && (!date_of_first_report.is_a?(Date) || date_of_first_report > Date.today)
+      errors.add(:date_of_first_report, I18n.t("messages.enter_valid_date"))
+      error_with_section(:date_of_first_report, I18n.t("messages.enter_valid_date"))
+      false
+    else
+      true
+    end
+  end
+
   def set_violation_verification_default
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
@@ -417,15 +436,6 @@ class Incident < CouchRest::Model::Base
       self.date_of_incident.strftime("%d-%b-%Y")
     elsif self.incident_date.present?
       self.incident_date.strftime("%d-%b-%Y")
-    end
-  end
-
-  #  TODO: The value 'Yes' may have to be translated
-  def calculate_gbv_type_of_violence_exclusion
-    if self.gbv_reported_elsewhere == 'Yes' && self.gbv_reported_elsewhere_subform.any?{ |f| f.gbv_reported_elsewhere_reporting == 'Yes' }
-      self.gbv_do_not_report = ['Yes']
-    else
-      self.gbv_do_not_report = []
     end
   end
 

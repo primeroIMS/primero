@@ -1,10 +1,10 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "form_section/_show_form_section.html.erb" do
   before :each do
     Child.all.each &:destroy
     FormSection.all.select{
-      |fs| ['form_section_test_1', 'nested_subform_section_1', 
+      |fs| ['form_section_test_1', 'nested_subform_section_1',
             'nested_subform_section_2', 'nested_subform_section_3'].include?(fs.unique_id)
     }.each &:destroy
 

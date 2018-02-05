@@ -4,7 +4,8 @@
 family_details_fields_subform = [
   Field.new({"name" => "relation_name",
              "type" => "text_field",
-             "display_name_all" => "Name"
+             "display_name_all" => "Name",
+             "matchable" => true
            }),
   Field.new({"name" => "relation",
              "type" => "select_box",
@@ -22,7 +23,8 @@ family_details_fields_subform = [
                                      "Wife",
                                      "Partner",
                                      "Other Family",
-                                     "Other Nonfamily"].join("\n")
+                                     "Other Nonfamily"].join("\n"),
+             "matchable" => true
             }),
   Field.new({"name" => "relation_is_caregiver",
              "type" => "tick_box",
@@ -50,7 +52,8 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_nickname",
              "type" => "text_field",
-             "display_name_all" => "Nickname"
+             "display_name_all" => "Nickname",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_is_alive",
              "type" => "select_box",
@@ -63,49 +66,58 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_age",
              "type" => "numeric_field",
-             "display_name_all" => "Age"
+             "display_name_all" => "Age",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_date_of_birth",
              "type" => "date_field",
              "display_name_all" => "Date of Birth",
-             "date_validation" => "not_future_date"
+             "date_validation" => "not_future_date",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_language",
              "type" => "select_box",
              "display_name_all" => "Language",
              "multi_select" => true,
-             "option_strings_source" => "lookup Language"
+             "option_strings_source" => "lookup Language",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_religion",
              "type" => "select_box",
              "display_name_all" => "Religion",
              "multi_select" => true,
-             "option_strings_source" => "lookup Religion"
+             "option_strings_source" => "lookup Religion",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Ethnicity",
-             "option_strings_source" => "lookup Ethnicity"
+             "option_strings_source" => "lookup Ethnicity",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_sub_ethnicity1",
              "type" => "select_box",
              "display_name_all" => "Sub Ethnicity 1",
-             "option_strings_source" => "lookup Ethnicity"
+             "option_strings_source" => "lookup Ethnicity",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_sub_ethnicity2",
              "type" => "select_box",
              "display_name_all" => "Sub Ethnicity 2",
-             "option_strings_source" => "lookup Ethnicity"
+             "option_strings_source" => "lookup Ethnicity",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_nationality",
              "type" => "select_box",
              "display_name_all" => "Nationality",
              "multi_select" => true,
-             "option_strings_source" => "lookup Nationality"
+             "option_strings_source" => "lookup Country",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_comments",
              "type" => "textarea",
-             "display_name_all" => "Comments"
+             "display_name_all" => "Comments",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_occupation",
              "type" => "text_field",
@@ -113,7 +125,8 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_address_current",
              "type" => "textarea",
-             "display_name_all" => "Current Address"
+             "display_name_all" => "Current Address",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_address_is_permanent",
              "type" => "tick_box",
@@ -123,7 +136,8 @@ family_details_fields_subform = [
              "type" => "select_box",
              "display_name_all" => "Current Location",
              "searchable_select" => true,
-             "option_strings_source" => "Location"
+             "option_strings_source" => "Location",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_address_last",
              "type" => "textarea",
@@ -137,17 +151,20 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_telephone",
              "type" => "text_field",
-             "display_name_all" => "Telephone"
+             "display_name_all" => "Telephone",
+             "matchable" => true
            }),
   Field.new({"name" => "relation_other_family",
              "type" => "text_field",
-             "display_name_all" => "Other persons well known to the child"
+             "display_name_all" => "Other persons well known to the child",
+             "matchable" => true
            })
 ]
 
 family_details_section = FormSection.create_or_update_form_section({
     "visible"=>false,
     "is_nested"=>true,
+    :mobile_form => true,
     :order_form_group => 50,
     :order => 10,
     :order_subform => 1,
@@ -196,5 +213,6 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => family_details_fields,
   "name_all" => "Family Details",
-  "description_all" => "Family Details"
+  "description_all" => "Family Details",
+  :mobile_form => true
 })

@@ -32,6 +32,7 @@ class Ability
 
     if user.has_permission? Permission::SYNC_MOBILE
       can :index, FormSection
+      can :index, SystemSettings
     end
   end
 
@@ -68,7 +69,7 @@ class Ability
   end
 
   def system_permissions
-    [ContactInformation, Device, Replication, SystemUsers].each do |resource|
+    [ContactInformation, Device, Replication, SystemUsers, SystemSettings].each do |resource|
       can :manage, resource
     end
   end

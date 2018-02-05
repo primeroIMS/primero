@@ -3,7 +3,7 @@ module CouchChanges
     class SolrReindexer < BaseProcessor
       class << self
         def supported_models
-          [Child, Incident, TracingRequest]
+          [Child, Incident, TracingRequest, PotentialMatch]
         end
 
         def process(modelCls, change)
@@ -19,9 +19,8 @@ module CouchChanges
             if instance.present?
               Sunspot.index! instance
 
-              if instance.flags.present?
-                CouchChanges.logger.info " => Indexing flags"
-                Sunspot.index! instance.flags
+              if instance.respond_to? :index_flags
+                instance.index_flags
               end
 
               if instance.respond_to? :index_violations
@@ -30,6 +29,14 @@ module CouchChanges
 
               if instance.respond_to? :index_nested_reportables
                 instance.index_nested_reportables
+              end
+
+              if instance.respond_to? :find_match_tracing_requests
+                instance.find_match_tracing_requests
+              end
+
+              if instance.respond_to? :find_match_cases
+                instance.find_match_cases
               end
 
               dfd.succeed

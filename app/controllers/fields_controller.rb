@@ -22,13 +22,14 @@ class FieldsController < ApplicationController
     @field.sanitize_name
     FormSection.add_field_to_formsection @form_section, @field
     @field.base_language = I18n.default_locale
-    if (@field.errors.length == 0)
-      SuggestedField.mark_as_used(params[:from_suggested_field]) if params.has_key? :from_suggested_field
-      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id, parent_form: @parent_form), flash: {notice: t("fields.successfully_added")} )
-    else
+
+    if @field.errors.present? || @form_section.errors.present?
       get_form_group_names
-      @show_add_field = {:show_add_field => true}
+      @show_add_field = { :show_add_field => @field.errors.present? }
       render :template => "form_section/edit", :locals => @show_add_field
+    else
+      SuggestedField.mark_as_used(params[:from_suggested_field]) if params.has_key? :from_suggested_field
+      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id), flash: {notice: t("fields.successfully_added")} )
     end
   end
 
@@ -53,9 +54,13 @@ class FieldsController < ApplicationController
   def update
     @field = fetch_field params[:id]
     @field.attributes = convert_multi_selects(params[:field]) unless params[:field].nil?
-
     @form_section.save
-    if (@field.errors.length == 0)
+
+    if @field.errors.present? || @form_section.errors.present?
+      get_form_group_names
+      @show_add_field = {:show_add_field => @field.errors.present?}
+      render :template => "form_section/edit",  :locals => @show_add_field
+    else
       flash[:notice] = t("fields.updated")
       message = {"status" => "ok"}
       if (request.xhr?)
@@ -63,10 +68,6 @@ class FieldsController < ApplicationController
       else
         redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id, parent_form: @parent_form))
       end
-    else
-      get_form_group_names
-      @show_add_field = {:show_add_field => true}
-      render :template => "form_section/edit",  :locals => @show_add_field
     end
   end
 

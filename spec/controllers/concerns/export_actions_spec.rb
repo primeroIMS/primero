@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ExportActions, type: :controller do
 
@@ -8,17 +8,7 @@ describe ExportActions, type: :controller do
     def model_class
       Child
     end
-
-    # def redirect_to *args
-    #   super(:action => :index, :controller => :home)
-    # end
   end
-
-  # before do
-  #   routes.draw {
-  #     post 'transition' => 'anonymous#transition'
-  #   }
-  # end
 
   describe 'filter_fields_read_only_users' do
 
@@ -94,7 +84,7 @@ describe ExportActions, type: :controller do
       properties = Child.get_properties_by_module(@user, [@primero_module])
       filtered_properties = properties['primeromodule-cp']['Form Section Test 1'].values.map(&:name)
 
-      expect(filtered_properties.include?('age')).to be_false
+      expect(filtered_properties.include?('age')).to be_falsey
     end
 
     it "keeps fields that are hidden on view page for users with edit permissions" do
@@ -106,10 +96,10 @@ describe ExportActions, type: :controller do
       properties = Child.get_properties_by_module(@user, [@primero_module])
       filtered_properties = properties['primeromodule-cp']['Form Section Test 1'].values.map(&:name)
 
-      expect(filtered_properties.include?('child_status')).to be_true
-      expect(filtered_properties.include?('birth_date')).to be_true
-      expect(filtered_properties.include?('shared_field')).to be_true
-      expect(filtered_properties.include?('age')).to be_true
+      expect(filtered_properties.include?('child_status')).to be_truthy
+      expect(filtered_properties.include?('birth_date')).to be_truthy
+      expect(filtered_properties.include?('shared_field')).to be_truthy
+      expect(filtered_properties.include?('age')).to be_truthy
     end
   end
 end

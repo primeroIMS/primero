@@ -26,7 +26,6 @@ class User < CouchRest::Model::Base
   property :module_ids, :type => [String]
   property :user_group_ids, :type => [String], :default => []
   property :is_manager, TrueClass, :default => false
-
   alias_method :agency, :organization
   alias_method :agency=, :organization=
   alias_method :name, :user_name
@@ -278,7 +277,7 @@ class User < CouchRest::Model::Base
   end
 
   def agency_name
-    self.agency.name
+    self.agency.try(:name)
   end
 
   def last_login
@@ -430,6 +429,15 @@ class User < CouchRest::Model::Base
 
   def is_admin?
     self.group_permissions.include?(Permission::ALL)
+  end
+
+  #Used by the User import to populate the password with a random string when the input file has no password
+  #This assumes an admin will have to reset the new user's password after import
+  def populate_missing_attributes
+    if crypted_password.blank? && password.blank?
+      self.password = SecureRandom.hex(20)
+      self.password_confirmation = password
+    end
   end
 
   private

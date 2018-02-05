@@ -50,6 +50,7 @@ create_or_update_module(
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )
 
+
 #TODO: This list needs to be updated once we harden the GBV forms
 create_or_update_module(
   name: "GBV",
@@ -61,22 +62,6 @@ create_or_update_module(
     "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form",
     "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper",
     "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer"
-  ],
-  program_id: PrimeroProgram.by_name(:key => "Primero").first.id
-)
-
-#TODO: This list needs to be updated once we harden the MRM forms
-create_or_update_module(
-  name: "MRM",
-  description: "Monitoring and Reporting Mechanism",
-  associated_record_types: ["incident"],
-  associated_form_ids: [
-    "incident_record_owner", "incident_form",
-    "killing_violation_wrapper", "maiming_violation_wrapper", "recruitment_violation_wrapper",
-    "sexual_violence_violation_wrapper", "attack_on_schools_violation_wrapper", "attack_on_hospitals_violation_wrapper",
-    "denial_humanitarian_access_violation_wrapper", "abduction_violation_wrapper", "other_violation_wrapper",
-    "individual_details", "group_details", "source", "perpetrators_form", "intervention_form", "incident_other_documents",
-    "mrm_summary_page", "mrm_reportable_fields"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )

@@ -526,10 +526,6 @@ span.postfix_val {
 // Custom Exports
 ////////////////////////////////////////////////
 
-#custom-exports {
-    top:0px;
-}
-
 #custom-exports, #pdf-exports {
 
   .chosen-container-single, .chosen-container-multi {
@@ -803,4 +799,13 @@ select.ui-datepicker-year {
       color: $green_color;
     }
   }
+}
+
+
+#lightbox-nav {
+  overflow: hidden;
+}
+
+#lightbox-container-image-data-box {
+  line-height: 5.4em !important;
 }

@@ -12,7 +12,7 @@ Primero::Application.configure do
 
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
-  config.serve_static_assets = false
+  config.serve_static_files = false
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
@@ -34,4 +34,8 @@ Primero::Application.configure do
   config.eager_load = true
 
   config.filter_parameters += [:child, :incident, :tracing_request]
+
+  # WARNING **
+  # NEVER UNSET THIS OR YOU WILL BREAK THINGS!
+  # config.force_ssl = true
 end

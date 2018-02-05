@@ -3,7 +3,7 @@ _primero.Views.RequiredFields = Backbone.View.extend({
 
   events: {
     "invalid.fndtn.abide form": "show_errors",
-    "valid.fndtn.abide form": "show_errors",
+    "valid.fndtn.abide form": "show_errors"
   },
 
   show_errors: function(e) {

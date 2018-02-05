@@ -82,14 +82,12 @@ module ChildRiskLevelFollowUp
     #interval is the distance between follow up.
     #start_date is the potential initial date of the follow up.
     def create_followup_reminders_by_case(case_record, number_of_followup, interval, start_date)
-      flags = []
       next_date = get_starting_date(start_date, interval)
       created_at = DateTime.now
       (1..number_of_followup).each do
-        flags << Flag.new(:message => FOLLOWUP_MESSAGE, :date => next_date, :created_at => created_at, :system_generated_followup => true)
+        case_record.flags << Flag.new(:message => FOLLOWUP_MESSAGE, :date => next_date, :created_at => created_at, :system_generated_followup => true)
         next_date += interval
       end
-      case_record.flags.concat(flags)
       case_record.save!
     end
 

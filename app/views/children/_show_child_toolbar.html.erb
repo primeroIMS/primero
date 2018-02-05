@@ -14,37 +14,39 @@
 <% if can? :update, child %>
     <%= ctl_create_incident_button(@child) %>
 <% end %>
-<% unless ["edit", "update"].include? controller.action_name %>
-<ul id="menu" class="sf-menu">
-  <li class="init_btn">
-    <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
-    <ul>
-        <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
-        <% if can? :export_custom, Child %>
-          <%= render 'exports/custom_exports_link', model: Child, export_type: 'custom' %>
-        <% end %>
-        <%= render 'transitions/button', instance: @child, type: Transition::TYPE_REFERRAL %>
-        <% if can?(:reassign, controller.model_class) %>
-          <%= render 'transitions/button', instance: @child, type: Transition::TYPE_REASSIGN %>
-        <% end %>
-        <%= render 'transitions/button', instance: @child, type: Transition::TYPE_TRANSFER %>
-        <% if can? :edit, @child %>
-            <%= render partial: 'record_shared/enable_disable_record', locals: {model: Child, instance: @child} %>
-          <% if @child.child_status != 'Open'%>
-              <%= render partial: 'record_shared/reopen_record', locals: {model: Child, instance: @child} %>
-          <% end %>
-        <% end %>
-        <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
-          <%= render 'record_shared/mark_for_mobile_button', instance: @child, mobile_value: true  %>
-          <%= render 'record_shared/mark_for_mobile_button', instance: @child, mobile_value: false  %>
-        <% end %>
-        <% if can?(:request_approval_bia, controller.model_class) || can?(:request_approval_case_plan, controller.model_class) || can?(:request_approval_closure, controller.model_class) %>
-          <%= render partial: 'approvals/button', locals: {model: Child, instance: @child} %>
-        <% end %>
-        <% if can?(:approve_bia, controller.model_class) || can?(:approve_case_plan, controller.model_class) || can?(:approve_closure, controller.model_class) %>
-          <%= render partial: 'approvals/approve_button', instance: @child, model: Child %>
-        <% end %>
+<% if has_show_actions(controller.model_class) %>
+  <% unless ["edit", "update"].include? controller.action_name %>
+    <ul id="menu" class="sf-menu">
+      <li class="init_btn">
+        <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
+        <ul>
+            <%= render partial: 'exports/button', locals: {model: Child, instance: @child} %>
+            <% if can? :export_custom, Child %>
+              <%= render 'exports/custom_exports_link', model: Child, export_type: 'custom' %>
+            <% end %>
+            <%= render 'transitions/button', instance: @child, type: Transition::TYPE_REFERRAL %>
+            <% if can?(:reassign, controller.model_class) %>
+              <%= render 'transitions/button', instance: @child, type: Transition::TYPE_REASSIGN %>
+            <% end %>
+            <%= render 'transitions/button', instance: @child, type: Transition::TYPE_TRANSFER %>
+            <% if can? :edit, @child %>
+                <%= render partial: 'record_shared/enable_disable_record', locals: {model: Child, instance: @child} %>
+              <% if @child.child_status != 'Open'%>
+                  <%= render partial: 'record_shared/reopen_record', locals: {model: Child, instance: @child} %>
+              <% end %>
+            <% end %>
+            <% if can?(:sync_mobile, controller.model_class) && controller.model_class.is_syncable_with_mobile? %>
+              <%= render 'record_shared/mark_for_mobile_button', instance: @child, mobile_value: true  %>
+              <%= render 'record_shared/mark_for_mobile_button', instance: @child, mobile_value: false  %>
+            <% end %>
+            <% if can?(:request_approval_bia, controller.model_class) || can?(:request_approval_case_plan, controller.model_class) || can?(:request_approval_closure, controller.model_class) %>
+              <%= render partial: 'approvals/button', locals: {model: Child, instance: @child} %>
+            <% end %>
+            <% if can?(:approve_bia, controller.model_class) || can?(:approve_case_plan, controller.model_class) || can?(:approve_closure, controller.model_class) %>
+              <%= render partial: 'approvals/approve_button', instance: @child, model: Child %>
+            <% end %>
+        </ul>
+      </li>
     </ul>
-  </li>
-</ul>
+  <% end %>
 <% end %>

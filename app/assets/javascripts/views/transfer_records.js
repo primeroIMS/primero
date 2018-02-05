@@ -4,10 +4,10 @@ _primero.Views.TransferRecords = Backbone.View.extend({
 
   events: {
     'click a.transfer_index_action' : 'transfer_records',
-    'change div#transfer-modal input[name="is_remote"]' : 'toggle_remote_primero',
-    'change div#transfer-modal select#existing_user' : 'toggle_other_user',
-    'change div#transfer-modal input#other_user' : 'toggle_existing_user',
-    'click div#transfer-modal input[type="submit"]' : 'close_transfer'
+    'change #transfer-modal input[name="is_remote"]' : 'toggle_remote_primero',
+    'change #transfer-modal #existing_user' : 'toggle_other_user',
+    'change #transfer-modal input#other_user' : 'toggle_existing_user',
+    'click #transfer-modal input[type="submit"]' : 'close_transfer'
   },
 
   transfer_records: function(event) {
@@ -25,8 +25,8 @@ _primero.Views.TransferRecords = Backbone.View.extend({
   },
 
   toggle_remote_primero: function() {
-    $('#transfer-modal div.remote_toggle').toggle();
-    $('#transfer-modal div.local_toggle').toggle();
+    $('#transfer-modal .remote_toggle').toggle();
+    $('#transfer-modal .local_toggle').toggle();
   },
 
   toggle_other_user: function(e) {
@@ -55,13 +55,13 @@ _primero.Views.TransferRecords = Backbone.View.extend({
 
   close_transfer: function(e) {
     e.preventDefault();
-    var password = $('div#transfer-modal input#password').val(),
-        local_user = $('div#transfer-modal select#existing_user').val(),
-        remote_user = $('div#transfer-modal input#other_user').val(),
-        is_remote = $('div#transfer-modal input#is_remote').prop('checked'),
-        localUserErrorDiv = $("div#transfer-modal .local_user_flash"),
-        remoteUserErrorDiv = $("div#transfer-modal .remote_user_flash"),
-        passwordErrorDiv = $("div#transfer-modal .password_flash"),
+    var password = $('#transfer-modal input#password').val(),
+        local_user = $('#transfer-modal #existing_user').val(),
+        remote_user = $('#transfer-modal input#other_user').val(),
+        is_remote = $('#transfer-modal input#is_remote').prop('checked'),
+        localUserErrorDiv = $("#transfer-modal .local_user_flash"),
+        remoteUserErrorDiv = $("#transfer-modal .remote_user_flash"),
+        passwordErrorDiv = $("#transfer-modal .password_flash"),
         is_valid = true;
     if(is_remote){
       //Require remote user and password
@@ -91,8 +91,8 @@ _primero.Views.TransferRecords = Backbone.View.extend({
       $(e.target).parents('form').submit();
       $('#transfer-modal').foundation('reveal', 'close');
       $('#transfer-modal form')[0].reset();
-      $('#transfer-modal div.remote_toggle').hide();
-      $('#transfer-modal div.local_toggle').show();
+      $('#transfer-modal .remote_toggle').hide();
+      $('#transfer-modal .local_toggle').show();
       window.disable_loading_indicator = true;
     } else {
       return false;

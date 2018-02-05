@@ -1,5 +1,6 @@
 gbv_incident_fields = [
   Field.new({"name" => "incident_id",
+             "mobile_visible" => false,
              "type" => "text_field",
              "editable" => false,
              "disabled" => true,
@@ -7,50 +8,74 @@ gbv_incident_fields = [
              "create_property" => false
             }),
   Field.new({"name" => "short_id",
+             "mobile_visible" => false,
              "type" => "text_field",
              "editable" => false,
              "disabled" => true,
              "display_name_all" => "Incident ID",
              "create_property" => false
             }),
+  Field.new({"name" => "marked_for_mobile",
+             "mobile_visible" => false,
+             "type" => "tick_box",
+             "tick_box_label_all" => "Yes",
+             "display_name_all" => "Marked for mobile?",
+             "editable" => false,
+             "disabled" => true,
+             "create_property" => false
+            }),
   Field.new({"name" => "incident_code",
+             "mobile_visible" => false,
              "type" => "text_field",
              "editable" => false,
              "disabled" => true,
              "display_name_all" => "Incident Code"
             }),
   Field.new({"name" => "incidentid_ir",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "text_field",
              "display_name_all" => "Incident ID IR",
              "help_text_all" => "Incident ID for the IR"
             }),
   Field.new({"name" => "status",
+             "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Incident Status",
              "option_strings_source" => "lookup IncidentStatus"
             }),
   Field.new({"name" => "consent_reporting",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent is given to share non-identifiable information for reporting",
              "option_strings_text_all" => "Yes\nNo"
             }),
   Field.new({"name" => "date_of_first_report",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "date_field",
-             "display_name_all" => "Date of Interview"
+             "display_name_all" => "Date of Interview",
+             "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "incident_date",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "date_field",
              "display_name_all" => "Date of Incident"
             }),
   Field.new({"name" => "incident_description",
+             "mobile_visible" => true,
              "type" => "textarea",
              "display_name_all" => "Account of Incident"
             }),
   Field.new({"name" => "displacement_incident",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Stage of displacement at time of incident",
              "option_strings_text_all" => [
-                "Not Displaced / Home Country",
+                "Not Displaced / Home Community",
                 "Pre-displacement",
                 "During Flight",
                 "During Refuge",
@@ -58,6 +83,7 @@ gbv_incident_fields = [
                 "Post-Displacement"].join("\n")
             }),
   Field.new({"name" => "incident_timeofday",
+             "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Time of day that the Incident took place",
              "option_strings_text_all" => [
@@ -68,6 +94,7 @@ gbv_incident_fields = [
               ].join("\n")
             }),
   Field.new({"name" => "incident_location_type",
+             "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Type of place where the incident took place",
              "option_strings_text_all" => [
@@ -90,24 +117,33 @@ gbv_incident_fields = [
               ].join("\n")
             }),
    Field.new({"name" => "incident_location",
+              "show_on_minify_form" => true,
+              "mobile_visible" => true,
               "type" => "select_box",
               "display_name_all" => "Incident Location",
               "option_strings_source" => "Location",
               "searchable_select" => true
+            }),
+  Field.new({"name" => "incident_camp_town",
+             "type" => "text_field",
+             "show_on_minify_form" => true,
+             "mobile_visible" => true,
+             "display_name_all" => "Incident Camp/Town"
             })
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "gbv_incident_form",
-  :parent_form=>"incident",
-  "visible" => true,
-  :order_form_group => 30,
-  :order => 10,
-  :order_subform => 0,
-  :form_group_name => "Incident",
-  :fields => gbv_incident_fields,
-  :is_first_tab => true,
-  "editable" => true,
-  "name_all" => "GBV Incident",
-  "description_all" => "GBV Incident"
+  unique_id: "gbv_incident_form",
+  parent_form: "incident",
+  visible: true,
+  order_form_group: 30,
+  order: 10,
+  order_subform: 0,
+  form_group_name: "Incident",
+  fields: gbv_incident_fields,
+  mobile_form: true,
+  is_first_tab: true,
+  editable: true,
+  name_all: "GBV Incident",
+  description_all: "GBV Incident"
 })

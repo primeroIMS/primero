@@ -11,9 +11,9 @@
    end
    if number_of_subforms > 0
      subform_object = get_subform_object(formObject, subform_section, form_group_name, subform.name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group, subform.name)
-     #TODO: This code is being temporarily removed until JOR-141 
+     #TODO: This code is being temporarily removed until JOR-141
      #      (users should only see their own referrals) is again revisited,
-     #      Pending a full refactor of how we do nested forms headers  
+     #      Pending a full refactor of how we do nested forms headers
      # if subform.name == "transitions"
      #   # Recalculate the amount of subforms
      #   number_of_subforms = subform_object.count
@@ -23,8 +23,7 @@
 <% if number_of_subforms == 0 %>
   <% if !subform.disabled %>
     <% unless subform.subform_section.is_summary_section %>
-      <% #TODO refactoring next line when refactoring i18n %>
-      <div class="placeholder_text"><%= t('placeholders.subforms', :form => t(form_group_name == "Violations" ? "incident.violation.violation" : subform.name, :default => subform.display_name)) %></div>
+      <div class="placeholder_text"> <%= subform_placeholder(field, subform) %></div>
     <% end %>
   <% end %>
 <% else %>

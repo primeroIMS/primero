@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-require 'spec_helper'
+require 'rails_helper'
 
 describe FieldsController do
   before :each do
@@ -32,7 +32,7 @@ describe FieldsController do
       FormSection.stub(:add_field_to_formsection)
       FormSection.stub(:list_form_group_names)
       Field.should_receive(:new).and_return(@field)
-      @field.should_receive(:errors).and_return(["errors"])
+      @field.stub(:errors){["errors"]}
       post :create, :form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"
       assigns[:show_add_field].should == {:show_add_field => true}
       response.should be_success
@@ -60,7 +60,7 @@ describe FieldsController do
     end
 
     it "should use the display name to form the field name if no field name is supplied" do
-      FormSection.should_receive(:add_field_to_formsection).with(anything(), hash_including("display_name_#{I18n.locale}" => "My brilliant new field"))
+      FormSection.should_receive(:add_field_to_formsection).with(anything(), instance_of(Field))
       post :create, :form_section_id => @form_section.unique_id, :field => {:display_name => "My brilliant new field"}, :module_id => "test_module"
     end
 

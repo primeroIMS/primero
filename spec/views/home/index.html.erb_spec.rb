@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "home/index.html.erb" do
   it "should display time for notifications in yyyy/mm/dd format for users who do not already exist" do
@@ -23,5 +23,43 @@ describe "home/index.html.erb" do
     render :template=>'home/_notifications'
     rendered.should be_include("jpretorius")
     rendered.should be_include("at 2011/01/31.")
+  end
+
+  describe 'dashboards' do
+
+    before do
+      @user = double(User,
+        user_name: 'admin_user',
+        is_manager?: false,
+        is_admin?: true,
+        managed_user_names: [],
+        modules: ['primeromodule_cp'],
+        permissions: []
+      )
+      view.stub(:current_user).and_return(@user)
+      view.stub(:can?).and_return(false) #TODO: maybe move when we have more tests
+    end
+
+    it 'should display the protection concerns dashboard permission indicated' do
+      assign(:display_cases_dashboard, true)
+      assign(:display_protection_concerns, true)
+      render
+      expect(rendered).to include('dash_protection_concerns')
+    end
+
+    it 'should display the reporting location dashboard when permission indicated' do
+      assign(:display_cases_dashboard, true)
+      assign(:display_reporting_location, true)
+      render
+      expect(rendered).to include('dash_reporting_location')
+    end
+
+    it 'should display the caseworker dashboard if the user is a case worker and has case permissions' do
+      assign(:display_cases_dashboard, true)
+      assign(:display_case_worker_dashboard, true)
+      render
+      expect(rendered).to include('dash_case_worker')
+    end
+
   end
 end

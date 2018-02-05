@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "form_section/_form_section.html.erb" do
 
@@ -67,7 +67,7 @@ describe "form_section/_form_section.html.erb" do
         @form_section.fields.each do |field|
           rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
 
-          rendered.should be_include("<input autocomplete=\"off\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_name\" name=\"child[name]\" type=\"text\" value=\"\" />")
+          rendered.should have_selector('input', id: "#{@form_section.name.dehumanize}_child_name")
         end
       end
     end
@@ -80,7 +80,7 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input autocomplete=\"off\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_name\" name=\"child[name]\" type=\"text\" value=\"Jessica\" />")
+        rendered.should have_tag("input[type='text'][value='Jessica']")
       end
     end
   end
@@ -94,9 +94,8 @@ describe "form_section/_form_section.html.erb" do
         @form_section.add_field Field.new_field("radio_button", "is_age_exact", ["exact", "approximate"])
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-
-        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
-        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
+        expect(rendered).to have_tag("input[type='radio'][value='exact']")
+        expect(rendered).to have_tag("input[type='radio'][value='approximate']")
       end
     end
 
@@ -109,8 +108,8 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_exact\" name=\"child[isageexact]\" type=\"radio\" value=\"exact\" />")
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_isageexact_approximate\" name=\"child[isageexact]\" type=\"radio\" value=\"approximate\" />")
+        expect(rendered).to have_tag("input[type='radio'][value='exact']")
+        expect(rendered).to have_tag("input[type='radio'][value='approximate'][name='child[isageexact]'][checked='checked']")
       end
     end
   end
@@ -125,8 +124,9 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">")
-        rendered.should be_include("<select data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
+        expect(rendered).to have_selector('select', id: "displayedformname_child_dateofseparation")
+        expect(rendered).to have_tag("option[value='1-2 weeks ago']")
+        expect(rendered).to have_tag("option[value='More than a year ago']")
       end
     end
   end
@@ -139,7 +139,9 @@ describe "form_section/_form_section.html.erb" do
 
       render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-      rendered.should be_include("<select data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_dateofseparation\" name=\"child[dateofseparation]\"><option selected=\"selected\" value=\"\">(Select...)</option>\n<option value=\"1-2 weeks ago\">1-2 weeks ago</option>\n<option value=\"More than a year ago\">More than a year ago</option></select>")
+      expect(rendered).to have_selector('select', id: "displayedformname_child_dateofseparation")
+      expect(rendered).to have_tag("option[value='1-2 weeks ago']")
+      expect(rendered).to have_tag("option[value='More than a year ago']")
     end
   end
 
@@ -153,8 +155,7 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
-        rendered.should be_include("<input checked=\"checked\" data-field-tags=\"[]\" id=\"#{@form_section.name.dehumanize}_child_relatives_sister\" name=\"child[relatives][]\" type=\"checkbox\" value=\"Sister\" />")
+        expect(rendered).to have_tag("input[checked='checked'][value='Sister']")
       end
 
     end
@@ -172,8 +173,9 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
-        rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
-        rendered.should be_include("<input class=\"form_date_field has_help\" id=\"#{@form_section.name.dehumanize}_child_test_date_range\" name=\"child[test_date_range]\" type=\"text\" value=\"\" />")
+        expect(rendered).to have_selector('input', class: 'form_date_field', id: "displayedformname_child_test_date_range_from")
+        expect(rendered).to have_selector('input', class: 'form_date_field', id: "displayedformname_child_test_date_range_to")
+        expect(rendered).to have_tag("input[type='text'][name='child[test_date_range]']")
       end
     end
 

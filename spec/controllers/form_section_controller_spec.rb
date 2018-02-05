@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 class MockFormSection
 
@@ -59,7 +59,7 @@ describe FormSectionController do
     @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: "case", mobile_form: true, fields: [
       Field.new(name: "nested_e", type: "subform", subform_section_id: "E", display_name_all: "nested_e")
     ])
-    @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: "case", is_nested: true, visible: false, fields: [
+    @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: "case", mobile_form: false, is_nested: true, visible: false, fields: [
       Field.new(name: "field1", type: "text_field", display_name_all: "field1")
     ])
     @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B", "D"], associated_record_types: ['case'])
@@ -77,12 +77,44 @@ describe FormSectionController do
       assigns[:form_sections].should == grouped_forms
     end
 
+    #TODO - add incident rspecs
     describe "mobile API" do
       it "only shows mobile forms" do
         get :index, mobile: true, :format => :json
         expect(assigns[:form_sections]['Children'].size).to eq(2)
-        expect(assigns[:form_sections]['Children']).not_to be_nil
-        expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
+        expect(assigns[:form_sections]['Children'].map{|fs| fs['unique_id']}).to include('B', 'D')
+      end
+
+      it 'shows subforms for mobile forms' do
+        expected = [{"name"=>"nested_e",
+                     "editable"=>true,
+                     "multi_select"=>false,
+                     "type"=>"subform",
+                     "subform"=>
+                         {"unique_id"=>"E",
+                          :name=>{"en"=>"E", "fr"=>"", "ar"=>"", "es"=>""},
+                          "order"=>0,
+                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
+                          "base_language"=>"en",
+                          "fields"=>
+                              [{"name"=>"field1",
+                                "editable"=>true,
+                                "multi_select"=>false,
+                                "type"=>"text_field",
+                                "required"=>false,
+                                "show_on_minify_form"=>false,
+                                "mobile_visible"=>true,
+                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "es"=>"field1"},
+                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "es"=>[]}}]},
+                     "required"=>false,
+                     "show_on_minify_form"=>false,
+                     "mobile_visible"=>true,
+                     :display_name=>{"en"=>"nested_e", "fr"=>"nested_e", "ar"=>"nested_e", "es"=>"nested_e"},
+                     :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "es"=>""},
+                     :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "es"=>[]}}]
+        get :index, mobile: true, :format => :json
+        expect(assigns[:form_sections]['Children'].select{|f| f['unique_id'] == 'D'}.first['fields']).to eq(expected)
       end
 
       it "sets null values on forms to be an empty string" do
@@ -109,9 +141,103 @@ describe FormSectionController do
         nested = field_with_nested['subform']
         expect(nested['unique_id']).to eq('E')
       end
+
+      describe '/api/forms' do
+        before do
+          Location.all.each &:destroy
+
+          @form_section_l = FormSection.create!(unique_id: "F", name: "F", parent_form: "test", mobile_form: true, fields: [
+            Field.new(
+              name: "field1",
+              type: "select_box",
+              display_name_all: "field1",
+              searchable_select: true,
+              option_strings_source: 'Location'
+            )
+          ])
+
+          @country = create :location, placename: "Country1", admin_level: 0
+          @province1 = create :location, placename: "Province1", hierarchy: [@country.placename]
+          @province2 = create :location, placename: "Province2", hierarchy: [@country.placename]
+          @town1 = create :location, placename: "Town1", hierarchy: [@country.placename, @province1.placename]
+
+          @primero_module2 = PrimeroModule.create!(program_id: "some_program", name: "Test 2 Module", associated_form_ids: ["F"], associated_record_types: ['test'])
+          user = User.new(:user_name => 'manager2_of_forms', module_ids: [@primero_module2.id])
+          user.stub(:roles).and_return([Role.new(permissions_list: [@permission_metadata])])
+          fake_login user
+        end
+
+        context 'when mobile is true' do
+          before do
+            SystemSettings.all.each &:destroy
+            SystemSettings.create(default_locale: "en",
+                                  primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+          end
+
+          context 'and number of locations is less than max limit' do
+            before :each do
+              Location.stub(:count).and_return(180)
+            end
+
+            context 'and number of locations is less than System Settings max location limit' do
+              before :each do
+                SystemSettings.any_instance.stub(:location_limit_for_api).and_return(190)
+              end
+
+              it 'should return location fields with locations' do
+                expected = ["Country1", "Country1::Province1", "Country1::Province2", "Country1::Province1::Town1"];
+                get :index, mobile: true, format: :json
+                returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
+                expect(returned).to eq(expected)
+              end
+            end
+
+            context 'and number of locations is greater than System Settings max location limit' do
+              before :each do
+                SystemSettings.any_instance.stub(:location_limit_for_api).and_return(170)
+              end
+
+              it 'should return location fields without locations' do
+                get :index, mobile: true, format: :json
+                returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
+                expect(returned).to eq([])
+              end
+            end
+          end
+
+          context 'and number of locations is greater than max limit' do
+            before :each do
+              Location.stub(:count).and_return(201)
+            end
+
+            context 'and number of locations is less than System Settings max location limit' do
+              before :each do
+                SystemSettings.any_instance.stub(:location_limit_for_api).and_return(210)
+              end
+
+              it 'should return location fields without locations' do
+                get :index, mobile: true, format: :json
+                returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
+                expect(returned).to eq([])
+              end
+            end
+
+            context 'and number of locations is greater than System Settings max location limit' do
+              before :each do
+                SystemSettings.any_instance.stub(:location_limit_for_api).and_return(100)
+              end
+
+              it 'should return location fields without locations' do
+                get :index, mobile: true, format: :json
+                returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
+                expect(returned).to eq([])
+              end
+            end
+          end
+        end
+      end
     end
   end
-
 
   describe "forms API", :type => :request do
     it "gets the forms as JSON if accessed through the API url" do
@@ -197,9 +323,9 @@ describe FormSectionController do
       form_section1 = FormSection.create!({:name=>"name1", :description=>"desc", :visible=>"true", :unique_id=>"form_1"})
       form_section2 = FormSection.create!({:name=>"name2", :description=>"desc", :visible=>"false", :unique_id=>"form_2"})
       post :toggle, :id => "form_1"
-      FormSection.get_by_unique_id(form_section1.unique_id).visible.should be_false
+      FormSection.get_by_unique_id(form_section1.unique_id).visible.should be_falsey
       post :toggle, :id => "form_2"
-      FormSection.get_by_unique_id(form_section2.unique_id).visible.should be_true
+      FormSection.get_by_unique_id(form_section2.unique_id).visible.should be_truthy
     end
   end
 

@@ -11,6 +11,7 @@ class Location < CouchRest::Model::Base
   BASE_TYPES = ['country', 'region', 'province', 'district', 'governorate', 'chiefdom', 'county', 'state', 'city', 'camp', 'site', 'village', 'zone', 'other', 'locality', 'sub-district']
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
+  LIMIT_FOR_API = 200
 
   property :placename #This is the individual placename
   property :location_code

@@ -19,12 +19,12 @@ create_or_update_user_group(
 )
 
 create_or_update_user_group(
-  name: "Primero GBV",
-  description: "Default Primero User Group for GBV"
+    name: "Primero FTR",
+    description: "Default Primero User Group for FTR"
 )
 
 create_or_update_user_group(
-  name: "Primero MRM",
-  description: "Default Primero User Group for MRM"
+  name: "Primero GBV",
+  description: "Default Primero User Group for GBV"
 )
 

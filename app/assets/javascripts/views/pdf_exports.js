@@ -2,8 +2,8 @@ _primero.Views.PdfExports = Backbone.View.extend({
   el: '#pdf-exports',
 
   events: {
-    'change div#pdf-exports select[name="module"]' : 'set_form_state',
-    'click div#pdf-exports button#submit_export': 'submit_export_request'
+    'change select[name="module"]' : 'set_form_state',
+    'click button#submit_export': 'submit_export_request'
   },
 
   initialize: function() {
@@ -112,9 +112,9 @@ _primero.Views.PdfExports = Backbone.View.extend({
       }
     }
 
-    if (password_control.val().length &&
+    if (password_control.val() &&
         forms_control.val() &&
-        (module_control.val().length || this.module_id.length)) {
+        (module_control.val() || this.module_id.length)) {
 
       var data = {
         custom_export_file_name: filename_control.val(),
@@ -139,12 +139,12 @@ _primero.Views.PdfExports = Backbone.View.extend({
       this.reset_form();
       $(this.el).foundation('reveal', 'close');
       _primero.check_download_status();
-      window.location = file_location;
+      _primero.generate_download_link(file_location)
     } else {
 
       var errors = [];
 
-      if (!password_control.val().length) {
+      if (!password_control.val()) {
         errors.push($(this.el).data('empty-password'));
       }
 
@@ -153,7 +153,7 @@ _primero.Views.PdfExports = Backbone.View.extend({
         errors.push($(this.el).data('empty-fields-forms'));
       }
 
-      if (!module_control.val().length && !this.module_id.length) {
+      if (!module_control.val() && !this.module_id.length) {
         errors.push($(this.el).data('empty-module'));
       }
 

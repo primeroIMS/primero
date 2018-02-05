@@ -292,23 +292,7 @@ execute_bundle 'precompile-assets' do
   command "rake app:assets_precompile"
 end
 
-execute 'stop all running scheduler jobs' do
-  command 'pkill -f primero-scheduler'
-  returns [0, 1]
-end
-
-execute_bundle 'start-scheduler' do
-  command "rake scheduler:start"
-  environment({"RAILS_SCHEDULER_LOG_DIR" => scheduler_log_dir})
-end
-
-logrotate_app 'primero-scheduler' do
-  path ::File.join(scheduler_log_dir, '*.log')
-  size 20 * 1024 * 1024
-  rotate 2
-  frequency nil
-  options %w( copytruncate delaycompress compress notifempty missingok )
-end
+include_recipe 'primero::primero_scheduler'
 
 # This will set the latest sequence numbers in the couch history log so that it
 # doesn't try to reprocess things from the seed/migration

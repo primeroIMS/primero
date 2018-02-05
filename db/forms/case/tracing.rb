@@ -82,7 +82,8 @@ tracing_fields = [
             }),
   Field.new({"name" => "date_of_separation",
              "type" => "date_field",
-             "display_name_all" => "Date of Separation"
+             "display_name_all" => "Date of Separation",
+             "matchable" => true
             }),
   Field.new({"name" => "separation_cause",
              "type" => "select_box",
@@ -103,11 +104,13 @@ tracing_fields = [
                         "Poverty",
                         "Natural disaster",
                         "Divorce/remarriage",
-                        "Other (please specify)"].join("\n")
+                        "Other (please specify)"].join("\n"),
+             "matchable" => true
               }),
   Field.new({"name" => "separation_cause_other",
              "type" => "text_field",
-             "display_name_all" => "If Other, please specify"
+             "display_name_all" => "If Other, please specify",
+             "matchable" => true
             }),
   Field.new({"name" => "separation_other_applicable_causes",
              "type" => "select_box",
@@ -133,7 +136,8 @@ tracing_fields = [
               }),
   Field.new({"name" => "separation_details",
              "type" => "textarea",
-             "display_name_all" => "Circumstances of Separation (please provide details)"
+             "display_name_all" => "Circumstances of Separation (please provide details)",
+             "matchable" => true
             }),
   Field.new({"name" => "separation_additional_movements",
              "type" => "textarea",
@@ -150,17 +154,20 @@ tracing_fields = [
             }),
   Field.new({"name" => "address_separation",
              "type" => "textarea",
-             "display_name_all" => "Separation Address (Place)"
+             "display_name_all" => "Separation Address (Place)",
+             "matchable" => true
             }),
   Field.new({"name" => "location_separation",
              "type" => "select_box",
              "display_name_all" => "Separation Location",
              "searchable_select" => true,
-             "option_strings_source" => "Location"
+             "option_strings_source" => "Location",
+             "matchable" => true
             }),
   Field.new({"name" => "additional_tracing_info",
              "type" => "textarea",
-             "display_name_all" => "Additional info that could help in tracing?"
+             "display_name_all" => "Additional info that could help in tracing?",
+             "matchable" => true
             }),
   Field.new({"name" => "evacuation_status",
              "type" => "radio_button",

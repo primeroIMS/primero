@@ -5,6 +5,7 @@ basic_identity_fields = [
              "disabled" => true,
              "display_name_all" => "Long ID",
              "create_property" => false,
+             "mobile_visible" => false,
              "visible" => false
             }),
   Field.new({"name" => "short_id",
@@ -13,6 +14,7 @@ basic_identity_fields = [
              "disabled" => true,
              "display_name_all" => "Short ID",
              "create_property" => false,
+             "mobile_visible" => false,
              "visible" => false
             }),
   Field.new({"name" => "case_id_display",
@@ -42,37 +44,48 @@ basic_identity_fields = [
              "editable" => false,
              "disabled" => true
             }),
-  Field.new({"name" => "name",
+  Field.new({"name" => "name", #TODO v1.3: Confirm taht we are not using HighlightInformation
              "type" => "text_field",
-             "display_name_all" => "Full Name",
+             "display_name_all" => "Full Name",             
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
-             "required" => false,
-             "hidden_text_field" => true
+             "required" => true,
+             "show_on_minify_form" => true,
+             "hidden_text_field" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "name_first",
              "type" => "text_field",
              "display_name_all" => "First Name",
+             "show_on_minify_form" => true,
              "required" => false,
-             "hide_on_view_page" => true
+             "hide_on_view_page" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "name_middle",
              "type" => "text_field",
              "display_name_all" => "Middle Name",
-             "hide_on_view_page" => true
+             "show_on_minify_form" => true,
+             "hide_on_view_page" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "name_last",
              "type" => "text_field",
              "display_name_all" => "Surname",
+             "show_on_minify_form" => true,
              "required" => false,
-             "hide_on_view_page" => true
+             "hide_on_view_page" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "name_nickname",
              "type" => "text_field",
-             "display_name_all" => "Nickname"
+             "display_name_all" => "Nickname",
+             "show_on_minify_form" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "name_other",
              "type" => "text_field",
-             "display_name_all" => "Other Name"
+             "display_name_all" => "Other Name",
+             "matchable" => true
             }),
   Field.new({"name" => "name_given_post_separation",
              "type" => "radio_button",
@@ -88,28 +101,34 @@ basic_identity_fields = [
   Field.new({"name" => "sex",
              "type" => "select_box",
              "option_strings_text_all" => "Male\nFemale",
-             "required" => false,
-             "display_name_all" => "Sex"
+             "show_on_minify_form" => true,
+             "required" => true,
+             "display_name_all" => "Sex",
+             "matchable" => true
             }),
   Field.new({"name" => "age",
              "type" => "numeric_field",
-             "required" => false,
-             "display_name_all" => "Age"
+             "display_name_all" => "Age",
+             "show_on_minify_form" => true,
+             "required" => true,
+             "matchable" => true
             }),
   Field.new({"name" => "date_of_birth",
             "type" => "date_field",
-            "required" => false,
             "display_name_all" => "Date of Birth",
-            "date_validation" => "not_future_date"
+            "show_on_minify_form" => true,
+            "matchable" => true
             }),
   Field.new({"name" => "estimated",
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
+             "show_on_minify_form" => true,
              "display_name_all" => "Is the age estimated?",
             }),
   Field.new({"name" => "physical_characteristics",
              "type" => "textarea",
-             "display_name_all" => "Distinguishing Physical Characteristics"
+             "display_name_all" => "Distinguishing Physical Characteristics",
+             "matchable" => true
             }),
   Field.new({"name" => "ration_card_no",
              "type" => "text_field",
@@ -152,6 +171,7 @@ basic_identity_fields = [
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,
              "display_name_all" => "Current Civil/Marital Status",
+             "show_on_minify_form" => true,
              "option_strings_text_all" =>
                           ["Single",
                            "Married/Cohabitating",

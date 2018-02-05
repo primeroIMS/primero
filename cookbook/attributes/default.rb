@@ -20,8 +20,8 @@ default[:primero].tap do |p|
   p[:no_reseed] = false
 
   p[:git].tap do |git|
-    git[:repo] = 'git@bitbucket.org:quoin/primero.git'
-    git[:revision] = 'master'
+    git[:repo] = 'git@bitbucket.org:primeroims/primero.git'
+    git[:revision] = 'development'
   end
 
   p[:couchdb].tap do |c|
@@ -29,6 +29,7 @@ default[:primero].tap do |p|
     c[:username] = 'primero'
     c[:cert_path] = '/etc/ssl/couch.crt'
     c[:key_path] = '/etc/ssl/private/couch.key'
+    c[:client_ca_path] = '/etc/ssl/client_ca.crt'
     c[:root_ca_cert_source] = 'couch_ca.crt'
     c[:config].tap do |conf|
       conf[:httpd].tap do |httpd|
@@ -57,7 +58,7 @@ default[:primero].tap do |p|
   p[:solr_port] = 8983
   p[:solr_log_level] = 'INFO'
   p[:solr_data_dir] =  File.join(node[:primero][:app_dir], 'solr', 'data')
-  p[:ruby_version] = '2.1.5'
+  p[:ruby_version] = '2.2.8'
   p[:ruby_patch] = 'railsexpress'
 
   p[:passenger_conf].tap do |pc|
@@ -77,8 +78,10 @@ default[:rvm].tap do |rvm|
 end
 
 default[:nginx_dir] = '/etc/nginx'
+default[:nginx_default_site] = true
 
 default[:python][:install_method] = 'package'
 default[:python][:setuptools_version] = '3.4.4'
 default[:python][:virtualenv_version] = '1.11.4'
 default[:supervisor][:version] = '3.1.2'
+default[:supervisor][:minfds] = 16384

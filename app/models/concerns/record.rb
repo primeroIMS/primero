@@ -419,7 +419,8 @@ module Record
     # It assumes that there is only one module associated with the user/record. If we have multiple modules per user in the future
     # this will not work.
     parent_form = self.class.parent_form
-    @field_definitions ||= (self.module.present? ? self.module.associated_forms_grouped_by_record_type[parent_form].map{|form| form.fields }.flatten : [])
+    forms = (self.module.present? ? self.module.associated_forms_grouped_by_record_type[parent_form] : [])
+    @field_definitions ||= (forms.present? ? forms.map{|form| form.fields }.flatten : [])
   end
 
   def update_properties(properties, user_name)
@@ -439,7 +440,8 @@ module Record
   end
 
   def create_identification
-    self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
+    #TODO v1.3: why is case_id used here?
+    self.unique_identifier ||= (self.case_id || UUIDTools::UUID.random_create.to_s)
     self.short_id ||= self.unique_identifier.last 7
     #Method should be defined by the derived classes.
     self.set_instance_id
@@ -495,4 +497,5 @@ module Record
       self[target_key] = source[source_key] if source[source_key].present?
     end
   end
+
 end

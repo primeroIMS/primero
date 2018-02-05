@@ -2,10 +2,10 @@ _primero.Views.CustomExports = Backbone.View.extend({
   el: '#custom-exports',
 
   events: {
-    'change div#custom-exports input[name="format"]': 'set_form_state',
-    'change div#custom-exports input[name="forms"]': 'retrieve_field_names',
-    'change div#custom-exports input[name="choose_fields"]': 'toggle_field_selection',
-    'click div#custom-exports button#submit_export': 'submit_export_request'
+    'change input[name="format"]': 'set_form_state',
+    'change input[name="forms"]': 'retrieve_field_names',
+    'change input[name="choose_fields"]': 'toggle_field_selection',
+    'click button#submit_export': 'submit_export_request'
   },
 
   initialize: function() {
@@ -86,10 +86,12 @@ _primero.Views.CustomExports = Backbone.View.extend({
     fields_selector.hide();
     this.toggle_choose_field_control();
 
-    if (value == 'forms' && (module_selector.val().length || this.module_id.length)) {
-      this.retrieve_form_names();
-    } else if (value == 'fields' && (module_selector.val().length || this.module_id.length)) {
-      this.retrieve_field_names();
+    if (module_selector.val() || this.module_id.length) {
+      if (value == 'forms') {
+        this.retrieve_form_names();
+      } else if (value == 'fields') {
+        this.retrieve_field_names();
+      }
     }
   },
 
@@ -178,9 +180,9 @@ _primero.Views.CustomExports = Backbone.View.extend({
       this.filter_type = 'selected_xls';
     }
 
-    if (password_control.val().length &&
+    if (password_control.val() &&
         (forms_control.val() || fields_control.val()) &&
-        (module_control.val().length || this.module_id.length)) {
+        (module_control.val() || this.module_id.length)) {
 
       var data = {
         custom_export_file_name: filename_control.val(),
@@ -200,17 +202,20 @@ _primero.Views.CustomExports = Backbone.View.extend({
       file_location += window.location.search.length ? '&' : '?';
       file_location += $.param(data);
       file_location += '&format=' + this.filter_type;
-      file_location += !_primero.get_param('page') ? '&page=all&per_page=all' : undefined;
+
+      if (!_primero.get_param('page')) {
+        file_location += '&page=all&per_page=all';
+      }
 
       this.reset_form();
       $(this.el).foundation('reveal', 'close');
       _primero.check_download_status();
-      window.location = file_location;
+      _primero.generate_download_link(file_location)
     } else {
 
       var errors = [];
 
-      if (!password_control.val().length) {
+      if (!password_control.val()) {
         errors.push($(this.el).data('empty-password'));
       }
 
@@ -218,11 +223,11 @@ _primero.Views.CustomExports = Backbone.View.extend({
         errors.push($(this.el).data('empty-fields-forms'));
       }
 
-      if (!format_control.val().length) {
+      if (!format_control.val()) {
         errors.push($(this.el).data('empty-format'));
       }
 
-      if (!module_control.val().length && !this.module_id.length) {
+      if (!module_control.val() && !this.module_id.length) {
         errors.push($(this.el).data('empty-module'));
       }
 

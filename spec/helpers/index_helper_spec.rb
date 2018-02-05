@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe IndexHelper do
   before do
@@ -25,7 +25,7 @@ describe IndexHelper do
                                                     {title: "age", sort_title: "age"},
                                                     {title: "sex", sort_title: "sex"},
                                                     {title: "registration_date", sort_title: "registration_date"},
-                                                    {title: "", sort_title: "photo"}
+                                                    {title: "photo", sort_title: "photo"}
                                                    ]
         end
 
@@ -52,7 +52,7 @@ describe IndexHelper do
                                                     {title: "age", sort_title: "age"},
                                                     {title: "sex", sort_title: "sex"},
                                                     {title: "registration_date", sort_title: "registration_date"},
-                                                    {title: "", sort_title: "photo"},
+                                                    {title: "photo", sort_title: "photo"},
                                                     {title: "social_worker", sort_title: "owned_by"}
                                                    ]
         end
@@ -73,6 +73,7 @@ describe IndexHelper do
         before :each do
           @view.instance_variable_set(:@is_admin, true)
           @view.instance_variable_set(:@is_manager, true)
+          @view.instance_variable_set(:@can_view_reporting_filter, true)
         end
 
         it "should return filters to show" do
@@ -111,7 +112,7 @@ describe IndexHelper do
           @current_user.should_receive(:modules).and_return([])
           @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "My Cases",  "Status", "Age Range",
+                                                         "Flagged", "Mobile", "My Cases",  "Status", "Age Range",
                                                          "Sex", "GBV Displacement Status", "Protection Status",
                                                          "Case Open Date", "No Activity", "Record State"
                                                         ]
@@ -135,7 +136,7 @@ describe IndexHelper do
           @current_user.should_receive(:modules).and_return([])
           @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
-                                                         "Flagged", "Social Worker", "My Cases", "Agency",
+                                                         "Flagged", "Mobile", "Social Worker", "My Cases", "Agency",
                                                          "Status", "Age Range", "Sex", "GBV Displacement Status",
                                                          "Protection Status", "Case Open Date", "No Activity","Record State"
                                                         ]
@@ -167,7 +168,7 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Violation", "Status", "Age Range", "Children", "Verification Status",
+                                                         "Flagged", "Mobile", "Violation", "Status", "Age Range", "Children", "Verification Status",
                                                          "Incident Location", "Incident Date", "Armed Force or Group", "Armed Force or Group Type", "Record State"
                                                         ]
         end
@@ -190,7 +191,7 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Violation", "Social Worker", "Status", "Age Range", "Children", "Verification Status",
+                                                         "Flagged", "Mobile", "Violation", "Social Worker", "Status", "Age Range", "Children", "Verification Status",
                                                          "Incident Location", "Incident Date", "Armed Force or Group", "Armed Force or Group Type", "Record State"
                                                         ]
         end
@@ -219,7 +220,7 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Violence Type", "Status", "Age Range",
+                                                         "Flagged", "Mobile", "Violence Type", "Status", "Age Range",
                                                          "Incident Location", "Interview Date", "Incident Date", "Protection Status", "Record State"
                                                         ]
         end
@@ -242,7 +243,7 @@ describe IndexHelper do
 
         it "should return filters to show" do
           @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Violence Type", "Social Worker", "Status", "Age Range",
+                                                         "Flagged", "Mobile", "Violence Type", "Social Worker", "Status", "Age Range",
                                                          "Incident Location", "Interview Date", "Incident Date", "Protection Status", "Record State"
                                                         ]
         end

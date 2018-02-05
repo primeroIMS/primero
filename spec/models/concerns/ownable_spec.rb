@@ -1,5 +1,5 @@
 
-require 'spec_helper'
+require 'rails_helper'
 
 _Model = Class.new(CouchRest::Model::Base) do
   include Ownable

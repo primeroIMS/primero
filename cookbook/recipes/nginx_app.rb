@@ -7,7 +7,13 @@ unless node[:primero][:server_hostname]
 end
 
 ssl_dir = ::File.join(node[:nginx_dir], 'ssl')
-['crt', 'key'].each do |ext|
+ssl_files = ['crt', 'key']
+ssl_client_ca_path = nil
+if node[:primero][:ssl][:client_ca]
+  ssl_files << 'client_ca'
+  ssl_client_ca_path = ::File.join(ssl_dir, 'primero.client_ca')
+end
+ssl_files.each do |ext|
   certfile = ::File.join(ssl_dir, "primero.#{ext}")
   file certfile do
     content node[:primero][:ssl][ext.to_sym]
@@ -48,6 +54,7 @@ template site_conf_file do
     :rvm_ruby_path => ::File.join(node[:primero][:home_dir], ".rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/wrappers/ruby"),
     :ssl_cert_path => ::File.join(ssl_dir, 'primero.crt'),
     :ssl_key_path => ::File.join(ssl_dir, 'primero.key'),
+    :ssl_client_ca => ssl_client_ca_path,
     :passenger_conf => node[:primero][:passenger_conf],
     :dh_param => "#{node[:nginx_dir]}/ssl/dhparam.pem",
   })

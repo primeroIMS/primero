@@ -6,7 +6,7 @@ class FormSectionController < ApplicationController
   include FormCustomization
 
   before_filter :get_form_section, :only => [:edit, :destroy]
-  before_filter :get_related_form_sections, :only => [:index, :edit]
+  before_filter :load_form_sections, :only => [:index, :edit]
   before_filter :get_lookups, :only => [:edit]
 
   include LoggerActions
@@ -18,12 +18,7 @@ class FormSectionController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        #TODO: What about module and type parameters?
-        if params[:mobile].present?
-          @lookups = Lookup.all.all
-          @locations = Location.all_names
-          @form_sections = format_for_mobile(@form_sections, params[:locale])
-        end
+        @form_sections = FormSection.format_forms_for_mobile(@form_sections, params[:locale], @parent_form) if (is_mobile? && @form_sections.present?)
         render json: @form_sections
       end
       #For now, forms are exported as part of the config bundle. They don't need individual exports.
@@ -48,7 +43,7 @@ class FormSectionController < ApplicationController
         @primero_module.save
       end
       flash[:notice] = t("form_section.messages.updated")
-      redirect_to edit_form_section_path(form_section.unique_id)
+      redirect_to edit_form_section_path(id: form_section.unique_id, module_id: params[:module_id], parent_form: params[:parent_form])
     else
       get_form_group_names
       @form_section = form_section
@@ -68,7 +63,10 @@ class FormSectionController < ApplicationController
     @form_section.properties = params[:form_section]
     if (@form_section.valid?)
       @form_section.save!
-      redirect_to edit_form_section_path(@form_section.unique_id)
+      redirect_to edit_form_section_path(
+        id: @form_section.unique_id,
+        module_id: params[:module_id],
+        parent_form: params[:form_section][:parent_form])
     else
       get_form_group_names
       render :action => :edit
@@ -102,36 +100,66 @@ class FormSectionController < ApplicationController
   def published
     json_content = FormSection.find_all_visible_by_parent_form(@parent_form, true).map(&:formatted_hash).to_json
     respond_to do |format|
-      format.html {render :inline => json_content }
+      format.html { render :inline => json_content }
       format.json { render :json => json_content }
     end
   end
 
+  def download_all_forms
+    authorize! :index, FormSection
+
+    forms_exporter = Exporters::FormExporter.new
+    type = params['parent_form']
+    module_id = params['current_module']
+    if type.present? && module_id.present?
+      forms_exporter.export_forms_to_spreadsheet(type, module_id, false)
+      hostname = request.env['SERVER_NAME']
+      datetimenow = DateTime.now.strftime('%Y%m%d.%I%M')
+      file_name = "forms-#{hostname}-#{datetimenow}.xls"
+
+      cookies[:download_status_finished] = true
+      send_file(
+        forms_exporter.export_file,
+        filename: file_name,
+        type: 'application/excel',
+        disposition: 'inline'
+      )
+    end
+  end
+
   private
+
+  def is_mobile?
+    @is_mobile ||= params[:mobile] == true || params[:mobile] == 'true'
+  end
 
   def get_form_section
     @form_section = FormSection.get_by_unique_id(params[:id], true)
     @parent_form = @form_section.parent_form
   end
 
-  def get_related_form_sections
-    @record_types = @primero_module.associated_record_types
+  def load_form_sections
+    if @primero_module.present?
+      @record_types = @primero_module.associated_record_types
 
-    if @parent_form.blank?
-      #only use the passed in parent_form if it is in the allowed form types for this module
-      #otherwise, default to the first allowed form type
-      if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
-        @parent_form = params[:parent_form]
-      else
-        @parent_form = @record_types.first
+      if @parent_form.blank?
+        #only use the passed in parent_form if it is in the allowed form types for this module
+        #otherwise, default to the first allowed form type
+        if (params[:parent_form].present? && (@record_types.include? params[:parent_form]))
+          @parent_form = params[:parent_form]
+        else
+          @parent_form = @record_types.first
+        end
       end
-    end
 
-    permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user, true)
-    FormSection.link_subforms(permitted_forms, true)
-    #filter out the subforms
-    no_subforms = FormSection.filter_subforms(permitted_forms, true)
-    @form_sections = FormSection.group_forms(no_subforms, true)
+      permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
+      FormSection.link_subforms(permitted_forms)
+      permitted_forms = FormSection.filter_subforms(permitted_forms)
+      permitted_forms = FormSection.filter_for_mobile(permitted_forms) if is_mobile?
+      @form_sections = FormSection.group_forms(permitted_forms)
+    else
+      @form_sections = []
+    end
   end
 
   def forms_for_move
@@ -148,94 +176,6 @@ class FormSectionController < ApplicationController
     @lookup_options.unshift("", "Location")
   end
 
-  def format_for_mobile(form_sections, locale_param=nil)
-    #Flatten out the form sections, discarding form groups
-    form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
-    #Discard the non-mobile form sections
-    form_sections = form_sections.select{|f| f.mobile_form?}
-    #Transform the i18n values
-    requested_locales = if locale_param.present? && Primero::Application::locales.include?(locale_param)
-      [locale_param]
-    else
-      Primero::Application::locales
-    end
-    form_sections = form_sections.map do |form|
-      attributes = convert_localized_form_properties(form, requested_locales)
-      attributes['fields'] = form.fields.map do |f|
-        field_hash = convert_localized_field(f, requested_locales)
-        if f.subform.present?
-          embed_subform(field_hash, f.subform, requested_locales)
-        end
-        field_hash
-      end
-      attributes
-    end
-    #Group by form type
-    form_sections = form_sections.group_by{|f| mobile_form_type(f['parent_form'])}
-    return form_sections
-  end
-
-  def convert_localized_form_properties(form, requested_locales)
-    attributes = form.attributes.clone
-    #convert top level attributes
-    FormSection.localized_properties.each do |property|
-      attributes[property] = {}
-      Primero::Application::locales.each do |locale|
-        key = "#{property.to_s}_#{locale.to_s}"
-        value =  attributes[key].nil? ? "" : attributes[key]
-        if requested_locales.include? locale
-          attributes[property][locale] = value
-        end
-        attributes.delete(key)
-      end
-    end
-    return attributes
-  end
-
-  def convert_localized_field(field, requested_locales)
-    field_hash = field.attributes.clone
-    Field.localized_properties.each do |property|
-      field_hash[property] = {}
-      Primero::Application::locales.each do |locale|
-        key = "#{property.to_s}_#{locale.to_s}"
-        value = field_hash[key]
-        if property == :option_strings_text
-          #value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
-          value = field.options_list(nil, @lookups, @locations)
-        elsif field_hash[key].nil?
-          value = ""
-        end
-        if requested_locales.include? locale
-          field_hash[property][locale] = value
-        end
-        field_hash.delete(key)
-      end
-    end
-    return field_hash
-  end
-
-  #TODO: Yeah, yeah, combine with format_for_mobile, make recursive
-  def embed_subform(field_hash, subform, requested_locales)
-    subform_hash = convert_localized_form_properties(subform, requested_locales)
-    subform_hash['fields'] = subform.fields.map do |f|
-      convert_localized_field(f, requested_locales)
-    end
-    field_hash['subform'] = subform_hash
-  end
-
-  #This keeps the forms compatible with the mobile API
-  def mobile_form_type(parent_form)
-    case parent_form
-    when 'case'
-      'Children'
-    when 'child'
-      'Children'
-    when 'tracing_request'
-      'Enquiries' #TODO: This may be controversial
-    else
-      parent_form.camelize.pluralize
-    end
-  end
 
   #Override method in LoggerActions.
   def logger_action_identifier

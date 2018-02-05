@@ -3,7 +3,6 @@ class ChildrenController < ApplicationController
 
   include IndexHelper
   include RecordFilteringPagination
-  include TracingActions
   include ApprovalActions
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
@@ -58,7 +57,7 @@ class ChildrenController < ApplicationController
     if @child.save
       render :json => {:error => false,
                        :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child['name'],
-                       :disable_input_field => true,
+                       :disable_input_field => hide,
                        :action_link_action => hide ? "view" : "protect",
                        :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
                       }

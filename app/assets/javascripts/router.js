@@ -10,6 +10,8 @@ _primero.Router = Backbone.Router.extend({
     'incidents': 'recordIndexPage',
     'cases': 'recordIndexPage',
     'tracing_requests': 'recordIndexPage',
+    'potential_matches': 'recordIndexPage',
+    'children/:id': 'recordShowPage',
     'reports/new': 'reportsForm',
     'reports/:id/edit': 'reportsForm',
     'reports': 'reports',
@@ -17,6 +19,8 @@ _primero.Router = Backbone.Router.extend({
     'bulk_exports': 'bulk_exports',
     'lookups/new': 'lookups',
     'lookups/:id/edit': 'lookups',
+    'forms/:id/edit': 'formSectionEditPage',
+    'forms/:form_section_id/fields/:id/edit': 'fieldEditPage',
     'users': 'passwordPrompt',
     'roles': 'roleIndexPage',
     'login' : 'maskedUserAndPasswordLogin',
@@ -110,6 +114,7 @@ _primero.Router = Backbone.Router.extend({
 
     if ($('form:not("#search_form")').length > 0) {
       _primero.shared_fields = new _primero.Views.SharedFields();
+      new _primero.Views.PopulateSelectBoxes();
       new _primero.Views.RequiredFields();
       new _primero.Views.AutosumFields();
       new _primero.Views.AutoCalculateAgeDOB();
@@ -160,6 +165,14 @@ _primero.Router = Backbone.Router.extend({
 
   roleIndexPage: function() {
     new _primero.Views.CopyRole();
+  },
+
+  formSectionEditPage: function() {
+    new _primero.Views.VisibleMobileForm();
+  },
+
+  fieldEditPage: function() {
+    new _primero.Views.VisibleMobileField();
   },
 
   maskedUserAndPasswordLogin: function() {

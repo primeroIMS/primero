@@ -4,11 +4,13 @@ Primero = Backbone.View.extend({
   events: {
     'click .btn_submit': 'submit_form',
     'click .gq_popovers': 'engage_popover',
+    'click .gq_select_popovers': 'engage_select_popover',
     'sticky-start .record_controls_container, .index_controls_container': 'start_sticky',
     'sticky-end .record_controls_container, .index_controls_container': 'end_sticky',
     'click .action_btn': 'disable_default_events',
     'change .record_types input:not([type="hidden"])': 'record_type_changed',
-    'click a#audio_link, a.document, a.bulk_export_download': '_primero_check_download_status'
+    'click a#audio_link, a.document, a.bulk_export_download': '_primero_check_download_status',
+    'click a.download_forms': '_primero_check_status_close_modal',
   },
 
   initialize: function() {
@@ -26,6 +28,7 @@ Primero = Backbone.View.extend({
     _primero.loading_screen_indicator = this._primero_loading_screen_indicator;
     _primero.serialize_object = this._primero_serialize_object;
     _primero.check_download_status = this._primero_check_download_status;
+    _primero.check_status_close_modal = this._primero_check_status_close_modal;
     _primero.remove_cookie = this._primero_remove_cookie;
     _primero.read_cookie = this._primero_read_cookie;
     _primero.create_cookie = this._primero_create_cookie;
@@ -36,11 +39,14 @@ Primero = Backbone.View.extend({
     _primero.abide_validator_date_not_future = this.abide_validator_date_not_future;
     _primero.date_not_future = this.date_not_future;
     _primero.valid_datepicker_value = this.valid_datepicker_value;
+    _primero.abide_validator_positive_number = this.abide_validator_positive_number;
+    _primero.valid_positive_number_value = this.valid_positive_number_value;
+    _primero.generate_download_link = this.generate_download_link;
 
     this.init_trunc();
     this.init_sticky();
     this.init_popovers();
-    this.init_autogrow();
+    this.init_autosize();
     this.init_action_menu();
     this.init_chosen_or_new();
     this.show_hide_record_type();
@@ -69,7 +75,6 @@ Primero = Backbone.View.extend({
 
     $(document).on('close.fndtn.reveal', '[data-reveal]', function () {
       var modal = $(this);
-      console.log(modal)
       modal.unwrap("<div class='modal-scroll' />");
     });
   },
@@ -184,8 +189,8 @@ Primero = Backbone.View.extend({
     });
   },
 
-  init_autogrow: function() {
-    $('textarea').autogrow();
+  init_autosize: function() {
+    autosize($('textarea'));
   },
 
   init_popovers: function() {
@@ -224,6 +229,12 @@ Primero = Backbone.View.extend({
     selected_input.trigger('focus');
   },
 
+  engage_select_popover: function(evt) {
+     evt.preventDefault();
+     var guided_link = $(evt.target);
+     guided_link.popover('toggle');
+  },
+
   init_sticky: function() {
     var control = $(".record_controls_container, .index_controls_container"),
     stickem = control.sticky({
@@ -245,7 +256,7 @@ Primero = Backbone.View.extend({
   },
 
   show_hide_record_type: function(input) {
-    var inputs = input ? input : $('.record_types input:not([type="hidden"]');
+    var inputs = input ? input : $('.record_types input:not([type="hidden"])');
 
     inputs.each(function(k, v) {
       var selected_input = $(v),
@@ -462,16 +473,25 @@ Primero = Backbone.View.extend({
     return str.join("&");
   },
 
-  _primero_check_download_status: function() {
+  _primero_check_download_status: function(closure) {
     var download_cookie_name = 'download_status_finished',
         clock = setInterval(check_status, 2000);
     function check_status() {
       if (_primero.read_cookie(download_cookie_name)) {
         _primero.loading_screen_indicator('hide');
         _primero.remove_cookie(download_cookie_name);
+        if (closure !== undefined) { closure(); }
         clearInterval(clock);
       }
     }
+  },
+
+  _primero_check_status_close_modal: function() {
+    _primero.check_download_status(close_forms_export_modal_after_download);
+
+    function close_forms_export_modal_after_download() {
+      $('[id$=forms-export]').foundation('reveal', 'close');
+    };
   },
 
   _primero_create_cookie: function(name, value, days) {
@@ -655,6 +675,31 @@ Primero = Backbone.View.extend({
       //If value is empty check if required or not.
       return !required;
     }
-  }
+  },
 
+  abide_validator_positive_number: function(el, required, parent) {
+    if (el.getAttribute("disabled") !== "disabled") {
+      return _primero.valid_positive_number_value(el.value, required);
+    } else {
+      return true;
+    }
+  },
+
+  valid_positive_number_value: function(value, required) {
+    if (value !== "") {
+      return !isNaN(value) && value >= 0;
+    } else {
+      return !required;
+    }
+  },
+
+  generate_download_link: function(url) {
+    var download_link = document.createElement("a");
+    download_link.href = url;
+    download_link.setAttribute('data-turbolinks', false);
+    document.body.appendChild(download_link);
+    download_link.click();
+    document.body.removeChild(download_link);
+    this._primero_loading_screen_indicator('hide');
+  }
 });

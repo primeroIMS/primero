@@ -27,12 +27,13 @@ To setup a new root Certificate Authority to sign CouchDB certs, you need to con
 Create the next directories and files to save the certificates and keys. You may need to do it as root.
 
 ```sh
-$ mkdir -p /etc/pki/CA
-$ cd /etc/pki/CA
-$ mkdir certs crl newcerts private
-$ chmod 700 private
-$ touch index.txt
-$ echo 1000 > serial
+$ 
+sudo mkdir -p /etc/pki/CA
+cd /etc/pki/CA
+sudo mkdir certs crl newcerts private
+sudo chmod 700 private
+sudo touch index.txt
+sudo echo 1000 > serial
 ```
 
 Also it is necessary to create a root key and a root certificate, that identify the certificate authority. To generate the root key with the proper encryption:
@@ -46,7 +47,8 @@ Verifying - Enter pass phrase for ca_key.pem: secretpassword
 $ sudo chmod 600 /etc/pki/CA/private/couch_ca.pem
 ```
 
-Open the file /ect/ssl/openssl.cnf.
+Open the file `/etc/ssl/openssl.cnf`
+
 Under [ CA_default ], change the field 'dir' to the following
 dir = /etc/pki/CA
 
@@ -74,9 +76,9 @@ Save any changes made to the openssl.cnf file.
 
 
 To generate the root certificate:
+
 ```sh
-$ sudo openssl req -new -x509 -days 3650 -key /etc/pki/CA/private/couch_ca.pem \
-    -sha256 -extensions v3_ca -out /etc/pki/CA/certs/couch_ca.cert
+$ sudo openssl req -new -x509 -days 3650 -key /etc/pki/CA/private/couch_ca.pem -sha256 -extensions v3_ca -out /etc/pki/CA/certs/couch_ca.cert
 $ sudo chmod 600 /etc/pki/CA/certs/couch_ca.cert
 ```
 
@@ -87,7 +89,7 @@ After the first time, you should set up your own `config.cnf` file based on
 your organization's policy and contact information.
 See example below.
 See the openssl docs for more info on how to configure things.
-https://www.openssl.org/docs/
+[https://www.openssl.org/docs/](https://www.openssl.org/docs/)
 
 ######Example config.cnf
 
@@ -133,6 +135,12 @@ emailAddress_default        = unknown@quoininc.com
 ```
 
 ####Creating and Signing New Certs
+Firstly, copy the openssl configuration file
+
+```sh
+$ cp /etc/ssl/openssl.cnf ./config.cnf
+```
+
 Once you have a CA set up, you can make new keys and certs for individual
 CouchDB instances. Go to the root directory of your CA. (/etc/pki/CA)
 
