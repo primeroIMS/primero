@@ -140,7 +140,7 @@ describe "record field model" do
 
       context 'with no options' do
         it 'is not valid' do
-          expect(@field.valid?).to be_false
+          expect(@field.valid?).to be_falsey
           expect(@field.errors.messages[:option_strings]).to eq(['Field must have at least 2 options'])
         end
       end
@@ -150,7 +150,7 @@ describe "record field model" do
           @field.option_strings_text = ["test"]
         end
         it 'is not valid' do
-          expect(@field.valid?).to be_false
+          expect(@field.valid?).to be_falsey
           expect(@field.errors.messages[:option_strings]).to eq(['Field must have at least 2 options'])
         end
       end
@@ -165,7 +165,7 @@ describe "record field model" do
         end
 
         it 'is valid' do
-          expect(@field.valid?).to be_true
+          expect(@field.valid?).to be_truthy
         end
 
         context 'and some options have blank id' do
@@ -174,7 +174,7 @@ describe "record field model" do
           end
 
           it 'is not valid' do
-            expect(@field.valid?).to be_false
+            expect(@field.valid?).to be_falsey
             expect(@field.errors.messages[:option_strings_text]).to eq(['Option Strings Text option id is blank'])
           end
         end
@@ -185,7 +185,7 @@ describe "record field model" do
           end
 
           it 'is not valid' do
-            expect(@field.valid?).to be_false
+            expect(@field.valid?).to be_falsey
             expect(@field.errors.messages[:option_strings_text]).to eq(['Option Strings Text option display text is blank'])
           end
         end
@@ -200,7 +200,7 @@ describe "record field model" do
             end
 
             it 'is not valid' do
-              expect(@field.valid?).to be_false
+              expect(@field.valid?).to be_falsey
               expect(@field.errors.messages[:option_strings_text]).to eq(['Field translated options must have same ids'])
             end
           end
@@ -216,7 +216,7 @@ describe "record field model" do
             end
 
             it 'is not valid' do
-              expect(@field.valid?).to be_false
+              expect(@field.valid?).to be_falsey
               expect(@field.errors.messages[:option_strings_text]).to eq(['Field translated options must have same ids'])
             end
           end
@@ -231,7 +231,7 @@ describe "record field model" do
             end
 
             it 'is not valid' do
-              expect(@field.valid?).to be_false
+              expect(@field.valid?).to be_falsey
               expect(@field.errors.messages[:option_strings_text]).to eq(['Field translated options must have same ids'])
             end
           end
@@ -246,7 +246,7 @@ describe "record field model" do
             end
 
             it 'is valid' do
-              expect(@field.valid?).to be_true
+              expect(@field.valid?).to be_truthy
             end
           end
         end
