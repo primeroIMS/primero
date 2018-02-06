@@ -165,8 +165,7 @@ describe ChildrenController, :type => :controller do
         @user = User.new(:user_name => 'importing_user', :role_ids => ['importer'])
         @session = fake_login @user
 
-        post :import_file, import_file: uploadable_zip_file, password: 'password', import_type: 'guess'
-
+        post :import_file, params: {import_file: uploadable_zip_file, password: 'password', import_type: 'guess'}
         expect(response).to redirect_to action: :index
         expect(flash[:notice]).to eq I18n.t('imports.successful')
       end
