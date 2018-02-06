@@ -135,24 +135,16 @@ ctfmr_verification_status = [
 ]
 
 locations = [
-  "Somalia::Jubaland::Lower Juba",
-  "Somalia::Jubaland::Middle Juba",
-  "Somalia::Jubaland::Gedo",
+  "Somalia::Lower Juba",
+  "Somalia::Middle Juba",
+  "Somalia::Gedo",
   "Somalia::Bay",
   "Somalia::Bakool",
   "Somalia::Lower Shebelle",
-  "Somalia::Banaadir",
+  "Somalia::Banadir",
   "Somalia::Middle Shebelle",
-  "Somalia::Hiran",
-  "Somalia::Galmudug::Galguduud",
-  "Somalia::Galmudug::Mudug",
-  "Somalia::Nugal",
-  "Somalia::Bari",
-  "Somalia::Somaliland::Sool",
-  "Somalia::Somaliland::Sanaag",
-  "Somalia::Somaliland::Togdheer",
-  "Somalia::Somaliland::Woqooyi Galbeed",
-  "Somalia::Somaliland::Awdal",
+  "Somalia::Galguduud",
+  "Somalia::Mudug"
 ]
 
 status = ['Open', 'Closed']
