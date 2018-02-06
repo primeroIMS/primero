@@ -22,7 +22,7 @@ attack_types = [
 ]
 
 # From WeaponType lookup
-weapon_types = [ 
+weapon_types = [
   "Aerial bomb",
   "Barrel bomb",
   "Booby trap",
@@ -135,27 +135,27 @@ ctfmr_verification_status = [
 ]
 
 locations = [
-  "Lower Juba",
-  "Middle Juba",
-  "Gedo",
-  "Bay",
-  "Bakool",
-  "Lower Shebelle",
-  "Banaadir",
-  "Middle Shebelle",
-  "Hiran",
-  "Galguduud",
-  "Mudug",
-  "Nugal",
-  "Bari",
-  "Sool",
-  "Sanaag",
-  "Togdheer",
-  "Woqooyi Galbeed",
-  "Awdal",
+  "Somalia::Jubaland::Lower Juba",
+  "Somalia::Jubaland::Middle Juba",
+  "Somalia::Jubaland::Gedo",
+  "Somalia::Bay",
+  "Somalia::Bakool",
+  "Somalia::Lower Shebelle",
+  "Somalia::Banaadir",
+  "Somalia::Middle Shebelle",
+  "Somalia::Hiran",
+  "Somalia::Galmudug::Galguduud",
+  "Somalia::Galmudug::Mudug",
+  "Somalia::Nugal",
+  "Somalia::Bari",
+  "Somalia::Somaliland::Sool",
+  "Somalia::Somaliland::Sanaag",
+  "Somalia::Somaliland::Togdheer",
+  "Somalia::Somaliland::Woqooyi Galbeed",
+  "Somalia::Somaliland::Awdal",
 ]
 
-status = ['open', 'closed']
+status = ['Open', 'Closed']
 
 (0..100).each do |i|
   #violations
@@ -194,6 +194,7 @@ status = ['open', 'closed']
   attributes = {
     'incident_code' => "TEST_INCIDENT_#{DateTime.now.strftime('%Y%m%d_%H%M%S')}_#{i}",
     'violation_category' => violations.keys,
+    'date_of_incident_date_or_date_range' => 'date',
     'date_of_incident' => incident_date,
     'date_of_first_report' => incident_report_date,
     'incident_location' => locations[rand(locations.size)],
