@@ -1,3 +1,4 @@
+default_owner = User.find_by_user_name("primero_mrm")
 
 #Violation attributes
 #type
@@ -140,10 +141,10 @@ locations = [
   "Somalia::Gedo",
   "Somalia::Bay",
   "Somalia::Bakool",
-  "Somalia::Lower Shebelle",
+  "Somalia::Lower Shabelle",
   "Somalia::Banadir",
-  "Somalia::Middle Shebelle",
-  "Somalia::Galguduud",
+  "Somalia::Middle Shabelle",
+  "Somalia::Galgadud",
   "Somalia::Mudug"
 ]
 
@@ -198,5 +199,7 @@ status = ['Open', 'Closed']
     'module_id' => 'primeromodule-mrm',
     'violations' => violations
   }
-  Incident.create!(attributes)
+
+  incident = Incident.new_with_user_name(default_owner, attributes)
+  incident.save!
 end
