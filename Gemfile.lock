@@ -7,13 +7,6 @@ GIT
       ruby-prof
 
 GIT
-  remote: https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git
-  revision: f0e0668599cd95adb5d5024773a7b9eb16869a79
-  tag: v0.3.7
-  specs:
-    zipruby-compat (0.3.7)
-
-GIT
   remote: https://github.com/rapidftr/rapidftr-addon-cpims.git
   revision: 6d820ae76a6365436c4ef9325132422618178c7d
   branch: master
@@ -608,6 +601,7 @@ DEPENDENCIES
   rspec-rails (~> 3.7.2)
   rubocop
   ruby-prof
+  rubyzip (~> 1.2.1)
   rufus-scheduler (~> 3.4.2)
   sass-rails (~> 5.0.6)
   selenium-webdriver (~> 3.7.0)
@@ -626,7 +620,6 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
   writeexcel (~> 1.0.5)
   yui-compressor
-  zipruby-compat!
 
 BUNDLED WITH
    1.16.0
