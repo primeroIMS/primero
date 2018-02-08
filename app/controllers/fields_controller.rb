@@ -29,7 +29,7 @@ class FieldsController < ApplicationController
       render :template => "form_section/edit", :locals => @show_add_field
     else
       SuggestedField.mark_as_used(params[:from_suggested_field]) if params.has_key? :from_suggested_field
-      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id), flash: {notice: t("fields.successfully_added")} )
+      redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id, parent_form: @parent_form), flash: {notice: t("fields.successfully_added")} )
     end
   end
 
@@ -66,7 +66,7 @@ class FieldsController < ApplicationController
       if (request.xhr?)
         render :json => message
       else
-        redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
+        redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id, parent_form: @parent_form))
       end
     end
   end
@@ -84,7 +84,7 @@ class FieldsController < ApplicationController
     field = @form_section.fields.find { |field| field.name == params[:field_name] }
     @form_section.delete_field(field.name)
     flash[:notice] = t("fields.deleted", :display_name => field.display_name)
-    redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id))
+    redirect_to(edit_form_section_path(params[:form_section_id], module_id: @module_id, parent_form: @parent_form))
   end
 
   def toggle_fields
