@@ -90,8 +90,8 @@ end
 rvm_ruby_name = "#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}"
 execute_with_ruby 'prod-ruby' do
   command <<-EOH
-    rvm rubygems #{node[:primero][:rubygems_version]}
     rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
+    rvm rubygems #{node[:primero][:rubygems_version]}
     rvm --default use #{rvm_ruby_name}
   EOH
 end
@@ -156,6 +156,7 @@ template File.join(node[:primero][:app_dir], "public", "version.txt") do
   group node[:primero][:app_group]
 end
 
+## This is a hack. This may be removed in the future.
 execute 'clear_bundler_cache' do
   command 'if [ -d .bundler ]; then grep -v BUNDLE_CLEAN .bundler/config > .bundler/config.tmp && mv .bundler/config.tmp .bundler/config; fi'
 end
