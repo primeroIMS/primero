@@ -1,3 +1,4 @@
+default_owner = User.find_by_user_name("primero_mrm")
 
 #Violation attributes
 #type
@@ -135,24 +136,16 @@ ctfmr_verification_status = [
 ]
 
 locations = [
-  "Somalia::Jubaland::Lower Juba",
-  "Somalia::Jubaland::Middle Juba",
-  "Somalia::Jubaland::Gedo",
+  "Somalia::Lower Juba",
+  "Somalia::Middle Juba",
+  "Somalia::Gedo",
   "Somalia::Bay",
   "Somalia::Bakool",
-  "Somalia::Lower Shebelle",
-  "Somalia::Banaadir",
-  "Somalia::Middle Shebelle",
-  "Somalia::Hiran",
-  "Somalia::Galmudug::Galguduud",
-  "Somalia::Galmudug::Mudug",
-  "Somalia::Nugal",
-  "Somalia::Bari",
-  "Somalia::Somaliland::Sool",
-  "Somalia::Somaliland::Sanaag",
-  "Somalia::Somaliland::Togdheer",
-  "Somalia::Somaliland::Woqooyi Galbeed",
-  "Somalia::Somaliland::Awdal",
+  "Somalia::Lower Shabelle",
+  "Somalia::Banadir",
+  "Somalia::Middle Shabelle",
+  "Somalia::Galgadud",
+  "Somalia::Mudug"
 ]
 
 status = ['Open', 'Closed']
@@ -206,5 +199,7 @@ status = ['Open', 'Closed']
     'module_id' => 'primeromodule-mrm',
     'violations' => violations
   }
-  Incident.create!(attributes)
+
+  incident = Incident.new_with_user_name(default_owner, attributes)
+  incident.save!
 end
