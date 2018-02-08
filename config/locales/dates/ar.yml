@@ -58,6 +58,7 @@ ar:
     formats:
       default: "%d-%b-%Y"
       with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
   time:
     formats:
       default: "%d-%b-%Y"
