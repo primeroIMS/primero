@@ -47,7 +47,7 @@ end
 define :update_bundler, :user => nil, :group => nil do
   args = params
   execute_with_ruby "upgrade-bundler-#{params[:name]}" do
-    command "[[ $(bundle --version | awk '{ print $3 }') != '1.9.10' ]] && gem install bundler --version=1.9.10 || true"
+    command "[[ $(bundle --version | awk '{ print $3 }') != '#{args[:bundler_version]}' ]] && gem install bundler --version=#{args[:bundler_version]} || true"
     user args[:user]
     group args[:group]
   end

@@ -46,6 +46,7 @@ end
 update_bundler 'dev-stack' do
   user 'vagrant'
   group 'vagrant'
+  bundler_version node[:primero][:bundler_version]
 end
 
 execute_with_ruby 'bundle-install-vagrant' do

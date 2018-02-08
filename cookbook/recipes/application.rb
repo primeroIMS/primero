@@ -90,6 +90,7 @@ end
 rvm_ruby_name = "#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}"
 execute_with_ruby 'prod-ruby' do
   command <<-EOH
+    rvm rubygems #{node[:primero][:rubygems_version]}
     rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
     rvm --default use #{rvm_ruby_name}
   EOH
@@ -155,9 +156,15 @@ template File.join(node[:primero][:app_dir], "public", "version.txt") do
   group node[:primero][:app_group]
 end
 
-update_bundler 'prod-stack'
+execute 'clear_bundler_cache' do
+  command 'if [ -d .bundler ]; then grep -v BUNDLE_CLEAN .bundler/config > .bundler/config.tmp && mv .bundler/config.tmp .bundler/config; fi'
+end
+
+update_bundler 'prod-stack' do
+  bundler_version node[:primero][:bundler_version]
+end
 execute_with_ruby 'bundle-install' do
-  command "bundle install --clean --without development test cucumber"
+  command "bundle install --without development test cucumber"
   cwd node[:primero][:app_dir]
 end
 
