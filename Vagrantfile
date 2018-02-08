@@ -5,8 +5,7 @@ def project_path(path)
 end
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu-server-14.04"
-  config.vm.box_url = "https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box"
+  config.vm.box = "bento/ubuntu-16.04"
 
   config.vm.network :forwarded_port, guest: 3000, host: 3000
   config.vm.network :forwarded_port, guest: 3001, host: 3001 # Second server for testing replication
@@ -31,7 +30,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.berkshelf.berksfile_path = 'cookbook/Berksfile'
 
   config.vm.provision :chef_solo do |chef|
-    nodedata = JSON.parse(File.read(project_path("dev-node.json")))
+    node_file = if File.exists?(project_path("dev-node.json"))
+      project_path("dev-node.json")
+    else
+      project_path("dev-node.json.sample")
+    end
+    nodedata = JSON.parse(File.read(node_file))
     chef.run_list = nodedata.delete('run_list')
     chef.json = nodedata
     chef.log_level = 'debug'

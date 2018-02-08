@@ -41,15 +41,16 @@ gbv_incident_fields = [
   Field.new({"name" => "status",
              "mobile_visible" => true,
              "type" => "select_box",
+             "selected_value" => Record::STATUS_OPEN,
              "display_name_all" => "Incident Status",
-             "option_strings_source" => "lookup IncidentStatus"
+             "option_strings_source" => "lookup lookup-incident-status"
             }),
   Field.new({"name" => "consent_reporting",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent is given to share non-identifiable information for reporting",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "date_of_first_report",
              "show_on_minify_form" => true,

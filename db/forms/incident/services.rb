@@ -5,7 +5,7 @@ health_medical_referral_subform_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Health/Medical Services?",
-             "option_strings_source" => "lookup ServiceReferred",
+             "option_strings_source" => "lookup lookup-service-referred",
             }),
   Field.new({"name" => "service_medical_appointment_date",
              "mobile_visible" => false,
@@ -56,7 +56,7 @@ psychosocial_counseling_services_subform_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Psychosocial/Counseling services?",
-             "option_strings_source" => "lookup ServiceReferred",
+             "option_strings_source" => "lookup lookup-service-referred",
             }),
   Field.new({"name" => "service_psycho_appointment_date",
              "mobile_visible" => false,
@@ -82,6 +82,11 @@ psychosocial_counseling_services_subform_fields = [
              "mobile_visible" => false,
              "type" => "text_field",
              "display_name_all" => "Notes"
+            }),
+  Field.new({"name" => "pursue_legal_action",
+             "type" => "radio_button",
+             "display_name_all" => "Does the client want to pursue legal action?",
+             "option_strings_source" => "lookup lookup-yes-no-undecided"
             })
 ]
 
@@ -107,7 +112,7 @@ legal_assistance_services_subform_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Legal services?",
-             "option_strings_source" => "lookup ServiceReferred",
+             "option_strings_source" => "lookup lookup-service-referred",
             }),
   Field.new({"name" => "service_legal_appointment_date",
              "mobile_visible" => false,
@@ -138,10 +143,7 @@ legal_assistance_services_subform_fields = [
              "mobile_visible" => false,
              "type" => "radio_button",
              "display_name_all" => "Does the client want to pursue legal action?",
-             "option_strings_text_all" =>
-                 ["Yes",
-                  "No",
-                  "Undecided"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no-undecided"
             })
 ]
 
@@ -167,7 +169,7 @@ police_or_other_type_of_security_services_subform_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Police/Other services?",
-             "option_strings_source" => "lookup ServiceReferred",
+             "option_strings_source" => "lookup lookup-service-referred",
             }),
   Field.new({"name" => "service_police_appointment_date",
              "mobile_visible" => false,
@@ -218,7 +220,7 @@ livelihoods_services_subform_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to a livelihoods program?",
-             "option_strings_source" => "lookup ServiceReferred",
+             "option_strings_source" => "lookup lookup-service-referred",
             }),
   Field.new({"name" => "service_livelihoods_appointment_date",
              "mobile_visible" => false,
@@ -269,7 +271,7 @@ child_protection_services_subform_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to Child Protection services?",
-             "option_strings_source" => "lookup ServiceReferred",
+             "option_strings_source" => "lookup lookup-service-referred",
             }),
   Field.new({"name" => "service_protection_appointment_date",
              "mobile_visible" => false,
@@ -325,15 +327,14 @@ services_fields = [
                 "Psychosocial / Counseling Services",
                 "Police / Other Security Actor",
                 "Legal Assistance Services",
-                "Livelihoods Services",
+                "Livelihoods Program",
                 "Self Referral / First Point of Contact",
                 "Teacher / School Official",
                 "Community or Camp Leader",
                 "Safe House / Shelter",
                 "Other Humanitarian or Development Actor",
                 "Other Government Service",
-                "Other"
-              ].join("\n")
+                "Other"].join("\n")
             }),
   Field.new({"name" => "service_referred_from_other",
              "mobile_visible" => false,
@@ -351,7 +352,7 @@ services_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Did you refer the client to a safe house/safe shelter?",
-             "option_strings_source" => "lookup ServiceReferred",
+             "option_strings_source" => "lookup lookup-service-referred",
             }),
   Field.new({"name" => "service_safehouse_appointment_date",
              "mobile_visible" => false,

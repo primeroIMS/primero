@@ -82,6 +82,12 @@ module Exporters
         "No referral, Service unavailable" => I18n.t("exports.incident_recorder_xls.service_referral.unavailable")
       }
 
+      REPORTED_ELSEWHERE = {
+        "no" => "No",
+        "gbvims-org" => "Yes-GBVIMS Org / Agency",
+        "non-gbvims-org" => "Yes-Non GBVIMS Org / Agency"
+      }
+
       def close
         #Print at the end of the processing the data collected
         #because this is batch mode, this is the end of the processing
@@ -131,6 +137,7 @@ module Exporters
       end
 
       def export(models)
+        self.class.load_fields(models.first) if models.present?
         incident_data(models)
       end
 
@@ -298,7 +305,9 @@ module Exporters
           "HARMFUL TRADITIONAL PRACTICE" => "harmful_traditional_practice",
           "MONEY, GOODS, BENEFITS AND / OR SERVICES EXCHANGED ?" => "goods_money_exchanged",
           "TYPE OF ABDUCTION" => "abduction_status_time_of_incident",
-          "PREVIOUSLY REPORTED THIS INCIDENT?" => "gbv_reported_elsewhere",
+          "PREVIOUSLY REPORTED THIS INCIDENT?" => ->(model) do
+            REPORTED_ELSEWHERE[model.try(:gbv_reported_elsewhere)]
+          end,
           "PREVIOUS GBV INCIDENTS?" => "gbv_previous_incidents",
           ##### ALLEGED PERPETRATOR INFORMATION #####
           "No. ALLEGED PRIMARY PERPETRATOR(S)" => ->(model) do
@@ -314,13 +323,11 @@ module Exporters
             perpetrators_sex(all_alleged_perpetrators(model))
           end,
           "PREVIOUS INCIDENT WITH THIS PERPETRATOR" => ->(model) do
-            former_perpetrators = primary_alleged_perpetrator(model)
-            .map{|ap| ap.try(:former_perpetrator)}
-            .select{|is_ap| is_ap != nil}
+            former_perpetrators = primary_alleged_perpetrator(model).map{|ap| ap.try(:former_perpetrator)}.select{|is_ap| is_ap != nil}
             if former_perpetrators.include? 'Yes'
-              'Yes'
+              I18n.t("gbv_report.yes")
             elsif former_perpetrators.all? { |is_fp| is_fp == 'No' }
-              'No'
+              I18n.t("gbv_report.no")
             end
           end,
           alleged_perpetrator_header => ->(model) do
@@ -359,11 +366,11 @@ module Exporters
             if legal_counseling.present?
               legal_actions = legal_counseling.
                   map{|l| l.try(:pursue_legal_action)}
-              if legal_actions.include? 'Yes'
+              if legal_actions.include? true
                 'Yes'
-              elsif legal_actions.include? 'No'
+              elsif legal_actions.include? false
                 'No'
-              elsif legal_actions.include? 'Undecided at time of report'
+              elsif legal_actions.include? nil
                 'Undecided at time of report'
               end
             end
@@ -405,7 +412,7 @@ module Exporters
                 value = model.try(prop.to_sym)
               end
               if value.is_a?(Date)
-                formatted_value = value.strftime("%d-%b-%Y")
+                formatted_value = I18n.l(value)
               else
                 formatted_value = value
               end

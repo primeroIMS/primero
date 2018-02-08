@@ -175,6 +175,7 @@ class User < CouchRest::Model::Base
   class << self
     alias :old_all :all
     alias :by_all :all
+    alias :list_by_all :all
     alias :by_user_name_all :by_user_name
     alias :by_full_name_all :by_full_name
     alias :by_organization_all :by_organization
@@ -182,6 +183,7 @@ class User < CouchRest::Model::Base
       old_all(*args)
     end
     memoize_in_prod :all
+    memoize_in_prod :list_by_all
 
     def all_unverified
       User.by_unverified
@@ -230,6 +232,13 @@ class User < CouchRest::Model::Base
     def default_sort_field
       'full_name'
     end
+
+    #This method returns a list of id / display_text value pairs
+    #It is used to create the select options list for User fields
+    def all_names
+      self.by_disabled(key: false).map{|r| {id: r.name, display_text: r.name}.with_indifferent_access}
+    end
+    memoize_in_prod :all_names
   end
 
   def email_entered?
@@ -269,7 +278,7 @@ class User < CouchRest::Model::Base
   # however, the location property really is just the location name
   # If a refactor is warranted, I would rename the location property to location_name
   def Location
-    @location_obj ||= Location.get_unique_instance('name' => self.location)
+    @location_obj ||= Location.get_by_location_code(self.location)
   end
 
   def agency
@@ -429,6 +438,14 @@ class User < CouchRest::Model::Base
 
   def is_admin?
     self.group_permissions.include?(Permission::ALL)
+  end
+
+  def is_super_user?
+    (self.roles.any?{|r| r.is_super_user_role?} && self.is_admin?)
+  end
+
+  def is_user_admin?
+    (self.roles.any?{|r| r.is_user_admin_role?} && self.group_permissions.include?(Permission::ADMIN_ONLY))
   end
 
   #Used by the User import to populate the password with a random string when the input file has no password

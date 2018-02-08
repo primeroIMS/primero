@@ -64,7 +64,7 @@ describe "tracing_requests/edit.html.erb" do
 
     User.stub(:find_by_user_name).with("me").and_return(double(:organization => "stc"))
     @user = User.new
-    @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::USER])
+    @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::USER])
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(TracingRequest)
     controller.should_receive(:can?).with(:flag, @tracing_request).and_return(false)
@@ -72,6 +72,7 @@ describe "tracing_requests/edit.html.erb" do
     controller.should_receive(:can?).with(:edit, @tracing_request).and_return(true)
     controller.should_receive(:can?).with(:export, TracingRequest).and_return(false)
     controller.should_receive(:can?).with(:export_custom, @tracing_request).and_return(false)
+    controller.should_receive(:can?).with(:remove_assigned_users, TracingRequest).and_return(false)
   end
 
   after :all do
@@ -95,6 +96,6 @@ describe "tracing_requests/edit.html.erb" do
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='tracing_request[previously_owned_by]']")
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='tracing_request[module_id]'][value='primeromodule-cp']")
     #Inspect editable fields.
-    rendered.should have_tag("select[class='chosen-select'][name='tracing_request[assigned_user_names][]']")
+    rendered.should have_tag("select.chosen-select[name='tracing_request[assigned_user_names][]']")
   end
 end

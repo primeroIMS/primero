@@ -10,7 +10,7 @@ consent_for_referrals_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent to Release Information to Security Services",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "consent_to_share_security_organization",
              "mobile_visible" => true,
@@ -22,7 +22,7 @@ consent_for_referrals_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent to Release Information to Psychosocial Services",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "consent_to_share_psychosocial_organization",
              "mobile_visible" => true,
@@ -34,7 +34,7 @@ consent_for_referrals_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent to Release Information to Health/Medical Services",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "consent_to_share_health_organization",
              "mobile_visible" => true,
@@ -46,7 +46,7 @@ consent_for_referrals_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent to Release Information to Safe House/Shelter",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "consent_to_share_safehouse_organization",
              "mobile_visible" => true,
@@ -58,7 +58,7 @@ consent_for_referrals_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent to Release Information to Legal Assistance Services",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "consent_to_share_legal_organization",
              "mobile_visible" => true,
@@ -70,7 +70,7 @@ consent_for_referrals_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent to Release Information to Protection Services",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "consent_to_share_protection_organization",
              "mobile_visible" => true,
@@ -82,7 +82,7 @@ consent_for_referrals_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent to Release Information to Livelihoods Services",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "consent_to_share_livelihoods_organization",
              "mobile_visible" => true,
@@ -94,7 +94,7 @@ consent_for_referrals_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Consent to Release Information to Other Services",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "consent_to_share_info_by_other_details",
              "mobile_visible" => true,

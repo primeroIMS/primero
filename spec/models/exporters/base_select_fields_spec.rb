@@ -244,12 +244,12 @@ describe Exporters::BaseSelectFields do
         #the forms sections form_section_test_2 and form_section_test_3 from the list.
         expected_forms_sections = {
           "primeromodule-cp"=> {
-            "Form Section Test 1" => {
+            "form_section_test_1" => {
                 "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first,
                 "shared_field" => Child.properties.select{|p| p.name == "shared_field"}.first
             },
-            "Form Section Test 4" => {"location_field" => Child.properties.select{|p| p.name == "location_field"}.first},
-            "Form Section Test 5" => {"subform_section_1" => Child.properties.select{|p| p.name == "subform_section_1"}.first},
+            "form_section_test_4" => {"location_field" => Child.properties.select{|p| p.name == "location_field"}.first},
+            "form_section_test_5" => {"subform_section_1" => Child.properties.select{|p| p.name == "subform_section_1"}.first},
           }
         }
 
@@ -268,11 +268,11 @@ describe Exporters::BaseSelectFields do
         #Also there is some Forms that contains only subforms those should be in result as well.
         expected_forms_sections = {
           "primeromodule-cp"=> {
-            "Form Section Test 5" => {
+            "form_section_test_5" => {
                 "field_name_5" => Child.properties.select{|p| p.name == "field_name_5"}.first,
                 "subform_section_1" => Child.properties.select{|p| p.name == "subform_section_1"}.first
             },
-            "Form Section Test 6" => {
+            "form_section_test_6" => {
                 "subform_section_3" => Child.properties.select{|p| p.name == "subform_section_3"}.first
             },
           }
@@ -280,7 +280,7 @@ describe Exporters::BaseSelectFields do
 
         custom_export_params = {
           "record_id" => "", "record_type" => "case", "module" => "primeromodule-cp",
-          "forms" => ["Form Section Test 5", "Form Section Test 6"], "model_class" => "Child"
+          "forms" => ["form_section_test_5", "form_section_test_6"], "model_class" => "Child"
         }.with_indifferent_access
 
         filtered_fields = Exporters::BaseSelectFields.filter_custom_exports(@permitted_properties, custom_export_params)
@@ -292,12 +292,12 @@ describe Exporters::BaseSelectFields do
         #For subforms will export selected fields.
         expected_forms_sections = {
           "primeromodule-cp"=> {
-            "Form Section Test 1" => {
+            "form_section_test_1" => {
                 "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first,
                 "shared_field" => Child.properties.select{|p| p.name == "shared_field"}.first
             },
-            "Form Section Test 4" => {"location_field" => Child.properties.select{|p| p.name == "location_field"}.first},
-            "Form Section Test 5" => {
+            "form_section_test_4" => {"location_field" => Child.properties.select{|p| p.name == "location_field"}.first},
+            "form_section_test_5" => {
               #A few fields of the subforms will be exported.
               "subform_section_1" =>
                   Child.properties.select{|p| p.name == "subform_section_1"}.first.
@@ -327,11 +327,11 @@ describe Exporters::BaseSelectFields do
         #the forms sections form_section_test_2 and form_section_test_3 from the list.
         expected_forms_sections = {
           "primeromodule-cp"=> {
-            "Form Section Test 1" => {
+            "form_section_test_1" => {
                 "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first,
                 "shared_field" => Child.properties.select{|p| p.name == "shared_field"}.first
             },
-            "Form Section Test 4" => {"location_field" => Child.properties.select{|p| p.name == "location_field"}.first},
+            "form_section_test_4" => {"location_field" => Child.properties.select{|p| p.name == "location_field"}.first},
           }
         }
 
@@ -349,13 +349,13 @@ describe Exporters::BaseSelectFields do
         #Selected subforms should exported.
         expected_forms_sections = {
           "primeromodule-cp"=> {
-            "Form Section Test 1" => {
+            "form_section_test_1" => {
                 "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first
             },
-            "Form Section Test 5" => {
+            "form_section_test_5" => {
                 "subform_section_1" => Child.properties.select{|p| p.name == "subform_section_1"}.first
             },
-            "Form Section Test 6" => {
+            "form_section_test_6" => {
                 "subform_section_3" => Child.properties.select{|p| p.name == "subform_section_3"}.first
             },
           }
@@ -375,17 +375,17 @@ describe Exporters::BaseSelectFields do
         #Selected subforms fields should exported.
         expected_forms_sections = {
           "primeromodule-cp"=> {
-            "Form Section Test 1" => {
+            "form_section_test_1" => {
                 "birth_date" => Child.properties.select{|p| p.name == "birth_date"}.first
             },
-            "Form Section Test 5" => {
+            "form_section_test_5" => {
                 "field_name_5" => Child.properties.select{|p| p.name == "field_name_5"}.first,
                 "subform_section_1" =>
                     Child.properties.select{|p| p.name == "subform_section_1"}.first.
                     type.properties.select{|p| p.name == "field_name_4"}.
                     map{|p| [p.name, p]}.to_h
             },
-            "Form Section Test 6" => {
+            "form_section_test_6" => {
               "subform_section_3" =>
                     Child.properties.select{|p| p.name == "subform_section_3"}.first.
                     type.properties.select{|p| p.name == "field_name_6" || p.name == "field_name_7"}.

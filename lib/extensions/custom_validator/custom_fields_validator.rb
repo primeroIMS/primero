@@ -110,7 +110,7 @@ class CustomNumericFieldsValidator < CustomFieldsValidator
   end
 
   def validation_message_for field, field_sub_field
-    "#{field.display_name} must be a valid number"
+    I18n.t("messages.enter_valid_number", field: field.display_name)
   end
 end
 
@@ -120,7 +120,7 @@ class CustomTextFieldsValidator < CustomFieldsValidator
   end
 
   def validation_message_for field, field_sub_field
-    "#{field.display_name} cannot be more than 200 characters long"
+    I18n.t("messages.more_than_200_chars", field: field.display_name)
   end
 end
 
@@ -130,14 +130,14 @@ class CustomTextAreasValidator < CustomFieldsValidator
     value.length > MAX_LENGTH
   end
   def validation_message_for field, field_sub_field
-    "#{field.display_name} cannot be more than #{MAX_LENGTH} characters long"
+    I18n.t("messages.no_more_than_x_chars", field: field.display_name, length: MAX_LENGTH)
   end
 end
 
 class DateFieldsValidator < CustomFieldsValidator
   # Blackberry client can only parse specific date formats
   def is_not_valid value
-    return false if value.is_a?(Date)
+    return false if value.is_a?(Date) || value.is_a?(Time)
     begin
       PrimeroDate.parse_with_format(value)
       false

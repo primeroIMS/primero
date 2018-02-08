@@ -47,6 +47,9 @@ describe "tracing_requests/new.html.erb" do
         :form_group_name => "Test Group"
       })
     @tracing_request = TracingRequest.new
+
+    controller.should_receive(:can?).with(:remove_assigned_users, TracingRequest).and_return(false)
+
     assign(:form_sections,[@form_section].group_by{|e| e.form_group_name})
   end
 
@@ -71,6 +74,6 @@ describe "tracing_requests/new.html.erb" do
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='tracing_request[previously_owned_by]']")
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='tracing_request[module_id]'][value='primeromodule-cp']")
     #Inspect editable fields.
-    rendered.should have_tag("select[class='chosen-select'][name='tracing_request[assigned_user_names][]']")
+    rendered.should have_selector("select.chosen-select[name='tracing_request[assigned_user_names][]']")
   end
 end

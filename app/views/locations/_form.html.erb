@@ -1,4 +1,5 @@
 <%
+  editing ||= false
   type_selection = ((@location.present? && @location.type.present?) ? @location.type : "")
   parent_options = (@locations.present? ? @locations.map{|lct| [lct.name, lct.id]}.insert(0, "") : [])
   parent = @location.parent
@@ -9,21 +10,42 @@
 %>
 
 <% content_for :record_sub_nav do %>
-  <li><%= discard_button(locations_path) %></li>
-  <li><%= submit_button t("buttons.save") %></li>
+  <div class="button-group">
+    <%= discard_button(locations_path) %>
+    <%= submit_button t("buttons.save") %>
+  </div>
 <% end %>
 
 <div class="row">
   <%= form_for @location, :html => { :class => 'default-form location-new-edit', :autocomplete => "off" } do |f| %>
     <fieldset class="no-border">
+      <% if editing %>
+        <div class="callout warning"><%= t('location.location_code_warning') %></div>
+      <% end %>
       <%= f.error_messages :header_tag => :h2 %>
-      <div class="row">
+      <% if editing %>
+        <div class="row">
+          <div class="medium-9 medium-offset-3 columns">
+            <%= render 'shared/locale_select' %>
+          </div>
+        </div>
+      <% end %>
+      <div class="row placename">
         <div class="medium-3 columns">
           <%= f.label :placename, t("location.placename"), :class => "key" %>
         </div>
-        <div class="medium-9 columns">
+        <div class="<%= editing ? 'medium-4' : 'medium-9' %> columns">
           <%= f.text_field :placename %>
         </div>
+        <% if editing %>
+          <% Primero::Application::LOCALES.each do |new_locale| %>
+            <% if I18n.default_locale.to_s != new_locale %>
+              <div class="<%= editing ? 'medium-4' : 'medium-9' %> columns <%= "translation_forms #{new_locale}"%> hide_element">
+                <%= f.text_field "placename_#{new_locale}" || [] %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
       </div>
       <div class="row">
         <div class="medium-3 columns">
@@ -38,7 +60,8 @@
           <%= f.label :type, t("location.type"), :class => "key" %>
         </div>
         <div class="medium-9 columns">
-          <%= select_tag 'location[type]', options_for_select(@location_types, type_selection )%>
+          <%= select_tag 'location[type]', options_for_select(@location_types.lookup_values
+          .map{|location_type| [location_type["display_text"], location_type["id"]]}, type_selection )%>
         </div>
       </div>
       <div class="row">

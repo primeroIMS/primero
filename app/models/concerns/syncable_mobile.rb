@@ -29,9 +29,8 @@ module SyncableMobile
 
   module ClassMethods
     def is_syncable_with_mobile?
-      #TODO - for now, this is memoized
-      #       if further optimization is needed, may need to move to a class variable
-      FormSection.find_mobile_forms_by_parent_form(parent_form).count > 0
+      @syncable_with_mobile ||= FormSection.find_mobile_forms_by_parent_form(parent_form).count > 0
+      @syncable_with_mobile
     end
 
     def fetch_all_ids_and_revs(owned_by_ids = [], marked_for_mobile, last_update_date, module_id)

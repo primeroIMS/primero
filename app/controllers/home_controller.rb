@@ -3,6 +3,7 @@ class HomeController < ApplicationController
 
   before_filter :load_system_settings, :only => [:index]
   before_filter :can_access_approvals, :only => [:index]
+  before_filter :load_risk_levels, :only => [:index]
 
   def index
     @page_name = t("home.label")
@@ -10,21 +11,53 @@ class HomeController < ApplicationController
     @notifications = PasswordRecoveryRequest.to_display
     load_user_module_data
 
-    #TODO - Refactor to reduce number of solr queries
-    load_cases_information if display_cases_dashboard?
-    load_incidents_information if display_incidents_dashboard?
-    load_manager_information if display_manager_dashboard?
-    load_gbv_incidents_information if display_gbv_incidents_dashboard?
-    load_match_result if display_tracing_request_dashboard?
-    load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
-    #TODO: All this needs to be heavily refactored
+    if !display_admin_only?
+      #TODO - Refactor to reduce number of solr queries
+      load_cases_information if display_cases_dashboard?
 
-    display_case_worker_dashboard?
-    display_approvals?
-    display_assessment?
+      @service_response_types = Lookup.values_for_select('lookup-service-response-type')
+      @service_stats_near = load_case_service_information('near') if display_cases_dashboard?
+      @service_stats_overdue = load_case_service_information('overdue') if display_cases_dashboard?
+      @service_stats_totals = load_case_service_information if display_cases_dashboard?
+
+      load_incidents_information if display_incidents_dashboard?
+      load_manager_information if display_manager_dashboard?
+      load_gbv_incidents_information if display_gbv_incidents_dashboard?
+      load_match_result if display_matching_results_dashboard?
+      load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
+      #TODO: All this needs to be heavily refactored
+
+      display_case_worker_dashboard?
+      display_approvals?
+      display_assessment?
+      display_service_provisions?
+      display_cases_to_assign?
+      display_cases_by_workflow?
+      display_referrals_by_socal_worker?
+      display_cases_by_socal_worker?
+      display_transfers_by_socal_worker?
+    end
   end
 
   private
+
+  def load_risk_levels
+    if !display_admin_only?
+      @risk_levels = Lookup.values_for_select('lookup-risk-level').map{|h,v| v}
+      @risk_levels << Child::RISK_LEVEL_NONE if can?(:dash_show_none_values, Dashboard)
+      @risk_levels
+    end
+  end
+
+  # TODO: This will be later configurable
+  def time_to_assign_for_risk_level(risk_level)
+    case risk_level
+    when Child::RISK_LEVEL_HIGH
+      1.hour.from_now.to_time
+    else
+      3.hour.from_now.to_time
+    end
+  end
 
   def search_flags(options={})
     managed_users = options[:is_manager] ? current_user.managed_user_names : current_user.user_name
@@ -65,10 +98,21 @@ class HomeController < ApplicationController
       manager_totals: {},
       referred_totals: {},
       approval_types: {},
-      manager_transfers: {}
+      manager_transfers: {},
+      workflow_totals: {}
     }
 
+    @workflow_order = [
+      Record::STATUS_OPEN,
+      Workflow::WORKFLOW_NEW,
+      @service_response_types.map{ |h,v| v },
+      Workflow::WORKFLOW_SERVICE_IMPLEMENTED
+    ].flatten
+
     managed_users = current_user.managed_user_names
+
+    @aggregated_case_manager_stats[:cases_to_assign] = queries[:cases_to_assign]
+    @aggregated_case_manager_stats[:cases_to_assign_overdue] = queries[:cases_to_assign_overdue]
 
     queries[:totals_by_case_worker].facet(:associated_user_names).rows.each do |c|
       if managed_users.include? c.value
@@ -101,17 +145,42 @@ class HomeController < ApplicationController
     end
 
     queries[:transferred_by_status].facet(:transfer_status).rows.each do |c|
-      statuses = [Transition::TO_USER_LOCAL_STATUS_INPROGRESS, Transition::TO_USER_LOCAL_STATUS_REJECTED].map{
-          |t| I18n.t("referral.#{t}", :locale => :en).downcase}
+      statuses = [Transition::TO_USER_LOCAL_STATUS_INPROGRESS, Transition::TO_USER_LOCAL_STATUS_REJECTED]
       if statuses.include? c.value
         @aggregated_case_manager_stats[:manager_transfers][c.value] = {}
         @aggregated_case_manager_stats[:manager_transfers][c.value][:total_cases] = c.count
       end
     end
 
+    workflow_query = queries[:case_by_workflow].facet_response['facet_pivot'].values.first
+
+    if workflow_query.present?
+      workflow_query.each do |stat|
+        key = stat['value']
+
+        if key.present?
+          @aggregated_case_manager_stats[:workflow_totals][key] = {}
+
+          if stat['pivot'].present?
+            stat['pivot'].each do |p|
+              pivot_key = p['value']
+
+              if pivot_key.present? && @aggregated_case_manager_stats[:worker_totals][key].present?
+                @aggregated_case_manager_stats[:workflow_totals][key]['open'] = @aggregated_case_manager_stats[:worker_totals].present? ? @aggregated_case_manager_stats[:worker_totals][key][:total_cases] : 0
+                @aggregated_case_manager_stats[:workflow_totals][key][pivot_key] = p['count']
+              end
+            end
+          end
+        end
+      end
+    end
+
     @aggregated_case_manager_stats[:risk_levels] = queries[:risk_level]
 
     @aggregated_case_manager_stats[:approval_types] = queries[:approval_type]
+
+    @aggregated_case_manager_stats[:transfer_awaiting] = queries[:transfer_awaiting]
+    @aggregated_case_manager_stats[:transfer_status] = queries[:transfer_status]
 
     # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
     #      .group_by{|g| g[:flagged_by]}
@@ -135,12 +204,16 @@ class HomeController < ApplicationController
     @aggregated_case_manager_stats
   end
 
+  def display_admin_only?
+    @display_admin_only ||= current_user.group_permissions.include?(Permission::ADMIN_ONLY)
+  end
+
   def display_cases_dashboard?
     @display_cases_dashboard ||= @record_types.include?("case")
   end
 
-  def display_tracing_request_dashboard?
-    @display_tracing_request_dashboard ||= @record_types.include?("tracing_request")
+  def display_matching_results_dashboard?
+    @display_matching_results_dashboard ||= (can?(:dash_matching_results, Dashboard) && @record_types.include?("tracing_request"))
   end
 
   def display_case_worker_dashboard?
@@ -155,6 +228,7 @@ class HomeController < ApplicationController
     @display_incidents_dashboard ||= @record_types.include?("incident") && @module_ids.include?(PrimeroModule::MRM)
   end
 
+  #TODO: CP Incidents - either remove the conditional check for GBV here or create a new display_CP_incidents_dashboard
   def display_gbv_incidents_dashboard?
     @display_gbv_incidents_dashboard ||= @record_types.include?("incident") && @module_ids.include?(PrimeroModule::GBV)
   end
@@ -179,14 +253,43 @@ class HomeController < ApplicationController
     @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.is_admin?)
   end
 
+  def display_service_provisions?
+    @display_service_provisions ||= can?(:dash_service_provisions, Dashboard)
+  end
+
+  def display_cases_to_assign?
+    @display_cases_to_assign ||= can?(:dash_cases_to_assign, Dashboard)
+  end
+
+  def display_cases_by_workflow?
+    @display_cases_by_workflow ||= can?(:dash_cases_by_workflow, Dashboard)
+  end
+
+  def display_referrals_by_socal_worker?
+    @display_referrals_by_socal_worker ||= can?(:dash_referrals_by_socal_worker, Dashboard)
+  end
+
+  def display_cases_by_socal_worker?
+    @display_cases_by_socal_worker ||= can?(:dash_cases_by_social_worker, Dashboard)
+  end
+
+  def display_transfers_by_socal_worker?
+    @display_transfers_by_socal_worker ||= can?(:dash_transfers_by_socal_worker, Dashboard)
+  end
+
   def manager_case_query(query = {})
     module_ids = @module_ids
+    risk_levels = @risk_levels
+
     results = Child.search do
       with(:record_state, true)
-      with(:associated_user_names, current_user.managed_user_names)
+      with(:associated_user_names, current_user.managed_user_names) unless query[:cases_to_assign].present?
       with(:child_status, query[:status]) if query[:status].present?
       with(:not_edited_by_owner, true) if query[:new_records].present?
+
       facet(:assigned_user_names, zeros: true) if query[:referred].present?
+      with(:owned_by, current_user.user_name) if query[:cases_to_assign].present?
+
       if module_ids.present?
         any_of do
           module_ids.each do |m|
@@ -194,35 +297,53 @@ class HomeController < ApplicationController
           end
         end
       end
+
+      if query[:cases_to_assign].present?
+        facet(:cases_to_assign, zeros: true) do
+          risk_levels.each do |risk_level|
+            timeline = time_to_assign_for_risk_level(risk_level)
+
+            row(risk_level.to_sym) do
+              with(:risk_level, risk_level)
+              with(:reassigned_tranferred_on).less_than(timeline) if query[:overdue].present?
+            end
+          end
+        end
+      end
+
       if query[:by_owner].present?
         facet :associated_user_names, limit: -1, zeros: true
         adjust_solr_params do |params|
           params['f.owned_by_s.facet.mincount'] = 0
         end
       end
+
+      if query[:by_workflow].present?
+        pivots = [
+          'associated_user_names',
+          'workflow_status'
+        ]
+        adjust_solr_params do |params|
+          params['facet'] = 'true'
+          params['facet.missing'] = 'true'
+          params['facet.pivot'] = pivots.map{|p| SolrUtils.indexed_field_name('case', p)}.join(',')
+          params['facet.pivot.mincount'] = '-1'
+          params['facet.pivot.limit'] = '-1'
+        end
+      end
+
       facet(:child_status, zeros: true) if query[:by_case_status].present?
+
       if query[:by_risk_level].present?
         facet(:risk_level, zeros: true) do
-          row(:high) do
-            with(:risk_level, 'High')
-            with(:not_edited_by_owner, true)
-          end
-          row(:high_total) do
-            with(:risk_level, 'High')
-          end
-          row(:medium) do
-            with(:risk_level, 'Medium')
-            with(:not_edited_by_owner, true)
-          end
-          row(:medium_total) do
-            with(:risk_level, 'Medium')
-          end
-          row(:low) do
-            with(:risk_level, 'Low')
-            with(:not_edited_by_owner, true)
-          end
-          row(:low_total) do
-            with(:risk_level, 'Low')
+          risk_levels.each do |risk_level|
+            row(risk_level.to_sym) do
+              with(:risk_level, risk_level)
+              with(:not_edited_by_owner, true)
+            end
+            row("#{risk_level}_total".to_sym) do
+              with(:risk_level, risk_level)
+            end
           end
         end
       end
@@ -230,13 +351,37 @@ class HomeController < ApplicationController
       if query[:by_approval_type].present?
         facet(:approval_type, zeros: true) do
           row(:bia) do
-            with(:approval_status_bia, I18n.t('approvals.status.pending'))
+            with(:approval_status_bia, Child::APPROVAL_STATUS_PENDING)
           end
           row(:case_plan) do
-            with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+            with(:approval_status_case_plan, Child::APPROVAL_STATUS_PENDING)
           end
           row(:closure) do
-            with(:approval_status_closure, I18n.t('approvals.status.pending'))
+            with(:approval_status_closure, Child::APPROVAL_STATUS_PENDING)
+          end
+        end
+      end
+
+      if query[:transfer_status].present?
+        referred = with(:assigned_user_names, current_user.user_name)
+
+        facet(:transfer_status, zeros: true, exclude: [referred]) do
+          row(:pending) do
+            with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
+            with(:owned_by, current_user.user_name)
+          end
+          row(:rejected) do
+            with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_REJECTED)
+            with(:owned_by, current_user.user_name)
+          end
+        end
+      end
+
+      if query[:transfer_awaiting].present?
+        facet(:in_progress_transfers, zeros: true) do
+          row(:in_progress) do
+            with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
+            with(:transferred_to_users, current_user.user_name)
           end
         end
       end
@@ -248,7 +393,6 @@ class HomeController < ApplicationController
   end
 
   def load_manager_information
-    # TODO: Will Open be translated?
     # module_ids = @module_ids
     # flags = search_flags({
     #   field: :flag_date,
@@ -258,15 +402,21 @@ class HomeController < ApplicationController
     #   modules: @module_ids
     # })
     queries = {
-      totals_by_case_worker: manager_case_query({ by_owner: true, status: 'Open' }),
-      new_by_case_worker: manager_case_query({ by_owner: true, status: 'Open', new_records: true }),
-      risk_level: manager_case_query({ by_risk_level: true, status: 'Open' }),
+      totals_by_case_worker: manager_case_query({ by_owner: true, status: Record::STATUS_OPEN }),
+      new_by_case_worker: manager_case_query({ by_owner: true, status: Record::STATUS_OPEN, new_records: true }),
+      risk_level: manager_case_query({ by_risk_level: true, status: Record::STATUS_OPEN }),
       manager_totals: manager_case_query({ by_case_status: true}),
-      referred_total: manager_case_query({ referred: true, status: 'Open' }),
-      referred_new: manager_case_query({ referred: true, status: 'Open', new_records: true }),
-      approval_type: manager_case_query({ by_approval_type: true, status: 'Open'}),
-      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: 'Open'})
+      referred_total: manager_case_query({ referred: true, status: Record::STATUS_OPEN }),
+      referred_new: manager_case_query({ referred: true, status: Record::STATUS_OPEN, new_records: true }),
+      approval_type: manager_case_query({ by_approval_type: true, status: Record::STATUS_OPEN}),
+      transferred_by_status: manager_case_query({ transferred: true, by_owner: true, status: Record::STATUS_OPEN}),
+      case_by_workflow: manager_case_query({ by_workflow: true, status: Record::STATUS_OPEN}),
+      cases_to_assign: manager_case_query({ cases_to_assign: true, assigned: true }),
+      cases_to_assign_overdue: manager_case_query({ cases_to_assign: true, assigned: true, overdue: true }),
+      transfer_status: manager_case_query({ transfer_status: true }),
+      transfer_awaiting: manager_case_query({ transfer_awaiting: true })
     }
+
     build_manager_stats(queries)
   end
 
@@ -300,11 +450,41 @@ class HomeController < ApplicationController
     Child.list_records({}, {:last_updated_at => :desc}, {page: 1, per_page: 20}, current_user.managed_user_names)
   end
 
+  def load_case_service_information(timeframe=nil)
+    pivots = [
+      'workflow_status',
+      'risk_level'
+    ]
+
+    Child.search do
+      with(:child_status, Record::STATUS_OPEN)
+      with(:record_state, true)
+      with(:associated_user_names, current_user.user_name)
+
+      case timeframe
+      when 'near'
+        with(:service_due_dates).between(Time.now..24.hours.from_now.to_time)
+      when 'overdue'
+        with(:service_due_dates).less_than(Time.now)
+      end
+
+      adjust_solr_params do |params|
+        params['facet'] = 'true'
+        params['facet.missing'] = 'true'
+        params['facet.pivot'] = pivots.map{|p| SolrUtils.indexed_field_name('case', p)}.join(',')
+        params['facet.pivot.mincount'] = '-1'
+        params['facet.pivot.limit'] = '-1'
+      end
+    end
+  end
+
   def load_cases_information
     module_ids = @module_ids
+    risk_levels = @risk_levels
+
     @stats = Child.search do
       # TODO: Check for valid
-      with(:child_status, 'Open')
+      with(:child_status, Record::STATUS_OPEN)
       with(:record_state, true)
       associated_users = with(:associated_user_names, current_user.user_name)
       referred = with(:assigned_user_names, current_user.user_name)
@@ -318,26 +498,14 @@ class HomeController < ApplicationController
 
       if display_assessment?
         facet(:risk_level, zeros: true, exclude: [referred]) do
-          row(:high) do
-            with(:risk_level, 'High')
-            with(:not_edited_by_owner, true)
-          end
-          row(:high_total) do
-            with(:risk_level, 'High')
-          end
-          row(:medium) do
-            with(:risk_level, 'Medium')
-            with(:not_edited_by_owner, true)
-          end
-          row(:medium_total) do
-            with(:risk_level, 'Medium')
-          end
-          row(:low) do
-            with(:risk_level, 'Low')
-            with(:not_edited_by_owner, true)
-          end
-          row(:low_total) do
-            with(:risk_level, 'Low')
+          risk_levels.each do |risk_level|
+            row(risk_level.to_sym) do
+              with(:risk_level, risk_level)
+              with(:not_edited_by_owner, true)
+            end
+            row("#{risk_level}_total".to_sym) do
+              with(:risk_level, risk_level)
+            end
           end
         end
       end
@@ -347,7 +515,7 @@ class HomeController < ApplicationController
           with(:not_edited_by_owner, true)
         end
         row(:total) do
-          with(:child_status, 'Open')
+          with(:child_status, Record::STATUS_OPEN)
         end
       end
 
@@ -356,70 +524,83 @@ class HomeController < ApplicationController
           without(:last_updated_by, current_user.user_name)
         end
         row(:total) do
-          with(:child_status, 'Open')
+          with(:child_status, Record::STATUS_OPEN)
         end
       end
 
       facet(:approval_status_bia, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_bia, I18n.t('approvals.status.pending'))
+          with(:approval_status_bia, Child::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_bia, I18n.t('approvals.status.rejected'))
+          with(:approval_status_bia, Child::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_bia, I18n.t('approvals.status.approved'))
+          with(:approval_status_bia, Child::APPROVAL_STATUS_APPROVED)
           with(:bia_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_case_plan, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_case_plan, I18n.t('approvals.status.pending'))
+          with(:approval_status_case_plan, Child::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_case_plan, I18n.t('approvals.status.rejected'))
+          with(:approval_status_case_plan, Child::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_case_plan, I18n.t('approvals.status.approved'))
+          with(:approval_status_case_plan, Child::APPROVAL_STATUS_APPROVED)
           with(:case_plan_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:approval_status_closure, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:approval_status_closure, I18n.t('approvals.status.pending'))
+          with(:approval_status_closure, Child::APPROVAL_STATUS_PENDING)
         end
         row(:rejected) do
-          with(:approval_status_closure, I18n.t('approvals.status.rejected'))
+          with(:approval_status_closure, Child::APPROVAL_STATUS_REJECTED)
         end
         row(:new) do
           bod = Time.zone.now - 10.days
-          with(:approval_status_closure, I18n.t('approvals.status.approved'))
+          with(:approval_status_closure, Child::APPROVAL_STATUS_APPROVED)
           with(:closure_approved_date, bod..Time.zone.now)
         end
       end
 
       facet(:transfer_status, zeros: true, exclude: [referred]) do
         row(:pending) do
-          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                        :locale => :en))
+          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
           with(:owned_by, current_user.user_name)
         end
         row(:rejected) do
-          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}",
-                                        :locale => :en))
+          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_REJECTED)
           with(:owned_by, current_user.user_name)
         end
       end
 
       facet(:in_progress_transfers, zeros: true) do
         row(:in_progress) do
-          with(:transfer_status, I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}",
-                                        :locale => :en))
+          with(:transfer_status, Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
           with(:transferred_to_users, current_user.user_name)
+        end
+      end
+
+      facet(:services_implemented, zeros: true, exclude: [referred]) do
+        row(:total) do
+          with(:workflow, Child::WORKFLOW_SERVICE_IMPLEMENTED)
+        end
+      end
+
+      facet(:alerts, zeros: true, exclude: [referred]) do
+        row(:new_incidents) do
+          with(:current_alert_types, Child::ALERT_INCIDENT)
+        end
+
+        row(:new_services) do
+          with(:current_alert_types, Child::ALERT_SERVICE)
         end
       end
     end
@@ -550,36 +731,39 @@ class HomeController < ApplicationController
 
     if locations.present?
       @reporting_location_stats = build_admin_stats({
-        totals: get_admin_stat({ status: 'Open', locations: locations, by_reporting_location: true }),
-        new_last_week: get_admin_stat({ status: 'Open', new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        new_this_week: get_admin_stat({ status: 'Open', new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
-        closed_last_week: get_admin_stat({ status: 'Closed', closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
-        closed_this_week: get_admin_stat({ status: 'Closed', closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
+        totals: get_admin_stat({ status: Record::STATUS_OPEN, locations: locations, by_reporting_location: true }),
+        new_last_week: get_admin_stat({ status: Record::STATUS_OPEN, new: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        new_this_week: get_admin_stat({ status: Record::STATUS_OPEN, new: true, date_range: this_week, locations: locations, by_reporting_location: true }),
+        closed_last_week: get_admin_stat({ status: Record::STATUS_CLOSED, closed: true, date_range: last_week, locations: locations, by_reporting_location: true }),
+        closed_this_week: get_admin_stat({ status: Record::STATUS_CLOSED, closed: true, date_range: this_week, locations: locations, by_reporting_location: true })
       })
     end
 
     @protection_concern_stats = build_admin_stats({
         totals: get_admin_stat({by_protection_concern: true}),
-        open: get_admin_stat({status: 'Open', by_protection_concern: true}),
-        new_this_week: get_admin_stat({status: 'Open', by_protection_concern: true, new: true, date_range: this_week}),
-        closed_this_week: get_admin_stat({status: 'Closed', by_protection_concern: true, closed: true, date_range: this_week})
+        open: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true}),
+        new_this_week: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true, new: true, date_range: this_week}),
+        closed_this_week: get_admin_stat({status: Record::STATUS_CLOSED, by_protection_concern: true, closed: true, date_range: this_week})
     })
   end
 
 
   def build_admin_stats(stats)
     admin_stats = {}
-    protection_concerns = Lookup.values('Protection Concerns', @lookups)
+    protection_concerns = Lookup.values('lookup-protection-concerns', @lookups)
     stats.each do |k, v|
       stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
       stat_facet.rows.each do |l|
         admin_stats[l.value] = {} unless admin_stats[l.value].present?
+        protection_concern = protection_concerns.select{|pc| pc['id'] == l.value}
         admin_stats[l.value][k] = l.count ||= 0
-        if v.facet(:protection_concerns).present? && !protection_concerns.include?(l.value)
+        admin_stats[l.value][:display_text] = protection_concern.first['display_text'] if protection_concern.present?
+        if v.facet(:protection_concerns).present? && !protection_concern.present?
           admin_stats.delete(l.value)
         end
       end
     end
+
     admin_stats
   end
 

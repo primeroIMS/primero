@@ -40,10 +40,19 @@ module Primero
     config.assets.enabled = true
     config.assets.version = '1.0'
 
+    config.assets.precompile += [
+      'application_ltr.scss', 
+      'application_rtl.scss'
+    ]
+
+    LOCALE_ENGLISH = 'en'
+    LOCALE_FRENCH = 'fr'
+    LOCALE_ARABIC = 'ar'
+    LOCALE_SPANISH = 'es'
     #LOCALES = ['en','fr','ar','zh','es','ru']
     #LOCALES_WITH_DESCRIPTION = [['-', nil],['العربية','ar'],['中文','zh'],['English', 'en'],['Français', 'fr'],['Русский', 'ru'],['Español', 'es']]
-    LOCALES = ['en','fr','ar','es']
-    LOCALES_WITH_DESCRIPTION = [['-', nil],['English', 'en'],['Français', 'fr'],['العربية','ar'],['Español', 'es']]
+    LOCALES = [LOCALE_ENGLISH,LOCALE_FRENCH,LOCALE_ARABIC,LOCALE_SPANISH]
+    LOCALES_WITH_DESCRIPTION = [['-', nil],['English', LOCALE_ENGLISH],['Français', LOCALE_FRENCH],['العربية',LOCALE_ARABIC],['Español', LOCALE_SPANISH]]
 
     if ENV['RAILS_LOG_PATH'].present?
       config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"
@@ -53,6 +62,8 @@ module Primero
     config.action_view.logger = nil
 
     config.couch_watcher_log_level = Logger::INFO
+
+    config.exceptions_app = self.routes
 
     def locales
       LOCALES

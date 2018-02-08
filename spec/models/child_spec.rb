@@ -39,6 +39,7 @@ describe Child do
   describe "update_properties_with_user_name" do
 
     it "should replace old properties with updated ones" do
+      #TODO - i18n
       child = Child.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
       new_properties = {"name" => "Dave", "age" => "35"}
       child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
@@ -53,23 +54,6 @@ describe Child do
       child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
       child['last_known_location'].should == "Manchester"
       child['origin'].should == "Croydon"
-    end
-
-    # This spec is almost always failing randomly, need to fix this spec if possible or think of other ways to test this?
-    xit "should not add changes to history if its already added to the history" do
-      FormSection.stub(:all_visible_form_fields =>
-                            [Field.new(:type => Field::TEXT_FIELD, :name => "name", :display_name => "Name"),
-                             Field.new(:type => Field::CHECK_BOXES, :name => "not_name")])
-      child = Child.new("name" => "old", "last_updated_at" => "2012-12-12 00:00:00UTC")
-      child.save!
-      sleep 1
-      changed_properties = {"name" => "new", "last_updated_at" => "2013-01-01 00:00:01UTC", "histories" => [JSON.parse("{\"user_name\":\"rapidftr\",\"changes\":{\"name\":{\"to\":\"new\",\"from\":\"old\"}}}")]}
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
-      child.save!
-      sleep 1
-      child.update_properties_with_user_name "rapidftr", nil, nil, nil, false, changed_properties
-      child.save!
-      child["histories"].size.should == 1
     end
 
     it "should populate last_updated_by field with the user_name who is updating" do
@@ -358,6 +342,7 @@ describe Child do
     end
 
     it "should save blank age" do
+      #TODO - i18n could change depending on how we want name / display to look
       User.stub(:find_by_user_name).and_return(double(:organization => "stc", :location => "my_country::my_state::my_town", :agency => "unicef-un"))
       child = Child.new(:age => "", :another_field => "blah", 'created_by' => "me", 'created_organization' => "stc")
       child.save.present?.should == true
@@ -1401,22 +1386,23 @@ describe Child do
       PrimeroModule.all.each &:destroy
 
       @permission_case ||= Permission.new(:resource => Permission::CASE,
-                                          :actions => [Permission::READ, Permission::WRITE])
+                                          :actions => [Permission::READ, Permission::WRITE, Permission::CREATE])
       @location_country = Location.create! placename: "Guinea", type: "country", location_code: "GUI", admin_level: 0
-      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["Guinea"]
+      @location_region = Location.create! placename: "Kindia", type: "region", location_code: "GUI123", hierarchy: ["GUI"]
       admin_role = Role.create!(:name => "Admin", :permissions_list => Permission.all_permissions_list)
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
       agency = Agency.create! id: "agency-unicef", agency_code: "UN", name: "UNICEF"
       a_module = PrimeroModule.create name: "Test Module"
+      #TODO - i18n
       user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                           :email => 'em@dd.net', :organization => 'agency-unicef', :role_ids => [admin_role.id, field_worker_role.id],
-                          :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.name})
+                          :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.location_code})
       user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                            :email => 'em@dd.net', :organization => 'agency-unicef', :role_ids => [admin_role.id, field_worker_role.id],
                            :module_ids => [a_module.id], :disabled => 'false', :location => ''})
       user3 = User.create!(:user_name => "tom789", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                            :email => 'em@dd.net', :organization => 'NA', :role_ids => [admin_role.id, field_worker_role.id],
-                           :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.name)
+                           :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.location_code)
     end
 
     context 'system case code format empty' do
@@ -1518,7 +1504,7 @@ describe Child do
                    "type" => "select_box",
                    "multi_select" => true,
                    "display_name_all" => "Protection Concerns",
-                   "option_strings_source" => "lookup ProtectionConcerns"
+                   "option_strings_source" => "lookup lookup-protection-concerns"
                   })
       ]
       protection_concern_form = FormSection.create({
@@ -1540,7 +1526,7 @@ describe Child do
         Field.new({"name" => "protection_concern_type",
                    "type" => "select_box",
                    "display_name_all" => "Type of Protection Concern",
-                   "option_strings_source" => "lookup ProtectionConcerns"
+                   "option_strings_source" => "lookup lookup-protection-concerns"
                   })
       ]
 
@@ -1807,9 +1793,132 @@ describe Child do
 
   end
 
+  describe 'workflow' do
+    before do
+      FormSection.all.each &:destroy
+      Lookup.all.each &:destroy
+
+      Lookup.create(
+          :id => "lookup-service-response-type",
+          :name => "Service Response Type",
+          :locked => true,
+          :lookup_values => [
+              {id: "care_plan", display_text: "Care plan"}.with_indifferent_access,
+              {id: "action_plan", display_text: "Action plan"}.with_indifferent_access,
+              {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
+          ]
+      )
+
+      services_subform = [
+        Field.new({
+          "name" => "service_response_type",
+          "type" => "select_box",
+          "display_name_all" => "Type of Response",
+          "option_strings_source" => "lookup lookup-service-response-type"
+        }),
+        Field.new({
+          "name" => "service_implemented",
+          "type" => "select_box",
+          "selected_value" => "not_implemented",
+          "display_name_all" => "Service Implemented",
+          "option_strings_text_all" => [
+            { id: 'not_implemented', display_text: "Not Implemented" }.with_indifferent_access,
+            { id: 'implemented', display_text: "Implemented" }.with_indifferent_access
+          ]
+        }),
+      ]
+
+      services_section = FormSection.create_or_update_form_section({
+        "visible"=>false,
+        "is_nested"=>true,
+        :order_form_group => 110,
+        :order => 30,
+        :order_subform => 1,
+        :unique_id=>"services_section",
+        :parent_form=>"case",
+        "editable"=>true,
+        :fields => services_subform,
+        :initial_subforms => 1,
+        "name_all" => "Nested Services",
+        "description_all" => "Services Subform",
+        "collapsed_fields" => ["service_type", "service_appointment_date"]
+      })
+
+      services_fields = [
+        Field.new({
+          "name" => "services_section",
+          "type" => "subform",
+          "editable" => true,
+          "subform_section_id" => services_section.unique_id,
+          "display_name_all" => "Services",
+          "subform_sort_by" => "service_appointment_date"
+        })
+      ]
+
+      FormSection.create_or_update_form_section({
+        :unique_id => "services",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 110,
+        :order => 30,
+        :order_subform => 0,
+        :form_group_name => "Services / Follow Up",
+        :fields => services_fields,
+        "editable" => false,
+        "name_all" => "Services",
+        "description_all" => "Services form",
+      })
+
+      Child.refresh_form_properties
+
+      @case1 = Child.create(name: 'Workflow Tester')
+    end
+
+    context 'when case is new' do
+      it 'workflow status should be NEW' do
+        expect(@case1.workflow).to eq(Child::WORKFLOW_NEW)
+      end
+    end
+
+    context 'when case is open' do
+      before :each do
+        @case1.child_status = Record::STATUS_OPEN
+      end
+
+      context 'and service response type is set' do
+        before do
+          @case1.services_section << {service_response_type: 'care_plan', service_implemented: Child::SERVICE_NOT_IMPLEMENTED}
+          @case1.save!
+        end
+        it 'workflow status should be SERVICE PROVISION' do
+          expect(@case1.workflow).to eq(Child::WORKFLOW_SERVICE_PROVISION)
+        end
+      end
+
+      context 'and service response type is not set' do
+        context 'and case has been reopened' do
+          before do
+            @case1.case_status_reopened = true
+            @case1.save
+          end
+          it 'workflow status should be REOPENED' do
+            expect(@case1.workflow).to eq(Child::WORKFLOW_REOPENED)
+          end
+        end
+      end
+
+    end
+
+    context 'when case is closed' do
+
+    end
+
+  end
+
   private
 
   def create_child(name, options={})
+    #TODO - i18n
     options.merge!("name" => name, "last_known_location" => "new york", 'created_by' => "me", 'created_organization' => "stc")
     Child.create(options)
   end

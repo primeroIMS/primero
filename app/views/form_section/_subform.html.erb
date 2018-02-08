@@ -17,42 +17,53 @@
        summary_section_class = "summary_section"
      end
    %>
-  <div class="subforms <%=summary_section_class%>" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_name=<%=form_group_name.dehumanize%>>
-    <% (number_of_subforms).times do |i| %>
-    <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container" data-subform_index="<%= i %>">
-      <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
-
-      <%= render partial: "form_section/subform_expand_collapse_header",
-                 object: formObject,
-                 locals: { formObject: formObject,
-                           subform: subform,
-                           subform_section: subform_section,
-                           i: i,
-                           form_group_name: form_group_name
-                         }
-      %>
-
-      <%
-        fk_unique_id = field_keys(subform_name, i, 'unique_id', form_group_name)
-        unique_tag_name = field_tag_name(formObject, nil, fk_unique_id)
-        unique_field_id = "#{subform.name.dehumanize}_#{sanitize_to_id unique_tag_name}"
-        unique_field_value = field_value(formObject, nil, fk_unique_id)
-      %>
-      <%= hidden_field_tag(unique_tag_name,
-                           field_value(formObject, nil, fk_unique_id)) %>
-
-      <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
-        <% fk = field_keys(subform_name, i, field.name, form_group_name) %>
-        <%= render partial: "form_section/#{field.type}",
-                   object: field,
-                   locals: {
-                     field_keys: fk,
-                     formObject: formObject
-                   }
-        %>
+  <div class="subforms <%=summary_section_class%> large-12 columns" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_name=<%=form_group_name.dehumanize%>>
+    <% grouped_subforms(formObject, subform).each do |grouped_subforms_header, subform_objects| %>
+      <% if grouped_subforms_header.present? && subform_objects.present? %>
+        <div class="subform_grouping_header row">
+          <span class="subform_header medium-7 columns">
+            <%= grouped_subforms_header %>
+          </span>
+        </div>
       <% end %>
-      </fieldset>
-    </div>
+      <% subform_objects.each do |subform_object| %>
+        <% i = subform_object[1] %>
+        <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container" data-subform_index="<%= i %>">
+          <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">
+
+          <%= render partial: "form_section/subform_expand_collapse_header",
+                     object: formObject,
+                     locals: { formObject: formObject,
+                               subform: subform,
+                               subform_section: subform_section,
+                               i: i,
+                               form_group_name: form_group_name,
+                               grouped_subforms_header: grouped_subforms_header
+                             }
+          %>
+
+          <%
+            fk_unique_id = field_keys(subform_name, i, 'unique_id', form_group_name)
+            unique_tag_name = field_tag_name(formObject, nil, fk_unique_id)
+            unique_field_id = "#{subform.name.dehumanize}_#{sanitize_to_id unique_tag_name}"
+            unique_field_value = field_value(formObject, nil, fk_unique_id)
+          %>
+          <%= hidden_field_tag(unique_tag_name,
+                               field_value(formObject, nil, fk_unique_id)) %>
+
+          <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+            <% fk = field_keys(subform_name, i, field.name, form_group_name) %>
+            <%= render partial: field_template_path(field, false),
+                       object: field,
+                       locals: {
+                         field_keys: fk,
+                         formObject: formObject
+                       }
+            %>
+          <% end %>
+          </fieldset>
+        </div>
+      <% end %>
     <% end %>
   </div>
 
@@ -66,6 +77,7 @@
                          subform_section: subform_section,
                          i: 'template',
                          form_group_name: form_group_name,
+                         grouped_subforms_header: nil,
                          is_subform: true
                        }
     %>
@@ -81,7 +93,7 @@
     <%# TODO: Render the individual fields %>
     <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
       <% fk = field_keys(subform_name, 'template', field.name, form_group_name) %>
-      <%= render partial: "form_section/#{field.type}",
+      <%= render partial: field_template_path(field, false),
                  object: field,
                  locals: {
                    field_keys: fk,
@@ -93,18 +105,23 @@
     <% end %>
     </fieldset>
   </div>
-
   <%# Add button %>
   <% if !subform.disabled %>
-    <div>
-      <a id="subform_<%= subform.name %>_add_button" class="green-button subform_add right" <%= disable_action_buttons %>><%= t('fields.add') %></a>
+    <div class="large-12 columns text-right">
+      <% if number_of_subforms == 0 %>
+        <% unless subform.subform_section.is_summary_section || subform.subform_section.hide_subform_placeholder %>
+          <div class="placeholder_text"> <%= subform_placeholder(field, subform, true) %></div>
+        <% end %>
+      <% end %>
+      <a id="subform_<%= subform.subform_section_id %>_add_button" class="button subform_add right" <%= disable_action_buttons %>><%= t('fields.add') %></a>
     </div>
   <% end %>
   <% initial_subforms = subform_section[:initial_subforms] || 0 %>
   <% if initial_subforms > 0 && formObject.new_record? && !formObject.errors.any? && subform_section.shared_subform.blank? %>
     <% content_for :page_scripts do %>
       <% subform_section[:initial_subforms].times do %>
-        $('a#subform_<%=j subform.name %>_add_button').click();
+        <% #TODO: This shouldn't be using javascript to click the button to add the forms. Switch to renering a template. Also add tests for this. %>
+        $('a#subform_<%=j subform.subform_section_id %>_add_button').click();
       <% end %>
     <% end %>
   <% end %>

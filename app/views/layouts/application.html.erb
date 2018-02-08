@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html lang="<%= I18n.default_locale %>" dir="<%= @page_direction %>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=3.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
@@ -12,34 +11,26 @@
   <%#= favicon_link_tag('favicon-32x32.png?v=3', sizes: "32x32") %>
   <%#= favicon_link_tag('favicon-96x96.png?v=3', sizes: "96x96") %>
   <%= favicon_link_tag('favicon-16x16.png?v=3') %>
-  <%= stylesheet_link_tag "application" %>
+  <% if @page_direction == 'rtl' %>
+    <%= stylesheet_link_tag "application_rtl", 'data-turbolinks-track' => true %>
+  <% else %>
+    <%= stylesheet_link_tag "application_ltr", 'data-turbolinks-track' => true %>
+  <% end %>
   <%= yield :stylesheet %>
-  <%= yield :pagination_details %>
   <%= csrf_meta_tag %>
-  <% #javascript_include_tag 'plugins/jquery-1.7.1.min' %>
+  <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+  <%= yield :javascript %>
+  <%= javascript_tag 'data-turbolinks-track' => true do %>
+      I18n.defaultLocale = "<%= I18n.default_locale %>";
+      I18n.locale = "<%= I18n.locale %>";
+      I18n.fallbacks = true;
+      I18n.direction = "<%= @page_direction %>";
+  <% end %>
 </head>
 <body class="<%= @body_class %>">
-  <!-- Header -->
-  <div class="header_container">
-    <div class="row">
-      <header>
-        <div class="large-12 columns">
-          <%= link_to root_path, :class => 'logo left', id: "RapidFTRlogo"  do %>
-            <%= image_tag('logo.png', alt: 'Primero') %>
-          <% end %>
-          <div class="sublogo">Protection-related information management</div>
-          <ul class="agency_logos"><% display_agency_logos %></ul>
-          <div class="right">
-            <%= render :partial => "shared/header_links" %>
-          </div>
-        </div>
-      </header>
-    </div>
-  </div>
-  <!-- End Header -->
-  <!-- Nav -->
-    <%= render 'shared/nav' %>
-  <!-- End Nav -->
+  <%= render 'shared/header' %>
+  <%= render 'shared/nav' %>
+
 <div class="page_container">
   <% if flash[:notice].present? %>
       <div class='flash row'>
@@ -63,10 +54,17 @@
 </div>
 
 <!-- idle dialog window markup -->
-<div id="dialog" title="<%= t("session.about_to_expire") %>">
-  <p> <%= t('messages.logoff_warning_prefix') %> <span id="dialog-countdown"></span> <%= t("messages.logoff_warning_suffix") %></p>
-
-  <p><%= t("messages.logoff_confirmation") %></p>
+<div id="idleModal" class="reveal tiny" title="<%= t("session.about_to_expire") %>" data-reveal data-close-on-click="false" data-close-on-esc="false">
+  <h5 class="text-center"> <%= t('messages.logoff_warning_prefix') %> <span id="dialog-countdown"></span> <%= t("messages.logoff_warning_suffix") %></h5>
+  <p class="text-center"><%= t("messages.logoff_confirmation") %></p>
+  <div class="row align-center">
+    <div class="shrink columns">
+      <div class="button-group">
+        <button class="button green keepworking"><%= I18n.t("messages.keep_working") %></button>
+        <button class="button gray logout"><%= I18n.t("messages.logoff") %></button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <%= render 'exports/password_prompt' %>
@@ -78,28 +76,25 @@
   <div class="ls-bg"></div>
 </div>
 <script>
-  window._primero = {
-    model_object: "<%= controller.controller_name.singularize %>",
-    current_action: "<%= controller.action_name %>",
-    discard_message: "<%= t('messages.record_navigation_confirmation_message', default: 'Discard unsaved changes?') %>",
-    form_error_messages: {
+  if (window._primero) {
+    window._primero.model_object = "<%= controller.controller_name.singularize %>";
+    window._primero.current_action = "<%= controller.action_name %>";
+    window._primero.discard_message = "<%= t('messages.record_navigation_confirmation_message', default: 'Discard unsaved changes?') %>";
+    window._primero.form_error_messages = {
       required: "<%= t('form_section.required_field_js') %>",
       form_message: "<%= t('errors.template.header.body_js')%>"
-    },
-    Views: {}
-  };
+    };
+    window._primero.check_connectivity = <%= ENV['CHECK_ONLINE_STATUS'] || true %>
+  }
 </script>
-<%= javascript_include_tag "application" %>
-<%= yield :javascript %>
 <%= javascript_tag do %>
-    I18n.defaultLocale = "<%= I18n.default_locale %>";
-    I18n.locale = "<%= I18n.locale %>";
-    I18n.fallbacks = true;
-<% end %>
-<script>
-  $(document).ready(function(){
+  function page_scripts(){
     <%= yield :page_scripts %>
-  });
-</script>
+  }
+
+  $(page_scripts);
+<% end %>
+<%= yield :pagination_details %>
+<%= yield :modals %>
 </body>
 </html>

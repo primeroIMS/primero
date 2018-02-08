@@ -1,26 +1,25 @@
 <% content_for :javascript do %>
 <script type="text/javascript" language="javascript">
-$(function() {
-  $(".profile-image .image a").click( function(event){
-      $('.thumbnails .thumbnail a')[0].click();
-      return false;
-  });
+function profile_tools() {
+  var $profile_tools = $(".profile-tools");
 
   $(".accordion").accordion({ header: "h2", autoHeight: false, collapsible: true, active: false });
 
-  $(".profile-tools .mark-as-form").hide();
+  $profile_tools.find(".mark-as-form").hide();
 
-  $(".profile-tools .flag a").click( function(){
-      $(this).parent().siblings('form').children('.mark-as-form').toggle();
+  $profile_tools.find(".flag a").click( function(){
+    $(this).parent().siblings('form').children('.mark-as-form').toggle();
   });
 
-  $(".profile-tools .reunited a").click( function(){
-      $(this).parent().siblings('form').children('.mark-as-form').toggle();
+  $profile_tools.find(".reunited a").click( function(){
+    $(this).parent().siblings('form').children('.mark-as-form').toggle();
   });
-  $(".profile-tools .investigated a").click( function(){
-      $(this).parent().siblings('form').children('.mark-as-form').toggle();
+  $profile_tools.find(".investigated a").click( function(){
+    $(this).parent().siblings('form').children('.mark-as-form').toggle();
   });
-});
+}
+
+$(profile_tools);
 </script>
 <% end %>
 
@@ -44,17 +43,15 @@ $(function() {
     <%= stylesheet_link_tag "jquery.lightbox-0.5" %>
 <% end %>
 
-<div class="page-content-new row collapse" data-equalizer>
-  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
-    <div class="side-tab" data-equalizer-watch>
+<div class="page-content-new row">
+  <div class="large-3 medium-3 columns close-side-tab side-tab-container">
+    <div class="side-tab">
       <%= render :partial => 'form_section/tabs', :object => @form_sections, locals: { show_summary: true } %>
     </div>
   </div>
-  <div class="large-8 medium-8 columns side-tab-content-container">
-    <div class="side-tab-content" data-equalizer-watch>
-      <%# Removed for demo deploy %>
-      <%= render :partial => 'shared/sidebar' if false %>
-      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident} %>
+  <div class="large-9 medium-9 columns side-tab-content-container">
+    <div class="side-tab-content">
+      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident, :lookups => @lookups} %>
     </div>
     <%= render 'record_shared/header_message', record: @incident, model: 'incident' %>
   </div>

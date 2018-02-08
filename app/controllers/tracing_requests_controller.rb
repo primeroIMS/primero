@@ -45,11 +45,6 @@ class TracingRequestsController < ApplicationController
 
   def make_new_record
     TracingRequest.new.tap do |tracing_request|
-      tracing_request['inquiry_date'] = DateTime.now.strftime("%d-%b-%Y")
-      tracing_request['status'] = ["Active"]
-      tracing_request['record_state'] = true
-      tracing_request['inquiry_status'] = ["Open"]
-      tracing_request['mrm_verification_status'] = "Pending"
       tracing_request['module_id'] = params['module_id']
     end
   end
@@ -63,6 +58,10 @@ class TracingRequestsController < ApplicationController
 
   def redirect_after_deletion
     redirect_to(tracing_requests_url)
+  end
+
+  def redirect_to_list
+    redirect_to tracing_requests_path(scope: {:inquiry_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
   end
 
   def record_filter(filter)

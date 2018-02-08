@@ -82,19 +82,19 @@ describe ExportActions, type: :controller do
 
       # since User is readonly, properties are now automatically filtered on that
       properties = Child.get_properties_by_module(@user, [@primero_module])
-      filtered_properties = properties['primeromodule-cp']['Form Section Test 1'].values.map(&:name)
+      filtered_properties = properties['primeromodule-cp']['form_section_test_1'].values.map(&:name)
 
       expect(filtered_properties.include?('age')).to be_falsey
     end
 
     it "keeps fields that are hidden on view page for users with edit permissions" do
-      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+      case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       @role.permissions_list = [case_permission]
       @user.stub(:roles).and_return([@role])
 
       # since User is readonly, properties are now automatically filtered on that
       properties = Child.get_properties_by_module(@user, [@primero_module])
-      filtered_properties = properties['primeromodule-cp']['Form Section Test 1'].values.map(&:name)
+      filtered_properties = properties['primeromodule-cp']['form_section_test_1'].values.map(&:name)
 
       expect(filtered_properties.include?('child_status')).to be_truthy
       expect(filtered_properties.include?('birth_date')).to be_truthy

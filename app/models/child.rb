@@ -2,6 +2,14 @@ class Child < CouchRest::Model::Base
   use_database :child
 
   CHILD_PREFERENCE_MAX = 3
+  RISK_LEVEL_HIGH = 'high'
+  RISK_LEVEL_NONE = 'none'
+
+  APPROVAL_STATUS_PENDING = 'pending'
+  APPROVAL_STATUS_REQUESTED = 'requested'
+  APPROVAL_STATUS_APPROVED = 'approved'
+  APPROVAL_STATUS_REJECTED = 'rejected'
+
 
   def self.parent_form
     'case'
@@ -28,6 +36,11 @@ class Child < CouchRest::Model::Base
   include AudioUploader
   include AutoPopulatable
 
+  #It is important that Workflow is included AFTER Serviceable
+  #Workflow statuses is expecting the servicable callbacks to have already happened
+  include Serviceable
+  include Workflow
+
   property :case_id
   property :case_id_code
   property :case_id_display
@@ -42,9 +55,10 @@ class Child < CouchRest::Model::Base
   property :verified, TrueClass
   property :risk_level
   property :child_status
+  property :case_status_reopened, TrueClass, :default => false
   property :system_generated_followup, TrueClass, default: false
   #To hold the list of GBV Incidents created from a GBV Case.
-  property :incident_links, [String], :default => []
+  property :incident_links, [], :default => []
 
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
@@ -54,6 +68,7 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
+
   after_save :find_match_tracing_requests unless (Rails.env == 'production')
 
   def initialize *args
@@ -147,7 +162,7 @@ class Child < CouchRest::Model::Base
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
-      'other_agency_id', 'survivor_code_no'
+      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no'
     ]
   end
 
@@ -174,50 +189,22 @@ class Child < CouchRest::Model::Base
 
     boolean :estimated
     boolean :consent_for_services
+
+    time :service_due_dates, :multiple => true
+
+    string :workflow_status, as: 'workflow_status_sci'
+    string :workflow, as: 'workflow_sci'
+
+    string :risk_level, as: 'risk_level_sci' do
+      self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
+    end
   end
 
-  class << self
-    def match_results(results)
-      results.map{|c| [['case_id', c.case_id], ['child_id', c._id], ['age', c.age], ['sex', c.sex],
-                       ['registration_date', c.registration_date], ['match_details', []]].to_h}
-    end
-
-    #TODO v1.3: can this be refactored further?
-    def all_match_details(match_results=[], potential_matches=[], associated_user_names)
-      for match_result in match_results
-        count = 0
-        for potential_match in potential_matches
-          if potential_match["case_id"] == match_result["case_id"]
-            match_detail = {}
-            match_detail["tracing_request_id"] = potential_match.tr_id
-            inquiry = TracingRequest.find_by_tracing_request_id potential_match.tr_id
-            match_detail["tr_uuid"] = inquiry._id
-            for subform in inquiry.tracing_request_subform_section
-              if subform.unique_id == potential_match.tr_subform_id
-                match_detail["subform_tracing_request_name"] = is_match_visible?(inquiry.owned_by, associated_user_names) ? subform.name : "***"
-              end
-            end
-            match_detail["inquiry_date"] = is_match_visible?(inquiry.owned_by, associated_user_names) ? inquiry.inquiry_date : "***"
-            match_detail["relation_name"] = is_match_visible?(inquiry.owned_by, associated_user_names) ? inquiry.relation_name : "***"
-            match_detail["visible"] = is_match_visible?(inquiry.owned_by, associated_user_names)
-            match_detail["average_rating"] =potential_match.average_rating
-            match_detail["owned_by"] =inquiry.owned_by
-            match_result["match_details"] << match_detail
-            count += 1
-          end
-        end
-        match_result["match_details"] = match_result["match_details"].sort_by { |hash| -hash["average_rating"] }
-                                            .first(20)
-      end
-      compact_result match_results
-      sort_hash match_results
-    end
-
-  end
+  include Alertable
 
   def self.report_filters
     [
-        {'attribute' => 'child_status', 'value' => ['Open']},
+        {'attribute' => 'child_status', 'value' => [STATUS_OPEN]},
         {'attribute' => 'record_state', 'value' => ['true']}
     ]
   end
@@ -226,12 +213,12 @@ class Child < CouchRest::Model::Base
   #TODO - does this need the reporting_location_config field key
   def self.minimum_reportable_fields
     {
-          'boolean' => ['record_state'],
-           'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by'],
-      'multistring' => ['associated_user_names', 'owned_by_groups'],
-             'date' => ['registration_date'],
-          'integer' => ['age'],
-         'location' => ['owned_by_location', 'location_current']
+        'boolean' => ['record_state'],
+         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
+    'multistring' => ['associated_user_names', 'owned_by_groups'],
+           'date' => ['registration_date'],
+        'integer' => ['age'],
+       'location' => ['owned_by_location', 'location_current']
     }
   end
 
@@ -239,12 +226,14 @@ class Child < CouchRest::Model::Base
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
-
-
   def self.by_date_of_birth_range(startDate, endDate)
     if startDate.is_a?(Date) && endDate.is_a?(Date)
       self.by_date_of_birth_month_day(:startkey => [startDate.month, startDate.day], :endkey => [endDate.month, endDate.day]).all
     end
+  end
+
+  def add_incident_links(incident_detail_id, incident_id, incident_display_id)
+    self.incident_links << {"incident_details" => incident_detail_id, "incident_id" => incident_id, "incident_display_id" => incident_display_id}
   end
 
   def validate_has_at_least_one_field_value
@@ -321,7 +310,6 @@ class Child < CouchRest::Model::Base
     return age, gender
   end
 
-
   def auto_populate_name
     #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
     a_name = auto_populate('name')
@@ -372,7 +360,7 @@ class Child < CouchRest::Model::Base
   end
 
   def caregivers_name
-    self.name_caregiver || self.family_details_section.select { |fd| fd.relation_is_caregiver == 'Yes' }.first.try(:relation_name) if self.family_details_section.present?
+    self.name_caregiver || self.family_details_section.select { |fd| fd.relation_is_caregiver == true }.first.try(:relation_name) if self.family_details_section.present?
   end
 
   # Solution below taken from...
@@ -392,13 +380,27 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  #This method returns nil if object is nil
+  def service_field_value(service_object, service_field)
+    if service_object.present?
+      service_object.try(service_field.to_sym)
+    end
+  end
+
+  def has_tracing_request?
+    # TODO: this assumes if tracing-request is in associated_record_types then the tracing request forms are also present. Add check for tracing-request forms.
+    self.module.present? && self.module.associated_record_types.include?('tracing-request')
+  end
+
   #TODO v1.3: Need rspec test
   def find_match_tracing_requests
-    match_result = Child.find_match_records(match_criteria, TracingRequest)
-    tracing_request_ids = match_result==[] ? [] : match_result.keys
-    all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
-    results = all_results.sort_by { |result| result[:score] }.reverse.slice(0, 20)
-    PotentialMatch.update_matches_for_child(self.id, results)
+    if has_tracing_request?
+      match_result = Child.find_match_records(match_criteria, TracingRequest)
+      tracing_request_ids = match_result==[] ? [] : match_result.keys
+      all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
+      results = all_results.sort_by { |result| result[:score] }.reverse.slice(0, 20)
+      PotentialMatch.update_matches_for_child(self.id, results)
+    end
   end
 
   alias :inherited_match_criteria :match_criteria
@@ -408,6 +410,24 @@ class Child < CouchRest::Model::Base
       match_criteria[:"#{field}"] = self.family_details_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ')
     end
     match_criteria.compact
+  end
+
+  def service_due_dates
+    # TODO: only use services that is of the type of the current workflow
+    reportable_services = self.nested_reportables_hash[ReportableService]
+    if reportable_services.present?
+      reportable_services.select do |service|
+        !service.service_implemented?
+      end.map do |service|
+        service.service_due_date
+      end.compact
+    end
+  end
+
+  def reopen(status, reopen_status, user_name)
+    self.child_status = status
+    self.case_status_reopened = reopen_status
+    self.add_reopened_log(user_name)
   end
 
   private
@@ -433,5 +453,4 @@ class Child < CouchRest::Model::Base
     existing_fields = system_fields + field_definitions.map { |x| x.name }
     self.reject { |k, v| existing_fields.include? k }
   end
-
 end

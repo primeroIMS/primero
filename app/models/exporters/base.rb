@@ -63,6 +63,15 @@ module Exporters
         return filtered_props
       end
 
+      # TODO: Make this method generic
+      def case_form_sections_by_module(cases, current_user)
+        cases.map(&:module).compact.uniq.inject({}) do |acc, mod|
+          acc.merge({mod.name => FormSection.get_permitted_form_sections(mod, 'case', current_user)
+                                      .select(&:visible)
+                                      .sort {|a, b| [a.order_form_group, a.order] <=> [b.order_form_group, b.order] } })
+        end
+      end
+
       def properties_to_keys(props)
         #This flattens out the properties by modules by form,
         # while maintaining form order and discarding dupes
@@ -142,7 +151,7 @@ module Exporters
           # TODO: RENAME Child to Case like we should have done months ago
           model_type = {'Child' => 'Case'}.fetch(m.class.name, m.class.name)
           row = [m.id, model_type] + emit_columns.call(properties) do |prop_tree|
-            get_value_from_prop_tree(m, prop_tree)
+            translate_value(prop_tree, get_value_from_prop_tree(m, prop_tree))
           end
 
           yield row
@@ -168,7 +177,7 @@ module Exporters
             # still 0-based
             acc[prop - 1]
           else
-            get_model_value(acc, prop)
+            acc[prop]
           end
         end
       end
@@ -177,7 +186,9 @@ module Exporters
       #and they should be exported using the same format.
       def to_exported_value(value)
         if value.is_a?(Date)
-          value.strftime("%d-%b-%Y")
+          I18n.l(value)
+        elsif value.is_a?(Time)
+          I18n.l(value, format: :with_time)
         else
           #Returns original value.
           value
@@ -189,12 +200,48 @@ module Exporters
         if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
         else
-          model.send(property.name)
+          value = model.send(property.name)
+          translate_value(property.name, value)
+        end
+      end
+
+      def map_field_to_translated_value(field, value)
+        if field.present? && [Field::RADIO_BUTTON, Field::SELECT_BOX, Field::TICK_BOX].include?(field.type)
+          if value.is_a?(Array)
+            value.map{|v| field.display_text(v) }
+          else
+            field.display_text(value)
+          end
+        else
+          to_exported_value(value)
+        end
+      end
+
+      def translate_value(prop_name, value)
+        name = prop_name.is_a?(Array) ? prop_name[0].try(:name) : prop_name
+        field = @fields.select{|f| f.name == name}.first if @fields.present?
+
+        if field.present?
+          if prop_name.is_a?(Array) && field.type == Field::SUBFORM
+            prop_names = prop_name.map{|pn| pn.try(:name)}
+            sub_fields = field.subform_section.try(:fields)
+            sub_field = sub_fields.select{|sf| prop_names.include?(sf.name)}.first
+            map_field_to_translated_value(sub_field, value)
+          else
+            map_field_to_translated_value(field, value)
+          end
+        else
+          value
         end
       end
 
       def get_model_location_value(model, property)
+        #TODO - i18n
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
+      end
+
+      def load_fields(model)
+        @fields = model.field_definitions if model.present?
       end
     end
 

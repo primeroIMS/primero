@@ -1,4 +1,14 @@
 module FormSectionHelper
+  include FieldsHelper
+  ALERT_PREFIX = "<sup id='new_incident_details'>!</sup>"
+  TYPE = 'type'
+  ALERT_FOR = 'alert_for'
+  FORM_SIDEBAR_ID = 'form_sidebar_id'
+
+  def show_alerts?
+    @system_settings.present? && @system_settings["show_alerts"] ? @system_settings["show_alerts"] : false
+  end
+
   def sorted_highlighted_fields
     FormSection.sorted_highlighted_fields
   end
@@ -14,20 +24,22 @@ module FormSectionHelper
   def build_form_tabs(group, forms, show_summary = false)
     form = forms.first
     if forms.count > 1
+      group_name = raw(group + group_alert_prefix(forms))
       content_tag :li, class: 'group' do
         concat(
           link_to("#tab_#{form.section_name}", class: 'group',
             data: { violation: form.form_group_name == 'Violations' ? true : false }) do
-            concat(group)
+            concat(group_name)
           end
         )
         concat(build_group_tabs(forms))
       end
     else
       content_tag :li, class: "#{init_tab(form, show_summary)}" do
+        form_name = build_form_name(form)
         concat(
           link_to("#tab_#{form.section_name}", class: 'non-group') do
-            concat(form.name)
+            concat(form_name)
           end
         )
       end
@@ -38,13 +50,44 @@ module FormSectionHelper
     group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
     content_tag :ul , class: 'sub', id: group_id do
       for form in forms
+        section_name = build_form_name(form)
         concat(content_tag(:li,
           link_to("#tab_#{form.section_name}") do
-            concat(form.name)
+            concat(section_name)
           end, class: "#{form.is_first_tab ? 'current': ''}"
         ))
       end
     end
+  end
+
+  def build_form_name(form)
+    form_name = form.name
+    if show_alerts? && @child.present? && @child.alerts != nil
+      #TODO: currently filtering for service provider details form field changes only
+      has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+
+      if @child.alerts.any? {|u| u[FORM_SIDEBAR_ID] == form.unique_id} || has_service_field_alert
+        form_name = raw(form_name + ALERT_PREFIX)
+      end
+    end
+
+    return form_name
+  end
+
+  def group_alert_prefix(forms)
+    alert = ''
+    if show_alerts? && @child.present? && @child.alerts != nil
+      forms.each do |form|
+        #TODO: currently filtering for service provider details form field changes only
+        has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+        if @child.alerts.any? {|u| u[FORM_SIDEBAR_ID] == form.unique_id} || has_service_field_alert
+          alert = ALERT_PREFIX
+        end
+        break if alert != ''
+      end
+    end
+
+    return alert
   end
 
   def init_tab(form, show_summary)
@@ -55,9 +98,69 @@ module FormSectionHelper
     end
   end
 
-  def subform_placeholder(field, subform)
-    form_string = field.base_doc.is_violation? ? t("incident.violation.violation") : subform.display_name
-    t('placeholders.subforms', form: form_string)
+  def subform_placeholder(field, subform, editing=false)
+    if field.base_doc.is_violation?
+      t("incident.violation.violation")
+    else
+      form_string, translation_node = editing ? [subform.form.name, 'editing_subforms'] : [subform.display_name, 'subforms']
+      t("placeholders.#{translation_node}", form: form_string)
+    end
+  end
+
+  #Returns a hash of tuples {subform_group_label => [subform_object, index]}.
+  def grouped_subforms(formObject, subform_field)
+    objects = formObject.try(subform_field.name)
+    if objects.present?
+      objects = objects.map.with_index{|o,i| [o,i]}
+      subform_group_by_field = subform_field.subform_group_by_field
+      if subform_group_by_field.present?
+        subform_group_by_values = subform_field.subform_group_by_values
+        #This bit of non-Ruby contortion is done to assure ordering:
+        #  1. The groups need to be in the same order as the lookup
+        #  2. Within each group, the object order is determined by the sort field
+        groups = subform_group_by_values.map{|_,v| [v,[]]}.to_h
+        groups[''] = []
+        objects.each do |object|
+          group_label = object.first.try(subform_group_by_field.name)
+          group_label = subform_group_by_values[group_label] || ''
+          groups[group_label] << object #if groups.key?(group_label)
+        end
+        objects = groups.map{|k,group| [k, group.sort_by{|o| o[1].try(subform_field.subform_sort_by)}]}.to_h
+      else
+        objects = {'' => objects} #objects are already pre-sorted
+      end
+    else
+      objects = {}
+    end
+    return objects
+  end
+
+  def display_approval_alert?(formObject, section)
+    alerts_config = @system_settings.present? ? @system_settings.approval_forms_to_alert : nil
+    display_alert = nil
+    if show_alerts? && alerts_config.present? && formObject.alerts.present?
+      alert_type = alerts_config[section.section_name]
+      display_alert = alert_type.present? && formObject.alerts.any?{|a| a[TYPE] == alert_type} ? section.name : nil
+    end
+
+    return display_alert
+  end
+
+  def display_field_change_alert?(section, formObject)
+    display_alert = nil
+    if show_alerts? && formObject.alerts.present?
+      #TODO: currently filtering for service provider details form field changes only
+      found_alerts = @child.alerts.select {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && section.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+      if found_alerts.count > 0
+        found_alert = found_alerts.max_by(&:date)
+        display_alert = {
+          "name" => section["name_#{I18n.locale}"],
+          "date" => field_format_date(Date.parse(found_alert.date))
+        }.to_h
+      end
+    end
+
+    return display_alert
   end
 
   def display_help_text_on_view?(formObject, form_section)

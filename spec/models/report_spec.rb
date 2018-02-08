@@ -1,5 +1,7 @@
 require 'rails_helper'
 
+#TODO add i18n tests
+
 describe Report do
 
   before :all do

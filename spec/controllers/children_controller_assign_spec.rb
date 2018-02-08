@@ -7,7 +7,7 @@ describe ChildrenController do
     User.all.each{|u| u.destroy}
     Child.all.each{|u| u.destroy}
 
-    permission_transition = Permission.new(resource: Permission::CASE, actions: [Permission::REASSIGN, Permission::READ, Permission::WRITE])
+    permission_transition = Permission.new(resource: Permission::CASE, actions: [Permission::REASSIGN, Permission::READ, Permission::WRITE, Permission::CREATE])
     Role.create(id: 'transfer', name: 'transfer', permissions_list: [permission_transition], group_permission: Permission::GROUP)
 
     @user = User.create!(:user_name => 'transfering_user', :role_ids => ['transfer'], :module_ids => [PrimeroModule::CP],
@@ -54,7 +54,7 @@ describe ChildrenController do
       controller.stub :redirect_to
 
       controller.should_not_receive(:is_consent_given?)
-      controller.should_receive(:is_reassign?).exactly(5).times.and_call_original
+      controller.should_receive(:is_reassign?).exactly(6).times.and_call_original
       controller.should_receive(:consent_override).and_call_original
       controller.should_receive(:log_to_history).with([instance]).and_call_original
       controller.should_receive(:is_remote?).exactly(4).times.and_call_original
@@ -69,7 +69,7 @@ describe ChildrenController do
         "transition_role"=>"role-transfer",
         "other_user_agency"=>"",
         "notes"=>"Successfully reassigned",
-        "type_of_export"=>"Primero",
+        "type_of_export"=>Transitionable::EXPORT_TYPE_PRIMERO,
         "file_name"=>"",
         "is_remote"=>false,
         "id"=>id
@@ -98,7 +98,7 @@ describe ChildrenController do
       transfer.transitioned_by.should eq(@user.user_name)
       transfer.service.should eq("")
       transfer.is_remote.should eq(false)
-      transfer.type_of_export.should eq("Primero")
+      transfer.type_of_export.should eq(Transitionable::EXPORT_TYPE_PRIMERO)
       transfer.consent_overridden.should eq(false)
     end
 

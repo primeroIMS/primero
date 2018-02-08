@@ -1,13 +1,17 @@
 class Report < CouchRest::Model::Base
   use_database :report
   include PrimeroModel
+  include Memoizable
+  include LocalizableProperty
+
+  #TODO i18n - investigate making Localizable concern which uses LocalizableProperty
+  #TODO i18n - investigate possibility of refactoring Lookup, Agency, Location, etc to use Localizable
 
   REPORTABLE_FIELD_TYPES = [
     #Field::TEXT_FIELD,
     #Field::TEXT_AREA,
     Field::RADIO_BUTTON,
     Field::SELECT_BOX,
-    Field::CHECK_BOXES,
     Field::NUMERIC_FIELD,
     Field::DATE_FIELD,
     #Field::DATE_RANGE,
@@ -20,16 +24,13 @@ class Report < CouchRest::Model::Base
     Field::TALLY_FIELD,
   ]
 
-  AGE_FIELD = 'age' #TODO: should this be made generic?
-
   DAY = 'date' #eg. 13-Jan-2015
   WEEK = 'week' #eg. Week 2 Jan-2015
   MONTH = 'month' #eg. Jan-2015
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
 
-  property :name
-  property :description
+  localize_properties [:name, :description]
   property :module_ids, [String]
   property :record_type #case, incident, etc.
   property :aggregate_by, [String], default: [] #Y-axis
@@ -60,7 +61,6 @@ class Report < CouchRest::Model::Base
   before_save :apply_default_filters
 
   design do
-    view :by_name
     view :by_module_id,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'Report' && doc['module_ids']){
@@ -71,49 +71,63 @@ class Report < CouchRest::Model::Base
               }"
   end
 
-  def self.create_or_update(report_hash)
-    report_id = report_hash[:id]
-    report = Report.get(report_id)
-    if report.nil?
-      Report.create! report_hash
-    else
-      report.update_attributes report_hash
-    end
-  end
+  class << self
 
-  def self.get_reportable_subform_record_field_name(model, record_type)
-    model = Record::model_from_name(model)
-    if model.try(:nested_reportable_types)
-      return model.nested_reportable_types.select{|nrt| nrt.model_name.param_key == record_type}.first.try(:record_field_name)
+    def create_or_update(report_hash)
+      report_id = report_hash[:id]
+      report = Report.get(report_id)
+      if report.nil?
+        Report.create! report_hash
+      else
+        report.update_attributes report_hash
+      end
     end
-  end
 
-  def self.get_reportable_subform_record_field_names(model)
-    model = Record::model_from_name(model)
-    if model.try(:nested_reportable_types)
-      return model.nested_reportable_types.map{|nrt| nrt.model_name.param_key}
+    def get_reportable_subform_record_field_name(model, record_type)
+      model = Record::model_from_name(model)
+      if model.try(:nested_reportable_types)
+        return model.nested_reportable_types.select{|nrt| nrt.model_name.param_key == record_type}.first.try(:record_field_name)
+      end
     end
-  end
 
-  def self.record_type_is_nested_reportable_subform?(model, record_type)
-    get_reportable_subform_record_field_names(model).include?(record_type)
-  end
-
-  def self.get_all_nested_reportable_types
-    record_types = []
-    FormSection::RECORD_TYPES.each do |rt|
-      record_types = record_types + Record.model_from_name(rt).try(:nested_reportable_types)
+    def get_reportable_subform_record_field_names(model)
+      model = Record::model_from_name(model)
+      if model.try(:nested_reportable_types)
+        return model.nested_reportable_types.map{|nrt| nrt.model_name.param_key}
+      end
     end
-    record_types
+
+    def record_type_is_nested_reportable_subform?(model, record_type)
+      get_reportable_subform_record_field_names(model).include?(record_type)
+    end
+
+    def get_all_nested_reportable_types
+      record_types = []
+      FormSection::RECORD_TYPES.each do |rt|
+        record_types = record_types + Record.model_from_name(rt).try(:nested_reportable_types)
+      end
+      record_types
+    end
   end
 
   def modules
     @modules ||= PrimeroModule.all(keys: self.module_ids).all if self.module_ids.present?
   end
 
+  def field_map
+    return @pivot_fields
+  end
+
   # Run the Solr query that calculates the pivots and format the output.
   #TODO: Break up into self contained, testable methods
   def build_report
+    # Prepopulates pivot fields
+    pivot_fields
+
+    sys = SystemSettings.current
+    primary_range = sys.primary_age_range
+    age_ranges = sys.age_ranges[primary_range]
+
     if permission_filter.present?
       filters << permission_filter
     end
@@ -158,16 +172,18 @@ class Report < CouchRest::Model::Base
           end
         end
       end
-      age_field_index = pivot_index(AGE_FIELD)
-      if group_ages && age_field_index && age_field_index < dimensionality
-        sys = SystemSettings.current
-        primary_range = sys.primary_age_range
-        age_ranges = sys.age_ranges[primary_range]
 
-        self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
-          age_ranges.find{|range| range.cover? pivot_name}
+      pivots.each do |pivot|
+        if /(^age$|^age_.*|.*_age$|.*_age_.*)/.match(pivot) && field_map[pivot].present? && field_map[pivot]['type'] == 'numeric_field'
+          age_field_index = pivot_index(pivot)
+          if group_ages && age_field_index && age_field_index < dimensionality
+            self.values = Reports::Utils.group_values(self.values, age_field_index) do |pivot_name|
+              age_ranges.find{|range| range.cover? pivot_name}
+            end
+          end
         end
       end
+
       if group_dates_by.present?
         date_fields = pivot_fields.select{|_, f| f.type == Field::DATE_FIELD}
         date_fields.each do |field_name, _|
@@ -261,23 +277,43 @@ class Report < CouchRest::Model::Base
     return d
   end
 
+  def translated_label(label)
+    if label.present?
+      label_selection = translated_label_options.select{|option_list|
+        option_list["id"].downcase == label.downcase
+      }.first
+      label = label_selection["display_text"] if label_selection.present?
+    end
+    label
+  end
+
+  def translated_label_options
+    @translated_label_options ||= self.field_map.map{|v, fm| fm.options_list(nil, nil, Location.all_names, true)}.flatten(1)
+  end
+
   #TODO: This method currently builds data for 1D and 2D reports
   def graph_data
+    # Prepopulates pivot fields
+    pivot_fields
+
     labels = []
     chart_datasets_hash = {}
+
     number_of_blanks = dimensionality - self.data[:graph_value_range].first.size
+
     self.data[:graph_value_range].each do |key|
       #The key to the global report data
       data_key = key + [""] * number_of_blanks
       #The label (as understood by chart.js), is always the first dimension value
-      label = key[0].to_s
+      label =  translated_label(key[0].to_s)
       labels << label if label != labels.last
+
       #The key to the
       chart_datasets_key = (key.size > 1) ? key[1].to_s : ""
       if chart_datasets_hash.key? chart_datasets_key
-        chart_datasets_hash[chart_datasets_key] << self.values[data_key]
+        chart_datasets_hash[chart_datasets_key] << self.data[:values][data_key]
       else
-        chart_datasets_hash[chart_datasets_key] = [self.values[data_key]]
+        chart_datasets_hash[chart_datasets_key] = [self.data[:values][data_key]]
       end
     end
 
@@ -285,7 +321,7 @@ class Report < CouchRest::Model::Base
     chart_datasets_hash.keys.each do |key|
       datasets << {
         label: key,
-        title: key,
+        title: translated_label(key.to_s),
         data: chart_datasets_hash[key]
       }
     end
@@ -352,17 +388,19 @@ class Report < CouchRest::Model::Base
         end
       end
     end
+
     if data[:values].present?
       data[:values] = data[:values].map do |key,value|
         [key.map{|k| translate(k)}, value]
       end.to_h
     end
+
     return data
   end
 
   #TODO: When we have true I18n we will discard this method and just use I18n.t()
   def translate(string)
-    ['false', 'true'].include?(string) ? I18n.t(string) : string
+    [false, true, 'false', 'true'].include?(string) ? I18n.t(string.to_s) : translated_label(string.to_s)
   end
 
   def pivots
@@ -386,6 +424,8 @@ class Report < CouchRest::Model::Base
 
   private
 
+
+
   def report_values(record_type, pivots, filters)
     result = {}
     pivots = pivots + [self.aggregate_counts_from] if self.aggregate_counts_from.present?
@@ -404,6 +444,7 @@ class Report < CouchRest::Model::Base
     number_of_pivots = pivots.size #can also be dimensionality, but the goal is to move the solr methods out
     pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(record_type, p)}.join(',')
     filter_query = build_solr_filter_query(record_type, filters)
+    result_pivots = []
     if number_of_pivots == 1
       params = {
         :q => filter_query,
@@ -414,17 +455,14 @@ class Report < CouchRest::Model::Base
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
-      pivots = []
       is_numeric = pivots_string.end_with? '_i' #TODO: A bit of a hack to assume that numeric Solr fields will always end with "_i"
       response['facet_counts']['facet_fields'][pivots_string].each do |v|
         if v.class == String
-          v = v.to_i if is_numeric
-          pivots << {'value' => v}
+          result_pivots << (is_numeric ? {'value' => v.to_i} : {'value' => v})
         else
-          pivots.last['count'] = v
+          result_pivots.last['count'] = v
         end
       end
-      result = {'pivot' => pivots}
     else
       params = {
         :q => filter_query,
@@ -435,9 +473,21 @@ class Report < CouchRest::Model::Base
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
-      result = {'pivot' => response['facet_counts']['facet_pivot'][pivots_string]}
+      result_pivots = response['facet_counts']['facet_pivot'][pivots_string]
     end
-    return result
+
+    translate_solr_response(0, result_pivots)
+    result = {'pivot' => result_pivots}
+  end
+
+  def translate_solr_response(map_index, response)
+    #The order of the values in the field map corresponds with the order of the pivots
+    field = self.field_map.try(:[], map_index).try(:[], :field)
+
+    response.each do |resp|
+      resp['value'] = field.display_text(resp['value']) if field.present?
+      translate_solr_response((map_index + 1), resp['pivot']) if resp['pivot'].present?
+    end
   end
 
 
@@ -452,7 +502,7 @@ class Report < CouchRest::Model::Base
         query = nil
         if attribute.present? && value.present?
           if constraint.present?
-            value = Date.parse(value).xmlschema unless value.is_number?
+            value = Date.parse(value).strftime("%FT%H:%M:%SZ") unless value.is_number?
             query = if constraint == '>'
               "#{attribute}:[#{value} TO *]"
             elsif constraint == '<'

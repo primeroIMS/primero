@@ -246,10 +246,10 @@ describe CustomExportsController do
         user.stub(:roles).and_return([])
         #Form Section Test 3 is not visible, so will not be in the output.
         expected_forms_sections = [
-          {"name"=>"Form Section Test 1", "id"=>"Form Section Test 1"},
-          {"name"=>"Form Section Test 2", "id"=>"Form Section Test 2"},
-          {"name"=>"Form Section Test 5", "id"=>"Form Section Test 5"},
-          {"name"=>"Form Section Test 4", "id"=>"Form Section Test 4"}
+          {"name"=>"Form Section Test 1", "id"=>"form_section_test_1"},
+          {"name"=>"Form Section Test 2", "id"=>"form_section_test_2"},
+          {"name"=>"Form Section Test 5", "id"=>"form_section_test_5"},
+          {"name"=>"Form Section Test 4", "id"=>"form_section_test_4"}
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp", "only_parent"=>"true"}
         get :permitted_forms_list, params
@@ -258,8 +258,8 @@ describe CustomExportsController do
       end
 
       it "returns only permitted forms per user per role" do
-        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
-        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
+        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
         role = Role.new(
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => Permission::ALL,
@@ -276,8 +276,8 @@ describe CustomExportsController do
         user.stub(:roles).and_return([role])
         #Per role definition this is the only forms that user can access.
         expected_forms_sections = [
-          {"name"=>"Form Section Test 1", "id"=>"Form Section Test 1"},
-          {"name"=>"Form Section Test 5", "id"=>"Form Section Test 5"}
+          {"name"=>"Form Section Test 1", "id"=>"form_section_test_1"},
+          {"name"=>"Form Section Test 5", "id"=>"form_section_test_5"}
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp", "only_parent"=>"true"}
         get :permitted_forms_list, params
@@ -290,7 +290,7 @@ describe CustomExportsController do
     describe "permitted_fields_list" do
 
       it "returns only permitted fields per user" do
-        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
         role = Role.new(
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => [],
@@ -329,8 +329,8 @@ describe CustomExportsController do
       end
 
       it "returns only permitted fields for writeable users" do
-        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
-        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::EXPORT_CUSTOM])
+        case_permission = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
+        tracing_request_permission = Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::EXPORT_CUSTOM])
         role = Role.new(
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => Permission::ALL,

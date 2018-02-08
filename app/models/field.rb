@@ -1,7 +1,7 @@
 class Field
   include CouchRest::Model::CastedModel
   include PrimeroModel
-  include PropertiesLocalization
+  include LocalizableProperty
 
   property :name
   property :visible, TrueClass, :default => true
@@ -12,12 +12,13 @@ class Field
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
   property :disabled, TrueClass, :default => false
-  localize_properties [:display_name, :help_text, :option_strings_text, :guiding_questions, :tally, :tick_box_label]
+  localize_properties [:display_name, :help_text, :guiding_questions, :tally, :tick_box_label]
+  localize_properties [:option_strings_text], generate_keys: true
   property :multi_select, TrueClass, :default => false
   property :hidden_text_field, TrueClass, :default => false
   attr_reader :options
   property :option_strings_source  #If options are dynamic, this is where to fetch them
-  property :base_language, :default=>'en'
+  property :base_language, :default => FormSection::DEFAULT_BASE_LANGUAGE
   property :subform_section_id
   property :autosum_total, TrueClass, :default => false
   property :autosum_group, :default => ""
@@ -25,12 +26,15 @@ class Field
   property :create_property, TrueClass, :default => true
   property :searchable_select, TrueClass, :default => false
   property :link_to_path, :default => ""  #Used to handle a text field as a link on the show pages
+  property :link_to_path_external, TrueClass, :default => true
   property :field_tags, [String], :default => []
   property :custom_template, :default => nil #Custom type should set the path to the template.
   property :expose_unique_id, TrueClass, :default => false
   property :subform_sort_by
+  property :subform_group_by
   property :required, TrueClass, :default => false
   property :date_validation, :default => 'default_date_validation'
+  property :date_include_time, TrueClass, :default => false
   property :matchable, TrueClass, :default => false
 
   DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
@@ -41,7 +45,6 @@ class Field
   TEXT_AREA = "textarea"
   RADIO_BUTTON = "radio_button"
   SELECT_BOX = "select_box"
-  CHECK_BOXES = "check_boxes"
   NUMERIC_FIELD = "numeric_field"
   PHOTO_UPLOAD_BOX = "photo_upload_box"
   AUDIO_UPLOAD_BOX = "audio_upload_box"
@@ -58,7 +61,6 @@ class Field
                         TEXT_AREA        => "basic",
                         RADIO_BUTTON     => "multiple_choice",
                         SELECT_BOX       => "multiple_choice",
-                        CHECK_BOXES      => "multiple_choice",
                         PHOTO_UPLOAD_BOX => "basic",
                         AUDIO_UPLOAD_BOX => "basic",
                         DOCUMENT_UPLOAD_BOX => "basic",
@@ -76,7 +78,6 @@ class Field
                         TEXT_AREA        => "basic",
                         RADIO_BUTTON     => "basic",
                         SELECT_BOX       => "basic",
-                        CHECK_BOXES      => "basic",
                         PHOTO_UPLOAD_BOX => "photo",
                         AUDIO_UPLOAD_BOX => "audio",
                         DOCUMENT_UPLOAD_BOX => "document",
@@ -95,7 +96,6 @@ class Field
                         TEXT_AREA        => "",
                         RADIO_BUTTON     => "",
                         SELECT_BOX       => "",
-                        CHECK_BOXES      => [],
                         PHOTO_UPLOAD_BOX => nil,
                         AUDIO_UPLOAD_BOX => nil,
                         DOCUMENT_UPLOAD_BOX => nil,
@@ -107,15 +107,24 @@ class Field
                         TALLY_FIELD      => ""
                       }
 
-  validates_presence_of "display_name_#{I18n.default_locale}", :message=> I18n.t("errors.models.field.display_name_presence")
   validate :validate_unique_name
   validate :validate_has_2_options
-  validate :validate_has_a_option
   validate :validate_display_name_format
   validate :validate_name_format
-  validate :valid_presence_of_base_language_name
+  validate :validate_display_name_in_base_language
   validate :valid_tally_field
+  validate :validate_option_strings_text
   #TODO: Any subform validations?
+
+  def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
+    lh = localized_hash(locale)
+    if self.option_strings_text.present?
+      fh = {}
+      self["option_strings_text_#{locale}"].each{|os| fh[os['id']] = os['display_text']}
+      lh['option_strings_text'] = fh
+    end
+    lh
+  end
 
   def validate_display_name_format
     special_characters = /[*!@#%$\^]/
@@ -144,14 +153,47 @@ class Field
     end
   end
 
-  def valid_presence_of_base_language_name
-    if base_language==nil
-      self.base_language='en'
+  def validate_display_name_in_base_language
+    display_name = "display_name_#{FormSection::DEFAULT_BASE_LANGUAGE}"
+    unless (self.send(display_name).present?)
+      errors.add(:display_name, I18n.t("errors.models.field.display_name_presence"))
+      return false
     end
-    base_lang_display_name = self.send("display_name_#{base_language}")
-    if (base_lang_display_name.nil?||base_lang_display_name.empty?)
-      errors.add(:display_name, I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language))
+  end
+
+  def validate_option_strings_text
+    if option_strings_text.present?
+      unless option_strings_text.is_a?(Array)
+        errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_array"))
+        return false
+      end
+      option_strings_text.each do |option|
+        unless option.is_a?(Hash)
+          errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_hash"))
+          return false
+        end
+        if option['id'].blank?
+          errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_blank"))
+          return false
+        end
+        if option['display_text'].blank?
+          errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.display_text_blank"))
+          return false
+        end
+      end
+
+      unless self.are_options_keys_unique?
+        errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_not_unique"))
+        return false
+      end
     end
+    return true
+  end
+
+  def are_options_keys_unique?
+    return true if self.option_strings_text.blank?
+    return true unless self.option_strings_text.is_a?(Array) && self.option_strings_text.first.is_a?(Hash)
+    self.option_strings_text.map{|o| o['id']}.uniq.length == self.option_strings_text.map{|o| o['id']}.length
   end
 
   def form
@@ -159,7 +201,7 @@ class Field
   end
 
   def subform_section
-    if (not self.subform and self.subform_section_id.present?)
+    if (self.subform.blank? && self.subform_section_id.present?)
       self.subform = FormSection.get_by_unique_id(subform_section_id)
     end
     return self.subform
@@ -191,6 +233,10 @@ class Field
     FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
   end
 
+  def self.all_searchable_date_time_field_names(parent_form = 'case')
+    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_time_fields.map(&:name) }.flatten
+  end
+
   def self.all_searchable_boolean_field_names(parent_form='case')
     FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_boolean_fields.map(&:name) }.flatten
   end
@@ -220,7 +266,10 @@ class Field
     "#{display_name}#{hidden_text}"
   end
 
-  def initialize properties={}
+  #TODO: Use CouchRest Model property defaults here instead
+  #TODO: Testing from console shows the property defaults aren't working for this Field model making these initialize setters necessary
+  #TODO: Dig deeper to determine why defaults are not working
+  def initialize(properties={})
     self.visible = true if properties["visible"].nil?
     self.mobile_visible = true if properties["mobile_visible"].nil?
     self.highlight_information = HighlightInformation.new
@@ -235,34 +284,22 @@ class Field
     self.create_property ||= true
     self.hide_on_view_page ||= false
     self.attributes = properties
+    self.base_language = FormSection::DEFAULT_BASE_LANGUAGE
   end
 
   def attributes= properties
     super properties
-    if (option_strings)
-      @options = FieldOption.create_field_options(name, option_strings)
-    end
+    #TODO: FieldOption should just be a regular embedded object that CouchRest Model supports
+    @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
-  def option_strings= value
-    if value
-      value = value.gsub(/\r\n?/, "\n").split("\n") if value.is_a?(String)
-      self.option_strings_text = value.select {|x| not "#{x}".strip.empty? }.map(&:rstrip).join("\n")
-    end
-  end
-
-  def option_strings
-    return [] unless self.option_strings_text
-    return self.option_strings_text if self.option_strings_text.is_a?(Array)
-    self.option_strings_text.gsub(/\r\n?/, "\n").split("\n")
-  end
-
-  #TODO: Eventually, this method should be the ultimate list of options for this field.
-  #      Any HTML form-specific formatting should take place ina helper.
-  def options_list(record=nil, lookups=nil, locations=nil)
+  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={})
+    locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     options_list = []
-
-    if self.option_strings_source.present?
+    if self.type == Field::TICK_BOX
+      options_list << {id: 'true', display_text: I18n.t('true')}
+      options_list << {id: 'false', display_text: I18n.t('false')}
+    elsif self.option_strings_source.present?
       source_options = self.option_strings_source.split
       #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
       #       Bad smell: really we need this to be generic for any kind of lookup for any kind of class
@@ -274,22 +311,57 @@ class Field
           options_list = record.violations_list_by_unique_id.map{|k,v| {'id' => v, 'display_text' => k}}
         end
       when 'lookup'
-        options_list += Lookup.values(source_options.last.titleize, lookups)
-        if source_options.second == 'group'
-          #TODO: What about I18n? What is this?
-          options_list += ['Other', 'Mixed', 'Unknown']
-        end
+        options_list += Lookup.values(source_options.last, lookups, locale: locale) if add_lookups.present?
       when 'Location'
         options_list += locations || [] if locations.present?
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
-        options_list += clazz.all.map{|r| r.name}
+        options_list += clazz.all_names
       end
     else
-      options_list += self.option_strings
+      options_list += (self.option_strings_text.present? ? self.option_strings_text(locale) : [])
     end
     return options_list
+  end
+
+  def convert_true_false_key_to_string(value)
+    case value
+      when true
+        'true'
+      when false
+        'false'
+      else
+        nil
+    end
+  end
+
+  def display_text(value=nil, lookups = nil)
+    value = self.convert_true_false_key_to_string(value) if self.is_yes_no?
+    if self.type == Field::TICK_BOX
+      selected_option = self.options_list.select{|ol| ol[:id] == value.to_s}.first
+      value = selected_option.present? ? selected_option[:display_text] : value
+    elsif self.option_strings_text.present?
+      display = self.option_strings_text.select{|opt| opt['id'] == value}
+      #TODO: Is it better to display the untranslated key or to display nothing?
+      value = (display.present? ? display.first['display_text'] : '')
+    elsif self.option_strings_source.present?
+      source_options = self.option_strings_source.split
+      #TODO pass in locations and agencies
+      case source_options.first
+        when 'lookup'
+          display = Lookup.values(source_options.last, lookups).select{|opt| opt['id'] == value}
+          value = (display.present? ? display.first['display_text'] : '')
+        when 'Location'
+          value = Location.display_text(value)
+        when 'Agency'
+          value = Agency.display_text(value)
+        else
+          value
+      end
+    else
+      value
+    end
   end
 
   def default_value
@@ -305,26 +377,34 @@ class Field
     "#{objName}[#{name}]"
   end
 
-
-  #TODO: This should be merged with options_list above. Any HTML form specific stuff shoudl be moved to a helper
-  def select_options(record=nil, lookups=nil)
-    select_options = []
-    if self.type == TICK_BOX
-      select_options = [[I18n.t('true'), 'true'], [I18n.t('false'), 'false']]
-    else
-      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless self.multi_select
-      select_options += options_list(record, lookups).map do |option|
-        if option.is_a? Hash
-          [option['display_text'], option['id']]
-        else
-          [option, option]
+  def subform_group_by_field
+    # This is an extra DB query, but should be fine on record edit/show pages
+    # where the subforms are pre-linked
+    if self.type == SUBFORM && self.subform_group_by.present?
+      unless @subform_group_by_field.present?
+        subform = self.subform_section
+        if subform.present?
+          @subform_group_by_field = subform.fields.select{|f|
+            (f.name == self.subform_group_by) && f.selectable?
+          }.first
         end
       end
     end
-    return select_options
+    return @subform_group_by_field
   end
 
-  #TODO - i18n - review after merge with i18n code
+  def subform_group_by_values
+    subform_group_by_values = {}
+    subform_group_by_field = self.subform_group_by_field
+    if subform_group_by_field.present?
+      subform_group_by_values = subform_group_by_field.options_list(nil,nil,nil,true).map do |o|
+        [o['id'], o['display_text']]
+      end.to_h
+    end
+    return subform_group_by_values
+  end
+
+
   def localized_attributes_hash(locales, lookups=nil, locations=nil)
     field_hash = self.attributes.clone
     Field.localized_properties.each do |property|
@@ -364,33 +444,8 @@ class Field
     end
   end
 
-  #TODO - remove this is just for testing
-  def self.new_field(type, name, options=[])
-    Field.new :type => type, :name => name.dehumanize, :display_name => name.humanize, :visible => true, :option_strings_text => options.join("\n"), :editable => true, :disabled => false
-  end
-
-  def self.new_text_field field_name, display_name = nil
-    field = Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => TEXT_FIELD
-  end
-
-  def self.new_textarea field_name, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => TEXT_AREA
-  end
-
-  def self.new_photo_upload_box field_name, display_name  = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => PHOTO_UPLOAD_BOX
-  end
-
-  def self.new_audio_upload_box field_name, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => AUDIO_UPLOAD_BOX
-  end
-
-  def self.new_radio_button field_name, option_strings, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => RADIO_BUTTON, :option_strings_text => option_strings.join("\n")
-  end
-
-  def self.new_select_box field_name, option_strings, display_name = nil
-    Field.new :name => field_name, :display_name=>display_name||field_name.humanize, :type => SELECT_BOX, :option_strings_text => option_strings.join("\n")
+  def selectable?
+    self.option_strings_source.present? || self.option_strings_text.present?
   end
 
   # This is a rework of the original RapidFTR method that never worked.
@@ -413,6 +468,16 @@ class Field
   def self.find_by_name(field_name)
     field = nil
     if field_name.present?
+      if field_name.kind_of?(Array)
+        field_name.select{|s|
+          s.match(".*(\\d)+") && !find_by_name_from_view(s).present?
+        }.each{|s|
+          s.gsub!(/ *\d+$/, '')
+        }
+      elsif field_name.match(".*(\\d)+") && !find_by_name_from_view(field_name).present?
+        field_name.gsub!(/ *\d+$/, '')
+      end
+
       field = find_by_name_from_view(field_name)
       unless field.present?
         if field_name.last.is_number? && field_name.length > 1
@@ -437,8 +502,48 @@ class Field
     self.option_strings_source == 'Location'
   end
 
+  def is_yes_no?
+    self.option_strings_source == 'lookup lookup-yes-no' || self.option_strings_source == 'lookup lookup-yes-no-unknown'
+  end
+
+  #TODO add rspec test
+  def generate_options_keys
+    if self.option_strings_text.present?
+      self.option_strings_text.each do |option|
+        if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
+          option['id'] = option['display_text'].parameterize.underscore + '_' + rand.to_s[2..6]
+        end
+      end
+
+      Primero::Application::locales.each do |locale|
+        option_strings_locale = self.send("option_strings_text_#{locale}")
+        if locale != Primero::Application::LOCALE_ENGLISH && option_strings_locale.present?
+          self.send("option_strings_text_#{locale}").each_with_index do |option, index|
+            if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
+              option['id'] = self.option_strings_text[index]['id']
+            end
+          end
+        end
+      end
+    end
+  end
+
   def is_mobile?
     self.mobile_visible == true && self.visible == true
+  end
+
+  def update_translations(field_hash={}, locale)
+    if locale.present? && Primero::Application::locales.include?(locale)
+      field_hash.each do |key, value|
+        if key == 'option_strings_text'
+          update_option_strings_translations(value, locale)
+        else
+          self.send("#{key}_#{locale}=", value)
+        end
+      end
+    else
+      Rails.logger.error "Field translation not updated: Invalid locale [#{locale}]"
+    end
   end
 
   private
@@ -449,13 +554,7 @@ class Field
 
   def validate_has_2_options
     return true unless (type == RADIO_BUTTON || type == SELECT_BOX)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings == nil || option_strings.length < 2)
-    true
-  end
-
-  def validate_has_a_option
-    return true unless (type == CHECK_BOXES)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_1_option")) if option_strings == nil || option_strings.length < 1
+    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings_text.blank? || option_strings_text.length < 2)
     true
   end
 
@@ -473,6 +572,13 @@ class Field
       self.autosum_total ||= true
     end
     true
+  end
+
+  def update_option_strings_translations(options_hash, locale)
+    options_hash.each do |key, value|
+      os = self["option_strings_text_#{locale}"].find{|os| os['id'] == key}
+      os['display_text'] = value if os.present?
+    end
   end
 
 end

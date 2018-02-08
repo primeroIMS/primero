@@ -11,7 +11,7 @@ class CustomExportsController < ApplicationController
     if params[:only_parent].present?
       permitted_forms = permitted_forms.select{|form| !form.is_nested && params[:only_parent].present? }
     end
-    permitted_forms = permitted_forms.map{|form| {name: form.name, id: form.is_nested ? "subf:#{form.unique_id}" : form.name}}
+    permitted_forms = permitted_forms.map{|form| {name: form.name, id: form.is_nested ? "subf:#{form.unique_id}" : form.unique_id}}
     render json: permitted_forms
   end
 

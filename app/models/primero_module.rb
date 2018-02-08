@@ -10,9 +10,14 @@ class PrimeroModule < CouchRest::Model::Base
   include Namable #delivers "name" and "description" fields
 
   property :program_id
+  property :allow_searchable_ids, TrueClass
   property :associated_record_types, :type => [String]
   property :associated_form_ids, :type => [String]
   property :core_resource, TrueClass, :default => false
+  property :field_map, Hash, :default => {}
+  property :selectable_approval_types, TrueClass, :default => false
+  property :workflow_status_indicator, TrueClass, :default => false
+  property :agency_code_indicator, TrueClass, :default => false
 
   before_save :add_associated_subforms
 
@@ -64,6 +69,21 @@ class PrimeroModule < CouchRest::Model::Base
   alias_method :old_core_resource, :core_resource
   def core_resource
     [CP, GBV, MRM].include?(self.id) || self.old_core_resource
+  end
+
+  def field_map_to_module_id
+    self.field_map.present? ? self.field_map['map_to'] : nil
+  end
+
+  def field_map_to_module
+    if self.field_map_to_module_id.present?
+      @field_map_to_module ||= PrimeroModule.get(self.field_map_to_module_id)
+    end
+    return @field_map_to_module
+  end
+
+  def field_map_fields
+    self.field_map.present? ? self.field_map['fields'] : nil
   end
 
   def add_associated_subforms

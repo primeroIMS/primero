@@ -48,7 +48,7 @@ describe "children/_filter.html.erb" do
       Field.new({"name" => "gbv_displacement_status",
                  "type" => "select_box",
                  "display_name_all" => "Displacement Status at time of report",
-                 "option_strings_source" => "lookup DisplacementStatus"
+                 "option_strings_source" => "lookup lookup-displacement-status"
                 }),
     ]
     @form_gbv = FormSection.new(
@@ -95,7 +95,7 @@ describe "children/_filter.html.erb" do
     fields = [
       Field.new({"name" => "protection_status",
                  "type" => "select_box",
-                 "option_strings_source" => "lookup ProtectionStatus",
+                 "option_strings_source" => "lookup lookup-protection-status",
                  "display_name_all" => "Protection Status"
                 })
     ]
@@ -225,10 +225,9 @@ describe "children/_filter.html.erb" do
       :fields => fields
     )
     other_form_cp.save!
-
+    @can_view_protection_concerns_filter = true
     @primero_module_cp.associated_form_ids << other_form_cp.unique_id
     @primero_module_cp.save!
-
     @current_user = User.new
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original

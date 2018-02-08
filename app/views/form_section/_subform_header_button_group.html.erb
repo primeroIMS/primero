@@ -1,0 +1,34 @@
+<div class="button-group align-right">
+  <% if subform_instance.present? && subform_name == "incident_details" %>
+    <% link_for_current_details = formObject.incident_links.find{|link| link["incident_details"] == subform_instance.unique_id} %>
+    <% if link_for_current_details.present? && (can? :incident_from_case, Child) %>
+      <%= render :partial =>"children/incident_links_cp",
+        locals: {
+          :formObject => formObject,
+          :associated_incident_id => link_for_current_details["incident_id"],
+          :incident_display_id => link_for_current_details["incident_display_id"]
+        } %>
+    <% elsif can? :incident_from_case, Child %>
+      <%= render :partial => "children/create_incident",
+        locals: {
+          :incident_detail_id => subform_instance.unique_id
+        } %>
+    <% end %>
+  <% elsif subform_instance.present? && subform_name == "services_section" && can?(:referral_from_service, Child) && can?(:referral, Child)%>
+    <%= render :partial => 'transitions/refer_from_service_button',
+      locals: {
+        :formObject => formObject,
+        :type => Transition::TYPE_REFERRAL,
+        :service_object_id => formObject.services_section[i].unique_id,
+      }
+    %>
+  <% end %>
+  <% if !subform.disabled && !subform.subform_section.subform_prevent_item_removal %>
+    <%= link_to t('fields.remove'), '', class: "subform_remove button grey tiny", style: disable_action_buttons,
+        data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>
+  <% end %>
+  <% if !formObject.new_record? && subform.name == "individual_details_subform_section" && can?(:create, Child) && params[:action] == 'show'%>
+    <%= link_to I18n.t("buttons.create_case"), create_cp_case_from_individual_details_path(formObject.id, i), {class: "button grey small"} %>
+  <% end %>
+  <span class="collapse_expand_subform expanded <%=summary_section_class%>" style="<%=disable_action_buttons%>">-</span>
+</div>

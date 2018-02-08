@@ -4,24 +4,24 @@
 
 <% content_for :record_sub_nav do %>
   <% if can? :edit, User %>
-      <%= link_to I18n.t("buttons.edit"), edit_user_path(@user), class: 'btn green-button'%>
+      <%= link_to I18n.t("buttons.edit"), edit_user_path(@user), class: 'button'%>
   <% else %>
-      <%= link_to I18n.t("buttons.change_password"), change_password_users_path, class: 'btn green-button' %>
+      <%= link_to I18n.t("buttons.change_password"), change_password_users_path, class: 'button' %>
   <% end %>
   <%#= render partial: 'exports/button', locals: {model: User, instance: @user} %>
   <% if false %>
-  <%= link_to user_history_path(@user), :class=>'green-button small right' do %>
+  <%= link_to user_history_path(@user), :class=>'button small right' do %>
     <%= icon('clock-o') %>
     <span class="log"><%= t("user.user_action_history") %></span>
   <% end %>
   <% end %>
 <% end %>
 
-<div class="page-content-new row collapse" data-equalizer>
-  <div class="large-4 medium-4 columns close-side-tab side-tab-container">
+<div class="page-content-new row" data-equalizer>
+  <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => ''} %>
   </div>
-  <div class="large-8 medium-8 columns side-tab-content-container">
+  <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <div class="clearfix"></div>
       <fieldset class="no-border">
@@ -67,9 +67,9 @@
 
         <%= resource_show_field @user, 'phone', 'contact.field.phone' %>
         <%= resource_show_field @user, 'email', 'email' %>
-        <%= resource_show_field @user, 'organization', 'organization' %>
+        <%= resource_show_field @user, 'organization', 'organization', Agency %>
         <%= resource_show_field @user, 'position', 'position' %>
-        <%= resource_show_field @user, 'location', 'user.location' %>
+        <%= resource_show_field @user, 'location', 'user.location', Location %>
 
         <div class="row">
           <div class="medium-4 columns">

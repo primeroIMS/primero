@@ -25,7 +25,8 @@
                         <input type="hidden" class="field" value='<%= field.name %>'/>
                         <input type="hidden" class="field_type" value='<%= field.type %>'/>
                         <% if field.type == Field::SELECT_BOX %>
-                            <input type="hidden" class="option_values" value='<%= field.option_strings.join(",") %>'/>
+                            <% #TODO - i18n - refactor - is this needed? %>
+                            <input type="hidden" class="option_values" value='<%# field.option_strings.join(",") %>'/>
                         <% end %>
                       </li>
                   <% end %>

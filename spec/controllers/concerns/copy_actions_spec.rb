@@ -37,7 +37,7 @@ describe CopyActions, type: :controller do
       before do
         @permission_role_read_copy = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::COPY])
         Role.create(id: 'copyable', name: 'copyable', permissions_list: [@permission_role_read_copy], group_permission: Permission::GROUP)
-        @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+        @permission_case_read_write = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
         @test_role = Role.create(id: 'role-test-role', name: 'Test Role', permissions_list: [@permission_role_read_copy, @permission_case_read_write], group_permission: Permission::GROUP)
         @user = User.create(:user_name => 'copy_user', :role_ids => ['copyable'])
         Role.should_receive(:get).with(@test_role.id).and_return(@test_role)

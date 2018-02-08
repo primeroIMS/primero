@@ -26,7 +26,8 @@ transitions_subform = [
                    ["In Progress",
                     "Pending",
                     "Accepted",
-                    "Rejected"
+                    "Rejected",
+                    "Done"
                    ].join("\n")
               }),
     Field.new({"name" => "rejected_reason",
@@ -84,6 +85,7 @@ transitions_subform = [
                "editable"=>false,
                "disabled" => true,
                "display_name_all" => "Date of referral or transfer",
+               "date_include_time" => true
               }),
 ]
 

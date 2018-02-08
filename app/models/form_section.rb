@@ -1,11 +1,11 @@
 class FormSection < CouchRest::Model::Base
   include PrimeroModel
-  include PropertiesLocalization
+  include LocalizableProperty
   include Importable
   include Memoizable
 
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
-
+  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
   #TODO - include Namable - will require a fair amount of refactoring
 
   use_database :form_section
@@ -25,18 +25,21 @@ class FormSection < CouchRest::Model::Base
   property :perm_enabled, TrueClass, :default => false
   property :core_form, TrueClass, :default => true
   property :validations, [String]
-  property :base_language, :default=>'en'
+  property :base_language, :default => DEFAULT_BASE_LANGUAGE
   property :is_nested, TrueClass, :default => false
   property :is_first_tab, TrueClass, :default => false
   property :initial_subforms, Integer, :default => 0
   property :collapsed_fields, [String], :default => []
+  property :subform_prevent_item_removal, :default => false
   property :subform_header_links, [String], :default => []
   #Will display a help text on show page if the section is empty.
   property :display_help_text_view, TrueClass, :default => false
   property :shared_subform
   property :shared_subform_group
   property :is_summary_section, TrueClass, :default => false
+  property :hide_subform_placeholder, TrueClass, :default => false
   property :mobile_form, TrueClass, :default => false
+  property :header_message_link, String, :default => ""
 
   design do
     view :by_unique_id
@@ -58,6 +61,7 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
+
     view :fields,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -93,8 +97,7 @@ class FormSection < CouchRest::Model::Base
               }"
   end
 
-  validates_presence_of "name_#{I18n.default_locale}", :message => I18n.t("errors.models.form_section.presence_of_name")
-  validate :valid_presence_of_base_language_name
+  validate :validate_name_in_base_language
   validate :validate_name_format
   validate :validate_unique_id
   validate :validate_visible_field
@@ -102,18 +105,27 @@ class FormSection < CouchRest::Model::Base
   validate :validate_perm_visible
   validate :validate_datatypes
 
+  before_validation :generate_options_keys
   after_save :recalculate_subform_permissions
+
+  def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
+    lh = localized_hash(locale)
+    fldz = {}
+    self.fields.each { |f| fldz[f.name] = f.localized_property_hash if (show_hidden_fields || f.visible?)}
+    lh['fields'] = fldz
+    lh
+  end
 
   def inspect
     "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
   end
 
-  def valid_presence_of_base_language_name
-    if base_language.nil?
-      self.base_language = 'en'
+  def validate_name_in_base_language
+    name = "name_#{DEFAULT_BASE_LANGUAGE}"
+    unless (self.send(name).present?)
+      errors.add(:name, I18n.t("errors.models.form_section.presence_of_name"))
+      return false
     end
-    base_lang_name = self.send("name_#{base_language}")
-    [!(base_lang_name.nil?||base_lang_name.empty?), I18n.t("errors.models.form_section.presence_of_base_language_name", :base_language => base_language)]
   end
 
   def initialize(properties={}, options={})
@@ -121,6 +133,7 @@ class FormSection < CouchRest::Model::Base
     self["shared_subform"] ||= ""
     self["shared_subform_group"] ||= ""
     self["is_summary_section"] ||= false
+    self["base_language"] ||= 'en'
     super properties, options
     create_unique_id
   end
@@ -251,7 +264,7 @@ class FormSection < CouchRest::Model::Base
       ids = Incident.violation_id_fields.keys
       FormSection.by_unique_id(keys: ids).all
     end
-    memoize :violation_forms #This can be memoized always
+    memoize_in_prod :violation_forms
 
     #TODO: This needs to be made not hard-coded
     def binary_form_names
@@ -437,7 +450,6 @@ class FormSection < CouchRest::Model::Base
 
       fs = FormSection.new(form_section)
       fs.unique_id = "#{module_name}_#{fs.name}".parameterize.underscore
-      fs.base_language = I18n.default_locale
       return fs
     end
 
@@ -579,6 +591,7 @@ class FormSection < CouchRest::Model::Base
       if !readonly_user || (readonly_user && !field.hide_on_view_page)
         if field.is_location?
           Location::ADMIN_LEVELS.each do |admin_level|
+            #TODO - i18n
             Location.type_by_admin_level(admin_level).each do |lct_type|
               field_display = "#{field.display_name} - " + I18n.t("location.base_types.#{lct_type}") + " - ADM #{admin_level}"
               field_key = (apply_to_reports ? "#{field.name}#{admin_level}" : "#{field.name}|||location|||#{admin_level}|||#{field_display}")
@@ -648,6 +661,26 @@ class FormSection < CouchRest::Model::Base
       end
     end
 
+    def import_translations(form_hash={}, locale)
+      if locale.present? && Primero::Application::locales.include?(locale)
+        unique_id = form_hash.keys.first
+        if unique_id.present?
+          form = self.get_by_unique_id(unique_id)
+          if form.present?
+            form.update_translations(form_hash.values.first, locale)
+            Rails.logger.info "Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]"
+            form.save!
+          else
+            Rails.logger.error "Error importing translations: Form for ID [#{unique_id}] not found"
+          end
+        else
+          Rails.logger.error "Error importing translations: Form ID not present"
+        end
+      else
+        Rails.logger.error "Error importing translations: locale not present"
+      end
+    end
+
   end
 
   #Returns the list of field to show in collapsed subforms.
@@ -679,7 +712,13 @@ class FormSection < CouchRest::Model::Base
 
   def all_searchable_date_fields
     self.fields.select do |field|
-      [Field::DATE_FIELD, Field::DATE_RANGE].include? field.type
+      [Field::DATE_FIELD, Field::DATE_RANGE].include?(field.type) && !field.date_include_time
+    end
+  end
+
+  def all_searchable_date_time_fields
+    self.fields.select do |field|
+      [Field::DATE_FIELD, Field::DATE_RANGE].include?(field.type) && field.date_include_time
     end
   end
 
@@ -697,7 +736,7 @@ class FormSection < CouchRest::Model::Base
 
   def all_filterable_multi_fields
     self.fields.select  do |field|
-      [Field::SELECT_BOX, Field::CHECK_BOXES].include? field.type if field.multi_select
+      [Field::SELECT_BOX].include? field.type if field.multi_select
     end
   end
 
@@ -719,7 +758,6 @@ class FormSection < CouchRest::Model::Base
     self.fields.select{|f| f.is_mobile?}
   end
 
-  #TODO - i18n - review after merge with i18n code
   def localized_attributes_hash(locales)
     attributes = self.attributes.clone
     #convert top level attributes
@@ -808,6 +846,29 @@ class FormSection < CouchRest::Model::Base
     self.fields.present? &&
     self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
       Incident.violation_id_fields.keys.include?(f.subform_section_id)
+    end
+  end
+
+  #TODO add rspec test
+  def generate_options_keys
+    self.fields.each{|field| field.generate_options_keys}
+  end
+
+  def field_by_name(field_name)
+    self.fields.find{|f| f.name == field_name}
+  end
+
+  def update_translations(form_hash={}, locale)
+    if locale.present? && Primero::Application::locales.include?(locale)
+      form_hash.each do |key, value|
+        if key == 'fields'
+          update_field_translations(value, locale)
+        else
+          self.send("#{key}_#{locale}=", value)
+        end
+      end
+    else
+      Rails.logger.error "Form translation not updated: Invalid locale [#{locale}]"
     end
   end
 
@@ -905,6 +966,15 @@ class FormSection < CouchRest::Model::Base
     return false if location_count > Location::LIMIT_FOR_API
     ss_limit = SystemSettings.current.try(:location_limit_for_api)
     return_value = ss_limit.present? ? location_count < ss_limit : true
+  end
+
+  def update_field_translations(fields_hash={}, locale)
+    fields_hash.each do |key, value|
+      field = self.field_by_name(key)
+      if field.present?
+        field.update_translations(value, locale)
+      end
+    end
   end
 
 end

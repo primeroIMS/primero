@@ -4,7 +4,7 @@ children.each do |child|
   #Fix 'closed' child_status on old records.
   if child[:child_status] == "Closed "
     puts "fixing child_status field in case #{child.short_id}..."
-    child.merge! child_status: 'Closed'
+    child.merge! child_status: Record::STATUS_CLOSED
     record_modified = true
   end
 

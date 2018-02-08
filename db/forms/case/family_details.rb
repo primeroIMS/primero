@@ -1,6 +1,3 @@
-#JIRA PRIMERO-160
-#JIRA PRIMERO-358
-
 family_details_fields_subform = [
   Field.new({"name" => "relation_name",
              "type" => "text_field",
@@ -34,17 +31,17 @@ family_details_fields_subform = [
   Field.new({"name" => "relation_child_lived_with_pre_separation",
              "type" => "radio_button",
              "display_name_all" => "Did the child live with this person before separation?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "relation_child_is_in_contact",
              "type" => "radio_button",
              "display_name_all" => "Is the child in contact with this person?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "relation_child_is_separated_from",
              "type" => "radio_button",
              "display_name_all" => "Is the child separated from this person?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "relation_identifiers",
              "type" => "text_field",
@@ -79,39 +76,39 @@ family_details_fields_subform = [
              "type" => "select_box",
              "display_name_all" => "Language",
              "multi_select" => true,
-             "option_strings_source" => "lookup Language",
+             "option_strings_source" => "lookup lookup-language",
              "matchable" => true
            }),
   Field.new({"name" => "relation_religion",
              "type" => "select_box",
              "display_name_all" => "Religion",
              "multi_select" => true,
-             "option_strings_source" => "lookup Religion",
+             "option_strings_source" => "lookup lookup-religion",
              "matchable" => true
            }),
   Field.new({"name" => "relation_ethnicity",
              "type" => "select_box",
              "display_name_all" => "Ethnicity",
-             "option_strings_source" => "lookup Ethnicity",
+             "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
            }),
   Field.new({"name" => "relation_sub_ethnicity1",
              "type" => "select_box",
              "display_name_all" => "Sub Ethnicity 1",
-             "option_strings_source" => "lookup Ethnicity",
+             "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
            }),
   Field.new({"name" => "relation_sub_ethnicity2",
              "type" => "select_box",
              "display_name_all" => "Sub Ethnicity 2",
-             "option_strings_source" => "lookup Ethnicity",
+             "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
            }),
   Field.new({"name" => "relation_nationality",
              "type" => "select_box",
              "display_name_all" => "Nationality",
              "multi_select" => true,
-             "option_strings_source" => "lookup Country",
+             "option_strings_source" => "lookup lookup-country",
              "matchable" => true
            }),
   Field.new({"name" => "relation_comments",

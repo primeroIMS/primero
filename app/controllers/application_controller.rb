@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
   before_filter :check_authentication
   before_filter :set_locale
 
+  around_filter :with_timezone
+
   rescue_from( AuthenticationFailure ) { |e| handle_authentication_failure(e) }
   rescue_from( AuthorizationFailure ) { |e| handle_authorization_failure(e) }
   rescue_from( ErrorResponse ) { |e| render_error_response(e) }
@@ -68,9 +70,11 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     if logged_in?
-      I18n.locale = (current_user.locale || I18n.default_locale)
+      I18n.locale = (mobile_locale || current_user.locale || I18n.default_locale)
       Primero::Translations.set_fallbacks
     end
+
+    @page_direction = I18n.locale == :ar ? 'rtl' : 'ltr'
   end
 
   def clean_params(param)
@@ -103,6 +107,14 @@ class ApplicationController < ActionController::Base
     params
   end
 
+  def filter_params_by_permission
+    controller = params['controller'].singularize
+
+    if params[controller].present? && !can?(:remove_assigned_users, model_class)
+      params[controller].delete 'assigned_user_names'
+    end
+  end
+
   def redirect_back_or_default(default = root_path, options = {})
     redirect_to (request.referer.present? ? :back : default), options
   end
@@ -113,5 +125,18 @@ class ApplicationController < ActionController::Base
 
   def model_class
     self.class.model_class
+  end
+
+  private
+
+  def with_timezone
+    timezone = Time.find_zone(cookies[:timezone])
+    Time.use_zone(timezone) { yield }
+  end
+
+  def mobile_locale
+    mobile_locale =  ((params['mobile'] == true || params['mobile'] == 'true') &&
+                      params['locale'].present? &&
+                      (Primero::Application::LOCALES.include? params['locale'])) ? params['locale'] : nil
   end
 end

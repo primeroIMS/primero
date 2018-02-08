@@ -92,7 +92,7 @@ module GBVDerivedFields
   end
 
   def gbv_possible_sexual_exploitation
-    if self.try(:goods_money_exchanged) == I18n.t("gbv_report.yes") and is_sexual_violence?
+    if self.try(:goods_money_exchanged) == true and is_sexual_violence?
       I18n.t("gbv_report.possible_sexual_exploitation")
     end
   end
@@ -146,12 +146,10 @@ module GBVDerivedFields
 
   def gbv_excluded_from_statistics
     if self.try(:gbv_reported_elsewhere_subform).respond_to?(:select)
-      #gbv_reported_elsewhere_reporting field is in a subform, so per Laurie request will check if found the value "Yes"
-      #no matter what "No" we can found.
-      if self.gbv_reported_elsewhere_subform.select {|subform| subform.try(:gbv_reported_elsewhere_reporting) == I18n.t("gbv_report.yes") }.present?
+      if self.gbv_reported_elsewhere_subform.select {|subform| subform.try(:gbv_reported_elsewhere_reporting) == true }.present?
         I18n.t("gbv_report.exclude")
-      #If we reach this point we did not found "Yes", so check if there is any I18n.t("gbv_report.no"), the subform could be empty.
-      elsif self.gbv_reported_elsewhere_subform.select {|subform| subform.try(:gbv_reported_elsewhere_reporting) == I18n.t("gbv_report.no") }.present?
+      #If we reach this point we did not found "true", so check if there is any "false", the subform could be empty.
+      elsif self.gbv_reported_elsewhere_subform.select {|subform| subform.try(:gbv_reported_elsewhere_reporting) == false }.present?
         I18n.t("gbv_report.include")
       end
     end

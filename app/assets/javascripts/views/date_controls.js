@@ -1,85 +1,113 @@
-_primero.Views.DateControl = Backbone.View.extend({
-	el: 'body',
+_primero.Views.DateControl = _primero.Views.Base.extend({
+  el: 'body',
 
-	allowed_formats: [
-    "dd-mm-yy",
-    "dd/mm/yy",
-    "dd mm yy",
-    "dd-M-yy",
-    "dd/M/yy"
-	],
+  allowed_formats: [
+    "DD-MM-YYYY",
+    "DD/MM/YYYY",
+    "DD MM YYYY",
+    "DD-MMM-YYYY",
+    "DD/MMM/YYYY",
+    "DD-MM-YYYY H:mm",
+    "DD/MM/YYYY H:mm",
+    "DD MM YYYY H:mm",
+    "DD-MMM-YYYY H:mm",
+    "DD/MMM/YYYY H:mm",
+  ],
 
-	events: {
-		'focus .form_date_field': 'trigger_date_control',
-		'change .form_date_field': 'format_date_input'
-	},
+  events: {
+    'focus .form_date_field': 'init_date_field',
+    'change .form_date_field': 'format_date_input'
+  },
 
-	initialize: function() {
-		this.setup_date_parser();
-	},
+  init_date_field: function(e) {
+    var control = $(e.target);
 
-	setup_date_parser: function() {
-	  $.datepicker.initialize_datepicker = function(el) {
-	    el.datepicker({
-	      dateFormat: $.datepicker.defaultDateFormat,
-	      changeMonth: true,
-	      changeYear: true,
-	      constrainInput: true,
-	      yearRange: "1900:c+10"
-	    }).click(function(e) {
-        $('#ui-datepicker-div').click(function(e){
-          e.stopPropagation();
-        });
-      });
-	  };
-	  $.datepicker.defaultDateFormat = 'dd-M-yy';
-		$.datepicker.inputFormats = this.allowed_formats;
-		$.datepicker.originalParseDate = $.datepicker.parseDate;
-		$.datepicker.parseDate = function (format, value, settings) {
-	    var date;
+    if (!control.data('datepicker')) {
+      control.datepicker(_primero.dates.options);
+    }
+  },
 
-	    function testParse(format, value, settings) {
-        if ( ! date ) {
-          try {
-            date = $.datepicker.originalParseDate(format, value, settings);
-          } catch (Error) {
-          }
-        }
-	    }
+  initialize: function() {
+    var self = this;
+    this.create_locales();
+    this.setup_date_parser();
 
-	    testParse(format, value, settings);
-	    for(var n = 0, stop = $.datepicker.inputFormats ? $.datepicker.inputFormats.length : 0; n < stop; n++){
-	      testParse($.datepicker.inputFormats[n], value, settings);
-	    };
-	    return date;
-		};
-	},
+    _primero.dates.options = {
+      language: I18n.currentLocale(),
+      todayButton: new Date(),
+      dateFormat: "dd-M-yyyy",
+      clearButton: true,
+      autoClose: true,
+      toggleSelected: false,
+      onSelect: function(formattedDate, date, inst) {
+        $(inst.el).trigger('change');
+      }
+    };
 
-	trigger_date_control: function(event) {
-		var control = $(event.target);
-		$.datepicker.initialize_datepicker(control);
-	},
+    if ($('html').attr('dir') === 'rtl') {
+      _primero.dates.options['position'] = 'bottom right';
+    }
 
-	format_date_input: function(event) {
-		var control = $(event.target);
+    this.date_control = $('.form_date_field');
 
-		//Get the expected valid format to send to the server.
-		var dateFormat = control.datepicker("option", "dateFormat");
+    dispatcher.on('CloseView', this.destroy_datepicker, this);
+  },
 
-		//There is no public interface to get the settings of the datepicker object.
-		//There is no public interface to get the current instance of the date picker
-		//datepicker is a singleton object. $.datepicker._curInst is the current instance
-		//should be the same as the target.
-		var settings = $.datepicker._getFormatConfig($.datepicker._curInst);
+  destroy_datepicker: function() {
+    _.each(this.date_control, function(control) {
+      var control_instance = $(control).data('datepicker');
 
-		//There is no way to know that the current value of the datepicker is a valid value
-		//we need to parse again to know that in order to format to the expected format
-		//in the server side validation.
-		var parsedDate = $.datepicker.parseDate(dateFormat, control.val(), settings);
-		if (parsedDate != undefined && parsedDate != null) {
-		  //If passed the parse, fix the format to the expected format
-		  //to send to the server.
-		  control.val($.datepicker.formatDate(dateFormat, parsedDate));
-		}
-	}
+      if (control_instance) {
+        control_instance.destroy();
+      }
+    });
+  },
+
+  create_locales: function() {
+    var dateI18n = I18n.lookup('date');
+
+    $.fn.datepicker.language[I18n.currentLocale()] = {
+      days: dateI18n.day_names,
+      daysShort: dateI18n.abbr_month_names,
+      daysMin: dateI18n.abbr_day_names_short,
+      months: _.compact(dateI18n.month_names),
+      monthsShort: _.compact(dateI18n.abbr_month_names),
+      today: dateI18n.today,
+      clear: dateI18n.clear,
+      firstDay: dateI18n.first_day || 0,
+    };
+
+    moment.locale(I18n.currentLocale(), {
+      monthsShort: _.compact(I18n.lookup('date').abbr_month_names),
+      monthsParseExact : true
+    });
+  },
+
+  setup_date_parser: function() {
+    _primero.dates = {};
+    _primero.dates.defaultDateFormat = 'DD-MMM-YYYY';
+    _primero.dates.defaultDateTimeFormat = 'DD-MMM-YYYY H:mm'
+    _primero.dates.inputFormats = this.allowed_formats;
+
+    _primero.dates.parseDate = function(value) {
+      var date = moment(value, _primero.dates.inputFormats, I18n.currentLocale(), true).toDate();
+      return date === 'Invalid date' ? undefined : date;
+    }
+
+    _primero.dates.formatDate = function(value, time) {
+      var format = time ? 'defaultDateTimeFormat' : 'defaultDateFormat';
+      var date = moment(value).format(_primero.dates[format]);
+      return date === 'Invalid date' ? undefined : date;
+    }
+  },
+
+  format_date_input: function(event) {
+    var $control = $(event.target);
+    var date = _primero.dates.parseDate($control.val());
+
+    if (date != undefined && date != null) {
+      has_time = $control.data('timepicker')
+      $control.val(_primero.dates.formatDate(date, has_time));
+    }
+  }
 });

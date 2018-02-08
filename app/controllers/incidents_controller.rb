@@ -19,7 +19,7 @@ class IncidentsController < ApplicationController
       params['incident']['violations'].each do |k, v|
         if v.present?
           v.each do |sk, sv|
-            has_values_present = sv.any? do |fk, fv| 
+            has_values_present = sv.any? do |fk, fv|
               fk == 'unique_id' ? false : fv.present?
             end
             unless has_values_present
@@ -48,19 +48,8 @@ class IncidentsController < ApplicationController
   end
 
   def make_new_record
-    Incident.new.tap do |incident|
-      incident['record_state'] = true
-      incident['mrm_verification_status'] = "Pending"
-      incident['module_id'] = params['module_id']
-      incident['status'] = "Open"
-
-      if params['case_id'].present?
-        case_record = Child.get(params['case_id'])
-        if case_record.present?
-           incident.copy_survivor_information(case_record)
-        end
-      end
-    end
+    case_record = params['case_id'].present? ? Child.get(params['case_id']) : nil
+    Incident.make_new_incident(params['module_id'], case_record)
   end
 
   def post_save_processing incident
@@ -77,7 +66,7 @@ class IncidentsController < ApplicationController
   end
 
   def initialize_created_record incident
-    incident['status'] = "Open" if incident['status'].blank?
+    incident['status'] = Record::STATUS_OPEN if incident['status'].blank?
   end
 
   def redirect_after_update
@@ -86,6 +75,10 @@ class IncidentsController < ApplicationController
 
   def redirect_after_deletion
     redirect_to(incidents_url)
+  end
+
+  def redirect_to_list
+    redirect_to incidents_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
   end
 
   def record_filter filter

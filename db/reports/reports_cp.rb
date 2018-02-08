@@ -2,7 +2,7 @@
 #    UUIDTools::UUID.random_create.to_s.gsub('-','')
 
 default_case_filters = [
-  {'attribute' => 'child_status', 'value' => ['Open']},
+  {'attribute' => 'child_status', 'value' => [Record::STATUS_OPEN]},
   {'attribute' => 'record_state', 'value' => ['true']}
 ]
 
@@ -45,18 +45,17 @@ Report.create_or_update({
   editable: false
 })
 
-#TODO: We need to index agaency of current record owner. What abut referrals?
-# Report.create_or_update({
-#   id: '957ade8094074ebd8b9a94baaa07d1ab',
-#   name: 'Cases by Agency',
-#   description: 'Number of cases broken down by agency',
-#   module_ids: ['CP', 'GBV'],
-#   record_type: 'case',
-#   aggregate_by: ['owned_by'],
-#   filters: default_case_filters,
-#   is_graph: true,
-#   editable: false
-# })
+Report.create_or_update({
+  id: '957ade8094074ebd8b9a94baaa07d1ab',
+  name: 'Cases by Agency',
+  description: 'Number of cases broken down by agency',
+  module_ids: [PrimeroModule::CP, PrimeroModule::GBV],
+  record_type: 'case',
+  aggregate_by: ['owned_by_agency'],
+  filters: default_case_filters,
+  is_graph: true,
+  editable: false
+})
 
 Report.create_or_update({
   id: '1b00e72e20d5419083b9ef06fd4c2705',
@@ -105,6 +104,19 @@ Report.create_or_update({
   record_type: 'case',
   aggregate_by: ['care_arrangements_type'],
   disaggregate_by: ['sex', 'age'],
+  group_ages: true,
+  filters: default_case_filters,
+  is_graph: true,
+  editable: false
+})
+
+Report.create_or_update({
+  id: 'c2422c9ff40e432aa7c97653dc67d9b7',
+  name: 'Workflow Status',
+  description: 'Cases broken down by current workflow status',
+  module_ids: [PrimeroModule::CP],
+  record_type: 'case',
+  aggregate_by: ['workflow_status'],
   group_ages: true,
   filters: default_case_filters,
   is_graph: true,

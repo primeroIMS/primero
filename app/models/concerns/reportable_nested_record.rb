@@ -51,6 +51,9 @@ module ReportableNestedRecord
 
   module Searchable
     def configure_searchable(record_class)
+      string :parent_record_id do |f|
+        f.record_value('id')
+      end
       record_class.parent_record_type.minimum_reportable_fields.each do |type, fields|
         case type
         when 'string'
@@ -67,20 +70,17 @@ module ReportableNestedRecord
           fields.each do |field|
             #TODO - Refactor needed
             #TODO - There is a lot of similarity to Admin Level code in searchable concern
-            location = nil
-            ancestors = nil
             Location::ADMIN_LEVELS.each do |admin_level|
               string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-                location ||= Location.find_by_name(record_value(field))
+                location = Location.find_by_location_code(record_value(field))
                 if location.present?
                   # break if admin_level > location.admin_level
                   if admin_level == location.admin_level
-                    location.name
+                    location.location_code
                   elsif location.admin_level.present? && (admin_level < location.admin_level)
-                    ancestors ||= location.ancestors
                     # find the ancestor with the current admin_level
-                    lct = ancestors.select{|l| l.admin_level == admin_level}
-                    lct.present? ? lct.first.name : nil
+                    lct = location.ancestors.select{|l| l.admin_level == admin_level}
+                    lct.present? ? lct.first.location_code : nil
                   end
                 end
               end

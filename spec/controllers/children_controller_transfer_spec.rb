@@ -7,7 +7,7 @@ describe ChildrenController do
     User.all.each{|u| u.destroy}
     Child.all.each{|u| u.destroy}
 
-    permission_transition = Permission.new(resource: Permission::CASE, actions: [Permission::TRANSFER, Permission::READ, Permission::WRITE])
+    permission_transition = Permission.new(resource: Permission::CASE, actions: [Permission::TRANSFER, Permission::READ, Permission::WRITE, Permission::CREATE])
     Role.create(id: 'transfer', name: 'transfer', permissions_list: [permission_transition], group_permission: Permission::GROUP)
 
     @user = User.create!(:user_name => 'transfering_user', :role_ids => ['transfer'], :module_ids => [PrimeroModule::CP],
@@ -46,7 +46,7 @@ describe ChildrenController do
       controller.stub :redirect_to
 
       controller.should_receive(:is_consent_given?).with(instance).and_call_original
-      controller.should_receive(:is_reassign?).exactly(4).times.and_call_original
+      controller.should_receive(:is_reassign?).exactly(5).times.and_call_original
       controller.should_receive(:consent_override).twice.and_call_original
       controller.should_receive(:log_to_history).with([instance]).and_call_original
       controller.should_receive(:is_remote?).exactly(6).times.and_call_original
@@ -61,7 +61,7 @@ describe ChildrenController do
         "transition_role"=>"role-transfer",
         "other_user_agency"=>"",
         "notes"=>"Successfully transferred",
-        "type_of_export"=>"Primero",
+        "type_of_export"=>Transitionable::EXPORT_TYPE_PRIMERO,
         "file_name"=>"",
         "is_remote"=>false,
         "id"=>instance.id
@@ -73,7 +73,7 @@ describe ChildrenController do
       assigns[:records].should eq([instance])
 
       child_transferred = Child.get(instance.id)
-      child_transferred.transfer_status.should eq("In Progress")
+      child_transferred.transfer_status.should eq(Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
       child_transferred.assigned_user_names.should eq([@user3.user_name])
 
       transfers = child_transferred.transfers
@@ -83,12 +83,12 @@ describe ChildrenController do
       transfer.to_user_local.should eq(@user3.user_name)
       transfer.to_user_remote.should eq("")
       transfer.to_user_agency.should eq("")
-      transfer.to_user_local_status.should eq("In Progress")
+      transfer.to_user_local_status.should eq(Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
       transfer.notes.should eq("Successfully transferred")
       transfer.transitioned_by.should eq(@user.user_name)
       transfer.service.should eq("")
       transfer.is_remote.should eq(false)
-      transfer.type_of_export.should eq("Primero")
+      transfer.type_of_export.should eq(Transitionable::EXPORT_TYPE_PRIMERO)
       transfer.consent_overridden.should eq(false)
 
     end
@@ -98,12 +98,12 @@ describe ChildrenController do
         @case_to_transfer = Child.new(:name => 'Juana Perez', :module_id => PrimeroModule::CP,
             :consent_for_services => true, :disclosure_other_orgs => true,
             :created_by => @user.user_name, :last_updated_by => @user.user_name,
-            :transfer_status => "In Progress")
+            :transfer_status => Transition::TO_USER_LOCAL_STATUS_INPROGRESS)
         @case_to_transfer.assigned_user_names = [@user2.user_name]
         @case_to_transfer.owner = @user
         @case_to_transfer.owned_by = @user.user_name
-        @case_to_transfer.add_transition("transfer", @user2.user_name, "", "", "In Progress",
-            "do you take care?", false, "Primero", @user.user_name, false, "")
+        @case_to_transfer.add_transition("transfer", @user2.user_name, "", "", Transition::TO_USER_LOCAL_STATUS_INPROGRESS,
+            "do you take care?", false, Transitionable::EXPORT_TYPE_PRIMERO, @user.user_name, false, "")
         @case_to_transfer.save!
       end
 
@@ -148,7 +148,7 @@ describe ChildrenController do
 
       end
 
-      it_behaves_like "Accept/Reject transfers", "Accepted" do
+      it_behaves_like "Accept/Reject transfers", Transition::TO_USER_LOCAL_STATUS_ACCEPTED do
         let(:id) { @case_to_transfer.id }
         #Logged user that is going to to the Accepted transfer.
         let(:user) { @user2 }
@@ -161,7 +161,7 @@ describe ChildrenController do
         let(:owned_by) { @user2.user_name }
       end
 
-      it_behaves_like "Accept/Reject transfers", "Rejected" do
+      it_behaves_like "Accept/Reject transfers", Transition::TO_USER_LOCAL_STATUS_REJECTED do
         let(:id) { @case_to_transfer.id }
         #Logged user that is going to to the Rejected transfer.
         let(:user) { @user2 }
@@ -199,7 +199,7 @@ describe ChildrenController do
         params = {
           "id"=>@case_to_transfer.id,
           "transition_id" => "fubar_id",
-          "transition_status" => "Accepted"
+          "transition_status" => Transition::TO_USER_LOCAL_STATUS_ACCEPTED
         }
         post :transfer_status, params
         flash[:notice].should eq("Case #{@case_to_transfer.short_id} invalid transfer")
@@ -214,7 +214,7 @@ describe ChildrenController do
         params = {
           "id"=>@case_to_transfer.id,
           "transition_id" => @case_to_transfer.transfers.first.id,
-          "transition_status" => "Accepted"
+          "transition_status" => Transition::TO_USER_LOCAL_STATUS_ACCEPTED
         }
         post :transfer_status, params
         flash[:notice].should eq("Case #{@case_to_transfer.short_id} invalid transfer, can't update is not in progress or you have not permission on the case")

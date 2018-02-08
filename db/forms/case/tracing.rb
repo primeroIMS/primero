@@ -146,7 +146,7 @@ tracing_fields = [
   Field.new({"name" => "separation_witnessed_violence",
              "type" => "radio_button",
              "display_name_all" => "Did the child face or witness any type of violence, threat or harm during his/her journey?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
            }),
   Field.new({"name" => "separation_witnessed_violence_comments",
              "type" => "textarea",
@@ -172,7 +172,7 @@ tracing_fields = [
   Field.new({"name" => "evacuation_status",
              "type" => "radio_button",
              "display_name_all" => "Has child been evacuated?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "evacuation_agent",
              "type" => "text_field",

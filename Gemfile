@@ -37,10 +37,9 @@ gem 'daemons',         '~> 1.2.5',  :require => false
 gem 'activejob_backport'
 gem 'backburner', require: false
 
-gem 'foundation-rails', :git => "https://github.com/Quoin/foundation-rails.git", :branch => "5.5.3.2_hidden_hack"
-
-gem 'sass-rails',    '~> 5.0.4'
-gem 'compass-rails', '~> 2.0.1'
+gem 'foundation-rails', '~> 6.3.0.0'
+gem 'sass-rails',    '~> 5.0.6'
+gem 'compass-rails', '~> 3.0.2'
 gem 'coffee-rails',  '~> 4.2.2'
 gem 'chosen-rails',  '~> 1.5.2'
 gem 'ejs', '~> 1.1.1'
@@ -56,7 +55,13 @@ gem 'memoist', '~> 0.11.0'
 
 gem 'momentjs-rails', '~> 2.17.1'
 
+gem 'turbolinks', '~> 5'
+gem 'jquery-turbolinks'
 gem 'arabic-letter-connector'
+
+group :production do
+  gem 'passenger', '4.0.59', require: false
+end
 
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
@@ -64,10 +69,10 @@ group :development, :assets, :cucumber do
 end
 
 group :development do
-  gem "better_errors"
-  gem "binding_of_caller"
+  gem 'better_errors'
+  gem 'binding_of_caller'
   gem 'ruby-prof'
-  gem 'request_profiler', :git => "https://github.com/justinweiss/request_profiler.git"
+  gem 'request_profiler', :git => 'git://github.com/justinweiss/request_profiler.git'
   gem 'rack-mini-profiler', '>= 0.10.1', require: false
 end
 
@@ -78,7 +83,7 @@ group :test, :cucumber, :development do
 end
 
 group :test, :cucumber do
-  gem 'factory_girl',     '~> 2.6'
+  gem 'factory_bot',                '~> 4.8.2'
   gem 'rspec-activemodel-mocks',    '~> 1.0.3'
   gem 'rspec-collection_matchers',  '~> 1.1.3'
   gem 'rspec',            '~> 3.7.0'
@@ -93,13 +98,14 @@ group :test, :cucumber do
   gem 'capybara-selenium',  '~> 0.0.6'
   gem 'chromedriver-helper', '~> 1.1.0'
   gem 'hpricot',            '~> 0.8.6'
-  gem "json_spec",          '~> 1.1.1'
+  gem 'json_spec',          '~> 1.1.1'
   gem 'rubocop'
   gem 'metric_fu'
   gem 'simplecov',          '~> 0.15.1'
   gem 'simplecov-rcov',     '~> 0.2.3'
   gem 'ci_reporter',        '~> 1.9.1'
   gem 'pdf-inspector',      :require => 'pdf/inspector'
+  gem 'rack_session_access'
 end
 
 #TODO: Does this get installed?

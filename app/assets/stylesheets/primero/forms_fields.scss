@@ -5,6 +5,14 @@
 $lg_input_height: 47px;
 $lg_input_font_size: 2rem;
 
+#jquery-overlay {
+  z-index:9998 !important;
+}
+
+#jquery-lightbox {
+  z-index:9999 !important;
+}
+
 input:focus{
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
@@ -40,12 +48,18 @@ input[type="file"] {
 
 select:not([class^="ui-datepicker-"]), select:hover:not([class^="ui-datepicker-"]) {
   border: 1px solid $stroke_green_color;
-  background: #fff url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAFCAYAAAB8ZH1oAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowN0RCOTAxMjQ3RTExMUU0ODg2RUFEQzZDNDlDNEVBMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowN0RCOTAxMzQ3RTExMUU0ODg2RUFEQzZDNDlDNEVBMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjA3REI5MDEwNDdFMTExRTQ4ODZFQURDNkM0OUM0RUExIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjA3REI5MDExNDdFMTExRTQ4ODZFQURDNkM0OUM0RUExIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+qS5ycwAAADlJREFUeNpidHd3b2BgYKhnwA8aWYBEA5SDSzFIvpEJidOASxGIwYRsPJpiuCIQYEF3Cw42A0CAAQA4xAlohSsQcQAAAABJRU5ErkJggg==') no-repeat;
-  background-position: center right 10px;
+  background-position: center right rem_calc(5);
   color: $grey_color;
   font-size: $thirteen_px;
   -moz-appearance: none;
-  padding-right: 20px;
+  -webkit-appearance:none;
+  padding: rem_calc(0 6);
+
+  @if $global-text-direction == rtl {
+    background-position: center left rem_calc(5);
+  } @else {
+    background-position: center right rem_calc(5);
+  }
 
   &.small {
     height: 1.5rem;
@@ -136,6 +150,11 @@ p.help {
   white-space: pre-line;
   max-height: 180px;
   min-height: 70px;
+}
+
+.popover > .arrow,
+.popover > .arrow:after {
+  display: none;
 }
 
 .summary_group {
@@ -313,11 +332,35 @@ fieldset {
     color: $green_color;
   }
 
+  .incident_link_label,
+  .incident_link {
+    display: inline-block;
+    padding: 3px 10px 3px 0;
+    font-family: 'Roboto-Medium', sans-serif;
+    font-size: $thirteen_px;
+  }
+
+  .incident_link_label {
+    font-weight: bold;
+  }
+
   .grey-button {
     height: 30px;
     padding-top: 5px;
     float: right;
     margin-right: 10px;
+  }
+
+  .button-group .button {
+    font-size: 0.65rem;
+    font-weight: 900;
+  }
+
+  a.refer_again_link {
+    margin-left:0px;
+    margin-bottom:0px;
+    margin-right: 6px;
+    font-size:0.8125rem;
   }
 }
 
@@ -340,6 +383,14 @@ fieldset {
   .header-btn-group {
     height: 35px;
     padding-right: 0;
+  }
+
+  .subform_grouping_header {
+    font-family: 'Roboto-Light', sans-serif;
+    font-size: $twenty_px;
+    text-align: left;
+    font-weight: bold;
+    color: #575757 !important;
   }
 
   .collapse_expand_subform_header {
@@ -381,12 +432,22 @@ fieldset {
 
       &.collapsed:before {
         content: "\f106";
-        margin-right: 100px;
+
+        @if $global-text-direction == rtl {
+          margin-left: 100px;
+        } @else {
+          margin-right: 100px;
+        }
       }
 
       &.expanded:before {
         content: "\f107";
-        margin-right: 100px;
+
+        @if $global-text-direction == rtl {
+          margin-left: 100px;
+        } @else {
+          margin-right: 100px;
+        }
       }
     }
   }
@@ -442,28 +503,6 @@ span.postfix_val {
   border-left: none !important;
 }
 
-#password-prompt-dialog, #password-prompt {
-  small {
-    font-size: 65%;
-    line-height: 10px;
-    color: #777;
-  }
-
-  label {
-    font-family: 'Roboto-Medium', sans-serif;
-    font-size: .78rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  input {
-    margin: 0px;
-  }
-
-  label#export-file-name-label {
-    margin-top: 15px;
-  }
-}
 
 ////////////////////////////////////////////////
 // File Upload Input
@@ -479,6 +518,8 @@ span.postfix_val {
     padding-right: 0 !important;
   }
   .file_upload_wrapper {
+    position: relative;
+
     span {
       padding: 0.5rem 0.751rem 0.5625rem;
       margin-bottom: 0;
@@ -492,7 +533,7 @@ span.postfix_val {
     cursor: pointer;
     height: 100%;
     position: absolute;
-    right: 0px;
+    left: 0px;
     top: 0px;
     opacity: 0;
     margin-bottom: 0;
@@ -510,7 +551,11 @@ span.postfix_val {
 .chosen-container-multi {
   .chosen-choices {
     li.search-choice {
-      margin: 0.4rem 0rem 0rem 0.35rem;
+      @if $global-text-direction == rtl {
+        margin: 0.35rem 0.4rem 0rem 0rem;
+      } @else {
+        margin: 0.35rem 0rem 0rem 0.4rem;
+      }
     }
     li.search-field {
       height: 2.5rem;
@@ -584,6 +629,8 @@ span.postfix_val {
 ////////////////////////////////////////////////
 
 fieldset {
+  position: relative;
+
   .row {
     .footnote {
       font-size: 0.8rem;
@@ -596,10 +643,17 @@ fieldset {
     }
 
     .form-section-required {
-      float: right;
       position: absolute;
-      right: 0;
-      margin-right: -6px
+
+      @if $global-text-direction == rtl {
+        left: rem_calc(27);
+        float: left;
+        margin-left: -6px;
+      } @else {
+        right: rem_calc(27);
+        float: right;
+        margin-right: -6px;
+      }
     }
 
     .value {
@@ -750,9 +804,15 @@ select.ui-datepicker-year {
 
       &:first-of-type {
         color: #333;
-        margin-right: 10px;
-        padding-right: 5px;
-        border-right: 4px solid #F76F6F
+        @if $global-text-direction == rtl {
+          margin-left: 10px;
+          padding-left: 5px;
+          border-left: 4px solid #F76F6F
+        } @else {
+          margin-right: 10px;
+          padding-right: 5px;
+          border-right: 4px solid #F76F6F
+        }
       }
 
       &:last-of-type {
@@ -801,6 +861,15 @@ select.ui-datepicker-year {
   }
 }
 
+.placename {
+  .medium-4.columns {
+    padding-left: 0;
+  }
+
+  .translation_forms {
+    float: right;
+  }
+}
 
 #lightbox-nav {
   overflow: hidden;
@@ -808,4 +877,30 @@ select.ui-datepicker-year {
 
 #lightbox-container-image-data-box {
   line-height: 5.4em !important;
+}
+
+.reveal {
+  .copy {
+    margin: 1em 0;
+  }
+}
+
+#case_plan_approvals {
+  .error {
+    color: $red_color;
+    padding: 1em 0;
+    font-size: .9rem;
+    display: none;
+  }
+
+  form {
+    margin-top: 0;
+  }
+}
+
+select[data-invalid] + div.chosen-container:not(.chosen-container-active),
+select[data-invalid] + div.chosen-container:not(.chosen-container-active) ul {
+  border-color: #cc4b37;
+  background-color: #f9ecea;
+  background-image: none;
 }

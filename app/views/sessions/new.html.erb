@@ -9,12 +9,17 @@
         <%= password_field_tag "password", nil, placeholder: t("login.password.label")  %>
 
         <div class="btn_panel">
-          <%= submit_button t("buttons.login") %>
+          <%= submit_button t("buttons.login"), 'large' %>
         </div>
         <% if false %>
         <%= link_to t("login.password.reset"), :controller => "password_recovery_requests", :action => "new" %>
         <% end %>
       </div>
   <% end %>
-
 </div>
+
+<script>
+  $(document).ready(function() {
+    Turbolinks.clearCache();
+  });
+</script>

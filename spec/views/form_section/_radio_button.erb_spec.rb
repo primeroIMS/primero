@@ -8,20 +8,20 @@ describe "form_section/_radio_button.html.erb" do
 
   it "should display radio button" do
     radio_button = Field.new :name => "new field",
-        :display_name => "field name",
-        :type => 'radio_button',
-        :editable => true,
-        :disabled => false,
-        :option_strings => Array['M', 'F'],
-        :help_text => "This is my help text"
+                             :display_name => "field name",
+                             :type => 'radio_button',
+                             :editable => true,
+                             :disabled => false,
+                             :option_strings_text_all => Array['Male Test', 'Female Test'],
+                             :help_text => "This is my help text"
 
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/radio_button', :locals => { :radio_button => radio_button, :formObject => @child}, :formats => [:html], :handlers => [:erb]
 
-    expect(rendered).to have_tag("input[type='radio'][name='child[new field]'][id='formsection_child_new_field_m'][value='M']")
-    expect(rendered).to have_tag("input[type='radio'][name='child[new field]'][id='formsection_child_new_field_f'][value='F']")
-    expect(rendered).to match(/<label for="formsection_child_new_field_m">M<\/label>/)
-    expect(rendered).to match(/<label for="formsection_child_new_field_f">F<\/label>/)
+    expect(rendered).to have_tag("input[type='radio'][value='male_test'][name='child[new field]'][id='formsection_child_new_field']")
+    expect(rendered).to have_tag("input[type='radio'][value='female_test'][name='child[new field]'][id='formsection_child_new_field']")
+    expect(rendered).to match(/<label for="formsection_child_new_field_male_test">Male Test<\/label>/)
+    expect(rendered).to match(/<label for="formsection_child_new_field_female_test">Female Test<\/label>/)
     expect(rendered).to match(/<p class="help">This is my help text<\/p>/)
   end
 
@@ -54,7 +54,7 @@ describe "form_section/_radio_button.html.erb" do
     radio_button = Field.new :name => "new field",
     :display_name => "field name",
     :type => 'radio_button',
-    :option_strings => Array['M', 'F']
+    :option_strings_text_all => ['M', 'F']
     radio_button.disabled = true
 
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
@@ -66,7 +66,7 @@ describe "form_section/_radio_button.html.erb" do
     radio_button = Field.new :name => "new field",
     :display_name => "field name",
     :type => 'radio_button',
-    :option_strings => Array['M', 'F']
+    :option_strings_text_all => Array['M', 'F']
     radio_button.disabled = false
 
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))
@@ -78,7 +78,7 @@ describe "form_section/_radio_button.html.erb" do
     radio_button = Field.new :name => "new field",
     :display_name => "field name",
     :type => 'radio_button',
-    :option_strings => Array['M', 'F']
+    :option_strings_text_all => Array['M', 'F']
     radio_button.disabled = false
 
     radio_button.should_receive(:form).exactly(3).times.and_return(FormSection.new("name" => "form_section"))

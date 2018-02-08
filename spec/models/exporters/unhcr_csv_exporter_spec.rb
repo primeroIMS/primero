@@ -41,8 +41,7 @@ module Exporters
           property :relation, String
         end]
       end
-      @test_child = @child_cls.new
-      @test_child.stub(:module => double(:id => PrimeroModule::CP))
+      @test_child = Child.new()
     end
 
     after :each do

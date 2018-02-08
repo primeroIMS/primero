@@ -33,8 +33,8 @@ describe TracingRequest do
                                                          "transfer_status"]
     end
 
-    it "should build with date search fields" do
-      expect(TracingRequest.searchable_date_fields).to include("created_at", "last_updated_at")
+    it "should build with date/time search fields" do
+      expect(TracingRequest.searchable_date_time_fields).to include("created_at", "last_updated_at")
     end
 
     it "fields build with all fields in form sections" do

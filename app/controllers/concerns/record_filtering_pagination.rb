@@ -83,14 +83,15 @@ module RecordFilteringPagination
   end
 
   def users_filter
-    if params[:scope].present? and params[:scope][:users].present?
-      users = params[:scope][:users].split(',')
-      users.shift
-      users
-    else
-      current_user.record_scope
+    unless @id_search.present? && can?(:search_owned_by_others, model_class)
+      if params[:scope].present? && params[:scope][:users].present?
+        users = params[:scope][:users].split(',')
+        users.shift
+        users
+      else
+        current_user.record_scope
+      end
     end
-
   end
 
   def load_age_range
@@ -109,7 +110,7 @@ module RecordFilteringPagination
   def sanitize_date_range_filter (date_range)
     date_range.each_with_index do |value, i|
       begin
-        date_range[i] = PrimeroDate.parse_with_format value
+        date_range[i] = PrimeroDate.parse_with_format(value, true)
       rescue ArgumentError => arg_error
         @invalid_date_filter_value = true
         return []

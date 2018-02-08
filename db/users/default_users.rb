@@ -7,14 +7,7 @@ def create_or_update_user(user_hash)
     User.create! user_hash
   else
     puts "Updating user #{user_id}"
-    user_attributes = {
-       "user_name" => user_hash["user_name"],
-       "full_name" => user_hash["full_name"],
-       "role_ids" => user_hash["role_ids"],
-       "module_ids" => user_hash["module_ids"],
-       "user_group_ids" => user_hash["user_group_ids"]
-    }
-    user.update_attributes user_attributes
+    user.update_attributes user_hash
   end
 
 end
@@ -128,4 +121,36 @@ create_or_update_user(
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
     "user_group_ids" => [UserGroup.by_name(key: "Primero FTR").first.id],
     "is_manager" => true
+)
+
+create_or_update_user(
+  "user_name" => "primero_user_mgr_cp",
+  "password" => "qu01n23!",
+  "password_confirmation" => "qu01n23!",
+  "full_name" => "CP User Manager",
+  "email" => "primero_user_mgr_cp@primero.com",
+  "disabled" => "false",
+  "organization" => "agency-unicef",
+  "role_ids" => [
+    Role.by_name(key: "CP User Manager").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "is_manager" => true
+)
+
+create_or_update_user(
+  "user_name" => "primero_user_mgr_gbv",
+  "password" => "qu01n23!",
+  "password_confirmation" => "qu01n23!",
+  "full_name" => "GBV User Manager",
+  "email" => "primero_user_mgr_gbv@primero.com",
+  "disabled" => "false",
+  "organization" => "agency-unicef",
+  "role_ids" => [
+    Role.by_name(key: "GBV User Manager").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "is_manager" => true
 )

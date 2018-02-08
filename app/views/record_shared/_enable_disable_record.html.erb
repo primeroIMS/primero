@@ -1,11 +1,11 @@
 <li>
-  <a data-reveal-id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" href="#"><%= instance.record_state ? t("actions.disable") :t("actions.enable") %></a>
+  <a data-open="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>"><%= instance.record_state ? t("actions.disable") :t("actions.enable") %></a>
 
-  <div class="reveal-modal tiny" id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" data-reveal>
-    <a class="close-reveal-modal">&#215;</a>
+  <div class="reveal tiny" id="<%= "#{model.name.underscore.downcase}_enable_disable_records" %>" data-reveal>
+    <%= render 'shared/modal_close' %>
   	<% state = nil %>
-    <div class="row">
-      <div class="large-12 columns">
+    <div class="row collapse">
+      <div class="large-12 columns copy">
         <% if instance.record_state %>
           <%= t('messages.enable_disable_record', action: t('actions.description.invalid')) %>
         	<% state = 'disable' %>
@@ -17,8 +17,8 @@
     </div>
     <div class="space"></div>
     <div class="row">
-      <div class="large-12 columns">
-        <a class="btn green-button right"
+      <div class="button-group">
+        <a class="button right"
           id="enable_disable_action"
           data-id="<%= instance.id %>"
         	data-request_url="<%= request.url %>"
@@ -27,7 +27,9 @@
           data-state="<%= instance.record_state ? false : true %>"
           href=""><%= t("buttons.ok") %>
         </a>
-        <a class="close-reveal-modal btn green-button right"><%= t("buttons.cancel") %></a>
+        <button class="button gray" data-close aria-label="Close reveal" type="button">
+          <span aria-hidden="true"><%= t("buttons.cancel") %></span>
+        </button>
       </div>
     </div>
   </div>

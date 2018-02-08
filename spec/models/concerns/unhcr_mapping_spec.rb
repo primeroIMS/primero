@@ -1,5 +1,10 @@
 require 'rails_helper'
 
+# TODO - Structure of these tests need some refactoring
+# TODO - The wording of these tests is poorly written
+# TODO - Especially, the wording of the contexts does not follow normal convention
+# TODO - Contexts should be a condition of the test (when something...), not a 'should/expect'
+
 describe UNHCRMapping do
   before do
     Child.any_instance.stub(:field_definitions).and_return([])
@@ -73,10 +78,12 @@ describe UNHCRMapping do
         @system_settings.unhcr_needs_codes_mapping.autocalculate = false
         @system_settings.save!
 
-        child.attributes = {'name' => 'Johnny Bravo'}
-        child.save!
+        #Re-fetch child for this test to refresh the record's instance variables
+        child2 = Child.get(child.id)
+        child2.attributes = {'name' => 'Johnny Bravo'}
+        child2.save!
 
-        expect(child.unhcr_needs_codes).to eq(nil)
+        expect(child2.unhcr_needs_codes).to eq(nil)
       end
     end
   end

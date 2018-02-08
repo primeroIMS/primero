@@ -1,18 +1,17 @@
-_primero.Views.MarkForMobile = Backbone.View.extend({
+_primero.Views.MarkForMobile = _primero.Views.Base.extend({
 
   el: '#menu',
 
   events: {
-    'click a.mark_for_mobile' : 'mark_records_for_mobile'
+    'click .mark_for_mobile' : 'mark_records_for_mobile'
   },
 
   show_error_message: function(message) {
-    $('.flash').remove();
-
+    var $flash = $('.flash');
+    $flash.remove();
     $('.page_container').prepend(JST['templates/mark_for_mobile_error']({message: message}))
-    
     setTimeout(function(){
-      $('.flash').remove();
+      $flash.remove();
     },7000);
   },
 

@@ -1,16 +1,15 @@
-<% if can? :flag, tracing_request %>
-    <li>
+<div class="button-group">
+    <% if can? :flag, tracing_request %>
         <div class="dropdown_btn dropdown_form">
             <%= render 'record_shared/suspect_flag', record: @tracing_request %>
         </div>
-    </li>
-<% end %>
-<% if has_index_actions(@tracing_request) %>
-    <% unless ["edit", "update"].include? controller.action_name %>
-        <ul id="menu" class="sf-menu">
+    <% end %>
+    <% if has_index_actions(@tracing_request) %>
+        <% unless ["edit", "update"].include? controller.action_name %>
+        <ul id="menu" class="dropdown menu" data-dropdown-menu>
         <li class="init_btn">
-            <%= link_to content_tag(:span, t("actions.button")), '#', class: 'btn green-button action_btn' %>
-            <ul>
+            <a class="button"><%= content_tag(:span, t("actions.button")) %></a>
+            <ul class="menu">
                 <%= render partial: 'exports/button', locals: {model: TracingRequest, instance: @tracing_request} %>
                 <% if can? :export_custom, @tracing_request %>
                 <%= render 'exports/custom_exports_link', model: TracingRequest, export_type: 'custom' %>
@@ -21,5 +20,6 @@
             </ul>
         </li>
         </ul>
+        <% end %>
     <% end %>
-<% end %>
+</div>

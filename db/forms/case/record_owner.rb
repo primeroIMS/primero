@@ -54,31 +54,21 @@ record_owner_fields = [
              "editable" => false,
              "disabled" => true
           }),
-  #TODO reconcile difference between Agency and Other Agency
-  #TODO: Move data to hardcoded record status panel
-  Field.new({"name" => "agency_name",
+  Field.new({"name" => "reassigned_tranferred_on",
+            "type" => "date_field",
+            "display_name_all" => "Reassigned / Transferred On",
+            "date_include_time" => true,
+            "editable" => false,
+            "disabled" => true
+          }),
+  Field.new({"name" => "owned_by_agency",
+             "type" => "select_box",
              "mobile_visible" => false,
              "type" =>"select_box" ,
              "display_name_all" => "Agency",
-             "visible" => false,
-             "option_strings_text_all" =>
-                          ["German Technical Cooperation",
-                           "GTZ",
-                           "ICRC",
-                           "International Rescue Committee",
-                           "IRC",
-                           "IRC K",
-                           "IRC KV",
-                           "IRC Legal",
-                           "IRC NH",
-                           "IRC NZ",
-                           "IRC NZV",
-                           "Save the Children",
-                           "SCUK",
-                           "SCUK-LF",
-                           "SCUK-MOT",
-                           "UNICEF",
-                           "United Nations Childrens Fund"].join("\n")
+             "editable" => false,
+             "disabled" => true,
+             "option_strings_source" => "Agency"
             }),
   #TODO: Move data to hardcoded record status panel
   Field.new({"name" => "telephone_agency",
@@ -99,17 +89,20 @@ record_owner_fields = [
              "mobile_visible" => false,
              "type" =>"select_box",
              "display_name_all" => "Database Operator",
-             "option_strings_source" => "User"
+             "option_strings_source" => "User",
+             "visible" => false
             }),
   Field.new({"name" => "address_registration",
            "mobile_visible" => false,
            "type" => "textarea",
-           "display_name_all" => "Registration Address"
+           "display_name_all" => "Registration Address",
+           "visible" => false
           }),
- 	Field.new({"name" => "location_registration",
+  Field.new({"name" => "location_registration",
           "mobile_visible" => false,
-        	"type" => "text_field",
-        	"display_name_all" => "Location Address"
+          "type" => "text_field",
+          "display_name_all" => "Location Address",
+          "visible" => false
           }),
   #TODO: get rid of
  	Field.new({"name" => "record_history_separator",
@@ -120,7 +113,7 @@ record_owner_fields = [
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "created_by",
           "mobile_visible" => false,
-        	"type" => "text_field",
+          "type" => "text_field",
           "display_name_all" => "Record created by",
           "editable" => false,
           "disabled" => true
@@ -128,13 +121,14 @@ record_owner_fields = [
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "created_by_agency",
           "mobile_visible" => false,
-        	"type" => "text_field",
-        	"display_name_all" => "Created by agency"
+          "type" => "text_field",
+          "display_name_all" => "Created by agency",
+          "disabled" => true
           }),
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "previously_owned_by",
           "mobile_visible" => false,
-        	"type" => "text_field",
+          "type" => "text_field",
           "display_name_all" => "Previous Owner",
           "editable" => false,
           "disabled" => true
@@ -142,8 +136,9 @@ record_owner_fields = [
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "previous_agency",
           "mobile_visible" => false,
-        	"type" => "text_field",
-        	"display_name_all" => "Previous Agency"
+          "type" => "text_field",
+          "display_name_all" => "Previous Agency",
+          "disabled" => true
           }),
   #TODO: This is needed to preserve the module on record creation. Can we make this elegant?
   #TODO: Move data to hardcoded record status panel

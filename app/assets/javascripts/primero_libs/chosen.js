@@ -1,4 +1,7 @@
 _primero.chosen = function (selector) {
+  if ($('html').attr('dir') === 'rtl') {
+    $(selector).addClass('chosen-rtl');
+  }
   //Initialize the chosen widget and set the code to manage when the user
   //clear the chosen selection.
   $(selector).chosen({display_selected_options:false, width:'100%', search_contains: true}).change(function() {
@@ -26,7 +29,7 @@ _primero.chosen = function (selector) {
       //that allow to nil/empty the value in the database.
       $("#" + input_hidden_id).remove();
     }
-  }).ready(function() {
+  }).on('turbolinks:load', function() {
     //Small tweak to the search box. Initially has set some width that is not enough
     //to display the placeholder value.
     $(".chosen-container .search-field .default").css("width", "100%");

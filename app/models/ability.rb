@@ -3,7 +3,8 @@ class Ability
 
   def initialize(user)
     alias_action :index, :view, :list, :export, :to => :read
-    alias_action :edit, :update, :create, :new, :destroy, :disable, :to => :write
+    alias_action :edit, :update, :destroy, :disable, :to => :write
+    alias_action :new => :create
 
     @user = user
 
@@ -19,8 +20,12 @@ class Ability
       case permission.resource
         when Permission::USER
           user_permissions permission.action_symbols
+        when Permission::USER_GROUP
+          user_group_permissions permission.action_symbols
         when Permission::ROLE
           role_permissions permission
+        when Permission::AGENCY
+          agency_permissions permission
         when Permission::METADATA
           metadata_permissions
         when Permission::SYSTEM
@@ -38,24 +43,69 @@ class Ability
 
   def user_permissions actions
     can actions, User do |uzer|
-      if user.has_group_permission? Permission::ALL
+      if (user.is_super_user?)
         true
-      elsif user.has_group_permission? Permission::GROUP
+      elsif (uzer.is_super_user?)
+        false
+      elsif (user.is_user_admin?)
+        true
+      elsif (uzer.is_user_admin?)
+        false
+      elsif user.has_group_permission?(Permission::GROUP) || user.has_group_permission?(Permission::ALL)
+        # TODO-permission: Add check that the current user has the ability to edit the uzer's role
+        # True if, The user's role's associated_role_ids include the uzer's role_id
         (user.user_group_ids & uzer.user_group_ids).size > 0
       else
         uzer.user_name == user.user_name
       end
     end
-    [UserGroup, Agency].each do |resource|
-      configure_resource resource, actions
+  end
+
+  def user_group_permissions actions
+    can actions, UserGroup do |instance|
+      #TODO-permission: replace the if staemnet with the is_super_user? and is_user_admin? functions
+      if (user.has_group_permission?(Permission::ALL) || user.has_group_permission?(Permission::ADMIN_ONLY))
+        true
+      elsif user.has_group_permission?(Permission::GROUP)
+        user.user_group_ids.include? instance.id
+      else
+        false
+      end
     end
   end
 
   def role_permissions permission
     actions = permission.action_symbols
     can actions, Role do |instance|
-      if (actions.include? Permission::ASSIGN.to_sym) || (actions.include? Permission::READ.to_sym) || (actions.include? Permission::WRITE.to_sym)
+      if instance.is_super_user_role?
+        false
+      elsif instance.is_user_admin_role? && !user.is_super_user?
+        false
+     # TODO-permission: The following code prevents a role from having access to itself.
+     # As written it is too broad and won't let a user see or assign its own role.
+     # It should be limitted to only preventing the a role from editting itself:
+      elsif [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
+        #TODO-permission: This else statements should default to false, not true when the conditions are not met
         permission.role_ids.present? ? (permission.role_ids.include? instance.id) : true
+      # TODO-permission: This if statement should prevent a role from editing itself, but it should be evaluated before
+      # the previous elsif to be effective
+      # TODO-permission: I do not believe that the second part of the if statement is helpful or accurate:
+      # Not even the super user is allowed to edit their own role, consider removing.
+      elsif (user.role_ids.include?(instance.id) && !user.has_group_permission?(Permission::ALL))
+        false
+      else
+        #TODO-permission: This else statements should default to false, not 'true' when the conditions are not met
+        true
+      end
+    end
+  end
+
+  def agency_permissions permission
+    actions = permission.action_symbols
+    can actions, Agency do |instance|
+      #TODO-permission: BOTH of these else statements should default to false not true when the conditions are not met
+      if [Permission::ASSIGN, Permission::READ, Permission::WRITE].map{|p| p.to_sym}.any? {|p| actions.include?(p)}
+        permission.agency_ids.present? ? (permission.agency_ids.include? instance.id) : true
       else
         true
       end

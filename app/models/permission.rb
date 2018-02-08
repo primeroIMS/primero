@@ -10,9 +10,11 @@ class Permission
   # That restricts this role to only be able to manage those associated roles
   # If the role_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
   property :role_ids, [String], :default => []
+  property :agency_ids, [String], :default => []
 
   READ = 'read'
   WRITE = 'write'
+  ENABLE_DISABLE_RECORD= 'enable_disable_record'
   FLAG = 'flag'
   IMPORT = 'import'
   EXPORT_LIST_VIEW = 'export_list_view_csv'
@@ -29,13 +31,16 @@ class Permission
   ASSIGN = 'assign'
   TRANSFER = 'transfer'
   REFERRAL = 'referral'
+  REFERRAL_FROM_SERVICE = 'referral_from_service'
   REASSIGN = 'reassign'
   CASE = 'case'
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
   POTENTIAL_MATCH = 'potential_match'
   USER = 'user'
+  USER_GROUP = 'user_group'
   ROLE = 'role'
+  AGENCY = 'agency'
   METADATA = 'metadata'
   SYSTEM = 'system'
   REPORT = 'report'
@@ -56,8 +61,25 @@ class Permission
   DASHBOARD = 'dashboard'
   VIEW_APPROVALS = 'view_approvals'
   VIEW_ASSESSMENT = 'view_assessment'
+  VIEW_PROTECTION_CONCERNS_FILTER = 'view_protection_concerns_filter'
   DASH_REPORTING_LOCATION = 'dash_reporting_location'
   DASH_PROTECTION_CONCERNS = 'dash_protection_concerns'
+  DASH_SERVICE_PROVISIONS = 'dash_service_provisions'
+  DASH_MATCHING_RESULTS = 'dash_matching_results'
+  DASH_REFFERALS_BY_SOCIAL_WORKER = 'dash_referrals_by_socal_worker'
+  DASH_TRANSERS_BY_SOCIAL_WORKER = 'dash_transfers_by_socal_worker'
+  DASH_CASES_BY_SOCIAL_WORKER = 'dash_cases_by_social_worker'
+  DASH_MANAGER_TRANSERS = 'dash_manager_transfers'
+  DASH_CASE_BY_WORKFLOW = 'dash_cases_by_workflow'
+  DASH_CASES_TO_ASSIGN = 'dash_cases_to_assign'
+  DASH_SHOW_NONE_VALUES = 'dash_show_none_values'
+  SEARCH_OWNED_BY_OTHERS = 'search_owned_by_others'
+  INCIDENT_FROM_CASE = 'incident_from_case'
+  INCIDENT_DETAILS_FROM_CASE = 'incident_details_from_case'
+  SERVICES_SECTION_FROM_CASE = 'services_section_from_case'
+  CREATE = 'create'
+  ADMIN_ONLY = 'admin_only'
+  REMOVE_ASSIGNED_USERS = 'remove_assigned_users'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
@@ -72,8 +94,13 @@ class Permission
   def self.actions
     [
       READ,
+      CREATE,
       WRITE,
+      ENABLE_DISABLE_RECORD,
       FLAG,
+      INCIDENT_FROM_CASE,
+      INCIDENT_DETAILS_FROM_CASE,
+      SERVICES_SECTION_FROM_CASE,
       EXPORT_LIST_VIEW,
       EXPORT_CSV,
       EXPORT_EXCEL,
@@ -103,17 +130,30 @@ class Permission
       GROUP_READ,
       VIEW_APPROVALS,
       VIEW_ASSESSMENT,
+      VIEW_PROTECTION_CONCERNS_FILTER,
       DASH_REPORTING_LOCATION,
-      DASH_PROTECTION_CONCERNS
+      DASH_PROTECTION_CONCERNS,
+      SEARCH_OWNED_BY_OTHERS,
+      INCIDENT_FROM_CASE,
+      DASH_MATCHING_RESULTS,
+      DASH_SERVICE_PROVISIONS,
+      DASH_CASES_TO_ASSIGN,
+      DASH_CASE_BY_WORKFLOW,
+      DASH_MANAGER_TRANSERS,
+      DASH_CASES_BY_SOCIAL_WORKER,
+      DASH_REFFERALS_BY_SOCIAL_WORKER,
+      DASH_TRANSERS_BY_SOCIAL_WORKER,
+      DASH_SHOW_NONE_VALUES,
+      REMOVE_ASSIGNED_USERS
     ]
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, METADATA, SYSTEM, REPORT, DASHBOARD]
+    [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, USER_GROUP, AGENCY, METADATA, SYSTEM, REPORT, DASHBOARD]
   end
 
   def self.management
-    [SELF, GROUP, ALL]
+    [SELF, GROUP, ALL, ADMIN_ONLY]
   end
 
   def self.all
@@ -135,19 +175,19 @@ class Permission
   def self.resource_actions(resource)
      case resource
        when CASE
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS].include? a}
+         [READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, INCIDENT_FROM_CASE, INCIDENT_DETAILS_FROM_CASE, SERVICES_SECTION_FROM_CASE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PHOTO_WALL, EXPORT_PDF, EXPORT_UNHCR, EXPORT_CASE_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, TRANSFER, REASSIGN, REFERRAL, CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL_BIA, REQUEST_APPROVAL_CASE_PLAN, REQUEST_APPROVAL_CLOSURE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, MANAGE, SEARCH_OWNED_BY_OTHERS, REFERRAL_FROM_SERVICE, REMOVE_ASSIGNED_USERS]
        when INCIDENT
-         actions.reject {|a| [EXPORT_CASE_PDF, TRANSFER, REASSIGN, REFERRAL, CONSENT_OVERRIDE, APPROVE_BIA,
-                              APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ, VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS].include? a}
+         [READ, CREATE, WRITE, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PHOTO_WALL, EXPORT_PDF, EXPORT_UNHCR, EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, SYNC_MOBILE, REQUEST_APPROVAL_BIA, REQUEST_APPROVAL_CASE_PLAN, REQUEST_APPROVAL_CLOSURE, MANAGE]
        when TRACING_REQUEST
-         actions.reject {|a| [EXPORT_MRM_VIOLATION_XLS, EXPORT_INCIDENT_RECORDER, EXPORT_CASE_PDF, TRANSFER, REFERRAL,
-                              CONSENT_OVERRIDE, SYNC_MOBILE, REQUEST_APPROVAL_BIA, REQUEST_APPROVAL_CASE_PLAN,
-                              REQUEST_APPROVAL_CLOSURE, APPROVE_BIA, APPROVE_CASE_PLAN, APPROVE_CLOSURE, COPY, GROUP_READ,
-                              VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS].include? a}
+         [READ, CREATE, WRITE, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PHOTO_WALL, EXPORT_PDF, EXPORT_UNHCR, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, REASSIGN, MANAGE]
        when ROLE
-         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, COPY, MANAGE]
+         [READ, WRITE, ASSIGN, COPY, MANAGE]
        when USER
-         [READ, WRITE, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, ASSIGN, MANAGE]
+         [READ, WRITE, ASSIGN, MANAGE]
+       when USER_GROUP
+         [READ, WRITE, ASSIGN, MANAGE]
+       when AGENCY
+         [READ, WRITE, ASSIGN, MANAGE]
        when REPORT
          [READ, GROUP_READ, WRITE]
        when METADATA
@@ -157,7 +197,7 @@ class Permission
        when SYSTEM
          [MANAGE]
        when DASHBOARD
-         [VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS, MANAGE]
+         [VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS, DASH_MATCHING_RESULTS, MANAGE, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_CASE_BY_WORKFLOW, DASH_MANAGER_TRANSERS, DASH_CASES_BY_SOCIAL_WORKER, DASH_REFFERALS_BY_SOCIAL_WORKER, DASH_TRANSERS_BY_SOCIAL_WORKER, VIEW_PROTECTION_CONCERNS_FILTER, DASH_SHOW_NONE_VALUES]
        else
          actions
      end
@@ -172,6 +212,8 @@ class Permission
       self.new(:resource => REPORT, :actions => [MANAGE]),
       self.new(:resource => ROLE, :actions => [MANAGE]),
       self.new(:resource => USER, :actions => [MANAGE]),
+      self.new(:resource => USER_GROUP, :actions => [MANAGE]),
+      self.new(:resource => AGENCY, :actions => [MANAGE]),
       self.new(:resource => METADATA, :actions => [MANAGE]),
       self.new(:resource => SYSTEM, :actions => [MANAGE]),
       self.new(:resource => DASHBOARD, :actions => [MANAGE])

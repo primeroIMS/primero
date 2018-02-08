@@ -1,12 +1,5 @@
 module FieldsHelper
 
-  def option_fields_for form, suggested_field
-    return [] unless suggested_field.field.option_strings.present?
-    suggested_field.field.option_strings.collect do |option_string|
-      form.hidden_field("option_strings_text", { :multiple => true, :id => "option_string_" + option_string, :value => option_string+"\n" })
-    end
-  end
-
   def field_tag_name(object, field, field_keys=[])
     if field_keys.present?
       "#{object.class.name.underscore.downcase}[#{field_keys.join('][')}]"
@@ -15,9 +8,14 @@ module FieldsHelper
     end
   end
 
+  #Use to return date or datetime as string for display in local time
+  #TODO-time: This function converts the UTC DateTimes in the model to local time for display in the browser
+  #ALL browser displayed times should pass through this function
   def field_format_date(a_date)
-    if a_date.present? && a_date.is_a?(Date) || a_date.is_a?(Time)
-      a_date.strftime("%d-%b-%Y")
+    if a_date.present? && a_date.instance_of?(Date)
+      I18n.l(a_date)
+    elsif a_date.present? && a_date.instance_of?(DateTime)
+      I18n.l(a_date.in_time_zone, format: :with_time)
     else
       a_date
     end
@@ -31,6 +29,9 @@ module FieldsHelper
        # The 'template' key is later replaced with the proper index value via JavaScript
        # But for now, there is no value so just return empty string
        ''
+    elsif field.is_yes_no?
+      parent_obj = object.value_for_attr_keys(field_keys[0..-2])
+      value = field.convert_true_false_key_to_string(parent_obj.try(field.name))
     else
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
@@ -46,26 +47,42 @@ module FieldsHelper
     end
   end
 
-  def field_value_for_display field_value
-    case
-    when field_value.nil?
-      ""
-    when field_value.respond_to?(:length) && field_value.length == 0
-      ""
-    when field_value.is_a?(Array)
-      field_value.join ", "
-    when field_value.is_a?(Date)
+  def field_value_for_display(field_value, field=nil, lookups=nil)
+    value = if field_value.is_a?(Array)
+      values = field_value
+      values = values.map{ |v| field.display_text(v) } if field.present? && field.selectable?
+      values.join(', ')
+    elsif field_value.is_a?(Date) || field_value.is_a?(Time)
       field_format_date(field_value)
+    elsif field_value.blank?
+      ""
     else
-      field_value.to_s
+      if field.present?
+        field.display_text(field_value, lookups)
+      else
+        field_value
+      end
     end
+
+    return value.to_s
   end
 
-  def field_link_for_display field, field_value
+  def select_options(field, record=nil, lookups=nil, exclude_empty_item=false, add_lookups=false)
+    select_options = []
+    if field.present?
+      select_options << [I18n.t("fields.select_box_empty_item"), ''] unless (field.type == Field::TICK_BOX || field.multi_select || exclude_empty_item)
+      select_options += field.options_list(record, lookups, nil, add_lookups)
+        .map(&:with_indifferent_access)
+        .map {|option| [option['display_text'], option['id']]}
+    end
+    select_options
+  end
+
+  def field_link_for_display(field_value, field)
     link_to(field_value, send("#{field.link_to_path}_path", id: field_value.split('::').first)) if field_value.present?
   end
 
-  def field_value_for_multi_select field_value, field, parent_obj=nil
+  def field_value_for_multi_select(field_value, field, parent_obj=nil, lookups=nil)
     if field_value.blank?
       ""
     elsif field.option_strings_source == 'violations'
@@ -84,12 +101,22 @@ module FieldsHelper
       end.join('; ')
     else
       options = []
+      lookup = field.options_list(nil, nil, nil, true)
       if field_value.is_a?(Array)
-        field_value.each{|option| selected = field["option_strings_text_#{I18n.locale.to_s}"].is_a?(Array) ?
-          field["option_strings_text_#{I18n.locale.to_s}"]
-          .select{|o| o['id'] == option} : option; options << selected }
+        field_value.each do |option|
+          if lookup.present?
+            lookup_value = lookup.select{|lv| lv["id"] == option}.first
+            options << lookup_value["display_text"] if lookup_value.present?
+          else
+            selected = (field.option_strings_text.is_a?(Array) ? field.option_strings_text.select{|o| o['id'] == option} : option)
+            options << selected
+          end
+        end
+      else
+        selected = lookup.select{|lv| lv["id"] == field_value}.first
+        options << selected
       end
-      return options.flatten.collect{|a| a['display_text'] || a }.join(', ')
+      return options.flatten.collect{|a| a.try(:[], 'display_text') || a }.join(', ')
     end
   end
 
@@ -136,7 +163,7 @@ module FieldsHelper
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     #TODO: This code is being temporarily removed until JOR-141 (users should only see their own referrals) is again revisited,
-    #      Pending a full refactor of how we do nested forms headers  
+    #      Pending a full refactor of how we do nested forms headers
     # elsif subform_name == "transitions"
     #   subform_object = object.try(:"#{subform_name}")
     #   #if user is record owner, they can see all referrals
@@ -176,5 +203,29 @@ module FieldsHelper
     else
       "form_section/#{field.type}"
     end
+  end
+
+  def option_string_source_data_attr(source)
+    if source.present?
+      source_match = source.match /lookup-.*/
+
+      if source_match
+        source_match[0]
+      else
+        source
+      end
+    end
+  end
+
+  def selected_date_value(value_string)
+    #TODO-time: This if statement is a temporary fix
+    #When the 'parse_single_value' is updated the statement should be replaced with
+    #just the contents of the else: 'date_value = PrimeroDate.date_value(value_string)'
+    if value_string.downcase == 'today'
+      date_value = DateTime.send('current').to_date
+    else
+      date_value = PrimeroDate.date_value(value_string)
+    end
+    field_format_date(date_value)
   end
 end

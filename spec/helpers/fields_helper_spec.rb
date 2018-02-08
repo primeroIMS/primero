@@ -47,28 +47,6 @@ describe FieldsHelper do
      #@fields_helper.forms_for_display.should == [[nil, "first_form"], ["Middle Form", "middle_form"], ["Third Form", "third_form"]]
    end
 
-  describe "option_fields" do
-    it "should return empty array when suggestions is nil" do
-      suggested_field = double(:field => double(:option_strings => nil))
-      @fields_helper.option_fields_for(nil, suggested_field).should be_empty
-    end
-
-    it "should return empty array when suggestions is empty" do
-      suggested_field = double(:field => double(:option_strings => []))
-      @fields_helper.option_fields_for(nil, suggested_field).should be_empty
-    end
-
-    it "should return array of hidden fields for array of suggestions" do
-      form = double("form helper")
-      form.should_receive(:hidden_field).with("option_strings_text", hash_including(:multiple => true, :id => "option_string_1", :value => "1\n")).once.and_return("X")
-      form.should_receive(:hidden_field).with("option_strings_text", hash_including(:multiple => true, :id => "option_string_2", :value => "2\n")).once.and_return("Y")
-
-      suggested_field = double(:field => double(:option_strings => ["1", "2"]))
-      option_fields = @fields_helper.option_fields_for(form, suggested_field)
-      option_fields.should == ["X", "Y"]
-    end
-  end
-
 
   describe "field_tag_name" do
     it "should build a tag name from the array of keys" do
@@ -93,6 +71,82 @@ describe FieldsHelper do
     it "should return the number of nested subforms" do
       count = @fields_helper.subforms_count(@child, @nested_field)
       expect(count).to eq(2)
+    end
+  end
+
+  describe "select_options" do
+    it "returns the html options tags for a select box with default option '(Select...)'" do
+      field = Field.new :type => Field::SELECT_BOX, :display_name => @field_name, :option_strings_text => "Option 1\nOption 2"
+      @fields_helper.select_options(field, "", []).should == [["(Select...)", ""], ["Option 1", "option_1"], ["Option 2", "option_2"]]
+    end
+  end
+
+  #TODO - WHEN RAILS version is upgraded, use travel_to helper from ActiveSupport::Testing::TimeHelpers
+  #TODO - that will eliminate need for each individual Date/DateTime stub
+  #TODO - also it will allow us to re-enable the xit'ed tests below
+  #TODO - NOTE: Tried using gem Timecop but ran into issues with lib/primero_date
+  describe 'selected_date_value' do
+    it 'returns time for current' do
+      DateTime.stub(:current).and_return(Time.utc(2016, "may", 23, 16, 7, 0))
+      expect(@fields_helper.selected_date_value('current')).to eq('23-May-2016 16:07')
+    end
+
+    it 'returns time for now' do
+      DateTime.stub(:now).and_return(Time.utc(2016, "may", 23, 16, 7, 0))
+      expect(@fields_helper.selected_date_value('now')).to eq('23-May-2016 16:07')
+    end
+
+    # TODO-time: IF/WHEN self.parse_single_value in lib/primero_date is updated according to TODO:
+    # TODO-time: Replace Date.stub with DateTime.stub
+    it 'returns date for yesterday' do
+      Date.stub(:yesterday).and_return(Date.new(2016, 5, 22))
+      expect(@fields_helper.selected_date_value('yesterday')).to eq('22-May-2016')
+    end
+
+    # TODO-time: IF/WHEN self.parse_single_value in lib/primero_date is updated according to TODO:
+    # TODO-time: Replace Date.stub(:today) with DateTime.stub(:current)
+    it 'returns date for today' do
+      DateTime.stub(:current).and_return(Date.new(2016, 5, 23))
+      expect(@fields_helper.selected_date_value('today')).to eq('23-May-2016')
+    end
+
+    # TODO-time: IF/WHEN self.parse_single_value in lib/primero_date is updated according to TODO:
+    # TODO-time: Replace Date.stub with DateTime.stub
+    it 'returns date for tomorrow' do
+      Date.stub(:tomorrow).and_return(Date.new(2016, 5, 24))
+      expect(@fields_helper.selected_date_value('tomorrow')).to eq('24-May-2016')
+    end
+
+    xit 'returns date for 1 day ago' do
+      expect(@fields_helper.selected_date_value('1 day ago')).to eq('22-May-2016')
+    end
+
+    xit 'returns date for 10 days ago' do
+      expect(@fields_helper.selected_date_value('10 days ago')).to eq('13-May-2016')
+    end
+
+    xit 'returns date for 1 day from now' do
+      expect(@fields_helper.selected_date_value('1 day from_now')).to eq('24-May-2016')
+    end
+
+    xit 'returns date for 10 days from now' do
+      expect(@fields_helper.selected_date_value('10 days from_now')).to eq('02-Jun-2016')
+    end
+
+    xit 'returns date for 1 year ago' do
+      expect(@fields_helper.selected_date_value('1 year ago')).to eq('23-May-2015')
+    end
+
+    xit 'returns date for 1 year from now' do
+      expect(@fields_helper.selected_date_value('1 year from_now')).to eq('23-May-2017')
+    end
+
+    xit 'returns date for 10 years from ago' do
+      expect(@fields_helper.selected_date_value('10 years ago')).to eq('23-May-2006')
+    end
+
+    xit 'returns date for 10 years from now' do
+      expect(@fields_helper.selected_date_value('10 years from_now')).to eq('23-May-2026')
     end
   end
 

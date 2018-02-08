@@ -6,6 +6,14 @@ end
 describe "children/show.html.erb" do
 
   describe "displaying a child's details"  do
+    before :all do
+      PrimeroModule.all.each &:destroy
+      @mod ||= PrimeroModule.create!(_id: 'primeromodule-cp', program_id: 'fakeprogram',
+                                  name: 'CP', associated_record_types: ['case'],
+                                  associated_form_ids: ['xxxxx'],
+                                  workflow_status_indicator: false)
+    end
+
     before :each do
       @user = double('user', :permissions => Permission.all_permissions_list, :has_permission? => true, :has_group_permission? => Permission::GROUP,
                      :user_name => 'name', :id => 'test-user-id', :full_name => 'Jose Smith')
@@ -23,13 +31,13 @@ describe "children/show.html.erb" do
         :order_subform => 0,
         :form_group_name => "Test Group"
       })
-      mod = PrimeroModule.create({_id: 'primeromodule-cp'})
+
       Child.any_instance.stub(:field_definitions).and_return([])
       @child = Child.create(:name => "fakechild", :age => "27", :gender => "male",
                             :date_of_separation => "1-2 weeks ago", :unique_identifier => "georgelon12345",
                             :created_by => 'jsmith', :owned_by => @user.user_name, :owned_by_full_name => 'Jose Smith',
                             :created_at => "July 19 2010 13:05:32UTC", :photo => uploadable_photo_jeff,
-                            :module_id => mod.id)
+                            :module_id => @mod.id)
 
       @child.stub(:has_one_interviewer?).and_return(true)
       @child.stub(:short_id).and_return('2341234')
@@ -59,10 +67,13 @@ describe "children/show.html.erb" do
 
     it "renders all fields found on the FormSection" do
       @current_modules = []
-      @form_section.add_field Field.new_text_field("age", "Age")
-      @form_section.add_field Field.new_radio_button("gender", ["male", "female"], "Gender")
-      @form_section.add_field Field.new_select_box("date_of_separation", ["1-2 weeks ago", "More than"], "Date of separation")
-
+      @form_section.add_field(build(:field, name: 'age', display_name: 'Age'))
+      @form_section.add_field(build(:field, type: Field::RADIO_BUTTON, name: "gender".dehumanize,
+                                    display_name: "gender".humanize,
+                                    option_strings_text_all: ["male", "female"].join("\n")))
+      @form_section.add_field(build(:field, type: Field::SELECT_BOX, name: "date_of_separation".dehumanize,
+                                    display_name: "date_of_separation".humanize,
+                                    option_strings_text_all: ["1-2 weeks ago", "More than"].join("\n")))
       render
 
       rendered.should have_tag(".section_name") do

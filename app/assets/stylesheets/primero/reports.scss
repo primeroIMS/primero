@@ -6,7 +6,13 @@ td.report_sidebar_value{
 
 .report_table_content table {
   border: none !important;
-  margin-left: 0px;
+
+  @if $global-text-direction == rtl {
+    margin-right: 0px;
+  } @else {
+    margin-left: 0px;
+  }
+
 
   tbody tr.report_row_aggregate td{
     background: #ebf0e4;
@@ -44,15 +50,27 @@ div.reports_form .side-tab-content .row .row {
   padding-left: 0px;
 }
 
+.report_filter {
+  border-bottom: 1px dotted $stroke_green_color;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
+
+.report_filter_attribute_row .column {
+  @if $global-text-direction == rtl {
+    padding-left: 0;
+  } @else {
+    padding-right: 0;
+  }
+}
+
 .reports_form {
   .report_filter_template{
     display: none;
   }
-  
+
   .report_filter_remove_button{
     color: $green_color;
-    padding-left: 1rem;
-    margin-left: 5px;
   }
 }
 
@@ -73,17 +91,27 @@ div.reports_form .side-tab-content .row .row {
   }
 
   ul.tabs {
+    border: none;
     border-bottom: 1px solid $stroke_green_color;
     margin-top: 20px;
     height: 39px;
   }
 
-  .tab-title {
+  .tabs-title {
     background: none;
     border: none;
+    height: rem_calc(39);
+
+    a {
+      outline: none;
+    }
 
     &:first-of-type {
-      margin-left: 15%;
+      @if $global-text-direction == rtl {
+        margin-right: 15%;
+      } @else {
+        margin-left: 15%;
+      }
     }
 
     a {
@@ -99,7 +127,7 @@ div.reports_form .side-tab-content .row .row {
     }
   }
 
-  .tab-title.active {
+  .tabs-title.is-active {
     background: $desat_green_color;
     border: 1px solid $stroke_green_color;
     border-bottom: none;
@@ -117,13 +145,21 @@ div.reports_form .side-tab-content .row .row {
 div.DTFC_LeftHeadWrapper table,
 div.DTFC_LeftBodyWrapper table,
 div.DTFC_LeftFootWrapper table {
-  border-right-width: 0;
+  @if $global-text-direction == rtl {
+    border-left-width: 0;
+  } @else {
+    border-right-width: 0;
+  }
 }
 
 div.DTFC_RightHeadWrapper table,
 div.DTFC_RightBodyWrapper table,
 div.DTFC_RightFootWrapper table {
-  border-left-width: 0;
+  @if $global-text-direction == rtl {
+    border-right-width: 0;
+  } @else {
+    border-left-width: 0;
+  }
 }
 
 div.DTFC_LeftHeadWrapper table,
@@ -152,8 +188,11 @@ div.DTFC_RightFootWrapper table {
 
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
   .DTFC_LeftBodyWrapper {
-    border-right: 1px solid $stroke_green_color;
-
+    @if $global-text-direction == rtl {
+      border-left: 1px solid $stroke_green_color;
+    } @else {
+      border-right: 1px solid $stroke_green_color;
+    }
   }
 
   .DTFC_LeftBodyLiner, .DTFC_RightBodyLiner  {
@@ -161,6 +200,10 @@ div.DTFC_RightFootWrapper table {
   }
 
   .DTFC_LeftBodyLiner .DTFC_Cloned {
-    border-right: 1px solid $stroke_green_color;
+    @if $global-text-direction == rtl {
+      border-left: 1px solid $stroke_green_color;
+    } @else {
+      border-right: 1px solid $stroke_green_color;
+    }
   }
 }

@@ -5,21 +5,17 @@ class ReportingLocation
   property :label_key
   property :admin_level, Integer, :default => 0
   property :reg_ex_filter
+  property :hierarchy_filter, [], :default => []
 
-  validate :validate_label_key
+  before_save :set_default_label_key
   validate :validate_admin_level
 
   DEFAULT_FIELD_KEY = 'owned_by_location'
   DEFAULT_LABEL_KEY = 'district'
   DEFAULT_ADMIN_LEVEL = 2
 
-  def validate_label_key
-    if Location::BASE_TYPES.include? self.label_key
-      true
-    else
-      errors.add(:label_key, I18n.t("errors.models.reporting_location.label_key"))
-      false
-    end
+  def set_default_label_key
+    self.label_key = DEFAULT_LABEL_KEY if self.label_key.blank?
   end
 
   def validate_admin_level

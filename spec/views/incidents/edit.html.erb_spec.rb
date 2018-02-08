@@ -61,7 +61,7 @@ describe "incidents/edit.html.erb" do
 
     User.stub(:find_by_user_name).with("me").and_return(double(:organization => "stc"))
     @user = User.new
-    @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::USER])
+    @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::USER])
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(Incident)
     controller.should_receive(:can?).with(:flag, @incident).and_return(false)
@@ -69,6 +69,7 @@ describe "incidents/edit.html.erb" do
     controller.should_receive(:can?).with(:edit, @incident).and_return(true)
     controller.should_receive(:can?).with(:export, Incident).and_return(false)
     controller.should_receive(:can?).with(:sync_mobile, Incident).and_return(true)
+    controller.should_receive(:can?).with(:remove_assigned_users, Incident).and_return(false)
   end
 
   it "should have record owner fields hidden and disabled" do
@@ -87,6 +88,6 @@ describe "incidents/edit.html.erb" do
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='incident[previously_owned_by]']")
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='incident[module_id]'][value='primeromodule-cp']")
     #Inspect editable fields.
-    rendered.should have_tag("select[class='chosen-select'][name='incident[assigned_user_names][]']")
+    rendered.should have_tag("select.chosen-select[name='incident[assigned_user_names][]']")
   end
 end

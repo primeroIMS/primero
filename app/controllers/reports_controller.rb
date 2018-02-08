@@ -4,15 +4,16 @@ class ReportsController < ApplicationController
 
   include RecordFilteringPagination
   include ReportsHelper
+  include FieldsHelper
   include DeleteAction
 
   #include RecordActions
   before_filter :load_report, except: [:new]
-
   before_filter :sanitize_multiselects, only: [:create, :update]
   before_filter :sanitize_filters, only: [:create, :update]
   before_filter :set_aggregate_order, only: [:create, :update]
   before_filter :load_age_range, only: [:new, :edit]
+  before_filter :get_lookups, only: [:lookups_for_field, :edit]
 
   include LoggerActions
 
@@ -63,6 +64,13 @@ class ReportsController < ApplicationController
   def create
     authorize! :create, Report
     @report = Report.new(params[:report])
+
+    Primero::Application::locales.each do |locale|
+      unless @report["name_#{locale}"].present?
+        @report["name_#{locale}"] = @report.name
+      end
+    end
+
     if (@report.valid?)
       redirect_to report_path(@report) if @report.save
     else
@@ -114,7 +122,7 @@ class ReportsController < ApplicationController
     field_options = []
     field_name = params[:field_name]
     field = Field.find_by_name(field_name)
-    field_options = lookups_list_from_field(field)
+    field_options = field.options_list(nil, nil, nil, true)
     render json: field_options
   end
 
@@ -186,6 +194,10 @@ class ReportsController < ApplicationController
   end
 
   private
+
+  def get_lookups
+    @lookups = Lookup.all
+  end
 
   def load_report
     @report = Report.get(params[:id])

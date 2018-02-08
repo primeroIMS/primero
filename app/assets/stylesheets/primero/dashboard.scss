@@ -7,11 +7,195 @@ $dashboard_table_col6:100px;
 $dashboard_table_counts:85px;
 
 #dashboard {
+  .dashboard-group {
+    margin-bottom: 3em;
+
+    > .panel {
+      margin-top: 3em;
+    }
+  }
+
+  .stats_inline {
+    font-size: .9rem;
+    margin-top: .4em;
+
+    .column.shrink {
+      align-items: center;
+      display: flex;
+    }
+
+    h5 {
+      font-weight: bold;
+      font-size: .9rem;
+      margin-bottom: 0;
+    }
+
+    .section-stat-detailed {
+      .column.shrink {
+        padding-left: .2em !important;
+      }
+
+      .label {
+        font-size: 0.7rem;
+        padding: .35rem;
+      }
+    }
+  }
+
+  h4.stat_heading {
+    text-align: center;
+    border-bottom: 1px solid $stroke_green_color;
+    font-size: 1.4em;
+    padding-bottom: .8em;
+    margin-bottom: 0;
+    margin-top: 1.5em;
+
+    &:first-of-type {
+      margin-top: 0;
+    }
+
+    span {
+      font-size: .7em;
+      color: $green_color;
+    }
+  }
+
+  h5.stat_heading {
+    font-size: 1em;
+    border-bottom: 1px dashed rgba(0, 0, 0, .2);
+    padding-bottom: .5em;
+    margin: 2em 0 0.8em;
+    text-indent: 1.6em;
+  }
+
+  .admin_only_info {
+    font-size: 1.3em;
+  }
+
+  a.section-stat {
+    text-align: center;
+    text-decoration: none;
+    padding: 1em 0;
+    height: rem_calc(115);
+    display: flex;
+    justify-content: center;
+
+    &:hover {
+      background: rgba(0, 0, 0, .04);
+    }
+
+    .stat {
+      color: $green_color;
+      text-align: center;
+    }
+
+    p {
+      font-size: .8rem;
+      margin-bottom: 0;
+    }
+  }
+
+  .section-stat-detailed {
+    font-size: 1.4em;
+    color: $green_color;
+
+    .column {
+      @if $global-text-direction == rtl {
+        padding-left: 0;
+      }  @else {
+        padding-right: 0;
+      }
+    }
+
+    span {
+      font-size: .6em;
+      color: #575757;
+    }
+
+    .label {
+      background: none;
+      border: 1px solid $stroke_green_color;
+      color: $green_color;
+      align-self: center;
+    }
+
+    a .label {
+      cursor: pointer;
+    }
+
+    a, .no_link {
+      text-decoration: none;
+      display: flex;
+      padding: .2em .5em;
+      color: $green_color;
+
+      .count {
+        @if $global-text-direction == rtl {
+          margin-left: .5em;
+        }  @else {
+          margin-right: .5em;
+        }
+      }
+
+      span {
+        color: #575757;
+      }
+
+      &:hover {
+        background: rgba(0, 0, 0, .04);
+      }
+    }
+    ul {
+      margin: 0;
+      display: inline-flex;
+
+      li {
+        a {
+          align-items: center;
+
+          span {
+            @if $global-text-direction == rtl {
+              margin-right: .8em;
+            }  @else {
+              margin-left: .8em;
+            }
+          }
+        }
+
+        &.additional-detail {
+          position: relative;
+
+          &:after {
+            content: "/";
+            padding: .2em .1em;
+            position: absolute;
+            right: -7px;
+            top: 0;
+            color: #575757;
+          }
+
+          @if $global-text-direction == rtl {
+            &:only-child, &:first-child {
+              &:after {
+                content: "";
+              }
+            }
+          } @else {
+            &:only-child, &:last-child {
+              &:after {
+                content: "";
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 
   .panel {
     border: 1px solid $stroke_green_color;
     background: #fff;
-    padding: 0;
+    margin-bottom: 1em;
 
     .panel_content {
       padding: 0px 10px 10px 10px;
@@ -40,6 +224,20 @@ $dashboard_table_counts:85px;
         text-transform: uppercase;
         border-bottom: 1px solid $stroke_green_color;
       }
+
+      .table-floating-header {
+        @if $global-text-direction == rtl {
+          padding-right: 0;
+        }  @else {
+          padding-right: 15px;
+        }
+
+        border-bottom: 1px solid $stroke_green_color !important;
+
+        thead th {
+          border-bottom: none !important;
+        }
+      }
     }
 
     .no-padding {
@@ -49,10 +247,6 @@ $dashboard_table_counts:85px;
     &.panel_main {
       height: 632px;
       overflow: hidden;
-    }
-
-    table tbody tr:last-of-type td {
-      border-bottom: 1px dashed #ccc !important;
     }
 
     a.stat_link, .stat_link {
@@ -119,17 +313,18 @@ $dashboard_table_counts:85px;
     }
 
     table.table-counts {
+      table-layout: fixed;
+
       th:not(:first-child), td:not(:first-child) {
         width: $dashboard_table_counts !important;
       }
 
       th:first-child, td:first-child {
-        width: 253px !important;
+        width: 200px !important;
       }
     }
 
     table {
-      width:746px;
       border: none;
       margin-bottom: 0;
 
@@ -157,8 +352,14 @@ $dashboard_table_counts:85px;
 
 
       a.id_link{
-        float: left;
         text-decoration: none;
+
+        @if $global-text-direction == rtl {
+          float: right;
+        }  @else {
+          float: left;
+        }
+
         &:hover{
           font-weight:bold;
         }
@@ -197,10 +398,16 @@ $dashboard_table_counts:85px;
           text-transform: uppercase;
           color: $green_color;
           font-size: 'Roboto-Medium', sans-serif;
-          font-size: $thirteen_px;
+          font-size: .75em;
 
-          &:last-of-type {
-            border-right: none;
+          @if $global-text-direction == rtl {
+            &:first-of-type {
+              border-right: none;
+            }
+          } @else {
+            &:last-of-type {
+              border-right: none;
+            }
           }
 
           &.id_column{
@@ -247,8 +454,14 @@ $dashboard_table_counts:85px;
           word-wrap:break-word;
           word-break: break-all;
 
-          &:last-of-type {
-            border-right: none;
+          @if $global-text-direction == rtl {
+            &:first-of-type {
+              border-right: none;
+            }
+          } @else {
+            &:last-of-type {
+              border-right: none;
+            }
           }
 
           &.id_column{
@@ -293,6 +506,10 @@ $dashboard_table_counts:85px;
       list-style-type: none;
       margin-left: 0;
       margin-bottom: 0;
+
+      @if $global-text-direction == rtl {
+        margin-right: 0;
+      }
 
       li {
         border-bottom: 1px dashed #ccc;

@@ -3,7 +3,7 @@
   <% if @form_section.editable? %>
     <div class="large-12 medium-12 columns">
       <h4 class="left"><%= t("fields.label") %></h4>
-      <a href="#" data-reveal-id="add_field_modal" class="btn green-button right add_field_button">
+      <a data-open="add_field_modal" class="button right add_field_button">
         <%=t("fields.add")%>
       </a>
     </div>
@@ -43,7 +43,13 @@
         <tr data="<%= field.name %>" class="<%= field.visible? ? "rowEnabled" : "rowDisabled" %>">
           <td>
             <% if @form_section.editable? && field.editable? %>
-              <%= link_to field.display_name,
+              <%
+                display_base_language = "display_name_#{field.base_language}".to_sym
+                display_system_language = "display_name_#{I18n.default_locale}".to_sym
+                translation_missing = t("form_section.translation_missing", :lang => t("home.#{I18n.default_locale}"))
+                field_label = field[display_system_language] ? field[display_system_language]  : "#{field[display_base_language]} #{translation_missing}"
+              %>
+              <%= link_to field_label,
                           edit_form_section_field_path(form_section_id: @form_section.unique_id, id: field.name, module_id: @module_id),
                           :id => "#{field.name}_edit"
               %>            <% else %>
@@ -54,7 +60,7 @@
           <td>
             <%= field.help_text %>
           </td>
-          <td><%= field.type.try(:humanize) %><br><small><%= "(multi-select)" if field.multi_select %></small></td>
+          <td><%= I18n.t("fields.#{field.type}") %><br><small><%= "(multi-select)" if field.multi_select %></small></td>
           <td align="center">
             <% if @form_section.editable? %>
               <%= check_box_tag "fields[]", field.name, !field.visible? , {:id => "fields_#{field.name}", :class => "field_hide_show"} %>
@@ -86,7 +92,7 @@
               <% end %>
             </ul>
             <% if @forms_for_move.present? %>
-              <div class="move_to_panel hide">
+              <div class="move_to_panel hide_element">
                 <%= form_tag change_form_form_section_fields_path(@form_section), :html => {:method => :post, :autocomplete => "off"} do -%>
                   <input type='hidden' name='id' value='<%= field.name %>' style="display:none;"/>
                   <input type='hidden' class="destination_form_id" name='destination_form_id' style="display:none;"/>
@@ -101,12 +107,12 @@
   </tbody>
 </table>
 
-<div id="add_field_modal" class="reveal-modal" data-reveal>
-  <a class="close-reveal-modal">&#215;</a>
+<div id="add_field_modal" class="reveal large" data-reveal>
+  <%= render 'shared/modal_close' %>
   <div class="sidebar_help">
     <%= @field.present? && @field.type.present? ? t("form_section.modal_sidebar_help_selected") : t("form_section.modal_sidebar_help") %>
   </div>
-  <div class="row collapse">
+  <div class="row collapse has_form">
     <div class="medium-3 columns">
       <div class="modal-side-tab">
         <div class="scrolling_indicator up"><%= t('messages.scroll_up') %></div>
@@ -117,7 +123,6 @@
           <% else %>
             <li class="current"><%= link_to t("fields.text_field"),'', :id => "text_field", :class => "field_links sel" %> </li>
             <li><%= link_to t("fields.text_area"),'', :id => "textarea", :class => "field_links" %></li>
-            <li><%= link_to t("fields.check_box"),'', :id => "check_boxes", :class => "field_links" %></li>
             <li><%= link_to t("fields.tick_box"),'', :id => "tick_box", :class => "field_links" %></li>
             <li><%= link_to t("fields.select_box"),'', :id => "select_box", :class => "field_links" %></li>
             <li><%= link_to t("fields.radio_button"),'', :id => "radio_button", :class => "field_links" %></li>
@@ -139,21 +144,51 @@
         <div class="row">
           <div class="medium-12 columns field_panel">
             <div class="space"></div>
-            <% @field ||= Field.new(:type => 'text_field') %>
-            <fieldset class="no-border">
-              <%= error_messages_for  :field,
-                                      :header_tag => :h2,
-                                      :header_message => t("form_section.messages.cannot_create"),
-                                      :message => t('form_section.messages.correct_errors') %>
-            </fieldset>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}] } %>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
-                                                                                                                         {:option_strings_text => :text_area}] } %>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_select_box", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
-                                                                                                                            {:option_strings_text => :text_area}, {:option_strings_source => :select_box}] } %>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area}, {:tally => :tally_field}] } %>
-            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tick_box", :fields => [{:display_name => :text_field}, {:name => :text_field}, {:help_text => :text_area},
-                                                                                                                          {:tick_box_label => :text_field}] } %>
+            <%
+              #TODO: BAD BAD BAD
+              #This is woven into the logic to add new fields
+              #Removing this is not a quick task
+              #This needs to be addressed when a more extensive refactor of the form editor is done
+              @field ||= Field.new(:type => 'text_field')
+            %>
+            <% if (@field.errors.any?) %>
+              <fieldset class="no-border">
+                <%= error_messages_for  :field,
+                                        :header_tag => :h2,
+                                        :header_message => t("form_section.messages.cannot_create"),
+                                        :message => t('form_section.messages.correct_errors') %>
+              </fieldset>
+            <% end %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area}
+            ] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_options", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area},
+                {:option_strings_text => :options_box}
+            ] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_select_box", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area},
+                {:option_strings_text => :options_box},
+                {:option_strings_source => :select_box}
+            ] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tally", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area},
+                {:tally => :tally_field}
+            ] } %>
+            <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details_tick_box", :fields => [
+                {:display_name => :text_field},
+                {:name => :text_field},
+                {:help_text => :text_area},
+                {:tick_box_label => :text_field}
+            ] } %>
           </div>
         </div>
         <div class="clearfix"></div>

@@ -5,7 +5,8 @@ case_closure_fields = [
              "editable" => false,
              "disabled" => true,
              "display_name_all" => "Case Opening Date",
-             "create_property" => false
+             "create_property" => false,
+             "date_include_time" => true
             }),
   Field.new({"name" => "date_closure",
              "show_on_minify_form" => true,
@@ -17,7 +18,7 @@ case_closure_fields = [
              "mobile_visible" => true,
              "type" =>"select_box" ,
              "display_name_all" => "Case Status",
-             "option_strings_source" => "lookup CaseStatus"
+             "option_strings_source" => "lookup lookup-case-status"
             }),
   Field.new({"name" => "closure_assessment",
              "mobile_visible" => true,
@@ -34,7 +35,7 @@ case_closure_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Survivor’s needs have been met to the extent possible or there has been no client contact for a specified period (e.g., more than 30 days)",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_needs_met_explain",
              "mobile_visible" => true,
@@ -46,7 +47,7 @@ case_closure_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Survivor’s safety plan has been reviewed and is in place",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_safety_plan_explain",
              "mobile_visible" => true,
@@ -58,7 +59,7 @@ case_closure_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "The case plan is complete and satisfactory, and follow-up is finished",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_case_plan_complete_explain",
              "mobile_visible" => true,
@@ -70,7 +71,7 @@ case_closure_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "The survivor client and caseworker agree that no further support is needed",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_no_further_support_explain",
              "mobile_visible" => true,
@@ -82,7 +83,7 @@ case_closure_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Survivor has been informed that she can resume services at any time",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_resume_notification_explain",
              "mobile_visible" => true,
@@ -94,7 +95,7 @@ case_closure_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Case supervisor has reviewed case closure/exit plan",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "closure_supervisor_review_explain",
              "mobile_visible" => true,

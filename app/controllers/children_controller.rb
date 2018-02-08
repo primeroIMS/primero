@@ -4,8 +4,10 @@ class ChildrenController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
   include ApprovalActions
+  include FieldsHelper
 
   before_filter :filter_params_array_duplicates, :only => [:create, :update]
+  before_filter :filter_params_by_permission, :only => [:create, :update]
   #TODO: This should go away once filters are configurable in the role
   before_filter :filter_risk_level, :only => [:index]
 
@@ -68,19 +70,85 @@ class ChildrenController < ApplicationController
   end
 
   def create_incident
-    authorize! :create, Incident
+    begin
+      authorize! :create, Incident
+    rescue CanCan::AccessDenied
+      authorize! :incident_from_case, Child
+    end
     child = Child.get(params[:child_id])
-    #It is a GBV cases and the user indicate that want to create a GBV incident.
-    redirect_to new_incident_path({:module_id => child.module_id, :case_id => child.id})
+    from_module = params[:incident_detail_id].present? ? child.module : nil
+    to_module_id = from_module.present? && from_module.field_map_to_module_id.present? ? from_module.field_map_to_module_id : child.module_id
+
+    new_incident_params = {case_id: child.id, module_id: to_module_id}
+    if params[:incident_detail_id].present?
+      new_incident_params[:incident_detail_id] = params[:incident_detail_id]
+    end
+    if from_module.present?
+      new_incident_params[:from_module_id] = from_module.id
+    end
+
+    if from_module.present? && params[:incident_detail_id].present?
+      incident = Incident.make_new_incident(to_module_id, child, from_module.id, params[:incident_detail_id])
+      incident.save
+      child.add_incident_links(params[:incident_detail_id], incident.id, incident.short_id)
+      child.save
+
+      content = {
+        incident_link_label: t('incident.link_to_incident'),
+        incident_link: view_context.link_to(incident.short_id, incident_path(incident.id))
+      }
+      json_content = content.to_json
+      respond_to do |format|
+        format.html {render :json => json_content}
+        format.json {render :json => json_content}
+      end
+    else
+      redirect_to new_incident_path(new_incident_params)
+    end
+  end
+
+  def create_subform
+    child = Child.get(params['child_id'])
+    type = params['form_type']
+    #TODO: we should have a tighter link between type and forms to avoid hacking since this is coming from javascript
+    authorize! "#{type}_from_case".to_sym, Child
+    form_id = params['form_id']
+    form_sidebar_id = params['form_sidebar_id']
+    subform_section = FormSection.get_by_unique_id(form_id)
+    html = ChildrenController.new.render_to_string(partial: "children/create_subform", layout: false, locals: {
+      child: child,
+      subform_section: subform_section,
+      subform_name: type,
+      form_group_name: '',
+      form_link: child_save_subform_path(child, subform: type, form_sidebar_id: form_sidebar_id),
+    })
+    respond_to do |format|
+      format.html {render text: html}
+    end
+  end
+
+  def save_subform
+    subform = params['subform']
+    form_sidebar_id = params['form_sidebar_id']
+    child = Child.get(params['child_id'])
+    authorize! "#{subform}_from_case".to_sym, Child
+    new_subform = params['child'][subform]['template']
+    new_subform['unique_id'] = Child.generate_unique_id
+    child[subform] << new_subform
+    child.update_last_updated_by(current_user)
+    child.add_alert(current_user.user_name, subform, form_sidebar_id)
+    if child.child_status == Record::STATUS_CLOSED
+      child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
+    end
+    child.save
+    flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
+    redirect_to cases_path()
   end
 
   def reopen_case
     child = Child.get(params[:child_id])
     authorize! :update, child
-    child.child_status = params[:child_status]
-    child.case_status_reopened = params[:case_reopened]
-    child.add_reopened_log(current_user.user_name)
-
+    child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
     if child.save
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
@@ -92,21 +160,36 @@ class ChildrenController < ApplicationController
     #TODO move business logic to the model.
     child = Child.get(params[:child_id])
     authorize! :update, child
+
+    approval_type_error = nil
+    child.add_approval_alert(params[:approval_type], @system_settings)
     case params[:approval_type]
       when "bia"
         child.approval_status_bia = params[:approval_status]
       when "case_plan"
         child.approval_status_case_plan = params[:approval_status]
+
+        if child.module.selectable_approval_types.present?
+          child.case_plan_approval_type = params[:approval_status_type]
+        end
       when "closure"
         child.approval_status_closure = params[:approval_status]
       else
-        render :json => {:success => false, :error_message => 'Unkown Approval Type', :reload_page => true }
+        approval_type_error = 'Unknown Approval Status'
     end
+
+    child.approval_subforms << log_action(
+      params[:approval_type],
+      nil,
+      params[:approval_status_type],
+      params[:approval_status]
+    )
 
     if child.save
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
-      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
+      errors = approval_type_error || child.errors.messages
+      render :json => { :success => false, :error_message => errors, :reload_page => true }
     end
   end
 
@@ -121,8 +204,7 @@ class ChildrenController < ApplicationController
     active_transitions_count = child.referrals.select { |t| t.id != referral_id && t.is_referral_active? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
     referral = child.referrals.select { |r| r.id == referral_id }.first
 
-    # TODO: This will need to be refactored once we implement real i18n-able keyvalue pairs
-    referral.to_user_local_status = I18n.t("referral.#{Transition::TO_USER_LOCAL_STATUS_DONE}", :locale => :en)
+    referral.to_user_local_status = Transition::TO_USER_LOCAL_STATUS_DONE
 
     if active_transitions_count == 0
       child.assigned_user_names = child.assigned_user_names.reject{|u| u == @current_user.user_name}
@@ -131,7 +213,7 @@ class ChildrenController < ApplicationController
     respond_to do |format|
       if child.save
         flash[:notice] = t("referral.done_success_message")
-        redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
+        redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
         return
       else
         flash[:notice] = child.errors.messages
@@ -181,9 +263,9 @@ class ChildrenController < ApplicationController
           format.html { redirect_after_update }
         when :transition_transfer_status_updated
           if @child.save
-            if transition_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
+            if transition_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
               flash[:notice] = t('transfer.rejected', record_type: model_class.parent_form.titleize, id: @child.short_id)
-              redirect_to cases_path(scope: {:child_status => "list||Open", :record_state => "list||true"})
+              redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
               return
             else
               flash[:notice] = t('transfer.success', record_type: model_class.parent_form.titleize, id: @child.short_id)
@@ -209,9 +291,6 @@ class ChildrenController < ApplicationController
     individual_details_subform_section = params['individual_details_subform_section']
 
     Child.new.tap do |child|
-      child.registration_date = Date.today
-      child['record_state'] = true
-      child['child_status'] = ["Open"]
       child['module_id'] = params['module_id']
       if incident_id.present? && individual_details_subform_section.present?
         incident = Incident.get(incident_id)
@@ -219,7 +298,7 @@ class ChildrenController < ApplicationController
         child['sex'] = individual_details['sex']
         child['date_of_birth'] = individual_details['date_of_birth']
         child['age'] = individual_details['age']
-        child['estimated'] = individual_details['estimated'] == "Yes"
+        child['estimated'] = individual_details['estimated'] = true
         child['ethnicity'] = [individual_details['ethnicity']]
         child['nationality'] = [individual_details['nationality']]
         child['religion'] = [individual_details['religion']]
@@ -232,7 +311,7 @@ class ChildrenController < ApplicationController
   end
 
   def initialize_created_record rec
-    rec['child_status'] = "Open" if rec['child_status'].blank?
+    rec['child_status'] = Record::STATUS_OPEN if rec['child_status'].blank?
     rec['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
   end
 
@@ -248,6 +327,10 @@ class ChildrenController < ApplicationController
 
   def redirect_after_deletion
     redirect_to(children_url)
+  end
+
+  def redirect_to_list
+    redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
   end
 
   #TODO: We need to define the filter values as Constants

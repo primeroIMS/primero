@@ -23,12 +23,11 @@ module Transitionable
                     :consent_overridden => consent_overridden,
                     :created_at => DateTime.now)
       self.transitions.unshift(transition)
-      transition
     end
 
     def transitions_transfer_status(transfer_id, transfer_status, user, rejected_reason)
-      if transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en) ||
-         transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_REJECTED}", :locale => :en)
+      if transfer_status == Transition::TO_USER_LOCAL_STATUS_ACCEPTED ||
+         transfer_status == Transition::TO_USER_LOCAL_STATUS_REJECTED
         #Retrieve the transfer that user accept/reject.
         transfer = self.transfers.select{|t| t.id == transfer_id }.first
         if transfer.present?
@@ -45,7 +44,7 @@ module Transitionable
             #Either way Accept or Reject the current user should be removed from the associated users.
             #So, it will have no access to the record anymore.
             self.assigned_user_names = self.assigned_user_names.reject{|u| u == user.user_name}
-            if transfer_status == I18n.t("transfer.#{Transition::TO_USER_LOCAL_STATUS_ACCEPTED}", :locale => :en)
+            if transfer_status == Transition::TO_USER_LOCAL_STATUS_ACCEPTED
               #In case the transfer is accepted the current user is the new owner of the record.
               self.previously_owned_by = self.owned_by
               self.owned_by = user.user_name
@@ -67,12 +66,23 @@ module Transitionable
 
   end
 
+  EXPORT_TYPE_PRIMERO = 'primero'
+  EXPORT_TYPE_NON_PRIMERO = 'non_primero'
+  EXPORT_TYPE_PDF = 'pdf_export'
+
   def referrals
-    self.transitions.select{|t| t.type == 'referral'}
+    self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL}
+  end
+
+  def set_service_as_referred( service_object_id )
+    if service_object_id.present?
+      service_object = self.services_section.select {|s| s.unique_id == service_object_id}.first
+      service_object.service_status_referred=true if defined?(service_object.service_status_referred)
+    end
   end
 
   def transfers
-    self.transitions.select{|t| t.type == 'transfer'}
+    self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER}
   end
 
   def has_referrals

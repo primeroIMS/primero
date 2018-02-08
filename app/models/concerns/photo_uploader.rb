@@ -142,7 +142,7 @@ module PhotoUploader
   end
 
   def primary_photo_id
-    self.current_photo_key
+    primary_photo_id = self.current_photo_key.present? ? self.current_photo_key : self.photo_keys.try(:first)
   end
 
   def primary_photo_id=(photo_key)

@@ -47,7 +47,7 @@ tracing_request_subform_fields = [
   Field.new({"name" => "relation_child_lived_with_pre_separation",
              "type" => "radio_button",
              "display_name_all" => "Did the child live with the inquirer before separation?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "name_nickname",
              "type" => "text_field",

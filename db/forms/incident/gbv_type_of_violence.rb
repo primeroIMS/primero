@@ -39,7 +39,7 @@ gbv_sexual_violence_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Type of Incident Violence",
-             "option_strings_source" => "lookup GbvSexualViolenceType",
+             "option_strings_source" => "lookup lookup-gbv-sexual-violence-type",
              "guiding_questions" => "The six core types of GBV and their definitions are:
 
                 1. Rape—non-consensual penetration (however slight) of the vagina, anus or mouth with a penis or other body part. Also includes non-consensual penetration of the vagina or anus with an object. Examples can include but are not limited to: gang rape, marital rape, sodomy, forced oral sex. This type of GBV does not include attempted rape since no penetration has occurred.
@@ -65,7 +65,6 @@ gbv_sexual_violence_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Was this incident a Harmful Traditional Practice",
-             "option_strings_text_all" => "Option 1\nOption 2\nOption 3\nOption 4\nOption 5\nNo",
              "option_strings_text_all" =>
                                     ["No",
                                      "Type of Practice 1",
@@ -79,7 +78,7 @@ gbv_sexual_violence_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Were money, goods, benefits, and/or services exchanged in relation to the incident?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "abduction_status_time_of_incident",
              "show_on_minify_form" => true,
@@ -97,8 +96,7 @@ gbv_sexual_violence_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Has the client reported this incident anywhere else?",
-             "option_strings_text_all" =>
-                 ["No", "Yes-GBVIMS Org / Agency", "Yes-Non GBVIMS Org / Agency"].join("\n")
+             "option_strings_source" => "lookup lookup-gbv-reported-elsewhere"
             }),
   Field.new({"name" => "gbv_reported_elsewhere_subform",
              "mobile_visible" => false,
@@ -112,7 +110,7 @@ gbv_sexual_violence_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "Has the client had any previous incidents of GBV perpetrated against them?",
-             "option_strings_text_all" => "Yes\nNo"
+             "option_strings_source" => "lookup lookup-yes-no"
             })
 ]
 

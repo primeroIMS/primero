@@ -61,16 +61,22 @@ module IndexHelper
   end
 
   def build_checkboxes(filter, items, type, format = true, filter_type = nil)
-    content_tag :div, class: "filter-controls #{'field-controls-multi' if type}" do
+    content_tag :div, class: "filter-controls #{'field-controls-multi' if type} row align-middle" do
       items.each do |item|
         if item.is_a?(Hash)
-          key = item.keys.first
-          if item[key].is_a?(Hash)
-            label = item[key][:label]
-            item = item[key][:value]
+          if(item['id'].present? && item['display_text'].present?)
+            format = false
+            label = item['display_text']
+            item = item['id']
           else
-            label = item[key]
-            item = key.to_s
+            key = item.keys.first
+            if item[key].is_a?(Hash)
+              label = item[key][:label]
+              item = item[key][:value]
+            else
+              label = item[key]
+              item = key.to_s
+            end
           end
         else
           label = item.split('::').last
@@ -102,7 +108,7 @@ module IndexHelper
   end
 
   def build_checkboxes_group(items, group_name = nil)
-    content_tag :div, class: "filter-controls" do
+    content_tag :div, class: "filter-controls row align-middle" do
       items.each do |item|
         key = item.keys.first
         id = item[key][:id].present? ? item[key][:id] : key
@@ -134,7 +140,7 @@ module IndexHelper
   end
 
   def build_datefield(filter)
-    content_tag :div, class: 'filter-controls' do
+    content_tag :div, class: 'filter-controls row align-middle' do
       concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
     end
   end
@@ -146,17 +152,19 @@ module IndexHelper
     end
   end
 
+  # The location options are now populated by ajax
   def build_filter_location(title, filter)
-    options = [[I18n.t("fields.select_box_empty_item"), '']] + Location.all_names
     value = filter_value(filter)
     value = value.pop if value
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
       concat(select_tag filter,
-             options_for_select(options, value),
+             options_for_select([], value),
              'class' => 'chosen-select',
              'filter_type' => 'location',
-             'data-placeholder' => t("fields.select_box_empty_item"), :id => filter)
+             'data-placeholder' => t("fields.select_box_empty_item"), :id => filter,
+             'data' => { :field_tags => [], :populate => 'Location', value: value}
+             )
     end
   end
 
@@ -203,17 +211,18 @@ module IndexHelper
 
   def list_view_header_case
     header_list = []
-
     header_list << {title: '', sort_title: 'select'}
     header_list << {title: 'id', sort_title: 'short_id'}
-    header_list << {title: 'name', sort_title: 'sortable_name'} if (@is_cp && !@is_manager)
+    header_list << {title: 'name', sort_title: 'sortable_name'} if (@is_cp && !@is_manager && !@id_search.present?)
     header_list << {title: 'survivor_code', sort_title: 'survivor_code_no'} if (@is_gbv && !@is_manager)
-    header_list << {title: 'age', sort_title: 'age'} if @is_cp
-    header_list << {title: 'sex', sort_title: 'sex'} if @is_cp
-    header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp
-    header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv
-    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp
-    header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager
+    header_list << {title: 'age', sort_title: 'age'} if @is_cp || @id_search.present?
+    header_list << {title: 'sex', sort_title: 'sex'} if @is_cp || @id_search.present?
+    header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp && !@id_search.present?
+    header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv && !@id_search.present?
+    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp && !@id_search.present?
+    header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager && !@id_search.present?
+    header_list << {title: 'owned_by', sort_title: 'owned_by'} if @is_cp && @id_search.present?
+    header_list << {title: 'owned_by_agency', sort_title: 'owned_by_agency'} if @is_cp && @id_search.present?
 
     return header_list
   end
@@ -225,9 +234,9 @@ module IndexHelper
     #TODO - do I need to handle Incident Code???
     header_list << {title: 'id', sort_title: 'short_id'}
 
-    header_list << {title: 'date_of_interview', sort_title: 'date_of_first_report'} if @is_gbv
+    header_list << {title: 'date_of_interview', sort_title: 'date_of_first_report'} if @is_gbv || @is_cp
     header_list << {title: 'date_of_incident', sort_title: 'incident_date_derived'}
-    header_list << {title: 'violence_type', sort_title: 'gbv_sexual_violence_type'} if @is_gbv
+    header_list << {title: 'violence_type', sort_title: 'gbv_sexual_violence_type'} if @is_gbv || @is_cp
     header_list << {title: 'incident_location', sort_title: 'incident_location'} if @is_mrm
     header_list << {title: 'violations', sort_title: 'violations'} if @is_mrm
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager
@@ -283,7 +292,7 @@ module IndexHelper
                   .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
     filters << "Flagged"
-    filters << "Mobile"
+    filters << "Mobile" if @can_sync_mobile
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
     filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
@@ -297,10 +306,12 @@ module IndexHelper
     filters << "Age Range"
     filters << "Sex"
 
+
     field_protection_concerns = forms.map{|fs| fs.fields.find{|f| f.name == "protection_concerns"} }.compact.first
-    if field_protection_concerns.present?
+    if field_protection_concerns.present? && @can_view_protection_concerns_filter
       filters << "Protection Concerns"
     end
+
     filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
     filters << "Protection Status" if visible_filter_field?("protection_status", forms)
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
@@ -320,7 +331,7 @@ module IndexHelper
     filters = []
 
     filters << "Flagged"
-    filters << "Mobile"
+    filters << "Mobile" if @can_sync_mobile
     filters << "Violation" if @is_mrm
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
@@ -377,6 +388,13 @@ module IndexHelper
     fields.any?{|f| f.visible?}
   end
 
+  def translate_location_type(location_types, type)
+    if location_types.present? && type.present?
+      selected_type = location_types.select{|lt| lt['id'] == type}.first
+      selected_type.present? ? selected_type['display_text'] : ''
+    end
+  end
+
   def allowed_to_export(exporters)
     exporters.any? { |ex| can?("export_#{ex.id}".to_sym, controller.model_class) }
   end
@@ -392,7 +410,9 @@ module IndexHelper
       Permission::SYNC_MOBILE,
       Permission::ASSIGN,
       Permission::TRANSFER,
-      Permission::REFERRAL
+      Permission::REFERRAL,
+      Permission::INCIDENT_DETAILS_FROM_CASE,
+      Permission::SERVICES_SECTION_FROM_CASE
     ]
     actions.any?{ |p| can?(p.to_sym, model) }
   end
@@ -408,6 +428,8 @@ module IndexHelper
       Permission::REFERRAL,
       Permission::REQUEST_APPROVAL_BIA,
       Permission::APPROVE_BIA,
+      Permission::INCIDENT_DETAILS_FROM_CASE,
+      Permission::SERVICES_SECTION_FROM_CASE,
       'edit',
     ]
     actions.any?{ |p| can?(p.to_sym, model) }

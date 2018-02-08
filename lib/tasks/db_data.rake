@@ -51,13 +51,75 @@ namespace :db do
       end
     end
 
+    desc "Export the configuration bundle"
+    task :export_config_bundle, [:json_file] => :environment do |t, args|
+      bundle_json = ConfigurationBundle.export_as_json
+      if args[:json_file].present?
+        puts "Exporting config bundle JSON to #{args[:json_file]}"
+        File.open(args[:json_file], 'w') {|f| f.write(bundle_json) }
+      else
+        puts bundle_json
+      end
+    end
+
+    desc "Import the form translations yaml"
+    task :import_form_translation, [:yaml_file] => :environment do |t, args|
+      file_name = args[:yaml_file]
+      if file_name.present?
+        puts "Importing form translation from #{file_name}"
+        file_hash = YAML.load_file(file_name)
+        if file_hash.present? && file_hash.is_a?(Hash)
+          locale = file_hash.keys.first
+          file_hash.values.each{|fh| FormSection.import_translations(fh, locale)}
+        else
+          puts "Error parsing yaml file"
+        end
+      else
+        puts "ERROR: No input file provided"
+      end
+    end
+
+    # USAGE: bundle exec rake db:data:export_form_translation[form_name,type,module_id,show_hidden_forms,show_hidden_fields,locale]
+    # Args:
+    #   form_name          - if this is passed in, will only export that 1 form  (ex. 'basic_identity')
+    #   type               - record type (ex. 'case', 'incident', 'tracing_request', etc)     DEFAULT: 'case'
+    #   module_id          - (ex. 'primeromodule-cp', 'primeromodule-gbv')                    DEFAULT: 'primeromodule-cp'
+    #   show_hidden_forms  - Whether or not to include hidden forms                           DEFAULT: false
+    #   show_hidden_fields - whether or not to include hidden fields                          DEFAULT: false
+    #   locale             - (ex. 'en', 'es', 'fr', 'ar')                                     DEFAULT: 'en'
+    # NOTE:
+    #   No spaces between arguments in argument list
+    # Examples:
+    #   Defaults to exporting all forms for 'case' & 'primeromodule-cp'
+    #      bundle exec rake db:data:export_form_translation
+    #
+    #   Exports only 'basic_identity' form
+    #      bundle exec rake db:data:export_form_translation[basic_identity]
+    #
+    #   Exports only tracing_request forms for CP, including hidden forms & fields
+    #      bundle exec rake db:data:export_form_translation['',tracing_request,primeromodule-cp,true,true,en]
+    desc "Export the forms to a yaml file to be translated"
+    task :export_form_translation, [:form_id, :type, :module_id, :show_hidden_forms, :show_hidden_fields, :locale] => :environment do |t, args|
+      form_id = args[:form_id].present? ? args[:form_id] : ''
+      module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
+      type = args[:type].present? ? args[:type] : 'case'
+      show_hidden_forms = args[:show_hidden_forms].present? && ['Y','y','T','t'].include?(args[:show_hidden_forms][0])
+      show_hidden_fields = args[:show_hidden_fields].present? && ['Y','y','T','t'].include?(args[:show_hidden_fields][0])
+      locale = args[:locale].present? ? args[:locale] : ''
+      puts "Exporting forms... Check rails log for details..."
+      forms_exporter = Exporters::YmlFormExporter.new(form_id, type, module_id, show_hidden_forms: show_hidden_forms,
+                                                      show_hidden_fields: show_hidden_fields, locale: locale)
+      forms_exporter.export_forms_to_yaml
+      puts "Done!"
+    end
+
 
     # Creates Location.create! statements which can be used as a Location seed file
     # USAGE:   $bundle exec rake db:data:generate_locations[json,layers,regions]
     # ARGS:    json - full path and file name of json file
     #          layers - Number of layers in regions list
     #          regions - colon separated list of regions within the country.  List does not include the country name
-    # NOTE:    No spaces between arguments in argement list
+    # NOTE:    No spaces between arguments in argument list
     # EXAMPLE: $bundle exec rake db:data:generate_locations[/tmp/my_file.json,3,province:district:chiefdom]
     desc "Add locations from a JSON. Regions should be split by colons ex: province:region:prefecture"
     task :generate_locations, :json_file, :layers, :regions do |t, args|
@@ -227,7 +289,7 @@ namespace :db do
       else
         [
           Agency, ContactInformation, FormSection, Location, Lookup, PrimeroModule,
-          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, User, UserGroup
+          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, UserGroup
         ]
       end
 
@@ -245,7 +307,7 @@ namespace :db do
       file_name = "forms.xls"
       puts "Writing #{type} #{module_id} forms to #{file_name}"
       forms_exporter = Exporters::FormExporter.new(file_name)
-      forms_exporter.export_forms_to_spreadsheet
+      forms_exporter.export_forms_to_spreadsheet(type, module_id, show_hidden)
       puts "Done!"
     end
 
@@ -300,8 +362,32 @@ namespace :db do
       RecalculateAge::recalculate!
     end
 
+    desc "Export All form Fields and Options"
+
+    #USAGE: $bundle exec rake db:data:xls_export['case','primeromodule-cp',"fr es"]
+    #NOTE: Must pass locales as string separated by spaces e.g. "en fr"
+    task :xls_export, [:record_type, :module_id, :locales, :show_hidden_forms, :show_hidden_fields] => :environment do |t, args|
+      module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
+      record_type = args[:record_type].present? ? args[:record_type] : 'case'
+      locales = args[:locales].present? ? args[:locales].split(' ') : []
+      show_hidden_forms = args[:show_hidden_forms].present? && ['Y','y','T','t'].include?(args[:show_hidden_forms][0])
+      show_hidden_fields = args[:show_hidden_fields].present? && ['Y','y','T','t'].include?(args[:show_hidden_fields][0])
+      Rails.logger = Logger.new(STDOUT)
+      exporter = Exporters::XlsFormExporter.new(record_type, module_id, locales: locales, show_hidden_forms: show_hidden_forms, show_hidden_fields: show_hidden_fields)
+      exporter.export_forms_to_spreadsheet
+    end
+
+    desc "Import Forms from spreadsheets directory"
+    #USAGE: $bundle exec rake db:data:xls_import['/vagrant/tmp/exports/forms_export_case_cp_YYYYMMDD.HHMMSS/','case','primeromodule-cp']
+    #NOTE: The location being passed is a DIRECTORY in which resides any spreadsheets representation of a form
+    task :xls_import, [:spreadsheet_dir, :record_type, :module_id] => :environment do |t, args|
+      module_id = args[:module_id].present? ? args[:module_id] : 'primeromodule-cp'
+      record_type = args[:record_type].present? ? args[:record_type] : 'case'
+      spreadsheet_dir = args[:spreadsheet_dir].present? ? args[:spreadsheet_dir] : Dir['#{Rails.root}/tmp/imports/*'].sort { |a,b| File.mtime(a) <=> File.mtime(b) }.last
+      Rails.logger = Logger.new(STDOUT)
+      importer = Importers::XlsImporter.new(spreadsheet_dir,record_type,module_id)
+      importer.import_forms_from_spreadsheet
+    end
+
   end
-
-
 end
-

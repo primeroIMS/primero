@@ -21,7 +21,6 @@ class FieldsController < ApplicationController
     @field = Field.new clean_field(params[:field])
     @field.sanitize_name
     FormSection.add_field_to_formsection @form_section, @field
-    @field.base_language = I18n.default_locale
 
     if @field.errors.present? || @form_section.errors.present?
       get_form_group_names
@@ -102,7 +101,7 @@ class FieldsController < ApplicationController
 
   def get_lookups
     @lookups = Lookup.all
-    @lookup_options = @lookups.map{|lkp| [lkp.name, "lookup #{lkp.name.gsub(' ', '_').camelize}"]}
+    @lookup_options = @lookups.map{|lkp| [lkp.name, "lookup #{lkp.id}"]}
     @lookup_options.unshift("", "Location")
   end
 

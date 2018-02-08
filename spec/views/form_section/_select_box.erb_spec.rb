@@ -8,25 +8,21 @@ describe "form_section/_select_box.html.erb" do
 
   it "should include image for tooltip when help text exists" do
     select_box = Field.new :name => "new field",
-    :display_name => "field name",
-    :type => 'select_box',
-    :option_strings => Array['M', 'F'],
-    :help_text => "This is my help text"
+                           :display_name => "field name",
+                           :type => 'select_box',
+                           :option_strings_text_all => Array['Male Test', 'Female Test'],
+                           :help_text => "This is my help text"
 
     select_box.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
     render :partial => 'form_section/select_box', :locals => { :select_box => select_box, :formObject => @child}, :formats => [:html], :handlers => [:erb]
-    rendered.should have_tag("p.help")
-  end
 
-  it "should not include image for tooltip when help text not exists" do
-    select_box = Field.new :name => "new field",
-    :display_name => "field name",
-    :type => 'select_box',
-    :option_strings => Array['M', 'F']
-
-    select_box.should_receive(:form).and_return(FormSection.new("name" => "form_section"))
-    render :partial => 'form_section/select_box', :locals => { :select_box => select_box, :formObject => @child}, :formats => [:html], :handlers => [:erb]
-    rendered.should_not have_tag("img.vtip")
+    expect(rendered).to match(/<label class="key inline" for="formsection_child_new_field">field name<\/label>/)
+    expect(rendered).to have_selector('select', class: 'chosen-select', id: "formsection_child_new_field")
+    expect(rendered).to have_selector("select.chosen-select[name='child[new field]']")
+    expect(rendered).to have_tag("option[value='male_test']")
+    expect(rendered).to have_tag("option[value='female_test']")
+    expect(rendered).to have_selector('p', class: 'help')
+    expect(rendered).to match(/<p class="help">This is my help text<\/p>/)
   end
 
   it "should have 'is_disabled=true' when is disabled" do

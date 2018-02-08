@@ -1,10 +1,16 @@
-<ul class="links inline-list right">
+<ul class="menu simple align-right links">
   <% unless current_user.nil? %>
-    <li><%= t("header.logged_in_as") %> <%= current_user.user_name %></li>
-    <li><%= link_with_confirm t("header.logout"), logout_path, id: "logout" %></li>
-    <li><%= link_with_confirm t("header.my_account"), user_path(current_user.id) %></li>
-
+    <li>
+      <%= t("header.logged_in_as") %> <%= current_user.user_name %>
+    </li>
+    <li>
+      <%= link_to t("header.logout"), logout_path, id: "logout" %>
+    </li>
+    <li>
+      <%= link_to t("header.my_account"), user_path(current_user.id) %>
+    </li>
   <% end %>
-
-  <li><%= link_with_confirm t("header.contact"), contact_information_path("administrator") %></li>
+  <li>
+    <%= link_to t("header.contact"), contact_information_path("administrator") %>
+  </li>
 </ul>

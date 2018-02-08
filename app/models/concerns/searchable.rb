@@ -8,6 +8,10 @@ module Searchable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Passenger.
     searchable do
+      string :record_id do |f|
+        f.id
+      end
+
       quicksearch_fields.each {|f| text f}
       searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
       searchable_multi_fields.each {|f| string f, multiple: true} if search_multi_fields?
@@ -17,6 +21,7 @@ module Searchable
       # searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
       searchable_date_fields.each {|f| date f}
+      searchable_date_time_fields.each {|f| time f}
       searchable_numeric_fields.each {|f| integer f} if search_numeric_fields?
       searchable_boolean_fields.each {|f| boolean f}
       #TODO: This needs to be a derived field/method in the ownable concern
@@ -53,15 +58,15 @@ module Searchable
         Location::ADMIN_LEVELS.each do |admin_level|
           string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
             #TODO - Possible refactor to make more efficient
-            location = Location.find_by_name(self.send(field))
+            location = Location.find_by_location_code(self.send(field))
             if location.present?
               # break if admin_level > location.admin_level
               if admin_level == location.admin_level
-                location.name
+                location.location_code
               elsif location.admin_level.present? && (admin_level < location.admin_level)
                 # find the ancestor with the current admin_level
                 lct = location.ancestors.select{|l| l.admin_level == admin_level}
-                lct.present? ? lct.first.name : nil
+                lct.present? ? lct.first.location_code : nil
               end
             end
           end
@@ -168,9 +173,13 @@ module Searchable
     end
 
     def searchable_date_fields
-      ["created_at", "last_updated_at", "registration_date"] +
       searchable_approvable_date_fields +
       Field.all_searchable_date_field_names(self.parent_form)
+    end
+
+    def searchable_date_time_fields
+      ["created_at", "last_updated_at"] +
+      Field.all_searchable_date_time_field_names(self.parent_form)
     end
 
     def searchable_boolean_fields

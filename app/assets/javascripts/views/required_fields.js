@@ -1,36 +1,48 @@
-_primero.Views.RequiredFields = Backbone.View.extend({
+_primero.Views.RequiredFields = _primero.Views.Base.extend({
   el: 'body',
 
   events: {
-    "invalid.fndtn.abide form": "show_errors",
-    "valid.fndtn.abide form": "show_errors"
+    "invalid.zf.abide form": "hide_indicator",
+    "forminvalid.zf.abide form": "show_errors"
+  },
+
+  hide_indicator: function() {
+    _primero.loading_screen_indicator('hide');
   },
 
   show_errors: function(e) {
     var self = this,
-        invalid_fields = $(e.target).find('[data-invalid]'),
-        error_container = JST['templates/form_error_message'],
-        errors = [];
+      $invalid_fields = $(e.target).find('[data-invalid]'),
+      error_container = JST['templates/form_error_message'],
+      errors = [];
+      prev_label = '';
 
     $('.errorExplanation').remove();
     $('.side-tab a span.label').remove();
 
-    _.each(invalid_fields, function(field) {
-      var fieldset = $(field).parents('fieldset.tab'),
-          group = fieldset.data('form-section-group-name'),
-          form = fieldset.data('form-name'),
-          required_text = _primero.form_error_messages.required,
-          label = $("label[for='"+$(field).attr('id')+"']").text(),
-          has_group = group ? group + " - " : "",
-          message = "<li><span>" + has_group + form + " " + "</span><span>" + label + "</span>" +  " " + required_text + "</li>";
+    _.each($invalid_fields, function(field) {
+      var $field = $(field);
+      var $fieldset = $field.parents('fieldset.tab'),
+        group = $fieldset.data('form-section-group-name'),
+        form = $fieldset.data('form-name'),
+        required_text = _primero.form_error_messages.required,
+        label = $("label[for='" + $field.attr('id') + "']:first").text(),
+        has_group = group ? group + " - " : "",
+        message = "<li><span>" + has_group + form + " " + "</span><span>" + label + "</span>" +  " " + required_text + "</li>";
 
-      errors.push(message);
+      if (prev_label != label) {
+        errors.push(message);
+      }
 
-      if (group)
+      if (group && prev_label != label) {
         self.show_tab_errors(group);
+      }
 
-      if (form)
+      if (form && prev_label != label) {
         self.show_tab_errors(form);
+      }
+
+      prev_label = label;
 
     });
 
@@ -41,18 +53,18 @@ _primero.Views.RequiredFields = Backbone.View.extend({
 
   show_tab_errors: function(tab) {
     var anchor = $('.side-tab a').filter(function(){
-        var re = new RegExp("^" + tab + "\\d*$");
-        return $(this).text().match(re);
+      var re = new RegExp("^" + tab + "\\d*$");
+      return $(this).text().match(re);
     });
-    var jewel = anchor.find('span.label');
-    var jewel_container = $('<span class="label alert"></span>');
+    var $jewel = anchor.find('.label');
+    var $jewel_container = $('<span class="label alert"></span>');
 
-    if (jewel.length > 0) {
-      var count = parseInt(jewel.text());
+    if ($jewel.length > 0) {
+      var count = parseInt($jewel.html());
       count++
-      jewel.text(count);
+      $jewel.html(count);
     } else {
-      anchor.append(jewel_container.text(1));
+      anchor.append($jewel_container.html(1));
     }
   }
 });

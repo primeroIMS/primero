@@ -1,3 +1,7 @@
+<%
+  given_locale = @lookups.first.base_language
+%>
+
 <table id="list_table_2" class="list_table_2 dataTable in_content_area">
   <thead>
   <tr>
@@ -10,11 +14,11 @@
   <tbody>
       <% lookups.each do |lkp| %>
           <tr>
-            <td><%= lkp.name %></td>
-            <td><%= lkp.lookup_values.join(", ") %></td>
+            <td><%= lkp["name_#{given_locale}"] %></td>
+            <td><%= lkp["lookup_values_#{given_locale}"].map {|r| r['display_text']} .join(', ') %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_lookup_path(lkp) %>
-              <% unless lkp.is_being_used? %>
+              <% unless lkp.is_being_used? || lkp.locked %>
                 <br>
                 <%= link_to t("buttons.delete"), lookup_path(lkp), data: {confirm: t("lookup.confirm_delete")}, method: :delete %>
               <% end %>

@@ -1,10 +1,10 @@
-_primero.Views.IndexFilters = Backbone.View.extend({
+_primero.Views.IndexFilters = _primero.Views.Base.extend({
 
   pagination: typeof pagination_details === 'undefined' ? false : pagination_details,
 
   el: '.page_content',
 
-  form: 'form#index_filter_form',
+  form: '#index_filter_form',
 
   events: {
     'click .filter-controls input[type="checkbox"]': 'change_scope',
@@ -15,8 +15,10 @@ _primero.Views.IndexFilters = Backbone.View.extend({
   },
 
   initialize: function() {
+    _primero.filters = {};
     this.set_current_scope();
     _primero.chosen('select.chosen-select:visible');
+
   },
 
   clear_filters: function(e) {
@@ -31,22 +33,23 @@ _primero.Views.IndexFilters = Backbone.View.extend({
     }
 
     if (_primero.model_object === 'child' || _primero.model_object === 'tracing_request') {
-      filter[default_filter] = 'list||Open';
+      filter[default_filter] = 'list||open';
       filter['record_state'] = 'list||true';
     }
-    
+
     url_string = _primero.object_to_params(filter);
-    window.location.search = url_string;
+    Turbolinks.visit(window.location.pathname + '?' + url_string);
   },
 
   set_current_scope: function() {
     var self = this;
 
     $(this.form).find('input, select').each(function() {
-      var name = $(this).attr('name'),
+      var $this = $(this);
+      var name = $this.attr('name'),
           current_scope = _primero.get_param('scope[' + name + ']'),
           current_scope = current_scope ? current_scope.split('||') : false,
-          type = $(this).attr('filter_type') || 'single';
+          type = $this.attr('filter_type') || 'single';
 
       if(_primero.getInternetExplorerVersion() != -1 &&  current_scope) {
         $(current_scope).each(function(i, ce){
@@ -54,17 +57,17 @@ _primero.Views.IndexFilters = Backbone.View.extend({
         });
       }
 
-      if ($(this).is(':checkbox') && $(this).is(':checked')) {
-        self.set_array_filter(name, $(this).val(), type);
+      if ($this.is(':checkbox') && $this.is(':checked')) {
+        self.set_array_filter(name, $this.val(), type);
       }
 
-      if ($(this).is(':checkbox') && _.contains(current_scope, encodeURI($(this).val()))) {
-        $(this).attr('checked', true);
-        self.set_array_filter(name, $(this).val(), type);
+      if ($this.is(':checkbox') && _.contains(current_scope, encodeURI($this.val()))) {
+        $this.attr('checked', true);
+        self.set_array_filter(name, $this.val(), type);
       }
 
       if (type === 'date_range') {
-        fields = $(this).parents('.filter-controls').find('input');
+        fields = $this.parents('.filter-controls').find('input');
         current_scope = _.without(current_scope, type);
         if (current_scope.length > 0) {
           date_values = current_scope[0].split('.');
@@ -89,12 +92,14 @@ _primero.Views.IndexFilters = Backbone.View.extend({
 
     var prev_params = _primero.clean_page_params(['scope', 'page']),
         url_string = _primero.object_to_params(_primero.filters),
-        add_amp = '&';
+        add_amp = '&',
+        search;
 
     if (prev_params && url_string === '' || !prev_params || !prev_params && url_string === '') {
       add_amp = '';
     }
-    window.location.search = prev_params + add_amp + url_string;
+    search = prev_params + add_amp + url_string;
+    Turbolinks.visit(window.location.pathname + '?' + url_string);
   },
 
   set_date_range: function(date_values, filter, filter_type) {
@@ -130,25 +135,25 @@ _primero.Views.IndexFilters = Backbone.View.extend({
   },
 
   change_scope: function(event) {
-    var target = $(event.target),
-        selected_val = target.val(),
-        filter = target.attr('name'),
-        filter_type = target.attr('filter_type') || 'single',
+    var $target = $(event.target),
+        selected_val = $target.val(),
+        filter = $target.attr('name'),
+        filter_type = $target.attr('filter_type') || 'single',
         self = this;
 
     // Checkboxes
-    if (target.is(':checkbox')) {
-      if (target.prop('checked')) {
+    if ($target.is(':checkbox')) {
+      if ($target.prop('checked')) {
         this.set_array_filter(filter, selected_val, filter_type);
       } else {
         this.set_remove_filter(filter, _.without(_primero.filters[filter], selected_val));
       }
-    } else if ($(target).is("input") && $(target).hasClass('hasDatepicker')) {
+    } else if ($target.is("input") && $target.hasClass('form_date_field')) {
       // Date Ranges
-      var date_inputs = $(target).parents('.filter-controls').find('input');
-      date_values = [ $(date_inputs[0]).val(), $(date_inputs[1]).val()];
+      var $date_inputs = $target.parents('.filter-controls').find('input');
+      date_values = [ $($date_inputs[0]).val(), $($date_inputs[1]).val()];
       this.set_date_range(date_values, filter, filter_type);
-    } else if ($(target).is("select") && filter_type === 'location'){
+    } else if ($target.is("select") && filter_type === 'location'){
       if (selected_val === "") {
         filter_values = ""
       }
@@ -158,7 +163,7 @@ _primero.Views.IndexFilters = Backbone.View.extend({
       this.set_remove_filter(filter, filter_values);
     } else {
       // Everything else
-      this.set_remove_filter(filter, $(target).val(), filter_type);
+      this.set_remove_filter(filter, $target.val(), filter_type);
     }
   }
 });

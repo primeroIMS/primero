@@ -61,7 +61,7 @@ describe "children/edit.html.erb" do
 
     User.stub(:find_by_user_name).with("me").and_return(double(:organization => "stc"))
     @user = User.new
-    @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::USER])
+    @user.stub(:permissions => [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::USER])
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(Child)
     controller.should_receive(:can?).with(:flag, @child).and_return(false)
@@ -73,7 +73,9 @@ describe "children/edit.html.erb" do
     controller.should_receive(:can?).with(:referral, Child).and_return(false)
     controller.should_receive(:can?).with(:reassign, Child).and_return(false)
     controller.should_receive(:can?).with(:transfer, Child).and_return(false)
+    controller.should_receive(:can?).with(:enable_disable_record, Child).and_return(false)
     controller.should_receive(:can?).with(:sync_mobile, Child).and_return(false)
+    controller.should_receive(:can?).with(:remove_assigned_users, Child).and_return(false)
     controller.should_receive(:can?).with(:request_approval_bia, Child).and_return(false)
     controller.should_receive(:can?).with(:request_approval_case_plan, Child).and_return(false)
     controller.should_receive(:can?).with(:request_approval_closure, Child).and_return(false)
@@ -114,6 +116,6 @@ describe "children/edit.html.erb" do
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[previously_owned_by]']")
     rendered.should have_tag("input[type='text'][disabled='disabled'][name='child[module_id]'][value='primeromodule-cp']")
     #Inspect editable fields.
-    rendered.should have_tag("select[class='chosen-select'][name='child[assigned_user_names][]']")
+    rendered.should have_tag("select.chosen-select[name='child[assigned_user_names][]']")
   end
 end

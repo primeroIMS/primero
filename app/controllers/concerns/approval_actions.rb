@@ -4,8 +4,8 @@ module ApprovalActions
   BIA = "bia"
   CASE_PLAN = "case_plan"
   CLOSURE = "closure"
-  APPROVED_STATUS = "approvals.status.approved"
-  REJECTED_STATUS = "approvals.status.rejected"
+  APPROVED_STATUS = "approved"
+  REJECTED_STATUS = "rejected"
 
   def approve_form
     authorize! :"approve_#{params[:approval_type]}", model_class
@@ -13,6 +13,7 @@ module ApprovalActions
     if @record.present?
       begin
         set_approval
+        @record.remove_approval_alert(params[:approval_type])
         @record.save!
       rescue => error
         logger.error "Case #{@record.id} approve #{params[:approval_type]}... failure"
@@ -23,10 +24,22 @@ module ApprovalActions
     redirect_to :back
   end
 
+  def log_action(action_requested=nil, action_response=nil, type=nil, status=nil, comments=nil, approved_by=nil)
+    {
+      approval_requested_for: action_requested,
+      approval_response_for: action_response,
+      approval_for_type: type,
+      approval_date: Date.today,
+      approval_manager_comments: comments,
+      approval_status: status == Child::APPROVAL_STATUS_PENDING ? Child::APPROVAL_STATUS_REQUESTED : status,
+      approved_by: approved_by
+    }
+  end
+
   private
 
   def set_approval
-    approval_status = ((params[:approval].present?) && params[:approval] == 'true') ? I18n.t(APPROVED_STATUS) : I18n.t(REJECTED_STATUS)
+    approval_status = ((params[:approval].present?) && params[:approval] == 'true') ? APPROVED_STATUS : REJECTED_STATUS
     approved = ((params[:approval].present?) && params[:approval] == 'true') ? true : false
 
     if params[:approval_type].present?
@@ -49,6 +62,15 @@ module ApprovalActions
         else
           raise("Invalid Approval Type")
       end
+
+      @record.approval_subforms << log_action(
+        nil,
+        params[:approval_type],
+        @record.case_plan_approval_type,
+        approval_status,
+        params[:comments],
+        current_user.user_name
+      )
     end
   end
 end

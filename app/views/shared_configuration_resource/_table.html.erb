@@ -33,9 +33,9 @@
         <% end %>
         <td>
           <% permissions.each do |permission| %>
-            <% if permission != :destroy %>
+            <% if permission != :destroy && can?(permission, object) %>
                 <%= link_to t("#{object_name_plural}.actions.#{permission.to_s}"), controller: object_name_plural, action: permission.to_s, id: object %>
-            <% elsif !object.core_resource %>
+            <% elsif permission == :destroy && !object.try(:core_resource) %>
                 <%= link_to t("#{object_name_plural}.actions.delete"), object, data: {confirm: t("#{object_name_plural}.messages.confirmation")}, method: :delete %>
             <% end %>
             <br>

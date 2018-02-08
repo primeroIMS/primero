@@ -13,7 +13,7 @@ module RecordActions
 
     before_filter :load_record, :except => [:new, :create, :index, :reindex]
     before_filter :current_user, :except => [:reindex]
-    before_filter :get_lookups, :only => [:new, :edit, :index]
+    before_filter :get_lookups, :only => [:show, :new, :edit, :index]
     before_filter :current_modules, :only => [:show, :index]
     before_filter :is_manager, :only => [:index]
     before_filter :is_admin, :only => [:index]
@@ -22,9 +22,11 @@ module RecordActions
     before_filter :is_mrm, :only => [:index]
     before_filter :load_consent, :only => [:show]
     before_filter :sort_subforms, :only => [:show, :edit]
-    before_filter :load_system_settings, :only => [:index]
+    before_filter :load_system_settings, :only => [:index, :show, :edit, :request_approval]
     before_filter :log_controller_action, :except => [:new]
     before_filter :can_access_approvals, :only => [:index]
+    before_filter :can_sync_mobile, :only => [:index]
+    before_filter :can_view_protection_concerns_filter, :only => [:index]
     before_filter :view_reporting_filter, :only => [:index]
   end
 
@@ -48,9 +50,8 @@ module RecordActions
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
-    @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_reg_ex)
+    @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter)
     module_users(module_ids) if module_ids.present?
-
     # Alias @records to the record-specific name since ERB templates use that
     # right now
     # TODO: change the ERB templates to just accept the @records instance
@@ -61,7 +62,12 @@ module RecordActions
 
     # @highlighted_fields = []
     respond_to do |format|
-      format.html
+      format.html do
+        if params[:query].present? && @id_search.present? && !@records.present?
+          flash[:notice] = t('case.id_search_no_results', id: params[:query])
+          redirect_to new_case_path(module_id: params[:module_id]) if params[:redirect_not_found].present?
+        end
+      end
       unless params[:password]
         format.json do
           @records = @records.select{|r| r.marked_for_mobile} if params[:mobile].present?
@@ -104,7 +110,8 @@ module RecordActions
 
         @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
         @body_class = 'profile-page'
-        @duplicates = model_class.duplicates_of(params[:id])
+        #TODO - commented out for performance - could not find any places where it was being used
+        # @duplicates = model_class.duplicates_of(params[:id])
         @form_sections = @record.class.allowed_formsections(current_user, @record.module)
       end
 
@@ -242,6 +249,7 @@ module RecordActions
     # 'all' should not be used for other invocations.
     # When mobile is implemented, it should not use 'all'
     elsif params[:page] != 'all'
+      @id_search = params[:id_search]
       search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
       records = search.results
       total_records = search.total
@@ -251,7 +259,7 @@ module RecordActions
 
   #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.
   def get_lookups
-    @lookups = Lookup.all
+    @lookups = Lookup.all.all
   end
 
   def load_system_settings
@@ -260,12 +268,13 @@ module RecordActions
       @admin_level ||= @system_settings.reporting_location_config.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       @reporting_location ||= @system_settings.reporting_location_config.field_key || ReportingLocation::DEFAULT_FIELD_KEY
       @reporting_location_label ||= @system_settings.reporting_location_config.label_key || ReportingLocation::DEFAULT_LABEL_KEY
-      @reporting_location_reg_ex ||= @system_settings.reporting_location_config.reg_ex_filter || nil
+      #NOTE: @system_settings.reporting_location_config.reg_ex_filter is deprecated
+      @reporting_location_hierarchy_filter ||= @system_settings.reporting_location_config.hierarchy_filter || nil
     else
       @admin_level ||= ReportingLocation::DEFAULT_ADMIN_LEVEL
       @reporting_location ||= ReportingLocation::DEFAULT_FIELD_KEY
       @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
-      @reporting_location_reg_ex ||= nil
+      @reporting_location_hierarchy_filter ||= nil
     end
   end
 
@@ -320,6 +329,14 @@ module RecordActions
     @can_approval_case_plan = can?(:approve_case_plan, model_class) || can?(:request_approval_case_plan, model_class)
     @can_approval_closure = can?(:approve_closure, model_class) || can?(:request_approval_closure, model_class)
     @can_approvals = @can_approval_bia || @can_approval_case_plan || @can_approval_closure
+  end
+
+  def can_view_protection_concerns_filter
+    @can_view_protection_concerns_filter = can?(:view_protection_concerns_filter, model_class)
+  end
+
+  def can_sync_mobile
+    @can_sync_mobile = can?(:sync_mobile, model_class)
   end
 
   def view_reporting_filter
@@ -402,7 +419,6 @@ module RecordActions
 
   def create_or_update_record(id)
     @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]
-
     if @record.nil?
       @record = model_class.new_with_user_name(current_user, record_params)
     else

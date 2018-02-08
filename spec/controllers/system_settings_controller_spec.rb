@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe SystemSettingsController do
   before :each do
-    reporting_location = ReportingLocation.new(field_key: 'owned_by_location', label_key: 'district', admin_level: 2, reg_ex_filter: 'blah')
+    reporting_location = ReportingLocation.new(field_key: 'owned_by_location', label_key: 'district', admin_level: 2, reg_ex_filter: 'blah', hierarchy_filter: ['blah'])
     @system_settings = SystemSettings.create(default_locale: 'en',
                                              case_code_separator: '-',
                                              reporting_location_config: reporting_location,
@@ -50,13 +50,17 @@ describe SystemSettingsController do
                          "reporting_location_config" => {"field_key" => "owned_by_location",
                                                          "label_key" => "district",
                                                          "admin_level" => 2,
-                                                         "reg_ex_filter" => 'blah'},
+                                                         "reg_ex_filter" => 'blah',
+                                                         "hierarchy_filter" => ["blah"]},
                          "primero_version" => @system_settings.primero_version,
                          "age_ranges" => {"primero" => ["0 - 5","6 - 11","12 - 17","18+"],
                                           "unhcr" => ["0 - 4","5 - 11","12 - 17","18 - 59","60+"]},
                          "primary_age_range" => "primero",
                          "location_limit_for_api"=>150,
-                         "_id" => @system_settings.id, "_rev" => @system_settings.rev,
+                         "approval_forms_to_alert"=>nil,
+                         "_id" => @system_settings.id,
+                         "changes_field_to_form"=>nil,
+                         "_rev" => @system_settings.rev,
                          "couchrest-type" => "SystemSettings"}
       }
       get :index, string_sources: ['Location'], format: :json

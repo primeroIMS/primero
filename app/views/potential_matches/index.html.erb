@@ -1,30 +1,38 @@
 <% content_for :javascript do %>
     <script type="text/javascript" language="javascript">
-      $(document).ready(function () {
+      function table_sorter() {
         $("[id^='myTable_']").tablesorter({
           sortList: [[5, 1]]
         });
-      });
+      }
+
+      $(table_sorter);
     </script>
 <% end %>
 <% content_for :javascript do %>
     <script type="text/javascript" language="javascript">
-      $(document).on('click', "[id^='show_more_']", function (event) {
-        var target = $(event.target);
-        var tr_id = target.attr('id').split("_")[2];
-        $(this).text('show less');
-        $(this).attr("id", "show_less_" + tr_id);
-        $("#myTable_" + tr_id + " tr").css({'display': 'table-row'});
-      });
+      var $document = $(document);
 
-      $(document).on('click', "[id^='show_less_']", function (event) {
-        var target = $(event.target);
-        var tr_id = target.attr('id').split("_")[2];
-        $(this).text('show more');
-        $(this).attr("id", "show_more_" + tr_id);
-        $("#myTable_" + tr_id + " tr:not(:first-child)").css({'display': 'none'});
-      });
+      function show_more(event) {
+        var $this = $(this);
+        var $target = $(event.target);
+        var tr_id = $target.attr('id').split("_")[2];
+        $this.text(I18n.t('potential_match.show_less'));
+        $this.attr("id", "show_less_" + tr_id);
+        $("#myTable_" + tr_id).find("tr").css({'display': 'table-row'});
+      }
+      $document.on('click', "[id^='show_more_']", show_more);
+
+      function show_less(event) {
+        var $this = $(this);
+        var $target = $(event.target);
+        var tr_id = $target.attr('id').split("_")[2];
+        $this.text(I18n.t('potential_match.show_more'));
+        $this.attr("id", "show_more_" + tr_id);
+        $("#myTable_" + tr_id).find("tr:not(:first-child)").css({'display': 'none'});
+      }
+      $document.on('click', "[id^='show_less_']", show_less);
     </script>
 <% end %>
 
-<%= render 'record_shared/list_view_div', model: PotentialMatch, record: 'potential_match', collection: @match_results %>
+<%= render 'potential_matches/list_view', model: PotentialMatch, record: 'potential_match', collection: @grouped_potential_matches %>

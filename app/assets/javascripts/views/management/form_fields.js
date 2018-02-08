@@ -1,18 +1,18 @@
 var FormFields = {
-  init : function(options, elem) {
-    this.options = $.extend({},this.options,options);
+  init: function(options, elem) {
+    this.options = $.extend({}, this.options,options);
     this.elem  = elem;
     this.$elem = $(elem);
     this._build();
     return this;
   },
 
-  _build : function() {
+  _build: function() {
     var self = this;
     self.$elem.find(".form").live("click", function() {
       self.selectForm($(this));
     });
-    self.$elem.find(".field:not(.prev-selected)").live("click", function(){
+    self.$elem.find(".field:not(.prev-selected)").live("click", function() {
       self.selectItem($(this));
     });
     self.$elem.find(".close-link").live("click", function() {
@@ -20,43 +20,46 @@ var FormFields = {
     });
   },
 
-  selectForm : function(form){
+  selectForm: function(form) {
     var self = this;
-    var selectedForm = self.$elem.find(".form.selected");
-    if(selectedForm){
-      selectedForm.removeClass("selected");
-      self.$elem.find("#fields-for-"+selectedForm.attr("id")).removeClass("selected");
+    var $selected_form = self.$elem.find(".form.selected");
+    var $form = $(form);
+    if ($selected_form) {
+      $selected_form.removeClass("selected");
+      self.$elem.find("#fields-for-" + $selected_form.attr("id")).removeClass("selected");
     }
-    $(form).addClass("selected");
-    self.$elem.find("#fields-for-"+$(form).attr("id")).addClass("selected");
+    $form.addClass("selected");
+    self.$elem.find("#fields-for-" + $form.attr("id")).addClass("selected");
   },
 
-  selectItem: function(selectElement){
+  selectItem: function(select_element) {
     var self = this;
     self.hide();
-    var selectedField = { field_name: $(selectElement).data("name"),
-                          form_id: $(selectElement).parents("ul").data("id") };
-    self.options.onItemSelect(selectedField);
+    var selected_field = {
+      field_name: $(select_element).data("name"),
+      form_id: $(select_element).parents("ul").data("id")
+    };
+    self.options.onItemSelect(selected_field);
   },
 
-  show : function(args) {
+  show: function(args) {
     var self = this;
     self.reset(args.prevSelectedFields);
-    if(args.actionElement && args.actionElement.position().top && args.actionElement.position().left && args.actionElement.width()){
+    if (args.actionElement && args.actionElement.position().top && args.actionElement.position().left && args.actionElement.width()) {
       self.$elem.css("top", args.actionElement.position().top + "px");
-      self.$elem.css("left", args.actionElement.position().left + args.actionElement.width() +  "px");
+      self.$elem.css("left", args.actionElement.position().left + args.actionElement.width() + "px");
     }
     self.$elem.show();
   },
 
-  hide : function( ) {var self = this; self.$elem.hide(); },
+  hide: function() {var self = this; self.$elem.hide();},
 
-  reset : function(prevSelectedFields) {
+  reset: function(prev_selected_fields) {
     var self = this;
-    var firstForm = self.$elem.find(".form").first();
-    self.selectForm(firstForm);
-    $.each(prevSelectedFields, function(index, field_name){
-     self.$elem.find('#field-'+field_name).addClass("prev-selected");
+    var first_form = self.$elem.find(".form").first();
+    self.selectForm(first_form);
+    $.each(prev_selected_fields, function(index, field_name) {
+     self.$elem.find('#field-' + field_name).addClass("prev-selected");
     });
   }
 };
@@ -64,11 +67,13 @@ var FormFields = {
 $.plugin('formFields', FormFields);
 
 $(function() {
-    $("#locale").change( function(event){
-        var language_field = $(event.target);
-        var locale = language_field.val();
-        $(".translation_fields").hide();
-        $("div ."+locale).show();
-    });
+  $("#locale").change(function(event) {
+    var language_field = $(event.target);
+    var locale = language_field.val();
+    $(".translation_fields").hide().addClass('hide_element');
+    if (!_.isUndefined(locale) && locale !== '') {
+      $("div ." + locale).show().removeClass('hide_element');
+    }
+  });
 });
 

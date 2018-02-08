@@ -19,17 +19,13 @@ record_owner_fields = [
              "editable" => false,
              "disabled" => true
             }),
-  Field.new({"name" => "agency_organization",
+  Field.new({"name" => "owned_by_agency",
              "mobile_visible" => false,
              "type" => "select_box",
-             "visible" => false,
              "display_name_all" => "Agency",
-             "option_strings_text_all" =>
-                                    ["Agency1",
-                                     "Agency2",
-                                     "Agency3",
-                                     "Agency4",
-                                     "Agency5",].join("\n")
+             "editable" => false,
+             "disabled" => true,
+             "option_strings_source" => "Agency"
             }),
   Field.new({"name" => "assigned_user_names",
              "mobile_visible" => false,

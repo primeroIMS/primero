@@ -139,7 +139,7 @@ describe ChildrenController, :type => :controller do
           children = mock_child(@stubs)
           scope ||= {"child_status"=>"single||open"}
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => "open"}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(children)
+          Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => Record::STATUS_OPEN}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(children)
 
           get :index, :scope => scope
           assigns[:children].should == children
@@ -238,7 +238,7 @@ describe ChildrenController, :type => :controller do
         permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
         roles = [Role.new(permissions_list: [permission_case])]
 
-        Child.any_instance.stub(:child_status).and_return("Open")
+        Child.any_instance.stub(:child_status).and_return(Record::STATUS_OPEN)
         @case_worker1 = create(:user)
         @case_worker1.stub(:roles).and_return(roles)
         @case_worker2 = create(:user)
@@ -521,21 +521,21 @@ describe ChildrenController, :type => :controller do
         #TODO - remove owned_by_location_district references
         #TODO - create test like this in home controller for dashboard
 
-        @child_1 = create(:child, name: "Name 1", child_status: "Open", age: "5", case_id_display: "UN-TEST-0001",
+        @child_1 = create(:child, name: "Name 1", child_status: Record::STATUS_OPEN, age: "5", case_id_display: "UN-TEST-0001",
                           approval_status_bia: "Approved", bia_approved_date: "25-Oct-2016")
-        @child_age_7 = create(:child, name: "Name 2", child_status: "Open", age: "7", owned_by_agency: 'agency-1',
+        @child_age_7 = create(:child, name: "Name 2", child_status: Record::STATUS_OPEN, age: "7", owned_by_agency: 'agency-1',
                               owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0002", approval_status_bia: "Approved", bia_approved_date: "30-Oct-2016")
-        create(:child, name: "Name 3", child_status: "Closed", age: "7", case_id_display: "UN-TEST-0003")
-        @child_age_15 = create(:child, name: "Name 4", child_status: "Open", age: "15", owned_by_agency: 'agency-1',
+        create(:child, name: "Name 3", child_status: Record::STATUS_CLOSED, age: "7", case_id_display: "UN-TEST-0003")
+        @child_age_15 = create(:child, name: "Name 4", child_status: Record::STATUS_OPEN, age: "15", owned_by_agency: 'agency-1',
                                owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0004", approval_status_bia: "Approved", bia_approved_date: "20-Oct-2016")
-        create(:child, name: "Name 5", child_status: "Closed", age: "15", case_id_display: "UN-TEST-0005")
-        @child_age_21 = create(:child, name: "Name 6", child_status: "Open", age: "21", owned_by_agency: 'agency-2',
+        create(:child, name: "Name 5", child_status: Record::STATUS_CLOSED, age: "15", case_id_display: "UN-TEST-0005")
+        @child_age_21 = create(:child, name: "Name 6", child_status: Record::STATUS_OPEN, age: "21", owned_by_agency: 'agency-2',
                                owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0006", approval_status_bia: "Approved", bia_approved_date: "30-Oct-2015")
-        create(:child, name: "Name 7", child_status: "Closed", age: "21", owned_by_agency: 'agency-3', owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0007")
-        create(:child, name: "Name 8", child_status: "Open", marked_for_mobile: false, case_id_display: "UN-TEST-0008")
-        create(:child, name: "Name 9", child_status: "Closed", marked_for_mobile: true, case_id_display: "UN-TEST-0009")
-        @child_mobile_10= create(:child, name: "Name 10", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0010")
-        @child_mobile_11 = create(:child, name: "Name 11", child_status: "Open", marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0011")
+        create(:child, name: "Name 7", child_status: Record::STATUS_CLOSED, age: "21", owned_by_agency: 'agency-3', owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0007")
+        create(:child, name: "Name 8", child_status: Record::STATUS_OPEN, marked_for_mobile: false, case_id_display: "UN-TEST-0008")
+        create(:child, name: "Name 9", child_status: Record::STATUS_CLOSED, marked_for_mobile: true, case_id_display: "UN-TEST-0009")
+        @child_mobile_10= create(:child, name: "Name 10", child_status: Record::STATUS_OPEN, marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0010")
+        @child_mobile_11 = create(:child, name: "Name 11", child_status: Record::STATUS_OPEN, marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0011")
 
         Sunspot.commit
       end
@@ -551,30 +551,30 @@ describe ChildrenController, :type => :controller do
       context "filter" do
         context "by age range" do
           it "should filter by one range" do
-            params = {"scope" => {"child_status" => "list||Open", "age" => "range||6-11"}}
+            params = {"scope" => {"child_status" => "list||#{Record::STATUS_OPEN}", "age" => "range||6-11"}}
             get :index, params
 
-            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
+            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["6", "11"]]}}
             expect(assigns[:filters]).to eq(filters)
             expect(assigns[:children].length).to eq(1)
             expect(assigns[:children].first).to eq(@child_age_7)
           end
 
           it "should filter more than one range" do
-            params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||6-11||12-17"}}
+            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "age"=>"range||6-11||12-17"}}
             get :index, params
 
-            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
+            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["6", "11"], ["12", "17"]]}}
             expect(assigns[:filters]).to eq(filters)
             expect(assigns[:children].length).to eq(2)
             expect(assigns[:children]).to eq([@child_age_7, @child_age_15])
           end
 
           it "should filter with open range" do
-            params = {"scope"=>{"child_status"=>"list||Open", "age"=>"range||18 "}}
+            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "age"=>"range||18 "}}
             get :index, params
 
-            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
+            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "age"=>{:type=>"range", :value=>[["18 "]]}}
             expect(assigns[:filters]).to eq(filters)
             expect(assigns[:children].length).to eq(1)
             expect(assigns[:children].first).to eq(@child_age_21)
@@ -583,10 +583,10 @@ describe ChildrenController, :type => :controller do
 
         context "by mobile" do
           it "should filter by marked for mobile true" do
-            params = {"scope" => {"child_status" => "list||Open", "marked_for_mobile" => "single||true"}}
+            params = {"scope" => {"child_status" => "list||#{Record::STATUS_OPEN}", "marked_for_mobile" => "single||true"}}
             get :index, params
 
-            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "marked_for_mobile"=>{:type=>"single", :value=>true}}
+            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "marked_for_mobile"=>{:type=>"single", :value=>true}}
             expect(assigns[:filters]).to eq(filters)
             expect(assigns[:children].length).to eq(2)
             expect(assigns[:children]).to include(@child_mobile_10, @child_mobile_11)
@@ -595,20 +595,20 @@ describe ChildrenController, :type => :controller do
 
         context "by agency" do
           it "should filter by agency agency_1" do
-            params = {"scope"=>{"child_status"=>"list||Open", "owned_by_agency"=>"list||agency-1"}}
+            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_agency"=>"list||agency-1"}}
             get :index, params
 
-            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1"]}}
+            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1"]}}
             expect(assigns[:filters]).to eq(filters)
             expect(assigns[:children].length).to eq(2)
             expect(assigns[:children]).to include(@child_age_7, @child_age_15)
           end
 
           it "should filter by agency agency_1 and agency_4" do
-            params = {"scope"=>{"child_status"=>"list||Open", "owned_by_agency"=>"list||agency-1||agency-4"}}
+            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_agency"=>"list||agency-1||agency-4"}}
             get :index, params
 
-            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1", "agency-4"]}}
+            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "owned_by_agency"=>{:type=>"list", :value=>["agency-1", "agency-4"]}}
             expect(assigns[:filters]).to eq(filters)
             expect(assigns[:children].length).to eq(4)
             expect(assigns[:children]).to include(@child_age_7, @child_age_15, @child_mobile_10, @child_mobile_11)
@@ -618,10 +618,10 @@ describe ChildrenController, :type => :controller do
         #TODO - change district to reporting location
         context "by_district" do
           xit "should filter by district Bonthe" do
-            params = {"scope"=>{"child_status"=>"list||Open", "owned_by_location_district"=>"list||Bonthe"}}
+            params = {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_location_district"=>"list||Bonthe"}}
             get :index, params
 
-            filters = {"child_status"=>{:type=>"list", :value=>["Open"]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
+            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
             expect(assigns[:filters]).to eq(filters)
             expect(assigns[:children].length).to eq(2)
             expect(assigns[:children]).to include(@child_age_7, @child_age_15)
@@ -640,7 +640,7 @@ describe ChildrenController, :type => :controller do
       end
       context "dasboard links" do
         it "should list BIA approvals within a date range" do
-          params = {"scope" => {"child_status" => "list||Open", "approval_status_bia" => "list||Approved",
+          params = {"scope" => {"child_status" => "list||#{Record::STATUS_OPEN}", "approval_status_bia" => "list||Approved",
                                 "bia_approved_date" => "date_range||22-10-2016.02-11-2016"}}
           get :index, params
           expect(assigns[:children]).to match_array([@child_1, @child_age_7])
@@ -654,8 +654,8 @@ describe ChildrenController, :type => :controller do
       @user = fake_admin_login User.new(:user_name => 'test_user')
       Child.all.each &:destroy
       Sunspot.remove_all!
-      @child1 = create(:child, name: "Jonh Smith", child_status: "Open", owned_by: @user.user_name)
-      @child2 = create(:child, name: "James Carter", child_status: "Open", owned_by: @user.user_name)
+      @child1 = create(:child, name: "Jonh Smith", child_status: Record::STATUS_OPEN, owned_by: @user.user_name)
+      @child2 = create(:child, name: "James Carter", child_status: Record::STATUS_OPEN, owned_by: @user.user_name)
       Sunspot.commit
     end
 
@@ -739,7 +739,8 @@ describe ChildrenController, :type => :controller do
       response.should redirect_to(:action => :index)
     end
 
-    it "should include duplicate records in the response" do
+    #TODO - duplicates fetch commented out for performance reasons
+    xit "should include duplicate records in the response" do
       child = mock_child({:module_id => 'primeromodule-cp'})
       Child.stub(:allowed_formsections).and_return({})
       Child.stub(:get).with("37").and_return(child)
@@ -912,6 +913,50 @@ describe ChildrenController, :type => :controller do
       put :update, :id => '1', :child => params_child
     end
 
+  end
+
+  describe "GET id search", search: true, skip_session: true do
+    before do
+      User.all.each{|u| u.destroy}
+      Child.all.each{|c| c.destroy}
+      Sunspot.remove_all!
+
+      permission_case1 = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+      roles1 = [Role.new(permissions_list: [permission_case1])]
+
+      permission_case2 = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::SEARCH_OWNED_BY_OTHERS])
+      roles2 = [Role.new(permissions_list: [permission_case2])]
+
+      Child.any_instance.stub(:child_status).and_return(Record::STATUS_OPEN)
+      @case_worker1 = create(:user)
+      @case_worker1.stub(:roles).and_return(roles1)
+      @case_worker2 = create(:user)
+      @case_worker2.stub(:roles).and_return(roles2)
+
+      @case1 = create(:child, owned_by: @case_worker1.user_name)
+      @case2 = create(:child, owned_by: @case_worker1.user_name)
+      @case3 = create(:child, owned_by: @case_worker2.user_name)
+
+      Sunspot.commit
+    end
+
+    it "should query id and return correct case allowed by user" do
+      session = fake_login @case_worker1
+      get(:index, format: 'html', query: @case1.short_id, id_search: true)
+      expect(assigns[:children]).to match_array([@case1])
+    end
+
+    it "should query id and return all cases matched with search owned by others permission active" do
+      session = fake_login @case_worker2
+      get(:index, format: 'html', query: @case1.short_id, id_search: true)
+      expect(assigns[:children]).to match_array([@case1])
+    end
+
+    it "should go through and return no results if no results found" do
+      session = fake_login @case_worker2
+      get(:index, format: 'html', query: '0034952', id_search: true, module_id: 'test_module')
+      expect(assigns[:children]).to match_array([])
+    end
   end
 
   describe "GET search" do
@@ -1154,7 +1199,7 @@ describe ChildrenController, :type => :controller do
                    previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker", previously_owned_by_agency: "agency-unicef",
                    module_id: "primeromodule-gbv", created_organization: "agency-unicef", created_by: "primero_gbv",
                    created_by_full_name: "GBV Worker", record_state: true, marked_for_mobile: false, consent_for_services: false,
-                   child_status: "Open", name: "Joe Tester", name_first: "Joe", name_last: "Tester", name_nickname: "",
+                   child_status: Record::STATUS_OPEN, name: "Joe Tester", name_first: "Joe", name_last: "Tester", name_nickname: "",
                    name_given_post_separation: "No", registration_date: "01-Feb-2007", sex: "Male", age: 10,
                    estimated: false, address_is_permanent: false, system_generated_followup: false,
                    family_details_section: [
@@ -1178,7 +1223,7 @@ describe ChildrenController, :type => :controller do
                     previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker", previously_owned_by_agency: "agency-unicef",
                     module_id: "primeromodule-gbv", created_organization: "agency-unicef", created_by: "fakeadmin",
                     created_by_full_name: "GBV Worker", record_state: true, marked_for_mobile: true, consent_for_services: false,
-                    child_status: "Open", name: "Norville Rogers", name_first: "Norville", name_last: "Rogers", name_nickname: "Shaggy",
+                    child_status: Record::STATUS_OPEN, name: "Norville Rogers", name_first: "Norville", name_last: "Rogers", name_nickname: "Shaggy",
                     name_given_post_separation: "No", registration_date: "01-Feb-2007", sex: "Male", age: 10,
                     estimated: false, address_is_permanent: false, system_generated_followup: false,
                     family_details_section: [

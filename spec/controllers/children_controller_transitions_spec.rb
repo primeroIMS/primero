@@ -23,7 +23,7 @@ describe ChildrenController do
         "other_user_agency"=>"UNICEF",
         "service"=>"Other Service",
         "notes"=>"Testing",
-        "type_of_export"=>"Primero", #This value define that is a JSON file.
+        "type_of_export"=>Transitionable::EXPORT_TYPE_PRIMERO, #This value define that is a JSON file.
         "password"=>"password",
         "file_name"=>""
       }
@@ -56,7 +56,7 @@ describe ChildrenController do
         "other_user_agency"=>"UNICEF",
         "service"=>"Other Service",
         "notes"=>"Testing",
-        "type_of_export"=>"Non-Primero", #This value define that is a CSV file.
+        "type_of_export"=>Transitionable::EXPORT_TYPE_NON_PRIMERO, #This value define that is a CSV file.
         "password"=>"password",
         "file_name"=>""
       }
@@ -89,7 +89,7 @@ describe ChildrenController do
         "other_user_agency"=>"UNICEF",
         "service"=>"Other Service",
         "notes"=>"Testing",
-        "type_of_export"=>"PDF export", #This value define that is a PDF file.
+        "type_of_export"=>Transitionable::EXPORT_TYPE_PDF, #This value define that is a PDF file.
         "password"=>"password",
         "file_name"=>""
       }
@@ -224,12 +224,12 @@ describe ChildrenController do
 
       it_behaves_like "Remote", "referral" do
         let(:transition_user) {User.new(role_ids: [@referal_rol.id], module_ids: ["primeromodule-cp"])}
-        let(:pdf_permited_properties) {{"primeromodule-cp"=>{"Form Section Test 1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
-        let(:pdf_transition_properties) {{"primeromodule-cp"=>{"Form Section Test 1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
+        let(:pdf_permited_properties) {{"primeromodule-cp"=>{"form_section_test_1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
+        let(:pdf_transition_properties) {{"primeromodule-cp"=>{"form_section_test_1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
         #TODO - this is causing a failure.  This is an array.  Now expecting a hash.
         #TODO - verify with Pavel if code needs to be fixed or if test needs to change
         # let(:permited_properties) {Child.properties.select{|p| p.name == "field_name_1" or p.name == "unique_identifier" or p.name == "record_state"}}
-        let(:permited_properties) {{"primeromodule-cp"=>{"Form Section Test 1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
+        let(:permited_properties) {{"primeromodule-cp"=>{"form_section_test_1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
 
         let(:transition_properties) {Child.properties}
         let(:records) {[@child]}
@@ -246,7 +246,7 @@ describe ChildrenController do
         #TODO - this is causing a failure.  This is an array.  Now expecting a hash.
         #TODO - verify with Pavel if code needs to be fixed or if test needs to change
         # let(:permited_properties) {Child.properties.select{|p| p.name == "field_name_2" or p.name == "unique_identifier" or p.name == "record_state"}}
-        let(:permited_properties) {{"primeromodule-cp"=>{"Form Section Test 2"=>{"field_name_2"=> Child.properties.select{|p| p.name == "field_name_2"}.first}}}}
+        let(:permited_properties) {{"primeromodule-cp"=>{"form_section_test_2"=>{"field_name_2"=> Child.properties.select{|p| p.name == "field_name_2"}.first}}}}
 
         let(:transition_properties) {Child.properties}
         let(:records) {[@child2]}
@@ -263,13 +263,13 @@ describe ChildrenController do
 
       it_behaves_like "Remote", "referral" do
         let(:transition_user) {User.new(role_ids: [@referal_rol.id], module_ids: ["primeromodule-cp"])}
-        let(:pdf_permited_properties) {{"primeromodule-cp"=>{"Form Section Test 1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
+        let(:pdf_permited_properties) {{"primeromodule-cp"=>{"form_section_test_1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
         let(:pdf_transition_properties) {{"primeromodule-cp"=>{"Form Section Test 1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
 
         #TODO - this is causing a failure.  This is an array.  Now expecting a hash.
         #TODO - verify with Pavel if code needs to be fixed or if test needs to change
         # let(:permited_properties) {Child.properties.select{|p| p.name == "field_name_1" or p.name == "unique_identifier" or p.name == "record_state"}}
-        let(:permited_properties) {{"primeromodule-cp"=>{"Form Section Test 1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
+        let(:permited_properties) {{"primeromodule-cp"=>{"form_section_test_1"=>{"field_name_1"=> Child.properties.select{|p| p.name == "field_name_1"}.first}}}}
 
         let(:transition_properties) {Child.properties}
         let(:records) {[@child, @child2]}
@@ -286,7 +286,7 @@ describe ChildrenController do
         #TODO - this is causing a failure.  This is an array.  Now expecting a hash.
         #TODO - verify with Pavel if code needs to be fixed or if test needs to change
         # let(:permited_properties) {Child.properties.select{|p| p.name == "field_name_2" or p.name == "unique_identifier" or p.name == "record_state"}}
-        let(:permited_properties) {{"primeromodule-cp"=>{"Form Section Test 2"=>{"field_name_2"=> Child.properties.select{|p| p.name == "field_name_2"}.first}}}}
+        let(:permited_properties) {{"primeromodule-cp"=>{"form_section_test_2"=>{"field_name_2"=> Child.properties.select{|p| p.name == "field_name_2"}.first}}}}
 
         let(:transition_properties) {Child.properties}
         let(:records) {[@child, @child2]}

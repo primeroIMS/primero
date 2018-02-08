@@ -36,9 +36,20 @@ module TransitionActions
           message_failure_transition
           redirect_to :back
         end
+      elsif is_reassign?
+        begin
+          local_transition(@records)
+          redirect_to_list and return
+        rescue => error
+          redirect_to :back
+        end
       else
-        local_transition(@records)
-        redirect_to :back
+        begin
+          local_transition(@records)
+          redirect_to :back
+        rescue => error
+          redirect_to :back
+        end
       end
     end
   end
@@ -85,7 +96,7 @@ module TransitionActions
     #Only update to TRANSFERRED status on Cases
     if model_class == Child
       transfer_records.each do |transfer_record|
-        transfer_record.child_status = "Transferred"
+        transfer_record.child_status = Transition::TRANSFERRED_STATUS
         transfer_record.record_state = false
         transfer_record.save!
       end
@@ -134,10 +145,12 @@ module TransitionActions
             transfer_record.previously_owned_by = transfer_record.owned_by
             transfer_record.owned_by = @new_user.user_name
             transfer_record.owned_by_full_name = @new_user.full_name
+            transfer_record.reassigned_tranferred_on = DateTime.now
           elsif is_transfer?
             #Referred users will be on the assigned users until the user accept or reject the referral.
             transfer_record.assigned_user_names |= [@to_user_local] if @to_user_local.present?
             transfer_record.transfer_status = to_user_local_status
+            transfer_record.reassigned_tranferred_on = DateTime.now
           end
           unless transfer_record.save
             failed_count += 1
@@ -182,6 +195,7 @@ module TransitionActions
                             is_remote?, type_of_export, current_user.user_name, consent_overridden(record), service)
       #TODO - should this be done here or somewhere else?
       #ONLY save the record if remote transfer/referral.  Local transfer/referral will update and save the record(s)
+      record.set_service_as_referred( service_object_id )
       record.save if is_remote?
     end
   end
@@ -207,11 +221,12 @@ module TransitionActions
   end
 
   def type_of_export_exporter
-    @type_of_export_exporter ||= if type_of_export == "Primero"
+    @type_of_export_exporter ||= case type_of_export
+    when Transitionable::EXPORT_TYPE_PRIMERO
       Exporters::JSONExporter
-    elsif type_of_export == "Non-Primero"
+    when Transitionable::EXPORT_TYPE_NON_PRIMERO
       Exporters::CSVExporter
-    elsif type_of_export == "PDF export"
+    when Transitionable::EXPORT_TYPE_PDF
       Exporters::PDFExporter
     else
       nil
@@ -253,8 +268,7 @@ module TransitionActions
 
   def default_transition_status
     if transition_type == Transition::TYPE_REFERRAL || transition_type == Transition::TYPE_TRANSFER
-      #TODO enforcing locale until refactoring i18n.
-      I18n.t("#{transition_type}.#{Transition::TO_USER_LOCAL_STATUS_INPROGRESS}", :locale => :en)
+      Transition::TO_USER_LOCAL_STATUS_INPROGRESS
     else
       ""
     end
@@ -262,6 +276,10 @@ module TransitionActions
 
   def service
     @service ||= (params[:service].present? ? params[:service] : "")
+  end
+
+  def service_object_id
+    @service_object_id ||= (params[:service_object_id].present? ? params[:service_object_id] : "")
   end
 
   def notes

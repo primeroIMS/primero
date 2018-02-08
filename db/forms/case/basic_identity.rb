@@ -34,8 +34,9 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "child_status",
              "type" =>"select_box" ,
+             "selected_value" => Record::STATUS_OPEN,
              "display_name_all" => "Case Status",
-             "option_strings_source" => "lookup CaseStatus"
+             "option_strings_source" => "lookup lookup-case-status"
             }),
   Field.new({"name" => "case_status_reopened",
              "type" => "tick_box",
@@ -46,7 +47,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "name", #TODO v1.3: Confirm taht we are not using HighlightInformation
              "type" => "text_field",
-             "display_name_all" => "Full Name",             
+             "display_name_all" => "Full Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "required" => true,
              "show_on_minify_form" => true,
@@ -90,20 +91,21 @@ basic_identity_fields = [
   Field.new({"name" => "name_given_post_separation",
              "type" => "radio_button",
              "display_name_all" => "Name(s) given to child after separation?",
-             "option_strings_text_all" => "Yes\nNo",
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "registration_date",
              "type" => "date_field",
+             "selected_value" => "today",
              "required" => false,
              "display_name_all" => "Date of Registration or Interview",
              "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "sex",
              "type" => "select_box",
-             "option_strings_text_all" => "Male\nFemale",
              "show_on_minify_form" => true,
              "required" => true,
              "display_name_all" => "Sex",
+             "option_strings_source" => "lookup lookup-gender",
              "matchable" => true
             }),
   Field.new({"name" => "age",
@@ -156,6 +158,18 @@ basic_identity_fields = [
             "type" => "text_field",
             "display_name_all" => "UN Number"
             }),
+  Field.new({"name" => "national_id_no",
+            "type" => "text_field",
+            "display_name_all" => "National ID Number"
+            }),
+  Field.new({"name" => "other_id_type",
+            "type" => "text_field",
+            "display_name_all" => "Type of Other ID Document"
+            }),
+  Field.new({"name" => "other_id_no",
+            "type" => "text_field",
+            "display_name_all" => "Number of Other ID Document"
+            }),
   Field.new({"name" => "other_agency_id",
             "type" => "text_field",
             "display_name_all" => "Other Agency ID"
@@ -168,15 +182,18 @@ basic_identity_fields = [
              "type" => "textarea",
              "display_name_all" => "List of documents carried by the child"
             }),
+  Field.new({"name" => "nationality",
+             "type" =>"select_box",
+             "multi_select" => true,
+             "display_name_all" => "Nationality",
+             "option_strings_source" => "lookup lookup-country",
+             "matchable" => true
+            }),
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,
              "display_name_all" => "Current Civil/Marital Status",
              "show_on_minify_form" => true,
-             "option_strings_text_all" =>
-                          ["Single",
-                           "Married/Cohabitating",
-                           "Divorced/Separated",
-                           "Widowed"].join("\n")
+             "option_strings_source" => "lookup lookup-marital-status"
             }),
   Field.new({"name" => "occupation",
              "type" => "text_field",
@@ -220,5 +237,6 @@ FormSection.create_or_update_form_section({
   :is_first_tab => true,
   "name_all" => "Basic Identity",
   "description_all" => "Basic identity information about a separated or unaccompanied child.",
-  :mobile_form => true
+  :mobile_form => true,
+  :header_message_link => "workflow_status"
 })

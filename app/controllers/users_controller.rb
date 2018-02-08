@@ -10,7 +10,6 @@ class UsersController < ApplicationController
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
   before_filter :load_records_according_to_disable_filter, :only => [:index]
   before_filter :agency_names, :only => [:new, :create, :edit, :update]
-  before_filter :location_names, :only => [:new, :create, :edit, :update]
 
   skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
 
@@ -162,11 +161,7 @@ class UsersController < ApplicationController
   end
 
   def agency_names
-    @agency_names = Agency.available_agency_names
-  end
-
-  def location_names
-    @location_names = Location.all_names
+    @agency_names = Agency.all_names
   end
 
   def clean_role_ids
@@ -188,11 +183,9 @@ class UsersController < ApplicationController
   end
 
   def load_lookups
-    #Only fetch the ROLES that this user is allowed to assign
     @roles = Role.all.select{|r| can? :assign, r}
-
-    @modules = PrimeroModule.all
-    @user_groups = UserGroup.all
+    @user_groups = UserGroup.all.select{|ug| can?(:assign, ug)}
+    @modules = @current_user.has_group_permission?(Permission::ALL) ? PrimeroModule.all.all : PrimeroModule.all(keys: @current_user.module_ids).all
   end
 
   #Override method in LoggerActions.

@@ -40,10 +40,13 @@ describe "incidents/show.html.erb" do
     end
 
     it "renders all fields found on the FormSection" do
-      @form_section.add_field Field.new_text_field("age", "Age")
-      @form_section.add_field Field.new_radio_button("gender", ["male", "female"], "Gender")
-      @form_section.add_field Field.new_select_box("date_of_separation", ["1-2 weeks ago", "More than"], "Date of separation")
-
+      @form_section.add_field(build(:field, name: 'age', display_name: 'Age'))
+      @form_section.add_field(build(:field, type: Field::RADIO_BUTTON, name: "gender".dehumanize,
+                                    display_name: "gender".humanize,
+                                    option_strings_text_all: ["male", "female"].join("\n")))
+      @form_section.add_field(build(:field, type: Field::SELECT_BOX, name: "date_of_separation".dehumanize,
+                                    display_name: "date_of_separation".humanize,
+                                    option_strings_text_all: ["1-2 weeks ago", "More than"].join("\n")))
       render
 
       rendered.should have_tag(".section_name") do

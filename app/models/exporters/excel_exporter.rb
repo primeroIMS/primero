@@ -35,9 +35,13 @@ module Exporters
     # @returns: a String with the Excel file data
     def export(models, properties_by_module, current_user, custom_export_options, *args)
       properties_by_module = self.class.properties_to_export(properties_by_module, custom_export_options, models)
+      @form_sections = self.class.case_form_sections_by_module(models, current_user)
+
       unless @sheets.present?
-        build_sheets_definition(properties_by_module)
+        build_sheets_definition(properties_by_module, models.first.try(:module).try(:name))
       end
+
+      self.class.load_fields(models.first) if models.present?
 
       models.each do |model|
         sheets_def = get_sheets_by_module(model.module_id)
@@ -89,7 +93,7 @@ module Exporters
             end
           end
         else
-          (model.send(property.name) || []).join(" ||| ")
+          (self.class.translate_value(property.name, model.send(property.name)) || []).join(" ||| ")
         end
       else
         self.class.get_model_value(model, property)
@@ -112,7 +116,7 @@ module Exporters
     #Build the sheets definition.
     #Split any subform in his own sheet if there is
     #others none subforms properties in the same form section.
-    def build_sheets_definition(properties_by_module)
+    def build_sheets_definition(properties_by_module, model_module=nil)
       @sheets ||= {}
       properties_by_module.each do |module_id, form_sections|
         form_sections.each do |fs_name, properties|
@@ -121,18 +125,21 @@ module Exporters
             prop.is_a?(Hash) || (prop.array == true && prop.type.include?(CouchRest::Model::Embeddable))
           end
           others = (properties.to_a - subforms.to_a).to_h
+
+          get_name = model_module.present? ? @form_sections[model_module].select{|fs| fs.unique_id == fs_name}.first.try(:name) : nil
+          name = get_name || fs_name
           if subforms.blank? || (subforms.length == 1 && others.blank?)
             #The section does not have subforms or
             #there is just one subform in the form section.
-            build_sheet_definition(fs_name, properties, module_id)
+            build_sheet_definition(name, properties, module_id)
           else
             #set the section with the properties that are not subforms if apply.
-            build_sheet_definition(fs_name, others, module_id) if others.present?
+            build_sheet_definition(name, others, module_id) if others.present?
             #set any subform in this own sheet.
             subforms.each do |prop_name, props|
               sheet_name = prop_name.titleize
               #Make sure don't collision with the names.
-              sheet_name = "#{fs_name} #{sheet_name}" if @sheets[sheet_name].present?
+              sheet_name = "#{name} #{sheet_name}" if @sheets[sheet_name].present?
               build_sheet_definition(sheet_name, {prop_name => props}, module_id)
             end
           end

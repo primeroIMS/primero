@@ -14,6 +14,8 @@ class SystemSettings < CouchRest::Model::Base
   property :age_ranges, { String => [AgeRange] }
   property :primary_age_range, String
   property :location_limit_for_api
+  property :approval_forms_to_alert
+  property :changes_field_to_form
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version
@@ -57,6 +59,11 @@ class SystemSettings < CouchRest::Model::Base
   def self.handle_changes
     system_settings = SystemSettings.first
     system_settings.update_default_locale if system_settings.present?
+    flush_dependencies
+  end
+
+  def self.memoized_dependencies
+    CouchChanges::Processors::Notifier.supported_models
   end
 
   class << self

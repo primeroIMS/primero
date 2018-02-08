@@ -1,25 +1,17 @@
 <%
   is_field_edit ||= false
+  given_locale ||= I18n.default_locale.to_s
 %>
 <div class="translation">
   <% if show_drop_down %>
-      <div class="row">
-        <div class="medium-3 columns">
-          <label class="key inline"><%= t(:provide_translation) %></label>
-        </div>
-        <div class="medium-9 columns">
-          <div class="lang_title">
-            <%= select_tag("locale", options_for_select(Primero::Application::LOCALES_WITH_DESCRIPTION.select { |option| option[1] != I18n.default_locale.to_s }), :class => 'locale') %>
-          </div>
-        </div>
-      </div>
+    <%= render 'shared/locale_select', current_locale: given_locale %>
   <% end %>
-  <% Primero::Application::LOCALES.each do |given_locale| %>
-      <% if I18n.default_locale.to_s != given_locale %>
-        <div class="<%= "translation_forms #{given_locale}"%> hide">
-          <%= render :partial => 'form_section/fields', :locals => {:fields => fields, :fld => fld, :given_locale => given_locale, :is_translation => true, :is_field_edit => is_field_edit}%>
-        </div>
-      <% end %>
+  <% Primero::Application::LOCALES.each do |new_locale| %>
+    <% if given_locale != new_locale %>
+      <div class="<%= "translation_forms #{new_locale}"%> hide_element">
+        <%= render :partial => 'form_section/fields', :locals => {:fields => fields, :fld => fld, :given_locale => new_locale, :is_translation => true, :is_field_edit => is_field_edit}%>
+      </div>
+    <% end %>
   <% end %>
 </div>
 

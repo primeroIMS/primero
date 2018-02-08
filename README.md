@@ -1,5 +1,7 @@
 Primero
 ========
+[![Build Status](https://api.travis-ci.org/primeroIMS/primero.svg?branch=master)](https://travis-ci.org/primeroIMS/primero)
+
 
 ## Development
 To develop the application locally, you will need to do the following:
@@ -45,8 +47,9 @@ collision when trying to assign port 8000 -- check the Vagrant output upon the
 port 8443.  You can login with a preseeded admin account with credentials
 `primero`/`primero`.
 
+Vagrant is provisioned using a development Chef file `dev-node.json.sample`. You can override it by creating your own file `dev-node.json`. See the README in the `cookbook` directory for more on configuring Primero Chef files.
 
-### Starting development
+## Starting development
 
 When the Vagrant box is up and running, SSH in and go to the Primero development directory (synced from your host):
 
@@ -70,7 +73,7 @@ Automatic development server reloads based on code changes have been disabled. T
 For more on making code contributions, have a look at the file `CONTRIBUTING.md`.
 
 
-### Deploy keys
+## Deploy keys
 
 Since development will happen on forked repositories you will need to make sure
 that your personal repository has the right deploy key set.  To do so, add the

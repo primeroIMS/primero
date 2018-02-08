@@ -10,9 +10,7 @@ gbv_individual_details_fields = [
              "mobile_visible" => true,
              "type" => "radio_button",
              "display_name_all" => "What is the sex of the survivor?",
-             "option_strings_text_all" =>
-                          ["Female",
-                           "Male"].join("\n")
+             "option_strings_source" => "lookup lookup-gender"
             }),
   Field.new({"name" => "date_of_birth",
              "show_on_minify_form" => true,
@@ -30,39 +28,39 @@ gbv_individual_details_fields = [
              "mobile_visible" => false,
              "type" => "radio_button",
              "display_name_all" => "Is the age estimated?",
-             "option_strings_text_all" => ["Yes", "No"].join("\n")
+             "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "ethnicity",
              "mobile_visible" => false,
              "type" => "select_box",
              "display_name_all" => "What is the ethnic affiliation of the survivor?",
-             "option_strings_source" => "lookup Ethnicity"
+             "option_strings_source" => "lookup lookup-ethnicity"
             }),
   Field.new({"name" => "nationality",
              "mobile_visible" => false,
              "type" => "select_box",
              "display_name_all" => "What is the national affiliation of the survivor?",
-             "option_strings_source" => "lookup Nationality"
+             "option_strings_source" => "lookup lookup-nationality"
             }),
   Field.new({"name" => "religion",
              "mobile_visible" => false,
              "type" => "select_box",
              "display_name_all" => "What is the religious affiliation of the survivor?",
-             "option_strings_source" => "lookup Religion"
+             "option_strings_source" => "lookup lookup-religion"
             }),
   Field.new({"name" => "country_of_origin",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Country of Origin",
-             "option_strings_source" => "lookup Country"
+             "option_strings_source" => "lookup lookup-country"
             }),
   Field.new({"name" => "displacement_status",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Displacement Status at time of report",
-             "option_strings_source" => "lookup DisplacementStatus"
+             "option_strings_source" => "lookup lookup-displacement-status"
             }),
   Field.new({"name" => "maritial_status",
              "mobile_visible" => true,
@@ -86,7 +84,7 @@ gbv_individual_details_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Is the survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
-             "option_strings_source" => "lookup UnaccompaniedSeparatedStatus",
+             "option_strings_source" => "lookup lookup-unaccompanied-separated-status",
             })
 ]
 

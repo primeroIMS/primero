@@ -1,16 +1,19 @@
-_primero.Views.IndexTable = Backbone.View.extend({
-
-  pagination: typeof pagination_details == 'undefined' ? false : pagination_details,
+_primero.Views.IndexTable = _primero.Views.Base.extend({
 
   el: 'body',
 
   events: {
     'change #record_scope': 'change_scope',
     'change .dataTables_length select': 'change_display_count',
-    'click .dataTable th': 'change_sorting'
+    'click .dataTable th': 'change_sorting',
+    'click .dropdown_link': 'dropdown_links'
   },
 
   initialize: function() {
+    var self = this;
+
+    this.pagination = typeof window.pagination_details == 'undefined' ? false : window.pagination_details;
+
     this.init_index_tables();
     this.disable_table_alerts();
     this.init_other_tables();
@@ -20,8 +23,8 @@ _primero.Views.IndexTable = Backbone.View.extend({
   },
 
   agency_sortable: function() {
-    var rows = $("table#list_table.agency tbody");
-    rows.sortable({
+    var $rows = $("#list_table.agency").find("tbody");
+    $rows.sortable({
       update: function(){
         $.post('/agencies/update_order', $(this).sortable('serialize'));
       }
@@ -37,8 +40,11 @@ _primero.Views.IndexTable = Backbone.View.extend({
   init_index_tables: function() {
     self = this;
 
+    var $list_table = $('.record_list_view');
+    
     // init datatables
-    this.list_view_table = $('.record_list_view').DataTable({
+    this.list_view_table = $list_table.DataTable({
+      destroy: true,
       searching: false,
       language: {
         info: self.pagination.info,
@@ -55,14 +61,17 @@ _primero.Views.IndexTable = Backbone.View.extend({
       aaSorting: [],
       sDom: 'frtlp',
       lengthMenu: [ 20, 50, 75, 100 ]
-    });
+    }).draw();
   },
 
   init_other_tables: function() {
     self = this;
 
+    var $other_tables = $('.list_view, .list_table');
+
     // for non child/incident
-    $('.list_view, .list_table').DataTable({
+    this.other_tables = $other_tables.DataTable({
+      destroy: true,
       searching: false,
       lengthChange: false,
       "ordering": false,
@@ -96,31 +105,34 @@ _primero.Views.IndexTable = Backbone.View.extend({
         scope = select_val.split(':'),
         prev_params = _primero.clean_page_params(['scope']);
 
-    window.location.search = prev_params + '&scope[' + scope[0]  + ']=' + scope[1];
+    var search = prev_params + '&scope[' + scope[0]  + ']=' + scope[1];
+    Turbolinks.visit(window.location.pathname + '?' + search);
   },
 
   change_display_count: function(event) {
     event.preventDefault();
     var prev_params = _primero.clean_page_params(['page', 'per']),
         select_val = $(event.target).val();
-    window.location.search = prev_params + '&per=' + select_val;
+    var search = prev_params + '&per=' + select_val;
+    Turbolinks.visit(window.location.pathname + '?' + search);
   },
 
   change_sorting: function(event) {
-    var column = $(event.target),
-        order = column.attr('aria-sort'),
+    var $column = $(event.target),
+        order = $column.attr('aria-sort'),
         redraw = false,
         prev_params = _primero.clean_page_params(['order', 'column', 'col_idx']),
-        column_field = column.attr('aria-field'),
-        column_field_idx = column.attr('aria-field-index');
-    if (column.attr("type") != "checkbox") {
+        column_field = $column.attr('aria-field'),
+        column_field_idx = $column.attr('aria-field-index');
+    if ($column.attr("type") != "checkbox") {
       event.preventDefault();
     }
 
     order = order == 'ascending' ? 'asc' : 'desc';
     // Disable the sorting for the Violations and Photo columns
     if (column_field != 'violations' && column_field != 'photo' && column_field != 'select' && column_field != 'tracing_names'){
-      window.location.search = prev_params + '&order=' + order + '&column=' + column_field + '&col_idx=' + column_field_idx;
+      var search = prev_params + '&order=' + order + '&column=' + column_field + '&col_idx=' + column_field_idx;
+      Turbolinks.visit(window.location.pathname + '?' + search);
     }
   },
 
@@ -130,5 +142,10 @@ _primero.Views.IndexTable = Backbone.View.extend({
       selected_records.push($(this).val());
     });
     return selected_records;
+  },
+
+  dropdown_links: function(event) {
+    var $dropdown_link = $(event.target);
+    Turbolinks.visit($dropdown_link.attr('data-link'));
   }
 });

@@ -51,16 +51,16 @@ module ApplicationHelper
     current_session
   end
 
-  def submit_button(name = t("buttons.save"))
-      submit_tag(name, :class => 'green-button btn_submit')
+  def submit_button(name = t("buttons.save"), additional_classes = nil)
+      submit_tag(name, :class => "button btn_submit #{additional_classes}")
   end
 
   def cancel_button(path)
-      link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation')}, class: "link_cancel"
+      link_to t('cancel'), path, data: {confirm: t('messages.cancel_confirmation'), turbolinks: false}, class: "link_cancel button gray"
   end
 
-  def discard_button(path)
-      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message')}, class: "grey-button"
+  def discard_button(path, additional_classes = "gray" )
+      link_to t('cancel'), path, data: {confirm: t('messages.confirmation_message'), turbolinks: false}, class: "button #{additional_classes}"
   end
 
   def link_with_confirm(link_to, anchor, link_options = {})
@@ -131,66 +131,52 @@ module ApplicationHelper
 
   def ctl_edit_button(record, path=nil)
     path = path.singularize if path.instance_of? String
-    ctl_button_wrapper do
-      if path.present?
-        if record.present?
-          # This is necessary to make the translation between children and cases
-          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
-            class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
-        else
-          #TODO - sort of a hack for language edit, since it uses i18n.locale instead of a model
-          link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true }),
-            class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
-        end
+    if path.present?
+      if record.present?
+        # This is necessary to make the translation between children and cases
+        link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true, id: record.id }),
+          class: "button #{'green arrow' if current_actions(action: ['update', 'edit'])}"
       else
-        link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
-          class: "green-button #{'arrow' if current_actions(action: ['update', 'edit'])}"
+        #TODO - sort of a hack for language edit, since it uses i18n.locale instead of a model
+        link_to t("buttons.edit"), edit_polymorphic_path(path, { follow: true }),
+          class: "button #{'green arrow' if current_actions(action: ['update', 'edit'])}"
       end
+    else
+      link_to t("buttons.edit"), edit_polymorphic_path(record, { follow: true }),
+        class: "button #{'green arrow' if current_actions(action: ['update', 'edit'])}"
     end
   end
 
-  def ctl_cancel_button(path)
+  def ctl_cancel_button(path, additional_classes = "gray")
     record = controller.controller_name.gsub('_', ' ').titleize
-    ctl_button_wrapper do
-      discard_button polymorphic_path(path)
-    end
+    discard_button(polymorphic_path(path), additional_classes)
   end
 
   def ctl_save_button
-    ctl_button_wrapper do
-      submit_button
-    end
+    submit_button
   end
 
   def ctl_create_incident_button(record)
-    if record.present? and record.class.name == "Child" and record.module_id == PrimeroModule::GBV
+    if record.present? and record.class.name == "Child" and record.module_id == PrimeroModule::GBV and (can? :incident_from_case, record)
       if current_actions(action: ['update', 'edit'])
-        content_tag :li do
-          submit_button(t("buttons.create_incident"))
-        end
+        submit_button(t("buttons.create_incident"))
       elsif current_actions(action: ['show'])
-        content_tag :li do
-          link_to t("buttons.create_incident"), child_create_incident_path(record), class: "green-button"
-        end
+        link_to t("buttons.create_incident"), child_create_incident_path(record), class: "button"
       end
-    end
-  end
-
-  def ctl_button_wrapper(&block)
-    content_tag :li, class: "#{'rec_ctl' if current_actions(action: ['edit', 'update'])}" do
-      block.call
     end
   end
 
   def render_controls(record, path=nil)
-    if record.present? && record.new?
-      ctl_cancel_button(path || record) + ctl_save_button
-    elsif current_actions(action: ['update', 'edit'])
-      ctl_edit_button(record, path) + ctl_cancel_button(path || record) + ctl_save_button
-    elsif current_actions(action: ['edit_locale'])
-      ctl_edit_button(record, path) + ctl_cancel_button(record) + ctl_save_button
-    else
-      ctl_edit_button(record, path)
+    content_tag :div, class: 'button-group' do
+      if record.present? && record.new?
+        ctl_cancel_button(path || record) + ctl_save_button
+      elsif current_actions(action: ['update', 'edit'])
+        ctl_edit_button(record, path) + ctl_cancel_button(path || record, "middle_btn") + ctl_save_button
+      elsif current_actions(action: ['edit_locale'])
+        ctl_edit_button(record, path) + ctl_cancel_button(record) + ctl_save_button
+      else
+        ctl_edit_button(record, path)
+      end
     end
   end
 

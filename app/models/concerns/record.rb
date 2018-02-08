@@ -17,7 +17,6 @@ module Record
       Field::TEXT_AREA,
       Field::RADIO_BUTTON,
       Field::SELECT_BOX,
-      Field::CHECK_BOXES,
       Field::NUMERIC_FIELD,
       Field::DATE_FIELD,
       Field::DATE_RANGE,
@@ -128,6 +127,9 @@ module Record
     end
   end
 
+  STATUS_OPEN = 'open'
+  STATUS_CLOSED = 'closed'
+
   def self.model_from_name(name)
     name == 'case' ? Child : Object.const_get(name.camelize)
   end
@@ -143,6 +145,10 @@ module Record
       record.owned_by = user.user_name if record.owned_by.blank?
       record.owned_by_full_name = user.full_name || nil #if record.owned_by_full_name.blank?
       record
+    end
+
+    def generate_unique_id
+      return UUIDTools::UUID.random_create.to_s
     end
 
     def parent_form
@@ -268,7 +274,7 @@ module Record
 
     def report_filters
       [
-        {'attribute' => 'status', 'value' => ['Open']},
+        {'attribute' => 'status', 'value' => [STATUS_OPEN]},
         {'attribute' => 'record_state', 'value' => ['true']}
       ]
     end
@@ -314,12 +320,12 @@ module Record
         form_sections = form_sections.map{|key, forms| forms }.flatten
         properties_by_module[primero_module.id] = {}
         form_sections.each do |section|
-          properties = self.properties_by_form[section.name]
+          properties = self.properties_by_form[section.unique_id]
           if read_only_user
             readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
             properties = properties.select{|k,v| readable_props.include?(k)}
           end
-          properties_by_module[primero_module.id][section.name] = properties
+          properties_by_module[primero_module.id][section.unique_id] = properties
         end
       end
       properties_by_module
@@ -340,7 +346,7 @@ module Record
         if section.is_violation_wrapper?
           properties = Incident.properties.select{|p| p.name == 'violations'}
         else
-          properties = self.properties_by_form[section.name].values
+          properties = self.properties_by_form[section.unique_id].values
           if read_only_user
             readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
             properties = properties.select{|p| readable_props.include?(p.name)}
@@ -398,6 +404,11 @@ module Record
     end
   end
 
+  def display_field(field_name, lookups = nil)
+    fd = field_definitions.select{|f| f.name == field_name}.first
+    fd.nil? ? "" : fd.display_text(self.send(field_name), lookups)
+  end
+
   def update_with_attachments(params, user)
     new_photo = params[:child].delete("photo")
     new_photo = (params[:child][:photo] || "") if new_photo.nil?
@@ -416,11 +427,18 @@ module Record
   end
 
   def field_definitions
-    # It assumes that there is only one module associated with the user/record. If we have multiple modules per user in the future
-    # this will not work.
-    parent_form = self.class.parent_form
-    forms = (self.module.present? ? self.module.associated_forms_grouped_by_record_type[parent_form] : [])
-    @field_definitions ||= (forms.present? ? forms.map{|form| form.fields }.flatten : [])
+    if @field_definitions.blank?
+      @field_definitions = []
+      # It assumes that there is only one module associated with the user/record. If we have multiple modules per user in the future
+      # this will not work.
+      parent_form = self.class.parent_form
+      forms = (self.module.present? ? self.module.associated_forms_grouped_by_record_type(true)[parent_form] : [])
+      if forms.present?
+        FormSection.link_subforms(forms)
+        @field_definitions = forms.map{|form| form.fields }.flatten
+      end
+    end
+    @field_definitions
   end
 
   def update_properties(properties, user_name)
@@ -492,10 +510,23 @@ module Record
   #Copy the value of the fields from the source object.
   #The mapping parameter has the form as
   # { "field_name in source object" => "field_name in target object" }.
-  def copy_fields(source, mapping)
-    mapping.each do |source_key, target_key|
-      self[target_key] = source[source_key] if source[source_key].present?
+  def copy_fields(source, mapping, incident_id)
+    if mapping.present?
+      mapping.each do |original_field|
+        source_value = source
+        target_key = original_field["target"]
+        if original_field["source"][0] == "incident_details"
+          incident_key = original_field["source"][1]
+          incidents = source_value["incident_details"]
+          selected_incident = incidents.find{|incident| incident["unique_id"] == incident_id}
+          source_value = selected_incident[incident_key]
+        else
+          form_key = original_field["source"][0]
+          source_value = source[form_key]
+        end
+
+        self[target_key] = source_value unless source_value.nil?
+      end
     end
   end
-
 end

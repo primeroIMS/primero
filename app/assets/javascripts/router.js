@@ -22,6 +22,8 @@ _primero.Router = Backbone.Router.extend({
     'forms/:id/edit': 'formSectionEditPage',
     'forms/:form_section_id/fields/:id/edit': 'fieldEditPage',
     'users': 'passwordPrompt',
+    'users/new': 'userCreatePage',
+    'users/:id/edit': 'userCreatePage',
     'roles': 'roleIndexPage',
     'login' : 'maskedUserAndPasswordLogin',
     'sessions/new': 'maskedUserAndPasswordLogin',
@@ -32,6 +34,7 @@ _primero.Router = Backbone.Router.extend({
   initialize: function() {
     this.formControls();
     new _primero.Views.tabNavigation();
+    new _primero.Views.Connectivity();
 
     if (this.hasForm()) {
       this.recordForms();
@@ -55,7 +58,7 @@ _primero.Router = Backbone.Router.extend({
   },
 
   passwordPrompt: function() {
-    _primero.Views.PasswordPrompt.initialize();
+    new _primero.Views.PasswordPrompt();
   },
 
   recordActions: function() {
@@ -68,14 +71,27 @@ _primero.Router = Backbone.Router.extend({
     new _primero.Views.FlagChild();
     new _primero.Views.FlagRecord();
     new _primero.Views.MarkForMobile();
+    new _primero.Views.IncidentFromCase();
+    new _primero.Views.IncidentDetailsFromCase();
   },
 
   recordIndexPage: function() {
     this.initIndexTable();
     this.recordActions();
+    new _primero.Views.AutoCalculateAgeDOB()
+    new _primero.Views.PopulateSelectBoxes();
     new _primero.Views.IndexFilters();
     this.maskedUserAndPasswordReferal();
     this.maskedUserAndPasswordTransfer();
+
+    if ($('#ids-search')) {
+      new _primero.Views.IdSearch();
+    }
+  },
+
+  userCreatePage: function() {
+    _primero.chosen(".default-form select.chosen-select");
+    new _primero.Views.PopulateSelectBoxes();
   },
 
   recordShowPage: function() {
@@ -94,6 +110,7 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.Actions();
       new _primero.Views.ReopenCase();
       new _primero.Views.RequestApproval();
+      new _primero.Views.PopulateSelectBoxes();
       this.maskedUserAndPasswordReferal();
       this.maskedUserAndPasswordTransfer();
     }
@@ -123,6 +140,7 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.HiddenTextField();
       new _primero.Views.TickBoxField();
       new _primero.Views.FileUploadField();
+      new _primero.Views.ToggableField();
       this.initAudio();
       this.subforms();
     }
@@ -181,13 +199,15 @@ _primero.Router = Backbone.Router.extend({
   },
 
   maskedUserAndPasswordReferal: function() {
-    new MaskedUser($("#referral-modal form #other_user_agency").get(0));
-    new MaskedPassword($("#referral-modal form #password").get(0));
+    var $referral_modal = $("#referral-modal");
+    new MaskedUser($referral_modal.find("#other_user_agency").get(0));
+    new MaskedPassword($referral_modal.find("#password").get(0));
   },
 
   maskedUserAndPasswordTransfer: function() {
-    new MaskedUser($("#transfer-modal form #other_user_agency").get(0));
-    new MaskedPassword($("#transfer-modal form #password").get(0));
+    var $transfer_modal = $("#transfer-modal");
+    new MaskedUser($transfer_modal.find("#other_user_agency").get(0));
+    new MaskedPassword($transfer_modal.find("#password").get(0));
   },
 
   locations: function(){

@@ -1,6 +1,46 @@
 class Incident < CouchRest::Model::Base
   use_database :incident
 
+  DEFAULT_INCIDENT_MAPPING = [
+    {
+      "source" => ["survivor_code_no"],
+      "target" => "survivor_code_no"
+    }, {
+      "source" => ["age"],
+      "target" => "age"
+    }, {
+      "source" => ["date_of_birth"],
+      "target" => "date_of_birth"
+    }, {
+      "source" => ["sex"],
+      "target" => "sex"
+    }, {
+      "source" => ["gbv_ethnicity"],
+      "target" => "ethnicity"
+    }, {
+      "source" => ["country_of_origin"],
+      "target" => "country_of_origin"
+    }, {
+      "source" => ["gbv_nationality"],
+      "target" => "nationality"
+    }, {
+      "source" => ["gbv_religion"],
+      "target" => "religion"
+    }, {
+      "source" => ["maritial_status"],
+      "target" => "maritial_status"
+    }, {
+      "source" => ["gbv_displacement_status"],
+      "target" => "displacement_status"
+    }, {
+      "source" => ["gbv_disability_type"],
+      "target" => "disability_type"
+    }, {
+      "source" => ["unaccompanied_separated_status"],
+      "target" => "unaccompanied_separated_status"
+    }
+  ]
+
   include PrimeroModel
   include Primero::CouchRestRailsBackward
 
@@ -79,9 +119,31 @@ class Incident < CouchRest::Model::Base
 
   end
 
-  class << self
-    def all_matches
-      []
+  def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil)
+    Incident.new.tap do |incident|
+      incident['module_id'] = module_id
+
+      if child.present?
+        incident['incident_case_id'] = child.id
+        incident_map = Incident::DEFAULT_INCIDENT_MAPPING
+        if from_module_id.present?
+          from_module = PrimeroModule.get(from_module_id)
+          if from_module.present?
+            incident_map = from_module.field_map_fields if from_module.field_map_fields.present?
+            if incident_detail_id.present?
+              incident['incident_detail_id'] = incident_detail_id
+            end
+          end
+        end
+        incident.copy_case_information(child, incident_map, incident_detail_id)
+        #TODO: All Primero handing of dates should be refactored
+        #This provides the current date according to local time
+        #Typically things saved to models should be in UTC, but this is an exception
+        #What matters here is the date for the person creating the incident
+        #After its creation the date will not have a timezone
+        incident.date_of_first_report = DateTime.current.to_date
+        incident.status = STATUS_OPEN
+      end
     end
   end
 
@@ -177,19 +239,17 @@ class Incident < CouchRest::Model::Base
   #Returns the 20 latest open incidents.
   #TODO refactoring pagination?
   def self.open_incidents(user)
-    #TODO do we need I18n for "Open" string?
     filters = { "record_state" =>{:type => "single", :value => "true"},
                 "module_id" => {:type => "single", :value => PrimeroModule::MRM},
-                "status" => {:type => "single", :value => "Open"},
+                "status" => {:type => "single", :value => STATUS_OPEN},
               }
     self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 
   def self.open_gbv_incidents(user)
-    #TODO do we need I18n for "Open" string?
     filters = { "record_state" =>{:type => "single", :value => "true"},
                 "module_id" => {:type => "single", :value => PrimeroModule::GBV},
-                "status" => {:type => "single", :value => "Open"},
+                "status" => {:type => "single", :value => STATUS_OPEN},
               }
     self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
@@ -284,21 +344,8 @@ class Incident < CouchRest::Model::Base
   end
 
   #Copy some fields values from Survivor Information to GBV Individual Details.
-  def copy_survivor_information(case_record)
-    copy_fields(case_record, {
-        "survivor_code_no" => "survivor_code",
-        "age" => "age",
-        "date_of_birth" => "date_of_birth",
-        "sex" => "sex",
-        "gbv_ethnicity" => "ethnicity",
-        "country_of_origin" => "country_of_origin",
-        "gbv_nationality" => "nationality",
-        "gbv_religion"  => "religion",
-        "maritial_status" => "maritial_status",
-        "gbv_displacement_status" => "displacement_status",
-        "gbv_disability_type" => "disability_type",
-        "unaccompanied_separated_status" => "unaccompanied_separated_status"
-     })
+  def copy_case_information(case_record, incident_map, incident_id)
+    copy_fields(case_record, incident_map, incident_id)
   end
 
   def individual_ids
@@ -433,9 +480,9 @@ class Incident < CouchRest::Model::Base
     if self.date_of_incident_from.present? && self.date_of_incident_to.present?
       "#{self.date_of_incident_from.strftime('%d-%b-%Y')} - #{self.date_of_incident_to.strftime('%d-%b-%Y')}"
     elsif self.date_of_incident.present?
-      self.date_of_incident.strftime("%d-%b-%Y")
+      I18n.l(self.date_of_incident)
     elsif self.incident_date.present?
-      self.incident_date.strftime("%d-%b-%Y")
+      I18n.l(self.incident_date)
     end
   end
 
