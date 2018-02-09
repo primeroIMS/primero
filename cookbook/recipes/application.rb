@@ -141,7 +141,7 @@ end
 
 update_bundler 'prod-stack'
 execute_with_ruby 'bundle-install' do
-  command "bundle install --clean --without development test cucumber"
+  command "bundle install --without development test cucumber"
   cwd node[:primero][:app_dir]
 end
 
