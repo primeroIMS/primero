@@ -25,7 +25,7 @@ describe FieldsController do
     it "should redirect back to the fields page" do
       FormSection.stub(:add_field_to_formsection)
       post :create, :form_section_id => @form_section.unique_id, :module_id => "test_module", :field => JSON.parse(@field.to_json)
-      response.should redirect_to(edit_form_section_path(@form_section.unique_id, :module_id => "test_module"))
+      response.should redirect_to(edit_form_section_path(@form_section.unique_id, :module_id => "test_module", :parent_form => 'case'))
     end
 
     it "should render edit form section page if field has errors" do
@@ -133,7 +133,7 @@ describe FieldsController do
       updated_field.display_name.should == "What Country Are You From"
       updated_field.visible.should == false
       updated_field.help_text.should == "new help text"
-      response.should redirect_to(edit_form_section_path(some_form.unique_id, :module_id => "test_module"))
+      response.should redirect_to(edit_form_section_path(some_form.unique_id, :module_id => "test_module", :parent_form => 'case'))
     end
 
     it "should display errors if field could not be saved" do
