@@ -236,7 +236,6 @@ module Exporters
       end
 
       def get_model_location_value(model, property)
-        #TODO - i18n
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
       end
 

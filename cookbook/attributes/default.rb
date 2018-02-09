@@ -68,6 +68,8 @@ default[:primero].tap do |p|
   p[:solr_core_dir] = File.join(node[:primero][:app_dir], 'solr', 'cores')
   p[:ruby_version] = '2.4.3'
   p[:ruby_patch] = 'railsexpress'
+  p[:bundler_version] = '1.16.1'
+  p[:rubygems_version] = '2.7.5'
 
   p[:passenger_conf].tap do |pc|
     pc[:min_instances] = 1

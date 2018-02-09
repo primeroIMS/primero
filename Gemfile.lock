@@ -15,13 +15,6 @@ GIT
       rack (>= 1.0, < 3)
 
 GIT
-  remote: https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git
-  revision: f0e0668599cd95adb5d5024773a7b9eb16869a79
-  tag: v0.3.7
-  specs:
-    zipruby-compat (0.3.7)
-
-GIT
   remote: https://github.com/rapidftr/rapidftr-addon-cpims.git
   revision: 6d820ae76a6365436c4ef9325132422618178c7d
   branch: master
@@ -106,7 +99,7 @@ GEM
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
     builder (3.2.3)
-    byebug (9.1.0)
+    byebug (10.0.0)
     cancancan (1.9.2)
     capybara (2.16.1)
       addressable
@@ -199,7 +192,7 @@ GEM
       activesupport (>= 3.0.0)
     faraday (0.14.0)
       multipart-post (>= 1.2, < 3)
-    ffi (1.9.18)
+    ffi (1.9.21)
     foundation-rails (6.3.0.0)
       railties (>= 3.1.0)
       sass (>= 3.3.0, < 3.5)
@@ -212,7 +205,7 @@ GEM
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     http_parser.rb (0.6.0)
-    i18n (0.9.3)
+    i18n (0.9.4)
       concurrent-ruby (~> 1.0)
     i18n-js (3.0.4)
       i18n (~> 0.6, >= 0.6.6)
@@ -232,7 +225,7 @@ GEM
       phantomjs
       rack (>= 1.2.1)
       rake
-    jasmine-core (2.9.1)
+    jasmine-core (2.99.2)
     jquery-rails (4.3.1)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -301,8 +294,8 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    pry-byebug (3.5.1)
-      byebug (~> 9.1)
+    pry-byebug (3.6.0)
+      byebug (~> 10.0)
       pry (~> 0.10)
     public_suffix (3.0.1)
     puma (3.11.2)
@@ -456,7 +449,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.4)
+    unf_ext (0.0.7.5)
     unicode-display_width (1.3.0)
     uuidtools (2.1.5)
     validatable (1.6.7)
@@ -536,6 +529,7 @@ DEPENDENCIES
   rspec-rails (~> 3.7.2)
   rubocop
   ruby-prof
+  rubyzip (~> 1.2.1)
   rufus-scheduler (~> 3.4.2)
   sass-rails (~> 5.0.6)
   selenium-webdriver (~> 3.7.0)
@@ -553,7 +547,9 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
   writeexcel (~> 1.0.5)
   yui-compressor
-  zipruby-compat!
+
+RUBY VERSION
+   ruby 2.4.3p205
 
 BUNDLED WITH
    1.16.1

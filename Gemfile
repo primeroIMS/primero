@@ -32,7 +32,7 @@ gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 1.0.0'
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
-gem 'zipruby-compat', :require => 'zipruby', :git => 'https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git', :tag => 'v0.3.7'
+gem 'rubyzip',        '~> 1.2.1', require: 'zip'
 
 gem 'sunspot_rails',  '2.2.7'
 gem 'sunspot_solr',   '2.2.7'
