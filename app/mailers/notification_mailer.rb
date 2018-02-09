@@ -1,0 +1,69 @@
+class NotificationMailer < ActionMailer::Base
+  def manager_approval_request(user_id, manager_id, case_id, approval_type, host_url)
+    @user = User.get(user_id)
+    @manager = User.get(manager_id)
+    @child = Child.get(case_id)
+    @url = host_url
+
+    @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
+
+    if @manager.present? && @child.present?
+      mail(:to => @manager.email,
+           :subject => t("email_notification.approval_request_subject", id: @child.short_id))
+    else
+      Rails.logger.error "Mail not sent - User [#{user_id}] or Manager [#{manager_id}] not found"
+    end
+  end
+
+  def manager_approval_response(manager_id, case_id, approval_type, approval, host_url)
+    @child = Child.get(case_id)
+    if @child.blank?
+      Rails.logger.error "Approval Response Mail not sent - case not found.  [Case ID: #{case_id}]"
+    else
+      @owner = @child.owner
+      @url = host_url
+
+      if @owner.present? && @owner.email.present? && @owner.send_mail
+        @manager = User.get(manager_id)
+
+        @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
+        @approval = approval == 'true' ? t('approvals.status.approved') : t('approvals.status.rejected')
+
+        mail(:to => @owner.email,
+             :subject => t("email_notification.approval_response_subject", id: @child.short_id))
+      else
+        Rails.logger.error "Approval Response Mail not sent - invalid owner. [Owner: #{@owner.try(:id)}  "\
+                           "Owner email: #{@owner.try(:email)}  Owner send_mail: #{@owner.try(:send_mail)}]"
+      end
+    end
+  end
+
+  def transition_notify(transition_type, record_class, record_id, transition_id, host_url)
+    @model_class = record_class.constantize
+    @record = @model_class.get(record_id)
+    if @record.present? && @record.transitions.present?
+      transition = @record.transition_by_type_and_id(transition_type, transition_id)
+      if transition.present?
+        @transition_type = transition_type
+        @user_to = User.find_by_user_name(transition.to_user_local)
+        @user_from = User.find_by_user_name(transition.transitioned_by)
+        if @user_to.present? && @user_to.email.present? && @user_to.send_mail && @user_from.present?
+          @agency_from = @user_from.agency.try(:name)
+          @service_type = (transition_type == Transition::TYPE_REFERRAL ?  Lookup.display_value('lookup-service-type', transition.service) : '')
+          @url = "#{host_url}/#{@model_class.parent_form.pluralize}/#{@record.id}"
+          @record_type = @model_class.parent_form.titleize
+          mail(:to => @user_to.email,
+               :subject => t("email_notification.#{transition_type}_subject", record_type: @record_type, id: @record.short_id))
+        else
+          Rails.logger.error "#{transition_type} Mail not sent - Valid user not found for [RecordType: #{record_class}  "\
+                             "ID: #{record_id}  To User: #{@user_to.try(:id)}  To User Email: #{@user_to.try(:email)}  "\
+                             "To User send_mail: #{@user_to.try(:send_mail)}  From User: #{@user_from.try(:id)}]"
+        end
+      else
+        Rails.logger.error "#{transition_type} Mail not sent - Transition not found for [RecordType: #{record_class} ID: #{record_id}]"
+      end
+    else
+      Rails.logger.error "#{transition_type} Mail not sent - Transition not found for [RecordType: #{record_class} ID: #{record_id}]"
+    end
+  end
+end

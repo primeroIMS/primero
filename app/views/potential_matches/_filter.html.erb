@@ -10,7 +10,7 @@
     <% end %>
     <% if filters_to_show.include? 'Sex'%>
         <%= build_filter_checkboxes(t("potential_matches.filter_by.sex_"+@type), (@type == "tracing_request") ? "tr_gender" : "child_gender",
-                                    Lookup.values('lookup-gender', @lookups)) %>
+                                    Lookup.values('lookup-gender', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'Score Range' %>
         <%= build_filter_checkboxes(t("potential_matches.filter_by.score_range"), 'average_rating', [

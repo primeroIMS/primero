@@ -35,7 +35,6 @@ class UserGroupsController < ApplicationController
   def update
     @user_group = UserGroup.get(params[:id])
     authorize! :update, @user_group
-
     if @user_group.update_attributes(params[:user_group])
       flash[:notice] = t("user_group.successfully_updated")
       redirect_to(user_groups_path)

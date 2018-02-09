@@ -14,6 +14,7 @@ before_script:
 - curl -X PUT localhost:5984/_config/admins/primero -d '"primero"'
 - cp config/travis/couchdb.yml config/
 - cp config/travis/sunspot.yml config/
+- cp config/travis/mailers.yml config/
 script:
 - bundle exec rake sunspot:solr:start
 - bundle exec rspec spec

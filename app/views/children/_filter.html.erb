@@ -1,4 +1,12 @@
 <div class="panel">
+  <div class="button-group align-center">
+    <a class="button clear_filters"><%= t('button.clear') %></a>
+    <% if can?(:create, SavedSearch) %>
+      <a class="button save_search" data-open="save_filters"><%= t('button.save') %></a>
+    <% end %>
+    <a id="apply_filter" class="button"><%= t('button.apply') %></a>
+  </div>
+  <%= render 'record_shared/saved_search_modal' %>
   <form id="index_filter_form" autocomplete="off">
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("cases.filter_by.flag"), 'flag', [
@@ -24,6 +32,9 @@
       %>
       <%= build_filter_checkboxes_group(t("cases.filter_by.my_cases"), filters, "my_cases") %>
     <% end %>
+    <% if filters_to_show.include? 'Workflow' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.workflow"), 'workflow', Child.workflow_statuses(@current_modules, @lookups), { multi: true }, false) %>
+    <% end %>
     <% if filters_to_show.include? 'Approvals' %>
       <% [Child::APPROVAL_STATUS_PENDING, Child::APPROVAL_STATUS_APPROVED, Child::APPROVAL_STATUS_REJECTED].each do |status| %>
         <%
@@ -40,41 +51,41 @@
       <%= build_filter_checkboxes(t("cases.filter_by.agency"), 'owned_by_agency', @associated_agencies, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Status' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.status"), 'child_status', Lookup.values('lookup-case-status', @lookups)) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.status"), 'child_status', Lookup.values('lookup-case-status', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'Age Range' %>
       <%= build_filter_checkboxes(t("cases.filter_by.age_range"), 'age', @age_ranges, nil, nil, 'range') %>
     <% end %>
     <% if filters_to_show.include? 'Sex' %>
-      <%= build_filter_checkboxes(t("cases.filter_by.sex"), 'sex', Lookup.values('lookup-gender', @lookups)) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.sex"), 'sex', Lookup.values('lookup-gender', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'GBV Displacement Status' %>
       <%= build_filter_checkboxes(t("cases.filter_by.displacement_status"), 'gbv_displacement_status',
-                                  Lookup.values('lookup-displacement-status', @lookups)) %>
+                                  Lookup.values('lookup-displacement-status', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'Protection Status' %>
       <%= build_filter_checkboxes(t("cases.filter_by.protection_status"), 'protection_status',
-                                  Lookup.values('lookup-protection-status', @lookups)) %>
+                                  Lookup.values('lookup-protection-status', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'Urgent Protection Concern' %>
       <%= build_filter_checkboxes(t("cases.filter_by.urgent_protection_concern"), 'urgent_protection_concern',
-                                  Lookup.values('lookup-yes-no', @lookups)) %>
+                                  Lookup.values('lookup-yes-no', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'Protection Concerns' %>
       <%= build_filter_checkboxes(t("cases.filter_by.protection_concerns"), 'protection_concerns',
-                                  Lookup.values('lookup-protection-concerns', @lookups), { multi: true }, false) %>
+                                  Lookup.values('lookup-protection-concerns', @lookups, locale: I18n.locale), { multi: true }, false) %>
+    <% end %>
+    <% if filters_to_show.include? 'Type of Risk' %>
+      <%= build_filter_checkboxes(t("cases.filter_by.type_of_risk"), 'type_of_risk', Lookup.values('lookup-risk-type', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include?('Risk Level') && @display_assessment %>
-      <%= build_filter_checkboxes(t("cases.filter_by.risk_level"), 'risk_level', Lookup.values('lookup-risk-level', @lookups)) %>
+      <%= build_filter_checkboxes(t("cases.filter_by.risk_level"), 'risk_level', Lookup.values('lookup-risk-level', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'Current Location' %>
       <%= build_filter_location(t("cases.filter_by.current_location"), 'location_current') %>
     <% end %>
-    <% if filters_to_show.include? 'Registration Date' %>
-      <%= render "record_shared/filter_date", record: 'cases', date_field_title: 'registration_date', date_field: 'registration_date' %>
-    <% end %>
-    <% if filters_to_show.include? 'Case Open Date' %>
-      <%= render "record_shared/filter_date", record: 'cases', date_field_title: 'case_open_date', date_field: 'created_at' %>
+    <% if filters_to_show.include? 'Dates' %>
+      <%= render "record_shared/filter_date", record: 'cases', date_field_title: 'date', date_field: 'date' %>
     <% end %>
     <% if filters_to_show.include? 'No Activity'
       inactivity_filters = []

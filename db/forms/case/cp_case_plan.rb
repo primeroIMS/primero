@@ -82,6 +82,17 @@ case_plan_fields = [
                "disabled"=> true,
                "option_strings_source" => "lookup lookup-approval-status"
               }),
+    Field.new({"name" => "case_plan_section_header",
+                "type" => "separator",
+                "display_name_all" => "Case Plan"
+              }),
+    Field.new({"name" => "date_case_plan",
+              "type" => "date_field",
+              "display_name_all" => "Date Case Plan Initiated",
+              "editable" => true,
+              "disabled" => false,
+              "help_text_all" => "This field is used for the Workflow status"
+             }),
     Field.new({"name" => "protection_concerns",
              "type" => "select_box",
              "display_name_all" => "Protection Concerns",

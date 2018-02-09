@@ -61,10 +61,10 @@ class SessionsController < ApplicationController
 
     respond_to do |format|
       if @session.save
+        redirect_to_referred_path = session[:stored_location]
         reset_session
         session[:rftr_session_id] = @session.id
-
-        format.html { redirect_to(root_path) }
+        format.html { redirect_to(redirect_to_referred_path || root_path) }
         format.xml  { render :action => "show", :status => :created, :location => @session }
         format.json { render_session_as_json(@session,:status => :created, :location => @session) }
       else

@@ -49,6 +49,7 @@ Capybara.server = :thin
 Capybara.default_driver  = :headless_chrome
 Capybara.default_max_wait_time = 6 # In seconds
 Capybara.javascript_driver = :headless_chrome
+Capybara.page.driver.browser.manage.window.resize_to(2000, 2000)
 
 module VerifyAndResetHelpers
   def verify(object)

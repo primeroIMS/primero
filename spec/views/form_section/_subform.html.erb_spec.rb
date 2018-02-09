@@ -236,7 +236,6 @@ describe "_subform.html.erb" do
                  :grouped_subforms_header => nil,
                 },
              :formats => [:html], :handlers => [:erb]
-
       expect(rendered).to have_selector('div', id: 'subform_section_2')
       expect(rendered).to have_selector('div', id: 'subform_container_subform_section_2_0')
       expect(rendered).to have_selector('fieldset', id: 'subform_subform_section_2_0')

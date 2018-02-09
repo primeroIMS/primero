@@ -112,9 +112,9 @@ describe User do
   end
 
   it 'should validate uniqueness of username for new users' do
-    User.all.each {|user| user.destroy}
+    User.all.each &:destroy
     user = build_user(:user_name => 'the_user_name')
-    user.should be_valid
+    expect(user).to be_valid
     user.create!
 
     dupe_user = build_user(:user_name => 'the_user_name')
@@ -490,6 +490,67 @@ describe User do
 
       it "should return the agency name" do
         expect(@user.agency_name).to eq('unicef')
+      end
+    end
+  end
+
+  describe "mailer" do
+    before do
+      ActiveJob::Base.queue_adapter = :inline
+      @test_url = "http://test.com"
+    end
+
+    context 'when welcome email is enabled' do
+      before do
+        SystemSettings.all.each &:destroy
+        @system_settings = SystemSettings.create(default_locale: "en", welcome_email_enabled: true)
+      end
+
+      context 'and user has an email address' do
+        before do
+          @user = build_and_save_user
+        end
+
+        it "sends a welcome email" do
+          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        end
+      end
+
+      context 'and user does not have an email address' do
+        before do
+          @user = user = build_user(email: '')
+        end
+
+        it "does not send a welcome email" do
+          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        end
+      end
+    end
+
+    context 'when welcome email is disabled' do
+      before do
+        SystemSettings.all.each &:destroy
+        @system_settings = SystemSettings.create(default_locale: "en", welcome_email_enabled: false)
+      end
+
+      context 'and user has an email address' do
+        before do
+          @user = build_and_save_user
+        end
+
+        it "does not send a welcome email" do
+          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        end
+      end
+
+      context 'and user does not have an email address' do
+        before do
+          @user = user = build_user(email: '')
+        end
+
+        it "does not send a welcome email" do
+          expect { @user.send_welcome_email(@test_url) }.to change { ActionMailer::Base.deliveries.count }.by(0)
+        end
       end
     end
   end

@@ -5,6 +5,7 @@ module Transitionable
   included do
     property :transfer_status, String
     property :transitions, [Transition], :default => []
+    property :reassigned_tranferred_on, DateTime
 
 
     def add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
@@ -64,6 +65,10 @@ module Transitionable
       status_changed
     end
 
+    def send_transition_email(transition_type, host_url)
+      TransitionNotifyJob.perform_later(transition_type, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
+    end
+
   end
 
   EXPORT_TYPE_PRIMERO = 'primero'
@@ -83,6 +88,10 @@ module Transitionable
 
   def transfers
     self.transitions.select{|t| t.type == Transition::TYPE_TRANSFER}
+  end
+
+  def transition_by_type_and_id(type, id)
+    self.transitions.select{|t| t.type == type && t.id == id}.first
   end
 
   def has_referrals

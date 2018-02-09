@@ -5,9 +5,9 @@
   </td>
   <% end %>
   <td id="report_<%= record.id %>" class="id_column">
-    <%= link_to record.name, report_path(record), class: 'id_link' %>
+    <%= link_to (record.name(I18n.locale).present? ? record.name(I18n.locale) : record.name_en), report_path(record), class: 'id_link' %>
   </td>
-  <td><%= record.description %></td>
+  <td><%= (record.description(I18n.locale).present? ? record.description(I18n.locale) : record.description_en) %></td>
   <td>
     <% if can?(:destroy, Report) && record.editable %>
         <%= link_to t("reports.actions.delete"), record, data: {confirm: t("reports.messages.confirmation")}, method: :delete %>

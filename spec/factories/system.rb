@@ -1,11 +1,10 @@
 FactoryBot.define do
   factory :system_settings, :traits => [ :model ] do
-    default_locale "en"
-    primary_age_range "primero"
-    age_ranges {{
-      "primero" => [ 0..5, 6..11, 12..17, 18..AgeRange::MAX ]
+    reporting_location_config {{
+      field_key: "owned_by_location",
+      label_key: "country",
+      admin_level: 0
     }}
-    show_alerts true
   end
 
   factory :system_users do

@@ -29,17 +29,9 @@ Primero::Application.routes.draw do
   match 'password_recovery_request/:password_recovery_request_id/hide' => 'password_recovery_requests#hide', :as => :hide_password_recovery_request, :via => :delete
 
   resources :contact_information
-  #resources :primero_locale, :only => [:show, :edit, :update]
-  #match 'primero_locale/update' => 'primero_locale#update', :as => :primero_locale_update, :via => [:post, :get, :put, :delete]
-
-  # resources :system_settings do
-  #   member do
-  #     get :edit_locale
-  #     put :update_locale
-  #   end
-  # end
 
   resources :system_settings, only: [:show, :edit, :update]
+  resources :saved_searches, only: [:create, :index, :show, :destroy]
 
   resources :roles do
     collection do
@@ -226,6 +218,7 @@ Primero::Application.routes.draw do
 
 
   resources :bulk_exports, only: [:index, :show]
+  resources :tasks, only: [:index]
 
 
 #######################
@@ -361,10 +354,5 @@ Primero::Application.routes.draw do
 #######################
   resources :locations
 
-#######################
-# TESTING URLS
-#######################
-  match 'database/delete_children' => 'database#delete_children', :via => :delete
-  match 'database/delete_cases' => 'database#delete_cases', :via => :delete
 
 end

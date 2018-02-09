@@ -194,9 +194,21 @@ class Child < CouchRest::Model::Base
 
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
-
+    string :child_status, as: 'child_status_sci'
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
+    end
+
+    date :assessment_due_dates, multiple: true do
+      Tasks::AssessmentTask.from_case(self).map &:due_date
+    end
+
+    date :case_plan_due_dates, multiple: true do
+      Tasks::CasePlanTask.from_case(self).map &:due_date
+    end
+
+    date :followup_due_dates, multiple: true do
+      Tasks::FollowUpTask.from_case(self).map &:due_date
     end
   end
 
@@ -428,6 +440,22 @@ class Child < CouchRest::Model::Base
     self.child_status = status
     self.case_status_reopened = reopen_status
     self.add_reopened_log(user_name)
+  end
+
+  def send_approval_request_mail(approval_type, host_url)
+    managers = self.owner.managers.select{ |manager| manager.email.present? && manager.send_mail }
+
+    if managers.present?
+      managers.each do |manager|
+        ApprovalRequestJob.perform_later(self.owner.id, manager.id, self.id, approval_type, host_url)
+      end
+    else
+      Rails.logger.info "Approval Request Mail not sent.  No managers present with send_mail enabled.  User - [#{self.owner.id}]"
+    end
+  end
+
+  def send_approval_response_mail(manager_id, approval_type, approval, host_url)
+    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url)
   end
 
   private

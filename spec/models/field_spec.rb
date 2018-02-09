@@ -133,13 +133,124 @@ describe "record field model" do
       field.errors[:option_strings].should ==  ["Field must have at least 2 options"]
     end
 
-    it "should validate select box has at least 2 options" do
-      field = Field.new(:display_name => "test", :option_strings => ["test"], :type => Field::SELECT_BOX)
-      form_section = FormSection.new(:parent_form => "case")
-      form_section.fields = [field]
+    describe 'select box option strings' do
+      before :each do
+        @field = Field.new(name: 'test', display_name: 'test', type: Field::SELECT_BOX)
+      end
 
-      field.valid?
-      field.errors[:option_strings].should ==  ["Field must have at least 2 options"]
+      context 'with no options' do
+        it 'is not valid' do
+          expect(@field.valid?).to be_falsey
+          expect(@field.errors.messages[:option_strings]).to eq(['Field must have at least 2 options'])
+        end
+      end
+
+      context 'with only 1 option' do
+        before do
+          @field.option_strings_text = ["test"]
+        end
+        it 'is not valid' do
+          expect(@field.valid?).to be_falsey
+          expect(@field.errors.messages[:option_strings]).to eq(['Field must have at least 2 options'])
+        end
+      end
+
+      context 'with multiple options' do
+        before do
+          @field.option_strings_text_en = [
+              {id: 'option_1', display_text: "Test Option 1"},
+              {id: 'option_2', display_text: "Test Option 2"},
+              {id: 'option_3', display_text: "Test Option 3"}
+          ].map(&:with_indifferent_access)
+        end
+
+        it 'is valid' do
+          expect(@field.valid?).to be_truthy
+        end
+
+        context 'and some options have blank id' do
+          before do
+            @field.option_strings_text_en << {id: '', display_text: "Test Option 1"}.with_indifferent_access
+          end
+
+          it 'is not valid' do
+            expect(@field.valid?).to be_falsey
+            expect(@field.errors.messages[:option_strings_text]).to eq(['Option Strings Text option id is blank'])
+          end
+        end
+
+        context 'and some options have blank description' do
+          before do
+            @field.option_strings_text_en << {id: 'option_4', display_text: ""}.with_indifferent_access
+          end
+
+          it 'is not valid' do
+            expect(@field.valid?).to be_falsey
+            expect(@field.errors.messages[:option_strings_text]).to eq(['Option Strings Text option display text is blank'])
+          end
+        end
+
+        describe 'translations' do
+          context 'and translated options are missing some options' do
+            before do
+              @field.option_strings_text_fr = [
+                  {id: 'option_1', display_text: "Test Option 1"},
+                  {id: 'option_2', display_text: "Test Option 2"}
+              ].map(&:with_indifferent_access)
+            end
+
+            it 'is not valid' do
+              expect(@field.valid?).to be_falsey
+              expect(@field.errors.messages[:option_strings_text]).to eq(['Field translated options must have same ids'])
+            end
+          end
+
+          context 'and translated options have extra options' do
+            before do
+              @field.option_strings_text_fr = [
+                  {id: 'option_1', display_text: "Test Option 1"},
+                  {id: 'option_2', display_text: "Test Option 2"},
+                  {id: 'option_3', display_text: "Test Option 3"},
+                  {id: 'option_4', display_text: "Test Option 4"}
+              ].map(&:with_indifferent_access)
+            end
+
+            it 'is not valid' do
+              expect(@field.valid?).to be_falsey
+              expect(@field.errors.messages[:option_strings_text]).to eq(['Field translated options must have same ids'])
+            end
+          end
+
+          context 'and translated options have different options' do
+            before do
+              @field.option_strings_text_fr = [
+                  {id: 'foo', display_text: "Test Option Foo"},
+                  {id: 'bar', display_text: "Test Option Bar"},
+                  {id: 'baz', display_text: "Test Option Baz"}
+              ].map(&:with_indifferent_access)
+            end
+
+            it 'is not valid' do
+              expect(@field.valid?).to be_falsey
+              expect(@field.errors.messages[:option_strings_text]).to eq(['Field translated options must have same ids'])
+            end
+          end
+
+          context 'and translated options have the same options as the default locale' do
+            before do
+              @field.option_strings_text_fr = [
+                  {id: 'option_1', display_text: "Test French Option 1"},
+                  {id: 'option_2', display_text: "Test French Option 2"},
+                  {id: 'option_3', display_text: "Test French Option 3"}
+              ].map(&:with_indifferent_access)
+            end
+
+            it 'is valid' do
+              expect(@field.valid?).to be_truthy
+            end
+          end
+        end
+      end
     end
   end
 

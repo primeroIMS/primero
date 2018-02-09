@@ -69,11 +69,13 @@ group :development, :assets, :cucumber do
 end
 
 group :development do
+  gem 'i18n-tasks', '~> 0.9.18'
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'ruby-prof'
   gem 'request_profiler', :git => 'git://github.com/justinweiss/request_profiler.git'
   gem 'rack-mini-profiler', '>= 0.10.1', require: false
+  gem 'letter_opener'
 end
 
 group :test, :cucumber, :development do

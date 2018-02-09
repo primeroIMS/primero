@@ -34,6 +34,8 @@ module IndexHelper
         list_view_header_potential_match
       when "bulk_export"
         list_view_header_bulk_export
+      when "task"
+        list_view_header_task
       else
         []
     end
@@ -139,6 +141,24 @@ module IndexHelper
     end
   end
 
+  def build_filter_multi_select(title, filter, items)
+    if items.present? && items.first.is_a?(Hash)
+      items = items.map{|item| [item['display_text'], item['id']]}
+    end
+
+    content_tag :div, class: 'filter' do
+      concat(content_tag(:h3, title))
+      concat(select_tag filter,
+        options_for_select(items),
+        'class' => 'chosen-select',
+        'filter_type' => 'list',
+        'multiple' => true,
+        'data-placeholder' => t("fields.select_box_empty_item"), :id => filter
+        )
+      concat(content_tag(:div, '', class: 'clearfix'))
+    end
+  end
+
   def build_datefield(filter)
     content_tag :div, class: 'filter-controls row align-middle' do
       concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
@@ -219,7 +239,7 @@ module IndexHelper
     header_list << {title: 'sex', sort_title: 'sex'} if @is_cp || @id_search.present?
     header_list << {title: 'registration_date', sort_title: 'registration_date'} if @is_cp && !@id_search.present?
     header_list << {title: 'case_opening_date', sort_title: 'created_at'} if @is_gbv && !@id_search.present?
-    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp && !@id_search.present?
+    header_list << {title: 'photo', sort_title: 'photo'} if @is_cp && !@id_search.present? && FormSection.has_photo_form
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager && !@id_search.present?
     header_list << {title: 'owned_by', sort_title: 'owned_by'} if @is_cp && @id_search.present?
     header_list << {title: 'owned_by_agency', sort_title: 'owned_by_agency'} if @is_cp && @id_search.present?
@@ -281,13 +301,23 @@ module IndexHelper
     ]
   end
 
+  def list_view_header_task
+    [
+      #{title: '', sort_title: 'select'},
+      {title: 'id', sort_title: 'case_id'},
+      {title: 'priority', sort_title: 'priority'},
+      {title: 'type', sort_title: 'type'},
+      {title: 'due_date', sort_title: 'due_date'}
+    ]
+  end
+
   def index_filters_case
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
     allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
     #Retrieve the forms where the fields appears and if is in the allowed for the user.
     #TODO should look on subforms? for now lookup on top forms.
-    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns"]
+    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns", "type_of_risk"]
     forms = FormSection.fields(:keys => field_names)
                   .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
@@ -295,6 +325,7 @@ module IndexHelper
     filters << "Mobile" if @can_sync_mobile
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
+    filters << "Workflow"
     filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
     #Check independently the checkboxes on the view.
     filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form") && @can_approval_bia
@@ -315,14 +346,15 @@ module IndexHelper
     filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
     filters << "Protection Status" if visible_filter_field?("protection_status", forms)
     filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
+    filters << "Type of Risk" if @is_cp && visible_filter_field?("type_of_risk", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Reporting Location" if @can_view_reporting_filter
-    filters << "Registration Date" if @is_cp
+    filters << "Dates" if @is_cp
     filters << "Case Open Date" if @is_gbv
     filters << "No Activity"
     filters << "Record State"
-    filters << "Photo" if @is_cp
+    filters << "Photo" if @is_cp && FormSection.has_photo_form
 
     return filters
   end
@@ -372,6 +404,16 @@ module IndexHelper
     filters << "Score Range"
 
     return filters
+  end
+
+  def selectable_filter_date_options
+    options = []
+    options << [t('children.selectable_date_options.registration_date'), 'registration_date']
+    options << [t('children.selectable_date_options.assessment_requested_on'), 'assessment_requested_on']
+    options << [t('children.selectable_date_options.date_case_plan_initiated'), 'date_case_plan']
+    options << [t('children.selectable_date_options.closure_approved_date'), 'date_closure']
+    options << [t('children.selectable_date_options.created_at'), 'created_at'] if @is_gbv
+    return options
   end
 
   def visible_filter_field?(field_name, forms)

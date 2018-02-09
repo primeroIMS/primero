@@ -47,12 +47,15 @@ https://confluence.atlassian.com/bitbucket/add-an-ssh-key-to-an-account-30281185
 On your local machine, run `git clone path-to-repo.git` to pull the repo to your local machine.
 NOTE: You can get the actual clone command from Bitbucket by doing the following in the repo.
 
- - Click on the '...' at the top left.
- - Under 'Actions', click 'Clone'
+ - The git clone command appears on the Repo Overview page next to the download icon and 'SSH'
  - To the right of 'SSH', copy the command shown
  - Run that command on your local machine in the location where you want to create the repo
 
 Example:  `$ git clone git@bitbucket.org:quoin/primero.git`
+
+
+If you will also deploying the configuration, you will need to add your public key to the configuration repo.
+Further instructions below.
 
 
 Passwordless Sudo Access (remote machine)
@@ -99,7 +102,8 @@ Try manually installing that gem. ex. `chef gem install retryable -v 2.0`
 
 
 ###Node File
-After Chef is successfully installed on the local machine, you will need to create a Chef node configuration file. A sample Primero node file is in the root directory of the application.
+After Chef is successfully installed on the local machine, you will need to create a Chef node configuration file.
+A sample Primero node file (dev-node.json.sample) is in the root directory of the application.
 
 ```sh
 ubuntu@ubuntu:~/work/primero$ ls -l *node*
@@ -111,6 +115,7 @@ This is a JSON file that defines various deployment
 attributes.  You can copy the file `dev-node.json` in the root of this repo
 for a reference to a more or less complete node file for Primero.  You can put
 the node file anywhere you like on your local machine.
+Any vlaues defined in this node file override values defined in attributes/default.rb
 
 ####Attributes
 The following attributes are of special interest for configuration:
@@ -138,8 +143,23 @@ The following attributes are of special interest for configuration:
      path of the Couch CA certificate that is used to verify other CouchDB
      instances when syncing.  This is a path is relative to the `files/default`
      directory in this repo.  You should add the CA cert there.
- - `primero.no_reseed` (required): If set to false, the Chef deploy will reseed the database.
-     If you imported a configuration bundle you should set this to true. Reseeding carries the risk of overwriting the imported configuration bundle.
+ - `primero.no_reseed` (required): Controls the defalt DB seed load
+     If set to false & primero.seed.enabled is false, the Chef deploy will reseed the database.
+     If set to true & primero.seed.enabled is false,  the Chef deploy will reseed the database only on the initial install.
+     If set to true & primero.seed.enabled is true, the default DB seeds will NOT run.  It will load the config only once.
+     if set to false & primero.seed.enabled is true, the default DB seeds will NOT run.  The configuration will be loaded.
+ - `primero.seed.enabled`: Controls the load of the configuration
+     If set to false, no configuration will be loaded.  DB Seeds will run as specified by the no_reseed attribute.
+     If set to true, default DB seed will not run.  Instead, the configuration from the specified config repo will be loaded.
+ - `primero.seed.git.repo`: The Configuration Repository.
+     Example: "git@bitbucket.org:quoin/primero-configuration.git"
+ - `primero.seed.git.revision`: The branch / tag of the config repo to pull.
+ - `primero.seed.deploy_key`: The SSH deploy key for the configuration repository.
+ - `primero.seed.script`: The relative path to the script in the repo that initializes the seed.
+     Example: "/lebanon/seed-files/load_configuration.rb"
+ - `primero.seed.bundle`:  The relative path to the config bundle JSON to load.
+     This JSON bundle will only load if the seed.script attribute (above) is not set.
+     Example: "/jordan/configuration-bundle.json"
 
 ##### Primero Deploy Key
 In the Bitbucket repo (under Settings->deployment keys) make sure you have a key for your deployment.
@@ -156,6 +176,9 @@ If you already have a key that has a passphrase, use `ssh-keygen -p' to remove t
 
 Next, add the private key as the value of the primero.deploy_key field in the dev-node.json file.
 Copy the contents of the private key (id_rsa).
+
+-- REPEAT this process for the Configuration Repository if you will be deploying a configuration --
+
 
 #### SSL 
 
@@ -225,8 +248,11 @@ file:
 ```
 
 ####Runlist
-You should set your runlist to `[ "recipe[primero::default]" ]` for any
-standard deploy. 
+Your run_list should be set as follows...
+
+For a standard deploy:                      `[ "recipe[primero::default]" ]`
+
+For a standard deploy with configuration:   `[ "recipe[primero::default]", "recipe[primero::configuration]" ]`
 
 ####Example node file
 ```javascript
@@ -246,6 +272,16 @@ standard deploy.
     "git": {
       "repo": "git@bitbucket.org:user/primero.git",
       "revision": "master"
+    },
+    "seed": {
+      "enabled": false,
+      "git": {
+        "repo": "git@bitbucket.org:quoin/primero-configuration.git",
+        "revision": "master"
+      },
+      "script": "/lebanon/seed-files/load_configuration.rb",
+      "bundle": "/jordan/configuration-bundle.json",
+      "deploy_key": ""
     },
     "letsencrypt": {
       "email": "primero_support@your.org",
@@ -270,6 +306,7 @@ standard deploy.
   },
   "run_list": [ 
     "recipe[primero::default]",
+    "recipe[primero::configuration]",
     "recipe[primero::letsencrypt]", 
     "recipe[chef-unattended-upgrades::default]" 
   ]

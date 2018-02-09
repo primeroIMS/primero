@@ -13,10 +13,6 @@ Primero::Application.configure do
   # See everything in the log (default is :info)
   config.log_level = :debug
 
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation can not be found)
-  config.i18n.fallbacks = true
-
   # For nginx:
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
 
@@ -28,4 +24,6 @@ Primero::Application.configure do
 
   # BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
   BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
+
+  config.action_mailer.raise_delivery_errors = false
 end

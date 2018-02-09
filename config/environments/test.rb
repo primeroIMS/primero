@@ -27,4 +27,5 @@ Primero::Application.configure do
   config.eager_load = false
 
   config.middleware.use RackSessionAccess::Middleware
+  config.log_level = :debug
 end

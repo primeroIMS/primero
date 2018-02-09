@@ -5,6 +5,7 @@ default[:primero].tap do |p|
   p[:rails_env] = 'production'
   p[:home_dir] = '/srv/primero'
   p[:app_dir] = File.join(node[:primero][:home_dir], 'application')
+  p[:config_dir] = File.join(node[:primero][:home_dir], 'configuration')
   p[:log_dir] = File.join(node[:primero][:home_dir], 'logs')
   p[:daemons_dir] = File.join(node[:primero][:app_dir], 'daemons')
   p[:app_user] = 'primero'
@@ -16,6 +17,7 @@ default[:primero].tap do |p|
     queue[:host] = 'localhost'
     queue[:port] = '11300'
     queue[:storage_dir] = File.join(node[:primero][:home_dir], 'beanstalkd')
+    queue[:queue_list] = 'mailer,export'
   end
 
   p[:no_reseed] = false
@@ -23,6 +25,10 @@ default[:primero].tap do |p|
   p[:git].tap do |git|
     git[:repo] = 'git@bitbucket.org:primeroims/primero.git'
     git[:revision] = 'development'
+  end
+
+  p[:seed].tap do |seed|
+    seed[:enabled] = false
   end
 
   p[:couchdb].tap do |c|
@@ -68,6 +74,24 @@ default[:primero].tap do |p|
     pc[:min_instances] = 1
     pc[:max_pool_size] = 6
   end
+
+  p[:mailer].tap do |m|
+    m[:delivery_method] = 'sendmail'
+    m[:host] = 'primero.org'
+    m[:from_address] = 'noreply@primero.org'
+  end
+end
+
+default[:postfix].tap do |pf|
+  pf[:admin] = 'root'
+  pf[:admin_email] = 'noreply@email.example.com'
+  pf[:alias_path] = '/etc/aliases'
+  pf[:alias_maps] = 'hash:/etc/aliases'
+  pf[:alias_database] = 'hash:/etc/aliases'
+  pf[:message_size_limit] = 10240
+  pf[:mailbox_size_limit] = 51200000
+  pf[:qmgr_message_active_limit] = 50000
+  pf[:home_mailbox] = 'mail'
 end
 
 default[:rvm].tap do |rvm|
@@ -82,6 +106,8 @@ end
 
 default[:nginx_dir] = '/etc/nginx'
 default[:nginx_default_site] = true
+
+default[:postfix_dir] = '/etc/postfix'
 
 default[:python][:install_method] = 'package'
 default[:python][:setuptools_version] = '3.4.4'

@@ -22,7 +22,7 @@ module RecordActions
     before_filter :is_mrm, :only => [:index]
     before_filter :load_consent, :only => [:show]
     before_filter :sort_subforms, :only => [:show, :edit]
-    before_filter :load_system_settings, :only => [:index, :show, :edit, :request_approval]
+    before_filter :load_system_settings, :only => [:index, :show, :edit, :request_approval, :approve_form, :transition]
     before_filter :log_controller_action, :except => [:new]
     before_filter :can_access_approvals, :only => [:index]
     before_filter :can_sync_mobile, :only => [:index]
@@ -40,6 +40,7 @@ module RecordActions
     @aside = 'shared/sidebar_links'
     @associated_users = current_user.managed_user_names
     @filters = record_filter(filter)
+    @saved_searches = SavedSearch.by_user_name(key: current_user.user_name).all if can? :read, SavedSearch
     #make sure to get all records when querying for ids to sync down to mobile
     #TODO: This is questionable for large databases. May break the phone? the server?
     #      Revisit when integrating in v1.3.x
@@ -50,7 +51,7 @@ module RecordActions
     @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
-    @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter)
+    @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter, locale: I18n.locale)
     module_users(module_ids) if module_ids.present?
     # Alias @records to the record-specific name since ERB templates use that
     # right now
