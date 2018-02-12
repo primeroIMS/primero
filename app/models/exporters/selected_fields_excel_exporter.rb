@@ -127,8 +127,7 @@ module Exporters
       elsif property.is_a?(Array)
         #This assumes that the only properties that are Arrays are locations
         #Which is true at the time of this coding
-        # self.class.get_model_location_value(model, property)
-        self.class.translate_value(property.name, model.send(property.name))
+        self.class.get_model_location_value(model, property)
       elsif property.array
         if property.type.include?(CouchRest::Model::Embeddable)
           #data from the subform.!

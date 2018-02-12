@@ -36,6 +36,7 @@ end
 execute_with_ruby 'dev-ruby' do
   command <<-EOH
     rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
+    rvm rubygems #{node[:primero][:rubygems_version]}
     rvm --default use #{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
   EOH
   cwd '/home/vagrant/primero'
@@ -46,6 +47,7 @@ end
 update_bundler 'dev-stack' do
   user 'vagrant'
   group 'vagrant'
+  bundler_version node[:primero][:bundler_version]
 end
 
 execute_with_ruby 'bundle-install-vagrant' do

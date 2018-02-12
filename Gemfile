@@ -20,7 +20,6 @@ gem 'rails',          '5.1.4'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
 gem 'dynamic_form',   '~> 1.1.4'
-# gem 'rake',           '0.9.3'
 gem 'rake',           '~> 12.3.0'
 gem 'jquery-rails'
 
@@ -33,7 +32,7 @@ gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 1.0.0'
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
-gem 'zipruby-compat', :require => 'zipruby', :git => 'https://github.com/jawspeak/zipruby-compatibility-with-rubyzip-fork.git', :tag => 'v0.3.7'
+gem 'rubyzip',        '~> 1.2.1', require: 'zip'
 
 gem 'sunspot_rails',  '2.2.7'
 gem 'sunspot_solr',   '2.2.7'
@@ -48,12 +47,9 @@ gem 'foundation-rails', '~> 6.3.0.0'
 
 gem 'sass-rails',    '~> 5.0.6'
 gem 'compass-rails', '~> 3.0.2'
-
 gem 'coffee-rails',  '~> 4.2.2'
 gem 'chosen-rails',  '~> 1.5.2'
 gem 'ejs', '~> 1.1.1'
-
-gem 'rack-mini-profiler', require: false
 
 gem 'yui-compressor'
 gem 'closure-compiler'
@@ -86,6 +82,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'ruby-prof'
   gem 'request_profiler', :git => 'git://github.com/justinweiss/request_profiler.git'
+  gem 'rack-mini-profiler', '>= 0.10.1', require: false
   gem 'letter_opener'
 end
 
@@ -104,6 +101,7 @@ group :test, :cucumber do
   gem 'rspec',                      '~> 3.7.0'
   gem 'rspec-rails',                '~> 3.7.2'
   gem 'rspec-instafail',            '~> 1.0.0'
+  gem 'jasmine',                    '~> 2.4.0'   #TODO ????
   gem 'capybara',                   '~> 2.16.1'
   gem 'selenium-webdriver',         '~> 3.7.0'
   gem 'capybara-selenium',          '~> 0.0.6'

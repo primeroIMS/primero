@@ -106,6 +106,7 @@ class FormSection < CouchRest::Model::Base
   validate :validate_datatypes
 
   before_validation :generate_options_keys
+  before_validation :sync_options_keys
   after_save :recalculate_subform_permissions
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
@@ -620,7 +621,7 @@ class FormSection < CouchRest::Model::Base
     def mobile_forms_to_hash(form_sections, locale=nil)
       locales = ((locale.present? && Primero::Application::locales.include?(locale)) ? [locale] : Primero::Application::locales)
       lookups = Lookup.all.all
-      locations = self.include_locations_for_mobile? ? Location.all_names : []
+      locations = self.include_locations_for_mobile? ? Location.all_names(locale: I18n.locale) : []
       form_sections.map {|form| mobile_form_to_hash(form, locales, lookups, locations)}
     end
 
@@ -851,6 +852,10 @@ class FormSection < CouchRest::Model::Base
   #TODO add rspec test
   def generate_options_keys
     self.fields.each{|field| field.generate_options_keys}
+  end
+
+  def sync_options_keys
+    self.fields.each{|field| field.sync_options_keys}
   end
 
   def field_by_name(field_name)

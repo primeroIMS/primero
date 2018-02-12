@@ -82,7 +82,6 @@ describe "form_section/_form_section.html.erb" do
   describe "rendering radio buttons" do
 
     context "new record" do
-
       it "renders radio button fields" do
         @child = Child.new
         @form_section.add_field(build(:field, type: "radio_button", name: "is_age_exact".dehumanize,
@@ -116,7 +115,6 @@ describe "form_section/_form_section.html.erb" do
   describe "rendering select boxes" do
 
     context "new record" do
-
       it "render select boxes" do
         @child = Child.new
         @form_section.add_field(build(:field, type: "select_box", name: "date_of_separation".dehumanize,

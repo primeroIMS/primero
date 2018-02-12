@@ -25,7 +25,7 @@ describe FieldsController do
     it "should redirect back to the fields page" do
       FormSection.stub(:add_field_to_formsection)
       post :create, params: {:form_section_id => @form_section.unique_id, :module_id => "test_module", :field => JSON.parse(@field.to_json)}
-      expect(response).to redirect_to(edit_form_section_path(@form_section.unique_id, :module_id => "test_module"))
+      expect(response).to redirect_to(edit_form_section_path(@form_section.unique_id, :module_id => "test_module", :parent_form => 'case'))
     end
 
     it "should render edit form section page if field has errors" do
@@ -133,7 +133,7 @@ describe FieldsController do
       expect(updated_field.display_name).to eq("What Country Are You From")
       expect(updated_field.visible).to be_falsey
       expect(updated_field.help_text).to eq("new help text")
-      expect(response).to redirect_to(edit_form_section_path(some_form.unique_id, :module_id => "test_module"))
+      expect(response).to redirect_to(edit_form_section_path(some_form.unique_id, :module_id => "test_module", :parent_form => 'case'))
     end
 
     it "should display errors if field could not be saved" do

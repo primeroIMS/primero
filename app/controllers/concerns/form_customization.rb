@@ -2,7 +2,7 @@ module FormCustomization
   extend ActiveSupport::Concern
 
   included do
-    before_action :parent_form, :only => [:new, :edit, :published, :update]
+    before_action :parent_form, :only => [:new, :create, :edit, :published, :update, :destroy]
     before_action :current_modules, :only => [:index, :new, :edit, :create, :update]
     before_action :get_form_group_names, :only => [:new, :edit, :update]
   end

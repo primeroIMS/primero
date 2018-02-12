@@ -25,8 +25,6 @@ describe ChildrenController do
 
     it "should fail GET show when unauthorized" do
       child = Child.create(:short_id => 'short_id', :created_by => "fakeadmin")
-      # child_arg = hash_including("_id" => child.id)
-
       @controller.current_ability.should_receive(:can?).with(:read, child).and_return(false)
       get :show, params: {:id => child.id, :format => :json}
       response.should be_forbidden

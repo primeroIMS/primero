@@ -58,9 +58,10 @@ class Agency < CouchRest::Model::Base
     end
     memoize_in_prod :retrieve_logo_ids
 
-    def display_text(agency_id)
+    def display_text(agency_id, opts={})
+      locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
       agency = Agency.get(agency_id)
-      value = (agency.present? ? agency.name : '')
+      value = (agency.present? ? agency.name(locale) : '')
     end
     memoize_in_prod :display_text
   end

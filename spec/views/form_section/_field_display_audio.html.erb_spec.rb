@@ -17,7 +17,7 @@ describe "form_section/_field_display_audio.html.erb" do
     rendered.should have_tag("div.delete_check_box label[text()='Delete audio?']")
     rendered.should have_tag("div.delete_check_box input#delete_child_audio")
   end
-  
+
   it "should not show the delete audio checkbox" do
     child = Child.new
     child.stub(:new_record?).and_return(false)

@@ -68,6 +68,8 @@ default[:primero].tap do |p|
   p[:solr_core_dir] = File.join(node[:primero][:app_dir], 'solr', 'cores')
   p[:ruby_version] = '2.4.3'
   p[:ruby_patch] = 'railsexpress'
+  p[:bundler_version] = '1.16.1'
+  p[:rubygems_version] = '2.7.5'
 
   p[:passenger_conf].tap do |pc|
     pc[:min_instances] = 1
@@ -76,18 +78,8 @@ default[:primero].tap do |p|
 
   p[:mailer].tap do |m|
     m[:delivery_method] = 'sendmail'
-    m[:host] = 'mail.example.com'
-    m[:from_address] = 'noreply@mail.example.com'
-
-    m[:smtp_conf].tap do |s|
-      s[:address] = 'smtp.gmail.com'
-      s[:port] = 587
-      s[:domain] = 'mail.example.com'
-      s[:authentication] = 'plain'
-      s[:user_name] = 'test@mail.example.com'
-      s[:password] = '??????'
-      s[:enable_starttls_auto] = true
-    end
+    m[:host] = 'primero.org'
+    m[:from_address] = 'noreply@primero.org'
   end
 end
 

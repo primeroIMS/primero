@@ -44,7 +44,7 @@ module Exporters
       def properties_to_export(props)
         props = exclude_forms(props) if self.excluded_forms.present?
         props = properties_to_keys(props)
-        props.reject {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
+        props.reject! {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
         return props
       end
 
@@ -236,7 +236,6 @@ module Exporters
       end
 
       def get_model_location_value(model, property)
-        #TODO - i18n
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
       end
 

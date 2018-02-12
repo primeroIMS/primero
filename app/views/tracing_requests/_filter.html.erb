@@ -12,13 +12,13 @@
       <%= render "record_shared/filter_date", record: 'tracing_requests', date_field_title: 'inquiry_date', date_field: 'inquiry_date' %>
     <% end %>
     <% if filters_to_show.include? 'Inquiry Status' %>
-      <%= build_filter_checkboxes(t("tracing_requests.filter_by.inquiry_status"), 'inquiry_status', Lookup.values('lookup-inquiry-status', @lookups)) %>
+      <%= build_filter_checkboxes(t("tracing_requests.filter_by.inquiry_status"), 'inquiry_status', Lookup.values('lookup-inquiry-status', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'Separation Location' %>
       <%= build_filter_location(t("tracing_requests.filter_by.location_separation"), 'location_separation') %>
     <% end %>
     <% if filters_to_show.include? 'Separation Cause' %>
-      <%= build_filter_checkboxes(t("tracing_requests.filter_by.separation_cause"), 'separation_cause', Lookup.values('lookup-separation-cause', @lookups)) %>
+      <%= build_filter_checkboxes(t("tracing_requests.filter_by.separation_cause"), 'separation_cause', Lookup.values('lookup-separation-cause', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'Record State' %>
       <%= build_filter_checkboxes(t("tracing_requests.filter_by.record_state"), 'record_state',

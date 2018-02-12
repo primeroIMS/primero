@@ -5,13 +5,11 @@ def stub_out_saved_search_get(mock_saved_search = double(SavedSearch))
   mock_saved_search
 end
 
-describe SavedSearchesController do
-  before :each do |example|
+describe SavedSearchesController, :type => :controller do
+  before :each do
     SavedSearch.any_instance.stub(:permitted_properties).and_return(SavedSearch.properties)
-    unless example.metadata[:skip_session]
-      @user = User.new(:user_name => 'zuul')
-      @session = fake_admin_login @user
-    end
+    @user = User.new(:user_name => 'zuul')
+    @session = fake_admin_login @user
   end
 
   def mock_saved_search(stubs={})

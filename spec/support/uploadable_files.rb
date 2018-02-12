@@ -22,6 +22,10 @@ module UploadableFiles
     photo
   end
 
+  def uploadable_zip_file(zip_path = 'spec/resources/example.csv.zip')
+    Rack::Test::UploadedFile.new(Rails.root.join(zip_path))
+  end
+
   def uploadable_executable_file
     executable_file = File.new("capybara_features/resources/exe_file.exe")
 

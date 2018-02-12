@@ -42,7 +42,7 @@ describe ChildRiskLevelFollowUp do
     Child.all.each { |form| form.destroy }
   end
 
-  def create_sample_child(registration_date, risk_level, flags = [], 
+  def create_sample_child(registration_date, risk_level, flags = [],
                           child_status = I18n.t("followup_reminders.child_status_open"),
                           record_state = true)
     Child.create!(:registration_date => registration_date,
@@ -265,7 +265,7 @@ describe ChildRiskLevelFollowUp do
       #The new flag is one month from the last flag.
       db_child_low.flags[3].date.should eq(db_child_low.flags[1].date + 1.month)
     end
-    
+
     it "should do for medium risk level" do
       flags = [Flag.new(:message => "Flagged for some reason - 1")]
       flags.concat(generate_flag(ChildRiskLevelFollowUp::MEDIUM_RISK_LEVEL, Date.today - 2.weeks))
@@ -316,7 +316,7 @@ describe ChildRiskLevelFollowUp do
   end
 
   shared_examples_for "Cancel by case status" do |case_status|
-    [ChildRiskLevelFollowUp::HIGH_RISK_LEVEL, 
+    [ChildRiskLevelFollowUp::HIGH_RISK_LEVEL,
      ChildRiskLevelFollowUp::MEDIUM_RISK_LEVEL,
      ChildRiskLevelFollowUp::LOW_RISK_LEVEL].each do |risk_level|
       it "should cancel #{risk_level.downcase} follow up for #{case_status.downcase} cases" do
@@ -324,10 +324,10 @@ describe ChildRiskLevelFollowUp do
         flags.concat(generate_flag(risk_level, Date.today - 2.weeks))
         flags << Flag.new(:message => "Flagged for some reason - 2")
         child = create_sample_child(Date.today - 1.month, risk_level, flags, case_status)
-  
+
         #Invoke method to generate or cancel follow up.
         ChildRiskLevelFollowUp.process_followup_reminders
-  
+
         db_child = Child.get(child.id)
         db_child.flags.length.should eq(2 + ChildRiskLevelFollowUp::followup_count(risk_level))
         i = 1
@@ -345,7 +345,7 @@ describe ChildRiskLevelFollowUp do
   end
 
   shared_examples_for "Cancel for invalid records" do |case_status|
-    [ChildRiskLevelFollowUp::HIGH_RISK_LEVEL, 
+    [ChildRiskLevelFollowUp::HIGH_RISK_LEVEL,
      ChildRiskLevelFollowUp::MEDIUM_RISK_LEVEL,
      ChildRiskLevelFollowUp::LOW_RISK_LEVEL].each do |risk_level|
       it "should cancel #{risk_level.downcase} follow up for #{case_status.downcase} cases" do
@@ -353,10 +353,10 @@ describe ChildRiskLevelFollowUp do
         flags.concat(generate_flag(risk_level, Date.today - 2.weeks))
         flags << Flag.new(:message => "Flagged for some reason - 2")
         child = create_sample_child(Date.today - 1.month, risk_level, flags, case_status, false)
-  
+
         #Invoke method to generate or cancel follow up.
         ChildRiskLevelFollowUp.process_followup_reminders
-  
+
         db_child = Child.get(child.id)
         db_child.flags.length.should eq(2 + ChildRiskLevelFollowUp::followup_count(risk_level))
         i = 1
