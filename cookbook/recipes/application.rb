@@ -183,19 +183,105 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
 end
 
 include_recipe 'primero::solr'
-include_recipe 'primero::queue'
+# include_recipe 'primero::queue'
 
-app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
-directory app_tmp_dir do
+# app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
+# directory app_tmp_dir do
+#   action :create
+#   mode '0755'
+#   owner node[:primero][:app_user]
+#   group node[:primero][:app_group]
+# end
+# couch_watcher_dir = ::File.join(node[:primero][:log_dir], 'couch_watcher')
+# directory couch_watcher_dir do
+#   action :create
+#   mode '0755'
+# end
+
+# [::File.join(node[:primero][:app_dir], 'tmp/couch_watcher_history.json'),
+#  ::File.join(node[:primero][:app_dir], 'tmp/couch_watcher_restart.txt'),
+#  ::File.join(node[:primero][:log_dir], 'couch_watcher/production.log')
+# ].each do |f|
+#   file f do
+#     #content ''
+#     #NOTE: couch_watcher_restart.txt must be 0666 to allow any user importing a config bundle
+#     #      to be able to touch the file, triggering a restart of couch_watcher
+#     mode '0666' #TODO: This is a hack
+#     owner 'root'
+#     group 'root'
+#     #action :create_if_missing
+#   end
+# end
+
+# supervisor_service 'couch-watcher' do
+#   command <<-EOH
+#     #{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} \
+#     capsh --drop=all --caps='cap_dac_read_search+ep' -- -c ' \
+#       RAILS_ENV=production RAILS_LOG_PATH=#{::File.join(node[:primero][:log_dir], 'couch_watcher')} \
+#         #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec \
+#           rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}'
+#   EOH
+#   environment({
+#     'RAILS_ENV' => 'production',
+#     'RAILS_LOG_PATH' => ::File.join(node[:primero][:log_dir], 'couch_watcher'),
+#     'rvmsudo_secure_path' => '1',
+#   })
+#   autostart true
+#   autorestart true
+#   user node[:primero][:app_user]
+#   directory node[:primero][:app_dir]
+#   numprocs 1
+#   killasgroup true
+#   stopasgroup true
+#   redirect_stderr true
+#   stdout_logfile ::File.join(node[:primero][:log_dir], 'couch_watcher/output.log')
+#   stdout_logfile_maxbytes '20MB'
+#   stdout_logfile_backups 0
+#   # We want to stop the watcher before doing seeds/migrations so that it
+#   # doesn't go crazy with all the updates.  Make sure that everything that it
+#   # does is also done in this recipe (e.g. reindex solr, reset memoization,
+#   # etc..)
+#   action [:enable, :stop]
+# end
+
+# file "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh" do
+#   mode '0755'
+#   owner node[:primero][:app_user]
+#   group node[:primero][:app_group]
+#   content <<-EOH
+# #!/bin/bash
+# #Look for any changes to /tmp/couch_watcher_restart.txt.
+# #When a change occurrs to that file, restart couch-watcher
+# inotifywait #{::File.join(node[:primero][:app_dir], 'tmp')}/couch_watcher_restart.txt && supervisorctl restart couch-watcher
+# EOH
+# end
+
+# supervisor_service 'who-watches-the-couch-watcher' do
+#   command "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh"
+#   autostart true
+#   autorestart true
+#   user 'root'
+#   directory node[:primero][:app_dir]
+#   numprocs 1
+#   killasgroup true
+#   stopasgroup true
+#   redirect_stderr true
+#   stdout_logfile ::File.join(node[:primero][:log_dir], 'couch_watcher/restart.log')
+#   stdout_logfile_maxbytes '20MB'
+#   stdout_logfile_backups 0
+#   # We want to stop the watcher before doing seeds/migrations so that it
+#   # doesn't go crazy with all the updates.  Make sure that everything that it
+#   # does is also done in this recipe (e.g. reindex solr, reset memoization,
+#   # etc..)
+#   action [:enable, :stop]
+# end
+
+couch_watcher_log_dir = ::File.join(node[:primero][:log_dir], 'couch_watcher')
+directory couch_watcher_log_dir do
   action :create
   mode '0755'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
-end
-couch_watcher_dir = ::File.join(node[:primero][:log_dir], 'couch_watcher')
-directory couch_watcher_dir do
-  action :create
-  mode '0755'
 end
 
 [::File.join(node[:primero][:app_dir], 'tmp/couch_watcher_history.json'),
@@ -206,26 +292,33 @@ end
     #content ''
     #NOTE: couch_watcher_restart.txt must be 0666 to allow any user importing a config bundle
     #      to be able to touch the file, triggering a restart of couch_watcher
-    mode '0666' #TODO: This is a hack
-    owner 'root'
-    group 'root'
+    #TODO: This is a hack, and probably no longer needed now that couch_watcher and passenger
+    #      run as 'primero'
+    mode '0666'
+    owner node[:primero][:app_user]
+    group node[:primero][:app_group]
     #action :create_if_missing
   end
 end
 
+couchwatcher_worker_file = "#{node[:primero][:daemons_dir]}/couch-watcher-worker.sh"
+file couchwatcher_worker_file do
+  mode '0755'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  content <<-EOH
+#!/bin/bash
+#Launch the Couch Watcher
+#This file is generated by Chef
+cd #{node[:primero][:app_dir]}
+source #{::File.join(node[:primero][:home_dir],'.rvm','scripts','rvm')}
+export PASSENGER_TEMP_DIR=#{node[:primero][:app_dir]}/tmp
+RAILS_ENV=#{node[:primero][:rails_env]} RAILS_LOG_PATH=#{couch_watcher_log_dir} bundle exec rails r lib/couch_changes/base.rb
+EOH
+end
+
 supervisor_service 'couch-watcher' do
-  command <<-EOH
-    #{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} \
-    capsh --drop=all --caps='cap_dac_read_search+ep' -- -c ' \
-      RAILS_ENV=production RAILS_LOG_PATH=#{::File.join(node[:primero][:log_dir], 'couch_watcher')} \
-        #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec \
-          rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}'
-  EOH
-  environment({
-    'RAILS_ENV' => 'production',
-    'RAILS_LOG_PATH' => ::File.join(node[:primero][:log_dir], 'couch_watcher'),
-    'rvmsudo_secure_path' => '1',
-  })
+  command couchwatcher_worker_file
   autostart true
   autorestart true
   user node[:primero][:app_user]
@@ -234,7 +327,7 @@ supervisor_service 'couch-watcher' do
   killasgroup true
   stopasgroup true
   redirect_stderr true
-  stdout_logfile ::File.join(node[:primero][:log_dir], 'couch_watcher/output.log')
+  stdout_logfile ::File.join(couch_watcher_log_dir, '/output.log')
   stdout_logfile_maxbytes '20MB'
   stdout_logfile_backups 0
   # We want to stop the watcher before doing seeds/migrations so that it
@@ -244,7 +337,9 @@ supervisor_service 'couch-watcher' do
   action [:enable, :stop]
 end
 
-file "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh" do
+who_watches_worker_file = "#{node[:primero][:daemons_dir]}/who-watches-the-couch-watcher.sh"
+
+file who_watches_worker_file do
   mode '0755'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
@@ -257,10 +352,9 @@ EOH
 end
 
 supervisor_service 'who-watches-the-couch-watcher' do
-  command "#{node[:primero][:app_dir]}/who-watches-the-couch-watcher.sh"
+  command who_watches_worker_file
   autostart true
   autorestart true
-  user 'root'
   directory node[:primero][:app_dir]
   numprocs 1
   killasgroup true
