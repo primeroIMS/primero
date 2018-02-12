@@ -106,6 +106,12 @@ git node[:primero][:app_dir] do
   ssh_wrapper git_wrapper_path
 end
 
+directory node[:primero][:daemons_dir] do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
 default_rails_log_dir = ::File.join(node[:primero][:app_dir], 'log')
 scheduler_log_dir = ::File.join(node[:primero][:log_dir], 'scheduler')
 [File.join(node[:primero][:log_dir], 'nginx'),
@@ -183,15 +189,15 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
 end
 
 include_recipe 'primero::solr'
-# include_recipe 'primero::queue'
+include_recipe 'primero::queue'
 
-# app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
-# directory app_tmp_dir do
-#   action :create
-#   mode '0755'
-#   owner node[:primero][:app_user]
-#   group node[:primero][:app_group]
-# end
+app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
+directory app_tmp_dir do
+  action :create
+  mode '0755'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
 # couch_watcher_dir = ::File.join(node[:primero][:log_dir], 'couch_watcher')
 # directory couch_watcher_dir do
 #   action :create
