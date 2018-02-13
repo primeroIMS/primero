@@ -9,7 +9,7 @@ GIT
 GIT
   remote: git://github.com/rack-test/rack-test.git
   revision: 10042d3452a13d5f13366aac839b981b1c5edb20
-  branch: master
+  ref: 10042d3452a13d5f13366aac839b981b1c5edb20
   specs:
     rack-test (0.8.2)
       rack (>= 1.0, < 3)
