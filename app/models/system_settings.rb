@@ -3,8 +3,9 @@ class SystemSettings < CouchRest::Model::Base
 
   include PrimeroModel
   include Memoizable
+  include LocalizableProperty
 
-  property :default_locale, String
+  property :default_locale, String, :default => 'en'
   property :case_code_format, [String], :default => []
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
@@ -16,6 +17,12 @@ class SystemSettings < CouchRest::Model::Base
   property :location_limit_for_api
   property :approval_forms_to_alert
   property :changes_field_to_form
+  property :due_date_from_appointment_date, TrueClass, :default => false
+  property :notification_email_enabled, TrueClass, :default => false
+  property :welcome_email_enabled, TrueClass, :default => false
+  localize_properties [:welcome_email_text]
+
+  validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version
@@ -29,7 +36,7 @@ class SystemSettings < CouchRest::Model::Base
     super(*args)
     # CouchDB stores JSON Objects, and Range is not a proper JSON Object
     # so upon fetching ranges from CouchDB, they need to be recreated
-    age_ranges = args.first["age_ranges"]
+    age_ranges = args.first.try(:[], 'age_ranges')
     if age_ranges.present?
       age_ranges.each do |name, range_array|
         self.age_ranges[name] = range_array.map{ |r| AgeRange.from_string(r) }

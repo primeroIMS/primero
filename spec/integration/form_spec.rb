@@ -3,6 +3,9 @@ require 'spec_helper'
 feature "forms" do
   feature "subforms" do
     before do
+      FormSection.all.each &:destroy
+      PrimeroModule.all.each &:destroy
+
       @form_section = create(:form_section,
         is_first_tab: true,
         fields: [
@@ -50,6 +53,13 @@ feature "forms" do
       expect(page).to have_content(/Case record (.*) successfully created./)
     end
 
+    scenario "agency not avaliable when editing My Account" do
+      visit '/'
+      click_on('My Account')
+      click_on('Edit')
+      expect(page).to_not have_selector(".default-form .key[for='user_organization']")
+    end
+
     scenario "saves form when subform with required fields removed" do
       visit '/cases'
       click_on('New Case')
@@ -75,67 +85,66 @@ feature "forms" do
     end
   end
 
-  # TODO: Need methods in 1.5 for this test
-  # feature "assigned user field" do
-  #   before(:all) do
-  #     @form_section = create(:form_section,
-  #       is_first_tab: true,
-  #       fields: [
-  #         build(:select_field, name: 'assigned_user_names', display_name: 'Assigned User Names')
-  #       ]
-  #     )
+  feature "assigned user field" do
+    before(:all) do
+      @form_section = create(:form_section,
+        is_first_tab: true,
+        fields: [
+          build(:select_field, name: 'assigned_user_names', display_name: 'Assigned User Names')
+        ]
+      )
 
-  #     @role1 = create(:role, permissions_list: [
-  #       build(:permission, resource: Permission::CASE, actions: [
-  #         Permission::READ,
-  #         Permission::WRITE,
-  #         Permission::CREATE,
-  #         Permission::REMOVE_ASSIGNED_USERS
-  #       ])
-  #     ])
-  #     @role2 = create(:role, permissions_list: [
-  #       build(:permission, resource: Permission::CASE, actions: [
-  #         Permission::READ,
-  #         Permission::CREATE,
-  #         Permission::WRITE
-  #       ])
-  #     ])
+      @role1 = create(:role, permissions_list: [
+        build(:permission, resource: Permission::CASE, actions: [
+          Permission::READ,
+          Permission::WRITE,
+          Permission::CREATE,
+          Permission::REMOVE_ASSIGNED_USERS
+        ])
+      ])
+      @role2 = create(:role, permissions_list: [
+        build(:permission, resource: Permission::CASE, actions: [
+          Permission::READ,
+          Permission::CREATE,
+          Permission::WRITE
+        ])
+      ])
 
-  #     @user1 = setup_user(form_sections: [@form_section], roles: @role1)
-  #     @user2 = setup_user(form_sections: [@form_section], roles: @role2)
-  #   end
+      @user1 = setup_user(form_sections: [@form_section], roles: @role1)
+      @user2 = setup_user(form_sections: [@form_section], roles: @role2)
+    end
 
-  #   scenario "allows user with correct permission to edit field" do
-  #     create_session(@user1)
-  #     visit '/cases'
-  #     click_on('New Case')
+    scenario "allows user with correct permission to edit field" do
+      create_session(@user1)
+      visit '/cases'
+      click_on('New Case')
 
-  #     within('.chosen-container') do
-  #       expect(page).to have_css("input[disabled]")
-  #     end
+      within('.chosen-container') do
+        expect(page).to have_css("input[disabled]")
+      end
 
-  #     expect(page).to have_selector(:link_or_button, 'Remove referrals')
-  #     click_on('Remove referrals')
+      expect(page).to have_selector(:link_or_button, 'Remove referrals')
+      click_on('Remove referrals')
 
-  #     within('.chosen-container') do
-  #       expect(page).to_not have_css("input[disabled]")
-  #     end
+      within('.chosen-container') do
+        expect(page).to_not have_css("input[disabled]")
+      end
 
-  #     select_from_chosen('test2', from: 'Assigned User Names')
-  #     click_on('Save')
+      select_from_chosen('test2', from: 'Assigned User Names')
+      click_on('Save')
 
-  #     expect(page).to have_content('test2')
-  #   end
+      expect(page).to have_content('test2')
+    end
 
-  #   scenario "does not show remove referals link for user without correct permission" do
-  #     create_session(@user2)
-  #     visit '/cases'
-  #     click_on('New Case')
-  #     expect(page).to_not have_selector(:link_or_button, 'Remove referrals')
+    scenario "does not show remove referals link for user without correct permission" do
+      create_session(@user2)
+      visit '/cases'
+      click_on('New Case')
+      expect(page).to_not have_selector(:link_or_button, 'Remove referrals')
 
-  #     within('.chosen-container') do
-  #       expect(page).to have_css("input[disabled]")
-  #     end
-  #   end
-  # end
+      within('.chosen-container') do
+        expect(page).to have_css("input[disabled]")
+      end
+    end
+  end
 end

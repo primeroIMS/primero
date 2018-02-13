@@ -67,6 +67,7 @@ namespace :db do
       file_name = args[:yaml_file]
       if file_name.present?
         puts "Importing form translation from #{file_name}"
+        #TODO extract this code into a re-usable module in the application
         file_hash = YAML.load_file(file_name)
         if file_hash.present? && file_hash.is_a?(Hash)
           locale = file_hash.keys.first
@@ -79,6 +80,7 @@ namespace :db do
       end
     end
 
+    # Exports Forms for translation & Exports Lookups for translation
     # USAGE: bundle exec rake db:data:export_form_translation[form_name,type,module_id,show_hidden_forms,show_hidden_fields,locale]
     # Args:
     #   form_name          - if this is passed in, will only export that 1 form  (ex. 'basic_identity')
@@ -111,6 +113,31 @@ namespace :db do
                                                       show_hidden_fields: show_hidden_fields, locale: locale)
       forms_exporter.export_forms_to_yaml
       puts "Done!"
+    end
+
+    # USAGE: bundle exec rake db:data:import_lookup_translation[yaml_file]
+    # Args:
+    #   yaml_file             - The translated file to be imported
+    # NOTE:
+    #   No spaces between arguments in argument list
+    # Examples:
+    #   bundle exec rake db:data:import_lookup_translation[for_use_primero_lookupsyml_fr.yml]
+    desc "Import the lookup translations yaml"
+    task :import_lookup_translation, [:yaml_file] => :environment do |t, args|
+      file_name = args[:yaml_file]
+      if file_name.present?
+        puts "Importing lookup translation from #{file_name}"
+        #TODO extract this code into a re-usable module in the application
+        file_hash = YAML.load_file(file_name)
+        if file_hash.present? && file_hash.is_a?(Hash)
+          locale = file_hash.keys.first
+          file_hash.values.each{|fh| Lookup.import_translations(fh, locale)}
+        else
+          puts "Error parsing yaml file"
+        end
+      else
+        puts "ERROR: No input file provided"
+      end
     end
 
 

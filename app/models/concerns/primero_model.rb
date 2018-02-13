@@ -34,6 +34,16 @@ module PrimeroModel
       end
     end
 
+    def create_or_update(attributes = {})
+      record = self.find(attributes[:id])
+
+      if record.present?
+        record.update_attributes(attributes)
+      else
+        self.create!(attributes)
+      end
+    end
+
     def each_slice(size=500, &block)
       #Don't know why, but although self.all is a CouchRest::Model::Designs::View
       #we can't use the methods "total_count" and "total_pages" in order to calculate

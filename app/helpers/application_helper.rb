@@ -20,7 +20,8 @@ module ApplicationHelper
     "ContactInformation" => "setting",
     "Replications" => "replications",
     "Reports" => "reports",
-    "BulkExports" => "bulk_exports"
+    "BulkExports" => "bulk_exports",
+    "Tasks" => "tasks"
   }
 
   @@alias_role_action_label = {
@@ -230,17 +231,6 @@ module ApplicationHelper
     options_for_select([[t("disabled.status.enabled"),"enabled"],
                         [t("disabled.status.disabled"),"disabled"],
                         [t("disabled.status.all"), "all"]], filter)
-  end
-
-
-  # This is a hack to avoid getting the special HTML wrappers that the I18n library
-  # imposes on all missed translation keys. Occasionally they break HTML.
-  def t(key, options={})
-    begin
-      I18n.t(key, options.merge({raise: true}))
-    rescue I18n::MissingTranslationData
-      key
-    end
   end
 
   def icon(icon, text = nil, html_options = {})

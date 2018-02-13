@@ -118,12 +118,58 @@ To create a user session use `create_session(user, password)` before visiting a 
     expect(page).to have_content "Logged in as: #{@user.user_name}"
   end
 ```
-To accept or cancel confirmations/alerts. Place before the element that will trigger the alert/confirmation.
+
+#### Use of SOLR
+You will need to call `Sunspot.commit` to index records. Also make sure your test is tagged with `search: true`
 
 ```
-page.evaluate_script('window.confirm = function() { return true; }')
+  feature "test features, search: true do
+  before do
+    @case = create(:child)
+    @case2 = create(:child, name: 'Josh')
+    Sunspot.commit
+  end
+
+  ...
+
+  end
 ```
 
+#### Pausing
+You are able to pause a test by inserting pause into a test. Useful if testing outside of vagrant
+
 ```
-page.evaluate_script('window.alert = function() { return true; }')
+  scenario "testing" do
+    pause
+    expect(page).to have_content("Hello World)
+  end
 ```
+
+#### Notes
+
+- Make sure to use Capybara methods that uses Capybara waiting behaviour.
+  Example: Checking to see if something is not in a js table.
+
+  Will not wait for async:
+
+  ```
+  expect(page).to_not have_content 'CASE 2'
+  ```
+
+  Will wait for async:
+
+  ```
+  expect(page).to have_not_content 'CASE 2
+  ```
+
+  For more details: [Capybara Asynchronous JavaScript](https://github.com/teamcapybara/capybara#asynchronous-javascript-ajax-and-friends)
+
+- To accept or cancel confirmations/alerts. Place before the element that will trigger the alert/confirmation.
+
+  ```
+  page.evaluate_script('window.confirm = function() { return true; }')
+  ```
+
+  ```
+  page.evaluate_script('window.alert = function() { return true; }')
+  ```

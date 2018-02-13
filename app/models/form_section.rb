@@ -106,6 +106,7 @@ class FormSection < CouchRest::Model::Base
   validate :validate_datatypes
 
   before_validation :generate_options_keys
+  before_validation :sync_options_keys
   after_save :recalculate_subform_permissions
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
@@ -305,7 +306,7 @@ class FormSection < CouchRest::Model::Base
     #TODO: Potentially this method is expensive
     def link_subforms(forms)
       subforms_hash = forms.reduce({}) do |hash, form|
-        hash[form.unique_id] = form unless form.visible?
+        hash[form.unique_id] = form if form.is_nested?
         hash
       end
 
@@ -432,12 +433,11 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_form_containing_field
 
-    def get_fields_by_name_and_parent_form(field_name, parent_form, include_subforms)
-      all.select{|form| form.parent_form == parent_form && (include_subforms == true || form.is_nested == false)}
-         .map{|form| form.fields.select{|field| field.name == field_name || field.display_name == field_name } }
-         .flatten
+    def has_photo_form
+      photo_form = get_by_unique_id('photos_and_audio')
+      photo_form.present? && photo_form.visible
     end
-    memoize_in_prod :get_fields_by_name_and_parent_form
+    memoize_in_prod :has_photo_form
 
     def new_custom form_section, module_name = "CP"
       form_section[:core_form] = false   #Indicates this is a user-added form
@@ -621,7 +621,7 @@ class FormSection < CouchRest::Model::Base
     def mobile_forms_to_hash(form_sections, locale=nil)
       locales = ((locale.present? && Primero::Application::locales.include?(locale)) ? [locale] : Primero::Application::locales)
       lookups = Lookup.all.all
-      locations = self.include_locations_for_mobile? ? Location.all_names : []
+      locations = self.include_locations_for_mobile? ? Location.all_names(locale: I18n.locale) : []
       form_sections.map {|form| mobile_form_to_hash(form, locales, lookups, locations)}
     end
 
@@ -852,6 +852,10 @@ class FormSection < CouchRest::Model::Base
   #TODO add rspec test
   def generate_options_keys
     self.fields.each{|field| field.generate_options_keys}
+  end
+
+  def sync_options_keys
+    self.fields.each{|field| field.sync_options_keys}
   end
 
   def field_by_name(field_name)

@@ -30,14 +30,8 @@ table:not(.record_list_view) tr.report_row_aggregate td.report_sidebar_value {
   border-bottom: 1px solid $stroke_green_color !important;
 }
 
-div.report_table_content .dataTables_wrapper.no-footer .dataTables_scrollBody, div.DTFC_LeftBodyWrapper, div.DTFC_RightBodyWrapper {
+div.DTFC_LeftBodyWrapper, div.DTFC_RightBodyWrapper {
   border-bottom: 1px solid $stroke_green_color;
-}
-
-.dataTables_scrollBody table tbody tr:last-of-type td,
-.DTFC_LeftBodyLiner table tbody tr:last-of-type td,
-.DTFC_RightBodyLiner table tbody tr:last-of-type td {
-  border-bottom: none;
 }
 
 .dataTables_scrollBody {

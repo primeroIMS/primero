@@ -10,6 +10,7 @@ class ChildrenController < ApplicationController
   before_filter :filter_params_by_permission, :only => [:create, :update]
   #TODO: This should go away once filters are configurable in the role
   before_filter :filter_risk_level, :only => [:index]
+  before_filter :toggle_photo_indicators, :only => [:show]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
@@ -156,6 +157,7 @@ class ChildrenController < ApplicationController
     end
   end
 
+  #TODO: move this to approval_actions concern
   def request_approval
     #TODO move business logic to the model.
     child = Child.get(params[:child_id])
@@ -169,7 +171,7 @@ class ChildrenController < ApplicationController
       when "case_plan"
         child.approval_status_case_plan = params[:approval_status]
 
-        if child.module.selectable_approval_types.present?
+        if child.module.try(:selectable_approval_types).present?
           child.case_plan_approval_type = params[:approval_status_type]
         end
       when "closure"
@@ -186,6 +188,7 @@ class ChildrenController < ApplicationController
     )
 
     if child.save
+      child.send_approval_request_mail(params[:approval_type], request.base_url) if @system_settings.try(:notification_email_enabled)
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
       errors = approval_type_error || child.errors.messages
@@ -364,4 +367,7 @@ class ChildrenController < ApplicationController
     end
   end
 
+  def toggle_photo_indicators
+    @has_photo_form = FormSection.has_photo_form
+  end
 end

@@ -51,7 +51,7 @@ $(show_tools);
 <% content_for :breadcrumbs do %>
   <div class="label"><%= t("case.label") %></div>
   #<%= text_to_identify_child(@child) %>
-  <% if @child.photos.present? %>
+  <% if @child.photos.present? && @has_photo_form %>
     <div class="photo-link">
       <div class='image'>
         <%= link_to icon('camera'), child_resized_photo_path(@child, @child.primary_photo_id, 640) %>

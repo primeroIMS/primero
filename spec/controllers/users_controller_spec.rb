@@ -487,7 +487,7 @@ describe UsersController do
       it "should create admin user if the admin user type is specified" do
         fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
         mock_user = User.new
-        User.should_receive(:new).with({"role_ids" => %w(abcd)}).and_return(mock_user)
+        User.should_receive(:new).with({"role_ids" => %w(abcd), "locale" => nil}).and_return(mock_user)
         mock_user.should_receive(:save).and_return(true)
         post :create, {"user" => {"role_ids" => %w(abcd)}}
       end

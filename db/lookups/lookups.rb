@@ -484,6 +484,17 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+  :id => "lookup-followup-type",
+  :name => "Followup Type",
+  :lookup_values => [
+     {id: 'after_reunification', display_text: "Follow up After Reunification"},
+     {id: 'in_care', display_text: "Follow up in Care"},
+     {id: 'for_service', display_text: "Follow up for Service"},
+     {id: 'for_assesment', display_text: "Follow up for Assessment"}
+  ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
   :id => "lookup-protection-concerns",
   :name => "Protection Concerns",
   :lookup_values => [
@@ -560,14 +571,13 @@ create_or_update_lookup(
     ]
 )
 
-#TODO i18n - cast unknown to nil
 create_or_update_lookup(
     :id => "lookup-yes-no-unknown",
     :name => "Yes, No, or Unknown",
     :lookup_values => [
         {id: "true", display_text: "Yes"}.with_indifferent_access,
         {id: "false", display_text: "No"}.with_indifferent_access,
-        {id: "default_convert_unknown_id_to_nil", display_text: "Unknown"}.with_indifferent_access
+        {id: "unknown", display_text: "Unknown"}.with_indifferent_access
     ]
 )
 
@@ -577,7 +587,7 @@ create_or_update_lookup(
     :lookup_values => [
         {id: "true", display_text: "Yes"}.with_indifferent_access,
         {id: "false", display_text: "No"}.with_indifferent_access,
-        {id: "default_convert_unknown_id_to_nil", display_text: "Undecided"}.with_indifferent_access
+        {id: "undecided", display_text: "Undecided"}.with_indifferent_access
     ]
 )
 
@@ -652,8 +662,19 @@ create_or_update_lookup(
         {id: "closed", display_text: "Case closed"}.with_indifferent_access,
         {id: "reopened", display_text: "Case reopened"}.with_indifferent_access,
         {id: "service_provision", display_text: "Service provision"}.with_indifferent_access,
-        {id: "services_implemented", display_text: "All response services implemented"}.with_indifferent_access
+        {id: "services_implemented", display_text: "All response services implemented"}.with_indifferent_access,
+        {id: "case_plan", display_text: "Case Plan"}.with_indifferent_access
     ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-service-implemented",
+    :name => "Service Implemented",
+    :locked => true,
+    :lookup_values => [
+        {id: "not-implemented", display_text: "Not Implemented"},
+        {id: "implemented", display_text: "Implemented"}
+    ].map(&:with_indifferent_access)
 )
 
 create_or_update_lookup(

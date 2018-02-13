@@ -43,11 +43,20 @@ module Searchable
         string :associated_user_names, multiple: true
         string :owned_by
         string :owned_by_groups, multiple: true
+        string :assigned_user_names, multiple: true
+        string :module_id, as: :module_id_sci
+      end
+      if self.include?(Approvable)
+        date :case_plan_approved_date
+      end
+      if self.include?(Transitionable)
+        time :reassigned_tranferred_on
       end
       if self.include?(SyncableMobile)
         boolean :marked_for_mobile
       end
       string :sortable_name, as: :sortable_name_sci
+
       #TODO - This is likely deprecated and needs to be refactored away
       #TODO - searchable_location_fields currently used by filtering
       searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
@@ -174,6 +183,7 @@ module Searchable
 
     def searchable_date_fields
       searchable_approvable_date_fields +
+      ["date_case_plan_initiated", "assessment_requested_on"] +
       Field.all_searchable_date_field_names(self.parent_form)
     end
 

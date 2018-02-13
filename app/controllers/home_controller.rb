@@ -8,6 +8,7 @@ class HomeController < ApplicationController
   def index
     @page_name = t("home.label")
     @user = User.find_by_user_name(current_user_name)
+    @associated_users = @user.managed_user_names
     @notifications = PasswordRecoveryRequest.to_display
     load_user_module_data
 
@@ -27,12 +28,14 @@ class HomeController < ApplicationController
       load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
       #TODO: All this needs to be heavily refactored
 
+
       display_case_worker_dashboard?
       display_approvals?
       display_assessment?
       display_service_provisions?
       display_cases_to_assign?
       display_cases_by_workflow?
+      display_cases_by_task_overdue?
       display_referrals_by_socal_worker?
       display_cases_by_socal_worker?
       display_transfers_by_socal_worker?
@@ -103,12 +106,20 @@ class HomeController < ApplicationController
     }
 
     @workflow_order = [
-      Record::STATUS_OPEN,
-      Workflow::WORKFLOW_NEW,
-      @service_response_types.map{ |h,v| v },
-      Workflow::WORKFLOW_SERVICE_IMPLEMENTED
-    ].flatten
+      {id: Workflow::WORKFLOW_NEW, display: t("case.workflow.#{Workflow::WORKFLOW_NEW}")},
+      {id: Workflow::WORKFLOW_REOPENED, display: t("case.workflow.#{Workflow::WORKFLOW_REOPENED}")}
+    ]
+    if @modules.present?
+      if @modules.first['use_workflow_assessment']
+        @workflow_order << {id: Workflow::WORKFLOW_ASSESSMENT, display: t("case.workflow.#{Workflow::WORKFLOW_ASSESSMENT}")}
+      end
 
+      if @modules.first['use_workflow_case_plan']
+        @workflow_order << {id: Workflow::WORKFLOW_CASE_PLAN, display: t("case.workflow.#{Workflow::WORKFLOW_CASE_PLAN}")}
+      end
+    end
+    @workflow_order << @service_response_types.map{|h,v| {id: v, display: h}}
+    @workflow_order.flatten!
     managed_users = current_user.managed_user_names
 
     @aggregated_case_manager_stats[:cases_to_assign] = queries[:cases_to_assign]
@@ -157,8 +168,7 @@ class HomeController < ApplicationController
     if workflow_query.present?
       workflow_query.each do |stat|
         key = stat['value']
-
-        if key.present?
+        if key.present? && @associated_users.include?(key)
           @aggregated_case_manager_stats[:workflow_totals][key] = {}
 
           if stat['pivot'].present?
@@ -181,6 +191,24 @@ class HomeController < ApplicationController
 
     @aggregated_case_manager_stats[:transfer_awaiting] = queries[:transfer_awaiting]
     @aggregated_case_manager_stats[:transfer_status] = queries[:transfer_status]
+
+    queries[:task_overdue].each do |stat, query|
+      facet = query.facet(:associated_user_names).rows
+
+      unless @aggregated_case_manager_stats[:task_overdue].present?
+        @aggregated_case_manager_stats[:task_overdue] = {}
+      end
+
+      facet.each do |c|
+        if c.count > 0
+          unless @aggregated_case_manager_stats[:task_overdue][c.value].present?
+            @aggregated_case_manager_stats[:task_overdue][c.value] = {}
+          end
+
+          @aggregated_case_manager_stats[:task_overdue][c.value][stat] = c.count
+        end
+      end
+    end
 
     # flags.select{|d| (Date.today..1.week.from_now.utc).cover?(d[:date])}
     #      .group_by{|g| g[:flagged_by]}
@@ -265,6 +293,10 @@ class HomeController < ApplicationController
     @display_cases_by_workflow ||= can?(:dash_cases_by_workflow, Dashboard)
   end
 
+  def display_cases_by_task_overdue?
+    @display_cases_by_task_overdue ||= can?(:dash_cases_by_task_overdue, Dashboard)
+  end
+
   def display_referrals_by_socal_worker?
     @display_referrals_by_socal_worker ||= can?(:dash_referrals_by_socal_worker, Dashboard)
   end
@@ -275,6 +307,10 @@ class HomeController < ApplicationController
 
   def display_transfers_by_socal_worker?
     @display_transfers_by_socal_worker ||= can?(:dash_transfers_by_socal_worker, Dashboard)
+  end
+
+  def display_services_implemented?
+    @display_services_implemented ||= PrimeroModule.cp.use_workflow_service_implemented?
   end
 
   def manager_case_query(query = {})
@@ -289,6 +325,11 @@ class HomeController < ApplicationController
 
       facet(:assigned_user_names, zeros: true) if query[:referred].present?
       with(:owned_by, current_user.user_name) if query[:cases_to_assign].present?
+
+      with(:service_due_dates).less_than(Time.now) if query[:services_overdue].present?
+      with(:assessment_due_dates).less_than(Time.now) if query[:assessment_overdue].present?
+      with(:case_plan_due_dates).less_than(Time.now) if query[:case_plan_overdue].present?
+      with(:followup_due_dates).less_than(Time.now) if query[:followup_overdue].present?
 
       if module_ids.present?
         any_of do
@@ -414,7 +455,13 @@ class HomeController < ApplicationController
       cases_to_assign: manager_case_query({ cases_to_assign: true, assigned: true }),
       cases_to_assign_overdue: manager_case_query({ cases_to_assign: true, assigned: true, overdue: true }),
       transfer_status: manager_case_query({ transfer_status: true }),
-      transfer_awaiting: manager_case_query({ transfer_awaiting: true })
+      transfer_awaiting: manager_case_query({ transfer_awaiting: true }),
+      task_overdue: {
+        assessment: manager_case_query({ by_owner: true, assessment_overdue: true}),
+        case_plan: manager_case_query({ by_owner: true, case_plan_overdue: true}),
+        follow_up: manager_case_query({ by_owner: true, followup_overdue: true}),
+        services: manager_case_query({ by_owner: true, services_overdue: true})
+      }
     }
 
     build_manager_stats(queries)
@@ -588,9 +635,12 @@ class HomeController < ApplicationController
         end
       end
 
-      facet(:services_implemented, zeros: true, exclude: [referred]) do
-        row(:total) do
-          with(:workflow, Child::WORKFLOW_SERVICE_IMPLEMENTED)
+      # TODO: Just checking cp module for now. Need to refactor to handle other modules
+      if display_services_implemented?
+        facet(:services_implemented, zeros: true, exclude: [referred]) do
+          row(:total) do
+            with(:workflow, Child::WORKFLOW_SERVICE_IMPLEMENTED)
+          end
         end
       end
 
@@ -750,7 +800,7 @@ class HomeController < ApplicationController
 
   def build_admin_stats(stats)
     admin_stats = {}
-    protection_concerns = Lookup.values('lookup-protection-concerns', @lookups)
+    protection_concerns = Lookup.values('lookup-protection-concerns', @lookups, locale: I18n.locale)
     stats.each do |k, v|
       stat_facet = v.facet("#{@reporting_location}#{@admin_level}".to_sym) || v.facet(:protection_concerns)
       stat_facet.rows.each do |l|

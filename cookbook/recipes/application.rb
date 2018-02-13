@@ -11,7 +11,6 @@ include_recipe 'primero::common'
   package pkg
 end
 
-
 group node[:primero][:app_group] do
   system true
 end
@@ -205,6 +204,21 @@ template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
   mode '444'
 end
 
+
+template File.join(node[:primero][:app_dir], 'config/mailers.yml') do
+  source 'mailers.yml.erb'
+  variables({
+    :environments => [ node[:primero][:rails_env] ],
+    :delivery_method => node[:primero][:mailer][:delivery_method],
+    :mailer_host => node[:primero][:mailer][:host],
+    :mailer_from_address => node[:primero][:mailer][:from_address],
+    :smtp_conf => node[:primero][:mailer][:smtp_conf]
+  })
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '444'
+end
+
 app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
 directory app_tmp_dir do
   action :create
@@ -222,9 +236,11 @@ execute_bundle 'setup-db-migrate-design-views' do
   command "rake db:migrate:design"
 end
 
-execute_bundle 'setup-db-seed' do
-  command "rake db:seed"
-  environment({"NO_RESEED" => "true"}) if node[:primero][:no_reseed]
+if !node[:primero][:seed][:enabled]
+  execute_bundle 'setup-db-seed' do
+    command "rake db:seed"
+    environment({"NO_RESEED" => "true"}) if node[:primero][:no_reseed]
+  end
 end
 
 execute_bundle 'setup-db-migrate' do

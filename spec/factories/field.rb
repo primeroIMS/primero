@@ -23,6 +23,7 @@ FactoryBot.define do
     transient do
       fields []
       initial_subforms 1
+      unique_id { "form_section_#{counter}" }
     end
 
     type Field::SUBFORM
@@ -34,6 +35,7 @@ FactoryBot.define do
 
     after(:build) do |field, evaluator|
       fs = create :subform_section,
+        unique_id: evaluator.unique_id,
         initial_subforms: evaluator.initial_subforms,
         fields: evaluator.fields
       field.subform_section_id = fs.unique_id

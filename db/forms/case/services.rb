@@ -9,26 +9,7 @@ services_subform = [
     "name" => "service_type",
     "type" => "select_box",
     "display_name_all" => "Type of Service",
-    "option_strings_text_all" => [
-      "Safehouse",
-      "Health/Medical",
-      "Psychosocial/Counseling",
-      "Legal Assistance",
-      "Police or Other Type of Security",
-      "Livelihoods",
-      "Child Protection",
-      "Family Mediation",
-      "Family Reunification",
-      "Social Support",
-      "Education",
-      "BID or BIA / Care-Plan",
-      "NFI/Clothes/Shoes",
-      "Water/Sanitation",
-      "Care Arrangement",
-      "Refugee Registration",
-      "Food",
-      "Other"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-service-type"
   }),
   Field.new({
       "name" => "service_response_day_time",
@@ -37,7 +18,7 @@ services_subform = [
       "display_name_all" => "Created on",
       "date_include_time" => true
   }),
-Field.new({
+  Field.new({
       "name" => "service_response_timeframe",
       "type" => "select_box",
       "display_name_all" => "Implementation Timeframe",
@@ -73,16 +54,21 @@ Field.new({
     "display_name_all" => "Appointment Time"
   }),
   Field.new({
-    "name" => "service_implementing_agency_individual",
+    "name" => "service_implementing_agency",
     "type" => "select_box",
-    "display_name_all" => "Service Provider Name",
-    "option_strings_source" => "User",
-    "help_text_all" => "This field is used for the Workflow status. This field must be filled in to refer the case for the service."
+    "display_name_all" => "Implementing Agency",
+    "option_strings_source" => "Agency"
   }),
   Field.new({
     "name" => "service_provider",
     "type" => "text_field",
     "display_name_all" => "Service Provider"
+  }),
+  Field.new({
+    "name" => "service_implementing_agency_individual",
+    "type" => "select_box",
+    "display_name_all" => "Service provider name",
+    "option_strings_source" => "User"
   }),
   Field.new({"name" => "service_status_referred",
     "type" => "tick_box",
@@ -103,13 +89,10 @@ Field.new({
   Field.new({
     "name" => "service_implemented",
     "type" => "select_box",
-    "selected_value" => "not_implemented",
-    "disabled" => true,
-    "display_name_all" => "Service Implemented",
-    "option_strings_text_all" => [
-        { id: 'not_implemented', display_text: "Not Implemented" }.with_indifferent_access,
-        { id: 'implemented', display_text: "Implemented" }.with_indifferent_access
-    ]
+    "display_name_all" => "Service implemented",
+    "option_strings_source" => "lookup lookup-service-implemented",
+    "selected_value" => "not-implemented",
+    "disabled" => true
   }),
   Field.new({
     "name" => "service_implemented_day_time",

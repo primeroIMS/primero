@@ -1,3 +1,7 @@
+<%
+  notification_email_disabled = !@system_settings.try(:notification_email_enabled)
+%>
+
 <% if flash[:verify] %>
 <div class='flash'>
   <p class='notice'><%= flash[:verify] %></p>
@@ -22,6 +26,19 @@
     %>
     <%= resource_edit_field @user, 'password', 'login.password.label', 'password_field', new_user, false, t("user.password_strength") %>
     <%= resource_edit_field @user, 'password_confirmation', 'login.password.re_enter', 'password_field', new_user %>
+
+    <div class="row">
+      <div class="medium-3 columns">
+        <span class="tool-tip-label">
+          <label class="key" for="user_locale" ><%= t("home.language") %></label>
+        </span>
+      </div>
+      <div class="medium-8 columns">
+        <% value = @user.try(:locale) %>
+        <%= f.select :locale, Primero::Application::LOCALES_WITH_DESCRIPTION, {class: 'chosen-select', data: {value: value}} %>
+      </div>
+      <div class="medium-1 columns"> </div>
+    </div>
 
     <% if !trying_to_edit_ourself && can?(:edit, @user) %>
     <div class="row">
@@ -111,21 +128,22 @@
 
     <%= resource_edit_field @user, 'phone', 'phone', 'text_field' %>
     <%= resource_edit_field @user, 'email', 'email', 'text_field' %>
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <label class="key" for="user_organization" ><%= t("user.agency") %></label>
-        </span>
+    <% if !trying_to_edit_ourself %>
+      <div class="row">
+        <div class="medium-3 columns">
+          <span class="tool-tip-label">
+            <label class="key" for="user_organization" ><%= t("user.agency") %></label>
+          </span>
+        </div>
+        <div class="medium-8 columns">
+          <%= f.select :organization, @agency_names.map {|option| [option['display_text'], option['id']]},
+                       { include_blank: t('agencies.select_prompt') }, {class: 'chosen-select'} %>
+        </div>
+        <div class="medium-1 columns">
+          <span class="required">*</span>
+        </div>
       </div>
-      <div class="medium-8 columns">
-        <%= f.select :organization, @agency_names.map {|option| [option['display_text'], option['id']]},
-                     { include_blank: t('agencies.select_prompt') }, {class: 'chosen-select'} %>
-      </div>
-      <div class="medium-1 columns">
-        <span class="required">*</span>
-      </div>
-    </div>
-
+    <% end %>
     <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
 
     <div class="row">
@@ -158,6 +176,18 @@
           <div class="medium-1 columns"></div>
         </div>
     <% end %>
+
+    <div class="row">
+      <div class="medium-3 columns">
+        <span class="tool-tip-label">
+          <%= f.label :send_mail, t("user.send_mail"), :class=>'key inline' %>
+        </span>
+      </div>
+      <div class="medium-8 columns">
+        <%= f.check_box :send_mail, {disabled: notification_email_disabled}, "true", "false" %>
+      </div>
+      <div class="medium-1 columns"></div>
+    </div>
 
     <%= f.hidden_field :verified, :value => true %>
 

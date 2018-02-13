@@ -1,0 +1,6 @@
+<%="#{t('user.welcome_email.greeting')} #{@user.full_name}"%>
+===============================================
+
+<%= @system_settings.try(:welcome_email_text) %>
+
+<%= link_to(t("user.welcome_email.url_label"), @url) %>

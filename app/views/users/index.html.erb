@@ -29,7 +29,7 @@
       <%= render partial: 'shared_configuration_resource/table_disabled_filter',
                  locals: {sort_options: [[t("users.sort_by.full_name"),"full_name"],[ t("login.username"), "user_name"], [t("users.sort_by.agency"),"organization"]]}%>
       <%= render partial: 'shared_configuration_resource/table',
-                 locals: {objects: @users,
+                 locals: {objects: @editable_users,
                           object_class: User,
                           heading_keys: ['user.full_name', 'login.username', 'user.position' , 'user.agency'],
                           properties: ['full_name', 'user_name', 'position', 'agency_name'],

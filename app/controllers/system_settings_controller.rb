@@ -37,9 +37,9 @@ class SystemSettingsController < ApplicationController
 
   def update
     if @system_settings.present?
-      @system_settings.default_locale = params[:locale]
-      @system_settings.save!
-      @system_settings.update_default_locale
+      if (@system_settings.update_attributes(params[:system_settings]))
+        @system_settings.update_default_locale
+      end
     end
     flash[:notice] = I18n.t("system_settings.updated")
     redirect_to edit_system_setting_path("administrator")

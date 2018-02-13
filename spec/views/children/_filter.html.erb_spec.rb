@@ -43,6 +43,7 @@ describe "children/_filter.html.erb" do
       :associated_form_ids => [@form_cp.unique_id]
     )
     @primero_module_cp.save!
+    @current_modules = [@primero_module_cp]
 
     fields = [
       Field.new({"name" => "gbv_displacement_status",
@@ -78,7 +79,7 @@ describe "children/_filter.html.erb" do
 
     @filters = {}
 
-    @fields_filter = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns"]
+    @fields_filter = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns", "type_of_risk"]
   end
 
   it "should not display filter 'Protection Status' for nonexistent field protection_status" do
@@ -86,6 +87,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should_not match(/<div class="filter"><h3>Protection Status:<\/h3>/)
@@ -121,6 +123,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id, other_form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should match(/<div class="filter"><h3>Protection Status:<\/h3>/)
@@ -132,6 +135,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_gbv])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_gbv, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_gbv.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
 
     #We need this one because there is other call.
@@ -152,6 +156,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_gbv])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_gbv, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_gbv.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
 
     #We need this one because there is other call.
@@ -170,6 +175,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
 
     #We need this one because there is other call.
@@ -177,6 +183,7 @@ describe "children/_filter.html.erb" do
 
     #We need this one because this it is called no matter what and conflict with the one we want test
     should_receive(:visible_filter_field?).with("protection_status", [@form_cp]).and_return(false)
+    should_receive(:visible_filter_field?).with("type_of_risk", [@form_cp]).and_return(false)
 
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should match(/<div class="filter"><h3>Urgent Protection Concern:<\/h3>/)
@@ -190,6 +197,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
 
     #We need this one because there is other call.
@@ -197,6 +205,47 @@ describe "children/_filter.html.erb" do
 
     #We need this one because this it is called no matter what and conflict with the one we want test
     should_receive(:visible_filter_field?).with("protection_status", [@form_cp]).and_return(false)
+    should_receive(:visible_filter_field?).with("type_of_risk", [@form_cp]).and_return(false)
+
+    render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+    rendered.should_not match(/<div class="filter"><h3>Urgent Protection Concern:<\/h3>/)
+  end
+
+  it "should display filter 'Type of Risk' for visible field type_of_risk" do
+    @is_cp = true
+    @current_user = User.new
+    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
+    @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
+    FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
+
+    #We need this one because there is other call.
+    should_receive(:visible_filter_field?).with("type_of_risk", [@form_cp]).and_return(true)
+
+    #We need this one because this it is called no matter what and conflict with the one we want test
+    should_receive(:visible_filter_field?).with("protection_status", [@form_cp]).and_return(false)
+    should_receive(:visible_filter_field?).with("urgent_protection_concern", [@form_cp]).and_return(false)
+
+    render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
+    rendered.should match(/<div class="filter"><h3>Type of Risk:<\/h3>/)
+  end
+
+  it "should not display filter 'Type of Risk' for hidden field urgent_protection_concern" do
+    @form_cp.fields.first.visible = false
+    @form_cp.save!
+    @is_cp = true
+    @current_user = User.new
+    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
+    @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
+    FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
+
+
+    should_receive(:visible_filter_field?).with("urgent_protection_concern", [@form_cp]).and_return(false)
+    should_receive(:visible_filter_field?).with("protection_status", [@form_cp]).and_return(false)
+    should_receive(:visible_filter_field?).with("type_of_risk", [@form_cp]).and_return(false)
 
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should_not match(/<div class="filter"><h3>Urgent Protection Concern:<\/h3>/)
@@ -232,6 +281,7 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id, other_form_cp.unique_id])
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should match(/<div class="filter"><h3>Protection Concerns:<\/h3>/)
@@ -244,10 +294,12 @@ describe "children/_filter.html.erb" do
     @current_user.should_receive(:modules).and_return([])
     FormSection.should_not_receive(:get_allowed_form_ids)
     @current_user.should_not_receive(:permitted_form_ids)
+    controller.stub(:current_user).and_return(@current_user)
     FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
     should_receive(:visible_filter_field?).with("gbv_displacement_status", []).and_call_original
     should_receive(:visible_filter_field?).with("protection_status", []).and_call_original
     should_receive(:visible_filter_field?).with("urgent_protection_concern", []).and_call_original
+    should_receive(:visible_filter_field?).with("type_of_risk", []).and_call_original
     render :partial => "children/filter", :locals => {:filters_to_show => index_filters_to_show("case")}
     rendered.should_not match(/<div class="filter"><h3>Protection Status:<\/h3>/)
     rendered.should_not match(/<div class="filter"><h3>Displacement Status:<\/h3>/)
@@ -261,6 +313,7 @@ describe "children/_filter.html.erb" do
       @current_user.should_receive(:modules).and_return([@primero_module_cp])
       FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
       @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
+      controller.stub(:current_user).and_return(@current_user)
       FormSection.should_receive(:fields).with(:keys => @fields_filter).and_call_original
       @associated_users = ["test_user_1", "test_user_2", "test_user_3"]
       @options_reporting_locations = ["Country1::Region1::District 1", "Country1::Region1::District 2", "Country2::Region2::District 3"]
@@ -342,6 +395,7 @@ describe "children/_filter.html.erb" do
     before :each do
       @current_user = User.new
       @current_user.should_receive(:modules).and_return([@primero_module_cp])
+      controller.stub(:current_user).and_return(@current_user)
       @can_approval_bia = true
       @can_approvals = true
     end

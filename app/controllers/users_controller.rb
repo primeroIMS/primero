@@ -7,9 +7,12 @@ class UsersController < ApplicationController
 
   before_filter :clean_role_ids, :only => [:update, :create]
   before_filter :clean_module_ids, :only => [:update, :create]
+  before_filter :clean_user_locale, :only => [:update, :create]
+  before_filter :clean_group_ids, :only => [:update, :create]
   before_filter :load_user, :only => [:show, :edit, :update, :destroy]
   before_filter :load_records_according_to_disable_filter, :only => [:index]
   before_filter :agency_names, :only => [:new, :create, :edit, :update]
+  before_filter :load_system_settings, :only => [:new, :edit]
 
   skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
 
@@ -20,6 +23,7 @@ class UsersController < ApplicationController
 
     @page_name = t("home.users")
     @users_details = users_details
+    @editable_users = editable_users
 
     respond_to do |format|
       format.html
@@ -66,6 +70,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if @user.save
+      @user.send_welcome_email(request.base_url)
       flash[:notice] = t("user.messages.created")
       redirect_to(@user)
     else
@@ -161,15 +166,33 @@ class UsersController < ApplicationController
   end
 
   def agency_names
-    @agency_names = Agency.all_names
+    if has_agency_read
+      @agency_names = Agency.all_names.select do |agency|
+        agency['id'] == current_user.agency.id
+      end
+    else
+      @agency_names = Agency.all_names
+    end
+  end
+
+  def load_system_settings
+    @system_settings ||= SystemSettings.current
   end
 
   def clean_role_ids
     params[:user][:role_ids] = clean_params(params[:user][:role_ids]) if params[:user][:role_ids]
   end
 
+  def clean_group_ids
+    params[:user][:user_group_ids] = clean_params(params[:user][:user_group_ids]) if params[:user][:user_group_ids]
+  end
+
   def clean_module_ids
     params[:user][:module_ids] = clean_params(params[:user][:module_ids]) if params[:user][:module_ids]
+  end
+
+  def clean_user_locale
+    params[:user][:locale] = params[:user][:locale].present? ? params[:user][:locale] : nil
   end
 
   def users_details
@@ -179,6 +202,16 @@ class UsersController < ApplicationController
           :user_name => user.user_name,
           :token => form_authenticity_token
       }
+    end
+  end
+
+  def has_agency_read
+    @has_agency_read = current_user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+  end
+
+  def editable_users
+    @users.select do |user|
+      (has_agency_read && current_user.agency == user.agency) || !has_agency_read
     end
   end
 

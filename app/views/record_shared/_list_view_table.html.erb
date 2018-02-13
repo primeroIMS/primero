@@ -28,18 +28,6 @@
         </div>
       </div>
     </div>
-    <div class="large-3 small-3 columns no-padding-left">
-      <% if options[:display_filter] %>
-        <div class="row collapse align-middle filter-controls">
-          <div class="column">
-            <a class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_clear') %></a>
-          </div>
-          <div class="column shrink">
-            <%= link_to t("buttons.filter"), '', class: 'button small', id: 'apply_filter' %>
-          </div>
-        </div>
-      <% end %>
-    </div>
   </div>
 </div>
 <div class="row">
@@ -68,7 +56,33 @@
   </div>
   <% if options[:display_filter].present? %>
     <div class="large-3 small-3 columns index_filters">
-      <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
+      <ul class="tabs" data-tabs id="filter-area">
+        <li class="tabs-title is-active"><a href="#filters" aria-selected="true"><%= t('saved_search.filters_tab') %></a></li>
+        <% if can?(:read, SavedSearch) %>
+          <li class="tabs-title"><a data-tabs-target="#saved-searches" href="#saved-searches"><%= t('saved_search.saved_searches_tab') %></a></li>
+        <% end %>
+      </ul>
+      <div class="tabs-content" data-tabs-content="filter-area">
+        <div class="tabs-panel is-active" id="filters">
+          <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
+        </div>
+        <% if can?(:read, SavedSearch) %>
+          <div class="tabs-panel" id="saved-searches">
+            <h5>My Filters</h5>
+            <ul class="save-searches">
+              <% @saved_searches.each do |filter| %>
+                <li>
+                  <a class="user_filter" data-id="<%= filter.id %>"><%= filter.name %></a>
+                  <%= link_to  filter, method: :delete, data: { confirm: t('saved_searches.delete', filter_name: filter.name) }, class: "delete_saved_search" do %>
+                    <span aria-hidden="true">&times;</span>
+                  <% end %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+      </div>
+
     </div>
   <% end %>
 </div>

@@ -93,6 +93,10 @@ Create couchdb.yml file from example
 cp ~/primero/config/couchdb.yml.example ~/primero/config/couchdb.yml
 ```
 
+Create mailers.yml file from example
+```
+cp ~/primero/config/mailers.yml.example ~/primero/config/mailers.yml
+```
 
 Create sunspot.yml file from example
 ```
