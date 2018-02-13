@@ -1,13 +1,13 @@
 class PasswordRecoveryRequestsController < ApplicationController
 
-  skip_before_filter :check_authentication
+  skip_before_action :check_authentication
 
   def new
     @password_recovery_request = PasswordRecoveryRequest.new
   end
 
   def create
-    @password_recovery_request = PasswordRecoveryRequest.new params[:password_recovery_request]
+    @password_recovery_request = PasswordRecoveryRequest.new params[:password_recovery_request].to_h
     respond_to do |format|
       if @password_recovery_request.save
         success_notice = t("login.password.success_notice")

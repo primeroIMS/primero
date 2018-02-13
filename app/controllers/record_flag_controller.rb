@@ -1,8 +1,8 @@
 class RecordFlagController < ApplicationController
 
-  before_filter :current_user
-  before_filter :set_class_name
-  before_filter :set_record
+  before_action :current_user
+  before_action :set_class_name
+  before_action :set_record
 
   include RecordFilteringPagination
 

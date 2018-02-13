@@ -2,8 +2,8 @@ module MediaActions
   extend ActiveSupport::Concern
 
   included do
-    before_filter :find_object
-    before_filter :find_photo_attachment, :only => [:show_photo, :show_resized_photo, :show_thumbnail]
+    before_action :find_object
+    before_action :find_photo_attachment, :only => [:show_photo, :show_resized_photo, :show_thumbnail]
   end
 
   def index

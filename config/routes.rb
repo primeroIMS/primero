@@ -256,25 +256,23 @@ Primero::Application.routes.draw do
 # API URLS
 #######################
 
-  scope '/api' do
+  scope '/api', defaults: { format: :json }, constraints: { format: :json } do
     #Session API
-    controller :sessions, :defaults => {:format => :json} do
-      post :login, :action => 'create'
-      post :logout, :action => 'destroy'
-    end
+    post :login, to: 'sessions#create'
+    post :logout, to: 'sessions#destroy'
 
     #Forms API
-    resources :form_sections, controller: 'form_section', constraints: {format: :json}, defaults: {:format => :json}, only: [:index]
-    resources :form_sections, controller: 'form_section', as: :forms, path: :forms, constraints: {format: :json}, defaults: {:format => :json}, only: [:index]
+    resources :form_sections, controller: 'form_section', only: [:index]
+    resources :form_sections, controller: 'form_section', as: :forms, path: :forms, only: [:index]
 
     #Records API
-    resources :children, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :children, as: :cases, path: :cases, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :potential_matches, as: :potential_matches, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :options, constraints: {format: :json}, :defaults => {:format => :json}, :only => [:index]
-    resources :system_settings, constraints: {format: :json}, :defaults => {:format => :json}, :only => [:index]
+    resources :children
+    resources :children, as: :cases, path: :cases
+    resources :incidents, as: :incidents
+    resources :tracing_requests, as: :tracing_requests
+    resources :potential_matches, as: :potential_matches
+    resources :options, :only => [:index]
+    resources :system_settings, :only => [:index]
   end
 
 #######################

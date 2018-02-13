@@ -4,35 +4,19 @@ describe LoggerActions, type: :controller do
 
   controller(ApplicationController) do
     include LoggerActions
+    include RecordActions
 
     def model_class
       Child
     end
 
-    def index
-      #Stub
+    def initialize_created_record rec
+      #stub
     end
 
-    def show
-      #Stub
+    def redirect_after_update
+      redirect_to cases_path
     end
-
-    def edit
-      #Stub
-    end
-
-    def update
-      #Stub
-    end
-
-    def new
-      #Stub
-    end
-
-    def create
-      #Stub
-    end
-
 
   end
 
@@ -45,22 +29,23 @@ describe LoggerActions, type: :controller do
     @user = User.new(:user_name => 'test_user', :role_ids => ['tester'])
     @session = fake_login @user
     controller.stub :render
+    allow(Rails.logger).to receive(:info)
   end
 
   it 'logs a veiw message' do
-    expect(Rails.logger).to receive(:info).with("Viewing case '#{@case3.id}' by user '#{@user.user_name}'")
-    get :show, :id => @case3.id
+    expect(Rails.logger).to receive(:info).with("Viewing case '#{@case3.case_id_display}' by user '#{@user.user_name}'")
+    get :show, params: {:id => @case3.id}
   end
 
   it 'logs an edit message' do
-    expect(Rails.logger).to receive(:info).with("Editing case '#{@case3.id}' by user '#{@user.user_name}'")
-    get :edit, :id => @case3.id
+    expect(Rails.logger).to receive(:info).with("Editing case '#{@case3.case_id_display}' by user '#{@user.user_name}'")
+    get :edit, params: {:id => @case3.id}
   end
 
   it 'logs an update message' do
     params_child = {"name" => 'update'}
-    expect(Rails.logger).to receive(:info).with("Updating case '#{@case3.id}' by user '#{@user.user_name}'")
-    put :update, :id => @case3.id, :child => params_child
+    expect(Rails.logger).to receive(:info).with("Updating case '#{@case3.case_id_display}' by user '#{@user.user_name}'")
+    put :update, params: {:id => @case3.id, :child => params_child}
   end
 
   xit 'does not log a new message' do
@@ -71,7 +56,7 @@ describe LoggerActions, type: :controller do
   it 'logs a create message' do
     case1 = build :child, :unique_identifier => "4567"
     expect(Rails.logger).to receive(:info).with("Creating case by user '#{@user.user_name}'")
-    post :create, :child => {:unique_identifier => case1.unique_identifier, :base_revision => case1._rev, :name => 'new_name'}
+    post :create, params: {:child => {:unique_identifier => case1.unique_identifier, :base_revision => case1._rev, :name => 'new_name'}}
   end
 
   xit 'does not log an index message' do

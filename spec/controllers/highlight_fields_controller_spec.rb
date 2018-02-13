@@ -46,7 +46,7 @@ describe HighlightFieldsController do
       FormSection.stub(:get_by_unique_id).and_return(form)
       form.should_receive(:update_field_as_highlighted).with("field3")
       fake_admin_login
-      post :create, :form_id => "form1", :field_name => "field3"
+      post :create, params: {:form_id => "form1", :field_name => "field3"}
     end
   end
 
@@ -57,7 +57,7 @@ describe HighlightFieldsController do
       FormSection.stub(:get_by_unique_id).and_return(form)
       form.should_receive(:remove_field_as_highlighted).with("newfield1")
       fake_admin_login
-      post :remove, :form_id => "form1", :field_name => "newfield1"
+      post :remove, params: {:form_id => "form1", :field_name => "newfield1"}
     end
   end
 end

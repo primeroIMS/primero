@@ -73,14 +73,14 @@ describe FormSectionController do
     it "populate the view with all the form sections in order ignoring enabled or disabled" do
       forms = [@form_section_a, @form_section_b, @form_section_d]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      get :index, :module_id => @primero_module.id, :parent_form => 'case'
+      get :index, params: {:module_id => @primero_module.id, :parent_form => 'case'}
       assigns[:form_sections].should == grouped_forms
     end
 
     #TODO - add incident rspecs
     describe "mobile API" do
       it "only shows mobile forms" do
-        get :index, mobile: true, :format => :json
+        get :index, params: {mobile: true, :format => :json}
         expect(assigns[:form_sections]['Children'].size).to eq(2)
         expect(assigns[:form_sections]['Children'].map{|fs| fs['unique_id']}).to include('B', 'D')
       end
@@ -113,29 +113,29 @@ describe FormSectionController do
                      :display_name=>{"en"=>"nested_e", "fr"=>"nested_e", "ar"=>"nested_e", "ar-LB"=>"nested_e", "es"=>"nested_e"},
                      :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "es"=>""},
                      :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "es"=>[]}}]
-        get :index, mobile: true, :format => :json
+        get :index, params: {mobile: true, :format => :json}
         expect(assigns[:form_sections]['Children'].select{|f| f['unique_id'] == 'D'}.first['fields']).to eq(expected)
       end
 
       it "sets null values on forms to be an empty string" do
-        get :index, mobile: true, :format => :json
+        get :index, params: {mobile: true, :format => :json}
         expect(assigns[:form_sections]['Children'].first[:help_text]['en']).to eq('')
       end
 
       it "will only display requested locales if queried with a valid locale" do
-        get :index, mobile: true, locale: 'en',  :format => :json
+        get :index, params: {mobile: true, locale: 'en',  :format => :json}
         expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
         expect(assigns[:form_sections]['Children'].first[:name]['fr']).to be_nil
       end
 
       it "will display all locales if queried with an invalid locale" do
-        get :index, mobile: true, locale: 'ABC',  :format => :json
+        get :index, params: {mobile: true, locale: 'ABC',  :format => :json}
         expect(assigns[:form_sections]['Children'].first[:name]['en']).to eq('B')
         expect(assigns[:form_sections]['Children'].first[:name].keys).to match_array(Primero::Application::locales)
       end
 
       it "will embed the entire nested subform inside the top-level form" do
-        get :index, mobile: true, :format => :json
+        get :index, params: {mobile: true, :format => :json}
         form_with_nested = assigns[:form_sections]['Children'].find{|f| f['unique_id'] == 'D'}
         field_with_nested = form_with_nested['fields'].find{|f| f['name'] == 'nested_e'}
         nested = field_with_nested['subform']
@@ -173,7 +173,7 @@ describe FormSectionController do
                       {"id"=>"PRV01", "display_text"=>"Country1::Province1"},
                       {"id"=>"PRV02", "display_text"=>"Country1::Province2"},
                       {"id"=>"TWN01", "display_text"=>"Country1::Province1::Town1"}]
-          get :index, mobile: true, format: :json
+          get :index, params: {mobile: true, format: :json}
           returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
           expect(returned).to eq(expected)
         end
@@ -202,7 +202,7 @@ describe FormSectionController do
                   {"id"=>"PRV02", "display_text"=>"Country1::Province2"},
                   {"id"=>"TWN01", "display_text"=>"Country1::Province1::Town1"}
                 ]
-                get :index, mobile: true, format: :json
+                get :index, params: {mobile: true, format: :json}
                 returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
                 expect(returned).to eq(expected)
               end
@@ -214,7 +214,7 @@ describe FormSectionController do
               end
 
               it 'should return location fields without locations' do
-                get :index, mobile: true, format: :json
+                get :index, params: {mobile: true, format: :json}
                 returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
                 expect(returned).to eq([])
               end
@@ -232,7 +232,7 @@ describe FormSectionController do
               end
 
               it 'should return location fields without locations' do
-                get :index, mobile: true, format: :json
+                get :index, params: {mobile: true, format: :json}
                 returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
                 expect(returned).to eq([])
               end
@@ -244,7 +244,7 @@ describe FormSectionController do
               end
 
               it 'should return location fields without locations' do
-                get :index, mobile: true, format: :json
+                get :index, params: {mobile: true, format: :json}
                 returned = assigns[:form_sections]["Tests"].first['fields'].first[:option_strings_text]['en']
                 expect(returned).to eq([])
               end
@@ -266,14 +266,14 @@ describe FormSectionController do
     it "should new form_section with order" do
       existing_count = FormSection.count
       form_section = {:name=>"name", :description=>"desc", :help_text=>"help text", :visible=>true}
-      post :create, :form_section => form_section
+      post :create, params: {:form_section => form_section}
       FormSection.count.should == existing_count + 1
     end
 
     it "sets flash notice if form section is valid and redirect_to edit page with a flash message" do
       FormSection.stub(:new_custom).and_return(MockFormSection.new)
       form_section = {:name=>"name", :description=>"desc", :visible=>"true"}
-      post :create, :form_section =>form_section
+      post :create, params: {:form_section =>form_section}
       request.flash[:notice].should == "Form section successfully added"
       response.should redirect_to(edit_form_section_path("unique_id"))
     end
@@ -281,7 +281,7 @@ describe FormSectionController do
     it "does not set flash notice if form section is valid and render new" do
       FormSection.stub(:new_custom).and_return(MockFormSection.new(false))
       form_section = {:name=>"name", :description=>"desc", :visible=>"true"}
-      post :create, :form_section =>form_section
+      post :create, params: {:form_section =>form_section}
       request.flash[:notice].should be_nil
       response.should render_template("new")
     end
@@ -290,7 +290,7 @@ describe FormSectionController do
       expected_form_section = MockFormSection.new(false)
       FormSection.stub(:new_custom).and_return expected_form_section
       form_section = {:name=>"name", :description=>"desc", :visible=>"true"}
-      post :create, :form_section =>form_section
+      post :create, params: {:form_section =>form_section}
       assigns[:form_section].should == expected_form_section
     end
   end
@@ -302,7 +302,7 @@ describe FormSectionController do
       form_one = FormSection.create(:unique_id => "first_form", :name => "first form", :order => 1)
       form_two = FormSection.create(:unique_id => "second_form", :name => "second form", :order => 2)
       form_three = FormSection.create(:unique_id => "third_form", :name => "third form", :order => 3)
-      post :save_order, :ids => [form_three.unique_id, form_one.unique_id, form_two.unique_id]
+      post :save_order, params: {:ids => [form_three.unique_id, form_one.unique_id, form_two.unique_id]}
       FormSection.get_by_unique_id(form_one.unique_id).order.should == 2
       FormSection.get_by_unique_id(form_two.unique_id).order.should == 3
       FormSection.get_by_unique_id(form_three.unique_id).order.should == 1
@@ -318,7 +318,7 @@ describe FormSectionController do
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(true)
       form_section.should_receive(:save!)
-      post :update, :form_section => params, :id => "form_1"
+      post :update, params: {:form_section => params, :id => "form_1"}
       response.should redirect_to(edit_form_section_path(form_section.unique_id))
     end
 
@@ -328,7 +328,7 @@ describe FormSectionController do
       FormSection.should_receive(:get_by_unique_id).with("form_1", true).and_return(form_section)
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(false)
-      post :update, :form_section => params, :id => "form_1"
+      post :update, params: {:form_section => params, :id => "form_1"}
       response.should_not redirect_to(form_sections_path)
       response.should render_template("edit")
     end
@@ -338,9 +338,9 @@ describe FormSectionController do
     it "should toggle the given form_section to hide/show" do
       form_section1 = FormSection.create!({:name=>"name1", :description=>"desc", :visible=>"true", :unique_id=>"form_1"})
       form_section2 = FormSection.create!({:name=>"name2", :description=>"desc", :visible=>"false", :unique_id=>"form_2"})
-      post :toggle, :id => "form_1"
+      post :toggle, params: {:id => "form_1"}
       FormSection.get_by_unique_id(form_section1.unique_id).visible.should be_falsey
-      post :toggle, :id => "form_2"
+      post :toggle, params: {:id => "form_2"}
       FormSection.get_by_unique_id(form_section2.unique_id).visible.should be_truthy
     end
   end

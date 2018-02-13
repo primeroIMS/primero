@@ -1,9 +1,9 @@
 class SystemSettingsController < ApplicationController
 
-  before_filter :only => [:show, :edit, :update] do
+  before_action :only => [:show, :edit, :update] do
     authorize!(:manage, SystemSettings)
   end
-  before_filter :load_system_settings, :only => [:show, :index, :edit, :update]
+  before_action :load_system_settings, :only => [:show, :index, :edit, :update]
 
   @model_class = SystemSettings
 
@@ -37,7 +37,7 @@ class SystemSettingsController < ApplicationController
 
   def update
     if @system_settings.present?
-      if (@system_settings.update_attributes(params[:system_settings]))
+      if (@system_settings.update_attributes(params[:system_settings].to_h))
         @system_settings.update_default_locale
       end
     end

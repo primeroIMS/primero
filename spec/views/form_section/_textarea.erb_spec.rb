@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 describe "form_section/_textarea.html.erb" do

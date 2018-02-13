@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe ReportsController do
+  before do
+    SystemSettings.all.each &:destroy
+    @system_settings = SystemSettings.create(default_locale: "en",
+                                             primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
+  end
 
   before :each do
     FormSection.all.each &:destroy
@@ -139,9 +144,9 @@ describe ReportsController do
           [""] => nil
       }
       session = fake_login @owner
-      get :show, id: @report.id
-      assigns[:report].has_data?.should eq(true)
-      assigns[:report].data[:values].should eq(expected_results)
+      get :show, params: {id: @report.id}
+      expect(assigns[:report].has_data?).to be true
+      expect(assigns[:report].data[:values]).to eq(expected_results)
     end
 
     it "should build a report for group member" do
@@ -151,9 +156,9 @@ describe ReportsController do
           [""] => nil
       }
       session = fake_login @owner2
-      get :show, id: @report.id
-      assigns[:report].has_data?.should eq(true)
-      assigns[:report].data[:values].should eq(expected_results)
+      get :show, params: {id: @report.id}
+      expect(assigns[:report].has_data?).to be true
+      expect(assigns[:report].data[:values]).to eq(expected_results)
     end
   end
 
@@ -189,7 +194,7 @@ describe ReportsController do
       ]
 
       params = {"record_type"=>"case", "module_ids"=>["primeromodule-cp"]}
-      get :permitted_field_list, params
+      get :permitted_field_list, params: params
       json_response = JSON.parse(response.body)
       expect(json_response).to eq(expected_forms_sections)
     end
@@ -220,7 +225,7 @@ describe ReportsController do
                                       ["My Agency", "field_other_agency", "select_box"]]]
       ]
       params = {"record_type"=>"case", "module_ids"=>["primeromodule-cp"]}
-      get :permitted_field_list, params
+      get :permitted_field_list, params: params
       json_response = JSON.parse(response.body)
       expect(json_response).to eq(expected_forms_sections)
     end

@@ -1,3 +1,5 @@
+#TODO: For now leaving CouchRest::Model::Base
+#TODO: Inheriting from ApplicationRecord breaks created_at in the Historical Concern for some reason
 class PotentialMatch < CouchRest::Model::Base
   use_database :potential_match
 
@@ -38,6 +40,7 @@ class PotentialMatch < CouchRest::Model::Base
   # TODO - this is failing as we are upgrading ruby & rails.
   # TODO - need to add back after couchrest version is upgraded
   # validates :child_id, :uniqueness => {:scope => :tr_subform_id}
+
   before_create :create_identification
 
   ALL_FILTER = 'all'

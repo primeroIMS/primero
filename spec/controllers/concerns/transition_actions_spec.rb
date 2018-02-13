@@ -49,7 +49,7 @@ describe TransitionActions, type: :controller do
         :notes => "test",
         :type_of_export => Transitionable::EXPORT_TYPE_PRIMERO,
       }
-      post :transition, params
+      post :transition, params: params
       flash[:notice].should eq("2 Referral(s) successfully made")
       response.status.should_not == 403
     end

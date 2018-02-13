@@ -1,4 +1,4 @@
-class BulkExportJob < ActiveJob::Base
+class BulkExportJob < ApplicationJob
   queue_as :export
 
   def perform(bulk_export_id, opts={})

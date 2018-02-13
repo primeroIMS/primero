@@ -2,7 +2,7 @@ module LoggerActions
   extend ActiveSupport::Concern
 
   included do
-    before_filter :log_controller_action, :except => [:new, :active]
+    before_action :log_controller_action, :except => [:new, :active]
   end
 
   protected

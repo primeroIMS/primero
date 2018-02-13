@@ -1,5 +1,5 @@
 #NOTE: This depends on record_actions concern
-#      It requires @system_settings which is loaded by a before_filter in record_actions
+#      It requires @system_settings which is loaded by a before_action in record_actions
 module ApprovalActions
   extend ActiveSupport::Concern
 
@@ -24,7 +24,7 @@ module ApprovalActions
         logger.error error.backtrace
       end
     end
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 
   def log_action(action_requested=nil, action_response=nil, type=nil, status=nil, comments=nil, approved_by=nil)

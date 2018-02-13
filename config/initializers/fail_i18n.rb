@@ -11,7 +11,9 @@ if (Rails.env.test? || Rails.env.development?) && ENV['FAIL_I18N'] == 'yes'
     end
     alias_method :translate_with_raise, :t_with_raise
 
-    alias_method_chain :t, :raise
-    alias_method_chain :translate, :raise
+    alias_method :t_without_raise, :t
+    alias_method :t, :t_with_raise
+    alias_method :translate_without_raise, :translate
+    alias_method :translate, :translate_with_raise
   end
 end

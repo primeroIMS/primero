@@ -1,5 +1,5 @@
 class RecordHistoriesController < ApplicationController
-  before_filter :set_class_name
+  before_action :set_class_name
 
   def record_change_log
     @user = User.find_by_user_name(current_user_name)

@@ -3,11 +3,11 @@ class FieldsController < ApplicationController
 
   @model_class = Field
 
-  before_filter { authorize! :manage, Field }
-  before_filter :read_form_section
-  before_filter :module_id, :only => [:create, :update, :destroy]
-  before_filter :get_lookups, :only => [:edit, :update, :create]
-  after_filter :refresh_properties, :only => [:create, :update, :destroy]
+  before_action { authorize! :manage, Field }
+  before_action :read_form_section
+  before_action :module_id, :only => [:create, :update, :destroy]
+  before_action :get_lookups, :only => [:edit, :update, :create]
+  after_action :refresh_properties, :only => [:create, :update, :destroy]
 
   FIELD_TYPES = %w{ text_field textarea check_box select_box radio_button numeric_field date_field }
 
@@ -18,7 +18,7 @@ class FieldsController < ApplicationController
   end
 
   def create
-    @field = Field.new clean_field(params[:field])
+    @field = Field.new clean_field(params[:field].to_h)
     @field.sanitize_name
     FormSection.add_field_to_formsection @form_section, @field
 
@@ -52,7 +52,7 @@ class FieldsController < ApplicationController
 
   def update
     @field = fetch_field params[:id]
-    @field.attributes = convert_multi_selects(params[:field]) unless params[:field].nil?
+    @field.attributes = convert_multi_selects(params[:field].to_h) unless params[:field].nil?
     @form_section.save
 
     if @field.errors.present? || @form_section.errors.present?
@@ -90,7 +90,7 @@ class FieldsController < ApplicationController
     field =  fetch_field params[:id]
     field.visible = !field.visible
     @form_section.save
-    render :text => "OK"
+    render plain: 'OK'
   end
 
   private

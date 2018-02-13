@@ -6,11 +6,12 @@ class ChildrenController < ApplicationController
   include ApprovalActions
   include FieldsHelper
 
-  before_filter :filter_params_array_duplicates, :only => [:create, :update]
-  before_filter :filter_params_by_permission, :only => [:create, :update]
+  before_action :filter_params_array_duplicates, :only => [:create, :update]
+  before_action :filter_params_by_permission, :only => [:create, :update]
+
   #TODO: This should go away once filters are configurable in the role
-  before_filter :filter_risk_level, :only => [:index]
-  before_filter :toggle_photo_indicators, :only => [:show]
+  before_action :filter_risk_level, :only => [:index]
+  before_action :toggle_photo_indicators, :only => [:show]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
@@ -124,7 +125,7 @@ class ChildrenController < ApplicationController
       form_link: child_save_subform_path(child, subform: type, form_sidebar_id: form_sidebar_id),
     })
     respond_to do |format|
-      format.html {render text: html}
+      format.html {render plain: html}
     end
   end
 
@@ -354,7 +355,7 @@ class ChildrenController < ApplicationController
     new_audio = child_params.delete("audio")
     child.last_updated_by_full_name = current_user_full_name
     delete_child_audio = params["delete_child_audio"].present?
-    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, child_params)
+    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"], new_audio, delete_child_audio, child_params.to_h)
     child
   end
 

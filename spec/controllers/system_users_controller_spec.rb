@@ -21,7 +21,7 @@ describe SystemUsersController do
       mock_system_users = SystemUsers.new
       SystemUsers.should_receive(:new).and_return(mock_system_users)
       mock_system_users.should_receive(:save).and_return(true)
-      post :create, params
+      post :create, params: params
     end
 
     it "should redirect to the system users new page if there is a validation error" do
@@ -30,7 +30,7 @@ describe SystemUsersController do
       mock_system_users = SystemUsers.new
       SystemUsers.should_receive(:new).and_return(mock_system_users)
       mock_system_users.should_receive(:save).and_return(false)
-      post :create, params
+      post :create, params: params
       response.should render_template :new
     end
   end
@@ -38,7 +38,7 @@ describe SystemUsersController do
   it "should edit system users" do
     fake_login_as Permission::SYSTEM, [Permission::MANAGE]
     SystemUsers.should_receive(:get).with("org.couchdb.user:abcd").and_return(SystemUsers.new)
-    get :edit, {:id => "abcd"}
+    get :edit, params: { :id => "abcd" }
     response.should render_template :edit
   end
 
@@ -48,7 +48,7 @@ describe SystemUsersController do
       mock_user = SystemUsers.new({:name => "test_user", :password => "test_password" })
       SystemUsers.should_receive(:get).with("org.couchdb.user:test_user").and_return(mock_user)
       mock_user.should_receive(:update_attributes).and_return(true)
-      put :update, {:id =>"test_user",:system_users => {:name => "test_user", :password => "test_password"}}
+      put :update, params: { :id =>"test_user",:system_users => {:name => "test_user", :password => "test_password" }}
       response.should redirect_to(:action => :index)
     end
 
@@ -57,7 +57,7 @@ describe SystemUsersController do
       mock_user = SystemUsers.new({:name => "test_user", :password => "test_password" })
       SystemUsers.should_receive(:get).with("org.couchdb.user:abcd").and_return(mock_user)
       mock_user.should_not_receive(:update_attributes)
-      put :update, {:id =>"abcd",:system_users => {:name => "abcd", :password => "test_password"}}
+      put :update, params: { :id =>"abcd",:system_users => {:name => "abcd", :password => "test_password" }}
       response.should redirect_to(:action => :edit)
     end
 
@@ -68,7 +68,7 @@ describe SystemUsersController do
     mock_user = SystemUsers.new
     SystemUsers.should_receive(:get).with("org.couchdb.user:test_user").and_return(mock_user)
     mock_user.should_receive(:destroy)
-    delete :destroy, {:id => "test_user"}
+    delete :destroy, params: { :id => "test_user" }
     response.should redirect_to(:action => :index)
   end
 

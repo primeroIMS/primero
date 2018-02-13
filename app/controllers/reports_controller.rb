@@ -8,12 +8,12 @@ class ReportsController < ApplicationController
   include DeleteAction
 
   #include RecordActions
-  before_filter :load_report, except: [:new]
-  before_filter :sanitize_multiselects, only: [:create, :update]
-  before_filter :sanitize_filters, only: [:create, :update]
-  before_filter :set_aggregate_order, only: [:create, :update]
-  before_filter :load_age_range, only: [:new, :edit]
-  before_filter :get_lookups, only: [:lookups_for_field, :edit]
+  before_action :load_report, except: [:new]
+  before_action :sanitize_multiselects, only: [:create, :update]
+  before_action :sanitize_filters, only: [:create, :update]
+  before_action :set_aggregate_order, only: [:create, :update]
+  before_action :load_age_range, only: [:new, :edit]
+  before_action :get_lookups, only: [:lookups_for_field, :edit]
 
   include LoggerActions
 
@@ -63,7 +63,7 @@ class ReportsController < ApplicationController
 
   def create
     authorize! :create, Report
-    @report = Report.new(params[:report])
+    @report = Report.new(params[:report].to_h)
 
     Primero::Application::locales.each do |locale|
       unless @report["name_#{locale}"].present?
@@ -88,7 +88,7 @@ class ReportsController < ApplicationController
   def update
     authorize! :update, @report
 
-    if @report.update_attributes(params[:report])
+    if @report.update_attributes(params[:report].to_h)
       flash[:notice] = t("report.successfully_updated")
       redirect_to(report_path(@report))
     else
