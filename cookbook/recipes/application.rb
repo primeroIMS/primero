@@ -174,8 +174,14 @@ template File.join(node[:primero][:app_dir], "public", "version.txt") do
 end
 
 ## This is a hack. This may be removed in the future.
-execute 'clear_bundler_cache' do
-  command 'if [ -d .bundler ]; then grep -v BUNDLE_CLEAN .bundler/config > .bundler/config.tmp && mv .bundler/config.tmp .bundler/config; fi'
+execute_with_ruby 'clear_bundler_cache' do
+  command <<-EOH
+    if [ -d #{node[:primero][:app_dir]}/.bundle ];
+    then
+      grep -v BUNDLE_CLEAN #{node[:primero][:app_dir]}/.bundle/config > #{node[:primero][:app_dir]}/.bundle/config.tmp
+      mv #{node[:primero][:app_dir]}/.bundle/config.tmp #{node[:primero][:app_dir]}/.bundle/config;
+    fi
+    EOH
 end
 
 update_bundler 'prod-stack' do
