@@ -8,8 +8,8 @@ GIT
 
 GIT
   remote: git://github.com/rack-test/rack-test.git
-  revision: 1cad4e12143c0d37bf7c54333601cfa2e8cff6cc
-  branch: fix/uploaded-file-regression-v2
+  revision: 10042d3452a13d5f13366aac839b981b1c5edb20
+  ref: 10042d3452a13d5f13366aac839b981b1c5edb20
   specs:
     rack-test (0.8.2)
       rack (>= 1.0, < 3)
