@@ -119,7 +119,7 @@ group :test, :cucumber do
   # Should be able to just remove after a patch is released.
   # https://github.com/rack-test/rack-test/issues/211
   # https://github.com/rack-test/rack-test/pull/215
-  gem 'rack-test', github: 'rack-test', branch: 'fix/uploaded-file-regression-v2'
+  gem 'rack-test', github: 'rack-test', branch: 'master'
 end
 
 #TODO: Does this get installed?
