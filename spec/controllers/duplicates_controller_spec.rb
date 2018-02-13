@@ -11,7 +11,7 @@ describe DuplicatesController do
         @child = build :child, :name => "John"
         @form_sections = [ mock_model(FormSection), mock_model(FormSection), mock_model(FormSection) ]
 
-        get :new, :child_id => @child.id
+        get :new, params: {:child_id => @child.id}
       end
 
       it "should be successful" do
@@ -30,7 +30,7 @@ describe DuplicatesController do
     context "An non-admin user" do
       before :each do
         fake_login
-        get :new, :child_id => "1234"
+        get :new, params: {:child_id => "1234"}
       end
 
       it "should get forbidden response" do
@@ -41,7 +41,7 @@ describe DuplicatesController do
     context "An admin user with a non-valid child id" do
       it "should redirect to flagged children page" do
         fake_admin_login
-        get :new, :child_id => "not_a_valid_child_id"
+        get :new, params: {:child_id => "not_a_valid_child_id"}
         response.should be_forbidden
       end
     end
@@ -62,7 +62,7 @@ describe DuplicatesController do
 
         @child.should_receive(:mark_as_duplicate).with("5678")
 
-        post :create, :child_id => "1234", :parent_id => "5678"
+        post :create, params: {:child_id => "1234", :parent_id => "5678"}
       end
 
       it "should redirect to the duplicated child view" do
@@ -71,7 +71,7 @@ describe DuplicatesController do
         @child.stub(:mark_as_duplicate)
         @child.stub(:save).and_return(true)
 
-        post :create, :child_id => "1234", :parent_id => "5678"
+        post :create, params: {:child_id => "1234", :parent_id => "5678"}
 
         response.response_code.should == 302
       end

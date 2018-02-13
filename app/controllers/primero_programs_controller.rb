@@ -36,7 +36,7 @@ class PrimeroProgramsController < ApplicationController
     @primero_program = PrimeroProgram.get(params[:id])
     authorize! :update, @primero_program
 
-    if @primero_program.update_attributes(params[:primero_program])
+    if @primero_program.update_attributes(params[:primero_program].to_h)
       flash[:notice] = t("primero_program.successfully_updated")
       redirect_to(primero_programs_path)
     else
@@ -52,7 +52,7 @@ class PrimeroProgramsController < ApplicationController
 
   def create
     authorize! :create, PrimeroProgram
-    @primero_program = PrimeroProgram.new(params[:primero_program])
+    @primero_program = PrimeroProgram.new(params[:primero_program].to_h)
     if @primero_program.save
       return redirect_to primero_programs_path
     else

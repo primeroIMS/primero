@@ -34,7 +34,7 @@ describe RolesController do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE, Permission::CREATE])
       mock = stub_model Role, :id => "10"
       Role.should_receive(:get).with(mock.id).and_return(mock)
-      get :edit, :id => mock.id
+      get :edit, params: {id: mock.id}
       response.should_not be_forbidden
       assigns(:role).should == mock
     end
@@ -42,14 +42,14 @@ describe RolesController do
     it "should not allow user without permission to edit roles" do
       fake_login_as(Permission::ROLE, [Permission::READ])
       Role.stub :get => stub_model(Role)
-      get :edit, :id => "10"
+      get :edit, params: {id: '10'}
       response.should be_forbidden
     end
 
     it "should not allow user with only USER permission to edit roles" do
       fake_login_as(Permission::USER, [Permission::MANAGE])
       Role.stub :get => stub_model(Role)
-      get :edit, :id => "10"
+      get :edit, params: {id: '10'}
       response.should be_forbidden
     end
 
@@ -61,14 +61,14 @@ describe RolesController do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE, Permission::CREATE])
       mock = stub_model Role, :id => "10"
       Role.should_receive(:get).with(mock.id).and_return(mock)
-      get :show, :id => mock.id
+      get :show, params: {id: mock.id}
       assigns(:role).should == mock
     end
 
     it "should not allow user without permission to edit roles" do
       fake_login_as(Permission::ROLE, [Permission::READ])
       Role.stub :get => stub_model(Role)
-      get :edit, :id => "10"
+      get :edit, params: {id: '10'}
       response.should be_forbidden
     end
 
@@ -103,11 +103,11 @@ describe RolesController do
     it "should allow valid user to update roles" do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE, Permission::CREATE])
       mock = stub_model Role, :id => "1"
-      role_mock = {:name=>nil, :description=>nil, :transfer=>nil, :referral=>nil, :group_permission=>nil, :permitted_form_ids=>nil, :permissions=>[]}
+      role_mock = {:name=>'', :description=>'', :transfer=>'false', :referral=>'false', :group_permission=>'', :permitted_form_ids=>'', :permissions=>[]}
 
       mock.should_receive(:update_attributes).with(role_mock).and_return(true)
       Role.should_receive(:get).with(mock.id).and_return(mock)
-      post :update, :id => mock.id, :role => role_mock
+      post :update, params: {id: mock.id, role: role_mock}
       response.should_not be_forbidden
       assigns(:role).should == mock
       flash[:notice].should == "Role details are successfully updated."
@@ -116,11 +116,11 @@ describe RolesController do
     it "should return error if update attributes is not invoked " do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE, Permission::CREATE])
       mock = stub_model Role, :id => "1"
-      role_mock = {:name=>nil, :description=>nil, :transfer=>nil, :referral=>nil, :group_permission=>nil, :permitted_form_ids=>nil, :permissions=>[]}
+      role_mock = {:name=>'', :description=>'', :transfer=>'false', :referral=>'false', :group_permission=>'', :permitted_form_ids=>'', :permissions=>[]}
 
       mock.should_receive(:update_attributes).with(role_mock).and_return(false)
       Role.should_receive(:get).with(mock.id).and_return(mock)
-      post :update, :id => mock.id, :role => role_mock
+      post :update, params: {id: mock.id, role: role_mock}
       response.should_not be_forbidden
       assigns(:role).should == mock
       flash[:error].should == "Error in updating the Role details."
@@ -131,7 +131,7 @@ describe RolesController do
       mock = stub_model Role, :id => "1"
       mock.should_not_receive(:update_attributes).with(anything)
       Role.should_receive(:get).with(mock.id).and_return(mock)
-      post :update, :id => mock.id, :role => {}
+      post :update, params: {id: mock.id, role: {}}
       response.should be_forbidden
     end
 
@@ -140,7 +140,7 @@ describe RolesController do
       mock = stub_model Role, :id => "1"
       mock.should_not_receive(:update_attributes).with(anything)
       Role.should_receive(:get).with(mock.id).and_return(mock)
-      post :update, :id => mock.id, :role => {}
+      post :update, params: {id: mock.id, role: {}}
       response.should be_forbidden
     end
   end
@@ -150,7 +150,7 @@ describe RolesController do
       fake_login_as(Permission::ROLE, [Permission::READ])
       role_mock = double()
       Role.should_not_receive(:new).with(anything)
-      post :create, :role => role_mock
+      post :create, params: {role: role_mock}
       response.should be_forbidden
     end
 
@@ -158,16 +158,16 @@ describe RolesController do
       fake_login_as(Permission::USER, [Permission::MANAGE])
       role_mock = double()
       Role.should_not_receive(:new).with(anything)
-      post :create, :role => role_mock
+      post :create, params: {role: role_mock}
       response.should be_forbidden
     end
 
     it "should allow valid user to create roles" do
       fake_login_as(Permission::ROLE, [Permission::READ, Permission::WRITE, Permission::CREATE])
-      role_mock = {:name=>nil, :description=>nil, :transfer=>nil, :referral=>nil, :group_permission=>nil, :permitted_form_ids=>nil, :permissions=>[]}
+      role_mock = {:name=>'', :description=>'', :transfer=>'false', :referral=>'false', :group_permission=>'', :permitted_form_ids=>'', :permissions=>[]}
       role_mock.should_receive(:save).and_return(true)
       Role.should_receive(:new).with(role_mock).and_return(role_mock)
-      post :create, :role => role_mock
+      post :create, params: {role: role_mock}
       response.should redirect_to(roles_path)
       response.should_not be_forbidden
     end
@@ -177,7 +177,7 @@ describe RolesController do
       role_mock = {:name=>nil, :description=>nil, :transfer=>nil, :referral=>nil, :group_permission=>nil, :permitted_form_ids=>nil, :permissions=>[]}
       role_mock.should_receive(:save).and_return(false)
       Role.should_receive(:new).with(anything).and_return(role_mock)
-      post :create, :role => role_mock
+      post :create, params: {role: role_mock}
       response.should render_template(:new)
       response.should_not be_forbidden
     end
@@ -190,7 +190,7 @@ describe RolesController do
       role = build :role, :permissions_list => []
       role.should_receive(:destroy).and_return(true)
       Role.should_receive(:get).with("test-role").and_return(role)
-      delete :destroy, id: "test-role"
+      delete :destroy, params: {id: "test-role"}
       response.status.should_not == 403
     end
   end

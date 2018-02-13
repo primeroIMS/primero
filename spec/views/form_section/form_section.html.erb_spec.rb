@@ -89,7 +89,9 @@ describe "form_section/_form_section.html.erb" do
                                       option_strings_text_all: ["Is Exact", "Approximate"].join("\n")))
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
         expect(rendered).to have_tag("input[type='radio'][value='is_exact']")
+        expect(rendered).to match(/<label for="#{@form_section.name.dehumanize}_child_isageexact_is_exact">Is Exact<\/label>/)
         expect(rendered).to have_tag("input[type='radio'][value='approximate']")
+        expect(rendered).to match(/<label for="#{@form_section.name.dehumanize}_child_isageexact_approximate">Approximate<\/label>/)
       end
     end
 
@@ -103,6 +105,7 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
+        rendered.should have_selector('input', id: "#{@form_section.name.dehumanize}_child_isageexact")
         expect(rendered).to have_tag("input[type='radio'][value='exact']")
         expect(rendered).to have_tag("input[type='radio'][value='approximate'][name='child[isageexact]'][checked='checked']")
       end
@@ -119,7 +122,9 @@ describe "form_section/_form_section.html.erb" do
                                       option_strings_text_all: ["1-2 weeks ago", "More than a year ago"].join("\n")))
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-        expect(rendered).to have_selector('select', id: "displayedformname_child_dateofseparation")
+        rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">Date of separation<\/label>")
+        expect(rendered).to have_selector('select', class: 'chosen-select', id: "displayedformname_child_dateofseparation")
+        expect(rendered).to have_selector("select.chosen-select[name='child[dateofseparation]']")
         expect(rendered).to have_tag("option[value='1_2_weeks_ago']")
         expect(rendered).to have_tag("option[value='more_than_a_year_ago']")
       end
@@ -134,7 +139,9 @@ describe "form_section/_form_section.html.erb" do
                                     option_strings_text_all: ["1-2 weeks ago", "More than a year ago"].join("\n")))
 
       render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
-      expect(rendered).to have_selector('select', id: "displayedformname_child_dateofseparation")
+      rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_child_dateofseparation\">Date of separation<\/label>")
+      expect(rendered).to have_selector('select', class: 'chosen-select', id: "displayedformname_child_dateofseparation")
+      expect(rendered).to have_selector("select.chosen-select[name='child[dateofseparation]']")
       expect(rendered).to have_tag("option[value='1_2_weeks_ago']")
       expect(rendered).to have_tag("option[value='more_than_a_year_ago']")
     end
@@ -152,6 +159,7 @@ describe "form_section/_form_section.html.erb" do
 
         render :partial => 'form_section/form_section', :locals => { :form_section => @form_section, :formObject => @child, :form_group_name => @form_section.form_group_name }, :formats => [:html], :handlers => [:erb]
 
+        rendered.should be_include("<label class=\"key inline\" for=\"#{@form_section.name.dehumanize}_#{field.tag_id}\">")
         expect(rendered).to have_selector('input', class: 'form_date_field', id: "displayedformname_child_test_date_range_from")
         expect(rendered).to have_selector('input', class: 'form_date_field', id: "displayedformname_child_test_date_range_to")
         expect(rendered).to have_tag("input[type='text'][name='child[test_date_range]']")

@@ -26,7 +26,6 @@ FormSection.create_or_update_form_section({
   :fields => tracing_request_photo_audio_fields,
   "editable" => false,
   "name_all" => "Photos and Audio",
-  "name_all" => "Photos and Audio",
   "display_help_text_view" => true,
   :mobile_form => true
 })

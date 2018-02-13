@@ -1,4 +1,4 @@
-require "rails_helper"
+require 'rails_helper'
 
 def mock_suggestedfield(stubs={})
   stubs.reverse_merge!(:is_used= =>false, :save=>true)

@@ -29,17 +29,17 @@ describe LocationsController do
       end
 
       it "populates the view with all the disabled locations" do
-        get :index, @params
+        get :index, params: @params
         expect(assigns(:locations)).to include(@disabled1, @disabled2)
       end
 
       it "does not populate the vew with enabled locations" do
-        get :index, @params
+        get :index, params: @params
         expect(assigns(:locations)).not_to include(@country, @country2, @province1, @province2, @province3, @town1, @town2, @town3)
       end
 
       it "renders the index template" do
-        get :index, @params
+        get :index, params: @params
         expect(response).to render_template("index")
       end
     end
@@ -50,17 +50,17 @@ describe LocationsController do
       end
 
       it "populates the view with all the enabled locations" do
-        get :index, @params
+        get :index, params: @params
         expect(assigns(:locations)).to include(@country, @country2, @province1, @province2, @province3, @town1, @town2, @town3)
       end
 
       it "does not populate the vew with disabled locations" do
-        get :index, @params
+        get :index, params: @params
         expect(assigns(:locations)).not_to include(@disabled1, @disabled2)
       end
 
       it "renders the index template" do
-        get :index, @params
+        get :index, params: @params
         expect(response).to render_template("index")
       end
     end
@@ -71,12 +71,12 @@ describe LocationsController do
       end
 
       it "populates the view with all the locations" do
-        get :index, @params
+        get :index, params: @params
         expect(assigns(:locations)).to include(@country, @country2, @province1, @province2, @province3, @town1, @town2, @town3, @disabled1, @disabled2)
       end
 
       it "renders the index template" do
-        get :index, @params
+        get :index, params: @params
         expect(response).to render_template("index")
       end
     end
@@ -104,14 +104,14 @@ describe LocationsController do
     it "should create a location" do
       existing_count = Location.count
       location = {placename: "My_Country", location_code: "my_code", type: "country", admin_level: 0}
-      post :create, location: location
+      post :create, params: {location: location}
       expect(Location.count).to eq(existing_count + 1)
     end
 
     context "when a parent is selected" do
       it "should create the hierarchy" do
         location = {placename: "My_Town", location_code: "my_code", type: "city", parent_id: @province3.id}
-        post :create, location: location
+        post :create, params: {location: location}
         my_town = Location.get_by_location_code("my_code")
         my_hierarchy = [@country.location_code, @province3.location_code]
         expect(my_town.hierarchy).to eq(my_hierarchy)
@@ -125,13 +125,13 @@ describe LocationsController do
     it "should save update if valid" do
       @town3.placename = "town_4"
       Location.should_receive(:get).with(@town3.id).and_return(@town3)
-      post :update, id: @town3.id
+      post :update, params: {id: @town3.id}
       expect(response).to redirect_to(locations_path)
     end
 
     context "when the parent is updated" do
       it "should update the hierarchy" do
-        put :update, id: @province3.id, location: {placename: @province3.placename, type: "province", parent_id: @country2.id}
+        put :update, params: {id: @province3.id, location: {placename: @province3.placename, type: "province", parent_id: @country2.id}}
         province = Location.get(@province3.id)
         expect(province.hierarchy).to eq([@country2.location_code])
         #TODO i18n - add tests for translations
@@ -139,7 +139,7 @@ describe LocationsController do
       end
 
       it "should update the hierarchy of all descendants" do
-        put :update, id: @province1.id, location: {placename: @province1.placename, type: "province", parent_id: @country2.id}
+        put :update, params: {id: @province1.id, location: {placename: @province1.placename, type: "province", parent_id: @country2.id}}
         updated_town1 = Location.get(@town1.id)
         updated_town2 = Location.get(@town2.id)
         new_hierarchy = [@country2.location_code, @province1.location_code]
@@ -155,7 +155,7 @@ describe LocationsController do
   describe "post destroy" do
     it "should delete a location" do
       existing_count = Location.count
-      post :destroy, id: @town3.id
+      post :destroy, params: {id: @town3.id}
       expect(response).to redirect_to(locations_path)
       expect(Location.count).to eq(existing_count - 1)
     end

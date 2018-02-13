@@ -1,6 +1,6 @@
 class HighlightFieldsController < ApplicationController
 
-  before_filter { authorize! :highlight, Field }
+  before_action { authorize! :highlight, Field }
 
   def index
     @page_name = I18n.t("admin.highlight_fields")

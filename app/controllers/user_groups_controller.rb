@@ -35,7 +35,7 @@ class UserGroupsController < ApplicationController
   def update
     @user_group = UserGroup.get(params[:id])
     authorize! :update, @user_group
-    if @user_group.update_attributes(params[:user_group])
+    if @user_group.update_attributes(params[:user_group].to_h)
       flash[:notice] = t("user_group.successfully_updated")
       redirect_to(user_groups_path)
     else
@@ -51,7 +51,7 @@ class UserGroupsController < ApplicationController
 
   def create
     authorize! :create, UserGroup
-    @user_group = UserGroup.new(params[:user_group])
+    @user_group = UserGroup.new(params[:user_group].to_h)
     return redirect_to user_groups_path if @user_group.save
     render :new
   end

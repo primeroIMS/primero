@@ -52,7 +52,7 @@ describe TracingRequestIdsController do
 
       context 'when passing mobile true' do
         it 'returns ids and revs for all mobile tracing requests' do
-          get :all, mobile: 'true'
+          get :all, params: { mobile: 'true' }
           expect(response.status).to eq(200)
           ids = JSON.parse(response.body)
           expect(ids).to match_array([{'_id' => @tracing_request_1._id, '_rev' => @tracing_request_1._rev},
@@ -76,7 +76,7 @@ describe TracingRequestIdsController do
 
       context 'when passing mobile true' do
         it 'returns ids and revs for all mobile tracing requests' do
-          get :all, mobile: 'true'
+          get :all, params: { mobile: 'true' }
           expect(response.status).to eq(200)
           ids = JSON.parse(response.body)
           expect(ids).to match_array([{'_id' => @tracing_request_3._id, '_rev' => @tracing_request_3._rev}])
@@ -98,7 +98,7 @@ describe TracingRequestIdsController do
       context 'who has no mobile tracing requests' do
         context 'when passing mobile true' do
           it 'returns no ids and revs' do
-            get :all, mobile: 'true'
+            get :all, params: { mobile: 'true' }
             expect(response.status).to eq(200)
             ids = JSON.parse(response.body)
             expect(ids).to be_empty
@@ -121,7 +121,7 @@ describe TracingRequestIdsController do
 
       context 'when passing mobile true' do
         it 'returns no ids and revs' do
-          get :all, mobile: 'true'
+          get :all, params: { mobile: 'true' }
           expect(response.status).to eq(200)
           ids = JSON.parse(response.body)
           expect(ids).to be_empty
@@ -136,7 +136,7 @@ describe TracingRequestIdsController do
 
       context 'that is less than the oldest record' do
         it 'returns all ids and revs' do
-          get :all, last_update: '2016-09-11 00:00:00UTC'
+          get :all, params: { last_update: '2016-09-11 00:00:00UTC' }
           expect(response.status).to eq(200)
           ids = JSON.parse(response.body)
           expect(ids).to match_array([{'_id' => @tracing_request_1._id, '_rev' => @tracing_request_1._rev},
@@ -149,7 +149,7 @@ describe TracingRequestIdsController do
 
       context 'that is greater than the newest record' do
         it 'returns no ids and revs' do
-          get :all, last_update: '2016-11-11 01:00:00UTC'
+          get :all, params: { last_update: '2016-11-11 01:00:00UTC' }
           expect(response.status).to eq(200)
           ids = JSON.parse(response.body)
           expect(ids).to be_empty
@@ -158,7 +158,7 @@ describe TracingRequestIdsController do
 
       context 'that is greater than the oldest record and less than the newest record' do
         it 'returns some ids and revs' do
-          get :all, last_update: '2016-10-31 00:00:00UTC'
+          get :all, params: { last_update: '2016-10-31 00:00:00UTC' }
           expect(response.status).to eq(200)
           ids = JSON.parse(response.body)
           expect(ids).to match_array([{'_id' => @tracing_request_1._id, '_rev' => @tracing_request_1._rev},

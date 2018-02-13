@@ -3,7 +3,8 @@
 #
 
 class ApplicationController < ActionController::Base
-  before_filter :authorize_profiler
+  protect_from_forgery with: :exception, prepend: true
+  before_action :authorize_profiler
 
   helper :all
   helper_method :current_user_name, :current_user, :current_user_full_name, :current_session, :logged_in?
@@ -11,11 +12,12 @@ class ApplicationController < ActionController::Base
   include AgencyLogos
   include Security::Authentication
 
-  before_filter :extend_session_lifetime
-  before_filter :check_authentication
-  before_filter :set_locale
+  before_action :permit_all_params
+  before_action :extend_session_lifetime
+  before_action :check_authentication
+  before_action :set_locale
 
-  around_filter :with_timezone
+  around_action :with_timezone
 
   rescue_from( AuthenticationFailure ) { |e| handle_authentication_failure(e) }
   rescue_from( AuthorizationFailure ) { |e| handle_authorization_failure(e) }
@@ -29,7 +31,7 @@ class ApplicationController < ActionController::Base
   end
 
   def extend_session_lifetime
-    request.env[Rack::Session::Abstract::ENV_SESSION_OPTIONS_KEY][:expire_after] = 1.week if request.format.json?
+    request.env[Rack::RACK_SESSION][:expire_after] = 1.week if request.format.json?
   end
 
   def authorize_profiler
@@ -79,7 +81,7 @@ class ApplicationController < ActionController::Base
         render :template => "shared/error_response",:status => ex.status_code, :locals => { :exception => ex }
       end
       format.any(:xml,:json) do
-        render :text => nil, :status => ex.status_code
+        render plain: nil, :status => ex.status_code
       end
     end
   end
@@ -146,6 +148,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def permit_all_params
+    params.permit!
+  end
 
   def with_timezone
     timezone = Time.find_zone(cookies[:timezone])

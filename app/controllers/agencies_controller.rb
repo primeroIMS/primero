@@ -5,9 +5,9 @@ class AgenciesController < ApplicationController
   include MediaActions
   include DisableActions
 
-  before_filter :filter_params_array_duplicates, :only => [:create, :update]
-  before_filter :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
-  before_filter :load_records_according_to_disable_filter, :only => [:index]
+  before_action :filter_params_array_duplicates, :only => [:create, :update]
+  before_action :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
+  before_action :load_records_according_to_disable_filter, :only => [:index]
 
   include LoggerActions
 
@@ -31,7 +31,7 @@ class AgenciesController < ApplicationController
 
   def create
     authorize! :create, Agency
-    @agency = Agency.new(params[:agency])
+    @agency = Agency.new(params[:agency].to_h)
 
     if @agency.save
       redirect_to agencies_path, notice: t("agencies.successfully_created")
@@ -47,7 +47,7 @@ class AgenciesController < ApplicationController
   def update
     authorize! :update, Agency
 
-    @agency.update_attributes(params[:agency])
+    @agency.update_attributes(params[:agency].to_h)
 
     if @agency.save
       redirect_to agencies_path, notice: t("agencies.successfully_updated")

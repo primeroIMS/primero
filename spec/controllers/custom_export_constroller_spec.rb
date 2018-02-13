@@ -252,7 +252,7 @@ describe CustomExportsController do
           {"name"=>"Form Section Test 4", "id"=>"form_section_test_4"}
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp", "only_parent"=>"true"}
-        get :permitted_forms_list, params
+        get :permitted_forms_list, params: params
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(expected_forms_sections)
       end
@@ -280,7 +280,7 @@ describe CustomExportsController do
           {"name"=>"Form Section Test 5", "id"=>"form_section_test_5"}
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp", "only_parent"=>"true"}
-        get :permitted_forms_list, params
+        get :permitted_forms_list, params: params
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(expected_forms_sections)
       end
@@ -323,7 +323,7 @@ describe CustomExportsController do
              ["Field Name 9", "subform_section_other_test:field_name_9", "text_field"]]]
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp"}
-        get :permitted_fields_list, params
+        get :permitted_fields_list, params: params
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(expected_forms_sections)
       end
@@ -365,7 +365,7 @@ describe CustomExportsController do
              ["Field Name 9", "subform_section_other_test:field_name_9", "text_field"]]]
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp"}
-        get :permitted_fields_list, params
+        get :permitted_fields_list, params: params
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(expected_forms_sections)
       end
@@ -403,7 +403,7 @@ describe CustomExportsController do
              ["Field Name 9", "subform_section_other_test:field_name_9", "text_field"]]]
         ]
         params = {"record_type"=>"case", "module"=>"primeromodule-cp"}
-        get :permitted_fields_list, params
+        get :permitted_fields_list, params: params
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(expected_forms_sections)
       end

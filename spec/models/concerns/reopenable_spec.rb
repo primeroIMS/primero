@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 class TestClass < CouchRest::Model::Base

@@ -11,7 +11,7 @@ describe ContactInformationController do
       contact_information = {"name"=>"Bob"}
       ContactInformation.stub(:get_by_id).with("administrator").and_return(contact_information)
 
-      get :show, :id => "administrator"
+      get :show, params: {:id => "administrator"}
 
       response_as_json =  JSON.parse @response.body
       response_as_json.should == contact_information
@@ -20,7 +20,7 @@ describe ContactInformationController do
     it "returns a 404 response if showing a contact information that does not exist" do
       ContactInformation.stub(:get_by_id).with("foo").and_raise(ErrorResponse.not_found("Contact information not found"))
 
-      get :show, :id => "foo"
+      get :show, params: {:id => "foo"}
 
       response.status.should == 404
     end
@@ -32,7 +32,7 @@ describe ContactInformationController do
       contact_information = {"name"=>"Bob"}
       ContactInformation.stub(:get_or_create).with("bob").and_return(contact_information)
 
-      get :edit, :id => "bob"
+      get :edit, params: {:id => "bob"}
 
       assigns[:contact_information].should == contact_information
     end

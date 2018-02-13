@@ -22,7 +22,7 @@ describe AttachmentsController do
     Clock.stub(:now).and_return(Time.parse("Jan 20 2010 12:04:15"))
     child = Child.create('last_known_location' => "New York", 'photo' => uploadable_photo_jeff)
 
-    get :show, :child_id => child.id, :id => child.primary_photo.name
+    get :show, params: {child_id: child.id, id: child.primary_photo.name}
 
     response.content_type.should == uploadable_photo_jeff.content_type
     response.body.should == uploadable_photo_jeff.data
@@ -35,7 +35,7 @@ describe AttachmentsController do
     Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04"))
     Child.get(child.id).update_attributes :photo => uploadable_photo
 
-    get :show, :child_id => child.id, :id => child.primary_photo.name
+    get :show, params: {child_id: child.id, id: child.primary_photo.name}
 
     response.content_type.should == uploadable_photo_jeff.content_type
     response.body.should == uploadable_photo_jeff.data
@@ -48,7 +48,7 @@ describe AttachmentsController do
     Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04"))
     Child.get(child.id).update_attributes :photo => uploadable_photo
 
-    get :show, :child_id => child.id, :id => child.primary_photo.name
+    get :show, params: {child_id: child.id, id: child.primary_photo.name}
 
     response.body.size.should == uploadable_photo_jeff.data.size
   end

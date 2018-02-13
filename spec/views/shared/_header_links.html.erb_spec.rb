@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 describe 'shared/_header_links.html.erb' do

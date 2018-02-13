@@ -33,7 +33,7 @@ describe ChildrenController do
         params.merge!({"selected_records"=>selected_records})
       end
 
-      post :transition, params
+      post :transition, params: params
     end
 
     it "should export CSV for #{transition_type}" do
@@ -65,7 +65,7 @@ describe ChildrenController do
       elsif selected_records.present?
         params.merge!({"selected_records"=>selected_records})
       end
-      post :transition, params
+      post :transition, params: params
     end
 
     it "should export PDF for #{transition_type}", :if => transition_type=="referral" do
@@ -99,7 +99,7 @@ describe ChildrenController do
         params.merge!({"selected_records"=>selected_records})
       end
 
-      post :transition, params
+      post :transition, params: params
     end
 
   end

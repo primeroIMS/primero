@@ -15,13 +15,13 @@ module TransitionActions
       @records = @records.select{|r| is_consent_given? r } unless is_reassign? || consent_override
     else
       flash[:notice] = t('referral.no_records_selected')
-      redirect_to :back and return
+      redirect_back(fallback_location: root_path) and return
     end
 
     if @records.blank?
       logger.info "#{model_class.parent_form}s not transitioned... no eligible records"
       message_failure_transition @selected_ids.size
-      redirect_to :back
+      redirect_back(fallback_location: root_path)
     else
       log_to_history(@records)
 
@@ -34,21 +34,21 @@ module TransitionActions
           logger.error error.message
           logger.error error.backtrace
           message_failure_transition
-          redirect_to :back
+          redirect_back(fallback_location: root_path)
         end
       elsif is_reassign?
         begin
           local_transition(@records)
           redirect_to_list and return
         rescue => error
-          redirect_to :back
+          redirect_back(fallback_location: root_path)
         end
       else
         begin
           local_transition(@records)
-          redirect_to :back
+          redirect_back(fallback_location: root_path)
         rescue => error
-          redirect_to :back
+          redirect_back(fallback_location: root_path)
         end
       end
     end

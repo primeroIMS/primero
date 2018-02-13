@@ -5,16 +5,16 @@ class UsersController < ApplicationController
   include ImportActions
   include DisableActions
 
-  before_filter :clean_role_ids, :only => [:update, :create]
-  before_filter :clean_module_ids, :only => [:update, :create]
-  before_filter :clean_user_locale, :only => [:update, :create]
-  before_filter :clean_group_ids, :only => [:update, :create]
-  before_filter :load_user, :only => [:show, :edit, :update, :destroy]
-  before_filter :load_records_according_to_disable_filter, :only => [:index]
-  before_filter :agency_names, :only => [:new, :create, :edit, :update]
-  before_filter :load_system_settings, :only => [:new, :edit]
+  before_action :clean_role_ids, :only => [:update, :create]
+  before_action :clean_module_ids, :only => [:update, :create]
+  before_action :clean_user_locale, :only => [:update, :create]
+  before_action :clean_group_ids, :only => [:update, :create]
+  before_action :load_user, :only => [:show, :edit, :update, :destroy]
+  before_action :load_records_according_to_disable_filter, :only => [:index]
+  before_action :agency_names, :only => [:new, :create, :edit, :update]
+  before_action :load_system_settings, :only => [:new, :edit]
 
-  skip_before_filter :check_authentication, :set_locale, :only => :register_unverified
+  skip_before_action :check_authentication, :set_locale, :only => :register_unverified
 
   include LoggerActions
 
@@ -67,7 +67,8 @@ class UsersController < ApplicationController
 
   def create
     authorize! :create, User
-    @user = User.new(params[:user])
+
+    @user = User.new(params[:user].to_h)
 
     if @user.save
       @user.send_welcome_email(request.base_url)
@@ -87,7 +88,7 @@ class UsersController < ApplicationController
     if (@user.update_attributes(params[:user]))
       verify_children if params[:verify]
       if request.xhr?
-        render :text => "OK"
+        render plain: 'OK'
       else
         flash[:notice] = t("user.messages.updated")
         redirect_to(@user)
@@ -103,7 +104,7 @@ class UsersController < ApplicationController
   end
 
   def update_password
-    @change_password_request = Forms::ChangePasswordForm.new params[:forms_change_password_form]
+    @change_password_request = Forms::ChangePasswordForm.new params[:forms_change_password_form].to_h
     @change_password_request.user = current_user
     if @change_password_request.execute
       respond_to do |format|
@@ -135,7 +136,7 @@ class UsersController < ApplicationController
         password = params[:user]["unauthenticated_password"]
         updated_params = params[:user].merge(:verified => false, :password => password, :password_confirmation => password)
         updated_params.delete("unauthenticated_password")
-        user = User.new(updated_params)
+        user = User.new(updated_params.to_h)
 
         user.save!
         render :json => {:response => "ok"}.to_json

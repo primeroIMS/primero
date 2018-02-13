@@ -1,6 +1,6 @@
 class SystemUsersController < ApplicationController
 
-  before_filter :load_user, :only => [:edit, :update, :destroy]
+  before_action :load_user, :only => [:edit, :update, :destroy]
 
   def index
     authorize! :read, SystemUsers
@@ -17,7 +17,7 @@ class SystemUsersController < ApplicationController
 
   def create
     authorize! :create, SystemUsers
-    @user = SystemUsers.new(params[:system_users])
+    @user = SystemUsers.new(params[:system_users].to_h)
     if @user.save
       redirect_to system_users_path
     else
@@ -31,7 +31,7 @@ class SystemUsersController < ApplicationController
 
   def update
     authorize! :update, SystemUsers
-    if @user.update_attributes(params[:system_users])
+    if @user.update_attributes(params[:system_users].to_h)
       redirect_to system_users_path
     else
       render :action => :edit

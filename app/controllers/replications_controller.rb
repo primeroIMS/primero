@@ -1,9 +1,9 @@
 class ReplicationsController < ApplicationController
 
-  before_filter :load_replication
+  before_action :load_replication
 
-  skip_before_filter :verify_authenticity_token, :only => [ :configuration, :start, :stop ]
-  skip_before_filter :check_authentication, :only => :configuration
+  skip_before_action :verify_authenticity_token, :only => [ :configuration, :start, :stop ]
+  skip_before_action :check_authentication, :only => :configuration
 
   @model_class = Replication
 
@@ -37,7 +37,7 @@ class ReplicationsController < ApplicationController
 
   def create
     authorize! :create, Replication
-    @replication = Replication.new params[:replication]
+    @replication = Replication.new params[:replication].to_h
 
     if @replication.save
       redirect_to replications_path
@@ -52,7 +52,7 @@ class ReplicationsController < ApplicationController
 
   def update
     authorize! :update, @replication
-    @replication.update_attributes params[:replication]
+    @replication.update_attributes params[:replication].to_h
 
     if @replication.save
       redirect_to replications_path
