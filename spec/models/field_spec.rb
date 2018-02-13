@@ -249,6 +249,20 @@ describe "record field model" do
               expect(@field.valid?).to be_truthy
             end
           end
+
+          context 'and translated options have the same options as the default locale in a different order' do
+            before do
+              @field.option_strings_text_fr = [
+                  {id: 'option_2', display_text: "Test French Option 2"},
+                  {id: 'option_1', display_text: "Test French Option 1"},
+                  {id: 'option_3', display_text: "Test French Option 3"}
+              ].map(&:with_indifferent_access)
+            end
+
+            it 'is valid' do
+              expect(@field.valid?).to be_truthy
+            end
+          end
         end
       end
     end

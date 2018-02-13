@@ -108,7 +108,7 @@ class Lookup < CouchRest::Model::Base
       Primero::Application::locales.each do |locale|
         next if locale == base_language || self.send("lookup_values_#{locale}").blank?
         locale_ids = self.send("lookup_values_#{locale}").try(:map){|lv| lv['id']}
-        return errors.add(:lookup_values, I18n.t("errors.models.field.translated_options_do_not_match")) if locale_ids != default_ids
+        return errors.add(:lookup_values, I18n.t("errors.models.field.translated_options_do_not_match")) if ((default_ids - locale_ids).present? || (locale_ids - default_ids).present?)
       end
     end
     true
