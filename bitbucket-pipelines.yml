@@ -10,6 +10,10 @@ pipelines:
       - step:
           script:
             - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.4 --tags
+    maint_1.5:
+      - step:
+          script:
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.5 --tags
     development:
       - step:
           script:
