@@ -621,5 +621,8 @@ DEPENDENCIES
   writeexcel (~> 1.0.5)
   yui-compressor
 
+RUBY VERSION
+   ruby 2.2.8p477
+
 BUNDLED WITH
-   1.16.0
+   1.16.1
