@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :location, :traits => [ :model ] do
     placename { "location_#{counter}"}
     location_code { "code_#{counter}"}

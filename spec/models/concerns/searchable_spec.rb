@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe "Searchable" do
 
@@ -22,36 +22,36 @@ describe "Searchable" do
 
   describe "Text Query" do
 
-    it "should return empty array for no match" do
+    xit "should return empty array for no match" do
       pending "Write this test!"
     end
 
-    it "should return an exact match" do
+    xit "should return an exact match" do
       pending "Write this test!"
     end
 
-    it "should return a match that starts with the query" do
+    xit "should return a match that starts with the query" do
       pending "Write this test!"
     end
 
-    it "should return a fuzzy match" do
+    xit "should return a fuzzy match" do
       pending "Fuzzy search isn't implemented yet"
     end
 
-    it "should search by exact match for short id" do
+    xit "should search by exact match for short id" do
       pending "Write this test!"
     end
 
 
-    it "should match more than one word" do
+    xit "should match more than one word" do
       pending "Write this test!"
     end
 
-    it "should match more than one word with fuzzy search" do
+    xit "should match more than one word with fuzzy search" do
       pending "Fuzzy search isn't implemented yet"
     end
 
-    it "should match more than one word with starts with" do
+    xit "should match more than one word with starts with" do
       pending "Are we even doing startswith searches for names?"
     end
   end

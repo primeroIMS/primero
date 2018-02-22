@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe CasesMigrateName do
   before :each do
@@ -100,7 +100,7 @@ describe CasesMigrateName do
       child1_result.name_middle.blank?.should eq(true)
       child1_result.name_last.blank?.should eq(true)
     end
-  
+
     it "should set the first name and last name" do
       child1 = Child.create!(:name => "Marlon Lopez", :module_id => @primero_module_cp.id)
 
@@ -120,7 +120,7 @@ describe CasesMigrateName do
       child1_result.name_middle.blank?.should eq(true)
       child1_result.name_last.should eq("Lopez")
     end
-  
+
     it "should set the first name, middle name and last name" do
       child1 = Child.create!(:name => "Marlon Antonio Lopez Martinez", :module_id => @primero_module_cp.id)
 
@@ -140,7 +140,7 @@ describe CasesMigrateName do
       child1_result.name_middle.should eq("Antonio")
       child1_result.name_last.should eq("Lopez Martinez")
     end
-  
+
     it "should set the missing first name" do
       child1 = Child.create!(:name => "James Franco", :name_middle => "Edward",
                              :name_last => "Franco", :module_id => @primero_module_cp.id)
@@ -154,14 +154,14 @@ describe CasesMigrateName do
       @child7.should_not_receive(:id)
 
       CasesMigrateName.migrate_name_to_fields_names
-  
+
       child1_result = Child.get(child1.id)
       child1_result.name.should eq("James Franco")
       child1_result.name_first.should eq("James")
       child1_result.name_middle.should eq("Edward")
       child1_result.name_last.should eq("Franco")
     end
-  
+
     it "should set the missing last name" do
       child1 = Child.create!(:name => "James Franco", :name_middle => "Edward",
                              :name_first => "James", :module_id => @primero_module_cp.id)
@@ -173,16 +173,16 @@ describe CasesMigrateName do
       @child5.should_not_receive(:id)
       @child6.should_not_receive(:id)
       @child7.should_not_receive(:id)
-  
+
       CasesMigrateName.migrate_name_to_fields_names
-  
+
       child1_result = Child.get(child1.id)
       child1_result.name.should eq("James Franco")
       child1_result.name_first.should eq("James")
       child1_result.name_middle.should eq("Edward")
       child1_result.name_last.should eq("Franco")
     end
-  
+
     it "should set the missing middle name" do
       child1 = Child.create!(:name => "James Edward Franco", :name_first => "James",
                              :name_last => "Franco", :module_id => @primero_module_cp.id)

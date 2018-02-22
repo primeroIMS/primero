@@ -1,6 +1,6 @@
 # Now handled by js
 
-# require 'spec_helper'
+# require 'rails_helper'
 # require 'hpricot'
 
 # include HpricotSearch

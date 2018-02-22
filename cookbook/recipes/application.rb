@@ -99,6 +99,7 @@ rvm_ruby_name = "#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
 execute_with_ruby 'prod-ruby' do
   command <<-EOH
     rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
+    rvm rubygems #{node[:primero][:rubygems_version]}
     rvm --default use #{rvm_ruby_name}
   EOH
 end
@@ -141,7 +142,7 @@ end
 
 update_bundler 'prod-stack'
 execute_with_ruby 'bundle-install' do
-  command "bundle install --clean --without development test cucumber"
+  command "bundle install --without development test cucumber"
   cwd node[:primero][:app_dir]
 end
 
@@ -170,6 +171,25 @@ template File.join(node[:primero][:app_dir], "public", "version.txt") do
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
+end
+
+## This is a hack. This may be removed in the future.
+execute_with_ruby 'clear_bundler_cache' do
+  command <<-EOH
+    if [ -d #{node[:primero][:app_dir]}/.bundle ];
+    then
+      grep -v BUNDLE_CLEAN #{node[:primero][:app_dir]}/.bundle/config > #{node[:primero][:app_dir]}/.bundle/config.tmp
+      mv #{node[:primero][:app_dir]}/.bundle/config.tmp #{node[:primero][:app_dir]}/.bundle/config;
+    fi
+    EOH
+end
+
+update_bundler 'prod-stack' do
+  bundler_version node[:primero][:bundler_version]
+end
+execute_with_ruby 'bundle-install' do
+  command "bundle install --without development test cucumber"
+  cwd node[:primero][:app_dir]
 end
 
 template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do

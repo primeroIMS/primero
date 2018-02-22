@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :role, :traits => [ :model ] do
     name { "test_role_#{counter}" }
     description "test description"

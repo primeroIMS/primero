@@ -446,7 +446,16 @@ class User < CouchRest::Model::Base
 
   def is_user_admin?
     (self.roles.any?{|r| r.is_user_admin_role?} && self.group_permissions.include?(Permission::ADMIN_ONLY))
-end
+  end
+
+  #Used by the User import to populate the password with a random string when the input file has no password
+  #This assumes an admin will have to reset the new user's password after import
+  def populate_missing_attributes
+    if crypted_password.blank? && password.blank?
+      self.password = SecureRandom.hex(20)
+      self.password_confirmation = password
+    end
+  end
 
   private
 

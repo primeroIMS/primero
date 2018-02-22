@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :potential_match, :traits => [ :model ] do
     association :tracing_request
     association :child
