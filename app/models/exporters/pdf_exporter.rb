@@ -200,9 +200,9 @@ module Exporters
       table_data = fields.map do |f|
         if obj.present?
           value = censor_value(f.name, obj)
-          row = [f.display_name, format_field(f, value)]
+          row = [render_i18n_text(f.display_name), format_field(f, value)]
         else
-          row = [f.display_name, nil]
+          row = [render_i18n_text(f.display_name), nil]
         end
 
         row.reverse! if self.class.reverse_page_direction
@@ -234,6 +234,8 @@ module Exporters
     end
 
     def format_field(field, value)
+      date_format, time_format = self.class.reverse_page_direction ? [:rtl, :rtl_with_time] : [:default, :with_time]
+
       case value
       when TrueClass, FalseClass
         if value
@@ -244,11 +246,11 @@ module Exporters
       when String
         render_i18n_text(field.display_text(value))
       when DateTime
-        render_i18n_text(I18n.l(value, format: :rtl))
+        render_i18n_text(I18n.l(value, format: time_format))
       when Date
-        render_i18n_text(I18n.l(value, format: :rtl))
+        render_i18n_text(I18n.l(value, format: date_format))
       when Time
-        render_i18n_text(I18n.l(value, format: :with_time))
+        render_i18n_text(I18n.l(value, format: time_format))
       when Array
         value.map {|el| format_field(field, el) }.join(', ')
       #when Hash
