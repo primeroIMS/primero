@@ -100,7 +100,7 @@ ajlun_locations = Location.by_ancestor(key: 'JOR001').to_a.select { |l| l.admin_
 tafilah_locations = Location.by_ancestor(key: 'JOR006').to_a.select { |l| l.admin_level == 3 }
 all_level_3_locations = Location.by_admin_level(key: 3).to_a
 
-(0..5).each do |i|
+(0..1000).each do |i|
   concerns = []
   concern_details = []
   unhcr_needs_codes = []
@@ -166,7 +166,7 @@ all_level_3_locations = Location.by_admin_level(key: 3).to_a
   implemented_date = [nil, random_date(registration_date)].sample
 
   services = []
-  (0..rand(1000)).each do |ss|
+  (0..rand(3)).each do |ss|
     services << {
       service_response_type: response_types.sample,
       service_type: service_types.sample,
