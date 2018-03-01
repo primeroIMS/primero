@@ -205,6 +205,10 @@ ar-LB:
         pending: "الموافقات المعلّقة/غير المفصول فيها"
         approved: "تمت الموافقة"
         rejected: "تم رفضه"
+    clear_filter: "إلغاء"
+    apply_filter: "تطبّيق"
+    save_filter: "حفظ"
+    my_filters: "بلدي الفلاتر"
     order_by:
       most_recently: "الأحدث"
       label: "ترتيب بحسب"

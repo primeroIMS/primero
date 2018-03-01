@@ -219,6 +219,10 @@ en:
         pending: "Pending Approvals"
         approved: "Approved"
         rejected: "Rejected"
+    clear_filter: "Clear"
+    apply_filter: "Apply"
+    save_filter: "Save"
+    my_filters: "My Filters"
 
     order_by:
       most_recently: "Most recently"
