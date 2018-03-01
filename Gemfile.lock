@@ -7,6 +7,13 @@ GIT
       ruby-prof
 
 GIT
+  remote: https://github.com/Quoin/arabic-letter-connector
+  revision: e94c59dd9765b57127f47d88ae2b9d1046c38ce4
+  branch: support-lam-alef-ligatures
+  specs:
+    arabic-letter-connector (0.1.1)
+
+GIT
   remote: https://github.com/rapidftr/rapidftr-addon-cpims.git
   revision: 6d820ae76a6365436c4ef9325132422618178c7d
   branch: master
@@ -73,7 +80,6 @@ GEM
     addressable (2.5.2)
       public_suffix (>= 2.0.2, < 4.0)
     afm (0.2.2)
-    arabic-letter-connector (0.1.1)
     archive-zip (0.7.0)
       io-like (~> 0.3.0)
     arel (6.0.4)
@@ -96,6 +102,7 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.3)
     byebug (9.1.0)
+    camertron-eprun (1.1.1)
     cancancan (1.9.2)
     cane (2.6.2)
       parallel
@@ -130,6 +137,7 @@ GEM
       sexp_processor (~> 4.1)
     ci_reporter (1.9.3)
       builder (>= 2.1.2)
+    cldr-plurals-runtime-rb (1.0.1)
     closure-compiler (1.1.13)
     code_analyzer (0.4.8)
       sexp_processor
@@ -510,6 +518,10 @@ GEM
     turbolinks (5.1.0)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
+    twitter_cldr (4.4.3)
+      camertron-eprun
+      cldr-plurals-runtime-rb (~> 1.0)
+      tzinfo
     tzinfo (1.2.4)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
@@ -540,7 +552,7 @@ PLATFORMS
 DEPENDENCIES
   activejob_backport
   addressable (~> 2.5.2)
-  arabic-letter-connector
+  arabic-letter-connector!
   backburner
   better_errors
   binding_of_caller
@@ -614,6 +626,7 @@ DEPENDENCIES
   therubyracer (~> 0.12.2)
   thin (~> 1.7.2)
   turbolinks (~> 5)
+  twitter_cldr
   uglifier (~> 3.2.0)
   uuidtools (~> 2.1.1)
   validatable (= 1.6.7)

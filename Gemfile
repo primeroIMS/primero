@@ -57,7 +57,8 @@ gem 'momentjs-rails', '~> 2.17.1'
 
 gem 'turbolinks', '~> 5'
 gem 'jquery-turbolinks'
-gem 'arabic-letter-connector'
+gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-connector', :branch => 'support-lam-alef-ligatures'
+gem 'twitter_cldr'
 
 group :production do
   gem 'passenger', '4.0.59', require: false
