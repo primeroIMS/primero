@@ -59,3 +59,4 @@ jmeter/logs/
 jmeter/*.log
 jmeter/*.csv
 jmeter/*.svg
+dev-node.json
