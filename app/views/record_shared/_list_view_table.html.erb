@@ -68,7 +68,7 @@
         </div>
         <% if can?(:read, SavedSearch) %>
           <div class="tabs-panel" id="saved-searches">
-            <h5>My Filters</h5>
+            <h5><%= t('cases.my_filters') %></h5>
             <ul class="save-searches">
               <% @saved_searches.each do |filter| %>
                 <li>

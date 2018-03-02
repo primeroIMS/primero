@@ -64,7 +64,8 @@ gem 'momentjs-rails', '~> 2.17.1'
 
 gem 'turbolinks', '~> 5'
 gem 'jquery-turbolinks'
-gem 'arabic-letter-connector'
+gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-connector', :branch => 'support-lam-alef-ligatures'
+gem 'twitter_cldr'
 
 group :production do
   #TODO - Do not upgrade passenger
@@ -81,7 +82,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'ruby-prof'
-  gem 'request_profiler', :git => 'git://github.com/justinweiss/request_profiler.git'
+  gem 'request_profiler', :git => 'https://github.com/justinweiss/request_profiler.git'
   gem 'rack-mini-profiler', '>= 0.10.1', require: false
   gem 'letter_opener'
 end
@@ -120,7 +121,7 @@ group :test, :cucumber do
   # Should be able to just remove after a patch is released.
   # https://github.com/rack-test/rack-test/issues/211
   # https://github.com/rack-test/rack-test/pull/215
-  gem 'rack-test', github: 'rack-test', ref: '10042d3452a13d5f13366aac839b981b1c5edb20'
+  gem 'rack-test', :git => 'https://github.com/rack-test/rack-test', :ref => '10042d3452a13d5f13366aac839b981b1c5edb20'
 end
 
 #TODO: Does this get installed?

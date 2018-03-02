@@ -20,7 +20,7 @@ ar-LB:
     manage_system_users: "إدارة مزامنة الخادم للمستخدمين"
     records_need_attention: "الملفّات التي تستدعي الانتباه"
     label: "الصفحة الرئيسية"
-  clear: "مسح"
+  clear: "إلغاء"
   messages:
     delete_item: |
       تحذير: في حالة المتابعة، ستفقد أيّ معلومات مرتبطة بهذا الحقل.
@@ -203,8 +203,12 @@ ar-LB:
       date: 'التاريخ'
       approvals:
         pending: "الموافقات المعلّقة/غير المفصول فيها"
-        approved: "تمّت الموافقة عليها"
-        rejected: "رُفضت"
+        approved: "تمت الموافقة"
+        rejected: "تم رفضه"
+    clear_filter: "إلغاء"
+    apply_filter: "تطبّيق"
+    save_filter: "حفظ"
+    my_filters: "بلدي الفلاتر"
     order_by:
       most_recently: "الأحدث"
       label: "ترتيب بحسب"
@@ -276,7 +280,7 @@ ar-LB:
     age: "العمر"
     sex: "الجنس"
     registration_date: "تاريخ التسجيل"
-    status: "الوضع"
+    status: "الوضع الحالي"
     match_record: "مطابق"
     match_record_success: "تطابق السجلاّت"
     match_record_failed: "لا مطابقة"
@@ -389,7 +393,7 @@ ar-LB:
     age: "العمر"
     sex: "الجنس"
     registration_date: "تاريخ التسجيل"
-    status: "الوضع/مرحلة التدخّل"
+    status: "الوضع الحالي"
     social_worker: "العامل الاجتماعي"
     survivor_code: "رمز الناجي "
     case_opening_date: "تاريخ فتح الملفّ"
@@ -450,7 +454,7 @@ ar-LB:
       violation: "الانتهاك:"
       violence_type: "نوع العنف:"
       social_worker: "العامل الاجتماعي:"
-      status: "الوضع:"
+      status: "الوضع الحالي"
       age_range: "الفئة العمرية:"
       children: "الأطفال:"
       boys: "فتيان"
@@ -814,7 +818,7 @@ ar-LB:
   form: "نموذج"
   details: "تفاصيل"
   enabled: "مُفعَّل"
-  status: "الوضع/مرحلة التدخّل"
+  status: "الوضع الحالي"
   devices: "الأجهزة"
   replications: "نسخ متماثلة"
   provide_translation: "توفير ترجمة لـ"
@@ -1104,7 +1108,7 @@ ar-LB:
     edit: تحرير التكوين
     remote_app_uri: محدد موقع معلومات URL بريميرو
     actions: إجراءات
-    status: حالة /وضع
+    status: الوضع الحالي
     description: وصف
     timestamp: طابع زمني
     delete: حذف
@@ -1307,14 +1311,14 @@ ar-LB:
     transers_awaiting_acceptance: 'عمليات النقل التي تنتظر الموافقة'
     total_referred: "إجمالي الإحالات"
     new_referred: "إحالات جديدة"
-    high_risk: 'أولوية عالية'
+    high_risk: 'أولوية مرتفعة'
     low_risk: 'أولوية منخفضة'
     none_risk: ' لا يوجد أولوية'
     medium_risk: 'أولوية متوسطة'
-    pending: 'معلّق / غير مفصول فيه'
-    rejected: 'مرفوض'
-    near_deadline: 'إستحقاق قريب'
-    due: 'متأخّر'
+    pending: 'لم يتم البت به'
+    rejected: 'تم رفضه'
+    near_deadline: 'يستحق قريباً'
+    due: 'تستحق'
     response: 'الاستجابة <span>(جارية)</span>'
     immediate_response: 'ردّ فوري/إستجابة فوريّة'
     cases_to_assign: 'الحالات/الملفّات الواجبة التكليف'
@@ -1325,7 +1329,7 @@ ar-LB:
     new_service_provision: 'تقديم خدمة جديدة'
     all_services_implemented: 'جميع الخدمات المنفّذة'
     services_implemented: 'خدمات منفّذة'
-    approved: 'تمّت الموافقة'
+    approved: 'تمت الموافقة'
     cases_by_workflow: 'الحالات بحسب سير العمل'
     cases_by_task_overdue: 'المهمّات المتأخّرة'
     assessment: 'تقييم'
@@ -1728,7 +1732,7 @@ ar-LB:
     file_name: "ملفّ"
     record_type: "نوع"
     started_on: "بدء "
-    status: "الوضع"
+    status: "الوضع الحالي"
     retry: "عمليّة التصدير هذه غير صالحة. الرجاء محاولة إعادة تشغيل عملية النقل."
   exports:
     no_records: "ملفّات غير متوفّرة!"
@@ -1820,7 +1824,7 @@ ar-LB:
     success: "تمت إحالة %{record_type} %{id} بنجاح"
     failure_batch: "فشل %{failed_count} إحالة (إحالات) (تحقق من تحديد حقول الموافقة)"
     success_batch: "إجراء %{success_count} إحالة (إحالات) بنجاح"
-    to_user_local_status_label: "الوضع"
+    to_user_local_status_label: "الوضع الحالي"
     user_local_status_pending: "معلّق/لم يتمّ الفصل فيه"
     user_local_status_accepted: "تمّ القبول"
     user_local_status_rejected: "تمّ الرفض"
@@ -1850,7 +1854,7 @@ ar-LB:
     rejected: "%{record_type}%{id} تحويل مرفوض"
     failure_batch: "فشل %{failed_count} تحويل (تحويلات) (تحقق من تحديد حقول الموافقة)"
     success_batch: "إجراء %{success_count} تحويل (تحويلات) بنجاح"
-    to_user_local_status_label: "الوضع"
+    to_user_local_status_label: "الوضع الحالي"
     user_local_status_pending: "معلّقة / غير مفصول فيها"
     user_local_status_accepted: "تمّ القبول"
     user_local_status_rejected: "تمّ الرفض"
@@ -1862,7 +1866,7 @@ ar-LB:
     unknown_transfer: "عمليّة نقل غير صالحة لـ%{record_type} %{id}"
     not_valid_transfer: "%{record_type}%{id} موضوع نقل غير صالح أو نتيجة استحالة التحديث جارية أو غياب تصريح لهذا الملفّ"
     search:
-      rejected: "رُفضت"
+      rejected: "تم رفضه"
       in_progress: "عملية جارية"
   transition:
     export_type:
@@ -1897,8 +1901,8 @@ ar-LB:
     case_plan_type_label: "نوع مخطّط التدخّل:"
     status:
       pending: "معلّق / غير مفصول فيه"
-      approved: "موافق عليه"
-      rejected: "مرفوض"
+      approved: "تمت الموافقة"
+      rejected: "تم رفضه"
   per_page_translation: "قائمة محتويات لكلّ صفحة"
   total: المجموع
   caregiver: "(مقدّم الرعاية)"
@@ -1908,7 +1912,7 @@ ar-LB:
       enabled: "مُفعَّل/ممكَّن"
       disabled: "مُعطَّل "
       all: "ّالكل"
-      label: "الوضع/مرحلة التدخّل"
+      label: "الوضع الحالي"
   sort_by:
     label: "الترتيب بحسب"
   logger:

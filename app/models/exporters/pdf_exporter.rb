@@ -29,10 +29,14 @@ module Exporters
         filter_custom_exports(properties_by_module, custom_export_options)
       end
 
+      def reverse_page_direction
+        I18n.locale.to_s.start_with?('ar')
+      end
     end
 
     def initialize(output_file_path=nil)
       super(output_file_path)
+
       @pdf = Prawn::Document.new(:info => {
         :Title => "Primero Child Export",
         :Author => "Primero",
@@ -63,6 +67,8 @@ module Exporters
 
       # Add fallback fonts to array
       @pdf.fallback_fonts = ["Riwaj", "Kalimati_Regular"]
+
+      @pdf.text_direction self.class.reverse_page_direction ? :rtl : :ltr
 
       @subjects = []
     end
@@ -107,12 +113,39 @@ module Exporters
 
     private
 
+    def include_rtl?(txt)
+      TwitterCldr::Shared::Bidi
+          .from_string(txt)
+          .types
+          .include?(:R)
+    end
+
+    def reorder(txt)
+      TwitterCldr::Shared::Bidi
+        .from_string(txt.reverse, direction: :RTL)
+        .reorder_visually!
+        .to_s
+    end
+
+    def connect(txt)
+      ArabicLetterConnector.transform(txt)
+    end
+
     def render_i18n_text(txt)
-      if txt.match(/\p{Arabic}+/)
-        txt.gsub(/[ \p{Arabic}]+[\p{Arabic}]/){ |ar| " #{ar.connect_arabic_letters.reverse!}" }
-      else
-        txt
+      return txt.reverse if !include_rtl?(txt) && self.class.reverse_page_direction
+      return txt if !include_rtl?(txt) && !self.class.reverse_page_direction
+
+      if txt.match(/^\d{2}:\d{2} \d{4}-.*-\d{2}$/) || txt.match(/^\d{4}-.*-\d{2}$/)
+        txt = txt.reverse!.gsub(/\p{Arabic}+/){ |ar| ar.reverse! }
       end
+
+      if include_rtl?(txt) && txt.match(/\(|\)+/)
+        txt = txt.gsub(/\(|\)+/) do |par|
+          par.codepoints == 40 ? ")" : "("
+        end
+      end
+
+      reorder(connect(txt))
     end
 
     def print_heading(pdf, _case, start_page, end_page)
@@ -120,7 +153,7 @@ module Exporters
         for i in (start_page + 1)..end_page
           pdf.go_to_page(i)
           pdf.bounding_box([pdf.bounds.right-50, pdf.bounds.top + 15], :width => 50) do
-            pdf.text "#{_case.short_id}"
+            pdf.text "#{_case.short_id}", :align => self.class.reverse_page_direction ? :right : :left
           end
         end
       end
@@ -143,7 +176,7 @@ module Exporters
           grouped_subforms.each do |(parent_group, fss)|
             pdf.outline.section(parent_group, :destination => pdf.page_number, :closed => true) do
               fss.each do |fs|
-                pdf.text fs.name, :style => :bold, :size => 16
+                pdf.text render_i18n_text(fs.name), :style => :bold, :size => 16, :align => (self.class.reverse_page_direction ? :right : :left)
                 pdf.move_down 10
 
                 pdf.outline.section(fs.name, :destination => pdf.page_number)
@@ -172,8 +205,7 @@ module Exporters
         pdf.move_down 10
         form_data = _case.__send__(subf.name)
         filtered_subforms = subf.subform_section.fields.reject {|f| f.type == 'separator' || f.visible? == false}
-
-        pdf.text subf.display_name, :style => :bold, :size => 12
+        pdf.text render_i18n_text(subf.display_name), :style => :bold, :size => 12, :align => (self.class.reverse_page_direction ? :right : :left)
 
         if (form_data.try(:length) || 0) > 0
           form_data.each do |el|
@@ -195,17 +227,25 @@ module Exporters
       table_data = fields.map do |f|
         if obj.present?
           value = censor_value(f.name, obj)
-          [f.display_name, format_field(f, value)]
+          row = [render_i18n_text(f.display_name), format_field(f, value)]
         else
-          [f.display_name, nil]
+          row = [render_i18n_text(f.display_name), nil]
         end
+
+        row.reverse! if self.class.reverse_page_direction
+        row
       end
+
+      column_widths = self.class.reverse_page_direction ? {0 => 300, 1 => 200} : {0 => 200, 1 => 300}
 
       table_options = {
         :row_colors => %w[  cccccc ffffff  ],
         :width => 500,
-        :column_widths => {0 => 200, 1 => 300},
+        :column_widths => column_widths,
         :position => :left,
+        :cell_style => {
+          :align => self.class.reverse_page_direction ? :right : :left
+        }
       }
 
       pdf.table(table_data, table_options) if table_data.length > 0
@@ -221,6 +261,8 @@ module Exporters
     end
 
     def format_field(field, value)
+      date_format, time_format = self.class.reverse_page_direction ? [:rtl, :rtl_with_time] : [:default, :with_time]
+
       case value
       when TrueClass, FalseClass
         if value
@@ -231,11 +273,11 @@ module Exporters
       when String
         render_i18n_text(field.display_text(value))
       when DateTime
-        I18n.l(value)
+        render_i18n_text(I18n.l(value, format: time_format))
       when Date
-        I18n.l(value)
+        render_i18n_text(I18n.l(value, format: date_format))
       when Time
-        I18n.l(value, format: :with_time)
+        render_i18n_text(I18n.l(value, format: time_format))
       when Array
         value.map {|el| format_field(field, el) }.join(', ')
       #when Hash
