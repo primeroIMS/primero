@@ -80,6 +80,10 @@ Bitbucket by going into the repo admin and clicking on `Deployment Keys`.  You
 will have to convert the `\\n` characters in the JSON string to real newlines
 first.
 
+#### Update self signed certs
+
+`./easyrsa --subject-alt-name=DNS:[DOMAIN] build-server-full [DOMAIN] nopass`
+
 ## Production
 
 Primero is deployed in production using [Chef](https://www.chef.io/). Detailed Chef instructions exist in the file `cookbook/README.md`
