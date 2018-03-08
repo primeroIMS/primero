@@ -230,7 +230,7 @@ end
   end
 end
 
-# TODO: The stuff in the content property should not be merged in 1.4+
+# TODO: [BEFORE MERGING UP!] The stuff in the content property should not be merged in 1.4+. This is for 1.3 only.
 couchwatcher_worker_file = "#{node[:primero][:daemons_dir]}/couch-watcher-worker.sh"
 file couchwatcher_worker_file do
 mode '0755'
@@ -248,6 +248,8 @@ bundle exec rails r #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/b
 EOH
 end
 
+# TODO: [BEFORE MERGING UP!] The user should be primero in 1.4+. It should be root for 1.3 only.
+# Use whatever is existing in 1.4
 supervisor_service 'couch-watcher' do
   command couchwatcher_worker_file
   autostart true
