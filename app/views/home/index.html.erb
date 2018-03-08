@@ -9,7 +9,7 @@
   <% if @display_cases_dashboard %>
   <div class="row collapse">
     <div id="content" class="large-9 small-9 columns dashboards">
-      <% if @display_tracing_request_dashboard %>
+      <% if @display_matching_results_dashboard %>
           <%= render 'match_result_statistics', match_stats: @match_stats, model: PotentialMatch %>
       <% end %>
       <% if @display_reporting_location %>
