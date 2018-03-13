@@ -554,6 +554,7 @@ DEPENDENCIES
   therubyracer (~> 0.12.2)
   turbolinks (~> 5)
   twitter_cldr
+  tzinfo (~> 1.2.4)
   uglifier (~> 4.0.2)
   uuidtools (~> 2.1.1)
   validatable (= 1.6.7)
