@@ -115,7 +115,7 @@ group :test, :cucumber do
   gem 'ci_reporter'
   gem 'pdf-inspector', :require => 'pdf/inspector'
   gem 'rack_session_access'
-  gem 'tzinfo', '~> 1.2.4'
+  gem 'tzinfo', '1.2.4'
   # TODO: We need to update to 0.8.3 as soon as its available
   # This is a temp thing. There is a recent (DEC 2017) bug in rack-test.
   # Should be able to just remove after a patch is released.
