@@ -456,7 +456,8 @@ GEM
       cldr-plurals-runtime-rb (~> 1.0)
       thread_safe (~> 0.1)
       tzinfo
-    tzinfo (1.2.5)
+    tzinfo (1.2.4)
+      thread_safe (~> 0.1)
     uglifier (4.0.2)
       execjs (>= 0.3.0, < 3)
     unf (0.1.4)
@@ -554,7 +555,7 @@ DEPENDENCIES
   therubyracer (~> 0.12.2)
   turbolinks (~> 5)
   twitter_cldr
-  tzinfo (~> 1.2.4)
+  tzinfo (= 1.2.4)
   uglifier (~> 4.0.2)
   uuidtools (~> 2.1.1)
   validatable (= 1.6.7)

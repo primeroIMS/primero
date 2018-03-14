@@ -4,8 +4,10 @@ require 'rails_helper'
 
 describe OptionsController do
   before do
+    FormSection.all.each &:destroy
     Location.all.each &:destroy
     Lookup.all.each &:destroy
+
     @country = create :location, placename_en: "Country1", placename_fr: "French Country1", admin_level: 0
     @province1 = create :location, placename_en: "Province1", placename_fr: "French Province1", hierarchy: [@country.placename]
     @province2 = create :location, placename_en: "Province2", placename_fr: "French Province2", hierarchy: [@country.placename]
@@ -156,6 +158,47 @@ describe OptionsController do
           json_response = JSON.parse(response.body)
           expect(json_response).to eq(@expected_response)
         end
+      end
+    end
+
+    context 'when all param is true' do
+      before do
+        @expected_response = {
+          "success" => 1,
+          "sources" => [
+            {
+              "type"=>"lookup-a",
+              "options"=> [
+                {"id"=>"a", "display_text"=>"A"},
+                {"id"=>"aa", "display_text"=>"AA"}
+              ]
+            },
+            {
+              "type"=>"lookup-b",
+              "options"=> [
+                {"id"=>"b", "display_text"=>"B"},
+                {"id"=>"bb", "display_text"=>"BB"},
+                {"id"=>"bbb", "display_text"=>"BBB"}
+              ]
+            },
+            {
+              "type"=>"Location",
+              "options"=> [
+                {"id"=>"code_1000045", "display_text"=>"Country1"},
+                {"id"=>"code_1000046", "display_text"=>"Province1"},
+                {"id"=>"code_1000047", "display_text"=>"Province2"},
+                {"id"=>"code_1000048", "display_text"=>"Town1"}
+              ]
+            }
+          ],
+          "placeholder" => "(Select...)"
+        }
+      end
+
+      it 'return lookups and locations' do
+        get :index, params: { all: true, format: :json }
+        json_response = JSON.parse(response.body)
+        expect(json_response).to eq(@expected_response)
       end
     end
   end
