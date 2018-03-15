@@ -184,10 +184,10 @@ describe OptionsController do
             {
               "type"=>"Location",
               "options"=> [
-                {"id"=>"code_1000045", "display_text"=>"Country1"},
-                {"id"=>"code_1000046", "display_text"=>"Province1"},
-                {"id"=>"code_1000047", "display_text"=>"Province2"},
-                {"id"=>"code_1000048", "display_text"=>"Town1"}
+                {"id"=> @country.location_code, "display_text"=>"Country1"},
+                {"id"=> @province1.location_code, "display_text"=>"Province1"},
+                {"id"=> @province2.location_code, "display_text"=>"Province2"},
+                {"id"=> @town1.location_code, "display_text"=>"Town1"}
               ]
             }
           ],
