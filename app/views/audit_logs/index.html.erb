@@ -1,0 +1,15 @@
+<%=
+  render({
+    partial: 'record_shared/list_view_table',
+    locals: {
+      model: AuditLog,
+      record: 'audit_log',
+      collection: @audit_logs,
+      opts: {
+        display_actions: false,
+        display_filter: false,
+        display_create: false
+      }
+    }
+  })
+%>
