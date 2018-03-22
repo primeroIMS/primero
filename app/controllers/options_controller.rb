@@ -17,24 +17,24 @@ class OptionsController < ApplicationController
   def build_string_sources
     sources = []
 
-    if params[:string_sources].present?
+    if params[:string_sources].present? || params[:all].present?
       sources << get_lookups
-      sources << get_locations if params[:string_sources].include?('Location')
-      sources.reject{|source| source.nil?}.flatten
+      sources << get_locations if params[:string_sources].present? && params[:string_sources].include?('Location') || params[:all].present?
+      sources.reject{ |source| source.nil? }.flatten
     end
   end
 
   def get_lookups
-    lookups = Lookup.all.all.select{|lookup| params[:string_sources].include?(lookup.id)}
+    lookups = params[:all].present? ? Lookup.all : Lookup.all(keys: params[:string_sources])
 
     if lookups.present?
-      lookups.map{|lookup| [{:type => lookup.id ,:options => lookup.lookup_values}]}
+      lookups.map{ |lookup| [{:type => lookup.id ,:options => lookup.lookup_values}] }
     else
       nil
     end
   end
 
   def get_locations
-    {type: 'Location', options: Location.all_names(locale: I18n.locale)}
+    { type: 'Location', options: Location.all_names(locale: I18n.locale) }
   end
 end
