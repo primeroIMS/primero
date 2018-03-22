@@ -4,6 +4,7 @@ require 'rails_helper'
 
 describe OptionsController do
   before do
+    FormSection.all.each &:destroy
     Location.all.each &:destroy
     Lookup.all.each &:destroy
     @country = create :location, placename_en: "Country1", placename_fr: "French Country1", admin_level: 0
@@ -156,6 +157,47 @@ describe OptionsController do
           json_response = JSON.parse(response.body)
           expect(json_response).to eq(@expected_response)
         end
+      end
+    end
+
+    context 'when all param is true' do
+      before do
+        @expected_response = {
+          "success" => 1,
+          "sources" => [
+            {
+              "type"=>"lookup-a",
+              "options"=> [
+                {"id"=>"a", "display_text"=>"A"},
+                {"id"=>"aa", "display_text"=>"AA"}
+              ]
+            },
+            {
+              "type"=>"lookup-b",
+              "options"=> [
+                {"id"=>"b", "display_text"=>"B"},
+                {"id"=>"bb", "display_text"=>"BB"},
+                {"id"=>"bbb", "display_text"=>"BBB"}
+              ]
+            },
+            {
+              "type"=>"Location",
+              "options"=> [
+                {"id" => @country.location_code, "display_text" => "Country1"},
+                {"id" => @province1.location_code, "display_text" => "Province1"},
+                {"id" => @province2.location_code, "display_text" => "Province2"},
+                {"id" => @town1.location_code, "display_text" => "Town1"}
+              ]
+            }
+          ],
+          "placeholder" => "(Select...)"
+        }
+      end
+
+      it 'return lookups and locations' do
+        get :index, all: true, format: :json
+        json_response = JSON.parse(response.body)
+        expect(json_response).to eq(@expected_response)
       end
     end
   end
