@@ -7,12 +7,12 @@ module LoggerActions
 
   protected
 
-  def record_id
-    @record_id ||= params[:id] if params[:id].present?
+  def logger_record_id
+    @logger_record_id ||= params[:id] if params[:id].present?
   end
 
   def logger_action_identifier
-    @logger_action_identifier ||= (action_name == 'create') ? logger_model_titleize : "#{logger_model_titleize} '#{record_id}'"
+    @logger_action_identifier ||= (action_name == 'create') ? logger_model_titleize : "#{logger_model_titleize} '#{logger_record_id}'"
   end
 
   def logger_model_titleize
@@ -46,7 +46,7 @@ module LoggerActions
     return 0 if action_name == "index" && params[:format].blank?
 
     logger.info("#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}")
-    AuditLogJob.perform_later(user_name, action_name, logger_model_titleize, record_id)
+    AuditLogJob.perform_later(user_name, action_name, logger_model_titleize, logger_record_id)
   end
 
 end
