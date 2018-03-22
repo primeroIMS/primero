@@ -46,9 +46,7 @@ module LoggerActions
     return 0 if action_name == "index" && params[:format].blank?
 
     logger.info("#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}")
-    audit_log = AuditLog.new(user_name: user_name, action_name: action_name,
-                             record_id: record_id, record_type: logger_model_titleize)
-    audit_log.save
+    AuditLogJob.perform_later(user_name, action_name, logger_model_titleize, record_id)
   end
 
 end
