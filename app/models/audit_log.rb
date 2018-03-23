@@ -13,10 +13,9 @@ class AuditLog < CouchRest::Model::Base
     view :by_timestamp
   end
 
-  def initialize *args
+  def initialize(*args)
     super
 
     self.timestamp ||= DateTime.now
   end
-
 end
