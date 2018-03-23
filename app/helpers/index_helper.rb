@@ -36,6 +36,8 @@ module IndexHelper
         list_view_header_bulk_export
       when "task"
         list_view_header_task
+      when "audit_log"
+        list_view_audit_log
       else
         []
     end
@@ -308,6 +310,16 @@ module IndexHelper
       {title: 'priority', sort_title: 'priority'},
       {title: 'type', sort_title: 'type'},
       {title: 'due_date', sort_title: 'due_date'}
+    ]
+  end
+
+  def list_view_audit_log
+    [
+      {title: 'user_name', sort_title: 'user_name'},
+      {title: 'action_name', sort_title: 'action_name'},
+      {title: 'record_type', sort_title: 'record_type'},
+      {title: 'id', sort_title: 'record_id'},
+      {title: 'timestamp', sort_title: 'timestamp'}
     ]
   end
 

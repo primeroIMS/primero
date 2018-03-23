@@ -3,21 +3,14 @@ class AuditLogsController < ApplicationController
   include RecordFilteringPagination
 
   def index
-    authorize! :index, AuditLog
+    #TODO - add AuditLog permissions/ability
+    # authorize! :index, AuditLog
 
-    #TODO
-    @audit_logs = []
-    @audit_logs = AuditLog.get
+    @audit_logs = AuditLog.by_timestamp(descending: true).all
     @audit_logs = @audit_logs.paginate
-
-
-    # @current_modules = nil #Hack because this is expected in templates used.
-    # @total_records = @tasks.size
-    # @per_page = per_page
-    #
-    # if @tasks.present?
-    #   @lookups = Lookup.all(keys: ['lookup-risk-level', 'lookup-service-type', 'lookup-followup-type'])
-    # end
+    @current_modules = nil #Hack because this is expected in templates used.
+    @total_records = @audit_logs.size
+    @per_page = per_page
   end
 
   def per_page
