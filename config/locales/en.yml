@@ -124,6 +124,7 @@ en:
      locations: "LOCATIONS"
      bulk_exports: "BULK EXPORTS"
      tasks: "TASKS"
+     audit_logs: "Audit Logs"
 
   buttons:
      delete: "Delete"
