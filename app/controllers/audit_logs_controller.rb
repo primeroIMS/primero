@@ -3,8 +3,7 @@ class AuditLogsController < ApplicationController
   include RecordFilteringPagination
 
   def index
-    #TODO - add AuditLog permissions/ability
-    # authorize! :index, AuditLog
+    authorize! :index, AuditLog
 
     @audit_logs = AuditLog.by_timestamp(descending: true).all
     @audit_logs = @audit_logs.paginate

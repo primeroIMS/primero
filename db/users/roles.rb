@@ -803,6 +803,10 @@ superuser_permissions = [
   Permission.new(
     :resource => Permission::SYSTEM,
     :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+      :resource => Permission::AUDIT_LOG,
+      :actions => [Permission::MANAGE]
   )
 ]
 
