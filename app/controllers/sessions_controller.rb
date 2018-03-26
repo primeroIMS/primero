@@ -143,6 +143,20 @@ class SessionsController < ApplicationController
     nil
   end
 
+  def logger_model_titleize
+    nil
+  end
+
+  def logger_action_name
+    if action_name == 'create'
+      'login'
+    elsif action_name == 'destroy'
+      'logout'
+    else
+      super
+    end
+  end
+
   def by_action_user
     if action_name == 'create'
       params[:user_name].present? ? "#{I18n.t("logger.by_user", :locale => :en)} '#{params[:user_name]}'" : ''
