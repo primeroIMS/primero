@@ -409,6 +409,10 @@ module Record
     fd.nil? ? "" : fd.display_text(self.send(field_name), lookups)
   end
 
+  def display_id
+    short_id
+  end
+
   def update_with_attachments(params, user)
     new_photo = params[:child].delete("photo")
     new_photo = (params[:child][:photo] || "") if new_photo.nil?

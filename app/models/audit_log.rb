@@ -6,6 +6,7 @@ class AuditLog < CouchRest::Model::Base
   property :user_name
   property :action_name
   property :record_id
+  property :display_id
   property :record_type
   property :timestamp, DateTime
 

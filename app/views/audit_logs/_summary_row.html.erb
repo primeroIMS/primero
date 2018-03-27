@@ -2,6 +2,6 @@
   <td><%= field_format_date(record.timestamp) %></td>
   <td><%= I18n.t("logger.#{record.action_name}") %></td>
   <td><%= record.record_type %></td>
-  <td class="id_column"><%= record.record_id %></td>
+  <td class="id_column"><%= record.display_id %></td>
   <td><%= record.user_name %></td>
 </tr>
