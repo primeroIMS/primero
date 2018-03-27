@@ -83,13 +83,11 @@ class RolesController < ApplicationController
     role_hash[:permitted_form_ids] = params[:role][:permitted_form_ids]
     role_hash[:permissions] = []
     if params[:role][:permissions_list].present?
-      params[:role][:permissions_list].each do |permission|
-        #First element is the index value, second element is the actual hash
-        perm_hash = permission.second
-        role_hash[:permissions] << Permission.new(resource: perm_hash[:resource],
-                                                  actions: perm_hash[:actions],
-                                                  role_ids: perm_hash[:role_ids]
-                                                 ) if perm_hash[:actions].present?
+      params[:role][:permissions_list].values.each do |permission|
+        role_hash[:permissions] << Permission.new(resource: permission[:resource],
+                                                  actions: permission[:actions],
+                                                  role_ids: permission[:role_ids]
+                                                 ) if permission[:actions].present?
       end
     end
     role_hash
