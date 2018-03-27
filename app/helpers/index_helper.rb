@@ -316,11 +316,14 @@ module IndexHelper
   def list_view_audit_log
     [
       {title: 'timestamp', sort_title: 'timestamp'},
-      {title: 'action_name', sort_title: 'action_name'},
-      {title: 'record_type', sort_title: 'record_type'},
-      {title: 'id', sort_title: 'display_id'},
-      {title: 'user_name', sort_title: 'user_name'}
+      {title: 'user_name', sort_title: 'user_name'},
+      {title: 'action', sort_title: 'action_name'},
+      {title: 'description', sort_title: 'description'}
     ]
+  end
+
+  def audit_log_description(record)
+    record.display_id.present? ? "#{record.record_type} '#{record.display_id}'" : record.record_type
   end
 
   def index_filters_case
