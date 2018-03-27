@@ -5,9 +5,13 @@ class AuditLogsController < ApplicationController
   def index
     authorize! :index, AuditLog
 
+    #TODO should this fetch from solr instead to enable filtering
     @audit_logs = AuditLog.by_timestamp(descending: true).all
     @audit_logs = @audit_logs.paginate
     @current_modules = nil #Hack because this is expected in templates used.
+    @saved_searches = []   #Hack because this is expected in templates used.
+    @filters = {}          #Hack because this is expected in templates used.
+    @users = User.all.map(&:user_name)
     @total_records = @audit_logs.size
     @per_page = per_page
   end

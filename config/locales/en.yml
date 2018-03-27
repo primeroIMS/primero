@@ -659,6 +659,9 @@ en:
     show_more: 'show more'
     show_less: 'show less'
 
+  audit_logs:
+    filter_by:
+      user: 'User Name'
 
 
   preposition:
