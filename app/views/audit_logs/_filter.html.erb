@@ -4,7 +4,9 @@
     <a id="apply_filter" class="button"><%= t('cases.apply_filter') %></a>
   </div>
   <form id="index_filter_form" autocomplete="off">
-    <%= build_filter_checkboxes(t("audit_logs.filter_by.user"), 'user_name', @users, { multi: true }, false) %>
+    <%= render "filter_timestamp", record: 'audit_logs', date_field_title: 'timestamp', date_field: 'timestamp' %>
+    <%= build_filter_multi_select(t("audit_logs.filter_by.user"), 'user_name', @users) %>
+    <%= build_filter_checkboxes(t("audit_logs.filter_by.action"), 'action_name', audit_log_action_options) %>
   </form>
   <div class="clearfix"></div>
 </div>

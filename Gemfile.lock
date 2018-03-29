@@ -447,6 +447,7 @@ GEM
     thread (0.2.2)
     thread_safe (0.3.6)
     tilt (2.0.8)
+    timecop (0.9.1)
     ttfunk (1.5.1)
     turbolinks (5.1.0)
       turbolinks-source (~> 5.1)
@@ -553,6 +554,7 @@ DEPENDENCIES
   sunspot_solr (= 2.2.7)
   sunspot_test
   therubyracer (~> 0.12.2)
+  timecop (~> 0.9.1)
   turbolinks (~> 5)
   twitter_cldr
   tzinfo (= 1.2.4)

@@ -660,9 +660,25 @@ en:
     show_less: 'show less'
 
   audit_logs:
+    action_options:
+      login: "Login"
+      logout: "Logout"
+      create: "Creating"
+      copy: "Copying"
+      destroy: "Deleting"
+      show: "Viewing"
+      edit: "Editing"
+      update: "Updating"
+      export: "Exporting data for"
+      referral: "Referring"
+      reassign: "Assigning"
+      transfer: "Transfering"
+      reopen_case: "Reopening"
     filter_by:
+      action: 'Action Name'
+      date: 'Date'
+      timestamp: 'Timestamp'
       user: 'User Name'
-
 
   preposition:
     on_label: "on"

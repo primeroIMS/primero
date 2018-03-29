@@ -431,6 +431,15 @@ module IndexHelper
     return options
   end
 
+  def audit_log_action_options
+    options = []
+    ['login', 'logout', 'create', 'copy', 'destroy', 'show', 'edit', 'update', 'export', 'referral', 'reassign',
+     'transfer', 'reopen_case'].each do |action|
+      options << {id: action, display_text: t("audit_logs.action_options.#{action}")}.with_indifferent_access
+    end
+    return options
+  end
+
   def visible_filter_field?(field_name, forms)
     return false if forms.blank?
     fields = forms.map{|fs| fs.fields.select{|f| f.name == field_name} }.flatten

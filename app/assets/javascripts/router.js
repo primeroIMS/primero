@@ -11,6 +11,7 @@ _primero.Router = Backbone.Router.extend({
     'cases': 'recordIndexPage',
     'tracing_requests': 'recordIndexPage',
     'potential_matches': 'recordIndexPage',
+    'audit_logs': 'recordIndexPage',
     'children/:id': 'recordShowPage',
     'reports/new': 'reportsForm',
     'reports/:id/edit': 'reportsForm',

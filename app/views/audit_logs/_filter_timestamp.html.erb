@@ -1,0 +1,31 @@
+<div class="filter">
+  <h3><%= t('audit_logs.filter_by.date') %></h3>
+  <div class="filter-controls row align-middle">
+    <div class="date_range">
+      <div class="row collapse">
+        <div class="medium-12 columns selectable">
+          <label class="has_date"><%=  %></label>
+          <%= select_tag date_field, options_for_select([[t('audit_logs.filter_by.timestamp'), 'timestamp']]),
+                         'class' => 'chosen-select selectable_date',
+                         'filter_type' => 'date_selectable' %>
+        </div>
+      </div>
+      <div class="row collapse">
+        <div class="medium-3 columns">
+          <label class="has_date"><%= t("fields.date_range.from") %></label>
+        </div>
+        <div class="medium-9 columns">
+          <%= text_field_tag "", "", class: "form_date_field from", id: "timestamp_from", filter_type: 'date_range', data: {timepicker: true} %>
+        </div>
+      </div>
+      <div class="row collapse">
+        <div class="medium-3 columns">
+          <label class="has_date"><%= t("fields.date_range.to") %></label>
+        </div>
+        <div class="medium-9 columns">
+          <%= text_field_tag "", "", class: "form_date_field to", id: "timestamp_to", filter_type: 'date_range', data: {timepicker: true} %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
