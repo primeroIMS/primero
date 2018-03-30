@@ -58,7 +58,7 @@ class AuditLogsController < ApplicationController
   def timestamp_params
     return {from: nil, to: nil} if params[:scope][:timestamp].blank?
     date_range = params[:scope][:timestamp].split('||').last.split('.')
-    {from: date_range.first, to: date_range.last}
+    {from: DateTime.parse(date_range.first), to: DateTime.parse(date_range.last)}
   end
 
 end

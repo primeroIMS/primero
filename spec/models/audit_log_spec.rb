@@ -106,6 +106,21 @@ describe AuditLog do
           expect(AuditLog.find_by_timestamp(20.hours.ago, 20.hours.ago)).to eq([@audit_log10])
         end
       end
+      context 'and from time is not a date/time' do
+        it 'retruns an empty array' do
+          expect(AuditLog.find_by_timestamp('abc', 1.hour.ago)).to eq([])
+        end
+      end
+      context 'and to time is not a date/time' do
+        it 'retruns an empty array' do
+          expect(AuditLog.find_by_timestamp(1.day.ago, 'def')).to eq([])
+        end
+      end
+      context 'and from time and to time are not date/times' do
+        it 'retruns an empty array' do
+          expect(AuditLog.find_by_timestamp('abc', 'def')).to eq([])
+        end
+      end
     end
   end
 

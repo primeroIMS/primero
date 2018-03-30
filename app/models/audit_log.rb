@@ -46,7 +46,7 @@ class AuditLog < CouchRest::Model::Base
     private
 
     def valid_times?(from_time, to_time)
-      return false if !valid_time?(from_time) || !valid_time?(to_time)
+      return false unless valid_time?(from_time) && valid_time?(to_time)
       return false if from_time.present? && to_time.present? && from_time > to_time
       true
     end
