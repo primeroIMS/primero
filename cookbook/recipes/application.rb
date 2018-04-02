@@ -129,7 +129,7 @@ end
 logrotate_app 'primero-production' do
   path ::File.join(rails_log_dir, '*.log')
   size 50 * 1024 * 1024
-  rotate 2
+  rotate 20
   frequency nil
   options %w( copytruncate delaycompress compress notifempty missingok )
 end
