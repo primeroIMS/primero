@@ -126,6 +126,14 @@ scheduler_log_dir = ::File.join(node[:primero][:log_dir], 'scheduler')
   end
 end
 
+logrotate_app 'primero-production' do
+  path ::File.join(rails_log_dir, '*.log')
+  size 50 * 1024 * 1024
+  rotate 20
+  frequency nil
+  options %w( copytruncate delaycompress compress notifempty missingok )
+end
+
 unless node[:primero][:couchdb][:password]
   Chef::Application.fatal!("You must specify the couchdb password in your node JSON file (node[:primero][:couchdb][:password])!")
 end
