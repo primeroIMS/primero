@@ -409,6 +409,7 @@ describe TracingRequestsController, :type => :controller do
       TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
       controller.stub :get_form_sections
+      allow(@mock_tracing_request).to receive(:display_id).and_return('37')
       get :show, params: { :id => "37" }
       assigns[:tracing_request].should equal(mock_tracing_request)
     end
@@ -437,6 +438,7 @@ describe TracingRequestsController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       TracingRequest.stub(:allowed_formsections).and_return(grouped_forms)
+      allow(@mock_tracing_request).to receive(:display_id).and_return('37')
       get :show, params: { :id => "37" }
       assigns[:form_sections].should == grouped_forms
     end
@@ -484,6 +486,7 @@ describe TracingRequestsController, :type => :controller do
       TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       controller.stub :get_form_sections
+      allow(@mock_tracing_request).to receive(:display_id).and_return('37')
       get :edit, params: { :id => "37" }
       assigns[:tracing_request].should equal(mock_tracing_request)
     end
@@ -493,6 +496,7 @@ describe TracingRequestsController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       TracingRequest.stub(:allowed_formsections).and_return(grouped_forms)
+      allow(@mock_tracing_request).to receive(:display_id).and_return('37')
       get :edit, params: { :id => "37" }
       assigns[:form_sections].should == grouped_forms
     end
