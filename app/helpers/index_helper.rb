@@ -315,7 +315,7 @@ module IndexHelper
 
   def list_view_audit_log
     [
-      {title: 'timestamp', sort_title: 'timestamp'},
+      {title: 'timestamp - UTC', sort_title: 'timestamp'},
       {title: 'user_name', sort_title: 'user_name'},
       {title: 'action', sort_title: 'action_name'},
       {title: 'description', sort_title: 'description'}
@@ -428,15 +428,6 @@ module IndexHelper
     options << [t('children.selectable_date_options.date_case_plan_initiated'), 'date_case_plan']
     options << [t('children.selectable_date_options.closure_approved_date'), 'date_closure']
     options << [t('children.selectable_date_options.created_at'), 'created_at'] if @is_gbv
-    return options
-  end
-
-  def audit_log_action_options
-    options = []
-    ['login', 'logout', 'create', 'copy', 'destroy', 'show', 'edit', 'update', 'export', 'referral', 'reassign',
-     'transfer', 'reopen_case'].each do |action|
-      options << {id: action, display_text: t("audit_logs.action_options.#{action}")}.with_indifferent_access
-    end
     return options
   end
 

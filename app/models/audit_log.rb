@@ -12,8 +12,10 @@ class AuditLog < CouchRest::Model::Base
 
   design do
     view :by_timestamp
+  end
+
+  design :user_name_and_timestamp do
     view :by_user_name_and_timestamp
-    view :by_action_name_and_timestamp
   end
 
   def initialize(*args)
@@ -34,13 +36,6 @@ class AuditLog < CouchRest::Model::Base
       return [] unless valid_times?(from_time, to_time)
       to_time ||= DateTime.now
       by_user_name_and_timestamp(descending: true, startkey: [search_user_name, to_time], endkey: [search_user_name, from_time]).all
-    end
-
-    def find_by_action_name_and_timestamp(search_action_name, from_time=nil, to_time=nil)
-      return [] unless search_action_name.present? && search_action_name.is_a?(String)
-      return [] unless valid_times?(from_time, to_time)
-      to_time ||= DateTime.now
-      by_action_name_and_timestamp(descending: true, startkey: [search_action_name, to_time], endkey: [search_action_name, from_time]).all
     end
 
     private

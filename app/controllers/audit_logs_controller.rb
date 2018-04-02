@@ -25,7 +25,6 @@ class AuditLogsController < ApplicationController
   def load_audit_logs
     if params[:scope].present?
       @user_name_params = user_name_params
-      @action_name_params = action_name_params
       @timestamp_name_params = timestamp_params
 
       if @user_name_params
@@ -33,10 +32,6 @@ class AuditLogsController < ApplicationController
         @audit_logs = AuditLog.find_by_user_name_and_timestamp(@user_name_params,
                                                                @timestamp_name_params[:from],
                                                                @timestamp_name_params[:to])
-      elsif @action_name_params
-        @audit_logs = AuditLog.find_by_action_name_and_timestamp(@action_name_params,
-                                                                 @timestamp_name_params[:from],
-                                                                 @timestamp_name_params[:to])
       else
         @audit_logs = AuditLog.find_by_timestamp(@timestamp_name_params[:from], @timestamp_name_params[:to])
       end
@@ -46,27 +41,14 @@ class AuditLogsController < ApplicationController
   end
 
   def user_name_params
-    #TODO do we need to handle multiple?   If so, couch query is getting wooly
+    #TODO do we need to handle multiple?
     params[:scope][:user_name].split('||').last if params[:scope][:user_name].present?
-  end
-
-  def action_name_params
-    #TODO do we need to handle multiple?   If so, couch query is getting wooly
-    params[:scope][:action_name].split('||').last if params[:scope][:action_name].present?
   end
 
   def timestamp_params
     return {from: nil, to: nil} if params[:scope][:timestamp].blank?
     date_range = params[:scope][:timestamp].split('||').last.split('.')
-    {from: local_time_to_UTC(date_range.first), to: local_time_to_UTC(date_range.last)}
-  end
-
-
-  def local_time_to_UTC(date_time_string)
-    #TODO: not my finest moment.   This needs to be cleaned up
-    #TODO: Need to convert date string from params (in local time) to UTC... but as a Datetime
-    dt = DateTime.parse(date_time_string).change(offset: Time.now.in_time_zone.zone).utc
-    DateTime.parse(dt.to_s)
+    {from: DateTime.parse(date_range.first), to: DateTime.parse(date_range.last)}
   end
 
 end
