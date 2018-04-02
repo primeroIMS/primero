@@ -58,7 +58,15 @@ class AuditLogsController < ApplicationController
   def timestamp_params
     return {from: nil, to: nil} if params[:scope][:timestamp].blank?
     date_range = params[:scope][:timestamp].split('||').last.split('.')
-    {from: DateTime.parse(date_range.first), to: DateTime.parse(date_range.last)}
+    {from: local_time_to_UTC(date_range.first), to: local_time_to_UTC(date_range.last)}
+  end
+
+
+  def local_time_to_UTC(date_time_string)
+    #TODO: not my finest moment.   This needs to be cleaned up
+    #TODO: Need to convert date string from params (in local time) to UTC... but as a Datetime
+    dt = DateTime.parse(date_time_string).change(offset: Time.now.in_time_zone.zone).utc
+    DateTime.parse(dt.to_s)
   end
 
 end
