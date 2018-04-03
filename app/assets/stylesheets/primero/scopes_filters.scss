@@ -99,15 +99,7 @@ div.scope_bar {
       margin: 0;
       padding: .5em 1em;
 
-      &:first-of-type {
-        @if $global-text-direction == rtl {
-          border-left: none;
-        } @else {
-          border-right: none;
-        }
-      }
-
-      &:last-of-type {
+      &:not(:first-of-type) {
         @if $global-text-direction == rtl {
           border-right: none;
         } @else {
