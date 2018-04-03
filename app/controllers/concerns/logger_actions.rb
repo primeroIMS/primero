@@ -28,7 +28,11 @@ module LoggerActions
   end
 
   def logger_action_name
-    action_name
+    if action_name == "transition"
+      transition_type
+    else
+      action_name
+    end
   end
 
   def by_action_user
