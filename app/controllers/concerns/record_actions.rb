@@ -471,27 +471,28 @@ module RecordActions
 
   #Override method in LoggerActions.
   #TODO v1.3: make sure the mobile syncs are audited
-  def logger_action_titleize
+  def logger_action_name
     if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
       #Export action take on the show controller method.
       #In order to know that is an "Export" use the <format>.
       #Empty <format> is for read view.
-      I18n.t("logger.export", :locale => :en)
+      'export'
     elsif action_name == "transition"
       #Transition is the action but does not says what kind of transition is
       #So must use the transition_type parameters to know that.
-      I18n.t("logger.#{transition_type}", :locale => :en)
+      transition_type
     elsif action_name == "mark_for_mobile"
       #The effective action on the record is at the parameter <mobile_value>.
-      I18n.t("logger.mark_for_mobile.#{params[:mobile_value]}", :locale => :en)
+      "mark_for_mobile.#{params[:mobile_value]}"
     elsif action_name == "request_approval"
       #The effective action on the record is at the parameter <approval_type>.
-      I18n.t("logger.request_approval.#{params[:approval_type]}", :locale => :en)
+      "request_approval.#{params[:approval_type]}"
     elsif action_name == "approve_form"
       #The effective action on the record is at the parameter <approval_type> and <approval>.
-      "#{I18n.t("logger.approve_form.#{params[:approval] || "false"}", :locale => :en)} #{I18n.t("logger.approve_form.#{params[:approval_type]}", :locale => :en)}"
+      "approve_form.#{params[:approval] || "false"}"
+      # "#{I18n.t("logger.approve_form.#{params[:approval] || "false"}", :locale => :en)} #{I18n.t("logger.approve_form.#{params[:approval_type]}", :locale => :en)}"
     elsif action_name == "transfer_status"
-      I18n.t("logger.transfer_status.#{params[:transition_status]}", :locale => :en)
+      "transfer_status.#{params[:transition_status]}"
     else
       super
     end

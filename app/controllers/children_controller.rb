@@ -360,9 +360,9 @@ class ChildrenController < ApplicationController
   end
 
   #Override method in LoggerActions.
-  def logger_action_titleize
+  def logger_action_name
     if action_name == "hide_name"
-      I18n.t("logger.hide_name.#{params[:protect_action]}", :locale => :en)
+      "hide_name.#{params[:protect_action]}"
     else
       super
     end
