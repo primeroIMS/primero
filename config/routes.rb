@@ -299,6 +299,7 @@ Primero::Application.routes.draw do
   match '/cases/:id/history' => 'child_histories#index', :as => :cases_history, :via => :get
   match '/users/:id/history' => 'user_histories#index', :as => :user_history, :via => :get
 
+  resources :audit_logs, only: [:index]
 
 #######################
 # REPLICATION URLS

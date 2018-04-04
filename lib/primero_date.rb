@@ -80,7 +80,7 @@ class PrimeroDate < Date
     if match_data
       self.determine_format(match_data)
       # Try to parse the value with the detected format
-      return Date.strptime self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format}"
+      return DateTime.strptime(self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format}")
     elsif match_data_with_time
       self.determine_format(match_data_with_time)
       datetime_eval = DateTime.strptime(self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format} %H:%M")

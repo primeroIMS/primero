@@ -38,6 +38,28 @@ describe 'shared/_side_tab.html.erb' do
       end
     end
 
+    context 'with Audit Log INDEX permissions' do
+      before do
+        fake_user_login(Permission.new(resource: Permission::AUDIT_LOG, actions: [Permission::READ]))
+      end
+
+      it 'has an Audit Log link' do
+        render :partial => 'shared/side_tab', :locals => {:highlight_page => ''}
+        expect(rendered).to have_link("Audit Logs")
+      end
+    end
+
+    context 'without Audit Log INDEX permissions' do
+      before do
+        fake_user_login(Permission.new(resource: Permission::USER, actions: [Permission::READ]))
+      end
+
+      it 'does not have an Audit Log link' do
+        render :partial => 'shared/side_tab', :locals => {:highlight_page => ''}
+        expect(rendered).not_to have_link("Audit Logs")
+      end
+    end
+
   end
 
   def fake_user_login(permissions)

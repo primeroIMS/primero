@@ -124,6 +124,7 @@ en:
      locations: "LOCATIONS"
      bulk_exports: "BULK EXPORTS"
      tasks: "TASKS"
+     audit_logs: "Audit Logs"
 
   buttons:
      delete: "Delete"
@@ -658,7 +659,26 @@ en:
     show_more: 'show more'
     show_less: 'show less'
 
-
+  audit_logs:
+    action_options:
+      login: "Login"
+      logout: "Logout"
+      create: "Creating"
+      copy: "Copying"
+      destroy: "Deleting"
+      show: "Viewing"
+      edit: "Editing"
+      update: "Updating"
+      export: "Exporting data for"
+      referral: "Referring"
+      reassign: "Assigning"
+      transfer: "Transfering"
+      reopen_case: "Reopening"
+    filter_by:
+      action: 'Action Name'
+      date: 'Date'
+      timestamp: 'Timestamp'
+      user: 'User Name'
 
   preposition:
     on_label: "on"
@@ -984,6 +1004,7 @@ en:
       dash_cases_by_task_overdue: "View Cases By Task Overdue"
       dash_cases_to_assign: "View Cases To Assign"
       dash_show_none_values: "View None Values"
+      dash_tasks: "View Tasks"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
@@ -994,6 +1015,7 @@ en:
       saved_search: "Saved Search"
       save_search: "Save Searches"
       remove_assigned_users: "Remove other assigned users (referrals)"
+      audit_log: "Audit Log"
 
   forms:
     label: "Forms"

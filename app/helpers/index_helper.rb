@@ -36,6 +36,8 @@ module IndexHelper
         list_view_header_bulk_export
       when "task"
         list_view_header_task
+      when "audit_log"
+        list_view_audit_log
       else
         []
     end
@@ -309,6 +311,19 @@ module IndexHelper
       {title: 'type', sort_title: 'type'},
       {title: 'due_date', sort_title: 'due_date'}
     ]
+  end
+
+  def list_view_audit_log
+    [
+      {title: 'timestamp - UTC', sort_title: 'timestamp'},
+      {title: 'user_name', sort_title: 'user_name'},
+      {title: 'action', sort_title: 'action_name'},
+      {title: 'description', sort_title: 'description'}
+    ]
+  end
+
+  def audit_log_description(record)
+    record.display_id.present? ? "#{record.record_type} '#{record.display_id}'" : record.record_type
   end
 
   def index_filters_case

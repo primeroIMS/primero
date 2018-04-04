@@ -460,6 +460,11 @@ class Child < CouchRest::Model::Base
     ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url)
   end
 
+  #Override method in record concern
+  def display_id
+    case_id_display
+  end
+
   private
 
   def deprecated_fields

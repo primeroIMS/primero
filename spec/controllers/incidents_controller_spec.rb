@@ -441,6 +441,7 @@ describe IncidentsController, :type => :controller do
       Incident.stub(:allowed_formsections).and_return({})
       Incident.stub(:get).with("37").and_return(mock_incident({:module_id => 'primeromodule-mrm'}))
       controller.stub :get_form_sections
+      allow(@mock_incident).to receive(:display_id).and_return('37')
       get :show, params: {:id => "37"}
       assigns[:incident].should equal(mock_incident)
     end
@@ -450,6 +451,7 @@ describe IncidentsController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       Incident.stub(:allowed_formsections).and_return(grouped_forms)
+      allow(@mock_incident).to receive(:display_id).and_return('37')
       get :show, params: {:id => "37"}
       assigns[:form_sections].should == grouped_forms
     end
@@ -498,6 +500,7 @@ describe IncidentsController, :type => :controller do
       Incident.stub(:allowed_formsections).and_return({})
       Incident.stub(:get).with("37").and_return(mock_incident)
       controller.stub :get_form_sections
+      allow(@mock_incident).to receive(:display_id).and_return('37')
       get :edit, params: {:id => "37"}
       assigns[:incident].should equal(mock_incident)
     end
@@ -507,6 +510,7 @@ describe IncidentsController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       Incident.stub(:allowed_formsections).and_return(grouped_forms)
+      allow(@mock_incident).to receive(:display_id).and_return('37')
       get :edit, params: {:id => "37"}
       assigns[:form_sections].should == grouped_forms
     end

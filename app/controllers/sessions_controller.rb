@@ -129,17 +129,21 @@ class SessionsController < ApplicationController
   end
 
   #Override methods in LoggerActions.
-  def logger_action_titleize
+  def logger_action_name
     if action_name == 'create'
-      I18n.t("logger.login", :locale => :en)
+      'login'
     elsif action_name == 'destroy'
-      I18n.t("logger.logout", :locale => :en)
+      'logout'
     else
       super
     end
   end
 
   def logger_action_identifier
+    nil
+  end
+
+  def logger_model_titleize
     nil
   end
 
