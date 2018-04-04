@@ -462,8 +462,6 @@ module RecordActions
   end
 
   #Override method in LoggerActions.
-  #TODO: can we refactor to reconcile similarities between this and logger_action_identifier?
-  #TODO: do we need to handle other conditions... like for TR/Incident/etc?
   def logger_display_id
     return @record.display_id if @record.present? && @record.respond_to?(:display_id)
     super

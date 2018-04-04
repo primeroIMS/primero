@@ -41,7 +41,6 @@ class AuditLogsController < ApplicationController
   end
 
   def user_name_params
-    #TODO do we need to handle multiple?
     params[:scope][:user_name].split('||').last if params[:scope][:user_name].present?
   end
 
