@@ -159,7 +159,6 @@ cp_caseworker_permissions = [
       Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::INCIDENT_FROM_CASE,
       Permission::CREATE,
-      Permission::SERVICES_SECTION_FROM_CASE,
       Permission::REFERRAL_FROM_SERVICE,
       Permission::REFERRAL,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,

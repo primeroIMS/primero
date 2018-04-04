@@ -14,6 +14,18 @@ end
 
 create_or_update_system_setting(
   default_locale: "en",
+  auto_populate_list: [
+    {
+      field_key: "name",
+      format: [
+        "name_first",
+        "name_middle",
+        "name_last"
+      ],
+      separator: " ",
+      auto_populated: true
+    }
+  ],
   reporting_location_config: {
     field_key: "owned_by_location",
     label_key: "district",
@@ -27,7 +39,7 @@ create_or_update_system_setting(
   show_alerts: true,
   approval_forms_to_alert: {
     "cp_bia_form" => "bia",
-    "services" => "case_plan",
+    "cp_case_plan" => "case_plan",
     "closure_form" => "closure"
   },
   due_date_from_appointment_date: false,
