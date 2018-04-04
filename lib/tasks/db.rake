@@ -119,8 +119,8 @@ namespace :db do
       couch_models = CouchRest::Model::Base.subclasses
       couch_models.each do |couch_model|
         if couch_model.respond_to? :design_doc
-          puts "Syncing design doc for #{couch_model.name}"
-          couch_model.design_doc.sync!
+          puts "Syncing design docs for #{couch_model.name}"
+          couch_model.design_docs.each(&:sync!)
         end
       end
     end
