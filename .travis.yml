@@ -15,10 +15,8 @@ before_script:
 - cp config/travis/couchdb.yml config/
 - cp config/travis/sunspot.yml config/
 - cp config/travis/mailers.yml config/
-- mkdir solr/data
-- mkdir solr/data/test
-- mkdir solr/cores
-- mkdir solr/cores/test
+- mkdir -p solr/data/test
+- mkdir -p solr/cores/test
 - cp config/travis/core.properties solr/cores/test/
 script:
 - bundle exec rake sunspot:solr:start
