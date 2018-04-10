@@ -8,7 +8,7 @@
     "no_reseed": true,
     "git": {
       "repo": "https://github.com/primeroIMS/primero.git",
-      "revision": "maint_1.4"
+      "revision": "maint_1.5"
     },
     "couchdb": {
       "password": "primero",
