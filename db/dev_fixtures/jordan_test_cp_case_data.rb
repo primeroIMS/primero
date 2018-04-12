@@ -5,44 +5,6 @@
 
 total_count_of_records = 1000
 
-def create_agencies
-  new_agencies = [{
-    "id": "agency-international-rescue-committee",
-    "name": "International Rescue Committee",
-    "description": "",
-    "order": 0,
-    "logo_enabled": false,
-    "core_resource": false,
-    "agency_code": "IRC",
-  },
-  {
-    "id": "agency-international-medical-corps",
-    "name": "International Medical Corps",
-    "description": "",
-    "order": 0,
-    "logo_enabled": false,
-    "core_resource": false,
-    "agency_code": "IMC",
-  },
-  {
-    "id": "agency-terre-des-hommes-lausanne",
-    "name": "Terre Des Hommes - Lausanne",
-    "description": "",
-    "order": 0,
-    "logo_enabled": false,
-    "core_resource": false,
-    "agency_code": "TDH-L"
-  }]
-
-  new_agencies.each do |acy|
-    agency = Agency.find(acy[:id])
-
-    unless agency.present?
-      Agency.create!(acy)
-    end
-  end
-end
-
 def read_file(filename)
   f = File.open(filename, "r")
 
@@ -104,7 +66,6 @@ def user_agency(user)
   user.agency.try(:id)
 end
 
-create_agencies
 @agencies = Agency.all.all
 
 create_users
