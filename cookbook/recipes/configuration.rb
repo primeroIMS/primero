@@ -50,6 +50,9 @@ if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
   git node[:primero][:config_dir] do
     repository node[:primero][:seed][:git][:repo]
     revision node[:primero][:seed][:git][:revision]
+    #Note: The 2 options below are a workaround for a Chef 0.9.0 bug
+    enable_checkout false
+    checkout_branch 'deploy-config'
     action :sync
     user node[:primero][:app_user]
     group node[:primero][:app_group]
