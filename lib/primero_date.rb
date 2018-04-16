@@ -83,7 +83,7 @@ class PrimeroDate < Date
       # TODO: Rolled back the following commented time. Breaks dates that shouldn't include a time. It did
       # fix a rspec test.
       # return DateTime.strptime(self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format}")
-      return Date.strptime self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format}"
+      return Date.strptime(self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format}")
     elsif match_data_with_time
       self.determine_format(match_data_with_time)
       datetime_eval = DateTime.strptime(self.unlocalize_date_string(value), "%d-#{@month_format}-#{@year_format} %H:%M")
