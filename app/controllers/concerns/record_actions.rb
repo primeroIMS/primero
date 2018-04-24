@@ -27,6 +27,7 @@ module RecordActions
     before_action :can_access_approvals, :only => [:index]
     before_action :can_sync_mobile, :only => [:index]
     before_action :can_view_protection_concerns_filter, :only => [:index]
+    before_action :display_view_page, :only => [:index]
     before_action :view_reporting_filter, :only => [:index]
   end
 
@@ -338,6 +339,10 @@ module RecordActions
 
   def can_sync_mobile
     @can_sync_mobile = can?(:sync_mobile, model_class)
+  end
+
+  def display_view_page
+    @can_display_view_page = can?(:display_view_page, model_class)
   end
 
   def view_reporting_filter
