@@ -87,7 +87,9 @@ _primero.Router = Backbone.Router.extend({
     this.maskedUserAndPasswordReferal();
     this.maskedUserAndPasswordTransfer();
 
+
     if ($('#ids-search')) {
+      new _primero.Views.viewRecord();
       new _primero.Views.IdSearch();
     }
   },

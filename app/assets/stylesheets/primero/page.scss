@@ -11,6 +11,21 @@
   }
 }
 
+.data {
+  font-size: .85rem;
+
+  .key {
+    align-self: center;
+  }
+
+  .value {
+    background: #e9ecdd;
+    padding: .5em;
+    margin-bottom: 0.4em;
+    min-height: 2.4em;
+  }
+}
+
 table {
   @if $global-text-direction == rtl {
     direction: rtl
