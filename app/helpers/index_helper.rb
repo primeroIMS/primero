@@ -245,6 +245,7 @@ module IndexHelper
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager && !@id_search.present?
     header_list << {title: 'owned_by', sort_title: 'owned_by'} if @is_cp && @id_search.present?
     header_list << {title: 'owned_by_agency', sort_title: 'owned_by_agency'} if @is_cp && @id_search.present?
+    header_list << {title: '', sort_title: 'view'} if @id_search.present? && @can_display_view_page
 
     return header_list
   end
@@ -490,5 +491,34 @@ module IndexHelper
       'edit',
     ]
     actions.any?{ |p| can?(p.to_sym, model) }
+  end
+
+  def view_data(record)
+    data = [{ display_name: t('child.id'), value: record.short_id }]
+
+    included_fields = [
+      'owned_by',
+      'record-owner',
+      'owned_by_agency',
+      'clan_tribe'
+    ]
+
+    rejected_fields_types = [
+      'photo_upload_box',
+      'audio_upload_box'
+    ]
+
+    form_sections = record.class.allowed_formsections(current_user, record.module)
+    form_sections.each do |n, fs|
+      fs.each do |form|
+        fields =   form.fields.select{ |field| field.show_on_minify_form || included_fields.include?(field.name) }
+                       .reject{ |field|  rejected_fields_types.include? field.type }
+        fields.each do |f|
+          data << { display_name: f.display_name, value: field_value_for_display(record[f.name], f, @lookups) }
+        end
+      end
+    end
+
+    data.to_json
   end
 end
