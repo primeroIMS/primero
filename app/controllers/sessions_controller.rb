@@ -122,7 +122,7 @@ class SessionsController < ApplicationController
       :organization => user.organization,
       :module_ids => user.module_ids,
       :role_ids => user.role_ids,
-      :language => I18n.default_locale,
+      :language => user.locale || I18n.default_locale,
       :verified => user.verified?
     }
     render( options.merge( :json => json ) )
