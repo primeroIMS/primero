@@ -27,46 +27,68 @@ describe PrimeroDate do
     form.save!
     Incident.refresh_form_properties
   end
-  it "should parse valid date formats" do
-    incident = Incident.new
-    date = Date.strptime "2014-September-05", "%Y-%b-%d"
-    values = ["05-Sep-2014", "05-September-2014", "5-Sep-2014", "5-September-2014",
-      "05-Sep-14", "05-September-14", "5-Sep-14", "05-September-14",
-      "05-09-2014", "05-9-2014", "5-09-2014", "5-9-2014",
-      "05-09-14", "05-9-14", "5-09-14", "5-9-14",
-      "05/Sep/2014", "05/September/2014", "5/Sep/2014", "5/September/2014",
-      "05/Sep/14", "05/September/14", "5/Sep/14", "05/September/14",
-      "05/09/2014", "05/9/2014", "5/09/2014", "5/9/2014",
-      "05/09/14", "05/9/14", "5/09/14", "5/9/14"]
-    values.each do |value|
-      PrimeroDate.parse_with_format(value).should eq(date)
-      PrimeroDate.parse_with_format(value.gsub('-', ' - ')).should eq(date)
-      PrimeroDate.parse_with_format(value.gsub('/', ' / ')).should eq(date)
-      incident.incident_date_test = value
-      incident.incident_date_test.should eq(date)
-      incident.valid?.should eq(true)
+
+  context 'when value is a valid date' do
+    before do
+      @values = ["05-Sep-2014", "05-September-2014", "5-Sep-2014", "5-September-2014",
+                 "05-Sep-14", "05-September-14", "5-Sep-14", "05-September-14",
+                 "05-09-2014", "05-9-2014", "5-09-2014", "5-9-2014",
+                 "05-09-14", "05-9-14", "5-09-14", "5-9-14",
+                 "05/Sep/2014", "05/September/2014", "5/Sep/2014", "5/September/2014",
+                 "05/Sep/14", "05/September/14", "5/Sep/14", "05/September/14",
+                 "05/09/2014", "05/9/2014", "5/09/2014", "5/9/2014",
+                 "05/09/14", "05/9/14", "5/09/14", "5/9/14"]
+    end
+
+    it "should parse valid date formats" do
+      incident = Incident.new
+      date = Date.strptime "2014-September-05", "%Y-%b-%d"
+      @values.each do |value|
+        PrimeroDate.parse_with_format(value).should eq(date)
+        PrimeroDate.parse_with_format(value.gsub('-', ' - ')).should eq(date)
+        PrimeroDate.parse_with_format(value.gsub('/', ' / ')).should eq(date)
+        incident.incident_date_test = value
+        incident.incident_date_test.should eq(date)
+        incident.valid?.should eq(true)
+      end
+    end
+
+    it 'returns a Date' do
+      @values.each do |value|
+        expect(PrimeroDate.parse_with_format(value)).to be_a(Date)
+      end
     end
   end
 
-  it "should parse valid date/time formats" do
-    incident = Incident.new
-    date = DateTime.strptime "2014-September-05 13:15", "%Y-%b-%d %H:%M"
-    values = ["05-Sep-2014 13:15", "05-September-2014 13:15", "5-Sep-2014 13:15", "5-September-2014 13:15",
-      "05-Sep-14 13:15", "05-September-14 13:15", "5-Sep-14 13:15", "05-September-14 13:15",
-      "05-09-2014 13:15", "05-9-2014 13:15", "5-09-2014 13:15", "5-9-2014 13:15",
-      "05-09-14 13:15", "05-9-14 13:15", "5-09-14 13:15", "5-9-14 13:15",
-      "05/Sep/2014 13:15", "05/September/2014 13:15", "5/Sep/2014 13:15", "5/September/2014 13:15",
-      "05/Sep/14 13:15", "05/September/14 13:15", "5/Sep/14 13:15", "05/September/14 13:15",
-      "05/09/2014 13:15", "05/9/2014 13:15", "5/09/2014 13:15", "5/9/2014 13:15",
-      "05/09/14 13:15", "05/9/14 13:15", "5/09/14 13:15", "5/9/14 13:15"]
+  context 'when value is a valid date/time' do
+    before do
+      @values = ["05-Sep-2014 13:15", "05-September-2014 13:15", "5-Sep-2014 13:15", "5-September-2014 13:15",
+                 "05-Sep-14 13:15", "05-September-14 13:15", "5-Sep-14 13:15", "05-September-14 13:15",
+                 "05-09-2014 13:15", "05-9-2014 13:15", "5-09-2014 13:15", "5-9-2014 13:15",
+                 "05-09-14 13:15", "05-9-14 13:15", "5-09-14 13:15", "5-9-14 13:15",
+                 "05/Sep/2014 13:15", "05/September/2014 13:15", "5/Sep/2014 13:15", "5/September/2014 13:15",
+                 "05/Sep/14 13:15", "05/September/14 13:15", "5/Sep/14 13:15", "05/September/14 13:15",
+                 "05/09/2014 13:15", "05/9/2014 13:15", "5/09/2014 13:15", "5/9/2014 13:15",
+                 "05/09/14 13:15", "05/9/14 13:15", "5/09/14 13:15", "5/9/14 13:15"]
+    end
 
-    values.each do |value|
-      PrimeroDate.parse_with_format(value).should eq(date)
-      PrimeroDate.parse_with_format(value.gsub('-', ' - ')).should eq(date)
-      PrimeroDate.parse_with_format(value.gsub('/', ' / ')).should eq(date)
-      incident.incident_date_test = value
-      incident.incident_date_test.should eq(date)
-      incident.valid?.should eq(true)
+    it "should parse valid date/time formats" do
+      incident = Incident.new
+      date = DateTime.strptime "2014-September-05 13:15", "%Y-%b-%d %H:%M"
+      @values.each do |value|
+        PrimeroDate.parse_with_format(value).should eq(date)
+        PrimeroDate.parse_with_format(value.gsub('-', ' - ')).should eq(date)
+        PrimeroDate.parse_with_format(value.gsub('/', ' / ')).should eq(date)
+        incident.incident_date_test = value
+        incident.incident_date_test.should eq(date)
+        incident.valid?.should eq(true)
+      end
+    end
+
+    it 'returns a Time' do
+      @values.each do |value|
+        expect(PrimeroDate.parse_with_format(value)).to be_a(Time)
+      end
     end
   end
 
@@ -122,7 +144,7 @@ describe PrimeroDate do
       "5/Sip/2014", "5/Sept/2014", "09/15/2014", "09/15/14", "10 /jly/2014",
       "2014-Sep-05", "2014-September-05"]
     values.each do |value|
-      expect{PrimeroDate.parse_with_format(value)}.to raise_error(ArgumentError, 'invalid date')
+      expect{PrimeroDate.parse_with_format(value)}.to raise_error(ArgumentError)
       incident.incident_date_test = value
       incident.incident_date_test.should eq(value)
       incident.valid?.should eq(false)
