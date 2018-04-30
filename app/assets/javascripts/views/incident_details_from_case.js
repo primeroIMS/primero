@@ -4,6 +4,7 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
   events: {
     'click #incident_details_from_case_button' : 'populate_modal',
     'click #services_section_from_case_button' : 'populate_modal',
+    'click #services_section_from_case_button_submit' : 'submit_form_services_modal',
     'click .create_subform_submit': 'submit_form'
   },
 
@@ -13,6 +14,53 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
     _primero.loading_screen_indicator('show');
 
     form.submit();
+  },
+
+  submit_form_services_modal: function(event){
+    event.preventDefault();
+    var form = $(event.target).parents('form');
+    var self = this;
+    _primero.loading_screen_indicator('show');
+    form.ajaxSuccess(function() {
+      self.populate_modal_services();
+    });
+
+    form.submit();
+  },
+
+  populate_modal_services: function() {
+    var self = this;
+    var form_type = 'services_section';
+    var form_id = 'services_section';
+    var form_sidebar_id = 'services';
+    var selected_records = _primero.indexTable.get_selected_records();
+    if (selected_records.length === 1) {
+      $('#number_of_cases_error').remove();
+      var create_subform_url = '/cases/' + selected_records[0] + '/create_subform';
+      $.get(create_subform_url, {form_type: form_type, form_id: form_id, form_sidebar_id: form_sidebar_id}, function(response) {
+        if (response) {
+          $(self.el).find('#' + form_type + '_modal .' + form_type + '_container').html(response);
+          _primero.chosen('#' + form_type + '_modal form select');
+          _primero.populate_select_boxes();
+          $('#' + form_type + '_modal form').foundation();
+          $('#' + form_type + '_modal').foundation('open');
+          // $('#' + form_type + '_modal form input[id$="_date_of_birth"]').change(function(event) {
+          //   _primero.update_age(event);
+          // });
+          // $('#' + form_type + '_modal form input[id$="_age"]').change(function(event) {
+          //   _primero.update_date(event);
+          // });
+
+          _primero.init_autosize($('#' + form_type + '_modal').find('textarea'));
+        }
+      });
+    } else {
+      $('.error').remove();
+      $('.page_container').prepend(JST['templates/error_message']({
+        error_id: 'number_of_cases_error',
+        error_message: 'child.messages.create_details_error'
+      }));
+    }
   },
 
   populate_modal: function(event) {
