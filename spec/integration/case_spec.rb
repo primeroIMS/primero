@@ -36,7 +36,7 @@ feature "index page" do
   end
 
   feature "case index" do
-    before do
+    before(:all) do
       FormSection.all.each &:destroy
       PrimeroModule.all.each &:destroy
 
@@ -54,7 +54,7 @@ feature "index page" do
         ]
       )
 
-      incident_details_fs = create(:form_section,
+      @incident_details_fs = create(:form_section,
         unique_id: 'incident_details_container',
         fields: [
           build(:subform_field,
@@ -63,7 +63,7 @@ feature "index page" do
         ]
       )
 
-      services_fs = create(:form_section,
+      @services_fs = create(:form_section,
         unique_id: 'services',
         fields: [
           build(:subform_field,
@@ -72,7 +72,7 @@ feature "index page" do
         ]
       )
 
-      role = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
+      @role = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
         Permission::WRITE,
         Permission::READ,
         Permission::SERVICES_SECTION_FROM_CASE,
@@ -80,15 +80,19 @@ feature "index page" do
         Permission::INCIDENT_DETAILS_FROM_CASE,
       ])])
 
-      role2 = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
+      @role2 = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
         Permission::WRITE,
         Permission::READ,
         Permission::SERVICES_SECTION_FROM_CASE,
         Permission::INCIDENT_DETAILS_FROM_CASE,
       ])])
 
-      @user = setup_user(form_sections: [incident_details_fs, services_fs], primero_module: { id: PrimeroModule::CP }, roles: role)
-      @user2 = setup_user(form_sections: [incident_details_fs, services_fs], primero_module: { id: PrimeroModule::CP }, roles: role2)
+      Child.refresh_form_properties
+    end
+
+    before do
+      @user = setup_user(form_sections: [@incident_details_fs, @services_fs], primero_module: { id: PrimeroModule::CP }, roles: @role)
+      @user2 = setup_user(form_sections: [@incident_details_fs, @services_fs], primero_module: { id: PrimeroModule::CP }, roles: @role2)
 
       @case = create(:child, owned_by: @user.user_name, module_id: @user.module_ids.first)
       @case2 = create(:child, owned_by: @user2.user_name, module_id: @user2.module_ids.first)
@@ -107,7 +111,6 @@ feature "index page" do
       expect(page).to have_content "Incident Details"
       expect(page).to have_content "SAVE AND ADD SERVICE PROVISION"
       fill_in 'Test Input', with: 'test 1'
-
       find('a', text: 'SAVE AND ADD SERVICE PROVISION', match: :prefer_exact).click
       expect(page).to have_content "Response Overview"
       fill_in 'Test Input', with: 'test 2'
