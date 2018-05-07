@@ -147,6 +147,20 @@ class ChildrenController < ApplicationController
     redirect_to cases_path()
   end
 
+  def quick_view
+    child = Child.get(params['child_id'])
+    form_sections = child.present? ? child.class.allowed_formsections(current_user, child.module) : nil
+
+    html = ChildrenController.new.render_to_string(partial: "children/quick_view", layout: false, locals: {
+      child: child,
+      form_sections: form_sections
+    })
+
+    respond_to do |format|
+      format.html {render plain: html}
+    end
+  end
+
   def reopen_case
     child = Child.get(params[:child_id])
     authorize! :update, child

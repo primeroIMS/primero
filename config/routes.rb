@@ -134,6 +134,8 @@ Primero::Application.routes.draw do
   match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
   match '/cases/:child_id/create_subform' => 'children#create_subform', :as => :child_create_subform, :via => :get
   match '/cases/:child_id/save_subform' => 'children#save_subform', :as => :child_save_subform, :via => [:post, :put]
+  match '/cases/:child_id/quick_view' => 'children#quick_view', :as => :child_quick_view, :via => :get
+
 
 #Flag routing
   match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, model_class: 'Child', :via => [:post, :put]

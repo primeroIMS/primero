@@ -9,10 +9,11 @@ _primero.Views.viewRecord = _primero.Views.Base.extend({
     event.preventDefault();
     var record = $(event.target).data("record");
     var view_modal = $("#viewModal");
+    var view_path = '/cases/' + record + '/quick_view'
 
-    view_modal.html(
-      JST["templates/view_record"]({ data: record })
-    );
+    $.get(view_path, {}, function(html) {
+      view_modal.html(html);
+    });
 
     view_modal.trigger("open");
   }
