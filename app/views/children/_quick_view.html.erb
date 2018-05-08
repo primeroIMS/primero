@@ -12,8 +12,17 @@
       </div>
     <% end %>
   </div>
-
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
 </div>
+<% if (can_request_transfer && user.user_name != child.owned_by) %>
+    <div class="spacer"></div>
+    <div class="row">
+      <div class="columns small-12 ">
+        <a class="request-transfer-modal button" data-record="<%= child.id %>">
+          <%= I18n.t('buttons.request_transfer') %>
+        </a>
+      </div>
+    </div>
+<% end %>
+<button class="close-button" data-close aria-label="Close modal" type="button">
+  <span aria-hidden="true">&times;</span>
+</button>

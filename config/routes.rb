@@ -70,6 +70,7 @@ Primero::Application.routes.draw do
       post :transition
       post :mark_for_mobile
       post :approve_form
+      put :request_transfer
       get :search
       get :consent_count
     end
@@ -135,6 +136,7 @@ Primero::Application.routes.draw do
   match '/cases/:child_id/create_subform' => 'children#create_subform', :as => :child_create_subform, :via => :get
   match '/cases/:child_id/save_subform' => 'children#save_subform', :as => :child_save_subform, :via => [:post, :put]
   match '/cases/:child_id/quick_view' => 'children#quick_view', :as => :child_quick_view, :via => :get
+  match '/cases/:child_id/request_transfer_view' => 'children#request_transfer_view', :as => :request_transfer_view, :via => :get
 
 
 #Flag routing

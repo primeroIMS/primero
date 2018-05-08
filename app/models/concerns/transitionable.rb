@@ -69,6 +69,10 @@ module Transitionable
       TransitionNotifyJob.perform_later(transition_type, self.class.to_s, self.id, self.transitions.first.try(:id), host_url)
     end
 
+    def send_request_transfer_email(user_id, request_transfer_notes, host_url)
+      raise(I18n.t('request_transfer.error.owner_has_no_email')) if self.owner&.email.blank?
+      RequestTransferJob.perform_later(self.class.to_s, self.id, user_id, request_transfer_notes, host_url)
+    end
   end
 
   EXPORT_TYPE_PRIMERO = 'primero'
