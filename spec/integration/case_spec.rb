@@ -169,5 +169,6 @@ feature "index page" do
 
         expect(page).to have_content "Request transfer sent"
       end
+    end
   end
 end
