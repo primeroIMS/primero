@@ -34,4 +34,44 @@ feature "index page" do
       end
     end
   end
+
+  feature "index" do
+    feature "transfer request modal" do
+      before do
+        @role = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
+          Permission::WRITE,
+          Permission::READ,
+          Permission::DISPLAY_VIEW_PAGE,
+          Permission::REQUEST_TRANSFER,
+          Permission::SEARCH_OWNED_BY_OTHERS
+        ])])
+        @user = setup_user(roles: @role)
+        @case = create(:child, owned_by: @user.user_name, module_id: @user.module_ids.first)
+
+        @user2 = setup_user()
+
+        Sunspot.commit
+      end
+
+      scenario "sends transfer request", search: true do
+        create_session(@user2, 'password123')
+        visit("/cases")
+        search_for(@case.short_id)
+
+        within('table') do
+         find('.record-view-modal').click
+        end
+
+        find(:css, '.request-transfer-modal').click
+
+        within('.transfer_request_form') do
+          fill_in 'request_transfer_notes', with: 'test'
+        end
+
+        click_on('Send Request')
+
+        expect(page).to have_content "Request transfer sent"
+      end
+    end
+  end
 end
