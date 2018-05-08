@@ -35,7 +35,104 @@ feature "index page" do
     end
   end
 
-  feature "index" do
+  feature "case index" do
+    feature "add service from incident details modal" do
+      before(:all) do
+        FormSection.all.each &:destroy
+        PrimeroModule.all.each &:destroy
+
+        incident_details_subform_fs = create(:form_section,
+          unique_id: 'incident_details_subform_section',
+          fields: [
+            build(:field, display_name: 'Test Input')
+          ]
+        )
+
+        services_subform_fs = create(:form_section,
+          unique_id: 'services_section',
+          fields: [
+            build(:field, display_name: 'Test Input')
+          ]
+        )
+
+        @incident_details_fs = create(:form_section,
+          unique_id: 'incident_details_container',
+          fields: [
+            build(:subform_field,
+              name: 'incident_details',
+              subform_section_id: incident_details_subform_fs.unique_id )
+          ]
+        )
+
+        @services_fs = create(:form_section,
+          unique_id: 'services',
+          fields: [
+            build(:subform_field,
+              name: 'services_section',
+              subform_section_id: services_subform_fs.unique_id )
+          ]
+        )
+
+        @role = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
+          Permission::WRITE,
+          Permission::READ,
+          Permission::SERVICES_SECTION_FROM_CASE,
+          Permission::SERVICE_PROVISION_INCIDENT_DETAILS,
+          Permission::INCIDENT_DETAILS_FROM_CASE,
+        ])])
+
+        @role2 = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
+          Permission::WRITE,
+          Permission::READ,
+          Permission::SERVICES_SECTION_FROM_CASE,
+          Permission::INCIDENT_DETAILS_FROM_CASE,
+        ])])
+
+        Child.refresh_form_properties
+      end
+
+      before do
+        @user = setup_user(form_sections: [@incident_details_fs, @services_fs], primero_module: { id: PrimeroModule::CP }, roles: @role)
+        @user2 = setup_user(form_sections: [@incident_details_fs, @services_fs], primero_module: { id: PrimeroModule::CP }, roles: @role2)
+
+        @case = create(:child, owned_by: @user.user_name, module_id: @user.module_ids.first)
+        @case2 = create(:child, owned_by: @user2.user_name, module_id: @user2.module_ids.first)
+
+        Sunspot.commit
+      end
+
+      scenario "it shows save and add service provision button on add incident modal", search: true do
+        create_session(@user, 'password123')
+        visit "/cases"
+        within('table') { find(:css, 'input').click }
+        click_on 'Actions'
+        within('#menu') do
+          find('a', text: 'Add Incident', match: :prefer_exact).click
+        end
+        expect(page).to have_content "Incident Details"
+        expect(page).to have_content "SAVE AND ADD SERVICE PROVISION"
+        fill_in 'Test Input', with: 'test 1'
+        find('a', text: 'SAVE AND ADD SERVICE PROVISION', match: :prefer_exact).click
+        expect(page).to have_content "Response Overview"
+        fill_in 'Test Input', with: 'test 2'
+        click_on 'Save'
+
+        expect(page).to have_content "Case #{@case.short_id} was successfully updated"
+      end
+
+      scenario "does not show service provision button without permission", search: true do
+        create_session(@user2, 'password123')
+        visit "/cases"
+        within('table') { find(:css, 'input').click }
+        click_on 'Actions'
+        within('#menu') do
+          find('a', text: 'Add Incident', match: :prefer_exact).click
+        end
+        expect(page).to have_content "Incident Details"
+        expect(page).to_not have_content "SAVE AND ADD SERVICE PROVISION"
+      end
+    end
+
     feature "transfer request modal" do
       before do
         @role = create(:role, permissions_list: [Permission.new(:resource => Permission::CASE, :actions => [
