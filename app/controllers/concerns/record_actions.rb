@@ -29,6 +29,7 @@ module RecordActions
     before_action :can_view_protection_concerns_filter, :only => [:index]
     before_action :display_view_page, :only => [:index]
     before_action :view_reporting_filter, :only => [:index]
+    before_action :can_request_transfer, :only => [:index, :quick_view]
   end
 
   def list_variable_name
@@ -343,6 +344,10 @@ module RecordActions
 
   def display_view_page
     @can_display_view_page = can?(:display_view_page, model_class)
+  end
+
+  def can_request_transfer
+    @can_request_transfer = can?(:request_transfer, model_class)
   end
 
   def view_reporting_filter

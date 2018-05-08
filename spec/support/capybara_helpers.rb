@@ -140,4 +140,11 @@ module CapybaraHelpers
     Lookup.all.each &:destroy
     Sunspot.commit
   end
+
+  def search_for(query)
+    fill_in 'query', with: query
+    within '#search_form ' do
+      find(:css, '.button').click
+    end
+  end
 end

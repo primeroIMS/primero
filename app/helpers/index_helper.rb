@@ -493,7 +493,7 @@ module IndexHelper
     actions.any?{ |p| can?(p.to_sym, model) }
   end
 
-  def view_data(record)
+  def view_data(record, form_sections)
     data = [{ display_name: t('child.id'), value: record.short_id }]
 
     included_fields = [
@@ -508,7 +508,6 @@ module IndexHelper
       'audio_upload_box'
     ]
 
-    form_sections = record.class.allowed_formsections(current_user, record.module)
     form_sections.each do |n, fs|
       fs.each do |form|
         fields =   form.fields.select{ |field| field.show_on_minify_form || included_fields.include?(field.name) }
@@ -519,6 +518,6 @@ module IndexHelper
       end
     end
 
-    data.to_json
+    data
   end
 end

@@ -67,6 +67,22 @@ module TransitionActions
     render json: {:record_count => total_count, :consent_count => consent_count}
   end
 
+  def request_transfer
+    authorize! :request_transfer, model_class
+    success = true
+    error_message = ''
+    begin
+      load_record
+      raise(I18n.t('request_transfer.error.record_not_found')) if @record.blank?
+      @record.send_request_transfer_email(current_user.id, request_transfer_notes, request.base_url)
+    rescue => error
+      success = false
+      error_message = error.message
+    end
+    flash[:notice] = I18n.t('request_transfer.success')
+    render json: {success: success, error_message: error_message, reload_page: true}
+  end
+
   private
 
   def is_consent_given?(record)
@@ -338,4 +354,7 @@ module TransitionActions
     @record_id ||= @record.short_id if @record.present?
   end
 
+  def request_transfer_notes
+    @request_transfer_notes ||= (params[:request_transfer_notes].present? ? params[:request_transfer_notes] : "")
+  end
 end

@@ -159,6 +159,36 @@ class ChildrenController < ApplicationController
     end
   end
 
+  def request_transfer_view
+    authorize! :request_transfer, model_class
+    child = Child.get(params['child_id'])
+
+    html = ChildrenController.new.render_to_string(partial: "children/request_transfer", layout: false, locals: {
+      child: child,
+    })
+
+    respond_to do |format|
+      format.html {render plain: html}
+    end
+  end
+
+  def quick_view
+    authorize! :display_view_page, model_class
+    child = Child.get(params['child_id'])
+    form_sections = child.present? ? child.class.allowed_formsections(current_user, child.module) : nil
+
+    html = ChildrenController.new.render_to_string(partial: "children/quick_view", layout: false, locals: {
+      child: child,
+      form_sections: form_sections,
+      user: current_user,
+      can_request_transfer: @can_request_transfer
+    })
+
+    respond_to do |format|
+      format.html {render plain: html}
+    end
+  end
+
   def reopen_case
     child = Child.get(params[:child_id])
     authorize! :update, child
