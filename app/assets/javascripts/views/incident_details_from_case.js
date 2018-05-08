@@ -46,10 +46,6 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
     form.foundation('validateForm');
   },
 
-  get_template: function(props) {
-
-  },
-
   populate_modal: function(event) {
     event.preventDefault();
     var self = this;
