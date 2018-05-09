@@ -25,6 +25,8 @@ class PotentialMatch < CouchRest::Model::Base
   belongs_to :child
   property :tr_subform_id
   property :average_rating, Float
+  property :aggregate_average_score, Float
+  property :likelihood
   property :status, String, :default => 'POTENTIAL'
   property :unique_identifier
   property :short_id
@@ -47,6 +49,12 @@ class PotentialMatch < CouchRest::Model::Base
   POTENTIAL = 'POTENTIAL'
   DELETED = 'DELETED'
   FIELD_MASK = '***'
+
+  LIKELY = 'likely'
+  POSSIBLE = 'possible'
+
+  NORMALIZED_THRESHOLD = 0.1
+  LIKELIHOOD_THRESHOLD = 0.7
 
   design do
     view :by_tracing_request_id
@@ -154,6 +162,15 @@ class PotentialMatch < CouchRest::Model::Base
 
   def set_visible(associated_user_names, type = 'tracing_request')
     self.visible = (associated_user_names.first == 'all' || associated_user_names.include?(self.send("#{type}_owned_by")))
+  end
+
+  def set_likelihood(score, aggregate_average_score)
+    self.aggregate_average_score = aggregate_average_score
+    if (score - aggregate_average_score) > 0.7
+      self.likelihood = LIKELY
+    else
+      self.likelihood = POSSIBLE
+    end
   end
 
   def case_age
@@ -265,27 +282,51 @@ class PotentialMatch < CouchRest::Model::Base
       end
     end
 
-    private
+    #TODO: consider thresholding and normalizing in separate methods
+    def matches_from_search(search_result)
+      matches = []
+      if search_result.present?
+        scores = search_result.values
+        max_score = scores.max
+        average_score = scores.reduce(0){|sum,x|sum+(x/max_score.to_f)} / scores.count.to_f
+        normalized_search_result = search_result.map{|k,v| [k,v/max_score.to_f]}
+        thresholded_search_result = normalized_search_result.select{|k,v| v > NORMALIZED_THRESHOLD}
+        thresholded_search_result.each do |id, score|
+          matches << yield(id, score, average_score)
+        end
+      end
+      return matches
+    end
 
-    def update_potential_match(child_id, tracing_request_id, score, subform_id, tr_age, tr_sex)
-      threshold = 0
-      pm = find_or_build tracing_request_id, child_id, subform_id
+    def build_potential_match(child_id, tracing_request_id, score, aggregate_average_score, subform_id, tr_age, tr_sex)
+      #TODO: In the old way of doing this, this was invoking find_or_build. But I think we always want to generate a fresh new potential match.
+      pm = PotentialMatch.new :tracing_request_id => tracing_request_id, :child_id => child_id, :tr_subform_id => subform_id
       pm.average_rating = score
+      pm.set_likelihood(score, aggregate_average_score)
+      #TODO MATCHING: This is inefficient - why are we making an extra db call?
       pm.case_id = Child.get_case_id(child_id)
+      #TODO MATCHING: This is inefficient - why are we making an extra db call?
       pm.child_age, pm.child_gender = Child.get_case_age_and_gender(child_id)
       pm.tr_age = tr_age
       pm.tr_gender = tr_sex
+      #TODO MATCHING: This is inefficient - why are we making an extra db call?
       pm.tr_id = TracingRequest.get_tr_id(tracing_request_id)
       pm.module_id = PrimeroModule::CP
       valid_score = score >= threshold
       should_mark_deleted = !valid_score && !pm.new? && !pm.deleted?
       if should_mark_deleted
         pm.mark_as_deleted
-        pm.save
       elsif valid_score
         pm.mark_as_potential_match
-        pm.save
       end
+      return pm
+    end
+
+    private
+
+    def update_potential_match(child_id, tracing_request_id, score, subform_id, tr_age, tr_sex)
+      potantial_match = build_potential_match(child_id, tracing_request_id, score, subform_id, tr_age, tr_sex)
+      potential_match.save
     end
 
     def find_or_build(tracing_request_id, child_id, subform_id)
