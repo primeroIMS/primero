@@ -14,7 +14,7 @@ _primero.Views.viewRecord = _primero.Views.Base.extend({
     $("#viewModal").empty();
   },
 
-  populate_modal(path, cb) {
+  populate_modal: function(path, cb) {
     var view_modal = $("#viewModal");
 
     $.get(path, {}, function(html) {
