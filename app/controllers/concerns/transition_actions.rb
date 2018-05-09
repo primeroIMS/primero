@@ -74,7 +74,15 @@ module TransitionActions
     begin
       load_record
       raise(I18n.t('request_transfer.error.record_not_found')) if @record.blank?
-      @record.send_request_transfer_email(current_user.id, request_transfer_notes, request.base_url)
+      @record.add_transition(Transition::TYPE_TRANSFER_REQUEST, @record.owned_by, '', current_user.agency&.id,
+                             Transition::TO_USER_LOCAL_STATUS_INPROGRESS, request_transfer_notes,
+                             false, '', current_user.user_name, false, '')
+
+      if @record.save
+        @record.send_request_transfer_email(current_user.id, request_transfer_notes, request.base_url)
+      else
+        raise(I18n.t('request_transfer.error.record_not_saved'))
+      end
     rescue => error
       success = false
       error_message = error.message
