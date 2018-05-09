@@ -312,8 +312,7 @@ class PotentialMatch < CouchRest::Model::Base
       #TODO MATCHING: This is inefficient - why are we making an extra db call?
       pm.tr_id = TracingRequest.get_tr_id(tracing_request_id)
       pm.module_id = PrimeroModule::CP
-      valid_score = score >= threshold
-      should_mark_deleted = !valid_score && !pm.new? && !pm.deleted?
+      should_mark_deleted = !pm.new? && !pm.deleted?
       if should_mark_deleted
         pm.mark_as_deleted
       elsif valid_score
