@@ -70,8 +70,7 @@ module Transitionable
     end
 
     def send_request_transfer_email(user_id, request_transfer_notes, host_url)
-      raise(I18n.t('request_transfer.error.owner_has_no_email')) if self.owner&.email.blank?
-      RequestTransferJob.perform_later(self.class.to_s, self.id, user_id, request_transfer_notes, host_url)
+      RequestTransferJob.perform_later(self.class.to_s, self.id, user_id, request_transfer_notes, host_url) if self.owner&.email.present?
     end
   end
 
