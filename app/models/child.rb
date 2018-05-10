@@ -71,8 +71,6 @@ class Child < CouchRest::Model::Base
   before_save :sync_protection_concerns
   before_save :auto_populate_name
 
-  after_save :find_match_tracing_requests unless (Rails.env == 'production')
-
   def initialize *args
     self['photo_keys'] ||= []
     self['document_keys'] ||= []
@@ -401,14 +399,22 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  #TODO: The method is broken: the check should be for 'tracing_request'.
+  #      Not fixing because find_match_tracing_requests is a shambles.
   def has_tracing_request?
     # TODO: this assumes if tracing-request is in associated_record_types then the tracing request forms are also present. Add check for tracing-request forms.
     self.module.present? && self.module.associated_record_types.include?('tracing-request')
   end
 
   #TODO v1.3: Need rspec test
+  #TODO: Current logic:
+  #  On an update to a case (already inefficient, because most updates to cases arent on matching fields),
+  #  find all TRs that now match (using Solr).
+  #  For those TRs invoke reverse matching logic (why? - probably because Lucene scores are not comparable between TR and Case seraches)
+  #  and update/create the resulting PotentialMatches.
+  #  Delete the untouched PotentialMatches that are no longer valid, because they are based on old searches.
   def find_match_tracing_requests
-    if has_tracing_request?
+    if has_tracing_request? #This always returns false - bug :)
       match_result = Child.find_match_records(match_criteria, TracingRequest)
       tracing_request_ids = match_result==[] ? [] : match_result.keys
       all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
