@@ -141,10 +141,15 @@ class TracingRequest < CouchRest::Model::Base
   end
 
   #TODO MATCHING: This is are-implementation of the method above
-  def matching_cases
+  def matching_cases(tracing_id=nil)
     matches = []
     if self.tracing_request_subform_section.present?
-      self.tracing_request_subform_section.each do |tr|
+      traces = if tracing_id.present?
+        self.tracing_request_subform_section.select{|t| t.unique_id == tracing_id}
+      else
+        self.tracing_request_subform_section
+      end
+      traces.each do |tr|
         match_criteria = match_criteria(tr)
         results = TracingRequest.find_match_records(match_criteria, Child, child_id)
         tr_matches = PotentialMatch.matches_from_search(results) do |case_id, score, average_score|

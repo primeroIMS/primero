@@ -282,7 +282,7 @@ class PotentialMatch < CouchRest::Model::Base
       end
     end
 
-    #TODO: consider thresholding and normalizing in separate methods
+    #TODO MATCHING: consider thresholding and normalizing in separate testable methods
     def matches_from_search(search_result)
       matches = []
       if search_result.present?
@@ -298,6 +298,7 @@ class PotentialMatch < CouchRest::Model::Base
       return matches
     end
 
+    #TODO MATCHING: Consider passing
     def build_potential_match(child_id, tracing_request_id, score, aggregate_average_score, subform_id, tr_age, tr_sex)
       #TODO: In the old way of doing this, this was invoking find_or_build. But I think we always want to generate a fresh new potential match.
       pm = PotentialMatch.new :tracing_request_id => tracing_request_id, :child_id => child_id, :tr_subform_id => subform_id
@@ -312,22 +313,24 @@ class PotentialMatch < CouchRest::Model::Base
       #TODO MATCHING: This is inefficient - why are we making an extra db call?
       pm.tr_id = TracingRequest.get_tr_id(tracing_request_id)
       pm.module_id = PrimeroModule::CP
+      pm.mark_as_potential_match
       should_mark_deleted = !pm.new? && !pm.deleted?
       if should_mark_deleted
         pm.mark_as_deleted
-      elsif valid_score
-        pm.mark_as_potential_match
       end
       return pm
     end
 
     private
 
+    #TODO MATCHING: This method may no longer be used and will eventually be deleted
     def update_potential_match(child_id, tracing_request_id, score, subform_id, tr_age, tr_sex)
       potantial_match = build_potential_match(child_id, tracing_request_id, score, subform_id, tr_age, tr_sex)
       potential_match.save
     end
 
+    #TODO MATCHING: This method is longer used,
+    #               but may be revamped when we turn persistence back on in the future
     def find_or_build(tracing_request_id, child_id, subform_id)
       potential_match = by_child_id_and_tr_subform_id.key([child_id, subform_id]).first
       return potential_match unless potential_match.nil?

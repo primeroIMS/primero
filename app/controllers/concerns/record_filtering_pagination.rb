@@ -119,7 +119,37 @@ module RecordFilteringPagination
     date_range
   end
 
-  #Use this method if we are not relying on Sunspot to paginate for us.
+  #Use this method if we are not relying on Sunspot to do record filtering
+  #TODO: Only implementing range and list type filters for PotentialMatch requirements.
+  #      Implement others as need rises
+  def apply_filter_to_records(records, filter)
+    records.select do |record|
+      select_this_record = true
+      filter.each do |field, field_filter|
+        type = field_filter[:type]
+        record_value = record.try(field)
+        case type
+        when 'list'
+          filter_values = field_filter[:value]
+          if record_value.is_a?(Array)
+            select_this_record &&= (filter_values & record_value).present?
+          else
+            select_this_record &&= filter_values.include?(record_value)
+          end
+        when 'range'
+          filter_ranges = field_filter[:value].map{|r| r[0].to_i..r[1].to_i}
+          in_range = filter_ranges.reduce(false){|result, range| result ||= range.include?(record_value)}
+          select_this_record &&= in_range
+        else
+          filter_value = field_filter[:value]
+          select_this_record &&= (record_value == filter_value)
+        end
+      end
+      select_this_record
+    end
+  end
+
+  #Use this method if we are not relying  on Sunspot to paginate for us.
   def paginated_collection(collection, total_rows)
     WillPaginate::Collection.create(page, per_page, total_rows) do |pager|
       pager.replace(collection)
