@@ -1982,6 +1982,7 @@ en:
     error:
       owner_has_no_email: "Record owner has no email address"
       record_not_found: "Record not found"
+      record_not_saved: "Failure saving Transfer Request record"
 
   transition:
     export_type:

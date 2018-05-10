@@ -763,3 +763,14 @@ create_or_update_lookup(
         {id: "both", display_text: "Both"}
     ]
 )
+
+create_or_update_lookup(
+    :id => "lookup-transition-type",
+    :name => "Transition Type",
+    :lookup_values => [
+        {id: "referral", display_text: "Referral"},
+        {id: "reassign", display_text: "Reassign"},
+        {id: "transfer", display_text: "Transfer"},
+        {id: "transfer_request", display_text: "Transfer Request"}
+    ].map(&:with_indifferent_access)
+)

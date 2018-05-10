@@ -1,9 +1,10 @@
 transitions_subform = [
     Field.new({"name" => "type",
-               "type" => "text_field",
+               "type" => "select_box",
                "editable"=>false,
                "disabled" => true,
                "display_name_all" => "Type",
+               "option_strings_source" => "lookup lookup-transition-type"
               }),
     Field.new({"name" => "to_user_local",
                "type" => "text_field",
