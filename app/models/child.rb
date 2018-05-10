@@ -214,7 +214,6 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  include Alertable
 
   def self.report_filters
     [

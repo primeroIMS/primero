@@ -6,13 +6,20 @@ module Alertable
   NEW_FORM = 'new_form'
   APPROVAL = 'approval'
   FIELD_CHANGE = 'field_change'
+  TRANSFER_REQUEST = 'transfer_request'
 
   included do
+    #TODO including Indexable causes errors when Alertable is included in the Record concern
+    #TODO As temp workaround, added hack code to Searchable concern 'searchable_alertable_fields'
+    #TODO sort out those issues and add back the searchable block below and remove hack code from Searchable concern
+    # include Indexable
+
     property :alerts, [Alert], :default => []
 
-    searchable do
-      string :current_alert_types, multiple: true
-    end
+    #TODO same as above, add back when Indexable issues are resolved
+    # searchable do
+    #   string :current_alert_types, multiple: true
+    # end
 
     before_save :remove_alert_on_save
     before_save :add_form_change_alert
@@ -26,11 +33,9 @@ module Alertable
     self.alerts.map {|a| a[:type]}.uniq
   end
 
-  def add_alert(current_user_name, type = nil, form_sidebar_id = nil)
-    if current_user_name != self.owned_by && self.alerts != nil
-      alert = Alert.new(type: type, date: DateTime.now.to_date, form_sidebar_id: form_sidebar_id, alert_for: NEW_FORM)
-      self.alerts << alert
-    end
+  def add_alert(alert_for, type = nil, form_sidebar_id = nil)
+    self.alerts = [] if self.alerts.nil?
+    self.alerts << Alert.new(type: type, date: DateTime.now.to_date, form_sidebar_id: form_sidebar_id, alert_for: alert_for)
   end
 
   def remove_alert(current_user_name, type = nil, form_sidebar_id = nil)
