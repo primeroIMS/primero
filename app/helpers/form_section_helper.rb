@@ -164,7 +164,7 @@ module FormSectionHelper
   def display_transfer_request_alert(formObject, section)
     found_alert = formObject&.alerts&.select{|alert| alert.type == 'transfer_request' && section.unique_id == alert.form_sidebar_id}&.first
     return nil if found_alert.blank?
-    {date: found_alert.try(:date), user: found_alert.try(:user), agency: found_alert.try(:agency)}
+    {date: field_format_date(Date.parse(found_alert.try(:date))), user: found_alert.try(:user), agency: found_alert.try(:agency)}
   end
 
   def display_help_text_on_view?(formObject, form_section)
