@@ -33,9 +33,10 @@ module Alertable
     self.alerts.map {|a| a[:type]}.uniq
   end
 
-  def add_alert(alert_for, type = nil, form_sidebar_id = nil)
+  def add_alert(alert_for, type = nil, form_sidebar_id = nil, user = nil, agency = nil)
     self.alerts = [] if self.alerts.nil?
-    self.alerts << Alert.new(type: type, date: DateTime.now.to_date, form_sidebar_id: form_sidebar_id, alert_for: alert_for)
+    self.alerts << Alert.new(type: type, date: DateTime.now.to_date, form_sidebar_id: form_sidebar_id,
+                             alert_for: alert_for, user: user, agency: agency)
   end
 
   def remove_alert(current_user_name, type = nil, form_sidebar_id = nil)

@@ -7,6 +7,8 @@ class Alert
   property :date, String
   property :form_sidebar_id, :default => nil
   property :unique_id
+  property :user
+  property :agency
 
   def initialize *args
     super
