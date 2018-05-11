@@ -40,11 +40,11 @@ module Alertable
   end
 
   def remove_alert(current_user_name, type = nil, form_sidebar_id = nil)
-    if current_user_name == self.owned_by && self.alerts != nil
+    if current_user_name == self.owned_by && self.alerts.present?
       if type.present?
         self.alerts.delete_if{|a| a[:type] == type}
       else
-        self.alerts.delete_if{|a| a[:alert_for] == NEW_FORM || a[:alert_for] == FIELD_CHANGE}
+        self.alerts.delete_if{|a| [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(a[:alert_for])}
       end
     end
   end
