@@ -21,7 +21,7 @@ module Alertable
     #   string :current_alert_types, multiple: true
     # end
 
-    before_save :remove_alert_on_save
+    before_update :remove_alert_on_save
     before_save :add_form_change_alert
   end
 
