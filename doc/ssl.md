@@ -27,7 +27,7 @@ To setup a new root Certificate Authority to sign CouchDB certs, you need to con
 Create the next directories and files to save the certificates and keys. You may need to do it as root.
 
 ```sh
-$ 
+$
 sudo mkdir -p /etc/pki/CA
 cd /etc/pki/CA
 sudo mkdir certs crl newcerts private
@@ -176,3 +176,6 @@ EXAMPLE:
 ```sh
 ubuntu@ubuntu:~/work/primero/cookbook/files$ cp /etc/pki/CA/certs/couch_ca.cert .
 ```
+
+#### Update self signed certs (If self-signed and easyrsa installed)
+`./easyrsa --subject-alt-name=DNS:[DOMAIN] build-server-full [DOMAIN] nopass`

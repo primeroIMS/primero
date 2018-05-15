@@ -35,6 +35,8 @@ Primero::Application.configure do
 
   config.filter_parameters += [:child, :incident, :tracing_request]
 
+  config.log_level = :debug
+
   # WARNING **
   # NEVER UNSET THIS OR YOU WILL BREAK THINGS!
   # config.force_ssl = true
