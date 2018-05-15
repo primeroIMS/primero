@@ -55,7 +55,8 @@ module RecordFilteringPagination
           #Assuming hash for fields that should be "OR" on the query search.
           #Normally "OR" are several values for the same field, in this case
           #need to ORerd different fields.
-          filter_values = params[:scope][key].map do |param_k, param_v|
+          filter_hash = params[:scope][key].is_a?(ActionController::Parameters) ? params[:scope][key].to_h : params[:scope][key]
+          filter_values = filter_hash.map do |param_k, param_v|
             values = param_v.split("||")
             filter_type = values.shift
             [param_k, values]
