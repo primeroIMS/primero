@@ -92,9 +92,11 @@ describe TransitionActions, type: :controller do
 
           User.stub(:find_by_user_name).with(@user.user_name).and_return(@user)
           @case4 = Child.create(name: 'Test Case 4', short_id: 'ddd444', module_id: PrimeroModule::CP,
-                                consent_for_services: true, disclosure_other_orgs: true, owned_by: @user_owner.user_name)
+                                consent_for_services: true, disclosure_other_orgs: true,
+                                owned_by: @user_owner.user_name, last_updated_by: @user_owner.user_name)
           @case5 = Child.create(name: 'Test Case 5', short_id: 'eee555', module_id: PrimeroModule::CP,
-                                consent_for_services: true, disclosure_other_orgs: true, owned_by: @user_owner.user_name)
+                                consent_for_services: true, disclosure_other_orgs: true,
+                                owned_by: @user_owner.user_name, last_updated_by: @user_owner.user_name)
         end
 
         it 'returns a success response' do

@@ -78,7 +78,8 @@ module TransitionActions
                              Transition::TO_USER_LOCAL_STATUS_INPROGRESS, request_transfer_notes,
                              false, '', current_user.user_name, false, '')
 
-      @record.add_alert(Alertable::TRANSFER_REQUEST, Alertable::TRANSFER_REQUEST, transition_form_id, current_user.user_name, current_user.agency&.id)
+      @record.update_last_updated_by(current_user)
+      @record.try(:add_alert, Alertable::TRANSFER_REQUEST, Alertable::TRANSFER_REQUEST, transition_form_id, current_user.user_name, current_user.agency&.id)
       if @record.save
         @record.send_request_transfer_email(current_user.id, request_transfer_notes, request.base_url)
       else
