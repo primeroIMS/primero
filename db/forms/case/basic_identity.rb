@@ -49,16 +49,17 @@ basic_identity_fields = [
              "type" => "text_field",
              "display_name_all" => "Full Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
-             "required" => true,
+             "required" => false,
              "show_on_minify_form" => true,
              "hidden_text_field" => true,
-             "matchable" => true
+             "matchable" => true,
+             "disabled" => true
             }),
   Field.new({"name" => "name_first",
              "type" => "text_field",
              "display_name_all" => "First Name",
              "show_on_minify_form" => true,
-             "required" => false,
+             "required" => true,
              "hide_on_view_page" => true,
              "matchable" => true
             }),
@@ -73,7 +74,7 @@ basic_identity_fields = [
              "type" => "text_field",
              "display_name_all" => "Surname",
              "show_on_minify_form" => true,
-             "required" => false,
+             "required" => true,
              "hide_on_view_page" => true,
              "matchable" => true
             }),
@@ -104,8 +105,7 @@ basic_identity_fields = [
              "type" => "date_field",
              "required" => false,
              "editable" => false,
-             "display_name_all" => "Date Assessment Due",
-             "visible" => false
+             "display_name_all" => "Date Assessment Due"
             }),
   Field.new({"name" => "sex",
              "type" => "select_box",

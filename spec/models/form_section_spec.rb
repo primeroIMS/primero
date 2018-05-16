@@ -145,6 +145,7 @@ describe FormSection do
                                 "multi_select"=>false,
                                 "type"=>"subform",
                                 "required"=>false,
+                                "option_strings_source"=>nil,
                                 "show_on_minify_form"=>false,
                                 "mobile_visible"=>true,
                                 :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested", "ar-LB"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested"},
