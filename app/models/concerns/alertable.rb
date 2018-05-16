@@ -9,17 +9,13 @@ module Alertable
   TRANSFER_REQUEST = 'transfer_request'
 
   included do
-    #TODO including Indexable causes errors when Alertable is included in the Record concern
-    #TODO As temp workaround, added hack code to Searchable concern 'searchable_alertable_fields'
-    #TODO sort out those issues and add back the searchable block below and remove hack code from Searchable concern
-    # include Indexable
+    include Indexable
 
     property :alerts, [Alert], :default => []
 
-    #TODO same as above, add back when Indexable issues are resolved
-    # searchable do
-    #   string :current_alert_types, multiple: true
-    # end
+    searchable do
+      string :current_alert_types, multiple: true
+    end
 
     before_update :remove_alert_on_save
     before_save :add_form_change_alert

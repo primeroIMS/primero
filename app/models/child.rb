@@ -172,6 +172,7 @@ class Child < CouchRest::Model::Base
   include Transitionable
   include Reopenable
   include Approvable
+  include Alertable
 
   # Searchable needs to be after other concern includes so that properties defined in those concerns get indexed
   include Searchable

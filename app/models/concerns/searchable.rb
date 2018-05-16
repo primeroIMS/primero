@@ -212,7 +212,6 @@ module Searchable
     end
 
     def searchable_multi_fields
-      searchable_alertable_fields +
       Field.all_filterable_multi_field_names(self.parent_form)
     end
 
@@ -243,12 +242,6 @@ module Searchable
     #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
     def searchable_transition_fields
       ['transfer_status']
-    end
-
-    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
-    #TODO: This needs to be removed when Indexable and search block are added back to Alertable concern
-    def searchable_alertable_fields
-      ['current_alert_types']
     end
 
     def pagination(pagination_parms={})
