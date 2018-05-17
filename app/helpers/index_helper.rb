@@ -157,8 +157,6 @@ module IndexHelper
     end
   end
 
-
-
   def build_datefield(filter)
     content_tag :div, class: 'filter-controls row align-middle' do
       concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
