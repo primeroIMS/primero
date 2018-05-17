@@ -659,6 +659,9 @@ en:
     score: 'score'
     show_more: 'show more'
     show_less: 'show less'
+    likelihood:
+      likely: 'Likely'
+      possible: 'Possible'
 
   audit_logs:
     action_options:

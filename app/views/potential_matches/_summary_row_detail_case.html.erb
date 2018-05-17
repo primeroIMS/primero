@@ -8,7 +8,7 @@
   </td>
   <td><%= detail.case_age %></td>
   <td><%= detail.case_sex %></td>
-  <td><%= detail.case_registration_date %></td>
+  <td><%= field_format_date(detail.case_registration_date) %></td>
   <td><%= detail.case_owned_by %></td>
-  <td><%= detail.average_rating.round(5) %></td>
+  <td><%= I18n.t("potential_match.likelihood.#{detail.likelihood}") + " " + detail.average_rating.round(5).to_s + " " + detail.aggregate_average_score.round(5).to_s %></td>
 </tr>

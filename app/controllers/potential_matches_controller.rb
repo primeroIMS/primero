@@ -60,6 +60,8 @@ class PotentialMatchesController < ApplicationController
     else
       load_tracing_request_matches
     end
+    #TODO MATCHING: Do we need this? are the search results already in correct order?
+    @potential_matches = @potential_matches.sort_by{|pm| pm.average_rating}.reverse
   end
 
 

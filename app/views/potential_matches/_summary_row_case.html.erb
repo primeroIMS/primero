@@ -17,11 +17,11 @@
     <td class="id_column"><%= link_to text_to_identify_potential_match_child(match_record), case_path(match_record.child_id), class: 'id_link' %></td>
     <td><%= match_record.case_age %></td>
     <td><%= match_record.case_sex %></td>
-    <td><%= match_record.case_registration_date %></td>
+    <td><%= field_format_date(match_record.case_registration_date) %></td>
   </tr>
   </tbody>
 </table>
-<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table tablesorter" id="myTable_<%= match_record.child_id %>">
+<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table" id="myTable_<%= match_record.child_id %>">
   <thead>
   <tr>
     <th><%= t("potential_match.inquirer_id") %></th>
