@@ -89,7 +89,7 @@ class Lookup < CouchRest::Model::Base
     lh = localized_hash(locale)
     lvh = {}
     self["lookup_values_#{locale}"].try(:each) {|lv| lvh[lv['id']] = lv['display_text']}
-    lh['lookup_values'] = lvh
+    lh['lookup_values'] = lvh if !lvh.empty?
     lh
   end
 

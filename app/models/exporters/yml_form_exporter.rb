@@ -89,7 +89,7 @@ module Exporters
       form_hash = {}
       form_hash[form_section.unique_id] = form_section.localized_property_hash(@locale, @show_hidden_fields)
       file_hash = {}
-      file_hash['en'] = form_hash
+      file_hash[@locale] = form_hash
       @io << file_hash.to_yaml
       complete
     end
@@ -103,7 +103,7 @@ module Exporters
         lookup_hash = {}
         lookups.each {|lkp| lookup_hash[lkp.id] = lkp.localized_property_hash(@locale)}
         file_hash = {}
-        file_hash['en'] = lookup_hash
+        file_hash[@locale] = lookup_hash
         @io << file_hash.to_yaml
         complete
       else
