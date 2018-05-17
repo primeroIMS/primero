@@ -143,23 +143,21 @@ module IndexHelper
     end
   end
 
-  def build_filter_multi_select(title, filter, items)
+  def build_filter_select(title, filter, items, multi_select = true)
     if items.present? && items.first.is_a?(Hash)
       items = items.map{|item| [item['display_text'], item['id']]}
     end
 
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
-      concat(select_tag filter,
-        options_for_select(items),
-        'class' => 'chosen-select',
-        'filter_type' => 'list',
-        'multiple' => true,
-        'data-placeholder' => t("fields.select_box_empty_item"), :id => filter
-        )
+      concat(select_tag filter, options_for_select(items), class: 'chosen-select', filter_type: 'list',
+                        multiple: multi_select, include_blank: t("fields.select_box_empty_item"),
+                        'data-placeholder' => t("fields.select_box_empty_item"), id: filter)
       concat(content_tag(:div, '', class: 'clearfix'))
     end
   end
+
+
 
   def build_datefield(filter)
     content_tag :div, class: 'filter-controls row align-middle' do
