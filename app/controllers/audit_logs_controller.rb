@@ -6,16 +6,16 @@ class AuditLogsController < ApplicationController
 
   def index
     authorize! :index, AuditLog
-
-    @audit_logs = @audit_logs.paginate
     @current_modules = nil #Hack because this is expected in templates used.
     @saved_searches = []   #Hack because this is expected in templates used.
     @filters = {}          #Hack because this is expected in templates used.
     @users = User.all.map(&:user_name)
-    @total_records = @audit_logs.size
     @per_page = per_page
+    @audit_logs = @audit_logs.paginate(page: page, per_page: per_page)
+    @total_records = @audit_logs.total_entries
   end
 
+  #Override method defined in record_filtering_pagination
   def per_page
     params[:per] ? params[:per].to_i : 100
   end
