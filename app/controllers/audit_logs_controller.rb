@@ -16,7 +16,8 @@ class AuditLogsController < ApplicationController
     #  all:    Only the chunk of records in the range as defined by page & per_page
     @total_records = @audit_log_result.count
     @per_page = per_page
-    @audit_logs = paginated_collection(@audit_log_result.all, @total_records)
+    audit_log_recs = @audit_log_result.try(:all) || []
+    @audit_logs = paginated_collection(audit_log_recs, @total_records)
   end
 
   #Override method defined in record_filtering_pagination

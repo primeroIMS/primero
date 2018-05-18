@@ -70,55 +70,123 @@ describe AuditLog do
   end
 
   describe 'find_by_timestamp' do
-    context 'when no parameters are passed in' do
-      it 'returns all entries sorted by timestamp in descending order' do
-        expect(AuditLog.find_by_timestamp).to eq([@audit_log14, @audit_log13, @audit_log12, @audit_log11, @audit_log10,
-                                                  @audit_log9, @audit_log8, @audit_log7, @audit_log6, @audit_log5,
-                                                  @audit_log4, @audit_log3, @audit_log2, @audit_log1, @audit_log0])
+    context 'when per_page is greater than number of records' do
+      let(:per_page) { 100 }
+
+      context 'and no time parameters are passed in' do
+        let(:audit_log_result) { AuditLog.find_by_timestamp(nil, nil, 1, per_page) }
+
+        it 'returns all entries sorted by timestamp in descending order' do
+          expect(audit_log_result.try(:all)).to eq([@audit_log14, @audit_log13, @audit_log12, @audit_log11, @audit_log10,
+                                                    @audit_log9, @audit_log8, @audit_log7, @audit_log6, @audit_log5,
+                                                    @audit_log4, @audit_log3, @audit_log2, @audit_log1, @audit_log0])
+        end
+
+        it 'returns count of total records fetched by the query' do
+          expect(audit_log_result.count).to eq(15)
+        end
+      end
+      context 'and only a from time is passed in' do
+        let(:audit_log_result) { AuditLog.find_by_timestamp(35.hours.ago, nil, 1, per_page) }
+
+        it 'returns entries between the from time and the current time in descending order' do
+          expect(audit_log_result.try(:all)).to eq([@audit_log14, @audit_log13, @audit_log12, @audit_log11, @audit_log10,
+                                                    @audit_log9, @audit_log8])
+        end
+        it 'returns count of total records fetched by the query' do
+          expect(audit_log_result.count).to eq(7)
+        end
+      end
+      context 'and only a to time is passed in' do
+        let(:audit_log_result) { AuditLog.find_by_timestamp(nil, 35.hours.ago, 1, per_page) }
+
+        it 'returns all entries up until the to time in descending order' do
+          expect(audit_log_result.try(:all)).to eq([@audit_log7, @audit_log6, @audit_log5, @audit_log4, @audit_log3,
+                                                    @audit_log2, @audit_log1, @audit_log0])
+        end
+        it 'returns count of total records fetched by the query' do
+          expect(audit_log_result.count).to eq(8)
+        end
+      end
+      context 'and from time and to time are passed in' do
+        context 'and from time is less than to time' do
+          let(:audit_log_result) { AuditLog.find_by_timestamp(35.hours.ago, 15.hours.ago, 1, per_page) }
+
+          it 'returns entries between the from time and the to time in descending order' do
+            expect(audit_log_result.try(:all)).to eq([@audit_log11, @audit_log10, @audit_log9, @audit_log8])
+          end
+          it 'returns count of total records fetched by the query' do
+            expect(audit_log_result.count).to eq(4)
+          end
+        end
+        context 'and from time is greater than to time' do
+          let(:audit_log_result) { AuditLog.find_by_timestamp(15.hours.ago, 35.hours.ago, 1, per_page) }
+
+          it 'returns an empty array' do
+            expect(audit_log_result).to eq([])
+          end
+          it 'returns no records' do
+            expect(audit_log_result.try(:all)).to be_nil
+          end
+          it 'returns count of total records fetched by the query' do
+            expect(audit_log_result.count).to eq(0)
+          end
+        end
+        context 'and from time is the same as to time' do
+          let(:audit_log_result) { AuditLog.find_by_timestamp(20.hours.ago, 20.hours.ago, 1, per_page) }
+
+          it 'returns entries matching that exact time' do
+            expect(audit_log_result.try(:all)).to eq([@audit_log10])
+          end
+          it 'returns count of total records fetched by the query' do
+            expect(audit_log_result.count).to eq(1)
+          end
+        end
+        context 'and from time is not a date/time' do
+          it 'retruns an empty array' do
+            expect(AuditLog.find_by_timestamp('abc', 1.hour.ago)).to eq([])
+          end
+        end
+        context 'and to time is not a date/time' do
+          it 'retruns an empty array' do
+            expect(AuditLog.find_by_timestamp(1.day.ago, 'def')).to eq([])
+          end
+        end
+        context 'and from time and to time are not date/times' do
+          it 'retruns an empty array' do
+            expect(AuditLog.find_by_timestamp('abc', 'def')).to eq([])
+          end
+        end
       end
     end
-    context 'when only a from time is passed in' do
-      it 'returns entries between the from time and the current time in descending order' do
-        expect(AuditLog.find_by_timestamp(35.hours.ago)).to eq([@audit_log14, @audit_log13, @audit_log12, @audit_log11,
-                                                                @audit_log10, @audit_log9, @audit_log8])
-      end
-    end
-    context 'when only a to time is passed in' do
-      it 'returns all entries up until the to time in descending order' do
-        expect(AuditLog.find_by_timestamp(nil, 35.hours.ago)).to eq([@audit_log7, @audit_log6, @audit_log5, @audit_log4,
-                                                                     @audit_log3, @audit_log2, @audit_log1, @audit_log0])
-      end
-    end
-    context 'when from time and to time are passed in' do
-      context 'and from time is less than to time' do
-        it 'returns entries between the from time and the to time in descending order' do
-          expect(AuditLog.find_by_timestamp(35.hours.ago, 15.hours.ago)).to eq([@audit_log11, @audit_log10, @audit_log9,
-                                                                                @audit_log8])
+
+    context 'when per_page is less than number of records' do
+      let(:per_page) { 10 }
+
+      context 'and page is 1' do
+        let(:page) { 1 }
+        let(:audit_log_result) { AuditLog.find_by_timestamp(nil, nil, page, per_page) }
+
+        it 'returns the first page of entries sorted by timestamp in descending order' do
+          expect(audit_log_result.try(:all)).to eq([@audit_log14, @audit_log13, @audit_log12, @audit_log11, @audit_log10,
+                                                    @audit_log9, @audit_log8, @audit_log7, @audit_log6, @audit_log5])
+        end
+
+        it 'returns count of total records fetched by the query' do
+          expect(audit_log_result.count).to eq(15)
         end
       end
-      context 'and from time is greater than to time' do
-        it 'retruns an empty array' do
-          expect(AuditLog.find_by_timestamp(15.hours.ago, 35.hours.ago)).to eq([])
+
+      context 'and page is 2' do
+        let(:page) { 2 }
+        let(:audit_log_result) { AuditLog.find_by_timestamp(nil, nil, page, per_page) }
+
+        it 'returns the second page of entries sorted by timestamp in descending order' do
+          expect(audit_log_result.try(:all)).to eq([@audit_log4, @audit_log3, @audit_log2, @audit_log1, @audit_log0])
         end
-      end
-      context 'and from time is the same as to time' do
-        it 'returns entries matching that exact time' do
-          expect(AuditLog.find_by_timestamp(20.hours.ago, 20.hours.ago)).to eq([@audit_log10])
-        end
-      end
-      context 'and from time is not a date/time' do
-        it 'retruns an empty array' do
-          expect(AuditLog.find_by_timestamp('abc', 1.hour.ago)).to eq([])
-        end
-      end
-      context 'and to time is not a date/time' do
-        it 'retruns an empty array' do
-          expect(AuditLog.find_by_timestamp(1.day.ago, 'def')).to eq([])
-        end
-      end
-      context 'and from time and to time are not date/times' do
-        it 'retruns an empty array' do
-          expect(AuditLog.find_by_timestamp('abc', 'def')).to eq([])
+
+        it 'returns count of total records fetched by the query' do
+          expect(audit_log_result.count).to eq(15)
         end
       end
     end
@@ -131,7 +199,6 @@ describe AuditLog do
       end
     end
     context 'when search user name is an array' do
-      #TODO - currently this returns empty array.  Need to change if we support multiple search users
       it 'retruns an empty array' do
         expect(AuditLog.find_by_user_name_and_timestamp(['tester_one'])).to eq([])
       end
@@ -142,50 +209,114 @@ describe AuditLog do
       end
     end
     context 'when search user name is a string' do
-      context 'and user name does not exist in the audit log' do
-        it 'retruns an empty array' do
-          expect(AuditLog.find_by_user_name_and_timestamp('tester_does_not_exist')).to eq([])
+      context 'and per_page is greater than number of records' do
+        let(:per_page) { 100 }
+
+        context 'and user name does not exist in the audit log' do
+          let(:audit_log_result) { AuditLog.find_by_user_name_and_timestamp('tester_does_not_exist', nil, nil, 1, per_page) }
+
+          it 'retruns an empty array' do
+            expect(audit_log_result.try(:all)).to eq([])
+          end
+          it 'returns count of total records fetched by the query' do
+            expect(audit_log_result.count).to eq(0)
+          end
+        end
+        context 'and user name does exist in the audit log' do
+          context 'and no timestamps are passed in' do
+            let(:audit_log_result) { AuditLog.find_by_user_name_and_timestamp('tester_two', nil, nil, 1, per_page) }
+
+            it 'returns all entries for search user sorted by timestamp in descending order' do
+              expect(audit_log_result.try(:all)).to eq([@audit_log12, @audit_log11, @audit_log7, @audit_log6, @audit_log5])
+            end
+            it 'returns count of total records fetched by the query' do
+              expect(audit_log_result.count).to eq(5)
+            end
+          end
+          context 'and only a from time is passed in' do
+            let(:audit_log_result) { AuditLog.find_by_user_name_and_timestamp('tester_three', 35.hours.ago, nil, 1, per_page) }
+
+            it 'returns entries for search user between the from time and the current time in descending order' do
+              expect(audit_log_result.try(:all)).to eq([@audit_log14, @audit_log13, @audit_log10, @audit_log9, @audit_log8])
+            end
+            it 'returns count of total records fetched by the query' do
+              expect(audit_log_result.count).to eq(5)
+            end
+          end
+          context 'and only a to time is passed in' do
+            let(:audit_log_result) { AuditLog.find_by_user_name_and_timestamp('tester_three', nil, 35.hours.ago, 1, per_page) }
+
+            it 'returns all entries for search user up until the to time in descending order' do
+              expect(audit_log_result.try(:all)).to eq([@audit_log1, @audit_log0])
+            end
+            it 'returns count of total records fetched by the query' do
+              expect(audit_log_result.count).to eq(2)
+            end
+          end
+          context 'and from time and to time are passed in' do
+            context 'and from time is less than to time' do
+              let(:audit_log_result) { AuditLog.find_by_user_name_and_timestamp('tester_three', 35.hours.ago, 15.hours.ago, 1, per_page) }
+
+              it 'returns entries for search user between the from time and the to time in descending order' do
+                expect(audit_log_result.try(:all)).to eq([@audit_log10, @audit_log9, @audit_log8])
+              end
+              it 'returns count of total records fetched by the query' do
+                expect(audit_log_result.count).to eq(3)
+              end
+            end
+            context 'and from time is greater than to time' do
+              let(:audit_log_result) { AuditLog.find_by_user_name_and_timestamp('tester_three', 15.hours.ago, 35.hours.ago, 1, per_page) }
+
+              it 'returns an empty array' do
+                expect(audit_log_result).to eq([])
+              end
+              it 'returns no records' do
+                expect(audit_log_result.try(:all)).to be_nil
+              end
+              it 'returns count of total records fetched by the query' do
+                expect(audit_log_result.count).to eq(0)
+              end
+            end
+            context 'and from time is the same as to time' do
+              let(:audit_log_result) { AuditLog.find_by_user_name_and_timestamp('tester_three', 20.hours.ago, 20.hours.ago, 1, per_page) }
+
+              it 'returns entries for search user matching that exact time' do
+                expect(audit_log_result.try(:all)).to eq([@audit_log10])
+              end
+              it 'returns count of total records fetched by the query' do
+                expect(audit_log_result.count).to eq(1)
+              end
+            end
+          end
         end
       end
-      context 'and user name does exist in the audit log' do
-        context 'and no timestamps are passed in' do
-          it 'returns all entries for search user sorted by timestamp in descending order' do
-            expect(AuditLog.find_by_user_name_and_timestamp('tester_two')).to eq([@audit_log12, @audit_log11,
-                                                                                  @audit_log7, @audit_log6, @audit_log5])
+
+      context 'when per_page is less than number of records' do
+        let(:per_page) { 5 }
+
+        context 'and page is 1' do
+          let(:page) { 1 }
+          let(:audit_log_result) { AuditLog.find_by_user_name_and_timestamp('tester_three', nil, nil, page, per_page) }
+
+          it 'returns the first page of entries sorted by timestamp in descending order' do
+            expect(audit_log_result.try(:all)).to eq([@audit_log14, @audit_log13, @audit_log10, @audit_log9, @audit_log8])
+          end
+
+          it 'returns count of total records fetched by the query' do
+            expect(audit_log_result.count).to eq(7)
           end
         end
-        context 'and only a from time is passed in' do
-          it 'returns entries for search user between the from time and the current time in descending order' do
-            expect(AuditLog.find_by_user_name_and_timestamp('tester_three', 35.hours.ago)).to eq([@audit_log14,
-                                                                                                  @audit_log13,
-                                                                                                  @audit_log10,
-                                                                                                  @audit_log9,
-                                                                                                  @audit_log8])
+
+        context 'and page is 2' do
+          let(:page) { 2 }
+          let(:audit_log_result) { AuditLog.find_by_user_name_and_timestamp('tester_three', nil, nil, page, per_page) }
+
+          it 'returns the second page of entries sorted by timestamp in descending order' do
+            expect(audit_log_result.try(:all)).to eq([@audit_log1, @audit_log0])
           end
-        end
-        context 'and only a to time is passed in' do
-          it 'returns all entries for search user up until the to time in descending order' do
-            expect(AuditLog.find_by_user_name_and_timestamp('tester_three', nil, 35.hours.ago)).to eq([@audit_log1,
-                                                                                                       @audit_log0])
-          end
-        end
-        context 'and from time and to time are passed in' do
-          context 'and from time is less than to time' do
-            it 'returns entries for search user between the from time and the to time in descending order' do
-              expect(AuditLog.find_by_user_name_and_timestamp('tester_three', 35.hours.ago, 15.hours.ago)).to eq([@audit_log10,
-                                                                                                                  @audit_log9,
-                                                                                                                  @audit_log8])
-            end
-          end
-          context 'and from time is greater than to time' do
-            it 'retruns an empty array' do
-              expect(AuditLog.find_by_user_name_and_timestamp('tester_three', 15.hours.ago, 35.hours.ago)).to eq([])
-            end
-          end
-          context 'and from time is the same as to time' do
-            it 'returns entries for search user matching that exact time' do
-              expect(AuditLog.find_by_user_name_and_timestamp('tester_three', 20.hours.ago, 20.hours.ago)).to eq([@audit_log10])
-            end
+
+          it 'returns count of total records fetched by the query' do
+            expect(audit_log_result.count).to eq(7)
           end
         end
       end
