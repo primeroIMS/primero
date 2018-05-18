@@ -2058,6 +2058,12 @@ en:
     transfer: "Transfering"
     reopen_case: "Reopening"
     hide_name: "Hide name"
+    quick_view: "Viewing Quick View"
+    request_transfer_view: "Viewing Request Transfer"
+    request_transfer: "Sending Transfer Request"
+    save_subform: "Saving Subform"
+    create_subform: "Creating Subform"
+    consent_count: "Consent Count"
 
     relinquish_referral: "Relinquish referral Done"
 
