@@ -10,13 +10,8 @@
       <% if section.header_message_link.present? %>
         <%= render partial: "form_section/header_message_#{section.header_message_link}" %>
       <% end %>
-      <% display_alert_approval = display_approval_alert?(formObject, section) %>
-      <% if display_alert_approval %>
-        <%= render partial: "form_section/header_message_approval", locals: {display_alert: display_alert_approval, alert_type: 'approval'} %>
-      <% end %>
-      <% display_alert_field_change = display_field_change_alert?(section, formObject) %>
-      <% if display_alert_field_change %>
-        <%= render partial: "form_section/header_message_approval", locals: {display_alert: display_alert_field_change['name'], alert_type: 'field_change', form_date: display_alert_field_change['date']} %>
+      <% if show_alerts?(formObject) && form_has_alerts?(formObject, section.unique_id) %>
+        <%= render 'form_section/display_alert', formObject: formObject, section: section %>
       <% end %>
       <% (section.fields.select{|field| field.showable?}).each do |field| %>
         <%= render :partial => field_template_path(field, true), :locals=>{:field => field, :formObject => formObject, :form_group_name => form_group_name, :form_id => section.unique_id, :display_audio_delete_checkbox => false, :lookups => lookups} %>

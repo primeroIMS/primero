@@ -141,7 +141,7 @@ class ChildrenController < ApplicationController
     new_subform['unique_id'] = Child.generate_unique_id
     child[subform] << new_subform
     child.update_last_updated_by(current_user)
-    child.add_alert(current_user.user_name, subform, form_sidebar_id)
+    child.add_alert(Alertable::NEW_FORM, subform, form_sidebar_id) if current_user.user_name != child.owned_by
     if child.child_status == Record::STATUS_CLOSED
       child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
     end

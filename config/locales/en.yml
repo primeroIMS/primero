@@ -75,7 +75,8 @@ en:
     string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
     system_settings_failed: "System Settings failed to load."
     approval_alert: "Approval is pending for %{form_name}"
-    field_change_alert: "The %{form_name} form was updated by the service provider on %{form_date}"
+    field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
+    transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
 
   data_base:
     delete_all_documents: "Deleted all child documents"

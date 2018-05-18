@@ -78,6 +78,8 @@ module TransitionActions
                              Transition::TO_USER_LOCAL_STATUS_INPROGRESS, request_transfer_notes,
                              false, '', current_user.user_name, false, '')
 
+      @record.update_last_updated_by(current_user)
+      @record.try(:add_alert, Alertable::TRANSFER_REQUEST, Alertable::TRANSFER_REQUEST, transition_form_id, current_user.user_name, current_user.agency&.id)
       if @record.save
         @record.send_request_transfer_email(current_user.id, request_transfer_notes, request.base_url)
       else
@@ -364,5 +366,11 @@ module TransitionActions
 
   def request_transfer_notes
     @request_transfer_notes ||= (params[:request_transfer_notes].present? ? params[:request_transfer_notes] : "")
+  end
+
+  def transition_form_id
+    #Override in parent controller to identify appropriate transition form
+    #Default form is the one for Cases
+    'referral_transfer'
   end
 end
