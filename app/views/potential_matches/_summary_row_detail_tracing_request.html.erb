@@ -1,7 +1,7 @@
 <tr>
   <td class="id_column">
     <% if detail.visible %>
-      <%= link_to text_to_identify_potential_match_tracing_request(detail), tracing_request_path(detail.tracing_request_uuid), class: 'id_link ' %>
+      <%= link_to text_to_identify_potential_match_tracing_request(detail), tracing_request_path(detail.tracing_request_id), class: 'id_link ' %>
     <% else %>
       <%= detail.tracing_request_id.last 7 %>
     <% end %>

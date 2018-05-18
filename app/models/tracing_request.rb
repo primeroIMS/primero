@@ -86,6 +86,10 @@ class TracingRequest < CouchRest::Model::Base
     }
   end
 
+  def inquirer_id
+    self.tracing_request_id
+  end
+
   def tracing_names
     names = []
     if self.tracing_request_subform_section.present?
@@ -152,8 +156,8 @@ class TracingRequest < CouchRest::Model::Base
       traces.each do |tr|
         match_criteria = match_criteria(tr)
         results = TracingRequest.find_match_records(match_criteria, Child, child_id)
-        tr_matches = PotentialMatch.matches_from_search(results) do |case_id, score, average_score|
-          PotentialMatch.build_potential_match(case_id, self.id, score, average_score, tr.unique_id, tr.age, tr.sex)
+        tr_matches = PotentialMatch.matches_from_search(results) do |child_id, score, average_score|
+          PotentialMatch.build_potential_match(child_id, self.id, score, average_score, tr.unique_id)
         end
         matches += tr_matches
       end

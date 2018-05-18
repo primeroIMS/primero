@@ -15,9 +15,9 @@
   <tbody>
   <tr>
     <td class="id_column"><%= link_to text_to_identify_potential_match_child(match_record), case_path(match_record.child_id), class: 'id_link' %></td>
-    <td><%= match_record.case_age %></td>
-    <td><%= match_record.case_sex %></td>
-    <td><%= field_format_date(match_record.case_registration_date) %></td>
+    <td><%= mask_match_value(match_record, match_record.child_age) %></td>
+    <td><%= mask_match_value(match_record, match_record.child.try(:display_field, 'sex', @lookups) %></td>
+    <td><%= mask_match_value(match_record, field_format_date(match_record.case_registration_date)) %></td>
   </tr>
   </tbody>
 </table>
