@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  </head>
+  <body>
+    <p><%= t("email_notification.transfer_request_html", user: @user.user_name, agency: @agency,
+             record_type: @record_type, record_id: link_to(@record.short_id, @url)).html_safe %></p>
+    <p><%= t("email_notification.transfer_request_notes_html", request_transfer_notes: @request_transfer_notes).html_safe %></p>
+  </body>
+</html>

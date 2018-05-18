@@ -143,20 +143,16 @@ module IndexHelper
     end
   end
 
-  def build_filter_multi_select(title, filter, items)
+  def build_filter_select(title, filter, items, multi_select = true)
     if items.present? && items.first.is_a?(Hash)
       items = items.map{|item| [item['display_text'], item['id']]}
     end
 
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
-      concat(select_tag filter,
-        options_for_select(items),
-        'class' => 'chosen-select',
-        'filter_type' => 'list',
-        'multiple' => true,
-        'data-placeholder' => t("fields.select_box_empty_item"), :id => filter
-        )
+      concat(select_tag filter, options_for_select(items), class: 'chosen-select', filter_type: 'list',
+                        multiple: multi_select, include_blank: t("fields.select_box_empty_item"),
+                        'data-placeholder' => t("fields.select_box_empty_item"), id: filter)
       concat(content_tag(:div, '', class: 'clearfix'))
     end
   end
@@ -493,7 +489,7 @@ module IndexHelper
     actions.any?{ |p| can?(p.to_sym, model) }
   end
 
-  def view_data(record)
+  def view_data(record, form_sections)
     data = [{ display_name: t('child.id'), value: record.short_id }]
 
     included_fields = [
@@ -508,7 +504,6 @@ module IndexHelper
       'audio_upload_box'
     ]
 
-    form_sections = record.class.allowed_formsections(current_user, record.module)
     form_sections.each do |n, fs|
       fs.each do |form|
         fields =   form.fields.select{ |field| field.show_on_minify_form || included_fields.include?(field.name) }
@@ -519,6 +514,6 @@ module IndexHelper
       end
     end
 
-    data.to_json
+    data
   end
 end

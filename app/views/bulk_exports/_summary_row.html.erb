@@ -15,6 +15,6 @@
       <i class="fa fa-exclamation"></i>
     <% end %>
   </td>
-  <td><%= record.record_type %></td>
+  <td><%= I18n.t('forms.record_types.' + record.record_type) %></td>
   <td><%= field_format_date(record.started_on) %></td>
 </tr>

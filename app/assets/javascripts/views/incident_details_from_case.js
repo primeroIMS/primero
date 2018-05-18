@@ -4,6 +4,7 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
   events: {
     'click #incident_details_from_case_button' : 'populate_modal',
     'click #services_section_from_case_button' : 'populate_modal',
+    'click #services_section_from_case_button_submit' : 'submit_form_services_modal',
     'click .create_subform_submit': 'submit_form'
   },
 
@@ -13,6 +14,36 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
     _primero.loading_screen_indicator('show');
 
     form.submit();
+  },
+
+  submit_form_services_modal: function(event) {
+    event.preventDefault();
+
+    var form = $(event.target).parents('form');
+    var self = this;
+
+    form.on("forminvalid.zf.abide", function(ev, el) {
+      form.find('.callout').show();
+    });
+
+    form.on("formvalid.zf.abide", function(ev, frm) {
+      form.find('.callout').hide();
+
+      _primero.loading_screen_indicator('show');
+
+      $.ajax({
+        url: form.attr('action'),
+        method: 'PUT',
+        data: form.serialize(),
+        dataType: 'json',
+        success: function() {
+          _primero.loading_screen_indicator('hide');
+          self.populate_modal(event)
+        }
+      })
+    });
+
+    form.foundation('validateForm');
   },
 
   populate_modal: function(event) {

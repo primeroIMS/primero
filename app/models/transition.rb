@@ -22,6 +22,7 @@ class Transition
   TYPE_REFERRAL = "referral"
   TYPE_REASSIGN = "reassign"
   TYPE_TRANSFER = "transfer"
+  TYPE_TRANSFER_REQUEST = "transfer_request"
 
   TRANSFERRED_STATUS = 'transferred'
 

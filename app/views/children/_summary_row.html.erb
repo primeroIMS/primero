@@ -60,7 +60,7 @@
   <% end %>
   <% if fields_to_show.include? 'view' %>
     <td>
-      <a class="record-view-modal" data-record="<%= view_data(record) %>"><%= t('buttons.view') %><a>
+      <a class="record-view-modal" data-record="<%= record.id %>"><%= t('buttons.view') %><a>
     </td>
   <% end %>
 

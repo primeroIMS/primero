@@ -117,12 +117,15 @@ class ChildrenController < ApplicationController
     form_id = params['form_id']
     form_sidebar_id = params['form_sidebar_id']
     subform_section = FormSection.get_by_unique_id(form_id)
+
     html = ChildrenController.new.render_to_string(partial: "children/create_subform", layout: false, locals: {
       child: child,
       subform_section: subform_section,
       subform_name: type,
       form_group_name: '',
       form_link: child_save_subform_path(child, subform: type, form_sidebar_id: form_sidebar_id),
+      can_save_and_add_provision: can?(:services_section_from_case, model_class) &&
+      can?(:service_provision_incident_details, model_class) && type == 'incident_details'
     })
     respond_to do |format|
       format.html {render plain: html}
@@ -138,13 +141,52 @@ class ChildrenController < ApplicationController
     new_subform['unique_id'] = Child.generate_unique_id
     child[subform] << new_subform
     child.update_last_updated_by(current_user)
-    child.add_alert(current_user.user_name, subform, form_sidebar_id)
+    child.add_alert(Alertable::NEW_FORM, subform, form_sidebar_id) if current_user.user_name != child.owned_by
     if child.child_status == Record::STATUS_CLOSED
       child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
     end
-    child.save
-    flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
-    redirect_to cases_path()
+
+    respond_to do |format|
+      if child.save
+        format.html do
+          flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
+          redirect_to cases_path()
+        end
+        format.json { render :json => :ok }
+      else
+        format.json { render :json => :error }
+      end
+    end
+  end
+
+  def request_transfer_view
+    authorize! :request_transfer, model_class
+    child = Child.get(params['child_id'])
+
+    html = ChildrenController.new.render_to_string(partial: "children/request_transfer", layout: false, locals: {
+      child: child,
+    })
+
+    respond_to do |format|
+      format.html {render plain: html}
+    end
+  end
+
+  def quick_view
+    authorize! :display_view_page, model_class
+    child = Child.get(params['child_id'])
+    form_sections = child.present? ? child.class.allowed_formsections(current_user, child.module) : nil
+
+    html = ChildrenController.new.render_to_string(partial: "children/quick_view", layout: false, locals: {
+      child: child,
+      form_sections: form_sections,
+      user: current_user,
+      can_request_transfer: @can_request_transfer
+    })
+
+    respond_to do |format|
+      format.html {render plain: html}
+    end
   end
 
   def reopen_case

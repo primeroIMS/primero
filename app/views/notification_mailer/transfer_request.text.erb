@@ -1,0 +1,5 @@
+===============================================
+
+<%= t("email_notification.transfer_request", user: @user.user_name, agency: @agency, record_type: @record_type,
+      record_id: link_to(@record.short_id, @url)).html_safe %>
+<%= t("email_notification.transfer_request_notes_html", request_transfer_notes: @request_transfer_notes).html_safe %>

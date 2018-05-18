@@ -3,7 +3,7 @@
 #
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception, prepend: true
+  protect_from_forgery with: :exception, prepend: true, unless: -> { request.format.json? }
   before_action :authorize_profiler
 
   helper :all

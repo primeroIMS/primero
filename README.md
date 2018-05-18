@@ -22,6 +22,8 @@ Once you have Vagrant installed, run the following to install the right plugins:
 
     $ sudo rm -f /opt/vagrant/embedded/bin/curl
 
+Duplicate the dev-node.json.sample and rename it dev-node.json. This file contains the chef configuration options.
+
 Now you are ready to start the VM.  Make sure you don't have anything running
 on ports 8000, 8443, 5984, or 3000 -- vagrant will forward to these ports from
 the VM to give you access to the database, application server and rails dev
@@ -35,13 +37,13 @@ source.  While this is running you can modify your hosts file to include
 our fake domain to use for development.  Add the following to your `/etc/hosts`
 file (may be a slightly different file on OSX):
 
-    127.0.0.1   primero.dev
+    127.0.0.1   primero.test
 
 You will need to access the site on this domain in your browser as the dummy
 SSL cert is set with this domain.
 
 Once you have the VM fully provisioned, you can access the site at
-[http://primero.dev:8000](http://primero.dev:8000) (or possibly a different port if Vagrant had a port
+[http://primero.test:8000](http://primero.test:8000) (or possibly a different port if Vagrant had a port
 collision when trying to assign port 8000 -- check the Vagrant output upon the
 `up` command).  It should automatically redirect you to the HTTPS protocol and
 port 8443.  You can login with a preseeded admin account with credentials
@@ -66,7 +68,7 @@ To bring up the development server on port 3000:
 
     $ bundle exec rails s
 
-You should now be able to access your development server in the browser on [http://primero.dev:3000](http://primero.dev:3000)
+You should now be able to access your development server in the browser on [http://primero.test:3000](http://primero.test:3000)
 
 Automatic development server reloads based on code changes have been disabled. This is intentional. **Do not change that!**
 
