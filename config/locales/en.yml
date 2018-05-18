@@ -637,6 +637,8 @@ en:
       record_state: "Record State:"
 
   potential_matches:
+    empty: "Please access matching through Tracing Requests"
+    display: "Displaying potential matches for %{type} %{id}"
     filter_by:
       score_range: "Score Range"
       age_range_case: "Age Range of Cases"

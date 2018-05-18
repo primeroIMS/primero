@@ -219,7 +219,6 @@ class PotentialMatch < CouchRest::Model::Base
   end
 
   def tracing_request_name
-    binding.pry
     @tracing_request_name ||= self.trace.try(:name)
   end
 

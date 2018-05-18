@@ -30,9 +30,6 @@ class PotentialMatchesController < ApplicationController
 
     #TODO MATCHING: Pagination of grouped record is just broken.
     #               Luckily for this we will just display matches for an individual TR/case
-    @per_page = per_page
-    @grouped_potential_matches = @grouped_potential_matches.paginate(:page => page, :per_page => per_page)
-    @total_records = @grouped_potential_matches.total_entries
 
     respond_to do |format|
       format.html
