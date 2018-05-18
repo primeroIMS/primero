@@ -21,6 +21,11 @@ class ReportsController < ApplicationController
     authorize!(:read_reports, Report)
     # NOTE: If we start needing anything more complicated than module filtering on reports,
     #       index them in Solr and make searchable. Replace all these views and paginations with Sunspot.
+
+    #TODO refactor... this extra query to fetch report_ids is not necessary
+    #TODO refactor... the TOTAL count of records can be obtained by getting the result.count
+    #TODO refactor... so, First fetch the reults.  Set @total_records to result.count.  Set reports to result.all
+    #TODO refactor... See implementation in audit_logs_controller and audit_log model
     report_ids = Report.by_module_id(keys: current_user.modules.map{|m|m.id}).values.uniq
     @current_modules = nil #TODO: Hack because this is expected in templates used.
     reports = Report.all(keys: report_ids).page(page).per(per_page).all

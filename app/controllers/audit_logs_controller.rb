@@ -10,14 +10,18 @@ class AuditLogsController < ApplicationController
     @saved_searches = []   #Hack because this is expected in templates used.
     @filters = {}          #Hack because this is expected in templates used.
     @users = User.all.map(&:user_name)
+
+    #The paginated result set gives the following:
+    #  count:  Total count of all records for the query
+    #  all:    Only the chunk of records in the range as defined by page & per_page
+    @total_records = @audit_log_result.count
     @per_page = per_page
-    @audit_logs = @audit_logs.paginate(page: page, per_page: per_page)
-    @total_records = @audit_logs.total_entries
+    @audit_logs = paginated_collection(@audit_log_result.all, @total_records)
   end
 
   #Override method defined in record_filtering_pagination
   def per_page
-    params[:per] ? params[:per].to_i : 100
+    @per_page ||= params[:per] ? params[:per].to_i : 100
   end
 
   private
@@ -28,15 +32,14 @@ class AuditLogsController < ApplicationController
       @timestamp_name_params = timestamp_params
 
       if @user_name_params
-        #TODO handle user_name && action_name
-        @audit_logs = AuditLog.find_by_user_name_and_timestamp(@user_name_params,
-                                                               @timestamp_name_params[:from],
-                                                               @timestamp_name_params[:to])
+        @audit_log_result = AuditLog.find_by_user_name_and_timestamp(@user_name_params, @timestamp_name_params[:from],
+                                                                     @timestamp_name_params[:to], page, per_page)
       else
-        @audit_logs = AuditLog.find_by_timestamp(@timestamp_name_params[:from], @timestamp_name_params[:to])
+        @audit_log_result = AuditLog.find_by_timestamp(@timestamp_name_params[:from], @timestamp_name_params[:to],
+                                                       page, per_page)
       end
     else
-      @audit_logs = AuditLog.find_by_timestamp
+      @audit_log_result = AuditLog.find_by_timestamp(nil, nil, page, per_page)
     end
   end
 
