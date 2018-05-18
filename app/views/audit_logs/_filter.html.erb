@@ -5,7 +5,7 @@
   </div>
   <form id="index_filter_form" autocomplete="off">
     <%= render "filter_timestamp", record: 'audit_logs', date_field_title: 'timestamp', date_field: 'timestamp' %>
-    <%= build_filter_multi_select(t("audit_logs.filter_by.user"), 'user_name', @users) %>
+    <%= build_filter_select(t("audit_logs.filter_by.user"), 'user_name', @users, false) %>
   </form>
   <div class="clearfix"></div>
 </div>

@@ -6,15 +6,18 @@ module Alertable
   NEW_FORM = 'new_form'
   APPROVAL = 'approval'
   FIELD_CHANGE = 'field_change'
+  TRANSFER_REQUEST = 'transfer_request'
 
   included do
+    include Indexable
+
     property :alerts, [Alert], :default => []
 
     searchable do
       string :current_alert_types, multiple: true
     end
 
-    before_save :remove_alert_on_save
+    before_update :remove_alert_on_save
     before_save :add_form_change_alert
   end
 
@@ -26,19 +29,18 @@ module Alertable
     self.alerts.map {|a| a[:type]}.uniq
   end
 
-  def add_alert(current_user_name, type = nil, form_sidebar_id = nil)
-    if current_user_name != self.owned_by && self.alerts != nil
-      alert = Alert.new(type: type, date: DateTime.now.to_date, form_sidebar_id: form_sidebar_id, alert_for: NEW_FORM)
-      self.alerts << alert
-    end
+  def add_alert(alert_for, type = nil, form_sidebar_id = nil, user = nil, agency = nil)
+    self.alerts = [] if self.alerts.nil?
+    self.alerts << Alert.new(type: type, date: DateTime.now.to_date, form_sidebar_id: form_sidebar_id,
+                             alert_for: alert_for, user: user, agency: agency)
   end
 
   def remove_alert(current_user_name, type = nil, form_sidebar_id = nil)
-    if current_user_name == self.owned_by && self.alerts != nil
+    if current_user_name == self.owned_by && self.alerts.present?
       if type.present?
         self.alerts.delete_if{|a| a[:type] == type}
       else
-        self.alerts.delete_if{|a| a[:alert_for] == NEW_FORM || a[:alert_for] == FIELD_CHANGE}
+        self.alerts.delete_if{|a| [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(a[:alert_for])}
       end
     end
   end

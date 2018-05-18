@@ -91,19 +91,41 @@ describe TransitionActions, type: :controller do
           @session = fake_login @user
 
           User.stub(:find_by_user_name).with(@user.user_name).and_return(@user)
+          @case4 = Child.create(name: 'Test Case 4', short_id: 'ddd444', module_id: PrimeroModule::CP,
+                                consent_for_services: true, disclosure_other_orgs: true,
+                                owned_by: @user_owner.user_name, last_updated_by: @user_owner.user_name)
+          @case5 = Child.create(name: 'Test Case 5', short_id: 'eee555', module_id: PrimeroModule::CP,
+                                consent_for_services: true, disclosure_other_orgs: true,
+                                owned_by: @user_owner.user_name, last_updated_by: @user_owner.user_name)
         end
 
-        it 'adds a transition to the record' do
-          params = { id: @case3.id, request_transfer_notes: 'Test Transfer Message' }
+        it 'returns a success response' do
           expected = {success: true, error_message: '', reload_page: true}.to_json
+          params = { id: @case3.id, request_transfer_notes: 'Test Transfer Message' }
           put :request_transfer, params: params
           expect(response.body).to eq(expected)
         end
 
+        it 'adds a tranfer_request transition to the record' do
+          params = { id: @case4.id, request_transfer_notes: 'Test Transfer Message' }
+          put :request_transfer, params: params
+          after_case = Child.get(@case4.id)
+          expect(after_case.transitions).to be_present
+          expect(after_case.transitions.first.type).to eq('transfer_request')
+        end
+
+        it 'adds a tranfer_request alert to the record' do
+          params = { id: @case5.id, request_transfer_notes: 'Test Transfer Message' }
+          put :request_transfer, params: params
+          after_case = Child.get(@case5.id)
+          expect(after_case.alerts).to be_present
+          expect(after_case.alerts.first.type).to eq('transfer_request')
+        end
+
         context 'and record id does not exist' do
           it 'returns an error response' do
-            params = { id: 'bogus_id', request_transfer_notes: 'Test Transfer Message' }
             expected = {success: false, error_message: 'Record not found', reload_page: true}.to_json
+            params = { id: 'bogus_id', request_transfer_notes: 'Test Transfer Message' }
             put :request_transfer, params: params
             expect(response.body).to eq(expected)
           end

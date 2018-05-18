@@ -5,8 +5,12 @@ module FormSectionHelper
   ALERT_FOR = 'alert_for'
   FORM_SIDEBAR_ID = 'form_sidebar_id'
 
-  def show_alerts?
-    @system_settings.present? && @system_settings["show_alerts"] ? @system_settings["show_alerts"] : false
+  def show_alerts?(record)
+    (@system_settings.try(:[], 'show_alerts') || false) && record.try(:alerts).present?
+  end
+
+  def form_has_alerts?(record, form_id)
+    record.alerts.any?{|alert| alert.form_sidebar_id == form_id}
   end
 
   def sorted_highlighted_fields
@@ -62,7 +66,7 @@ module FormSectionHelper
 
   def build_form_name(form)
     form_name = form.name
-    if show_alerts? && @child.present? && @child.alerts != nil
+    if show_alerts?(@child)
       #TODO: currently filtering for service provider details form field changes only
       has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
 
@@ -76,7 +80,7 @@ module FormSectionHelper
 
   def group_alert_prefix(forms)
     alert = ''
-    if show_alerts? && @child.present? && @child.alerts != nil
+    if show_alerts?(@child)
       forms.each do |form|
         #TODO: currently filtering for service provider details form field changes only
         has_service_field_alert = @child.alerts.any? {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && form.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
@@ -135,10 +139,10 @@ module FormSectionHelper
     return objects
   end
 
-  def display_approval_alert?(formObject, section)
-    alerts_config = @system_settings.present? ? @system_settings.approval_forms_to_alert : nil
+  def display_approval_alert(formObject, section)
     display_alert = nil
-    if show_alerts? && alerts_config.present? && formObject.alerts.present?
+    alerts_config = @system_settings.try(:approval_forms_to_alert)
+    if alerts_config.present?
       alert_type = alerts_config[section.section_name]
       display_alert = alert_type.present? && formObject.alerts.any?{|a| a[TYPE] == alert_type} ? section.name : nil
     end
@@ -146,21 +150,21 @@ module FormSectionHelper
     return display_alert
   end
 
-  def display_field_change_alert?(section, formObject)
+  def display_field_change_alert(formObject, section)
     display_alert = nil
-    if show_alerts? && formObject.alerts.present?
-      #TODO: currently filtering for service provider details form field changes only
-      found_alerts = @child.alerts.select {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && section.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
-      if found_alerts.count > 0
-        found_alert = found_alerts.max_by(&:date)
-        display_alert = {
-          "name" => section["name_#{I18n.locale}"],
-          "date" => field_format_date(Date.parse(found_alert.date))
-        }.to_h
-      end
+    #TODO: currently filtering for service provider details form field changes only
+    found_alerts = formObject.alerts.select {|alert| alert[TYPE].try(:include?, 'service_provider_details_') && section.unique_id == alert[TYPE] && alert[ALERT_FOR] == Alertable::FIELD_CHANGE}
+    if found_alerts.present?
+      found_alert = found_alerts.max_by(&:date)
+      display_alert = {name: section["name_#{I18n.locale}"], date: field_format_date(Date.parse(found_alert.date))}
     end
-
     return display_alert
+  end
+
+  def display_transfer_request_alert(formObject, section)
+    found_alert = formObject&.alerts&.select{|alert| alert.type == 'transfer_request' && section.unique_id == alert.form_sidebar_id}&.first
+    return nil if found_alert.blank?
+    {date: field_format_date(Date.parse(found_alert.try(:date))), user: found_alert.try(:user), agency: found_alert.try(:agency)}
   end
 
   def display_help_text_on_view?(formObject, form_section)
