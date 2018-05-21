@@ -16,6 +16,7 @@ class TracingRequest < CouchRest::Model::Base
   property :tracing_request_id
   property :relation_name
   property :reunited, TrueClass
+  property :inquiry_date
 
   def initialize *args
     self['photo_keys'] ||= []

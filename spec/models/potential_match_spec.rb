@@ -20,7 +20,7 @@ describe PotentialMatch do
                                              owned_by: @user.name, inquiry_date: '01-Mar-2017')
     @case = Child.create(created_by: 'some_user', age: 14, name: 'some_child_name', sex: 'female', owned_by: @user.name,
                          registration_date: "01-Feb-2017")
-    @potential_match = PotentialMatch.create(tracing_request: @tracing_request, child: @case, average_rating: 4.321,
+    @potential_match = PotentialMatch.create(tracing_request_id: @tracing_request.id, child_id: @case.id, average_rating: 4.321,
                                              tr_subform_id: 'abc123')
   end
 
@@ -31,7 +31,7 @@ describe PotentialMatch do
       end
 
       it 'case_age returns the age from the associated case' do
-        expect(@potential_match.case_age).to eq(14)
+        expect(@potential_match.child_age).to eq(14)
       end
 
       it 'case_registration_date returns the registration_date from the associated case' do
@@ -43,7 +43,7 @@ describe PotentialMatch do
       end
 
       it 'tracing_request_uuid returns the tracing_request_id' do
-        expect(@potential_match.tracing_request_uuid).to eq(@tracing_request.id)
+        expect(@potential_match.tracing_request_id).to eq(@tracing_request.id)
       end
 
       it 'tracing_request_inquiry_date returns the inquiry_date from the associated tracing_request' do
@@ -52,44 +52,6 @@ describe PotentialMatch do
 
       it 'tracing_request_relation_name returns the relation_name from the associated tracing_request' do
         expect(@potential_match.tracing_request_relation_name).to eq('some_relation_name')
-      end
-
-      it 'tracing_request_owned_by returns the owned_by from the associated tracing_request' do
-        expect(@potential_match.tracing_request_owned_by).to eq('worker_user')
-      end
-    end
-
-    context 'when visible is false' do
-      before do
-        @potential_match.visible = false
-      end
-
-      it 'case_age returns the field mask' do
-        expect(@potential_match.case_age).to eq(PotentialMatch::FIELD_MASK)
-      end
-
-      it 'case_sex returns the field mask' do
-        expect(@potential_match.case_sex).to eq(PotentialMatch::FIELD_MASK)
-      end
-
-      it 'case_registration_date returns the field mask' do
-        expect(@potential_match.case_registration_date).to eq(PotentialMatch::FIELD_MASK)
-      end
-
-      it 'case_owned_by returns the owned_by from the associated case' do
-        expect(@potential_match.case_owned_by).to eq('worker_user')
-      end
-
-      it 'tracing_request_uuid returns the tracing_request_id' do
-        expect(@potential_match.tracing_request_uuid).to eq(@tracing_request.id)
-      end
-
-      it 'tracing_request_inquiry_date returns the field mask' do
-        expect(@potential_match.tracing_request_inquiry_date).to eq(PotentialMatch::FIELD_MASK)
-      end
-
-      it 'tracing_request_relation_name returns the field mask' do
-        expect(@potential_match.tracing_request_relation_name).to eq(PotentialMatch::FIELD_MASK)
       end
 
       it 'tracing_request_owned_by returns the owned_by from the associated tracing_request' do
@@ -156,26 +118,26 @@ describe PotentialMatch do
 
   describe 'group_match_records' do
     before do
-      @potential_match_0_1 = PotentialMatch.create(tracing_request: @tracing_request, child: @case, average_rating: 2.321,
+      @potential_match_0_1 = PotentialMatch.create(tracing_request_id: @tracing_request.id, child_id: @case.id, average_rating: 2.321,
                                                    tr_subform_id: 'abc123')
 
-      @potential_match_0_2 = PotentialMatch.create(tracing_request: @tracing_request, child: @case, average_rating: 1.321,
+      @potential_match_0_2 = PotentialMatch.create(tracing_request_id: @tracing_request.id, child_id: @case.id, average_rating: 1.321,
                                                    tr_subform_id: 'def456')
 
       @tracing_request_1 = TracingRequest.create(created_by: 'some_user', relation_name: 'some_relation_name',
                                                owned_by: @user.name, inquiry_date: '01-Mar-2017')
       @case_1 = Child.create(created_by: 'some_user', age: 14, name: 'some_child_name', sex: 'female', owned_by: @user.name,
                            registration_date: "01-Feb-2017")
-      @potential_match_1_0 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 9.321,
+      @potential_match_1_0 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 9.321,
                                                    tr_subform_id: 'def456')
-      @potential_match_1_1 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 0.321,
+      @potential_match_1_1 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 0.321,
                                                    tr_subform_id: 'def456')
-      @potential_match_1_2 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 0.333,
+      @potential_match_1_2 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 0.333,
                                                    tr_subform_id: 'def456')
 
-      @potential_match_1_3 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 3.321,
+      @potential_match_1_3 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 3.321,
                                                    tr_subform_id: 'ghi789')
-      @potential_match_1_4 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 0.321,
+      @potential_match_1_4 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 0.321,
                                                    tr_subform_id: 'ghi789')
 
       @potential_matches = [@potential_match, @potential_match_1_0, @potential_match_0_2, @potential_match_0_1,
@@ -217,5 +179,22 @@ describe PotentialMatch do
         expect(PotentialMatch.group_match_records(@potential_matches, @type)).to eq(expected)
       end
     end
+  end
+
+  describe 'likelihood' do
+    before do
+      @potential_match = PotentialMatch.new(average_rating: 0.9)
+    end
+
+    it 'marks a potential match as "likely" if it is more than 0.7 away from the average' do
+      @potential_match.set_likelihood(@potential_match.average_rating, 0.15)
+      expect(@potential_match.likelihood).to eq(PotentialMatch::LIKELY)
+    end
+
+    it 'marks a potential match as "possible" if it is less than 0.7 away from the average' do
+      @potential_match.set_likelihood(@potential_match.average_rating, 0.7)
+      expect(@potential_match.likelihood).to eq(PotentialMatch::POSSIBLE)
+    end
+
   end
 end
