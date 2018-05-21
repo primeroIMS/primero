@@ -181,7 +181,8 @@ class ChildrenController < ApplicationController
       child: child,
       form_sections: form_sections,
       user: current_user,
-      can_request_transfer: @can_request_transfer
+      can_request_transfer: @can_request_transfer,
+      can_view_photo: @can_view_photo
     })
 
     respond_to do |format|

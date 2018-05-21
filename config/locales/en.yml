@@ -1023,6 +1023,7 @@ en:
       display_view_page: "Display View Page"
       service_provision_incident_details: "See Add Service Provision Button on Incident Details Modal"
       request_transfer: "Request Transfer"
+      view_photo: "View Photo"
 
   forms:
     label: "Forms"

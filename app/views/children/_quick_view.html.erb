@@ -1,4 +1,9 @@
 <div class="spacer"></div>
+<% if (can_view_photo) %>
+  <div class="row">
+    TODO PHOTO!!!
+  </div>
+<% end %>
 <div class="row">
   <div class="columns small-12 ">
     <% view_data(child, form_sections).each do |field| %>
