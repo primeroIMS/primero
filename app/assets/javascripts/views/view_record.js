@@ -14,6 +14,12 @@ _primero.Views.viewRecord = _primero.Views.Base.extend({
     $("#viewModal").empty();
   },
 
+  show_photo: function(photo_el) {
+    //  TODO
+    photo_el.append('Yay!!!!!');
+    var xyz = 0;
+  },
+
   populate_modal: function(path, cb) {
     var view_modal = $("#viewModal");
 
@@ -79,6 +85,11 @@ _primero.Views.viewRecord = _primero.Views.Base.extend({
         ".request-transfer-modal",
         self.show_request_transfer_modal
       );
+      var view_modal = $("#viewModal");
+      var photo_el = view_modal.find('.quick_view_photo');
+      if (photo_el.length > 0) {
+        self.show_photo(photo_el);
+      }
     });
   }
 });
