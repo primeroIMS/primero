@@ -1,7 +1,7 @@
 <div class="spacer"></div>
-<% if (can_view_photo) %>
+<% if (can_view_photo && child.photo_keys.present?) %>
   <div class="row">
-    <div class="quick_view_photo" />
+    <%= thumbnail_tag(child, child.current_photo_key) %>
   </div>
 <% end %>
 <div class="row">
