@@ -364,16 +364,27 @@ class Child < CouchRest::Model::Base
     self['last_updated_by'].blank? || user_names_after_deletion.blank?
   end
 
+  def family(relation=nil)
+    binding.pry
+    result = self.try(:family_details_section) || []
+    if relation_type.present?
+      result = result.select do |member|
+        member.try(:relation) == relation
+      end
+    end
+    return result
+  end
+
   def fathers_name
-    self.family_details_section.select { |fd| fd.relation.try(:downcase) == 'father' }.first.try(:relation_name) if self.family_details_section.present?
+    self.family('father').first.try(:relation_name)
   end
 
   def mothers_name
-    self.family_details_section.select { |fd| fd.relation.try(:downcase) == 'mother' }.first.try(:relation_name) if self.family_details_section.present?
+    self.family('mother').first.try(:relation_name)
   end
 
   def caregivers_name
-    self.name_caregiver || self.family_details_section.select { |fd| fd.relation_is_caregiver == true }.first.try(:relation_name) if self.family_details_section.present?
+    self.name_caregiver || self.family.select { |fd| fd.relation_is_caregiver == true }.first.try(:relation_name)
   end
 
   # Solution below taken from...
@@ -428,7 +439,7 @@ class Child < CouchRest::Model::Base
   def match_criteria(match_request=nil)
     match_criteria = inherited_match_criteria(match_request)
     Child.subform_matchable_fields.each do |field|
-      match_criteria[:"#{field}"] = self.family_details_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ')
+      match_criteria[:"#{field}"] = self.family.map{|member| member[:"#{field}"]}.compact.uniq.join(' ')
     end
     match_criteria.compact
   end
