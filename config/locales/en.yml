@@ -640,6 +640,8 @@ en:
       record_state: "Record State:"
 
   potential_matches:
+    empty: "Please access matching through Tracing Requests"
+    display: "Displaying potential matches for %{type} %{id}"
     filter_by:
       score_range: "Score Range"
       age_range_case: "Age Range of Cases"
@@ -662,6 +664,9 @@ en:
     score: 'score'
     show_more: 'show more'
     show_less: 'show less'
+    likelihood:
+      likely: 'Likely'
+      possible: 'Possible'
 
   audit_logs:
     action_options:

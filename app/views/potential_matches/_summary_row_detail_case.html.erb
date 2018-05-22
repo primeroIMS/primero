@@ -1,14 +1,14 @@
 <tr>
   <td class="id_column">
     <% if detail.visible %>
-      <%= link_to text_to_identify_potential_match_child(detail), case_path(detail.child_id), class: 'id_link' %>
+      <%= link_to detail.case_id_display, case_path(detail.child_id), class: 'id_link' %>
     <% else %>
-      <%= detail.case_id.last 7 %>
+      <%= detail.case_id_display %>
     <% end %>
   </td>
-  <td><%= detail.case_age %></td>
-  <td><%= detail.case_sex %></td>
-  <td><%= detail.case_registration_date %></td>
+  <td><%= mask_match_value(detail, detail.child_age) %></td>
+  <td><%= mask_match_value(detail, detail.child.try(:display_field, 'sex', @lookups)) %></td>
+  <td><%= mask_match_value(detail, field_format_date(detail.case_registration_date)) %></td>
   <td><%= detail.case_owned_by %></td>
-  <td><%= detail.average_rating.round(5) %></td>
+  <td><%= I18n.t("potential_match.likelihood.#{detail.likelihood}") %></td>
 </tr>

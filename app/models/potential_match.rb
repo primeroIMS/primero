@@ -9,33 +9,25 @@ class PotentialMatch < CouchRest::Model::Base
 
 
   include PrimeroModel
-
-  #TODO v1.3: including Record only to fix issues with solr reindex.  Is there a better way?
-  #HACK
   include Record
-
   include Historical
   include Syncable
   include SyncableMobile
   include Importable
   include Ownable
 
-
-  belongs_to :tracing_request
-  belongs_to :child
   property :tr_subform_id
   property :average_rating, Float
+  property :aggregate_average_score, Float
+  property :likelihood
   property :status, String, :default => 'POTENTIAL'
   property :unique_identifier
-  property :short_id
-  property :case_id
-  property :tr_id
-  property :tr_gender
-  property :tr_age
-  property :child_gender
-  property :child_age
+  property :child_id
+  property :tracing_request_id
 
   attr_accessor :visible
+  attr_accessor :child
+  attr_accessor :tracing_request
 
   # TODO - this is failing as we are upgrading ruby & rails.
   # TODO - need to add back after couchrest version is upgraded
@@ -47,6 +39,12 @@ class PotentialMatch < CouchRest::Model::Base
   POTENTIAL = 'POTENTIAL'
   DELETED = 'DELETED'
   FIELD_MASK = '***'
+
+  LIKELY = 'likely'
+  POSSIBLE = 'possible'
+
+  NORMALIZED_THRESHOLD = 0.1
+  LIKELIHOOD_THRESHOLD = 0.7
 
   design do
     view :by_tracing_request_id
@@ -67,13 +65,6 @@ class PotentialMatch < CouchRest::Model::Base
          :reduce => "function(key, values) {
                        return null;
                      }"
-    view :by_short_id,
-         :map => "function(doc) {
-                  if (doc.hasOwnProperty('short_id'))
-                 {
-                    emit(doc['short_id'], null);
-                 }
-              }"
     view :by_unique_identifier,
          :map => "function(doc) {
                   if (doc.hasOwnProperty('unique_identifier'))
@@ -100,8 +91,8 @@ class PotentialMatch < CouchRest::Model::Base
   searchable do
     string :status
     integer :child_age
-    string :child_gender
-    integer :tr_age
+    string :child_sex
+    integer :tracing_request_age
     string :tr_gender
     string :module_id
     double :average_rating
@@ -129,10 +120,14 @@ class PotentialMatch < CouchRest::Model::Base
 
   def create_identification
     self.unique_identifier ||= UUIDTools::UUID.random_create.to_s
-    self.short_id ||= self.unique_identifier.last 7
+  end
+
+  def short_id
+    self.unique_identifier.last(7)
   end
 
   #Overriding method in searchable concern
+  #TODO MATCHING: This is being taken away. Also an unnecessary db call
   def pagination(pagination_parms=nil)
     {page:1, per_page:PotentialMatch.count}
   end
@@ -156,49 +151,79 @@ class PotentialMatch < CouchRest::Model::Base
     self.visible = (associated_user_names.first == 'all' || associated_user_names.include?(self.send("#{type}_owned_by")))
   end
 
-  def case_age
-    if self.child.present?
-      self.visible ? self.child.age : FIELD_MASK
+  def set_likelihood(score, aggregate_average_score)
+    self.aggregate_average_score = aggregate_average_score
+    if (score - aggregate_average_score) > 0.7
+      self.likelihood = LIKELY
     else
-      ""
+      self.likelihood = POSSIBLE
     end
   end
 
-  def case_sex
-    sex = self.visible ? self.child.try(:display_field, 'sex') : FIELD_MASK
+  def case_id_display
+    self.child.try(:case_id_display)
+  end
+
+  def child_age
+    self.child.try(:age)
+  end
+
+  def child_sex
+    self.child.try(:sex)
+  end
+
+  def child
+    @child ||= Child.get(self.child_id)
+  end
+
+  def tracing_request
+    @tracing_request ||= TracingRequest.get(self.tracing_request_id)
+  end
+
+  def inquirer_id
+    @inquirer_id ||= self.tracing_request.try(:inquirer_id)
+  end
+
+  def trace
+    unless @trace.present?
+      traces = self.tracing_request.try(:tracing_request_subform_section)
+      if traces.present?
+        @trace = traces.select{|t| t.unique_id == self.tr_subform_id}.first
+      end
+    end
+    return @trace
+  end
+
+  def tracing_request_age
+    @tracing_request_age ||= self.trace.try(:age)
+  end
+
+  def tracing_request_sex
+    @tracing_request_sex ||= self.trace.try(:sex)
   end
 
   def case_registration_date
-    registration_date = self.visible ? self.child.try(:registration_date) : FIELD_MASK
+    @case_registration_date ||= self.child.try(:registration_date)
   end
 
   def case_owned_by
-    self.child.try(:owned_by)
-  end
-
-  def tracing_request_uuid
-    self.tracing_request_id
+    @case_owned_by ||= self.child.try(:owned_by)
   end
 
   def tracing_request_inquiry_date
-    if self.tracing_request.present?
-      self.visible ? self.tracing_request.inquiry_date : FIELD_MASK
-    else
-      ""
-    end
+    @tracing_request_inquiry_date ||= self.tracing_request.try(:inquiry_date)
   end
 
   def tracing_request_relation_name
-    relation_name = self.visible ? self.tracing_request.try(:relation_name) : FIELD_MASK
+    @relation_name ||= self.tracing_request.try(:relation_name)
   end
 
   def tracing_request_name
-    name = self.visible ? self.tracing_request.try(:tracing_request_subform_section).try(:select){|tr| tr.unique_id == self.tr_subform_id}.try(:first).try(:name)
-                        : FIELD_MASK
+    @tracing_request_name ||= self.trace.try(:name)
   end
 
   def tracing_request_owned_by
-    self.tracing_request.try(:owned_by)
+    @tracing_request_owned_by ||= self.tracing_request.try(:owned_by)
   end
 
   class << self
@@ -209,6 +234,7 @@ class PotentialMatch < CouchRest::Model::Base
       old_all(*args)
     end
 
+    #TODO MATCHING: This method is not being used and will likely be rewritten or deleted when potential matches are persisted
     def update_matches_for_tracing_request(tracing_request_id, subform_id, tr_age, tr_sex, results, child_id=nil)
       if child_id.nil?
         by_tracing_request_id_and_tr_subform_id.key([tracing_request_id, subform_id]).all.each do |pm|
@@ -224,6 +250,7 @@ class PotentialMatch < CouchRest::Model::Base
       end
     end
 
+    #TODO MATCHING: This method is not being used and will likely be rewritten or deleted when potential matches are persisted
     def update_matches_for_child(child_id, results)
       tr_subform_ids = results.map { |result| result[:tr_subform_id] }.uniq
       by_child_id.key(child_id).all.each do |pm|
@@ -265,29 +292,63 @@ class PotentialMatch < CouchRest::Model::Base
       end
     end
 
+    #TODO MATCHING: Consider thresholding and normalizing in separate testable methods
+    #               Consider taking out the PM generation methods from matchable concern, case and TRs and putting them all here
+    def matches_from_search(search_result)
+      matches = []
+      if search_result.present?
+        scores = search_result.values
+        max_score = scores.max
+        average_score = scores.reduce(0){|sum,x|sum+(x/max_score.to_f)} / scores.count.to_f
+        normalized_search_result = search_result.map{|k,v| [k,v/max_score.to_f]}
+        thresholded_search_result = normalized_search_result.select{|k,v| v > NORMALIZED_THRESHOLD}
+        thresholded_search_result.each do |id, score|
+          matches << yield(id, score, average_score)
+        end
+      end
+      matches = link_cases_and_tracing_requests(matches)
+      return matches
+    end
+
+    def build_potential_match(child_id, tracing_request_id, score, aggregate_average_score, subform_id)
+      #TODO: In the old way of doing this, this was invoking find_or_build. But I think we always want to generate a fresh new potential match.
+      pm = PotentialMatch.new :tracing_request_id => tracing_request_id, :child_id => child_id, :tr_subform_id => subform_id
+      pm.average_rating = score
+      pm.set_likelihood(score, aggregate_average_score)
+      pm.module_id = PrimeroModule::CP #TODO: should just inherit from TR or Case parent
+      pm.mark_as_potential_match
+      #TODO: When we are persisting potential matches revisit this logic
+      # should_mark_deleted = !pm.new? && !pm.deleted?
+      # if should_mark_deleted
+      #   pm.mark_as_deleted
+      # end
+      return pm
+    end
+
     private
 
+    #TODO MATCHING: This method may no longer be used and will eventually be deleted
     def update_potential_match(child_id, tracing_request_id, score, subform_id, tr_age, tr_sex)
-      threshold = 0
-      pm = find_or_build tracing_request_id, child_id, subform_id
-      pm.average_rating = score
-      pm.case_id = Child.get_case_id(child_id)
-      pm.child_age, pm.child_gender = Child.get_case_age_and_gender(child_id)
-      pm.tr_age = tr_age
-      pm.tr_gender = tr_sex
-      pm.tr_id = TracingRequest.get_tr_id(tracing_request_id)
-      pm.module_id = PrimeroModule::CP
-      valid_score = score >= threshold
-      should_mark_deleted = !valid_score && !pm.new? && !pm.deleted?
-      if should_mark_deleted
-        pm.mark_as_deleted
-        pm.save
-      elsif valid_score
-        pm.mark_as_potential_match
-        pm.save
+      potantial_match = build_potential_match(child_id, tracing_request_id, score, subform_id, tr_age, tr_sex)
+      potential_match.save
+    end
+
+    def link_cases_and_tracing_requests(potential_matches)
+      child_ids = potential_matches.map(&:child_id).uniq
+      tracing_request_ids = potential_matches.map(&:tracing_request_id).uniq
+      case_hash = Child.all(keys: child_ids).map{|c| [c.child_id, c]}.to_h
+      tracing_request_hash = TracingRequest
+        .all(keys: tracing_request_ids)
+        .map{|tr| [tr.tracing_request_id, tr]}.to_h
+      potential_matches.map do |potential_match|
+        potential_match.child = case_hash[potential_match.child_id]
+        potential_match.tracing_request = tracing_request_hash[potential_match.tr_id]
+        potential_match
       end
     end
 
+    #TODO MATCHING: This method is longer used,
+    #               but may be revamped when we turn persistence back on in the future
     def find_or_build(tracing_request_id, child_id, subform_id)
       potential_match = by_child_id_and_tr_subform_id.key([child_id, subform_id]).first
       return potential_match unless potential_match.nil?
@@ -321,7 +382,7 @@ class PotentialMatch < CouchRest::Model::Base
       match_details = []
       potential_match_list.each do |potential_match|
         match_detail = {'tracing_request_id' => potential_match.tr_id,
-                        'tr_uuid' => potential_match.tracing_request_uuid,
+                        'tr_uuid' => potential_match.tracing_request_id,
                         'subform_tracing_request_name' => potential_match.tracing_request_name,
                         'inquiry_date' => potential_match.tracing_request_inquiry_date,
                         'relation_name' => potential_match.tracing_request_relation_name,
@@ -342,7 +403,7 @@ class PotentialMatch < CouchRest::Model::Base
         # use the first potential_match record to build the header
         match_1 = record.last.first
         match_hash = {'tracing_request_id' => match_1.tr_id,
-                      'tr_uuid' => match_1.tracing_request_uuid,
+                      'tr_uuid' => match_1.tracing_request_id,
                       'relation_name' => match_1.tracing_request_relation_name,
                       'inquiry_date' => match_1.tracing_request_inquiry_date,
                       'subform_tracing_request_id' => match_1.tr_subform_id,

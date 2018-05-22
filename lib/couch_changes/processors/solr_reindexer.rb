@@ -31,13 +31,9 @@ module CouchChanges
                 instance.index_nested_reportables
               end
 
-              if instance.respond_to? :find_match_tracing_requests
-                instance.find_match_tracing_requests
-              end
-
-              if instance.respond_to? :find_match_cases
-                instance.find_match_cases
-              end
+              #Note: The Solr reindexer used to also create/update potential matches.
+              #      Currently the matches aren't getting persisted,
+              #      and in the future will be recalculated by a batch job
 
               dfd.succeed
             else
