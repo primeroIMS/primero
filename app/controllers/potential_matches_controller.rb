@@ -48,6 +48,22 @@ class PotentialMatchesController < ApplicationController
     end
   end
 
+  #TODO: Consider moving this to concern and combine with quick_view in ChildrenController
+  def quick_view
+    authorize! :read, model_class
+    @potential_match = PotentialMatch.new(params) #TODO: recreate from params
+    @comparison = @potential_match.compare_case_to_trace
+
+    html = PotentialMatchesController.new.render_to_string(partial: "potential_matches/quick_view", layout: false, locals: {
+      potential_match: @potential_match,
+      comparison: @comparison
+    })
+
+    respond_to do |format|
+      format.html {render plain: html}
+    end
+  end
+
   def load_potential_matches
     @potential_matches = []
     #TODO MATCHING: This is a temporary hack, get rid of this

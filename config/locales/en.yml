@@ -652,6 +652,7 @@ en:
       female: "Female"
 
   potential_match:
+    header_key: "Match Criteria:"
     inquirer_id: 'inquirer id#'
     inquirer_name: 'name of inquirer'
     inquiry_date: 'date of inquiry'

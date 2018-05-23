@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="columns small-12 header_section">
+    <div class="row data">
+      <h2><span class="match-header"><%= I18n.t('potential_match.header_key') %></span> <%= potential_match.case_name %> (<%= potential_match.case_id_display %>)</h2>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="columns small-12 ">
+    <% comparison[:case].each_slice(2) do |comparison_fields| %>
+    <% comparison_field1 = comparison_fields[0] ; comparison_field2 = comparison_fields[1] %>
+      <div class="row data value-comparison">
+        <div class="columns small-6 key">
+          <strong><%= comparison_field1[:case_field].display_name %></strong>
+          <% if comparison_field1[:matches] == PotentialMatch::VALUE_MATCH %>
+            <span class="value-match">&#10004;</span>
+          <% elsif comparison_field1[:matches] == PotentialMatch::VALUE_MISMATCH %>
+            <span class="value-mismatch">&#10008;</span>
+          <% end %>
+        </div>
+        <div class="columns small-6 key">
+          <% if comparison_field2.present? %>
+            <strong><%= comparison_field2[:case_field].display_name %></strong>
+            <% if comparison_field2[:matches] == PotentialMatch::VALUE_MATCH %>
+              <span class="value-match">&#10004;</span>
+            <% elsif comparison_field2[:matches] == PotentialMatch::VALUE_MISMATCH %>
+              <span class="value-mismatch">&#10008;</span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+<button class="close-button" data-close aria-label="Close modal" type="button">
+  <span aria-hidden="true">&times;</span>
+</button>

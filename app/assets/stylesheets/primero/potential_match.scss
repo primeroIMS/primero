@@ -52,3 +52,23 @@
     display: none;
   }
 }
+
+.row {
+  .value-comparison {
+    min-height: 2.4em;
+  }
+}
+
+.value-match {
+  color: $green_color;
+  font-size: 1rem;
+}
+
+.value-mismatch {
+  color: $red_color;
+  font-size: 1rem;
+}
+
+.match-header {
+  color: $green_color;
+}
