@@ -1,9 +1,13 @@
-<div class="spacer"></div>
+
+<% if (can_view_photo && child.photo_keys.present?) %>
+  <div class="row">
+    <%= thumbnail_tag(child, child.current_photo_key) %>
+  </div>
+<% else %>
+  <div class="spacer"></div>
+<% end %>
 <div class="row">
   <div class="columns small-12 ">
-    <% if (can_view_photo && child.photo_keys.present?) %>
-      <%= thumbnail_tag(child, child.current_photo_key) %>
-    <% end %>
     <% view_data(child, form_sections).each do |field| %>
       <div class="row data">
         <div class="columns small-5 key">
