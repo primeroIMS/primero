@@ -552,3 +552,12 @@ tr td span {
   opacity: 0.25 !important;
   cursor: not-allowed !important;
 }
+
+#viewModal img{
+  @if $global-text-direction == rtl {
+    float: left;
+  }
+  @else{
+    float: right;
+  }
+}
