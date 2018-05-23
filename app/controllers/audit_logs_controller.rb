@@ -28,20 +28,21 @@ class AuditLogsController < ApplicationController
   private
 
   def load_audit_logs
+    audit_log_result = nil
     if params[:scope].present?
       @user_name_params = user_name_params
       @timestamp_name_params = timestamp_params
 
       if @user_name_params
-        @audit_log_result = AuditLog.find_by_user_name_and_timestamp(@user_name_params, @timestamp_name_params[:from],
-                                                                     @timestamp_name_params[:to], page, per_page)
+        audit_log_result = AuditLog.find_by_user_name_and_timestamp(@user_name_params, @timestamp_name_params[:from],
+                                                                     @timestamp_name_params[:to])
       else
-        @audit_log_result = AuditLog.find_by_timestamp(@timestamp_name_params[:from], @timestamp_name_params[:to],
-                                                       page, per_page)
+        audit_log_result = AuditLog.find_by_timestamp(@timestamp_name_params[:from], @timestamp_name_params[:to])
       end
     else
-      @audit_log_result = AuditLog.find_by_timestamp(nil, nil, page, per_page)
+      audit_log_result = AuditLog.find_by_timestamp
     end
+    @audit_log_result = audit_log_result.try(:page, page).try(:per, per_page) || []
   end
 
   def user_name_params
