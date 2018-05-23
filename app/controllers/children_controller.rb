@@ -177,11 +177,12 @@ class ChildrenController < ApplicationController
     child = Child.get(params['child_id'])
     form_sections = child.present? ? child.class.allowed_formsections(current_user, child.module) : nil
 
-    html = ChildrenController.new.render_to_string(partial: "children/quick_view", layout: false, locals: {
+    html = ChildrenController.render('children/_quick_view', layout: false, locals: {
       child: child,
       form_sections: form_sections,
       user: current_user,
-      can_request_transfer: @can_request_transfer
+      can_request_transfer: @can_request_transfer,
+      can_view_photo: @can_view_photo
     })
 
     respond_to do |format|
