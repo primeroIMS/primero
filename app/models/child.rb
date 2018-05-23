@@ -52,6 +52,7 @@ class Child < CouchRest::Model::Base
   property :hidden_name, TrueClass, :default => false
   property :registration_date, Date
   property :age, Integer
+  property :sex
   property :reunited, TrueClass
   property :reunited_message, String
   property :investigated, TrueClass
@@ -365,7 +366,6 @@ class Child < CouchRest::Model::Base
   end
 
   def family(relation=nil)
-    binding.pry
     result = self.try(:family_details_section) || []
     if relation_type.present?
       result = result.select do |member|
