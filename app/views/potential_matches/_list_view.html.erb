@@ -9,17 +9,7 @@
   <div class="row controls align-middle">
     <div class="large-9 small-9 columns">
       <div class="row collapse align-middle">
-        <div class="large-6 small-6 columns">
-          <div class="pagination_info"><%= page_entries_info collection %></div>
-        </div>
-        <div class="large-6 small-6 columns">
-          <%= render partial: "potential_matches/header",
-                     locals: {
-                         model: model, record: record, modules: @current_modules,
-                         sort_method: options[:sort_method],
-                     }
-          %>
-        </div>
+        <%= potential_match_header_text %>
       </div>
     </div>
     <div class="large-3 small-3 columns no-padding-left">
@@ -40,12 +30,8 @@
   <div class="large-9 small-9 columns">
     <div class="clearfix"></div>
     <%= render :partial => "potential_matches/summary_row", collection: collection, as: :record %>
-
-    <table style="width: 100%;" class="record_list_view dataTable paging_div_view" cellpadding="0" cellspacing="0" style="display: none">
-    </table>
   </div>
   <div class="large-3 small-3 columns no-padding-left index_filters">
     <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
   </div>
 </div>
-<%= render :partial => 'shared/pagination', :locals => {:results => collection, :total => @total_records, :per => @per_page} %>

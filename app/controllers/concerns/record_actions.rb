@@ -30,6 +30,7 @@ module RecordActions
     before_action :display_view_page, :only => [:index]
     before_action :view_reporting_filter, :only => [:index]
     before_action :can_request_transfer, :only => [:index, :quick_view]
+    before_action :can_view_photo, :only => [:quick_view]
   end
 
   def list_variable_name
@@ -348,6 +349,10 @@ module RecordActions
 
   def can_request_transfer
     @can_request_transfer = can?(:request_transfer, model_class)
+  end
+
+  def can_view_photo
+    @can_view_photo = can?(:view_photo, model_class)
   end
 
   def view_reporting_filter
