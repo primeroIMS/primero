@@ -126,6 +126,7 @@ en:
      bulk_exports: "BULK EXPORTS"
      tasks: "TASKS"
      audit_logs: "Audit Logs"
+     matching_configuration: "MATCHING"
 
   buttons:
      delete: "Delete"
@@ -1297,6 +1298,9 @@ en:
       other: 'Other'
       locality: 'Locality'
       sub-district: 'Sub-district'
+
+  matching_configuration:
+    edit: "Edit Matching Configuration"
 
   session:
     about_to_expire: "Your session is about to expire!"
