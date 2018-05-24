@@ -271,9 +271,9 @@ class ChildrenController < ApplicationController
 
   def match_record
     load_tracing_request
-    if @tracing_request.present? && @match_request.present?
-      @match_request.matched_case_id = @child.id
-      @child.matched_tracing_request_id = "#{@tracing_request.id}::#{@match_request.unique_id}"
+    if @tracing_request.present? && @trace.present?
+      @trace.matched_case_id = @child.id
+      @child.matched_tracing_request_id = "#{@tracing_request.id}::#{@trace.unique_id}"
 
       begin
         @tracing_request.save
@@ -286,6 +286,19 @@ class ChildrenController < ApplicationController
       flash[:notice] = t("child.match_record_failed")
     end
     redirect_to case_path(@child)
+  end
+
+  def load_tracing_request
+    if params[:match].present?
+      # Expect match input to be in format <tracing request id>::<tracing request subform unique id>
+      match_param = params[:match].split("::")
+      tracing_request_id = match_param.first
+      trace_id = match_param.last
+      @tracing_request = TracingRequest.get(tracing_request_id) if tracing_request_id.present?
+      if @tracing_request.present? && trace_id.present?
+        @trace = @tracing_request.traces(trace_id).first
+      end
+    end
   end
 
   def transfer_status

@@ -37,4 +37,12 @@ module PotentialMatchHelper
     end
   end
 
+  def mark_case_matched_to_trace(potential_match)
+    if potential_match.case_and_trace_matched?
+      'case-and-trace-matched'
+    else
+      ''
+    end
+  end
+
 end

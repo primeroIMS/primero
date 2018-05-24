@@ -241,6 +241,10 @@ class PotentialMatch < CouchRest::Model::Base
     self.trace.try(:date_of_birth)
   end
 
+  def case_and_trace_matched?
+    self.child.matched_to_trace?(self.tr_subform_id)
+  end
+
   def compare_case_to_trace
     case_fields = PotentialMatch.case_fields_for_comparison
     case_field_values = case_fields.map do |field|
