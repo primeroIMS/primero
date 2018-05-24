@@ -40,10 +40,10 @@ describe Child do
 
     it "should replace old properties with updated ones" do
       #TODO - i18n
-      child = Child.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
-      new_properties = {"name" => "Dave", "age" => "35"}
+      child = Child.new("name" => "Dave", "age" => 28, "last_known_location" => "London")
+      new_properties = {"name" => "Dave", "age" => 35}
       child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      child['age'].should == "35"
+      child['age'].should == 35
       child['name'].should == "Dave"
       child['last_known_location'].should == "London"
     end
@@ -379,9 +379,9 @@ describe Child do
   describe "new_with_user_name" do
 
     it "should create regular child fields" do
-      child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6')
+      child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => 6)
       child['last_known_location'].should == 'London'
-      child['age'].should == '6'
+      child['age'].should == 6
     end
 
     it "should create a unique id" do
@@ -1341,9 +1341,9 @@ describe Child do
       #Reload the form properties
       Child.refresh_form_properties
 
-      @child1 = Child.new(:family_details_section => [{"relation_name" => "Jill", "relation" => "Mother"}, {"relation_name" => "Jack", "relation" => "Father"}])
-      @child2 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Judy", :relation => "Mother"}])
-      @child3 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Brad", :relation => "Father"}])
+      @child1 = Child.new(:family_details_section => [{"relation_name" => "Jill", "relation" => "mother"}, {"relation_name" => "Jack", "relation" => "father"}])
+      @child2 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Judy", :relation => "mother"}])
+      @child3 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Brad", :relation => "father"}])
       @child4 = create_child("Daphne")
     end
 

@@ -60,6 +60,69 @@ describe PotentialMatch do
     end
   end
 
+  describe 'comparison' do
+    describe '.compare_values' do
+      before do
+        @potential_match = PotentialMatch.new
+      end
+
+      it 'returns a match when the values are present and equal' do
+        expect(@potential_match.compare_values('male', 'male')).to eq(PotentialMatch::VALUE_MATCH)
+      end
+
+      it 'returns a mismatch when at least one value is present and the values arent equal' do
+        expect(@potential_match.compare_values('female', 'male')).to eq(PotentialMatch::VALUE_MISMATCH)
+      end
+
+      it 'is nil when both values are nil' do
+        expect(@potential_match.compare_values(nil, nil)).to be_nil
+      end
+    end
+
+    describe '.case_fields_for_comparison' do
+      before do
+        FormSection.all.each &:destroy
+        @form_section = create(:form_section,
+          is_first_tab: true,
+          fields: [
+            build(:field, name: "sex", display_name: "Sex", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-gender", create_property: false, matchable: true),
+            build(:field, name: "age", display_name: "Age", type: Field::NUMERIC_FIELD, create_property: false, matchable: true),
+            build(:field, name: "name", display_name: "Service Due Dates", type: Field::TEXT_FIELD, create_property: false, matchable: true),
+            build(:field, name: 'comments', type: Field::TEXT_AREA, display_name: 'Comments', create_property: false, matchable: true),
+            build(:field, name: 'sex_of_caregiver', display_name: "Sex", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-gender", create_property: false, matchable: false)
+          ]
+        )
+      end
+
+      it 'returns non-text matchable fields' do
+        field_names = PotentialMatch.case_fields_for_comparison.map(&:name)
+        expect(field_names).to contain_exactly('sex', 'age')
+      end
+    end
+
+    describe '.compare_case_to_trace' do
+      before do
+        PotentialMatch.stub(:case_fields_for_comparison).and_return([
+          build(:field, name: "sex", display_name: "Sex", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-gender", create_property: false, matchable: true),
+          build(:field, name: "age", display_name: "Age", type: Field::NUMERIC_FIELD, create_property: false, matchable: true)
+        ])
+        @child = build(:child, age: 12, sex: 'male')
+        @trace = build(:child, age: 12, sex: 'female') #Cheating a bit!
+        @potentail_match = PotentialMatch.new
+        @potential_match.stub(:child).and_return(@child)
+        @potential_match.stub(:trace).and_return(@trace)
+      end
+
+      it 'returns comparison hash' do
+        case_comparison = @potential_match.compare_case_to_trace[:case]
+        sex_comparison = case_comparison.select{|c| c[:case_field].name == 'sex'}.first
+        age_comparison = case_comparison.select{|c| c[:case_field].name == 'age'}.first
+        expect(age_comparison[:matches]).to eq(PotentialMatch::VALUE_MATCH)
+        expect(sex_comparison[:matches]).to eq(PotentialMatch::VALUE_MISMATCH)
+      end
+    end
+  end
+
   describe 'set_visible' do
     context 'when type is case' do
       before do

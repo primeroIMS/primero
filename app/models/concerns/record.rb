@@ -404,6 +404,7 @@ module Record
     end
   end
 
+  #TODO: This is really inefficient! We should be using the FormSection.fields view here
   def display_field(field_name, lookups = nil)
     fd = field_definitions.select{|f| f.name == field_name}.first
     fd.nil? ? "" : fd.display_text(self.send(field_name), lookups)
@@ -430,6 +431,7 @@ module Record
     self.audio = new_audio
   end
 
+  #TODO: This should use the FormSection.fields view instead
   def field_definitions
     if @field_definitions.blank?
       @field_definitions = []

@@ -653,18 +653,24 @@ en:
       female: "Female"
 
   potential_match:
+    header_key: "Match Criteria:"
     inquirer_id: 'inquirer id#'
     inquirer_name: 'name of inquirer'
     inquiry_date: 'date of inquiry'
     inquirer_tr_name: 'tracing request'
     child_id: 'child id#'
-    child_age: 'age'
-    child_gender: 'gender'
-    reg_date: 'registration date'
+    child_age: 'Age'
+    child_gender: 'Gender'
+    child_date_of_birth: 'Date of Birth'
+    reg_date: 'Registration date'
     social_worker: 'social worker'
     score: 'score'
     show_more: 'show more'
     show_less: 'show less'
+    trace: 'Trace'
+    case: 'Case'
+    name: 'Name'
+
     likelihood:
       likely: 'Likely'
       possible: 'Possible'

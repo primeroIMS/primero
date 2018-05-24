@@ -216,6 +216,7 @@ Primero::Application.routes.draw do
   resources :potential_matches do
     collection do
       post :import_file
+      get :quick_view
     end
   end
   # match '/potential_matches/:method' => 'potential_matches#index', :as => :potential_matches_method, :via => [:post, :get, :put, :delete]

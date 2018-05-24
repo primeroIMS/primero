@@ -48,6 +48,31 @@ class PotentialMatchesController < ApplicationController
     end
   end
 
+  #TODO: Consider moving this to concern and combine with quick_view in ChildrenController
+  def quick_view
+    authorize! :read, model_class
+    @potential_match = PotentialMatch.new(params) #TODO: recreate from params
+    special_comparison_fields = ['age', 'sex', 'date_of_birth']
+    @comparison = @potential_match.compare_case_to_trace
+    @special_comparison = special_comparison_fields.map do |field_name|
+      comparison_for = @comparison[:case].select{|c| c[:case_field].name == field_name}.first
+      @comparison[:case].delete(comparison_for)
+      [field_name, comparison_for[:matches]]
+    end.to_h
+    @lookups = [Lookup.get('lookup-gender')]
+
+    html = PotentialMatchesController.new.render_to_string(partial: "potential_matches/quick_view", layout: false, locals: {
+      lookups: @lookups,
+      potential_match: @potential_match,
+      special_comparison: @special_comparison,
+      comparison: @comparison
+    })
+
+    respond_to do |format|
+      format.html {render plain: html}
+    end
+  end
+
   def load_potential_matches
     @potential_matches = []
     #TODO MATCHING: This is a temporary hack, get rid of this
