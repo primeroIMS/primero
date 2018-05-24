@@ -3,6 +3,7 @@ _primero.Views.viewRecord = _primero.Views.Base.extend({
 
   events: {
     "click .record-view-modal": "show_record_view_modal",
+    "click .potential-match-view-modal": "show_potential_match_modal",
     "closed.zf.reveal body": "clear_modal"
   },
 
@@ -80,5 +81,19 @@ _primero.Views.viewRecord = _primero.Views.Base.extend({
         self.show_request_transfer_modal
       );
     });
+  },
+
+  show_potential_match_modal: function(event) {
+    event.preventDefault();
+    var tracing_request_id = $(event.target).data("tracing-request-id");
+    var child_id = $(event.target).data("child-id");
+    var tr_subform_id =  $(event.target).data("tr-subform-id");
+    var view_path = "/potential_matches/quick_view" +
+      "?tracing_request_id=" + tracing_request_id +
+      "&child_id=" + child_id +
+      "&tr_subform_id=" + tr_subform_id;
+    var self = this;
+    this.populate_modal(view_path);
   }
+
 });

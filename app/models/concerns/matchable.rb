@@ -3,13 +3,28 @@ module Matchable
 
   module ClassMethods
 
+    MATCH_MAP = {
+      'nationality' => 'relation_nationality',
+      'language' => 'relation_language',
+      'religion' => 'relation_religion',
+      'ethnicity' => 'relation_ethnicity',
+      'sub_ethnicity_1' => 'relation_sub_ethnicity1',
+      'sub_ethnicity_2' => 'relation_sub_ethnicity2',
+      'relation_nationality' => 'nationality',
+      'relation_language' => 'language',
+      'relation_religion' => 'religion',
+      'relation_ethnicity' => 'ethnicity',
+      'relation_sub_ethnicity1' =>'sub_ethnicity_1',
+      'relation_sub_ethnicity2' => 'sub_ethnicity_2'
+    }
+
     def form_matchable_fields
       form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, false)
       Array.new(form_fields).map(&:name)
     end
 
     def subform_matchable_fields
-      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form)
+      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, true)
       Array.new(form_fields).map(&:name)
     end
 
@@ -63,6 +78,10 @@ module Matchable
         {field: 'sub_ethnicity_1', match: 'relation_sub_ethnicity1'},
         {field: 'sub_ethnicity_2', match: 'relation_sub_ethnicity2'}
       ]
+    end
+
+    def map_match_field(field_name)
+      MATCH_MAP[field_name] || field_name
     end
 
     def exclude_match_field(field)

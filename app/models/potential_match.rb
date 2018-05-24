@@ -46,6 +46,9 @@ class PotentialMatch < CouchRest::Model::Base
   NORMALIZED_THRESHOLD = 0.1
   LIKELIHOOD_THRESHOLD = 0.7
 
+  VALUE_MATCH = 'match'
+  VALUE_MISMATCH = 'mismatch'
+
   design do
     view :by_tracing_request_id
     view :by_child_id
@@ -168,6 +171,10 @@ class PotentialMatch < CouchRest::Model::Base
     self.child.try(:age)
   end
 
+  def child_date_of_birth
+    self.child.try(:date_of_birth)
+  end
+
   def child_sex
     self.child.try(:sex)
   end
@@ -202,6 +209,10 @@ class PotentialMatch < CouchRest::Model::Base
     @tracing_request_sex ||= self.trace.try(:sex)
   end
 
+  def case_name
+    @case_name ||= self.child.try(:name)
+  end
+
   def case_registration_date
     @case_registration_date ||= self.child.try(:registration_date)
   end
@@ -225,6 +236,46 @@ class PotentialMatch < CouchRest::Model::Base
   def tracing_request_owned_by
     @tracing_request_owned_by ||= self.tracing_request.try(:owned_by)
   end
+
+  def tracing_request_date_of_birth
+    self.trace.try(:date_of_birth)
+  end
+
+  def compare_case_to_trace
+    case_fields = PotentialMatch.case_fields_for_comparison
+    case_field_values = case_fields.map do |field|
+      case_value = self.child.try(field.name)
+      trace_value = self.trace.try(Child.map_match_field(field.name)) ||
+        self.tracing_request.try(Child.map_match_field(field.name))
+      matches = compare_values(case_value, trace_value)
+      {case_field: field, matches: matches, case_value: case_value, trace_value: trace_value}
+    end
+    family_field_values = []
+    #TODO: Commenting out the lines below because they are not being displayed for now
+    # family_fields = PotentialMatch.family_fields_for_comparison
+    # family = self.child.family(self.trace.relation)
+    # family.each do |member|
+    #   member_values = family_fields.map do |field|
+    #     case_value = member.try(field.name)
+    #     trace_value = self.tracing_request.try(Child.map_match_field(field.name)) ||
+    #       self.trace.try(Child.map_match_field(field.name))
+    #     matches = compare_values(case_value, trace_value)
+    #     {case_field: field, matches: matches, case_value: case_value, trace_value: trace_value}
+    #   end
+    #   family_field_values << member_values
+    # end
+    {case: case_field_values, family: family_field_values}
+  end
+
+    def compare_values(value1, value2)
+      result = nil
+      if value1 && value2 && (value1 == value2)
+        result = VALUE_MATCH
+      elsif value1 != value2
+        result = VALUE_MISMATCH
+      end
+      return result
+    end
 
   class << self
     alias :old_all :all
@@ -323,6 +374,18 @@ class PotentialMatch < CouchRest::Model::Base
       #   pm.mark_as_deleted
       # end
       return pm
+    end
+
+    def case_fields_for_comparison
+      FormSection.get_matchable_fields_by_parent_form('case', false)
+        .select {|f| !['text_field', 'textarea'].include?(f.type) && f.visible?}
+        .uniq{|f| f.name}
+    end
+
+    def family_fields_for_comparison
+      FormSection.get_matchable_fields_by_parent_form('case', true)
+        .select{|f| !['text_field', 'textarea'].include?(f.type) && f.visible?}
+        .uniq{|f| f.name}
     end
 
     private
