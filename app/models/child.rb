@@ -413,6 +413,11 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  def matched_to_trace?(trace_id)
+    self.matched_tracing_request_id.present? &&
+    (self.matched_tracing_request_id.split('::').last == trace_id)
+  end
+
   #TODO: The method is broken: the check should be for 'tracing_request'.
   #      Not fixing because find_match_tracing_requests is a shambles.
   def has_tracing_request?

@@ -1,4 +1,4 @@
-<tr>
+<tr class="<%= mark_case_matched_to_trace(detail) %>">
   <td class="id_column">
     <% if detail.visible %>
       <%= link_to detail.case_id_display, case_path(detail.child_id, match: "#{detail.tracing_request_id}::#{detail.tr_subform_id}"), class: 'id_link' %>
