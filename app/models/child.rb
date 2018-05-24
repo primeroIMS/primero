@@ -368,7 +368,7 @@ class Child < CouchRest::Model::Base
 
   def family(relation=nil)
     result = self.try(:family_details_section) || []
-    if relation_type.present?
+    if relation.present?
       result = result.select do |member|
         member.try(:relation) == relation
       end
