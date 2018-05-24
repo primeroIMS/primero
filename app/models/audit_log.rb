@@ -26,16 +26,16 @@ class AuditLog < CouchRest::Model::Base
 
   class << self
     def find_by_timestamp(from_time=nil, to_time=nil)
-      return [] unless valid_times?(from_time, to_time)
+      return nil unless valid_times?(from_time, to_time)
       to_time ||= DateTime.now
-      by_timestamp(descending: true, startkey: to_time, endkey: from_time).all
+      by_timestamp(descending: true, startkey: to_time, endkey: from_time)
     end
 
     def find_by_user_name_and_timestamp(search_user_name, from_time=nil, to_time=nil)
-      return [] unless search_user_name.present? && search_user_name.is_a?(String)
-      return [] unless valid_times?(from_time, to_time)
+      return nil unless search_user_name.present? && search_user_name.is_a?(String)
+      return nil unless valid_times?(from_time, to_time)
       to_time ||= DateTime.now
-      by_user_name_and_timestamp(descending: true, startkey: [search_user_name, to_time], endkey: [search_user_name, from_time]).all
+      by_user_name_and_timestamp(descending: true, startkey: [search_user_name, to_time], endkey: [search_user_name, from_time])
     end
 
     private
