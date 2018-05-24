@@ -1,32 +1,77 @@
 <div class="row">
   <div class="columns small-12 header_section">
     <div class="row data">
-      <h2><span class="match-header"><%= I18n.t('potential_match.header_key') %></span> <%= potential_match.case_name %> (<%= potential_match.case_id_display %>)</h2>
+      <div class="columns small-6">
+        <h2>
+          <span class="match-header"><%= I18n.t('potential_match.case') %>:</span>
+          #<%= potential_match.case_id_display%>
+        </h2>
+      </div>
+      <div class="columns small-6">
+        <h2>
+          <span class="match-header"><%= I18n.t('potential_match.trace') %>:</span>
+          #<%= text_to_identify_potential_match_tracing_request(potential_match) %>
+        </h2>
+      </div>
     </div>
   </div>
 </div>
 <div class="row">
   <div class="columns small-12 ">
-    <% comparison[:case].each_slice(2) do |comparison_fields| %>
-    <% comparison_field1 = comparison_fields[0] ; comparison_field2 = comparison_fields[1] %>
+    <div class="row data value-comparison">
+      <div class="columns small-2 key">
+        <strong><%= I18n.t('potential_match.name') %></strong>
+      </div>
+      <div class="columns small-4">
+        <%= potential_match.case_name %>
+      </div>
+      <div class="columns small-6">
+        <%= potential_match.tracing_request_name %>
+      </div>
+    </div>
+    <div class="row data value-comparison">
+      <div class="columns small-2 key">
+        <strong><%= I18n.t('potential_match.child_gender') %></strong>
+      </div>
+      <div class="columns small-4">
+        <%= display_sex(potential_match.child_sex, lookups) %>
+      </div>
+      <div class="columns small-6">
+        <%= display_sex(potential_match.tracing_request_sex, lookups) %>
+        <%= comparison_symbol(special_comparison['sex']) %>
+      </div>
+    </div>
+    <div class="row data value-comparison">
+      <div class="columns small-2 key">
+        <strong><%= I18n.t('potential_match.child_age') %></strong>
+      </div>
+      <div class="columns small-4">
+        <%= potential_match.child_age %>
+      </div>
+      <div class="columns small-6">
+        <%= potential_match.tracing_request_age %>
+        <%= comparison_symbol(special_comparison['age']) %>
+      </div>
+    </div>
+    <div class="row data value-comparison">
+      <div class="columns small-2 key">
+        <strong><%= I18n.t('potential_match.child_date_of_birth') %></strong>
+      </div>
+      <div class="columns small-4">
+        <%= field_format_date(potential_match.child_date_of_birth) %>
+      </div>
+      <div class="columns small-6">
+        <%= field_format_date(potential_match.tracing_request_date_of_birth) %>
+        <%= comparison_symbol(special_comparison['date_of_birth']) %>
+      </div>
+    </div>
+    <% comparison[:case].each do |comparison_field| %>
       <div class="row data value-comparison">
         <div class="columns small-6 key">
-          <strong><%= comparison_field1[:case_field].display_name %></strong>
-          <% if comparison_field1[:matches] == PotentialMatch::VALUE_MATCH %>
-            <span class="value-match">&#10004;</span>
-          <% elsif comparison_field1[:matches] == PotentialMatch::VALUE_MISMATCH %>
-            <span class="value-mismatch">&#10008;</span>
-          <% end %>
+          <strong><%= comparison_field[:case_field].display_name %></strong>
         </div>
-        <div class="columns small-6 key">
-          <% if comparison_field2.present? %>
-            <strong><%= comparison_field2[:case_field].display_name %></strong>
-            <% if comparison_field2[:matches] == PotentialMatch::VALUE_MATCH %>
-              <span class="value-match">&#10004;</span>
-            <% elsif comparison_field2[:matches] == PotentialMatch::VALUE_MISMATCH %>
-              <span class="value-mismatch">&#10008;</span>
-            <% end %>
-          <% end %>
+        <div class="columns small-6">
+          <%= comparison_symbol(comparison_field[:matches]) %>
         </div>
       </div>
     <% end %>

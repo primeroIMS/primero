@@ -52,6 +52,7 @@ class Child < CouchRest::Model::Base
   property :hidden_name, TrueClass, :default => false
   property :registration_date, Date
   property :age, Integer
+  property :date_of_birth, Date
   property :sex
   property :reunited, TrueClass
   property :reunited_message, String

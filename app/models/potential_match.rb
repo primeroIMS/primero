@@ -171,6 +171,10 @@ class PotentialMatch < CouchRest::Model::Base
     self.child.try(:age)
   end
 
+  def child_date_of_birth
+    self.child.try(:date_of_birth)
+  end
+
   def child_sex
     self.child.try(:sex)
   end
@@ -231,6 +235,10 @@ class PotentialMatch < CouchRest::Model::Base
 
   def tracing_request_owned_by
     @tracing_request_owned_by ||= self.tracing_request.try(:owned_by)
+  end
+
+  def tracing_request_date_of_birth
+    self.trace.try(:date_of_birth)
   end
 
   def compare_case_to_trace

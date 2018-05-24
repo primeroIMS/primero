@@ -27,4 +27,14 @@ module PotentialMatchHelper
     match.visible ? value : '***'
   end
 
+  def comparison_symbol(comparison)
+    if comparison == PotentialMatch::VALUE_MATCH
+      content_tag(:span, '&#10004;'.html_safe, class: 'value-match')
+    elsif comparison == PotentialMatch::VALUE_MISMATCH
+      content_tag(:span, '&#10008;'.html_safe, class: 'value-mismatch')
+    else
+      '-'
+    end
+  end
+
 end
