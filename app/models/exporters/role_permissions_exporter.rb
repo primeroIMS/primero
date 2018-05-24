@@ -29,14 +29,41 @@ module Exporters
       end
       permissions_all = Permission.all_available
       header = ["Resource", "Action"] + @roles.map{|r| r.name}
-
       write_row header
+
+      write_general_permissions
+
       permissions_all.each do |permission_group|
         write_out_permissions_by_resource(permission_group)
       end
       @forms_by_record_type = FormSection.all_forms_grouped_by_parent
       @forms_by_record_type.each {|record_type, forms| write_out_permitted_form_record_type record_type, forms }
       complete
+    end
+
+    def write_general_permissions
+      # Group permissions
+      group_permission_header_row = [I18n.t("role.group_permission_label", locale: @locale)]
+      write_row group_permission_header_row
+      attr_keys = ['self', 'group', 'all']
+      attr_keys.each do |attr_key|
+        group_permission_row = ['', I18n.t("permissions.permission.#{attr_key}", locale: @locale)]
+        group_permissions_checks = @roles.map { |r| get_check(r.group_permission == attr_key) }
+        group_permission_row += group_permissions_checks
+        write_row group_permission_row
+      end
+
+      # Referral and transfer permissions
+      attr_keys = ['referral', 'transfer']
+      attr_keys.each do |attr_key|
+        header_row = [I18n.t("permissions.permission.#{attr_key}", locale: @locale)]
+        write_row header_row
+
+        permission_row = ['', I18n.t("role.#{attr_key}_label", locale: @locale)]
+        permission_row += @roles.map {|r| get_check r.send(attr_key) }
+        write_row permission_row
+      end
+
     end
 
     def write_out_permissions_by_resource(permission_group)
