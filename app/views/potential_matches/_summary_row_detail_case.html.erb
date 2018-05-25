@@ -8,11 +8,15 @@
   </td>
   <td><%= mask_match_value(detail, detail.child_age) %></td>
   <td><%= mask_match_value(detail, detail.child.try(:display_field, 'sex', @lookups)) %></td>
-  <td><%= mask_match_value(detail, field_format_date(detail.case_registration_date)) %></td>
   <td><%= detail.case_owned_by %></td>
+  <td><%= detail.case_owned_by_agency %></td>
   <td>
     <a class="potential-match-view-modal" data-tracing-request-id=<%= detail.tracing_request_id %> data-child-id=<%= detail.child_id %> data-tr-subform-id=<%= detail.tr_subform_id %> >
       <%= I18n.t("potential_match.likelihood.#{detail.likelihood}") %>
     </a>
   </td>
+  <td>
+    <a class="record-view-modal" data-record="<%= detail.child_id %>"><%= t('buttons.view') %><a>
+  </td>
+
 </tr>
