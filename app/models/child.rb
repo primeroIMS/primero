@@ -64,6 +64,7 @@ class Child < CouchRest::Model::Base
   property :system_generated_followup, TrueClass, default: false
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [], :default => []
+  property :matched_tracing_request_id
 
   # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
@@ -410,6 +411,11 @@ class Child < CouchRest::Model::Base
     if service_object.present?
       service_object.try(service_field.to_sym)
     end
+  end
+
+  def matched_to_trace?(trace_id)
+    self.matched_tracing_request_id.present? &&
+    (self.matched_tracing_request_id.split('::').last == trace_id)
   end
 
   #TODO: The method is broken: the check should be for 'tracing_request'.
