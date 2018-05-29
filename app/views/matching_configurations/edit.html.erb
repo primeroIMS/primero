@@ -3,11 +3,10 @@
 <% end %>
 
 <div class="page-content-new row">
-  <%= render :partial => 'form_section/sidebar', :locals => {:highlight_page => 'matching_configuration'} %>
+  <%= render 'form_section/sidebar', highlight_page: 'matching_configuration' %>
   <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content">
-      TODO!!!!
-      <%# render :partial => 'matching_configurations/form', :locals => {:editing => true}  %>
+      <%= render 'matching_configurations/form', editing: true %>
     </div>
   </div>
 </div>

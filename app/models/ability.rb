@@ -124,7 +124,7 @@ class Ability
   end
 
   def metadata_permissions
-    [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
+    [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule, MatchingConfiguration].each do |resource|
       can :manage, resource
     end
   end
