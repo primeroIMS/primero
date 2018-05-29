@@ -368,6 +368,12 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_matchable_fields_by_parent_form
 
+    def get_all_form_sections(primero_module, parent_form)
+      module_form_ids = primero_module.try(:associated_form_ids)
+      module_form_ids.present? ? FormSection.by_parent_form_and_unique_id(keys: module_form_ids.map{|f| [parent_form, f]}).all : []
+    end
+    memoize_in_prod :get_all_form_sections
+
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
       allowed_form_ids = self.get_allowed_form_ids(primero_module, user)

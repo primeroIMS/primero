@@ -1307,6 +1307,8 @@ en:
 
   matching_configuration:
     edit: "Edit Matching Configuration"
+    case_fields: "Matchable Case Fields"
+    tracing_request_fields: "Matchable Tracing Request Fields"
 
   session:
     about_to_expire: "Your session is about to expire!"
