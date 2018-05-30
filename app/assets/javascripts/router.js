@@ -227,6 +227,6 @@ _primero.Router = Backbone.Router.extend({
   matchingConfigurationPage: function() {
     _primero.chosen(".default-form select.chosen-select");
     new _primero.Views.PopulateSelectBoxes();
-  },
+  }
 
 });
