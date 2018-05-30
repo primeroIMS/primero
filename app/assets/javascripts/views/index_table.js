@@ -40,7 +40,7 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
   init_index_tables: function() {
     self = this;
 
-    var $list_table = $('.record_list_view');
+    var $list_table = $('.record_list_view:not(.dont_page)');
     
     // init datatables
     this.list_view_table = $list_table.DataTable({

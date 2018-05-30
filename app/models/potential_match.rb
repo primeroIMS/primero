@@ -221,6 +221,10 @@ class PotentialMatch < CouchRest::Model::Base
     @case_owned_by ||= self.child.try(:owned_by)
   end
 
+  def case_owned_by_agency
+    @case_owned_by_agency ||= self.child.try(:owned_by_agency)
+  end
+
   def tracing_request_inquiry_date
     @tracing_request_inquiry_date ||= self.tracing_request.try(:inquiry_date)
   end

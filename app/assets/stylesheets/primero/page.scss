@@ -185,12 +185,51 @@ table.record_list_view {
   }
 }
 
+table.record_list_view tbody tr.selected {
+  background-color: #b0bed9;
+}
+table.record_list_view tbody th,
+table.record_list_view tbody td {
+  padding: 15px 10px;
+  border-bottom: 1px dashed #ccc;
+  border-right: 1px solid $stroke_green_color;
+  .icon{
+    text-align: center;
+  }
+}
+
+@if $global-text-direction == rtl {
+  table.record_list_view tbody tr td:last-child {
+    border-left: 1px solid $stroke_green_color;
+  }
+} @else {
+  table.record_list_view tbody tr td:first-child {
+    border-left: 1px solid $stroke_green_color;
+  }
+}
+
+table.record_list_view tbody tr:last-child td {
+  border-bottom: 1px solid $stroke_green_color;
+}
+
 table tr:nth-of-type(even) {
   background: $desat_green_color !important;
 }
 
 table:not(.record_list_view) tr td {
   background: #fff;
+}
+
+table.record_list_view thead th,
+table.record_list_view thead td {
+  padding: 10px;
+  border-right: 1px solid $stroke_green_color;
+  border-top: 1px solid $stroke_green_color;
+  background: #ebf0e4 !important;
+  color: $green_color !important;
+  font-size: $thirteen_px !important;
+  font-family: 'Roboto-Medium', sans-serif !important;
+  text-transform: uppercase;
 }
 
 .show_count {
