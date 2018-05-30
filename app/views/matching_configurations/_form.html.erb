@@ -1,8 +1,3 @@
-<%
-  #TODO - is this needed?
-  editing ||= false
-%>
-
 <% content_for :record_sub_nav do %>
   <div class="button-group">
     <%= discard_button(form_sections_path) %>
@@ -20,8 +15,11 @@
               <%= f.label :case_fields, t("matching_configuration.case_fields"), :class => "key inline" %>
             </div>
             <div class="row">
-              <%= f.select :case_fields, grouped_options_for_select(@matching_configuration.case_field_options, nil, {}),
-                           { include_blank: t('fields.select_box_empty_item') },
+              <%= f.select :case_fields,
+                           grouped_options_for_select(@matching_configuration.case_field_options,
+                                                      @matching_configuration.case_fields,
+                                                      {}),
+                           {},
                            {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item"), class: 'chosen-select'} %>
             </div>
           </div>
@@ -30,8 +28,11 @@
               <%= f.label :tracing_request_fields, t("matching_configuration.tracing_request_fields"), :class => "key inline" %>
             </div>
             <div class="row">
-              <%= f.select :tracing_request_fields, grouped_options_for_select(@matching_configuration.tracing_request_field_options, nil, {}),
-                           { include_blank: t('fields.select_box_empty_item') },
+              <%= f.select :tracing_request_fields,
+                           grouped_options_for_select(@matching_configuration.tracing_request_field_options,
+                                                      @matching_configuration.tracing_request_fields,
+                                                      {}),
+                           {},
                            {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item"), class: 'chosen-select'} %>
             </div>
           </div>

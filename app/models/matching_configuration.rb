@@ -1,6 +1,8 @@
 class MatchingConfiguration
   include ActiveModel::Model
 
+  #TODO - Create rspec tests
+
   attr_accessor :id
   attr_accessor :form_ids
   attr_accessor :case_fields
@@ -27,9 +29,10 @@ class MatchingConfiguration
   end
 
   def load_form_fields
-    #TODO - fetch the fields that are already flagged as matchable
-    self.case_field_options = load_form_fields_by_type('case')
-    self.tracing_request_field_options = load_form_fields_by_type('tracing_request')
+    self.case_fields = load_matchable_fields_by_type('case')
+    self.case_field_options = load_field_options_by_type('case')
+    self.tracing_request_fields = load_matchable_fields_by_type('tracing_request')
+    self.tracing_request_field_options = load_field_options_by_type('tracing_request')
   end
 
   def update_matchable_fields
@@ -39,8 +42,15 @@ class MatchingConfiguration
 
   private
 
-  def load_form_fields_by_type(parent_form)
-    form_sections = FormSection.form_sections_by_ids_and_parent_form(self.form_ids, parent_form)
+  def load_matchable_fields_by_type(type)
+    matchable_field_names = FormSection.get_matchable_form_and_field_names(self.form_ids, type)
+    matchable_fields = []
+    matchable_field_names.each {|key, value| matchable_fields << value.map{|v| "#{key}#{ID_SEPARATOR}#{v}"}}
+    matchable_fields.flatten
+  end
+
+  def load_field_options_by_type(type)
+    form_sections = FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type)
     # form_sections&.map{|fs| [[fs.description, fs.unique_id], fs.fields.select{|fd| fd.visible == true}&.map{|fd| ["#{fd.display_name} (#{fd.name})", fd.name]}]}
     form_sections&.map{|fs| [fs.description, fs.fields.select{|fd| fd.visible == true}&.map{|fd| ["#{fd.display_name} (#{fd.name})", "#{fs.unique_id}#{ID_SEPARATOR}#{fd.name}"]}]}
   end
@@ -57,10 +67,7 @@ class MatchingConfiguration
     form_field_hash = {}
     self.send("#{type}_fields").try(:each) do |field_pair|
       field_pair_array = field_pair.split(ID_SEPARATOR)
-
-      #TODO do we need any error handling / logging here?
       next unless field_pair_array.size == 2
-
       form_id = field_pair_array.first
       field_name = field_pair_array.last
       form_field_hash[form_id] = [] unless form_field_hash.has_key? form_id

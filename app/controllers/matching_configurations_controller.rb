@@ -1,4 +1,5 @@
 class MatchingConfigurationsController < ApplicationController
+  #TODO - Create rspec tests
 
   before_action :load_matching_configuration, :only => [:edit]
 
