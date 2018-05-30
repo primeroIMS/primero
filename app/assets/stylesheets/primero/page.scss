@@ -193,6 +193,18 @@ table:not(.record_list_view) tr td {
   background: #fff;
 }
 
+table.record_list_view thead th,
+table.record_list_view thead td {
+  padding: 10px;
+  border-right: 1px solid $stroke_green_color;
+  border-top: 1px solid $stroke_green_color;
+  background: #ebf0e4 !important;
+  color: $green_color !important;
+  font-size: $thirteen_px !important;
+  font-family: 'Roboto-Medium', sans-serif !important;
+  text-transform: uppercase;
+}
+
 .show_count {
   margin-bottom: 10px;
 }
