@@ -51,7 +51,6 @@ class MatchingConfiguration
 
   def load_field_options_by_type(type)
     form_sections = FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type)
-    # form_sections&.map{|fs| [[fs.description, fs.unique_id], fs.fields.select{|fd| fd.visible == true}&.map{|fd| ["#{fd.display_name} (#{fd.name})", fd.name]}]}
     form_sections&.map{|fs| [fs.description, fs.fields.select{|fd| fd.visible == true}&.map{|fd| ["#{fd.display_name} (#{fd.name})", "#{fs.unique_id}#{ID_SEPARATOR}#{fd.name}"]}]}
   end
 
