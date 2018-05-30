@@ -368,11 +368,10 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_matchable_fields_by_parent_form
 
-    def get_all_form_sections(primero_module, parent_form)
-      module_form_ids = primero_module.try(:associated_form_ids)
-      module_form_ids.present? ? FormSection.by_parent_form_and_unique_id(keys: module_form_ids.map{|f| [parent_form, f]}).all : []
+    def form_sections_by_ids_and_parent_form(form_ids, parent_form)
+      form_ids.present? ? FormSection.by_parent_form_and_unique_id(keys: form_ids.map{|f| [parent_form, f]}).all : []
     end
-    memoize_in_prod :get_all_form_sections
+    memoize_in_prod :form_sections_by_ids_and_parent_form
 
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
@@ -709,6 +708,12 @@ class FormSection < CouchRest::Model::Base
 
   def all_matchable_fields
     self.fields.select { |field| field.matchable.present? && field.matchable == true }
+  end
+
+  # Updates each field's matchable property to true/false depending on whether or not it is in the field_list
+  #Input:  a list of fields that should be matchable
+  def update_fields_matchable(field_list=[])
+    self.fields.each {|field| field.matchable = field_list.include?(field.name)}
   end
 
   def all_searchable_fields
