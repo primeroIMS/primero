@@ -1,18 +1,36 @@
-<% if (can_view_photo && child.photo_keys.present?) %>
-  <div class="row">
-    <%= thumbnail_tag(child, child.current_photo_key) %>
-  </div>
-<% else %>
-  <div class="spacer"></div>
-<% end %>
+<div class="spacer"></div>
 <div class="row">
   <div class="columns small-12 ">
-    <% view_data(child, form_sections).each do |field| %>
+    <% field_data = view_data(child, form_sections) %>
+    <% if (can_view_photo && child.photo_keys.present?) %>
+      <%
+        field_data_slice = field_data[0..4]
+        field_data = field_data[5..-1]
+       %>
+      <div class="row collapse">
+        <div class="columns small-8">
+          <% field_data_slice.each do |field| %>
+            <div class="row data">
+              <div class="columns small-5 key" style="margin-right: -17px;">
+                <strong><%= field[:display_name] %></strong>
+              </div>
+              <div class="columns small-6 value">
+                <%= field[:value] %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <div class="columns small-3">
+          <%= thumbnail_tag(child, child.current_photo_key) %>
+        </div>
+      </div>
+    <% end %>
+    <% field_data.each do |field| %>
       <div class="row data">
-        <div class="columns small-5 key">
+        <div class="columns small-3 key">
           <strong><%= field[:display_name] %></strong>
         </div>
-        <div class="columns small-6 value">
+        <div class="columns small-8 value">
           <%= field[:value] %>
         </div>
       </div>
