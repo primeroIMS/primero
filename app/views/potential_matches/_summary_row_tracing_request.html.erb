@@ -5,7 +5,7 @@
   match_record = record.last.first
 %>
 
-<table style="width:100%" class="pm_table">
+<table style="width:100%" class="pm_table record_list_view dont_page">
   <thead>
   <tr>
     <th><%= t("potential_match.inquirer_id") %></th>
@@ -23,7 +23,7 @@
   </tr>
   </tbody>
 </table>
-<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table" id="myTable_<%= match_record.tr_subform_id %>">
+<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table record_list_view dont_page" id="myTable_<%= match_record.tr_subform_id %>">
   <thead>
   <tr>
     <th><%= t("potential_match.child_id") %></th>
