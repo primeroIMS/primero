@@ -49,6 +49,7 @@ class Child < CouchRest::Model::Base
   property :nickname
   property :name
   property :protection_concerns
+  property :consent_for_tracing, TrueClass
   property :hidden_name, TrueClass, :default => false
   property :registration_date, Date
   property :age, Integer

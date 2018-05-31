@@ -565,6 +565,7 @@ create_or_update_lookup(
 create_or_update_lookup(
     :id => "lookup-yes-no",
     :name => "Yes or No",
+    :locked => true,
     :lookup_values => [
         {id: "true", display_text: "Yes"}.with_indifferent_access,
         {id: "false", display_text: "No"}.with_indifferent_access
