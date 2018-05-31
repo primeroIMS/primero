@@ -806,6 +806,10 @@ superuser_permissions = [
   Permission.new(
       :resource => Permission::AUDIT_LOG,
       :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+      :resource => Permission::MATCHING_CONFIGURATION,
+      :actions => [Permission::MANAGE]
   )
 ]
 

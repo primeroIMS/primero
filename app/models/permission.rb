@@ -45,6 +45,7 @@ class Permission
   SYSTEM = 'system'
   REPORT = 'report'
   AUDIT_LOG = 'audit_log'
+  MATCHING_CONFIGURATION = 'matching_configuration'
   SELF = 'self' # A redundant permission. This is implied.
   GROUP = 'group'
   ALL = 'all'
@@ -164,7 +165,7 @@ class Permission
 
   def self.resources
     [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, USER_GROUP, AGENCY, METADATA, SYSTEM, REPORT,
-     DASHBOARD, AUDIT_LOG]
+     DASHBOARD, AUDIT_LOG, MATCHING_CONFIGURATION]
   end
 
   def self.management
@@ -215,6 +216,8 @@ class Permission
          [VIEW_APPROVALS, VIEW_ASSESSMENT, DASH_REPORTING_LOCATION, DASH_PROTECTION_CONCERNS, DASH_MATCHING_RESULTS, MANAGE, DASH_SERVICE_PROVISIONS, DASH_CASES_TO_ASSIGN, DASH_CASE_BY_WORKFLOW, DASH_CASES_BY_TASK_OVERDUE, DASH_MANAGER_TRANSERS, DASH_CASES_BY_SOCIAL_WORKER, DASH_REFFERALS_BY_SOCIAL_WORKER, DASH_TRANSERS_BY_SOCIAL_WORKER, VIEW_PROTECTION_CONCERNS_FILTER, DASH_SHOW_NONE_VALUES, DASH_TASKS]
        when AUDIT_LOG
          [READ]
+       when MATCHING_CONFIGURATION
+         [MANAGE]
        else
          actions
      end
@@ -234,7 +237,8 @@ class Permission
       self.new(:resource => METADATA, :actions => [MANAGE]),
       self.new(:resource => SYSTEM, :actions => [MANAGE]),
       self.new(:resource => DASHBOARD, :actions => [MANAGE]),
-      self.new(:resource => AUDIT_LOG, :actions => [MANAGE])
+      self.new(:resource => AUDIT_LOG, :actions => [MANAGE]),
+      self.new(:resource => MATCHING_CONFIGURATION, :actions => [MANAGE])
     ]
   end
 

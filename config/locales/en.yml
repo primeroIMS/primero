@@ -127,6 +127,7 @@ en:
      bulk_exports: "BULK EXPORTS"
      tasks: "TASKS"
      audit_logs: "Audit Logs"
+     matching_configuration: "Matching"
 
   buttons:
      delete: "Delete"
@@ -1037,6 +1038,7 @@ en:
       service_provision_incident_details: "See Add Service Provision Button on Incident Details Modal"
       request_transfer: "Request Transfer"
       view_photo: "View Photo"
+      matching_configuration: "Matching Configuration"
 
   forms:
     label: "Forms"
@@ -1305,6 +1307,14 @@ en:
       other: 'Other'
       locality: 'Locality'
       sub-district: 'Sub-district'
+
+  matching_configuration:
+    edit: "Edit Matching Configuration"
+    case_fields: "Matchable Case Fields"
+    tracing_request_fields: "Matchable Tracing Request Fields"
+    updated: "Matching Configuration Updated"
+    update_error: "Error Updating Matching Configuration"
+    label: "Matching Configuration"
 
   session:
     about_to_expire: "Your session is about to expire!"
