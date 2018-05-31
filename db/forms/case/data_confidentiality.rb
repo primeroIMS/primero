@@ -25,7 +25,8 @@ consent_fields = [
   Field.new({"name" => "consent_for_tracing",
              "type" => "radio_button",
              "display_name_all" => "Consent has been obtained to disclose information for tracing purposes",
-             "option_strings_source" => "lookup lookup-yes-no"
+             "option_strings_source" => "lookup lookup-yes-no",
+             "help_text" => "If this field is 'No', the child's case record will not show up in Matches with Inquirer Tracing Requests."
             }),
   Field.new({"name" => "disclosure_other_orgs",
              "type" => "tick_box",
