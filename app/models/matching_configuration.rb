@@ -40,6 +40,11 @@ class MatchingConfiguration
     update_matchable('tracing_request') if self.tracing_request_fields.present?
   end
 
+  # Patch to make nav buttons work
+  def new?
+    false
+  end
+
   private
 
   def load_matchable_fields_by_type(type)

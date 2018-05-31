@@ -24,6 +24,8 @@
         <%= link_to t("navigation.replications"), replications_path if can?(:manage, Replication) %></li>
       <li class=<%= (highlight_page == 'audit_logs' ? 'current' : '') %>>
         <%= link_to t("navigation.audit_logs"), audit_logs_path if can?(:index, AuditLog) %></li>
+      <li class=<%= (highlight_page == 'matching_configurations' ? 'current' : '') %>>
+        <%= link_to I18n.t("navigation.matching_configuration"), edit_matching_configuration_path("administrator") if can?(:manage, MatchingConfiguration)%></li>
     </ul>
     <div class="scrolling_indicator down"><%= t('messages.scroll_down') %></div>
   </div>

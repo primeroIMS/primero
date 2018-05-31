@@ -1,10 +1,3 @@
-<% content_for :record_sub_nav do %>
-  <div class="button-group">
-    <%= discard_button(form_sections_path) %>
-    <%= submit_button t("buttons.save") %>
-  </div>
-<% end %>
-
 <div class="row">
   <div class="large-12 columns">
     <%= form_for @matching_configuration, url: matching_configuration_path(@matching_configuration.id), method: :put,  html: { :class => 'default-form', :autocomplete => "off" } do |f| %>

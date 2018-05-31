@@ -1,7 +1,11 @@
 class MatchingConfigurationsController < ApplicationController
   #TODO - Create rspec tests
 
-  before_action :load_matching_configuration, :only => [:edit]
+  before_action :load_matching_configuration, :only => [:show, :edit]
+
+  def show
+    authorize! :show, MatchingConfiguration
+  end
 
   def edit
     authorize! :update, MatchingConfiguration
@@ -17,7 +21,7 @@ class MatchingConfigurationsController < ApplicationController
       matching_configuration.update_matchable_fields
 
       flash[:notice] = t("matching_configuration.updated")
-      redirect_to root_path
+      redirect_to matching_configuration_path
     rescue => error
       logger.error "Error updating matchable configuration"
       logger.error error.message

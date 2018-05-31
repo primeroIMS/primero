@@ -11,9 +11,6 @@
         <li class=<%= (highlight_page == 'locations' ? 'current' : '') %>>
           <%= link_to I18n.t("navigation.locations"), locations_path if can?(:manage, Location)%>
         </li>
-        <li class=<%= (highlight_page == 'matching_configuration' ? 'current' : '') %>>
-          <%= link_to I18n.t("navigation.matching_configuration"), edit_matching_configuration_path("administrator") if can?(:manage, MatchingConfiguration)%>
-        </li>
       </ul>
     </div>
   </div>
