@@ -4,7 +4,7 @@ _primero.chosen = function (selector) {
   }
   //Initialize the chosen widget and set the code to manage when the user
   //clear the chosen selection.
-  $(selector).chosen({display_selected_options:false, width:'100%', search_contains: true}).change(function() {
+  $(selector).chosen({display_selected_options:false, width:'100%', search_contains: true, disable_search_threshold: 6}).change(function() {
     //Input hidden to indicate that the user clear the chosen selection.
     var input_hidden_id = $(this).attr("id") + "_no_array"
     //Verify whether or not the user selects items.

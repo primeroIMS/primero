@@ -4,9 +4,9 @@
       <div class="login_panel">
         <h1><%= t("login.details") %></h1>
 
-        <%= text_field_tag "user_name", nil, placeholder: t("login.username")  %>
+        <%= text_field_tag "user_name", nil, placeholder: t("login.username"), autocapitalize: 'none'  %>
 
-        <%= password_field_tag "password", nil, placeholder: t("login.password.label")  %>
+        <%= password_field_tag "password", nil, placeholder: t("login.password.label"), autocapitalize: 'none'  %>
 
         <div class="btn_panel">
           <%= submit_button t("buttons.login"), 'large' %>
