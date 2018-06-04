@@ -531,4 +531,10 @@ module RecordActions
     end
   end
 
+  #Override method in LoggerActions.
+  def logger_owned_by
+    return @record.owned_by if @record.present? && @record.respond_to?(:owned_by)
+    super
+  end
+
 end

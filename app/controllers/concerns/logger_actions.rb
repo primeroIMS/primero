@@ -51,6 +51,10 @@ module LoggerActions
     params[:user_name] || user_name
   end
 
+  def logger_owned_by
+    #override in concern that is appropriate for ownable
+  end
+
   def log_controller_action
     #Format in the index action is used on exports
     #Regular index page has no format parameters.
@@ -58,7 +62,8 @@ module LoggerActions
     return 0 if action_name == "index" && params[:format].blank?
 
     logger.info("#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}")
-    AuditLogJob.perform_later(logger_job_user_name, logger_action_name, logger_model_titleize, logger_record_id, logger_display_id)
+    AuditLogJob.perform_later(logger_job_user_name, logger_action_name, logger_model_titleize, logger_record_id,
+                              logger_display_id, logger_owned_by)
   end
 
 end
