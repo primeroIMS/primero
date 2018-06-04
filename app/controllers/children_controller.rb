@@ -35,7 +35,6 @@ class ChildrenController < ApplicationController
 
 # POST
   def select_primary_photo
-    @child = Child.get(params[:child_id])
     authorize! :update, @child
 
     begin
@@ -77,11 +76,10 @@ class ChildrenController < ApplicationController
     rescue CanCan::AccessDenied
       authorize! :incident_from_case, Child
     end
-    child = Child.get(params[:child_id])
-    from_module = params[:incident_detail_id].present? ? child.module : nil
-    to_module_id = from_module.present? && from_module.field_map_to_module_id.present? ? from_module.field_map_to_module_id : child.module_id
+    from_module = params[:incident_detail_id].present? ? @child.module : nil
+    to_module_id = from_module.present? && from_module.field_map_to_module_id.present? ? from_module.field_map_to_module_id : @child.module_id
 
-    new_incident_params = {case_id: child.id, module_id: to_module_id}
+    new_incident_params = {case_id: @child.id, module_id: to_module_id}
     if params[:incident_detail_id].present?
       new_incident_params[:incident_detail_id] = params[:incident_detail_id]
     end
@@ -90,10 +88,10 @@ class ChildrenController < ApplicationController
     end
 
     if from_module.present? && params[:incident_detail_id].present?
-      incident = Incident.make_new_incident(to_module_id, child, from_module.id, params[:incident_detail_id])
+      incident = Incident.make_new_incident(to_module_id, @child, from_module.id, params[:incident_detail_id])
       incident.save
-      child.add_incident_links(params[:incident_detail_id], incident.id, incident.short_id)
-      child.save
+      @child.add_incident_links(params[:incident_detail_id], incident.id, incident.short_id)
+      @child.save
 
       content = {
         incident_link_label: t('incident.link_to_incident'),
@@ -110,7 +108,6 @@ class ChildrenController < ApplicationController
   end
 
   def create_subform
-    child = Child.get(params['child_id'])
     type = params['form_type']
     #TODO: we should have a tighter link between type and forms to avoid hacking since this is coming from javascript
     authorize! "#{type}_from_case".to_sym, Child
@@ -119,11 +116,11 @@ class ChildrenController < ApplicationController
     subform_section = FormSection.get_by_unique_id(form_id)
 
     html = ChildrenController.new.render_to_string(partial: "children/create_subform", layout: false, locals: {
-      child: child,
+      child: @child,
       subform_section: subform_section,
       subform_name: type,
       form_group_name: '',
-      form_link: child_save_subform_path(child, subform: type, form_sidebar_id: form_sidebar_id),
+      form_link: child_save_subform_path(@child, subform: type, form_sidebar_id: form_sidebar_id),
       can_save_and_add_provision: can?(:services_section_from_case, model_class) &&
       can?(:service_provision_incident_details, model_class) && type == 'incident_details'
     })
@@ -135,21 +132,20 @@ class ChildrenController < ApplicationController
   def save_subform
     subform = params['subform']
     form_sidebar_id = params['form_sidebar_id']
-    child = Child.get(params['child_id'])
     authorize! "#{subform}_from_case".to_sym, Child
     new_subform = params['child'][subform]['template']
     new_subform['unique_id'] = Child.generate_unique_id
-    child[subform] << new_subform
-    child.update_last_updated_by(current_user)
-    child.add_alert(Alertable::NEW_FORM, subform, form_sidebar_id) if current_user.user_name != child.owned_by
-    if child.child_status == Record::STATUS_CLOSED
-      child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
+    @child[subform] << new_subform
+    @child.update_last_updated_by(current_user)
+    @child.add_alert(Alertable::NEW_FORM, subform, form_sidebar_id) if current_user.user_name != @child.owned_by
+    if @child.child_status == Record::STATUS_CLOSED
+      @child.reopen(Record::STATUS_OPEN, true, current_user.user_name)
     end
 
     respond_to do |format|
-      if child.save
+      if @child.save
         format.html do
-          flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
+          flash[:notice] = I18n.t("child.messages.update_success", record_id: @child.short_id)
           redirect_to cases_path()
         end
         format.json { render :json => :ok }
@@ -161,10 +157,9 @@ class ChildrenController < ApplicationController
 
   def request_transfer_view
     authorize! :request_transfer, model_class
-    child = Child.get(params['child_id'])
 
     html = ChildrenController.new.render_to_string(partial: "children/request_transfer", layout: false, locals: {
-      child: child,
+      child: @child,
     })
 
     respond_to do |format|
@@ -174,11 +169,10 @@ class ChildrenController < ApplicationController
 
   def quick_view
     authorize! :display_view_page, model_class
-    child = Child.get(params['child_id'])
-    form_sections = child.present? ? child.class.allowed_formsections(current_user, child.module) : nil
+    form_sections = @child.present? ? @child.class.allowed_formsections(current_user, @child.module) : nil
 
     html = ChildrenController.render('children/_quick_view', layout: false, locals: {
-      child: child,
+      child: @child,
       form_sections: form_sections,
       user: current_user,
       can_request_transfer: @can_request_transfer,
@@ -191,51 +185,49 @@ class ChildrenController < ApplicationController
   end
 
   def reopen_case
-    child = Child.get(params[:child_id])
-    authorize! :update, child
-    child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
-    if child.save
+    authorize! :update, model_class
+    @child.reopen(params[:child_status], params[:case_reopened], current_user.user_name)
+    if @child.save
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
-      render :json => { :success => false, :error_message => child.errors.messages, :reload_page => true }
+      render :json => { :success => false, :error_message => @child.errors.messages, :reload_page => true }
     end
   end
 
   #TODO: move this to approval_actions concern
   def request_approval
     #TODO move business logic to the model.
-    child = Child.get(params[:child_id])
-    authorize! :update, child
+    authorize! :update, @child
 
     approval_type_error = nil
-    child.add_approval_alert(params[:approval_type], @system_settings)
+    @child.add_approval_alert(params[:approval_type], @system_settings)
     case params[:approval_type]
       when "bia"
-        child.approval_status_bia = params[:approval_status]
+        @child.approval_status_bia = params[:approval_status]
       when "case_plan"
-        child.approval_status_case_plan = params[:approval_status]
+        @child.approval_status_case_plan = params[:approval_status]
 
-        if child.module.try(:selectable_approval_types).present?
-          child.case_plan_approval_type = params[:approval_status_type]
+        if @child.module.try(:selectable_approval_types).present?
+          @child.case_plan_approval_type = params[:approval_status_type]
         end
       when "closure"
-        child.approval_status_closure = params[:approval_status]
+        @child.approval_status_closure = params[:approval_status]
       else
         approval_type_error = 'Unknown Approval Status'
     end
 
-    child.approval_subforms << log_action(
+    @child.approval_subforms << log_action(
       params[:approval_type],
       nil,
       params[:approval_status_type],
       params[:approval_status]
     )
 
-    if child.save
-      child.send_approval_request_mail(params[:approval_type], request.base_url) if @system_settings.try(:notification_email_enabled)
+    if @child.save
+      @child.send_approval_request_mail(params[:approval_type], request.base_url) if @system_settings.try(:notification_email_enabled)
       render :json => { :success => true, :error_message => "", :reload_page => true }
     else
-      errors = approval_type_error || child.errors.messages
+      errors = approval_type_error || @child.errors.messages
       render :json => { :success => false, :error_message => errors, :reload_page => true }
     end
   end
@@ -243,27 +235,26 @@ class ChildrenController < ApplicationController
   def relinquish_referral
     #TODO move business logic to the model.
     referral_id = params[:transition_id]
-    child = Child.get(params[:id])
 
     # TODO: this may require its own permission in the future.
-    authorize! :read, child
+    authorize! :read, @child
 
-    active_transitions_count = child.referrals.select { |t| t.id != referral_id && t.is_referral_active? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
-    referral = child.referrals.select { |r| r.id == referral_id }.first
+    active_transitions_count = @child.referrals.select { |t| t.id != referral_id && t.is_referral_active? && t.is_assigned_to_user_local?(@current_user.user_name) }.count
+    referral = @child.referrals.select { |r| r.id == referral_id }.first
 
     referral.to_user_local_status = Transition::TO_USER_LOCAL_STATUS_DONE
 
     if active_transitions_count == 0
-      child.assigned_user_names = child.assigned_user_names.reject{|u| u == @current_user.user_name}
+      @child.assigned_user_names = @child.assigned_user_names.reject{|u| u == @current_user.user_name}
     end
 
     respond_to do |format|
-      if child.save
+      if @child.save
         flash[:notice] = t("referral.done_success_message")
         redirect_to cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"})
         return
       else
-        flash[:notice] = child.errors.messages
+        flash[:notice] = @child.errors.messages
         format.html { redirect_after_update }
       end
     end
@@ -304,8 +295,6 @@ class ChildrenController < ApplicationController
   def transfer_status
     authorize! :read, model_class
 
-    @child = Child.get(params[:id])
-
     transfer_id = params[:transition_id]
     transition_status = params[:transition_status]
 
@@ -336,6 +325,16 @@ class ChildrenController < ApplicationController
             format.html { redirect_after_update }
           end
       end
+    end
+  end
+
+  #override method in record_actions to handle instances that use child_id instead of id
+  def load_record
+    if params[:child_id].present?
+      @record = Child.get(params[:child_id])
+      instance_variable_set("@child", @record)
+    else
+      super
     end
   end
 
