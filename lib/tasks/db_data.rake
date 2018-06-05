@@ -311,6 +311,16 @@ namespace :db do
       puts "Done!"
     end
 
+    # Example usage: bundle exec rake db:data:role_permissions_to_spreadsheet['tmp/test.xls','en']
+    desc "Exports roles permissions to an Excel spreadsheet"
+    task :role_permissions_to_spreadsheet, [:file_name, :locale] => :environment do |t, args|
+      file_name = args[:file_name] || "role_permissions.xls"
+      locale = args[:locale] || :en
+      puts "Writing role permissions to #{file_name}"
+      roles_exporter = Exporters::RolePermissionsExporter.new(file_name, locale)
+      roles_exporter.export_role_permissions_to_spreadsheet
+      puts "Done!"
+    end
 
     #Assign the default owner of all records to be the creator.
     #If no creator exits, set it to be the fallback_user
