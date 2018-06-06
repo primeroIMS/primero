@@ -32,7 +32,9 @@ class PotentialMatchesController < ApplicationController
     #               Luckily for this we will just display matches for an individual TR/case
 
     respond_to do |format|
-      format.html
+      format.html do
+        flash[:notice] = t('potential_matches.no_match', type: I18n.t("forms.record_types.#{@type}"), id: @display_id) if @potential_matches.blank? && params[:match].present?
+      end
       unless params[:password]
         format.json do
           render :json => PotentialMatch.format_list_for_json(@grouped_potential_matches, @type)
@@ -94,6 +96,7 @@ class PotentialMatchesController < ApplicationController
         @potential_matches = @tracing_request.matching_cases(@subform_id)
         #TODO MATCHING: This is a temporary hack, get rid of this
         @total_records = 1
+        @display_id = @tracing_request.display_id
       end
     end
   end
@@ -102,10 +105,11 @@ class PotentialMatchesController < ApplicationController
     if params[:match].present?
       case_id = params[:match]
       @case = Child.get(case_id) if case_id.present?
-      #if @case.present?
+      if @case.present?
         #TODO MATCHING: Implement on-demand case matches for tracing requests
         #@potential_matches = @case.matching_tracing_requests
-      #end
+        @display_id = @case.display_id
+      end
     end
   end
 
