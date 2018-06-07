@@ -642,7 +642,7 @@ class FormSection < CouchRest::Model::Base
     def simplify_mobile_form(form_hash)
       form_hash.slice!('unique_id', :name, 'order', :help_text, 'base_language', 'fields')
       form_hash['fields'].each do |field|
-        field.slice!('name', 'disabled', 'multi_select', 'type', 'subform', 'required', 'option_strings_source',
+        field.slice!('name', 'disabled', 'editable', 'multi_select', 'type', 'subform', 'required', 'option_strings_source',
           'show_on_minify_form','mobile_visible', :display_name, :help_text, :option_strings_text)
         simplify_mobile_form(field['subform']) if (field['type'] == 'subform' && field['subform'].present?)
       end
