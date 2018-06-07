@@ -122,6 +122,7 @@ class ChildrenController < ApplicationController
       subform_name: type,
       form_group_name: '',
       form_link: child_save_subform_path(child, subform: type, form_sidebar_id: form_sidebar_id),
+      is_mobile: is_mobile?
     })
     respond_to do |format|
       format.html {render text: html}
