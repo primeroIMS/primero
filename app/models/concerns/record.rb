@@ -154,6 +154,7 @@ module Record
     def parent_form
       self.name.underscore.downcase
     end
+    alias_method :model_name_for_messages, :parent_form
 
     def locale_prefix
       self.name.underscore.downcase
@@ -386,9 +387,7 @@ module Record
   end
 
   def model_name_for_messages
-    model_name = self.class.name.titleize.downcase
-    model_name = "case" if model_name == "child"
-    model_name
+    self.class.model_name_for_messages
   end
 
   def error_with_section(field, message)
