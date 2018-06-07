@@ -1,5 +1,5 @@
 <%
-  mark_mobile_url = "/#{controller.model_class.model_name_for_messages.pluralize}/mark_for_mobile"
+  mark_mobile_url = "/#{controller.model_class.parent_form.pluralize}/mark_for_mobile"
   button_label = ((mobile_value == true) ? t("buttons.mark_for_mobile") : t("buttons.unmark_for_mobile"))
 %>
 <li>

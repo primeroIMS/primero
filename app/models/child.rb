@@ -14,7 +14,10 @@ class Child < CouchRest::Model::Base
     def parent_form
       'case'
     end
-    alias_method :model_name_for_messages, :parent_form
+
+    def model_name_for_messages
+      'case'
+    end
   end
 
   def locale_prefix

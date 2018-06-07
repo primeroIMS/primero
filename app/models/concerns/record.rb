@@ -154,7 +154,10 @@ module Record
     def parent_form
       self.name.underscore.downcase
     end
-    alias_method :model_name_for_messages, :parent_form
+
+    def model_name_for_messages
+      self.name.titleize.downcase
+    end
 
     def locale_prefix
       self.name.underscore.downcase
