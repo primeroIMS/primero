@@ -21,9 +21,24 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
 
   init_date_field: function(e) {
     var control = $(e.target);
+    var self = this;
 
     if (!control.data('datepicker')) {
-      control.datepicker(_primero.dates.options);
+      var options = _.extend(_primero.dates.options,  {
+        onHide: function() {
+          if (self.is_mobile) {
+            control.parents('.reveal-overlay').off('scroll')
+          }
+        }
+      })
+
+      control.datepicker(options);
+
+      if (this.is_mobile) {
+        control.parents('.reveal-overlay').on('scroll', function () {
+          control.data('datepicker').update()
+        });
+      }
     }
   },
 
@@ -32,8 +47,11 @@ _primero.Views.DateControl = _primero.Views.Base.extend({
     this.create_locales();
     this.setup_date_parser();
 
+    this.is_mobile = /(android)/i.test(navigator.userAgent);
+
     _primero.dates.options = {
       language: I18n.currentLocale(),
+      position: this.is_mobile ? 'top left' : 'bottom left',
       todayButton: new Date(),
       dateFormat: "dd-M-yyyy",
       clearButton: true,

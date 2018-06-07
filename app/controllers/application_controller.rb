@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
 
   helper :all
   helper_method :current_user_name, :current_user, :current_user_full_name, :current_session, :logged_in?
+  helper_method :is_mobile?
 
   include AgencyLogos
   include Security::Authentication
@@ -143,6 +144,14 @@ class ApplicationController < ActionController::Base
 
   def model_class
     self.class.model_class
+  end
+
+  def is_mobile?
+    if request.present?
+      @is_mobile ||= (/Android/i.match(request.user_agent) || (/Android/i && /mobile/i).match(request.user_agent)).present?
+    else
+      false
+    end
   end
 
   private
