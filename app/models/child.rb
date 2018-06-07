@@ -10,6 +10,13 @@ class Child < CouchRest::Model::Base
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
 
+  class << self
+    def parent_form
+      'case'
+    end
+    alias_method :model_name_for_messages, :parent_form
+  end
+
   def locale_prefix
     'case'
   end
@@ -208,13 +215,6 @@ class Child < CouchRest::Model::Base
   end
 
   include Alertable
-
-  class << self
-    def parent_form
-      'case'
-    end
-    alias_method :model_name_for_messages, :parent_form
-  end
 
   def self.report_filters
     [
