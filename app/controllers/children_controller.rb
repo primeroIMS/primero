@@ -144,7 +144,7 @@ class ChildrenController < ApplicationController
     end
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
-    redirect_to cases_path()
+    redirect_to :back
   end
 
   def reopen_case
