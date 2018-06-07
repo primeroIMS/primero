@@ -155,6 +155,10 @@ module Record
       self.name.underscore.downcase
     end
 
+    def model_name_for_messages
+      self.name.titleize.downcase
+    end
+
     def locale_prefix
       self.name.underscore.downcase
     end
@@ -386,9 +390,7 @@ module Record
   end
 
   def model_name_for_messages
-    model_name = self.class.name.titleize.downcase
-    model_name = "case" if model_name == "child"
-    model_name
+    self.class.model_name_for_messages
   end
 
   def error_with_section(field, message)
