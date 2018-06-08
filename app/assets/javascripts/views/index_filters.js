@@ -22,7 +22,8 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
     'assessment_requested_on',
     'date_case_plan',
     'date_closure',
-    'created_at'
+    'created_at',
+    'timestamp'
   ],
 
   initialize: function() {
