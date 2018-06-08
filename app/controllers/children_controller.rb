@@ -150,7 +150,7 @@ class ChildrenController < ApplicationController
       if child.save
         format.html do
           flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
-          redirect_to cases_path()
+          redirect_to params[:redirect_to] ||= cases_path()
         end
         format.json { render :json => :ok }
       else
