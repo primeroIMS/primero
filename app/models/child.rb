@@ -12,9 +12,14 @@ class Child < CouchRest::Model::Base
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
 
+  class << self
+    def parent_form
+      'case'
+    end
 
-  def self.parent_form
-    'case'
+    def model_name_for_messages
+      'case'
+    end
   end
 
   def locale_prefix

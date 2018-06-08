@@ -12,7 +12,7 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
     event.preventDefault();
     var form = $(event.target).parents('form');
     _primero.loading_screen_indicator('show');
-
+    form.append('<input type="hidden" name="redirect_to" value="' + window.location.href + '" />');
     form.submit();
   },
 
