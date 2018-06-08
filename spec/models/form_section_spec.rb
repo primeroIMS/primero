@@ -141,7 +141,7 @@ describe FormSection do
                           "base_language"=>"en",
                           "fields"=>
                               [{"name"=>"mobile_1_nested",
-                                "editable"=>true,
+                                "disabled"=>false,
                                 "multi_select"=>false,
                                 "type"=>"subform",
                                 "required"=>false,
