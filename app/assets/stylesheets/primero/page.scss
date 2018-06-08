@@ -600,3 +600,18 @@ tr td span {
     float: right;
   }
 }
+
+.quick-view-tracing-message {
+  border: 1px solid $stroke_green_color;
+  padding: .8em;
+  margin-bottom: 20px !important;
+  text-align: center;
+  @if $global-text-direction == rtl {
+    margin-left: 45px !important;
+    margin-right: 10px !important;
+  }
+  @else{
+    margin-right: 45px !important;
+    margin-left: 10px !important;
+  }
+}
