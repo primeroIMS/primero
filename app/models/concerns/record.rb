@@ -495,10 +495,6 @@ module Record
 
   protected
 
-  def model_field_names
-    field_definitions.map { |f| f.name }
-  end
-
   def is_filled_in? field
     !(self[field.name].nil? || self[field.name] == field.default_value || self[field.name].to_s.empty?)
   end
