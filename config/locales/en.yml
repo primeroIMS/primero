@@ -247,6 +247,9 @@ en:
     ok: "Ok"
     hide_name_error: "An error ocurred when saving your changes. Please try again."
 
+    quick_view:
+      tracing_message: "Note: There is a match in the system with an Inquirer looking for this child. Contact the social worker of this record for further action if the child wishes."
+
   children:
     label: "Children"
     register_new_child: "Register New Child"

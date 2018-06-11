@@ -2,6 +2,11 @@
 <div class="row">
   <div class="columns small-12 ">
     <% field_data = view_data(child, form_sections) %>
+    <% if child.matched_tracing_request_id.present? %>
+      <div class="row quick-view-tracing-message">
+        <%= t('cases.quick_view.tracing_message') %>
+      </div>
+    <% end %>
     <% if (can_view_photo && child.photo_keys.present?) %>
       <%
         field_data_slice = field_data[0..4]
