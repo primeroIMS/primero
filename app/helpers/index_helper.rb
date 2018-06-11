@@ -312,10 +312,11 @@ module IndexHelper
 
   def list_view_audit_log
     [
-      {title: 'timestamp - UTC', sort_title: 'timestamp'},
+      {title: 'timestamp', sort_title: 'timestamp'},
       {title: 'user_name', sort_title: 'user_name'},
       {title: 'action', sort_title: 'action_name'},
-      {title: 'description', sort_title: 'description'}
+      {title: 'description', sort_title: 'description'},
+      {title: 'record_owner', sort_title: 'record_owner'}
     ]
   end
 

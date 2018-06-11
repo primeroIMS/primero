@@ -247,6 +247,9 @@ en:
     ok: "Ok"
     hide_name_error: "An error ocurred when saving your changes. Please try again."
 
+    quick_view:
+      tracing_message: "Note: There is a match in the system with an Inquirer looking for this child. Contact the social worker of this record for further action if the child wishes."
+
   children:
     label: "Children"
     register_new_child: "Register New Child"
@@ -643,6 +646,7 @@ en:
 
   potential_matches:
     empty: "Please access matching through Tracing Requests"
+    no_match: "There is no match in the system for %{type} %{id}"
     display: "Displaying potential matches for %{type} %{id}"
     filter_by:
       score_range: "Score Range"
@@ -676,6 +680,13 @@ en:
     likelihood:
       likely: 'Likely'
       possible: 'Possible'
+
+  audit_log:
+    timestamp: "Timestamp - UTC"
+    user_name: "User Name"
+    action: "Action"
+    description: "Description"
+    record_owner: "Record Owner"
 
   audit_logs:
     action_options:
@@ -2089,6 +2100,8 @@ en:
     save_subform: "Saving Subform"
     create_subform: "Creating Subform"
     consent_count: "Consent Count"
+    match_record: "Matching Record"
+    index: "Listing Records"
 
     relinquish_referral: "Relinquish referral Done"
 

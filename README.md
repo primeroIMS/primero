@@ -58,6 +58,8 @@ When the Vagrant box is up and running, SSH in and go to the Primero development
     $ vagrant ssh
     $ cd ~/primero
 
+Add the mailer.yml file from the config directory
+
 Prepare the development environment:
 
     $ bundle install

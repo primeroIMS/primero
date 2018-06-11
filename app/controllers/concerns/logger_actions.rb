@@ -8,7 +8,9 @@ module LoggerActions
   protected
 
   def logger_record_id
-    @logger_record_id ||= params[:id] if params[:id].present?
+    #TODO - This is a patch because in the router, not all routes are using :id
+    #TODO - This can change if the routes ever change to all use :id
+    @logger_record_id ||= params[:id] || params[:child_id] || params[:tracing_request_id] || params[:incident_id]
   end
 
   def logger_display_id
@@ -51,6 +53,10 @@ module LoggerActions
     params[:user_name] || user_name
   end
 
+  def logger_owned_by
+    #override in concern that is appropriate for ownable
+  end
+
   def log_controller_action
     #Format in the index action is used on exports
     #Regular index page has no format parameters.
@@ -58,7 +64,8 @@ module LoggerActions
     return 0 if action_name == "index" && params[:format].blank?
 
     logger.info("#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}")
-    AuditLogJob.perform_later(logger_job_user_name, logger_action_name, logger_model_titleize, logger_record_id, logger_display_id)
+    AuditLogJob.perform_later(logger_job_user_name, logger_action_name, logger_model_titleize, logger_record_id,
+                              logger_display_id, logger_owned_by)
   end
 
 end

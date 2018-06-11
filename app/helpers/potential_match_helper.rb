@@ -1,16 +1,9 @@
 module PotentialMatchHelper
 
   def potential_match_header_text
-    result = ""
     if @potential_matches.present?
-      id = ''
-      if @tracing_request.present?
-        id = text_to_identify_tracing_request(@tracing_request)
-      elsif @child.present?
-        id = @child.case_id_display
-      end
-      I18n.t('potential_matches.display', type: I18n.t("forms.record_types.#{@type}"), id: id)
-    else
+      I18n.t('potential_matches.display', type: I18n.t("forms.record_types.#{@type}"), id: @display_id)
+    elsif params[:match].blank?
       I18n.t('potential_matches.empty')
     end
   end

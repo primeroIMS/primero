@@ -10,8 +10,13 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
 
   submit_form: function(event) {
     event.preventDefault();
+
     var form = $(event.target).parents('form');
+
     _primero.loading_screen_indicator('show');
+
+    $('html').attr('style', '');
+
     form.append('<input type="hidden" name="redirect_to" value="' + window.location.href + '" />');
     form.submit();
   },

@@ -68,8 +68,13 @@ module RecordActions
     respond_to do |format|
       format.html do
         if params[:query].present? && @id_search.present? && !@records.present?
-          flash[:notice] = t('case.id_search_no_results', id: params[:query])
-          redirect_to new_case_path(module_id: params[:module_id]) if params[:redirect_not_found].present?
+          if params[:redirect_not_found].present?
+            flash[:notice] = t('case.id_search_no_results', id: params[:query])
+            redirect_to new_case_path(module_id: params[:module_id])
+          else
+            # Use flash.now so message does not appear on next request (i.e. if you click to another page)
+            flash.now[:notice] = t('case.id_search_no_results', id: params[:query])
+          end
         end
       end
       unless params[:password]
@@ -529,6 +534,12 @@ module RecordActions
     else
       super
     end
+  end
+
+  #Override method in LoggerActions.
+  def logger_owned_by
+    return @record.owned_by if @record.present? && @record.respond_to?(:owned_by)
+    super
   end
 
 end
