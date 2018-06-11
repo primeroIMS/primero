@@ -8,7 +8,9 @@ module LoggerActions
   protected
 
   def logger_record_id
-    @logger_record_id ||= params[:id] if params[:id].present?
+    #TODO - This is a patch because in the router, not all routes are using :id
+    #TODO - This can change if the routes ever change to all use :id
+    @logger_record_id ||= params[:id] || params[:child_id] || params[:tracing_request_id] || params[:incident_id]
   end
 
   def logger_display_id

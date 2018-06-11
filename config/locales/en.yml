@@ -2089,6 +2089,8 @@ en:
     save_subform: "Saving Subform"
     create_subform: "Creating Subform"
     consent_count: "Consent Count"
+    match_record: "Matching Record"
+    index: "Listing Records"
 
     relinquish_referral: "Relinquish referral Done"
 
