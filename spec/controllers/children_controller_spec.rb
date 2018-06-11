@@ -710,6 +710,7 @@ describe ChildrenController, :type => :controller do
       Child.stub(:allowed_formsections).and_return(grouped_forms)
       Child.stub(:get).with("37").and_return(child)
       allow(child).to receive(:display_id).and_return('37')
+      allow(child).to receive(:owned_by).and_return('test_owner')
       get :show, params: {id: '37'}
       assigns[:form_sections].should == grouped_forms
       #TODO: Do we need to test ordering of forms in the controller?
@@ -765,6 +766,7 @@ describe ChildrenController, :type => :controller do
       Child.stub(:allowed_formsections).and_return({})
       Child.stub(:get).with("37").and_return(mock_child)
       allow(@mock_child).to receive(:display_id).and_return('37')
+      allow(@mock_child).to receive(:owned_by).and_return('test_owner')
       get :edit, params: {id: '37'}
       assigns[:child].should equal(mock_child)
     end
@@ -775,6 +777,7 @@ describe ChildrenController, :type => :controller do
       grouped_forms = forms.group_by{|e| e.form_group_name}
       Child.should_receive(:allowed_formsections).and_return(grouped_forms)
       allow(@mock_child).to receive(:display_id).and_return('37')
+      allow(@mock_child).to receive(:owned_by).and_return('test_owner')
       get :edit, params: {id: '37'}
       assigns[:form_sections].should == grouped_forms
     end
