@@ -677,6 +677,13 @@ en:
       likely: 'Likely'
       possible: 'Possible'
 
+  audit_log:
+    timestamp: "Timestamp - UTC"
+    user_name: "User Name"
+    action: "Action"
+    description: "Description"
+    record_owner: "Record Owner"
+
   audit_logs:
     action_options:
       login: "Login"
