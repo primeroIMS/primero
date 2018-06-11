@@ -117,8 +117,8 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
               date_values = current_scope[0].split('.');
               if (fields.length == 2) {
                 // Preserve selected dates in datepickers 'from' and 'to'
-                $(fields[0]).val(date_values[0]);
-                $(fields[1]).val(date_values[1]);
+                $(fields[0]).val(decodeURI(date_values[0]));
+                $(fields[1]).val(decodeURI(date_values[1]));
               }
               self.set_date_range(date_values, name, type);
             }
