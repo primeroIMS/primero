@@ -70,7 +70,7 @@ module TransitionActions
   private
 
   def is_consent_given?(record)
-    (is_transfer? && !is_remote?) || record.given_consent(transition_type)
+    record.given_consent(transition_type)
   end
 
   def remote_transition(records)

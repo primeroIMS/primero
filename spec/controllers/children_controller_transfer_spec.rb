@@ -49,7 +49,7 @@ describe ChildrenController do
       controller.should_receive(:is_reassign?).exactly(5).times.and_call_original
       controller.should_receive(:consent_override).twice.and_call_original
       controller.should_receive(:log_to_history).with([instance]).and_call_original
-      controller.should_receive(:is_remote?).exactly(6).times.and_call_original
+      controller.should_receive(:is_remote?).exactly(5).times.and_call_original
       controller.should_not_receive(:remote_transition)
       controller.should_receive(:local_transition).with([instance]).and_call_original
 
