@@ -1,6 +1,7 @@
 <% #All options need to be translated %>
 <div class="panel">
-  <%= render 'record_shared/filter_buttons', do_saved_search: false %>
+  <%= render 'record_shared/filter_buttons', do_saved_search: true %>
+  <%= render 'record_shared/saved_search_modal' %>
   <form id="index_filter_form" autocomplete="off">
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}], nil, nil, 'single') %>
