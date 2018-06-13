@@ -1,4 +1,6 @@
 <div class="panel">
+  <%= render 'record_shared/filter_buttons', do_saved_search: true %>
+  <%= render 'record_shared/saved_search_modal' %>
   <form id="index_filter_form" autocomplete="off">
     <% if filters_to_show.include? 'Flagged' %>
       <%= build_filter_checkboxes(t("tracing_requests.filter_by.flag"), 'flag', [
