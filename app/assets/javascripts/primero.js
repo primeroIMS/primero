@@ -23,6 +23,7 @@ $(document).on('turbolinks:before-render', function() {
 
 $(document).on('turbolinks:before-cache', function() {
   $('.sf-menu').superfish('destroy');
+  $(".chosen-select").chosen("destroy");
   $('.dataTables_length, .dataTables_paginate').remove();
   $('.mCustomScrollbar').mCustomScrollbar("destroy")
 
