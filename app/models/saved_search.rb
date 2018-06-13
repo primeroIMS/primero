@@ -11,6 +11,7 @@ class SavedSearch < CouchRest::Model::Base
   design do
     view :by_user_name
     view :by_unique_id
+    view :by_user_name_and_record_type
   end
 
   def add_filter(name, filter)
