@@ -10,9 +10,14 @@ class Child < CouchRest::Model::Base
   APPROVAL_STATUS_APPROVED = 'approved'
   APPROVAL_STATUS_REJECTED = 'rejected'
 
+  class << self
+    def parent_form
+      'case'
+    end
 
-  def self.parent_form
-    'case'
+    def model_name_for_messages
+      'case'
+    end
   end
 
   def locale_prefix
@@ -162,7 +167,7 @@ class Child < CouchRest::Model::Base
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
-      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no'
+      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id'
     ]
   end
 

@@ -1,40 +1,44 @@
-<div class="row">
-  <p>
-    <%= I18n.t("fields.file_upload_box.photo_file_restrictions_message") %>
-  </p>
-</div>
-<div id="file_container">
-  <div id="file-group">
-    <div class="file">
-      <div class="row">
-          <div class="medium-4 columns">
-            <span class="tool-tip-label">
-              <%= label_tag "#{formObject.class.name.underscore.downcase}[photo]0", I18n.t("fields.file_upload_box.add_photo_label"), :class=>'key inline' %>
-            </span>
-          </div>
-          <div class="medium-8 columns file_upload">
-            <div>
-              <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[photo]0", id: "#{formObject.class.name.underscore.downcase}_photo_0", help_text: photo_upload_box.help_text || ""%>
-            </div>
-          </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="large-12 columns">
-      <%= link_to I18n.t('fields.file_upload_box.add_new_photo_button_text'), '', id: 'add-file-upload-field', class: 'button right', "data-model" => "#{formObject.class.name.underscore.downcase}" %>
-    </div>
-  </div>
-</div>
-<% formObject.photos.each do |photo| %>
+<div class="row align-middle">
+  <div class="medium-12 columns">
     <div class="row">
-      <div class="thumbnail medium-4 columns">
-        <%= label_tag "delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]", t("#{formObject.class.name.underscore.downcase}.actions.delete_photo") %>
+      <p>
+        <%= I18n.t("fields.file_upload_box.photo_file_restrictions_message") %>
+      </p>
+    </div>
+    <div id="file_container">
+      <div id="file-group">
+        <div class="file">
+          <div class="row">
+              <div class="medium-4 columns">
+                <span class="tool-tip-label">
+                  <%= label_tag "#{formObject.class.name.underscore.downcase}[photo]0", I18n.t("fields.file_upload_box.add_photo_label"), :class=>'key inline' %>
+                </span>
+              </div>
+              <div class="medium-8 columns file_upload">
+                <div>
+                  <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[photo]0", id: "#{formObject.class.name.underscore.downcase}_photo_0", help_text: photo_upload_box.help_text || ""%>
+                </div>
+              </div>
+          </div>
+        </div>
       </div>
-      <div class="medium-8 columns">
-        <%= check_box_tag("delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]") %>
-        <%= thumbnail_tag(formObject, photo.name) %>
+      <div class="row">
+        <div class="large-12 columns">
+          <%= link_to I18n.t('fields.file_upload_box.add_new_photo_button_text'), '', id: 'add-file-upload-field', class: 'button right', "data-model" => "#{formObject.class.name.underscore.downcase}" %>
+        </div>
       </div>
     </div>
-<% end %>
+    <% formObject.photos.each do |photo| %>
+        <div class="row">
+          <div class="delete_check_box medium-4 columns">
+            <%= label_tag "delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]", t("#{formObject.class.name.underscore.downcase}.actions.delete_photo") %>
+          </div>
+          <div class="medium-8 columns">
+            <%= check_box_tag("delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]") %>
+            <%= thumbnail_tag(formObject, photo.name) %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
 

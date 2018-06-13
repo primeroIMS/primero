@@ -87,7 +87,7 @@ describe FormSectionController do
 
       it 'shows subforms for mobile forms' do
         expected = [{"name"=>"nested_e",
-                     "editable"=>true,
+                     "disabled"=>false,
                      "multi_select"=>false,
                      "type"=>"subform",
                      "subform"=>
@@ -98,7 +98,7 @@ describe FormSectionController do
                           "base_language"=>"en",
                           "fields"=>
                               [{"name"=>"field1",
-                                "editable"=>true,
+                                "disabled"=>false,
                                 "multi_select"=>false,
                                 "type"=>"text_field",
                                 "required"=>false,

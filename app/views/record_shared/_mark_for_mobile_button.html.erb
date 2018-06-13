@@ -1,7 +1,5 @@
 <%
-  model_class_name = controller.model_class.name.underscore.downcase
-  model_name = I18n.t("forms.record_types.#{model_class_name}")
-  mark_mobile_url = "/#{model_name.downcase.underscore.pluralize}/mark_for_mobile"
+  mark_mobile_url = "/#{controller.model_class.parent_form.pluralize}/mark_for_mobile"
   button_label = ((mobile_value == true) ? t("buttons.mark_for_mobile") : t("buttons.unmark_for_mobile"))
 %>
 <li>

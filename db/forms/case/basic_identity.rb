@@ -151,6 +151,12 @@ basic_identity_fields = [
              "type" => "text_field",
              "display_name_all" => "RC ID No."
             }),
+  Field.new({"name" => "biometrics_id",
+             "type" => "text_field",
+             "display_name_all" => "Biometrics",
+             "show_on_minify_form" => true,
+             "help_text_all" => "For the Biometric ID number, if used."
+            }),
   Field.new({"name" => "unhcr_id_no",
              "type" => "text_field",
              "display_name_all" => "proGres Case ID",

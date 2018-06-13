@@ -122,6 +122,7 @@ class ChildrenController < ApplicationController
       subform_name: type,
       form_group_name: '',
       form_link: child_save_subform_path(child, subform: type, form_sidebar_id: form_sidebar_id),
+      is_mobile: is_mobile?
     })
     respond_to do |format|
       format.html {render text: html}
@@ -143,7 +144,7 @@ class ChildrenController < ApplicationController
     end
     child.save
     flash[:notice] = I18n.t("child.messages.update_success", record_id: child.short_id)
-    redirect_to cases_path()
+    redirect_to :back
   end
 
   def reopen_case
