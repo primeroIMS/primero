@@ -1,11 +1,5 @@
 <div class="panel">
-  <div class="button-group align-center">
-    <a class="button clear_filters"><%= t('cases.clear_filter') %></a>
-    <% if can?(:create, SavedSearch) %>
-      <a class="button save_search" data-open="save_filters"><%= t('cases.save_filter') %></a>
-    <% end %>
-    <a id="apply_filter" class="button"><%= t('cases.apply_filter') %></a>
-  </div>
+  <%= render 'record_shared/filter_buttons', do_saved_search: true %>
   <%= render 'record_shared/saved_search_modal' %>
   <form id="index_filter_form" autocomplete="off">
     <% if filters_to_show.include? 'Flagged' %>
