@@ -567,7 +567,7 @@ describe TracingRequestsController, :type => :controller do
       tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
       params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
       put :update, params: { :id => '1', :tracing_request => params_tracing_request }
     end
@@ -577,7 +577,7 @@ describe TracingRequestsController, :type => :controller do
       tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
       params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_tracing_request)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, true, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
       put :update, params: { :id => '1', :tracing_request => params_tracing_request, :delete_tracing_request_audio => "1" }
     end
@@ -587,7 +587,7 @@ describe TracingRequestsController, :type => :controller do
       tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
       params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
       put :update, params: { :id => '1', :tracing_request => params_tracing_request, :redirect_url => '/cases' }
       response.should redirect_to '/cases?follow=true'
@@ -599,7 +599,7 @@ describe TracingRequestsController, :type => :controller do
 
       params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
       put :update, params: { :id => '1', :tracing_request => params_tracing_request }
       response.should redirect_to "/tracing_requests/#{tracing_request.id}?follow=true"
