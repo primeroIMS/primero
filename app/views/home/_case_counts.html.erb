@@ -28,8 +28,10 @@
     <% end %>
   </div>
 
-  <h4 class="stat_heading"><%= t("dashboard.response").html_safe %></h4>
-  <%= render 'case_count_risk_response', stats_total: @service_stats_totals, stats_near: @service_stats_near, stats_overdue: @service_stats_overdue, model: model %>
+  <% if @display_response %>
+    <h4 class="stat_heading"><%= t("dashboard.response").html_safe %></h4>
+    <%= render 'case_count_risk_response', stats_total: @service_stats_totals, stats_near: @service_stats_near, stats_overdue: @service_stats_overdue, model: model %>
+  <% end %>
 <% else %>
   <p class="no-content"><%= t('dashboard.no_case_stats') %></p>
 <% end %>
