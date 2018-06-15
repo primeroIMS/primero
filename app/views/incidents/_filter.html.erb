@@ -39,8 +39,8 @@
       <%= build_filter_location(t("incidents.filter_by.incident_location"), 'incident_location') %>
     <% end %>
     <% if filters_to_show.include? 'Dates' %>
-			<%= render 'record_shared/filter_date', record: 'incidents' %>
-		<% end %>
+      <%= render 'record_shared/filter_date', record: 'incidents' %>
+    <% end %>
     <% if filters_to_show.include? 'Protection Status' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.unaccompanied_separated_status"), 'unaccompanied_separated_status', Lookup.values('lookup-unaccompanied-separated-status', @lookups, locale: I18n.locale)) %>
     <% end %>
