@@ -142,6 +142,11 @@ class FormSection < CouchRest::Model::Base
   alias to_param unique_id
 
   class << self
+
+    def memoized_dependencies
+      [Field]
+    end
+
     # memoize by_unique_id because some things call this directly
     alias :old_by_unique_id :by_unique_id
     def by_unique_id *args
