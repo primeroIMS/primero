@@ -2,6 +2,7 @@ class Field
   include CouchRest::Model::CastedModel
   include PrimeroModel
   include LocalizableProperty
+  include Memoizable
 
   property :name
   property :visible, TrueClass, :default => true
@@ -239,42 +240,93 @@ class Field
     end
   end
 
-  # TODO: Refator this - Slow when you rebuild a form
-  def self.all_searchable_field_names(parent_form = 'case')
-    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_fields.map(&:name) }.flatten
+
+  class << self
+
+    # TODO: Refactor this - Slow when you rebuild a form
+    def all_searchable_field_names(parent_form = 'case')
+      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_fields.map(&:name) }.flatten
+    end
+
+    def all_searchable_date_field_names(parent_form = 'case')
+      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
+    end
+
+    def all_searchable_date_time_field_names(parent_form = 'case')
+      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_time_fields.map(&:name) }.flatten
+    end
+
+    def all_searchable_boolean_field_names(parent_form='case')
+      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_boolean_fields.map(&:name) }.flatten
+    end
+
+    def all_filterable_field_names(parent_form = 'case')
+      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_fields.map(&:name) }.flatten
+    end
+
+    def all_filterable_multi_field_names(parent_form = 'case')
+      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_multi_fields.map(&:name) }.flatten
+    end
+
+    def all_filterable_numeric_field_names(parent_form = 'case')
+      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_numeric_fields.map(&:name) }.flatten
+    end
+
+    def all_tally_fields(parent_form='case')
+      FormSection.find_by_parent_form(parent_form, false).map {|form| form.all_tally_fields.map(&:name)}.flatten
+    end
+
+    def all_location_field_names(parent_form='case')
+      FormSection.find_locations_by_parent_form(parent_form).map {|form| form.all_location_fields.map(&:name)}.flatten.uniq
+    end
+
+    # This is a rework of the original RapidFTR method that never worked.
+    # It depends on a 'fields' view existing on the FormSection that indexes the fields out of the FormSection.
+    # TODO: This has been renamed to allow a hack to wrap it
+    def find_by_name_from_view(name)
+      result = nil
+      if name.is_a? Array
+        raw_field_data = FormSection.fields(keys: name).rows
+        result = raw_field_data.map{|rf| Field.new(rf['value'])}
+      else
+        raw_field_data = FormSection.fields(key: name).rows.first
+        result = Field.new(raw_field_data['value']) if raw_field_data.present?
+      end
+      return result
+    end
+    memoize_in_prod :find_by_name_from_view
+
+    #TODO: This is a HACK to pull back location fields from admin solr index names,
+    #      completely based on assumptions.
+    #      Also it's inefficient, and potentially inconsistent with itself
+    def find_by_name(field_name)
+      field = nil
+      if field_name.present?
+        if field_name.kind_of?(Array)
+          field_name.select{|s|
+            s.match(".*(\\d)+") && !find_by_name_from_view(s).present?
+          }.each{|s|
+            s.gsub!(/ *\d+$/, '')
+          }
+        elsif field_name.match(".*(\\d)+") && !find_by_name_from_view(field_name).present?
+          field_name.gsub!(/ *\d+$/, '')
+        end
+
+        field = find_by_name_from_view(field_name)
+        unless field.present?
+          if field_name.last.is_number? && field_name.length > 1
+            field = find_by_name_from_view(field_name[0..-2])
+            unless field.present? && field.is_location?
+              field = nil
+            end
+          end
+        end
+      end
+      return field
+    end
+
   end
 
-  def self.all_searchable_date_field_names(parent_form = 'case')
-    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
-  end
-
-  def self.all_searchable_date_time_field_names(parent_form = 'case')
-    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_time_fields.map(&:name) }.flatten
-  end
-
-  def self.all_searchable_boolean_field_names(parent_form='case')
-    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_boolean_fields.map(&:name) }.flatten
-  end
-
-  def self.all_filterable_field_names(parent_form = 'case')
-    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_fields.map(&:name) }.flatten
-  end
-
-  def self.all_filterable_multi_field_names(parent_form = 'case')
-    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_multi_fields.map(&:name) }.flatten
-  end
-
-  def self.all_filterable_numeric_field_names(parent_form = 'case')
-    FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_numeric_fields.map(&:name) }.flatten
-  end
-
-  def self.all_tally_fields(parent_form='case')
-    FormSection.find_by_parent_form(parent_form, false).map {|form| form.all_tally_fields.map(&:name)}.flatten
-  end
-
-  def self.all_location_field_names(parent_form='case')
-    FormSection.find_locations_by_parent_form(parent_form).map {|form| form.all_location_fields.map(&:name)}.flatten.uniq
-  end
 
   def display_name_for_field_selector
     hidden_text = self.visible? ? "" : " (Hidden)"
@@ -462,50 +514,6 @@ class Field
   def selectable?
     self.option_strings_source.present? || self.option_strings_text.present?
   end
-
-  # This is a rework of the original RapidFTR method that never worked.
-  # It depends on a 'fields' view existing on the FormSection that indexes the fields out of the FormSection.
-  # TODO: This has been renamed to allow a hack to wrap it
-  def self.find_by_name_from_view(name)
-    result = nil
-    if name.is_a? Array
-      raw_field_data = FormSection.fields(keys: name).rows
-      result = raw_field_data.map{|rf| Field.new(rf['value'])}
-    else
-      raw_field_data = FormSection.fields(key: name).rows.first
-      result = Field.new(raw_field_data['value']) if raw_field_data.present?
-    end
-    return result
-  end
-
-  #TODO: This is a HACK to pull back location fields from admin solr index names,
-  #      completely based on assumptions.
-  def self.find_by_name(field_name)
-    field = nil
-    if field_name.present?
-      if field_name.kind_of?(Array)
-        field_name.select{|s|
-          s.match(".*(\\d)+") && !find_by_name_from_view(s).present?
-        }.each{|s|
-          s.gsub!(/ *\d+$/, '')
-        }
-      elsif field_name.match(".*(\\d)+") && !find_by_name_from_view(field_name).present?
-        field_name.gsub!(/ *\d+$/, '')
-      end
-
-      field = find_by_name_from_view(field_name)
-      unless field.present?
-        if field_name.last.is_number? && field_name.length > 1
-          field = find_by_name_from_view(field_name[0..-2])
-          unless field.present? && field.is_location?
-            field = nil
-          end
-        end
-      end
-    end
-    return field
-  end
-
 
   # Whether or not this should display on the show/view pages
   # Should not affect the new/edit pages
