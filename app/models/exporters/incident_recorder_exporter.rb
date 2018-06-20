@@ -133,15 +133,8 @@ module Exporters
       def incident_menu_header
         unless @menu_headers.present?
           @menu_headers = true
-          header = [
-            I18n.t('exports.incident_recorder_xls.headers.case_worker_code'),
-            I18n.t('exports.incident_recorder_xls.headers.ethnicity'),
-            I18n.t('exports.incident_recorder_xls.headers.location'),
-            I18n.t('exports.incident_recorder_xls.headers.county'),
-            I18n.t('exports.incident_recorder_xls.headers.district'),
-            I18n.t('exports.incident_recorder_xls.headers.camp')
-          ]
-          @menu_worksheet.write_row(0, 0, header)
+          header = ['case_worker_code', 'ethnicity', 'location', 'county', 'district', 'camp']
+          @menu_worksheet.write_row(0, 0, header.map{|prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}")})
           #TODO revisit, there is a bug in the gem.
           #set_column_widths(@menu_worksheet, header)
         end
@@ -153,16 +146,14 @@ module Exporters
       end
 
       def incident_recorder_sex(sex)
-        r = SEX[sex]
-        r.present? ? r : sex
+        SEX[sex] || sex
       end
 
       def perpetrators_sex(perpetrators=[])
         if perpetrators.present?
           gender_list = perpetrators.map{|p| p.perpetrator_sex}
-          #TODO INVESTIGATE!!!!
-          male_count = gender_list.count {|g| g.try(:downcase) == 'male'}
-          female_count = gender_list.count {|g| g.try(:downcase) == 'female'}
+          male_count = gender_list.count {|gender| gender == 'male'}
+          female_count = gender_list.count {|gender| gender == 'female'}
 
           if male_count > 0
             (female_count > 0) ? I18n.t("exports.incident_recorder_xls.gender.both") : I18n.t("exports.incident_recorder_xls.gender.male")
@@ -216,16 +207,15 @@ module Exporters
 
       def incident_recorder_age_group(perpetrators)
         age = perpetrators.first.try(:age_group)
-        r = AGE_GROUP[age]
-        r.present? ? r : age
+        AGE_GROUP[age] || age
       end
 
       def incident_recorder_age_type(perpetrators)
         if perpetrators.present?
           age_type_list = perpetrators.map{|p| p.age_type}
-          adult_count = age_type_list.count {|at| at.try(:downcase) == 'adult'}
-          minor_count = age_type_list.count {|at| at.try(:downcase) == 'minor'}
-          unknown_count = age_type_list.count {|at| at.try(:downcase) == 'unknown'}
+          adult_count = age_type_list.count {|at| at == 'adult'}
+          minor_count = age_type_list.count {|at| at == 'minor'}
+          unknown_count = age_type_list.count {|at| at == 'unknown'}
 
           if adult_count > 0
             (minor_count > 0) ? I18n.t("exports.incident_recorder_xls.age_type.both") : I18n.t("exports.incident_recorder_xls.age_type.adult")
@@ -248,9 +238,12 @@ module Exporters
       end
 
       def primary_alleged_perpetrator(model)
-        alleged_perpetrator = model.try(:alleged_perpetrator)
-        return [] if alleged_perpetrator.blank?
-        alleged_perpetrator.select{|ap| ap.try(:primary_perpetrator) == "primary"}
+        @primary_alleged_perpetrator ||= primary_alleged_perpetrators(model).try(:first)
+      end
+
+      def primary_alleged_perpetrators(model)
+        alleged_perpetrators = model.try(:alleged_perpetrator)
+        alleged_perpetrators.present? ? alleged_perpetrators.select{|ap| ap.try(:primary_perpetrator) == "primary"} : []
       end
       memoize :primary_alleged_perpetrator
 
@@ -264,6 +257,10 @@ module Exporters
         location ? location.placename : ""
       end
 
+      # This sets up a hash where
+      #   key   -  an identifier which is translated later and used to print the worksheet headers
+      #   value -  either: the field on the incident to display  OR
+      #                    a lambda which derives the value to be displayed
       def props
          ##### ADMINISTRATIVE INFORMATION #####
         {
@@ -295,6 +292,7 @@ module Exporters
           'unaccompanied_separated_status' => "unaccompanied_separated_status",
           'stage_of_displacement' => "displacement_incident",
           'time_of_day' => ->(model) do
+            #TODO INVESTIGATE!!!
             incident_timeofday = model.try(:incident_timeofday)
             incident_timeofday.present? ? incident_timeofday.split("(").first.strip : nil
           end,
@@ -317,6 +315,7 @@ module Exporters
           'goods_money_exchanged' => "goods_money_exchanged",
           'abduction_type' => "abduction_status_time_of_incident",
           'previously_reported' => ->(model) do
+            #TODO FIX!!!
             REPORTED_ELSEWHERE[model.try(:gbv_reported_elsewhere)]
           end,
           'gbv_previous_incidents' => "gbv_previous_incidents",
@@ -345,9 +344,12 @@ module Exporters
             incident_recorder_age(all_alleged_perpetrators(model))
           end,
           'perpetrator.relationship' => ->(model) do
+            #TODO Translate!!!
+
             primary_alleged_perpetrator(model).first.try(:perpetrator_relationship)
           end,
           'perpetrator.occupation' => ->(model) do
+            #TODO Translate!!!
             primary_alleged_perpetrator(model).first.try(:perpetrator_occupation)
           end,
           ##### REFERRAL PATHWAY DATA #####
@@ -425,7 +427,7 @@ module Exporters
               end
               if value.is_a?(Date)
                 formatted_value = I18n.l(value)
-              elsif value.is_a?(String)
+              elsif value.is_a?(String) || value.is_a?(TrueClass)
                 formatted_value = Exporters::IncidentRecorderExporter.translate_value(prop, value)
               else
                 formatted_value = value
