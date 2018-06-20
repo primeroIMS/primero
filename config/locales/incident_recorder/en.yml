@@ -64,6 +64,8 @@ en:
           former: "PREVIOUS INCIDENT WITH THIS PERPETRATOR"
           relationship: "ALLEGED PERPETRATOR - SURVIVOR RELATIONSHIP"
           occupation: "ALLEGED PERPETRATOR OCCUPATION"
+          age_group: "ALLEGED PERPETRATOR AGE GROUP"
+          age_type: "ALLEGED PERPETRATOR AGE TYPE"
         service:
           referred_from: "REFERRED TO YOU FROM?"
           safehouse_referral: "SAFE HOUSE / SHELTER"

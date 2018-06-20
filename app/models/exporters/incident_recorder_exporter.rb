@@ -51,13 +51,13 @@ module Exporters
 
       #TODO: should we change the value in the form section ?.
       #      spreadsheet is expecting the "Age" at the beginning and the dash between blanks.
-      AGE_GROUP = { "0-11" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 0 - 11",
-                    "12-17" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 12 - 17",
-                    "18-25" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 18 - 25",
-                    "26-40" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 26 - 40",
-                    "41-60" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 41 - 60",
-                    "61+" => I18n.t("exports.incident_recorder_xls.age_group.61_older"),
-                    "Unknown" => I18n.t("exports.incident_recorder_xls.age_group.unknown") }
+      AGE_GROUP = { "0_11" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 0 - 11",
+                    "12_17" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 12 - 17",
+                    "18_25" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 18 - 25",
+                    "26_40" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 26 - 40",
+                    "41_60" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 41 - 60",
+                    "61" => I18n.t("exports.incident_recorder_xls.age_group.61_older"),
+                    "unknown" => I18n.t("exports.incident_recorder_xls.age_group.unknown") }
 
       #TODO - should this come from the lookup translation?
       SERVICE_REFERRED_FROM = {
@@ -124,7 +124,7 @@ module Exporters
       def incident_data_header
         if @data_headers.blank?
           @data_headers = true
-          @data_worksheet.write_row(0, 0, @props.keys)
+          @data_worksheet.write_row(0, 0, @props.keys.map{|prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}")})
           #TODO revisit, there is a bug in the gem.
           #set_column_widths(@data_worksheet, props.keys)
         end
@@ -199,9 +199,9 @@ module Exporters
 
         case age_group_or_age_type(@age_group_count, @age_type_count)
           when 'age_type'
-            I18n.t("exports.incident_recorder_xls.age_type.header")
+            'perpetrator.age_type'
           else
-            I18n.t("exports.incident_recorder_xls.age_group.header")
+            'perpetrator.age_group'
         end
       end
 
@@ -250,7 +250,7 @@ module Exporters
       def primary_alleged_perpetrator(model)
         alleged_perpetrator = model.try(:alleged_perpetrator)
         return [] if alleged_perpetrator.blank?
-        alleged_perpetrator.select{|ap| ap.try(:primary_perpetrator) == "Primary"}
+        alleged_perpetrator.select{|ap| ap.try(:primary_perpetrator) == "primary"}
       end
       memoize :primary_alleged_perpetrator
 
@@ -266,12 +266,10 @@ module Exporters
 
       def props
          ##### ADMINISTRATIVE INFORMATION #####
-         #TODO - discuss with Pavel to see if this needs to change per SL-542
-         #TODO - i18n - need translations for all of these hash keys / column headings
         {
-          I18n.t('exports.incident_recorder_xls.headers.incident_id') => "incidentid_ir",
-          I18n.t('exports.incident_recorder_xls.headers.survivor_code') => "survivor_code",
-          I18n.t('exports.incident_recorder_xls.headers.case_manager_code') => ->(model) do
+          'incident_id' => "incidentid_ir",
+          'survivor_code' => "survivor_code",
+          'case_manager_code' => ->(model) do
             caseworker_code = @caseworker_code[model.owned_by]
             if caseworker_code.blank?
               caseworker_code = model.try(:owner).try(:code)
@@ -280,50 +278,50 @@ module Exporters
             @caseworker_code[caseworker_code] = caseworker_code if caseworker_code.present?
             caseworker_code
           end,
-          I18n.t('exports.incident_recorder_xls.headers.date_of_interview') => "date_of_first_report",
-          I18n.t('exports.incident_recorder_xls.headers.date_of_incident') => "incident_date",
-          I18n.t('exports.incident_recorder_xls.headers.date_of_birth') => "date_of_birth",
-          I18n.t('exports.incident_recorder_xls.headers.sex') => ->(model) do
+          'date_of_interview' => "date_of_first_report",
+          'date_of_incident' => "incident_date",
+          'date_of_birth' => "date_of_birth",
+          'sex' => ->(model) do
             #Need to convert 'Female' to 'F' and 'Male' to 'M' because
             #the spreadsheet is expecting those values.
             incident_recorder_sex(model.try(:sex))
           end,
           #NOTE: 'H' is hidden and protected in the spreadsheet.
-          I18n.t('exports.incident_recorder_xls.headers.ethnicity') => "ethnicity",
-          I18n.t('exports.incident_recorder_xls.headers.country_of_origin') => "country_of_origin",
-          I18n.t('exports.incident_recorder_xls.headers.marital_status') => "maritial_status",
-          I18n.t('exports.incident_recorder_xls.headers.displacement_status') => "displacement_status",
-          I18n.t('exports.incident_recorder_xls.headers.disability_type') => "disability_type",
-          I18n.t('exports.incident_recorder_xls.headers.unaccompanied_separated_status') => "unaccompanied_separated_status",
-          I18n.t('exports.incident_recorder_xls.headers.stage_of_displacement') => "displacement_incident",
-          I18n.t('exports.incident_recorder_xls.headers.time_of_day') => ->(model) do
+          'ethnicity' => "ethnicity",
+          'country_of_origin' => "country_of_origin",
+          'marital_status' => "maritial_status",
+          'displacement_status' => "displacement_status",
+          'disability_type' => "disability_type",
+          'unaccompanied_separated_status' => "unaccompanied_separated_status",
+          'stage_of_displacement' => "displacement_incident",
+          'time_of_day' => ->(model) do
             incident_timeofday = model.try(:incident_timeofday)
             incident_timeofday.present? ? incident_timeofday.split("(").first.strip : nil
           end,
-          I18n.t('exports.incident_recorder_xls.headers.location') => "incident_location_type",
-          I18n.t('exports.incident_recorder_xls.headers.county') => ->(model) do
+          'location' => "incident_location_type",
+          'county' => ->(model) do
             county_name = location_from_hierarchy(model.try(:incident_location), ['county'])
             #Collect information to the "2. Menu Data sheet."
             @counties[county_name] = county_name if county_name.present?
             county_name
           end,
-          I18n.t('exports.incident_recorder_xls.headers.district') => ->(model) do
+          'district' => ->(model) do
             district_name = location_from_hierarchy(model.try(:incident_location), ['province'])
             #Collect information to the "2. Menu Data sheet."
             @districts[district_name] = district_name if district_name.present?
             district_name
           end,
-          I18n.t('exports.incident_recorder_xls.headers.camp_town') => "incident_camp_town",
-          I18n.t('exports.incident_recorder_xls.headers.gbv_type') => "gbv_sexual_violence_type",
-          I18n.t('exports.incident_recorder_xls.headers.harmful_traditional_practice') => "harmful_traditional_practice",
-          I18n.t('exports.incident_recorder_xls.headers.goods_money_exchanged') => "goods_money_exchanged",
-          I18n.t('exports.incident_recorder_xls.headers.abduction_type') => "abduction_status_time_of_incident",
-          I18n.t('exports.incident_recorder_xls.headers.previously_reported') => ->(model) do
+          'camp_town' => "incident_camp_town",
+          'gbv_type' => "gbv_sexual_violence_type",
+          'harmful_traditional_practice' => "harmful_traditional_practice",
+          'goods_money_exchanged' => "goods_money_exchanged",
+          'abduction_type' => "abduction_status_time_of_incident",
+          'previously_reported' => ->(model) do
             REPORTED_ELSEWHERE[model.try(:gbv_reported_elsewhere)]
           end,
-          I18n.t('exports.incident_recorder_xls.headers.gbv_previous_incidents') => "gbv_previous_incidents",
+          'gbv_previous_incidents' => "gbv_previous_incidents",
           ##### ALLEGED PERPETRATOR INFORMATION #####
-          I18n.t('exports.incident_recorder_xls.headers.number_primary_perpetrators') => ->(model) do
+          'number_primary_perpetrators' => ->(model) do
             calculated = all_alleged_perpetrators(model).size
             from_ir = model.try(:number_of_individual_perpetrators_from_ir)
             if from_ir.present?
@@ -332,30 +330,28 @@ module Exporters
               calculated
             end
           end,
-          I18n.t('exports.incident_recorder_xls.headers.perpetrator.sex') => ->(model) do
+          'perpetrator.sex' => ->(model) do
             perpetrators_sex(all_alleged_perpetrators(model))
           end,
-          I18n.t('exports.incident_recorder_xls.headers.perpetrator.former') => ->(model) do
+          'perpetrator.former' => ->(model) do
             former_perpetrators = primary_alleged_perpetrator(model).map{|ap| ap.try(:former_perpetrator)}.select{|is_ap| is_ap != nil}
-            #TODO: FIX!!!!!!!
-            if former_perpetrators.include? 'Yes'
+            if former_perpetrators.include? true
               I18n.t("gbv_report.yes")
-            elsif former_perpetrators.all? { |is_fp| is_fp == 'No' }
+            elsif former_perpetrators.all? { |is_fp| is_fp == false }
               I18n.t("gbv_report.no")
             end
           end,
-          #TODO: FIX!!!!
           alleged_perpetrator_header => ->(model) do
             incident_recorder_age(all_alleged_perpetrators(model))
           end,
-          I18n.t('exports.incident_recorder_xls.headers.perpetrator.relationship') => ->(model) do
+          'perpetrator.relationship' => ->(model) do
             primary_alleged_perpetrator(model).first.try(:perpetrator_relationship)
           end,
-          I18n.t('exports.incident_recorder_xls.headers.perpetrator.occupation') => ->(model) do
+          'perpetrator.occupation' => ->(model) do
             primary_alleged_perpetrator(model).first.try(:perpetrator_occupation)
           end,
           ##### REFERRAL PATHWAY DATA #####
-          I18n.t('exports.incident_recorder_xls.headers.service.referred_from') => ->(model) do
+          'service.referred_from' => ->(model) do
             services = model.try(:service_referred_from)
             if services.present?
               if services.is_a?(Array)
@@ -365,50 +361,50 @@ module Exporters
               end
             end
           end,
-          I18n.t('exports.incident_recorder_xls.headers.service.safehouse_referral') => ->(model) do
+          'service.safehouse_referral' => ->(model) do
             incident_recorder_service_referral(model.try(:service_safehouse_referral))
           end,
-          I18n.t('exports.incident_recorder_xls.headers.service.medical_referral') => ->(model) do
+          'service.medical_referral' => ->(model) do
             service_value = model.health_medical_referral_subform_section.try(:first).try(:service_medical_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-          I18n.t('exports.incident_recorder_xls.headers.service.psycho_referral') => ->(model) do
+          'service.psycho_referral' => ->(model) do
             service_value = model.psychosocial_counseling_services_subform_section.try(:first).try(:service_psycho_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-          I18n.t('exports.incident_recorder_xls.headers.service.wants_legal_action') => ->(model) do
+          'service.wants_legal_action' => ->(model) do
             legal_counseling = model.try(:legal_assistance_services_subform_section)
             if legal_counseling.present?
               legal_actions = legal_counseling.
                   map{|l| l.try(:pursue_legal_action)}
               if legal_actions.include? true
-                'Yes'
+                I18n.t("gbv_report.yes")
               elsif legal_actions.include? false
-                'No'
+                I18n.t("gbv_report.no")
               elsif legal_actions.include? nil
-                'Undecided at time of report'
+                I18n.t("exports.incident_recorder_xls.service_referral.undecided")
               end
             end
           end,
-          I18n.t('exports.incident_recorder_xls.headers.service.legal_referral') => ->(model) do
+          'service.legal_referral' => ->(model) do
             service_value = model.legal_assistance_services_subform_section.try(:first).try(:service_legal_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-          I18n.t('exports.incident_recorder_xls.headers.service.police_referral') => ->(model) do
+          'service.police_referral' => ->(model) do
             service_value = model.police_or_other_type_of_security_services_subform_section.try(:first).try(:service_police_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-          I18n.t('exports.incident_recorder_xls.headers.service.livelihoods_referral') => ->(model) do
+          'service.livelihoods_referral' => ->(model) do
             service_value = model.livelihoods_services_subform_section.try(:first).try(:service_livelihoods_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           ##### ADMINISTRATION 2 #####
-          I18n.t('exports.incident_recorder_xls.headers.service.protection_referral') => ->(model) do
+          'service.protection_referral' => ->(model) do
             service_value = model.child_protection_services_subform_section.try(:first).try(:service_protection_referral)
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
-          I18n.t('exports.incident_recorder_xls.headers.consent') => "consent_reporting",
-          I18n.t('exports.incident_recorder_xls.headers.agency_code') => ->(model) do
+          'consent' => "consent_reporting",
+          'agency_code' => ->(model) do
             model.owner.try(:agency).try(:agency_code)
           end
         }
