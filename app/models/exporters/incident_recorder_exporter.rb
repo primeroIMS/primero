@@ -295,9 +295,9 @@ module Exporters
           'perpetrator.former' => ->(model) do
             former_perpetrators = primary_alleged_perpetrator(model).map{|ap| ap.try(:former_perpetrator)}.select{|is_ap| is_ap != nil}
             if former_perpetrators.include? true
-              I18n.t("gbv_report.yes")
+              I18n.t("exports.incident_recorder_xls.yes")
             elsif former_perpetrators.all? { |is_fp| is_fp == false }
-              I18n.t("gbv_report.no")
+              I18n.t("exports.incident_recorder_xls.no")
             end
           end,
           alleged_perpetrator_header => ->(model) do
@@ -339,9 +339,9 @@ module Exporters
               legal_actions = legal_counseling.
                   map{|l| l.try(:pursue_legal_action)}
               if legal_actions.include? true
-                I18n.t("gbv_report.yes")
+                I18n.t("exports.incident_recorder_xls.yes")
               elsif legal_actions.include? false
-                I18n.t("gbv_report.no")
+                I18n.t("exports.incident_recorder_xls.no")
               elsif legal_actions.include? nil
                 I18n.t("exports.incident_recorder_xls.service_referral.undecided")
               end
@@ -371,6 +371,18 @@ module Exporters
         }
       end
 
+      def format_value(prop, value)
+        if value.is_a?(Date)
+          formatted_value = I18n.l(value)
+        elsif prop.is_a?(Proc)
+          formatted_value = value
+        else
+          # All of the lambdas above should already be translated.
+          # Only worry about translating the string properties (i.e. the ones using the field name)
+          formatted_value = Exporters::IncidentRecorderExporter.translate_value(prop, value)
+        end
+      end
+
       def incident_data(models)
         #Sheet 0 is the "Incident Data".
         @props = props
@@ -380,18 +392,8 @@ module Exporters
           j = 0
           @props.each do |name, prop|
             if prop.present?
-              if prop.is_a?(Proc)
-                value = prop.call(model)
-              else
-                value = model.try(prop.to_sym)
-              end
-              if value.is_a?(Date)
-                formatted_value = I18n.l(value)
-              elsif value.is_a?(String) || value.is_a?(TrueClass)
-                formatted_value = Exporters::IncidentRecorderExporter.translate_value(prop, value)
-              else
-                formatted_value = value
-              end
+              value = prop.is_a?(Proc) ? prop.call(model) : model.try(prop.to_sym)
+              formatted_value = format_value(prop, value)
               @data_worksheet.write(@row_data, j, formatted_value) unless formatted_value.nil?
             end
             j += 1

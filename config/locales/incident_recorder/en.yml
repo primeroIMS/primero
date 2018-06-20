@@ -7,6 +7,8 @@ en:
       all:  Incident Recorder
       one:  Incident Recorder
       selected:  Selected to Incident Recorder
+      "yes": "Yes"
+      "no": "No"
       gender:
         male: "M"
         female: "F"
