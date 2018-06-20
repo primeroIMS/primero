@@ -49,7 +49,7 @@ module Exporters
       SEX = { "male" => I18n.t("exports.incident_recorder_xls.gender.male"),
               "female" => I18n.t("exports.incident_recorder_xls.gender.female") }
 
-      #TODO: should we change the value in the form section ?.
+      #TODO: Should we change the value in the form section?  If we do, this can go away and just use the field translation
       #      spreadsheet is expecting the "Age" at the beginning and the dash between blanks.
       AGE_GROUP = { "0_11" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 0 - 11",
                     "12_17" => "#{I18n.t("exports.incident_recorder_xls.age_group.age")} 12 - 17",
@@ -215,7 +215,7 @@ module Exporters
 
       def location_from_hierarchy(location_name, types)
         location = Location.find_types_in_hierarchy(location_name, types)
-        location ? location.placename : ""
+        location.present? ? location.try(:placename) : ""
       end
 
       # This sets up a hash where
@@ -253,9 +253,11 @@ module Exporters
           'unaccompanied_separated_status' => "unaccompanied_separated_status",
           'stage_of_displacement' => "displacement_incident",
           'time_of_day' => ->(model) do
-            #TODO INVESTIGATE!!!
             incident_timeofday = model.try(:incident_timeofday)
-            incident_timeofday.present? ? incident_timeofday.split("(").first.strip : nil
+            return if incident_timeofday.blank?
+            timeofday_translated = Exporters::IncidentRecorderExporter.translate_value('incident_timeofday', incident_timeofday)
+            #Do not use the display text that is between the parens ()
+            timeofday_translated.present? ? timeofday_translated.split("(").first.strip : nil
           end,
           'location' => "incident_location_type",
           'county' => ->(model) do
