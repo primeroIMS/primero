@@ -23,12 +23,6 @@ en:
         unknown: "Unknown"
         header: "ALLEGED PERPETRATOR AGE TYPE"
       service_referral:
-        referred: "Referred"
-        your_agency: "Service provided by your agency"
-        another_agency: "Services already received from another agency"
-        not_applicable: "Service not applicable"
-        declined: "Referral declined by survivor"
-        unavailable: "Service unavailable"
         undecided: "Undecided at time of report"
       headers:
         incident_id: "INCIDENT ID"

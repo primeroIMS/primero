@@ -59,39 +59,6 @@ module Exporters
                     "61" => I18n.t("exports.incident_recorder_xls.age_group.61_older"),
                     "unknown" => I18n.t("exports.incident_recorder_xls.age_group.unknown") }
 
-      #TODO - should this come from the lookup translation?
-      SERVICE_REFERRED_FROM = {
-        "health_medical_services" => "Health / Medical Services",
-        "psychosocial_counseling_services" => "Psychosocial / Counseling Services",
-        "police_other_security_actor" => "Police / Other Security Actor",
-        "legal_assistance_services" => "Legal Assistance Services",
-        "livelihoods_program" => "Livelihoods Program",
-        "self_referral_first_point_of_contact" => "Self Referral / First Point of Contact",
-        "teacher_school_official" => "Teacher / School Official",
-        "community_or_camp_leader" => "Community or Camp Leader",
-        "safe_house_shelter" => "Safe House / Shelter",
-        "other_humanitarian_or_development_actor" => "Other Humanitarian or Development Actor",
-        "other_government_service" => "Other Government Service",
-        "other" => "Other"
-      }
-
-      #TODO ????
-      SERVICE_REFERRAL = {
-        "Referred" => I18n.t("exports.incident_recorder_xls.service_referral.referred"),
-        "No referral, Service provided by your agency" => I18n.t("exports.incident_recorder_xls.service_referral.your_agency"),
-        "No referral, Services already received from another agency" => I18n.t("exports.incident_recorder_xls.service_referral.another_agency"),
-        "No referral, Service not applicable" => I18n.t("exports.incident_recorder_xls.service_referral.not_applicable"),
-        "No, Referral declined by survivor" => I18n.t("exports.incident_recorder_xls.service_referral.declined"),
-        "No referral, Service unavailable" => I18n.t("exports.incident_recorder_xls.service_referral.unavailable")
-      }
-
-      #TODO ???
-      REPORTED_ELSEWHERE = {
-        "no" => "No",
-        "gbvims-org" => "Yes-GBVIMS Org / Agency",
-        "non-gbvims-org" => "Yes-Non GBVIMS Org / Agency"
-      }
-
       def close
         #Print at the end of the processing the data collected
         #because this is batch mode, this is the end of the processing
@@ -213,9 +180,9 @@ module Exporters
       def incident_recorder_age_type(perpetrators)
         if perpetrators.present?
           age_type_list = perpetrators.map{|p| p.age_type}
-          adult_count = age_type_list.count {|at| at == 'adult'}
-          minor_count = age_type_list.count {|at| at == 'minor'}
-          unknown_count = age_type_list.count {|at| at == 'unknown'}
+          adult_count = age_type_list.count {|age_type| age_type == 'adult'}
+          minor_count = age_type_list.count {|age_type| age_type == 'minor'}
+          unknown_count = age_type_list.count {|age_type| age_type == 'unknown'}
 
           if adult_count > 0
             (minor_count > 0) ? I18n.t("exports.incident_recorder_xls.age_type.both") : I18n.t("exports.incident_recorder_xls.age_type.adult")
@@ -228,24 +195,18 @@ module Exporters
       end
 
       def incident_recorder_service_referral_from(service_referral_from)
-        r = SERVICE_REFERRED_FROM[service_referral_from]
-        r.present? ? r : service_referral_from
+        Exporters::IncidentRecorderExporter.translate_value('service_referred_from', service_referral_from) if service_referral_from.present?
       end
 
       def incident_recorder_service_referral(service)
-        r = SERVICE_REFERRAL[service]
-        r.present? ? r : service
+        #The services use the same lookup... using safehouse service field for purpose of translation
+        Exporters::IncidentRecorderExporter.translate_value('service_safehouse_referral', service) if service.present?
       end
 
       def primary_alleged_perpetrator(model)
-        @primary_alleged_perpetrator ||= primary_alleged_perpetrators(model).try(:first)
+        @alleged_perpetrators ||= model.try(:alleged_perpetrator).try(:select) {|ap| ap.try(:primary_perpetrator) == "primary"}
+        @alleged_perpetrators.present? ? @alleged_perpetrators : []
       end
-
-      def primary_alleged_perpetrators(model)
-        alleged_perpetrators = model.try(:alleged_perpetrator)
-        alleged_perpetrators.present? ? alleged_perpetrators.select{|ap| ap.try(:primary_perpetrator) == "primary"} : []
-      end
-      memoize :primary_alleged_perpetrator
 
       def all_alleged_perpetrators(model)
         alleged_perpetrators = model.try(:alleged_perpetrators)
@@ -314,10 +275,7 @@ module Exporters
           'harmful_traditional_practice' => "harmful_traditional_practice",
           'goods_money_exchanged' => "goods_money_exchanged",
           'abduction_type' => "abduction_status_time_of_incident",
-          'previously_reported' => ->(model) do
-            #TODO FIX!!!
-            REPORTED_ELSEWHERE[model.try(:gbv_reported_elsewhere)]
-          end,
+          'previously_reported' => "gbv_reported_elsewhere",
           'gbv_previous_incidents' => "gbv_previous_incidents",
           ##### ALLEGED PERPETRATOR INFORMATION #####
           'number_primary_perpetrators' => ->(model) do
@@ -344,20 +302,19 @@ module Exporters
             incident_recorder_age(all_alleged_perpetrators(model))
           end,
           'perpetrator.relationship' => ->(model) do
-            #TODO Translate!!!
-
-            primary_alleged_perpetrator(model).first.try(:perpetrator_relationship)
+            relationship = primary_alleged_perpetrator(model).first.try(:perpetrator_relationship)
+            Exporters::IncidentRecorderExporter.translate_value('perpetrator_relationship', relationship) if relationship.present?
           end,
           'perpetrator.occupation' => ->(model) do
-            #TODO Translate!!!
-            primary_alleged_perpetrator(model).first.try(:perpetrator_occupation)
+            occupation = primary_alleged_perpetrator(model).first.try(:perpetrator_occupation)
+            Exporters::IncidentRecorderExporter.translate_value('perpetrator_occupation', occupation) if occupation.present?
           end,
           ##### REFERRAL PATHWAY DATA #####
           'service.referred_from' => ->(model) do
             services = model.try(:service_referred_from)
             if services.present?
               if services.is_a?(Array)
-                services.map{|srf| incident_recorder_service_referral_from(srf) }.join(" & ")
+                services.map{|service| incident_recorder_service_referral_from(service) }.join(" & ")
               else
                 incident_recorder_service_referral_from(services)
               end
@@ -417,6 +374,7 @@ module Exporters
         @props = props
         incident_data_header
         models.each do |model|
+          @alleged_perpetrators = nil
           j = 0
           @props.each do |name, prop|
             if prop.present?
