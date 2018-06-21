@@ -83,7 +83,8 @@ group :development do
   gem 'binding_of_caller'
   gem 'ruby-prof'
   gem 'request_profiler', :git => 'https://github.com/justinweiss/request_profiler.git'
-  gem 'rack-mini-profiler', '>= 0.10.1', require: false
+  gem 'rack-mini-profiler', '>= 1.0.0', require: false
+  gem 'memory-profiler'
   gem 'letter_opener'
 end
 

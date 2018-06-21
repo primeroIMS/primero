@@ -7,7 +7,7 @@
     <% end %>
   </td>
   <td><%= mask_match_value(detail, detail.child_age) %></td>
-  <td><%= mask_match_value(detail, detail.child.try(:display_field, 'sex', @lookups)) %></td>
+  <td><%= mask_match_value(detail, detail.child.try(:display_field, @sex_field, @lookups)) %></td>
   <td><%= detail.case_owned_by %></td>
   <td><%= detail.case_owned_by_agency %></td>
   <td>

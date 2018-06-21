@@ -19,6 +19,7 @@ class PotentialMatchesController < ApplicationController
     @type ||= params[:type] || "tracing_request"
     @match_model_class ||= (@type == 'case' ? 'child' : @type).camelize.constantize
 
+    @sex_field = Field.find_by_name_from_view('sex')
     load_potential_matches #@potential_matches, @case, @tracing_request
     #TODO MATCHING: All set visibility code is written by somone who didn't understand how record ownership works in Primero
     #               We don't need to address this now, but it really needs to be done away with.

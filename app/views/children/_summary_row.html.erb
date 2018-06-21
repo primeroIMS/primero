@@ -32,7 +32,7 @@
     <td><%= record.age %></td>
   <% end %>
   <% if fields_to_show.include? 'sex' %>
-    <td><%= record.display_field('sex', @lookups)%></td>
+    <td><%= record.display_field(@sex_field, @lookups)%></td>
   <% end %>
   <% if fields_to_show.include? 'registration_date' %>
     <td><%= field_format_date(record.registration_date) %></td>

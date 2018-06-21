@@ -256,6 +256,7 @@ GEM
     mail (2.7.0)
       mini_mime (>= 0.1.1)
     memoist (0.11.0)
+    memory-profiler (1.0.3)
     method_source (0.9.0)
     mime-types (1.16)
     mini_magick (4.8.0)
@@ -308,7 +309,7 @@ GEM
     public_suffix (3.0.1)
     puma (3.11.2)
     rack (2.0.4)
-    rack-mini-profiler (0.10.7)
+    rack-mini-profiler (1.0.0)
       rack (>= 1.2.0)
     rack_session_access (0.1.1)
       builder (>= 2.0.0)
@@ -513,6 +514,7 @@ DEPENDENCIES
   json_spec
   letter_opener
   memoist (~> 0.11.0)
+  memory-profiler
   mime-types (= 1.16)
   mini_magick (~> 4.8.0)
   momentjs-rails (~> 2.17.1)
@@ -527,7 +529,7 @@ DEPENDENCIES
   pry
   pry-byebug
   puma (~> 3.7)
-  rack-mini-profiler (>= 0.10.1)
+  rack-mini-profiler (>= 1.0.0)
   rack-test!
   rack_session_access
   rails (= 5.1.4)

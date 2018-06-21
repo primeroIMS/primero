@@ -407,9 +407,19 @@ module Record
   end
 
   #TODO: This is really inefficient! We should be using the FormSection.fields view here
-  def display_field(field_name, lookups = nil)
-    fd = field_definitions.select{|f| f.name == field_name}.first
-    fd.nil? ? "" : fd.display_text(self.send(field_name), lookups)
+  def display_field(field_or_name, lookups = nil)
+    result = ""
+    if field_or_name.present?
+      if field_or_name.is_a?(Field)
+        result = field_or_name.display_text(self.send(field_or_name.name), lookups)
+      else
+        field = Field.find_by_name_from_view(field_or_name)
+        if field.present?
+          result = field.display_text(self.send(field_or_name), lookups)
+        end
+      end
+    end
+    return result
   end
 
   def display_id
@@ -496,10 +506,6 @@ module Record
   end
 
   protected
-
-  def model_field_names
-    field_definitions.map { |f| f.name }
-  end
 
   def is_filled_in? field
     !(self[field.name].nil? || self[field.name] == field.default_value || self[field.name].to_s.empty?)
