@@ -221,7 +221,7 @@ module Exporters
       # This sets up a hash where
       #   key   -  an identifier which is translated later and used to print the worksheet headers
       #   value -  either: the field on the incident to display  OR
-      #                    a lambda which derives the value to be displayed
+      #                    a proc which derives the value to be displayed
       def props
          ##### ADMINISTRATIVE INFORMATION #####
         {
@@ -373,13 +373,13 @@ module Exporters
 
       def format_value(prop, value)
         if value.is_a?(Date)
-          formatted_value = I18n.l(value)
+          I18n.l(value)
         elsif prop.is_a?(Proc)
-          formatted_value = value
+          value
         else
-          # All of the lambdas above should already be translated.
+          # All of the Procs above should already be translated.
           # Only worry about translating the string properties (i.e. the ones using the field name)
-          formatted_value = Exporters::IncidentRecorderExporter.translate_value(prop, value)
+          Exporters::IncidentRecorderExporter.translate_value(prop, value)
         end
       end
 
