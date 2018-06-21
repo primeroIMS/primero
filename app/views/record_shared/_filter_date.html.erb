@@ -1,3 +1,7 @@
+<%
+  date_field ||= 'date'
+  date_options ||= selectable_filter_date_options(record)
+%>
 <div class="filter">
   <h3><%= t("#{record}.filter_by.by_date") %></h3>
   <div class="filter-controls row align-middle">
@@ -5,7 +9,7 @@
       <div class="row collapse">
         <div class="medium-12 columns selectable">
           <label class="has_date"><%= t("#{record}.filter_by.date") %></label>
-          <%= select_tag date_field, options_for_select(selectable_filter_date_options),
+          <%= select_tag date_field, options_for_select(date_options),
              'class' => 'chosen-select selectable_date',
              'filter_type' => 'date_selectable' %>
         </div>
