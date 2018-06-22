@@ -8,7 +8,7 @@ class AuditLog < CouchRest::Model::Base
   property :record_id
   property :display_id
   property :record_type
-  property :owned_by, String
+  property :owned_by
   property :timestamp, DateTime
 
   design do
