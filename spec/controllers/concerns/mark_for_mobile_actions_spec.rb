@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe MarkForMobileActions, type: :controller do
   controller(ApplicationController) do
+    include RecordActions
     include MarkForMobileActions
 
     def model_class
@@ -64,8 +65,7 @@ describe MarkForMobileActions, type: :controller do
         it 'marks as mobile when 1 id is passed' do
           @expected = {
                   :success => true,
-                  :message => 'Case  successfully marked as mobile'
-                  #:message => 'Case aaa111 successfully marked as mobile'
+                  :message => 'Case aaa111 successfully marked as mobile'
           }.to_json
 
           post :mark_for_mobile, params: {mobile_value: 'true', id: @case1.id}
@@ -85,8 +85,7 @@ describe MarkForMobileActions, type: :controller do
         it 'unmarks as mobile when 1 id is passed' do
           @expected = {
                   :success => true,
-                  :message => 'Case  successfully unmarked as mobile'
-                  #:message => 'Case aaa111 successfully marked as mobile'
+                  :message => 'Case aaa111 successfully unmarked as mobile'
           }.to_json
 
           post :mark_for_mobile, params: {mobile_value: 'false', id: @case1.id}

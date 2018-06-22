@@ -10,7 +10,7 @@ module LoggerActions
   def logger_record_id
     #TODO - This is a patch because in the router, not all routes are using :id
     #TODO - This can change if the routes ever change to all use :id
-    @logger_record_id ||= params[:id] || params[:child_id] || params[:tracing_request_id] || params[:incident_id]
+    @logger_record_id ||= params[:id] || params[:child_id] || params[:tracing_request_id] || params[:incident_id] || params[:selected_records].try(:split, ',')
   end
 
   def logger_display_id
