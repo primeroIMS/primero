@@ -41,7 +41,7 @@ FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
     else
       if field['option_strings_source'] =~ /\Alookup/
         lookup = field['option_strings_source'].match(/\w+\b(?<!lookup).*/)
-        field['option_strings_source'] = "lookup lookup-#{lookup[0].underscore.dasherize}" if lookup.present?
+        field['option_strings_source'] = "lookup lookup-#{lookup[0].downcase.parameterize}" if lookup.present?
       else
         if field['option_strings_text_en'].present?
           value = MigrationHelper.generate_keyed_value(field['option_strings_text_en'])
