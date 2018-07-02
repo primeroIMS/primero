@@ -327,7 +327,6 @@ module IndexHelper
   def audit_log_description_with_id(record_type, display_id)
     if display_id.is_a?(Array)
       content_tag(:ul) do
-        #TODO Need css styling of this list
         concat(content_tag(:lh, record_type.pluralize))
         display_id.each {|id| concat(content_tag(:li, "'#{id}'"))}
       end
@@ -339,7 +338,6 @@ module IndexHelper
   def audit_log_owner(owned_by)
     if owned_by.is_a?(Array)
       content_tag(:ul) do
-        #TODO Need css styling of this list
         #Blank header to align with ID's in the description  -- TODO Is this necessary?
         concat(content_tag(:lh, ''))
         owned_by.each {|owner| concat(content_tag(:li, owner))}
