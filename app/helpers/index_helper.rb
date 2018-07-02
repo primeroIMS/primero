@@ -408,8 +408,7 @@ module IndexHelper
     filters << "Children" if @is_mrm
     filters << "Verification Status" if @is_mrm
     filters << "Incident Location"
-    filters << "Interview Date" if @is_gbv
-    filters << "Incident Date"
+    filters << "Dates"
     filters << "Protection Status" if @is_gbv
     filters << "Armed Force or Group" if @is_mrm
     filters << "Armed Force or Group Type" if @is_mrm
@@ -422,7 +421,7 @@ module IndexHelper
     filters = []
     filters << "Flagged"
     filters << "Field/Case/Social Worker" if @is_manager
-    filters << "Date of Inquiry"
+    filters << "Dates"
     filters << "Inquiry Status"
     filters << "Separation Location"
     filters << "Separation Cause"
@@ -442,13 +441,39 @@ module IndexHelper
     return filters
   end
 
-  def selectable_filter_date_options
+  def selectable_filter_date_options(record)
+    case record
+      when "cases"
+        selectable_filter_date_options_case
+      when "incidents"
+        selectable_filter_date_options_incident
+      when "tracing_requests"
+        selectable_filter_date_options_tracing_request
+      else
+        []
+    end
+  end
+
+  def selectable_filter_date_options_case
     options = []
     options << [t('children.selectable_date_options.registration_date'), 'registration_date']
     options << [t('children.selectable_date_options.assessment_requested_on'), 'assessment_requested_on']
     options << [t('children.selectable_date_options.date_case_plan_initiated'), 'date_case_plan']
     options << [t('children.selectable_date_options.closure_approved_date'), 'date_closure']
     options << [t('children.selectable_date_options.created_at'), 'created_at'] if @is_gbv
+    return options
+  end
+
+  def selectable_filter_date_options_incident
+    options = []
+    options << [t('incidents.selectable_date_options.date_of_first_report'), 'date_of_first_report'] if @is_gbv
+    options << [t('incidents.selectable_date_options.incident_date_derived'), 'incident_date_derived']
+    return options
+  end
+
+  def selectable_filter_date_options_tracing_request
+    options = []
+    options << [t('tracing_requests.selectable_date_options.inquiry_date'), 'inquiry_date']
     return options
   end
 

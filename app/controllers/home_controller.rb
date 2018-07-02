@@ -31,6 +31,7 @@ class HomeController < ApplicationController
 
       display_case_worker_dashboard?
       display_approvals?
+      display_response?
       display_assessment?
       display_service_provisions?
       display_cases_to_assign?
@@ -267,6 +268,10 @@ class HomeController < ApplicationController
 
   def display_approvals?
     @display_approvals ||= can?(:view_approvals, Dashboard)
+  end
+
+  def display_response?
+    @display_response ||= can?(:view_response, Dashboard)
   end
 
   def display_assessment?

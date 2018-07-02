@@ -192,6 +192,7 @@ cp_caseworker_permissions = [
     :resource => Permission::DASHBOARD,
     :actions => [
       Permission::VIEW_APPROVALS,
+      Permission::VIEW_RESPONSE,
       Permission::VIEW_ASSESSMENT,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::DASH_TASKS
@@ -302,6 +303,7 @@ cp_manager_permissions = [
       :resource => Permission::DASHBOARD,
       :actions => [
         Permission::VIEW_APPROVALS,
+        Permission::VIEW_RESPONSE,
         Permission::VIEW_ASSESSMENT,
         Permission::VIEW_PROTECTION_CONCERNS_FILTER,
         Permission::DASH_CASES_BY_TASK_OVERDUE
@@ -409,6 +411,7 @@ cp_user_manager_permissions = [
         :resource => Permission::DASHBOARD,
         :actions => [
           Permission::VIEW_APPROVALS,
+          Permission::VIEW_RESPONSE,
           Permission::VIEW_ASSESSMENT,
           Permission::VIEW_PROTECTION_CONCERNS_FILTER
         ]

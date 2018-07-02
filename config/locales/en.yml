@@ -494,6 +494,9 @@ en:
   incidents:
     label: "Incidents"
     register_new_incident: "New Incident"
+    selectable_date_options:
+      date_of_first_report: "Interview Date"
+      incident_date_derived: "Incident Date"
     filter_by:
       flag: "Flagged:"
       flag_label: "Flagged?"
@@ -635,6 +638,8 @@ en:
   tracing_requests:
     register_new_tracing_request: "New Tracing Request"
     export: "Exports"
+    selectable_date_options:
+      inquiry_date: "Date of Inquiry"
     filter_by:
       flag: "Flagged:"
       flag_label: "Flagged?"
