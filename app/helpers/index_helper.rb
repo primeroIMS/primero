@@ -329,7 +329,7 @@ module IndexHelper
       content_tag(:ul) do
         #TODO Need css styling of this list
         concat(content_tag(:lh, record_type.pluralize))
-        display_id.each {|id| concat(content_tag(:li, id))}
+        display_id.each {|id| concat(content_tag(:li, "'#{id}'"))}
       end
     else
       "#{record_type} '#{display_id}'"
