@@ -1,23 +1,18 @@
 module MarkForMobileActions
   extend ActiveSupport::Concern
 
-  include SelectActions
-
   def mark_for_mobile
     authorize! :sync_mobile, model_class
-    get_selected_ids
-
-    @records = []
     message = ''
     was_successful = false
-    if @selected_ids.present?
-      @records = model_class.all(keys: @selected_ids).all
+    @records << @record if @record.present?
+    if @records.present?
       failed_count = mark_the_records(@records, mobile_value)
       if failed_count > 0
-        message = message_failure failed_count
+        message = message_failure(failed_count)
       else
         was_successful = true
-        message = message_success  @records.size
+        message = message_success(@records.size)
         flash[:notice] = message
       end
     else

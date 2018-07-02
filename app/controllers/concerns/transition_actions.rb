@@ -1,17 +1,15 @@
 module TransitionActions
   extend ActiveSupport::Concern
 
-  include SelectActions
-
   def transition
     authorize! :referral, model_class if is_referral?
     authorize! :reassign, model_class if is_reassign?
     authorize! :transfer, model_class if is_transfer?
-    get_selected_ids
 
-    @records = []
-    if @selected_ids.present?
-      @records = model_class.all(keys: @selected_ids).all
+    @records << @record if @record.present?
+    all_record_count = 0
+    if @records.present?
+      all_record_count = @records.size
       @records = @records.select{|r| is_consent_given? r } unless is_reassign? || consent_override
     else
       flash[:notice] = t('referral.no_records_selected')
@@ -20,7 +18,7 @@ module TransitionActions
 
     if @records.blank?
       logger.info "#{model_class.parent_form}s not transitioned... no eligible records"
-      message_failure_transition @selected_ids.size
+      message_failure_transition all_record_count
       redirect_back(fallback_location: root_path)
     else
       log_to_history(@records)
@@ -55,14 +53,9 @@ module TransitionActions
   end
 
   def consent_count
-    get_selected_ids
-
-    records = []
-    records = model_class.all(keys: @selected_ids).all if @selected_ids.present?
-
-    total_count = records.size
+    total_count = @records.size
     #For this count, do not factor in local transfers which are always allowed and would thus skew the count
-    consent_count = records.select{|r| r.given_consent(transition_type) }.size
+    consent_count = @records.try(:select) {|r| r.given_consent(transition_type) }.size
 
     render json: {:record_count => total_count, :consent_count => consent_count}
   end

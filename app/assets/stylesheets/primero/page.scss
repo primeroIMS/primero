@@ -159,6 +159,9 @@ table.list_view, table.list_table, table.list_table_2, table.record_list_view {
       }
     }
     td {
+      ul {
+        margin-left: 0px;
+      }
       ul li {
         font-size: 0.875rem !important;
       }

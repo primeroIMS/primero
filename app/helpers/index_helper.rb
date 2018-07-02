@@ -321,7 +321,30 @@ module IndexHelper
   end
 
   def audit_log_description(record)
-    record.display_id.present? ? "#{record.record_type} '#{record.display_id}'" : record.record_type
+    record.display_id.present? ? audit_log_description_with_id(record.record_type, record.display_id) : record.record_type
+  end
+
+  def audit_log_description_with_id(record_type, display_id)
+    if display_id.is_a?(Array)
+      content_tag(:ul) do
+        concat(content_tag(:lh, record_type.pluralize))
+        display_id.each {|id| concat(content_tag(:li, "'#{id}'"))}
+      end
+    else
+      "#{record_type} '#{display_id}'"
+    end
+  end
+
+  def audit_log_owner(owned_by)
+    if owned_by.is_a?(Array)
+      content_tag(:ul) do
+        #Blank header to align with ID's in the description  -- TODO Is this necessary?
+        concat(content_tag(:lh, ''))
+        owned_by.each {|owner| concat(content_tag(:li, owner))}
+      end
+    else
+      owned_by
+    end
   end
 
   def index_filters_case

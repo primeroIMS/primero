@@ -12,6 +12,7 @@ module RecordActions
     skip_before_action :check_authentication, :only => [:reindex], raise: false
 
     before_action :load_record, :except => [:new, :create, :index, :reindex]
+    before_action :load_selected_records, :except => [:show, :update, :edit, :new, :create, :index, :reindex]
     before_action :current_user, :except => [:reindex]
     before_action :get_lookups, :only => [:show, :new, :edit, :index]
     before_action :current_modules, :only => [:show, :index]
@@ -400,6 +401,18 @@ module RecordActions
     instance_variable_set("@#{model_class.name.underscore}", @record)
   end
 
+  def load_selected_records
+    @records = []
+    if params[:selected_records].present?
+      selected_ids = params[:selected_records].split(',')
+      @records = model_class.all(keys: selected_ids).all
+    end
+
+    # Alias the records to a more specific name since the record controllers
+    # already use it
+    instance_variable_set("@#{model_class.name.pluralize.underscore}", @records)
+  end
+
   def load_consent
     if @record.present?
       @referral_consent = @record.given_consent(Transition::TYPE_REFERRAL)
@@ -484,6 +497,7 @@ module RecordActions
   #Override method in LoggerActions.
   def logger_display_id
     return @record.display_id if @record.present? && @record.respond_to?(:display_id)
+    return @records.map{|r| r.display_id} if @records.present? && @records.first.respond_to?(:display_id)
     super
   end
 
@@ -539,6 +553,7 @@ module RecordActions
   #Override method in LoggerActions.
   def logger_owned_by
     return @record.owned_by if @record.present? && @record.respond_to?(:owned_by)
+    return @records.map{|r| r.owned_by} if @records.present? && @records.first.respond_to?(:owned_by)
     super
   end
 
