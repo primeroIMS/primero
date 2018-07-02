@@ -112,7 +112,7 @@ class FormSection < CouchRest::Model::Base
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
     fldz = {}
-    self.fields.each { |f| fldz[f.name] = f.localized_property_hash if (show_hidden_fields || f.visible?)}
+    self.fields.each { |f| fldz[f.name] = f.localized_property_hash locale if (show_hidden_fields || f.visible?)}
     lh['fields'] = fldz
     lh
   end
