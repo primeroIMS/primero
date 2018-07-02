@@ -10,8 +10,8 @@
     <% if filters_to_show.include? 'Field/Case/Social Worker' %>
       <%= build_filter_checkboxes(t("tracing_requests.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
     <% end %>
-    <% if filters_to_show.include? 'Date of Inquiry' %>
-      <%= render "record_shared/filter_date", record: 'tracing_requests', date_field_title: 'inquiry_date', date_field: 'inquiry_date' %>
+    <% if filters_to_show.include? 'Dates' %>
+      <%= render "record_shared/filter_date", record: 'tracing_requests' %>
     <% end %>
     <% if filters_to_show.include? 'Inquiry Status' %>
       <%= build_filter_checkboxes(t("tracing_requests.filter_by.inquiry_status"), 'inquiry_status', Lookup.values('lookup-inquiry-status', @lookups, locale: I18n.locale)) %>
