@@ -18,7 +18,8 @@ $(document).on('turbolinks:before-render', function() {
     dispatcher.trigger( 'CloseView' );
   }
 
-  clearTimers()
+  clearTimers();
+  _primero.loading_screen_indicator('hide')
 });
 
 $(document).on('turbolinks:before-cache', function() {
