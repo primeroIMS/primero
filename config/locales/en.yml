@@ -1141,6 +1141,7 @@ en:
     select_box: "Select Drop Down"
     radio_button: "Radio Button"
     text_area: "Text Area"
+    textarea: "Text Area"
     numeric_field: "Numeric Field"
     date_field: "Date Field"
     date_range_field: "Date Range"
