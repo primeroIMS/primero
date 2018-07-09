@@ -406,7 +406,6 @@ module Record
     end
   end
 
-  #TODO: This is really inefficient! We should be using the FormSection.fields view here
   def display_field(field_or_name, lookups = nil)
     result = ""
     if field_or_name.present?
