@@ -11,6 +11,7 @@ class ChildrenController < ApplicationController
   #TODO: This should go away once filters are configurable in the role
   before_filter :filter_risk_level, :only => [:index]
   before_filter :toggle_photo_indicators, :only => [:show]
+  before_filter :load_fields, :only => [:index]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
@@ -243,6 +244,10 @@ class ChildrenController < ApplicationController
       flash[:notice] = t("child.match_record_failed")
     end
     redirect_to case_path(@child)
+  end
+
+  def load_fields
+    @sex_field = Field.find_by_name_from_view('sex')
   end
 
   def transfer_status
