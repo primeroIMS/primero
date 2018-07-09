@@ -1,11 +1,39 @@
 safety_plan_fields = [
+  Field.new({"name" => "safety_plan_needed",
+             "mobile_visible" => true,
+             "show_on_minify_form" => true,
+             "type" => "radio_button",
+             "display_name_all" => "Is a safety plan needed for this case?",
+             "option_strings_source" => "lookup lookup-yes-no",
+             "help_text_all" => "Safety planning enables the survivor to proceed with a pre-determined course of action "\
+                                "when she is in a lifethreatening situation. Safety planning can help her minimize the "\
+                                "harm done by the perpetrator by identifying resources and means to avoid harm and places "\
+                                "she can go temporarily for safety. Developing a safety plan is a collaborative process "\
+                                "undertaken by the casework and survivor together. The safety plan addresses the fundamental "\
+                                "question: what needs to happen or  to be in place in order for the survivor to safe? "\
+                                "It includes identifying: dangerous situations, risks and warning signs, activities survivor "\
+                                "can undertake on her own, specific people to call on for help, supportive people that "\
+                                "make sruvivor feel safe and  survivor's own stregngths that help her get by."
+  }),
+  Field.new({"name" => "safety_plan_developed_with_survivor",
+             "mobile_visible" => true,
+             "show_on_minify_form" => true,
+             "type" => "radio_button",
+             "display_name_all" => "Was a safety plan developed with the survivor (if applicable)?",
+             "option_strings_source" => "lookup lookup-yes-no"
+  }),
+  Field.new({"name" => "safety_plan_completion_date",
+             "mobile_visible" => true,
+             "type" => "date_field",
+             "display_name_all" => "Safety Plan Completion Date"
+  }),
   Field.new({"name" => "safety_plan_main_concern",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
              "display_name_all" => "Identify safety concern (in survivor's words)"
   }),
-	Field.new({"name" => "safety_plan_resources_header",
+  Field.new({"name" => "safety_plan_resources_header",
              "mobile_visible" => true,
              "type" => "separator",
              "display_name_all" => "Resources",
@@ -39,97 +67,61 @@ safety_plan_fields = [
   Field.new({"name" => "safety_plan_preparedness_signal",
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "I will agree on a code or signal with friends, neighbors or family that will communicate that I need help if I cannot talk in front of my partner, I will use this signal to tell them that I need help:"
+             "display_name_all" => "What steps did the survivor identify as options to minimize risk of further harm for "\
+                                   "herself (and her children) before violence occurs (safety preparedness)?",
+             "guiding_questions" => "Examples could include: The survivor will agree on a code or signal with friends, "\
+                                    "neighbors or family that the survivor will communicate that she needs help if she "\
+                                    "cannot talk in front of the perpetrator she will use this signal to tell them that "\
+                                    "she needs help; The survivor will gather some basic things and important documents, "\
+                                    "and leave these things in a place where she can reach them if she has to leave my "\
+                                    "home (list those things); The survivor will teach her children that when the violence "\
+                                    "starts they should go to a specific place; The survivor will come up with a code word "\
+                                    "or a signal with her children so that she can safely tell them when they should leave. "\
+                                    "Please refer to the Safety Planning tool for the full list of guiding questions to "\
+                                    "discuss with the survivor."
   }),
-  Field.new({"name" => "safety_plan_preparedness_gathered_things",
-             "mobile_visible" => true,
-             "type" => "textarea",
-             "display_name_all" => "I will gather some basic things and important documents, and leave these things in a place I can reach them if I have to leave my home. Those things and documents are:"
-  }),
-  Field.new({"name" => "safety_plan_preparedness_children_destination",
-             "mobile_visible" => true,
-             "type" => "textarea",
-             "display_name_all" => "I will teach my children that when the violence starts they should go to:"
-  }),
-  Field.new({"name" => "safety_plan_preparedness_children_signal",
-             "mobile_visible" => true,
-             "type" => "textarea",
-             "display_name_all" => "I will come up with a code word or a signal with my children so that I can safely tell them when they should leave."
-  }),
-  Field.new({"name" => "safety_plan_strategies_header",
+  Field.new({"name" => "safety_plan_preparedness_header",
              "mobile_visible" => true,
              "type" => "separator",
              "display_name_all" => "Safety strategies"
   }),
-  Field.new({"name" => "safety_plan_abusers_patterns",
+  Field.new({"name" => "safety_plan_preparedness_gathered_things",
+             "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "I can recognize some patterns in the abuser’s violence that may tell me when he is about to become violent, such as (certain times of the day or week, when he is around certain friends, when he is using drugs or drinking, etc.):"
+             "display_name_all" => "What actions did the survivor identify as options to mitigate risks when violence happens (safety strategies)?",
+             "guiding_questions" => "Examples could include: The survivor can recognize some patterns in the abuser’s "\
+                                    "violence that may tell her when he is about to become violent, such as (certain times "\
+                                    "of the day or week, when he is around certain friends, when he is using drugs or "\
+                                    "drinking, etc.): The survivor can  identify the pattern of violence or when the "\
+                                    "violence starts; If the survivor has to leave her home for a few days or more, she "\
+                                    "knows where to go; The survivor will check with friends, family, etc to find out if "\
+                                    "they will let her stay with them if she needs to leave; The survivor will check with "\
+                                    "these people to find out if they would lend her money or food in an emergency. Please "\
+                                    "refer to the Safety Planning tool for the full list of guiding questions to discuss "\
+                                    "with the survivor."
   }),
-  Field.new({"name" => "safety_plan_reaction_to_abuse",
-             "mobile_visible" => true,
-             "type" => "select_box",
-             "display_name_all" => "When I see this pattern or when the violence starts, I can:",
-             "option_strings_text_all" => [
-              "Leave the house and go outside where there are other people", 
-              "I can go to a friend, family or neighbor’s house (name the person)",
-              "I can make sure I have people nearby me (in my house or near it)"
-              ].join("\n")
-  }),
-  Field.new({"name" => "safety_plan_place_safe_shelter",
-             "mobile_visible" => true,
-             "type" => "textarea",
-             "display_name_all" => "If I have to leave my home for a few days or more, I will go to:"
-  }),
-  Field.new({"name" => "safety_plan_place_safe_shelter_confirmation_to_stay",
-             "mobile_visible" => true,
-             "type" => "textarea",
-             "display_name_all" => "I will check with these people now to find out if they will let me stay with them if I need to leave:"
-  }),
-  Field.new({"name" => "safety_plan_place_safe_shelter_confirmation_to_support",
-             "mobile_visible" => true,
-             "type" => "textarea",
-             "display_name_all" => "I will check with these people to find out if they would lend me money or food in an emergency:"
-  }),
-  Field.new({"name" => "safety_plan_steps_header",
+  Field.new({"name" => "safety_plan_leaving_steps_header",
              "mobile_visible" => true,
              "type" => "separator",
              "display_name_all" => "Steps after leaving"
   }),
-  Field.new({"name" => "safety_plan_steps_if_talking_to_partner",
+  Field.new({"name" => "safety_plan_preparedness_children_destination",
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "If I must talk to my partner in person after I leave, I can:"
+             "display_name_all" => "What steps did the survivor identify as options to minimze risks after leaving her "\
+                                   "home/community if she chooses to do so?",
+             "guiding_questions" => "Examples could include: The survivor knows how to deal emotionally if people blame "\
+                                    "her for leaving; The survivors knows who talk to for support; The survivor recognizes "\
+                                    "the trauma and stress that the situation has caused her; The survivor knows what to "\
+                                    "do to make her feel stronger."
   }),
-  Field.new({"name" => "safety_plan_steps_people_that_help",
+  Field.new({"name" => "safety_plan_completion_timing",
+             "show_on_minify_form" => true,
              "mobile_visible" => true,
-             "type" => "textarea",
-             "display_name_all" => "If I stay at another location (with friends, family, community police, etc.) I can tell these people to watch for him and help me if he comes near the residence:"
-  }),
-  Field.new({"name" => "safety_plan_steps_after_relocation",
-             "mobile_visible" => true,
-             "type" => "textarea",
-             "display_name_all" => "If my partner comes to my new home to attack me, I will:"
-  }),
-  Field.new({"name" => "safety_plan_emotional_header",
-             "mobile_visible" => false,
-             "type" => "separator",
-             "display_name_all" => "Emotional health"
-  }),
-  Field.new({"name" => "safety_plan_emotional_supportive_words",
-             "mobile_visible" => false,
-             "type" => "textarea",
-             "display_name_all" => "If people blame me for leaving or say I am a bad wife or mother, I will say to myself:"
-  }),
-  Field.new({"name" => "safety_plan_emotional_supportive_people",
-             "mobile_visible" => false,
-             "type" => "textarea",
-             "display_name_all" => "If I feel sad about my situation, I can talk to the following people for support:"
-  }),
-  Field.new({"name" => "safety_plan_emotional_supportive_actions",
-             "mobile_visible" => false,
-             "type" => "textarea",
-             "display_name_all" => "Things I can do to make myself feel stronger are:"
+             "type" => "select_box",
+             "display_name_all" => "How long did it take you to develop the safety plan with the survivor for this case?",
+             "option_strings_source" => "lookup lookup-assessment-duration"
   })
 ]
 
