@@ -592,6 +592,16 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+    :id => "lookup-yes-no-not-applicable",
+    :name => "Yes, No, or Not Applicable",
+    :lookup_values => [
+        {id: "true", display_text: "Yes"}.with_indifferent_access,
+        {id: "false", display_text: "No"}.with_indifferent_access,
+        {id: "not_applicable", display_text: "Not Applicable"}.with_indifferent_access
+    ]
+)
+
+create_or_update_lookup(
     :id => "lookup-gbv-reported-elsewhere",
     :name => "Yes, No, or Unknown",
     :lookup_values => [

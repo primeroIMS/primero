@@ -257,7 +257,7 @@ create_or_update_module(
     "other_documents", "consent_for_referrals","safety_plan",
     "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form",
     "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper",
-    "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer"
+    "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer", "client_feedback"
   ],
   program_id: PrimeroProgram.by_name(:key => "Primero").first.id
 )
