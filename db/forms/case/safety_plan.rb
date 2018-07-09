@@ -80,7 +80,7 @@ safety_plan_fields = [
                                     "Please refer to the Safety Planning tool for the full list of guiding questions to "\
                                     "discuss with the survivor."
   }),
-  Field.new({"name" => "safety_plan_preparedness_header",
+  Field.new({"name" => "safety_plan_strategies_header",
              "mobile_visible" => true,
              "type" => "separator",
              "display_name_all" => "Safety strategies"
