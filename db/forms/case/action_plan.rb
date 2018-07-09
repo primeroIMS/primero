@@ -141,29 +141,13 @@ action_plan_subform_fields = [
     "mobile_visible" => true,
     "type" => "select_box",
     "display_name_all" => "Type of Need",
-    "option_strings_text_all" => [
-      "Safehouse",
-      "Health/Medical",
-      "Psycosocial/Counseling",
-      "Legal Assistance",
-      "Police or Other Type of Security",
-      "Livelihoods",
-      "Child Protection",
-      "Family Mediation",
-      "Family Reunification",
-      "Education",
-      "NFI/Clothes/Shoes",
-      "Water/Sanitation",
-      "Refugee Registration",
-      "Food",
-      "Other"
-    ].join("\n")
+    "option_strings_source" => "lookup lookup-service-type"
   }),
   Field.new({
     "name" => "service_referral",
     "mobile_visible" => true,
     "type" => "select_box",
-    "display_name_all" => "Did you refer the client for this service?",
+    "display_name_all" => "When appropriate, did you refer the survivor for this service?",
     "option_strings_text_all" => [
       "Referred",
       "No referral, Service provided by your agency",
@@ -172,6 +156,14 @@ action_plan_subform_fields = [
       "No referral, Declined by survivor",
       "No referral, Service unavailable"
     ].join("\n")
+  }),
+  Field.new({
+      "name" => "service_referral_written_consent",
+      "mobile_visible" => true,
+      "show_on_minify_form" => true,
+      "type" => "radio_button",
+      "display_name_all" => "Did you receive written consent from survivor to release personal Information for the purpose of referrals?",
+      "option_strings_source" => "lookup lookup-yes-no"
   }),
   Field.new({
     "name" => "service_appointment_date",
@@ -202,6 +194,26 @@ action_plan_subform_fields = [
     "mobile_visible" => false,
     "type" => "text_field",
     "display_name_all" => "Notes"
+  }),
+  Field.new({
+    "name" => "service_referral_mandatory_reporting",
+    "type" => "radio_button",
+    "display_name_all" => "If mandatory reporting laws apply, did you report the incident to the police/public authorities?",
+    "option_strings_source" => "lookup lookup-yes-no"
+  }),
+  Field.new({
+    "name" => "service_referral_mandatory_reporting_inform_survivor",
+    "type" => "radio_button",
+    "display_name_all" => "If yes, did you inform the survivor and/or her caregiver of the mandatory reporting laws prior to making the report?",
+    "option_strings_source" => "lookup lookup-yes-no"
+  }),
+  Field.new({
+    "name" => "service_referral_case_action_plan_timing",
+    "mobile_visible" => true,
+    "show_on_minify_form" => true,
+    "type" => "select_box",
+    "display_name_all" => "How long did it take you to develop the Case Action Plan with the survivor for this case?",
+    "option_strings_source" => "lookup lookup-assessment-duration"
   })
 ]
 

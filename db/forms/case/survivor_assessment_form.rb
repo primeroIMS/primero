@@ -152,13 +152,7 @@ survivor_assessment_fields = [
   Field.new({"name" => "assessment_completion_timing",
              "type" => "select_box",
              "display_name_all" => "How long did it take you to complete the assessment for this case?",
-             "option_strings_text_all" => [
-                 { id: 'less_than_15_minutes', display_text: "Less than 15 minutes" },
-                 { id: '16_30_minutes', display_text: "16-30 minutes" },
-                 { id: '31_minutes_1_hour', display_text: "31 minutes - 1 hour" },
-                 { id: '1_2_hours', display_text: "1-2 hours" },
-                 { id: 'more_than_2_hours', display_text: "More than 2 hours" }
-             ].map(&:with_indifferent_access)
+             "option_strings_source" => "lookup lookup-assessment-duration"
             })
 ]
 

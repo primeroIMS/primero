@@ -763,3 +763,15 @@ create_or_update_lookup(
         {id: "both", display_text: "Both"}
     ]
 )
+
+create_or_update_lookup(
+    :id => "lookup-assessment-duration",
+    :name => "Assessment Duration",
+    :lookup_values => [
+        { id: 'less_than_15_minutes', display_text: "Less than 15 minutes" },
+        { id: '16_30_minutes', display_text: "16-30 minutes" },
+        { id: '31_minutes_1_hour', display_text: "31 minutes - 1 hour" },
+        { id: '1_2_hours', display_text: "1-2 hours" },
+        { id: 'more_than_2_hours', display_text: "More than 2 hours" }
+    ].map(&:with_indifferent_access)
+)
