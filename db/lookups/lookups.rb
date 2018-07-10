@@ -808,3 +808,13 @@ create_or_update_lookup(
         {id: "other", display_text: "Other"}
     ].map(&:with_indifferent_access)
 )
+
+create_or_update_lookup(
+    :id => "lookup-assessment-progress",
+    :name => "Assessment Progress",
+    :lookup_values => [
+        {id: "", display_text: "N/A"},
+        {id: "", display_text: "In progress"},
+        {id: "", display_text: "Met"}
+    ].map(&:with_indifferent_access)
+)
