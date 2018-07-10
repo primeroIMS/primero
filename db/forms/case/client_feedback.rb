@@ -39,6 +39,142 @@ client_feedback_fields = [
                   "-Get consent to proceed or if the person declines, tell the person that it is ok and if they change their minds they can contact you."
                  ].join("\n")
             }),
+  Field.new({"name" => "survivor_age_group",
+             "type" => "select_box",
+             "display_name_all" => "If the client is minor and the caregiver is providing the answers for the feedback "\
+                                   "form, what is the age group of the child survivor?",
+             "option_strings_source" => "lookup lookup-child-minor-age-group"
+            }),
+  Field.new({"name" => "client_discovery_method",
+             "type" => "select_box",
+             "display_name_all" => "How did the client/caregiver found out about our service(s)?",
+             "option_strings_source" => "lookup lookup-discovery-method"
+            }),
+  Field.new({"name" => "client_feedback_service_delivery_header",
+             "type" => "separator",
+             "display_name_all" => "Survivor-centered service delivery"
+            }),
+  Field.new({"name" => "opening_hours_when_client_could_attend",
+             "type" => "select_box",
+             "display_name_all" => "Were opening hours at times the client could attend?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "client_comfortable_with_case_worker",
+             "type" => "select_box",
+             "display_name_all" => "Did the client feel comfortable with the case worker?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "same_case_worker_each_visit",
+             "type" => "select_box",
+             "display_name_all" => "Could the client see the same person at each return visit?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "could_client_choose_support_person",
+             "type" => "select_box",
+             "display_name_all" => "Could the client choose to have a support person with her?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "client_informed_of_options",
+             "type" => "select_box",
+             "display_name_all" => "Was the client given full information about what her options were?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "client_decided_what_next",
+             "type" => "select_box",
+             "display_name_all" => "Did the client decide for herself what she wanted to happen next?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "client_referred_elsewhere",
+             "type" => "select_box",
+             "display_name_all" => "Was the client referred to another place if a service could not be provided?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "client_feedback_confidentiality_header",
+             "type" => "separator",
+             "display_name_all" => "Confidentiality"
+            }),
+  Field.new({"name" => "survivor_discreet_access",
+             "type" => "select_box",
+             "display_name_all" => "Could the survivor access services without drawing attention to herself or being "\
+                                   "seen by other community members?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "staff_respect_confidentiality",
+             "type" => "select_box",
+             "display_name_all" => "Did the staff respect her confidentiality? Did she share any information about the "\
+                                   "client or her case that she was not entitled to do?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "client_private_meeting",
+             "type" => "select_box",
+             "display_name_all" => "Did the client meet with a caseworker or other staff in private without being overheard?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "client_feedback_staff_header",
+             "type" => "separator",
+             "display_name_all" => "The Staff"
+            }),
+  Field.new({"name" => "staff_friendly",
+             "type" => "select_box",
+             "display_name_all" => "Were the staff friendly?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "staff_open_minded",
+             "type" => "select_box",
+             "display_name_all" => "Were the staff open-minded, not judging the client?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "staff_answered_all_questions",
+             "type" => "select_box",
+             "display_name_all" => "Were the staff able to answer all the client's questions to her satisfaction?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "staff_client_could_understand",
+             "type" => "select_box",
+             "display_name_all" => "Did the staff use language the client could understand?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "staff_allowed_enough_time",
+             "type" => "select_box",
+             "display_name_all" => "Did the staff allow time to let the client express her problems in her own words?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "staff_helpful",
+             "type" => "select_box",
+             "display_name_all" => "Did the client feel like the staff helped her with her problem?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "staff_helpful_explain",
+             "type" => "textarea",
+             "display_name_all" => "Please explain"
+            }),
+  Field.new({"name" => "client_feedback_wellbeing_header",
+             "type" => "separator",
+             "display_name_all" => "The Cleint's Wellbeing"
+            }),
+  Field.new({"name" => "client_feel_better",
+             "type" => "radio_button",
+             "display_name_all" => "Did the client feel better after meeting with the caseworker?",
+             "option_strings_source" => "lookup lookup-yes-no"
+            }),
+  Field.new({"name" => "client_feel_better_explain",
+             "type" => "textarea",
+             "display_name_all" => "Please explain"
+            }),
+  Field.new({"name" => "would_client_recommend_friend",
+             "type" => "radio_button",
+             "display_name_all" => "Would the client recommend a friend who has experienced GBV to come here for help?",
+             "option_strings_source" => "lookup lookup-yes-no"
+            }),
+  Field.new({"name" => "would_client_recommend_friend_explain",
+             "type" => "textarea",
+             "display_name_all" => "Please explain"
+            }),
+  Field.new({"name" => "client_comments_suggestions",
+             "type" => "textarea",
+             "display_name_all" => "If any, what other improvements would the client like to suggest or other comments "\
+                                   "she would like to make?"
+            })
 ]
 
 FormSection.create_or_update_form_section({
