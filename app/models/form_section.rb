@@ -232,6 +232,7 @@ class FormSection < CouchRest::Model::Base
       end
       form_section
     end
+    alias :create_or_update :create_or_update_form_section
 
     def find_all_visible_by_parent_form(parent_form, subforms=true)
       #by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
