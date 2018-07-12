@@ -592,6 +592,16 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+    :id => "lookup-yes-no-not-applicable",
+    :name => "Yes, No, or Not Applicable",
+    :lookup_values => [
+        {id: "true", display_text: "Yes"},
+        {id: "false", display_text: "No"},
+        {id: "not_applicable", display_text: "Not Applicable"}
+    ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
     :id => "lookup-gbv-reported-elsewhere",
     :name => "Yes, No, or Unknown",
     :lookup_values => [
@@ -762,4 +772,49 @@ create_or_update_lookup(
         {id: "physical_disability", display_text: "Physical Disability"},
         {id: "both", display_text: "Both"}
     ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-assessment-duration",
+    :name => "Assessment Duration",
+    :lookup_values => [
+        { id: 'less_than_15_minutes', display_text: "Less than 15 minutes" },
+        { id: '16_30_minutes', display_text: "16-30 minutes" },
+        { id: '31_minutes_1_hour', display_text: "31 minutes - 1 hour" },
+        { id: '1_2_hours', display_text: "1-2 hours" },
+        { id: 'more_than_2_hours', display_text: "More than 2 hours" }
+    ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
+    :id => "lookup-child-minor-age-group",
+    :name => "Child / Minor Age Group",
+    :lookup_values => [
+        {id: "0_5_year_old", display_text: "0-5 year-old"},
+        {id: "6_12_year_old", display_text: "6-12 year-old"},
+        {id: "13_17_year_old", display_text: "13-17 year-old"}
+    ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
+    :id => "lookup-discovery-method",
+    :name => "Discovery Method",
+    :lookup_values => [
+        {id: "family_or_friend", display_text: "Family or friend"},
+        {id: "referral", display_text: "Referral from another organization"},
+        {id: "neighbor", display_text: "Neighbor or community member"},
+        {id: "community_discussion", display_text: "Community discussion"},
+        {id: "pamphlet", display_text: "Flyer or pamphlet you saw or received"},
+        {id: "other", display_text: "Other"}
+    ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
+    :id => "lookup-assessment-progress",
+    :name => "Assessment Progress",
+    :lookup_values => [
+        {id: "", display_text: "N/A"},
+        {id: "", display_text: "In progress"},
+        {id: "", display_text: "Met"}
+    ].map(&:with_indifferent_access)
 )
