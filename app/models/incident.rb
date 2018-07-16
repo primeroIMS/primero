@@ -4,7 +4,7 @@ class Incident < CouchRest::Model::Base
   DEFAULT_INCIDENT_MAPPING = [
     {
       "source" => ["survivor_code_no"],
-      "target" => "survivor_code_no"
+      "target" => "survivor_code"
     }, {
       "source" => ["age"],
       "target" => "age"
