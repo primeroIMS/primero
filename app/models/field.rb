@@ -387,9 +387,17 @@ class Field
         options_list += clazz.all_names
       end
     else
-      options_list += (self.option_strings_text.present? ? self.option_strings_text(locale) : [])
+      options_list += (self.option_strings_text.present? ? display_option_strings(locale) : [])
     end
     return options_list
+  end
+
+  #Use the current locale's options only if its display text is present.
+  #Else use the default locale's options
+  def display_option_strings(current_locale)
+    locale_options = self.option_strings_text(current_locale)
+    return locale_options if locale_options.any?{|op| op['display_text'].present?}
+    return self.option_strings_text(base_language)
   end
 
   def convert_true_false_key_to_string(value)
