@@ -1682,6 +1682,7 @@ en:
         email: "Please enter a valid email address"
         user_name_uniqueness: "User name has already been taken! Please select a new User name"
         authenticate: "Can't authenticate an un-saved user"
+        invalid_locale: "Locale %{user_locale} is not valid"
 
       child:
         at_least_one_field: "Please fill in at least one field or upload a file"
