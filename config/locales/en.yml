@@ -1002,7 +1002,6 @@ en:
       export_xls: "Export xls"
       export_photowall: "Export photowall"
       export_pdf: "Export pdf"
-      export_unhcr_csv: "Export unhcr csv"
       export_mrm_violation_xls: "Export mrm violation xls"
       export_case_pdf: "Export case pdf"
       export_json: "Export json"
@@ -1913,10 +1912,6 @@ en:
       all:  JSON
       one:  JSON
       selected:  Selected to JSON
-    unhcr_csv:
-      all:  UNHCR
-      one:  UNHCR
-      selected:  Selected to UNHCR
     mrm_violation_xls:
       all:  MRM Violations
       one:  MRM Violations
