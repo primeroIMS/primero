@@ -243,7 +243,8 @@ create_or_update_module(
   allow_searchable_ids: true,
   use_workflow_service_implemented: true,
   use_workflow_case_plan: true,
-  use_workflow_assessment: false
+  use_workflow_assessment: false,
+  export_configuration_ids: ["export-unhcr-jo-cp"]
 )
 
 

@@ -32,6 +32,9 @@ require File.dirname(__FILE__) + "/system_settings/system_settings.rb" if should
 puts "[Re-]Seeding the forms"
 Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file } if should_seed? FormSection
 
+#Export Configuration must be loaded before the modules are loaded
+puts "Seeding Export Configuration"
+require File.dirname(__FILE__) + "/exports/configuration.rb" if should_seed?(ExportConfiguration)
 
 #Reseed the default roles and users, and modules
 puts "Seeding Roles"
