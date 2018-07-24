@@ -2,7 +2,7 @@ require 'csv'
 require_relative 'base.rb'
 
 module Exporters
-  class UnhcrCSVExporter < BaseExporter
+  class UnhcrCSVExporter < ConfigurableExporter
     class << self
       def id
         'unhcr_csv'
@@ -24,7 +24,8 @@ module Exporters
     def export(cases, *args)
       unhcr_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
-        @props = props
+        #TODO this may move to an instance method instead of class method
+        @props = self.class.properties_to_export(props)
         rows << [I18n.t("exports.unhcr_csv.headers.id")] + @props.keys.map{|prop| I18n.t("exports.unhcr_csv.headers.#{prop}")} if @called_first_time.nil?
         @called_first_time ||= true
 

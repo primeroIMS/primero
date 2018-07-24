@@ -10,6 +10,6 @@ class ExportConfiguration < CouchRest::Model::Base
   property :property_keys, :type => [String]
 
   design do
-    view :all
+    view :by_export_id
   end
 end
