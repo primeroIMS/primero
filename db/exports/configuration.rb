@@ -13,8 +13,8 @@ end
 
 
 create_or_update_export_config(
-  id: "export-unhcr-jo-cp",
-  name: "Jordan CP UNHCR Export",
+  id: "export-unhcr-csv",
+  name: "UNHCR CSV Export",
   export_id: "unhcr_csv",
   property_keys: [
     "individual_progress_id",

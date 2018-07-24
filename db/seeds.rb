@@ -24,6 +24,10 @@ end
 puts "Seeding Lookups"
 require File.dirname(__FILE__) + "/lookups/lookups.rb" if should_seed? Lookup
 
+#Export Configuration must be loaded before the System Settings are loaded
+puts "Seeding Export Configuration"
+require File.dirname(__FILE__) + "/exports/configuration.rb" if should_seed?(ExportConfiguration)
+
 #Seed the system settings table
 puts "Seeding the system settings"
 require File.dirname(__FILE__) + "/system_settings/system_settings.rb" if should_seed? SystemSettings
@@ -31,10 +35,6 @@ require File.dirname(__FILE__) + "/system_settings/system_settings.rb" if should
 #Create the forms
 puts "[Re-]Seeding the forms"
 Dir[File.dirname(__FILE__) + '/forms/*/*.rb'].each {|file| require file } if should_seed? FormSection
-
-#Export Configuration must be loaded before the modules are loaded
-puts "Seeding Export Configuration"
-require File.dirname(__FILE__) + "/exports/configuration.rb" if should_seed?(ExportConfiguration)
 
 #Reseed the default roles and users, and modules
 puts "Seeding Roles"

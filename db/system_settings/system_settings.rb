@@ -45,5 +45,6 @@ create_or_update_system_setting(
   due_date_from_appointment_date: false,
   notification_email_enabled: true,
   welcome_email_enabled: false,
-  welcome_email_text: "Click link below to log into Primero.  Please see your system administrator if you have any issues."
+  welcome_email_text: "Click link below to log into Primero.  Please see your system administrator if you have any issues.",
+  unhcr_export_config_id: "export-unhcr-csv"
 )
