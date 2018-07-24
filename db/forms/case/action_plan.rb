@@ -27,7 +27,7 @@ gbv_follow_up_subform_fields = [
             }),
   Field.new({"name" => "action_taken_details",
              "mobile_visible" => true,
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Details about action taken"
             }),
   Field.new({"name" => "service_provided_date",
@@ -91,7 +91,7 @@ gbv_follow_up_subform_fields = [
             }),
   Field.new({"name" => "gbv_assessment_progress_safety_text",
              "mobile_visible" => true,
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Explain Progress towards Safety goals"
             }),
   Field.new({"name" => "gbv_assessment_progress_health",
@@ -102,7 +102,7 @@ gbv_follow_up_subform_fields = [
             }),
   Field.new({"name" => "gbv_assessment_progress_health_text",
              "mobile_visible" => true,
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Explain Progress towards Heath care goals"
             }),
   Field.new({"name" => "gbv_assessment_progress_psychosocial",
@@ -113,7 +113,7 @@ gbv_follow_up_subform_fields = [
             }),
   Field.new({"name" => "gbv_assessment_progress_psychosocial_text",
              "mobile_visible" => true,
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Explain Progress towards Psychosocial Support goals"
             }),
   Field.new({"name" => "gbv_assessment_progress_justice",
@@ -124,12 +124,12 @@ gbv_follow_up_subform_fields = [
             }),
   Field.new({"name" => "gbv_assessment_progress_justice_text",
              "mobile_visible" => true,
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Explain Progress towards Access to Justice/legal goals"
             }),
   Field.new({"name" => "gbv_assessment_other_goals_list",
              "mobile_visible" => true,
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Other goals (list here)"
             }),
   Field.new({"name" => "gbv_assessment_other_goals",
@@ -140,7 +140,7 @@ gbv_follow_up_subform_fields = [
             }),
   Field.new({"name" => "gbv_assessment_other_goals_text",
              "mobile_visible" => true,
-             "type" => "text_field",
+             "type" => "textarea",
              "display_name_all" => "Explain Progress towards other goals"
             })
 ]
@@ -209,7 +209,7 @@ action_plan_subform_fields = [
   Field.new({
     "name" => "service_referral_notes",
     "mobile_visible" => false,
-    "type" => "text_field",
+    "type" => "textarea",
     "display_name_all" => "Notes"
   }),
   Field.new({
