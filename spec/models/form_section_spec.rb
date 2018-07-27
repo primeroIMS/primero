@@ -552,6 +552,133 @@ describe FormSection do
       form_section = FormSection.new(:name => 'Unique Name', :unique_id => 'unique_name')
       form_section.create!
     end
+
+    context 'when changinging field type' do
+      before do
+        fields = [
+            Field.new({"name" => "field_test_field_type_text",
+                       "type" => Field::TEXT_FIELD,
+                       "display_name_all" => "Field Test Field Type Text"
+                      }),
+            Field.new({"name" => "field_test_field_type_textarea",
+                       "type" => Field::TEXT_AREA,
+                       "display_name_all" => "Field Test Field Type Text Area"
+                      }),
+            Field.new({"name" => "field_test_field_type_select_box",
+                       "type" => Field::SELECT_BOX,
+                       "display_name_all" => "Field Test Field Type select box",
+                       "option_strings_text" => "Yes\nNo"
+                      })
+        ]
+        @form_field_type_test = FormSection.create(
+            :unique_id => "form_section_test_field_type",
+            :parent_form=>"case",
+            "visible" => true,
+            :order_form_group => 1,
+            :order => 1,
+            :order_subform => 0,
+            :form_group_name => "Form Section Test",
+            "editable" => true,
+            "name_all" => "Form Section Test 2",
+            "description_all" => "Form Section Test 2",
+            :fields => fields
+        )
+      end
+
+      context 'from text field' do
+        before do
+          @changing_field = @form_field_type_test.fields.select{|fd| fd.type == Field::TEXT_FIELD}.first
+        end
+
+        context 'to textarea field' do
+          before do
+            @changing_field.type = Field::TEXT_AREA
+          end
+
+          it 'is valid' do
+            expect(@form_field_type_test).to be_valid
+          end
+        end
+
+        context 'to select_box field' do
+          before do
+            @changing_field.type = Field::SELECT_BOX
+          end
+
+          it 'is not valid' do
+            expect(@form_field_type_test).not_to be_valid
+            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_text' on form 'Form Section Test 2'")
+          end
+        end
+      end
+
+      context 'from textarea field' do
+        before do
+          @changing_field = @form_field_type_test.fields.select{|fd| fd.type == Field::TEXT_AREA}.first
+        end
+
+        context 'to text field' do
+          before do
+            @changing_field.type = Field::TEXT_FIELD
+          end
+
+          it 'is valid' do
+            expect(@form_field_type_test).to be_valid
+          end
+        end
+
+        context 'to select_box field' do
+          before do
+            @changing_field.type = Field::SELECT_BOX
+          end
+
+          it 'is not valid' do
+            expect(@form_field_type_test).not_to be_valid
+            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_textarea' on form 'Form Section Test 2'")
+          end
+        end
+      end
+
+      context 'from select_box field' do
+        before do
+          @changing_field = @form_field_type_test.fields.select{|fd| fd.type == Field::SELECT_BOX}.first
+        end
+
+        context 'to text field' do
+          before do
+            @changing_field.type = Field::TEXT_FIELD
+          end
+
+          it 'is not valid' do
+            expect(@form_field_type_test).not_to be_valid
+            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_select_box' on form 'Form Section Test 2'")
+          end
+        end
+
+        context 'to textarea field' do
+          before do
+            @changing_field.type = Field::TEXT_AREA
+          end
+
+          it 'is not valid' do
+            expect(@form_field_type_test).not_to be_valid
+            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_select_box' on form 'Form Section Test 2'")
+          end
+        end
+
+        context 'to numeric field' do
+          before do
+            @changing_field.type = Field::NUMERIC_FIELD
+          end
+
+          it 'is not valid' do
+            expect(@form_field_type_test).not_to be_valid
+            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_select_box' on form 'Form Section Test 2'")
+          end
+        end
+      end
+
+    end
   end
 
   describe "highlighted_fields" do
@@ -883,7 +1010,7 @@ describe FormSection do
         #This field is a text_field in another form.
         fields = [
           Field.new({"name" => "field_name_2",
-                     "type" => "textarea",
+                     "type" => Field::SELECT_BOX,
                      "display_name_all" => "Field Name 2"
                     })
         ]
@@ -907,7 +1034,7 @@ describe FormSection do
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(form.errors.messages[:fields]).to eq(["Can't change type of existing field 'field_name_2' on form 'Form Section Test 2'"])
+        expect(form.errors.messages[:fields]).to include("Can't change type of existing field 'field_name_2' on form 'Form Section Test 2'")
       end
 
       it "should allow fields with the same name on different subforms" do
@@ -989,14 +1116,14 @@ describe FormSection do
       it "should not add field with different type" do
         #This field is a text_field in another form.
         @form.fields << Field.new({"name" => "field_name_2",
-                                   "type" => "textarea",
+                                   "type" => Field::SELECT_BOX,
                                    "display_name_all" => "Field Name 2"
                                   })
         @form.save.should be_falsey
 
         #There is other field with the same on other form section
         #so, we can't change the type.
-        expect(@form.errors.messages[:fields]).to eq(["Can't change type of existing field 'field_name_2' on form 'Form Section Test 2'"])
+        expect(@form.errors.messages[:fields]).to include("Can't change type of existing field 'field_name_2' on form 'Form Section Test 2'")
       end
 
       it "should allow fields with the same name on different subforms" do

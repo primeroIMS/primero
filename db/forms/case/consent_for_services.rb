@@ -10,7 +10,7 @@ service_consent_fields = [
              "mobile_visible" => true,
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
-             "display_name_all" => "Did the survivor consent to share their information for any referrals?",
+             "display_name_all" => "Did the survivor provide consent to engage in services offered by you?",
              "help_text" => ""
             })
 ]

@@ -979,12 +979,18 @@ class FormSection < CouchRest::Model::Base
       fields.each do |field|
         current_type = all_current_fields[field.name]
         if current_type.present? && (current_type != [field.type, field.multi_select.present?])
+          #Allow changing from text_field to textarea or from textarea to text_field
+          next if changing_between_text_field_and_textarea?(current_type.first, field.type)
           errors.add(:fields, I18n.t("errors.models.field.change_type_existing_field", field_name: field.name, form_name: self.name))
           return false
         end
       end
     end
     return true
+  end
+
+  def changing_between_text_field_and_textarea?(current_type, new_type)
+    [Field::TEXT_FIELD, Field::TEXT_AREA].include?(current_type) && [Field::TEXT_FIELD, Field::TEXT_AREA].include?(new_type)
   end
 
   def create_unique_id
