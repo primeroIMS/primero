@@ -1,0 +1,32 @@
+ar_LB:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "تصدير مسجّل الواقعة وتحويله إلى صيغة xls"
+  exports:
+    incident_recorder_xls:
+      all: مسجّل الحادث والواقعة
+      one: مسجّل الحادث والواقعة
+      selected: خيار لمسجّل الحادث والواقعة
+      'yes': "نعم"
+      'no': "لا"
+      gender:
+        male: "ذكر"
+        female: "أنثى"
+        both: "ذكر وأنثى"
+      age_group:
+        age: "العمر"
+        61_older: "61 سنة وما فوق"
+        unknown: "غير معروف"
+        header: "الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
+      age_type:
+        adult: "بالغ"
+        minor: "قاصر"
+        both: "بالغ وقاصر"
+        unknown: "غير معروف"
+        header: "نوع الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
+      service_referral:
+        undecided: "غير مفصول فيه وقت وضع التقرير"
+      headers:
+        perpetrator:
+          age_group: "الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
+          age_type: "نوع الفئة العمريّة التي ينتمي إليها المرتكب المزعوم"
