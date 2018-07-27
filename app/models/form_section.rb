@@ -142,6 +142,11 @@ class FormSection < CouchRest::Model::Base
   alias to_param unique_id
 
   class << self
+
+    def memoized_dependencies
+      [Field]
+    end
+
     # memoize by_unique_id because some things call this directly
     alias :old_by_unique_id :by_unique_id
     def by_unique_id *args
@@ -227,6 +232,7 @@ class FormSection < CouchRest::Model::Base
       end
       form_section
     end
+    alias :create_or_update :create_or_update_form_section
 
     def find_all_visible_by_parent_form(parent_form, subforms=true)
       #by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
@@ -950,12 +956,18 @@ class FormSection < CouchRest::Model::Base
       fields.each do |field|
         current_type = all_current_fields[field.name]
         if current_type.present? && (current_type != [field.type, field.multi_select.present?])
+          #Allow changing from text_field to textarea or from textarea to text_field
+          next if changing_between_text_field_and_textarea?(current_type.first, field.type)
           errors.add(:fields, I18n.t("errors.models.field.change_type_existing_field", field_name: field.name, form_name: self.name))
           return false
         end
       end
     end
     return true
+  end
+
+  def changing_between_text_field_and_textarea?(current_type, new_type)
+    [Field::TEXT_FIELD, Field::TEXT_AREA].include?(current_type) && [Field::TEXT_FIELD, Field::TEXT_AREA].include?(new_type)
   end
 
   def create_unique_id

@@ -62,6 +62,15 @@ namespace :db do
       end
     end
 
+    desc "Export the configuraton bundle as Ruby seed files"
+    task :export_config_seeds, [:export_directory] => :environment do |t, args|
+      export_directory = args[:export_directory]
+      export_directory = 'seed-files' unless export_directory.present?
+      puts "Exporting current configuration to #{export_directory}"
+      exporter = Exporters::RubyConfigExporter.new(export_directory)
+      exporter.export
+    end
+
     desc "Import the form translations yaml"
     task :import_form_translation, [:yaml_file] => :environment do |t, args|
       file_name = args[:yaml_file]

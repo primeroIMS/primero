@@ -132,11 +132,7 @@ survivor_information_fields = [
              "mobile_visible" => true,
              "type" => "select_box",
              "display_name_all" => "Is the Survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
-             "option_strings_text_all" =>
-                          ["No",
-                           "Unaccompanied Minor",
-                           "Separated Child",
-                           "Other Vulnerable Child"].join("\n")
+             "option_strings_source" => "lookup lookup-unaccompanied-separated-status"
             }),
   Field.new({"name" => "section_heading_child_survivors_less_than_18_years_old",
              "mobile_visible" => false,

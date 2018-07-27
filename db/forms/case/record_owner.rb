@@ -64,7 +64,6 @@ record_owner_fields = [
   Field.new({"name" => "owned_by_agency",
              "type" => "select_box",
              "mobile_visible" => false,
-             "type" =>"select_box" ,
              "display_name_all" => "Agency",
              "editable" => false,
              "disabled" => true,
