@@ -88,7 +88,7 @@ tracing_fields = [
   Field.new({"name" => "separation_cause",
              "type" => "select_box",
              "display_name_all" => "What was the main cause of separation?",
-             "option_strings_source" => "lookup SeparationCause",
+             "option_strings_source" => "lookup lookup-separation-cause",
              "matchable" => true
             }),
   Field.new({"name" => "separation_cause_other",
@@ -100,23 +100,7 @@ tracing_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "If applicable, what were other causes of separation? ",
-             "option_strings_text_all" =>
-                        ["Conflict",
-                        "Death",
-                        "Family abuse/violence/exploitation",
-                        "Lack of access to services/support",
-                        "CAAFAG",
-                        "Sickness of family member",
-                        "Entrusted into the care of an individual",
-                        "Arrest and detention",
-                        "Abandonment",
-                        "Repatriation",
-                        "Population movement",
-                        "Migration",
-                        "Poverty",
-                        "Natural disaster",
-                        "Divorce/remarriage",
-                        "Other (please specify)"].join("\n")
+             "option_strings_source" => "lookup lookup-separation-cause"
               }),
   Field.new({"name" => "separation_details",
              "type" => "textarea",
