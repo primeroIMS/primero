@@ -3,24 +3,20 @@
 for i in "$@"
 do
 case $i in
-    -w=*|--worker=*)
-    WORKER="${i#*=}"
+    -w=*|--workers=*)
+    WORKERS="${i#*=}"
     ;;
 esac
 done
 
-if [ -z ${WORKER+x} ]; then
-  echo "=> Setup failed worker number required using -w= or --worker="
-else
-
-WORKER_NUMBER=$(($WORKER + 1))
+PROPERTIES_FILES=/opt/apache-jmeter-4.0/bin/jmeter.properties
 
 if [[ $(java -version 2>&1 | grep "openjdk version \"1.8" | wc -l) ]]; then
-echo "=> Java JDK already installed";
+    echo "=> Java JDK already installed";
 else
-echo "=> Installing java jdk"
-sudo apt-get update
-sudo apt-get install -y openjdk-8-jre-headless
+    echo "=> Installing java jdk"
+    sudo apt-get update
+    sudo apt-get install -y openjdk-8-jre-headless
 fi
 
 echo "=> Installing jmeter"
@@ -33,11 +29,11 @@ fi
 
 cd /opt; sudo tar -xf /tmp/apache-jmeter-4.0.tgz
 
-sudo sed -i "s/^remote_hosts=127.0.0.1$/remote_hosts=127.0.0.1:24001, 127.0.0.1:24002/g" /opt/apache-jmeter-4.0/bin/jmeter.properties
-sudo sed -i "s/^\#client.rmi.localport.*$/client.rmi.localport=25000/g" /opt/apache-jmeter-4.0/bin/jmeter.properties
+sudo sed -i "s/^\#server.rmi.ssl.disable.*$/server.rmi.ssl.disable=true/g" $PROPERTIES_FILES
+sudo sed -i "s/^\remote_hosts=127.0.0.1.*$/remote_hosts=$WORKERS/g" $PROPERTIES_FILES
 
 if [[ $(grep mode=Statistical /opt/apache-jmeter-4.0/bin/jmeter.properties) != "mode=Statistical" ]]; then
-echo -e "\n\nmode=Statistical" | sudo tee --append /opt/apache-jmeter-4.0/bin/jmeter.properties >/dev/null
+    echo -e "\n\nmode=Statistical" | sudo tee --append $PROPERTIES_FILES >/dev/null
 fi
 
 # echo "=> SSH port forwarding - worker (${WORKER_NUMBER})"
