@@ -1,19 +1,6 @@
 # #! /bin/bash
 
-for i in "$@"
-do
-case $i in
-    -w=*|--worker=*)
-    WORKER="${i#*=}"
-    ;;
-esac
-done
-
-if [ -z ${WORKER+x} ]; then
-  echo "=> Setup failed worker number required using -w= or --worker="
-else
-
-WORKER_NUMBER=$(($WORKER + 1))
+PROPERTIES_FILES=/opt/apache-jmeter-4.0/bin/jmeter.properties
 
 echo "=> Installing java jdk"
 sudo apt-get update
@@ -29,8 +16,6 @@ fi
 
 cd /opt; sudo tar -xf /tmp/apache-jmeter-4.0.tgz
 
-cd /opt/apache-jmeter-4.0/bin && /opt/apache-jmeter-4.0/bin/create-rmi-keystore.sh < jmeter-prompts.txt
-
 echo "=> Creating/updating jmeter systemd config"
 sudo bash -c  'cat > /lib/systemd/system/jmeter.service <<EOL
 [Unit]
@@ -42,18 +27,17 @@ StartLimitIntervalSec=0
 Type=simple
 Restart=always
 RestartSec=1
-User=ubuntu
-ExecStart=/opt/apache-jmeter-4.0/bin/jmeter-server -Djava.rmi.server.hostname=127.0.0.1 > /dev/null 2>&1
+User=root
+ExecStart=sudo /opt/apache-jmeter-4.0/bin/jmeter-server -Djava.rmi.server.hostname=127.0.0.1 > /dev/null 2>&1
 
 [Install]
 WantedBy=multi-user.target
 EOL'
 
-sudo sed -i "s/^\#server_port.*$/server_port=2400$WORKER_NUMBER/g" /opt/apache-jmeter-4.0/bin/jmeter.properties
-sudo sed -i "s/^\#server.rmi.localport.*$/server.rmi.localport=2600$WORKER_NUMBER/g" /opt/apache-jmeter-4.0/bin/jmeter.properties
+sudo sed -i "s/^\#server.rmi.ssl.disable.*$/server.rmi.ssl.disable=true/g" $PROPERTIES_FILES
 
-if [[ $(grep server.rmi.localhostname=127.0.0.1 /opt/apache-jmeter-4.0/bin/jmeter.properties) != "server.rmi.localhostname=127.0.0.1" ]]; then
-echo -e "\n\nserver.rmi.localhostname=127.0.0.1" | sudo tee --append /opt/apache-jmeter-4.0/bin/jmeter.properties >/dev/null
+if [[ $(grep server.rmi.localhostname=127.0.0.1 ${PROPERTIES_FILES}) != "server.rmi.localhostname=127.0.0.1" ]]; then
+echo -e "\n\nserver.rmi.localhostname=127.0.0.1" | sudo tee --append $PROPERTIES_FILES >/dev/null
 fi
 
 echo "=> Starting jmeter"
@@ -61,6 +45,5 @@ sudo systemctl enable jmeter
 sudo systemctl start jmeter
 
 echo "=> Fini!"
-fi
 
 
