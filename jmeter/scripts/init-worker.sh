@@ -7,8 +7,7 @@ sudo apt-get update
 sudo apt-get install -y openjdk-8-jre-headless
 
 echo "=> Installing jmeter"
-if [ -e /tmp/apache-jmeter-4.0.tgz ]
-then
+if [ -e /tmp/apache-jmeter-4.0.tgz ]; then
     echo "=> Already have jmeter binary in /tmp :)"
 else
     wget http://mirrors.sonic.net/apache//jmeter/binaries/apache-jmeter-4.0.tgz -P /tmp
@@ -37,7 +36,7 @@ EOL'
 sudo sed -i "s/^\#server.rmi.ssl.disable.*$/server.rmi.ssl.disable=true/g" $PROPERTIES_FILES
 
 if [[ $(grep server.rmi.localhostname=127.0.0.1 ${PROPERTIES_FILES}) != "server.rmi.localhostname=127.0.0.1" ]]; then
-echo -e "\n\nserver.rmi.localhostname=127.0.0.1" | sudo tee --append $PROPERTIES_FILES >/dev/null
+    echo -e "\n\nserver.rmi.localhostname=127.0.0.1" | sudo tee --append $PROPERTIES_FILES >/dev/null
 fi
 
 echo "=> Starting jmeter"
