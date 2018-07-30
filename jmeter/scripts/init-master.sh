@@ -11,6 +11,10 @@ done
 
 PROPERTIES_FILES=/opt/apache-jmeter-4.0/bin/jmeter.properties
 
+if [ -z ${WORKER+x} ]; then
+  WORKERS=127.0.0.1
+fi
+
 if [[ $(java -version 2>&1 | grep "openjdk version \"1.8" | wc -l) ]]; then
     echo "=> Java JDK already installed";
 else
@@ -36,10 +40,4 @@ if [[ $(grep mode=Statistical /opt/apache-jmeter-4.0/bin/jmeter.properties) != "
     echo -e "\n\nmode=Statistical" | sudo tee --append $PROPERTIES_FILES >/dev/null
 fi
 
-# echo "=> SSH port forwarding - worker (${WORKER_NUMBER})"
-# ssh -L 2400${WORKER_NUMBER}:127.0.0.1:2400${WORKER_NUMBER} -R 25000:127.0.0.1:25000 -L 2600${WORKER_NUMBER}:127.0.0.1:2600${WORKER_NUMBER} -N -f USERNAME@SLAVE01
-
 echo "=> Fini!"
-fi
-
-
