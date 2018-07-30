@@ -9,9 +9,9 @@ case $i in
 esac
 done
 
-PROPERTIES_FILES=/opt/apache-jmeter-4.0/bin/jmeter.properties
+PROPERTIES_FILE=/opt/apache-jmeter-4.0/bin/jmeter.properties
 
-if [ -z ${WORKER+x} ]; then
+if [ -z ${WORKERS+x} ]; then
   WORKERS=127.0.0.1
 fi
 
@@ -33,11 +33,11 @@ fi
 
 cd /opt; sudo tar -xf /tmp/apache-jmeter-4.0.tgz
 
-sudo sed -i "s/^\#server.rmi.ssl.disable.*$/server.rmi.ssl.disable=true/g" $PROPERTIES_FILES
-sudo sed -i "s/^\remote_hosts=127.0.0.1.*$/remote_hosts=$WORKERS/g" $PROPERTIES_FILES
+sudo sed -i "s/^\#server.rmi.ssl.disable.*$/server.rmi.ssl.disable=true/g" $PROPERTIES_FILE
+sudo sed -i "s/^remote_hosts=.*$/remote_hosts=${WORKERS}/" $PROPERTIES_FILE
 
-if [[ $(grep mode=Statistical /opt/apache-jmeter-4.0/bin/jmeter.properties) != "mode=Statistical" ]]; then
-    echo -e "\n\nmode=Statistical" | sudo tee --append $PROPERTIES_FILES >/dev/null
+if [[ $(grep mode=Statistical $PROPERTIES_FILE) != "mode=Statistical" ]]; then
+    echo -e "\n\nmode=Statistical" | sudo tee --append $PROPERTIES_FILE >/dev/null
 fi
 
 echo "=> Fini!"
