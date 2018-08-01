@@ -254,6 +254,20 @@ describe "record field model" do
               expect(@field.valid?).to be_truthy
             end
           end
+
+          context 'and some translated options have blank description' do
+            before do
+              @field.option_strings_text_fr = [
+                  {id: 'option_1', display_text: "Test French Option 1"},
+                  {id: 'option_2', display_text: ""},
+                  {id: 'option_3', display_text: ""}
+              ].map(&:with_indifferent_access)
+            end
+
+            it 'is valid' do
+              expect(@field).to be_valid
+            end
+          end
         end
       end
     end
