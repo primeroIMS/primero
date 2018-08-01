@@ -65,7 +65,6 @@ class Child < CouchRest::Model::Base
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [], :default => []
 
-  # validate :validate_has_at_least_one_field_value
   validate :validate_date_of_birth
   validate :validate_registration_date
   validate :validate_child_wishes
@@ -251,13 +250,6 @@ class Child < CouchRest::Model::Base
 
   def add_incident_links(incident_detail_id, incident_id, incident_display_id)
     self.incident_links << {"incident_details" => incident_detail_id, "incident_id" => incident_id, "incident_display_id" => incident_display_id}
-  end
-
-  def validate_has_at_least_one_field_value
-    return true if field_definitions.any? { |field| is_filled_in?(field) }
-    return true if !@file_name.nil? || !@audio_file_name.nil?
-    return true if deprecated_fields && deprecated_fields.any? { |key, value| !value.nil? && value != [] && value != {} && !value.to_s.empty? }
-    errors.add(:validate_has_at_least_one_field_value, I18n.t("errors.models.child.at_least_one_field"))
   end
 
   def validate_date_of_birth
@@ -463,27 +455,9 @@ class Child < CouchRest::Model::Base
     ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url)
   end
 
-  private
-
-  def deprecated_fields
-    system_fields = ["created_at",
-                     "last_updated_at",
-                     "last_updated_by",
-                     "last_updated_by_full_name",
-                     "posted_at",
-                     "posted_from",
-                     "_rev",
-                     "_id",
-                     "short_id",
-                     "created_by",
-                     "created_by_full_name",
-                     "couchrest-type",
-                     "histories",
-                     "unique_identifier",
-                     "current_photo_key",
-                     "created_organization",
-                     "photo_keys"]
-    existing_fields = system_fields + field_definitions.map { |x| x.name }
-    self.reject { |k, v| existing_fields.include? k }
+  #Override method in record concern
+  def display_id
+    case_id_display
   end
+
 end

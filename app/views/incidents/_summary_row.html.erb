@@ -18,11 +18,11 @@
     <td><%= field_format_date(record.incident_date_derived) %></td>
   <% end %>
   <% if fields_to_show.include? 'gbv_sexual_violence_type' %>
-    <td><%= record.display_field('gbv_sexual_violence_type') %></td>
+    <td><%= record.display_field(@gbv_sexual_violence_type_field) %></td>
   <% end %>
   <% if fields_to_show.include? 'incident_location' %>
     <%# TODO - i18n can this use display_field? %>
-    <td><% Location.get_by_location_code(record.incident_location).try(:placename) %></td>
+    <td><%= Location.get_by_location_code(record.incident_location).try(:placename) %></td>
   <% end %>
   <% if fields_to_show.include? 'violations' %>
     <td><%= render 'summary_row_violations', incident: record %></td>

@@ -303,6 +303,7 @@ GEM
     memoist (0.11.0)
     memoizable (0.4.2)
       thread_safe (~> 0.3, >= 0.3.1)
+    memory-profiler (1.0.3)
     method_source (0.9.0)
     metric_fu (4.12.0)
       cane (~> 2.5, >= 2.5.2)
@@ -370,7 +371,7 @@ GEM
       pry (~> 0.10)
     public_suffix (3.0.1)
     rack (1.6.8)
-    rack-mini-profiler (0.10.7)
+    rack-mini-profiler (1.0.0)
       rack (>= 1.2.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -604,6 +605,7 @@ DEPENDENCIES
   json_spec (~> 1.1.1)
   letter_opener
   memoist (~> 0.11.0)
+  memory-profiler
   metric_fu
   mime-types (= 1.16)
   mini_magick (~> 4.8.0)
@@ -618,7 +620,7 @@ DEPENDENCIES
   progress_bar (~> 1.1.0)
   pry
   pry-byebug
-  rack-mini-profiler (>= 0.10.1)
+  rack-mini-profiler (>= 1.0.0)
   rack_session_access
   rails (= 4.2.10)
   rake (~> 12.3.0)
