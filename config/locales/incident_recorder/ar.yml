@@ -1,0 +1,32 @@
+ar:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "نقل ملف xls لتسجيل الأحداث"
+  exports:
+    incident_recorder_xls:
+      all: مُسجل الأهداف
+      one: مُسجل الأهداف
+      selected: تم اختياره لمُسجل الأهداف
+      'yes': "نعم"
+      'no': "لا"
+      gender:
+        male: "ذكر"
+        female: "أنثى"
+        both: "ذكر وأنثى"
+      age_group:
+        age: "السن"
+        61_older: "61 عاما فأكثر"
+        unknown: "غير معروف"
+        header: "الفئة العمرية للجاني المزعوم"
+      age_type:
+        adult: "بالغ"
+        minor: "شخص صغير"
+        both: "شخص بالغ وشخص صغير"
+        unknown: "غير معروف"
+        header: "نوع عمر المُذنب المزعوم"
+      service_referral:
+        undecided: "لم يتم اتخاذ قرار وقت الإبلاغ"
+      headers:
+        perpetrator:
+          age_group: "الفئة العمرية للجاني المزعوم"
+          age_type: "نوع عمر المُذنب المزعوم"
