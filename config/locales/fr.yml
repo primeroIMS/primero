@@ -1,17 +1,17 @@
-# encoding: utf-8
-# Sample localization file for English. Add more files in this directory for other locales.
-# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 fr:
-  "true": "Yes"
-  "false": "No"
+  valid: "Valide"
+  invalid: "Invalide"
+  offline: L'application est hors ligne
+  name: "Nom"
   home:
     fr: "Français"
     en: "English"
     ar: "العربية"
+    ar-LB: "Arabe (Libanais)"
     zh: "中文"
     es: "Español"
     ru: "Русский"
+    so: "Af-Soomaali"
     dashboard: "Tableau de bord"
     welcome: "Bienvenue sur Primero"
     current_time_zone: "Fuseau horaire actuel "
@@ -23,11 +23,17 @@ fr:
     label: "Accueil"
   clear: "Effacer"
   messages:
-    delete_item: "Attention : si vous poursuivez, les données associées à ce champ seront perdues. \nSi vous n’êtes pas sûr(e), désactivez le champ.\nCliquez sur Annuler pour revenir en arrière. Cliquez sur OK pour effacer le champ.\n"
+    delete_item: |
+        Attention : si vous poursuivez, les données associées à ce champ seront perdues.
+        Si vous n’êtes pas sûr(e), désactivez le champ.
+        Cliquez sur Annuler pour revenir en arrière. Cliquez sur OK pour effacer le champ.
     move_item: "Vous êtes sur le point de déplacer ce champ vers une autre partie du formulaire ({{selection_key}}). Souhaitez-vous continuer ?"
     enter_valid_date: "Saisissez la date dans un format correct (jj-mm-aaaa) "
     enter_valid_field_value: "Saisissez une valeur valide pour ce champ. "
     enter_valid_number_in_tally: "%{field}: %{tally} doit être un nombre valide"
+    enter_valid_number: "%{field}doit être un nombre valide"
+    more_than_200_chars: "%{field}ne peut pas comporter plus de 200 caractères "
+    no_more_than_x_chars: "%{field} ne peut pas être plus long que %{length} caractères"
     valid_search_criteria: "Saisissez au moins un critère de recherche"
     show_hide_forms: "Sélectionnez le(s) formulaire(s) que vous souhaitez afficher/masquer."
     show_forms: "Êtes-vous sûr(e) de vouloir rendre ce(s) formulaire(s) visible(s) ?"
@@ -45,33 +51,45 @@ fr:
     logoff_warning_suffix: "secondes. "
     logoff_confirmation: "Souhaitez-vous poursuivre votre session ? "
     warning: |
-      Attention : si vous poursuivez, les données associées à ce champ seront perdues.
-      Si vous n’êtes pas sûr(e), désactivez le champ.
-      Cliquez sur Annuler pour revenir en arrière. Cliquez sur OK pour effacer le champ.
+        Attention : si vous poursuivez, les données associées à ce champ seront perdues.
+        Si vous n’êtes pas sûr(e), désactivez le champ.
+        Cliquez sur Annuler pour revenir en arrière. Cliquez sur OK pour effacer le champ.
     enter_each_in_one_line: "Saisissez chaque option sur une nouvelle ligne "
     record_count: "Affichage des dossiers %{start} à %{end} sur %{total} "
     form_sections_help_text_for_edit: "Cliquez sur le bouton ÉDITER pour ajouter des renseignements sur %{form_section_name}"
+    form_sections_case_update_alert: "Un nouveau %{form_section_name} a été ajouté au cas à %{alert_time}"
+    service_provision: "prestation de service"
     enable_disable_record: "Si vous cliquez sur OK, le statut de ce dossier deviendra « %{action} »"
+    reopen_record: "Cliquer sur OK changera le status de ce cas à Ouvert"
     flag_multiple_records_error_message: "Une erreur s'est produite lors de la tentative de signalement d'un dossier :"
     record_not_flagged_message: "%{short_id} : non signalé"
     invalid_date_filter_value: "Certains filtres n'ont pas été appliqués en raison d'une valeur de date incorrecte. Vérifiez les valeurs des filtres de dates."
     scroll_up: "Faites défiler vers le haut pour en voir plus. "
     scroll_down: "Faites défiler vers le bas pour en voir plus."
-
+    forms_export: "Cette exportation fournit les formulaires et les champs disponibles sur une feuille de calcul. Cette feuille de calcul est utilisée pour créer le mappage de la configuration de formulaire à utiliser dans l'implémentation. Notez que cette feuille de calcul ne peut pas être utilisée pour importer des données dans Primero."
+    string_sources_failed: "Certains champs n'ont pas pu être chargés, actualisez la page pour charger tous les champs."
+    system_settings_failed: "Les paramètres système n'ont pas pu être chargés."
+    approval_alert: "L'approbation est en attente pour %{form_name}"
+    field_change_alert: "Le formulaire %{form_name}a été mis à jour le %{date} par le fournisseur de services"
+    transfer_request_alert: "Une nouvelle demande de transfert a été faite par %{user} à %{agency} le %{date}"
   data_base:
     delete_all_documents: "Tous les documents relatifs à l'enfant ont été effacés"
     operation_not_allowed: "Opération non autorisée dans un environnement %{rails_env} "
-
   login:
     details: "Identifiants"
     username: "Nom d'utilisateur "
+    notification:
+      enter_user_name: 'Entrer votre nom d''utilisateur'
+      users_requested_password_reset: "Ces utilisateurs ont demandé la réinitialisation du mot de passe. Veuillez les contacter immédiatement."
+      users_does_not_exist: "%{user} à %{created}. Ce nom d'utilisateur n'existe pas actuellement dans le système."
+      at: "à %{created}"
+      cannot_remember_username: "Si vous ne vous souvenez pas de votre nom d'utilisateur, entrez simplement le nom et les informations qu'un administrateur peut utiliser pour vous identifier et vous contacter."
     password:
       label: "Mot de passe "
       reset: "Demander la réinitialisation du mot de passe"
       re_enter: "Saisissez à nouveau le mot de passe "
       success_notice: "Merci. Un administrateur RapidFTR vous contactera sous peu. Si possible, contactez l'admin directement. "
       successfully_hidden: "La notification de demande de mot de passe a bien été masquée."
-
     label: "Connexion"
   header:
     contact: "Contact et Aide"
@@ -80,70 +98,95 @@ fr:
     logout: "Se déconnecter"
     my_account: "Mon compte"
     system_settings: "Paramètres du système"
-
   navigation:
-     home: "ACCUEIL"
-     cases: "CAS"
-     tracing_request: "DEMANDES DE TRAÇAGE"
-     incidents: "INCIDENTS"
-     children: "ENFANTS"
-     forms: "FORMULAIRES"
-     lookups: "RÉFÉRENCES"
-     users: "PARAMÈTRES "
-     replications: "SYNC"
-     reports: "RAPPORTS"
-     advanced_search: "Recherche détaillée"
-     go: "Lancer"
-     search: "Rechercher"
-     locations: "LIEUX"
-
+    home: "ACCUEIL"
+    cases: "CAS"
+    tracing_request: "DEMANDES DE TRAÇAGE"
+    incidents: "INCIDENTS"
+    potential_match: "Correspond"
+    children: "ENFANTS"
+    forms: "FORMULAIRES"
+    lookups: "RÉFÉRENCES"
+    users: "PARAMÈTRES "
+    replications: "SYNC"
+    reports: "RAPPORTS"
+    advanced_search: "Recherche détaillée"
+    go: "Lancer"
+    search: "Rechercher"
+    locations: "LIEUX"
+    bulk_exports: "Exportations en Vrac"
+    tasks: "Taches"
+    audit_logs: "Logs"
+    matching_configuration: "correspondant à"
   buttons:
-     delete: "Effacer"
-     save: "Enregistrer"
-     login: "Se connecter"
-     reunite: "Réunir"
-     edit: "Éditer"
-     back: "Retour"
-     submit: "Envoyer"
-     export: "Exporter"
-     import: "Importer"
-     change_password: "Modifier le mot de passe "
-     enable_photo_wall: "Activer le mur de photos"
-     disable_photo_wall: "Désactiver le mur de photos"
-     create_incident: "Créer un incident"
-     create_case: "Créer un cas"
-     guiding_questions: "Questions directrices"
-     filter_label: "Filtre :"
-     filter: "Appliquer les filtres "
-     filter_clear: "Supprimer les filtres "
-     flag_records: "Signaler"
-     flag_model: "Signaler %{model}"
-     unflag_model: "Désactiver le signalement de %{model}"
-     ok: 'OK'
-     cancel: "Annuler"
-     edit_subform: 'Éditer le sous-formulaire'
-     create_new_record: "Créer un nouveau %{model}"
-     bundle_import: "Configuration de l'utilisateur"
-     bundle_export: "Configuration de l'utilisateur"
-     transfer: "Transférer %{model}"
-     referral: "Orienter %{model}"
-     mark_for_mobile: "Marquer pour mobile"
-     unmark_for_mobile: "Supprimer le marquage pour mobile"
-     approve_case_plan: "Approuver le plan d'intervention"
-
+    delete: "Effacer"
+    disable: "Désactiver"
+    enable: "Activer"
+    save: "Enregistrer"
+    save_and_add_service_provision: "Enregistrer et ajouter une prestation de service"
+    login: "Se connecter"
+    reunite: "Réunir"
+    edit: "Éditer"
+    back: "Retour"
+    submit: "Envoyer"
+    export: "Exporter"
+    import: "Importer"
+    change_password: "Modifier le mot de passe "
+    enable_photo_wall: "Activer le mur de photos"
+    disable_photo_wall: "Désactiver le mur de photos"
+    create_incident: "Créer un Incident"
+    create_case: "Créer un Cas"
+    guiding_questions: "Questions Directrices"
+    filter_label: "Filtre :"
+    filter: "Appliquer les filtres "
+    filter_clear: "Supprimer les filtres "
+    flag_records: "Signaler"
+    flag_model: "Signaler %{model}"
+    unflag_model: "Désactiver le signalement de % {model}"
+    unflag_model_history: "Histoire des signalements %{model}"
+    ok: 'OK'
+    cancel: "Annuler"
+    edit_subform: 'Éditer le sous-formulaire'
+    create_new_record: "Créer un nouveau %{model}"
+    bundle_import: "Configuration de l'utilisateur"
+    bundle_export: "Configuration de l'utilisateur"
+    transfer: "Transférer %{model}"
+    reassign: "Attribuer"
+    referral: "Orienter %{model}"
+    mark_for_mobile: "Marquer pour mobile"
+    unmark_for_mobile: "Supprimer le marquage pour mobile"
+    approve_bia: "Approuver BIA"
+    approve_case_plan: "Approuver le plan d'intervention"
+    sort_by_tr: "Demandes de traçage"
+    sort_by_case: "Cas"
+    approve_closure: "Approuver Clôture"
+    view_flags_history: "Voir Histoire"
+    request_approval: "Demande Approbation"
+    approvals: "Approbations"
+    accept: "Accepter"
+    reject: "Rejeter"
+    done: "Terminé"
+    remove_referrals: "Supprimer les références"
+    view: "Voir"
+    request_transfer: "Demande de transfert"
   placeholders:
     subforms: "Cliquez sur le bouton ÉDITER pour ajouter des renseignements sur %{form}"
-
+    editing_subforms: "Cliquez sur le bouton AJOUTER pour ajouter des détails sur le %{form}"
   cases:
     label: "Cas"
     register_new_case: "Nouveau cas"
     export: "Exporter"
     filter_by:
       flag: "Signalé : "
-      flag_label: "Signalé ?"
+      flag_label: "Signalé ?"
       mobile: "Mobile :"
       mobile_label: "Marqué pour mobile ?"
       social_worker: "Champ/Cas/Travailleur social :"
+      my_cases: "Mes Cas"
+      workflow: "Cas selon les gestionnaires de cas"
+      no_activity: "Pas d'Activité"
+      3month_inactivity: "Pendant 3+ mois"
+      referred_cases: "Cas orienter à moi"
       agency: "Agence :"
       status: "Statut :"
       age_range: "Tranche d'âge :"
@@ -154,6 +197,7 @@ fr:
       protection_status: "Statut de protection :"
       urgent_protection_concern: "Problème urgent de protection :"
       protection_concerns: "Problèmes de protection :"
+      type_of_risk: "Type de risque"
       risk_level: "Niveau de risque :"
       current_location: "Emplacement actuel :"
       district: "District :"
@@ -162,26 +206,41 @@ fr:
       record_state: "État du dossier :"
       photo: "Photo :"
       photo_label: "Possède une photo ? "
+      by_date: 'Par date'
+      date: 'Date'
+      approvals:
+        pending: "Approbations en Attente"
+        approved: "Aprouvé"
+        rejected: "Rejeté"
+    clear_filter: "Effacer"
+    apply_filter: "Appliquer "
+    save_filter: "Enregistrer"
+    my_filters: "Mes filtres"
     order_by:
       most_recently: "Plus récemment"
       label: "Classer par"
       name: "Nom"
     flag_summary: "Résumé du signalement"
-
     filer_by:
       all: "Tous"
       active: "Actif"
-
     hidden_text_field_text: "*****"
     hide_name: "Masquer le nom"
     view_name: "Afficher le nom"
     ok: "OK"
     hide_name_error: "Une erreur s'est produite lors de l'enregistrement de vos modifications. Veuillez réessayer."
-
+    quick_view:
+      tracing_message: "Remarque: Il y a une correspondance dans le système avec un enquêteur à la recherche de cet enfant. Contactez le travailleur social de ce dossier pour d'autres actions si l'enfant le souhaite."
   children:
     label: "Enfants"
     register_new_child: "Enregistrer un nouvel enfant"
     export: "Exporter"
+    selectable_date_options:
+      registration_date: 'Date d''enregistrement'
+      assessment_requested_on: 'Date de l''Evaluation'
+      date_case_plan_initiated: 'Date du plan d''action'
+      closure_approved_date: 'Date de la clôture du cas'
+      created_at: 'Date d''ouverture du cas'
     filter_by:
       label: "Filtrer par"
       all: "Tous"
@@ -194,13 +253,11 @@ fr:
       label: "Classer par"
       name: "Nom"
     flag_summary: "Résumé du signalement"
-
     filer_by:
       all: "Tous"
       active: "Actif"
       reunited: "Réuni "
       flagged: "Signalé"
-
   child:
     flagged_by: "Signalé par"
     last_updated: "Dernière mise à jour "
@@ -212,19 +269,21 @@ fr:
     flag_reason_date: "Date (facultative) "
     unflag_record: "Supprimer le signalement du dossier"
     unflag_reason: "Motif de la suppression du signalement"
+    unflagged_label: "Raison"
+    unflag_date: "Date"
+    unflag_by: "Signalement supprimé"
     unflag_label: "Supprimer le signalement"
     unflag_error_message: "Expliquez pourquoi vous souhaitez supprimer le signalement de ce dossier."
     id_of_record_this_duplicate_of: "Saisissez l'identifiant du dossier qui est le doublon de :"
     duplicate_header: "Marquer %{child_name} comme doublon"
     flag_error_message: "Expliquez pourquoi vous souhaitez signaler ce dossier."
-    flag_records_error_message: "Expliquez pourquoi vous souhaitez signaler ces dossiers."
+    flag_records_error_message: "Saisissez la raison du signalement et, si vous rajoutez une date, utilisez le format de date valide"
     selected_records_error_message: "Sélectionnez un ou plusieurs dossiers à signaler."
     investigation_details: "Renseignements sur l'enquête :"
     reunite_details: "Renseignements sur la réunification :"
     another_duplicate_before_link: "Un autre dossier a été marqué comme doublon de celui-ci. Cliquez sur"
     another_duplicate_after_link: "pour voir le dossier doublon."
     export_error: "Aucun dossier disponible !"
-    # TODO: Possibly use another method to label the list view columns
     id: "Identifiant n°"
     name: "Nom"
     age: "Âge"
@@ -234,11 +293,9 @@ fr:
     match_record: "Correspondances"
     match_record_success: "Dossiers correspondants"
     match_record_failed: "Aucune correspondance trouvée"
-
     messages:
       update_success: "Le cas %{record_id} a bien été mis à jour."
       investigation_error_message: "Veuillez confirmer que le dossier signalé doit être marqué comme A fait l'objet d'une enquête et saisissez les renseignements en votre possession."
-      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
       undo_investigation_error_message: "Annuler Renseignements sur l'enquête :"
       reunite_error_message: "Veuillez confirmer que cet enfant a retrouvé sa famille ou les personnes qui en ont la garde et saisissez les renseignements en votre possession. "
       undo_reunite_error_message: "Veuillez confirmer que cet enfant doit être marqué comme Non réuni et saisissez les renseignements en votre possession. "
@@ -246,7 +303,7 @@ fr:
       creation_success: "Le dossier du cas %{record_id} a bien été créé."
       not_found: "Aucun enfant possédant l'identifiant donné n'a été trouvé"
       confirm_duplicate: "Êtes-vous sûr(e) de vouloir continuer ? Si oui, cliquez sur OK. Sinon, cliquez sur Annuler. "
-
+      create_details_error: "Assurez-vous qu'un seul cas est sélectionné"
     actions:
       mark_as_investigated: "Marquer comme A fait l'objet d'une enquête"
       mark_as_reunited: "Marqué comme Réuni"
@@ -257,8 +314,8 @@ fr:
       mark_as_not_investigated: "Marquer comme N'a pas fait l'objet d'une enquête"
       reunited: "Marqué comme Réuni"
       reunited_details: "Renseignements sur la réunification :"
-      reunite: "Réunir"
-      not_reunited: "Marqué comme Non réuni"
+      reunite: "Réunifier"
+      not_reunited: "Marqué comme Non réunifié"
       undo_reunited_details: "Annuler Motif de la réunification :"
       undo_reunite: "Annuler Réunir"
       investigation_details: "Renseignements sur l'enquête"
@@ -273,30 +330,63 @@ fr:
       restore_image: "Restaurer l'image d'origine"
       rotate_clockwise: "Faire tourner vers la droite"
       view_full_size_photo: "Afficher la photo en taille réelle"
-
-    change_log: "Modifier le journal"
+    change_log: "Journal de Modifications"
     flagged_as_suspected: "Signalé par"
     posted_from_mobile: "Publié par le client mobile à :"
     edit_photo: "Éditer la photo"
     manage_photos: "Gérer les photos"
-
     view: "Voir le cas %{short_id}"
     edit: "Éditer le cas"
     mark_child_as_duplicate: "Marquer %{short_id} comme Doublon"
     history_of: "Historique de %{short_id}"
-
+  saved_search:
+    save_success: "Recherche sauvegardée avec succès"
+    save_error: "échec de la sauvegarde"
+    deleted: "La recherche a bien été supprimée"
+    delete_error: "La suppression a échoué"
+    saved_searches_tab: "Recherches sauvegardées"
+    filters_tab: "Filtres"
+  task:
+    id: "Identifiant n°"
+    priority: "Niveau de priorité"
+    type: "Type d'action"
+    due_date: "Date limite"
+    types:
+      assessment: "Évaluation "
+      case_plan: "Plan d'action"
+      follow_up: "Suivi %{subtype}"
+      service: "Services %{subtype}"
   case:
+    create_new_case: "Créer un nouveau cas"
+    enter_id_number: "Entrez le numéro d'identification pour rechercher un dossier existant"
+    id_number_required: "Le numéro d'identification est requis"
+    id_search_no_results: "Il n'y a pas de correspondance dans le système pour \"%{id}\", veuillez créer un nouvel enregistrement."
+    id_search_results_html: "pour <span> %{id} </span>"
     label: "Identifiant du cas"
+    workflow:
+      created_on: "créé sur"
+      on_label: "sur"
+      in_progress: "en cours"
+      new: "Nouveau"
+      closed: "Clos"
+      reopened: "Ré ouvert"
+      service_implemented: Service mis en œuvre
+      services_implemented: Service mis en œuvre
+      case_plan: "Plan d'action"
+      assessment: "Evaluation"
     flagged_by: "Signalé par"
     last_updated: "Dernière mise à jour"
     registered_by: "Enregistré par "
     mark_as_duplicate: "Marquer comme Doublon"
-    flag_record: "Signaler le dossier"
+    flag_record: "Signaler le Dossier"
     flag_label: "Signaler"
     flag_reason: "Motif du signalement"
     flag_reason_date: "Date (facultative) "
     unflag_record: "Supprimer le signalement du dossier"
     unflag_reason: "Motif de la suppression du signalement"
+    unflagged_label: "Raison"
+    unflag_date: "Date"
+    unflag_by: "Signalement Supprimé"
     unflag_label: "Supprimer le signalement"
     unflag_error_message: "Expliquez pourquoi vous souhaitez supprimer le signalement de ce dossier."
     id_of_record_this_duplicate_of: "Saisissez l'identifiant du dossier qui est le doublon de :"
@@ -306,7 +396,6 @@ fr:
     reunite_details: "Renseignements sur la réunification :"
     another_duplicate_before_link: "Un autre dossier a été marqué comme étant un doublon de celui-ci. Cliquez sur"
     another_duplicate_after_link: "pour voir le dossier doublon."
-    # TODO: Possibly use another method to label the list view columns
     select: "Sélectionnez "
     id: "Identifiant n°"
     name: "Nom"
@@ -318,11 +407,11 @@ fr:
     survivor_code: "Code du survivant"
     case_opening_date: "Date d'ouverture du cas"
     photo: "Photo"
-
+    owned_by: 'Propriétaire de l''enregistrement'
+    owned_by_agency: 'Agence ayant enregistré le cas'
     messages:
       update_success: "Le cas %{record_id} a bien été mis à jour."
       investigation_error_message: "Veuillez confirmer que le dossier signalé doit être marqué comme A fait l'objet d'une enquête et saisissez les renseignements en votre possession."
-      undo_investigation_error_message: "Please confirm the flagged record should be marked as Not Investigated, and enter any details you have."
       undo_investigation_error_message: "Annuler Renseignements sur l'enquête :"
       reunite_error_message: "Veuillez confirmer que ce cas a retrouvé sa famille ou les personnes qui en ont la garde et saisissez les renseignements en votre possession. "
       undo_reunite_error_message: "Veuillez confirmer que ce cas doit être marqué comme Non réuni et saisissez les renseignements en votre possession. "
@@ -330,7 +419,6 @@ fr:
       creation_success: "Le dossier a bien été créé pour le cas."
       not_found: "Aucun enfant possédant l'identifiant donné n'a été trouvé"
       confirm_duplicate: "Êtes-vous sûr(e) de vouloir continuer ? Si oui, cliquez sur OK. Sinon, cliquez sur Annuler. "
-
     actions:
       mark_as_investigated: "Marquer comme A fait l'objet d'une enquête"
       mark_as_reunited: "Marquer comme Réuni"
@@ -353,24 +441,25 @@ fr:
       restore_image: "Restaurer l'image d'origine"
       rotate_clockwise: "Faire tourner vers la droite"
       view_full_size_photo: "Voir la photo en taille réelle"
-
     change_log: "Modifier le journal"
     flagged_as_suspected: "Signalé par"
     posted_from_mobile: "Publié par le client mobile à :"
     edit_photo: "Éditer la photo"
     manage_photos: "Gérer les photos"
-
     view: "Voir le cas %{short_id}"
     edit: "Éditer le cas"
     mark_child_as_duplicate: "Marquer %{short_id} comme Doublon"
     history_of: "Historique de %{short_id}"
-
+    incident_details_separator: "Détails de l'incident"
+    services_section_separator: "Aperçu de la réponse"
   incidents:
     label: "Incidents"
     register_new_incident: "Nouvel incident"
     filter_by:
       flag: "Signalé : "
       flag_label: "Signalé ?"
+      mobile: "Mobile :"
+      mobile_label: "Marqué pour mobile?"
       violation: "Violation :"
       violence_type: "Type de violence :"
       social_worker: "Travailleur social :"
@@ -387,7 +476,7 @@ fr:
       armed_force_group_name: "Forces armées ou groupe armé :"
       armed_force_group_type: "Type de forces armées ou de groupe armé :"
       record_state: "État du dossier :"
-
+      interview_date: "Date de l'Entretien"
   incident:
     label: "Identifiant de l'incident"
     flagged_by: "Signalé par"
@@ -400,13 +489,16 @@ fr:
     flag_reason_date: "Date (facultative) "
     unflag_record: "Supprimer le signalement du dossier"
     unflag_reason: "Motif de la suppression du signalement"
+    unflagged_label: "Raison"
+    unflag_date: "Date"
+    unflag_by: "Signalisation Supprimé"
     unflag_label: "Supprimer le signalement"
     unflag_error_message: "Expliquez pourquoi vous souhaitez supprimer le signalement de ce dossier."
     flagged_as_suspected: "Signalé par"
     id_of_record_this_duplicate_of: "Saisissez l'identifiant du dossier qui est le doublon de :"
     duplicate_header: "Marquer %{child_name} comme Doublon"
     flag_error_message: "Expliquez pourquoi vous souhaitez signaler ce dossier."
-    flag_records_error_message: "Expliquez pourquoi vous souhaitez signaler ces dossiers."
+    flag_records_error_message: "Saisissez la raison du signalement et si vous rajoutez une date utilisez le format de date valide"
     selected_records_error_message: "Sélectionnez un ou plusieurs dossiers à signaler."
     investigation_details: "Renseignements sur l'enquête :"
     reunite_details: "Renseignements sur la réunification :"
@@ -415,11 +507,11 @@ fr:
     violation_status_verified: "Vérifié "
     empty_violation: "Pour ajouter des violations, ajouter la Catégorie de violation sur le formulaire d'incident pour voir le formulaire de violation correspondant."
     add_violations: "Cliquez sur Ajouter pour saisir les renseignements sur la violation."
-
+    create_incident_cp: "Créer et enregistrer un incident à signaler?"
+    link_to_incident: "Lien vers l'incident"
     messages:
       update_success: "L'incident %{record_id} a bien été mis à jour."
       creation_success: "Le dossier d'incident %{record_id} a bien été créé."
-
     view: "Voir l'incident %{short_id}"
     edit: "Éditer l'incident"
     select: "Sélectionner"
@@ -433,12 +525,9 @@ fr:
     violations: "Violations"
     social_worker: "Travailleur social"
     change_log: "Modifier le journal"
-
     actions:
       change_log: "Modifier le journal"
-
     history_of: "Historique de %{short_id}"
-
     violation:
       violation: "Violation"
       pending: 'Vérification en attente'
@@ -451,11 +540,9 @@ fr:
       attack_on_hospitals: "Attaque sur des hôpitaux "
       denial_humanitarian_access: "Refus d'un accès humanitaire"
       other_violation: "Autre violation"
-
   tracing_request:
     label: "Identifiant de l'enquêteur"
     register_new_tracing_request: "Nouvelle demande de traçage"
-    change_log: "Change Log"
     name_of_inquirer: "Nom de l'enquêteur"
     date_of_inquiry: "Date de l'enquête"
     tracing_requests: "Demandes de traçage"
@@ -467,34 +554,32 @@ fr:
     flag_label: "Signaler"
     flag_reason: "Motif du signalement"
     flag_reason_date: "Date (facultative) "
-    flag_records_error_message: "Expliquez pourquoi vous souhaitez signaler ces dossiers."
+    flag_records_error_message: "Saisissez la raison du signalement et si vous rajoutez une date utilisez le format de date valide"
     selected_records_error_message: "Sélectionnez un ou plusieurs dossiers à signaler."
     unflag_record: "Supprimer le signalement du dossier"
     unflag_reason: "Motif de la suppression du signalement"
+    unflagged_label: "Raison"
+    unflag_date: "Date"
+    unflag_by: "Signalement Supprimé"
     unflag_label: "Supprimer le signalement"
     unflag_error_message: "Expliquez pourquoi vous souhaitez supprimer le signalement de ce dossier."
     flag_error_message: "Expliquez pourquoi vous souhaitez signaler ce dossier."
     flagged_as_suspected: "Signalé par"
     find_match: "Trouver une correspondance"
-
     actions:
       change_log: "Modifier le journal"
       delete_photo: "Supprimer la photo ?"
       delete_audio: "Supprimer l'enregistrement audio ?"
-
     messages:
       update_success: "La demande de traçage %{record_id} a bien été mise à jour."
       creation_success: "Le dossier de la demande de traçage %{record_id} a bien été créé."
-
     view: "Voir la demande de traçage %{short_id}"
     edit: "Éditer la demande de traçage"
     select: "Sélectionner"
     id: "Identifiant n°"
     enquirer_name: "Nom de l'enquêteur"
     enquirer_date: "Date de l'enquête"
-
     history_of: "Historique de %{short_id}"
-
   tracing_requests:
     register_new_tracing_request: "Nouvelle demande de traçage"
     export: "Exportations"
@@ -507,36 +592,73 @@ fr:
       location_separation: "Lieu de séparation :"
       separation_cause: "Cause de  la séparation :"
       record_state: "État du dossier :"
-
+  potential_matches:
+    empty: "Veuillez accéder à la correspondance via les demandes de suivi"
+    no_match: "Il n'y a pas de correspondance dans le système pour %{type} %{id}"
+    display: "Afficher les potentielles correspondances pour %{type} %{id}"
+    filter_by:
+      score_range: " Barème de notation"
+      age_range_case: "Âge des cas"
+      age_range_tracing_request: "Plage d'âge des demandes de traçage"
+      sex_case: "Sexe des cas"
+      sex_tracing_request: "Sexe des demande de traçage"
+      male: "Masculin"
+      female: "Féminin "
+  potential_match:
+    header_key: "Critères de correspondance"
+    inquirer_id: 'Identifiant du demandeur'
+    inquirer_name: 'Nom du demandeur'
+    inquiry_date: 'Date de la demande'
+    inquirer_tr_name: 'tracing request'
+    child_id: 'Identifiant de l''enfant'
+    child_age: 'âge'
+    child_gender: 'Genre'
+    child_date_of_birth: 'Date de naissance'
+    reg_date: 'Date d''enregistrement'
+    social_worker: 'Travailleur social'
+    social_worker_agency: 'Agence'
+    score: 'score'
+    show_more: 'Afficher plus'
+    show_less: 'Afficher moins '
+    trace: 'Tracer'
+    case: 'Cas'
+    name: 'Nom'
+    likelihood:
+      likely: 'Probabilité'
+      possible: 'Possible'
+  audit_log:
+    timestamp: "Horodatage - UTC"
+    user_name: "Nom d'utilisateur "
+    action: "Action"
+    description: "Description"
+    record_owner: "Propriétaire de l'enregistrement"
+  audit_logs:
+    action_options:
+      login: "Identifier"
+      logout: "Se déconnecter"
+      create: "Créer"
+      copy: "Copier"
+      destroy: "Suppression"
+      show: "Visualisation"
+      edit: "Rédaction"
+      update: "Réactualisation"
+      export: "Exporter les données pour"
+      referral: "Orientation"
+      reassign: "Attribution"
+      transfer: "Transfert"
+      reopen_case: "Rouvrir"
+    filter_by:
+      action: 'Nom de l''action'
+      date: 'Date'
+      timestamp: 'Horodatage'
+      user: 'Nom d''utilisateur '
   preposition:
     on_label: "le"
     because: "Parce que"
     at_label: "à"
-
   pagination:
     zero: "Aucun %{model} trouvé"
     page_entries_info: Affichage _DÉBUT_ à _FIN_ de _TOTAL_ %{model}
-
-  will_paginate:
-    previous_label: "&#8592; Précédent"
-    next_label: "Suivant &#8594;"
-    page_gap: "&hellip;"
-    page_entries_info:
-      single_page_html:
-        zero: "Aucun %{model} trouvé"
-        one: "Affichage <b>1</b> %{model}"
-        other: "Affichage <b>tous %{count}</b> %{model}"
-      multi_page_html: "Affichage %{model} <b>%{from} - %{to}</b> sur un total de <b>%{count}</b>"
-    models:
-      report:
-        one: "rapport"
-        other: "rapports"
-      child:
-        one: "cas"
-        other: "cas"
-      incident:
-        one: "incident"
-        other: "incidents"
   users:
     unverified: "Utilisateurs non vérifiés"
     select_role: "Veuillez sélectionner une fonction avant de vérifier l'utilisateur"
@@ -547,13 +669,13 @@ fr:
     actions:
       show_all: "Afficher tous"
       show: "Afficher"
+      edit: "Modifier"
     messages:
       disable: 'Êtes-vous sûr(e) de vouloir désactiver cet utilisateur ?'
     sort_by:
       label: "Trier par"
       full_name: "Nom complet"
       agency: "Agence"
-
   roles:
     label: "Fonctions"
     list: "Liste des fonctions"
@@ -573,7 +695,6 @@ fr:
     view: "Voir la fonction"
     messages:
       confirmation: "Êtes-vous sûr(e) de vouloir supprimer cette fonction ? La suppression est irréversible. Cliquez sur OK pour supprimer la fonction."
-
   role:
     create: "Créer une fonction"
     edit: "Éditer la fonction"
@@ -587,7 +708,6 @@ fr:
     referral_label: "Cette fonction peut-elle être utilisée pour les orientations ?"
     group_permission_label: "Quels sont les dossiers concernés par cette fonction ?"
     role_ids_label: "Autres fonctions gérées par cette fonction"
-
   agencies:
     logo: 'Logo'
     logo_enabled: 'Logo activé ?'
@@ -606,19 +726,16 @@ fr:
       confirmation: "Êtes-vous sûr(e) de vouloir supprimer cette agence ? La suppression est irréversible. Cliquez sur OK pour supprimer l'agence."
     select_prompt: "Sélectionnez une agence."
     error_in_updating: "Erreur lors de la mise à jour des renseignements sur l'agence."
-
   agency:
     edit: 'Éditer l''agence'
     name: 'Nom de l''agence'
     code: 'Code de l''agence'
-
   system_settings:
     label: "Paramètres du système"
     edit: "Éditer les paramètres du système"
     show: "Paramètres du système"
     updated: "Les paramètres du système ont bien été mis à jour."
     primero_version: "Version du système"
-
   primero_modules:
     label: "Modules"
     view: "Voir le module"
@@ -632,7 +749,6 @@ fr:
     messages:
       confirmation: "Êtes-vous sûr(e) de vouloir supprimer ce module ? La suppression est irréversible. Cliquez sur OK pour supprimer le module."
       invalid: "Module(s) non valide(s)"
-
   primero_module:
     create: "Créer un module"
     edit: "Éditer le module"
@@ -646,8 +762,6 @@ fr:
     program: "Programme"
     associated_record_types: "Types de dossiers associés"
     associated_form_ids: "Identifiants des dossiers associés"
-
-
   primero_programs:
     label: "Programme"
     view: "Voir le programme"
@@ -660,7 +774,6 @@ fr:
       delete: "Supprimer"
     messages:
       confirmation: "Êtes-vous sûr(e) de vouloir supprimer le module du programme ? La suppression est irréversible. Cliquez sur OK pour supprimer le programme."
-
   primero_program:
     create: "Créer un programme"
     edit: "Éditer le programme"
@@ -671,7 +784,6 @@ fr:
     end_date: "Date de fin du programme"
     successfully_updated: "Les renseignements sur le programme ont bien été mis à jour."
     error_in_updating: "Erreur lors de la mise à jour des renseignements sur le programme."
-
   user_groups:
     label: "Groupes d'utilisateurs"
     view: "Voir le groupe d'utilisateurs"
@@ -684,7 +796,6 @@ fr:
       delete: "Supprimer"
     messages:
       confirmation: "Êtes-vous sûr(e) de vouloir supprimer ce groupe d'utilisateurs ? La suppression est irréversible. Cliquez sur OK pour supprimer le groupe d'utilisateurs."
-
   user_group:
     create: "Créer un groupe d'utilisateurs"
     edit: "Éditer le groupe d'utilisateurs"
@@ -692,13 +803,13 @@ fr:
     description: "Description"
     successfully_updated: "Les renseignements sur le groupe d'utilisateurs ont bien été mis à jour."
     error_in_updating: "Erreur lors de la mise à jour des renseignements sur le groupe d'utilisateurs."
-
   user:
     label: "utilisateur"
     full_name: "Nom complet"
+    code: "Code d'Utilisateur"
     history_of: "Historique de %{short_id}"
     disabled: "Désactivé"
-    agency: "Agency"
+    position: Position
     actions:
       delete: "Supprimer"
     messages:
@@ -716,7 +827,7 @@ fr:
     manage_password: "Modifier le mot de passe "
     old_password: "Ancien mot de passe"
     new_password: "Nouveau mot de passe"
-    password_strength: "Le mot de passe doit contenir au moins six caractères et doit inclure des lettres et des chiffres"
+    password_strength: "Le mot de passe doit contenir au moins 8 caractères et incluant des lettres et des chiffres"
     new_password_confirmation: "Confirmer le nouveau mot de passe"
     new: "Nouvel utilisateur"
     user_action_history: "Historique des actions de l'utilisateur"
@@ -725,26 +836,29 @@ fr:
     organization: "Organisation"
     agency: "Agence"
     manager: "Responsable"
-
-  actions: "actions"
+    send_mail: "Recevoir des notifications par email?"
+    welcome_email:
+      greeting: "Bienvenue sur Primero"
+      url_label: "Primero"
+      enabled_label: "Envoyer un email de bienvenue?"
+      text_label: "Mail de bienvenue"
   phone: "Téléphone"
   email: "Email"
   organization: "Organisation"
   position: "Poste"
-  false: "faux"
-  true: "vrai"
+  'false': "Non"
+  'true': "Oui"
   mandatory_field: "les champs marqués sont obligatoires"
   add: "ajouter"
   belonging_to: "appartenant à"
-  hello: "Bonjour"
   imei: "Numéro d'identité internationale d'équipement mobile (IMEI)"
   blacklisted: "Sur liste noire ?"
-  visible: "Visible"
+  visible_for_web: "Visible sur le Web"
+  visible_for_mobile: "Visible sur appareil mobile"
   hidden: "Masqué"
   help_text: "Texte d'aide"
   multi_select: "Choix multiple"
   option_strings_source: "Source des chaînes d'options"
-  cancel: "Cancel"
   discard: "Ignorer"
   form: "Formulaire"
   details: "Renseignements"
@@ -753,17 +867,13 @@ fr:
   devices: "Appareils"
   replications: "Reproductions"
   provide_translation: "Fournir une traduction pour"
+  select_language: "Sélectionnez une langue"
   hide_on_view_page: "Masquer la page affichée"
+  show_on_short_form: "Afficher sur le résumé du cas"
   last_login: "Dernière connexion"
-
-
   record: "dossier"
   description: "Description"
-  #TODO - The name translation is commented out so we revert back to using the name translation defined in the form section field
-  #       Longer term, need to refactor how that translation is handled
-  #name: "Name"
   unique_id: "Identifiant unique"
-
   permissions:
     label: "Permissions"
     Actions: "Actions"
@@ -774,23 +884,27 @@ fr:
       resources: "Ressources"
       resource: "Ressources"
       management: "Gestion"
-
     permission:
       read: "Lire"
       write: "Écrire"
+      enable_disable_record: "Désactiver"
       flag: "Signaler"
       assign: "Attribuer"
       case: "Cas"
       incident: "Incident"
       tracing_request: "Demande de traçage"
+      potential_match: "Probabilité de correspondance"
       role: "Fonctions"
-      user: "Utilisateurs, groupes"
+      user: "Utilisateurs"
+      user_group: "Groupes d'utilisateurs"
+      agency: "Agence"
       metadata: "Formulaires, Références"
       system: "Système"
       report: "Rapport"
       self: "Accéder uniquement à mes dossiers ou à l'utilisateur"
       group: "Accéder à tous les dossiers ou utilisateurs de mon groupe"
       all: "Accéder à tous les dossiers ou utilisateurs"
+      admin_only: "Aucun enregistrement - Fonctionnalité réservée à l'Admin uniquement"
       All: "Tous"
       specific_roles: "Accéder à une liste précise de fonctions"
       consent_override: "Outrepasser le consentement"
@@ -801,18 +915,58 @@ fr:
       export_pdf: "Exporter au format pdf"
       export_unhcr_csv: "Exporter HCR au format csv"
       export_mrm_violation_xls: "Exporter la violation du mécanisme de suivi et de signalement au format xls"
-      export_incident_recorder_xls: "Exporter le registre des incidents au format xls"
       export_case_pdf: "Exporter le cas au format pdf"
       export_json: "Exporter au format json"
       export_custom: "Exportation personnalisée"
       import: "Importer"
       transfer: "Transférer"
+      reassign: "Réattribuer"
       referral: "Orientation"
       sync_mobile: "Sync avec appareil mobile"
-      approve_case_plan: "Approuver le plan d'intervention"
+      request_approval: "Demande d'Approbation"
+      request_approval_bia: "Demande Approbation BIA"
+      request_approval_case_plan: "Demande approbation Plan d'Intervention"
+      request_approval_closure: "Demande Approbation Clôture"
+      approve_bia: "Approuver BIA "
+      approve_case_plan: "Approuver Plan d'Intervention"
+      approve_closure: "Approuver Formulaire de Clôture"
       copy: "Copier"
       manage: "Gérer"
-
+      administrator_read: "Lecture Administrateur"
+      group_read: "Lecture Groupe"
+      agency_read: "Aperçu par agence"
+      dashboard: "Tableau de Bord"
+      view_approvals: "Voir Approbations"
+      view_assessment: "Voir Evaluation"
+      dash_reporting_location: "Afficher les zones de rapportages"
+      dash_protection_concerns: "Afficher les problèmes de protection"
+      dash_matching_results: "Afficher les résultats des demandes de traçage"
+      dash_service_provisions: "Afficher les services fournis"
+      dash_referrals_by_socal_worker: "Afficher les références par travailleur social"
+      dash_transfers_by_socal_worker: "Afficher les transfert par travailleur social"
+      dash_cases_by_social_worker: "Afficher les cas par travailleur social"
+      dash_manager_transfers: "Afficher les transferts du gestionnaire"
+      dash_cases_by_workflow: "Afficher les cas par charge de travail"
+      dash_cases_by_task_overdue: "Afficher les cas par tâche en retard"
+      dash_cases_to_assign: "Afficher les cas à attribuer"
+      dash_show_none_values: "Afficher aucune valeur"
+      dash_tasks: "Afficher les tâches"
+      search_owned_by_others: "Rechercher les enregistrements de cas appartenant à d'autres utilisateurs"
+      incident_from_case: "Créer un incident à partir d'un cas"
+      incident_details_from_case: "Ajouter des détails d'incident au cas d'un autre utilisateur"
+      services_section_from_case: "Ajouter une prestation de service au cas d'un autre utilisateur"
+      create: "Créer"
+      referral_from_service: "Référer le cas à partir du formulaire de service"
+      view_protection_concerns_filter: "Afficher le filtre relatif aux problèmes de protection"
+      saved_search: "Recherche sauvegardée"
+      save_search: "Enregistrer les recherches"
+      remove_assigned_users: "Supprimer les autres utilisateurs attribué (références)"
+      audit_log: "Logs"
+      display_view_page: "Afficher la page d'affichage"
+      service_provision_incident_details: "Afficher le bouton Ajouter un service sur les détails de l'incident "
+      request_transfer: "Demande de transfert"
+      view_photo: "Afficher les photos"
+      matching_configuration: "Configuration des correspondante"
   forms:
     label: "Formulaires"
     save: "Enregistrer le formulaire"
@@ -826,21 +980,24 @@ fr:
       child: "Cas"
       incident: "Incident"
       tracing_request: "Demande de traçage"
+      potential_match: "Probabilité de correspondance"
       violation: "Violation"
-
+      reportable_service: "Service"
+      reportable_follow_up: "Suivi"
+      reportable_protection_concern: "Problème de Protection"
   form_section:
     name: "Nom"
-    group: "Groupe"
     description: "Description"
-    create: "Nouvelle partie de formulaire"
+    create: "Nouveau formulaire"
     visibility: "Visibilité"
     ordering: "Ordre"
-    details: "Renseignements sur le formulaire"
     label: "Formulaire"
+    group: "Groupe"
+    details: "Renseignements"
     back: "Revenir à la page des formulaires"
     help_text: "Texte d'aide"
     actions:
-      actions: "Actions"
+      label: "Actions"
       add_custom_field: "Ajouter un champ personnalisé"
       save_order: "Enregistrer l'ordre"
     messages:
@@ -860,11 +1017,15 @@ fr:
     options: "Options"
     confirm_delete: "Êtes-vous sûr(e) de vouloir supprimer ce formulaire ?"
     required_field: "%{field} est requis"
-    required_field_js: "est un champ obligatoire, qui ne peut pas être laissé vide."
+    required_field_js: "est un champ obligatoire. Actuellement il est vide ou pas valide"
     form_group_name: "Nom du groupe de formulaires"
     modal_sidebar_help: "Sélectionner le type de champ"
     modal_sidebar_help_selected: "Type de champ"
-
+    translation: "Traduction"
+    translation_missing: "Traduction manquante pour %{lang}"
+    base_language_help_text: "Cela doit être entré dans %{lang}"
+    initial_lang_help_text: "Le champ doit être créé en %{lang} avant que la traduction puisse être ajoutée."
+    field_db_help_text: "Si c'est laissé vide, le nom de la base de donnée sera généré. Seules les lettres, les chiffres et les caractères de soulignement latins sont autorisés"
   advanced_search:
     instruction: "Séparer les mots par OR pour rechercher plusieurs options (p. ex., Tim OR Rahul)"
     date_instruction: "Saisissez une date (aaaa-mm-jj) dans la première case pour rechercher les dossiers créés ou mis à jour après cette date. Saisissez une date (aaaa-mm-jj) dans la deuxième case pour voir les dossiers créés ou mis à jour avant cette date. Saisissez les dates dans les deux cases pour voir les dossiers créés entre les dates."
@@ -885,7 +1046,6 @@ fr:
   date_format: "aa-mm-jj"
   yes_label: "Oui"
   cancel: "Annuler"
-
   contact:
     message: "Si vous rencontrez des problèmes avec RapidFTR ou si vous pensez que votre mot de passe a été dévoilé, contactez immédiatement l'administrateur du système."
     field:
@@ -901,7 +1061,6 @@ fr:
     edit_info: "Éditer les coordonnées"
     info_label: "Coordonnées"
     not_found: "Aucune coordonnée avec l'identifiant %{id} n'a été trouvée"
-
   device:
     blacklist: "Appareil sur liste noire"
     messages:
@@ -911,14 +1070,12 @@ fr:
     information: "Informations sur l'appareil"
     mobile_number: "Numéro de portable"
     timestamp: "Horodatage"
-
   admin:
     contact_info: "Coordonnées de l'administrateur"
     highlight_fields: "Mettre les champs en surbrillance"
     manage_system_users: "Gérer la synchronisation des serveurs des utilisateurs "
     create_system_user: Créer un utilisateur du système
     system_logs: "Journaux du système"
-
   fields:
     label: "Champs"
     field_name: "Nom du champ"
@@ -927,7 +1084,11 @@ fr:
     help_text: "Texte d'aide"
     actions: "Actions"
     option_strings_text: "Options"
+    option_strings_text_key: "Clé d'option"
+    option_strings_text_display: "Texte d'option"
     option_strings_source: "Références"
+    option_strings_add_option: "Ajouter une option"
+    options_or_lookup_warning: "Veuillez ajouter des options ou sélectionner une recherche. N'entrez pas les deux."
     form_name: "Nom du formulaire"
     action: "Action"
     remove: "Supprimer"
@@ -944,6 +1105,12 @@ fr:
     tick_box: "Case à cocher"
     tick_box_label: "Étiquette de la case à cocher"
     tally_field: "Champ du compte"
+    select_date_validation: "Sélectionnez méthode de validation de la date"
+    not_future_date: "Ce n'est pas une date dans l'avenir"
+    default_date_validation: "Validation de la date par défaut"
+    date_not_valid: "Cette date n'est pas valide"
+    future_date_not_valid: "La date ne peut pas être dans l'avenir"
+    number_not_valid: "S'il vous plaît entrer des données numériques"
     separator: "Séparateur"
     successfully_added: "Le champ a bien été ajouté"
     updated: "Champ mis à jour"
@@ -955,6 +1122,7 @@ fr:
     chosen_placeholder: "Sélectionner toutes les options correspondantes"
     multi_select: "Choix multiple"
     date_help: "jj-mm-aaaa"
+    date_help_with_time: "jj-mm-aa hh:mn"
     date_range:
       from: "De"
       to: "À"
@@ -963,14 +1131,24 @@ fr:
     file_upload_box:
       select_file_button_text: "Sélectionner un fichier"
       no_file_selected: "Aucun fichier sélectionné."
-      document_file_restrictions_message: "Les fichiers ne doivent pas excéder 2 Mo (les fichiers exécutables (.exe) ne peuvent pas être téléchargés)."
+      document_file_restrictions_message: "Les fichiers doivent être pas plus de 2 Mo (exécutable (.exe) ne peuvent pas être téléchargés)"
       photo_file_restrictions_message: "Les photos ne doivent pas excéder 10 Mo. Les fichiers audio ne doivent pas excéder 10 Mo. Choisir de préférence des fichiers de taille réduite."
       add_document_label: "Ajouter un document"
       add_photo_label: "Ajouter une photo"
+      recorded_audio_label: "Enregistrer un audio"
       add_new_document_button_text: "Ajouter un autre document"
       add_new_photo_button_text: "Ajouter une autre photo"
       document_description: "Description du document"
-
+    upload_bia_document: "Documents BIA"
+    upload_bid_document: "Documents BID"
+    upload_other_document: "Autres Documents"
+    document:
+      comments: "Commentaire"
+      date: "Date du document"
+      name: "Nom du document"
+      current: "Est-ce le document récent?"
+    audio:
+      current: "Audio reçent"
   replication:
     label: Reproduction
     index: Gérer les reproductions
@@ -991,8 +1169,8 @@ fr:
     configure_a_server: Configurer un serveur
     reindex_pending: Réindexation en attente
     is_continuous: Est permanent
-
   lookup:
+    actions: "Actions"
     edit: "Éditer la référence"
     create: "Nouvelle référence"
     label: "Référence"
@@ -1002,12 +1180,13 @@ fr:
     add_value: "Ajouter une option"
     remove: "Supprimer"
     confirm_delete: Êtes-vous sûr(e) de vouloir supprimer cette référence ?
+    initial_lang_help_text: "Cela doit être entré dans %{lang}"
     messages:
       cannot_create: "Impossible de créer la référence"
       correct_errors: "Veuillez corriger les erreurs suivantes et renvoyer les données :"
       updated: "La référence a bien été ajoutée"
-
   location:
+    location_code_warning: Notez que si vous modifiez un code d'emplacement existant, vous devrez modifier de nouveau les champs d'emplacement pour tous les enregistrements utilisant cet emplacement.
     create: "Nouveau lieu"
     edit: "Éditer le lieu"
     label: "Lieu"
@@ -1019,12 +1198,36 @@ fr:
     placename: "Nom du lieu"
     type: "Type"
     parent: "Emplacement du parent"
+    admin_level: "Niveau Admin"
     messages:
       cannot_create: "Le lieu n'a pas pu être créé"
       correct_errors: "Veuillez corriger les erreurs suivantes et renvoyer les données :"
       updated: "Le lieu a bien été ajouté"
       deleted: "Le lieu a bien été supprimé"
-
+    base_types:
+      country: 'Pays'
+      region: 'Région'
+      province: 'Provence'
+      district: 'District'
+      governorate: 'Gouvernorat'
+      chiefdom: 'Chefferie'
+      county: 'Pays'
+      state: 'Etat'
+      city: 'Ville'
+      camp: 'Camp'
+      site: 'Site'
+      village: 'Village'
+      zone: 'Zone'
+      other: 'Autre'
+      locality: 'Localite'
+      sub-district: 'Sous-district'
+  matching_configuration:
+    edit: "Modifier la configuration correspondante"
+    case_fields: "Champs de cas correspondant"
+    tracing_request_fields: "Champs de demande de traçage correspondant"
+    updated: "Configuration correspondante mise à jour"
+    update_error: "Erreur lors de la mise à jour de la configuration "
+    label: "Configuration des correspondante"
   session:
     about_to_expire: "Votre session est sur le point d'expirer !"
     has_expired: "Votre session a expiré. Veuillez vous reconnecter."
@@ -1033,7 +1236,6 @@ fr:
     invalid_token: "Jeton de session non valide"
     no_token_provided: "aucun jeton de session fourni"
     no_token_in_header: "aucun jeton de session dans les en-têtes ou les cookies"
-
   reports:
     register_new_report: "Créer un rapport"
     label: "Rapports"
@@ -1042,9 +1244,9 @@ fr:
       graph: "Graphique"
     actions:
       delete: "Supprimer"
+    limited_pivots: "Sélectionnez un seul champ de date sur lequel basé pour ce rapport. Un champ de date peut seulement être le premier ou le deuxième pivot."
     messages:
       confirmation: "Êtes-vous sûr(e) de vouloir supprimer ce rapport ? La suppression est irréversible. Cliquez sur OK pour supprimer le rapport."
-
   report:
     name: "Nom"
     description: "Description"
@@ -1083,36 +1285,29 @@ fr:
     messages:
       delete_success: "Le rapport a bien été supprimé."
     edit: "Éditer"
-
   encrypt:
     password_title: "Créer un mot de passe"
     password_label: "Veuillez saisir un mot de passe qui cryptera votre fichier."
     password_mandatory: "Saisissez un mot de passe valide"
     password_extra_info: "Ce mot de passe sera associé au fichier exporté et devra par la suite être saisi par toute personne ouvrant le fichier."
     file_name: "Créer votre propre nom de fichier (facultatif)"
-
   administration: "Administration"
   new: "Nouveau"
   saved: "Enregistré"
   account: "Compte"
   moved_from: "%{field_name} déplacé de %{from_fs} à %{to_fs}"
-
-  # validation error messages
   couchrest:
     fields:
       Name: "Nom"
       Username: "Nom d'utilisateur"
       Password: "Mot de passe"
       Description: "Description"
-      "Remote app url": "URL app à distance"
-
+      Remote app url: "URL app à distance"
     attributes:
       report:
         aggregate_by: "Grouper par ligne"
-
     validations:
       blank: "%s ne doit pas être laissé vide"
-
   gbv_report:
     18_and_over_age: "18 ans et plus"
     12_17_age: "12-17"
@@ -1120,8 +1315,8 @@ fr:
     unknown: "Inconnu"
     adult: "Adulte"
     child: "Enfant"
-    "yes": "Oui"
-    "no": "Non"
+    'yes': "Oui"
+    'no': "Non"
     none: "Aucun"
     uam_sc_ovc: "Mineur non accompagné/Enfant séparé/Autre enfant vulnérable"
     unaccompanied_minor: "Mineur non accompagné"
@@ -1151,7 +1346,7 @@ fr:
     quarter_3: "3e trimestre"
     quarter_2: "2e trimestre"
     quarter_1: "1er trimestre"
-
+    undecided: "Indécis au moment du rapport"
   followup_reminders:
     system_generated_followup_flag: "visite de contrôle obligatoire"
     system_generated_followup_unflag: "expiré"
@@ -1163,8 +1358,42 @@ fr:
     child_status_closed: "Clos"
     child_status_transferred: "Transféré"
     child_status_duplicate: "Doublon"
-
   dashboard:
+    total: 'Total'
+    new: 'Nouveau et mis à jour'
+    pending_transfers: 'Transfert en attente'
+    rejected_transfers: 'Transfert rejeté '
+    transers_awaiting_acceptance: 'Transferts en attente d''acceptation'
+    total_referred: "Total des références"
+    new_referred: "Nouvelle référence"
+    high_risk: 'Priorité haute'
+    low_risk: 'Priorité faible'
+    none_risk: 'Pas prioritaire '
+    medium_risk: 'Priorité moyenne'
+    pending: 'En Attente'
+    rejected: 'Rejete'
+    near_deadline: 'Près de la date limite'
+    due: 'En retard '
+    response: 'Réponse <span> (en cours) </span>'
+    immediate_response: 'Réponse immédiate'
+    cases_to_assign: 'Cas à attribuer'
+    overdue_cases_to_assign: 'Cas en retard à attribuer'
+    closed: 'Clos'
+    comprehensive_need_intervention: 'Réponse compréhensible ou complète'
+    new_incident: 'Nouveau incident'
+    new_service_provision: 'Nouveau service'
+    all_services_implemented: 'Tous les services mis en oeuvre'
+    services_implemented: 'Service mis en oeuvre '
+    approved: 'Approuve'
+    cases_by_workflow: 'Cas par charge de travail'
+    cases_by_task_overdue: 'Tâches en retard'
+    assessment: 'Evaluation'
+    case_plan: 'Plan d''action'
+    follow_up: 'Suivi'
+    services: 'Services ou actions'
+    admin_only: "Cliquez sur %{links} pour apporter des modifications à l'application."
+    forms: "Onglet du formulaire"
+    users: "Icone de configuration"
     flagged_by: "Signalé par :"
     no_recent_activities: "Aucune activité récente"
     no_scheduled_activities: "Aucune activité programmée"
@@ -1208,15 +1437,25 @@ fr:
     current_owner: "Propriétaire actuel"
     last_updated: "Dernière mise à jour"
     case_stats: "Cas"
+    tr_stats: "Demandes de traçage"
     cases_by_social_worker: "Cas par travailleur social"
+    approvals: "Approbations"
     referrals_by_social_worker: "Orientations faites par le travailleur social"
+    transfers_by_social_worker: "Transféré par le travailleur social"
     case_stat_by_assessment_level: "Cas par niveau d'évaluation"
+    case_stat_by_approval_type: "Approbations"
     case_stat_referrals: "Orientations"
     protection_concern: "Problème de protection"
-    preliminary_protection_concerns: "Problèmes de protection préliminaire"
+    protection_concerns: "Problèmes de Protection"
     geographic_area: "Zone géographique"
     all_cases: "Tous les cas"
     open: "Ouverts"
+    range4: "0-4"
+    range4_8: "4-8"
+    range8_12: "8-12"
+    range12+: "12+"
+    match_result: "Résultats des correspondances"
+    score_range: " Barème de notation"
     count_risk_level_total:
       one: "Vous avez %{stat} <span>%{stat_type} cas </span> à risque"
       other: "Vous avez %{stat} <span>%{stat_type} cas </span> à risque"
@@ -1247,55 +1486,74 @@ fr:
     manager_count_closed_total:
       one: "et %{stat} <span>cas</span> clos"
       other: "et %{stat} <span>cas</span> clos"
+    manager_transfers_totals:
+      one: "Vous avez %{stat} <span> %{stat_type}  </span> transferts"
+      other: "Vous avez %{stat} <span> %{stat_type} </span> transferts"
+    count_pending_approval_total:
+      one: "Vous avez %{stat} <span> approbation %{stat_type} </span> en attente"
+      other: "Vous avez %{stat} <span> %{stat_type} </span> en attente"
+    count_rejected_approval_total:
+      one: "et %{stat} <span> approbation %{stat_type} </span>"
+      other: "et %{stat} <span> approbation %{stat_type} </span> refusée"
+    count_new_bia_approvals:
+      one: "%{stat} <span> nouvelles %{stat_type} </span> approbations "
+      other: "%{stat} <span> nouvelles %{stat_type} </span> approbations"
+    count_new_case_plan_approvals:
+      one: "%{stat} <span> nouvelles %{stat_type} </span> "
+      other: "%{stat} <span> nouvelles %{stat_type} </span> approbation "
+    count_new_closure_approvals:
+      one: "%{stat} <span> nouvelles %{stat_type} </span> approbation "
+      other: "%{stat} <span> nouvelles %{stat_type} </span> approbation "
+    count_pending_transfers:
+      one: "Vous avez %{stat} <span> transfert </span> en attente "
+      other: "Vous avez %{stat} <span> transfert </span> en attente "
+    count_rejected_transfers:
+      one: "et %{stat} <span> transfert </span> rejeté "
+      other: "et %{stat} <span> transfert </span> rejeté "
+    count_waiting_for_acceptance_transfers: "Vous avez %{stat} transfert <span> en attente </span> de votre acceptation"
     open_cases: "Cas ouverts"
     new_last_week: "Nouveaux<span>(semaine dernière)</span>"
     new_this_week: "Nouveaux <span>(cette semaine)</span>"
     closed_last_week: "Clos <span>(semaine dernière)</span>"
     closed_this_week: "Clos <span>(cette semaine)</span>"
-
+    you_have: "Vous avez"
+    and: "et"
   errors:
-
     template:
       header:
         one: "Une erreur a empêché l'enregistrement de ce %{model} "
         other: "%{count} erreurs ont empêché l'enregistrement de ce %{model} "
         body: "Des problèmes ont été détectés concernant les champs suivants :"
         body_js: "Afin de enregistrer le dossier, les problèmes des champs suivants doivent être résolus :"
-
     agencies:
       logo_size: "Veuillez télécharger un fichier inférieur à 10 Mo"
       logo_format: "Veuillez télécharger un fichier logo valide (jpg, gif ou png)"
-
     models:
       flags:
-         message: "Signalements : le champ de message est invalide"
-         date: "Signalements : le champ de date est invalide"
-         index: "Signalements : impossible de supprimer le signalement à la position %{index}"
-
+        message: "Signalements : le champ de message est invalide"
+        date: "Signalements : le champ de date est invalide"
+        index: "Signalements : impossible de supprimer le signalement à la position %{index}"
       date_range_invalid: "<span>%{field_name} :</span> Saisissez une période valide « De : » doit être antérieur à « À : » "
-
       photo:
         primary_photo_id: "Impossible de définir '%{photo_id}' comme photo principale : type de fichier photo non reconnu"
         photo_size: "Veuillez télécharger un fichier inférieur à 10 Mo"
         photo_format: "Veuillez télécharger un fichier photo valide (jpg ou png) pour ce dossier %{model_name} "
         photo_count: "Vous ne pouvez télécharger que %{photos_count} photos par %{model_name}."
-
       audio:
         audio_size: "Veuillez télécharger un fichier inférieur à 10 Mo"
         audio_format: "Veuillez télécharger un fichier audio valide (amr ou mp3) pour ce dossier %{model_name}"
-
       user:
         full_name: "Saisissez le nom complet de l'utilisateur"
         password_confirmation: "Confirmez le mot de passe"
         password_mismatch: "Les champs du mot de passe ne contiennent pas le même mot de passe"
-        password_text: "- Veuillez créer un mot de passe contenant au moins six caractères et incluant des lettres et des chiffres"
+        password_text: "Créez un mot de passe qui contient au moins 8 caractères en incluant des lettres et des chiffres"
         role_ids: "Sélectionnez au moins une fonction"
+        module_ids: "S'il vous plaît de sélectionner au moins un module"
         organization: "Saisissez le nom de l'organisation de l'utilisateur"
         user_name: "Saisissez un nom d'utilisateur valide"
         email: "Saisissez une adresse email valide"
         user_name_uniqueness: "Le nom d'utilisateur est déjà pris ! Veuillez sélectionner un nouveau nom d'utilisateur"
         authenticate: "Impossible d'authentifier un utilisateur non enregistré"
-
       child:
         at_least_one_field: "Remplissez au moins un champ ou téléchargez un fichier"
         age: "L'âge doit être compris entre 0 et 130"
@@ -1303,16 +1561,15 @@ fr:
         date_of_birth: "Saisissez une date de naissance valide pour le dossier de ce cas"
         wishes_preferences_count: "Vous ne pouvez indiquer que  %{preferences_count} préférences de l'enfant."
         value_range: "%{field_name} doit être compris entre %{min} et %{max}"
-        document_size: "Veuillez télécharger un document inférieur à 10 Mo"
+        document_type: "Le type %{type} n'est pas valide"
+        document_size: "S'il vous plaît télécharger un document plus petit que 2Mo"
         documents_count: "Vous ne pouvez fournir que %{documents_count} documents par cas."
         document_format: "Les fichiers exécutables ne sont pas autorisés."
         date_closure: "La date de clôture du cas doit être ultérieure ou égale à la date d'ouverture du cas."
-
       incident:
         document_size: "Veuillez télécharger un document inférieur à 10 Mo"
         documents_count: "Vous ne pouvez fournir que %{documents_count} documents par cas."
         document_format: "Les fichiers exécutables ne sont pas autorisés."
-
       field:
         display_name_presence: "Le nom d'affichage ne doit pas être laissé vide"
         display_name_format: "Le nom d'affichage doit contenir au moins un caractère alphabétique"
@@ -1322,10 +1579,16 @@ fr:
         default_value: "Impossible de trouver une valeur par défaut pour le type"
         has_2_options: "Le champ doit contenir au moins deux options"
         has_1_option: "La case à cocher doit contenir au moins une option"
+        translated_options_do_not_match: "Les options traduites sur les champs doivent avoir les mêmes identifiants"
         unique_name_other: "Le champ existe déjà sur le formulaire '%{form_name}'"
         unique_name_this: "Le champ existe déjà sur ce formulaire"
-        change_type_existing_field: "Impossible de modifier le type du champ existant sur le formulaire '%{form_name}'"
-
+        change_type_existing_field: "Impossible de changer le type de champ existant '%{field_name}' sur le formulaire '%{form_name}'"
+        option_strings_text:
+          not_array: "L'option n'est pas dans le tableau"
+          not_hash: "L'option chaînes n'est pas un hachage"
+          id_blank: "L'option est vide"
+          display_text_blank: "Le texte d'affichage est vide"
+          id_not_unique: "L'option identifiant n'est pas unique"
       form_section:
         presence_of_name: "Le nom ne doit pas être laissé vide"
         presence_of_base_language_name: "Le nom de la langue de base '%{base_language}' ne peut pas être laissé vide"
@@ -1337,7 +1600,6 @@ fr:
         delete_field: "Impossible de supprimer un champ qui ne peut pas être édité"
         unique_name: "Le nom '%{name}' est déjà pris."
         unique_id: "L'identifiant unique '%{unique_id}' est déjà pris."
-
       enquiry:
         presence_of_criteria: "Ajoutez des critères à votre enquête"
         presence_of_enquirer_name: "Ajoutez le nom de l'enquêteur à votre enquête"
@@ -1345,61 +1607,60 @@ fr:
         create_forbidden: "Interdit"
         not_found: "Non trouvé"
         malformed_query: "Demande invalide"
-
       role:
         name_present: "Le nom ne doit pas être laissé vide"
         permission_presence: "Veuillez sélectionner au moins une permission"
         unique_name: "Il existe déjà une fonction avec ce nom, veuillez saisir un nom différent"
-
         permission:
           resource_presence: "Sélectionnez une ressource"
-
       primero_module:
         name_present: "Le nom ne doit pas être laissé vide "
         unique_name: "Il existe déjà un module avec ce nom, veuillez saisir un nom différent"
         program: "Un programme doit être associé à ce module"
         associated_form_ids: "Au moins un formulaire doit être associé à ce module"
         associated_record_types: "Au moins un type de dossier doit être associé à ce module"
-
       primero_program:
         name_present: "Le nom ne doit pas être laissé vide "
         unique_name: "Il existe déjà un programme avec ce nom, veuillez saisir un nom différent"
-
       lookup:
         value_presence: "Sélectionnez au moins une valeur de référence"
         unique_name: "Il existe déjà une référence avec ce nom, veuillez saisir un nom différent"
         being_used: "Cette référence est en cours d'utilisation et ne peut être supprimée"
-
       system_users:
         username_unique: "Le nom d'utilisateur est déjà pris ! Veuillez sélectionner un nouveau nom d'utilisateur"
-
       replication:
         remote_app_uri: "Saisissez une URL Primero valide"
         remote_unauthorized: "Le nom d'utilisateur ou le mot de passe saisi est incorrect"
         remote_error: "Impossible de se connecter au serveur à distance"
         is_continuous: 'Reproduction permanente ?'
-
       password_recovery_request:
         user_name_mandatory: "Saisissez un nom d'utilisateur valide"
-
       ownership:
         associated_user_names_present: "Un utilisateur doit être associé à ce dossier"
         module_id_prsesnt: "Un module doit être associé à ce dossier"
-
       agency:
         unique_name: "Il existe déjà une agence avec ce nom, veuillez saisir un nom différent"
         name_present: "ne doit pas être laissé vide"
         code_present: "ne doit pas être laissé vide"
-
       location:
         name_present: "ne doit pas être laissé vide"
         code_present: "ne doit pas être laissé vide"
+        admin_level_present: "ne peut pas être vide"
         unique_name: "Il existe déjà un lieu avec ce nom, veuillez saisir un nom différent"
-
-
-
+        unique_location_code: "Un emplacement avec ce code de lieu existe déjà, veuillez entrer un autre code de lieu"
+      reporting_location:
+        label_key: "Niveau Admin doit être un des valeurs de 'Emplacement Niveau Admin'"
+        admin_level: "Niveau Admin doit être un des valeurs de 'Emplacement Niveau Admin'"
+      report:
+        name_presence: "Le nom ne doit pas être laissé vide "
+        module_presence: "Le module ne doit pas être vide"
+        module_syntax: "Tous les modules de rapport doivent déjà exister"
+        record_type_presence: "Le type d'enregistrement ne doit pas être vide"
+        group_by_row_presence: "Groupe par ligne ne doit pas être vide"
+        use_date_ranges_presence: "Les plages de dates ne doivent pas être vides"
+      system_settings:
+        default_locale: "Les paramètres régionaux du système ne doivent pas être vides"
   select_all_results: "Sélectionner tous les résultats "
-
   histories:
     of: "de"
     to: "à"
@@ -1410,40 +1671,37 @@ fr:
     deleted_by: "effacé par "
     referral: "Orienté vers %{to_user} par %{by_user}"
     transfer: "Transféré à %{to_user} par %{by_user}"
-
+    record_by: "Cas créer par "
+    child_status_changed: "Le statut d'enfant a été modifié pour être réunifié par"
     system_logs:
       records_performed_by: "enregistrements effectués par"
       performed_by: "effectué par"
       of_child_with_id: "de l'enfant avec identifiant"
-
     audio:
       audio: "Fichier audio"
       audio_change: "Fichier audio changé à partir de"
-
     duplicate:
       mark_as_duplicate: "a marqué ce dossier comme un doublon de"
       no_longer_active: "Le dossier actuel n'est plus actif ou ne peut plus être édité"
-
     flag:
       record_flagged_by: "Le dossier a été signalé par"
       record_unflagged_by: "Le signalement du dossier a été annulé par"
-
     investigated:
       mark_as_investigated_by: "Le dossier a été marqué comme Enquête menée par"
       mark_as_not_investigated_by: "Le dossier a été marqué comme Enquête non menée par"
-
     reunited:
       child_status_changed: "Le statut de l'enfant a été changé en actif par"
       with_details: "avec les renseignements suivants :"
-
   actions:
     button: "Actions"
     enable: "Activer"
     disable: "Désactiver"
+    reopen: "Rouvrir"
+    incident_details_from_case: "Ajouter un incident"
+    services_section_from_case: "Ajouter une prestation de service"
     description:
       valid: "Dossier valide"
       invalid: "Dossier non valide"
-
   record_panel:
     valid: "Dossier valide"
     invalid: "Dossier non valide"
@@ -1454,52 +1712,54 @@ fr:
     change_log: "Modifier le journal"
     record_information: "Information du dossier"
     name_date_seperator: "sur"
-
+  bulk_export:
+    file_name: "Fichier"
+    record_type: "Type"
+    started_on: "Commence"
+    status: "Statut"
+    retry: "Ce export n'est pas valide. S'il vous plaît essayez de recréer votre export"
   exports:
     no_records: "Aucun dossier disponible !"
+    queueing: "Générer le dossier d'exportation"
     pdf:
-      all:  PDF
-      one:  PDF
-      selected:  PDF sélectionné
+      all: PDF
+      one: PDF
+      selected: PDF sélectionné
     photowall:
-      all:  Mur de photos
-      one:  Mur de photos
-      selected:  Mur de photos sélectionné
+      all: Mur de photos
+      one: Mur de photos
+      selected: Mur de photos sélectionné
     case_pdf:
-      all:  PDF
-      one:  PDF
-      selected:  PDF sélectionné
+      all: PDF
+      one: PDF
+      selected: PDF sélectionné
     list_view_csv:
-      all:  Exporter l'affichage de la liste
-      selected:  CSV sélectionné
+      all: Exporter l'affichage de la liste
+      selected: CSV sélectionné
     csv:
-      all:  CSV
-      one:  CSV
-      selected:  CSV sélectionné
+      all: CSV
+      one: CSV
+      selected: CSV sélectionné
     xls:
-      all:  Excel
-      one:  Excel
-      selected:  Excel sélectionné
+      all: Excel
+      one: Excel
+      selected: Excel sélectionné
     selected_xls:
-      all:  Excel
-      one:  Excel
-      selected:  Excel sélectionné
-    incident_recorder_xls:
-      all:  'Registre des incidents '
-      one:  'Registre des incidents '
-      selected:  Registre des incidents sélectionné
+      all: Excel
+      one: Excel
+      selected: Excel sélectionné
     json:
-      all:  JSON
-      one:  JSON
-      selected:  JSON sélectionné
+      all: JSON
+      one: JSON
+      selected: JSON sélectionné
     unhcr_csv:
-      all:  HCR
-      one:  HCR
-      selected:  HCR sélectionné
+      all: HCR
+      one: HCR
+      selected: HCR sélectionné
     mrm_violation_xls:
-      all:  Violations du mécanisme de suivi et de signalement
-      one:  Violations du mécanisme de suivi et de signalement
-      selected:  Sélectionné comme Violations du mécanisme de suivi et de signalement
+      all: Violations du mécanisme de suivi et de signalement
+      one: Violations du mécanisme de suivi et de signalement
+      selected: Sélectionné comme Violations du mécanisme de suivi et de signalement
     custom_exports:
       label: Exportations personnalisées
       format_label: Sélectionnez le format
@@ -1517,7 +1777,9 @@ fr:
       empty_module: Sélectionnez un module à exporter.
     pdf_exports:
       label: PDF
-
+    forms:
+      label: Exporter
+      button: Exporter le formulaire
   imports:
     password_label: "Mot de passe (si demandé)"
     format_label: "Format"
@@ -1529,7 +1791,6 @@ fr:
     guess_file_type_option: "Auto-détection basée sur l'extension de fichier"
     zip_file:
       unknown_type: "L'archive contient un ou plusieurs fichiers de type inconnu"
-
   referral:
     type_label: "Type d'orientation"
     existing_user_label: "Utilisateur existant"
@@ -1547,7 +1808,20 @@ fr:
     success: "%{record_type} %{id} a bien été orienté"
     failure_batch: "%{record_type} %{id} orientation(s) a (ont) échoué (vérifiez que les champs de consentement sont sélectionnés)"
     success_batch: "%{success_count} orientation(s) ont bien été faite(s)"
-
+    to_user_local_status_label: "Statut"
+    user_local_status_pending: "En attente"
+    user_local_status_accepted: "Accepte"
+    user_local_status_rejected: "Rejete "
+    user_local_status_inprogress: "En cours"
+    user_local_status_done: "Termine"
+    complete_referral_label: "Cliquer sur OK signifie que vous avez terminé le travail associé à ce cas. Une fois que vous cliquez sur OK, vous ne pourrez plus avoir accès à ce dossier"
+    done_success_message: "Orientation fait"
+  reassign:
+    reassign_case_title: "Attribue cas à:"
+    existing_user_label: "Utilisateur existant"
+    user_mandatory: "Nom d'utilisateur obligatoire"
+    no_records_selected: "Aucun dossier sélectionne"
+    notes_label: "Notes"
   transfer:
     type_label: "Type de transfert "
     existing_user_label: "Utilisateur existant "
@@ -1561,26 +1835,205 @@ fr:
     user_mandatory: "Le nom d'utilisateur est requis"
     failure: "Le transfert %{record_type} %{id} a échoué (vérifiez que les champs de consentement sont sélectionnés)"
     success: "%{record_type} %{id} a bien été transféré"
+    rejected: "%{record_type} %{id} transfert rejété"
     failure_batch: "%{failed_count} transfert(s) a (ont) échoué (vérifiez que les champs de consentement sont sélectionnés)"
     success_batch: "%{success_count} transfert(s) a (ont) bien été effectué(s)"
-
+    to_user_local_status_label: "Statut"
+    user_local_status_pending: "En attente"
+    user_local_status_accepted: "Accepte"
+    user_local_status_rejected: "Rejete"
+    user_local_status_inprogress: "En Cours"
+    reject: "Raison du Rejet"
+    accept_label: "En cliquant sur 'Accepter' vous acceptez la responsabilité de ce cas; une fois que vous cliquer sur 'OK' vous devenez le propriétaire du dossier dans le système"
+    reject_label: "En cliquant sur \"Rejeter\", vous indiquez que vous n'êtes pas prêt à accepter la responsabilité de ce dossier en ce moment. S'il vous plaît entre la raison que vous rejetez ce cas; une fois que vous cliquez sur 'OK', vous ne pourrez plus avoir accès à ce dossier."
+    unknown_status: "Statut de transfer inconnu: %{status}"
+    unknown_transfer: "%{record_type} %{id} transfert invalide"
+    not_valid_transfer: "%{record_type} %{id} transfert invalide, ne peut pas mettre mis à jour n'est pas en cours ou vous n'avez pas la permission sur le cas"
+    search:
+      rejected: "Rejete"
+      in_progress: "En Cours"
+  request_transfer:
+    success: "Demande de transfert envoyée"
+    notes_label: "Notes"
+    submit_label: "Envoyer une demande"
+    error:
+      owner_has_no_email: "Le gestionnaire du cas n'a pas d'adresse e-mail"
+      record_not_found: "Enregistrement non trouvé"
+      record_not_saved: "Échec de sauvegarde de la demande de transfert"
+  transition:
+    export_type:
+      primero: "Primero"
+      non_primero: "Non-Primero"
+      pdf_export: "Exporter en Pdf"
   mark_for_mobile:
     no_records_selected: "Aucun dossier sélectionné"
     failure: "%{record_type} %{id} n'a pas pu être marqué comme mobile"
     success: "%{record_type} %{id} a bien été marqué comme mobile"
     failure_batch: "%{failed_count} dossier(s) n'a (ont) pas été marqué(s) comme mobile(s)"
     success_batch: "%{failed_count} dossier(s) a (ont) bien été marqué(s) comme mobile(s)"
-
   unmark_for_mobile:
     failure: "La suppression du marquage mobile a échoué pour %{record_type} %{id}"
     success: "La suppression du marquage mobile a bien été effectuée pour %{record_type} %{id} "
     failure_batch: "La suppression du marquage mobile n'a pas pu être effectuée pour %{failed_count} dossier(s)"
     success_batch: "La suppression du marquage mobile a bien été effectuée pour %{failed_count} dossier(s)"
-
-  approve_case_plan:
-    approve_case_plan_label: "Approuver le plan d'intervention"
-    comments_label: "Commentaires"
-
+  approvals:
+    approve_bia: "Demander approbation pour le BIA? "
+    approve_bia_label: "Approuver BIA"
+    approve_care_plan: "Demande d'approbation pour le formulaire du plan d'action?"
+    approve_case_plan_label: "Approuver le Plan d'Intervention"
+    approve_case_plan: "Demande d'approbation pour le formulaire du plan d'action?"
+    approve_case_plan_with_selectable_type: "Demande d'approbation du plan d'action?"
+    approve_closure: "Demander Approbation pour le formulaire de Clôture de Cas?"
+    approve_closure_label: "Approuver le formulaire de Clôture du Cas"
+    bia: "BIA"
+    case_plan: "Plan d'action"
+    closure: "Clôture"
+    comments_label: "Commentaire"
+    error_select_an_approval_type: "Veuillez sélectionner un type d'approbation"
+    case_plan_type_label: "Type de plan d'action"
+    status:
+      pending: "En Attente"
+      approved: "Approuve"
+      rejected: "Rejete"
   per_page_translation: "Par page _MENU_"
   total: Total
   caregiver: "(Personne s'occupant de l'enfant) "
+  disabled:
+    filter_label: "Montrer"
+    status:
+      enabled: "Activé"
+      disabled: "Desactivé"
+      all: "Tous"
+      label: "Statut"
+  sort_by:
+    label: "Trier par"
+  logger:
+    to: "à"
+    to_user: "à l'utilisateur"
+    by_user: "par utilisateur"
+    login: "Identifier"
+    logout: "Se déconnecter"
+    create: "Créer"
+    copy: "Copier"
+    destroy: "Suppression"
+    show: "Visualisation"
+    edit: "Rédaction"
+    update: "Réactualisation"
+    export: "Exporter les données pour"
+    referral: "Orientation"
+    reassign: "Attribution"
+    transfer: "Transfert"
+    reopen_case: "Rouvrir"
+    quick_view: "Affichage de la l’aperçue rapide"
+    request_transfer_view: "Consulter les demandes de transfert"
+    request_transfer: "Envoi d'une demande de transfert"
+    save_subform: "Enregistrement du sous-formulaire"
+    create_subform: "Créer un sous formulaire"
+    consent_count: "Nombre de consentements"
+    match_record: "Enregistrement correspondant"
+    index: "Liste des enregistrements"
+    relinquish_referral: "Abandon orientation faite"
+    flag: Signaler
+    unflag: Supprimer le signalement
+    flag_records: Signaler
+    transfer_status:
+      Accepted: "Accepter Transfert"
+      Rejected: "Transfert Rejeté"
+    hide_name:
+      protect: "Cacher Nom"
+      view: "Voir Nom"
+    request_approval:
+      bia: "Demander approbation pour le BIA"
+      case_plan: "Demande d'approbation pour le formulaire du plan d'action?"
+      closure: "Demander Approbation pour le formulaire de Clôture de Cas?"
+    approve_form:
+      'false': "Rejeter"
+      'true': "Approbation en Cours"
+      bia: "Formulaire BIA"
+      case_plan: "Formulaire du plan d'action"
+      closure: "Formulaire de Clôture de Cas"
+    mark_for_mobile:
+      'false': "Supprimer le marquage pour mobile"
+      'true': "Marquer pour mobile"
+    record_state:
+      'false': "Désactiver"
+      'true': "Activer"
+    graph_data: "Voir données graphiques"
+    permitted_field_list: Liste des champs autorisés
+    lookups_for_field: Menu déroulante pour champ
+  job:
+    status:
+      complete: 'Achevée'
+  string_sources_failed: "Certains champs n'ont pas pu être chargés, actualisez la page pour charger tous les champs."
+  error_message:
+    notice: 'Des erreurs ont empêché l''enregistrement'
+    fields_notice: 'Des problèmes ont été détectés concernant les champs suivants :'
+  error_page:
+    internal_server_error:
+      something_went_wrong: Désolé, quelque chose s'est mal passé!
+      contact_admin: Veuillez contacter votre administrateur si le problème persiste.
+      server_error: erreur du serveur
+    not_found:
+      something_went_wrong: Désolé, quelque chose s'est mal passé!
+      contact_admin: Si vous pensez que vous êtes ici par erreur, veuillez contacter votre administrateur.
+      server_error: Page non trouvée
+  audio:
+    update_browser:
+      title: 'Mise à jour requise'
+      message: "Pour lire le média, vous devez soit mettre à jour votre navigateur vers une version récente"
+      link_text: "Flash plugin"
+  saved_searches:
+    no_save_searches: "Aucune recherche enregistrée."
+    name: "Nom"
+    save_search: "Enregistrer la recherche"
+    delete: "En cliquant sur OK, vous supprimerai %{filter_name}"
+  email_notification:
+    enabled_label: "Envoyer des notifications par e-mail?"
+    approval_request_subject: "Cas: %{id} - Demande d'approbation"
+    approval_response_subject: "Cas: %{id} - Réponse à la demande d'approbation"
+    referral_subject: "%{record_type} : %{id} Référencement"
+    transfer_subject: "%{record_type} : %{id} - Transfert"
+    transfer_request_subject: "Demande de transfert pour l'un de vos cas"
+    reassign_subject: "%{record_type} : %{id} - Vous a été assigné"
+    approval_request: "L'utilisateur %{user} demande l'approbation %{approval_type} pour le cas %{case_id}."
+    approval_response: "%{user}%{status} a  demande d'approbation %{approval_type} pour le cas %{case_id}."
+    referral: "L'utilisateur %{user} de %{agency} vous a référé le cas suivant %{record_type} : %{record_id} pour %{service_type}"
+    transfer: "%{user} vous a transféré le cas %{record_type}: %{record_id}."
+    reassign: "%{user} vous a attribué %{record_type}: %{record_id}"
+    transfer_request: "L'utilisateur Primero %{user} de %{agency} vous demande de transférer la gestion du cas %{record_type}, %{record_id} afin qu'il puisse fournir des services de %{record_type} dans sa région. Si ce transfert vous convient, veuillez cliquer sur le lien %{record_type} ID dans cet e-mail pour ouvrir le fichier %{record_type}dans  Primero et lancer le transfert."
+    approval_request_html: "L'utilisateur <strong> %{user} </strong> demande votre approbation pour <strong> %{approval_type} </strong> sur le cas <strong> %{case_id} </strong>"
+    approval_response_html: "<strong> %{user} </strong> a <strong> %{status} </strong> demandé l'approbation pour <strong> %{approval_type} </strong> sur le cas <strong> %{case_id} </strong>."
+    referral_html: "<strong> %{user} </strong> de %{agency} vous a référé le cas suivant %{record_type}: <strong> %{record_id} </strong> pour %{service_type}."
+    transfer_html: "<strong> %{user} </strong> vous a transféré le cas suivant %{record_type}: <strong> %{record_id} </strong>."
+    reassign_html: "<strong> %{user} </strong> vous a attribué le cas suivant %{record_type} : <strong> %{record_id} </strong>."
+    transfer_request_html: "L'utilisateur Primero %{user} de %{agency} vous demande de transférer la gestion du cas %{record_type}, %{record_id} afin qu'il puisse fournir des services de %{record_type} dans sa région. Si ce transfert vous convient, veuillez cliquer sur le lien %{record_type} ID dans cet e-mail pour ouvrir le fichier %{record_type}dans  Primero et lancer le transfert."
+    transfer_request_notes_html: "Notes de la personne qui fait la demande: %{request_transfer_notes}"
+  will_paginate:
+    previous_label: "&#8592; Précédent"
+    next_label: "Suivant &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page_html:
+        zero: "Aucun %{model} trouvé"
+        one: "Affichage <b>1</b> %{model}"
+        other: "Affichage <b>tous %{count}</b> %{model}"
+      multi_page_html: "Affichage %{model} <b>%{from} - %{to}</b> sur un total de <b>%{count}</b>"
+    models:
+      report:
+        one: "Rapport"
+        other: "Rapports"
+      child:
+        one: "Cas"
+        other: "Cas"
+      incident:
+        one: "Incidents"
+        other: "Incidents"
+      hash:
+        one: "Résultats des correspondances"
+        other: "Résultats des correspondances"
+      bulk_export:
+        one: "Exportation de fichiers en vrac"
+        other: "Exportation de fichiers en vrac"
+      task:
+        one: "Tâches"
+        other: "Tâches"
