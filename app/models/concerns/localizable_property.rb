@@ -11,17 +11,9 @@ module LocalizableProperty
       properties.each do |method|
         define_method method do |*args|
           locale = args.first || I18n.locale
+          #If value for the default locale is nil, return the English translation
           locale_field_value = self.send("#{method}_#{locale}")
-          if locale_field_value.nil? || locale_field_value.empty?
-            #If value for the default locale is nil, return the English translation
-            locale_language = locale.to_s.split('-')[0] # discard region
-            default_locale = I18n.default_locale
-            self.send("#{method}_#{locale_language}") ||
-            self.send("#{method}_#{default_locale}") ||
-            self.send("#{method}_en")
-          else
-            locale_field_value
-          end
+          locale_field_value.present? ? locale_field_value : self.send("#{method}_#{FormSection::DEFAULT_BASE_LANGUAGE}")
         end
 
         define_method "#{method}=" do |value|
