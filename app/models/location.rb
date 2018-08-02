@@ -102,7 +102,7 @@ class Location < CouchRest::Model::Base
     #It is used to create the select options list for location fields
     def all_names(opts={})
       locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-      self.by_disabled(key: false).map{|r| {id: r.location_code, display_text: r.name(locale)}.with_indifferent_access}
+      self.by_disabled(key: false).map{|r| {id: r.location_code, display_text: r.display_name(locale)}.with_indifferent_access}
     end
     memoize_in_prod :all_names
 
@@ -298,5 +298,10 @@ class Location < CouchRest::Model::Base
 
     #Here be dragons...Beware... recursion!!!
     self.direct_descendants.each {|lct| lct.update_descendants}
+  end
+
+  def display_name(locale)
+    display_name = name(locale)
+    return display_name.present? ? display_name : name(FormSection::DEFAULT_BASE_LANGUAGE)
   end
 end
