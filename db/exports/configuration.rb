@@ -36,7 +36,7 @@ create_or_update_export_config(
 
 create_or_update_export_config(
   id: "export-unhcr-csv-jo",
-  name: "UNHCR CSV Export",
+  name: "UNHCR CSV Export Jordan",
   export_id: "unhcr_csv",
   property_keys: [
     "individual_progress_id",
