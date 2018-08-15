@@ -4,10 +4,10 @@ module Searchable
   ALL_FILTER = 'all'
 
   included do
-    include Sunspot::Rails::Searchable
+    include Indexable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Passenger.
-    searchable do
+    searchable auto_index: self.auto_index? do
       string :record_id do |f|
         f.id
       end
@@ -82,9 +82,6 @@ module Searchable
         end
       end
     end
-
-    Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
-    Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
   end
 
 

@@ -94,7 +94,7 @@ class Incident < CouchRest::Model::Base
   end
   include Searchable #Needs to be after Ownable
 
-  searchable do
+    searchable auto_index: self.auto_index? do
     string :violations, multiple: true do
       self.violation_type_list
     end

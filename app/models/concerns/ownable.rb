@@ -93,6 +93,7 @@ module Ownable
   def update_last_updated_by(current_user)
     self.last_updated_by = current_user.user_name
     self.last_updated_by_full_name = current_user.full_name
+    self.last_updated_organization = current_user.organization
     self.last_updated_at = DateTime.now
   end
 end

@@ -27,9 +27,11 @@ module Record
 
   included do
     before_create :create_identification
-    #TODO: Will this be around in production as well? In Prod we are deferring to the notifier to index
-    after_save :index_nested_reportables
-    after_destroy :unindex_nested_reportables
+
+    # Patterned after flaggable
+    # TODO use Indexable::auto_index?
+    after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
+    after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
 
     #This code allows all models that implement records to mark all explicit properties as protected
     class_attribute(:primero_protected_properties)

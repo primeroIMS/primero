@@ -7,8 +7,7 @@ class HomeController < ApplicationController
 
   def index
     @page_name = t("home.label")
-    @user = User.find_by_user_name(current_user_name)
-    @associated_users = @user.managed_user_names
+    @associated_users = current_user.managed_user_names
     @notifications = PasswordRecoveryRequest.to_display
     load_user_module_data
 

@@ -57,6 +57,7 @@ module Flaggable
     # Flags are not getting indexed on save in production, however they ARE getting indexed via the Couch Watcher notifier.
     # Technically things are getting double indexed, once in the notifier and once in the application.
     # We can revisit moving all indexing to the notifier, but there is a concern that there may be an index lag under stress.
+    # TODO use Indexable::auto_index?
     after_save :index_flags, unless: Proc.new{ Rails.env == 'production' }
 
     def flag_message_flagged_by

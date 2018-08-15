@@ -19,7 +19,7 @@ class ReportableFollowUp
 
   include ReportableNestedRecord
 
-  searchable do
+  searchable auto_index: self.auto_index? do
     extend ReportableNestedRecord::Searchable
     configure_searchable(ReportableFollowUp)
   end
