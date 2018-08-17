@@ -25,6 +25,12 @@ closure_fields = [
              "disabled" => true,
              "option_strings_source" => "lookup lookup-approval-status"
             }),
+  Field.new({"name" => "child_status",
+             "type" =>"select_box" ,
+             "selected_value" => Record::STATUS_OPEN,
+             "display_name_all" => "Case Status",
+             "option_strings_source" => "lookup lookup-case-status"
+            }),
   Field.new({"name" => "closure_reason",
              "type" => "select_box",
              "display_name_all" => "What is the reason for closing the child's file?",

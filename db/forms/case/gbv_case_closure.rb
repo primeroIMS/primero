@@ -17,6 +17,7 @@ case_closure_fields = [
   Field.new({"name" => "child_status",
              "mobile_visible" => true,
              "type" =>"select_box" ,
+             "selected_value" => Record::STATUS_OPEN,
              "display_name_all" => "Case Status",
              "option_strings_source" => "lookup lookup-case-status"
             }),
