@@ -46,9 +46,8 @@ create_or_update_module(
     "tracing_request_inquirer", "tracing_request_record_owner", "tracing_request_tracing_request",
     "tracing_request_photos_and_audio", "followup", "reunification_details", "other_reportable_fields_case",
     "other_reportable_fields_tracing_request", "referral_transfer", "notes", "cp_case_plan", "cp_bia_form",
-    # "cp_incident_form", "cp_individual_details", "cp_offender_details", "cp_other_reportable_fields", "cp_incident_record_owner", # Comment/Un-comment this line to remove/add cp incident forms to CP module
-    # "incident_details_container", # Comment/Un-comment this line to remove/add incident_details form to CP module.
-    "approvals"
+    "cp_incident_form", "cp_individual_details", "cp_offender_details", "cp_other_reportable_fields", "cp_incident_record_owner",
+    "incident_details_container", "approvals"
   ],
   field_map: {
     map_to: "primeromodule-cp",
