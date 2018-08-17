@@ -28,6 +28,7 @@ survivor_information_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" =>"select_box" ,
+             "selected_value" => Record::STATUS_OPEN,
              "display_name_all" => "Case Status",
              "option_strings_source" => "lookup lookup-case-status"
             }),
