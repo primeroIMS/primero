@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe ApprovalRequestJob, type: :job do
   include ActiveJob::TestHelper

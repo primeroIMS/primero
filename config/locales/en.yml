@@ -17,6 +17,8 @@ en:
     zh: "中文"
     es: "Español"
     ru: "Русский"
+    so: "Af-Soomaali"
+    bn: "বাংলা"
     dashboard: "Dashboard"
     welcome: "Welcome to Primero"
     current_time_zone: "Current time zone"
@@ -75,7 +77,8 @@ en:
     string_sources_failed: "Some fields failed to load, refresh the page to load all fields."
     system_settings_failed: "System Settings failed to load."
     approval_alert: "Approval is pending for %{form_name}"
-    field_change_alert: "The %{form_name} form was updated by the service provider on %{form_date}"
+    field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
+    transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -124,12 +127,15 @@ en:
      locations: "LOCATIONS"
      bulk_exports: "BULK EXPORTS"
      tasks: "TASKS"
+     audit_logs: "Audit Logs"
+     matching_configuration: "Matching"
 
   buttons:
      delete: "Delete"
      disable: "Disable"
      enable: "Enable"
      save: "Save"
+     save_and_add_service_provision: "Save and Add Service Provision"
      login: "Log in"
      reunite: "Reunite"
      edit: "Edit"
@@ -173,6 +179,8 @@ en:
      reject: "Reject"
      done: "Done"
      remove_referrals: "Remove referrals"
+     view: "View"
+     request_transfer: "Request Transfer"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -239,6 +247,9 @@ en:
     view_name: "View Name"
     ok: "Ok"
     hide_name_error: "An error ocurred when saving your changes. Please try again."
+
+    quick_view:
+      tracing_message: "Note: There is a match in the system with an Inquirer looking for this child. Contact the social worker of this record for further action if the child wishes."
 
   children:
     label: "Children"
@@ -640,6 +651,9 @@ en:
       record_state: "Record State:"
 
   potential_matches:
+    empty: "Please access matching through Tracing Requests"
+    no_match: "There is no match in the system for %{type} %{id}"
+    display: "Displaying potential matches for %{type} %{id}"
     filter_by:
       score_range: "Score Range"
       age_range_case: "Age Range of Cases"
@@ -650,20 +664,56 @@ en:
       female: "Female"
 
   potential_match:
+    header_key: "Match Criteria:"
     inquirer_id: 'inquirer id#'
     inquirer_name: 'name of inquirer'
     inquiry_date: 'date of inquiry'
     inquirer_tr_name: 'tracing request'
     child_id: 'child id#'
-    child_age: 'age'
-    child_gender: 'gender'
-    reg_date: 'registration date'
-    social_worker: 'social worker'
+    child_age: 'Age'
+    child_gender: 'Gender'
+    child_date_of_birth: 'Date of Birth'
+    reg_date: 'Registration date'
+    social_worker: 'Social worker'
+    social_worker_agency: 'Agency'
     score: 'score'
     show_more: 'show more'
     show_less: 'show less'
+    trace: 'Trace'
+    case: 'Case'
+    name: 'Name'
 
+    likelihood:
+      likely: 'Likely'
+      possible: 'Possible'
 
+  audit_log:
+    timestamp: "Timestamp - UTC"
+    user_name: "User Name"
+    action: "Action"
+    description: "Description"
+    record_owner: "Record Owner"
+
+  audit_logs:
+    action_options:
+      login: "Login"
+      logout: "Logout"
+      create: "Creating"
+      copy: "Copying"
+      destroy: "Deleting"
+      show: "Viewing"
+      edit: "Editing"
+      update: "Updating"
+      export: "Exporting data for"
+      referral: "Referring"
+      reassign: "Assigning"
+      transfer: "Transfering"
+      reopen_case: "Reopening"
+    filter_by:
+      action: 'Action Name'
+      date: 'Date'
+      timestamp: 'Timestamp'
+      user: 'User Name'
 
   preposition:
     on_label: "on"
@@ -989,6 +1039,7 @@ en:
       dash_cases_by_task_overdue: "View Cases By Task Overdue"
       dash_cases_to_assign: "View Cases To Assign"
       dash_show_none_values: "View None Values"
+      dash_tasks: "View Tasks"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
@@ -999,6 +1050,12 @@ en:
       saved_search: "Saved Search"
       save_search: "Save Searches"
       remove_assigned_users: "Remove other assigned users (referrals)"
+      audit_log: "Audit Log"
+      display_view_page: "Display View Page"
+      service_provision_incident_details: "See Add Service Provision Button on Incident Details Modal"
+      request_transfer: "Request Transfer"
+      view_photo: "View Photo"
+      matching_configuration: "Matching Configuration"
 
   forms:
     label: "Forms"
@@ -1268,6 +1325,14 @@ en:
       other: 'Other'
       locality: 'Locality'
       sub-district: 'Sub-district'
+
+  matching_configuration:
+    edit: "Edit Matching Configuration"
+    case_fields: "Matchable Case Fields"
+    tracing_request_fields: "Matchable Tracing Request Fields"
+    updated: "Matching Configuration Updated"
+    update_error: "Error Updating Matching Configuration"
+    label: "Matching Configuration"
 
   session:
     about_to_expire: "Your session is about to expire!"
@@ -1617,6 +1682,7 @@ en:
         email: "Please enter a valid email address"
         user_name_uniqueness: "User name has already been taken! Please select a new User name"
         authenticate: "Can't authenticate an un-saved user"
+        invalid_locale: "Locale %{user_locale} is not valid"
 
       child:
         at_least_one_field: "Please fill in at least one field or upload a file"
@@ -1969,6 +2035,15 @@ en:
       rejected: "Rejected"
       in_progress: "In Progress"
 
+  request_transfer:
+    success: "Request transfer sent"
+    notes_label: "Notes"
+    submit_label: "Send Request"
+    error:
+      owner_has_no_email: "Record owner has no email address"
+      record_not_found: "Record not found"
+      record_not_saved: "Failure saving Transfer Request record"
+
   transition:
     export_type:
       primero: "Primero"
@@ -2043,6 +2118,14 @@ en:
     transfer: "Transfering"
     reopen_case: "Reopening"
     hide_name: "Hide name"
+    quick_view: "Viewing Quick View"
+    request_transfer_view: "Viewing Request Transfer"
+    request_transfer: "Sending Transfer Request"
+    save_subform: "Saving Subform"
+    create_subform: "Creating Subform"
+    consent_count: "Consent Count"
+    match_record: "Matching Record"
+    index: "Listing Records"
 
     relinquish_referral: "Relinquish referral Done"
 
@@ -2121,17 +2204,21 @@ en:
     approval_response_subject: "Case: %{id} - Approval Response"
     referral_subject: "%{record_type}: %{id} - Referral"
     transfer_subject: "%{record_type}: %{id} - Transfer"
+    transfer_request_subject: "Transfer request for one of your cases"
     reassign_subject: "%{record_type}: %{id} - Assigned to you"
     approval_request: "The user %{user} is requesting approval for %{approval_type} on case %{case_id}."
     approval_response: "%{user} has %{status} the request for approval for %{approval_type} for case %{case_id}."
     referral: "%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}."
     transfer: "%{user} has transferred the following %{record_type} to you: %{record_id}."
     reassign: "%{user} has assigned the following %{record_type} to you: %{record_id}."
+    transfer_request: "Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer."
     approval_request_html: "The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>."
     approval_response_html: "<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>."
     referral_html: "<strong>%{user}</strong> from %{agency} has referred the following %{record_type} to you: <strong>%{record_id}</strong> for %{service_type}."
     transfer_html: "<strong>%{user}</strong> has transferred the following %{record_type} to you: <strong>%{record_id}</strong>."
     reassign_html: "<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>."
+    transfer_request_html: "Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer."
+    transfer_request_notes_html: "Notes from the individual making the request: %{request_transfer_notes}"
   will_paginate:
     previous_label: "&#8592; Previous"
     next_label: "Next &#8594;"

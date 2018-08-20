@@ -81,10 +81,10 @@ module Ownable
     self.previously_owned_by_full_name = self.changes['owned_by_full_name'].try(:fetch, 0) || owned_by_full_name
 
     if (self.changes['owned_by'].present? || self.new?) && self.owned_by.present?
-      self.owned_by_agency = self.owner.organization
-      self.owned_by_groups = self.owner.user_group_ids
-      self.owned_by_location = self.owner.location
-      self.owned_by_user_code = self.owner.code
+      self.owned_by_agency = self.owner.try(:organization)
+      self.owned_by_groups = self.owner.try(:user_group_ids)
+      self.owned_by_location = self.owner.try(:location)
+      self.owned_by_user_code = self.owner.try(:code)
       self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
       self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
     end

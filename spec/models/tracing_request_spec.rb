@@ -902,7 +902,7 @@ describe TracingRequest do
     context "when selected photo id doesn't exist" do
 
       it "should show an error" do
-        lambda { @tracing_request.primary_photo_id="non-existant-id" }.should raise_error "Failed trying to set 'non-existant-id' to primary photo: no such photo key"
+        expect { @tracing_request.primary_photo_id="non-existant-id" }.to raise_error(RuntimeError, "Failed trying to set 'non-existant-id' to primary photo: no such photo key")
       end
 
     end

@@ -58,4 +58,10 @@
   <% if fields_to_show.include? 'owned_by_agency' %>
     <td><%= record.owned_by_agency %></td>
   <% end %>
+  <% if fields_to_show.include? 'view' %>
+    <td>
+      <a class="record-view-modal" data-record="<%= record.id %>"><%= t('buttons.view') %><a>
+    </td>
+  <% end %>
+
 </tr>

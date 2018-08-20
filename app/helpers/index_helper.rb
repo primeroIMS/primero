@@ -36,6 +36,8 @@ module IndexHelper
         list_view_header_bulk_export
       when "task"
         list_view_header_task
+      when "audit_log"
+        list_view_audit_log
       else
         []
     end
@@ -141,20 +143,16 @@ module IndexHelper
     end
   end
 
-  def build_filter_multi_select(title, filter, items)
+  def build_filter_select(title, filter, items, multi_select = true)
     if items.present? && items.first.is_a?(Hash)
       items = items.map{|item| [item['display_text'], item['id']]}
     end
 
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
-      concat(select_tag filter,
-        options_for_select(items),
-        'class' => 'chosen-select',
-        'filter_type' => 'list',
-        'multiple' => true,
-        'data-placeholder' => t("fields.select_box_empty_item"), :id => filter
-        )
+      concat(select_tag filter, options_for_select(items), class: 'chosen-select', filter_type: 'list',
+                        multiple: multi_select, include_blank: t("fields.select_box_empty_item"),
+                        'data-placeholder' => t("fields.select_box_empty_item"), id: filter)
       concat(content_tag(:div, '', class: 'clearfix'))
     end
   end
@@ -243,6 +241,7 @@ module IndexHelper
     header_list << {title: 'social_worker', sort_title: 'owned_by'} if @is_manager && !@id_search.present?
     header_list << {title: 'owned_by', sort_title: 'owned_by'} if @is_cp && @id_search.present?
     header_list << {title: 'owned_by_agency', sort_title: 'owned_by_agency'} if @is_cp && @id_search.present?
+    header_list << {title: '', sort_title: 'view'} if @id_search.present? && @can_display_view_page
 
     return header_list
   end
@@ -309,6 +308,43 @@ module IndexHelper
       {title: 'type', sort_title: 'type'},
       {title: 'due_date', sort_title: 'due_date'}
     ]
+  end
+
+  def list_view_audit_log
+    [
+      {title: 'timestamp', sort_title: 'timestamp'},
+      {title: 'user_name', sort_title: 'user_name'},
+      {title: 'action', sort_title: 'action_name'},
+      {title: 'description', sort_title: 'description'},
+      {title: 'record_owner', sort_title: 'record_owner'}
+    ]
+  end
+
+  def audit_log_description(record)
+    record.display_id.present? ? audit_log_description_with_id(record.record_type, record.display_id) : record.record_type
+  end
+
+  def audit_log_description_with_id(record_type, display_id)
+    if display_id.is_a?(Array)
+      content_tag(:ul) do
+        concat(content_tag(:lh, record_type.pluralize))
+        display_id.each {|id| concat(content_tag(:li, "'#{id}'"))}
+      end
+    else
+      "#{record_type} '#{display_id}'"
+    end
+  end
+
+  def audit_log_owner(owned_by)
+    if owned_by.is_a?(Array)
+      content_tag(:ul) do
+        #Blank header to align with ID's in the description  -- TODO Is this necessary?
+        concat(content_tag(:lh, ''))
+        owned_by.each {|owner| concat(content_tag(:li, owner))}
+      end
+    else
+      owned_by
+    end
   end
 
   def index_filters_case
@@ -500,5 +536,33 @@ module IndexHelper
       'edit',
     ]
     actions.any?{ |p| can?(p.to_sym, model) }
+  end
+
+  def view_data(record, form_sections)
+    data = [{ display_name: t('child.id'), value: record.short_id }]
+
+    included_fields = [
+      'owned_by',
+      'record-owner',
+      'owned_by_agency',
+      'clan_tribe'
+    ]
+
+    rejected_fields_types = [
+      'photo_upload_box',
+      'audio_upload_box'
+    ]
+
+    form_sections.each do |n, fs|
+      fs.each do |form|
+        fields =   form.fields.select{ |field| field.show_on_minify_form || included_fields.include?(field.name) }
+                       .reject{ |field|  rejected_fields_types.include? field.type }
+        fields.each do |f|
+          data << { display_name: f.display_name, value: field_value_for_display(record[f.name], f, @lookups) }
+        end
+      end
+    end
+
+    data
   end
 end

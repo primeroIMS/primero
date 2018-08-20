@@ -74,20 +74,12 @@ end
 template '/home/vagrant/primero/config/sunspot.yml' do
   source "sunspot.yml.erb"
   variables({
-    :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
+    :environments => [ 'development', 'test', 'production' ],
     :hostnames => {'development' => 'localhost',
-                   'cucumber' => 'localhost',
                    'test' => 'localhost',
-                   'uat' => 'localhost',
-                   'standalone' => 'localhost',
-                   'android' => 'localhost',
                    'production' => node[:primero][:solr_hostname]},
     :ports => {'development' => 8982,
-               'cucumber' => 8981,
                'test' => 8981,
-               'uat' => 8901,
-               'standalone' => 8903,
-               'android' => 8902,
                'production' => node[:primero][:solr_port]},
     :log_levels => {'development' => 'INFO',
                     'cucumber' => 'INFO',
@@ -100,6 +92,39 @@ template '/home/vagrant/primero/config/sunspot.yml' do
   })
   owner 'vagrant'
   group 'vagrant'
+end
+
+
+file "/home/vagrant/primero/config/mailers.yml" do
+  content ::File.open("/home/vagrant/primero/config/mailers.yml.example").read
+  owner 'vagrant'
+  group 'vagrant'
+  action :create
+end
+
+['development', 'test'].each do |core_name|
+  core_dir = File.join(node[:primero][:solr_core_dir], core_name)
+  directory core_dir do
+    action :create
+    mode '0700'
+    owner node[:primero][:solr_user]
+    group node[:primero][:solr_group]
+    only_if { ::File.exists?(node[:primero][:solr_core_dir])}
+  end
+  template File.join(core_dir, 'core.properties') do
+    source "core.properties.erb"
+    variables({
+      :data_dir => File.join(node[:primero][:solr_data_dir], core_name)
+    })
+    owner node[:primero][:solr_user]
+    group node[:primero][:solr_group]
+    only_if { ::File.exists?(core_dir)}
+  end
+end
+
+execute 'Restart Solr' do
+  command 'supervisorctl restart solr'
+  only_if { ::File.exists?(node[:primero][:solr_core_dir])}
 end
 
 directory '/home/vagrant/primero/log' do

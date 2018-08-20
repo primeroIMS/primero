@@ -5,6 +5,7 @@
   display_create = model.to_s == "PotentialMatch" ? false : true
   options = {
       display_filter: true,
+      display_saved_search: true,
       display_actions: model.to_s =="PotentialMatch" ? false : true,
       display_create: display_create}.merge(opts)
 %>
@@ -58,7 +59,7 @@
     <div class="large-3 small-3 columns index_filters">
       <ul class="tabs" data-tabs id="filter-area">
         <li class="tabs-title is-active"><a href="#filters" aria-selected="true"><%= t('saved_search.filters_tab') %></a></li>
-        <% if can?(:read, SavedSearch) %>
+        <% if options[:display_saved_search].present? && can?(:read, SavedSearch) %>
           <li class="tabs-title"><a data-tabs-target="#saved-searches" href="#saved-searches"><%= t('saved_search.saved_searches_tab') %></a></li>
         <% end %>
       </ul>
@@ -66,7 +67,7 @@
         <div class="tabs-panel is-active" id="filters">
           <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
         </div>
-        <% if can?(:read, SavedSearch) %>
+        <% if options[:display_saved_search].present? && can?(:read, SavedSearch) %>
           <div class="tabs-panel" id="saved-searches">
             <h5><%= t('cases.my_filters') %></h5>
             <ul class="save-searches">

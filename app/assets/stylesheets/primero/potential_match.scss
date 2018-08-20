@@ -22,9 +22,6 @@
     tr th, tr td {
       text-align: center;
     }
-    tr:not(:first-child) {
-      display: none;
-    }
     th {
       pointer-events: none;
       background-color: $light_green_color;
@@ -54,4 +51,28 @@
   .dataTables_empty{
     display: none;
   }
+}
+
+.row {
+  .value-comparison {
+    min-height: 2.4em;
+  }
+}
+
+.value-match {
+  color: $green_color;
+  font-size: 1rem;
+}
+
+.value-mismatch {
+  color: $red_color;
+  font-size: 1rem;
+}
+
+.match-header {
+  color: $green_color;
+}
+
+.case-and-trace-matched {
+  font-weight: bold;
 }

@@ -20,7 +20,7 @@ describe UserHistoriesController do
           double(:id => "another_id", :name => "another_name", :histories => [history1])
     ])
 
-    get :index, :id => "1"
+    get :index, params: { :id => "1" }
 
     assigns(:histories).should == [history1.merge(:child_id => "another_id", :child_name => "another_name"), history2.merge(:child_id => "other_id", :child_name => "other_name")]
   end
@@ -34,14 +34,14 @@ describe UserHistoriesController do
           double(:id => "another_id", :name => "another_name", :histories => [history1])
     ])
 
-    get :index, :id => "1"
+    get :index, params: { :id => "1" }
 
     assigns(:histories).should == [history1.merge(:child_id => "another_id", :child_name => "another_name")]
   end
 
   it "should set the page name to the user" do
     User.stub(:get).and_return(double(:user_name => "some_user"))
-    get :index, :id => "some_id"
+    get :index, params: { :id => "some_id" }
     assigns(:page_name).should == "History of some_user"
   end
 end

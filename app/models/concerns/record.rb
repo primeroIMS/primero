@@ -421,6 +421,10 @@ module Record
     return result
   end
 
+  def display_id
+    short_id
+  end
+
   def update_with_attachments(params, user)
     new_photo = params[:child].delete("photo")
     new_photo = (params[:child][:photo] || "") if new_photo.nil?
@@ -438,6 +442,7 @@ module Record
     self.audio = new_audio
   end
 
+  #TODO: This should use the FormSection.fields view instead
   def field_definitions
     if @field_definitions.blank?
       @field_definitions = []

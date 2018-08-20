@@ -67,7 +67,7 @@ describe ChildrenController do
         "id"=>instance.id
       }
 
-      post :transition, params
+      post :transition, params: params
 
       flash[:notice].should eq("Case #{instance.short_id} successfully transferred")
       assigns[:records].should eq([instance])
@@ -127,7 +127,7 @@ describe ChildrenController do
             params[:rejected_reason] = rejected_reason
           end
 
-          post :transfer_status, params
+          post :transfer_status, params: params
           flash[:notice].should eq(notice)
 
           child_transferred = Child.get(id)
@@ -186,7 +186,7 @@ describe ChildrenController do
           "transition_id" => @case_to_transfer.transfers.first.id,
           "transition_status" => "Some Status"
         }
-        post :transfer_status, params
+        post :transfer_status, params: params
         flash[:notice].should eq("Unknown transfer status: Some Status")
       end
 
@@ -201,7 +201,7 @@ describe ChildrenController do
           "transition_id" => "fubar_id",
           "transition_status" => Transition::TO_USER_LOCAL_STATUS_ACCEPTED
         }
-        post :transfer_status, params
+        post :transfer_status, params: params
         flash[:notice].should eq("Case #{@case_to_transfer.short_id} invalid transfer")
       end
 
@@ -216,7 +216,7 @@ describe ChildrenController do
           "transition_id" => @case_to_transfer.transfers.first.id,
           "transition_status" => Transition::TO_USER_LOCAL_STATUS_ACCEPTED
         }
-        post :transfer_status, params
+        post :transfer_status, params: params
         flash[:notice].should eq("Case #{@case_to_transfer.short_id} invalid transfer, can't update is not in progress or you have not permission on the case")
       end
 

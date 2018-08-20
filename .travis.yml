@@ -15,6 +15,9 @@ before_script:
 - cp config/travis/couchdb.yml config/
 - cp config/travis/sunspot.yml config/
 - cp config/travis/mailers.yml config/
+- mkdir -p solr/data/test
+- mkdir -p solr/cores/test
+- cp config/travis/core.properties solr/cores/test/
 script:
 - bundle exec rake sunspot:solr:start
 - bundle exec rspec spec
@@ -25,6 +28,7 @@ branches:
 - maint_1.3
 - maint_1.4
 - maint_1.5
+- maint_1.6
 - development
 - master
 notifications:

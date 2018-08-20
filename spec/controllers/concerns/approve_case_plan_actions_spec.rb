@@ -119,7 +119,7 @@ describe ApprovalActions, type: :controller do
     end
 
     it "does not allow approve case plan" do
-      post :approve_form, @params
+      post :approve_form, params: @params
       expect(response.status).to eq(403)
     end
   end
@@ -137,12 +137,12 @@ describe ApprovalActions, type: :controller do
     end
 
     it 'allows approve case plan' do
-      post :approve_form, @params
+      post :approve_form, params: @params
       expect(response.status).not_to eq(403)
     end
 
     it 'logs history of approved case plan' do
-      post :approve_form, @params
+      post :approve_form, params: @params
 
       approval_history = assigns[:child][:approval_subforms].first
       expect(approval_history[:approval_manager_comments]).to eq(@params[:comments])
@@ -180,7 +180,7 @@ describe ApprovalActions, type: :controller do
         end
 
         it 'sends an approval email' do
-          expect { post :approve_form, @params }.to change { ActionMailer::Base.deliveries.count }.by(1)
+          expect { post :approve_form, params: @params }.to change { ActionMailer::Base.deliveries.count }.by(1)
         end
       end
 
@@ -191,7 +191,7 @@ describe ApprovalActions, type: :controller do
         end
 
         it 'does not send an approval email' do
-          expect { post :approve_form, @params }.to change { ActionMailer::Base.deliveries.count }.by(0)
+          expect { post :approve_form, params: @params }.to change { ActionMailer::Base.deliveries.count }.by(0)
         end
       end
     end

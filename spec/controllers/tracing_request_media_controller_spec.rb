@@ -58,7 +58,7 @@ describe TracingRequestMediaController do
               with_id("1").
               with_photo(uploadable_photo, 'current')
 
-      get :show_photo, :tracing_request_id => "1"
+      get :show_photo, params: {:tracing_request_id => "1"}
       response.should redirect_to(:photo_id => 'current', :ts => Date.today)
     end
 
@@ -68,7 +68,7 @@ describe TracingRequestMediaController do
               with_photo(uploadable_photo, "current").
               with_photo(uploadable_photo_jeff, "other", false)
 
-      get :show_photo, :tracing_request_id => "1", :photo_id => "other"
+      get :show_photo, params: {:tracing_request_id => "1", :photo_id => "other"}
       response.should represent_inline_attachment(uploadable_photo_jeff)
     end
 
@@ -77,7 +77,7 @@ describe TracingRequestMediaController do
               with_id("1").
               with_photo(uploadable_photo, 'current')
 
-      get :show_resized_photo, :tracing_request_id => "1", :size => 300
+      get :show_resized_photo, params: {:tracing_request_id => "1", :size => 300}
       response.should redirect_to(:photo_id => 'current', :ts => Date.today)
     end
 
@@ -86,7 +86,7 @@ describe TracingRequestMediaController do
               with_id("1").
               with_photo(uploadable_photo, 'current')
 
-      get :show_resized_photo, :tracing_request_id => "1", :photo_id => 'current', :size => 300
+      get :show_resized_photo, params: {:tracing_request_id => "1", :photo_id => 'current', :size => 300}
       to_image(response.body)[:width].should == 300
     end
 
@@ -96,7 +96,7 @@ describe TracingRequestMediaController do
       with_photo(uploadable_photo_jeff).
               with_photo(uploadable_photo, "other", false)
 
-      get :show_thumbnail, :tracing_request_id => "1", :photo_id => "other"
+      get :show_thumbnail, params: {:tracing_request_id => "1", :photo_id => "other"}
 
       thumbnail = to_thumbnail(160, uploadable_photo.path)
       response.should represent_inline_attachment(thumbnail)
@@ -107,7 +107,7 @@ describe TracingRequestMediaController do
               with_id("1").
               with_no_photos
 
-      get :show_photo, :tracing_request_id => "1"
+      get :show_photo, params: {:tracing_request_id => "1"}
       response.should redirect_to(:photo_id => '_missing_')
     end
 
@@ -116,7 +116,7 @@ describe TracingRequestMediaController do
               with_id("1").
               with_no_photos
 
-      get :show_photo, :tracing_request_id => "1", :photo_id => '_missing_'
+      get :show_photo, params: {:tracing_request_id => "1", :photo_id => '_missing_'}
       response.should represent_inline_attachment(no_photo_clip)
     end
 
@@ -128,7 +128,7 @@ describe TracingRequestMediaController do
             with(:current_photo_key => 'test').
             with(:last_updated_at => 'test')
 
-      get :show_thumbnail, :tracing_request_id => "1"
+      get :show_thumbnail, params: {:tracing_request_id => "1"}
       response.should redirect_to(:photo_id => 'test', :ts => 'test')
     end
   end
@@ -140,7 +140,7 @@ describe TracingRequestMediaController do
                 with_unique_identifier('tracing_request123').
                 with_audio(uploadable_audio_amr)
 
-       get :download_audio, :tracing_request_id => '1'
+       get :download_audio, params: {:tracing_request_id => '1'}
        response.should represent_attachment(uploadable_audio_amr, "audio_tracing_request123.amr")
     end
     it "should return an mp3 audio file associated with a child" do
@@ -149,7 +149,7 @@ describe TracingRequestMediaController do
                with_unique_identifier('tracing_request123').
                with_audio(uploadable_audio_mp3)
 
-      get :download_audio, :tracing_request_id => '1'
+      get :download_audio, params: {:tracing_request_id => '1'}
       response.should represent_attachment(uploadable_audio_mp3, "audio_tracing_request123.mp3")
     end
   end

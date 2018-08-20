@@ -1,13 +1,13 @@
 class RecordStatusController < ApplicationController
-  before_filter :set_class_name
+  before_action :set_class_name
 
   include LoggerActions
 
   #Override method in LoggerActions.
-  def logger_action_titleize
+  def logger_action_name
     if action_name == "set_record_status"
       #The effective action on the record is at the parameter <record_state>.
-      I18n.t("logger.record_state.#{params[:record_state]}", :locale => :en)
+      "record_state.#{params[:record_state]}"
     else
       super
     end

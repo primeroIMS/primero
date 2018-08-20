@@ -55,7 +55,7 @@ describe RecordFlagController, :type => :controller do
 
   shared_examples_for "Flagging" do
     it "should not flag the record with empty message parameter" do
-      post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "", :flag_date => ""
+      post :flag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "", :flag_date => ""}
       JSON.parse(response.body).should eq({"error" => ["Flags is invalid", "Message Flags: message field is invalid"]})
       record_db = model.get(record.id)
       record_db.flags.count.should eq(0)
@@ -63,11 +63,18 @@ describe RecordFlagController, :type => :controller do
     end
 
     it "should not flag the record with no parameters" do
-      post :flag, :id => record.id, :model_class => "#{model.name}"
+      post :flag, params: {:id => record.id, :model_class => "#{model.name}"}
       JSON.parse(response.body).should eq({"error" => ["Flags is invalid", "Message Flags: message field is invalid"]})
       record_db = model.get(record.id)
       record_db.flags.count.should eq(0)
       record_db.flag.should eq(false)
+    end
+
+    it "should set the flag date to nil with invalid date parameter" do
+      post :flag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "Testing Flag", :flag_date => "21-21-2014"}
+      record_db = model.get(record.id)
+      record_db.flags.count.should eq(1)
+      expect(record_db.flags.first.date).to be_nil
     end
 
     it "should return the controller path" do
@@ -76,7 +83,7 @@ describe RecordFlagController, :type => :controller do
     end
 
     it "should flag the record with all parameters" do
-      post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => "15-Jul-2014"
+      post :flag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => "15-Jul-2014"}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag", "date" => "2014/07/15",
         "flagged_by" => "#{@user.user_name}", "removed" => nil,
         "created_at"=> DateTime.now.strftime('%Y/%m/%d %H:%M:%S %z'), "system_generated_followup"=>false,
@@ -90,7 +97,7 @@ describe RecordFlagController, :type => :controller do
     end
 
     it "should flag the record with empty date parameter" do
-      post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => ""
+      post :flag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag", :flag_date => ""}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag", "date" => nil,
         "flagged_by" => "#{@user.user_name}", "removed" => nil,
         "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
@@ -104,7 +111,7 @@ describe RecordFlagController, :type => :controller do
     end
 
     it "should flag the record with no date parameter" do
-      post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag"
+      post :flag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag"}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag", "date" => nil,
        "flagged_by" => "#{@user.user_name}", "removed" => nil,
        "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
@@ -120,13 +127,13 @@ describe RecordFlagController, :type => :controller do
 
   shared_examples_for "Flagging more than one time" do
     it "should add flag the record with flags already" do
-      post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag 1", :flag_date => "15-Jul-2014"
+      post :flag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag 1", :flag_date => "15-Jul-2014"}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag 1", "date" => "2014/07/15",
         "flagged_by" => "#{@user.user_name}", "removed" => nil,
         "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
         "unflag_message" => nil, "unflagged_by" => nil, "unflagged_date" => nil})
 
-      post :flag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag 2", :flag_date => "16-Jul-2014"
+      post :flag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Testing Flag 2", :flag_date => "16-Jul-2014"}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Testing Flag 2", "date" => "2014/07/16",
         "flagged_by" => "#{@user.user_name}", "removed" => nil,
         "created_at"=>DateTime.now.strftime("%Y/%m/%d %H:%M:%S %z"), "system_generated_followup"=>false,
@@ -147,7 +154,7 @@ describe RecordFlagController, :type => :controller do
       record.flags = [Flag.new(:message => "#{model.name} Flag 1"), Flag.new(:message => "#{model.name} Flag 2"), Flag.new(:message => "#{model.name} Flag 3")]
       record.save
 
-      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1, :unflag_message => 'unflagging due to reason'
+      post :unflag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1, :unflag_message => 'unflagging due to reason'}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Flag 2", "date" => nil,
         "flagged_by" => nil, "unflag_message" => "unflagging due to reason", "removed" => true,
         "created_at"=>nil, "system_generated_followup"=>false, "unflagged_by" => "fakeadmin", "unflagged_date" => @unflagged_at.strftime("%Y/%m/%d")})
@@ -165,17 +172,17 @@ describe RecordFlagController, :type => :controller do
       record.flags = [Flag.new(:message => "#{model.name} Flag 1"), Flag.new(:message => "#{model.name} Flag 2"), Flag.new(:message => "#{model.name} Flag 3")]
       record.save
 
-      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1, :unflag_message => "unflagging due to reason2"
+      post :unflag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 2", :flag_index => 1, :unflag_message => "unflagging due to reason2"}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Flag 2", "date" => nil,
         "flagged_by" => nil, "unflag_message" => "unflagging due to reason2", "removed" => true,
         "created_at"=>nil, "system_generated_followup"=>false, "unflagged_by" => "fakeadmin", "unflagged_date" => @unflagged_at.strftime("%Y/%m/%d")})
 
-      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 1", :flag_index => 0, :unflag_message => "unflagging due to reason1"
+      post :unflag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 1", :flag_index => 0, :unflag_message => "unflagging due to reason1"}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Flag 1", "date" => nil,
         "flagged_by" => nil, "unflag_message" => "unflagging due to reason1", "removed" => true,
         "created_at"=>nil, "system_generated_followup"=>false, "unflagged_by" => "fakeadmin", "unflagged_date" => @unflagged_at.strftime("%Y/%m/%d")})
 
-      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 3", :flag_index => 2, :unflag_message => "unflagging due to reason3"
+      post :unflag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 3", :flag_index => 2, :unflag_message => "unflagging due to reason3"}
       JSON.parse(response.body).except('unique_id').except('id').should eq({"message" => "#{model.name} Flag 3", "date" => nil,
         "flagged_by" => nil, "unflag_message" => "unflagging due to reason3", "removed" => true,
         "created_at"=>nil, "system_generated_followup"=>false, "unflagged_by" => "fakeadmin", "unflagged_date" => @unflagged_at.strftime("%Y/%m/%d")})
@@ -195,7 +202,7 @@ describe RecordFlagController, :type => :controller do
       record.flags = [Flag.new(:message => "#{model.name} Flag 1"), Flag.new(:message => "#{model.name} Flag 2"), Flag.new(:message => "#{model.name} Flag 3")]
       record.save
 
-      post :unflag, :id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 1", :flag_index => 1
+      post :unflag, params: {:id => record.id, :model_class => "#{model.name}", :flag_message => "#{model.name} Flag 1", :flag_index => 1}
       JSON.parse(response.body).should eq({"error" => ["Flags: unable to remove the flag at the position 1"]})
 
       record_db = model.get(record.id)
@@ -216,7 +223,7 @@ describe RecordFlagController, :type => :controller do
     it "should flag multiple records" do
       # Flag the first 30 records.
       records = children.take 30
-      post :flag_records, :model_class => model.name, :selected_records => records, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :apply_to_all => false
+      post :flag_records, params: {:model_class => model.name, :selected_records => records, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :apply_to_all => false}
       JSON.parse(response.body).should eq({"success" => true, "error_message" => "", "reload_page" => true})
       records.each do |id|
         record = model.get id
@@ -229,7 +236,7 @@ describe RecordFlagController, :type => :controller do
       end
 
       # Apply a filter and flag all the records
-      post :flag_records, :model_class => model.name, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :apply_to_all => "true", "scope"=>{"flag"=>"single||flag"}
+      post :flag_records, params: {:model_class => model.name, :flag_message => "Multiple records flagging test", :flag_date => Date.today, :apply_to_all => "true", "scope"=>{"flag"=>"single||flag"}}
       JSON.parse(response.body).should eq({"success" => true, "error_message" => "", "reload_page" => true})
       records.each do |id|
         record = model.get id

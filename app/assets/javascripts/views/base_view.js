@@ -27,7 +27,7 @@ _primero.Views.Base = Backbone.View.extend({
     }
 
     search = prev_params + add_amp + url_string;
-    Turbolinks.visit(window.location.pathname + '?' + url_string);
+    Turbolinks.visit(window.location.pathname + '?' + search);
   },
 
   map_filter_object: function(filters) {

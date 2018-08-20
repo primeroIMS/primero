@@ -14,6 +14,7 @@ module Primero
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
+    config.enable_dependency_loading = true
     # Custom directories with classes and modules you want to be autoloadable.
     config.autoload_paths += %W(
       #{config.root}/lib
@@ -52,14 +53,18 @@ module Primero
     LOCALE_ARABIC = 'ar'
     LOCALE_SPANISH = 'es'
     LOCALE_LEBANON = 'ar-LB'
-    LOCALES = [LOCALE_ENGLISH,LOCALE_FRENCH,LOCALE_ARABIC,LOCALE_LEBANON,LOCALE_SPANISH]
+    LOCALE_SOMALI = 'so'
+    LOCALE_BANGLA = 'bn'
+    LOCALES = [LOCALE_ENGLISH,LOCALE_FRENCH,LOCALE_ARABIC,LOCALE_LEBANON,LOCALE_SOMALI,LOCALE_SPANISH,LOCALE_BANGLA]
     LOCALES_WITH_DESCRIPTION = [
       ['-', nil],
       ['English', LOCALE_ENGLISH],
       ['Français', LOCALE_FRENCH],
       ['العربية', LOCALE_ARABIC],
       ['العربية (اللبنانية)', LOCALE_LEBANON],
-      ['Español', LOCALE_SPANISH]
+      ['Af-Soomaali', LOCALE_SOMALI],
+      ['Español', LOCALE_SPANISH],
+      ['বাংলা', LOCALE_BANGLA]
     ]
 
     if ENV['RAILS_LOG_PATH'].present?

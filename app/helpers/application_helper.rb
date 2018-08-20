@@ -28,10 +28,6 @@ module ApplicationHelper
       "report" => { "read" => "administrator_read" }
   }
 
-  def current_url_with_format_of( format )
-    url_for( params.merge( :format => format ) )
-  end
-
   def current_menu(menu_name)
     "current" if @@menu_groups[controller.name] == menu_name
   end
@@ -217,6 +213,12 @@ module ApplicationHelper
     else
       true
     end
+  end
+
+  def display_sex(value, lookups=[])
+    gender_lookup = lookups.select{|l| l.id == 'lookup-gender'}.first
+    genders = gender_lookup.lookup_values.map{|v| [v['id'], v['display_text']]}.to_h
+    genders[value] || value
   end
 
   def disabled_status(object)

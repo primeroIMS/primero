@@ -2,8 +2,8 @@ module AgencyLogos
   extend ActiveSupport::Concern
 
   included do
-    before_filter :all_agency_logos
-    before_filter :find_logo, :only => [:show_logo]
+    before_action :all_agency_logos
+    before_action :find_logo, :only => [:show_logo]
   end
 
   def show_logo

@@ -4,8 +4,8 @@ class IncidentsController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
 
-  before_filter :normalize_violations, :only => [:create, :update]
-  before_filter :load_fields, :only => [:index]
+  before_action :normalize_violations, :only => [:create, :update]
+  before_action :load_fields, :only => [:index]
   #TODO: Do we need to sanitize params?
   #TODO: Dp we need to filter_params_array_duplicates?
 
@@ -15,7 +15,7 @@ class IncidentsController < ApplicationController
     if params['incident'].present? && params['incident']['violations'].present?
       violations_subforms_control_keys = []
       # Save the keys for control inputs created when removing the last violation subform.
-      params['incident']['violations'].each_key { |key| violations_subforms_control_keys << key if params['incident']['violations'][key].is_a? String }
+      params['incident']['violations'].keys.each { |key| violations_subforms_control_keys << key if params['incident']['violations'][key].is_a? String }
 
       params['incident']['violations'].each do |k, v|
         if v.present?

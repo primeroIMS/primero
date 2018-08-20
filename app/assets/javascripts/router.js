@@ -11,6 +11,7 @@ _primero.Router = Backbone.Router.extend({
     'cases': 'recordIndexPage',
     'tracing_requests': 'recordIndexPage',
     'potential_matches': 'recordIndexPage',
+    'audit_logs': 'recordIndexPage',
     'children/:id': 'recordShowPage',
     'reports/new': 'reportsForm',
     'reports/:id/edit': 'reportsForm',
@@ -29,7 +30,8 @@ _primero.Router = Backbone.Router.extend({
     'login' : 'maskedUserAndPasswordLogin',
     'sessions/new': 'maskedUserAndPasswordLogin',
     'locations/new': 'locations',
-    'locations/:id/edit': 'locations'
+    'locations/:id/edit': 'locations',
+    'matching_configurations/:id/edit': 'matchingConfigurationPage'
   },
 
   initialize: function() {
@@ -86,7 +88,9 @@ _primero.Router = Backbone.Router.extend({
     this.maskedUserAndPasswordReferal();
     this.maskedUserAndPasswordTransfer();
 
+
     if ($('#ids-search')) {
+      new _primero.Views.viewRecord();
       new _primero.Views.IdSearch();
     }
   },
@@ -218,6 +222,11 @@ _primero.Router = Backbone.Router.extend({
 
   locations: function(){
     new _primero.Views.Locations();
+  },
+
+  matchingConfigurationPage: function() {
+    _primero.chosen(".default-form select.chosen-select");
+    new _primero.Views.PopulateSelectBoxes();
   }
 
 });

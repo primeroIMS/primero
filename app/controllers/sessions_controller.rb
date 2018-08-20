@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-  skip_before_filter :check_authentication, :only => %w{new create active}
+  skip_before_action :check_authentication, :only => %w{new create active}
 
   @model_class = Session
 
@@ -30,7 +30,7 @@ class SessionsController < ApplicationController
       return redirect_to(root_path)
     end
 
-    @session = Session.new(params[:login])
+    @session = Session.new(params[:login].to_h)
 
     @page_name = t("login.label")
 
@@ -43,7 +43,7 @@ class SessionsController < ApplicationController
   # POST /sessions
   # POST /sessions.xml
   def create
-    @login = Login.new(params)
+    @login = Login.new(params.to_h)
     @session = @login.authenticate_user
 
     if not @session
@@ -92,7 +92,7 @@ class SessionsController < ApplicationController
   end
 
   def active
-    render :text => 'OK'
+    render plain: 'OK'
   end
 
   private
@@ -129,17 +129,21 @@ class SessionsController < ApplicationController
   end
 
   #Override methods in LoggerActions.
-  def logger_action_titleize
+  def logger_action_name
     if action_name == 'create'
-      I18n.t("logger.login", :locale => :en)
+      'login'
     elsif action_name == 'destroy'
-      I18n.t("logger.logout", :locale => :en)
+      'logout'
     else
       super
     end
   end
 
   def logger_action_identifier
+    nil
+  end
+
+  def logger_model_titleize
     nil
   end
 

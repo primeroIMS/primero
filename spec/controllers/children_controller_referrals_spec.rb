@@ -84,7 +84,7 @@ describe ChildrenController do
         "id"=>id
       }
       params["is_remote"] = "true" if remote_referral
-      post :transition, params
+      post :transition, params: params
 
       #No consent was grant to make a referrals on the record.
       flash[:notice].should eq("Case #{short_id} referral failed (check that consent fields are selected)")
@@ -169,7 +169,7 @@ describe ChildrenController do
         controller.stub :encrypt_data_to_zip
       end
 
-      post :transition, params
+      post :transition, params: params
 
       #Consent override is true, so even the case has no consent this will be done anyway.
       flash[:notice].should eq("Case #{short_id} successfully referred")

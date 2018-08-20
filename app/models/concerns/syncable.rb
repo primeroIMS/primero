@@ -324,7 +324,7 @@ module Syncable
                         case normed_history_value
                         when Date, DateTime, Time
                           normed_history_value.class.parse(normed_proposed_value)
-                        when Integer, Fixnum
+                        when Integer
                           Integer(normed_proposed_value)
                         else
                           normed_proposed_value

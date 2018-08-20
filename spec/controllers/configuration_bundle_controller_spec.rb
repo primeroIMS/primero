@@ -235,7 +235,7 @@ describe ConfigurationBundleController, :type => :controller do
     user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
     session = fake_admin_login user
 
-    get :export_bundle, password: '12345'
+    get :export_bundle, params: {password: '12345'}
     expect(response).to have_http_status(:ok)
   end
 

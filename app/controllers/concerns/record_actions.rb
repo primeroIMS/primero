@@ -8,26 +8,30 @@ module RecordActions
   include LoggerActions
 
   included do
-    skip_before_filter :verify_authenticity_token
-    skip_before_filter :check_authentication, :only => [:reindex]
+    skip_before_action :verify_authenticity_token, raise: false
+    skip_before_action :check_authentication, :only => [:reindex], raise: false
 
-    before_filter :load_record, :except => [:new, :create, :index, :reindex]
-    before_filter :current_user, :except => [:reindex]
-    before_filter :get_lookups, :only => [:show, :new, :edit, :index]
-    before_filter :current_modules, :only => [:show, :index]
-    before_filter :is_manager, :only => [:index]
-    before_filter :is_admin, :only => [:index]
-    before_filter :is_cp, :only => [:index]
-    before_filter :is_gbv, :only => [:index]
-    before_filter :is_mrm, :only => [:index]
-    before_filter :load_consent, :only => [:show]
-    before_filter :sort_subforms, :only => [:show, :edit]
-    before_filter :load_system_settings, :only => [:index, :show, :edit, :request_approval, :approve_form, :transition]
-    before_filter :log_controller_action, :except => [:new]
-    before_filter :can_access_approvals, :only => [:index]
-    before_filter :can_sync_mobile, :only => [:index]
-    before_filter :can_view_protection_concerns_filter, :only => [:index]
-    before_filter :view_reporting_filter, :only => [:index]
+    before_action :load_record, :except => [:new, :create, :index, :reindex]
+    before_action :load_selected_records, :except => [:show, :update, :edit, :new, :create, :index, :reindex]
+    before_action :current_user, :except => [:reindex]
+    before_action :get_lookups, :only => [:show, :new, :edit, :index]
+    before_action :current_modules, :only => [:show, :index]
+    before_action :is_manager, :only => [:index]
+    before_action :is_admin, :only => [:index]
+    before_action :is_cp, :only => [:index]
+    before_action :is_gbv, :only => [:index]
+    before_action :is_mrm, :only => [:index]
+    before_action :load_consent, :only => [:show]
+    before_action :sort_subforms, :only => [:show, :edit]
+    before_action :load_system_settings, :only => [:index, :show, :edit, :request_approval, :approve_form, :transition]
+    before_action :log_controller_action, :except => [:new]
+    before_action :can_access_approvals, :only => [:index]
+    before_action :can_sync_mobile, :only => [:index]
+    before_action :can_view_protection_concerns_filter, :only => [:index]
+    before_action :display_view_page, :only => [:index]
+    before_action :view_reporting_filter, :only => [:index]
+    before_action :can_request_transfer, :only => [:index, :quick_view]
+    before_action :can_view_photo, :only => [:quick_view]
   end
 
   def list_variable_name
@@ -65,8 +69,13 @@ module RecordActions
     respond_to do |format|
       format.html do
         if params[:query].present? && @id_search.present? && !@records.present?
-          flash[:notice] = t('case.id_search_no_results', id: params[:query])
-          redirect_to new_case_path(module_id: params[:module_id]) if params[:redirect_not_found].present?
+          if params[:redirect_not_found].present?
+            flash[:notice] = t('case.id_search_no_results', id: params[:query])
+            redirect_to new_case_path(module_id: params[:module_id])
+          else
+            # Use flash.now so message does not appear on next request (i.e. if you click to another page)
+            flash.now[:notice] = t('case.id_search_no_results', id: params[:query])
+          end
         end
       end
       unless params[:password]
@@ -340,6 +349,18 @@ module RecordActions
     @can_sync_mobile = can?(:sync_mobile, model_class)
   end
 
+  def display_view_page
+    @can_display_view_page = can?(:display_view_page, model_class)
+  end
+
+  def can_request_transfer
+    @can_request_transfer = can?(:request_transfer, model_class)
+  end
+
+  def can_view_photo
+    @can_view_photo = can?(:view_photo, model_class)
+  end
+
   def view_reporting_filter
     #TODO: This will change once the filters become configurable
     @can_view_reporting_filter ||= (can?(:dash_reporting_location, Dashboard) | is_admin | is_manager)
@@ -347,7 +368,7 @@ module RecordActions
 
   def record_params
     param_root = model_class.name.underscore
-    params[param_root] || {}
+    params[param_root].try(:to_h) || {}
   end
 
   # All the stuff that isn't properties that should be allowed
@@ -378,6 +399,18 @@ module RecordActions
     # Alias the record to a more specific name since the record controllers
     # already use it
     instance_variable_set("@#{model_class.name.underscore}", @record)
+  end
+
+  def load_selected_records
+    @records = []
+    if params[:selected_records].present?
+      selected_ids = params[:selected_records].split(',')
+      @records = model_class.all(keys: selected_ids).all
+    end
+
+    # Alias the records to a more specific name since the record controllers
+    # already use it
+    instance_variable_set("@#{model_class.name.pluralize.underscore}", @records)
   end
 
   def load_consent
@@ -462,28 +495,36 @@ module RecordActions
   end
 
   #Override method in LoggerActions.
+  def logger_display_id
+    return @record.display_id if @record.present? && @record.respond_to?(:display_id)
+    return @records.map{|r| r.display_id} if @records.present? && @records.first.respond_to?(:display_id)
+    super
+  end
+
+  #Override method in LoggerActions.
   #TODO v1.3: make sure the mobile syncs are audited
-  def logger_action_titleize
+  def logger_action_name
     if (action_name == "show" && params[:format].present?) || (action_name == "index" && params[:format].present?)
       #Export action take on the show controller method.
       #In order to know that is an "Export" use the <format>.
       #Empty <format> is for read view.
-      I18n.t("logger.export", :locale => :en)
+      'export'
     elsif action_name == "transition"
       #Transition is the action but does not says what kind of transition is
       #So must use the transition_type parameters to know that.
-      I18n.t("logger.#{transition_type}", :locale => :en)
+      transition_type
     elsif action_name == "mark_for_mobile"
       #The effective action on the record is at the parameter <mobile_value>.
-      I18n.t("logger.mark_for_mobile.#{params[:mobile_value]}", :locale => :en)
+      "mark_for_mobile.#{params[:mobile_value]}"
     elsif action_name == "request_approval"
       #The effective action on the record is at the parameter <approval_type>.
-      I18n.t("logger.request_approval.#{params[:approval_type]}", :locale => :en)
+      "request_approval.#{params[:approval_type]}"
     elsif action_name == "approve_form"
       #The effective action on the record is at the parameter <approval_type> and <approval>.
-      "#{I18n.t("logger.approve_form.#{params[:approval] || "false"}", :locale => :en)} #{I18n.t("logger.approve_form.#{params[:approval_type]}", :locale => :en)}"
+      "approve_form.#{params[:approval] || "false"}"
+      # "#{I18n.t("logger.approve_form.#{params[:approval] || "false"}", :locale => :en)} #{I18n.t("logger.approve_form.#{params[:approval_type]}", :locale => :en)}"
     elsif action_name == "transfer_status"
-      I18n.t("logger.transfer_status.#{params[:transition_status]}", :locale => :en)
+      "transfer_status.#{params[:transition_status]}"
     else
       super
     end
@@ -507,6 +548,13 @@ module RecordActions
     else
       super
     end
+  end
+
+  #Override method in LoggerActions.
+  def logger_owned_by
+    return @record.owned_by if @record.present? && @record.respond_to?(:owned_by)
+    return @records.map{|r| r.owned_by} if @records.present? && @records.first.respond_to?(:owned_by)
+    super
   end
 
 end

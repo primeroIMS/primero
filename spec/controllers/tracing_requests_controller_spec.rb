@@ -85,31 +85,31 @@ describe TracingRequestsController, :type => :controller do
       it "GET show" do
         @controller.current_ability.should_receive(:can?).with(:read, @tracing_request).and_return(false);
         controller.stub :get_form_sections
-        get :show, :id => @tracing_request.id
+        get :show, params: { :id => @tracing_request.id }
         response.status.should == 403
       end
 
       it "PUT update" do
         @controller.current_ability.should_receive(:can?).with(:update, @tracing_request).and_return(false);
-        put :update, :id => @tracing_request.id
+        put :update, params: { :id => @tracing_request.id }
         response.status.should == 403
       end
 
       it "PUT edit_photo" do
         @controller.current_ability.should_receive(:can?).with(:update, @tracing_request).and_return(false);
-        put :edit_photo, :id => @tracing_request.id
+        put :edit_photo, params: { :id => @tracing_request.id }
         response.status.should == 403
       end
 
       it "PUT update_photo" do
         @controller.current_ability.should_receive(:can?).with(:update, @tracing_request).and_return(false);
-        put :update_photo, :id => @tracing_request.id
+        put :update_photo, params: { :id => @tracing_request.id }
         response.status.should == 403
       end
 
       it "PUT select_primary_photo" do
         @controller.current_ability.should_receive(:can?).with(:update, @tracing_request).and_return(false);
-        put :select_primary_photo, :tracing_request_id => @tracing_request.id, :photo_id => 0
+        put :select_primary_photo, params: { :tracing_request_id => @tracing_request.id, :photo_id => 0 }
         response.status.should == 403
       end
 
@@ -143,7 +143,7 @@ describe TracingRequestsController, :type => :controller do
           tracing_requests.stub(:paginate).and_return(tracing_requests)
           TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(tracing_requests)
 
-          get :index, :scope => scope
+          get :index, params: { :scope => scope }
           assigns[:tracing_requests].should == tracing_requests
         end
       end
@@ -168,7 +168,7 @@ describe TracingRequestsController, :type => :controller do
           tracing_requests.stub(:paginate).and_return(tracing_requests)
           TracingRequest.should_receive(:list_records).with(@status, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, "fakefieldworker", nil, nil).and_return(tracing_requests)
           @params.merge!(:scope => @status)
-          get :index, @params
+          get :index, params: @params
           assigns[:tracing_requests].should == tracing_requests
         end
       end
@@ -199,7 +199,7 @@ describe TracingRequestsController, :type => :controller do
         search.should_receive(:total).and_return(100)
         TracingRequest.should_receive(:list_records).with({"record_state"=>{:type=>"single", :value=>true}}, {:created_at=>:desc}, {:page=> 1, :per_page=> 500}, ["fakefieldworker"], nil, nil).and_return(search)
         params = {"page" => "all"}
-        get :index, params
+        get :index, params: params
         assigns[:tracing_requests].should == collection
         assigns[:total_records].should == 100
       end
@@ -241,11 +241,11 @@ describe TracingRequestsController, :type => :controller do
         controller.stub :render
         #Prepare parameters to call the corresponding exporter.
         params = {"page" => "all", "export_list_view" => "true", "format" => "list_view_csv"}
-        get :index, params
+        get :index, params: params
       end
     end
 
-    describe "export_filename" do
+    describe "export list filename" do
       before :each do
         @password = 's3cr3t'
         @session = fake_field_worker_login
@@ -253,48 +253,66 @@ describe TracingRequestsController, :type => :controller do
         @tracing_request2 = TracingRequest.new(:id => "2", :unique_identifier=> "unique_identifier-2")
       end
 
-      it "should use the file name provided by the user" do
-        TracingRequest.stub :list_records => double(:results => [ @tracing_request1, @tracing_request2 ], :total => 2)
-        #This is the file name provided by the user and should be sent as parameter.
-        custom_export_file_name = "user file name"
-        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{custom_export_file_name}.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        params = {:format => :csv, :password => @password, :custom_export_file_name => custom_export_file_name}
-        get :index, params
+      context 'when there are multiple records' do
+        before do
+          TracingRequest.stub :list_records => double(:results => [ @tracing_request1, @tracing_request2 ], :total => 2)
+        end
+
+        it 'exports records' do
+          get :index, format: :csv
+          expect(response.header['Content-Type']).to include 'application/zip'
+        end
+
+        context 'when the file name is provided' do
+          before do
+            @custom_export_file_name = "user_file_name"
+          end
+
+          it 'exports using the file name provided' do
+            get :index, params: {password: @password, custom_export_file_name: @custom_export_file_name}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@custom_export_file_name}.csv.zip")
+          end
+        end
+
+        context 'when the file name is not provided' do
+          it 'uses the user_name and model_name to create the file name' do
+            get :index, params: {password: @password}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@session.user.user_name}-tracing_request.csv.zip")
+          end
+        end
       end
 
-      it "should use the user_name and model_name to get the file name" do
-        TracingRequest.stub :list_records => double(:results => [ @tracing_request1, @tracing_request2 ], :total => 2)
-        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@session.user.user_name}-tracing_request.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        params = {:format => :csv, :password => @password}
-        get :index, params
-      end
+      context 'when there is only 1 record' do
+        before do
+          TracingRequest.stub :list_records => double(:results => [ @tracing_request1 ], :total => 1)
+        end
 
-      it "should use the unique_identifier to get the file name" do
-        TracingRequest.stub :list_records => double(:results => [ @tracing_request1 ], :total => 1)
-        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1 ], anything, anything, anything).and_return('data')
-        ##### Main part of the test ####
-        #Call the original method to check the file name calculated
-        controller.should_receive(:export_filename).with([ @tracing_request1 ], Exporters::CSVExporter).and_call_original
-        #Test that the file name is the expected.
-        controller.should_receive(:encrypt_data_to_zip).with('data', "#{@tracing_request1.unique_identifier}.csv", @password).and_return(true)
-        ##### Main part of the test ####
-        controller.stub :render
-        params = {:format => :csv, :password => @password}
-        get :index, params
+        it 'exports records' do
+          get :index, format: :csv
+          expect(response.header['Content-Type']).to include 'application/zip'
+        end
+
+        context 'when the file name is provided' do
+          before do
+            @custom_export_file_name = "user_file_name"
+          end
+
+          it 'exports using the file name provided' do
+            get :index, params: {password: @password, custom_export_file_name: @custom_export_file_name}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@custom_export_file_name}.csv.zip")
+          end
+        end
+
+        context 'when the file name is not provided' do
+          it 'uses the unique_identifier to create the file name' do
+            get :index, params: {password: @password}, format: :csv
+            expect(response.header['Content-Type']).to include('application/zip')
+            expect(response.header['Content-Disposition']).to include("#{@tracing_request1.unique_identifier}.csv.zip")
+          end
+        end
       end
     end
 
@@ -340,7 +358,7 @@ describe TracingRequestsController, :type => :controller do
       xit "should flash notice when exporting no records" do
         format = "cpims"
         @params.merge!(:format => format)
-        get :index, @params
+        get :index, params: @params
         flash[:notice].should == "No Records Available!"
       end
     end
@@ -383,7 +401,7 @@ describe TracingRequestsController, :type => :controller do
       tracing_request = build :tracing_request
       controller.stub :render
       controller.stub :get_form_sections
-      get :show, :id => tracing_request.id
+      get :show, params: { :id => tracing_request.id }
       assigns[:page_name].should == "View Tracing Request #{tracing_request.short_id}"
     end
 
@@ -391,7 +409,9 @@ describe TracingRequestsController, :type => :controller do
       TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
       controller.stub :get_form_sections
-      get :show, :id => "37"
+      allow(@mock_tracing_request).to receive(:display_id).and_return('37')
+      allow(@mock_tracing_request).to receive(:owned_by).and_return('test_owner')
+      get :show, params: { :id => "37" }
       assigns[:tracing_request].should equal(mock_tracing_request)
     end
 
@@ -403,7 +423,7 @@ describe TracingRequestsController, :type => :controller do
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
 
       controller.stub :render
-      get(:show, :format => :csv, :id => "37")
+      get :show, params: { :format => :csv, :id => "37" }
     end
 
     it "should set current photo key as blank instead of nil" do
@@ -411,7 +431,7 @@ describe TracingRequestsController, :type => :controller do
       tracing_request = TracingRequest.create('last_known_location' => "London", :created_by => "uname")
       TracingRequest.stub(:get).with("37").and_return(tracing_request)
       assigns[tracing_request[:current_photo_key]] == ""
-      get(:show, :format => 'json', :id => "37")
+      get :show, params: { :format => 'json', :id => "37" }
     end
 
     it "retrieves the grouped forms that are permitted to this user and tracing request" do
@@ -419,14 +439,16 @@ describe TracingRequestsController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       TracingRequest.stub(:allowed_formsections).and_return(grouped_forms)
-      get :show, :id => "37"
+      allow(@mock_tracing_request).to receive(:display_id).and_return('37')
+      allow(@mock_tracing_request).to receive(:owned_by).and_return('test_owner')
+      get :show, params: { :id => "37" }
       assigns[:form_sections].should == grouped_forms
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
       TracingRequest.stub(:get).with("invalid record").and_return(nil)
       controller.stub :get_form_sections
-      get :show, :id=> "invalid record"
+      get :show, params: { :id=> "invalid record" }
       flash[:error].should == "Tracing request with the given id is not found"
       response.should redirect_to(:action => :index)
     end
@@ -438,7 +460,7 @@ describe TracingRequestsController, :type => :controller do
       duplicates = [TracingRequest.new(:name => "duplicated")]
       TracingRequest.should_receive(:duplicates_of).with("37").and_return(duplicates)
       controller.stub :get_form_sections
-      get :show, :id => "37"
+      get :show, params: { :id => "37" }
       assigns[:duplicates].should == duplicates
     end
   end
@@ -456,7 +478,7 @@ describe TracingRequestsController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       TracingRequest.stub(:allowed_formsections).and_return(grouped_forms)
-      get :new, :id => "37"
+      get :new, params: { :id => "37" }
       assigns[:form_sections].should == grouped_forms
     end
   end
@@ -466,7 +488,9 @@ describe TracingRequestsController, :type => :controller do
       TracingRequest.stub(:allowed_formsections).and_return({})
       TracingRequest.stub(:get).with("37").and_return(mock_tracing_request)
       controller.stub :get_form_sections
-      get :edit, :id => "37"
+      allow(@mock_tracing_request).to receive(:display_id).and_return('37')
+      allow(@mock_tracing_request).to receive(:owned_by).and_return('test_owner')
+      get :edit, params: { :id => "37" }
       assigns[:tracing_request].should equal(mock_tracing_request)
     end
 
@@ -475,7 +499,9 @@ describe TracingRequestsController, :type => :controller do
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       TracingRequest.stub(:allowed_formsections).and_return(grouped_forms)
-      get :edit, :id => "37"
+      allow(@mock_tracing_request).to receive(:display_id).and_return('37')
+      allow(@mock_tracing_request).to receive(:owned_by).and_return('test_owner')
+      get :edit, params: { :id => "37" }
       assigns[:form_sections].should == grouped_forms
     end
   end
@@ -489,10 +515,10 @@ describe TracingRequestsController, :type => :controller do
       tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-      put :update, :id => tracing_request.id,
+      put :update, params: { :id => tracing_request.id,
         :tracing_request => {
           :relation_name => "Bill",
-          :photo => Rack::Test::UploadedFile.new(uploadable_photo_jeff) }
+          :photo => Rack::Test::UploadedFile.new(uploadable_photo_jeff) }}
 
       assigns[:tracing_request]['relation_name'].should == "Bill"
       assigns[:tracing_request]['_attachments'].size.should == 2
@@ -503,10 +529,10 @@ describe TracingRequestsController, :type => :controller do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
       tracing_request = TracingRequest.create('last_known_location' => "London", 'photo' => uploadable_photo, :created_by => "uname")
 
-      put :update, :id => tracing_request.id,
+      put :update, params: { :id => tracing_request.id,
         :tracing_request => {
           :relation_name => 'Bill',
-          :reunited => 'false'}
+          :reunited => 'false' }}
 
       assigns[:tracing_request]['relation_name'].should == 'Bill'
       assigns[:tracing_request]['reunited'].should == false
@@ -515,13 +541,13 @@ describe TracingRequestsController, :type => :controller do
 
     it "should allow a records ID to be specified to create a new record with a known id" do
       new_uuid = UUIDTools::UUID.random_create()
-      put :update, :id => new_uuid.to_s,
+      put :update, params: { :id => new_uuid.to_s,
         :tracing_request => {
             :id => new_uuid.to_s,
             :_id => new_uuid.to_s,
             :last_known_location => "London",
             :age => "7"
-        }
+        }}
       TracingRequest.get(new_uuid.to_s)[:unique_identifier].should_not be_nil
     end
 
@@ -531,7 +557,7 @@ describe TracingRequestsController, :type => :controller do
       TracingRequest.stub(:get).with("123").and_return(tracing_request)
       subject.should_receive('current_user_full_name').and_return('Bill Clinton')
 
-      put :update, :id => 123, :tracing_request => {:flag => true, :flag_message => "Test"}
+      put :update, params: { :id => 123, :tracing_request => {:flag => true, :flag_message => "Test" }}
 
       tracing_request.last_updated_by_full_name.should == 'Bill Clinton'
     end
@@ -541,19 +567,19 @@ describe TracingRequestsController, :type => :controller do
       tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
       params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
-      put :update, :id => '1', :tracing_request => params_tracing_request
-      end
+      put :update, params: { :id => '1', :tracing_request => params_tracing_request }
+    end
 
     it "should delete the audio if checked delete_tracing_request_audio checkbox" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
       params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, true, params_tracing_request)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, true, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
-      put :update, :id => '1', :tracing_request => params_tracing_request, :delete_tracing_request_audio => "1"
+      put :update, params: { :id => '1', :tracing_request => params_tracing_request, :delete_tracing_request_audio => "1" }
     end
 
     it "should redirect to redirect_url if it is present in params" do
@@ -561,9 +587,9 @@ describe TracingRequestsController, :type => :controller do
       tracing_request = TracingRequest.new_with_user_name(user, {:relation_name => 'some name'})
       params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
-      put :update, :id => '1', :tracing_request => params_tracing_request, :redirect_url => '/cases'
+      put :update, params: { :id => '1', :tracing_request => params_tracing_request, :redirect_url => '/cases' }
       response.should redirect_to '/cases?follow=true'
     end
 
@@ -573,9 +599,9 @@ describe TracingRequestsController, :type => :controller do
 
       params_tracing_request = {"relation_name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
-      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", nil, nil, false, params_tracing_request)
+      tracing_request.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_tracing_request)
       TracingRequest.stub(:get).and_return(tracing_request)
-      put :update, :id => '1', :tracing_request => params_tracing_request
+      put :update, params: { :id => '1', :tracing_request => params_tracing_request }
       response.should redirect_to "/tracing_requests/#{tracing_request.id}?follow=true"
     end
 
@@ -657,20 +683,7 @@ describe TracingRequestsController, :type => :controller do
       tracing_requests.should == [ tracing_request1, tracing_request2 ]
     }
 
-    get :index, :format => :mock
-  end
-
-  it 'should export tracing request using #respond_to_export' do
-    tracing_request = build :tracing_request
-    controller.stub :render => true
-    controller.should_receive(:YAY).and_return(true)
-
-    controller.should_receive(:respond_to_export) { |format, tracing_requests|
-      format.mock { controller.send :YAY }
-      tracing_requests.should == [ tracing_request ]
-    }
-
-    get :show, :id => tracing_request.id, :format => :mock
+    get :index, params: { :format => :mock }
   end
 
   describe '#respond_to_export' do
@@ -678,56 +691,34 @@ describe TracingRequestsController, :type => :controller do
       @tracing_request1 = build :tracing_request
       @tracing_request2 = build :tracing_request
       controller.stub :paginated_collection => [ @tracing_request1, @tracing_request2 ], :render => true
-      TracingRequest.stub :list_records => double(:results => [@child1, @child2 ], :total => 2)
+      TracingRequest.stub :list_records => double(:results => [@tracing_request1, @tracing_request2 ], :total => 2)
     end
 
-    xit "should handle full PDF" do
-      Addons::PdfExportTask.any_instance.should_receive(:export).with([ @tracing_request1, @tracing_request2 ]).and_return('data')
-      get :index, :format => :pdf
+    context 'show' do
+      it 'exports 1 record' do
+        get :show, params: {id: @tracing_request1.id}, format: :csv
+        expect(response.header['Content-Type']).to include 'application/zip'
+        expect(response.header['Content-Disposition']).to include "#{@tracing_request1.unique_identifier}.csv.zip"
+      end
     end
 
-    xit "should handle Photowall PDF" do
-      Addons::PhotowallExportTask.any_instance.should_receive(:export).with([ @tracing_request1, @tracing_request2 ]).and_return('data')
-      get :index, :format => :photowall
+    context 'index' do
+      it "should handle CSV" do
+        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
+        get :index, format: :csv
+      end
+
+      it "should encrypt result" do
+        password = 's3cr3t'
+        Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything, anything).and_return('data')
+        # controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_return("test_filename")
+        # controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', password).and_return(true)
+        get :index, params: {password: password, custom_export_file_name: 'test_filename'}, format: :csv
+        #TODO - what else to test?
+        expect(response.header['Content-Type']).to include 'application/zip'
+        expect(response.header['Content-Disposition']).to include "test_filename.csv.zip"
+      end
     end
-
-    xit "should handle CSV" do
-      Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything).and_return('data')
-      get :index, :format => :csv
-    end
-
-    xit "should encrypt result" do
-      Exporters::CSVExporter.should_receive(:export).with([ @tracing_request1, @tracing_request2 ], anything, anything).and_return('data')
-      controller.should_receive(:export_filename).with([ @tracing_request1, @tracing_request2 ], Exporters::CSVExporter).and_return("test_filename")
-      controller.should_receive(:encrypt_exported_files).with('data', 'test_filename').and_return(true)
-      get :index, :format => :csv
-    end
-
-    xit "should create a log_entry when record is exported" do
-      fake_login User.new(:user_name => 'fakeuser', :organization => "STC", :role_ids => ["abcd"])
-      @controller.stub(:authorize!)
-      RapidftrAddonCpims::ExportTask.any_instance.should_receive(:export).with([ @tracing_request1, @tracing_request2 ]).and_return('data')
-
-      LogEntry.should_receive(:create!).with :type => LogEntry::TYPE[:cpims], :user_name => "fakeuser", :organization => "STC", :tracing_request_ids => [@tracing_request1.id, @tracing_request2.id]
-
-      get :index, :format => :cpims
-    end
-
-    xit "should generate filename based on tracing request ID and addon ID when there is only one tracing request" do
-      @tracing_request1.stub :short_id => 'test_short_id'
-      controller.send(:export_filename, [ @tracing_request1 ], Addons::PhotowallExportTask).should == "test_short_id_photowall.zip"
-    end
-
-    xit "should generate filename based on username and addon ID when there are multiple tracing requests" do
-      controller.stub :current_user_name => 'test_user'
-      controller.send(:export_filename, [ @tracing_request1, @tracing_request2 ], Addons::PdfExportTask).should == "test_user_pdf.zip"
-    end
-
-    xit "should handle CSV" do
-      Exporters::CSVExporter.any_instance.should_receive(:export).with([ @tracing_request1, @tracing_request2 ]).and_return('data')
-      get :index, :format => :csv
-    end
-
   end
 
   describe "PUT select_primary_photo" do
@@ -743,11 +734,11 @@ describe TracingRequestsController, :type => :controller do
       @tracing_request.should_receive(:primary_photo_id=).with(@photo_key)
       @tracing_request.should_receive(:save)
 
-      put :select_primary_photo, :tracing_request_id => @tracing_request.id, :photo_id => @photo_key
+      put :select_primary_photo, params: { :tracing_request_id => @tracing_request.id, :photo_id => @photo_key }
     end
 
     it "should return success" do
-      put :select_primary_photo, :tracing_request_id => @tracing_request.id, :photo_id => @photo_key
+      put :select_primary_photo, params: { :tracing_request_id => @tracing_request.id, :photo_id => @photo_key }
 
       response.should be_success
     end
@@ -758,7 +749,7 @@ describe TracingRequestsController, :type => :controller do
       end
 
       it "should return error" do
-        put :select_primary_photo, :tracing_request_id => @tracing_request.id, :photo_id => @photo_key
+        put :select_primary_photo, params: { :tracing_request_id => @tracing_request.id, :photo_id => @photo_key }
 
         response.should be_error
       end
@@ -829,7 +820,7 @@ describe TracingRequestsController, :type => :controller do
       tracing_request.save
       fake_admin_login
       controller.stub(:authorize!)
-      post :create, :tracing_request => {:unique_identifier => tracing_request.unique_identifier, :relation_name => 'new name'}
+      post :create, params: { :tracing_request => {:unique_identifier => tracing_request.unique_identifier, :relation_name => 'new name' }}
       updated_tracing_request = TracingRequest.by_short_id(:key => tracing_request.short_id)
       updated_tracing_request.all.size.should == 1
       updated_tracing_request.first.relation_name.should == 'new name'

@@ -1,3 +1,5 @@
+#TODO: For now leaving CouchRest::Model::Base
+#TODO: Inheriting from ApplicationRecord breaks created_at in the Historical Concern for some reason
 class Child < CouchRest::Model::Base
   use_database :child
 
@@ -52,8 +54,12 @@ class Child < CouchRest::Model::Base
   property :nickname
   property :name
   property :protection_concerns
+  property :consent_for_tracing, TrueClass
   property :hidden_name, TrueClass, :default => false
   property :registration_date, Date
+  property :age, Integer
+  property :date_of_birth, Date
+  property :sex
   property :reunited, TrueClass
   property :reunited_message, String
   property :investigated, TrueClass
@@ -64,6 +70,7 @@ class Child < CouchRest::Model::Base
   property :system_generated_followup, TrueClass, default: false
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [], :default => []
+  property :matched_tracing_request_id
 
   validate :validate_date_of_birth
   validate :validate_registration_date
@@ -72,8 +79,6 @@ class Child < CouchRest::Model::Base
 
   before_save :sync_protection_concerns
   before_save :auto_populate_name
-
-  after_save :find_match_tracing_requests unless (Rails.env == 'production')
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -174,6 +179,7 @@ class Child < CouchRest::Model::Base
   include Transitionable
   include Reopenable
   include Approvable
+  include Alertable
 
   # Searchable needs to be after other concern includes so that properties defined in those concerns get indexed
   include Searchable
@@ -216,7 +222,6 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  include Alertable
 
   def self.report_filters
     [
@@ -360,16 +365,26 @@ class Child < CouchRest::Model::Base
     self['last_updated_by'].blank? || user_names_after_deletion.blank?
   end
 
+  def family(relation=nil)
+    result = self.try(:family_details_section) || []
+    if relation.present?
+      result = result.select do |member|
+        member.try(:relation) == relation
+      end
+    end
+    return result
+  end
+
   def fathers_name
-    self.family_details_section.select { |fd| fd.relation.try(:downcase) == 'father' }.first.try(:relation_name) if self.family_details_section.present?
+    self.family('father').first.try(:relation_name)
   end
 
   def mothers_name
-    self.family_details_section.select { |fd| fd.relation.try(:downcase) == 'mother' }.first.try(:relation_name) if self.family_details_section.present?
+    self.family('mother').first.try(:relation_name)
   end
 
   def caregivers_name
-    self.name_caregiver || self.family_details_section.select { |fd| fd.relation_is_caregiver == true }.first.try(:relation_name) if self.family_details_section.present?
+    self.name_caregiver || self.family.select { |fd| fd.relation_is_caregiver == true }.first.try(:relation_name)
   end
 
   # Solution below taken from...
@@ -396,14 +411,27 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  def matched_to_trace?(trace_id)
+    self.matched_tracing_request_id.present? &&
+    (self.matched_tracing_request_id.split('::').last == trace_id)
+  end
+
+  #TODO: The method is broken: the check should be for 'tracing_request'.
+  #      Not fixing because find_match_tracing_requests is a shambles.
   def has_tracing_request?
     # TODO: this assumes if tracing-request is in associated_record_types then the tracing request forms are also present. Add check for tracing-request forms.
     self.module.present? && self.module.associated_record_types.include?('tracing-request')
   end
 
   #TODO v1.3: Need rspec test
+  #TODO: Current logic:
+  #  On an update to a case (already inefficient, because most updates to cases arent on matching fields),
+  #  find all TRs that now match (using Solr).
+  #  For those TRs invoke reverse matching logic (why? - probably because Lucene scores are not comparable between TR and Case seraches)
+  #  and update/create the resulting PotentialMatches.
+  #  Delete the untouched PotentialMatches that are no longer valid, because they are based on old searches.
   def find_match_tracing_requests
-    if has_tracing_request?
+    if has_tracing_request? #This always returns false - bug :)
       match_result = Child.find_match_records(match_criteria, TracingRequest)
       tracing_request_ids = match_result==[] ? [] : match_result.keys
       all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
@@ -416,7 +444,7 @@ class Child < CouchRest::Model::Base
   def match_criteria(match_request=nil)
     match_criteria = inherited_match_criteria(match_request)
     Child.subform_matchable_fields.each do |field|
-      match_criteria[:"#{field}"] = self.family_details_section.map{|fds| fds[:"#{field}"]}.compact.uniq.join(' ')
+      match_criteria[:"#{field}"] = self.family.map{|member| member[:"#{field}"]}.compact.uniq.join(' ')
     end
     match_criteria.compact
   end

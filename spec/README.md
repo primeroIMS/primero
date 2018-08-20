@@ -86,7 +86,7 @@ feature "signin process" do
 end
 ```
 
-Building form sections is done throught factory girl. Notice below you can create a form section with the `form_section` factory. Add the fields you want to the fields property (array). You can also build a subform wit the `subform_field` factory and pass in your desired fields in the fields property (array).
+Building form sections is done throught factory bot. Notice below you can create a form section with the `form_section` factory. Add the fields you want to the fields property (array). You can also build a subform wit the `subform_field` factory and pass in your desired fields in the fields property (array).
 
 ```
 @form_section = create(:form_section,

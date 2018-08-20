@@ -5,9 +5,9 @@ class FormSectionController < ApplicationController
   include ImportActions
   include FormCustomization
 
-  before_filter :get_form_section, :only => [:edit, :destroy]
-  before_filter :load_form_sections, :only => [:index, :edit]
-  before_filter :get_lookups, :only => [:edit]
+  before_action :get_form_section, :only => [:edit, :destroy]
+  before_action :load_form_sections, :only => [:index, :edit]
+  before_action :get_lookups, :only => [:edit]
 
   include LoggerActions
 
@@ -29,7 +29,7 @@ class FormSectionController < ApplicationController
   def new
     authorize! :create, FormSection
     @page_name = t("form_section.create")
-    @form_section = FormSection.new(params[:form_section])
+    @form_section = FormSection.new(params[:form_section].to_h)
   end
 
   def create
@@ -60,7 +60,7 @@ class FormSectionController < ApplicationController
   def update
     authorize! :update, FormSection
     @form_section = FormSection.get_by_unique_id(params[:id], true)
-    @form_section.properties = params[:form_section]
+    @form_section.properties = params[:form_section].to_h
     if (@form_section.valid?)
       @form_section.save!
       redirect_to edit_form_section_path(
@@ -84,7 +84,7 @@ class FormSectionController < ApplicationController
     form = FormSection.get_by_unique_id(params[:id], true)
     form.visible = !form.visible?
     form.save!
-    render :text => "OK"
+    render plain: 'OK'
   end
 
   def save_order

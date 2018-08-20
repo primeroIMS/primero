@@ -32,6 +32,7 @@ Primero::Application.routes.draw do
 
   resources :system_settings, only: [:show, :edit, :update]
   resources :saved_searches, only: [:create, :index, :show, :destroy]
+  resources :matching_configurations, only: [:show, :edit, :update]
 
   resources :roles do
     collection do
@@ -70,6 +71,7 @@ Primero::Application.routes.draw do
       post :transition
       post :mark_for_mobile
       post :approve_form
+      put :request_transfer
       get :search
       get :consent_count
     end
@@ -134,6 +136,9 @@ Primero::Application.routes.draw do
   match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
   match '/cases/:child_id/create_subform' => 'children#create_subform', :as => :child_create_subform, :via => :get
   match '/cases/:child_id/save_subform' => 'children#save_subform', :as => :child_save_subform, :via => [:post, :put]
+  match '/cases/:child_id/quick_view' => 'children#quick_view', :as => :child_quick_view, :via => :get
+  match '/cases/:child_id/request_transfer_view' => 'children#request_transfer_view', :as => :request_transfer_view, :via => :get
+
 
 #Flag routing
   match '/cases/:id/flag' => 'record_flag#flag', :as => :child_flag, model_class: 'Child', :via => [:post, :put]
@@ -211,6 +216,7 @@ Primero::Application.routes.draw do
   resources :potential_matches do
     collection do
       post :import_file
+      get :quick_view
     end
   end
   # match '/potential_matches/:method' => 'potential_matches#index', :as => :potential_matches_method, :via => [:post, :get, :put, :delete]
@@ -256,25 +262,23 @@ Primero::Application.routes.draw do
 # API URLS
 #######################
 
-  scope '/api' do
+  scope '/api', defaults: { format: :json }, constraints: { format: :json } do
     #Session API
-    controller :sessions, :defaults => {:format => :json} do
-      post :login, :action => 'create'
-      post :logout, :action => 'destroy'
-    end
+    post :login, to: 'sessions#create'
+    post :logout, to: 'sessions#destroy'
 
     #Forms API
-    resources :form_sections, controller: 'form_section', constraints: {format: :json}, defaults: {:format => :json}, only: [:index]
-    resources :form_sections, controller: 'form_section', as: :forms, path: :forms, constraints: {format: :json}, defaults: {:format => :json}, only: [:index]
+    resources :form_sections, controller: 'form_section', only: [:index]
+    resources :form_sections, controller: 'form_section', as: :forms, path: :forms, only: [:index]
 
     #Records API
-    resources :children, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :children, as: :cases, path: :cases, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :incidents, as: :incidents, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :tracing_requests, as: :tracing_requests, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :potential_matches, as: :potential_matches, constraints: {format: :json}, :defaults => {:format => :json}
-    resources :options, constraints: {format: :json}, :defaults => {:format => :json}, :only => [:index]
-    resources :system_settings, constraints: {format: :json}, :defaults => {:format => :json}, :only => [:index]
+    resources :children
+    resources :children, as: :cases, path: :cases
+    resources :incidents, as: :incidents
+    resources :tracing_requests, as: :tracing_requests
+    resources :potential_matches, as: :potential_matches
+    resources :options, :only => [:index]
+    resources :system_settings, :only => [:index]
   end
 
 #######################
@@ -301,6 +305,7 @@ Primero::Application.routes.draw do
   match '/cases/:id/history' => 'child_histories#index', :as => :cases_history, :via => :get
   match '/users/:id/history' => 'user_histories#index', :as => :user_history, :via => :get
 
+  resources :audit_logs, only: [:index]
 
 #######################
 # REPLICATION URLS

@@ -4,9 +4,9 @@ class LocationsController < ApplicationController
 
   include DisableActions
 
-  before_filter :load_location, :only => [:edit, :update, :destroy]
-  before_filter :load_records_according_to_disable_filter, :except => [:destroy]
-  before_filter :load_types, :only => [:index, :new, :edit]
+  before_action :load_location, :only => [:edit, :update, :destroy]
+  before_action :load_records_according_to_disable_filter, :except => [:destroy]
+  before_action :load_types, :only => [:index, :new, :edit]
 
   include LoggerActions
 
@@ -23,7 +23,7 @@ class LocationsController < ApplicationController
 
   def create
     authorize! :create, Location
-    location = Location.new(params[:location])
+    location = Location.new(params[:location].to_h)
     location.generate_hierarchy
 
     if (location.valid?)
@@ -44,7 +44,7 @@ class LocationsController < ApplicationController
 
   def update
     authorize! :update, Location
-    @location.update_attributes params[:location]
+    @location.update_attributes params[:location].to_h
     @location.update_hierarchy
 
     if @location.save

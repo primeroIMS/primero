@@ -109,6 +109,45 @@ describe User do
       expect(user).not_to be_valid
       expect(user.errors[:module_ids]).to eq(["Please select at least one module"])
     end
+
+    describe 'locale' do
+      before do
+        @locale_user = build_user
+      end
+
+      context 'when blank' do
+        before do
+          @locale_user.locale = nil
+        end
+
+        it "is valid" do
+          expect(@locale_user).to be_valid
+        end
+      end
+
+      context 'when present' do
+        context 'and locale is in list of valid Primero locales' do
+          before do
+            @locale_user.locale = 'en'
+          end
+
+          it "is valid" do
+            expect(@locale_user).to be_valid
+          end
+        end
+
+        context 'and locale is not in list of valid Primero locales' do
+          before do
+            @locale_user.locale = 'zz'
+          end
+
+          it "is not valid" do
+            expect(@locale_user).not_to be_valid
+            expect(@locale_user.errors[:locale]).to eq(["Locale zz is not valid"])
+          end
+        end
+      end
+    end
   end
 
   it 'should validate uniqueness of username for new users' do
@@ -172,7 +211,7 @@ describe User do
 
   it "can't authenticate which isn't saved" do
     user = build_user(:password => "b00h00h00")
-    lambda { user.authenticate("thepass") }.should raise_error
+    expect { user.authenticate("thepass") }.to raise_error(Exception, "Can't authenticate an un-saved user")
   end
 
   it "can authenticate with the right password" do

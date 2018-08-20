@@ -1,3 +1,5 @@
+#TODO: For now leaving CouchRest::Model::Base
+#TODO: Inheriting from ApplicationRecord breaks created_at in the Historical Concern for some reason
 class TracingRequest < CouchRest::Model::Base
   use_database :tracing_request
 
@@ -14,8 +16,7 @@ class TracingRequest < CouchRest::Model::Base
   property :tracing_request_id
   property :relation_name
   property :reunited, TrueClass
-
-  after_save :find_match_cases unless (Rails.env == 'production')
+  property :inquiry_date
 
   def initialize *args
     self['photo_keys'] ||= []
@@ -86,6 +87,22 @@ class TracingRequest < CouchRest::Model::Base
     }
   end
 
+  def inquirer_id
+    self.tracing_request_id
+  end
+
+  def traces(trace_id=nil)
+    @traces ||= (self.tracing_request_subform_section || [])
+    if trace_id.present?
+      @traces = @traces.select{|trace| trace.unique_id == trace_id}
+    end
+    return @traces
+  end
+
+  def trace_by_id(trace_id)
+    self.traces.select{|trace| trace.unique_id == trace_id}.first
+  end
+
   def tracing_names
     names = []
     if self.tracing_request_subform_section.present?
@@ -119,6 +136,8 @@ class TracingRequest < CouchRest::Model::Base
     self['inquiry_status'] ||= STATUS_OPEN
   end
 
+  #TODO MATCHING: Bad code. This method is no longer being used
+  #               and will either be refactored into a nightly job or deleted in a future release.
   def find_match_cases(child_id=nil)
     #TODO v1.3 Bad code smell. This method is doing two things at once
     all_results = []
@@ -138,6 +157,20 @@ class TracingRequest < CouchRest::Model::Base
     all_results
   end
 
+  #TODO MATCHING: This is are-implementation of the method above
+  def matching_cases(trace_id=nil)
+    matches = []
+    traces(trace_id).each do |tr|
+      match_criteria = match_criteria(tr)
+      results = TracingRequest.find_match_records(match_criteria, Child, child_id)
+      tr_matches = PotentialMatch.matches_from_search(results) do |child_id, score, average_score|
+        PotentialMatch.build_potential_match(child_id, self.id, score, average_score, tr.unique_id)
+      end
+      matches += tr_matches
+    end
+    return matches
+  end
+
   alias :inherited_match_criteria :match_criteria
   def match_criteria(match_request=nil)
     match_criteria = inherited_match_criteria(match_request)
@@ -149,6 +182,8 @@ class TracingRequest < CouchRest::Model::Base
     match_criteria.compact
   end
 
+  #TODO MATCHING: This method is no longer being used
+  #               and will either be refactored into a nightly job or deleted in a future release.
   def self.match_tracing_requests_for_case(case_id, tracing_request_ids)
     results = []
     TracingRequest.by_id(:keys => tracing_request_ids).all.each { |tr| results.concat(tr.find_match_cases(case_id)) }

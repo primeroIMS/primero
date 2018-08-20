@@ -565,6 +565,7 @@ create_or_update_lookup(
 create_or_update_lookup(
     :id => "lookup-yes-no",
     :name => "Yes or No",
+    :locked => true,
     :lookup_values => [
         {id: "true", display_text: "Yes"}.with_indifferent_access,
         {id: "false", display_text: "No"}.with_indifferent_access
@@ -772,6 +773,17 @@ create_or_update_lookup(
         {id: "physical_disability", display_text: "Physical Disability"},
         {id: "both", display_text: "Both"}
     ]
+)
+
+create_or_update_lookup(
+    :id => "lookup-transition-type",
+    :name => "Transition Type",
+    :lookup_values => [
+        {id: "referral", display_text: "Referral"},
+        {id: "reassign", display_text: "Reassign"},
+        {id: "transfer", display_text: "Transfer"},
+        {id: "transfer_request", display_text: "Transfer Request"}
+    ].map(&:with_indifferent_access)
 )
 
 create_or_update_lookup(

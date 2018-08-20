@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'sunspot'
 
 feature "home view" do
@@ -164,7 +164,6 @@ feature "home view" do
 
       @case3 = create(:child,
         owned_by: @admin.user_name,
-        module_id: @admin.module_ids.first,
         associated_user_names: @admin.user_name,
         child_status: "open",
         assigned_user_names: [@admin.user_name],

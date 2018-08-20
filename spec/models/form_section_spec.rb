@@ -135,9 +135,9 @@ describe FormSection do
       it 'formats for moble' do
         expected = {"Children"=>
                         [{"unique_id"=>"MOBILE_1",
-                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "es"=>""},
+                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
                           "order"=>0,
-                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "es"=>""},
+                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
                           "base_language"=>"en",
                           "fields"=>
                               [{"name"=>"mobile_1_nested",
@@ -148,9 +148,9 @@ describe FormSection do
                                 "option_strings_source"=>nil,
                                 "show_on_minify_form"=>false,
                                 "mobile_visible"=>true,
-                                :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested", "ar-LB"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested"},
-                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "es"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "es"=>[]}}]}]}
+                                :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested", "ar-LB"=>"Mobile 1 Nested", "so"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested", "bn"=>"Mobile 1 Nested"},
+                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[]}}]}]}
         form_sections = FormSection.group_forms([@form_section_mobile_1], true)
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
       end
@@ -251,7 +251,7 @@ describe FormSection do
 
       expect {
         FormSection.new(:unique_id => "test").save!
-      }.to raise_error
+      }.to raise_error(CouchRest::Model::Errors::Validations)
 
       expect {
         FormSection.get_by_unique_id("test").save!
@@ -374,7 +374,7 @@ describe FormSection do
     it "should raise an error if adding a field to a non editable form section" do
       field = new_field :name=>'field_one'
       formsection = FormSection.new :editable => false
-      lambda { FormSection.add_field_to_formsection formsection, field }.should raise_error
+      expect { FormSection.add_field_to_formsection(formsection, field) }.to raise_error(RuntimeError, 'Form section not editable')
     end
 
   end
@@ -477,7 +477,7 @@ describe FormSection do
     it "should not delete uneditable fields" do
       @field = new_field(:name=>"field3", :editable => false)
       form_section = FormSection.new :fields=>[@field]
-      lambda {form_section.delete_field(@field.name)}.should raise_error("Uneditable field cannot be deleted")
+      expect {form_section.delete_field(@field.name)}.to raise_error(RuntimeError, 'Uneditable field cannot be deleted')
     end
   end
 
@@ -521,7 +521,7 @@ describe FormSection do
      expect {
        form_section[:name_en]=''
        form_section.save!
-     }.to raise_error
+     }.to raise_error(CouchRest::Model::Errors::Validations, 'Validation Failed: Name Name must not be blank')
     end
 
     it "should validate name is alpha_num" do
@@ -1062,9 +1062,8 @@ describe FormSection do
         })
         subform_section.save
 
-        subform_section.new_record?.should be_falsey
-
-        expect(subform_section.fields.first.errors.messages[:name]).to eq(nil)
+        expect(subform_section.new_record?).to be_falsey
+        expect(subform_section.fields.first.errors.messages[:name]).to be_blank
       end
    end
 
@@ -1133,9 +1132,8 @@ describe FormSection do
         field.name = "field_name_1"
 
         #Save the record and check the status
-        @subform_section.save.should be_truthy
-
-        expect(@subform_section.fields.first.errors.messages[:name]).to eq(nil)
+        expect(@subform_section.save).to be_truthy
+        expect(@subform_section.fields.first.errors.messages[:name]).to be_blank
       end
    end
 

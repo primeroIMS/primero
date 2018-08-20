@@ -1,27 +1,25 @@
 module TransitionActions
   extend ActiveSupport::Concern
 
-  include SelectActions
-
   def transition
     authorize! :referral, model_class if is_referral?
     authorize! :reassign, model_class if is_reassign?
     authorize! :transfer, model_class if is_transfer?
-    get_selected_ids
 
-    @records = []
-    if @selected_ids.present?
-      @records = model_class.all(keys: @selected_ids).all
+    @records << @record if @record.present?
+    all_record_count = 0
+    if @records.present?
+      all_record_count = @records.size
       @records = @records.select{|r| is_consent_given? r } unless is_reassign? || consent_override
     else
       flash[:notice] = t('referral.no_records_selected')
-      redirect_to :back and return
+      redirect_back(fallback_location: root_path) and return
     end
 
     if @records.blank?
       logger.info "#{model_class.parent_form}s not transitioned... no eligible records"
-      message_failure_transition @selected_ids.size
-      redirect_to :back
+      message_failure_transition all_record_count
+      redirect_back(fallback_location: root_path)
     else
       log_to_history(@records)
 
@@ -34,37 +32,58 @@ module TransitionActions
           logger.error error.message
           logger.error error.backtrace
           message_failure_transition
-          redirect_to :back
+          redirect_back(fallback_location: root_path)
         end
       elsif is_reassign?
         begin
           local_transition(@records)
           redirect_to_list and return
         rescue => error
-          redirect_to :back
+          redirect_back(fallback_location: root_path)
         end
       else
         begin
           local_transition(@records)
-          redirect_to :back
+          redirect_back(fallback_location: root_path)
         rescue => error
-          redirect_to :back
+          redirect_back(fallback_location: root_path)
         end
       end
     end
   end
 
   def consent_count
-    get_selected_ids
-
-    records = []
-    records = model_class.all(keys: @selected_ids).all if @selected_ids.present?
-
-    total_count = records.size
+    total_count = @records.size
     #For this count, do not factor in local transfers which are always allowed and would thus skew the count
-    consent_count = records.select{|r| r.given_consent(transition_type) }.size
+    consent_count = @records.try(:select) {|r| r.given_consent(transition_type) }.size
 
     render json: {:record_count => total_count, :consent_count => consent_count}
+  end
+
+  def request_transfer
+    authorize! :request_transfer, model_class
+    success = true
+    error_message = ''
+    begin
+      load_record
+      raise(I18n.t('request_transfer.error.record_not_found')) if @record.blank?
+      @record.add_transition(Transition::TYPE_TRANSFER_REQUEST, @record.owned_by, '', current_user.agency&.id,
+                             Transition::TO_USER_LOCAL_STATUS_INPROGRESS, request_transfer_notes,
+                             false, '', current_user.user_name, false, '')
+
+      @record.update_last_updated_by(current_user)
+      @record.try(:add_alert, Alertable::TRANSFER_REQUEST, Alertable::TRANSFER_REQUEST, transition_form_id, current_user.user_name, current_user.agency&.id)
+      if @record.save
+        @record.send_request_transfer_email(current_user.id, request_transfer_notes, request.base_url)
+      else
+        raise(I18n.t('request_transfer.error.record_not_saved'))
+      end
+    rescue => error
+      success = false
+      error_message = error.message
+    end
+    flash[:notice] = I18n.t('request_transfer.success')
+    render json: {success: success, error_message: error_message, reload_page: true}
   end
 
   private
@@ -338,4 +357,13 @@ module TransitionActions
     @record_id ||= @record.short_id if @record.present?
   end
 
+  def request_transfer_notes
+    @request_transfer_notes ||= (params[:request_transfer_notes].present? ? params[:request_transfer_notes] : "")
+  end
+
+  def transition_form_id
+    #Override in parent controller to identify appropriate transition form
+    #Default form is the one for Cases
+    'referral_transfer'
+  end
 end

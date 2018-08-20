@@ -115,7 +115,6 @@ class Field
   validate :validate_display_name_in_base_language
   validate :valid_tally_field
   validate :validate_option_strings_text
-  validate :validate_option_strings_keys_match
   #TODO: Any subform validations?
 
   def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
@@ -164,52 +163,79 @@ class Field
   end
 
   def validate_option_strings_text
-    if option_strings_text.present?
-      unless option_strings_text.is_a?(Array)
-        errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_array"))
+    base_options = self.send("option_strings_text_#{base_language}")
+    if base_options.blank?
+      #If base options are blank, then all translated options should also be blank
+      if Primero::Application::locales.any? {|locale| self.send("option_strings_text_#{locale}").present?}
+        errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.translations_not_empty"))
         return false
+      else
+        return true
       end
-      option_strings_text.each do |option|
-        unless option.is_a?(Hash)
-          errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_hash"))
-          return false
-        end
-        if option['id'].blank?
-          errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_blank"))
-          return false
-        end
-        if option['display_text'].blank?
-          errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.display_text_blank"))
-          return false
-        end
-      end
+    end
 
-      unless self.are_options_keys_unique?
-        errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_not_unique"))
-        return false
-      end
+    return false unless valid_option_strings?(base_options)
+    return false unless options_keys_unique?(base_options)
+    return false unless valid_option_strings_text_translations?
+
+    return true
+  end
+
+  def valid_option_strings_text_translations?
+    default_ids = self.send("option_strings_text_#{base_language}").try(:map){|op| op['id']}
+    Primero::Application::locales.each do |locale|
+      next if locale == base_language
+      options = self.send("option_strings_text_#{locale}")
+      next if options.blank?
+      return false unless valid_option_strings?(options, false)
+      return false unless option_keys_match?(default_ids, options)
     end
     return true
   end
 
-  def validate_option_strings_keys_match
-    if option_strings_text.present?
-      default_ids = self.send("option_strings_text_#{base_language}").try(:map){|op| op['id']}
-      if default_ids.present?
-        Primero::Application::locales.each do |locale|
-          next if locale == base_language || self.send("option_strings_text_#{locale}").blank?
-          locale_ids = self.send("option_strings_text_#{locale}").try(:map){|op| op['id']}
-          return errors.add(:option_strings_text, I18n.t("errors.models.field.translated_options_do_not_match")) if ((default_ids - locale_ids).present? || (locale_ids - default_ids).present?)
-        end
-      end
+  def valid_option_strings?(options, is_base_language=true)
+    unless options.is_a?(Array)
+      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_array"))
+      return false
     end
-    true
+
+    options.each {|option| return false unless valid_option?(option, is_base_language)}
+    return true
   end
 
-  def are_options_keys_unique?
-    return true if self.option_strings_text.blank?
-    return true unless self.option_strings_text.is_a?(Array) && self.option_strings_text.first.is_a?(Hash)
-    self.option_strings_text.map{|o| o['id']}.uniq.length == self.option_strings_text.map{|o| o['id']}.length
+  def valid_option?(option, is_base_language=true)
+    unless option.is_a?(Hash)
+      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.not_hash"))
+      return false
+    end
+
+    if option['id'].blank?
+      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_blank"))
+      return false
+    end
+
+    if is_base_language && option['display_text'].blank?
+      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.display_text_blank"))
+      return false
+    end
+    return true
+  end
+
+  def option_keys_match?(default_ids, options)
+    locale_ids = options.try(:map){|op| op['id']}
+    if ((default_ids - locale_ids).present? || (locale_ids - default_ids).present?)
+      errors.add(:option_strings_text, I18n.t("errors.models.field.translated_options_do_not_match"))
+      return false
+    end
+    return true
+  end
+
+  def options_keys_unique?(options)
+    unless options.map{|o| o['id']}.uniq.length == options.map{|o| o['id']}.length
+      errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.id_not_unique"))
+      return false
+    end
+    return true
   end
 
   def form
@@ -387,9 +413,17 @@ class Field
         options_list += clazz.all_names
       end
     else
-      options_list += (self.option_strings_text.present? ? self.option_strings_text(locale) : [])
+      options_list += (self.option_strings_text.present? ? display_option_strings(locale) : [])
     end
     return options_list
+  end
+
+  #Use the current locale's options only if its display text is present.
+  #Else use the default locale's options
+  def display_option_strings(current_locale)
+    locale_options = self.option_strings_text(current_locale)
+    return locale_options if locale_options.any?{|op| op['display_text'].present?}
+    return self.option_strings_text(base_language)
   end
 
   def convert_true_false_key_to_string(value)

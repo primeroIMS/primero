@@ -158,6 +158,7 @@ class User < CouchRest::Model::Base
 
   #FIXME 409s randomly...destroying user records before test as a temp
   validate :is_user_name_unique
+  validate :validate_locale
 
   before_save :generate_id
 
@@ -251,6 +252,11 @@ class User < CouchRest::Model::Base
     user = User.find_by_user_name(user_name)
     return true if user.nil? or self.id == user.id
     errors.add(:user_name, I18n.t("errors.models.user.user_name_uniqueness"))
+  end
+
+  def validate_locale
+    return true if self.locale.blank? || Primero::Application::locales.include?(self.locale)
+    errors.add(:locale, I18n.t("errors.models.user.invalid_locale", user_locale: self.locale))
   end
 
   def authenticate(check)

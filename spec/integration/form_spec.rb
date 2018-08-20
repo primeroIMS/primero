@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature "forms" do
   feature "subforms" do
@@ -25,6 +25,7 @@ feature "forms" do
       click_on('New Case')
       sleep 2
       click_on('Save')
+      sleep 2.seconds
       expect(page).to have_selector('div.form-errors')
       expect(page).to have_css('input.is-invalid-input', count: 2)
     end

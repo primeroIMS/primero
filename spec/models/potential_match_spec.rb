@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 require 'sunspot'
 
 describe PotentialMatch do
@@ -20,7 +20,7 @@ describe PotentialMatch do
                                              owned_by: @user.name, inquiry_date: '01-Mar-2017')
     @case = Child.create(created_by: 'some_user', age: 14, name: 'some_child_name', sex: 'female', owned_by: @user.name,
                          registration_date: "01-Feb-2017")
-    @potential_match = PotentialMatch.create(tracing_request: @tracing_request, child: @case, average_rating: 4.321,
+    @potential_match = PotentialMatch.create(tracing_request_id: @tracing_request.id, child_id: @case.id, average_rating: 4.321,
                                              tr_subform_id: 'abc123')
   end
 
@@ -31,7 +31,7 @@ describe PotentialMatch do
       end
 
       it 'case_age returns the age from the associated case' do
-        expect(@potential_match.case_age).to eq(14)
+        expect(@potential_match.child_age).to eq(14)
       end
 
       it 'case_registration_date returns the registration_date from the associated case' do
@@ -43,7 +43,7 @@ describe PotentialMatch do
       end
 
       it 'tracing_request_uuid returns the tracing_request_id' do
-        expect(@potential_match.tracing_request_uuid).to eq(@tracing_request.id)
+        expect(@potential_match.tracing_request_id).to eq(@tracing_request.id)
       end
 
       it 'tracing_request_inquiry_date returns the inquiry_date from the associated tracing_request' do
@@ -58,42 +58,67 @@ describe PotentialMatch do
         expect(@potential_match.tracing_request_owned_by).to eq('worker_user')
       end
     end
+  end
 
-    context 'when visible is false' do
+  describe 'comparison' do
+    describe '.compare_values' do
       before do
-        @potential_match.visible = false
+        @potential_match = PotentialMatch.new
       end
 
-      it 'case_age returns the field mask' do
-        expect(@potential_match.case_age).to eq(PotentialMatch::FIELD_MASK)
+      it 'returns a match when the values are present and equal' do
+        expect(@potential_match.compare_values('male', 'male')).to eq(PotentialMatch::VALUE_MATCH)
       end
 
-      it 'case_sex returns the field mask' do
-        expect(@potential_match.case_sex).to eq(PotentialMatch::FIELD_MASK)
+      it 'returns a mismatch when at least one value is present and the values arent equal' do
+        expect(@potential_match.compare_values('female', 'male')).to eq(PotentialMatch::VALUE_MISMATCH)
       end
 
-      it 'case_registration_date returns the field mask' do
-        expect(@potential_match.case_registration_date).to eq(PotentialMatch::FIELD_MASK)
+      it 'is nil when both values are nil' do
+        expect(@potential_match.compare_values(nil, nil)).to be_nil
+      end
+    end
+
+    describe '.case_fields_for_comparison' do
+      before do
+        FormSection.all.each &:destroy
+        @form_section = create(:form_section,
+          is_first_tab: true,
+          fields: [
+            build(:field, name: "sex", display_name: "Sex", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-gender", create_property: false, matchable: true),
+            build(:field, name: "age", display_name: "Age", type: Field::NUMERIC_FIELD, create_property: false, matchable: true),
+            build(:field, name: "name", display_name: "Service Due Dates", type: Field::TEXT_FIELD, create_property: false, matchable: true),
+            build(:field, name: 'comments', type: Field::TEXT_AREA, display_name: 'Comments', create_property: false, matchable: true),
+            build(:field, name: 'sex_of_caregiver', display_name: "Sex", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-gender", create_property: false, matchable: false)
+          ]
+        )
       end
 
-      it 'case_owned_by returns the owned_by from the associated case' do
-        expect(@potential_match.case_owned_by).to eq('worker_user')
+      it 'returns non-text matchable fields' do
+        field_names = PotentialMatch.case_fields_for_comparison.map(&:name)
+        expect(field_names).to contain_exactly('sex', 'age')
+      end
+    end
+
+    describe '.compare_case_to_trace' do
+      before do
+        PotentialMatch.stub(:case_fields_for_comparison).and_return([
+          build(:field, name: "sex", display_name: "Sex", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-gender", create_property: false, matchable: true),
+          build(:field, name: "age", display_name: "Age", type: Field::NUMERIC_FIELD, create_property: false, matchable: true)
+        ])
+        @child = build(:child, age: 12, sex: 'male')
+        @trace = build(:child, age: 12, sex: 'female') #Cheating a bit!
+        @potentail_match = PotentialMatch.new
+        @potential_match.stub(:child).and_return(@child)
+        @potential_match.stub(:trace).and_return(@trace)
       end
 
-      it 'tracing_request_uuid returns the tracing_request_id' do
-        expect(@potential_match.tracing_request_uuid).to eq(@tracing_request.id)
-      end
-
-      it 'tracing_request_inquiry_date returns the field mask' do
-        expect(@potential_match.tracing_request_inquiry_date).to eq(PotentialMatch::FIELD_MASK)
-      end
-
-      it 'tracing_request_relation_name returns the field mask' do
-        expect(@potential_match.tracing_request_relation_name).to eq(PotentialMatch::FIELD_MASK)
-      end
-
-      it 'tracing_request_owned_by returns the owned_by from the associated tracing_request' do
-        expect(@potential_match.tracing_request_owned_by).to eq('worker_user')
+      it 'returns comparison hash' do
+        case_comparison = @potential_match.compare_case_to_trace[:case]
+        sex_comparison = case_comparison.select{|c| c[:case_field].name == 'sex'}.first
+        age_comparison = case_comparison.select{|c| c[:case_field].name == 'age'}.first
+        expect(age_comparison[:matches]).to eq(PotentialMatch::VALUE_MATCH)
+        expect(sex_comparison[:matches]).to eq(PotentialMatch::VALUE_MISMATCH)
       end
     end
   end
@@ -156,26 +181,26 @@ describe PotentialMatch do
 
   describe 'group_match_records' do
     before do
-      @potential_match_0_1 = PotentialMatch.create(tracing_request: @tracing_request, child: @case, average_rating: 2.321,
+      @potential_match_0_1 = PotentialMatch.create(tracing_request_id: @tracing_request.id, child_id: @case.id, average_rating: 2.321,
                                                    tr_subform_id: 'abc123')
 
-      @potential_match_0_2 = PotentialMatch.create(tracing_request: @tracing_request, child: @case, average_rating: 1.321,
+      @potential_match_0_2 = PotentialMatch.create(tracing_request_id: @tracing_request.id, child_id: @case.id, average_rating: 1.321,
                                                    tr_subform_id: 'def456')
 
       @tracing_request_1 = TracingRequest.create(created_by: 'some_user', relation_name: 'some_relation_name',
                                                owned_by: @user.name, inquiry_date: '01-Mar-2017')
       @case_1 = Child.create(created_by: 'some_user', age: 14, name: 'some_child_name', sex: 'female', owned_by: @user.name,
                            registration_date: "01-Feb-2017")
-      @potential_match_1_0 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 9.321,
+      @potential_match_1_0 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 9.321,
                                                    tr_subform_id: 'def456')
-      @potential_match_1_1 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 0.321,
+      @potential_match_1_1 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 0.321,
                                                    tr_subform_id: 'def456')
-      @potential_match_1_2 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 0.333,
+      @potential_match_1_2 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 0.333,
                                                    tr_subform_id: 'def456')
 
-      @potential_match_1_3 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 3.321,
+      @potential_match_1_3 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 3.321,
                                                    tr_subform_id: 'ghi789')
-      @potential_match_1_4 = PotentialMatch.create(tracing_request: @tracing_request_1, child: @case_1, average_rating: 0.321,
+      @potential_match_1_4 = PotentialMatch.create(tracing_request_id: @tracing_request_1.id, child_id: @case_1.id, average_rating: 0.321,
                                                    tr_subform_id: 'ghi789')
 
       @potential_matches = [@potential_match, @potential_match_1_0, @potential_match_0_2, @potential_match_0_1,
@@ -217,5 +242,22 @@ describe PotentialMatch do
         expect(PotentialMatch.group_match_records(@potential_matches, @type)).to eq(expected)
       end
     end
+  end
+
+  describe 'likelihood' do
+    before do
+      @potential_match = PotentialMatch.new(average_rating: 0.9)
+    end
+
+    it 'marks a potential match as "likely" if it is more than 0.7 away from the average' do
+      @potential_match.set_likelihood(@potential_match.average_rating, 0.15)
+      expect(@potential_match.likelihood).to eq(PotentialMatch::LIKELY)
+    end
+
+    it 'marks a potential match as "possible" if it is less than 0.7 away from the average' do
+      @potential_match.set_likelihood(@potential_match.average_rating, 0.7)
+      expect(@potential_match.likelihood).to eq(PotentialMatch::POSSIBLE)
+    end
+
   end
 end

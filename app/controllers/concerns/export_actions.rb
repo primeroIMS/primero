@@ -42,7 +42,7 @@ module ExportActions
         else
           queue_bulk_export(exporter.id, props, file_name)
           flash[:notice] = "#{t('exports.queueing')}: #{file_name}"
-          redirect_back_or_default
+          redirect_back(fallback_location: root_path)
         end
       end
     end

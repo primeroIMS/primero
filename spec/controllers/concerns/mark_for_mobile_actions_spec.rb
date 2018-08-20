@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe MarkForMobileActions, type: :controller do
   controller(ApplicationController) do
+    include RecordActions
     include MarkForMobileActions
 
     def model_class
@@ -64,11 +65,10 @@ describe MarkForMobileActions, type: :controller do
         it 'marks as mobile when 1 id is passed' do
           @expected = {
                   :success => true,
-                  :message => 'Case  successfully marked as mobile'
-                  #:message => 'Case aaa111 successfully marked as mobile'
+                  :message => 'Case aaa111 successfully marked as mobile'
           }.to_json
 
-          post :mark_for_mobile, :mobile_value => 'true', :id => @case1.id
+          post :mark_for_mobile, params: {mobile_value: 'true', id: @case1.id}
           expect(response.body).to eq(@expected)
         end
 
@@ -78,18 +78,17 @@ describe MarkForMobileActions, type: :controller do
                   :message => '2 Record(s) successfully marked as mobile'
           }.to_json
 
-          post :mark_for_mobile, :mobile_value => 'true', :selected_records => [@case1.id, @case2.id].join(',')
+          post :mark_for_mobile, params: {mobile_value: 'true', selected_records: [@case1.id, @case2.id].join(',')}
           expect(response.body).to eq(@expected)
         end
 
         it 'unmarks as mobile when 1 id is passed' do
           @expected = {
                   :success => true,
-                  :message => 'Case  successfully unmarked as mobile'
-                  #:message => 'Case aaa111 successfully marked as mobile'
+                  :message => 'Case aaa111 successfully unmarked as mobile'
           }.to_json
 
-          post :mark_for_mobile, :mobile_value => 'false', :id => @case1.id
+          post :mark_for_mobile, params: {mobile_value: 'false', id: @case1.id}
           expect(response.body).to eq(@expected)
         end
 
@@ -99,7 +98,7 @@ describe MarkForMobileActions, type: :controller do
                   :message => '2 Record(s) successfully unmarked as mobile'
           }.to_json
 
-          post :mark_for_mobile, :mobile_value => 'false', :selected_records => [@case1.id, @case2.id].join(',')
+          post :mark_for_mobile, params: {mobile_value: 'false', selected_records: [@case1.id, @case2.id].join(',')}
           expect(response.body).to eq(@expected)
         end
 
@@ -109,7 +108,7 @@ describe MarkForMobileActions, type: :controller do
                   :message => '1 Record(s) successfully marked as mobile'
           }.to_json
 
-          post :mark_for_mobile, :mobile_value => 'true', :selected_records => [@case3.id].join(',')
+          post :mark_for_mobile, params: {mobile_value: 'true', selected_records: [@case3.id].join(',')}
           expect(response.body).to eq(@expected)
         end
       end

@@ -226,8 +226,8 @@ describe "_subform.html.erb" do
       expect(rendered).to have_tag("input[type='hidden'][name='child[subform_section_1][0][unique_id]']")
       rendered.should match(/<label class="key inline" for="nested_subform_section_1_child_subform_section_1_0_field_name_1">Field Name 1<\/label>/)
 
-       subform_section = FormSection.get_by_unique_id("nested_subform_section_2")
-       render :partial => 'form_section/subform',
+      subform_section = FormSection.get_by_unique_id("nested_subform_section_2")
+      render :partial => 'form_section/subform',
              :locals =>
                 {
                  :subform => form.fields[2],

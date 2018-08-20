@@ -7,6 +7,7 @@ describe OptionsController do
     FormSection.all.each &:destroy
     Location.all.each &:destroy
     Lookup.all.each &:destroy
+
     @country = create :location, placename_en: "Country1", placename_fr: "French Country1", admin_level: 0
     @province1 = create :location, placename_en: "Province1", placename_fr: "French Province1", hierarchy: [@country.placename]
     @province2 = create :location, placename_en: "Province2", placename_fr: "French Province2", hierarchy: [@country.placename]
@@ -28,7 +29,7 @@ describe OptionsController do
   end
 
   it "should return 401 if not authorized." do
-    get :index, format: :json
+    get :index, params: {format: :json}
     response.code.should eq('401')
   end
 
@@ -69,24 +70,24 @@ describe OptionsController do
       end
 
       it "should render requested sources as json." do
-        get :index, format: :json
+        get :index, params: {format: :json}
         expect(response.content_type.to_s).to eq('application/json')
       end
 
       it "returns Locations" do
-        get :index, string_sources: ['Location'], format: :json
+        get :index, params: {string_sources: ['Location'], format: :json}
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(@expected_response)
       end
 
       it "should return a message if no sources found." do
-        get :index, format: :json
+        get :index, params: {format: :json}
         json_response = JSON.parse(response.body)
         expect(json_response).to eq({ "message" => "Some fields failed to load, refresh the page to load all fields.", "success" => 0 })
       end
 
       it "should not return nil sources." do
-        get :index, string_sources: ['Test Source', 'Location'], format: :json
+        get :index, params: { string_sources: ['Test Source', 'Location'], format: :json }
         json_response = JSON.parse(response.body)["sources"].first
         expect(json_response["options"]).not_to include(nil)
       end
@@ -122,7 +123,7 @@ describe OptionsController do
           }
         end
         it "returns French locations" do
-          get :index, locale: 'fr', mobile: "true", string_sources: ['Location'], format: :json
+          get :index, params: {locale: 'fr', mobile: "true", string_sources: ['Location'], format: :json}
           json_response = JSON.parse(response.body)
           expect(json_response).to eq(@expected_response)
         end
@@ -139,7 +140,7 @@ describe OptionsController do
       end
 
       it 'returns lookup values' do
-        get :index, locale: 'en', mobile: "true", string_sources: ['lookup-a'], format: :json
+        get :index, params: {locale: 'en', mobile: "true", string_sources: ['lookup-a'], format: :json}
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(@expected_response)
       end
@@ -153,7 +154,7 @@ describe OptionsController do
           }
         end
         it 'returns lookup values' do
-          get :index, locale: 'fr', mobile: "true", string_sources: ['lookup-a'], format: :json
+          get :index, params: {locale: 'fr', mobile: "true", string_sources: ['lookup-a'], format: :json}
           json_response = JSON.parse(response.body)
           expect(json_response).to eq(@expected_response)
         end
@@ -183,10 +184,10 @@ describe OptionsController do
             {
               "type"=>"Location",
               "options"=> [
-                {"id" => @country.location_code, "display_text" => "Country1"},
-                {"id" => @province1.location_code, "display_text" => "Province1"},
-                {"id" => @province2.location_code, "display_text" => "Province2"},
-                {"id" => @town1.location_code, "display_text" => "Town1"}
+                {"id"=> @country.location_code, "display_text"=>"Country1"},
+                {"id"=> @province1.location_code, "display_text"=>"Province1"},
+                {"id"=> @province2.location_code, "display_text"=>"Province2"},
+                {"id"=> @town1.location_code, "display_text"=>"Town1"}
               ]
             }
           ],
@@ -195,7 +196,7 @@ describe OptionsController do
       end
 
       it 'return lookups and locations' do
-        get :index, all: true, format: :json
+        get :index, params: { all: true, format: :json }
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(@expected_response)
       end

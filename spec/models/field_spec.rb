@@ -54,15 +54,6 @@ describe "record field model" do
       field.errors[:display_name].should be_present
     end
 
-    it "should not allows empty field display_name of field base language " do
-      field = Field.new(:display_name_en => 'English', :display_name_zh=>'Chinese')
-      I18n.default_locale='zh'
-      expect {
-        field[:display_name_en]=''
-        field.save!
-      }.to raise_error
-    end
-
     it "should not allow display name without alphabetic characters" do
       field = Field.new(:display_name => "!@£$@")
       form_section = FormSection.new(:parent_form => "case")
@@ -263,6 +254,20 @@ describe "record field model" do
               expect(@field.valid?).to be_truthy
             end
           end
+
+          context 'and some translated options have blank description' do
+            before do
+              @field.option_strings_text_fr = [
+                  {id: 'option_1', display_text: "Test French Option 1"},
+                  {id: 'option_2', display_text: ""},
+                  {id: 'option_3', display_text: ""}
+              ].map(&:with_indifferent_access)
+            end
+
+            it 'is valid' do
+              expect(@field).to be_valid
+            end
+          end
         end
       end
     end
@@ -295,7 +300,7 @@ describe "record field model" do
     end
 
     it "should raise an error if can't find a default value for this field type" do
-      lambda {Field.new(:type=>"INVALID_FIELD_TYPE").default_value}.should raise_error
+      expect {Field.new(:type=>"INVALID_FIELD_TYPE").default_value}.to raise_error(RuntimeError, 'Cannot find default value for type INVALID_FIELD_TYPE')
     end
   end
 
@@ -1152,32 +1157,82 @@ describe "record field model" do
 
   end
 
-  describe "check field lookup depending when locale is specified" do
+
+  describe "options_list" do
     before do
-      Lookup.all.each &:destroy
-      @lookup_multi_locales = Lookup.create!(id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", name_es: "Spanish", lookup_values_en: [{id: "en1", display_text: "EN1"}, {id: "en2", display_text: "EN2"}], lookup_values_fr: [{id: "fr1", display_text: "FR1"}, {id: "fr2", display_text: "FR2"}], lookup_values_ar: [{id: "ar1", display_text: "AR1"}, {id: "ar2", display_text: "AR2"}], lookup_values_es: [{id: "es1", display_text: "ES1"}, {id: "es2", display_text: "ES2"}])
-      @lookup_no_locales = Lookup.create!(id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
-      @field_multi_locales = Field.new({"name" => "test_location_4",
-                     "type" => "select_box",
-                     "display_name_all" => "Test Location 4",
-                     "option_strings_source" => "lookup test"
-                    })
-      @field_no_locales = Field.new({"name" => "test_location_4",
-                     "type" => "select_box",
-                     "display_name_all" => "Test Location 4",
-                     "option_strings_source" => "lookup default"
-                    })
+
+      @english_options = [{'id' => "option_1", 'display_text' => "EN1"}, {'id' => "option_2", 'display_text' => "EN2"}, {'id' => "option_3", 'display_text' => "EN3"}]
+      @french_options = [{'id' => "option_1", 'display_text' => "FR1"}, {'id' => "option_2", 'display_text' => "FR2"}, {'id' => "option_3", 'display_text' => "FR3"}]
+      @arabic_options = [{'id' => "option_1", 'display_text' => "AR1"}, {'id' => "option_2", 'display_text' => "AR2"}, {'id' => "option_3", 'display_text' => ""}]
+      @spanish_options = [{'id' => "option_1", 'display_text' => ""}, {'id' => "option_2", 'display_text' => ""}, {'id' => "option_3", 'display_text' => ""}]
     end
 
-    context "when field lookup has many locales" do
-      it "should return settings for specified locale" do
-        expect(@field_multi_locales.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: 'ar')[0]["id"]).to eq('ar1')
+    context "when using option_strings_text" do
+      before do
+        @field_options = Field.new({"name" => "field_with_options",
+                                    "type" => "select_box",
+                                    "display_name_all" => "Field With Options",
+                                    "option_strings_text_en" => @english_options,
+                                    "option_strings_text_fr" => @french_options,
+                                    "option_strings_text_ar" => @arabic_options,
+                                    "option_strings_text_es" => @spanish_options
+                                   })
+      end
+
+      context "and no locale is passed in" do
+        it "returns the English version of options" do
+          expect(@field_options.options_list(record=nil, lookups=nil, locations=nil, add_lookups=false)).to eq(@english_options)
+        end
+      end
+
+      context "and a locale is passed in" do
+        context "and all options for that locale are populated" do
+          it "returns options for the specified locale" do
+            expect(@field_options.options_list(record=nil, lookups=nil, locations=nil, add_lookups=false, locale: 'fr')).to eq(@french_options)
+          end
+        end
+
+        context "and some options for that locale are populated" do
+          it "returns options for the specified locale" do
+            expect(@field_options.options_list(record=nil, lookups=nil, locations=nil, add_lookups=false, locale: 'ar')).to eq(@arabic_options)
+          end
+        end
+
+        context "and no options for that locale are populated" do
+          it "returns the English version of options" do
+            expect(@field_options.options_list(record=nil, lookups=nil, locations=nil, add_lookups=false, locale: 'es')).to eq(@english_options)
+          end
+        end
       end
     end
 
-    context "when field is looking up non-specified locale" do
-      it "should return the default locale" do
-        expect(@field_no_locales.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: 'ar')[0]["id"]).to eq('default1')
+    context "when using option_strings_source" do
+      before do
+        Lookup.all.each &:destroy
+        @lookup_multi_locales = Lookup.create!(id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", lookup_values_en: @english_options, lookup_values_fr: @french_options, lookup_values_ar: @arabic_options)
+        @lookup_no_locales = Lookup.create!(id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
+        @field_multi_locales = Field.new({"name" => "test_location_4",
+                       "type" => "select_box",
+                       "display_name_all" => "Test Location 4",
+                       "option_strings_source" => "lookup test"
+                      })
+        @field_no_locales = Field.new({"name" => "test_location_4",
+                       "type" => "select_box",
+                       "display_name_all" => "Test Location 4",
+                       "option_strings_source" => "lookup default"
+                      })
+      end
+
+      context "and field lookup has many locales" do
+        it "should return settings for specified locale" do
+          expect(@field_multi_locales.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: 'ar')).to eq(@arabic_options)
+        end
+      end
+
+      context "and field is looking up non-specified locale" do
+        it "should return the default locale" do
+          expect(@field_no_locales.options_list(record=nil, lookups=nil, locations=nil, add_lookups=true, locale: 'ar')[0]["id"]).to eq('default1')
+        end
       end
     end
   end

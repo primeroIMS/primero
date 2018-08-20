@@ -24,20 +24,20 @@ describe SystemSettingsController do
 
   it "should set the given locale as default" do
     ss_hash = {default_locale: 'fr'}
-    put :update, :system_settings => ss_hash, :id => "administrator"
+    put :update, params: { :system_settings => ss_hash, :id => "administrator" }
     I18n.default_locale.should == :fr
   end
 
   it "should flash a update message when the system language is changed and affected by language changed " do
     ss_hash = {default_locale: 'en'}
-    put :update, :system_settings => ss_hash, :id => "administrator"
+    put :update, params: { :system_settings => ss_hash, :id => "administrator" }
     flash[:notice].should =="System Settings successfully updated."
     response.should redirect_to(edit_system_setting_path)
   end
 
   describe "get index" do
     it "should render requested sources as json." do
-      get :index, format: :json
+      get :index, params: { format: :json }
       expect(response.content_type.to_s).to eq('application/json')
     end
 
@@ -65,7 +65,7 @@ describe SystemSettingsController do
       Primero::Application::locales.reject{|l| l == 'en'}.each{|loc| ss["welcome_email_text_#{loc}"] = nil}
       ss["welcome_email_text_en"] = "Welcome to Primero"
 
-      get :index, string_sources: ['Location'], format: :json
+      get :index, params: { string_sources: ['Location'], format: :json }
       json_response = JSON.parse(response.body)
       expect(json_response).to include('success'=>1)
       expect(json_response).to include('settings')

@@ -11,7 +11,7 @@ describe PasswordRecoveryRequestsController do
     PasswordRecoveryRequest.should_receive(:new).with(valid_params).and_return(recovery_request = double())
     recovery_request.should_receive(:save).and_return true
 
-    post :create, :password_recovery_request => valid_params
+    post :create, params: {:password_recovery_request => valid_params}
 
     flash[:notice].should == "Thank you. A RapidFTR administrator will contact you shortly. If possible, contact the admin directly."
     response.should redirect_to(login_path)
@@ -22,7 +22,7 @@ describe PasswordRecoveryRequestsController do
     PasswordRecoveryRequest.should_receive(:new).with(invalid_params).and_return(recovery_request = double())
     recovery_request.should_receive(:save).and_return false
 
-    post :create, :password_recovery_request => invalid_params
+    post :create, params: {:password_recovery_request => invalid_params}
 
     response.should render_template(:new)
     assigns[:password_recovery_request].should == recovery_request

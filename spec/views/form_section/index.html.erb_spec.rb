@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 require 'hpricot'
 require 'support/hpricot_search'

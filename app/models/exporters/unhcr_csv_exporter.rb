@@ -2,7 +2,7 @@ require 'csv'
 require_relative 'base.rb'
 
 module Exporters
-  class UnhcrCSVExporter < BaseExporter
+  class UnhcrCSVExporter < ConfigurableExporter
     class << self
       def id
         'unhcr_csv'
@@ -21,10 +21,14 @@ module Exporters
       end
     end
 
+    def initialize(output_file_path=nil)
+      super(output_file_path, export_config_id)
+    end
+
     def export(cases, *args)
       unhcr_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
-        @props = props
+        @props = self.properties_to_export(props)
         rows << [I18n.t("exports.unhcr_csv.headers.id")] + @props.keys.map{|prop| I18n.t("exports.unhcr_csv.headers.#{prop}")} if @called_first_time.nil?
         @called_first_time ||= true
 
@@ -83,6 +87,12 @@ module Exporters
         end,
         'case_status' => ['child_status']
       }
+    end
+
+    def export_config_id
+      #TODO pass SystemSettings in from the controller
+      @system_settings ||= SystemSettings.current
+      @system_settings.try(:unhcr_export_config_id)
     end
 
   end

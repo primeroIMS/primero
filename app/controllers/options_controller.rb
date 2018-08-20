@@ -20,13 +20,12 @@ class OptionsController < ApplicationController
     if params[:string_sources].present? || params[:all].present?
       sources << get_lookups
       sources << get_locations if params[:string_sources].present? && params[:string_sources].include?('Location') || params[:all].present?
-      sources.reject{ |source| source.nil? }.flatten
+      sources.reject{|source| source.nil?}.flatten
     end
   end
 
   def get_lookups
     lookups = params[:all].present? ? Lookup.all : Lookup.all(keys: params[:string_sources])
-
     if lookups.present?
       lookups.map{ |lookup| [{:type => lookup.id ,:options => lookup.lookup_values}] }
     else

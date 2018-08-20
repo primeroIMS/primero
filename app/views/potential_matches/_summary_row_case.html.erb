@@ -3,7 +3,7 @@
   match_record = record.last.first
 %>
 
-<table style="width:100%" class="pm_table">
+<table style="width:100%" class="pm_table record_list_view">
   <thead>
   <tr>
     <th><%= t("potential_match.child_id") %></th>
@@ -15,13 +15,13 @@
   <tbody>
   <tr>
     <td class="id_column"><%= link_to text_to_identify_potential_match_child(match_record), case_path(match_record.child_id), class: 'id_link' %></td>
-    <td><%= match_record.case_age %></td>
-    <td><%= match_record.case_sex %></td>
-    <td><%= match_record.case_registration_date %></td>
+    <td><%= mask_match_value(match_record, match_record.child_age) %></td>
+    <td><%= mask_match_value(match_record, match_record.child.try(:display_field, 'sex', @lookups) %></td>
+    <td><%= mask_match_value(match_record, field_format_date(match_record.case_registration_date)) %></td>
   </tr>
   </tbody>
 </table>
-<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table tablesorter" id="myTable_<%= match_record.child_id %>">
+<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table record_list_view" id="myTable_<%= match_record.child_id %>">
   <thead>
   <tr>
     <th><%= t("potential_match.inquirer_id") %></th>

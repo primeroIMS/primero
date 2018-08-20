@@ -11,6 +11,21 @@
   }
 }
 
+.data {
+  font-size: .85rem;
+
+  .key {
+    align-self: center;
+  }
+
+  .value {
+    background: #e9ecdd;
+    padding: .5em;
+    margin-bottom: 0.4em;
+    min-height: 2.4em;
+  }
+}
+
 table {
   @if $global-text-direction == rtl {
     direction: rtl
@@ -144,6 +159,9 @@ table.list_view, table.list_table, table.list_table_2, table.record_list_view {
       }
     }
     td {
+      ul {
+        margin-left: 0px;
+      }
       ul li {
         font-size: 0.875rem !important;
       }
@@ -170,12 +188,51 @@ table.record_list_view {
   }
 }
 
+table.record_list_view tbody tr.selected {
+  background-color: #b0bed9;
+}
+table.record_list_view tbody th,
+table.record_list_view tbody td {
+  padding: 15px 10px;
+  border-bottom: 1px dashed #ccc;
+  border-right: 1px solid $stroke_green_color;
+  .icon{
+    text-align: center;
+  }
+}
+
+@if $global-text-direction == rtl {
+  table.record_list_view tbody tr td:last-child {
+    border-left: 1px solid $stroke_green_color;
+  }
+} @else {
+  table.record_list_view tbody tr td:first-child {
+    border-left: 1px solid $stroke_green_color;
+  }
+}
+
+table.record_list_view tbody tr:last-child td {
+  border-bottom: 1px solid $stroke_green_color;
+}
+
 table tr:nth-of-type(even) {
   background: $desat_green_color !important;
 }
 
 table:not(.record_list_view) tr td {
   background: #fff;
+}
+
+table.record_list_view thead th,
+table.record_list_view thead td {
+  padding: 10px;
+  border-right: 1px solid $stroke_green_color;
+  border-top: 1px solid $stroke_green_color;
+  background: #ebf0e4 !important;
+  color: $green_color !important;
+  font-size: $thirteen_px !important;
+  font-family: 'Roboto-Medium', sans-serif !important;
+  text-transform: uppercase;
 }
 
 .show_count {
@@ -536,4 +593,28 @@ tr td span {
   pointer-events: none !important;
   opacity: 0.25 !important;
   cursor: not-allowed !important;
+}
+
+#viewModal img{
+  @if $global-text-direction == rtl {
+    float: left;
+  }
+  @else{
+    float: right;
+  }
+}
+
+.quick-view-tracing-message {
+  border: 1px solid $stroke_green_color;
+  padding: .8em;
+  margin-bottom: 20px !important;
+  text-align: center;
+  @if $global-text-direction == rtl {
+    margin-left: 45px !important;
+    margin-right: 10px !important;
+  }
+  @else{
+    margin-right: 45px !important;
+    margin-left: 10px !important;
+  }
 }

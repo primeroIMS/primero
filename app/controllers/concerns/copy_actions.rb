@@ -17,7 +17,7 @@ module CopyActions extend ActiveSupport::Concern
         flash[:notice] = t("#{model_class.to_s.downcase}.copy_failure")
       end
     end
-    redirect_to :back
+    redirect_back(fallback_location: root_path)
   end
 
   private
