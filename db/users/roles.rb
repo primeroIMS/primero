@@ -947,6 +947,46 @@ create_or_update_role(
     :transfer => true
 )
 
+agency_user_admin_permissions = [
+    Permission.new(
+        :resource => Permission::ROLE,
+        :actions => [
+            Permission::READ,
+            Permission::ASSIGN
+        ],
+        :role_ids => [
+            "role-cp-case-worker",
+            "role-cp-manager",
+            "role-cp-user-manager",
+            "role-cp-administrator"
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::USER,
+        :actions => [
+            Permission::AGENCY_READ,
+            Permission::CREATE,
+            Permission::WRITE,
+            Permission::ASSIGN,
+            Permission::MANAGE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::USER_GROUP,
+        :actions => [
+            Permission::READ,
+            Permission::CREATE,
+            Permission::WRITE,
+            Permission::ASSIGN
+        ]
+    )
+]
+
+create_or_update_role(
+    :name => "Agency User Administrator",
+    :permissions_list => agency_user_admin_permissions,
+    :group_permission => Permission::GROUP
+)
 
 referral_permissions = [
   Permission.new(
