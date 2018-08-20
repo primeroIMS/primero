@@ -15,7 +15,7 @@ module CouchChanges
             Sunspot.remove_by_id(modelCls, change['id'])
             dfd.succeed
           else
-            instance = modelCls.get(change['id'])
+            instance = modelCls.new(change['doc'])
             if instance.present?
               Sunspot.index! instance
 
