@@ -94,6 +94,14 @@ template '/home/vagrant/primero/config/sunspot.yml' do
   group 'vagrant'
 end
 
+
+file "/home/vagrant/primero/config/mailers.yml" do
+  content ::File.open("/home/vagrant/primero/config/mailers.yml.example").read
+  owner 'vagrant'
+  group 'vagrant'
+  action :create
+end
+
 ['development', 'test'].each do |core_name|
   core_dir = File.join(node[:primero][:solr_core_dir], core_name)
   directory core_dir do
