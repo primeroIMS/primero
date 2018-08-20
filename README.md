@@ -47,7 +47,7 @@ Once you have the VM fully provisioned, you can access the site at
 collision when trying to assign port 8000 -- check the Vagrant output upon the
 `up` command).  It should automatically redirect you to the HTTPS protocol and
 port 8443.  You can login with a preseeded admin account with credentials
-`primero`/`primero`.
+`primero`/`primer0!`.
 
 Vagrant is provisioned using a development Chef file `dev-node.json.sample`. You can override it by creating your own file `dev-node.json`. See the README in the `cookbook` directory for more on configuring Primero Chef files.
 
@@ -57,8 +57,6 @@ When the Vagrant box is up and running, SSH in and go to the Primero development
 
     $ vagrant ssh
     $ cd ~/primero
-
-Add the mailer.yml file from the config directory
 
 Prepare the development environment:
 
