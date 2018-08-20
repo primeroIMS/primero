@@ -15,8 +15,8 @@ end
 
 create_or_update_user(
   "user_name" => "primero",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
   "full_name" => "System Superuser",
   "email" => "primero@primero.com",
   "disabled" => "false",
@@ -31,8 +31,8 @@ create_or_update_user(
 
 create_or_update_user(
   "user_name" => "primero_admin_cp",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
   "full_name" => "CP Administrator",
   "email" => "primero_admin_cp@primero.com",
   "disabled" => "false",
@@ -47,8 +47,8 @@ create_or_update_user(
 
 create_or_update_user(
   "user_name" => "primero_cp",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
   "full_name" => "CP Worker",
   "email" => "primero_cp@primero.com",
   "disabled" => "false",
@@ -62,8 +62,8 @@ create_or_update_user(
 
 create_or_update_user(
   "user_name" => "primero_mgr_cp",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
   "full_name" => "CP Manager",
   "email" => "primero_mgr_cp@primero.com",
   "disabled" => "false",
@@ -78,8 +78,8 @@ create_or_update_user(
 
 create_or_update_user(
   "user_name" => "primero_gbv",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
   "full_name" => "GBV Worker",
   "email" => "primero_gbv@primero.com",
   "disabled" => "false",
@@ -93,8 +93,8 @@ create_or_update_user(
 
 create_or_update_user(
   "user_name" => "primero_mgr_gbv",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
   "full_name" => "GBV Manager",
   "email" => "primero_mgr_gbv@primero.com",
   "disabled" => "false",
@@ -109,8 +109,8 @@ create_or_update_user(
 
 create_or_update_user(
     "user_name" => "primero_ftr_manager",
-    "password" => "qu01n23!",
-    "password_confirmation" => "qu01n23!",
+    "password" => "primer0!",
+    "password_confirmation" => "primer0!",
     "full_name" => "FTR Manager",
     "email" => "primero_ftr_manager@primero.com",
     "disabled" => "false",
@@ -125,8 +125,8 @@ create_or_update_user(
 
 create_or_update_user(
   "user_name" => "primero_user_mgr_cp",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
   "full_name" => "CP User Manager",
   "email" => "primero_user_mgr_cp@primero.com",
   "disabled" => "false",
@@ -141,8 +141,8 @@ create_or_update_user(
 
 create_or_update_user(
   "user_name" => "primero_user_mgr_gbv",
-  "password" => "qu01n23!",
-  "password_confirmation" => "qu01n23!",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
   "full_name" => "GBV User Manager",
   "email" => "primero_user_mgr_gbv@primero.com",
   "disabled" => "false",
