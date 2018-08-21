@@ -24,6 +24,8 @@ module RecordActions
     before_action :load_consent, :only => [:show]
     before_action :sort_subforms, :only => [:show, :edit]
     before_action :load_system_settings, :only => [:index, :show, :edit, :request_approval, :approve_form, :transition]
+    before_action :load_referral_role_options, :only => [:index, :show]
+    before_action :load_transfer_role_options, :only => [:index, :show]
     before_action :log_controller_action, :except => [:new]
     before_action :can_access_approvals, :only => [:index]
     before_action :can_sync_mobile, :only => [:index]
@@ -50,9 +52,6 @@ module RecordActions
     #      Revisit when integrating in v1.3.x
     #params['page'] = 'all' if params['mobile'] && params['ids']
     @records, @total_records = retrieve_records_and_total(@filters)
-
-    @referral_roles = Role.by_referral.all
-    @transfer_roles = Role.by_transfer.all
     module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
     @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter, locale: I18n.locale)
@@ -106,8 +105,6 @@ module RecordActions
   def show
     authorize! :read, (@record || model_class)
 
-    @referral_roles = Role.by_referral.all
-    @transfer_roles = Role.by_transfer.all
     @associated_users = current_user.managed_user_names
     module_users([@record.module_id]) if @record.present?
 
@@ -286,6 +283,14 @@ module RecordActions
       @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
       @reporting_location_hierarchy_filter ||= nil
     end
+  end
+
+  def load_referral_role_options
+    @referral_role_options ||= Role.names_and_ids_by_referral
+  end
+
+  def load_transfer_role_options
+    @transfer_role_options ||= Role.names_and_ids_by_transfer
   end
 
   # This is to ensure that if a hash has numeric keys, then the keys are sequential

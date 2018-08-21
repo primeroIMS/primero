@@ -5,14 +5,14 @@
     transition_type = type || "referral"
 
     if transition_type == "referral"
-      transition_role_options = @referral_roles.map {|r| [r.name, r.id]}
+      transition_role_options = @referral_role_options || []
       no_consent_count = ((@referral_consent.present? && @referral_consent == true) ? 0 : 1)
       type_of_export_options = [
           [I18n.t("transition.export_type.#{Transitionable::EXPORT_TYPE_PRIMERO}"), Transitionable::EXPORT_TYPE_PRIMERO],
           [I18n.t("transition.export_type.#{Transitionable::EXPORT_TYPE_NON_PRIMERO}"), Transitionable::EXPORT_TYPE_NON_PRIMERO],
           [I18n.t("transition.export_type.#{Transitionable::EXPORT_TYPE_PDF}"), Transitionable::EXPORT_TYPE_PDF]]
     elsif transition_type == "transfer"
-      transition_role_options = @transfer_roles.map {|r| [r.name, r.id]}
+      transition_role_options = @transfer_role_options  || []
       no_consent_count = ((@transfer_consent.present? && @transfer_consent == true) ? 0 : 1)
       type_of_export_options = [
           [I18n.t("transition.export_type.#{Transitionable::EXPORT_TYPE_PRIMERO}"), Transitionable::EXPORT_TYPE_PRIMERO],
