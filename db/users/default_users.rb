@@ -171,3 +171,20 @@ create_or_update_user(
   "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
   "is_manager" => true
 )
+
+create_or_update_user(
+    "user_name" => "agency_user_admin_gbv",
+    "password" => "qu01n23!",
+    "password_confirmation" => "qu01n23!",
+    "full_name" => "GBV Agency User Administrator",
+    "email" => "agency_user_admin_gbv@primero.com",
+    "disabled" => "false",
+    "organization" => "agency-unicef",
+    "code" => "UNICEF/AGENCY_USER_ADMIN_CP",
+    "role_ids" => [
+        Role.by_name(key: "GBV Agency User Administrator").first.id
+    ],
+    "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+    "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+    "is_manager" => true
+)
