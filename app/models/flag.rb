@@ -15,9 +15,9 @@ class Flag
   property :unflagged_date, Date
   property :id
 
-  include Sunspot::Rails::Searchable
+  include Indexable
 
-  searchable do
+  searchable auto_index: self.auto_index? do
     date :flag_date, :stored => true do
       self.date.present? ? self.date : nil
     end
@@ -67,9 +67,6 @@ class Flag
       base_doc.owned_by
     end
   end
-
-  Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
-  Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
 
   def initialize *args
     super

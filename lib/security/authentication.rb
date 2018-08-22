@@ -22,6 +22,10 @@ module Security
       current_user.try(:full_name)
     end
 
+    def current_user_agency
+      current_user.try(:agency)
+    end
+
     def current_ability
       @current_ability ||= Ability.new(current_user)
     end
