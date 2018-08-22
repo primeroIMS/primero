@@ -19,7 +19,7 @@ class TracingRequestsController < ApplicationController
     if orientation != 0
       @tracing_request.rotate_photo(orientation)
       @tracing_request.last_updated_by = current_user_name
-      @tracing_request.last_updated_organization = current_user_organization
+      @tracing_request.last_updated_organization = current_user_agency
       @tracing_request.save
     end
     redirect_to(@tracing_request)

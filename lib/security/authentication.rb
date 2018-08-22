@@ -22,8 +22,8 @@ module Security
       current_user.try(:full_name)
     end
 
-    def current_user_organization
-      current_user.try(:organization)
+    def current_user_agency
+      current_user.try(:agency)
     end
 
     def current_ability
