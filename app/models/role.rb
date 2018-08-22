@@ -20,6 +20,8 @@ class Role < CouchRest::Model::Base
 
   before_save :add_permitted_subforms
 
+  design #Create the default all design view
+
   def self.get_unique_instance(attributes)
     find_by_name(attributes['name'])
   end
@@ -75,12 +77,12 @@ class Role < CouchRest::Model::Base
     memoize_in_prod :get
 
     def names_and_ids_by_referral
-      self.all.all.select{|r| r.referral}.map{|r| [r.name, r.id]}
+      self.all.select{|r| r.referral}.map{|r| [r.name, r.id]}
     end
     memoize_in_prod :names_and_ids_by_referral
 
     def names_and_ids_by_transfer
-      self.all.all.select{|r| r.transfer}.map{|r| [r.name, r.id]}
+      self.all.select{|r| r.transfer}.map{|r| [r.name, r.id]}
     end
     memoize_in_prod :names_and_ids_by_transfer
   end
