@@ -183,4 +183,35 @@ describe Role do
       end
     end
   end
+
+  describe "class methods" do
+    before do
+      Role.all.each &:destroy
+      role_permissions = [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
+      @referral_role = Role.create!(name: "Referral Role", permissions_list: role_permissions, referral: true)
+      @transfer_role = Role.create!(name: "Transfer Role", permissions_list: role_permissions, transfer: true)
+      @referral_transfer_role = Role.create!(name: "Referral Transfer Role", permissions_list: role_permissions, referral: true, transfer: true)
+      @neither_role = Role.create!(name: "Neither Role", permissions_list: role_permissions)
+    end
+
+    describe "names_and_ids_by_referral" do
+      it 'returns Names and IDs of all roles with referral permission' do
+        expect(Role.names_and_ids_by_referral).to include(["Referral Role", "role-referral-role"], ["Referral Transfer Role", "role-referral-transfer-role"])
+      end
+
+      it 'does not return Names and IDs of roles that do not have referral permission' do
+        expect(Role.names_and_ids_by_referral).not_to include(["Transfer Role", "role-transfer-role"], ["Neither Role", "role-neither-role"])
+      end
+    end
+
+    describe "names_and_ids_by_transfer" do
+      it 'returns Names and IDs of all roles with transfer permission' do
+        expect(Role.names_and_ids_by_transfer).to include(["Transfer Role", "role-transfer-role"], ["Referral Transfer Role", "role-referral-transfer-role"])
+      end
+
+      it 'does not return Names and IDs of roles that do not have transfer permission' do
+        expect(Role.names_and_ids_by_transfer).not_to include(["Referral Role", "role-referral-role"], ["Neither Role", "role-neither-role"])
+      end
+    end
+  end
 end

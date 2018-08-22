@@ -20,21 +20,7 @@ class Role < CouchRest::Model::Base
 
   before_save :add_permitted_subforms
 
-  design do
-    view :by_referral,
-              :map => "function(doc) {
-              if (doc['referral'] == true){
-                emit(doc._id);
-              }
-            }"
-
-    view :by_transfer,
-              :map => "function(doc) {
-              if (doc['transfer'] == true){
-                emit(doc._id);
-              }
-            }"
-  end
+  design #Create the default all design view
 
   def self.get_unique_instance(attributes)
     find_by_name(attributes['name'])
@@ -89,6 +75,16 @@ class Role < CouchRest::Model::Base
       old_get(*args)
     end
     memoize_in_prod :get
+
+    def names_and_ids_by_referral
+      self.all.select{|r| r.referral}.map{|r| [r.name, r.id]}
+    end
+    memoize_in_prod :names_and_ids_by_referral
+
+    def names_and_ids_by_transfer
+      self.all.select{|r| r.transfer}.map{|r| [r.name, r.id]}
+    end
+    memoize_in_prod :names_and_ids_by_transfer
   end
 
   def associated_role_ids
