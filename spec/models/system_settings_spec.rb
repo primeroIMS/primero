@@ -95,8 +95,6 @@ describe SystemSettings do
         expect(@system_settings.errors[:locales]).to include("English must be available as a System Locale")
       end
     end
-
-    #TODO
   end
 
 end
