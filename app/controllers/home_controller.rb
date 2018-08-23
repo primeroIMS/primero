@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   ALL_FILTER = "all"
 
-  before_action :load_system_settings, :only => [:index]
+  before_action :load_default_settings, :only => [:index]
   before_action :can_access_approvals, :only => [:index]
   before_action :load_risk_levels, :only => [:index]
 
@@ -478,8 +478,7 @@ class HomeController < ApplicationController
     @record_types = @modules.map{|m| m.associated_record_types}.flatten.uniq
   end
 
-  def load_system_settings
-    @system_settings ||= SystemSettings.current
+  def load_default_settings
     if @system_settings.present? && @system_settings.reporting_location_config.present?
       @admin_level ||= @system_settings.reporting_location_config.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       @reporting_location ||= @system_settings.reporting_location_config.field_key || ReportingLocation::DEFAULT_FIELD_KEY
