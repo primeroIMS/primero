@@ -101,6 +101,8 @@ class ApplicationController < ActionController::Base
 
   def load_system_settings
     @system_settings ||= SystemSettings.current
+    @locales_with_description = @system_settings.present? ? Primero::Application::LOCALES_WITH_DESCRIPTION.select{|l| (@system_settings.locales.include? l.last) || l.last.nil?} :
+                                                            Primero::Application::LOCALES_WITH_DESCRIPTION
   end
 
   def clean_params(param)
