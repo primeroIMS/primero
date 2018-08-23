@@ -16,8 +16,8 @@ class ApplicationController < ActionController::Base
   before_action :permit_all_params
   before_action :extend_session_lifetime
   before_action :check_authentication
-  before_action :set_locale
   before_action :load_system_settings
+  before_action :set_locale
 
   around_action :with_timezone
 
