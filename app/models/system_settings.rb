@@ -5,7 +5,8 @@ class SystemSettings < CouchRest::Model::Base
   include Memoizable
   include LocalizableProperty
 
-  property :default_locale, String, :default => 'en'
+  property :default_locale, String, :default => Primero::Application::LOCALE_ENGLISH
+  property :locales, [String], :default => [Primero::Application::LOCALE_ENGLISH]
   property :case_code_format, [String], :default => []
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
@@ -24,6 +25,7 @@ class SystemSettings < CouchRest::Model::Base
   localize_properties [:welcome_email_text]
 
   validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
+  validate :validate_locales
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version
@@ -43,6 +45,11 @@ class SystemSettings < CouchRest::Model::Base
         self.age_ranges[name] = range_array.map{ |r| AgeRange.from_string(r) }
       end
     end
+  end
+
+  def validate_locales
+    return true if locales.present? && (locales.include? Primero::Application::LOCALE_ENGLISH)
+    errors.add(:locales, I18n.t("errors.models.system_settings.locales"))
   end
 
   #SyetsmSettings should be a singleton. It can have a hard-coded name.
