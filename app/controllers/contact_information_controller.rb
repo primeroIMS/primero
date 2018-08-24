@@ -1,6 +1,5 @@
 class ContactInformationController < ApplicationController
   skip_before_action :check_authentication, :only => %w{show}
-  before_action :system_settings, :only => [:show, :edit]
 
   @model_class = ContactInformation
 
@@ -32,11 +31,5 @@ class ContactInformationController < ApplicationController
     @contact_information.save!
     flash[:notice] = I18n.t("contact.updated")
     redirect_to edit_contact_information_path(params[:id])
-  end
-
-  private
-
-  def system_settings
-    @system_settings ||= SystemSettings.first
   end
 end

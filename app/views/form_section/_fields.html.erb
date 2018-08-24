@@ -49,7 +49,7 @@
         </span>
       </div>
       <% if editing %>
-        <% Primero::Application::LOCALES.each do |new_locale| %>
+        <% @system_settings.locales.each do |new_locale| %>
           <% if given_locale != new_locale %>
             <div class="large-5 medium-5 columns <%= "translation_forms #{new_locale}"%> hide_element">
               <%

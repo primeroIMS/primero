@@ -12,7 +12,6 @@ class UsersController < ApplicationController
   before_action :load_user, :only => [:show, :edit, :update, :destroy]
   before_action :load_records_according_to_disable_filter, :only => [:index]
   before_action :agency_names, :only => [:new, :create, :edit, :update]
-  before_action :load_system_settings, :only => [:new, :edit]
 
   skip_before_action :check_authentication, :set_locale, :only => :register_unverified
 
@@ -174,10 +173,6 @@ class UsersController < ApplicationController
     else
       @agency_names = Agency.all_names
     end
-  end
-
-  def load_system_settings
-    @system_settings ||= SystemSettings.current
   end
 
   def clean_role_ids
