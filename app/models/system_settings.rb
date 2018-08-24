@@ -29,6 +29,7 @@ class SystemSettings < CouchRest::Model::Base
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version
+  before_validation :add_english_locale
   after_initialize :set_version
 
   design do
@@ -65,6 +66,10 @@ class SystemSettings < CouchRest::Model::Base
 
   def set_version
     self.primero_version = Primero::Application::VERSION
+  end
+
+  def add_english_locale
+    locales.unshift(Primero::Application::LOCALE_ENGLISH) unless locales.include? Primero::Application::LOCALE_ENGLISH
   end
 
   def auto_populate_info(field_key = "")
