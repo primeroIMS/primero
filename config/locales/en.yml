@@ -1808,6 +1808,7 @@ en:
 
       system_settings:
         default_locale: "System locale must not be blank"
+        locales: "English must be available as a System Locale"
 
 
 

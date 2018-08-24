@@ -38,7 +38,7 @@
           <%= f.text_field :placename %>
         </div>
         <% if editing %>
-          <% Primero::Application::LOCALES.each do |new_locale| %>
+          <% @system_settings.get_locales.each do |new_locale| %>
             <% if I18n.locale.to_s != new_locale %>
               <div class="<%= editing ? 'medium-4' : 'medium-9' %> columns <%= "translation_forms #{new_locale}"%> hide_element">
                 <%= f.text_field "placename_#{new_locale}" || [] %>

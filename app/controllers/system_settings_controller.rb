@@ -3,7 +3,6 @@ class SystemSettingsController < ApplicationController
   before_action :only => [:show, :edit, :update] do
     authorize!(:manage, SystemSettings)
   end
-  before_action :load_system_settings, :only => [:show, :index, :edit, :update]
 
   @model_class = SystemSettings
 
@@ -43,12 +42,6 @@ class SystemSettingsController < ApplicationController
     end
     flash[:notice] = I18n.t("system_settings.updated")
     redirect_to edit_system_setting_path("administrator")
-  end
-
-  private
-
-  def load_system_settings
-    @system_settings = SystemSettings.first
   end
 
 end

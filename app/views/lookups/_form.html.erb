@@ -31,7 +31,7 @@
             <p class="help"><%= t("lookup.initial_lang_help_text", :lang => t("home.#{given_locale}")) %></p>
           </div>
           <% if editing %>
-            <% Primero::Application::LOCALES.each do |new_locale| %>
+            <% @system_settings.get_locales.each do |new_locale| %>
               <% if given_locale != new_locale %>
                 <div class="<%= editing ? 'medium-4' : 'medium-9' %> columns <%= "translation_forms #{new_locale}"%> hide_element">
                   <%= f.text_field "name_#{new_locale}" || [] %>
@@ -58,7 +58,7 @@
             </div>
             <%# Add button %>
             <div>
-              <a id="lookup_values_add_button" class="button lookup_value_add right <%= editing ? 'edit_lookup' : '' %>" data-lang="<%= Primero::Application::LOCALES %>" data-given_locale="<%= given_locale %>" data-remove="<%= t('lookup.remove')%>" data-help_text="<%= t("lookup.initial_lang_help_text", :lang => t("home.#{given_locale}")) %>"><%= t('lookup.add_value') %></a>
+              <a id="lookup_values_add_button" class="button lookup_value_add right <%= editing ? 'edit_lookup' : '' %>" data-lang="<%= @system_settings.get_locales %>" data-given_locale="<%= given_locale %>" data-remove="<%= t('lookup.remove')%>" data-help_text="<%= t("lookup.initial_lang_help_text", :lang => t("home.#{given_locale}")) %>"><%= t('lookup.add_value') %></a>
             </div>
           </div>
         </div>
