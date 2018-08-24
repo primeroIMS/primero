@@ -56,7 +56,7 @@
                 <div class="medium-1 columns"></div>
               </div>
               <%= resource_edit_field(@system_settings, 'welcome_email_text', 'user.welcome_email.text_label', 'text_area') %>
-              <% @system_settings.locales.each do |new_locale| %>
+              <% @system_settings.get_locales.each do |new_locale| %>
                 <% unless new_locale == "en" %>
                   <div class="<%= "translation_forms #{new_locale}"%> hide_element">
                     <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>

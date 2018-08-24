@@ -90,9 +90,15 @@ describe SystemSettings do
         @system_settings.locales = []
       end
 
-      it 'is not valid' do
-        expect(@system_settings).not_to be_valid
-        expect(@system_settings.errors[:locales]).to include("English must be available as a System Locale")
+      #TODO - for now, empty locales is valid for backwards compatibility
+      # If / when that changes, add back this test
+      # it 'is not valid' do
+      #   expect(@system_settings).not_to be_valid
+      #   expect(@system_settings.errors[:locales]).to include("English must be available as a System Locale")
+      # end
+
+      it 'is valid' do
+        expect(@system_settings).to be_valid
       end
     end
   end
