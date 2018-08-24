@@ -29,7 +29,7 @@
                   </span>
                 </div>
                 <div class="medium-8 columns">
-                  <%= f.select :default_locale, @locales_with_description, {class: 'chosen-select', data: {value: I18n.default_locale}} %>
+                  <%= f.select :default_locale, @system_settiings.locales_with_description, {class: 'chosen-select', data: {value: I18n.default_locale}} %>
                 </div>
                 <div class="medium-1 columns"> </div>
               </div>

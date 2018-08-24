@@ -71,6 +71,10 @@ class SystemSettings < CouchRest::Model::Base
     self.auto_populate_list.select{|ap| ap.field_key == field_key}.first if self.auto_populate_list.present?
   end
 
+  def locales_with_description
+    Primero::Application::LOCALES_WITH_DESCRIPTION.select{|l| (self.locales.include? l.last) || l.last.nil?}
+  end
+
   def self.handle_changes
     system_settings = SystemSettings.first
     system_settings.update_default_locale if system_settings.present?
