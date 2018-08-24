@@ -29,7 +29,7 @@ class SystemSettings < CouchRest::Model::Base
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version
-  before_validation :add_english_locale
+  before_save :add_english_locale
   after_initialize :set_version
 
   design do
@@ -48,8 +48,10 @@ class SystemSettings < CouchRest::Model::Base
     end
   end
 
+  #For now... allow empty locales for backwards compatibility with older configurations
+  #The wrapper method will handle blank locales
   def validate_locales
-    return true if locales.present? && (locales.include? Primero::Application::LOCALE_ENGLISH)
+    return true if locales.blank? || (locales.include? Primero::Application::LOCALE_ENGLISH)
     errors.add(:locales, I18n.t("errors.models.system_settings.locales"))
   end
 
@@ -69,15 +71,21 @@ class SystemSettings < CouchRest::Model::Base
   end
 
   def add_english_locale
-    locales.unshift(Primero::Application::LOCALE_ENGLISH) unless locales.include? Primero::Application::LOCALE_ENGLISH
+    locales.unshift(Primero::Application::LOCALE_ENGLISH) if locales.present? && (locales.exclude? Primero::Application::LOCALE_ENGLISH)
   end
 
   def auto_populate_info(field_key = "")
     self.auto_populate_list.select{|ap| ap.field_key == field_key}.first if self.auto_populate_list.present?
   end
 
+  #For backwards compatibility with older configurations
+  #TODO remove when all configurations have been updated to set the locales property
+  def get_locales
+    locales.present? ? locales : Primero::Application::LOCALES
+  end
+
   def locales_with_description
-    Primero::Application::LOCALES_WITH_DESCRIPTION.select{|l| (self.locales.include? l.last) || l.last.nil?}
+    Primero::Application::LOCALES_WITH_DESCRIPTION.select{|l| (get_locales.include? l.last) || l.last.nil?}
   end
 
   def self.handle_changes
