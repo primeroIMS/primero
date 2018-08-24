@@ -3,7 +3,7 @@
 
 #  Manage the following Primero services:
 #    nginx                             (systemd)
-#    passenger                         (systemd)
+#    puma                              (systemd)
 #    couch-watcher                     (supervisor)
 #    who-watches-the-couch-watcher     (supervisor)
 #    primero-scheduler                 (supervisor)
@@ -21,7 +21,7 @@ systemctl_status () {
 status () {
   echo "Primero status:"
   systemctl_status nginx
-  systemctl_status passenger
+  systemctl_status puma
   supervisorctl status couch-watcher
   supervisorctl status who-watches-the-couch-watcher
   supervisorctl status primero-scheduler
@@ -36,8 +36,8 @@ stop () {
   systemctl stop nginx
   systemctl_status nginx
 
-  systemctl stop passenger
-  systemctl_status passenger
+  systemctl stop puma.service
+  systemctl_status puma.service
 
   supervisorctl stop couch-watcher && supervisorctl stop who-watches-the-couch-watcher
 
@@ -60,8 +60,8 @@ start () {
   systemctl start nginx
   systemctl_status nginx
 
-  systemctl start passenger
-  systemctl_status passenger
+  systemctl start puma
+  systemctl_status puma
 
   supervisorctl start couch-watcher && supervisorctl start who-watches-the-couch-watcher
 

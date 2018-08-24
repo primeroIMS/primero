@@ -67,6 +67,8 @@ gem 'jquery-turbolinks'
 gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-connector', :branch => 'support-lam-alef-ligatures'
 gem 'twitter_cldr'
 
+gem 'puma', '~> 3.7'
+
 group :production do
   #TODO - Do not upgrade passenger
   gem 'passenger', '4.0.59', require: false
@@ -89,7 +91,6 @@ group :development do
 end
 
 group :test, :cucumber, :development do
-  gem 'puma', '~> 3.7'
   gem 'pry'
   gem 'pry-byebug'
   gem 'sunspot_test', require: false

@@ -1,0 +1,18 @@
+[Unit]
+Description=Puma Application Server
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+PrivateTmp=yes
+User=<%= node[:primero][:app_user] %>
+Group=<%= node[:primero][:app_group] %>
+WorkingDirectory=<%= node[:primero][:app_dir] %>
+PIDFile=<%=@puma_pid %>
+Environment="RAILS_ENV=<%= node[:primero][:rails_env] %>"
+ExecStart=bundle exec puma -C <%= node[:primero][:app_dir] %>/config/puma.rb
+ExecStop=bundle exec pumactl -S <%= puma_state %> stop
+
+[Install]
+WantedBy=multi-user.target
