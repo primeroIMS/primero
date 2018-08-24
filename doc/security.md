@@ -5,15 +5,12 @@ Service Users
 -------------
 We should follow the general UNIX best practice of giving applications the
 least privilege necessary for them to carry out their tasks.  Services should
-also be isolated from each other as much as possible. 
+also be isolated from each other as much as possible.
 
 Therefore, we have setup system users for each service and give them ownership
 of their own files:
 
  - Nginx worker processes run as the user `www-data`
-
- - Passenger requires some processes to run as root in order to do user
-     switch (cf. https://www.phusionpassenger.com/documentation/Security%20of%20user%20switching%20support.html)
 
  - The Primero Passegner application process itself, however, runs as the
      `primero` user

@@ -1,6 +1,3 @@
-# Based on Passenger Systemd integration presented here:
-# https://github.com/mtgrosser/passenger-systemd
-
 puma_config_file = "#{node[:primero][:app_dir]}/config/puma.rb"
 puma_pid = "#{node[:primero][:app_dir]}/tmp/puma.pid"
 puma_state = "#{node[:primero][:app_dir]}/tmp/puma.state"
@@ -30,7 +27,8 @@ template '/etc/systemd/system/puma.service' do
   source 'puma/puma.service.erb'
   variables({
     puma_pid: puma_pid,
-    puma_state: puma_state
+    puma_state: puma_state,
+    rails_log_dir: rails_log_dir
   })
 end
 

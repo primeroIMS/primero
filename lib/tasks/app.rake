@@ -31,7 +31,7 @@ namespace :app do
     Rake::Task['db:migrate'].invoke
     Rake::Task['sunspot:solr:restart'].invoke
     Rake::Task['sunspot:reindex'].invoke
-    Rake::Task['passenger:restart'].invoke
+    Rake::Task['puma:restart'].invoke
   end
 
   task :confirm_data_loss => :environment do

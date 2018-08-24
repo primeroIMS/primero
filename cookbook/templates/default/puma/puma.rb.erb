@@ -16,3 +16,13 @@ pidfile "<%= @puma_pid %>"
 state_path "<%= @puma_state %>"
 
 stdout_redirect "<%= @puma_log %>", "<%= @puma_error_log %>", true
+
+on_restart do
+  puts '==> Restarting Puma!'
+end
+
+on_worker_boot do
+  puts '==> Starting Puma Worker!'
+end
+
+plugin :tmp_restart
