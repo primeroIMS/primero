@@ -5,14 +5,14 @@
 
 threads <%= min_threads %>, <%= max_threads %>
 
-port ENV.fetch("PORT") { <%= @proxy_port %> }
+port <%= @proxy_port %>
 
-environment ENV.fetch("RAILS_ENV") { "<%= @rails_env %>" }
+environment "<%= @rails_env %>"
 
-workers ENV.fetch("WEB_CONCURRENCY") { 1 }
+workers  1
 
-pidfile <%= @puma_pid %>
+pidfile "<%= @puma_pid %>"
 
-state_path <%= @puma_state %>
+state_path "<%= @puma_state %>"
 
-stdout_redirect <%= @puma_log %>, <%= @puma_error_log %>, true
+stdout_redirect "<%= @puma_log %>", "<%= @puma_error_log %>", true
