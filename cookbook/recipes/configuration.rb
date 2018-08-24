@@ -81,8 +81,8 @@ if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
     end
   end
 
-  execute 'Reload Passenger' do
-    command 'systemctl restart passenger'
+  execute 'Reload Puma' do
+    command 'systemctl restart puma.service'
   end
 
   execute 'Reload Scheduler' do

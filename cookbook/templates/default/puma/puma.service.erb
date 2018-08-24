@@ -9,10 +9,10 @@ PrivateTmp=yes
 User=<%= node[:primero][:app_user] %>
 Group=<%= node[:primero][:app_group] %>
 WorkingDirectory=<%= node[:primero][:app_dir] %>
-PIDFile=<%=@puma_pid %>
+PIDFile=<%= @puma_pid %>
 Environment="RAILS_ENV=<%= node[:primero][:rails_env] %>"
-ExecStart=bundle exec puma -C <%= node[:primero][:app_dir] %>/config/puma.rb
-ExecStop=bundle exec pumactl -S <%= puma_state %> stop
+ExecStart=<%= node[:primero][:home_dir] %>/.rvm/bin/rvm default do bundle exec puma -C <%= node[:primero][:app_dir] %>/config/puma.rb
+ExecStop=<%= node[:primero][:home_dir] %>/.rvm/bin/rvm default do bundle exec pumactl -S <%= @puma_state %> stop
 
 [Install]
 WantedBy=multi-user.target
