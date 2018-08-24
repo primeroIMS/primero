@@ -132,7 +132,7 @@ _primero.Views.CustomExports = _primero.Views.Base.extend({
 
         var select_options = [];
         _.each(res, function(form) {
-          select_options.push('<option value="' + form.name + '">'+ form.name + '</option>');
+          select_options.push('<option value="' + form.id + '">'+ form.name + '</option>');
         });
         $select_control.html(select_options.join(''));
 
