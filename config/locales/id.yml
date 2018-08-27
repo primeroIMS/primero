@@ -1,0 +1,2038 @@
+id:
+  valid: "sah"
+  invalid: "tidak sah"
+  offline: Aplikasi ini sedang offline
+  name: "Nama"
+  home:
+    fr: "Français"
+    en: "English"
+    ar: "العربية"
+    ar-LB: "العربية (اللبنانية)"
+    zh: "中文"
+    es: "Español"
+    ru: "Русский"
+    so: "Af-Soomaali"
+    bn: "বাংলা"
+    dashboard: "Dashboard"
+    welcome: "Selamat Datang di Primero"
+    current_time_zone: "Zona waktu setempat"
+    language: "Bahasa"
+    view_records: "Lihat Data"
+    users: "Kelola Para Pengguna"
+    manage_system_users: "Mengelola Pengguna Sinkronisasi Server"
+    records_need_attention: "Data yang perlu perhatian"
+    label: "Beranda"
+  clear: "Jelas"
+  messages:
+    delete_item: |
+        Peringatan: Jika Anda melanjutkan, data apa pun yang terkait dengan bidang ini akan hilang.
+        Jika Anda tidak yakin, nonaktifkan bidang sebagai gantinya.
+        Klik Batal untuk kembali. Klik OK untuk Menghapus field.
+    move_item: "Anda akan memindahkan kolom ini ke bagian form lain ({{selection_key}}). Apakah ini ok?"
+    enter_valid_date: "Silahkan masukkan tanggal dengan format yang ditentukan (dd-mmm-yyyy)"
+    enter_valid_field_value: "Masukkan data sesuai dengan format yang berlaku."
+    enter_valid_number_in_tally: "%{field}: %{tally} harus menggunakan angka"
+    enter_valid_number: "%{field} harus menggunakan angka"
+    more_than_200_chars: "%{Field} tidak boleh lebih dari 200 karakter"
+    no_more_than_x_chars: "%{Field} tidak boleh lebih dari %{panjang} karakter"
+    valid_search_criteria: "Harap masukkan setidaknya satu kriteria pencarian"
+    show_hide_forms: "Silahkan pilih form(s) yang ingin anda tampilkan / sembunyikan."
+    show_forms: "Yakin ingin membuat formulir(s) ini terlihat?"
+    hide_forms: "Yakin ingin menyembunyikan formulir(s) ini?"
+    primary_photo_changed: "Foto utama berubah"
+    select_photo: "Silahkan pilih foto."
+    are_you_sure: "Apakah Anda yakin ingin melakukannya?"
+    this_user: "Pengguna ini?"
+    keep_working: "Ya, Terus Bekerja"
+    logoff: "Tidak, Keluar"
+    record_navigation_confirmation_message: "Menekan tombol OK akan membuang perubahan yang belum disimpan dan menavigasi ke halaman yang diminta. Tekan BATAL untuk kembali ke data."
+    confirmation_message: "Menekan tombol OK akan membuang perubahan yang belum disimpan dan kembali ke tampilan daftar. Tekan tombol BATAL untuk kembali ke data."
+    cancel_confirmation: "Yakin ingin membatalkan?"
+    logoff_warning_prefix: "Yakin ingin membatalkan?"
+    logoff_warning_suffix: "detik."
+    logoff_confirmation: "Apakah Anda ingin melanjutkan sesi Anda?"
+    warning: |
+        Peringatan: Jika Anda melanjutkan, data apa pun yang terkait dengan bidang ini akan hilang.
+        Jika Anda tidak yakin, nonaktifkan bidang sebagai gantinya.
+        Klik Batal untuk kembali. Klik OK untuk Menghapus field.
+    enter_each_in_one_line: "Masukkan setiap pilihan pada baris baru"
+    record_count: "Menampilkan %{start} ke %{end} dari total %{total} data"
+    form_sections_help_text_for_edit: "Klik tombol UBAH untuk menambahkan rincian %{form_section_name}"
+    form_sections_case_update_alert: "Satu %{form_section_name} telah ditambahkan untuk kasus ini pada %{alert_time}"
+    service_provision: "penyediaan layanan"
+    enable_disable_record: "Mengeklik OK akan mengubah keadaan rekaman ini menjadi '%{action}'"
+    reopen_record: "Mengklik OK akan mengubah status kasus ini menjadi TERBUKA"
+    flag_multiple_records_error_message: "Ada kesalahan saat mencoba menandai catatan:"
+    record_not_flagged_message: "%{Short_id}: Tidak ditandai"
+    invalid_date_filter_value: "Beberapa filter tidak diterapkan karena tanggal tidak sesuai dengan format. Harap periksa data filter tanggal"
+    scroll_up: "Gulir ke atas untuk melihat lebih banyak"
+    scroll_down: "Gulir ke bawah untuk melihat lebih banyak"
+    forms_export: "Ekspor ini menyediakan lembar kerja Formulir dan formulir yang tersedia. lembar kerja ini digunakan untuk membuat pemetaan konfigurasi Formulir yang akan digunakan dalam pelaksanaannya. Perhatikan bahwa lembar kerja ini tidak dapat digunakan untuk mengimpor data ke Primero."
+    string_sources_failed: "Beberapa kolom gagal dimuat, segarkan halaman untuk memuat semua kolom."
+    system_settings_failed: "Pengaturan Sistem gagal dimuat."
+    approval_alert: "Persetujuan ditunda untuk %{form_name}"
+    field_change_alert: "Form %{form_name} telah diperbarui oleh penyedia layanan pada tanggal %{date}"
+    transfer_request_alert: "Sebuah permintaan pemindahan baru telah diajukan pada  %{date} oleh  %{user} di %{agency}"
+  data_base:
+    delete_all_documents: "Menghapus semua dokumen anak"
+    operation_not_allowed: "Pengoperasian tidak diizinkan di %{rails_env} lingkungan"
+  login:
+    details: "Rincian Masuk"
+    username: "Nama Pengguna"
+    notification:
+      enter_user_name: 'Masukkan nama pengguna'
+      users_requested_password_reset: "Pengguna ini meminta penyetelan ulang kata sandi. Silahkan hubungi mereka segera."
+      users_does_not_exist: "%{User} di %{created}. Nama pengguna ini saat ini tidak ada di sistem."
+      at: "Di %{created}."
+      cannot_remember_username: "Jika Anda tidak ingat nama pengguna Anda, cukup masukkan nama dan informasi yang dapat digunakan administrator untuk mengidentifikasi dan menghubungi Anda."
+    password:
+      label: "Kata sandi"
+      reset: "Meminta Ulang Kata Sandi"
+      re_enter: "Masukkan kembali kata sandi"
+      success_notice: "Terima kasih. Administrator RapidFTR akan menghubungi Anda segera. Jika memungkinkan, hubungi admin secara langsung."
+      successfully_hidden: "Pemberitahuan permintaan sandi berhasil disembunyikan."
+    label: "Masuk"
+  header:
+    contact: "Kontak & Pertolongan"
+    logged_in_as: "Masuk sebagai:"
+    welcome: "Selamat Datang"
+    logout: "Keluar"
+    my_account: "Akun Saya"
+    system_settings: "Pengaturan Sistem"
+  navigation:
+    home: "BERANDA"
+    cases: "KASUS"
+    tracing_request: "PERMINTAAN PELACAKAN"
+    incidents: "INSIDEN"
+    potential_match: "COCOK"
+    children: "ANAK-ANAK"
+    forms: "FORMS"
+    lookups: "LIHAT"
+    users: "PENGATURAN"
+    replications: "SINKRONISASI"
+    reports: "LAPORAN"
+    advanced_search: "Pencarian Detail"
+    go: "Berangkat"
+    search: "Cari"
+    locations: "LOKASI"
+    bulk_exports: "EKSPOR SERENTAK"
+    tasks: "TUGAS"
+    audit_logs: "Audit Logs"
+    matching_configuration: "Pencocokan"
+  buttons:
+    delete: "Hapus"
+    disable: "Nonaktifkan"
+    enable: "Aktif"
+    save: "Simpan"
+    save_and_add_service_provision: "Save dan Tambahkan Layanan"
+    login: "Masuk"
+    reunite: "Menyatukan kembali"
+    edit: "Ubah"
+    back: "Kembali"
+    submit: "Kirim"
+    export: "Ekspor"
+    import: "Impor"
+    change_password: "Ganti Kata Sandi"
+    enable_photo_wall: "Aktifkan Foto Profil"
+    disable_photo_wall: "Nonaktifkan dinding foto"
+    create_incident: "Buat Data Insiden"
+    create_case: "Buat Data Kasus"
+    guiding_questions: "Pertanyaan Panduan"
+    filter_label: "Filter:"
+    filter: "Terapkan Filtrasi"
+    filter_clear: "Hapus Filter"
+    flag_records: "Bendera"
+    flag_model: "Bendera %{model}"
+    unflag_model: "Tidak ditandai Bendera %{model}"
+    unflag_model_history: "Tandai Bendera Sejarah %{model}"
+    ok: 'OK'
+    cancel: "Batal"
+    edit_subform: 'Ubah sub formulir'
+    create_new_record: "Buat %{model} baru"
+    bundle_import: "Paket Konfigurasi"
+    bundle_export: "Paket Konfigurasi"
+    transfer: "Pindahkan %{model}"
+    reassign: "Tetapkan %{model}"
+    referral: "Rujuk %{model}"
+    mark_for_mobile: "Tandai untuk seluler"
+    unmark_for_mobile: "Tidak ditandai untuk seluler"
+    approve_bia: "Setujui BIA"
+    approve_case_plan: "Setujui Rencana Kasus"
+    sort_by_tr: "Permintaan Penelusuran"
+    sort_by_case: "Kasus"
+    approve_closure: "Setujui Terminasi"
+    view_flags_history: "Lihat Riwayat"
+    request_approval: "Minta Persetujuan"
+    approvals: "Persetujuan"
+    accept: "Terima"
+    reject: "Tolak"
+    done: "Selesai"
+    remove_referrals: "Hapus rujukan"
+    view: "Lihat"
+    request_transfer: "Permintaan Pemindahan"
+  placeholders:
+    subforms: "Klik tombol rubah untuk menambahkan detail %{form}"
+    editing_subforms: "Klik ADD untuk menambahkan rincian pada  %{form}"
+  cases:
+    label: "Kasus"
+    register_new_case: "Kasus Baru"
+    export: "Ekspor"
+    filter_by:
+      flag: "Ditandai Bendera"
+      flag_label: "Ditandai Bendera?"
+      mobile: "Seluler:"
+      mobile_label: "Tandai untuk seluler?"
+      social_worker: "Kolom/Kasus/Pekerja Sosial:"
+      my_cases: "Data Kasus Saya"
+      workflow: "Kasus-kasus berdasar Alur Penanganan"
+      no_activity: "Tidak ada aktifitas"
+      3month_inactivity: "Untuk 3+ bulan"
+      referred_cases: "Kasus yang direferensikan ke saya"
+      agency: "Agensi:"
+      status: "Status:"
+      age_range: "Rentang umur:"
+      sex: "Jenis Kelamin:"
+      male: "Laki-Laki"
+      female: "Perempuan"
+      displacement_status: "Status Pemindahan:"
+      protection_status: "Status Perlindungan:"
+      urgent_protection_concern: "Kepedulian Perlindungan Mendesak:"
+      protection_concerns: "Masalah perlindungan:"
+      type_of_risk: "Jenis Risiko"
+      risk_level: "Level Risiko"
+      current_location: "Lokasi saat ini:"
+      district: "Kabupaten/Kota:"
+      registration_date: "Tanggal Pendaftaran"
+      case_open_date: "Tanggal Kasus Dibuka"
+      record_state: "Data Menerangkan:"
+      photo: "Foto"
+      photo_label: "Punya Foto?"
+      by_date: 'Berdasarkan Tanggal:'
+      date: 'Tanggal'
+      approvals:
+        pending: "Persetujuan Tertunda"
+        approved: "Disetujui"
+        rejected: "Ditolak"
+    clear_filter: "Jelas"
+    apply_filter: "Terapkan"
+    save_filter: "Simpan"
+    my_filters: "Saringan saya"
+    order_by:
+      most_recently: "Baru-baru saja"
+      label: "Urut Berdasarkan"
+      name: "Nama"
+    flag_summary: "Tandai Bendera di Ringkasan"
+    filer_by:
+      all: "Semua"
+      active: "Aktif"
+    hidden_text_field_text: "*****"
+    hide_name: "Sembunyikan Nama"
+    view_name: "Tampilkan Nama"
+    ok: "OK"
+    hide_name_error: "Terjadi kesalahan saat menyimpan perubahan Anda. Silahkan coba lagi"
+    quick_view:
+      tracing_message: "Catatan: Ada kecocokan data dengan Seseorang yang sedang mencari anak ini. Jika anak menyetujui, hubungi Pekerja Sosial yang menangani kasus ini untuk menindaklanjutinya."
+  children:
+    label: "Anak-anak"
+    register_new_child: "Daftar Anak Baru"
+    export: "Ekspor"
+    selectable_date_options:
+      registration_date: 'Tanggal pendaftaran'
+      assessment_requested_on: 'Tanggal asesmen'
+      date_case_plan_initiated: 'Tanggal Perencanaan Kasus'
+      closure_approved_date: 'Tanggal Penutupan Kasus'
+      created_at: 'Tanggal Buka Kasus'
+    filter_by:
+      label: "Filter oleh"
+      all: "Semua"
+      active: "Aktif"
+      reunited: "Penyatuan Kembali"
+      flag: "Ditandai Bendera"
+      created: "Dibuat"
+    order_by:
+      most_recently: "Baru-baru saja"
+      label: "Urut Berdasarkan"
+      name: "Nama"
+    flag_summary: "Tandai Bendera di Ringkasan"
+    filer_by:
+      all: "Semua"
+      active: "Aktif"
+      reunited: "Penyatuan Kembali"
+      flagged: "Ditandai Bendera"
+  child:
+    flagged_by: "Ditandai Bendera Oleh"
+    last_updated: "Terakhir diperbarui"
+    registered_by: "Didaftarkan oleh"
+    mark_as_duplicate: "Tandai sebagai Duplikat"
+    flag_record: "Tandai Bendera"
+    flag_label: "Tandai Bendera"
+    flag_reason: "Alasan Tandai Bendera"
+    flag_reason_date: "Tanggal (Opsional)"
+    unflag_record: "Tidak tandai Data dengan Bendera"
+    unflag_reason: "Alasan tidak tandai Bendera"
+    unflagged_label: "Alasan"
+    unflag_date: "Tanggal"
+    unflag_by: "Tidak Ditandai Bendera"
+    unflag_label: "Tidak Ditandai Bendera"
+    unflag_error_message: "Tolong jelaskan mengapa Anda tidak menandai data ini dengan bendera."
+    id_of_record_this_duplicate_of: "Masukkan ID dari catatan ini adalah duplikat dari:"
+    duplicate_header: "Menandai %{child_name} sebagai Duplikat"
+    flag_error_message: "Tolong jelaskan mengapa Anda menandai data ini dengan bendera."
+    flag_records_error_message: "Masukkan alasan untuk bendera dan jika menambahkan tanggal gunakan format tanggal yang benar."
+    selected_records_error_message: "Harap pilih satu atau lebih data untuk ditandai dengan bendera."
+    investigation_details: "Rincian Investigasi:"
+    reunite_details: "Detail Penyatuan Kembali"
+    another_duplicate_before_link: "Catatan lain telah ditandai sebagai duplikat yang satu ini. Klik"
+    another_duplicate_after_link: "Untuk melihat catatan duplikat."
+    export_error: "Tidak ada Data yang tersedia!"
+    id: "ID#"
+    name: "Nama"
+    age: "Umur"
+    sex: "Jenis Kelamin"
+    registration_date: "Tanggal Pendaftaran"
+    status: "Status"
+    match_record: "Cocok"
+    match_record_success: "Data cocok"
+    match_record_failed: "Kecocokan Tidak Ditemukan"
+    messages:
+      update_success: "Kasus %{record_id} telah berhasil diperbarui."
+      investigation_error_message: "Harap konfirmasikan catatan yang ditandai harus ditandai sebagai yang diselidiki, dan masukkan rincian yang Anda miliki."
+      undo_investigation_error_message: "Urungkan Detail Investigasi:"
+      reunite_error_message: "Tolong konfirmasikan anak ini telah dipertemukan kembali dengan keluarga atau pengasuh, dan masukkan rincian yang Anda miliki."
+      undo_reunite_error_message: "Harap konfirmasikan anak harus ditandai sebagai Belum Dipertemukan, dan masukkan rincian yang Anda miliki."
+      see_full_size: "Klik pada Gambar untuk melihat ukuran penuh"
+      creation_success: "Kasus %{record_id} telah berhasil dibuat."
+      not_found: "Anak dengan id yang diberikan tidak ditemukan"
+      confirm_duplicate: "Apakah anda yakin ingin melanjutkan? Jika ya, tekan tombol OK. Jika tidak, tekan tombol Batal."
+      create_details_error: "Pastikan hanya satu kasus yang dipilih"
+    actions:
+      mark_as_investigated: "Tandai untuk Diinvestigasi"
+      mark_as_reunited: "Tandai sebagai Penyatuan Kembali"
+      export_to_photo_wall: "Ekspor ke Foto Dinding"
+      export_to_pdf: "Ekspor ke PDF"
+      export_to_csv: "Ekspor ke CSV"
+      change_log: "Ubah Log"
+      mark_as_not_investigated: "Tandai untuk tidak diidentifikasi"
+      reunited: "Tandai sebagai Penyatuan Kembali"
+      reunited_details: "Detail Penyatuan Kembali"
+      reunite: "Penyatuan Kembali"
+      not_reunited: "Jangan Tandai sebagai Penyatuan Kembali"
+      undo_reunited_details: "Alasan Pembatalan Penyatuan Kembali:"
+      undo_reunite: "Batalkan Penyatuan Kembali"
+      investigation_details: "Rincian Investigasi:"
+      undo_investigation_details: "Batalkan Rincian Investigasi:"
+      undo_investigated: "Batalkan Diinvestigasi"
+      cancel: "Batal"
+      delete_photo: "Hapus Foto?"
+      delete_audio: "Hapus file suara?"
+      delete_document: "Hapus dokumen?"
+      choose_as_primary_photo: "Pilih sebagai foto utama"
+      rotate_anti_clockwise: "Putar Berlawanan Arah jarum jam"
+      restore_image: "Kembalikan Gambar Asli"
+      rotate_clockwise: "Putar searah jarum jam"
+      view_full_size_photo: "Lihat foto ukuran penuh"
+    change_log: "Ubah Log"
+    flagged_as_suspected: "Ditandai Bendera Oleh"
+    posted_from_mobile: "Diposting dari seluler di:"
+    edit_photo: "Ubah Foto"
+    manage_photos: "Kelola Foto"
+    view: "Lihat Kasus %{short_id}"
+    edit: "Ubah Kasus"
+    mark_child_as_duplicate: "Tandai %{short_id} sebagai Duplikat"
+    history_of: "Riwayat dari %{short_id}"
+  saved_search:
+    save_success: "Pencarian berhasil disimpan"
+    save_error: "Gagal disimpan"
+    deleted: "Pencarian berhasil dihapus"
+    delete_error: "Gagal dihapus"
+    saved_searches_tab: "Pencarian yang Tersimpan"
+    filters_tab: "Saringan"
+  task:
+    id: "ID#"
+    priority: "Tingkat Prioritas"
+    type: "Jenis Tindakan"
+    due_date: "Tanggal Batas Waktu"
+    types:
+      assessment: "Asesmen"
+      case_plan: "Rencana Kasus"
+      follow_up: "Tindak Lanjut - %{subtype}"
+      service: "Layanan - %{subtype}"
+  case:
+    create_new_case: "Buat Kasus Baru"
+    enter_id_number: "Masukkan nomor ID untuk mencari catatan kasus yang telah ada"
+    id_number_required: "Nomor ID dibutuhkan"
+    id_search_no_results: "Tidak ditemukan data yang cocok untuk \"%{id}\", silahkan buat catatan kasus yang baru."
+    id_search_results_html: "untuk <strong>%{id}</strong>"
+    label: "ID Kasus"
+    workflow:
+      created_on: "Dibuat pada"
+      on_label: "di"
+      in_progress: "Dalam Penanganan"
+      new: "Baru"
+      closed: "Tutup"
+      reopened: "Dibuka Kembali"
+      service_implemented: Layanan telah Dilakukan
+      services_implemented: Layanan telah Dilakukan
+      case_plan: "Rencana Kasus"
+      assessment: "Asesmen"
+    flagged_by: "Ditandai Bendera Oleh"
+    last_updated: "Terakhir diperbarui"
+    registered_by: "Didaftarkan oleh"
+    mark_as_duplicate: "Tandai sebagai Duplikat"
+    flag_record: "Tandai data ini dengan Bendera"
+    flag_label: "Tandai dengan Bendera"
+    flag_reason: "Alasan Tandai Bendera"
+    flag_reason_date: "Tanggal (Opsional)"
+    unflag_record: "Tidak tandai Data dengan Bendera"
+    unflag_reason: "Alasan tidak tandai Bendera"
+    unflagged_label: "Alasan"
+    unflag_date: "Tanggal"
+    unflag_by: "Tidak Ditandai Bendera"
+    unflag_label: "Tidak Ditandai Bendera"
+    unflag_error_message: "Tolong jelaskan mengapa Anda tidak menandai data ini dengan bendera."
+    id_of_record_this_duplicate_of: "Masukkan ID dari catatan ini adalah duplikat dari:"
+    duplicate_header: "Menandai %{child_name} sebagai Duplikat"
+    flag_error_message: "Tolong jelaskan mengapa Anda menandai data ini dengan bendera."
+    investigation_details: "Rincian Investigasi:"
+    reunite_details: "Detail Penyatuan Kembali"
+    another_duplicate_before_link: "Data lain telah ditandai sebagai duplikat yang satu ini. Klik"
+    another_duplicate_after_link: "Untuk melihat catatan duplikat."
+    select: "Pilih"
+    id: "ID#"
+    name: "Nama"
+    age: "Umur"
+    sex: "Jenis Kelamin"
+    registration_date: "Tanggal Pendaftaran"
+    status: "Status"
+    social_worker: "Pekerja Sosial"
+    survivor_code: "Kode Survivor"
+    case_opening_date: "Tanggal Buka Kasus"
+    photo: "Foto"
+    owned_by: 'Penanggungjawab Catatan Kasus'
+    owned_by_agency: 'Lembaga Penanggungjawab Catatan Kasus'
+    messages:
+      update_success: "Kasus %{record_id} telah berhasil diperbarui."
+      investigation_error_message: "Harap konfirmasikan catatan yang ditandai dengan bendera harus ditandai sebagai yang diselidiki, dan masukkan rincian yang Anda miliki."
+      undo_investigation_error_message: "Urungkan Detail Investigasi:"
+      reunite_error_message: "Tolong konfirmasikan kasus ini telah dipertemukan kembali dengan keluarga atau pengasuh, dan masukkan rincian yang Anda miliki."
+      undo_reunite_error_message: "Harap konfirmasikan kasus harus ditandai sebagai yang tidak dipertemukan dan masukkan rincian yang Anda miliki."
+      see_full_size: "Klik pada Gambar untuk melihat ukuran penuh"
+      creation_success: "Kasus %{record_id} telah berhasil dibuat."
+      not_found: "Anak dengan id yang diberikan tidak ditemukan"
+      confirm_duplicate: "Apakah anda yakin ingin melanjutkan? Jika ya, tekan tombol OK. Jika tidak, tekan tombol Batal."
+    actions:
+      mark_as_investigated: "Tandai untuk Diinvestigasi"
+      mark_as_reunited: "Tandai sebagai Penyatuan Kembali"
+      change_log: "Ubah Log"
+      mark_as_not_investigated: "Tandai untuk tidak diidentifikasi"
+      reunited: "Tandai sebagai Penyatuan Kembali"
+      reunited_details: "Detail Penyatuan Kembali"
+      reunite: "Penyatuan Kembali"
+      not_reunited: "Jangan Tandai sebagai Penyatuan Kembali"
+      undo_reunited_details: "Alasan pembatalan Penyatuan Kembali"
+      undo_reunite: "Batalkan Penyatuan Kembali"
+      investigation_details: "Rincian Investigasi:"
+      undo_investigation_details: "Urungkan Rincian Investigasi"
+      undo_investigated: "Urungkan Investigasi"
+      cancel: "Batal"
+      delete_photo: "Hapus Foto"
+      delete_audio: "Hapus file suara?"
+      choose_as_primary_photo: "Pilih sebagai foto utama"
+      rotate_anti_clockwise: "Putar Berlawanan arah jarum jam"
+      restore_image: "Kembalikan Gambar Asli"
+      rotate_clockwise: "Putar searah jarum jam"
+      view_full_size_photo: "Lihat foto ukuran penuh"
+    change_log: "Ubah Log"
+    flagged_as_suspected: "Ditandai Bendera Oleh"
+    posted_from_mobile: "Diposting dari seluler di:"
+    edit_photo: "Ubah Foto"
+    manage_photos: "Kelola Foto"
+    view: "Lihat Kasus %{short_id"
+    edit: "Ubah Kasus"
+    mark_child_as_duplicate: "Tandai %{short_id} sebagai Duplikat"
+    history_of: "Riwayat dari %{short_id}"
+    incident_details_separator: "Rincian Kejadian"
+    services_section_separator: "Gambaran Umum Respon"
+  incidents:
+    label: "Insiden"
+    register_new_incident: "Insiden Baru"
+    selectable_date_options:
+      date_of_first_report: "Tanggal Wawancara"
+      incident_date_derived: "Tanggal Kejadian"
+    filter_by:
+      flag: "Ditandai Bendera"
+      flag_label: "Ditandai Bendera?"
+      mobile: "Seluler:"
+      mobile_label: "Tandai untuk seluler?"
+      violation: "Pelanggaran:"
+      violence_type: "Jenis Kekerasan:"
+      social_worker: "Pekerja Kasus"
+      status: "Status:"
+      age_range: "Rentang umur:"
+      children: "Anak-anak"
+      boys: "Anak laki-laki"
+      girls: "Anak perempuan"
+      unknown: "Tidak diketahui"
+      verification_status: "Status Verifikasi:"
+      incident_location: "Lokasi Insiden"
+      incident_date: "Tanggal Insiden"
+      unaccompanied_separated_status: "Status Perlindungan:"
+      armed_force_group_name: "Angkatan Bersenjata atau Grup:"
+      armed_force_group_type: "Tipe Grup"
+      record_state: "Data Menerangkan:"
+      interview_date: "Tanggal Wawancara:"
+  incident:
+    label: "ID Insiden"
+    flagged_by: "Ditandai Bendera Oleh"
+    last_updated: "Terakhir diperbarui"
+    registered_by: "Didaftarkan oleh"
+    mark_as_duplicate: "Tandai sebagai Duplikat"
+    flag_record: "Tandai dengan Bendera"
+    flag_label: "Tandai dengan Bendera"
+    flag_reason: "Alasan tandai Bendera"
+    flag_reason_date: "Tanggal (opsional)"
+    unflag_record: "Tidak tandai Data dengan Bendera"
+    unflag_reason: "Alasan tidak tandai Bendera"
+    unflagged_label: "Alasan"
+    unflag_date: "Tanggal"
+    unflag_by: "Tidak ditandai dengan Bendera"
+    unflag_label: "Tidak ditandai dengan Bendera"
+    unflag_error_message: "Tolong jelaskan mengapa Anda tidak menandai data ini dengan bendera."
+    flagged_as_suspected: "Ditandai Bendera Oleh"
+    id_of_record_this_duplicate_of: "Masukkan ID dari catatan ini adalah duplikat dari:"
+    duplicate_header: "Menandai %{child_name} sebagai Duplikat"
+    flag_error_message: "Tolong jelaskan mengapa Anda menandai data ini dengan bendera."
+    flag_records_error_message: "Masukkan alasan untuk bendera dan jika menambahkan tanggal gunakan format tanggal yang benar."
+    selected_records_error_message: "Harap pilih satu atau lebih catatan untuk ditandai dengan Bendera."
+    investigation_details: "Rincian Investigasi:"
+    reunite_details: "Detail Penyatuan Kembali"
+    another_duplicate_before_link: "Catatan lain telah ditandai sebagai duplikat yang satu ini. Klik"
+    another_duplicate_after_link: "Untuk melihat catatan duplikat."
+    violation_status_verified: "Diverifikasi"
+    empty_violation: "Untuk menambahkan pelanggaran, tambahkan Kategori Pelanggaran pada formulir Insiden untuk melihat bentuk pelanggaran yang sesuai."
+    add_violations: "Klik tambah untuk memasukkan rincian pelanggaran."
+    create_incident_cp: "Buat catatan kasus untuk kejadian?"
+    link_to_incident: "Tautan ke Kejadian"
+    messages:
+      update_success: "Data Insiden %{record_id} berhasil diubah."
+      creation_success: "Data Insiden %{record_id} berhasil dibuat."
+    view: "Lhat Insiden %{short_id}"
+    edit: "Ubah Insiden"
+    select: "Pilih"
+    id: "ID#"
+    survivor_code: "Kode Survivor"
+    case_worker_code: "Kode Pekerja Kasus"
+    date_of_interview: "Tanggal Wawancara:"
+    date_of_incident: "Tanggal dari Insiden"
+    violence_type: "Jenis Kekerasan"
+    incident_location: "Lokasi Insiden"
+    violations: "Pelanggaran"
+    social_worker: "Pekerja Sosial"
+    change_log: "Ubah Log"
+    actions:
+      change_log: "Ubah Log"
+    history_of: "Riwayat dari %{short_id}"
+    violation:
+      violation: "Pelanggaran"
+      pending: 'Verifikasi tertunda'
+      killing: "Membunuh"
+      maiming: "Mencacatkan"
+      recruitment: "Pengerahan"
+      sexual_violence: "Kekerasan Seksual"
+      abduction: "Penculikan"
+      attack_on_schools: "Diserang di Sekolah"
+      attack_on_hospitals: "Diserang di Rumah Sakit"
+      denial_humanitarian_access: "Penyangkalan Akses Kemanusiaan"
+      other_violation: "Pelanggaran Lain"
+  tracing_request:
+    label: "ID Penyelidik"
+    register_new_tracing_request: "Permintaan Penelusuran Baru"
+    name_of_inquirer: "Nama dari Penanya"
+    date_of_inquiry: "Tanggal Penyelidikan"
+    tracing_requests: "Pemintaan Penelusuran"
+    change_log: "Ubah Log"
+    last_updated: "Terakhir diperbarui"
+    registered_by: "Didaftarkan oleh"
+    edit_photo: "Ubah Foto"
+    flag_record: "Tandai dengan Bendera"
+    flag_label: "Tandai dengan Bendera"
+    flag_reason: "Alasan tandai Bendera"
+    flag_reason_date: "Tanggal (opsional)"
+    flag_records_error_message: "Masukkan alasan untuk bendera dan jika menambahkan tanggal gunakan format tanggal yang benar."
+    selected_records_error_message: "Harap pilih satu atau lebih catatan untuk ditandai dengan Bendera."
+    unflag_record: "Tidak tandai Data dengan Bendera"
+    unflag_reason: "Alasan tidak tandai Bendera"
+    unflagged_label: "Alasan"
+    unflag_date: "Tanggal"
+    unflag_by: "Tidak ditandai dengan Bendera"
+    unflag_label: "Tidak ditandai dengan Bendera"
+    unflag_error_message: "Tolong jelaskan mengapa Anda tidak menandai data ini dengan bendera."
+    flag_error_message: "Tolong jelaskan mengapa Anda menandai data ini dengan bendera."
+    flagged_as_suspected: "Ditandai Bendera Oleh"
+    find_match: "Temukan Kecocokan"
+    actions:
+      change_log: "Ubah Log"
+      delete_photo: "Hapus Foto?"
+      delete_audio: "Hapus file suara?"
+    messages:
+      update_success: "Permintaan Penelusuran %{record_id} telah berhasil diperbarui."
+      creation_success: "Data Permintaan Penelusuran %{record_id} berhasil dibuat."
+    view: "Lihat Permintaan Penelusuran %{short_id}"
+    edit: "Ubah Permintaan Penelusuran"
+    select: "Pilih"
+    id: "ID#"
+    enquirer_name: "Nama Penanya"
+    enquirer_date: "Tanggal Penyelidikan"
+    history_of: "Riwayat dari %{short_id}"
+  tracing_requests:
+    register_new_tracing_request: "Permintaan Penelusuran Baru"
+    export: "Ekspor"
+    selectable_date_options:
+      inquiry_date: "Tanggal Penyelidikan"
+    filter_by:
+      flag: "Ditandai dengan Bendera"
+      flag_label: "Ditandai dengan Bendera?"
+      social_worker: "Kolom/Kasus/Pekerja Sosial:"
+      inquiry_date: "Tanggal Penyelidikan:"
+      inquiry_status: "Status Permintaan:"
+      location_separation: "Pemisahan Lokasi:"
+      separation_cause: "Penyebab Pemisahan:"
+      record_state: "Data Menerangkan:"
+  potential_matches:
+    empty: "Gunakan Permintaan Penelusuran untuk Melihat Kecocokan Data"
+    no_match: "Tidak ada data yang cocok untuk %{type} %{id}"
+    display: "Menampilkan kecocokan yang mungkin ada untuk %{type} %{id}"
+    filter_by:
+      score_range: "Rentang Nilai"
+      age_range_case: "Rentang umur dari Kasus"
+      age_range_tracing_request: "Rentang umur dari Permintaan penelurusan"
+      sex_case: "Jenis Kelamin dari Kasus"
+      sex_tracing_request: "Jenis Kelamin dari Permintaan Penelusuran"
+      male: "Laki-Laki"
+      female: "Perempuan"
+  potential_match:
+    header_key: "Kriteria Pencocokan"
+    inquirer_id: 'ID# Penyelidik'
+    inquirer_name: 'Nama dari Penanya'
+    inquiry_date: 'Tanggal Penyelidikan'
+    inquirer_tr_name: 'Permintaan Penelusuran'
+    child_id: '#id anak'
+    child_age: 'Umur'
+    child_gender: 'Gender'
+    child_date_of_birth: 'Tanggal Lahir'
+    reg_date: 'Tanggal Pendaftaran'
+    social_worker: 'Pekerja Sosial'
+    social_worker_agency: 'Agensi'
+    score: 'Nilai'
+    show_more: 'Tampilkan lebih banyak'
+    show_less: 'Tampilkan Lebih Sedikit'
+    trace: 'Telusuri'
+    case: 'Kasus'
+    name: 'Nama'
+    likelihood:
+      likely: 'Kemungkinan Besar'
+      possible: 'Ada kemungkinan'
+  audit_log:
+    timestamp: "Timestamp - UTC"
+    user_name: "Nama Pengguna"
+    action: "Tindakan"
+    description: "Deksripsi"
+    record_owner: "Penanggungjawab Catatan Kasus"
+  audit_logs:
+    action_options:
+      login: "Masuk"
+      logout: "Keluar"
+      create: "Membuat"
+      copy: "Menyalin"
+      destroy: "Menghapus"
+      show: "Melihat"
+      edit: "Mengubah"
+      update: "Memperbaharui"
+      export: "Mengekspor data untuk"
+      referral: "Merujuk"
+      reassign: "Menugaskan"
+      transfer: "Memindahkan"
+      reopen_case: "Membuka kembali"
+    filter_by:
+      action: 'Nama Tindakan'
+      date: 'Tanggal'
+      timestamp: 'Stempel waktu'
+      user: 'Nama Pengguna'
+  preposition:
+    on_label: "di"
+    because: "Karena"
+    at_label: "di"
+  pagination:
+    zero: "Tidak ada %{model} ditemukan"
+    page_entries_info: Menampilkan _START_ ke _END_ dari _TOTAL_ %{model}
+  users:
+    unverified: "Pengguna yang Belum Diverifikasi"
+    select_role: "Pilih peran sebelum memverifikasi pengguna"
+    manage: "Kelola Para Pengguna"
+    label: "Pengguna"
+    create: "Buat pengguna"
+    account_details: "Detail akun"
+    actions:
+      show_all: "Menampilkan semua"
+      show: "Tunjukkan"
+      edit: "Ubah"
+    messages:
+      disable: 'Yakin ingin menonaktifkan pengguna ini?'
+    sort_by:
+      label: "Sortir dengan"
+      full_name: "Nama Lengkap"
+      agency: "Agensi"
+  roles:
+    label: "Peran"
+    list: "Daftar dari Peran"
+    sort_by:
+      label: "Sortir dengan"
+      ascending: "Kecil ke Besar"
+      descending: "Besar ke Kecil"
+    name: "Nama Peran"
+    actions:
+      show_all: "Menampilkan semua"
+      show: "Tunjukkan"
+      edit: "Ubah"
+      update: "Perbarui"
+      create: "Buat"
+      delete: "Hapus"
+      copy: "Salin"
+    view: "Lihat Peran"
+    messages:
+      confirmation: "Anda yakin ingin menghapus peran ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus Peran."
+  role:
+    create: "Buat Peran"
+    edit: "Ubah Peran"
+    name: "Nama"
+    description: "Deskripsi"
+    successfully_updated: "Rincian peran berhasil diperbarui."
+    error_in_updating: "Kesalahan dalam memperbarui detail Peran."
+    copy_success: "Peran berhasil disalin."
+    copy_failure: "Kesalahan saat menyalin Peran Pastikan namanya tidak bertentangan dengan Peran lain."
+    transfer_label: "Dapatkah peran ini digunakan untuk Transfer?"
+    referral_label: "Dapatkah peran ini digunakan untuk Referral?"
+    group_permission_label: "Data apa yang mempengaruhi peran ini?"
+    role_ids_label: "Peran lainnya dikelola oleh peran ini"
+  agencies:
+    logo: 'Logo'
+    logo_enabled: 'Logo diaktifkan?'
+    label: "Agensi"
+    view: "Lihat Agensi"
+    successfully_created: "Agensi berhasil dibuat."
+    successfully_updated: "Agensi berhasil dibuat."
+    actions:
+      show_all: "Menampilkan semua"
+      show: "Tunjukkan"
+      edit: "Ubah"
+      update: "Perbarui"
+      create: "Buat"
+      delete: "Hapus"
+    messages:
+      confirmation: "Anda yakin ingin menghapus agensi ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus Agensi."
+    select_prompt: "Silahkan pilih Agensi"
+    error_in_updating: "Kesalahan dalam memperbarui detail Agensi"
+  agency:
+    edit: 'Ubah Agensi'
+    name: 'Nama Agensi'
+    code: 'Kode Agensi'
+  system_settings:
+    label: "Pengaturan sistem"
+    edit: "Ubah Pengaturan Sistem"
+    show: "Pengaturan sistem"
+    updated: "Pengaturan Sistem berhasil diperbarui."
+    primero_version: "Versi Sistem"
+  primero_modules:
+    label: "Modul"
+    view: "Lihat Modul"
+    actions:
+      show_all: "Menampilkan semua"
+      show: "Tunjukkan"
+      edit: "Ubah"
+      update: "Perbarui"
+      create: "Buat"
+      delete: "Hapus"
+    messages:
+      confirmation: "Anda yakin ingin menghapus modul ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus modul."
+      invalid: "modul(s) tidak sah"
+  primero_module:
+    create: "Buat Modul"
+    edit: "Ubah Modul"
+    show: "Lihat"
+    name: "Nama"
+    description: "Deksripsi"
+    successfully_updated: "Rincian modul berhasil diperbarui."
+    error_in_updating: "Kesalahan saat memperbarui rincian Modul."
+    record_type: "Tipe Data untuk modul ini"
+    forms: "Formulir ditugaskan ke modul ini"
+    program: "Program"
+    associated_record_types: "Tipe data yang terkait"
+    associated_form_ids: "ID formulir terkait"
+  primero_programs:
+    label: "Program"
+    view: "Lihat Program"
+    actions:
+      show_all: "Menampilkan semua"
+      show: "Tunjukkan"
+      edit: "Ubah"
+      update: "Perbarui"
+      create: "Buat"
+      delete: "Hapus"
+    messages:
+      confirmation: "Anda yakin ingin menghapus modul program ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus program."
+  primero_program:
+    create: "Buat Program"
+    edit: "Ubah Program"
+    show: "Lihat"
+    name: "Nama"
+    description: "Deksripsi"
+    start_date: "Tanggal mulai program"
+    end_date: "Tanggal akhir program"
+    successfully_updated: "Rincian program berhasil diperbarui."
+    error_in_updating: "Kesalahan dalam memperbarui rincian Program."
+  user_groups:
+    label: "Grup Pengguna"
+    view: "Lihat Grup Pengguna"
+    actions:
+      show_all: "Menampilkan semua"
+      show: "Tunjukkan"
+      edit: "Ubah"
+      update: "Perbarui"
+      create: "Buat"
+      delete: "Hapus"
+    messages:
+      confirmation: "Anda yakin ingin menghapus grup pengguna ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus grup pengguna."
+  user_group:
+    create: "Buat Grup Pengguna"
+    edit: "Ubah Grup Pengguna"
+    name: "Nama"
+    description: "Deksripsi"
+    successfully_updated: "Rincian Grup Pengguna berhasil diperbarui."
+    error_in_updating: "Kesalahan saat memperbarui rincian Grup Pengguna."
+  user:
+    label: "pengguna"
+    full_name: "Nama Lengkap"
+    code: "Kode Pengguna"
+    history_of: "Riwayat %{user_name}"
+    disabled: "Di non-aktifkan"
+    position: Posisi
+    actions:
+      delete: "Hapus"
+    messages:
+      confirmation: "Anda yakin ingin menghapus pengguna ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus pengguna."
+      created: "Pengguna sudah berhasil dibuat"
+      updated: "Pengguna berhasil diperbarui."
+      not_found: "Pengguna dengan id yang diberikan tidak ditemukan"
+      passwords_do_not_match: "Tidak cocok dengan kata sandi saat ini"
+      password_changed_successfully: "Kata sandi berhasil diubah"
+      time_zone_updated: "Perubahan itu berhasil diupdate."
+    update: "Perbarui"
+    verify: "Periksa"
+    create: "Buat"
+    no_blank: "Nama pengguna tidak boleh kosong"
+    manage_password: "Ubah Kata Sandi"
+    old_password: "Kata Sandi Lama"
+    new_password: "Kata Sandi Baru"
+    password_strength: "Kata Sandi minimal harus terdiri dari 8 karakter dan sertakan kedua huruf dan angka"
+    new_password_confirmation: "Konfirmasi Kata Sandi Baru"
+    new: "Pengguna Baru"
+    user_action_history: "Riwayat tindakan pengguna"
+    no_activity: "Tidak ada aktifitas"
+    location: "Lokasi"
+    organization: "Organisasi"
+    agency: "Agensi"
+    manager: "Manajer"
+    send_mail: "Terima pemberitahuan email?"
+    welcome_email:
+      greeting: "Selamat Datang di Primero"
+      url_label: "Primero"
+      enabled_label: "Kirim email penyambutan"
+      text_label: "Text email Penyambutan"
+  phone: "Telepon"
+  email: "Surat Elektronik"
+  organization: "Organisasi"
+  position: "Posisi"
+  'false': "Salah"
+  'true': "Benar"
+  mandatory_field: "Kolom yang ditandai wajib diisi"
+  add: "Tambah"
+  belonging_to: "Milik"
+  imei: "IMEI"
+  blacklisted: "Masuk Daftar hitam?"
+  visible_for_web: "Terlihat untuk aplikasi web"
+  visible_for_mobile: "Terlihat untuk aplikasi seluler"
+  hidden: "Tersembunyi"
+  help_text: "Teks bantuan"
+  multi_select: "Pilihan Majemuk"
+  option_strings_source: "Sumber Pilihan Kalimat"
+  discard: "Buang"
+  form: "Formulir"
+  details: "Rincian"
+  enabled: "Diaktifkan"
+  status: "Status"
+  devices: "Perangkat"
+  replications: "Replikasi"
+  provide_translation: "Berikan terjemahan untuk"
+  select_language: "Pilih Bahasa"
+  hide_on_view_page: "Sembunyikan di Halaman Tampilan"
+  show_on_short_form: "Tampilkan Pada Formulir Ringkas"
+  last_login: "Login terakhir"
+  record: "Data"
+  description: "Deskripsi"
+  unique_id: "ID Unik"
+  permissions:
+    label: "Izin"
+    Actions: "Tindakan"
+    Resources: "Sumber"
+    Management: "Manajemen"
+    group:
+      actions: "Tindakan"
+      resources: "Sumber"
+      resource: "Sumber"
+      management: "Manajemen"
+    permission:
+      read: "Baca"
+      write: "Tulis"
+      enable_disable_record: "Nonaktifkan"
+      flag: "Tandai dengan Bendera"
+      assign: "Menugaskan"
+      case: "Kasus"
+      incident: "Insiden"
+      tracing_request: "Permintaan Penelusuran"
+      potential_match: "Potensi Kecocokan"
+      role: "Peran"
+      user: "Pengguna"
+      user_group: "Grup Pengguna"
+      agency: "Agensi"
+      metadata: "Formulir, Lihat Referensi"
+      system: "Sistem"
+      report: "Laporan"
+      self: "Akses hanya data saya atau pengguna"
+      group: "Akses semua data atau pengguna di grup saya"
+      all: "Akses semua data atau pengguna"
+      admin_only: "Tidak ada data - Hanya untuk Admin"
+      All: "Semua"
+      specific_roles: "Akses daftar peran yang ditentukan"
+      consent_override: "Persetujuan diganti"
+      export_list_view_csv: "Tampilan daftar ekspor csv"
+      export_csv: "Ekspor CSV"
+      export_xls: "Ekspor XLS"
+      export_photowall: "Ekspor Foto Dinding"
+      export_pdf: "Ekspor PDF"
+      export_unhcr_csv: "Ekspor unhcr csv"
+      export_mrm_violation_xls: "Ekspor Kekesaran mrm xls"
+      export_case_pdf: "Ekspor kasus ke PDF"
+      export_json: "Ekspor json"
+      export_custom: "Ekspor kustomisasi"
+      import: "Impor"
+      transfer: "Pemindahan"
+      reassign: "Menugaskan kembali"
+      referral: "Rujukan"
+      sync_mobile: "Sinkronisasi dengan perangkat seluler"
+      request_approval: "Meminta persetujuan"
+      request_approval_bia: "Meminta persetujuan BIA"
+      request_approval_case_plan: "Meminta persetujuan Rencana Kasus"
+      request_approval_closure: "Meminta persetujuan Terminasi"
+      approve_bia: "Setujui Formulir BIA"
+      approve_case_plan: "Setujui Formulir Rencana Kasus"
+      approve_closure: "Setujui Formulir Terminasi"
+      copy: "Salin"
+      manage: "Kelola"
+      administrator_read: "Administrator Baca"
+      group_read: "Grup Baca"
+      agency_read: "Pembacaan Agensi"
+      dashboard: "Dashboard"
+      view_approvals: "Lihat Persetujuan"
+      view_assessment: "Lihat Penilaian"
+      dash_reporting_location: "Lihat Lokasi Laporan"
+      dash_protection_concerns: "Lihat Masalah perlindungan:"
+      dash_matching_results: "Tinjau Hasil Pencocokan"
+      dash_service_provisions: "Tinjau Pemberian Layanan"
+      dash_referrals_by_socal_worker: "Tinjau Rujukan berdasar Pekerja Sosial"
+      dash_transfers_by_socal_worker: "Tinjau Pengalihan berdasar Pekerja Sosial"
+      dash_cases_by_social_worker: "Tinjau Kasus-kasus berdasar Pekerja Sosial"
+      dash_manager_transfers: "Tinjau Pengalihan Manajer Kasus"
+      dash_cases_by_workflow: "Tinjau Kasus berdasar Alur Penanganan"
+      dash_cases_by_task_overdue: "Tinjau Kasus yang Mengalami Keterlambatan"
+      dash_cases_to_assign: "Tinjau Kasus untuk Ditetapkan Penugasannya"
+      dash_show_none_values: "Tinjau "
+      dash_tasks: "Tinjau tugas-tugas"
+      search_owned_by_others: "Cari catatan kasus milik pengguna lain"
+      incident_from_case: "Buat insiden dari sebuah kasus"
+      incident_details_from_case: "Tambahkan Rincian Kejadian untuk Kasus Milik Pengguna Lain"
+      services_section_from_case: "Tambahkan pemberian layanan untuk kasus milik pengguna lain"
+      create: "Buat"
+      referral_from_service: "Rujuk Kasus dari Form Layanan"
+      view_protection_concerns_filter: "Tinjau Filter Masalah Perlindungan Anak"
+      saved_search: "Pencarian yang tersimpan"
+      save_search: "Simpan Pencarian"
+      remove_assigned_users: "Hapus pengguna lain (kasus rujukan)"
+      audit_log: "Audit Log"
+      display_view_page: "Tampilkan Tinjauan Halaman"
+      service_provision_incident_details: "Lihat Tobol Penambahan Penyediaan Layanan di Mode Rincian Layanan"
+      request_transfer: "Permintaan Pemindahan"
+      view_photo: "Lihat Foto"
+      matching_configuration: "Pengaturan Pencocokan"
+  forms:
+    label: "Formulir"
+    save: "Simpan Formulir"
+    save_details: "Simpan"
+    messages:
+      use_existing: "Kami mendorong Anda untuk menggunakan formulir yang ada karena ini membuat data sharing dan penggabungan data antar institusi menjadi lebih mudah."
+    initial_language: "Bahasa awal"
+    cannot_be_edited: "Kolom pada formulir ini tidak dapat di ubah."
+    record_types:
+      case: "Kasus"
+      child: "Kasus"
+      incident: "Insiden"
+      tracing_request: "Permintaan Penelusuran"
+      potential_match: "Potensi Kecocokan"
+      violation: "Pelanggaran"
+      reportable_service: "Pelayanan"
+      reportable_follow_up: "Menindaklanjuti"
+      reportable_protection_concern: "Masalah Perlindungan"
+  form_section:
+    name: "Nama"
+    description: "Deksripsi"
+    create: "Formulir Baru"
+    visibility: "Penglihatan"
+    ordering: "Urutan"
+    label: "Formulir"
+    group: "Grup"
+    details: "Rincian"
+    back: "Kembali ke Halaman Formulir"
+    help_text: "Tulisan Bantuan"
+    actions:
+      label: "Tindakan"
+      add_custom_field: "Tambahkan Kolom Kustomisasi"
+      save_order: "Simpan Urutan"
+    messages:
+      order_saved: "Urutan berhasil disimpan."
+      cannot_create: "Bagian Formulir tidak bisa dibuat"
+      correct_errors: "Perbaiki kesalahan berikut dan kirimkan lagi:"
+      hide_confirmation: "Yakin ingin menyembunyikan kolom?"
+      show_confirmation: "Yakin ingin menampilkan kolom?"
+      drag_drop_help_text: Anda bisa menekan tombol pada kolom untuk Menahan & amp; Menyeret pada urutan yang diperlukan
+      updated: "Bagian formulir sudah berhasil ditambahkan"
+    hide: "Sembunyikan?"
+    show: "Tunjukkan"
+    manage: "Kelola Bagian Form"
+    edit: "Ubah Bagian Formulir"
+    buttons:
+      add: "Tambah"
+    options: "Pilihan"
+    confirm_delete: "Yakin ingin menghapus formulir ini?"
+    required_field: "%{field} wajib"
+    required_field_js: "Adalah bidang yang wajib diisi. Saat ini kosong atau tidak valid."
+    form_group_name: "Formulir Nama Grup"
+    modal_sidebar_help: "Pilih jenis kolom"
+    modal_sidebar_help_selected: "Jenis dari kolom"
+    translation: "Terjemahan"
+    translation_missing: "(Terjemahan tidak ada untuk %{lang})"
+    base_language_help_text: "Masukkan dalam bahasa %{lang}"
+    initial_lang_help_text: "Area ini harus dibuat dalam %{lang} sebelum terjemahan dapat ditambahkan"
+    field_db_help_text: "Jika dikosongkan, Nama DB akan digunakan. Gunakan hanya huruf Latin, underscore diperbolehkan."
+  advanced_search:
+    instruction: "Pisahkan kata dengan ATAU untuk mencari lebih dari satu pilihan misalnya. Tim ATAU Rahul"
+    date_instruction: "Masukkan tanggal (yyyy-mm-dd) di kotak pertama untuk mencari data yang dibuat atau diperbarui setelah tanggal tersebut. Masukkan tanggal (yyyy-mm-dd) di kotak kedua untuk melihat data yang dibuat atau diperbarui sebelum tanggal tersebut. Masukkan tanggal di kedua kotak untuk melihat data yang dibuat diantara tanggal."
+    created_by_org: "Dibuat Oleh (Organisasi):"
+    date_created: "Tanggal Dibuat:"
+    updated_by: "Diperbarui oleh (Pengguna):"
+    after: "Setelah :"
+    before: "Sebelum :"
+    created_by: "Dibuat Oleh (Pengguna):"
+    date_updated: "Tanggal Diperbarui:"
+    select_a_criteria: "Pilih Kriteria"
+    records_found:
+      other: "%{count} data ditemukan"
+  search: "Cari"
+  select_all: "Pilih semua data"
+  no_results_found: "Tidak ada hasil yang ditemukan"
+  date_format: "yy-mm-dd"
+  yes_label: "Ya"
+  cancel: "Batal"
+  contact:
+    message: "Jika Anda mengalami masalah dengan RapidFTR, atau percaya bahwa kata sandi Anda telah terpapar, segera hubungi administrator sistem."
+    field:
+      name: "Nama"
+      position: "Posisi"
+      organization: "Organisasi"
+      email: "Surel"
+      phone: "Telepon"
+      location: "Lokasi"
+      other_information: "Informasi Lainnya"
+      support_forum: "Forum Dukungan"
+    updated: "Informasi kontak berhasil diupdate."
+    edit_info: "Ubah Informasi Kontak"
+    info_label: "Informasi Kontak"
+    not_found: "Tidak dapat menemukan Informasi Kontak dengan id %{id}"
+  device:
+    blacklist: "Perangkat dalam daftar hitam"
+    messages:
+      blacklist: "Apakah Anda ingin menambahkan perangkat ini ke daftar hitam?"
+      remove_blacklist: "Apakah Anda ingin menghapus perangkat ini dari daftar hitam?"
+      disable: 'Yakin ingin menonaktifkan perangkat ini?'
+    information: "Informasi Perangkat"
+    mobile_number: "No Telepon Seluler"
+    timestamp: "Stempel waktu"
+  admin:
+    contact_info: "Informasi Kontak Admin"
+    highlight_fields: "Sorot Kolom"
+    manage_system_users: "Mengelola Pengguna Sinkronisasi Server"
+    create_system_user: Buat Pengguna Sistem
+    system_logs: "Log Sistem"
+  fields:
+    label: "Kolom"
+    field_name: "Nama Kolom"
+    display_name: "Nama Tampilan"
+    db_name: "Nama DB"
+    help_text: "Teks bantuan"
+    actions: "Tindakan"
+    option_strings_text: "Pilihan"
+    option_strings_text_key: "Kunci Pilihan"
+    option_strings_text_display: "Teks Pilihan"
+    option_strings_source: "Lihat Referensi"
+    option_strings_add_option: "Tambah Pilihan"
+    options_or_lookup_warning: "Tambahkan Pilihan atau pilih Lookup. Jangan kedua-duanya."
+    form_name: "Nama Formulir"
+    action: "Tindakan"
+    remove: "Hapus"
+    subform_remove_message: "Yakin ingin menghapus subform ini?"
+    text_field: "Kolom Teks"
+    check_box: "Kotak centang"
+    select_box: "Pilih Kombo Pilihan"
+    radio_button: "Tombol radio"
+    text_area: "Area Teks"
+    textarea: "Area Teks"
+    numeric_field: "Kolom angka"
+    date_field: "Kolom Tanggal"
+    date_range_field: "Rentang Tanggal"
+    subform: "Subform"
+    tick_box: "Kotak centang"
+    tick_box_label: "Label Kotak centang"
+    tally_field: "Kolom yang sesuai"
+    select_date_validation: "Pilih metode validasi tanggal"
+    not_future_date: "Bukan tanggal yang akan datang"
+    default_date_validation: "Validasi tanggal default"
+    date_not_valid: "Tanggal ini tidak valid"
+    future_date_not_valid: "Tanggal ini tidak bisa di masa depan."
+    number_not_valid: "Silahkan masukkan data angka"
+    separator: "Pemisah"
+    successfully_added: "Kolom berhasil ditambahkan"
+    updated: "Kolom diperbarui"
+    deleted: "Kolom %{display_name} sudah dihapus."
+    add: "Tambah"
+    type: "Tipe Kolom"
+    move_to: "Pindah ke"
+    select_box_empty_item: "(Pilih...)"
+    chosen_placeholder: "Pilih semua yang berlaku"
+    multi_select: "Pilihan Ganda"
+    date_help: "dd-mmm-yyyy"
+    date_help_with_time: "hh-bbb-tttt jj:mm"
+    date_range:
+      from: "Dari"
+      to: "Untuk"
+      date: "Tanggal"
+      date_range: "Rentang Tanggal"
+    file_upload_box:
+      select_file_button_text: "Pilih Dokumen"
+      no_file_selected: "Tidak ada dokumen dipilih"
+      document_file_restrictions_message: "File seharusnya tidak lebih besar dari 2 MB (file executable (exe) tidak dapat diunggah)."
+      photo_file_restrictions_message: "Foto seharusnya tidak lebih besar dari 10mb. File audio seharusnya tidak lebih besar dari 10mb. Semakin kecil semakin baik."
+      add_document_label: "Tambah Dokumen"
+      add_photo_label: "Tambah Photo"
+      recorded_audio_label: "Rekaman Suara"
+      add_new_document_button_text: "Tambah dokumen lain"
+      add_new_photo_button_text: "Tambah photo lain"
+      document_description: "Deskripsi Dokumen"
+    upload_bia_document: "Dokumen BIA"
+    upload_bid_document: "Dokumen BID"
+    upload_other_document: "Dokumen Lain"
+    document:
+      comments: "Komentar"
+      date: "Tanggal Dokumen"
+      name: "Nama Dokumen"
+      current: "Apakah ini dokumen terbaru?"
+    audio:
+      current: "Audio yang ada"
+  replication:
+    label: Replikasi
+    index: Kelola Replikasi
+    create: Tambahkan Server Kontrol
+    edit: Ubah Konfigurasi
+    remote_app_uri: URL Primero
+    actions: Tindakan
+    status: Status
+    description: Deksripsi
+    timestamp: Stempel waktu
+    delete: Hapus
+    completed: Sukses
+    triggered: Dalam Proses
+    error: Gagal
+    confirm_delete: Anda yakin ingin menghapus replikasi ini?
+    start: Mulai Sinkronisasi
+    stop: Hentikan Sinkronisasi
+    configure_a_server: Mengkonfigurasi Server
+    reindex_pending: Mengurutkan yang Tertunda
+    is_continuous: Apakah terus menerus
+  lookup:
+    actions: "Tindakan"
+    edit: "Ubah Referensi"
+    create: "Referensi Baru"
+    label: "Lihat Referensi"
+    index: "Kelola Kiat"
+    name: "Nama"
+    values: "Pilihan"
+    add_value: "Tambah Pilihan"
+    remove: "Hapus"
+    confirm_delete: Yakin ingin menghapus referensi ini?
+    initial_lang_help_text: "Masukkan dalam bahasa %{lang}"
+    messages:
+      cannot_create: "Referensi tidak bisa dibuat"
+      correct_errors: "Perbaiki kesalahan berikut dan kirimkan lagi:"
+      updated: "Referensi berhasil ditambahkan"
+  location:
+    location_code_warning: Perhatikan bahwa jika Anda mengubah kode lokasi yang ada, Anda perlu mengubah kembali lokasi dalam data yang sebelumnya menggunakan lokasi ini.
+    create: "Lokasi Baru"
+    edit: "Ubah Lokasi"
+    label: "Lokasi"
+    index: "Kelola Lokasi"
+    name: "Nama"
+    code: "Kode"
+    hierarchy: "Hirarki"
+    confirm_delete: Yakin ingin menghapus lokasi ini?
+    placename: "Nama Tempat"
+    type: "Tipe"
+    parent: "Lokasi Orangtua"
+    admin_level: "Tingkat Admin"
+    messages:
+      cannot_create: "Lokasi tidak bisa dibuat"
+      correct_errors: "Perbaiki kesalahan berikut dan kirimkan lagi:"
+      updated: "Lokasi berhasil ditambahkan"
+      deleted: "Lokasi berhasil dihapus"
+    base_types:
+      country: 'Negara'
+      region: 'Wilayah'
+      province: 'Provinsi'
+      district: 'Kabupaten/Kota:'
+      governorate: 'Gubernur'
+      chiefdom: 'Kepala Sekolah'
+      county: 'Negara'
+      state: 'Negara Bagian'
+      city: 'Kota'
+      camp: 'Kemah'
+      site: 'Tempat'
+      village: 'Desa'
+      zone: 'Zona'
+      other: 'Lainnya'
+      locality: 'Tempat dan sekitarnya'
+      sub-district: 'Kecamatan'
+  matching_configuration:
+    edit: "Edit Pengaturan Pencocokan"
+    case_fields: "Informasi kasus yang dapat dicocokkan"
+    tracing_request_fields: "Informasi permintaan penelusuran yang dapat dicocokkan"
+    updated: "Pengaturan Pencocokan telah diperbarui"
+    update_error: "Pembaruan Pengaturan Pencocokan Salah"
+    label: "Pengaturan Pencocokan"
+  session:
+    about_to_expire: "Sesi Anda akan segera berakhir!"
+    has_expired: "Sesi Anda telah berakhir. Silahkan login ulang."
+    invalid_credentials: "Kredensial tidak valid. Silahkan coba lagi"
+    login_error: "Terjadi masalah saat masuk. Silahkan Coba lagi."
+    invalid_token: "Token sesi tidak valid"
+    no_token_provided: "Tidak ada token sesi yang diberikan"
+    no_token_in_header: "Tidak ada token sesi di header atau cookies"
+  reports:
+    register_new_report: "Buat Laporan"
+    label: "Laporan"
+    tabs:
+      table: "Tabel"
+      graph: "Grafik"
+    actions:
+      delete: "Hapus"
+    limited_pivots: "Pilih hanya satu bidang tanggal sebagai acuan untuk laporan ini. Satu bidang tanggal bisa menjadi acuan pertama atau kedua."
+    messages:
+      confirmation: "Yakin ingin menghapus laporan ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK untuk menghapus laporan."
+  report:
+    name: "Nama"
+    description: "Deksripsi"
+    heading: "Laporan Primero"
+    type: "Tipe"
+    as_of_date: "Dari tanggal"
+    download: "Unduh"
+    all: "Total"
+    total: "Total"
+    modules: "Modul"
+    record_type: "Jenis Data"
+    aggregate_by: "Grup berdasarkan Baris"
+    disaggregate_by: "Grup berdasarkan Kolom"
+    aggregate_counts_from: "Hitung Agregat dari"
+    group_ages: "Gunakan rentang usia"
+    group_dates_by: "Gunakan rentang tanggal"
+    add_default_filters: "Termasuk Filter Awal"
+    add_default_filters_help: "Buka dan valid"
+    date_ranges:
+      date: "Hari"
+      week: "Minggu"
+      month: "Bulan"
+      year: "Tahun"
+    filters:
+      label: "Laporan Filter"
+      attribute: "Saring"
+      value: "Dengan"
+      not_null: "Nilai formulir tidak kosong"
+    is_graph: "Buat grafik?"
+    no_data: "Tidak ada data untuk laporan ini"
+    export:
+      graph: "Grafik"
+      data: "Data"
+    successfully_updated: "Konfigurasi laporan berhasil diperbarui."
+    error_in_updating: "Kesalahan dalam memperbarui konfigurasi Laporan."
+    messages:
+      delete_success: "Laporan sudah berhasil di hapus"
+    edit: "Rubah"
+  encrypt:
+    password_title: "Buat Kata Sandi"
+    password_label: "Silahkan masukkan password yang akan meng-enkripsi data"
+    password_mandatory: "Masukkan kata sandi yang benar"
+    password_extra_info: "Kata sandi ini akan dikaitkan dengan file yang diekspor dan perlu dimasukkan oleh siapa saja yang membuka file ini di masa mendatang."
+    file_name: "Buat nama file Anda sendiri (Opsional)"
+  administration: "Administrasi"
+  new: "Baru"
+  saved: "Simpan"
+  account: "Akun"
+  moved_from: "%{field_name} dipindah dari %{from_fs} ke %{to_fs}"
+  couchrest:
+    fields:
+      Name: "Nama"
+      Username: "nama pengguna"
+      Password: "Kata Sandi"
+      Description: "Deskripsi"
+      Remote app url: "URL aplikasi jarak jauh"
+    attributes:
+      report:
+        aggregate_by: "Grup berdasar Baris"
+    validations:
+      blank: "%s tidak boleh kosong"
+  gbv_report:
+    18_and_over_age: "Umur 18 atau lebih"
+    12_17_age: "12-17"
+    0_11_age: "0-11"
+    unknown: "Tidak diketahui"
+    adult: "Dewasa"
+    child: "Anak"
+    'yes': "Ya"
+    'no': "Tidak"
+    none: "Tidak ada"
+    uam_sc_ovc: "UAM/SC/OVC"
+    unaccompanied_minor: "Minor Tidak didampingi"
+    separated_child: "Anak terpisahkan"
+    other_vulnerable_child: "Anak Rentan lainnya"
+    rape: "Perkosaan"
+    sexual_assault: "Serangan Seksual"
+    non_gbv: "Bukan Kekerasan Berbasis Gender"
+    disability: "Cacat"
+    sexual_violence: "Kekerasan Seksual"
+    intimate_partner_former_partner: "Pasangan Intim / Mantan Pasangan"
+    intimate_partner_violence: "Kekerasan Pasangan Intim"
+    child_sexual_abuse: "Pelecehan Seksual Anak"
+    forced_marriage: "Pernikahan Paksa"
+    early_marriage: "Pernikahan Dini"
+    harmful_traditional_practice: "Praktik Tradisional Berbahaya"
+    possible_sexual_exploitation: "Kemungkinan Eksploitasi Seksual"
+    possible_sexual_slavery: "Kemungkinan Perbudakan Seksual"
+    over_1_month: "Lebih dari 1 bulan"
+    2_weeks_1_month: "2 minggu - 1 bulan"
+    6_14_days: "6-14 Hari"
+    4_5_days: "4-5 Hari"
+    0_3_days: "0-3 Hari"
+    exclude: "Terkecuali"
+    include: "Termasuk"
+    quarter_4: "Triwulan 4"
+    quarter_3: "Triwulan 3"
+    quarter_2: "Triwulan 2"
+    quarter_1: "Triwulan 1"
+    undecided: "Tidak diputuskan pada saat laporan"
+  followup_reminders:
+    system_generated_followup_flag: "Kunjungan tindak lanjut wajib"
+    system_generated_followup_unflag: "Kadaluarsa"
+    system_generated_followup_unflag_cancelled: "Dibatalkan"
+    high_risk_level: "Tinggi"
+    medium_risk_level: "Sedang"
+    low_risk_level: "Rendah"
+    child_status_open: "Buka"
+    child_status_closed: "Tutup"
+    child_status_transferred: "Dipindahkan"
+    child_status_duplicate: "Duplikasi"
+  dashboard:
+    total: 'Total'
+    new: 'Baru dan Telah Diperbarui'
+    pending_transfers: 'Pengalihan yang Ditunda'
+    rejected_transfers: 'Pengalihan yang Ditolak'
+    transers_awaiting_acceptance: 'Pengalihan sedang Menunggu Persetujuan'
+    total_referred: "Total Rujukan"
+    new_referred: "Rujukan Baru"
+    high_risk: 'Prioritas Tinggi'
+    low_risk: 'Prioritas Rendah'
+    none_risk: 'Bukan Prioritas'
+    medium_risk: 'Prioritas Sedang'
+    pending: 'Tertunda'
+    rejected: 'Ditolak'
+    near_deadline: 'Mendekati Tenggat Waktu'
+    due: 'Melampaui Tenggat Waktu'
+    response: 'Respon <span>(In Progress)</span>'
+    immediate_response: 'Respon Segera'
+    cases_to_assign: 'Kasus yang akan ditetapkan penugasannya'
+    overdue_cases_to_assign: 'Kasus lewat batas waktu yang akan ditetapkan penugasannya'
+    closed: 'Tutup'
+    comprehensive_need_intervention: 'Respon Komprehensif'
+    new_incident: 'Kejadian Baru'
+    new_service_provision: 'Pemberian Layanan Baru'
+    all_services_implemented: 'Semua layanan dilaksanakan'
+    services_implemented: 'Layanan yang dilaksanakan'
+    approved: 'Disetujui'
+    cases_by_workflow: 'Kasus berdasar Alur Penanganan'
+    cases_by_task_overdue: 'Tugas-tugas yang Melampaui Tenggat Waktu'
+    assessment: 'Asesmen'
+    case_plan: 'Rencana Kasus'
+    follow_up: 'Menindaklanjuti'
+    services: 'Layanan'
+    admin_only: "Klik %{links} untuk membuat perubahan pada aplikasi"
+    forms: "tab FORM"
+    users: "tanda PENGATURAN"
+    flagged_by: "Ditandai Bendera Oleh"
+    no_recent_activities: "Tidak ada Aktifitas Terkini"
+    no_scheduled_activities: "Tidak ada Aktifitas Terjadwal"
+    no_overdue_activities: "Tidak ada Aktifitas yang Terlambat"
+    no_caseworker_data: "Tidak ada data Pekerja Kasus"
+    no_flagged_child: "Tidak ada Data kasus yang ditandai dengan Bendera"
+    no_flagged_incident: "Tidak ada Data Insiden yang ditandai dengan Bendera"
+    no_open_incidents: "Tidak ada Insiden terbuka"
+    no_case_stats: "Tidak ada statistik kasus"
+    scheduled_activities: "Aktivitas Terjadwal"
+    overdue_activities: "Aktivitas Terlambat"
+    recent_activities: "Aktivitas Terkini"
+    case_id: "#ID Kasus"
+    name: "Nama"
+    activity: "Aktifitas"
+    date: "Tanggal"
+    incident_id: "#ID Insiden"
+    incident_location: "Lokasi Insiden"
+    new_child_assigned_to_you: "Kasus Baru yang Ditugaskan Untuk Anda"
+    new_incident_assigned_to_you: "Insiden Baru yang Ditugaskan"
+    recently_flagged_child: "Data Kasus yang Baru Ditandai dengan Bendera"
+    flagged_by_me: "Ditandai dengan Bendera oleh Saya"
+    flagged_by_other: "Ditandai dengan Bendera oleh Orang lain"
+    recently_flagged_incident: "Data Insiden yang Baru Ditandai dengan Bendera"
+    incident_status_open: "Buka"
+    number_of_victims: "Jumlah Korban"
+    number_of_violations: "Jumlah Kekerasan"
+    number_of_violations_verified: "Pelanggaran Diverifikasi"
+    link_see_all: "Lihat Semua"
+    open_incidents: "Buka Insiden"
+    status_of_cases: "Status Kasus"
+    case_worker: "Pekerja Kasus"
+    total_cases: "Total Jumlah Kasus"
+    cases_this_week: "Kasus Minggu Ini"
+    missed_cases: "Kasus yang Terlewatkan"
+    date_of_incident: "Tanggal dari Insiden"
+    violence_type: "Jenis Kekerasan"
+    date_of_interview: "Tanggal Wawancara"
+    system_user: "Sistem"
+    name_or_survivor_code: "Nama atau Kode Survivor"
+    current_owner: "Pemilik saat ini"
+    last_updated: "Terakhir diperbarui"
+    case_stats: "Kasus"
+    tr_stats: "Permintaan Penelusuran"
+    cases_by_social_worker: "Kasus berdasarkan pekerja sosial"
+    approvals: "Persetujuan"
+    referrals_by_social_worker: "Arahan oleh pekerja sosial"
+    transfers_by_social_worker: "Dialihkan oleh Pekerja Sosial"
+    case_stat_by_assessment_level: "Kasus berdasarkan Tingkat Penilaian"
+    case_stat_by_approval_type: "Persetujuan"
+    case_stat_referrals: "Rujukan"
+    protection_concern: "Masalah Perlindungan"
+    protection_concerns: "Masalah perlindungan"
+    geographic_area: "Area Geografis"
+    all_cases: "Seluruh Kasus"
+    open: "Buka"
+    range4: "0-4"
+    range4_8: "4-8"
+    range8_12: "8-12"
+    range12+: "12+"
+    match_result: "Hasil Pencocokan"
+    score_range: "Rentang Nilai"
+    count_risk_level_total:
+      other: "Anda memiliki %{stat} <span> %{stat_type} risiko </span>"
+    count_risk_level_new:
+      other: "Dan %{stat} <span> baru </ span> <span> %{stat_type} risiko </ span> kasus"
+    count_records_total:
+      other: "Anda mempunya <span>total</span> %{stat} kasus"
+    count_records_new:
+      other: "dan %{stat} kasus <span>baru</span>"
+    count_referrals_total:
+      other: "Anda mempunyai %{stat} <span>total</span> rujukan"
+    worker_count_referrals_total:
+      other: "<Span>%{case_worker} </ span> memiliki %{stat} <span>total</ span> rujukan"
+    count_referrals_new:
+      other: "and %{stat} rujukan <span>baru</span>"
+    worker_count_total:
+      other: "<span>%{case_worker}</span> mempunyai %{stat} <span>total</span> kasus"
+    manager_count_open_total:
+      other: "Anda mempunyai %{stat} kasus <span>terbuka</span>"
+    manager_count_closed_total:
+      other: "dan %{stat} kasus yang <span>tutup</span>"
+    manager_transfers_totals:
+      other: "nda memiliki %{stat} <span>%{stat_type} </ span> pemindahan"
+    count_pending_approval_total:
+      other: "Anda memiliki %{stat} <span>%{stat_type}</ span> persetujuan yang tertunda"
+    count_rejected_approval_total:
+      other: "Dan %{stat} <span>%{stat_type} </ span> yang ditolak"
+    count_new_bia_approvals:
+      other: "%{Stat} <span> %{stat_type} </ span> Persetujuan Baru"
+    count_new_case_plan_approvals:
+      other: "%{Stat} <span>%{stat_type} </ span> Persetujuan Baru"
+    count_new_closure_approvals:
+      other: "%{Stat} <span>%{stat_type} </ span> Persetujuan Baru"
+    count_pending_transfers:
+      other: "Anda memiliki %{stat} pemindahan <span>tertunda</span>"
+    count_rejected_transfers:
+      other: "and %{stat} pemindahan <span>ditolak</span>"
+    count_waiting_for_acceptance_transfers: "Anda memiliki %{stat} Pemindahan <span> menunggu </ span> untuk diterima oleh Anda"
+    open_cases: "Kasus yang terbuka"
+    new_last_week: "Baru <span>(minggu kemarin)</span>"
+    new_this_week: "Baru <span>(minggu ini)</span>"
+    closed_last_week: "Ditutup <span>(minggu lalu)</span>"
+    closed_this_week: "Ditutup <span>(minggu ini)</span>"
+    you_have: "Anda memiliki"
+    and: "dan"
+  errors:
+    template:
+      header:
+        one: "1 kesalahan melarang %{model} ini untuk disimpan"
+        other: "%{Count} kesalahan melarang %{model} ini untuk disimpan"
+        body: "Ada masalah dengan kolom berikut:"
+        body_js: "Untuk menyimpan data, masalah dengan kolom berikut perlu ditangani:"
+    agencies:
+      logo_size: "Silahkan Unggah file yang lebih kecil dari 10mb"
+      logo_format: "Silahkan unggah file logo yang benar (jpg,gif, or png)"
+    models:
+      flags:
+        message: "Bendera: kolom pesan tidak valid"
+        date: "Bendera: kolom tanggal tidak valid"
+        index: "Bendera: tidak dapat menghapus tanda pada posisi %{index}"
+      date_range_invalid: "<span>%{field_name}:</span> Silahkan masukkan rentang tanggal 'From:' seharusnya lebih dahulu daripada 'To:'"
+      photo:
+        primary_photo_id: "Gagal mencoba menyetel '%{photo_id}' ke foto utama: tidak ada foto seperti itu"
+        photo_size: "Silahkan Unggah file yang lebih kecil dari 10mb"
+        photo_format: "Silahkan unggah file foto yang valid (jpg or png) untuk data %{model_name} ini"
+        photo_count: "Anda hanya boleh memberi %{photos_count} foto per %{model_name}."
+      audio:
+        audio_size: "Silahkan Unggah file yang lebih kecil dari 10mb"
+        audio_format: "Silahkan unggah file suara yang valid (amr atau mp3) untuk rekaman %{model_name} ini"
+      user:
+        full_name: "Harap masukkan nama lengkap pengguna"
+        password_confirmation: "Silahkan masukkan konfirmasi Kata Sandi"
+        password_mismatch: "Kolom kata sandi tidak memiliki kata sandi yang sama"
+        password_text: "- Buatlah kata sandi yang panjangnya minimal 8 karakter dan berisi huruf dan angka"
+        role_ids: "Silahkan Pilih setidaknya satu peran"
+        module_ids: "Harap pilih setidaknya satu modul"
+        organization: "Silahkan masukkan nama organisasi pengguna"
+        user_name: "Silahkan masukkan nama pengguna yang benar"
+        email: "Silahkan masukkan alamat email yang benar"
+        user_name_uniqueness: "Nama pengguna sudah diambil! Silahkan pilih nama pengguna yang baru"
+        authenticate: "Tidak dapat mengotentikasi pengguna yang tidak disimpan"
+        invalid_locale: "Lokasi %{user_locale} tidak sah "
+      child:
+        at_least_one_field: "Harap isi setidaknya satu kolom atau unggah file"
+        age: "Umur harus antara 0 dan 130"
+        validate_duplicate: "ID duplikat yang valid harus ada"
+        date_of_birth: "Silahkan masukkan tanggal lahir yang benar untuk data kasus ini"
+        wishes_preferences_count: "Anda hanya diizinkan %{preferences_count} preferensi anak."
+        value_range: "%{field_name} harus diantara %{min} dan %{max}"
+        document_type: "Tipe %{type} tidak valid"
+        document_size: "Silahkan Unggah dokumen yang lebih kecil dari 2mb"
+        documents_count: "Anda hanya diperbolehkan %{documents_count} dokumen per kasus."
+        document_format: "File executable tidak diizinkan"
+        date_closure: "Tanggal Terminasi Kasus harus lebih besar atau sama dengan Tanggal Pembukaan Kasus."
+      incident:
+        document_size: "Silahkan Unggah dokumen yang lebih kecil dari 10mb"
+        documents_count: "Anda hanya diperbolehkan %{documents_count} dokumen per kasus."
+        document_format: "File executable tidak diizinkan"
+      field:
+        display_name_presence: "Nama tampilan tidak boleh kosong"
+        display_name_format: "Nama tampilan harus mengandung setidaknya satu karakter abjad"
+        name_format: "Nama field hanya boleh berisi huruf kecil, angka, dan garis bawah huruf kecil"
+        name_presence: "Nama kolom tidak boleh kosong"
+        name_format_number_first: "Nama kolom tidak dapat dimulai dengan angka"
+        default_value: "idak dapat menemukan nilai default untuk tipe"
+        has_2_options: "Kolom harus memiliki minimal 2 pilihan"
+        has_1_option: "Kotak centang harus memiliki minimal 1 pilihan"
+        translated_options_do_not_match: "Pilihan-pilihan bidang harus memiliki ID yang sama"
+        unique_name_other: "Bidang sudah ada pada formulir '%{form_name}'"
+        unique_name_this: "Kolom sudah ada pada form ini"
+        change_type_existing_field: "Tidak dapat mengubah jenis bidang '%{field_name}' yang telah ada di form '%{form_name}'"
+        option_strings_text:
+          not_array: "Pilihan Teks bukan array"
+          not_hash: "Pilihan Teks bukan sebuah hash"
+          id_blank: "Pilihan Teks pilihan id kosong"
+          display_text_blank: "Pilihan Teks pilihan tampilan teks kosong"
+          id_not_unique: "Pilihan Teks Pilihan id tidak unik"
+      form_section:
+        presence_of_name: "Nama tidak boleh kosong"
+        presence_of_base_language_name: "Nama bahasa yang digunakan '%{base_language}' tidak boleh kosong"
+        format_of_name: "Nama hanya boleh berisi karakter alfanumerik dan spasi"
+        visible_method: "Terlihat tidak bisa salah jika perm_visible itu benar"
+        fixed_order_method: "Fixed_order tidak bisa salah jika perm_enabled benar"
+        perm_visible_method: "perm_visible tidak bisa salah jika perm_enabled benar"
+        add_field_to_form_section: "Bagian Formulir tidak dapat diubah"
+        delete_field: "Kolom yang tidak dapat diubah tidak dapat dihapus"
+        unique_name: "Nama '%{name}' sudah diambil."
+        unique_id: "Id unik '%{unique_id}' sudah diambil."
+      enquiry:
+        presence_of_criteria: "Tolong tambahkan kriteria untuk pertanyaan anda"
+        presence_of_enquirer_name: "Tolong tambahkan nama penanya untuk pertanyaan anda"
+        presence_of_reporter_details: "Tolong tambahkan rincian reporter untuk pertanyaan anda"
+        create_forbidden: "Terlarang"
+        not_found: "Tidak ditemukan"
+        malformed_query: "Permintaan tidak valid"
+      role:
+        name_present: "Nama tidak boleh kosong"
+        permission_presence: "Harap pilih setidaknya satu izin"
+        unique_name: "Peran dengan nama itu sudah ada, mohon masukkan nama yang berbeda"
+        permission:
+          resource_presence: "Silahkan pilih sumber"
+      primero_module:
+        name_present: "Nama tidak boleh kosong"
+        unique_name: "Sebuah modul dengan nama itu sudah ada, mohon masukkan nama yang berbeda"
+        program: "Harus ada program yang terkait dengan modul ini"
+        associated_form_ids: "Setidaknya satu formulir harus dikaitkan dengan modul ini"
+        associated_record_types: "Setidaknya satu jenis rekaman harus dikaitkan dengan modul ini"
+      primero_program:
+        name_present: "Nama tidak boleh kosong"
+        unique_name: "Sebuah program dengan nama itu sudah ada, mohon masukkan nama yang berbeda"
+      lookup:
+        value_presence: "Harap pilih minimal satu nilai referensi"
+        unique_name: "Sebuah referensi dengan nama itu sudah ada, mohon masukkan nama yang berbeda"
+        being_used: "Referensi ini sedang digunakan dan tidak dapat dihapus"
+      system_users:
+        username_unique: "Nama sudah diambil! Silahkan pilih nama pengguna yang baru"
+      replication:
+        remote_app_uri: "Silahkan masukkan URL Primero yang benar"
+        remote_unauthorized: "Nama pengguna atau kata sandi yang Anda masukkan salah"
+        remote_error: "Tidak dapat terhubung ke server"
+        is_continuous: 'Replikasi terus menerus?'
+      password_recovery_request:
+        user_name_mandatory: "Silahkan masukkan nama pengguna yang benar"
+      ownership:
+        associated_user_names_present: "Seorang pengguna harus dikaitkan dengan data ini"
+        module_id_prsesnt: "Modul harus dikaitkan dengan data ini"
+      agency:
+        unique_name: "Agensi dengan nama itu sudah ada, masukkan nama yang berbeda"
+        name_present: "Tidak boleh kosong"
+        code_present: "Tidak boleh kosong"
+      location:
+        name_present: "Tidak boleh kosong"
+        code_present: "Tidak boleh kosong"
+        admin_level_present: "Tidak boleh kosong"
+        unique_name: "Lokasi dengan nama itu sudah ada, masukkan nama yang berbeda"
+        unique_location_code: "Lokasi dengan kode lokasi tersebut sudah ada, masukkan kode lokasi yang berbeda"
+      reporting_location:
+        label_key: "Kunci Label harus menjadi salah satu nilai Base Base Lokasi"
+        admin_level: "Tingkat Admin harus menjadi salah satu nilai Tingkat Admin Lokasi"
+      report:
+        name_presence: "Nama tidak boleh kosong"
+        module_presence: "Modul tidak boleh kosong"
+        module_syntax: "Semua modul laporan harus sudah tersedia"
+        record_type_presence: "Tipe data wajib diisi"
+        group_by_row_presence: "Grup demi baris tidak boleh kosong"
+        use_date_ranges_presence: "Penggunaan rentang tanggal tidak boleh kosong"
+      system_settings:
+        default_locale: "Lokasi sistem tidak boleh kosong"
+  select_all_results: "Pilih semua hasil"
+  histories:
+    of: "dari"
+    to: "untuk"
+    by: "oleh"
+    added_by: "ditambahkan oleh"
+    belong_to: "milik"
+    because: "karena:"
+    deleted_by: "Dihapus oleh"
+    referral: "Ditujukan ke %{to_user} oleh %{by_user}"
+    transfer: "Ditransfer ke %{to_user} oleh %{by_user}"
+    record_by: "Data dibuat oleh"
+    child_status_changed: "Status anak berubah menjadi penyatuan kembali oleh"
+    system_logs:
+      records_performed_by: "data dilakukan oleh"
+      performed_by: "dilakukan oleh"
+      of_child_with_id: "Anak dengan id"
+    audio:
+      audio: "Suara"
+      audio_change: "Suara diubah dari"
+    duplicate:
+      mark_as_duplicate: "Menandai Data ini sebagai duplikat"
+      no_longer_active: "Data saat ini tidak lagi aktif ataupun dapat diedit"
+    flag:
+      record_flagged_by: "Data Ditandai dengan Bendera oleh"
+      record_unflagged_by: "Data tidak Ditandai dengan Bendera oleh"
+    investigated:
+      mark_as_investigated_by: "Rekaman yang ditandai diselidiki oleh"
+      mark_as_not_investigated_by: "Rekaman yang ditandai tidak diselidiki oleh"
+    reunited:
+      child_status_changed: "Status anak dirubah menjadi aktif oleh"
+      with_details: "Dengan rincian ini:"
+  actions:
+    button: "Tindakan"
+    enable: "Aktif"
+    disable: "Nonaktifkan"
+    reopen: "Buka kembali"
+    incident_details_from_case: "Tambahkan Kejadian"
+    services_section_from_case: "Tambahkan Pemberian Layanan"
+    description:
+      valid: "Data Valid"
+      invalid: "Data tidak valid"
+  record_panel:
+    valid: "Data Valid"
+    invalid: "Data tidak valid"
+    record_state: "Data Menerangkan"
+    created_by: "Dibuat Oleh"
+    last_update: "Terakhir diperbarui"
+    current_owner: "Pemilik saat ini"
+    change_log: "Ubah Log"
+    record_information: "Informasi Data"
+    name_date_seperator: "di"
+  bulk_export:
+    file_name: "File"
+    record_type: "Tipe"
+    started_on: "Dimulai"
+    status: "Status"
+    retry: "Ekspor ini tidak valid Silakan mencoba menciptakan kembali ekspor Anda."
+  exports:
+    no_records: "Tidak ada Data yang tersedia!"
+    queueing: "Memproses file ekspor"
+    pdf:
+      all: PDF
+      one: PDF
+      selected: Dipilih untuk PDF
+    photowall:
+      all: Foto Dinding
+      one: Foto Dinding
+      selected: Dipilih ke Foto Dinding
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: Dipilih untuk PDF
+    list_view_csv:
+      all: Ekspor Tampilah Daftar
+      selected: Dipilih untuk CSV
+    csv:
+      all: CSV
+      one: CSV
+      selected: Dipilih untuk CSV
+    xls:
+      all: Excel
+      one: Excel
+      selected: Dipilih untuk Excel
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: Dipilih untuk Excel
+    json:
+      all: JSON
+      one: JSON
+      selected: Dipilih untuk JSON
+    unhcr_csv:
+      all: UNHCR
+      one: UNHCR
+      selected: Dipilih untuk UNHCR
+      headers:
+        id: "ID"
+        individual_progress_id: "ID progres individual"
+        cpims_code: "Kode CPIMS"
+        date_of_identification: "Tanggal Identifikasi"
+        primary_protection_concerns: "Masalah Perlindungan Anak yang Utama"
+        secondary_protection_concerns: "Masalah Perlindungan Anak Sekunder"
+        governorate_country: "Provinsi"
+        sex: "Jenis Kelamin"
+        date_of_birth: "Tanggal Lahir"
+        age: "Umur"
+        causes_of_separation: "Penyebab Keterpisahan"
+        country_of_origin: "Negara Asal"
+        current_care_arrangement: "Bentuk Pengasuhan Saat ini"
+        reunification_status: "Status Reunifikasi"
+        case_status: "Status Kasus"
+    mrm_violation_xls:
+      all: Pelanggaran MRM
+      one: Pelanggaran MRM
+      selected: Dipilih untuk Pelanggaran MRM
+    custom_exports:
+      label: Kustom Ekspor
+      format_label: Pilih Format
+      field_label: Kolom
+      form_label: Formulir
+      forms: Pilih Form untuk ekspor
+      fields: Pilih Kolom untuk ekspor
+      submit: OK
+      select_module: Pilih modul
+      choose_fields: Apakah Anda ingin memilih kolom individu untuk formulir?
+      module_placeholder: Silahkan pilih sebuah modul
+      empty_password: Masukkan kata sandi yang akan mengenkripsi file anda.
+      empty_fields_forms: Silahkan pilih beberapa form atau kolom untuk ekspor
+      empty_format: Silahkan pilih sebuah format untuk ekspor
+      empty_module: Silahkan pilih sebuah module untuk ekspor
+    pdf_exports:
+      label: PDF
+    forms:
+      label: Ekspor
+      button: Ekspor Formulir
+  imports:
+    password_label: "Kata sandi (Jika diperlukan)"
+    format_label: "Format"
+    successful: "File berhasil diimpor"
+    error: "Impor memiliki kesalahan berikut: %{error}"
+    file_missing: "Anda harus memilih file yang akan diimpor"
+    unknown_type: "Impor tipe file tidak diketahui atau tidak sah"
+    decrypt_error: "Tidak bisa mendekripsi file dengan password yang diberikan"
+    guess_file_type_option: "deteksi otomatis berdasarkan ekstensi file"
+    zip_file:
+      unknown_type: "Arsip berisi satu atau lebih file dengan tipe yang tidak dikenal"
+  referral:
+    type_label: "Tipe dari Rujukan"
+    existing_user_label: "Pengguna yang ada"
+    other_user_label: "Pengguna Lain"
+    other_user_agency_label: "Badan Pengguna Lainnya"
+    service_label: "Layanan"
+    consent_label: "Data belum diberikan persetujuan"
+    consent_override_label: "Apakah Anda ingin mengganti pengaturan ini?"
+    is_remote_label: "Apakah Anda mengacu pada sistem remote?"
+    type_of_export: "Apa jenis ekspor yang Anda inginkan"
+    notes_label: "Catatan"
+    user_mandatory: "Nama pengguna wajib diisi"
+    no_records_selected: "Tidak ada data dipilih"
+    failure: "%{record_type} %{id} rujukan gagal (Periksa apakah bidang persetujuan telah dipilih"
+    success: "%{record_type} %{id} berhasil dirujuk"
+    failure_batch: "%{failed_count} Rujukan gagal (Periksa apakah kolom persetujuan telah dipilih)"
+    success_batch: "%{success_count} Rujukan berhasil dibuat"
+    to_user_local_status_label: "Status"
+    user_local_status_pending: "Tertunda"
+    user_local_status_accepted: "Diterima"
+    user_local_status_rejected: "Ditolak"
+    user_local_status_inprogress: "Dalam Proses"
+    user_local_status_done: "Selesai"
+    complete_referral_label: "Menekan tombol OK menandakan bahwa Anda telah menyelesaikan pekerjaan rujukan yang terkait dengan kasus ini. Setelah Anda menekan tombol OK Anda tidak akan lagi memiliki akses ke catatan ini."
+    done_success_message: "Rujukan Selesai."
+  reassign:
+    reassign_case_title: "Tetapkan kasus kepada:"
+    existing_user_label: "Pengguna yang ada"
+    user_mandatory: "Nama pengguna wajib diisi"
+    no_records_selected: "Tidak ada ada dipilih"
+    notes_label: "Catatan"
+  transfer:
+    type_label: "Tipe Pemindahan"
+    existing_user_label: "Pengguna yang ada"
+    other_user_label: "Pengguna Lain"
+    other_user_agency_label: "Agensi Pengguna Lainnya"
+    consent_label: "Data belum diberikan persetujuan"
+    consent_override_label: "Apakah Anda ingin mengganti pengaturan ini?"
+    is_remote_label: "Apakah Anda memindahkan ke sistem remote?"
+    type_of_export: "Apa jenis ekspor yang Anda inginkan"
+    notes_label: "Catatan"
+    user_mandatory: "Nama Pengguna wajib diisi"
+    failure: "%{record_type} %{id} pemindahan gagal (Periksa apakah kolom persetujuan telah dipilih)"
+    success: "%{record_type} %{id} berhasil dipindahkan"
+    rejected: "%{record_type} %{id} pemindahan ditolak"
+    failure_batch: "%{failed_count} Transfer(s) Gagal (Periksa apakah kolom persetujuan telah dipilih)"
+    success_batch: "%{success_count} Transfer(s) Pemindahan(s) berhasil dilakukan"
+    to_user_local_status_label: "Status"
+    user_local_status_pending: "Tertunda"
+    user_local_status_accepted: "Diterima"
+    user_local_status_rejected: "Ditolak"
+    user_local_status_inprogress: "Dalam Proses"
+    reject: "Alasan Penolakan"
+    accept_label: "Dengan menekan tombol 'Terima' Anda menerima tanggung jawab untuk kasus ini; Begitu Anda menekan tombol 'OK' Anda akan menjadi pemilik data ini di sistem."
+    reject_label: "Dengan menekan tombol 'Tolak' menunjukkan bahwa Anda belum siap untuk menerima tanggung jawab atas kasus ini saat ini. Mohon masukkan alasan mengapa Anda menolak kasus ini; Setelah Anda menekan tombol 'OK' Anda tidak akan lagi memiliki akses ke catatan kasus ini."
+    unknown_status: "Status transfer yang tidak diketahui: %{status}"
+    unknown_transfer: "%{record_type} %{id} Pemindahan tidak bisa dilakukan"
+    not_valid_transfer: "%{record_type} %{id} pemindahan tidak bisa dilakukan, tidak dapat memperbarui, tidak diproses atau Anda tidak memiliki izin untuk kasus ini"
+    search:
+      rejected: "Ditolak"
+      in_progress: "Dalam Proses"
+  request_transfer:
+    success: "Permintaan Pengalihan telah Dikirim"
+    notes_label: "Catatan"
+    submit_label: "Kirim Permintaan"
+    error:
+      owner_has_no_email: "Penaggungjawab Catatan Kasus tidak Memiliki Alamat e-mail"
+      record_not_found: "Catatan Kasus Tidak Ditemukan"
+      record_not_saved: "Gagal menyimpan catatan Permintaan Pengalihan"
+  transition:
+    export_type:
+      primero: "Primero"
+      non_primero: "Bukan Primero"
+      pdf_export: "Eksport PDF"
+  mark_for_mobile:
+    no_records_selected: "Tidak ada data dipilih"
+    failure: "%{record_type} %{id} tanda untuk seluler gagal"
+    success: "%{record_type} %{id} sudah ditandai untuk seluler"
+    failure_batch: "%{failed_count} Data(s) gagal ditandai untuk seluler"
+    success_batch: "%{success_count} Data(s) sudah ditandai untuk seluler"
+  unmark_for_mobile:
+    failure: "%{record_type} %{id} gagal tidak ditandai untuk seluler"
+    success: "%{record_type} %{id} sudah tidak ditandai untuk seluler"
+    failure_batch: "%{failed_count} Data gagal tidak ditandai untuk seluler"
+    success_batch: "%{success_count} Data sudah tidak ditandai untuk seluler"
+  approvals:
+    approve_bia: "Minta Persetujuan untuk Formulir BIA?"
+    approve_bia_label: "Setujui Formulir BIA"
+    approve_care_plan: "Minta Persetujuan untuk Formulir Rencana Kasus?"
+    approve_case_plan_label: "Setujui Rencana Kasus"
+    approve_case_plan: "Minta Persetujuan untuk Formulir Rencana Kasus?"
+    approve_case_plan_with_selectable_type: "Meminta Persetujuan atas Rencana Kasus?"
+    approve_closure: "Minta Persetujuan untuk Formulir Terminasi?"
+    approve_closure_label: "Setujui Formulir Terminasi"
+    bia: "BIA"
+    case_plan: "Rencana Kasus"
+    closure: "Terminasi"
+    comments_label: "Komentar"
+    error_select_an_approval_type: "Silahkan Pilih Jenis Persetujuan"
+    case_plan_type_label: "Jenis Rencana Kasus"
+    status:
+      pending: "Tertunda"
+      approved: "Disetujui"
+      rejected: "Ditolak"
+  per_page_translation: "Per halaman _MENU_"
+  total: Total
+  caregiver: "(Pengasuh)"
+  disabled:
+    filter_label: "Tunjukkan"
+    status:
+      enabled: "Diaktifkan"
+      disabled: "Dinonaktifkan"
+      all: "Semua"
+      label: "Status"
+  sort_by:
+    label: "Sunting dengan"
+  logger:
+    to: "untuk"
+    to_user: "untuk pengguna"
+    by_user: "dari pengguna"
+    login: "Masuk"
+    logout: "Keluar"
+    create: "Membuat"
+    copy: "Menyalin"
+    destroy: "Menghapus"
+    show: "Melihat"
+    edit: "Mengubah"
+    update: "Memperbaharui"
+    export: "Mengekspor data untuk"
+    referral: "Merujuk"
+    reassign: "Menugaskan"
+    transfer: "Memindahkan"
+    reopen_case: "Membuka kembali"
+    quick_view: "Melihat Tampilan Cepat"
+    request_transfer_view: "Melihat Pemindahan Permintaan"
+    request_transfer: "Mengirim Permintaan Pengalihan"
+    save_subform: "Menyimpan Sub-Form"
+    create_subform: "Membuat Sub-Form"
+    consent_count: "Jumlah Persetujuan"
+    match_record: "Mencocokkan Data Catatan"
+    index: "Membuat Daftar Data Catatan"
+    relinquish_referral: "Mempublikasikan rujukan yang selesai"
+    flag: Tandai dengan Bendera
+    unflag: Tidak ditandai dengan bendera
+    flag_records: Tandai dengan Bendera
+    transfer_status:
+      Accepted: "Pemindahan yang diterima"
+      Rejected: "Pemindahan yang ditolak"
+    hide_name:
+      protect: "Sembunyikan Nama"
+      view: "Tunjukkan Nama"
+    request_approval:
+      bia: "Meminta Persetujuan untuk formulir BIA"
+      case_plan: "Meminta Persetujuan untuk formulir Rencana Kasus"
+      closure: "Meminta Persetujuan untuk formulir Terminasi"
+    approve_form:
+      'false': "Menolak"
+      'true': "Menyetujui"
+      bia: "Formulir BIA"
+      case_plan: "Formulir Rencana Kasus"
+      closure: "Formulir Terminasi"
+    mark_for_mobile:
+      'false': "Tidak ditandai untuk seluler"
+      'true': "Tandai untuk seluler"
+    record_state:
+      'false': "Nonaktifkan"
+      'true': "Aktifkan"
+    graph_data: "Melihat data grafik"
+    permitted_field_list: Daftar kolom yang diizinkan
+    lookups_for_field: Cari untuk kolom
+  job:
+    status:
+      complete: 'Selesai'
+  string_sources_failed: "Beberapa kolom gagal untuk ditampilkan, refresh halaman untuk menampilkan semua kolom."
+  error_message:
+    notice: 'Kesalahan pengisian melarang data ini untuk disimpan'
+    fields_notice: 'Ada beberapa masalah dengan isian berikut:'
+  error_page:
+    internal_server_error:
+      something_went_wrong: Ma'af, Ada Kesalahan!
+      contact_admin: Silahkan hubungi admin jika ada masalah yang terjadi
+      server_error: Server Bermasalah
+    not_found:
+      something_went_wrong: Ma'af, Ada Kesalahan!
+      contact_admin: Jika Anda yakin Anda berada di sini karena kesalahan, silahkan hubungi admin.
+      server_error: Halaman tidak ditemukan
+  audio:
+    update_browser:
+      title: 'Pembaharuan Diperlukan'
+      message: "Untuk memutar media, Anda memerlukan pembaharuan browser ke versi terbaru"
+      link_text: "Flash plugin"
+  saved_searches:
+    no_save_searches: "Anda tidak memiliki pencarian yang tersimpan"
+    name: "Nama"
+    save_search: "Simpan Pencarian"
+    delete: "Meng-klik OK akan menghapus \"%{filter_name}\""
+  email_notification:
+    enabled_label: "Kirim pemberitahuan e-mail"
+    approval_request_subject: "Kasus: %{id} - Permintaan Persetujuan"
+    approval_response_subject: "Kasus: %{id} - Tanggapan Persetujuan"
+    referral_subject: "%{record_type} : %{id} - Rujukan "
+    transfer_subject: "%{record_type} : %{id} - Pengalihan"
+    transfer_request_subject: "Permintaan Pengalihan untuk Salah Satu dari Kasus Anda"
+    reassign_subject: "%{record_type} : %{id} - Ditugaskan kepada Anda"
+    approval_request: "Pengguna %{user} meminta persetujuan %{approval_type} untuk kasus %{case_id}."
+    approval_response: "%{user} telah %{status} terhadap permintaan persetujuan %{approval_type} untuk kasus %{case_id}."
+    referral: "%{user} dari %{agency} telah merujuk %{record_type} berikut kepada Anda: %{record_id} untuk %{service_type}."
+    transfer: "%{user} telah mengalihkan %{record_type} berikut kepada anda: %{record_id}."
+    reassign: "%{user} telah menugaskan %{record_type} berikut kepada Anda: %{record_id}."
+    transfer_request: "Pengguna Primero %{user} dari %{agency} meminta Anda untuk mengalihkan tanggungjawab atas catatan %{record_type} kasus %{record_id} agar mereka bisa mengelola catatan %{record_type} dan pelayanan untuk individu di wilayah mereka. Jika Anda menyetujui pengalihan ini, silahkan klik tautan ID %{record_type}  di email ini untuk membuka %{record_type} di Primero dan memulai proses pengalihan."
+    approval_request_html: "Pengguna <strong>%{user}</strong> meminta persetujuan  <strong>%{approval_type}</strong> untuk kasus  <strong>%{case_id} </strong>."
+    approval_response_html: "<strong>%{user}</strong> telah <strong>%{status}</strong> terhadap permintaan persetujuan <strong>%{approval_type}</strong> untuk kasus <strong>%{case_id}</strong>."
+    referral_html: "<strong>%{user}</strong> dari %{agency} telah merujuk  %{record_type} berikut kepada Anda: <strong>%{record_id}</strong> untuk %{service_type} "
+    transfer_html: "<strong>%{user}</strong> telah mengalihkan %{record_type} berikut kepada Anda: <strong>%{record_id}</strong>."
+    reassign_html: "<strong>%{user}</strong> telah memberikan tanggungjawab atas %{record_type} berikut kepada Anda: <strong>%{record_id}</strong>."
+    transfer_request_html: "Pengguna Primero <strong>%{user}</strong> dari %{agency} meminta Anda untuk menyerahkan tanggungjawab atas %{record_type} dari <strong>%{record_id}</strong> agar mereka dapat melakukan pengelolaan layanan %{record_type} bagi individu di wilayah mereka. Jika Anda menyetujui pengalihan ini, silahkan klik tautan ID %{record_type}  di email ini untuk membuka catatan %{rescord_type} di Primero dan memulai proses pengalihan."
+    transfer_request_notes_html: "Catatan dari individu yang mengajukan %{request_transfer_notes}"
+  will_paginate:
+    previous_label: "&#8592; Sebelumnya"
+    next_label: "Berikutnya &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page_html:
+        zero: "Tidak ada %{model} ditemukan"
+        one: "Menampilkan <b>1</b> %{model}"
+        other: "Menampilkan <b>semua %{count}</b> %{model}"
+      multi_page_html: "Menampilkan %{model} <b>%{from} - %{to}</b> dari <b>%{count}</b> total"
+    models:
+      report:
+        other: "Laporan"
+      child:
+        other: "Kasus"
+      incident:
+        other: "Kejadian"
+      hash:
+        other: "Hasil Pencocokan"
+      bulk_export:
+        other: "Ekspor kumpulan file"
+      task:
+        other: "Tugas-tugas"
