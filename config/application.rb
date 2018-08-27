@@ -66,7 +66,7 @@ module Primero
       ['Af-Soomaali', LOCALE_SOMALI],
       ['Español', LOCALE_SPANISH],
       ['বাংলা', LOCALE_BANGLA],
-      ['bahasa', LOCALE_INDONESIAN]
+      ['Bahasa', LOCALE_INDONESIAN]
     ]
 
     if ENV['RAILS_LOG_PATH'].present?

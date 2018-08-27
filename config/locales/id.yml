@@ -13,6 +13,7 @@ id:
     ru: "Русский"
     so: "Af-Soomaali"
     bn: "বাংলা"
+    id: "Bahasa"
     dashboard: "Dashboard"
     welcome: "Selamat Datang di Primero"
     current_time_zone: "Zona waktu setempat"
