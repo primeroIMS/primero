@@ -97,6 +97,9 @@ class FormSectionController < ApplicationController
     redirect_to form_sections_path
   end
 
+  #TODO formatted_hash has issues related to Indonesia locale 'id' and locale 'ar-LB'
+  # It is suspected this 'published' api action is a rapidFTR holdover and is not used by the mobile app
+  # TODO LB-293 removing this method will be addressed in a later ticket.
   def published
     json_content = FormSection.find_all_visible_by_parent_form(@parent_form, true).map(&:formatted_hash).to_json
     respond_to do |format|
