@@ -74,6 +74,10 @@ class Location < CouchRest::Model::Base
   end
 
   class << self
+    #This class variables should only be set when loading location information in bulk
+    #   Location.locations_by_code = Locations.all.map{|l|[l.location_code, l]}.to_h
+    attr_accessor :locations_by_code
+
     alias :old_all :all
     alias :by_all :all
     alias :list_by_all :all
@@ -86,7 +90,11 @@ class Location < CouchRest::Model::Base
 
     #WARNING: Do not memoize this method.  Doing so will break the Location seeds.
     def get_by_location_code(location_code)
-      Location.by_location_code(key: location_code).first if location_code.present?
+      if @locations_by_code.present?
+        @locations_by_code[location_code]
+      else
+        Location.by_location_code(key: location_code).first if location_code.present?
+      end
     end
 
     #TODO not sure this should return 'first' but trying to keep with original
@@ -260,7 +268,8 @@ class Location < CouchRest::Model::Base
   def parent
     result = nil
     if self.hierarchy.present?
-      result = Location.get_by_location_code(self.hierarchy.last)
+      @parent ||= Location.get_by_location_code(self.hierarchy.last)
+      result = @parent
     end
     return result
   end
