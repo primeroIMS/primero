@@ -69,11 +69,6 @@ gem 'twitter_cldr'
 
 gem 'puma', '~> 3.7'
 
-group :production do
-  #TODO - Do not upgrade passenger
-  gem 'passenger', '4.0.59', require: false
-end
-
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
   gem 'uglifier',      '~> 4.0.2'

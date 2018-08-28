@@ -1,0 +1,6 @@
+<% @environments.each do |env| %>
+<%= env %>:
+  couch_watcher:
+    hostname: <%= @couch_watcher_host %>
+    port: <%= @couch_watcher_port %>
+<% end %>

@@ -70,6 +70,17 @@ template "/home/vagrant/primero/config/couchdb.yml" do
   group 'vagrant'
 end
 
+template "/home/vagrant/primero/config/couch_watcher.yml" do
+  source 'couch_watcher.yml.erb'
+  variables({
+    :environments => ['production'],
+    :couch_watcher_host => node[:primero][:couch_watcher][:host]
+    :couch_watcher_port => node[:primero][:couch_watcher][:port]
+  })
+  owner 'vagrant'
+  group 'vagrant'
+end
+
 
 template '/home/vagrant/primero/config/sunspot.yml' do
   source "sunspot.yml.erb"

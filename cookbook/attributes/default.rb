@@ -20,6 +20,11 @@ default[:primero].tap do |p|
     queue[:queue_list] = 'mailer,export'
   end
 
+  p[:couch_watcher].tap do |cw|
+    cw[:host] = 'localhost'
+    cw[:port] = 443
+  end
+
   p[:no_reseed] = false
 
   p[:git].tap do |git|
