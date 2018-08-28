@@ -7,7 +7,7 @@ class Violation
 
   attr_accessor :incident, :violation_object, :category
 
-  searchable do
+  searchable auto_index: self.auto_index? do
     string :category, as: :category_sci
 
     FormSection.violation_forms.each do |form|

@@ -6,12 +6,12 @@ def duplicate_user(user_hash, locale_string)
     user_hash[attribute] = nil
   end
 
-  default_password = "qu01n23!"
+  default_password = "primer0!"
   user_hash["password"] = user_hash["password_confirmation"] = default_password
   user_hash["user_name"] = user_hash["user_name"] + "_" + locale_string
   user_hash["full_name"] = user_hash["full_name"] + " " + locale_string.upcase
   user_hash["locale"] = locale_string
-  
+
   User.create! user_hash
 
 end

@@ -52,7 +52,7 @@ class TracingRequest < CouchRest::Model::Base
 
   include Searchable #Needs to be after ownable
 
-  searchable do
+  searchable auto_index: self.auto_index? do
     form_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
       text field, :boost => TracingRequest.get_field_boost(field)
     end

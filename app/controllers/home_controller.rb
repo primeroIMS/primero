@@ -1,14 +1,13 @@
 class HomeController < ApplicationController
   ALL_FILTER = "all"
 
-  before_action :load_system_settings, :only => [:index]
+  before_action :load_default_settings, :only => [:index]
   before_action :can_access_approvals, :only => [:index]
   before_action :load_risk_levels, :only => [:index]
 
   def index
     @page_name = t("home.label")
-    @user = User.find_by_user_name(current_user_name)
-    @associated_users = @user.managed_user_names
+    @associated_users = current_user.managed_user_names
     @notifications = PasswordRecoveryRequest.to_display
     load_user_module_data
 
@@ -478,8 +477,7 @@ class HomeController < ApplicationController
     @record_types = @modules.map{|m| m.associated_record_types}.flatten.uniq
   end
 
-  def load_system_settings
-    @system_settings ||= SystemSettings.current
+  def load_default_settings
     if @system_settings.present? && @system_settings.reporting_location_config.present?
       @admin_level ||= @system_settings.reporting_location_config.admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
       @reporting_location ||= @system_settings.reporting_location_config.field_key || ReportingLocation::DEFAULT_FIELD_KEY

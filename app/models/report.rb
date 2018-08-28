@@ -442,7 +442,7 @@ class Report < CouchRest::Model::Base
   def query_solr(record_type, pivots, filters)
     #TODO: This has to be valid and open if a case.
     number_of_pivots = pivots.size #can also be dimensionality, but the goal is to move the solr methods out
-    pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(record_type, p)}.join(',')
+    pivots_string = pivots.map{|p| SolrUtils.indexed_field_name(record_type, p)}.select(&:present?).join(',')
     filter_query = build_solr_filter_query(record_type, filters)
     result_pivots = []
     if number_of_pivots == 1

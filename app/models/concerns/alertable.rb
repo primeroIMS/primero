@@ -13,7 +13,7 @@ module Alertable
 
     property :alerts, [Alert], :default => []
 
-    searchable do
+    searchable auto_index: self.auto_index? do
       string :current_alert_types, multiple: true
     end
 

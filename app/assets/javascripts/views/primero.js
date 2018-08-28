@@ -101,6 +101,8 @@ Primero = _primero.Views.Base.extend({
       }
     }
 
+    $('input[type="text"], textarea').attr('autocomplete', 'new-password');
+
     window.onbeforeunload = this.load_and_redirect;
   },
 

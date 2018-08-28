@@ -21,7 +21,7 @@
       <%= text_field_tag "field[tally_#{given_locale}][]", tally2 %>
       <%= text_field_tag "field[tally_#{given_locale}][]", tally3 %>
     </div>
-    <% Primero::Application::LOCALES.each do |new_locale| %>
+    <% @system_settings.get_locales.each do |new_locale| %>
       <% if given_locale != new_locale %>
         <div class="large-4 medium-4 columns <%= "translation_forms #{new_locale}"%> hide_element">
           <%= text_field_tag "field[tally_#{new_locale}][]", tally1 %>

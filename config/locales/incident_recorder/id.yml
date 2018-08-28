@@ -1,0 +1,76 @@
+id:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Perekam insiden ekspor xls"
+  exports:
+    incident_recorder_xls:
+      all: Perekam Insiden
+      one: Perekam Insiden
+      selected: Dipilih untuk Perekam Insiden
+      'yes': "Ya"
+      'no': "Tidak"
+      gender:
+        male: "L"
+        female: "P"
+        both: "L dan P"
+      age_group:
+        age: "Umur"
+        61_older: "61 ke atas"
+        unknown: "Tidak diketahui"
+        header: "KELOMPOK USIA TERDUGA PELAKU KEKERASAN"
+      age_type:
+        adult: "Dewasa"
+        minor: "Anak"
+        both: "Dewasa dan Anak"
+        unknown: "Tidak diketahui"
+        header: "GOLONGAN USIA TERDUGA PELAKU "
+      service_referral:
+        undecided: "Tidak diputuskan pada saat laporan"
+      headers:
+        incident_id: "ID KEJADIAN"
+        survivor_code: "KODE PENYINTAS"
+        case_manager_code: "KODE MANAJER KASUS"
+        case_worker_code: "KODE PEKERJA KASUS"
+        date_of_interview: "TANGGAL WAWANCARA"
+        date_of_incident: "TANGGAL KEJADIAN"
+        date_of_birth: "TANGGAL LAHIR"
+        sex: "JENIS KELAMIN"
+        ethnicity: "SUKU"
+        country_of_origin: "NEGARA ASAL"
+        marital_status: "STATUS PERKAWINAN"
+        displacement_status: "STATUS PERPINDAHAN DI DALAM LAPORAN !!"
+        disability_type: "PENYANDANG DISABILITAS?"
+        unaccompanied_separated_status: "ANAK TANPA PENDAMPING ATAU ANAK TERPISAH"
+        stage_of_displacement: "KEADAAN PERPINDAHAN ANAK PADA SAAT KEJADIAN"
+        time_of_day: "JAM KEJADIAN"
+        location: "LOKASI KEJADIAN"
+        county: "NEGARA TEMPAT KEJADIAN"
+        district: "KABUPATEN TEMPAT KEJADIAN"
+        camp_town: "KOTA TEMPAT KEJADIAN"
+        camp: "KAMP TEMPAT KEJADIAN"
+        gbv_type: "JENIS KEKERASAN BERBASIS GENDER"
+        harmful_traditional_practice: "PRAKTIK TRADISI YANG MEMBAHAYAKAN"
+        goods_money_exchanged: "ADA IMBALAN UANG, BARANG, MANFAAT DAN / ATAU JASA?"
+        abduction_type: "JENIS PENCULIKAN"
+        previously_reported: "KEJADIAN SERUPA PERNAH DILAPORKAN?"
+        gbv_previous_incidents: "KEKERASAN BERBASIS GENDER YANG PERNAH TERJADI SEBELUMNYA"
+        number_primary_perpetrators: "JUMLAH TERDUGA (PARA) PELAKU UTAMA"
+        perpetrator:
+          sex: "JENIS KELAMIN TERDUGA PELAKU"
+          former: "KEJADIAN TERDAHULU YANG MELIBATKAN PELAKU YANG SAMA"
+          relationship: "HUBUNGAN ANTARA TERDUGA PELAKU DENGAN SURVIVOR"
+          occupation: "PEKERJAAN TERDUGA PELAKU"
+          age_group: "KATEGORI USIA TERDUGA PELAKU KEKERASAN"
+          age_type: "GOLONGAN USIA TERDUGA PELAKU "
+        service:
+          referred_from: "DIRUJUK KEPADA ANDA DARI?"
+          safehouse_referral: "RUMAH AMAN / RUMAH PERLINDUNGAN"
+          medical_referral: "LAYANAN KESEHATAN / MEDIS"
+          psycho_referral: "LAYANAN PSIKOSOSIAL"
+          wants_legal_action: "MENGINGINKAN TINDAKAN HUKUM?"
+          legal_referral: "LAYANAN BANTUAN HUKUM"
+          police_referral: "POLISI / PETUGAS KEAMANAN LAINNYA"
+          livelihoods_referral: "PROGRAM LIVELIHOODS (MATA PENCARIAN)"
+          protection_referral: "LAYANAN PERLINDUNGAN ANAK / LAYANAN PENDIDIKAN"
+        consent: "PERSETUJUAN DIBERIKAN"
+        agency_code: "KODE LEMBAGA PELAPOR"

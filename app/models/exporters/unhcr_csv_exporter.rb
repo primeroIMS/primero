@@ -2,7 +2,7 @@ require 'csv'
 require_relative 'base.rb'
 
 module Exporters
-  class UnhcrCSVExporter < BaseExporter
+  class UnhcrCSVExporter < ConfigurableExporter
     class << self
       def id
         'unhcr_csv'
@@ -19,20 +19,23 @@ module Exporters
       def authorize_fields_to_user?
         false
       end
+    end
 
-      attr_accessor :field_map
+    def initialize(output_file_path=nil)
+      super(output_file_path, export_config_id)
     end
 
     def export(cases, *args)
       unhcr_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
-        rows << [' ID'] + UnhcrCSVExporter.field_map.keys if @called_first_time.nil?
+        @props = self.properties_to_export(props)
+        rows << [I18n.t("exports.unhcr_csv.headers.id")] + @props.keys.map{|prop| I18n.t("exports.unhcr_csv.headers.#{prop}")} if @called_first_time.nil?
         @called_first_time ||= true
 
         self.class.load_fields(cases.first) if cases.present?
 
         cases.each_with_index do |c, index|
-          values = UnhcrCSVExporter.field_map.map do |_, generator|
+          values = @props.map do |_, generator|
             case generator
             when Array
               self.class.translate_value(generator.first, c.value_for_attr_keys(generator))
@@ -46,43 +49,51 @@ module Exporters
       self.buffer.write(unhcr_export)
     end
 
-    @field_map = {
-      'Individual Progress ID' => ['unhcr_individual_no'],
-      'CPIMS Code' => ['cpims_id'],
-      'Date of Identification' => ['identification_date'],
-      'Primary Protection Concerns' => ['protection_status'],
-      'Secondary Protection Concerns' => ->(c) do
-        self.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
-      end,
-      'Governorate - Country' => ->(c) do
-        if c.location_current.present?
-          hierarchy = c.location_current.split('::')
-          if hierarchy.size > 2
-            hierarchy = (hierarchy[0..1] + [hierarchy.last]).compact
+    def props
+      {
+        'individual_progress_id' => ['unhcr_individual_no'],
+        'cpims_code' => ['cpims_id'],
+        'date_of_identification' => ['identification_date'],
+        'primary_protection_concerns' => ['protection_status'],
+        'secondary_protection_concerns' => ->(c) do
+          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
+        end,
+        'governorate_country' => ->(c) do
+          if c.location_current.present?
+            hierarchy = c.location_current.split('::')
+            if hierarchy.size > 2
+              hierarchy = (hierarchy[0..1] + [hierarchy.last]).compact
+            end
+            hierarchy = hierarchy.map{|name| name.split(' - ').first}.reverse
+            hierarchy.join(' - ')
           end
-          hierarchy = hierarchy.map{|name| name.split(' - ').first}.reverse
-          hierarchy.join(' - ')
-        end
-      end,
-      'Sex' => ['sex'],
-      'Date of Birth' => ['date_of_birth'],
-      'Age' => ['age'],
-      'Causes of Separation' => ['separation_cause'],
-      'Country of Origin' => ['country_of_origin'],
-      'Current Care Arrangement' => ->(c) do
-        if c.current_care_arrangements.present?
-          c.current_care_arrangements.first.care_arrangements_type
-        end
-      end,
-      'Reunification Status ' => ->(c) do
-        if c.tracing_status.present?
-          return c.tracing_status == "Reunified" ? I18n.t("true") : I18n.t("false")
-        else
-          I18n.t("false")
-        end
-      end,
-      'Case Status' => ['child_status']
-    }
+        end,
+        'sex' => ['sex'],
+        'date_of_birth' => ['date_of_birth'],
+        'age' => ['age'],
+        'causes_of_separation' => ['separation_cause'],
+        'country_of_origin' => ['country_of_origin'],
+        'current_care_arrangement' => ->(c) do
+          if c.current_care_arrangements.present?
+            c.current_care_arrangements.first.care_arrangements_type
+          end
+        end,
+        'reunification_status' => ->(c) do
+          if c.tracing_status.present?
+            return c.tracing_status == "reunified" ? I18n.t("true") : I18n.t("false")
+          else
+            I18n.t("false")
+          end
+        end,
+        'case_status' => ['child_status']
+      }
+    end
+
+    def export_config_id
+      #TODO pass SystemSettings in from the controller
+      @system_settings ||= SystemSettings.current
+      @system_settings.try(:unhcr_export_config_id)
+    end
 
   end
 end

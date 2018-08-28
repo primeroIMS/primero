@@ -19,6 +19,7 @@ en:
     ru: "Русский"
     so: "Af-Soomaali"
     bn: "বাংলা"
+    id: "Bahasa"
     dashboard: "Dashboard"
     welcome: "Welcome to Primero"
     current_time_zone: "Current time zone"
@@ -1682,6 +1683,7 @@ en:
         email: "Please enter a valid email address"
         user_name_uniqueness: "User name has already been taken! Please select a new User name"
         authenticate: "Can't authenticate an un-saved user"
+        invalid_locale: "Locale %{user_locale} is not valid"
 
       child:
         at_least_one_field: "Please fill in at least one field or upload a file"
@@ -1807,6 +1809,7 @@ en:
 
       system_settings:
         default_locale: "System locale must not be blank"
+        locales: "English must be available as a System Locale"
 
 
 
@@ -1917,6 +1920,22 @@ en:
       all:  UNHCR
       one:  UNHCR
       selected:  Selected to UNHCR
+      headers:
+        id: "ID"
+        individual_progress_id: "Individual Progress ID"
+        cpims_code: "CPIMS Code"
+        date_of_identification: "Date of Identification"
+        primary_protection_concerns: "Primary Protection Concerns"
+        secondary_protection_concerns: "Secondary Protection Concerns"
+        governorate_country: "Governorate - Country"
+        sex: "Sex"
+        date_of_birth: "Date of Birth"
+        age: "Age"
+        causes_of_separation: "Causes of Separation"
+        country_of_origin: "Country of Origin"
+        current_care_arrangement: "Current Care Arrangement"
+        reunification_status: "Reunification Status"
+        case_status: "Case Status"
     mrm_violation_xls:
       all:  MRM Violations
       one:  MRM Violations

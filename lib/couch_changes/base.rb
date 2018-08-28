@@ -15,7 +15,8 @@ module CouchChanges
     User,
     Role,
     SystemSettings,
-    ConfigurationBundle
+    ConfigurationBundle,
+    BulkExport
   ]
 
   class << self

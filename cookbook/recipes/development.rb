@@ -58,7 +58,7 @@ execute_with_ruby 'bundle-install-vagrant' do
   rails_env 'development'
 end
 
-template "/home/vagrant/primero/config/couchdb.yml" do
+template "/vagrant/config/couchdb.yml" do
   source 'couch_config.yml.erb'
   variables({
     :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
@@ -82,7 +82,7 @@ template "/home/vagrant/primero/config/couch_watcher.yml" do
 end
 
 
-template '/home/vagrant/primero/config/sunspot.yml' do
+template '/vagrant/config/sunspot.yml' do
   source "sunspot.yml.erb"
   variables({
     :environments => [ 'development', 'test', 'production' ],
@@ -103,6 +103,14 @@ template '/home/vagrant/primero/config/sunspot.yml' do
   })
   owner 'vagrant'
   group 'vagrant'
+end
+
+
+file "/vagrant/config/mailers.yml" do
+  content ::File.open("/vagrant/config/mailers.yml.example").read
+  owner 'vagrant'
+  group 'vagrant'
+  action :create
 end
 
 ['development', 'test'].each do |core_name|

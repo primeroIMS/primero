@@ -91,7 +91,7 @@ class PotentialMatch < CouchRest::Model::Base
 
   include Searchable
 
-  searchable do
+  searchable auto_index: self.auto_index? do
     string :status
     integer :child_age
     string :child_sex

@@ -134,11 +134,6 @@ incident_details_subform_section = FormSection.create_or_update_form_section({
 
 incident_details_fields = [
   Field.new({
-    "name" => "incident_details_form_description",
-    "type" => "separator",
-    "display_name_all" => "The Incident Details form fields correspond to the fields in the Reception and Initial Assessment paper forms."
-  }),
-  Field.new({
     "name" => "incident_details",
     "type" => "subform", "editable" => true,
     "subform_section_id" => incident_details_subform_section.unique_id,

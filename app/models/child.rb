@@ -184,7 +184,7 @@ class Child < CouchRest::Model::Base
   # Searchable needs to be after other concern includes so that properties defined in those concerns get indexed
   include Searchable
 
-  searchable do
+  searchable auto_index: self.auto_index? do
     form_matchable_fields.select { |field| Child.exclude_match_field(field) }.each { |field| text field, :boost => Child.get_field_boost(field) }
 
     subform_matchable_fields.select { |field| Child.exclude_match_field(field) }.each do |field|

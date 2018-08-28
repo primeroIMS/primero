@@ -5,11 +5,13 @@ class SystemSettings < CouchRest::Model::Base
   include Memoizable
   include LocalizableProperty
 
-  property :default_locale, String, :default => 'en'
+  property :default_locale, String, :default => Primero::Application::LOCALE_ENGLISH
+  property :locales, [String], :default => [Primero::Application::LOCALE_ENGLISH]
   property :case_code_format, [String], :default => []
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
   property :unhcr_needs_codes_mapping, Mapping
+  property :unhcr_export_config_id
   property :reporting_location_config, ReportingLocation
   property :primero_version
   property :age_ranges, { String => [AgeRange] }
@@ -23,9 +25,11 @@ class SystemSettings < CouchRest::Model::Base
   localize_properties [:welcome_email_text]
 
   validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
+  validate :validate_locales
 
   #TODO: Think about what needs to take place to the current config. Update?
   before_save :set_version
+  before_save :add_english_locale
   after_initialize :set_version
 
   design do
@@ -44,6 +48,13 @@ class SystemSettings < CouchRest::Model::Base
     end
   end
 
+  #For now... allow empty locales for backwards compatibility with older configurations
+  #The wrapper method will handle blank locales
+  def validate_locales
+    return true if locales.blank? || (locales.include? Primero::Application::LOCALE_ENGLISH)
+    errors.add(:locales, I18n.t("errors.models.system_settings.locales"))
+  end
+
   #SyetsmSettings should be a singleton. It can have a hard-coded name.
   def name
     I18n.t('system_settings.label')
@@ -59,8 +70,22 @@ class SystemSettings < CouchRest::Model::Base
     self.primero_version = Primero::Application::VERSION
   end
 
+  def add_english_locale
+    locales.unshift(Primero::Application::LOCALE_ENGLISH) if locales.present? && (locales.exclude? Primero::Application::LOCALE_ENGLISH)
+  end
+
   def auto_populate_info(field_key = "")
     self.auto_populate_list.select{|ap| ap.field_key == field_key}.first if self.auto_populate_list.present?
+  end
+
+  #For backwards compatibility with older configurations
+  #TODO remove when all configurations have been updated to set the locales property
+  def get_locales
+    locales.present? ? locales : Primero::Application::LOCALES
+  end
+
+  def locales_with_description
+    Primero::Application::LOCALES_WITH_DESCRIPTION.select{|l| (get_locales.include? l.last) || l.last.nil?}
   end
 
   def self.handle_changes

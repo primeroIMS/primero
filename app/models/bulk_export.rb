@@ -3,7 +3,7 @@ class BulkExport < CouchRest::Model::Base
 
   include PrimeroModel
   include Primero::CouchRestRailsBackward
-  include Sunspot::Rails::Searchable
+  include Indexable
 
   PROCESSING = 'job.status.processing' #The job is still running
   TERMINATED = 'job.status.terminated' #The job terminated due to an error
@@ -37,15 +37,13 @@ class BulkExport < CouchRest::Model::Base
 
   design #Create the default all design view
 
-  searchable do
+  searchable auto_index: self.auto_index? do
     time :started_on
     time :completed_on
     string :status, as: 'status_sci'
     string :owned_by, as: 'owned_by_sci'
     string :format, as: 'format_sci'
   end
-  Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
-  Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
 
   def model_class
     @model_class ||= Record.model_from_name(self.record_type)

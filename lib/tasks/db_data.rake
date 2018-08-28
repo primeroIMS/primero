@@ -149,6 +149,39 @@ namespace :db do
       end
     end
 
+    desc "Set a default password for all generic users."
+    task :default_password => :environment do
+      require 'io/console'
+      affected_users = User.all.select{|u| u.user_name.start_with? 'primero'}
+      if affected_users.size > 0
+        puts "The following users will have their passwords changed:"
+        affected_users.each{|u| puts "  #{u.user_name}"}
+        begin
+          puts "\nIs that OK? (y/n)"
+          ok = STDIN.gets.strip.downcase
+        end until %w(y n).include?(ok)
+        if ok == 'y'
+          puts "Please enter a new default password:"
+          password = STDIN.noecho(&:gets).chomp
+          puts "Enter again to confirm:"
+          password_confirmation = STDIN.noecho(&:gets).chomp
+          affected_users.each do |user|
+            user.password = password
+            user.password_confirmation = password_confirmation
+            if user.valid?
+              user.save!
+              puts "Updated #{user.user_name}"
+            else
+              puts "Invalid password"
+              break
+            end
+          end
+        end
+      else
+        puts "No default users found. Aborting"
+      end
+    end
+
 
     # Creates Location.create! statements which can be used as a Location seed file
     # USAGE:   $bundle exec rake db:data:generate_locations[json,layers,regions]
@@ -325,7 +358,7 @@ namespace :db do
       else
         [
           Agency, ContactInformation, FormSection, Location, Lookup, PrimeroModule,
-          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, UserGroup
+          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, UserGroup, ExportConfiguration
         ]
       end
 

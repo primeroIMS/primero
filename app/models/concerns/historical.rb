@@ -16,6 +16,7 @@ module Historical
     property :last_updated_at, DateTime
     property :last_updated_by
     property :last_updated_by_full_name
+    property :last_updated_organization
     property :posted_at, DateTime
 
     validate :validate_created_at
@@ -185,7 +186,7 @@ module Historical
       without_dirty_tracking do
         self.histories.unshift({
           :user_name => created_by,
-          :user_organization => organization_of(created_by),
+          :user_organization => created_organization || organization_of(created_by),
           :prev_revision => nil,
           :datetime => created_at,
           :action => :create,
@@ -199,7 +200,7 @@ module Historical
     without_dirty_tracking do
       self.histories.unshift({
         :user_name => last_updated_by,
-        :user_organization => organization_of(last_updated_by),
+        :user_organization => last_updated_organization || organization_of(last_updated_by),
         :prev_revision => self.rev,
         :datetime => last_updated_at,
         :action => :update,
