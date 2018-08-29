@@ -14,7 +14,7 @@
 
 <%= resource_edit_field(object, 'name', 'report.name', 'text_field', true, false, nil, 'errors.models.report.name_presence') %>
 <% if editable %>
-  <% @system_settings.get_locales.each do |new_locale| %>
+  <% I18n.available_locales.map(&:to_s).each do |new_locale| %>
     <% if new_locale != "en" %>
       <div class="row <%= "translation_forms #{new_locale}"%> hide_element">
         <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>
@@ -26,7 +26,7 @@
 
 <%= resource_edit_field(object, 'description', 'report.description', 'text_area', false, false, nil, nil) %>
 
-<% @system_settings.get_locales.each do |new_locale| %>
+<% I18n.available_locales.map(&:to_s).each do |new_locale| %>
   <% if new_locale != "en" %>
     <div class="row <%= "translation_forms #{new_locale}"%> hide_element">
       <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>

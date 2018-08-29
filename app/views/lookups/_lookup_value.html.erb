@@ -10,7 +10,7 @@
     <p class="help"><%= t("lookup.initial_lang_help_text", :lang => t("home.#{given_locale}")) %></p>
   </div>
   <% if editing %>
-    <% @system_settings.get_locales.each do |new_locale| %>
+    <% I18n.available_locales.map(&:to_s).each do |new_locale| %>
       <% if given_locale != new_locale %>
         <div class="column <%= "translation_forms #{new_locale}"%> hide_element">
           <% locale_options = @lookup.send("lookup_values_#{new_locale}") || [] %>

@@ -7,6 +7,7 @@ describe Location do
     SystemSettings.all.each &:destroy
     SystemSettings.create(default_locale: Primero::Application::LOCALE_ENGLISH,
                           locales: [Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH])
+    I18n.stub :available_locales => [Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH]
 
     @country = create :location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01'
     @province1 = create :location, hierarchy: [@country.location_code], placename_all: 'Province 1', type: 'province', location_code: 'PR01'

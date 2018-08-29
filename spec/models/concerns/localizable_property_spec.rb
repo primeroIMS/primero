@@ -4,6 +4,7 @@ describe LocalizableProperty do
 
   before :each do
     Primero::Application.stub :locales => [ "a", "b" ]
+    I18n.stub :available_locales => [ "a", "b" ]
     @klass = Class.new(CouchRest::Model::Base) do
       include LocalizableProperty
     end

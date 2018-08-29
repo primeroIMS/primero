@@ -4,7 +4,7 @@ module ConfigurationResourceHelper
     name = "#{object.class.name.underscore}[#{field}]"
     value = object.send(field)
     locale = field.split('_').last.to_sym
-    label_text = if I18n.available_locales.include?(locale)
+    label_text = if I18n.available_locales.map(&:to_s).include?(locale)
       I18n.t(label_key, locale: locale)
     else
       I18n.t(label_key)

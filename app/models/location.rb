@@ -188,8 +188,7 @@ class Location < CouchRest::Model::Base
   end
 
   def set_name_from_hierarchy_placenames
-    @system_settings ||= SystemSettings.current
-    locales = @system_settings.present? ? @system_settings.get_locales : Primero::Application::locales
+    locales = I18n.available_locales.map(&:to_s)
     name_hash = generate_hierarchy_placenames(locales)
     if name_hash.present?
       locales.each {|locale| self.send "name_#{locale}=", name_hash[locale].reject(&:blank?).join('::') }

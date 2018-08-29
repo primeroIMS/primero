@@ -64,7 +64,7 @@ class Lookup < CouchRest::Model::Base
     memoize_in_prod :get_location_types
 
     def import_translations(lookups_hash={}, locale)
-      if locale.present? && Primero::Application::locales.include?(locale)
+      if locale.present? && I18n.available_locales.map(&:to_s).include?(locale)
         lookups_hash.each do |key, value|
           if key.present?
             lookup = self.get(key)
