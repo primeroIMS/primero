@@ -2026,14 +2026,20 @@ id:
       multi_page_html: "Menampilkan %{model} <b>%{from} - %{to}</b> dari <b>%{count}</b> total"
     models:
       report:
+        one: "Laporan"
         other: "Laporan"
       child:
+        one: "Kasus"
         other: "Kasus"
       incident:
+        one: "Kejadian"
         other: "Kejadian"
       hash:
+        one: "Hasil Pencocokan"
         other: "Hasil Pencocokan"
       bulk_export:
+        one: "Ekspor kumpulan file"
         other: "Ekspor kumpulan file"
       task:
+        one: ""Tugas-tugas"
         other: "Tugas-tugas"
