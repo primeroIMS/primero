@@ -176,9 +176,9 @@ class Location < CouchRest::Model::Base
     locales.each {|locale| hierarchical_name[locale] = []}
 
     if self.hierarchy.present?
-      self.hierarchy.each do |lct_code|
-        lct = Location.get_by_location_code(lct_code)
-        if lct.present?
+      locations = Location.by_location_code(keys: self.hierarchy)
+      if locations.present?
+        locations.each do |lct|
           locales.each {|locale| hierarchical_name[locale] << lct.send("placename_#{locale}")}
         end
       end
