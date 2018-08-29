@@ -4,12 +4,15 @@ describe Location do
 
   before do
     Location.all.each &:destroy
+    SystemSettings.all.each &:destroy
+    SystemSettings.create(default_locale: Primero::Application::LOCALE_ENGLISH,
+                          locales: [Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH])
 
-    @country = create :location, admin_level: 0, placename: 'MyCountry', type: 'country', location_code: 'MC01'
-    @province1 = create :location, hierarchy: [@country.location_code], placename: 'Province 1', type: 'province', location_code: 'PR01'
+    @country = create :location, admin_level: 0, placename_all: 'MyCountry', type: 'country', location_code: 'MC01'
+    @province1 = create :location, hierarchy: [@country.location_code], placename_all: 'Province 1', type: 'province', location_code: 'PR01'
     @province2 = create :location, hierarchy: [@country.location_code], type: 'state', location_code: 'PR02'
     @province3 = create :location, hierarchy: [@country.location_code], type: 'province', location_code: 'PR03'
-    @town1 = create :location, hierarchy: [@country.location_code, @province1.location_code], placename: 'Town 1', type: 'city'
+    @town1 = create :location, hierarchy: [@country.location_code, @province1.location_code], placename_all: 'Town 1', type: 'city'
     @town2 = create :location, hierarchy: [@country.location_code, @province1.location_code], type: 'city', disabled: false
     @town3 = create :location, hierarchy: [@country.location_code, @province2.location_code], type: 'city'
     @disabled1 = create :location, hierarchy: [@country.location_code, @province2.location_code], disabled: true
@@ -17,9 +20,25 @@ describe Location do
 
   end
 
+  describe '#set_name_from_hierarchy_placenames' do
+    before do
+      @district1 = Location.new(hierarchy: [@country.location_code, @province1.location_code, @town1.location_code],
+                                placename_en: 'District 1', placename_fr: 'French District 1', type: 'district')
+      @district1.set_name_from_hierarchy_placenames
+    end
+    it 'populates the names defined in the locales' do
+      expect(@district1.name_en).to eq('MyCountry::Province 1::Town 1::District 1')
+      expect(@district1.name_fr).to eq('MyCountry::Province 1::Town 1::French District 1')
+    end
+
+    it 'does not populate the name fields not defined in the locales' do
+      expect(@district1.try(:name_ar)).to be_nil
+    end
+  end
+
   #TODO - add i18n tests
   it '#generate_hierarchy_placenames' do
-    expect(@town1.generate_hierarchy_placenames).to include("en"=>["MyCountry", "Province 1", "Town 1"])
+    expect(@town1.generate_hierarchy_placenames([Primero::Application::LOCALE_ENGLISH])).to include("en"=>["MyCountry", "Province 1", "Town 1"])
   end
 
   it '#name' do

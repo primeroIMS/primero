@@ -7,6 +7,9 @@ describe OptionsController do
     FormSection.all.each &:destroy
     Location.all.each &:destroy
     Lookup.all.each &:destroy
+    SystemSettings.all.each &:destroy
+    SystemSettings.create(default_locale: Primero::Application::LOCALE_ENGLISH,
+                          locales: [Primero::Application::LOCALE_ENGLISH, Primero::Application::LOCALE_FRENCH])
 
     @country = create :location, placename_en: "Country1", placename_fr: "French Country1", admin_level: 0
     @province1 = create :location, placename_en: "Province1", placename_fr: "French Province1", hierarchy: [@country.placename]
