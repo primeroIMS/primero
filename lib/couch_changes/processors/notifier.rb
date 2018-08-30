@@ -42,7 +42,7 @@ module CouchChanges
           unless @delay_timer.present?
             CouchChanges.logger.info "Creating timer to notify server of changes in #{DELAY_SECONDS} seconds"
             @delay_timer = EM.add_timer(DELAY_SECONDS) do
-                             notify_each_process
+                             notify_each_thread
                              @delay_timer = nil
                            end
           end
@@ -77,7 +77,7 @@ module CouchChanges
           end
         end
 
-        def notify_each_process(procs)
+        def notify_each_thread
           multi = EventMachine::MultiRequest.new
 
           start_request_to_process(get_changed_models, multi)
@@ -102,9 +102,9 @@ module CouchChanges
           uri = Addressable::URI.parse(Rails.application.routes.url_for(
             :controller => 'couch_changes',
             :action => 'notify',
-            :protocol => [8443, 443].include?(CONFIG.port) ? 'https' : 'http',
-            :host => CONFIG.host,
-            :port => CONFIG.port
+            :protocol => [8443, 443].include?(CONFIG['couch_watcher']['port']) ? 'https' : 'http',
+            :host => CONFIG['couch_watcher']['host'],
+            :port => CONFIG['couch_watcher']['port']
           ))
 
           headers = {

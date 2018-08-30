@@ -37,6 +37,7 @@ config/sunspot.yml
 config/selenium.yml
 config/backburner.yml
 config/mailers.yml
+config/couch_watcher.yml
 vendor/bundle/
 vendor/cache/
 vendor/ruby/
