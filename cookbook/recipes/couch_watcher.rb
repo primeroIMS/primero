@@ -30,8 +30,8 @@ template "#{node[:primero][:app_dir]}/config/couch_watcher.yml" do
     :couch_watcher_host => node[:primero][:couch_watcher][:host],
     :couch_watcher_port => node[:primero][:couch_watcher][:port]
   })
-  owner 'vagrant'
-  group 'vagrant'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
 end
 
 
