@@ -1,0 +1,49 @@
+<%
+  #TODO - MODIFY THIS FOR NOTES!!!!
+  notes_button_class = 'button notes_button'
+
+	if formObject.present? && service_object_id.present?
+    service_object = formObject.services_section.select {|s| s.unique_id == service_object_id}.first
+    service_type = formObject.service_field_value(service_object, 'service_type')
+    service_user_name = formObject.service_field_value(service_object, 'service_implementing_agency_individual')
+
+  else
+    service_object = nil
+  end
+%>
+<% if service_type.present? && service_user_name.present? %>
+  <% if service_object.try(:service_status_referred).present?
+      service_referral_button_class = 'refer_again_link service_referral_button'
+      model_name = "again"
+    else
+      service_referral_button_class = 'button service_referral_button' 
+      model_name = ""
+    end
+  %>
+  <a
+    data-service-object-id="<%= service_object_id %>"
+    data-open=<%= "notes-modal"%> class="<%= notes_button_class %>">
+    <%= t("buttons.add_note") %>
+  </a>
+
+  <div id=<%= "notes-modal" %> class="reveal tiny" data-reveal>
+  <%= render 'shared/modal_close' %>
+  <div class=<%= "notes_form_container row"%> >
+    <div class="large-12">
+      <%= form_tag(url_for(:action => 'transition', :id => (defined?(instance) ? instance.id : nil)), {:multipart => true, :method => 'post', :autocomplete => "off"}) do %>
+        <%= hidden_field_tag "selected_records"%>
+
+        <label><%=I18n.t("referral.notes_label")%>
+          <%= text_area_tag("notes") %>
+        </label>
+
+        <div class="row align-right">
+          <div class="button-group">
+            <%= submit_tag(t("buttons.submit"), class: 'button right') %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  </div>
+<% end %>
