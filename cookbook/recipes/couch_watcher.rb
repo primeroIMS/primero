@@ -23,7 +23,7 @@ end
   end
 end
 
-template "#{node[:primero][:app_dir]}config/couch_watcher.yml" do
+template "#{node[:primero][:app_dir]}/config/couch_watcher.yml" do
   source 'couch_watcher.yml.erb'
   variables({
     :environments => ['production'],
