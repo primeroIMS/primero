@@ -71,9 +71,10 @@ default[:primero].tap do |p|
   p[:bundler_version] = '1.16.1'
   p[:rubygems_version] = '2.7.5'
 
-  p[:passenger_conf].tap do |pc|
-    pc[:min_instances] = 1
-    pc[:max_pool_size] = 6
+  p[:puma_conf].tap do |pc|
+    pc[:min_thread_count] = 5
+    pc[:max_thread_count] = 5
+    pc[:port] = 4000
   end
 
   p[:mailer].tap do |m|

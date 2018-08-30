@@ -34,7 +34,7 @@ Application Image
 -----------------
 
 This image includes everything except for CouchDB, namely Solr, the Couch change
-watcher, Nginx and Passenger.  It also runs all of these processes using
+watcher, Nginx and Puma.  It also runs all of these processes using
 Supervisor.
 
 ####Envvars
