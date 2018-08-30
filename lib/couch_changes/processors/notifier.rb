@@ -1,6 +1,12 @@
 module CouchChanges
   module Processors
-    # Notifies the individual Passenger processes.  This notifier uses a simple
+    begin
+      CONFIG = YAML.load_file("#{Rails.root.to_s}/config/couch_watcher.yml")[Rails.env]
+    rescue Errno::ENOENT
+      CONFIG = {}
+    end
+
+    # Notifies the individual Puma workers. This notifier uses a simple
     # delay based batching system in which it waits two seconds after the first
     # notification to notify the server, including whatever changes have come
     # in the preceding two seconds in the notification.  It will then repeat
@@ -18,7 +24,7 @@ module CouchChanges
         def process(modelCls, change)
           dfd = EventMachine::DefaultDeferrable.new
 
-          CouchChanges.logger.info "Queueing notification to Passenger instances about change \##{change['seq']} to #{modelCls.name}"
+          CouchChanges.logger.info "Queueing notification to Puma instances about change \##{change['seq']} to #{modelCls.name}"
 
           start_timer_if_inactive
           add_change_to_queue(modelCls, change, dfd)
@@ -36,9 +42,9 @@ module CouchChanges
           unless @delay_timer.present?
             CouchChanges.logger.info "Creating timer to notify server of changes in #{DELAY_SECONDS} seconds"
             @delay_timer = EM.add_timer(DELAY_SECONDS) do
-                                initiate_notifications
-                                @delay_timer = nil
-                               end
+                             notify_each_thread
+                             @delay_timer = nil
+                           end
           end
         end
 
@@ -71,24 +77,10 @@ module CouchChanges
           end
         end
 
-        def initiate_notifications
-          begin
-            procs = CouchChanges::Passenger.http_process_info
-          rescue PassengerNotRunningError => e
-            CouchChanges.logger.warn "Marking notifier as done since Passenger isn't running"
-            pass_all_dfds
-          rescue MultiplePassengersError
-            CouchChanges.logger.error "Cannot handle multiple Passenger servers!"
-            fail_all_dfds "Multiple Passenger Servers"
-          else
-            notify_each_process(procs)
-          end
-        end
-
-        def notify_each_process(procs)
+        def notify_each_thread
           multi = EventMachine::MultiRequest.new
 
-          procs.each {|p| start_request_to_process(p, get_changed_models, multi) }
+          start_request_to_process(get_changed_models, multi)
 
           multi.callback do
             # For now, just mark the notification as successful if the
@@ -106,11 +98,16 @@ module CouchChanges
           end
         end
 
-        def start_request_to_process(process, models_changed, multi)
-          uri = Addressable::URI.parse(Rails.application.routes.url_for(:controller => 'couch_changes', :action => 'notify', :host => process.address))
+        def start_request_to_process(models_changed, multi)
+          uri = Addressable::URI.parse(Rails.application.routes.url_for(
+            :controller => 'couch_changes',
+            :action => 'notify',
+            :protocol => [8443, 443].include?(CONFIG['couch_watcher']['port']) ? 'https' : 'http',
+            :host => CONFIG['couch_watcher']['host'],
+            :port => CONFIG['couch_watcher']['port']
+          ))
 
           headers = {
-            'X-Passenger-Connect-Password' => process.password,
             'Content-Type' => 'application/json'
           }
           uri.query_values = models_changed.map {|m| ['models_changed[]', m.name] }

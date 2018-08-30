@@ -62,6 +62,10 @@ server {
     proxy_buffering off;
   }
 
+  location /_notify_change {
+    deny all;
+  }
+
   location /login/ {
     limit_req zone=login_app_limit burst=5;
   }
