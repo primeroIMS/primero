@@ -70,7 +70,7 @@ template "/vagrant/config/couchdb.yml" do
   group 'vagrant'
 end
 
-template "/home/vagrant/primero/config/couch_watcher.yml" do
+template "/vagrant/config/couch_watcher.yml" do
   source 'couch_watcher.yml.erb'
   variables({
     :environments => ['production'],
