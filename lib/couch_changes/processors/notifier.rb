@@ -102,9 +102,7 @@ module CouchChanges
           uri = Addressable::URI.parse(Rails.application.routes.url_for(
             :controller => 'couch_changes',
             :action => 'notify',
-            :protocol => [8443, 443].include?(CONFIG['couch_watcher']['port']) ? 'https' : 'http',
-            :host => CONFIG['couch_watcher']['host'],
-            :port => CONFIG['couch_watcher']['port']
+            :host => "#{CONFIG['couch_watcher']['hostname']}:#{CONFIG['couch_watcher']['port']}"
           ))
 
           headers = {
@@ -114,7 +112,7 @@ module CouchChanges
 
           # Use GET here instead of POST since the requests hang on normal POST requests.  See
           # https://groups.google.com/forum/#!topic/phusion-passenger/-XYYtqTQpLk
-          multi.add(process.pid, EventMachine::HttpRequest.new(uri.to_s).get(:head => headers))
+          multi.add(EventMachine::HttpRequest.new(uri.to_s).get(:head => headers))
         end
       end
     end
