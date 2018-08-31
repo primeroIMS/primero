@@ -21,7 +21,7 @@ namespace :app do
     File.delete pid_file
   end
 
-  desc "Drop and recreate all databases, the solr index, and restart the app if you're running with passenger."
+  desc "Drop and recreate all databases, the solr index, and restart the app if you're running with puma."
   task :reset do
     Rake::Task['app:confirm_data_loss'].invoke
     Rake::Task['db:delete'].invoke
