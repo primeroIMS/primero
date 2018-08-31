@@ -22,7 +22,7 @@ default[:primero].tap do |p|
 
   p[:couch_watcher].tap do |cw|
     cw[:host] = 'localhost'
-    cw[:port] = 443
+    cw[:port] = 4000
   end
 
   p[:no_reseed] = false
