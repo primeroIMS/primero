@@ -1,0 +1,4 @@
+development:
+  couch_watcher:
+    hostname: localhost
+    port: 80
