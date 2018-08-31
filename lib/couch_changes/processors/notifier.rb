@@ -102,7 +102,7 @@ module CouchChanges
           uri = Addressable::URI.parse(Rails.application.routes.url_for(
             :controller => 'couch_changes',
             :action => 'notify',
-            :host => "#{CONFIG['couch_watcher']['hostname']}:#{CONFIG['couch_watcher']['port']}"
+            :host => "#{CONFIG['couch_watcher']['app_hostname']}:#{CONFIG['couch_watcher']['app_port']}"
           ))
 
           headers = {

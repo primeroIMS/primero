@@ -21,8 +21,8 @@ default[:primero].tap do |p|
   end
 
   p[:couch_watcher].tap do |cw|
-    cw[:host] = 'localhost'
-    cw[:port] = 4000
+    cw[:app_host] = 'localhost'
+    cw[:app_port] = 4000
   end
 
   p[:no_reseed] = false
