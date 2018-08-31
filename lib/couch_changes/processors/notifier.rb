@@ -111,7 +111,7 @@ module CouchChanges
           uri.query_values = models_changed.map {|m| ['models_changed[]', m.name] }
 
           # Use GET here instead of POST since the requests hang on normal POST requests.  See
-          # https://groups.google.com/forum/#!topic/phusion-passenger/-XYYtqTQpLk. We now use passenger.
+          # https://groups.google.com/forum/#!topic/phusion-passenger/-XYYtqTQpLk. We now no longer use Passenger.
           # This link may or may not be relevant.
           multi.add(:change, EventMachine::HttpRequest.new(uri.to_s).get(:head => headers))
         end

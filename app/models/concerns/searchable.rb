@@ -6,7 +6,7 @@ module Searchable
   included do
     include Indexable
 
-    # Note that the class will need to be reloaded when the fields change.
+    # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Puma.
     searchable auto_index: self.auto_index? do
       string :record_id do |f|
         f.id
