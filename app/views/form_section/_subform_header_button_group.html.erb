@@ -14,9 +14,7 @@
                      service_object_id: formObject.services_section[i].unique_id
       %>
     <% elsif subform_name == "notes_section" && can?(:add_note, Child) %>
-      <%= render 'notes/notes_button', formObject: formObject, type: Transition::TYPE_REFERRAL,
-                 service_object_id: formObject.services_section[i].unique_id
-      %>
+      <%= render 'notes/notes_button', formObject: formObject %>
     <% end %>
   <% end %>
 

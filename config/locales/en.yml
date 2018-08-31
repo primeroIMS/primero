@@ -2087,6 +2087,10 @@ en:
       approved: "Approved"
       rejected: "Rejected"
 
+  notes:
+    notes_label: "Notes"
+    subject_label: "Subject"
+
   per_page_translation: "Per page _MENU_"
   total: Total
   caregiver: " (Caregiver)"
