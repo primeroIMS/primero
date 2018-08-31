@@ -14,7 +14,7 @@ end
     #content ''
     #NOTE: couch_watcher_restart.txt must be 0666 to allow any user importing a config bundle
     #      to be able to touch the file, triggering a restart of couch_watcher
-    #TODO: This is a hack, and probably no longer needed now that couch_watcher and passenger
+    #TODO: This is a hack, and probably no longer needed now that couch_watcher
     #      run as 'primero'
     mode '0666'
     owner node[:primero][:app_user]
@@ -27,8 +27,8 @@ template "#{node[:primero][:app_dir]}/config/couch_watcher.yml" do
   source 'couch_watcher.yml.erb'
   variables({
     :environments => ['production'],
-    :couch_watcher_host => node[:primero][:couch_watcher][:host],
-    :couch_watcher_port => node[:primero][:couch_watcher][:port]
+    :couch_watcher_app_host => node[:primero][:couch_watcher][:app_host],
+    :couch_watcher_app_port => node[:primero][:couch_watcher][:app_port]
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]

@@ -1,6 +1,6 @@
 <% @environments.each do |env| %>
 <%= env %>:
   couch_watcher:
-    hostname: <%= @couch_watcher_host %>
-    port: <%= @couch_watcher_port %>
+    app_hostname: <%= @couch_watcher_app_host %>
+    app_port: <%= @couch_watcher_app_port %>
 <% end %>
