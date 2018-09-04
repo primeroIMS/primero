@@ -13,8 +13,7 @@ module NoteActions
     note = Note.new(field_notes_subform_fields: notes, note_subject: note_subject, notes_date: DateTime.now)
     @record.notes_section << note
     @record.save
-
-    redirect_back(fallback_location: root_path)
+    redirect_to(action: 'show', id: @record.id, first_tab: 'notes')
   end
 
   private
