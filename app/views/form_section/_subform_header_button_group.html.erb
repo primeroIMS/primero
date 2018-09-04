@@ -13,13 +13,8 @@
       <%= render 'transitions/refer_from_service_button', formObject: formObject, type: Transition::TYPE_REFERRAL,
                      service_object_id: formObject.services_section[i].unique_id
       %>
-    <% elsif subform_name == "notes_section" && can?(:add_note, Child) %>
-      <%= render 'notes/notes_button', formObject: formObject %>
     <% end %>
   <% end %>
-
-
-
   <% if !subform.disabled && !subform.subform_section.subform_prevent_item_removal %>
     <%= link_to t('fields.remove'), '', class: "subform_remove button grey tiny", style: disable_action_buttons,
         data: { message: t('fields.subform_remove_message') } if current_actions(action: ['update', 'edit', 'new', 'create']) %>

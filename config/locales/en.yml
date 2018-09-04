@@ -181,7 +181,7 @@ en:
      remove_referrals: "Remove referrals"
      view: "View"
      request_transfer: "Request Transfer"
-     add_note: "Notes"
+     add_note: "Add Notes"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -2090,6 +2090,7 @@ en:
   notes:
     notes_label: "Notes"
     subject_label: "Subject"
+    no_records_selected: "No records selected"
 
   per_page_translation: "Per page _MENU_"
   total: Total

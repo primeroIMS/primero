@@ -51,5 +51,6 @@ FormSection.create_or_update_form_section({
   :fields => notes_fields,
   "name_all" => "Notes",
   "description_all" => "Notes",
-  :mobile_form => true
+  :mobile_form => true,
+  :header_message_link => "notes_button"
 })
