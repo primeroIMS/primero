@@ -76,14 +76,7 @@ namespace :db do
       file_name = args[:yaml_file]
       if file_name.present?
         puts "Importing form translation from #{file_name}"
-        #TODO extract this code into a re-usable module in the application
-        file_hash = YAML.load_file(file_name)
-        if file_hash.present? && file_hash.is_a?(Hash)
-          locale = file_hash.keys.first
-          file_hash.values.each{|fh| FormSection.import_translations(fh, locale)}
-        else
-          puts "Error parsing yaml file"
-        end
+        Importers::YamlI18nImporter.import(file_name, FormSection)
       else
         puts "ERROR: No input file provided"
       end
@@ -136,14 +129,7 @@ namespace :db do
       file_name = args[:yaml_file]
       if file_name.present?
         puts "Importing lookup translation from #{file_name}"
-        #TODO extract this code into a re-usable module in the application
-        file_hash = YAML.load_file(file_name)
-        if file_hash.present? && file_hash.is_a?(Hash)
-          locale = file_hash.keys.first
-          file_hash.values.each{|fh| Lookup.import_translations(fh, locale)}
-        else
-          puts "Error parsing yaml file"
-        end
+        Importers::YamlI18nImporter.import(file_name, Lookup)
       else
         puts "ERROR: No input file provided"
       end
