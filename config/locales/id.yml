@@ -23,7 +23,7 @@ id:
     manage_system_users: "Mengelola Pengguna Sinkronisasi Server"
     records_need_attention: "Data yang perlu perhatian"
     label: "Beranda"
-  clear: "Jelas"
+  clear: "Bersihkan"
   messages:
     delete_item: |
         Peringatan: Jika Anda melanjutkan, data apa pun yang terkait dengan bidang ini akan hilang.
@@ -214,7 +214,7 @@ id:
         pending: "Persetujuan Tertunda"
         approved: "Disetujui"
         rejected: "Ditolak"
-    clear_filter: "Jelas"
+    clear_filter: "Bersihkan"
     apply_filter: "Terapkan"
     save_filter: "Simpan"
     my_filters: "Saringan saya"
@@ -1291,7 +1291,7 @@ id:
     error_in_updating: "Kesalahan dalam memperbarui konfigurasi Laporan."
     messages:
       delete_success: "Laporan sudah berhasil di hapus"
-    edit: "Rubah"
+    edit: "Ubah"
   encrypt:
     password_title: "Buat Kata Sandi"
     password_label: "Silahkan masukkan password yang akan meng-enkripsi data"
@@ -1680,7 +1680,7 @@ id:
       mark_as_investigated_by: "Rekaman yang ditandai diselidiki oleh"
       mark_as_not_investigated_by: "Rekaman yang ditandai tidak diselidiki oleh"
     reunited:
-      child_status_changed: "Status anak dirubah menjadi aktif oleh"
+      child_status_changed: "Status anak di ubah menjadi aktif oleh"
       with_details: "Dengan rincian ini:"
   actions:
     button: "Tindakan"
@@ -2006,7 +2006,7 @@ id:
     referral: "%{user} dari %{agency} telah merujuk %{record_type} berikut kepada Anda: %{record_id} untuk %{service_type}."
     transfer: "%{user} telah mengalihkan %{record_type} berikut kepada anda: %{record_id}."
     reassign: "%{user} telah menugaskan %{record_type} berikut kepada Anda: %{record_id}."
-    transfer_request: "Pengguna Primero %{user} dari %{agency} meminta Anda untuk mengalihkan tanggungjawab atas catatan %{record_type} kasus %{record_id} agar mereka bisa mengelola catatan %{record_type} dan pelayanan untuk individu di wilayah mereka. Jika Anda menyetujui pengalihan ini, silahkan klik tautan ID %{record_type}  di email ini untuk membuka %{record_type} di Primero dan memulai proses pengalihan."
+    transfer_request: "Pengguna Primero %{user} dari %{agency} meminta Anda untuk mengalihkan tanggungjawab catatan %{record_type} kasus %{record_id} agar mereka bisa mengelola catatan %{record_type} dan pelayanan untuk individu di wilayah mereka. Jika Anda menyetujui pengalihan ini, silahkan klik tautan ID %{record_type} di email ini untuk membuka %{record_type} di Primero dan memulai proses pengalihan."
     approval_request_html: "Pengguna <strong>%{user}</strong> meminta persetujuan  <strong>%{approval_type}</strong> untuk kasus  <strong>%{case_id} </strong>."
     approval_response_html: "<strong>%{user}</strong> telah <strong>%{status}</strong> terhadap permintaan persetujuan <strong>%{approval_type}</strong> untuk kasus <strong>%{case_id}</strong>."
     referral_html: "<strong>%{user}</strong> dari %{agency} telah merujuk  %{record_type} berikut kepada Anda: <strong>%{record_id}</strong> untuk %{service_type} "

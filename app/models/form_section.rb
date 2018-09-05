@@ -897,6 +897,9 @@ class FormSection < CouchRest::Model::Base
       form_hash.each do |key, value|
         if key == 'fields'
           update_field_translations(value, locale)
+        elsif key == 'form_group_name'
+          #TODO: get rid of this case once we i18n form_group_name
+          self.form_group_name = value
         else
           self.send("#{key}_#{locale}=", value)
         end
