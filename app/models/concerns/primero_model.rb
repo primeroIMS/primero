@@ -44,6 +44,7 @@ module PrimeroModel
       end
       records.each do |r|
         r['_deleted'] = true
+        r.delete('_attachments')
       end
       if records.present?
         self.database.bulk_save(records)
