@@ -672,7 +672,8 @@ class FormSection < CouchRest::Model::Base
       if locale.present? && Primero::Application::locales.include?(locale)
         unique_id = form_hash.keys.first
         if unique_id.present?
-          form = self.get_by_unique_id(unique_id)
+          #We have to bypass memoization here
+          form = self.old_by_unique_id(key: unique_id).first
           if form.present?
             form.update_translations(form_hash.values.first, locale)
             Rails.logger.info "Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]"
