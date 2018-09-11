@@ -111,6 +111,8 @@ class FormSection < CouchRest::Model::Base
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
+    #TODO: This is temporary. Eventually form_group_name will be localized
+    lh['form_group_name'] = self.form_group_name if self.form_group_name.present?
     fldz = {}
     self.fields.each { |f| fldz[f.name] = f.localized_property_hash locale if (show_hidden_fields || f.visible?)}
     lh['fields'] = fldz
