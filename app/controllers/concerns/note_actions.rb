@@ -2,7 +2,7 @@ module NoteActions
   extend ActiveSupport::Concern
 
   def add_note
-    authorize! :add_note, model_class
+    authorize! :add_note, @record
 
     if @record.blank?
       flash[:notice] = t('notes.no_records_selected')

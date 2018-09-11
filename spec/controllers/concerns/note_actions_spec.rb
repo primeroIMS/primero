@@ -38,29 +38,42 @@ describe NoteActions, type: :controller do
       before do
         @permission_case_add_note = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ADD_NOTE])
         Role.create(id: 'add_note_permission', name: 'Can Add Note', permissions_list: [@permission_case_add_note], group_permission: Permission::GROUP)
-        @notes_user = User.create(:user_name => 'note_user', :role_ids => ['add_note_permission'])
+        @notes_user = User.create(user_name: 'note_user', role_ids: ['add_note_permission'], user_group_ids: ['Test2'])
         @session = fake_login @notes_user
+        User.stub(:find_by_user_name).and_return(@notes_user)
       end
 
       context 'passing no ids' do
-        it 'returns error no selected records' do
+        it 'does not allow adding a note' do
           post :add_note
-          expect(response.status).not_to eq(403)
-          expect(flash[:notice]).to eq('No records selected')
+          expect(response.status).to eq(403)
         end
       end
 
       context 'passing ids' do
         before do
-          User.stub(:find_by_user_name).and_return(@notes_user)
-          @case1 = Child.create(:name => 'Test Case 1', :short_id => 'aaa111', :owned_by => @notes_user.user_name, :marked_for_mobile => false, :notes_section => [])
+          @case1 = Child.create(name: 'Test Case 1', notes_section: [])
         end
 
-        #TODO - redirect_to show page is not working in this test... need to investigate
-        xit 'adds a note' do
-          post :add_note, params: {id: @case1.id, subject: 'test subject', notes: 'test notes'}
-          #expect...
+        context 'and user does not have access to the record' do
+          it 'does not allow adding a note' do
+            post :add_note, params: {id: @case1.id, subject: 'test subject', notes: 'test notes'}
+            expect(response.status).to eq(403)
+          end
         end
+
+        context 'and user has access to the record' do
+          before do
+            Child.any_instance.stub(:associated_users).and_return([@notes_user])
+          end
+
+          #TODO - redirect_to show page is not working in this test... need to investigate
+          xit 'adds a note' do
+            post :add_note, params: {id: @case1.id, subject: 'test subject', notes: 'test notes'}
+            #expect...
+          end
+        end
+
       end
     end
   end
