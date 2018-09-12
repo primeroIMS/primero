@@ -106,7 +106,6 @@ module RecordActions
   def show
     authorize! :read, (@record || model_class)
 
-    @first_tab = params[:first_tab]
     @referral_roles = Role.by_referral.all
     @transfer_roles = Role.by_transfer.all
     @associated_users = current_user.managed_user_names

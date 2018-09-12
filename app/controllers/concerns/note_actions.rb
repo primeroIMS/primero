@@ -12,8 +12,13 @@ module NoteActions
     @record.notes_section = [] if @record.notes_section.nil?
     note = Note.new(field_notes_subform_fields: notes, note_subject: note_subject, notes_date: DateTime.now)
     @record.notes_section << note
-    @record.save
-    redirect_to(action: 'show', id: @record.id, first_tab: 'notes')
+    @record.update_last_updated_by(current_user)
+    if @record.save
+      redirect_to polymorphic_path(@record, { follow: true })
+    else
+      flash[:notice] = t('notes.error_adding_note')
+      redirect_back(fallback_location: root_path) and return
+    end
   end
 
   private

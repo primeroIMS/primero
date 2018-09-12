@@ -2091,6 +2091,7 @@ en:
     notes_label: "Notes"
     subject_label: "Subject"
     no_records_selected: "No records selected"
+    error_adding_note: "Error adding note"
 
   per_page_translation: "Per page _MENU_"
   total: Total

@@ -58,7 +58,7 @@ module FormSectionHelper
         concat(content_tag(:li,
           link_to("#tab_#{form.section_name}") do
             concat(section_name)
-          end, class: "#{init_tab(form, false)}"
+          end, class: "#{form.is_first_tab ? 'current': ''}"
         ))
       end
     end
@@ -95,9 +95,7 @@ module FormSectionHelper
   end
 
   def init_tab(form, show_summary)
-    if @first_tab.present?
-      (form.unique_id == @first_tab) ? "current" : ""
-    elsif show_summary && form.section_name == 'mrm_summary_page' || form.is_first_tab
+    if show_summary && form.section_name == 'mrm_summary_page' || form.is_first_tab
       "current"
     else
       ""
