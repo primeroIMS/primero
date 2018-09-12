@@ -50,11 +50,6 @@ bia_fields = [
                "type" => "date_field",
                "display_name_all" => "Re-assessment date",
                "disabled" => true
-              }),
-    Field.new({"name" => "cpims_id",
-               "type" => "text_field",
-               "display_name_all" => "CPIMS No",
-               "disabled" => true
               })
 ]
 
