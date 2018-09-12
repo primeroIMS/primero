@@ -236,7 +236,8 @@ cp_manager_permissions = [
       Permission::SEARCH_OWNED_BY_OTHERS,
       Permission::INCIDENT_FROM_CASE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      Permission::ENABLE_DISABLE_RECORD
+      Permission::ENABLE_DISABLE_RECORD,
+      Permission::ADD_NOTE
     ]
   ),
   Permission.new(
