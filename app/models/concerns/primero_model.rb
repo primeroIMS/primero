@@ -34,6 +34,23 @@ module PrimeroModel
       end
     end
 
+    def delete_all!(*records)
+      records.flatten!
+      unless records.present?
+        ids = self.all.rows.map{|r| r['id']}
+        records = self.database.get_bulk(ids)['rows'].map do |r|
+          new('_id' => r['doc']['_id'], '_rev' => r['doc']['_rev'])
+        end
+      end
+      records.each do |r|
+        r['_deleted'] = true
+        r.delete('_attachments')
+      end
+      if records.present?
+        self.database.bulk_save(records)
+      end
+    end
+
     def create_or_update(attributes = {})
       record = self.find(attributes[:id])
 
