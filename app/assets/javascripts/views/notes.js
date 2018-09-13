@@ -24,6 +24,8 @@ _primero.Views.Notes = _primero.Views.Base.extend({
     e.preventDefault();
     var $notes_modal = $('#notes-modal');
 
+    localStorage.setItem('current_tab', '#tab_notes');
+
     $(e.target).parents('form').submit();
     $notes_modal.foundation('close');
   },
