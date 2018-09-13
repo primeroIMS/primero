@@ -24,6 +24,11 @@ basic_identity_fields = [
              "display_name_all" => "Case ID",
              "create_property" => true
             }),
+  Field.new({"name" => "cpims_id",
+             "type" => "text_field",
+             "display_name_all" => "CPIMS ID",
+             "help_text_all" => "Legacy CPIMS (or other system) ID"
+            }),
   Field.new({"name" => "marked_for_mobile",
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
