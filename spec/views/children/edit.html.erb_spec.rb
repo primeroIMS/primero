@@ -1,7 +1,13 @@
   require 'rails_helper'
 
 describe "children/edit.html.erb" do
-
+  before :all do
+    PrimeroModule.all.each &:destroy
+    @mod ||= PrimeroModule.create!(_id: 'primeromodule-cp', program_id: 'fakeprogram',
+                                   name: 'CP', associated_record_types: ['case'],
+                                   associated_form_ids: ['xxxxx'],
+                                   workflow_status_indicator: false)
+  end
   before :each do
     record_owner_fields = [
       Field.new({"name" => "owned_by",
@@ -65,6 +71,7 @@ describe "children/edit.html.erb" do
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(Child)
     controller.should_receive(:can?).with(:flag, @child).and_return(false)
+    controller.should_receive(:can?).with(:add_note, @child).and_return(false)
     controller.should_receive(:can?).with(:update, @child).and_return(true)
     controller.should_receive(:can?).with(:import, Child).and_return(true)
     controller.should_receive(:can?).with(:edit, @child).and_return(true)

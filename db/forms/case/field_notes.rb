@@ -24,7 +24,7 @@ field_notes_subform_section = FormSection.create_or_update_form_section({
   :parent_form=>"case",
   "editable" => true,
   :fields => field_notes_subform_fields,
-  :initial_subforms => 1,
+  :initial_subforms => 0,
   "name_all" => "Nested Notes Subform",
   "description_all" => "Nested Notes Subform",
   "collapsed_fields" => ["note_subject"]
@@ -51,6 +51,5 @@ FormSection.create_or_update_form_section({
   :fields => notes_fields,
   "name_all" => "Notes",
   "description_all" => "Notes",
-  :mobile_form => true,
-  :header_message_link => "notes_button"
+  :mobile_form => true
 })
