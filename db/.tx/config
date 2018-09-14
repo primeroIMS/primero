@@ -1,0 +1,183 @@
+[main]
+host = https://www.transifex.com
+
+[gbv-forms.action_plan_formyml]
+file_filter = translations/gbv/<lang>/action_plan_form.yml
+source_file = translations/gbv/en/action_plan_form.yml
+source_lang = en
+type = YML
+
+[gbv-forms.action_plan_subform_sectionyml]
+file_filter = translations/gbv/<lang>/action_plan_subform_section.yml
+source_file = translations/gbv/en/action_plan_subform_section.yml
+source_lang = en
+type = YML
+
+[gbv-forms.alleged_perpetratoryml]
+file_filter = translations/gbv/<lang>/alleged_perpetrator.yml
+source_file = translations/gbv/en/alleged_perpetrator.yml
+source_lang = en
+type = YML
+
+[gbv-forms.alleged_perpetrators_wrapperyml]
+file_filter = translations/gbv/<lang>/alleged_perpetrators_wrapper.yml
+source_file = translations/gbv/en/alleged_perpetrators_wrapper.yml
+source_lang = en
+type = YML
+
+[gbv-forms.child_protection_services_subform_sectionyml]
+file_filter = translations/gbv/<lang>/child_protection_services_subform_section.yml
+source_file = translations/gbv/en/child_protection_services_subform_section.yml
+source_lang = en
+type = YML
+
+[gbv-forms.client_feedbackyml]
+file_filter = translations/gbv/<lang>/client_feedback.yml
+source_file = translations/gbv/en/client_feedback.yml
+source_lang = en
+type = YML
+
+[gbv-forms.consent_for_referralsyml]
+file_filter = translations/gbv/<lang>/consent_for_referrals.yml
+source_file = translations/gbv/en/consent_for_referrals.yml
+source_lang = en
+type = YML
+
+[gbv-forms.consent_for_servicesyml]
+file_filter = translations/gbv/<lang>/consent_for_services.yml
+source_file = translations/gbv/en/consent_for_services.yml
+source_lang = en
+type = YML
+
+[gbv-forms.gbv_case_closure_formyml]
+file_filter = translations/gbv/<lang>/gbv_case_closure_form.yml
+source_file = translations/gbv/en/gbv_case_closure_form.yml
+source_lang = en
+type = YML
+
+[gbv-forms.gbv_follow_up_subform_sectionyml]
+file_filter = translations/gbv/<lang>/gbv_follow_up_subform_section.yml
+source_file = translations/gbv/en/gbv_follow_up_subform_section.yml
+source_lang = en
+type = YML
+
+[gbv-forms.gbv_incident_formyml]
+file_filter = translations/gbv/<lang>/gbv_incident_form.yml
+source_file = translations/gbv/en/gbv_incident_form.yml
+source_lang = en
+type = YML
+
+[gbv-forms.gbv_individual_detailsyml]
+file_filter = translations/gbv/<lang>/gbv_individual_details.yml
+source_file = translations/gbv/en/gbv_individual_details.yml
+source_lang = en
+type = YML
+
+[gbv-forms.gbv_reported_elsewhere_subformyml]
+file_filter = translations/gbv/<lang>/gbv_reported_elsewhere_subform.yml
+source_file = translations/gbv/en/gbv_reported_elsewhere_subform.yml
+source_lang = en
+type = YML
+
+[gbv-forms.gbv_sexual_violenceyml]
+file_filter = translations/gbv/<lang>/gbv_sexual_violence.yml
+source_file = translations/gbv/en/gbv_sexual_violence.yml
+source_lang = en
+type = YML
+
+[gbv-forms.gbv_survivor_informationyml]
+file_filter = translations/gbv/<lang>/gbv_survivor_information.yml
+source_file = translations/gbv/en/gbv_survivor_information.yml
+source_lang = en
+type = YML
+
+[gbv-forms.health_medical_referral_subform_sectionyml]
+file_filter = translations/gbv/<lang>/health_medical_referral_subform_section.yml
+source_file = translations/gbv/en/health_medical_referral_subform_section.yml
+source_lang = en
+type = YML
+
+[gbv-forms.incident_record_owneryml]
+file_filter = translations/gbv/<lang>/incident_record_owner.yml
+source_file = translations/gbv/en/incident_record_owner.yml
+source_lang = en
+type = YML
+
+[gbv-forms.incident_service_referralsyml]
+file_filter = translations/gbv/<lang>/incident_service_referrals.yml
+source_file = translations/gbv/en/incident_service_referrals.yml
+source_lang = en
+type = YML
+
+[gbv-forms.legal_assistance_services_subform_sectionyml]
+file_filter = translations/gbv/<lang>/legal_assistance_services_subform_section.yml
+source_file = translations/gbv/en/legal_assistance_services_subform_section.yml
+source_lang = en
+type = YML
+
+[gbv-forms.livelihoods_services_subform_sectionyml]
+file_filter = translations/gbv/<lang>/livelihoods_services_subform_section.yml
+source_file = translations/gbv/en/livelihoods_services_subform_section.yml
+source_lang = en
+type = YML
+
+[gbv-forms.lookupsyml]
+file_filter = translations/gbv/<lang>/lookups.yml
+source_file = translations/gbv/en/lookups.yml
+source_lang = en
+type = YML
+
+[gbv-forms.other_documentsyml]
+file_filter = translations/gbv/<lang>/other_documents.yml
+source_file = translations/gbv/en/other_documents.yml
+source_lang = en
+type = YML
+
+[gbv-forms.police_or_other_type_of_security_services_subform_sectionyml]
+file_filter = translations/gbv/<lang>/police_or_other_type_of_security_services_subform_section.yml
+source_file = translations/gbv/en/police_or_other_type_of_security_services_subform_section.yml
+source_lang = en
+type = YML
+
+[gbv-forms.psychosocial_counseling_services_subform_sectionyml]
+file_filter = translations/gbv/<lang>/psychosocial_counseling_services_subform_section.yml
+source_file = translations/gbv/en/psychosocial_counseling_services_subform_section.yml
+source_lang = en
+type = YML
+
+[gbv-forms.record_owneryml]
+file_filter = translations/gbv/<lang>/record_owner.yml
+source_file = translations/gbv/en/record_owner.yml
+source_lang = en
+type = YML
+
+[gbv-forms.referral_transferyml]
+file_filter = translations/gbv/<lang>/referral_transfer.yml
+source_file = translations/gbv/en/referral_transfer.yml
+source_lang = en
+type = YML
+
+[gbv-forms.reopened_logsyml]
+file_filter = translations/gbv/<lang>/reopened_logs.yml
+source_file = translations/gbv/en/reopened_logs.yml
+source_lang = en
+type = YML
+
+[gbv-forms.safety_planyml]
+file_filter = translations/gbv/<lang>/safety_plan.yml
+source_file = translations/gbv/en/safety_plan.yml
+source_lang = en
+type = YML
+
+[gbv-forms.survivor_assessment_formyml]
+file_filter = translations/gbv/<lang>/survivor_assessment_form.yml
+source_file = translations/gbv/en/survivor_assessment_form.yml
+source_lang = en
+type = YML
+
+[gbv-forms.transitionsyml]
+file_filter = translations/gbv/<lang>/transitions.yml
+source_file = translations/gbv/en/transitions.yml
+source_lang = en
+type = YML
+

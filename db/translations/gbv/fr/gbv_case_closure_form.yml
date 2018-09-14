@@ -1,0 +1,63 @@
+---
+fr:
+  gbv_case_closure_form:
+    name: Clôture du cas
+    description: Clôture du cas
+    form_group_name: Clôture du cas
+    fields:
+      created_at:
+        display_name: Date d'ouverture du cas
+      date_closure:
+        display_name: Date de clôture du cas
+      child_status:
+        display_name: Statut du cas
+      closure_assessment:
+        display_name: Evaluation de clôture du cas
+      closure_checklist_header_section:
+        display_name: Liste de vérification de la clôture du cas
+      closure_needs_met:
+        display_name: ""
+      closure_needs_met_explain:
+        display_name: ""
+      closure_survivor_contact:
+        display_name: ""
+      closure_survivor_contact_explain:
+        display_name: ""
+      closure_survivor_request_close:
+        display_name: ""
+      closure_survivor_request_close_explain:
+        display_name: ""
+      closure_survivor_left_area:
+        display_name: ""
+      closure_survivor_left_area_explain:
+        display_name: ""
+      closure_tranferred_organization:
+        display_name: ""
+      closure_tranferred_organization_explain:
+        display_name: ""
+      closure_funding_constraints:
+        display_name: ""
+      closure_funding_constraints_explain:
+        display_name: ""
+      closure_safety_plan:
+        display_name: Le plan de sécurité de la survivante a été revue et est en place
+      closure_safety_plan_explain:
+        display_name: Expliquer (plan de sécurité)
+      closure_case_plan_complete:
+        display_name: ""
+      closure_case_plan_complete_explain:
+        display_name: Expliquer (complété et satisfaisant)
+      closure_no_further_support:
+        display_name: La survivante et le/la gestionnaire de cas se sont convenus qu'il n'y a plus besoin de soutien
+      closure_no_further_support_explain:
+        display_name: Expliquer (plus besoin de soutien)
+      closure_resume_notification:
+        display_name: La survivante a été informée qu'elle peut reprendre les services à tout moment
+      closure_resume_notification_explain:
+        display_name: Expliquer (reprendre les services)
+      closure_supervisor_review:
+        display_name: Le/la superviseur de cas a revu la demande de clôture du cas/plan de sortie
+      closure_supervisor_review_explain:
+        display_name: Expliquer (revue du cas)
+      closure_completion_timing:
+        display_name: ""
