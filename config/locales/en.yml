@@ -1922,7 +1922,9 @@ en:
       selected:  Selected to UNHCR
       headers:
         id: "ID"
+        short_id: "Short ID"
         individual_progress_id: "Individual Progress ID"
+        progres_id: "Progres ID"
         cpims_code: "CPIMS Code"
         date_of_identification: "Date of Identification"
         primary_protection_concerns: "Primary Protection Concerns"
@@ -1936,6 +1938,12 @@ en:
         current_care_arrangement: "Current Care Arrangement"
         reunification_status: "Reunification Status"
         case_status: "Case Status"
+        family_count_no: "Family Count Number"
+        moha_id: "MOHA ID"
+        name_of_child_last_first: "Full name of child"
+        name_of_caregiver: "Full name of caregiver"
+        unhcr_needs_codes: "Vulnerabilities / specific need codes"
+        location_in_bangladesh: "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)"
     mrm_violation_xls:
       all:  MRM Violations
       one:  MRM Violations
