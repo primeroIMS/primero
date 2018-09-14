@@ -76,7 +76,7 @@ module Exporters
         'location_in_bangladesh' => ->(c) do
           if c.location_current.present?
             lct = Location.by_location_code(key: c.location_current).first
-            lct.ancestor_codes_and_placenames.map{|l| l.join(", ")}.join("\n")
+            lct.location_codes_and_placenames.map{|l| l.join(", ")}.join("\n")
           end
         end,
         'sex' => ['sex'],
