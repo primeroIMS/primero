@@ -1,0 +1,43 @@
+---
+en:
+  action_plan_subform_section:
+    name: Nested Action Plan
+    description: Action Plan Subform
+    fields:
+      action_plan_description:
+        display_name: Describe the action plan to address this need.
+      service_type:
+        display_name: Type of Need
+      service_referral:
+        display_name: When appropriate, did you refer the survivor for this service?
+        option_strings_text:
+          referred: Referred
+          no_referral_service_provided_by_your_agency: No referral, Service provided
+            by your agency
+          no_referral_services_already_received_from_another_agency: No referral,
+            Services already received from another agency
+          no_referral_service_not_applicable: No referral, Service not applicable
+          no_referral_declined_by_survivor: No referral, Declined by survivor
+          no_referral_service_unavailable: No referral, Service unavailable
+      service_referral_written_consent:
+        display_name: Did you receive written consent from survivor to release personal
+          Information for the purpose of referrals?
+      service_appointment_date:
+        display_name: Appointment Date
+      service_appointment_time:
+        display_name: Appointment Time
+      service_provider:
+        display_name: Service Provider
+      service_location:
+        display_name: Service Location
+      service_referral_notes:
+        display_name: Notes
+      service_referral_mandatory_reporting:
+        display_name: If mandatory reporting laws apply, did you report the incident
+          to the police/public authorities?
+      service_referral_mandatory_reporting_inform_survivor:
+        display_name: If yes, did you inform the survivor and/or her caregiver of
+          the mandatory reporting laws prior to making the report?
+      service_referral_case_action_plan_timing:
+        display_name: How long did it take you to develop the Case Action Plan with
+          the survivor for this case?

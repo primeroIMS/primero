@@ -1,0 +1,71 @@
+---
+fr:
+  client_feedback:
+    name: ""
+    description: ""
+    form_group_name: ""
+    fields:
+      client_feedback_header:
+        display_name: ""
+        help_text: ""
+      client_feedback_date:
+        display_name: ""
+      client_feedback_administered_by:
+        display_name: ""
+        help_text: ""
+      survivor_age_group:
+        display_name: ""
+      client_discovery_method:
+        display_name: ""
+      client_feedback_service_delivery_header:
+        display_name: ""
+      opening_hours_when_client_could_attend:
+        display_name: ""
+      client_comfortable_with_case_worker:
+        display_name: ""
+      same_case_worker_each_visit:
+        display_name: ""
+      could_client_choose_support_person:
+        display_name: ""
+      client_informed_of_options:
+        display_name: ""
+      client_decided_what_next:
+        display_name: ""
+      client_referred_elsewhere:
+        display_name: ""
+      client_feedback_confidentiality_header:
+        display_name: ""
+      survivor_discreet_access:
+        display_name: ""
+      staff_respect_confidentiality:
+        display_name: ""
+      client_private_meeting:
+        display_name: ""
+      client_feedback_staff_header:
+        display_name: ""
+      staff_friendly:
+        display_name: ""
+      staff_open_minded:
+        display_name: ""
+      staff_answered_all_questions:
+        display_name: ""
+      staff_client_could_understand:
+        display_name: ""
+      staff_allowed_enough_time:
+        display_name: ""
+      staff_helpful:
+        display_name: ""
+      staff_helpful_explain:
+        display_name: ""
+      client_feedback_wellbeing_header:
+        display_name: ""
+      client_feel_better:
+        display_name: ""
+      client_feel_better_explain:
+        display_name: ""
+      would_client_recommend_friend:
+        display_name: ""
+      would_client_recommend_friend_explain:
+        display_name: ""
+      client_comments_suggestions:
+        display_name: ""

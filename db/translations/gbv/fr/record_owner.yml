@@ -1,0 +1,33 @@
+---
+fr:
+  record_owner:
+    name: Information de l'enregistrement
+    description: Information de l'enregistrement
+    form_group_name: ""
+    fields:
+      current_owner_separator:
+        display_name: Propriétaire actuel
+      owned_by_text:
+        display_name: Gestionnaire de cas
+      owned_by:
+        display_name: Code du travailleur social
+      reassigned_tranferred_on:
+        display_name: Ré-assigné/ Transféré le
+      owned_by_agency:
+        display_name: Agence
+      assigned_user_names:
+        display_name: Autres utilisateurs assignés
+      record_history_separator:
+        display_name: Historique de l'enregistrement
+      created_by:
+        display_name: Enregistrement créé par
+      created_by_agency:
+        display_name: Créé par l'organisation
+      previously_owned_by:
+        display_name: Propriétaire précédent
+      previous_agency:
+        display_name: Organisation précédente
+      module_id:
+        display_name: Module
+      reopened_logs:
+        display_name: Cas réouvert

@@ -1,0 +1,55 @@
+---
+fr:
+  survivor_assessment_form:
+    name: Evaluation de la survivante
+    description: Evaluation de la survivante
+    form_group_name: Evaluation de la survivante
+    fields:
+      assessment_emotional_state_start:
+        display_name: Profil de la survivante
+        help_text: ""
+        guiding_questions: |
+      assessment_survivor_background:
+        display_name: ""
+        guiding_questions: ""
+      assessment_family_situation:
+        display_name: ""
+        guiding_questions: |
+      assessment_current_living_situation:
+        display_name: ""
+        guiding_questions: ""
+      assssment_survivor_occupation:
+        display_name: ""
+        guiding_questions: ""
+      assessment_child_considerations:
+        display_name: ""
+        guiding_questions: ""
+      assessment_presenting_problem:
+        display_name: ""
+        guiding_questions: |
+      assessment_emotional_state_end:
+        display_name: ""
+        guiding_questions: ""
+      assessment_main_concerns:
+        display_name: ""
+        guiding_questions: ""
+      assessment_current_situation:
+        display_name: ""
+        guiding_questions: ""
+      assessment_safety_needs:
+        display_name: ""
+        guiding_questions: ''
+      assessment_health_needs:
+        display_name: ""
+        guiding_questions: ""
+      assessment_psychosocial_needs:
+        display_name: ""
+        guiding_questions: ""
+      assessment_legal_needs:
+        display_name: ""
+        guiding_questions: |
+      assessment_material_needs:
+        display_name: ""
+        guiding_questions: ""
+      assessment_completion_timing:
+        display_name: ""

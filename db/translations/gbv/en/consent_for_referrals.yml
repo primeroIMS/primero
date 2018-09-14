@@ -1,0 +1,47 @@
+---
+en:
+  consent_for_referrals:
+    name: Consent for Referrals
+    description: Consent for Referrals
+    form_group_name: Consent for Referrals
+    fields:
+      consent_release_separator:
+        display_name: Consent to Release Information by Referral Type
+      consent_to_share_info_by_security:
+        display_name: Consent to Release Information to Security Services
+      consent_to_share_security_organization:
+        display_name: Specify Security Name, Facility or Agency/Organization as applicable
+      consent_to_share_info_by_psychosocial:
+        display_name: Consent to Release Information to Psychosocial Services
+      consent_to_share_psychosocial_organization:
+        display_name: Specify Psychosocial Name, Facility or Agency/Organization as
+          applicable
+      consent_to_share_info_by_health:
+        display_name: Consent to Release Information to Health/Medical Services
+      consent_to_share_health_organization:
+        display_name: Specify Health/Medical Name, Facility or Agency/Organization
+          as applicable
+      consent_to_share_info_by_safehouse:
+        display_name: Consent to Release Information to Safe House/Shelter
+      consent_to_share_safehouse_organization:
+        display_name: Specify Safe House/Shelter Name, Facility or Agency/Organization
+          as applicable
+      consent_to_share_info_by_legal:
+        display_name: Consent to Release Information to Legal Assistance Services
+      consent_to_share_legal_organization:
+        display_name: Specify Legal Assistance Name, Facility or Agency/Organization
+          as applicable
+      consent_to_share_info_by_protection:
+        display_name: Consent to Release Information to Protection Services
+      consent_to_share_protection_organization:
+        display_name: Specify Protection Services Name, Facility or Agency/Organization
+          as applicable
+      consent_to_share_info_by_livelihoods:
+        display_name: Consent to Release Information to Livelihoods Services
+      consent_to_share_livelihoods_organization:
+        display_name: Specify Livelihoods Services Name, Facility or Agency/Organization
+          as applicable
+      consent_to_share_info_by_other:
+        display_name: Consent to Release Information to Other Services
+      consent_to_share_info_by_other_details:
+        display_name: If other services, please specify service, name and agency
