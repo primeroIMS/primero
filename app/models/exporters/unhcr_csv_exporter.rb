@@ -62,10 +62,10 @@ module Exporters
           self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
         end,
         'vulnerability_code' => ->(c) do
-          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).map{|code| code.split('-').first}.join(', ') if c.unhcr_needs_codes.present?
+          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).map{|code| code.split('-').first}.join('; ') if c.unhcr_needs_codes.present?
         end,
         'vulnerability_details_code' => ->(c) do
-          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
+          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join('; ') if c.unhcr_needs_codes.present?
         end,
         'governorate_country' => ->(c) do
           if c.location_current.present?
@@ -80,7 +80,7 @@ module Exporters
         'locations_by_level' => ->(c) do
           if c.location_current.present?
             lct = Location.by_location_code(key: c.location_current).first
-            lct.location_codes_and_placenames.map{|l| l.join(", ")}.join("\n")
+            lct.location_codes_and_placenames.map{|l| l.join(", ")}.join("; ")
           end
         end,
         'sex' => ['sex'],
