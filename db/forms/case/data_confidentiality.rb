@@ -32,7 +32,16 @@ consent_fields = [
              "type" => "tick_box",
              "tick_box_label_all" => "Yes",
              "display_name_all" => "The individual providing consent agrees to share collected information with other "\
-                                   "organizations for service provision?"
+                                   "organizations for service provision?",
+             "help_text" => "This includes sharing information with other oranizations providing services, this does not "\
+                            "include sharing information with UNHCR."
+            }),
+  Field.new({"name" => "unhcr_export_consent",
+             "type" => "radio_button",
+             "display_name_all" => "Has the child stated that he/she does not want to share personal details with UNHCR?",
+             "option_strings_source" => "lookup lookup-yes-no",
+             "help_text" => "If the child does not want to share information with UNHCR, select 'Yes' to this question "\
+                            "(the child's personal details will not be included in the UNHCR export if this is set to 'Yes)."
             }),
   Field.new({"name" => "consent_share_separator",
              "type" => "separator",
