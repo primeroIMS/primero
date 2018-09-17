@@ -1920,6 +1920,9 @@ en:
       all:  UNHCR
       one:  UNHCR
       selected:  Selected to UNHCR
+      female_abbreviation: "F"
+      male_abbreviation: "M"
+      unknown_abbreviation: "U"
       headers:
         id: "ID"
         short_id: "Short ID"
@@ -1931,6 +1934,7 @@ en:
         secondary_protection_concerns: "Secondary Protection Concerns"
         governorate_country: "Governorate - Country"
         sex: "Sex"
+        sex_mapping_m_f_u: "Sex"
         date_of_birth: "Date of Birth"
         age: "Age"
         causes_of_separation: "Causes of Separation"
@@ -1942,7 +1946,8 @@ en:
         moha_id: "MOHA ID"
         name_of_child_last_first: "Full name of child"
         name_of_caregiver: "Full name of caregiver"
-        unhcr_needs_codes: "Vulnerabilities / specific need codes"
+        vulnerability_code: "Vulnerabilities"
+        vulnerability_details_code: "Specific need codes"
         locations_by_level: "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)"
     mrm_violation_xls:
       all:  MRM Violations

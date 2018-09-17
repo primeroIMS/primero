@@ -61,7 +61,10 @@ module Exporters
         'secondary_protection_concerns' => ->(c) do
           self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
         end,
-        'unhcr_needs_codes' => ->(c) do
+        'vulnerability_code' => ->(c) do
+          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).map{|code| code.split('-').first}.join(', ') if c.unhcr_needs_codes.present?
+        end,
+        'vulnerability_details_code' => ->(c) do
           self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
         end,
         'governorate_country' => ->(c) do
@@ -81,6 +84,9 @@ module Exporters
           end
         end,
         'sex' => ['sex'],
+        'sex_mapping_m_f_u' => ->(c) do
+          ['male', 'female'].include?(c.sex) ? I18n.t("exports.unhcr_csv.#{c.sex}_abbreviation") : I18n.t("exports.unhcr_csv.unknown_abbreviation")
+        end,
         'date_of_birth' => ['date_of_birth'],
         'age' => ['age'],
         'causes_of_separation' => ['separation_cause'],
