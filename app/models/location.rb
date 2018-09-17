@@ -212,6 +212,10 @@ class Location < CouchRest::Model::Base
     response.present? ? response.all : []
   end
 
+  def location_codes_and_placenames
+    ancestors.map{|lct| [lct.location_code, lct.placename]} << [self.location_code, self.placename]
+  end
+
   def ancestors
     Location.find_by_location_codes(self.hierarchy)
   end

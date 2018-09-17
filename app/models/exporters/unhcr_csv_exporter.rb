@@ -49,13 +49,19 @@ module Exporters
       self.buffer.write(unhcr_export)
     end
 
+    #TODO fix governorate_country... that code is pre-i18n when locations used location names instead of location_code
     def props
       {
         'individual_progress_id' => ['unhcr_individual_no'],
+        'progres_id' => ['unhcr_individual_no'],
         'cpims_code' => ['cpims_id'],
+        'short_id' => ['short_id'],
         'date_of_identification' => ['identification_date'],
         'primary_protection_concerns' => ['protection_status'],
         'secondary_protection_concerns' => ->(c) do
+          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
+        end,
+        'unhcr_needs_codes' => ->(c) do
           self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
         end,
         'governorate_country' => ->(c) do
@@ -66,6 +72,12 @@ module Exporters
             end
             hierarchy = hierarchy.map{|name| name.split(' - ').first}.reverse
             hierarchy.join(' - ')
+          end
+        end,
+        'locations_by_level' => ->(c) do
+          if c.location_current.present?
+            lct = Location.by_location_code(key: c.location_current).first
+            lct.location_codes_and_placenames.map{|l| l.join(", ")}.join("\n")
           end
         end,
         'sex' => ['sex'],
@@ -85,7 +97,15 @@ module Exporters
             I18n.t("false")
           end
         end,
-        'case_status' => ['child_status']
+        'case_status' => ['child_status'],
+        'family_count_no' => ['family_count_no'],
+        'moha_id' => ['national_id_no'],
+        'name_of_child_last_first' => ->(c) do
+          return '' if c.name.blank?
+          name_array = c.name.try(:split, ' ')
+          name_array.size > 1 ? "#{name_array.last}, #{name_array[0..-2].join(' ')}" : c.name
+        end,
+        'name_of_caregiver' => ['name_caregiver']
       }
     end
 
