@@ -101,7 +101,8 @@ module Exporters
         'family_count_no' => ['family_count_no'],
         'moha_id' => ['national_id_no'],
         'name_of_child_last_first' => ->(c) do
-          name_array = c.name.split(' ')
+          return '' if c.name.blank?
+          name_array = c.name.try(:split, ' ')
           name_array.size > 1 ? "#{name_array.last}, #{name_array[0..-2].join(' ')}" : c.name
         end,
         'name_of_caregiver' => ['name_caregiver']
