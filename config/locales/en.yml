@@ -1946,8 +1946,8 @@ en:
         moha_id: "MOHA ID"
         name_of_child_last_first: "Full name of child"
         name_of_caregiver: "Full name of caregiver"
-        vulnerability_code: "Vulnerabilities"
-        vulnerability_details_code: "Specific need codes"
+        vulnerability_code: "Vulnerability Codes"
+        vulnerability_details_code: "Vulnerability Details Codes"
         locations_by_level: "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)"
     mrm_violation_xls:
       all:  MRM Violations
