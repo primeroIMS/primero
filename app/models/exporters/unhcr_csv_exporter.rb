@@ -49,6 +49,7 @@ module Exporters
       self.buffer.write(unhcr_export)
     end
 
+    #TODO fix governorate_country... that code is pre-i18n when locations used location names instead of location_code
     def props
       {
         'individual_progress_id' => ['unhcr_individual_no'],
@@ -73,7 +74,7 @@ module Exporters
             hierarchy.join(' - ')
           end
         end,
-        'location_in_bangladesh' => ->(c) do
+        'locations_by_level' => ->(c) do
           if c.location_current.present?
             lct = Location.by_location_code(key: c.location_current).first
             lct.location_codes_and_placenames.map{|l| l.join(", ")}.join("\n")

@@ -1943,7 +1943,7 @@ en:
         name_of_child_last_first: "Full name of child"
         name_of_caregiver: "Full name of caregiver"
         unhcr_needs_codes: "Vulnerabilities / specific need codes"
-        location_in_bangladesh: "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)"
+        locations_by_level: "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)"
     mrm_violation_xls:
       all:  MRM Violations
       one:  MRM Violations
