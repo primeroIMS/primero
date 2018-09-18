@@ -71,11 +71,17 @@ module Exporters
           parsed = CSV.parse(data)
           expect(parsed[0]).to eq(["ID",
                                    "Individual Progress ID",
+                                   "Progres ID",
                                    "CPIMS Code",
+                                   "Short ID",
                                    "Date of Identification",
                                    "Primary Protection Concerns",
                                    "Secondary Protection Concerns",
+                                   "Vulnerability Codes",
+                                   "Vulnerability Details Codes",
                                    "Governorate - Country",
+                                   "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)",
+                                   "Sex",
                                    "Sex",
                                    "Date of Birth",
                                    "Age",
@@ -83,7 +89,11 @@ module Exporters
                                    "Country of Origin",
                                    "Current Care Arrangement",
                                    "Reunification Status",
-                                   "Case Status"])
+                                   "Case Status",
+                                   "Family Count Number",
+                                   "MOHA ID",
+                                   "Full name of child",
+                                   "Full name of caregiver"])
         end
       end
 
