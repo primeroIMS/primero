@@ -71,6 +71,7 @@ class Child < CouchRest::Model::Base
   #To hold the list of GBV Incidents created from a GBV Case.
   property :incident_links, [], :default => []
   property :matched_tracing_request_id
+  property :unhcr_export_opt_out, TrueClass, :default => false
 
   validate :validate_date_of_birth
   validate :validate_registration_date

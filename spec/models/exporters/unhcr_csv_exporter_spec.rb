@@ -308,6 +308,72 @@ module Exporters
           end
         end
       end
+
+      describe 'export configuration opt out' do
+        before do
+          ExportConfiguration.create(id: "export-test-less", name: "Test Less Properties", export_id: "unhcr_csv",
+                                     property_keys: [
+                                       "short_id",
+                                       "individual_progress_id",
+                                       "cpims_code",
+                                       "date_of_identification",
+                                       "current_care_arrangement",
+                                       "reunification_status",
+                                       "case_status"
+                                     ],
+                                     opt_out_field: 'unhcr_export_opt_out',
+                                     property_keys_opt_out: ["short_id"]
+          )
+
+          SystemSettings.any_instance.stub(:unhcr_export_config_id).and_return('export-test-less')
+          @test_child.short_id = 'aaa111'
+          @test_child.individual_progress_id = 'bbb222'
+          @test_child.cpims_code = 'ccc333'
+          @test_child.date_of_identification = '20180918'
+          @test_child.current_care_arrangement = "test care arrangement"
+          @test_child.reunification_status = "test reunification status"
+          @test_child.case_status = 'open'
+        end
+
+        context 'and the child has opted out' do
+          before do
+            @test_child.unhcr_export_opt_out = true
+          end
+
+          it 'exports data for only the opt_out properties' do
+            #TODO
+            data = UnhcrCSVExporter.export([@test_child])
+            parsed = CSV.parse(data)
+            # expect(parsed[1][parsed[0].index("Secondary Protection Concerns")]).to eq('abc, def')
+          end
+        end
+
+        context 'and the child has not opted out' do
+          before do
+            @test_child.unhcr_export_opt_out = false
+          end
+
+          it 'exports data for all of the configured properties' do
+            #TODO
+            data = UnhcrCSVExporter.export([@test_child])
+            parsed = CSV.parse(data)
+            # expect(parsed[1][parsed[0].index("Secondary Protection Concerns")]).to eq('abc, def')
+          end
+        end
+
+        context 'and the opt_out field is not set' do
+          before do
+            @test_child.unhcr_export_opt_out = nil
+          end
+
+          it 'exports data for all of the configured properties' do
+            #TODO
+            data = UnhcrCSVExporter.export([@test_child])
+            parsed = CSV.parse(data)
+            # expect(parsed[1][parsed[0].index("Secondary Protection Concerns")]).to eq('abc, def')
+          end
+        end
+      end
     end
   end
 end
