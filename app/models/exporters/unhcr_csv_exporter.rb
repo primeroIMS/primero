@@ -30,7 +30,7 @@ module Exporters
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
         @props = self.properties_to_export(props)
         @props_opt_out = self.opt_out_properties_to_export(@props)
-        rows << [I18n.t("exports.unhcr_csv.headers.id")] + @props.keys.map{|prop| I18n.t("exports.unhcr_csv.headers.#{prop}")} if @called_first_time.nil?
+        rows << [" "] + @props.keys.map{|prop| I18n.t("exports.unhcr_csv.headers.#{prop}")} if @called_first_time.nil?
         @called_first_time ||= true
 
         self.class.load_fields(cases.first) if cases.present?
@@ -54,6 +54,7 @@ module Exporters
     #TODO fix governorate_country... that code is pre-i18n when locations used location names instead of location_code
     def props
       {
+        'long_id' => ['case_id'],
         'individual_progress_id' => ['unhcr_individual_no'],
         'progres_id' => ['unhcr_individual_no'],
         'cpims_code' => ['cpims_id'],

@@ -1811,6 +1811,10 @@ en:
         default_locale: "System locale must not be blank"
         locales: "English must be available as a System Locale"
 
+      export_configuration:
+        record_type: "Invalid record type. Must be Child, TracingRequest, or Incident."
+        opt_out_field_does_not_exist: "Specified opt_out field does not exist on the record."
+
 
 
   select_all_results: "Select all results"
@@ -1925,6 +1929,7 @@ en:
       unknown_abbreviation: "U"
       headers:
         id: "ID"
+        long_id: "ID"
         short_id: "Short ID"
         individual_progress_id: "Individual Progress ID"
         progres_id: "Progres ID"

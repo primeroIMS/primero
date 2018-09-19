@@ -16,7 +16,6 @@ module Exporters
     end
 
     def opt_out_properties_to_export(props={})
-      return props if opt_out_property_keys.blank?
       opt_out_properties_to_export = {}
       props.each do |k, v|
         prop = {}
