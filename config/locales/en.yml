@@ -1929,7 +1929,7 @@ en:
       unknown_abbreviation: "U"
       headers:
         id: "ID"
-        long_id: "ID"
+        long_id: "Long ID"
         short_id: "Short ID"
         individual_progress_id: "Individual Progress ID"
         progres_id: "Progres ID"
