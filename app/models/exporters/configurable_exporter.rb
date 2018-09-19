@@ -16,11 +16,12 @@ module Exporters
     end
 
     def opt_out_properties_to_export(props={})
-      return {} if opt_out_property_keys.blank?
+      return props if opt_out_property_keys.blank?
       opt_out_properties_to_export = {}
-      opt_out_property_keys.each do |config_key|
-        prop = props.select{|k,_| k == config_key}
-        opt_out_properties_to_export.merge!(prop) if prop.present?
+      props.each do |k, v|
+        prop = {}
+        prop[k] = (opt_out_property_keys.include?(k) ? v : '')
+        opt_out_properties_to_export.merge!(prop)
       end
       opt_out_properties_to_export
     end
@@ -31,6 +32,11 @@ module Exporters
 
     def opt_out_property_keys
       @opt_out_property_keys ||= @export_configuration.present? ? @export_configuration.property_keys_opt_out : []
+    end
+
+    def opting_out?(record)
+      return false if @export_configuration.blank? || @export_configuration.opt_out_field.blank?
+      record.try(:send, @export_configuration.opt_out_field) == true
     end
 
   end

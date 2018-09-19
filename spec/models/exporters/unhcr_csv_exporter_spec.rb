@@ -2,16 +2,32 @@ require 'rails_helper'
 
 module Exporters
   describe UnhcrCSVExporter do
-    before :each do
-      FormSection.all.all.each { |form| form.destroy }
+    before do
+      FormSection.all.each &:destroy
       fields = [
           Field.new({"name" => "registration_date",
                      "type" => "date_field",
                      "display_name_all" => "Registration Date"
-                    })
+                    }),
+          Field.new({"name" => "name_caregiver",
+                     "type" => "text_field",
+                     "display_name_all" => "Name of Caregiver"
+                    }),
+          Field.new({"name" => "unhcr_individual_no",
+                     "type" => "text_field",
+                     "display_name_all" => "proGres Individual ID"
+                    }),
+          Field.new({"name" => "cpims_id",
+                     "type" => "text_field",
+                     "display_name_all" => "CPIMS ID"
+                    }),
+          Field.new({"name" => "age",
+                     "type" => "numeric_field",
+                     "display_name_all" => "Age"
+                    }),
         ]
       form = FormSection.new(
-        :unique_id => "form_section_test_for_risk_level_follow_up",
+        :unique_id => "form_section_test_for_unhcr_export",
         :parent_form=>"case",
         "visible" => true,
         :order_form_group => 50,
@@ -313,13 +329,11 @@ module Exporters
         before do
           ExportConfiguration.create(id: "export-test-less", name: "Test Less Properties", export_id: "unhcr_csv",
                                      property_keys: [
-                                       "short_id",
                                        "individual_progress_id",
+                                       "short_id",
                                        "cpims_code",
-                                       "date_of_identification",
-                                       "current_care_arrangement",
-                                       "reunification_status",
-                                       "case_status"
+                                       "age",
+                                       "name_of_caregiver"
                                      ],
                                      opt_out_field: 'unhcr_export_opt_out',
                                      property_keys_opt_out: ["short_id"]
@@ -327,12 +341,10 @@ module Exporters
 
           SystemSettings.any_instance.stub(:unhcr_export_config_id).and_return('export-test-less')
           @test_child.short_id = 'aaa111'
-          @test_child.individual_progress_id = 'bbb222'
-          @test_child.cpims_code = 'ccc333'
-          @test_child.date_of_identification = '20180918'
-          @test_child.current_care_arrangement = "test care arrangement"
-          @test_child.reunification_status = "test reunification status"
-          @test_child.case_status = 'open'
+          @test_child.unhcr_individual_no = 'bbb222'
+          @test_child.cpims_id = 'ccc333'
+          @test_child.age = 13
+          @test_child.name_caregiver = "Test Name Caregiver"
         end
 
         context 'and the child has opted out' do
@@ -341,10 +353,10 @@ module Exporters
           end
 
           it 'exports data for only the opt_out properties' do
-            #TODO
             data = UnhcrCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
-            # expect(parsed[1][parsed[0].index("Secondary Protection Concerns")]).to eq('abc, def')
+            expect(parsed[0]).to eq(["ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
+            expect(parsed[1]).to eq(["1", nil, "aaa111", nil, nil, nil])
           end
         end
 
@@ -354,10 +366,10 @@ module Exporters
           end
 
           it 'exports data for all of the configured properties' do
-            #TODO
             data = UnhcrCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
-            # expect(parsed[1][parsed[0].index("Secondary Protection Concerns")]).to eq('abc, def')
+            expect(parsed[0]).to eq(["ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
+            expect(parsed[1]).to eq(["1", "bbb222", "aaa111", "ccc333", "13", "Test Name Caregiver"])
           end
         end
 
@@ -367,10 +379,10 @@ module Exporters
           end
 
           it 'exports data for all of the configured properties' do
-            #TODO
             data = UnhcrCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
-            # expect(parsed[1][parsed[0].index("Secondary Protection Concerns")]).to eq('abc, def')
+            expect(parsed[0]).to eq(["ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
+            expect(parsed[1]).to eq(["1", "bbb222", "aaa111", "ccc333", "13", "Test Name Caregiver"])
           end
         end
       end

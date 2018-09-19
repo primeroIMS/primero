@@ -36,7 +36,7 @@ consent_fields = [
              "help_text" => "This includes sharing information with other oranizations providing services, this does not "\
                             "include sharing information with UNHCR."
             }),
-  Field.new({"name" => "unhcr_export_consent",
+  Field.new({"name" => "unhcr_export_opt_out",
              "type" => "radio_button",
              "display_name_all" => "Has the child stated that he/she does not want to share personal details with UNHCR?",
              "option_strings_source" => "lookup lookup-yes-no",

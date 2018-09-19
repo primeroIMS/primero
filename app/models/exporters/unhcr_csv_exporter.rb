@@ -35,9 +35,9 @@ module Exporters
 
         self.class.load_fields(cases.first) if cases.present?
 
-        #TODO check / handle opt_out
         cases.each_with_index do |c, index|
-          values = @props.map do |_, generator|
+          props_to_export = opting_out?(c) ? @props_opt_out : @props
+          values = props_to_export.map do |_, generator|
             case generator
             when Array
               self.class.translate_value(generator.first, c.value_for_attr_keys(generator))
