@@ -10,7 +10,8 @@ module NoteActions
     end
 
     @record.notes_section = [] if @record.notes_section.nil?
-    note = Note.new(field_notes_subform_fields: notes, note_subject: note_subject, notes_date: DateTime.now)
+    note = Note.new(field_notes_subform_fields: notes, note_subject: note_subject, notes_date: DateTime.now,
+                    note_created_by: current_user.user_name)
     @record.notes_section << note
     @record.update_last_updated_by(current_user)
     if @record.save

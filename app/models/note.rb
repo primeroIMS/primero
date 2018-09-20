@@ -6,4 +6,5 @@ class Note
   property :field_notes_subform_fields, String
   property :note_subject, String
   property :notes_date, Date
+  property :note_created_by
 end
