@@ -10,7 +10,12 @@ field_notes_subform_fields = [
   Field.new({"name" => "field_notes_subform_fields",
              "type" => "textarea",
              "display_name_all" => "Notes"
-            })
+            }),
+  Field.new({"name" => "note_created_by",
+             "type" => "text_field",
+             "disabled" => true,
+             "display_name_all" => "Manager"
+            }),
 ]
 
 field_notes_subform_section = FormSection.create_or_update_form_section({
@@ -27,7 +32,7 @@ field_notes_subform_section = FormSection.create_or_update_form_section({
   :initial_subforms => 0,
   "name_all" => "Nested Notes Subform",
   "description_all" => "Nested Notes Subform",
-  "collapsed_fields" => ["note_subject"]
+  "collapsed_fields" => ["note_subject", "note_created_by"]
 })
 
 notes_fields = [
