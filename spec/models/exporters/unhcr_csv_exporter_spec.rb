@@ -4,6 +4,46 @@ module Exporters
   describe UnhcrCSVExporter do
     before do
       FormSection.all.each &:destroy
+      Lookup.all.each &:destroy
+      @lookup = Lookup.create!(id: 'lookup-unhcr-needs-codes', name: 'UNHCR Needs Codes',
+                               lookup_values: [
+                                 {id: "cr-cp", display_text: "CR-CP"}.with_indifferent_access,
+                                 {id: "cr-cs", display_text: "CR-CS"}.with_indifferent_access,
+                                 {id: "cr-cc", display_text: "CR-CC"}.with_indifferent_access,
+                                 {id: "cr-tp", display_text: "CR-TP"}.with_indifferent_access,
+                                 {id: "cr-lw", display_text: "CR-LW"}.with_indifferent_access,
+                                 {id: "cr-lo", display_text: "CR-LO"}.with_indifferent_access,
+                                 {id: "cr-ne", display_text: "CR-NE"}.with_indifferent_access,
+                                 {id: "cr-se", display_text: "CR-SE"}.with_indifferent_access,
+                                 {id: "cr-af", display_text: "CR-AF"}.with_indifferent_access,
+                                 {id: "cr-cl", display_text: "CR-CL"}.with_indifferent_access,
+                                 {id: "sc-ch", display_text: "SC-CH"}.with_indifferent_access,
+                                 {id: "sc-ic", display_text: "SC-IC"}.with_indifferent_access,
+                                 {id: "sc-fc", display_text: "SC-FC"}.with_indifferent_access,
+                                 {id: "ds-bd", display_text: "DS-BD"}.with_indifferent_access,
+                                 {id: "ds-df", display_text: "DS-DF"}.with_indifferent_access,
+                                 {id: "ds-pm", display_text: "DS-PM"}.with_indifferent_access,
+                                 {id: "ds-ps", display_text: "DS-PS"}.with_indifferent_access,
+                                 {id: "ds-mm", display_text: "DS-MM"}.with_indifferent_access,
+                                 {id: "ds-ms", display_text: "DS-MS"}.with_indifferent_access,
+                                 {id: "ds-sd", display_text: "DS-SD"}.with_indifferent_access,
+                                 {id: "sm-mi", display_text: "SM-MI"}.with_indifferent_access,
+                                 {id: "sm-mn", display_text: "SM-MN"}.with_indifferent_access,
+                                 {id: "sm-ci", display_text: "SM-CI"}.with_indifferent_access,
+                                 {id: "sm-cc", display_text: "SM-CC"}.with_indifferent_access,
+                                 {id: "sm-ot", display_text: "SM-OT"}.with_indifferent_access,
+                                 {id: "fu-tr", display_text: "FU-TR"}.with_indifferent_access,
+                                 {id: "fu-fr", display_text: "FU-FR"}.with_indifferent_access,
+                                 {id: "lp-nd", display_text: "LP-ND"}.with_indifferent_access,
+                                 {id: "tr-pi", display_text: "TR-PI"}.with_indifferent_access,
+                                 {id: "tr-ho", display_text: "TR-HO"}.with_indifferent_access,
+                                 {id: "tr-wv", display_text: "TR-WV"}.with_indifferent_access,
+                                 {id: "sv-va", display_text: "SV-VA"}.with_indifferent_access,
+                                 {id: "lp-an", display_text: "LP-AN"}.with_indifferent_access,
+                                 {id: "lp-md", display_text: "LP-MD"}.with_indifferent_access,
+                                 {id: "lp-ms", display_text: "LP-MS"}.with_indifferent_access,
+                                 {id: "lp-rr", display_text: "LP-RR"}.with_indifferent_access
+                               ])
       fields = [
           Field.new({"name" => "registration_date",
                      "type" => "date_field",
@@ -25,6 +65,12 @@ module Exporters
                      "type" => "numeric_field",
                      "display_name_all" => "Age"
                     }),
+          Field.new({"name" => "unhcr_needs_codes",
+                     "type" => "select_box",
+                     "multi_select" => true,
+                     "display_name_all" => "UNHCR Needs Codes",
+                     "option_strings_source" => "lookup lookup-unhcr-needs-codes"
+                    })
         ]
       form = FormSection.new(
         :unique_id => "form_section_test_for_unhcr_export",
@@ -60,18 +106,36 @@ module Exporters
       @test_child = Child.new()
     end
 
-    after :each do
+    after do
       property_index = @child_cls.properties.find_index{|p| p.name == "family_details_section"}
       @child_cls.properties.delete_at(property_index)
     end
 
-    it "converts unhcr_needs_codes to comma separated string" do
-      @test_child.unhcr_needs_codes = ['abc', 'def']
+    describe "unhcr_needs_codes" do
+      before do
+        @test_child.unhcr_needs_codes = ['cr-cp', 'ds-sd']
+        data = UnhcrCSVExporter.export([@test_child])
+        @parsed = CSV.parse(data)
+      end
 
-      data = UnhcrCSVExporter.export([@test_child])
+      context "for Secondary Protection Concerns" do
+        it "is converted to comma separated string" do
+          expect(@parsed[1][@parsed[0].index("Secondary Protection Concerns")]).to eq("CR-CP, DS-SD")
+        end
+      end
 
-      parsed = CSV.parse(data)
-      expect(parsed[1][parsed[0].index("Secondary Protection Concerns")]).to eq('abc, def')
+      context "for Vulnerability Codes" do
+        it "is displays the first half of the code separated by a ;" do
+          expect(@parsed[1][@parsed[0].index("Vulnerability Codes")]).to eq("CR; DS")
+        end
+      end
+
+      context "for Vulnerability Details Codes" do
+        it "is displays the first half of the code separated by a ;" do
+          expect(@parsed[1][@parsed[0].index("Vulnerability Details Codes")]).to eq("CR-CP; DS-SD")
+        end
+      end
+
     end
 
     describe 'export configuration' do
@@ -86,7 +150,7 @@ module Exporters
           data = UnhcrCSVExporter.export([@test_child])
           parsed = CSV.parse(data)
           expect(parsed[0]).to eq([" ",
-                                   "ID",
+                                   "Long ID",
                                    "Individual Progress ID",
                                    "Progres ID",
                                    "CPIMS Code",
@@ -360,7 +424,7 @@ module Exporters
             it 'exports data for only the opt_out properties' do
               data = UnhcrCSVExporter.export([@test_child])
               parsed = CSV.parse(data)
-              expect(parsed[0]).to eq([" ", "ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
+              expect(parsed[0]).to eq([" ", "Long ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
               expect(parsed[1]).to eq(["1", nil, nil, "aaa111", nil, nil, nil])
             end
           end
@@ -373,7 +437,7 @@ module Exporters
             it 'exports no data' do
               data = UnhcrCSVExporter.export([@test_child])
               parsed = CSV.parse(data)
-              expect(parsed[0]).to eq([" ", "ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
+              expect(parsed[0]).to eq([" ", "Long ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
               expect(parsed[1]).to eq(["1", nil, nil, nil, nil, nil, nil])
             end
           end
@@ -387,7 +451,7 @@ module Exporters
           it 'exports data for all of the configured properties' do
             data = UnhcrCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
-            expect(parsed[0]).to eq([" ", "ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
+            expect(parsed[0]).to eq([" ", "Long ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
             expect(parsed[1]).to eq(["1", "1111-2222-3333-4444-aaa111", "bbb222", "aaa111", "ccc333", "13", "Test Name Caregiver"])
           end
         end
@@ -400,7 +464,7 @@ module Exporters
           it 'exports data for all of the configured properties' do
             data = UnhcrCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
-            expect(parsed[0]).to eq([" ", "ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
+            expect(parsed[0]).to eq([" ", "Long ID", "Individual Progress ID", "Short ID", "CPIMS Code", "Age", "Full name of caregiver"])
             expect(parsed[1]).to eq(["1", "1111-2222-3333-4444-aaa111", "bbb222", "aaa111", "ccc333", "13", "Test Name Caregiver"])
           end
         end
