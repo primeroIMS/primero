@@ -1954,6 +1954,18 @@ en:
         vulnerability_code: "Vulnerability Codes"
         vulnerability_details_code: "Vulnerability Details Codes"
         locations_by_level: "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)"
+    duplicate_moha_id_csv:
+      female_abbreviation: "F"
+      male_abbreviation: "M"
+      unknown_abbreviation: "U"
+      headers:
+        moha_id: "MOHA ID"
+        case_id: "Case ID"
+        progress_id: "Progress ID"
+        child_name_last_first: "Child Name"
+        age: "Age"
+        sex_mapping_m_f_u: "Sex"
+        family_size: "Family Size"
     mrm_violation_xls:
       all:  MRM Violations
       one:  MRM Violations

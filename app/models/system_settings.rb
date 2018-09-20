@@ -11,7 +11,7 @@ class SystemSettings < CouchRest::Model::Base
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
   property :unhcr_needs_codes_mapping, Mapping
-  property :unhcr_export_config_id
+  property :export_config_id
   property :reporting_location_config, ReportingLocation
   property :primero_version
   property :age_ranges, { String => [AgeRange] }

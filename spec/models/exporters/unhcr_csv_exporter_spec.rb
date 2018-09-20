@@ -135,7 +135,7 @@ module Exporters
             ]
           )
 
-          SystemSettings.any_instance.stub(:unhcr_export_config_id).and_return('export-test-same')
+          SystemSettings.any_instance.stub(:export_config_id).and_return({"unhcr" => 'export-test-same'})
         end
 
         it 'exports all defined properties' do
@@ -181,7 +181,7 @@ module Exporters
                ]
             )
 
-            SystemSettings.any_instance.stub(:unhcr_export_config_id).and_return('export-test-different-order')
+            SystemSettings.any_instance.stub(:export_config_id).and_return({"unhcr" => 'export-test-different-order'})
           end
 
           it 'exports properties in the same order as the config' do
@@ -218,7 +218,7 @@ module Exporters
               ]
             )
 
-            SystemSettings.any_instance.stub(:unhcr_export_config_id).and_return('export-test-less')
+            SystemSettings.any_instance.stub(:export_config_id).and_return({"unhcr" => 'export-test-less'})
           end
 
           it 'exports only properties defined in the config' do
@@ -260,7 +260,7 @@ module Exporters
               ]
             )
 
-            SystemSettings.any_instance.stub(:unhcr_export_config_id).and_return('export-test-more')
+            SystemSettings.any_instance.stub(:export_config_id).and_return({"unhcr" => 'export-test-more'})
           end
 
           it 'exports only the properties defined in the exporter' do
@@ -305,7 +305,7 @@ module Exporters
                ]
             )
 
-            SystemSettings.any_instance.stub(:unhcr_export_config_id).and_return('export-test-mixture')
+            SystemSettings.any_instance.stub(:export_config_id).and_return({"unhcr" => 'export-test-mixture'})
           end
 
           it 'exports only properties defined in the config and in the exporter' do
@@ -342,7 +342,7 @@ module Exporters
              property_keys_opt_out: ["short_id"]
           )
 
-          SystemSettings.any_instance.stub(:unhcr_export_config_id).and_return('export-test-less')
+          SystemSettings.any_instance.stub(:export_config_id).and_return({"unhcr" => 'export-test-less'})
           @test_child.case_id = '1111-2222-3333-4444-aaa111'
           @test_child.short_id = 'aaa111'
           @test_child.unhcr_individual_no = 'bbb222'
