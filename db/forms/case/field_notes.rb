@@ -14,7 +14,7 @@ field_notes_subform_fields = [
   Field.new({"name" => "note_created_by",
              "type" => "text_field",
              "disabled" => true,
-             "display_name_all" => "Manager's User Name"
+             "display_name_all" => "Manager"
             }),
 ]
 
