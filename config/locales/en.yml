@@ -1008,6 +1008,7 @@ en:
       export_case_pdf: "Export case pdf"
       export_json: "Export json"
       export_custom: "Export custom"
+      export_duplicate_id_csv: "Export duplicates"
       import: "Import"
       transfer: "Transfer"
       reassign: "Reassign"
@@ -1057,6 +1058,7 @@ en:
       request_transfer: "Request Transfer"
       view_photo: "View Photo"
       matching_configuration: "Matching Configuration"
+      add_note: "Add Notes"
 
   forms:
     label: "Forms"
