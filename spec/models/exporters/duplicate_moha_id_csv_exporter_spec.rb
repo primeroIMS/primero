@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module Exporters
-  describe DuplicateMohaIdCSVExporter do
+  describe DuplicateIdCSVExporter do
     before do
       FormSection.all.each &:destroy
       Lookup.all.each &:destroy
@@ -104,7 +104,7 @@ module Exporters
 
       context 'when no export configuration' do
         it 'exports all defined properties' do
-          data = DuplicateMohaIdCSVExporter.export([@test_child])
+          data = DuplicateIdCSVExporter.export([@test_child])
           parsed = CSV.parse(data)
           expect(parsed[0]).to eq([" ",
                                    "MOHA ID",
@@ -119,7 +119,7 @@ module Exporters
 
       context 'when export configuration is the same as properties defined in the exporter' do
         before do
-          ExportConfiguration.create(id: "export-test-same", name: "Test Same Properties", export_id: "duplicate_moha_id",
+          ExportConfiguration.create(id: "export-test-same", name: "Test Same Properties", export_id: "duplicate_id",
             property_keys: [
               "moha_id",
               "case_id",
@@ -131,11 +131,11 @@ module Exporters
             ]
           )
 
-          SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_moha_id" => 'export-test-same'})
+          SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_id" => 'export-test-same'})
         end
 
         it 'exports all defined properties' do
-          data = DuplicateMohaIdCSVExporter.export([@test_child])
+          data = DuplicateIdCSVExporter.export([@test_child])
           parsed = CSV.parse(data)
           expect(parsed[0]).to eq([" ",
                                    "MOHA ID",
@@ -151,7 +151,7 @@ module Exporters
       context 'when export configuration is different than properties defined in the exporter' do
         context 'and the configuration is in a different order' do
           before do
-            ExportConfiguration.create(id: "export-test-different-order", name: "Test Properties Order", export_id: "duplicate_moha_id",
+            ExportConfiguration.create(id: "export-test-different-order", name: "Test Properties Order", export_id: "duplicate_id",
              property_keys: [
                "case_id",
                "progress_id",
@@ -164,11 +164,11 @@ module Exporters
              ]
             )
 
-            SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_moha_id" => 'export-test-different-order'})
+            SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_id" => 'export-test-different-order'})
           end
 
           it 'exports properties in the same order as the config' do
-            data = DuplicateMohaIdCSVExporter.export([@test_child])
+            data = DuplicateIdCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
                                      "Case ID",
@@ -183,7 +183,7 @@ module Exporters
 
         context 'and the configuration has less property keys than defined in the exporter' do
           before do
-            ExportConfiguration.create(id: "export-test-less", name: "Test Less Properties", export_id: "duplicate_moha_id",
+            ExportConfiguration.create(id: "export-test-less", name: "Test Less Properties", export_id: "duplicate_id",
              property_keys: [
                "moha_id",
                "age",
@@ -192,11 +192,11 @@ module Exporters
              ]
             )
 
-            SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_moha_id" => 'export-test-less'})
+            SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_id" => 'export-test-less'})
           end
 
           it 'exports only properties defined in the config' do
-            data = DuplicateMohaIdCSVExporter.export([@test_child])
+            data = DuplicateIdCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
                                      "MOHA ID",
@@ -208,7 +208,7 @@ module Exporters
 
         context 'and the configuration has more property keys than defined in the exporter' do
           before do
-            ExportConfiguration.create(id: "export-test-more", name: "Test More Properties", export_id: "duplicate_moha_id",
+            ExportConfiguration.create(id: "export-test-more", name: "Test More Properties", export_id: "duplicate_id",
              property_keys: [
                "moha_id",
                "extra_1",
@@ -223,11 +223,11 @@ module Exporters
              ]
             )
 
-            SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_moha_id" => 'export-test-more'})
+            SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_id" => 'export-test-more'})
           end
 
           it 'exports only the properties defined in the exporter' do
-            data = DuplicateMohaIdCSVExporter.export([@test_child])
+            data = DuplicateIdCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
                                      "MOHA ID",
@@ -242,7 +242,7 @@ module Exporters
 
         context 'and the configuration is missing some properties and has some extra property keys than defined in the exporter' do
           before do
-            ExportConfiguration.create(id: "export-test-mixture", name: "Test Some More Some Less Properties", export_id: "duplicate_moha_id",
+            ExportConfiguration.create(id: "export-test-mixture", name: "Test Some More Some Less Properties", export_id: "duplicate_id",
              property_keys: [
                "moha_id",
                "extra_1",
@@ -255,11 +255,11 @@ module Exporters
              ]
             )
 
-            SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_moha_id" => 'export-test-mixture'})
+            SystemSettings.any_instance.stub(:export_config_id).and_return({"duplicate_id" => 'export-test-mixture'})
           end
 
           it 'exports only properties defined in the config and in the exporter' do
-            data = DuplicateMohaIdCSVExporter.export([@test_child])
+            data = DuplicateIdCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
                                      "MOHA ID",

@@ -5,9 +5,6 @@
     <%= link_to t("buttons.export"), '' %>
     <ul class="menu is-dropdown-submenu">
       <% exporters.each do |exporter| %>
-        <%
-          #TODO - button for Duplicate MOHA ID export... but only for BGD config
-        %>
         <%# Find out if the exporter should be visible on the current page %>
         <% module_ids = defined?(instance) ? [instance.module_id] : (@current_modules.present? ? @current_modules.map{|m| m.id} : []) %>
         <% if exporter_visible_page?(exporter.id, module_ids) && can?("export_#{exporter.id}".to_sym, controller.model_class) %>

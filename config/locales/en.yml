@@ -1954,7 +1954,8 @@ en:
         vulnerability_code: "Vulnerability Codes"
         vulnerability_details_code: "Vulnerability Details Codes"
         locations_by_level: "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)"
-    duplicate_moha_id_csv:
+    duplicate_id_csv:
+      all: Duplicate ID
       female_abbreviation: "F"
       male_abbreviation: "M"
       unknown_abbreviation: "U"

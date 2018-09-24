@@ -8,11 +8,9 @@ module Exporters
     PhotoWallExporter,
     PDFExporter,
     UnhcrCSVExporter,
-    #TODO - does this go here?
-    # This exporter needs to show only in Bangladesh, not in other configs
-    # DuplicateMohaIdCSVExporter,
+    DuplicateIdCSVExporter,
     MRMViolationExporter,
-    SelectedFieldsExcelExporter
+    SelectedFieldsExcelExporter,
   ]
 
   def self.active_exporters_for_model(model)

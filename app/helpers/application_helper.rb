@@ -196,6 +196,8 @@ module ApplicationHelper
   def exporter_params_page(exporter_id, params)
     if exporter_id == "list_view_csv"
       params.merge({"export_list_view" => "true"})
+    elsif exporter_id == "duplicate_id_csv"
+      params.merge({"export_duplicates" => "true"})
     else
       params
     end

@@ -2,10 +2,10 @@ require 'csv'
 require_relative 'base.rb'
 
 module Exporters
-  class DuplicateMohaIdCSVExporter < ConfigurableExporter
+  class DuplicateIdCSVExporter < ConfigurableExporter
     class << self
       def id
-        'duplicate_moha_id_csv'
+        'duplicate_id_csv'
       end
 
       def mime_type
@@ -29,7 +29,7 @@ module Exporters
       duplicate_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
         @props = self.properties_to_export(props)
-        rows << [" "] + @props.keys.map{|prop| I18n.t("exports.duplicate_moha_id_csv.headers.#{prop}")} if @called_first_time.nil?
+        rows << [" "] + @props.keys.map{|prop| I18n.t("exports.duplicate_id_csv.headers.#{prop}")} if @called_first_time.nil?
         @called_first_time ||= true
 
         self.class.load_fields(cases.first) if cases.present?
@@ -61,7 +61,7 @@ module Exporters
         end,
         'age' => ['age'],
         'sex_mapping_m_f_u' => ->(c) do
-          ['male', 'female'].include?(c.sex) ? I18n.t("exports.duplicate_moha_id_csv.#{c.sex}_abbreviation") : I18n.t("exports.unhcr_csv.unknown_abbreviation")
+          ['male', 'female'].include?(c.sex) ? I18n.t("exports.duplicate_id_csv.#{c.sex}_abbreviation") : I18n.t("exports.unhcr_csv.unknown_abbreviation")
         end,
         'family_size' => ['family_count_no'],
       }
@@ -70,9 +70,12 @@ module Exporters
     def export_config_id
       #TODO pass SystemSettings in from the controller
       @system_settings ||= SystemSettings.current
-      @system_settings.try(:export_config_id).try(:[], "duplicate_moha_id")
+      @system_settings.try(:export_config_id).try(:[], "duplicate_id")
     end
 
+    def duplicate_export_field
+      @export_configuration.try(:duplicate_export_field)
+    end
   end
 end
 
