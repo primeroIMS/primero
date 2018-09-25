@@ -3,7 +3,7 @@ module UNHCRMapping
 
   included do
     property :unhcr_needs_codes
-    property :unhcr_export_opt_out, TrueClass, :default => false
+    property :unhcr_export_opt_out, TrueClass
 
     before_save :map_protection_concerns_to_unhcr_codes
   end
