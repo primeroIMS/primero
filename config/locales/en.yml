@@ -1008,6 +1008,7 @@ en:
       export_case_pdf: "Export case pdf"
       export_json: "Export json"
       export_custom: "Export custom"
+      export_duplicate_id_csv: "Export duplicates"
       import: "Import"
       transfer: "Transfer"
       reassign: "Reassign"
@@ -1057,6 +1058,7 @@ en:
       request_transfer: "Request Transfer"
       view_photo: "View Photo"
       matching_configuration: "Matching Configuration"
+      add_note: "Add Notes"
 
   forms:
     label: "Forms"
@@ -1954,6 +1956,19 @@ en:
         vulnerability_code: "Vulnerability Codes"
         vulnerability_details_code: "Vulnerability Details Codes"
         locations_by_level: "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)"
+    duplicate_id_csv:
+      all: Duplicate ID
+      female_abbreviation: "F"
+      male_abbreviation: "M"
+      unknown_abbreviation: "U"
+      headers:
+        moha_id: "MOHA ID"
+        case_id: "Case ID"
+        progress_id: "Progress ID"
+        child_name_last_first: "Child Name"
+        age: "Age"
+        sex_mapping_m_f_u: "Sex"
+        family_size: "Family Size"
     mrm_violation_xls:
       all:  MRM Violations
       one:  MRM Violations

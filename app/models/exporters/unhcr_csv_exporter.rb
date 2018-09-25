@@ -121,7 +121,7 @@ module Exporters
     def export_config_id
       #TODO pass SystemSettings in from the controller
       @system_settings ||= SystemSettings.current
-      @system_settings.try(:unhcr_export_config_id)
+      @system_settings.try(:export_config_id).try(:[], "unhcr")
     end
 
   end
