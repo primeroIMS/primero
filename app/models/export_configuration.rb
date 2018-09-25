@@ -11,7 +11,6 @@ class ExportConfiguration < CouchRest::Model::Base
   property :record_type, :default => 'Child'    # Child, TracingRequest, or Incident
   property :opt_out_field     # Field on the Record that indicates if the individual wants to opt out of sharing info in the export
   property :property_keys_opt_out, :type => [String] # Only these fields will export if individual opts out
-  property :duplicate_export_field, :type => String
 
   validate :valid_record_type
   validate :opt_out_field_exists

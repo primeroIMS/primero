@@ -100,6 +100,12 @@ class BulkExport < CouchRest::Model::Base
     self.save
   end
 
+  def mark_terminated
+    self.status = TERMINATED
+    self.password = nil
+    self.save
+  end
+
   def archive
     self.status = ARCHIVED
     if self.stored_file_name.present? && File.exist?(self.stored_file_name)

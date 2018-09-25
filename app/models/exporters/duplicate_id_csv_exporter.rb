@@ -72,10 +72,6 @@ module Exporters
       @system_settings ||= SystemSettings.current
       @system_settings.try(:export_config_id).try(:[], "duplicate_id")
     end
-
-    def duplicate_export_field
-      @export_configuration.try(:duplicate_export_field)
-    end
   end
 end
 
