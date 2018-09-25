@@ -896,7 +896,7 @@ describe Ability do
 
       ability = Ability.new @user1
 
-      [ContactInformation, Device, Replication, SystemUsers].each do |resource|
+      [ContactInformation, Device, Replication].each do |resource|
         expect(ability).to authorize(:read, resource)
         expect(ability).to authorize(:write, resource)
       end

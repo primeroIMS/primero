@@ -6,11 +6,4 @@ FactoryBot.define do
       admin_level: 0
     }}
   end
-
-  factory :system_users do
-    name 'test_user'
-    password 'test_password'
-    type 'user'
-    roles ["admin"]
-  end
 end
