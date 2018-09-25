@@ -41,7 +41,7 @@ class DuplicateBulkExport < BulkExport
           }
 
           search = self.model_class.list_records(
-            filters, self.order, pagination_ops,
+            filters, {"#{duplicate_export_field}" => :desc}, pagination_ops,
             self.owner.managed_user_names, self.query, self.match_criteria
           )
 
