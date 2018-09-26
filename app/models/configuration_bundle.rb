@@ -72,7 +72,7 @@ class ConfigurationBundle < CouchRest::Model::Base
     [
       Agency, ContactInformation, FormSection, Location, Lookup,
       PrimeroModule, PrimeroProgram, Replication, Report, Role,
-      SystemUsers, UserGroup, SystemSettings
+      SystemUsers, UserGroup, ExportConfiguration, SystemSettings
     ]
   end
 
