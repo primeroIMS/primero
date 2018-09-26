@@ -31,28 +31,32 @@ class DuplicateBulkExport < BulkExport
         .compact
         .in_groups_of(facet_batch_size, false)
 
-      facet_results.each do |results|
-        begin
-          filters = {
-            "#{duplicate_export_field}" => {
-              :type => 'list',
-              :value => results
+      if facet_results.present?
+        facet_results.each do |results|
+          begin
+            filters = {
+              "#{duplicate_export_field}" => {
+                :type => 'list',
+                :value => results
+              }
             }
-          }
 
-          search = self.model_class.list_records(
-            filters, {"#{duplicate_export_field}" => :desc}, pagination_ops,
-            self.owner.managed_user_names, self.query, self.match_criteria
-          )
+            search = self.model_class.list_records(
+              filters, {"#{duplicate_export_field}" => :desc}, pagination_ops,
+              self.owner.try(:managed_user_names), self.query, self.match_criteria
+            )
 
-          results = search.results
+            results = search.results
 
-          yield(results)
+            yield(results)
 
-          #Set again the values of the pagination variable because the method modified the variable.
-          pagination_ops[:page] = results.next_page
-          pagination_ops[:per_page] = batch_size
-        end until results.next_page.nil?
+            #Set again the values of the pagination variable because the method modified the variable.
+            pagination_ops[:page] = results.next_page
+            pagination_ops[:per_page] = batch_size
+          end until results.next_page.nil?
+        end
+      else
+        yield([])
       end
     end
   end
