@@ -3,14 +3,14 @@ tracing_request_photo_audio_fields = [
                "type" => "photo_upload_box", 
                "editable" => false,
                "disabled" => true,
-               "display_name_all" => "Current Photo Key",
+               "display_name_en" => "Current Photo Key",
                "show_on_minify_form" => true
               }),
     Field.new({"name" => "recorded_audio",
                "type" => "audio_upload_box", 
                "editable" => false,
                "disabled" => true,
-               "display_name_all" => "Recorded Audio",
+               "display_name_en" => "Recorded Audio",
                "show_on_minify_form" => true
               })
 ]
@@ -25,7 +25,7 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Photos and Audio",
   :fields => tracing_request_photo_audio_fields,
   "editable" => false,
-  "name_all" => "Photos and Audio",
+  "name_en" => "Photos and Audio",
   "display_help_text_view" => true,
   :mobile_form => true
 })
