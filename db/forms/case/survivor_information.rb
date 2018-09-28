@@ -37,7 +37,6 @@ survivor_information_fields = [
              "mobile_visible" => true,
              "type" => "text_field",
              "display_name_en" => "Name",
-             "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "hidden_text_field" => true
             }),
   Field.new({"name" => "survivor_code_no",

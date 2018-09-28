@@ -48,7 +48,6 @@ basic_identity_fields = [
   Field.new({"name" => "name", #TODO v1.3: Confirm taht we are not using HighlightInformation
              "type" => "text_field",
              "display_name_en" => "Full Name",
-             "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "required" => false,
              "show_on_minify_form" => true,
              "hidden_text_field" => true,
