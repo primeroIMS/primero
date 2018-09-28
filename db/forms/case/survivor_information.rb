@@ -2,7 +2,7 @@ survivor_information_fields = [
   Field.new({"name" => "case_id",
              "mobile_visible" => false,
              "type" => "text_field",
-             "display_name_all" => "Long ID",
+             "display_name_en" => "Long ID",
              "editable" => false,
              "disabled" => true,
              "create_property" => false
@@ -10,7 +10,7 @@ survivor_information_fields = [
   Field.new({"name" => "short_id",
              "mobile_visible" => false,
              "type" => "text_field",
-             "display_name_all" => "Case ID",
+             "display_name_en" => "Case ID",
              "editable" => false,
              "disabled" => true,
              "create_property" => false
@@ -18,8 +18,8 @@ survivor_information_fields = [
   Field.new({"name" => "marked_for_mobile",
              "mobile_visible" => false,
              "type" => "tick_box",
-             "tick_box_label_all" => "Yes",
-             "display_name_all" => "Marked for mobile?",
+             "tick_box_label_en" => "Yes",
+             "display_name_en" => "Marked for mobile?",
              "editable" => false,
              "disabled" => true,
              "create_property" => false
@@ -29,14 +29,14 @@ survivor_information_fields = [
              "mobile_visible" => true,
              "type" =>"select_box" ,
              "selected_value" => Record::STATUS_OPEN,
-             "display_name_all" => "Case Status",
+             "display_name_en" => "Case Status",
              "option_strings_source" => "lookup lookup-case-status"
             }),
   Field.new({"name" => "name",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "text_field",
-             "display_name_all" => "Name",
+             "display_name_en" => "Name",
              "highlight_information" => HighlightInformation.new("highlighted" => true,"order"=>1),
              "hidden_text_field" => true
             }),
@@ -44,143 +44,131 @@ survivor_information_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "text_field",
-             "display_name_all" => "Survivor Code"
+             "display_name_en" => "Survivor Code"
             }),
   Field.new({"name" => "age",
             "mobile_visible" => false,
             "type" => "numeric_field",
-            "display_name_all" => "Age"
+            "display_name_en" => "Age"
             }),
   Field.new({"name" => "date_of_birth",
             "show_on_minify_form" => true,
             "mobile_visible" => true,
             "type" => "date_field",
-            "display_name_all" => "Date of Birth",
+            "display_name_en" => "Date of Birth",
             "date_validation" => "not_future_date"
             }),
   Field.new({"name" => "sex",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "option_strings_text_all" => "Female\nMale",
-             "display_name_all" => "Sex"
+             "option_strings_source" => "lookup lookup-gender",
+             "display_name_en" => "Sex"
             }),
   Field.new({"name" => "gbv_ethnicity",
              "mobile_visible" => false,
              "type" => "select_box",
-             "display_name_all" => "Clan or Ethnicity",
+             "display_name_en" => "Clan or Ethnicity",
              "option_strings_source" => "lookup lookup-ethnicity"
             }),
   Field.new({"name" => "country_of_origin",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Country of Origin",
+             "display_name_en" => "Country of Origin",
              "option_strings_source" => "lookup lookup-country"
             }),
   Field.new({"name" => "gbv_nationality",
              "mobile_visible" => false,
              "type" => "select_box",
-             "display_name_all" => "Nationality (if different than country of origin)",
+             "display_name_en" => "Nationality (if different than country of origin)",
              "option_strings_source" => "lookup lookup-nationality"
             }),
   Field.new({"name" => "gbv_religion",
              "mobile_visible" => false,
              "type" => "select_box",
-             "display_name_all" => "Religion",
+             "display_name_en" => "Religion",
              "option_strings_source" => "lookup lookup-religion"
             }),
   Field.new({"name" => "maritial_status",
              "mobile_visible" => true,
              "type" =>"select_box" ,
-             "display_name_all" => "Current Civil/Marital Status",
-             "option_strings_text_all" =>
-                          ["Single",
-                           "Married / Cohabitating",
-                           "Divorced / Separated",
-                           "Widowed"].join("\n")
+             "display_name_en" => "Current Civil/Marital Status",
+             "option_strings_source" => "lookup lookup-marital-status"
             }),
   Field.new({"name" => "dependents_no",
              "mobile_visible" => false,
              "type" =>"textarea" ,
-             "display_name_all" => "Number and age of children and other dependents"
+             "display_name_en" => "Number and age of children and other dependents"
             }),
   Field.new({"name" => "occupation",
              "mobile_visible" => false,
              "type" => "text_field",
-             "display_name_all" => "Occupation"
+             "display_name_en" => "Occupation"
             }),
   Field.new({"name" => "gbv_displacement_status",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Displacement Status at time of report",
+             "display_name_en" => "Displacement Status at time of report",
              "option_strings_source" => "lookup lookup-displacement-status"
             }),
   Field.new({"name" => "gbv_disability_type",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Is the Survivor a Person with Disabilities?",
-             "option_strings_text_all" =>
-                          ["No",
-                           "Mental Disability",
-                           "Physical Disability",
-                           "Both"].join("\n")
+             "display_name_en" => "Is the Survivor a Person with Disabilities?",
+             "option_strings_source" => "lookup lookup-disability-type-with-no"
             }),
   Field.new({"name" => "unaccompanied_separated_status",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Is the Survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
+             "display_name_en" => "Is the Survivor an Unaccompanied Minor, Separated Child, or Other Vulnerable Child?",
              "option_strings_source" => "lookup lookup-unaccompanied-separated-status"
             }),
   Field.new({"name" => "section_heading_child_survivors_less_than_18_years_old",
              "mobile_visible" => false,
              "type" => "separator",
-             "display_name_all" => "Child Survivors (less than 18 years old)",
+             "display_name_en" => "Child Survivors (less than 18 years old)",
              "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_lives_alone",
              "mobile_visible" => false,
              "type" => "radio_button",
-             "display_name_all" => "If the survivor is a child, does he/she live alone?",
+             "display_name_en" => "If the survivor is a child, does he/she live alone?",
              "option_strings_source" => "lookup lookup-yes-no",
              "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_caretaker",
              "mobile_visible" => false,
              "type" => "select_box",
-             "display_name_all" => "If the survivor lives with someone, what is the relation between her/him and the caretaker?",
-             "option_strings_text_all" =>
-                          ["Parent/Guardian",
-                           "Relative",
-                           "Spouse/Cohabitating",
-                           "Other, please specify"].join("\n"),
+             "display_name_en" => "If the survivor lives with someone, what is the relation between her/him and the caretaker?",
+             "option_strings_text_en" => [
+               { id: 'parent_guardian', display_text: "Parent/Guardian" },
+               { id: 'relative', display_text: "Relative" },
+               { id: 'spouse_cohabitating', display_text: "Spouse/Cohabitating" },
+               { id: 'other', display_text: "Other, please specify" },
+             ].map(&:with_indifferent_access),
              "field_tags" => ['child']
             }),
   Field.new({"name" => "survivor_caretaker_other",
              "mobile_visible" => false,
              "type" => "text_field",
-             "display_name_all" => "If other relation between her/him and the caretaker, please specify.",
+             "display_name_en" => "If other relation between her/him and the caretaker, please specify.",
              "field_tags" => ['child']
             }),
   Field.new({"name" => "caretaker_marital_status",
              "mobile_visible" => false,
              "type" => "select_box",
-             "display_name_all" => "What is the caretaker's current marital status?",
-             "option_strings_text_all" =>
-                          ["Single",
-                           "Married/Cohabitating",
-                           "Divorced/Separated",
-                           "Widowed",
-                           "Unknown/Not Applicable"].join("\n"),
+             "display_name_en" => "What is the caretaker's current marital status?",
+             "option_strings_source" => "lookup lookup-marital-status-unknown",
              "field_tags" => ['child']
             }),
   Field.new({"name" => "caretaker_occupation",
              "mobile_visible" => false,
              "type" => "text_field",
-             "display_name_all" => "What is the caretaker's primary occupation?",
+             "display_name_en" => "What is the caretaker's primary occupation?",
              "field_tags" => ['child']
             })
 ]
@@ -197,6 +185,6 @@ FormSection.create_or_update_form_section({
   fields: survivor_information_fields,
   is_first_tab: true,
   mobile_form: true,
-  name_all: "Survivor Information",
-  description_all: "Survivor Information"
+  name_en: "Survivor Information",
+  description_en: "Survivor Information"
 })

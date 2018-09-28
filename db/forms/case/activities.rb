@@ -1,87 +1,89 @@
 activities_fields = [
   Field.new({"name" => "activities_child_in_school_or_training",
              "type" => "radio_button",
-             "display_name_all" => "Is the Child in school or training?",
+             "display_name_en" => "Is the Child in school or training?",
              "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "activities_school_name",
              "type" => "text_field",
-             "display_name_all" => "Name of School"
+             "display_name_en" => "Name of School"
             }),
   Field.new({"name" => "activities_reason_not_in_school",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "If not, why not?",
-             "option_strings_text_all" => [
-                { id: 'child_labour', display_text: "Child Labour" }.with_indifferent_access,
-                { id: 'early_marriage', display_text: "Early Marriage" }.with_indifferent_access,
-                { id: 'financial_constraints', display_text: "Financial Constraints" }.with_indifferent_access,
-                { id: 'ignorance', display_text: "Ignorance" }.with_indifferent_access,
-                { id: 'lack_of_infrastructure', display_text: "Lack of Infrastructure" }.with_indifferent_access,
-                { id: 'lack_of_access', display_text: "Lack of Access" }.with_indifferent_access,
-                { id: 'lack_of_interest', display_text: "Lack of interest" }.with_indifferent_access,
-                { id: 'children', display_text: "Children" }.with_indifferent_access,
-                { id: 'pregnancy_child', display_text: "Pregnancy/Child" }.with_indifferent_access,
-                { id: 'sent_abroad_for_job', display_text: "Sent abroad for job" }.with_indifferent_access,
-                { id: 'Other', display_text: "Other" }.with_indifferent_access
-              ]
+             "display_name_en" => "If not, why not?",
+             "option_strings_text_en" => [
+                { id: 'child_labour', display_text: "Child Labour" },
+                { id: 'early_marriage', display_text: "Early Marriage" },
+                { id: 'financial_constraints', display_text: "Financial Constraints" },
+                { id: 'ignorance', display_text: "Ignorance" },
+                { id: 'lack_of_infrastructure', display_text: "Lack of Infrastructure" },
+                { id: 'lack_of_access', display_text: "Lack of Access" },
+                { id: 'lack_of_interest', display_text: "Lack of interest" },
+                { id: 'children', display_text: "Children" },
+                { id: 'pregnancy_child', display_text: "Pregnancy/Child" },
+                { id: 'sent_abroad_for_job', display_text: "Sent abroad for job" },
+                { id: 'Other', display_text: "Other" }
+              ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "activities_education_type",
              "type" => "select_box",
-             "display_name_all" => "If yes, what type of education?",
-             "option_strings_text_all" =>
-                                  ["Accelerated learning",
-                                   "Early Childhood",
-                                   "Non-Formal Education",
-                                   "Primary",
-                                   "Secondary",
-                                   "Vocational",
-                                   "Vocational training"].join("\n")
+             "display_name_en" => "If yes, what type of education?",
+             "option_strings_text_en" => [
+               { id: 'accelerated_learning', display_text: "Accelerated learning" },
+               { id: 'early_childhood', display_text: "Early Childhood" },
+               { id: 'non_formal_education', display_text: "Non-Formal Education" },
+               { id: 'primary', display_text: "Primary" },
+               { id: 'secondary', display_text: "Secondary" },
+               { id: 'vocational', display_text: "Vocational" },
+               { id: 'vocational_training', display_text: "Vocational training" }
+             ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "activities_level_achieved",
              "type" => "select_box",
-             "display_name_all" => "If relevant, what level have they achieved?",
-             "option_strings_text_all" =>
-                                    ["Carpentry",
-                                     "GS1",
-                                     "GS2",
-                                     "GS3",
-                                     "level 1",
-                                     "level 2",
-                                     "level 3",
-                                     "level 4",
-                                     "SS1",
-                                     "SS2",
-                                     "SS3",
-                                     "Tailoring",
-                                     "Woodwork",
-                                     "Hairdressing"].join("\n")
+             "display_name_en" => "If relevant, what level have they achieved?",
+             "option_strings_text_en" => [
+               { id: 'carpentry', display_text: "Carpentry" },
+               { id: 'gs1', display_text: "GS1" },
+               { id: 'gs2', display_text: "GS2" },
+               { id: 'gs3', display_text: "GS3" },
+               { id: 'level_1', display_text: "level 1" },
+               { id: 'level_2', display_text: "level 2" },
+               { id: 'level_3', display_text: "level 3" },
+               { id: 'level_4', display_text: "level 4" },
+               { id: 'ss1', display_text: "SS1" },
+               { id: 'ss2', display_text: "SS2" },
+               { id: 'ss3', display_text: "SS3" },
+               { id: 'tailoring', display_text: "Tailoring" },
+               { id: 'woodwork', display_text: "Woodwork" },
+               { id: 'hairdressing', display_text: "Hairdressing" }
+             ].map(&:with_indifferent_access)
            }),
   Field.new({"name" => "activities_training_start_date",
              "type" => "date_field",
-             "display_name_all" => "Start Date of Training"
+             "display_name_en" => "Start Date of Training"
            }),
   Field.new({"name" => "activities_training_duration",
              "type" => "text_field",
-             "display_name_all" => "Duration of Training"
+             "display_name_en" => "Duration of Training"
            }),
   Field.new({"name" => "activities_notes",
              "type" => "textarea",
-             "display_name_all" => "Other details about school or training"
+             "display_name_en" => "Other details about school or training"
            }),
   Field.new({"name" => "activities_other",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "What other activities is the child involved in?",
-             "option_strings_text_all" => [
-                { id: 'community_activities', display_text: "Community Activities" }.with_indifferent_access,
-                { id: 'livelihood_activities', display_text: "Livelihood Activities" }.with_indifferent_access,
-                { id: 'recreational_activities', display_text: "Recreational Activities" }.with_indifferent_access
-              ]
+             "display_name_en" => "What other activities is the child involved in?",
+             "option_strings_text_en" => [
+                { id: 'community_activities', display_text: "Community Activities" },
+                { id: 'livelihood_activities', display_text: "Livelihood Activities" },
+                { id: 'recreational_activities', display_text: "Recreational Activities" }
+              ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "activities_other_notes",
              "type" => "textarea",
-             "display_name_all" => "Other details about additional activities"
+             "display_name_en" => "Other details about additional activities"
            })
 ]
 
@@ -95,6 +97,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Services / Follow Up",
   "editable" => true,
   :fields => activities_fields,
-  "name_all" => "Activities",
-  "description_all" => "Activities"
+  "name_en" => "Activities",
+  "description_en" => "Activities"
 })
