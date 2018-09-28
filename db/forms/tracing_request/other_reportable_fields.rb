@@ -4,7 +4,7 @@ fields = [
         "selected_value" => true,
         "editable" => false,
         "disabled" => true,
-        "display_name_all" => "Valid Record?"
+        "display_name_en" => "Valid Record?"
         }),
 ]
 
@@ -16,6 +16,6 @@ FormSection.create_or_update_form_section({
   :order_form_group => 1000,
   "editable" => true,
   :fields => fields,
-  "name_all" => "Other Reportable Fields",
-  "description_all" => "Other Reportable Fields"
+  "name_en" => "Other Reportable Fields",
+  "description_en" => "Other Reportable Fields"
 })
