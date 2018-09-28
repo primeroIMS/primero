@@ -1,68 +1,54 @@
 partner_details_fields = [
   Field.new({"name" => "maritial_status",
              "type" =>"select_box" ,
-             "display_name_all" => "Current Civil/Marital Status",
-             "option_strings_text_all" => 
-                          ["Single",
-                           "Married/Cohabitating",
-                           "Divorced/Separated",
-                           "Widowed"].join("\n")
+             "display_name_en" => "Current Civil/Marital Status",
+             "option_strings_source" => "lookup lookup-marital-status"
             }),
   Field.new({"name" => "partner_details",
              "type" => "text_field",
-             "display_name_all" => "Partner/Spouse Details"
+             "display_name_en" => "Partner/Spouse Details"
             }),
   Field.new({"name" => "relationship_length",
              "type" => "text_field",
-             "display_name_all" => "Length of Marriage/Relationship"
+             "display_name_en" => "Length of Marriage/Relationship"
             }),
   Field.new({"name" => "number_of_children",
              "type" => "numeric_field",
-             "display_name_all" => "Number of Children"
+             "display_name_en" => "Number of Children"
             }),
   Field.new({"name" => "marital_status_during_separation",
              "type" => "select_box",
-             "display_name_all" => "Marital Status During Separation",
-             "option_strings_text_all" => 
-                          ["Married",
-                           "Separated/Divorced",
-                           "Single",
-                           "Widowed",
-                           "With Partner/Spouse"].join("\n")
+             "display_name_en" => "Marital Status During Separation",
+             "option_strings_source" => "lookup lookup-marital-status-with-spouse"
             }),
   Field.new({"name" => "partner_details_during_separation",
              "type" => "text_field",
-             "display_name_all" => "Partner/Spouse Details During Separation"
+             "display_name_en" => "Partner/Spouse Details During Separation"
             }),
   Field.new({"name" => "relationship_length_during_separation",
              "type" => "text_field",
-             "display_name_all" => "Length of Marriage/Relationship During Separation"
+             "display_name_en" => "Length of Marriage/Relationship During Separation"
             }),
   Field.new({"name" => "number_of_children_during_separation",
              "type" => "numeric_field",
-             "display_name_all" => "Number of Children During Separation"
+             "display_name_en" => "Number of Children During Separation"
             }),
   Field.new({"name" => "marital_status_pre_separation",
              "type" => "select_box",
-             "display_name_all" => "Marital Status Prior to Separation",
-             "option_strings_text_all" => 
-                          ["Married",
-                           "Separated/Divorced",
-                           "Single",
-                           "Widowed",
-                           "With Partner"].join("\n")
+             "display_name_en" => "Marital Status Prior to Separation",
+             "option_strings_source" => "lookup lookup-marital-status-with-spouse"
             }),
   Field.new({"name" => "partner_details_pre_separation",
              "type" => "text_field",
-             "display_name_all" => "Partner/Spouse Details Prior to Separation"
+             "display_name_en" => "Partner/Spouse Details Prior to Separation"
             }),
   Field.new({"name" => "relationship_length_pre_separation",
              "type" => "text_field",
-             "display_name_all" => "Length of Marriage/Relationship Prior to Separation"
+             "display_name_en" => "Length of Marriage/Relationship Prior to Separation"
             }),
   Field.new({"name" => "number_of_children_pre_separation",
              "type" => "numeric_field",
-             "display_name_all" => "Number of Children Prior to Separation"
+             "display_name_en" => "Number of Children Prior to Separation"
             })
 ]
 
@@ -76,6 +62,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Family / Partner Details",
   "editable" => true,
   :fields => partner_details_fields,
-  "name_all" => "Partner/Spouse Details",
-  "description_all" => "Partner/Spouse Details"
+  "name_en" => "Partner/Spouse Details",
+  "description_en" => "Partner/Spouse Details"
 })

@@ -2,8 +2,8 @@ client_feedback_fields = [
   Field.new({"name" => "client_feedback_header",
              "mobile_visible" => true,
              "type" => "separator",
-             "display_name_all" => "Client Feedback",
-             "help_text_all" =>
+             "display_name_en" => "Client Feedback",
+             "help_text_en" =>
                  ["Client feedback surveys provide an opportunity for clients to give feedback on the services they received and key information to help your organization identify what is working well, possible challenges, and what needs to be improved in terms of service delivery.",
                   "The Client Feedback Survey can be given at case closure, when ",
                   "- Survivor’s needs have been met as described in the Case Action Plan",
@@ -23,14 +23,14 @@ client_feedback_fields = [
   Field.new({"name" => "client_feedback_date",
              "mobile_visible" => true,
              "type" => "date_field",
-             "display_name_all" => "Date when feedback was provided by survivor"
+             "display_name_en" => "Date when feedback was provided by survivor"
             }),
   Field.new({
              "name" => "client_feedback_administered_by",
              "type" => "select_box",
-             "display_name_all" => "Questionnaire administered by",
+             "display_name_en" => "Questionnaire administered by",
              "option_strings_source" => "User",
-             "help_text_all" =>
+             "help_text_en" =>
                  ["Instructions for staff:",
                   "-Identify who on your team is going to administer the feedback form. Identify whether it will be done in writing (giving the person the questionnaire to complete themselves) or whether a staff member will ask the questions and record the person’s answers.",
                   "-Inform the person that you will ask them some questions but will not write their name on the form and that the interview will remain anonymous.",
@@ -41,138 +41,138 @@ client_feedback_fields = [
             }),
   Field.new({"name" => "survivor_age_group",
              "type" => "select_box",
-             "display_name_all" => "If the client is minor and the caregiver is providing the answers for the feedback "\
+             "display_name_en" => "If the client is minor and the caregiver is providing the answers for the feedback "\
                                    "form, what is the age group of the child survivor?",
              "option_strings_source" => "lookup lookup-child-minor-age-group"
             }),
   Field.new({"name" => "client_discovery_method",
              "type" => "select_box",
-             "display_name_all" => "How did the client/caregiver found out about our service(s)?",
+             "display_name_en" => "How did the client/caregiver found out about our service(s)?",
              "option_strings_source" => "lookup lookup-discovery-method"
             }),
   Field.new({"name" => "client_feedback_service_delivery_header",
              "type" => "separator",
-             "display_name_all" => "Survivor-centered service delivery"
+             "display_name_en" => "Survivor-centered service delivery"
             }),
   Field.new({"name" => "opening_hours_when_client_could_attend",
              "type" => "select_box",
-             "display_name_all" => "Were opening hours at times the client could attend?",
+             "display_name_en" => "Were opening hours at times the client could attend?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_comfortable_with_case_worker",
              "type" => "select_box",
-             "display_name_all" => "Did the client feel comfortable with the case worker?",
+             "display_name_en" => "Did the client feel comfortable with the case worker?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "same_case_worker_each_visit",
              "type" => "select_box",
-             "display_name_all" => "Could the client see the same person at each return visit?",
+             "display_name_en" => "Could the client see the same person at each return visit?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "could_client_choose_support_person",
              "type" => "select_box",
-             "display_name_all" => "Could the client choose to have a support person with her?",
+             "display_name_en" => "Could the client choose to have a support person with her?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_informed_of_options",
              "type" => "select_box",
-             "display_name_all" => "Was the client given full information about what her options were?",
+             "display_name_en" => "Was the client given full information about what her options were?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_decided_what_next",
              "type" => "select_box",
-             "display_name_all" => "Did the client decide for herself what she wanted to happen next?",
+             "display_name_en" => "Did the client decide for herself what she wanted to happen next?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_referred_elsewhere",
              "type" => "select_box",
-             "display_name_all" => "Was the client referred to another place if a service could not be provided?",
+             "display_name_en" => "Was the client referred to another place if a service could not be provided?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_feedback_confidentiality_header",
              "type" => "separator",
-             "display_name_all" => "Confidentiality"
+             "display_name_en" => "Confidentiality"
             }),
   Field.new({"name" => "survivor_discreet_access",
              "type" => "select_box",
-             "display_name_all" => "Could the survivor access services without drawing attention to herself or being "\
+             "display_name_en" => "Could the survivor access services without drawing attention to herself or being "\
                                    "seen by other community members?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "staff_respect_confidentiality",
              "type" => "select_box",
-             "display_name_all" => "Did the staff respect her confidentiality? Did she share any information about the "\
+             "display_name_en" => "Did the staff respect her confidentiality? Did she share any information about the "\
                                    "client or her case that she was not entitled to do?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_private_meeting",
              "type" => "select_box",
-             "display_name_all" => "Did the client meet with a caseworker or other staff in private without being overheard?",
+             "display_name_en" => "Did the client meet with a caseworker or other staff in private without being overheard?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_feedback_staff_header",
              "type" => "separator",
-             "display_name_all" => "The Staff"
+             "display_name_en" => "The Staff"
             }),
   Field.new({"name" => "staff_friendly",
              "type" => "select_box",
-             "display_name_all" => "Were the staff friendly?",
+             "display_name_en" => "Were the staff friendly?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "staff_open_minded",
              "type" => "select_box",
-             "display_name_all" => "Were the staff open-minded, not judging the client?",
+             "display_name_en" => "Were the staff open-minded, not judging the client?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "staff_answered_all_questions",
              "type" => "select_box",
-             "display_name_all" => "Were the staff able to answer all the client's questions to her satisfaction?",
+             "display_name_en" => "Were the staff able to answer all the client's questions to her satisfaction?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "staff_client_could_understand",
              "type" => "select_box",
-             "display_name_all" => "Did the staff use language the client could understand?",
+             "display_name_en" => "Did the staff use language the client could understand?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
-  Field.new({"name" => "staff_allowed_enough_time",
+  Field.new({"name" => "staff_enowed_enough_time",
              "type" => "select_box",
-             "display_name_all" => "Did the staff allow time to let the client express her problems in her own words?",
+             "display_name_en" => "Did the staff allow time to let the client express her problems in her own words?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "staff_helpful",
              "type" => "select_box",
-             "display_name_all" => "Did the client feel like the staff helped her with her problem?",
+             "display_name_en" => "Did the client feel like the staff helped her with her problem?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "staff_helpful_explain",
              "type" => "textarea",
-             "display_name_all" => "Please explain"
+             "display_name_en" => "Please explain"
             }),
   Field.new({"name" => "client_feedback_wellbeing_header",
              "type" => "separator",
-             "display_name_all" => "The Cleint's Wellbeing"
+             "display_name_en" => "The Cleint's Wellbeing"
             }),
   Field.new({"name" => "client_feel_better",
              "type" => "radio_button",
-             "display_name_all" => "Did the client feel better after meeting with the caseworker?",
+             "display_name_en" => "Did the client feel better after meeting with the caseworker?",
              "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "client_feel_better_explain",
              "type" => "textarea",
-             "display_name_all" => "Please explain"
+             "display_name_en" => "Please explain"
             }),
   Field.new({"name" => "would_client_recommend_friend",
              "type" => "radio_button",
-             "display_name_all" => "Would the client recommend a friend who has experienced GBV to come here for help?",
+             "display_name_en" => "Would the client recommend a friend who has experienced GBV to come here for help?",
              "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "would_client_recommend_friend_explain",
              "type" => "textarea",
-             "display_name_all" => "Please explain"
+             "display_name_en" => "Please explain"
             }),
   Field.new({"name" => "client_comments_suggestions",
              "type" => "textarea",
-             "display_name_all" => "If any, what other improvements would the client like to suggest or other comments "\
+             "display_name_en" => "If any, what other improvements would the client like to suggest or other comments "\
                                    "she would like to make?"
             })
 ]
@@ -188,6 +188,6 @@ FormSection.create_or_update_form_section({
   editable: true,
   fields: client_feedback_fields,
   mobile_form: true,
-  name_all: "Client Feedback",
-  description_all: "Client Feedback"
+  name_en: "Client Feedback",
+  description_en: "Client Feedback"
 })
