@@ -4,38 +4,43 @@
 tracing_action_subform = [
     Field.new({"name" => "date_tracing",
                "type" => "date_field",
-               "display_name_all" => "Date of tracing",
+               "display_name_en" => "Date of tracing",
               }),
     Field.new({"name" => "tracing_type",
                "type" => "select_box",
-               "display_name_all" => "Type of action taken",
-               "option_strings_text_all" => [
-                 "Case by Case Tracing",
-                 "Individual Tracing",
-                 "Mass Tracing",
-                 "Photo Tracing",
-                 "Referral to NGO",
-                 "Referral to ICRC"
-               ].join("\n")
+               "display_name_en" => "Type of action taken",
+               "option_strings_text_en" => [
+                 { id: 'case_by_case_tracing', display_text: "Case by Case Tracing" },
+                 { id: 'individual_tracing', display_text: "Individual Tracing" },
+                 { id: 'mass_tracing', display_text: "Mass Tracing" },
+                 { id: 'photo_tracing', display_text: "Photo Tracing" },
+                 { id: 'referral_to_ngo', display_text: "Referral to NGO" },
+                 { id: 'referral_to_icrc', display_text: "Referral to ICRC" }
+               ].map(&:with_indifferent_access)
               }),
     Field.new({"name" => "address_tracing",
                "type" => "textarea",
-               "display_name_all" => "Address/Village where the tracing action took place",
+               "display_name_en" => "Address/Village where the tracing action took place",
               }),
     Field.new({"name" => "location_tracing",
                "type" => "select_box",
-               "display_name_all" => "Location of Tracing",
+               "display_name_en" => "Location of Tracing",
                "searchable_select" => true,
                "option_strings_source" => "Location"
               }),
     Field.new({"name" => "tracing_action_description",
                "type" => "text_field",
-               "display_name_all" => "Action taken and remarks",
+               "display_name_en" => "Action taken and remarks",
               }),
     Field.new({"name" => "tracing_outcome",
                "type" => "select_box",
-               "display_name_all" => "Outcome of tracing action",
-               "option_strings_text_all" => "Pending\nSuccessful\nUnsuccessful\nYes",
+               "display_name_en" => "Outcome of tracing action",
+               "option_strings_text_en" => [
+                 { id: 'pending', display_text: "Pending" },
+                 { id: 'successful', display_text: "Successful" },
+                 { id: 'unsuccessful', display_text: "Unsuccessful" },
+                 { id: 'yes', display_text: "Yes" }
+               ].map(&:with_indifferent_access)
               })
 ]
 
@@ -50,8 +55,8 @@ tracing_actions_section = FormSection.create_or_update_form_section({
      "editable"=>true,
      :fields => tracing_action_subform,
      :initial_subforms => 1,
-     "name_all" => "Nested Tracing Action",
-     "description_all" => "Tracing Action Subform",
+     "name_en" => "Nested Tracing Action",
+     "description_en" => "Tracing Action Subform",
      "collapsed_fields" => ["tracing_type", "date_tracing"]
 })
 
@@ -64,108 +69,103 @@ tracing_fields = [
              "editable" => false,
              "disabled" => true,
              "link_to_path" => "tracing_request",
-             "display_name_all" => "Matched Tracing Request ID"
+             "display_name_en" => "Matched Tracing Request ID"
            }),
   Field.new({"name" => "separation_separator",
              "type" => "separator",
-             "display_name_all" => "Separation History",
+             "display_name_en" => "Separation History",
             }),
   Field.new({"name" => "tracing_status",
              "type" => "select_box",
-             "display_name_all" => "Tracing Status",
-             "option_strings_text_all" =>
-                          ["Open",
-                           "Tracing in Progress",
-                           "Verified",
-                           "Reunified",
-                           "Closed"].join("\n")
+             "display_name_en" => "Tracing Status",
+             "option_strings_source" => "lookup lookup-tracing-status",
             }),
   Field.new({"name" => "date_of_separation",
              "type" => "date_field",
-             "display_name_all" => "Date of Separation",
+             "display_name_en" => "Date of Separation",
              "matchable" => true
             }),
   Field.new({"name" => "separation_cause",
              "type" => "select_box",
-             "display_name_all" => "What was the main cause of separation?",
+             "display_name_en" => "What was the main cause of separation?",
              "option_strings_source" => "lookup lookup-separation-cause",
              "matchable" => true
             }),
   Field.new({"name" => "separation_cause_other",
              "type" => "text_field",
-             "display_name_all" => "If Other, please specify",
+             "display_name_en" => "If Other, please specify",
              "matchable" => true
             }),
   Field.new({"name" => "separation_other_applicable_causes",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "If applicable, what were other causes of separation? ",
+             "display_name_en" => "If applicable, what were other causes of separation? ",
              "option_strings_source" => "lookup lookup-separation-cause"
               }),
   Field.new({"name" => "separation_details",
              "type" => "textarea",
-             "display_name_all" => "Circumstances of Separation (please provide details)",
+             "display_name_en" => "Circumstances of Separation (please provide details)",
              "matchable" => true
             }),
   Field.new({"name" => "separation_additional_movements",
              "type" => "textarea",
-             "display_name_all" => "Describe additional movements between place of separation and current location"
+             "display_name_en" => "Describe additional movements between place of separation and current location"
             }),
   Field.new({"name" => "separation_witnessed_violence",
              "type" => "radio_button",
-             "display_name_all" => "Did the child face or witness any type of violence, threat or harm during his/her journey?",
+             "display_name_en" => "Did the child face or witness any type of violence, threat or harm during his/her journey?",
              "option_strings_source" => "lookup lookup-yes-no"
            }),
   Field.new({"name" => "separation_witnessed_violence_comments",
              "type" => "textarea",
-             "display_name_all" => "Details about what the child faced / witnessed"
+             "display_name_en" => "Details about what the child faced / witnessed"
             }),
   Field.new({"name" => "address_separation",
              "type" => "textarea",
-             "display_name_all" => "Separation Address (Place)",
+             "display_name_en" => "Separation Address (Place)",
              "matchable" => true
             }),
   Field.new({"name" => "location_separation",
              "type" => "select_box",
-             "display_name_all" => "Separation Location",
+             "display_name_en" => "Separation Location",
              "searchable_select" => true,
              "option_strings_source" => "Location",
              "matchable" => true
             }),
   Field.new({"name" => "additional_tracing_info",
              "type" => "textarea",
-             "display_name_all" => "Additional info that could help in tracing?",
+             "display_name_en" => "Additional info that could help in tracing?",
              "matchable" => true
             }),
   Field.new({"name" => "evacuation_status",
              "type" => "radio_button",
-             "display_name_all" => "Has child been evacuated?",
+             "display_name_en" => "Has child been evacuated?",
              "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "evacuation_agent",
              "type" => "text_field",
-             "display_name_all" => "If yes, through which organization?",
+             "display_name_en" => "If yes, through which organization?",
             }),
   Field.new({"name" => "evacuation_from",
              "type" => "text_field",
-             "display_name_all" => "Evacuated From",
+             "display_name_en" => "Evacuated From",
             }),
   Field.new({"name" => "evacuation_date",
              "type" => "date_field",
-             "display_name_all" => "Evacuation Date",
+             "display_name_en" => "Evacuation Date",
             }),
   Field.new({"name" => "evacuation_to",
              "type" => "text_field",
-             "display_name_all" => "Evacuated To",
+             "display_name_en" => "Evacuated To",
             }),
   Field.new({"name" => "care_arrangements_arrival_date",
              "type" => "date_field",
-             "display_name_all" => "Arrival Date",
+             "display_name_en" => "Arrival Date",
             }),
   Field.new({"name" => "tracing_actions_section",
              "type" => "subform", "editable" => true,
              "subform_section_id" => tracing_actions_section.unique_id,
-             "display_name_all" => "Tracing Actions"
+             "display_name_en" => "Tracing Actions"
             })
 ]
 
@@ -179,6 +179,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Tracing",
   :fields => tracing_fields,
   "editable" => true,
-  "name_all" => "Tracing",
-  "description_all" => "Tracing",
+  "name_en" => "Tracing",
+  "description_en" => "Tracing",
 })
