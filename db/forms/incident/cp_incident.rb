@@ -4,7 +4,7 @@ cp_incident_fields = [
     "type" => "text_field",
     "editable" => false,
     "disabled" => true,
-    "display_name_all" => "Long ID",
+    "display_name_en" => "Long ID",
     "create_property" => false,
     "mobile_visible" => false,
     "visible" => false
@@ -14,7 +14,7 @@ cp_incident_fields = [
     "type" => "text_field",
     "editable" => false,
     "disabled" => true,
-    "display_name_all" => "Short ID",
+    "display_name_en" => "Short ID",
     "create_property" => false,
     "mobile_visible" => false
   }),
@@ -22,64 +22,64 @@ cp_incident_fields = [
     "name" => "status",
     "type" => "select_box",
     "selected_value" => Record::STATUS_OPEN,
-    "display_name_all" => "Incident Status",
+    "display_name_en" => "Incident Status",
     "option_strings_source" => "lookup lookup-incident-status"
   }),
   Field.new({
     "name" => "cp_incident_identification_violence",
     "type" => "select_box",
-    "display_name_all" => "Identification of Violence Case",
+    "display_name_en" => "Identification of Violence Case",
     "option_strings_source" => "lookup lookup-incident-identification"
   }),
   Field.new({
     "name" => "cp_incident_date",
     "type" => "date_field",
-    "display_name_all" => "Date of Incident"
+    "display_name_en" => "Date of Incident"
   }),
   Field.new({
     "name" => "cp_incident_location_type",
     "type" => "select_box",
-    "display_name_all" => "Area of the Incident",
+    "display_name_en" => "Area of the Incident",
     "option_strings_source" => "lookup lookup-incident-location"
   }),
   Field.new({
     "name" => "cp_incident_location_type_other",
     "type" => "text_field",
-    "display_name_all" => "If 'Other', please specify"
+    "display_name_en" => "If 'Other', please specify"
   }),
   Field.new({
     "name" => "cp_incident_location",
     "type" => "select_box",
-    "display_name_all" => "Location of the Incident",
+    "display_name_en" => "Location of the Incident",
     "option_strings_source" => "Location"
   }),
   Field.new({
     "name" => "cp_incident_timeofday",
     "type" => "select_box",
-    "display_name_all" => "Time of Incident",
+    "display_name_en" => "Time of Incident",
     "option_strings_source" => "lookup lookup-time-of-day"
   }),
   Field.new({
     "name" => "cp_incident_timeofday_actual",
     "type" => "text_field",
-    "display_name_all" => "Please specify the actual time of the Incident"
+    "display_name_en" => "Please specify the actual time of the Incident"
   }),
   Field.new({
     "name" => "cp_incident_violence_type",
     "type" => "select_box",
-    "display_name_all" => "Type of Violence",
+    "display_name_en" => "Type of Violence",
     "option_strings_source" => "lookup lookup-cp-violence-type"
   }),
   Field.new({
     "name" => "cp_incident_previous_incidents",
     "type" => "radio_button",
-    "display_name_all" => "Has the case been previously abused?",
+    "display_name_en" => "Has the case been previously abused?",
     "option_strings_source" => "lookup lookup-yes-no"
   }),
   Field.new({
     "name" => "cp_incident_previous_incidents_description",
     "type" => "textarea",
-    "display_name_all" => "If yes please describe in brief"
+    "display_name_en" => "If yes please describe in brief"
   })
 ]
 
@@ -94,6 +94,6 @@ FormSection.create_or_update_form_section({
   :fields => cp_incident_fields,
   :is_first_tab => true,
   "editable" => true,
-  "name_all" => "CP Incident",
-  "description_all" => "CP Incident"
+  "name_en" => "CP Incident",
+  "description_en" => "CP Incident"
 })

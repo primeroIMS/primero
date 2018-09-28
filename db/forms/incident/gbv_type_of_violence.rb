@@ -1,19 +1,20 @@
 gbv_reported_elsewhere_subform_fields = [
   Field.new({"name" => "gbv_reported_elsewhere_organization_type",
              "type" => "select_box",
-             "display_name_all" => "Type of service provider where the survivor reported the incident",
-             "option_strings_text_all" =>
-                                    ["Health / Medical Services",
-                                     "Psychosocial / Counseling Services",
-                                     "Police / Other Security Actor",
-                                     "Legal Assistance Services",
-                                     "Livelihoods Program",
-                                     "Safe House / Shelter",
-                                     "Other"].join("\n")
+             "display_name_en" => "Type of service provider where the survivor reported the incident",
+             "option_strings_text_en" => [
+               { id: 'health_medical_service', display_text: "Health / Medical Services" },
+               { id: 'psychosocial_service', display_text: "Psychosocial / Counseling Services" },
+               { id: 'police_other_service', display_text: "Police / Other Security Actor" },
+               { id: 'legal_assistance_service', display_text: "Legal Assistance Services" },
+               { id: 'livelihoods_service', display_text: "Livelihoods Program" },
+               { id: 'safehouse_service', display_text: "Safe House / Shelter" },
+               { id: 'other', display_text: "Other" }
+             ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "gbv_reported_elsewhere_organization_provider",
              "type" => "text_field",
-             "display_name_all" => "Name of the service provider"
+             "display_name_en" => "Name of the service provider"
             })
 ]
 
@@ -28,8 +29,8 @@ gbv_reported_elsewhere_subform = FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => gbv_reported_elsewhere_subform_fields,
   :initial_subforms => 1,
-  "name_all" => "GBV Reported Elsewhere Subform",
-  "description_all" => "GBV Reported Elsewhere Subform",
+  "name_en" => "GBV Reported Elsewhere Subform",
+  "description_en" => "GBV Reported Elsewhere Subform",
   "collapsed_fields" => ["gbv_reported_elsewhere_organization_provider"]
 })
 
@@ -38,7 +39,7 @@ gbv_sexual_violence_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Type of Incident Violence",
+             "display_name_en" => "Type of Incident Violence",
              "option_strings_source" => "lookup lookup-gbv-sexual-violence-type",
              "guiding_questions" => "The six core types of GBV and their definitions are:
 
@@ -58,44 +59,46 @@ gbv_sexual_violence_fields = [
   Field.new({"name" => "non_gbv_type_notes",
              "mobile_visible" => false,
              "type" => "textarea",
-             "display_name_all" => "If Non-GBV, describe"
+             "display_name_en" => "If Non-GBV, describe"
             }),
   Field.new({"name" => "harmful_traditional_practice",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Was this incident a Harmful Traditional Practice",
-             "option_strings_text_all" =>
-                                    ["No",
-                                     "Type of Practice 1",
-                                     "Type of Practice 2",
-                                     "Type of Practice 3",
-                                     "Type of Practice 4",
-                                     "Type of Practice 5"].join("\n")
+             "display_name_en" => "Was this incident a Harmful Traditional Practice",
+             "option_strings_text_en" => [
+               { id: 'no', display_text: "no" },
+               { id: 'type_of_practice_1', display_text: "Type of Practice 1" },
+               { id: 'type_of_practice_2', display_text: "Type of Practice 2" },
+               { id: 'type_of_practice_3', display_text: "Type of Practice 3" },
+               { id: 'type_of_practice_4', display_text: "Type of Practice 4" },
+               { id: 'type_of_practice_5', display_text: "Type of Practice 5" }
+             ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "goods_money_exchanged",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "radio_button",
-             "display_name_all" => "Were money, goods, benefits, and/or services exchanged in relation to the incident?",
+             "display_name_en" => "Were money, goods, benefits, and/or services exchanged in relation to the incident?",
              "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "abduction_status_time_of_incident",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Type of abduction at time of the incident",
-             "option_strings_text_all" =>
-                                    ["None",
-                                     "Forced Conscription",
-                                     "Trafficked",
-                                     "Other Abduction/Kidnapping"].join("\n")
+             "display_name_en" => "Type of abduction at time of the incident",
+             "option_strings_text_en" => [
+               { id: 'none', display_text: "None" },
+               { id: 'forced_conscription', display_text: "Forced Conscription" },
+               { id: 'trafficked', display_text: "Trafficked" },
+               { id: 'other_abduction_kidnapping', display_text: "Other Abduction/Kidnapping" }
+             ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "gbv_reported_elsewhere",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "radio_button",
-             "display_name_all" => "Has the client reported this incident anywhere else?",
+             "display_name_en" => "Has the client reported this incident anywhere else?",
              "option_strings_source" => "lookup lookup-gbv-reported-elsewhere"
             }),
   Field.new({"name" => "gbv_reported_elsewhere_subform",
@@ -103,13 +106,13 @@ gbv_sexual_violence_fields = [
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => gbv_reported_elsewhere_subform.unique_id,
-             "display_name_all" => "If yes, where?"
+             "display_name_en" => "If yes, where?"
             }),
   Field.new({"name" => "gbv_previous_incidents",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "radio_button",
-             "display_name_all" => "Has the client had any previous incidents of GBV perpetrated against them?",
+             "display_name_en" => "Has the client had any previous incidents of GBV perpetrated against them?",
              "option_strings_source" => "lookup lookup-yes-no"
             })
 ]
@@ -125,6 +128,6 @@ FormSection.create_or_update_form_section({
   editable: true,
   fields: gbv_sexual_violence_fields,
   mobile_form: true,
-  name_all: "Type of Violence",
-  description_all: "Type of Violence"
+  name_en: "Type of Violence",
+  description_en: "Type of Violence"
 })

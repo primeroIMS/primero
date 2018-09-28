@@ -2,7 +2,7 @@ cp_individual_details_fields = [
   Field.new({
     "name" => "age",
     "type" => "numeric_field",
-    "display_name_all" => "Age",
+    "display_name_en" => "Age",
     "show_on_minify_form" => true,
     "matchable" => true
   }),
@@ -10,7 +10,7 @@ cp_individual_details_fields = [
     "name" => "cp_sex",
     "type" => "select_box",
     "show_on_minify_form" => true,
-    "display_name_all" => "Sex",
+    "display_name_en" => "Sex",
     "option_strings_source" => "lookup lookup-gender",
     "matchable" => true
   }),
@@ -18,51 +18,51 @@ cp_individual_details_fields = [
     "name" => "cp_nationality",
     "type" => "select_box",
     "multi_select" => true,
-    "display_name_all" => "Nationality",
+    "display_name_en" => "Nationality",
     "option_strings_source" => "lookup lookup-country"
   }),
   Field.new({"name" => "national_id_no",
     "type" => "text_field",
-    "display_name_all" => "National ID Number"
+    "display_name_en" => "National ID Number"
   }),
   Field.new({
     "name" => "other_id_type",
     "type" => "text_field",
-    "display_name_all" => "Type of Other ID Document"
+    "display_name_en" => "Type of Other ID Document"
   }),
   Field.new({
     "name" => "other_id_no",
     "type" => "text_field",
-    "display_name_all" => "Number of Other ID Document"
+    "display_name_en" => "Number of Other ID Document"
   }),
   Field.new({
     "name" => "maritial_status",
     "type" =>"select_box" ,
-    "display_name_all" => "Social Status",
+    "display_name_en" => "Social Status",
     "show_on_minify_form" => true,
     "option_strings_source" => "lookup lookup-marital-status"
   }),
   Field.new({
     "name" => "educational_status",
     "type" =>"select_box" ,
-    "display_name_all" => "Educational Status",
-    "option_strings_text_all" => [
-      "Illiterate",
-      "Basic",
-      "Secondary",
-      "Bachelor",
-      "Post-graduate Studies"
-    ].join("\n")
+    "display_name_en" => "Educational Status",
+    "option_strings_text_en" => [
+      { id: 'illiterate', display_text: "Illiterate" },
+      { id: 'basic', display_text: "Basic" },
+      { id: 'secondary', display_text: "Secondary" },
+      { id: 'bachelor', display_text: "Bachelor" },
+      { id: 'post_graduate_studies', display_text: "Post-graduate Studies" }
+    ].map(&:with_indifferent_access)
   }),
   Field.new({
     "name" => "occupation",
     "type" => "text_field",
-    "display_name_all" => "Occupation"
+    "display_name_en" => "Occupation"
   }),
   Field.new({
     "name" => "cp_disability_type",
     "type" =>"select_box" ,
-    "display_name_all" => "Disability Type",
+    "display_name_en" => "Disability Type",
     "option_strings_source" => "lookup lookup-disability-type"
   })
 ]
@@ -77,6 +77,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "CP Individual Details",
   "editable" => true,
   :fields => cp_individual_details_fields,
-  "name_all" => "CP Individual Details",
-  "description_all" => "CP Individual Details"
+  "name_en" => "CP Individual Details",
+  "description_en" => "CP Individual Details"
 })

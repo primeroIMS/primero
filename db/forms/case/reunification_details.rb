@@ -4,74 +4,74 @@
 reunification_subform = [
     Field.new({"name" => "name_reunified_adult",
                "type" => "text_field",
-               "display_name_all" => "Name of adult child was reunified with",
+               "display_name_en" => "Name of adult child was reunified with",
               }),
     Field.new({"name" => "relationship_reunified_adult",
                "type" => "text_field",
-               "display_name_all" => "Relationship of adult to child",
+               "display_name_en" => "Relationship of adult to child",
               }),
     Field.new({"name" => "address_reunified_adult",
                "type" => "textarea",
-               "display_name_all" => "Address",
+               "display_name_en" => "Address",
               }),
     Field.new({"name" => "location_reunified_adult",
                "type" => "select_box",
-               "display_name_all" => "Location of adult with whom the child was reunified",
+               "display_name_en" => "Location of adult with whom the child was reunified",
                "searchable_select" => true,
                "option_strings_source" => "Location"
               }),
     Field.new({"name" => "address_reunification",
                "type" => "textarea",
-               "display_name_all" => "Address where the reunification is taking place",
+               "display_name_en" => "Address where the reunification is taking place",
               }),
     Field.new({"name" => "location_reunification",
                "type" => "select_box",
-               "display_name_all" => "Location where the reunifcation is taking place",
+               "display_name_en" => "Location where the reunifcation is taking place",
                "searchable_select" => true,
                "option_strings_source" => "Location"
               }),
     Field.new({"name" => "reunification_type",
                "type" => "select_box",
-               "display_name_all" => "What type of reunification?",
-               "option_strings_text_all" => [
-                  "Case by case",
-                  "Informal/Spontaneous",
-                  "Mass Tracing",
-                  "Mediation",
-                  "Other (Please Specify)",
-                  "Photo Tracing",
-                  "Spontaneous"
-               ].join("\n")
+               "display_name_en" => "What type of reunification?",
+               "option_strings_text_en" => [
+                 { id: 'case_by_case', display_text: "Case by case" },
+                 { id: 'informal_spontaneous', display_text: "Informal/Spontaneous" },
+                 { id: 'mass_tracing', display_text: "Mass Tracing" },
+                 { id: 'mediation', display_text: "Mediation" },
+                 { id: 'other', display_text: "Other (Please Specify)" },
+                 { id: 'photo_tracing', display_text: "Photo Tracing" },
+                 { id: 'spontaneous', display_text: "Spontaneous" }
+               ].map(&:with_indifferent_access)
               }),
     Field.new({"name" => "date_reunification",
                "type" => "date_field",
-               "display_name_all" => "Date of reunification",
+               "display_name_en" => "Date of reunification",
               }),
     Field.new({"name" => "child_reunited_with_verified_adult",
                "type" => "radio_button",
-               "display_name_all" => "Was the child reunified with the verfified adult?",
+               "display_name_en" => "Was the child reunified with the verfified adult?",
                "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "not_reunited_with_verified_adult_reason",
                "type" => "select_box",
-               "display_name_all" => "If not, what was the reason for the change?",
-               "option_strings_text_all" => [
-                   "Change of Mind",
-                   "Death",
-                   "Death of Adult",
-                   "Failed Verification",
-                   "Not Applicable",
-                   "Other (Please Specify)"
-               ].join("\n")
+               "display_name_en" => "If not, what was the reason for the change?",
+               "option_strings_text_en" => [
+                 { id: 'change_of_mind', display_text: "Change of Mind" },
+                 { id: 'death', display_text: "Death" },
+                 { id: 'death_of_adult', display_text: "Death of Adult" },
+                 { id: 'failed_verification', display_text: "Failed Verification" },
+                 { id: 'n_a', display_text: "Not Applicable" },
+                 { id: 'other', display_text: "Other (Please Specify)" }
+               ].map(&:with_indifferent_access)
               }),
     Field.new({"name" => "reunification_follow_up_needed",
                "type" => "radio_button",
-               "display_name_all" => "Is there a need for follow up?",
+               "display_name_en" => "Is there a need for follow up?",
                "option_strings_source" => "lookup lookup-yes-no"
               }),
     Field.new({"name" => "closure_recommendation",
                "type" => "radio_button",
-               "display_name_all" => "If not, do you recommend that the case be closed?",
+               "display_name_en" => "If not, do you recommend that the case be closed?",
                "option_strings_source" => "lookup lookup-yes-no"
               })
 ]
@@ -87,8 +87,8 @@ reunification_details_section = FormSection.create_or_update_form_section({
     "editable"=>true,
     :fields => reunification_subform,
     :initial_subforms => 1,
-    "name_all" => "Nested Reunification",
-    "description_all" => "Reunification Subform",
+    "name_en" => "Nested Reunification",
+    "description_en" => "Reunification Subform",
     "collapsed_fields" => ["relationship_reunified_adult", "name_reunified_adult"]
 })
 
@@ -96,7 +96,7 @@ reunification_details_fields = [
   Field.new({"name" => "reunification_details_section",
              "type" => "subform", "editable" => true,
              "subform_section_id" => reunification_details_section.unique_id,
-             "display_name_all" => "Reunification Details"
+             "display_name_en" => "Reunification Details"
             })
 ]
 
@@ -111,6 +111,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Tracing",
   :fields => reunification_details_fields,
   "editable" => true,
-  "name_all" => "Reunification Details",
-  "description_all" => "Reunification Details",
+  "name_en" => "Reunification Details",
+  "description_en" => "Reunification Details",
 })
