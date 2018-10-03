@@ -5,6 +5,8 @@ if Rails.env == 'production'
 
   BACKBURNER_CONFIG = YAML.load_file(File.join(Rails.root,'config','backburner.yml'))[Rails.env]
 
+  logfile = (ENV['RAILS_LOG_PATH'].present? "#{ENV['RAILS_LOG_PATH']}/output.log" : STDOUT)
+
   Backburner.configure do |config|
     config.beanstalk_url       = [BACKBURNER_CONFIG['beanstalk_url']]
     config.tube_namespace      = Rails.env
@@ -16,7 +18,7 @@ if Rails.env == 'production'
     config.default_priority    = 100
     config.respond_timeout     = 60 * 60 * 3 # Seconds. 2 hours to finish a queued job. Can't be 0!
     config.default_worker      = Backburner::Workers::Forking
-    config.logger              = Logger.new(STDOUT)
+    config.logger              = Logger.new(logfile, 5, 50.megabytes).tap {|l| l.level = Logger::INFO}
     config.primary_queue       = "export"
     #config.priority_labels     = { :custom => 50, :useless => 1000 }
     config.reserve_timeout     = nil
