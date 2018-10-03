@@ -322,8 +322,6 @@ Primero::Application.routes.draw do
     end
   end
 
-  resources :system_users, :path => "/admin/system_users"
-
 #######################
 # REPORTING URLS
 #######################

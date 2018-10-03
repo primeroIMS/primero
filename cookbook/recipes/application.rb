@@ -130,7 +130,7 @@ execute_with_ruby 'bundle-install' do
 end
 
 template File.join(node[:primero][:app_dir], 'config/couchdb.yml') do
-  source 'couch_config.yml.erb'
+  source 'couchdb/couch_config.yml.erb'
   variables({
     :environments => [ node[:primero][:rails_env] ],
     :couchdb_host => node[:primero][:couchdb][:host],

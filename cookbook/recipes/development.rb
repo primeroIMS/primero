@@ -59,9 +59,9 @@ execute_with_ruby 'bundle-install-vagrant' do
 end
 
 template "/vagrant/config/couchdb.yml" do
-  source 'couch_config.yml.erb'
+  source 'couchdb/couch_config.yml.erb'
   variables({
-    :environments => [ 'development', 'cucumber', 'test', 'production', 'uat', 'standalone', 'android' ],
+    :environments => [ 'development', 'test', 'production' ],
     :couchdb_host => node[:primero][:couchdb][:host],
     :couchdb_username => node[:primero][:couchdb][:username],
     :couchdb_password => node[:primero][:couchdb][:password],
@@ -93,11 +93,7 @@ template '/vagrant/config/sunspot.yml' do
                'test' => 8981,
                'production' => node[:primero][:solr][:port]},
     :log_levels => {'development' => 'INFO',
-                    'cucumber' => 'INFO',
                     'test' => 'INFO',
-                    'uat' => 'INFO',
-                    'standalone' => 'INFO',
-                    'android' => 'INFO',
                     'production' => node[:primero][:solr][:log_level]},
     :log_files => {'production' => "#{node[:primero][:solr][:log_dir]}/sunspot-solr-production.log"}
   })

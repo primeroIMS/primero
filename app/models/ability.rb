@@ -130,7 +130,7 @@ class Ability
   end
 
   def system_permissions
-    [ContactInformation, Device, Replication, SystemUsers, SystemSettings].each do |resource|
+    [ContactInformation, Device, Replication, SystemSettings].each do |resource|
       can :manage, resource
     end
   end

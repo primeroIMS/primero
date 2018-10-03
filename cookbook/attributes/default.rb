@@ -42,7 +42,7 @@ default[:primero].tap do |p|
     c[:client_ca_path] = '/etc/ssl/client_ca.crt'
     c[:root_ca_cert_source] = 'couch_ca.crt'
     c[:config].tap do |conf|
-      conf[:httpd].tap do |httpd|
+      conf[:chttpd].tap do |httpd|
         httpd[:bind_address] = '0.0.0.0'
         httpd[:port] = '5984'
       end
@@ -56,7 +56,7 @@ default[:primero].tap do |p|
         rep['verify_ssl_certificates'] = true
       end
       conf[:query_servers].tap do |qs|
-        qs[:javascript] = "/usr/bin/couchjs -S 134217728 /usr/share/couchdb/server/main.js"
+        qs[:javascript] = "./bin/couchjs -S 134217728 ./share/server/main.js"
       end
       conf[:couchdb].tap do |cdb|
         cdb[:os_process_timeout] = '20000'
