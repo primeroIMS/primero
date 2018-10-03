@@ -134,7 +134,7 @@ end
 end
 
 execute 'Restart Solr' do
-  command 'supervisorctl restart solr'
+  command 'systemctl restart solr'
   only_if { ::File.exists?(node[:primero][:solr][:core_dir])}
 end
 

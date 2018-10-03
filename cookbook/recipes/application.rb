@@ -1,5 +1,4 @@
 include_recipe 'apt'
-include_recipe 'supervisor'
 include_recipe 'primero::common'
 include_recipe 'primero::git_stage'
 
