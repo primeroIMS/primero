@@ -8,6 +8,7 @@
 #
 
 include_recipe 'primero::database'
+include_recipe 'primero::solr'
 include_recipe 'primero::application'
 
 bin_dir = ::File.join(node[:primero][:home_dir], 'bin')

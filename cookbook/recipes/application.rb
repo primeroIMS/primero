@@ -1,66 +1,13 @@
 include_recipe 'apt'
 include_recipe 'supervisor'
 include_recipe 'primero::common'
+include_recipe 'primero::git_stage'
 
-%w(git
-   libxml2-dev
+%w(libxml2-dev
    libxslt1-dev
    imagemagick
-   openjdk-8-jre-headless
    inotify-tools).each do |pkg|
   package pkg
-end
-
-group node[:primero][:app_group] do
-  system true
-end
-
-user node[:primero][:app_user] do
-  system true
-  home node[:primero][:home_dir]
-  gid node[:primero][:app_group]
-  shell '/bin/bash'
-end
-
-directory node[:primero][:home_dir] do
-  action :create
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-end
-
-ssh_dir = File.join(node[:primero][:home_dir], '.ssh')
-directory ssh_dir do
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-  mode '0700'
-end
-
-private_key_path = ::File.join(ssh_dir, 'id_rsa')
-file private_key_path do
-  content node[:primero][:deploy_key]
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-  mode '0400'
-end
-
-known_hosts_path = ::File.join(ssh_dir, 'known_hosts')
-cookbook_file known_hosts_path do
-  source 'ssh/known_hosts'
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-  mode '0400'
-end
-
-git_wrapper_path = File.join(ssh_dir, 'git-wrapper.sh')
-template git_wrapper_path do
-  source 'ssh_wrapper.sh.erb'
-  mode '0744'
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-  variables({
-    :deploy_private_key_path => private_key_path,
-    :known_hosts_file => known_hosts_path,
-  })
 end
 
 # Hack to get around https://github.com/fnichol/chef-rvm/issues/227
@@ -88,12 +35,6 @@ railsexpress_patch_setup 'prod' do
   group node[:primero][:app_group]
 end
 
-directory node[:primero][:app_dir] do
-  action :create
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-end
-
 rvm_ruby_name = "#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}"
 execute_with_ruby 'prod-ruby' do
   command <<-EOH
@@ -101,16 +42,6 @@ execute_with_ruby 'prod-ruby' do
     rvm rubygems #{node[:primero][:rubygems_version]}
     rvm --default use #{rvm_ruby_name}
   EOH
-end
-
-# Run a `git reset` before this step??
-git node[:primero][:app_dir] do
-  repository node[:primero][:git][:repo]
-  revision node[:primero][:git][:revision]
-  action :sync
-  user node[:primero][:app_user]
-  group node[:primero][:app_group]
-  ssh_wrapper git_wrapper_path
 end
 
 directory node[:primero][:daemons_dir] do
@@ -154,13 +85,13 @@ execute_with_ruby 'bundle-install' do
 end
 
 template File.join(node[:primero][:app_dir], 'config', 'sunspot.yml') do
-  source "sunspot.yml.erb"
+  source "solr/sunspot.yml.erb"
   variables({
     :environments => [ node[:primero][:rails_env] ],
-    :hostnames => {node[:primero][:rails_env].to_s => node[:primero][:solr_hostname]},
-    :ports => {node[:primero][:rails_env].to_s => node[:primero][:solr_port]},
-    :log_levels => {node[:primero][:rails_env].to_s => node[:primero][:solr_log_level]},
-    :log_files => {node[:primero][:rails_env].to_s => File.join(node[:primero][:log_dir], "solr/sunspot-solr-#{node[:primero][:rails_env]}.log")}
+    :hostnames => {node[:primero][:rails_env].to_s => node[:primero][:solr][:hostname]},
+    :ports => {node[:primero][:rails_env].to_s => node[:primero][:solr][:port]},
+    :log_levels => {node[:primero][:rails_env].to_s => node[:primero][:solr][:log_level]},
+    :log_files => {node[:primero][:rails_env].to_s => File.join(node[:primero][:solr][:log_dir], "sunspot-solr-#{node[:primero][:rails_env]}.log")}
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
@@ -235,7 +166,6 @@ directory app_tmp_dir do
   group node[:primero][:app_group]
 end
 
-include_recipe 'primero::solr'
 include_recipe 'primero::queue'
 include_recipe 'primero::couch_watcher'
 include_recipe 'primero::queue_consumer'

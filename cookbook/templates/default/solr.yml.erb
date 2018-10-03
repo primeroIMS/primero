@@ -1,5 +1,0 @@
-<% @environments.each do |env| %>
-<%= env %>:
-  local_solr_port: <%= @local_solr_ports[env]  %>
-  url: "<%= @solr_urls[env] %>"
-<% end %>

@@ -9,7 +9,7 @@
 #    primero-scheduler                 (supervisor)
 #    backburner                        (supervisor)
 #    beanstalkd                        (systemd)
-#    solr                              (supervisor)
+#    solr                              (systemd)
 #    couchdb                           (systemd)
 
 
@@ -27,7 +27,7 @@ status () {
   supervisorctl status primero-scheduler
   supervisorctl status backburner
   systemctl_status beanstalkd
-  supervisorctl status solr
+  systemctl_status status solr
   systemctl_status couchdb
 }
 
@@ -48,7 +48,8 @@ stop () {
   systemctl stop beanstalkd
   systemctl_status beanstalkd
 
-  supervisorctl stop solr
+  systemctl stop solr
+  systemctl_status solr
 
   systemctl stop couchdb
   systemctl_status couchdb
@@ -72,7 +73,8 @@ start () {
   systemctl start beanstalkd
   systemctl_status beanstalkd
 
-  supervisorctl start solr
+  systemctl start solr
+  systemctl_status solr
 
   systemctl start couchdb
   systemctl_status couchdb
