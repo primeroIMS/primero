@@ -71,7 +71,7 @@ template "/vagrant/config/couchdb.yml" do
 end
 
 template "/vagrant/config/couch_watcher.yml" do
-  source 'couch_watcher.yml.erb'
+  source 'couch_watcher/couch_watcher.yml.erb'
   variables({
     :environments => ['production'],
     :couch_watcher_host => node[:primero][:couch_watcher][:host],
@@ -83,7 +83,7 @@ end
 
 
 template '/vagrant/config/sunspot.yml' do
-  source "sunspot.yml.erb"
+  source "solr/sunspot.yml.erb"
   variables({
     :environments => [ 'development', 'test', 'production' ],
     :hostnames => {'development' => 'localhost',
@@ -134,7 +134,7 @@ end
 end
 
 execute 'Restart Solr' do
-  command 'supervisorctl restart solr'
+  command 'systemctl restart solr'
   only_if { ::File.exists?(node[:primero][:solr][:core_dir])}
 end
 
