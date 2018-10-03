@@ -10,8 +10,6 @@ default[:primero].tap do |p|
   p[:daemons_dir] = File.join(node[:primero][:app_dir], 'daemons')
   p[:app_user] = 'primero'
   p[:app_group] = 'primero'
-  p[:solr_user] = 'solr'
-  p[:solr_group] = 'solr'
 
   p[:queue].tap do |queue|
     queue[:host] = 'localhost'
@@ -66,11 +64,20 @@ default[:primero].tap do |p|
     end
   end
 
-  p[:solr_hostname] = 'localhost'
-  p[:solr_port] = 8983
-  p[:solr_log_level] = 'INFO'
-  p[:solr_data_dir] =  File.join(node[:primero][:app_dir], 'solr', 'data')
-  p[:solr_core_dir] = File.join(node[:primero][:app_dir], 'solr', 'cores')
+  p[:solr].tap do |solr|
+    solr[:user] = 'solr'
+    solr[:group] = 'solr'
+    solr[:version] = '5.3.1'
+    solr[:hostname] = 'localhost'
+    solr[:port] = 8983
+    solr[:log_level] = 'INFO'
+    solr[:memory] = '512m'
+    solr[:home_dir] = '/var/solr'
+    solr[:log_dir] = File.join(node[:primero][:log_dir], 'solr')
+    solr[:data_dir] =  File.join(node[:primero][:solr][:home_dir], 'data')
+    solr[:core_dir] = File.join(node[:primero][:solr][:home_dir], 'cores')
+  end
+
   p[:ruby_version] = '2.4.3'
   p[:ruby_patch] = 'railsexpress'
   p[:bundler_version] = '1.16.1'

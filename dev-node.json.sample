@@ -9,6 +9,9 @@
       "repo": "https://github.com/primeroIMS/primero.git",
       "revision": "development"
     },
+    "solr": {
+      "memory": "256m"
+    },
     "couchdb": {
       "host": "127.0.0.1",
       "password": "primero",
