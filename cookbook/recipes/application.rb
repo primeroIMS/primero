@@ -199,17 +199,16 @@ include_recipe 'primero::primero_scheduler'
 # This will set the latest sequence numbers in the couch history log so that it
 # doesn't try to reprocess things from the seed/migration
 execute_bundle 'prime-couch-watcher-sequence-numbers' do
-  #TODO: Will this fail?
-  command "#{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} rake couch_changes:prime_sequence_numbers"
+  command "rake couch_changes:prime_sequence_numbers"
   environment({"RAILS_LOG_PATH" => ::File.join(node[:primero][:log_dir], 'couch_watcher')})
 end
 
-supervisor_service 'couch-watcher' do
-  action :start
+execute 'Start Couch Watcher' do
+  command 'systemctl start couch_watcher'
 end
 
-supervisor_service 'who-watches-the-couch-watcher' do
-  action :start
+execute 'Start Couch Watcher' do
+  command 'systemctl start who_watches_the_couch_watcher'
 end
 
 include_recipe 'primero::nginx_app'
