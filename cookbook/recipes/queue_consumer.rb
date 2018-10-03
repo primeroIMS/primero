@@ -1,6 +1,6 @@
 #Create the configuration YML
 template ::File.join(node[:primero][:app_dir], 'config', 'backburner.yml') do
-  source "backburner.yml.erb"
+  source "queue/backburner.yml.erb"
   variables({
     :environments => [ node[:primero][:rails_env] ],
     :url => "beanstalk://#{node[:primero][:queue][:host]}:#{node[:primero][:queue][:port]}"
@@ -10,7 +10,6 @@ template ::File.join(node[:primero][:app_dir], 'config', 'backburner.yml') do
 end
 
 log_base_dir = ::File.join(node[:primero][:log_dir], 'backburner')
-
 directory log_base_dir do
   action :create
   mode '0700'
@@ -33,20 +32,18 @@ QUEUE=#{node[:primero][:queue][:queue_list]} RAILS_ENV=#{node[:primero][:rails_e
 EOH
 end
 
-#Launch the rake task via supervisord
-supervisor_service 'backburner' do
-  command backburner_worker_file
-  autostart true
-  autorestart true
-  stopasgroup true
+template '/etc/systemd/system/backburner.service' do
+  source 'queue/backburner.service.erb'
+end
 
-  redirect_stderr true
-  stdout_logfile ::File.join(log_base_dir, 'output.log')
-  stdout_logfile_maxbytes '5MB'
-  stdout_logfile_backups 0
+execute 'Reload Systemd' do
+  command 'systemctl daemon-reload'
+end
 
-  user node[:primero][:app_user]
-  directory node[:primero][:app_dir]
-  numprocs 1
-  action [:enable, :restart]
+execute 'Enable Backburner' do
+  command 'systemctl enable couch_watcher.service'
+end
+
+execute 'Restart Backburner' do
+  command 'systemctl restart backburner'
 end
