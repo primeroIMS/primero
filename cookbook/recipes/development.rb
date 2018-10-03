@@ -71,7 +71,7 @@ template "/vagrant/config/couchdb.yml" do
 end
 
 template "/vagrant/config/couch_watcher.yml" do
-  source 'couch_watcher.yml.erb'
+  source 'couch_watcher/couch_watcher.yml.erb'
   variables({
     :environments => ['production'],
     :couch_watcher_host => node[:primero][:couch_watcher][:host],
@@ -83,23 +83,23 @@ end
 
 
 template '/vagrant/config/sunspot.yml' do
-  source "sunspot.yml.erb"
+  source "solr/sunspot.yml.erb"
   variables({
     :environments => [ 'development', 'test', 'production' ],
     :hostnames => {'development' => 'localhost',
                    'test' => 'localhost',
-                   'production' => node[:primero][:solr_hostname]},
+                   'production' => node[:primero][:solr][:hostname]},
     :ports => {'development' => 8982,
                'test' => 8981,
-               'production' => node[:primero][:solr_port]},
+               'production' => node[:primero][:solr][:port]},
     :log_levels => {'development' => 'INFO',
                     'cucumber' => 'INFO',
                     'test' => 'INFO',
                     'uat' => 'INFO',
                     'standalone' => 'INFO',
                     'android' => 'INFO',
-                    'production' => node[:primero][:solr_log_level]},
-    :log_files => {'production' => "#{node[:primero][:log_dir]}/solr/sunspot-solr-production.log"}
+                    'production' => node[:primero][:solr][:log_level]},
+    :log_files => {'production' => "#{node[:primero][:solr][:log_dir]}/sunspot-solr-production.log"}
   })
   owner 'vagrant'
   group 'vagrant'
@@ -114,28 +114,28 @@ file "/vagrant/config/mailers.yml" do
 end
 
 ['development', 'test'].each do |core_name|
-  core_dir = File.join(node[:primero][:solr_core_dir], core_name)
+  core_dir = File.join(node[:primero][:solr][:core_dir], core_name)
   directory core_dir do
     action :create
     mode '0700'
-    owner node[:primero][:solr_user]
-    group node[:primero][:solr_group]
-    only_if { ::File.exists?(node[:primero][:solr_core_dir])}
+    owner node[:primero][:solr][:user]
+    group node[:primero][:solr][:group]
+    only_if { ::File.exists?(node[:primero][:solr][:core_dir])}
   end
   template File.join(core_dir, 'core.properties') do
     source "core.properties.erb"
     variables({
-      :data_dir => File.join(node[:primero][:solr_data_dir], core_name)
+      :data_dir => File.join(node[:primero][:solr][:data_dir], core_name)
     })
-    owner node[:primero][:solr_user]
-    group node[:primero][:solr_group]
+    owner node[:primero][:solr][:user]
+    group node[:primero][:solr][:group]
     only_if { ::File.exists?(core_dir)}
   end
 end
 
 execute 'Restart Solr' do
-  command 'supervisorctl restart solr'
-  only_if { ::File.exists?(node[:primero][:solr_core_dir])}
+  command 'systemctl restart solr'
+  only_if { ::File.exists?(node[:primero][:solr][:core_dir])}
 end
 
 directory '/home/vagrant/primero/log' do

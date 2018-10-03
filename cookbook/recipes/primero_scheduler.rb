@@ -7,7 +7,7 @@ directory scheduler_log_dir do
   group node[:primero][:app_group]
 end
 
-scheduler_worker_file = "#{node[:primero][:app_dir]}/primero-scheduler-worker.sh"
+scheduler_worker_file = "#{node[:primero][:daemons_dir]}/primero-scheduler-worker.sh"
 
 file scheduler_worker_file do
   mode '0755'
@@ -21,21 +21,18 @@ RAILS_ENV=#{node[:primero][:rails_env]} RAILS_SCHEDULER_LOG_DIR=#{scheduler_log_
 EOH
 end
 
-#Launch the rake task via supervisord
-supervisor_service 'primero-scheduler' do
-  command scheduler_worker_file
-  autostart true
-  autorestart true
-  stopasgroup true
-  killasgroup true
+template '/etc/systemd/system/primero_scheduler.service' do
+  source 'primero_scheduler.service.erb'
+end
 
-  redirect_stderr true
-  stdout_logfile ::File.join(scheduler_log_dir, 'output.log')
-  stdout_logfile_maxbytes '5MB'
-  stdout_logfile_backups 0
+execute 'Reload Systemd' do
+  command 'systemctl daemon-reload'
+end
 
-  user node[:primero][:app_user]
-  directory node[:primero][:app_dir]
-  numprocs 1
-  action [:enable, :restart]
+execute 'Enable Primero Scheduler' do
+  command 'systemctl enable primero_scheduler.service'
+end
+
+execute 'Restart Primero Scheduler' do
+  command 'systemctl restart primero_scheduler'
 end

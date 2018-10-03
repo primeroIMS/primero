@@ -1,91 +1,106 @@
+include_recipe 'apt'
+include_recipe 'primero::common'
+include_recipe 'primero::git_stage'
 
-# Install the unzip package
-package "unzip" do
-  action :install
-end
+package 'unzip'
+package 'openjdk-8-jre-headless'
 
-group node[:primero][:solr_group] do
+group node[:primero][:solr][:group] do
   system true
 end
 
-user node[:primero][:solr_user] do
+user node[:primero][:solr][:user] do
   system true
   home node[:primero][:home_dir]
-  gid node[:primero][:solr_group]
+  gid node[:primero][:solr][:group]
   shell '/bin/bash'
 end
 
-log_base_dir = ::File.join(node[:primero][:log_dir], 'solr')
-
-directory log_base_dir do
+directory node[:primero][:solr][:log_dir] do
   action :create
   mode '0700'
-  owner node[:primero][:solr_user]
-  group node[:primero][:solr_group]
+  owner node[:primero][:solr][:user]
+  group node[:primero][:solr][:group]
 end
 
-directory node[:primero][:solr_data_dir] do
+directory node[:primero][:solr][:home_dir] do
+  action :create
+  mode '0755'
+  owner node[:primero][:solr][:user]
+  group node[:primero][:solr][:group]
+end
+
+execute 'Stage solr.xml' do
+  command "cp #{node[:primero][:app_dir]}/solr/solr.xml #{node[:primero][:solr][:home_dir]}"
+  user node[:primero][:solr][:user]
+end
+
+execute 'Stage solr configsets' do
+  command "cp -r #{node[:primero][:app_dir]}/solr/configsets #{node[:primero][:solr][:home_dir]}"
+  user node[:primero][:solr][:user]
+end
+
+directory node[:primero][:solr][:data_dir] do
   action :create
   mode '0700'
-  owner node[:primero][:solr_user]
-  group node[:primero][:solr_group]
+  owner node[:primero][:solr][:user]
+  group node[:primero][:solr][:group]
 end
 
-directory node[:primero][:solr_core_dir] do
+directory node[:primero][:solr][:core_dir] do
   action :create
   mode '0700'
-  owner node[:primero][:solr_user]
-  group node[:primero][:solr_group]
+  owner node[:primero][:solr][:user]
+  group node[:primero][:solr][:group]
 end
 
-execute 'change solr owner' do
-  command "chown #{node[:primero][:solr_user]}.#{node[:primero][:solr_group]} -R #{node[:primero][:solr_data_dir]}"
-  only_if { ::File.exists?(node[:primero][:solr_data_dir])}
+core_dir = File.join(node[:primero][:solr][:core_dir], node[:primero][:rails_env])
+directory core_dir do
+  action :create
+  mode '0700'
+  owner node[:primero][:solr][:user]
+  group node[:primero][:solr][:group]
 end
 
-
-
-['production'].each do |core_name|
-  core_dir = File.join(node[:primero][:solr_core_dir], core_name)
-  directory core_dir do
-    action :create
-    mode '0700'
-    owner node[:primero][:solr_user]
-    group node[:primero][:solr_group]
-  end
-  template File.join(core_dir, 'core.properties') do
-    source "core.properties.erb"
-    variables({
-      :data_dir => File.join(node[:primero][:solr_data_dir], core_name)
-    })
-    owner node[:primero][:solr_user]
-    group node[:primero][:solr_group]
-  end
+template File.join(core_dir, 'core.properties') do
+  source "solr/core.properties.erb"
+  variables({
+    :data_dir => File.join(node[:primero][:solr][:data_dir], node[:primero][:rails_env])
+  })
+  owner node[:primero][:solr][:user]
+  group node[:primero][:solr][:group]
 end
 
-solr_memory = node[:primero][:solr_memory]
-memory_param = solr_memory ? "-m #{solr_memory}" : ""
+solr_tar="solr-#{node[:primero][:solr][:version]}.tgz"
+solr_bin = "/opt/solr-#{node[:primero][:solr][:version]}/bin/solr"
+execute 'Download Solr' do
+  command "wget https://archive.apache.org/dist/lucene/solr/#{node[:primero][:solr][:version]}/#{solr_tar}"
+  cwd "/tmp"
+  only_if { ! (::File.exists?(solr_bin) || ::File.exists?("/tmp/#{solr_tar}")) }
+end
 
-# TODO: figure out how to make this more dynamic so we aren't hardcoding the
-# sunspot_solr gem dir.  That, or install solr outside of gems
-solr_bin_dir = "#{node[:primero][:home_dir]}/.rvm/gems/ruby-#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}/gems/sunspot_solr-2.3.0/solr/bin"
-supervisor_service 'solr' do
-  command "#{solr_bin_dir}/solr start -f -p 8983 -s /srv/primero/application/solr #{memory_param}"
-  environment({'RAILS_ENV' => 'production'})
-  autostart true
-  autorestart true
-  stopasgroup true
-  killasgroup true
+execute 'Install Solr' do
+  command "tar xzf #{solr_tar} solr-#{node[:primero][:solr][:version]}/bin/install_solr_service.sh --strip-components=2 && bash ./install_solr_service.sh #{solr_tar} -u #{node[:primero][:solr][:user]}"
+  cwd "/tmp"
+  only_if { ! (::File.exists?(solr_bin)) }
+end
 
-  redirect_stderr true
-  stdout_logfile ::File.join(log_base_dir, 'output.log')
-  stdout_logfile_maxbytes '5MB'
-  stdout_logfile_backups 0
+template "#{node[:primero][:solr][:home_dir]}/solr.in.sh" do
+  source 'solr/solr.in.sh.erb'
+  owner node[:primero][:solr][:user]
+  group node[:primero][:solr][:group]
+end
 
-  user node[:primero][:solr_user]
-  directory solr_bin_dir
-  numprocs 1
-  action [:enable, :restart]
+execute 'Reload Systemd' do
+  command 'systemctl daemon-reload'
+end
+
+execute 'Enable Solr' do
+  command 'systemctl enable solr.service'
+end
+
+execute 'Reload Solr' do
+  command 'systemctl restart solr'
 end
 
 file "/etc/cron.daily/solr_restart" do
@@ -95,6 +110,6 @@ file "/etc/cron.daily/solr_restart" do
   content <<EOH
 #!/bin/bash
 
-supervisorctl restart solr
+systemctl restart solr
 EOH
 end
