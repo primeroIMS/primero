@@ -22,7 +22,7 @@ module CouchChanges
   class << self
     def logger
       @_logfile ||= "#{ENV['RAILS_LOG_PATH']}/output.log"
-      @_logger ||= Logger.new(@_logfile, 1, 50.megabytes)
+      @_logger ||= Logger.new(@_logfile, 1, 50.megabytes).tap {|l| l.level = Rails.configuration.couch_watcher_log_level }
     end
 
     def run(history_file=nil)
