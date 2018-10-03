@@ -3,13 +3,13 @@ reopened_subform = [
                "type" => "date_field",
                "editable"=>false,
                "disabled"=>true,
-               "display_name_all" => "Date Reopened",
+               "display_name_en" => "Date Reopened",
               }),
     Field.new({"name" => "reopened_user",
                "type" => "text_field",
                "editable"=>false,
                "disabled"=>true,
-               "display_name_all" => "Reopened by",
+               "display_name_en" => "Reopened by",
               })
 ]
 
@@ -24,8 +24,8 @@ reopened_logs = FormSection.create_or_update_form_section({
      :parent_form=>"case",
      "editable"=>false,
      :fields => reopened_subform,
-     "name_all" => "Case Reopened",
-     "description_all" => "Case Reopened Subform",
+     "name_en" => "Case Reopened",
+     "description_en" => "Case Reopened Subform",
      "collapsed_fields" => ["reopened_date", "reopened_user"],
      "display_help_text_view" => false
 })
@@ -37,26 +37,26 @@ record_owner_fields = [
   Field.new({"name" => "current_owner_separator",
            "mobile_visible" => false,
            "type" => "separator",
-           "display_name_all" => "Current Owner",
+           "display_name_en" => "Current Owner",
           }),
   Field.new({"name" => "owned_by_text",
         "type" => "text_field",
         "show_on_minify_form" => true,
         "mobile_visible" => true,
-        "display_name_all" => "Field/Case/Social Worker"
+        "display_name_en" => "Field/Case/Social Worker"
           }),
   Field.new({"name" => "owned_by",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" =>"select_box" ,
-             "display_name_all" => "Caseworker Code",
+             "display_name_en" => "Caseworker Code",
              "option_strings_source" => "User",
              "editable" => false,
              "disabled" => true
           }),
   Field.new({"name" => "reassigned_tranferred_on",
             "type" => "date_field",
-            "display_name_all" => "Reassigned / Transferred On",
+            "display_name_en" => "Reassigned / Transferred On",
             "date_include_time" => true,
             "editable" => false,
             "disabled" => true
@@ -64,7 +64,7 @@ record_owner_fields = [
   Field.new({"name" => "owned_by_agency",
              "type" => "select_box",
              "mobile_visible" => false,
-             "display_name_all" => "Agency",
+             "display_name_en" => "Agency",
              "editable" => false,
              "disabled" => true,
              "option_strings_source" => "Agency"
@@ -74,46 +74,46 @@ record_owner_fields = [
           "mobile_visible" => false,
           "type" => "text_field",
           "visible" => false,
-          "display_name_all" => "Agency Telephone"
+          "display_name_en" => "Agency Telephone"
            }),
   Field.new({"name" => "assigned_user_names",
              "mobile_visible" => false,
              "type" =>"select_box",
              "multi_select" => true,
-             "display_name_all" => "Other Assigned Users",
+             "display_name_en" => "Other Assigned Users",
              "option_strings_source" => "User"
             }),
   #TODO spreadsheet says this comes from valid users
   Field.new({"name" => "database_operator_user_name",
              "mobile_visible" => false,
              "type" =>"select_box",
-             "display_name_all" => "Database Operator",
+             "display_name_en" => "Database Operator",
              "option_strings_source" => "User",
              "visible" => false
             }),
   Field.new({"name" => "address_registration",
            "mobile_visible" => false,
            "type" => "textarea",
-           "display_name_all" => "Registration Address",
+           "display_name_en" => "Registration Address",
            "visible" => false
           }),
   Field.new({"name" => "location_registration",
           "mobile_visible" => false,
           "type" => "text_field",
-          "display_name_all" => "Location Address",
+          "display_name_en" => "Location Address",
           "visible" => false
           }),
   #TODO: get rid of
  	Field.new({"name" => "record_history_separator",
            "mobile_visible" => false,
            "type" => "separator",
-           "display_name_all" => "Record History",
+           "display_name_en" => "Record History",
           }),
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "created_by",
           "mobile_visible" => false,
           "type" => "text_field",
-          "display_name_all" => "Record created by",
+          "display_name_en" => "Record created by",
           "editable" => false,
           "disabled" => true
           }),
@@ -121,14 +121,14 @@ record_owner_fields = [
  	Field.new({"name" => "created_by_agency",
           "mobile_visible" => false,
           "type" => "text_field",
-          "display_name_all" => "Created by agency",
+          "display_name_en" => "Created by agency",
           "disabled" => true
           }),
   #TODO: Move data to hardcoded record status panel
  	Field.new({"name" => "previously_owned_by",
           "mobile_visible" => false,
           "type" => "text_field",
-          "display_name_all" => "Previous Owner",
+          "display_name_en" => "Previous Owner",
           "editable" => false,
           "disabled" => true
           }),
@@ -136,7 +136,7 @@ record_owner_fields = [
  	Field.new({"name" => "previous_agency",
           "mobile_visible" => false,
           "type" => "text_field",
-          "display_name_all" => "Previous Agency",
+          "display_name_en" => "Previous Agency",
           "disabled" => true
           }),
   #TODO: This is needed to preserve the module on record creation. Can we make this elegant?
@@ -144,7 +144,7 @@ record_owner_fields = [
   Field.new({"name" => "module_id",
           "mobile_visible" => false,
           "type" => "text_field",
-          "display_name_all" => "Module",
+          "display_name_en" => "Module",
           "editable" => false,
           "disabled" => true
           }),
@@ -154,7 +154,7 @@ Field.new({"name" => "reopened_logs",
            "editable" => false,
            "disabled" => true,
            "subform_section_id" => reopened_logs.unique_id,
-           "display_name_all" => "Case Reopened",
+           "display_name_en" => "Case Reopened",
            "subform_sort_by" => "reopened_date"
           })
 ]
@@ -170,6 +170,6 @@ FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => record_owner_fields,
   :mobile_form => true,
-  "name_all" => "Record Information",
-  "description_all" => "Record Information"
+  "name_en" => "Record Information",
+  "description_en" => "Record Information"
 })

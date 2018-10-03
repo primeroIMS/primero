@@ -3,7 +3,7 @@ bia_fields = [
               "type" => "document_upload_box",
               "editable" => false,
               "disabled" => true,
-              "display_name_all" => "BIA Document"
+              "display_name_en" => "BIA Document"
               })
 ]
 
@@ -16,8 +16,8 @@ FormSection.create_or_update_form_section({
   :order_subform_ => 0,
   :fields => bia_fields,
   "editable" => false,
-  "name_all" => "BIA Records",
-  "description_all" => "BIA Records",
+  "name_en" => "BIA Records",
+  "description_en" => "BIA Records",
   "form_group_name" => "Documents",
   "display_help_text_view" => true
 })

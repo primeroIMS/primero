@@ -3,7 +3,7 @@ bid_fields = [
               "type" => "document_upload_box",
               "editable" => false,
               "disabled" => true,
-              "display_name_all" => "BID Document"
+              "display_name_en" => "BID Document"
               })
 ]
 
@@ -16,8 +16,8 @@ FormSection.create_or_update_form_section({
   :order_subform_ => 0,
   :fields => bid_fields,
   "editable" => false,
-  "name_all" => "BID Records",
-  "description_all" => "BID Records",
+  "name_en" => "BID Records",
+  "description_en" => "BID Records",
   "form_group_name" => "Documents",
   "display_help_text_view" => true
 })

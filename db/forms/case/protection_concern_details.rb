@@ -1,54 +1,50 @@
 protection_concern_detail_subform_fields = [
   Field.new({"name" => "protection_concern_type",
     "type" => "select_box",
-    "display_name_all" => "Type of Protection Concern",
+    "display_name_en" => "Type of Protection Concern",
     "option_strings_source" => "lookup lookup-protection-concerns"
   }),
   Field.new({"name" => "date_concern_identified",
     "type" => "select_box",
-    "display_name_all" => "Period when identified?",
-    "option_strings_text_all" => [
-      "Follow up After Reunification",
-      "Follow up In Care",
-      "Registration",
-      "Reunification",
-      "Verification"
-    ].join("\n")
+    "display_name_en" => "Period when identified?",
+    "option_strings_text_en" => [
+      { id: 'follow_up_after_reunification', display_text: "Follow up After Reunification" },
+      { id: 'follow_up_in_care', display_text: "Follow up In Care" },
+      { id: 'registration', display_text: "Registration" },
+      { id: 'reunification', display_text: "Reunification" },
+      { id: 'verification', display_text: "Verification" }
+    ].map(&:with_indifferent_access)
   }),
   Field.new({"name" => "concern_details",
     "type" => "textarea",
-    "display_name_all" => "Details of the concern"
+    "display_name_en" => "Details of the concern"
   }),
   Field.new({"name" => "concern_intervention_needed",
     "type" => "select_box",
-    "display_name_all" => "Intervention needed?",
-    "option_strings_text_all" => [
-      "No Further Action Needed",
-      "Ongoing Monitoring",
-      "Urgent Intervention"
-    ].join("\n")
+    "display_name_en" => "Intervention needed?",
+    "option_strings_source" => "lookup lookup-further-action_needed"
   }),
   Field.new({"name" => "date_concern_intervention_needed_by",
     "type" => "date_field",
-    "display_name_all" => "Intervention needed by"
+    "display_name_en" => "Intervention needed by"
   }),
   Field.new({"name" => "concern_action_taken_already",
     "type" => "tick_box",
-    "display_name_all" => "Has action been taken?",
-    "tick_box_label_all" => "Yes"
+    "display_name_en" => "Has action been taken?",
+    "tick_box_label_en" => "Yes"
   }),
   Field.new({"name" => "concern_action_taken_details",
     "type" => "textarea",
-    "display_name_all" => "Details of Action Taken"
+    "display_name_en" => "Details of Action Taken"
   }),
   Field.new({"name" => "concern_action_taken_date",
     "type" => "date_field",
-    "display_name_all" => "Date when action was taken"
+    "display_name_en" => "Date when action was taken"
   }),
   Field.new({"name" => "concern_is_resolved",
     "type" => "tick_box",
-    "display_name_all" => "Protection concern resolved?",
-    "tick_box_label_all" => "Yes"
+    "display_name_en" => "Protection concern resolved?",
+    "tick_box_label_en" => "Yes"
   })
 ]
 
@@ -63,8 +59,8 @@ protection_concern_detail_subform_section = FormSection.create_or_update_form_se
   "editable" => true,
   :fields => protection_concern_detail_subform_fields,
   :initial_subforms => 1,
-  "name_all" => "Nested Protection Concerns Subform",
-  "description_all" => "Nested Protection Concerns Subform",
+  "name_en" => "Nested Protection Concerns Subform",
+  "description_en" => "Nested Protection Concerns Subform",
   "collapsed_fields" => ["protection_concern_type"]
 })
 
@@ -72,14 +68,14 @@ protection_concern_detail_fields = [
   Field.new({"name" => "protection_concerns",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "Protection Concerns",
+             "display_name_en" => "Protection Concerns",
              "option_strings_source" => "lookup lookup-protection-concerns"
             }),
   Field.new({"name" => "protection_concern_detail_subform_section",
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => protection_concern_detail_subform_section.unique_id,
-             "display_name_all" => "Protection Concern Details"
+             "display_name_en" => "Protection Concern Details"
             })
 ]
 
@@ -93,6 +89,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Assessment",
   :fields => protection_concern_detail_fields,
   "editable" => true,
-  "name_all" => "Protection Concern Details",
-  "description_all" => "Protection Concern Details"
+  "name_en" => "Protection Concern Details",
+  "description_en" => "Protection Concern Details"
 })

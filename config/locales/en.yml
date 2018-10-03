@@ -181,6 +181,7 @@ en:
      remove_referrals: "Remove referrals"
      view: "View"
      request_transfer: "Request Transfer"
+     add_note: "Add Notes"
 
   placeholders:
     subforms: "Click the edit button to add %{form} details"
@@ -1007,6 +1008,7 @@ en:
       export_case_pdf: "Export case pdf"
       export_json: "Export json"
       export_custom: "Export custom"
+      export_duplicate_id_csv: "Export duplicates"
       import: "Import"
       transfer: "Transfer"
       reassign: "Reassign"
@@ -1056,6 +1058,7 @@ en:
       request_transfer: "Request Transfer"
       view_photo: "View Photo"
       matching_configuration: "Matching Configuration"
+      add_note: "Add Notes"
 
   forms:
     label: "Forms"
@@ -1810,6 +1813,10 @@ en:
         default_locale: "System locale must not be blank"
         locales: "English must be available as a System Locale"
 
+      export_configuration:
+        record_type: "Invalid record type. Must be Child, TracingRequest, or Incident."
+        opt_out_field_does_not_exist: "Specified opt_out field does not exist on the record."
+
 
 
   select_all_results: "Select all results"
@@ -1919,15 +1926,22 @@ en:
       all:  UNHCR
       one:  UNHCR
       selected:  Selected to UNHCR
+      female_abbreviation: "F"
+      male_abbreviation: "M"
+      unknown_abbreviation: "U"
       headers:
         id: "ID"
+        long_id: "Long ID"
+        short_id: "Short ID"
         individual_progress_id: "Individual Progress ID"
+        progres_id: "Progres ID"
         cpims_code: "CPIMS Code"
         date_of_identification: "Date of Identification"
         primary_protection_concerns: "Primary Protection Concerns"
         secondary_protection_concerns: "Secondary Protection Concerns"
         governorate_country: "Governorate - Country"
         sex: "Sex"
+        sex_mapping_m_f_u: "Sex"
         date_of_birth: "Date of Birth"
         age: "Age"
         causes_of_separation: "Causes of Separation"
@@ -1935,6 +1949,26 @@ en:
         current_care_arrangement: "Current Care Arrangement"
         reunification_status: "Reunification Status"
         case_status: "Case Status"
+        family_count_no: "Family Count Number"
+        moha_id: "MOHA ID"
+        name_of_child_last_first: "Full name of child"
+        name_of_caregiver: "Full name of caregiver"
+        vulnerability_code: "Vulnerability Codes"
+        vulnerability_details_code: "Vulnerability Details Codes"
+        locations_by_level: "Address (Camp, Block, and other applicable address levels, such as shelter GPS coordinates)"
+    duplicate_id_csv:
+      all: Duplicate ID
+      female_abbreviation: "F"
+      male_abbreviation: "M"
+      unknown_abbreviation: "U"
+      headers:
+        moha_id: "MOHA ID"
+        case_id: "Case ID"
+        progress_id: "Progress ID"
+        child_name_last_first: "Child Name"
+        age: "Age"
+        sex_mapping_m_f_u: "Sex"
+        family_size: "Family Size"
     mrm_violation_xls:
       all:  MRM Violations
       one:  MRM Violations
@@ -2013,6 +2047,7 @@ en:
     consent_label: "records have not provided consent."
     consent_override_label: "Do you wish to override this setting?"
     is_remote_label: "Are you transferring to a remote system?"
+    consent_individual_transfer: "Do you have consent from the individual to make this transfer?"
     type_of_export: "What type of export do you want"
     notes_label: "Notes"
     user_mandatory: "User name is required"
@@ -2085,6 +2120,12 @@ en:
       pending: "Pending"
       approved: "Approved"
       rejected: "Rejected"
+
+  notes:
+    notes_label: "Notes"
+    subject_label: "Subject"
+    no_records_selected: "No records selected"
+    error_adding_note: "Error adding note"
 
   per_page_translation: "Per page _MENU_"
   total: Total

@@ -3,7 +3,7 @@ other_documents_fields = [
               "type" => "document_upload_box",
               "editable" => false,
               "disabled" => true,
-              "display_name_all" => "Other Document"
+              "display_name_en" => "Other Document"
               })
 ]
 
@@ -16,8 +16,8 @@ FormSection.create_or_update_form_section({
   :order_subform_ => 0,
   :fields => other_documents_fields,
   "editable" => false,
-  "name_all" => "Other Documents",
-  "description_all" => "Other Documents",
+  "name_en" => "Other Documents",
+  "description_en" => "Other Documents",
   "form_group_name" => "Documents",
   "display_help_text_view" => true
 })

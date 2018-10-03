@@ -5,12 +5,12 @@ fields = [
     "selected_value" => true,
     "editable" => false,
     "disabled" => true,
-    "display_name_all" => "Valid Record?"
+    "display_name_en" => "Valid Record?"
   }),
   Field.new({
     "name" => "owned_by_agency",
     "type" => "select_box",
-    "display_name_all" => "Case Manager's Agency",
+    "display_name_en" => "Case Manager's Agency",
     "editable" => false,
     "disabled" => true,
     "option_strings_source" => "Agency"
@@ -18,7 +18,7 @@ fields = [
   Field.new({
     "name" => "owned_by_location",
     "type" => "select_box",
-    "display_name_all" => "Case Manager's Location",
+    "display_name_en" => "Case Manager's Location",
     "searchable_select" => true,
     "editable" => false,
     "disabled" => true,
@@ -27,7 +27,7 @@ fields = [
   Field.new({
     "name" => "has_referrals",
     "type" => "tick_box",
-    "display_name_all" => "Does this case have any referrals?",
+    "display_name_en" => "Does this case have any referrals?",
     "editable" => false,
     "disabled" => true,
     "create_property" => false
@@ -35,7 +35,7 @@ fields = [
   Field.new({
     "name" => "has_case_plan",
     "type" => "tick_box",
-    "display_name_all" => "Does this case have a case plan?",
+    "display_name_en" => "Does this case have a case plan?",
     "editable" => false,
     "disabled" => true,
     "create_property" => false
@@ -50,6 +50,6 @@ FormSection.create_or_update_form_section({
   :order_form_group => 1000,
   "editable" => true,
   :fields => fields,
-  "name_all" => "Other Reportable Fields",
-  "description_all" => "Other Reportable Fields"
+  "name_en" => "Other Reportable Fields",
+  "description_en" => "Other Reportable Fields"
 })

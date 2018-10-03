@@ -11,7 +11,7 @@ class SystemSettings < CouchRest::Model::Base
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
   property :unhcr_needs_codes_mapping, Mapping
-  property :unhcr_export_config_id
+  property :export_config_id
   property :reporting_location_config, ReportingLocation
   property :primero_version
   property :age_ranges, { String => [AgeRange] }
@@ -22,6 +22,8 @@ class SystemSettings < CouchRest::Model::Base
   property :due_date_from_appointment_date, TrueClass, :default => false
   property :notification_email_enabled, TrueClass, :default => false
   property :welcome_email_enabled, TrueClass, :default => false
+  property :duplicate_export_field
+
   localize_properties [:welcome_email_text]
 
   validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")

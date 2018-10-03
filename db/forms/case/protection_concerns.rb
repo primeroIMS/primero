@@ -2,55 +2,55 @@ protection_concern_fields = [
   Field.new({"name" => "protection_status",
              "type" => "select_box",
              "option_strings_source" => "lookup lookup-protection-status",
-             "display_name_all" => "Protection Status"
+             "display_name_en" => "Protection Status"
             }),
   Field.new({"name" => "urgent_protection_concern",
              "type" => "radio_button",
-             "display_name_all" => "Urgent Protection Concern?",
+             "display_name_en" => "Urgent Protection Concern?",
              "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "risk_level",
              "type" => "select_box",
-             "display_name_all" => "Risk Level",
+             "display_name_en" => "Risk Level",
              "option_strings_source" => "lookup lookup-risk-level"
             }),
   Field.new({"name" => "system_generated_followup",
              "type" => "tick_box",
-             "display_name_all" => "Generate follow up reminders?"
+             "display_name_en" => "Generate follow up reminders?"
             }),
   Field.new({"name" => "displacement_status",
              "type" =>"select_box" ,
-             "display_name_all" => "Displacement Status",
+             "display_name_en" => "Displacement Status",
              "option_strings_source" => "lookup lookup-displacement-status"
             }),
   Field.new({"name" => "unhcr_protection_code",
              "type" => "text_field",
-             "display_name_all" => "UNHCR Protection Code",
+             "display_name_en" => "UNHCR Protection Code",
              "visible" => false,
              "editable" => false,
              "disabled" => true,
-             "help_text_all" => "This field is deprecated in v1.2 and replaced by unchr_needs_code"
+             "help_text_en" => "This field is deprecated in v1.2 and replaced by unchr_needs_code"
             }),
   Field.new({"name" => "protection_concerns",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "Protection Concerns",
+             "display_name_en" => "Protection Concerns",
              "required" => false,
              "option_strings_source" => "lookup lookup-protection-concerns"
             }),
   Field.new({"name" => "protection_concerns_other",
              "type" => "text_field",
-             "display_name_all" => "If Other, please specify"
+             "display_name_en" => "If Other, please specify"
             }),
   Field.new({"name" => "unhcr_needs_codes",
              "type" => "select_box",
              "multi_select" => true,
-             "display_name_all" => "UNHCR Needs Codes",
+             "display_name_en" => "UNHCR Needs Codes",
              "option_strings_source" => "lookup lookup-unhcr-needs-codes"
             }),
   Field.new({"name" => "disability_type",
              "type" =>"select_box" ,
-             "display_name_all" => "Disability Type",
+             "display_name_en" => "Disability Type",
              "option_strings_source" => "lookup lookup-disability-type"
             })
 ]
@@ -65,6 +65,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Identification / Registration",
   :fields => protection_concern_fields,
   "editable" => true,
-  "name_all" => "Protection Concerns",
-  "description_all" => "Protection concerns"
+  "name_en" => "Protection Concerns",
+  "description_en" => "Protection concerns"
 })

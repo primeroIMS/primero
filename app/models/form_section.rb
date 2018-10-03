@@ -111,6 +111,8 @@ class FormSection < CouchRest::Model::Base
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
+    #TODO: This is temporary. Eventually form_group_name will be localized
+    lh['form_group_name'] = self.form_group_name if self.form_group_name.present?
     fldz = {}
     self.fields.each { |f| fldz[f.name] = f.localized_property_hash locale if (show_hidden_fields || f.visible?)}
     lh['fields'] = fldz
@@ -689,7 +691,8 @@ class FormSection < CouchRest::Model::Base
       if locale.present? && Primero::Application::locales.include?(locale)
         unique_id = form_hash.keys.first
         if unique_id.present?
-          form = self.get_by_unique_id(unique_id)
+          #We have to bypass memoization here
+          form = self.old_by_unique_id(key: unique_id).first
           if form.present?
             form.update_translations(form_hash.values.first, locale)
             Rails.logger.info "Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]"
@@ -897,6 +900,9 @@ class FormSection < CouchRest::Model::Base
       form_hash.each do |key, value|
         if key == 'fields'
           update_field_translations(value, locale)
+        elsif key == 'form_group_name'
+          #TODO: get rid of this case once we i18n form_group_name
+          self.form_group_name = value
         else
           self.send("#{key}_#{locale}=", value)
         end
