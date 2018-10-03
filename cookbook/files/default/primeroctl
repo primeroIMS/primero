@@ -22,8 +22,8 @@ status () {
   echo "Primero status:"
   systemctl_status nginx
   systemctl_status puma
-  supervisorctl status couch-watcher
-  supervisorctl status who-watches-the-couch-watcher
+  systemctl_status status couch-watcher
+  systemctl_status status who-watches-the-couch-watcher
   supervisorctl status primero-scheduler
   supervisorctl status backburner
   systemctl_status beanstalkd
@@ -39,7 +39,9 @@ stop () {
   systemctl stop puma.service
   systemctl_status puma.service
 
-  supervisorctl stop couch-watcher && supervisorctl stop who-watches-the-couch-watcher
+  systemctl stop couch-watcher who-watches-the-couch-watcher
+  systemctl_status couch-watcher
+  systemctl_status who-watches-the-couch-watcher
 
   supervisorctl stop primero-scheduler
 
@@ -64,7 +66,9 @@ start () {
   systemctl start puma
   systemctl_status puma
 
-  supervisorctl start couch-watcher && supervisorctl start who-watches-the-couch-watcher
+  systemctl stop couch-watcher who-watches-the-couch-watcher
+  systemctl_status couch-watcher
+  systemctl_status who-watches-the-couch-watcher
 
   supervisorctl start primero-scheduler
 
