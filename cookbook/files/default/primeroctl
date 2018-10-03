@@ -1,87 +1,23 @@
 #! /usr/bin/env bash
 
-
-#  Manage the following Primero services:
-#    nginx                             (systemd)
-#    puma                              (systemd)
-#    couch-watcher                     (supervisor)
-#    who-watches-the-couch-watcher     (supervisor)
-#    primero-scheduler                 (supervisor)
-#    backburner                        (supervisor)
-#    beanstalkd                        (systemd)
-#    solr                              (systemd)
-#    couchdb                           (systemd)
-
-
-systemctl_status () {
-  status=`systemctl status "${1}" | awk -F"e:" '/Active/ {print $2}'`
-  echo "${1}:                  ${status}"
-}
+services="nginx puma couch_watcher who_watches_the_couch_watcher primero_scheduler backburner beanstalkd solr couchdb"
 
 status () {
   echo "Primero status:"
-  systemctl_status nginx
-  systemctl_status puma
-  systemctl_status status couch-watcher
-  systemctl_status status who-watches-the-couch-watcher
-  supervisorctl status primero-scheduler
-  supervisorctl status backburner
-  systemctl_status beanstalkd
-  systemctl_status status solr
-  systemctl_status couchdb
+  systemctl status $services |  awk -F"e:" '/●/ {print $0} ; /Active/ {print "    "$2}'
 }
 
 stop () {
   echo "Stopping Primero services"
-  systemctl stop nginx
-  systemctl_status nginx
-
-  systemctl stop puma.service
-  systemctl_status puma.service
-
-  systemctl stop couch-watcher who-watches-the-couch-watcher
-  systemctl_status couch-watcher
-  systemctl_status who-watches-the-couch-watcher
-
-  supervisorctl stop primero-scheduler
-
-  supervisorctl stop backburner
-
-  systemctl stop beanstalkd
-  systemctl_status beanstalkd
-
-  systemctl stop solr
-  systemctl_status solr
-
-  systemctl stop couchdb
-  systemctl_status couchdb
+  systemctl stop $services
+  status
   echo "Primero services stopped"
 }
 
 start () {
   echo "Starting Primero services"
-  systemctl start nginx
-  systemctl_status nginx
-
-  systemctl start puma
-  systemctl_status puma
-
-  systemctl stop couch-watcher who-watches-the-couch-watcher
-  systemctl_status couch-watcher
-  systemctl_status who-watches-the-couch-watcher
-
-  supervisorctl start primero-scheduler
-
-  supervisorctl start backburner
-
-  systemctl start beanstalkd
-  systemctl_status beanstalkd
-
-  systemctl start solr
-  systemctl_status solr
-
-  systemctl start couchdb
-  systemctl_status couchdb
+  systemctl start $services
+  status
   echo "Primero services started"
 }
 
@@ -89,7 +25,6 @@ restart() {
   stop
   start
 }
-
 
 case "$1" in
   start)
