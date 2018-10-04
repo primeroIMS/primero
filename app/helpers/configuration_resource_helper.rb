@@ -4,7 +4,7 @@ module ConfigurationResourceHelper
     name = "#{object.class.name.underscore}[#{field}]"
     value = object.send(field)
     locale = field.split('_').last.to_sym
-    label_text = if Primero::Application::locales.map.include?(locale)
+    label_text = if Primero::Application::locales.include?(locale)
       I18n.t(label_key, locale: locale)
     else
       I18n.t(label_key)
