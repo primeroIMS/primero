@@ -215,3 +215,18 @@ include_recipe 'primero::nginx_app'
 execute 'Reload Puma' do
   command 'systemctl restart puma.service'
 end
+
+bin_dir = ::File.join(node[:primero][:home_dir], 'bin')
+directory bin_dir do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
+primeroctl = ::File.join(bin_dir, 'primeroctl')
+cookbook_file primeroctl do
+  source 'primeroctl'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '755'
+end

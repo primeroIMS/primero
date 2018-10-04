@@ -82,3 +82,8 @@ logrotate_app 'primero-nginx' do
     [ -s /run/nginx.pid ] && kill -USR1 `cat /run/nginx.pid`
   EOH
 end
+
+execute '/usr/sbin/nginx -t'
+service 'nginx' do
+  action :restart
+end
