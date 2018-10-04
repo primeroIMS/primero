@@ -21,7 +21,7 @@ module LocalizableProperty
 
         define_method "#{method}_all=" do |value|
           value = generate_keyed_value(value) if options[:generate_keys].present?
-          I18n.available_locales.map(&:to_s).each{|locale| self.send "#{method}_#{locale}=", value }
+          Primero::Application::locales.map.each{|locale| self.send "#{method}_#{locale}=", value }
         end
       end
       @localized_properties ||= []

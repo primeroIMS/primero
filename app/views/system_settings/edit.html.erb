@@ -29,7 +29,8 @@
                   </span>
                 </div>
                 <div class="medium-8 columns">
-                  <%= f.select :default_locale, @system_settings.locales_with_description, {class: 'chosen-select', data: {value: I18n.default_locale}} %>
+                  <%# TODO Should this go away if default locale in yaml? %>
+                  <%= f.select :default_locale, Primero::Application::locales_with_description, {class: 'chosen-select', data: {value: I18n.default_locale}} %>
                 </div>
                 <div class="medium-1 columns"> </div>
               </div>
@@ -56,7 +57,7 @@
                 <div class="medium-1 columns"></div>
               </div>
               <%= resource_edit_field(@system_settings, 'welcome_email_text', 'user.welcome_email.text_label', 'text_area') %>
-              <% I18n.available_locales.map(&:to_s).each do |new_locale| %>
+              <% Primero::Application::locales.map.each do |new_locale| %>
                 <% unless new_locale == "en" %>
                   <div class="<%= "translation_forms #{new_locale}"%> hide_element">
                     <div class="row"><div class="large-offset-3"><small><%= t("home.#{new_locale}")  %></small></div></div>

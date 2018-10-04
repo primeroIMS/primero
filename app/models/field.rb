@@ -166,7 +166,7 @@ class Field
     base_options = self.send("option_strings_text_#{base_language}")
     if base_options.blank?
       #If base options are blank, then all translated options should also be blank
-      if I18n.available_locales.map(&:to_s).any? {|locale| self.send("option_strings_text_#{locale}").present?}
+      if Primero::Application::locales.map.any? {|locale| self.send("option_strings_text_#{locale}").present?}
         errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.translations_not_empty"))
         return false
       else
@@ -183,7 +183,7 @@ class Field
 
   def valid_option_strings_text_translations?
     default_ids = self.send("option_strings_text_#{base_language}").try(:map){|op| op['id']}
-    I18n.available_locales.map(&:to_s).each do |locale|
+    Primero::Application::locales.map.each do |locale|
       next if locale == base_language
       options = self.send("option_strings_text_#{locale}")
       next if options.blank?
@@ -510,7 +510,7 @@ class Field
     field_hash = self.attributes.clone
     Field.localized_properties.each do |property|
       field_hash[property] = {}
-      I18n.available_locales.map(&:to_s).each do |locale|
+      Primero::Application::locales.map.each do |locale|
         key = "#{property.to_s}_#{locale}"
         value = field_hash[key]
         if property == :option_strings_text
@@ -572,7 +572,7 @@ class Field
         end
       end
 
-      I18n.available_locales.map(&:to_s).each do |locale|
+      Primero::Application::locales.map.each do |locale|
         option_strings_locale = self.send("option_strings_text_#{locale}")
         if locale != Primero::Application::LOCALE_ENGLISH && option_strings_locale.present?
           self.send("option_strings_text_#{locale}").each_with_index do |option, index|
@@ -590,7 +590,7 @@ class Field
       #Do not create any new option strings that do not have a matching lookup value in the default language
       default_ids = self.send("option_strings_text_#{base_language}").try(:map){|op| op['id']}
       if default_ids.present?
-        I18n.available_locales.map(&:to_s).each do |locale|
+        Primero::Application::locales.map.each do |locale|
           next if locale == base_language
           self.send("option_strings_text_#{locale}").try(:reject!){|op| default_ids.exclude?(op['id'])}
         end
@@ -603,7 +603,7 @@ class Field
   end
 
   def update_translations(field_hash={}, locale)
-    if locale.present? && I18n.available_locales.map(&:to_s).include?(locale)
+    if locale.present? && Primero::Application::locales.map.include?(locale)
       field_hash.each do |key, value|
         if key == 'option_strings_text'
           update_option_strings_translations(value, locale)
