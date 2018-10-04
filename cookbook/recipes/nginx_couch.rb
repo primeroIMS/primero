@@ -27,8 +27,6 @@ template couch_conf_file do
   notifies :restart, 'service[nginx]'
 end
 
-
-
 link "#{node[:nginx_dir]}/sites-enabled/couchdb" do
   to couch_conf_file
 end
@@ -36,5 +34,10 @@ end
 service 'nginx' do
   supports [:enable, :restart, :start, :reload]
   action [:enable, :start]
+end
+
+execute '/usr/sbin/nginx -t'
+service 'nginx' do
+  action :restart
 end
 
