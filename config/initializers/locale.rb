@@ -1,6 +1,8 @@
 default_locale = nil
 #check SystemSettings first for backwards compatibility
-docs = SystemSettings.database.documents['rows']
+#But use raw couch commands so we don't use the SystemSettings model, which expects locales to be initialized
+db = COUCHDB_SERVER.database!("primero_system_settings_#{Rails.env}")
+docs = db.all_docs['rows']
 if docs.present?
   doc_id = docs.map{|d| d['id']}.select{|i| !i.start_with?('_design')}.first
   if doc_id.present?
@@ -10,7 +12,6 @@ if docs.present?
     end
   end
 end
-
 
 yaml_file = "#{Rails.root.to_s}/config/locales.yml"
 locale_settings = YAML::load(File.open(yaml_file))[Rails.env.to_s] if File.exists?(yaml_file)
