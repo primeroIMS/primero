@@ -51,18 +51,6 @@ describe SystemSettings do
       end
     end
 
-    # This is no longer the case now that we can derive default_locale from locales.yml
-    # context 'without a default_locale' do
-    #   before do
-    #     @system_settings.default_locale = ''
-    #   end
-    #
-    #   it 'is not valid' do
-    #     expect(@system_settings).not_to be_valid
-    #     expect(@system_settings.errors[:default_locale]).to include("System locale must not be blank")
-    #   end
-    # end
-
     context 'with locales' do
       context 'and English is one of the locales' do
         before do
