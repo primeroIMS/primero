@@ -1,0 +1,14 @@
+---
+<% @environments.each do |env| %>
+<%= env %>:
+  <% if @default_locale.present? %>
+    :default_locale: @default_locale
+  <% else %>
+    :default_locale: 'en'
+  <% end %>
+  <% if @locales.present? %>
+    :locales: @locales
+  <% else %>
+    :locales: ['en', 'fr', 'ar', 'ar-LB', 'so', 'es', 'bn']
+  <% end %>
+<% end %>
