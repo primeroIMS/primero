@@ -4,15 +4,16 @@ All notable changes to Primero will be documented in this file. The format is ba
 ## [Unreleased]
 
 ### Added
-- Primero fully utilizes Puma to serve the application. To migrate do the following:
-  - Stop Passenger `sudo systemctl stop passenger`
-  - Remove Passenger service
-    ```
-      sudo rm /etc/systemd/system/passenger.service
-      sudo systemctl daemon-reload
-      sudo systemctl reset-failed
-    ```
+- Primero fully utilizes Puma to serve the application.
+- Migrated all Primero services to Systemd
+- Upgraded to CouchDB 2.2
+
+Before running Chef to upgrade to v1.7+, copy over the script tools/prepare-primero-v1.7.sh and ru:n
+```
+    sudo ./prepare-primero-v1.7.sh
+```
 
 ### Removed
 - Usage of Passenger for application and couch-watcher
+- Usage of Supervisor for Primero services
 
