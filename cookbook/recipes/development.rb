@@ -1,25 +1,8 @@
 
 include_recipe 'apt'
 
-# To get tmux 1.8 and newer vim
-apt_repository "pi-rho" do
-  uri "http://ppa.launchpad.net/pi-rho/dev/ubuntu"
-  distribution "precise"
-  components ["main"]
-  action :add
-  keyserver 'keyserver.ubuntu.com'
-  key '779C27D7'
-  notifies :run, 'execute[apt-get update]', :immediately
-end
-
-%w(tmux vim curl chromium-browser libgconf-2-4).each do |pkg|
+%w(vim curl chromium-browser libgconf-2-4).each do |pkg|
   package pkg
-end
-
-# This module gets pulled in with tmux 1.8 but unfortunately breaks Chef, it
-# doesn't seem to be required by tmux though so we can remove it
-package 'libpam-tmpdir' do
-  action :remove
 end
 
 link '/home/vagrant/primero' do
@@ -119,7 +102,7 @@ end
     only_if { ::File.exists?(node[:primero][:solr][:core_dir])}
   end
   template File.join(core_dir, 'core.properties') do
-    source "core.properties.erb"
+    source "solr/core.properties.erb"
     variables({
       :data_dir => File.join(node[:primero][:solr][:data_dir], core_name)
     })
