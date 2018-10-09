@@ -32,5 +32,8 @@
                            :"data-abide-ignore" => !tick_box.required || (defined?(is_subform) && is_subform) ? "" : nil) %>
     <% end %>
     <% if tick_box.help_text %><p class="help"><%= tick_box.help_text %></p><% end %>
+    <% if tick_box.guiding_questions.present? %>
+      <%= render 'form_section/guiding_questions', guiding_questions_text: tick_box.guiding_questions %>
+    <% end %>
   </div>
 </div>
