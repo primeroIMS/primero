@@ -55,7 +55,11 @@ module Primero
     LOCALE_LEBANON = 'ar-LB'
     LOCALE_SOMALI = 'so'
     LOCALE_BANGLA = 'bn'
-    LOCALES = [LOCALE_ENGLISH,LOCALE_FRENCH,LOCALE_ARABIC,LOCALE_LEBANON,LOCALE_SOMALI,LOCALE_SPANISH,LOCALE_BANGLA]
+    LOCALE_BURMESE = 'my'
+    LOCALE_THAI = 'th'
+    LOCALE_KURDISH = 'ku'
+    LOCALES = [LOCALE_ENGLISH, LOCALE_FRENCH, LOCALE_ARABIC, LOCALE_LEBANON, LOCALE_SOMALI, LOCALE_SPANISH, LOCALE_BANGLA,
+               LOCALE_BURMESE, LOCALE_THAI, LOCALE_KURDISH]
     LOCALES_WITH_DESCRIPTION = [
       ['-', nil],
       ['English', LOCALE_ENGLISH],
@@ -64,7 +68,15 @@ module Primero
       ['العربية (اللبنانية)', LOCALE_LEBANON],
       ['Af-Soomaali', LOCALE_SOMALI],
       ['Español', LOCALE_SPANISH],
-      ['বাংলা', LOCALE_BANGLA]
+      ['বাংলা', LOCALE_BANGLA],
+      ['ဗမာစာ', LOCALE_BURMESE],
+      ['ไทย', LOCALE_THAI],
+      ['کوردی', LOCALE_KURDISH]
+    ]
+    RTL_LOCALES = [
+      LOCALE_ARABIC,
+      LOCALE_LEBANON,
+      LOCALE_KURDISH
     ]
 
     if ENV['RAILS_LOG_PATH'].present?
