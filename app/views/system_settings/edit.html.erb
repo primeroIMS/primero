@@ -29,8 +29,7 @@
                   </span>
                 </div>
                 <div class="medium-8 columns">
-                  <%# TODO Should this go away if default locale in yaml? %>
-                  <%= f.select :default_locale, Primero::Application::locales_with_description, {class: 'chosen-select', data: {value: I18n.default_locale}} %>
+                  <%= f.select :default_locale, Primero::Application::locales_with_description, {class: 'chosen-select', data: {value: I18n.default_locale}}, {disabled: true} %>
                 </div>
                 <div class="medium-1 columns"> </div>
               </div>
