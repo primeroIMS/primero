@@ -92,9 +92,9 @@ describe FormSectionController do
                      "type"=>"subform",
                      "subform"=>
                          {"unique_id"=>"E",
-                          :name=>{"en"=>"E", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>""},
+                          :name=>{"en"=>"E", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "ku"=>""},
                           "order"=>0,
-                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>""},
+                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "ku"=>""},
                           "base_language"=>"en",
                           "fields"=>
                               [{"name"=>"field1",
@@ -107,17 +107,17 @@ describe FormSectionController do
                                 "mobile_visible"=>true,
                                 :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1",
                                                 "ar-LB"=>"field1","so"=>"field1", "es"=>"field1", "bn"=>"field1",
-                                                "id"=>"field1"},
-                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "id"=>[]}}]},
+                                                "id"=>"field1", "ku"=>"field1"},
+                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "ku"=>""},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "id"=>[], "ku"=>[]}}]},
                      "required"=>false,
                      "option_strings_source"=>nil,
                      "show_on_minify_form"=>false,
                      "mobile_visible"=>true,
                      :display_name=>{"en"=>"nested_e", "fr"=>"nested_e", "ar"=>"nested_e", "ar-LB"=>"nested_e",
-                                     "so"=>"nested_e", "es"=>"nested_e", "bn"=>"nested_e", "id"=>"nested_e"},
-                     :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>""},
-                     :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "id"=>[]}}]
+                                     "so"=>"nested_e", "es"=>"nested_e", "bn"=>"nested_e", "id"=>"nested_e", "ku"=>"nested_e"},
+                     :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "ku"=>""},
+                     :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "id"=>[], "ku"=>[]}}]
         get :index, params: {mobile: true, :format => :json}
         expect(assigns[:form_sections]['Children'].select{|f| f['unique_id'] == 'D'}.first['fields']).to eq(expected)
       end

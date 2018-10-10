@@ -96,7 +96,7 @@ class ApplicationController < ActionController::Base
     if logged_in?
       I18n.locale = (mobile_locale || current_user.locale || I18n.default_locale)
     end
-    @page_direction = I18n.locale.to_s.start_with?('ar') ? 'rtl' : 'ltr'
+    page_direction(I18n.locale)
   end
 
   def load_system_settings
@@ -176,5 +176,9 @@ class ApplicationController < ActionController::Base
     mobile_locale =  ((params['mobile'] == true || params['mobile'] == 'true') &&
                       params['locale'].present? &&
                       (Primero::Application::LOCALES.include? params['locale'])) ? params['locale'] : nil
+  end
+
+  def page_direction(locale)
+    @page_direction = Primero::Application::RTL_LOCALES.include?(locale.to_s) ? 'rtl' : 'lrt'
   end
 end

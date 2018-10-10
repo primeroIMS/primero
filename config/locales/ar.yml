@@ -12,6 +12,8 @@ ar:
     es: "Español"
     ru: "Русский"
     bn: "বাংলা"
+    id: "Bahasa"
+    ku: "کوردی"
     dashboard: "لوحة المعلومات"
     welcome: "مرحبا بكم في بريميرو"
     current_time_zone: "المنطقة الزمنية الحالية"
