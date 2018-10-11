@@ -34,5 +34,8 @@
       <%= label_tag "#{formObject.class.name.underscore.downcase}[hidden_name]", hide_text_link_text %>
     <% end %>
     <% if text_field.help_text %><p class="help"><%= text_field.help_text %></p><% end %>
+    <% if text_field.guiding_questions.present? %>
+      <%= render 'form_section/guiding_questions', guiding_questions_text: text_field.guiding_questions %>
+    <% end %>
   </div>
 </div>
