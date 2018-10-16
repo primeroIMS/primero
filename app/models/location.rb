@@ -171,26 +171,27 @@ class Location < CouchRest::Model::Base
 
   end
 
-  def generate_hierarchy_placenames
+  def generate_hierarchy_placenames(locales)
     hierarchical_name = {}.with_indifferent_access
-    Primero::Application::locales.each {|locale| hierarchical_name[locale] = []}
+    locales.each {|locale| hierarchical_name[locale] = []}
 
     if self.hierarchy.present?
-      self.hierarchy.each do |lct_code|
-        lct = Location.get_by_location_code(lct_code)
-        if lct.present?
-          Primero::Application::locales.each {|locale| hierarchical_name[locale] << lct.send("placename_#{locale}")}
+      locations = Location.by_location_code(keys: self.hierarchy)
+      if locations.present?
+        locations.each do |lct|
+          locales.each {|locale| hierarchical_name[locale] << lct.send("placename_#{locale}")}
         end
       end
     end
-    Primero::Application::locales.each {|locale| hierarchical_name[locale] << self.send("placename_#{locale}")}
+    locales.each {|locale| hierarchical_name[locale] << self.send("placename_#{locale}")}
     hierarchical_name
   end
 
   def set_name_from_hierarchy_placenames
-    name_hash = generate_hierarchy_placenames
+    locales = Primero::Application::locales
+    name_hash = generate_hierarchy_placenames(locales)
     if name_hash.present?
-      Primero::Application::locales.each {|locale| self.send "name_#{locale}=", name_hash[locale].reject(&:blank?).join('::') }
+      locales.each {|locale| self.send "name_#{locale}=", name_hash[locale].reject(&:blank?).join('::') }
     end
   end
 

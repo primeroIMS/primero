@@ -91,11 +91,15 @@ module Primero
     config.exceptions_app = self.routes
 
     def locales
-      LOCALES
+      @locales ||= I18n.available_locales.map(&:to_s)
     end
 
     def locales_with_description
-      LOCALES_WITH_DESCRIPTION
+      @locales_with_description ||= LOCALES_WITH_DESCRIPTION.select{|l| (locales.include? l.last) || l.last.nil?}
+    end
+
+    def default_locale
+      @default_locale ||= I18n.default_locale.to_s
     end
   end
 end
