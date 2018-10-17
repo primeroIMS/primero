@@ -28,6 +28,10 @@ module ApplicationHelper
       "report" => { "read" => "administrator_read" }
   }
 
+  def available_locations
+    Dir.glob("public/options/*").map{ |file| file.gsub(/public\/options\//, '') }.to_json.html_safe
+  end
+
   def current_menu(menu_name)
     "current" if @@menu_groups[controller.name] == menu_name
   end

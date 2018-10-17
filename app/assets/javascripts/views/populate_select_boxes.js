@@ -1,4 +1,4 @@
-var StringSources = Backbone.Collection.extend({
+_primero.Collections.StringSources = Backbone.Collection.extend({
   url: '/api/options',
 
   parse: function(resp) {
@@ -19,7 +19,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
       self.option_string_sources = self.getStringSourcesOptions()
 
       if (self.option_string_sources.length > 0) {
-        self.collection = new StringSources();
+        self.collection = new _primero.Collections.StringSources();
         self.collection.fetch({
           data: $.param({
             string_sources: self.option_string_sources,
@@ -42,7 +42,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
       return $(element).attr('data-populate')
     }));
 
-    return _.without(lookup_options, 'null', 'User', undefined);
+    return _.without(lookup_options, 'null', 'User', undefined, 'Location');
   },
 
   disableAjaxSelectBoxes: function() {
@@ -63,6 +63,10 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
     }
   },
 
+  getModelOptions: function(model) {
+    return model.options
+  },
+
   parseOptions: function() {
     var self = this;
 
@@ -72,18 +76,22 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
         var select_boxes = document.querySelectorAll("[data-populate='" + model.type + "']");
         var $select_boxes = $(select_boxes);
 
-        var options = _.map(model.options, function(option) {
-          return '<option value="' + option.id + '">' + option.display_text + '</option>'
-        });
-
-        // Ensure select box is empty
-        $select_boxes.empty();
-        $select_boxes.html(options.join(''));
-        self.updateSelectBoxes($select_boxes);
+        self.addOptions(self.getModelOptions(model), $select_boxes)
       });
     } else {
       this.disableAjaxSelectBoxes();
     }
+  },
+
+  addOptions: function(options, element, append) {
+    var options = _.map(options, function(option) {
+      return '<option value="' + option.id + '">' + option.display_text + '</option>'
+    });
+
+    // Ensure select box is empty
+    element.empty();
+    element.html(options.join(''));
+    this.updateSelectBoxes(element);
   },
 
   updateSelectBoxes: function(select_boxes) {

@@ -74,8 +74,8 @@ describe OptionsController do
         expect(response.content_type.to_s).to eq('application/json')
       end
 
-      it "returns Locations" do
-        get :index, params: {string_sources: ['Location'], format: :json}
+      it "returns Locations for mobile" do
+        get :index, params: {string_sources: ['Location'], format: :json, mobile: true}
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(@expected_response)
       end
@@ -87,7 +87,7 @@ describe OptionsController do
       end
 
       it "should not return nil sources." do
-        get :index, params: { string_sources: ['Test Source', 'Location'], format: :json }
+        get :index, params: { string_sources: ['Test Source', 'Location'], format: :json, mobile: true }
         json_response = JSON.parse(response.body)["sources"].first
         expect(json_response["options"]).not_to include(nil)
       end
@@ -140,7 +140,7 @@ describe OptionsController do
       end
 
       it 'returns lookup values' do
-        get :index, params: {locale: 'en', mobile: "true", string_sources: ['lookup-a'], format: :json}
+        get :index, params: {locale: 'en', string_sources: ['lookup-a'], format: :json}
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(@expected_response)
       end
@@ -154,7 +154,7 @@ describe OptionsController do
           }
         end
         it 'returns lookup values' do
-          get :index, params: {locale: 'fr', mobile: "true", string_sources: ['lookup-a'], format: :json}
+          get :index, params: { locale: 'fr', string_sources: ['lookup-a'], format: :json }
           json_response = JSON.parse(response.body)
           expect(json_response).to eq(@expected_response)
         end
@@ -180,22 +180,13 @@ describe OptionsController do
                 {"id"=>"bb", "display_text"=>"BB"},
                 {"id"=>"bbb", "display_text"=>"BBB"}
               ]
-            },
-            {
-              "type"=>"Location",
-              "options"=> [
-                {"id"=> @country.location_code, "display_text"=>"Country1"},
-                {"id"=> @province1.location_code, "display_text"=>"Province1"},
-                {"id"=> @province2.location_code, "display_text"=>"Province2"},
-                {"id"=> @town1.location_code, "display_text"=>"Town1"}
-              ]
             }
           ],
           "placeholder" => "(Select...)"
         }
       end
 
-      it 'return lookups and locations' do
+      it 'return lookups' do
         get :index, params: { all: true, format: :json }
         json_response = JSON.parse(response.body)
         expect(json_response).to eq(@expected_response)
