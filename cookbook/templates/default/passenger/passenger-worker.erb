@@ -26,6 +26,7 @@ init() {
   LOGFILE=<%= @passenger_log %>
   MAX_POOL_SIZE=<%= @conf['max_pool_size'] || 6 %>
   MIN_INSTANCES=<%= @conf['min_instances'] || 1 %>
+  export RAILS_ENV=<% node[:primero][:rails_env] %>
   export RAILS_LOG_PATH=<%= @rails_log_dir %>
   export PASSENGER_TEMP_DIR=<%= node[:primero][:app_dir] %>/tmp
   cd "$APPDIR"
@@ -40,6 +41,7 @@ status() {
 }
 
 start() {
+  bundle exec rake options:generate
   bundle exec passenger start \
     --daemonize \
     --address 127.0.0.1 \
