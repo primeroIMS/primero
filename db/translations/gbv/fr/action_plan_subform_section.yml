@@ -1,0 +1,37 @@
+---
+fr:
+  action_plan_subform_section:
+    name: Plan d'Action imbriqué
+    description: Sous-formulaire de Plan d'Action
+    fields:
+      action_plan_description:
+        display_name: Décrire le Plan d'Action pour répondre à ce besoin
+      service_type:
+        display_name: Type de besoin
+      service_referral:
+        display_name: ""
+        option_strings_text:
+          referred: Référée
+          no_referral_service_provided_by_your_agency: "Non, Service assuré par nous"
+          no_referral_services_already_received_from_another_agency: "Non, Service déjà assuré avant d'arriver"
+          no_referral_service_not_applicable: "Non, Service ne s'applique pas"
+          no_referral_declined_by_survivor: "Non, Service décliné par le/la survivante"
+          no_referral_service_unavailable: "Non, Service non disponible"
+      service_referral_written_consent:
+        display_name: ""
+      service_appointment_date:
+        display_name: Date du rendez-vous
+      service_appointment_time:
+        display_name: Heure du rendez-vous
+      service_provider:
+        display_name: Prestataire de service
+      service_location:
+        display_name: Lieu de la prestation de service
+      service_referral_notes:
+        display_name: Commentaires
+      service_referral_mandatory_reporting:
+        display_name: ""
+      service_referral_mandatory_reporting_inform_survivor:
+        display_name: ""
+      service_referral_case_action_plan_timing:
+        display_name: ""

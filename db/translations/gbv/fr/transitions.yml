@@ -1,0 +1,40 @@
+---
+fr:
+  transitions:
+    name: Sous-formulaire imbriqué de transitions
+    description: Sous-formulaire de transitions
+    fields:
+      type:
+        display_name: Type
+      to_user_local:
+        display_name: Utilisateur local
+      to_user_remote:
+        display_name: Utilisateur distant
+      to_user_local_status:
+        display_name: Statut
+        option_strings_text:
+          in_progress: En cours
+          pending: En attente
+          accepted: Accepté
+          rejected: Rejeté
+          done: Fait
+      rejected_reason:
+        display_name: Raison du rejet (si applicable)
+      to_user_agency:
+        display_name: Organisation de l'utilisateur distant
+      notes:
+        display_name: Commentaires
+      transitioned_by:
+        display_name: Transféré ou référé par
+      service:
+        display_name: Service
+      is_remote:
+        display_name: "Est-ce qu'il s'agit d'un référencement ou transfert vers un autre système?"
+        tick_box_label: 'Oui'
+      type_of_export:
+        display_name: "De quel type d'export avez-vous besoin?"
+      consent_overridden:
+        display_name: Fonction pour outrepasser l'absence de consentement
+        tick_box_label: 'Oui'
+      created_at:
+        display_name: Date du référencement ou transfert

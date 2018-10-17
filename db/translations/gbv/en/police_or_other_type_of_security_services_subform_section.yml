@@ -1,0 +1,18 @@
+---
+en:
+  police_or_other_type_of_security_services_subform_section:
+    name: Nested Police or Other Type of Security Services Subform
+    description: Nested Police or Other Type of Security Services Subform
+    fields:
+      service_police_referral:
+        display_name: Did you refer the client to Police/Other services?
+      service_police_appointment_date:
+        display_name: Appointment Date
+      service_police_appointment_time:
+        display_name: Appointment Time
+      service_police_provider:
+        display_name: Service Provider
+      service_police_location:
+        display_name: Service Location
+      service_police_referral_notes:
+        display_name: Notes

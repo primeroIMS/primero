@@ -1,0 +1,83 @@
+---
+en:
+  safety_plan:
+    name: Safety Plan
+    description: Safety Plan
+    form_group_name: Safety Plan
+    fields:
+      safety_plan_needed:
+        display_name: Is a safety plan needed for this case?
+        help_text: 'Safety planning enables the survivor to proceed with a pre-determined
+          course of action when she is in a lifethreatening situation. Safety planning
+          can help her minimize the harm done by the perpetrator by identifying resources
+          and means to avoid harm and places she can go temporarily for safety. Developing
+          a safety plan is a collaborative process undertaken by the casework and
+          survivor together. The safety plan addresses the fundamental question: what
+          needs to happen or  to be in place in order for the survivor to safe? It
+          includes identifying: dangerous situations, risks and warning signs, activities
+          survivor can undertake on her own, specific people to call on for help,
+          supportive people that make sruvivor feel safe and  survivor''s own stregngths
+          that help her get by.'
+      safety_plan_developed_with_survivor:
+        display_name: Was a safety plan developed with the survivor (if applicable)?
+      safety_plan_completion_date:
+        display_name: Safety Plan Completion Date
+      safety_plan_main_concern:
+        display_name: Identify safety concern (in survivor's words)
+      safety_plan_resources_header:
+        display_name: Resources
+        help_text: Name the resources I am using now that I have, that can help me
+          stay safe in following categories
+      safety_plan_resources_economic:
+        display_name: Economic / material
+      safety_plan_resources_relationships:
+        display_name: Relationships
+      safety_plan_resources_community:
+        display_name: Community help
+      safety_plan_resources_other:
+        display_name: Other
+      safety_plan_preparedness_header:
+        display_name: Safety preparedness
+      safety_plan_preparedness_signal:
+        display_name: What steps did the survivor identify as options to minimize
+          risk of further harm for herself (and her children) before violence occurs
+          (safety preparedness)?
+        guiding_questions: 'Examples could include: The survivor will agree on a code
+          or signal with friends, neighbors or family that the survivor will communicate
+          that she needs help if she cannot talk in front of the perpetrator she will
+          use this signal to tell them that she needs help; The survivor will gather
+          some basic things and important documents, and leave these things in a place
+          where she can reach them if she has to leave my home (list those things);
+          The survivor will teach her children that when the violence starts they
+          should go to a specific place; The survivor will come up with a code word
+          or a signal with her children so that she can safely tell them when they
+          should leave. Please refer to the Safety Planning tool for the full list
+          of guiding questions to discuss with the survivor.'
+      safety_plan_strategies_header:
+        display_name: Safety strategies
+      safety_plan_preparedness_gathered_things:
+        display_name: What actions did the survivor identify as options to mitigate
+          risks when violence happens (safety strategies)?
+        guiding_questions: 'Examples could include: The survivor can recognize some
+          patterns in the abuser’s violence that may tell her when he is about to
+          become violent, such as (certain times of the day or week, when he is around
+          certain friends, when he is using drugs or drinking, etc.): The survivor
+          can  identify the pattern of violence or when the violence starts; If the
+          survivor has to leave her home for a few days or more, she knows where to
+          go; The survivor will check with friends, family, etc to find out if they
+          will let her stay with them if she needs to leave; The survivor will check
+          with these people to find out if they would lend her money or food in an
+          emergency. Please refer to the Safety Planning tool for the full list of
+          guiding questions to discuss with the survivor.'
+      safety_plan_leaving_steps_header:
+        display_name: Steps after leaving
+      safety_plan_preparedness_children_destination:
+        display_name: What steps did the survivor identify as options to minimze risks
+          after leaving her home/community if she chooses to do so?
+        guiding_questions: 'Examples could include: The survivor knows how to deal
+          emotionally if people blame her for leaving; The survivors knows who talk
+          to for support; The survivor recognizes the trauma and stress that the situation
+          has caused her; The survivor knows what to do to make her feel stronger.'
+      safety_plan_completion_timing:
+        display_name: How long did it take you to develop the safety plan with the
+          survivor for this case?
