@@ -323,6 +323,17 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+  :id => "lookup-conference-case-status",
+  :name_en => "Conference Case Status",
+  :lookup_values_en => [
+    {id: "open", display_text: "The case will remain open"},
+    {id: "closed", display_text: "The case will be closed"},
+    {id: "transferred", display_text: "The case will be transferred"},
+    {id: "other", display_text: "Other"}
+  ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
   :id => "lookup-incident-status",
   :name_en => "Incident Status",
   :lookup_values_en => [
