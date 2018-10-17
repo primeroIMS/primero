@@ -1,0 +1,43 @@
+---
+fr:
+  gbv_individual_details:
+    name: Détails de la survivante VBG
+    description: Détails de la survivante VBG
+    form_group_name: ""
+    fields:
+      survivor_code:
+        display_name: Code de la survivante
+      sex:
+        display_name: "Quel est le sexe de la survivante?"
+      date_of_birth:
+        display_name: "Quelle est la date de naissance de la survivante?"
+      age:
+        display_name: "Quel est l'âge de la survivante?"
+      estimated:
+        display_name: "Est-ce que l'âge est estimé?"
+      ethnicity:
+        display_name: "Quelle est l'appartenance ethnique de la survivante?"
+      nationality:
+        display_name: "Quelle est l'affiliation nationale de la survivante?"
+      religion:
+        display_name: "Quelle est l'appartenance religieuse de la survivante?"
+      country_of_origin:
+        display_name: Pays d'origine
+      displacement_status:
+        display_name: Statut de déplacement au moment de la déclaration
+      maritial_status:
+        display_name: Situation familiale/ état civil
+        option_strings_text:
+          single: Célibataire
+          married_cohabitating: Mariée / En concubinage
+          divorced_separated: Divorcée / Séparée
+          widowed: Veuve
+      disability_type:
+        display_name: Type d'handicap
+        option_strings_text:
+          'no': 'Non'
+          mental_disability: Handicap mental
+          physical_disability: Handicap physique
+          mental_physical_disability: Handicap mental et physique
+      unaccompanied_separated_status:
+        display_name: "Est-ce que la survivante est un mineur non-accompagné, enfant séparé ou autre enfant vulnérable?"

@@ -1,0 +1,18 @@
+---
+fr:
+  police_or_other_type_of_security_services_subform_section:
+    name: Sous-formulaire imbriqué pour police ou autres services de sécurité
+    description: Sous-formulaire imbriqué pour police ou autres services de sécurité
+    fields:
+      service_police_referral:
+        display_name: "Avez-vous référé la cliente à la police ou pour autres services de sécurité?"
+      service_police_appointment_date:
+        display_name: Date du rendez-vous
+      service_police_appointment_time:
+        display_name: Heure du rendez-vous
+      service_police_provider:
+        display_name: Prestataire de service
+      service_police_location:
+        display_name: Lieu de la prestation de service
+      service_police_referral_notes:
+        display_name: Commentaires

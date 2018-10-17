@@ -1,0 +1,85 @@
+---
+en:
+  gbv_survivor_information:
+    name: Survivor Information
+    description: Survivor Information
+    form_group_name: Identification / Registration
+    fields:
+      case_id:
+        display_name: Long ID
+      short_id:
+        display_name: Case ID
+      marked_for_mobile:
+        display_name: Marked for mobile?
+        tick_box_label: 'Yes'
+      child_status:
+        display_name: Case Status
+      name:
+        display_name: Name
+      survivor_code_no:
+        display_name: Survivor Code
+      age:
+        display_name: Age
+      date_of_birth:
+        display_name: Date of Birth
+      sex:
+        display_name: Sex
+        option_strings_text:
+          female: Female
+          male: Male
+      gbv_ethnicity:
+        display_name: Clan or Ethnicity
+      country_of_origin:
+        display_name: Country of Origin
+      gbv_nationality:
+        display_name: Nationality (if different than country of origin)
+      gbv_religion:
+        display_name: Religion
+      maritial_status:
+        display_name: Current Civil/Marital Status
+        option_strings_text:
+          single: Single
+          married_cohabitating: Married / Cohabitating
+          divorced_separated: Divorced / Separated
+          widowed: Widowed
+      dependents_no:
+        display_name: Number and age of children and other dependents
+      occupation:
+        display_name: Occupation
+      gbv_displacement_status:
+        display_name: Displacement Status at time of report
+      gbv_disability_type:
+        display_name: Is the Survivor a Person with Disabilities?
+        option_strings_text:
+          'no': 'No'
+          mental_disability: Mental Disability
+          physical_disability: Physical Disability
+          both: Both
+      unaccompanied_separated_status:
+        display_name: Is the Survivor an Unaccompanied Minor, Separated Child, or
+          Other Vulnerable Child?
+      section_heading_child_survivors_less_than_18_years_old:
+        display_name: Child Survivors (less than 18 years old)
+      survivor_lives_alone:
+        display_name: If the survivor is a child, does he/she live alone?
+      survivor_caretaker:
+        display_name: If the survivor lives with someone, what is the relation between
+          her/him and the caretaker?
+        option_strings_text:
+          parent_guardian: Parent/Guardian
+          relative: Relative
+          spouse_cohabitating: Spouse/Cohabitating
+          other_please_specify: Other, please specify
+      survivor_caretaker_other:
+        display_name: If other relation between her/him and the caretaker, please
+          specify.
+      caretaker_marital_status:
+        display_name: What is the caretaker's current marital status?
+        option_strings_text:
+          single: Single
+          married_cohabitating: Married/Cohabitating
+          divorced_separated: Divorced/Separated
+          widowed: Widowed
+          unknown_not_applicable: Unknown/Not Applicable
+      caretaker_occupation:
+        display_name: What is the caretaker's primary occupation?

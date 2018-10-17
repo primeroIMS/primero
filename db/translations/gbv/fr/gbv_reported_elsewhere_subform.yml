@@ -1,0 +1,18 @@
+---
+fr:
+  gbv_reported_elsewhere_subform:
+    name: Sous-formulaire incident VBG rapporté autre part
+    description: Sous-formulaire incident VBG rapporté autre part
+    fields:
+      gbv_reported_elsewhere_organization_type:
+        display_name: Type de prestataire de service où la survivante a rapporté l'incident
+        option_strings_text:
+          health_medical_services: Service médical/de santé
+          psychosocial_counseling_services: Services de suivi psychologique/de soutien psychosocial
+          police_other_security_actor: Police / Autre acteur de la sécurité
+          legal_assistance_services: Services d'assistance juridique
+          livelihoods_program: Programme d'aide aux moyens de subsistance
+          safe_house_shelter: Lieu sûr / Refuge
+          other: Autre
+      gbv_reported_elsewhere_organization_provider:
+        display_name: Nom du prestataire de service

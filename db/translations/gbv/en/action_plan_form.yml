@@ -1,0 +1,19 @@
+---
+en:
+  action_plan_form:
+    name: Action Plan
+    description: Action Plan
+    form_group_name: Action Plan
+    fields:
+      incident_links:
+        display_name: Incident Links
+      action_explanation_header:
+        display_name: 'Action Plan '
+        help_text: Please add all needs that you identified in the assessment. Use
+          the Add button to add other needs that should be part of the Action Plan.
+      action_plan_section:
+        display_name: Action Plan
+      action_follow_up_header:
+        display_name: Follow Ups
+      gbv_follow_up_subform_section:
+        display_name: Follow Up

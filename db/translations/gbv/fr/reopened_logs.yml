@@ -1,0 +1,10 @@
+---
+fr:
+  reopened_logs:
+    name: Cas réouvert
+    description: Sous formulaire Cas réouvert
+    fields:
+      reopened_date:
+        display_name: Date de la réouverture
+      reopened_user:
+        display_name: Réouvert par

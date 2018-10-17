@@ -1,0 +1,18 @@
+---
+en:
+  livelihoods_services_subform_section:
+    name: Nested Livelihoods Services Subform
+    description: Nested Livelihoods Services Subform
+    fields:
+      service_livelihoods_referral:
+        display_name: Did you refer the client to a livelihoods program?
+      service_livelihoods_appointment_date:
+        display_name: Appointment Date
+      service_livelihoods_appointment_time:
+        display_name: Appointment Time
+      service_livelihoods_provider:
+        display_name: Service Provider
+      service_livelihoods_location:
+        display_name: Service Location
+      service_livelihoods_referral_notes:
+        display_name: Notes

@@ -1,0 +1,41 @@
+---
+fr:
+  consent_for_referrals:
+    name: Consentement pour référencement
+    description: Consentement pour référencement
+    form_group_name: Consentement pour référencement
+    fields:
+      consent_release_separator:
+        display_name: Consentement pour partage d'informations par type de référencement
+      consent_to_share_info_by_security:
+        display_name: Consentement pour partage d'information avec des services de sécurité
+      consent_to_share_security_organization:
+        display_name: "Détailler le nom du service de sécurité, organisation ou agence "
+      consent_to_share_info_by_psychosocial:
+        display_name: Consentement pour partage d'informations avec un service psychosocial
+      consent_to_share_psychosocial_organization:
+        display_name: "Détailler le nom de l'organisation ou agence en charge du service psychosocial "
+      consent_to_share_info_by_health:
+        display_name: Consentement pour partage d'informations avec un service médical ou de santé
+      consent_to_share_health_organization:
+        display_name: Détailler le nom de l'organisation ou agence en charge du service médical ou de santé
+      consent_to_share_info_by_safehouse:
+        display_name: Consentement pour partage d'information avec maison ou abris sûr
+      consent_to_share_safehouse_organization:
+        display_name: Détailler le nom du  l'organisation ou agence pour services de maison ou abris sûr
+      consent_to_share_info_by_legal:
+        display_name: Consentement pour partage d'information avec des services d'assistance juridique
+      consent_to_share_legal_organization:
+        display_name: Détailler le nom de l'organisation ou agence en charge du service d'assistance juridique
+      consent_to_share_info_by_protection:
+        display_name: Consentement pour partage d'information avec des services de protection
+      consent_to_share_protection_organization:
+        display_name: Détailler le nom de l'organisation ou agence en charge du service de protection
+      consent_to_share_info_by_livelihoods:
+        display_name: Consentement pour partage d'information avec des services en charge des moyens de subsistance
+      consent_to_share_livelihoods_organization:
+        display_name: Détailler le nom de l'organisation ou agence en charge des services moyens de subsistance
+      consent_to_share_info_by_other:
+        display_name: Consentement pour partage d'information avec d'autres services
+      consent_to_share_info_by_other_details:
+        display_name: "Pour d'autres services, veuillez détailler le nom de l'organisation ou agence en charge pour ce service"

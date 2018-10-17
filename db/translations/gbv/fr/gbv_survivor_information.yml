@@ -1,0 +1,82 @@
+---
+fr:
+  gbv_survivor_information:
+    name: Information sur la survivante
+    description: Information sur la survivante
+    form_group_name: ""
+    fields:
+      case_id:
+        display_name: Long numéro d'identification
+      short_id:
+        display_name: Numéro d'identification du cas
+      marked_for_mobile:
+        display_name: "Marqué pour mobile?"
+        tick_box_label: 'Oui'
+      child_status:
+        display_name: Statut du cas
+      name:
+        display_name: Nom
+      survivor_code_no:
+        display_name: Code de la survivante
+      age:
+        display_name: Age
+      date_of_birth:
+        display_name: Date de naissance
+      sex:
+        display_name: Sexe
+        option_strings_text:
+          female: Féminin
+          male: Masculin
+      gbv_ethnicity:
+        display_name: Clan ou ethnicité
+      country_of_origin:
+        display_name: Pays d'origine
+      gbv_nationality:
+        display_name: Nationalité (si différente du pays d'origine)
+      gbv_religion:
+        display_name: Religion
+      maritial_status:
+        display_name: Situation familiale/ état civil
+        option_strings_text:
+          single: Célibataire
+          married_cohabitating: Mariée / En concubinage
+          divorced_separated: Divorcée / Séparée
+          widowed: Veuve
+      dependents_no:
+        display_name: Nombre et âge des enfants et autres dépendants
+      occupation:
+        display_name: Profession
+      gbv_displacement_status:
+        display_name: Statut de déplacement au moment de la déclaration des faits
+      gbv_disability_type:
+        display_name: "La survivante est-elle une personne handicapée?"
+        option_strings_text:
+          'no': 'Non'
+          mental_disability: Handicap mental
+          physical_disability: Handicap physique
+          both: Handicap mental et physique
+      unaccompanied_separated_status:
+        display_name: "Est-ce que la survivante est un mineur non-accompagné, enfant séparé ou autre enfant vulnérable?"
+      section_heading_child_survivors_less_than_18_years_old:
+        display_name: Enfants survivants (moins de 18 ans)
+      survivor_lives_alone:
+        display_name: "Si la survivante est un enfant, est-ce qu'elle vit seule?"
+      survivor_caretaker:
+        display_name: "Si la survivante vit avec quelqu'un, quelle est la relation entre elle est son tuteur?"
+        option_strings_text:
+          parent_guardian: Parent/ Tuteur
+          relative: Famille
+          spouse_cohabitating: Epoux/ conjoint
+          other_please_specify: "Autre, veuillez spécifier"
+      survivor_caretaker_other:
+        display_name: "Si autre relation entre elle est le tuteur, veuillez spécifier"
+      caretaker_marital_status:
+        display_name: "Quel est le statut marital actuel du tuteur?"
+        option_strings_text:
+          single: Célibataire
+          married_cohabitating: Mariée / En concubinage
+          divorced_separated: Divorcée / Séparée
+          widowed: Veuve
+          unknown_not_applicable: Inconnue/ Sans objet
+      caretaker_occupation:
+        display_name: "Quel est la profession actuelle du tuteur?"
