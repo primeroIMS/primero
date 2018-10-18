@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class OptionsJob < ApplicationJob
   queue_as :options
 
