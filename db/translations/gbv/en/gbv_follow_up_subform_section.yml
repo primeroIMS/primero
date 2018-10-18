@@ -1,0 +1,66 @@
+---
+en:
+  gbv_follow_up_subform_section:
+    name: Nested GBV Follow Up Subform
+    description: Nested GBV Follow Up Subform
+    fields:
+      service_type_provided:
+        display_name: Type of service provided by me/my organization
+      followup_date:
+        display_name: Follow up date
+      followup_service_type:
+        display_name: Type of referral service
+      action_taken_already:
+        display_name: Has action been taken?
+      action_taken_details:
+        display_name: Details about action taken
+      service_provided_date:
+        display_name: If yes, when was the service provided?
+      need_follow_up_visit:
+        display_name: Is there a need for further follow up visits?
+      when_follow_up_visit_should_happen:
+        display_name: If yes, when do you recommend the next visit to take place?
+      follow_up_comments:
+        display_name: Comments
+      follow_up_survivor_share_needs:
+        display_name: Did the survivor share any new needs or concerns during the
+          follow up appointment?
+        help_text: If yes, please describe the needs and revise the Case Action Plan
+          section accordingly
+      survivor_needs_met:
+        display_name: Did the action(s) taken meet the survivor's needs?
+        help_text: If not, please update the Case Action Plan section accordingly
+          to address the need(s)
+      referred_for_another_appointment:
+        display_name: If not, did you refer the survivor for another appointment?
+      recommend_case_closed:
+        display_name: If needs are met, do you recommend that the case be closed?
+      case_action_plan_implementation_timing:
+        display_name: How long did it take you to implement the Case Action Plan for
+          this incident?
+      progress_made_towards_goals:
+        display_name: Progress made towards GOALS
+        help_text: Evaluate Progress Made Towards GOALS agreed on in Survivor Assessment
+          & Case Action Plan
+      gbv_assessment_progress_safety:
+        display_name: Progress towards Safety goals
+      gbv_assessment_progress_safety_text:
+        display_name: Explain Progress towards Safety goals
+      gbv_assessment_progress_health:
+        display_name: Progress towards Heath care goals
+      gbv_assessment_progress_health_text:
+        display_name: Explain Progress towards Heath care goals
+      gbv_assessment_progress_psychosocial:
+        display_name: Progress towards Psychosocial Support goals
+      gbv_assessment_progress_psychosocial_text:
+        display_name: Explain Progress towards Psychosocial Support goals
+      gbv_assessment_progress_justice:
+        display_name: Progress towards Justice/legal goals
+      gbv_assessment_progress_justice_text:
+        display_name: Explain Progress towards Access to Justice/legal goals
+      gbv_assessment_other_goals_list:
+        display_name: Other goals (list here)
+      gbv_assessment_other_goals:
+        display_name: Progress towards other goals
+      gbv_assessment_other_goals_text:
+        display_name: Explain Progress towards other goals

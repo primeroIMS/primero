@@ -15,6 +15,10 @@ class Lookup < CouchRest::Model::Base
   #TODO - remove  (No longer using in lookup seeds / config)
   DEFAULT_UNKNOWN_ID_TO_NIL = 'default_convert_unknown_id_to_nil'
 
+  #TODO: We should never assume that a lookup with a specific id exists.
+  #      Refactor so that hardcoded queries against 'lookup-gender', 'lookup-protection-concerns', lookup-approval-type' etc.
+  #      are gracefully handled.
+
   design do
     view :all
   end
@@ -98,7 +102,13 @@ class Lookup < CouchRest::Model::Base
   end
 
   def validate_has_2_values
-    return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options")) if (lookup_values == nil || lookup_values.length < 2 || lookup_values[0]['display_text'] == '' || lookup_values[1]['display_text'] == '')
+    if(lookup_values == nil ||
+       (id != 'lookup-service-response-type' &&
+        (lookup_values.length < 2 ||
+         lookup_values[0]['display_text'] == '' ||
+         lookup_values[1]['display_text'] == '')))
+      return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options"))
+    end
     true
   end
 

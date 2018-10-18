@@ -8,6 +8,7 @@ module Exporters
     PhotoWallExporter,
     PDFExporter,
     UnhcrCSVExporter,
+    DuplicateIdCSVExporter,
     MRMViolationExporter,
     SelectedFieldsExcelExporter
   ]

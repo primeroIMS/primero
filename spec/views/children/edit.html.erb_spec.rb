@@ -1,7 +1,13 @@
   require 'rails_helper'
 
 describe "children/edit.html.erb" do
-
+  before :all do
+    PrimeroModule.all.each &:destroy
+    @mod ||= PrimeroModule.create!(_id: 'primeromodule-cp', program_id: 'fakeprogram',
+                                   name: 'CP', associated_record_types: ['case'],
+                                   associated_form_ids: ['xxxxx'],
+                                   workflow_status_indicator: false)
+  end
   before :each do
     record_owner_fields = [
       Field.new({"name" => "owned_by",

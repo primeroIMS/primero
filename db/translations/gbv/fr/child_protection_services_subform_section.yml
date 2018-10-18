@@ -1,0 +1,18 @@
+---
+fr:
+  child_protection_services_subform_section:
+    name: Sous-formulaire imbriqué pour services de protection de l'enfance
+    description: Sous-formulaire imbriqué pour services de protection de l'enfance
+    fields:
+      service_protection_referral:
+        display_name: "Avez-vous référé la cliente aux services de protection de l'enfance?"
+      service_protection_appointment_date:
+        display_name: Date du rendez-vous
+      service_protection_appointment_time:
+        display_name: Heure du rendez-vous
+      service_protection_provider:
+        display_name: Prestataire de service
+      service_protection_location:
+        display_name: Lieu de la prestation de service
+      service_protection_referral_notes:
+        display_name: Commentaires

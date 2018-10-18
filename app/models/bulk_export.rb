@@ -98,6 +98,12 @@ class BulkExport < CouchRest::Model::Base
     self.save
   end
 
+  def mark_terminated
+    self.status = TERMINATED
+    self.password = nil
+    self.save
+  end
+
   def archive
     self.status = ARCHIVED
     if self.stored_file_name.present? && File.exist?(self.stored_file_name)
@@ -143,7 +149,6 @@ class BulkExport < CouchRest::Model::Base
     #TODO: This code is currently duplicated in the application controller
     if File.size? self.stored_file_name
       encrypt = password ? Zip::TraditionalEncrypter.new(password) : nil
-
       Zip::OutputStream.open(self.encrypted_file_name, encrypt) do |out|
         out.put_next_entry(File.basename(self.stored_file_name))
         out.write open(self.stored_file_name).read
@@ -151,6 +156,10 @@ class BulkExport < CouchRest::Model::Base
 
       File.delete self.stored_file_name
     end
+  end
+
+  def job
+    BulkExportJob
   end
 
   private

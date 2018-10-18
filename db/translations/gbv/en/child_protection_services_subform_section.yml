@@ -1,0 +1,18 @@
+---
+en:
+  child_protection_services_subform_section:
+    name: Nested Child Protection Services Subform
+    description: Nested Child Protection Services Subform
+    fields:
+      service_protection_referral:
+        display_name: Did you refer the client to Child Protection services?
+      service_protection_appointment_date:
+        display_name: Appointment Date
+      service_protection_appointment_time:
+        display_name: Appointment Time
+      service_protection_provider:
+        display_name: Service Provider
+      service_protection_location:
+        display_name: Service Location
+      service_protection_referral_notes:
+        display_name: Notes

@@ -1,0 +1,61 @@
+---
+fr:
+  gbv_follow_up_subform_section:
+    name: Sous-formulaire imbriqué sur le suivi
+    description: Sous-formulaire imbriqué sur le suivi
+    fields:
+      service_type_provided:
+        display_name: ""
+      followup_date:
+        display_name: Date de suivi
+      followup_service_type:
+        display_name: ""
+      action_taken_already:
+        display_name: "Est-ce que l'action a été prise?"
+      action_taken_details:
+        display_name: Détails sur l'action prise
+      service_provided_date:
+        display_name: ""
+      need_follow_up_visit:
+        display_name: "Y'a t-il un besoin pour plus de visites de suivi?"
+      when_follow_up_visit_should_happen:
+        display_name: "Si oui, quand recommendez-vous que la prochaine visite ait lieu?"
+      follow_up_comments:
+        display_name: ""
+      follow_up_survivor_share_needs:
+        display_name: ""
+        help_text: ""
+      survivor_needs_met:
+        display_name: ""
+        help_text: ""
+      referred_for_another_appointment:
+        display_name: ""
+      recommend_case_closed:
+        display_name: ""
+      case_action_plan_implementation_timing:
+        display_name: ""
+      progress_made_towards_goals:
+        display_name: Progrès effectués vers les objectifs fixés
+        help_text: Evaluez les progrès effectués vers les objectifs convenus dans l'évaluation et le plan d'action de la survivante
+      gbv_assessment_progress_safety:
+        display_name: Progrès effectués vers les objectifs de sûreté
+      gbv_assessment_progress_safety_text:
+        display_name: Expliquer les progrès effectués vers les objectifs de sûreté
+      gbv_assessment_progress_health:
+        display_name: Progrès effectués vers les objectifs soins de santé/médicaux
+      gbv_assessment_progress_health_text:
+        display_name: Expliquer les progrès effectués vers les objectifs soins de santé/médicaux
+      gbv_assessment_progress_psychosocial:
+        display_name: Progrès effectués vers les objectifs soutien psychosocial
+      gbv_assessment_progress_psychosocial_text:
+        display_name: Expliquer les progrès effectués vers les objectifs soutien psychosocial
+      gbv_assessment_progress_justice:
+        display_name: ""
+      gbv_assessment_progress_justice_text:
+        display_name: ""
+      gbv_assessment_other_goals_list:
+        display_name: Autres objectifs (lister ici)
+      gbv_assessment_other_goals:
+        display_name: "Progrès effectués vers d'autres objectifs "
+      gbv_assessment_other_goals_text:
+        display_name: Expliquer les progrès effectués vers d'autres objectifs

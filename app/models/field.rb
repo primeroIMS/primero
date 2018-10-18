@@ -511,7 +511,7 @@ class Field
     Field.localized_properties.each do |property|
       field_hash[property] = {}
       Primero::Application::locales.each do |locale|
-        key = "#{property.to_s}_#{locale.to_s}"
+        key = "#{property.to_s}_#{locale}"
         value = field_hash[key]
         if property == :option_strings_text
           #value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?

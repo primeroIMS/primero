@@ -1,59 +1,60 @@
 bia_fields = [
     Field.new({"name" => "bia_approved",
                "type" => "tick_box",
-               "tick_box_label_all" => "Yes",
-               "display_name_all" => "Approved by Manager",
+               "tick_box_label_en" => "Yes",
+               "display_name_en" => "Approved by Manager",
                "disabled" => true,
                "editable" => false
               }),
     Field.new({"name" => "bia_approved_date",
                "type" => "date_field",
-               "display_name_all" => "Date",
+               "display_name_en" => "Date",
                "disabled" => true,
                "editable" => false
               }),
     Field.new({"name" => "bia_approved_comments",
                "type" => "textarea",
-               "display_name_all" => "Manager Comments",
+               "display_name_en" => "Manager Comments",
                "disabled" => true,
                "editable" => false
               }),
     Field.new({"name" => "approval_status_bia",
                "type" => "select_box",
-               "display_name_all" => "Approval Status",
+               "display_name_en" => "Approval Status",
                "option_strings_source" => "lookup lookup-approval-status",
                "disabled" => true,
                "editable" => false
               }),
     Field.new({"name" => "case_id_display",
                "type" => "text_field",
-               "display_name_all" => "Primero Case ID",
+               "display_name_en" => "Primero Case ID",
                "disabled" => true,
                "editable" => false
               }),
     Field.new({"name" => "bia_header",
                "type" => "separator",
-               "display_name_all" => "ASSESSMENT FORM (for completion for all Child Protection cases including UASC)",
+               "display_name_en" => "ASSESSMENT FORM (for completion for all Child Protection cases including UASC)",
                "disabled" => true,
               }),
     Field.new({"name" => "case_priority",
                "type" => "select_box",
-               "display_name_all" => "Priority",
+               "display_name_en" => "Priority",
                "disabled" => true,
-               "option_strings_text_all" =>
-                   ["2 days",
-                    "1 week",
-                    "30 days",
-                    "Non Urgent (enter date)"].join("\n")
+               "option_strings_text_en" => [
+                 { id: '2_days', display_text: "2 days" },
+                 { id: '1_week', display_text: "1 week" },
+                 { id: '30_days', display_text: "30 days" },
+                 { id: 'non_urgent', display_text: "Non Urgent (enter date)" },
+               ].map(&:with_indifferent_access)
               }),
     Field.new({"name" => "case_priority_date",
                "type" => "date_field",
-               "display_name_all" => "Re-assessment date",
+               "display_name_en" => "Re-assessment date",
                "disabled" => true
               }),
     Field.new({"name" => "cpims_id",
                "type" => "text_field",
-               "display_name_all" => "CPIMS No",
+               "display_name_en" => "CPIMS No",
                "disabled" => true
               })
 ]
@@ -68,6 +69,6 @@ FormSection.create_or_update_form_section({
     :form_group_name => "BIA Form",
     "editable" => true,
     :fields => bia_fields,
-    "name_all" => "BIA Form",
-    "description_all" => "BIA Form"
+    "name_en" => "BIA Form",
+    "description_en" => "BIA Form"
 })

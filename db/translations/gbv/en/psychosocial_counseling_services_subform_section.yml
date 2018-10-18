@@ -1,0 +1,18 @@
+---
+en:
+  psychosocial_counseling_services_subform_section:
+    name: Nested Psychosocial/Counseling Services Subform
+    description: Nested Psychosocial/Counseling Services Subform
+    fields:
+      service_psycho_referral:
+        display_name: Did you refer the client to Psychosocial/Counseling services?
+      service_psycho_appointment_date:
+        display_name: Appointment Date
+      service_psycho_appointment_time:
+        display_name: Appointment Time
+      service_psycho_provider:
+        display_name: Service Provider
+      service_psycho_service_location:
+        display_name: Service Location
+      service_psycho_referral_notes:
+        display_name: Notes

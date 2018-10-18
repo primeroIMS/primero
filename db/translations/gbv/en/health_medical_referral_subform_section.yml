@@ -1,0 +1,18 @@
+---
+en:
+  health_medical_referral_subform_section:
+    name: Nested Health/Medical Referral Subform
+    description: Nested Health/Medical Referral Subform
+    fields:
+      service_medical_referral:
+        display_name: Did you refer the client to Health/Medical Services?
+      service_medical_appointment_date:
+        display_name: Appointment Date
+      service_medical_appointment_time:
+        display_name: Appointment Time
+      service_medical_provider:
+        display_name: Service Provider
+      service_medical_location:
+        display_name: Service Location
+      service_medical_referral_notes:
+        display_name: Notes

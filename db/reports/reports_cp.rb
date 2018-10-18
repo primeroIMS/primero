@@ -122,3 +122,70 @@ Report.create_or_update({
   is_graph: true,
   editable: false
 })
+
+Report.create_or_update(
+  name: "Follow up by month by Agency",
+  description: "Number of followups broken down by month and agency",
+  module_ids: [ PrimeroModule::CP ],
+  record_type: "reportable_follow_up",
+  aggregate_by: [ "followup_date" ],
+  disaggregate_by: ["owned_by_agency"],
+  filters: [
+    {
+      "attribute": "child_status",
+      "value": [
+        "Open"
+      ]
+    },
+    {
+      "attribute": "record_state",
+      "value": [
+        "true"
+      ]
+    },
+    {
+      "attribute": "followup_date",
+      "value": [
+        "not_null"
+      ]
+    }
+  ],
+  group_ages: false,
+  group_dates_by: "month",
+  is_graph: true,
+  editable: false,
+)
+
+Report.create_or_update(
+  name: "Follow up by week by Agency",
+  description: "Number of followups broken down by week and agency",
+  module_ids: [ PrimeroModule::CP ],
+  record_type: "reportable_follow_up",
+  aggregate_by: [ "followup_date" ],
+  disaggregate_by: ["owned_by_agency"],
+  filters: [
+    {
+      "attribute": "child_status",
+      "value": [
+        "Open"
+      ]
+    },
+    {
+      "attribute": "record_state",
+      "value": [
+        "true"
+      ]
+    },
+    {
+      "attribute": "followup_date",
+      "value": [
+        "not_null"
+      ]
+    }
+  ],
+  group_ages: false,
+  group_dates_by: "week",
+  is_graph: true,
+  editable: false,
+)
+

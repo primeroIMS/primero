@@ -31,7 +31,9 @@ create_or_update_export_config(
     "current_care_arrangement",
     "reunification_status",
     "case_status"
-  ]
+  ],
+  opt_out_field: 'unhcr_export_opt_out',
+  property_keys_opt_out: ["cpims_code"]
 )
 
 create_or_update_export_config(
@@ -53,5 +55,7 @@ create_or_update_export_config(
     "current_care_arrangement",
     "reunification_status",
     "case_status"
-  ]
+  ],
+  opt_out_field: 'unhcr_export_opt_out',
+  property_keys_opt_out: ["cpims_code"]
 )

@@ -3,92 +3,92 @@ tracing_request_inquirer_fields = [
              "type" => "text_field",
              "editable" => false,
              "disabled" => true,
-             "display_name_all" => "Long ID",
+             "display_name_en" => "Long ID",
              "create_property" => false
             }),
   Field.new({"name" => "short_id",
              "type" => "text_field",
              "editable" => false,
              "disabled" => true,
-             "display_name_all" => "Inquirer ID",
+             "display_name_en" => "Inquirer ID",
              "create_property" => false
             }),
   Field.new({"name" => "inquiry_date",
              "type" => "date_field",
              "selected_value" => "today",
              "show_on_minify_form" => true,
-             "display_name_all" => "Date of Inquiry"
+             "display_name_en" => "Date of Inquiry"
             }),
   Field.new({"name" => "inquiry_status",
              "type" =>"select_box" ,
              "selected_value" => Record::STATUS_OPEN,
-             "display_name_all" => "Inquiry Status",
+             "display_name_en" => "Inquiry Status",
              "show_on_minify_form" => true,
              "option_strings_source" => "lookup lookup-inquiry-status"
             }),
   Field.new({"name" => "inquirer_details_section",
              "type" => "separator",
-             "display_name_all" => "Inquirer Details"
+             "display_name_en" => "Inquirer Details"
             }),
   Field.new({"name" => "relation_name",
              "type" => "text_field",
-             "display_name_all" => "Name of inquirer",
+             "display_name_en" => "Name of inquirer",
              "show_on_minify_form" => true,
              "matchable" => true
            }),
   Field.new({"name" => "relation_nickname",
              "type" => "text_field",
-             "display_name_all" => "Nickname of inquirer",
+             "display_name_en" => "Nickname of inquirer",
              "matchable" => true
            }),
   Field.new({"name" => "relation_age",
              "type" => "numeric_field",
-             "display_name_all" => "Age",
+             "display_name_en" => "Age",
              "show_on_minify_form" => true,
              "matchable" => true
            }),
   Field.new({"name" => "relation_date_of_birth",
              "type" => "date_field",
-             "display_name_all" => "Date of Birth",
+             "display_name_en" => "Date of Birth",
              "date_validation" => "not_future_date",
              "show_on_minify_form" => true,
              "matchable" => true
              }),
   Field.new({"name" => "relation_language",
              "type" => "select_box",
-             "display_name_all" => "Language",
+             "display_name_en" => "Language",
              "multi_select" => true,
              "option_strings_source" => "lookup lookup-language",
              "matchable" => true
            }),
   Field.new({"name" => "relation_religion",
              "type" => "select_box",
-             "display_name_all" => "Religion",
+             "display_name_en" => "Religion",
              "multi_select" => true,
              "option_strings_source" => "lookup lookup-religion",
              "matchable" => true
              }),
   Field.new({"name" => "relation_ethnicity",
              "type" => "select_box",
-             "display_name_all" => "Ethnicity",
+             "display_name_en" => "Ethnicity",
              "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
              }),
   Field.new({"name" => "relation_sub_ethnicity1",
              "type" => "select_box",
-             "display_name_all" => "Sub Ethnicity 1",
+             "display_name_en" => "Sub Ethnicity 1",
              "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
              }),
   Field.new({"name" => "relation_sub_ethnicity2",
              "type" => "select_box",
-             "display_name_all" => "Sub Ethnicity 2",
+             "display_name_en" => "Sub Ethnicity 2",
              "option_strings_source" => "lookup lookup-ethnicity",
              "matchable" => true
            }),
   Field.new({"name" => "relation_nationality",
              "type" => "select_box",
-             "display_name_all" => "Nationality",
+             "display_name_en" => "Nationality",
              "multi_select" => true,
              "show_on_minify_form" => true,
              "option_strings_source" => "lookup lookup-nationality",
@@ -96,22 +96,22 @@ tracing_request_inquirer_fields = [
            }),
   Field.new({"name" => "relation_comments",
              "type" => "textarea",
-             "display_name_all" => "Additional details / comments",
+             "display_name_en" => "Additional details / comments",
              "matchable" => true
             }),
   Field.new({"name" => "contact_information_section",
              "type" => "separator",
-             "display_name_all" => "Contact Information"
+             "display_name_en" => "Contact Information"
             }),
   Field.new({"name" => "relation_address_current",
              "type" => "textarea",
-             "display_name_all" => "Current Address",
+             "display_name_en" => "Current Address",
              "show_on_minify_form" => true,
              "matchable" => true
            }),
   Field.new({"name" => "relation_location_current",
              "type" => "select_box",
-             "display_name_all" => "Current Location",
+             "display_name_en" => "Current Location",
              "searchable_select" => true,
              "option_strings_source" => "Location",
              "matchable" => true
@@ -119,87 +119,87 @@ tracing_request_inquirer_fields = [
   Field.new({"name" => "relation_address_is_permanent",
              "type" => "tick_box",
              "show_on_minify_form" => true,
-             "display_name_all" => "Is this a permanent location?"
+             "display_name_en" => "Is this a permanent location?"
             }),
   Field.new({"name" => "relation_telephone",
              "type" => "text_field",
-             "display_name_all" => "Telephone",
+             "display_name_en" => "Telephone",
              "matchable" => true
             }),
   Field.new({"name" => "separation_history_section",
              "type" => "separator",
-             "display_name_all" => "Separation History"
+             "display_name_en" => "Separation History"
             }),
   Field.new({"name" => "date_of_separation",
              "type" => "date_field",
-             "display_name_all" => "Date of Separation",
+             "display_name_en" => "Date of Separation",
              "matchable" => true
             }),
   Field.new({"name" => "separation_cause",
              "type" => "select_box",
-             "display_name_all" => "What was the main cause of separation?",
+             "display_name_en" => "What was the main cause of separation?",
              "option_strings_source" => "lookup SeparationCause",
              "matchable" => true
             }),
   Field.new({"name" => "separation_cause_other",
              "type" => "textarea",
-             "display_name_all" => "If Other, please specify",
+             "display_name_en" => "If Other, please specify",
              "matchable" => true
             }),
   Field.new({"name" => "separation_evacuation",
              "type" => "tick_box",
-             "display_name_all" => "Did the separation occur in relation to evacuation?"
+             "display_name_en" => "Did the separation occur in relation to evacuation?"
             }),
   Field.new({"name" => "separation_details",
               "type" => "textarea",
-              "display_name_all" => "Circumstances of Separation (please provide details)",
+              "display_name_en" => "Circumstances of Separation (please provide details)",
               "matchable" => true
              }),
   Field.new({"name" => "address_separation",
              "type" => "textarea",
-             "display_name_all" => "Separation Address (Place)",
+             "display_name_en" => "Separation Address (Place)",
              "matchable" => true
             }),
   Field.new({"name" => "location_separation",
              "type" => "select_box",
-             "display_name_all" => "Separation Location",
+             "display_name_en" => "Separation Location",
              "searchable_select" => true,
              "option_strings_source" => "Location",
              "matchable" => true
             }),
   Field.new({"name" => "address_last",
              "type" => "textarea",
-             "display_name_all" => "Last Address",
+             "display_name_en" => "Last Address",
              "matchable" => true
             }),
   Field.new({"name" => "landmark_last",
              "type" => "text_field",
-             "display_name_all" => "Last Landmark",
+             "display_name_en" => "Last Landmark",
              "matchable" => true
             }),
   Field.new({"name" => "location_last",
              "type" =>"select_box" ,
-             "display_name_all" => "Last Location",
+             "display_name_en" => "Last Location",
              "searchable_select" => true,
              "option_strings_source" => "Location",
              "matchable" => true
             }),
   Field.new({"name" => "telephone_last",
              "type" => "text_field",
-             "display_name_all" => "Last Telephone",
+             "display_name_en" => "Last Telephone",
              "matchable" => true
             }),
   Field.new({"name" => "additional_tracing_info",
              "type" => "textarea",
-             "display_name_all" => "Additional info that could help in tracing?",
+             "display_name_en" => "Additional info that could help in tracing?",
              "matchable" => true
             }),
   Field.new({"name" => "disclosure_other_orgs",
            "type" => "tick_box",
-           "tick_box_label_all" => "Yes",
+           "tick_box_label_en" => "Yes",
            "editable" => false,
            "disabled" => true,
-           "display_name_all" => "Does the inquirer agree to share collected information with other organizations?"
+           "display_name_en" => "Does the inquirer agree to share collected information with other organizations?"
             })
 ]
 
@@ -214,7 +214,7 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Inquirer",
   "editable" => true,
   :fields => tracing_request_inquirer_fields,
-  "name_all" => "Inquirer",
-  "description_all" => "Inquirer",
+  "name_en" => "Inquirer",
+  "description_en" => "Inquirer",
   :is_first_tab => true
 })

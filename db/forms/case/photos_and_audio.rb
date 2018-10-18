@@ -4,14 +4,14 @@ photo_audio_fields = [
               "editable" => false,
               "disabled" => true,
               "show_on_minify_form" => true,
-              "display_name_all" => "Current Photo Key"
+              "display_name_en" => "Current Photo Key"
               }),
     Field.new({"name" => "recorded_audio",
               "type" => "audio_upload_box", 
               "show_on_minify_form" => true,
               "editable" => false,
               "disabled" => true,
-              "display_name_all" => "Recorded Audio"
+              "display_name_en" => "Recorded Audio"
               })
 ]
 
@@ -25,8 +25,8 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Photos and Audio",
   :fields => photo_audio_fields,
   "editable" => false,
-  "name_all" => "Photos and Audio",
-  "description_all" => "All Photo and Audio Files Associated with a Child Record",
+  "name_en" => "Photos and Audio",
+  "description_en" => "All Photo and Audio Files Associated with a Child Record",
   "display_help_text_view" => true,
   :mobile_form => true
 })

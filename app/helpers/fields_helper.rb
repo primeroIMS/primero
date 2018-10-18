@@ -230,7 +230,7 @@ module FieldsHelper
   end
 
   def locale_name_from_abbreviation(locale)
-    loc = @system_settings.locales_with_description.select{|loc| loc[1] == locale.to_s}[0]
+    loc = Primero::Application::locales_with_description.select{|loc| loc[1] == locale.to_s}[0]
     loc.present? ? loc[0] : locale
   end
 end

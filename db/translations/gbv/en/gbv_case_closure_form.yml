@@ -1,0 +1,69 @@
+---
+en:
+  gbv_case_closure_form:
+    name: Case Closure
+    description: Case Closure
+    form_group_name: Case Closure
+    fields:
+      created_at:
+        display_name: Case Opening Date
+      date_closure:
+        display_name: Case Closure Date
+      child_status:
+        display_name: Case Status
+      closure_assessment:
+        display_name: Closure Assessement
+      closure_checklist_header_section:
+        display_name: Closure Checklist
+      closure_needs_met:
+        display_name: Survivor’s needs have been met to the extent possible
+      closure_needs_met_explain:
+        display_name: Explain
+      closure_survivor_contact:
+        display_name: There has been no contact with survivor for a specified period
+          (e.g., more than 30 days)
+      closure_survivor_contact_explain:
+        display_name: Explain
+      closure_survivor_request_close:
+        display_name: Survivor requests to close the case
+      closure_survivor_request_close_explain:
+        display_name: Explain
+      closure_survivor_left_area:
+        display_name: Survivor left the area or no longer lives there
+      closure_survivor_left_area_explain:
+        display_name: Explain
+      closure_tranferred_organization:
+        display_name: The case was transferred to another organization
+      closure_tranferred_organization_explain:
+        display_name: Explain
+      closure_funding_constraints:
+        display_name: The case was closed because of funding constraints of the service
+          provider
+      closure_funding_constraints_explain:
+        display_name: Explain
+      closure_safety_plan:
+        display_name: Survivor’s safety plan has been reviewed and is in place
+      closure_safety_plan_explain:
+        display_name: Explain (safety plan)
+      closure_case_plan_complete:
+        display_name: Survivor's needs have been met as described in the Case Action
+          Plan
+      closure_case_plan_complete_explain:
+        display_name: Explain (complete and satisfactory)
+      closure_no_further_support:
+        display_name: The survivor client and caseworker agree that no further support
+          is needed
+      closure_no_further_support_explain:
+        display_name: Explain (no need for further support)
+      closure_resume_notification:
+        display_name: Survivor has been informed that she can resume services at any
+          time
+      closure_resume_notification_explain:
+        display_name: Explain (resuming services)
+      closure_supervisor_review:
+        display_name: Case supervisor has reviewed case closure/exit plan
+      closure_supervisor_review_explain:
+        display_name: Explain (case review)
+      closure_completion_timing:
+        display_name: How long did it take you to complete the case closure for this
+          case?

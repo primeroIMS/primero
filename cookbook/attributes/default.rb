@@ -94,6 +94,11 @@ default[:primero].tap do |p|
     m[:host] = 'primero.org'
     m[:from_address] = 'noreply@primero.org'
   end
+
+  p[:locales].tap do |m|
+    m[:default_locale] = 'en'
+    m[:locales] = ['en', 'fr', 'ar', 'es']
+  end
 end
 
 default[:postfix].tap do |pf|
