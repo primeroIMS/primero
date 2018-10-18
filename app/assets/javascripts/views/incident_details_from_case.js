@@ -67,6 +67,7 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
           $(self.el).find('#' + form_type + '_modal .' + form_type + '_container').html(response);
           _primero.chosen('#' + form_type + '_modal form select');
           _primero.populate_select_boxes();
+          _primero.populate_location_select_boxes();
           // to get foundation validation to run on new form
           $('#' + form_type + '_modal form').foundation();
           $('#' + form_type + '_modal').foundation('open');

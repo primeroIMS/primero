@@ -84,6 +84,7 @@ _primero.Router = Backbone.Router.extend({
     this.recordActions();
     new _primero.Views.AutoCalculateAgeDOB()
     new _primero.Views.PopulateSelectBoxes();
+    new _primero.Views.PopulateLocationSelectBoxes();
     new _primero.Views.IndexFilters();
     new _primero.Views.SaveFilters();
     this.maskedUserAndPasswordReferal();
@@ -99,6 +100,7 @@ _primero.Router = Backbone.Router.extend({
   userCreatePage: function() {
     _primero.chosen(".default-form select.chosen-select");
     new _primero.Views.PopulateSelectBoxes();
+    new _primero.Views.PopulateLocationSelectBoxes();
   },
 
   recordShowPage: function() {
@@ -118,6 +120,7 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.ReopenCase();
       new _primero.Views.RequestApproval();
       new _primero.Views.PopulateSelectBoxes();
+      new _primero.Views.PopulateLocationSelectBoxes();
       this.maskedUserAndPasswordReferal();
       this.maskedUserAndPasswordTransfer();
     }
@@ -139,6 +142,7 @@ _primero.Router = Backbone.Router.extend({
     if ($('form:not("#search_form")').length > 0) {
       _primero.shared_fields = new _primero.Views.SharedFields();
       new _primero.Views.PopulateSelectBoxes();
+      new _primero.Views.PopulateLocationSelectBoxes();
       new _primero.Views.RequiredFields();
       new _primero.Views.AutosumFields();
       new _primero.Views.AutoCalculateAgeDOB();
@@ -228,6 +232,7 @@ _primero.Router = Backbone.Router.extend({
   matchingConfigurationPage: function() {
     _primero.chosen(".default-form select.chosen-select");
     new _primero.Views.PopulateSelectBoxes();
+    new _primero.Views.PopulateLocationSelectBoxes();
   }
 
 });
