@@ -80,8 +80,6 @@ module Primero
 
     config.exceptions_app = self.routes
 
-    config.active_job.queue_adapter = Rails.env.production? ? :backburner : :inline
-
     def locales
       LOCALES
     end
