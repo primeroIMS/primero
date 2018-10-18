@@ -1,0 +1,18 @@
+---
+fr:
+  health_medical_referral_subform_section:
+    name: Sous-formulaire imbriqué service médical/de santé
+    description: Sous-formulaire imbriqué service médical/de santé
+    fields:
+      service_medical_referral:
+        display_name: "Avez-vous référé la cliente pour le service médical/de santé?"
+      service_medical_appointment_date:
+        display_name: Date du rendez-vous
+      service_medical_appointment_time:
+        display_name: Heure du rendez-vous
+      service_medical_provider:
+        display_name: Prestataire de service
+      service_medical_location:
+        display_name: Lieu de la prestation de service
+      service_medical_referral_notes:
+        display_name: Commentaires

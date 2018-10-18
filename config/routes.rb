@@ -71,6 +71,7 @@ Primero::Application.routes.draw do
       post :transition
       post :mark_for_mobile
       post :approve_form
+      post :add_note
       put :request_transfer
       get :search
       get :consent_count

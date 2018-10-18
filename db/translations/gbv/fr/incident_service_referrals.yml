@@ -1,0 +1,50 @@
+---
+fr:
+  incident_service_referrals:
+    name: Référencement à des services
+    description: Référencement à des services
+    form_group_name: ""
+    fields:
+      service_referred_from:
+        display_name: "Qui vous a adressé le cas?"
+        option_strings_text:
+          health_medical_services: Service médical/de santé
+          psychosocial_counseling_services: Services de suivi psychologique/de soutien psychosocial
+          police_other_security_actor: Police / Autre acteur de la sécurité
+          legal_assistance_services: Services d'assistance juridique
+          livelihoods_program: Programme d'aide aux moyens de subsistance
+          self_referral_first_point_of_contact: Venue d'elle-même / Auto-renvoi
+          teacher_school_official: Enseignant / Responsable scolaire
+          community_or_camp_leader: Leader du camp ou de la communauté
+          safe_house_shelter: Lieu sûr / Refuge
+          other_humanitarian_or_development_actor: Autre acteur de l'aide humanitaire ou de l'aide au développement
+          other_government_service: Autre service gouvernemental
+          other: Autre
+      service_referred_from_other:
+        display_name: "Si vous avez choisi Autre, veuillez préciser"
+      safe_house_safe_shelter_referral:
+        display_name: Référencement vers lieu sûr / Refuge
+      service_safehouse_referral:
+        display_name: "Avez-vous référé la cliente à une maison sûre / refuge?"
+      service_safehouse_appointment_date:
+        display_name: Date du rendez-vous
+      service_safehouse_appointment_time:
+        display_name: Heure du rendez-vous
+      service_safehouse_provider:
+        display_name: Prestataire de service
+      service_safehouse_location:
+        display_name: Lieu de la prestation de service
+      service_safehouse_referral_notes:
+        display_name: Commentaires
+      health_medical_referral_subform_section:
+        display_name: Référencement service médical/de santé
+      psychosocial_counseling_services_subform_section:
+        display_name: Services de suivi psychologique/de soutien psychosocial
+      legal_assistance_services_subform_section:
+        display_name: Services d'assistance juridique
+      police_or_other_type_of_security_services_subform_section:
+        display_name: Police ou autre type de sécurité
+      livelihoods_services_subform_section:
+        display_name: Moyens de susbsistance
+      child_protection_services_subform_section:
+        display_name: Protection de l'Enfance

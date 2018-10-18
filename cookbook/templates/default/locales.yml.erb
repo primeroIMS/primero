@@ -1,0 +1,6 @@
+---
+<% @environments.each do |env| %>
+<%= env %>:
+  :default_locale: <%= @default_locale %>
+  :locales: <%= @locales %>
+<% end %>

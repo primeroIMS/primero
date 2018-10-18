@@ -1,0 +1,36 @@
+---
+fr:
+  gbv_sexual_violence:
+    name: Type de VBG
+    description: Type de VBG
+    form_group_name: ""
+    fields:
+      gbv_sexual_violence_type:
+        display_name: Type de violence
+        guiding_questions: "Les six types de VBG et leurs définitions sont: \n1. Viol - pénétration vaginale, anale ou buccale sans consentement (même superficielle), à l’aide du pénis ou d’une autre partie du corps. S’applique également à l’insertion d’un objet dans le vagin ou l’anus.\n2. Agression sexuelle : toute forme de contact sexuel sans consentement ne débouchant pas ou ne reposant pas sur un acte de pénétration. Entre autres exemples : les tentatives de viol, ainsi que les baisers, les caresses et les attouchements non désirés aux parties génitales ou aux fesses. Les MGF/E sont un acte de violence qui lèse les organes sexuels ; elles devraient donc être classées dans la catégorie des agressions sexuelles. Ce type d’incident n’englobe pas les viols qui consistent en un acte de pénétration.\n3.   Agression physique - Violence physique n’étant pas de nature sexuelle. Entre autres exemples : coups, gifles, strangulation, coupures, bousculades, brûlures, tirs ou usage d’armes, quelles qu’elles soient, attaques à l’acide ou tout autre acte occasionnant des douleurs, une gêne ou des blessures. Ce type d’incident n’englobe pas les MGF/E.\n4. Mariage forcé : Mariage d’une personne contre sa volonté.\n5. Déni de ressources, d’opportunités ou de services : déni de l’accès légitime à des ressources/actifs économiques ou à des opportunités de subsistance, et à des services éducatifs, sanitaires ou autres services sociaux. On parle de déni de ressources, d’opportunités et de services, par exemple, lorsqu’on empêche une veuve de recevoir un membre de sa famille, lorsqu’une femme se voit interdire l’usage des moyens de contraception, lorsqu’on empêche une fille d’aller à l’école, etc. Les cas de pauvreté générale ne devraient pas être consignés.\n6. Violences psychologiques / émotionnelles : Infliction de douleurs ou de blessures mentales ou émotionnelles. Entre autres exemples : menaces de violence physique ou sexuelle, intimidation, humiliation, isolement forcé, poursuite, harcèlement verbal, attention non souhaitée, remarques, gestes ou écrits de nature sexuelle et/ou menaçants, destruction de biens précieux, etc."
+      non_gbv_type_notes:
+        display_name: "Si non VBG, décrivez"
+      harmful_traditional_practice:
+        display_name: "Est-ce que l'incident constitue une pratique traditionnelle préjudiciable?"
+        option_strings_text:
+          'no': 'Non'
+          type_of_practice_1: Type de pratique 1
+          type_of_practice_2: Type de pratique 2
+          type_of_practice_3: Type de pratique 3
+          type_of_practice_4: Type de pratique 4
+          type_of_practice_5: Type de pratique 5
+      goods_money_exchanged:
+        display_name: "De l’argent, des biens, des avantages et/ou des services ont-ils été échangés en rapport avec cet incident?"
+      abduction_status_time_of_incident:
+        display_name: "Type d’enlèvement au moment des faits "
+        option_strings_text:
+          none: Aucun
+          forced_conscription: Enlèvement / Recrutement forcé par les groupes armés
+          trafficked: "Trafic humain / Traite "
+          other_abduction_kidnapping: Autre enlèvement
+      gbv_reported_elsewhere:
+        display_name: "La survivante a-t-elle déclaré cet incident dans une autre organisation avant?"
+      gbv_reported_elsewhere_subform:
+        display_name: "Si oui, où?"
+      gbv_previous_incidents:
+        display_name: "La survivante a t-elle précédemment été victime d’autres incidents de VBG?"

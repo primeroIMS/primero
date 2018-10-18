@@ -1,0 +1,18 @@
+---
+fr:
+  psychosocial_counseling_services_subform_section:
+    name: Sous-formulaire imbriqué pour services de soutien psychosocial
+    description: Sous-formulaire imbriqué pour services de soutien psychosocial
+    fields:
+      service_psycho_referral:
+        display_name: "Avez-vous référé la cliente aux services de soutien psychosocial?"
+      service_psycho_appointment_date:
+        display_name: Date du rendez-vous
+      service_psycho_appointment_time:
+        display_name: Heure du rendez-vous
+      service_psycho_provider:
+        display_name: Prestataire de service
+      service_psycho_service_location:
+        display_name: Lieu de la prestation de service
+      service_psycho_referral_notes:
+        display_name: Commentaires

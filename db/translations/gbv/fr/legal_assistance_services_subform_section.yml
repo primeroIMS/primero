@@ -1,0 +1,20 @@
+---
+fr:
+  legal_assistance_services_subform_section:
+    name: Sous-formulaire imbriqué pour services d'assistance juridique
+    description: Sous-formulaire imbriqué pour services d'assistance juridique
+    fields:
+      service_legal_referral:
+        display_name: "Avez-vous référé la cliente pour service d'assistance juridique?"
+      service_legal_appointment_date:
+        display_name: Date du rendez-vous
+      service_legal_appointment_time:
+        display_name: Heure du rendez-vous
+      service_legal_provider:
+        display_name: Prestataire de service
+      service_legal_location:
+        display_name: Lieu de la prestation de service
+      service_legal_referral_notes:
+        display_name: Commentaires
+      pursue_legal_action:
+        display_name: "La survivante souhaite-t-elle engager des poursuites en justice?"

@@ -16,23 +16,27 @@ create_or_update_lookup(
   :name_en => "Location Type",
   :locked => true,
   :lookup_values_en => [
-    {id: "country", display_text: "Country"}.with_indifferent_access,
-    {id: "region", display_text: "Region"}.with_indifferent_access,
-    {id: "province", display_text: "Province"}.with_indifferent_access,
-    {id: "district", display_text: "District"}.with_indifferent_access,
-    {id: "governorate", display_text: "Governorate"}.with_indifferent_access,
-    {id: "chiefdom", display_text: "Chiefdom"}.with_indifferent_access,
-    {id: "state", display_text: "State"}.with_indifferent_access,
-    {id: "city", display_text: "City"}.with_indifferent_access,
-    {id: "county", display_text: "County"}.with_indifferent_access,
-    {id: "camp", display_text: "Camp"}.with_indifferent_access,
-    {id: "site", display_text: "Site"}.with_indifferent_access,
-    {id: "village", display_text: "Village"}.with_indifferent_access,
-    {id: "zone", display_text: "Zone"}.with_indifferent_access,
-    {id: "sub_district", display_text: "Sub District"}.with_indifferent_access,
-    {id: "locality", display_text: "Locality"}.with_indifferent_access,
-    {id: "other", display_text: "Other"}.with_indifferent_access
-  ]
+    {id: "country", display_text: "Country"},
+    {id: "region", display_text: "Region"},
+    {id: "province", display_text: "Province"},
+    {id: "district", display_text: "District"},
+    {id: "governorate", display_text: "Governorate"},
+    {id: "chiefdom", display_text: "Chiefdom"},
+    {id: "state", display_text: "State"},
+    {id: "city", display_text: "City"},
+    {id: "county", display_text: "County"},
+    {id: "camp", display_text: "Camp"},
+    {id: "site", display_text: "Site"},
+    {id: "village", display_text: "Village"},
+    {id: "zone", display_text: "Zone"},
+    {id: "sub_district", display_text: "Sub District"},
+    {id: "locality", display_text: "Locality"},
+    {id: "prefecture", display_text: "Prefecture"},
+    {id: "sub-prefecture", display_text: "Sub-Prefecture"},
+    {id: "commune", display_text: "Commune"},
+    {id: "payam", display_text: "Payam"},
+    {id: "other", display_text: "Other"}
+  ].map(&:with_indifferent_access)
 )
 
 create_or_update_lookup(
@@ -316,6 +320,17 @@ create_or_update_lookup(
     {id: "transferred", display_text: "Transferred"}.with_indifferent_access,
     {id: "duplicate", display_text: "Duplicate"}.with_indifferent_access
   ]
+)
+
+create_or_update_lookup(
+  :id => "lookup-conference-case-status",
+  :name_en => "Conference Case Status",
+  :lookup_values_en => [
+    {id: "open", display_text: "The case will remain open"},
+    {id: "closed", display_text: "The case will be closed"},
+    {id: "transferred", display_text: "The case will be transferred"},
+    {id: "other", display_text: "Other"}
+  ].map(&:with_indifferent_access)
 )
 
 create_or_update_lookup(
@@ -869,9 +884,9 @@ create_or_update_lookup(
     :id => "lookup-assessment-progress",
     :name_en => "Assessment Progress",
     :lookup_values_en => [
-        {id: "n_a", display_text: "N/A"},
-        {id: "in_progress", display_text: "In progress"},
-        {id: "met", display_text: "Met"}
+      {id: "n_a", display_text: "N/A"},
+      {id: "in_progress", display_text: "In progress"},
+      {id: "met", display_text: "Met"}
     ].map(&:with_indifferent_access)
 )
 

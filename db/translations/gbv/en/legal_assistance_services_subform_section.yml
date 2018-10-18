@@ -1,0 +1,20 @@
+---
+en:
+  legal_assistance_services_subform_section:
+    name: Nested Legal Assistance Services Subform
+    description: Nested Legal Assistance Services Subform
+    fields:
+      service_legal_referral:
+        display_name: Did you refer the client to Legal services?
+      service_legal_appointment_date:
+        display_name: Appointment Date
+      service_legal_appointment_time:
+        display_name: Appointment Time
+      service_legal_provider:
+        display_name: Service Provider
+      service_legal_location:
+        display_name: Service Location
+      service_legal_referral_notes:
+        display_name: Notes
+      pursue_legal_action:
+        display_name: Does the client want to pursue legal action?

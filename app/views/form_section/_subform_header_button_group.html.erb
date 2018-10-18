@@ -1,27 +1,19 @@
 <div class="button-group align-right">
-  <% if subform_instance.present? && subform_name == "incident_details" %>
-    <% link_for_current_details = formObject.incident_links.find{|link| link["incident_details"] == subform_instance.unique_id} %>
-    <% if link_for_current_details.present? && (can? :incident_from_case, Child) %>
-      <%= render :partial =>"children/incident_links_cp",
-        locals: {
-          :formObject => formObject,
-          :associated_incident_id => link_for_current_details["incident_id"],
-          :incident_display_id => link_for_current_details["incident_display_id"]
-        } %>
-    <% elsif can? :incident_from_case, Child %>
-      <%= render :partial => "children/create_incident",
-        locals: {
-          :incident_detail_id => subform_instance.unique_id
-        } %>
+  <% if subform_instance.present? %>
+    <% if subform_name == "incident_details" %>
+      <% link_for_current_details = formObject.incident_links.find{|link| link["incident_details"] == subform_instance.unique_id} %>
+      <% if link_for_current_details.present? && (can? :incident_from_case, Child) %>
+        <%= render 'children/incident_links_cp', formObject: formObject, associated_incident_id: link_for_current_details["incident_id"],
+                       incident_display_id: link_for_current_details["incident_display_id"]
+        %>
+      <% elsif can? :incident_from_case, Child %>
+        <%= render 'children/create_incident', incident_detail_id: subform_instance.unique_id %>
+      <% end %>
+    <% elsif subform_name == "services_section" && can?(:referral_from_service, Child) && can?(:referral, Child) %>
+      <%= render 'transitions/refer_from_service_button', formObject: formObject, type: Transition::TYPE_REFERRAL,
+                     service_object_id: formObject.services_section[i].unique_id
+      %>
     <% end %>
-  <% elsif subform_instance.present? && subform_name == "services_section" && can?(:referral_from_service, Child) && can?(:referral, Child)%>
-    <%= render :partial => 'transitions/refer_from_service_button',
-      locals: {
-        :formObject => formObject,
-        :type => Transition::TYPE_REFERRAL,
-        :service_object_id => formObject.services_section[i].unique_id,
-      }
-    %>
   <% end %>
   <% if !subform.disabled && !subform.subform_section.subform_prevent_item_removal %>
     <%= link_to t('fields.remove'), '', class: "subform_remove button grey tiny", style: disable_action_buttons,

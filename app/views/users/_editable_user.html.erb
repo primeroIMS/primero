@@ -35,7 +35,7 @@
       </div>
       <div class="medium-8 columns">
         <% value = @user.try(:locale) %>
-        <%= f.select :locale, @system_settings.locales_with_description, {class: 'chosen-select', data: {value: value}} %>
+        <%= f.select :locale, Primero::Application::locales_with_description, {class: 'chosen-select', data: {value: value}} %>
       </div>
       <div class="medium-1 columns"> </div>
     </div>

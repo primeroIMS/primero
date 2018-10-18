@@ -35,6 +35,7 @@ module ExportActions
           :ids => models.collect(&:id))
         props = export_properties(exporter)
         file_name = export_filename(models, exporter)
+
         if models.present?
           export_data = exporter.export(models, props, current_user, params[:custom_exports])
           cookies[:download_status_finished] = true
@@ -54,7 +55,8 @@ module ExportActions
   end
 
   def queue_bulk_export(format, props, file_name)
-    bulk_export = BulkExport.new
+    export_class = params[:export_duplicates].present? ? DuplicateBulkExport : BulkExport
+    bulk_export = export_class.new
     bulk_export.owned_by = current_user.user_name
     bulk_export.format = format
     bulk_export.record_type = model_class.parent_form
@@ -67,8 +69,9 @@ module ExportActions
     bulk_export.custom_export_params = params['custom_exports']
     bulk_export.file_name = file_name
     bulk_export.password = params['password'] #TODO: bad, change
+
     if bulk_export.mark_started
-      BulkExportJob.perform_later(bulk_export.id)
+      bulk_export.job.perform_later(bulk_export.id)
     end
   end
 

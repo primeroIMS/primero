@@ -19,13 +19,18 @@ module Exporters
     end
 
     def dir_name
-      name_ext = ''
-      if @form_id.present?
-        name_ext = @form_id
+      custom_export_dir = ENV['EXPORT_DIR']
+      if custom_export_dir.present? && File.directory?(custom_export_dir)
+        return custom_export_dir
       else
-        name_ext = "#{@record_type}_#{@primero_module.name.downcase}"
+        name_ext = ''
+        if @form_id.present?
+          name_ext = @form_id
+        else
+          name_ext = "#{@record_type}_#{@primero_module.name.downcase}"
+        end
+        return File.join(Rails.root.join('tmp', 'exports'), "forms_yml_export_#{name_ext}_#{DateTime.now.strftime("%Y%m%d.%I%M%S")}")
       end
-      File.join(Rails.root.join('tmp', 'exports'), "forms_yml_export_#{name_ext}_#{DateTime.now.strftime("%Y%m%d.%I%M%S")}")
     end
 
     def dir

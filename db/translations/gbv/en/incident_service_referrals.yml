@@ -1,0 +1,51 @@
+---
+en:
+  incident_service_referrals:
+    name: Service Referrals
+    description: Service Referrals
+    form_group_name: Service Referral
+    fields:
+      service_referred_from:
+        display_name: Who referred the client to you?
+        option_strings_text:
+          health_medical_services: Health / Medical Services
+          psychosocial_counseling_services: Psychosocial / Counseling Services
+          police_other_security_actor: Police / Other Security Actor
+          legal_assistance_services: Legal Assistance Services
+          livelihoods_program: Livelihoods Program
+          self_referral_first_point_of_contact: Self Referral / First Point of Contact
+          teacher_school_official: Teacher / School Official
+          community_or_camp_leader: Community or Camp Leader
+          safe_house_shelter: Safe House / Shelter
+          other_humanitarian_or_development_actor: Other Humanitarian or Development
+            Actor
+          other_government_service: Other Government Service
+          other: Other
+      service_referred_from_other:
+        display_name: If survivor referred from Other, please specify.
+      safe_house_safe_shelter_referral:
+        display_name: Safe House/Safe Shelter Referral
+      service_safehouse_referral:
+        display_name: Did you refer the client to a safe house/safe shelter?
+      service_safehouse_appointment_date:
+        display_name: Appointment Date
+      service_safehouse_appointment_time:
+        display_name: Appointment Time
+      service_safehouse_provider:
+        display_name: Service Provider
+      service_safehouse_location:
+        display_name: Service Location
+      service_safehouse_referral_notes:
+        display_name: Notes
+      health_medical_referral_subform_section:
+        display_name: Health/Medical Referral
+      psychosocial_counseling_services_subform_section:
+        display_name: Psychosocial/Counseling Services
+      legal_assistance_services_subform_section:
+        display_name: Legal Assistance Services
+      police_or_other_type_of_security_services_subform_section:
+        display_name: Police or Other Type of Security Services
+      livelihoods_services_subform_section:
+        display_name: Livelihoods Services
+      child_protection_services_subform_section:
+        display_name: Child Protection Services

@@ -1,0 +1,68 @@
+---
+en:
+  gbv_incident_form:
+    name: GBV Incident
+    description: GBV Incident
+    form_group_name: Incident
+    fields:
+      incident_id:
+        display_name: Long ID
+      short_id:
+        display_name: Incident ID
+      marked_for_mobile:
+        display_name: Marked for mobile?
+        tick_box_label: 'Yes'
+      incident_code:
+        display_name: Incident Code
+      incidentid_ir:
+        display_name: Incident ID IR
+        help_text: Incident ID for the IR
+      status:
+        display_name: Incident Status
+      consent_reporting:
+        display_name: Consent is given to share non-identifiable information for reporting
+      date_of_first_report:
+        display_name: Date of Interview
+      incident_date:
+        display_name: Date of Incident
+      incident_description:
+        display_name: Account of Incident
+      displacement_incident:
+        display_name: Stage of displacement at time of incident
+        option_strings_text:
+          not_displaced_home_community: Not Displaced / Home Community
+          pre_displacement: Pre-displacement
+          during_flight: During Flight
+          during_refuge: During Refuge
+          during_return_transit: During Return / Transit
+          post_displacement: Post-Displacement
+      incident_timeofday:
+        display_name: Time of day that the Incident took place
+        option_strings_text:
+          morning_sunrise_to_noon: Morning (sunrise to noon)
+          afternoon_noon_to_sunset: Afternoon (noon to sunset)
+          evening_night_sunset_to_sunrise: Evening/Night (sunset to sunrise)
+          unknown_not_applicable: Unknown/Not Applicable
+      incident_location_type:
+        display_name: Type of place where the incident took place
+        option_strings_text:
+          bush_forest: Bush/Forest
+          garden_cultivated_field: Garden/Cultivated Field
+          school: School
+          road: Road
+          client_s_home: Client's Home
+          perpetrator_s_home: Perpetrator's Home
+          other: Other
+          market: Market
+          streamside: Streamside
+          beach: Beach
+          farm: Farm
+          latrine: Latrine
+          perpetrator_s_friend_s_home: Perpetrator's Friend's Home
+          entertainment_centre: Entertainment Centre
+          unfinished_house: Unfinished House
+          guest_house_hotel: Guest House - Hotel
+      incident_location:
+        display_name: Incident Location
+      incident_camp_town:
+        display_name: Incident Camp/Town

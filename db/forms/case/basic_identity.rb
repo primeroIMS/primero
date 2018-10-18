@@ -24,6 +24,11 @@ basic_identity_fields = [
              "display_name_en" => "Case ID",
              "create_property" => true
             }),
+  Field.new({"name" => "cpims_id",
+             "type" => "text_field",
+             "display_name_en" => "CPIMS ID",
+             "help_text_en" => "Legacy CPIMS (or other system) ID"
+            }),
   Field.new({"name" => "marked_for_mobile",
              "type" => "tick_box",
              "tick_box_label_en" => "Yes",
@@ -45,7 +50,7 @@ basic_identity_fields = [
              "editable" => false,
              "disabled" => true
             }),
-  Field.new({"name" => "name", #TODO v1.3: Confirm taht we are not using HighlightInformation
+  Field.new({"name" => "name",
              "type" => "text_field",
              "display_name_en" => "Full Name",
              "required" => false,

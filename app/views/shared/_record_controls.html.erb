@@ -9,6 +9,7 @@
           <div class="row collapse">
             <%= yield :record_sub_nav %>
             <%= yield :record_sub_nav_controls %>
+            <%= yield :add_notes %>
           </div>
           <% if content_for?(:record_status) %>
             <div class="row">
