@@ -1,0 +1,9 @@
+---
+en:
+  other_documents:
+    name: Other Documents
+    description: Other Documents
+    form_group_name: Documents
+    fields:
+      upload_other_document:
+        display_name: Other Document

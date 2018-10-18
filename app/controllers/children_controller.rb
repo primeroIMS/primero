@@ -15,6 +15,7 @@ class ChildrenController < ApplicationController
   before_action :load_fields, :only => [:index]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
+  include NoteActions
 
   def edit_photo
     authorize! :update, @child

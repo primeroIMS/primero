@@ -1,22 +1,22 @@
 tracing_request_record_owner_fields = [
   Field.new({"name" => "current_owner_section",
              "type" => "separator",
-             "display_name_all" => "Current Owner"
+             "display_name_en" => "Current Owner"
             }),
   Field.new({"name" => "caseworker_name",
              "type" => "text_field",
-             "display_name_all" => "Field/Case/Social Worker"
+             "display_name_en" => "Field/Case/Social Worker"
             }),
   Field.new({"name" => "owned_by",
              "type" => "select_box",
-             "display_name_all" => "Caseworker Code",
+             "display_name_en" => "Caseworker Code",
              "option_strings_source" => "User",
              "editable" => false,
              "disabled" => true
             }),
   Field.new({"name" => "owned_by_agency",
              "type" => "select_box",
-             "display_name_all" => "Agency",
+             "display_name_en" => "Agency",
              "editable" => false,
              "disabled" => true,
              "option_strings_source" => "Agency"
@@ -24,38 +24,38 @@ tracing_request_record_owner_fields = [
   Field.new({"name" => "assigned_user_names",
              "type" =>"select_box",
              "multi_select" => true,
-             "display_name_all" => "Other Assigned Users",
+             "display_name_en" => "Other Assigned Users",
              "option_strings_source" => "User"
             }),
   Field.new({"name" => "record_history_section",
              "type" => "separator",
-             "display_name_all" => "Record History"
+             "display_name_en" => "Record History"
             }),
   Field.new({"name" => "created_by",
              "type" => "text_field",
-             "display_name_all" => "Record created by",
+             "display_name_en" => "Record created by",
              "editable" => false,
              "disabled" => true
             }),
   Field.new({"name" => "created_organization",
              "type" => "text_field",
-             "display_name_all" => "Created by agency",
+             "display_name_en" => "Created by agency",
              "editable" => false,
              "disabled" => true
             }),
   Field.new({"name" => "previously_owned_by",
              "type" => "text_field",
-             "display_name_all" => "Previous Owner",
+             "display_name_en" => "Previous Owner",
              "editable" => false,
              "disabled" => true
             }),
   Field.new({"name" => "previous_agency",
              "type" => "text_field",
-             "display_name_all" => "Previous Agency"
+             "display_name_en" => "Previous Agency"
             }),
   Field.new({"name" => "module_id",
           "type" => "text_field",
-          "display_name_all" => "Module",
+          "display_name_en" => "Module",
           "editable" => false,
           "disabled" => true
           }),
@@ -72,6 +72,6 @@ FormSection.create_or_update_form_section({
   :form_group_name => "Record Owner",
   "editable" => true,
   :fields => tracing_request_record_owner_fields,
-  "name_all" => "Record Owner",
-  "description_all" => "Record Owner"
+  "name_en" => "Record Owner",
+  "description_en" => "Record Owner"
 })

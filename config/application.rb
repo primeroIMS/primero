@@ -56,7 +56,11 @@ module Primero
     LOCALE_SOMALI = 'so'
     LOCALE_BANGLA = 'bn'
     LOCALE_INDONESIAN = 'id'
-    LOCALES = [LOCALE_ENGLISH,LOCALE_FRENCH,LOCALE_ARABIC,LOCALE_LEBANON,LOCALE_SOMALI,LOCALE_SPANISH,LOCALE_BANGLA,LOCALE_INDONESIAN]
+    LOCALE_BURMESE = 'my'
+    LOCALE_THAI = 'th'
+    LOCALE_KURDISH = 'ku'
+    LOCALES = [LOCALE_ENGLISH, LOCALE_FRENCH, LOCALE_ARABIC, LOCALE_LEBANON, LOCALE_SOMALI, LOCALE_SPANISH, LOCALE_BANGLA,
+               LOCALE_INDONESIAN, LOCALE_BURMESE, LOCALE_THAI, LOCALE_KURDISH]
     LOCALES_WITH_DESCRIPTION = [
       ['-', nil],
       ['English', LOCALE_ENGLISH],
@@ -66,7 +70,15 @@ module Primero
       ['Af-Soomaali', LOCALE_SOMALI],
       ['Español', LOCALE_SPANISH],
       ['বাংলা', LOCALE_BANGLA],
-      ['Bahasa', LOCALE_INDONESIAN]
+      ['Bahasa', LOCALE_INDONESIAN],
+      ['ဗမာစာ', LOCALE_BURMESE],
+      ['ไทย', LOCALE_THAI],
+      ['کوردی', LOCALE_KURDISH]
+    ]
+    RTL_LOCALES = [
+      LOCALE_ARABIC,
+      LOCALE_LEBANON,
+      LOCALE_KURDISH
     ]
 
     if ENV['RAILS_LOG_PATH'].present?
@@ -81,11 +93,15 @@ module Primero
     config.exceptions_app = self.routes
 
     def locales
-      LOCALES
+      @locales ||= I18n.available_locales.map(&:to_s)
     end
 
     def locales_with_description
-      LOCALES_WITH_DESCRIPTION
+      @locales_with_description ||= LOCALES_WITH_DESCRIPTION.select{|l| (locales.include? l.last) || l.last.nil?}
+    end
+
+    def default_locale
+      @default_locale ||= I18n.default_locale.to_s
     end
   end
 end

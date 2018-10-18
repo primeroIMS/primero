@@ -3,7 +3,7 @@ survivor_assessment_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Survivor Profile",
+             "display_name_en" => "Survivor Profile",
              "guiding_questions" =>
                  ["Is the survivor a woman, man, girl or boy or other gender identity?",
                   "",
@@ -11,20 +11,20 @@ survivor_assessment_fields = [
                   "",
                   "Is she a resident, a refugee or internally displaced person?"
                  ].join("\n"),
-             "help_text_all" => "Provide basic demographic information on the survivor, including sex, age and displacement status and any other relevant information."
+             "help_text_en" => "Provide basic demographic information on the survivor, including sex, age and displacement status and any other relevant information."
             }),
   Field.new({"name" => "assessment_survivor_background",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Survivor Context (or Background Information)",
+             "display_name_en" => "Survivor Context (or Background Information)",
              "guiding_questions" => "Provide basic contextual information on the survivor, including her family situation, current living situation, occupation or role, and any other relevant information.",
             }),
   Field.new({"name" => "assessment_family_situation",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Survivor's family situation (for adults)",
+             "display_name_en" => "Survivor's family situation (for adults)",
              "guiding_questions" =>
                  ["Adult survivor's family situation:",
                   "",
@@ -39,28 +39,28 @@ survivor_assessment_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Survivor's current living situation",
+             "display_name_en" => "Survivor's current living situation",
              "guiding_questions" => "Does the survivor have a place to live? Where? Who lives in the house with her? Does she live with her husband/intimate partner? Are there relatives living nearby?"
             }),
   Field.new({"name" => "assssment_survivor_occupation",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Survivor's occupation or role",
+             "display_name_en" => "Survivor's occupation or role",
              "guiding_questions" => "Does survivor work? Is her work at home? Have paid employment? Part-time or full-time? Does survivor have a special role in the community where s/he lives?"
             }),
   Field.new({"name" => "assessment_child_considerations",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Specific considerations for child survivors",
+             "display_name_en" => "Specific considerations for child survivors",
              "guiding_questions" => "Does she live with her parents? (If her parents or guardians are not the perpetrators, do they know about what happened to her)? Who are the other family members present in the client’s life on a daily basis? Does the survivor have other relatives that are present in her life?"
             }),
   Field.new({"name" => "assessment_presenting_problem",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Presenting Problem",
+             "display_name_en" => "Presenting Problem",
              "guiding_questions" =>
                  ["Describe what happened to the survivor in the survivor's own words. Identify what problem(s)/concern(s)/issue(s) the survivor is requesting assistance/support for.",
                   "",
@@ -71,21 +71,21 @@ survivor_assessment_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Describe what happened to the survivor in the survivor's own words",
+             "display_name_en" => "Describe what happened to the survivor in the survivor's own words",
              "guiding_questions" => "What happened to the survivor? What is the nature of the violence? When did it occur? What prompted her to seek services? What are her main concerns? What does she want help with?"
             }),
   Field.new({"name" => "assessment_main_concerns",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Key Assessment Points",
+             "display_name_en" => "Key Assessment Points",
              "guiding_questions" => "Summarize key assessment points with respect to the nature, timing, frequency and severity of the violence reported, who the perpetrator/s is/are in relation to the survivor and whether he/they have easy access to the survivor, in order to determine risk. Gauge emotional well-being, ability to keep up with day-today tasks, overall sense of safety in the world, and ability to trust others. Identify the survivor's needs (safety, health, psychosocial, legal/justice, practical/material, other) as well as her strengths and coping strategies to determine need for psychosocial support and/or appropriate and timely referrals."
              }),
   Field.new({"name" => "assessment_current_situation",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Current situation and imminent risks",
+             "display_name_en" => "Current situation and imminent risks",
              "guiding_questions" =>
                  ["Identify situations, circumstances and people that are continuing to harm the survivor or put her at risk of harm. ",
                   "",
@@ -102,21 +102,21 @@ survivor_assessment_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Safety needs",
+             "display_name_en" => "Safety needs",
              "guiding_questions" => "Will the survivor be in immediate danger when she leaves here? How safe does the survivor feel at home? (Note: caseworker can use tools such as safety scale to help determine this). Has the survivor ever tried to get help from anyone else? Has the survivor ever tried to leave? Are aspects about the perpetrator’s profile or the type of violence that place the survivor in immediate danger?"
             }),
   Field.new({"name" => "assessment_health_needs",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Health needs",
+             "display_name_en" => "Health needs",
              "guiding_questions" => "Does the client require and/or want medical attention? Did the last incident occur within the past 120 hours? Would the survivor like to know more about medication and exam options? Is the survivor complaining of physical pain and injury, or bleeding or discharge?"
             }),
   Field.new({"name" => "assessment_psychosocial_needs",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Psychosocial needs",
+             "display_name_en" => "Psychosocial needs",
              "guiding_questions" =>
                  ["How does the survivor describe her emotional state?",
                   "",
@@ -133,7 +133,7 @@ survivor_assessment_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Legal/justice needs",
+             "display_name_en" => "Legal/justice needs",
              "guiding_questions" =>
                  ["Does the survivor wish to report to formal authorities and/or take legal action.",
                   "",
@@ -146,12 +146,12 @@ survivor_assessment_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "textarea",
-             "display_name_all" => "Practical/material needs",
+             "display_name_en" => "Practical/material needs",
              "guiding_questions" => "Does the survivor have access to income? Does the survivor have access to food, clothes, phone credit, transportation, etc.? What are the survivor's sources of support, including family and community? Is the survivor's lack of income impacting her ability to be safe? Is the survivor's lack of (or access to) income putting her at risk for violence?"
             }),
   Field.new({"name" => "assessment_completion_timing",
              "type" => "select_box",
-             "display_name_all" => "How long did it take you to complete the assessment for this case?",
+             "display_name_en" => "How long did it take you to complete the assessment for this case?",
              "option_strings_source" => "lookup lookup-assessment-duration"
             })
 ]
@@ -167,6 +167,6 @@ FormSection.create_or_update_form_section({
   form_group_name: "Survivor Assessment",
   editable: true,
   fields: survivor_assessment_fields,
-  name_all: "Survivor Assessment",
-  description_all: "Survivor Assessment"
+  name_en: "Survivor Assessment",
+  description_en: "Survivor Assessment"
 })

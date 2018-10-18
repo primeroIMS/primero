@@ -1,0 +1,15 @@
+---
+en:
+  referral_transfer:
+    name: Referrals and Transfers
+    description: List of Transfers and Referrals
+    form_group_name: Referrals and Transfers
+    fields:
+      transfer_status:
+        display_name: Transfer Status
+        option_strings_text:
+          in_progress: In Progress
+          accepted: Accepted
+          rejected: Rejected
+      transitions:
+        display_name: Transfers and Referrals

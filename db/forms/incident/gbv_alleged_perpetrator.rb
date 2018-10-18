@@ -3,93 +3,79 @@ alleged_perpetrator_subform_fields = [
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "radio_button",
-             "display_name_all" => "Is this the primary perpetrator?",
-             "option_strings_text_all" => "Primary\nSecondary"
+             "display_name_en" => "Is this the primary perpetrator?",
+             "option_strings_text_en" => [
+               { id: 'primary', display_text: "Primary" },
+               { id: 'secondary', display_text: "Secondary" }
+             ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "perpetrator_sex",
              "mobile_visible" => true,
              "type" => "radio_button",
-             "display_name_all" => "Sex of Alleged Perpetrator",
-             "option_strings_text_all" =>
-                          ["Female",
-                           "Male"].join("\n")
+             "display_name_en" => "Sex of Alleged Perpetrator",
+             "option_strings_source" => "lookup lookup-gender"
             }),
   Field.new({"name" => "former_perpetrator",
              "mobile_visible" => false,
              "type" => "radio_button",
-             "display_name_all" => "Past GBV by alledged perpetrator?",
+             "display_name_en" => "Past GBV by alledged perpetrator?",
              "option_strings_source" => "lookup lookup-yes-no"
             }),
   Field.new({"name" => "perpetrator_nationality",
              "mobile_visible" => false,
              "type" => "select_box",
-             "display_name_all" => "Nationality of alleged perpetrator",
+             "display_name_en" => "Nationality of alleged perpetrator",
              "option_strings_source" => "lookup lookup-nationality"
             }),
   Field.new({"name" => "perpetrator_ethnicity",
              "mobile_visible" => false,
              "type" => "select_box",
-             "display_name_all" => "Clan or Ethnicity of alleged perpetrator",
+             "display_name_en" => "Clan or Ethnicity of alleged perpetrator",
              "option_strings_source" => "lookup lookup-ethnicity"
             }),
   Field.new({"name" => "age_group",
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Age group of alleged perpetrator",
-             "option_strings_text_all" =>
-                          ["0-11",
-                           "12-17",
-                           "18-25",
-                           "26-40",
-                           "41-60",
-                           "61+",
-                           "Unknown"].join("\n")
+             "display_name_en" => "Age group of alleged perpetrator",
+             "option_strings_text_en" => [
+               { id: '0_11', display_text: "0-11" },
+               { id: '12_17', display_text: "12-17" },
+               { id: '18_25', display_text: "18-25" },
+               { id: '26_40', display_text: "26-40" },
+               { id: '41_60', display_text: "41-60" },
+               { id: '61+', display_text: "61+" },
+               { id: 'unknown', display_text: "Unknown" }
+             ].map(&:with_indifferent_access)
             }),
   Field.new({"name" => "age_type",
              "mobile_visible" => false,
              "type" => "select_box",
-             "display_name_all" => "Age type of alleged perpetrator",
+             "display_name_en" => "Age type of alleged perpetrator",
              "visible" => false,
-             "option_strings_text_all" =>
-                 ["Adult",
-                  "Minor",
-                  "Unknown"].join("\n")
+             "option_strings_source" => "lookup lookup-age-group-type"
             }),
   Field.new({"name" => "perpetrator_relationship",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Alleged perpetrator relationship with survivor",
-             "option_strings_text_all" =>
-                          ["Intimate Partner / Former Partner",
-                           "Primary Caregiver",
-                           "Family other than spouse or caregiver",
-                           "Supervisor / Employer",
-                           "Schoolmate",
-                           "Teacher / School Official",
-                           "Service Provider",
-                           "Cotenant / Housemate",
-                           "Family Friend/Neighbor",
-                           "Other refugee / IDP / Returnee",
-                           "Other resident community member",
-                           "Other",
-                           "No relation",
-                           "Unknown"].join("\n")
+             "display_name_en" => "Alleged perpetrator relationship with survivor",
+             "option_strings_source" => "lookup lookup-perpetrator-relationship"
             }),
   Field.new({"name" => "perpetrator_occupation",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
              "type" => "select_box",
-             "display_name_all" => "Main occupation of alleged perpetrator (if known)",
-             "option_strings_text_all" =>
-                          ["Other",
-                           "Unemployed",
-                           "Unknown",
-                           "Occupation 1",
-                           "Occupation 2",
-                           "Occupation 3",
-                           "Occupation 4",
-                           "Occupation 5"].join("\n")
+             "display_name_en" => "Main occupation of alleged perpetrator (if known)",
+             "option_strings_text_en" => [
+               { id: 'other', display_text: "Other" },
+               { id: 'unemployed', display_text: "Unemployed" },
+               { id: 'Unknown', display_text: "Unknown" },
+               { id: 'occupation_1', display_text: "Occupation 1" },
+               { id: 'occupation_2', display_text: "Occupation 2" },
+               { id: 'occupation_3', display_text: "Occupation 3" },
+               { id: 'occupation_4', display_text: "Occupation 4" },
+               { id: 'occupation_5', display_text: "Occupation 5" }
+             ].map(&:with_indifferent_access)
             })
 ]
 
@@ -105,8 +91,8 @@ alleged_perpetrator_subform_section = FormSection.create_or_update_form_section(
   :fields => alleged_perpetrator_subform_fields,
   mobile_form: true,
   :initial_subforms => 1,
-  "name_all" => "Nested Alleged Perpetrator Subform",
-  "description_all" => "Nested Alleged Perpetrator Subform"
+  "name_en" => "Nested Alleged Perpetrator Subform",
+  "description_en" => "Nested Alleged Perpetrator Subform"
 })
 
 alleged_perpetrator_fields = [
@@ -116,7 +102,7 @@ alleged_perpetrator_fields = [
              "type" => "subform",
              "editable" => true,
              "subform_section_id" => alleged_perpetrator_subform_section.unique_id,
-             "display_name_all" => "Alleged Perpetrator"
+             "display_name_en" => "Alleged Perpetrator"
             })
 ]
 
@@ -131,6 +117,6 @@ FormSection.create_or_update_form_section({
   editable: true,
   mobile_form: true,
   fields: alleged_perpetrator_fields,
-  name_all: "Alleged Perpetrator",
-  description_all: "Alleged Perpetrator"
+  name_en: "Alleged Perpetrator",
+  description_en: "Alleged Perpetrator"
 })

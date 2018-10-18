@@ -1,0 +1,67 @@
+---
+en:
+  gbv_sexual_violence:
+    name: Type of Violence
+    description: Type of Violence
+    form_group_name: Type of Violence
+    fields:
+      gbv_sexual_violence_type:
+        display_name: Type of Incident Violence
+        guiding_questions: "The six core types of GBV and their definitions are:\n\n
+          \               1. Rape—non-consensual penetration (however slight) of the
+          vagina, anus or mouth with a penis or other body part. Also includes non-consensual
+          penetration of the vagina or anus with an object. Examples can include but
+          are not limited to: gang rape, marital rape, sodomy, forced oral sex. This
+          type of GBV does not include attempted rape since no penetration has occurred.\n\n
+          \               2. Sexual Assault—any form of non-consensual sexual contact
+          that does not result in or include penetration. Examples can include but
+          are not limited to: attempted rape, unwanted kissing, unwanted stroking,
+          unwanted touching of breasts, genitalia and buttocks, and female genital
+          cutting / mutilation. This type of GBV does not include rape since rape
+          involves penetration.\n\n                3. Physical Assault—physical violence
+          that is not sexual in nature. Examples can include but are not limited to:
+          hitting, slapping, choking, cutting, shoving, burning, shooting or use of
+          any weapons, acid attacks or any other act that results in physical pain,
+          discomfort or injury. This type of GBV does not include female genital cutting
+          / mutilation, or honor killing.\n\n                4. Forced Marriage—the
+          marriage of an individual against her or his will.\n\n                5.
+          Denial of Resources, Opportunities or Services—denial of rightful access
+          to economic resources/assets or livelihood opportunities, education, health
+          or other social services. Examples can include but are not limited to: a
+          widow prevented from receiving an inheritance, earnings taken by an intimate
+          partner or family member, a woman prevented from using contraceptives, a
+          girl prevented from attending school, etc. This type of GBV does not include
+          reports of general poverty.\n\n                6. Psychological/Emotional
+          Abuse—infliction of mental or emotional pain or injury. Examples can include
+          but are not limited to: threats of physical or sexual violence, intimidation,
+          humiliation, forced isolation, stalking, verbal harassment, unwanted attention,
+          remarks, gestures or written words of a sexual and/or menacing nature, destruction
+          of cherished things, etc.\n             "
+      non_gbv_type_notes:
+        display_name: If Non-GBV, describe
+      harmful_traditional_practice:
+        display_name: Was this incident a Harmful Traditional Practice
+        option_strings_text:
+          'no': 'No'
+          type_of_practice_1: Type of Practice 1
+          type_of_practice_2: Type of Practice 2
+          type_of_practice_3: Type of Practice 3
+          type_of_practice_4: Type of Practice 4
+          type_of_practice_5: Type of Practice 5
+      goods_money_exchanged:
+        display_name: Were money, goods, benefits, and/or services exchanged in relation
+          to the incident?
+      abduction_status_time_of_incident:
+        display_name: Type of abduction at time of the incident
+        option_strings_text:
+          none: None
+          forced_conscription: Forced Conscription
+          trafficked: Trafficked
+          other_abduction_kidnapping: Other Abduction/Kidnapping
+      gbv_reported_elsewhere:
+        display_name: Has the client reported this incident anywhere else?
+      gbv_reported_elsewhere_subform:
+        display_name: If yes, where?
+      gbv_previous_incidents:
+        display_name: Has the client had any previous incidents of GBV perpetrated
+          against them?

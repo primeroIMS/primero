@@ -36,8 +36,8 @@ config/solr.yml
 config/sunspot.yml
 config/selenium.yml
 config/backburner.yml
-config/mailers.yml
 config/couch_watcher.yml
+config/locales.yml
 vendor/bundle/
 vendor/cache/
 vendor/ruby/
