@@ -10,7 +10,7 @@ module Exporters
     UnhcrCSVExporter,
     DuplicateIdCSVExporter,
     MRMViolationExporter,
-    SelectedFieldsExcelExporter,
+    SelectedFieldsExcelExporter
   ]
 
   def self.active_exporters_for_model(model)
