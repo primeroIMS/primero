@@ -75,7 +75,7 @@ class Location < CouchRest::Model::Base
   end
 
   def generate_location_files
-    OptionsJob.set(wait: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
+    OptionsJob.set(wait_until: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
   end
 
   class << self
