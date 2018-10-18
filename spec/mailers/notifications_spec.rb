@@ -100,11 +100,11 @@ describe NotificationMailer, :type => :mailer do
         @case1.add_transition(@transfer.type, @transfer.to_user_local,
                               @transfer.to_user_remote, @transfer.to_user_agency, @referral.to_user_local_status,
                               @transfer.notes, @transfer.is_remote, @transfer.type_of_export,
-                              @referral.transitioned_by, @transfer.consent_overridden, @transfer.service)
+                              @referral.transitioned_by, @transfer.consent_overridden, false, @transfer.service)
         @case1.add_transition(@referral.type, @referral.to_user_local,
                               @referral.to_user_remote, @referral.to_user_agency, @referral.to_user_local_status,
                               @referral.notes, @referral.is_remote, @referral.type_of_export,
-                              @referral.transitioned_by, @referral.consent_overridden, @referral.service)
+                              @referral.transitioned_by, @referral.consent_overridden, false, @referral.service)
         Child.stub(:get).with('12345').and_return(@case1)
       end
 
@@ -126,11 +126,11 @@ describe NotificationMailer, :type => :mailer do
         @case1.add_transition(@referral.type, @referral.to_user_local,
                               @referral.to_user_remote, @referral.to_user_agency, @referral.to_user_local_status,
                               @referral.notes, @referral.is_remote, @referral.type_of_export,
-                              @referral.transitioned_by, @referral.consent_overridden, @referral.service)
+                              @referral.transitioned_by, @referral.consent_overridden, false, @referral.service)
         @case1.add_transition(@transfer.type, @transfer.to_user_local,
                               @transfer.to_user_remote, @transfer.to_user_agency, @referral.to_user_local_status,
                               @transfer.notes, @transfer.is_remote, @transfer.type_of_export,
-                              @referral.transitioned_by, @transfer.consent_overridden, @transfer.service)
+                              @referral.transitioned_by, @transfer.consent_overridden, false, @transfer.service)
         Child.stub(:get).with('12345').and_return(@case1)
       end
 
@@ -152,15 +152,15 @@ describe NotificationMailer, :type => :mailer do
         @case1.add_transition(@referral.type, @referral.to_user_local,
                               @referral.to_user_remote, @referral.to_user_agency, @referral.to_user_local_status,
                               @referral.notes, @referral.is_remote, @referral.type_of_export,
-                              @referral.transitioned_by, @referral.consent_overridden, @referral.service)
+                              @referral.transitioned_by, @referral.consent_overridden, false, @referral.service)
         @case1.add_transition(@transfer.type, @transfer.to_user_local,
                               @transfer.to_user_remote, @transfer.to_user_agency, @referral.to_user_local_status,
                               @transfer.notes, @transfer.is_remote, @transfer.type_of_export,
-                              @referral.transitioned_by, @transfer.consent_overridden, @transfer.service)
+                              @referral.transitioned_by, @transfer.consent_overridden, false, @transfer.service)
         @case1.add_transition(@reassign.type, @reassign.to_user_local,
                               @reassign.to_user_remote, @reassign.to_user_agency, @referral.to_user_local_status,
                               @reassign.notes, @reassign.is_remote, @reassign.type_of_export,
-                              @referral.transitioned_by, @reassign.consent_overridden, @reassign.service)
+                              @referral.transitioned_by, @reassign.consent_overridden, false, @reassign.service)
         Child.stub(:get).with('12345').and_return(@case1)
       end
 

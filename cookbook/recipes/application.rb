@@ -227,6 +227,18 @@ template File.join(node[:primero][:app_dir], 'config/mailers.yml') do
   mode '444'
 end
 
+template File.join(node[:primero][:app_dir], 'config/locales.yml') do
+  source 'locales.yml.erb'
+  variables({
+    :environments => [ node[:primero][:rails_env] ],
+    :default_locale => node[:primero][:locales][:default_locale],
+    :locales => node[:primero][:locales][:locales],
+  })
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '444'
+end
+
 app_tmp_dir = ::File.join(node[:primero][:app_dir], 'tmp')
 directory app_tmp_dir do
   action :create

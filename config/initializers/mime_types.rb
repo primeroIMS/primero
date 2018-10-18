@@ -15,4 +15,5 @@ Mime::Type.register "application/vnd.ms-excel", :mrm_violation_xls
 Mime::Type.register_alias "application/pdf", :photowall
 Mime::Type.register_alias "application/pdf", :case_pdf
 Mime::Type.register_alias "text/csv", :unhcr_csv
+Mime::Type.register_alias "text/csv", :duplicate_id_csv
 Mime::Type.register_alias "text/csv", :list_view_csv

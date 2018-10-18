@@ -19,8 +19,4 @@ class BulkExportJob < ApplicationJob
 
     bulk_export.mark_completed
   end
-
-
-
-
 end

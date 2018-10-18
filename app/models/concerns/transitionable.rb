@@ -9,7 +9,8 @@ module Transitionable
 
 
     def add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
-                       is_remote, type_of_export, user_name, consent_overridden, service = "")
+                       is_remote, type_of_export, user_name, consent_overridden,
+                       consent_individual_transfer=false, service = "")
       transition = Transition.new(
                     :type => transition_type,
                     :to_user_local => to_user_local,
@@ -22,6 +23,7 @@ module Transitionable
                     :type_of_export => type_of_export,
                     :service => service,
                     :consent_overridden => consent_overridden,
+                    :consent_individual_transfer => consent_individual_transfer,
                     :created_at => DateTime.now)
       self.transitions.unshift(transition)
     end

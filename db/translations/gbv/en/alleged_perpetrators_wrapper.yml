@@ -1,0 +1,9 @@
+---
+en:
+  alleged_perpetrators_wrapper:
+    name: Alleged Perpetrator
+    description: Alleged Perpetrator
+    form_group_name: Alleged Perpetrator
+    fields:
+      alleged_perpetrator:
+        display_name: Alleged Perpetrator

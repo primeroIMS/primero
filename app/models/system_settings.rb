@@ -5,13 +5,14 @@ class SystemSettings < CouchRest::Model::Base
   include Memoizable
   include LocalizableProperty
 
+  #TODO We now use locales.yml to set default locale, but leaving this now for backwards compatibility
   property :default_locale, String, :default => Primero::Application::LOCALE_ENGLISH
   property :locales, [String], :default => [Primero::Application::LOCALE_ENGLISH]
   property :case_code_format, [String], :default => []
   property :case_code_separator, String
   property :auto_populate_list, :type => [AutoPopulateInformation], :default => []
   property :unhcr_needs_codes_mapping, Mapping
-  property :unhcr_export_config_id
+  property :export_config_id
   property :reporting_location_config, ReportingLocation
   property :primero_version
   property :age_ranges, { String => [AgeRange] }
@@ -22,9 +23,12 @@ class SystemSettings < CouchRest::Model::Base
   property :due_date_from_appointment_date, TrueClass, :default => false
   property :notification_email_enabled, TrueClass, :default => false
   property :welcome_email_enabled, TrueClass, :default => false
+  property :duplicate_export_field
+
   localize_properties [:welcome_email_text]
 
-  validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
+  # TODO this validation has been commented out because default_locale can now be blank if the locales.yml is used
+  # validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
   validate :validate_locales
 
   #TODO: Think about what needs to take place to the current config. Update?
@@ -76,16 +80,6 @@ class SystemSettings < CouchRest::Model::Base
 
   def auto_populate_info(field_key = "")
     self.auto_populate_list.select{|ap| ap.field_key == field_key}.first if self.auto_populate_list.present?
-  end
-
-  #For backwards compatibility with older configurations
-  #TODO remove when all configurations have been updated to set the locales property
-  def get_locales
-    locales.present? ? locales : Primero::Application::LOCALES
-  end
-
-  def locales_with_description
-    Primero::Application::LOCALES_WITH_DESCRIPTION.select{|l| (get_locales.include? l.last) || l.last.nil?}
   end
 
   def self.handle_changes

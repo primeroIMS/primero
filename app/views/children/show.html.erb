@@ -41,6 +41,14 @@ $(show_tools);
   <% end %>
 <% end %>
 
+<% if can?(:add_note, @child) %>
+  <% content_for :add_notes do %>
+    <div class="column">
+      <%= render 'record_shared/notes_button', record: @child %>
+    </div>
+  <% end %>
+<% end %>
+
 <% content_for :record_status do %>
   <% if @child.module.workflow_status_indicator.present? %>
     <%= display_workflow_status(@child, @lookups) %>

@@ -1,0 +1,44 @@
+---
+en:
+  gbv_individual_details:
+    name: GBV Individual Details
+    description: GBV Individual Details
+    form_group_name: GBV Individual Details
+    fields:
+      survivor_code:
+        display_name: Survivor Code
+      sex:
+        display_name: What is the sex of the survivor?
+      date_of_birth:
+        display_name: What is the survivor's Date of Birth?
+      age:
+        display_name: What is the survivor's age?
+      estimated:
+        display_name: Is the age estimated?
+      ethnicity:
+        display_name: What is the ethnic affiliation of the survivor?
+      nationality:
+        display_name: What is the national affiliation of the survivor?
+      religion:
+        display_name: What is the religious affiliation of the survivor?
+      country_of_origin:
+        display_name: Country of Origin
+      displacement_status:
+        display_name: Displacement Status at time of report
+      maritial_status:
+        display_name: Current civil/marital status
+        option_strings_text:
+          single: Single
+          married_cohabitating: Married / Cohabitating
+          divorced_separated: Divorced / Separated
+          widowed: Widowed
+      disability_type:
+        display_name: Disability Type
+        option_strings_text:
+          'no': 'No'
+          mental_disability: Mental Disability
+          physical_disability: Physical Disability
+          mental_physical_disability: Mental & Physical Disability
+      unaccompanied_separated_status:
+        display_name: Is the survivor an Unaccompanied Minor, Separated Child, or
+          Other Vulnerable Child?

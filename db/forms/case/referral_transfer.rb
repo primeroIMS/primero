@@ -81,13 +81,20 @@ transitions_subform = [
                "disabled" => true,
                "display_name_en" => "No Consent to Share Setting Overridden",
               }),
+    Field.new({"name" => "consent_individual_transfer",
+               "type" => "tick_box",
+               "tick_box_label_en" => "Yes",
+               "editable" => false,
+               "disabled" => true,
+               "display_name_en" => "Did the case worker have the child's consent to make this transfer?"
+              }),
     Field.new({"name" => "created_at",
                "type" => "date_field",
                "editable"=>false,
                "disabled" => true,
                "display_name_en" => "Date of referral or transfer",
                "date_include_time" => true
-              }),
+              })
 ]
 
 transitions = FormSection.create_or_update_form_section({

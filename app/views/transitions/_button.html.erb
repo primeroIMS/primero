@@ -41,17 +41,24 @@
           <% if transition_type == Transition::TYPE_REASSIGN %>
             <%= t("reassign.reassign_case_title") %>
           <% else %>
-          <label class="consent">
-            <span class="consent_count"><%= no_consent_count%></span>
-            <%=I18n.t("#{transition_type}.consent_label")%>
-          </label>
-          <% if can?(:consent_override, controller.model_class) %>
-            <%= check_box_tag("consent_override", "true") %>
-            <label for="consent_override"><%=I18n.t("#{transition_type}.consent_override_label")%></label>
-          <% end %>
-          <br>
-          <%= check_box_tag("is_remote", "true") %>
-          <label for="is_remote"><%=I18n.t("#{transition_type}.is_remote_label")%></label>
+            <label class="consent">
+              <span class="consent_count"><%= no_consent_count%></span>
+              <%=I18n.t("#{transition_type}.consent_label")%>
+            </label>
+            <% if can?(:consent_override, controller.model_class) %>
+              <%= check_box_tag("consent_override", "true") %>
+              <label for="consent_override"><%=I18n.t("#{transition_type}.consent_override_label")%></label>
+            <% end %>
+            <br>
+            <%= check_box_tag("is_remote", "true") %>
+            <label for="is_remote"><%=I18n.t("#{transition_type}.is_remote_label")%></label>
+            <% if transition_type == Transition::TYPE_TRANSFER %>
+              <br>
+              <div class="consent_individual_transfer">
+              <%= check_box_tag("consent_individual_transfer", "true") %>
+              <label for="consent_individual_transfer"><%=I18n.t("transfer.consent_individual_transfer")%></label>
+              </div>
+            <% end %>
           <% end %>
           <div class="local_toggle">
             <div class='local_user_flash hide_element'><p class='error'></p></div>

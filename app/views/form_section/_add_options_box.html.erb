@@ -17,7 +17,7 @@
           </span>
         </div>
         <% if editing %>
-          <% @system_settings.get_locales.each do |new_locale| %>
+          <% Primero::Application::locales.each do |new_locale| %>
             <% if given_locale != new_locale %>
               <% locale_options = @field.send("option_strings_text_#{new_locale}") || [] %>
               <% locale_option_text = locale_options[index].present? && locale_options[index]['display_text'].present? ? locale_options[index]['display_text'] : ''%>
@@ -41,7 +41,7 @@
     <div class="row options_row_controls">
       <div class="column">
         <% help = t("form_section.base_language_help_text", :lang => t("home.#{given_locale}")) %>
-        <a id="field_option_add_button" class="button add_option <%= editing ? 'edit_option' : '' %>" data-given-lang="<%= "#{given_locale}" %>" data-lang="<%= @system_settings.get_locales %>" data-help-text="<%= "#{help}" %>">
+        <a id="field_option_add_button" class="button add_option <%= editing ? 'edit_option' : '' %>" data-given-lang="<%= "#{given_locale}" %>" data-lang="<%= Primero::Application::locales %>" data-help-text="<%= "#{help}" %>">
           <%= t('fields.option_strings_add_option') %>
         </a>
       </div>
