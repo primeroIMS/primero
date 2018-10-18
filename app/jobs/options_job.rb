@@ -8,7 +8,6 @@ class OptionsJob < ApplicationJob
     FileUtils.mkdir_p(dir) unless File.directory?(dir)
     FileUtils.rm_rf Dir.glob("#{dir}/*")
 
-    # TODO: Check with ron if this is what to use locales.enabled vs this
     Primero::Application.locales.each do |locale|
       locations = {
         type: 'Location',
