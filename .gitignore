@@ -65,3 +65,4 @@ jmeter/*.log
 jmeter/*.csv
 jmeter/*.svg
 encrypted_file
+public/options

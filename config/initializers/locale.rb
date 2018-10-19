@@ -6,7 +6,7 @@ docs = db.all_docs['rows']
 if docs.present?
   doc_id = docs.map{|d| d['id']}.select{|i| !i.start_with?('_design')}.first
   if doc_id.present?
-    saved_settings = SystemSettings.database.get(doc_id)
+    saved_settings = db.get(doc_id)
     if saved_settings.present? && saved_settings['default_locale'].present?
       default_locale = saved_settings['default_locale']
     end
