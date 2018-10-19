@@ -10,6 +10,9 @@ class OptionsQueueStats
       rescue Beaneater::NotFoundError
         Rails.logger.error 'Unable to find queue tube'
       end
+    elsif Rails.env.test?
+      # Skip job if in test env
+      job_count = 1
     end
 
     job_count.positive?
