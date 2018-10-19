@@ -139,9 +139,7 @@ RSpec.configure do |config|
 
   #Recreate db if needed.
   config.before(:suite) do
-    options_dir = "#{Rails.root}/public/options"
-    if File.directory?(options_dir) && Dir.empty?(options_dir) ||
-      !File.directory?(options_dir)
+    if OptionsQueueStats.options_not_generated?
       FactoryBot.create(:location)
       OptionsJob.perform_now
     end
