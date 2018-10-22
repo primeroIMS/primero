@@ -41,7 +41,6 @@ status() {
 }
 
 start() {
-  bundle exec rake options:generate
   bundle exec passenger start \
     --daemonize \
     --address 127.0.0.1 \
