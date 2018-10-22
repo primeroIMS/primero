@@ -1,5 +1,6 @@
 window._primero = {
-  Views: {}
+  Views: {},
+  Collections: {}
 }
 
 window.pagination_details = {};

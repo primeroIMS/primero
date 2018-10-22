@@ -66,11 +66,16 @@ class Location < CouchRest::Model::Base
   # All other locations' admin levels are calculated based on their parent's admin level
   before_save :calculate_admin_level, unless: :is_top_level?
   after_save :update_descendants
+  after_save :generate_location_files
 
   def is_location_code_unique
     named_object = Location.get_by_location_code(self.location_code)
     return true if named_object.nil? or self.id == named_object.id
     errors.add(:name, I18n.t("errors.models.location.unique_location_code"))
+  end
+
+  def generate_location_files
+    OptionsJob.set(wait_until: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
   end
 
   class << self

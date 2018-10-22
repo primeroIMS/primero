@@ -15,7 +15,7 @@ default[:primero].tap do |p|
     queue[:host] = 'localhost'
     queue[:port] = '11300'
     queue[:storage_dir] = File.join(node[:primero][:home_dir], 'beanstalkd')
-    queue[:queue_list] = 'mailer,export'
+    queue[:queue_list] = 'mailer,export,options'
   end
 
   p[:couch_watcher].tap do |cw|

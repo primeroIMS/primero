@@ -60,6 +60,7 @@
 //= require rapidftr
 //= require ./views/base_view
 //= require_tree ./views/management
+//= require ./views/populate_select_boxes
 //= require_tree ./views
 //= require router
 
