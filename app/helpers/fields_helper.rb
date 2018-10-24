@@ -54,7 +54,7 @@ module FieldsHelper
       values.join(', ')
     elsif field_value.is_a?(Date) || field_value.is_a?(Time)
       field_format_date(field_value)
-    elsif field_value.blank?
+    elsif field_value.blank? && ![true, false].include?(field_value)
       ""
     else
       if field.present?
@@ -230,7 +230,7 @@ module FieldsHelper
   end
 
   def locale_name_from_abbreviation(locale)
-    loc = Primero::Application::LOCALES_WITH_DESCRIPTION.select{|loc| loc[1] == locale.to_s}[0]
+    loc = Primero::Application::locales_with_description.select{|loc| loc[1] == locale.to_s}[0]
     loc.present? ? loc[0] : locale
   end
 end
