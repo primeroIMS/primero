@@ -95,7 +95,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 9,
   :order => 9,
   :order_subform => 0,
-  :form_group_name => "Approvals",
+  :form_group_name_en => "Approvals",
   "editable" => false,
   :fields => approvals_fields,
   "name_en" => "Approvals",

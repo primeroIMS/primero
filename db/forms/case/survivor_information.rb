@@ -179,7 +179,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 40,
   order: 60,
   order_subform: 0,
-  form_group_name: "Identification / Registration",
+  form_group_name_en: "Identification / Registration",
   editable: true,
   fields: survivor_information_fields,
   is_first_tab: true,

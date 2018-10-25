@@ -124,7 +124,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 40,
   order: 40,
   order_subform: 0,
-  form_group_name: "Type of Violence",
+  form_group_name_en: "Type of Violence",
   editable: true,
   fields: gbv_sexual_violence_fields,
   mobile_form: true,

@@ -22,7 +22,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 140,
   :order => 10,
   :order_subform_ => 0,
-  :form_group_name => "Photos and Audio",
+  :form_group_name_en => "Photos and Audio",
   :fields => photo_audio_fields,
   "editable" => false,
   "name_en" => "Photos and Audio",

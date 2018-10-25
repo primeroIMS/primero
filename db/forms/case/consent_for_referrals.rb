@@ -110,7 +110,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 80,
   order: 10,
   order_subform: 0,
-  form_group_name: "Consent for Referrals",
+  form_group_name_en: "Consent for Referrals",
   editable: true,
   fields: consent_for_referrals_fields,
   mobile_form: true,

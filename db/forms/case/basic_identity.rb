@@ -248,7 +248,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 30,
   :order => 10,
   :order_subform => 0,
-  :form_group_name => "Identification / Registration",
+  :form_group_name_en => "Identification / Registration",
   "editable" => true,
   :fields => basic_identity_fields,
   :is_first_tab => true,

@@ -69,7 +69,7 @@ FormSection.create_or_update_form_section({
   :order => 0,
   "mobile_form" => true,
   :order_subform => 0,
-  :form_group_name => "Record Owner",
+  :form_group_name_en => "Record Owner",
   "editable" => true,
   :fields => tracing_request_record_owner_fields,
   "name_en" => "Record Owner",

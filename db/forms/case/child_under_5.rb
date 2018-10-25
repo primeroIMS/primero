@@ -77,7 +77,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 70,
   :order => 40,
   :order_subform => 0,
-  :form_group_name => "Assessment",
+  :form_group_name_en => "Assessment",
   "editable"=>true,
   :fields => child_under_5_fields,
   "name_en" => "Child Under 5",

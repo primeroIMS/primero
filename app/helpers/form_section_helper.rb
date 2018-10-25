@@ -32,7 +32,7 @@ module FormSectionHelper
       content_tag :li, class: 'group' do
         concat(
           link_to("#tab_#{form.section_name}", class: 'group',
-            data: { violation: form.form_group_name == 'Violations' ? true : false }) do
+            data: { violation: form.form_group_name_en == 'Violations' ? true : false }) do
             concat(group_name)
           end
         )
@@ -51,7 +51,7 @@ module FormSectionHelper
   end
 
   def build_group_tabs(forms)
-    group_id = "group_" + forms[0].form_group_name.gsub(" ", "").gsub("/", "")
+    group_id = "group_" + forms[0].form_group_name_en.gsub(" ", "").gsub("/", "")
     content_tag :ul , class: 'sub', id: group_id do
       for form in forms
         section_name = build_form_name(form)
@@ -181,7 +181,7 @@ module FormSectionHelper
     if field
       if field.type == Field::SUBFORM
         #If subform is the only field in the form and the first, check is is empty.
-        if form_section.form_group_name.present? and form_section.form_group_name == "Violations"
+        if form_section.form_group_name.present? and form_section.form_group_name_en == "Violations"
           return formObject[form_section.form_group_name.downcase][field.name].blank?
         else
           return formObject[field.name].blank?

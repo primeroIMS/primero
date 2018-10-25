@@ -9,7 +9,7 @@ class FormSection < CouchRest::Model::Base
   #TODO - include Namable - will require a fair amount of refactoring
 
   use_database :form_section
-  localize_properties [:name, :help_text, :description]
+  localize_properties [:name, :help_text, :description, :form_group_name]
   property :unique_id
   property :parent_form
   property :visible, TrueClass, :default => true
@@ -17,7 +17,6 @@ class FormSection < CouchRest::Model::Base
   property :order_form_group, Integer, :default => 0
   property :order_subform, Integer, :default => 0
   property :form_group_keyed, TrueClass, :default => false
-  property :form_group_name
   property :fields, [Field]
   property :editable, TrueClass, :default => true
   property :fixed_order, TrueClass, :default => false
