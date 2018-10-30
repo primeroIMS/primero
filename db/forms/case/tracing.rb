@@ -104,8 +104,7 @@ tracing_fields = [
               }),
   Field.new({"name" => "separation_details",
              "type" => "textarea",
-             "display_name_en" => "Circumstances of Separation (please provide details)",
-             "matchable" => true
+             "display_name_en" => "Circumstances of Separation (please provide details)"
             }),
   Field.new({"name" => "separation_additional_movements",
              "type" => "textarea",
@@ -122,8 +121,7 @@ tracing_fields = [
             }),
   Field.new({"name" => "address_separation",
              "type" => "textarea",
-             "display_name_en" => "Separation Address (Place)",
-             "matchable" => true
+             "display_name_en" => "Separation Address (Place)"
             }),
   Field.new({"name" => "location_separation",
              "type" => "select_box",
@@ -134,8 +132,7 @@ tracing_fields = [
             }),
   Field.new({"name" => "additional_tracing_info",
              "type" => "textarea",
-             "display_name_en" => "Additional info that could help in tracing?",
-             "matchable" => true
+             "display_name_en" => "Additional info that could help in tracing?"
             }),
   Field.new({"name" => "evacuation_status",
              "type" => "radio_button",
