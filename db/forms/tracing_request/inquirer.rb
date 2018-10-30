@@ -44,15 +44,13 @@ tracing_request_inquirer_fields = [
   Field.new({"name" => "relation_age",
              "type" => "numeric_field",
              "display_name_en" => "Age",
-             "show_on_minify_form" => true,
-             "matchable" => true
+             "show_on_minify_form" => true
            }),
   Field.new({"name" => "relation_date_of_birth",
              "type" => "date_field",
              "display_name_en" => "Date of Birth",
              "date_validation" => "not_future_date",
-             "show_on_minify_form" => true,
-             "matchable" => true
+             "show_on_minify_form" => true
              }),
   Field.new({"name" => "relation_language",
              "type" => "select_box",
@@ -77,14 +75,12 @@ tracing_request_inquirer_fields = [
   Field.new({"name" => "relation_sub_ethnicity1",
              "type" => "select_box",
              "display_name_en" => "Sub Ethnicity 1",
-             "option_strings_source" => "lookup lookup-ethnicity",
-             "matchable" => true
+             "option_strings_source" => "lookup lookup-ethnicity"
              }),
   Field.new({"name" => "relation_sub_ethnicity2",
              "type" => "select_box",
              "display_name_en" => "Sub Ethnicity 2",
-             "option_strings_source" => "lookup lookup-ethnicity",
-             "matchable" => true
+             "option_strings_source" => "lookup lookup-ethnicity"
            }),
   Field.new({"name" => "relation_nationality",
              "type" => "select_box",
@@ -96,8 +92,7 @@ tracing_request_inquirer_fields = [
            }),
   Field.new({"name" => "relation_comments",
              "type" => "textarea",
-             "display_name_en" => "Additional details / comments",
-             "matchable" => true
+             "display_name_en" => "Additional details / comments"
             }),
   Field.new({"name" => "contact_information_section",
              "type" => "separator",
@@ -152,13 +147,11 @@ tracing_request_inquirer_fields = [
             }),
   Field.new({"name" => "separation_details",
               "type" => "textarea",
-              "display_name_en" => "Circumstances of Separation (please provide details)",
-              "matchable" => true
+              "display_name_en" => "Circumstances of Separation (please provide details)"
              }),
   Field.new({"name" => "address_separation",
              "type" => "textarea",
-             "display_name_en" => "Separation Address (Place)",
-             "matchable" => true
+             "display_name_en" => "Separation Address (Place)"
             }),
   Field.new({"name" => "location_separation",
              "type" => "select_box",
@@ -169,13 +162,11 @@ tracing_request_inquirer_fields = [
             }),
   Field.new({"name" => "address_last",
              "type" => "textarea",
-             "display_name_en" => "Last Address",
-             "matchable" => true
+             "display_name_en" => "Last Address"
             }),
   Field.new({"name" => "landmark_last",
              "type" => "text_field",
-             "display_name_en" => "Last Landmark",
-             "matchable" => true
+             "display_name_en" => "Last Landmark"
             }),
   Field.new({"name" => "location_last",
              "type" =>"select_box" ,
@@ -191,8 +182,7 @@ tracing_request_inquirer_fields = [
             }),
   Field.new({"name" => "additional_tracing_info",
              "type" => "textarea",
-             "display_name_en" => "Additional info that could help in tracing?",
-             "matchable" => true
+             "display_name_en" => "Additional info that could help in tracing?"
             }),
   Field.new({"name" => "disclosure_other_orgs",
            "type" => "tick_box",
