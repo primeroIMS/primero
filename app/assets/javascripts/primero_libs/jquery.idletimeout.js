@@ -15,10 +15,27 @@
 */
 
 (function($, win){
+	function setData(key, value) {
+		return localStorage.setItem(key, value);
+	}
+
+	function getData(key) {
+		return localStorage.getItem(key);
+	}
+
+	function setDataDefaults() {
+		setData('warningTimer', false);
+		setData('idleStart', -1);
+		setData('logoutTriggered', false);
+		setData('lastActivity', $.now());
+		setData('idleCounter', -1);
+	}
 
 	var idleTimeout = {
 		init: function( element, resume, options ){
 			var self = this, elem;
+
+			setDataDefaults()
 
 			this.warning = elem = $(element);
 			this.resume = $(resume);
@@ -26,35 +43,89 @@
 			this.countdownOpen = false;
 			this.failedRequests = options.failedRequests;
 			this._startTimer();
-      		this.title = document.title;
+			this.title = document.title;
+			this.focused = document["visibilityState"] == "visible"
+
+			document.addEventListener('visibilitychange', function(){
+				this.focused = !document.hidden
+			})
+
+			win.addEventListener("storage", function(e) {
+				if (e.key == 'logoutTriggered' && e.newValue == 'true') {
+					self.options.onTimeout.call(self.warning);
+				}
+
+				if (e.key == 'idleStart' && e.newValue == -1) {
+					self._continue();
+				}
+
+				if (e.key == 'idleCounter' && e.newValue > 0) {
+					self._setCountDown(e.newValue)
+				}
+
+				if (e.key == 'idleCounter' && e.newValue == 0) {
+					self.options.onTimeout.call(self.warning);
+				}
+
+				if (e.key == 'warningTimer' && e.newValue == 'false') {
+					if (getData('idleCounter') > 0) {
+						self.startWarningTimer(getData('idleCounter'));
+					}
+				}
+			}, false);
+
+			elem.find('.logout').on('click', function(e) {
+				e.preventDefault();
+				setData('logoutTriggered', true);
+				self.options.onTimeout.call(this);
+			})
 
 			// expose obj to data cache so peeps can call internal methods
 			$.data( elem[0], 'idletimeout', this );
 
 			// start the idle timer
-			$.idleTimer(options.idleAfter * 1000);
+			$.idleTimer({
+				timeout: options.idleAfter * 1000,
+				timerSyncId: 'idleSync'
+			});
+
+			win.addEventListener("beforeunload", function (e) {
+				if (win.countdown && getData('warningTimer') == 'true') {
+					setData('warningTimer', false)
+				}
+			});
 
 			// once the user becomes idle
 			$(document).bind("idle.idleTimer", function(){
-
+				var idleTimerObj = $.data(document, 'idleTimerObj')
 				// if the user is idle and a countdown isn't already running
-				if( $.data(document, 'idleTimer') === 'idle' && !self.countdownOpen ){
+				if(idleTimerObj && idleTimerObj.idle && !self.countdownOpen ) {
+					setData('idleStart', $.now());
 					self._stopTimer();
 					self.countdownOpen = true;
-					self._idle();
+
+					self._idle(self.focused);
 				}
 			});
 
 			// bind continue link
 			this.resume.bind("click", function(e){
 				e.preventDefault();
-
-				win.clearInterval(self.countdown); // stop the countdown
-				self.countdownOpen = false; // stop countdown
-				self._startTimer(); // start up the timer again
-				self._keepAlive( false ); // ping server
-				options.onResume.call( self.warning ); // call the resume callback
+				self._continue();
 			});
+		},
+
+		_continue: function() {
+			var self = this;
+
+			setDataDefaults()
+
+			win.clearInterval(self.countdown); // stop the countdown
+			win.clearInterval(win.countdown)
+			self.countdownOpen = false; // stop countdown
+			self._startTimer(); // start up the timer again
+			self._keepAlive( false ); // ping server
+			self.options.onResume.call( self.warning ); // call the resume callback
 		},
 
 		_idle: function(){
@@ -63,22 +134,39 @@
 				warning = this.warning[0],
 				counter = options.warningLength;
 
+
 			// fire the onIdle function
 			options.onIdle.call(warning);
 
 			// set inital value in the countdown placeholder
 			options.onCountdown.call(warning, counter);
 
-			// create a timer that runs every second
-			window.countdown = this.countdown = win.setInterval(function(){
-				if(--counter === 0){
-					window.clearInterval(self.countdown);
-					options.onTimeout.call(warning);
-				} else {
-					options.onCountdown.call(warning, counter);
-          document.title = options.titleMessage.replace('%s', counter) + self.title;
-				}
-			}, 1000);
+			this.startWarningTimer(counter)
+		},
+
+		startWarningTimer(counter) {
+			var self = this;
+
+			if (getData('warningTimer') == 'false') {
+				setData('warningTimer', true)
+
+				window.countdown = this.countdown = win.setInterval(function() {
+					if (--counter === 0) {
+						window.clearInterval(self.countdown);
+
+						self.options.onTimeout.call(self.warning[0]);
+					} else {
+						self._setCountDown(counter)
+					}
+
+					setData('idleCounter', counter);
+				}, 1000);
+			}
+		},
+
+		_setCountDown(counter) {
+			this.options.onCountdown.call(this.warning[0], counter);
+			document.title = this.options.titleMessage.replace('%s', counter) + this.title;
 		},
 
 		_startTimer: function(){
@@ -164,7 +252,7 @@
 		AJAXTimeout: 250,
 
 		// %s will be replaced by the counter value
-    	titleMessage: 'Warning: %s seconds until log out | ',
+    titleMessage: 'Warning: %s seconds until log out | ',
 
 		/*
 			Callbacks
