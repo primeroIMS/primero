@@ -149,11 +149,12 @@
 
 			if (getData('warningTimer') == 'false') {
 				setData('warningTimer', true)
+
 				window.countdown = this.countdown = win.setInterval(function() {
 					if (--counter === 0) {
 						window.clearInterval(self.countdown);
 
-						options.onTimeout.call(warning);
+						self.options.onTimeout.call(self.warning[0]);
 					} else {
 						self._setCountDown(counter)
 					}

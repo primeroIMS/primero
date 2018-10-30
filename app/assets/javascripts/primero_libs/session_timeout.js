@@ -4,7 +4,7 @@ IdleSessionTimeout.start = function() {
     var element = new Foundation.Reveal($('#idleModal'));
 
     $.idleTimeout('#idleModal', 'button.keepworking', {
-        idleAfter: 900,
+        idleAfter: 300,
         pollingInterval: 180,
         warningLength: 300,
         keepAliveURL: '/active',
