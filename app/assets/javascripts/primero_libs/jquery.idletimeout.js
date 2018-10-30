@@ -144,7 +144,7 @@
 			this.startWarningTimer(counter)
 		},
 
-		startWarningTimer(counter) {
+		startWarningTimer: function(counter) {
 			var self = this;
 
 			if (getData('warningTimer') == 'false') {
@@ -164,7 +164,7 @@
 			}
 		},
 
-		_setCountDown(counter) {
+		_setCountDown: function(counter) {
 			this.options.onCountdown.call(this.warning[0], counter);
 			document.title = this.options.titleMessage.replace('%s', counter) + this.title;
 		},
