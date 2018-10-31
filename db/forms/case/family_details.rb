@@ -54,14 +54,12 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_age",
              "type" => "numeric_field",
-             "display_name_en" => "Age",
-             "matchable" => true
+             "display_name_en" => "Age"
            }),
   Field.new({"name" => "relation_date_of_birth",
              "type" => "date_field",
              "display_name_en" => "Date of Birth",
-             "date_validation" => "not_future_date",
-             "matchable" => true
+             "date_validation" => "not_future_date"
            }),
   Field.new({"name" => "relation_language",
              "type" => "select_box",
@@ -86,14 +84,12 @@ family_details_fields_subform = [
   Field.new({"name" => "relation_sub_ethnicity1",
              "type" => "select_box",
              "display_name_en" => "Sub Ethnicity 1",
-             "option_strings_source" => "lookup lookup-ethnicity",
-             "matchable" => true
+             "option_strings_source" => "lookup lookup-ethnicity"
            }),
   Field.new({"name" => "relation_sub_ethnicity2",
              "type" => "select_box",
              "display_name_en" => "Sub Ethnicity 2",
-             "option_strings_source" => "lookup lookup-ethnicity",
-             "matchable" => true
+             "option_strings_source" => "lookup lookup-ethnicity"
            }),
   Field.new({"name" => "relation_nationality",
              "type" => "select_box",
@@ -104,8 +100,7 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_comments",
              "type" => "textarea",
-             "display_name_en" => "Comments",
-             "matchable" => true
+             "display_name_en" => "Comments"
            }),
   Field.new({"name" => "relation_occupation",
              "type" => "text_field",
@@ -144,8 +139,7 @@ family_details_fields_subform = [
            }),
   Field.new({"name" => "relation_other_family",
              "type" => "text_field",
-             "display_name_en" => "Other persons well known to the child",
-             "matchable" => true
+             "display_name_en" => "Other persons well known to the child"
            })
 ]
 

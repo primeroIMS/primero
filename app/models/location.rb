@@ -102,6 +102,15 @@ class Location < CouchRest::Model::Base
       end
     end
 
+    #WARNING: Do not memoize this method.  Doing so will break the Location seeds.
+    def fetch_by_location_codes(location_codes)
+      if @locations_by_code.present?
+        location_codes.map{|l| @locations_by_code[l]}
+      else
+        Location.by_location_code(keys: location_codes)
+      end
+    end
+
     #TODO not sure this should return 'first' but trying to keep with original
     def find_types_in_hierarchy(location_code, location_types)
       hierarchy = Location.by_location_code(key: location_code).values.flatten + [location_code]
@@ -189,7 +198,7 @@ class Location < CouchRest::Model::Base
     locales.each {|locale| hierarchical_name[locale] = []}
 
     if self.hierarchy.present?
-      locations = Location.by_location_code(keys: self.hierarchy)
+      locations = Location.fetch_by_location_codes(self.hierarchy)
       if locations.present?
         locations.each do |lct|
           locales.each {|locale| hierarchical_name[locale] << lct.send("placename_#{locale}")}
