@@ -157,10 +157,13 @@
         <%= f.select :location,
                      options_for_select([], value), {},
                      {class: 'chosen-select',
-                     data: {:placeholder => t("fields.select_box_empty_item"), :field_tags => [], :populate => 'Location', value: value}}
+                      required: 'required',
+                      data: {:placeholder => t("fields.select_box_empty_item"), :field_tags => [], :populate => 'Location', value: value}}
         %>
       </div>
-      <div class="medium-1 columns"></div>
+      <div class="medium-1 columns">
+        <span class="required">*</span>
+      </div>
     </div>
 
     <% if !trying_to_edit_ourself && can?(:disable, @user) %>
