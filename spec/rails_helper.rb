@@ -139,6 +139,11 @@ RSpec.configure do |config|
 
   #Recreate db if needed.
   config.before(:suite) do
+    if OptionsQueueStats.options_not_generated?
+      FactoryBot.create(:location)
+      OptionsJob.perform_now
+    end
+
     reset_databases
   end
 
