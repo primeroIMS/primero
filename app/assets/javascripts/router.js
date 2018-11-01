@@ -31,7 +31,10 @@ _primero.Router = Backbone.Router.extend({
     'sessions/new': 'maskedUserAndPasswordLogin',
     'locations/new': 'locations',
     'locations/:id/edit': 'locations',
-    'matching_configurations/:id/edit': 'matchingConfigurationPage'
+    'matching_configurations/:id/edit': 'matchingConfigurationPage',
+    'agencies/:id/edit':'agencyForm',
+    'agencies/new':'agencyForm',
+    'agencies/:id':'agencyForm'
   },
 
   initialize: function() {
@@ -233,6 +236,10 @@ _primero.Router = Backbone.Router.extend({
     _primero.chosen(".default-form select.chosen-select");
     new _primero.Views.PopulateSelectBoxes();
     new _primero.Views.PopulateLocationSelectBoxes();
+  },
+
+  agencyForm: function() {
+    _primero.chosen("select.chosen-select");
   }
 
 });
