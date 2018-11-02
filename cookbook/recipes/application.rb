@@ -272,6 +272,10 @@ execute_bundle 'reindex-solr' do
   command "rake sunspot:reindex"
 end
 
+execute_bundle 'clear-cache' do
+  command "rake tmp:cache:clear"
+end
+
 execute_bundle 'precompile-assets' do
   command "rake app:assets_precompile"
 end

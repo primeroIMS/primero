@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
 
   around_action :with_timezone
 
+  rescue_from ActionController::InvalidAuthenticityToken, :with => :redirect_to_login
   rescue_from( AuthenticationFailure ) { |e| handle_authentication_failure(e) }
   rescue_from( AuthorizationFailure ) { |e| handle_authorization_failure(e) }
   rescue_from( ErrorResponse ) { |e| render_error_response(e) }
@@ -159,6 +160,10 @@ class ApplicationController < ActionController::Base
     else
       false
     end
+  end
+
+  def redirect_to_login
+    redirect_to logout_path
   end
 
   private
