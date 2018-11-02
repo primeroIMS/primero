@@ -2,16 +2,7 @@
   <%= resource_show_field @agency, 'name', 'agency.name' %>
   <%= resource_show_field @agency, 'agency_code', 'agency.code' %>
   <%= resource_show_field @agency, 'description', 'description' %>
-  <div class="row">
-    <div class="medium-4 columns">
-      <label for="agency_services" class="key"><%= t("agency.services") %></label>
-    </div>
-    <div class="medium-8 columns">
-      <%= select_tag "#{@agency.class.name.underscore}[services]",
-                     options_for_select(@services, @agency.services),
-                     id: 'chosen_services', class: 'chosen-select', multiple: true, include_blank: true, disabled: true %>
-    </div>
-  </div>
+  <%= resource_show_field @agency, 'services', 'agency.services', nil, 'lookup-service-type' %>
   <%= resource_show_field @agency, 'logo', 'agencies.logo' %>
 <% end %>
 
