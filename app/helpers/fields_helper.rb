@@ -54,7 +54,7 @@ module FieldsHelper
       values.join(', ')
     elsif field_value.is_a?(Date) || field_value.is_a?(Time)
       field_format_date(field_value)
-    elsif field_value.blank? && ![true, false].include?(field_value)
+    elsif field_value.blank? && [true, false].exclude?(field_value)
       ""
     else
       if field.present?
