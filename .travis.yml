@@ -28,9 +28,8 @@ branches:
 - development
 - master
 notifications:
-  hipchat:
+  slack:
     rooms:
-      secure: PUGFh38+Rp/RH46xJTfr0W5XnwIheW5gfddK7FVrP8V928O9WYla3ydtws8n5roa0GGVL4dYFyDJy1DSIemkUKRAXrE5ZVo22PbkKrfBVReSQlKm6w8z2ACu57kkM7xFFs11rKqNL2fFPPre/NeBXfYY/Fc1ydhJW02pQcNrf5AMKu0Pxlj9ms8SeClOBpNH2q2ohCYi6ILrthw2OK9vu1gOptof/6bPtucEqP1lEtMPH7guQngFH3jCippvqph9raMoaXfQlXjcdTkIf0czLlvJBhkTa/gulQBv2BonGBwB13V4evE2bQJMUZfY/FqFq6maBjZU+JEpjP4LqplLLWD8OiE80BKmFW7BDXivR3HCosVHtfpzIQIDqyvK4+DMHI80weentbjTKIqnhE3kpxPyXQdYsvdFLSbHulWS3yB1J0r2GOPAzL5ZlL1dO2zDt9hG/NtoBfSFBEmAxaQWWH+Dw+p/oLRBjBwOoLh/vgbi7vzAOUZ67xN0TgwQ0zNe7RGD8eK2boMf2w9eegaL37Gd/Z4iYLYpHQcOe/y0j1yCflUdsgced0FZ0s0Jmm8sHrQVk1iFCrkGHkx7qXV3xxq+1AzoaWKSCIv3OVGUG1iev5xZYbCAdTQbmsjzc45sEjVDm7wr6AjBaCL7PxtV7aqPT15kp73PrIdxZTkbgug=
+      secure: fBO6yW1muuxvopaCn5mvNC5OtcEaXIv/EMQr+VHlHI40JqgfDeqwezdGlqXP+XVw6MyKJ3eKEFu6Komgjz01DB7Hr9pyT3x/26mderFPV5FGj8Dftnj3E19kgoSAkONE4E/msU3Th8cQfSqGY74yYxZDnE0fnzbUaDit9KPJsWS4Jztc51gmCvFcov0pNIz2o5V45jNRd5XFwe/F8rBgmegr5grPl7D802hKzuI5WFvNvmtOSiS0+pMTE6PZRg2slo2u8PgC3zRx74Dt4vndg8XtwH9PQmJwwDsB2rIFOdvntPxoAwtzMUk1AvU8IMUmdZTYsPcf0rOQHjzrko+p6oz/ZoekDmzArc/OEcqmM1OvGWjI3FM+5pWS5Cnb9yP0/6d2tqsgEoTEz772sykVn0iZ0Fvyo73HlFIsq6USj8QEeU6xAG6TMb32Qez7dB9baXWxjVBj9QXVE4MTVzb5EBeB56lBmSpWV1/wVSYsQOdPRoObiK+B9YxahhZ0Y27hWQOHVIQ7ct22MzqriPB6ISN9kUmvNGAzktFINX4LtS6InzSzTqjwuWHMlToE+4B3KF4hQk426muvEhEYi2DJaiO2gGh5E7MR6mQt1vET190IZ8Y87tHZ6MuGdpP6/qEsAQxEFZUZhuWv18cfYpvXevWeZt5a8M5HseGe5RUQvb4=
     template:
-      - 'Test run completed for %{repository}/<b>%{branch}</b>: <a href="%{build_url}">%{message}</a> Run duration: %{elapsed_time}'
-    format: html
+    - 'Test run completed for %{repository}/*%{branch}*: <%{build_url}|%{message}> Run duration: %{elapsed_time}'
