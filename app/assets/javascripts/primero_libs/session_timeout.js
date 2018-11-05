@@ -3,15 +3,6 @@ var IdleSessionTimeout = {};
 IdleSessionTimeout.start = function() {
     var element = new Foundation.Reveal($('#idleModal'));
 
-    $('#idleModal .keepworking').on('click', function(e) {
-        element.close();
-    });
-
-    $('#idleModal .logout').on('click', function(e) {
-        e.preventDefault();
-        $.idleTimeout.options.onTimeout.call(this);
-    });
-
     $.idleTimeout('#idleModal', 'button.keepworking', {
         idleAfter: 900,
         pollingInterval: 180,
@@ -30,6 +21,7 @@ IdleSessionTimeout.start = function() {
         onResume: function() {
             // the dialog is closed by a button in the dialog
             // no need to do anything else
+            element.close()
         }
     });
 };

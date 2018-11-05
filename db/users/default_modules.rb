@@ -47,7 +47,7 @@ create_or_update_module(
     "tracing_request_photos_and_audio", "followup", "reunification_details", "other_reportable_fields_case",
     "other_reportable_fields_tracing_request", "referral_transfer", "notes", "cp_case_plan", "cp_bia_form",
     "cp_incident_form", "cp_individual_details", "cp_offender_details", "cp_other_reportable_fields", "cp_incident_record_owner",
-    "incident_details_container", "approvals"
+    "incident_details_container", "approvals", "conference_details_container"
   ],
   field_map: {
     map_to: "primeromodule-cp",

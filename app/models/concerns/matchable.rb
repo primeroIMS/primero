@@ -40,8 +40,10 @@ module Matchable
       else
         search = Sunspot.search(match_class) do
           any do
+            match_fields = match_class.matchable_fields
             match_criteria.each do |key, value|
-              fulltext(value, :fields => match_class.get_match_field(key.to_s))
+              field = match_class.get_match_field(key.to_s)
+              fulltext(value, :fields => field) if match_field_exist?(field, match_fields)
             end
           end
           with(:id, child_id) if child_id.present?
@@ -101,6 +103,10 @@ module Matchable
       default_boost_value = 1
       boost_field = boost_fields.select { |f| f[:field] == field }
       boost_field.empty? ? default_boost_value : (boost_field.first[:boost] || default_boost_value)
+    end
+
+    def match_field_exist?(field, field_list)
+      field_list.include?(field.to_s)
     end
   end
 
