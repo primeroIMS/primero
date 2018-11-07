@@ -12,6 +12,8 @@ class UsersController < ApplicationController
   before_action :load_user, :only => [:show, :edit, :update, :destroy]
   before_action :load_records_according_to_disable_filter, :only => [:index]
   before_action :agency_names, :only => [:new, :create, :edit, :update]
+  before_action :load_services, :only => [:new, :create, :edit]
+  before_action :sanitize_services_multiselect, :only => [:create, :update]
 
   skip_before_action :check_authentication, :set_locale, :only => :register_unverified
 
@@ -224,6 +226,14 @@ class UsersController < ApplicationController
     else
       super
     end
+  end
+
+  def load_services
+    @services = Lookup.values_for_select('lookup-service-type')
+  end
+
+  def sanitize_services_multiselect
+    sanitize_multiselect_params(:user, [:services])
   end
 
 end
