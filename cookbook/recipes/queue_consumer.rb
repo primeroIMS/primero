@@ -41,7 +41,7 @@ execute 'Reload Systemd' do
 end
 
 execute 'Enable Backburner' do
-  command 'systemctl enable couch_watcher.service'
+  command 'systemctl enable backburner.service'
 end
 
 execute 'Restart Backburner' do

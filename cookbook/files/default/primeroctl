@@ -1,22 +1,41 @@
 #! /usr/bin/env bash
 
-services="nginx puma couch_watcher who_watches_the_couch_watcher primero_scheduler backburner beanstalkd solr couchdb"
+services=(
+  "nginx"
+  "puma"
+  "couch_watcher"
+  "who_watches_the_couch_watcher"
+  "primero_scheduler"
+  "backburner"
+  "beanstalkd"
+  "solr"
+  "couchdb"
+)
+
+index=0
+for i in "${services[@]}"; do
+  if [[ $(systemctl is-enabled $i > /dev/null 2>&1; echo $?) == 1 ]]; then
+    unset services[$index]
+  fi
+
+  let index++
+done
 
 status () {
   echo "Primero status:"
-  systemctl status $services |  awk -F"e:" '/●/ {print $0} ; /Active/ {print "    "$2}'
+  systemctl status "${services[@]}" |  awk -F"e:" '/●/ {print $0} ; /Active/ {print "    "$2}'
 }
 
 stop () {
   echo "Stopping Primero services"
-  systemctl stop $services
+  systemctl stop "${services[@]}"
   status
   echo "Primero services stopped"
 }
 
 start () {
   echo "Starting Primero services"
-  systemctl start $services
+  systemctl start "${services[@]}"
   status
   echo "Primero services started"
 }

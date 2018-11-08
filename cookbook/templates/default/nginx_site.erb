@@ -74,7 +74,7 @@ server {
     limit_req zone=login_app_limit burst=5;
   }
 
-  location ~* ^/(assets|images|javascripts|stylesheets)/ {
+  location ~* ^/(assets|images|javascripts|stylesheets|options)/ {
     gzip_static on;
     add_header Cache-Control max-age=31536000;
   }
