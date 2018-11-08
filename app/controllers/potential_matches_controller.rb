@@ -10,6 +10,8 @@ class PotentialMatchesController < ApplicationController
   #TODO v1.3: need controller rspec for this
   def index
     authorize! :index, model_class
+    authorize! :find_tracing_match, Child if params[:type] == 'case'
+
     @page_name = t("home.view_records")
     @aside = "shared/sidebar_links"
     @associated_users = current_user.managed_user_names
@@ -21,6 +23,7 @@ class PotentialMatchesController < ApplicationController
 
     @sex_field = Field.find_by_name_from_view('sex')
     load_potential_matches #@potential_matches, @case, @tracing_request
+
     #TODO MATCHING: All set visibility code is written by somone who didn't understand how record ownership works in Primero
     #               We don't need to address this now, but it really needs to be done away with.
     @associated_user_names = users_filter
@@ -106,9 +109,9 @@ class PotentialMatchesController < ApplicationController
     if params[:match].present?
       case_id = params[:match]
       @case = Child.get(case_id) if case_id.present?
+
       if @case.present?
-        #TODO MATCHING: Implement on-demand case matches for tracing requests
-        #@potential_matches = @case.matching_tracing_requests
+        @potential_matches = @case.matching_tracing_requests
         @display_id = @case.display_id
       end
     end

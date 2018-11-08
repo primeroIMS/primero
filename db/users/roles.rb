@@ -1105,7 +1105,8 @@ ftr_manager_permissions = [
           Permission::EXPORT_UNHCR,
           Permission::SYNC_MOBILE,
           Permission::CREATE,
-          Permission::VIEW_PROTECTION_CONCERNS_FILTER
+          Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+          Permission::FIND_TRACING_MATCH
       ]
   ),
   Permission.new(

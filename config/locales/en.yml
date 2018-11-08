@@ -156,6 +156,7 @@ en:
      filter_label: "Filter:"
      filter: "Apply Filter"
      filter_clear: "Clear Filters"
+     find_tracing_match: "Find Tracing Match"
      flag_records: "Flag"
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"
