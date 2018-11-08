@@ -60,10 +60,7 @@ module Matchable
     def boost_fields
       [
         {field: 'name', boost: 10},
-        {field: 'name_first', match: 'name', boost: 10},
-        {field: 'name_middle', match: 'name', boost: 10},
-        {field: 'name_last', match: 'name', boost: 10},
-        {field: 'name_other', match: 'name', boost: 10},
+        {field: 'name_other', boost: 10},
         {field: 'name_nickname', boost: 10},
         {field: 'sex', boost: 10},
         {field: 'age', boost: 5},
@@ -83,6 +80,14 @@ module Matchable
       ]
     end
 
+    def match_fields
+      [
+        { field: 'name_other', match: 'name' },
+        { field: 'name_nickname', match: 'name' },
+        { field: 'relation_nickname', match: 'relation_name' }
+      ]
+    end
+
     def map_match_field(field_name)
       MATCH_MAP[field_name] || field_name
     end
@@ -93,10 +98,12 @@ module Matchable
     end
 
     def get_match_field(field)
-      boost_field = boost_fields.select { |f| f[:field] == field }
-      #TODO: v1.3 potentially uncomment line below if we want to do a reverse mapping
-      #boost_field = boost_fields.select { |f| f[:match] == field } unless boost_field.present?
-      boost_field.empty? ? field : (boost_field.first[:match] || boost_field.first[:field]).to_sym
+      boost_field = boost_fields.select { |f| f[:field] == field }.first
+      # TODO: v1.3 potentially uncomment line below if we want to do a reverse mapping
+      # boost_field = boost_fields.select { |f| f[:match] == field } unless boost_field.present?
+      boost_field = boost_field.blank? ? field : (boost_field[:match] || boost_field[:field]).to_sym
+      # Merge mapped boost_fields with match_fields for fulltext search
+      [boost_field] + match_fields.select{|f| f[:match] == field}.pluck(:field).map(&:to_sym)
     end
 
     def get_field_boost(field)
@@ -105,8 +112,9 @@ module Matchable
       boost_field.empty? ? default_boost_value : (boost_field.first[:boost] || default_boost_value)
     end
 
-    def match_field_exist?(field, field_list)
-      field_list.include?(field.to_s)
+    def match_field_exist?(fields, field_list)
+      # All fields must be present in the match_class matchable_fields to perform fulltext search.
+      fields.all? { |f| field_list.include?(f.to_s) }
     end
   end
 
