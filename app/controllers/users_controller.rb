@@ -30,7 +30,31 @@ class UsersController < ApplicationController
     end
 
     if params[:ajax] == "true"
+      #TODO: the partial "users/user" does not exist.
       render :partial => "users/user", :collection => @users
+    end
+  end
+
+  def search
+    authorize! :read, User
+    authorize! :search, User
+
+    agency_id = params[:agency_id]
+    location = params[:location]
+    services = params[:services]
+
+    respond_to do |format|
+      format.json do
+        users = User.by_disabled(key: false).all.select do |user|
+          agency_id.present? ? user.organization == agency_id : true &&
+          location.present? ? user.location == location : true &&
+          services.present? ? user[:services].try(:all?){ |service| services.include?(service) } : true
+        end
+        render json: {
+                success: 1,
+                users: users.map{ |user| user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization') }
+              }
+      end
     end
   end
 
