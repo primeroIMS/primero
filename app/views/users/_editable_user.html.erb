@@ -7,7 +7,7 @@
   <p class='notice'><%= flash[:verify] %></p>
 </div>
 <% end %>
-<%= form_for editable_user, :html => {:class => 'default-form', :autocomplete => "off"} do |f| %>
+<%= form_for editable_user, :html => {:class => 'default-form data-form', :autocomplete => "off", "data-abide" => ''} do |f| %>
     <div class="clearfix"></div>
     <%= f.error_messages :header_tag => :h3 %>
     <% trying_to_edit_ourself = editing_ourself?(editable_user) %>
@@ -15,7 +15,7 @@
     <div class="clearfix"></div>
     <div class="mandate_panel"><span>*</span> <%= t("mandatory_field") %> </div>
     <div class="clearfix"></div>
-    <fieldset class="no-border">
+    <fieldset class="no-border tab" data-first-tab="true" data-form-name="User">
 
     <%= resource_edit_field @user, 'full_name', 'user.full_name', 'text_field', true %>
     <%= resource_edit_field @user, 'user_name', 'login.username', 'text_field', true, !editable_user.new_record? %>
@@ -137,7 +137,7 @@
         </div>
         <div class="medium-8 columns">
           <%= f.select :organization, @agency_names.map {|option| [option['display_text'], option['id']]},
-                       { include_blank: t('agencies.select_prompt') }, {class: 'chosen-select'} %>
+                       { include_blank: t('agencies.select_prompt') }, {class: 'chosen-select', required: 'required'} %>
         </div>
         <div class="medium-1 columns">
           <span class="required">*</span>
@@ -157,10 +157,13 @@
         <%= f.select :location,
                      options_for_select([], value), {},
                      {class: 'chosen-select',
-                     data: {:placeholder => t("fields.select_box_empty_item"), :field_tags => [], :populate => 'Location', value: value}}
+                      required: 'required',
+                      data: {:placeholder => t("fields.select_box_empty_item"), :field_tags => [], :populate => 'Location', value: value}}
         %>
       </div>
-      <div class="medium-1 columns"></div>
+      <div class="medium-1 columns">
+        <span class="required">*</span>
+      </div>
     </div>
 
     <% if !trying_to_edit_ourself && can?(:disable, @user) %>

@@ -17,15 +17,15 @@ verification_subform_fields = [
                "type" => "numeric_field",
                "display_name_en" => "Age"
               }),
+    Field.new({"name" => "verification_inquirer_address_current",
+               "type" => "textarea",
+               "display_name_en" => "Address"
+              }),
     Field.new({"name" => "verification_inquirer_location",
                "type" => "select_box",
                "display_name_en" => "Current Location",
                "searchable_select" => true,
                "option_strings_source" => "Location"
-              }),
-    Field.new({"name" => "verification_inquirer_address_current",
-               "type" => "textarea",
-               "display_name_en" => "Address"
               }),
     Field.new({"name" => "verification_phone_inquirer",
                "type" => "text_field",

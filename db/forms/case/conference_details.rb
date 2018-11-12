@@ -89,10 +89,10 @@ conference_details_subform_fields = [
 ]
 
 conference_details_subform_section = FormSection.create_or_update_form_section({
-  :visible => false,
   :is_nested => true,
   :order_form_group => 999,
   :order => 999,
+  :visible => false,
   :order_subform => 1,
   :unique_id =>"conference_details_subform_section",
   :parent_form => "case",

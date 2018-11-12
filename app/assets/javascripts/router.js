@@ -26,12 +26,16 @@ _primero.Router = Backbone.Router.extend({
     'users': 'passwordPrompt',
     'users/new': 'userCreatePage',
     'users/:id/edit': 'userCreatePage',
+    'users/:id': 'userCreatePage',
     'roles': 'roleIndexPage',
     'login' : 'maskedUserAndPasswordLogin',
     'sessions/new': 'maskedUserAndPasswordLogin',
     'locations/new': 'locations',
     'locations/:id/edit': 'locations',
-    'matching_configurations/:id/edit': 'matchingConfigurationPage'
+    'matching_configurations/:id/edit': 'matchingConfigurationPage',
+    'agencies/:id/edit':'agencyForm',
+    'agencies/new':'agencyForm',
+    'agencies/:id':'agencyForm'
   },
 
   initialize: function() {
@@ -98,9 +102,10 @@ _primero.Router = Backbone.Router.extend({
   },
 
   userCreatePage: function() {
-    _primero.chosen(".default-form select.chosen-select");
+    new _primero.Views.RequiredFields();
     new _primero.Views.PopulateSelectBoxes();
     new _primero.Views.PopulateLocationSelectBoxes();
+    _primero.chosen(".default-form select.chosen-select");
   },
 
   recordShowPage: function() {
@@ -233,6 +238,10 @@ _primero.Router = Backbone.Router.extend({
     _primero.chosen(".default-form select.chosen-select");
     new _primero.Views.PopulateSelectBoxes();
     new _primero.Views.PopulateLocationSelectBoxes();
+  },
+
+  agencyForm: function() {
+    _primero.chosen("select.chosen-select");
   }
 
 });

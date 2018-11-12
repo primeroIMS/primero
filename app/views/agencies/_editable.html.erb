@@ -30,6 +30,8 @@
   <% end %>
 <% end %>
 
+<%= resource_edit_field(object, "services", 'agency.services', 'multi_select', true, false, nil, nil, @services) %>
+
 <%= resource_edit_field(object, 'logo', 'agencies.logo', 'file_field') %>
 <%= resource_edit_field(object, 'logo_enabled', 'agencies.logo_enabled', 'check_box') %>
 <% if can?(:disable, @agency) %>
