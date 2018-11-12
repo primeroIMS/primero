@@ -23,7 +23,7 @@ _primero.Router = Backbone.Router.extend({
     'lookups/:id/edit': 'lookups',
     'forms/:id/edit': 'formSectionEditPage',
     'forms/:form_section_id/fields/:id/edit': 'fieldEditPage',
-    'users': 'passwordPrompt',
+    'users': 'usersPage',
     'users/new': 'userCreatePage',
     'users/:id/edit': 'userCreatePage',
     'users/:id': 'userCreatePage',
@@ -62,6 +62,12 @@ _primero.Router = Backbone.Router.extend({
 
   lookups: function() {
     new _primero.Views.LookupValueView();
+  },
+
+  usersPage: function() {
+    this.passwordPrompt();
+    //When a validation fails users edit page goes to this url.
+    this.userCreatePage();
   },
 
   passwordPrompt: function() {
