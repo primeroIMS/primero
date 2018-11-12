@@ -6,7 +6,9 @@ class MobileDbKey < CouchRest::Model::Base
   property :imei
   property :db_key
 
-  design do
+  design
+
+  design :by_imei do
     view :by_imei,
             :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'MobileDbKey') && doc['imei'])

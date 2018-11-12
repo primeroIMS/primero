@@ -5,7 +5,7 @@ module Flaggable
   included do
     property :flags, [Flag], :default => []
 
-    design do
+    design :by_flag do
       view :by_flag,
             :map => "function(doc) {
                   if (doc.hasOwnProperty('flags'))
@@ -15,7 +15,8 @@ module Flaggable
                    }
                  }
               }"
-
+    end
+    design :by_flag_with_date do
       view :by_flag_with_date,
              :map => "function(doc) {
                if (doc['record_state'] == true
@@ -28,7 +29,8 @@ module Flaggable
                  }
                }
              }"
-
+    end
+    design :by_flag_created_at_latest do
       view :by_flag_created_at_latest,
              :map => "function(doc) {
                if (doc['record_state'] == true

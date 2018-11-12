@@ -186,7 +186,7 @@ class TracingRequest < CouchRest::Model::Base
   #               and will either be refactored into a nightly job or deleted in a future release.
   def self.match_tracing_requests_for_case(case_id, tracing_request_ids)
     results = []
-    TracingRequest.by_id(:keys => tracing_request_ids).all.each { |tr| results.concat(tr.find_match_cases(case_id)) }
+    TracingRequest.all(:keys => tracing_request_ids).all.each { |tr| results.concat(tr.find_match_cases(case_id)) }
     results
   end
 

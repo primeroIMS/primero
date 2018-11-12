@@ -88,28 +88,29 @@ class Child < CouchRest::Model::Base
     super *args
   end
 
-
-  design do
-    view :by_protection_status_and_gender_and_ftr_status #TODO: This may be deprecated. See lib/primero/weekly_report.rb
+  design :by_date_of_birth do
     view :by_date_of_birth
+  end
 
-    view :by_name,
+  design :by_date_of_birth_month_day do
+    view :by_date_of_birth_month_day,
          :map => "function(doc) {
                   if (doc['couchrest-type'] == 'Child')
                  {
                     if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                      emit(doc['name'], null);
+                      if (doc['date_of_birth'] != null) {
+                        var dob = new Date(doc['date_of_birth']);
+                        //Add 1 to month because getMonth() is indexed starting at 0
+                        //i.e. January == 0, Februrary == 1, etc.
+                        //Add 1 to align it with Date.month which is indexed starting at 1
+                        emit([(dob.getMonth() + 1), dob.getDate()], null);
+                      }
                     }
                  }
               }"
+  end
 
-    view :by_ids_and_revs,
-         :map => "function(doc) {
-              if (doc['couchrest-type'] == 'Child'){
-                emit(doc._id, {_id: doc._id, _rev: doc._rev});
-              }
-            }"
-
+  design do
     view :by_generate_followup_reminders,
          :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
@@ -149,22 +150,6 @@ class Child < CouchRest::Model::Base
                          }
                        }
                      }"
-
-    view :by_date_of_birth_month_day,
-         :map => "function(doc) {
-                  if (doc['couchrest-type'] == 'Child')
-                 {
-                    if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                      if (doc['date_of_birth'] != null) {
-                        var dob = new Date(doc['date_of_birth']);
-                        //Add 1 to month because getMonth() is indexed starting at 0
-                        //i.e. January == 0, Februrary == 1, etc.
-                        //Add 1 to align it with Date.month which is indexed starting at 1
-                        emit([(dob.getMonth() + 1), dob.getDate()], null);
-                      }
-                    }
-                 }
-              }"
   end
 
   def self.quicksearch_fields
@@ -305,23 +290,6 @@ class Child < CouchRest::Model::Base
 
   def self.view_by_field_list
     ['created_at', 'name', 'flag_at', 'reunited_at']
-  end
-
-  def self.get_case_id(child_id)
-    case_id=""
-    by_ids_and_revs.key(child_id).all.each do |cs|
-      case_id = cs.case_id
-    end
-    return case_id
-  end
-
-  def self.get_case_age_and_gender(child_id)
-    age, gender = nil, nil
-    by_ids_and_revs.key(child_id).all.each do |cs|
-      age = cs.age
-      gender = cs.sex
-    end
-    return age, gender
   end
 
   def auto_populate_name
