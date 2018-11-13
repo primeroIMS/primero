@@ -97,6 +97,8 @@ class FormSection < CouchRest::Model::Base
               }"
   end
 
+  #TODO - do we need this validation?
+  # validates_presence_of :form_group_id, :message => I18n.t("errors.models.form_section.form_group_id_present")
   validate :validate_name_in_base_language
   validate :validate_name_format
   validate :validate_unique_id
@@ -112,6 +114,9 @@ class FormSection < CouchRest::Model::Base
   #TODO - pass in locale in options hash
   #TODO - memoize... either here or memoize the method in Lookup (something like Lookup.get_form_group)
   def form_group_name
+    #TODO is this acceptable?
+    return self.name if self.form_group_id.blank?
+
     #TODO - fetch based on module and type (case, tracing request, incident)
     lookup_values = Lookup.values('lookup-form-group-cp-case')
     lookup_values.present? ? lookup_values.select{|v| v['id'] == self.form_group_id}.try('first').try(:[], 'display_text') : ''
@@ -494,11 +499,11 @@ class FormSection < CouchRest::Model::Base
       formsection.save
     end
 
-    def list_form_group_names(selected_module, parent_form, user)
-      #TODO - need to figure out
-      self.get_permitted_form_sections(selected_module, parent_form, user, true)
-          .collect(&:form_group_name).compact.uniq.sort
-    end
+    # def list_form_group_names(selected_module, parent_form, user)
+    #   #TODO - need to figure out
+    #   self.get_permitted_form_sections(selected_module, parent_form, user, true)
+    #       .collect(&:form_group_name).compact.uniq.sort
+    # end
 
     def find_mobile_forms_by_parent_form(parent_form = 'case')
       by_parent_form_and_mobile_form(key: [parent_form, true])

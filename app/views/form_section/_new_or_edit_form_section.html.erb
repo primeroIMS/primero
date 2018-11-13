@@ -72,14 +72,13 @@ system_locale = I18n.locale
               <% unless @form_section.is_nested %>
                   <div class="row">
                     <div class="medium-3 columns">
-                      <%= f.label :form_group_name, t("form_section.form_group_name", :locale => system_locale), :class => 'key inline' %>
+                      <%= f.label :form_group_id, t("form_section.form_group", :locale => system_locale), :class => 'key inline' %>
                     </div>
                     <div class="medium-9 columns">
-                      <%#
-                          #TODO is this right???
-                          Need to figure out @list_form_group_names
-                      %>
-                      <%= f.select "form_group_name_#{given_locale}", options_for_select(@list_form_group_names, @form_section.form_group_name || ''), {}, required: "", 'data-placeholder' => t("fields.select_box_empty_item"), class: "chosen-select-or-new #{'chosen-rtl' if @page_direction == 'rtl'}", id: "form_section_form_group_name" %>
+                      <%= f.select "form_group_id", options_for_select(@list_form_groups, @form_section.form_group_id || ''), {}, required: "", 'data-placeholder' => t("fields.select_box_empty_item"), class: "chosen-select-or-new #{'chosen-rtl' if @page_direction == 'rtl'}", id: "form_section_form_group_name" %>
+                      <span class='help-text'>
+                        <%= t("form_section.form_group_translation_help_text", :lang => t("home.#{given_locale}")) %>
+                      </span>
                       <small class="form-error"><%= t('form_section.required_field', field: t("form_section.form_group_name", :locale => system_locale)) %></small>
                     </div>
                   </div>
@@ -92,8 +91,7 @@ system_locale = I18n.locale
         </div>
         <div class="row">
           <div class="translation_lang_panel medium-12 columns">
-            <%# #TODO how to handle form_group_name %>
-            <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}, {:form_group_name => :text_field}], :fld => f, :show_drop_down => true, given_locale: given_locale} %>
+            <%= render :partial => "form_section/add_translations", :locals => {:fields => [{:name => :text_field}, {:description => :text_field}], :fld => f, :show_drop_down => true, given_locale: given_locale} %>
             <div class="clearfix"></div>
           </div>
     <% end %>

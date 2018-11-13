@@ -25,11 +25,12 @@ module FormSectionHelper
     form_section.new? ? form_sections_path : form_section_path(form_section.unique_id)
   end
 
+  # If multiple forms in a group, display the form group name with the forms grouped below
+  # If only 1 form in a group, just display the form name and link directly to it
   def build_form_tabs(group, forms, show_summary = false)
     form = forms.first
     if forms.count > 1
       group_name = raw(group + group_alert_prefix(forms))
-      #TODO - fix -
       content_tag :li, class: 'group' do
         concat(
           link_to("#tab_#{form.section_name}", class: 'group',
@@ -52,7 +53,6 @@ module FormSectionHelper
   end
 
   def build_group_tabs(forms)
-    #TODO - fix
     group_id = "group_" + forms[0].form_group_id
     content_tag :ul , class: 'sub', id: group_id do
       for form in forms
@@ -182,7 +182,6 @@ module FormSectionHelper
     field = form_section.fields.first
     if field
       if field.type == Field::SUBFORM
-        #TODO - fix
         #If subform is the only field in the form and the first, check is is empty.
         if form_section.is_violations_group?
           return formObject[form_section.form_group_name.downcase][field.name].blank?
