@@ -931,3 +931,26 @@ create_or_update_lookup(
     { id: 'closed', display_text: "Closed" }
   ].map(&:with_indifferent_access)
 )
+
+create_or_update_lookup(
+  :id => "lookup-form-group-cp-case",
+  :name_en => "Form Groups - CP Case",
+  :lookup_values_en => [
+    { id: 'record_information', display_text: "Record Information" },
+    { id: 'approvals', display_text: "Approvals" },
+    { id: 'case_conference_details', display_text: "Case Conference Details" },
+    { id: 'identification_registration', display_text: "Identification / Registration" },
+    { id: 'data_confidentiality', display_text: "Data Confidentiality" },
+    { id: 'assessment', display_text: "Assessment" },
+    { id: 'family_partner_details', display_text: "Family / Partner Details" },
+    { id: 'case_plan', display_text: "Case Plan" },
+    { id: 'services_follow_up', display_text: "Services / Follow Up" },
+    { id: 'closure', display_text: "Closure" },
+    { id: 'tracing', display_text: "Tracing" },
+    { id: 'bia_form', display_text: "BIA Form" },
+    { id: 'photos_audio', display_text: "Photos and Audio" },
+    { id: 'other_documents', display_text: "Other Documents" },
+    { id: 'referrals_transfers', display_text: "Referrals and Transfers" },
+    { id: 'notes', display_text: "Notes" }
+  ].map(&:with_indifferent_access)
+)

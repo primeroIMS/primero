@@ -98,7 +98,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 70,
   :order => 10,
   :order_subform => 0,
-  :form_group_name_en => "Assessment",
+  :form_group_id => "assessment",
   :fields => care_assessment_fields,
   "editable" => true,
   "name_en" => "Care Assessment",

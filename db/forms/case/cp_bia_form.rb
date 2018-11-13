@@ -66,7 +66,7 @@ FormSection.create_or_update_form_section({
     :order_form_group => 136,
     :order => 10,
     :order_subform => 0,
-    :form_group_name_en => "BIA Form",
+    :form_group_id => "bia_form",
     "editable" => true,
     :fields => bia_fields,
     "name_en" => "BIA Form",

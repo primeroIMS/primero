@@ -169,7 +169,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 120,
   order: 80,
   order_subform: 0,
-  form_group_name_en: "Case Closure",
+  form_group_id: "case_closure",
   editable: true,
   fields: case_closure_fields,
   mobile_form: true,

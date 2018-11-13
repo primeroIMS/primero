@@ -62,7 +62,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 70,
   :order => 20,
   :order_subgroup => 0,
-  :form_group_name_en => "Assessment",
+  :form_group_id => "assessment",
   "editable" => true,
   :fields => best_interest_fields,
   "name_en" => "Best Interest",

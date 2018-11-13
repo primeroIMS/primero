@@ -119,7 +119,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 110,
   :order => 10,
   :order_subform => 0,
-  :form_group_name_en => "Services / Follow Up",
+  :form_group_id => "services_follow_up",
   "editable" => true,
   :fields => care_arrangements_fields,
   "name_en" => "Care Arrangements",

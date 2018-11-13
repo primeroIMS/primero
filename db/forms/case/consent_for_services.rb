@@ -22,7 +22,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 20,
   order: 10,
   order_subform: 0,
-  form_group_name_en: "Consent for Services",
+  form_group_id: "consent_for_services",
   editable: true,
   fields: service_consent_fields,
   mobile_form: true,

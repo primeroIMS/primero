@@ -62,7 +62,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 30,
   :order => 20,
   :order_subform => 0,
-  :form_group_name_en => "Identification / Registration",
+  :form_group_id => "identification_registration",
   :fields => protection_concern_fields,
   "editable" => true,
   "name_en" => "Protection Concerns",

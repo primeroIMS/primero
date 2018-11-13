@@ -18,6 +18,6 @@ FormSection.create_or_update_form_section({
   "editable" => false,
   "name_en" => "BID Records",
   "description_en" => "BID Records",
-  "form_group_name_en" => "Documents",
+  "form_group_id" => "documents",
   "display_help_text_view" => true
 })

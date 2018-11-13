@@ -51,7 +51,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 1001,
   :order => 20,
   :order_subform => 0,
-  :form_group_name_en => "Notes",
+  :form_group_id => "notes",
   "editable" => true,
   :fields => notes_fields,
   "name_en" => "Notes",

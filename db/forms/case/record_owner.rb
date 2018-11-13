@@ -166,7 +166,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 0,
   :order => 0,
   :order_subform => 0,
-  :form_group_name_en => "Record Information",
+  :form_group_id => "record_information",
   "editable" => true,
   :fields => record_owner_fields,
   :mobile_form => true,

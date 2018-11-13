@@ -9,7 +9,7 @@ class FormSection < CouchRest::Model::Base
   #TODO - include Namable - will require a fair amount of refactoring
 
   use_database :form_section
-  localize_properties [:name, :help_text, :description, :form_group_name]
+  localize_properties [:name, :help_text, :description]
   property :unique_id
   property :parent_form
   property :visible, TrueClass, :default => true
@@ -17,6 +17,7 @@ class FormSection < CouchRest::Model::Base
   property :order_form_group, Integer, :default => 0
   property :order_subform, Integer, :default => 0
   property :form_group_keyed, TrueClass, :default => false
+  property :form_group_id
   property :fields, [Field]
   property :editable, TrueClass, :default => true
   property :fixed_order, TrueClass, :default => false
@@ -108,10 +109,19 @@ class FormSection < CouchRest::Model::Base
   before_validation :sync_options_keys
   after_save :recalculate_subform_permissions
 
+  #TODO - pass in locale in options hash
+  #TODO - memoize... either here or memoize the method in Lookup (something like Lookup.get_form_group)
+  def form_group_name
+    #TODO - fetch based on module and type (case, tracing request, incident)
+    lookup_values = Lookup.values('lookup-form-group-cp-case')
+    lookup_values.present? ? lookup_values.select{|v| v['id'] == self.form_group_id}.try('first').try(:[], 'display_text') : ''
+  end
+
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
     #TODO: This is temporary. Eventually form_group_name will be localized
-    lh['form_group_name'] = self.form_group_name if self.form_group_name.present?
+    #TODO
+    # lh['form_group_name'] = self.form_group_name if self.form_group_name.present?
     fldz = {}
     self.fields.each { |f| fldz[f.name] = f.localized_property_hash locale if (show_hidden_fields || f.visible?)}
     lh['fields'] = fldz
@@ -119,7 +129,7 @@ class FormSection < CouchRest::Model::Base
   end
 
   def inspect
-    "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
+    "FormSection(#{self.name}, form_group_id => '#{self.form_group_id}')"
   end
 
   def validate_name_in_base_language
@@ -302,6 +312,7 @@ class FormSection < CouchRest::Model::Base
         end
       end
 
+      #TODO - fix
       form_groups = form_sections.group_by{|e| e.form_group_name}
     end
     memoize_in_prod :find_form_groups_by_parent_form
@@ -335,6 +346,7 @@ class FormSection < CouchRest::Model::Base
       sorted_forms = forms.sort_by{|f| [f.order_form_group, f.order]}
 
       if sorted_forms.present?
+        #TODO - should this be form_group_id?
         grouped_forms = sorted_forms.group_by{|f| f.form_group_name}
       end
       return grouped_forms
@@ -483,6 +495,7 @@ class FormSection < CouchRest::Model::Base
     end
 
     def list_form_group_names(selected_module, parent_form, user)
+      #TODO - need to figure out
       self.get_permitted_form_sections(selected_module, parent_form, user, true)
           .collect(&:form_group_name).compact.uniq.sort
     end
@@ -874,6 +887,11 @@ class FormSection < CouchRest::Model::Base
     FormSection.violation_forms.map(&:unique_id).include? self.unique_id
   end
 
+  def is_violations_group?
+    #TODO - pass english locale to form_group_name
+    self.form_group_name == 'Violations'
+  end
+
   def is_violation_wrapper?
     self.fields.present? &&
     self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
@@ -900,8 +918,9 @@ class FormSection < CouchRest::Model::Base
         if key == 'fields'
           update_field_translations(value, locale)
         elsif key == 'form_group_name'
+          #TODO - FIX
           #TODO: get rid of this case once we i18n form_group_name
-          self.form_group_name = value
+          # self.form_group_name = value
         else
           self.send("#{key}_#{locale}=", value)
         end

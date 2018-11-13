@@ -123,6 +123,7 @@ module FieldsHelper
   def field_keys(subform_name, subform_index, field_name, form_group_name)
     field_key = []
 
+    #TODO - fix
     if form_group_name.present? and form_group_name == "Violations"
       field_key << form_group_name.downcase
     end
@@ -160,6 +161,7 @@ module FieldsHelper
 
   def get_subform_object(object, subform_section, form_group_name, subform_name)
     subform_object = {}
+    #TODO - fix
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     #TODO: This code is being temporarily removed until JOR-141 (users should only see their own referrals) is again revisited,

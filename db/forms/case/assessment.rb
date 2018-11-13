@@ -27,7 +27,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 50,
   order: 10,
   order_subform: 0,
-  form_group_name_en: 'Assessment',
+  form_group_id: 'assessment',
   fields: assessment_fields,
   editable: false,
   name_en: 'Assessment',
