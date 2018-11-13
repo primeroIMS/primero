@@ -3,6 +3,7 @@ require "uuidtools"
 module FormToPropertiesConverter
   def properties_hash_from_forms(form_sections)
     prop_hash = form_sections.reject {|fs| fs.is_nested}.inject({}) do |acc, fs|
+      #TODO what is this form_group_keyed?
       acc.deep_merge((fs.form_group_keyed ? fs.form_group_name : fs.unique_id) => process_form(fs))
     end
 
@@ -27,6 +28,7 @@ module FormToPropertiesConverter
     end
 
     form_section.fields.select(&include_field).inject({}) do |form_acc, f|
+      #TODO - investigate form_gropu_keyed
       props = if form_section.form_group_name && form_section.form_group_keyed
         {form_section.form_group_name.downcase => properties_for_field(f)}
       else

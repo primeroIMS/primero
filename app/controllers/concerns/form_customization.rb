@@ -20,8 +20,6 @@ module FormCustomization
   end
 
   def get_form_groups
-    #TODO module/parent_form
-    # @list_form_group_names = FormSection.list_form_group_names(@primero_module, parent_form, current_user)
-    @list_form_groups = Lookup.values('lookup-form-group-cp-case').map(&:with_indifferent_access).map {|option| [option['display_text'], option['id']]}
+    @list_form_groups = Lookup.values_for_select("lookup-form-group-#{@primero_module.name.downcase}-#{parent_form}")
   end
 end
