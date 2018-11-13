@@ -17,6 +17,8 @@ class MatchingConfigurationsController < ApplicationController
       matching_configuration = MatchingConfiguration.new
       matching_configuration.case_fields = case_fields
       matching_configuration.tracing_request_fields = tracing_request_fields
+      matching_configuration.case_forms = case_forms
+      matching_configuration.tracing_request_forms = tracing_request_forms
 
       matching_configuration.update_matchable_fields
 
@@ -38,10 +40,28 @@ class MatchingConfigurationsController < ApplicationController
   end
 
   def case_fields
-    params[:matching_configuration][:case_fields].present? ? params[:matching_configuration][:case_fields].reject!(&:blank?) : []
+    return [] unless params[:matching_configuration][:case_fields].present?
+    filter_form_fields(params[:matching_configuration][:case_fields])
   end
 
   def tracing_request_fields
-    params[:matching_configuration][:tracing_request_fields].present? ? params[:matching_configuration][:tracing_request_fields].reject!(&:blank?) : []
+    return [] unless params[:matching_configuration][:tracing_request_fields].present?
+    filter_form_fields(params[:matching_configuration][:tracing_request_fields])
+  end
+
+  def case_forms
+    return [] unless params[:matching_configuration][:case_forms].present?
+    params[:matching_configuration][:case_forms].reject(&:blank?)
+  end
+
+  def tracing_request_forms
+    return [] unless params[:matching_configuration][:tracing_request_forms].present?
+    params[:matching_configuration][:tracing_request_forms].reject(&:blank?)
+  end
+
+  def filter_form_fields(form_fields)
+    fields = []
+    form_fields.each { |_form_key, form_field| fields << form_field }
+    fields.flatten.reject(&:blank?)
   end
 end
