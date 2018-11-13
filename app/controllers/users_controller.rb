@@ -45,12 +45,18 @@ class UsersController < ApplicationController
     location = params[:location]
     services = params[:services]
 
+    if services.present? && !services.is_a?(Array)
+      services = [services]
+    end
+
+    services.reject!(&:blank?) if services.present?
+
     respond_to do |format|
       format.json do
         users = User.by_disabled(key: false).all.select do |user|
           (agency_id.present? ? user.organization == agency_id : true) &&
           (location.present? ? user.location == location : true) &&
-          (services.present? ? services.all? { |service| user[:services].try(:include?, service) } : true)
+          (services.present? ? services.all?{ |service| user[:services].try(:include?, service) } : true)
         end
         render json: {
                 success: 1,
