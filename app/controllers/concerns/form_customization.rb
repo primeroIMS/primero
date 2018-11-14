@@ -20,6 +20,6 @@ module FormCustomization
   end
 
   def get_form_groups
-    @list_form_groups = Lookup.values_for_select("lookup-form-group-#{@primero_module.name.downcase}-#{parent_form}")
+    @list_form_groups = Lookup.values_for_select("lookup-form-group-#{@primero_module.try(:name).try(:downcase)}-#{parent_form}")
   end
 end

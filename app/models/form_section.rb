@@ -499,12 +499,6 @@ class FormSection < CouchRest::Model::Base
       formsection.save
     end
 
-    # def list_form_group_names(selected_module, parent_form, user)
-    #   #TODO - need to figure out
-    #   self.get_permitted_form_sections(selected_module, parent_form, user, true)
-    #       .collect(&:form_group_name).compact.uniq.sort
-    # end
-
     def find_mobile_forms_by_parent_form(parent_form = 'case')
       by_parent_form_and_mobile_form(key: [parent_form, true])
     end
