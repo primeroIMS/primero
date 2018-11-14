@@ -111,15 +111,12 @@ class FormSection < CouchRest::Model::Base
   before_validation :sync_options_keys
   after_save :recalculate_subform_permissions
 
-  #TODO - pass in locale in options hash
-  #TODO - memoize... either here or memoize the method in Lookup (something like Lookup.get_form_group)
   def form_group_name
     #TODO is this acceptable?
     return self.name if self.form_group_id.blank?
 
-    #TODO - fetch based on module and type (case, tracing request, incident)
-    lookup_values = Lookup.values('lookup-form-group-cp-case')
-    lookup_values.present? ? lookup_values.select{|v| v['id'] == self.form_group_id}.try('first').try(:[], 'display_text') : ''
+    #TODO - pass in locale via options hash
+    Lookup.form_group_name(self.form_group_id, self.parent_form)
   end
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)

@@ -57,6 +57,27 @@ class Lookup < CouchRest::Model::Base
       self.values(lookup_id, lookups, opts).map{|option| [option['display_text'], option['id']]}
     end
 
+    def form_group_name(form_group_id, parent_form, opts={})
+      lookup_ids = []
+      #TODO - are there more or should we get these lookup ids from a yaml?
+      case parent_form
+        when 'case'
+          lookup_ids = ['lookup-form-group-cp-case', 'lookup-form-group-gbv-case']
+        when 'tracing_request'
+          lookup_ids = ['lookup-form-group-cp-tracing-request']
+        when 'incident'
+          lookup_ids = ['lookup-form-group-gbv-incident']
+        else
+          #Nothing to do here
+      end
+
+      return '' if lookup_ids.blank?
+      locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
+      lookups = Lookup.all(keys: lookup_ids).all
+      lookups.present? ? lookups.map{|l| l.lookup_values(locale)}.flatten.select{|v| v['id'] == form_group_id}.try('first').try(:[], 'display_text') : ''
+    end
+    memoize_in_prod :form_group_name
+
     def display_value(lookup_id, option_id, lookups = nil, opts={})
       opts[:locale] = I18n.locale
       self.values(lookup_id, lookups, opts).select{|l| l["id"] == option_id}.first.try(:[], 'display_text')
