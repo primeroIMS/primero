@@ -55,14 +55,26 @@ class TracingRequest < CouchRest::Model::Base
   searchable auto_index: self.auto_index? do
     form_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
       text field, :boost => TracingRequest.get_field_boost(field)
-    end
-
-    subform_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
-      text field, :boost => TracingRequest.get_field_boost(field) do
-        self.tracing_request_subform_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
+      if phonetic_fields_exist?(field)
+        text field, :as => "#{field}_ph"
       end
     end
 
+    subform_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
+      text field, :boost => TracingRequest.get_field_boost(field) do |record|
+        record.tracing_request_subform_details(field)
+      end
+      if phonetic_fields_exist?(field)
+        text field, :as => "#{field}_ph" do |record|
+          record.tracing_request_subform_details(field)
+        end
+      end
+    end
+
+  end
+
+  def tracing_request_subform_details(field)
+    self.tracing_request_subform_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
   end
 
   def self.find_by_tracing_request_id(tracing_request_id)

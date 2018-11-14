@@ -185,11 +185,21 @@ class Child < CouchRest::Model::Base
   include Searchable
 
   searchable auto_index: self.auto_index? do
-    form_matchable_fields.select { |field| Child.exclude_match_field(field) }.each { |field| text field, :boost => Child.get_field_boost(field) }
+    form_matchable_fields.select { |field| Child.exclude_match_field(field) }.each do |field|
+      text field, :boost => Child.get_field_boost(field)
+      if phonetic_fields_exist?(field)
+        text field, :as => "#{field}_ph"
+      end
+    end
 
     subform_matchable_fields.select { |field| Child.exclude_match_field(field) }.each do |field|
-      text field, :boost => Child.get_field_boost(field) do
-        self.family_details_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:family_details_section)
+      text field, :boost => Child.get_field_boost(field) do |record|
+        record.family_detail_values(field)
+      end
+      if phonetic_fields_exist?(field)
+        text field, :as => "#{field}_ph" do |record|
+          record.family_detail_values(field)
+        end
       end
     end
 
@@ -222,6 +232,9 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  def family_detail_values(field)
+    self.family_details_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:family_details_section)
+  end
 
   def self.report_filters
     [

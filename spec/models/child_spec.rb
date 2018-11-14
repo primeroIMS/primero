@@ -1793,6 +1793,37 @@ describe Child do
 
   end
 
+  describe "family_detail_values" do
+    before do
+      FormSection.all.each(&:destroy)
+      Dir[File.dirname(__FILE__) + '/../../db/forms/case/family_det*.rb'].each {|file| load file }
+
+      #Reload the form properties
+      Child.refresh_form_properties
+      @case1 = Child.new(:name => "Fred", :family_details_section => [{"relation_name" => "Jill", "relation" => "mother"}, {"relation_name" => "Jack", "relation" => "father"}])
+      @case2 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Judy", :relation => "mother"}])
+      @case3 = create_child("Daphne")      
+    end
+
+    context 'when mutiple fields' do
+      it "should return the relations names" do
+        expect(@case1.family_detail_values("relation_name")).to eq("Jill Jack")
+      end
+    end
+
+    context 'when single field' do
+      it 'should return a single relation name' do
+        expect(@case2.family_detail_values("relation")).to eq("mother")
+      end
+    end
+
+    context 'when no fields' do
+      it 'should find no family details' do
+        expect(@case3.family_detail_values("relation")).to eq("")
+      end
+    end
+  end
+
   private
 
   def create_child(name, options={})

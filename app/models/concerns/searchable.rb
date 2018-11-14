@@ -204,10 +204,6 @@ module Searchable
       Field.all_filterable_field_names(self.parent_form)
     end
 
-    def searchable_phonetic_fields
-      ["name", "name_nickname", "name_other"]
-    end
-
     def searchable_multi_fields
       Field.all_filterable_multi_field_names(self.parent_form)
     end
