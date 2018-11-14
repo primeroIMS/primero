@@ -124,9 +124,9 @@ module FieldsHelper
     field_key = []
 
     #TODO - fix
-    if form_group_name.present? and form_group_name == "Violations"
-      field_key << form_group_name.downcase
-    end
+    # if form_group_name.present? and form_group_name == "Violations"
+    #   field_key << form_group_name.downcase
+    # end
 
     if subform_name.present?
       field_key << subform_name << subform_index
@@ -137,6 +137,7 @@ module FieldsHelper
     return field_key
   end
 
+  #TODO fix
   def subforms_count(object, field, form_group_name = "")
     subforms_count = 0
     # This is for shared subforms
@@ -159,6 +160,7 @@ module FieldsHelper
     return subforms_count
   end
 
+  #TODO - FIX
   def get_subform_object(object, subform_section, form_group_name, subform_name)
     subform_object = {}
     #TODO - fix
@@ -186,6 +188,7 @@ module FieldsHelper
     return subform_object
   end
 
+  #TODO fix
   def violation_status(formObject, form_group_name, subform_name, index)
     if formObject[form_group_name.downcase].present? && !formObject[form_group_name.downcase][subform_name].empty? &&
       index != 'template'

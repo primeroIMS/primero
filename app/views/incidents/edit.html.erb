@@ -24,6 +24,7 @@
     <div class="large-9 medium-9 columns side-tab-content-container">
       <div class="side-tab-content">
         <%= render :partial => 'incidents/required_fields' %>
+        <%# TODO fix %>
         <% @form_sections.each do |form_group_name, form_list| %>
           <%= render :partial => 'form_section/form_section', :collection => form_list,  :locals => {:formObject => @incident, :form_group_name => form_group_name} %>
         <% end %>

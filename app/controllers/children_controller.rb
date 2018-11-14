@@ -118,11 +118,12 @@ class ChildrenController < ApplicationController
     form_sidebar_id = params['form_sidebar_id']
     subform_section = FormSection.get_by_unique_id(form_id)
 
+    #TODO - does form_group_name need fixing?
     html = ChildrenController.new.render_to_string(partial: "children/create_subform", layout: false, locals: {
       child: @child,
       subform_section: subform_section,
       subform_name: type,
-      form_group_id: '',
+      form_group_name: '',
       form_link: child_save_subform_path(@child, subform: type, form_sidebar_id: form_sidebar_id),
       can_save_and_add_provision: can?(:services_section_from_case, model_class) &&
         can?(:service_provision_incident_details, model_class) && (type == 'incident_details'),
