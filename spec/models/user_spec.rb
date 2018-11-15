@@ -647,4 +647,67 @@ describe User do
       end
     end
   end
+
+  describe 'services' do
+    context 'when agency with services exists for a new user' do
+      before :each do
+        Agency.all.each {|a| a.destroy}
+        Agency.create(:id => 'unicef', :name => "unicef", :agency_code => "12345", :services => ['health_medical_service', 'shelter_service'])
+        @user = build_user({:organization => 'unicef'})
+      end
+      context 'and user is created without services' do
+        it 'should add agency services' do
+          @user.save
+          expect(@user.services).to eq(Agency.get('unicef').services)
+        end
+      end
+      context 'and user is created with services' do
+        it 'should not change user services' do
+          user_services = ['livehood_services']
+          @user.services = user_services
+          @user.save
+          expect(@user.services).to eq(user_services)
+        end
+      end
+    end
+
+    context 'when agency with services exists for an existing user' do
+      before :each do
+        Agency.all.each {|a| a.destroy}
+        @user = build_user({:organization => 'unicef'})
+        @user.save
+        Agency.create(:id => 'unicef', :name => "unicef", :agency_code => "12345", :services => ['health_medical_service', 'shelter_service'])
+      end
+
+      context 'and user is updated without services' do
+        it 'should not have services' do
+          @user.services = []
+          @user.save
+          expect(@user.services).to eq([])
+        end
+      end
+
+      context 'and user is updated with services' do
+        it 'should only have user services' do
+          user_services = ['family_service']
+          @user.services = user_services
+          @user.save
+          expect(@user.services).to eq(user_services)
+        end
+      end
+    end
+
+    context 'when agency does not exist' do
+      before :each do
+        Agency.all.each {|a| a.destroy}
+      end
+      context 'and is a new user' do
+        it 'should not have services' do
+          @user = build_user({:organization => 'children'})
+          @user.save
+          expect(@user.services).to eq([])
+        end
+      end
+    end
+  end
 end

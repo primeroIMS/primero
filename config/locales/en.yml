@@ -894,6 +894,7 @@ en:
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
+    services: "Services"
     position: Position
     actions:
       delete: "Delete"

@@ -144,6 +144,9 @@
         </div>
       </div>
     <% end %>
+
+    <%= resource_edit_field(@user, "services", 'user.services', 'multi_select', false, false, nil, nil, @services) %>
+
     <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
 
     <div class="row">

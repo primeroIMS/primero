@@ -280,6 +280,9 @@ Primero::Application.routes.draw do
     resources :potential_matches, as: :potential_matches
     resources :options, :only => [:index]
     resources :system_settings, :only => [:index]
+
+    #User API
+    get :users, to: 'users#search'
   end
 
 #######################
