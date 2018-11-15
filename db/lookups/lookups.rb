@@ -954,3 +954,59 @@ create_or_update_lookup(
     { id: 'notes', display_text: "Notes" }
   ].map(&:with_indifferent_access)
 )
+
+create_or_update_lookup(
+  :id => "lookup-form-group-cp-tracing-request",
+  :name_en => "Form Groups - CP Tracing Request",
+  :lookup_values_en => [
+    { id: 'record_owner', display_text: "Record Owner" },
+    { id: 'inquirer', display_text: "Inquirer" },
+    { id: 'tracing_request', display_text: "Tracing Request" },
+    { id: 'photos_audio', display_text: "Photos and Audio" },
+    { id: 'other_reportable_fields', display_text: "Other Reportable Fields" }
+  ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
+  :id => "lookup-form-group-cp-incident",
+  :name_en => "Form Groups - CP Incident",
+  :lookup_values_en => [
+    { id: 'record_owner', display_text: "Record Owner" },
+    { id: 'perpetrator_details', display_text: "Perpetrator Details" },
+    { id: 'cp_incident', display_text: "CP Incident" },
+    { id: 'cp_individual_details', display_text: "CP Individual Details" }
+  ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
+  :id => "lookup-form-group-gbv-case",
+  :name_en => "Form Groups - GBV Case",
+  :lookup_values_en => [
+    { id: 'record_information', display_text: "Record Information" },
+    { id: 'consent_for_services', display_text: "Consent For Services" },
+    { id: 'documents', display_text: "Documents" },
+    { id: 'consent_for_referrals', display_text: "Consent For Referrals" },
+    { id: 'safety_plan', display_text: "Safety Plan" },
+    { id: 'action_plan', display_text: "Action Plan" },
+    { id: 'survivor_assessment', display_text: "Survivor Assessment" },
+    { id: 'case_closure', display_text: "Case Closure" },
+    { id: 'client_feedback', display_text: "Client Feedback" },
+    { id: 'identification_registration', display_text: "Identification / Registration" },
+    { id: 'referrals_transfers', display_text: "Referrals and Transfers" },
+    { id: 'other_reportable_fields', display_text: "Other Reportable Fields" }
+  ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
+  :id => "lookup-form-group-gbv-incident",
+  :name_en => "Form Groups - GBV Incident",
+  :lookup_values_en => [
+    { id: 'gbv_individual_details', display_text: "GBV Individual Details" },
+    { id: 'incident', display_text: "Incident" },
+    { id: 'type_of_violence', display_text: "Type of Violence" },
+    { id: 'record_owner', display_text: "Record Owner" },
+    { id: 'alleged_perpetrator', display_text: "Alleged Perpetrator" },
+    { id: 'service_referral', display_text: "Service Referral" },
+    { id: 'other_reportable_fields', display_text: "Other Reportable Fields" }
+  ].map(&:with_indifferent_access)
+)

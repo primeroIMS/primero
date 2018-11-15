@@ -81,7 +81,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 0,
   order: 0,
   order_subform: 0,
-  form_group_name_en: "Record Owner",
+  form_group_id: "record_owner",
   editable: true,
   fields: record_owner_fields,
   mobile_form: true,

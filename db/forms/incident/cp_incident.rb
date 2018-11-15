@@ -90,7 +90,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 10,
   :order => 10,
   :order_subform => 0,
-  :form_group_name_en => "CP Incident",
+  :form_group_id => "cp_incident",
   :fields => cp_incident_fields,
   :is_first_tab => true,
   "editable" => true,

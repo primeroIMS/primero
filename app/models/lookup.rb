@@ -66,7 +66,7 @@ class Lookup < CouchRest::Model::Base
         when 'tracing_request'
           lookup_ids = ['lookup-form-group-cp-tracing-request']
         when 'incident'
-          lookup_ids = ['lookup-form-group-gbv-incident']
+          lookup_ids = ['lookup-form-group-cp-incident', 'lookup-form-group-gbv-incident']
         else
           #Nothing to do here
       end

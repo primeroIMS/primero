@@ -113,7 +113,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 80,
   order: 10,
   order_subform: 0,
-  form_group_name_en: "Alleged Perpetrator",
+  form_group_id: "alleged_perpetrator",
   editable: true,
   mobile_form: true,
   fields: alleged_perpetrator_fields,

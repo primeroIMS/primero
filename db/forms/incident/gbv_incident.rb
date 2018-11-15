@@ -141,7 +141,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 30,
   order: 10,
   order_subform: 0,
-  form_group_name_en: "Incident",
+  form_group_id: "incident",
   fields: gbv_incident_fields,
   mobile_form: true,
   is_first_tab: true,

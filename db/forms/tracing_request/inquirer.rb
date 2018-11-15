@@ -201,7 +201,7 @@ FormSection.create_or_update_form_section({
   :order => 20,
   "mobile_form" => true,
   :order_subform => 0,
-  :form_group_name_en => "Inquirer",
+  :form_group_id => "inquirer",
   "editable" => true,
   :fields => tracing_request_inquirer_fields,
   "name_en" => "Inquirer",
