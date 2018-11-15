@@ -5,6 +5,8 @@ class PrimeroProgram < CouchRest::Model::Base
   include PrimeroModel
   include Namable #delivers "name" and "description" fields
 
+  design
+
   property :start_date, Date
   property :end_date, Date
   property :core_resource, TrueClass, :default => false

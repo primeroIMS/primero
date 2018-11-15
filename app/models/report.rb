@@ -60,7 +60,9 @@ class Report < CouchRest::Model::Base
 
   before_save :apply_default_filters
 
-  design do
+  design
+
+  design :by_module_id do
     view :by_module_id,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'Report' && doc['module_ids']){

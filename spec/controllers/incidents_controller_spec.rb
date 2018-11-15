@@ -465,17 +465,6 @@ describe IncidentsController, :type => :controller do
       flash[:error].should == "Incident with the given id is not found"
       response.should redirect_to(:action => :index)
     end
-
-    #TODO - duplicates fetch commented out for performance reasons
-    xit "should include duplicate records in the response" do
-      Incident.stub(:allowed_formsections).and_return({})
-      Incident.stub(:get).with("37").and_return(mock_incident({:module_id => 'primeromodule-mrm'}))
-      duplicates = [Incident.new(:name => "duplicated")]
-      controller.stub :get_form_sections
-      Incident.should_receive(:duplicates_of).with("37").and_return(duplicates)
-      get :show, params: {:id => "37"}
-      assigns[:duplicates].should == duplicates
-    end
   end
 
   describe "GET new" do

@@ -24,23 +24,10 @@ class TracingRequest < CouchRest::Model::Base
     super *args
   end
 
-  design do
+  design
+
+  design :by_tracing_request_id do
     view :by_tracing_request_id
-    view :by_relation_name,
-         :map => "function(doc) {
-                if (doc['couchrest-type'] == 'TracingRequest')
-               {
-                  if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                    emit(doc['relation_name'], null);
-                  }
-               }
-            }"
-    view :by_ids_and_revs,
-         :map => "function(doc) {
-              if (doc['couchrest-type'] == 'TracingRequest'){
-                emit(doc._id, {_id: doc._id, _rev: doc._rev});
-              }
-            }"
   end
 
   def self.quicksearch_fields
@@ -188,14 +175,6 @@ class TracingRequest < CouchRest::Model::Base
     results = []
     TracingRequest.all(:keys => tracing_request_ids).all.each { |tr| results.concat(tr.find_match_cases(case_id)) }
     results
-  end
-
-  def self.get_tr_id(tracing_request_id)
-    tr_id=""
-    by_ids_and_revs.key(tracing_request_id).all.each do |tr|
-      tr_id = tr.tracing_request_id
-    end
-    tr_id
   end
 
 end

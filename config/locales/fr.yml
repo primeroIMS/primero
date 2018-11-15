@@ -1604,13 +1604,6 @@ fr:
         delete_field: "Impossible de supprimer un champ qui ne peut pas être édité"
         unique_name: "Le nom '%{name}' est déjà pris."
         unique_id: "L'identifiant unique '%{unique_id}' est déjà pris."
-      enquiry:
-        presence_of_criteria: "Ajoutez des critères à votre enquête"
-        presence_of_enquirer_name: "Ajoutez le nom de l'enquêteur à votre enquête"
-        presence_of_reporter_details: "Ajoutez des renseignements sur le registre à votre enquête"
-        create_forbidden: "Interdit"
-        not_found: "Non trouvé"
-        malformed_query: "Demande invalide"
       role:
         name_present: "Le nom ne doit pas être laissé vide"
         permission_presence: "Veuillez sélectionner au moins une permission"
