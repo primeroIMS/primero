@@ -137,7 +137,6 @@ module FieldsHelper
     return field_key
   end
 
-  #TODO fix
   def subforms_count(object, field, form_group_name = "")
     subforms_count = 0
     # This is for shared subforms
@@ -160,10 +159,8 @@ module FieldsHelper
     return subforms_count
   end
 
-  #TODO - FIX
   def get_subform_object(object, subform_section, form_group_name, subform_name)
     subform_object = {}
-    #TODO - fix
     if form_group_name.present? && form_group_name == "Violations" && object[form_group_name.downcase].present?
       subform_object = object[form_group_name.downcase][subform_section.unique_id]
     #TODO: This code is being temporarily removed until JOR-141 (users should only see their own referrals) is again revisited,
@@ -188,7 +185,6 @@ module FieldsHelper
     return subform_object
   end
 
-  #TODO fix
   def violation_status(formObject, form_group_name, subform_name, index)
     if formObject[form_group_name.downcase].present? && !formObject[form_group_name.downcase][subform_name].empty? &&
       index != 'template'

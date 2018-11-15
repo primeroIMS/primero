@@ -118,7 +118,6 @@ class ChildrenController < ApplicationController
     form_sidebar_id = params['form_sidebar_id']
     subform_section = FormSection.get_by_unique_id(form_id)
 
-    #TODO - does form_group_name need fixing?
     html = ChildrenController.new.render_to_string(partial: "children/create_subform", layout: false, locals: {
       child: @child,
       subform_section: subform_section,

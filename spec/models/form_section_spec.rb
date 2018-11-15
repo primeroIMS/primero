@@ -187,9 +187,9 @@ describe FormSection do
 
   describe "group_forms" do
     it "groups forms by the group name" do
-      form_section_a = FormSection.new(unique_id: "A", name: "A", form_group_id: "x")
-      form_section_b = FormSection.new(unique_id: "B", name: "B", form_group_id: "x")
-      form_section_c = FormSection.new(unique_id: "C", name: "C", form_group_id: "y")
+      form_section_a = FormSection.new(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "x")
+      form_section_b = FormSection.new(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
+      form_section_c = FormSection.new(unique_id: "C", name: "C", parent_form: 'case', form_group_id: "y")
 
       result = FormSection.group_forms([form_section_a, form_section_b, form_section_c])
 

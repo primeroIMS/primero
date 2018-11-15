@@ -112,7 +112,6 @@ class FormSection < CouchRest::Model::Base
   after_save :recalculate_subform_permissions
 
   def form_group_name
-    #TODO is this acceptable?
     return self.name if self.form_group_id.blank?
 
     #TODO - pass in locale via options hash
@@ -314,7 +313,6 @@ class FormSection < CouchRest::Model::Base
         end
       end
 
-      #TODO - fix
       form_groups = form_sections.group_by{|e| e.form_group_name}
     end
     memoize_in_prod :find_form_groups_by_parent_form
@@ -348,7 +346,6 @@ class FormSection < CouchRest::Model::Base
       sorted_forms = forms.sort_by{|f| [f.order_form_group, f.order]}
 
       if sorted_forms.present?
-        #TODO - should this be form_group_id?
         grouped_forms = sorted_forms.group_by{|f| f.form_group_name}
       end
       return grouped_forms
