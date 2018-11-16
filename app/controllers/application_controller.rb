@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
 
   around_action :with_timezone
 
+  rescue_from ActionController::InvalidAuthenticityToken, :with => :redirect_to_login
   rescue_from( AuthenticationFailure ) { |e| handle_authentication_failure(e) }
   rescue_from( AuthorizationFailure ) { |e| handle_authorization_failure(e) }
   rescue_from( ErrorResponse ) { |e| render_error_response(e) }
@@ -161,6 +162,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def redirect_to_login
+    redirect_to logout_path
+  end
+
   private
 
   def permit_all_params
@@ -180,5 +185,21 @@ class ApplicationController < ActionController::Base
 
   def page_direction(locale)
     @page_direction = Primero::Application::RTL_LOCALES.include?(locale.to_s) ? 'rtl' : 'lrt'
+  end
+
+  #TODO: This is a hack to get rid of empty values that sneak in due to this Rails select Gotcha:
+  #      http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-select
+  #      We are trying to handle it in assets/javascripts/chosen.js and this is probably the best way to deal on refactor,
+  #      but currently I don't want to sneeze on any card houses.
+  def sanitize_multiselect_params(form = nil, sanitize_params = [])
+    if form.present? && params[form].present?
+      sanitize_params.each do |param|
+        if params[form][param].is_a? Array
+          params[form][param].reject!{ |p| p.blank? }
+        else
+          params[form][param] = nil
+        end
+      end
+    end
   end
 end

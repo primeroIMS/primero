@@ -77,6 +77,7 @@
         <%= resource_show_field @user, 'phone', 'contact.field.phone' %>
         <%= resource_show_field @user, 'email', 'email' %>
         <%= resource_show_field @user, 'organization', 'organization', Agency %>
+        <%= resource_show_field @user, 'services', 'user.services', nil, 'lookup-service-type' %>
         <%= resource_show_field @user, 'position', 'position' %>
         <%= resource_show_field @user, 'location', 'user.location', Location %>
 

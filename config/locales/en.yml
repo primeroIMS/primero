@@ -804,6 +804,7 @@ en:
     edit: 'Edit Agency'
     name: 'Agency Name'
     code: 'Agency Code'
+    services: 'Agency Services'
 
   system_settings:
     label: "System Settings"
@@ -893,6 +894,7 @@ en:
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
+    services: "Services"
     position: Position
     actions:
       delete: "Delete"
@@ -2294,4 +2296,3 @@ en:
       task:
         one: "Task"
         other: "Tasks"
-
