@@ -19,6 +19,10 @@ describe "children/show.html.erb" do
                      :user_name => 'name', :id => 'test-user-id', :full_name => 'Jose Smith')
       @user.stub(:has_permission_by_permission_type?).and_return(true)  
       @user.stub(:localize_date)
+      @user.stub(:location).and_return('FAKE000')
+      @user.stub(:has_permission_by_permission_type?).and_return(true)
+      @service_types=[]
+      @agencies=[]
       controller.stub(:current_user).and_return(@user)
       controller.stub(:model_class).and_return(Child)
       view.stub(:current_user).and_return(@user)
