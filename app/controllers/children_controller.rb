@@ -13,6 +13,8 @@ class ChildrenController < ApplicationController
   before_action :filter_risk_level, :only => [:index]
   before_action :toggle_photo_indicators, :only => [:show]
   before_action :load_fields, :only => [:index]
+  before_action :load_service_types, :only => [:index, :show]
+  before_action :load_agencies, :only => [:index, :show]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
   include NoteActions
@@ -433,5 +435,13 @@ class ChildrenController < ApplicationController
 
   def toggle_photo_indicators
     @has_photo_form = FormSection.has_photo_form
+  end
+
+  def load_service_types
+    @service_types = Lookup.values_for_select('lookup-service-type')
+  end
+
+  def load_agencies
+    @agencies = Agency.all.all.map { |agency| [agency.name, agency.id] }
   end
 end
