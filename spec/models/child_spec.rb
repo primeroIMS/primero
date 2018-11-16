@@ -1793,6 +1793,66 @@ describe Child do
 
   end
 
+  describe 'match criteria' do
+    before do
+      Child.all.each &:destroy
+      FormSection.all.each &:destroy
+      fields = [
+          Field.new({"name" => "name",
+                     "type" => "text_field",
+                     "display_name_all" => "name",
+                     "matchable" => true
+                    }),
+          Field.new({"name" => "name_nickname",
+                    "type" => "text_field",
+                    "display_name_en" => "Nickname",
+                    "matchable" => true
+                    }),
+          Field.new({"name" => "age",
+                     "type" => "numeric_field",
+                     "display_name_all" => "Age"
+                    })]
+      form = FormSection.new(
+          :unique_id => "form_section_test",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 50,
+          :order => 15,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test",
+          "description_all" => "Form Section Test",
+          :fields => fields
+      )
+      form.save!
+      Child.any_instance.stub(:field_definitions).and_return(fields)
+      Child.refresh_form_properties
+
+      @case1 = Child.create(name: 'case1', name_nickname: 'murtaza')
+      @case2 = Child.create(name: 'case2', age: 13)
+      @case3 = Child.create(age: 15)
+    end
+
+    context 'when field in match_fields' do
+      it 'should find all values in match criteria' do
+        expect(@case1.match_criteria()).to eq({:name=>[@case1.name_nickname, @case1.name]})
+      end
+    end
+
+    context 'when field not in match_fields' do
+      it 'should find exact match criteria' do
+        expect(@case2.match_criteria()).to eq({:name=>[@case2.name]})
+      end
+    end
+
+    context 'when field is not matchable' do
+      it 'should find no criteria' do
+        expect(@case3.match_criteria()).to eq({})
+      end
+    end
+  end
+
   private
 
   def create_child(name, options={})

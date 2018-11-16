@@ -53,11 +53,11 @@ class TracingRequest < CouchRest::Model::Base
   include Searchable #Needs to be after ownable
 
   searchable auto_index: self.auto_index? do
-    form_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
+    form_matchable_fields.each do |field|
       text field, :boost => TracingRequest.get_field_boost(field)
     end
 
-    subform_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
+    subform_matchable_fields.each do |field|
       text field, :boost => TracingRequest.get_field_boost(field) do
         self.tracing_request_subform_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
       end
@@ -176,7 +176,8 @@ class TracingRequest < CouchRest::Model::Base
     match_criteria = inherited_match_criteria(match_request)
     if match_request.present?
       TracingRequest.subform_matchable_fields.each do |field|
-        match_criteria[:"#{field}"] = (match_request[:"#{field}"].is_a? Array) ? match_request[:"#{field}"].join(' ') : match_request[:"#{field}"]
+        match_field, match_value = TracingRequest.match_multi_criteria(field, match_request)
+        match_criteria[:"#{match_field}"] = match_value if match_value.present?
       end
     end
     match_criteria.compact
