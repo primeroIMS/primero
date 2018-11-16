@@ -15,11 +15,13 @@ class ExportConfiguration < CouchRest::Model::Base
   validate :valid_record_type
   validate :opt_out_field_exists
 
-  design do
-    view :by_export_id
+  design
+
+  design :by_export_id do
+   view :by_export_id
   end
 
-  def valid_record_type
+ def valid_record_type
     return true if ['Child', 'TracingRequest', 'Incident'].include?(self.record_type)
     errors.add(:record_type, I18n.t("errors.models.export_configuration.record_type"))
   end

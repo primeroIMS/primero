@@ -452,17 +452,6 @@ describe TracingRequestsController, :type => :controller do
       flash[:error].should == "Tracing request with the given id is not found"
       response.should redirect_to(:action => :index)
     end
-
-    #TODO - duplicates fetch commented out for performance reasons
-    xit "should include duplicate records in the response" do
-      TracingRequest.stub(:allowed_formsections).and_return({})
-      TracingRequest.stub(:get).with("37").and_return(mock_tracing_request({:module_id => 'primeromodule-cp'}))
-      duplicates = [TracingRequest.new(:name => "duplicated")]
-      TracingRequest.should_receive(:duplicates_of).with("37").and_return(duplicates)
-      controller.stub :get_form_sections
-      get :show, params: { :id => "37" }
-      assigns[:duplicates].should == duplicates
-    end
   end
 
   describe "GET new" do

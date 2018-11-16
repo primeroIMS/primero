@@ -8,7 +8,9 @@ class LoginActivity < CouchRest::Model::Base
   property :login_timestamp, DateTime
   property :mobile_number
 
-  design do
+  design
+
+  design :by_user_name_and_login_timestamp do
     view :by_user_name_and_login_timestamp,
          :map => "function(doc) {
                  if (doc['couchrest-type'] == 'LoginActivity') {

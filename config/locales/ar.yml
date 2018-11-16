@@ -1503,13 +1503,6 @@ ar:
         delete_field: "لا يمكن حذف الحقل غير القابل للتعديل"
         unique_name: "اسم المستخدم '%{name}' مستخدم بالفعل."
         unique_id: "المعرف الفريد '%{unique_id}' مُستخدم بالفعل."
-      enquiry:
-        presence_of_criteria: "الرجاء إضافة معايير إلى استفسارك"
-        presence_of_enquirer_name: "الرجاء إضافة اسم المستفسر إلى استفسارك"
-        presence_of_reporter_details: "الرجاء إضافة تفاصيل بيانات المبلغ إلى استفسارك"
-        create_forbidden: "ممنوع"
-        not_found: "لم يتم العثور عليه"
-        malformed_query: "طلب غير صالح"
       role:
         name_present: "لا يجب أن يكون الاسم فارغاً"
         permission_presence: "الرجاء تحديد إذن واحد على الأقل"

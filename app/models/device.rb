@@ -21,7 +21,9 @@ class Device < CouchRest::Model::Base
     self.imei = self.imei.to_s
   end
 
-  design do
+  design
+
+  design :by_imei do
     view :by_imei
   end
 
