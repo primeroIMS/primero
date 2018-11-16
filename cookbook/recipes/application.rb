@@ -5,6 +5,7 @@ include_recipe 'primero::git_stage'
 %w(libxml2-dev
    libxslt1-dev
    imagemagick
+   openjdk-8-jre-headless
    inotify-tools).each do |pkg|
   package pkg
 end
