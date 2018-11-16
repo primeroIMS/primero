@@ -1,16 +1,5 @@
 package 'git'
 
-group node[:primero][:app_group] do
-  system true
-end
-
-user node[:primero][:app_user] do
-  system true
-  home node[:primero][:home_dir]
-  gid node[:primero][:app_group]
-  shell '/bin/bash'
-end
-
 directory node[:primero][:home_dir] do
   action :create
   owner node[:primero][:app_user]
