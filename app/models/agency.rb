@@ -16,6 +16,7 @@ class Agency < CouchRest::Model::Base
   property :logo_enabled, TrueClass, :default => false
   property :core_resource, TrueClass, :default => false
   property :agency_code
+  property :services, :type => [String]
 
   design do
     view :by_order

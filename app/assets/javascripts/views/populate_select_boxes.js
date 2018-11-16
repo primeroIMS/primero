@@ -23,7 +23,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
         self.collection.fetch({
           data: $.param({
             string_sources: self.option_string_sources,
-            locale: I18n.defaultLocale
+            locale: I18n.locale
           })
         }).done(function() {
           self.parseOptions();

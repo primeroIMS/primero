@@ -83,6 +83,7 @@ en:
     approval_alert: "Approval is pending for %{form_name}"
     field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
     transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
+    loading: "Loading..."
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -804,6 +805,7 @@ en:
     edit: 'Edit Agency'
     name: 'Agency Name'
     code: 'Agency Code'
+    services: 'Agency Services'
 
   system_settings:
     label: "System Settings"
@@ -893,6 +895,7 @@ en:
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
+    services: "Services"
     position: Position
     actions:
       delete: "Delete"
@@ -2035,6 +2038,8 @@ en:
     user_local_status_done: "Done"
     complete_referral_label: "Clicking OK signifies that you have completed the referral work associated with this case. Once you click OK you will no longer have access to this record."
     done_success_message: "Referral Done."
+    agency_label: "Agency"
+    location_label: "Location"
 
   reassign:
     reassign_case_title: "Assign case(s) to:"
@@ -2294,4 +2299,3 @@ en:
       task:
         one: "Task"
         other: "Tasks"
-

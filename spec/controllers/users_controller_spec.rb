@@ -487,7 +487,7 @@ describe UsersController do
       it "should create admin user if the admin user type is specified" do
         fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL)
         mock_user = User.new
-        User.should_receive(:new).with({"role_ids" => %w(abcd), "locale" => nil}).and_return(mock_user)
+        User.should_receive(:new).with({"role_ids" => %w(abcd), "locale" => nil, "services" => nil}).and_return(mock_user)
         mock_user.should_receive(:save).and_return(true)
         post :create, params: {"user" => {"role_ids" => %w(abcd)}}
       end
@@ -501,6 +501,30 @@ describe UsersController do
         response.should render_template :new
         expect(assigns[:user]).to eq(mock_user)
         expect(assigns[:roles]).to include(@role_case_read, @role_tracing_request_read, @role_incident_read)
+      end
+
+      it "should not receive services if services param is not specified" do
+        fake_admin_login
+        mock_user = User.new
+        User.should_receive(:new).with({:role_ids => ["wxyz"], :locale => nil, :services => nil}).and_return(mock_user)
+        mock_user.should_receive(:save).and_return(true)
+        post :create, params: {:user => {:role_ids => ["wxyz"]}}
+      end
+
+      it "should not receive services if services is empty" do
+        fake_admin_login
+        mock_user = User.new
+        User.should_receive(:new).with({:role_ids => ["wxyz"], :locale => nil, :services => nil}).and_return(mock_user)
+        mock_user.should_receive(:save).and_return(true)
+        post :create, params: {:user => {:role_ids => ["wxyz"], :services => []}}
+      end
+
+      it "should receive services if services are specified" do
+        fake_admin_login
+        mock_user = User.new
+        User.should_receive(:new).with({:role_ids => ["wxyz"], :locale => nil, :services => ['health_medical_service','shelter_service']}).and_return(mock_user)
+        mock_user.should_receive(:save).and_return(true)
+        post :create, params: {:user => {:role_ids => ["wxyz"], :services => ['health_medical_service','shelter_service']}}
       end
     end
   end

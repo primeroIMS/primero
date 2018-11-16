@@ -12,6 +12,11 @@ class Ability
       uzer.user_name == user.user_name
     end
 
+    can :search, User if user.has_permission_by_permission_type?(Permission::CASE, Permission::TRANSFER) ||
+                         user.has_permission_by_permission_type?(Permission::CASE, Permission::ASSIGN) ||
+                         user.has_permission_by_permission_type?(Permission::CASE, Permission::REASSIGN) ||
+                         user.has_permission_by_permission_type?(Permission::CASE, Permission::REFERRAL)
+
     can [:read_reports], Report do |report|
       can?(:read, report) || can?(:group_read, report)
     end

@@ -155,18 +155,8 @@ class ReportsController < ApplicationController
     params['report']['disaggregate_by'] = params['report']['disaggregate_by_ordered']
   end
 
-  #TODO: This is a hack to get rid of empty values that sneak in due to this Rails select Gotcha:
-  #      http://api.rubyonrails.org/classes/ActionView/Helpers/FormOptionsHelper.html#method-i-select
-  #      We are trying to handle it in assets/javascripts/chosen.js and this is probably the best way to deal on refactor,
-  #      but currently I don't want to sneeze on any card houses.
   def sanitize_multiselects
-    [:module_ids, :aggregate_by, :disaggregate_by].each do |multiselect|
-      if params[:report][multiselect].is_a? Array
-        params[:report][multiselect].reject!{|e|!e.present?}
-      else
-        params[:report][multiselect] = nil
-      end
-    end
+    sanitize_multiselect_params(:report, [:module_ids, :aggregate_by, :disaggregate_by])
   end
 
   def sanitize_filters
