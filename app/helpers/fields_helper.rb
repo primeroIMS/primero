@@ -151,7 +151,7 @@ module FieldsHelper
       subforms_count = object.try(:[], field.name).count
     elsif object[shared_subform].present?
       object[shared_subform].count
-    elsif object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
+    elsif form_group_name.present? && object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
       subforms_count = object[form_group_name.downcase][field.name].count
     elsif object[shared_subform_group].present? && object[shared_subform_group][shared_subform].present?
       subforms_count = object[shared_subform_group][shared_subform].count
@@ -186,7 +186,7 @@ module FieldsHelper
   end
 
   def violation_status(formObject, form_group_name, subform_name, index)
-    if formObject[form_group_name.downcase].present? && !formObject[form_group_name.downcase][subform_name].empty? &&
+    if form_group_name.present? && formObject[form_group_name.downcase].present? && !formObject[form_group_name.downcase][subform_name].empty? &&
       index != 'template'
       content_tag :span, class: 'verification_status' do
         "(#{formObject[form_group_name.downcase][subform_name][index].verified})"

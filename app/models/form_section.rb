@@ -97,8 +97,6 @@ class FormSection < CouchRest::Model::Base
               }"
   end
 
-  #TODO - do we need this validation?
-  # validates_presence_of :form_group_id, :message => I18n.t("errors.models.form_section.form_group_id_present")
   validate :validate_name_in_base_language
   validate :validate_name_format
   validate :validate_unique_id
