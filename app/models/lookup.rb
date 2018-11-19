@@ -115,7 +115,6 @@ class Lookup < CouchRest::Model::Base
 
     def form_group_lookup_mapping(parent_form)
       lookup_ids = []
-      #TODO - are there more or should we get these lookup ids from a yaml?
       case parent_form
         when 'case'
           lookup_ids = ['lookup-form-group-cp-case', 'lookup-form-group-gbv-case']
