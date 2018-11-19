@@ -1,7 +1,6 @@
 <div class="side-nav-container">
   <div class="scrolling_indicator up"><%= t('messages.scroll_up') %></div>
   <ul class="tab-handles side-nav">
-    <%# TODO - does anything need to change here??? %>
     <% tabs.each do |form_group, forms| %>
       <%= build_form_tabs(form_group, forms, show_summary ||= false) %>
     <% end %>
