@@ -128,6 +128,7 @@ class FormSection < CouchRest::Model::Base
 
   before_validation :generate_options_keys
   before_validation :sync_options_keys
+  before_save :sync_form_group
   after_save :recalculate_subform_permissions
 
   def form_group_name
@@ -918,6 +919,22 @@ class FormSection < CouchRest::Model::Base
 
   def sync_options_keys
     self.fields.each{|field| field.sync_options_keys}
+  end
+
+  #if a new form_group_id was added during edit/create, then add that form group to the form_group lookup
+  def sync_form_group
+    return unless self.changed.include?('form_group_id')
+    return if self.form_group_id.blank?
+
+    #If form_group already exists, nothing to do
+    form_group = Lookup.form_group_name(self.form_group_id, self.parent_form)
+    return if form_group.present?
+
+    #If added manually by the user, form_group_id at this point is just what the user typed in
+    #Use that value for the form group description.  Parameterize it to use as the id
+    new_id = self.form_group_id.parameterize(separator: '_')
+    Lookup.add_form_group(new_id, self.form_group_id, self.parent_form)
+    self.form_group_id = new_id
   end
 
   def field_by_name(field_name)
