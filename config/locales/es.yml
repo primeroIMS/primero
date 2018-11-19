@@ -1346,14 +1346,6 @@ es:
         unique_name: "El nombre '%{name}' ya ha sido tomado."
         unique_id: "La identificación única '%{unique_id}' ya ha sido tomada."
 
-      enquiry:
-        presence_of_criteria: "Agregue criterios a su consulta"
-        presence_of_enquirer_name: "Agregue el nombre de quien consulta a su consulta"
-        presence_of_reporter_details: "Agregue la información de quien reporta a su consulta"
-        create_forbidden: "Prohibido"
-        not_found: "No se encontró"
-        malformed_query: "Solicitud inválida"
-
       role:
         name_present: "El nombre no puede estar en blanco"
         permission_presence: "Seleccione por lo menos una autorización"

@@ -74,6 +74,13 @@ Automatic development server reloads based on code changes have been disabled. T
 
 For more on making code contributions, have a look at the file `CONTRIBUTING.md`.
 
+Occasionally you may have issues with the JS I18n object not properly loading the correct locales as defined in locales.yml.
+Due to a caching issue, it may retain an older list of available locales.
+If this happens, and you have a user set up with a locale not defined in that old stale locales list, when you create a case,
+the forms will be blank.
+To resolve this, run the following command from the application directory:
+    $ bundle exec rake tmp:cache:clear
+
 
 ## Deploy keys
 

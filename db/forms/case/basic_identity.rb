@@ -64,23 +64,20 @@ basic_identity_fields = [
              "display_name_en" => "First Name",
              "show_on_minify_form" => true,
              "required" => true,
-             "hide_on_view_page" => true,
-             "matchable" => true
+             "hide_on_view_page" => true
             }),
   Field.new({"name" => "name_middle",
              "type" => "text_field",
              "display_name_en" => "Middle Name",
              "show_on_minify_form" => true,
-             "hide_on_view_page" => true,
-             "matchable" => true
+             "hide_on_view_page" => true
             }),
   Field.new({"name" => "name_last",
              "type" => "text_field",
              "display_name_en" => "Surname",
              "show_on_minify_form" => true,
              "required" => true,
-             "hide_on_view_page" => true,
-             "matchable" => true
+             "hide_on_view_page" => true
             }),
   Field.new({"name" => "name_nickname",
              "type" => "text_field",
@@ -140,8 +137,7 @@ basic_identity_fields = [
             }),
   Field.new({"name" => "physical_characteristics",
              "type" => "textarea",
-             "display_name_en" => "Distinguishing Physical Characteristics",
-             "matchable" => true
+             "display_name_en" => "Distinguishing Physical Characteristics"
             }),
   Field.new({"name" => "ration_card_no",
              "type" => "text_field",

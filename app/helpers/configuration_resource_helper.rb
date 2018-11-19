@@ -1,5 +1,5 @@
 module ConfigurationResourceHelper
-  def resource_edit_field(object, field, label_key, type, required=false, disabled=false, help_text=nil, error_text=nil)
+  def resource_edit_field(object, field, label_key, type, required=false, disabled=false, help_text=nil, error_text=nil, select_values=[])
     field_id = "#{object.class.name.underscore}_#{field}"
     name = "#{object.class.name.underscore}[#{field}]"
     value = object.send(field)
@@ -9,7 +9,14 @@ module ConfigurationResourceHelper
     else
       I18n.t(label_key)
     end
-    tag_helper = (type == 'date') ? 'text_field_tag' : "#{type}_tag"
+
+    tag_helper = if type == 'date'
+                   'text_field_tag'
+                 elsif type == 'multi_select'
+                   'select_tag'
+                 else
+                   "#{type}_tag"
+                 end
 
     content_tag :div, class: 'row' do
       concat(content_tag(:div, class: 'medium-3 columns'){
@@ -26,6 +33,9 @@ module ConfigurationResourceHelper
               concat(hidden_field_tag(name, false))
               concat(check_box_tag(name, '1', value.present? ? true : false))
           })
+        elsif type == 'multi_select'
+          concat(self.send(tag_helper, name, options_for_select(select_values, value), id: field_id, class: 'chosen-select',
+            multiple: true, include_blank: true, disabled: disabled, required: required ))
         else
           concat(self.send(tag_helper, name, h(value), id: field_id, autocomplete: 'off',
             class: ((type == 'date') ? 'form_date_field' : ''), disabled: disabled, required: required))
@@ -44,10 +54,15 @@ module ConfigurationResourceHelper
     end
   end
 
-  def resource_show_field(object, field, label_key, translation_class=nil)
+  def resource_show_field(object, field, label_key, translation_class=nil, lookup=nil)
     cached_display_text_classes = [Agency, Location]
     label_text = I18n.t(label_key)
-    value = object.send(field)
+
+    value = if lookup.present?
+              object.send(field).map { |id| Lookup.display_value(lookup, id)}.compact.join(', ')
+            else
+              object.send(field)
+            end
 
     value = cached_display_text_classes.include?(translation_class) ?
       eval("#{translation_class}.display_text('#{value}', locale: '#{I18n.locale}')") :

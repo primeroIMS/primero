@@ -65,6 +65,7 @@ describe 'shared/_side_tab.html.erb' do
   def fake_user_login(permissions)
     @user = double('user', :permissions => [permissions], :has_permission? => true, :has_group_permission? => Permission::GROUP,
                                                         :user_name => 'name', :id => 'test-user-id', :full_name => 'Jose Smith')
+    @user.stub(:has_permission_by_permission_type?).and_return(true)                                                       
     @user.stub(:localize_date)
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(Child)

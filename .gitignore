@@ -26,8 +26,6 @@ debug.html
 dev-node.json
 bin
 primero-configuration
-capybara_features/resources/huge.jpg
-capybara_features/resources/huge.mp3
 tags
 public/assets/
 config/couchdb.yml
@@ -53,7 +51,6 @@ cookbook/nodes/
 .buildpath
 coverage/
 spec/reports/
-capybara_features/reports/
 .ruby-gemset
 solr/data
 solr/pids

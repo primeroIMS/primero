@@ -41,13 +41,29 @@ class FormSection < CouchRest::Model::Base
   property :mobile_form, TrueClass, :default => false
   property :header_message_link, String, :default => ""
 
-  design do
-    view :by_unique_id
-    view :by_parent_form
-    view :by_parent_form_and_mobile_form
-    view :by_order
-    view :by_parent_form_and_unique_id
+  design
 
+  design :by_unique_id do
+    view :by_unique_id
+  end
+
+  design :by_parent_form do
+    view :by_parent_form
+  end
+
+  design :by_parent_form_and_mobile_form do
+    view :by_parent_form_and_mobile_form
+  end
+
+  design :by_order do
+    view :by_order
+  end
+
+  design :by_parent_form_and_unique_id do
+    view :by_parent_form_and_unique_id
+  end
+
+  design :by_lookup_field do
     view :by_lookup_field,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -61,7 +77,9 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
+  end
 
+  design :fields do
     view :fields,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -78,6 +96,9 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
+  end
+
+  design :having_location_fields_by_parent_form do
     view :having_location_fields_by_parent_form,
          :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){

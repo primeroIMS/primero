@@ -20,7 +20,7 @@ module Syncable
   end
 
   included do
-    design do
+    design :conflicting_records do
       view :conflicting_records,
               :map => "function(doc) {
                 if (doc._conflicts) {

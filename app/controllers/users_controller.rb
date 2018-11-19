@@ -12,6 +12,8 @@ class UsersController < ApplicationController
   before_action :load_user, :only => [:show, :edit, :update, :destroy]
   before_action :load_records_according_to_disable_filter, :only => [:index]
   before_action :agency_names, :only => [:new, :create, :edit, :update]
+  before_action :load_services, :only => [:new, :create, :edit]
+  before_action :sanitize_services_multiselect, :only => [:create, :update]
 
   skip_before_action :check_authentication, :set_locale, :only => :register_unverified
 
@@ -30,7 +32,37 @@ class UsersController < ApplicationController
     end
 
     if params[:ajax] == "true"
+      #TODO: the partial "users/user" does not exist.
       render :partial => "users/user", :collection => @users
+    end
+  end
+
+  def search
+    authorize! :read, User
+    authorize! :search, User
+
+    agency_id = params[:agency_id]
+    location = params[:location]
+    services = params[:services]
+
+    if services.present? && !services.is_a?(Array)
+      services = [services]
+    end
+
+    services.reject!(&:blank?) if services.present?
+
+    respond_to do |format|
+      format.json do
+        users = User.by_disabled(key: false).all.select do |user|
+          (agency_id.present? ? user.organization == agency_id : true) &&
+          (location.present? ? user.location == location : true) &&
+          (services.present? ? services.all? { |service| user[:services].try(:include?, service) } : true)
+        end
+        render json: {
+                success: 1,
+                users: users.map{ |user| user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization') }
+              }
+      end
     end
   end
 
@@ -224,6 +256,14 @@ class UsersController < ApplicationController
     else
       super
     end
+  end
+
+  def load_services
+    @services = Lookup.values_for_select('lookup-service-type')
+  end
+
+  def sanitize_services_multiselect
+    sanitize_multiselect_params(:user, [:services])
   end
 
 end

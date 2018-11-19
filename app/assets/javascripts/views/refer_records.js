@@ -2,6 +2,8 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   el: 'body',
 
+  users_api_url: '/api/users',
+
   events: {
     'click .service_referral_button' : 'refer_from_service',
     'click .referral_index_action' : 'refer_records',
@@ -9,13 +11,24 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     'change #referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
     'change #referral-modal select#existing_user' : 'toggle_other_user',
     'change #referral-modal input#other_user' : 'toggle_existing_user',
-    'click #referral-modal input[type="submit"]' : 'close_referral'
+    'click #referral-modal input[type="submit"]' : 'close_referral',
+    'change #referral-modal select.existing_user_filter' : 'clear_user_selection'
+  },
+
+  initialize: function(){
+    _self = this;
+    $("#existing_user_referral").on('chosen:showing_dropdown', function(){
+      _self.load_existing_users();
+    });
   },
 
   refer_records_empty: function(event) {
     this.clear_referral();
     $("#referral-modal").find("#service_hidden").attr("disabled","disabled");
     $("#referral-modal").find("#existing_user_hidden").attr("disabled","disabled");
+
+    var $referral_button = $(event.target)
+    this.select_user_location($referral_button);
   },
 
   refer_records: function(event) {
@@ -24,7 +37,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         $referral_button = $(event.target),
         consent_url = $referral_button.data('consent_count_url');
     $("#selected_records").val(selected_recs);
-    this.refer_records_empty();
+    this.refer_records_empty(event);
     $.get( consent_url, {selected_records: selected_recs.join(","), transition_type: "referral"}, function(response) {
         var total = response['record_count'],
             consent_cnt = response['consent_count'],
@@ -138,5 +151,47 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
       return false;
     }
   },
+
+  load_existing_users: function() {
+    var $referral_modal = $("#referral-modal");
+    var $service_select = $referral_modal.find('select#service');
+    var $agency_select = $referral_modal.find("select#agency");
+    var $location_select = $referral_modal.find("select#location");
+    var $existing_user_select = $('select#existing_user_referral');
+
+    var data = {
+      services: $service_select.val(),
+      agency_id: $agency_select.val(),
+      location: $location_select.val()
+    }
+
+    $existing_user_select.empty();
+    $existing_user_select.html('<option>' + I18n.t("messages.loading") + '</option>');
+    $existing_user_select.trigger("chosen:updated");
+
+    $.get(this.users_api_url, data, function(response){
+      $existing_user_select.empty();
+      var select_options = [];
+      select_options.push('<option value=""></option>');
+      _.each(response.users, function(user){
+        select_options.push('<option value="' + user.user_name + '">' + user.user_name + '</option>');
+      })
+      $existing_user_select.html(select_options.join(''));
+      $existing_user_select.trigger("chosen:updated");
+    })
+  },
+
+  select_user_location: function($referral_button){
+    var user_location = $referral_button.data('user_location');
+    var $location_select = $("select#location");
+    $location_select.val(user_location)
+    $location_select.trigger("chosen:updated");
+  },
+
+  clear_user_selection: function(){
+    var $existing_user_select = $('select#existing_user_referral');
+    $existing_user_select.val('');
+    $existing_user_select.trigger("chosen:updated");
+  }
 
 });

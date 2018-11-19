@@ -17,15 +17,7 @@ class Replication < CouchRest::Model::Base
   property :username
   property :password
 
-  design do
-    view :all,
-            :map => "function(doc) {
-                if (doc['couchrest-type'] == 'Replication') {
-                    emit(doc['_id'],1);
-                }
-            }"
-  end
-
+  design
 
   validates_presence_of :remote_app_uri
   validates_presence_of :description

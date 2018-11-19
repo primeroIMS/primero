@@ -21,7 +21,7 @@ class Location < CouchRest::Model::Base
   property :admin_level, Integer
   attr_accessor :parent_id
 
-  design do
+  design :by_ancestor do
     view :by_ancestor,
             :map => "function(doc) {
               if (doc['couchrest-type'] == 'Location' && doc['hierarchy']){
@@ -30,7 +30,9 @@ class Location < CouchRest::Model::Base
                 }
               }
             }"
+  end
 
+  design :by_parent do
     view :by_parent,
          :map => "function(doc) {
               if (doc['couchrest-type'] == 'Location' && doc['hierarchy']){
@@ -38,7 +40,9 @@ class Location < CouchRest::Model::Base
                 emit(doc['hierarchy'][i], null);
               }
             }"
+  end
 
+  design :by_location_code do
     #Emit the hierarchy in the values to enable some more efficient lookups
     view :by_location_code,
          :map => "function(doc) {
@@ -46,14 +50,27 @@ class Location < CouchRest::Model::Base
                   emit(doc['location_code'], doc['hierarchy']);
                 }
               }"
-
-    view :by_hierarchy
-    view :by_admin_level
-    view :by_admin_level_and_location_code
-    view :by_admin_level_and_disabled
-    view :by_location_code_and_type
-    view :by_type_and_disabled
   end
+
+  # view :by_hierarchy
+
+  design :by_admin_level do
+    view :by_admin_level
+  end
+
+  design :by_admin_level_and_location_code do
+    view :by_admin_level_and_location_code
+  end
+
+  design :by_admin_level_and_disabled do
+    view :by_admin_level_and_disabled
+  end
+
+  design :by_location_code_and_type do
+    view :by_location_code_and_type
+  end
+
+  design
 
   validates_presence_of :placename, :message => I18n.t("errors.models.location.name_present")
   validates_presence_of :admin_level, :message => I18n.t("errors.models.location.admin_level_present"), :if => :admin_level_required?
@@ -99,6 +116,15 @@ class Location < CouchRest::Model::Base
         @locations_by_code[location_code]
       else
         Location.by_location_code(key: location_code).first if location_code.present?
+      end
+    end
+
+    #WARNING: Do not memoize this method.  Doing so will break the Location seeds.
+    def fetch_by_location_codes(location_codes)
+      if @locations_by_code.present?
+        location_codes.map{|l| @locations_by_code[l]}
+      else
+        Location.by_location_code(keys: location_codes)
       end
     end
 
@@ -189,7 +215,7 @@ class Location < CouchRest::Model::Base
     locales.each {|locale| hierarchical_name[locale] = []}
 
     if self.hierarchy.present?
-      locations = Location.by_location_code(keys: self.hierarchy)
+      locations = Location.fetch_by_location_codes(self.hierarchy)
       if locations.present?
         locations.each do |lct|
           locales.each {|locale| hierarchical_name[locale] << lct.send("placename_#{locale}")}

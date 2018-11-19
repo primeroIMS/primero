@@ -16,17 +16,10 @@ class Agency < CouchRest::Model::Base
   property :logo_enabled, TrueClass, :default => false
   property :core_resource, TrueClass, :default => false
   property :agency_code
+  property :services, :type => [String]
 
-  design do
+  design :by_order do
     view :by_order
-
-    view :by_id,
-         :map => "function(doc) {
-                    if (doc['couchrest-type'] == 'Agency')
-                   {
-                      emit(doc['_id'], null);
-                   }
-                }"
   end
 
   validates_presence_of :agency_code, :message => I18n.t("errors.models.agency.code_present")
