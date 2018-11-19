@@ -723,17 +723,6 @@ describe ChildrenController, :type => :controller do
       response.should redirect_to(:action => :index)
     end
 
-    #TODO - duplicates fetch commented out for performance reasons
-    xit "should include duplicate records in the response" do
-      child = mock_child({:module_id => 'primeromodule-cp'})
-      Child.stub(:allowed_formsections).and_return({})
-      Child.stub(:get).with("37").and_return(child)
-      duplicates = [Child.new(:name => "duplicated")]
-      Child.stub(:duplicates_of).with("37").and_return(duplicates)
-      get :show, params: {id: '37'}
-      assigns[:duplicates].should == duplicates
-    end
-
     it 'logs a veiw message' do
       child = build :child, :unique_identifier => "1234"
       controller.stub :render

@@ -96,7 +96,7 @@ module Historical
       hist
     end
 
-    design do
+    design :by_created_by do
       view :by_created_by
     end
   end

@@ -1593,13 +1593,6 @@ id:
         delete_field: "Kolom yang tidak dapat diubah tidak dapat dihapus"
         unique_name: "Nama '%{name}' sudah diambil."
         unique_id: "Id unik '%{unique_id}' sudah diambil."
-      enquiry:
-        presence_of_criteria: "Tolong tambahkan kriteria untuk pertanyaan anda"
-        presence_of_enquirer_name: "Tolong tambahkan nama penanya untuk pertanyaan anda"
-        presence_of_reporter_details: "Tolong tambahkan rincian reporter untuk pertanyaan anda"
-        create_forbidden: "Terlarang"
-        not_found: "Tidak ditemukan"
-        malformed_query: "Permintaan tidak valid"
       role:
         name_present: "Nama tidak boleh kosong"
         permission_presence: "Harap pilih setidaknya satu izin"
