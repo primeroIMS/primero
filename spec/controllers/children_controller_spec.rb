@@ -81,6 +81,10 @@ describe ChildrenController, :type => :controller do
       end
 
       it "GET show" do
+        controller.should_receive(:can?).with(:assign, Child).and_return(false)
+        controller.should_receive(:can?).with(:reassign, Child).and_return(false)
+        controller.should_receive(:can?).with(:assign_within_agency, Child).and_return(false)
+        controller.should_receive(:can?).with(:assign_within_user_group, Child).and_return(false)
         @controller.current_ability.should_receive(:can?).with(:read, @child).and_return(false)
          get :show, params: {id: @child.id}
          response.status.should == 403
