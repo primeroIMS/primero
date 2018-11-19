@@ -352,63 +352,6 @@ describe Incident do
 
   end
 
-
-  context "duplicate" do
-    before do
-      Incident.any_instance.stub(:field_definitions).and_return([])
-      Incident.all.each { |incident| incident.destroy }
-      Incident.duplicates.each { |incident| incident.destroy }
-      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
-    end
-
-    describe "mark_as_duplicate" do
-      it "should set the duplicate field" do
-        incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
-        incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique', 'short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
-        incident_duplicate.mark_as_duplicate incident_active['short_id']
-        incident_duplicate.duplicate?.should be_truthy
-        incident_duplicate.duplicate_of.should == incident_active.id
-      end
-
-      it "should set not set the duplicate field if incident " do
-        incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxxunique')
-        incident_duplicate.mark_as_duplicate "I am not a valid id"
-        incident_duplicate.duplicate_of.should be_nil
-      end
-
-      it "should set the duplicate field" do
-        incident_duplicate = Incident.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
-        incident_active = Incident.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique','short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
-        incident_duplicate.mark_as_duplicate incident_active['short_id']
-        incident_duplicate.duplicate?.should be_truthy
-        incident_duplicate.duplicate_of.should == incident_active.id
-      end
-    end
-
-      xit "should return all duplicate records" do
-        record_active = Incident.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organization' => "stc")
-        record_duplicate = create_duplicate(record_active)
-
-        duplicates = Incident.duplicates_of(record_active.id)
-        all = Incident.all
-
-        duplicates.size.should be 1
-        all.size.should be 1
-        duplicates.first.id.should == record_duplicate.id
-        all.first.id.should == record_active.id
-      end
-
-      it "should return duplicate from a record" do
-        record_active = Incident.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organization' => "stc")
-        record_duplicate = create_duplicate(record_active)
-
-        duplicates = Incident.duplicates_of(record_active.id)
-        duplicates.size.should be 1
-        duplicates.first.id.should == record_duplicate.id
-      end
-
-  end
-
   describe 'organization' do
     before :each do
       Incident.any_instance.stub(:field_definitions).and_return([])

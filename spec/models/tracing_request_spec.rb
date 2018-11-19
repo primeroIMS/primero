@@ -881,8 +881,8 @@ describe TracingRequest do
   describe "primary_photo =" do
 
     before :each do
-      @photo1 = uploadable_photo("capybara_features/resources/jorge.jpg")
-      @photo2 = uploadable_photo("capybara_features/resources/jeff.png")
+      @photo1 = uploadable_photo("spec/resources/jorge.jpg")
+      @photo2 = uploadable_photo("spec/resources/jeff.png")
       User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
       @tracing_request = TracingRequest.new("relation_name" => "Tom", 'created_by' => "me")
       @tracing_request.photo= {0 => @photo1, 1 => @photo2}

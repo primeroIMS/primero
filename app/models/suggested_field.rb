@@ -10,17 +10,19 @@ class SuggestedField   < CouchRest::Model::Base
   property :field, Field
   property :is_used, TrueClass
 
-  design do
+  design
+
+  design :by_is_used do
     view :by_is_used ,
         :map=> "function(doc) {
           if ((doc['couchrest-type'] == 'SuggestedField') ) {
             emit(doc['is_used'], null);
           }
         }"
-
+  end
+  design :by_unique_id do
     # Should unique_id just be the unique id for the record??
     view :by_unique_id
-
   end
 
   def self.mark_as_used suggested_field_id

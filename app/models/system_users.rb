@@ -15,14 +15,7 @@ class SystemUsers < CouchRest::Model::Base
 
   before_save :generate_id, :assign_admin_role
 
-  design do
-    view :all,
-            :map => "function(doc) {
-                if (doc['couchrest-type'] == 'SystemUsers') {
-                    emit(doc['_id'],1);
-                }
-            }"
-  end
+  design
 
   private
 

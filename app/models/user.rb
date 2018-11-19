@@ -226,7 +226,7 @@ class User < CouchRest::Model::Base
     end
 
     def agencies_by_user_list(user_names)
-      Agency.by_id(keys: self.find_by_user_names(user_names).map{|u| u.organization}.uniq).all
+      Agency.all(keys: self.find_by_user_names(user_names).map{|u| u.organization}.uniq).all
     end
 
     def last_login_timestamp(user_name)

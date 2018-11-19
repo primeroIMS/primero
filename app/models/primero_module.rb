@@ -28,6 +28,8 @@ class PrimeroModule < CouchRest::Model::Base
   validates_presence_of :associated_form_ids, :message => I18n.t("errors.models.primero_module.associated_form_ids")
   validates_presence_of :associated_record_types, :message => I18n.t("errors.models.primero_module.associated_record_types")
 
+  design
+
   class << self
     alias :old_all :all
     def all(*args)
