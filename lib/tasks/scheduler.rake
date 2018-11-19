@@ -54,7 +54,7 @@ namespace :scheduler do
 
     [
       CleansingTmpDir, ArchiveBulkExports,
-      ChildRiskLevelFollowUp, RecalculateAge,
+      RecalculateAge,
       OptimizeSolr
     ].each{|job| job.schedule(scheduler)}
 
