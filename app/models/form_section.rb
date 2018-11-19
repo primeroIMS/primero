@@ -947,9 +947,9 @@ class FormSection < CouchRest::Model::Base
         if key == 'fields'
           update_field_translations(value, locale)
         elsif key == 'form_group_name'
-          #TODO - FIX
-          #TODO: get rid of this case once we i18n form_group_name
-          # self.form_group_name = value
+          # Do Nothing...
+          # Form Group Name is now a calculated field based on form_group_id
+          # Form Group Translations are handled through Lookup
         else
           self.send("#{key}_#{locale}=", value)
         end
