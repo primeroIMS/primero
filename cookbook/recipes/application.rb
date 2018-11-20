@@ -5,6 +5,7 @@ include_recipe 'primero::git_stage'
 %w(libxml2-dev
    libxslt1-dev
    imagemagick
+   openjdk-8-jre-headless
    inotify-tools).each do |pkg|
   package pkg
 end
@@ -230,19 +231,4 @@ include_recipe 'primero::nginx_app'
 
 execute 'Reload Puma' do
   command 'systemctl restart puma.service'
-end
-
-bin_dir = ::File.join(node[:primero][:home_dir], 'bin')
-directory bin_dir do
-  action :create
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-end
-
-primeroctl = ::File.join(bin_dir, 'primeroctl')
-cookbook_file primeroctl do
-  source 'primeroctl'
-  owner node[:primero][:app_user]
-  group node[:primero][:app_group]
-  mode '755'
 end

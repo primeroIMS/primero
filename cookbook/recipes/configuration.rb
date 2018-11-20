@@ -86,7 +86,7 @@ if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
   end
 
   execute 'Reload Scheduler' do
-    command 'systemctl restart primero-scheduler'
+    command 'systemctl restart primero_scheduler'
   end
 
   execute 'Reload Backburner' do

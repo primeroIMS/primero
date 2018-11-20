@@ -5,10 +5,36 @@ template '/etc/init/data-mounts.conf' do
   group 'root'
 end
 
+group node[:primero][:app_group] do
+  system true
+end
+
+user node[:primero][:app_user] do
+  system true
+  home node[:primero][:home_dir]
+  gid node[:primero][:app_group]
+  shell '/bin/bash'
+end
+
 directory node[:primero][:log_dir] do
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
   recursive true
+end
+
+bin_dir = ::File.join(node[:primero][:home_dir], 'bin')
+directory bin_dir do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
+primeroctl = ::File.join(bin_dir, 'primeroctl')
+cookbook_file primeroctl do
+  source 'primeroctl'
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '755'
 end
 
 cookbook_file '/usr/local/share/ca-certificates/couch_ca.crt' do
