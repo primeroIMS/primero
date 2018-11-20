@@ -83,6 +83,21 @@ execute 'Autoload RVM on sudo' do
   end
 end
 
+execute 'Set RAILS_ENV' do
+  user node[:primero][:app_user]
+  command "echo 'export RAILS_ENV=production' >> #{bashrc_file}"
+  not_if do
+    ::File.readlines(bashrc_file).grep(/RAILS_ENV/).size > 0
+  end
+end
+
+cookbook_file ::File.join(node[:primero][:home_dir], 'bin', 'reset_config_to') do
+  source 'reset_config_to'
+  user node[:primero][:app_user]
+  group node[:primero][:app_group]
+  mode '0744'
+end
+
 railsexpress_patch_setup 'prod' do
   user node[:primero][:app_user]
   group node[:primero][:app_group]
