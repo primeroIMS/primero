@@ -41,6 +41,8 @@ class FormSection < CouchRest::Model::Base
   property :mobile_form, TrueClass, :default => false
   property :header_message_link, String, :default => ""
 
+  attr_accessor :module_name
+
   design
 
   design :by_unique_id do
@@ -131,11 +133,10 @@ class FormSection < CouchRest::Model::Base
   before_save :sync_form_group
   after_save :recalculate_subform_permissions
 
-  def form_group_name
-    return self.name if self.form_group_id.blank?
-
-    #TODO - pass in locale via options hash
-    Lookup.form_group_name(self.form_group_id, self.parent_form)
+  def form_group_name(opts={})
+    locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
+    return self.send("name_#{locale}") if self.form_group_id.blank?
+    Lookup.form_group_name(self.form_group_id, self.parent_form, locale: locale)
   end
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
@@ -502,6 +503,7 @@ class FormSection < CouchRest::Model::Base
       form_section[:order] = 999
       form_section[:order_form_group] = 999
       form_section[:order_subform] = 0
+      form_section[:module_name] = module_name
 
       fs = FormSection.new(form_section)
       fs.unique_id = "#{module_name}_#{fs.name}".parameterize.underscore
@@ -901,7 +903,7 @@ class FormSection < CouchRest::Model::Base
   end
 
   def is_violations_group?
-    #TODO - pass english locale to form_group_name
+    #TODO MRM - pass english locale to form_group_name and/or have a better way to identify Violations
     self.form_group_name == 'Violations'
   end
 
@@ -933,7 +935,7 @@ class FormSection < CouchRest::Model::Base
     #If added manually by the user, form_group_id at this point is just what the user typed in
     #Use that value for the form group description.  Parameterize it to use as the id
     new_id = self.form_group_id.parameterize(separator: '_')
-    Lookup.add_form_group(new_id, self.form_group_id, self.parent_form)
+    Lookup.add_form_group(new_id, self.form_group_id, self.parent_form, self.module_name)
     self.form_group_id = new_id
   end
 
@@ -944,13 +946,12 @@ class FormSection < CouchRest::Model::Base
   def update_translations(form_hash={}, locale)
     if locale.present? && Primero::Application::locales.include?(locale)
       form_hash.each do |key, value|
+        # Form Group Name is now a calculated field based on form_group_id
+        # Form Group Translations are handled through Lookup
+        # Using elsif to exclude form_group_name in legacy translation files that may still include form_group_name
         if key == 'fields'
           update_field_translations(value, locale)
-        elsif key == 'form_group_name'
-          # Do Nothing...
-          # Form Group Name is now a calculated field based on form_group_id
-          # Form Group Translations are handled through Lookup
-        else
+        elsif key != 'form_group_name'
           self.send("#{key}_#{locale}=", value)
         end
       end

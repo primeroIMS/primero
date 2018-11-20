@@ -123,7 +123,7 @@ module FieldsHelper
   def field_keys(subform_name, subform_index, field_name, form_group_name)
     field_key = []
 
-    #TODO - fix
+    #TODO MRM fix - There should be a better way to handle Violations rather than relying on the form_group_name
     # if form_group_name.present? and form_group_name == "Violations"
     #   field_key << form_group_name.downcase
     # end
@@ -143,6 +143,7 @@ module FieldsHelper
     shared_subform = field.subform_section.shared_subform.downcase if field.subform_section.try(:shared_subform)
     shared_subform_group = field.subform_section.shared_subform_group.downcase if field.subform_section.try(:shared_subform_group)
 
+    #TODO investigate use of form_group_name here...
     # needed for all derived subforms
     if object.try(field.name).present?
       subforms_count = object.try(field.name).count
