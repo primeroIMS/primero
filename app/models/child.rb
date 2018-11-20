@@ -88,6 +88,8 @@ class Child < CouchRest::Model::Base
     super *args
   end
 
+  design
+
   design :by_date_of_birth do
     view :by_date_of_birth
   end
