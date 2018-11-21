@@ -58,7 +58,7 @@ git node[:primero][:config_dir] do
   ssh_wrapper git_wrapper_path
 end
 
-if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
+if node[:primero][:seed][:enabled]
   reset_script = ::File.join(node[:primero][:home_dir], 'bin', 'reset_config_to')
   config_script = node[:primero][:seed][:script]
   json_file = node[:primero][:seed][:bundle]
@@ -72,11 +72,13 @@ if node[:primero][:seed][:enabled] &&  !::File.exists?(no_reseed_file)
         'HOME' => node[:primero][:home_dir],
         'RAILS_ENV' => 'production'
       })
+      not_if { ::File.exists?(no_reseed_file) }
     end
   elsif json_file
     json_file_path = node[:primero][:config_dir] + json_file
     execute_bundle 'load-config-bundle' do
       command "rake db:data:import_config_bundle[#{json_file_path}]"
+      not_if { ::File.exists?(no_reseed_file) }
     end
   end
 
