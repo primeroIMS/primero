@@ -8,7 +8,7 @@ default[:primero].tap do |p|
   p[:config_dir] = File.join(node[:primero][:home_dir], 'configuration')
   p[:log_dir] = File.join(node[:primero][:home_dir], 'logs')
   p[:daemons_dir] = File.join(node[:primero][:app_dir], 'daemons')
-  p[:bin_dir] = File.join(node[:primero][:app_dir], 'bin')
+  p[:bin_dir] = File.join(node[:primero][:home_dir], 'bin')
   p[:app_user] = 'primero'
   p[:app_group] = 'primero'
   p[:solr_user] = 'solr'
