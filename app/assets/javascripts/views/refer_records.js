@@ -9,16 +9,17 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     'click .referral_index_action' : 'refer_records',
     'click .referral_show_action' : 'refer_records_empty',
     'change #referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
-    'change #referral-modal select#existing_user' : 'toggle_other_user',
+    'change #referral-modal select#existing_user_referral' : 'toggle_other_user',
     'change #referral-modal input#other_user' : 'toggle_existing_user',
     'click #referral-modal input[type="submit"]' : 'close_referral',
     'change #referral-modal select.existing_user_filter' : 'clear_user_selection'
   },
 
   initialize: function(){
-    _self = this;
-    $("#existing_user_referral").on('chosen:showing_dropdown', function(){
-      _self.load_existing_users();
+    var self = this;
+    $("#referral-modal").find("select#existing_user_referral").on('chosen:showing_dropdown', function(){
+      self.clear_user_selection();
+      self.load_existing_users();
     });
   },
 
@@ -28,7 +29,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $("#referral-modal").find("#existing_user_hidden").attr("disabled","disabled");
 
     var $referral_button = $(event.target)
-    this.select_user_location($referral_button);
+    this.select_user_location($referral_button.data('user_location'));
   },
 
   refer_records: function(event) {
@@ -110,7 +111,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     e.preventDefault();
     var $referral_modal = $('#referral-modal');
     var password = $referral_modal.find('#password').val();
-    var local_user = $referral_modal.find("#existing_user").val();
+    var local_user = $referral_modal.find("#existing_user_referral").val();
     var remote_user = $referral_modal.find('#other_user').val();
     var is_remote = $referral_modal.find('#is_remote').prop('checked');
     var $localUserErrorDiv = $referral_modal.find(".local_user_flash");
@@ -181,8 +182,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     })
   },
 
-  select_user_location: function($referral_button){
-    var user_location = $referral_button.data('user_location');
+  select_user_location: function(user_location){
     var $location_select = $("select#location");
     $location_select.val(user_location)
     $location_select.trigger("chosen:updated");
@@ -191,7 +191,8 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
   clear_user_selection: function(){
     var $existing_user_select = $('select#existing_user_referral');
     $existing_user_select.val('');
-    $existing_user_select.trigger("chosen:updated");
+    $existing_user_select.trigger('change');
+    $existing_user_select.trigger('chosen:updated');
   }
 
 });
