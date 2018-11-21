@@ -2071,6 +2071,8 @@ en:
     search:
       rejected: "Rejected"
       in_progress: "In Progress"
+    agency_label: "Agency"
+    location_label: "Location"
 
   request_transfer:
     success: "Request transfer sent"
