@@ -153,6 +153,7 @@ module FieldsHelper
     elsif object[shared_subform].present?
       object[shared_subform].count
     elsif form_group_name.present? && object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
+      #TODO MRM - This looks MRM / Violations related.  Clean up with MRM
       subforms_count = object[form_group_name.downcase][field.name].count
     elsif object[shared_subform_group].present? && object[shared_subform_group][shared_subform].present?
       subforms_count = object[shared_subform_group][shared_subform].count

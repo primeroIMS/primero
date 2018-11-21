@@ -136,14 +136,11 @@ class FormSection < CouchRest::Model::Base
   def form_group_name(opts={})
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     return self.send("name_#{locale}") if self.form_group_id.blank?
-    Lookup.form_group_name(self.form_group_id, self.parent_form, locale: locale)
+    Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name, locale: locale)
   end
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
-    #TODO: This is temporary. Eventually form_group_name will be localized
-    #TODO
-    # lh['form_group_name'] = self.form_group_name if self.form_group_name.present?
     fldz = {}
     self.fields.each { |f| fldz[f.name] = f.localized_property_hash locale if (show_hidden_fields || f.visible?)}
     lh['fields'] = fldz
@@ -427,8 +424,9 @@ class FormSection < CouchRest::Model::Base
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
       allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
-      allowed_form_ids.present? ?
-          FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
+      forms = allowed_form_ids.present? ? FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
+      forms.each{|f| f.module_name = primero_module.name}
+      forms
     end
     memoize_in_prod :get_permitted_form_sections
 
@@ -929,7 +927,7 @@ class FormSection < CouchRest::Model::Base
     return if self.form_group_id.blank?
 
     #If form_group already exists, nothing to do
-    form_group = Lookup.form_group_name(self.form_group_id, self.parent_form)
+    form_group = Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name)
     return if form_group.present?
 
     #If added manually by the user, form_group_id at this point is just what the user typed in
