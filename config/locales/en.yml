@@ -1066,6 +1066,8 @@ en:
       view_photo: "View Photo"
       matching_configuration: "Matching Configuration"
       add_note: "Add Notes"
+      assign_within_agency: "Assign within agency"
+      assign_within_user_group: "Assign within user group"
 
   forms:
     label: "Forms"
