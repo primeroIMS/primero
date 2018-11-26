@@ -1,7 +1,7 @@
 <tr>
   <td id="child_<%= record.id %>" class="id_column">
     <% if can?(:write, record) %>
-    <%= link_to record.name, edit_agency_path(record), id: record.id, class: 'id_link' %>
+    <%= link_to record.name, agency_path(record), id: record.id, class: 'id_link' %>
     <% else %>
     <%= record.name %>
     <% end %>
