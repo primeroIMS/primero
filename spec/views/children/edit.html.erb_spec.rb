@@ -77,7 +77,6 @@ describe "children/edit.html.erb" do
     controller.should_receive(:can?).with(:export, Child).and_return(false)
     controller.should_receive(:can?).with(:export_custom, Child).and_return(false)
     controller.should_receive(:can?).with(:referral, Child).and_return(false)
-    controller.should_receive(:can?).with(:reassign, Child).and_return(false)
     controller.should_receive(:can?).with(:transfer, Child).and_return(false)
     controller.should_receive(:can?).with(:enable_disable_record, Child).and_return(false)
     controller.should_receive(:can?).with(:sync_mobile, Child).and_return(false)

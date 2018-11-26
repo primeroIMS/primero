@@ -15,7 +15,7 @@
         <% end %>
         <% if model == Child %>
           <%= render 'transitions/button', type: Transition::TYPE_REFERRAL %>
-          <% if can?(:reassign, controller.model_class) %>
+          <% if @user_can_assign %>
             <%= render 'transitions/button', type: Transition::TYPE_REASSIGN %>
           <% end %>
           <%= render 'transitions/button', type: Transition::TYPE_TRANSFER %>
