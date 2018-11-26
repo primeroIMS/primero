@@ -2,25 +2,25 @@
   <%= t("agencies.label") %>
 <% end %>
 
-<% content_for :record_sub_nav_controls do %>
-  <% if can?(:create, Agency) %>
-    <%= link_to content_tag(:span, t("agencies.actions.create"), :class => 'create_agencies'), new_agency_path, :class => 'button' %>
-  <% end %>
-<% end %>
-
 <div class="page-content-new row" data-equalizer>
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
     <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'agencies'} %>
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
-    <div class="side-tab-content" data-equalizer-watch>
-      <%= render partial: 'shared_configuration_resource/table_disabled_filter'%>
-      <%= render partial: 'shared_configuration_resource/table',
-                 locals: {objects: @agencies,
-                          object_class: Agency,
-                          heading_keys: ['agency.name', 'description'],
-                          properties: ['name', 'description'],
-                          hide_links: [:destroy]} %>
-    </div>
+    <%= render({ partial: 'record_shared/list_view_table',
+                 locals: {
+                   model: Agency,
+                   record: 'agency',
+                   collection: @agencies,
+                   opts: {
+                     display_actions: false,
+                     display_filter: true,
+                     display_saved_search: false,
+                     display_create: true
+                   }
+                 }
+               })
+%>
+
   </div>
 </div>

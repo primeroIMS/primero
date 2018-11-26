@@ -796,6 +796,10 @@ en:
       update: "Update"
       create: "Create"
       delete: "Delete"
+    filter_by:
+      status: "Status"
+      enabled: "Enabled"
+      disabled: "Disabled"
     messages:
       confirmation: "Are you sure you want to delete this agency? Deletion can not be undone. Click OK to delete the agency."
     select_prompt: "Please select an agency"
@@ -2273,6 +2277,9 @@ en:
         other: "Displaying <b>all %{count}</b> %{model}"
       multi_page_html: "Displaying %{model} <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
     models:
+      agency:
+        one: "Agency"
+        other: "Agencies"
       report:
         one: "Report"
         other: "Reports"

@@ -35,7 +35,8 @@ _primero.Router = Backbone.Router.extend({
     'matching_configurations/:id/edit': 'matchingConfigurationPage',
     'agencies/:id/edit':'agencyForm',
     'agencies/new':'agencyForm',
-    'agencies/:id':'agencyForm'
+    'agencies/:id':'agencyForm',
+    'agencies':'recordIndexPage'
   },
 
   initialize: function() {
