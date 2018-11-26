@@ -57,6 +57,35 @@ class Lookup < CouchRest::Model::Base
       self.values(lookup_id, lookups, opts).map{|option| [option['display_text'], option['id']]}
     end
 
+    def form_groups(parent_form, module_name, opts={})
+      return [] if parent_form.blank? || module_name.blank?
+      Lookup.values_for_select("lookup-form-group-#{module_name.downcase}-#{parent_form}")
+    end
+
+    def form_group_name(form_group_id, parent_form, module_name, opts={})
+      lookup_ids = module_name.present? ? ["lookup-form-group-#{module_name.downcase}-#{parent_form}"] : form_group_lookup_mapping(parent_form)
+      return '' if lookup_ids.blank?
+      locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
+      lookups = Lookup.all(keys: lookup_ids).all
+      lookups.present? ? lookups.map{|l| l.lookup_values(locale)}.flatten.select{|v| v['id'] == form_group_id}.try('first').try(:[], 'display_text') : ''
+    end
+    memoize_in_prod :form_group_name
+
+    def add_form_group(form_group_id, form_group_description, parent_form, module_name, opts={})
+      return if parent_form.blank?
+      lookup_ids = module_name.present? ? ["lookup-form-group-#{module_name.downcase}-#{parent_form}"] : form_group_lookup_mapping(parent_form)
+      return if lookup_ids.blank?
+
+      lookup_ids.each do |lkp_id|
+        lookup = Lookup.get(lkp_id)
+        if lookup.present? && lookup.lookup_values_en.map{|v| v['id']}.exclude?(form_group_id)
+          new_values = lookup.lookup_values_en + [{id: form_group_id, display_text: form_group_description}.with_indifferent_access]
+          lookup.lookup_values_en = new_values
+          lookup.save
+        end
+      end
+    end
+
     def display_value(lookup_id, option_id, lookups = nil, opts={})
       opts[:locale] = I18n.locale
       self.values(lookup_id, lookups, opts).select{|l| l["id"] == option_id}.first.try(:[], 'display_text')
@@ -86,6 +115,23 @@ class Lookup < CouchRest::Model::Base
       else
         Rails.logger.error "Error importing translations: locale not present"
       end
+    end
+
+    private
+
+    def form_group_lookup_mapping(parent_form)
+      lookup_ids = []
+      case parent_form
+        when 'case'
+          lookup_ids = ['lookup-form-group-cp-case', 'lookup-form-group-gbv-case']
+        when 'tracing_request'
+          lookup_ids = ['lookup-form-group-cp-tracing-request']
+        when 'incident'
+          lookup_ids = ['lookup-form-group-cp-incident', 'lookup-form-group-gbv-incident']
+        else
+          #Nothing to do here
+      end
+      lookup_ids
     end
   end
 

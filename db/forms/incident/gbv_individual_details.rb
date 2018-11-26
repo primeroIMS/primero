@@ -90,7 +90,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 50,
   order: 15,
   order_subform: 0,
-  form_group_name: "GBV Individual Details",
+  form_group_id: "gbv_individual_details",
   editable: true,
   mobile_form: true,
   fields: gbv_individual_details_fields,

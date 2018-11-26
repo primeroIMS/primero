@@ -14,6 +14,7 @@ FormSection.create_or_update_form_section({
   "visible" => false,
   :order => 1000,
   :order_form_group => 1000,
+  :form_group_id => 'other_reportable_fields',
   "editable" => true,
   :fields => fields,
   "name_en" => "Other Reportable Fields",

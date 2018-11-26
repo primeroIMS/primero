@@ -30,7 +30,6 @@ describe FieldsController do
 
     it "should render edit form section page if field has errors" do
       FormSection.stub(:add_field_to_formsection)
-      FormSection.stub(:list_form_group_names)
       expect(Field).to receive(:new).and_return(@field)
       @field.stub(:errors){["errors"]}
       post :create, params: {:form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"}
@@ -72,7 +71,6 @@ describe FieldsController do
       field = double('field', :name => 'field1')
       @form_section.stub(:fields).and_return([field])
       FormSection.stub(:get_by_unique_id).with('unique_id').and_return(@form_section)
-      FormSection.stub(:list_form_group_names)
       get :edit, params: {:form_section_id => "unique_id", :id => 'field1', :module_id => "test_module"}
       expect(assigns[:body_class]).to eq("forms-page")
       expect(assigns[:field]).to eq(field)
@@ -139,7 +137,6 @@ describe FieldsController do
     it "should display errors if field could not be saved" do
       field_with_error = double("field", :name => "field", :attributes= => [], :errors => ["error"])
       FormSection.stub(:get_by_unique_id).and_return(double("form_section", :parent_form => 'case', :fields => [field_with_error], :save => false))
-      FormSection.stub(:list_form_group_names)
       put :update, params: { :id => "field", :form_section_id => "unique_id", :module_id => "primeromodule-cp",
           :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text" }}
 

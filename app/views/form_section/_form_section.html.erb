@@ -6,7 +6,7 @@
   <div class="clearfix"></div>
   <%= render 'form_section/error_message', formObject: formObject %>
 
-  <% if form_section.form_group_name.present? && form_section.form_group_name == 'Violations' %>
+  <% if form_section.is_violations_group? %>
     <div class="row empty_violations"><%= t('incident.empty_violation') %></div>
     <div class="row add_violations_message"><%= t('incident.add_violations') %></div>
   <% end %>
