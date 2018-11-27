@@ -1,9 +1,13 @@
 bn:
+  valid: "সঠিক "
+  invalid: "সঠিক নয়"
+  offline: 'application অফ্ লাইন '
+  name: "নাম "
   home:
     fr: "Français"
     en: "English"
     ar: "العربية"
-    ar-LB: "العربية (اللبنانية)"
+    ar-LB: "عربية (اللبنانية)"
     zh: "中文"
     es: "Español"
     ru: "Русский"
@@ -13,3 +17,2091 @@ bn:
     my: "ဗမာစာ"
     th: "ไทย"
     ku: "کوردی"
+    dashboard: "ডেসবোর্ড "
+    welcome: "প্রিমেরোতে স্বাগতম "
+    current_time_zone: "বর্তমান স্থানীয় সময় "
+    language: "ভাষা "
+    view_records: "সংরক্ষিত নথি দেখা"
+    users: "users ব্যবস্থাপনা "
+    manage_system_users: "সার্ভার সিঙ্ক্রোনাইজেশন ব্যবহারকারীদের ব্যবস্থাপনা "
+    records_need_attention: "তমানভুক্ত তথ্যর প্রতি গুরুত্ব দেয়া "
+    label: "Home"
+  clear: "মুছে ফেলুন "
+  messages:
+    delete_item: |
+        সতর্কতা: আপনি যদি চালিয়ে যান, তবে এই ডাটার সাথে সম্পর্কিত যে কোনও তথ্য হারিয়ে যাবে।
+        আপনি অনিশ্চিত থাকলে, তার পরিবর্তে ক্ষেত্রটি অক্ষম করুন।
+        ফিরে যেতে Cancel এ Click করুন। ক্ষেত্র মুছে ফেলার জন্য OK তে Click করুন।
+    move_item: "আপনি এই ক্ষেত্রটি অন্য ফর্ম বিভাগে ({{selection_key}}) সরাতে চলেছেন। এটা কি ঠিক আছে?"
+    enter_valid_date: "একটি বৈধ বিন্যাসে তারিখ প্রবেশ করুন (dd-mmm-yyyy)"
+    enter_valid_field_value: "একটি বৈধ ক্ষেত্র মান লিখুন দয়া করে"
+    enter_valid_number_in_tally: "%{field}%{tally}অবশ্যই বৈধ নাম্বার হবে "
+    enter_valid_number: "%{field}অবশ্যই বৈধ নাম্বার হবে "
+    more_than_200_chars: "%{field} 200 শব্দের বেশি হতে পারবে না "
+    no_more_than_x_chars: "%{field}  %{length} এর চেয়ে বেশি হতে পারে না "
+    valid_search_criteria: "দয়া করে অন্তত একটি নির্ণায়ক খুজুন "
+    show_hide_forms: "আপনি প্রদর্শন / লুকান করতে চান ফর্ম (গুলি) নির্বাচন করুন"
+    show_forms: "আপনি কি এই ফর্মগুলি (গুলি) দৃশ্যমান করতে চান?"
+    hide_forms: "আপনি কি এই ফর্মটি (গুলি) লুকাতে চান?"
+    primary_photo_changed: "প্রাথমিক ছবি পরিবর্তন "
+    select_photo: "দয়া করে একটি ছবি নির্দিষ্ট করুন "
+    are_you_sure: "আপনি কি নিশ্চিত আপনি চান "
+    this_user: "এই ব্যবহারকারী?"
+    keep_working: "হ্যা, কাজ করতে থাকুন "
+    logoff: "না, বের হয়ে আসা "
+    record_navigation_confirmation_message: "ওকে ক্লিক করা হলে কোনও অসংরক্ষিত পরিবর্তন বাতিল হয়ে হবে এবং অনুরোধকৃত পৃষ্ঠাটিতে নেভিগেট করা হবে। রেকর্ড ফিরে পেতে বাতিল ক্লিক করুন।"
+    confirmation_message: "ঠিক আছে ক্লিক করলে কোনও অসংরক্ষিত পরিবর্তন বাতিল হবে এবং তালিকা দর্শনে ফিরে যাবে। রেকর্ড ফিরে আসতে বাতিল ক্লিক করুন।"
+    cancel_confirmation: "আপনি কি নিশ্চিত আপনি বাতিল করতে চান??"
+    logoff_warning_prefix: "আপনি লগ ইন করা হবে"
+    logoff_warning_suffix: "দ্বিতীয় "
+    logoff_confirmation: "আপনি কি আপনার সেশন চালু রাখতে চান?"
+    warning: |
+        সতর্কতা: আপনি যদি চালিয়ে যান, তবে এই ক্ষেত্রের সাথে সম্পর্কিত যে কোনও তথ্য হারিয়ে যাবে।
+        আপনি অনিশ্চিত থাকলে, তার পরিবর্তে ক্ষেত্রটি অক্ষম করুন।
+        ফিরে যেতে Cancel এ Click করুন। ক্ষেত্র মুছে ফেলার জন্য OK তে  Click করুন।
+    enter_each_in_one_line: "নতুন লাইনের প্রতিটি বিকল্প লিখুন "
+    record_count: "%{total} এর নথি  %{start}  দিকে%{end}  প্রদর্শন "
+    form_sections_help_text_for_edit: "বিস্তারিত যোগ করার জন্য সম্পাদনা %{form_section_name} বাটনে ক্লিক করুন"
+    form_sections_case_update_alert: "একটি নতুন %{form_section_name} কারণ %{alert_time}তে যুক্ত করা হয়েছিল "
+    service_provision: "সেবার বিধান "
+    enable_disable_record: "OK ক্লিক করলে এই রেকর্ডের %{action} অবস্থা পরিবর্তন হবে"
+    reopen_record: "   OK ক্লিক করলে এই ক্ষেত্রে স্ট্যাটাসটি খুলবে"
+    flag_multiple_records_error_message: "রেকর্ড পতাকা চেষ্টা করার সময় একটি ত্রুটি ছিল"
+    record_not_flagged_message: "%{short_id} পতাকা নয় "
+    invalid_date_filter_value: "কিছু ফিল্টার একটি অ বৈধ তারিখ মান কারণে প্রয়োগ করা হয় নি। তারিখ ফিল্টার মান চেক করুন"
+    scroll_up: "আরো দেখতে স্ক্রোল করুন"
+    scroll_down: "আরো দেখতে নিচে স্ক্রোল করুন"
+    forms_export: "এই রপ্তানি উপলব্ধ ফর্ম এবং ফর্ম ক্ষেত্রের একটি স্প্রেডশীট প্রদান করে। এই স্প্রেডশীটটি বাস্তবায়নের জন্য ফর্ম কনফিগারেশনের ম্যাপিং তৈরির জন্য ব্যবহৃত হয়। মনে রাখবেন এই স্প্রেডশীটটি প্রিমেরোতে ডেটা আমদানি করতে ব্যবহার করা যাবে না।"
+    string_sources_failed: "কিছু ক্ষেত্র লোড করতে ব্যর্থ হয়েছে, সমস্ত ক্ষেত্র লোড করতে page টি refresh করুন।"
+    system_settings_failed: "System Settings ব্যর্থ হয়েছে load হতে।"
+    approval_alert: "%{form_name}এর Approval এখন pending এ আছে "
+    field_change_alert: "%{form_name}এই form টি %{date}তারিখে service provider দ্বারা update"
+    transfer_request_alert: "%{agency}তে %{date}তারিখে %{user}দ্বারা একটি নতুন Transfer Request করা হয়েছে "
+  data_base:
+    delete_all_documents: "সমস্ত সন্তানের নথি মুছে ফেলা হয়েছে"
+    operation_not_allowed: "%{rails_env} পরিবেশে Operation এর অনুমতি নেই "
+  login:
+    details: "Login details "
+    username: "User Name "
+    notification:
+      enter_user_name: 'user name লিখুন '
+      users_requested_password_reset: "এই ব্যবহারকারীরা password reset এর জন্য অনুরোধ করেছে। অবিলম্বে তাদের সাথে যোগাযোগ করুন।"
+      users_does_not_exist: "%{user}at %{created}। এই ব্যবহারকারীর নামটি বর্তমানে সিস্টেমে নেই। "
+      at: "at %{created}"
+      cannot_remember_username: "আপনি যদি আপনার ব্যবহারকারীর নামটি মনে করতে না পারেন, তবে administrator কে যে কোনও নাম এবং তথ্যটি  দেন যাতে সনাক্ত করতে এবং আপনার সাথে যোগাযোগ করতে ব্যবহার করতে পারেন।"
+    password:
+      label: "সুরক্ষা পাসওয়ার্ড"
+      reset: "Request Password Reset"
+      re_enter: "Re-enter password"
+      success_notice: "ধন্যবাদ । RapidFTR administrator শীঘ্রই আপনার সাথে যোগাযোগ করবে। যদি সম্ভব হয়, সরাসরি admin এর সাথে যোগাযোগ করুন "
+      successfully_hidden: "পাসওয়ার্ড অনুরোধ notification সফলভাবে hide  করা হয়েছিল। "
+    label: "প্রবেশ করা "
+  header:
+    contact: "Contact & Help "
+    logged_in_as: "Logged in as:"
+    welcome: "স্বাগতম "
+    logout: "Logout"
+    my_account: " আমার Account"
+    system_settings: "System Settings "
+  navigation:
+    home: "HOME"
+    cases: "কেস সমূহ "
+    tracing_request: "TRACING অনুরোধ"
+    incidents: "ঘঠনাসমুহ"
+    potential_match: "মিল সমুহ"
+    children: "শিশু"
+    forms: "FORM সমুহ"
+    lookups: "LOOKUPS"
+    users: "SETTINGS"
+    replications: "SYNC"
+    reports: "REPORTS"
+    advanced_search: "Advanced অনুসন্ধান"
+    go: "যাওয়া"
+    search: "অনুসন্ধান "
+    locations: "অবস্থানসমুহ"
+    bulk_exports: "BULK EXPORTS"
+    tasks: "কাজ সমুহ "
+    audit_logs: "Audit Logs "
+    matching_configuration: "মিল"
+  buttons:
+    delete: "মুছন "
+    disable: "অক্ষম"
+    enable: "সক্ষম "
+    save: "সংরক্ষন করন "
+    save_and_add_service_provision: "সংরক্ষণ করুন এবং সেবা বিধান যোগ করুন"
+    login: "Log in"
+    reunite: "পুন: সংযুক্ত করা"
+    edit: "সম্পাদন করা "
+    back: "পেছনে"
+    submit: "জমা দেওয়া"
+    export: "রপ্তানি"
+    import: "আমদানি"
+    change_password: "পাসওয়ার্ড পরিবর্তন "
+    enable_photo_wall: "ছবি প্রাচীর সক্রিয় করুন"
+    disable_photo_wall: "ছবির প্রাচীর নিষ্ক্রিয় করুন"
+    create_incident: "ঘটনা তৈরি করুন"
+    create_case: "কেস তৈরি করুন "
+    guiding_questions: "নির্দেশিকা প্রশ্ন"
+    filter_label: "Filter:"
+    filter: "Filter প্রয়োগ করা "
+    filter_clear: "Filter মুছে ফেলা "
+    flag_records: "নিশান "
+    flag_model: "নিশান %{model}"
+    unflag_model: "নিশানামুক্ত %{model}"
+    unflag_model_history: "নিশান ইতিহাস %{model}"
+    ok: 'ঠিক '
+    cancel: "বাতিল "
+    edit_subform: ' Subform সম্পাদনা করুন'
+    create_new_record: "নতুন তৈরি %{model}"
+    bundle_import: "Configuration Bundle"
+    bundle_export: "Configuration Bundle"
+    transfer: "হস্তান্তর %{model}"
+    reassign: "নিযুক্ত করা %{model}"
+    referral: "Refer %{model}"
+    mark_for_mobile: "মোবাইলের জন্য Mark করা "
+    unmark_for_mobile: "মোবাইলের জন্য Un-mark করা "
+    approve_bia: "BIA অনুমোদন "
+    approve_case_plan: "Case Plan অনুমোদন "
+    sort_by_tr: "ট্রেইজিং অনুরোধ"
+    sort_by_case: "কেস সমুহ "
+    approve_closure: "Closure অনুমোদন "
+    view_flags_history: "History পরিদর্শন "
+    request_approval: "Request অনুমোদন "
+    approvals: "অনুমোদন সমুহ "
+    accept: "গ্রহন করা "
+    reject: "প্রত্যাখ্যান করা "
+    done: "করা হয়েছে "
+    remove_referrals: " বাদ দেয়া referral সমুহ "
+    view: "পরিদর্শন "
+    request_transfer: "অনুমতি হস্তান্তর "
+    add_note: "নোট সংযোজন করুন "
+  placeholders:
+    subforms: "%{form}details যুক্ত করার জন্য edit button এ  Click করুন "
+    editing_subforms: "%{form} সম্পর্কে details যুক্ত করার জন্য ADD button এ Click করুন "
+  cases:
+    label: "কেস সমুহ "
+    register_new_case: "নতুন কেস "
+    export: "রপ্তানি"
+    filter_by:
+      flag: "Flagged"
+      flag_label: "Flagged?"
+      mobile: "মোবাইল"
+      mobile_label: "mobile এর জন্য চিহ্নিত করা? "
+      social_worker: "ক্ষেত্র / কেস / সামাজিক কর্মী"
+      my_cases: "আমার কেস "
+      workflow: "ওয়ার্কফ্লো দ্বারা কেস"
+      no_activity: "কোন কাজ নেই "
+      3month_inactivity: " 3+ মাসের জন্য "
+      referred_cases: "কেইসগুলো আমার কাছে রেফার করা হয়েছিল "
+      agency: "এজেন্সি "
+      status: "স্টাটাস "
+      age_range: "বয়স সীমানা "
+      sex: "লিঙ্গ "
+      male: "পুরুষ "
+      female: "মহিলা "
+      displacement_status: "স্থানচ্যুতি স্থিতি"
+      protection_status: "সুরক্ষা অবস্থা"
+      urgent_protection_concern: "জরুরি সুরক্ষা জানানো "
+      protection_concerns: "সুরক্ষা অবগত করা "
+      type_of_risk: "ঝুকির ধরণ "
+      risk_level: "ঝুকির মাত্রা "
+      current_location: "বর্তমান অবস্থান "
+      district: "বিভাগ "
+      registration_date: "রেজিষ্ট্রেশন তারিখ "
+      case_open_date: "কেইস  খুলার তারিখ "
+      record_state: "রেকর্ড স্টেট "
+      photo: "ছবি "
+      photo_label: "ছবি আছে? "
+      by_date: 'তারিখ দ্বারা '
+      date: 'তারিখ '
+      approvals:
+        pending: "মুলতুবি অনুমোদন"
+        approved: "অনুমোদিত "
+        rejected: "বাতিলকৃত "
+    clear_filter: "মুছে ফেলুন "
+    apply_filter: "আবেদন "
+    save_filter: "সংরক্ষন করন "
+    my_filters: "আমার ফিল্টার "
+    order_by:
+      most_recently: "সাম্প্রতিক "
+      label: "আদেশক্রমে"
+      name: "নাম "
+    flag_summary: "পতাকা সারাংশ"
+    filer_by:
+      all: "সব "
+      active: "সক্রিয় "
+    hidden_text_field_text: "*****"
+    hide_name: "লুকানো নাম "
+    view_name: "নাম দেখান "
+    ok: "ঠিক "
+    hide_name_error: "আপনার পরিবর্তন সংরক্ষণ করার সময় একটি ত্রুটি ঘটেছে। অনুগ্রহপূর্বক আবার চেষ্টা করুন"
+    quick_view:
+      tracing_message: "দ্রষ্টব্য: ইনকুইয়ারের সাথে এই সন্তানের খোঁজে সিস্টেমে একটি মিল আছে। সন্তানের ইচ্ছা থাকলে আরও কর্মের জন্য এই রেকর্ডের সামাজিক কর্মীর সাথে যোগাযোগ করুন"
+  children:
+    label: "শিশু "
+    register_new_child: "নতুন শিশু নিবন্ধন  "
+    export: "রপ্তানি"
+    selectable_date_options:
+      registration_date: 'নিবন্ধনের তারিখ '
+      assessment_requested_on: 'পর্যালোচনার তারিখ'
+      date_case_plan_initiated: 'কেইস প্লানের তারিখ '
+      closure_approved_date: 'কেইস বন্ধের তারিখ '
+      created_at: 'কেইস খোলার তারিখ '
+    filter_by:
+      label: "Filter by"
+      all: "সব "
+      active: "সক্রিয় "
+      reunited: "পুনরায় একত্রিত হন"
+      flag: "পতাকাঙ্কিত"
+      created: "তৈরীকৃত "
+    order_by:
+      most_recently: "সাম্প্রতিক "
+      label: "আদেশক্রমে"
+      name: "নাম "
+    flag_summary: "পতাকা সারাংশ"
+    filer_by:
+      all: "সব "
+      active: "সক্রিয় "
+      reunited: "পুনরায় একত্রিত হন"
+      flagged: "পতাকাঙ্কিত"
+  child:
+    flagged_by: "পতাকাঙ্কিত দ্বারা "
+    last_updated: "শেষ আপডেট "
+    registered_by: "দ্বারা নিবন্ধিত "
+    mark_as_duplicate: "ছাপ সদৃশ "
+    flag_record: "পতাকা "
+    flag_label: "নিশান "
+    flag_reason: "নিশান কারণ "
+    flag_reason_date: "তারিখ (অনাবশ্যক)"
+    unflag_record: "ফ্ল্যাগমুক্ত নথি "
+    unflag_reason: "ফ্ল্যাগমুক্ত কারণ "
+    unflagged_label: "কারণ "
+    unflag_date: "তারিখ "
+    unflag_by: "ফ্ল্যাগমুক্ত "
+    unflag_label: "ফ্ল্যাগমুক্ত "
+    unflag_error_message: "আপনি এই রেকর্ড unflagging হয় কেন ব্যাখ্যা করুন।"
+    id_of_record_this_duplicate_of: "রেকর্ডের আইডি লিখুন এটি একটি সদৃশ"
+    duplicate_header: "তৈরী %{child_name}নকল সদৃশ "
+    flag_error_message: "আপনি এই রেকর্ড flagging হয় কেন ব্যাখ্যা করুন"
+    flag_records_error_message: "একটি পতাকা কারণ লিখুন এবং একটি তারিখ যুক্ত একটি বৈধ তারিখ বিন্যাস ব্যবহার করুন"
+    selected_records_error_message: "পতাকা এক বা একাধিক রেকর্ড নির্বাচন করুন"
+    investigation_details: "তদন্ত বিবরণ"
+    reunite_details: "পুনর্মিলন বিবরণ"
+    another_duplicate_before_link: "আরেকটি রেকর্ড এই এক একটি নকল হিসাবে চিহ্নিত করা হয়েছে। ক্লিক"
+    another_duplicate_after_link: "নকল সদৃশ দেখতে "
+    export_error: "কোন নথি নেই "
+    id: "ID#"
+    name: "নাম "
+    age: "বয়স "
+    sex: "লিংগ "
+    registration_date: "রেজিষ্ট্রেশন তারিখ "
+    status: "স্টাটাস "
+    match_record: "মিল "
+    match_record_success: "নথির মিল "
+    match_record_failed: "মিল পাওয়া যাচ্ছে না "
+    messages:
+      update_success: "কেইস %{record_id}নিশ্চিতভাবে আপডেট করা হয়েছে"
+      investigation_error_message: "পতাকাঙ্কিত রেকর্ড তদন্ত হিসাবে চিহ্নিত করা উচিত নিশ্চিত করুন, এবং আপনার কোন বিবরণ লিখুন"
+      undo_investigation_error_message: "Undo তদন্ত বিবরণ"
+      reunite_error_message: "অনুগ্রহ করে নিশ্চিত করুন যে এই বাচ্চাটি পরিবার বা তত্ত্বাবধায়কদের সাথে পুনরায় সংযুক্ত হয়েছে, এবং আপনার কাছে যে কোনও বিশদ লিখুন"
+      undo_reunite_error_message: "সন্তানের পুনর্নবীকরণ হিসাবে চিহ্নিত করা উচিত নিশ্চিত করুন, এবং আপনার কোন বিবরণ লিখুন"
+      see_full_size: "পূর্ণ আকার দেখতে ইমেজ ক্লিক করুন"
+      creation_success: "কেইস নথি %{record_id} সাফল্যের সাথে তৈরি করা হয়েছে "
+      not_found: "দেওয়া আইডির সঙ্গে শিশু পাওয়া যায় না"
+      confirm_duplicate: "আপনি কি অবিরত রাখতে চান? যদি তাই হয়, ঠিক আছে ক্লিক করুন। যদি না হয়, বাতিল ক্লিক করুন"
+      create_details_error: "শুধুমাত্র একটি কেস নির্বাচিত করা হয় তা নিশ্চিত করুন"
+    actions:
+      mark_as_investigated: "তদন্ত হিসাবে চিহ্নিত করুন"
+      mark_as_reunited: "পুনর্মিলিত হিসাবে চিহ্নিত করুন"
+      export_to_photo_wall: "ছবি ওয়াল ওয়ালপোর্ট"
+      export_to_pdf: "পিডিএফ রপ্তানি"
+      export_to_csv: "CSV এ রপ্তানি করুন"
+      change_log: "লগ পরিবর্তন করুন"
+      mark_as_not_investigated: "তদন্ত না হিসাবে চিহ্নিত করুন"
+      reunited: "পুনর্মিলিত হিসাবে চিহ্নিত করুন"
+      reunited_details: "পুনর্মিলন বিবরণ"
+      reunite: "পুন: সংযুক্ত করা"
+      not_reunited: "পুনরাবৃত্তি হিসাবে চিহ্নিত করুন"
+      undo_reunited_details: "পুনর্মিলন কারণ পূর্বাবস্থায় ফেরান"
+      undo_reunite: "পূর্বাবস্থায় ফিরিয়ে আনুন"
+      investigation_details: "তদন্ত বিবরণ "
+      undo_investigation_details: "Undo তদন্ত বিবরণ"
+      undo_investigated: "Undo তদন্ত করা"
+      cancel: "বাতিল "
+      delete_photo: "ছবি মুছে ফেলুন?"
+      delete_audio: "অডিও মুছে ফেলুন?"
+      delete_document: "ডকুমেন্ট মুছে ফেলুন "
+      choose_as_primary_photo: "প্রাথমিক ছবি হিসেবে নির্বাচন করুন "
+      rotate_anti_clockwise: "ঘড়ির বিপরীতে ঘোরান"
+      restore_image: "মূল ছবি পুনরুদ্ধার করুন"
+      rotate_clockwise: "ঘড়ির কাঁটার দিকে ঘোরান"
+      view_full_size_photo: "পূর্ণ আকার ছবি দেখুন"
+    change_log: "লগ পরিবর্তন করুন"
+    flagged_as_suspected: "নিশান দ্বারা "
+    posted_from_mobile: "মোবাইল ক্লায়েন্ট থেকে পোস্ট করা হয়েছে"
+    edit_photo: "ছবি সম্পাদন "
+    manage_photos: "ছবি ম্যনেইজ করা "
+    view: "কেইস দেখান %{short_id}"
+    edit: "কেইস সম্পাদন করান "
+    mark_child_as_duplicate: "চিহ্নিত %{short_id} নকল সদৃশ "
+    history_of: "ইতিহাস %{short_id}"
+  saved_search:
+    save_success: "অনুসন্ধান সাফল্যভাবে সংরক্ষন করা হয়েছে "
+    save_error: "সংরক্ষন ব্যর্থ "
+    deleted: "অনুসন্ধান মুছন করা হয়েছে "
+    delete_error: "Delete failed."
+    saved_searches_tab: "সংরক্ষিত অনুসন্ধান"
+    filters_tab: "ফিল্টার "
+  task:
+    id: "ID#"
+    priority: "অগ্রাধিকার স্তর"
+    type: "কর্মের ধরন "
+    due_date: "নির্দিষ্ট তারিখ"
+    types:
+      assessment: "Assesment"
+      case_plan: "কেইস প্লান "
+      follow_up: "অনুসরণ করুন-%{subtype}"
+      service: "সেবা -%{subtype}"
+  case:
+    create_new_case: "নতুন কেস তৈরি করুন"
+    enter_id_number: "একটি বিদ্যমান রেকর্ড অনুসন্ধান করতে আইডি নম্বর লিখুন"
+    id_number_required: "আইডি নম্বর প্রয়োজন"
+    id_search_no_results: "%{id}এর সাথে কোন পদ্ধতি মিল নেই , দয়া করে একটি নতুন নথি তৈরী করুন "
+    id_search_results_html: "<span>%{id}</span> জন্য "
+    label: "Case ID"
+    workflow:
+      created_on: "সৃষ্টি "
+      on_label: "on"
+      in_progress: "চলমান "
+      new: "নতুন "
+      closed: "বন্ধ "
+      reopened: "পুনঃ খোলা "
+      service_implemented: 'সেবা অপরিপুর্ণ '
+      services_implemented: 'সেবা অপরিপুর্ণ '
+      case_plan: "কেইস প্লান "
+      assessment: "Assessment"
+    flagged_by: "পতাকাঙ্কিত দ্বারা "
+    last_updated: "শেষ আপডেট "
+    registered_by: "দ্বারা নিবন্ধিত "
+    mark_as_duplicate: "ছাপ সদৃশ "
+    flag_record: "নিশান নথি "
+    flag_label: "নিশান "
+    flag_reason: "নিশান কারণ "
+    flag_reason_date: "তারিখ (অনাবশ্যক)"
+    unflag_record: "ফ্ল্যাগমুক্ত "
+    unflag_reason: "ফ্ল্যাগমুক্ত কারণ "
+    unflagged_label: "কারণ "
+    unflag_date: "তারিখ "
+    unflag_by: "ফ্ল্যাগমুক্ত "
+    unflag_label: "ফ্ল্যাগমুক্ত "
+    unflag_error_message: "আপনি এই রেকর্ড unflagging হয় কেন ব্যাখ্যা করুন।"
+    id_of_record_this_duplicate_of: "রেকর্ডের আইডি লিখুন এটি একটি সদৃশ"
+    duplicate_header: "তৈরী %{child_name}নকল সদৃশ "
+    flag_error_message: "আপনি এই রেকর্ড flagging হয় কেন ব্যাখ্যা করুন"
+    investigation_details: "তদন্ত বিবরণ"
+    reunite_details: "পুনর্মিলন বিবরণ"
+    another_duplicate_before_link: "আরেকটি রেকর্ড এই এক একটি নকল হিসাবে চিহ্নিত করা হয়েছে। ক্লিক"
+    another_duplicate_after_link: "নকল সদৃশ দেখতে "
+    select: "নির্ধারিত "
+    id: "ID#"
+    name: "নাম "
+    age: "বয়স "
+    sex: "লিংগ "
+    registration_date: "রেজিষ্ট্রেশন তারিখ "
+    status: "স্টাটাস "
+    social_worker: "সামাজিক কর্মী "
+    survivor_code: "বেঁচে থাকার কোড"
+    case_opening_date: "কেইস খোলার তারিখ "
+    photo: "ছবি "
+    owned_by: 'নথির মালিক '
+    owned_by_agency: 'নথি মালিকের এজেন্সি '
+    messages:
+      update_success: "কেইস %{record_id}নিশ্চিতভাবে আপডেট করা হয়েছে"
+      investigation_error_message: "পতাকাঙ্কিত রেকর্ড তদন্ত হিসাবে চিহ্নিত করা উচিত নিশ্চিত করুন, এবং আপনার কোন বিবরণ লিখুন"
+      undo_investigation_error_message: "Undo তদন্ত বিবরণ"
+      reunite_error_message: "অনুগ্রহ করে নিশ্চিত করুন যে এই মামলাটি পরিবার বা তত্ত্বাবধায়কদের সাথে পুনরায় সংযুক্ত করা হয়েছে এবং আপনার যে কোনও বিশদ লিখুন"
+      undo_reunite_error_message: "অনুগ্রহ করে নিশ্চিত করুন যে মামলা পুনঃসংযোগ হিসাবে চিহ্নিত করা উচিত নয় এবং আপনার কাছে যে কোনও বিশদ লিখুন।"
+      see_full_size: "পূর্ণ আকার দেখতে ইমেজ ক্লিক করুন"
+      creation_success: "কেইস সাফল্যের সাথে তৈরী করা হয়েছে "
+      not_found: "দেওয়া আইডি সঙ্গে শিশু পাওয়া যায় না"
+      confirm_duplicate: "আপনি কি অবিরত রাখতে চান? যদি তাই হয়, ঠিক আছে ক্লিক করুন। যদি না হয়, বাতিল ক্লিক করুন"
+    actions:
+      mark_as_investigated: "তদন্ত হিসাবে চিহ্নিত করুন"
+      mark_as_reunited: "পুনর্মিলিত হিসাবে চিহ্নিত করুন"
+      change_log: "লগ পরিবর্তন করুন"
+      mark_as_not_investigated: "তদন্ত না হিসাবে চিহ্নিত করুন"
+      reunited: "পুনর্মিলিত হিসাবে চিহ্নিত করুন"
+      reunited_details: "পুনর্মিলন বিবরণ"
+      reunite: "পুন: সংযুক্ত করা"
+      not_reunited: "পুনরাবৃত্তি হিসাবে চিহ্নিত করুন"
+      undo_reunited_details: "পুনর্মিলন কারণ পূর্বাবস্থায় ফেরান"
+      undo_reunite: "পূর্বাবস্থায় ফিরিয়ে আনুন"
+      investigation_details: "তদন্ত বিবরণ "
+      undo_investigation_details: "Undo তদন্ত বিবরণ"
+      undo_investigated: "Undo তদন্ত করা"
+      cancel: "বাতিল "
+      delete_photo: "ছবি মুছে ফেলুন?"
+      delete_audio: "অডিও মুছে ফেলুন?"
+      choose_as_primary_photo: "প্রাথমিক ছবি হিসেবে নির্বাচন করুন "
+      rotate_anti_clockwise: "ঘড়ির বিপরীতে ঘোরান"
+      restore_image: "মূল ছবি পুনরুদ্ধার করুন"
+      rotate_clockwise: "ঘড়ির কাঁটার দিকে ঘোরান"
+      view_full_size_photo: "পূর্ণ আকার ছবি দেখুন"
+    change_log: "লগ পরিবর্তন করুন"
+    flagged_as_suspected: "নিশান দ্বারা "
+    posted_from_mobile: "মোবাইল ক্লায়েন্ট থেকে পোস্ট করা হয়েছে"
+    edit_photo: "ছবি সম্পাদন "
+    manage_photos: "ছবি ম্যনেইজ করা "
+    view: "কেইস দেখান %{short_id}"
+    edit: "কেইস সম্পাদন করান "
+    mark_child_as_duplicate: "চিহ্নিত %{short_id} নকল সদৃশ "
+    history_of: "ইতিহাস %{short_id}"
+    incident_details_separator: "ঘটনার বিবরণ "
+    services_section_separator: "প্রতিক্রিয়া সংক্ষিপ্ত বিবরণ"
+  incidents:
+    label: "ঘটনা "
+    register_new_incident: "নতুন ঘটনা"
+    selectable_date_options:
+      date_of_first_report: "ইন্টারভিউ ডেইট "
+      incident_date_derived: "ঘটনার তারিখ "
+    filter_by:
+      flag: "Flagged"
+      flag_label: "Flagged?"
+      mobile: "মোবাইল"
+      mobile_label: "mobile এর জন্য চিহ্নিত করা? "
+      violation: "ভঙ্গ"
+      violence_type: "ভঙ্গের ধরন "
+      social_worker: "কেইস কর্মী "
+      status: "স্টাটাস "
+      age_range: "বয়স সীমানা "
+      children: "শিশু "
+      boys: "বালকরা "
+      girls: "বালিকারা "
+      unknown: "অপরিচিত "
+      verification_status: "যাচাই স্থিতি"
+      incident_location: "ঘটনার স্থান "
+      incident_date: "ঘটনার তারিখ "
+      unaccompanied_separated_status: "সুরক্ষা অবস্থা"
+      armed_force_group_name: "একদল সৈন্য "
+      armed_force_group_type: "সশস্ত্র বাহিনী বা গ্রুপের ধরন"
+      record_state: "রেকর্ড স্টেট "
+      interview_date: "সাক্ষাতকারের তারিখ "
+  incident:
+    label: "ঘটনার ID"
+    flagged_by: "পতাকাঙ্কিত দ্বারা "
+    last_updated: "শেষ আপডেট "
+    registered_by: "দ্বারা নিবন্ধিত "
+    mark_as_duplicate: "ছাপ সদৃশ "
+    flag_record: "পতাকা "
+    flag_label: "নিশান "
+    flag_reason: "নিশান কারণ "
+    flag_reason_date: "তারিখ (অনাবশ্যক)"
+    unflag_record: "ফ্ল্যাগমুক্ত "
+    unflag_reason: "ফ্ল্যাগমুক্ত কারণ "
+    unflagged_label: "কারণ "
+    unflag_date: "তারিখ "
+    unflag_by: "ফ্ল্যাগমুক্ত "
+    unflag_label: "ফ্ল্যাগমুক্ত "
+    unflag_error_message: "আপনি এই রেকর্ড unflagging হয় কেন ব্যাখ্যা করুন।"
+    flagged_as_suspected: "নিশান দ্বারা "
+    id_of_record_this_duplicate_of: "রেকর্ডের আইডি লিখুন এটি একটি সদৃশ"
+    duplicate_header: "তৈরী %{child_name}নকল সদৃশ "
+    flag_error_message: "আপনি এই রেকর্ড flagging হয় কেন ব্যাখ্যা করুন"
+    flag_records_error_message: "একটি পতাকা কারণ লিখুন এবং একটি তারিখ যুক্ত একটি বৈধ তারিখ বিন্যাস ব্যবহার করুন"
+    selected_records_error_message: "পতাকা এক বা একাধিক রেকর্ড নির্বাচন করুন"
+    investigation_details: "তদন্ত বিবরণ"
+    reunite_details: "পুনর্মিলন বিবরণ"
+    another_duplicate_before_link: "আরেকটি রেকর্ড এই এক একটি নকল হিসাবে চিহ্নিত করা হয়েছে। ক্লিক"
+    another_duplicate_after_link: "নকল সদৃশ দেখতে "
+    violation_status_verified: "পরীক্ষিত "
+    empty_violation: "লঙ্ঘন যোগ করার জন্য, সংশ্লিষ্ট লঙ্ঘনের ফর্মটি দেখতে ঘটনাটি ফর্মটি লঙ্ঘন করুন"
+    add_violations: "লঙ্ঘন বিবরণ প্রবেশ করতে যোগ ক্লিক করুন।"
+    create_incident_cp: "একটি রিপোর্টযোগ্য ঘটনা রেকর্ড তৈরি?"
+    link_to_incident: "ঘটনার সাথে যোগ "
+    messages:
+      update_success: "ঘটনা %{record_id}সাথে আপডেট করা হয়েছিল "
+      creation_success: "ঘটনার নথি %{record_id}সাফল্যের সাথে সৃষ্টি করা হয়েছে"
+    view: "ঘটনা দেখা %{short_id}"
+    edit: "ঘটনা সম্পাদন "
+    select: "নির্ধারিত "
+    id: "ID#"
+    survivor_code: "বেঁচে থাকার কোড"
+    case_worker_code: "কেইস কর্মীর কোড "
+    date_of_interview: "সাক্ষাৎকারের তারিখ"
+    date_of_incident: "ঘটনার তারিখ "
+    violence_type: "সহিংসতার ধরন "
+    incident_location: "ঘটনার স্থান "
+    violations: "সহিংসতা"
+    social_worker: "সামাজিক কর্মী "
+    change_log: "লগ পরিবর্তন করুন"
+    actions:
+      change_log: "লগ পরিবর্তন করুন"
+    history_of: "ইতিহাস %{short_id}"
+    violation:
+      violation: "সহিংসতা "
+      pending: 'প্রক্রিয়াধীন ভেরিফিকেশন '
+      killing: "হত্যা "
+      maiming: "বিকলাঙ্গ "
+      recruitment: "সংগ্রহ"
+      sexual_violence: "যৌন সহিংসতা"
+      abduction: "অপহরণ"
+      attack_on_schools: "বিদ্যালয়ে হামলা "
+      attack_on_hospitals: "হাসপাতালে হামলা "
+      denial_humanitarian_access: "মানবাধিকার প্রবেশ অস্বীকার"
+      other_violation: "অন্যান্য সহিংসতা "
+  tracing_request:
+    label: "তদন্ত ID"
+    register_new_tracing_request: "নতুন ট্রেসিং অনুরোধ"
+    name_of_inquirer: "তদন্তের নাম "
+    date_of_inquiry: "তদন্তের তারিখ"
+    tracing_requests: "ট্রেইজিং অনুরোধ"
+    change_log: "লগ পরিবর্তন করুন"
+    last_updated: "শেষ আপডেট "
+    registered_by: "দ্বারা নিবন্ধিত "
+    edit_photo: "ছবি সম্পাদন "
+    flag_record: "পতাকা "
+    flag_label: "নিশান "
+    flag_reason: "নিশান কারণ "
+    flag_reason_date: "তারিখ (অনাবশ্যক)"
+    flag_records_error_message: "একটি পতাকা কারণ লিখুন এবং একটি তারিখ যুক্ত একটি বৈধ তারিখ বিন্যাস ব্যবহার করুন"
+    selected_records_error_message: "পতাকা এক বা একাধিক রেকর্ড নির্বাচন করুন"
+    unflag_record: "ফ্ল্যাগমুক্ত "
+    unflag_reason: "ফ্ল্যাগমুক্ত কারণ "
+    unflagged_label: "কারণ "
+    unflag_date: "তারিখ "
+    unflag_by: "ফ্ল্যাগমুক্ত "
+    unflag_label: "ফ্ল্যাগমুক্ত "
+    unflag_error_message: "আপনি এই রেকর্ড unflagging হয় কেন ব্যাখ্যা করুন।"
+    flag_error_message: "আপনি এই রেকর্ড flagging হয় কেন ব্যাখ্যা করুন"
+    flagged_as_suspected: "নিশান দ্বারা "
+    find_match: "মিল পাওয়া গেছে "
+    actions:
+      change_log: "লগ পরিবর্তন করুন"
+      delete_photo: "ছবি মুছে ফেলুন?"
+      delete_audio: "অডিও মুছে ফেলুন?"
+    messages:
+      update_success: "ট্রেসিং অনুরোধ %{record_id} সফলভাবে আপডেট করা হয়েছে"
+      creation_success: "ট্রেসিং অনুরোধ রেকর্ড %{record_id} সফলভাবে তৈরি"
+    view: "ট্রেসিং অনুরোধ দেখান %{short_id}"
+    edit: "ট্রেসিং অনুরোধ সম্পাদন করুন "
+    select: "নির্ধারিত "
+    id: "ID#"
+    enquirer_name: "তদন্তের নাম "
+    enquirer_date: "তদন্তের তারিখ"
+    history_of: "ইতিহাস %{short_id}"
+  tracing_requests:
+    register_new_tracing_request: "নতুন ট্রেসিং অনুরোধ"
+    export: "রপ্তানি "
+    selectable_date_options:
+      inquiry_date: "তদন্তের তারিখ"
+    filter_by:
+      flag: "Flagged"
+      flag_label: "Flagged?"
+      social_worker: "ক্ষেত্র / কেস / সামাজিক কর্মী"
+      inquiry_date: "তদন্তের তারিখ "
+      inquiry_status: "তদন্তের স্টাটাস "
+      location_separation: "স্থান পরিবর্তন "
+      separation_cause: "কেইস পরিবর্তন "
+      record_state: "রেকর্ড স্টেট "
+  potential_matches:
+    empty: "ট্রেসিং অনুরোধের মাধ্যমে মিলিং অ্যাক্সেস করুন"
+    no_match: "%{type}%{id}সিস্টেমের জন্য কোন ম্যাচ নেই"
+    display: "%{type}%{id} জন্য সম্ভাব্য ম্যাচ প্রদর্শন"
+    filter_by:
+      score_range: "স্কোর সীমা "
+      age_range_case: "কেইসের বয়স সীমা "
+      age_range_tracing_request: "ট্রেসিং অনুরোধ বয়স সীমা "
+      sex_case: "কেইসের লিঙ্গ "
+      sex_tracing_request: "ট্রেসিং অনুরোধ যৌন"
+      male: "পুরুষ "
+      female: "মহিলা "
+  potential_match:
+    header_key: "কারন সমুহ মিল "
+    inquirer_id: 'তদন্ত id#'
+    inquirer_name: 'তদন্তকারীর নাম'
+    inquiry_date: 'তদন্তের তারিখ '
+    inquirer_tr_name: 'ট্রেসিং অনুরোধ '
+    child_id: 'শিশু id#'
+    child_age: 'বয়স '
+    child_gender: 'লিঙ্গ '
+    child_date_of_birth: 'জম্মতারিখ '
+    reg_date: 'নিবন্ধনের তারিখ'
+    social_worker: 'সামাজিক কর্মী '
+    social_worker_agency: 'এজেন্সি '
+    score: 'স্কোর '
+    show_more: 'অধিক দেখান '
+    show_less: 'কম দেখান '
+    trace: 'চিহ্ন'
+    case: 'কেইস '
+    name: 'নাম '
+    likelihood:
+      likely: 'পছন্দনীয় '
+      possible: 'সম্ভব '
+  audit_log:
+    timestamp: "টাইমস্ট্যাম্প - UTC"
+    user_name: "User Name "
+    action: "কাজ "
+    description: "বর্ণনা "
+    record_owner: "নথির মালিক "
+  audit_logs:
+    action_options:
+      login: "প্রবেশ করা "
+      logout: "Logout"
+      create: "Creating"
+      copy: "Copying"
+      destroy: "Deleting"
+      show: "Viewing"
+      edit: "Editing"
+      update: "Updating"
+      export: "Exporting data for"
+      referral: "Referring"
+      reassign: "Assigning"
+      transfer: "Transfering"
+      reopen_case: "Reopening"
+    filter_by:
+      action: 'কাজের নাম '
+      date: 'তারিখ '
+      timestamp: 'টাইমস্ট্যাম্প'
+      user: 'User Name '
+  preposition:
+    on_label: "on"
+    because: "কারন "
+    at_label: "তে "
+  pagination:
+    zero: "পাওয়া যায়নি %{model}"
+    page_entries_info: '%{model}__TOTAL_ এর _START__ _ _ _ দেখানো হচ্ছে'
+  users:
+    unverified: "যাচাই না করা ব্যবহারকারীদের"
+    select_role: "ব্যবহারকারী যাচাই করার আগে একটি ভূমিকা নির্বাচন করুন"
+    manage: "users ব্যবস্থাপনা "
+    label: "Users"
+    create: " User সৃষ্টি"
+    account_details: "হিসাব বিবরণ "
+    actions:
+      show_all: "সব দেখাচ্ছে "
+      show: "দেখানো "
+      edit: "সম্পাদন করা "
+    messages:
+      disable: 'আপনি এই ব্যবহারকারী নিষ্ক্রিয় করতে চান আপনি কি নিশ্চিত?'
+    sort_by:
+      label: "Sort by"
+      full_name: "সম্পুর্ণ নাম "
+      agency: "এজেন্সি "
+  roles:
+    label: "ভুমিকাগুলো "
+    list: "ভুমিকার তালিকা "
+    sort_by:
+      label: "Sort by"
+      ascending: "ঊর্ধ্বগামী"
+      descending: "নিম্মগামী "
+    name: "ভুমিকা নাম "
+    actions:
+      show_all: "সব দেখাচ্ছে "
+      show: "দেখানো "
+      edit: "সম্পাদন করা "
+      update: "আপডেট "
+      create: "Create"
+      delete: "মুছন "
+      copy: "কপি "
+    view: "View Role"
+    messages:
+      confirmation: "আপনি কি এই ভূমিকা মুছে ফেলতে চান? মুছে ফেলা পূর্বাবস্থায় ফেরানো যাবে না। ভূমিকা মুছে ফেলার জন্য ঠিক আছে ক্লিক করুন।"
+  role:
+    create: "Create Role"
+    edit: "Edit Role"
+    name: "নাম "
+    description: "বর্ণনা "
+    successfully_updated: "ভূমিকা বিবরণ সফলভাবে আপডেট করা হয়।"
+    error_in_updating: "ভূমিকা বিবরণ আপডেট করার সময় ত্রুটি"
+    copy_success: "ভূমিকা সফলভাবে অনুলিপি"
+    copy_failure: "ভূমিকা অনুলিপি ত্রুটি। নিশ্চিত করুন যে নাম অন্য ভূমিকা সঙ্গে দ্বন্দ্ব না"
+    transfer_label: "এই ভূমিকা স্থানান্তর জন্য ব্যবহার করা যাবে?"
+    referral_label: "এই ভূমিকা রেফারেল জন্য ব্যবহার করা যাবে?"
+    group_permission_label: "এই ভূমিকা কি ভূমিকা প্রভাবিত করে?"
+    role_ids_label: "অন্যান্য ভূমিকা এই ভূমিকা দ্বারা পরিচালিত"
+  agencies:
+    logo: 'Logo'
+    logo_enabled: 'Logo সক্ষম?'
+    label: "এজেন্সি "
+    view: "এজেন্সি দেখান "
+    successfully_created: "সংস্থা সফলভাবে তৈরি"
+    successfully_updated: "সংস্থা সফলভাবে আপডেট"
+    actions:
+      show_all: "সব দেখাচ্ছে "
+      show: "দেখানো "
+      edit: "সম্পাদন করা "
+      update: "আপডেট "
+      create: "Create"
+      delete: "মুছন "
+    messages:
+      confirmation: "আপনি এই সংস্থা মুছে ফেলতে চান আপনি কি নিশ্চিত? মুছে ফেলা পূর্বাবস্থায় ফেরানো যাবে না। সংস্থা মুছে ফেলার জন্য ঠিক আছে ক্লিক করুন।"
+    select_prompt: "একটি সংস্থা নির্বাচন করুন"
+    error_in_updating: "এজেন্সি বিস্তারিত আপডেট করার সময় ত্রুটি"
+  agency:
+    edit: 'এজেন্সি সম্পাদন '
+    name: 'এজেন্সি নাম '
+    code: 'এজেন্সি কোড '
+  system_settings:
+    label: "System Settings "
+    edit: "সিস্টেম সেটিংস সম্পাদনা করুন"
+    show: "System Settings "
+    updated: "সিস্টেম সেটিংস সফলভাবে আপডেট করা হয়েছে"
+    primero_version: "সিস্টেম সংস্করণ"
+  primero_modules:
+    label: "মডিউল"
+    view: "মডিউল দেখা "
+    actions:
+      show_all: "সব দেখাচ্ছে "
+      show: "দেখানো "
+      edit: "সম্পাদন করা "
+      update: "আপডেট "
+      create: "Create"
+      delete: "মুছন "
+    messages:
+      confirmation: "আপনি কি এই মডিউল মুছে ফেলতে চান? মুছে ফেলা পূর্বাবস্থায় ফেরানো যাবে না। মডিউল মুছে ফেলার জন্য ঠিক আছে ক্লিক করুন।"
+      invalid: "সঠিক মডিউল নয় ()"
+  primero_module:
+    create: "Create Module"
+    edit: "মডিউল দেখা"
+    show: "প্রদর্শন "
+    name: "নাম "
+    description: "বর্ণনা "
+    successfully_updated: "মডিউল বিস্তারিত সফলভাবে আপডেট করা হয়"
+    error_in_updating: "মডিউল বিস্তারিত আপডেট করার সময় ত্রুটি"
+    record_type: "এই মডিউল জন্য রেকর্ডের ধরন"
+    forms: "ফর্ম এই মডিউল নির্ধারিত"
+    program: "প্রোগ্রাম "
+    associated_record_types: "সহযোগী রেকর্ড ধরনের"
+    associated_form_ids: "সহযোগী ফর্ম ids"
+  primero_programs:
+    label: "প্রোগ্রাম "
+    view: "প্রোগ্রাম দেখা "
+    actions:
+      show_all: "সব দেখাচ্ছে "
+      show: "দেখানো "
+      edit: "সম্পাদন করা "
+      update: "আপডেট "
+      create: "Create"
+      delete: "মুছন "
+    messages:
+      confirmation: "আপনি কি এই মডিউল মুছে ফেলতে চান? মুছে ফেলা পূর্বাবস্থায় ফেরানো যাবে না। মডিউল মুছে ফেলার জন্য ঠিক আছে ক্লিক করুন।"
+  primero_program:
+    create: "প্রোগ্রাম তৈরী "
+    edit: "প্রোগ্রাম সম্পাদন "
+    show: "প্রদর্শন "
+    name: "নাম "
+    description: "বর্ণনা "
+    start_date: "প্রোগ্রাম শুরুর তারিখ "
+    end_date: "প্রোগ্রাম শেষের তারিখ "
+    successfully_updated: "প্রোগ্রাম বিবরণ সফলভাবে আপডেট করা হয়"
+    error_in_updating: "প্রোগ্রাম বিবরণ আপডেট করার সময় ত্রুটি"
+  user_groups:
+    label: "ব্যবহারকারীর গ্রুপ "
+    view: "ব্যবহারকারীর গ্রুপ দেখা "
+    actions:
+      show_all: "সব দেখাচ্ছে "
+      show: "দেখানো "
+      edit: "সম্পাদন করা "
+      update: "আপডেট "
+      create: "Create"
+      delete: "মুছন "
+    messages:
+      confirmation: "আপনি কি এই গ্রুপ মুছে ফেলতে চান? মুছে ফেলা পূর্বাবস্থায় ফেরানো যাবে না। গ্রুপ মুছে ফেলার জন্য ঠিক আছে ক্লিক করুন"
+  user_group:
+    create: "User গ্রুপ সৃষ্টি"
+    edit: "User গ্রুপ সম্পাদন "
+    name: "নাম "
+    description: "বর্ণনা "
+    successfully_updated: "ব্যবহারকারী গ্রুপ বিবরণ সফলভাবে আপডেট করা হয়"
+    error_in_updating: "ব্যবহারকারীর গ্রুপের বিশদ আপডেট করার সময় ত্রুটি"
+  user:
+    label: "user"
+    full_name: "সম্পুর্ণ নাম "
+    code: "User কোড "
+    history_of: "%{user_name}ইতিহাস "
+    disabled: "অক্ষম "
+    position: অবস্থান
+    actions:
+      delete: "মুছন "
+    messages:
+      confirmation: "আপনি কি এই গ্রুপ মুছে ফেলতে চান? মুছে ফেলা পূর্বাবস্থায় ফেরানো যাবে না। গ্রুপ মুছে ফেলার জন্য ঠিক আছে ক্লিক করুন।"
+      created: " User সাফল্যের সাথে তৈরী করা হয়েছে"
+      updated: "User সাফল্যের সাথে আপডেট করা হয়েছে"
+      not_found: "প্রদত্ত আইডি সঙ্গে ব্যবহারকারী পাওয়া যায় না"
+      passwords_do_not_match: "বর্তমান পাসওয়ার্ড মেলে না"
+      password_changed_successfully: "পাসওয়ার্ড সফলভাবে পরিবর্তন"
+      time_zone_updated: "পরিবর্তন সফলভাবে আপডেট করা হয়েছে"
+    update: "আপডেট "
+    verify: "যাচাই "
+    create: "Create"
+    no_blank: "ব্যবহারকারীর নাম খালি থাকতে হবে না"
+    manage_password: "পাসওয়ার্ড পরিবর্তন "
+    old_password: "পুরাতন পাসওয়ার্ড "
+    new_password: "নতুন পাসওয়ার্ড "
+    password_strength: "পাসওয়ার্ড অন্তত 8 অক্ষর এবং অক্ষর এবং সংখ্যা উভয় অন্তর্ভুক্ত করা আবশ্যক "
+    new_password_confirmation: "নতুন পাসওয়ার্ড নিশ্চিত "
+    new: "নতুন  User"
+    user_action_history: "User কাজের ইতিহাস "
+    no_activity: "কোন কাজ নেই "
+    location: "স্থান "
+    organization: "Organization"
+    agency: "এজেন্সি "
+    manager: "Manager"
+    send_mail: "ইমেইল বিজ্ঞপ্তি পাবেন?"
+    welcome_email:
+      greeting: "Primero তে স্বাগতম "
+      url_label: "Primero"
+      enabled_label: "ওয়েলকাম ইমেইল পাঠান "
+      text_label: "ইমেইল টেস্কে স্বাগতম "
+  phone: "Phone"
+  email: "Email"
+  organization: "Organisation"
+  position: "অবস্থান"
+  'false': "মিথ্যা "
+  'true': "সত্য "
+  mandatory_field: "চিহ্নিত ক্ষেত্র বাধ্যতামূলক"
+  add: "যোগ "
+  belonging_to: "belonging to"
+  imei: "IMEI"
+  blacklisted: "Blacklisted?"
+  visible_for_web: "ওয়েব অ্যাপ্লিকেশন জন্য দৃশ্যমান"
+  visible_for_mobile: "মোবাইল অ্যাপ্লিকেশন জন্য দৃশ্যমান"
+  hidden: "লুকানো "
+  help_text: "সাহয্য বার্তা "
+  multi_select: "মাল্টি নির্বাচন করুন"
+  option_strings_source: "অপশন স্ট্রিং উত্স"
+  discard: "বাতিল "
+  form: "ফরম"
+  details: "বিবরণ "
+  enabled: "সক্ষম "
+  status: "স্টাটাস "
+  devices: "Devices"
+  replications: "প্রতিলিপিকৃত"
+  provide_translation: "অনুবাদ প্রদান করুন"
+  select_language: "ভাষা চিহ্নিত করুন "
+  hide_on_view_page: "View Page এ লুকানো "
+  show_on_short_form: "Short Form দেখানো "
+  last_login: "Last Login"
+  record: "record"
+  description: "বর্ণনা "
+  unique_id: "Unique ID"
+  permissions:
+    label: "অনুমতি "
+    Actions: "ক্রিয়াকলাপ"
+    Resources: "Resources"
+    Management: "Management"
+    group:
+      actions: "ক্রিয়াকলাপ"
+      resources: "Resources"
+      resource: "Resources"
+      management: "Management"
+    permission:
+      read: "পড়া "
+      write: "লিখা "
+      enable_disable_record: "অক্ষম"
+      flag: "নিশান "
+      assign: "Assign"
+      case: "কেইস "
+      incident: "ঘটনা "
+      tracing_request: "ট্রেসিং অনুরোধ"
+      potential_match: "Potential Match"
+      role: "নীতি "
+      user: "Users"
+      user_group: "ব্যবহারকারীর গ্রুপ "
+      agency: "এজেন্সি "
+      metadata: "Forms, Lookups"
+      system: "System"
+      report: "Report"
+      self: "শুধুমাত্র আমার রেকর্ড বা ব্যবহারকারী অ্যাক্সেস "
+      group: "আমার গ্রুপ এর  সব রেকর্ড বা ব্যবহারকারী অ্যাক্সেস"
+      all: "সব রেকর্ড বা ব্যবহারকারী অ্যাক্সেস"
+      admin_only: "কোন রেকর্ড নেই - শুধুমাত্র অ্যাডমিন কার্যকারিতা"
+      All: "সব "
+      specific_roles: "নির্দিষ্ট তালিকা অ্যাক্সেস roles "
+      consent_override: "Consent override"
+      export_list_view_csv: "Export list view csv"
+      export_csv: "Export csv"
+      export_xls: "Export xls"
+      export_photowall: "Export photowall"
+      export_pdf: "Export pdf"
+      export_unhcr_csv: "Export unhcr csv"
+      export_mrm_violation_xls: "Export mrm violation xls"
+      export_case_pdf: "Export case pdf"
+      export_json: "Export json"
+      export_custom: "Export custom"
+      export_duplicate_id_csv: "এক্সপোর্ট ডুপ্লিকেট "
+      import: "আমদানি"
+      transfer: "Transfer"
+      reassign: "Reassign"
+      referral: "Referral"
+      sync_mobile: "মোবাইল ডিভাইসের সাথে Sync করুন"
+      request_approval: "অনুমোদন অনুরোধ "
+      request_approval_bia: "BIA অনুমোদন অনুরোধ  "
+      request_approval_case_plan: "Case Plan অনুমোদন অনুরোধ"
+      request_approval_closure: "Closure অনুমোদন অনুরোধ "
+      approve_bia: "BIA form অনুমোদন "
+      approve_case_plan: "Case Plan অনুমোদন "
+      approve_closure: "Closure form অনুমোদন"
+      copy: "কপি "
+      manage: "Manage"
+      administrator_read: "Administrator Read"
+      group_read: "Group Read"
+      agency_read: "Agency Read"
+      dashboard: "ডেসবোর্ড "
+      view_approvals: "Approvals দেখুন "
+      view_assessment: "Assessment দেখুন "
+      dash_reporting_location: "Reporting অবস্থান দেখুন "
+      dash_protection_concerns: "Protection Concerns দেখুন "
+      dash_matching_results: "Matching Results দেখুন "
+      dash_service_provisions: "সেবা বিধান দেখুন "
+      dash_referrals_by_socal_worker: "Social Worker দ্বারা রেফেরেল দেখুন  "
+      dash_transfers_by_socal_worker: "Social Worker দ্বারা স্তানান্তর দেখুন "
+      dash_cases_by_social_worker: "Social Worker দ্বারা কেস দেখুন "
+      dash_manager_transfers: "ম্যানেজার স্থানান্তর দেখুন "
+      dash_cases_by_workflow: "View Cases By Workflow"
+      dash_cases_by_task_overdue: "View Cases By Task Overdue"
+      dash_cases_to_assign: "View Cases To Assign"
+      dash_show_none_values: "View None Values"
+      dash_tasks: "কাজ দেখুন "
+      search_owned_by_others: "অন্যান্য ব্যবহারকারীদের মালিকানা ক্ষেত্রে রেকর্ডের জন্য অনুসন্ধান করুন "
+      incident_from_case: "একটি কেস থেকে একটি ঘটনা তৈরি করুন"
+      incident_details_from_case: "ঘটনাটি অন্য  কেস ব্যবহারকারীর ক্ষেত্রে যুক্ত করুন "
+      services_section_from_case: "অন্য ব্যবহারকারীর ক্ষেত্রে পরিষেবা বিধান যোগ করুন "
+      create: "Create"
+      referral_from_service: "সেবা ফর্ম থেকে কেস Refer করুণ "
+      view_protection_concerns_filter: "Protection Concerns Filter দেখুন "
+      saved_search: "Saved Search"
+      save_search: "Save Searches"
+      remove_assigned_users: "অন্যান্য নির্ধারিত ব্যবহারকারীদের অপসারণ করুন (রেফারালগুলি) "
+      audit_log: "Audit Log"
+      display_view_page: "View Page প্রদর্শন "
+      service_provision_incident_details: "Service Provision Button টি Incident Details Modal এর সাথে যুক্ত করুন "
+      request_transfer: "অনুমতি হস্তান্তর "
+      view_photo: "ছবি প্রদর্শন"
+      matching_configuration: "Matching Configuration"
+      add_note: "নোট সংযোজন করুন "
+  forms:
+    label: "ফরমস"
+    save: "Save Form"
+    save_details: "সংরক্ষন করন "
+    messages:
+      use_existing: "আমরা আপনাকে বিদ্যমান ফর্মগুলি ব্যবহার করার জন্য উত্সাহিত করি কারণ এটি তথ্য ভাগ করে এবং সংস্থার মধ্যে তথ্য মার্জ করা সহজ করে তোলে।"
+    initial_language: "প্রাথমিক ভাষা"
+    cannot_be_edited: "এই ফর্মের ক্ষেত্র সম্পাদনা করা যাবে না। "
+    record_types:
+      case: "কেইস "
+      child: "কেইস "
+      incident: "ঘটনা "
+      tracing_request: "ট্রেসিং অনুরোধ"
+      potential_match: "Potential Match"
+      violation: "ভঙ্গ"
+      reportable_service: "সেবা "
+      reportable_follow_up: "Follow Up "
+      reportable_protection_concern: "সুরক্ষা Concerns  "
+  form_section:
+    name: "নাম "
+    description: "বর্ণনা "
+    create: "New Form"
+    visibility: "Visibility"
+    ordering: "Ordering"
+    label: "ফরম "
+    group: "Group"
+    details: "বিবরণ "
+    back: "Forms Page এ চলে যাওয়া "
+    help_text: "Help Text "
+    actions:
+      label: "ক্রিয়াকলাপ"
+      add_custom_field: "কাস্টম ক্ষেত্র যোগ করুন "
+      save_order: "আদেশ সংরক্ষণ করুন  "
+    messages:
+      order_saved: "আদেশ সফলভাবে সংরক্ষিত হয়।"
+      cannot_create: "ফর্ম বিভাগ তৈরি করা যায়নি"
+      correct_errors: "নিম্নলিখিত ত্রুটি সংশোধন করুন এবং পুনরায় জমা দিন:"
+      hide_confirmation: "আপনি ক্ষেত্র লুকাতে চান আপনি কি নিশ্চিত?"
+      show_confirmation: "আপনি ক্ষেত্র দেখাতে চান, আপনি কি নিশ্চিত?"
+      drag_drop_help_text: 'আপনি টেনে আনতে ক্ষেত্রগুলিতে ক্লিক করতে পারেন & amp; drop আদেশ প্রয়োজনীয়  '
+      updated: "ফর্ম বিভাগ সফলভাবে যোগ করা হয়েছে "
+    hide: "গোপন? "
+    show: "দেখানো "
+    manage: "ফর্ম বিভাগ পরিচালনা করুন "
+    edit: "ফর্ম বিভাগ সম্পাদনা করুন "
+    buttons:
+      add: "সংযোজন "
+    options: "Options"
+    confirm_delete: "আপনি কি এই ফর্মটি মুছে ফেলতে চান? "
+    required_field: "%{field}দরকার "
+    required_field_js: "একটি প্রয়োজনীয় ক্ষেত্র। বর্তমানে এটি ফাঁকা বা অবৈধ।"
+    form_group_name: "Form Group Name"
+    modal_sidebar_help: "ক্ষেত্রের ধরন নির্বাচন করুন "
+    modal_sidebar_help_selected: "ক্ষেত্রের ধরন "
+    translation: "অনুবাদ "
+    translation_missing: "%{lang}(অনুবাদ অনুপস্থিত)"
+    base_language_help_text: "%{lang}এটা প্রবেশ করা আবশ্যক।"
+    initial_lang_help_text: "অনুবাদ যোগ করা যেতে পারে আগে ফিল্ড তৈরি করা আবশ্যক %{lang}।"
+    field_db_help_text: "ফাঁকা রেখে গেলে, DB  নাম তৈরি করা হবে। শুধুমাত্র ল্যাটিন অক্ষর, সংখ্যা এবং আন্ডারস্কোরগুলি অনুমোদিত।"
+  advanced_search:
+    instruction: "বা একাধিক বিকল্প, যেমন অনুসন্ধানের জন্য পৃথক শব্দ। টিম বা রাহুল "
+    date_instruction: "প্রথম তারিখের তৈরি তারিখ বা তারিখের পরে আপডেট হওয়া অনুসন্ধানের তারিখ (yyyy-mm-dd) লিখুন। যে তারিখের আগে তৈরি বা আপডেট করা রেকর্ড দেখতে দ্বিতীয় বাক্সে একটি তারিখ (yyyy-mm-dd) লিখুন। তারিখের মধ্যে তৈরি রেকর্ড দেখতে উভয় বাক্সে তারিখ লিখুন।"
+    created_by_org: "Created By (Organisation) :"
+    date_created: "Date Created :"
+    updated_by: "Updated by (User) :"
+    after: "After :"
+    before: "Before :"
+    created_by: "তৈরি করা হয়েছে (ব্যবহারকারী) দ্বারা: "
+    date_updated: "আপডেট তারিখ: "
+    select_a_criteria: "একটি মাপকাঠি নির্বাচন করুন "
+    records_found:
+      one: "রেকর্ড পাওয়া গিয়েছে"
+      other: "রেকর্ড পাওয়া গিয়েছে"
+  search: "খোজুন"
+  select_all: "সব রেকর্ড নির্বাচন করুন "
+  no_results_found: "কোন ফলাফল পাওয়া যায়নি "
+  date_format: "yy-mm-dd"
+  yes_label: "হ্যা "
+  cancel: "বাতিল "
+  contact:
+    message: "আপনি যদি RapidFTR এর সাথে কোনও সমস্যা অনুভব করেন বা বিশ্বাস করেন যে আপনার পাসওয়ার্ডটি প্রকাশ করা হয়েছে তবে অনুগ্রহ করে system admin এর সাথে যোগাযোগ করুন।"
+    field:
+      name: "নাম "
+      position: "অবস্থান"
+      organization: "Organization"
+      email: "Email"
+      phone: "Phone"
+      location: "স্থান "
+      other_information: "অন্যান্য তথ্য "
+      support_forum: "সাপোর্ট ফোরাম "
+    updated: "যোগাযোগ তথ্য সফলভাবে আপডেট করা হয়েছে।"
+    edit_info: "যোগাযোগ তথ্য সম্পাদনা করুন "
+    info_label: "যোগাযোগের তথ্য"
+    not_found: "%{id}আইডি সঙ্গে যোগাযোগ তথ্য খুঁজে পাচ্ছি না "
+  device:
+    blacklist: "ব্ল্যাকলিস্ট ডিভাইস "
+    messages:
+      blacklist: "আপনি এই ডিভাইসটি কালো তালিকাতে যুক্ত করতে চান?"
+      remove_blacklist: "আপনি ব্ল্যাকলিস্ট থেকে এই ডিভাইস মুছে ফেলতে চান?"
+      disable: 'আপনি কি এই ডিভাইসটি অক্ষম করতে চান?'
+    information: "যন্ত্রের তথ্য"
+    mobile_number: "Mobile Number"
+    timestamp: "টাইমস্ট্যাম্প"
+  admin:
+    contact_info: "অ্যাডমিনের সাথে যোগাযোগের তথ্য"
+    highlight_fields: "Highlight Fields"
+    manage_system_users: "সার্ভার সিঙ্ক্রোনাইজেশন ব্যবহারকারীদের ব্যবস্থাপনা "
+    create_system_user: 'System User তৈরি করুণ '
+    system_logs: "System Logs"
+  fields:
+    label: "ক্ষেত্রসমূহ "
+    field_name: "Field Name "
+    display_name: "Display Name"
+    db_name: "DB Name"
+    help_text: "Help Text "
+    actions: "ক্রিয়াকলাপ "
+    option_strings_text: "Options "
+    option_strings_text_key: "Option Key"
+    option_strings_text_display: "Option Text"
+    option_strings_source: "Lookups"
+    option_strings_add_option: "অপশন যোগ করুন "
+    options_or_lookup_warning: "Options or Lookup যোগ করুন। উভয় প্রবেশ করবেন না।"
+    form_name: "ফরম নাম "
+    action: "কাজ "
+    remove: "Remove"
+    subform_remove_message: "আপনি এই সাবফরম অপসারণ করতে চান, আপনি কি নিশ্চিত?"
+    text_field: "Text Field "
+    check_box: "বক্স চেক করুন "
+    select_box: "Drop Down নির্বাচন করুন"
+    radio_button: "Radio Button "
+    text_area: "Text Area "
+    textarea: "Text Area"
+    numeric_field: "সংখ্যাসূচক ক্ষেত্র "
+    date_field: "Date Field "
+    date_range_field: "তারিখ সীমানা "
+    subform: "Subform"
+    tick_box: "Tick Box"
+    tick_box_label: "Tick Box Label"
+    tally_field: "Tally Field"
+    select_date_validation: "তারিখ যাচাই পদ্ধতি নির্বাচন করুন "
+    not_future_date: "ভবিষ্যতে তারিখ না  "
+    default_date_validation: "ডিফল্ট তারিখ বৈধতা  "
+    date_not_valid: "এই তারিখ বৈধ নয়।  "
+    future_date_not_valid: "এই তারিখ ভবিষ্যতে হতে পারে না। "
+    number_not_valid: "সংখ্যাসূচক তথ্য লিখুন দয়া করে"
+    separator: "Separator"
+    successfully_added: "ক্ষেত্র সফলভাবে যোগ করা হয়েছে"
+    updated: "ক্ষেত্র আপডেট "
+    deleted: "%{display_name}ক্ষেত্র মুছে ফেলা হয়েছে।"
+    add: "সংযোজন "
+    type: "Field type "
+    move_to: "Move to "
+    select_box_empty_item: "(Select...)"
+    chosen_placeholder: "প্রয়োগ হয় এমন সব নির্বাচন করুন"
+    multi_select: "একাধিক নির্বাচন "
+    date_help: "dd-mmm-yyyy"
+    date_help_with_time: "dd-mmm-yyyy hh:mm"
+    date_range:
+      from: "হতে "
+      to: "প্রতি "
+      date: "তারিখ "
+      date_range: "তারিখ সীমানা "
+    file_upload_box:
+      select_file_button_text: "নথি নির্বাচন "
+      no_file_selected: "নির্বাচিত কোন ফাইল নাই "
+      document_file_restrictions_message: "ফাইলগুলি 2 মেগাবাইটের চেয়ে বড় হওয়া উচিত নয় (এক্সিকিউটেবল (.exe) ফাইল আপলোড করা যাবে না)। "
+      photo_file_restrictions_message: "ছবি 10mb চেয়ে বড় হবেনা। অডিও ফাইল 10mb চেয়ে বড় হবেনা। ছোটই ভালো। "
+      add_document_label: "Add Document"
+      add_photo_label: "Add Photo"
+      recorded_audio_label: "Recorded Audio"
+      add_new_document_button_text: "অন্য নথি যোগ করুন "
+      add_new_photo_button_text: "অন্য ছবি যোগ করুন"
+      document_description: "ডকুমেন্ট বর্ণনা"
+    upload_bia_document: "BIA Document"
+    upload_bid_document: "BID Document"
+    upload_other_document: "Other Document"
+    document:
+      comments: "মন্তব্যনমুহ "
+      date: "Document Date"
+      name: "Document নাম"
+      current: "এটি বর্তমান নথি? "
+    audio:
+      current: "Current Audio"
+  replication:
+    label: Replication
+    index: Manage Replications
+    create: Add a Remote Server
+    edit: Edit Configuration
+    remote_app_uri: Primero URL
+    actions: ক্রিয়াকলাপ
+    status: 'স্টাটাস '
+    description: 'বর্ণনা '
+    timestamp: টাইমস্ট্যাম্প
+    delete: 'মুছন '
+    completed: Successful
+    triggered: In Progress
+    error: Failed
+    confirm_delete: আপনি এই replication মুছে ফেলতে চান, আপনি কি নিশ্চিত?
+    start: ' Synchronization শুরু করুন'
+    stop: Synchronization বন্ধ করুন
+    configure_a_server: একটি সার্ভার কনফিগার করুন
+    reindex_pending: Reindex মুলতুবি
+    is_continuous: Is Continuous
+  lookup:
+    actions: "ক্রিয়াকলাপ"
+    edit: "Edit Lookup"
+    create: "New Lookup"
+    label: "Lookup"
+    index: "Manage Lookups"
+    name: "নাম "
+    values: "Options"
+    add_value: "Add Option"
+    remove: "Remove"
+    confirm_delete: আপনি এই lookup মুছে ফেলতে চান, আপনি কি নিশ্চিত?
+    initial_lang_help_text: "%{lang}এটা প্রবেশ করা আবশ্যক।"
+    messages:
+      cannot_create: "Lookup তৈরি করা যায়নি"
+      correct_errors: "নিম্নলিখিত ত্রুটি সংশোধন করুন এবং পুনরায় জমা দিন:"
+      updated: "Lookup সফলভাবে যোগ করা হয়েছে"
+  location:
+    location_code_warning: উল্লেখ্য, যদি আপনি একটি বিদ্যমান অবস্থান কোড পরিবর্তন করেন তবে আপনাকে এই অবস্থানটি ব্যবহার করে যে কোনো রেকর্ডের জন্য অবস্থান ক্ষেত্রগুলি পুনরায় প্রবেশ করতে হবে।
+    create: "নতুন অবস্থান"
+    edit: "অবস্থান সম্পাদনা করুন"
+    label: "স্থান "
+    index: "অবস্থান পরিচালনা করুন"
+    name: "নাম "
+    code: "Code"
+    hierarchy: "Hierarchy"
+    confirm_delete: আপনি এই অবস্থান মুছে ফেলতে চান, আপনি কি নিশ্চিত?
+    placename: "Place name"
+    type: "ধরণ "
+    parent: "Parent location"
+    admin_level: "Admin Level"
+    messages:
+      cannot_create: "অবস্থান তৈরি করা যায়নি"
+      correct_errors: "নিম্নলিখিত ত্রুটি সংশোধন করুন এবং পুনরায় জমা দিন:"
+      updated: "অবস্থান সফলভাবে যোগ করা হয়েছে"
+      deleted: "অবস্থান সফলভাবে মুছে ফেলা হয়েছে"
+    base_types:
+      country: 'Country'
+      region: 'Region'
+      province: 'Province'
+      district: 'District'
+      governorate: 'Governorate'
+      chiefdom: 'Chiefdom'
+      county: 'County'
+      state: 'State'
+      city: 'City'
+      camp: 'Camp'
+      site: 'Site'
+      village: 'Village'
+      zone: 'Zone'
+      other: 'Other'
+      locality: 'Locality'
+      sub-district: 'Sub-district'
+  matching_configuration:
+    edit: "ম্যাচ কনফিগারেশন সম্পাদনা করুন"
+    case_fields: "Matchable কেস ক্ষেত্র "
+    tracing_request_fields: "Matchable ট্রেসিং অনুরোধ ক্ষেত্র "
+    updated: "ম্যাচিং কনফিগারেশন আপডেট "
+    update_error: "ম্যাচ কনফিগারেশন আপডেট করার সময় ত্রুটি "
+    label: "Matching Configuration"
+  session:
+    about_to_expire: "আপনার সেশনের মেয়াদ শেষ হওয়ার পথে "
+    has_expired: "আপনার অধিবেশন মেয়াদ শেষ হয়ে গেছে। পুনরায় লগইন করুন।"
+    invalid_credentials: "অবৈধ প্রশংসাপত্র. অনুগ্রহপূর্বক আবার চেষ্টা করুন!"
+    login_error: "লগ ইন একটি সমস্যা ছিল। আবার চেষ্টা করুন।"
+    invalid_token: "অবৈধ সেশন টোকেন "
+    no_token_provided: "কোন সেশন টোকেন দেওয়া হয়নি "
+    no_token_in_header: "হেডার বা কুকি কোন সেশন টোকেন নেই "
+  reports:
+    register_new_report: "Create Report"
+    label: "Reports"
+    tabs:
+      table: "Table"
+      graph: "Graph "
+    actions:
+      delete: "মুছন "
+    limited_pivots: "এই প্রতিবেদনের জন্য pivot করতে শুধুমাত্র একটি তারিখ ক্ষেত্র নির্বাচন করুন। একটি তারিখ ক্ষেত্র শুধুমাত্র প্রথম বা দ্বিতীয় pivot হতে পারে।"
+    messages:
+      confirmation: "আপনি কি এই প্রতিবেদন মুছে ফেলতে চান? মুছে ফেলা পূর্বাবস্থায় ফেরানো যাবে না। রিপোর্ট মুছে ফেলার জন্য OK ক্লিক করুন।"
+  report:
+    name: "নাম "
+    description: "বর্ণনা "
+    heading: "Primero Reports"
+    type: "ধরণ "
+    as_of_date: "As of Date"
+    download: "Download"
+    all: "মোট "
+    total: "মোট "
+    modules: "মডিউল"
+    record_type: "Record type"
+    aggregate_by: "Group by row"
+    disaggregate_by: "Group by column"
+    aggregate_counts_from: "Aggregate counts from"
+    group_ages: "বয়স রেঞ্জ ব্যবহার করুন"
+    group_dates_by: "তারিখ পরিসীমা ব্যবহার করুন"
+    add_default_filters: "ডিফল্ট ফিল্টার অন্তর্ভুক্ত করুন "
+    add_default_filters_help: "ওপেন এবং সঠিক "
+    date_ranges:
+      date: "Day"
+      week: "Week"
+      month: "Month"
+      year: "Year"
+    filters:
+      label: "ফিল্টার রিপোর্ট "
+      attribute: "ছাঁকনি"
+      value: "With"
+      not_null: "ফরম মান ফাঁকা নয়"
+    is_graph: "একটি গ্রাফ তৈরি? "
+    no_data: "কোন তথ্য এই রিপোর্টের জন্য বিদ্যমান নেই "
+    export:
+      graph: "Graph"
+      data: "Data"
+    successfully_updated: "রিপোর্ট কনফিগারেশন সফলভাবে আপডেট করা হয়।"
+    error_in_updating: "রিপোর্ট কনফিগারেশন আপডেট করার সময় ত্রুটি।"
+    messages:
+      delete_success: "রিপোর্ট সফলভাবে মুছে ফেলা হয়েছে। "
+    edit: "সম্পাদন করা "
+  encrypt:
+    password_title: "Create Password"
+    password_label: "আপনার ফাইল এনক্রিপ্ট করবে এরকম একটি পাসওয়ার্ড লিখুন দয়া করে।"
+    password_mandatory: "একটি বৈধ পাসওয়ার্ড দিন "
+    password_extra_info: "এই পাসওয়ার্ডটি এক্সপোর্ট হওয়া ফাইলের সাথে যুক্ত হবে এবং ভবিষ্যতে যে কেউ এই ফাইলটি খোলার মাধ্যমে প্রবেশ করতে হবে।"
+    file_name: "আপনার নিজস্ব ফাইল নাম তৈরি করুন (ঐচ্ছিক)"
+  administration: "Administration"
+  new: "নতুন "
+  saved: "Saved"
+  account: "Account"
+  moved_from: "%{field_name} moved from %{from_fs} to %{to_fs}"
+  couchrest:
+    fields:
+      Name: "নাম "
+      Username: "ব্যবহারকারীর নাম"
+      Password: "সুরক্ষা পাসওয়ার্ড"
+      Description: "বর্ণনা "
+      Remote app url: "Remote app url"
+    attributes:
+      report:
+        aggregate_by: "Group by row"
+    validations:
+      blank: "%sঅবশ্যই ফাঁকা রাখা যাবে না  "
+  gbv_report:
+    18_and_over_age: "বয়স 18 এবং তার বেশি "
+    12_17_age: "12-17"
+    0_11_age: "0-11"
+    unknown: "অপরিচিত "
+    adult: "প্রাপ্তবয়স্ক"
+    child: "শিশু"
+    'yes': "হ্যা "
+    'no': "না "
+    none: "None"
+    uam_sc_ovc: "UAM/SC/OVC"
+    unaccompanied_minor: "Unaccompanied Minor"
+    separated_child: "পৃথক শিশু "
+    other_vulnerable_child: "অন্যান্য দুর্বল শিশু "
+    rape: "ধর্ষণ"
+    sexual_assault: "যৌন আক্রমণ"
+    non_gbv: "Non-GBV"
+    disability: "অক্ষমতা "
+    sexual_violence: "যৌন সহিংসতা"
+    intimate_partner_former_partner: "ঘনিষ্ঠ সঙ্গী / প্রাক্তন সঙ্গী"
+    intimate_partner_violence: "অন্তরঙ্গ সঙ্গী সংঘাত "
+    child_sexual_abuse: "শিশু যৌন নির্যাতন"
+    forced_marriage: "জোরপূর্বক বিবাহ "
+    early_marriage: "Early Marriage"
+    harmful_traditional_practice: "ক্ষতিকর প্রথাগত অনুশীলন"
+    possible_sexual_exploitation: "সম্ভাব্য যৌন শোষণ "
+    possible_sexual_slavery: "সম্ভাব্য যৌন দাসত্ব "
+    over_1_month: "Over 1 month  "
+    2_weeks_1_month: "2 weeks - 1 month"
+    6_14_days: "6-14 Days"
+    4_5_days: "4-5 Days"
+    0_3_days: "0-3 Days"
+    exclude: "Exclude"
+    include: "Include "
+    quarter_4: "Quarter 4"
+    quarter_3: "Quarter 3"
+    quarter_2: "Quarter 2"
+    quarter_1: "Quarter 1"
+    undecided: "রিপোর্ট অনিশ্চিত সময়"
+  followup_reminders:
+    system_generated_followup_flag: "বাধ্যতামূলক follow up visit "
+    system_generated_followup_unflag: "expired"
+    system_generated_followup_unflag_cancelled: "cancelled "
+    high_risk_level: "High"
+    medium_risk_level: "Medium"
+    low_risk_level: "Low"
+    child_status_open: "Open"
+    child_status_closed: "Closed"
+    child_status_transferred: "Transferred"
+    child_status_duplicate: "Duplicate"
+  dashboard:
+    total: 'মোট '
+    new: 'নতুন এবং আপডেট'
+    pending_transfers: 'মুলতুবি স্থানান্তর '
+    rejected_transfers: 'প্রত্যাখ্যাত স্থানান্তর'
+    transers_awaiting_acceptance: 'ট্রান্সফার স্বীকৃতির অপেক্ষায় '
+    total_referred: "Total Referrals"
+    new_referred: "New Referrals"
+    high_risk: 'High Priority'
+    low_risk: 'Low Priority'
+    none_risk: 'No Priority'
+    medium_risk: 'মাঝারি অগ্রাধিকার '
+    pending: 'Pending'
+    rejected: 'বাতিলকৃত '
+    near_deadline: 'সময়সীমা কাছাকাছি '
+    due: 'Overdue'
+    response: 'প্রতিক্রিয়া (অগ্রগতি)'
+    immediate_response: 'তাৎক্ষণিক উত্তর '
+    cases_to_assign: 'বরাদ্দ কেসসমুহ '
+    overdue_cases_to_assign: 'বরাদ্দ করা কেসসমুহ '
+    closed: 'বন্ধ '
+    comprehensive_need_intervention: 'ব্যাপক প্রতিক্রিয়া '
+    new_incident: 'নতুন ঘটনা '
+    new_service_provision: 'নতুন সেবা বিধান '
+    all_services_implemented: 'সমস্ত সেবা বাস্তবায়িত '
+    services_implemented: 'সেবা বাস্তবায়িত'
+    approved: 'অনুমোদিত '
+    cases_by_workflow: 'Cases By Workflow '
+    cases_by_task_overdue: 'Overdue Tasks '
+    assessment: 'Assessment'
+    case_plan: 'কেইস প্লান '
+    follow_up: 'Follow Up '
+    services: 'Services '
+    admin_only: "আবেদন পরিবর্তন করতে ক্লিক করুন%{links}এ "
+    forms: "FORMS tab"
+    users: "SETTINGS icon "
+    flagged_by: "Flagged by:"
+    no_recent_activities: "No Recent Activities"
+    no_scheduled_activities: "No Scheduled Activities"
+    no_overdue_activities: "No Overdue Activities"
+    no_caseworker_data: "No Case Worker Data"
+    no_flagged_child: "No Flagged Cases "
+    no_flagged_incident: "No Flagged Incidents"
+    no_open_incidents: "No Open incidents "
+    no_case_stats: "No Case Stats"
+    scheduled_activities: "নির্ধারিত কার্যক্রম"
+    overdue_activities: "বিলম্বিত কার্যক্রম"
+    recent_activities: "সাম্প্রতিক ক্রিয়াকলাপ"
+    case_id: "Case #ID"
+    name: "নাম "
+    activity: "Activity"
+    date: "তারিখ "
+    incident_id: "Incident #ID"
+    incident_location: "ঘটনার স্থান "
+    new_child_assigned_to_you: "New Cases Assigned To You "
+    new_incident_assigned_to_you: "নতুন Assigned ঘটনা"
+    recently_flagged_child: "সম্প্রতি পতাকাঙ্কিত ঘটনা"
+    flagged_by_me: "আমার দ্বারা পতাকাঙ্কিত "
+    flagged_by_other: "অন্য কেউ দ্বারা পতাকাঙ্কিত "
+    recently_flagged_incident: "সম্প্রতি পতাকাঙ্কিত ঘটনা"
+    incident_status_open: "Open"
+    number_of_victims: "Number Of Victims"
+    number_of_violations: "Number Of Violations"
+    number_of_violations_verified: "Violations Verified"
+    link_see_all: "See all"
+    open_incidents: "Open Incidents "
+    status_of_cases: "Status of Cases"
+    case_worker: "Case Worker"
+    total_cases: "Total Cases"
+    cases_this_week: "এই সপ্তাহে কেসসমূহ "
+    missed_cases: "Missed Cases"
+    date_of_incident: "ঘটনার তারিখ "
+    violence_type: "ভঙ্গের ধরন "
+    date_of_interview: "সাক্ষাৎকারের তারিখ"
+    system_user: "System"
+    name_or_survivor_code: "Name or Survivor Code "
+    current_owner: "বর্তমান মালিক "
+    last_updated: "সর্বশেষ আপডেট "
+    case_stats: "কারনসমুহ "
+    tr_stats: "ট্রেইজিং অনুরোধ"
+    cases_by_social_worker: "সামাজিক কর্মীদের দ্বারা কেস "
+    approvals: "অনুমোদন সমুহ "
+    referrals_by_social_worker: "সামাজিক কর্মীদের দ্বারা রেফারাল "
+    transfers_by_social_worker: "সামাজিক কর্মী দ্বারা স্থানান্তর "
+    case_stat_by_assessment_level: "মূল্যায়ন স্তর দ্বারা কেসসমুহ "
+    case_stat_by_approval_type: "অনুমোদন সমুহ "
+    case_stat_referrals: "Referrals"
+    protection_concern: "সুরক্ষা Concerns  "
+    protection_concerns: "সুরক্ষা Concerns "
+    geographic_area: "ভৌগলিক এলাকা "
+    all_cases: "All Cases "
+    open: "Open "
+    range4: "0-4  "
+    range4_8: "4-8 "
+    range8_12: "8-12 "
+    range12+: "12+ "
+    match_result: "Matching Results "
+    score_range: "স্কোর সীমা "
+    count_risk_level_total:
+      one: "আপনার ঝুঁকিপূর্ণ কেস আছে"
+      other: "আপনার ঝুঁকিপূর্ণ কেস আছে"
+    count_risk_level_new:
+      one: "এবং নতুন কেসসমূহ"
+      other: "এবং নতুন কেসসমূহ"
+    count_records_total:
+      one: "আপনার মোট কেস আছে "
+      other: "আপনার মোট কেস আছে "
+    count_records_new:
+      one: "এবং নতুন কেসসমূহ"
+      other: "এবং নতুন কেসসমূহ "
+    count_referrals_total:
+      one: "আপনার মোট রেফারেল আছে "
+      other: "আপনার মোট রেফারেল আছে "
+    worker_count_referrals_total:
+      one: "মোট রেফারেল আছে"
+      other: "মোট রেফারেল আছে "
+    count_referrals_new:
+      one: "এবং নতুন রেফারেল আছে "
+      other: "এবং নতুন রেফারেল আছে "
+    worker_count_total:
+      one: "মোট কেস আছে"
+      other: "মোট কেস আছে"
+    manager_count_open_total:
+      one: "আপনার ওপেন কেস আছে"
+      other: "আপনার ওপেন কেস আছে"
+    manager_count_closed_total:
+      one: "এবং বন্ধ কেস আছে "
+      other: "এবং বন্ধ কেস আছে "
+    manager_transfers_totals:
+      one: "আপনার হস্তান্তর কেস আছে"
+      other: "আপনার হস্তান্তর কেস আছে"
+    count_pending_approval_total:
+      one: "আপনার অমীমাংসিত অনুমোদন আছে"
+      other: "আপনার অমীমাংসিত অনুমোদন আছে"
+    count_rejected_approval_total:
+      one: "এবং প্রত্যাখ্যাত অনুমোদন আছে "
+      other: "এবং প্রত্যাখ্যাত অনুমোদন আছে "
+    count_new_bia_approvals:
+      one: "নতুন অনুমোদন "
+      other: "নতুন অনুমোদন "
+    count_new_case_plan_approvals:
+      one: "নতুন অনুমোদন "
+      other: "নতুন অনুমোদন "
+    count_new_closure_approvals:
+      one: "%{stat} <span>new %{stat_type}</span> Approval "
+      other: "%{stat} <span>new %{stat_type}</span> Approvals "
+    count_pending_transfers:
+      one: "You have %{stat} <span>pending</span> Transfer "
+      other: "You have %{stat} <span>pending</span> Transfers "
+    count_rejected_transfers:
+      one: "and %{stat} <span>rejected</span> Transfer  "
+      other: "and %{stat} <span>rejected</span> Transfers "
+    count_waiting_for_acceptance_transfers: "আপনি আপনার স্বীকৃতি %{stat}স্থানান্তরের জন্য অপেক্ষা আছে"
+    open_cases: "Open Cases"
+    new_last_week: "New <span>(last week)</span>"
+    new_this_week: "New <span>(this week)</span>"
+    closed_last_week: "Closed <span>(last week)</span>"
+    closed_this_week: "Closed <span>(this week)</span>"
+    you_have: "You have "
+    and: "and "
+  errors:
+    template:
+      header:
+        one: "%{model}1 ত্রুটি সংরক্ষিত হচ্ছে এই নিষিদ্ধ"
+        other: "%{count}ত্রুটি সংরক্ষিত %{model}হচ্ছে এই নিষিদ্ধ"
+        body: "নিম্নলিখিত ক্ষেত্রগুলির মধ্যে সমস্যা ছিল:"
+        body_js: "রেকর্ড সংরক্ষণ করার জন্য নিম্নলিখিত ক্ষেত্রগুলির সমস্যাগুলির সমাধান করা দরকার:"
+    agencies:
+      logo_size: "10mb এর চেয়ে ছোট একটি নথি আপলোড করুন   "
+      logo_format: "একটি বৈধ লোগো ফাইল আপলোড করুন (jpg, gif, বা PNG) "
+    models:
+      flags:
+        message: "Flags: বার্তা ক্ষেত্র সঠিক নয় "
+        date: "Flags: তারিখ ক্ষেত্র সঠিক নয় "
+        index: "নিশানা: অবস্থান%{index} এ নিশানা অপসারণ করতে অক্ষম "
+      date_range_invalid: "<span>%{field_name}:</span>একটি বৈধ তারিখ পরিসীমা 'From:' লিখুন যা 'To:' এর আগে হওয়া উচিত"
+      photo:
+        primary_photo_id: "প্রাথমিক ফটো %{photo_id}তে 'সেট করার চেষ্টা ব্যর্থ: কোনও ফটো key নেই"
+        photo_size: "10mb এর চেয়ে ছোট একটি নথি আপলোড করুন   "
+        photo_format: "%{model_name}এই রেকর্ডের জন্য দয়া করে একটি বৈধ ফটো ফাইল (jpg বা png) আপলোড করুন "
+        photo_count: "%{photos_count}আপনি শুধুমাত্র প্রতি ছবি %{model_name}অনুমোদিত "
+      audio:
+        audio_size: "10mb এর চেয়ে ছোট একটি নথি আপলোড করুন  "
+        audio_format: "%{model_name}এই রেকর্ডের জন্য একটি বৈধ অডিও ফাইল (amr বা mp3) আপলোড করুন "
+      user:
+        full_name: "ব্যবহারকারী পূর্ণ নাম লিখুন দয়া করে "
+        password_confirmation: "password confirmation লিখুন দয়া করে"
+        password_mismatch: "পাসওয়ার্ড ক্ষেত্রে একই পাসওয়ার্ড নেই"
+        password_text: "- অনুগ্রহ করে একটি পাসওয়ার্ড তৈরি করুন যা অন্তত 8 অক্ষরের এবং এতে অক্ষর এবং সংখ্যা উভয় রয়েছে  "
+        role_ids: "অন্তত একটি ভূমিকা নির্বাচন করুন "
+        module_ids: "অন্তত একটি অনুসন্ধান মান নির্বাচন করুন "
+        organization: "ব্যবহারকারীর প্রতিষ্ঠানের নাম লিখুন দয়া করে "
+        user_name: "একটি বৈধ ব্যবহারকারীর নাম লিখুন দয়া করে "
+        email: "একটি valid  ইমেইল ঠিকানা লিখুন "
+        user_name_uniqueness: "ব্যবহারকারীর নাম ইতিমধ্যেই নেওয়া হয়েছে! একটি নতুন ব্যবহারকারী নাম নির্বাচন করুন "
+        authenticate: "একটি অ সংরক্ষিত ব্যবহারকারী অনুমোদন করতে পারবেন না "
+        invalid_locale: "Locale %{user_locale}valid নয় "
+      child:
+        at_least_one_field: "অন্তত একটি ক্ষেত্র পূরণ করুন অথবা একটি ফাইল আপলোড করুন "
+        age: "বয়স 0 এবং 130 এর মধ্যে হতে হবে "
+        validate_duplicate: "একটি সঠিক ডুপ্লিকেট আইডি প্রদান করা আবশ্যক "
+        date_of_birth: "এই ক্ষেত্রে রেকর্ডের জন্য একটি সঠিক জন্ম তারিখ লিখুন দয়া করে  "
+        wishes_preferences_count: "%{preferences_count}আপনি শুধুমাত্র সন্তানের পছন্দ অনুমোদিত "
+        value_range: "%{field_name}এটি অবশ্যই %{min}এবং %{max}এর মধ্যে হতে হবে "
+        document_type: "type %{type} টি সঠিক নয়  "
+        document_size: "2MB এর চেয়ে ছোট একটি নথি আপলোড করুন "
+        documents_count: "%{documents_count}আপনি শুধুমাত্র ক্ষেত্রে প্রতি নথি অনুমোদিত হয়।  "
+        document_format: "Executable ফাইল অনুমতি দেওয়া হয় না।  "
+        date_closure: "কেস বন্ধ করার তারিখ কেস খোলার তারিখের চেয়ে বড় বা সমান হওয়া উচিত। "
+      incident:
+        document_size: "10mb এর চেয়ে ছোট একটি নথি আপলোড করুন "
+        documents_count: "%{documents_count}আপনি শুধুমাত্র ক্ষেত্রে প্রতি নথি অনুমোদিত হয়। "
+        document_format: "Executable ফাইল অনুমতি দেওয়া হয় না। "
+      field:
+        display_name_presence: " Display Name ফাঁকা রাখা যাবে না  "
+        display_name_format: "প্রদর্শন নামে একটি বর্ণমালা অক্ষর থাকতে হবে  "
+        name_format: "ক্ষেত্রের নামটিতে কেবল নিম্ন বর্ণের বর্ণমালা অক্ষর, সংখ্যা এবং আন্ডারস্কোর থাকতে হবে "
+        name_presence: "Field Name ফাঁকা রাখা যাবে না  "
+        name_format_number_first: "ক্ষেত্র নাম একটি সংখ্যা দিয়ে শুরু করতে পারবেন না"
+        default_value: " type এর জন্য default মান খুঁজে পাচ্ছি না "
+        has_2_options: "Field এর কমপক্ষে 2 টি options থাকতে হবে "
+        has_1_option: "Checkbox এর অন্তত 1 টি option থাকতে হবে"
+        translated_options_do_not_match: "ফিল্ড অনুবাদ options  একই আইডি থাকতে হবে "
+        unique_name_other: "ক্ষেত্রটি ইতিমধ্যে %{form_name}এই ফর্ম এ বিদ্যমান  "
+        unique_name_this: "ক্ষেত্রটি ইতিমধ্যে এই ফর্ম এ বিদ্যমান"
+        change_type_existing_field: "বিদ্যমান ফর্মের ধরন %{field_name}টি%{form_name}'ফর্ম' এ পরিবর্তন করা যাবে না"
+        option_strings_text:
+          not_array: "Option Strings Text এই একটি array নয় "
+          not_hash: "Option Strings Text বিকল্প একটি hash নয় "
+          id_blank: "Option Strings Text আইডি ফাঁকা "
+          display_text_blank: "Option Strings Text অপশন প্রদর্শন text ফাঁকা "
+          id_not_unique: "Option Strings Text এর বিকল্প আইডি unique নয় "
+      form_section:
+        presence_of_name: "Name ফাঁকা রাখা যাবে না "
+        presence_of_base_language_name: "%{base_language}base ভাষার নাম 'ফাঁকা হতে পারে না"
+        format_of_name: "নাম শুধুমাত্র alphanumeric অক্ষর এবং স্পেস থাকতে হবে  "
+        visible_method: "visible মিথ্যা নয় যদি perm_visible সত্য হয়  "
+        fixed_order_method: "fixed_order মিথ্যা নয় যদি perm_enabled সত্য হয়  "
+        perm_visible_method: "perm_visible মিথ্যা নয় যদি perm_enabled সত্য হয়  "
+        add_field_to_form_section: "Form সেকশন edit যোগ্য নয় "
+        delete_field: "Uneditable ক্ষেত্র delete করা যাবে না "
+        unique_name: "%{name}এই নামটি নেয়া হয়েছে "
+        unique_id: "%{unique_id}এই unique id ইতোমধ্যে নেয়া হয়েছে "
+      enquiry:
+        presence_of_criteria: "দয়াকরে তদন্তের criteria যোগ করুণ "
+        presence_of_enquirer_name: "দয়াকরে তদন্ত কারীর নাম যোগ করুন "
+        presence_of_reporter_details: "আপনার তদন্ত কারীর বিবরণ যোগ করুন "
+        create_forbidden: "Forbidden"
+        not_found: "Not found"
+        malformed_query: "Invalid request"
+      role:
+        name_present: "Name ফাঁকা রাখা যাবে না "
+        permission_presence: "অন্তত একটি permission নির্বাচন করুন"
+        unique_name: "এই নামের একটি role ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন"
+        permission:
+          resource_presence: "একটি resource নির্বাচন করুন"
+      primero_module:
+        name_present: "Name ফাঁকা রাখা যাবে না "
+        unique_name: "এই নামের সাথে একটি মডিউল ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন"
+        program: "এই মডিউল সঙ্গে যুক্ত একটি প্রোগ্রাম হতে হবে "
+        associated_form_ids: "অন্তত একটি ফরম এই মডিউল সঙ্গে যুক্ত করা আবশ্যক "
+        associated_record_types: "অন্তত একটি রেকর্ড টাইপ এই মডিউল সঙ্গে যুক্ত করা আবশ্যক"
+      primero_program:
+        name_present: "Name ফাঁকা রাখা যাবে না "
+        unique_name: "এই নামের একটি প্রোগ্রাম ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন"
+      lookup:
+        value_presence: "অন্তত একটি অনুসন্ধান মান নির্বাচন করুন"
+        unique_name: "এই নামের সাথে একটি lookup ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন"
+        being_used: "এই lookup ব্যবহার করা হচ্ছে এবং মুছে ফেলা যাবে না"
+      system_users:
+        username_unique: "ব্যবহারকারীর নাম ইতিমধ্যেই নেওয়া হয়েছে! একটি নতুন ব্যবহারকারী নাম নির্বাচন করুন "
+      replication:
+        remote_app_uri: "দয়াকরে একটি সটিক Primero URL লিখুন "
+        remote_unauthorized: "আপনার প্রবেশ করা ব্যবহারকারীর নাম বা পাসওয়ার্ড ভুল"
+        remote_error: "দূরবর্তী সার্ভারে সংযোগ করতে পারে নি"
+        is_continuous: 'ক্রমাগত Replication? '
+      password_recovery_request:
+        user_name_mandatory: "একটি বৈধ ব্যবহারকারীর নাম লিখুন দয়া করে "
+      ownership:
+        associated_user_names_present: "একটি user এই রেকর্ড সংযুক্ত করা আবশ্যক"
+        module_id_prsesnt: "একটি মডিউল এই রেকর্ড সংযুক্ত করা আবশ্যক"
+      agency:
+        unique_name: "এই নামে একটি সংস্থা ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন"
+        name_present: "অবশ্যই ফাঁকা রাখা যাবে না  "
+        code_present: "অবশ্যই ফাঁকা রাখা যাবে না  "
+      location:
+        name_present: "অবশ্যই ফাঁকা রাখা যাবে না  "
+        code_present: "অবশ্যই ফাঁকা রাখা যাবে না  "
+        admin_level_present: "অবশ্যই ফাঁকা রাখা যাবে না  "
+        unique_name: "এই নামে একটি অবস্থান ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন"
+        unique_location_code: "এই Location code এর সঙ্গে একটি অবস্থান ইতিমধ্যে বিদ্যমান, একটি ভিন্ন অবস্থান কোড লিখুন"
+      reporting_location:
+        label_key: "Label Key অবশ্যই Location Base Type values মানগুলির একটি হতে হবে"
+        admin_level: "Admin Level অবস্থান ও Admin Level values এক হতে হবে"
+      report:
+        name_presence: "Name ফাঁকা রাখা যাবে না "
+        module_presence: "Module ফাঁকা হওয়া যাবে না "
+        module_syntax: "সমস্ত রিপোর্ট মডিউল ইতিমধ্যে বিদ্যমান থাকতে হবে"
+        record_type_presence: "Record type ফাঁকা হওয়া যাবে নয়া "
+        group_by_row_presence: "সারি দ্বারা Group ফাঁকা রাখা যাবে না"
+        use_date_ranges_presence: "তারিখ পরিসর ব্যবহার ফাঁকা হওয়া যাবে না"
+      system_settings:
+        default_locale: "সিস্টেম লোকেল ফাঁকা হওয়া যাবে না "
+        locales: "System Locale হিসাবে ইংরেজি অবশ্যই থাকবে "
+      export_configuration:
+        record_type: "অকার্যকর রেকর্ড এর ধরণ, অবশ্যই শিশু হবে, ট্রেসিং রিকুয়েস্ট, অথবা ঘটনা "
+        opt_out_field_does_not_exist: "ফিল্ড রেকর্ড-এ Specified opt_out থাকবেনা "
+  select_all_results: "সব ফলাফল নির্বাচন করুন"
+  histories:
+    of: "of"
+    to: "to"
+    by: "by"
+    added_by: "added by"
+    belong_to: "belonging to"
+    because: "because:"
+    deleted_by: "deleted by"
+    referral: "%{by_user}দ্বারা %{to_user}এ Referred"
+    transfer: "%{by_user}দ্বারা %{to_user}তে স্থানান্তরিত "
+    record_by: "Record created by"
+    child_status_changed: "শিশু অবস্থা পুনর্মুদ্রিত পরিবর্তিত "
+    system_logs:
+      records_performed_by: "records performed by "
+      performed_by: "performed by"
+      of_child_with_id: "of child with id"
+    audio:
+      audio: "Audio "
+      audio_change: "অডিও পরিবর্তন থেকে"
+    duplicate:
+      mark_as_duplicate: "একটি নকল হিসাবে এই রেকর্ড চিহ্নিত"
+      no_longer_active: "বর্তমান রেকর্ড আর সক্রিয় বা সম্পাদনাযোগ্য নয় "
+    flag:
+      record_flagged_by: "রেকর্ড flagged করা হয়ছিল "
+      record_unflagged_by: "রেকর্ড unflagged করা হয়েছিল"
+    investigated:
+      mark_as_investigated_by: "রেকর্ড চিহ্নিত করা হয় কিছু দ্বারা তদন্ত করা হয়েছে এমন "
+      mark_as_not_investigated_by: "রেকর্ড চিহ্নিত করা হয় কিছু দ্বারা তদন্ত করা হয় নি এমন "
+    reunited:
+      child_status_changed: "শিশু অবস্থা সক্রিয় দ্বারা পরিবর্তিত"
+      with_details: " সঙ্গে এই বিস্তারিত: "
+  actions:
+    button: "ক্রিয়াকলাপ"
+    enable: "সক্ষম "
+    disable: "অক্ষম"
+    reopen: "পুনরায় খোলা "
+    incident_details_from_case: "ঘটনা যোগ করুন "
+    services_section_from_case: "Service Provision যোগ করুণ "
+    description:
+      valid: "Valid record "
+      invalid: "Invalid record "
+  record_panel:
+    valid: "Valid record "
+    invalid: "Invalid record"
+    record_state: "Record State"
+    created_by: "Created By"
+    last_update: "Last Update"
+    current_owner: "বর্তমান মালিক "
+    change_log: "লগ পরিবর্তন করুন"
+    record_information: "রেকর্ড তথ্য "
+    name_date_seperator: "on"
+  bulk_export:
+    file_name: "File"
+    record_type: "ধরণ "
+    started_on: "শুরু "
+    status: "স্টাটাস "
+    retry: "এই রপ্তানি সঠিক নয় । আপনার রপ্তানি পুনরূদ্ধার চেষ্টা করুন"
+  exports:
+    no_records: "কোন নথি নেই "
+    queueing: "এক্সপোর্ট ফাইল তৈরি করা হচ্ছে "
+    pdf:
+      all: 'PDF '
+      one: 'PDF '
+      selected: 'PDF নির্বাচিত '
+    photowall:
+      all: 'Photo Wall  '
+      one: 'Photo Wall '
+      selected: 'Photo Wall নির্বাচিত '
+    case_pdf:
+      all: 'PDF '
+      one: 'PDF  '
+      selected: 'PDF নির্বাচিত '
+    list_view_csv:
+      all: 'রপ্তানি তালিকা দেখুন  '
+      selected: 'CSV নির্বাচিত  '
+    csv:
+      all: 'CSV '
+      one: 'CSV '
+      selected: 'CSV নির্বাচিত '
+    xls:
+      all: 'Excel  '
+      one: 'Excel  '
+      selected: 'নির্বাচিত Excel '
+    selected_xls:
+      all: 'Excel  '
+      one: 'Excel '
+      selected: নির্বাচিত Excel
+    json:
+      all: 'JSON '
+      one: JSON
+      selected: 'JSON নির্বাচিত '
+    unhcr_csv:
+      all: UNHCR
+      one: UNHCR
+      selected: UNHCR নির্বাচিত
+      female_abbreviation: "F"
+      male_abbreviation: "M"
+      unknown_abbreviation: "U"
+      headers:
+        id: "ID"
+        long_id: "লং আইডি"
+        short_id: "শর্ট আইডি"
+        individual_progress_id: "ব্যক্তিগত অগ্রগতি ID"
+        progres_id: "প্রোগ্রেস আইডি"
+        cpims_code: "CPIMS Code"
+        date_of_identification: "সনাক্তকরণ তারিখ "
+        primary_protection_concerns: "প্রাথমিক সুরক্ষা Concerns"
+        secondary_protection_concerns: "মাধ্যমিক সুরক্ষা Concerns"
+        governorate_country: "গভর্নর - দেশ"
+        sex: "লিংগ "
+        sex_mapping_m_f_u: "লিংগ "
+        date_of_birth: "জম্মতারিখ "
+        age: "বয়স "
+        causes_of_separation: "বিচ্ছেদ কারণ"
+        country_of_origin: "মাতৃভূমি "
+        current_care_arrangement: "বর্তমান যত্ন ব্যবস্থা "
+        reunification_status: "Reunification Status"
+        case_status: "Case Status"
+        family_count_no: "Family Count Number"
+        moha_id: "MOHA ID"
+        name_of_child_last_first: "শিশুর পূর্ণ নাম"
+        name_of_caregiver: "শুশ্রুষাকারীর পূর্ণ নাম"
+        vulnerability_code: "Vulnerability কোড "
+        vulnerability_details_code: "Vulnerability কোড-এর বিস্তারিত "
+        locations_by_level: "ঠিকানা (ক্যাম্প, ব্লক, এবং প্রযোজ্য অন্যান্য ঠিকানা যেমন- বাসস্থান-এর জিপিএস)"
+    duplicate_id_csv:
+      all: 'ডুপ্লিকেট আইডি '
+      female_abbreviation: "F"
+      male_abbreviation: "M"
+      unknown_abbreviation: "U"
+      headers:
+        moha_id: "MOHA ID"
+        case_id: "Case ID"
+        progress_id: "প্রোগ্রেস আইডি "
+        child_name_last_first: "শিশুর নাম"
+        age: "বয়স "
+        sex_mapping_m_f_u: "লিংগ "
+        family_size: "পরিবারের সাইজ "
+    mrm_violation_xls:
+      all: MRM Violations
+      one: 'MRM Violations '
+      selected: 'MRM Violations এর জন্য নির্ধারিত '
+    custom_exports:
+      label: Custom Exports
+      format_label: Format নির্বাচন করুন
+      field_label: 'ক্ষেত্র '
+      form_label: ফরম
+      forms: রপ্তানি করতে ফরম নির্বাচন করুন
+      fields: 'রপ্তানি করতে ক্ষেত্র নির্বাচন করুন '
+      submit: 'ঠিক '
+      select_module: 'Module নির্বাচন করুন '
+      choose_fields: 'আপনি একটি ফর্ম এর জন্য পৃথক ক্ষেত্র নির্বাচন করতে চান? '
+      module_placeholder: 'দয়াকরে একটি নির্বাচন module করুন '
+      empty_password: আপনার ফাইল এনক্রিপ্ট করবে এরকম একটি পাসওয়ার্ড লিখুন দয়া করে।
+      empty_fields_forms: রপ্তানি করতে কিছু ফর্ম বা ক্ষেত্র নির্বাচন করুন।
+      empty_format: এক্সপোর্ট করার জন্য একটি  format নির্বাচন করুন।
+      empty_module: এক্সপোর্ট করার জন্য একটি মডিউল নির্বাচন করুন।
+    pdf_exports:
+      label: PDF
+    forms:
+      label: রপ্তানি
+      button: Export Forms
+  imports:
+    password_label: "Password (if required)"
+    format_label: "Format"
+    successful: "ফাইল সফল্ভাবে আমদানি করা হয়েছে "
+    error: "আমদানিতে নিম্নলিখিত ত্রুটি ছিল: %{error}"
+    file_missing: "আমদানি করতে একটি ফাইল অবশ্যই নির্বাচন করতে হবে"
+    unknown_type: "অজানা বা অবৈধ ফাইল টাইপ আমদানি করুন"
+    decrypt_error: "প্রদত্ত পাসওয়ার্ড দিয়ে ফাইলটি ডিক্রিপ্ট করা যায়নি"
+    guess_file_type_option: "ফাইল এক্সটেনশনের উপর ভিত্তি করে Autodetect"
+    zip_file:
+      unknown_type: " archive এ অজানা ধরন সহ এক বা একাধিক ফাইল রয়েছে"
+  referral:
+    type_label: "Referral এর ধরন "
+    existing_user_label: "বিদ্যমান ব্যবহারকারী  "
+    other_user_label: "অন্যান্য  User "
+    other_user_agency_label: "অন্যান্য User's Agency "
+    service_label: "সেবা "
+    consent_label: "রেকর্ড সম্মতি প্রদান করা হয় নি। "
+    consent_override_label: "আপনি এই সেটিং override করতে চান? "
+    is_remote_label: "আপনি কি remote system এ refer করতেছেন? "
+    type_of_export: "আপনি কি ধরনের রপ্তানি চান? "
+    notes_label: "নোটসমুহ"
+    user_mandatory: "User name দরকার"
+    no_records_selected: "কোন রেকর্ড নির্বাচিত করা হয়নি "
+    failure: "%{record_type} %{id} referral ব্যর্থ হয়েছে (নির্বাচিত সম্মতি ক্ষেত্র গুলো চেক করুন)"
+    success: "%{record_type} %{id} সফল্ভাবে refer করা হয়েছে "
+    failure_batch: "%{failed_count} Referral(s) ব্যর্থ হয়েছে (নির্বাচিত সম্মতি ক্ষেত্র গুলো চেক করুন)"
+    success_batch: "%{success_count} Referral(s) সফল্ভাবে করা হয়েছে "
+    to_user_local_status_label: "স্টাটাস "
+    user_local_status_pending: "Pending"
+    user_local_status_accepted: "গৃহীত "
+    user_local_status_rejected: "বাতিলকৃত "
+    user_local_status_inprogress: "In Progress"
+    user_local_status_done: "করা হয়েছে "
+    complete_referral_label: "OK ক্লিক করলে আপনি এই ক্ষেত্রে সংশ্লিষ্ট রেফারেল কাজটি সম্পন্ন করেছেন। একবার আপনি OK ক্লিক করলে আপনার আর এই রেকর্ড অ্যাক্সেস থাকবে না।"
+    done_success_message: "Referral Done."
+  reassign:
+    reassign_case_title: "Assign case(s) to:"
+    existing_user_label: "বিদ্যমান ব্যবহারকারী "
+    user_mandatory: "User name দরকার"
+    no_records_selected: "কোন রেকর্ড নির্বাচিত করা হয়নি "
+    notes_label: "নোটসমুহ"
+  transfer:
+    type_label: "Transfer এর ধরন "
+    existing_user_label: "বিদ্যমান ব্যবহারকারী "
+    other_user_label: "অন্যান্য  User"
+    other_user_agency_label: "অন্যান্য User's Agency"
+    consent_label: "রেকর্ড সম্মতি প্রদান করা হয় নি।"
+    consent_override_label: "আপনি এই সেটিং override করতে চান?"
+    is_remote_label: "আপনি কি  remote system এ স্থানান্তরিত হচ্ছেন? "
+    consent_individual_transfer: "হস্তান্তর-এর জন্য আপনি কি ব্যক্তির নিকট থেকে সম্মতি নিয়েছেন?"
+    type_of_export: "আপনি কি ধরনের রপ্তানি চান?"
+    notes_label: "নোটসমুহ"
+    user_mandatory: "User name দরকার"
+    failure: "%{record_type}%{id}স্থানান্তর ব্যর্থ হয়েছে (নির্বাচিত সম্মতি ক্ষেত্র গুলো চেক করুন)"
+    success: "%{record_type}%{id}সফলভাবে স্থানান্তর করা হয়েছে "
+    rejected: "%{record_type} %{id} transfer rejected"
+    failure_batch: "%{failed_count}স্থানান্তর (গুলি) ব্যর্থ হয়েছে (নির্বাচিত সম্মতি ক্ষেত্র গুলো চেক করুন)"
+    success_batch: "%{success_count}স্থানান্তর (গুলি) সফলভাবে হয়েছে "
+    to_user_local_status_label: "স্টাটাস "
+    user_local_status_pending: "Pending"
+    user_local_status_accepted: "গৃহীত "
+    user_local_status_rejected: "বাতিলকৃত "
+    user_local_status_inprogress: "In Progress"
+    reject: "বাতিলের কারণ "
+    accept_label: "'Accept' ক্লিক করে আপনি এই ক্ষেত্রে দায় স্বীকার করেন; একবার আপনি 'OK' ক্লিক করলে আপনি সিস্টেমের রেকর্ড মালিক হবেন। "
+    reject_label: "'প্রত্যাখ্যান' ক্লিক করে আপনি ইঙ্গিত দিচ্ছেন যে, আপনি এই ক্ষেত্রে দায় স্বীকার করার জন্য প্রস্তুত নন। আপনি এই ক্ষেত্রে প্রত্যাখ্যান করা হয় যে একটি কারণ লিখুন; একবার আপনি 'OK' ক্লিক করলে আপনার আর এই রেকর্ডের access থাকবে না।"
+    unknown_status: "Unknown transfer status: %{status}"
+    unknown_transfer: "%{record_type}%{id}transfer সঠিক নয় "
+    not_valid_transfer: "%{record_type}%{id}অবৈধ স্থানান্তর, আপডেট করা যাবে না অগ্রগতি বা আপনার ক্ষেত্রে ক্ষেত্রে অনুমতি নেই"
+    search:
+      rejected: "বাতিলকৃত "
+      in_progress: "In Progress"
+  request_transfer:
+    success: "Request transfer প্রেরন করা হয়েছে "
+    notes_label: "নোটসমুহ"
+    submit_label: "Request প্রেরন "
+    error:
+      owner_has_no_email: "রেকর্ড মালিকের কোন ইমেইল ঠিকানা নেই "
+      record_not_found: "Record পাওয়া যায়নি "
+      record_not_saved: "Transfer Request record সংরক্ষণ ব্যর্থ "
+  transition:
+    export_type:
+      primero: "Primero"
+      non_primero: "Non-Primero"
+      pdf_export: "PDF রপ্তানি"
+  mark_for_mobile:
+    no_records_selected: "কোন রেকর্ড নির্বাচিত করা হয়নি "
+    failure: "%{record_type}%{id}মবাইল হিসেবে চিহ্নিত করা ব্যর্থ "
+    success: "%{record_type}%{id}সফলভাবে মোবাইল হিসাবে চিহ্নিত"
+    failure_batch: "%{failed_count}রেকর্ড (গুলি) মোবাইল হিসাবে চিহ্নিত করতে ব্যর্থ হয়েছে"
+    success_batch: "%{success_count} রেকর্ড (গুলি) সফলভাবে মোবাইল হিসাবে চিহ্নিত"
+  unmark_for_mobile:
+    failure: "%{record_type}%{id}মোবাইল হিসেবে  unmark  করা ব্যর্থ "
+    success: "%{record_type}%{id}সফলভাবে মোবাইল হিসাবে unmark করা হয়েছে "
+    failure_batch: "%{failed_count} রেকর্ড (গুলি) মোবাইল হিসাবে unmark করা ব্যর্থ হয়েছে"
+    success_batch: "%{success_count} রেকর্ড (গুলি) সফলভাবে মোবাইল হিসাবে unmark করা হয়েছে"
+  approvals:
+    approve_bia: "BIA form এর অনুমোদন অনুরোধ ?"
+    approve_bia_label: "BIA Form এর অনুমোদন "
+    approve_care_plan: "Case Plan form এর জন্য অনুমোদন অনুরোধ?  "
+    approve_case_plan_label: "Case Plan অনুমোদন "
+    approve_case_plan: "Case Plan form এর জন্য অনুমোদন অনুরোধ? "
+    approve_case_plan_with_selectable_type: "Case Plan এর জন্য অনুমোদন অনুরোধ? "
+    approve_closure: "Closure form এর জন্য অনুমোদন অনুরোধ? "
+    approve_closure_label: "Closure Form অনুমোদন "
+    bia: "BIA"
+    case_plan: "কেইস প্লান "
+    closure: "Closure"
+    comments_label: "মন্তব্যনমুহ "
+    error_select_an_approval_type: "দয়াকরে একটি অনুমোদন টাইপ নির্বাচন করুন"
+    case_plan_type_label: "Case plan এর ধরন: "
+    status:
+      pending: "Pending"
+      approved: "অনুমোদিত "
+      rejected: "বাতিলকৃত "
+  notes:
+    notes_label: "নোটসমুহ"
+    subject_label: "বিষয়"
+    no_records_selected: "কোন রেকর্ড নির্বাচিত করা হয়নি "
+    error_adding_note: "ভুল সংযোজন নোট"
+  per_page_translation: "Per page _MENU_"
+  total: 'মোট '
+  caregiver: " (Caregiver)"
+  disabled:
+    filter_label: "দেখানো "
+    status:
+      enabled: "সক্ষম "
+      disabled: "অক্ষম "
+      all: "সব "
+      label: "স্টাটাস "
+  sort_by:
+    label: "Sort by"
+  logger:
+    to: "to"
+    to_user: "user এর নিকট "
+    by_user: "user দ্বারা "
+    login: "প্রবেশ করা "
+    logout: "Logout "
+    create: "Creating"
+    copy: "Copying"
+    destroy: "Deleting"
+    show: "Viewing"
+    edit: "Editing"
+    update: "Updating"
+    export: "Exporting data for"
+    referral: "Referring"
+    reassign: "Assigning"
+    transfer: "Transfering"
+    reopen_case: "Reopening "
+    quick_view: "Quick View দেখা "
+    request_transfer_view: "স্থানান্তর দেখার অনুরোধ "
+    request_transfer: "Transfer Request প্রদান "
+    save_subform: "Subform সংরক্ষণ "
+    create_subform: "Subform তৈরি "
+    consent_count: "সম্মতি গণনা"
+    match_record: "Matching Record"
+    index: "Listing Records"
+    relinquish_referral: "Relinquish referral সম্পন্ন"
+    flag: Flagging
+    unflag: Unflagging
+    flag_records: Flagging
+    transfer_status:
+      Accepted: "গৃহীত Transfer"
+      Rejected: "বাতিল Transfer"
+    hide_name:
+      protect: "লুকানো নাম "
+      view: "নাম দেখান "
+    request_approval:
+      bia: "BIA form এর জন্য অনুমোদন অনুরোধ"
+      case_plan: "Case Plan form এর জন্য অনুমোদন অনুরোধ"
+      closure: " Closure form এর জন্য অনুমোদন অনুরোধ"
+    approve_form:
+      'false': "Rejecting"
+      'true': "অনুমোদন"
+      bia: "BIA form"
+      case_plan: "Case Plan form"
+      closure: "Closure form"
+    mark_for_mobile:
+      'false': "মোবাইলের জন্য Un-Mark করুন"
+      'true': "মোবাইলের জন্য চিহ্নিত করুন "
+    record_state:
+      'false': "Disabling"
+      'true': "Enabling"
+    graph_data: "গ্রাফ তথ্য দেখতে"
+    permitted_field_list: অনুমোদিত ক্ষেত্র তালিকা
+    lookups_for_field: Lookups for field
+  job:
+    status:
+      complete: 'Complete'
+  string_sources_failed: "কিছু ক্ষেত্র লোড করতে ব্যর্থ হয়েছে, সমস্ত ক্ষেত্র লোড করতে page টি refresh করুন।"
+  error_message:
+    notice: 'রেকর্ড সংরক্ষনে ত্রুটি নিষিদ্ধ'
+    fields_notice: 'নিম্নলিখিত ক্ষেত্রগুলির মধ্যে সমস্যা ছিল:'
+  error_page:
+    internal_server_error:
+      something_went_wrong: 'দুঃখিত, কিছু ভুল হয়েছে! '
+      contact_admin: সমস্যা অব্যাহত থাকলে আপনার অ্যাডমিনের সাথে যোগাযোগ করুন।
+      server_error: Server Error
+    not_found:
+      something_went_wrong: দুঃখিত, কিছু ভুল হয়েছে!
+      contact_admin: আপনি যদি বিশ্বাস করেন যে আপনি ভুল করে এখানে, তবে অনুগ্রহ করে আপনার admin এর সাথে যোগাযোগ করুন।
+      server_error: Page পাওয়া যায়নি
+  audio:
+    update_browser:
+      title: 'আপডেট প্রয়োজন'
+      message: "মিডিয়া চালানোর জন্য আপনাকে আপনার browser টি সাম্প্রতিক সংস্করণে আপডেট করতে হবে বা আপনার আপডেট করতে হবে"
+      link_text: "Flash plugin"
+  saved_searches:
+    no_save_searches: "আপনার কোন সংরক্ষিত অনুসন্ধান নাই। "
+    name: "নাম "
+    save_search: "Save Search"
+    delete: "ok তে Click করলে delete হবে \"%{filter_name}\""
+  email_notification:
+    enabled_label: "Email Notifications প্রেরন? "
+    approval_request_subject: "Case: %{id} - Approval Request"
+    approval_response_subject: "Case: %{id} - Approval Response"
+    referral_subject: "%{record_type}: %{id} - Referral"
+    transfer_subject: "%{record_type}:%{id}-স্থানান্তর "
+    transfer_request_subject: "আপনার একটি কেসের জন্য স্থানান্তর অনুরোধ"
+    reassign_subject: "%{record_type}:%{id}-আপনার জন্য নিযুক্ত করা হয়েছে।"
+    approval_request: "%{user}ব্যাবহারকারী%{case_id}এই কেসের উপর%{approval_type} অনুমোদনের জন্য অনুরোধ করেছে। "
+    approval_response: "%{user}এর%{status} ক্ষেত্রে %{approval_type}অনুমোদনের জন্য অনুরোধ আছে%{case_id} ."
+    referral: "%{user}থেকে%{agency} আপনার জন্য নিম্নলিখিত%{record_type} স্থানান্তর করেছেন: %{record_id}জন্য %{service_type}"
+    transfer: "%{user}আপনার জন্য নিম্নলিখিত %{record_type}স্থানান্তর করেছেন: %{record_id} ."
+    reassign: "%{user}আপনার জন্য%{record_type} নিযুক্ত করেছেঃ%{record_id}"
+    transfer_request: " Primero %{user}ব্যবহারকারী %{agency} হতে অনুরোধ করছে যে, আপনি %{record_type}এই রেকর্ডটির মালিকানা হস্তান্তর করুন %{record_id} , যাতে তারা তাদের এলাকার ব্যক্তির জন্য%{record_type} পরিচালনা পরিষেবা সরবরাহ করতে পারে। যদি এই স্থানান্তরটি আপনার কাছে গ্রহণযোগ্য হয়, তাহলে Primero খুলতে %{record_type} এবং স্থানান্তর শুরু করার জন্য এই ইমেলের %{record_type} ID link এ click করুন।"
+    approval_request_html: "<strong>%{user}</strong>ব্যাবহারকারী<strong>%{case_id}</strong>এই কেসের উপর <strong>%{approval_type}</strong> অনুমোদনের জন্য অনুরোধ করেছে। "
+    approval_response_html: "<strong>%{user}</strong>এর <strong>%{status}</strong>ক্ষেত্রে <strong>%{approval_type}</strong>অনুমোদনের জন্য অনুরোধ আছে <strong>%{case_id}</strong>."
+    referral_html: "<strong>%{user}</strong>থেকে %{agency}আপনার জন্য নিম্নলিখিত %{record_type} স্থানান্তর করেছেন: <strong>%{record_id}</strong>জন্য %{service_type}"
+    transfer_html: "<strong>%{user}</strong>আপনার জন্য নিম্নলিখিত %{record_type} স্থানান্তর করেছেন: <strong>%{record_id}</strong>. "
+    reassign_html: "{<strong>%{user}</strong>}  আপনার জন্য নিযুক্ত করেছেঃ <strong>%{record_id}</strong>"
+    transfer_request_html: " Primero ব্যবহারকারী <strong>{%{user}</strong>%{agency}} হতে অনুরোধ করছে যে, আপনি%{record_type} এই রেকর্ডটির মালিকানা হস্তান্তর করুন <strong>%{record_id}</strong> , যাতে তারা তাদের এলাকার ব্যক্তির জন্য %{record_type} পরিচালনা পরিষেবা সরবরাহ করতে পারে। যদি এই স্থানান্তরটি আপনার কাছে গ্রহণযোগ্য হয়, তাহলে Primero খুলতে এবং স্থানান্তর শুরু করার জন্য এই ইমেলের %{record_type} ID link এ click  করুন।"
+    transfer_request_notes_html: "ব্যক্তিগত অনুরোধ থেকে নোট: %{request_transfer_notes}"
+  will_paginate:
+    previous_label: "&#8592; Previous"
+    next_label: "Next &#8594;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page_html:
+        zero: "পাওয়া যায়নি %{model}"
+        one: "প্রদর্শন <b>1 </b>%{model}"
+        other: "সব  %{count}<b>%{model}</b> প্রদর্শন "
+      multi_page_html: "সর্বমোট <b> %{count}</b>এর <b>%{from}-%{to}</b>%{model}প্রদর্শন "
+    models:
+      report:
+        one: "রিপোর্ট "
+        other: "রিপোর্ট "
+      child:
+        one: "কেস "
+        other: "কেস"
+      incident:
+        one: "ঘটনা "
+        other: "ঘটনা"
+      hash:
+        one: "ম্যাচিং ফলাফল"
+        other: "ম্যাচিং ফলাফল"
+      bulk_export:
+        one: "বাল্ক ফাইল এক্সপোর্ট "
+        other: "বাল্ক ফাইল এক্সপোর্ট"
+      task:
+        one: "কাজ"
+        other: "কাজ "
