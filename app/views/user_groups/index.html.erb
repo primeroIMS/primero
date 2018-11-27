@@ -3,9 +3,6 @@
 <% end %>
 
 <% content_for :record_sub_nav_controls do %>
-  <% if can?(:create, UserGroup) %>
-    <%= link_to content_tag(:span, t("user_group.create"), :class => 'create_user'), new_user_group_path, :class => 'button' %>
-  <% end %>
   <%#= render 'exports/button' %>
   <%# TODO: Hiding imports so that QA doesn't get into trouble %>
   <%#= render 'imports/button' %>
@@ -16,12 +13,19 @@
     <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'user_groups'} %>
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
-    <div class="side-tab-content" data-equalizer-watch>
-      <%= render partial: 'shared_configuration_resource/table',
-                 locals: {objects: @user_groups,
-                          object_class: UserGroup,
-                          heading_keys: ['user_group.name', 'description'],
-                          properties: ['name', 'description']} %>
-    </div>
+    <%= render({ partial: 'record_shared/list_view_table',
+                 locals: {
+                   model: UserGroup,
+                   record: 'user_group',
+                   collection: @user_groups,
+                   opts: {
+                     display_actions: false,
+                     display_filter: false,
+                     display_saved_search: false,
+                     display_create: true
+                   }
+                 }
+               })
+    %>
   </div>
 </div>

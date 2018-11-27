@@ -42,6 +42,8 @@ module IndexHelper
         list_view_header_user
       when "agency"
         list_view_agency
+      when "user_group"
+        list_view_user_group
       else
         []
     end
@@ -339,6 +341,13 @@ module IndexHelper
       {title: 'user_name', sort_title: 'user_name'},
       {title: 'position', sort_title: 'position'},
       {title: 'agency', sort_title: 'agency'}
+    ]
+  end
+
+  def list_view_user_group
+    [
+      {title: 'user_group.name', sort_title: 'user_group.name'},
+      {title: 'description', sort_title: 'description'},
     ]
   end
 
