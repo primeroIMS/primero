@@ -148,11 +148,12 @@ class Lookup < CouchRest::Model::Base
   end
 
   def validate_has_2_values
-    if(lookup_values == nil ||
+    lv = self.send("lookup_values_#{base_language}")
+    if(lv == nil ||
        (id != 'lookup-service-response-type' &&
-        (lookup_values.length < 2 ||
-         lookup_values[0]['display_text'] == '' ||
-         lookup_values[1]['display_text'] == '')))
+        (lv.length < 2 ||
+         lv[0]['display_text'] == '' ||
+         lv[1]['display_text'] == '')))
       return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options"))
     end
     true
