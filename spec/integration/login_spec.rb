@@ -9,6 +9,7 @@ feature "signin process" do
     module_options = { program_id: program.id}
     primero_module = create(:primero_module, module_options)
     @user = create(:user, password: 'password123', password_confirmation: 'password123')
+    SystemSettings.create(default_locale: "en", primary_age_range: "primary", age_ranges: {"primary" => [1..2, 3..4]})
   end
 
   scenario "invalid signin" do
