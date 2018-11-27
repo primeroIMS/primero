@@ -688,6 +688,8 @@ en:
     trace: 'Trace'
     case: 'Case'
     name: 'Name'
+    name_other: 'Other Name'
+    name_nickname: 'Nickname'
 
     likelihood:
       likely: 'Likely'

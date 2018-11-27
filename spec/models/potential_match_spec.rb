@@ -121,6 +121,26 @@ describe PotentialMatch do
         expect(sex_comparison[:matches]).to eq(PotentialMatch::VALUE_MISMATCH)
       end
     end
+
+    describe '.compare_names' do
+      before do
+        @child = build(:child, age: 12, sex: 'male', name: 'Test User', name_other: 'Someone', name_nickname: 'Nicky')
+        @trace = build(:child, age: 12, sex: 'female', name: 'Tester', name_nickname: 'Nicks')
+        @potentail_match = PotentialMatch.new
+        @potential_match.stub(:child).and_return(@child)
+        @potential_match.stub(:trace).and_return(@trace)
+      end
+
+      it 'returns comparable name fields for case and trace' do
+        comparable_names = @potential_match.compare_names
+        expect(comparable_names.length).to eq 3
+        expect(PotentialMatch.comparable_name_fields).to include(comparable_names.first[:field])
+        expect(PotentialMatch.comparable_name_fields).to include(comparable_names.last[:field])
+        expect(comparable_names.first[:child_name]).to eq 'Test User'
+        expect(comparable_names.first[:trace_name]).to eq 'Tester'
+        expect(comparable_names[1][:trace_name]).to eq '-'
+      end
+    end
   end
 
   describe 'set_visible' do
