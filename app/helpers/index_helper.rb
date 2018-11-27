@@ -38,6 +38,8 @@ module IndexHelper
         list_view_header_task
       when "audit_log"
         list_view_audit_log
+      when "user"
+        list_view_header_user
       when "agency"
         list_view_agency
       else
@@ -330,6 +332,16 @@ module IndexHelper
       {title: 'description', sort_title: 'description'},
     ]
   end
+
+  def list_view_header_user
+    [
+      {title: 'full_name', sort_title: 'full_name'},
+      {title: 'user_name', sort_title: 'user_name'},
+      {title: 'position', sort_title: 'position'},
+      {title: 'agency', sort_title: 'agency'}
+    ]
+  end
+
   def audit_log_description(record)
     record.display_id.present? ? audit_log_description_with_id(record.record_type, record.display_id) : record.record_type
   end

@@ -747,6 +747,11 @@ en:
       label: "Sort by"
       full_name: "Full Name"
       agency: "Agency"
+    filter_by:
+      status: "Status"
+      enabled: "Enabled"
+      disabled: "Disabled"
+    register_new_user: "Create User"
 
   roles:
     label: "Roles"

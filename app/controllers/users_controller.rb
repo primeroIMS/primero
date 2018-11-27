@@ -1,16 +1,15 @@
 class UsersController < ApplicationController
   @model_class = User
 
+  include RecordFilteringPagination
   include ExportActions
   include ImportActions
-  include DisableActions
 
   before_action :clean_role_ids, :only => [:update, :create]
   before_action :clean_module_ids, :only => [:update, :create]
   before_action :clean_user_locale, :only => [:update, :create]
   before_action :clean_group_ids, :only => [:update, :create]
   before_action :load_user, :only => [:show, :edit, :update, :destroy]
-  before_action :load_records_according_to_disable_filter, :only => [:index]
   before_action :agency_names, :only => [:new, :create, :edit, :update]
   before_action :load_services, :only => [:new, :create, :edit]
   before_action :sanitize_services_multiselect, :only => [:create, :update]
@@ -22,9 +21,27 @@ class UsersController < ApplicationController
   def index
     authorize! :read, User
 
+    @current_modules = [] #Hack because this is expected in templates used.
+    @saved_searches = []   #Hack because this is expected in templates used.
+    @filters = record_filter(filter)
+
     @page_name = t("home.users")
+
+    @per_page = per_page
+
+    if params[:page] != 'all'
+      editable_users = load_editable_users || load_users
+      users_page = editable_users.try(:page, page).try(:per, @per_page)
+      @users = users_page.try(:all) || []
+      @total_records = users_page.count
+      @paginated_users = paginated_collection(@users, @total_records)
+    else
+      @users = load_users.try(:all) || []
+      @total_records = @users.size
+    end
+
+    #TODO:  Is user_details used?
     @users_details = users_details
-    @editable_users = editable_users
 
     respond_to do |format|
       format.html
@@ -237,9 +254,23 @@ class UsersController < ApplicationController
     @has_agency_read = current_user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
-  def editable_users
-    @users.select do |user|
-      (has_agency_read && current_user.agency == user.agency) || !has_agency_read
+  def load_editable_users
+    enabled_param = get_enabled_param
+    if has_agency_read
+      if enabled_param.present?
+        User.send("by_organization_#{enabled_param}").key(current_user.organization)
+      else
+        User.send("by_organization").key(current_user.organization)
+      end
+    end
+  end
+
+  def load_users
+    enabled_param = get_enabled_param
+    if enabled_param.present?
+      User.send("by_user_name_#{enabled_param}")
+    else
+      User.send("by_user_name")
     end
   end
 
@@ -264,6 +295,25 @@ class UsersController < ApplicationController
 
   def sanitize_services_multiselect
     sanitize_multiselect_params(:user, [:services])
+  end
+
+  #Override method defined in record_filtering_pagination
+  def per_page
+    @per_page ||= params[:per] ? params[:per].to_i : 50
+  end
+
+  def record_filter(filter)
+    filter["status"] ||= {:type => "list", :value => 'enabled'}
+    filter
+  end
+
+  def get_enabled_param
+    enabled_param = if params[:scope].present? && params[:scope][:status].present?
+                      params[:scope][:status].split('||')
+                    else
+                      ['list','enabled']
+                    end
+    enabled_param.last if enabled_param.size == 2
   end
 
 end

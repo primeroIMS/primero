@@ -66,6 +66,8 @@ _primero.Router = Backbone.Router.extend({
   },
 
   usersPage: function() {
+    this.initIndexTable();
+    new _primero.Views.IndexFilters();
     this.passwordPrompt();
     //When a validation fails users edit page goes to this url.
     this.userCreatePage();

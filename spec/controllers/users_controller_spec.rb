@@ -14,6 +14,8 @@ describe UsersController do
     @a_module = PrimeroModule.create name: "Test Module"
 
     @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
+
+    SystemSettings.create(default_locale: "en", primary_age_range: "primary", age_ranges: {"primary" => [1..2, 3..4]})
   end
 
   def mock_user(stubs={})
@@ -42,201 +44,66 @@ describe UsersController do
       @user = mock_user({:merge => {}, :user_name => "someone"})
     end
 
-    context "when sorting by user name" do
+    context "with status filter disabled" do
       before :each do
-        @params = {"sort" => 'user_name'}
+        @params = { scope: { status: 'list||disabled' } }
       end
 
-      context "with filter disabled" do
-        before :each do
-          @params['filter'] = 'disabled'
-        end
-
-        it "populates the view with all the disabled users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_d, @user_e])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
+      it "populates the view with all the disabled users" do
+        get :index, params: @params
+        expect(assigns(:users)).to eq([@user_d, @user_e])
       end
 
-      context "with filter enabled" do
-        before :each do
-          @params['filter'] = 'enabled'
-        end
-
-        it "populates the view with all the enabled users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
-      end
-
-      context "with filter all" do
-        before :each do
-          @params['filter'] = 'all'
-        end
-
-        it "populates the view with all the users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_a, @user_b, @user_c, @user_d, @user_e])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
-      end
-
-      context "with no filter" do
-        it "populates the view with all the users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
+      it "renders the index template" do
+        get :index, params: @params
+        expect(response).to render_template("index")
       end
     end
 
-    context "when sorting by full name" do
+    context "with status filter enabled" do
       before :each do
-        @params = {"sort" => 'full_name'}
+        @params = { scope: { status: 'list||enabled' } }
       end
 
-      context "with filter disabled" do
-        before :each do
-          @params['filter'] = 'disabled'
-        end
-
-        it "populates the view with all the disabled users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_e, @user_d])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
+      it "populates the view with all the enabled users" do
+        get :index, params: @params
+        expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
       end
 
-      context "with filter enabled" do
-        before :each do
-          @params['filter'] = 'enabled'
-        end
-
-        it "populates the view with all the enabled users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_c, @user_b, @user_a])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
-      end
-
-      context "with filter all" do
-        before :each do
-          @params['filter'] = 'all'
-        end
-
-        it "populates the view with all the users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_e, @user_d, @user_c, @user_b, @user_a])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
-      end
-
-      context "with no filter" do
-        it "populates the view with all the users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_c, @user_b, @user_a])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
+      it "renders the index template" do
+        get :index, params: @params
+        expect(response).to render_template("index")
       end
     end
 
-    context "when sorting by organization" do
+    context "with status filter enabled and disabled" do
       before :each do
-        @params = {"sort" => 'organization'}
+        @params = { scope: { status: 'list||disabled||enabled' } }
       end
 
-      context "with filter disabled" do
-        before :each do
-          @params['filter'] = 'disabled'
-        end
-
-        it "populates the view with all the disabled users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_e, @user_d])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
+      it "populates the view with all the users" do
+        get :index, params: @params
+        expect(assigns(:users)).to eq([@user_a, @user_b, @user_c, @user_d, @user_e])
       end
 
-      context "with filter enabled" do
-        before :each do
-          @params['filter'] = 'enabled'
-        end
+      it "renders the index template" do
+        get :index, params: @params
+        expect(response).to render_template("index")
+      end
+    end
 
-        it "populates the view with all the enabled users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_b, @user_a, @user_c])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
+    context "with no filter" do
+      before :each do
+        @params = {}
+      end
+      it "populates the view with enabled users" do
+        get :index, params: @params
+        expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
       end
 
-      context "with filter all" do
-        before :each do
-          @params['filter'] = 'all'
-        end
-
-        it "populates the view with all the users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_b, @user_e, @user_a, @user_d, @user_c])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
-      end
-
-      context "with no filter" do
-        it "populates the view with all the users" do
-          get :index, params: @params
-          expect(assigns(:users)).to eq([@user_b, @user_a, @user_c])
-        end
-
-        it "renders the index template" do
-          get :index, params: @params
-          expect(response).to render_template("index")
-        end
+      it "renders the index template" do
+        get :index, params: @params
+        expect(response).to render_template("index")
       end
     end
 
@@ -259,7 +126,7 @@ describe UsersController do
       users_details = assigns[:users_details]
       users_details.should_not be_nil
       user_detail = users_details[0]
-      user_detail[:user_name].should == "ccc123"
+      user_detail[:user_name].should == "aaa123"
       user_detail[:user_url].should_not be_blank
     end
 
