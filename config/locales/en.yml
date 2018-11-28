@@ -2309,3 +2309,6 @@ en:
       task:
         one: "Task"
         other: "Tasks"
+      user_group:
+        one: "User Group"
+        other: "User Groups"
