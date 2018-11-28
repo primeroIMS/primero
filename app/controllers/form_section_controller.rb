@@ -45,7 +45,7 @@ class FormSectionController < ApplicationController
       flash[:notice] = t("form_section.messages.updated")
       redirect_to edit_form_section_path(id: form_section.unique_id, module_id: params[:module_id], parent_form: params[:parent_form])
     else
-      get_form_group_names
+      get_form_groups
       @form_section = form_section
       render :new
     end
@@ -68,7 +68,7 @@ class FormSectionController < ApplicationController
         module_id: params[:module_id],
         parent_form: params[:form_section][:parent_form])
     else
-      get_form_group_names
+      get_form_groups
       render :action => :edit
     end
   end

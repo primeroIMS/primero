@@ -24,6 +24,14 @@
     }
   }
 
+  .filter-controls {
+    label {
+      span {
+        width: rem_calc(160);
+      }
+    }
+  }
+
   fieldset {
     padding: 2em 0;
   }

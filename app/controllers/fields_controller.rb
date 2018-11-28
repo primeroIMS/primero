@@ -23,7 +23,7 @@ class FieldsController < ApplicationController
     FormSection.add_field_to_formsection @form_section, @field
 
     if @field.errors.present? || @form_section.errors.present?
-      get_form_group_names
+      get_form_groups
       @show_add_field = { :show_add_field => @field.errors.present? }
       render :template => "form_section/edit", :locals => @show_add_field
     else
@@ -56,7 +56,7 @@ class FieldsController < ApplicationController
     @form_section.save
 
     if @field.errors.present? || @form_section.errors.present?
-      get_form_group_names
+      get_form_groups
       @show_add_field = {:show_add_field => @field.errors.present?}
       render :template => "form_section/edit",  :locals => @show_add_field
     else

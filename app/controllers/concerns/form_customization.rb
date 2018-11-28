@@ -4,7 +4,7 @@ module FormCustomization
   included do
     before_action :parent_form, :only => [:new, :create, :edit, :published, :update, :destroy]
     before_action :current_modules, :only => [:index, :new, :edit, :create, :update]
-    before_action :get_form_group_names, :only => [:new, :edit, :update]
+    before_action :get_form_groups, :only => [:new, :edit, :update]
   end
 
   private
@@ -19,7 +19,7 @@ module FormCustomization
     @primero_module = @current_modules.select{|m| m.id == @module_id}.first
   end
 
-  def get_form_group_names
-    @list_form_group_names = FormSection.list_form_group_names(@primero_module, parent_form, current_user)
+  def get_form_groups
+    @list_form_groups = Lookup.form_groups(parent_form, @primero_module.try(:name))
   end
 end

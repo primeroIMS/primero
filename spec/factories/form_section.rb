@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :form_section, :traits => [:model] do
     unique_id { "form_section_#{counter}" }
-    form_group_name { "form_section_#{counter}" }
+    form_group_id { "form_section_#{counter}" }
     name { "Form Section #{counter}" }
     fields []
     parent_form 'case'
@@ -10,7 +10,7 @@ FactoryBot.define do
 
   factory :subform_section, class: FormSection, :traits => [:model] do
     unique_id { "form_section_#{counter}" }
-    form_group_name { "form_section_#{counter}" }
+    form_group_id { "form_section_#{counter}" }
     name { "Form Section #{counter}" }
     fields []
     is_first_tab false

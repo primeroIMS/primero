@@ -35,7 +35,9 @@ _primero.Router = Backbone.Router.extend({
     'matching_configurations/:id/edit': 'matchingConfigurationPage',
     'agencies/:id/edit':'agencyForm',
     'agencies/new':'agencyForm',
-    'agencies/:id':'agencyForm'
+    'agencies/:id':'agencyForm',
+    'agencies':'recordIndexPage',
+    'user_groups':'recordIndexPage'
   },
 
   initialize: function() {
@@ -65,6 +67,8 @@ _primero.Router = Backbone.Router.extend({
   },
 
   usersPage: function() {
+    this.initIndexTable();
+    new _primero.Views.IndexFilters();
     this.passwordPrompt();
     //When a validation fails users edit page goes to this url.
     this.userCreatePage();

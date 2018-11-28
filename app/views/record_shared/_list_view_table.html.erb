@@ -11,7 +11,11 @@
 %>
 <div class="index_controls_container" data-top="49" data-bottom="40">
   <div class="row align-middle controls">
+  <% if options[:display_filter].present? %>
     <div class="large-9 small-9 columns">
+  <% else %>
+    <div class="large-12 small-12 columns">
+  <% end %>
       <div class="row collapse align-middle">
         <div class="large-6 small-6 columns">
           <div class="pagination_info">

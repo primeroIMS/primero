@@ -6,9 +6,18 @@ describe FormSection do
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
     Role.all.each &:destroy
-    @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_name: "M")
-    @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_name: "X")
-    @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case', form_group_name: "Y")
+    Lookup.all.each(&:destroy)
+
+    @lookup = Lookup.create!(:id => "lookup-form-group-cp-case",
+                             :name => "Form Group CP Case",
+                             :lookup_values_en => [{id: "m", display_text: "M"}.with_indifferent_access,
+                                                   {id: "x", display_text: "X"}.with_indifferent_access,
+                                                   {id: "y", display_text: "Y"}.with_indifferent_access]
+    )
+
+    @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "m")
+    @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
+    @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case', form_group_id: "y")
     @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
     @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
@@ -73,7 +82,7 @@ describe FormSection do
 
   describe "permitted subforms" do
     before do
-      @subform = FormSection.create!(unique_id: "A-SUBFORM", name: "A-SUBFORM", parent_form: 'case', form_group_name: "M")
+      @subform = FormSection.create!(unique_id: "A-SUBFORM", name: "A-SUBFORM", parent_form: 'case', form_group_id: "m")
       @subform_field = Field.new({
         "name" => "a_subform_field",
         "type" => Field::SUBFORM,
@@ -176,31 +185,11 @@ describe FormSection do
 
   end
 
-  describe "list_form_group_names" do
-    it "return form group name that correspond to the current module" do
-      form_group_names = FormSection.list_form_group_names(@primero_module, 'case', @user)
-      expect(form_group_names).to match_array(["X"])
-    end
-
-    it "add new form group and ensure group order" do
-      @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'case', form_group_name: "G")
-      @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: 'case', form_group_name: "K")
-      @primero_module.associated_form_ids << "E"
-      @primero_module.associated_form_ids << "D"
-      @primero_module.save!
-      @role.permitted_form_ids << "D"
-      @role.permitted_form_ids << "E"
-      @role.save!
-      form_group_names = FormSection.list_form_group_names(@primero_module, 'case', @user)
-      expect(form_group_names).to match_array(["G", "K", "X"])
-    end
-  end
-
   describe "group_forms" do
     it "groups forms by the group name" do
-      form_section_a = FormSection.new(unique_id: "A", name: "A", form_group_name: "X")
-      form_section_b = FormSection.new(unique_id: "B", name: "B", form_group_name: "X")
-      form_section_c = FormSection.new(unique_id: "C", name: "C", form_group_name: "Y")
+      form_section_a = FormSection.new(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "x")
+      form_section_b = FormSection.new(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
+      form_section_c = FormSection.new(unique_id: "C", name: "C", parent_form: 'case', form_group_id: "y")
 
       result = FormSection.group_forms([form_section_a, form_section_b, form_section_c])
 
@@ -584,7 +573,7 @@ describe FormSection do
             :order_form_group => 1,
             :order => 1,
             :order_subform => 0,
-            :form_group_name => "Form Section Test",
+            :form_group_id => "m",
             "editable" => true,
             "name_all" => "Form Section Test 2",
             "description_all" => "Form Section Test 2",
@@ -1005,7 +994,7 @@ describe FormSection do
         :order_form_group => 1,
         :order => 1,
         :order_subform => 0,
-        :form_group_name => "Form Section Test",
+        :form_group_id => "m",
         "editable" => true,
         "name_all" => "Form Section Test 1",
         "description_all" => "Form Section Test 1",
@@ -1034,7 +1023,7 @@ describe FormSection do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
+          :form_group_id => "m",
           "editable" => true,
           "name_all" => "Form Section Test 2",
           "description_all" => "Form Section Test 2",
@@ -1117,7 +1106,7 @@ describe FormSection do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
+          :form_group_id => "m",
           "editable" => true,
           "name_all" => "Form Section Test 2",
           "description_all" => "Form Section Test 2",
@@ -1173,7 +1162,7 @@ describe FormSection do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
+          :form_group_id => "m",
           "editable" => true,
           "name_all" => "Form Section No Locations",
           "description_all" => "Form Section No Locations",
@@ -1207,7 +1196,7 @@ describe FormSection do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
+          :form_group_id => "m",
           "editable" => true,
           "name_all" => "Form Section One Location",
           "description_all" => "Form Section One Location",
@@ -1251,7 +1240,7 @@ describe FormSection do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
+          :form_group_id => "m",
           "editable" => true,
           "name_all" => "Form Section Two Locations",
           "description_all" => "Form Section Two Locations",
@@ -1290,7 +1279,7 @@ describe FormSection do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
+          :form_group_id => "m",
           "editable" => true,
           "name_all" => "Form Section Three Locations",
           "description_all" => "Form Section Three Locations",
@@ -1334,7 +1323,7 @@ describe FormSection do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
+          :form_group_id => "m",
           "editable" => true,
           "name_all" => "Form Section Four Locations",
           "description_all" => "Form Section Four Locations",

@@ -38,6 +38,12 @@ module IndexHelper
         list_view_header_task
       when "audit_log"
         list_view_audit_log
+      when "user"
+        list_view_header_user
+      when "agency"
+        list_view_agency
+      when "user_group"
+        list_view_user_group
       else
         []
     end
@@ -59,6 +65,8 @@ module IndexHelper
         index_filters_tracing_request
       when "potential_match"
         index_filters_potential_match
+      when "agency"
+        index_filters_agency
       else
         []
     end
@@ -320,6 +328,29 @@ module IndexHelper
     ]
   end
 
+  def list_view_agency
+    [
+      {title: 'agency.name', sort_title: 'agency.name'},
+      {title: 'description', sort_title: 'description'},
+    ]
+  end
+
+  def list_view_header_user
+    [
+      {title: 'full_name', sort_title: 'full_name'},
+      {title: 'user_name', sort_title: 'user_name'},
+      {title: 'position', sort_title: 'position'},
+      {title: 'agency', sort_title: 'agency'}
+    ]
+  end
+
+  def list_view_user_group
+    [
+      {title: 'user_group.name', sort_title: 'user_group.name'},
+      {title: 'description', sort_title: 'description'},
+    ]
+  end
+
   def audit_log_description(record)
     record.display_id.present? ? audit_log_description_with_id(record.record_type, record.display_id) : record.record_type
   end
@@ -441,6 +472,12 @@ module IndexHelper
     return filters
   end
 
+  def index_filters_agency
+    filters = []
+    filters << "Status"
+    filters
+  end
+
   def selectable_filter_date_options(record)
     case record
       when "cases"
@@ -512,6 +549,8 @@ module IndexHelper
       Permission::REASSIGN,
       Permission::SYNC_MOBILE,
       Permission::ASSIGN,
+      Permission::ASSIGN_WITHIN_AGENCY,
+      Permission::ASSIGN_WITHIN_USER_GROUP,
       Permission::TRANSFER,
       Permission::REFERRAL,
       Permission::INCIDENT_DETAILS_FROM_CASE,
@@ -527,6 +566,8 @@ module IndexHelper
       Permission::REASSIGN,
       Permission::SYNC_MOBILE,
       Permission::ASSIGN,
+      Permission::ASSIGN_WITHIN_AGENCY,
+      Permission::ASSIGN_WITHIN_USER_GROUP,
       Permission::TRANSFER,
       Permission::REFERRAL,
       Permission::REQUEST_APPROVAL_BIA,

@@ -22,15 +22,13 @@ directory node[:primero][:log_dir] do
   recursive true
 end
 
-bin_dir = ::File.join(node[:primero][:home_dir], 'bin')
-directory bin_dir do
+directory node[:primero][:bin_dir] do
   action :create
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
 end
 
-primeroctl = ::File.join(bin_dir, 'primeroctl')
-cookbook_file primeroctl do
+cookbook_file ::File.join(node[:primero][:bin_dir], 'primeroctl') do
   source 'primeroctl'
   owner node[:primero][:app_user]
   group node[:primero][:app_group]

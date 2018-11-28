@@ -54,6 +54,7 @@ class PrimeroModule < CouchRest::Model::Base
 
   def associated_forms(include_subforms=false)
     result = FormSection.by_unique_id(keys: self.associated_form_ids).all
+    result.each{|f| f.module_name = self.name}
     unless include_subforms
       result = result.select{|f| !f.is_nested}
     end
@@ -61,10 +62,10 @@ class PrimeroModule < CouchRest::Model::Base
   end
 
   def associated_forms_grouped_by_record_type(include_subforms=false)
-    result = {}
     forms = associated_forms(include_subforms)
-    result = forms.group_by(&:parent_form) if forms.present?
-    return result
+    return {} if forms.blank?
+    forms.each{|f| f.module_name = self.name}
+    forms.group_by(&:parent_form)
   end
 
   def self.memoized_dependencies

@@ -17,7 +17,7 @@
       summary_section_class = "summary_section"
     end
    %>
-  <div class="subforms <%=summary_section_class%> large-12 columns" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_name=<%=form_group_name.dehumanize%>>
+  <div class="subforms <%=summary_section_class%> large-12 columns" id="<%= subform.name %>" <%=data_shared_subform%> data-form_group_name=<%=form_group_name.try(:dehumanize)%>>
     <% subform_group = grouped_subforms(formObject, subform) %>
     <% subform_group.each do |grouped_subforms_header, subform_objects| %>
       <% if grouped_subforms_header.present? && subform_objects.present? %>
