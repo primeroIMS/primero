@@ -88,68 +88,13 @@ class Child < CouchRest::Model::Base
     super *args
   end
 
+  design
 
-  design do
-    view :by_protection_status_and_gender_and_ftr_status #TODO: This may be deprecated. See lib/primero/weekly_report.rb
+  design :by_date_of_birth do
     view :by_date_of_birth
+  end
 
-    view :by_name,
-         :map => "function(doc) {
-                  if (doc['couchrest-type'] == 'Child')
-                 {
-                    if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                      emit(doc['name'], null);
-                    }
-                 }
-              }"
-
-    view :by_ids_and_revs,
-         :map => "function(doc) {
-              if (doc['couchrest-type'] == 'Child'){
-                emit(doc._id, {_id: doc._id, _rev: doc._rev});
-              }
-            }"
-
-    view :by_generate_followup_reminders,
-         :map => "function(doc) {
-                       if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                         if (doc['couchrest-type'] == 'Child'
-                             && doc['record_state'] == true
-                             && doc['system_generated_followup'] == true
-                             && doc['risk_level'] != null
-                             && doc['child_status'] != null
-                             && doc['registration_date'] != null) {
-                           emit([doc['child_status'], doc['risk_level']], null);
-                         }
-                       }
-                     }"
-
-    view :by_followup_reminders_scheduled,
-         :map => "function(doc) {
-                       if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                         if (doc['record_state'] == true && doc.hasOwnProperty('flags')) {
-                           for(var index = 0; index < doc['flags'].length; index++) {
-                             if (doc['flags'][index]['system_generated_followup'] && !doc['flags'][index]['removed']) {
-                               emit([doc['child_status'], doc['flags'][index]['date']], null);
-                             }
-                           }
-                         }
-                       }
-                     }"
-
-    view :by_followup_reminders_scheduled_invalid_record,
-         :map => "function(doc) {
-                       if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                         if (doc['record_state'] == false && doc.hasOwnProperty('flags')) {
-                           for(var index = 0; index < doc['flags'].length; index++) {
-                             if (doc['flags'][index]['system_generated_followup'] && !doc['flags'][index]['removed']) {
-                               emit(doc['record_state'], null);
-                             }
-                           }
-                         }
-                       }
-                     }"
-
+  design :by_date_of_birth_month_day do
     view :by_date_of_birth_month_day,
          :map => "function(doc) {
                   if (doc['couchrest-type'] == 'Child')
@@ -305,23 +250,6 @@ class Child < CouchRest::Model::Base
 
   def self.view_by_field_list
     ['created_at', 'name', 'flag_at', 'reunited_at']
-  end
-
-  def self.get_case_id(child_id)
-    case_id=""
-    by_ids_and_revs.key(child_id).all.each do |cs|
-      case_id = cs.case_id
-    end
-    return case_id
-  end
-
-  def self.get_case_age_and_gender(child_id)
-    age, gender = nil, nil
-    by_ids_and_revs.key(child_id).all.each do |cs|
-      age = cs.age
-      gender = cs.sex
-    end
-    return age, gender
   end
 
   def auto_populate_name

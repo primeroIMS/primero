@@ -78,7 +78,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 110,
   :order => 21,
   :order_subform => 0,
-  :form_group_name => "Closure",
+  :form_group_id => "closure",
   "editable" => true,
   :fields => closure_fields,
   "name_en" => "Closure",

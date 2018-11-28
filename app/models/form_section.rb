@@ -17,7 +17,7 @@ class FormSection < CouchRest::Model::Base
   property :order_form_group, Integer, :default => 0
   property :order_subform, Integer, :default => 0
   property :form_group_keyed, TrueClass, :default => false
-  property :form_group_name
+  property :form_group_id
   property :fields, [Field]
   property :editable, TrueClass, :default => true
   property :fixed_order, TrueClass, :default => false
@@ -41,13 +41,31 @@ class FormSection < CouchRest::Model::Base
   property :mobile_form, TrueClass, :default => false
   property :header_message_link, String, :default => ""
 
-  design do
-    view :by_unique_id
-    view :by_parent_form
-    view :by_parent_form_and_mobile_form
-    view :by_order
-    view :by_parent_form_and_unique_id
+  attr_accessor :module_name
 
+  design
+
+  design :by_unique_id do
+    view :by_unique_id
+  end
+
+  design :by_parent_form do
+    view :by_parent_form
+  end
+
+  design :by_parent_form_and_mobile_form do
+    view :by_parent_form_and_mobile_form
+  end
+
+  design :by_order do
+    view :by_order
+  end
+
+  design :by_parent_form_and_unique_id do
+    view :by_parent_form_and_unique_id
+  end
+
+  design :by_lookup_field do
     view :by_lookup_field,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -61,7 +79,9 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
+  end
 
+  design :fields do
     view :fields,
       :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -78,6 +98,9 @@ class FormSection < CouchRest::Model::Base
                   }
                 }
               }"
+  end
+
+  design :having_location_fields_by_parent_form do
     view :having_location_fields_by_parent_form,
          :map => "function(doc) {
                 if (doc['couchrest-type'] == 'FormSection'){
@@ -107,12 +130,17 @@ class FormSection < CouchRest::Model::Base
 
   before_validation :generate_options_keys
   before_validation :sync_options_keys
+  before_save :sync_form_group
   after_save :recalculate_subform_permissions
+
+  def form_group_name(opts={})
+    locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
+    return self.send("name_#{locale}") if self.form_group_id.blank?
+    Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name, locale: locale)
+  end
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
-    #TODO: This is temporary. Eventually form_group_name will be localized
-    lh['form_group_name'] = self.form_group_name if self.form_group_name.present?
     fldz = {}
     self.fields.each { |f| fldz[f.name] = f.localized_property_hash locale if (show_hidden_fields || f.visible?)}
     lh['fields'] = fldz
@@ -120,7 +148,7 @@ class FormSection < CouchRest::Model::Base
   end
 
   def inspect
-    "FormSection(#{self.name}, form_group_name => '#{self.form_group_name}')"
+    "FormSection(#{self.name}, form_group_id => '#{self.form_group_id}')"
   end
 
   def validate_name_in_base_language
@@ -396,8 +424,9 @@ class FormSection < CouchRest::Model::Base
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
       allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
-      allowed_form_ids.present? ?
-          FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
+      forms = allowed_form_ids.present? ? FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
+      forms.each{|f| f.module_name = primero_module.name}
+      forms
     end
     memoize_in_prod :get_permitted_form_sections
 
@@ -472,6 +501,7 @@ class FormSection < CouchRest::Model::Base
       form_section[:order] = 999
       form_section[:order_form_group] = 999
       form_section[:order_subform] = 0
+      form_section[:module_name] = module_name
 
       fs = FormSection.new(form_section)
       fs.unique_id = "#{module_name}_#{fs.name}".parameterize.underscore
@@ -481,11 +511,6 @@ class FormSection < CouchRest::Model::Base
     def change_form_section_state formsection, to_state
       formsection.enabled = to_state
       formsection.save
-    end
-
-    def list_form_group_names(selected_module, parent_form, user)
-      self.get_permitted_form_sections(selected_module, parent_form, user, true)
-          .collect(&:form_group_name).compact.uniq.sort
     end
 
     def find_mobile_forms_by_parent_form(parent_form = 'case')
@@ -875,6 +900,11 @@ class FormSection < CouchRest::Model::Base
     FormSection.violation_forms.map(&:unique_id).include? self.unique_id
   end
 
+  def is_violations_group?
+    #TODO MRM - pass english locale to form_group_name and/or have a better way to identify Violations
+    self.form_group_name == 'Violations'
+  end
+
   def is_violation_wrapper?
     self.fields.present? &&
     self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
@@ -891,6 +921,22 @@ class FormSection < CouchRest::Model::Base
     self.fields.each{|field| field.sync_options_keys}
   end
 
+  #if a new form_group_id was added during edit/create, then add that form group to the form_group lookup
+  def sync_form_group
+    return unless self.changed.include?('form_group_id')
+    return if self.form_group_id.blank?
+
+    #If form_group already exists, nothing to do
+    form_group = Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name)
+    return if form_group.present?
+
+    #If added manually by the user, form_group_id at this point is just what the user typed in
+    #Use that value for the form group description.  Parameterize it to use as the id
+    new_id = self.form_group_id.parameterize(separator: '_')
+    Lookup.add_form_group(new_id, self.form_group_id, self.parent_form, self.module_name)
+    self.form_group_id = new_id
+  end
+
   def field_by_name(field_name)
     self.fields.find{|f| f.name == field_name}
   end
@@ -898,12 +944,12 @@ class FormSection < CouchRest::Model::Base
   def update_translations(form_hash={}, locale)
     if locale.present? && Primero::Application::locales.include?(locale)
       form_hash.each do |key, value|
+        # Form Group Name is now a calculated field based on form_group_id
+        # Form Group Translations are handled through Lookup
+        # Using elsif to exclude form_group_name in legacy translation files that may still include form_group_name
         if key == 'fields'
           update_field_translations(value, locale)
-        elsif key == 'form_group_name'
-          #TODO: get rid of this case once we i18n form_group_name
-          self.form_group_name = value
-        else
+        elsif key != 'form_group_name'
           self.send("#{key}_#{locale}=", value)
         end
       end

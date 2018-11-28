@@ -123,7 +123,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 10,
   :order => 10,
   :order_subform => 0,
-  :form_group_name => "Case Conference Details",
+  :form_group_id => "case_conference_details",
   :editable => true,
   :fields => conference_details_fields,
   :name_en => "Case Conference Details",

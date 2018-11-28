@@ -13,6 +13,9 @@ class ChildrenController < ApplicationController
   before_action :filter_risk_level, :only => [:index]
   before_action :toggle_photo_indicators, :only => [:show]
   before_action :load_fields, :only => [:index]
+  before_action :load_service_types, :only => [:index, :show]
+  before_action :load_agencies, :only => [:index, :show]
+  before_action :load_users_by_permission, :only => [:index, :show]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
   include NoteActions
@@ -433,5 +436,30 @@ class ChildrenController < ApplicationController
 
   def toggle_photo_indicators
     @has_photo_form = FormSection.has_photo_form
+  end
+
+  def load_service_types
+    @service_types = Lookup.values_for_select('lookup-service-type')
+  end
+
+  def load_agencies
+    @agencies = Agency.all.all.map { |agency| [agency.name, agency.id] }
+  end
+
+  def load_users_by_permission
+    @user_can_assign = false
+    users = if can?(:assign, Child) || can?(:reassign, Child)
+              @user_can_assign = true
+              User.by_user_name_enabled.all
+            elsif can?(:assign_within_agency, Child)
+              @user_can_assign = true
+              User.by_organization_enabled.key(current_user.organization).all
+            elsif can?(:assign_within_user_group, Child)
+              @user_can_assign = true
+              User.by_user_group.keys(current_user.user_group_ids_sanitized).all.select { |user| !user.disabled }
+            else
+              []
+            end
+    @assignable_users = users.reject { |user| user.user_name == current_user.user_name }.map { |user| [user.user_name, user.user_name] }
   end
 end

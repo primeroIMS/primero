@@ -83,6 +83,7 @@ en:
     approval_alert: "Approval is pending for %{form_name}"
     field_change_alert: "The %{form_name} form was updated by the service provider on %{date}"
     transfer_request_alert: "A new Transfer Request was made on %{date} by %{user} at %{agency}"
+    loading: "Loading..."
 
   data_base:
     delete_all_documents: "Deleted all child documents"
@@ -747,6 +748,11 @@ en:
       label: "Sort by"
       full_name: "Full Name"
       agency: "Agency"
+    filter_by:
+      status: "Status"
+      enabled: "Enabled"
+      disabled: "Disabled"
+    register_new_user: "Create User"
 
   roles:
     label: "Roles"
@@ -796,6 +802,10 @@ en:
       update: "Update"
       create: "Create"
       delete: "Delete"
+    filter_by:
+      status: "Status"
+      enabled: "Enabled"
+      disabled: "Disabled"
     messages:
       confirmation: "Are you sure you want to delete this agency? Deletion can not be undone. Click OK to delete the agency."
     select_prompt: "Please select an agency"
@@ -895,6 +905,7 @@ en:
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
+    services: "Services"
     position: Position
     actions:
       delete: "Delete"
@@ -1065,6 +1076,8 @@ en:
       view_photo: "View Photo"
       matching_configuration: "Matching Configuration"
       add_note: "Add Notes"
+      assign_within_agency: "Assign within agency"
+      assign_within_user_group: "Assign within user group"
 
   forms:
     label: "Forms"
@@ -1122,11 +1135,13 @@ en:
     required_field: "%{field} is required"
     required_field_js: "is a required field. Currently it's blank or invalid."
     form_group_name: "Form Group Name"
+    form_group: "Form Group"
     modal_sidebar_help: "Select type of field"
     modal_sidebar_help_selected: "Type of field"
     translation: "Translation"
     translation_missing: "(Translation missing for %{lang})"
     base_language_help_text: "This must be entered in %{lang}."
+    form_group_translation_help_text: "To add translations for Form Groups, edit the Form Group lookup in the Lookup editor."
     initial_lang_help_text: "Field must be created in %{lang} before translation can be added."
     field_db_help_text: "If left blank, DB Name will be generated. Only Latin letters, numbers, and underscores are allowed."
 
@@ -1743,14 +1758,6 @@ en:
         unique_name: "The name '%{name}' is already taken."
         unique_id: "The unique id '%{unique_id}' is already taken."
 
-      enquiry:
-        presence_of_criteria: "Please add criteria to your enquiry"
-        presence_of_enquirer_name: "Please add enquirer name to your enquiry"
-        presence_of_reporter_details: "Please add reporter details to your enquiry"
-        create_forbidden: "Forbidden"
-        not_found: "Not found"
-        malformed_query: "Invalid request"
-
       role:
         name_present: "Name must not be blank"
         permission_presence: "Please select at least one permission"
@@ -2037,6 +2044,8 @@ en:
     user_local_status_done: "Done"
     complete_referral_label: "Clicking OK signifies that you have completed the referral work associated with this case. Once you click OK you will no longer have access to this record."
     done_success_message: "Referral Done."
+    agency_label: "Agency"
+    location_label: "Location"
 
   reassign:
     reassign_case_title: "Assign case(s) to:"
@@ -2076,6 +2085,8 @@ en:
     search:
       rejected: "Rejected"
       in_progress: "In Progress"
+    agency_label: "Agency"
+    location_label: "Location"
 
   request_transfer:
     success: "Request transfer sent"
@@ -2278,6 +2289,9 @@ en:
         other: "Displaying <b>all %{count}</b> %{model}"
       multi_page_html: "Displaying %{model} <b>%{from} - %{to}</b> of <b>%{count}</b> in total"
     models:
+      agency:
+        one: "Agency"
+        other: "Agencies"
       report:
         one: "Report"
         other: "Reports"

@@ -2,21 +2,25 @@ module SyncableMobile
   extend ActiveSupport::Concern
 
   included do
-    design do
+    design :ids_and_revs_by_owned_by do
       view :ids_and_revs_by_owned_by,
            :map => "function(doc) {
               if (doc['couchrest-type'] == '#{self.model.name}' && doc.hasOwnProperty('owned_by')){
                 emit(doc.owned_by, {_id: doc._id, _rev: doc._rev, last_updated_at: doc.last_updated_at});
               }
             }"
+    end
 
-      view :ids_and_revs_by_owned_by_and_marked_for_mobile,
+    design :ids_and_revs_by_owned_by_and_marked_for_mobile do
+     view :ids_and_revs_by_owned_by_and_marked_for_mobile,
            :map => "function(doc) {
               if (doc['couchrest-type'] == '#{self.model.name}' && doc.hasOwnProperty('owned_by') && doc.hasOwnProperty('marked_for_mobile')){
                 emit([doc.owned_by, doc.marked_for_mobile], {_id: doc._id, _rev: doc._rev, last_updated_at: doc.last_updated_at});
               }
             }"
+    end
 
+    design :ids_and_revs_by_owned_by_and_marked_for_mobile_and_module_id do
       view :ids_and_revs_by_owned_by_and_marked_for_mobile_and_module_id,
            :map => "function(doc) {
               if (doc['couchrest-type'] == '#{self.model.name}' && doc.hasOwnProperty('owned_by') && doc.hasOwnProperty('marked_for_mobile')){

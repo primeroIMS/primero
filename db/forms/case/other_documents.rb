@@ -18,6 +18,6 @@ FormSection.create_or_update_form_section({
   "editable" => false,
   "name_en" => "Other Documents",
   "description_en" => "Other Documents",
-  "form_group_name" => "Documents",
+  "form_group_id" => "documents",
   "display_help_text_view" => true
 })

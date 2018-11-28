@@ -7,7 +7,7 @@ module Namable
     property :name
     property :description
 
-    design do
+    design :by_name do
       view :by_name,
               :map => "function(doc) {
                   if ((doc['couchrest-type'] == '#{self.model.name}') && doc['name']) {

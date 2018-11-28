@@ -1029,8 +1029,8 @@ describe Child do
   describe "primary_photo =" do
 
     before :each do
-      @photo1 = uploadable_photo("capybara_features/resources/jorge.jpg")
-      @photo2 = uploadable_photo("capybara_features/resources/jeff.png")
+      @photo1 = uploadable_photo("spec/resources/jorge.jpg")
+      @photo2 = uploadable_photo("spec/resources/jeff.png")
       User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
       @child = Child.new("name" => "Tom", 'created_by' => "me")
       @child.photo= {0 => @photo1, 1 => @photo2}
@@ -1054,60 +1054,6 @@ describe Child do
       end
 
     end
-
-  end
-
-  context "duplicate" do
-    before do
-      Child.all.each { |child| child.destroy }
-      Child.duplicates.each { |child| child.destroy }
-      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
-    end
-
-    describe "mark_as_duplicate" do
-      it "should set the duplicate field" do
-        child_duplicate = Child.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
-        child_active = Child.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique', 'short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
-        child_duplicate.mark_as_duplicate child_active['short_id']
-        child_duplicate.duplicate?.should be_truthy
-        child_duplicate.duplicate_of.should == child_active.id
-      end
-
-      it "should set not set the duplicate field if child " do
-        child_duplicate = Child.create('name' => "Jaco", 'unique_identifier' => 'jacoxxxunique')
-        child_duplicate.mark_as_duplicate "I am not a valid id"
-        child_duplicate.duplicate_of.should be_nil
-      end
-
-      it "should set the duplicate field" do
-        child_duplicate = Child.create('name' => "Jaco", 'unique_identifier' => 'jacoxxabcde','short_id' => "abcde12", 'created_by' => "me", 'created_organization' => "stc")
-        child_active = Child.create('name' => 'Jacobus', 'unique_identifier' => 'jacobusxxxunique','short_id'=> 'nique12', 'created_by' => "me", 'created_organization' => "stc")
-        child_duplicate.mark_as_duplicate child_active['short_id']
-        child_duplicate.duplicate?.should be_truthy
-        child_duplicate.duplicate_of.should == child_active.id
-      end
-    end
-
-      it "should return all duplicate records" do
-
-        # TODO: Solr changes need to review duplicates search
-        record_active = Child.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organization' => "stc")
-        record_duplicate = create_duplicate(record_active)
-
-        duplicates = Child.duplicates_of(record_active.id)
-
-        duplicates.size.should be 1
-        duplicates.first.id.should == record_duplicate.id
-      end
-
-      it "should return duplicate from a record" do
-        record_active = Child.create(:name => "not a dupe", :unique_identifier => "someids",'short_id'=> 'someids', 'created_by' => "me", 'created_organization' => "stc")
-        record_duplicate = create_duplicate(record_active)
-
-        duplicates = Child.duplicates_of(record_active.id)
-        duplicates.size.should be 1
-        duplicates.first.id.should == record_duplicate.id
-      end
 
   end
 

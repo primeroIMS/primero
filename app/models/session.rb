@@ -6,7 +6,9 @@ class Session < CouchRest::Model::Base
   property :imei
   property :user_name
 
-  design do
+  design
+
+  design :by_user_name do
     view :by_user_name
   end
 
