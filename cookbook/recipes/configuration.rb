@@ -103,7 +103,7 @@ if node[:primero][:seed][:enabled]
   end
 
   execute 'Reload Couch Watcher' do
-    command 'supervisorctl restart couch-watcher'
+    command 'systemctl restart couch_watcher'
   end
 
 end
