@@ -139,85 +139,91 @@ describe PotentialMatchesController do
   }
 
   describe '#index' do
-    context 'authorize case to trace FTR' do
-      it 'authorizes user with manage permission on case' do
-        superuser_permissions = [
-            Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE]),
-            Permission.new(:resource => Permission::POTENTIAL_MATCH, :actions => [Permission::READ])
-        ]
-        roles = [Role.new(permissions_list: superuser_permissions)]
+    describe 'authorize case to trace FTR' do
+      context 'when user has authorized permissions' do
+        it 'returns success with manage permission on case' do
+          superuser_permissions = [
+              Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE]),
+              Permission.new(:resource => Permission::POTENTIAL_MATCH, :actions => [Permission::READ])
+          ]
+          roles = [Role.new(permissions_list: superuser_permissions)]
 
-        superuser = create(:user)
-        superuser.stub(:roles).and_return(roles)
+          superuser = create(:user)
+          superuser.stub(:roles).and_return(roles)
 
-        child = Child.create(child_attributes.merge({owned_by: superuser.user_name}))
-        tr = TracingRequest.create(tr_attributes.merge({owned_by: superuser.user_name}))
+          child = Child.create(child_attributes.merge({owned_by: superuser.user_name}))
+          tr = TracingRequest.create(tr_attributes.merge({owned_by: superuser.user_name}))
 
-        fake_login superuser
-        get :index, params: {match: child.id, type: 'case'}
+          fake_login superuser
+          get :index, params: {match: child.id, type: 'case'}
 
-        expect(response.status).to eq 200
-        expect(assigns[:type]).to eq 'case'
+          expect(response.status).to eq 200
+          expect(assigns[:type]).to eq 'case'
+        end
+
+        it 'returns success with find_tracing_match permission on case' do
+          ftr_manager_permissions = [
+              Permission.new(resource: Permission::CASE, actions: [Permission::FIND_TRACING_MATCH]),
+              Permission.new(:resource => Permission::POTENTIAL_MATCH, :actions => [Permission::READ])
+          ]
+          roles = [Role.new(permissions_list: ftr_manager_permissions)]
+
+          ftr_manager = create(:user)
+          ftr_manager.stub(:roles).and_return(roles)
+
+          child = Child.create(child_attributes.merge({owned_by: ftr_manager.user_name}))
+          tr = TracingRequest.create(tr_attributes.merge({owned_by: ftr_manager.user_name}))
+
+          fake_login ftr_manager
+          get :index, params: {match: child.id, type: 'case'}
+
+          expect(response.status).to eq 200
+          expect(assigns[:type]).to eq 'case'
+        end
       end
 
-      it 'authorizes user with find_tracing_match permission on case' do
-        ftr_manager_permissions = [
-            Permission.new(resource: Permission::CASE, actions: [Permission::FIND_TRACING_MATCH]),
-            Permission.new(:resource => Permission::POTENTIAL_MATCH, :actions => [Permission::READ])
-        ]
-        roles = [Role.new(permissions_list: ftr_manager_permissions)]
+      context 'when user has unauthorized permissions' do
+        it 'returns unauthorized without find_tracing_match permission on case' do
+          user_permissions = [
+              Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO]),
+              Permission.new(:resource => Permission::POTENTIAL_MATCH, :actions => [Permission::READ])
+          ]
+          roles = [Role.new(permissions_list: user_permissions)]
 
-        ftr_manager = create(:user)
-        ftr_manager.stub(:roles).and_return(roles)
+          user = create(:user)
+          user.stub(:roles).and_return(roles)
 
-        child = Child.create(child_attributes.merge({owned_by: ftr_manager.user_name}))
-        tr = TracingRequest.create(tr_attributes.merge({owned_by: ftr_manager.user_name}))
+          child = Child.create(child_attributes.merge({owned_by: user.user_name}))
+          tr = TracingRequest.create(tr_attributes.merge({owned_by: user.user_name}))
 
-        fake_login ftr_manager
-        get :index, params: {match: child.id, type: 'case'}
+          fake_login user
+          get :index, params: {match: child.id, type: 'case'}
 
-        expect(response.status).to eq 200
-        expect(assigns[:type]).to eq 'case'
-      end
-
-      it 'does not authorizes user without find_tracing_match permission on case' do
-        user_permissions = [
-            Permission.new(resource: Permission::CASE, actions: [Permission::VIEW_PHOTO]),
-            Permission.new(:resource => Permission::POTENTIAL_MATCH, :actions => [Permission::READ])
-        ]
-        roles = [Role.new(permissions_list: user_permissions)]
-
-        user = create(:user)
-        user.stub(:roles).and_return(roles)
-
-        child = Child.create(child_attributes.merge({owned_by: user.user_name}))
-        tr = TracingRequest.create(tr_attributes.merge({owned_by: user.user_name}))
-
-        fake_login user
-        get :index, params: {match: child.id, type: 'case'}
-
-        expect(response.status).to eq 403
+          expect(response.status).to eq 403
+        end
       end
     end
 
-    context 'authorize trace to case FTR' do
-      it 'authorizes user with only read permission on potential_match' do
-        user_permissions = [
-            Permission.new(:resource => Permission::POTENTIAL_MATCH, :actions => [Permission::READ])
-        ]
-        roles = [Role.new(permissions_list: user_permissions)]
+    describe 'authorize trace to case FTR' do
+      context 'when user has authorized permissions' do
+        it 'returns success with read permission on potential_match' do
+          user_permissions = [
+              Permission.new(:resource => Permission::POTENTIAL_MATCH, :actions => [Permission::READ])
+          ]
+          roles = [Role.new(permissions_list: user_permissions)]
 
-        user = create(:user)
-        user.stub(:roles).and_return(roles)
+          user = create(:user)
+          user.stub(:roles).and_return(roles)
 
-        child = Child.create(child_attributes.merge({owned_by: user.user_name}))
-        tr = TracingRequest.create(tr_attributes.merge({owned_by: user.user_name}))
+          child = Child.create(child_attributes.merge({owned_by: user.user_name}))
+          tr = TracingRequest.create(tr_attributes.merge({owned_by: user.user_name}))
 
-        fake_login user
-        get :index, params: {match: "#{tr.id}::#{tr.traces.first.unique_id}"}
+          fake_login user
+          get :index, params: {match: "#{tr.id}::#{tr.traces.first.unique_id}"}
 
-        expect(response.status).to eq 200
-        expect(assigns[:type]).to eq 'tracing_request'
+          expect(response.status).to eq 200
+          expect(assigns[:type]).to eq 'tracing_request'
+        end
       end
     end
   end
