@@ -1510,6 +1510,7 @@ en:
     high_risk: 'High Priority'
     low_risk: 'Low Priority'
     none_risk: 'No Priority'
+    no_action_risk: 'No Priority'
     medium_risk: 'Medium Priority'
     pending: 'Pending'
     rejected: 'Rejected'
