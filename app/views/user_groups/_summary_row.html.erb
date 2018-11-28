@@ -1,9 +1,9 @@
 <tr>
   <td id="user_group_<%= record.id %>">
     <% if can?(:write, record) %>
-    <%= link_to record.name, user_group_path(record), id: record.id, class: 'id_link' %>
+      <%= link_to record.name, user_group_path(record), id: record.id, class: 'id_link' %>
     <% else %>
-    <%= record.name %>
+      <%= record.name %>
     <% end %>
   </td>
   <td><%= record.description %></td>
