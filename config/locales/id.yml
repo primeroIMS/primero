@@ -1379,7 +1379,7 @@ id:
     high_risk: 'Prioritas Tinggi'
     low_risk: 'Prioritas Rendah'
     none_risk: 'Bukan Prioritas'
-    no_action_risk: 'Bukan Prioritas'
+    no_action_risk: 'Tidak Ada Tindakan'
     medium_risk: 'Prioritas Sedang'
     pending: 'Tertunda'
     rejected: 'Ditolak'
