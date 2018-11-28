@@ -3,6 +3,7 @@ class UserGroupsController < ApplicationController
   @model_class = UserGroup
 
   include LoggerActions
+  include RecordFilteringPagination
 
   def index
     authorize! :index, UserGroup
@@ -11,10 +12,9 @@ class UserGroupsController < ApplicationController
     params[:show] ||= "All"
     @user_groups = params[:show] == "All" ? UserGroup.by_name(:descending => sort_option) : UserGroup.by_name(:descending => sort_option).find_all{|group| group.has_permission(params[:show])}
 
-    respond_to do |format|
-      format.html
-      #respond_to_export(format, @user_groups)
-    end
+    @total_records = @user_groups.count
+    per_page
+    @user_groups = paginated_collection(@user_groups.try(:all), @user_groups.count)
   end
 
   def show
@@ -63,5 +63,10 @@ class UserGroupsController < ApplicationController
     redirect_to(user_groups_url)
   end
 
+  #Override method defined in record_filtering_pagination
+  def per_page
+    @per_page ||= params[:per] ? params[:per].to_i : 50
+    @per_page
+  end
 
 end

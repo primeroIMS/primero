@@ -5,17 +5,52 @@
     <ul class="menu">
       <% unless params[:id_search].present? && can?(:search_owned_by_others, controller.model_class) %>
         <% if can?(:import, controller.model_class) && controller.model_class != PotentialMatch %>
+          <% if controller.model_class == User %>
+            <li>
+              <%= link_to t('buttons.import'), '#', class: 'has_sub' %>
+              <ul class="menu">
+                <%= render partial: 'imports/button', locals: {import_label: 'users.label', importers: [Importers::JSONImporter]} %>
+                <% if can? :import, FormSection %>
+                  <li><%= render partial: 'configuration_bundle/import_button' %></li>
+                <% end %>
+              </ul>
+            </li>
+          <% else %>
             <%= render 'imports/button' %>
+          <% end %>
         <% end %>
         <% if controller.model_class != PotentialMatch %>
+          <% if controller.model_class == User %>
+              <% if can?(:export, controller.model_class) %>
+                <li>
+                  <%= link_to t('buttons.export'), '#', class: 'has_sub' %>
+                  <ul class="menu">
+                    <% if can? :export, User %>
+                      <li>
+                        <%= link_to(
+                              t('users.label'),
+                              url_for(format: 'json', page: 'all', per_page: :all, id: nil, params: exporter_params_page('json', params)),
+                              class: 'password-prompt'
+                            )
+                        %>
+                      </li>
+                    <% end %>
+                    <% if can? :export, FormSection %>
+                      <li><%= render :partial => 'configuration_bundle/export_button' %></li>
+                    <% end %>
+                  </ul>
+                </li>
+              <% end %>
+          <% else %>
             <%= render 'exports/button', locals: {model: model} %>
+          <% end %>
         <% end %>
-        <% if can?(:export_custom, controller.model_class) && controller.model_class != Incident && controller.model_class != PotentialMatch %>
+        <% if can?(:export_custom, controller.model_class) && controller.model_class != Incident && controller.model_class != PotentialMatch && controller.model_class != User %>
             <%= render 'exports/custom_exports_link', model: model, export_type: 'custom' %>
         <% end %>
         <% if model == Child %>
           <%= render 'transitions/button', type: Transition::TYPE_REFERRAL %>
-          <% if can?(:reassign, controller.model_class) %>
+          <% if @user_can_assign %>
             <%= render 'transitions/button', type: Transition::TYPE_REASSIGN %>
           <% end %>
           <%= render 'transitions/button', type: Transition::TYPE_TRANSFER %>

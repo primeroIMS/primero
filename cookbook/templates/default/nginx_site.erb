@@ -58,6 +58,10 @@ server {
     proxy_set_header X-Forwarded-Proto https;
     proxy_set_header X-Nginx-Proxy true;
 
+    proxy_buffer_size 16k;
+    proxy_buffers 4 24k;
+    proxy_busy_buffers_size 24k;
+
     proxy_redirect off;
     proxy_buffering off;
   }

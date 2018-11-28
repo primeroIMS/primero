@@ -1,16 +1,8 @@
 
 <!-- to hook in / populate the users model in backbone -->
+<!-- TODO: Is this script used? -->
 <%= content_for :page_scripts do %>
   window.Users.reset(<%= raw @users_details.to_json %>);
-<% end %>
-
-<% content_for :record_sub_nav_controls do %>
-  <div class="button-group">
-    <% if can? :create,User %>
-        <%= link_to content_tag(:span, t("users.create"), :class => 'create_user'), new_user_path, :class => 'button' %>
-    <% end %>
-    <%= render partial: 'settings_actions', locals: {model: User} %>
-  </div>
 <% end %>
 
 <% content_for :breadcrumbs do %>
@@ -22,18 +14,21 @@
     <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'users'} %>
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
-    <div class="side-tab-content" data-equalizer-watch>
-      <% if @access_error.present? %>
-        <strong><%= @access_error %></strong>
-      <% end %>
-      <%= render partial: 'shared_configuration_resource/table_disabled_filter',
-                 locals: {sort_options: [[t("users.sort_by.full_name"),"full_name"],[ t("login.username"), "user_name"], [t("users.sort_by.agency"),"organization"]]}%>
-      <%= render partial: 'shared_configuration_resource/table',
-                 locals: {objects: @editable_users,
-                          object_class: User,
-                          heading_keys: ['user.full_name', 'login.username', 'user.position' , 'user.agency'],
-                          properties: ['full_name', 'user_name', 'position', 'agency_name'],
-                          hide_links: [:destroy]} %>
-    </div>
+  <%=
+    render({
+      partial: 'record_shared/list_view_table',
+      locals: {
+        model: User,
+        record: 'user',
+        collection: @paginated_users,
+        opts: {
+          display_actions: true,
+          display_filter: true,
+          display_saved_search: false,
+          display_create: (can? :create, User)
+        }
+      }
+    })
+  %>
   </div>
 </div>
