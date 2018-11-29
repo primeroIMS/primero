@@ -546,7 +546,6 @@ module IndexHelper
     actions = [
       Permission::IMPORT,
       Permission::EXPORT_CUSTOM,
-      Permission::REASSIGN,
       Permission::SYNC_MOBILE,
       Permission::ASSIGN,
       Permission::ASSIGN_WITHIN_AGENCY,
@@ -563,7 +562,6 @@ module IndexHelper
     actions = [
       Permission::IMPORT,
       Permission::EXPORT_CUSTOM,
-      Permission::REASSIGN,
       Permission::SYNC_MOBILE,
       Permission::ASSIGN,
       Permission::ASSIGN_WITHIN_AGENCY,

@@ -220,7 +220,6 @@ cp_manager_permissions = [
       Permission::READ,
       Permission::FLAG,
       Permission::ASSIGN,
-      Permission::REASSIGN,
       Permission::CONSENT_OVERRIDE,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
@@ -325,7 +324,6 @@ cp_user_manager_permissions = [
             Permission::READ,
             Permission::FLAG,
             Permission::ASSIGN,
-            Permission::REASSIGN,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CUSTOM,
             Permission::EXPORT_LIST_VIEW,
@@ -1205,4 +1203,3 @@ create_or_update_role(
   :permissions_list => superuser_permissions,
   :group_permission => Permission::ALL
 )
-
