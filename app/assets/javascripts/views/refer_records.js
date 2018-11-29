@@ -174,7 +174,11 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $.get(this.users_api_url, data, function(response){
       $existing_user_select.empty();
       var select_options = [];
-      select_options.push('<option value=""></option>');
+      if(response.users && response.users.length > 0) {
+        select_options.push('<option value=""></option>');
+      } else {
+        select_options.push('<option value="">'+I18n.t("no_results_found") +'</option>');
+      }
       _.each(response.users, function(user){
         select_options.push('<option value="' + user.user_name + '">' + user.user_name + '</option>');
       })
@@ -191,7 +195,8 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   clear_user_selection: function(){
     var $existing_user_select = $('select#existing_user_referral');
-    $existing_user_select.val('');
+    $existing_user_select.empty();
+    $existing_user_select.html('<option value=""></option>');
     $existing_user_select.trigger('change');
     $existing_user_select.trigger('chosen:updated');
   }
