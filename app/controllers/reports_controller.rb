@@ -174,9 +174,8 @@ class ReportsController < ApplicationController
       if params[:report][:filters][:template].present?
         params[:report][:filters].delete(:template)
         #convert to array: bad!
-        filters = params[:report][:filters].values
-        filters.each{|filter| filter.compact }.delete_if{|filter| filter.empty?}
-        params[:report][:filters] = filters
+        filters = params[:report][:filters].to_h.values
+        params[:report][:filters] = filters.map {|f| f.delete_if {|_k,v| v.empty?} }.reject(&:blank?)
       end
     end
   end
