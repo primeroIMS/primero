@@ -7,7 +7,7 @@ class AgenciesController < ApplicationController
 
   before_action :filter_params_array_duplicates, :only => [:create, :update]
   before_action :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
-  before_action :load_services, :only => [:new, :edit]
+  before_action :load_services, :only => [:new, :edit, :create, :update]
   before_action :load_agencies, :only => [:index]
 
   include LoggerActions
