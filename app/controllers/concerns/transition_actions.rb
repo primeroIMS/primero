@@ -3,7 +3,7 @@ module TransitionActions
 
   def transition
     authorize! :referral, model_class if is_referral?
-    authorize! :reassign, model_class if is_reassign?
+    authorize! :assign, model_class if is_reassign?
     authorize! :transfer, model_class if is_transfer?
 
     @records << @record if @record.present?
