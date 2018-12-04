@@ -16,6 +16,22 @@ module MigrationHelper
     end
   end
 
+  def translate_keyed_value(value, base_value)
+    return [] if value.blank? || base_value.blank?
+    if value.is_a?(String)
+      value =
+        value.gsub(/\r\n?/, "\n").split("\n")
+          .map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v}.with_indifferent_access : nil}
+          .compact
+    elsif value.is_a?(Array)
+      if value.first.is_a?(String)
+        value = value.map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v}.with_indifferent_access : nil}.compact
+      elsif value.first.is_a?(Hash)
+        value
+      end
+    end
+  end
+
   def create_locales
     Primero::Application::locales.each do |locale|
       yield(locale)

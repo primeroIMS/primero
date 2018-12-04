@@ -44,10 +44,12 @@ FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
         field['option_strings_source'] = "lookup lookup-#{lookup[0].underscore.dasherize}" if lookup.present?
       else
         if field['option_strings_text_en'].present?
-          value = MigrationHelper.generate_keyed_value(field['option_strings_text_en'])
+          base_value = MigrationHelper.generate_keyed_value(field['option_strings_text_en'])
 
           MigrationHelper.create_locales do |locale|
-            field["option_strings_text_#{locale}"] = value
+            field["option_strings_text_#{locale}"] = field["option_strings_text_#{locale}"].present? ?
+                                                         MigrationHelper.translate_keyed_value(field["option_strings_text_#{locale}"], base_value) :
+                                                         base_value
           end
         end
       end
