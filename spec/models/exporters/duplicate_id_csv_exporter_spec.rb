@@ -108,6 +108,7 @@ module Exporters
           parsed = CSV.parse(data)
           expect(parsed[0]).to eq([" ",
                                    "MOHA ID DEPRECATED",
+                                   "National ID No",
                                    "Case ID",
                                    "Progress ID",
                                    "Child Name",
