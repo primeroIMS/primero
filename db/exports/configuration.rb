@@ -59,3 +59,18 @@ create_or_update_export_config(
   opt_out_field: 'unhcr_export_opt_out',
   property_keys_opt_out: ["cpims_code"]
 )
+
+create_or_update_export_config(
+    id: "export-duplicate-id-csv",
+    name: "Duplicate ID CSV Export",
+    export_id: "duplicate_id_csv",
+    property_keys: [
+        "national_id_no",
+        "child_name_last_first",
+        "progress_id",
+        "age",
+        "sex",
+        "family_size",
+        "case_id"
+    ]
+)
