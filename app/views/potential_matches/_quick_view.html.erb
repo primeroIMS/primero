@@ -18,17 +18,19 @@
 </div>
 <div class="row">
   <div class="columns small-12 ">
-    <div class="row data value-comparison">
-      <div class="columns small-2 key">
-        <strong><%= I18n.t('potential_match.name') %></strong>
+    <% potential_match.compare_names.each do |f| %>
+      <div class="row data value-comparison">
+        <div class="columns small-2 key">
+          <strong><%= I18n.t("potential_match.#{f[:field]}") %></strong>
+        </div>
+        <div class="columns small-4">
+          <%= f[:child_name] %>
+        </div>
+        <div class="columns small-6">
+          <%= f[:trace_name] %>
+        </div>
       </div>
-      <div class="columns small-4">
-        <%= potential_match.case_name %>
-      </div>
-      <div class="columns small-6">
-        <%= potential_match.tracing_request_name %>
-      </div>
-    </div>
+    <% end %>
     <div class="row data value-comparison">
       <div class="columns small-2 key">
         <strong><%= I18n.t('potential_match.child_gender') %></strong>
