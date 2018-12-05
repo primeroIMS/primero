@@ -23,7 +23,6 @@ describe DuplicateBulkExport, search: true do
         build(:field, name: 'family_count_no', type: 'numeric_field', display_name: 'Family No'),
       ]
     )
-
     @user = setup_user(form_sections: [@form_section], primero_module: {id: PrimeroModule::CP})
 
     Sunspot.setup(Child) do
@@ -43,7 +42,7 @@ describe DuplicateBulkExport, search: true do
     Sunspot.commit
 
     expected_output = [
-      [" ", "MOHA ID", "Case ID", "Progress ID", "Child Name", "Age", "Sex", "Family Size"],
+      [" ", "MOHA ID DEPRECATED", "Case ID", "Progress ID", "Child Name", "Age", "Sex", "Family Size"],
       ["1", "test1", child1.case_id, nil, "#{child1.case_id}, Test Child", "5", "U", nil],
       ["2", "test1", child2.case_id, nil, "#{child2.case_id}, Test Child", "6", "U", nil]
     ]
@@ -53,7 +52,7 @@ describe DuplicateBulkExport, search: true do
 
   context "when no cases found" do
     it "exports headers" do
-      expect(export_csv).to eq([[" ", "MOHA ID", "Case ID", "Progress ID",
+      expect(export_csv).to eq([[" ", "MOHA ID DEPRECATED", "Case ID", "Progress ID",
           "Child Name", "Age", "Sex", "Family Size"]])
     end
   end
