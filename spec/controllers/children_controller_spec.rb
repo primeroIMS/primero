@@ -290,7 +290,7 @@ describe ChildrenController, :type => :controller do
         #     fields are there, but when run all the test cases
         #     phonetic fields are not there.
         Sunspot.setup(Child) do
-          Child.searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
+          Child.phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
         end
 
         User.all.each{|u| u.destroy}

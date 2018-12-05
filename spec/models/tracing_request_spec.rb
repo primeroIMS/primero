@@ -1085,6 +1085,39 @@ describe TracingRequest do
 
   end
 
+  describe "tracing_request_subform_details" do
+    before do
+      FormSection.all.each(&:destroy)
+      Dir[File.dirname(__FILE__) + '/../../db/forms/tracing_request/*.rb'].each {|file| load file }
+      #Reload the form properties
+      TracingRequest.refresh_form_properties
+      TracingRequest.all.each { |tracing_request| tracing_request.destroy }
+
+      @tracing_request1 = TracingRequest.new("tracing_request_subform_section": [{"name": "Judy", "name_other": "Uzair"}, {"name": "Cena", "other_name": "John"}])
+      @tracing_request2 = TracingRequest.new("tracing_request_subform_section": ["name": "Judy", "name_other": "Uzair"], "relation_name" => "Brad")
+      @tracing_request3 = TracingRequest.new("relation_name" => "Dave", "relation" => "Mother")
+    end
+
+
+    context 'when mutiple fields' do
+      it "should return the names" do
+        expect(@tracing_request1.tracing_request_subform_details("name")).to eq("Judy Cena")
+      end
+    end
+
+    context 'when single field' do
+      it 'should return a single other name' do
+        expect(@tracing_request2.tracing_request_subform_details("name_other")).to eq("Uzair")
+      end
+    end
+
+    context 'when no fields' do
+      it 'should find no subform details' do
+        expect(@tracing_request3.tracing_request_subform_details("relation")).to eq("")
+      end
+    end
+  end
+
   private
 
   def create_tracing_request(name, options={})
