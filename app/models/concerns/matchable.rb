@@ -50,7 +50,7 @@ module Matchable
             end
           end
           with(:id, child_id) if child_id.present?
-          with(:consent_for_tracing, true)
+          with(:consent_for_tracing, true) if match_class == Child
           sort.each { |sort_field, order| order_by(sort_field, order) }
           paginate pagination
         end

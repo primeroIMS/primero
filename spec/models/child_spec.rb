@@ -1739,6 +1739,146 @@ describe Child do
 
   end
 
+  describe '.matching_tracing_requests' do
+    before do
+      # Create child form
+      FormSection.all.each &:destroy
+      fields = [
+          Field.new({"name" => "name",
+                     "type" => "text_field",
+                     "display_name_all" => "Full Name",
+                     "matchable" => true
+                    }),
+          Field.new({"name" => "name_nickname",
+                     "type" => "text_field",
+                     "display_name_all" => "Nickname",
+                     "matchable" => true
+                    }),
+          Field.new({"name" => "age",
+                     "type" => "numeric_field",
+                     "display_name_en" => "Age",
+                     "matchable" => true
+                    })
+      ]
+
+      form = FormSection.new(
+          :unique_id => "form_section_test",
+          :parent_form=>"case",
+          "visible" => true,
+          :order_form_group => 50,
+          :order => 15,
+          :order_subform => 0,
+          :form_group_name => "Form Section Test",
+          "editable" => true,
+          "name_all" => "Form Section Test",
+          "description_all" => "Form Section Test",
+          :fields => fields
+      )
+
+      form.save!
+      Child.any_instance.stub(:field_definitions).and_return(fields)
+      Child.refresh_form_properties
+      Child.all.each &:destroy
+
+      # Create Tracing Request form
+      fields = [
+          Field.new({"name" => "name",
+                     "type" => "text_field",
+                     "display_name_en" => "Name",
+                     "matchable" => true
+                    }),
+          Field.new({"name" => "name_nickname",
+                     "type" => "text_field",
+                     "display_name_en" => "Nickname",
+                     "matchable" => true
+                    }),
+          Field.new({"name" => "age",
+                     "type" => "numeric_field",
+                     "display_name_en" => "Age",
+                     "matchable" => true
+                    })
+      ]
+
+      tr_form = FormSection.create_or_update_form_section(
+          {
+              :unique_id=> "form_section_tracing_request_subform",
+              "visible" => true,
+              "is_nested" => true,
+              :order => 1,
+              "editable" => true,
+              :fields => fields,
+              :perm_enabled => true,
+              :parent_form=>"tracing_request",
+              "name_all" => "Form Section With Dates Fields",
+              "description_all" => "Form Section With Dates Fields",
+          }
+      )
+
+      tracing_request_tracing_request_fields = [
+          Field.new(
+              {
+                  "name" => "tracing_request_subform_section",
+                  "type" => "subform",
+                  "editable" => true,
+                  "subform_section_id" => tr_form.unique_id,
+                  "display_name_en" => "Tracing Request"
+              }
+          )
+      ]
+
+      FormSection.create_or_update_form_section(
+          {
+              :unique_id => "tracing_request_tracing_request",
+              :parent_form=>"tracing_request",
+              "visible" => true,
+              :order_form_group => 30,
+              :order => 30,
+              :order_subform => 0,
+              :form_group_name => "Tracing Request",
+              "editable" => true,
+              "mobile_form" => true,
+              :fields => tracing_request_tracing_request_fields,
+              "name_en" => "Tracing Request",
+              "description_en" => "Tracing Request"
+          }
+      )
+
+      TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
+      TracingRequest.refresh_form_properties
+      TracingRequest.all.each &:destroy
+    end
+
+    after :all do
+      clean_up_objects
+    end
+
+    it 'matches traces from case' do
+      child1 = Child.create(
+          {
+              name: 'child1',
+              name_nickname: 'johnathan',
+              age: 15,
+              sex: 'male'
+          }
+      )
+      tr = TracingRequest.create(
+          {
+              relation_name: 'mother',
+              inquiry_date: '12-Nov-2018',
+              tracing_request_subform_section: [{name_nickname: 'johnathan', age: 15, name: 'child1', sex: 'male'}]
+          }
+      )
+
+      Child.stub(:find_match_records).and_return({"#{tr.id}"=>34.343723})
+
+      potential_matches = child1.matching_tracing_requests
+      expect(potential_matches).not_to be_empty
+      expect(potential_matches.first.tracing_request_id).to eq(tr.id)
+      trace = tr.traces(potential_matches.first.tr_subform_id).first
+      expect(trace.name_nickname).to eq('johnathan')
+    end
+  end
+
   describe 'match criteria' do
     before do
       Child.all.each &:destroy
