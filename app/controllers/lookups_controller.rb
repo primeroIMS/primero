@@ -39,7 +39,12 @@ class LookupsController < ApplicationController
 
   def update
     authorize! :update, Lookup
+
     @lookup.update_attributes params[:lookup].to_h
+
+    if !has_lookup_values?
+      @lookup.clear_all_values
+    end
 
     if @lookup.save
       redirect_to lookups_path
@@ -59,6 +64,11 @@ class LookupsController < ApplicationController
 
   def load_lookup
     @lookup = Lookup.get params[:id] if params[:id]
+  end
+
+  def has_lookup_values?
+    return false if params[:lookup].blank?
+    params[:lookup].keys.any? { |key| key.to_s.start_with?('lookup_values') }
   end
 
 end

@@ -52,6 +52,7 @@ module Exporters
     def props
       {
         'moha_id' => ['national_id_no'],
+        'national_id_no' => ['national_id_no'],
         'case_id' => ['case_id'],
         'progress_id' => ['unhcr_individual_no'],
         'child_name_last_first' => ->(c) do
