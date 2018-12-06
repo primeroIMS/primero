@@ -1,4 +1,4 @@
-puts 'Migrating (i81n): Roles'
+puts 'Migrating (i18n): Roles'
 
 include MigrationHelper
 

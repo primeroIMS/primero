@@ -1,4 +1,4 @@
-puts 'Migrating (i81n): FormSections'
+puts 'Migrating (i18n): FormSections'
 
 include MigrationHelper
 
