@@ -18,21 +18,26 @@ module Matchable
       'relation_sub_ethnicity2' => 'sub_ethnicity_2'
     }
 
-    def form_matchable_fields
+    def form_matchable_fields(match_fields = nil)
       form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, false)
-      Array.new(form_fields).map(&:name)
+      fields = Array.new(form_fields).map(&:name)
+      return fields if match_fields.blank?
+      fields & match_fields.values.flatten.reject(&:blank?)
     end
 
-    def subform_matchable_fields
+    def subform_matchable_fields(match_fields = nil)
       form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, true)
-      Array.new(form_fields).map(&:name)
+      fields = Array.new(form_fields).map(&:name)
+      return fields if match_fields.blank?
+      fields & match_fields.values.flatten.reject(&:blank?)
     end
 
-    def matchable_fields
-      form_matchable_fields.concat(subform_matchable_fields)
+    def matchable_fields(match_fields={})
+      field_selector = self == Child ? :case_fields : :tracing_request_fields
+      form_matchable_fields(match_fields[field_selector]).concat(subform_matchable_fields(match_fields[field_selector]))
     end
 
-    def find_match_records(match_criteria, match_class, child_id = nil)
+    def find_match_records(match_criteria, match_class, child_id = nil, match_fields={})
       pagination = {:page => 1, :per_page => 20}
       sort={:score => :desc}
       if match_criteria.blank?
@@ -40,7 +45,7 @@ module Matchable
       else
         search = Sunspot.search(match_class) do
           any do
-            match_fields = match_class.matchable_fields
+            match_fields = match_class.matchable_fields(match_fields)
             match_criteria.each do |key, value|
               field = match_class.get_match_field(key.to_s)
               fulltext(value, :fields => field) if match_field_exist?(field, match_fields)
@@ -118,9 +123,9 @@ module Matchable
     end
   end
 
-  def match_criteria(match_request=nil)
+  def match_criteria(match_request=nil, match_fields=nil)
     match_criteria = {}
-    self.class.form_matchable_fields.each do |field|
+    self.class.form_matchable_fields(match_fields).each do |field|
       match_criteria[:"#{field}"] = (self[:"#{field}"].is_a? Array) ? self[:"#{field}"].join(' ') : self[:"#{field}"]
     end
     match_criteria.compact
