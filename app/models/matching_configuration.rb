@@ -5,8 +5,12 @@ class MatchingConfiguration
 
   attr_accessor :id
   attr_accessor :form_ids
+  attr_accessor :case_forms
+  attr_accessor :case_form_options
   attr_accessor :case_fields
   attr_accessor :case_field_options
+  attr_accessor :tracing_request_forms
+  attr_accessor :tracing_request_form_options
   attr_accessor :tracing_request_fields
   attr_accessor :tracing_request_field_options
 
@@ -33,11 +37,30 @@ class MatchingConfiguration
     self.case_field_options = load_field_options_by_type('case')
     self.tracing_request_fields = load_matchable_fields_by_type('tracing_request')
     self.tracing_request_field_options = load_field_options_by_type('tracing_request')
+
+    # load forms after loading fields
+    self.case_forms = load_matchable_forms_by_type('case')
+    self.case_form_options = load_forms_by_type('case')
+    self.tracing_request_forms = load_matchable_forms_by_type('tracing_request')
+    self.tracing_request_form_options = load_forms_by_type('tracing_request')
   end
 
   def update_matchable_fields
-    update_matchable('case') if self.case_fields.present?
-    update_matchable('tracing_request') if self.tracing_request_fields.present?
+    update_matchable('case')
+    update_matchable('tracing_request')
+  end
+
+  # Filter matchable fields by form id
+  def get_form_matchable_fields(type, form_key)
+    fields = self.send("#{type}_fields").try(:find) { |x| x.first == form_key }
+    fields.present? ? fields.last : []
+  end
+
+  # Filter field options by form id
+  def get_form_field_options(type, form_key)
+    fields = self.send("#{type}_field_options").try(:find) { |x| x.first == form_key }
+    form_name = self.send("#{type}_form_options").try(:find) { |x| x.last == form_key }
+    [fields.present? ? fields.last : [], form_name.present? ? form_name.first : '']
   end
 
   # Patch to make nav buttons work
@@ -47,16 +70,26 @@ class MatchingConfiguration
 
   private
 
-  def load_matchable_fields_by_type(type)
-    matchable_field_names = FormSection.get_matchable_form_and_field_names(self.form_ids, type)
-    matchable_fields = []
-    matchable_field_names.each {|key, value| matchable_fields << value.map{|v| "#{key}#{ID_SEPARATOR}#{v}"}}
-    matchable_fields.flatten
+  def load_forms_by_type(type)
+    form_sections = FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type)
+    form_sections.map { |f| [f.name, f.unique_id] }
+  end
+
+  def load_matchable_forms_by_type(type)
+    self.send("#{type}_fields").try(:map) { |key, _value| key }
   end
 
   def load_field_options_by_type(type)
     form_sections = FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type)
-    form_sections&.map{|fs| [fs.description, fs.fields.select{|fd| fd.visible == true}&.map{|fd| ["#{fd.display_name} (#{fd.name})", "#{fs.unique_id}#{ID_SEPARATOR}#{fd.name}"]}]}
+    form_sections.map do |fs|
+      [fs.unique_id, fs.fields.select { |fd| fd.visible == true }
+        &.map { |fd| [fd.display_name, fs.unique_id + ID_SEPARATOR + fd.name] }]
+    end
+  end
+
+  def load_matchable_fields_by_type(type)
+    form_fields = FormSection.get_matchable_form_and_field_names(self.form_ids, type)
+    form_fields.map { |form_key, fields| [form_key, fields.map { |val| form_key + ID_SEPARATOR + val }] }
   end
 
   # Based on input, build a hash containing the forms / fields that need to be set to matchable
@@ -74,6 +107,7 @@ class MatchingConfiguration
       next unless field_pair_array.size == 2
       form_id = field_pair_array.first
       field_name = field_pair_array.last
+      next unless self.send("#{type}_forms").include? form_id
       form_field_hash[form_id] = [] unless form_field_hash.has_key? form_id
       form_field_hash[form_id] << field_name
     end

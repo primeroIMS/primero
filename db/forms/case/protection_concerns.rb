@@ -14,10 +14,6 @@ protection_concern_fields = [
              "display_name_en" => "Risk Level",
              "option_strings_source" => "lookup lookup-risk-level"
             }),
-  Field.new({"name" => "system_generated_followup",
-             "type" => "tick_box",
-             "display_name_en" => "Generate follow up reminders?"
-            }),
   Field.new({"name" => "displacement_status",
              "type" =>"select_box" ,
              "display_name_en" => "Displacement Status",
@@ -62,7 +58,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 30,
   :order => 20,
   :order_subform => 0,
-  :form_group_name => "Identification / Registration",
+  :form_group_id => "identification_registration",
   :fields => protection_concern_fields,
   "editable" => true,
   "name_en" => "Protection Concerns",

@@ -184,7 +184,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 160,
   order: 10,
   order_subform: 0,
-  form_group_name: "Client Feedback",
+  form_group_id: "client_feedback",
   editable: true,
   fields: client_feedback_fields,
   mobile_form: true,

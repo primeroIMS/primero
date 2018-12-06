@@ -11,7 +11,9 @@ class AuditLog < CouchRest::Model::Base
   property :owned_by
   property :timestamp, DateTime
 
-  design do
+  design
+
+  design :by_timestamp do
     view :by_timestamp
   end
 

@@ -22,7 +22,7 @@
                 <%= render 'exports/custom_exports_link', model: Child, export_type: 'custom' %>
               <% end %>
               <%= render 'transitions/button', instance: @child, type: Transition::TYPE_REFERRAL %>
-              <% if can?(:reassign, controller.model_class) %>
+              <% if @user_can_assign %>
                 <%= render 'transitions/button', instance: @child, type: Transition::TYPE_REASSIGN %>
               <% end %>
               <%= render 'transitions/button', instance: @child, type: Transition::TYPE_TRANSFER %>

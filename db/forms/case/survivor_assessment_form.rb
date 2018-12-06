@@ -164,7 +164,7 @@ FormSection.create_or_update_form_section({
   order_form_group: 50,
   order: 40,
   order_subform: 0,
-  form_group_name: "Survivor Assessment",
+  form_group_id: "survivor_assessment",
   editable: true,
   fields: survivor_assessment_fields,
   name_en: "Survivor Assessment",

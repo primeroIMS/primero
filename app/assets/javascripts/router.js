@@ -23,7 +23,7 @@ _primero.Router = Backbone.Router.extend({
     'lookups/:id/edit': 'lookups',
     'forms/:id/edit': 'formSectionEditPage',
     'forms/:form_section_id/fields/:id/edit': 'fieldEditPage',
-    'users': 'passwordPrompt',
+    'users': 'usersPage',
     'users/new': 'userCreatePage',
     'users/:id/edit': 'userCreatePage',
     'users/:id': 'userCreatePage',
@@ -35,7 +35,9 @@ _primero.Router = Backbone.Router.extend({
     'matching_configurations/:id/edit': 'matchingConfigurationPage',
     'agencies/:id/edit':'agencyForm',
     'agencies/new':'agencyForm',
-    'agencies/:id':'agencyForm'
+    'agencies/:id':'agencyForm',
+    'agencies':'recordIndexPage',
+    'user_groups':'recordIndexPage'
   },
 
   initialize: function() {
@@ -62,6 +64,14 @@ _primero.Router = Backbone.Router.extend({
 
   lookups: function() {
     new _primero.Views.LookupValueView();
+  },
+
+  usersPage: function() {
+    this.initIndexTable();
+    new _primero.Views.IndexFilters();
+    this.passwordPrompt();
+    //When a validation fails users edit page goes to this url.
+    this.userCreatePage();
   },
 
   passwordPrompt: function() {
@@ -236,6 +246,7 @@ _primero.Router = Backbone.Router.extend({
 
   matchingConfigurationPage: function() {
     _primero.chosen(".default-form select.chosen-select");
+    new _primero.Views.MatchingConfigurations();
     new _primero.Views.PopulateSelectBoxes();
     new _primero.Views.PopulateLocationSelectBoxes();
   },

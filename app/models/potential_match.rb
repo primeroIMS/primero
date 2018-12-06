@@ -49,32 +49,14 @@ class PotentialMatch < CouchRest::Model::Base
   VALUE_MATCH = 'match'
   VALUE_MISMATCH = 'mismatch'
 
-  design do
-    view :by_tracing_request_id
+  design
+
+  design :by_child_id do
     view :by_child_id
-    view :by_tracing_request_id_and_child_id
-    view :by_child_id_and_tr_subform_id
+  end
+
+  design :by_tracing_request_id_and_tr_subform_id do
     view :by_tracing_request_id_and_tr_subform_id
-    view :by_tracing_request_id_and_status
-    view :by_tracing_request_id_and_marked_invalid
-    view :by_child_id_and_status
-    view :by_average_rating
-    view :all_valid_tracing_request_ids,
-         :map => "function(doc) {
-                    if(doc['couchrest-type'] == 'PotentialMatch' && doc['status'] == '#{PotentialMatch::POTENTIAL}') {
-                        emit(doc['tracing_request_id'], null);
-                      }
-                   }",
-         :reduce => "function(key, values) {
-                       return null;
-                     }"
-    view :by_unique_identifier,
-         :map => "function(doc) {
-                  if (doc.hasOwnProperty('unique_identifier'))
-                 {
-                    emit(doc['unique_identifier'], null);
-                 }
-              }"
   end
 
   def self.quicksearch_fields
@@ -87,6 +69,10 @@ class PotentialMatch < CouchRest::Model::Base
 
   def self.searchable_date_time_fields
     ["created_at", "last_updated_at"]
+  end
+
+  def self.comparable_name_fields
+    ['name', 'name_other', 'name_nickname']
   end
 
   include Searchable
@@ -247,6 +233,12 @@ class PotentialMatch < CouchRest::Model::Base
 
   def case_and_trace_matched?
     self.child.matched_to_trace?(self.tr_subform_id)
+  end
+
+  def compare_names
+    PotentialMatch.comparable_name_fields.map { |field|
+      { field: field, child_name: self.child.try(field) || '-', trace_name: self.trace.try(field) || '-' }
+    }
   end
 
   def compare_case_to_trace

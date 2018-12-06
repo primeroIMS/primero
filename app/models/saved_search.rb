@@ -8,9 +8,13 @@ class SavedSearch < CouchRest::Model::Base
   property :filters, [SearchValue]
   property :user_name
 
-  design do
+  design
+
+  design :by_user_name do
     view :by_user_name
-    view :by_unique_id
+  end
+
+  design :by_user_name_and_record_type do
     view :by_user_name_and_record_type
   end
 

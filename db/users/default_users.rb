@@ -26,7 +26,8 @@ create_or_update_user(
   ],
   "module_ids" => PrimeroModule.by_name.all.map{|m| m.id},
   "user_group_ids" => UserGroup.by_name.all.map{|g| g.id},
-  "is_manager" => true
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -42,7 +43,8 @@ create_or_update_user(
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
-  "is_manager" => true
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -57,7 +59,8 @@ create_or_update_user(
     Role.by_name(key: "CP Case Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id]
+  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -73,7 +76,8 @@ create_or_update_user(
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
-  "is_manager" => true
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -88,7 +92,8 @@ create_or_update_user(
     Role.by_name(key: "GBV Social Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id]
+  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -104,7 +109,8 @@ create_or_update_user(
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
-  "is_manager" => true
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -120,7 +126,8 @@ create_or_update_user(
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
     "user_group_ids" => [UserGroup.by_name(key: "Primero FTR").first.id],
-    "is_manager" => true
+    "is_manager" => true,
+    "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -136,7 +143,8 @@ create_or_update_user(
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
-  "is_manager" => true
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -152,7 +160,8 @@ create_or_update_user(
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
-  "is_manager" => true
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -169,7 +178,8 @@ create_or_update_user(
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
-  "is_manager" => true
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
 create_or_update_user(
@@ -186,5 +196,6 @@ create_or_update_user(
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
-  "is_manager" => true
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
 )

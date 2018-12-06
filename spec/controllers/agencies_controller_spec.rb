@@ -3,6 +3,8 @@ require 'rails_helper'
 describe AgenciesController do
   before do
     Agency.all.each &:destroy
+    SystemSettings.create(default_locale: "en",
+                          primary_age_range: "primary", age_ranges: {"primary" => [1..2, 3..4]})
 
     @agency_a = Agency.create!(name: "A", agency_code: "AAA", 'upload_logo' => {'logo' => uploadable_photo})
     @agency_b = Agency.create!(name: "B", agency_code: "BBB", disabled: false)
@@ -17,12 +19,12 @@ describe AgenciesController do
   describe "get index" do
     context "with filter disabled" do
       it "populates the view with all the disabled agencies" do
-        get :index, params: {filter: 'disabled'}
+        get :index, params: { "scope" => { "status" => "list||disabled" } }
         expect(assigns(:agencies)).to include(@agency_d, @agency_e)
       end
 
       it "does not populate the vew with enabled agencies" do
-        get :index, params: {filter: 'disabled'}
+        get :index, params: { "scope" => { "status" => "list||disabled"} }
         expect(assigns(:agencies)).not_to include(@agency_a, @agency_b, @agency_c)
       end
 
@@ -51,7 +53,7 @@ describe AgenciesController do
 
     context "with filter all" do
       it "populates the view with all the agencies" do
-        get :index, params: {filter: 'all'}
+        get :index, params: { "scope" => { "status" => "list||enabled||disabled" }}
         expect(assigns(:agencies)).to include(@agency_a, @agency_b, @agency_c, @agency_d, @agency_e)
       end
 

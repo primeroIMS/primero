@@ -79,6 +79,10 @@ module Matchable
      ]
     end
 
+    def phonetic_fields
+      ['name', 'name_nickname', 'name_other', 'relation_name', 'relation_nickname']
+    end
+
     def map_match_field(field_name)
       MATCH_MAP[field_name] || field_name
     end
@@ -117,7 +121,10 @@ module Matchable
       end
       return cluster_field, result.reject(&:blank?)
     end
-    
+
+    def phonetic_fields_exist?(field)
+      phonetic_fields.include?(field.to_s)
+    end
   end
 
   def match_criteria(match_request=nil)

@@ -89,7 +89,7 @@ describe Matchable do
 
     it "should return an exact match_fields" do
       expect(Child.get_match_field("name")).to eq([:name, :name_other, :name_nickname])
-    end    
+    end
   end
 
   describe "get_field_boost" do
@@ -99,7 +99,7 @@ describe Matchable do
 
     it "should return an exact boost for the match_fields" do
       expect(Child.get_field_boost("name")).to eq(10)
-    end    
+    end
   end
 
   describe "match_field_exist" do
@@ -113,7 +113,7 @@ describe Matchable do
 
     it "should return true if the match_fields exist" do
       expect(Child.match_field_exist?("name", @field_list)).to eq(true)
-    end    
+    end
   end
 
 
@@ -155,7 +155,7 @@ describe Matchable do
 
       it "should return single value in match_criteria" do
         expect(Child.match_multi_criteria("age", @case)).to eq(['age', [15]])
-      end  
+      end
     end
 
     context "when field NOT in match_fields" do
@@ -286,6 +286,22 @@ describe Matchable do
       it "age should not match age in Trace" do
         expect(Child.find_match_records({:age => [@case.age]}, TracingRequest)).to eq({})
       end
+    end
+  end
+
+  describe "phonetic_fields" do
+    it "should be an array of fields" do
+      expect(Child.phonetic_fields.is_a? Array).to eq(true)
+    end
+  end
+
+  describe "phonetic_fields_exist" do
+    it "should return false for no phonetic_fields" do
+      expect(Child.phonetic_fields_exist?("test_field")).to eq(false)
+    end
+
+    it "should return true for exact phonetic_fields" do
+      expect(Child.phonetic_fields_exist?("name")).to eq(true)
     end
   end
 end

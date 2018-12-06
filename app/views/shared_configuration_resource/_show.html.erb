@@ -16,6 +16,9 @@
     <% end %>
   <% end %>
   <%#= render partial: 'exports/button', locals: {model: Role, instance: @role} %>
+  <% if object.class.name == 'UserGroup' && (can? :destroy, object)  && !object.try(:core_resource)%>
+    <%= link_to t("#{object_name_plural}.actions.delete"), object, id: object.id, class: "button", data: {confirm: t("#{object_name_plural}.messages.confirmation")}, method: :delete  %>
+  <% end %>
 <% end %>
 
 <div class="page-content-new row" data-equalizer>

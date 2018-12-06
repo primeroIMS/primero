@@ -23,9 +23,11 @@
       type_of_export_options = []
     end
 %>
-<% if can?(transition_type.to_sym(), controller.model_class) %>
+<% if can?(transition_type.to_sym(), controller.model_class) ||
+      (transition_type == Transition::TYPE_REASSIGN && @user_can_assign) %>
 <li>
   <a data-consent_count_url="<%= "/#{model_name.downcase.underscore.pluralize}/consent_count" %>"
+     data-user_location="<%= current_user.location %>"
      data-open=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "#{transition_type}_show_action" : "#{transition_type}_index_action") %>>
      <%= t("buttons.#{transition_type}", model: model_name) %>
   </a>
@@ -60,13 +62,6 @@
               </div>
             <% end %>
           <% end %>
-          <div class="local_toggle">
-            <div class='local_user_flash hide_element'><p class='error'></p></div>
-            <%= hidden_field_tag "existing_user", "", {:id => "existing_user_hidden"} %>
-            <label><%=I18n.t("#{transition_type}.existing_user_label")%>
-              <%= select_tag("existing_user", options_for_select(module_users, ''), {:include_blank => true, :class => 'chosen-select'}) %>
-            </label>
-          </div>
           <div class="remote_toggle" style="display:none">
             <label><%=I18n.t("#{transition_type}.type_label")%>
               <%= select_tag("transition_role", options_for_select(transition_role_options, '')) %>
@@ -79,11 +74,46 @@
               <%= text_field_tag("other_user_agency") %>
             </label>
           </div>
-          <% if transition_type == "referral" %>
+          <% if transition_type == Transition::TYPE_REFERRAL %>
             <%= hidden_field_tag "service" , "", {:id => "service_hidden"}%>
             <label><%=I18n.t("referral.service_label")%>
-              <%= select_tag("service", options_for_select(Lookup.values_for_select('lookup-service-type', @lookups), ''), :include_blank => true) %>
+              <%= select_tag("service", options_for_select(@service_types, ''), :include_blank => true, :class => 'existing_user_filter') %>
             </label>
+          <% end %>
+          <% if transition_type == Transition::TYPE_REFERRAL ||
+                transition_type == Transition::TYPE_TRANSFER %>
+            <div class="local_toggle">
+              <%= hidden_field_tag "agency" , "", {:id => "agency_hidden"}%>
+              <label><%=I18n.t("#{transition_type}.agency_label")%>
+                <%= select_tag("agency", options_for_select(@agencies, ''), :include_blank => true, :class => 'existing_user_filter') %>
+              </label>
+              <%= hidden_field_tag "location" , "", {:id => "location_hidden"}%>
+              <label><%=I18n.t("#{transition_type}.location_label")%>
+                <%= select_tag("location", options_for_select([], ''), 'data-placeholder' => t("fields.select_box_empty_item"),
+                              :data => { :populate => 'Location', :value => '' }, :include_blank => true, :class => 'chosen-select existing_user_filter') %>
+              </label>
+              <div class='local_user_flash hide_element'><p class='error'></p></div>
+              <%= hidden_field_tag "existing_user", "", {:id => "existing_user_hidden"} %>
+              <label><%=I18n.t("#{transition_type}.existing_user_label")%>
+                <%= select_tag("existing_user", options_for_select([], ''), {:include_blank => true, :class => 'chosen-select', :id => "existing_user_#{transition_type}"}) %>
+              </label>
+            </div>
+          <% elsif transition_type == Transition::TYPE_REASSIGN %>
+            <div class="local_toggle">
+              <div class='local_user_flash hide_element'><p class='error'></p></div>
+              <%= hidden_field_tag "existing_user", "", {:id => "existing_user_hidden"} %>
+              <label><%=I18n.t("#{transition_type}.existing_user_label")%>
+                <%= select_tag("existing_user", options_for_select(@assignable_users, ''), {:include_blank => true, :class => 'chosen-select'}) %>
+              </label>
+            </div>
+          <% else %>
+            <div class="local_toggle">
+              <div class='local_user_flash hide_element'><p class='error'></p></div>
+              <%= hidden_field_tag "existing_user", "", {:id => "existing_user_hidden"} %>
+              <label><%=I18n.t("#{transition_type}.existing_user_label")%>
+                <%= select_tag("existing_user", options_for_select(module_users, ''), {:include_blank => true, :class => 'chosen-select'}) %>
+              </label>
+            </div>
           <% end %>
           <label><%=I18n.t("#{transition_type}.notes_label")%>
             <%= text_area_tag("notes") %>

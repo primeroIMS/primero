@@ -70,7 +70,7 @@ module Record
     validates_with FieldValidator, :type => Field::DATE_RANGE
     validates_with FieldValidator, :type => Field::TALLY_FIELD
 
-    design do
+    design :by_unique_identifier do
       view :by_unique_identifier,
               :map => "function(doc) {
                     if (doc.hasOwnProperty('unique_identifier'))
@@ -78,7 +78,9 @@ module Record
                       emit(doc['unique_identifier'], null);
                    }
                 }"
+    end
 
+    design :by_short_id do
       view :by_short_id,
               :map => "function(doc) {
                     if (doc.hasOwnProperty('short_id'))
@@ -86,7 +88,9 @@ module Record
                       emit(doc['short_id'], null);
                    }
                 }"
+    end
 
+    design :by_owned_by do
       view :by_owned_by,
            :map => "function(doc) {
                     if (doc.hasOwnProperty('owned_by'))
@@ -94,15 +98,9 @@ module Record
                       emit(doc['owned_by'], null);
                    }
                 }"
+    end
 
-      view :by_id,
-              :map => "function(doc) {
-                    if (doc.hasOwnProperty('short_id'))
-                   {
-                      emit(doc['_id'], null);
-                   }
-                }"
-
+    design :by_user_name do
       view :by_user_name,
               :map => "function(doc) {
                     if (doc.hasOwnProperty('histories')){
@@ -111,22 +109,8 @@ module Record
                       }
                    }
                 }"
-
-      view :by_duplicate,
-              :map => "function(doc) {
-                if (doc.hasOwnProperty('duplicate')) {
-                  emit(doc['duplicate'], null);
-                }
-              }"
-
-      view :by_duplicates_of,
-              :map => "function(doc) {
-                if (doc.hasOwnProperty('duplicate_of')) {
-                  emit(doc['duplicate_of'], null);
-                }
-              }"
-
     end
+
   end
 
   STATUS_OPEN = 'open'
@@ -259,15 +243,6 @@ module Record
     def all_connected_with(user_name)
        #TODO Investigate why the hash of the objects got different.
        (self.by_user_name(:key => user_name).all + self.all_by_creator(user_name).all).uniq {|record| record.unique_identifier}
-    end
-
-    # this is a helper to see the duplicates for test purposes ... needs some more thought. - cg
-    def duplicates
-      by_duplicate(:key => true)
-    end
-
-    def duplicates_of(id)
-      by_duplicates_of(:key => id).all
     end
 
     def create_new_model(attributes={}, current_user=nil)

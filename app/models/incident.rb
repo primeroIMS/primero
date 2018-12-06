@@ -65,17 +65,10 @@ class Incident < CouchRest::Model::Base
     super *args
   end
 
-  design do
+  design
+
+  design :by_incident_id do
     view :by_incident_id
-    view :by_description,
-            :map => "function(doc) {
-                if (doc['couchrest-type'] == 'Incident')
-               {
-                  if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                    emit(doc['description'], null);
-                  }
-               }
-            }"
   end
 
   before_save :set_violation_verification_default

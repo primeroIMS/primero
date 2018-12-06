@@ -8,6 +8,7 @@ class Agency < CouchRest::Model::Base
   include Disableable
   include LocalizableProperty
 
+  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
   #TODO - i18n name and description came from Nameable.  Need cleaner way to handle this
   localize_properties [:name, :description]
   property :telephone
@@ -17,21 +18,14 @@ class Agency < CouchRest::Model::Base
   property :core_resource, TrueClass, :default => false
   property :agency_code
   property :services, :type => [String]
+  property :base_language, :default => DEFAULT_BASE_LANGUAGE
 
-  design do
+  design :by_order do
     view :by_order
-
-    view :by_id,
-         :map => "function(doc) {
-                    if (doc['couchrest-type'] == 'Agency')
-                   {
-                      emit(doc['_id'], null);
-                   }
-                }"
   end
 
   validates_presence_of :agency_code, :message => I18n.t("errors.models.agency.code_present")
-  validates_presence_of :name, :message => I18n.t("errors.models.agency.name_present")
+  validate :validate_name_in_base_language
 
   before_create :generate_id
 
@@ -70,5 +64,13 @@ class Agency < CouchRest::Model::Base
   def generate_id
     #Use agency_code to generate the ID since it is more stable than the name
     self["_id"] ||= "agency-#{self.agency_code}".parameterize.dasherize
+  end
+
+  def validate_name_in_base_language
+    name = "name_#{DEFAULT_BASE_LANGUAGE}"
+    unless (self.send(name).present?)
+      errors.add(:name, I18n.t("errors.models.agency.name_present"))
+      return false
+    end
   end
 end

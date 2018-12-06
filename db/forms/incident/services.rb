@@ -427,7 +427,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 100,
   :order => 10,
   :order_subform => 0,
-  :form_group_name => "Service Referral",
+  :form_group_id => "service_referral",
   "editable" => true,
   :fields => services_fields,
   :mobile_form => true,

@@ -27,6 +27,7 @@ class User < CouchRest::Model::Base
   property :user_group_ids, :type => [String], :default => []
   property :is_manager, TrueClass, :default => false
   property :send_mail, TrueClass, :default => true
+  property :services, :type => [String], :default => []
 
   alias_method :agency, :organization
   alias_method :agency=, :organization=
@@ -85,21 +86,24 @@ class User < CouchRest::Model::Base
                 if ((doc['couchrest-type'] == 'User') && doc['organization']) {
                   emit(doc['organization'], null);
                 }
-              }"
+              }",
+         :reduce => "_count"
 
     view :by_organization_enabled,
          :map => "function(doc) {
                 if (doc.hasOwnProperty('organization') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
                   emit(doc['organization'], null);
                 }
-              }"
+              }",
+         :reduce => "_count"
 
     view :by_organization_disabled,
          :map => "function(doc) {
                 if (doc.hasOwnProperty('organization') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
                   emit(doc['organization'], null);
                 }
-              }"
+              }",
+         :reduce => "_count"
 
     view :by_unverified,
             :map => "function(doc) {
@@ -132,6 +136,7 @@ class User < CouchRest::Model::Base
   end
 
 
+  before_create :set_agency_services
   before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
   after_save :save_devices
 
@@ -224,7 +229,7 @@ class User < CouchRest::Model::Base
     end
 
     def agencies_by_user_list(user_names)
-      Agency.by_id(keys: self.find_by_user_names(user_names).map{|u| u.organization}.uniq).all
+      Agency.all(keys: self.find_by_user_names(user_names).map{|u| u.organization}.uniq).all
     end
 
     def last_login_timestamp(user_name)
@@ -242,6 +247,11 @@ class User < CouchRest::Model::Base
       self.by_disabled(key: false).map{|r| {id: r.name, display_text: r.name}.with_indifferent_access}
     end
     memoize_in_prod :all_names
+
+    # Hack: is required in the template record_shared/actions.html.erb
+    def is_syncable_with_mobile?
+      false
+    end
   end
 
   def email_entered?
@@ -531,6 +541,12 @@ class User < CouchRest::Model::Base
 
   def generate_id
     self["_id"] ||= User.user_id_from_name self.user_name
+  end
+
+  def set_agency_services
+    if self.agency.present? && self.services.blank?
+      self.services = self.agency.services
+    end
   end
 
 end
