@@ -357,8 +357,7 @@ class PotentialMatch < CouchRest::Model::Base
           matches << yield(id, score, average_score)
         end
       end
-      matches = link_cases_and_tracing_requests(matches)
-      return matches
+      link_cases_and_tracing_requests(matches.try(:flatten) || [])
     end
 
     def build_potential_match(child_id, tracing_request_id, score, aggregate_average_score, subform_id)
