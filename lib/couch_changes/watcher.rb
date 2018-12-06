@@ -66,14 +66,19 @@ module CouchChanges
     end
 
     def change_is_valid?(model, change)
-      seq = change['seq']
+      seq = extract_seq_number(change['seq'])
 
       if seq.nil?
         CouchChanges.logger.error "Change doesn't have a sequence number: #{change}"
         false
       else
-        seq > @sequencer.for_model(model).last_seq && !change['id'].start_with?('_design')
+        seq > extract_seq_number(@sequencer.for_model(model).last_seq) && !change['id'].start_with?('_design')
       end
+    end
+
+    def extract_seq_number(seq)
+      seq_num = seq.match(/^\d*[^-]/)
+      seq_num.present? ? seq_num[0].to_i : nil
     end
 
     def update_sequence(model, change)
