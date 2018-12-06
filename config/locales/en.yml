@@ -689,6 +689,8 @@ en:
     trace: 'Trace'
     case: 'Case'
     name: 'Name'
+    name_other: 'Other Name'
+    name_nickname: 'Nickname'
 
     likelihood:
       likely: 'Likely'
@@ -1511,6 +1513,7 @@ en:
     high_risk: 'High Priority'
     low_risk: 'Low Priority'
     none_risk: 'No Priority'
+    no_action_risk: 'No Action'
     medium_risk: 'Medium Priority'
     pending: 'Pending'
     rejected: 'Rejected'
@@ -2310,3 +2313,6 @@ en:
       task:
         one: "Task"
         other: "Tasks"
+      user_group:
+        one: "User Group"
+        other: "User Groups"

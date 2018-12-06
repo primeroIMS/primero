@@ -42,6 +42,8 @@ module IndexHelper
         list_view_header_user
       when "agency"
         list_view_agency
+      when "user_group"
+        list_view_user_group
       else
         []
     end
@@ -342,6 +344,13 @@ module IndexHelper
     ]
   end
 
+  def list_view_user_group
+    [
+      {title: 'user_group.name', sort_title: 'user_group.name'},
+      {title: 'description', sort_title: 'description'},
+    ]
+  end
+
   def audit_log_description(record)
     record.display_id.present? ? audit_log_description_with_id(record.record_type, record.display_id) : record.record_type
   end
@@ -537,7 +546,6 @@ module IndexHelper
     actions = [
       Permission::IMPORT,
       Permission::EXPORT_CUSTOM,
-      Permission::REASSIGN,
       Permission::SYNC_MOBILE,
       Permission::ASSIGN,
       Permission::ASSIGN_WITHIN_AGENCY,
@@ -554,7 +562,6 @@ module IndexHelper
     actions = [
       Permission::IMPORT,
       Permission::EXPORT_CUSTOM,
-      Permission::REASSIGN,
       Permission::SYNC_MOBILE,
       Permission::ASSIGN,
       Permission::ASSIGN_WITHIN_AGENCY,

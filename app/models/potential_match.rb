@@ -71,6 +71,10 @@ class PotentialMatch < CouchRest::Model::Base
     ["created_at", "last_updated_at"]
   end
 
+  def self.comparable_name_fields
+    ['name', 'name_other', 'name_nickname']
+  end
+
   include Searchable
 
   searchable auto_index: self.auto_index? do
@@ -229,6 +233,12 @@ class PotentialMatch < CouchRest::Model::Base
 
   def case_and_trace_matched?
     self.child.matched_to_trace?(self.tr_subform_id)
+  end
+
+  def compare_names
+    PotentialMatch.comparable_name_fields.map { |field|
+      { field: field, child_name: self.child.try(field) || '-', trace_name: self.trace.try(field) || '-' }
+    }
   end
 
   def compare_case_to_trace

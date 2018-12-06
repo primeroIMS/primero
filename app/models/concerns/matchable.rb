@@ -63,7 +63,7 @@ module Matchable
         {field: 'name_first', match: 'name', boost: 10},
         {field: 'name_middle', match: 'name', boost: 10},
         {field: 'name_last', match: 'name', boost: 10},
-        {field: 'name_other', match: 'name', boost: 10},
+        {field: 'name_other', boost: 10},
         {field: 'name_nickname', boost: 10},
         {field: 'sex', boost: 10},
         {field: 'age', boost: 5},
@@ -81,6 +81,10 @@ module Matchable
         {field: 'sub_ethnicity_1', match: 'relation_sub_ethnicity1'},
         {field: 'sub_ethnicity_2', match: 'relation_sub_ethnicity2'}
       ]
+    end
+
+    def phonetic_fields
+      ['name', 'name_nickname', 'name_other', 'relation_name', 'relation_nickname']
     end
 
     def map_match_field(field_name)
@@ -107,6 +111,10 @@ module Matchable
 
     def match_field_exist?(field, field_list)
       field_list.include?(field.to_s)
+    end
+
+    def phonetic_fields_exist?(field)
+      phonetic_fields.include?(field.to_s)
     end
   end
 
