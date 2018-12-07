@@ -9,6 +9,8 @@ Clear the existing data
 - $ bundle exec rake db:data:remove_metadata
 - $ bundle exec rake db:migrate:design
 
+Load users????
+
 
 Make sure your config/locales.yml has the proper locales for the configuration you are upgrading.
 -------------------------------------------------------------------------------------------------
