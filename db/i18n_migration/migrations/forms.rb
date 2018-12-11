@@ -15,6 +15,9 @@ default_changes = [
     {form: 'other_reportable_fields_tracing_request', field: 'record_state', value: true}
 ]
 
+field_localized_properties = Field.localized_properties.map(&:to_s)
+form_localized_properties = FormSection.localized_properties.map(&:to_s)
+
 FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
   fs['base_language'] = FormSection::DEFAULT_BASE_LANGUAGE
   fs['fields'].each do |field|
@@ -32,12 +35,14 @@ FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
         field["tick_box_label_#{locale}"] = value
         field.delete("option_strings_text_#{locale}")
       end
-    when 'radio_button'
-      field['options_string_source'] = "lookup lookup-yes-no"
-
-      MigrationHelper.create_locales do |locale|
-        field.delete("option_strings_text_#{locale}")
-      end
+    #TODO commenting this out because the incoming data doesn't always respect the business rule that radio_buttons
+    #     are always yes/no
+    # when 'radio_button'
+    #   field['options_string_source'] = "lookup lookup-yes-no"
+    #
+    #   MigrationHelper.create_locales do |locale|
+    #     field.delete("option_strings_text_#{locale}")
+    #   end
     else
       if field['option_strings_source'] =~ /\Alookup/
         lookup = field['option_strings_source'].match(/\w+\b(?<!lookup).*/)
@@ -54,7 +59,13 @@ FormSection.all.rows.map {|r| FormSection.database.get(r["id"]) }.each do |fs|
         end
       end
     end
+
+    #Remove all the stuff related to locales that are not part of the configured locales for this system
+    field_localized_properties.each {|p| MigrationHelper.discard_locales(field, p)}
   end
+
+  #Remove all the stuff related to locales that are not part of the configured locales for this system
+  form_localized_properties.each {|p| MigrationHelper.discard_locales(fs, p)}
 
   fs.save
 end

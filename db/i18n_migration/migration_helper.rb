@@ -32,10 +32,21 @@ module MigrationHelper
     end
   end
 
+  #Only the current configured locales to be used when creating new fields
   def create_locales
     Primero::Application::locales.each do |locale|
       yield(locale)
     end
+  end
+
+  #List of possible locales that are not part of the list of locales configured for the current system
+  def locales_to_discard
+    Primero::Application::LOCALES - Primero::Application::locales
+  end
+
+  #Throw away locale specific property data that isn't among one of the configured locales
+  def discard_locales(object_hash, key)
+    locales_to_discard.each{|locale| object_hash.delete("#{key}_#{locale}")}
   end
 
   def get_fields(form_section)
