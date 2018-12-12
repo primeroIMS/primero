@@ -22,7 +22,17 @@ development:
   :default_locale: 'en'
   :locales: ["en", "fr"]
   
-  
+
+To remove Locations from the old json config before importing it (optional)
+---------------------------------------------------------------------------
+From rails console, read in the old json file, parse it, delete Locations from the hash, write out to new file
+Example:
+  :001 >  jf = File.open('tmp/config_burkina_1209.json')
+  :002 >  jd = JSON.parse(jf.read())
+  :003 >  newFile = File.open('tmp/new_config2.json', 'w')
+  :004 >  newFile.write(JSON.pretty_generate(jd))
+
+
 Load the old json config
 ------------------------
 - $ bundle exec rake db:data:import_config_bundle[<path to json file>]
