@@ -4,13 +4,13 @@ include MigrationHelper
 
 default_changes = [
     {form: 'basic_identity', field: 'child_status', value: Record::STATUS_OPEN},
-    {form: 'basic_identity', field: 'registration_date', value: 'now'},
+    {form: 'basic_identity', field: 'registration_date', value: 'today'},
     {form: 'other_reportable_fields_case', field: 'record_state', value: true},
     {form: 'cp_incident_form', field: 'status', value: Record::STATUS_OPEN},
     {form: 'cp_other_reportable_fields', field: 'record_state', value: true},
     {form: 'gbv_incident_form', field: 'status', value: Record::STATUS_OPEN},
     {form: 'other_reportable_fields_incident', field: 'record_state', value: true},
-    {form: 'tracing_request_inquirer', field: 'inquiry_date', value: 'now'},
+    {form: 'tracing_request_inquirer', field: 'inquiry_date', value: 'today'},
     {form: 'tracing_request_inquirer', field: 'inquiry_date', value: Record::STATUS_OPEN},
     {form: 'other_reportable_fields_tracing_request', field: 'record_state', value: true}
 ]

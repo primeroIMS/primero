@@ -9,7 +9,6 @@ Clear the existing data
 - $ bundle exec rake db:data:remove_metadata
 - $ bundle exec rake db:migrate:design
 
-Load users????
 
 
 Make sure your config/locales.yml has the proper locales for the configuration you are upgrading.
@@ -29,8 +28,9 @@ From rails console, read in the old json file, parse it, delete Locations from t
 Example:
   :001 >  jf = File.open('tmp/config_burkina_1209.json')
   :002 >  jd = JSON.parse(jf.read())
-  :003 >  newFile = File.open('tmp/new_config2.json', 'w')
-  :004 >  newFile.write(JSON.pretty_generate(jd))
+  :003 >  jd.delete('Location')
+  :004 >  newFile = File.open('tmp/new_config2.json', 'w')
+  :005 >  newFile.write(JSON.pretty_generate(jd))
 
 
 Load the old json config
