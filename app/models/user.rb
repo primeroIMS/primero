@@ -60,27 +60,6 @@ class User < CouchRest::Model::Base
                 }
               }"
 
-    view :by_full_name,
-         :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['full_name']) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_full_name_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('full_name') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_full_name_disabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('full_name') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
     view :by_organization,
          :map => "function(doc) {
                 if ((doc['couchrest-type'] == 'User') && doc['organization']) {
@@ -185,7 +164,6 @@ class User < CouchRest::Model::Base
     alias :by_all :all
     alias :list_by_all :all
     alias :by_user_name_all :by_user_name
-    alias :by_full_name_all :by_full_name
     alias :by_organization_all :by_organization
     def all(*args)
       old_all(*args)
