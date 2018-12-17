@@ -1,0 +1,41 @@
+---
+ar:
+  consent_for_referrals:
+    name: موافقة على الإحالة
+    description: موافقة على الإحالة
+    form_group_name: موافقة على الإحالة
+    fields:
+      consent_release_separator:
+        display_name: موافقة على الإفصاح عن معلومات حسب نوع الإحالة
+      consent_to_share_info_by_security:
+        display_name: موافقة على الإفصاح عن معلومات إلى دوائر الأمن
+      consent_to_share_security_organization:
+        display_name: حدد اسم المسؤول الأمني أو الهيئة أو المؤسسة الأمنية حسب الاقتضاء
+      consent_to_share_info_by_psychosocial:
+        display_name: موافقة على الإفصاح عن معلومات إلى خدمات الدعم النفسي والاجتماعي
+      consent_to_share_psychosocial_organization:
+        display_name: حدد اسم الأخصائي الاجتماعي أو الهيئة أو المؤسسة التي تقدم الدعم النفسي الاجتماعي حسب الاقتضاء
+      consent_to_share_info_by_health:
+        display_name: موافقة على الإفصاح عن معلومات إلى الخدمات الصحية / الطبية
+      consent_to_share_health_organization:
+        display_name: حدد اسم الأخصائي الصحي/الطبي أو المنشأة أو المؤسسة الطبية حسب الاقتضاء
+      consent_to_share_info_by_safehouse:
+        display_name: موافقة على الإفصاح عن معلومات إلى بيت آمن / مأوى
+      consent_to_share_safehouse_organization:
+        display_name: حدد اسم البيت الآمن / المأوى أو المنشأة أو الهيئة أو المؤسسة المعنية حسب الاقتضاء
+      consent_to_share_info_by_legal:
+        display_name: موافقة على الإفصاح عن معلومات إلى خدمات المساعدة القانونية
+      consent_to_share_legal_organization:
+        display_name: حدد اسم أخصائي المساعدة القانونية أو الهيئة أو المؤسسة التي تقدم خدمات المساعدة القانونية حسب الاقتضاء
+      consent_to_share_info_by_protection:
+        display_name: موافقة على الإفصاح عن معلومات إلى خدمات الحماية
+      consent_to_share_protection_organization:
+        display_name: حدد اسم أخصائي خدمات الحماية أو الهيئة أو المؤسسة المعنية التي تقدم خدمات الحماية حسب الاقتضاء
+      consent_to_share_info_by_livelihoods:
+        display_name: موافقة على الإفصاح عن معلومات إلى خدمات سبل العيش
+      consent_to_share_livelihoods_organization:
+        display_name: حدد اسم أخصائي خدمات سبل العيش أو الهيئة أو المؤسسة المعنية التي تقدم خدمات سبل العيش حسب الاقتضاء
+      consent_to_share_info_by_other:
+        display_name: موافقة على الإفصاح عن معلومات إلى خدمات أخرى
+      consent_to_share_info_by_other_details:
+        display_name: في حالة خدمات أخرى، يرجى تحديد اسم الأخصائي المعني أو المؤسسة المعنية بتقديم هذه الخدمات
