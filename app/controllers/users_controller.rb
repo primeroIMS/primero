@@ -258,9 +258,9 @@ class UsersController < ApplicationController
     enabled_param = get_enabled_param
     if has_agency_read
       if enabled_param.present?
-        User.send("by_organization_#{enabled_param}").key(current_user.organization)
+        User.by_organization_and_disabled.key([current_user.organization, filter_disabled?])
       else
-        User.send("by_organization").key(current_user.organization)
+        User.by_organization.key(current_user.organization)
       end
     end
   end
@@ -270,7 +270,7 @@ class UsersController < ApplicationController
     if enabled_param.present?
       User.send("by_user_name_#{enabled_param}")
     else
-      User.send("by_user_name")
+      User.by_user_name
     end
   end
 
@@ -316,4 +316,7 @@ class UsersController < ApplicationController
     enabled_param.last if enabled_param.size == 2
   end
 
+  def filter_disabled?
+    get_enabled_param == 'disabled' ? true : false
+  end
 end

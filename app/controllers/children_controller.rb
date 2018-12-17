@@ -452,7 +452,7 @@ class ChildrenController < ApplicationController
       users = User.by_user_name_enabled.all
     elsif can?(:assign_within_agency, Child)
       @user_can_assign = true
-      users = User.by_organization_enabled.key(current_user.organization).all
+      users = User.by_organization_and_disabled.key([current_user.organization, false]).all
     elsif can?(:assign_within_user_group, Child)
       @user_can_assign = true
       users = User.by_user_group.keys(current_user.user_group_ids_sanitized).all.select { |user| !user.disabled }
