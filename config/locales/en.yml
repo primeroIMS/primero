@@ -1979,6 +1979,7 @@ en:
       unknown_abbreviation: "U"
       headers:
         moha_id: "MOHA ID"
+        national_id_no: "National ID No"
         case_id: "Case ID"
         progress_id: "Progress ID"
         child_name_last_first: "Child Name"
