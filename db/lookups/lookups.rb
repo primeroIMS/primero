@@ -813,8 +813,8 @@ create_or_update_lookup(
     :id => "lookup-assessment-progress",
     :name => "Assessment Progress",
     :lookup_values => [
-        {id: "", display_text: "N/A"},
-        {id: "", display_text: "In progress"},
-        {id: "", display_text: "Met"}
+        {id: "n_a", display_text: "N/A"},
+        {id: "in_progress", display_text: "In progress"},
+        {id: "met", display_text: "Met"}
     ].map(&:with_indifferent_access)
 )

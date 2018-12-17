@@ -41,9 +41,9 @@ ar:
   lookup-assessment-progress:
     name: تقدم التقييم
     lookup_values:
-      n_a_76006: غير متوفر
-      in_progress_69307: قيد التنفيذ
-      met_49626: تم استيفاء التقييم
+      n_a: غير متوفر
+      in_progress: قيد التنفيذ
+      met: تم استيفاء التقييم
   lookup-case-status:
     name: الوضع الراهن للحالة
     lookup_values:
