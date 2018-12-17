@@ -52,4 +52,7 @@ Test
 
 Generate configuration seeds
 ----------------------------
-#TODO
+- $ bundle exec rake db:data:export_config_seeds
+
+This will generate a seed-files directory with the new ruby seeds in the application root directory.
+Move that seed-files directory and its contents to the appropriate directory under primero-configuration.
