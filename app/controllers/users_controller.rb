@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   before_action :agency_names, :only => [:new, :create, :edit, :update]
   before_action :load_services, :only => [:new, :create, :edit]
   before_action :sanitize_services_multiselect, :only => [:create, :update]
+  before_action :load_users_agencies, :only => [:index]
 
   skip_before_action :check_authentication, :set_locale, :only => :register_unverified
 
@@ -266,8 +267,13 @@ class UsersController < ApplicationController
   end
 
   def load_users
+    agency_param = get_agency_param
     enabled_param = get_enabled_param
-    if enabled_param.present?
+    if agency_param.present? && enabled_param.present?
+      User.by_organization_and_disabled.key([agency_param, filter_disabled?])
+    elsif agency_param.present?
+      User.by_organization.key(agency_param)
+    elsif enabled_param.present?
       User.send("by_user_name_#{enabled_param}")
     else
       User.by_user_name
@@ -316,7 +322,24 @@ class UsersController < ApplicationController
     enabled_param.last if enabled_param.size == 2
   end
 
+
   def filter_disabled?
     get_enabled_param == 'disabled' ? true : false
   end
+
+  def get_agency_param
+    if params[:scope].present? && params[:scope][:agency].present?
+      params[:scope][:agency].split('||').last
+    end
+  end
+
+  def load_users_agencies
+    agencies = if has_agency_read
+                 Agency.all.key(current_user.organization).all
+               else
+                 Agency.all.all
+               end
+    @users_agencies = agencies.map{|agency| [agency.name, agency.id] }
+  end
+
 end

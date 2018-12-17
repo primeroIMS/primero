@@ -754,6 +754,7 @@ en:
       status: "Status"
       enabled: "Enabled"
       disabled: "Disabled"
+      agency: "Agency"
     register_new_user: "Create User"
 
   roles:
