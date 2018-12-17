@@ -58,3 +58,10 @@ if should_seed? ContactInformation
   #A little hacky, but no need to write a create_or_update method
   ContactInformation.create(:id=>"administrator") if isTableEmpty?(ContactInformation)
 end
+
+puts "Loading Form Translations"
+Dir[File.dirname(__FILE__) + '/translations/gbv/*/*.yml'].each do |file|
+  puts file
+  clazz = file.end_with?('lookups.yml') ? Lookup : FormSection
+  Importers::YamlI18nImporter.import(file, clazz)
+end
