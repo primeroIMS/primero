@@ -30,7 +30,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
     var $referral_button = $(event.target)
     this.select_user_location($referral_button.data('user_location'));
-    self.clear_user_selection();
+    this.clear_user_selection();
   },
 
   refer_records: function(event) {
