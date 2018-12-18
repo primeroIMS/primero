@@ -73,7 +73,8 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
     var self = this;
 
     selected_values = _.compact(_.map(self.$el, function(field) {
-      return $(field).data('value').toString();
+      value = $(field).data('value');
+      return value ? value.toString() : value;
     }))
 
     return _.filter(model.options, function(opt) {
