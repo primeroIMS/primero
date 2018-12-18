@@ -30,6 +30,11 @@ module PotentialMatchHelper
     end
   end
 
+  def comparison_value(value)
+    return '-' if value.blank?
+    (value.is_a? Array) ? value.join(',') : value
+  end
+
   def mark_case_matched_to_trace(potential_match)
     if potential_match.case_and_trace_matched?
       'case-and-trace-matched'

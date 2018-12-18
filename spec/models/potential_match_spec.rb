@@ -102,24 +102,94 @@ describe PotentialMatch do
 
     describe '.compare_case_to_trace' do
       before do
-        PotentialMatch.stub(:case_fields_for_comparison).and_return([
-          build(:field, name: "sex", display_name: "Sex", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-gender", create_property: false, matchable: true),
-          build(:field, name: "age", display_name: "Age", type: Field::NUMERIC_FIELD, create_property: false, matchable: true)
-        ])
-        @child = build(:child, age: 12, sex: 'male')
+        FormSection.all.each &:destroy
+        subform_fields = [
+          Field.new({"name" => "sex",
+                     "type" => Field::SELECT_BOX,
+                     "matchable" => true,
+                     "display_name_all" => "Sex",
+                     option_strings_source: "lookup lookup-gender"
+                    }),
+          Field.new({"name" => "age",
+                     "type" => Field::NUMERIC_FIELD,
+                     "matchable" => true,
+                     "display_name_all" => "Age",
+                    })
+        ]
+        @subform_section = FormSection.new({
+                                             "is_nested"=>true,
+                                             :unique_id=>"subform_section_1",
+                                             :parent_form=>"case",
+                                             "editable"=>true,
+                                             :fields => subform_fields,
+                                             "name_all" => "Nested Subform Section 1",
+                                           })
+        @subform_section.save!
+
+        fields = [
+          Field.new({"name" => "name",
+                     "type" => Field::TEXT_FIELD,
+                     "display_name_all" => "Name",
+                     "matchable" => true
+          }),
+          Field.new({"name" => "sex",
+                     "type" => Field::SELECT_BOX,
+                     "matchable" => true,
+                     "display_name_all" => "Sex",
+                     option_strings_source: "lookup lookup-gender"
+                    }),
+          Field.new({"name" => "age",
+                     "type" => Field::NUMERIC_FIELD,
+                     "matchable" => true,
+                     "display_name_all" => "Age",
+                    }),
+          Field.new({"name" => "subform_section_1",
+                     "type" => "subform",
+                     "editable" => true,
+                     "subform_section_id" => @subform_section.unique_id,
+                     "display_name_all" => "Subform Section 1"
+                    })
+        ]
+        @form_section = FormSection.new(
+          :unique_id => "form_section_test_1",
+          :parent_form=>"case",
+          "name_all" => "Form Section Test 1",
+          :fields => fields
+        )
+        @form_section.save!
+        Child.any_instance.stub(:field_definitions).and_return(fields)
+        Child.refresh_form_properties
+
+        @child = Child.new(name: 'temp', sex: 'male', age: 12, subform_section_1: [{sex: 'male', age: 12}])
         @trace = build(:child, age: 12, sex: 'female') #Cheating a bit!
         @potentail_match = PotentialMatch.new
         @potential_match.stub(:child).and_return(@child)
         @potential_match.stub(:trace).and_return(@trace)
       end
 
-      it 'returns comparison hash' do
-        case_comparison = @potential_match.compare_case_to_trace[:case]
-        sex_comparison = case_comparison.select{|c| c[:case_field].name == 'sex'}.first
-        age_comparison = case_comparison.select{|c| c[:case_field].name == 'age'}.first
+      after :all do
+        FormSection.all.each &:destroy
+        Child.all.each &:destroy
+      end
+
+      it 'returns comparison hash for case' do
+        case_comparison = @potential_match.compare_case_to_trace[:case].first
+        expect(case_comparison[:form_name]).to eq(@form_section.name)
+        sex_comparison = case_comparison[:case_values].select{|c| c[:case_field].name == 'sex'}.first
+        age_comparison = case_comparison[:case_values].select{|c| c[:case_field].name == 'age'}.first
         expect(age_comparison[:matches]).to eq(PotentialMatch::VALUE_MATCH)
         expect(sex_comparison[:matches]).to eq(PotentialMatch::VALUE_MISMATCH)
       end
+
+      it 'returns comparison hash for case_subform' do
+        case_comparison = @potential_match.compare_case_to_trace[:case_subform].first
+        expect(case_comparison[:form_name]).to eq(@subform_section.name)
+        sex_comparison = case_comparison[:case_values].select{|c| c[:case_field].name == 'sex'}.first
+        age_comparison = case_comparison[:case_values].select{|c| c[:case_field].name == 'age'}.first
+        expect(age_comparison[:matches]).to eq(PotentialMatch::VALUE_MATCH)
+        expect(sex_comparison[:matches]).to eq(PotentialMatch::VALUE_MISMATCH)
+      end
+
     end
 
     describe '.compare_names' do
@@ -139,6 +209,29 @@ describe PotentialMatch do
         expect(comparable_names.first[:child_name]).to eq 'Test User'
         expect(comparable_names.first[:trace_name]).to eq 'Tester'
         expect(comparable_names[1][:trace_name]).to eq '-'
+      end
+    end
+
+    describe '.case_to_trace_values' do
+      before do
+        @sex = Field.new({name: 'sex'})
+        @age = Field.new({name: 'age'})
+        @child = build(:child, age: 12, sex: 'male')
+        @trace = build(:child, age: 12, sex: 'female')
+        @potentail_match = PotentialMatch.new
+        @potential_match.stub(:child).and_return(@child)
+        @potential_match.stub(:trace).and_return(@trace)
+      end
+
+      it 'returns comparable hash of fields for case and trace' do
+        sex_comparison = @potential_match.case_to_trace_values(@sex, @child)
+        age_comparison = @potential_match.case_to_trace_values(@age, @child)
+        expect(age_comparison[:case_value]).to eq(@child.age)
+        expect(age_comparison[:trace_value]).to eq(@trace.age)
+        expect(sex_comparison[:case_value]).to eq(@child.sex)
+        expect(sex_comparison[:trace_value]).to eq(@trace.sex)
+        expect(age_comparison[:matches]).to eq(PotentialMatch::VALUE_MATCH)
+        expect(sex_comparison[:matches]).to eq(PotentialMatch::VALUE_MISMATCH)
       end
     end
   end

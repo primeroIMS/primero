@@ -58,12 +58,14 @@ class PotentialMatchesController < ApplicationController
   def quick_view
     authorize! :read, model_class
     @potential_match = PotentialMatch.new(params) #TODO: recreate from params
-    special_comparison_fields = ['age', 'sex', 'date_of_birth']
+    special_comparison_fields = ['age', 'sex', 'date_of_birth', 'name', 'name_other', 'name_nickname']
     @comparison = @potential_match.compare_case_to_trace
     @special_comparison = special_comparison_fields.map do |field_name|
-      comparison_for = @comparison[:case].select{|c| c[:case_field].name == field_name}.first
-      @comparison[:case].delete(comparison_for)
-      [field_name, comparison_for[:matches]]
+      comparsion_for = @comparison[:case]
+                           .map{|cv| cv[:case_values].select{|c| c[:case_field].name == field_name}.first}
+                           .reject(&:blank?).first
+      comparsion_for = comparsion_for[:matches] if comparsion_for.present?
+      [field_name, comparsion_for]
     end.to_h
     @lookups = [Lookup.get('lookup-gender')]
 
@@ -71,6 +73,7 @@ class PotentialMatchesController < ApplicationController
       lookups: @lookups,
       potential_match: @potential_match,
       special_comparison: @special_comparison,
+      special_comparison_fields: special_comparison_fields,
       comparison: @comparison
     })
 
