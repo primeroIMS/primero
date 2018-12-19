@@ -1,0 +1,76 @@
+ku:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "هنارتنا تومارکەرا رویدانا xls"
+  exports:
+    incident_recorder_xls:
+      all: تومارکەرا رویدانا
+      one: تومارکەرا رویدانا
+      selected: د تومارکەرا رویدانادا هاتە توماکرن
+      'yes': "به لێ"
+      'no': "نه خێر"
+      gender:
+        male: "نێر"
+        female: "مێ"
+        both: "نێر و مێ"
+      age_group:
+        age: "ته مه ن"
+        61_older: "٦١ & مەزنتر "
+        unknown: "نه نیاس"
+        header: "گروپێ تەمەنێ تاوانبارێ دیارکرى"
+      age_type:
+        adult: "پێگەهشتى"
+        minor: "بچویک"
+        both: "پێگەهشتى & بچویک"
+        unknown: "نه نیاس"
+        header: "جور و تەمەنێ تاوانبارێ دیارکرى"
+      service_referral:
+        undecided: "ل دەمێ ریپورتکرنێ بریارنەدابوو"
+      headers:
+        incident_id: "ناسناما رویدانێ"
+        survivor_code: "کودێ قورتالبوى"
+        case_manager_code: "کودێ رێڤەبەرێ کەیسى"
+        case_worker_code: "کودێ ڤەکولەرێ کەیىس"
+        date_of_interview: "رێکەفتا چاڤپێکەفتنێ"
+        date_of_incident: "رێکەفتا رویدانێ"
+        date_of_birth: "رێکەفتا ژدەیکبونێ"
+        sex: "رەگەز"
+        ethnicity: "نەتەوە"
+        country_of_origin: "وەلاتێ رەسەن"
+        marital_status: "سیڤیل/ بارێ کەسى"
+        displacement_status: "بارێ کەسێ ژ جهگورى د راپورتێ دا"
+        disability_type: "کەسێ پەککەفتى؟"
+        unaccompanied_separated_status: "زاروکێ هێتیم یان ژ خێزانى ڤەقەتیایى"
+        stage_of_displacement: "ئاستێ جهگورینێ ل رویدانێ"
+        time_of_day: "دەمێ روژێ یێ رویدانێ"
+        location: "جهێ رویدانێ"
+        county: "وەلاتێ رویدانێ"
+        district: "ناوچا رویدانێ"
+        camp_town: "ناحیە/ کەمپا رویدانێ"
+        camp: "کەمپا رویدانێ"
+        gbv_type: "جورێ GBV"
+        harmful_traditional_practice: "نەریتێن زیانبەخش"
+        goods_money_exchanged: "پارە، کەل و پەل،مفا و /یان خزمەتگوزارى هاتینە گوهرین؟"
+        abduction_type: "جورێ رەڤاندنێ"
+        previously_reported: "ئەڤ رویدانە بەرى نوکە هاتیە ریپورتکرن؟"
+        gbv_previous_incidents: "رویدانێن بەرى نوکە یێن GBV"
+        number_primary_perpetrators: "ژ. تاوانبارێ ئێکێ یێ دیارکرى"
+        perpetrator:
+          sex: "رەگەزێ تاوانبارێ دیارکرى"
+          former: "رویدانێن بەرى نوکە دگەل ڤى تاوانبارى"
+          relationship: "پەیوەندیا تاوانبار و قورتالبویى"
+          occupation: "کارێ تاوانبارێ دیارکرى"
+          age_group: "گروپێ تەمەنێ تاوانبارێ دیارکرى"
+          age_type: "جور و تەمەنێ تاوانبارێ دیارکرى"
+        service:
+          referred_from: "هاتە ڤەگوهاستن بو تە ژ لایێ؟"
+          safehouse_referral: "خانێ پاراستى/ نهانى"
+          medical_referral: "ساخلەمى/ خزمەتگوزاریێن نوژدارى"
+          psycho_referral: "خزمەتگوزاریێن دەرونى"
+          wants_legal_action: "کاریێن یاسایى پێدڤى نە؟"
+          legal_referral: "خزمەتگوزاریێن یاسایى"
+          police_referral: "پولیس/ فاکتەرێن دى یێن پاراستنێ"
+          livelihoods_referral: "پروگرامێن بژێویا ژیانێ"
+          protection_referral: "خزمەتگوزایێن پاراستنا زاروکان/ خزمەتگوزاریێن پەروەردە و فێرکرنێ"
+        consent: "دەستویریێن هاتینە دان"
+        agency_code: "کودێ لایەنێ بو دهێتە ریپورتکرن"
