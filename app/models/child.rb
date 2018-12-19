@@ -130,14 +130,14 @@ class Child < CouchRest::Model::Base
   include Searchable
 
   searchable auto_index: self.auto_index? do
-    form_matchable_fields.select { |field| Child.exclude_match_field(field) }.each do |field|
+    form_matchable_fields.each do |field|
       text field, :boost => Child.get_field_boost(field)
       if phonetic_fields_exist?(field)
         text field, :as => "#{field}_ph"
       end
     end
 
-    subform_matchable_fields.select { |field| Child.exclude_match_field(field) }.each do |field|
+    subform_matchable_fields.each do |field|
       text field, :boost => Child.get_field_boost(field) do |record|
         record.family_detail_values(field)
       end
@@ -395,10 +395,17 @@ class Child < CouchRest::Model::Base
   alias :inherited_match_criteria :match_criteria
   def match_criteria(match_request=nil, case_fields=nil)
     match_criteria = inherited_match_criteria(match_request, case_fields)
+    match_criteria_subform = {}
     Child.subform_matchable_fields(case_fields).each do |field|
-      match_criteria[:"#{field}"] = self.family.map{|member| member[:"#{field}"]}.compact.uniq.join(' ')
+      match_values = []
+      match_field = nil
+      self.family.map do |member|
+        match_field, match_value = Child.match_multi_criteria(field, member)
+        match_values += match_value
+      end
+      match_criteria_subform[:"#{match_field}"] = match_values if match_values.present?
     end
-    match_criteria.compact
+    match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
   end
 
   def service_due_dates

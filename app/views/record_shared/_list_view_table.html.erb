@@ -6,10 +6,11 @@
   options = {
       display_filter: true,
       display_saved_search: true,
+      is_side_tab: false,
       display_actions: model.to_s =="PotentialMatch" ? false : true,
       display_create: display_create}.merge(opts)
 %>
-<div class="index_controls_container" data-top="49" data-bottom="40">
+<div class="index_controls_container <%= 'side-tab-nested-controls' if options[:is_side_tab]  %>" data-top="49" data-bottom="40">
   <div class="row align-middle controls">
   <% if options[:display_filter].present? %>
     <div class="large-9 small-9 columns">
@@ -37,9 +38,9 @@
 </div>
 <div class="row">
   <% if options[:display_filter].present? %>
-    <div class="large-9 small-9 columns">
+    <div class="large-9 small-9 columns <%= 'side-tab-content-container' if options[:is_side_tab]  %>">
   <% else %>
-    <div class="large-12 small-12 columns">
+    <div class="large-12 small-12 columns <%= 'side-tab-content-container' if options[:is_side_tab]  %>">
   <% end %>
     <div class="clearfix"></div>
     <table style="width: 100%;" class="record_list_view dataTable display responsive no-wrap no-footer collapsed dtr-inline" cellpadding="0" cellspacing="0" width="100%">

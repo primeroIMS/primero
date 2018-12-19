@@ -19,20 +19,18 @@ class MatchingConfiguration
 
   class << self
     # Emulate 'find' since this isn't persisted in a DB
-    def find(id)
-      matching_configuration = MatchingConfiguration.new(id)
-      matching_configuration.load_form_fields
-      matching_configuration
-    end
-
-    def find_matchable(match_fields)
-      matching_configuration = MatchingConfiguration.new(nil, match_fields)
-      matching_configuration.load_form_matchable_fields
+    def find(id, match_fields={})
+      matching_configuration = MatchingConfiguration.new(id, match_fields)
+      if match_fields.present?
+        matching_configuration.load_form_matchable_fields
+      else
+        matching_configuration.load_form_fields
+      end
       matching_configuration
     end
   end
 
-  def initialize(id=nil, match_fields= {})
+  def initialize(id=nil, match_fields={})
     @id = id || 'administration'
 
     @match_configuration = match_fields

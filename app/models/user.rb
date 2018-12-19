@@ -38,6 +38,14 @@ class User < CouchRest::Model::Base
 
   timestamps!
 
+  design :by_organization do
+    view :by_organization
+  end
+
+  design :by_organization_and_disabled do
+    view :by_organization_and_disabled
+  end
+
   design do
     view :by_user_name,
             :map => "function(doc) {
@@ -59,51 +67,6 @@ class User < CouchRest::Model::Base
                   emit(doc['user_name'], null);
                 }
               }"
-
-    view :by_full_name,
-         :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['full_name']) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_full_name_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('full_name') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_full_name_disabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('full_name') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_organization,
-         :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['organization']) {
-                  emit(doc['organization'], null);
-                }
-              }",
-         :reduce => "_count"
-
-    view :by_organization_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('organization') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['organization'], null);
-                }
-              }",
-         :reduce => "_count"
-
-    view :by_organization_disabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('organization') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
-                  emit(doc['organization'], null);
-                }
-              }",
-         :reduce => "_count"
 
     view :by_unverified,
             :map => "function(doc) {
@@ -185,7 +148,6 @@ class User < CouchRest::Model::Base
     alias :by_all :all
     alias :list_by_all :all
     alias :by_user_name_all :by_user_name
-    alias :by_full_name_all :by_full_name
     alias :by_organization_all :by_organization
     def all(*args)
       old_all(*args)

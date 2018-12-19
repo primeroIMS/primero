@@ -25,8 +25,6 @@ class PotentialMatchesController < ApplicationController
     @sex_field = Field.find_by_name_from_view('sex')
     load_match_configuration(match_fields(@filters['case_fields'].try(:[], :value),
                                           @filters['tracing_request_fields'].try(:[], :value)))
-    @filters.delete('case_fields')
-    @filters.delete('tracing_request_fields')
     load_potential_matches #@potential_matches, @case, @tracing_request
 
     #TODO MATCHING: All set visibility code is written by somone who didn't understand how record ownership works in Primero
@@ -34,7 +32,8 @@ class PotentialMatchesController < ApplicationController
     @associated_user_names = users_filter
     set_visibility(@potential_matches, @associated_user_names)
 
-    @potential_matches = apply_filter_to_records(@potential_matches, @filters)
+    @potential_matches = apply_filter_to_records(@potential_matches,@filters.except('case_fields',
+                                                                                    'tracing_request_fields'))
     @grouped_potential_matches = PotentialMatch.group_match_records(@potential_matches, @type)
 
     #TODO MATCHING: Pagination of grouped record is just broken.
@@ -134,7 +133,7 @@ class PotentialMatchesController < ApplicationController
   private
 
   def load_match_configuration(match_fields)
-    @potential_matching_configuration = MatchingConfiguration.find_matchable(match_fields)
+    @potential_matching_configuration = MatchingConfiguration.find(nil, match_fields)
   end
 
   def match_fields(case_fields, trace_fields)
