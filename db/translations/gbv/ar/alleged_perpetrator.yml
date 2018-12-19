@@ -1,0 +1,60 @@
+---
+ar:
+  alleged_perpetrator:
+    name: النموذج الفرعي المتداخل للجاني المزعوم
+    description: النموذج الفرعي المتداخل للجاني المزعوم
+    fields:
+      primary_perpetrator:
+        display_name: هل هذا الجاني هو الجاني الرئيسي؟
+        option_strings_text:
+          primary: رئيسي
+          secondary: ثانوي
+      perpetrator_sex:
+        display_name: جنس الجاني المزعوم
+        option_strings_text:
+          female: أنثى
+          male: ذكر
+      former_perpetrator:
+        display_name: هل ارتكب الجاني المزعوم حالات عنف قائم على اساس النوع الاجتماعي سابقة؟
+      perpetrator_nationality:
+        display_name: بلد الجاني المزعوم
+      perpetrator_ethnicity:
+        display_name: قبيلة او طائفة الجاني المزعوم
+      age_group:
+        display_name: الفئة العمرية للجاني المزعوم
+        option_strings_text:
+          '0_11': 0-11
+          '12_17': 12-17
+          '18_25': 18-25
+          '26_40': 26-40
+          '41_60': 41-60
+          '61': فوق 61
+          unknown: غير معروف
+      perpetrator_relationship:
+        display_name: علاقة الجاني المزعوم مع الناجية
+        option_strings_text:
+          intimate_partner_former_partner: شريك حميم \ شريك حميم سابق
+          primary_caregiver: مقدم الرعاية الرئيسي
+          family_other_than_spouse_or_caregiver: "افراد الاسرة ما عدا الزوج او مقدم الرعاية "
+          supervisor_employer: المشرف / صاحب العمل
+          schoolmate: زميل الدراسة
+          teacher_school_official: المعلم / مسؤول المدرسة
+          service_provider: "مزود خدمات "
+          cotenant_housemate: مستأجر او شريك في السكن
+          family_friend_neighbor: صديق الأسرة / أحد الجيران
+          other_refugee_idp_returnee: أحد اللاجئين أو النازحين أو العائدين
+          other_resident_community_member: أحد أفراد المجتمع المحلي
+          other: آخرون
+          no_relation: لا توجد علاقة
+          unknown: غير معروف
+      perpetrator_occupation:
+        display_name: المهنة الرئيسية للجاني المزعوم (إذا كانت معروفة)
+        option_strings_text:
+          other: أخرى
+          unemployed: عاطل عن العمل
+          unknown: غير معروفة
+          occupation_1: مهنة 1
+          occupation_2: مهنة 2
+          occupation_3: مهنة 3
+          occupation_4: مهنة 4
+          occupation_5: مهنة 5

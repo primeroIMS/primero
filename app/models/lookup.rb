@@ -19,7 +19,9 @@ class Lookup < CouchRest::Model::Base
     view :all
   end
 
-  validates_presence_of :name, :message => "Name must not be blank"
+  #TODO This validate_name_in_base_language is needed in mulitiple models... find a better solution
+  # validates_presence_of :name, :message => "Name must not be blank"
+  validate :validate_name_in_base_language
   validate :validate_has_2_values
   validate :validate_values_keys_match
 
@@ -97,8 +99,18 @@ class Lookup < CouchRest::Model::Base
     self.lookup_values.reject! { |value| value.blank? } if self.lookup_values
   end
 
+  #TODO This validate_name_in_base_language is needed in mulitiple models... find a better solution
+  def validate_name_in_base_language
+    name = "name_#{base_language}"
+    unless (self.send(name).present?)
+      errors.add(:name, I18n.t("errors.models.lookup.name_present"))
+      return false
+    end
+  end
+
   def validate_has_2_values
-    return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options")) if (lookup_values == nil || lookup_values.length < 2 || lookup_values[0]['display_text'] == '' || lookup_values[1]['display_text'] == '')
+    lv = self.send("lookup_values_#{base_language}")
+    return errors.add(:lookup_values, I18n.t("errors.models.field.has_2_options")) if (lv == nil || lv.length < 2 || lv[0]['display_text'] == '' || lv[1]['display_text'] == '')
     true
   end
 
