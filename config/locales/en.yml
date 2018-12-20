@@ -1696,6 +1696,7 @@ en:
         unique_name: "A program with that name already exists, please enter a different name"
 
       lookup:
+        name_present: "Name must not be blank"
         value_presence: "Please select at least one lookup value"
         unique_name: "A lookup with that name already exists, please enter a different name"
         being_used: "This lookup is being used and cannot be deleted"
