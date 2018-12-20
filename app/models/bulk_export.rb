@@ -1,9 +1,19 @@
 class BulkExport < CouchRest::Model::Base
   use_database :bulk_export
 
+  class BulkExportDataAccessor < DocumentDataAccessor
+    def load_all(ids)
+      ([@clazz] + @clazz.subclasses).map do |cls|
+        cls.all(:keys => ids).all
+      end.flatten.compact
+   end
+  end
+
   include PrimeroModel
   include Primero::CouchRestRailsBackward
   include Indexable
+
+  Sunspot::Adapters::DataAccessor.register BulkExportDataAccessor, self
 
   PROCESSING = 'job.status.processing' #The job is still running
   TERMINATED = 'job.status.terminated' #The job terminated due to an error
