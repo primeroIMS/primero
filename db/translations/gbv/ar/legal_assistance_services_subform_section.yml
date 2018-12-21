@@ -1,0 +1,20 @@
+---
+ar:
+  legal_assistance_services_subform_section:
+    name: النموذج الفرعي المتداخل لخدمات المساعدة القانونية
+    description: النموذج الفرعي المتداخل لخدمات المساعدة القانونية
+    fields:
+      service_legal_referral:
+        display_name: هل قمت بإحالة العميل إلى خدمات المساعدة القانونية؟
+      service_legal_appointment_date:
+        display_name: تاريخ الموعد
+      service_legal_appointment_time:
+        display_name: وقت الموعد
+      service_legal_provider:
+        display_name: مقدم الخدمة
+      service_legal_location:
+        display_name: مكان تقديم الخدمة
+      service_legal_referral_notes:
+        display_name: ملاحظات
+      pursue_legal_action:
+        display_name: "هل يريد العميل متابعة الإجراءات القانونية؟ "

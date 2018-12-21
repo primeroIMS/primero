@@ -1,0 +1,18 @@
+---
+ar:
+  child_protection_services_subform_section:
+    name: النموذج الفرعي المتداخل لخدمات حماية الطفل
+    description: النموذج الفرعي المتداخل لخدمات حماية الطفل
+    fields:
+      service_protection_referral:
+        display_name: هل قمت بإحالة العميل إلى خدمات حماية الطفل؟
+      service_protection_appointment_date:
+        display_name: تاريخ الموعد
+      service_protection_appointment_time:
+        display_name: توقيت الموعد
+      service_protection_provider:
+        display_name: مقدم الخدمة
+      service_protection_location:
+        display_name: مكان تقديم الخدمة
+      service_protection_referral_notes:
+        display_name: ملاحظات

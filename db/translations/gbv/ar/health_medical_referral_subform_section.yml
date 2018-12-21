@@ -1,0 +1,18 @@
+---
+ar:
+  health_medical_referral_subform_section:
+    name: النموذج الفرعي المتداخل للإحالة إلى خدمة صحية / طبية
+    description: النموذج الفرعي المتداخل للإحالة إلى خدمة صحية / طبية
+    fields:
+      service_medical_referral:
+        display_name: هل قمت بإحالة العميل إلى خدمات صحية/طبية؟
+      service_medical_appointment_date:
+        display_name: تاريخ الموعد
+      service_medical_appointment_time:
+        display_name: توقيت الموعد
+      service_medical_provider:
+        display_name: مقدم الخدمة
+      service_medical_location:
+        display_name: مكان تقديم الخدمة
+      service_medical_referral_notes:
+        display_name: ملاحظات
