@@ -177,7 +177,6 @@ class Field
     return false unless valid_option_strings?(base_options)
     return false unless options_keys_unique?(base_options)
     return false unless valid_option_strings_text_translations?
-
     return true
   end
 
@@ -606,7 +605,11 @@ class Field
     if locale.present? && Primero::Application::locales.include?(locale)
       field_hash.each do |key, value|
         if key == 'option_strings_text'
-          update_option_strings_translations(value, locale)
+          if self.option_strings_text.present?
+            update_option_strings_translations(value, locale)
+          else
+            Rails.logger.warn "Field #{self.name} no longer has embedded option strings. Skipping."
+          end
         else
           self.send("#{key}_#{locale}=", value)
         end
