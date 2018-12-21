@@ -69,7 +69,7 @@ alleged_perpetrator_subform_fields = [
              "option_strings_text_en" => [
                { id: 'other', display_text: "Other" },
                { id: 'unemployed', display_text: "Unemployed" },
-               { id: 'Unknown', display_text: "Unknown" },
+               { id: 'unknown', display_text: "Unknown" },
                { id: 'occupation_1', display_text: "Occupation 1" },
                { id: 'occupation_2', display_text: "Occupation 2" },
                { id: 'occupation_3', display_text: "Occupation 3" },
