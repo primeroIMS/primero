@@ -1,0 +1,50 @@
+---
+ar:
+  incident_service_referrals:
+    name: الإحالة إلى الخدمات
+    description: الإحالة إلى الخدمات
+    form_group_name: إحالة إلى خدمة
+    fields:
+      service_referred_from:
+        display_name: من أحال العميل إليك؟
+        option_strings_text:
+          health_medical_services: خدمات صحية / طبية
+          psychosocial_counseling_services: خدمات نفسية اجتماعية / خدمات تقديم المشورة
+          police_other_security_actor: الشرطة / جهة أمنية أخرى
+          legal_assistance_services: خدمات المساعدة القانونية
+          livelihoods_program: "برنامج سبل المعيشة "
+          self_referral_first_point_of_contact: إحالة ذاتية / نقطة الاتصال الأولى
+          teacher_school_official: المعلم / مسؤول المدرسة
+          community_or_camp_leader: أحد قادة المجتمع المحلي أو المخيم
+          safe_house_shelter: بيت آمن / مأوى
+          other_humanitarian_or_development_actor: جهة فاعلة أخرى في مجال المساعدة الإنسانية أو التنمية
+          other_government_service: خدمة حكومية أخرى
+          other: خدمات أخرى
+      service_referred_from_other:
+        display_name: في حالة إحالة الناجية من قبل خدمات أخرى، يرجى التحديد
+      safe_house_safe_shelter_referral:
+        display_name: إحالة من بيت آمن / مأوى آمن
+      service_safehouse_referral:
+        display_name: هل قمت بإحالة الناجية إلى خدمات بيت آمن / مأوى آمن؟
+      service_safehouse_appointment_date:
+        display_name: تاريخ الموعد
+      service_safehouse_appointment_time:
+        display_name: وقت الموعد
+      service_safehouse_provider:
+        display_name: مقدم الخدمة
+      service_safehouse_location:
+        display_name: مكان تقديم الخدمة
+      service_safehouse_referral_notes:
+        display_name: ملاحظات
+      health_medical_referral_subform_section:
+        display_name: إحالة إلى خدمات صحية / طبية
+      psychosocial_counseling_services_subform_section:
+        display_name: خدمات نفسية اجتماعية / خدمات تقديم المشورة
+      legal_assistance_services_subform_section:
+        display_name: خدمات المساعدة القانونية
+      police_or_other_type_of_security_services_subform_section:
+        display_name: الشرطة / نوع آخر من الخدمات الأمنية
+      livelihoods_services_subform_section:
+        display_name: "برنامج سبل المعيشة "
+      child_protection_services_subform_section:
+        display_name: خدمات حماية الطفل
