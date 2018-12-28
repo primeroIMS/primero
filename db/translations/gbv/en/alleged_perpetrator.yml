@@ -11,9 +11,6 @@ en:
           secondary: Secondary
       perpetrator_sex:
         display_name: Sex of Alleged Perpetrator
-        option_strings_text:
-          female: Female
-          male: Male
       former_perpetrator:
         display_name: Past GBV by alledged perpetrator?
       perpetrator_nationality:
@@ -30,23 +27,10 @@ en:
           '41_60': 41-60
           '61': 61+
           unknown: Unknown
+      age_type:
+        display_name: Age type of alleged perpetrator
       perpetrator_relationship:
         display_name: Alleged perpetrator relationship with survivor
-        option_strings_text:
-          intimate_partner_former_partner: Intimate Partner / Former Partner
-          primary_caregiver: Primary Caregiver
-          family_other_than_spouse_or_caregiver: Family other than spouse or caregiver
-          supervisor_employer: Supervisor / Employer
-          schoolmate: Schoolmate
-          teacher_school_official: Teacher / School Official
-          service_provider: Service Provider
-          cotenant_housemate: Cotenant / Housemate
-          family_friend_neighbor: Family Friend/Neighbor
-          other_refugee_idp_returnee: Other refugee / IDP / Returnee
-          other_resident_community_member: Other resident community member
-          other: Other
-          no_relation: No relation
-          unknown: Unknown
       perpetrator_occupation:
         display_name: Main occupation of alleged perpetrator (if known)
         option_strings_text:

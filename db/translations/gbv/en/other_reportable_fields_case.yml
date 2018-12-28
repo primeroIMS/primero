@@ -1,0 +1,18 @@
+---
+en:
+  other_reportable_fields_case:
+    name: Other Reportable Fields
+    description: Other Reportable Fields
+    fields:
+      record_state:
+        display_name: Valid Record?
+      owned_by_agency:
+        display_name: Case Manager's Agency
+      owned_by_location:
+        display_name: Case Manager's Location
+      has_referrals:
+        display_name: Does this case have any referrals?
+      has_case_plan:
+        display_name: Does this case have a case plan?
+      workflow_status:
+        display_name: Workflow Status

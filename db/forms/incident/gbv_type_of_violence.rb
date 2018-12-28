@@ -3,12 +3,12 @@ gbv_reported_elsewhere_subform_fields = [
              "type" => "select_box",
              "display_name_en" => "Type of service provider where the survivor reported the incident",
              "option_strings_text_en" => [
-               { id: 'health_medical_service', display_text: "Health / Medical Services" },
-               { id: 'psychosocial_service', display_text: "Psychosocial / Counseling Services" },
-               { id: 'police_other_service', display_text: "Police / Other Security Actor" },
-               { id: 'legal_assistance_service', display_text: "Legal Assistance Services" },
-               { id: 'livelihoods_service', display_text: "Livelihoods Program" },
-               { id: 'safehouse_service', display_text: "Safe House / Shelter" },
+               { id: 'health_medical_services', display_text: "Health / Medical Services" },
+               { id: 'psychosocial_counseling_services', display_text: "Psychosocial / Counseling Services" },
+               { id: 'police_other_security_actor', display_text: "Police / Other Security Actor" },
+               { id: 'legal_assistance_services', display_text: "Legal Assistance Services" },
+               { id: 'livelihoods_program', display_text: "Livelihoods Program" },
+               { id: 'safe_house_shelter', display_text: "Safe House / Shelter" },
                { id: 'other', display_text: "Other" }
              ].map(&:with_indifferent_access)
             }),
@@ -67,7 +67,7 @@ gbv_sexual_violence_fields = [
              "type" => "select_box",
              "display_name_en" => "Was this incident a Harmful Traditional Practice",
              "option_strings_text_en" => [
-               { id: 'no', display_text: "no" },
+               { id: 'no', display_text: "No" },
                { id: 'type_of_practice_1', display_text: "Type of Practice 1" },
                { id: 'type_of_practice_2', display_text: "Type of Practice 2" },
                { id: 'type_of_practice_3', display_text: "Type of Practice 3" },

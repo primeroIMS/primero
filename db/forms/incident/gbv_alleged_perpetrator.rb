@@ -43,7 +43,7 @@ alleged_perpetrator_subform_fields = [
                { id: '18_25', display_text: "18-25" },
                { id: '26_40', display_text: "26-40" },
                { id: '41_60', display_text: "41-60" },
-               { id: '61+', display_text: "61+" },
+               { id: '61', display_text: "61+" },
                { id: 'unknown', display_text: "Unknown" }
              ].map(&:with_indifferent_access)
             }),

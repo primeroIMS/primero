@@ -15,8 +15,16 @@ en:
         display_name: Reassigned / Transferred On
       owned_by_agency:
         display_name: Agency
+      telephone_agency:
+        display_name: Agency Telephone
       assigned_user_names:
         display_name: Other Assigned Users
+      database_operator_user_name:
+        display_name: Database Operator
+      address_registration:
+        display_name: Registration Address
+      location_registration:
+        display_name: Location Address
       record_history_separator:
         display_name: Record History
       created_by:

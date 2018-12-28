@@ -36,5 +36,8 @@ en:
       consent_overridden:
         display_name: No Consent to Share Setting Overridden
         tick_box_label: 'Yes'
+      consent_individual_transfer:
+        display_name: Did the case worker have the child's consent to make this transfer?
+        tick_box_label: 'Yes'
       created_at:
         display_name: Date of referral or transfer

@@ -27,18 +27,8 @@ en:
         display_name: Displacement Status at time of report
       maritial_status:
         display_name: Current civil/marital status
-        option_strings_text:
-          single: Single
-          married_cohabitating: Married / Cohabitating
-          divorced_separated: Divorced / Separated
-          widowed: Widowed
       disability_type:
         display_name: Disability Type
-        option_strings_text:
-          'no': 'No'
-          mental_disability: Mental Disability
-          physical_disability: Physical Disability
-          mental_physical_disability: Mental & Physical Disability
       unaccompanied_separated_status:
         display_name: Is the survivor an Unaccompanied Minor, Separated Child, or
           Other Vulnerable Child?

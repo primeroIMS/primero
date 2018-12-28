@@ -1,0 +1,10 @@
+---
+en:
+  other_reportable_fields_incident:
+    name: Other Reportable Fields
+    description: Other Reportable Fields
+    fields:
+      record_state:
+        display_name: Valid Record?
+      number_of_individual_perpetrators_from_ir:
+        display_name: Number of individual perpetrators imported from IR

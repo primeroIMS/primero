@@ -134,7 +134,7 @@ client_feedback_fields = [
              "display_name_en" => "Did the staff use language the client could understand?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
-  Field.new({"name" => "staff_enowed_enough_time",
+  Field.new({"name" => "staff_allowed_enough_time",
              "type" => "select_box",
              "display_name_en" => "Did the staff allow time to let the client express her problems in her own words?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"

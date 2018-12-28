@@ -10,15 +10,6 @@ en:
         display_name: Type of Need
       service_referral:
         display_name: When appropriate, did you refer the survivor for this service?
-        option_strings_text:
-          referred: Referred
-          no_referral_service_provided_by_your_agency: No referral, Service provided
-            by your agency
-          no_referral_services_already_received_from_another_agency: No referral,
-            Services already received from another agency
-          no_referral_service_not_applicable: No referral, Service not applicable
-          no_referral_declined_by_survivor: No referral, Declined by survivor
-          no_referral_service_unavailable: No referral, Service unavailable
       service_referral_written_consent:
         display_name: Did you receive written consent from survivor to release personal
           Information for the purpose of referrals?
