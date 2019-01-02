@@ -1,0 +1,37 @@
+<%
+  options = {
+      display_filter: @match.present?,
+      sort_method: true,
+  }
+%>
+
+<div class="index_controls_container" data-top="49" data-bottom="40">
+  <div class="row controls align-middle">
+    <div class="large-9 small-9 columns">
+      <div class="row collapse align-middle">
+        <%# potential_duplicates_header_text %>
+        TODO
+      </div>
+    </div>
+    <div class="large-3 small-3 columns no-padding-left">
+      <% if options[:display_filter] %>
+        <div class="row collapse align-middle filter-controls">
+          <div class="column">
+            <a href=<%= duplicates_path(type: @type, match: @match) %> class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_restore') %></a>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="large-9 small-9 columns">
+    <div class="clearfix"></div>
+    <%= render 'duplicates/summary_row', collection: collection if collection.present? %>
+  </div>
+  <div class="large-3 small-3 columns no-padding-left index_filters">
+    <% if options[:display_filter] %>
+      <%= render 'duplicates/filter', filters_to_show: index_filters_to_show(record) %>
+    <% end %>
+  </div>
+</div>

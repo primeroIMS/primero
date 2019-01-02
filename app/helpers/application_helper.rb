@@ -6,6 +6,7 @@ module ApplicationHelper
     "TracingRequests" => "tracings",
     "Incidents" => "incidents",
     "PotentialMatches" => "matches",
+    "Duplicates" => "duplicates",
     "FormSection" => "forms",
     "Fields" => "forms",
     "Lookups" => "forms",

@@ -1,0 +1,23 @@
+<div class="panel">
+  <div class='button-group align-center'>
+    <a id='apply_filter' class='button'><%= t('buttons.duplicates_search') %></a>
+  </div>
+  <form id = 'index_filter_form' class = 'default-form' autocomplete = "off">
+    <% if filters_to_show.include? 'Duplicate Search Criteria'%>
+      <div class='filter' >
+        <h3><%= t('matching_configuration.case_fields') %></h3>
+        <%= render partial: 'potential_matches/match_filter', locals: {
+            matching_configuration: @potential_matching_configuration,
+            form_type: 'case',
+            forms_options: @potential_matching_configuration.case_form_options,
+            forms: @potential_matching_configuration.case_forms,
+            row_selector: 'potential_match_configuration',
+            field_selector: :case_fields,
+            include_hidden: true
+        }
+        %>
+      </div>
+    <% end %>
+  </form>
+  <div class="clearfix"></div>
+</div>

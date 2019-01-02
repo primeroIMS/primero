@@ -120,6 +120,7 @@ en:
      tracing_request: "TRACING REQUESTS"
      incidents: "INCIDENTS"
      potential_match: "MATCHES"
+     duplicates: "DUPLICATES"
      children: "CHILDREN"
      forms: "FORMS"
      lookups: "LOOKUPS"
