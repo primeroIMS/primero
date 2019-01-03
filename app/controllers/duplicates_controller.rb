@@ -2,6 +2,8 @@ class DuplicatesController < ApplicationController
 
   include RecordFilteringPagination
 
+  before_action :load_matching_configuration, only: [:index]
+
   def new
     @child = Child.get params[:child_id]
     authorize! :update, @child
@@ -24,9 +26,6 @@ class DuplicatesController < ApplicationController
 
     @type ||= params[:record_type] || 'case'
 
-
-    # @match = params[:match]
-    #
     # @filters = filter
     # load_match_configuration({ case_fields: @filters['case_fields'].try(:[], :value).to_h })
     #
@@ -58,6 +57,16 @@ class DuplicatesController < ApplicationController
   end
 
   private
+
+  def load_matching_configuration
+    @filters = filter
+    #TODO vary case_fields depending on record_typ
+    match_fields = { case_fields: @filters['case_fields'].try(:[], :value).to_h }
+    #TODO
+    # @matching_configuration = MatchingConfiguration.find(nil, match_fields)
+    @matching_configuration = MatchingConfiguration.find(nil)
+  end
+
 
   # def load_match_configuration(match_fields)
   #   @potential_matching_configuration = MatchingConfiguration.find_matchable(match_fields)
