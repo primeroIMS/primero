@@ -65,6 +65,8 @@ module IndexHelper
         index_filters_tracing_request
       when "potential_match"
         index_filters_potential_match
+      when "duplicate"
+        index_filters_duplicate
       when "agency"
         index_filters_agency
       else
@@ -469,6 +471,12 @@ module IndexHelper
     filters << "Age Range"
     filters << "Score Range"
 
+    return filters
+  end
+
+  def index_filters_duplicate
+    filters = []
+    #TODO
     return filters
   end
 

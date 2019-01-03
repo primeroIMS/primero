@@ -20,9 +20,11 @@ class DuplicatesController < ApplicationController
   end
 
   def index
-    # authorize! :index, PotentialMatch
-    #
-    # @type ||= params[:type] || 'case'
+    authorize! :index, Duplicate
+
+    @type ||= params[:record_type] || 'case'
+
+
     # @match = params[:match]
     #
     # @filters = filter

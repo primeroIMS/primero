@@ -29,7 +29,7 @@
             <li><%= link_to t("navigation.potential_match"), potential_matches_path(:type => "tracing_request"), class: current_menu("matches") %></li>
           <% end  %>
           <% if can? :read, Duplicate %>
-            <li><%= link_to t("navigation.duplicates"), duplicates_path(), class: current_menu("duplicates") %></li>
+            <li><%= link_to t("navigation.duplicates"), duplicates_path(:type => "case"), class: current_menu("duplicates") %></li>
           <% end  %>
           <% if current_user_name==nil || can?(:manage, FormSection) %>
             <li><%= link_to t("navigation.forms"), form_sections_path, class: current_menu("forms") %></li>
