@@ -267,15 +267,15 @@ class PotentialMatch < CouchRest::Model::Base
     {case: case_field_values, family: family_field_values}
   end
 
-    def compare_values(value1, value2)
-      result = nil
-      if value1 && value2 && (value1 == value2)
-        result = VALUE_MATCH
-      elsif value1 != value2
-        result = VALUE_MISMATCH
-      end
-      return result
+  def compare_values(value1, value2)
+    result = nil
+    if value1 && value2 && (value1 == value2)
+      result = VALUE_MATCH
+    elsif value1 != value2
+      result = VALUE_MISMATCH
     end
+    return result
+  end
 
   class << self
     alias :old_all :all

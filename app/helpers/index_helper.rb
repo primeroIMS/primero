@@ -470,6 +470,7 @@ module IndexHelper
     filters << "Sex"
     filters << "Age Range"
     filters << "Score Range"
+    filters << "Matching Configuration"
 
     return filters
   end

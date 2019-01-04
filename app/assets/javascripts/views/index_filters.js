@@ -183,6 +183,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
         selected_val = $target.val(),
         filter = $target.attr('name'),
         filter_type = $target.attr('filter_type') || 'single',
+        match_filter = $target.attr('match_filter') || '',
         self = this;
 
     // Checkboxes
@@ -199,6 +200,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       date_values = [ $($date_inputs[0]).val(), $($date_inputs[1]).val()];
       this.set_date_range(date_values, filter, filter_type);
     } else if ($target.is("select") && filter_type === 'list') {
+      if (match_filter === 'potential_match_configuration') selected_val = selected_val || "all_fields_removed";
       var filter_values = (selected_val) ? _.flatten([filter_type, selected_val]) : "";
       this.set_remove_filter(filter, filter_values);
     } else if ($target.is("select") && filter_type === 'location') {

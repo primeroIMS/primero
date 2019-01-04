@@ -1,17 +1,33 @@
 <div class="panel">
-  <form id="index_filter_form" autocomplete="off">
-    <% if filters_to_show.include? 'Age Range'%>
-        <%= build_filter_checkboxes(t("potential_matches.filter_by.age_range_case"), "child_age", [
-            '0-5',
-            '6-11',
-            '12-17',
-            '18+'
-        ], nil, nil, 'range') %>
+    <form id = 'index_filter_form' class = 'default-form' autocomplete = "off">
+      <% if filters_to_show.include? 'Matching Configuration'%>
+        <div class='filter' >
+        <h3><%= t("matching_configuration.case_fields") %></h3>
+        <%= render partial: 'potential_matches/match_filter', locals: {
+            matching_configuration: @potential_matching_configuration,
+            form_type: 'case',
+            forms_options: @potential_matching_configuration.case_form_options,
+            forms: @potential_matching_configuration.case_forms,
+            row_selector: "potential_match_configuration",
+            field_selector: :case_fields,
+            include_hidden: true
+        }
+        %>
+      </div>
+      <div class='filter'>
+        <h3><%= t("matching_configuration.tracing_request_fields") %></h3>
+        <%= render partial: 'potential_matches/match_filter', locals: {
+            matching_configuration: @potential_matching_configuration,
+            form_type: 'tracing_request',
+            forms_options: @potential_matching_configuration.tracing_request_form_options,
+            forms: @potential_matching_configuration.tracing_request_forms,
+            row_selector: "potential_match_configuration",
+            field_selector: :tracing_request_fields,
+            include_hidden: true
+        }
+        %>
+      </div>
     <% end %>
-    <% if filters_to_show.include? 'Sex'%>
-        <%= build_filter_checkboxes(t("potential_matches.filter_by.sex_case"), "child_sex",
-                                    Lookup.values('lookup-gender', @lookups, locale: I18n.locale)) %>
-    <% end %>
-  </form>
+    </form>
   <div class="clearfix"></div>
 </div>
