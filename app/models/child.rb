@@ -171,7 +171,8 @@ class Child < CouchRest::Model::Base
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
-      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id'
+      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
+      'family_count_no', 'dss_id'
     ]
   end
 
