@@ -21,11 +21,7 @@ class MatchingConfiguration
     # Emulate 'find' since this isn't persisted in a DB
     def find(id, match_fields={})
       matching_configuration = MatchingConfiguration.new(id, match_fields)
-      if match_fields.present?
-        matching_configuration.load_form_matchable_fields
-      else
-        matching_configuration.load_form_fields
-      end
+      matching_configuration.load_form_fields
       matching_configuration
     end
   end
@@ -40,30 +36,22 @@ class MatchingConfiguration
 
   def load_form_fields
     self.case_fields = load_matchable_fields_by_type('case')
-    self.case_field_options = load_field_options_by_type('case')
     self.tracing_request_fields = load_matchable_fields_by_type('tracing_request')
-    self.tracing_request_field_options = load_field_options_by_type('tracing_request')
 
-    # load forms after loading fields
-    self.case_forms = load_matchable_forms_by_type('case')
-    self.case_form_options = load_forms_by_type('case')
-    self.tracing_request_forms = load_matchable_forms_by_type('tracing_request')
-    self.tracing_request_form_options = load_forms_by_type('tracing_request')
-  end
-
-  def load_form_matchable_fields
-    self.case_fields = load_match_fields_by_type('case').to_h
-    self.case_field_options = load_match_field_options_by_type('case', self.case_fields)
-    self.tracing_request_fields = load_match_fields_by_type('tracing_request').to_h
-    self.tracing_request_field_options = load_match_field_options_by_type('tracing_request', self.tracing_request_fields)
-
-    self.case_fields = load_potential_match_fields_by_type('case')
-    self.tracing_request_fields = load_potential_match_fields_by_type('tracing_request')
+    if @match_configuration.present?
+      self.case_field_options = load_match_field_options_by_type('case', self.case_fields)
+      self.tracing_request_field_options = load_match_field_options_by_type('tracing_request', self.tracing_request_fields)
+      self.case_fields = load_potential_match_fields_by_type('case')
+      self.tracing_request_fields = load_potential_match_fields_by_type('tracing_request')
+    else
+      self.case_field_options = load_field_options_by_type('case')
+      self.tracing_request_field_options = load_field_options_by_type('tracing_request')
+    end
 
     self.case_forms = load_matchable_forms_by_type('case')
-    self.case_form_options = load_forms_by_type('case', self.case_forms)
     self.tracing_request_forms = load_matchable_forms_by_type('tracing_request')
-    self.tracing_request_form_options = load_forms_by_type('tracing_request', self.tracing_request_forms)
+    self.case_form_options = load_forms_by_type('case', (@match_configuration.present? ? self.case_forms : self.form_ids))
+    self.tracing_request_form_options = load_forms_by_type('tracing_request', (@match_configuration.present? ? self.tracing_request_forms : self.form_ids))
   end
 
   def update_matchable_fields
@@ -110,7 +98,7 @@ class MatchingConfiguration
 
   def load_matchable_fields_by_type(type)
     form_fields = FormSection.get_matchable_form_and_field_names(self.form_ids, type)
-    form_fields.map { |form_key, fields| [form_key, fields.map { |val| form_key + ID_SEPARATOR + val }] }
+    @match_configuration.present? ? form_fields : form_fields.map { |form_key, fields| [form_key, fields.map { |val| form_key + ID_SEPARATOR + val }] }
   end
 
   def load_match_field_options_by_type(type, forms)
@@ -119,10 +107,6 @@ class MatchingConfiguration
       [fs.unique_id, fs.fields.select {|fd| fd.visible == true && forms[fs.unique_id].include?(fd.name)}
         &.map { |fd| [fd.display_name, fd.name] }]
     end
-  end
-
-  def load_match_fields_by_type(type)
-    FormSection.get_matchable_form_and_field_names(self.form_ids, type)
   end
 
   def load_potential_match_fields_by_type(type)

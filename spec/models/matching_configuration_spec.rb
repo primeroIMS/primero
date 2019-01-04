@@ -21,10 +21,10 @@ describe MatchingConfiguration do
     end
   end
 
-  describe '.load_form_matchable_fields' do
+  describe '.load_form_fields' do
     before :all do
       @matching_configurations = MatchingConfiguration.new(nil, @match_config)
-      @matching_configurations.load_form_matchable_fields
+      @matching_configurations.load_form_fields
     end
 
     context 'when match_configuration' do
