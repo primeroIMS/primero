@@ -1,8 +1,8 @@
 <%
-  options = {
-      display_filter: @match.present?,
-      sort_method: true,
-  }
+  # options = {
+  #     display_filter: @match.present?,
+  #     sort_method: true,
+  # }
 %>
 
 <div class="index_controls_container" data-top="49" data-bottom="40">
@@ -14,13 +14,11 @@
       </div>
     </div>
     <div class="large-3 small-3 columns no-padding-left">
-      <% if options[:display_filter] %>
-        <div class="row collapse align-middle filter-controls">
-          <div class="column">
-            <a href=<%= duplicates_path(type: @type, match: @match) %> class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_restore') %></a>
-          </div>
+      <div class="row collapse align-middle filter-controls">
+        <div class="column">
+          <a href=<%= duplicates_path(type: @type, match: @match) %> class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_restore') %></a>
         </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
@@ -30,8 +28,6 @@
     <%= render 'duplicates/summary_row', collection: collection if collection.present? %>
   </div>
   <div class="large-3 small-3 columns no-padding-left index_filters">
-    <% if options[:display_filter] %>
-      <%= render 'duplicates/filter', filters_to_show: index_filters_to_show(record) %>
-    <% end %>
+    <%= render 'duplicates/filter', filters_to_show: index_filters_to_show(record) %>
   </div>
 </div>
