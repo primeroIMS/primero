@@ -20,7 +20,7 @@ describe Serviceable do
       end
 
       it 'returns the appointment_date' do
-        expect(@case1.service_due_date(@service)).to eq(@service_appointment_date)
+        expect(@case1.service_due_date(@service)).to eq(@service_appointment_date.end_of_day.strftime("%Y-%m-%d %H:%M:%S %z"))
       end
     end
 

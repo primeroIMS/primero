@@ -58,7 +58,7 @@ module Serviceable
       created_on = service_value(service, 'service_response_day_time')
       timeframe = service_value(service, 'service_response_timeframe')
       appointment_date = service_value(service, 'service_appointment_date')
-      appointment_time = service_value(service, 'service_appointment_time')
+      appointment_time = appointment_date.try(:end_of_day).try(:strftime, '%H:%M:%S')
 
       if @system_settings.present? && created_on.present? && appointment_date.present?
         if @system_settings['due_date_from_appointment_date'].present?
