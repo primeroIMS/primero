@@ -5,6 +5,7 @@ class SystemSettings < CouchRest::Model::Base
   include Memoizable
   include LocalizableProperty
 
+  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
   property :default_locale, String, :default => 'en'
   property :case_code_format, [String], :default => []
   property :case_code_separator, String
@@ -21,6 +22,7 @@ class SystemSettings < CouchRest::Model::Base
   property :notification_email_enabled, TrueClass, :default => false
   property :welcome_email_enabled, TrueClass, :default => false
   localize_properties [:welcome_email_text]
+  property :base_language, :default=>Primero::Application::LOCALE_ENGLISH
 
   validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
 
