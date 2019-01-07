@@ -133,7 +133,7 @@ class PotentialMatchesController < ApplicationController
   private
 
   def load_match_configuration(match_fields)
-    @potential_matching_configuration = MatchingConfiguration.find(nil, match_fields)
+    @potential_matching_configuration = MatchingConfiguration.find_for_filter(match_fields)
   end
 
   def match_fields(case_fields, trace_fields)

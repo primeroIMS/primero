@@ -15,16 +15,16 @@ describe MatchingConfiguration do
 
   describe 'find matchable' do
     it 'should load matchable_fields in MatchingConfiguration' do
-      match_config = MatchingConfiguration.find(nil, @match_config)
+      match_config = MatchingConfiguration.find_for_filter(@match_config)
       expect(match_config.match_configuration[:case_fields]).to eq(@match_config[:case_fields])
       expect(match_config.match_configuration[:tracing_request_fields]).to eq(@match_config[:tracing_request_fields])
     end
   end
 
-  describe '.load_form_fields' do
+  describe '.load_fields_for_filter' do
     before :all do
       @matching_configurations = MatchingConfiguration.new(nil, @match_config)
-      @matching_configurations.load_form_fields
+      @matching_configurations.load_fields_for_filter
     end
 
     context 'when match_configuration' do
