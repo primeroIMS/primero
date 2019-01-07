@@ -471,6 +471,8 @@ module RecordActions
     authorize! :update, @record
 
     reindex_hash record_params
+    @record_filtered_params = filter_params(@record)
+    merge_add_only_subforms(@record) if is_mobile?
     update_record_with_attachments(@record)
   end
 
@@ -479,11 +481,7 @@ module RecordActions
   end
 
   def clear_subforms_for_mobile_add_only_forms(record)
-    if is_mobile?
-      FormSection.get_mobile_add_only_subform_ids.each do |subform_id|
-        record.try("#{subform_id}=",[])
-      end
-    end
+    FormSection.get_mobile_add_only_subform_ids.each {|subform_id| record.try("#{subform_id}=",[])} if is_mobile?
     return record
   end
 
@@ -573,5 +571,17 @@ module RecordActions
     return @record.owned_by if @record.present? && @record.respond_to?(:owned_by)
     return @records.map{|r| r.owned_by} if @records.present? && @records.first.respond_to?(:owned_by)
     super
+  end
+
+  def merge_add_only_subforms(record)
+    FormSection.get_mobile_add_only_subform_ids.each do |subform_id|
+      if @record_filtered_params[subform_id].present?
+        record_subforms = (record.try("#{subform_id}") || []).map(&:attributes)
+        param_subforms = @record_filtered_params[subform_id] || []
+        # If for any reason a user sends updates to existing forms, we will update them.
+        unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
+        @record_filtered_params[subform_id] = unchanged_subforms.concat(param_subforms)
+      end
+    end
   end
 end

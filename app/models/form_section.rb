@@ -40,6 +40,8 @@ class FormSection < CouchRest::Model::Base
   property :hide_subform_placeholder, TrueClass, :default => false
   property :mobile_form, TrueClass, :default => false
   property :header_message_link, String, :default => ""
+
+  # If this property is true and user is on a mobile device, users must only be allowed to add subforms.
   property :mobile_add_only, TrueClass, :default => false
 
   attr_accessor :module_name
