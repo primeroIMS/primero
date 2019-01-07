@@ -40,6 +40,7 @@ class FormSection < CouchRest::Model::Base
   property :hide_subform_placeholder, TrueClass, :default => false
   property :mobile_form, TrueClass, :default => false
   property :header_message_link, String, :default => ""
+  property :mobile_add_only, TrueClass, :default => false
 
   attr_accessor :module_name
 
@@ -732,6 +733,18 @@ class FormSection < CouchRest::Model::Base
         Rails.logger.error "Error importing translations: locale not present"
       end
     end
+
+    def get_mobile_add_only_forms
+      all.all.select(&:mobile_add_only)
+    end
+
+    memoize_in_prod :get_mobile_add_only_forms
+
+    def get_mobile_add_only_subform_ids
+      get_subforms(get_mobile_add_only_forms).map(&:unique_id)
+    end
+
+    memoize_in_prod :get_mobile_add_only_subform_ids
 
   end
 

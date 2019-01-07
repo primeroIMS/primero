@@ -122,6 +122,7 @@ module RecordActions
 
       format.json do
         if @record.present?
+          @record = clear_subforms_for_mobile_add_only_forms(@record)
           @record = format_json_response(@record)
           render :json => @record
         else
@@ -162,6 +163,7 @@ module RecordActions
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
+          @record = clear_subforms_for_mobile_add_only_forms(@record)
           @record = format_json_response(@record)
           render :json => @record, :status => :created, :location => @record
         end
@@ -204,6 +206,7 @@ module RecordActions
           end
         end
         format.json do
+          @record = clear_subforms_for_mobile_add_only_forms(@record)
           @record = format_json_response(@record)
           render :json => @record.slice!("_attachments", "histories")
         end
@@ -475,6 +478,19 @@ module RecordActions
     @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
   end
 
+  def clear_subforms_for_mobile_add_only_forms(record)
+    if is_mobile?
+      FormSection.get_mobile_add_only_subform_ids.each do |subform_id|
+        record.try("#{subform_id}=",[])
+      end
+    end
+    return record
+  end
+
+  def is_mobile?
+    params[:mobile].present? && params[:mobile] == 'true'
+  end
+
   protected
 
   #Override method in LoggerActions.
@@ -558,5 +574,4 @@ module RecordActions
     return @records.map{|r| r.owned_by} if @records.present? && @records.first.respond_to?(:owned_by)
     super
   end
-
 end
