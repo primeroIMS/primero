@@ -91,6 +91,12 @@ execute 'Set RAILS_ENV' do
   end
 end
 
+directory node[:primero][:bin_dir] do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
 cookbook_file ::File.join(node[:primero][:bin_dir], 'reset_config_to') do
   source 'reset_config_to'
   user node[:primero][:app_user]
