@@ -1,4 +1,7 @@
-<% editable = object.name.present? %>
+<%
+  editable = object.name.present?
+  given_locale = object.base_language
+%>
 <% if editable %>
   <div class="row">
     <div class="medium-3 medium-offset-5 columns">
@@ -12,7 +15,7 @@
   </div>
 <% end %>
 
-<%= resource_edit_field(object, 'name', 'report.name', 'text_field', true, false, nil, 'errors.models.report.name_presence') %>
+<%= resource_edit_field(object, "name_#{given_locale}", 'report.name', 'text_field', true, false, nil, 'errors.models.report.name_presence') %>
 <% if editable %>
   <% Primero::Application::LOCALES.each do |new_locale| %>
     <% if new_locale != "en" %>
@@ -24,7 +27,7 @@
   <% end %>
 <% end %>
 
-<%= resource_edit_field(object, 'description', 'report.description', 'text_area', false, false, nil, nil) %>
+<%= resource_edit_field(object, "description_#{given_locale}", 'report.description', 'text_area', false, false, nil, nil) %>
 
 <% Primero::Application::LOCALES.each do |new_locale| %>
   <% if new_locale != "en" %>
