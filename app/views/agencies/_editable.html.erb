@@ -1,4 +1,8 @@
-<% editable = object.name.present? %>
+<%
+  editable = object.name.present?
+  given_locale = object.base_language
+  system_locale = I18n.locale
+%>
 <% if editable %>
   <div class="row">
     <div class="medium-9 medium-offset-3 columns">
@@ -6,7 +10,17 @@
     </div>
   </div>
 <% end %>
-<%= resource_edit_field(object, 'name', 'agency.name', 'text_field', true) %>
+<div class="row">
+  <div class="medium-3 columns">
+      <%= form_builder.label "agency_name", t("agency.name", :locale => system_locale), :class => 'key inline' %>
+  </div>
+  <div class="medium-8 columns">
+      <%= form_builder.text_field "name_#{given_locale}", :id => "agency_name", required: true %>
+  </div>
+  <div class="medium-1 columns">
+    <span class="required">*</span>
+  </div>
+</div>
 <% if editable %>
   <% Primero::Application::locales.each do |new_locale| %>
     <% unless new_locale == "en" %>
@@ -20,7 +34,16 @@
 
 <%= resource_edit_field(object, 'agency_code', 'agency.code', 'text_field', true) %>
 
-<%= resource_edit_field(object, 'description', 'description', 'text_area') %>
+<div class="row">
+  <div class="medium-3 columns">
+      <%= form_builder.label "description", t("description", :locale => system_locale), :class => 'key inline' %>
+  </div>
+  <div class="medium-8 columns">
+      <%= form_builder.text_area "description_#{given_locale}", :id => "agency_description" %>
+  </div>
+  <div class="medium-1 columns">
+  </div>
+</div>
 <% Primero::Application::locales.each do |new_locale| %>
   <% unless new_locale == "en" %>
     <div class="<%= "translation_forms #{new_locale}"%> hide_element">

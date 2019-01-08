@@ -7,6 +7,7 @@ class Location < CouchRest::Model::Base
   include Disableable
   include LocalizableProperty
 
+  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
   #TODO - I18n - YES!!!! - possible as a lookup
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
@@ -19,6 +20,7 @@ class Location < CouchRest::Model::Base
   property :type
   property :hierarchy, type: [String]
   property :admin_level, Integer
+  property :base_language, :default => DEFAULT_BASE_LANGUAGE
   attr_accessor :parent_id
 
   design do
@@ -55,7 +57,7 @@ class Location < CouchRest::Model::Base
     view :by_type_and_disabled
   end
 
-  validates_presence_of :placename, :message => I18n.t("errors.models.location.name_present")
+  validate :validate_place_name_in_base_language
   validates_presence_of :admin_level, :message => I18n.t("errors.models.location.admin_level_present"), :if => :admin_level_required?
   validates_presence_of :location_code, :message => I18n.t("errors.models.location.code_present")
   validate :is_location_code_unique
@@ -303,5 +305,13 @@ class Location < CouchRest::Model::Base
 
     #Here be dragons...Beware... recursion!!!
     self.direct_descendants.each {|lct| lct.update_descendants}
+  end
+
+  def validate_place_name_in_base_language
+    placename = "placename_#{DEFAULT_BASE_LANGUAGE}"
+    unless (self.send(placename).present?)
+      errors.add(:placename, I18n.t("errors.models.location.name_present"))
+      return false
+    end
   end
 end
