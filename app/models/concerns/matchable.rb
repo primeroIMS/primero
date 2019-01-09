@@ -19,11 +19,11 @@ module Matchable
     }
 
     def form_matchable_fields(match_fields = nil)
-      form_match_fields(FormSection.get_matchable_fields_by_parent_form(self.parent_form, false), match_fields)
+      form_match_fields(false, match_fields)
     end
 
     def subform_matchable_fields(match_fields = nil)
-      form_match_fields(FormSection.get_matchable_fields_by_parent_form(self.parent_form, true), match_fields)
+      form_match_fields(true, match_fields)
     end
 
     def matchable_fields(match_fields={})
@@ -125,7 +125,8 @@ module Matchable
       phonetic_fields.include?(field.to_s)
     end
 
-    def form_match_fields(form_fields, match_fields)
+    def form_match_fields(is_subform, match_fields)
+      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, is_subform)
       fields = Array.new(form_fields).map(&:name)
       return fields if match_fields.blank?
       fields & match_fields.values.flatten.reject(&:blank?)
