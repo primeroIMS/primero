@@ -157,7 +157,7 @@ end
 
 update_bundler 'prod-stack'
 execute_with_ruby 'bundle-install' do
-  command "bundle install --clean --without development test cucumber"
+  command "bundle install --without development test cucumber"
   cwd node[:primero][:app_dir]
 end
 
@@ -210,7 +210,7 @@ supervisor_service 'couch-watcher' do
     #{::File.join(node[:primero][:home_dir], '.rvm/bin/rvmsudo')} \
     capsh --drop=all --caps='cap_dac_read_search+ep' -- -c ' \
       RAILS_ENV=production RAILS_LOG_PATH=#{::File.join(node[:primero][:log_dir], 'couch_watcher')} \
-        #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundler')} exec \
+        #{::File.join(node[:primero][:home_dir], '.rvm/wrappers/default/bundle')} exec \
           rails runner #{::File.join(node[:primero][:app_dir], 'lib/couch_changes/base.rb')}'
   EOH
   environment({
