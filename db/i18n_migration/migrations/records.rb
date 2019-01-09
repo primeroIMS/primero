@@ -1,4 +1,4 @@
-puts 'Migrating (i81n): Records'
+puts 'Migrating (i18n): Records'
 
 include MigrationHelper
 

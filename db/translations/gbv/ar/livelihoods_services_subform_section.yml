@@ -1,0 +1,18 @@
+---
+ar:
+  livelihoods_services_subform_section:
+    name: "النموذج الفرعي المتداخل لخدمات سبل المعيشة "
+    description: النموذج الفرعي المتداخل لخدمات سبل المعيشة
+    fields:
+      service_livelihoods_referral:
+        display_name: هل قمت بإحالة العميل إلى خدمات سبل المعيشة؟
+      service_livelihoods_appointment_date:
+        display_name: تاريخ الموعد
+      service_livelihoods_appointment_time:
+        display_name: وقت الموعد
+      service_livelihoods_provider:
+        display_name: مقدم الخدمة
+      service_livelihoods_location:
+        display_name: مكان تقديم الخدمة
+      service_livelihoods_referral_notes:
+        display_name: ملاحظات
