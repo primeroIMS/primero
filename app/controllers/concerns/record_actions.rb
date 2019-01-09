@@ -481,7 +481,11 @@ module RecordActions
   end
 
   def clear_subforms_for_mobile_add_only_forms(record)
-    FormSection.get_mobile_add_only_subform_ids.each {|subform_id| record.try("#{subform_id}=",[])} if is_mobile?
+    if is_mobile?
+      FormSection.get_mobile_add_only_subform_ids.each do |subform_id|
+        record.try("#{subform_id}=", [])
+      end
+    end
     return record
   end
 
@@ -576,7 +580,7 @@ module RecordActions
   def merge_add_only_subforms(record)
     FormSection.get_mobile_add_only_subform_ids.each do |subform_id|
       if @record_filtered_params[subform_id].present?
-        record_subforms = (record.try("#{subform_id}") || []).map(&:attributes)
+        record_subforms = (record.try(subform_id) || []).map(&:attributes)
         param_subforms = @record_filtered_params[subform_id] || []
         # If for any reason a user sends updates to existing forms, we will update them.
         unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
