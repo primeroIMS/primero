@@ -42,7 +42,7 @@ class Report < CouchRest::Model::Base
   property :group_dates_by, default: DAY
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
-  property :base_language, :default => DEFAULT_BASE_LANGUAGE
+  property :base_language, default: DEFAULT_BASE_LANGUAGE
 
   #TODO: Currently it's not worth trying to save off the report data.
   #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to a string.
@@ -74,11 +74,9 @@ class Report < CouchRest::Model::Base
   end
 
   def validate_name_in_base_language
-    name = "name_#{DEFAULT_BASE_LANGUAGE}"
-    unless (self.send(name).present?)
-      errors.add(:name, I18n.t("errors.models.report.name_presence"))
-      return false
-    end
+    return true if self.send("name_#{DEFAULT_BASE_LANGUAGE}").present?
+    errors.add(:name, I18n.t("errors.models.report.name_presence"))
+    return false
   end
 
   class << self
