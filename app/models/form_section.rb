@@ -42,7 +42,7 @@ class FormSection < CouchRest::Model::Base
   property :header_message_link, String, :default => ""
 
   # If this property is true and user is on a mobile device, users must only be allowed to add subforms.
-  property :mobile_add_only, TrueClass, :default => false
+  property :subform_append_only, TrueClass, :default => false
 
   attr_accessor :module_name
 
@@ -736,17 +736,17 @@ class FormSection < CouchRest::Model::Base
       end
     end
 
-    def get_mobile_add_only_forms
-      all.all.select(&:mobile_add_only)
+    def get_append_only_forms
+      all.all.select(&:subform_append_only)
     end
 
-    memoize_in_prod :get_mobile_add_only_forms
+    memoize_in_prod :get_append_only_forms
 
-    def get_mobile_add_only_subform_ids
-      get_subforms(get_mobile_add_only_forms).map(&:unique_id)
+    def get_append_only_subform_ids
+      get_subforms(get_append_only_forms).map(&:unique_id)
     end
 
-    memoize_in_prod :get_mobile_add_only_subform_ids
+    memoize_in_prod :get_append_only_subform_ids
 
   end
 

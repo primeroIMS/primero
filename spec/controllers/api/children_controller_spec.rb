@@ -163,14 +163,14 @@ describe ChildrenController do
     end
   end
 
-  describe "PUT update subforms when the form is mobile_add_only and mobile param is true" do
+  describe "PUT update subforms when the form is subform_append_only and mobile param is true" do
     before :each do
       Child.all.each{|c| c.destroy}
       FormSection.all.each &:destroy
       @subform_text_field = Field.new({name: "subform_text_field", type: "text_field", display_name_en: "Subform Text Field"})
       @subform_section = FormSection.create!(unique_id: 'subform_section', name: "Subform Section", is_nested: true, editable: true, parent_form: "case", fields:[@subform_text_field])
       @subform_field = Field.new({display_name: 'Subform Section Field', name: 'subform_section_field', type: 'subform', editable: true, subform_section_id: @subform_section.unique_id})
-      @form_section_a = FormSection.create!(unique_id: "form_a", name: "Form A", parent_form: "case", mobile_add_only: true, fields:[@subform_field])
+      @form_section_a = FormSection.create!(unique_id: "form_a", name: "Form A", parent_form: "case", subform_append_only: true, fields:[@subform_field])
       Child.stub(:permitted_property_names).and_return(['subform_section'])
       # Make subform_section a valid property
       Child.couchrest_model_property :subform_section, [Class.new(){include Syncable::PrimeroEmbeddedModel}], :default => []

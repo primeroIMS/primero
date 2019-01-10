@@ -122,7 +122,7 @@ module RecordActions
 
       format.json do
         if @record.present?
-          @record = clear_subforms_for_mobile_add_only_forms(@record)
+          @record = clear_subforms_for_append_only_forms(@record)
           @record = format_json_response(@record)
           render :json => @record
         else
@@ -163,7 +163,7 @@ module RecordActions
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
-          @record = clear_subforms_for_mobile_add_only_forms(@record)
+          @record = clear_subforms_for_append_only_forms(@record)
           @record = format_json_response(@record)
           render :json => @record, :status => :created, :location => @record
         end
@@ -206,7 +206,7 @@ module RecordActions
           end
         end
         format.json do
-          @record = clear_subforms_for_mobile_add_only_forms(@record)
+          @record = clear_subforms_for_append_only_forms(@record)
           @record = format_json_response(@record)
           render :json => @record.slice!("_attachments", "histories")
         end
@@ -472,7 +472,7 @@ module RecordActions
 
     reindex_hash record_params
     @record_filtered_params = filter_params(@record)
-    merge_add_only_subforms(@record) if is_mobile?
+    merge_append_only_subforms(@record) if is_mobile?
     update_record_with_attachments(@record)
   end
 
@@ -480,9 +480,9 @@ module RecordActions
     @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
   end
 
-  def clear_subforms_for_mobile_add_only_forms(record)
+  def clear_subforms_for_append_only_forms(record)
     if is_mobile?
-      FormSection.get_mobile_add_only_subform_ids.each do |subform_id|
+      FormSection.get_append_only_subform_ids.each do |subform_id|
         record.try("#{subform_id}=", [])
       end
     end
@@ -577,8 +577,8 @@ module RecordActions
     super
   end
 
-  def merge_add_only_subforms(record)
-    FormSection.get_mobile_add_only_subform_ids.each do |subform_id|
+  def merge_append_only_subforms(record)
+    FormSection.get_append_only_subform_ids.each do |subform_id|
       if @record_filtered_params[subform_id].present?
         record_subforms = (record.try(subform_id) || []).map(&:attributes)
         param_subforms = @record_filtered_params[subform_id] || []
