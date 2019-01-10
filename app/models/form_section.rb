@@ -41,6 +41,9 @@ class FormSection < CouchRest::Model::Base
   property :mobile_form, TrueClass, :default => false
   property :header_message_link, String, :default => ""
 
+  # If this property is true and user is on a mobile device, users must only be allowed to add subforms.
+  property :subform_append_only, TrueClass, :default => false
+
   attr_accessor :module_name
 
   design
@@ -732,6 +735,18 @@ class FormSection < CouchRest::Model::Base
         Rails.logger.error "Error importing translations: locale not present"
       end
     end
+
+    def get_append_only_forms
+      all.all.select(&:subform_append_only)
+    end
+
+    memoize_in_prod :get_append_only_forms
+
+    def get_append_only_subform_ids
+      get_subforms(get_append_only_forms).map(&:unique_id)
+    end
+
+    memoize_in_prod :get_append_only_subform_ids
 
   end
 

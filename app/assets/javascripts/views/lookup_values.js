@@ -40,9 +40,7 @@ _primero.Views.LookupValueView = _primero.Views.Base.extend({
     var $target_value = $(target).parents('.lookup_value');
 
     //Do not allow removal of last two inputs
-    if(list_cnt > 2){
-      $target_value.remove();
-    }
+    $target_value.remove();
   },
 
 });

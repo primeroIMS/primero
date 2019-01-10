@@ -43,7 +43,7 @@ describe DuplicateBulkExport, search: true do
     Sunspot.commit
 
     expected_output = [
-      [" ", "MOHA ID", "National ID No", "Case ID", "Progress ID", "Child Name", "Age", "Sex", "Family Size"],
+      [" ", "MOHA ID DEPRECATED", "National ID No", "Case ID", "Progress ID", "Child Name", "Age", "Sex", "Family Size"],
       ["1", "test1", "test1", child1.case_id, nil, "#{child1.case_id}, Test Child", "5", "U", nil],
       ["2", "test1", "test1", child2.case_id, nil, "#{child2.case_id}, Test Child", "6", "U", nil]
     ]
@@ -53,7 +53,7 @@ describe DuplicateBulkExport, search: true do
 
   context "when no cases found" do
     it "exports headers" do
-      expect(export_csv).to eq([[" ", "MOHA ID", "National ID No", "Case ID", "Progress ID",
+      expect(export_csv).to eq([[" ", "MOHA ID DEPRECATED", "National ID No", "Case ID", "Progress ID",
           "Child Name", "Age", "Sex", "Family Size"]])
     end
   end

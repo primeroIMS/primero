@@ -1,0 +1,18 @@
+---
+ar:
+  gbv_reported_elsewhere_subform:
+    name: استمارة فرعية للإبلاغ عن حالات العنف القائم على اساس النوع الاجتماعي في أماكن أخرى
+    description: استمارة فرعية للإبلاغ عن حالات العنف القائم على اساس النوع الاجتماعي في أماكن أخرى
+    fields:
+      gbv_reported_elsewhere_organization_type:
+        display_name: أنواع مقدمي الخدمات في المنطقة التي أبلغت فيها الناجية عن حادثة العنف القائم على اساس النوع الاجتماعي
+        option_strings_text:
+          health_medical_services: خدمات صحية / طبية
+          psychosocial_counseling_services: خدمات نفسية اجتماعية / خدمات تقديم المشورة
+          police_other_security_actor: الشرطة / جهة أمنية أخرى
+          legal_assistance_services: خدمات المساعدة القانونية
+          livelihoods_program: "برنامج سبل المعيشة "
+          safe_house_shelter: بيت آمن / مأوى
+          other: خدمات أخرى
+      gbv_reported_elsewhere_organization_provider:
+        display_name: اسم مقدم الخدمة

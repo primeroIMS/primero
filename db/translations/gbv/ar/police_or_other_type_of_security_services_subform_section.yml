@@ -1,0 +1,18 @@
+---
+ar:
+  police_or_other_type_of_security_services_subform_section:
+    name: النموذج الفرعي المتداخل لخدمات الشرطة أو نوع آخر من الخدمات الأمنية
+    description: النموذج الفرعي المتداخل لخدمات الشرطة أو نوع آخر من الخدمات الأمنية
+    fields:
+      service_police_referral:
+        display_name: هل قمت بإحالة العميل إلى الشرطة / خدمات أخرى؟
+      service_police_appointment_date:
+        display_name: تاريخ الموعد
+      service_police_appointment_time:
+        display_name: وقت الموعد
+      service_police_provider:
+        display_name: مقدم الخدمة
+      service_police_location:
+        display_name: مكان تقديم الخدمة
+      service_police_referral_notes:
+        display_name: ملاحظات

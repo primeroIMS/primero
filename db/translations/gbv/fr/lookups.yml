@@ -41,9 +41,9 @@ fr:
   lookup-assessment-progress:
     name: ""
     lookup_values:
-      n_a_76006: ""
-      in_progress_69307: ""
-      met_49626: ""
+      n_a: ""
+      in_progress: ""
+      met: ""
   lookup-case-status:
     name: Statut du cas
     lookup_values:

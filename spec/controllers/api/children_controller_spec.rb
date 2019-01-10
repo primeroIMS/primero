@@ -163,4 +163,40 @@ describe ChildrenController do
     end
   end
 
+  describe "PUT update subforms when the form is subform_append_only" do
+    before :each do
+      Child.all.each{|c| c.destroy}
+      FormSection.all.each &:destroy
+      @subform_text_field = Field.new({name: "subform_text_field", type: "text_field", display_name_en: "Subform Text Field"})
+      @subform_section = FormSection.create!(unique_id: 'subform_section', name: "Subform Section", is_nested: true, editable: true, parent_form: "case", fields:[@subform_text_field])
+      @subform_field = Field.new({display_name: 'Subform Section Field', name: 'subform_section_field', type: 'subform', editable: true, subform_section_id: @subform_section.unique_id})
+      @form_section_a = FormSection.create!(unique_id: "form_a", name: "Form A", parent_form: "case", subform_append_only: true, fields:[@subform_field])
+      Child.stub(:permitted_property_names).and_return(['subform_section'])
+      # Make subform_section a valid property
+      Child.couchrest_model_property :subform_section, [Class.new(){include Syncable::PrimeroEmbeddedModel}], :default => []
+    end
+
+    it "should merge the subforms if the record already has subforms" do
+      section_1_uid = UUIDTools::UUID.random_create().to_s
+      section_2_uid = UUIDTools::UUID.random_create().to_s
+      @child_1 = Child.new_with_user_name(controller.current_user, {name: "Name 1", age: "5", subform_section: [{subform_text_field: 'some text 2'}]})
+      @child_1.save!
+
+      put :update, params: { format: :json, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{subform_text_field: 'some text 2'}]}}
+
+      expect(Child.get(@child_1.id).subform_section.size).to eq(2)
+    end
+
+    it "should not have the subforms in the response" do
+      section_1_uid = UUIDTools::UUID.random_create().to_s
+      section_2_uid = UUIDTools::UUID.random_create().to_s
+      @child_1 = Child.new_with_user_name(controller.current_user, {name: "Name 1", age: "5", subform_section: [{unique_id: section_1_uid, subform_text_field: 'some text 1'}]})
+      @child_1.save!
+
+      put :update, params: { format: :json, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{unique_id: section_2_uid, subform_text_field: 'some text 2'}]}}
+      json_response = JSON.parse(response.body)
+      expect(json_response['subform_section']).to eq([])
+    end
+  end
+
 end

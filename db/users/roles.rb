@@ -668,8 +668,6 @@ gbv_caseworker_permissions = [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
-            Permission::REFERRAL,
-            Permission::TRANSFER,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
@@ -691,8 +689,8 @@ create_or_update_role(
     :name => "GBV Caseworker",
     :permissions_list => gbv_caseworker_permissions,
     :permitted_form_ids => gbv_caseworker_forms,
-    :referral => true,
-    :transfer => true
+    :referral => false,
+    :transfer => false
 )
 
 gbv_mobile_caseworker_forms = [
@@ -713,8 +711,6 @@ gbv_mobile_caseworker_permissions = [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
-            Permission::REFERRAL,
-            Permission::TRANSFER,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
@@ -738,8 +734,8 @@ create_or_update_role(
     :name => "GBV Mobile Caseworker",
     :permissions_list => gbv_mobile_caseworker_permissions,
     :permitted_form_ids => gbv_mobile_caseworker_forms,
-    :referral => true,
-    :transfer => true
+    :referral => false,
+    :transfer => false
 )
 
 gbv_cm_supervisor_forms = [
@@ -758,8 +754,6 @@ gbv_cm_supervisor_permissions = [
         :actions => [
             Permission::READ,
             Permission::FLAG,
-            Permission::REFERRAL,
-            Permission::TRANSFER,
             Permission::ASSIGN,
             Permission::EXPORT_JSON,
             Permission::EXPORT_CASE_PDF,
@@ -813,8 +807,8 @@ create_or_update_role(
     :group_permission => Permission::GROUP,
     :permissions_list => gbv_cm_supervisor_permissions,
     :permitted_form_ids => gbv_cm_supervisor_forms,
-    :referral => true,
-    :transfer => true
+    :referral => false,
+    :transfer => false
 )
 
 gbv_program_manager_forms = [
@@ -942,8 +936,8 @@ create_or_update_role(
     :group_permission => Permission::GROUP,
     :permissions_list => gbv_organization_focal_point_permissions,
     :permitted_form_ids => gbv_organization_focal_point_forms,
-    :referral => true,
-    :transfer => true
+    :referral => false,
+    :transfer => false
 )
 
 agency_user_admin_permissions = [

@@ -16,10 +16,37 @@ module MigrationHelper
     end
   end
 
+  def translate_keyed_value(value, base_value)
+    return [] if value.blank? || base_value.blank?
+    if value.is_a?(String)
+      value =
+        value.gsub(/\r\n?/, "\n").split("\n")
+          .map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v}.with_indifferent_access : nil}
+          .compact
+    elsif value.is_a?(Array)
+      if value.first.is_a?(String)
+        value = value.map.with_index{|v, i| (v.present? && base_value[i].present?) ? {id: base_value[i][:id], display_text: v}.with_indifferent_access : nil}.compact
+      elsif value.first.is_a?(Hash)
+        value
+      end
+    end
+  end
+
+  #Only the current configured locales to be used when creating new fields
   def create_locales
     Primero::Application::locales.each do |locale|
       yield(locale)
     end
+  end
+
+  #List of possible locales that are not part of the list of locales configured for the current system
+  def locales_to_discard
+    Primero::Application::LOCALES - Primero::Application::locales
+  end
+
+  #Throw away locale specific property data that isn't among one of the configured locales
+  def discard_locales(object_hash, key)
+    locales_to_discard.each{|locale| object_hash.delete("#{key}_#{locale}")}
   end
 
   def get_fields(form_section)
