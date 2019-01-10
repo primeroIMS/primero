@@ -472,7 +472,8 @@ module RecordActions
 
     reindex_hash record_params
     @record_filtered_params = filter_params(@record)
-    merge_append_only_subforms(@record) if is_mobile?
+    # NOTE: The commented if below should really go back in at a later date in tandem with mobile changes
+    merge_append_only_subforms(@record) # if is_mobile?
     update_record_with_attachments(@record)
   end
 
@@ -481,11 +482,12 @@ module RecordActions
   end
 
   def clear_subforms_for_append_only_forms(record)
-    if is_mobile?
+    # NOTE: The commented if below should really go back in at a later date in tandem with mobile changes
+    # if is_mobile?
       FormSection.get_append_only_subform_ids.each do |subform_id|
         record.try("#{subform_id}=", [])
       end
-    end
+    # end
     return record
   end
 
