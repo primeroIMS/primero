@@ -7,16 +7,14 @@ describe Lookup do
     lookup.errors[:name].should == ["Name must not be blank"]
   end
 
-  it "should not be valid if lookup_values is empty" do
-    lookup = Lookup.new
-    lookup.should_not be_valid
-    lookup.errors[:lookup_values].should == ["Field must have at least 2 options"]
+  it "should be valid if lookup_values is empty" do
+    lookup = Lookup.new(:name => "Name")
+    lookup.should be_valid
   end
 
   it "should sanitize and check for lookup values" do
     lookup = Lookup.new(:name => "Name", :lookup_values => [{:id => "", :display_text => ""}]) #Need empty array, can't use %w here.
-    lookup.should_not be_valid
-    lookup.errors[:lookup_values].should == ["Field must have at least 2 options"]
+    lookup.should be_valid
   end
 
   it "should have a unique id when the name is the same as an existing lookup" do
@@ -45,10 +43,10 @@ describe Lookup do
     before do
       lookup1 = create :lookup, :id => "lookup-location-type", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
     end
-    
+
     it "should return location types" do
       location_types = Lookup.get_location_types
-      
+
       expect(location_types.lookup_values).to eq([
         {"id"=>"value1", "display_text"=>"value1"},
         {"id"=>"value2", "display_text"=>"value2"}
