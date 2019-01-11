@@ -101,9 +101,7 @@ class PotentialMatchesController < ApplicationController
       @subform_id = params[:match].split("::").last
       @tracing_request = TracingRequest.get(tracing_request_id) if tracing_request_id.present?
       if @tracing_request.present?
-        @potential_matches = @tracing_request.matching_cases(@subform_id,
-          match_fields(@potential_matching_configuration.case_fields,
-                       @potential_matching_configuration.tracing_request_fields))
+        @potential_matches = @tracing_request.matching_cases(@subform_id, @potential_matching_configuration.tracing_request_fields.to_h)
         #TODO MATCHING: This is a temporary hack, get rid of this
         @total_records = 1
         @display_id = @tracing_request.display_id
@@ -136,6 +134,7 @@ class PotentialMatchesController < ApplicationController
     @potential_matching_configuration = MatchingConfiguration.find_for_filter(match_fields)
   end
 
+  #TODO - remove
   def match_fields(case_fields, trace_fields)
     { case_fields: case_fields.to_h, tracing_request_fields: trace_fields.to_h }
   end

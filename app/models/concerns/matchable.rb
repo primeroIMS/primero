@@ -26,12 +26,11 @@ module Matchable
       form_match_fields(true, match_fields)
     end
 
-    def matchable_fields(match_fields={})
-      field_selector = self == Child ? :case_fields : :tracing_request_fields
-      form_matchable_fields(match_fields[field_selector]).concat(subform_matchable_fields(match_fields[field_selector]))
+    def matchable_fields
+      form_matchable_fields.concat(subform_matchable_fields)
     end
 
-    def find_match_records(match_criteria, match_class, child_id = nil, match_fields={})
+    def find_match_records(match_criteria, match_class, child_id = nil)
       pagination = {:page => 1, :per_page => 20}
       sort={:score => :desc}
       if match_criteria.blank?
@@ -39,7 +38,7 @@ module Matchable
       else
         search = Sunspot.search(match_class) do
           any do
-            form_match_fields = match_class.matchable_fields(match_fields)
+            form_match_fields = match_class.matchable_fields
             match_criteria.each do |key, value|
               fields = match_class.get_match_field(key.to_s)
               fields = fields.select {|f| match_field_exist?(f, form_match_fields)}
