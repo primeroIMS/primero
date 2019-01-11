@@ -160,8 +160,8 @@ class TracingRequest < CouchRest::Model::Base
     matches = []
     traces(trace_id).each do |tr|
       matching_criteria = match_criteria(tr, trace_fields)
-      results = TracingRequest.find_match_records(matching_criteria, Child, child_id)
-      tr_matches = PotentialMatch.matches_from_search(results) do |child_id, score, average_score|
+      match_result = TracingRequest.find_match_records(matching_criteria, Child, child_id)
+      tr_matches = PotentialMatch.matches_from_search(match_result) do |child_id, score, average_score|
         PotentialMatch.build_potential_match(child_id, self.id, score, average_score, tr.unique_id)
       end
       matches += tr_matches

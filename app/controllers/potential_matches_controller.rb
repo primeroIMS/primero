@@ -23,8 +23,7 @@ class PotentialMatchesController < ApplicationController
     @match_model_class ||= (@type == 'case' ? 'child' : @type).camelize.constantize
 
     @sex_field = Field.find_by_name_from_view('sex')
-    load_match_configuration(match_fields(@filters['case_fields'].try(:[], :value),
-                                          @filters['tracing_request_fields'].try(:[], :value)))
+    load_match_configuration
     load_potential_matches #@potential_matches, @case, @tracing_request
 
     #TODO MATCHING: All set visibility code is written by somone who didn't understand how record ownership works in Primero
@@ -113,10 +112,8 @@ class PotentialMatchesController < ApplicationController
     if params[:match].present?
       case_id = params[:match]
       @case = Child.get(case_id) if case_id.present?
-
       if @case.present?
-        @potential_matches = @case.matching_tracing_requests match_fields(
-           @potential_matching_configuration.case_fields, @potential_matching_configuration.tracing_request_fields)
+        @potential_matches = @case.matching_tracing_requests(@potential_matching_configuration.case_fields.to_h)
         @display_id = @case.display_id
       end
     end
@@ -130,13 +127,12 @@ class PotentialMatchesController < ApplicationController
 
   private
 
-  def load_match_configuration(match_fields)
+  def load_match_configuration
+    match_fields = {
+      case_fields: @filters['case_fields'].try(:[], :value).try(:to_h),
+      tracing_request_fields: @filters['tracing_request_fields'].try(:[], :value).try(:to_h)
+    }
     @potential_matching_configuration = MatchingConfiguration.find_for_filter(match_fields)
-  end
-
-  #TODO - remove
-  def match_fields(case_fields, trace_fields)
-    { case_fields: case_fields.to_h, tracing_request_fields: trace_fields.to_h }
   end
 
   def set_visibility(records=[], associated_user_names)

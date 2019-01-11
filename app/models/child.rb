@@ -381,9 +381,9 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def matching_tracing_requests(match_fields = {})
-    case_fields = match_fields[:case_fields]
-    match_result = Child.find_match_records(match_criteria(nil, case_fields), TracingRequest, nil, match_fields)
+  def matching_tracing_requests(case_fields = {})
+    matching_criteria = match_criteria(nil, case_fields)
+    match_result = Child.find_match_records(matching_criteria, TracingRequest, nil)
     PotentialMatch.matches_from_search(match_result) do |tr_id, score, average_score|
       traces = TracingRequest.get(tr_id).try(:traces) || []
       traces.map do |trace|
