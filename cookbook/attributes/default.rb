@@ -141,11 +141,12 @@ default[:nginx_default_site] = true
 default[:postfix_dir] = '/etc/postfix'
 
 default[:nginx].tap do |n|
+  n[:worker_processes] = 'auto'
   n[:worker_rlimit_nofile] = '1536'
   n[:worker_connections] = '1536'
   n[:keepalive_timeout] = '60'
-  n[:multi_accept] = true
-  n[:event] =  'epoll'
+  n[:timer_resolution] = '500ms'
+  n[:worker_priority] = '-10'
 end
 
 default[:system].tap do |s|
