@@ -99,6 +99,7 @@ _primero.Router = Backbone.Router.extend({
     new _primero.Views.AutoCalculateAgeDOB()
     new _primero.Views.PopulateSelectBoxes();
     new _primero.Views.PopulateLocationSelectBoxes();
+    new _primero.Views.PopulateReportingLocationSelectBoxes();
     new _primero.Views.IndexFilters();
     new _primero.Views.SaveFilters();
     this.maskedUserAndPasswordReferal();
@@ -136,6 +137,7 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.RequestApproval();
       new _primero.Views.PopulateSelectBoxes();
       new _primero.Views.PopulateLocationSelectBoxes();
+      new _primero.Views.PopulateReportingLocationSelectBoxes();
       this.maskedUserAndPasswordReferal();
       this.maskedUserAndPasswordTransfer();
     }

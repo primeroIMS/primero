@@ -25,11 +25,12 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   refer_records_empty: function(event) {
     this.clear_referral();
-    $("#referral-modal").find("#service_hidden").attr("disabled","disabled");
-    $("#referral-modal").find("#existing_user_hidden").attr("disabled","disabled");
+    var $referral_modal = $("#referral-modal");
+    $referral_modal.find("#service_hidden").attr("disabled","disabled");
+    $referral_modal.find("#existing_user_hidden").attr("disabled","disabled");
 
-    var $referral_button = $(event.target)
-    this.select_user_location($referral_button.data('user_location'));
+    var $referral_button = $(event.target);
+    this.select_user_location();
     this.clear_user_selection();
   },
 
@@ -187,9 +188,9 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     })
   },
 
-  select_user_location: function(user_location){
-    var $location_select = $("select#location");
-    $location_select.val(user_location)
+  select_user_location: function(){
+    var $location_select = $("#referral-modal select#location");
+    $location_select.val($location_select.data('value'))
     $location_select.trigger("chosen:updated");
   },
 

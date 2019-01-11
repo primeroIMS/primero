@@ -210,6 +210,25 @@ class Location < CouchRest::Model::Base
     end
     memoize_in_prod :display_text
 
+    def get_reporting_location(location)
+      reporting_admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      if location.admin_level ==  reporting_admin_level
+        location
+      else
+        location.ancestor_by_admin_level(reporting_admin_level)
+      end
+    end
+    memoize_in_prod :get_reporting_location
+
+    def all_names_reporting_locations(opts={})
+      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      reporting_location_hierarchy_filter = SystemSettings.current.reporting_location_config.try(:hierarchy_filter) || nil
+      locale = opts[:locale] || I18n.locale
+      find_names_by_admin_level_enabled(admin_level, reporting_location_hierarchy_filter, { locale: locale })
+    end
+
+    memoize_in_prod :all_reporting_locations
+
   end
 
   def generate_hierarchy_placenames(locales)

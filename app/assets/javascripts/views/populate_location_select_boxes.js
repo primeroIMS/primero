@@ -1,4 +1,4 @@
-var LocationStringSources = _primero.Collections.StringSources.extend({
+_primero.Collections.StringSources.LocationStringSources = _primero.Collections.StringSources.extend({
   initialize: function() {
     this.url = '/options/' + _.find(_primero.options_loc, function(path) {
       return path.match('options_' + I18n.locale);
@@ -37,7 +37,7 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
 
     _primero.populate_location_select_boxes = function() {
       if (self.$el.length) {
-        self.collection = new LocationStringSources();
+        self.collection = new _primero.Collections.StringSources.LocationStringSources();
 
         self.collection.fetch()
           .done(function() {

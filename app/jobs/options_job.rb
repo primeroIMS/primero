@@ -14,10 +14,15 @@ class OptionsJob < ApplicationJob
         options: Location.all_names(locale: locale)
       }
 
+      reporting_locations = {
+        type: 'Reporting_Location',
+        options: Location.all_names_reporting_locations(locale: locale)
+      }
+
       next unless locations[:options].present?
 
       File.open("#{dir}/options_#{locale}-#{fingerprint}.json", 'w+') do |f|
-        f.write(locations.to_json)
+        f.write([locations, reporting_locations].to_json)
       end
     end
   end
