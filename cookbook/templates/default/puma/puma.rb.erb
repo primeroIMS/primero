@@ -3,7 +3,7 @@
   max_threads = @max_thread_count  ||= 5
 %>
 
-bind "unix://<%= app_dir %>/tmp/primero.sock"
+bind "unix://<%= @app_dir %>/tmp/primero.sock"
 
 threads <%= min_threads %>, <%= max_threads %>
 

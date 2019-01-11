@@ -71,7 +71,7 @@ default[:primero].tap do |p|
         cdb[:os_process_timeout] = '20000'
       end
       conf[:cluster].tap do |cl|
-        cl[n] = '1'
+        cl[:n] = '1'
       end
     end
   end

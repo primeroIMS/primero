@@ -1,3 +1,5 @@
+include_recipe 'sysctl::default'
+
 set_limit 'nginx' do
   type 'hard'
   item 'nofile'
@@ -13,7 +15,6 @@ end
 sysctl_param 'fs.file-max' do
   value node[:system][:fs_file_max]
 end
-
 sysctl_param 'net.core.somaxconn' do
   value node[:system][:net_core_somaxconn]
 end

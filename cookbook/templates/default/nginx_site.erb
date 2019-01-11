@@ -51,7 +51,7 @@ server {
   client_max_body_size 50M;
   client_body_buffer_size 128k;
 
-  try_files $uri/index.html $uri.html $uri @app
+  try_files $uri/index.html $uri.html $uri @app;
 
   location @app {
     proxy_pass http://app;
