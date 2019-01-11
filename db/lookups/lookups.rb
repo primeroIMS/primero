@@ -502,6 +502,15 @@ create_or_update_lookup(
 )
 
 create_or_update_lookup(
+    :name => "yes_no_unknown",
+    :lookup_values => [
+      "Yes",
+      "No",
+      "Unknown"
+    ]
+)
+
+create_or_update_lookup(
     :name => "ill_treatment_violations",
     :lookup_values => [
       "Blindfolded",
