@@ -307,6 +307,7 @@ class User < CouchRest::Model::Base
     self.agency.try(:name)
   end
 
+  # NOTE: Expensive not called often
   def last_login
     timestamp = User.last_login_timestamp(self.user_name)
     @last_login = self.localize_date(timestamp, "%Y-%m-%d %H:%M:%S %Z") if timestamp.present?
@@ -429,7 +430,8 @@ class User < CouchRest::Model::Base
     LoginActivity.by_user_name_and_login_timestamp(
       descending: true,
       endkey: [user_name],
-      startkey: [user_name, {}]
+      startkey: [user_name, {}],
+      limit: 1
     ).all.select(&:mobile?)
   end
 
