@@ -95,10 +95,6 @@ describe Matchable do
       it "should get all matchable fields" do
         expect(Child.matchable_fields).to eq(["name", "name_nickname", "relation_name", "relation_nickname"])
       end
-
-      it "should get match_fields from matchable fields" do
-        expect(Child.matchable_fields(@match_fields)).to eq(["name", "relation_name"])
-      end
     end
 
     context "when form" do
