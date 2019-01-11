@@ -40,6 +40,7 @@ template site_conf_file do
   group 'root'
   mode '0644'
   variables({
+    :site => node[:primero][:site],
     :http_port => node[:primero][:http_port],
     :https_port => node[:primero][:https_port],
     :server_name => node[:primero][:server_hostname],

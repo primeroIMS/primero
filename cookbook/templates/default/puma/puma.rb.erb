@@ -1,11 +1,11 @@
 <%
   min_threads = @min_thread_count  ||= 5
-  max_threads = @min_thread_count  ||= 5
+  max_threads = @max_thread_count  ||= 5
 %>
 
-threads <%= min_threads %>, <%= max_threads %>
+bind "unix://<%= app_dir %>/tmp/primero.sock"
 
-port <%= @proxy_port %>
+threads <%= min_threads %>, <%= max_threads %>
 
 environment "<%= @rails_env %>"
 
