@@ -60,11 +60,11 @@ class DuplicatesController < ApplicationController
 
   def load_matching_configuration
     @filters = filter
-    #TODO vary case_fields depending on record_typ
-    match_fields = { case_fields: @filters['case_fields'].try(:[], :value).to_h }
-    #TODO
-    # @matching_configuration = MatchingConfiguration.find(nil, match_fields)
-    @matching_configuration = MatchingConfiguration.find(nil)
+    match_fields = {
+      case_fields: @filters['case_fields'].try(:[], :value).try(:to_h),
+      tracing_request_fields: @filters['tracing_request_fields'].try(:[], :value).try(:to_h)
+    }
+    @matching_configuration = MatchingConfiguration.find_for_filter(match_fields)
   end
 
 

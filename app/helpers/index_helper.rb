@@ -467,9 +467,6 @@ module IndexHelper
 
   def index_filters_potential_match
     filters = []
-    filters << "Sex"
-    filters << "Age Range"
-    filters << "Score Range"
     filters << "Matching Configuration"
 
     return filters
@@ -477,7 +474,8 @@ module IndexHelper
 
   def index_filters_duplicate
     filters = []
-    #TODO
+    filters << "Matching Configuration"
+
     return filters
   end
 
