@@ -45,8 +45,8 @@ class OptionsController < ApplicationController
   end
 
   def get_reporting_locations
-    if params[:string_sources].present? && params[:string_sources].include?('Reporting_Location')
-      { type: 'Reporting_Location', options: Location.all_names_reporting_locations(locale: I18n.locale) }
+    if params[:string_sources].present? && params[:string_sources].include?('ReportingLocation')
+      { type: 'ReportingLocation', options: Location.all_names_reporting_locations(locale: I18n.locale) }
     end
   end
 end

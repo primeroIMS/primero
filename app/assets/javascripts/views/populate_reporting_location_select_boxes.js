@@ -1,7 +1,7 @@
 var ReportingLocationStringSources = _primero.Collections.StringSources.LocationStringSources.extend({
   findLocations: function (term) {
     var regex = new RegExp(term, 'i');
-    var model = _.first(_.filter(this.models, function(model){ return model.get('type') == 'Reporting_Location' })).attributes
+    var model = _.first(_.filter(this.models, function(model){ return model.get('type') == 'ReportingLocation' })).attributes
 
     return _.filter(model.options, function(opt) {
       return regex.test(opt.display_text)
@@ -10,11 +10,11 @@ var ReportingLocationStringSources = _primero.Collections.StringSources.Location
 })
 
 _primero.Views.PopulateReportingLocationSelectBoxes = _primero.Views.PopulateLocationSelectBoxes.extend({
-  el: "form select[data-populate='Reporting_Location']",
+  el: "form select[data-populate='ReportingLocation']",
   initialize: function() {
     var self = this;
 
-    this.option_string_sources = ['Reporting_Location']
+    this.option_string_sources = ['ReportingLocation']
 
     this.$el.on('chosen:ready', function(e) {
       self.initAutoComplete($(e.target))

@@ -15,7 +15,7 @@ class OptionsJob < ApplicationJob
       }
 
       reporting_locations = {
-        type: 'Reporting_Location',
+        type: 'ReportingLocation',
         options: Location.all_names_reporting_locations(locale: locale)
       }
 
