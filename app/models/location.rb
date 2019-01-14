@@ -227,7 +227,7 @@ class Location < CouchRest::Model::Base
       find_names_by_admin_level_enabled(admin_level, reporting_location_hierarchy_filter, { locale: locale })
     end
 
-    memoize_in_prod :all_reporting_locations
+    memoize_in_prod :all_names_reporting_locations
 
   end
 
