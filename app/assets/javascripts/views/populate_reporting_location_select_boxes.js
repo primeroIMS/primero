@@ -1,7 +1,7 @@
 var ReportingLocationStringSources = _primero.Collections.StringSources.LocationStringSources.extend({
   findLocations: function (term) {
     var regex = new RegExp(term, 'i');
-    var model = _.filter(this.models, function(model){model.type = 'Reporting_Location'}).attributes
+    var model = _.first(_.filter(this.models, function(model){ return model.get('type') == 'Reporting_Location' })).attributes
 
     return _.filter(model.options, function(opt) {
       return regex.test(opt.display_text)
