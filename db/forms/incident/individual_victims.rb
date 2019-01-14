@@ -88,6 +88,64 @@ individual_victims_fields = [
   Field.new({"name" => "individual_additional_details",
              "type" => "textarea",
              "display_name_all" => "Additional details"
+            }),
+  Field.new({"name" => "victim_deprived_liberty_security_reasons",
+             "type" => "select_box",
+             "display_name_all" => "Was/were the victim(s) deprived of liberty for security reasons?",
+             "option_strings_source" => "lookup YesNoUnknown"
+            }),
+  Field.new({"name" => "entity_responsible_deprivation_liberty",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "Select the entity responsible for the deprivation of liberty",
+             "option_strings_text_all" => ["Armed force", "Armed group", "Other party to the conflict", "Unknown"].join("\n")
+            }),
+  Field.new({"name" => "armed_force_appropiate",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "If armed force, please select as appropriate",
+             "option_strings_source" => "lookup ArmedForceName"
+            }),
+  Field.new({"name" => "armed_group_appropiate",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "If armed group, please select as appropriate",
+             "option_strings_source" => "lookup ArmedGroupName"
+            }),
+  Field.new({"name" => "armed_party_appropiate",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "If other party to the conflict, please select as appropriate",
+             "option_strings_source" => "lookup ArmedPartyName"
+            }),
+  Field.new({"name" => "facilty_victims_held",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "Please select the facilty where the victims(s) was/were being held",
+             "option_strings_text_all" => ["Civilian infrastructure", "Informal detention facility",
+                                           "Intelligence agency premises", "Juvenile detention center",
+                                           "Military facility", "Prison", "Other"].join("\n")
+            }),
+  Field.new({"name" => "other_facilty_victims_held",
+             "type" => "text_field",
+             "display_name_all" => "If 'Other', please provide details "
+            }),
+  Field.new({"name" => "details_reasons_deprivation_liberty",
+             "type" => "textarea",
+             "display_name_all" => "Please provide details on the reasons for deprivation of liberty"
+            }),
+  Field.new({"name" => "length_deprivation_liberty",
+             "type" => "date_range",
+             "display_name_all" => "Please select length of deprivation of liberty"
+            }),
+  Field.new({"name" => "torture_punishment_while_deprivated_liberty",
+             "type" => "select_box",
+             "display_name_all" => "Was/were the child(ren) subject to torture or other cruel, inhuman or degrading treatment or punishment while deprived of liberty",
+             "option_strings_source" => "lookup IllTreatmentViolations"
+            }),
+  Field.new({"name" => "other_torture_punishment_while_deprivated_liberty",
+             "type" => "textarea",
+             "display_name_all" => "If yes, please provide details."
             })
 ]
 

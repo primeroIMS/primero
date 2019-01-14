@@ -500,3 +500,37 @@ create_or_update_lookup(
       "Other"
     ]
 )
+
+create_or_update_lookup(
+    :name => "yes_no_unknown",
+    :lookup_values => [
+      "Yes",
+      "No",
+      "Unknown"
+    ]
+)
+
+create_or_update_lookup(
+    :name => "ill_treatment_violations",
+    :lookup_values => [
+      "Blindfolded",
+      "Denial of access to toilets",
+      "Denial of adequate food and water",
+      "Detained outside national territory/ in foreign country",
+      "Hand ties",
+      "Leg ties",
+      "Night Arrest",
+      "No lawyer/parent present",
+      "Not informed of rights",
+      "Physical Violence",
+      "Signed Paper/Confession in foreign language",
+      "Solitary confinement",
+      "Strip searched",
+      "Threats to family",
+      "Threats to self (non-sexual)",
+      "Transferred on Vehicle Floor",
+      "Verbal abuse",
+      "Attempt to recruit as informant",
+      "Position abuse, Attempt to sexual abuse"
+    ]
+)
