@@ -158,6 +158,7 @@ en:
      filter: "Apply Filter"
      filter_clear: "Clear Filters"
      find_tracing_match: "Find Tracing Match"
+     filter_restore: "Restore to System Settings"
      flag_records: "Flag"
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"

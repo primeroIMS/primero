@@ -551,6 +551,14 @@ span.postfix_val {
 // Chosen Field
 ////////////////////////////////////////////////
 
+.potential_match_configuration {
+    .chosen-container-multi {
+      ul.chosen-choices {
+        background-image: linear-gradient(#eee 1%, #fff 15%);
+      }
+  }
+}
+
 .chosen-container-multi {
   .chosen-choices {
     li.search-choice {

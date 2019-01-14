@@ -1894,6 +1894,11 @@ describe Child do
                     "display_name_en" => "Nickname",
                     "matchable" => true
                     }),
+          Field.new({"name" => "sex",
+                     "type" => "text_field",
+                     "display_name_en" => "Sex",
+                     "matchable" => true
+                    }),
           Field.new({"name" => "age",
                      "type" => "numeric_field",
                      "display_name_all" => "Age"
@@ -1915,26 +1920,39 @@ describe Child do
       Child.any_instance.stub(:field_definitions).and_return(fields)
       Child.refresh_form_properties
 
-      @case1 = Child.create(name: 'case1', name_nickname: 'murtaza')
-      @case2 = Child.create(name: 'case2', age: 13)
+      @case1 = Child.create(name: 'case1', name_nickname: 'murtaza', sex: 'male')
+      @case2 = Child.create(name: 'case2', age: 13, sex: 'male')
       @case3 = Child.create(age: 15)
+      @matching_fields = { form_section_test: ["name"] }
     end
 
     context 'when field in match_fields' do
       it 'should find all values in match criteria' do
-        expect(@case1.match_criteria()).to eq({:name=>[@case1.name_nickname, @case1.name]})
+        expect(@case1.match_criteria).to eq({:name=>[@case1.name_nickname, @case1.name], :sex=>[@case1.sex]})
+      end
+
+      it 'should find matchable_fields values in match criteria' do
+        expect(@case1.match_criteria(@case1, @matching_fields)).to eq({:name=>[@case1.name, @case1.name_nickname]})
       end
     end
 
     context 'when field not in match_fields' do
       it 'should find exact match criteria' do
-        expect(@case2.match_criteria()).to eq({:name=>[@case2.name]})
+        expect(@case2.match_criteria).to eq({:name=>[@case2.name], :sex=>[@case2.sex]})
+      end
+
+      it 'should find exact match criteria with matchable_fields' do
+        expect(@case2.match_criteria(@case2, @matching_fields)).to eq({:name=>[@case2.name]})
       end
     end
 
     context 'when field is not matchable' do
       it 'should find no criteria' do
         expect(@case3.match_criteria()).to eq({})
+      end
+
+      it 'should find no criteria with matchable_fields' do
+        expect(@case3.match_criteria(@case3, @matching_fields)).to eq({})
       end
     end
   end

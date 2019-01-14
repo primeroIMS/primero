@@ -18,14 +18,12 @@ module Matchable
       'relation_sub_ethnicity2' => 'sub_ethnicity_2'
     }
 
-    def form_matchable_fields
-      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, false)
-      Array.new(form_fields).map(&:name)
+    def form_matchable_fields(match_fields = nil)
+      form_match_fields(false, match_fields)
     end
 
-    def subform_matchable_fields
-      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, true)
-      Array.new(form_fields).map(&:name)
+    def subform_matchable_fields(match_fields = nil)
+      form_match_fields(true, match_fields)
     end
 
     def matchable_fields
@@ -125,11 +123,18 @@ module Matchable
     def phonetic_fields_exist?(field)
       phonetic_fields.include?(field.to_s)
     end
+
+    def form_match_fields(is_subform, match_fields)
+      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, is_subform)
+      fields = Array.new(form_fields).map(&:name)
+      return fields if match_fields.blank?
+      fields & match_fields.values.flatten.reject(&:blank?)
+    end
   end
 
-  def match_criteria(match_request=nil)
+  def match_criteria(match_request=nil, match_fields=nil)
     match_criteria = {}
-    self.class.form_matchable_fields.each do |field|
+    self.class.form_matchable_fields(match_fields).each do |field|
       match_field, match_value = self.class.match_multi_criteria(field, self)
       match_criteria[:"#{match_field}"] = match_value if match_value.present?
     end

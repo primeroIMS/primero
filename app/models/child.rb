@@ -383,8 +383,9 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def matching_tracing_requests
-    match_result = Child.find_match_records(match_criteria, TracingRequest)
+  def matching_tracing_requests(case_fields = {})
+    matching_criteria = match_criteria(nil, case_fields)
+    match_result = Child.find_match_records(matching_criteria, TracingRequest, nil)
     PotentialMatch.matches_from_search(match_result) do |tr_id, score, average_score|
       traces = TracingRequest.get(tr_id).try(:traces) || []
       traces.map do |trace|
@@ -394,10 +395,10 @@ class Child < CouchRest::Model::Base
   end
 
   alias :inherited_match_criteria :match_criteria
-  def match_criteria(match_request=nil)
-    match_criteria = inherited_match_criteria(match_request)
+  def match_criteria(match_request=nil, case_fields=nil)
+    match_criteria = inherited_match_criteria(match_request, case_fields)
     match_criteria_subform = {}
-    Child.subform_matchable_fields.each do |field|
+    Child.subform_matchable_fields(case_fields).each do |field|
       match_values = []
       match_field = nil
       self.family.map do |member|
