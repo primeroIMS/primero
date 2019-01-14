@@ -83,6 +83,10 @@ class Incident < CouchRest::Model::Base
       self.incident_date_derived
     end
 
+    string :victim_deprived_liberty_security_reasons, multiple: true do
+      self.victim_deprived_liberty_security_reasons
+    end
+
   end
 
   def ensure_violation_categories_exist
@@ -405,6 +409,16 @@ class Incident < CouchRest::Model::Base
     armed_groups.uniq! if armed_groups.present?
 
     return armed_groups
+  end
+
+  def victim_deprived_liberty_security_reasons
+    deprived_liberty_reasons = []
+    if self.individual_victims_subform_section.present?
+      self.individual_victims_subform_section.each { |i| deprived_liberty_reasons << i.victim_deprived_liberty_security_reasons if i.victim_deprived_liberty_security_reasons.present? }
+    end
+    deprived_liberty_reasons.uniq! if deprived_liberty_reasons.present?
+
+    return deprived_liberty_reasons
   end
 
   #TODO - Need rspec test for this
