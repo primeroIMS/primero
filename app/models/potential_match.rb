@@ -268,13 +268,15 @@ class PotentialMatch < CouchRest::Model::Base
   end
 
   def compare_values(value1, value2)
-    result = nil
-    if value1 && value2 && (value1 == value2)
-      result = VALUE_MATCH
-    elsif value1 != value2
-      result = VALUE_MISMATCH
+    return false if value1.blank? && value2.blank?
+    return VALUE_MATCH if value1 == value2
+
+    # To handle multi-selected values; compares strings and/or arrays
+    if value1.respond_to?(:split) && value2.respond_to?(:split)
+      return VALUE_MATCH if (value1.split.flatten - value2.split.flatten).blank?
     end
-    return result
+
+    VALUE_MISMATCH
   end
 
   class << self

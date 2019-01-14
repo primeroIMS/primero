@@ -8,6 +8,7 @@
 #
 
 include_recipe 'primero::database'
+include_recipe 'primero::application'
 
 directory node[:primero][:bin_dir] do
   action :create
@@ -21,8 +22,6 @@ cookbook_file ::File.join(node[:primero][:bin_dir], 'primeroctl') do
   group node[:primero][:app_group]
   mode '755'
 end
-
-include_recipe 'primero::application'
 
 execute '/usr/sbin/nginx -t'
 

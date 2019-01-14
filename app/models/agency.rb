@@ -67,10 +67,8 @@ class Agency < CouchRest::Model::Base
   end
 
   def validate_name_in_base_language
-    name = "name_#{DEFAULT_BASE_LANGUAGE}"
-    unless (self.send(name).present?)
-      errors.add(:name, I18n.t("errors.models.agency.name_present"))
-      return false
-    end
+    return true if self.send("name_#{DEFAULT_BASE_LANGUAGE}").present?
+    errors.add(:name, I18n.t("errors.models.agency.name_present"))
+    return false
   end
 end

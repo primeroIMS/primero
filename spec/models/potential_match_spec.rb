@@ -66,16 +66,54 @@ describe PotentialMatch do
         @potential_match = PotentialMatch.new
       end
 
-      it 'returns a match when the values are present and equal' do
-        expect(@potential_match.compare_values('male', 'male')).to eq(PotentialMatch::VALUE_MATCH)
+      context 'when the values are present and equal' do
+        it 'returns a match' do
+          expect(@potential_match.compare_values('male', 'male')).to eq(PotentialMatch::VALUE_MATCH)
+        end
+
+        it 'returns a match with multi-selected values' do
+          expect(@potential_match.compare_values(['eth1', 'eth2'], ['eth2', 'eth1'])).to eq(PotentialMatch::VALUE_MATCH)
+        end
+
+        it 'returns a match with only one multi-selected value' do
+          expect(@potential_match.compare_values('eth3', ['eth3'])).to eq(PotentialMatch::VALUE_MATCH)
+        end
+
+        it 'returns match with non-string values' do
+          expect(@potential_match.compare_values(20, 20)).to eq(PotentialMatch::VALUE_MATCH)
+        end
       end
 
-      it 'returns a mismatch when at least one value is present and the values arent equal' do
-        expect(@potential_match.compare_values('female', 'male')).to eq(PotentialMatch::VALUE_MISMATCH)
+      context 'when at least one value is present and the values are not equal' do
+        it 'returns a mismatch' do
+          expect(@potential_match.compare_values('female', 'male')).to eq(PotentialMatch::VALUE_MISMATCH)
+        end
+
+        it 'returns a mismatch with un-identical multi-selected values' do
+          expect(@potential_match.compare_values(['female', 'child'], ['male', 'adult'])).to eq(PotentialMatch::VALUE_MISMATCH)
+        end
+
+        it 'returns a mismatch with multi-selected values' do
+          expect(@potential_match.compare_values(['eth1', 'eth2'], ['eth1', 'eht2', 'eth3'])).to eq(PotentialMatch::VALUE_MISMATCH)
+        end
+
+        it 'returns mismatch with either value is empty or null' do
+          expect(@potential_match.compare_values('south', '')).to eq(PotentialMatch::VALUE_MISMATCH)
+        end
+
+        it 'returns mismatch with non-string values' do
+          expect(@potential_match.compare_values(20, 10)).to eq(PotentialMatch::VALUE_MISMATCH)
+        end
       end
 
-      it 'is nil when both values are nil' do
-        expect(@potential_match.compare_values(nil, nil)).to be_nil
+      context 'when values are not present' do
+        it 'returns false with null values' do
+          expect(@potential_match.compare_values(nil, nil)).to be_falsy
+        end
+
+        it 'returns false with empty values' do
+          expect(@potential_match.compare_values('', '')).to be_falsy
+        end
       end
     end
 

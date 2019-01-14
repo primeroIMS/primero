@@ -1,0 +1,82 @@
+---
+ar:
+  gbv_survivor_information:
+    name: معلومات عن الناجية
+    description: معلومات عن الناجية
+    form_group_name: التعريف / التسجيل
+    fields:
+      case_id:
+        display_name: "الرمز التعريفي المطول "
+      short_id:
+        display_name: رقم تعريف الحالة
+      marked_for_mobile:
+        display_name: تم تأشيرة في الهاتف المحمول
+        tick_box_label: 'نعم'
+      child_status:
+        display_name: الوضع الراهن للحالة
+      name:
+        display_name: الاسم
+      survivor_code_no:
+        display_name: رمز الناجية
+      age:
+        display_name: العمر
+      date_of_birth:
+        display_name: تاريخ الميلاد
+      sex:
+        display_name: الجنس
+        option_strings_text:
+          female: أنثى
+          male: ذكر
+      gbv_ethnicity:
+        display_name: الطائفة أو الإثنية
+      country_of_origin:
+        display_name: البلد الأصلي
+      gbv_nationality:
+        display_name: الجنسية (إذا كانت مختلفة عن البلد الأصلي)
+      gbv_religion:
+        display_name: الدين
+      maritial_status:
+        display_name: "الحالة المدنية / الزوجية الحالية "
+        option_strings_text:
+          single: عزباء
+          married_cohabitating: متزوجة / مساكنةبدون زواج
+          divorced_separated: مطلقة / منفصلة عن الشريك
+          widowed: أرملة
+      dependents_no:
+        display_name: عدد الأطفال والمعالين الآخرين وأعمارهم
+      occupation:
+        display_name: المهنة
+      gbv_displacement_status:
+        display_name: وضع النزوح في وقت الإبلاغ
+      gbv_disability_type:
+        display_name: هل تعاني الناجية من إعاقة؟
+        option_strings_text:
+          'no': 'لا'
+          mental_disability: إعاقة ذهنية
+          physical_disability: إعاقة جسدية
+          both: إعاقة ذهنية وجسدية
+      unaccompanied_separated_status:
+        display_name: هل الناجية من القصّر غير المصحوبين أو من الأطفال المنفصلين عن ذويهم أو من الأطفال المستضعفين من فئات أخرى؟
+      section_heading_child_survivors_less_than_18_years_old:
+        display_name: الناجيات من الأطفال (دون الـ 18 من العمر)
+      survivor_lives_alone:
+        display_name: "هل الناجي طفل / هل الناجية طفلة، هل يعيش لوحده / تعيش لوحدها؟ "
+      survivor_caretaker:
+        display_name: هل يعيش الناجي / تعيش الناجية مع شخص آخر يرعاها، ما العلاقة بينها وبين الشخص الراعي / مقدم الرعاية لها؟
+        option_strings_text:
+          parent_guardian: أحد الوالدين / وصي
+          relative: أحد الأقرباء
+          spouse_cohabitating: زوج / شريك دون زواج
+          other_please_specify: أخرى، يرجى التحديد
+      survivor_caretaker_other:
+        display_name: في حال وجود علاقة أخرى بين الناجي/الناجية ومقدم الرعاية له/لها، يرجى التحديد.
+      caretaker_marital_status:
+        display_name: الحالة المدنية / الزوجية الراهنه لمقدم الرعاية للناجية
+        option_strings_text:
+          single: أعزب
+          married_cohabitating: متزوج \ مساكنة بدون زواج
+          divorced_separated: مطلق / منفصل عن الشريك
+          widowed: أرمل
+          unknown_not_applicable: غير معروف / لا ينطبق
+      caretaker_occupation:
+        display_name: المهنة الرئيسية الحالية لمقدم الرعاية للناجية؟

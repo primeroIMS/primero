@@ -19,19 +19,18 @@ module Matchable
     }
 
     def form_matchable_fields(match_fields = nil)
-      form_match_fields(FormSection.get_matchable_fields_by_parent_form(self.parent_form, false), match_fields)
+      form_match_fields(false, match_fields)
     end
 
     def subform_matchable_fields(match_fields = nil)
-      form_match_fields(FormSection.get_matchable_fields_by_parent_form(self.parent_form, true), match_fields)
+      form_match_fields(true, match_fields)
     end
 
-    def matchable_fields(match_fields={})
-      field_selector = self == Child ? :case_fields : :tracing_request_fields
-      form_matchable_fields(match_fields[field_selector]).concat(subform_matchable_fields(match_fields[field_selector]))
+    def matchable_fields
+      form_matchable_fields.concat(subform_matchable_fields)
     end
 
-    def find_match_records(match_criteria, match_class, child_id = nil, match_fields={})
+    def find_match_records(match_criteria, match_class, child_id = nil)
       pagination = {:page => 1, :per_page => 20}
       sort={:score => :desc}
       if match_criteria.blank?
@@ -39,7 +38,7 @@ module Matchable
       else
         search = Sunspot.search(match_class) do
           any do
-            form_match_fields = match_class.matchable_fields(match_fields)
+            form_match_fields = match_class.matchable_fields
             match_criteria.each do |key, value|
               fields = match_class.get_match_field(key.to_s)
               fields = fields.select {|f| match_field_exist?(f, form_match_fields)}
@@ -125,7 +124,8 @@ module Matchable
       phonetic_fields.include?(field.to_s)
     end
 
-    def form_match_fields(form_fields, match_fields)
+    def form_match_fields(is_subform, match_fields)
+      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, is_subform)
       fields = Array.new(form_fields).map(&:name)
       return fields if match_fields.blank?
       fields & match_fields.values.flatten.reject(&:blank?)

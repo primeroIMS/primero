@@ -156,13 +156,12 @@ class TracingRequest < CouchRest::Model::Base
   end
 
   #TODO MATCHING: This is are-implementation of the method above
-  def matching_cases(trace_id=nil, match_fields={})
-    trace_fields = match_fields[:tracing_request_fields]
+  def matching_cases(trace_id=nil, trace_fields={})
     matches = []
     traces(trace_id).each do |tr|
       matching_criteria = match_criteria(tr, trace_fields)
-      results = TracingRequest.find_match_records(matching_criteria, Child, child_id, match_fields)
-      tr_matches = PotentialMatch.matches_from_search(results) do |child_id, score, average_score|
+      match_result = TracingRequest.find_match_records(matching_criteria, Child, child_id)
+      tr_matches = PotentialMatch.matches_from_search(match_result) do |child_id, score, average_score|
         PotentialMatch.build_potential_match(child_id, self.id, score, average_score, tr.unique_id)
       end
       matches += tr_matches
