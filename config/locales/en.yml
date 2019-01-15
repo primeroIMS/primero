@@ -700,6 +700,7 @@ en:
 
   duplicates:
       search_for_duplicates: 'Search For Duplicates'
+      clear_filter: 'Clear'
       filter_by:
         name: "Name"
         age_range: "Age Range"

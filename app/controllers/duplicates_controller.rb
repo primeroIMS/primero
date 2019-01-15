@@ -70,7 +70,7 @@ class DuplicatesController < ApplicationController
     @duplicates = []
     @type ||= params[:record_type] || 'case'
     if(@type == 'case')
-      @duplicates = Duplicate.find_cases(@matching_configuration.case_fields.to_h)
+      @duplicates = Duplicate.find_duplicate_cases(@matching_configuration.case_fields.to_h)
     end
   end
 end

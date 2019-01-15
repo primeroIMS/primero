@@ -133,8 +133,10 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       }
 
       else {
-        $(this).val(current_scope)
-        self.set_remove_filter(name, current_scope);
+        if (current_scope !== false) {
+          $(this).val(current_scope)
+          self.set_remove_filter(name, current_scope);
+        }
       }
     });
   },

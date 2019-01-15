@@ -162,16 +162,16 @@ module IndexHelper
 
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
-      concat(select_tag filter, options_for_select(items), class: 'chosen-select', filter_type: 'list',
+      concat(select_tag(filter, options_for_select(items), class: 'chosen-select', filter_type: 'list',
                         multiple: multi_select, include_blank: t("fields.select_box_empty_item"),
-                        'data-placeholder' => t("fields.select_box_empty_item"), id: filter)
+                        'data-placeholder' => t("fields.select_box_empty_item"), id: filter))
       concat(content_tag(:div, '', class: 'clearfix'))
     end
   end
 
   def build_datefield(filter)
     content_tag :div, class: 'filter-controls row align-middle' do
-      concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
+      concat(text_field_tag(filter, nil, class: 'form_date_field', autocomplete: false))
     end
   end
 
@@ -184,7 +184,7 @@ module IndexHelper
 
   def build_textfield(filter)
     content_tag :div, class: 'filter-controls row align-middle' do
-      concat(text_field_tag filter, nil, class: 'form_text_field', autocomplete: false)
+      concat(text_field_tag(filter, nil, class: 'form_text_field', filter_type: 'single'))
     end
   end
 

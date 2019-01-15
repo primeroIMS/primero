@@ -1,7 +1,7 @@
 <div class="panel">
   <form id = 'index_filter_form' class = 'default-form' autocomplete = "off">
     <% if filters_to_show.include? 'Name'%>
-      <%= build_filter_text(t("duplicates.filter_by.name"), 'search_name') %>
+      <%= build_filter_text(t("duplicates.filter_by.name"), 'name') %>
     <% end %>
     <% if filters_to_show.include? 'Sex'%>
       <%= build_filter_checkboxes(t("duplicates.filter_by.sex"), "child_sex",
