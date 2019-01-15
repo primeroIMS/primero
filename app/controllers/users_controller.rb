@@ -78,7 +78,10 @@ class UsersController < ApplicationController
         users = User.find_by_criteria(criteria, pagination, sort).try(:results) || []
         render json: {
                 success: 1,
-                users: users.map{ |user| user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization') }
+                users: users.map do |user|
+                         attributes = user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization')
+                         attributes.merge(reporting_location: user.reporting_location.try(:location_code))
+                       end
               }
       end
     end

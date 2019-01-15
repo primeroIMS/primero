@@ -41,11 +41,14 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
       self.initAutoComplete($(e.target))
     })
 
-    _primero.populate_location_select_boxes = function() {
+    _primero.populate_location_select_boxes = function(onComplete) {
       if (self.$el.length) {
         self.collection.fetch()
           .done(function() {
             self.parseOptions();
+            if(onComplete){
+              onComplete();
+            }
           })
           .fail(function() {
             self.collection.message = I18n.t('messages.string_sources_failed')

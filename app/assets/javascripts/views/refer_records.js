@@ -4,12 +4,14 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   users_api_url: '/api/users',
 
+  users: [],
+
   events: {
     'click .service_referral_button' : 'refer_from_service',
     'click .referral_index_action' : 'refer_records',
     'click .referral_show_action' : 'refer_records_empty',
     'change #referral-modal input[name="is_remote"]' : 'toggle_remote_primero',
-    'change #referral-modal select#existing_user_referral' : 'toggle_other_user',
+    'change #referral-modal select#existing_user_referral' : 'on_user_change',
     'change #referral-modal input#other_user' : 'toggle_existing_user',
     'click #referral-modal input[type="submit"]' : 'close_referral',
     'change #referral-modal select.existing_user_filter' : 'clear_user_selection'
@@ -168,24 +170,57 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
       location: $location_select.val()
     }
 
-    $existing_user_select.empty();
-    $existing_user_select.html('<option>' + I18n.t("messages.loading") + '</option>');
-    $existing_user_select.trigger("chosen:updated");
-
-    $.get(this.users_api_url, data, function(response){
+    var self = this;
+    if(!_.isEmpty(_.compact(_.values(data)))){
       $existing_user_select.empty();
-      var select_options = [];
-      if(response.users && response.users.length > 0) {
-        select_options.push('<option value=""></option>');
-      } else {
-        select_options.push('<option value="">'+I18n.t("no_results_found") +'</option>');
-      }
-      _.each(response.users, function(user){
-        select_options.push('<option value="' + user.user_name + '">' + user.user_name + '</option>');
-      })
-      $existing_user_select.html(select_options.join(''));
+      $existing_user_select.html('<option>' + I18n.t("messages.loading") + '</option>');
       $existing_user_select.trigger("chosen:updated");
-    })
+
+      $.get(self.users_api_url, data, function(response){
+        self.users = response.users;
+        $existing_user_select.empty();
+        var select_options = [];
+        if(self.users && self.users.length > 0) {
+          select_options.push('<option value=""></option>');
+        } else {
+          select_options.push('<option value="">'+I18n.t("no_results_found") +'</option>');
+        }
+        _.each(self.users, function(user){
+          select_options.push('<option value="' + user.user_name + '">' + user.user_name + '</option>');
+        })
+        $existing_user_select.html(select_options.join(''));
+        $existing_user_select.trigger("chosen:updated");
+      })
+    } else {
+      alert(I18n.t('messages.valid_search_criteria'));
+    }
+  },
+
+  on_user_change: function(e) {
+    this.toggle_other_user(e);
+    this.populate_filters(e);
+  },
+
+  populate_filters: function(e) {
+    var selected_user_name = $(e.target).val();
+    if(selected_user_name){
+      var selected_user = _.first(_.filter(this.users, function(user){
+        return user.user_name == selected_user_name;
+      }));
+      if(selected_user){
+        var $referral_modal = $("#referral-modal");
+        $referral_modal.find("#agency_hidden").val(selected_user.organization);
+        var $agency_select = $referral_modal.find("select#agency");
+        $agency_select.val(selected_user.organization);
+
+        var $location_select = $referral_modal.find("select#location");
+        $location_select.data('value', selected_user.reporting_location);
+        _primero.populate_location_select_boxes(function(){
+          $location_select.val(selected_user.reporting_location);
+          $location_select.trigger("chosen:updated");
+        });
+      }
+    }
   },
 
   select_user_location: function(){
