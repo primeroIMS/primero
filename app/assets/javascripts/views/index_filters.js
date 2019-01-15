@@ -131,6 +131,11 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
           self.set_remove_filter(name, current_scope);
         }
       }
+
+      else {
+        $(this).val(current_scope)
+        self.set_remove_filter(name, current_scope);
+      }
     });
   },
 
@@ -197,7 +202,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       // Date Ranges
       var $date_inputs = $target.parents('.filter-controls').find('input.to, input.from');
       $date_inputs.attr('name', $target.parents('.filter-controls').find('.selectable_date').val())
-      date_values = [ $($date_inputs[0]).val(), $($date_inputs[1]).val()];
+      date_values = [$($date_inputs[0]).val(), $($date_inputs[1]).val()];
       this.set_date_range(date_values, filter, filter_type);
     } else if ($target.is("select") && filter_type === 'list') {
       if (match_filter === 'potential_match_configuration') selected_val = selected_val || "all_fields_removed";

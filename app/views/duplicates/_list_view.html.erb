@@ -20,7 +20,7 @@
             <a href=<%= duplicates_path(type: @type, match: @match) %> class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_restore') %></a>
           </div>
           <div class="column shrink">
-            <%= link_to t("cases.apply_filter"), '', class: 'button small', id: 'apply_filter' %>
+            <%= link_to t('duplicates.search_for_duplicates'), '', class: 'button small', id: 'apply_filter' %>
           </div>
         </div>
       <% end %>

@@ -698,6 +698,13 @@ en:
       likely: 'Likely'
       possible: 'Possible'
 
+  duplicates:
+      search_for_duplicates: 'Search For Duplicates'
+      filter_by:
+        name: "Name"
+        age_range: "Age Range"
+        sex: "Sex"
+
   audit_log:
     timestamp: "Timestamp - UTC"
     user_name: "User Name"

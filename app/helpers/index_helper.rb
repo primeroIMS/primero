@@ -32,6 +32,8 @@ module IndexHelper
         list_view_header_report
       when "potential_match"
         list_view_header_potential_match
+      when "duplicate"
+        list_view_header_duplicate
       when "bulk_export"
         list_view_header_bulk_export
       when "task"
@@ -180,6 +182,19 @@ module IndexHelper
     end
   end
 
+  def build_textfield(filter)
+    content_tag :div, class: 'filter-controls row align-middle' do
+      concat(text_field_tag filter, nil, class: 'form_text_field', autocomplete: false)
+    end
+  end
+
+  def build_filter_text(title, filter)
+    content_tag :div, class: 'filter' do
+      concat(content_tag(:h3, title))
+      concat(build_textfield(filter))
+    end
+  end
+
   # The location options are now populated by ajax
   def build_filter_location(title, filter)
     value = filter_value(filter)
@@ -298,6 +313,12 @@ module IndexHelper
       {title: 'tr_id', sort_title: 'tr_subform_id'},
       {title: 'child_id', sort_title: 'child_id'},
       {title: 'average_rating', sort_title: 'average_rating'},
+    ]
+  end
+
+  def list_view_header_duplicate
+    [
+      #TODO
     ]
   end
 
@@ -474,7 +495,9 @@ module IndexHelper
 
   def index_filters_duplicate
     filters = []
-    filters << "Matching Configuration"
+    filters << "Name"
+    filters << "Age Range"
+    filters << "Sex"
 
     return filters
   end

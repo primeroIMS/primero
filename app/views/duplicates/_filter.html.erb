@@ -1,18 +1,29 @@
 <div class="panel">
   <form id = 'index_filter_form' class = 'default-form' autocomplete = "off">
+    <% if filters_to_show.include? 'Name'%>
+      <%= build_filter_text(t("duplicates.filter_by.name"), 'search_name') %>
+    <% end %>
+    <% if filters_to_show.include? 'Sex'%>
+      <%= build_filter_checkboxes(t("duplicates.filter_by.sex"), "child_sex",
+                                  Lookup.values('lookup-gender', @lookups, locale: I18n.locale)) %>
+    <% end %>
+    <% if filters_to_show.include? 'Age Range'%>
+      <%= build_filter_checkboxes(t("duplicates.filter_by.age_range"), "child_age",
+                                  ['0-5', '6-11', '12-17', '18+'], nil, nil, 'range') %>
+    <% end %>
     <% if filters_to_show.include? 'Matching Configuration'%>
       <div class='filter' >
-        <h3><%= t("matching_configuration.case_fields") %></h3>
-        <%= render partial: 'record_shared/match_filter', locals: {
-          matching_configuration: @matching_configuration,
-          form_type: 'case',
-          forms_options: @matching_configuration.case_form_options,
-          forms: @matching_configuration.case_forms,
-          row_selector: "potential_match_configuration",
-          field_selector: :case_fields,
-          include_hidden: true
-        }
-        %>
+          <h3><%= t("matching_configuration.case_fields") %></h3>
+          <%= render partial: 'record_shared/match_filter', locals: {
+            matching_configuration: @matching_configuration,
+            form_type: 'case',
+            forms_options: @matching_configuration.case_form_options,
+            forms: @matching_configuration.case_forms,
+            row_selector: "potential_match_configuration",
+            field_selector: :case_fields,
+            include_hidden: true
+          }
+          %>
       </div>
     <% end %>
   </form>
