@@ -214,9 +214,9 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         $agency_select.val(selected_user.organization);
 
         var $location_select = $referral_modal.find("select#location");
-        $location_select.data('value', selected_user.reporting_location);
+        $location_select.data('value', selected_user.reporting_location_code);
         _primero.populate_location_select_boxes(function(){
-          $location_select.val(selected_user.reporting_location);
+          $location_select.val(selected_user.reporting_location_code);
           $location_select.trigger("chosen:updated");
         });
       }

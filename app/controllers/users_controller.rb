@@ -80,7 +80,7 @@ class UsersController < ApplicationController
                 success: 1,
                 users: users.map do |user|
                          attributes = user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization')
-                         attributes.merge(reporting_location: user.reporting_location.try(:location_code))
+                         attributes.merge(reporting_location_code: user.reporting_location.try(:location_code))
                        end
               }
       end
