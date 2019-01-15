@@ -27,9 +27,15 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
   el: "form select[data-populate='Location']",
 
   initialize: function() {
-    var self = this;
-
     this.option_string_sources = ['Location']
+
+    this.collection = new _primero.Collections.StringSources.LocationStringSources();
+
+    this.populateSelectBoxes();
+  },
+
+  populateSelectBoxes: function() {
+    var self = this;
 
     this.$el.on('chosen:ready', function(e) {
       self.initAutoComplete($(e.target))
@@ -37,8 +43,6 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
 
     _primero.populate_location_select_boxes = function() {
       if (self.$el.length) {
-        self.collection = new _primero.Collections.StringSources.LocationStringSources();
-
         self.collection.fetch()
           .done(function() {
             self.parseOptions();
@@ -49,7 +53,6 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
           })
       }
     }
-
     _primero.populate_location_select_boxes();
   },
 
