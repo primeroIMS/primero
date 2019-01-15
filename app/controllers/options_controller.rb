@@ -20,6 +20,7 @@ class OptionsController < ApplicationController
     if params[:string_sources].present? || params[:all].present?
       sources << get_lookups
       sources << get_locations
+      sources << get_reporting_locations
       sources.reject{|source| source.nil?}.flatten
     end
   end
@@ -41,5 +42,11 @@ class OptionsController < ApplicationController
    if params[:mobile].present? || (params[:string_sources].present? && params[:string_sources].include?('Location'))
     { type: 'Location', options: Location.all_names(locale: I18n.locale) }
    end
+  end
+
+  def get_reporting_locations
+    if params[:string_sources].present? && params[:string_sources].include?('ReportingLocation')
+      { type: 'ReportingLocation', options: Location.all_names_reporting_locations(locale: I18n.locale) }
+    end
   end
 end

@@ -4,8 +4,14 @@ _primero.chosen = function (selector) {
     $(selector).addClass('chosen-rtl');
   }
 
-  var location_selects = $(selector).filter("[data-populate='Location']");
-  var selects = $(selector).filter(":not([data-populate='Location'])");
+  var location_selects = $(selector).filter(function(){
+    var populate = $(this).data('populate')
+    return populate == 'Location' || populate == 'ReportingLocation';
+  });
+  var selects = $(selector).filter(function(){
+    var populate = $(this).data('populate')
+    return populate != 'Location' && populate != 'ReportingLocation';
+  });
 
   initChosen(selects)
   initChosen(location_selects, { disable_search_threshold: 0 })
