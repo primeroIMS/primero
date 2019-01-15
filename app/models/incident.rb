@@ -414,7 +414,7 @@ class Incident < CouchRest::Model::Base
   def victim_deprived_liberty_security_reasons
     deprived_liberty_reasons = []
     if self.individual_victims_subform_section.present?
-      self.individual_victims_subform_section.each { |i| deprived_liberty_reasons << i.victim_deprived_liberty_security_reasons if i.victim_deprived_liberty_security_reasons.present? }
+      deprived_liberty_reasons = self.individual_victims_subform_section.map { |i| i.victim_deprived_liberty_security_reasons if i.victim_deprived_liberty_security_reasons.present? }
     end
     deprived_liberty_reasons.uniq! if deprived_liberty_reasons.present?
 
