@@ -583,10 +583,21 @@ module RecordActions
     FormSection.get_append_only_subform_ids.each do |subform_id|
       if @record_filtered_params[subform_id].present?
         record_subforms = (record.try(subform_id) || []).map(&:attributes)
-        param_subforms = @record_filtered_params[subform_id] || []
+        # The subforms can be either a Hash or an Array we handle the scenario in the if below
+        # Usually, when you update a request from the web the subforms will be a Hash and they will be an Array when on mobile.
+        param_subforms = if @record_filtered_params[subform_id].is_a? Hash
+                           @record_filtered_params[subform_id].values
+                         else
+                           @record_filtered_params[subform_id]
+                         end
         # If for any reason a user sends updates to existing forms, we will update them.
         unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
-        @record_filtered_params[subform_id] = unchanged_subforms.concat(param_subforms)
+        new_subforms = unchanged_subforms + param_subforms
+        if @record_filtered_params[subform_id].is_a? Hash
+          @record_filtered_params[subform_id] = new_subforms.map.with_index{ |value, index| [index, value]  }.to_h
+        else
+          @record_filtered_params[subform_id] = new_subforms
+        end
       end
     end
   end
