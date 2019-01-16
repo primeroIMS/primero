@@ -4,11 +4,11 @@
       <%= build_filter_text(t("duplicates.filter_by.name"), 'name') %>
     <% end %>
     <% if filters_to_show.include? 'Sex'%>
-      <%= build_filter_checkboxes(t("duplicates.filter_by.sex"), "child_sex",
+      <%= build_filter_checkboxes(t("duplicates.filter_by.sex"), "sex",
                                   Lookup.values('lookup-gender', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'Age Range'%>
-      <%= build_filter_checkboxes(t("duplicates.filter_by.age_range"), "child_age",
+      <%= build_filter_checkboxes(t("duplicates.filter_by.age_range"), "age",
                                   ['0-5', '6-11', '12-17', '18+'], nil, nil, 'range') %>
     <% end %>
     <% if filters_to_show.include? 'Matching Configuration'%>

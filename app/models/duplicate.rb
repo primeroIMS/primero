@@ -15,18 +15,23 @@ class Duplicate < CouchRest::Model::Base
       # matching_configuration
     end
 
-    def find_duplicate_cases(match_fields={})
-      search_tracing_request = TracingRequest.new({
-          relation_name: 'mother',
-          inquiry_date: '15-Jan-2019',
-          tracing_request_subform_section: [{age: 12, name: 'Daphne', sex: 'female'}]
-        }
-      )
+    def find_duplicate_cases(match_fields={}, search_parameters={})
+      #TODO sanitize search parameters per match fields and use that to initialize Child
+
+
+
+      # search_tracing_request = TracingRequest.new({
+      #     relation_name: 'mother',
+      #     inquiry_date: '15-Jan-2019',
+      #     tracing_request_subform_section: [{age: 12, name: 'Daphne', sex: 'female'}]
+      #   }
+      # )
 
       search_case = Child.new(age: 12, name: 'Daphne', sex: 'female')
+      matching_criteria = search_case.match_criteria(nil, match_fields)
       # binding.pry
-      # x=3
-      # matching_criteria = search_case.match_criteria(nil, match_fields)
+      x=3
+      #
       # search_result = Child.find_match_records(matching_criteria, Child, nil, {}, search_conditions)
 
       # search_criteria, search_conditions = duplicate_search_criteria case_fields

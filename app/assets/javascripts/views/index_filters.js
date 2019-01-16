@@ -220,7 +220,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       this.set_remove_filter(filter, filter_values);
     } else {
       // Everything else
-      this.set_remove_filter(filter, $target.val(), filter_type);
+      this.set_remove_filter(filter, [filter_type, $target.val()]);
     }
   }
 });

@@ -70,7 +70,13 @@ class DuplicatesController < ApplicationController
     @duplicates = []
     @type ||= params[:record_type] || 'case'
     if(@type == 'case')
-      @duplicates = Duplicate.find_duplicate_cases(@matching_configuration.case_fields.to_h)
+      @duplicates = Duplicate.find_duplicate_cases(@matching_configuration.case_fields.to_h, search_parameters)
     end
+  end
+
+  def search_parameters
+    search_parameters = {}
+    @filters.each {|k, v| search_parameters[k] = v[:value]}
+    search_parameters
   end
 end
