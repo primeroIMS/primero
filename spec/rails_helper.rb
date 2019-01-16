@@ -140,6 +140,7 @@ RSpec.configure do |config|
   #Recreate db if needed.
   config.before(:suite) do
     if OptionsQueueStats.options_not_generated?
+      FactoryBot.create(:system_settings)
       FactoryBot.create(:location)
       OptionsJob.perform_now
     end
@@ -184,4 +185,3 @@ def stub_env(new_env, &block)
 ensure
   Rails.instance_variable_set("@_env", ActiveSupport::StringInquirer.new(original_env))
 end
-
