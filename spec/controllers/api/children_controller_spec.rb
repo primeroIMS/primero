@@ -163,7 +163,7 @@ describe ChildrenController do
     end
   end
 
-  describe "PUT update subforms when the form is subform_append_only" do
+  describe "PUT update subforms when the form is subform_append_only and mobile param is true" do
     before :each do
       Child.all.each{|c| c.destroy}
       FormSection.all.each &:destroy
@@ -182,7 +182,7 @@ describe ChildrenController do
       @child_1 = Child.new_with_user_name(controller.current_user, {name: "Name 1", age: "5", subform_section: [{subform_text_field: 'some text 2'}]})
       @child_1.save!
 
-      put :update, params: { format: :json, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{subform_text_field: 'some text 2'}]}}
+      put :update, params: { format: :json, mobile: true, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{subform_text_field: 'some text 2'}]}}
 
       expect(Child.get(@child_1.id).subform_section.size).to eq(2)
     end
@@ -193,9 +193,9 @@ describe ChildrenController do
       @child_1 = Child.new_with_user_name(controller.current_user, {name: "Name 1", age: "5", subform_section: [{unique_id: section_1_uid, subform_text_field: 'some text 1'}]})
       @child_1.save!
 
-      put :update, params: { format: :json, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{unique_id: section_2_uid, subform_text_field: 'some text 2'}]}}
+      put :update, params: { format: :json, mobile: true, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{unique_id: section_2_uid, subform_text_field: 'some text 2'}]}}
       json_response = JSON.parse(response.body)
-      expect(json_response['subform_section']).to eq([])
+      expect(json_response['subform_section']).to be_nil
     end
   end
 

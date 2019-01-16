@@ -472,8 +472,7 @@ module RecordActions
 
     reindex_hash record_params
     @record_filtered_params = filter_params(@record)
-    # NOTE: The commented if below should really go back in at a later date in tandem with mobile changes
-    merge_append_only_subforms(@record) # if is_mobile?
+    merge_append_only_subforms(@record) if is_mobile?
     update_record_with_attachments(@record)
   end
 
@@ -482,12 +481,11 @@ module RecordActions
   end
 
   def clear_subforms_for_append_only_forms(record)
-    # NOTE: The commented if below should really go back in at a later date in tandem with mobile changes
-    # if is_mobile?
+    if is_mobile?
       FormSection.get_append_only_subform_ids.each do |subform_id|
         record.try("#{subform_id}=", [])
       end
-    # end
+    end
     return record
   end
 
@@ -583,10 +581,21 @@ module RecordActions
     FormSection.get_append_only_subform_ids.each do |subform_id|
       if @record_filtered_params[subform_id].present?
         record_subforms = (record.try(subform_id) || []).map(&:attributes)
-        param_subforms = @record_filtered_params[subform_id] || []
+        # The subforms can be either a Hash or an Array we handle the scenario in the if below
+        # Usually, when you update a request from the web the subforms will be a Hash and they will be an Array when on mobile.
+        param_subforms = if @record_filtered_params[subform_id].is_a? Hash
+                           @record_filtered_params[subform_id].values
+                         else
+                           @record_filtered_params[subform_id]
+                         end
         # If for any reason a user sends updates to existing forms, we will update them.
         unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
-        @record_filtered_params[subform_id] = unchanged_subforms.concat(param_subforms)
+        new_subforms = unchanged_subforms + param_subforms
+        if @record_filtered_params[subform_id].is_a? Hash
+          @record_filtered_params[subform_id] = new_subforms.map.with_index{ |value, index| [index, value]  }.to_h
+        else
+          @record_filtered_params[subform_id] = new_subforms
+        end
       end
     end
   end
