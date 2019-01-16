@@ -390,7 +390,7 @@ en:
     type: "Type of Action"
     due_date: "Due Date"
     types:
-      assessment: "Assesment"
+      assessment: "Assessment"
       case_plan: "Case Plan"
       follow_up: "Follow Up - %{subtype}"
       service: "Service - %{subtype}"
