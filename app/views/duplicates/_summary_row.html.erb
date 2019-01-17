@@ -1,36 +1,11 @@
-<div class="pm_div">
-  <table style="width:100%" class="pm_table record_list_view dont_page">
-    <thead>
-    <tr>
-      <th><%= t("potential_match.child_id") %></th>
-      <th><%= t("potential_match.name") %></th>
-      <th><%= t("potential_match.child_age") %></th>
-      <th><%= t("potential_match.child_gender") %></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td class="id_column"><%= link_to concerned_child[:display_id], case_path(concerned_child[:id]), class: 'id_link' %></td>
-      <td><%= concerned_child[:name] %></td>
-      <td><%= concerned_child[:age] %></td>
-      <td><%= concerned_child[:sex] %></td>
-    </tr>
-    </tbody>
-  </table>
-  <table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table record_list_view dont_page" id="myTable_<%= concerned_child[:display_id] %>">
-    <thead>
-    <tr>
-      <th><%= t("potential_match.child_id") %></th>
-      <th><%= t("potential_match.name") %></th>
-      <th><%= t("potential_match.child_age") %></th>
-      <th><%= t("potential_match.child_gender") %></th>
-      <th><%= t("case.owned_by") %></th>
-      <th><%= t("potential_match.score") %></th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-      <%= render partial: 'duplicates/summary_row_detail', collection: collection, as: :record %>
-    </tbody>
-  </table>
-</div>
+<tr>
+  <td class="id_column"><%= link_to record.display_id, case_path(record.case_id), class: 'id_link' %></td>
+  <td><%= record.name %></td>
+  <td><%= record.age %></td>
+  <td><%= record.sex %></td>
+  <td><%= record.owned_by %></td>
+  <td><%= record.likelihood %></td>
+  <td>
+    <a class="record-view-modal id_link" data-record="<%= record.case_id %>"><%= t('buttons.view') %></a>
+  </td>
+</tr>

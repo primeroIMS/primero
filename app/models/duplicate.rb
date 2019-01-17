@@ -2,63 +2,76 @@
 #TODO - Investigate if there is a way around this
 class Duplicate < CouchRest::Model::Base
   include ActiveModel::Model
+  include Matchable
 
   #TODO - Create rspec tests
 
   attr_accessor :id
+  attr_accessor :child_id
+  attr_accessor :child
+  attr_accessor :likelihood
+
+  def initialize(child_id, score, average_score)
+    self.child_id = child_id
+    self.child ||= Child.get(child_id) if child_id.present?
+    self.likelihood = Duplicate.calculate_likelihood(score, average_score)
+  end
 
   class << self
     # Emulate 'find' since this isn't persisted in a DB
-    def find(id)
-      # matching_configuration = MatchingConfiguration.new(id)
-      # matching_configuration.load_form_fields
-      # matching_configuration
-    end
-
-    def find_duplicate_cases(match_fields={}, search_parameters={})
-      #TODO sanitize search parameters per match fields and use that to initialize Child
-
-
-
-      # search_tracing_request = TracingRequest.new({
-      #     relation_name: 'mother',
-      #     inquiry_date: '15-Jan-2019',
-      #     tracing_request_subform_section: [{age: 12, name: 'Daphne', sex: 'female'}]
-      #   }
-      # )
-
-      search_case = Child.new(age: 12, name: 'Daphne', sex: 'female')
+    def find(match_fields={}, search_parameters={})
+      return [] if search_parameters.blank?
+      search_case = new_case_from_search_params(match_fields, search_parameters)
+      # search_case = Child.new(age: 12, name: 'Daphne', sex: 'female')
       matching_criteria = search_case.match_criteria(nil, match_fields)
-      # binding.pry
-      x=3
-      #
-      # search_result = Child.find_match_records(matching_criteria, Child, nil, {}, search_conditions)
+      search_result = Child.find_match_records(matching_criteria, Child)
+      duplicates_from_search(search_result) do |duplicate_case_id, score, average_score|
+        Duplicate.new(duplicate_case_id, score, average_score)
+      end
+    end
 
-      # search_criteria, search_conditions = duplicate_search_criteria case_fields
-      # search_result = Child.find_match_records(search_criteria, Child, nil, {}, search_conditions)
-      # Duplicate.duplicates_from_search(search_result.except self.id) do |duplicate_case_id, score, average_score|
-      #   Duplicate.new(duplicate_case_id, score, average_score).build_potential_duplicate
-      # end
+    private
 
-      []
+    def new_case_from_search_params(match_fields={}, search_parameters={})
+      child_params = search_parameters.select{|k,v| match_fields.values.flatten.include?(k)}
+
+      #TODO - total hack to patch filters
+      #TODO - fix the filters
+      child_params['age'] = child_params['age'].flatten.first if child_params['age'].present?
+      child_params['sex'] = child_params['sex'].first if child_params['sex'].present?
+
+      Child.new(child_params)
+    end
+
+    def duplicates_from_search(search_result)
+      Duplicate.normalize_search_result search_result do |duplicate_case_id, score, average_score|
+        yield(duplicate_case_id, score, average_score)
+      end
     end
   end
 
-  def initialize(id=nil)
-    @id = id || 'administration'
-
-    # primero_module = PrimeroModule.get(PrimeroModule::CP)
-    # @form_ids = primero_module.try(:associated_form_ids)
+  def case_id
+    self.child.id
   end
 
-
-
-  # Patch to make nav buttons work
-  def new?
-    false
+  def display_id
+    self.child.display_id
   end
 
-  private
+  def name
+    self.child.name
+  end
 
+  def age
+    self.child.age
+  end
+
+  def sex
+    self.child.sex
+  end
+
+  def owned_by
+    self.child.owned_by
+  end
 
 end

@@ -9,7 +9,6 @@
   <div class="row controls align-middle">
     <div class="large-9 small-9 columns">
       <div class="row collapse align-middle">
-        TODO
         <%# duplicates_header_text %>
       </div>
     </div>
@@ -30,7 +29,24 @@
 <div class="row">
   <div class="large-9 small-9 columns">
     <div class="clearfix"></div>
-    <%= render :partial => "duplicates/summary_row", collection: collection, as: :record %>
+    <div class="pm_div">
+      <table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table record_list_view dont_page">
+        <thead>
+        <tr>
+          <th><%= t("potential_match.child_id") %></th>
+          <th><%= t("potential_match.name") %></th>
+          <th><%= t("potential_match.child_age") %></th>
+          <th><%= t("potential_match.child_gender") %></th>
+          <th><%= t("case.owned_by") %></th>
+          <th><%= t("potential_match.score") %></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+          <%= render :partial => "duplicates/summary_row", collection: collection, as: :record %>
+        </tbody>
+      </table>
+    </div>
   </div>
   <div class="large-3 small-3 columns no-padding-left index_filters">
     <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>

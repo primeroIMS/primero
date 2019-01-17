@@ -5,6 +5,8 @@ class DuplicatesController < ApplicationController
   before_action :load_matching_configuration, only: [:index]
   before_action :load_duplicates, only: [:index]
 
+  #Methods new & create are older methods that do not actually work on the Duplicate model
+  #Instead, they were used to marke cases as duiplicates
   def new
     @child = Child.get params[:child_id]
     authorize! :update, @child
@@ -24,35 +26,6 @@ class DuplicatesController < ApplicationController
 
   def index
     authorize! :index, Duplicate
-
-
-
-
-    # if @type == 'case' && @match.present?
-    #   @potential_duplicates = []
-    #   load_potential_case_duplicates
-    # end
-
-    # respond_to do |format|
-      # format.html do
-      #   if @potential_duplicates.blank? && params[:match].present?
-      #     flash[:notice] = t('potential_duplicates.no_match', type: I18n.t("forms.record_types.#{@type}"), id: @match)
-      #   else
-      #     flash[:notice] = nil
-      #   end
-      # end
-      # unless params[:password]
-      #   format.json do
-      #     render :json => @potential_duplicates.to_json
-      #   end
-      # end
-      # unless params[:format].nil? || params[:format] == :json
-      #   if @potential_duplicates.blank?
-      #     flash[:notice] = t('exports.no_records')
-      #     redirect_to :action => :index and return
-      #   end
-      # end
-    # end
   end
 
   private
@@ -70,7 +43,7 @@ class DuplicatesController < ApplicationController
     @duplicates = []
     @type ||= params[:record_type] || 'case'
     if(@type == 'case')
-      @duplicates = Duplicate.find_duplicate_cases(@matching_configuration.case_fields.to_h, search_parameters)
+      @duplicates = Duplicate.find(@matching_configuration.case_fields.to_h, search_parameters)
     end
   end
 
