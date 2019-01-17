@@ -123,15 +123,20 @@ module ReportsHelper
   def data_report_filters(record_type)
     [
       {
+        type: 'date',
+        name: record_type == 'case' ? 'registration_date' : 'date_of_incident'
+      },
+      {
         type: 'select',
         name: 'ctfmr_verified',
-        lookup: 'lookup-verification-status',
-        options: nil,
+        options: 'lookup-verification-status',
         multiple: true
       },
       {
-        type: 'date',
-        name: record_type == 'case' ? 'registration_date' : 'date_of_incident'
+        type: 'select',
+        name: 'perpetrator_category',
+        options: ["Armed force", "Armed group", "Other party to the conflict", "Unknown"],
+        multiple: true
       }
     ]
   end

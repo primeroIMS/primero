@@ -1,5 +1,5 @@
 <%
-  options = lookup.present? ? report_filter_lookup_options(@lookups, lookup) : options
+  options = options.is_a?(Array) ? options : report_filter_lookup_options(@lookups, options)
 %>
 
 <div class="filter">
