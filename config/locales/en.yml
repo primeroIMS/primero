@@ -1192,6 +1192,18 @@ en:
     messages:
       delete_success: "Report was successfully deleted."
     edit: "Edit"
+    report_filters:
+      filters: "Filters"
+      filter: "Filter"
+      clear: "Clear"
+      prompt: "Select One"
+      year_prompt: "Select Year"
+      date_prompt: "Select Date"
+      from: "From"
+      to: "To"
+      ctfmr_verified: "Verification Status"
+      registration_date: "Registration Date"
+      date_of_incident: "Date of Incident"
 
   encrypt:
     password_title: "Create Password"

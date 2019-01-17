@@ -1,94 +1,133 @@
 _primero.Views.ReportFilters = Backbone.View.extend({
-  template: JST['templates/reports_date_range_control'],
+  template: JST["templates/reports_filters_selected"],
 
-  el: '#report_filter_controls',
-
-  model: new _primero.Models.ReportFilter(),
+  el: "#report_filter_controls",
 
   events: {
-    'change select[name="filter-control"]': 'filter_type_event',
-    'click .close, .open': 'toggle_filter_panel',
-    'click .clear_filters': 'clear_filters',
-    'click .submit_filters': 'filter'
+    "change .date_filter .selector select": "filter_type_event",
+    "click .close, .open": "toggle_filter_panel",
+    "click .clear_filters": "clear_filters",
+    "click .submit_filters": "filter",
+    'change input[name=$"date_from_control"]': "populateTo",
+    "change .select_filter select": "set_select_filter",
+    "change .date_filter .controls select, .date_filter .controls input":
+      "set_date_filter"
   },
 
   initialize: function() {
-    this.render();
+    this.report_filters = {};
+    _primero.chosen("#report_filter_controls .chosen-select");
     this.set_params();
   },
 
+  set_select_filter: function(e) {
+    var select = $(e.target);
+    this.report_filters[select.attr("id")] = select.val();
+  },
+
+  set_date_filter: function(e) {
+    var date_control = $(e.target);
+    var container = date_control.parents(".date_filter");
+    var field = container.find(".selector select");
+    var from = container
+      .find(".control input[name$='date_from_control']")
+      .val();
+    var to = container.find(".control input[name$='date_to_control']").val();
+    var value = date_control.is("select")
+      ? date_control.val()
+      : [from, to].join(".");
+
+    this.report_filters[field.attr("name")] = [field.val(), value].join("||");
+  },
+
+  populateTo: function(e) {
+    var from_field = $(e.target);
+    var to_field = from_field
+      .parents(".control")
+      .find("input[name$='date_to_control']");
+
+    if (!to_field.val() && from_field.val()) {
+      to_field.val(from_field.val());
+    }
+  },
+
   filter: function(e) {
-    var control = $(e.target);
-    var form = control.parents('form');
-    var data = form.serializeArray();
-    var filter_values = [];
+    window.location.search = _primero.object_to_params(this.report_filters);
+  },
 
-    var filter_control = form.find('select#filter-control');
-    var filter = filter_control.val();
-    var filter_display = filter_control.find('option:selected').text()
-
-    _.each(data, function(k) {
-      if (k.name != 'filter-control') {
-        filter_values.push(k.value);
-      }
-    });
-
-    this.model.updateFilter('date', filter, filter_values, filter_display);
-
-    window.location.search = this.model.build_query();
+  display_selected_filters: function() {
+    $(this.el)
+      .find(".filters-selected")
+      .html(
+        this.template({
+          m: this.report_filters
+        })
+      );
   },
 
   set_params: function() {
-    var params = this.parse_params(window.location.search.split('?')[1] || '');
+    var params = this.parse_params(window.location.search.split("?")[1] || "");
 
-    if (params) {
-      this.model.set('params', params);
+    if (!_.isEmpty(params)) {
+      this.report_filters = params.scope;
+      this.display_selected_filters();
+      this.set_filters();
     }
-
-    this.set_filters();
   },
 
   set_filters: function() {
     var self = this;
-    var params = this.model.get('params');
 
-    if (params) {
-      _.each(params.scope, function(v, k) {
-        var filter = v.split('||');
-        var type = filter[0];
-        var values = filter[1].split('.');
+    _.each(this.report_filters, function(v, k) {
+      var filter = v.split("||");
+      var control = $("select#" + k);
+      var value;
 
-        // TODO: This will have to change when we add more filters.
-        var filter_control = $('.filter-control-' + k);
-        var display = filter_control.find('option[value="' + type + '"]');
+      if (/date/.test(k)) {
+        var subValue = filter[1].split(".");
+        var container = control.parents(".date_filter");
 
-        display.attr('selected','selected');
+        value = filter[0];
+        control.val(value);
+        self.toggle_date_control(control);
 
-        self.model.updateFilter(k, type, values, display.text());
-
-        var inputs = filter_control.parents('form').find('.controls input, .controls select');
-
-        if (_.isArray(values)) {
-          for (var i = 0; i < inputs.length; i++) {
-            inputs[i].value = values[i];
-          }
+        if (subValue.length > 1) {
+          container
+            .find(".control input[name$='date_from_control']")
+            .val(subValue[0]);
+          container
+            .find(".control input[name$='date_to_control']")
+            .val(subValue[1]);
+        } else {
+          container.find(".controls select").val(subValue[0]);
         }
-      });
-    }
+      } else {
+        control.val(filter);
+
+        if (control.prop("multiple")) {
+          control.trigger("chosen:updated");
+        }
+      }
+    });
   },
 
   toggle_filter_panel: function(e) {
-    var action = e.target.dataset.action === 'close' ? 'slideUp' : 'slideDown';
-    var openButton = $('.open');
+    var action = e.target.dataset.action === "close" ? "slideUp" : "slideDown";
+    var openButton = $(".open");
+    var panel = $(this.el).find(".panel");
 
-    if (action !== 'slideUp') {
-      openButton.addClass('currently');
+    if (action === "slideDown") {
+      openButton.addClass("currently");
+    } else {
+      panel.css("overflow", "hidden");
     }
 
-    $(this.el).find('.panel')[action]({
+    panel[action]({
       complete: function() {
-        if (action === 'slideUp') {
-          openButton.removeClass('currently');
+        if (action === "slideUp") {
+          openButton.removeClass("currently");
+        } else {
+          panel.css("overflow", "visible");
         }
       }
     });
@@ -96,11 +135,63 @@ _primero.Views.ReportFilters = Backbone.View.extend({
 
   filter_type_event: function(e) {
     e.preventDefault();
-    var control = $(e.target);
-    var value = control.val();
-    var text = control.find('option:selected').text();
+    var selector = $(e.target);
+    this.toggle_date_control(selector);
+  },
 
-    this.model.updateFilter('date', value, null, text);
+  toggle_date_control: function(selector) {
+    var container = selector.parents(".date_filter");
+    var value = selector.val();
+    var text = selector.find("option:selected").text();
+
+    var selected_control = (function(value) {
+      switch (value) {
+        case "day":
+          return "range";
+          break;
+        case "year":
+          return "select";
+          break;
+      }
+    })(value);
+
+    this.reset_date_controls(container);
+
+    if (selected_control == "select") {
+      container.find(".select.control label").html(text);
+    }
+
+    if (value == "year") {
+      container.find(".select.control select").append(
+        this.generate_date_options(value)
+      );
+    }
+
+    container.find(".controls ." + selected_control).removeClass("hide");
+  },
+
+  generate_date_options: function(value) {
+    var options = [];
+
+    if (value == "year") {
+      var min = new Date().getFullYear();
+      var max = min + 10;
+
+      for (var i = min - 10; i <= max; i++) {
+        var opt = document.createElement("option");
+        opt.value = i;
+        opt.innerHTML = i;
+
+        options.push(opt);
+      }
+    }
+
+    return options;
+  },
+
+  reset_date_controls: function(container) {
+    container.find(".control").addClass("hide");
+    container.find(".select label").html("");
   },
 
   parse_params: function(query) {
@@ -108,22 +199,23 @@ _primero.Views.ReportFilters = Backbone.View.extend({
     var e;
     var re = /([^&=]+)=?([^&]*)/g;
     var decodeRE = /\+/g;
-    var decode = function (str) {
+    var decode = function(str) {
       return decodeURIComponent(str.replace(decodeRE, " "));
     };
 
-    while (e = re.exec(query)) {
-      var k = decode(e[1]), v = decode(e[2]);
+    while ((e = re.exec(query))) {
+      var k = decode(e[1]),
+        v = decode(e[2]);
       var b = k.match(/^(\w*)\b\[(\w+)\]/);
 
-      if (k.substring(k.length - 2) === '[]') {
+      if (k.substring(k.length - 2) === "[]") {
         k = k.substring(0, k.length - 2);
         (params[k] || (params[k] = [])).push(v);
       } else if (b) {
         if (!params[b[1]]) {
           params[b[1]] = {};
         }
-        params[b[1]][b[2]] = v
+        params[b[1]][b[2]] = v;
       } else {
         params[k] = v;
       }
@@ -135,17 +227,5 @@ _primero.Views.ReportFilters = Backbone.View.extend({
   clear_filters: function() {
     window.location = window.location.origin + window.location.pathname;
     return false;
-  },
-
-  render: function() {
-    $(this.el).html(this.template);
-    new _primero.Views.ReportFiltersDateRangeControl({model: this.model});
-
-    if (window.location.search) {
-      var filter_display = new _primero.Views.ReportsFiltersDisplay({model: this.model});
-      filter_display.render();
-    }
-
-    return this;
   }
 });

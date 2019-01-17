@@ -31,6 +31,8 @@ class ReportsController < ApplicationController
   def show
     authorize!(:read_reports, @report)
     begin
+      # TODO: Find better way to pass lookups
+      @lookups = Lookup.all(keys: ['lookup-verification-status'])
       @report.filters = @report.build_data_filters(params[:scope])
       @report.permission_filter = report_permission_filter(current_user)
       @report.build_report
