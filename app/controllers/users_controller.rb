@@ -71,14 +71,17 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.json do
-        users = User.by_disabled(key: false).all.select do |user|
-          (agency_id.present? ? user.organization == agency_id : true) &&
-          (location.present? ? user.location == location : true) &&
-          (services.present? ? services.all? { |service| user[:services].try(:include?, service) } : true)
-        end
+        criteria = { disabled: false, organization: agency_id, reporting_location: location, services: services }.compact
+        # NOTE: per_page number tells solr to return all the results: https://wiki.apache.org/solr/CommonQueryParameters#rows
+        pagination = { page: 1, per_page: User.all.count }
+        sort = { user_name: :asc}
+        users = User.find_by_criteria(criteria, pagination, sort).try(:results) || []
         render json: {
                 success: 1,
-                users: users.map{ |user| user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization') }
+                users: users.map do |user|
+                         attributes = user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization')
+                         attributes.merge(reporting_location_code: user.reporting_location.try(:location_code))
+                       end
               }
       end
     end

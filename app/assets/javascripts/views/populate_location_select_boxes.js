@@ -1,4 +1,4 @@
-var LocationStringSources = _primero.Collections.StringSources.extend({
+_primero.Collections.StringSources.LocationStringSources = _primero.Collections.StringSources.extend({
   initialize: function() {
     this.url = '/options/' + _.find(_primero.options_loc, function(path) {
       return path.match('options_' + I18n.locale);
@@ -27,21 +27,28 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
   el: "form select[data-populate='Location']",
 
   initialize: function() {
-    var self = this;
-
     this.option_string_sources = ['Location']
+
+    this.collection = new _primero.Collections.StringSources.LocationStringSources();
+
+    this.populateSelectBoxes();
+  },
+
+  populateSelectBoxes: function() {
+    var self = this;
 
     this.$el.on('chosen:ready', function(e) {
       self.initAutoComplete($(e.target))
     })
 
-    _primero.populate_location_select_boxes = function() {
+    _primero.populate_location_select_boxes = function(onComplete) {
       if (self.$el.length) {
-        self.collection = new LocationStringSources();
-
         self.collection.fetch()
           .done(function() {
             self.parseOptions();
+            if(onComplete){
+              onComplete();
+            }
           })
           .fail(function() {
             self.collection.message = I18n.t('messages.string_sources_failed')
@@ -49,7 +56,6 @@ _primero.Views.PopulateLocationSelectBoxes = _primero.Views.PopulateSelectBoxes.
           })
       }
     }
-
     _primero.populate_location_select_boxes();
   },
 
