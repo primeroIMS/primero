@@ -736,14 +736,14 @@ class FormSection < CouchRest::Model::Base
       end
     end
 
-    def get_append_only_forms
-      all.all.select(&:subform_append_only)
+    def get_append_only_subforms
+      get_subforms(all.all).select(&:subform_append_only)
     end
 
-    memoize_in_prod :get_append_only_forms
+    memoize_in_prod :get_append_only_subforms
 
     def get_append_only_subform_ids
-      get_subforms(get_append_only_forms).map(&:unique_id)
+      get_append_only_subforms.map(&:unique_id)
     end
 
     memoize_in_prod :get_append_only_subform_ids
