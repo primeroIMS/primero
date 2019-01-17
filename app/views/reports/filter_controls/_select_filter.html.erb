@@ -1,5 +1,7 @@
 <%
-  options = options.is_a?(Array) ? options : report_filter_lookup_options(@lookups, options)
+  options = filter['options'].is_a?(Array) ? filter['options'] : report_filter_options(@options, filter['options'])
+  multiple = filter['multiple'].present? && filter['multiple'] == true
+  name = filter['name']
 %>
 
 <div class="filter">
@@ -7,7 +9,7 @@
     <h3><%= I18n.t("report.report_filters.#{name}") %></h3>
     <div class="row collapse">
       <div class="large-12 columns">
-        <%= select_tag name, options_for_select(options), class: 'chosen-select', multiple: multiple %>
+        <%= select_tag name, options_for_select(options), class: 'chosen-select', multiple: multiple, prompt: !multiple ? I18n.t("report.report_filters.prompt") : nil %>
       </div>
     </div>
   </div>

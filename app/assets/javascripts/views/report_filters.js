@@ -22,7 +22,10 @@ _primero.Views.ReportFilters = Backbone.View.extend({
 
   set_select_filter: function(e) {
     var select = $(e.target);
-    this.report_filters[select.attr("id")] = select.val();
+    var value = select.val();
+    var id = select.attr("id");
+
+    this.report_filters[id] = value;
   },
 
   set_date_filter: function(e) {
@@ -52,6 +55,7 @@ _primero.Views.ReportFilters = Backbone.View.extend({
   },
 
   filter: function(e) {
+    this.clean_report_filters();
     window.location.search = _primero.object_to_params(this.report_filters);
   },
 
@@ -70,9 +74,20 @@ _primero.Views.ReportFilters = Backbone.View.extend({
 
     if (!_.isEmpty(params)) {
       this.report_filters = params.scope;
+      this.clean_report_filters();
       this.display_selected_filters();
       this.set_filters();
     }
+  },
+
+  clean_report_filters: function() {
+    var self = this;
+
+    return _.each(self.report_filters, function(v, k) {
+      if (v == null || v == "null") {
+        delete self.report_filters[k];
+      }
+    });
   },
 
   set_filters: function() {
@@ -162,9 +177,9 @@ _primero.Views.ReportFilters = Backbone.View.extend({
     }
 
     if (value == "year") {
-      container.find(".select.control select").append(
-        this.generate_date_options(value)
-      );
+      container
+        .find(".select.control select")
+        .append(this.generate_date_options(value));
     }
 
     container.find(".controls ." + selected_control).removeClass("hide");

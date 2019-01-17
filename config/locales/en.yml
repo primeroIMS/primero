@@ -1204,6 +1204,11 @@ en:
       ctfmr_verified: "Verification Status"
       registration_date: "Registration Date"
       date_of_incident: "Date of Incident"
+      perpetrator_category: "Perpetrator Type"
+      armed_force_name: "Armed Force Name"
+      armed_group_name: "Armed Group Name"
+      age: "Age"
+      incident_location: "Location"
 
   encrypt:
     password_title: "Create Password"

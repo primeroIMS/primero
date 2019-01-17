@@ -6,6 +6,43 @@ default_filters = [
   {'attribute' => 'record_state', 'value' => ['true']}
 ]
 
+default_ui_filters = [
+  {
+    type: 'date',
+    name: 'date_of_incident',
+  },
+  {
+    type: 'select',
+    name: 'ctfmr_verified',
+    options: 'lookup-verification-status',
+    multiple: true,
+  },
+  {
+    type: 'select',
+    name: 'armed_force_name',
+    options: 'lookup-armed-force-name',
+    multiple: true,
+  },
+  {
+    type: 'select',
+    name: 'armed_group_name',
+    options: 'lookup-armed-group-name',
+    multiple: true,
+  },
+  {
+    type: 'select',
+    name: 'age',
+    options: ['> 15', '< 15'],
+    multiple: false,
+  },
+  {
+    type: 'select',
+    name: 'incident_location',
+    options: 'Location',
+    multiple: true,
+  }
+]
+
 Report.create_or_update({
   id: '8903db85c4c048f4cef0168cbdbe1f48',
   name: 'Killing of Children',
@@ -18,7 +55,8 @@ Report.create_or_update({
     {'attribute' => 'category', 'value' => ['killing']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -33,7 +71,8 @@ Report.create_or_update({
       {'attribute' => 'category', 'value' => ['maiming']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -48,7 +87,8 @@ Report.create_or_update({
       {'attribute' => 'category', 'value' => ['sexual_violence']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -63,7 +103,8 @@ Report.create_or_update({
       {'attribute' => 'category', 'value' => ['abduction']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -78,7 +119,8 @@ Report.create_or_update({
       {'attribute' => 'category', 'value' => ['recruitment']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -94,7 +136,8 @@ Report.create_or_update({
       {'attribute' => 'facility_attack_type', 'value' => ['not_null']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -110,7 +153,8 @@ Report.create_or_update({
       {'attribute' => 'facility_attack_type', 'value' => ['not_null']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -125,7 +169,8 @@ Report.create_or_update({
       {'attribute' => 'facility_attack_type', 'value' => ['not_null']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 #####
@@ -143,7 +188,8 @@ Report.create_or_update({
       {'attribute' => 'military_use_type', 'value' => ['not_null']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -159,7 +205,8 @@ Report.create_or_update({
       {'attribute' => 'military_use_type', 'value' => ['not_null']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -174,7 +221,8 @@ Report.create_or_update({
       {'attribute' => 'military_use_type', 'value' => ['not_null']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })
 
 Report.create_or_update({
@@ -189,5 +237,6 @@ Report.create_or_update({
       {'attribute' => 'denial_method', 'value' => ['not_null']}
   ],
   is_graph: false,
-  editable: false
+  editable: false,
+  ui_filters: default_ui_filters
 })

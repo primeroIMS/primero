@@ -112,32 +112,11 @@ module ReportsHelper
     return field_options
   end
 
-  def report_filter_lookup_options(lookups, value)
-    if value.present? && lookups.present?
-      lookups.all.map{ |l| [l.id, l.lookup_values] }.to_h.try(:[], value) || []
+  def report_filter_options(lookups, options)
+    if options.present? && lookups.present?
+      lookups.select{|l| l[:type] == options }.first.try(:[], :options) || []
     else
       []
     end
-  end
-
-  def data_report_filters(record_type)
-    [
-      {
-        type: 'date',
-        name: record_type == 'case' ? 'registration_date' : 'date_of_incident'
-      },
-      {
-        type: 'select',
-        name: 'ctfmr_verified',
-        options: 'lookup-verification-status',
-        multiple: true
-      },
-      {
-        type: 'select',
-        name: 'perpetrator_category',
-        options: ["Armed force", "Armed group", "Other party to the conflict", "Unknown"],
-        multiple: true
-      }
-    ]
   end
 end

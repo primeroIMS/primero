@@ -16,8 +16,8 @@
       <div class="close" data-action="close"><i class="fa fa-close" data-action="close"></i></div>
       <form>
         <div class="report_filters">
-        <% data_report_filters(@report.record_type).each do |filter| %>
-          <%= render "reports/filter_controls/#{filter[:type]}_filter", filter %>
+        <% @report.ui_filters.each do |filter| %>
+          <%= render "reports/filter_controls/#{filter['type']}_filter", filter: filter  %>
         <% end %>
         </div>
         <div class="row collapse">
