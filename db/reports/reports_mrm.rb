@@ -3,7 +3,8 @@
 
 default_filters = [
   {'attribute' => 'status', 'value' => ['Open']},
-  {'attribute' => 'record_state', 'value' => ['true']}
+  {'attribute' => 'record_state', 'value' => ['true']},
+  {'attribute' => 'ctfmr_verified', 'value' => ['Verified']}
 ]
 
 default_ui_filters = [
