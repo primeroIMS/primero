@@ -242,8 +242,9 @@ class Report < CouchRest::Model::Base
 
     if scope.present?
       scope.each do |k, v|
+        ui_filter = self.ui_filters.find {|ui| ui['name'] == k }
         value = v.split('||')
-        value = parse_filter_dates(value.first, value.last) if k.in?( %w(registration_date date_of_incident))
+        value = parse_filter_dates(value.first, value.last) if ui_filter['type'] == 'date'
         self.filters.reject!{ |s| s['attribute'] == k }
         filters << { 'attribute' => k , 'value' => value }
       end
