@@ -189,16 +189,18 @@ class ReportsController < ApplicationController
   def get_ui_filter_options
     options = []
 
-    filter_options = @report.ui_filters
-      .map{ |filter| filter['options'] unless filter['options'].is_a?(Array) }
-      .compact
+    if @report.ui_filters.present?
+      filter_options = @report.ui_filters
+        .map{ |filter| filter['options'] unless filter['options'].is_a?(Array) }
+        .compact
 
-    if filter_options.present?
-      options << Lookup.all(keys: filter_options)
-        .map{ |lookup| { type: lookup.id, options: lookup.lookup_values }}
+      if filter_options.present?
+        options << Lookup.all(keys: filter_options)
+          .map{ |lookup| { type: lookup.id, options: lookup.lookup_values }}
 
-      if filter_options.include?('Location')
-        options << { type: 'Location', options: Location.all_names }
+        if filter_options.include?('Location')
+          options << { type: 'Location', options: Location.all_names }
+        end
       end
     end
 
