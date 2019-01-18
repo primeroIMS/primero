@@ -163,7 +163,7 @@ describe ChildrenController do
     end
   end
 
-  describe "PUT update subforms when the form is subform_append_only and mobile param is true" do
+  describe "PUT update subforms when the subform is subform_append_only and mobile param is true" do
     before :each do
       Child.all.each{|c| c.destroy}
       FormSection.all.each &:destroy
@@ -174,13 +174,12 @@ describe ChildrenController do
       Child.stub(:permitted_property_names).and_return(['subform_section'])
       # Make subform_section a valid property
       Child.couchrest_model_property :subform_section, [Class.new(){include Syncable::PrimeroEmbeddedModel}], :default => []
+
+      @child_1 = Child.new_with_user_name(controller.current_user, {name: "Name 1", age: "5", subform_section: [{subform_text_field: 'some text 2'}]})
+      @child_1.save!
     end
 
     it "should merge the subforms if the record already has subforms" do
-      section_1_uid = UUIDTools::UUID.random_create().to_s
-      section_2_uid = UUIDTools::UUID.random_create().to_s
-      @child_1 = Child.new_with_user_name(controller.current_user, {name: "Name 1", age: "5", subform_section: [{subform_text_field: 'some text 2'}]})
-      @child_1.save!
 
       put :update, params: { format: :json, mobile: true, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{subform_text_field: 'some text 2'}]}}
 
@@ -188,14 +187,50 @@ describe ChildrenController do
     end
 
     it "should not have the subforms in the response" do
-      section_1_uid = UUIDTools::UUID.random_create().to_s
-      section_2_uid = UUIDTools::UUID.random_create().to_s
-      @child_1 = Child.new_with_user_name(controller.current_user, {name: "Name 1", age: "5", subform_section: [{unique_id: section_1_uid, subform_text_field: 'some text 1'}]})
-      @child_1.save!
+      put :update, params: { format: :json, mobile: true, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{subform_text_field: 'some text 2'}]}}
 
-      put :update, params: { format: :json, mobile: true, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{unique_id: section_2_uid, subform_text_field: 'some text 2'}]}}
       json_response = JSON.parse(response.body)
+
       expect(json_response['subform_section']).to be_nil
+    end
+  end
+
+  describe "PUT update subforms when one subform is subform_append_only and mobile param is true" do
+    before :each do
+      Child.all.each{|c| c.destroy}
+      FormSection.all.each &:destroy
+      @subform_text_field_1 = Field.new({name: "subform_text_field_1", type: "text_field", display_name_en: "Subform Text Field 1"})
+      @subform_text_field_2 = Field.new({name: "subform_text_field_2", type: "text_field", display_name_en: "Subform Text Field 2"})
+      @subform_section_append_only = FormSection.create!(unique_id: 'subform_append_section', name: "Subform Append Only Section", is_nested: true, editable: true, parent_form: "case", fields:[@subform_text_field_1], subform_append_only: true)
+      @subform_section = FormSection.create!(unique_id: 'subform_section', name: "Subform Section", is_nested: true, editable: true, parent_form: "case", fields:[@subform_text_field_2])
+      @subform_field_1 = Field.new({display_name: 'Subform Section Field 1', name: 'subform_section_field_1', type: 'subform', editable: true, subform_section_id: @subform_section_append_only.unique_id})
+      @subform_field_2 = Field.new({display_name: 'Subform Section Fiel 2d', name: 'subform_section_field_2', type: 'subform', editable: true, subform_section_id: @subform_section.unique_id})
+      @form_section_a = FormSection.create!(unique_id: "form_a", name: "Form A", parent_form: "case", fields:[@subform_field_1, @subform_field_2])
+      Child.stub(:permitted_property_names).and_return(['subform_section', 'subform_append_section'])
+      # Make subform_section a valid property
+      Child.couchrest_model_property :subform_append_section, [Class.new(){include Syncable::PrimeroEmbeddedModel}], :default => []
+      Child.couchrest_model_property :subform_section, [Class.new(){include Syncable::PrimeroEmbeddedModel}], :default => []
+
+      @child_1 = Child.new_with_user_name(controller.current_user, {name: "Name 1", age: "5", subform_section: [{subform_text_field_2: 'some text 2'}],  subform_append_section: [{subform_text_field_1: 'some text 2'}]})
+      @child_1.save!
+    end
+
+    it "should only merge the subforms with the field subform_append_only => true if the record already has subforms" do
+
+      put :update, params: { format: :json, mobile: true, id: @child_1.id, _id: @child_1._id, child: { subform_section: nil, subform_append_section: [{subform_text_field_1: 'some text 1'}]}}
+
+      expect(Child.get(@child_1.id).subform_section.size).to eq(0)
+      expect(Child.get(@child_1.id).subform_append_section.size).to eq(2)
+    end
+
+    it "should only have the subforms that are not subform_append_only in the response" do
+
+      put :update, params: { format: :json, mobile: true, id: @child_1.id, _id: @child_1._id, child: { subform_section: [{subform_text_field: 'some text 1'}], subform_append_section: [{subform_text_field_1: 'some text 1'}]}}
+
+      json_response = JSON.parse(response.body)
+
+      expect(json_response['subform_section'].size).to eq(1)
+      expect(json_response['subform_append_section']).to be_nil
     end
   end
 
