@@ -45,17 +45,19 @@ system_locale = I18n.locale
                       <%= f.check_box :mobile_form?, {}, "true", "false" %>
                     </div>
                   </div>
-                  <div class="row mobile_form">
-                    <div class="medium-3 columns">
-                      <%= f.label :subform_append_only, t("selective_syncing_mobile", :locale => system_locale), :class => 'key inline' %>
+                  <% if @form_section.is_nested  %>
+                    <div class="row mobile_form">
+                      <div class="medium-3 columns">
+                        <%= f.label :subform_append_only, t("selective_syncing_mobile", :locale => system_locale), :class => 'key inline' %>
+                      </div>
+                      <div class="medium-9 columns">
+                        <%= f.check_box :subform_append_only?, {}, "true", "false" %>
+                        <span class='help-text'>
+                          <%= t("form_section.selective_syncing_mobile", :lang => t("home.#{given_locale}")) %>
+                        </span>
+                      </div>
                     </div>
-                    <div class="medium-9 columns">
-                      <%= f.check_box :subform_append_only?, {}, "true", "false" %>
-                      <span class='help-text'>
-                        <%= t("form_section.selective_syncing_mobile", :lang => t("home.#{given_locale}")) %>
-                      </span>
-                    </div>
-                  </div>
+                  <% end %>
               <% end %>
               <div class="row name-field">
                 <div class="medium-3 columns">
