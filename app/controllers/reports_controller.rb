@@ -13,6 +13,7 @@ class ReportsController < ApplicationController
   before_filter :sanitize_filters, only: [:create, :update]
   before_filter :set_aggregate_order, only: [:create, :update]
   before_filter :load_age_range, only: [:new, :edit]
+  before_filter :get_ui_filter_options, only: [:show]
 
   include LoggerActions
 
@@ -31,6 +32,7 @@ class ReportsController < ApplicationController
   def show
     authorize!(:read_reports, @report)
     begin
+      # TODO: Find better way to pass lookups
       @report.filters = @report.build_data_filters(params[:scope])
       @report.permission_filter = report_permission_filter(current_user)
       @report.build_report
@@ -183,6 +185,27 @@ class ReportsController < ApplicationController
   end
 
   private
+
+  def get_ui_filter_options
+    options = []
+
+    if @report.ui_filters.present?
+      filter_options = @report.ui_filters
+        .map{ |filter| filter['options'] unless filter['options'].is_a?(Array) }
+        .compact
+
+      if filter_options.present?
+        options << Lookup.all(keys: filter_options)
+          .map{ |lookup| { type: lookup.id, options: lookup.lookup_values }}
+
+        if filter_options.include?('Location')
+          options << { type: 'Location', options: Location.all_names }
+        end
+      end
+    end
+
+    @options = options.reject{ |option| option.nil? }.flatten
+  end
 
   def load_report
     @report = Report.get(params[:id])

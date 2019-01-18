@@ -112,4 +112,11 @@ module ReportsHelper
     return field_options
   end
 
+  def report_filter_options(lookups, options)
+    if options.present? && lookups.present?
+      lookups.select{|l| l[:type] == options }.first.try(:[], :options) || []
+    else
+      []
+    end
+  end
 end
