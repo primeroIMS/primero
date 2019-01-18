@@ -404,6 +404,7 @@ en:
       flag: "Flagged:"
       flag_label: "Flagged?"
       violation: "Violation:"
+      deprived_liberty: "Deprived of liberty?"
       violence_type: "Violence Type:"
       social_worker: "Case Worker:"
       status: "Status:"

@@ -7,6 +7,9 @@
     <% if filters_to_show.include? 'Violation' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.violation"), 'violations', violation_type_list, { multi: true }, false) %>
     <% end %>
+    <% if filters_to_show.include? 'Deprived of liberty?' %>
+      <%= build_filter_checkboxes(t("incidents.filter_by.deprived_liberty"), 'victim_deprived_liberty_security_reasons', Lookup.values('Yes No Unknown', @lookups)) %>
+    <% end %>
     <% if filters_to_show.include? 'Violence Type' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.violence_type"), 'gbv_sexual_violence_type', Lookup.values('Gbv Sexual Violence Type', @lookups),
         { multi: true }) %>
