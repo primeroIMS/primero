@@ -42,6 +42,7 @@ _primero.Router = Backbone.Router.extend({
 
   initialize: function() {
     this.formControls();
+    new _primero.Views.LangToggle();
     new _primero.Views.tabNavigation();
     new _primero.Views.Connectivity();
 
