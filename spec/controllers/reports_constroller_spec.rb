@@ -121,7 +121,6 @@ describe ReportsController do
     it "should build a report for group member" do
       expected_results = {
           ["fred"] => 1 ,
-          ["bobby"] => 0,
           [""] => nil
       }
       session = fake_login @owner2

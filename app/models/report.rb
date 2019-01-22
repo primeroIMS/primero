@@ -242,14 +242,11 @@ class Report < CouchRest::Model::Base
 
     if scope.present?
       scope.each do |k, v|
-        filter = v.split('||')
-
-        if k == 'date'
-          dates = parse_filter_dates(filter.first, filter.last)
-          attribute = self.record_type == 'case' && k == 'date' ? 'registration_date' : 'date_of_incident'
-          self.filters.reject!{|s| s['attribute'] == attribute}
-          filters << { "attribute" => attribute , "value" => dates}
-        end
+        ui_filter = self.ui_filters.find {|ui| ui['name'] == k }
+        value = v.split('||')
+        value = parse_filter_dates(value.first, value.last) if ui_filter['type'] == 'date'
+        self.filters.reject!{ |s| s['attribute'] == k }
+        filters << { 'attribute' => k , 'value' => value }
       end
     end
 
@@ -448,7 +445,7 @@ class Report < CouchRest::Model::Base
         :rows => 0,
         :facet => 'on',
         :'facet.field' => pivots_string,
-        :'facet.mincount' => -1,
+        :'facet.mincount' => 1,
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)
@@ -469,7 +466,7 @@ class Report < CouchRest::Model::Base
         :rows => 0,
         :facet => 'on',
         :'facet.pivot' => pivots_string,
-        :'facet.pivot.mincount' => -1,
+        :'facet.pivot.mincount' => 1,
         :'facet.limit' => -1,
       }
       response = SolrUtils.sunspot_rsolr.get('select', params: params)

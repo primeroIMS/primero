@@ -60,6 +60,8 @@ class Violation
 
     string('armed_group_names', multiple: true){armed_group_names}
 
+    integer('individual_age', multiple: true){ individual_victims_age }
+
     string('incident_total_tally', multiple: true) do
       types = ['boys', 'girls', 'unknown']
       tally = []
@@ -125,6 +127,10 @@ class Violation
     incident_value('perpetrator_subform_section').select{|p| p.perpetrator_violations.include? id}
   end
 
+  def individual_victims
+    incident_value('individual_victims_subform_section').select{|iv| iv.individual_violations.include? id}
+  end
+
   def armed_force_names
     perpetrators.map(&:armed_force_name).compact
   end
@@ -133,4 +139,7 @@ class Violation
     perpetrators.map(&:armed_group_name).compact
   end
 
+  def individual_victims_age
+    individual_victims.map(&:individual_age).compact
+  end
 end
