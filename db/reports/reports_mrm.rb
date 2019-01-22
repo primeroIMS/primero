@@ -43,12 +43,6 @@ default_ui_filters = [
   },
   {
     type: 'select',
-    name: 'age',
-    options: ['> 15', '< 15'],
-    multiple: false,
-  },
-  {
-    type: 'select',
     name: 'incident_location',
     options: 'Location',
     multiple: true,
