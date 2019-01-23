@@ -46,6 +46,7 @@ default_ui_filters = [
     name: 'incident_location',
     options: 'Location',
     multiple: true,
+    location_filter: true
   }
 ]
 

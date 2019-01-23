@@ -244,6 +244,19 @@ class Report < CouchRest::Model::Base
       scope.each do |k, v|
         ui_filter = self.ui_filters.find {|ui| ui['name'] == k }
         value = v.split('||')
+
+        if ui_filter['location_filter']
+          locations = []
+
+          value.each do |location|
+            placenames = location.split('::')
+            location_and_descendants = Location.find_by_location(placenames.last)
+            locations << location_and_descendants.map(&:name) if location_and_descendants.present?
+          end
+
+          value = locations.flatten
+        end
+
         value = parse_filter_dates(value.first, value.last) if ui_filter['type'] == 'date'
         self.filters.reject!{ |s| s['attribute'] == k }
         filters << { 'attribute' => k , 'value' => value }
