@@ -1211,7 +1211,7 @@ en:
       age: "Age"
       incident_location: "Location"
       perpetrator_category: "Type of Perpetrator"
-      other_party_name: "Other Party"
+      armed_party_appropiate: "Other Party"
 
   encrypt:
     password_title: "Create Password"
