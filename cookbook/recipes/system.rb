@@ -9,3 +9,9 @@ template '/etc/security/limits.d/nginx.conf' do
   owner "root"
   group "root"
 end
+
+execute 'sudo sysctl -p' do
+  command 'sudo sysctl -p'
+  user 'root'
+  group 'root'
+end
