@@ -430,8 +430,7 @@ class User < CouchRest::Model::Base
     LoginActivity.by_user_name_and_login_timestamp(
       descending: true,
       endkey: [user_name],
-      startkey: [user_name, {}],
-      limit: 1
+      startkey: [user_name, {}]
     ).all.select(&:mobile?)
   end
 
