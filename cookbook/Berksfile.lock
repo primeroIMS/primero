@@ -7,7 +7,6 @@ DEPENDENCIES
     git: https://github.com/Quoin/couchdb-cookbook.git
     revision: a673f71a82b2549dd6c17987d3b76117d05d15f7
     ref: a673f71
-  limits (~> 1.0.0)
   primero
     path: .
     metadata: true
@@ -18,7 +17,6 @@ DEPENDENCIES
     git: https://github.com/opscode-cookbooks/sudo.git
     revision: cbd703cac77b7900674131441a22323f7d88d1c7
     ref: cbd703c
-  sysctl (~> 0.7.0)
 
 GRAPH
   apt (2.3.10)
@@ -39,7 +37,6 @@ GRAPH
     yum-epel (>= 0.0.0)
     yum-erlang_solutions (>= 0.0.0)
   java (1.22.0)
-  limits (1.0.0)
   logrotate (1.7.0)
   nginx (2.4.4)
     apt (~> 2.2)
@@ -53,12 +50,10 @@ GRAPH
     apt (~> 2.3.8)
     chef-unattended-upgrades (= 1.0.1)
     couchdb (~> 2.5.0)
-    limits (>= 0.0.0)
     logrotate (= 1.7.0)
     nginx (~> 2.4.2)
     rvm (~> 0.9.0)
     sudo (~> 2.7.1)
-    sysctl (>= 0.0.0)
   rsyslog (1.12.2)
   runit (1.5.10)
     build-essential (>= 0.0.0)
@@ -68,8 +63,6 @@ GRAPH
     chef_gem (>= 0.0.0)
     java (>= 0.0.0)
   sudo (2.7.1)
-  sysctl (0.7.0)
-    ohai (>= 0.0.0)
   yum (3.2.0)
   yum-epel (0.3.6)
     yum (~> 3.0)
