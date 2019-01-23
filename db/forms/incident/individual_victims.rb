@@ -116,7 +116,7 @@ individual_victims_fields = [
              "type" => "select_box",
              "multi_select" => true,
              "display_name_all" => "If other party to the conflict, please select as appropriate",
-             "option_strings_source" => "lookup ArmedPartyName"
+             "option_strings_source" => "lookup OtherPartyName"
             }),
   Field.new({"name" => "facilty_victims_held",
              "type" => "select_box",

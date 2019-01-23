@@ -37,7 +37,7 @@ default_ui_filters = [
   },
   {
     type: 'select',
-    name: 'other_party_name',
+    name: 'armed_party_appropiate',
     options: 'lookup-other-party-name',
     multiple: true
   },
