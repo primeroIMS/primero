@@ -257,7 +257,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
   populate_filters: function(e) {
     var selected_user_name = $(e.target).val();
     if(selected_user_name){
-      var selected_user = this.collection.find_by_user_name(selected_user_name)
+      var selected_user = this.collection.find_by_user_name(selected_user_name);
       if(selected_user){
         var $referral_modal = $("#referral-modal");
         $referral_modal.find("#agency_hidden").val(selected_user.organization);
