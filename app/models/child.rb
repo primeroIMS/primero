@@ -165,6 +165,154 @@ class Child < CouchRest::Model::Base
                     }
                  }
               }"
+
+		view :by_followup_date,
+				:map => "function(doc) {
+					if (doc['couchrest-type'] == 'Child') {
+						if (doc.hasOwnProperty('gbv_follow_up_subform_section') && doc['gbv_follow_up_subform_section'] && doc['gbv_follow_up_subform_section'].length) {
+							doc['gbv_follow_up_subform_section'].forEach(function(followUp) {
+								if (followUp['followup_date']) {
+									emit(followUp['followup_date'], null);
+								}
+							});	
+						}
+					}
+				}"
+
+    view :by_days_between_case_opening_and_closure,
+      :map => "function(doc) {
+        if (doc['couchrest-type'] == 'Child' && doc.hasOwnProperty('date_closure') && doc['date_closure'] != null) {
+          var dateOpen = new Date(doc['registration_date']);
+          var dateClosure = new Date(doc['date_closure']);
+          var oneDay = 1000 * 60 * 60 * 24;
+          var dayDifference = +((dateClosure - dateOpen) / oneDay).toFixed(0)
+          var dayRange = #{Kpi::CASE_CLOSURE_TYPE[:days_ranges]}
+            .filter(function (ranges) {
+              return dayDifference >= ranges[0] && dayDifference <= ranges[1]
+            });
+          emit(dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other', null)
+          emit('_count', null)
+        }
+      }",
+      :reduce => "function(key, values, rereduce) {
+        if (rereduce) {
+          return sum(values);
+        }
+        return values.length
+      }"
+
+    view :by_days_between_case_opening_and_closure_high_risk,
+      :map => "function(doc) {
+        if (
+              doc['couchrest-type'] == 'Child' &&
+              doc.hasOwnProperty('date_closure') &&
+              doc['date_closure'] != null &&
+              doc.hasOwnProperty('risk_level') &&
+              doc['risk_level'] == 'high'
+            ) {
+          var dateOpen = new Date(doc['registration_date']);
+          var dateClosure = new Date(doc['date_closure']);
+          var oneDay = 1000 * 60 * 60 * 24;
+          var dayDifference = +((dateClosure - dateOpen) / oneDay).toFixed(0)
+          var dayRange = #{Kpi::CASE_CLOSURE_TYPE[:days_ranges]}
+            .filter(function (ranges) {
+              return dayDifference >= ranges[0] && dayDifference <= ranges[1]
+            });
+          emit(dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other', null)
+          emit('_count', null)
+        }
+      }",
+      :reduce => "function(key, values, rereduce) {
+        if (rereduce) {
+          return sum(values);
+        }
+        return values.length
+      }"
+
+    view :by_closure_reason,
+      :map => "function(doc) {
+        if (doc['couchrest-type'] == 'Child' && doc.hasOwnProperty('date_closure') && doc['date_closure'] != null) { 
+          var groupTypes = [
+            'closure_needs_met',
+            'closure_survivor_contact',
+            'closure_survivor_request_close',
+            'closure_survivor_left_area',
+            'closure_tranferred_organization',
+            'closure_funding_constraints',
+          ];
+          groupTypes.forEach(function(group) {
+            if (doc.hasOwnProperty(group) && doc[group]) {
+              emit(group, null);
+            }
+          });
+          emit('_count', null);
+        }
+      }",
+      :reduce => "function(key, values, rereduce) {
+        if (rereduce) {
+          return sum(values);
+        }
+        return values.length
+      }"
+
+    view :client_statisfied,
+      :map => "function(doc) {
+          var feedbackFormProperties = [
+            'client_feedback_administered_by',
+            'survivor_age_group',
+            'client_discovery_method',
+            'opening_hours_when_client_could_attend',
+            'client_comfortable_with_case_worker',
+            'same_case_worker_each_visit',
+            'could_client_choose_support_person',
+            'client_informed_of_options',
+            'client_decided_what_next',
+            'client_referred_elsewhere',
+            'survivor_discreet_access',
+            'staff_respect_confidentiality',
+            'client_private_meeting',
+            'staff_friendly',
+            'staff_open_minded',
+            'staff_answered_all_questions',
+            'staff_client_could_understand',
+            'staff_allowed_enough_time',
+            'staff_helpful',
+            'staff_helpful_explain',
+            'client_feel_better',
+            'client_feel_better_explain',
+            'would_client_recommend_friend',
+            'would_client_recommend_friend_explain',
+            'client_comments_suggestions'
+          ];
+          var feedbackFormPropertiesLength = feedbackFormProperties.length;
+          var count = 0;
+          for (var i = 0; i < feedbackFormPropertiesLength; i++) {
+            if (doc.hasOwnProperty(feedbackFormProperties[i]) && doc[feedbackFormProperties[i]]) {
+              count++;
+            }
+          }
+          if (count >= feedbackFormPropertiesLength / 2) {
+            emit(doc, null);
+          }
+        }"
+
+      view :by_service_provided,
+        :map => "function(doc) {
+          if (doc['couchrest-type'] == 'Child' && doc.hasOwnProperty('action_plan_section')) { 
+            doc['action_plan_section'].forEach(function(service) {
+              if (!service['service_type']) {
+                return;
+              }
+              emit(service['service_type'], null);
+            }); 
+          }
+        }",
+        :reduce => "function(key, values, rereduce) {
+          if (rereduce) {
+            return sum(values);
+          }
+          return values.length
+        }"
   end
 
   def self.quicksearch_fields
@@ -200,16 +348,27 @@ class Child < CouchRest::Model::Base
     end
 
     boolean :estimated
+    boolean :bia_approved
+    boolean :safety_plan_needed
+    boolean :case_plan_approved
     boolean :consent_for_services
 
+		string :closure_reason
+		string :owned_by
     time :service_due_dates, :multiple => true
-
+		string :safety_plan_completion_timing
+		string :assessment_completion_timing
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
     string :child_status, as: 'child_status_sci'
+    string :child_status, as: 'child_status_sci'
+    string :action_plan_section, multiple: true
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
+    
+    date :registration_date
+    date :date_closure
 
     date :assessment_due_dates, multiple: true do
       Tasks::AssessmentTask.from_case(self).map &:due_date
@@ -222,6 +381,7 @@ class Child < CouchRest::Model::Base
     date :followup_due_dates, multiple: true do
       Tasks::FollowUpTask.from_case(self).map &:due_date
     end
+
   end
 
 

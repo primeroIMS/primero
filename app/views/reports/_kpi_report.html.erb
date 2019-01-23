@@ -1,0 +1,66 @@
+<div class="large-12 small-12 columns">
+	<% report.data[:values].each do |kpi_group, kpi| %>
+		<div class="row display kpi-report">
+      <h3>
+        <%= t("report.kpi_group.#{kpi_group}")%>
+        <% if report.group_dates_by.present? %>
+          <%= "(#{report.group_dates_by[0]} - #{report.group_dates_by[1]})"%>
+        <% end %>
+      </h3>
+			<table class="dataTable responsive no-wrap no-footer" width="100%">
+				<thead>
+					<tr>
+						<th></th>
+						<th>CALCULATION RESULT</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% kpi.each do |type, result|%>
+						<tr>
+							<td><%= t("report.kpi_type.#{type}")%></td>
+              <td>
+                <% case type %>
+                <% when 
+                  *Kpi::ASSESSMENT_TYPE[:calculations],
+                  *Kpi::CASE_ACTION_PLANNING_TYPE[:calculations],
+                  *Kpi::CLIENT_SATISFACTION_TYPE[:calculations],
+                  'caseworkers_active_on_gbvims_plus'
+                %>
+                    <%= Kpi.to_percent result %>
+                <% when 
+                  *Kpi::INTRODUCTION_AND_ENGAGEMENT_TYPE[:calculations],
+                  *Kpi::IMPLEMENT_THE_CASE_ACTION_PLAN_TYPE[:calculations]
+                %>
+                    <table>
+                      <% result.each do |range, calculation| %>
+                        <tr>
+                          <th><%= t("report.#{type}.#{range}") %></th>
+                          <td><%= calculation %></td>
+                        </tr>
+                      <% end %>
+                    </table>
+                <% when 
+                  *Kpi::CASE_CLOSURE_TYPE[:calculations] - ['case_closure_rate'],
+                  *Kpi::OTHER_TYPE[:calculations] - ['caseworkers_active_on_gbvims_plus']
+                %>
+                    <table>
+                      <% result.each do |range, calculation| %>
+                        <tr>
+                          <th><%= t("report.#{type}.#{range}") %></th>
+                          <td><%= Kpi.to_percent calculation %></td>
+                        </tr>
+                      <% end %>
+                    </table>
+                <% when *Kpi::CASE_FOLLOW_UP_TYPE %>
+                		<%= result.ceil(3) %>	
+                <% else %>
+                    <%= result %>
+                <% end %>
+              </td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	<% end %>
+</div>

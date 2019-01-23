@@ -4,7 +4,7 @@ class FormSection < CouchRest::Model::Base
   include Importable
   include Memoizable
 
-  RECORD_TYPES = ['case', 'incident', 'tracing_request']
+  RECORD_TYPES = ['case', 'incident', 'tracing_request', 'kpi']
   DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
   #TODO - include Namable - will require a fair amount of refactoring
 

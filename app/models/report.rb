@@ -34,6 +34,7 @@ class Report < CouchRest::Model::Base
   localize_properties [:name, :description]
   property :module_ids, [String]
   property :record_type #case, incident, etc.
+	property :data
   property :aggregate_by, [String], default: [] #Y-axis
   property :disaggregate_by, [String], default: [] #X-axis
   property :aggregate_counts_from
@@ -49,7 +50,6 @@ class Report < CouchRest::Model::Base
   #      Not clear what benefit could be gained by storing the data but converting keys to strings on the fly
   #      when rendering the graph and table. So for now we will rebuild the data.
   #property :data
-  attr_accessor :data
   attr_accessor :add_default_filters
   attr_accessor :aggregate_by_ordered
   attr_accessor :disaggregate_by_ordered
@@ -135,6 +135,11 @@ class Report < CouchRest::Model::Base
     sys = SystemSettings.current
     primary_range = sys.primary_age_range
     age_ranges = sys.age_ranges[primary_range]
+		
+		if self.data.present?
+      self.data = { values: self.data };
+			return ""
+		end
 
     if permission_filter.present?
       filters << permission_filter
@@ -416,10 +421,12 @@ class Report < CouchRest::Model::Base
   end
 
   def pivot_fields
-    @pivot_fields ||= Field.find_by_name(pivots)
-      .group_by{|f| f.name}
-      .map{|k,v| [k, v.first]}
-      .to_h
+    @pivot_fields ||= pivots.present? ?
+			 Field.find_by_name(pivots)
+				.group_by{|f| f.name}
+				.map{|k,v| [k, v.first]}
+				.to_h
+			: {}
   end
 
   def pivot_index(field_name)

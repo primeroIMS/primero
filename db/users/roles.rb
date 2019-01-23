@@ -653,7 +653,7 @@ create_or_update_role(
 
 
 gbv_caseworker_forms = [
-  "action_plan_form", "gbv_case_closure_form", "consent_for_referrals", "other_documents", "record_owner",
+  "action_plan_form", "gbv_case_closure_form", "gbv_assessment", "gbv_introduction_and_engagement", "gbv_client_satisfaction", "gbv_case_action_planning", "gbv_case_closure", "gbv_other_kpi", "gbv_follow_up", "gbv_implement_case_action_planning", "consent_for_referrals", "other_documents", "record_owner",
   "referral_transfer", "safety_plan", "survivor_assessment_form", "gbv_survivor_information",
   "alleged_perpetrators_wrapper", "gbv_incident_form", "gbv_individual_details", "incident_record_owner",
   "incident_service_referrals", "gbv_sexual_violence", "action_plan_subform_section", "gbv_follow_up_subform_section",
@@ -741,7 +741,7 @@ create_or_update_role(
 )
 
 gbv_cm_supervisor_forms = [
-    "action_plan_form", "gbv_case_closure_form", "consent_for_referrals", "other_documents", "record_owner",
+    "action_plan_form", "gbv_case_closure_form", "gbv_assessment", "gbv_introduction_and_engagement", "gbv_client_satisfaction", "gbv_case_action_planning", "gbv_case_closure", "gbv_other_kpi", "gbv_follow_up", "gbv_implement_case_action_planning", "consent_for_referrals", "other_documents", "record_owner",
     "referral_transfer", "safety_plan", "survivor_assessment_form", "gbv_survivor_information", "alleged_perpetrators_wrapper",
     "gbv_incident_form", "gbv_individual_details", "incident_record_owner", "incident_service_referrals", "gbv_sexual_violence",
     "action_plan_subform_section", "gbv_follow_up_subform_section", "reopened_logs", "transitions", "alleged_perpetrator",
@@ -814,7 +814,7 @@ create_or_update_role(
 )
 
 gbv_program_manager_forms = [
-    "action_plan_form", "gbv_case_closure_form", "consent_for_referrals", "other_documents", "record_owner", "referral_transfer",
+    "action_plan_form", "gbv_case_closure_form", "gbv_assessment", "gbv_introduction_and_engagement", "gbv_client_satisfaction", "gbv_case_action_planning", "gbv_case_closure", "gbv_other_kpi", "gbv_follow_up", "gbv_implement_case_action_planning", "consent_for_referrals", "other_documents", "record_owner", "referral_transfer",
     "safety_plan", "survivor_assessment_form", "gbv_survivor_information", "alleged_perpetrators_wrapper", "gbv_incident_form",
     "gbv_individual_details", "other_reportable_fields_incident", "incident_record_owner", "incident_service_referrals",
     "gbv_sexual_violence", "action_plan_subform_section", "gbv_follow_up_subform_section", "reopened_logs", "transitions",
@@ -859,7 +859,7 @@ create_or_update_role(
 )
 
 gbv_organization_focal_point_forms = [
-    "action_plan_form", "gbv_case_closure_form", "consent_for_referrals", "other_documents", "record_owner", "referral_transfer",
+    "action_plan_form", "gbv_case_closure_form", "gbv_assessment", "gbv_introduction_and_engagement", "gbv_client_satisfaction", "gbv_case_action_planning", "gbv_case_closure", "gbv_other_kpi", "gbv_follow_up", "gbv_implement_case_action_planning", "consent_for_referrals", "other_documents", "record_owner", "referral_transfer",
     "safety_plan", "survivor_assessment_form", "gbv_survivor_information", "alleged_perpetrators_wrapper", "gbv_incident_form",
     "gbv_individual_details", "incident_record_owner", "incident_service_referrals", "gbv_sexual_violence",
     "action_plan_subform_section", "gbv_follow_up_subform_section", "reopened_logs", "transitions", "alleged_perpetrator",

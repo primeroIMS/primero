@@ -33,6 +33,7 @@ gem 'os',             '~> 1.0.0'
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
 gem 'rubyzip',        '~> 1.2.1', require: 'zip'
+gem 'parallel',       '~> 1.12.1'
 
 gem 'sunspot_rails',  '2.3.0'
 gem 'sunspot_solr',   '2.3.0'

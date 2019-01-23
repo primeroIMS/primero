@@ -76,6 +76,48 @@ class Incident < CouchRest::Model::Base
                   }
                }
             }"
+
+    view :by_days_between_report_and_service,
+      :map => "function(doc) {
+          if (doc['couchrest-type'] == 'Incident') {
+            var incidentDate = new Date(doc['incident_date']);
+            var firstReportDate = new Date(doc['date_of_first_report']);
+            var oneDay = 1000 * 60 * 60 * 24;
+            var dayDifference = +((firstReportDate - incidentDate) / oneDay).toFixed(0); 
+            var dayRange = #{Kpi::INTRODUCTION_AND_ENGAGEMENT_TYPE[:days_ranges]}
+              .filter(function (ranges) {
+                return dayDifference >= ranges[0] && dayDifference <= ranges[1]
+              });
+            emit(dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other', null);
+          }
+        }",
+      :reduce => "function(key, values, rereduce) {
+        if (rereduce) {
+          return sum(values);
+        }
+        return values.length
+      }"
+
+    view :by_days_between_incident_and_report,
+      :map => "function(doc) {
+          if (doc['couchrest-type'] == 'Incident') {
+            var incidentDate = new Date(doc['incident_date']);
+            var firstReportDate = new Date(doc['date_of_first_report']);
+            var oneDay = 1000 * 60 * 60 * 24;
+            var dayDifference = +((firstReportDate - incidentDate) / oneDay).toFixed(0); 
+            var dayRange = #{Kpi::INTRODUCTION_AND_ENGAGEMENT_TYPE[:days_ranges]}
+              .filter(function (ranges) {
+                return dayDifference >= ranges[0] && dayDifference <= ranges[1]
+              });
+            emit(dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other', null);
+          }
+        }",
+      :reduce => "function(key, values, rereduce) {
+        if (rereduce) {
+          return sum(values);
+        }
+        return values.length
+      }"
   end
 
   before_save :set_violation_verification_default

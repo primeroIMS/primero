@@ -4,7 +4,7 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
 
   events: {
     'change #report_module_ids': 'change_reload_field_lookups',
-    'change #report_record_type': 'change_reload_field_lookups',
+    'change #report_record_type': 'load_lookups_and_disable_useless_fields',
     'click #report_filter_add_button': 'add_filter',
     'click .report_filter_remove_button': 'remove_filter',
     'change #report_aggregate_by': 'compute_aggregate_fields',
@@ -31,6 +31,26 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
     if ($('html').attr('dir') === 'rtl') {
       $('#report_aggregate_by, #report_disaggregate_by, .report_filter_value_string_row select.report_filter_input, .report_filter_attribute').addClass('chosen-rtl');
     }
+  },
+
+  load_lookups_and_disable_useless_fields: function (e) {
+		var reportSection = $("#report-section");
+		var kpiSection = $("#kpi-section");
+		var requiredReportFields = $(".required-report-field");
+    if (e.currentTarget.value === "kpi") {
+        reportSection.hide();
+        kpiSection.show();
+        requiredReportFields.each(function() {
+          $(this).removeAttr("required");
+        });
+    } else {
+      reportSection.show();
+      kpiSection.hide();
+      requiredReportFields.each(function() {
+        $(this).attr("required", "required");
+      });
+    }
+    this.change_reload_field_lookups();
   },
 
   // TODO: max_selected_options not working in chosen
@@ -68,8 +88,11 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
     var dateOptionQuery = 'option[data-type="date_field"]:selected';
     var hasDisaggreageDateValue = $('#report_disaggregate_by').find(dateOptionQuery);
     var aggregateField = $('#report_aggregate_by');
-
-    if (hasDisaggreageDateValue.length) {
+    var recordType = $('#report_record_type').val();
+		
+    if (recordType === 'kpi') {
+      aggregateField.data('chosen').max_selected_options = undefined;
+		} else if (hasDisaggreageDateValue.length) {
       aggregateField.val(_.last(aggregateField.val()));
       aggregateField.data('chosen').max_selected_options = 1;
     } else {

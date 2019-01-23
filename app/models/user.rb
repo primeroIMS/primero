@@ -129,6 +129,31 @@ class User < CouchRest::Model::Base
                 }
             }"
 
+    view :by_enabled_user_group_and_roles,
+            :map => "function(doc) {
+              if (doc['couchrest-type'] == 'User' && !doc['disabled']) {
+                doc['user_group_ids'].forEach(function(group) {
+									doc['role_ids'].forEach(function(role) {
+										emit([role, group], null);
+									});
+                }); 
+              }
+            }",
+            :reduce => "function(key, values, rereduce) {
+              if (rereduce) {
+                return sum(values); 
+              }
+              return values.length
+            }"
+
+    view :by_enabled_roles,
+            :map => "function(doc) {
+                if (doc['couchrest-type'] == 'User' && !doc['disabled']) {
+									doc['role_ids'].forEach(function(role) {
+										emit(role, null);
+									});
+                }
+						}"
   end
 
 

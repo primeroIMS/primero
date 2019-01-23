@@ -250,9 +250,9 @@ create_or_update_module(
 create_or_update_module(
   name: "GBV",
   description: "Gender Based Violence",
-  associated_record_types: ["case", "incident"],
+  associated_record_types: ["case", "incident", "kpi"],
   associated_form_ids: [
-    "record_owner", "consent_for_services", "gbv_survivor_information",
+    "record_owner", "consent_for_services", "gbv_survivor_information", "gbv_assessment", "gbv_introduction_and_engagement", "gbv_client_satisfaction", "gbv_case_action_planning", "gbv_case_closure", "gbv_other_kpi", "gbv_follow_up", "gbv_implement_case_action_planning",
     "other_documents", "consent_for_referrals","safety_plan",
     "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form",
     "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper",
