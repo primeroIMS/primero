@@ -208,7 +208,6 @@ class UsersController < ApplicationController
   end
   def load_user
     @user = User.get(params[:id])
-    @last_login = @user.last_login
     
     if @user.nil?
       flash[:error] = t("user.messages.not_found")
