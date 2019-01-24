@@ -96,7 +96,12 @@ class ReportsController < ApplicationController
 
   def update
     authorize! :update, @report
-
+    if params[:report][:record_type] == "kpi"
+      params[:report][:group_dates_by] = params[:date_from] != "" && params[:date_to] != "" ? [params[:date_from], params[:date_to]] : []
+      params[:report][:data] = Kpi.generate_kpi(params[:report][:aggregate_by], params[:report][:group_dates_by])
+    else
+      params[:report][:data] = nil
+    end
     if @report.update_attributes(params[:report].to_h)
       flash[:notice] = t("report.successfully_updated")
       redirect_to(report_path(@report))

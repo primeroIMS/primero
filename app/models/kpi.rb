@@ -73,6 +73,8 @@ class Kpi < CouchRest::Model::Base
     OTHER_TYPE,
 	]
 
+	NEEDED_DATE_RANGE = ['follow_up_meetings']
+
   def self.minimum_reportable_fields
     {
       'string' => [
