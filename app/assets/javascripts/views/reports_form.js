@@ -54,8 +54,12 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
 		var requiredReportFields = $(".required-report-field");
 		var dateRangeSection = $("#date-range-section");
 		var requiredKpiFields = $(".required-kpi-field");
+		var kpiHidden = $(".kpi-hidden");
     if (e.currentTarget.value === "kpi") {
         reportSection.hide();
+        kpiHidden.each(function() {
+          $(this).hide();
+        });
         requiredReportFields.each(function() {
           $(this).removeAttr("required");
         });
@@ -64,6 +68,9 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
       dateRangeSection.hide();
       requiredReportFields.each(function() {
         $(this).attr("required", "required");
+      });
+      kpiHidden.each(function() {
+        $(this).show();
       });
       requiredKpiFields.each(function() {
         $(this).removeAttr("required");
