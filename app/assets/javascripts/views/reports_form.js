@@ -7,7 +7,7 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
     'change #report_record_type': 'load_lookups_and_disable_useless_fields',
     'click #report_filter_add_button': 'add_filter',
     'click .report_filter_remove_button': 'remove_filter',
-    'change #report_aggregate_by': 'compute_aggregate_fields',
+    'change #report_aggregate_by': 'load_lookups_and_disable_useless_aggragate_fields',
     'change #report_disaggregate_by': 'compute_aggregate_fields'
   },
 
@@ -32,25 +32,44 @@ _primero.Views.ReportForm = _primero.Views.Base.extend({
       $('#report_aggregate_by, #report_disaggregate_by, .report_filter_value_string_row select.report_filter_input, .report_filter_attribute').addClass('chosen-rtl');
     }
   },
-
+  load_lookups_and_disable_useless_aggragate_fields: function (e, value) {
+    var requiredDateKpiTypes = ["follow_up_meetings"];
+		var dateRangeSection = $("#date-range-section");
+		var requiredKpiFields = $(".required-kpi-field");
+    if (~requiredDateKpiTypes.indexOf(value.selected)) {
+      dateRangeSection.show();
+      requiredKpiFields.each(function () {
+        $(this).attr("required", "required");
+      });
+    } else if (~requiredDateKpiTypes.indexOf(value.deselected)) {
+      dateRangeSection.hide();
+      requiredKpiFields.each(function () {
+        $(this).removeAttr("required");
+      });
+    }
+    this.compute_aggregate_fields(e, value);
+  },
   load_lookups_and_disable_useless_fields: function (e) {
 		var reportSection = $("#report-section");
-		var kpiSection = $("#kpi-section");
 		var requiredReportFields = $(".required-report-field");
+		var dateRangeSection = $("#date-range-section");
+		var requiredKpiFields = $(".required-kpi-field");
     if (e.currentTarget.value === "kpi") {
         reportSection.hide();
-        kpiSection.show();
         requiredReportFields.each(function() {
           $(this).removeAttr("required");
         });
     } else {
       reportSection.show();
-      kpiSection.hide();
+      dateRangeSection.hide();
       requiredReportFields.each(function() {
         $(this).attr("required", "required");
       });
+      requiredKpiFields.each(function() {
+        $(this).removeAttr("required");
+      });
     }
-    this.change_reload_field_lookups();
+    this.change_reload_field_lookups(e);
   },
 
   // TODO: max_selected_options not working in chosen

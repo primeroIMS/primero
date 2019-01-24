@@ -115,19 +115,19 @@
     <span class="required">*</span>
   </div>
 </div>
-<div id="kpi-section" style="display: none">
+<div id="date-range-section" style="display: none">
   <div class="row">
     <div class="medium-3 columns">
       <label class="has_date"><%= t("fields.date_range.from") %></label>
     </div>
     <div class="medium-3 columns">
-      <%= text_field_tag :date_from, @report.group_dates_by == 'date' ? nil : @report.group_dates_by[0], class: "form_date_field from", id: "date_from", filter_type: 'date_range' %>
+      <%= text_field_tag :date_from, @report.group_dates_by == 'date' ? nil : @report.group_dates_by[0], class: "form_date_field from required-kpi-field", id: "date_from", filter_type: 'date_range' %>
     </div>
     <div class="medium-1 columns">
       <label class="has_date"><%= t("fields.date_range.to") %></label>
     </div>
     <div class="medium-3 columns">
-      <%= text_field_tag :date_to, @report.group_dates_by == 'date' ? nil : @report.group_dates_by[1], class: "form_date_field to", id: "date_to", filter_type: "date_range" %>
+      <%= text_field_tag :date_to, @report.group_dates_by == 'date' ? nil : @report.group_dates_by[1], class: "form_date_field to required-kpi-field", id: "date_to", filter_type: "date_range" %>
     </div>
     <div class="medium-3 columns"></div>
     <div class="medium-9 columns">
