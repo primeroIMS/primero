@@ -329,10 +329,10 @@ class Kpi < CouchRest::Model::Base
     roles_search = User.by_enabled_user_group_and_roles(
       start_key: [current_user[:organization]],
       end_key: [current_user[:organization], {}]
-    ).reduce.group_level(2).rows
+    ).reduce.group_level(3).rows
     group_roles = roles_search.each_with_object({}) do |row, res|
-      res[row.key[0]] ||= {}
-      res[row.key[0]][row.key[1]] = row.value
+      res[row.key[1]] ||= {}
+      res[row.key[1]][row.key[2]] = row.value
     end
     supervisor_to_case_worker = group_roles.each_with_object({ 'lt'=>0, 'gte'=>0, '_count'=>1 }) do |(_, group), res|
       if (group['role-gbv-caseworker'] || group['role-gbv-social-worker']) && group['role-gbv-case-management-supervisor']

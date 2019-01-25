@@ -12,7 +12,7 @@ class LoginActivity < CouchRest::Model::Base
     view :loggined_by_past_two_weeks,
          :map => "function(doc) {
                  if (doc['couchrest-type'] == 'LoginActivity') {
-                   var twoWeeksAgo = 1000/*ms*/ * 60/*s*/ * 60/*m*/ * 24/*h*/ * 14/*d*/
+                   var twoWeeksAgo = 1000 * 60 * 60 * 24 * 14;
                    var nowDate = new Date();
                    nowDate.setHours(0, 0, 0, 0);
                    var twoWeeksAgoTimestamp = new Date(nowDate - twoWeeksAgo);

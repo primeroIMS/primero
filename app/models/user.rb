@@ -134,7 +134,7 @@ class User < CouchRest::Model::Base
               if (doc['couchrest-type'] == 'User' && !doc['disabled']) {
                 doc['user_group_ids'].forEach(function(group) {
 									doc['role_ids'].forEach(function(role) {
-										emit([role, group], null);
+										emit([doc['organization'], group, role], null);
 									});
                 }); 
               }
