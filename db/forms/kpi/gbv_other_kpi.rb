@@ -1,25 +1,25 @@
 gbv_other_kpi_fields = [
   Field.new({"name" => "case_load",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Case load",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Case load",
+    "editable" => false,
+    "disabled" => true
+  }),
   Field.new({"name" => "supervisor_to_case_worker_ratio",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Supervisor to case worker ratio",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Supervisor to case worker ratio",
+    "editable" => false,
+    "disabled" => true
+  }),
   Field.new({"name" => "caseworkers_active_on_gbvims_plus",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Caseworkers active on GBVIMS+",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Caseworkers active on GBVIMS+",
+    "editable" => false,
+    "disabled" => true
+  }),
 ];
 
 FormSection.create_or_update_form_section({

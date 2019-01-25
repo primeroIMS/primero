@@ -1,18 +1,18 @@
 gbv_assessment_fields = [
   Field.new({"name" => "completed_asssessment",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Completed assessment",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Completed assessment",
+    "editable" => false,
+    "disabled" => true
+  }),
   Field.new({"name" => "approved_assessment",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Completed assessment, supervisor approved",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Completed assessment, supervisor approved",
+    "editable" => false,
+    "disabled" => true
+  }),
 ];
 
 FormSection.create_or_update_form_section({

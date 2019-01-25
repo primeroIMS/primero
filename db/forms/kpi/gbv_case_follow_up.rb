@@ -1,18 +1,18 @@
 gbv_follow_up_fields = [
   Field.new({"name" => "follow_up_meetings",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Follow-up meetings",
-             "editable" => false,
-             "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Follow-up meetings",
+    "editable" => false,
+    "disabled" => true
+  }),
   Field.new({"name" => "average_follow_up_meetings",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Average follow-up meetings",
-             "editable" => false,
-             "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Average follow-up meetings",
+    "editable" => false,
+    "disabled" => true
+  }),
 ];
 
 FormSection.create_or_update_form_section({

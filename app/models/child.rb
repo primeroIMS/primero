@@ -94,7 +94,7 @@ class Child < CouchRest::Model::Base
     view :by_date_of_birth
 
     view :by_name,
-         :map => "function(doc) {
+    :map => "function(doc) {
                   if (doc['couchrest-type'] == 'Child')
                  {
                     if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
@@ -104,14 +104,14 @@ class Child < CouchRest::Model::Base
               }"
 
     view :by_ids_and_revs,
-         :map => "function(doc) {
+    :map => "function(doc) {
               if (doc['couchrest-type'] == 'Child'){
                 emit(doc._id, {_id: doc._id, _rev: doc._rev});
               }
             }"
 
     view :by_generate_followup_reminders,
-         :map => "function(doc) {
+    :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
                          if (doc['couchrest-type'] == 'Child'
                              && doc['record_state'] == true
@@ -125,7 +125,7 @@ class Child < CouchRest::Model::Base
                      }"
 
     view :by_followup_reminders_scheduled,
-         :map => "function(doc) {
+    :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
                          if (doc['record_state'] == true && doc.hasOwnProperty('flags')) {
                            for(var index = 0; index < doc['flags'].length; index++) {
@@ -138,7 +138,7 @@ class Child < CouchRest::Model::Base
                      }"
 
     view :by_followup_reminders_scheduled_invalid_record,
-         :map => "function(doc) {
+    :map => "function(doc) {
                        if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
                          if (doc['record_state'] == false && doc.hasOwnProperty('flags')) {
                            for(var index = 0; index < doc['flags'].length; index++) {
@@ -151,7 +151,7 @@ class Child < CouchRest::Model::Base
                      }"
 
     view :by_date_of_birth_month_day,
-         :map => "function(doc) {
+    :map => "function(doc) {
                   if (doc['couchrest-type'] == 'Child')
                  {
                     if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
@@ -166,13 +166,13 @@ class Child < CouchRest::Model::Base
                  }
               }"
 
-		view :by_followup_date,
-				:map => "function(doc) {
+    view :by_followup_date,
+    :map => "function(doc) {
 					if (doc['couchrest-type'] == 'Child') {
 						if (doc.hasOwnProperty('gbv_follow_up_subform_section') && doc['gbv_follow_up_subform_section'] && doc['gbv_follow_up_subform_section'].length) {
 							doc['gbv_follow_up_subform_section'].forEach(function(followUp) {
 								if (followUp['followup_date']) {
-									emit(followUp['followup_date'], null);
+									emit([doc['owned_by_agency'], followUp['followup_date']], null);
 								}
 							});	
 						}
@@ -180,7 +180,7 @@ class Child < CouchRest::Model::Base
 				}"
 
     view :by_days_between_case_opening_and_closure,
-      :map => "function(doc) {
+    :map => "function(doc) {
         if (doc['couchrest-type'] == 'Child' && doc.hasOwnProperty('date_closure') && doc['date_closure'] != null) {
           var dateOpen = new Date(doc['registration_date']);
           var dateClosure = new Date(doc['date_closure']);
@@ -190,11 +190,11 @@ class Child < CouchRest::Model::Base
             .filter(function (ranges) {
               return dayDifference >= ranges[0] && dayDifference <= ranges[1]
             });
-          emit(dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other', null)
-          emit('_count', null)
+          emit([doc['owned_by_agency'], dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other'], null)
+          emit([doc['owned_by_agency'], '_count'], null)
         }
       }",
-      :reduce => "function(key, values, rereduce) {
+    :reduce => "function(key, values, rereduce) {
         if (rereduce) {
           return sum(values);
         }
@@ -202,7 +202,7 @@ class Child < CouchRest::Model::Base
       }"
 
     view :by_days_between_case_opening_and_closure_high_risk,
-      :map => "function(doc) {
+    :map => "function(doc) {
         if (
               doc['couchrest-type'] == 'Child' &&
               doc.hasOwnProperty('date_closure') &&
@@ -218,11 +218,11 @@ class Child < CouchRest::Model::Base
             .filter(function (ranges) {
               return dayDifference >= ranges[0] && dayDifference <= ranges[1]
             });
-          emit(dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other', null)
-          emit('_count', null)
+          emit([doc['owned_by_agency'], dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other'], null)
+          emit([doc['owned_by_agency'], '_count'], null)
         }
       }",
-      :reduce => "function(key, values, rereduce) {
+    :reduce => "function(key, values, rereduce) {
         if (rereduce) {
           return sum(values);
         }
@@ -230,7 +230,7 @@ class Child < CouchRest::Model::Base
       }"
 
     view :by_closure_reason,
-      :map => "function(doc) {
+    :map => "function(doc) {
         if (doc['couchrest-type'] == 'Child' && doc.hasOwnProperty('date_closure') && doc['date_closure'] != null) { 
           var groupTypes = [
             'closure_needs_met',
@@ -242,13 +242,13 @@ class Child < CouchRest::Model::Base
           ];
           groupTypes.forEach(function(group) {
             if (doc.hasOwnProperty(group) && doc[group]) {
-              emit(group, null);
+              emit([doc['owned_by_agency'], group], null);
             }
           });
-          emit('_count', null);
+          emit([doc['owned_by_agency'], '_count'], null);
         }
       }",
-      :reduce => "function(key, values, rereduce) {
+    :reduce => "function(key, values, rereduce) {
         if (rereduce) {
           return sum(values);
         }
@@ -256,7 +256,7 @@ class Child < CouchRest::Model::Base
       }"
 
     view :client_statisfied,
-      :map => "function(doc) {
+    :map => "function(doc) {
           var feedbackFormProperties = [
             'client_feedback_administered_by',
             'survivor_age_group',
@@ -292,22 +292,22 @@ class Child < CouchRest::Model::Base
             }
           }
           if (count >= feedbackFormPropertiesLength / 2) {
-            emit(doc, null);
+            emit(doc['owned_by_agency'], null);
           }
         }"
 
-      view :by_service_provided,
-        :map => "function(doc) {
+    view :by_service_provided,
+    :map => "function(doc) {
           if (doc['couchrest-type'] == 'Child' && doc.hasOwnProperty('action_plan_section')) { 
             doc['action_plan_section'].forEach(function(service) {
               if (!service['service_type']) {
                 return;
               }
-              emit(service['service_type'], null);
+              emit([doc['owned_by_agency'], service['service_type']], null);
             }); 
           }
         }",
-        :reduce => "function(key, values, rereduce) {
+    :reduce => "function(key, values, rereduce) {
           if (rereduce) {
             return sum(values);
           }
@@ -353,21 +353,20 @@ class Child < CouchRest::Model::Base
     boolean :case_plan_approved
     boolean :consent_for_services
 
-		string :closure_reason
-		string :owned_by
+    string :closure_reason
+    string :owned_by
     time :service_due_dates, :multiple => true
-		string :safety_plan_completion_timing
-		string :assessment_completion_timing
+    string :safety_plan_completion_timing
+    string :assessment_completion_timing
+    string :owned_by_agency
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
-    string :child_status, as: 'child_status_sci'
     string :child_status, as: 'child_status_sci'
     string :action_plan_section, multiple: true
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
-    
-    date :registration_date
+        date :registration_date
     date :date_closure
 
     date :assessment_due_dates, multiple: true do
@@ -387,8 +386,8 @@ class Child < CouchRest::Model::Base
 
   def self.report_filters
     [
-        {'attribute' => 'child_status', 'value' => [STATUS_OPEN]},
-        {'attribute' => 'record_state', 'value' => ['true']}
+      {'attribute' => 'child_status', 'value' => [STATUS_OPEN]},
+      {'attribute' => 'record_state', 'value' => ['true']}
     ]
   end
 
@@ -396,12 +395,12 @@ class Child < CouchRest::Model::Base
   #TODO - does this need the reporting_location_config field key
   def self.minimum_reportable_fields
     {
-        'boolean' => ['record_state'],
-         'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
-    'multistring' => ['associated_user_names', 'owned_by_groups'],
-           'date' => ['registration_date'],
-        'integer' => ['age'],
-       'location' => ['owned_by_location', 'location_current']
+      'boolean' => ['record_state'],
+      'string' => ['child_status', 'sex', 'risk_level', 'owned_by_agency', 'owned_by', 'workflow', 'workflow_status', 'risk_level'],
+      'multistring' => ['associated_user_names', 'owned_by_groups'],
+      'date' => ['registration_date'],
+      'integer' => ['age'],
+      'location' => ['owned_by_location', 'location_current']
     }
   end
 
@@ -617,7 +616,7 @@ class Child < CouchRest::Model::Base
     if reportable_services.present?
       reportable_services.select do |service|
         !service.service_implemented?
-      end.map do |service|
+        end.map do |service|
         service.service_due_date
       end.compact
     end

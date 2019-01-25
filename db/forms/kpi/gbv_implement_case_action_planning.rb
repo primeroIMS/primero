@@ -1,11 +1,11 @@
 gbv_case_action_planning_fields = [
   Field.new({"name" => "services_provided",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Services provided",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Services provided",
+    "editable" => false,
+    "disabled" => true
+  }),
 ];
 
 FormSection.create_or_update_form_section({

@@ -1,25 +1,25 @@
 gbv_case_action_planning_fields = [
   Field.new({"name" => "needed_safety_plan",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Needed safety plans, completed",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Needed safety plans, completed",
+    "editable" => false,
+    "disabled" => true
+  }),
   Field.new({"name" => "completed_case_action_plan",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Completed Case Action Plan",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Completed Case Action Plan",
+    "editable" => false,
+    "disabled" => true
+  }),
   Field.new({"name" => "approved_case_action_plan",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Completed Case Action Plan, supervisor approved",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Completed Case Action Plan, supervisor approved",
+    "editable" => false,
+    "disabled" => true
+  }),
 ];
 
 FormSection.create_or_update_form_section({

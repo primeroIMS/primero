@@ -1,11 +1,11 @@
 gbv_client_satisfaction_fields = [
   Field.new({"name" => "client_satisfaction",
-             "mobile_visible" => false,
-             "type" => "tick_box",
-             "display_name_en" => "Client Satisfaction",
-						 "editable" => false,
-						 "disabled" => true
-            }),
+    "mobile_visible" => false,
+    "type" => "tick_box",
+    "display_name_en" => "Client Satisfaction",
+    "editable" => false,
+    "disabled" => true
+  }),
 ];
 
 FormSection.create_or_update_form_section({

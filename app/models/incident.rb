@@ -7,37 +7,37 @@ class Incident < CouchRest::Model::Base
     {
       "source" => ["survivor_code_no"],
       "target" => "survivor_code"
-    }, {
+      }, {
       "source" => ["age"],
       "target" => "age"
-    }, {
+      }, {
       "source" => ["date_of_birth"],
       "target" => "date_of_birth"
-    }, {
+      }, {
       "source" => ["sex"],
       "target" => "sex"
-    }, {
+      }, {
       "source" => ["gbv_ethnicity"],
       "target" => "ethnicity"
-    }, {
+      }, {
       "source" => ["country_of_origin"],
       "target" => "country_of_origin"
-    }, {
+      }, {
       "source" => ["gbv_nationality"],
       "target" => "nationality"
-    }, {
+      }, {
       "source" => ["gbv_religion"],
       "target" => "religion"
-    }, {
+      }, {
       "source" => ["maritial_status"],
       "target" => "maritial_status"
-    }, {
+      }, {
       "source" => ["gbv_displacement_status"],
       "target" => "displacement_status"
-    }, {
+      }, {
       "source" => ["gbv_disability_type"],
       "target" => "disability_type"
-    }, {
+      }, {
       "source" => ["unaccompanied_separated_status"],
       "target" => "unaccompanied_separated_status"
     }
@@ -68,7 +68,7 @@ class Incident < CouchRest::Model::Base
   design do
     view :by_incident_id
     view :by_description,
-            :map => "function(doc) {
+    :map => "function(doc) {
                 if (doc['couchrest-type'] == 'Incident')
                {
                   if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
@@ -78,7 +78,7 @@ class Incident < CouchRest::Model::Base
             }"
 
     view :by_days_between_report_and_service,
-      :map => "function(doc) {
+    :map => "function(doc) {
           if (doc['couchrest-type'] == 'Incident') {
             var incidentDate = new Date(doc['incident_date']);
             var firstReportDate = new Date(doc['date_of_first_report']);
@@ -88,10 +88,16 @@ class Incident < CouchRest::Model::Base
               .filter(function (ranges) {
                 return dayDifference >= ranges[0] && dayDifference <= ranges[1]
               });
-            emit(dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other', null);
+            emit(
+              [
+                doc['owned_by_agency'],
+                dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other'
+              ], 
+              null
+            );
           }
         }",
-      :reduce => "function(key, values, rereduce) {
+    :reduce => "function(key, values, rereduce) {
         if (rereduce) {
           return sum(values);
         }
@@ -99,7 +105,7 @@ class Incident < CouchRest::Model::Base
       }"
 
     view :by_days_between_incident_and_report,
-      :map => "function(doc) {
+    :map => "function(doc) {
           if (doc['couchrest-type'] == 'Incident') {
             var incidentDate = new Date(doc['incident_date']);
             var firstReportDate = new Date(doc['date_of_first_report']);
@@ -109,10 +115,16 @@ class Incident < CouchRest::Model::Base
               .filter(function (ranges) {
                 return dayDifference >= ranges[0] && dayDifference <= ranges[1]
               });
-            emit(dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other', null);
+            emit(
+              [
+                doc['owned_by_agency'],
+                dayRange[0] ? dayRange[0][0] + '-' + dayRange[0][1] : 'other'
+              ], 
+              null
+            );
           }
         }",
-      :reduce => "function(key, values, rereduce) {
+    :reduce => "function(key, values, rereduce) {
         if (rereduce) {
           return sum(values);
         }
@@ -284,17 +296,17 @@ class Incident < CouchRest::Model::Base
   #TODO refactoring pagination?
   def self.open_incidents(user)
     filters = { "record_state" =>{:type => "single", :value => "true"},
-                "module_id" => {:type => "single", :value => PrimeroModule::MRM},
-                "status" => {:type => "single", :value => STATUS_OPEN},
-              }
+      "module_id" => {:type => "single", :value => PrimeroModule::MRM},
+      "status" => {:type => "single", :value => STATUS_OPEN},
+    }
     self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 
   def self.open_gbv_incidents(user)
     filters = { "record_state" =>{:type => "single", :value => "true"},
-                "module_id" => {:type => "single", :value => PrimeroModule::GBV},
-                "status" => {:type => "single", :value => STATUS_OPEN},
-              }
+      "module_id" => {:type => "single", :value => PrimeroModule::GBV},
+      "status" => {:type => "single", :value => STATUS_OPEN},
+    }
     self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 

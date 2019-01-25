@@ -77,10 +77,10 @@ class ReportsController < ApplicationController
     end
 
     if (@report.valid?)
-			if @report.record_type == "kpi"
+      if @report.record_type == "kpi"
         @report.group_dates_by = params[:date_from] != "" && params[:date_to] != "" ? [params[:date_from], params[:date_to]] : []
-        @report.data = Kpi.generate_kpi(@report.aggregate_by, @report.group_dates_by)
-			end
+        @report.data = Kpi.generate_kpi(@report.aggregate_by, @current_user, @report.group_dates_by)
+      end
       redirect_to report_path(@report) if @report.save
     else
       load_age_range
@@ -98,7 +98,11 @@ class ReportsController < ApplicationController
     authorize! :update, @report
     if params[:report][:record_type] == "kpi"
       params[:report][:group_dates_by] = params[:date_from] != "" && params[:date_to] != "" ? [params[:date_from], params[:date_to]] : []
-      params[:report][:data] = Kpi.generate_kpi(params[:report][:aggregate_by], params[:report][:group_dates_by])
+      params[:report][:data] = Kpi.generate_kpi(
+        params[:report][:aggregate_by], 
+        @current_user,
+        params[:report][:group_dates_by]
+      )
     else
       params[:report][:data] = nil
     end
