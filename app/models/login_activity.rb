@@ -11,14 +11,14 @@ class LoginActivity < CouchRest::Model::Base
 
     view :loggined_by_past_two_weeks,
          :map => "function(doc) {
-                 if (doc['couchrest-type'] == 'LoginActivity') {
+                 if (doc['couchrest-type'] == 'LoginActivity' && doc.hasOwnProperty('login_timestamp')) {
                    var twoWeeksAgo = 1000 * 60 * 60 * 24 * 14;
                    var nowDate = new Date();
                    nowDate.setHours(0, 0, 0, 0);
                    var twoWeeksAgoTimestamp = new Date(nowDate - twoWeeksAgo);
-                   var docTimestamp = new Date(doc['login_timestamp']);
-                   if (docTimestamp >= twoWeeksAgoTimestamp) {
-                     emit(doc['user_name'], null);
+                   var docTimestamp = new Date(doc.login_timestamp);
+                   if (docTimestamp >= twoWeeksAgoTimestamp && doc.hasOwnProperty('user_name')) {
+                     emit(doc.user_name, null);
                    }
                 }
               }",

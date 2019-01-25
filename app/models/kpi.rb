@@ -234,7 +234,7 @@ class Kpi < CouchRest::Model::Base
       Child.by_service_provided(
         start_key: [current_user[:organization]],
         end_key: [current_user[:organization], {}]
-      ).reduce.group_level(2),
+      ).reduce.group_level(2)
     )
   end
 
@@ -309,7 +309,12 @@ class Kpi < CouchRest::Model::Base
       with :owned_by_agency, current_user[:organization]
       facet :owned_by
     end
-    statistic = total_active_cases_per_owner.facet(:owned_by).rows.each_with_object({}) do |row, res|
+    statistic = total_active_cases_per_owner.facet(:owned_by).rows.each_with_object({
+      '10': 0,
+      '20': 0,
+      '30': 0,
+      'other': 0
+    }) do |row, res|
       case row.count
       when 1..10
         res['10'] = res['10'].to_i + 1 
@@ -356,6 +361,6 @@ class Kpi < CouchRest::Model::Base
     LoginActivity.loggined_by_past_two_weeks(
       keys: active_caseworkers_usernames,
       group: true
-    ).reduce.rows.length
+    ).reduce.rows.count
   end
 end
