@@ -35,7 +35,9 @@ class Incident < CouchRest::Model::Base
 
   before_save :set_violation_verification_default
   after_save :index_violations
+  after_save :index_individuals_victims
   after_destroy :unindex_violations
+  after_destroy :unindex_individuals_victims
   before_save :ensure_violation_categories_exist
   before_save :calculate_gbv_type_of_violence_exclusion
 
@@ -332,12 +334,23 @@ class Incident < CouchRest::Model::Base
     end
   end
 
+  def index_individuals_victims
+    if self.individual_victims_subform_section.present?
+      Sunspot.index! IndividualVictim.from_incident(self)
+    end
+  end
+
   def unindex_violations
     if self.violations.present?
       Sunspot.remove! Violation.from_incident(self)
     end
   end
 
+  def unindex_individuals_victims
+    if self.individual_victims_subform_section.present?
+      Sunspot.remove! IndividualVictim.from_incident(self)
+    end
+  end
   #TODO - Need rspec test for this
   def child_types
     child_type_list = []
