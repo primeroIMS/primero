@@ -16,17 +16,10 @@ class Login
     session = nil
 
     if (user and user.authenticate(@password))
-      mobile_login_history = user.mobile_login_history.first
-      imei = mobile_login_history.nil? ? "" : mobile_login_history['imei']
-      session = user.verified ? Session.for_user( user, @imei ) : ((imei == @imei) || (imei == "") ? Session.for_user( user, @imei ) : nil)
+      session = Session.for_user(user, @imei) 
       LoginActivity.create!(user_name: @user_name, imei: @imei, mobile_number: @mobile_number)
     end
-
-    if session and @imei
-      user.add_mobile_login_event(@imei, @mobile_number)
-      user.save
-    end
-
+    
     session
   end
 

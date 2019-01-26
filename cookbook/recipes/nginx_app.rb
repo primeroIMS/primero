@@ -32,6 +32,14 @@ template "#{node[:nginx_dir]}/conf.d/primero.conf" do
   notifies :reload, 'service[nginx]'
 end
 
+template "#{node[:nginx_dir]}/nginx.conf" do
+  source 'nginx.conf.erb'
+  user 'root'
+  group 'root'
+  notifies :reload, 'service[nginx]'
+  variables({ :nginx => node[:nginx] })
+end
+
 rails_log_dir = ::File.join(node[:primero][:log_dir], 'rails')
 site_conf_file = "#{node[:nginx_dir]}/sites-available/primero"
 template site_conf_file do
@@ -40,6 +48,7 @@ template site_conf_file do
   group 'root'
   mode '0644'
   variables({
+    :site => node[:primero][:site],
     :http_port => node[:primero][:http_port],
     :https_port => node[:primero][:https_port],
     :server_name => node[:primero][:server_hostname],

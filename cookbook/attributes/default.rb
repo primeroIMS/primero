@@ -19,6 +19,12 @@ default[:primero].tap do |p|
     queue[:queue_list] = 'mailer,export,options'
   end
 
+  p[:site].tap do |s|
+    s[:proxy_connect_timeout] = '30m'
+    s[:proxy_send_timeout] = '30m'
+    s[:proxy_read_timeout] = '30m'  
+  end
+
   p[:couch_watcher].tap do |cw|
     cw[:app_host] = 'localhost'
     cw[:app_port] = 4000
@@ -42,6 +48,7 @@ default[:primero].tap do |p|
     c[:key_path] = '/etc/ssl/private/couch.key'
     c[:client_ca_path] = '/etc/ssl/client_ca.crt'
     c[:root_ca_cert_source] = 'couch_ca.crt'
+    c[:io_threads] = '64'
     c[:config].tap do |conf|
       conf[:chttpd].tap do |httpd|
         httpd[:bind_address] = '0.0.0.0'
@@ -54,6 +61,7 @@ default[:primero].tap do |p|
         compactions[:_default] = '[{db_fragmentation, "70%"}, {view_fragmentation, "60%"}, {from, "23:00"}, {to, "04:00"}]'
       end
       conf[:replicator].tap do |rep|
+        rep['worker_processes'] = '2'
         rep['verify_ssl_certificates'] = true
       end
       conf[:query_servers].tap do |qs|
@@ -61,6 +69,9 @@ default[:primero].tap do |p|
       end
       conf[:couchdb].tap do |cdb|
         cdb[:os_process_timeout] = '20000'
+      end
+      conf[:cluster].tap do |cl|
+        cl[:n] = '1'
       end
     end
   end
@@ -85,8 +96,8 @@ default[:primero].tap do |p|
   p[:rubygems_version] = '2.7.5'
 
   p[:puma_conf].tap do |pc|
-    pc[:min_thread_count] = 5
-    pc[:max_thread_count] = 5
+    pc[:min_thread_count] = 16
+    pc[:max_thread_count] = 64
     pc[:port] = 4000
   end
 
@@ -128,3 +139,20 @@ default[:nginx_dir] = '/etc/nginx'
 default[:nginx_default_site] = true
 
 default[:postfix_dir] = '/etc/postfix'
+
+default[:nginx].tap do |n|
+  n[:worker_processes] = 'auto'
+  n[:worker_rlimit_nofile] = '1536'
+  n[:worker_connections] = '1536'
+  n[:keepalive_timeout] = '60'
+  n[:timer_resolution] = '500ms'
+  n[:worker_priority] = '-10'
+end
+
+default[:system].tap do |s|
+  s[:file_limit_soft] = '10000'
+  s[:file_limit_hard] = '30000'
+  s[:fs_file_max] = '50000'
+  s[:net_core_somaxconn] = '1024'
+  s[:net_core_netdev_max_backlog] = '5000'
+end

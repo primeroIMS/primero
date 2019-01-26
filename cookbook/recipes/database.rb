@@ -79,6 +79,14 @@ file node[:primero][:couchdb][:key_path] do
   #If symlink, then this has been created and is being maintained by letsencrypt
 end
 
+template '/opt/couchdb/etc/vm.args' do
+  owner 'couchdb'
+  group 'couchdb'
+  source 'couchdb/vm.args.erb'
+  variables( :io_threads => node[:primero][:couchdb][:io_threads] )
+  mode '0600'
+end
+
 template '/opt/couchdb/etc/local.ini' do
   owner 'couchdb'
   group 'couchdb'

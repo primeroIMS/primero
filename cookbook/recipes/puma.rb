@@ -4,6 +4,7 @@ puma_state = "#{node[:primero][:app_dir]}/tmp/puma.state"
 rails_log_dir = "#{node[:primero][:log_dir]}/rails/"
 puma_log = "#{rails_log_dir}puma.log"
 puma_error_log = "#{rails_log_dir}puma_error.log"
+app_dir = node[:primero][:app_dir]
 
 template puma_config_file do
   source 'puma/puma.rb.erb'
@@ -18,8 +19,8 @@ template puma_config_file do
     min_thread_count: node[:primero][:puma_conf][:min_thread_count],
     max_thread_count: node[:primero][:puma_conf][:max_thread_count],
     puma_error_log: puma_error_log,
-    proxy_port: node[:primero][:puma_conf][:port],
-    rails_env: node[:primero][:rails_env]
+    rails_env: node[:primero][:rails_env],
+    app_dir: app_dir
   })
 end
 
