@@ -888,6 +888,7 @@ en:
       incident: "Incident"
       tracing_request: "Tracing Request"
       violation: "Violation"
+      individual_victim: "Individual Victim"
       reportable_service: "Service"
       reportable_follow_up: "Follow Up"
       reportable_protection_concern: "Protection Concern"
