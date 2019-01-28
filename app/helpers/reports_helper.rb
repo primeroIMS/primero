@@ -113,7 +113,6 @@ module ReportsHelper
   end
 
   def report_filter_options(lookups, options)
-    # filter['options'].is_a?(Array) ? filter['options'] : report_filter_options(@options, filter['options'])
     if options.is_a?(Array)
       if options.first.is_a?(Hash)
         options.map{ |o| [o["display_text"], o["id"]] }
@@ -123,11 +122,5 @@ module ReportsHelper
     else
       lookups.present? ? lookups.select{|l| l[:type] == options }.first.try(:[], :options) : []
     end
-
-    # if options.present? && lookups.present?
-      
-    # else
-    #   []
-    # end
   end
 end
