@@ -9,9 +9,11 @@ class IndividualVictim
 
   searchable do
 
-    integer('individual_victims_age'){ individual_victims_age }
-    string('individual_victims_violation_category', multiple: true) { individual_victims_violation_category }
+    integer('individual_age'){ individual_victims_age }
+    string('individual_sex') { individual_victims_sex }
+    string('individual_violations', multiple: true) { individual_victims_violation_category }
     string('status', as: :status_sci) {incident_value('status')}
+    string('incident_location', as: :incident_location_sci) { incident_location }
 
     Incident.searchable_boolean_fields.each do |f|
       boolean(f) { incident_value(f)}
@@ -51,6 +53,14 @@ class IndividualVictim
 
   def individual_victims_age
     self.individual_victims_object.individual_age if self.individual_victims_object.individual_age.present?
+  end
+
+  def individual_victims_sex
+    self.individual_victims_object.individual_sex if self.individual_victims_object.individual_sex.present?
+  end
+
+  def incident_location
+    self.incident.try(:incident_location)
   end
 
   def individual_victims_violation_category

@@ -72,24 +72,32 @@ Report.create_or_update({
   description: 'Individual Children by Violation Type ',
   module_ids: [PrimeroModule::MRM],
   record_type: 'individual_victim',
-  aggregate_by: ['individual_victims_violation_category'],
-  aggregate_counts_from: 'individual_victim_tally',
+  aggregate_by: ['individual_violations'],
+  disaggregate_by: ['individual_sex'],
   filters: default_filters,
   is_graph: false,
   editable: false,
   ui_filters: default_ui_filters + [
-    { type: 'select', name: 'individual_victims_age', options: ['0 - 15', '16 - 18'], multiple: false },
-    { type: 'select', name: 'violation_category', options: [
-      { id: 'killing', display_text: "Killing of Children" },
-      { id: 'maiming', display_text: "Maiming of Children" },
-      { id: 'abduction', display_text: "Abduction" },
-      { id: 'recruitment', display_text: "Recruitment and/or use of children" },
-      { id: 'sexual_violence', display_text: "Rape and/or other forms of sexual violence" },
-      { id: 'attack_on', display_text: "Attacks on schools and/or hospitals" },
-      { id: 'military_use', display_text: "Military use of schools and/or hospitals" },
-      { id: 'denial_humanitarian_access', display_text: "Denial of humanitarian access for children" },
-    ],
-  multiple: false }
+    { type: 'select', name: 'individual_age', options: ['0-15', '16-18'], multiple: false },
+    { type: 'select', name: 'individual_violations', 
+      options: [
+        { id: 'killing', display_text: "Killing of Children" },
+        { id: 'maiming', display_text: "Maiming of Children" },
+        { id: 'abduction', display_text: "Abduction" },
+        { id: 'recruitment', display_text: "Recruitment and/or use of children" },
+        { id: 'sexual_violence', display_text: "Rape and/or other forms of sexual violence" },
+        { id: 'attack_on', display_text: "Attacks on schools and/or hospitals" },
+        { id: 'military_use', display_text: "Military use of schools and/or hospitals" },
+        { id: 'denial_humanitarian_access', display_text: "Denial of humanitarian access for children" }
+      ],
+      multiple: false 
+    },
+    {
+      type: 'select',
+      name: 'individual_sex',
+      options: ["Male", "Female", "Unknown"],
+      multiple: true
+    }
   ]
 })
 

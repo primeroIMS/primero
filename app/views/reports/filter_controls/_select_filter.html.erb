@@ -1,5 +1,5 @@
 <%
-  options = filter['options'].is_a?(Array) ? filter['options'] : report_filter_options(@options, filter['options'])
+  options = report_filter_options(@options, filter['options'])
   multiple = filter['multiple'].present? && filter['multiple'] == true
   name = filter['name']
 %>

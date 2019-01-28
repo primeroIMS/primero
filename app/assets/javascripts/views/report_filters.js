@@ -116,12 +116,9 @@ _primero.Views.ReportFilters = Backbone.View.extend({
         } else {
           container.find(".controls select").val(subValue[0]);
         }
-      } else {
-        control.val(filter);
-
-        if (control.prop("multiple")) {
-          control.trigger("chosen:updated");
-        }
+      } else { 
+        control.val(control.prop("multiple") ? filter : _.first(filter));
+        control.trigger("chosen:updated");
       }
     });
   },
