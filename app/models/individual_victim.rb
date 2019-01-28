@@ -41,7 +41,7 @@ class IndividualVictim
 
   def incident_value(field_name)
     if self.incident.present?
-      incident.send field_name
+      incident.send(field_name)
     end
   end
 
@@ -52,7 +52,9 @@ class IndividualVictim
   end
 
   def individual_victims_age
-    self.individual_victims_object.individual_age if self.individual_victims_object.individual_age.present?
+    if self.individual_victims_object.present?
+      self.individual_victims_object.try(:individual_age)
+    end
   end
 
   def individual_victims_sex
@@ -66,11 +68,15 @@ class IndividualVictim
   def individual_victims_violation_category
     individual_victims_violations = []
     incident_violations = incident_value('violations')
-    incident_violations.keys.each do |category|
-      incident_violations[category].each  do|violation|
-        individual_victims_violations << category if violation.unique_id.in?(individual_victims_value('individual_violations'))
+
+    if incident_violations.present? && incident_violations.is_a?(Object)
+      incident_violations.keys.each do |category|
+        incident_violations[category].each  do|violation|
+          individual_victims_violations << category if violation.unique_id.in?(individual_victims_value('individual_violations'))
+        end
       end
     end
+
     individual_victims_violations
   end
 end
