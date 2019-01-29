@@ -1,7 +1,6 @@
-#TODO - Usng CouchRest because of 'model_class.properties_by_name' in filtering
-#TODO - Investigate if there is a way around this
-class Duplicate < CouchRest::Model::Base
+class Duplicate
   include ActiveModel::Model
+  include CouchRest::Model::CastedModel
   include Matchable
 
   #TODO - Create rspec tests

@@ -1,6 +1,9 @@
 module Matchable
   extend ActiveSupport::Concern
 
+  LIKELY = 'likely'
+  POSSIBLE = 'possible'
+
   module ClassMethods
 
     MATCH_MAP = {
@@ -20,9 +23,6 @@ module Matchable
 
     NORMALIZED_THRESHOLD = 0.1
     LIKELIHOOD_THRESHOLD = 0.7
-
-    LIKELY = 'likely'
-    POSSIBLE = 'possible'
 
     def form_matchable_fields(match_fields = nil)
       form_match_fields(false, match_fields)

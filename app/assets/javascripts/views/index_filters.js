@@ -88,7 +88,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
 
       if($this.is('select') && type === 'list') {
         if (current_scope !== false) {
-          $this.val(current_scope)
+          $this.val(current_scope);
           self.set_remove_filter(name, current_scope)
         }
       }
@@ -105,10 +105,10 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
               option_selected = field;
               current_scope = _.without(params.split('||'), type);
             }
-          })
+          });
 
           if (current_scope !== false) {
-            selectable_control.val(option_selected)
+            selectable_control.val(option_selected);
 
             fields = $this.parents('.filter-controls').find('input.to, input.from');
             fields.attr('name', option_selected);
@@ -134,7 +134,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
 
       else {
         if (current_scope !== false) {
-          $(this).val(current_scope)
+          $(this).val(current_scope[1]);
           self.set_remove_filter(name, current_scope);
         }
       }
