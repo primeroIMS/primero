@@ -26,6 +26,7 @@ class DuplicatesController < ApplicationController
 
   def index
     authorize! :index, Duplicate
+    @lookups = Lookup.all.all
   end
 
   private

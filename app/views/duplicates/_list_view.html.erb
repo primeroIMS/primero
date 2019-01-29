@@ -49,6 +49,6 @@
     </div>
   </div>
   <div class="large-3 small-3 columns no-padding-left index_filters">
-    <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_to_show(record) %>
+    <%= render "#{controller.controller_name}/filter", filters_to_show: index_filters_duplicate(@matching_configuration.try(:case_fields)) %>
   </div>
 </div>

@@ -67,8 +67,6 @@ module IndexHelper
         index_filters_tracing_request
       when "potential_match"
         index_filters_potential_match
-      when "duplicate"
-        index_filters_duplicate
       when "agency"
         index_filters_agency
       else
@@ -493,13 +491,10 @@ module IndexHelper
     return filters
   end
 
-  def index_filters_duplicate
-    filters = []
-    filters << "Name"
-    filters << "Age Range"
-    filters << "Sex"
-
-    return filters
+  def index_filters_duplicate(case_match_fields)
+    return [] if case_match_fields.blank?
+    return [] unless case_match_fields.is_a?(Array)
+    case_match_fields.to_h.values.flatten
   end
 
   def index_filters_agency
