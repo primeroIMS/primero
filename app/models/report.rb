@@ -243,7 +243,7 @@ class Report < CouchRest::Model::Base
     if scope.present?
       scope.each do |k, v|
         ui_filter = self.ui_filters.find {|ui| ui['name'] == k }
-        value = v.split('||')
+        value = v.include?('-')? ['['+ v.gsub('-',' TO ')+']'] : v.split('||')
 
         if ui_filter['location_filter']
           locations = []
@@ -380,7 +380,7 @@ class Report < CouchRest::Model::Base
 
 
   def self.reportable_record_types
-    FormSection::RECORD_TYPES + ['violation'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}
+    FormSection::RECORD_TYPES + ['violation', 'individual_victim'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}
   end
 
   def apply_default_filters
