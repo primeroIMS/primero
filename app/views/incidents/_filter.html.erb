@@ -63,6 +63,19 @@
         <% end %>
       </div>
       <div class="content" id="individual">
+        <% if filters_to_show.include? 'Individual Violation' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.individual_violation"), 'individual_violations', violation_type_list, { multi: true }, false) %>
+        <% end %>
+        <% if filters_to_show.include? 'Individual Age' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.individual_age"), 'individual_age', ['0-15', '16-18'], nil, nil, 'range') %>
+        <% end %>
+        <% if filters_to_show.include? 'Individual Sex' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.individual_sex"), 'individual_sex', [
+            { Male: t("incidents.filter_by.boys") },
+            { Female: t("incidents.filter_by.girls") },
+            { Unknown: t("incidents.filter_by.unknown") }
+          ]) %>
+        <% end %>
         <% if filters_to_show.include? 'Deprived of liberty?' %>
           <%= build_filter_checkboxes(t("incidents.filter_by.deprived_liberty"), 'victim_deprived_liberty_security_reasons', Lookup.values('Yes No Unknown', @lookups)) %>
         <% end %>
