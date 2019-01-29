@@ -9,6 +9,7 @@ _primero.Router = Backbone.Router.extend({
     'tracing_requests/:id': 'recordShowPage',
     'incidents': 'recordIndexPage',
     'cases': 'recordIndexPage',
+    'cases/:id/edit': 'caseRecordForm',
     'tracing_requests': 'recordIndexPage',
     'potential_matches': 'recordIndexPage',
     'audit_logs': 'recordIndexPage',
@@ -111,6 +112,10 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.viewRecord();
       new _primero.Views.IdSearch();
     }
+  },
+
+  caseRecordForm: function(){
+    new _primero.Views.ServiceSubform();
   },
 
   userCreatePage: function() {

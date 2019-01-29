@@ -1,4 +1,4 @@
-var UsersCollection = Backbone.Collection.extend({
+_primero.Collections.UsersCollection = Backbone.Collection.extend({
   url: '/api/users',
 
   parse: function(resp) {
@@ -34,7 +34,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   initialize: function(){
     var self = this;
-    this.collection = new UsersCollection();
+    this.collection = new _primero.Collections.UsersCollection();
     $("#referral-modal").find("select#existing_user_referral").on('chosen:showing_dropdown', function(){
       self.clear_user_selection();
       self.load_existing_users();
