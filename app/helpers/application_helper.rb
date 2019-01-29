@@ -253,4 +253,12 @@ module ApplicationHelper
     html << ' ' << text.to_s unless text.blank?
     html
   end
+
+  def url_add_params(url, params)
+    parsed_uri = Addressable::URI.parse(url)
+    params = (params || {}).with_indifferent_access
+    query_params = (parsed_uri.query_values || {}).with_indifferent_access
+    parsed_uri.query_values = query_params.merge(params)
+    parsed_uri.to_s
+  end
 end

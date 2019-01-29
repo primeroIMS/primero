@@ -122,7 +122,7 @@ module RecordActions
 
       format.json do
         if @record.present?
-          @record = clear_subforms_for_append_only_forms(@record)
+          @record = clear_append_only_subforms(@record)
           @record = format_json_response(@record)
           render :json => @record
         else
@@ -163,7 +163,7 @@ module RecordActions
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
-          @record = clear_subforms_for_append_only_forms(@record)
+          @record = clear_append_only_subforms(@record)
           @record = format_json_response(@record)
           render :json => @record, :status => :created, :location => @record
         end
@@ -206,7 +206,7 @@ module RecordActions
           end
         end
         format.json do
-          @record = clear_subforms_for_append_only_forms(@record)
+          @record = clear_append_only_subforms(@record)
           @record = format_json_response(@record)
           render :json => @record.slice!("_attachments", "histories")
         end
@@ -480,7 +480,7 @@ module RecordActions
     @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
   end
 
-  def clear_subforms_for_append_only_forms(record)
+  def clear_append_only_subforms(record)
     if is_mobile?
       FormSection.get_append_only_subform_ids.each do |subform_id|
         record.try("#{subform_id}=", [])
@@ -579,23 +579,13 @@ module RecordActions
 
   def merge_append_only_subforms(record)
     FormSection.get_append_only_subform_ids.each do |subform_id|
-      if @record_filtered_params[subform_id].present?
+      # Since this only happens if the mobile param is true, the subform section has to be an Array, we don't merge otherwise.
+      if @record_filtered_params[subform_id].present? && @record_filtered_params[subform_id].is_a?(Array)
         record_subforms = (record.try(subform_id) || []).map(&:attributes)
-        # The subforms can be either a Hash or an Array we handle the scenario in the if below
-        # Usually, when you update a request from the web the subforms will be a Hash and they will be an Array when on mobile.
-        param_subforms = if @record_filtered_params[subform_id].is_a? Hash
-                           @record_filtered_params[subform_id].values
-                         else
-                           @record_filtered_params[subform_id]
-                         end
+        param_subforms = @record_filtered_params[subform_id]
         # If for any reason a user sends updates to existing forms, we will update them.
         unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
-        new_subforms = unchanged_subforms + param_subforms
-        if @record_filtered_params[subform_id].is_a? Hash
-          @record_filtered_params[subform_id] = new_subforms.map.with_index{ |value, index| [index, value]  }.to_h
-        else
-          @record_filtered_params[subform_id] = new_subforms
-        end
+        @record_filtered_params[subform_id] = unchanged_subforms + param_subforms
       end
     end
   end

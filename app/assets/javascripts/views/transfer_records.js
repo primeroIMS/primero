@@ -25,7 +25,7 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
   transfer_records_empty: function(event){
     var $transfer_button = $(event.target)
     this.select_user_location();
-    self.clear_user_selection();
+    this.clear_user_selection();
   },
 
   transfer_records: function(event) {
