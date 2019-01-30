@@ -28,6 +28,7 @@ class DuplicatesController < ApplicationController
     authorize! :index, Duplicate
     @lookups = Lookup.all.all
     @sex_field = Field.find_by_name_from_view('sex')
+    @can_display_view_page = can?(:display_view_page, Child)
   end
 
   private

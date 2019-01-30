@@ -39,7 +39,9 @@
           <th><%= t("potential_match.child_gender") %></th>
           <th><%= t("case.owned_by") %></th>
           <th><%= t("potential_match.score") %></th>
-          <th></th>
+          <% if @can_display_view_page %>
+            <th></th>
+          <% end %>
         </tr>
         </thead>
         <tbody>
