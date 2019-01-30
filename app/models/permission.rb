@@ -25,6 +25,7 @@ class Permission
   EXPORT_PDF = 'export_pdf'
   EXPORT_UNHCR = 'export_unhcr_csv'
   EXPORT_CASE_PDF = 'export_case_pdf'
+  EXPORT_MRM_VIOLATION_XLS = 'export_mrm_violation_xls'
   EXPORT_INCIDENT_RECORDER = 'export_incident_recorder_xls'
   EXPORT_CUSTOM = 'export_custom'
   ASSIGN = 'assign'
@@ -110,6 +111,7 @@ class Permission
       EXPORT_PHOTO_WALL,
       EXPORT_PDF,
       EXPORT_UNHCR,
+      EXPORT_MRM_VIOLATION_XLS,
       EXPORT_INCIDENT_RECORDER,
       EXPORT_CASE_PDF,
       EXPORT_JSON,
