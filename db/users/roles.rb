@@ -193,10 +193,6 @@ cp_caseworker_permissions = [
     ]
   ),
   Permission.new(
-    :resource => Permission::DUPLICATE,
-    :actions => [Permission::READ]
-  ),
-  Permission.new(
     :resource => Permission::DASHBOARD,
     :actions => [
       Permission::VIEW_APPROVALS,
@@ -268,10 +264,6 @@ cp_manager_permissions = [
     :actions => [
       Permission::READ
     ]
-  ),
-  Permission.new(
-    :resource => Permission::DUPLICATE,
-    :actions => [Permission::READ]
   ),
   Permission.new(
     :resource => Permission::REPORT,
@@ -372,10 +364,6 @@ cp_user_manager_permissions = [
         :actions => [
             Permission::READ
         ]
-    ),
-    Permission.new(
-      :resource => Permission::DUPLICATE,
-      :actions => [Permission::READ]
     ),
     Permission.new(
         :resource => Permission::REPORT,
