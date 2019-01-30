@@ -496,7 +496,7 @@ module IndexHelper
     return [] unless case_match_fields.is_a?(Array)
     filters = case_match_fields.to_h.try(:values).try(:flatten)
     filters = [] if filters.blank?
-    filters << "Dates"
+    filters
   end
 
   def index_filters_agency

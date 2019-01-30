@@ -36,7 +36,7 @@ module Matchable
       form_matchable_fields.concat(subform_matchable_fields)
     end
 
-    def find_match_records(match_criteria, match_class, child_id = nil)
+    def find_match_records(match_criteria, match_class, child_id = nil, require_consent = true)
       pagination = {:page => 1, :per_page => 20}
       sort={:score => :desc}
       if match_criteria.blank?
@@ -54,7 +54,7 @@ module Matchable
             end
           end
           with(:id, child_id) if child_id.present?
-          with(:consent_for_tracing, true) if match_class == Child
+          with(:consent_for_tracing, true) if require_consent && match_class == Child
           sort.each { |sort_field, order| order_by(sort_field, order) }
           paginate pagination
         end
