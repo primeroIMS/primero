@@ -88,7 +88,7 @@
               </label>
               <%= hidden_field_tag "location" , "", {:id => "location_hidden"}%>
               <label><%=I18n.t("#{transition_type}.location_label")%>
-                <%= select_tag("location", options_for_select([], ''), :data => { :populate => 'ReportingLocation', :value => current_user.reporting_location.try(:location_code)},
+                <%= select_tag("location", options_for_select([], ''), :data => { :populate => 'ReportingLocation', :value => current_user.reporting_location.try(:location_code), :current_user_location => current_user.reporting_location.try(:location_code)},
                                'data-placeholder' => t("fields.select_box_empty_item"),
                                :include_blank => true, :class => 'chosen-select existing_user_filter') %>
               </label>

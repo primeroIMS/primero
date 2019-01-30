@@ -4,6 +4,7 @@
     service_type = formObject.service_field_value(service_object, 'service_type')
     service_user_name = formObject.service_field_value(service_object, 'service_implementing_agency_individual')
     service_agency = formObject.service_field_value(service_object, 'service_implementing_agency')
+    service_delivery_location = formObject.service_field_value(service_object, 'service_delivery_location')
   else
     service_object = nil
   end
@@ -22,6 +23,7 @@
 	data-service-user-name="<%= service_user_name %>"
   data-service-object-id="<%= service_object_id %>"
   data-service-agency="<%= service_agency %>"
+  data-service-delivery-location="<%= service_delivery_location %>"
  	data-open=<%= "referral-modal"%> class="<%= service_referral_button_class %>">
  	<%= t("buttons.referral", model: model_name) %>
 </a>
