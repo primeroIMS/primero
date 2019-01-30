@@ -325,6 +325,9 @@ module IndexHelper
     #TODO perpetrator_sub_category has been removed
     # filters << "Armed Force or Group Type" if @is_mrm
     filters << "Record State"
+    filters << "Individual Age" if @is_mrm
+    filters << "Individual Sex" if @is_mrm
+    filters << "Individual Violation" if @is_mrm
 
     return filters
   end

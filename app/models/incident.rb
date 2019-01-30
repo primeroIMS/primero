@@ -57,6 +57,18 @@ class Incident < CouchRest::Model::Base
       self.violation_type_list
     end
 
+    string :individual_violations, multiple: true do
+      self.individual_violations_list
+    end
+
+    integer :individual_age, multiple: true do
+      self.individual_victim_value_from_property(:individual_age)
+    end
+
+    string :individual_sex, multiple: true do
+      self.individual_victim_value_from_property(:individual_sex)
+    end
+
     string :verification_status, multiple: true do
       self.violation_verified_list
     end
@@ -272,6 +284,34 @@ class Incident < CouchRest::Model::Base
     end
 
     return violations_list
+  end
+
+  def individual_violations_list
+    violations_list = []
+
+    if individual_victims_subform_section.present?
+      self.individual_victims_subform_section.each do |iv|
+        if iv.individual_violations.present?
+          iv.individual_violations.each do |violation|
+            violation_by_id = find_violation_by_unique_id(violation).try(:first)
+            violations_list << violation_by_id if violation_by_id.present?
+          end
+        end
+      end
+    end
+       
+    violations_list.uniq if violations_list.present?
+
+    return violations_list
+  end
+
+  def individual_victim_value_from_property(property)
+    values = []
+    if self.individual_victims_subform_section.present?
+      values = self.individual_victims_subform_section.map { |i| i[property] if i[property].present? }
+    end
+    values.uniq! if values.present?
+    return values.compact
   end
 
   #TODO - Need rspec test for this

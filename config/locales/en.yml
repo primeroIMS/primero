@@ -409,6 +409,9 @@ en:
       social_worker: "Case Worker:"
       status: "Status:"
       age_range: "Age Range:"
+      individual_violation: "Individual Violation:"
+      individual_age: "Individual Age:"
+      individual_sex: "Individual Sex:"
       children: "Children:"
       boys: "Boys"
       girls: "Girls"
@@ -422,6 +425,7 @@ en:
       armed_force_group_type: "Armed Force or Group Type:"
       record_state: "Record State:"
       interview_date: "Interview Date:"
+
 
   incident:
     label: "Incident ID"
@@ -888,6 +892,7 @@ en:
       incident: "Incident"
       tracing_request: "Tracing Request"
       violation: "Violation"
+      individual_victim: "Individual Victim"
       reportable_service: "Service"
       reportable_follow_up: "Follow Up"
       reportable_protection_concern: "Protection Concern"
