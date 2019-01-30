@@ -1,3 +1,4 @@
+#TODO : This is specific to cases.  Will we need to in the future handle duplicate Incidents or TracingRequests?
 class Duplicate
   include ActiveModel::Model
   include CouchRest::Model::CastedModel
@@ -18,7 +19,6 @@ class Duplicate
 
   class << self
     # Emulate 'find' since this isn't persisted in a DB
-    #TODO : This is specific to cases.  Will we need to in the future handle duplicate Incidents or TracingRequests?
     def find(match_fields={}, search_parameters={})
       return [] if search_parameters.blank?
       search_case = new_case_from_search_params(match_fields, search_parameters)
@@ -90,6 +90,10 @@ class Duplicate
 
   def owned_by
     self.child.owned_by
+  end
+
+  def display_field(field_or_name, lookups = nil)
+    self.child.display_field(field_or_name, lookups)
   end
 
 end

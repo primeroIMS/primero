@@ -2,7 +2,7 @@
   <td class="id_column"><%= link_to record.display_id, case_path(record.case_id), class: 'id_link' %></td>
   <td><%= record.name %></td>
   <td><%= record.age %></td>
-  <td><%= record.sex %></td>
+  <td><%= record.display_field(@sex_field, @lookups)%></td>
   <td><%= record.owned_by %></td>
   <td><%= record.likelihood %></td>
   <td>

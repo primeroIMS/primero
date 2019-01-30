@@ -27,6 +27,7 @@ class DuplicatesController < ApplicationController
   def index
     authorize! :index, Duplicate
     @lookups = Lookup.all.all
+    @sex_field = Field.find_by_name_from_view('sex')
   end
 
   private
