@@ -4,7 +4,7 @@
   <td><%= record.age %></td>
   <td><%= record.display_field(@sex_field, @lookups)%></td>
   <td><%= record.owned_by %></td>
-  <td><%= record.likelihood %></td>
+  <td><%= I18n.t("potential_match.likelihood.#{record.likelihood}") %></td>
   <td>
     <a class="record-view-modal id_link" data-record="<%= record.case_id %>"><%= t('buttons.view') %></a>
   </td>
