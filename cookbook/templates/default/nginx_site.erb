@@ -46,7 +46,7 @@ server {
   error_log <%= @log_dir %>/nginx_error.log error;
 
   client_max_body_size 50M;
-  client_body_buffer_size 128k;
+  client_body_buffer_size 256k;
 
   location / {
     proxy_pass http://127.0.0.1:4000;
