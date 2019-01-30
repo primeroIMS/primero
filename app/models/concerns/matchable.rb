@@ -1,6 +1,9 @@
 module Matchable
   extend ActiveSupport::Concern
 
+  LIKELY = 'likely'
+  POSSIBLE = 'possible'
+
   module ClassMethods
 
     MATCH_MAP = {
@@ -18,6 +21,9 @@ module Matchable
       'relation_sub_ethnicity2' => 'sub_ethnicity_2'
     }
 
+    NORMALIZED_THRESHOLD = 0.1
+    LIKELIHOOD_THRESHOLD = 0.7
+
     def form_matchable_fields(match_fields = nil)
       form_match_fields(false, match_fields)
     end
@@ -30,7 +36,7 @@ module Matchable
       form_matchable_fields.concat(subform_matchable_fields)
     end
 
-    def find_match_records(match_criteria, match_class, child_id = nil)
+    def find_match_records(match_criteria, match_class, child_id = nil, require_consent = true)
       pagination = {:page => 1, :per_page => 20}
       sort={:score => :desc}
       if match_criteria.blank?
@@ -48,7 +54,7 @@ module Matchable
             end
           end
           with(:id, child_id) if child_id.present?
-          with(:consent_for_tracing, true) if match_class == Child
+          with(:consent_for_tracing, true) if require_consent && match_class == Child
           sort.each { |sort_field, order| order_by(sort_field, order) }
           paginate pagination
         end
@@ -129,6 +135,25 @@ module Matchable
       fields = Array.new(form_fields).map(&:name)
       return fields if match_fields.blank?
       fields & match_fields.values.flatten.reject(&:blank?)
+    end
+
+    def normalize_search_result(search_result)
+      records = []
+      if search_result.present?
+        scores = search_result.values
+        max_score = scores.max
+        average_score = scores.reduce(0){|sum,x|sum+(x/max_score.to_f)} / scores.count.to_f
+        normalized_search_result = search_result.map{|k,v| [k,v/max_score.to_f]}
+        thresholded_search_result = normalized_search_result.select{|k,v| v > NORMALIZED_THRESHOLD}
+        thresholded_search_result.each do |id, score|
+          records << yield(id, score, average_score)
+        end
+      end
+      records
+    end
+
+    def calculate_likelihood(score, aggregate_average_score)
+      (score - aggregate_average_score) > 0.7 ? LIKELY : POSSIBLE
     end
   end
 

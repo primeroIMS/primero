@@ -15,6 +15,7 @@ class PotentialMatch < CouchRest::Model::Base
   include SyncableMobile
   include Importable
   include Ownable
+  include Matchable
 
   property :tr_subform_id
   property :average_rating, Float
@@ -39,9 +40,6 @@ class PotentialMatch < CouchRest::Model::Base
   POTENTIAL = 'POTENTIAL'
   DELETED = 'DELETED'
   FIELD_MASK = '***'
-
-  LIKELY = 'likely'
-  POSSIBLE = 'possible'
 
   NORMALIZED_THRESHOLD = 0.1
   LIKELIHOOD_THRESHOLD = 0.7
@@ -142,11 +140,7 @@ class PotentialMatch < CouchRest::Model::Base
 
   def set_likelihood(score, aggregate_average_score)
     self.aggregate_average_score = aggregate_average_score
-    if (score - aggregate_average_score) > 0.7
-      self.likelihood = LIKELY
-    else
-      self.likelihood = POSSIBLE
-    end
+    self.likelihood = PotentialMatch.calculate_likelihood(score, aggregate_average_score)
   end
 
   def case_id_display

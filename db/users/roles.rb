@@ -129,6 +129,10 @@ cp_admin_permissions = [
       Permission::WRITE,
       Permission::CREATE
     ]
+  ),
+  Permission.new(
+    :resource => Permission::DUPLICATE,
+    :actions => [Permission::READ]
   )
 ]
 
@@ -255,7 +259,7 @@ cp_manager_permissions = [
       Permission::EXPORT_UNHCR
     ]
   ),
-    Permission.new(
+  Permission.new(
     :resource => Permission::POTENTIAL_MATCH,
     :actions => [
       Permission::READ
@@ -1124,6 +1128,10 @@ ftr_manager_permissions = [
     ]
   ),
   Permission.new(
+    :resource => Permission::DUPLICATE,
+    :actions => [Permission::READ]
+  ),
+  Permission.new(
     :resource => Permission::INCIDENT,
     :actions => [
       Permission::READ,
@@ -1153,6 +1161,10 @@ superuser_permissions = [
   ),
   Permission.new(
     :resource => Permission::POTENTIAL_MATCH,
+    :actions => [Permission::READ]
+  ),
+  Permission.new(
+    :resource => Permission::DUPLICATE,
     :actions => [Permission::READ]
   ),
   Permission.new(
