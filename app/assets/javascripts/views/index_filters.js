@@ -134,7 +134,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
 
       else {
         if (current_scope !== false) {
-          $(this).val(current_scope[1]);
+          $(this).val(decodeURI(current_scope[1]));
           self.set_remove_filter(name, current_scope);
         }
       }

@@ -18,7 +18,10 @@
                                   ['0-5', '6-11', '12-17', '18+'], nil, nil, 'range') %>
     <% end %>
     <% if filters_to_show.include? 'date_of_birth'%>
-      <%= build_filter_date(t("duplicates.filter_by.date_of_birth"), "date_of_birth") %>
+      <%# build_filter_date(t("duplicates.filter_by.date_of_birth"), "date_of_birth") %>
+    <% end %>
+    <% if filters_to_show.include? 'Dates' %>
+      <%= render "record_shared/filter_date", record: 'duplicates' %>
     <% end %>
     <% if filters_to_show.include? 'nationality'%>
       <%= build_filter_select(t("duplicates.filter_by.nationality"), "nationality",
@@ -37,7 +40,7 @@
                               Lookup.values('lookup-ethnicity', @lookups, locale: I18n.locale), false) %>
     <% end %>
     <% if filters_to_show.include? 'date_of_separation'%>
-      <%= build_filter_date(t("duplicates.filter_by.date_of_separation"), "date_of_separation") %>
+      <%# build_filter_date(t("duplicates.filter_by.date_of_separation"), "date_of_separation") %>
     <% end %>
     <% if filters_to_show.include? 'separation_cause'%>
       <%= build_filter_select(t("duplicates.filter_by.separation_cause"), "separation_cause",

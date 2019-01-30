@@ -494,7 +494,9 @@ module IndexHelper
   def index_filters_duplicate(case_match_fields)
     return [] if case_match_fields.blank?
     return [] unless case_match_fields.is_a?(Array)
-    case_match_fields.to_h.values.flatten
+    filters = case_match_fields.to_h.try(:values).try(:flatten)
+    filters = [] if filters.blank?
+    filters << "Dates"
   end
 
   def index_filters_agency
@@ -511,6 +513,8 @@ module IndexHelper
         selectable_filter_date_options_incident
       when "tracing_requests"
         selectable_filter_date_options_tracing_request
+      when "duplicates"
+        selectable_filter_date_options_duplicate
       else
         []
     end
@@ -536,6 +540,13 @@ module IndexHelper
   def selectable_filter_date_options_tracing_request
     options = []
     options << [t('tracing_requests.selectable_date_options.inquiry_date'), 'inquiry_date']
+    return options
+  end
+
+  def selectable_filter_date_options_duplicate
+    options = []
+    options << [t('duplicates.selectable_date_options.date_of_birth'), 'date_of_birth']
+    options << [t('duplicates.selectable_date_options.date_of_separation'), 'date_of_separation']
     return options
   end
 
