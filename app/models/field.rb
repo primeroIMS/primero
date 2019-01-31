@@ -385,7 +385,7 @@ class Field
     @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
-  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={})
+  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={}, reporting_locations=nil)
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     options_list = []
     if self.type == Field::TICK_BOX
@@ -406,6 +406,8 @@ class Field
         options_list += Lookup.values(source_options.last, lookups, locale: locale) if add_lookups.present?
       when 'Location'
         options_list += locations || [] if locations.present?
+      when 'ReportingLocation'
+        options_list += reporting_locations || [] if reporting_locations.present?
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!

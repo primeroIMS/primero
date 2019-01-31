@@ -167,6 +167,7 @@ _primero.Router = Backbone.Router.extend({
       _primero.shared_fields = new _primero.Views.SharedFields();
       new _primero.Views.PopulateSelectBoxes();
       new _primero.Views.PopulateLocationSelectBoxes();
+      new _primero.Views.PopulateReportingLocationSelectBoxes();
       new _primero.Views.RequiredFields();
       new _primero.Views.AutosumFields();
       new _primero.Views.AutoCalculateAgeDOB();

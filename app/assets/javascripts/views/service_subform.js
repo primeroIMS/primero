@@ -3,7 +3,9 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
 
   events: {
     'change #services_section select[id$="service_type"]': 'on_filter_change',
-    'change #services_section select[id$="service_implementing_agency"]': 'on_filter_change'
+    'change #services_section select[id$="service_implementing_agency"]': 'on_filter_change',
+    'change #services_section select[id$="service_delivery_location"]': 'on_filter_change',
+    'click #tab_services #subform_services_section_add_button': 'init_subform'
   },
 
   initialize: function(){
@@ -21,7 +23,14 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
     var self = this;
     var $selected_subform = $(e.target).parents('.subform_container');
     this.clear_user_selection($selected_subform);
-    this.load_users($selected_subform);
+  },
+
+  init_subform: function(){
+    var self = this;
+    var $selected_subform = $('#services_section .subform_container').last(); //Last added service
+    $selected_subform.find('select[id$=service_implementing_agency_individual]').on('chosen:showing_dropdown', function(){
+      self.load_users($selected_subform);
+    });
   },
 
   load_users: function($subform){
@@ -29,6 +38,7 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
     var $service_select = $subform.find('select[id$="service_type"]');
     var $agency_select = $subform.find('select[id$="service_implementing_agency"]');
     var $user_select = $subform.find('select[id$=service_implementing_agency_individual]');
+    var $location_select = $subform.find('select[id$=service_delivery_location]');
 
     $user_select.empty();
     $user_select.html('<option>' + I18n.t("messages.loading") + '</option>');
@@ -37,6 +47,7 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
     var data = {
       services: $service_select.val(),
       agency_id: $agency_select.val(),
+      location: $location_select.val()
     }
 
     self.collection
