@@ -2,6 +2,8 @@
 # `memoize_in_prod :<method_name>` after the method definition.  It will also
 # make the class observable and create a default observer on itself that
 # flushes the memoization cache for all memoized methods on any changes.
+require 'observer'
+
 module Memoizable
   extend ActiveSupport::Concern
 

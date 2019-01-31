@@ -300,7 +300,7 @@ class User < CouchRest::Model::Base
   end
 
   def agency
-    @agency_obj ||= Agency.get(self.organization)
+    @agency_obj ||= Agency.find(self.organization)
   end
 
   def agency_name
