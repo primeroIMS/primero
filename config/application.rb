@@ -1,9 +1,7 @@
 # encoding: utf-8
 
 require File.expand_path('../boot', __FILE__)
-
-require "action_controller/railtie"
-require "action_mailer/railtie"
+require 'rails/all'
 
 #Bundler.require *Rails.groups(:assets => %w(development test))
 Bundler.require(:default, :assets, Rails.env)

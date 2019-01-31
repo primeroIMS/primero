@@ -22,14 +22,15 @@ namespace :db do
   end
 
 
-  desc "Seed with data (task manually created during the 3.0 upgrade, as it went missing)"
-  task :seed => :environment do
-    load(Rails.root.join("db", "seeds.rb"))
-  end
+  #TODO: Commenting these out so they dont interfere with default Rails tasks
+  # desc "Seed with data (task manually created during the 3.0 upgrade, as it went missing)"
+  # task :seed => :environment do
+  #   load(Rails.root.join("db", "seeds.rb"))
+  # end
 
-  task :migrate => :environment do
-    Migration.migrate
-  end
+  # task :migrate => :environment do
+  #   Migration.migrate
+  # end
 
   desc "Create system administrator for couchdb. This is needed only if you are interested to test out replications"
   task :create_couch_sysadmin, :user_name, :password do |t, args|
