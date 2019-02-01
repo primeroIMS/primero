@@ -489,6 +489,10 @@ class User < CouchRest::Model::Base
     end
   end
 
+  def has_user_group_id?(id)
+    self.user_group_ids.include?(id)
+  end
+
   private
 
   def save_devices
