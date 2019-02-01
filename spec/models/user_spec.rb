@@ -521,7 +521,7 @@ describe User do
     context "when agency exists" do
       before do
         Agency.all.each {|a| a.destroy}
-        agency = Agency.new(:name => "unicef", :agency_code => "12345")
+        agency = Agency.new(:name => "unicef", :agency_code => "unicef")
         agency.save
 
         @user = build_and_save_user :organization => agency.id
@@ -652,13 +652,13 @@ describe User do
     context 'when agency with services exists for a new user' do
       before :each do
         Agency.all.each {|a| a.destroy}
-        Agency.create(:id => 'unicef', :name => "unicef", :agency_code => "12345", :services => ['health_medical_service', 'shelter_service'])
-        @user = build_user({:organization => 'unicef'})
+        a = Agency.create(:name => "unicef", :agency_code => "unicef", :services => ['health_medical_service', 'shelter_service'])
+        @user = build_user({:organization => a.id})
       end
       context 'and user is created without services' do
         it 'should add agency services' do
           @user.save
-          expect(@user.services).to eq(Agency.get('unicef').services)
+          expect(@user.services).to eq(Agency.find_by(agency_code: 'unicef').services)
         end
       end
       context 'and user is created with services' do
@@ -676,7 +676,7 @@ describe User do
         Agency.all.each {|a| a.destroy}
         @user = build_user({:organization => 'unicef'})
         @user.save
-        Agency.create(:id => 'unicef', :name => "unicef", :agency_code => "12345", :services => ['health_medical_service', 'shelter_service'])
+        Agency.create(:name => "unicef", :agency_code => "unicef", :services => ['health_medical_service', 'shelter_service'])
       end
 
       context 'and user is updated without services' do
