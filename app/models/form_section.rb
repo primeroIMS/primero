@@ -1,144 +1,125 @@
-class FormSection < CouchRest::Model::Base
-  include PrimeroModel
-  include LocalizableProperty
-  include Importable
+class FormSection < ActiveRecord::Base
+
+  include LocalizableJsonProperty
+  #include Importable #TODO: This will need to be rewritten
   include Memoizable
 
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
   DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
-  #TODO - include Namable - will require a fair amount of refactoring
 
-  use_database :form_section
-  localize_properties [:name, :help_text, :description]
-  property :unique_id
-  property :parent_form
-  property :visible, TrueClass, :default => true
-  property :order, Integer, :default => 0
-  property :order_form_group, Integer, :default => 0
-  property :order_subform, Integer, :default => 0
-  property :form_group_keyed, TrueClass, :default => false
-  property :form_group_id
-  property :fields, [Field]
-  property :editable, TrueClass, :default => true
-  property :fixed_order, TrueClass, :default => false
-  property :perm_visible, TrueClass, :default => false
-  property :perm_enabled, TrueClass, :default => false
-  property :core_form, TrueClass, :default => true
-  property :validations, [String]
-  property :base_language, :default => DEFAULT_BASE_LANGUAGE
-  property :is_nested, TrueClass, :default => false
-  property :is_first_tab, TrueClass, :default => false
-  property :initial_subforms, Integer, :default => 0
-  property :collapsed_fields, [String], :default => []
-  property :subform_prevent_item_removal, :default => false
-  property :subform_header_links, [String], :default => []
-  #Will display a help text on show page if the section is empty.
-  property :display_help_text_view, TrueClass, :default => false
-  property :shared_subform
-  property :shared_subform_group
-  property :is_summary_section, TrueClass, :default => false
-  property :hide_subform_placeholder, TrueClass, :default => false
-  property :mobile_form, TrueClass, :default => false
-  property :header_message_link, String, :default => ""
+  localize_properties :name, :help_text, :description
+
+  #TODO: Add in relation when Field model is defined
+  #property :fields, [Field]
+
+  #TODO: get rid of fixed_order perm_visible perm_enabled validations
 
   attr_accessor :module_name
 
-  design
+  # design
 
-  design :by_unique_id do
-    view :by_unique_id
-  end
+  # design :by_unique_id do
+  #   view :by_unique_id
+  # end
 
-  design :by_parent_form do
-    view :by_parent_form
-  end
+  # design :by_parent_form do
+  #   view :by_parent_form
+  # end
 
-  design :by_parent_form_and_mobile_form do
-    view :by_parent_form_and_mobile_form
-  end
+  # design :by_parent_form_and_mobile_form do
+  #   view :by_parent_form_and_mobile_form
+  # end
 
-  design :by_order do
-    view :by_order
-  end
+  # design :by_order do
+  #   view :by_order
+  # end
 
-  design :by_parent_form_and_unique_id do
-    view :by_parent_form_and_unique_id
-  end
+  # design :by_parent_form_and_unique_id do
+  #   view :by_parent_form_and_unique_id
+  # end
 
-  design :by_lookup_field do
-    view :by_lookup_field,
-      :map => "function(doc) {
-                if (doc['couchrest-type'] == 'FormSection'){
-                  if (doc['fields'] != null){
-                    for(var i = 0; i<doc['fields'].length; i++){
-                      var field = doc['fields'][i];
-                      if (field['option_strings_source'] && field['option_strings_source'].indexOf('lookup') >= 0){
-                        emit(field['option_strings_source'].replace('lookup ', '').replace('group ', ''), null);
-                      }
-                    }
-                  }
-                }
-              }"
-  end
+  # design :by_lookup_field do
+  #   view :by_lookup_field,
+  #     :map => "function(doc) {
+  #               if (doc['couchrest-type'] == 'FormSection'){
+  #                 if (doc['fields'] != null){
+  #                   for(var i = 0; i<doc['fields'].length; i++){
+  #                     var field = doc['fields'][i];
+  #                     if (field['option_strings_source'] && field['option_strings_source'].indexOf('lookup') >= 0){
+  #                       emit(field['option_strings_source'].replace('lookup ', '').replace('group ', ''), null);
+  #                     }
+  #                   }
+  #                 }
+  #               }
+  #             }"
+  # end
 
-  design :fields do
-    view :fields,
-      :map => "function(doc) {
-                if (doc['couchrest-type'] == 'FormSection'){
-                  if (doc['fields'] != null){
-                    for(var i = 0; i<doc['fields'].length; i++){
-                      var field = {};
-                      for (var k in doc['fields'][i]) {
-                        field[k] = doc['fields'][i][k];
-                      }
-                      field['on_nested'] = doc['is_nested'];
-                      field['parent_form'] = doc['parent_form'];
-                      emit(field['name'], field);
-                    }
-                  }
-                }
-              }"
-  end
+  # design :fields do
+  #   view :fields,
+  #     :map => "function(doc) {
+  #               if (doc['couchrest-type'] == 'FormSection'){
+  #                 if (doc['fields'] != null){
+  #                   for(var i = 0; i<doc['fields'].length; i++){
+  #                     var field = {};
+  #                     for (var k in doc['fields'][i]) {
+  #                       field[k] = doc['fields'][i][k];
+  #                     }
+  #                     field['on_nested'] = doc['is_nested'];
+  #                     field['parent_form'] = doc['parent_form'];
+  #                     emit(field['name'], field);
+  #                   }
+  #                 }
+  #               }
+  #             }"
+  # end
 
-  design :having_location_fields_by_parent_form do
-    view :having_location_fields_by_parent_form,
-         :map => "function(doc) {
-                if (doc['couchrest-type'] == 'FormSection'){
-                  if (doc['fields'] != null){
-                    var loc_fields = false;
-                    for(var i = 0; i<doc['fields'].length; i++){
-                      var field = doc['fields'][i];
-                      if (field['option_strings_source'] && field['option_strings_source'] == 'Location'){
-                        loc_fields = true;
-                      }
-                    }
-                    if(loc_fields == true){
-                      emit(doc['parent_form'], null);
-                    }
-                  }
-                }
-              }"
-  end
+  # design :having_location_fields_by_parent_form do
+  #   view :having_location_fields_by_parent_form,
+  #        :map => "function(doc) {
+  #               if (doc['couchrest-type'] == 'FormSection'){
+  #                 if (doc['fields'] != null){
+  #                   var loc_fields = false;
+  #                   for(var i = 0; i<doc['fields'].length; i++){
+  #                     var field = doc['fields'][i];
+  #                     if (field['option_strings_source'] && field['option_strings_source'] == 'Location'){
+  #                       loc_fields = true;
+  #                     }
+  #                   }
+  #                   if(loc_fields == true){
+  #                     emit(doc['parent_form'], null);
+  #                   }
+  #                 }
+  #               }
+  #             }"
+  # end
 
   validate :validate_name_in_base_language
   validate :validate_name_format
-  validate :validate_unique_id
-  validate :validate_visible_field
-  validate :validate_fixed_order
-  validate :validate_perm_visible
+  validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
+  #validate :validate_visible_field
+  # validate :validate_fixed_order
+  # validate :validate_perm_visible
   validate :validate_datatypes
 
+  after_initialize :defaults
   before_validation :generate_options_keys
   before_validation :sync_options_keys
   before_save :sync_form_group
   after_save :recalculate_subform_permissions
 
+  def defaults
+    %w(visible editable).each{|p| self[p] ||= true}
+    %w(order order_form_group order_subform initial_subforms).each{|p| self[p] ||= 0}
+    self.base_language ||= DEFAULT_BASE_LANGUAGE #TODO: Is this field even relevant?
+  end
+
   def form_group_name(opts={})
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-    return self.send("name_#{locale}") if self.form_group_id.blank?
+    return name(locale) if self.form_group_id.blank?
     Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name, locale: locale)
   end
 
+  #TODO: Rewrite after migrating Field
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
     fldz = {}
@@ -151,23 +132,15 @@ class FormSection < CouchRest::Model::Base
     "FormSection(#{self.name}, form_group_id => '#{self.form_group_id}')"
   end
 
-  def validate_name_in_base_language
-    name = "name_#{DEFAULT_BASE_LANGUAGE}"
-    unless (self.send(name).present?)
-      errors.add(:name, I18n.t("errors.models.form_section.presence_of_name"))
-      return false
-    end
-  end
-
-  def initialize(properties={}, options={})
-    self["fields"] = []
-    self["shared_subform"] ||= ""
-    self["shared_subform_group"] ||= ""
-    self["is_summary_section"] ||= false
-    self["base_language"] ||= 'en'
-    super properties, options
-    create_unique_id
-  end
+  # def initialize(properties={}, options={})
+  #   self["fields"] = []
+  #   self["shared_subform"] ||= ""
+  #   self["shared_subform_group"] ||= ""
+  #   self["is_summary_section"] ||= false
+  #   self["base_language"] ||= 'en'
+  #   super properties, options
+  #   create_unique_id
+  # end
 
   alias to_param unique_id
 
@@ -912,15 +885,17 @@ class FormSection < CouchRest::Model::Base
     end
   end
 
-  #TODO add rspec test
+  #TODO Rewrite after we have migrated Field
   def generate_options_keys
-    self.fields.each{|field| field.generate_options_keys}
+    #self.fields.each{|field| field.generate_options_keys}
   end
 
+  #TODO Rewrite after we have migrated Field
   def sync_options_keys
-    self.fields.each{|field| field.sync_options_keys}
+    #self.fields.each{|field| field.sync_options_keys}
   end
 
+  #TODO: Rewrite after we migrated Lookup
   #if a new form_group_id was added during edit/create, then add that form group to the form_group lookup
   def sync_form_group
     return unless self.changed.include?('form_group_id')
@@ -977,67 +952,75 @@ class FormSection < CouchRest::Model::Base
     end
   end
 
+  def validate_name_in_base_language
+    unless name(DEFAULT_BASE_LANGUAGE).present?
+      errors.add(:name, 'errors.models.form_section.presence_of_name')
+      return false
+    end
+  end
+
   def validate_name_format
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
     if (name =~ special_characters) || (name =~ white_spaces)
-      return errors.add(:name, I18n.t("errors.models.form_section.format_of_name"))
+      return errors.add(:name, 'errors.models.form_section.format_of_name')
     else
       return true
     end
   end
 
-  def validate_visible_field
-    self.visible = true if self.perm_visible?
-    if self.perm_visible? && self.visible == false
-      errors.add(:visible, I18n.t("errors.models.form_section.visible_method"))
-    end
-    true
-  end
+  # def validate_visible_field
+  #   self.visible = true if self.perm_visible?
+  #   if self.perm_visible? && self.visible == false
+  #     errors.add(:visible, I18n.t("errors.models.form_section.visible_method"))
+  #   end
+  #   true
+  # end
 
-  def validate_fixed_order
-    self.fixed_order = true if self.perm_enabled?
-    if self.perm_enabled? && self.fixed_order == false
-      errors.add(:fixed_order, I18n.t("errors.models.form_section.fixed_order_method"))
-    end
-    true
-  end
+  # def validate_fixed_order
+  #   self.fixed_order = true if self.perm_enabled?
+  #   if self.perm_enabled? && self.fixed_order == false
+  #     errors.add(:fixed_order, I18n.t("errors.models.form_section.fixed_order_method"))
+  #   end
+  #   true
+  # end
 
-  def validate_perm_visible
-    self.perm_visible = true if self.perm_enabled?
-    if self.perm_enabled? && self.perm_visible == false
-      errors.add(:perm_visible, I18n.t("errors.models.form_section.perm_visible_method"))
-    end
-    true
-  end
+  # def validate_perm_visible
+  #   self.perm_visible = true if self.perm_enabled?
+  #   if self.perm_enabled? && self.perm_visible == false
+  #     errors.add(:perm_visible, I18n.t("errors.models.form_section.perm_visible_method"))
+  #   end
+  #   true
+  # end
 
-  def validate_unique_id
-    form_section = FormSection.get_by_unique_id(self.unique_id)
-    unique = form_section.nil? || form_section.id == self.id
-    unique || errors.add(:unique_id, I18n.t("errors.models.form_section.unique_id", :unique_id => unique_id))
-  end
+  # def validate_unique_id
+  #   form_section = FormSection.get_by_unique_id(self.unique_id)
+  #   unique = form_section.nil? || form_section.id == self.id
+  #   unique || errors.add(:unique_id, I18n.t("errors.models.form_section.unique_id", :unique_id => unique_id))
+  # end
 
   #Make sure that within the record, the same field isn't defined with differing data types
   def validate_datatypes
-    if !self.is_nested && self.fields.present?
-      field_names = self.fields.map(&:name)
-      all_current_fields = FormSection.fields(keys: field_names).rows.reduce({}) do |accum, row|
-        if !row.value['on_nested'] && (self.parent_form == row.value['parent_form'])
-          type = row.value['type']
-          accum[row.key] = [type, row.value['multi_select'].present?]
-        end
-        accum
-      end
-      fields.each do |field|
-        current_type = all_current_fields[field.name]
-        if current_type.present? && (current_type != [field.type, field.multi_select.present?])
-          #Allow changing from text_field to textarea or from textarea to text_field
-          next if changing_between_text_field_and_textarea?(current_type.first, field.type)
-          errors.add(:fields, I18n.t("errors.models.field.change_type_existing_field", field_name: field.name, form_name: self.name))
-          return false
-        end
-      end
-    end
+    #TODO: Rewrite once we have the Field model defines
+    # if !self.is_nested && self.fields.present?
+    #   field_names = self.fields.map(&:name)
+    #   all_current_fields = FormSection.fields(keys: field_names).rows.reduce({}) do |accum, row|
+    #     if !row.value['on_nested'] && (self.parent_form == row.value['parent_form'])
+    #       type = row.value['type']
+    #       accum[row.key] = [type, row.value['multi_select'].present?]
+    #     end
+    #     accum
+    #   end
+    #   fields.each do |field|
+    #     current_type = all_current_fields[field.name]
+    #     if current_type.present? && (current_type != [field.type, field.multi_select.present?])
+    #       #Allow changing from text_field to textarea or from textarea to text_field
+    #       next if changing_between_text_field_and_textarea?(current_type.first, field.type)
+    #       errors.add(:fields, I18n.t("errors.models.field.change_type_existing_field", field_name: field.name, form_name: self.name))
+    #       return false
+    #     end
+    #   end
+    # end
     return true
   end
 
@@ -1045,9 +1028,9 @@ class FormSection < CouchRest::Model::Base
     [Field::TEXT_FIELD, Field::TEXT_AREA].include?(current_type) && [Field::TEXT_FIELD, Field::TEXT_AREA].include?(new_type)
   end
 
-  def create_unique_id
-    self.unique_id = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.unique_id.nil?
-  end
+  # def create_unique_id
+  #   self.unique_id = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.unique_id.nil?
+  # end
 
   private
 

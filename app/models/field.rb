@@ -10,7 +10,7 @@ class Field
   property :hide_on_view_page, TrueClass, :default => false
   property :show_on_minify_form, TrueClass, :default => false
   property :type
-  property :highlight_information , HighlightInformation
+  #property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
   property :disabled, TrueClass, :default => false
   localize_properties [:display_name, :help_text, :guiding_questions, :tally, :tick_box_label]
