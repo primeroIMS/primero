@@ -52,8 +52,15 @@ class UserGroupsController < ApplicationController
   def create
     authorize! :create, UserGroup
     @user_group = UserGroup.new(params[:user_group].to_h)
-    return redirect_to user_groups_path if @user_group.save
-    render :new
+    if @user_group.save
+      if current_user.has_group_permission?(Permission::GROUP)
+        current_user.user_group_ids << @user_group.id
+        current_user.save
+      end
+      redirect_to user_groups_path
+    else
+      render :new
+    end
   end
 
   def destroy
