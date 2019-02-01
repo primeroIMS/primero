@@ -1,22 +1,3 @@
-_primero.Collections.UsersCollection = Backbone.Collection.extend({
-  url: '/api/users',
-
-  parse: function(resp) {
-    this.status = resp.success;
-    this.message = resp.message;
-    return resp.users;
-  },
-
-  find_by_user_name: function(user_name){
-    var users = this.where({user_name: user_name});
-    var user = null;
-    if(users && users.length > 0){
-      user = _.first(users).attributes;
-    }
-    return user;
-  }
-});
-
 _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   el: 'body',

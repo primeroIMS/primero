@@ -116,7 +116,8 @@ _primero.Router = Backbone.Router.extend({
   },
 
   caseRecordForm: function(){
-    new _primero.Views.ServiceSubform();
+    //new _primero.Views.ServiceSubform();
+    new _primero.Views.PopulateUserSelectBoxes();
   },
 
   userCreatePage: function() {
