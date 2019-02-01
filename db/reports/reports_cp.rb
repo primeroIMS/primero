@@ -189,3 +189,16 @@ Report.create_or_update(
   editable: false,
 )
 
+Report.create_or_update(
+  name_all: "Cases per Month",
+  description_all: " Number of newly registered cases per month per location ",
+  module_ids: [ PrimeroModule::CP ],
+  record_type: "case",
+  aggregate_by: [ "owned_by_location" ],
+  disaggregate_by: ["created_at"],
+  filters: [{'attribute' => 'record_state', 'value' => ['true']}],
+  group_ages: false,
+  group_dates_by: "month",
+  is_graph: true,
+  editable: false,
+)

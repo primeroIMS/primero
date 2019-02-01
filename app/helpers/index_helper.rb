@@ -32,6 +32,8 @@ module IndexHelper
         list_view_header_report
       when "potential_match"
         list_view_header_potential_match
+      when "duplicate"
+        list_view_header_duplicate
       when "bulk_export"
         list_view_header_bulk_export
       when "task"
@@ -158,16 +160,16 @@ module IndexHelper
 
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
-      concat(select_tag filter, options_for_select(items), class: 'chosen-select', filter_type: 'list',
+      concat(select_tag(filter, options_for_select(items), class: 'chosen-select', filter_type: 'list',
                         multiple: multi_select, include_blank: t("fields.select_box_empty_item"),
-                        'data-placeholder' => t("fields.select_box_empty_item"), id: filter)
+                        'data-placeholder' => t("fields.select_box_empty_item"), id: filter))
       concat(content_tag(:div, '', class: 'clearfix'))
     end
   end
 
   def build_datefield(filter)
     content_tag :div, class: 'filter-controls row align-middle' do
-      concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
+      concat(text_field_tag(filter, nil, class: 'form_date_field', autocomplete: false))
     end
   end
 
@@ -175,6 +177,19 @@ module IndexHelper
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
       concat(build_datefield(filter))
+    end
+  end
+
+  def build_textfield(filter)
+    content_tag :div, class: 'filter-controls row align-middle' do
+      concat(text_field_tag(filter, nil, class: 'form_text_field', filter_type: 'single'))
+    end
+  end
+
+  def build_filter_text(title, filter)
+    content_tag :div, class: 'filter' do
+      concat(content_tag(:h3, title))
+      concat(build_textfield(filter))
     end
   end
 
@@ -296,6 +311,12 @@ module IndexHelper
       {title: 'tr_id', sort_title: 'tr_subform_id'},
       {title: 'child_id', sort_title: 'child_id'},
       {title: 'average_rating', sort_title: 'average_rating'},
+    ]
+  end
+
+  def list_view_header_duplicate
+    [
+      #TODO
     ]
   end
 
@@ -465,11 +486,17 @@ module IndexHelper
 
   def index_filters_potential_match
     filters = []
-    filters << "Sex"
-    filters << "Age Range"
-    filters << "Score Range"
+    filters << "Matching Configuration"
 
     return filters
+  end
+
+  def index_filters_duplicate(case_match_fields)
+    return [] if case_match_fields.blank?
+    return [] unless case_match_fields.is_a?(Array)
+    filters = case_match_fields.to_h.try(:values).try(:flatten)
+    filters = [] if filters.blank?
+    filters
   end
 
   def index_filters_agency
@@ -486,6 +513,8 @@ module IndexHelper
         selectable_filter_date_options_incident
       when "tracing_requests"
         selectable_filter_date_options_tracing_request
+      when "duplicates"
+        selectable_filter_date_options_duplicate
       else
         []
     end
@@ -511,6 +540,13 @@ module IndexHelper
   def selectable_filter_date_options_tracing_request
     options = []
     options << [t('tracing_requests.selectable_date_options.inquiry_date'), 'inquiry_date']
+    return options
+  end
+
+  def selectable_filter_date_options_duplicate
+    options = []
+    options << [t('duplicates.selectable_date_options.date_of_birth'), 'date_of_birth']
+    options << [t('duplicates.selectable_date_options.date_of_separation'), 'date_of_separation']
     return options
   end
 

@@ -93,8 +93,7 @@ class IncidentsController < ApplicationController
   end
 
   def update_record_with_attachments(incident)
-    incident_params = filter_params(incident)
-    incident.update_properties(incident_params, current_user_name)
+    incident.update_properties(@record_filtered_params, current_user_name)
     incident
   end
 

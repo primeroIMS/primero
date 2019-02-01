@@ -52,6 +52,8 @@ template site_conf_file do
     :ssl_key_path => ::File.join(ssl_dir, 'primero.key'),
     :ssl_client_ca => ssl_client_ca_path,
     :dh_param => "#{node[:nginx_dir]}/ssl/dhparam.pem",
+    :client_max_body_size => node[:primero_nginx][:client_max_body_size],
+    :client_body_buffer_size => node[:primero_nginx][:client_body_buffer_size]
   })
   notifies :restart, 'service[nginx]'
 end

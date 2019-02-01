@@ -19,9 +19,11 @@ class PotentialMatchesController < ApplicationController
     #make sure to get all records when querying for ids to sync down to mobile
     params["page"] = "all" if params["mobile"] && params["ids"]
     @type ||= params[:type] || "tracing_request"
+    @match = params[:match]
     @match_model_class ||= (@type == 'case' ? 'child' : @type).camelize.constantize
 
     @sex_field = Field.find_by_name_from_view('sex')
+    load_match_configuration
     load_potential_matches #@potential_matches, @case, @tracing_request
 
     #TODO MATCHING: All set visibility code is written by somone who didn't understand how record ownership works in Primero
@@ -29,7 +31,8 @@ class PotentialMatchesController < ApplicationController
     @associated_user_names = users_filter
     set_visibility(@potential_matches, @associated_user_names)
 
-    @potential_matches = apply_filter_to_records(@potential_matches, @filters)
+    @potential_matches = apply_filter_to_records(@potential_matches,@filters.except('case_fields',
+                                                                                    'tracing_request_fields'))
     @grouped_potential_matches = PotentialMatch.group_match_records(@potential_matches, @type)
 
     #TODO MATCHING: Pagination of grouped record is just broken.
@@ -100,7 +103,7 @@ class PotentialMatchesController < ApplicationController
       @subform_id = params[:match].split("::").last
       @tracing_request = TracingRequest.get(tracing_request_id) if tracing_request_id.present?
       if @tracing_request.present?
-        @potential_matches = @tracing_request.matching_cases(@subform_id)
+        @potential_matches = @tracing_request.matching_cases(@subform_id, @potential_matching_configuration.tracing_request_fields.to_h)
         #TODO MATCHING: This is a temporary hack, get rid of this
         @total_records = 1
         @display_id = @tracing_request.display_id
@@ -112,9 +115,8 @@ class PotentialMatchesController < ApplicationController
     if params[:match].present?
       case_id = params[:match]
       @case = Child.get(case_id) if case_id.present?
-
       if @case.present?
-        @potential_matches = @case.matching_tracing_requests
+        @potential_matches = @case.matching_tracing_requests(@potential_matching_configuration.case_fields.to_h)
         @display_id = @case.display_id
       end
     end
@@ -127,6 +129,14 @@ class PotentialMatchesController < ApplicationController
   end
 
   private
+
+  def load_match_configuration
+    match_fields = {
+      case_fields: @filters['case_fields'].try(:[], :value).try(:to_h),
+      tracing_request_fields: @filters['tracing_request_fields'].try(:[], :value).try(:to_h)
+    }
+    @potential_matching_configuration = MatchingConfiguration.find_for_filter(match_fields)
+  end
 
   def set_visibility(records=[], associated_user_names)
     records.each{|r| r.set_visible(associated_user_names, @type)}

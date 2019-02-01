@@ -19,8 +19,19 @@ module Importers
           @locale.present? &&
           @translated_model.respond_to?(:import_translations))
         @values.values.each do |translation|
-          @translated_model.import_translations(translation, @locale)
+          @translated_model.import_translations(strip_hash_values!(translation), @locale)
         end
+      end
+    end
+
+    def strip_hash_values!(hash)
+      hash.each_value do |value|
+        case value
+        when String
+          value.strip!
+        when Hash
+          strip_hash_values!(value)
+         end
       end
     end
   end

@@ -38,6 +38,14 @@ class User < CouchRest::Model::Base
 
   timestamps!
 
+  design :by_organization do
+    view :by_organization
+  end
+
+  design :by_organization_and_disabled do
+    view :by_organization_and_disabled
+  end
+
   design do
     view :by_user_name,
             :map => "function(doc) {
@@ -59,51 +67,6 @@ class User < CouchRest::Model::Base
                   emit(doc['user_name'], null);
                 }
               }"
-
-    view :by_full_name,
-         :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['full_name']) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_full_name_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('full_name') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_full_name_disabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('full_name') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_organization,
-         :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['organization']) {
-                  emit(doc['organization'], null);
-                }
-              }",
-         :reduce => "_count"
-
-    view :by_organization_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('organization') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['organization'], null);
-                }
-              }",
-         :reduce => "_count"
-
-    view :by_organization_disabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('organization') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
-                  emit(doc['organization'], null);
-                }
-              }",
-         :reduce => "_count"
 
     view :by_unverified,
             :map => "function(doc) {
@@ -167,6 +130,19 @@ class User < CouchRest::Model::Base
 
   before_save :generate_id
 
+  include Indexable
+
+  searchable auto_index: self.auto_index? do
+    string :user_name
+    string :organization
+    string :location
+    boolean :disabled
+    string :reporting_location do
+      self.reporting_location.try(:location_code)
+    end
+    string :services, :multiple => true
+  end
+
   #In order to track changes on attributes declared as attr_accessor and
   #trigger the callbacks we need to use attribute_will_change! method.
   #check lib/couchrest/model/extended_attachments.rb in source code.
@@ -185,7 +161,6 @@ class User < CouchRest::Model::Base
     alias :by_all :all
     alias :list_by_all :all
     alias :by_user_name_all :by_user_name
-    alias :by_full_name_all :by_full_name
     alias :by_organization_all :by_organization
     def all(*args)
       old_all(*args)
@@ -252,6 +227,18 @@ class User < CouchRest::Model::Base
     def is_syncable_with_mobile?
       false
     end
+
+    def find_by_criteria(criteria, pagination=nil, sort=nil)
+      if criteria.present?
+        User.search do
+          criteria.each do |key, value|
+            with key.to_sym, value
+          end
+          sort.each { |sort_field, order| order_by(sort_field, order) } if sort.present?
+          paginate pagination if pagination.present?
+        end
+      end
+    end
   end
 
   def email_entered?
@@ -292,11 +279,16 @@ class User < CouchRest::Model::Base
     self.user_group_ids.select{|g| g.present?}
   end
 
-  # calling this location_obj because property location already exists on user
-  # however, the location property really is just the location name
-  # If a refactor is warranted, I would rename the location property to location_name
-  def Location
+  def user_location
     @location_obj ||= Location.get_by_location_code(self.location)
+  end
+  # Hack to allow backward-compatibility. The Location method must not be used.
+  alias_method :Location, :user_location
+
+  def reporting_location
+    if self.user_location.present?
+      Location.get_reporting_location(self.user_location)
+    end
   end
 
   def agency

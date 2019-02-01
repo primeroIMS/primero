@@ -120,6 +120,7 @@ en:
      tracing_request: "TRACING REQUESTS"
      incidents: "INCIDENTS"
      potential_match: "MATCHES"
+     duplicates: "DUPLICATES"
      children: "CHILDREN"
      forms: "FORMS"
      lookups: "LOOKUPS"
@@ -158,6 +159,7 @@ en:
      filter: "Apply Filter"
      filter_clear: "Clear Filters"
      find_tracing_match: "Find Tracing Match"
+     filter_restore: "Restore to System Settings"
      flag_records: "Flag"
      flag_model: "Flag %{model}"
      unflag_model: "Unflag %{model}"
@@ -389,7 +391,7 @@ en:
     type: "Type of Action"
     due_date: "Due Date"
     types:
-      assessment: "Assesment"
+      assessment: "Assessment"
       case_plan: "Case Plan"
       follow_up: "Follow Up - %{subtype}"
       service: "Service - %{subtype}"
@@ -696,6 +698,34 @@ en:
       likely: 'Likely'
       possible: 'Possible'
 
+  duplicates:
+      search_for_duplicates: 'Search For Duplicates'
+      clear_filter: 'Clear'
+      filter_by:
+        name: "Name"
+        name_nickname: "Nickname"
+        name_other: "Other Name"
+        sex: "Sex"
+        age_range: "Age Range"
+        date_of_birth: "Date of Birth"
+        nationality: "Nationality"
+        location_last: "Last Location"
+        telephone_last: "Last Telephone"
+        ethnicity: "Ethnicity"
+        date_of_separation: "Date of Separation"
+        separation_cause: "Main Cause of Separation"
+        location_separation: "Separation Location"
+        relation_name: "Name of Relative"
+        relation: "Relation"
+        relation_nickname: "Nickname of Relative"
+        relation_language: "Language of Relative"
+        relation_religion: "Religion of Relative"
+        relation_ethnicity: "Ethnicity of Relative"
+        relation_nationality: "Nationality of Relative"
+        relation_address_current: "Relative's Current Address"
+        relation_location_current: "Relative's Current Location"
+        relation_telephone: "Relative's Telephone"
+
   audit_log:
     timestamp: "Timestamp - UTC"
     user_name: "User Name"
@@ -754,6 +784,7 @@ en:
       status: "Status"
       enabled: "Enabled"
       disabled: "Disabled"
+      agency: "Agency"
     register_new_user: "Create User"
 
   roles:
@@ -956,6 +987,7 @@ en:
   blacklisted: "Blacklisted?"
   visible_for_web: "Visible for web app"
   visible_for_mobile: "Visible for mobile app"
+  selective_syncing_mobile: "Selective Syncing (mobile)"
   hidden: "Hidden"
   help_text: "Help text"
   multi_select: "Multi Select"
@@ -1143,6 +1175,7 @@ en:
     translation: "Translation"
     translation_missing: "(Translation missing for %{lang})"
     base_language_help_text: "This must be entered in %{lang}."
+    selective_syncing_mobile_help_text: "The subform won't sync from the server to the mobile, but a user can add a subform on the mobile that will then sync to the server."
     form_group_translation_help_text: "To add translations for Form Groups, edit the Form Group lookup in the Lookup editor."
     initial_lang_help_text: "Field must be created in %{lang} before translation can be added."
     field_db_help_text: "If left blank, DB Name will be generated. Only Latin letters, numbers, and underscores are allowed."
@@ -1781,6 +1814,7 @@ en:
         unique_name: "A program with that name already exists, please enter a different name"
 
       lookup:
+        name_present: "Name must not be blank"
         value_presence: "Please select at least one lookup value"
         unique_name: "A lookup with that name already exists, please enter a different name"
         being_used: "This lookup is being used and cannot be deleted"
@@ -1978,7 +2012,7 @@ en:
       male_abbreviation: "M"
       unknown_abbreviation: "U"
       headers:
-        moha_id: "MOHA ID"
+        moha_id: "MOHA ID DEPRECATED"
         national_id_no: "National ID No"
         case_id: "Case ID"
         progress_id: "Progress ID"

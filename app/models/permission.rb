@@ -37,6 +37,7 @@ class Permission
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
   POTENTIAL_MATCH = 'potential_match'
+  DUPLICATE = 'duplicate'
   USER = 'user'
   USER_GROUP = 'user_group'
   ROLE = 'role'
@@ -172,7 +173,7 @@ class Permission
 
   def self.resources
     [CASE, INCIDENT, TRACING_REQUEST, POTENTIAL_MATCH, ROLE, USER, USER_GROUP, AGENCY, METADATA, SYSTEM, REPORT,
-     DASHBOARD, AUDIT_LOG, MATCHING_CONFIGURATION]
+     DASHBOARD, AUDIT_LOG, MATCHING_CONFIGURATION, DUPLICATE]
   end
 
   def self.management
@@ -226,6 +227,8 @@ class Permission
          [MANAGE]
        when POTENTIAL_MATCH
          [READ]
+       when DUPLICATE
+         [READ]
        when SYSTEM
          [MANAGE]
        when DASHBOARD
@@ -248,6 +251,7 @@ class Permission
       self.new(:resource => INCIDENT, :actions => [MANAGE]),
       self.new(:resource => TRACING_REQUEST, :actions => [MANAGE]),
       self.new(:resource => POTENTIAL_MATCH, :actions => [READ]),
+      self.new(:resource => DUPLICATE, :actions => [READ]),
       self.new(:resource => REPORT, :actions => [MANAGE]),
       self.new(:resource => ROLE, :actions => [MANAGE]),
       self.new(:resource => USER, :actions => [MANAGE]),

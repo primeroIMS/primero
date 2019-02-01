@@ -13,4 +13,19 @@
   <li>
     <%= link_to t("header.contact"), contact_information_path("administrator") %>
   </li>
+  <li>
+    <%= link_to content_tag(:span, t('home.language')), '', class: 'disabled', id: 'lang-toggle-disabled' %>
+    <ul id="lang-toggle" class="dropdown menu" data-dropdown-menu>
+      <li class="init_btn">
+        <%= link_to content_tag(:span, t('home.language')), '', class: 'action_btn' %>
+        <ul class="menu">
+          <% Primero::Application::locales.each do |new_locale| %>
+            <li>
+              <%= link_to t("home.#{new_locale}"), url_add_params(request.original_url, { locale: new_locale }), data: { turbolinks: false } %>
+            </li>
+          <% end %>
+        </ul>
+      </li>
+    </ul>
+  </li>
 </ul>

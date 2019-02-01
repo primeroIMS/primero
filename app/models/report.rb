@@ -29,6 +29,7 @@ class Report < CouchRest::Model::Base
   MONTH = 'month' #eg. Jan-2015
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
+  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
 
   localize_properties [:name, :description]
   property :module_ids, [String]
@@ -41,6 +42,7 @@ class Report < CouchRest::Model::Base
   property :group_dates_by, default: DAY
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
+  property :base_language, default: DEFAULT_BASE_LANGUAGE
 
   #TODO: Currently it's not worth trying to save off the report data.
   #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to a string.
@@ -53,10 +55,10 @@ class Report < CouchRest::Model::Base
   attr_accessor :disaggregate_by_ordered
   attr_accessor :permission_filter
 
-  validates_presence_of :name
   validates_presence_of :record_type
   validates_presence_of :aggregate_by
   validate :modules_present
+  validate :validate_name_in_base_language
 
   before_save :apply_default_filters
 
@@ -71,6 +73,12 @@ class Report < CouchRest::Model::Base
                   }
                 }
               }"
+  end
+
+  def validate_name_in_base_language
+    return true if self.send("name_#{DEFAULT_BASE_LANGUAGE}").present?
+    errors.add(:name, I18n.t("errors.models.report.name_presence"))
+    return false
   end
 
   class << self

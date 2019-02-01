@@ -16,6 +16,39 @@ describe Matchable do
     before do
       Child.all.each &:destroy
       FormSection.all.each &:destroy
+
+      subform_fields = [
+        Field.new({"name" => "relation",
+                   "type" => Field::TEXT_FIELD,
+                   "display_name_all" => "relation"
+                  }),
+        Field.new({"name" => "relation_name",
+                   "type" => Field::TEXT_FIELD,
+                   "display_name_all" => "relation_name",
+                   "matchable" => true
+                  }),
+        Field.new({"name" => "relation_nickname",
+                   "type" => Field::TEXT_FIELD,
+                   "display_name_all" => "relation_nickname",
+                   "matchable" => true
+                  })
+      ]
+      subform_section = FormSection.new({
+          "visible"=>false,
+          "is_nested"=>true,
+          :order_form_group => 1,
+          :order => 1,
+          :order_subform => 1,
+          :unique_id=>"subform_section_1",
+          :parent_form=>"case",
+          "editable"=>true,
+          :fields => subform_fields,
+          :initial_subforms => 1,
+          "name_all" => "Nested Subform Section 1",
+          "description_all" => "Details Nested Subform Section 1"
+      })
+      subform_section.save!
+
       fields = [
           Field.new({"name" => "name",
                      "type" => "text_field",
@@ -30,7 +63,14 @@ describe Matchable do
           Field.new({"name" => "age",
                      "type" => "numeric_field",
                      "display_name_all" => "Age"
-                    })]
+                    }),
+          Field.new({"name" => "sub_form_field",
+                     "type" => "subform",
+                     "editable" => true,
+                     "subform_section_id" => subform_section.unique_id,
+                     "display_name_all" => "Subform Section 1"
+                    })
+      ]
       form = FormSection.new(
           :unique_id => "form_section_test",
           :parent_form=>"case",
@@ -47,11 +87,13 @@ describe Matchable do
       form.save!
       Child.any_instance.stub(:field_definitions).and_return(fields)
       Child.refresh_form_properties
+      @match_fields = { case_fields: { form_section_test: ["name", "relation_name"] } }
+
     end
 
     context "when all form" do
       it "should get all matchable fields" do
-        expect(Child.matchable_fields).to eq(["name", "name_nickname"])
+        expect(Child.matchable_fields).to eq(["name", "name_nickname", "relation_name", "relation_nickname"])
       end
     end
 
@@ -59,11 +101,19 @@ describe Matchable do
       it "should get parent form matchable fields" do
         expect(Child.form_matchable_fields).to eq(["name", "name_nickname"])
       end
+
+      it "should get match_fields from matchable fields" do
+        expect(Child.form_matchable_fields(@match_fields[:case_fields])).to eq(["name"])
+      end
     end
 
     context "when subform" do
       it "should get subform matchable fields" do
-        expect(Child.subform_matchable_fields).to eq([])
+        expect(Child.subform_matchable_fields).to eq(["relation_name", "relation_nickname"])
+      end
+
+      it "should get match_fields from matchable fields" do
+        expect(Child.subform_matchable_fields(@match_fields[:case_fields])).to eq(["relation_name"])
       end
     end
   end

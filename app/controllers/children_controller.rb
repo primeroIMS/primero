@@ -415,13 +415,12 @@ class ChildrenController < ApplicationController
   end
 
   def update_record_with_attachments(child)
-    child_params = filter_params(child)
-    new_photo = child_params.delete("photo")
-    new_photo = (child_params[:photo] || "") if new_photo.nil?
-    new_audio = child_params.delete("audio")
+    new_photo = @record_filtered_params.delete("photo")
+    new_photo = (@record_filtered_params[:photo] || "") if new_photo.nil?
+    new_audio = @record_filtered_params.delete("audio")
     child.last_updated_by_full_name = current_user_full_name
     delete_child_audio = params["delete_child_audio"].present?
-    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"].to_h, new_audio, delete_child_audio, child_params.to_h)
+    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"].to_h, new_audio, delete_child_audio, @record_filtered_params.to_h)
     child
   end
 
@@ -452,7 +451,7 @@ class ChildrenController < ApplicationController
       users = User.by_user_name_enabled.all
     elsif can?(:assign_within_agency, Child)
       @user_can_assign = true
-      users = User.by_organization_enabled.key(current_user.organization).all
+      users = User.by_organization_and_disabled.key([current_user.organization, false]).all
     elsif can?(:assign_within_user_group, Child)
       @user_can_assign = true
       users = User.by_user_group.keys(current_user.user_group_ids_sanitized).all.select { |user| !user.disabled }

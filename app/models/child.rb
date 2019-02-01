@@ -113,10 +113,12 @@ class Child < CouchRest::Model::Base
   end
 
   def self.quicksearch_fields
+    # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
-      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id'
+      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
+      'family_count_no', 'dss_id'
     ]
   end
 
@@ -381,8 +383,9 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def matching_tracing_requests
-    match_result = Child.find_match_records(match_criteria, TracingRequest)
+  def matching_tracing_requests(case_fields = {})
+    matching_criteria = match_criteria(nil, case_fields)
+    match_result = Child.find_match_records(matching_criteria, TracingRequest, nil)
     PotentialMatch.matches_from_search(match_result) do |tr_id, score, average_score|
       traces = TracingRequest.get(tr_id).try(:traces) || []
       traces.map do |trace|
@@ -392,10 +395,10 @@ class Child < CouchRest::Model::Base
   end
 
   alias :inherited_match_criteria :match_criteria
-  def match_criteria(match_request=nil)
-    match_criteria = inherited_match_criteria(match_request)
+  def match_criteria(match_request=nil, case_fields=nil)
+    match_criteria = inherited_match_criteria(match_request, case_fields)
     match_criteria_subform = {}
-    Child.subform_matchable_fields.each do |field|
+    Child.subform_matchable_fields(case_fields).each do |field|
       match_values = []
       match_field = nil
       self.family.map do |member|

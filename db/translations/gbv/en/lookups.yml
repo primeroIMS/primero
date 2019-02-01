@@ -41,9 +41,9 @@ en:
   lookup-assessment-progress:
     name: Assessment Progress
     lookup_values:
-      n_a_76006: N/A
-      in_progress_69307: In progress
-      met_49626: Met
+      n_a: N/A
+      in_progress: In progress
+      met: Met
   lookup-case-status:
     name: Case Status
     lookup_values:

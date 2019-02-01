@@ -24,8 +24,8 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
 
   transfer_records_empty: function(event){
     var $transfer_button = $(event.target)
-    this.select_user_location($transfer_button.data('user_location'));
-    self.clear_user_selection();
+    this.select_user_location();
+    this.clear_user_selection();
   },
 
   transfer_records: function(event) {
@@ -153,9 +153,9 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
     })
   },
 
-  select_user_location: function(user_location){
-    var $location_select = $("select#location");
-    $location_select.val(user_location)
+  select_user_location: function(){
+    var $location_select = $("#transfer-modal select#location");
+    $location_select.val($location_select.data('value'))
     $location_select.trigger("chosen:updated");
   },
 

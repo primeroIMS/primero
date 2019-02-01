@@ -114,6 +114,11 @@ end
 default[:nginx_dir] = '/etc/nginx'
 default[:nginx_default_site] = true
 
+default[:primero_nginx].tap do |pn|
+  pn[:client_max_body_size] = '50M'
+  pn[:client_body_buffer_size] = '256k'
+end
+
 default[:postfix_dir] = '/etc/postfix'
 
 default[:python][:install_method] = 'package'

@@ -1,3 +1,7 @@
+<%
+  given_locale = @system_settings.base_language
+  system_locale = I18n.locale
+%>
 <% content_for :breadcrumbs do %>
   <%= I18n.t("system_settings.label") %>
 <% end %>
@@ -55,7 +59,14 @@
                 </div>
                 <div class="medium-1 columns"></div>
               </div>
-              <%= resource_edit_field(@system_settings, 'welcome_email_text', 'user.welcome_email.text_label', 'text_area') %>
+              <div class="row">
+                <div class="medium-3 columns">
+                    <%= f.label :welcome_email_text, t("user.welcome_email.text_label", :locale => system_locale), :class => 'key inline' %>
+                </div>
+                <div class="medium-8 columns">
+                    <%= f.text_area "welcome_email_text_#{given_locale}", :id => "welcome_email_text" %>
+                </div>
+              </div>
               <% Primero::Application::locales.each do |new_locale| %>
                 <% unless new_locale == "en" %>
                   <div class="<%= "translation_forms #{new_locale}"%> hide_element">

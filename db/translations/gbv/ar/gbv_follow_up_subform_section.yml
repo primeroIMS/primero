@@ -1,0 +1,61 @@
+---
+ar:
+  gbv_follow_up_subform_section:
+    name: "النموذج الفرعي المتداخل لمتابعة حالات العنف القائم على اساس النوع الاجتماعي "
+    description: النموذج الفرعي المتداخل للجاني المزعوم
+    fields:
+      service_type_provided:
+        display_name: نوع الخدمات التي قدمتها/ تقدمها المؤسسة التي اعمل بها
+      followup_date:
+        display_name: تاريخ المتابعة
+      followup_service_type:
+        display_name: نوع خدمة الإحالة
+      action_taken_already:
+        display_name: هل تم اتخاذ إجراءات؟
+      action_taken_details:
+        display_name: تفاصيل بشأن الإجراءات المتخذة
+      service_provided_date:
+        display_name: في حال الإجابة بنعم، متى تم تقديم الخدمة؟
+      need_follow_up_visit:
+        display_name: هل توجد حاجة لمزيد من زيارات المتابعة؟
+      when_follow_up_visit_should_happen:
+        display_name: في حال الإجابة بنعم، متى تنصح بإجراء الزيارة المقبلة؟
+      follow_up_comments:
+        display_name: تعليق اضافي \ ملاحظات
+      follow_up_survivor_share_needs:
+        display_name: هل أبلغت الناجية عن أي احتياجات أو مخاوف جديدة خلال موعد المتابعة؟
+        help_text: في حال الإجابة بنعم، يرجى وصف هذه الاحتياجات ومراجعة خطة عمل الحالة وفقًا للاحتياجات الجديدة
+      survivor_needs_met:
+        display_name: هل يلبي الإجراء المتخذ ( الإجراءات المتخذة) احتياجات الناجية؟
+        help_text: إذا كانت الإجابة لا، يرجى تحديث خطة عمل الحالة بما يلزم لتلبية هذه الاحتياجات
+      referred_for_another_appointment:
+        display_name: إذا كانت الإجابة لا، هل قمت بإحالة الناجية إلى موعد آخر؟
+      recommend_case_closed:
+        display_name: إذا تمت تلبية الاحتياجات، هل تنصح بإغلاق ملف الحالة؟
+      case_action_plan_implementation_timing:
+        display_name: كم من الوقت استغرقت عملية تنفيذ خطة عمل هذه الحالة؟
+      progress_made_towards_goals:
+        display_name: التقدم المحرز نحو الأهداف
+        help_text: قيّم التقدم المحرز نحو الأهداف المتفق عليها في خطة عمل الحالة وتقييم الناجية
+      gbv_assessment_progress_safety:
+        display_name: التقدم المحرز نحو الأهداف المتعلقة بالسلامة
+      gbv_assessment_progress_safety_text:
+        display_name: اشرح التقدم المحرز نحو الأهداف المتعلقة بالسلامة
+      gbv_assessment_progress_health:
+        display_name: التقدم المحرز نحو الأهداف المتعلقة بالرعاية الصحية
+      gbv_assessment_progress_health_text:
+        display_name: اشرح التقدم المحرز نحو الأهداف المتعلقة بالرعاية الصحية
+      gbv_assessment_progress_psychosocial:
+        display_name: التقدم المحرز نحو الأهداف المتعلقة بالدعم النفسي والاجتماعي
+      gbv_assessment_progress_psychosocial_text:
+        display_name: اشرح التقدم المحرز نحو الأهداف المتعلقة بالدعم النفسي والاجتماعي
+      gbv_assessment_progress_justice:
+        display_name: التقدم المحرز نحو الأهداف المتعلقة بالجانب العدلي والقانوني
+      gbv_assessment_progress_justice_text:
+        display_name: اشرح التقدم المحرز نحو الأهداف المتعلقة بالجانب العدلي والقانوني
+      gbv_assessment_other_goals_list:
+        display_name: أهداف أخرى (يرجى ذكرها)
+      gbv_assessment_other_goals:
+        display_name: التقدم المحرز نحو أهداف أخرى
+      gbv_assessment_other_goals_text:
+        display_name: اشرح التقدم المحرز نحو أهداف أخرى

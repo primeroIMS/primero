@@ -1098,13 +1098,18 @@ describe TracingRequest do
                   "display_name_en" => "Nickname",
                   "matchable" => true
                   }),
+        Field.new({"name" => "sex",
+                   "type" => "text_field",
+                   "display_name_en" => "Sex",
+                   "matchable" => true
+                  }),
         Field.new({"name" => "age",
                    "type" => "numeric_field",
                    "display_name_all" => "Age"
                   })]
       TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
       FormSection.create_or_update_form_section({
-        :unique_id=> "form_section_with_dates_fields",
+        :unique_id=> "form_section_test",
         "visible" => true,
         :order => 1,
         "editable" => true,
@@ -1116,26 +1121,38 @@ describe TracingRequest do
       })
     end
 
-    tr1 = TracingRequest.create(:name => "John cena", :name_nickname => "you cant see me", :age => 11)
-    tr2 = TracingRequest.create(:name_nickname => "Rock", :age => 14)
+    tr1 = TracingRequest.create(:name => "John cena", :name_nickname => "you cant see me", :age => 11, :sex => "male")
+    tr2 = TracingRequest.create(:name => "Rock", :age => 14, :sex => "male")
     tr3 = TracingRequest.create(:age => 50)
-
+    matching_fields = { form_section_test: ["name"] }
 
     context 'when field in match_fields' do
       it 'should find all values in match criteria' do
-        expect(tr1.match_criteria(tr1)).to eq({:name=>[tr1.name_nickname, tr1.name]})
+        expect(tr1.match_criteria(tr1)).to eq({:name=>[tr1.name_nickname, tr1.name], :sex=>[tr1.sex]})
+      end
+
+      it 'should find matchable_fields values in match criteria' do
+        expect(tr1.match_criteria(tr1, matching_fields)).to eq({:name=>[tr1.name, tr1.name_nickname]})
       end
     end
 
     context 'when field not in match_fields' do
       it 'should find exact match criteria' do
-        expect(tr2.match_criteria(tr2)).to eq({:name=>[tr2.name_nickname]})
+        expect(tr2.match_criteria(tr2)).to eq({:name=>[tr2.name], :sex=>[tr2.sex]})
+      end
+
+      it 'should find exact match criteria with matchable_fields' do
+        expect(tr2.match_criteria(tr2, matching_fields)).to eq({:name=>[tr2.name]})
       end
     end
 
     context 'when field is not matchable' do
       it 'should find no criteria' do
         expect(tr3.match_criteria(tr3)).to eq({})
+      end
+
+      it 'should find no criteria with matchable_fields' do
+        expect(tr3.match_criteria(tr3, matching_fields)).to eq({})
       end
     end
   end
