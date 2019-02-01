@@ -32,7 +32,7 @@ module PotentialMatchHelper
 
   def comparison_value(value)
     return '-' if value.blank?
-    (value.is_a? Array) ? value.join(',') : value
+    value.is_a?(Array) ? value.join(',') : value
   end
 
   def mark_case_matched_to_trace(potential_match)

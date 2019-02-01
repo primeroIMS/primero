@@ -72,7 +72,7 @@
         <br><span><%=  case_form[:form_name] %></span><hr />
       </div>
       <% case_form[:case_values].each do |comparison_field| %>
-        <% unless special_comparison_fields.include? comparison_field[:case_field].name %>
+        <% unless special_comparison_fields.include?(comparison_field[:case_field].name) %>
           <div class="row data value-comparison">
             <div class="columns small-2 key">
               <strong><%= comparison_field[:case_field].display_name %></strong>

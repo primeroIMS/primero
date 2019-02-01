@@ -64,9 +64,7 @@ class PotentialMatchesController < ApplicationController
     special_comparison_fields = ['age', 'sex', 'date_of_birth', 'name', 'name_other', 'name_nickname']
     @comparison = @potential_match.compare_case_to_trace
     @special_comparison = special_comparison_fields.map do |field_name|
-      comparsion_for = @comparison[:case]
-                           .map{|cv| cv[:case_values].select{|c| c[:case_field].name == field_name}.first}
-                           .reject(&:blank?).first
+      comparsion_for = @comparison[:case].map{|cv| cv[:case_values].select{|c| c[:case_field].name == field_name}.first}.reject(&:blank?).first
       comparsion_for = comparsion_for[:matches] if comparsion_for.present?
       [field_name, comparsion_for]
     end.to_h
