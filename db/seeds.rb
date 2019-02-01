@@ -10,12 +10,17 @@ def should_seed? model
 end
 
 def isTableEmpty? model
-  empty = false
-  rowCount = model.database.documents["rows"].count
-  if rowCount == 0
-    empty = true
-  elsif rowCount == 1
-    empty = model.database.documents["rows"][0]["id"][0..6] == "_design"
+  #TODO: This is a temporary hack while CouchDB is still here
+  if model <  ActiveRecord::Base
+    empty = model.count > 0
+  else
+    empty = false
+    rowCount = model.database.documents["rows"].count
+    if rowCount == 0
+      empty = true
+    elsif rowCount == 1
+      empty = model.database.documents["rows"][0]["id"][0..6] == "_design"
+    end
   end
   return empty
 end

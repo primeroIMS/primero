@@ -169,7 +169,7 @@ module ApplicationHelper
 
   def render_controls(record, path=nil)
     content_tag :div, class: 'button-group' do
-      if record.present? && record.new?
+      if record.present? && record.new_record?
         ctl_cancel_button(path || record) + ctl_save_button
       elsif current_actions(action: ['update', 'edit'])
         ctl_edit_button(record, path) + ctl_cancel_button(path || record, "middle_btn") + ctl_save_button

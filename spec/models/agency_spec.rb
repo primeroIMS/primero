@@ -12,7 +12,7 @@ describe Agency do
         agency1 = Agency.new(agency_code: "1234")
 
         expect(agency1).not_to be_valid
-        expect(agency1.errors[:name]).to eq(['must not be blank'])
+        expect(agency1.errors[:name]).to eq(['errors.models.agency.name_present'])
       end
     end
 
@@ -21,7 +21,7 @@ describe Agency do
         agency1 = Agency.new(name: "blah")
 
         expect(agency1).not_to be_valid
-        expect(agency1.errors[:agency_code]).to eq(['must not be blank'])
+        expect(agency1.errors[:agency_code]).to eq(['errors.models.agency.code_present'])
       end
     end
 
@@ -34,35 +34,6 @@ describe Agency do
   end
 
   describe 'agency id' do
-    context 'when passed in' do
-      before do
-        @agency1 = Agency.new(id: 'agency-unicef-foo', name: 'UNICEF', agency_code: 'abc123')
-      end
-
-      context 'before save' do
-        it 'id is the value passed in' do
-          expect(@agency1.id).to eq('agency-unicef-foo')
-        end
-
-        it 'is valid' do
-          expect(@agency1).to be_valid
-        end
-      end
-
-      context 'after save' do
-        before do
-          @agency1.save
-        end
-
-        it 'id is the value passed in' do
-          expect(@agency1.id).to eq('agency-unicef-foo')
-        end
-
-        it 'is valid' do
-          expect(@agency1).to be_valid
-        end
-      end
-    end
 
     context 'when not passed in' do
       context 'when passed in' do
@@ -83,10 +54,6 @@ describe Agency do
         context 'after save' do
           before do
             @agency2.save
-          end
-
-          it 'id is calculated from agency code' do
-            expect(@agency2.id).to eq('agency-def456')
           end
 
           it 'is valid' do
@@ -132,9 +99,9 @@ describe Agency do
     agency1.save
     agency2.save
     agency3.save
-    expect(Agency.all_names).to eq([{"id"=>"agency-1111", "display_text"=>"agency1"},
-                                    {"id"=>"agency-2222", "display_text"=>"agency2"},
-                                    {"id"=>"agency-3333", "display_text"=>"agency3"}])
+
+    all_names = Agency.all_names
+    expect(all_names.map{|a| a['display_text']}).to eq(['agency1', 'agency2', 'agency3'])
   end
 
   it "should return all available agency logos for the header" do
@@ -172,9 +139,6 @@ describe Agency do
         expect(@agency3.description).to eq('English Description')
       end
 
-      it 'id is calculated from agency code' do
-        expect(@agency3.id).to eq('agency-xyz000')
-      end
     end
 
     context 'and locale is French' do
@@ -193,9 +157,6 @@ describe Agency do
         expect(@agency3.description).to eq('French Description')
       end
 
-      it 'id is calculated from agency code' do
-        expect(@agency3.id).to eq('agency-xyz000')
-      end
     end
 
     context 'and locale is Spanish' do
@@ -214,9 +175,6 @@ describe Agency do
         expect(@agency3.description).to eq('Spanish Description')
       end
 
-      it 'id is calculated from agency code' do
-        expect(@agency3.id).to eq('agency-xyz000')
-      end
     end
 
     context 'and locale is Arabic' do
@@ -235,9 +193,6 @@ describe Agency do
         expect(@agency3.description).to eq('Arabic Description')
       end
 
-      it 'id is calculated from agency code' do
-        expect(@agency3.id).to eq('agency-xyz000')
-      end
     end
   end
 end

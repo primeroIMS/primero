@@ -12,6 +12,7 @@ def create_or_update_user(user_hash)
 
 end
 
+unicef = Agency.find_by(agency_code: 'UNICEF')
 
 create_or_update_user(
   "user_name" => "primero",
@@ -20,7 +21,7 @@ create_or_update_user(
   "full_name" => "System Superuser",
   "email" => "primero@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "role_ids" => [
     Role.by_name(key: "Superuser").first.id
   ],
@@ -37,7 +38,7 @@ create_or_update_user(
   "full_name" => "CP Administrator",
   "email" => "primero_admin_cp@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "role_ids" => [
     Role.by_name(key: "CP Administrator").first.id
   ],
@@ -54,7 +55,7 @@ create_or_update_user(
   "full_name" => "CP Worker",
   "email" => "primero_cp@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "role_ids" => [
     Role.by_name(key: "CP Case Worker").first.id
   ],
@@ -70,7 +71,7 @@ create_or_update_user(
   "full_name" => "CP Manager",
   "email" => "primero_mgr_cp@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "role_ids" => [
     Role.by_name(key: "CP Manager").first.id
   ],
@@ -87,7 +88,7 @@ create_or_update_user(
   "full_name" => "GBV Worker",
   "email" => "primero_gbv@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "role_ids" => [
     Role.by_name(key: "GBV Social Worker").first.id
   ],
@@ -103,7 +104,7 @@ create_or_update_user(
   "full_name" => "GBV Manager",
   "email" => "primero_mgr_gbv@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "role_ids" => [
     Role.by_name(key: "GBV Manager").first.id
   ],
@@ -120,7 +121,7 @@ create_or_update_user(
     "full_name" => "FTR Manager",
     "email" => "primero_ftr_manager@primero.com",
     "disabled" => "false",
-    "organization" => "agency-unicef",
+    "organization" => unicef.id,
     "role_ids" => [
         Role.by_name(key: "FTR Manager").first.id
     ],
@@ -137,7 +138,7 @@ create_or_update_user(
   "full_name" => "CP User Manager",
   "email" => "primero_user_mgr_cp@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "role_ids" => [
     Role.by_name(key: "CP User Manager").first.id
   ],
@@ -154,7 +155,7 @@ create_or_update_user(
   "full_name" => "GBV User Manager",
   "email" => "primero_user_mgr_gbv@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "role_ids" => [
     Role.by_name(key: "GBV User Manager").first.id
   ],
@@ -171,7 +172,7 @@ create_or_update_user(
   "full_name" => "Agency User Administrator",
   "email" => "agency_user_admin_cp@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "code" => "UNICEF/AGENCY_USER_ADMIN_CP",
   "role_ids" => [
     Role.by_name(key: "Agency User Administrator").first.id
@@ -189,7 +190,7 @@ create_or_update_user(
   "full_name" => "GBV Agency User Administrator",
   "email" => "agency_user_admin_gbv@primero.com",
   "disabled" => "false",
-  "organization" => "agency-unicef",
+  "organization" => unicef.id,
   "code" => "UNICEF/AGENCY_USER_ADMIN_CP",
   "role_ids" => [
     Role.by_name(key: "GBV Agency User Administrator").first.id

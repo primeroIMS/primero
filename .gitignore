@@ -29,6 +29,7 @@ primero-configuration
 tags
 public/assets/
 config/couchdb.yml
+config/database.yml
 config/mailers.yml
 config/solr.yml
 config/sunspot.yml

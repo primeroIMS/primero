@@ -720,7 +720,7 @@ describe Ability do
           expect(@ability).not_to authorize(:read, @agency4)
         end
 
-        it "allows user to edit roles assigned to them" do
+        it "allows user to edit agencies assigned to them" do
           expect(@ability).to authorize(:edit, @agency1)
           expect(@ability).to authorize(:edit, @agency3)
         end

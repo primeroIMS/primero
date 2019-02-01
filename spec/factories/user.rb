@@ -5,7 +5,7 @@ FactoryBot.define do
     password 'passw0rd'
     password_confirmation 'passw0rd'
     email 'email@ddress.net'
-    organization 'agency-unicef'
+    organization 'agency-unicef' #TODO: Refactor as association?
     location 'SLE0103'
     disabled false
     verified true

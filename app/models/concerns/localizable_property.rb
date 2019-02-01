@@ -1,3 +1,4 @@
+#TODO: This class will be deprecated (and eventually deleted) in favor of LocalizeJsonProperty
 module LocalizableProperty
   extend ActiveSupport::Concern
 

@@ -7,4 +7,4 @@ require 'rake/dsl_definition'
 require 'backburner/tasks'
 
 include Rake::DSL
-Primero::Application.load_tasks
+Rails.application.load_tasks

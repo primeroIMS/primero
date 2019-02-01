@@ -2,7 +2,7 @@ class AgenciesController < ApplicationController
 
   @model_class = Agency
 
-  include MediaActions
+  #include MediaActions #TODO: add back in when we are using ActiveStorage
   include RecordFilteringPagination
 
   before_action :filter_params_array_duplicates, :only => [:create, :update]
@@ -18,7 +18,7 @@ class AgenciesController < ApplicationController
     @filters = record_filter(filter)
     @total_records = @agencies_result.count
     per_page
-    @agencies = paginated_collection(@agencies_result.try(:all), @agencies_result.count)
+    @agencies = paginated_collection(@agencies_result, @agencies_result.count)
   end
 
   def show
@@ -88,7 +88,7 @@ class AgenciesController < ApplicationController
   private
 
   def load_record_or_redirect
-    @agency = Agency.get(params[:id]) if params[:id]
+    @agency = Agency.find_by_id(params[:id]) if params[:id]
   end
 
   def load_services
@@ -101,8 +101,9 @@ class AgenciesController < ApplicationController
 
   def load_agencies
     filter_status = agency_status_param || %w(list enabled)
-    agencies_result = (filter_status.length == 2) ? Agency.by_disabled(key: filter_status.last.eql?('disabled')) : Agency.all
-    @agencies_result = agencies_result.try(:page, page).try(:per, per_page) || []
+    @agencies_result = (filter_status.length == 2) ? Agency.enabled(!filter_status.last.eql?('disabled')) : Agency.all
+    #TODO: Pagination isnt really working anymore, but this will no longer be relevant soon.
+    #@agencies_result = agencies_result.try(:page, page).try(:per, per_page) || []
   end
 
   def record_filter(filter)

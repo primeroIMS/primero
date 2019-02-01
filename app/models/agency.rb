@@ -1,31 +1,14 @@
-class Agency < CouchRest::Model::Base
-  use_database :agency
+class Agency < ActiveRecord::Base
 
-  include PrimeroModel
-  include Primero::CouchRestRailsBackward
-  include LogoUploader
-  include Memoizable
-  include Disableable
-  include LocalizableProperty
+  #include LogoUploader #TODO Rplace with ActiveStorage
+  include Memoizable #TODO: We may pull this out or have a more polite way of caching
+  include LocalizableJsonProperty
 
-  #TODO - i18n name and description came from Nameable.  Need cleaner way to handle this
-  localize_properties [:name, :description]
-  property :telephone
-  property :logo
-  property :order, Integer, default: 0
-  property :logo_enabled, TrueClass, :default => false
-  property :core_resource, TrueClass, :default => false
-  property :agency_code
-  property :services, :type => [String]
+  localize_properties :name, :description
 
-  design :by_order do
-    view :by_order
-  end
+  validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
+  validates :name, presence: { message: 'errors.models.agency.name_present' }
 
-  validates_presence_of :agency_code, :message => I18n.t("errors.models.agency.code_present")
-  validates_presence_of :name, :message => I18n.t("errors.models.agency.name_present")
-
-  before_create :generate_id
 
   class << self
     alias :old_all :all
@@ -38,29 +21,37 @@ class Agency < CouchRest::Model::Base
     memoize_in_prod :all
     memoize_in_prod :list_by_all
 
+    #TODO: Consider moving this to a shared concern
+    def enabled(is_enabled=true)
+      where(disabled: !is_enabled)
+    end
+
     #This method returns a list of id / display_text value pairs
     #It is used to create the select options list for Agency fields
     def all_names
-      self.by_disabled(key: false).map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
+      enabled.map{|r| {id: r.id, display_text: r.name}.with_indifferent_access}
     end
     memoize_in_prod :all_names
 
     def retrieve_logo_ids
-      self.by_order.select{|l| l.logo_enabled == true }
-          .collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
+      # self.by_order.select{|l| l.logo_enabled == true }
+      #     .collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
+      #TODO: This will need to be re-implemented with the ActiveStorage library. Not sure that this will still need to be cached.
+      []
     end
     memoize_in_prod :retrieve_logo_ids
 
     def display_text(agency_id, opts={})
       locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-      agency = Agency.get(agency_id)
+      agency = Agency.find_by_id(agency_id)
       value = (agency.present? ? agency.name(locale) : '')
     end
     memoize_in_prod :display_text
   end
 
-  def generate_id
-    #Use agency_code to generate the ID since it is more stable than the name
-    self["_id"] ||= "agency-#{self.agency_code}".parameterize.dasherize
+  #TODO: Temprary method until we get ActiveStorage working
+  def logo
+    nil
   end
+
 end
