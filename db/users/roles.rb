@@ -131,6 +131,10 @@ cp_admin_permissions = [
     ]
   ),
   Permission.new(
+      :resource => Permission::AUDIT_LOG,
+      :actions => [Permission::READ]
+  ),
+  Permission.new(
     :resource => Permission::DUPLICATE,
     :actions => [Permission::READ]
   )
