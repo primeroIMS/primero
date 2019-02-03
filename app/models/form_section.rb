@@ -15,90 +15,10 @@ class FormSection < ActiveRecord::Base
   #TODO: get rid of fixed_order perm_visible perm_enabled validations
 
   attr_accessor :module_name
-
-  # design
-
-  # design :by_unique_id do
-  #   view :by_unique_id
-  # end
-
-  # design :by_parent_form do
-  #   view :by_parent_form
-  # end
-
-  # design :by_parent_form_and_mobile_form do
-  #   view :by_parent_form_and_mobile_form
-  # end
-
-  # design :by_order do
-  #   view :by_order
-  # end
-
-  # design :by_parent_form_and_unique_id do
-  #   view :by_parent_form_and_unique_id
-  # end
-
-  # design :by_lookup_field do
-  #   view :by_lookup_field,
-  #     :map => "function(doc) {
-  #               if (doc['couchrest-type'] == 'FormSection'){
-  #                 if (doc['fields'] != null){
-  #                   for(var i = 0; i<doc['fields'].length; i++){
-  #                     var field = doc['fields'][i];
-  #                     if (field['option_strings_source'] && field['option_strings_source'].indexOf('lookup') >= 0){
-  #                       emit(field['option_strings_source'].replace('lookup ', '').replace('group ', ''), null);
-  #                     }
-  #                   }
-  #                 }
-  #               }
-  #             }"
-  # end
-
-  # design :fields do
-  #   view :fields,
-  #     :map => "function(doc) {
-  #               if (doc['couchrest-type'] == 'FormSection'){
-  #                 if (doc['fields'] != null){
-  #                   for(var i = 0; i<doc['fields'].length; i++){
-  #                     var field = {};
-  #                     for (var k in doc['fields'][i]) {
-  #                       field[k] = doc['fields'][i][k];
-  #                     }
-  #                     field['on_nested'] = doc['is_nested'];
-  #                     field['parent_form'] = doc['parent_form'];
-  #                     emit(field['name'], field);
-  #                   }
-  #                 }
-  #               }
-  #             }"
-  # end
-
-  # design :having_location_fields_by_parent_form do
-  #   view :having_location_fields_by_parent_form,
-  #        :map => "function(doc) {
-  #               if (doc['couchrest-type'] == 'FormSection'){
-  #                 if (doc['fields'] != null){
-  #                   var loc_fields = false;
-  #                   for(var i = 0; i<doc['fields'].length; i++){
-  #                     var field = doc['fields'][i];
-  #                     if (field['option_strings_source'] && field['option_strings_source'] == 'Location'){
-  #                       loc_fields = true;
-  #                     }
-  #                   }
-  #                   if(loc_fields == true){
-  #                     emit(doc['parent_form'], null);
-  #                   }
-  #                 }
-  #               }
-  #             }"
-  # end
-
+  
   validate :validate_name_in_base_language
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
-  #validate :validate_visible_field
-  # validate :validate_fixed_order
-  # validate :validate_perm_visible
   validate :validate_datatypes
 
   after_initialize :defaults
@@ -132,16 +52,6 @@ class FormSection < ActiveRecord::Base
     "FormSection(#{self.name}, form_group_id => '#{self.form_group_id}')"
   end
 
-  # def initialize(properties={}, options={})
-  #   self["fields"] = []
-  #   self["shared_subform"] ||= ""
-  #   self["shared_subform_group"] ||= ""
-  #   self["is_summary_section"] ||= false
-  #   self["base_language"] ||= 'en'
-  #   super properties, options
-  #   create_unique_id
-  # end
-
   alias to_param unique_id
 
   class << self
@@ -150,35 +60,13 @@ class FormSection < ActiveRecord::Base
       [Field]
     end
 
-    # memoize by_unique_id because some things call this directly
-    alias :old_by_unique_id :by_unique_id
-    def by_unique_id *args
-      old_by_unique_id *args
-    end
-    memoize_in_prod :by_unique_id
-
+    #TODO: Used by importer. Refactor?
     def get_unique_instance(attributes)
-      get_by_unique_id(attributes['unique_id'])
+      find_by(unique_id: attributes['unique_id'])
     end
-    memoize_in_prod :get_unique_instance
+    #memoize_in_prod :get_unique_instance
 
-    def enabled_by_order
-      by_order.select(&:visible?)
-    end
-    memoize_in_prod :enabled_by_order
-
-    def all_child_field_names
-      all_child_fields.map { |field| field["name"] }
-    end
-    memoize_in_prod :all_child_field_names
-
-    def all_visible_form_fields(parent_form = 'case', subforms=true)
-      find_all_visible_by_parent_form(parent_form, subforms).map do |form_section|
-        form_section.fields.find_all(&:visible)
-      end.flatten
-    end
-    memoize_in_prod :all_visible_form_fields
-
+    #TODO: Refactor with Fields, ActiveRecord
     #Given a list of forms, return their subforms
     def get_subforms(forms)
       subform_ids, result = [], []
@@ -188,35 +76,18 @@ class FormSection < ActiveRecord::Base
         end
       end
       if subform_ids.present?
-        result = FormSection.by_unique_id(keys: subform_ids).all
+        result = FormSection.where(id: subform_ids)
       end
       return result
     end
-    memoize_in_prod :get_subforms
+    #memoize_in_prod :get_subforms
 
     def all_forms_grouped_by_parent(include_subforms=false)
-      forms = all.all
-      unless include_subforms
-        forms = forms.select{|f| !f.is_nested}
-      end
+      forms = FormSection.where(is_nested: false)
+      forms = forms.unscope(:where) if include_subforms
       forms.group_by{|f| f.parent_form}
     end
-    memoize_in_prod :all_forms_grouped_by_parent
-
-    def all_child_fields
-      all.map do |form_section|
-        form_section.fields
-      end.flatten
-    end
-    memoize_in_prod :all_child_fields
-
-    def enabled_by_order_without_hidden_fields
-      enabled_by_order.each do |form_section|
-        form_section['fields'].map! { |field| field if field.visible? }
-        form_section['fields'].compact!
-      end
-    end
-    memoize_in_prod :enabled_by_order_without_hidden_fields
+    #memoize_in_prod :all_forms_grouped_by_parent
 
     #Create the form section if does not exists.
     #If the form section does exist will attempt
@@ -224,11 +95,10 @@ class FormSection < ActiveRecord::Base
     def create_or_update_form_section(properties = {})
       unique_id = properties[:unique_id]
       return nil if unique_id.blank?
-      form_section = self.get_by_unique_id(unique_id)
+      form_section = self.find_by(unique_id: unique_id)
       if form_section.present?
         Rails.logger.info {"Updating form section #{unique_id}"}
-        form_section.attributes = properties
-        form_section.save!
+        form_section.update_attributes properties
       else
         Rails.logger.info {"Creating form section #{unique_id}"}
         return self.create!(properties)
@@ -237,82 +107,31 @@ class FormSection < ActiveRecord::Base
     end
     alias :create_or_update :create_or_update_form_section
 
-    def find_all_visible_by_parent_form(parent_form, subforms=true)
-      #by_parent_form(:key => parent_form).select(&:visible?).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
-      find_by_parent_form(parent_form, subforms).select(&:visible?)
-    end
-    memoize_in_prod :find_all_visible_by_parent_form
-
+    #TODO: This method may be removed, depending on how the all_searchable_* get refactored
     def find_by_parent_form(parent_form, subforms=true)
-      #TODO: the sortby can be moved to a couchdb view
-      result = by_parent_form(:key => parent_form).sort_by{|e| [e.order_form_group, e.order, e.order_subform]}
-      if result.present? && !subforms
-        result = filter_subforms(result)
-      end
-      return result
+      forms = FormSection.where(parent_form: parent_form, is_nested: false)
+      forms = forms.unscope(where: :is_nested) if subforms
+      forms.order(order_form_group: :asc, order: :asc, order_subform: :asc)
     end
-    memoize_in_prod :find_by_parent_form
-
-    def get_by_unique_id unique_id
-      by_unique_id(:key => unique_id).first
-    end
-    memoize_in_prod :get_by_unique_id
-
-    def highlighted_fields
-      all.map do |form|
-        form.fields.select { |field| field.is_highlighted? }
-      end.flatten
-    end
-    memoize_in_prod :highlighted_fields
-
-    def sorted_highlighted_fields
-      highlighted_fields.sort { |field1, field2| field1.highlight_information.order.to_i <=> field2.highlight_information.order.to_i }
-    end
-    memoize_in_prod :sorted_highlighted_fields
+    #memoize_in_prod :find_by_parent_form
 
     def violation_forms
-      ids = Incident.violation_id_fields.keys
-      FormSection.by_unique_id(keys: ids).all
+      #TODO: Fix this when we make MRM work
+      # ids = Incident.violation_id_fields.keys
+      # FormSection.by_unique_id(keys: ids).all
     end
-    memoize_in_prod :violation_forms
+    #memoize_in_prod :violation_forms
 
-    #TODO: This needs to be made not hard-coded
+    #TODO: This needs to be made not hard-coded. Used only in Exporters to exclude binary data
     def binary_form_names
       ['Photos and Audio', 'Other Documents', 'BID Records', 'BIA Records']
     end
-
-
-    #TODO - can this be done more efficiently?
-    def find_form_groups_by_parent_form parent_form
-      all_forms = self.find_by_parent_form(parent_form)
-
-      form_sections = []
-      subforms_hash = {}
-
-      all_forms.each do |form|
-        if form.visible?
-          form_sections.push form
-        else
-          subforms_hash[form.unique_id] = form
-        end
-      end
-
-      #TODO: The map{}.flatten still takes 13 ms to run
-      form_sections.map{|f| f.fields}.flatten.each do |field|
-        if field.type == 'subform' && field.subform_section_id
-          field.subform ||= subforms_hash[field.subform_section_id]
-        end
-      end
-
-      form_groups = form_sections.group_by{|e| e.form_group_name}
-    end
-    memoize_in_prod :find_form_groups_by_parent_form
-
 
     #Given an arbitrary list of forms go through and link up the forms to subforms.
     #Functionally this isn't important, but this will improve performance if the list
     #contains both the top forms and the subforms by avoiding extra queries.
     #TODO: Potentially this method is expensive
+    # TODO: Refactor with Field
     def link_subforms(forms)
       subforms_hash = forms.reduce({}) do |hash, form|
         hash[form.unique_id] = form if form.is_nested?
@@ -327,9 +146,10 @@ class FormSection < ActiveRecord::Base
 
       return forms
     end
-    memoize_in_prod :link_subforms
+    #memoize_in_prod :link_subforms
 
     #Return a hash of subforms, where the keys are the form groupings
+    # TODO: This method might no longer be relevant. Investigate! We should avoid sorting in Ruby
     def group_forms(forms)
       grouped_forms = {}
 
@@ -341,7 +161,7 @@ class FormSection < ActiveRecord::Base
       end
       return grouped_forms
     end
-    memoize_in_prod :group_forms
+    #memoize_in_prod :group_forms
 
     def get_visible_form_sections(form_sections)
       visible_forms = []
@@ -349,37 +169,18 @@ class FormSection < ActiveRecord::Base
 
       return visible_forms
     end
-    memoize_in_prod :get_visible_form_sections
-
-    def filter_subforms(form_sections)
-      forms = []
-      forms = form_sections.select{|f| (f.is_nested.blank? || f.is_nested != true)} if form_sections.present?
-
-      return forms
-    end
-    memoize_in_prod :filter_subforms
-
-    def filter_for_mobile(form_sections)
-      forms = []
-      forms = form_sections.select{|f| f.mobile_form == true} if form_sections.present?
-
-      return forms
-    end
+    #memoize_in_prod :get_visible_form_sections
 
     # Returns: an array of fields that are matchable
     def get_matchable_fields_by_parent_form(parent_form, subform=true)
-      form_sections = FormSection.by_parent_form(:key => parent_form).all
-      if subform
-        form_fields = form_sections.select{|f| (f.is_nested.present? && f.is_nested == true)}.map{|fs| fs.all_matchable_fields}.flatten
-      else
-        form_fields = filter_subforms(form_sections).map{|fs| fs.all_matchable_fields}.flatten
-      end
-      form_fields
+      FormSection.find_by_parent_form(parent_form, subform)
+      .map{|fs| fs.all_matchable_fields}.flatten
     end
-    memoize_in_prod :get_matchable_fields_by_parent_form
+    #memoize_in_prod :get_matchable_fields_by_parent_form
 
     # Returns: hash of (key) Form ID and (values) Fields that are matchable
     def get_matchable_form_and_field_names(form_ids, parent_form)
+      #TODO: Refactor after Field
       form_sections = FormSection.form_sections_by_ids_and_parent_form(form_ids, parent_form)
       return {} if form_sections.blank?
       form_hash = {}
@@ -390,42 +191,47 @@ class FormSection < ActiveRecord::Base
       form_hash
     end
 
+    #TODO: Only used by Matching code. Is it even needed? Rename is needed.
     def form_sections_by_ids_and_parent_form(form_ids, parent_form)
-      form_ids.present? ? FormSection.by_parent_form_and_unique_id(keys: form_ids.map{|f| [parent_form, f]}).all : []
+      FormSection.find_by_parent_form(parent_form, true).where(unique_id: form_ids)
     end
-
-    #Return only those forms that can be accessed by the user given their role permissions and the module
-    def get_permitted_form_sections(primero_module, parent_form, user)
-      allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
-      forms = allowed_form_ids.present? ? FormSection.by_parent_form_and_unique_id(keys: allowed_form_ids.map{|f| [parent_form, f]}).all : []
-      forms.each{|f| f.module_name = primero_module.name}
-      forms
-    end
-    memoize_in_prod :get_permitted_form_sections
 
     #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
+    # TODO: Refactor after User and PrimeroModule
     def get_allowed_form_ids(primero_module, user)
       user_form_ids = user.permitted_form_ids
       module_form_ids = primero_module.present? ? primero_module.associated_form_ids.select(&:present?) : []
       user_form_ids & module_form_ids
     end
 
+    #Return only those forms that can be accessed by the user given their role permissions and the module
+    def get_permitted_form_sections(primero_module, parent_form, user)
+      allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
+      forms = FormSection.form_sections_by_ids_and_parent_form(allowed_form_ids, parent_form)
+      #TODO: Is this needed?
+      forms.each{|f| f.module_name = primero_module.name}
+      forms
+    end
+    #memoize_in_prod :get_permitted_form_sections
+
+    def get_allowed_visible_forms_sections(primero_module, parent_form, user)
+      permitted_forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
+      FormSection.link_subforms(permitted_forms)
+      visible_forms = FormSection.get_visible_form_sections(permitted_forms) #TODO: Can this happen in the query?
+      FormSection.group_forms(visible_forms)
+    end
+
     def get_form_sections_by_module(primero_modules, parent_form, current_user)
       primero_modules.map do |primero_module|
-        allowed_visible_forms = get_allowed_visible_forms_sections(primero_module, parent_form, current_user)
+        allowed_visible_forms = FormSection.get_allowed_visible_forms_sections(primero_module, parent_form, current_user)
         forms = allowed_visible_forms.map{|key, forms_sections| forms_sections}.flatten
         [primero_module.id, forms]
       end.to_h
     end
-    memoize_in_prod :get_form_sections_by_module
+    #memoize_in_prod :get_form_sections_by_module
 
-    #Returns a list of all form sections having a field of the passed in lookup field
-    def find_by_lookup_field lookup_field
-      by_lookup_field(:key => lookup_field)
-    end
-    memoize_in_prod :find_by_lookup_field
-
-    def add_field_to_formsection formsection, field
+    #TODO: Refactor with Field
+    def add_field_to_formsection(formsection, field)
       raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
       field.merge!({'base_language' => formsection['base_language']})
       if field.type == 'subform'
@@ -438,13 +244,13 @@ class FormSection < ActiveRecord::Base
       formsection.save
     end
 
+    #TODO: Refactor with Field
     def create_subform(formsection, field)
       self.create_or_update_form_section({
                 :visible=>false,
                 :is_nested=>true,
                 :core_form=>false,
                 :editable=>true,
-                :base_language=>formsection.base_language,
                 :order_form_group => formsection.order_form_group,
                 :order => formsection.order,
                 :order_subform => 1,
@@ -455,18 +261,13 @@ class FormSection < ActiveRecord::Base
       })
     end
 
-    def get_form_containing_field field_name
-      all.find { |form| form.fields.find { |field| field.name == field_name || field.display_name == field_name } }
-    end
-    memoize_in_prod :get_form_containing_field
-
     def has_photo_form
-      photo_form = get_by_unique_id('photos_and_audio')
+      photo_form = find_by(unique_id: 'photos_and_audio')
       photo_form.present? && photo_form.visible
     end
     memoize_in_prod :has_photo_form
 
-    def new_custom form_section, module_name = "CP"
+    def new_custom(form_section, module_name = "CP")
       form_section[:core_form] = false   #Indicates this is a user-added form
 
       #TODO - need more elegant way to set the form's order
@@ -477,25 +278,8 @@ class FormSection < ActiveRecord::Base
       form_section[:module_name] = module_name
 
       fs = FormSection.new(form_section)
-      fs.unique_id = "#{module_name}_#{fs.name}".parameterize.underscore
+      fs.unique_id = "#{module_name}_#{fs.name_en}".parameterize.underscore
       return fs
-    end
-
-    def change_form_section_state formsection, to_state
-      formsection.enabled = to_state
-      formsection.save
-    end
-
-    def find_mobile_forms_by_parent_form(parent_form = 'case')
-      by_parent_form_and_mobile_form(key: [parent_form, true])
-    end
-    memoize_in_prod :find_mobile_forms_by_parent_form
-
-    def get_allowed_visible_forms_sections(primero_module, parent_form, user)
-      permitted_forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
-      FormSection.link_subforms(permitted_forms)
-      visible_forms = FormSection.get_visible_form_sections(permitted_forms)
-      FormSection.group_forms(visible_forms)
     end
 
     def determine_parent_form(record_type, apply_to_reports=false)
@@ -627,11 +411,6 @@ class FormSection < ActiveRecord::Base
       end
     end
 
-    def find_locations_by_parent_form(parent_form = 'case')
-      having_location_fields_by_parent_form(key: parent_form).all
-    end
-    memoize_in_prod :find_locations_by_parent_form
-
     def format_forms_for_mobile(form_sections, locale=nil, parent_form=nil)
       form_sections = form_sections.reduce([]){|memo, elem| memo + elem[1]}.flatten
 
@@ -654,6 +433,7 @@ class FormSection < ActiveRecord::Base
       form_hash
     end
 
+    #TODO: Refactor with Field
     def mobile_fields_to_hash(form, locales, lookups, locations)
       form.all_mobile_fields.map do |f|
         field_hash = f.localized_attributes_hash(locales, lookups, locations)
@@ -686,11 +466,11 @@ class FormSection < ActiveRecord::Base
     end
 
     def import_translations(form_hash={}, locale)
-      if locale.present? && Primero::Application::locales.include?(locale)
+      if locale.present? && I18n.locales.include?(locale)
         unique_id = form_hash.keys.first
         if unique_id.present?
           #We have to bypass memoization here
-          form = self.old_by_unique_id(key: unique_id).first
+          form = FormSection.find_by(unique_id: unique_id)
           if form.present?
             form.update_translations(form_hash.values.first, locale)
             Rails.logger.info "Updating Form translation: Form [#{form.unique_id}] locale [#{locale}]"
@@ -708,6 +488,7 @@ class FormSection < ActiveRecord::Base
 
   end
 
+  #TODO: Refactor with Field
   #Returns the list of field to show in collapsed subforms.
   #If there is no list defined, it will returns the first one of the fields.
   def collapsed_list
@@ -720,7 +501,13 @@ class FormSection < ActiveRecord::Base
     end
   end
 
-  # TODO: all searchable/filterable methods can possible be refactored
+  #TODO: Refactor with Field
+  def find_locations_by_parent_form(parent_form = 'case')
+    #having_location_fields_by_parent_form(key: parent_form).all
+  end
+  memoize_in_prod :find_locations_by_parent_form
+
+  # TODO: all searchable/filterable methods can possible be refactored with Field
   def all_text_fields
     self.fields.select { |field| field.type == Field::TEXT_FIELD || field.type == Field::TEXT_AREA }
   end
@@ -804,49 +591,23 @@ class FormSection < ActiveRecord::Base
     attributes
   end
 
+  #TODO: Refactor with Field
   def properties= properties
     properties.each_pair do |name, value|
       self.send("#{name}=", value) unless value == nil
     end
   end
 
-  def add_text_field field_name
-    self["fields"] << Field.new_text_field(field_name)
-  end
-
+  #TODO: Refactor with Field
   def add_field field
     self["fields"] << Field.new(field)
-  end
-
-  def update_field_as_highlighted field_name
-    field = fields.find { |field| field.name == field_name }
-    existing_max_order = FormSection.highlighted_fields.
-        map(&:highlight_information).
-        map(&:order).
-        max
-    order = existing_max_order.nil? ? 1 : existing_max_order + 1
-    field.highlight_with_order order
-    save
-  end
-
-  def remove_field_as_highlighted field_name
-    field = fields.find { |field| field.name == field_name }
-    field.unhighlight
-    save
   end
 
   def section_name
     unique_id
   end
 
-  def is_first field_to_check
-    field_to_check == fields.at(0)
-  end
-
-  def is_last field_to_check
-    field_to_check == fields.at(fields.length-1)
-  end
-
+  #TODO: Refactor with Field
   def delete_field field_to_delete
     field = fields.find { |field| field.name == field_to_delete }
     raise I18n.t("errors.models.form_section.delete_field") if !field.editable?
@@ -857,11 +618,7 @@ class FormSection < ActiveRecord::Base
     end
   end
 
-  def field_order field_name
-    field_item = fields.find { |field| field.name == field_name }
-    return fields.index(field_item)
-  end
-
+  #TODO: Refactor with Field
   def order_fields new_field_names
     new_fields = []
     new_field_names.each { |name| new_fields << fields.find { |field| field.name == name } }
@@ -912,6 +669,7 @@ class FormSection < ActiveRecord::Base
     self.form_group_id = new_id
   end
 
+  #TODO: Refactor with Field, but used only by translation loader and that's really horky
   def field_by_name(field_name)
     self.fields.find{|f| f.name == field_name}
   end
@@ -935,6 +693,7 @@ class FormSection < ActiveRecord::Base
 
   protected
 
+  #TODO: Refactor with Field
   def recalculate_subform_permissions
     if self.fields.any?{|f| f.type == Field::SUBFORM}
       Role.all.each do |role|
@@ -969,36 +728,6 @@ class FormSection < ActiveRecord::Base
     end
   end
 
-  # def validate_visible_field
-  #   self.visible = true if self.perm_visible?
-  #   if self.perm_visible? && self.visible == false
-  #     errors.add(:visible, I18n.t("errors.models.form_section.visible_method"))
-  #   end
-  #   true
-  # end
-
-  # def validate_fixed_order
-  #   self.fixed_order = true if self.perm_enabled?
-  #   if self.perm_enabled? && self.fixed_order == false
-  #     errors.add(:fixed_order, I18n.t("errors.models.form_section.fixed_order_method"))
-  #   end
-  #   true
-  # end
-
-  # def validate_perm_visible
-  #   self.perm_visible = true if self.perm_enabled?
-  #   if self.perm_enabled? && self.perm_visible == false
-  #     errors.add(:perm_visible, I18n.t("errors.models.form_section.perm_visible_method"))
-  #   end
-  #   true
-  # end
-
-  # def validate_unique_id
-  #   form_section = FormSection.get_by_unique_id(self.unique_id)
-  #   unique = form_section.nil? || form_section.id == self.id
-  #   unique || errors.add(:unique_id, I18n.t("errors.models.form_section.unique_id", :unique_id => unique_id))
-  # end
-
   #Make sure that within the record, the same field isn't defined with differing data types
   def validate_datatypes
     #TODO: Rewrite once we have the Field model defines
@@ -1024,13 +753,10 @@ class FormSection < ActiveRecord::Base
     return true
   end
 
+  #TODO: move to Field? Delete? Not used?
   def changing_between_text_field_and_textarea?(current_type, new_type)
     [Field::TEXT_FIELD, Field::TEXT_AREA].include?(current_type) && [Field::TEXT_FIELD, Field::TEXT_AREA].include?(new_type)
   end
-
-  # def create_unique_id
-  #   self.unique_id = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.unique_id.nil?
-  # end
 
   private
 

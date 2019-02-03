@@ -13,9 +13,6 @@ module FormSectionHelper
     record.alerts.any?{|alert| alert.form_sidebar_id == form_id}
   end
 
-  def sorted_highlighted_fields
-    FormSection.sorted_highlighted_fields
-  end
 
   def url_for_form_section_field(form_section_id, field)
     (field.new? || field.name.blank?) ? form_section_fields_path(form_section_id) : form_section_field_path(form_section_id, field.name)

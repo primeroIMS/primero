@@ -119,7 +119,7 @@ class ChildrenController < ApplicationController
     authorize! "#{type}_from_case".to_sym, Child
     form_id = params['form_id']
     form_sidebar_id = params['form_sidebar_id']
-    subform_section = FormSection.get_by_unique_id(form_id)
+    subform_section = FormSection.find_by(unique_id: form_id)
 
     html = ChildrenController.new.render_to_string(partial: "children/create_subform", layout: false, locals: {
       child: @child,

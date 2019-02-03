@@ -129,7 +129,7 @@ describe FormSection do
     describe "filter_for_subforms" do
       before do
         fs = FormSection.get_permitted_form_sections(@mobile_module, 'case', @userM)
-        @mobile_forms = FormSection.filter_for_mobile(fs)
+        @mobile_forms = fs.select{|f| f.mobile_form}
       end
       it "returns only mobile forms" do
         expect(@mobile_forms).to include(@form_section_mobile_1)
@@ -250,97 +250,9 @@ describe FormSection do
       }.to raise_error(CouchRest::Model::Errors::Validations)
 
       expect {
-        FormSection.get_by_unique_id("test").save!
+        FormSection.find_by(unique_id: "test").save!
       }.to_not raise_error
     end
-  end
-
-  describe "repository methods" do
-    before { FormSection.all.each &:destroy }
-
-    describe "enabled_by_order" do
-      it "should bring back sections in order" do
-        second = FormSection.create! :name => 'Second', :order => 2, :unique_id => 'second'
-        first = FormSection.create! :name => 'First', :order => 1, :unique_id => 'first'
-        third = FormSection.create! :name => 'Third', :order => 3, :unique_id => 'third'
-        FormSection.enabled_by_order.map(&:name).should == %w( First Second Third )
-      end
-
-      it "should exclude disabled sections" do
-        expected = FormSection.create! :name => 'Good', :order => 1, :unique_id => 'good'
-        unwanted = FormSection.create! :name => 'Bad', :order => 2, :unique_id => 'bad', :visible => false
-        FormSection.enabled_by_order.map(&:name).should == %w(Good)
-        FormSection.enabled_by_order.map(&:name).should_not ==  %w(Bad)
-      end
-    end
-
-    describe "enabled_by_order_without_hidden_fields" do
-      it "should exclude hidden fields" do
-        visible_field = Field.new(:name => "visible_field", :display_name => "Visible Field", :visible => true)
-        hidden_field = Field.new(:name => "hidden_field", :display_name => "Hidden Field", :visible => false)
-
-        section = FormSection.new :name => 'section', :order => 1, :unique_id => 'section'
-        section.fields = [visible_field, hidden_field]
-        section.save!
-
-        form_section = FormSection.enabled_by_order_without_hidden_fields.first
-        form_section.fields.should == [visible_field]
-      end
-    end
-
-  end
-
-  describe "mobile forms" do
-    before do
-      FormSection.all.each &:destroy
-      @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case')
-      @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case')
-      @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case')
-      @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'case', mobile_form: true)
-      @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: 'incident')
-      @form_section_f = FormSection.create!(unique_id: "F", name: "F", parent_form: 'incident', mobile_form: true)
-    end
-
-    it "should create new form with default mobile_form value false" do
-      expect(@form_section_a.mobile_form).to be_falsey
-    end
-
-    it "should find all mobile case forms" do
-      expect(FormSection.find_mobile_forms_by_parent_form('case')).to include(@form_section_d)
-      expect(FormSection.find_mobile_forms_by_parent_form('case')).not_to include(@form_section_f)
-      expect(FormSection.find_mobile_forms_by_parent_form('case').count).to eq(1)
-    end
-
-    it "should find all mobile incident forms" do
-      expect(FormSection.find_mobile_forms_by_parent_form('incident')).not_to include(@form_section_d)
-      expect(FormSection.find_mobile_forms_by_parent_form('incident')).to include(@form_section_f)
-      expect(FormSection.find_mobile_forms_by_parent_form('incident').count).to eq(1)
-    end
-  end
-
-  describe "get_by_unique_id" do
-    it "should retrieve formsection by unique id" do
-      expected = FormSection.new
-      unique_id = "fred"
-      FormSection.stub(:by_unique_id).with(:key=>unique_id).and_return([expected])
-      FormSection.get_by_unique_id(unique_id).should == expected
-    end
-
-    it "should save fields" do
-      section = FormSection.new :name => 'somename', :unique_id => "someform"
-      section.save!
-
-      section.fields = [Field.new(:name => "a_field", :type => "text_field", :display_name => "A Field")]
-      section.save!
-
-      field = section.fields.first
-      field.name = "kev"
-      section.save!
-
-      section = FormSection.get_by_unique_id("someform")
-      section.name.should == 'somename'
-    end
-
   end
 
   describe "add_field_to_formsection" do
@@ -677,90 +589,6 @@ describe FormSection do
     end
   end
 
-  describe "highlighted_fields" do
-    describe "get highlighted fields" do
-      before :each do
-        high_attr = [{ :order => "1", :highlighted => true }, { :order => "2", :highlighted => true }, { :order => "10", :highlighted => true }]
-        @high_fields = [ Field.new(:name => "h1", :highlight_information => high_attr[0]),
-                         Field.new(:name => "h2", :highlight_information => high_attr[1]),
-                         Field.new(:name => "h3", :highlight_information => high_attr[2]) ]
-        field = Field.new :name => "regular_field"
-        form_section1 = FormSection.new( :name => "Highlight Form1", :fields => [@high_fields[0], @high_fields[2], field] )
-        form_section2 = FormSection.new( :name => "Highlight Form2", :fields => [@high_fields[1]] )
-        FormSection.stub(:all).and_return([form_section1, form_section2])
-      end
-
-      it "should get fields that have highlight information" do
-        highlighted_fields = FormSection.highlighted_fields
-        highlighted_fields.size.should == @high_fields.size
-        highlighted_fields.map do |field| field.highlight_information end.should
-          include @high_fields.map do |field| field.highlight_information end
-      end
-
-      it "should sort the highlighted fields by highlight order" do
-        sorted_highlighted_fields = FormSection.sorted_highlighted_fields
-        sorted_highlighted_fields.map do |field| field.highlight_information.order end.should ==
-          @high_fields.map do |field| field.highlight_information.order end
-      end
-    end
-
-    describe "highlighted fields" do
-
-      it "should update field as highlighted" do
-        attrs = { :field_name => "h1", :form_id => "highlight_form" }
-        existing_field = Field.new :name => attrs[:field_name]
-        form = FormSection.new(:name => "Some Form",
-                               :unique_id => attrs[:form_id],
-                               :fields => [existing_field])
-        FormSection.stub(:all).and_return([form])
-        form.update_field_as_highlighted attrs[:field_name]
-        existing_field.highlight_information.order.should == 1
-        existing_field.is_highlighted?.should be_truthy
-      end
-
-      it "should increment order of the field to be highlighted" do
-        attrs = { :field_name => "existing_field", :form_id => "highlight_form"}
-        existing_field = Field.new :name => attrs[:field_name]
-        existing_highlighted_field = Field.new :name => "highlighted_field"
-        existing_highlighted_field.highlight_with_order 3
-        form = FormSection.new(:name => "Some Form",
-                               :unique_id => attrs[:form_id],
-                               :fields => [existing_field, existing_highlighted_field])
-        FormSection.stub(:all).and_return([form])
-        form.update_field_as_highlighted attrs[:field_name]
-        existing_field.is_highlighted?.should be_truthy
-        existing_field.highlight_information.order.should == 4
-      end
-
-      it "should un-highlight a field" do
-        existing_highlighted_field = Field.new :name => "highlighted_field"
-        existing_highlighted_field.highlight_with_order 1
-        form = FormSection.new(:name => "Some Form", :unique_id => "form_id",
-                               :fields => [existing_highlighted_field])
-        FormSection.stub(:all).and_return([form])
-        form.remove_field_as_highlighted existing_highlighted_field.name
-        existing_highlighted_field.is_highlighted?.should be_falsey
-      end
-    end
-
-    #TODO this formatted_hash method breaks in 2 scenarios...
-    # 1) fields such as unique_id get confused with the Indonesia locale 'id'
-    # 2) some locales such as ar-LB are more than 2 chars long.  Bad to assume last 2 characters are the locale
-    # Another thing that is bad with this is it loops through all properties, even non-localized properties
-    # It is suspected this is only used by the 'published' api action which is not used by the mobile app
-    #TODO LB-293 removing this method & test will be addressed in a later ticket.
-    describe "formatted hash" do
-      xit "should combine the translations into a hash" do
-        fs = FormSection.new(:name_en => "english name", :name_fr => "french name", :unique_id => "unique id",
-                             :fields => [Field.new(:display_name_en => "dn in english", :display_name_es => "dn in spanish", :name => "name")])
-        form_section = fs.formatted_hash
-        form_section["name"].should == {"en" => "english name", "fr" => "french name"}
-        form_section["unique_id"].should == "unique id"
-        form_section["fields"].first["display_name"].should == {"en" => "dn in english", "es" => "dn in spanish"}
-        form_section["fields"].first["name"].should == "name"
-      end
-    end
-  end
 
   describe "Create FormSection Or Add Fields" do
 
@@ -909,7 +737,7 @@ describe FormSection do
       new_form_section = FormSection.new
       new_form_section.should_not_receive(:save)
       new_form_section.should_not_receive(:attributes)
-      FormSection.should_receive(:get_by_unique_id).with("tracing").and_return(nil)
+      #FormSection.should_receive(:get_by_unique_id).with("tracing").and_return(nil)
       FormSection.should_receive(:create!).with(properties).and_return(new_form_section)
 
       form_section = FormSection.create_or_update_form_section(properties)
@@ -942,7 +770,7 @@ describe FormSection do
       existing_form_section = FormSection.new
       existing_form_section.should_receive(:attributes=).with(properties)
       existing_form_section.should_receive(:save!)
-      FormSection.should_receive(:get_by_unique_id).with("tracing").and_return(existing_form_section)
+      FormSection.should_receive(:find_by).with(unique_id: "tracing").and_return(existing_form_section)
 
       form_section = FormSection.create_or_update_form_section(properties)
       form_section.should == existing_form_section
@@ -1540,7 +1368,7 @@ describe FormSection do
                                                                                                          "option_2"=>"Spanish Option Two Translated",
                                                                                                          "option_3"=>"Spanish Option Three Translated"}}}}}
             FormSection.import_translations(@translated_hash, @locale)
-            @form_t_1 = FormSection.get_by_unique_id('form_t_1')
+            @form_t_1 = FormSection.find_by(unique_id: 'form_t_1')
           end
 
           it 'adds translated options for the specified locale' do
@@ -1585,7 +1413,7 @@ describe FormSection do
                                                                                                          "option_3"=>"Spanish Option Three Translated",
                                                                                                          "option_4"=>"Spanish Option Four Translated"}}}}}
             FormSection.import_translations(@translated_hash, @locale)
-            @form_t_3 = FormSection.get_by_unique_id('form_t_3')
+            @form_t_3 = FormSection.find_by(unique_id: 'form_t_3')
           end
 
           it 'adds only the translated options that also exist in the default locale' do
@@ -1614,7 +1442,7 @@ describe FormSection do
                                                                                                          "option_6"=>"Spanish Option Six Translated",
                                                                                                          "option_7"=>"Spanish Option Seven Translated"}}}}}
             FormSection.import_translations(@translated_hash, @locale)
-            @form_t_4 = FormSection.get_by_unique_id('form_t_4')
+            @form_t_4 = FormSection.find_by(unique_id: 'form_t_4')
           end
 
           it 'does not add any option that does not exist in the default locale' do
@@ -1636,7 +1464,7 @@ describe FormSection do
                                                                                                          "option_1"=>"Spanish Option One Translated",
                                                                                                          "option_3"=>"Spanish Option Three Translated"}}}}}
             FormSection.import_translations(@translated_hash, @locale)
-            @form_t_5 = FormSection.get_by_unique_id('form_t_5')
+            @form_t_5 = FormSection.find_by(unique_id: 'form_t_5')
           end
 
           it 'adds translated options for the specified locale' do
@@ -1680,7 +1508,7 @@ describe FormSection do
                                                                                                          "option_2"=>"Spanish Option Two Translated",
                                                                                                          "option_3"=>"Spanish Option Three Translated"}}}}}
             FormSection.import_translations(@translated_hash, @locale)
-            @form_t_10 = FormSection.get_by_unique_id('form_t_10')
+            @form_t_10 = FormSection.find_by(unique_id: 'form_t_10')
           end
 
           it 'adds translated options for the specified locale' do
@@ -1703,7 +1531,7 @@ describe FormSection do
                                                                                'option_strings_text' => {"option_1"=>"Spanish Option One Translated",
                                                                                                          "option_2"=>"Spanish Option Two Translated"}}}}}
             FormSection.import_translations(@translated_hash, @locale)
-            @form_t_11 = FormSection.get_by_unique_id('form_t_11')
+            @form_t_11 = FormSection.find_by(unique_id: 'form_t_11')
           end
 
           it 'updates only the translated options provided for the specified locale' do
@@ -1728,7 +1556,7 @@ describe FormSection do
                                                                                                          "option_3"=>"Spanish Option Three Translated",
                                                                                                          "option_4"=>"Spanish Option Four Translated"}}}}}
             FormSection.import_translations(@translated_hash, @locale)
-            @form_t_12 = FormSection.get_by_unique_id('form_t_12')
+            @form_t_12 = FormSection.find_by(unique_id: 'form_t_12')
           end
 
           it 'adds only the translated options that also exist in the default locale' do
@@ -1757,7 +1585,7 @@ describe FormSection do
                                                                                                          "option_6"=>"Spanish Option Six Translated",
                                                                                                          "option_7"=>"Spanish Option Seven Translated"}}}}}
             FormSection.import_translations(@translated_hash, @locale)
-            @form_t_13 = FormSection.get_by_unique_id('form_t_13')
+            @form_t_13 = FormSection.find_by(unique_id: 'form_t_13')
           end
 
           it 'does not add any option that does not exist in the default locale' do
@@ -1781,7 +1609,7 @@ describe FormSection do
                                                                                                           "option_1"=>"Spanish Option One Translated",
                                                                                                           "option_3"=>"Spanish Option Three Translated"}}}}}
             FormSection.import_translations(@translated_hash, @locale)
-            @form_t_14 = FormSection.get_by_unique_id('form_t_14')
+            @form_t_14 = FormSection.find_by(unique_id: 'form_t_14')
           end
 
           it 'adds translated options for the specified locale' do

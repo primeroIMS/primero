@@ -168,7 +168,7 @@ describe "form_section/_show_form_section.html.erb" do
   end
 
   it "Should display fields visible=true and fields hide_on_view_page=false" do
-    form = FormSection.get_by_unique_id("form_section_test_1")
+    form = FormSection.find_by(unique_id: "form_section_test_1")
     assign(:form_sections, {"Form Section Test" => [form]})
     render :partial => 'form_section/show_form_section',
            :locals => { :formObject => @formObject, :lookups => @lookups },

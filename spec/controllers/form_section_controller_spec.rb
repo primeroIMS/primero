@@ -315,9 +315,9 @@ describe FormSectionController do
       form_two = FormSection.create(:unique_id => "second_form", :name => "second form", :order => 2)
       form_three = FormSection.create(:unique_id => "third_form", :name => "third form", :order => 3)
       post :save_order, params: {:ids => [form_three.unique_id, form_one.unique_id, form_two.unique_id]}
-      FormSection.get_by_unique_id(form_one.unique_id).order.should == 2
-      FormSection.get_by_unique_id(form_two.unique_id).order.should == 3
-      FormSection.get_by_unique_id(form_three.unique_id).order.should == 1
+      FormSection.find_by(unique_id: form_one.unique_id).order.should == 2
+      FormSection.find_by(unique_id: form_two.unique_id).order.should == 3
+      FormSection.find_by(unique_id: form_three.unique_id).order.should == 1
       response.should redirect_to(form_sections_path)
     end
   end
@@ -326,7 +326,7 @@ describe FormSectionController do
     it "should save update if valid" do
       form_section = FormSection.new
       params = {"some" => "params"}
-      FormSection.should_receive(:get_by_unique_id).with("form_1", true).and_return(form_section)
+      FormSection.should_receive(:find_by).with({unique_id: 'form_1'}).and_return(form_section)
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(true)
       form_section.should_receive(:save!)
@@ -337,7 +337,7 @@ describe FormSectionController do
     it "should show errors if invalid" do
       form_section = FormSection.new
       params = {"some" => "params"}
-      FormSection.should_receive(:get_by_unique_id).with("form_1", true).and_return(form_section)
+      FormSection.should_receive(:find_by).with({unique_id: 'form_1'}).and_return(form_section)
       form_section.should_receive(:properties=).with(params)
       form_section.should_receive(:valid?).and_return(false)
       post :update, params: {:form_section => params, :id => "form_1"}
@@ -351,26 +351,10 @@ describe FormSectionController do
       form_section1 = FormSection.create!({:name=>"name1", :description=>"desc", :visible=>"true", :unique_id=>"form_1"})
       form_section2 = FormSection.create!({:name=>"name2", :description=>"desc", :visible=>"false", :unique_id=>"form_2"})
       post :toggle, params: {:id => "form_1"}
-      FormSection.get_by_unique_id(form_section1.unique_id).visible.should be_falsey
+      FormSection.find_by(unique_id: form_section1.unique_id).visible.should be_falsey
       post :toggle, params: {:id => "form_2"}
-      FormSection.get_by_unique_id(form_section2.unique_id).visible.should be_truthy
+      FormSection.find_by(unique_id: form_section2.unique_id).visible.should be_truthy
     end
-  end
-
-  it "should only retrieve fields on a form that are visible" do
-    FormSection.should_receive(:find_all_visible_by_parent_form).and_return({})
-    get :published
-  end
-
-  it "should publish form section documents as json" do
-    form_sections = [FormSection.new(:name => 'Some Name', :description => 'Some description')]
-    FormSection.stub(:find_all_visible_by_parent_form).and_return(form_sections)
-
-    get :published
-
-    returned_form_section = JSON.parse(response.body).first
-    returned_form_section["name"][I18n.locale.to_s].should == 'Some Name'
-    returned_form_section["description"][I18n.locale.to_s].should == 'Some description'
   end
 
 end

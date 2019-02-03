@@ -14,7 +14,7 @@ class FieldsController < ApplicationController
   include LoggerActions
 
   def read_form_section
-    @form_section = FormSection.get_by_unique_id(params[:form_section_id])
+    @form_section = FormSection.find_by(unique_id: params[:form_section_id])
   end
 
   def create
@@ -43,7 +43,7 @@ class FieldsController < ApplicationController
   def change_form
     @field = @form_section.fields.detect { |field| field.name == params[:id] }
     @form_section.delete_field @field.name
-    destination_form = FormSection.get_by_unique_id(params[:destination_form_id])
+    destination_form = FormSection.find_by(unique_id: params[:destination_form_id])
     destination_form.add_field @field
     destination_form.save
     flash[:notice] = t("moved_from", :field_name => @field.display_name, :from_fs => @form_section.name, :to_fs => destination_form.name)

@@ -172,6 +172,7 @@ class Lookup < CouchRest::Model::Base
   end
 
   def is_being_used?
+    #TODO: Rewrite after Field migration
     FormSection.find_by_lookup_field(self.id).all.size > 0
   end
 

@@ -84,7 +84,7 @@ module Exporters
       idx = incident.violations[type].index(violation)
       parts = [
         violation_titleized(type),
-        FormSection.get_by_unique_id(type).collapsed_fields.map {|cf| violation[cf] },
+        FormSection.find_by(unique_id: type).collapsed_fields.map {|cf| violation[cf] },
         violation.unique_id[0..4]
       ].flatten.compact
       parts.join(' - ')

@@ -2,7 +2,7 @@
    subform = field
    subform_section = field.subform_section
    #TODO - booo!!!!  This is bad. Refactor needed.  Don't do a DB query in a template
-   shared_subform_section = (subform_section.shared_subform.present? ? FormSection.get_by_unique_id(subform_section.shared_subform) : nil)
+   shared_subform_section = (subform_section.shared_subform.present? ? FormSection.find_by(unique_id: subform_section.shared_subform) : nil)
    shared_subform_section_group = subform_section.shared_subform_group
 
    #TODO: a little redundant to re-count the subforms? (see grouped_subforms(formObject, subform))

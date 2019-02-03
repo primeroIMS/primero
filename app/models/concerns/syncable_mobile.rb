@@ -32,10 +32,6 @@ module SyncableMobile
   end
 
   module ClassMethods
-    def is_syncable_with_mobile?
-      @syncable_with_mobile ||= FormSection.find_mobile_forms_by_parent_form(parent_form).count > 0
-      @syncable_with_mobile
-    end
 
     def fetch_all_ids_and_revs(owned_by_ids = [], marked_for_mobile, last_update_date, module_id)
       if marked_for_mobile
