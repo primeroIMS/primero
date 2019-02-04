@@ -108,7 +108,9 @@ describe FormSectionController do
                                 :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1","so"=>"field1",
                                                 "es"=>"field1", "bn"=>"field1", "my"=>"field1", "th"=>"field1", "ku"=>"field1"},
                                 :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "my"=>[], "th"=>[], "ku"=>[]}}]},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
+                                                       "bn"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                "date_validation" => nil}]},
                      "required"=>false,
                      "option_strings_source"=>nil,
                      "show_on_minify_form"=>false,
@@ -116,7 +118,9 @@ describe FormSectionController do
                      :display_name=>{"en"=>"nested_e", "fr"=>"nested_e", "ar"=>"nested_e", "ar-LB"=>"nested_e", "so"=>"nested_e",
                                      "es"=>"nested_e", "bn"=>"nested_e", "my"=>"nested_e", "th"=>"nested_e", "ku"=>"nested_e"},
                      :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                     :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "my"=>[], "th"=>[], "ku"=>[]}}]
+                     :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[],
+                                            "my"=>[], "th"=>[], "ku"=>[]},
+                     "date_validation" => nil}]
         get :index, params: {mobile: true, :format => :json}
         expect(assigns[:form_sections]['Children'].select{|f| f['unique_id'] == 'D'}.first['fields']).to eq(expected)
       end
