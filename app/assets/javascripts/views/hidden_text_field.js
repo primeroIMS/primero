@@ -25,10 +25,15 @@ _primero.Views.HiddenTextField = _primero.Views.Base.extend({
 
           if ($input_field.is(":disabled")) {
             if ($hidden_input_field.length > 0) {
-              $input_field.val($hidden_input_field.val()).attr('disabled', disabled);
+              $input_field.val($hidden_input_field.val());
               $hidden_input_field.remove();
             } else {
-              $input_field.val(response.input_field_text).attr('disabled', disabled);
+              $input_field.val(response.input_field_text);
+            }
+            if($input_field.attr('disabled_by_form') === 'true') {
+              $input_field.attr('disabled', disabled);
+            } else {
+              $input_field.removeAttr("disabled");
             }
           } else {
             $hidden_input_field = $('<input type="hidden">').attr('name', $input_field.attr('name'));

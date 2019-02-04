@@ -270,7 +270,7 @@ class Child < CouchRest::Model::Base
   def auto_populate_name
     #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
     a_name = auto_populate('name')
-    self.name = a_name unless a_name.nil?
+    self.name = a_name if a_name.present?
   end
 
   def set_instance_id
