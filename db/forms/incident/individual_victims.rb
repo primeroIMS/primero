@@ -91,8 +91,13 @@ individual_victims_fields = [
             }),
   Field.new({"name" => "victim_deprived_liberty_security_reasons",
              "type" => "select_box",
-             "display_name_all" => "Was/were the victim(s) deprived of liberty for security reasons?",
+             "display_name_all" => "Was/were the victim(s) deprived of liberty?",
              "option_strings_source" => "lookup YesNoUnknown"
+            }),
+  Field.new({"name" => "reasons_deprivation_liberty",
+             "type" => "select_box",
+             "display_name_all" => "What are the reasons for the deprivation of liberty?",
+             "option_strings_text_all" => ["Security reasons", "Association with armed groups or forces"].join("\n")
             }),
   Field.new({"name" => "entity_responsible_deprivation_liberty",
              "type" => "select_box",
