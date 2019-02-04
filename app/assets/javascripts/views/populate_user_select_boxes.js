@@ -1,5 +1,3 @@
-_primero.UserSelectBoxFilters = [];
-
 _primero.Collections.UsersCollection = Backbone.Collection.extend({
   url: '/api/users',
 
@@ -83,17 +81,26 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     });
 
     this.$el.on('chosen:showing_dropdown', function(e){
-      var data = null;
+      var service = $(e.target).data("filter-service");
+      var agency = $(e.target).data("filter-agency");
+      var location = $(e.target).data("filter-location");
 
-      if (_primero.UserSelectBoxFilters.length > 0) {
-        var selectBoxFilter =_.first(_.filter(_primero.UserSelectBoxFilters, function(filter){
-          return $(e.target).attr('id').endsWith(filter.id);
-        }));
-        data = selectBoxFilter.getFilters();
-      }
+      var data = {
+        service: service,
+        agency_id: agency,
+        location: location
+      };
 
-      if (self.collection.length < 1 || !_.isEmpty(_.compact(_.values(data)))) {
-        self.collection.fetch({data: data})
+      if (self.collection.length < 1 || !_.isEqual(self.filters, data)) {
+
+        self.filters = data;
+
+        var $select = $(e.target);
+        $select.empty();
+        $select.html('<option>' + I18n.t("messages.loading") + '</option>');
+        $select.trigger("chosen:updated");
+
+        self.collection.fetch({data: self.filters})
             .done(function() {
               self.parseOptions();
 
