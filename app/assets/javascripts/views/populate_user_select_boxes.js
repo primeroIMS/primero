@@ -12,7 +12,8 @@ _primero.Collections.UsersCollection = Backbone.Collection.extend({
   get_by_user_name: function(user_name){
     var users = this.where({user_name: user_name});
     var user = null;
-    if(users && users.length > 0){
+
+    if (users && users.length > 0) {
       user = _.first(users).attributes;
     }
     return user;
@@ -45,14 +46,19 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
   initialOptions: function() {
     var self = this;
     self.collection.selected_values = [];
-    _.each(self.$el, function(select_box){
-      var $select_box = $(select_box);
+
+    _primero.init_user_options = function($select_box) {
       var value = $select_box.data('value');
       var options = self.getOptionsFromValue(value);
       self.collection.selected_values = _.filter(options, function(option){
         return _.where(self.collection.selected_values, { id: value }).length < 1;
       });
       self.addOptions(options, $select_box);
+    }
+
+    _.each(self.$el, function(select_box){
+      var $select_box = $(select_box);
+      _primero.init_user_options($select_box);
     });
   },
 
@@ -73,7 +79,7 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     return options;
   },
 
-  populateSelectBoxes: function(onComplete) {
+  populateSelectBoxes: function() {
     var self = this;
 
     this.$el.on('chosen:ready', function(e) {
@@ -81,37 +87,40 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     });
 
     this.$el.on('chosen:showing_dropdown', function(e){
-      var service = $(e.target).data("filter-service");
-      var agency = $(e.target).data("filter-agency");
-      var location = $(e.target).data("filter-location");
+      var $select_box = $(e.target);
+      var filters_required = $select_box.data("filters-required");
+      var service = $select_box.data("filter-service");
+      var agency = $select_box.data("filter-agency");
+      var location = $select_box.data("filter-location");
 
       var data = {
-        service: service,
+        services: service,
         agency_id: agency,
         location: location
       };
 
-      if (self.collection.length < 1 || !_.isEqual(self.filters, data)) {
+      if (!filters_required || (filters_required && !_.isEmpty(_.compact(_.values(data))))) {
 
-        self.filters = data;
+        if (self.collection.length < 1 || !_.isEqual(self.filters, data)) {
 
-        var $select = $(e.target);
-        $select.empty();
-        $select.html('<option>' + I18n.t("messages.loading") + '</option>');
-        $select.trigger("chosen:updated");
+          self.filters = data;
 
-        self.collection.fetch({data: self.filters})
-            .done(function() {
-              self.parseOptions();
+          $select_box.empty();
+          $select_box.html('<option>' + I18n.t("messages.loading") + '</option>');
+          $select_box.trigger("chosen:updated");
 
-              if (onComplete) {
-                onComplete();
-              }
-            })
-            .fail(function() {
-              self.collection.message = I18n.t('messages.string_sources_failed')
-              self.disableAjaxSelectBoxes();
-            });
+          self.collection.fetch({data: self.filters})
+              .done(function() {
+                self.parseOptions();
+                _primero.populated_user_collection = self.collection;
+              })
+              .fail(function() {
+                self.collection.message = I18n.t('messages.string_sources_failed')
+                self.disableAjaxSelectBoxes();
+              });
+        }
+      } else {
+        alert(I18n.t('messages.valid_search_criteria'));
       }
     });
   },
@@ -125,7 +134,7 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
         var element = this.element.parents('.chosen-container').prev('select');
         var users = _.first(self.collection.find_by_user_name(request.term), 50);
         options = _.compact(_.union(self.convertToOptions(users), self.collection.selected_values));
-        response(self.addOptions(options, element))
+        response(self.addOptions(options, element));
 
         this.element.val(request.term);
       }

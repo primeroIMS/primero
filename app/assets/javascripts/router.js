@@ -85,6 +85,7 @@ _primero.Router = Backbone.Router.extend({
     this.passwordPrompt();
     new _primero.Views.CustomExports();
     new _primero.Views.PdfExports();
+    new _primero.Views.PopulateUserSelectBoxes();
     new _primero.Views.ReferRecords();
     new _primero.Views.Notes();
     new _primero.Views.ReassignRecords();
@@ -117,7 +118,6 @@ _primero.Router = Backbone.Router.extend({
 
   caseRecordForm: function(){
     new _primero.Views.ServiceSubform();
-    new _primero.Views.PopulateUserSelectBoxes();
   },
 
   userCreatePage: function() {
