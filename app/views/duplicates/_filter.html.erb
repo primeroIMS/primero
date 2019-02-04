@@ -14,8 +14,7 @@
                                   Lookup.values('lookup-gender', @lookups, locale: I18n.locale)) %>
     <% end %>
     <% if filters_to_show.include? 'age'%>
-      <%= build_filter_checkboxes(t("duplicates.filter_by.age_range"), "age",
-                                  ['0-5', '6-11', '12-17', '18+'], nil, nil, 'range') %>
+      <%= build_filter_checkboxes(t("duplicates.filter_by.age_range"), 'age', @age_ranges, nil, nil, 'range') %>
     <% end %>
     <% if filters_to_show.include? 'date_of_birth'%>
       <%# build_filter_date(t("duplicates.filter_by.date_of_birth"), "date_of_birth") %>
