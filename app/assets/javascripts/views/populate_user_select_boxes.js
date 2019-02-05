@@ -105,13 +105,15 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
 
           self.filters = data;
 
-          $select_box.empty();
-          $select_box.html('<option>' + I18n.t("messages.loading") + '</option>');
-          $select_box.trigger("chosen:updated");
+          if (!$select_box.attr('multiple')) {
+            $select_box.empty();
+            $select_box.html('<option>' + I18n.t("messages.loading") + '</option>');
+            $select_box.trigger("chosen:updated");
+          }
 
           self.collection.fetch({data: self.filters})
               .done(function() {
-                self.parseOptions();
+                self.parseOptions($select_box);
                 _primero.populated_user_collection = self.collection;
               })
               .fail(function() {
@@ -141,15 +143,13 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     })
   },
 
-  parseOptions: function() {
+  parseOptions: function($select_box) {
     var self = this;
 
     if (this.collection.status) {
-      var select_boxes = document.querySelectorAll("[data-populate='User']");
-      var $select_boxes = $(select_boxes);
       var models = this.collection.models.map(function(model){ return model.attributes; });
       var options = self.convertToOptions(models);
-      self.addOptions(options, $select_boxes);
+      self.addOptions(options, $select_box);
 
     } else {
       this.disableAjaxSelectBoxes();
