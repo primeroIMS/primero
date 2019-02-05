@@ -27,6 +27,7 @@ class User < CouchRest::Model::Base
   property :user_group_ids, :type => [String], :default => []
   property :is_manager, TrueClass, :default => false
   property :send_mail, TrueClass, :default => true
+  property :agency_office
 
   alias_method :agency, :organization
   alias_method :agency=, :organization=
@@ -485,6 +486,11 @@ class User < CouchRest::Model::Base
 
   def has_user_group_id?(id)
     self.user_group_ids.include?(id)
+  end
+
+  def agency_office_name
+    return nil unless self['agency_office'].present?
+    Lookup.values('lookup-agency-office').find { |i| self['agency_office'].eql?(i['id']) }['display_text']
   end
 
   private
