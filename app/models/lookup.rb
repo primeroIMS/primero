@@ -8,7 +8,7 @@ class Lookup < CouchRest::Model::Base
   property :name
   property :description
   property :lookup_values, :type => [String]
-  property :editable, TrueClass, :default => false
+  property :editable, TrueClass, :default => true
 
   design do
     view :by_name,
