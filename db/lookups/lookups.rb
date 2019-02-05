@@ -181,6 +181,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "armed_force_group_type",
+  :editable => true,
   :lookup_values => [
     "National Army",
     "Security Forces",
@@ -205,6 +206,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "armed_force_name",
+    :editable => true,
     :lookup_values => [
         "Armed Force 1",
         "Armed Force 2",
@@ -215,6 +217,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "armed_group_name",
+    :editable => true,
     :lookup_values => [
         "Armed Group 1",
         "Armed Group 2",

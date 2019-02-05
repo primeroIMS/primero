@@ -13,7 +13,9 @@
             <td><%= lkp.name %></td>
             <td><%= lkp.lookup_values.join(", ") %></td>
             <td>
+              <% if lkp.editable? %>
               <%= link_to t("buttons.edit"), edit_lookup_path(lkp) %>
+              <% end %>
               <% unless lkp.is_being_used? %>
                 <br>
                 <%= link_to t("buttons.delete"), lookup_path(lkp), data: {confirm: t("lookup.confirm_delete")}, method: :delete %>
