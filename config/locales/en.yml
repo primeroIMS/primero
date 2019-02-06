@@ -838,7 +838,7 @@ en:
       tracing_request: "Tracing Request"
       role: "Roles"
       user: "Users, Groups"
-      metadata: "Forms, Lookups"
+      metadata: "Location, Program, Module"
       system: "System"
       report: "Report"
       self: "Access only my records or user"
@@ -877,6 +877,8 @@ en:
       dashboard: "Dashboard"
       view_approvals: "View Approvals"
       view_assessment: "View Assessment"
+      form: "Forms"
+      lookup: "Lookups"
 
   forms:
     label: "Forms"

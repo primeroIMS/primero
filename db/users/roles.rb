@@ -103,6 +103,14 @@ cp_admin_permissions = [
   Permission.new(
     :resource => Permission::SYSTEM,
     :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::FORM,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::LOOKUP,
+    :actions => [Permission::MANAGE]
   )
 ]
 
@@ -886,6 +894,14 @@ superuser_permissions = [
   ),
   Permission.new(
     :resource => Permission::SYSTEM,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::FORM,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::LOOKUP,
     :actions => [Permission::MANAGE]
   )
 ]
