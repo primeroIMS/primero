@@ -25,6 +25,10 @@ class Ability
           metadata_permissions
         when Permission::SYSTEM
           system_permissions
+        when Permission::FORM
+          form_permissions
+        when Permission::LOOKUP
+          lookup_permissions
         else
           configure_resource permission.resource_class, permission.action_symbols, permission.is_record?
       end
@@ -62,7 +66,7 @@ class Ability
   end
 
   def metadata_permissions
-    [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
+    [Location, PrimeroProgram, PrimeroModule].each do |resource|
       can :manage, resource
     end
   end
@@ -71,6 +75,16 @@ class Ability
     [ContactInformation, Device, Replication, SystemUsers].each do |resource|
       can :manage, resource
     end
+  end
+
+  def form_permissions
+    [FormSection, Field].each do |resource|
+      can :manage, resource
+    end
+  end
+
+  def lookup_permissions
+    can :manage, Lookup
   end
 
   def user

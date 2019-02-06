@@ -55,6 +55,8 @@ class Permission
   DASHBOARD = 'dashboard'
   VIEW_APPROVALS = 'view_approvals'
   VIEW_ASSESSMENT = 'view_assessment'
+  FORM = 'form'
+  LOOKUP = 'lookup'
 
   validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
 
@@ -104,7 +106,7 @@ class Permission
   end
 
   def self.resources
-    [CASE, INCIDENT, TRACING_REQUEST, ROLE, USER, METADATA, SYSTEM, REPORT, DASHBOARD]
+    [CASE, INCIDENT, TRACING_REQUEST, ROLE, USER, METADATA, SYSTEM, REPORT, DASHBOARD, FORM, LOOKUP]
   end
 
   def self.management
@@ -151,6 +153,10 @@ class Permission
          [MANAGE]
        when DASHBOARD
          [VIEW_APPROVALS, VIEW_ASSESSMENT, MANAGE]
+       when FORM
+         [MANAGE]
+       when LOOKUP
+         [MANAGE]
        else
          actions
      end
@@ -166,7 +172,9 @@ class Permission
       self.new(:resource => USER, :actions => [MANAGE]),
       self.new(:resource => METADATA, :actions => [MANAGE]),
       self.new(:resource => SYSTEM, :actions => [MANAGE]),
-      self.new(:resource => DASHBOARD, :actions => [MANAGE])
+      self.new(:resource => DASHBOARD, :actions => [MANAGE]),
+      self.new(:resource => FORM, :actions => [MANAGE]),
+      self.new(:resource => LOOKUP, :actions => [MANAGE])
     ]
   end
 

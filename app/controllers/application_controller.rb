@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
   before_filter :check_authentication
   before_filter :set_locale
 
+  before_action :forms_path_menu
+
   rescue_from( AuthenticationFailure ) { |e| handle_authentication_failure(e) }
   rescue_from( AuthorizationFailure ) { |e| handle_authorization_failure(e) }
   rescue_from( ErrorResponse ) { |e| render_error_response(e) }
@@ -107,6 +109,18 @@ class ApplicationController < ActionController::Base
     redirect_to (request.referer.present? ? :back : default), options
   end
 
+  def forms_path_menu
+    @forms_path_menu = if can? :manage, FormSection
+                         form_sections_path
+                       elsif can? :manage, Lookup
+                         lookups_path
+                       elsif can? :manage, Location
+                         locations_path
+                       else
+                         nil
+                       end
+
+  end
   class << self
     attr_accessor :model_class
   end
