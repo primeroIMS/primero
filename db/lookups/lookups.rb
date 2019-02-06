@@ -16,6 +16,7 @@ end
 
 create_or_update_lookup(
   :name => "country",
+  :editable => false,
   :lookup_values => [
     "Country1",
     "Country2",
@@ -32,6 +33,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "nationality",
+  :editable => false,
   :lookup_values => [
     "Nationality1",
     "Nationality2",
@@ -49,6 +51,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "ethnicity",
+  :editable => false,
   :lookup_values => [
     "Ethnicity1",
     "Ethnicity2",
@@ -66,6 +69,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "language",
+  :editable => false,
   :lookup_values => [
     "Language1",
     "Language2",
@@ -82,6 +86,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "religion",
+  :editable => false,
   :lookup_values => [
     "Religion1",
     "Religion2",
@@ -99,6 +104,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "case_status",
+  :editable => false,
   :lookup_values => [
     "Open",
     "Closed",
@@ -109,6 +115,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "incident_status",
+  :editable => false,
   :lookup_values => [
     "Open",
     "Closed",
@@ -118,6 +125,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "displacement_status",
+  :editable => false,
   :lookup_values => [
     "Resident",
     "IDP",
@@ -131,6 +139,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "unaccompanied_separated_status",
+  :editable => false,
   :lookup_values => [
     "No",
     "Unaccompanied Minor",
@@ -141,6 +150,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "protection_status",
+  :editable => false,
   :lookup_values => [
     "Unaccompanied",
     "Separated"
@@ -149,6 +159,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "verification_status",
+  :editable => false,
   :lookup_values => [
     "Verified",
     "Report pending verification",
@@ -159,6 +170,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "risk_level",
+  :editable => false,
   :lookup_values => [
     "High",
     "Medium",
@@ -168,6 +180,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "gbv_sexual_violence_type",
+  :editable => false,
   :lookup_values => [
     "Rape",
     "Sexual Assault",
@@ -181,6 +194,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "armed_force_group_type",
+  :editable => true,
   :lookup_values => [
     "National Army",
     "Security Forces",
@@ -195,6 +209,7 @@ create_or_update_lookup(
 #TODO See if this can be deleted
 create_or_update_lookup(
   :name => "armed_force_group_name",
+  :editable => false,
   :lookup_values => [
     "Armed Force or Group 1",
     "Armed Force or Group 2",
@@ -205,6 +220,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "armed_force_name",
+    :editable => true,
     :lookup_values => [
         "Armed Force 1",
         "Armed Force 2",
@@ -215,6 +231,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "armed_group_name",
+    :editable => true,
     :lookup_values => [
         "Armed Group 1",
         "Armed Group 2",
@@ -225,6 +242,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "other_party_name",
+    :editable => false,
     :lookup_values => [
         "Other Party 1",
         "Other Party 2",
@@ -235,6 +253,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "separation_cause",
+  :editable => false,
   :lookup_values => [
     "Conflict",
     "Death",
@@ -257,6 +276,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :name => "service_type",
+  :editable => false,
   :lookup_values => [
     "Safehouse Service",
     "Health/Medical Service",
@@ -278,6 +298,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "protection_concerns",
+    :editable => false,
     :lookup_values => [
         "Sexually Exploited",
         "GBV survivor",
@@ -302,6 +323,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "unhcr_needs_codes",
+    :editable => false,
     :lookup_values => [
             "CR-CP",
             "CR-CS",
@@ -344,6 +366,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "weapon_type",
+    :editable => false,
     :lookup_values => [
       "Aerial bomb",
       "Barrel bomb",
@@ -381,6 +404,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "attack_type",
+    :editable => false,
     :lookup_values => [
       "Aerial attack",
       "Arson",
@@ -394,6 +418,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "violation_type",
+    :editable => false,
     :lookup_values => [
       "Killing",
       "Maiming",
@@ -408,6 +433,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "vulnerability_type",
+    :editable => false,
     :lookup_values => [
         "Abducted",
         "Asylum seeker",
@@ -426,6 +452,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "school_type",
+    :editable => false,
     :lookup_values => [
       "Early childhood/pre-primary",
       "Primary",
@@ -441,6 +468,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "school_age_level",
+    :editable => false,
     :lookup_values => [
       "0 - 5",
       "6 - 10",
@@ -451,6 +479,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "school_sex_type",
+    :editable => false,
     :lookup_values => [
       "Male school",
       "Female school",
@@ -461,6 +490,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "healthcare_facility_type",
+    :editable => false,
     :lookup_values => [
       "Hospital",
       "Health centre",
@@ -473,6 +503,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "facility_impact_type",
+    :editable => false,
     :lookup_values => [
       "Total destruction",
       "Serious damage",
@@ -483,6 +514,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "ctfmr_followup_partner",
+    :editable => false,
     :lookup_values => [
       "Partner 1",
       "Partner 2",
@@ -493,6 +525,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "ctfmr_member_or_partner",
+    :editable => false,
     :lookup_values => [
       "Partner 1",
       "Partner 2",
@@ -503,6 +536,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "yes_no_unknown",
+    :editable => false,
     :lookup_values => [
       "Yes",
       "No",
@@ -512,6 +546,7 @@ create_or_update_lookup(
 
 create_or_update_lookup(
     :name => "ill_treatment_violations",
+    :editable => false,
     :lookup_values => [
       "Blindfolded",
       "Denial of access to toilets",
