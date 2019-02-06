@@ -486,7 +486,6 @@ gbv_manager_permissions = [
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
-      Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
