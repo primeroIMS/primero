@@ -818,3 +818,15 @@ create_or_update_lookup(
         {id: "met", display_text: "Met"}
     ].map(&:with_indifferent_access)
 )
+
+create_or_update_lookup(
+    :id => "lookup-agency-office",
+    :name => "Agency Office",
+    :lookup_values => [
+        {id: "agency_office_1", display_text: "Agency Office 1"},
+        {id: "agency_office_2", display_text: "Agency Office 2"},
+        {id: "agency_office_3", display_text: "Agency Office 3"},
+        {id: "agency_office_4", display_text: "Agency Office 4"},
+        {id: "agency_office_5", display_text: "Agency Office 5"}
+    ].map(&:with_indifferent_access)
+)
