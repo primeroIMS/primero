@@ -32,7 +32,7 @@ _primero.Collections.UsersCollection = Backbone.Collection.extend({
 _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBoxes.extend({
   el: "form select[data-populate='User']",
   initialize: function(){
-    this.option_string_sources = ['User']
+    this.option_string_sources = ['User'];
 
     this.collection = new _primero.Collections.UsersCollection();
 
@@ -83,7 +83,7 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     var self = this;
 
     this.$el.on('chosen:ready', function(e) {
-      self.initAutoComplete($(e.target))
+      self.initAutoComplete($(e.target));
     });
 
     this.$el.on('chosen:showing_dropdown', function(e){
@@ -117,7 +117,7 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
                 _primero.populated_user_collection = self.collection;
               })
               .fail(function() {
-                self.collection.message = I18n.t('messages.string_sources_failed')
+                self.collection.message = I18n.t('messages.string_sources_failed');
                 self.disableAjaxSelectBoxes();
               });
         }
