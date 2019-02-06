@@ -91,8 +91,13 @@ individual_victims_fields = [
             }),
   Field.new({"name" => "victim_deprived_liberty_security_reasons",
              "type" => "select_box",
-             "display_name_all" => "Was/were the victim(s) deprived of liberty for security reasons?",
+             "display_name_all" => "Was/were the victim(s) deprived of liberty?",
              "option_strings_source" => "lookup YesNoUnknown"
+            }),
+  Field.new({"name" => "reasons_deprivation_liberty",
+             "type" => "select_box",
+             "display_name_all" => "What are the reasons for the deprivation of liberty?",
+             "option_strings_text_all" => ["Security reasons", "Association with armed groups or forces"].join("\n")
             }),
   Field.new({"name" => "entity_responsible_deprivation_liberty",
              "type" => "select_box",
@@ -141,6 +146,12 @@ individual_victims_fields = [
   Field.new({"name" => "torture_punishment_while_deprivated_liberty",
              "type" => "select_box",
              "display_name_all" => "Was/were the child(ren) subject to torture or other cruel, inhuman or degrading treatment or punishment while deprived of liberty",
+             "option_strings_source" => "lookup YesNoUnknown"
+            }),
+  Field.new({"name" => "type_torture_treatment_punishment_child_subjected",
+             "type" => "select_box",
+             "multi_select" => true,
+             "display_name_all" => "What type of torture or other cruel, inhuman or degrading treatment or punishment was the child subjected to?",
              "option_strings_source" => "lookup IllTreatmentViolations"
             }),
   Field.new({"name" => "other_torture_punishment_while_deprivated_liberty",
