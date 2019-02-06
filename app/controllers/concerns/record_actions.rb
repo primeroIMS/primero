@@ -258,7 +258,7 @@ module RecordActions
     # When mobile is implemented, it should not use 'all'
     elsif params[:page] != 'all'
       @id_search = params[:id_search]
-      search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
+      search = model_class.list_records(filter, order, pagination, users_filter, params[:query], params[:match])
       records = search.results
       total_records = search.total
     end

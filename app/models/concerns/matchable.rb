@@ -21,6 +21,23 @@ module Matchable
       'relation_sub_ethnicity2' => 'sub_ethnicity_2'
     }
 
+    MATCH_FIELDS = [
+      {fields: ['name', 'name_other', 'name_nickname'], boost: 15},
+      {fields: ['sex'], boost: 10},
+      {fields: ['age'], boost: 10},
+      {fields: ['date_of_birth'], boost: 5},
+      {fields: ['relation_name', 'relation_nickname', 'relation_other_family' ], boost: 10},
+      {fields: ['relation'], boost: 5},
+      {fields: ['relation_age'], boost: 5},
+      {fields: ['relation_date_of_birth'], boost: 5},
+      {fields: ['nationality', 'relation_nationality'], boost: 3},
+      {fields: ['language', 'relation_language'], boost: 3},
+      {fields: ['religion', 'relation_religion'], boost: 3},
+      {fields: ['ethnicity', 'relation_ethnicity']},
+      {fields: ['sub_ethnicity_1', 'relation_sub_ethnicity1']},
+      {fields: ['sub_ethnicity_2', 'relation_sub_ethnicity2']}
+    ]
+
     NORMALIZED_THRESHOLD = 0.1
     LIKELIHOOD_THRESHOLD = 0.7
 
@@ -64,25 +81,6 @@ module Matchable
       end
     end
 
-    def match_fields
-      [
-        {fields: ['name', 'name_other', 'name_nickname'], boost: 10},
-        {fields: ['sex'], boost: 10},
-        {fields: ['age'], boost: 5},
-        {fields: ['date_of_birth'], boost: 5},
-        {fields: ['relation_name', 'relation_nickname', 'relation_other_family' ], boost: 5},
-        {fields: ['relation'], boost: 10},
-        {fields: ['relation_age'], boost: 5},
-        {fields: ['relation_date_of_birth'], boost: 5},
-        {fields: ['nationality', 'relation_nationality'], boost: 3},
-        {fields: ['language', 'relation_language'], boost: 3},
-        {fields: ['religion', 'relation_religion'], boost: 3},
-        {fields: ['ethnicity', 'relation_ethnicity']},
-        {fields: ['sub_ethnicity_1', 'relation_sub_ethnicity1']},
-        {fields: ['sub_ethnicity_2', 'relation_sub_ethnicity2']}
-     ]
-    end
-
     def phonetic_fields
       ['name', 'name_nickname', 'name_other', 'relation_name', 'relation_nickname']
     end
@@ -92,13 +90,13 @@ module Matchable
     end
 
     def get_match_field(field)
-      match_field =  match_fields.select { |f| f[:fields].include?(field.to_s) }.first
+      match_field =  MATCH_FIELDS.select { |f| f[:fields].include?(field.to_s) }.first
       match_field.blank? ? [field.to_sym] : match_field[:fields].map(&:to_sym)
     end
 
     def get_field_boost(field)
       default_boost_value = 1
-      boost_field = match_fields.select { |f| f[:fields].include?(field.to_s) }.first
+      boost_field = MATCH_FIELDS.select { |f| f[:fields].include?(field.to_s) }.first
       boost_field.blank? ? default_boost_value : boost_field[:boost]
     end
 
@@ -115,7 +113,7 @@ module Matchable
       cluster_field = field
       result = [match_multi_value(field, match_request)]
       if result.first.present?
-        match_field = match_fields.select { |f| f[:fields].include?(field) }.first
+        match_field = MATCH_FIELDS.select { |f| f[:fields].include?(field) }.first
         if match_field.present?
           result += match_field[:fields].select{|f| f != field}.map do |f|
             match_multi_value(f, match_request)
@@ -142,8 +140,8 @@ module Matchable
       if search_result.present?
         scores = search_result.values
         max_score = scores.max
-        average_score = scores.reduce(0){|sum,x|sum+(x/max_score.to_f)} / scores.count.to_f
         normalized_search_result = search_result.map{|k,v| [k,v/max_score.to_f]}
+        average_score = normalized_search_result.to_h.values.sum / scores.count
         thresholded_search_result = normalized_search_result.select{|k,v| v > NORMALIZED_THRESHOLD}
         thresholded_search_result.each do |id, score|
           records << yield(id, score, average_score)
@@ -153,7 +151,7 @@ module Matchable
     end
 
     def calculate_likelihood(score, aggregate_average_score)
-      (score - aggregate_average_score) > 0.7 ? LIKELY : POSSIBLE
+      (score - aggregate_average_score) > LIKELIHOOD_THRESHOLD ? LIKELY : POSSIBLE
     end
   end
 
