@@ -11,12 +11,46 @@ _primero.Views.IndexFilters = Backbone.View.extend({
     'change .filter-controls input[type="text"]': 'change_scope',
     'change select[filter_type="location"]': 'change_scope',
     'click #apply_filter': 'apply_filters',
-    'click .clear_filters': 'clear_filters'
+    'click .clear_filters': 'clear_filters',
+    'change #violations_selector': 'on_violations_toggle'
   },
 
   initialize: function() {
     this.set_current_scope();
+    this.check_selected_violations();
     _primero.chosen('select.chosen-select:visible');
+  },
+
+  on_violations_toggle: function(e) {
+    this.toggle_violations($(e.target).val())
+  },
+
+  toggle_violations: function(value) {
+    $('.violation-fields > div').addClass('hide');
+
+    if (value) {
+      _.each(value, function(v) {
+        $('.violation-fields div[data-type-id="' + v + '"]').removeClass('hide');
+      })
+    }
+  },
+
+  check_selected_violations: function() {
+    var $violation_fields = $('.violation-fields');
+    var $violations_selector = $('#violations_selector');
+    var $selector_values = [];
+
+    _.each(_primero.filters, function(v, k) {
+      var violation_field = $violation_fields.find('input[name="' + k + '"]');
+      
+      if (!_.isEmpty(violation_field.val())) {
+        $selector_values.push($(violation_field).parents('.violation').attr('data-type-id'));
+      }
+    });
+
+    this.toggle_violations($selector_values);
+    $violations_selector.val($selector_values);
+    $violations_selector.trigger('update');
   },
 
   clear_filters: function(e) {

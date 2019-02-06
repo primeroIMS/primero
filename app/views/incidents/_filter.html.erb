@@ -1,12 +1,12 @@
 <% #All options need to be translated %>
-<ul class="tabs" data-tab>
-  <li class="tab-title active"><a href="#violations">Violations</a></li>
-  <li class="tab-title"><a href="#individual">Individual Victims</a></li>
+<ul class="tabs index-filter-tabbed" data-tab data-options="deep_linking:true; scroll_to_content: false;">
+  <li class="tab-title active"><a href="#violations"><%= t("incidents.violations_tab") %></a></li>
+  <li class="tab-title"><a href="#individual"><%= t("incidents.individual_victims_tab") %></a></li>
 </ul>
 <div class="panel">
   <form id="index_filter_form" autocomplete="off">
     <div class="tabs-content">
-      <div class="content active" id="violations">
+      <div role="tabpanel" class="content active" id="violations">
         <% if filters_to_show.include? 'Flagged' %>
           <%= build_filter_checkboxes(t("incidents.filter_by.flag"), 'flag', [{flag: t("incidents.filter_by.flag_label")}], nil, nil, 'single') %>
         <% end %>
@@ -61,8 +61,9 @@
         <% if filters_to_show.include? 'Record State' %>
           <%= build_filter_checkboxes(t("incidents.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}]) %>
         <% end %>
+        <%= render "filter_violations_fields", record: 'incidents', violations: violation_type_list %>
       </div>
-      <div class="content" id="individual">
+      <div role="tabpanel" class="content" id="individual">
         <% if filters_to_show.include? 'Individual Violation' %>
           <%= build_filter_checkboxes(t("incidents.filter_by.individual_violation"), 'individual_violations', violation_type_list, { multi: true }, false) %>
         <% end %>
