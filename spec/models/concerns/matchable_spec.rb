@@ -118,20 +118,6 @@ describe Matchable do
     end
   end
 
-  describe "match_fields" do
-    it "should return empty array for no match field" do
-      expect(Child.match_fields.first[:no_fields]).to eq(nil)
-    end
-
-    it "should return an exact match field" do
-      expect(Child.match_fields.first[:fields]).to include('name')
-    end
-
-    it "should have a boost value" do
-      expect(Child.match_fields.first[:boost]).to eq(10)
-    end
-  end
-
   describe "get_match_field" do
     it "should return test_field field for no match_fields" do
       expect(Child.get_match_field("test_field")).to eq([:test_field])
@@ -148,7 +134,7 @@ describe Matchable do
     end
 
     it "should return an exact boost for the match_fields" do
-      expect(Child.get_field_boost("name")).to eq(10)
+      expect(Child.get_field_boost("name")).to eq(15)
     end
   end
 

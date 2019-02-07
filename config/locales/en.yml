@@ -706,6 +706,7 @@ en:
         name_nickname: "Nickname"
         name_other: "Other Name"
         sex: "Sex"
+        age: "Age"
         age_range: "Age Range"
         date_of_birth: "Date of Birth"
         nationality: "Nationality"
