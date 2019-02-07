@@ -101,6 +101,14 @@ class Incident < CouchRest::Model::Base
       self.victim_deprived_liberty_security_reasons
     end
 
+    Mrm::ViolationFilter::FIELDS.each do |violation, fields|
+      fields.each do |k, v|
+        string(k, multiple: true) do
+          selected_violation = self.violations.try(violation)
+          selected_violation.present? ? selected_violation.map{ |m| m.try(v) }.compact : []
+        end
+      end
+    end
   end
 
   def ensure_violation_categories_exist

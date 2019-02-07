@@ -165,15 +165,13 @@ div.scope_bar {
   .violation > h3 {
     border-top: none;
     position: relative;
-    display: flex;
+    line-height: 1.3em;
+    text-transform: capitalize;
+    border-bottom: 1px dashed $stroke_green_color;
+    width: 90%;
+    margin: 1em auto;
+    padding: 0 0 0.5em;
     margin-bottom: 1em;
-
-    &:after {
-      border-bottom: 1px solid $stroke_green_color;
-      content: ' ';
-      width: 100%;
-      margin-left: .5rem;
-    }
   }
 
   .filter {
