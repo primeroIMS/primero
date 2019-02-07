@@ -493,6 +493,10 @@ class User < CouchRest::Model::Base
     Lookup.values('lookup-agency-office').find { |i| self['agency_office'].eql?(i['id']) }['display_text']
   end
 
+  def has_reporting_location_filter?
+    self.modules.any? {|m| m.reporting_location_filter }
+  end
+
   private
 
   def save_devices
