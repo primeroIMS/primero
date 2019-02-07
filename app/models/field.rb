@@ -408,6 +408,9 @@ class Field
         options_list += locations || [] if locations.present?
       when 'ReportingLocation'
         options_list += reporting_locations || [] if reporting_locations.present?
+      when 'User'
+        #TODO: Should we allow to pass users here?
+        options_list += []
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
@@ -454,7 +457,7 @@ class Field
         when 'lookup'
           display = Lookup.values(source_options.last, lookups, locale: I18n.locale).select{|opt| opt['id'] == value}
           value = (display.present? ? display.first['display_text'] : '')
-        when 'Location'
+        when 'Location', 'ReportingLocation'
           value = Location.display_text(value, locale: I18n.locale)
         when 'Agency'
           value = Agency.display_text(value, locale: I18n.locale)

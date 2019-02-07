@@ -71,7 +71,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.json do
-        criteria = { disabled: false, organization: agency_id, reporting_location: location, services: services }.compact
+        criteria = { disabled: false }.merge({organization: agency_id, reporting_location: location, services: services }.compact)
         # NOTE: per_page number tells solr to return all the results: https://wiki.apache.org/solr/CommonQueryParameters#rows
         pagination = { page: 1, per_page: User.all.count }
         sort = { user_name: :asc}
