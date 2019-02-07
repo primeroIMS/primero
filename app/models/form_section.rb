@@ -408,6 +408,13 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_matchable_fields_by_parent_form
 
+    def get_matchable_form_and_field_by_parent_form(parent_form, sub_form=true)
+      #Get the matchable fields from either the regular forms or from the subforms, depending on the value of the sub_form param
+      FormSection.by_parent_form(key: parent_form).all
+          .select{ |f| sub_form ? f.is_nested.present? : f.is_nested.blank? }
+          .each{ |f| f.all_matchable_fields.uniq(&:name).select(&:visible?) }
+    end
+
     # Returns: hash of (key) Form ID and (values) Fields that are matchable
     def get_matchable_form_and_field_names(form_ids, parent_form)
       form_sections = FormSection.form_sections_by_ids_and_parent_form(form_ids, parent_form)
