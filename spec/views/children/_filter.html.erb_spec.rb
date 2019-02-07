@@ -8,6 +8,7 @@ describe "children/_filter.html.erb" do
   before :each do
     @age_ranges = []
     @inactive_range = "01-Sep-2016.20-Oct-2016"
+    @agency_offices = []
 
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
