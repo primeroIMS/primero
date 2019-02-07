@@ -199,6 +199,7 @@ class Child < CouchRest::Model::Base
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
     string :child_status, as: 'child_status_sci'
+    string :created_agency_office, as: 'created_agency_office_sci'
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end

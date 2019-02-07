@@ -248,6 +248,7 @@ class ChildrenController < ApplicationController
 
   def load_fields
     @sex_field = Field.find_by_name_from_view('sex')
+    @agency_offices = Lookup.values('lookup-agency-office')
   end
 
   def transfer_status
