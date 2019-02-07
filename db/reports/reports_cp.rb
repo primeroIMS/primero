@@ -189,3 +189,16 @@ Report.create_or_update(
   editable: false,
 )
 
+Report.create_or_update({
+  id: '85e5bf5c90cd44a48bccb69410f0e466',
+  name: 'Cases with case plans',
+  description: 'How many registered cases have case plans?',
+  module_ids: [PrimeroModule::CP],
+  record_type: 'case',
+  aggregate_by: ['has_case_plan'],
+  group_ages: false,
+  group_dates_by: 'date',
+  filters: default_case_filters,
+  is_graph: false,
+  editable: false
+})
