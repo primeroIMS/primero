@@ -497,6 +497,10 @@ class User < CouchRest::Model::Base
     self.modules.any? {|m| m.reporting_location_filter }
   end
 
+  def has_user_group_filter?
+    self.modules.any? {|m| m.user_group_filter }
+  end
+
   private
 
   def save_devices

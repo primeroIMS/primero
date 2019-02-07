@@ -350,6 +350,7 @@ module IndexHelper
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Agency Office" if @is_gbv
+    filters << "User Group" if @is_gbv && @current_user.present? && @current_user.has_user_group_filter?
     filters << "Reporting Location" if @can_view_reporting_filter
     filters << "Dates" if @is_cp
     filters << "Case Open Date" if @is_gbv
@@ -369,6 +370,7 @@ module IndexHelper
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
     filters << "Agency Office" if @is_gbv
+    filters << "User Group" if @is_gbv && @current_user.present? && @current_user.has_user_group_filter?
     filters << "Status"
     filters << "Age Range"
     filters << "Children" if @is_mrm
