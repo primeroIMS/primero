@@ -31,6 +31,7 @@ _primero.Collections.UsersCollection = Backbone.Collection.extend({
 
 _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBoxes.extend({
   el: "form select[data-populate='User']",
+
   initialize: function(){
     this.option_string_sources = ['User'];
 
