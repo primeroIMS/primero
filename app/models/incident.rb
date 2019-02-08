@@ -69,10 +69,6 @@ class Incident < CouchRest::Model::Base
       self.individual_victim_value_from_property(:individual_sex)
     end
 
-    string :verification_status, multiple: true do
-      self.violation_verified_list
-    end
-
     string :child_types, multiple: true do
       self.child_types
     end
@@ -99,6 +95,22 @@ class Incident < CouchRest::Model::Base
 
     string :victim_deprived_liberty_security_reasons, multiple: true do
       self.victim_deprived_liberty_security_reasons
+    end
+
+    string :reasons_deprivation_liberty, multiple: true do
+      self.individual_victim_value_from_property(:reasons_deprivation_liberty)
+    end
+
+    string :victim_facilty_victims_held, multiple: true do
+      self.individual_victim_value_from_property(:facilty_victims_held)
+    end
+
+    string :torture_punishment_while_deprivated_liberty, multiple: true do
+      self.individual_victim_value_from_property(:torture_punishment_while_deprivated_liberty)
+    end
+
+    string :verification_status, multiple: true do
+      self.violation_verified_list
     end
 
   end

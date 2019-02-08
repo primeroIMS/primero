@@ -425,6 +425,10 @@ en:
       armed_force_group_type: "Armed Force or Group Type:"
       record_state: "Record State:"
       interview_date: "Interview Date:"
+      reasons_deprivation_liberty: "What are the reasons for the deprivation of liberty?"
+      victim_facilty_victims_held: "Please select the facility where the victims(s) was/were being held"
+      torture_punishment_while_deprivated_liberty: "Was/were the child(ren) subject to torture or other cruel, inhuman or degrading treatment or punishment while deprived of liberty"
+
 
 
   incident:
