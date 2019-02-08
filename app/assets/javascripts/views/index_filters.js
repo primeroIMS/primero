@@ -22,7 +22,7 @@ _primero.Views.IndexFilters = Backbone.View.extend({
   },
 
   on_violations_toggle: function(e) {
-    this.toggle_violations($(e.target).val())
+    this.toggle_violations($(e.target).val());
   },
 
   toggle_violations: function(value) {
