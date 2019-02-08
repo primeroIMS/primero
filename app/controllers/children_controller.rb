@@ -249,7 +249,7 @@ class ChildrenController < ApplicationController
   def load_fields
     @sex_field = Field.find_by_name_from_view('sex')
     @agency_offices = Lookup.values('lookup-agency-office')
-    @user_groups = UserGroup.all.rows.map(&:id).uniq
+    @user_group_ids = UserGroup.all.rows.map(&:id).uniq
   end
 
   def transfer_status
