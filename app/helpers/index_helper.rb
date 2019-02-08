@@ -328,7 +328,10 @@ module IndexHelper
     filters << "Individual Age" if @is_mrm
     filters << "Individual Sex" if @is_mrm
     filters << "Individual Violation" if @is_mrm
-
+    filters << "Perpetrator Arrested" if @is_mrm
+    filters << "Perpetrator Detained" if @is_mrm
+    filters << "Perpetrator Convicted" if @is_mrm
+    
     return filters
   end
 

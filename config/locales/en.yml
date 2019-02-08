@@ -425,6 +425,10 @@ en:
       armed_force_group_type: "Armed Force or Group Type:"
       record_state: "Record State:"
       interview_date: "Interview Date:"
+      perpetrator_arrest: "Was the perpetrator arrested?"
+      perpetrator_detention: "Was the perpetrator detained?"
+      perpetrator_conviction: "Was the perpetrator convicted?"
+
 
 
   incident:
