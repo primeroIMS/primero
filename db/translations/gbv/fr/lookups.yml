@@ -13,6 +13,7 @@ fr:
       case_plan: Plan du Cas
       action_plan: Plan d'Action
       service_provision: Prestataire de service
+      closure:
   lookup-armed-force-group-name:
     name: Nom du groupe ou forces armées
     lookup_values:

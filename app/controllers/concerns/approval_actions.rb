@@ -18,6 +18,7 @@ module ApprovalActions
         @record.remove_approval_alert(params[:approval_type])
         @record.send_approval_response_mail(current_user.id, params[:approval_type], params[:approval], request.base_url) if @system_settings.try(:notification_email_enabled)
         @record.save!
+        flash[:notice] = [t("approvals.#{params[:approval_type]}"), t("approvals.status.approved")].join(' - ')
       rescue => error
         logger.error "Case #{@record.id} approve #{params[:approval_type]}... failure"
         logger.error error.message

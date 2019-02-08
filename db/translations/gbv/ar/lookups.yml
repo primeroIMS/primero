@@ -13,6 +13,7 @@ ar:
       case_plan: خطة الحالة
       action_plan: خطة العمل
       service_provision: تقديم الخدمات
+      closure:
   lookup-armed-force-group-name:
     name: اسم مجموعة القوات المسلحة
     lookup_values:

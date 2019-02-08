@@ -13,6 +13,7 @@ en:
       case_plan: Case Plan
       action_plan: Action Plan
       service_provision: Service Provision
+      closure: Closure
   lookup-armed-force-group-name:
     name: Armed Force Group Name
     lookup_values:

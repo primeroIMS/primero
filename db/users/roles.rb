@@ -489,7 +489,9 @@ gbv_manager_permissions = [
       Permission::SYNC_MOBILE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
-      Permission::ENABLE_DISABLE_RECORD
+      Permission::ENABLE_DISABLE_RECORD,
+      Permission::APPROVE_CASE_PLAN,
+      Permission::APPROVE_CLOSURE
     ]
   ),
   Permission.new(
@@ -542,6 +544,12 @@ gbv_manager_permissions = [
       :actions => [
           Permission::READ
       ]
+  ),
+  Permission.new(
+    :resource => Permission::DASHBOARD,
+    :actions => [
+      Permission::VIEW_APPROVALS
+    ]
   ),
   Permission.new(
       :resource => Permission::AGENCY,
