@@ -18,6 +18,9 @@
     <% if filters_to_show.include? 'Agency Office' %>
       <%= build_filter_checkboxes(t("user.agency_office"), 'created_agency_office', @agency_offices, { multi: true }, false) %>
     <% end %>
+    <% if filters_to_show.include? 'User Group' %>
+      <%= build_filter_checkboxes(t("permissions.permission.user_group"), 'owned_by_groups', @user_groups, { multi: true }, false) %>
+    <% end %>
     <% if filters_to_show.include? 'Reporting Location' %>
       <%= build_filter_checkboxes(t("location.base_types.#{@reporting_location_label}"), "#{@reporting_location}#{@admin_level}",
                                   @options_reporting_locations, { multi: true }, false) %>
