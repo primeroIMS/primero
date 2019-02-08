@@ -46,6 +46,8 @@ class IncidentsController < ApplicationController
 
   def load_fields
     @gbv_sexual_violence_type_field = Field.find_by_name_from_view('gbv_sexual_violence_type')
+    @agency_offices = Lookup.values('lookup-agency-office')
+    @user_group_ids = UserGroup.all.rows.map(&:id).uniq
   end
 
   def extra_permitted_parameters

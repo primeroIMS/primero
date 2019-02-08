@@ -940,6 +940,7 @@ en:
     disabled: "Disabled"
     agency: "Agency"
     services: "Services"
+    agency_office: "Agency Office"
     position: Position
     actions:
       delete: "Delete"
