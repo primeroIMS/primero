@@ -101,7 +101,7 @@ class User < CouchRest::Model::Base
 
 
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
+  before_save :make_user_name_lowercase, :encrypt_password, :update_user_cases_groups_and_location
   after_save :save_devices
 
   before_update :if => :disabled? do |user|
@@ -516,12 +516,19 @@ class User < CouchRest::Model::Base
     true
   end
 
-  def update_user_case_locations
+  def update_user_cases_groups_and_location
     # TODO: The following gets all the cases by user and updates the location/district.
     # Performance degrades on save if the user changes their location.
     if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
       Child.by_owned_by.key(self.user_name).all.each do |child|
         child.owned_by_location = self.location
+        child.save!
+      end
+    end
+
+    if self.changes['user_group_ids'].present? && !self.changes['user_group_ids'].eql?([nil,""])
+      Child.by_owned_by.key(self.user_name).all.each do |child|
+        child.owned_by_groups = self.user_group_ids
         child.save!
       end
     end
