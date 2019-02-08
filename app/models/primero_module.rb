@@ -21,6 +21,8 @@ class PrimeroModule < CouchRest::Model::Base
   property :use_workflow_service_implemented, TrueClass, default: true
   property :use_workflow_case_plan, TrueClass, default: false
   property :use_workflow_assessment, TrueClass, default: false
+  property :reporting_location_filter, TrueClass, default: false
+  property :user_group_filter, TrueClass, default: false
 
   before_save :add_associated_subforms
 

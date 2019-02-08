@@ -215,6 +215,7 @@ class UsersController < ApplicationController
     @roles = Role.all.select{|r| can? :assign, r}
     @user_groups = UserGroup.all.select{|ug| can?(:assign, ug)}
     @modules = @current_user.has_group_permission?(Permission::ALL) ? PrimeroModule.all.all : PrimeroModule.all(keys: @current_user.module_ids).all
+    @agency_offices = Lookup.values('lookup-agency-office')
   end
 
   #Override method in LoggerActions.
