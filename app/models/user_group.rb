@@ -8,6 +8,6 @@ class UserGroup < CouchRest::Model::Base
   property :core_resource, TrueClass, :default => false
 
   def self.ids
-    all.all.map(&:id).uniq
+    self.all.rows.map(&:id).uniq
   end
 end
