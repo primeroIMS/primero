@@ -435,7 +435,8 @@ describe ChildrenController, :type => :controller do
         p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
         user = User.new(:user_name => 'fakeadmin', :is_manager => true)
         session = fake_admin_login user
-        user.should_receive(:modules).and_return([p_module], [p_module])
+
+        user.should_receive(:modules).and_return([p_module], [p_module], [p_module], [p_module])
         user.should_receive(:has_module?).with(anything).and_return(true, true, true)
 
         get :index
@@ -453,7 +454,7 @@ describe ChildrenController, :type => :controller do
         p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
         user = User.new(:user_name => 'fakeadmin', :is_manager => false)
         session = fake_admin_login user
-        user.should_receive(:modules).and_return([p_module], [p_module])
+        user.should_receive(:modules).and_return([p_module], [p_module], [p_module], [p_module])
         user.should_receive(:has_module?).with(anything).and_return(true, true, true)
 
         get :index

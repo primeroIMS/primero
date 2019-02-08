@@ -368,7 +368,7 @@ module RecordActions
 
   def view_reporting_filter
     #TODO: This will change once the filters become configurable
-    @can_view_reporting_filter ||= (can?(:dash_reporting_location, Dashboard) | is_admin | is_manager)
+    @can_view_reporting_filter = (can?(:dash_reporting_location, Dashboard) | is_admin | is_manager) && @current_user.has_reporting_location_filter?
   end
 
   def record_params
