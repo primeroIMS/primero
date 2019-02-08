@@ -119,6 +119,8 @@ class Incident < CouchRest::Model::Base
       self.incident_date_derived
     end
 
+    string :created_agency_office, as: 'created_agency_office_sci'
+
   end
 
   def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil)

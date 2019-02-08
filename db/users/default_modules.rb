@@ -242,7 +242,8 @@ create_or_update_module(
   allow_searchable_ids: true,
   use_workflow_service_implemented: true,
   use_workflow_case_plan: true,
-  use_workflow_assessment: false
+  use_workflow_assessment: false,
+  reporting_location_filter: true
 )
 
 
@@ -258,5 +259,6 @@ create_or_update_module(
     "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper",
     "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer", "client_feedback"
   ],
-  program_id: PrimeroProgram.by_name(:key => "Primero").first.id
+  program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
+  user_group_filter: true
 )
