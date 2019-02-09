@@ -108,7 +108,7 @@ case_plan_fields = [
   Field.new({"name" => "cp_case_plan_subform_case_plan_interventions",
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => case_plan_section.unique_id,
+             "subform_section" => case_plan_section,
              "subform_sort_by" => "case_plan_timeframe",
              "display_name_en" => "Intervention plans and services details"
             }),

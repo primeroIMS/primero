@@ -95,7 +95,7 @@ reunification_details_section = FormSection.create_or_update_form_section({
 reunification_details_fields = [
   Field.new({"name" => "reunification_details_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => reunification_details_section.unique_id,
+             "subform_section" => reunification_details_section,
              "display_name_en" => "Reunification Details"
             })
 ]

@@ -1,46 +1,20 @@
-class Field
-  include CouchRest::Model::CastedModel
-  include PrimeroModel
-  include LocalizableProperty
+class Field < ActiveRecord::Base
+
+  #include CouchRest::Model::CastedModel
+  #include PrimeroModel
+  include LocalizableJsonProperty
   include Memoizable
 
-  property :name
-  property :visible, TrueClass, :default => true
-  property :mobile_visible, TrueClass, :default => true
-  property :hide_on_view_page, TrueClass, :default => false
-  property :show_on_minify_form, TrueClass, :default => false
-  property :type
-  #property :highlight_information , HighlightInformation
-  property :editable, TrueClass, :default => true
-  property :disabled, TrueClass, :default => false
-  localize_properties [:display_name, :help_text, :guiding_questions, :tally, :tick_box_label]
-  localize_properties [:option_strings_text], generate_keys: true
-  property :multi_select, TrueClass, :default => false
-  property :hidden_text_field, TrueClass, :default => false
+  localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
+
   attr_reader :options
-  property :option_strings_source  #If options are dynamic, this is where to fetch them
-  property :base_language, :default => FormSection::DEFAULT_BASE_LANGUAGE
-  property :subform_section_id
-  property :autosum_total, TrueClass, :default => false
-  property :autosum_group, :default => ""
-  property :selected_value, :default => ""
-  property :create_property, TrueClass, :default => true
-  property :searchable_select, TrueClass, :default => false
-  property :link_to_path, :default => ""  #Used to handle a text field as a link on the show pages
-  property :link_to_path_external, TrueClass, :default => true
-  property :field_tags, [String], :default => []
-  property :custom_template, :default => nil #Custom type should set the path to the template.
-  property :expose_unique_id, TrueClass, :default => false
-  property :subform_sort_by
-  property :subform_group_by
-  property :required, TrueClass, :default => false
-  property :date_validation, :default => 'default_date_validation'
-  property :date_include_time, TrueClass, :default => false
-  property :matchable, TrueClass, :default => false
 
-  DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
+  belongs_to :form_section
+  belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', required: false
 
-  attr_accessor :subform
+  alias_attribute :form, :form_section
+  alias_attribute :subform_section, :subform
+
 
   TEXT_FIELD = "text_field"
   TEXT_AREA = "textarea"
@@ -58,64 +32,27 @@ class Field
   TALLY_FIELD = "tally_field"
   CUSTOM = "custom"
 
-  FIELD_FORM_TYPES = {  TEXT_FIELD       => "basic",
-                        TEXT_AREA        => "basic",
-                        RADIO_BUTTON     => "multiple_choice",
-                        SELECT_BOX       => "multiple_choice",
-                        PHOTO_UPLOAD_BOX => "basic",
-                        AUDIO_UPLOAD_BOX => "basic",
-                        DOCUMENT_UPLOAD_BOX => "basic",
-                        DATE_FIELD       => "basic",
-                        DATE_RANGE       => "basic",
-                        NUMERIC_FIELD    => "basic",
-                        SUBFORM          => "subform",
-                        SEPARATOR        => "separator",
-                        TICK_BOX         => "basic",
-                        TALLY_FIELD      => "tally_field",
-                        CUSTOM           => "custom"
-                      }
-  FIELD_DISPLAY_TYPES = {
-												TEXT_FIELD       => "basic",
-                        TEXT_AREA        => "basic",
-                        RADIO_BUTTON     => "basic",
-                        SELECT_BOX       => "basic",
-                        PHOTO_UPLOAD_BOX => "photo",
-                        AUDIO_UPLOAD_BOX => "audio",
-                        DOCUMENT_UPLOAD_BOX => "document",
-                        DATE_FIELD       => "basic",
-                        DATE_RANGE       => "range",
-                        NUMERIC_FIELD    => "basic",
-                        SUBFORM          => "subform",
-                        SEPARATOR        => "separator",
-                        TICK_BOX         => "tick_box",
-                        TALLY_FIELD      => "tally_field",
-                        CUSTOM           => "custom"
-                      }
-
-  DEFAULT_VALUES = {
-                        TEXT_FIELD       => "",
-                        TEXT_AREA        => "",
-                        RADIO_BUTTON     => "",
-                        SELECT_BOX       => "",
-                        PHOTO_UPLOAD_BOX => nil,
-                        AUDIO_UPLOAD_BOX => nil,
-                        DOCUMENT_UPLOAD_BOX => nil,
-                        DATE_FIELD       => "",
-                        DATE_RANGE       => "",
-                        NUMERIC_FIELD    => "",
-                        SUBFORM          => nil,
-                        TICK_BOX         => "false",
-                        TALLY_FIELD      => ""
-                      }
+  DATE_VALIDATION_OPTIONS = [ 'default_date_validation', 'not_future_date' ]
 
   validate :validate_unique_name
-  validate :validate_has_2_options
   validate :validate_display_name_format
   validate :validate_name_format
   validate :validate_display_name_in_base_language
   validate :valid_tally_field
   validate :validate_option_strings_text
-  #TODO: Any subform validations?
+
+  after_initialize :defaults
+  before_validation :generate_options_keys
+  before_validation :sync_options_keys
+  before_create :sanitize_name
+
+  #TODO: Move to migration
+  def defaults
+    self.base_language ||= FormSection::DEFAULT_BASE_LANGUAGE #TODO: Is this field even relevant?
+    self.date_validation = 'default_date_validation'
+    self.autosum_group ||= ""
+    #self.attributes = properties #TODO: what is this?
+  end
 
   def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
     lh = localized_hash(locale)
@@ -130,7 +67,8 @@ class Field
   def validate_display_name_format
     special_characters = /[*!@#%$\^]/
     white_spaces = /^(\s+)$/
-    if (display_name =~ special_characters) || (display_name =~ white_spaces)
+    if (display_name_en =~ special_characters) || (display_name_en =~ white_spaces)
+      #TODO: I18n!
       errors.add(:display_name, I18n.t("errors.models.field.display_name_format"))
       return false
     else
@@ -238,23 +176,32 @@ class Field
     return true
   end
 
-  def form
-    base_doc
-  end
-
-  def subform_section
-    if (self.subform.blank? && self.subform_section_id.present?)
-      self.subform = FormSection.find_by_id(subform_section_id)
-    end
-    return self.subform
-  end
-
   def form_type
-    FIELD_FORM_TYPES[type]
+    if [SUBFORM, SEPARATOR, TALLY_FIELD, CUSTOM].include?(self.type)
+      self.type
+    elsif [RADIO_BUTTON, SELECT_BOX].include?(self.type)
+      'multiple_choice'
+    else
+      'basic'
+    end
   end
 
 	def display_type
-		FIELD_DISPLAY_TYPES[type]
+    #TODO: A hack, because we have a non-standard template names. Cleanup with UIUX
+    case self.type
+    when TEXT_FIELD, TEXT_AREA, RADIO_BUTTON, SELECT_BOX, DATE_FIELD, NUMERIC_FIELD
+      'basic'
+    when DATE_RANGE
+      'range'
+    when AUDIO_UPLOAD_BOX
+      'audio'
+    when PHOTO_UPLOAD_BOX
+      'photo'
+    when DOCUMENT_UPLOAD_BOX
+      'document'
+    else
+      self.type
+    end
 	end
 
   #DB field cannot be created such that its has anything but lower case alpha, numbers and underscores
@@ -268,59 +215,52 @@ class Field
 
 
   class << self
-
-    # TODO: Refactor this - Slow when you rebuild a form
-    def all_searchable_field_names(parent_form = 'case')
-      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_fields.map(&:name) }.flatten
+    def fields_for_record(parent_form, is_subform=false)
+      Field.joins(:form_section).where(form_sections: {parent_form: parent_form, is_nested: is_subform})
     end
 
-    def all_searchable_date_field_names(parent_form = 'case')
-      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_fields.map(&:name) }.flatten
+    def all_searchable_date_field_names(parent_form='case')
+      fields_for_record(parent_form).where(type: [Field::DATE_FIELD, Field::DATE_RANGE], date_include_time: false).pluck(:name)
     end
 
-    def all_searchable_date_time_field_names(parent_form = 'case')
-      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_date_time_fields.map(&:name) }.flatten
+    def all_searchable_date_time_field_names(parent_form='case')
+      fields_for_record(parent_form).where(type: [Field::DATE_FIELD, Field::DATE_RANGE], date_include_time: true).pluck(:name)
     end
 
     def all_searchable_boolean_field_names(parent_form='case')
-      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_searchable_boolean_fields.map(&:name) }.flatten
+      fields_for_record(parent_form).where(type: Field::TICK_BOX).pluck(:name)
     end
 
-    def all_filterable_field_names(parent_form = 'case')
-      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_fields.map(&:name) }.flatten
+    def all_filterable_field_names(parent_form='case')
+      #TODO: TEXT_FIELD is being indexed for exact search?
+      fields_for_record(parent_form).where(type: [TEXT_FIELD, RADIO_BUTTON, SELECT_BOX], multi_select: false).pluck(:name)
     end
 
-    def all_filterable_multi_field_names(parent_form = 'case')
-      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_multi_fields.map(&:name) }.flatten
+    def all_filterable_multi_field_names(parent_form='case')
+      fields_for_record(parent_form).where(type: Field::SELECT_BOX, multi_select: true).pluck(:name)
     end
 
-    def all_filterable_numeric_field_names(parent_form = 'case')
-      FormSection.find_by_parent_form(parent_form, false).map { |form| form.all_filterable_numeric_fields.map(&:name) }.flatten
+    def all_filterable_numeric_field_names(parent_form='case')
+      fields_for_record(parent_form).where(type: Field::NUMERIC_FIELD).pluck(:name)
     end
 
     def all_tally_fields(parent_form='case')
-      FormSection.find_by_parent_form(parent_form, false).map {|form| form.all_tally_fields.map(&:name)}.flatten
+      fields_for_record(parent_form).where(type: Field::TALLY_FIELD).pluck(:name)
     end
 
     def all_location_field_names(parent_form='case')
-      FormSection.find_locations_by_parent_form(parent_form).map {|form| form.all_location_fields.map(&:name)}.flatten.uniq
+      fields_for_record(parent_form).where(type: Field::SELECT_BOX, option_strings_source: 'Location').pluck(:name)
     end
 
-    # This is a rework of the original RapidFTR method that never worked.
-    # It depends on a 'fields' view existing on the FormSection that indexes the fields out of the FormSection.
     # TODO: This has been renamed to allow a hack to wrap it
-    def find_by_name_from_view(name)
-      result = nil
-      if name.is_a? Array
-        raw_field_data = FormSection.fields(keys: name).rows
-        result = raw_field_data.map{|rf| Field.new(rf['value'])}
-      else
-        raw_field_data = FormSection.fields(key: name).rows.first
-        result = Field.new(raw_field_data['value']) if raw_field_data.present?
+    def get_by_name(name)
+      result = Field.where(name: name)
+      unless name.is_a? Array
+        result = result.first
       end
       return result
     end
-    memoize_in_prod :find_by_name_from_view
+    #memoize_in_prod :get_by_name
 
     #TODO: This is a HACK to pull back location fields from admin solr index names,
     #      completely based on assumptions.
@@ -330,18 +270,18 @@ class Field
       if field_name.present?
         if field_name.kind_of?(Array)
           field_name.select{|s|
-            s.match(".*(\\d)+") && !find_by_name_from_view(s).present?
+            s.match(".*(\\d)+") && !get_by_name(s).present?
           }.each{|s|
             s.gsub!(/ *\d+$/, '')
           }
-        elsif field_name.match(".*(\\d)+") && !find_by_name_from_view(field_name).present?
+        elsif field_name.match(".*(\\d)+") && !get_by_name(field_name).present?
           field_name.gsub!(/ *\d+$/, '')
         end
 
-        field = find_by_name_from_view(field_name)
+        field = get_by_name(field_name)
         unless field.present?
           if field_name.last.is_number? && field_name.length > 1
-            field = find_by_name_from_view(field_name[0..-2])
+            field = get_by_name(field_name[0..-2])
             unless field.present? && field.is_location?
               field = nil
             end
@@ -351,39 +291,21 @@ class Field
       return field
     end
 
+    #This allows us to use the property 'type' on Field, normally reserved by ActiveRecord
+    def inheritance_column ; 'type_inheritance' ; end
+
   end
 
-
-  def display_name_for_field_selector
-    hidden_text = self.visible? ? "" : " (Hidden)"
-    "#{display_name}#{hidden_text}"
-  end
-
-  #TODO: Use CouchRest Model property defaults here instead
-  #TODO: Testing from console shows the property defaults aren't working for this Field model making these initialize setters necessary
-  #TODO: Dig deeper to determine why defaults are not working
-  def initialize(properties={})
-    self.visible = true if properties["visible"].nil?
-    self.mobile_visible = true if properties["mobile_visible"].nil?
-    self.highlight_information = HighlightInformation.new
-    self.editable = true if properties["editable"].nil?
-    self.disabled = false if properties["disabled"].nil?
-    self.multi_select = false if properties["multi_select"].nil?
-    self.required = false if properties["required"].nil?
-    self.show_on_minify_form = false if properties["show_on_minify_form"].nil?
-    self.hidden_text_field ||= false
-    self.autosum_total ||= false
-    self.autosum_group ||= ""
-    self.create_property ||= true
-    self.hide_on_view_page ||= false
-    self.attributes = properties
-    self.base_language = FormSection::DEFAULT_BASE_LANGUAGE
-  end
-
+  #TODO:Get rid of FieldOptions. This method should just be an alias
   def attributes= properties
     super properties
     #TODO: FieldOption should just be a regular embedded object that CouchRest Model supports
-    @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
+    # TODO: get rid of FieldOption
+    #@options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
+  end
+
+  def merge_with(another_field)
+
   end
 
   def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={})
@@ -466,29 +388,30 @@ class Field
   end
 
   def default_value
-    raise I18n.t("errors.models.field.default_value") + type unless DEFAULT_VALUES.has_key? type
-    return DEFAULT_VALUES[type]
+    case self.type
+    when TEXT_FIELD, TEXT_AREA, RADIO_BUTTON, SELECT_BOX, DATE_FIELD, DATE_RANGE, NUMERIC_FIELD, TALLY_FIELD
+      ""
+    when PHOTO_UPLOAD_BOX, AUDIO_UPLOAD_BOX, DOCUMENT_UPLOAD_BOX, SUBFORM
+      nil
+    when TICK_BOX
+      "false"
+    else
+      raise I18n.t("errors.models.field.default_value") + type unless DEFAULT_VALUES.has_key? type
+    end
   end
 
-  def tag_id
-    "child_#{name}"
-  end
-
+  #TODO: Refactor with UIUX
   def tag_name_attribute(objName = "child")
     "#{objName}[#{name}]"
   end
 
   def subform_group_by_field
-    # This is an extra DB query, but should be fine on record edit/show pages
-    # where the subforms are pre-linked
+    # TODO: This is an extra DB query
     if self.type == SUBFORM && self.subform_group_by.present?
       unless @subform_group_by_field.present?
-        subform = self.subform_section
-        if subform.present?
-          @subform_group_by_field = subform.fields.select{|f|
-            (f.name == self.subform_group_by) && f.selectable?
-          }.first
-        end
+        @subform_group_by_field = subform_section.joins(:fields)
+          .where(fields: {name: self.subform_group_by, type: [ Field::RADIO_BUTTON, Field::SELECT_BOX] })
+          .first
       end
     end
     return @subform_group_by_field
@@ -526,24 +449,15 @@ class Field
     field_hash
   end
 
-  def is_highlighted?
-      highlight_information[:highlighted]
-  end
-
-  def highlight_with_order order
-      highlight_information[:highlighted] = true
-      highlight_information[:order] = order
-  end
-
-  def unhighlight
-    self.highlight_information = HighlightInformation.new
-  end
-
+  #TODO: Delete after UIUX refactor
   def searchable_select
     if self.option_strings_source == 'Location' && !multi_select
       true
     end
   end
+
+  #TODO: Delete after refactor of Record
+  def create_property ; true ; end
 
   def selectable?
     self.option_strings_source.present? || self.option_strings_text.present?
@@ -563,6 +477,10 @@ class Field
     self.option_strings_source == 'lookup lookup-yes-no' || self.option_strings_source == 'lookup lookup-yes-no-unknown'
   end
 
+  def is_mobile?
+    self.mobile_visible == true && self.visible == true
+  end
+
   #TODO add rspec test
   def generate_options_keys
     if self.option_strings_text.present?
@@ -572,6 +490,7 @@ class Field
         end
       end
 
+      #DOes the same thing for the other languages...
       Primero::Application::locales.each do |locale|
         option_strings_locale = self.send("option_strings_text_#{locale}")
         if locale != Primero::Application::LOCALE_ENGLISH && option_strings_locale.present?
@@ -598,10 +517,6 @@ class Field
     end
   end
 
-  def is_mobile?
-    self.mobile_visible == true && self.visible == true
-  end
-
   def update_translations(field_hash={}, locale)
     if locale.present? && Primero::Application::locales.include?(locale)
       field_hash.each do |key, value|
@@ -618,19 +533,10 @@ class Field
 
   private
 
-  def create_unique_id
-    self.name = UUIDTools::UUID.timestamp_create.to_s.split('-').first if self.name.nil?
-  end
-
-  def validate_has_2_options
-    return true unless (type == RADIO_BUTTON || type == SELECT_BOX)
-    return errors.add(:option_strings, I18n.t("errors.models.field.has_2_options")) if option_strings_source.blank? && (option_strings_text.blank? || option_strings_text.length < 2)
-    true
-  end
-
   def validate_unique_name
-    return true unless form
-    if (form.fields.any? {|field| !field.equal?(self) && field.name == name})
+    #TODO: Consider moving this logic to FormSection for performance reasons
+    return true unless self.form_section_id.present? #TODO: This line might not be necessary for AR
+    if (Field.where(name: self.name, form_section_id: self.form_section_id).count > 1)
       return errors.add(:name, I18n.t("errors.models.field.unique_name_this"))
     end
     true
@@ -642,6 +548,25 @@ class Field
       self.autosum_total ||= true
     end
     true
+  end
+
+  #TODO: We are moving this code back to the Field. It was on the FormSection for performance reasons
+  def validate_datatypes
+    #Assuming that the same field name can't appear on different record types
+    same_name_fields = Field.joins(:form_section).where(name: self.name, form_sections: {is_nested: false})
+    same_name_fields.each do |same_name_field|
+      this_type = [self.type, self.multi_select]
+      same_name_type = [same_name_field.type, same_name_field.multi_select]
+      if this_type == same_name_type
+        next if changing_between_text_field_and_textarea?(current_type.first, same_name_type.first)
+        errors.add(:fields, I18n.t("errors.models.field.change_type_existing_field", field_name: self.name, form_name: self.form_section.name))
+        return false
+      end
+    end
+  end
+
+  def changing_between_text_field_and_textarea?(current_type, new_type)
+    [TEXT_FIELD, TEXT_AREA].include?(current_type) && [TEXT_FIELD, TEXT_AREA].include?(new_type)
   end
 
   def update_option_strings_translations(options_hash, locale)

@@ -87,16 +87,17 @@ activities_fields = [
            })
 ]
 
-FormSection.create_or_update_form_section({
-  :unique_id => "activities",
-  :parent_form=>"case",
-  "visible" => true,
-  :order_form_group => 110,
-  :order => 40,
-  :order_subform => 0,
-  :form_group_id => "services_follow_up",
-  "editable" => true,
-  :fields => activities_fields,
-  "name_en" => "Activities",
-  "description_en" => "Activities"
+activities = FormSection.create_or_update_form_section({
+  unique_id: "activities",
+  parent_form: "case",
+  visible: true,
+  order_form_group: 110,
+  fields: activities_fields,
+  order: 40,
+  order_subform: 0,
+  form_group_id: "services_follow_up",
+  editable: true,
+  name_en: "Activities",
+  description_en: "Activities"
 })
+

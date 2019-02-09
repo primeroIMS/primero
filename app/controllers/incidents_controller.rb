@@ -45,7 +45,7 @@ class IncidentsController < ApplicationController
   private
 
   def load_fields
-    @gbv_sexual_violence_type_field = Field.find_by_name_from_view('gbv_sexual_violence_type')
+    @gbv_sexual_violence_type_field = Field.get_by_name('gbv_sexual_violence_type')
   end
 
   def extra_permitted_parameters

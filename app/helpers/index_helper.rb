@@ -382,11 +382,6 @@ module IndexHelper
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
     allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
-    #Retrieve the forms where the fields appears and if is in the allowed for the user.
-    #TODO should look on subforms? for now lookup on top forms.
-    field_names = ["gbv_displacement_status", "protection_status", "urgent_protection_concern", "protection_concerns", "type_of_risk"]
-    forms = FormSection.fields(:keys => field_names)
-                  .all.select{|fs| fs.parent_form == "case" && !fs.is_nested && allowed_form_ids.include?(fs.unique_id)}
 
     filters << "Flagged"
     filters << "Mobile" if @can_sync_mobile
@@ -403,17 +398,11 @@ module IndexHelper
     filters << "Status"
     filters << "Age Range"
     filters << "Sex"
-
-
-    field_protection_concerns = forms.map{|fs| fs.fields.find{|f| f.name == "protection_concerns"} }.compact.first
-    if field_protection_concerns.present? && @can_view_protection_concerns_filter
-      filters << "Protection Concerns"
-    end
-
-    filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status", forms)
-    filters << "Protection Status" if visible_filter_field?("protection_status", forms)
-    filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern", forms)
-    filters << "Type of Risk" if @is_cp && visible_filter_field?("type_of_risk", forms)
+    filters << "Protection Concerns" if  @can_view_protection_concerns_filter && visible_filter_field?('protection_concerns')
+    filters << "GBV Displacement Status" if @is_gbv && visible_filter_field?("gbv_displacement_status")
+    filters << "Protection Status" if visible_filter_field?("protection_status")
+    filters << "Urgent Protection Concern" if @is_cp && visible_filter_field?("urgent_protection_concern")
+    filters << "Type of Risk" if @is_cp && visible_filter_field?("type_of_risk")
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
     filters << "Reporting Location" if @can_view_reporting_filter
@@ -514,18 +503,9 @@ module IndexHelper
     return options
   end
 
-  def visible_filter_field?(field_name, forms)
-    return false if forms.blank?
-    fields = forms.map{|fs| fs.fields.select{|f| f.name == field_name} }.flatten
-    #TODO what if this is a shared field?
-    #TODO what if the field is on different modules like "sex"
-    #     and the user is able to access both modules
-    #For now any visible field will display the filter.
-    #Not an issue when the field exist only one time.
-    #Not sure how that will work for shared field or if the user can access several modules
-    #and the field exists on those modules, in that case the filter will be display if
-    #visible for any of the modules.
-    fields.any?{|f| f.visible?}
+  def visible_filter_field?(field_name)
+    field = @filter_fields[field_name]
+    field.present? && field.visible?
   end
 
   def translate_location_type(location_types, type)

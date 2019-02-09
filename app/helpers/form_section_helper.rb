@@ -102,7 +102,7 @@ module FormSectionHelper
   end
 
   def subform_placeholder(field, subform, editing=false)
-    if field.base_doc.is_violation?
+    if field.form_section.is_violation?
       t("incident.violation.violation")
     else
       form_string, translation_node = editing ? [subform.form.name, 'editing_subforms'] : [subform.display_name, 'subforms']

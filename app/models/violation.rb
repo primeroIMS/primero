@@ -11,28 +11,29 @@ class Violation
     string :category, as: :category_sci
 
     FormSection.violation_forms.each do |form|
-      form.all_filterable_fields.map(&:name).each do |fx|
-        string(fx, as: "#{fx}_sci".to_sym) {violation_value(fx)}
-      end
-      form.all_filterable_multi_fields.map(&:name).each do |f|
-        string(f, multiple: true) {violation_value(f)}
-      end
-      form.all_searchable_date_fields.map(&:name).each do |f|
-        date(f) {violation_value(f)}
-      end
-      form.all_filterable_numeric_fields.map(&:name).each do |f|
-        integer(f) {violation_value(f)}
-      end
-      form.all_tally_fields.each do |field|
-        string(field.name, multiple: true) do
-          field.tally.map do |t|
-            attribute = "#{field.name}_#{t}"
-            value = violation_value(attribute)
-            value ||= 0
-            "#{t}:#{value}"
-          end
-        end
-      end
+      #TODO: Refactor with Field: form_section.fields.where(blah) Fix with MRM
+      # form.all_filterable_fields.map(&:name).each do |fx|
+      #   string(fx, as: "#{fx}_sci".to_sym) {violation_value(fx)}
+      # end
+      # form.all_filterable_multi_fields.map(&:name).each do |f|
+      #   string(f, multiple: true) {violation_value(f)}
+      # end
+      # form.all_searchable_date_fields.map(&:name).each do |f|
+      #   date(f) {violation_value(f)}
+      # end
+      # form.all_filterable_numeric_fields.map(&:name).each do |f|
+      #   integer(f) {violation_value(f)}
+      # end
+      # form.all_tally_fields.each do |field|
+      #   string(field.name, multiple: true) do
+      #     field.tally.map do |t|
+      #       attribute = "#{field.name}_#{t}"
+      #       value = violation_value(attribute)
+      #       value ||= 0
+      #       "#{t}:#{value}"
+      #     end
+      #   end
+      # end
     end
 
     Incident.searchable_string_fields.each do |fx|

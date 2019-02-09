@@ -4,16 +4,14 @@ gbv_incident_fields = [
              "type" => "text_field",
              "editable" => false,
              "disabled" => true,
-             "display_name_en" => "Long ID",
-             "create_property" => false
+             "display_name_en" => "Long ID"
             }),
   Field.new({"name" => "short_id",
              "mobile_visible" => false,
              "type" => "text_field",
              "editable" => false,
              "disabled" => true,
-             "display_name_en" => "Incident ID",
-             "create_property" => false
+             "display_name_en" => "Incident ID"
             }),
   Field.new({"name" => "marked_for_mobile",
              "mobile_visible" => false,
@@ -21,8 +19,7 @@ gbv_incident_fields = [
              "tick_box_label_en" => "Yes",
              "display_name_en" => "Marked for mobile?",
              "editable" => false,
-             "disabled" => true,
-             "create_property" => false
+             "disabled" => true
             }),
   Field.new({"name" => "incident_code",
              "mobile_visible" => false,

@@ -109,7 +109,7 @@ conference_details_fields = [
   Field.new({"name" => "conference_details_subform",
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => conference_details_subform_section.unique_id,
+             "subform_section" => conference_details_subform_section,
              "subform_sort_by" => "conference_date",
              "display_name_en" => "Case Conference Details"
             })

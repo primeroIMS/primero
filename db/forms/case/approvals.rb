@@ -83,7 +83,7 @@ approvals_fields = [
   Field.new({"name" => "approval_subforms",
     "type" => "subform",
     "editable" => false,
-    "subform_section_id" => approvals_section.unique_id,
+    "subform_section" => approvals_section,
     "display_name_en" => "Approval"
   }),
 ]

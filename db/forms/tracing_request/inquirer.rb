@@ -3,15 +3,13 @@ tracing_request_inquirer_fields = [
              "type" => "text_field",
              "editable" => false,
              "disabled" => true,
-             "display_name_en" => "Long ID",
-             "create_property" => false
+             "display_name_en" => "Long ID"
             }),
   Field.new({"name" => "short_id",
              "type" => "text_field",
              "editable" => false,
              "disabled" => true,
-             "display_name_en" => "Inquirer ID",
-             "create_property" => false
+             "display_name_en" => "Inquirer ID"
             }),
   Field.new({"name" => "inquiry_date",
              "type" => "date_field",

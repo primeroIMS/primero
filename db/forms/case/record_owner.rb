@@ -153,7 +153,7 @@ Field.new({"name" => "reopened_logs",
            "type" => "subform",
            "editable" => false,
            "disabled" => true,
-           "subform_section_id" => reopened_logs.unique_id,
+           "subform_section" => reopened_logs,
            "display_name_en" => "Case Reopened",
            "subform_sort_by" => "reopened_date"
           })

@@ -17,10 +17,6 @@ describe "record field model" do
     end
   end
 
-  it "converts field name to a HTML tag ID" do
-    @field.tag_id.should == "child_#{@field_name}"
-  end
-
   it "converts field name to a HTML tag name" do
     @field.tag_name_attribute.should == "child[#{@field_name}]"
   end
@@ -34,14 +30,6 @@ describe "record field model" do
     field = Field.new :display_name => "something", :option_strings_text => "Tim\nRob Smith"
     field['option_strings_text'].should == nil
     expect(field.option_strings_text).to eq([{"id"=>"tim", "display_text"=>"Tim"}, {"id"=>"rob_smith", "display_text"=>"Rob Smith"}])
-  end
-
-  it "should have display name with hidden text if not visible" do
-    @field.display_name = "pokpok"
-    @field.visible = false
-
-    @field.display_name_for_field_selector.should == "pokpok (Hidden)"
-
   end
 
   describe "valid?" do
@@ -301,27 +289,6 @@ describe "record field model" do
 
     it "should raise an error if can't find a default value for this field type" do
       expect {Field.new(:type=>"INVALID_FIELD_TYPE").default_value}.to raise_error(RuntimeError, 'Cannot find default value for type INVALID_FIELD_TYPE')
-    end
-  end
-
-  describe "highlight information" do
-
-    it "should initialize with empty highlight information" do
-      field = Field.new(:name => "No highlight")
-      field.is_highlighted?.should be_falsey
-    end
-
-    it "should set highlight information" do
-      field = Field.new(:name => "highlighted")
-      field.highlight_with_order 6
-      field.is_highlighted?.should be_truthy
-    end
-
-    it "should unhighlight a field" do
-      field = Field.new(:name => "new highlighted")
-      field.highlight_with_order 1
-      field.unhighlight
-      field.is_highlighted?.should be_falsey
     end
   end
 

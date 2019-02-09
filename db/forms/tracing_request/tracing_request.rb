@@ -151,7 +151,7 @@ tracing_request_tracing_request_fields = [
   Field.new({"name" => "tracing_request_subform_section",
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => tracing_request_subform_section.unique_id,
+             "subform_section" => tracing_request_subform_section,
              "display_name_en" => "Tracing Request"
             })
 ]

@@ -6,7 +6,6 @@ child_under_5_fields = [
   Field.new({"name" => "location_child_found",
              "type" => "select_box",
              "display_name_en" => "Location where child was found",
-             "searchable_select" => true,
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_child_found",
@@ -36,7 +35,6 @@ child_under_5_fields = [
   Field.new({"name" => "location_child_finder",
              "type" => "select_box",
              "display_name_en" => "Location of person who found the child",
-             "searchable_select" => true,
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "address_child_finder",
@@ -71,15 +69,15 @@ child_under_5_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id=>"child_under_5",
-  :parent_form=>"case",
-  "visible"=>true,
-  :order_form_group => 70,
-  :order => 40,
-  :order_subform => 0,
-  :form_group_id => "assessment",
-  "editable"=>true,
-  :fields => child_under_5_fields,
-  "name_en" => "Child Under 5",
-  "description_en" => "Child Under 5"
+  unique_id: "child_under_5",
+  parent_form: "case",
+  visible: true,
+  order_form_group: 70,
+  order: 40,
+  order_subform: 0,
+  form_group_id: "assessment",
+  editable: true,
+  fields: child_under_5_fields,
+  name_en: "Child Under 5",
+  description_en: "Child Under 5"
 })

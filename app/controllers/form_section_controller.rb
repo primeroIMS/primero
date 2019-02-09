@@ -61,6 +61,7 @@ class FormSectionController < ApplicationController
     authorize! :update, FormSection
     @form_section = FormSection.find_by_id(params[:id])
     @form_section.properties = params[:form_section].to_h
+    #TODO: Need to set the fields as well
     if (@form_section.valid?)
       @form_section.save!
       redirect_to edit_form_section_path(

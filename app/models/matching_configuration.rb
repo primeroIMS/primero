@@ -112,10 +112,17 @@ class MatchingConfiguration
       form_field_hash[form_id] << field_name
     end
 
-    form_sections = FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type)
-    form_sections.each do |form_section|
-      form_section.update_fields_matchable(form_field_hash[form_section.unique_id] || [])
-      form_section.save
+    form_sections = FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type).includes(:fields)
+    ActiveRecord::Base.transaction do
+      form_sections.each do |form_section|
+        matching_field_names = form_field_hash[form_section.unique_id]
+        form_section.fields.each do |field|
+          if matching_field_names.include?(field.name)
+            field.matchable = true
+            field.save
+          end
+        end
+      end
     end
   end
 end

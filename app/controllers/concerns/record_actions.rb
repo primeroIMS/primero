@@ -26,6 +26,7 @@ module RecordActions
     before_action :load_default_settings, :only => [:index, :show, :edit, :request_approval, :approve_form, :transition]
     before_action :load_referral_role_options, :only => [:index, :show]
     before_action :load_transfer_role_options, :only => [:index, :show]
+    before_action :load_filter_fields, only: [:index]
     before_action :log_controller_action, :except => [:new]
     before_action :can_access_approvals, :only => [:index]
     before_action :can_sync_mobile, :only => [:index]
@@ -420,6 +421,14 @@ module RecordActions
       @referral_consent = @record.given_consent(Transition::TYPE_REFERRAL)
       @transfer_consent = @record.given_consent(Transition::TYPE_TRANSFER)
     end
+  end
+
+  def load_filter_fields
+    filter_field_names = %w(
+      gbv_displacement_status protection_status urgent_protection_concern
+      protection_concerns type_of_risk
+    )
+    @filter_fields = Field.get_by_name(filter_field_names).map{|f| [f.name, f]}.to_h
   end
 
   #This overrides method in export_actions

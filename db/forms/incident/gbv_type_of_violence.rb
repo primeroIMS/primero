@@ -105,7 +105,7 @@ gbv_sexual_violence_fields = [
              "mobile_visible" => false,
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => gbv_reported_elsewhere_subform.unique_id,
+             "subform_section" => gbv_reported_elsewhere_subform,
              "display_name_en" => "If yes, where?"
             }),
   Field.new({"name" => "gbv_previous_incidents",

@@ -128,7 +128,7 @@ referral_transfer_fields = [
              "type" => "subform",
              "editable" => false,
              "disabled" => true,
-             "subform_section_id" => transitions.unique_id,
+             "subform_section" => transitions,
              "display_name_en" => "Transfers and Referrals",
              "subform_sort_by" => "created_at"
             })

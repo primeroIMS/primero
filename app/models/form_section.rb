@@ -9,26 +9,20 @@ class FormSection < ActiveRecord::Base
 
   localize_properties :name, :help_text, :description
 
-  #TODO: Add in relation when Field model is defined
-  #property :fields, [Field]
-
-  #TODO: get rid of fixed_order perm_visible perm_enabled validations
+  has_many :fields
 
   attr_accessor :module_name
-  
+
   validate :validate_name_in_base_language
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
-  validate :validate_datatypes
 
   after_initialize :defaults
-  before_validation :generate_options_keys
-  before_validation :sync_options_keys
   before_save :sync_form_group
   after_save :recalculate_subform_permissions
 
+  #TODO: Move to migration
   def defaults
-    %w(visible editable).each{|p| self[p] ||= true}
     %w(order order_form_group order_subform initial_subforms).each{|p| self[p] ||= 0}
     self.base_language ||= DEFAULT_BASE_LANGUAGE #TODO: Is this field even relevant?
   end
@@ -39,7 +33,6 @@ class FormSection < ActiveRecord::Base
     Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name, locale: locale)
   end
 
-  #TODO: Rewrite after migrating Field
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
     fldz = {}
@@ -52,9 +45,13 @@ class FormSection < ActiveRecord::Base
     "FormSection(#{self.name}, form_group_id => '#{self.form_group_id}')"
   end
 
-  alias to_param unique_id
+  alias_attribute :to_param, :unique_id
 
   class << self
+
+    def all_filterable_field_names(foo)
+      []
+    end
 
     def memoized_dependencies
       [Field]
@@ -66,19 +63,11 @@ class FormSection < ActiveRecord::Base
     end
     #memoize_in_prod :get_unique_instance
 
-    #TODO: Refactor with Fields, ActiveRecord
     #Given a list of forms, return their subforms
     def get_subforms(forms)
-      subform_ids, result = [], []
-      forms.map{|f| f.fields}.flatten.each do |field|
-        if field.type == 'subform' && field.subform_section_id
-          subform_ids.push field.subform_section_id
-        end
-      end
-      if subform_ids.present?
-        result = FormSection.where(id: subform_ids)
-      end
-      return result
+      form_ids = forms.map(&:id)
+      subform_fields = Field.includes(:subform).where(form_section_id: form_ids, type: Field::SUBFORM)
+      subform_fields.map(&:subform).compact
     end
     #memoize_in_prod :get_subforms
 
@@ -95,15 +84,30 @@ class FormSection < ActiveRecord::Base
     def create_or_update_form_section(properties = {})
       unique_id = properties[:unique_id]
       return nil if unique_id.blank?
+#binding.pry
+      fields = properties[:fields]
+      if fields.present?
+        fields.each_with_index do |field, index|
+          field.order = index
+        end
+      end
+
       form_section = self.find_by(unique_id: unique_id)
       if form_section.present?
         Rails.logger.info {"Updating form section #{unique_id}"}
-        form_section.update_attributes properties
+        fields = fields.map do |field|
+          updated_field = Field.find_or_initialize_by(name: field.name, form_section_id: form_section.id)
+          attributes = field.attributes.reject{|k,_| !([:id, :form_section_id].include?(k))}
+          updated_field.assign_attributes(attributes)
+          updated_field
+        end
+        properties[:fields] = fields
+        form_section.update_attributes(properties)
+        return form_section
       else
         Rails.logger.info {"Creating form section #{unique_id}"}
-        return self.create!(properties)
+        return FormSection.create!(properties)
       end
-      form_section
     end
     alias :create_or_update :create_or_update_form_section
 
@@ -119,6 +123,7 @@ class FormSection < ActiveRecord::Base
       #TODO: Fix this when we make MRM work
       # ids = Incident.violation_id_fields.keys
       # FormSection.by_unique_id(keys: ids).all
+      []
     end
     #memoize_in_prod :violation_forms
 
@@ -130,26 +135,16 @@ class FormSection < ActiveRecord::Base
     #Given an arbitrary list of forms go through and link up the forms to subforms.
     #Functionally this isn't important, but this will improve performance if the list
     #contains both the top forms and the subforms by avoiding extra queries.
-    #TODO: Potentially this method is expensive
-    # TODO: Refactor with Field
     def link_subforms(forms)
-      subforms_hash = forms.reduce({}) do |hash, form|
-        hash[form.unique_id] = form if form.is_nested?
-        hash
-      end
-
-      forms.map{|f| f.fields}.flatten.each do |field|
-        if field.type == Field::SUBFORM && field.subform_section_id
-          field.subform ||= subforms_hash[field.subform_section_id]
-        end
-      end
-
+      #TODO: Force eager loading on subforms! Do we still need this?
+      #fields = ActiveRecord::Associations::Preloader.new.preload(forms, :fields)
+      #ActiveRecord::Associations::Preloader.new.preload(fields, :subform)
       return forms
     end
     #memoize_in_prod :link_subforms
 
     #Return a hash of subforms, where the keys are the form groupings
-    # TODO: This method might no longer be relevant. Investigate! We should avoid sorting in Ruby
+    # TODO: This method might no longer be relevant. Investigate! We should avoid sorting in Ruby. UIUX?
     def group_forms(forms)
       grouped_forms = {}
 
@@ -172,23 +167,20 @@ class FormSection < ActiveRecord::Base
     #memoize_in_prod :get_visible_form_sections
 
     # Returns: an array of fields that are matchable
+    # TODO: Does this belong on Field?
     def get_matchable_fields_by_parent_form(parent_form, subform=true)
-      FormSection.find_by_parent_form(parent_form, subform)
-      .map{|fs| fs.all_matchable_fields}.flatten
+      Field.joins(:form_section).where(form_sections: {parent_form: parent_form}, matchable: true)
+      #FormSection.find_by_parent_form(parent_form, subform)
+      #.map{|fs| fs.all_matchable_fields}.flatten
     end
     #memoize_in_prod :get_matchable_fields_by_parent_form
 
     # Returns: hash of (key) Form ID and (values) Fields that are matchable
+    # TODO: Does this belong on Field?
     def get_matchable_form_and_field_names(form_ids, parent_form)
-      #TODO: Refactor after Field
-      form_sections = FormSection.form_sections_by_ids_and_parent_form(form_ids, parent_form)
-      return {} if form_sections.blank?
-      form_hash = {}
-      form_sections.each do |f|
-        matchable_fields = f.all_matchable_fields
-        form_hash[f.unique_id] = matchable_fields.map{|fd| fd.name} if matchable_fields.present?
-      end
-      form_hash
+      matchable_fields = Field.joins(:form_section).include(:form_section).where(form_sections: {id: form_ids, parent_form: parent_form}, matchable: true)
+      grouped_matchable_fields = matchable_fields.group_by{|f|f.form_section.unique_id}
+      grouped_matchable_fields.map{|form_id, fields| [form_id, fields.map{|f| f.name}]}.to_h
     end
 
     #TODO: Only used by Matching code. Is it even needed? Rename is needed.
@@ -230,34 +222,29 @@ class FormSection < ActiveRecord::Base
     end
     #memoize_in_prod :get_form_sections_by_module
 
-    #TODO: Refactor with Field
     def add_field_to_formsection(formsection, field)
       raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
-      field.merge!({'base_language' => formsection['base_language']})
-      if field.type == 'subform'
-        field.subform_section_id = "#{formsection.unique_id}_subform_#{field.name}".parameterize.underscore
-        #Now make field name match subform section id
-        field.name = field.subform_section_id
-        create_subform(formsection, field)
+      field.form_section_id = formsection.id
+      if field.type == Field::SUBFORM
+        subform = create_subform(formsection, field)
+        field.subform_section_id = subform.id
       end
-      formsection.fields.push(field)
-      formsection.save
+      field.save
     end
 
-    #TODO: Refactor with Field
     def create_subform(formsection, field)
       self.create_or_update_form_section({
-                :visible=>false,
-                :is_nested=>true,
-                :core_form=>false,
-                :editable=>true,
-                :order_form_group => formsection.order_form_group,
-                :order => formsection.order,
-                :order_subform => 1,
-                :unique_id=>field.subform_section_id,
-                :parent_form=>formsection.parent_form,
-                :name_all=>field.display_name,
-                :description_all=>field.display_name
+                visible: false,
+                is_nested: true,
+                core_form: false,
+                editable: true,
+                order_form_group: formsection.order_form_group,
+                order: formsection.order,
+                order_subform: 1,
+                unique_id: field.name,
+                parent_form: formsection.parent_form,
+                name_all: field.display_name,  #TODO: is _all or _en better?
+                description_all: field.display_name
       })
     end
 
@@ -433,11 +420,11 @@ class FormSection < ActiveRecord::Base
       form_hash
     end
 
-    #TODO: Refactor with Field
     def mobile_fields_to_hash(form, locales, lookups, locations)
       form.all_mobile_fields.map do |f|
         field_hash = f.localized_attributes_hash(locales, lookups, locations)
-        field_hash['subform'] = mobile_form_to_hash(f.subform, locales, lookups, locations) if f.subform.present?
+        #TODO: Improve performance by eagerloading subform
+        field_hash['subform'] = mobile_form_to_hash(f.subform, locales, lookups, locations) if f.subform_section_id.present?
         field_hash
       end
     end
@@ -488,88 +475,15 @@ class FormSection < ActiveRecord::Base
 
   end
 
-  #TODO: Refactor with Field
   #Returns the list of field to show in collapsed subforms.
   #If there is no list defined, it will returns the first one of the fields.
+  # TODO: Refactor this to be a proper relation
   def collapsed_list
     if self.collapsed_fields.empty?
-      [self.fields.select {|field| field.visible? }.first].compact
+      self.fields.where(visible: true).limit(1)
     else
-      #Make sure we get the field in the order by collapsed_fields array.
-      map = Hash[*self.fields.collect { |field| [field.name, field] }.flatten]
-      self.collapsed_fields.collect {|field_name| map[field_name]}
+      self.fields.where(visible: true, name: [self.collapsed_fields])
     end
-  end
-
-  #TODO: Refactor with Field
-  def find_locations_by_parent_form(parent_form = 'case')
-    #having_location_fields_by_parent_form(key: parent_form).all
-  end
-  memoize_in_prod :find_locations_by_parent_form
-
-  # TODO: all searchable/filterable methods can possible be refactored with Field
-  def all_text_fields
-    self.fields.select { |field| field.type == Field::TEXT_FIELD || field.type == Field::TEXT_AREA }
-  end
-
-  def all_matchable_fields
-    self.fields.select { |field| field.matchable.present? && field.matchable == true }
-  end
-
-  # Updates each field's matchable property to true/false depending on whether or not it is in the field_list
-  #Input:  a list of fields that should be matchable
-  def update_fields_matchable(field_list=[])
-    self.fields.each {|field| field.matchable = field_list.include?(field.name)}
-  end
-
-  def all_searchable_fields
-    self.fields.select do |field|
-      [Field::TEXT_AREA].include? field.type
-    end
-  end
-
-  def all_searchable_date_fields
-    self.fields.select do |field|
-      [Field::DATE_FIELD, Field::DATE_RANGE].include?(field.type) && !field.date_include_time
-    end
-  end
-
-  def all_searchable_date_time_fields
-    self.fields.select do |field|
-      [Field::DATE_FIELD, Field::DATE_RANGE].include?(field.type) && field.date_include_time
-    end
-  end
-
-  def all_searchable_boolean_fields
-    self.fields.select do |field|
-      Field::TICK_BOX == field.type
-    end
-  end
-
-  def all_filterable_fields
-    self.fields.select  do |field|
-      [Field::TEXT_FIELD, Field::RADIO_BUTTON, Field::SELECT_BOX, Field::NUMERIC_FIELD].include? field.type unless field.multi_select
-    end
-  end
-
-  def all_filterable_multi_fields
-    self.fields.select  do |field|
-      [Field::SELECT_BOX].include? field.type if field.multi_select
-    end
-  end
-
-  def all_filterable_numeric_fields
-    self.fields.select  do |field|
-      [Field::NUMERIC_FIELD].include? field.type
-    end
-  end
-
-  def all_tally_fields
-    self.fields.select {|f| f.type == Field::TALLY_FIELD}
-  end
-
-  def all_location_fields
-    self.fields.select{|f| f.is_location?}
   end
 
   def all_mobile_fields
@@ -591,39 +505,41 @@ class FormSection < ActiveRecord::Base
     attributes
   end
 
-  #TODO: Refactor with Field
+  #TODO: Do we still need this after splitting FormSection and Field?
   def properties= properties
     properties.each_pair do |name, value|
       self.send("#{name}=", value) unless value == nil
     end
   end
 
-  #TODO: Refactor with Field
-  def add_field field
-    self["fields"] << Field.new(field)
-  end
+  #TODO: Refactor with Field. No longer necessary?
+  # def add_field field
+  #   self["fields"] << Field.new(field)
+  # end
 
   def section_name
     unique_id
   end
 
-  #TODO: Refactor with Field
-  def delete_field field_to_delete
-    field = fields.find { |field| field.name == field_to_delete }
-    raise I18n.t("errors.models.form_section.delete_field") if !field.editable?
+  def delete_field(field_to_delete)
+    field = self.fields.where(name: field_to_delete, editable: true).first
     if (field)
-      field_index = fields.index(field)
-      fields.delete_at(field_index)
-      save()
+      field.destroy
+    else
+      raise I18n.t("errors.models.form_section.delete_field")
     end
   end
 
-  #TODO: Refactor with Field
-  def order_fields new_field_names
-    new_fields = []
-    new_field_names.each { |name| new_fields << fields.find { |field| field.name == name } }
-    self.fields = new_fields
-    self.save
+  #TODO: Refactor or deprecate when we change UIUX
+  def order_fields(new_field_names)
+    fields = self.fields
+    new_field_names.each_with_index do |field_name, i|
+      field = fields.find{|f| f.name == field_name}
+      field.order = i
+    end
+    ActiveRecord::Base.transaction do
+      fields.each(&:save)
+    end
   end
 
   def is_violation?
@@ -642,16 +558,6 @@ class FormSection < ActiveRecord::Base
     end
   end
 
-  #TODO Rewrite after we have migrated Field
-  def generate_options_keys
-    #self.fields.each{|field| field.generate_options_keys}
-  end
-
-  #TODO Rewrite after we have migrated Field
-  def sync_options_keys
-    #self.fields.each{|field| field.sync_options_keys}
-  end
-
   #TODO: Rewrite after we migrated Lookup
   #if a new form_group_id was added during edit/create, then add that form group to the form_group lookup
   def sync_form_group
@@ -667,11 +573,6 @@ class FormSection < ActiveRecord::Base
     new_id = self.form_group_id.parameterize(separator: '_')
     Lookup.add_form_group(new_id, self.form_group_id, self.parent_form, self.module_name)
     self.form_group_id = new_id
-  end
-
-  #TODO: Refactor with Field, but used only by translation loader and that's really horky
-  def field_by_name(field_name)
-    self.fields.find{|f| f.name == field_name}
   end
 
   def update_translations(form_hash={}, locale)
@@ -693,20 +594,15 @@ class FormSection < ActiveRecord::Base
 
   protected
 
-  #TODO: Refactor with Field
   def recalculate_subform_permissions
-    if self.fields.any?{|f| f.type == Field::SUBFORM}
+    if self.is_nested?
       Role.all.each do |role|
-        if role.permitted_form_ids.include?(self.unique_id)
-          role.add_permitted_subforms
-          role.save
-        end
+        role.add_permitted_subforms
+        role.save
       end
       PrimeroModule.all.each do |primero_module|
-        if primero_module.associated_form_ids.include?(self.unique_id)
-          primero_module.add_associated_subforms
-          primero_module.save
-        end
+        primero_module.add_associated_subforms
+        primero_module.save
       end
     end
   end
@@ -728,40 +624,12 @@ class FormSection < ActiveRecord::Base
     end
   end
 
-  #Make sure that within the record, the same field isn't defined with differing data types
-  def validate_datatypes
-    #TODO: Rewrite once we have the Field model defines
-    # if !self.is_nested && self.fields.present?
-    #   field_names = self.fields.map(&:name)
-    #   all_current_fields = FormSection.fields(keys: field_names).rows.reduce({}) do |accum, row|
-    #     if !row.value['on_nested'] && (self.parent_form == row.value['parent_form'])
-    #       type = row.value['type']
-    #       accum[row.key] = [type, row.value['multi_select'].present?]
-    #     end
-    #     accum
-    #   end
-    #   fields.each do |field|
-    #     current_type = all_current_fields[field.name]
-    #     if current_type.present? && (current_type != [field.type, field.multi_select.present?])
-    #       #Allow changing from text_field to textarea or from textarea to text_field
-    #       next if changing_between_text_field_and_textarea?(current_type.first, field.type)
-    #       errors.add(:fields, I18n.t("errors.models.field.change_type_existing_field", field_name: field.name, form_name: self.name))
-    #       return false
-    #     end
-    #   end
-    # end
-    return true
-  end
-
-  #TODO: move to Field? Delete? Not used?
-  def changing_between_text_field_and_textarea?(current_type, new_type)
-    [Field::TEXT_FIELD, Field::TEXT_AREA].include?(current_type) && [Field::TEXT_FIELD, Field::TEXT_AREA].include?(new_type)
-  end
 
   private
 
   # Location::LIMIT_FOR_API is a hard limit
   # The SystemSettings limit is a soft limit that lets us adjust down below the hard limit if necessary
+  # #TODO: Refactor with Location
   def self.include_locations_for_mobile?
     location_count = Location.count
     return false if location_count > Location::LIMIT_FOR_API
@@ -771,7 +639,7 @@ class FormSection < ActiveRecord::Base
 
   def update_field_translations(fields_hash={}, locale)
     fields_hash.each do |key, value|
-      field = self.field_by_name(key)
+      field = Field.find_by(name: key, form_section_id: self.id)
       if field.present?
         field.update_translations(value, locale)
       end

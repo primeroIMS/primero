@@ -30,15 +30,13 @@ fields = [
     "display_name_en" => "Does this case have any referrals?",
     "editable" => false,
     "disabled" => true,
-    "create_property" => false
   }),
   Field.new({
     "name" => "has_case_plan",
     "type" => "tick_box",
     "display_name_en" => "Does this case have a case plan?",
     "editable" => false,
-    "disabled" => true,
-    "create_property" => false
+    "disabled" => true
   })
 ]
 

@@ -136,7 +136,7 @@ incident_details_fields = [
   Field.new({
     "name" => "incident_details",
     "type" => "subform", "editable" => true,
-    "subform_section_id" => incident_details_subform_section.unique_id,
+    "subform_section" => incident_details_subform_section,
     "display_name_en" => "Incident Details",
     "subform_sort_by" => "summary_date"
   })

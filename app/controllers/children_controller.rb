@@ -300,7 +300,7 @@ class ChildrenController < ApplicationController
   end
 
   def load_fields
-    @sex_field = Field.find_by_name_from_view('sex')
+    @sex_field = Field.get_by_name('sex')
   end
 
   def transfer_status

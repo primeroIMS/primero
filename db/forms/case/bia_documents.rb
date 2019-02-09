@@ -8,16 +8,16 @@ bia_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "bia_documents",
-  :parent_form=>"case",
-  "visible" => false,
-  :order_form_group => 121,
-  :order => 9,
-  :order_subform_ => 0,
-  :fields => bia_fields,
-  "editable" => false,
-  "name_en" => "BIA Records",
-  "description_en" => "BIA Records",
-  "form_group_id" => "documents",
-  "display_help_text_view" => true
+  unique_id: "bia_documents",
+  parent_form: "case",
+  visible: false,
+  order_form_group: 121,
+  order: 9,
+  order_subform: 0,
+  fields: bia_fields,
+  editable: false,
+  name_en: "BIA Records",
+  description_en: "BIA Records",
+  form_group_id: "documents",
+  display_help_text_view: true
 })

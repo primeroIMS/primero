@@ -116,7 +116,7 @@ services_fields = [
     "name" => "services_section",
     "type" => "subform",
     "editable" => true,
-    "subform_section_id" => services_section.unique_id,
+    "subform_section" => services_section,
     "display_name_en" => "Services",
     "subform_sort_by" => "service_appointment_date"
   })

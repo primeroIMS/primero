@@ -90,7 +90,7 @@ child_wishes_fields = [
   Field.new({"name" => "child_preferences_section",
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => child_preferences_section.unique_id,
+             "subform_section" => child_preferences_section,
              "display_name_en" => "Child's Preferences"
             }),
   ##Subform##

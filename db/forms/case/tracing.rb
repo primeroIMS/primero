@@ -161,7 +161,7 @@ tracing_fields = [
             }),
   Field.new({"name" => "tracing_actions_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => tracing_actions_section.unique_id,
+             "subform_section" => tracing_actions_section,
              "display_name_en" => "Tracing Actions"
             })
 ]
