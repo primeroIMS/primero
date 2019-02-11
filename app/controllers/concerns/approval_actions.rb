@@ -15,8 +15,8 @@ module ApprovalActions
     if @record.present?
       begin
         set_approval
-        @record.remove_approval_alert(params[:approval_type])
-        @record.send_approval_response_mail(current_user.id, params[:approval_type], params[:approval], request.base_url) if @system_settings.try(:notification_email_enabled)
+        binding.pry
+        @record.send_approval_response_mail(current_user.id, params[:approval_type], params[:approval], request.base_url, @record.module_id.eql?(PrimeroModule::GBV)) if @system_settings.try(:notification_email_enabled)
         @record.save!
         flash[:notice] = [t("approvals.#{params[:approval_type]}"), t("approvals.status.approved")].join(' - ')
       rescue => error
