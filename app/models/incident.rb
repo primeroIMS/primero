@@ -69,6 +69,22 @@ class Incident < CouchRest::Model::Base
       self.individual_victim_value_from_property(:individual_sex)
     end
 
+    string :perpetrator_arrest, multiple: true do
+      self.perpetrator_value_from_property(:perpetrator_arrest)
+    end
+
+    string :perpetrator_detention, multiple: true do
+      self.perpetrator_value_from_property(:perpetrator_detention)
+    end
+
+    string :perpetrator_conviction, multiple: true do
+      self.perpetrator_value_from_property(:perpetrator_conviction)
+    end
+
+    string :verification_status, multiple: true do
+      self.violation_verified_list
+    end
+
     string :child_types, multiple: true do
       self.child_types
     end
@@ -347,6 +363,15 @@ class Incident < CouchRest::Model::Base
     violation_verified_list.uniq! if violation_verified_list.present?
 
     return violation_verified_list
+  end
+
+  def perpetrator_value_from_property(property)
+    values = []
+    if self.perpetrator_subform_section.present?
+      values = self.perpetrator_subform_section.map { |i| i[property] if i[property].present? }
+    end
+    values.uniq! if values.present?
+    return values.compact
   end
 
   #Copy some fields values from Survivor Information to GBV Individual Details.

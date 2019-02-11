@@ -61,6 +61,15 @@
         <% if filters_to_show.include? 'Record State' %>
           <%= build_filter_checkboxes(t("incidents.filter_by.record_state"), 'record_state', [{'true' => 'Valid'}, {'false' => 'Invalid'}]) %>
         <% end %>
+        <% if filters_to_show.include? 'Perpetrator Arrested' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_arrest"), 'perpetrator_arrest', Lookup.values('Yes No Unknown', @lookups)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Perpetrator Detained' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_detention"), 'perpetrator_detention', Lookup.values('Yes No Unknown', @lookups)) %>
+        <% end %>
+        <% if filters_to_show.include? 'Perpetrator Convicted' %>
+          <%= build_filter_checkboxes(t("incidents.filter_by.perpetrator_conviction"), 'perpetrator_conviction', Lookup.values('Yes No Unknown', @lookups)) %>
+        <% end %>        
         <%= render "filter_violations_fields", record: 'incidents', violations: violation_type_list %>
       </div>
       <div role="tabpanel" class="content" id="individual">
