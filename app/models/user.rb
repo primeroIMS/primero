@@ -411,14 +411,6 @@ class User < CouchRest::Model::Base
     return @record_scope
   end
 
-  #TODO: Why is this on the user?
-  def add_mobile_login_event imei, mobile_number
-    if (Device.all.none? { |device| device.imei == imei })
-      device = Device.new(:imei => imei, :blacklisted => false, :user_name => self.user_name)
-      device.save!
-    end
-  end
-
   def mobile_login_history
     LoginActivity.by_user_name_and_login_timestamp(
       descending: true,
