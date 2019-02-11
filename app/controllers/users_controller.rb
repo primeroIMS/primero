@@ -13,6 +13,7 @@ class UsersController < ApplicationController
   before_action :agency_names, :only => [:new, :create, :edit, :update]
   before_action :load_services, :only => [:new, :create, :edit]
   before_action :sanitize_services_multiselect, :only => [:create, :update]
+  before_action :load_users_agencies, :only => [:index]
 
   skip_before_action :check_authentication, :set_locale, :only => :register_unverified
 
@@ -70,14 +71,17 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       format.json do
-        users = User.by_disabled(key: false).all.select do |user|
-          (agency_id.present? ? user.organization == agency_id : true) &&
-          (location.present? ? user.location == location : true) &&
-          (services.present? ? services.all? { |service| user[:services].try(:include?, service) } : true)
-        end
+        criteria = { disabled: false }.merge({organization: agency_id, reporting_location: location, services: services }.compact)
+        # NOTE: per_page number tells solr to return all the results: https://wiki.apache.org/solr/CommonQueryParameters#rows
+        pagination = { page: 1, per_page: User.all.count }
+        sort = { user_name: :asc}
+        users = User.find_by_criteria(criteria, pagination, sort).try(:results) || []
         render json: {
                 success: 1,
-                users: users.map{ |user| user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization') }
+                users: users.map do |user|
+                         attributes = user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization')
+                         attributes.merge(reporting_location_code: user.reporting_location.try(:location_code))
+                       end
               }
       end
     end
@@ -259,19 +263,24 @@ class UsersController < ApplicationController
     enabled_param = get_enabled_param
     if has_agency_read
       if enabled_param.present?
-        User.send("by_organization_#{enabled_param}").key(current_user.organization)
+        User.by_organization_and_disabled.key([current_user.organization, filter_disabled?])
       else
-        User.send("by_organization").key(current_user.organization)
+        User.by_organization.key(current_user.organization)
       end
     end
   end
 
   def load_users
+    agency_param = get_agency_param
     enabled_param = get_enabled_param
-    if enabled_param.present?
+    if agency_param.present? && enabled_param.present?
+      User.by_organization_and_disabled.key([agency_param, filter_disabled?])
+    elsif agency_param.present?
+      User.by_organization.key(agency_param)
+    elsif enabled_param.present?
       User.send("by_user_name_#{enabled_param}")
     else
-      User.send("by_user_name")
+      User.by_user_name
     end
   end
 
@@ -279,6 +288,7 @@ class UsersController < ApplicationController
     @roles = Role.all.select{|r| can? :assign, r}
     @user_groups = UserGroup.all.select{|ug| can?(:assign, ug)}
     @modules = @current_user.has_group_permission?(Permission::ALL) ? PrimeroModule.all.all : PrimeroModule.all(keys: @current_user.module_ids).all
+    @agency_offices = Lookup.values('lookup-agency-office')
   end
 
   #Override method in LoggerActions.
@@ -315,6 +325,26 @@ class UsersController < ApplicationController
                       ['list','enabled']
                     end
     enabled_param.last if enabled_param.size == 2
+  end
+
+
+  def filter_disabled?
+    get_enabled_param == 'disabled' ? true : false
+  end
+
+  def get_agency_param
+    if params[:scope].present? && params[:scope][:agency].present?
+      params[:scope][:agency].split('||').last
+    end
+  end
+
+  def load_users_agencies
+    agencies = if has_agency_read
+                 Agency.all.key(current_user.organization).all
+               else
+                 Agency.all.all
+               end
+    @users_agencies = agencies.map{|agency| [agency.name, agency.id] }
   end
 
 end

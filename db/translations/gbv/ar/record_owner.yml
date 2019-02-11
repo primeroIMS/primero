@@ -1,0 +1,33 @@
+---
+ar:
+  record_owner:
+    name: معلومات السجل
+    description: معلومات السجل
+    form_group_name: معلومات السجل
+    fields:
+      current_owner_separator:
+        display_name: المالك الحالي
+      owned_by_text:
+        display_name: المجال / الحالة / الباحث الاجتماعي
+      owned_by:
+        display_name: رمز الباحث الاجتماعي المختص بالحالة
+      reassigned_tranferred_on:
+        display_name: تم إعادة التخصيص / الإحالة
+      owned_by_agency:
+        display_name: المؤسسة
+      assigned_user_names:
+        display_name: المستخدمون المخصصون الآخرون
+      record_history_separator:
+        display_name: محفوظات السجل
+      created_by:
+        display_name: تم إنشاء السجل من قبل
+      created_by_agency:
+        display_name: تم إنشاؤه من قبل المؤسسة
+      previously_owned_by:
+        display_name: مالك سابق
+      previous_agency:
+        display_name: مؤسسة سابقة
+      module_id:
+        display_name: وحدة
+      reopened_logs:
+        display_name: تم إعادة فتح ملف الحالة

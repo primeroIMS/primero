@@ -40,16 +40,27 @@ class TracingRequest < CouchRest::Model::Base
   include Searchable #Needs to be after ownable
 
   searchable auto_index: self.auto_index? do
-    form_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
+    form_matchable_fields.each do |field|
       text field, :boost => TracingRequest.get_field_boost(field)
-    end
-
-    subform_matchable_fields.select { |field| TracingRequest.exclude_match_field(field) }.each do |field|
-      text field, :boost => TracingRequest.get_field_boost(field) do
-        self.tracing_request_subform_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
+      if phonetic_fields_exist?(field)
+        text field, :as => "#{field}_ph"
       end
     end
 
+    subform_matchable_fields.each do |field|
+      text field, :boost => TracingRequest.get_field_boost(field) do |record|
+        record.tracing_request_subform_details(field)
+      end
+      if phonetic_fields_exist?(field)
+        text field, :as => "#{field}_ph" do |record|
+          record.tracing_request_subform_details(field)
+        end
+      end
+    end
+  end
+
+  def tracing_request_subform_details(field)
+    self.tracing_request_subform_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
   end
 
   def self.find_by_tracing_request_id(tracing_request_id)
@@ -145,12 +156,12 @@ class TracingRequest < CouchRest::Model::Base
   end
 
   #TODO MATCHING: This is are-implementation of the method above
-  def matching_cases(trace_id=nil)
+  def matching_cases(trace_id=nil, trace_fields={})
     matches = []
     traces(trace_id).each do |tr|
-      match_criteria = match_criteria(tr)
-      results = TracingRequest.find_match_records(match_criteria, Child, child_id)
-      tr_matches = PotentialMatch.matches_from_search(results) do |child_id, score, average_score|
+      matching_criteria = match_criteria(tr, trace_fields)
+      match_result = TracingRequest.find_match_records(matching_criteria, Child, child_id)
+      tr_matches = PotentialMatch.matches_from_search(match_result) do |child_id, score, average_score|
         PotentialMatch.build_potential_match(child_id, self.id, score, average_score, tr.unique_id)
       end
       matches += tr_matches
@@ -159,11 +170,12 @@ class TracingRequest < CouchRest::Model::Base
   end
 
   alias :inherited_match_criteria :match_criteria
-  def match_criteria(match_request=nil)
-    match_criteria = inherited_match_criteria(match_request)
+  def match_criteria(match_request=nil, trace_fields=nil)
+    match_criteria = inherited_match_criteria(match_request, trace_fields)
     if match_request.present?
-      TracingRequest.subform_matchable_fields.each do |field|
-        match_criteria[:"#{field}"] = (match_request[:"#{field}"].is_a? Array) ? match_request[:"#{field}"].join(' ') : match_request[:"#{field}"]
+      TracingRequest.subform_matchable_fields(trace_fields).each do |field|
+        match_field, match_value = TracingRequest.match_multi_criteria(field, match_request)
+        match_criteria[:"#{match_field}"] = match_value if match_value.present?
       end
     end
     match_criteria.compact

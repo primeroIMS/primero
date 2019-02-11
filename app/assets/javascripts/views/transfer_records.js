@@ -11,30 +11,27 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
     'change #transfer-modal select#existing_user_transfer' : 'toggle_other_user',
     'change #transfer-modal input#other_user' : 'toggle_existing_user',
     'click #transfer-modal input[type="submit"]' : 'close_transfer',
-    'change #transfer-modal select.existing_user_filter' : 'clear_user_selection'
-  },
-
-  initialize: function(){
-    var self = this;
-    $("#transfer-modal").find("select#existing_user_transfer").on('chosen:showing_dropdown', function(){
-      self.clear_user_selection();
-      self.load_existing_users();
-    });
+    'change #transfer-modal select.existing_user_filter' : 'on_filter_change'
   },
 
   transfer_records_empty: function(event){
+    var self = this;
     var $transfer_button = $(event.target)
-    this.select_user_location($transfer_button.data('user_location'));
+    self.select_user_location(function(){
+      self.set_user_filters();
+    });
     self.clear_user_selection();
   },
 
   transfer_records: function(event) {
+    var self = this;
     var selected_recs = _primero.indexTable.get_selected_records(),
       $transfer_button = $(event.target),
-      consent_url = $transfer_button.data('consent_count_url'),
-      user_location = $transfer_button.data('user_location');
-    this.select_user_location(user_location);
-    this.clear_user_selection();
+      consent_url = $transfer_button.data('consent_count_url');
+    self.select_user_location(function(){
+      self.set_user_filters();
+    });
+    self.clear_user_selection();
     $("#transfer-modal").find("#selected_records").val(selected_recs);
 
     $.get( consent_url, {selected_records: selected_recs.join(","), transition_type: "transfer"}, function(response) {
@@ -122,42 +119,42 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
     }
   },
 
-  load_existing_users: function() {
+  on_filter_change: function(){
+    this.set_user_filters();
+    this.clear_user_selection();
+  },
+
+  set_user_filters: function() {
     var $transfer_modal = $("#transfer-modal");
     var $agency_select = $transfer_modal.find("select#agency");
     var $location_select = $transfer_modal.find("select#location");
-    var $existing_user_select = $transfer_modal.find('select#existing_user_transfer');
 
-    var data = {
-      agency_id: $agency_select.val(),
-      location: $location_select.val()
-    }
-
-    $existing_user_select.empty();
-    $existing_user_select.html('<option>' + I18n.t("messages.loading") + '</option>');
-    $existing_user_select.trigger("chosen:updated");
-
-    $.get(this.users_api_url, data, function(response){
-      $existing_user_select.empty();
-      var select_options = [];
-      select_options.push('<option value=""></option>');
-      _.each(response.users, function(user){
-        select_options.push('<option value="' + user.user_name + '">' + user.user_name + '</option>');
-      })
-      $existing_user_select.html(select_options.join(''));
-      $existing_user_select.trigger("chosen:updated");
-    })
+    var $existing_user_select = $('select#existing_user_transfer');
+    $existing_user_select.data('filter-agency', $agency_select.val());
+    $existing_user_select.data('filter-location', $location_select.val());
   },
 
-  select_user_location: function(user_location){
-    var $location_select = $("select#location");
-    $location_select.val(user_location)
-    $location_select.trigger("chosen:updated");
+  populate_location_filter: function(location_code, onComplete){
+    var $location_select = $("#transfer-modal select#location");
+    $location_select.data('value', location_code);
+    _primero.populate_location_select_boxes(function(){
+      $location_select.val(location_code);
+      $location_select.trigger("chosen:updated");
+      if(onComplete){
+        onComplete();
+      }
+    });
+  },
+
+  select_user_location: function(onComplete){
+    var $location_select = $("#transfer-modal select#location");
+    this.populate_location_filter($location_select.data('value'), onComplete);
   },
 
   clear_user_selection: function(){
     var $existing_user_select = $('select#existing_user_transfer');
-    $existing_user_select.val('');
+    $existing_user_select.empty();
+    $existing_user_select.html('<option value=""></option>');
     $existing_user_select.trigger('change');
     $existing_user_select.trigger("chosen:updated");
   }

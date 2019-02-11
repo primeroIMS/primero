@@ -129,6 +129,14 @@ cp_admin_permissions = [
       Permission::WRITE,
       Permission::CREATE
     ]
+  ),
+  Permission.new(
+      :resource => Permission::AUDIT_LOG,
+      :actions => [Permission::READ]
+  ),
+  Permission.new(
+    :resource => Permission::DUPLICATE,
+    :actions => [Permission::READ]
   )
 ]
 
@@ -220,7 +228,6 @@ cp_manager_permissions = [
       Permission::READ,
       Permission::FLAG,
       Permission::ASSIGN,
-      Permission::REASSIGN,
       Permission::CONSENT_OVERRIDE,
       Permission::EXPORT_CUSTOM,
       Permission::EXPORT_LIST_VIEW,
@@ -256,7 +263,7 @@ cp_manager_permissions = [
       Permission::EXPORT_UNHCR
     ]
   ),
-    Permission.new(
+  Permission.new(
     :resource => Permission::POTENTIAL_MATCH,
     :actions => [
       Permission::READ
@@ -325,7 +332,6 @@ cp_user_manager_permissions = [
             Permission::READ,
             Permission::FLAG,
             Permission::ASSIGN,
-            Permission::REASSIGN,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CUSTOM,
             Permission::EXPORT_LIST_VIEW,
@@ -487,7 +493,6 @@ gbv_manager_permissions = [
       Permission::EXPORT_PHOTO_WALL,
       Permission::EXPORT_PDF,
       Permission::EXPORT_CASE_PDF,
-      Permission::EXPORT_UNHCR,
       Permission::SYNC_MOBILE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
@@ -670,8 +675,6 @@ gbv_caseworker_permissions = [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
-            Permission::REFERRAL,
-            Permission::TRANSFER,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
@@ -693,8 +696,8 @@ create_or_update_role(
     :name => "GBV Caseworker",
     :permissions_list => gbv_caseworker_permissions,
     :permitted_form_ids => gbv_caseworker_forms,
-    :referral => true,
-    :transfer => true
+    :referral => false,
+    :transfer => false
 )
 
 gbv_mobile_caseworker_forms = [
@@ -715,8 +718,6 @@ gbv_mobile_caseworker_permissions = [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
-            Permission::REFERRAL,
-            Permission::TRANSFER,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
@@ -740,8 +741,8 @@ create_or_update_role(
     :name => "GBV Mobile Caseworker",
     :permissions_list => gbv_mobile_caseworker_permissions,
     :permitted_form_ids => gbv_mobile_caseworker_forms,
-    :referral => true,
-    :transfer => true
+    :referral => false,
+    :transfer => false
 )
 
 gbv_cm_supervisor_forms = [
@@ -760,8 +761,6 @@ gbv_cm_supervisor_permissions = [
         :actions => [
             Permission::READ,
             Permission::FLAG,
-            Permission::REFERRAL,
-            Permission::TRANSFER,
             Permission::ASSIGN,
             Permission::EXPORT_JSON,
             Permission::EXPORT_CASE_PDF,
@@ -815,8 +814,8 @@ create_or_update_role(
     :group_permission => Permission::GROUP,
     :permissions_list => gbv_cm_supervisor_permissions,
     :permitted_form_ids => gbv_cm_supervisor_forms,
-    :referral => true,
-    :transfer => true
+    :referral => false,
+    :transfer => false
 )
 
 gbv_program_manager_forms = [
@@ -944,8 +943,8 @@ create_or_update_role(
     :group_permission => Permission::GROUP,
     :permissions_list => gbv_organization_focal_point_permissions,
     :permitted_form_ids => gbv_organization_focal_point_forms,
-    :referral => true,
-    :transfer => true
+    :referral => false,
+    :transfer => false
 )
 
 agency_user_admin_permissions = [
@@ -1105,7 +1104,8 @@ ftr_manager_permissions = [
           Permission::EXPORT_UNHCR,
           Permission::SYNC_MOBILE,
           Permission::CREATE,
-          Permission::VIEW_PROTECTION_CONCERNS_FILTER
+          Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+          Permission::FIND_TRACING_MATCH
       ]
   ),
   Permission.new(
@@ -1129,6 +1129,10 @@ ftr_manager_permissions = [
     :actions => [
       Permission::READ
     ]
+  ),
+  Permission.new(
+    :resource => Permission::DUPLICATE,
+    :actions => [Permission::READ]
   ),
   Permission.new(
     :resource => Permission::INCIDENT,
@@ -1160,6 +1164,10 @@ superuser_permissions = [
   ),
   Permission.new(
     :resource => Permission::POTENTIAL_MATCH,
+    :actions => [Permission::READ]
+  ),
+  Permission.new(
+    :resource => Permission::DUPLICATE,
     :actions => [Permission::READ]
   ),
   Permission.new(
@@ -1205,4 +1213,3 @@ create_or_update_role(
   :permissions_list => superuser_permissions,
   :group_permission => Permission::ALL
 )
-

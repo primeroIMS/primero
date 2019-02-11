@@ -113,10 +113,12 @@ class Child < CouchRest::Model::Base
   end
 
   def self.quicksearch_fields
+    # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
-      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id'
+      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
+      'family_count_no', 'dss_id'
     ]
   end
 
@@ -130,11 +132,21 @@ class Child < CouchRest::Model::Base
   include Searchable
 
   searchable auto_index: self.auto_index? do
-    form_matchable_fields.select { |field| Child.exclude_match_field(field) }.each { |field| text field, :boost => Child.get_field_boost(field) }
+    form_matchable_fields.each do |field|
+      text field, :boost => Child.get_field_boost(field)
+      if phonetic_fields_exist?(field)
+        text field, :as => "#{field}_ph"
+      end
+    end
 
-    subform_matchable_fields.select { |field| Child.exclude_match_field(field) }.each do |field|
-      text field, :boost => Child.get_field_boost(field) do
-        self.family_details_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:family_details_section)
+    subform_matchable_fields.each do |field|
+      text field, :boost => Child.get_field_boost(field) do |record|
+        record.family_detail_values(field)
+      end
+      if phonetic_fields_exist?(field)
+        text field, :as => "#{field}_ph" do |record|
+          record.family_detail_values(field)
+        end
       end
     end
 
@@ -150,6 +162,7 @@ class Child < CouchRest::Model::Base
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
     string :child_status, as: 'child_status_sci'
+    string :created_agency_office, as: 'created_agency_office_sci'
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
@@ -167,6 +180,9 @@ class Child < CouchRest::Model::Base
     end
   end
 
+  def family_detail_values(field)
+    self.family_details_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:family_details_section)
+  end
 
   def self.report_filters
     [
@@ -255,7 +271,7 @@ class Child < CouchRest::Model::Base
   def auto_populate_name
     #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
     a_name = auto_populate('name')
-    self.name = a_name unless a_name.nil?
+    self.name = a_name if a_name.present?
   end
 
   def set_instance_id
@@ -368,13 +384,31 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  alias :inherited_match_criteria :match_criteria
-  def match_criteria(match_request=nil)
-    match_criteria = inherited_match_criteria(match_request)
-    Child.subform_matchable_fields.each do |field|
-      match_criteria[:"#{field}"] = self.family.map{|member| member[:"#{field}"]}.compact.uniq.join(' ')
+  def matching_tracing_requests(case_fields = {})
+    matching_criteria = match_criteria(nil, case_fields)
+    match_result = Child.find_match_records(matching_criteria, TracingRequest, nil)
+    PotentialMatch.matches_from_search(match_result) do |tr_id, score, average_score|
+      traces = TracingRequest.get(tr_id).try(:traces) || []
+      traces.map do |trace|
+        PotentialMatch.build_potential_match(self.id, tr_id, score, average_score, trace.unique_id)
+      end
     end
-    match_criteria.compact
+  end
+
+  alias :inherited_match_criteria :match_criteria
+  def match_criteria(match_request=nil, case_fields=nil)
+    match_criteria = inherited_match_criteria(match_request, case_fields)
+    match_criteria_subform = {}
+    Child.subform_matchable_fields(case_fields).each do |field|
+      match_values = []
+      match_field = nil
+      self.family.map do |member|
+        match_field, match_value = Child.match_multi_criteria(field, member)
+        match_values += match_value
+      end
+      match_criteria_subform[:"#{match_field}"] = match_values if match_values.present?
+    end
+    match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
   end
 
   def service_due_dates

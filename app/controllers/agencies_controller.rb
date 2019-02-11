@@ -5,9 +5,10 @@ class AgenciesController < ApplicationController
   include MediaActions
   include RecordFilteringPagination
 
+  before_action :sanitize_multiselects, only: [:create, :update]
   before_action :filter_params_array_duplicates, :only => [:create, :update]
   before_action :load_record_or_redirect, :only => [ :show, :edit, :destroy, :update ]
-  before_action :load_services, :only => [:new, :edit]
+  before_action :load_services, :only => [:new, :edit, :create, :update]
   before_action :load_agencies, :only => [:index]
 
   include LoggerActions
@@ -108,5 +109,9 @@ class AgenciesController < ApplicationController
   def record_filter(filter)
     filter["status"] ||= { type: 'list', value: 'enabled' }
     filter
+  end
+
+  def sanitize_multiselects
+    sanitize_multiselect_params(:agency, [:services])
   end
 end
