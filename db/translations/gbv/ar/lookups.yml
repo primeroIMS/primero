@@ -16,8 +16,8 @@ ar:
   lookup-gbv-approval-types:
     name: GBV Approval Types
     lookup_values:
-      case_plan: Case Plan
-      closure: Closure
+      case_plan:
+      closure:
   lookup-armed-force-group-name:
     name: اسم مجموعة القوات المسلحة
     lookup_values:
