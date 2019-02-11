@@ -110,16 +110,17 @@ class ApplicationController < ActionController::Base
   end
 
   def forms_path_menu
-    @forms_path_menu = if can? :manage, FormSection
-                         form_sections_path
-                       elsif can? :manage, Lookup
-                         lookups_path
-                       elsif can? :manage, Location
-                         locations_path
-                       else
-                         nil
-                       end
-
+    if logged_in?
+      @forms_path_menu = if can? :manage, FormSection
+                           form_sections_path
+                         elsif can? :manage, Lookup
+                           lookups_path
+                         elsif can? :manage, Location
+                           locations_path
+                         else
+                           nil
+                         end
+    end
   end
   class << self
     attr_accessor :model_class
