@@ -27,6 +27,7 @@ class NotificationMailer < ActionMailer::Base
         @manager = User.get(manager_id)
 
         @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
+        @approval_type = Lookup.display_value('lookup-gbv-approval-types', approval_type) if @manager.has_module?(PrimeroModule::GBV)
         @approval = approval == 'true' ? t('approvals.status.approved') : t('approvals.status.rejected')
 
         mail(:to => @owner.email,

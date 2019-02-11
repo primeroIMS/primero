@@ -443,7 +443,9 @@ gbv_worker_permissions = [
       Permission::INCIDENT_FROM_CASE,
       Permission::CREATE,
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-      Permission::ENABLE_DISABLE_RECORD
+      Permission::ENABLE_DISABLE_RECORD,
+      Permission::REQUEST_APPROVAL_CASE_PLAN,
+      Permission::REQUEST_APPROVAL_CLOSURE
     ]
   ),
   Permission.new(
@@ -462,6 +464,12 @@ gbv_worker_permissions = [
       Permission::EXPORT_INCIDENT_RECORDER,
       Permission::SYNC_MOBILE,
       Permission::CREATE
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::DASHBOARD,
+    :actions => [
+      Permission::VIEW_APPROVALS
     ]
   )
 ]
@@ -582,7 +590,9 @@ gbv_user_manager_permissions = [
             Permission::EXPORT_CASE_PDF,
             Permission::EXPORT_UNHCR,
             Permission::SYNC_MOBILE,
-            Permission::VIEW_PROTECTION_CONCERNS_FILTER
+            Permission::VIEW_PROTECTION_CONCERNS_FILTER,
+            Permission::APPROVE_CASE_PLAN,
+            Permission::APPROVE_CLOSURE
         ]
     ),
     Permission.new(
@@ -648,6 +658,12 @@ gbv_user_manager_permissions = [
             Permission::CREATE,
             Permission::WRITE
         ]
+    ),
+    Permission.new(
+      :resource => Permission::DASHBOARD,
+      :actions => [
+        Permission::VIEW_APPROVALS
+      ]
     )
 ]
 
@@ -680,7 +696,9 @@ gbv_caseworker_permissions = [
             Permission::EXPORT_CASE_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
             Permission::REQUEST_APPROVAL_BIA,
-            Permission::REQUEST_APPROVAL_CLOSURE
+            Permission::REQUEST_APPROVAL_CLOSURE,
+            Permission::APPROVE_CASE_PLAN,
+            Permission::APPROVE_CLOSURE
         ]
     ),
     Permission.new(
@@ -690,6 +708,12 @@ gbv_caseworker_permissions = [
             Permission::WRITE,
             Permission::FLAG
         ]
+    ),
+    Permission.new(
+      :resource => Permission::DASHBOARD,
+      :actions => [
+        Permission::VIEW_APPROVALS
+      ]
     )
 ]
 

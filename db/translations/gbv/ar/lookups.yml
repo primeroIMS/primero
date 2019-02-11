@@ -13,7 +13,11 @@ ar:
       case_plan: خطة الحالة
       action_plan: خطة العمل
       service_provision: تقديم الخدمات
-      closure:
+  lookup-gbv-approval-types:
+    name: GBV Approval Types
+    lookup_values:
+      case_plan: Case Plan
+      closure: Closure
   lookup-armed-force-group-name:
     name: اسم مجموعة القوات المسلحة
     lookup_values:
