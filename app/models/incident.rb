@@ -113,6 +113,30 @@ class Incident < CouchRest::Model::Base
       self.victim_deprived_liberty_security_reasons
     end
 
+    string :reasons_deprivation_liberty, multiple: true do
+      self.individual_victim_value_from_property(:reasons_deprivation_liberty)
+    end
+
+    string :victim_facilty_victims_held, multiple: true do
+      self.individual_victim_value_from_property(:facilty_victims_held)
+    end
+
+    string :torture_punishment_while_deprivated_liberty, multiple: true do
+      self.individual_victim_value_from_property(:torture_punishment_while_deprivated_liberty)
+    end
+
+    string :verification_status, multiple: true do
+      self.violation_verified_list
+    end
+
+    Mrm::ViolationFilter::FIELDS.each do |violation, fields|
+      fields.each do |k, v|
+        string(k, multiple: true) do
+          selected_violation = self.violations.try(violation)
+          selected_violation.present? ? selected_violation.map{ |m| m.try(v) }.compact : []
+        end
+      end
+    end
   end
 
   def ensure_violation_categories_exist

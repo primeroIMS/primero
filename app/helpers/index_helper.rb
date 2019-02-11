@@ -331,7 +331,9 @@ module IndexHelper
     filters << "Perpetrator Arrested" if @is_mrm
     filters << "Perpetrator Detained" if @is_mrm
     filters << "Perpetrator Convicted" if @is_mrm
-    
+    filters << "Reason Deprived of liberty?" if @is_mrm
+    filters << "Facilty Deprived of liberty?" if @is_mrm
+    filters << "Punishment Deprived of liberty?" if @is_mrm
     return filters
   end
 
@@ -364,4 +366,7 @@ module IndexHelper
     fields.any?{|f| f.visible?}
   end
 
+  def violation_lookup(options, lookups)
+    options.is_a?(String) ? Lookup.values(options, lookups) : options
+  end
 end

@@ -160,3 +160,35 @@ div.scope_bar {
     }
   }
 }
+
+.violation-fields {
+  .violation > h3 {
+    border-top: none;
+    position: relative;
+    line-height: 1.3em;
+    text-transform: capitalize;
+    border-bottom: 1px dashed $stroke_green_color;
+    width: 90%;
+    margin: 1em auto;
+    padding: 0 0 0.5em;
+    margin-bottom: 1em;
+  }
+
+  .filter {
+    border-bottom: 1px dashed $stroke_green_color;
+    padding-bottom: .5em;
+
+    h3 {
+      border: none;
+      font-size: .7rem;
+      color: $green_color;
+      overflow-wrap: break-word;
+      line-height: 1.5em;
+      padding-top: 0;
+    }
+
+    .field-controls-multi {
+      margin: 5px 0 0 0;
+    }
+  }
+}
