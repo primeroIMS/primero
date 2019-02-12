@@ -11,7 +11,7 @@ template '/etc/security/limits.d/nginx.conf' do
 end
 
 execute 'sudo sysctl -p' do
-  command 'sudo sysctl -p'
+  command 'sudo sysctl -p /etc/sysctl.d/99-primero-attributes.conf'
   user 'root'
   group 'root'
 end
