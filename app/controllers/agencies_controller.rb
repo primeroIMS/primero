@@ -88,7 +88,7 @@ class AgenciesController < ApplicationController
   private
 
   def load_record_or_redirect
-    @agency = Agency.find(params[:id]) if params[:id]
+    @agency = Agency.find_by_id(params[:id]) if params[:id]
   end
 
   def load_services

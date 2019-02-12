@@ -4,11 +4,11 @@ feature "show page" do
   feature "edit users" do
     before(:all) do
       @agency_user_admin = create(:role, name: "agency_user_admin", description: "agency user admin test", permissions_list: [Permission.new(:resource => Permission::USER, :actions => [Permission::AGENCY_READ, Permission::WRITE, Permission::ASSIGN, Permission::MANAGE])])
-      @agency1 = create(:agency, name: "agency1", agency_code: "AGENCY1", id: "agency1")
-      @agency2 = create(:agency, name: "agency2", agency_code: "AGENCY2", id: "agency2")
+      @agency1 = create(:agency, name: "agency1", agency_code: "AGENCY1")
+      @agency2 = create(:agency, name: "agency2", agency_code: "AGENCY2")
       @user = setup_user(organization: "agency1", roles: @agency_user_admin)
-      @user2 = setup_user(organization: "agency1")
-      @user3 = setup_user(organization: "agency2")
+      @user2 = setup_user(organization: @agency1.id)
+      @user3 = setup_user(organization: @agency2.id)
     end
 
     scenario "as agency user admin and sees only users in same agency" do
