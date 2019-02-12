@@ -65,14 +65,14 @@ module MrmHelper
           multi: true
         },
         { name: 'abduction_regained_freedom', options: 'Yes No Unknown' },
-        { name: 'abduction_crossborder', options: 'Yes No Unknown' },
         {
           name: 'abduction_regained_freedom_how',
           options: ["Release by abductors", "Payment of ransom", "Escape",
           "Military or law enforcement operation", "Dissolution of armed force/group",
           "Formal handover process", "Other"],
           multi: true
-        }
+        },
+        { name: 'abduction_crossborder', options: 'Yes No Unknown' }
       ],
       attack_on: [
         { 

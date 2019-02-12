@@ -58,14 +58,12 @@ div.scope_bar {
   float: right;
 
   label {
-    display: block;
-    float: left;
-    padding-right: 10px;
-    white-space: nowrap;
-    padding-left: 22px;
-    text-indent: -22px;
+    display: flex;
+    text-indent: inherit;
+    padding: 0 2px;
+    margin-bottom: 2px;
     width: 100%;
-    overflow: hidden;
+    position: relative;
   }
 
   input {
@@ -73,7 +71,6 @@ div.scope_bar {
   }
 
   label span {
-    vertical-align: middle;
     margin-left: 4px;
   }
 
@@ -95,6 +92,7 @@ div.scope_bar {
 
     input[type="checkbox"] {
       margin: 0;
+      margin-top: 3.5px;
     }
 
     .form_date_field {
