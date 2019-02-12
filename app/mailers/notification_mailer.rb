@@ -26,7 +26,8 @@ class NotificationMailer < ActionMailer::Base
       if @owner.present? && @owner.email.present? && @owner.send_mail
         @manager = User.get(manager_id)
 
-        @approval_type = is_gbv ? Lookup.display_value('lookup-gbv-approval-types', approval_type) : Lookup.display_value('lookup-approval-type', approval_type)
+        lookup_name = is_gbv ? 'lookup-gbv-approval-types' : 'lookup-approval-type'
+        @approval_type = Lookup.display_value(lookup_name, approval_type)
 
         @approval = approval == 'true' ? t('approvals.status.approved') : t('approvals.status.rejected')
 

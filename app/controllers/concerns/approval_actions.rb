@@ -15,7 +15,10 @@ module ApprovalActions
     if @record.present?
       begin
         set_approval
-        @record.send_approval_response_mail(current_user.id, params[:approval_type], params[:approval], request.base_url, @record.module_id.eql?(PrimeroModule::GBV)) if @system_settings.try(:notification_email_enabled)
+        if @system_settings.try(:notification_email_enabled)
+          is_gbv = @record.module_id.eql?(PrimeroModule::GBV)
+          @record.send_approval_response_mail(current_user.id, params[:approval_type], params[:approval], request.base_url, is_gbv)
+        end
         @record.save!
         flash[:notice] = [t("approvals.#{params[:approval_type]}"), t("approvals.status.approved")].join(' - ')
       rescue => error

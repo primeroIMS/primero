@@ -614,6 +614,7 @@ create_or_update_lookup(
 create_or_update_lookup(
     :id => "lookup-approval-type",
     :name => "Approval Type",
+    :locked => true,
     :lookup_values => [
         {id: "case_plan", display_text: "Case Plan"},
         {id: "action_plan", display_text: "Action Plan"},
@@ -624,6 +625,7 @@ create_or_update_lookup(
 create_or_update_lookup(
     :id => "lookup-gbv-approval-types",
     :name => "Approval Type for GBV users",
+    :locked => true,
     :lookup_values => [
         {id: "case_plan", display_text: "Case Plan"},
         {id: "closure", display_text: "Closure"}
