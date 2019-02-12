@@ -22,6 +22,7 @@ class CreateFields < ActiveRecord::Migration[5.0]
       t.boolean 'hidden_text_field', null: false, default: false
       t.string 'base_language' #TODO: Is this still relevant?
       t.integer 'subform_section_id' #TODO: Foreign key?
+      t.integer 'collapsed_field_for_subform_section_id'
       t.boolean 'autosum_total', null: false, default: false
       t.string 'autosum_group'
       t.string 'selected_value'

@@ -19,7 +19,6 @@ class CreateFormSections < ActiveRecord::Migration[5.0]
       t.boolean 'is_nested', null: false, default: false
       t.boolean 'is_first_tab', null: false, default: false
       t.integer 'initial_subforms'
-      t.string 'collapsed_fields', array: true, default: [] #TODO: Make into a proper relation is there is time
       t.boolean 'subform_prevent_item_removal', null: false, default: false
       t.string 'subform_header_links', array: true, default: [] #TODO: Refactor or utilize when revamiping UIUX
       t.boolean 'display_help_text_view', null: false, default: false

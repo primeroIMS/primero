@@ -46,7 +46,7 @@ case_plan_section = FormSection.create_or_update_form_section({
     :initial_subforms => 0,
     "name_en" => "List of Interventions and Services",
     "description_en" => "List of Interventions and Services",
-    "collapsed_fields" => ["case_plan_timeframe"]
+    "collapsed_field_names" => ["case_plan_timeframe"]
 })
 
 case_plan_fields = [

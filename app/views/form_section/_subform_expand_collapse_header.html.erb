@@ -8,7 +8,7 @@
     subform_name = subform.subform_section.shared_subform
     form_group_name = subform.subform_section.shared_subform_group
   end
-  collapsed_fields = subform_section.collapsed_list
+  collapsed_fields = subform_section.collapsed_fields
 
   if subform.expose_unique_id && i != "template"
     fk = field_keys(subform_name, i, 'unique_id', form_group_name)

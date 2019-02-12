@@ -11,6 +11,7 @@ class Field < ActiveRecord::Base
 
   belongs_to :form_section
   belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', required: false
+  belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id', class_name: 'FormSection', required: false
 
   alias_attribute :form, :form_section
   alias_attribute :subform_section, :subform

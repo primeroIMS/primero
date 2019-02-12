@@ -57,7 +57,7 @@ tracing_actions_section = FormSection.create_or_update_form_section({
      :initial_subforms => 1,
      "name_en" => "Nested Tracing Action",
      "description_en" => "Tracing Action Subform",
-     "collapsed_fields" => ["tracing_type", "date_tracing"]
+     "collapsed_field_names" => ["tracing_type", "date_tracing"]
 })
 
 #########################################

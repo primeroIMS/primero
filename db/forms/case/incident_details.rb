@@ -129,7 +129,7 @@ incident_details_subform_section = FormSection.create_or_update_form_section({
   :initial_subforms => 1,
   "name_en" => "Nested Incident Details Subform",
   "description_en" => "Nested Incident Details Subform",
-  "collapsed_fields" => ["cp_incident_violence_type", "cp_incident_date"]
+  "collapsed_field_names" => ["cp_incident_violence_type", "cp_incident_date"]
 })
 
 incident_details_fields = [

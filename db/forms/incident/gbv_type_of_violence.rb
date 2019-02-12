@@ -31,7 +31,7 @@ gbv_reported_elsewhere_subform = FormSection.create_or_update_form_section({
   :initial_subforms => 1,
   "name_en" => "GBV Reported Elsewhere Subform",
   "description_en" => "GBV Reported Elsewhere Subform",
-  "collapsed_fields" => ["gbv_reported_elsewhere_organization_provider"]
+  "collapsed_field_names" => ["gbv_reported_elsewhere_organization_provider"]
 })
 
 gbv_sexual_violence_fields = [

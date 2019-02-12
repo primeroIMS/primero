@@ -26,7 +26,7 @@
     <%= hidden_field_tag(unique_tag_name, '') %>
   <% end %>
   <%# TODO: Render the individual fields %>
-  <% (subform_section.fields.select {|field| field.visible? }).each do |field| %>
+  <% (subform_section.fields.sort_by(&:order).select {|field| field.visible? }).each do |field| %>
     <% fk = field_keys(subform_name, unique_ending, field.name, form_group_name) %>
     <%= render partial: field_template_path(field, false),
       object: field,

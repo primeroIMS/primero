@@ -10,8 +10,10 @@ class FormSection < ActiveRecord::Base
   localize_properties :name, :help_text, :description
 
   has_many :fields
+  has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
 
   attr_accessor :module_name
+  attribute :collapsed_field_names
 
   validate :validate_name_in_base_language
   validate :validate_name_format
@@ -20,6 +22,7 @@ class FormSection < ActiveRecord::Base
   after_initialize :defaults
   before_save :sync_form_group
   after_save :recalculate_subform_permissions
+  after_save :recalculate_collapsed_fields
 
   #TODO: Move to migration
   def defaults
@@ -84,8 +87,9 @@ class FormSection < ActiveRecord::Base
     def create_or_update_form_section(properties = {})
       unique_id = properties[:unique_id]
       return nil if unique_id.blank?
-#binding.pry
+
       fields = properties[:fields]
+
       if fields.present?
         fields.each_with_index do |field, index|
           field.order = index
@@ -132,13 +136,12 @@ class FormSection < ActiveRecord::Base
       ['Photos and Audio', 'Other Documents', 'BID Records', 'BIA Records']
     end
 
-    #Given an arbitrary list of forms go through and link up the forms to subforms.
-    #Functionally this isn't important, but this will improve performance if the list
-    #contains both the top forms and the subforms by avoiding extra queries.
+    #Force eager loading of subforms
     def link_subforms(forms)
-      #TODO: Force eager loading on subforms! Do we still need this?
-      #fields = ActiveRecord::Associations::Preloader.new.preload(forms, :fields)
-      #ActiveRecord::Associations::Preloader.new.preload(fields, :subform)
+      subform_fields = forms.map(&:fields).flatten.select{|f| f.type == Field::SUBFORM}
+      ActiveRecord::Associations::Preloader.new.preload(subform_fields, :subform)
+      subforms = subform_fields.map(&:subform)
+      ActiveRecord::Associations::Preloader.new.preload(subforms, [:fields, :collapsed_fields])
       return forms
     end
     #memoize_in_prod :link_subforms
@@ -178,12 +181,11 @@ class FormSection < ActiveRecord::Base
     # Returns: hash of (key) Form ID and (values) Fields that are matchable
     # TODO: Does this belong on Field?
     def get_matchable_form_and_field_names(form_ids, parent_form)
-      matchable_fields = Field.joins(:form_section).include(:form_section).where(form_sections: {id: form_ids, parent_form: parent_form}, matchable: true)
+      matchable_fields = Field.joins(:form_section).includes(:form_section).where(form_sections: {id: form_ids, parent_form: parent_form}, matchable: true)
       grouped_matchable_fields = matchable_fields.group_by{|f|f.form_section.unique_id}
       grouped_matchable_fields.map{|form_id, fields| [form_id, fields.map{|f| f.name}]}.to_h
     end
 
-    #TODO: Only used by Matching code. Is it even needed? Rename is needed.
     def form_sections_by_ids_and_parent_form(form_ids, parent_form)
       FormSection.find_by_parent_form(parent_form, true).where(unique_id: form_ids)
     end
@@ -199,7 +201,7 @@ class FormSection < ActiveRecord::Base
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
       allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
-      forms = FormSection.form_sections_by_ids_and_parent_form(allowed_form_ids, parent_form)
+      forms = FormSection.form_sections_by_ids_and_parent_form(allowed_form_ids, parent_form).includes(:fields)
       #TODO: Is this needed?
       forms.each{|f| f.module_name = primero_module.name}
       forms
@@ -456,7 +458,6 @@ class FormSection < ActiveRecord::Base
       if locale.present? && I18n.locales.include?(locale)
         unique_id = form_hash.keys.first
         if unique_id.present?
-          #We have to bypass memoization here
           form = FormSection.find_by(unique_id: unique_id)
           if form.present?
             form.update_translations(form_hash.values.first, locale)
@@ -471,18 +472,6 @@ class FormSection < ActiveRecord::Base
       else
         Rails.logger.error "Error importing translations: locale not present"
       end
-    end
-
-  end
-
-  #Returns the list of field to show in collapsed subforms.
-  #If there is no list defined, it will returns the first one of the fields.
-  # TODO: Refactor this to be a proper relation
-  def collapsed_list
-    if self.collapsed_fields.empty?
-      self.fields.where(visible: true).limit(1)
-    else
-      self.fields.where(visible: true, name: [self.collapsed_fields])
     end
   end
 
@@ -603,6 +592,46 @@ class FormSection < ActiveRecord::Base
       PrimeroModule.all.each do |primero_module|
         primero_module.add_associated_subforms
         primero_module.save
+      end
+    end
+  end
+
+  def recalculate_collapsed_fields
+    # Awful code but gets the job done. If we have collapsed_field_names specified on the form
+    # then set those pointers on the fields. If we dont have collapsed field_names specified,
+    # but we do have pointers, let them be. Otherwise, the first field in a subform is the collapsed field.
+    if self.is_nested
+      fields_to_link = []
+      fields_to_unlink = []
+
+      if self.collapsed_field_names.present?
+        self.fields.each do |field|
+          if self.collapsed_field_names.include?(field.name)
+            if field.collapsed_field_for_subform_section_id != self.id
+              fields_to_link << field.id
+            end
+          elsif field.collapsed_field_for_subform_section_id
+            fields_to_unlink << field.id
+          end
+        end
+      else
+        collapsed_fields = self.collapsed_fields.to_a
+        unless collapsed_fields.size == 1 && collapsed_fields.first.try(:name) == self.fields.first.try(:name)
+          fields.each_with_index do |field, index|
+            if index == 0
+              fields_to_link << field.id
+            else
+              fields_to_unlink << field.id
+            end
+          end
+        end
+      end
+      
+      if fields_to_link.present?
+        Field.where(id: fields_to_link).update_all(collapsed_field_for_subform_section_id: self.id)
+      end
+      if fields_to_unlink.present?
+        Field.where(id: fields_to_unlink).update_all(collapsed_field_for_subform_section_id: nil)
       end
     end
   end

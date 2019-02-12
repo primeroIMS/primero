@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20190131000001) do
     t.boolean "hidden_text_field", default: false, null: false
     t.string "base_language"
     t.integer "subform_section_id"
+    t.integer "collapsed_field_for_subform_section_id"
     t.boolean "autosum_total", default: false, null: false
     t.string "autosum_group"
     t.string "selected_value"
@@ -86,7 +87,6 @@ ActiveRecord::Schema.define(version: 20190131000001) do
     t.boolean "is_nested", default: false, null: false
     t.boolean "is_first_tab", default: false, null: false
     t.integer "initial_subforms"
-    t.string "collapsed_fields", default: [], array: true
     t.boolean "subform_prevent_item_removal", default: false, null: false
     t.string "subform_header_links", default: [], array: true
     t.boolean "display_help_text_view", default: false, null: false

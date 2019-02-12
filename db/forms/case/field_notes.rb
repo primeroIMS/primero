@@ -32,7 +32,7 @@ field_notes_subform_section = FormSection.create_or_update_form_section({
   :initial_subforms => 0,
   "name_en" => "Nested Notes Subform",
   "description_en" => "Nested Notes Subform",
-  "collapsed_fields" => ["note_subject", "note_created_by"]
+  "collapsed_field_names" => ["note_subject", "note_created_by"]
 })
 
 notes_fields = [

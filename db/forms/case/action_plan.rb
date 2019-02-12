@@ -159,7 +159,7 @@ gbv_follow_up_subform_section = FormSection.create_or_update_form_section({
   mobile_form: true,
   name_en: "Nested GBV Follow Up Subform",
   description_en: "Nested GBV Follow Up Subform",
-  collapsed_fields: ["followup_service_type", "followup_date"]
+  collapsed_field_names: ["followup_service_type", "followup_date"]
 })
 
 action_plan_subform_section_fields = [
@@ -258,7 +258,7 @@ action_plan_subform_section = FormSection.create_or_update_form_section({
   initial_subforms: 1,
   name_en: "Nested Action Plan",
   description_en: "Action Plan Subform",
-  collapsed_fields: ["service_type", "service_appointment_date"]
+  collapsed_field_names: ["service_type", "service_appointment_date"]
 })
 
 
