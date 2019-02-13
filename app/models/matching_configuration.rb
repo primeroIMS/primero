@@ -67,8 +67,6 @@ class MatchingConfiguration
     self.case_field_options = load_field_options_for_filter(case_form_sections, self.case_fields)
     self.tracing_request_field_options = load_field_options_for_filter(tracing_request_form_sections, self.tracing_request_fields)
 
-    #TODO: It kinda stinks that we are overwriting case_fields & tracing_request fields.
-    #TODO: Is there a better way to do this?
     self.case_fields = load_filter_fields_by_type('case')
     self.tracing_request_fields = load_filter_fields_by_type('tracing_request')
 
