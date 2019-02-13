@@ -1026,6 +1026,131 @@ create_or_update_role(
     :group_permission => Permission::GROUP
 )
 
+gbv_system_admin_forms = [
+  'incident_service_referrals', 'incident_record_owner', 'gbv_sexual_violence', 'gbv_individual_details', 'gbv_incident_form',
+  'alleged_perpetrators_wrapper', 'gbv_survivor_information', 'survivor_assessment_form', 'safety_plan', 'referral_transfer',
+  'record_owner', 'other_documents', 'gbv_case_closure_form', 'followup', 'action_plan_form', 'client_feedback'
+]
+
+gbv_system_admin_permissions = [
+  Permission.new(
+    :resource => Permission::CASE,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::FLAG,
+      Permission::CREATE,
+      Permission::INCIDENT_FROM_CASE,
+      Permission::EXPORT_LIST_VIEW,
+      Permission::EXPORT_CSV,
+      Permission::EXPORT_EXCEL,
+      Permission::EXPORT_PHOTO_WALL,
+      Permission::EXPORT_PDF,
+      Permission::EXPORT_UNHCR,
+      Permission::EXPORT_CASE_PDF,
+      Permission::EXPORT_JSON,
+      Permission::EXPORT_CUSTOM,
+      Permission::IMPORT,
+      Permission::ASSIGN,
+      Permission::TRANSFER,
+      Permission::REFERRAL,
+      Permission::CONSENT_OVERRIDE,
+      Permission::SYNC_MOBILE,
+      Permission::REQUEST_APPROVAL_CASE_PLAN,
+      Permission::REQUEST_APPROVAL_CLOSURE,
+      Permission::APPROVE_CASE_PLAN,
+      Permission::APPROVE_CLOSURE
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::INCIDENT,
+    :actions => [
+      Permission::READ,
+      Permission::CREATE,
+      Permission::WRITE,
+      Permission::FLAG,
+      Permission::EXPORT_LIST_VIEW,
+      Permission::EXPORT_CSV,
+      Permission::EXPORT_EXCEL,
+      Permission::EXPORT_PHOTO_WALL,
+      Permission::EXPORT_PDF,
+      Permission::EXPORT_UNHCR,
+      Permission::EXPORT_INCIDENT_RECORDER,
+      Permission::EXPORT_JSON,
+      Permission::EXPORT_CUSTOM,
+      Permission::IMPORT,
+      Permission::ASSIGN,
+      Permission::SYNC_MOBILE,
+      Permission::REQUEST_APPROVAL_CASE_PLAN,
+      Permission::REQUEST_APPROVAL_CLOSURE
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::ROLE,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::CREATE,
+      Permission::ASSIGN
+    ],
+    :role_ids => [
+      'role-gbv-manager',
+      'role-gbv-social-worker',
+      'role-gbv-user-manager'
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::USER,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::CREATE,
+      Permission::ASSIGN
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::USER_GROUP,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::CREATE,
+      Permission::ASSIGN
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::AGENCY,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::CREATE,
+      Permission::ASSIGN
+    ]
+  ),
+  Permission.new(
+    :resource => Permission::METADATA,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::SYSTEM,
+    :actions => [Permission::MANAGE]
+  ),
+  Permission.new(
+    :resource => Permission::REPORT,
+    :actions => [
+      Permission::READ,
+      Permission::WRITE,
+      Permission::CREATE
+    ]
+  )
+]
+
+create_or_update_role(
+  :name => "GBV System Administrator",
+  :group_permission => Permission::ALL,
+  :permissions_list => gbv_system_admin_permissions,
+  :permitted_form_ids => gbv_system_admin_forms
+)
+
 referral_permissions = [
   Permission.new(
     :resource => Permission::CASE,
