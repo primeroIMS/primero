@@ -10,9 +10,9 @@ class Duplicate
   attr_accessor :child
   attr_accessor :likelihood
 
-  def initialize(child_id, score, average_score)
-    self.child_id = child_id
-    self.child ||= Child.get(child_id) if child_id.present?
+  def initialize(child, score, average_score)
+    self.child_id = child.id
+    self.child ||= child
     self.likelihood = Duplicate.calculate_likelihood(score, average_score)
   end
 
@@ -28,8 +28,10 @@ class Duplicate
       search_case = new_case_from_search_params(match_fields, search_parameters)
       matching_criteria = search_case.match_criteria(nil, match_fields)
       search_result = Child.find_match_records(matching_criteria, Child, nil, false)
+      cases_hash = {}
+      Child.all(keys: search_result.keys).all.each{|c| cases_hash[c.id] = c}
       duplicates_from_search(search_result) do |duplicate_case_id, score, average_score|
-        Duplicate.new(duplicate_case_id, score, average_score)
+        Duplicate.new(cases_hash[duplicate_case_id], score, average_score)
       end
     end
 
