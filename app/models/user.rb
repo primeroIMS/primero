@@ -497,8 +497,7 @@ class User < CouchRest::Model::Base
   end
 
   def agency_office_name
-    return nil unless self['agency_office'].present?
-    Lookup.values('lookup-agency-office').find { |i| self['agency_office'].eql?(i['id']) }['display_text']
+    @agency_office_name ||= Lookup.values('lookup-agency-office').find { |i| self['agency_office'].eql?(i['id']) }.try(:[], 'display_text')
   end
 
   def has_reporting_location_filter?
