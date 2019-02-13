@@ -28,8 +28,7 @@ class Duplicate
       search_case = new_case_from_search_params(match_fields, search_parameters)
       matching_criteria = search_case.match_criteria(nil, match_fields)
       search_result = Child.find_match_records(matching_criteria, Child, nil, false)
-      cases_hash = {}
-      Child.all(keys: search_result.keys).all.each{|c| cases_hash[c.id] = c}
+      cases_hash = Child.all(keys: search_result.keys).all.map{|c| [c.id, c]}.to_h
       duplicates_from_search(search_result) do |duplicate_case_id, score, average_score|
         Duplicate.new(cases_hash[duplicate_case_id], score, average_score)
       end
