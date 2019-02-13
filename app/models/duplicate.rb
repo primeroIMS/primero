@@ -1,7 +1,6 @@
 #TODO : This is specific to cases.  Will we need to in the future handle duplicate Incidents or TracingRequests?
 class Duplicate
   include ActiveModel::Model
-  include CouchRest::Model::CastedModel
   include Matchable
 
   #TODO - Create rspec tests
@@ -18,6 +17,11 @@ class Duplicate
   end
 
   class << self
+    # Necessary for record_filtering_pagination
+    def properties_by_name
+      {}
+    end
+
     # Emulate 'find' since this isn't persisted in a DB
     def find(match_fields={}, search_parameters={})
       return [] if search_parameters.blank?
