@@ -41,34 +41,42 @@ class MatchingConfiguration
   end
 
   def load_form_fields
-    self.case_fields = load_matchable_fields_by_type('case')
-    self.tracing_request_fields = load_matchable_fields_by_type('tracing_request')
+    case_form_sections = load_form_sections_by_type('case')
+    tracing_request_form_sections = load_form_sections_by_type('tracing_request')
 
-    self.case_field_options = load_field_options_by_type('case')
-    self.tracing_request_field_options = load_field_options_by_type('tracing_request')
+    self.case_fields = load_matchable_fields(case_form_sections)
+    self.tracing_request_fields = load_matchable_fields(tracing_request_form_sections)
+
+    self.case_field_options = load_field_options(case_form_sections)
+    self.tracing_request_field_options = load_field_options(tracing_request_form_sections)
 
     self.case_forms = load_matchable_forms_by_type('case')
     self.tracing_request_forms = load_matchable_forms_by_type('tracing_request')
 
-    self.case_form_options = load_forms_by_type('case', self.form_ids)
-    self.tracing_request_form_options = load_forms_by_type('tracing_request', self.form_ids)
+    self.case_form_options = load_form_options(case_form_sections, self.form_ids)
+    self.tracing_request_form_options = load_form_options(tracing_request_form_sections, self.form_ids)
   end
 
   def load_fields_for_filter
-    self.case_fields = load_fields_by_type('case')
-    self.tracing_request_fields = load_fields_by_type('tracing_request')
+    case_form_sections = load_form_sections_by_type('case')
+    tracing_request_form_sections = load_form_sections_by_type('tracing_request')
 
-    self.case_field_options = load_field_options_for_filter_by_type('case', self.case_fields)
-    self.tracing_request_field_options = load_field_options_for_filter_by_type('tracing_request', self.tracing_request_fields)
+    self.case_fields = get_matchable_form_and_field_names(case_form_sections)
+    self.tracing_request_fields = get_matchable_form_and_field_names(tracing_request_form_sections)
 
+    self.case_field_options = load_field_options_for_filter(case_form_sections, self.case_fields)
+    self.tracing_request_field_options = load_field_options_for_filter(tracing_request_form_sections, self.tracing_request_fields)
+
+    #TODO: It kinda stinks that we are overwriting case_fields & tracing_request fields.
+    #TODO: Is there a better way to do this?
     self.case_fields = load_filter_fields_by_type('case')
     self.tracing_request_fields = load_filter_fields_by_type('tracing_request')
 
     self.case_forms = load_matchable_forms_by_type('case')
     self.tracing_request_forms = load_matchable_forms_by_type('tracing_request')
 
-    self.case_form_options = load_forms_by_type('case', self.case_forms)
-    self.tracing_request_form_options = load_forms_by_type('tracing_request', self.tracing_request_forms)
+    self.case_form_options = load_form_options(case_form_sections, self.case_forms)
+    self.tracing_request_form_options = load_form_options(tracing_request_form_sections, self.tracing_request_forms)
   end
 
   def update_matchable_fields
@@ -96,26 +104,36 @@ class MatchingConfiguration
 
   private
 
-  def load_fields_by_type(type)
-    FormSection.get_matchable_form_and_field_names(self.form_ids, type)
+  def load_form_sections_by_type(type)
+    FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type)
   end
 
-  def load_matchable_fields_by_type(type)
-    load_fields_by_type(type).map { |form_key, fields| [form_key, fields.map { |val| form_key + ID_SEPARATOR + val }] }
+  # Returns: hash of (key) Form ID and (values) Fields that are matchable
+  def get_matchable_form_and_field_names(form_sections)
+    return {} if form_sections.blank?
+    form_hash = {}
+    form_sections.each do |f|
+      matchable_fields = f.all_matchable_fields
+      form_hash[f.unique_id] = matchable_fields.map{|fd| fd.name} if matchable_fields.present?
+    end
+    form_hash
   end
 
-  def load_field_options_by_type(type)
-    form_sections = FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type)
+  def load_matchable_fields(form_sections)
+    get_matchable_form_and_field_names(form_sections).map { |form_key, fields| [form_key, fields.map { |val| form_key + ID_SEPARATOR + val }] }
+  end
+
+  def load_field_options(form_sections)
     form_sections.map do |fs|
       [fs.unique_id, fs.fields.select { |fd| fd.visible == true }
       &.map { |fd| [fd.display_name, fs.unique_id + ID_SEPARATOR + fd.name] }]
     end
   end
 
-  def load_field_options_for_filter_by_type(type, forms)
-    form_sections = FormSection.form_sections_by_ids_and_parent_form(forms.keys, type)
-    form_sections.map do |fs|
-      [fs.unique_id, fs.fields.select {|fd| fd.visible == true && forms[fs.unique_id].include?(fd.name)}
+  def load_field_options_for_filter(form_sections, matchable_forms)
+    matchable_form_sections = form_sections.select{|f| matchable_forms.keys.include?(f.unique_id)}
+    matchable_form_sections.map do |fs|
+      [fs.unique_id, fs.fields.select {|fd| fd.visible == true && matchable_forms[fs.unique_id].include?(fd.name)}
       &.map { |fd| [fd.display_name, fd.name] }]
     end
   end
@@ -129,9 +147,8 @@ class MatchingConfiguration
     self.send("#{type}_fields").try(:map) { |key, _value| key }
   end
 
-  def load_forms_by_type(type, form_ids=self.form_ids)
-    form_sections = FormSection.form_sections_by_ids_and_parent_form(form_ids, type)
-    form_sections.map { |f| [f.name, f.unique_id] }
+  def load_form_options(form_sections, form_ids=self.form_ids)
+    form_sections.select{|f| form_ids.include?(f.unique_id)}.map{|f| [f.name, f.unique_id]}
   end
 
   # Based on input, build a hash containing the forms / fields that need to be set to matchable
@@ -154,7 +171,7 @@ class MatchingConfiguration
       form_field_hash[form_id] << field_name
     end
 
-    form_sections = FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type)
+    form_sections = load_form_sections_by_type(type)
     form_sections.each do |form_section|
       form_section.update_fields_matchable(form_field_hash[form_section.unique_id] || [])
       form_section.save
