@@ -43,10 +43,6 @@ class User < CouchRest::Model::Base
     view :by_organization
   end
 
-  design :by_organization_and_disabled do
-    view :by_organization_and_disabled
-  end
-
   design do
     view :by_user_name,
             :map => "function(doc) {
@@ -229,15 +225,15 @@ class User < CouchRest::Model::Base
       false
     end
 
-    def find_by_criteria(criteria, pagination=nil, sort=nil)
-      if criteria.present?
-        User.search do
+    def find_by_criteria(criteria={}, pagination=nil, sort=nil)
+      User.search do
+        if criteria.present?
           criteria.each do |key, value|
             with key.to_sym, value
           end
-          sort.each { |sort_field, order| order_by(sort_field, order) } if sort.present?
-          paginate pagination if pagination.present?
         end
+        sort.each { |sort_field, order| order_by(sort_field, order) } if sort.present?
+        paginate pagination if pagination.present?
       end
     end
   end
@@ -287,9 +283,7 @@ class User < CouchRest::Model::Base
   alias_method :Location, :user_location
 
   def reporting_location
-    if self.user_location.present?
-      Location.get_reporting_location(self.user_location)
-    end
+    @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
   end
 
   def agency
