@@ -1063,6 +1063,7 @@ en:
       view_photo: "View Photo"
       matching_configuration: "Matching Configuration"
       add_note: "Add Notes"
+      view_response: "View Responses"
 
   forms:
     label: "Forms"
