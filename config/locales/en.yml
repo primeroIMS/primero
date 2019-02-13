@@ -455,10 +455,10 @@ en:
       abduction_regained_freedom: "Did any of the victims eventually regain freedom?"
       abduction_crossborder: "Was this a cross-border violation?"
       abduction_regained_freedom_how: "If yes, how did the abduction end?"
-      attacks_schools_facility_attack_type:
+      attacks_schools_facility_attack_type: "Type of education or health-related violation"
       attacks_schools_attack_type: "Type of attack"
       attacks_schools_weapon_type: "Type of weapon/method used"
-      attacks_schools_recurrent_attack: "Type of education or health-related violation"
+      attacks_schools_recurrent_attack: "Was it a recurrent attack?"
       attacks_schools_facility_operational_before: "Was the facility operational before the attack?"
       attacks_schools_crossborder: "Was this a cross-border violation?"
       attacks_schools_school_type: "Type of school affected"
