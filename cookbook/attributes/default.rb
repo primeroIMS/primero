@@ -41,6 +41,11 @@ default[:primero].tap do |p|
     seed[:enabled] = false
   end
 
+  p[:postgres].tap do |pg|
+    pg[:host] = 'localhost'
+    pg[:role] = 'primero'
+  end
+
   p[:couchdb].tap do |c|
     c[:host] = 'localhost'
     c[:username] = 'primero'
