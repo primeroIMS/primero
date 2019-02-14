@@ -114,11 +114,12 @@ class Child < CouchRest::Model::Base
 
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
+    # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
     [
       'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
       'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
       'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
-      'family_count_no', 'dss_id'
+      'family_count_no', 'dss_id', 'camp_id', 'tent_number', 'nfi_distribution_id'
     ]
   end
 
@@ -441,8 +442,8 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def send_approval_response_mail(manager_id, approval_type, approval, host_url)
-    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url)
+  def send_approval_response_mail(manager_id, approval_type, approval, host_url, is_gbv = false)
+    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url, is_gbv)
   end
 
   #Override method in record concern

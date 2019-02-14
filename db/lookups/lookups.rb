@@ -630,11 +630,22 @@ create_or_update_lookup(
 create_or_update_lookup(
     :id => "lookup-approval-type",
     :name_en => "Approval Type",
-    :lookup_values_en => [
-        {id: "case_plan", display_text: "Case Plan"}.with_indifferent_access,
-        {id: "action_plan", display_text: "Action Plan"}.with_indifferent_access,
-        {id: "service_provision", display_text: "Service Provision"}.with_indifferent_access
-    ]
+    :locked => true,
+    :lookup_values => [
+        {id: "case_plan", display_text: "Case Plan"},
+        {id: "action_plan", display_text: "Action Plan"},
+        {id: "service_provision", display_text: "Service Provision"}
+    ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
+    :id => "lookup-gbv-approval-types",
+    :name_en => "Approval Type for GBV users",
+    :locked => true,
+    :lookup_values => [
+        {id: "case_plan", display_text: "Case Plan"},
+        {id: "closure", display_text: "Closure"}
+    ].map(&:with_indifferent_access)
 )
 
 create_or_update_lookup(

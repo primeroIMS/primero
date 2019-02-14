@@ -43,10 +43,6 @@ class User < CouchRest::Model::Base
     view :by_organization
   end
 
-  design :by_organization_and_disabled do
-    view :by_organization_and_disabled
-  end
-
   design do
     view :by_user_name,
             :map => "function(doc) {
@@ -101,7 +97,7 @@ class User < CouchRest::Model::Base
 
 
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
+  before_save :make_user_name_lowercase, :encrypt_password, :update_user_cases_groups_and_location
   after_save :save_devices
 
   before_update :if => :disabled? do |user|
@@ -229,15 +225,15 @@ class User < CouchRest::Model::Base
       false
     end
 
-    def find_by_criteria(criteria, pagination=nil, sort=nil)
-      if criteria.present?
-        User.search do
+    def find_by_criteria(criteria={}, pagination=nil, sort=nil)
+      User.search do
+        if criteria.present?
           criteria.each do |key, value|
             with key.to_sym, value
           end
-          sort.each { |sort_field, order| order_by(sort_field, order) } if sort.present?
-          paginate pagination if pagination.present?
         end
+        sort.each { |sort_field, order| order_by(sort_field, order) } if sort.present?
+        paginate pagination if pagination.present?
       end
     end
   end
@@ -287,9 +283,7 @@ class User < CouchRest::Model::Base
   alias_method :Location, :user_location
 
   def reporting_location
-    if self.user_location.present?
-      Location.get_reporting_location(self.user_location)
-    end
+    @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
   end
 
   def agency
@@ -490,8 +484,7 @@ class User < CouchRest::Model::Base
   end
 
   def agency_office_name
-    return nil unless self['agency_office'].present?
-    Lookup.values('lookup-agency-office').find { |i| self['agency_office'].eql?(i['id']) }['display_text']
+    @agency_office_name ||= Lookup.values('lookup-agency-office').find { |i| self['agency_office'].eql?(i['id']) }.try(:[], 'display_text')
   end
 
   def has_reporting_location_filter?
@@ -509,15 +502,24 @@ class User < CouchRest::Model::Base
     true
   end
 
-  def update_user_case_locations
+  def update_user_cases_groups_and_location
     # TODO: The following gets all the cases by user and updates the location/district.
     # Performance degrades on save if the user changes their location.
-    if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+    if location_changed? || user_group_ids_changed?
       Child.by_owned_by.key(self.user_name).all.each do |child|
-        child.owned_by_location = self.location
+        child.owned_by_location = self.location if location_changed?
+        child.owned_by_groups = self.user_group_ids if user_group_ids_changed?
         child.save!
       end
     end
+  end
+
+  def location_changed?
+    self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+  end
+
+  def user_group_ids_changed?
+    self.changes['user_group_ids'].present? && !self.changes['user_group_ids'].eql?([nil,""])
   end
 
   def encrypt_password

@@ -110,6 +110,7 @@ ar:
     tracing_request: "طلبات التتبع"
     incidents: "الحوادث"
     potential_match: "المتشابهات"
+    duplicates: "التكرارات"
     children: "الأطفال"
     forms: "النماذج"
     lookups: "عمليات البحث"
@@ -146,6 +147,8 @@ ar:
     filter_label: "عامل التصفية:"
     filter: "تطبيق عامل التصفية"
     filter_clear: "مسح عوامل التصفية"
+    find_tracing_match: "إيجاد التطابق لحالة التتبع"
+    filter_restore: "الاسترجاع إلى إعدادات النظام"
     flag_records: "وضع علامة"
     flag_model: "وضع علامة %{model}"
     unflag_model: "إزالة العلامة %{model}"
@@ -219,7 +222,7 @@ ar:
         pending: "المصادقات قيد الانتظار"
         approved: "تم المصادقة عليها"
         rejected: "رُفضت"
-    clear_filter: "Clear"
+    clear_filter: "مسح"
     apply_filter: "تطبيق"
     save_filter: "حفّظ"
     my_filters: "عوامل التصفية"
@@ -640,6 +643,34 @@ ar:
     likelihood:
       likely: 'مرجح'
       possible: 'ممكن'
+  duplicates:
+    search_for_duplicates: 'البحث عن المكررات'
+    clear_filter: 'مسح'
+    filter_by:
+      name: "الاسم"
+      name_nickname: "اسم الشهرة"
+      name_other: "الاسم الآخر"
+      sex: "الجنس  "
+      age: "العمر"
+      age_range: "نطاق الأعمار"
+      date_of_birth: "تاريخ الميلاد "
+      nationality: "الجنسية"
+      location_last: "اخر موقع"
+      telephone_last: "اخر رقم هاتف"
+      ethnicity: "العرق"
+      date_of_separation: "تاريخ الانفصال"
+      separation_cause: "السبب الرئيسي للانفصال"
+      location_separation: "موقع الإنفصال"
+      relation_name: "اسم القريب/من الاقرباء"
+      relation: "العلاقة"
+      relation_nickname: "الاسم المستعار للشخص القريب/من الاقرباء"
+      relation_language: "لغة القريب/من الاقرباء"
+      relation_religion: "ديانة القريب/من الاقرباء"
+      relation_ethnicity: "عرق القريب/من الاقرباء"
+      relation_nationality: "جنسية القريب/من الاقرباء"
+      relation_address_current: "العنوان الحالي للقريب/من الاقرباء"
+      relation_location_current: "الموقع الحالي للقريب/من الاقرباء"
+      relation_telephone: "رقم هاتف القريب/من الاقرباء"
   audit_log:
     timestamp: "طابع زمني - UTC"
     user_name: "اسم المستخدم"
@@ -694,6 +725,7 @@ ar:
       status: "حالة"
       enabled: "مُفعل"
       disabled: "معطل"
+      agency: "المؤسسة"
     register_new_user: "إنشاء مستخدم"
   roles:
     label: "دور المستخدم"
@@ -834,6 +866,7 @@ ar:
     history_of: "تاريخ %{user_name} "
     disabled: "مُعطل "
     services: "الخدمات"
+    agency_office: "مكتب المؤسسة"
     position: وضع
     actions:
       delete: "حذف"
@@ -880,6 +913,7 @@ ar:
   blacklisted: "هل هو مدرج بالقائمة السوداء ؟"
   visible_for_web: "مرئية لتطبيقات الشبكة"
   visible_for_mobile: "مرئية لتطبيقات المحمول"
+  selective_syncing_mobile: "مزامنة انتقائية (الجهاز النقال)"
   hidden: "مخفي"
   help_text: "نص المساعدة"
   multi_select: "متعدد الاختيارات"
@@ -1054,6 +1088,7 @@ ar:
     translation: "ترجمة"
     translation_missing: "( لم يتم ترجمة %{lang})"
     base_language_help_text: "يجب إدخال ذلك في شكل %{lang}."
+    selective_syncing_mobile_help_text: "لن تتم مزامنة النموذج الفرعي من الخادم إلى الجوال ، ولكن يمكن للمستخدم إضافة نموذج فرعي على الهاتف الجوال الذي سيعمل بعد ذلك على المزامنة مع الخادم."
     form_group_translation_help_text: "لإضافة مترجمين إلى مجموعات النماذج حرر عملية بحث مجموعة النموذج في محرر عمليات البحث."
     initial_lang_help_text: "يجب إنشاء حقل في %{lang} قبل إضافة الترجمة"
     field_db_help_text: "إذا ترك الحقل فارغاً سيتم توليد اسم قاعدة البيانات. يمكن أن يحتوي اسم الحقل على حروف أبجدية لاتينية وأرقام وتسطيرات سفلية."
@@ -1726,6 +1761,7 @@ ar:
         name_present: "لا يجب أن يكون الاسم فارغاً"
         unique_name: "يوجد برنامج بهذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
       lookup:
+        name_present: "لا يجب أن يكون الاسم فارغاً"
         value_presence: "الرجاء تحديد قيمة بحث واحدة على الأقل"
         unique_name: "يوجد بحث يحمل هذا الاسم بالفعل، الرجاء إدخال اسم مختلف"
         being_used: "هذا البحث مستخدم  ولا يمكن حذفه"
@@ -1899,7 +1935,8 @@ ar:
       male_abbreviation: "ذكر"
       unknown_abbreviation: "U"
       headers:
-        moha_id: "MOHA ID"
+        moha_id: "معَرفموها مهترئة"
+        national_id_no: "رقم الهوية الوطنية"
         case_id: "رقم ملف الحالة"
         progress_id: "معرف التقدم"
         child_name_last_first: "اسم الطفل"
@@ -1984,7 +2021,7 @@ ar:
     is_remote_label: "هل تقوم بالنقل إلى نظام بعيد؟"
     consent_individual_transfer: "هل لديك موافقة من الناجية لإجراء هذه الإحالة؟"
     type_of_export: "ما نوع تصدير الملف الذي تريده"
-    notes_label: "ملاحظات"
+    notes_label: "ملاحظات -الرجاء ذكر سبب النقل بالإضافة إلى تفاصيل الاجتماعات التي عقدت لمناقشة نقل الحالة"
     user_mandatory: "مطلوب ادخال اسم المستخدم"
     failure: "فشل نقل %{record_type} %{id} (تحقق من تحديد حقول الموافقة)"
     success: "تم نقل %{record_type} %{id}  بنجاح"
@@ -2009,7 +2046,7 @@ ar:
     location_label: "الموقع"
   request_transfer:
     success: "تم إرسال طلب التحويل"
-    notes_label: "ملاحظات"
+    notes_label: "ملاحظات -الرجاء ذكر سبب النقل بالإضافة إلى تفاصيل الاجتماعات التي عقدت لمناقشة نقل الحالة"
     submit_label: "أرسل الطلب"
     error:
       owner_has_no_email: "مالك السجل ليس لديه عنوان بريد الكتروني"

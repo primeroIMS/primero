@@ -31,13 +31,13 @@ class UsersController < ApplicationController
     @per_page = per_page
 
     if params[:page] != 'all'
-      editable_users = load_editable_users || load_users
-      users_page = editable_users.try(:page, page).try(:per, @per_page)
-      @users = users_page.try(:all) || []
-      @total_records = users_page.count
+      pagination = { page: page, per_page: @per_page }
+      editable_users = load_editable_users(pagination) || load_users(pagination)
+      @users = editable_users.try(:results) || []
+      @total_records = editable_users.total
       @paginated_users = paginated_collection(@users, @total_records)
     else
-      @users = load_users.try(:all) || []
+      @users = load_users({ page: 1, per_page: User.all.count }).try(:results) || []
       @total_records = @users.size
     end
 
@@ -259,28 +259,32 @@ class UsersController < ApplicationController
     @has_agency_read = current_user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
-  def load_editable_users
+  def load_editable_users(pagination)
     enabled_param = get_enabled_param
+    criteria = { organization: current_user.organization }
+    sort = { user_name: :asc}
     if has_agency_read
       if enabled_param.present?
-        User.by_organization_and_disabled.key([current_user.organization, filter_disabled?])
+        User.find_by_criteria(criteria.merge(disabled: filter_disabled?), pagination, sort)
       else
-        User.by_organization.key(current_user.organization)
+        User.find_by_criteria(criteria, pagination, sort)
       end
     end
   end
 
-  def load_users
+  def load_users(pagination)
     agency_param = get_agency_param
     enabled_param = get_enabled_param
+    criteria = { organization: agency_param }
+    sort = { user_name: :asc}
     if agency_param.present? && enabled_param.present?
-      User.by_organization_and_disabled.key([agency_param, filter_disabled?])
+      User.find_by_criteria(criteria.merge(disabled: filter_disabled?), pagination, sort)
     elsif agency_param.present?
-      User.by_organization.key(agency_param)
+      User.find_by_criteria(criteria, pagination, sort)
     elsif enabled_param.present?
-      User.send("by_user_name_#{enabled_param}")
+      User.find_by_criteria({ disabled: filter_disabled? }, pagination, sort)
     else
-      User.by_user_name
+      User.find_by_criteria(nil, pagination, sort)
     end
   end
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe UsersController do
+describe UsersController,:type => :controller do
   before do
     Role.all.each &:destroy
     PrimeroModule.all.each &:destroy
@@ -22,9 +22,19 @@ describe UsersController do
     @mock_user ||= stub_model(User, stubs)
   end
 
-  describe "GET index" do
+  describe "GET index", search: true do
     before do
+
+       Sunspot.setup(User) do
+         string :user_name
+         string :organization
+         string :location
+         boolean :disabled
+       end
+
       User.all.each &:destroy
+
+      Sunspot.remove_all!
 
       @user_a = User.create!(user_name: "AAA123", full_name: "ZZZ", password: 'passw0rd', password_confirmation: 'passw0rd',
                              role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'cc')
@@ -39,11 +49,14 @@ describe UsersController do
       @user_f = User.create!(user_name: "FFF123", full_name: "VVV", password: 'passw0rd', password_confirmation: 'passw0rd',
                              role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'bb', disabled: false)
 
+      Sunspot.commit
+
       fake_admin_login
       fake_session = Session.new()
       fake_session.stub(:admin?).with(no_args()).and_return(true)
       Session.stub(:get).and_return(fake_session)
       @user = mock_user({:merge => {}, :user_name => "someone"})
+
     end
 
     context "with status filter disabled" do

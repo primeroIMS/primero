@@ -453,7 +453,10 @@ class ChildrenController < ApplicationController
       users = User.by_user_name_enabled.all
     elsif can?(:assign_within_agency, Child)
       @user_can_assign = true
-      users = User.by_organization_and_disabled.key([current_user.organization, false]).all
+      criteria = { disabled: false, organization: current_user.organization }
+      pagination = { page: 1, per_page: User.all.count }
+      sort = { user_name: :asc}
+      users = User.find_by_criteria(criteria, pagination, sort).try(:results) || []
     elsif can?(:assign_within_user_group, Child)
       @user_can_assign = true
       users = User.by_user_group.keys(current_user.user_group_ids_sanitized).all.select { |user| !user.disabled }
