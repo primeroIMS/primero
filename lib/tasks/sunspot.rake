@@ -45,6 +45,7 @@ namespace :sunspot do
     batch_reindex(TracingRequest)
     batch_reindex(PotentialMatch)
     batch_reindex(BulkExport)
+    batch_reindex(User)
 
     puts 'Solr successfully reindexed'
   end

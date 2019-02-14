@@ -14,6 +14,23 @@ header {
         margin-right: 0;
       }
     }
+
+    .dropdown {
+      .menu {
+        z-index: 1092;
+
+        li {
+          margin-left: 0;
+          margin-right: 0;
+          padding: 0;
+          border-right: none;
+
+          a {
+            padding: 0.5rem 1rem;
+          }
+        }
+      }
+    }
   }
 
   a.logo img {

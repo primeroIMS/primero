@@ -16,10 +16,10 @@
       <% if options[:display_filter] %>
         <div class="row collapse align-middle filter-controls">
           <div class="column">
-            <a class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_clear') %></a>
+            <a href=<%= potential_matches_path(type: @type, match: @match) %> class="clear_filters"><%= icon('close') %> <%= t('buttons.filter_restore') %></a>
           </div>
           <div class="column shrink">
-            <%= link_to t("buttons.filter"), '', class: 'button small', id: 'apply_filter' %>
+            <%= link_to t("cases.apply_filter"), '', class: 'button small', id: 'apply_filter' %>
           </div>
         </div>
       <% end %>

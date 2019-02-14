@@ -1,15 +1,2135 @@
 ku:
+  valid: "کارپێکراو"
+  invalid: "کارپێنەکراو"
+  offline: ئەپلیکەیشنەکە لەدەرەوەى هێلە
+  name: "ناو"
   home:
-    fr: "Français"
-    en: "English"
-    ar: "العربية"
-    ar-LB: "العربية (اللبنانية)"
-    zh: "中文"
-    es: "Español"
-    ru: "Русский"
-    so: "Af-Soomaali"
-    bn: "বাংলা"
-    id: "Bahasa"
-    my: "ဗမာစာ"
-    th: "ไทย"
-    ku: "کوردی"
+    fr: "فره نسی"
+    en: "انكليزي"
+    ar: "عره بی"
+    ar-LB: "عرەبى(لوبنانى)"
+    zh: "چینى"
+    es: "ئیسپانی"
+    ru: "روسى"
+    so: "سومالى"
+    bn: "بەنگلادشى"
+    id: "ئیندونیسی"
+    my: "میانمار"
+    th: "تایلەندى"
+    ku: "کوردى"
+    dashboard: "داشبورد"
+    welcome: "بەخێربێى بو پریمێرو"
+    current_time_zone: "کاتى شوێنى دیارکراو"
+    language: "زمان"
+    view_records: "تومارەکان دیاربکە"
+    users: "بەریێوەبردنى بەکارهێنەرەکان"
+    manage_system_users: "بەكاربەرى هاوكات كردنى سێرڤەر بەرێوە ببە"
+    records_need_attention: "تومارا پێويستى ب هشیارى يه"
+    label: "لاپه ره ى سه ره كى"
+  clear: "روونە"
+  messages:
+    delete_item: |
+        وریاکردنەوە: ئەگەر بەردەوام بىت،هەر زانیارییەک بەم بەشەوە پەیوەست بێت لەدەست دەدەیت
+        ئەگەر دلنیانیت بەشەکە لەکاربێخە
+        بو گەرانەوە کلیک لەسەر رەدکردن بکە. کلیک لەسەر باشە بکە بو سرینەوەى بەشەکە
+    move_item: "ئەم شوێنە خەریکە دەگوێزرێتەوە بو بەشەکى ترى فورم (کلیلى-هەلبژاردن). رازیت لەسەر ئەمە؟"
+    enter_valid_date: "تکایە رێککەوتێک بنووەسە لە سەر شێوەیەکى کارپێکراو (ر- م -س)"
+    enter_valid_field_value: "تکایە زنجیرەیەکى شوێنى کارپێکراو بنووسە"
+    enter_valid_number_in_tally: "%{field}: %{tally}) پێویستە ژمارەیەکى کارپێکراو بێت"
+    enter_valid_number: "%{field} پێویستە ژمارەیەکى کارپێکراو بێت"
+    more_than_200_chars: "%{field} نابێت لە ٢٠٠ پیت زیاتربێت"
+    no_more_than_x_chars: "%{field} نابێت زیاتربێت لە %{length} پیت"
+    valid_search_criteria: "تکایە بە لایەنى کەمە وە یەک بژاردە بو لێگەریان بنووسە"
+    show_hide_forms: "تکایە فورم(ەکان) هەلبژێرە کە دەتەوێ بشاریتەوە یان دیاربکەى."
+    show_forms: "دلنیاى کە دەتەوێ ئەم فورم(انە) دیاربکەى؟"
+    hide_forms: "دلنیاى کە دەتەوێ ئەم فورم(انە) بشاریتەوە؟"
+    primary_photo_changed: "وێنەى سەرەتاى گورا"
+    select_photo: "تکایە وێنەیەک هەلبژێرە"
+    are_you_sure: "دلنیایى کە دەتەوى"
+    this_user: "ئەم بەکارهیێنەرە؟"
+    keep_working: "بەلێ، بەردەوامبە"
+    logoff: "نەخێر، بودەرەوە"
+    record_navigation_confirmation_message: "بە کلیککردن لەسەر باشە دەسبەردار دەبیت لەسەر هەموو گورانکاریە خەزننەکراوەکان و لێگەریانى لاپەرى داخوازکراو. کلیک لسەرە رەدکردن بکە بو گەرانەوە بو تومارەکە"
+    confirmation_message: "بە کلیککردن لەسەر باشە دەسبەردار دەبیت لەسەر هەموو گورانکاریە خەزننەکراوەکان و لێگەریانى لاپەرى داخوازکراو. کلیک لسەرە رەدکردن بکە بو گەرانەوە بو لیستى ديار"
+    cancel_confirmation: "دلنیایت دەتەوى رەدبکەیتەوە؟"
+    logoff_warning_prefix: "توماردەبیتە بو ژورەوە"
+    logoff_warning_suffix: "سانى"
+    logoff_confirmation: "دەتەوێ بەردەوامبیت لەسەر خولەکەت؟"
+    warning: |
+        وریاکردنەوە: ئەگەر بەردەوام بىت،هەر زانیارییەک بەم بەشەوە پەیوەست بێت لەدەست دەدەیت
+        ئەگەر دلنیانیت بەشەکە لەکاربێخە
+        بو گەرانەوە کلیک لەسەر رەدکردن بکە. کلیک لەسەر باشە بکە بو سرینەوەى بەشەکە
+    enter_each_in_one_line: "هەر هەلبژارتنێک بە لاینەکى نوى پربکەرەوە"
+    record_count: "پیشاندان%{start} بو %{end} لە %{total} تومارەکان"
+    form_sections_help_text_for_edit: "کلیک لەسەر دوگمەى دەستکارى بکە بو زیادکرندى ناوەروکى %{form_section_name}"
+    form_sections_case_update_alert: "%{form_section_name} ى نوێ زیادکرا لسەر کەیسى %{alert_time}"
+    service_provision: "خزمەتگوزارى پێدراو"
+    enable_disable_record: "کلیککردن لەسەر باشە بارى ئەم تومارە دەیگورێ '%{action}'"
+    reopen_record: "کلیککردن لەسەر باشە بارى ئەم کەیسە دەیگورێ بو کردنەوە"
+    flag_multiple_records_error_message: "هەلەیەک هەیە لە دەستنیشانکرندى تومارەکە:"
+    record_not_flagged_message: "%{short_id}: دەستنیشاننەکرا"
+    invalid_date_filter_value: "هەندێک لە فیلتەرەکان جێەبجێنەکران لەبر رێککەوتێکى کارپێنەکراو. تکایە فیلتەرى رێککەوت پشکنە"
+    scroll_up: "پەنجە بو سەرەوە لەسەربدە بو بینینى زیاتر"
+    scroll_down: "پەنجە بو خوارەوە لەسەربدە بو بینینى زیاتر"
+    forms_export: "ئەم ناردنە بەرنامەیەکى خشتاندنى فورەکان و فورمى فیلدەکانى بەردەست دابیندەکات .ئەم بەرنامەى خشتاندن بو دروستکردنى نەخشەى فورمەکان و جێبەجێکردنیان بەرکادێت. تێبینى بکە کە ئەم بەرنامەى خشتاندن ناتوارێت بو هێنانەوەى زانیارى بو ناو پریمێرو بەرکابێت."
+    string_sources_failed: "هەندێ ل فیلدەکان سەرکەوتو نەبوون لە داگرتن. لاپەرەکە دووبارە بکەرەوە بو داگرتنى هەموو فیلدەکان"
+    system_settings_failed: "هەلەیەک ل پرکرندى رێکخستنى سیستەمەکەدا رویدا"
+    approval_alert: "پەسەندکردن لە چاوەروانى دایە بو %{form_name}"
+    field_change_alert: "فورمى %{form_name} نوێکرایەوە لەلایەن خزمەتگوزارى دابینکەر لە %{date}"
+    transfer_request_alert: "داخوازیەکى نوێى گواستنەوە کرا لە %{date} لەلایەن%{user} لە %{agency}"
+    loading: "باركردنةوة"
+  data_base:
+    delete_all_documents: "هەموو بەلگەکانى منال بسرەوە"
+    operation_not_allowed: "رێگە بە کردار نەدرا لە   %{rails_env} ژینگە"
+  login:
+    details: "ناوەروکى چونەژوورەوە"
+    username: "ناوى بەکارهێنەر"
+    notification:
+      enter_user_name: 'ناوى بەکارهێنەر توماربکە'
+      users_requested_password_reset: "ئەم بەکارهێنەرانە داواى نوێکردنەوەى ژمارەى نهێنیا کردووە. تکایە بە زوترین کات پەیوەندیان پێبکەن"
+      users_does_not_exist: "%{user} لە %{created}.ئەم بەکارهێنەرە ئێستا لەناو سیستەمەک بونى نییە"
+      at: "لە %{created}."
+      cannot_remember_username: "ئەگەر ناوى بەکارهێنەرت لەبیرت نەمابێت، تەنیا ناو زانیارى بەرێوەبەرێک بەکاربێنە بو ئەوەى پەیوەندى پێت بکەن"
+    password:
+      label: "ژمارەى نهێنى"
+      reset: "داخوازى سەرلەنوى کردنى ژمارەى نهێنى"
+      re_enter: "ژمارەى نهێنى دوبارەبکەرەوە"
+      success_notice: "سوپاس بوتو. بەرێوەبەرێکى FTR لە کاتێکى نێزیک پەیوەندى پێوە دەکات، ئەگەر بتوانى راستەوخو پەیوەندى بە بەرێوەبەر بکە."
+      successfully_hidden: "ورياكردنەوەى داواكاريى وشەى نهێنى بەسەركەوتووى شاررايەوە."
+    label: "چونەژوور"
+  header:
+    contact: "پەیوەندى & هاوکارى"
+    logged_in_as: "چونەژوور بە:"
+    welcome: "بەخێربێى"
+    logout: "دەرکەوتن"
+    my_account: "هەژمارەکەم"
+    system_settings: "رێکخستنێنى سیستەم"
+  navigation:
+    home: "لاپه ره ى سه ره كى"
+    cases: "كه يسه كان "
+    tracing_request: "داخوازیەکانى بەدواداچون"
+    incidents: "رووداو"
+    potential_match: "هاوبەش"
+    children: "منالةكان"
+    forms: "فورمەکان"
+    lookups: "گەراندنەوەکان"
+    users: "رێکخستن"
+    replications: "هاوکات کردن"
+    reports: "ریپورتەکان"
+    advanced_search: "لێگەریانى پێشنیارکراو"
+    go: "بەردەوامبە"
+    search: "لێگەریان"
+    locations: "شوێن"
+    bulk_exports: "ناردنەوەى بەکومەل"
+    tasks: "ئەرکەکان"
+    audit_logs: "پشکنین"
+    matching_configuration: "هاوبەش"
+  buttons:
+    delete: "بسرەوە"
+    disable: "لەکارخستن"
+    enable: "بەکارخستن"
+    save: "خەزنکرن"
+    save_and_add_service_provision: "خەزنبکە و خزمەتگوزاریە پێدراوەکان زیادبکە"
+    login: "چونەژوورەوە"
+    reunite: "یەکگرتنەوە"
+    edit: "دەستکاریکرن"
+    back: "گەرانەوە"
+    submit: "پێشکێشکردن"
+    export: "گواستنەوە"
+    import: "هێنانەوە"
+    change_password: "گوهرینى ژمارەى نهێنى"
+    enable_photo_wall: "وێنەى دواوە دەستبەکاربکە"
+    disable_photo_wall: "وێنەى دواوە لەکاربێخە"
+    create_incident: "تومارکردنى رووداو"
+    create_case: "تومارکردنى كه يسه كان"
+    guiding_questions: "پرسیارە رابەریەکان"
+    filter_label: "فیلتەر:"
+    filter: "فیلتەرى بەکاربێنە"
+    filter_clear: "فیلتەرەکە لایبە"
+    find_tracing_match: "دوزينةوةى بةيوةندى بةدواداجون"
+    flag_records: "نیشان "
+    flag_model: "نیشان%{model}"
+    unflag_model: "نیشان نەکە%{model}"
+    unflag_model_history: "مێژوویێ نیشانبکە%{model}"
+    ok: 'باشە'
+    cancel: "رەتکردن"
+    edit_subform: 'دەستکاریکردنى فورمى ناسەرەکى'
+    create_new_record: "دروستکرنى%{model} نوێ"
+    bundle_import: "پێکهاتەى خشتە"
+    bundle_export: "پێکهاتەى خشتە"
+    transfer: "گواستنەوە%{model}"
+    reassign: "دابين كردن%{model}"
+    referral: "ئاماژەپێکردن %{model}"
+    mark_for_mobile: "بو موبایل دەستنیشانبکە"
+    unmark_for_mobile: "بو موبایل دەستنیشان مەکە"
+    approve_bia: "پەسەندکرن BIA"
+    approve_case_plan: "پەسەندکرنى پلانى کەیسەکە"
+    sort_by_tr: "داخوازیەکانى بەدواداچون"
+    sort_by_case: "کەیسەکان"
+    approve_closure: "پەسەندکردنى گرتنەوە"
+    view_flags_history: "دياركردنى مێژوو"
+    request_approval: "داخوازى پەسەنکردن"
+    approvals: "پەسەندەکان"
+    accept: "رازیبون"
+    reject: "رەدکردن"
+    done: "ئەنجامدا"
+    remove_referrals: "پێشنیارەکان لایبە"
+    view: "پێداچوون"
+    request_transfer: "داخوازى گواستنەوە"
+    add_note: "تێبینى زیادبکە"
+  placeholders:
+    subforms: "کلیک لەسەر دوگمەى دەستکاریکردن بکە بو زیادکرنى زانیارى%{form} "
+    editing_subforms: "کلیک لەسەر دوگمەى زیادکردن بکە بو زیادکردنى زانیارى دەربارەى %{form} "
+  cases:
+    label: "کەیسەکان"
+    register_new_case: "کەیسى نوێ"
+    export: "ناردن"
+    filter_by:
+      flag: "دەستنیانکرا:"
+      flag_label: "دەستنیشانکرا؟"
+      mobile: " موبايل:"
+      mobile_label: "بو موبایل دەسنیشانکرا؟"
+      social_worker: "شوێن/ کەیس/ توێزەرى کومەلایەتى"
+      my_cases: "کەیسەکانم"
+      workflow: "کەیسەکان لەلایەن ستافى کار"
+      no_activity: "چالاکى نیە"
+      3month_inactivity: "بو ٣+ مانگ"
+      referred_cases: "کەیسەکانى بو لاى من هەناردەکراو"
+      agency: "دامەزراوە"
+      status: "دوخ:"
+      age_range: "رێزى تەمەن"
+      sex: "رەگەز:"
+      male: "نێر"
+      female: "مێ"
+      displacement_status: "دوخى شوێن گوراو:"
+      protection_status: "دوخى پاراستن:"
+      urgent_protection_concern: "نیگەرانى خێراى پاراستن:"
+      protection_concerns: "نیگەرانیەکانى پاراستن:"
+      type_of_risk: "جورى مەترسى:"
+      risk_level: "ئاستى مەترسى:"
+      current_location: "شوێنى نشتەجێ:"
+      district: "ناوچە:"
+      registration_date: "رێککەوتى تومارکردن"
+      case_open_date: "رێککەوتى کردنەوەى کەیس"
+      record_state: "دوخى تومارکردن:"
+      photo: "وێنە:"
+      photo_label: "وێنە هەیەتى؟ "
+      by_date: 'بە رێککەوت:'
+      date: 'رێککەوت'
+      approvals:
+        pending: "پەسەندەکە لە چاوەروانی دایە"
+        approved: "پەسەندکرا"
+        rejected: "رەدکرا"
+    clear_filter: "روونە"
+    apply_filter: "پەسەندکردن"
+    save_filter: "خەزنکرن"
+    my_filters: "فیلتەرەکانم"
+    order_by:
+      most_recently: "لەو دواییانەدا"
+      label: "راسپارد لەلایەن"
+      name: "ناو"
+    flag_summary: "پوختەکە دەستنیشانبکە"
+    filer_by:
+      all: "هەموو"
+      active: "چالاک"
+    hidden_text_field_text: "*****"
+    hide_name: "ناوەکە بشارەوە"
+    view_name: "ناوەکە دیاربکە"
+    ok: "باشە"
+    hide_name_error: "هەلەیەک لەکاتى خەزنکردنى گوهرینەکان روویدا. تکایە هەولبدەوە"
+    quick_view:
+      tracing_message: "تێبینى: هاوبەشێک هەیە لە سیستەمەکەدا لەگەل ڤەکولەر کە لەم منالە دەگەرێ. پەیوەندى بە ڤەکولەرى کومەلایەتى ئەم تومارە بکە بو کردارى تر ئەگەر منال رەزامەندى هەبێت. "
+  children:
+    label: "منالةكان"
+    register_new_child: "منالى تازە توماربکە"
+    export: "ناردن"
+    selectable_date_options:
+      registration_date: 'رێککەوتى تومارکردن'
+      assessment_requested_on: 'رێککەوتى ڤەکولینەکە'
+      date_case_plan_initiated: 'رێککەوتى پلانى کەیسەکە'
+      closure_approved_date: 'رێککەوتى داخستنى کەیسەکە'
+      created_at: 'رێککەوتى کردنەوەى کەیس'
+    filter_by:
+      label: "فیلتەر لەلایەن"
+      all: "هەموو"
+      active: "چالاک"
+      reunited: "یەکگرتەوە"
+      flag: "دەستنیانکرا"
+      created: "دروستکرا"
+    order_by:
+      most_recently: "لەو دواییانەدا"
+      label: "راسپارد لەلایەن"
+      name: "ناو"
+    flag_summary: "پوختەکە دەستنیشانبکە"
+    filer_by:
+      all: "هەموو"
+      active: "چالاک"
+      reunited: "یەکگرتەوە"
+      flagged: "دەستنیشانکرا"
+  child:
+    flagged_by: "دەستنیانکرا لەلایەن"
+    last_updated: "دوا نوێکردنەوە"
+    registered_by: "تومارکرا لەلایەن"
+    mark_as_duplicate: "وەک دووبارە دەستنیشانبکە"
+    flag_record: "نیشانەکان"
+    flag_label: "نیشان"
+    flag_reason: "ئەگەرەکە دەستنیشانبکە"
+    flag_reason_date: "رێککەوت (هەلبژاردە)"
+    unflag_record: "تومارەکە دەستنیشان مەکە"
+    unflag_reason: "ئەگەرەکە دەستنیشان مەکە"
+    unflagged_label: "ئەگەر"
+    unflag_date: "رێککەوت"
+    unflag_by: "نیشانەکە لابرا"
+    unflag_label: "نیشانەکە لایبە"
+    unflag_error_message: "تکایە ئەگەرى لابردنى نیشانەى ئەم توماربکە رونبکەرەوە"
+    id_of_record_this_duplicate_of: "ناسنامەى تومارەکا داخلبکە ئەمە دوبارەى:"
+    duplicate_header: "دەستنیشانکردنى %{child_name} وەک دووبارە"
+    flag_error_message: "تکایە رونبکەرەوە بوچى ئەم تومارە دەستنیشانت کرد"
+    flag_records_error_message: "نیشانەى ئەگەرێک بنووسە و ئەگەر رێککەوتێک زیادبکەیت دەبێت رێککەوتێکى کارپێکراو بێت"
+    selected_records_error_message: "تکایە تومارەک یان زیاتر دەستنیشانبکە"
+    investigation_details: "ناوەروکى لێکولینەوە:"
+    reunite_details: "ناوەروکى یەکگرتنەوە"
+    another_duplicate_before_link: "تومارەکى ترى ئەمە دەستنیشانکراوە وەک دووبارە. کلیک"
+    another_duplicate_after_link: "بو بینینى تومارى دووبارە."
+    export_error: "هیچ تومارێک لەبەردەست نیە"
+    id: "ناسنامە#"
+    name: "ناو"
+    age: "تەمەن"
+    sex: "رەگەز"
+    registration_date: "رێککەوتى تومارکردن"
+    status: "دوخ"
+    match_record: "هاوبەش"
+    match_record_success: "تومارەکان هاوبەشن"
+    match_record_failed: "هاوبەشەکە نەبینرا"
+    messages:
+      update_success: "کەیسى {record_id} بەسەركەوتووى نوێکرا"
+      investigation_error_message: "تکایە دوپاتبکەروە کە تومارى دەستنیشانکراو لێکولینەوەى بو کراوە, زانیاریتر زیادبکە ئەگەر هەیەتى"
+      undo_investigation_error_message: "ناوەروکى لێکولینەوە هەلبوەشێنەوە:"
+      reunite_error_message: "تکایە دوپاتبکەرەوە کە ئەم منالە لەگەل چاودێر یان خێزانەکى یەکگرتەوە، رونکرنەوى تر زیادبکە ئەگەر هەیەتى"
+      undo_reunite_error_message: "تکایە دوپاتبکەوە کە منالەکە یەک نە گرتوتەوە لەگەل خێزانى، رونکرنەوەى تر زیادبکە ئەگەر هەیەتى"
+      see_full_size: "کلیک لەسەر وێنەکە بکە بو بینینى قەبارەى تەواو"
+      creation_success: "تومارى کەیىسى %{record_id} بەسەركەوتووى دروستکرا"
+      not_found: "منالى داخوازکراو لسەرە ئەم ناسنامەیە نەدوزرا"
+      confirm_duplicate: "دلنیایى لەسەر بەردەوامبوون؟ ئەگەر بەلێ، کلیک لەسەر باشە بکە. ئەگەر نەخێر، کلیک لەسەر رەدکردن بکە."
+      create_details_error: "دلنیابە کە تەنیا یەک کەیس دیارکراوە"
+    actions:
+      mark_as_investigated: "دەستنیشانبکە کە لێکولینەوەى بو کراوە"
+      mark_as_reunited: "دەستنیشانبکە کە لەگەل خێزانى یەکگرتوتەوە"
+      export_to_photo_wall: "وێنەى پشتەوە بیهێنە"
+      export_to_pdf: "PDF بیهێنە"
+      export_to_csv: "CSV بیهێنە"
+      change_log: "لوگوکە بگورە"
+      mark_as_not_investigated: "دەستنیشانبکە کە لێکولینەوەى بو نەکراوە"
+      reunited: "دەستنیشانبکە کە لەگەل خێزانى یەکگرتوتەوە"
+      reunited_details: "ناوەروکى یەکگرتنەوە"
+      reunite: "یەکگرتن"
+      not_reunited: "دەستنیشانبکە کە لەگەل خێزانى یەک نەگرتوتەوە"
+      undo_reunited_details: "لە ئەگەرى یەگکرتنەوە پاشگەزبە"
+      undo_reunite: "پاشگەزبە لە یەکگرتن"
+      investigation_details: "ناوەروکى لێکولینەوە"
+      undo_investigation_details: "لە ناوەرکى لێکولینەوە پاشگەزبە"
+      undo_investigated: "پاشگەزبە لە لێکولینەوە"
+      cancel: "رەدکردن"
+      delete_photo: "وێنەکە بسرێتەوە؟"
+      delete_audio: "دەنگەکە بسرێتەوە؟"
+      delete_document: "زانیارى بسرێتەوە؟"
+      choose_as_primary_photo: "وەک وێنەى سەرەکى هەلبژێرە"
+      rotate_anti_clockwise: " بە پێچەوانەى ئاراستەى میلى کاتژمێر بخولێنەوە"
+      restore_image: "وێنەى بنەرەت هەلیگرە"
+      rotate_clockwise: " بە ئاراستەى میلى کاتژمێر بخولێنەوە"
+      view_full_size_photo: "وێنەکە بە قەبارەى تەواو پیشانبدە"
+    change_log: "لوگوکە بگورە"
+    flagged_as_suspected: "دەستنیانکرا لەلایەن"
+    posted_from_mobile: "لەلایەن بکرى موبایلەکەوە بلاوکراوە"
+    edit_photo: "دەستکاریکردنى وێنە"
+    manage_photos: "رێکخستنى وێنەکان"
+    view: "کەیسى %{short_id} پیشانبدە"
+    edit: "دەستکاریکرندى کەیس"
+    mark_child_as_duplicate: "%{short_id} وەک دووبارە دەستنیشانبکە"
+    history_of: "مێژووى%{short_id}"
+  saved_search:
+    save_success: "بەدواگەران بەسەركەوتووى خەزنکرا"
+    save_error: "خەزنکردنەکە سەرکەوتونەبوو"
+    deleted: "بەدواگەران بەسەركەوتووى سرييەوە"
+    delete_error: "سرینەوە سەرکەوتونەبوو"
+    saved_searches_tab: "لێگەریانى حەزنکراو"
+    filters_tab: "فیلتەرەکان"
+  task:
+    id: "ناسنامە#"
+    priority: "ئاستى پێشى"
+    type: "جورى کردار"
+    due_date: "رێککەوتى گونجاو"
+    types:
+      assessment: "لێکولینەوە"
+      case_plan: "پلانی كەیسەكە"
+      follow_up: "دوزینەوەى١ %{subtype}"
+      service: "خزمەتگوزارى١%{subtype}"
+  case:
+    create_new_case: "کەیسى نوێ توماربکە"
+    enter_id_number: "ژمارەى ناسنامەکە داخلبکە بو لێگەریانى تومارى هەیى"
+    id_number_required: "ژمارەى ناسنامەکە پێویستە"
+    id_search_no_results: "هیچ گونجادنەک لە سیستەمەکەدا نیە بو %{id}، تکایە تومارى نوێ دروستبکە"
+    id_search_results_html: "بو 1%{id}1"
+    label: "ناسنامەى كەیسەكە"
+    workflow:
+      created_on: "دروستکراوە دەربارەى"
+      on_label: "دەربارەى"
+      in_progress: "لە پێشەوةدایە"
+      new: "نوێ"
+      closed: "داخراو"
+      reopened: "دوبارەکراوەتەوە"
+      service_implemented: خزمەتگوزاریەکە جێبەجێکرا
+      services_implemented: خزمەتگوزاریەکە جێبەجێکرا
+      case_plan: "پلانی كەیسەكە"
+      assessment: "لێکولینەوە"
+    flagged_by: "دەستنیانکرا لەلایەن"
+    last_updated: "دوا نوێکردنەوە"
+    registered_by: "تومارکرا لەلایەن"
+    mark_as_duplicate: "وەک دووبارە دەستنیشانبکە"
+    flag_record: "تومارەکە دەستنیشابکە"
+    flag_label: "نیشان"
+    flag_reason: "ئەگەرەکە دەستنیشانبکە"
+    flag_reason_date: "رێککەوت (هەلبژاردە)"
+    unflag_record: "تومارەکە دەستنیشان مەکە"
+    unflag_reason: "ئەگەرەکە دەستنیشانمەکە"
+    unflagged_label: "ئەگەر"
+    unflag_date: "رێککەوت"
+    unflag_by: "نیشانەکە لابرا"
+    unflag_label: "دەستنیشان مەکە"
+    unflag_error_message: "تکایە ئەگەرى لابردنى نیشانەى ئەم توماربکە رونبکەرەوە"
+    id_of_record_this_duplicate_of: "ناسنامەى تومارەکا داخلبکە ئەمە دوبارەى:"
+    duplicate_header: "دەستنیشانکردنى %{child_name} وەک دووبارە"
+    flag_error_message: "تکایە رونبکەرەوە بوچى ئەم تومارە دەستنیشانت کرد"
+    investigation_details: "ناوەروکى لێکولینەوە:"
+    reunite_details: "ناوەروکى یەکگرتنەوە"
+    another_duplicate_before_link: "تومارەکى ترى ئەمە دەستنیشانکراوە وەک دووبارە. کلیک"
+    another_duplicate_after_link: "بو بینینى تومارى دووبارە."
+    select: "هەلبژێرە"
+    id: "ناسنامە#"
+    name: "ناو"
+    age: "تەمەن"
+    sex: "رەگەز"
+    registration_date: "رێککەوتى تومارکردن"
+    status: "دوخ"
+    social_worker: "توێزەرى کومەلایەتى"
+    survivor_code: "کودى رزگاربوى"
+    case_opening_date: "رێککەوتى کردنەوەى کەیس"
+    photo: "وێنە"
+    owned_by: 'خاوەنى تومارەکە'
+    owned_by_agency: 'دامەزراوى خاوەنى تومارەکە'
+    messages:
+      update_success: "کەیسى %{record_id} بەسەركەوتووى نوێکرا"
+      investigation_error_message: "تکایە دوپاتبکەروە کە تومارى دەستنیشانکراو لێکولینەوەى بو کراوە, زانیاریتر زیادبکە ئەگەر هەیەتى"
+      undo_investigation_error_message: "ناوەروکى لێکولینەوە هەلبوەشێنەوە"
+      reunite_error_message: "تکایە دوپاتبکەرەوە کە ئەم منالە لەگەر چاودێر یان خێزانەکى یەکگرتەوە، رونکرنەوى تر زیادبکە ئەگەر هەیەتى"
+      undo_reunite_error_message: "تکایە دوپاتبکەرەوە کە پێویستە کەیسەکە دەستنیشانبکرێت کە لەگەر  خێزانەکى یەکنەگرتوتەوە، رونکرنەوى تر زیادبکە ئەگەر هەیەتى"
+      see_full_size: "کلیک لەسەر وێنەکە بکە بو بینینى قەبارەى تەواو"
+      creation_success: "تومارى کەیسەکە  بەسەركەوتووى  دروستکرا"
+      not_found: "منالى داخوازکراو لسەر ئەم ناسنامەیە نەدوزرا"
+      confirm_duplicate: "دلنیایى لەسەر بەردەوامبوون؟ ئەگەر بەلێ، کلیک لەسەر باشە بکە. ئەگەر نەخێر، کلیک لەسەر رەدکردن بکە."
+    actions:
+      mark_as_investigated: "دەستنیشانبکە کە لێکولینەوەى بو کراوە"
+      mark_as_reunited: "دەستنیشانبکە کە لەگەل خێزانى یەکگرتوتەوە"
+      change_log: "لوگوکە بگورە"
+      mark_as_not_investigated: "دەستنیشانبکە کە لێکولینەوەى بو نەکراوە"
+      reunited: "دەستنیشانبکە کە لەگەل خێزانى یەکگرتوتەوە"
+      reunited_details: "ناوەروکى یەکگرتنەوە"
+      reunite: "پێکئینان"
+      not_reunited: "دەستنیشانبکە کە لەگەل خێزانى یەک نەگرتوتەوە"
+      undo_reunited_details: "لە ئەگەرى یەگکرتنەوە پاشگەزبە"
+      undo_reunite: "پاشگەزبە لە یەکگرتن"
+      investigation_details: "ناوەروکى لێکولینەوە"
+      undo_investigation_details: "لە ناوەرکى لێکولینەوە پاشگەزبە"
+      undo_investigated: "پاشگەزبە لە لێکولینەوە"
+      cancel: "رەتکردن"
+      delete_photo: "وێنەکە بسرێتەوە؟"
+      delete_audio: "دەنگەکە بسرێتەوە؟"
+      choose_as_primary_photo: "وەک وێنەى سەرەکى هەلبژێرە"
+      rotate_anti_clockwise: " بە پێچەوانەى ئاراستەى میلى کاتژمێر بخولێنەوە"
+      restore_image: "وێنەى بنەرەت هەلیگرە"
+      rotate_clockwise: " بە ئاراستەى میلى کاتژمێر بخولێنەوە"
+      view_full_size_photo: "وێنەکە بە قەبارەى تەواو پیشانبدە"
+    change_log: "لوگوکە بگورە"
+    flagged_as_suspected: "دەستنیانکرا لەلایەن"
+    posted_from_mobile: "لەلایەن بکرى موبایلەکەوە بلاوکراوە لە:"
+    edit_photo: "دەستکاریکردنى وێنە"
+    manage_photos: "رێکخستنى وێنەکان"
+    view: "کەیسى %{short_id}پیشانبدە"
+    edit: "دەستکاریکرندى کەیس"
+    mark_child_as_duplicate: "%{short_id} وەک دووبارە دەستنیشانبکە"
+    history_of: "مێژووى %{short_id}"
+    incident_details_separator: "زانیارى روداوەکە"
+    services_section_separator: "هەلسەنگاندنى وەلامەکە"
+  incidents:
+    label: "رووداو"
+    register_new_incident: "رووداوى نوێ"
+    selectable_date_options:
+      date_of_first_report: "رێککەوتى چاوپێکەوتنەکە"
+      incident_date_derived: "رێککەوتى روداوەکە"
+    filter_by:
+      flag: "دەستنیانکرا:"
+      flag_label: "دەستنیشانکرا؟"
+      mobile: " تەلەفون:"
+      mobile_label: "بو موبایل دەسنیشانکرا؟"
+      violation: "توندوتیژى:"
+      violence_type: "جورى توندوتیژى:"
+      social_worker: "لێکولەرى کەیس:"
+      status: "دوخ:"
+      age_range: "رێزى تەمەن"
+      children: "منالةكان"
+      boys: "کورەکان"
+      girls: "کچەکان"
+      unknown: "نه نیاس"
+      verification_status: "دوخى پالپشتى:"
+      incident_location: "شوێنى رووداوەکە:"
+      incident_date: "رێککەوتى روداوەکە"
+      unaccompanied_separated_status: "دوخى پاراستن:"
+      armed_force_group_name: "هێزى چەکدار یان گروپ:"
+      armed_force_group_type: "جورى هێزى چەکدار یان گروپ:"
+      record_state: "دوخى تومارکردن:"
+      interview_date: "رێککەوتى چاوپێکەوتنەکە"
+  incident:
+    label: "ناسنامەى رووداوەکە"
+    flagged_by: "دەستنیشانکرا لەلایەن"
+    last_updated: "دوا نوێکردنەوە"
+    registered_by: "تومارکرا لەلایەن"
+    mark_as_duplicate: "وەک دووبارە دەستنیشانبکە"
+    flag_record: "نیشانەکان"
+    flag_label: "نیشان"
+    flag_reason: "ئەگەرەکە دەستنیشانبکە"
+    flag_reason_date: "رێککەوت (هەلبژاردە)"
+    unflag_record: "تومارەکە دەستنیشان مەکە"
+    unflag_reason: "ئەگەرەکە دەستنیشان مەکە"
+    unflagged_label: "ئەگەر"
+    unflag_date: "رێککەوت"
+    unflag_by: "نیشانەکە لابرا"
+    unflag_label: "دەستنیشان مەکە"
+    unflag_error_message: "تکایە ئەگەرى لابردنى نیشانەى ئەم توماربکە رونبکەرەوە"
+    flagged_as_suspected: "دەستنیشانکرا لەلایەن"
+    id_of_record_this_duplicate_of: "ناسنامەى تومارەکە داخلبکە کە ئەمە دوبارەى:"
+    duplicate_header: "دەستنیشانکردنى %{child_name}وەک دووبارە"
+    flag_error_message: "تکایە رونبکەرەوە بوچى ئەم تومارە دەستنیشانت کرد"
+    flag_records_error_message: "نیشانەى ئەگەرێک بنووسە و ئەگەر رێککەوتێک زیادبکەیت دەبێت رێککەوتێکى کارپێکراو بێت"
+    selected_records_error_message: "تکایە تومارەک یان زیاتر دەستنیشانبکە"
+    investigation_details: "ناوەروکى لێکولینەوە:"
+    reunite_details: "ناوەروکى یەکگرتنەوە:"
+    another_duplicate_before_link: "تومارەکى ترى ئەمە دەستنیشانکراوە وەک دووبارە. کلیک"
+    another_duplicate_after_link: "بو بینینى تومارى دووبارە."
+    violation_status_verified: "سەلماند"
+    empty_violation: "بو زیادکردنى توندوتیژیەکان، جورەکانى توندوتیژى زیادبکە لە ناو فورمى رووداو و بینینى فورمى توندوتیژى گونجاو"
+    add_violations: "کلیک لەسەر زیادکردن بکە بو چوونە ناو زانیاریەکانى توندوتیژى."
+    create_incident_cp: "تومارى رووداوێک دروستبکە کە ریپورتبکرێت؟"
+    link_to_incident: "لینکى بو رووداوەکە"
+    messages:
+      update_success: "رووداو %{record_id}  بەسەركەوتووى نوێکرا."
+      creation_success: "تومارى رووداو%{record_id}  بەسەركەوتووى دروستکرا."
+    view: "رووداوەکە پیشانبدە %{record_id}"
+    edit: "دەستکاریکرندى رووداوەکە"
+    select: "هەلبژێرە"
+    id: "ناسنامە#"
+    survivor_code: "کودێ رزگاربوى"
+    case_worker_code: "کودى لێکولەرى کەیس"
+    date_of_interview: "رێککەوتى چاوپێکەوتنەکە"
+    date_of_incident: "رێککەوتى روداوەکە"
+    violence_type: "جورى توندوتیژى"
+    incident_location: "شوێنى رووداوەکە"
+    violations: "توندوتیژیەکان"
+    social_worker: "لێکولەرى کومەلایەتى"
+    change_log: "لوگوکە بگورە"
+    actions:
+      change_log: "لوگوکە بگورە"
+    history_of: "مێژووى%{record_id}"
+    violation:
+      violation: "توندوتیژى"
+      pending: 'پالپشتى لە چاوەروانی دایە'
+      killing: "کوشتن"
+      maiming: "پەککردن"
+      recruitment: "بەسەربازکردن"
+      sexual_violence: "توندوتیژى جەستەیى"
+      abduction: "رفاندنى مروڤ"
+      attack_on_schools: "پەلامار لە قوتابخانەکان"
+      attack_on_hospitals: "پەلامار لە نەخوشخانەکان"
+      denial_humanitarian_access: "رێنەدان بە خزمەتگوزارى خێرخوازى"
+      other_violation: "توندوتیژیەکانى تر"
+  tracing_request:
+    label: "ناسنامەى لێکولەر"
+    register_new_tracing_request: "داخوازیى نوێ بەدواداچون"
+    name_of_inquirer: "ناوى لێکولەرەکە"
+    date_of_inquiry: "رێککەوتى لێکولینەوە"
+    tracing_requests: "داخوازیەکانى بەدواداچون"
+    change_log: "لوگوکە بگورە"
+    last_updated: "دوا نوێکردنەوە"
+    registered_by: "تومارکرا لەلایەن"
+    edit_photo: "دەستکاریکردنى وێنە"
+    flag_record: "نیشانەکان"
+    flag_label: "نیشان"
+    flag_reason: "ئەگەرەکە دەستنیشانبکە"
+    flag_reason_date: "رێککەوت (هەلبژاردە)"
+    flag_records_error_message: "نیشانەى ئەگەرێک بنووسە و ئەگەر رێککەوتێک زیادبکەیت دەبێت رێککەوتێکى کارپێکراو بێت"
+    selected_records_error_message: "تکایە تومارەک یان زیاتر دەستنیشانبکە"
+    unflag_record: "تومارەکە دەستنیشان مەکە"
+    unflag_reason: "ئەگەرەکە دەستنیشان مەکە"
+    unflagged_label: "ئەگەر"
+    unflag_date: "رێککەوت"
+    unflag_by: "نیشانەکە لابرا"
+    unflag_label: "نیشان نەکە"
+    unflag_error_message: "تکایە ئەگەرى لابردنى نیشانەى ئەم توماربکە رونبکەرەوە"
+    flag_error_message: "تکایە رونبکەرەوە بوچى ئەم تومارە دەستنیشانت کرد"
+    flagged_as_suspected: "دەستنیانکرا لەلایەن"
+    find_match: "هاوبەشەکە بدوزەوە"
+    actions:
+      change_log: "لوگوکە بگورە"
+      delete_photo: "وێنەکە بسرێتەوە؟"
+      delete_audio: "دەنگەکە بسرێتەوە؟"
+    messages:
+      update_success: "داخوازیى بەدواداچون %{record_id} بە سەرکەوتووى نوێکرا"
+      creation_success: "داخوازی بەدواداچونى تومار %{record_id}بەسەرکەوتووى دروستکرا"
+    view: "پیشاندانى داخوازی بەدواداچون %{record_id}"
+    edit: "دەستکاریکرندنى داخوازى بەدواداچوون"
+    select: "هەلبژێرە"
+    id: "ناسنامە#"
+    enquirer_name: "ناوى لێکولەر"
+    enquirer_date: "رێککەوتى لێکولینەوە"
+    history_of: "مێژووى %{short_id}"
+  tracing_requests:
+    register_new_tracing_request: "داخوازی  نوێى بەدواداچون"
+    export: "ناردن"
+    selectable_date_options:
+      inquiry_date: "رێککەوتى لێکولینەوە"
+    filter_by:
+      flag: "دەستنیانکرا:"
+      flag_label: "دەستنیانکرا؟"
+      social_worker: "شوێن/ کەیس/ لێکولەرى کومەلایەتى"
+      inquiry_date: "رێککەوتى لێکولینەوە:"
+      inquiry_status: "دوخى لێکولینەوە:"
+      location_separation: "شوێنى جیابونەوە:"
+      separation_cause: "ئەگەرى جیابونەوە:"
+      record_state: "دوخى تومارەکە:"
+  potential_matches:
+    empty: "تکایە بە رێگاى داخوازی بەدواداچون بو ناو هاوبەشەکان بچو"
+    no_match: "هیچ هاوبەشەک لە سیستەمەکەدا نیە بو  %{type} %{id}"
+    display: "هاوبەشە شاراوەکان پیشانبدە بو  %{type} %{id}"
+    filter_by:
+      score_range: "مەوداى خال"
+      age_range_case: "مەوداى تەمەنى کەیسەکان"
+      age_range_tracing_request: "مەوداى تەمەن هى داخوازیەکانى بەدواداچون"
+      sex_case: "رەگەزى کەیسەکە"
+      sex_tracing_request: "رەگەز هى داخوازیەکانى بەدواداچون"
+      male: "نێر"
+      female: "مێ"
+  potential_match:
+    header_key: "پێوانەى هاوبەش:"
+    inquirer_id: 'ناسنامەى لێكولەر#'
+    inquirer_name: 'ناوى لێکولەرەکە'
+    inquiry_date: 'رێککەوتى لێکولینەوە'
+    inquirer_tr_name: 'داخوازى بەدواداچون'
+    child_id: 'ناسنامەى منال#'
+    child_age: 'تەمەن'
+    child_gender: 'رەگەز'
+    child_date_of_birth: 'رێککەوتى لەدایکبون'
+    reg_date: 'رێککەوتى تومارکردن'
+    social_worker: 'ڤەکولەرى کومەلایەتى'
+    social_worker_agency: 'دامەزراوە'
+    score: 'خال'
+    show_more: 'زیاتر پیشانبدە'
+    show_less: 'کەمتر پیشانبدە'
+    trace: 'به دواداجوون'
+    case: ' کەیس'
+    name: 'ناو'
+    name_other: 'ناوةكى تر'
+    name_nickname: 'ناز ناو'
+    likelihood:
+      likely: 'لەوانەیە'
+      possible: 'لەوانەیە'
+  duplicates:
+    clear_filter: 'روونە'
+    filter_by:
+      name: "ناو"
+      name_nickname: "ناز ناو"
+      name_other: "ناوةكى تر"
+      sex: "رەگەز"
+      age: "تەمەن"
+      date_of_birth: "رێککەوتى لەدایکبون"
+  audit_log:
+    timestamp: "دیارکەرى کاتى رووداو- UTC"
+    user_name: "ناوى بەکارهێنەر"
+    action: "کردار"
+    description: "وەسفکردن"
+    record_owner: "خاوەنى تومارەکە"
+  audit_logs:
+    action_options:
+      login: "چونەژوور"
+      logout: "دەرکەوتن"
+      create: "درووستکردن"
+      copy: "کوپیکردن"
+      destroy: "سرینەوە"
+      show: "پیشاندان"
+      edit: "دەستکاریکردن"
+      update: "نوێکردنەوە"
+      export: "ناردنى زانیارى بو"
+      referral: "پێشنیارکردن"
+      reassign: "دابين دەکرێت"
+      transfer: "گواستنەوە"
+      reopen_case: "دوبارەدەکرێتەوە"
+    filter_by:
+      action: 'ناوى کردار'
+      date: 'رێککەوت'
+      timestamp: 'دیارکەرى کاتى رووداو'
+      user: 'ناوى بەکارهێنەر'
+  preposition:
+    on_label: "دەربارەى"
+    because: "چونکە"
+    at_label: "لە"
+  pagination:
+    zero: "هیچ %{model} نەدوزرا"
+    page_entries_info: پیشاندان_دەستپێکردن_بو_ کوتایى_هى_ سەرجەم_ %{model}
+  users:
+    unverified: "بەکارهێنەرە پالپشتى نەکراوەکان"
+    select_role: "تکایە رولەکى هەلبژێرە پێش پالپشتى کردنى بەکارهێنەر"
+    manage: "بەرێوەبردنى بەکارهێنەرەکان"
+    label: "بەکارهێنەرەکان"
+    create: "بەکارهێنەر دروستبکە"
+    account_details: "زانیاریەکانى هەژمار"
+    actions:
+      show_all: "پیشاندانى هەموویان"
+      show: "پیشانبدە"
+      edit: "دەستکاریکرن"
+    messages:
+      disable: 'دلنیایى دەتەوى ئەم بەکارهێنەرە لەکاربێخى؟'
+    sort_by:
+      label: "بە جورى"
+      full_name: "ناوى سێقولى"
+      agency: "دامەزراوە"
+    filter_by:
+      status: "دوخ"
+      enabled: "تواناپێدرا"
+      disabled: "لەکارخست"
+      agency: "دامەزراوە"
+    register_new_user: "بەکارهێنەر دروستبکە"
+  roles:
+    label: "رۆلەکان"
+    list: "لیستى رۆلەکان"
+    sort_by:
+      label: "بە جورى"
+      ascending: "بەرزبوونەوە"
+      descending: "نزمبوونەوە"
+    name: "ناوى رولەکە"
+    actions:
+      show_all: "پیشاندانى هەموویان"
+      show: "پیشانبدە"
+      edit: "دەستکاریکرن"
+      update: "نوێکردن"
+      create: "دروستبکە"
+      delete: "بسرەوە"
+      copy: "کوپىبکە"
+    view: "رولەکە پیشانبدە"
+    messages:
+      confirmation: "دلنیایى دەتەوێ ئەم رولە بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى رولەکە"
+  role:
+    create: "رول دروستبکە"
+    edit: "دەستکاریکردنى رولەکە"
+    name: "ناو"
+    description: "وەسفکردن"
+    successfully_updated: "زانیاریەکانى رولەکە  بەسەركەوتووى نوێکرا."
+    error_in_updating: "هەلەیەک ل نوێکردنەوەى زانیاریەکانى رولەکەدا رویدا."
+    copy_success: "رولەکە  بەسەركەوتووى کوپیکرا."
+    copy_failure: "هەلە لە کوپیکردنى رولدا. دلنیابە ناوەکە دژ بە هیچ رولەکى تر نیە"
+    transfer_label: "دەتوانرێت ئەم رولە بو گواستنەوە بەکاربێت؟"
+    referral_label: "دەتوانرێت ئەم رولە بو پێشنیارکردن بەکاربێت؟"
+    group_permission_label: "ئەم رولە کارتێکرن لە کام تومارەکان دەکات؟"
+    role_ids_label: "رۆلەکان تر لەلایەن ئەم رولە بەرێوەبردن"
+  agencies:
+    logo: 'لوگو'
+    logo_enabled: 'توانادان بە لوگو؟'
+    label: "دامەزراوە"
+    view: "دامەزراوە پیشانبدە"
+    successfully_created: "دامەزاروە  بەسەركەوتووى دروستکرا."
+    successfully_updated: "دامەزاروە  بەسەركەوتووى نوێکرا."
+    actions:
+      show_all: "پیشاندانى هەموویان"
+      show: "پیشانبدە"
+      edit: "دەستکاریکرن"
+      update: "نوێکردن"
+      create: "دروستبکە"
+      delete: "بسرەوە"
+    filter_by:
+      status: "دوخ"
+      enabled: "تواناپێدرا"
+      disabled: "لەکارخست"
+    messages:
+      confirmation: "دلنیایى دەتەوێ ئەم دامەزاروە بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى دامەزراوەکە"
+    select_prompt: "تکایە دامەزاوەیەک هەلبژێرە"
+    error_in_updating: "هەلەیەک لە نوێکردنەوەى زانیاریەکانى دامەزاروەکا رویدا"
+  agency:
+    edit: 'دەستکاریکردنى دامەزراو'
+    name: 'ناوى دامەزراوە'
+    code: 'کودى دامەزراوە'
+    services: 'خزمەتگوزارى دامەزراوه كانى'
+  system_settings:
+    label: "رێکخستنێن سیستەمى"
+    edit: "دەستکاریکردنى رێکخستنەکانى سیستەم"
+    show: "رێکخستنێن سیستەمى"
+    updated: "رێکخستنى سیستەمەکە  بەسەركەوتووى نوێکرا"
+    primero_version: "ڤێرژنى سیستەمەکە"
+  primero_modules:
+    label: "نموونەکان"
+    view: "پیشاندانى نموونە"
+    actions:
+      show_all: "پیشاندانى هەموویان"
+      show: "پیشانبدە"
+      edit: "دەستکاریکرن"
+      update: "نوێکردن"
+      create: "دروستبکە"
+      delete: "بسرەوە"
+    messages:
+      confirmation: "دلنیایى دەتەوێ ئەم نموونەیە بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى نموونەکە"
+      invalid: "نموونە(کانى) کارپێنەکراو"
+  primero_module:
+    create: "دروستکردنى نموونە"
+    edit: "دەستکاریکردنى نموونە"
+    show: "پێداچوون"
+    name: "ناو"
+    description: "وەسفکردن"
+    successfully_updated: "زانیاریەکانى نموونە بەسەركەوتووى نوێکرا."
+    error_in_updating: "هەلەیەک لە نوێکردنەوەى زانیاریەکانى نموونەدا رویدا"
+    record_type: "جورەکانى تومار بو ئەم نموونە"
+    forms: "فورمەکان بو ئەم نموونەیە دابين دەکرێن"
+    program: "پروگرام"
+    associated_record_types: "جورى تومارە هاوبەشەکان"
+    associated_form_ids: "ناسنامەى فورمى هاوبەش"
+  primero_programs:
+    label: "پروگرام"
+    view: "پروگرامەکە پیشانبدە"
+    actions:
+      show_all: "پیشاندانى هەموویان"
+      show: "پیشانبدە"
+      edit: "دەستکاریکرن"
+      update: "نوێکردن"
+      create: "دروستبکە"
+      delete: "بسرەوە"
+    messages:
+      confirmation: "دلنیایى دەتەوێ نموونەى پروگرام بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى نموونى پروگرام."
+  primero_program:
+    create: "دروستکردنى پروگرام"
+    edit: "دەستکاریکردنى پروگرام"
+    show: "پیشاندان"
+    name: "ناو"
+    description: "وەسفکردن"
+    start_date: "رێککەوتى دەستپێکردنى پروگرامەکە"
+    end_date: "رێککەوتى کوتایى پروگرامەکە"
+    successfully_updated: "زانیاریەکانى پروگرامەکە  بەسەركەوتووى نوێکرا"
+    error_in_updating: "هەلەیەک لە نوێکردنى زانیاریەکانى  پروگرامەکەدا رویدا"
+  user_groups:
+    label: "گروپەکانى بەکارهێنەر"
+    view: "پیشاندانى گروپى بەکارهێنەر"
+    actions:
+      show_all: "پیشاندانى هەموویان"
+      show: "پیشانبدە"
+      edit: "دەستکاریکرن"
+      update: "نوێکردن"
+      create: "دروستبکە"
+      delete: "بسرەوە"
+    messages:
+      confirmation: "دلنیایى دەتەوێ ئەم گروپى بەکارهێنەر بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى گروپى بەکارهێنەر."
+  user_group:
+    create: "گروپى بەکارهێنەر دروستبکە"
+    edit: "دەستکاریکردنى گروپى بەکارهێنەرەکان"
+    name: "ناو"
+    description: "وەسفکردن"
+    successfully_updated: "زانیاریەکانى گروپى بەکارهێنەر  بەسەركەوتووى نوێکرا"
+    error_in_updating: "هەلەیەک لە نوێکردنەوەى زانیارىەکانى گروپى بەکارهێنەردا رویدا"
+  user:
+    label: "بەکارهێنەر"
+    full_name: "ناوى سێقولى"
+    code: "کۆدى بەکارهێنەر"
+    history_of: "مێژووى %{user_name}"
+    disabled: "لەکارخست"
+    services: "خزمەتگوزاریەکان"
+    position: پۆست
+    actions:
+      delete: "بسرەوە"
+    messages:
+      confirmation: "دلنیایى دەتەوێ ئەم بەکارهێنەرە بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى بەکارهێنەر"
+      created: "بەکارهێنەر بەسەركەوتووى دروستکرا"
+      updated: "بەکارهێنەر بەسەركەوتووى  نوێکرا"
+      not_found: "بەکارهێنەر بەم ناسناوە نەدوزرا"
+      passwords_do_not_match: "لەگەر ژمارەى نهێنى کارپێکراو ناگونجێت"
+      password_changed_successfully: "ژمارەى نهێنى بەسەركەوتووى گورا"
+      time_zone_updated: "گورانکارى بەسەركەوتووى نوێکرا"
+    update: "نوێکردن"
+    verify: "پالپشتى"
+    create: "دروستبکە"
+    no_blank: "ناوى بەکارهێنەر بوشایى لەخوناگرێ"
+    manage_password: "گوهرینا ژمارا نهێنى"
+    old_password: "ژمارەى نهێنى کون"
+    new_password: "ژمارەى نهێنى نوێ"
+    password_strength: "ژمارەى نهێنى دەبێ لە 8 پيت زیاتر پێک بێت و ژمارە و پیتەکان لەخۆ بگرێ"
+    new_password_confirmation: "ژمارەى نهێنى نوێ دوپاتبکەرەوە"
+    new: "بەکارهێنەرى نوێ"
+    user_action_history: "مێژووى کردارى بەکارهێنەر"
+    no_activity: "هیچ چالاکیەک نیە"
+    location: "شوێن"
+    organization: "رێکخراو"
+    agency: "دامەزراوە"
+    manager: "بەرێوەبەر"
+    send_mail: "وەرگرتنى وریاکردنەوەى ئیمێل؟"
+    welcome_email:
+      greeting: "بەخێربێن بو پریمێرو"
+      url_label: "پریمێرو"
+      enabled_label: "ئیمێلى بەخێرهاتن بنێرە؟"
+      text_label: "دەقى ئیمێلى بەخێرهاتن"
+  phone: "موبایل"
+  email: "ئیمێل"
+  organization: "رێکخراو"
+  position: "پۆست"
+  'false': "هەلە"
+  'true': "راستە"
+  mandatory_field: "دەستنیشانکردنى شوێنەکان زورەملى نە"
+  add: "زیادبکە"
+  belonging_to: "تایبەتە بە"
+  imei: "IMEI"
+  blacklisted: "لیستى رەش؟"
+  visible_for_web: "بینراو بو ئەپلیکەیشنى وێب"
+  visible_for_mobile: "بینراو بو ئەپلیکەیشنى موبایل"
+  hidden: "شاردرانەوە"
+  help_text: "دەقى هاوکارى"
+  multi_select: "هەلبژاردنى زور"
+  option_strings_source: "رێزى سەرچاوەى بژاردە"
+  discard: "دەستبەرداردەبێت"
+  form: "فورم"
+  details: "زانیاریەکان"
+  enabled: "تواناپێدرا"
+  status: "دوخ"
+  devices: "ئامێرەکان"
+  replications: "دوپاتکردنەوە"
+  provide_translation: "وەرگێران دابینبکە بو"
+  select_language: "زمانەک هەلبژێره"
+  hide_on_view_page: "لەسەر لاپەرى سەرەکى بشارەوە"
+  show_on_short_form: "لەسەر شێوەى فورمى کورت پیشانبدە"
+  last_login: "کۆتا چونەژوور"
+  record: "تومار"
+  description: "وەسفکردن"
+  unique_id: "ناسنامەى بێهاوتا"
+  permissions:
+    label: "رێگەپێدانەکان"
+    Actions: "کردارەکان"
+    Resources: "سەرچاوەکان"
+    Management: "بەرێوەبردن"
+    group:
+      actions: "کردارەکان"
+      resources: "سەرچاوەکان"
+      resource: "سەرچاوەکان"
+      management: "بەرێوەبردن"
+    permission:
+      read: "بخوێنە"
+      write: "بنووسە"
+      enable_disable_record: "لەکاربێخە"
+      flag: "نیشان"
+      assign: "دابين كردن"
+      case: " کەیس"
+      incident: "رویدان"
+      tracing_request: "داخوازى بەدواداچون"
+      potential_match: "هاوبەشە شاراوەکان"
+      role: "رولەکان"
+      user: "بەکارهێنەرەکان"
+      user_group: "گروپەکانى بەکارهێنەر"
+      agency: "دامەزراوە"
+      metadata: "فورمەکان، گەراندنەوەکان"
+      system: "سیستەم"
+      report: "ریپورت"
+      self: "تەنیا بە ناو تومارەکان یان  بەکارهێنەرى من تێپەربە"
+      group: "بە ناوهەموو تومارەکان یان بەکارهێنەرەکانى ناوگروپم تێپەربە"
+      all: "بە ناوهەموو تومارەکان یان بەکارهێنەرەکان تێپەربە"
+      admin_only: "هیچ تومارەکان نینن- تەنیا فەرمانى بەرێوەربەر"
+      All: "هەموو"
+      specific_roles: "بەناو لیستى دیارکراوى رۆلەکان تێپەربە"
+      consent_override: "هەلوەشاندنەوەى پەسەند"
+      export_list_view_csv: "ناردنەوەى لیستى پیشاندانى csv"
+      export_csv: "ناردنى csv"
+      export_xls: "ناردنى  xls"
+      export_photowall: "ناردنى وێنەى پشتەوە"
+      export_pdf: "ناردنى pdf"
+      export_unhcr_csv: "ناردنى unhcr csv"
+      export_mrm_violation_xls: "ناردنى mrm توندوتیژى xls"
+      export_case_pdf: "ناردنى pdfى کەیس"
+      export_json: "ناردنى json"
+      export_custom: "ناردنى تایبەت"
+      export_duplicate_id_csv: "ناردنى دووبارەبووەکان"
+      import: "هێنانەوە"
+      transfer: "گواستنەوە"
+      reassign: "دووبارە دابين كردن"
+      referral: "پێشنیار"
+      sync_mobile: "هاوكات بكە بە ئامرازى مۆبايل"
+      request_approval: "داخوازى بو پەسەندکردن"
+      request_approval_bia: "داخوازى پەسەندى BIA"
+      request_approval_case_plan: "داخوازى پەسەندى پلانى کەیسەکە"
+      request_approval_closure: "داخوازى پەسەندى داخستن"
+      approve_bia: "پەسەندى فورمى BIA"
+      approve_case_plan: "پەسەندکردنى پلانى کەیس"
+      approve_closure: "پەسەندکردنى داخستنى کەیس"
+      copy: "کوپىبکە"
+      manage: "بەرێوەبەر"
+      administrator_read: "خواندنى رێنماییەکان"
+      group_read: "خواندنى گروپ"
+      agency_read: "خواندنى دامەزراو"
+      dashboard: "داشبورد"
+      view_approvals: "پەسەندەکان پیشانبدە"
+      view_assessment: "ڤەکولینەکان پیشانبدە"
+      dash_reporting_location: "شوێنى ریپورتکردن پیشانبدە"
+      dash_protection_concerns: "بایەخەکان پاراستن پیشانبدە"
+      dash_matching_results: "ئەنجامەکانى هاوبەش پیشانبدە"
+      dash_service_provisions: "خزمەتگوزاریە پێدراوەکان پیشانبدە"
+      dash_referrals_by_socal_worker: "پێشنیارەکانى ڤەکولەرى کومەلایەتى پیشانبدە"
+      dash_transfers_by_socal_worker: "نێردراوەکانى ڤەکولەرى کومەلایەتى پیشانبدە"
+      dash_cases_by_social_worker: "کەیسەکانى لێکولەرى کومەلایەتى پیشانبدە"
+      dash_manager_transfers: "نێردراوەکانى بەرێوەبەر پیشانبدە"
+      dash_cases_by_workflow: "کەیسەکان لەلایەن ستافى کارەوە پیشانبدە"
+      dash_cases_by_task_overdue: "کەیسەکانى دواکەوتوو پیشانبدە"
+      dash_cases_to_assign: "کەیسەکان پیشانبدە بو دابين كردن"
+      dash_show_none_values: "نەگرنگەکان پیشانبدە"
+      dash_tasks: "پێداچونا ئەرکان"
+      search_owned_by_others: "لێگەریانى تومارەکانى کەیس کە بەکارهێنەرەکانى تر هەیەتى"
+      incident_from_case: "درستکردنى فورکى رووداوى کەیس"
+      incident_details_from_case: "زیادکردنى زانیاریەکان رووداو بو کەیسى بەکارهێنەرەکى تر"
+      services_section_from_case: "زیادکردنى خزمەتگوزاریە پێدراوەکان بو کەیسى بەکارهێنەرەکى تر"
+      create: "دروستبکە"
+      referral_from_service: "ئاماژەکردنى کەیس لە خزمەتگوزارى فورم"
+      view_protection_concerns_filter: "فیلتەرى نیگەرانیەکانى پاراستن پیشانبدە"
+      saved_search: "لێگەریانى بە خەزکردنەوە"
+      save_search: "لێگەریانە بە خەزکراوەکان"
+      remove_assigned_users: "بەکارهێنەرەکانى دابين كراو لایبەت (پێشنیارەکان)"
+      audit_log: "پشکنین"
+      display_view_page: "پیشاندانى لاپەرى بینراو"
+      service_provision_incident_details: "دوگمەى زیادکردنى خزمەتگوزارى پەسەندکراو ببێنە لەسەر خشتەى زانیاریەکانى رووداو"
+      request_transfer: "داخوازى ناردن"
+      view_photo: "پیشاندانى وێنە"
+      matching_configuration: "پێکهاتێن هەڤبەش"
+      add_note: "تێبینیێ زێدەکە"
+      assign_within_agency: "نيشانكرا لةناو وةكالةى"
+      assign_within_user_group: "نيشانكرا لة ناو بكارهينةرى كروب"
+  forms:
+    label: "فورمەکان"
+    save: "خەزنکردنى فورم"
+    save_details: "خەزنکرن"
+    messages:
+      use_existing: "ئێمە هانتددەین کە فورمەکانى بەردەست بەکاربێنى کە ئەمە بلاوکردن و رێکخستنى زانیاریەکان لە نێوان دامەزاروەکان ئاسان دەکات."
+    initial_language: "زمانێ بنەرەتى"
+    cannot_be_edited: "فیلدەکانى ئەم فورمە نابێت دەستکارى بکرێت"
+    record_types:
+      case: " کەیس"
+      child: " کەیس"
+      incident: "رووداو"
+      tracing_request: "داخوازى بەدواداچون"
+      potential_match: "هاوبەشە شاراوەکان"
+      violation: "توندوتیژى"
+      reportable_service: "خزمەتگوزارى"
+      reportable_follow_up: "بەدواکەوتن"
+      reportable_protection_concern: "نیگەرانیەکانى پاراستن"
+  form_section:
+    name: "ناو"
+    description: "وەسفکردن"
+    create: "فورمى نوێ"
+    visibility: "بینرایى"
+    ordering: "داخوازکردن"
+    label: "فورم"
+    group: "گروپ"
+    details: "زانیاریەکان"
+    back: "گەرانەوە بو لاپەرى فورمەکان"
+    help_text: "دەقى هاوکارى"
+    actions:
+      label: "کردارەکان"
+      add_custom_field: "زیادکردنى شوێنى ئارەزوومەندانە"
+      save_order: "خەزنکردنى داخوازى"
+    messages:
+      order_saved: "داخوازیەکە بەسەركەوتووى خەزنکرا."
+      cannot_create: "بەشى فورمەکە ناتوانرێت دروستبکرێت"
+      correct_errors: "تکایە هەلەکان راستبکە و دووبارە پێشکێشبکە"
+      hide_confirmation: "دلنیاى دەتەوێ فیلدەکان بشاریتەوە؟"
+      show_confirmation: "دلنیاى دەتەوێ فیلدەکان پیشانبدەى؟"
+      drag_drop_help_text: 'دەتوانیت کلیک لەسەر شوێنەکە بکەیت بو راکێشان & amp: بو دابەزینى کردارى داخوازکراو'
+      updated: "بەشى فورم  بەسەركەوتووى زیادکرا"
+    hide: "شاردرانەوە؟"
+    show: "پیشانبدە"
+    manage: "بەرێوەبردنى بەشى فورم"
+    edit: "دەستکاریکردنى بەشەکانى فورمەکە"
+    buttons:
+      add: "زیادبکە"
+    options: "هەلبژاردەکان"
+    confirm_delete: "دلنیایى دەتەوێ ئەم فورمە بسریتەوە؟"
+    required_field: "%{field} پێویستە"
+    required_field_js: "فیلدەکى پێویستە. ئێستا بەتالە یان کارپێنەکراوە."
+    form_group_name: "پێکهێنانى ناوى گروپ"
+    form_group: "كروبيك دروستبكةوه"
+    modal_sidebar_help: "جورى فیلدەکە هەلبژێرە"
+    modal_sidebar_help_selected: "جورى فیلدەکە"
+    translation: "وه رگێران"
+    translation_missing: "(وەرگێران ناتەواوە بو %{lang})"
+    base_language_help_text: "ئەمە دەبێت بچێتە نا %{lang}"
+    form_group_translation_help_text: "بو ئادكردنى وةركيرانةوه بو دروستكردنى كروب ودةستبةكاركردنى ليكةرانى دروستكردنى كروب "
+    initial_lang_help_text: "فیلدەکە دەبێت دروستکردبێت لە %{lang} پێش ئەوى وەرگێران بو زیادبکرێت"
+    field_db_help_text: "ئەگەر بەتال بەجێ هێلا، ناوى DB دروست دەکرێت. تەنیا پیتەکانى لاتینى، ژمارەکان، وە خالەکانى ژێرەوە رێگەپێدراوە"
+  advanced_search:
+    instruction: "وشەکان جیابکەرەوە بە یان بو لێگەریانى هەلبژاردەى زیاتر بو نموونە. سەنا یان ئارام"
+    date_instruction: "رێککەوتێک بنووسە (س-م-ر) لە چوارگوشەى یەکەم بو لێگەریانى تومارەکانى دروستکراو و نوێکراو دواى رێککەوتەکە. \nرێککەوتێک بنووسە (س-م-ر) لە چوارگوشەى دووەم بو لێگەریانى تومارەکانى دروستکراو و نوێکراو پێش رێککەوتەکە. \nرێککەوتەکان لە هەردوو چوارگوشەکە بنوسە بو بینینى تومارەکانى دروستکراو لەنێوان رێککەوتەکاندا."
+    created_by_org: "دروستکراوە لەلایەن (رێکخراو):"
+    date_created: "رێککەوت دروستکراوە:"
+    updated_by: "نوێکراوە لەلایەن(بەکارهێنەر):"
+    after: "دواى:"
+    before: "پێش:"
+    created_by: "دروستکراوە لەلایەن (بەکارهێنەر):"
+    date_updated: "رێککەوت نوێکراوە:"
+    select_a_criteria: "بژاردەکانى  A هەلبژێرە"
+    records_found:
+      one: "١%{`ژمارە} تومار دوزییانەوە"
+      other: "%{count}  تومارەکان دوزرانەوە"
+  search: "لێگەریان"
+  select_all: "هەموو تومارەکان هەلببژێرە"
+  no_results_found: "هیچ ئەنجامێک نەياندۆزيەوە"
+  date_format: "ي - ش - س"
+  yes_label: "به لێ"
+  cancel: "رەدکردن"
+  contact:
+    message: "ئەگەر تۆ هەر گرفتێك بەسەر بهێيت لەگەڵ FTR ى خێرا ، یان لەوباوەرەدابیت کە ژمارەى نهێنیت پیشاندراوە، تکایە بەخێرا پەیوەندى بە کارگێرى سیستەمەکە بکە."
+    field:
+      name: "ناو"
+      position: "پۆست"
+      organization: "رێکخراو"
+      email: "ئیمێل"
+      phone: "موبایل"
+      location: "شوێن"
+      other_information: "زانیاریەکانى تر"
+      support_forum: "کوربەندى پالپشتى"
+    updated: "زانیاریەکانى پەیوەندى  بەسەركەوتووى نوێکرا"
+    edit_info: "دەستکاریکردنى زانیاریەکانى پەیوەندى"
+    info_label: "زانیاریەکانى پەیوەندى کردن"
+    not_found: "ناتوانرێت زانیاریەکانى پەیوەندیکردن بیدوزرێتەوە بە ناسنامەى %{id}"
+  device:
+    blacklist: "ئامێرى لیستى رەش"
+    messages:
+      blacklist: "دەتەوێت ئەم ئامێرە لە لیستى رەشدا زیادبکەیت؟"
+      remove_blacklist: "دەتەوێت ئەم ئامێرە لە لیستى رەشدا لایبەى؟"
+      disable: 'دلنیایى دەتەوى ئەم ئامیرە لەکاربێخى؟'
+    information: "زانیاریەکانى ئامێر"
+    mobile_number: "ژمارەى تەلەفون"
+    timestamp: "دیارکەرى کاتى رووداو"
+  admin:
+    contact_info: "زانیاریەکانى پەیوەندى کارگێرى"
+    highlight_fields: "فیلدەان دەستنیشانبکە"
+    manage_system_users: "بەكاربەرى هاوكات كردنى سێرڤەر بەرێوە ببە"
+    create_system_user: سیستەمێکى بەکارهێنەر دروستبکە
+    system_logs: "تومارى سیستەم"
+  fields:
+    label: "فیلدەکان"
+    field_name: "ناوى فیلدەکە"
+    display_name: "ناوەکە پیشانبدە"
+    db_name: "ناوى DB"
+    help_text: "دەقى هاوکارى"
+    actions: "کردارەکان"
+    option_strings_text: "بژاردەکان"
+    option_strings_text_key: "کلیلى بژاردە"
+    option_strings_text_display: "دەقى بژاردە"
+    option_strings_source: "گەراندنەوەکان"
+    option_strings_add_option: "زیادکردنى هەلبژاردە"
+    options_or_lookup_warning: "تکایە بژاردەکان زیادبکە یان گەراندنەوە هەلبژێرە. داخلى هەردووکیان مەبە"
+    form_name: "ناوى فورمەکە"
+    action: "کردار"
+    remove: "لایبە"
+    subform_remove_message: "دلنیایى دەتەویێت ئەم فورمى ناسەرەکى لاببەیت؟"
+    text_field: "شوێنى دەق"
+    check_box: "سندوقەکانى پشکنین"
+    select_box: "نیشانەى بەرەوخوارەوە هەلبژێرە"
+    radio_button: "دوگمەى رادیو"
+    text_area: "شوێنى دەق"
+    textarea: "شوێنى دەق"
+    numeric_field: "فیلدى ژمارەى"
+    date_field: "رێککەوتى فیلد"
+    date_range_field: "زنجیرەى ریککەوت"
+    subform: "فورمى ناسەرەکى"
+    tick_box: "چوارگوشەى نیشانە"
+    tick_box_label: "بژاردەکانى چوارگوتى نیشانە"
+    tally_field: "فیلدى چونیەک"
+    select_date_validation: "شێوازى راستکردنى رێککەوت هەلبژێرە"
+    not_future_date: "بەروارێكى داهاتوو نيە"
+    default_date_validation: "خودوزینەوەى رێککەوتى گونجاو"
+    date_not_valid: "ئەم رێککەوتە راست نيە"
+    future_date_not_valid: "ئەم بەروارە ناتوانێت لە ئايندە بێت"
+    number_not_valid: "تكايە برو ناو زانیاریەکانى ژمارەى"
+    separator: "جياكەرەوە"
+    successfully_added: "فیلدەکە بەسەركەوتووى  زیادکرا"
+    updated: "فیلدەکە نوێکرا"
+    deleted: "فیلدى%{display_name}سرییەوە"
+    add: "زیادکردن"
+    type: "جورى فیلدەکە"
+    move_to: "بجولێنە بو"
+    select_box_empty_item: "(هەلبژێرە...)"
+    chosen_placeholder: "هەموو جێبەجێکراوەکان هەلبژێرە"
+    multi_select: "هەڵبژاردەى زۆر"
+    date_help: "رر - م م - س س"
+    date_help_with_time: "ر-م-س  د:خ"
+    date_range:
+      from: "فوورم"
+      to: "بۆ"
+      date: "رێککەوت"
+      date_range: "مەوداى رێککەوت"
+    file_upload_box:
+      select_file_button_text: "فایلەکە هەلبژێرە"
+      no_file_selected: "هیچ فایلێک هەلنەبژاردووە"
+      document_file_restrictions_message: "فایلەکان نابێ زیاتربن لە ٢MB (فایلەکانى (.exe) وەک پروگرام ناتوانێت ئاپلود بکرێن)."
+      photo_file_restrictions_message: "وێنەکان نابێت لە ١٠MB زیاتربن. فایلەکانى دەنگ نابێت لە ١٠MBزیاتربن. چەند بچووكتربێت باشترە"
+      add_document_label: "بەڵگەنامە زياد بكە"
+      add_photo_label: "وێنە زیادبکە"
+      recorded_audio_label: "دەنگى تومارکراو"
+      add_new_document_button_text: "بەلگەیەکى تر زیادبکە"
+      add_new_photo_button_text: "وێنەیەکى تر زیادبکە"
+      document_description: "شروڤەکردنى بەلگەنامە"
+    upload_bia_document: "بەلگەنامەى BIA"
+    upload_bid_document: "بەلگەنامەى BID"
+    upload_other_document: "بەلگەنامەکانى تر"
+    document:
+      comments: "تێبینیەکان"
+      date: "رێککەوتى بەلگەنامەکە"
+      name: "ناوى بەلگەنامەکە"
+      current: "ئەمە بەلگەنامەى بەکارهاتووە؟"
+    audio:
+      current: "دەنگى بەکارهاتوو"
+  replication:
+    label: وەلام
+    index: وەلامەکان رێکبخە
+    create: سێرڤەرێكى دوور زياد بكە
+    edit: دەستکاریکردنى خشتە
+    remote_app_uri: URL ى پریمێرو
+    actions: کردارەکان
+    status: دوخ
+    description: وەسفکردن
+    timestamp: دیارکەرى کاتى رووداو
+    delete: بسرەوە
+    completed: سەركەوتوو
+    triggered: لە پێشڤەچوندایە
+    error: شکستى هێنا
+    confirm_delete: دلنیایى دەتەوێ ئەم وەلامە بسریتەوە؟
+    start: دەست بە هاوكات كردن بكە
+    stop: هاوكات كردن بوەستێنە
+    configure_a_server: سێرڤەرێک رێکبخە
+    reindex_pending: دووبارە دروستکردن لە چاوەروانی دایە
+    is_continuous: بەردەوامە
+  lookup:
+    actions: "کردارەکان"
+    edit: "دەستکاریکرندى گەراندنەوە"
+    create: "گەراندنەوەى نوێ"
+    label: "گەراندنەوە"
+    index: "بەرێوەبردنى گەراندنەوەکان"
+    name: "ناو"
+    values: "هەلبژاردەکان"
+    add_value: "زیادکردنى هەلبژاردە"
+    remove: "لایبە"
+    confirm_delete: دلنیاى دەتەوێت ئەم گەراندنەوە بسریتەوە؟
+    initial_lang_help_text: "ئەمە دەبێت بچێتە نا %{lang}."
+    messages:
+      cannot_create: "ناتوانیت گەراندنەوە دروستبکەیت"
+      correct_errors: "تکایە هەلەکان راستبکە و دووبارە پێشکێشبکە"
+      updated: "گەراندنەوە بەسەرکەوتووى زیادکرا"
+  location:
+    location_code_warning: تێبينى كە ئەگەر تۆ كۆدێكى شوێنى ئێستا بگۆڕيت، پێویستیت دەبێت دووبارە دەستکارى بکەیت بو هەر توماریێک کە ئەم شوێنە بەکاردێنن
+    create: "شوێنى نوێ"
+    edit: "دەستکاریکردنى شوێن"
+    label: "شوين"
+    index: "رێکخستنى شوێنەکان"
+    name: "ناو"
+    code: "کود"
+    hierarchy: "پلەبەندى"
+    confirm_delete: دلنیایى دەتەوێ ئەم شوێنە بسریتەوە؟
+    placename: "ناوى شوێن"
+    type: "جور"
+    parent: "شوێنى دايک وباب"
+    admin_level: "ئاستى بەرێوەبەر"
+    messages:
+      cannot_create: "ناتوانرێن شوێن دروستبکرێت"
+      correct_errors: "تکایە هەلەکان راستبکە و دووبارە پێشکێشبکە"
+      updated: "شوێن بەسەركەوتووى زيادى كرا"
+      deleted: "شوێن بەسەركەوتووى سڕييەوە"
+    base_types:
+      country: 'ولات'
+      region: 'هەرێم'
+      province: 'پارێزگا'
+      district: 'قەزا'
+      governorate: 'پارێزگا'
+      chiefdom: 'سەروکایەتى'
+      county: 'ولات'
+      state: 'پارێزگا'
+      city: 'شار'
+      camp: 'کەمپ'
+      site: 'شوێن'
+      village: 'گوند'
+      zone: 'ناوچە'
+      other: 'ئەوى تر'
+      locality: 'ناوخؤيى'
+      sub-district: 'ناحيا'
+  matching_configuration:
+    edit: "دەستکاریکرنا پێکهاتێن هەڤبەش"
+    case_fields: "فیلدەکانى کەیسى هاوبەش"
+    tracing_request_fields: "فیلدەکانى هاوباشەى داخوازى بەدواداچون"
+    updated: "پێکهاتێن هاوبەش نویکرنەوە"
+    update_error: "هەلەیەک لە نوێکردنەوەى خشتەى هاوبەشەکاندا رویدا"
+    label: "خشتەى هاوبەشەکان"
+  session:
+    about_to_expire: "کوبوونەوەت خەریکە بەسەردەچێت!"
+    has_expired: "کاتى کوبوونەوەت بەسەرچوو. تکایە دووبارە داخلبە"
+    invalid_credentials: "زانیاریەکانى هەلەى ناسنامە. تکایە هەولبدەرەوە!"
+    login_error: "هەلەیەک لە چوونە ژوورەوەدا رویدا، تکایە دووبارە هەولبدە."
+    invalid_token: "چاوپێکەوتنى خەلەت هەلبژێرا"
+    no_token_provided: "هیچ چاوپێکەوتنێکى بەردەست نیە"
+    no_token_in_header: "لە سەردێرو دەقى تیکستەکاندا نیشانەى هیچ چاوپێکەوتنێک نیە"
+  reports:
+    register_new_report: "ریپورت دروست بکە"
+    label: "ریپورتەکان"
+    tabs:
+      table: "خشتە"
+      graph: "هێلکارى"
+    actions:
+      delete: "بسرەوە"
+    limited_pivots: "تەنیا یەک شوێنى رێککەوتى هەلبژێرە کە بەستراو بێت بە تەوەرى ئەم ریپپورتە. شوێنى رێککەوتێک لەوانەیە تەنیا  بە تەوەرى یەکەم یان دووەمەوە بەستراوبێت"
+    messages:
+      confirmation: "دلنیایى دەتەوێ ئەم ریپورتە بسریتەوە؟ سرینەوە هەلناوەشێنرێت. کلیک لەسەر باشە بکە بو سرینەوەى ریپورت"
+  report:
+    name: "ناو"
+    description: "وەسفکردن"
+    heading: "ریپروتەکانى پریمێرو"
+    type: "جور"
+    as_of_date: "وەک رێککەوتێک"
+    download: "دابەزاندن"
+    all: "سەرجەم"
+    total: "سەرجەم"
+    modules: "نموونەکان"
+    record_type: "جورى تومارەکە"
+    aggregate_by: "گروپ لە دوایى یەک"
+    disaggregate_by: "گروپ بە شێوازى ستونى"
+    aggregate_counts_from: "هەژماردنى سەرجەم لە"
+    group_ages: "مەوداى تەمەن بەکاربێنە"
+    group_dates_by: "مەوداى بەکارهێنانى رێککەوت"
+    add_default_filters: "فلتەرى دانراو بگرەوە"
+    add_default_filters_help: "بکرەوە و کارابکە"
+    date_ranges:
+      date: "روژ"
+      week: "حەفتى"
+      month: "مانگ"
+      year: "سال"
+    filters:
+      label: "فیلتەرەکانى ریپورت"
+      attribute: "فلتەر"
+      value: "لەگەل"
+      not_null: "شوێنى فورمەکە بەتال نابێت"
+    is_graph: "هێلکاریەک دروستبکە؟"
+    no_data: "هیچ زانیاریەک بو ئەم ریپورتە بەردەست نیە"
+    export:
+      graph: "هێلکارى"
+      data: "زانیارى"
+    successfully_updated: "خشتەى ریپورت بەسەركەوتووى نوێکرا"
+    error_in_updating: "هەلەیەک لە نوێکردنەوەى خشتەى ریپروت رویدا"
+    messages:
+      delete_success: "ریپیورت  بەسەركەوتووى سرییەوە"
+    edit: "دەستکاریکرن"
+  encrypt:
+    password_title: "دروستکردنى ژمارەى نهێنى"
+    password_label: "تکایە ژمارەیەکى نهێنى بنوسە کە بتوانى فایلەکەت ب پارێزێت"
+    password_mandatory: "ژمارەیەکى نهێنى کارپێکراو بنوسە"
+    password_extra_info: "ئەم وشەى نهێنيە پەيوەنديدار دەبێت لەگەڵەكە ناردەنى فايلەکە و پێويستى دەبێت كە بچرێتە ناو لەلايەن هەر كەسێک کە لە ئایندەدا ئەم فايلە دەکرێت."
+    file_name: "ناوى فایلى خوت دروستبکە (ئارەزومەندانە)"
+  administration: "بەرێوبەرايەتى"
+  new: "نوێ"
+  saved: "خەزنکرا"
+  account: "هەژمار"
+  moved_from: "%{field_name}  گواستەوە لە %{from_fs} بو %{to_fs}"
+  couchrest:
+    fields:
+      Name: "ناو"
+      Username: "ناوى بەکارهێنەر"
+      Password: "ژمارەى نهێنى"
+      Description: "شروڤەکردن"
+      Remote app url: "کونترولکردنى url ى ئەپلیکەیشنەکە"
+    attributes:
+      report:
+        aggregate_by: "گروپ لە دوایى یەک"
+    validations:
+      blank: "1%s دەبێت بەتال نەبێت"
+  gbv_report:
+    18_and_over_age: "تەمەنى ١٨ و زیاتر"
+    12_17_age: "١٢-١٧"
+    0_11_age: "٠-١١"
+    unknown: "نەزانراو"
+    adult: "پێگەیشتوو"
+    child: "منال"
+    'yes': "به لێ"
+    'no': "نه خێر"
+    none: "هیچ"
+    uam_sc_ovc: "UAM/SC/OVC"
+    unaccompanied_minor: "منالى هاوەريىنەکراو"
+    separated_child: "منالى دابةشبووه له به خيوكه رى"
+    other_vulnerable_child: "منالى ترى لاواز"
+    rape: "دەستدرێژى سێکسى"
+    sexual_assault: "ەلامارى جنسى"
+    non_gbv: "نييه-GBV"
+    disability: "کەم ئه ندام"
+    sexual_violence: "توندوتیژى سكسى"
+    intimate_partner_former_partner: "هاورێى زورنێزیک/ هاورێى پێشو"
+    intimate_partner_violence: "توندوتیژى هاورێى زورنێزیک"
+    child_sexual_abuse: "توندوتیژى سێکسى بوسەر منال"
+    forced_marriage: "هاوسەرگيريى ناچار"
+    early_marriage: "هاوسەرگيريى زوو"
+    harmful_traditional_practice: "نەریتە زیانبەخشەکان"
+    possible_sexual_exploitation: "له وانه يه چەوساندنەوەى سێکسى"
+    possible_sexual_slavery: "له وانه يه بەندایەتى سێکسى"
+    over_1_month: "گەورەتر لە ١ مانگ"
+    2_weeks_1_month: "٢ حەفتى - ١ مانگ"
+    6_14_days: "٦-١٤ روژ"
+    4_5_days: "٤-٥ روژ"
+    0_3_days: "٠-٣ روژ"
+    exclude: "دەرکردن"
+    include: "دەگرێتەخو"
+    quarter_4: "چارەک ٤"
+    quarter_3: "چارەک ٣"
+    quarter_2: "چارەک ٢"
+    quarter_1: "چارەک ١"
+    undecided: "دوودل بوو لە کاتى ریپورتکردن"
+  followup_reminders:
+    system_generated_followup_flag: "سەردانى بەدوا داچوونى زۆرەملێ"
+    system_generated_followup_unflag: "بەسەرچوو"
+    system_generated_followup_unflag_cancelled: "رەتیکرد"
+    high_risk_level: "بەرز"
+    medium_risk_level: "ناوەند"
+    low_risk_level: "نزم"
+    child_status_open: "کردنەوە"
+    child_status_closed: "داخراو"
+    child_status_transferred: "گواستراو"
+    child_status_duplicate: "دووبارە"
+  dashboard:
+    total: 'سەرجەم'
+    new: 'نوێ & نوێکراو'
+    pending_transfers: 'نێردراوەکان لە چاوەروانی دایە'
+    rejected_transfers: 'ناردن رەتیکرد'
+    transers_awaiting_acceptance: 'گواستنەوە چاوەروانى رەزامەندى دەكەن'
+    total_referred: "سەرجەم پێشنیارەکان "
+    new_referred: "پێشنیارەکانى نوێ"
+    high_risk: ' ئاستى گرنگى بەرز'
+    low_risk: 'ئاستى گرنگى نزم'
+    none_risk: 'گرنگى نیە'
+    no_action_risk: 'كردار نيه'
+    medium_risk: 'ئاستى گرنگى ناوەند'
+    pending: 'چاوەروانى کردن'
+    rejected: 'رەتیکرد'
+    near_deadline: 'نزيك دوا مۆڵەت'
+    due: 'دواكەوتوو'
+    response: 'وەلام 1(In Progress)1'
+    immediate_response: ' وەڵامى دەسبەجێ'
+    cases_to_assign: 'کەیسەکانى دەبى وەربگیرێن'
+    overdue_cases_to_assign: 'کەیسەکانى دواکەوتوو بو وەرگرتن'
+    closed: 'داخراو'
+    comprehensive_need_intervention: 'وەڵامى گشتگير'
+    new_incident: 'كه يسه نوێكان'
+    new_service_provision: 'خزمەتگوزاریە پێدراوەکانى نوێ'
+    all_services_implemented: 'هەموو خزمەتگوزاریەکان جێبەجێکران'
+    services_implemented: 'خزمەتگوزاریەکان جێبەجێکران'
+    approved: 'پەسەندکرا'
+    cases_by_workflow: 'کەیسەکان لەلایەن ستاف'
+    cases_by_task_overdue: 'ئەرکەکانى دوواکەوتوو'
+    assessment: 'لێکولینەوە'
+    case_plan: 'پلانی كەیسەكە'
+    follow_up: 'بەدواکەوتن'
+    services: 'خزمەتگوزاریەکان'
+    admin_only: "کلیک لەسەر %{links} بکە بو گورینەکان لە ئەپلیکەیشنەکە"
+    forms: "خشتەى فورمەکان"
+    users: "ئایکونى رێکخستنەکان"
+    flagged_by: "دەستنیانکرا لەلایەن:"
+    no_recent_activities: "هیچ چالاکیەکى تازە نیە"
+    no_scheduled_activities: "خشتەى هیچ چالاکیەک نیە"
+    no_overdue_activities: "هیچ چالاکیەکى دواکەوتوو نیە"
+    no_caseworker_data: "هیچ زانیاریەکى لێکولەرى کەیس نیە"
+    no_flagged_child: "هیچ کەیسێکى دەستنیشانکراو نیە"
+    no_flagged_incident: "هیچ رووداوێکى دەستنیشانکراو نیە"
+    no_open_incidents: "هیچ رووداوێکى کراوە نیە"
+    no_case_stats: "هیچ دوخێکى کەیسەکە نیە"
+    scheduled_activities: "چالاکیەکانى پلان دارێژراو"
+    overdue_activities: "چالاکیەکانى دواکەوتوو"
+    recent_activities: "چالاکیەکانى تازە"
+    case_id: "کەیس# ناسنامە"
+    name: "ناو"
+    activity: "چالاکى"
+    date: "رێککەوت"
+    incident_id: "رووداو#ناسنامە"
+    incident_location: "شوێنى رووداوەکە"
+    new_child_assigned_to_you: "کەیسەکانى نوێ بو تو وەرگیران"
+    new_incident_assigned_to_you: "رووداوەکانى نوێى وەرگیراو"
+    recently_flagged_child: "کەیسەکانى لەم دواییانە دەستنیشانکراو"
+    flagged_by_me: "لەلایەن منەوە دەستنیانکرا"
+    flagged_by_other: "لەلایەن کەسێکى ترەوە دەستنیانکرا"
+    recently_flagged_incident: "رووداوەکانى لەم دواییانە دەستنیانکراو"
+    incident_status_open: "کردنەوە"
+    number_of_victims: "ژمارەى قوربانیەکان"
+    number_of_violations: "ژمارەى توندوتیژیەکان"
+    number_of_violations_verified: "توندوتیژیەکانى دیارکراو"
+    link_see_all: "هەموویان ببینە"
+    open_incidents: "رووداوەکان بکەرەوە"
+    status_of_cases: "دوخى کەیسەکان"
+    case_worker: "لێکولەرى کەیس"
+    total_cases: "سەرجەمى کەیسەکان"
+    cases_this_week: "کەیسەکانى لەم حەفتیەدا"
+    missed_cases: "کەیسەکانى بەجێهێلاو"
+    date_of_incident: "رێککەوتى روداوەکە"
+    violence_type: "جورى توندوتیژى"
+    date_of_interview: "رێککەوتى چاوپێکەوتنەکە"
+    system_user: "سیستەم"
+    name_or_survivor_code: "ناو یان کودى رزگاربوى"
+    current_owner: "خاوەنى ئێستا"
+    last_updated: "دوواین نوێکردنەوە"
+    case_stats: "کەیسەکان"
+    tr_stats: "داخوازیەکانى بەدواداچون"
+    cases_by_social_worker: "کەیسەکانى له لايةن لێکولەرى کومەلایەتى"
+    approvals: "پەسەندان"
+    referrals_by_social_worker: "پێشنیارەکانى لێکولەرى کومەلایەتى"
+    transfers_by_social_worker: "نێرداروەکانى ڤەکولەرى کومەلایەتى"
+    case_stat_by_assessment_level: "کەیسەکان بە ئاستى لێکولینەوە"
+    case_stat_by_approval_type: "پەسەندەکان"
+    case_stat_referrals: "پێشنیارەکان "
+    protection_concern: "نیگەرانى پاراستن"
+    protection_concerns: "نیگەرانیەکانى پاراستن"
+    geographic_area: "ناوچەى جوگرافى"
+    all_cases: "هەموو کەیسەکان"
+    open: "کردنەوە"
+    range4: "٠-٤"
+    range4_8: "٤-٨"
+    range8_12: "٨-١٢"
+    range12+: "١٢+"
+    match_result: "ئەنجامە هاوبەشەکان"
+    score_range: "مەوداى خال"
+    count_risk_level_total:
+      one: "تو ١%{دوخ}هەتە ١ ٢%{جورى دوخ}"
+      other: "تو %{stat} 1%{stat_type} هەتە  مەترسى  کەیسەکان"
+    count_risk_level_new:
+      one: "وە ١%{دوخ} ١نوێ١ ٢ ٢%{جورى دوخ}"
+      other: "وە %{stat}١نوێ١  2%{stat_type} risk2 cases مەترسى کەیسەکان"
+    count_records_total:
+      one: "تو ١%{دوخ}هەتە ١سەرجەم١ کەیسەکان"
+      other: "تو ١%{دوخ}هەتە ١سەرجەم١ کەیسەکان"
+    count_records_new:
+      one: "وە ١%{دوخ} ١نوێ١ کەیسەکان"
+      other: "وە %{stat} 1نوێ1کەیسەکان "
+    count_referrals_total:
+      one: "تو ١%{سەرەتا} ١سەرجەم ١ پیشنیارەکانت هەیە"
+      other: "تو %{stat} هەتە 1سەرجەم1 پێشنیارەکان "
+    worker_count_referrals_total:
+      one: "١ ١%{لێکولەرى کەیس} ١هەیە ٢%{سەرەتا} ٢ سەرجەم ٢ پێشنیارەکان "
+      other: "%{case_worker} ١هەیە ٢%{stat} ٢ سەرجەم ٢ پێشنیارەکان "
+    count_referrals_new:
+      one: "و ١%{سەرەتا} ١ نوێ ١ پێشنیارەکان "
+      other: "و %{stat} ١ نوێ ١ پێشنیارەکان "
+    worker_count_total:
+      one: "١ ١%{ڤەکولەرى کەیس} ١ هەتە ٢%{دوخ} ٢سەرجەم٢ کەیسەکان"
+      other: "١ %{case_worker}١ هەتە ٢%{stat} ٢سەرجەم٢ کەیسەکان"
+    manager_count_open_total:
+      one: "تو ١%{دوخ} ١بکرەوە١ کەیسەکان"
+      other: "تو ١%{دوخ} هەتە ١بکرەوە١ کەیسەکان"
+    manager_count_closed_total:
+      one: "وە ١%{دوخ} ١داخراو١ کەیسەکان"
+      other: "وە%{stat}١داخراو١ کەیسەکان"
+    manager_transfers_totals:
+      one: "تو ١%{دوخ} ٢ %{جورى مەترسى}١گواستنەوە"
+      other: "تو %{stat} ٢ %{stat_type}١گواستنەوە"
+    count_pending_approval_total:
+      one: "تو ١%{دوخ} ١ راگرتن  ٢%{جورى دوخ} ١ پەسەندەکان"
+      other: "تو %{stat}ى هەیت ١ چاوەروانى کردن%{stat_type} ١ پەسەندەکان"
+    count_rejected_approval_total:
+      one: "وە ١%{دوخ} ١ رەدکراو ٢%{جورى دوخ} ١ پەسەندەکان"
+      other: "وە %{stat} ١ رەدکراو %{stat_type}١ پەسەندەکان"
+    count_new_bia_approvals:
+      one: "١%{دوخ} ١ نوێ ٢%{جورى دوخ}١ پەسەندەکان"
+      other: "%{stat}١ نوێ %{stat_type}١ پەسەندەکان"
+    count_new_case_plan_approvals:
+      one: "١%{دوخ} ١ نوێ ٢%{جورى دوخ}١ پەسەندەکان"
+      other: "%{stat} ١ نوێ %{stat_type}١ پەسەندەکان"
+    count_new_closure_approvals:
+      one: "١%{دوخ} ١ نوێ ٢%{جورى دوخ}١ پەسەندەکان"
+      other: "%{stat} ١ نوێ %{stat_type}١ پەسەندەکان"
+    count_pending_transfers:
+      one: "تو ١%{دوخ}ى هەیەتى ١ چاوەروانى کردن ٢%{جورى دوخ} گواستنەوە"
+      other: "تو %{stat}ى هەیت١ چاوەروانى کردن گواستنەوە"
+    count_rejected_transfers:
+      one: "وە ١%{دوخ} ١رەدکرا١ گواستەوە"
+      other: "وە %{stat} ١رەدکرا١ گواستنەوە"
+    count_waiting_for_acceptance_transfers: "تو %{stat}هەیتە گواستنەوە ١چاوەرێ دەکات١ بو رەزامەندیت"
+    open_cases: "كه يسه كراوه كان"
+    new_last_week: "نوێ١(حەفتەى رابردوو)١"
+    new_this_week: "نوێ ١(ئەم حەفتەىە )١"
+    closed_last_week: "داخراو ١(حەفتەى رابردوو)١"
+    closed_this_week: "داخراو ١(ئەم حەفتەىە)١"
+    you_have: "تو هەیتە"
+    and: "وە"
+  errors:
+    template:
+      header:
+        one: "١ هەلە نەهێشت ئەم %{model}خەزنبکرێت"
+        other: "%{count} هەلە نەیانهێشت ئەم%{model} خەزبکرێت"
+        body: "چەند هەلەیەک لە گەل ئەم فیلدە هەبوون:"
+        body_js: "بو ئەوى تومارەکە حەزنبکرێت،دەبێت هەلەکانى دەربارەى ئەم فیلدە دەستنیشان بکرێن"
+    agencies:
+      logo_size: "تکایە فایلەک ئاپلود بکە بچوکتربێت لە ١٠MB"
+      logo_format: "تکایە فیلەیەکى لوگوى کارپێکراو ئاپلود بکە (jpg, gif, or png)"
+    models:
+      flags:
+        message: "وریاکردنەوە: پەیامى شوێن کارپێنەکراوە"
+        date: " \nوریاکردنەوە: رێککەوتى شوێن کارپێنەکراوە"
+        index: "وریاکردنەوە: نەتوانرا لاببرێت لە شوێنى %{index}"
+      date_range_invalid: "١ %{field_name}:١ تکایە رێککەوتێکى کارپێکراو بنوسە ' لە:'  دەبێت پێش لە 'بو:' بێت"
+      photo:
+        primary_photo_id: "نەتوانرا لە هەولى گونجاندنى '%{photo_id}' بو وێنەى سەرەتا: کلیدى وێنەى بەم شێوە نیە"
+        photo_size: "تکایە فایلەک ئاپلود بکە بچوکتربێت لە ١٠MB"
+        photo_format: "تکلیە فایلى وێنەیەکى کارپێکراو ئاپلود بکە  (jpg or png)  بو ئەم ١%{model_name}تومارە"
+        photo_count: "تەنیا رێگە پێدراویت%{photos_count}وێنەکان بو هەر %{model_name}"
+      audio:
+        audio_size: "تکایە فایلەک ئاپلود بکە بچوکتربێت لە ١٠MB"
+        audio_format: "تکلیە فایلێکى دەنگى کارپێکراو ئاپلود بکە (amr or mp3)  بو ئەم ١%{model_name}تومارە"
+      user:
+        full_name: "تکایە ناوى سێقولى بەکارهێنەر توماربکە"
+        password_confirmation: "تکایە بچینە ناو دووپاتکردنەوەى ژمارەى نهێنى"
+        password_mismatch: "شوێنى ژمارەى نهێنى هەمان ژمارەى نهێنى نیە"
+        password_text: "- تکایە ژمارەیەکى نهێنى دروستبکە کە بە لایەنى کەمە وە لە ٨ تیپ پێکبهێت و  ژمارەکان و پیتەکان لەخویەوە بگرێت"
+        role_ids: "تکایە بە لایەنى کەمەوە یەک رول هەلبژێرە"
+        module_ids: "تکایە بە لایەنى کەمەوە یەک نموونە هەلبژێرە"
+        organization: "تکایە ناوى رێکخراوى بەکارهێنەرەکە توماربکە"
+        user_name: "تکایە ناوێکى بەکارهێنەرى کارپێکراو بنووسە"
+        email: "تکایە ناونیشانى ئیمێلێکى کارپێکراو بنووسە"
+        user_name_uniqueness: "ئەم ناوى بەکارهێنەرە بەکارهێناوە!  تکایە ناوێکى ترى بەکارهێنەر هەلبژێرە"
+        authenticate: "ناتوانرێت بەکارهێنەرێکى خەزنەکراو پەسەندبکرێت"
+        invalid_locale: "شوێن ١%{شوێنى بەکارهێنەر} کارپێکراو نیە"
+      child:
+        at_least_one_field: "تکایە بە لایەنى کەمەوە یەک شوێن پربکەرەوە یان فایلێک ئاپلود بکە"
+        age: "تەمەن دەبێت لە نێوان ٠ و ١٣٠ بێت"
+        validate_duplicate: "پێویستە ناسنامەیەکى کارپێکراوى  هاوشێوەى دابینبکرێت"
+        date_of_birth: " تکایە رێککەوتێکى لەدایکبونى راست بو تومارى ئەم کەیسە بنوسە"
+        wishes_preferences_count: "تەنیا رێگەپێدراویت  %{preferences_count} بژاردەکانى منال"
+        value_range: "١%{field_name} دەبێت لە نێوان  %{min} وە %{max}"
+        document_type: "جورەکە %{type} کارپێنەکراوە"
+        document_size: "تکایە بەلگەیەک ئاپلودبکە بکە بچوکتربێت لە ٢ MB"
+        documents_count: "تەنیا رێگەپێدراویت %{documents_count} بەلگەنامەکان بو هەر کەیسێک"
+        document_format: "فایلەکانى وەک پروگرام رێگە پێنەدراون"
+        date_closure: "رێککەوتى داخستنى کەیسەکە دەبێت گەورەتر یان یەکسانبێت بە رێککەوتى کردنەوەى کەیسەکە"
+      incident:
+        document_size: "تکایە بەلگەیەک ئاپلودبکە بکە بچوکتربێت لە ١٠ MB"
+        documents_count: "تەنیا رێگەپێدراویت %{documents_count} بەلگەنامەکان بو هەر کەیسێک"
+        document_format: "فایلەکانى وەک پروگرام رێگە پێنەدراون"
+      field:
+        display_name_presence: "ناوى دیارکراو نابێت بەتال بەجێ بێلیت"
+        display_name_format: "ناوى دیارکراو بە لایەنى کەمەوە دەبێت یەک پیت لەخوبگرێت"
+        name_format: "ناوى شوێن پێویستە تەنیا کەمتر لە پیتەکان، ژمارەکانى کەیسەکە لەخوبگرێت"
+        name_presence: "شوێنى ناو نابێت بەتال بێت"
+        name_format_number_first: "نابێت شوێنى ناو بە ژمارەیەک دەستپێ بکات"
+        default_value: "نەتوانرا رێکخستنى سیسەم بو ئەم جورە بدوزرێتەوە"
+        has_2_options: "شوێنەکە بە لایەنى کەمەوە دەبێت ٢بژاردە هەبێت"
+        has_1_option: "چوارگوشەى نیشانکردن بە لایەنى کەمەوە دەبێت ١بژاردە هەبێت"
+        translated_options_do_not_match: "شوێنى بژاردەکانى وەرگێران دەبێت هەمان ناسنامە هەبێت"
+        unique_name_other: "شوێن لە هەمان فورمى '%{form_name}' هەیەتى"
+        unique_name_this: "شوێن لەم فورمە بوونى هەیە"
+        change_type_existing_field: "ناتوانرێت جورى شوێنى بونى هەبێت بگوردرێت '%{field_name}' لە فورمى  '%{form_name}'"
+        option_strings_text:
+          not_array: "دەقى بژاردەى پیتەکان رێزکراو نیە"
+          not_hash: "دەقى بژاردەى پیتەکان بژاردەکە کورتکراو نیە"
+          id_blank: "دەقى بژاردەى پیتەکان بژاردەى ناسنامە بەتالە"
+          display_text_blank: "دەقى بژاردەى پیتەکان بژاردەى پیشاندانى دەق بەتالە"
+          id_not_unique: "دەقى بژاردەى پیتەکان بژاردەى ناسنامە بێهاوتا نیە"
+      form_section:
+        presence_of_name: "شوێنى ناو دەبێت بەتال نەمێنیت"
+        presence_of_base_language_name: "ناوى زمانى بنەرەتى %{base_language} نابێت بەتال بێت"
+        format_of_name: "ناو دەبێت تەنیا تیپى پیتەکان و بوشایى لەخو بگرێ"
+        visible_method: "ئاشکرا نابێت هەلە بێت ئەگەر perm_visible راست بێت"
+        fixed_order_method: "fixed_order نابێت هەلەبێت ئەگەر perm_enabled راست بێت"
+        perm_visible_method: "perm_visible نابێت هەلەبێت ئەگەر perm_enabled راست بێت"
+        add_field_to_form_section: "نابێت دەستکارى لە بەشى فورمەکە بکرێت"
+        delete_field: "شوێنى جێگیر نابێت بسرێتەوە"
+        unique_name: "ناوى %{name}' بەکارهێنراوە"
+        unique_id: "ناسنامەى بێهاوتا  %{unique_id} بەکارهێنراوە"
+      role:
+        name_present: "شوێنى ناو دەبێت بەتال نەمێنیت"
+        permission_presence: "تکایە بە لایەنى کەمەوە یەک مولەت هەلبژێرە"
+        unique_name: "رولەک بەو ناوە بونى هەیە، تکایە ناوێکى جێواز بنوسە"
+        permission:
+          resource_presence: "تکایە سەرچاوەیەک هەلبژێرە"
+      primero_module:
+        name_present: "شوێنى ناو دەبێت بەتال نەمێنیت"
+        unique_name: "نموونەیەک بەو ناوە بونى هەیە، تکایە ناوێکى جێواز بنووسە"
+        program: "لەوانەیە پروگرامێک بەو نموونەیەوە بەستراوبێت"
+        associated_form_ids: "بە لایەنى کەمەوە پێویستە فورمێک هەبیت پەیوەست بەو نموونەیەوە بێت"
+        associated_record_types: "بە لایەنى کەمەوە پێویستە جورى تومارێک هەبیت پەیوەست بەو نموونەیەوە بێت"
+      primero_program:
+        name_present: "شوێنى ناو دەبێت بەتال نەمێنیت"
+        unique_name: "پروگرامێک بەو ناوە بونى هەیە، تکایە ناوێکى جێواز بنووسە"
+      lookup:
+        name_present: "شوێنى ناو دەبێت بەتال نەمێنیت"
+        value_presence: "تكايە بەلايەنى كەم يەك بنچینەى گەراندنەوە هەڵببژێرە"
+        unique_name: "بەدواگەرانەوەیەک بەو ناوە بونى هەیە، تکایە ناوێکى جێواز بنووسە"
+        being_used: "ئەم بەدواگەرانەوەیە بەکارهاتووە و ناتوانرێت بسرێتەوە"
+      system_users:
+        username_unique: "ئەم ناوى بەکارهێنەرە بەکارهێناوە!  تکایە ناوێکى ترى بەکارهێنەر هەلبژێرە"
+      replication:
+        remote_app_uri: "تکایە URL ێکى کارپێکراوى پریمێرو توماربکە"
+        remote_unauthorized: "ناوى بەکارهێنەر یان ژمارەى نهێنى تومارکردبیت هەلەیە"
+        remote_error: "نەتوانرا پەیوەندى بە سێرڤەرەوە بکرێت"
+        is_continuous: 'وەلامى بەردەوام؟'
+      password_recovery_request:
+        user_name_mandatory: "تکایە ناوێکى بەکارهێنەرى کارپێکراو بنووسە"
+      ownership:
+        associated_user_names_present: "بەکارهێنەرێک دەبێت پەیوەست بەو تومارەوە هەبێت"
+        module_id_prsesnt: "نموونەیەک دەبێت پەیوەست بەو تومارەوە هەبێت"
+      agency:
+        unique_name: "دامەزراوەیەک بەو ناوە بونى هەیە، تکایە ناوێکى جێواز بنووسە"
+        name_present: "نابێت بەتال بمێنێت"
+        code_present: "نابێت بەتال بمێنێت"
+      location:
+        name_present: "نابێت بەتال بمێنێت"
+        code_present: "نابێت بەتال بمێنێت"
+        admin_level_present: "نابێت بەتال بمێنێت"
+        unique_name: "شوێنێک بەو ناوە بونى هەیە، تکایە ناوێکى جێواز بنووسە"
+        unique_location_code: "شوێنێک  بەو کودى شوێنەوە بونى هەیە، تکایە کودێکى جێوازى شوێنێک بنووسە"
+      reporting_location:
+        label_key: "کلیدى دەستنیشانکراو دەبێت یەکێک بێت لە شێوەى جورەکانى شوێن"
+        admin_level: "ئاستى بەرێوەبەر دەبێت یەکێک بێت لە شێوەى ئاستى شوێنى بەرێوەبەر"
+      report:
+        name_presence: "شوێنى ناو دەبێت بەتال نەمێنیت"
+        module_presence: "شوێنى نموونەکە دەبێت بەتال نەمێنیت"
+        module_syntax: "پێویستە هەموو نموونەکانى ریپورت بونیان هەبێت"
+        record_type_presence: "شوێنى جورى تومار دەبێت بەتال نەمێنیت"
+        group_by_row_presence: " شوێنى گروپ لە دوایى یەک دەبێت بەتال نەمێنیت"
+        use_date_ranges_presence: "مەوداى بەکارهێنانى رێککەوت نابێت بەتال بمێنێت"
+      system_settings:
+        default_locale: "شوێنى سیستەمى خوجێى دەبێت بەتال نەبێت"
+        locales: "ئینگلیزى دەبێت وەک سیستەمى خوجێى بەردەست بێت"
+      export_configuration:
+        record_type: "جورى تومارى کارپێنەکراو. لەوانەیە زاروک بێت، داخوازى بەدواداچون یان رووداوەکە"
+        opt_out_field_does_not_exist: " فیلدى opt_out ى دەستنیشانکراو لە تومارەکەدا بونى نیە"
+  select_all_results: "هەموو ئەنجامەکان هەلبژێرە"
+  histories:
+    of: "هی"
+    to: "بو"
+    by: "لەلایەن"
+    added_by: "زیادکرا لەلایەن"
+    belong_to: "تایبەتە بە"
+    because: "چونکە:"
+    deleted_by: "سردرا لەلایەن"
+    referral: "پێشنیارکرا بو %{to_user} لەلایەن %{by_user}"
+    transfer: "گواستەوە بو %{to_user} لەلایەن %{by_user}"
+    record_by: "تومار دروستکرا لەلایەن"
+    child_status_changed: "دوخى منال گورا بو یەکگرتەوە لەلایەن"
+    system_logs:
+      records_performed_by: "تومارەکان ئەنجامدران لەلایەن"
+      performed_by: "ئەنجامدرا لەلایەن"
+      of_child_with_id: "هى منال لەگەل ناسنامە"
+    audio:
+      audio: "دەنگ"
+      audio_change: "فورمى دەنگ گورا"
+    duplicate:
+      mark_as_duplicate: "ئەم تومارە دەستنیشانکرا وەک دووبارەى"
+      no_longer_active: "ئەم تومارە چالاک نیە و بەردەست نیە بو دەستکاریکردن"
+    flag:
+      record_flagged_by: "تومارەکە دەستنیانکرا لەلایەن"
+      record_unflagged_by: "نیشانى تومارەکە لابرا لەلایەن"
+    investigated:
+      mark_as_investigated_by: "تومارەکە دەستنیشانکرا وەک لێکولینەوى بو کراوە لەلایەن"
+      mark_as_not_investigated_by: "تومارەکە دەستنیشانکرا وەک لێکولینەوى بو نەکراوە لەلایەن"
+    reunited:
+      child_status_changed: "دوخى منال گورا بو چالاک لەلایەن"
+      with_details: "لەگەل ئەم زانیاریانە:"
+  actions:
+    button: "کردارەکان"
+    enable: "بەکارخستن"
+    disable: "لەکاربێخە"
+    reopen: "دوبارەکردنەوە"
+    incident_details_from_case: "رووداو زیادبکە"
+    services_section_from_case: "خزمەتگوزاریە پێدراوەکان زیادبکە"
+    description:
+      valid: "تومارێن کارپێکرى"
+      invalid: "تومارێن کارپێنەکرى"
+  record_panel:
+    valid: "تومارێن کارپێکرى"
+    invalid: "تومارێن کارپێنەکرى"
+    record_state: "دوخى تومار"
+    created_by: "دروستکرا لەلایەن"
+    last_update: "کوتا نوێکردنەوە"
+    current_owner: "خاوەنى ئێستا"
+    change_log: "لوگوکە بگورە"
+    record_information: "زانیاریەکانى تومار"
+    name_date_seperator: "دەربارەى"
+  bulk_export:
+    file_name: "فایل"
+    record_type: "جور"
+    started_on: "دەستیپێکرد"
+    status: "دوخ"
+    retry: "ئەم ناردنە کارپێنەکراوە. تکایە ناردنى خوت دروستبکە"
+  exports:
+    no_records: "هیچ تومارێک لەبەردەست نیە"
+    queueing: "بەکارخستنى فایلى ناردن"
+    pdf:
+      all: PDF
+      one: PDF
+      selected: بو PDF دەستنیشانکرا
+    photowall:
+      all: وێنەى پشتەوە
+      one: وێنەى پشتەوە
+      selected: بو وێنەى پشتەوە دەستنیشانکرا
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: بو PDF دەستنیشانکرا
+    list_view_csv:
+      all: لیستى  ناردنەکان
+      selected: بو CSV دەستنیشانکرا
+    csv:
+      all: CSV
+      one: CSV
+      selected: بو CSV دەستنیشانکرا
+    xls:
+      all: ئێکسل
+      one: ئێکسل
+      selected: بو ئێکسل دەستنیشانکرا
+    selected_xls:
+      all: ئێکسل
+      one: ئێکسل
+      selected: بو ئێکسل دەستنیشانکرا
+    json:
+      all: JSON
+      one: JSON
+      selected: بو JSON دەستنیشانکرا
+    unhcr_csv:
+      all: UNHCR
+      one: UNHCR
+      selected: بو UNHCR دەستنیشانکرا
+      female_abbreviation: "مێ"
+      male_abbreviation: "نێر"
+      unknown_abbreviation: "U"
+      headers:
+        id: "ناسنامە"
+        long_id: "ناسنامەى درێژ"
+        short_id: "ناسنامەى کورت"
+        individual_progress_id: "ناسنامەى بەدواداچوونى تاکەکەس"
+        progres_id: "ناسنامەى بەدواداچوون"
+        cpims_code: "کودى CPIMS"
+        date_of_identification: "رێککەوتى ناسنامە"
+        primary_protection_concerns: "نیگەرانیە سەرتاییەکانى پاراستن"
+        secondary_protection_concerns: "نیگەرانیە دووەمیەکانى پاراستن"
+        governorate_country: "پارێزگا - وەلات"
+        sex: "رەگەز"
+        sex_mapping_m_f_u: "رەگەز"
+        date_of_birth: "رێککەوتى لەدایکبون"
+        age: "تەمەن"
+        causes_of_separation: "ئەگەر جودابوونەوە"
+        country_of_origin: "ولاتى بنەرەت"
+        current_care_arrangement: "رێکخستنى ئێستاى چاودێرى"
+        reunification_status: "دوخى دووبارەیەکگرتنەوە"
+        case_status: "بارى کەیسەکە"
+        family_count_no: "ژمارەى ئەندامانى خێزان"
+        moha_id: "ناسنامەى MOHA"
+        name_of_child_last_first: "ناوى سێقولى منالەکە"
+        name_of_caregiver: "ناوى سێقولى چاودێرەکە"
+        vulnerability_code: "کودە لاوازەکان"
+        vulnerability_details_code: "زانیاری کودەکانى لاواز"
+        locations_by_level: "ناونیشان (کەمپ،بەش، ناونیشانەکانى ترى گونجاو، وەک رێکخستنى GPSى پەناگەه)"
+    duplicate_id_csv:
+      all: ناسنامەى دووبارە
+      female_abbreviation: "مێ"
+      male_abbreviation: "نێر"
+      unknown_abbreviation: "U"
+      headers:
+        national_id_no: "زماره ناسنامةى نةتةوةيى"
+        case_id: "ناسنامەى كەیسەكە"
+        progress_id: "ناسنامەى بەدواداچوون"
+        child_name_last_first: "ناوى منال"
+        age: "تەمەن"
+        sex_mapping_m_f_u: "رەگەز"
+        family_size: "ئەندامانى خێزان"
+    mrm_violation_xls:
+      all: توندوتیژیەکانى MRM
+      one: توندوتیژیەکانى MRM
+      selected: بو توندوتیژیەکانى MRM دەستنیشانکرا
+    custom_exports:
+      label: ناردنەکانى ئارەزومەندانە
+      format_label: فورمەت هەلبژێرە
+      field_label: شوێن
+      form_label: فورم
+      forms: دەستنیشانکردنى فورمەکان بو ناردن
+      fields: دەستنیشانکردنى شوێنەکان بو ناردن
+      submit: باشە
+      select_module: دەستنیشانکردنى نموونە
+      choose_fields: دەتەوێت شوێنەکانى تاکەکەس هەلبژێرى بو فورمێک؟
+      module_placeholder: تکایە نموونەیەک هەلبژێرە
+      empty_password: تکایە ژمارەیەکى نهێنى بنوسە کە بتوانى فایلەکەت ب پارێزێت
+      empty_fields_forms: تکایە هەندێک فورمەکان یان فیلدەکان دەستنیشانبکە بو ناردن
+      empty_format: تکایە فورمەتەک هەلبژێرە بو ناردن
+      empty_module: تکایە نمووەنەیەک هەلبژێرە بو ناردن
+    pdf_exports:
+      label: PDF
+    forms:
+      label: هنارتن
+      button: ناردنىى فورمەکان
+  imports:
+    password_label: "ژمارەى نهێنى (ئەگەر پێویست بێت)"
+    format_label: "فورمەت "
+    successful: "هێنانەوەى فایلەکە بە سەرکەوتووى ئەنجامدرا"
+    error: "ئەم هەلەیانە لە هێنانەوە هەیە:%{error}"
+    file_missing: "پێویستە فایلێک بو هێنانەوە دەستنیشان بکەیت"
+    unknown_type: "جورى فایلى هێنانەوە نەناسراوە یان کارپێنەکراوە"
+    decrypt_error: "نەتوانرا فایلەکە بپارێزرێت بەو ژمارەى نهێنى کە دراوە"
+    guess_file_type_option: "دوزینەوەى ئوتوماتیکى بەستراوە بە کودى فایلەکە"
+    zip_file:
+      unknown_type: "ئەرشیف فایلەیەک یان زیاتر بە لە خودەگرێت لەگەل جورى نەناسراو"
+  referral:
+    type_label: "جورى پێشنیارەکە"
+    existing_user_label: "بەکارهێنەرى بونى هەیەتى"
+    other_user_label: "بەکارهێنەرەکانى تر"
+    other_user_agency_label: "دامەزراوەى بەکارهێنەرەکانى تر"
+    service_label: "خزمەتگوزارى"
+    consent_label: "تۆمار رەزامەندييان دەستەبەر نەكردووە."
+    consent_override_label: "دەتەوێت ئەم رێکخستنە لەکاربێخیت؟"
+    is_remote_label: "ئایا ئاماژە بو سیستەمى بنەرەت دەکەیت؟"
+    type_of_export: "چ جورە هناردەیەک دەتەوێت"
+    notes_label: "تێبینیەکان"
+    user_mandatory: "پێویستى بە ناوى بەکارهێنەرە"
+    no_records_selected: "هیچ تومارێک دەستنیشان نەکرا"
+    failure: "%{record_type} %{id} ئاماژەکردن سەرکەوتو نەبوو (پەسەندەکانى دەستنیشانکراو ب پشکنە)"
+    success: "%{record_type} %{id} بە سەرکەوتووى پێشنیارکرا"
+    failure_batch: "%{failed_count} ئاماژە(کان) سەرکەوتو نەبوو (پەسەندەکانى دەستنیشانکراو ب پشکنە)"
+    success_batch: "%{success_count} پێشنیارەکان بە سەرکەوتووى دروستکرا"
+    to_user_local_status_label: "دوخ"
+    user_local_status_pending: "چاوەروانى کردن"
+    user_local_status_accepted: "پەسەندکردن"
+    user_local_status_rejected: "رەتیکرد"
+    user_local_status_inprogress: "لە پێشەوه دایە"
+    user_local_status_done: "ئەنجامدا"
+    complete_referral_label: "کلیک کردن لسەر باشە دەریدەخات کە کارە پێشنیارکراوەکان تەواوتکرد کە پەیوەست بون بە کەیەسەکە. هەر کاتێک کلیک لسەر باشە کرا تو مولەتى چوونە ناو ئەم تومارە نامێنیت"
+    done_success_message: "پێشنیارەکە جێبەجێکرا"
+    agency_label: "دامەزراوە"
+    location_label: "شوێن"
+  reassign:
+    reassign_case_title: "کەیسەکانى وەرگیراو بو:"
+    existing_user_label: "بەکارهێنەرى بونى هەیە"
+    user_mandatory: "پێویستى بە ناوى بەکارهێنەرە"
+    no_records_selected: "هیچ تومارێک دەستنیشان نەکرا"
+    notes_label: "تێبینیەکان"
+  transfer:
+    type_label: "جورى ناردن"
+    existing_user_label: "بەکارهێنەرى بونى هەیەتى"
+    other_user_label: "بەکارهێنەرەکانى تر"
+    other_user_agency_label: "دامەزراوەى بەکارهێنەرەکانى تر"
+    consent_label: "تۆمار رەزامەندييان دەستەبەر نەكردووە."
+    consent_override_label: "دەتەوێت ئەم رێکخستنە لەکاربێخیت؟"
+    is_remote_label: "ئایا بو سیستەمێکى بنەرەت دەنێریت؟"
+    consent_individual_transfer: "رەزامەندیت لە تاکەکەسى بەرپرسیار هەیە بو ئەنجامدانى ئەم ناردنە؟"
+    type_of_export: "چ جورە هەنارده وەیەک دەتەوێت"
+    notes_label: "تێبینیەکان"
+    user_mandatory: "پێویستى بە ناوى بەکارهێنەرە"
+    failure: "%{record_type} %{id} گواستنەوە سەرکەوتوو نەبوو (پەسەندەکانى دەستنیشانکراو ب پشکنە)"
+    success: "%{record_type} %{id} بە سەرکەوتووى نارد"
+    rejected: "%{record_type} %{id} ناردنەکە رەدکرا"
+    failure_batch: "%{failed_count} گواستنەوە(کان) سەرکەوتوو نەبوو (پەسەندەکانى دەستنیشانکراو ب پشکنە)"
+    success_batch: "%{success_count} پێشنیارەکان بە سەرکەوتووى دروستکرا"
+    to_user_local_status_label: "دوخ"
+    user_local_status_pending: "چاوەروانى کردن"
+    user_local_status_accepted: "پەسەندکردن"
+    user_local_status_rejected: "رەتیکرد"
+    user_local_status_inprogress: "لە پێشەوه دایە"
+    reject: "ئەگەرى رەتکردنەکە"
+    accept_label: "بە کلیک کردن لەسەر پەسەندکردن تو رازیت لەسەر بەرپرسیارەتى ئەم کەیسە: هەر کاتێک کلیک لسەر باشە کرا دەبیتە خاوەنى تومار لە سیستەمەکەدا"
+    reject_label: "بە کلیککردنى 'رەتکردن' دیاردەکەى کە لەم کاتەدا ئامادەنیت بەرپرسیارەتى ئەم کەیسە وەربگرى. تکایە ئەگەرى رەتکردنى ئەم کەیسە دیاربکە. لەو کاتەى کلیک لەسەر 'بەلێ' دەکەیت مافى چونەژور بو تومارەى ئەم کەیسە لەدەست دەدەیت"
+    unknown_status: "دوخى نەناسراوى ناردن:%{status}"
+    unknown_transfer: "%{record_type} %{id} ناردنى هەلە"
+    not_valid_transfer: "%{record_type} %{id} ناردنى هەلە: ناتوانرێت نوێکردنەوە بکرێت یان مولەتت لسەرە ئەم کەیسە نیە"
+    search:
+      rejected: "رەتیکرد"
+      in_progress: "لە پێشەوه دایە"
+    agency_label: "دامەزراوە"
+    location_label: "شوێن"
+  request_transfer:
+    success: "داخوازى گواستنەوە نارد"
+    notes_label: "تێبینیەکان"
+    submit_label: "داخوازى بنێرە"
+    error:
+      owner_has_no_email: "خاوەنى تومارەکى ناونیشانى ئیمێل نیە"
+      record_not_found: "تومارەکە نەدوزرا"
+      record_not_saved: "نەتوانرا داخوازى ناردنى تومارەکە خەزنبکرێت"
+  transition:
+    export_type:
+      primero: "پریمێرو"
+      non_primero: "نا- پریمێرو"
+      pdf_export: "ناردنى PDF"
+  mark_for_mobile:
+    no_records_selected: "هیچ تومارێک دەستنیشان نەکرا"
+    failure: "%{record_type} %{id} نیشان بکە هەروەک موبایل شکست هێنا"
+    success: "%{record_type} %{id} بە سەرکەوتویى وەک موبایل دەست نیشانکرا"
+    failure_batch: "%{failed_count} تومار(ەکان) لە دەست نیشانکردن وەک موبایل شکەست هێنا"
+    success_batch: "%{success_count} تومار(ەکان) بە سەرکەوتووى وەک موبایل دەست نیشانکرا"
+  unmark_for_mobile:
+    failure: "%{record_type} %{id} لابردنى نیشان وەک موبایل شکەست هێنا"
+    success: "%{record_type} %{id} بە سەرکەوتویى نیشانى وەک موبایل لابرا"
+    failure_batch: "%{failed_count} تومار(ەکان) لە نیشان لابردن وەک موبایل شکەست هێنا"
+    success_batch: " %{success_count} نیشانى وەک موبایل لەسەر تومار(ەکان)  بە سەرکەوتوى لابرا"
+  approvals:
+    approve_bia: "داخوازى پەسەندکراو بو فورمى BIA؟"
+    approve_bia_label: " پەسەندى فورمى BIA"
+    approve_care_plan: " داخوازى پەسەندکراو بو فورمى پلانى کەیس؟"
+    approve_case_plan_label: "پەسەندکرن پیلانى کەیسى"
+    approve_case_plan: " داخوازى پەسەندکراو بو پلانى فورمى کەیس؟"
+    approve_case_plan_with_selectable_type: " داخوازى پەسەندکراو بو پلانى کەیس"
+    approve_closure: " داخوازى پەسەندکراو بو داخستنى فورم؟"
+    approve_closure_label: "پەسەندکردنى داخستنى فورم"
+    bia: "BIA"
+    case_plan: "پلانی كەیسەكە"
+    closure: "داخستن"
+    comments_label: "تێبینیەکان"
+    error_select_an_approval_type: "تکایە جورێکى پەسەندکردن دەستنیشانبکە"
+    case_plan_type_label: "جورى پلانى کەیسەکە:"
+    status:
+      pending: "چاوەروانى کردن"
+      approved: "پەسەندکرا"
+      rejected: "رەتیکرد"
+  notes:
+    notes_label: "تێبینیەکان"
+    subject_label: "بابەت"
+    no_records_selected: "هیچ تومارێک دەستنیشان نەکرا"
+    error_adding_note: "هەلە لە زیادکردنى تێبینى"
+  per_page_translation: "بو هەر لاپەرێک _MENU_"
+  total: سەرجەم
+  caregiver: "(به خێوكه ر)"
+  disabled:
+    filter_label: "پیشانبدە"
+    status:
+      enabled: "تواناپێدرا"
+      disabled: "لەکارخست"
+      all: "هەموو"
+      label: "دوخ"
+  sort_by:
+    label: "بە جورى"
+  logger:
+    to: "بو"
+    to_user: "بو بەکارهێنەر"
+    by_user: "لەلایەن بەکارهێنەر"
+    login: "چونەژوور"
+    logout: "دەرکەوتن"
+    create: "درووستکردن"
+    copy: "کوپیکردن"
+    destroy: "سرینەوە"
+    show: "پیشاندان"
+    edit: "دەستکاریکردن"
+    update: "نوێکردنەوە"
+    export: "ناردنى زانیارى بو"
+    referral: "پێشنیارکردن"
+    reassign: "وەرگرتن"
+    transfer: "گواستنەوە"
+    reopen_case: "دوبارەدەکرێتەوە"
+    quick_view: "پیشاندانى بژاردەى خێرا"
+    request_transfer_view: "پیشاندانى داخوازى ناردن"
+    request_transfer: "ناردنى داخوازى گواستنەوە"
+    save_subform: "خەزنکردنى فورمى بنچینە"
+    create_subform: "دروستکردنى فورمى بنچینە"
+    consent_count: "هەژمارەى رەزامەندى"
+    match_record: "تومارێن هاوبەش"
+    index: "رێکخستنى تومارەکان"
+    relinquish_referral: "وازهێنانى ئاماژە ئەنجامدرا"
+    flag: دێتە نیشانکرن
+    unflag: نیشان دێتەراکرن
+    flag_records: دهێتە نیشانکرن
+    transfer_status:
+      Accepted: "ناردنى پەسەنکراو"
+      Rejected: "ناردن رەتیکرد"
+    hide_name:
+      protect: "ناوەکە بشارەوە"
+      view: "ناوەکە دیاربکە"
+    request_approval:
+      bia: "داخوازى پەسەنکراو بو فورمى BIA "
+      case_plan: "داخوازى پەسەندکراو بو پلانى فورمى کەیس"
+      closure: " داخوازى پەسەندکراو بو داخستنى فورم"
+    approve_form:
+      'false': "رەتیدەکرێت"
+      'true': "پەسەنکردن"
+      bia: "فورمى BIA"
+      case_plan: "فورمى پلانى کەیسەکە"
+      closure: "داخستنى فورم"
+    mark_for_mobile:
+      'false': "نیشان بو موبایل لابە"
+      'true': "بو موبایل دەستنیشانبکە"
+    record_state:
+      'false': "لەکارخستن"
+      'true': "بەکارخستن"
+    graph_data: "پیشاندانى خشتەى زانیارى"
+    permitted_field_list: لیستى مولەتەکان
+    lookups_for_field: بەدواداگەرانى شوێن
+  job:
+    status:
+      complete: 'تەواوبکە'
+  string_sources_failed: "هەندێ ل فیلدەکان سەرکەوتو نەبوون لە داگرتن. لاپەرەکە دووبارە بکەرەوە بو داگرتنى هەموو فیلدەکان"
+  error_message:
+    notice: 'هەلە رێگرى لە خەزنکردنى ئەم فورم دەکەن'
+    fields_notice: 'چەند هەلەیەک لە گەل ئەم فیلدە هەبوون:'
+  error_page:
+    internal_server_error:
+      something_went_wrong: ببورە، شتێك بەهەڵەى رۆيشت!
+      contact_admin: تکایە پەیوەندى بە بەرێوەبەر بکە ئەگەر ئاریشەکە بەردەوام بوو.
+      server_error: هەلەى سێرڤەر
+    not_found:
+      something_went_wrong: ببورە، شتێك بەهەڵەى رۆيشت!
+      contact_admin: ئەگەر لەو باوەرەدابیت کە بە هەلە لە لێرەیت، تکایە پەیوەندى بە بەرێوەبەرت بکە
+      server_error: لاپەر نەدوزرا
+  audio:
+    update_browser:
+      title: 'نوێکردنەوە پێویستە'
+      message: "بو دەستپێکردنى هوکان پێویستیت بە نوێکردنەوەى براوسەرەکەت دەبێت بو نوێترین ڤێرژن یان نوێکردنەوەى "
+      link_text: "بە فلاشەوە دەبەستێت"
+  saved_searches:
+    no_save_searches: "هیچ لێگەریانێکى خەزنکراوت نیە"
+    name: "ناو"
+    save_search: "لێگەریانى خەزنکراو"
+    delete: "کلیک کردن لەسەر باشە \"%{filter_name}\"دەسرێتەوە"
+  email_notification:
+    enabled_label: "ئیمێلى وریاکردنەوە بنێرە؟"
+    approval_request_subject: "کەیس  %{id} -داخوازى پەسەنکراو"
+    approval_response_subject: "کەیس %{id} - وەلامى پەسەنکراو"
+    referral_subject: "%{record_type}: %{id} - پێشنیارەکە"
+    transfer_subject: "%{record_type}: %{id}  گواستنەوە"
+    transfer_request_subject: "داخوازى گواستنەوە بو یەکێک لە کەیسەکانت"
+    reassign_subject: "%{record_type}: %{id} - وەرگیراو بو تو"
+    approval_request: "بەکارهێنەر %{user} داخوازى پەسەنکردن دەکات بو %{approval_type} دەربارەى  کەیسى %{case_id}."
+    approval_response: "%{user} %{status} داخوازى پەسەندکردنى هەیە بو %{approval_type} بو کەیسى %{case_id}"
+    referral: "%{user} لە %{agency} ئەم پێشنیارانەى هەى %{record_type} بو تو %{record_id} بو %{service_type}."
+    transfer: "%{user} ئەم پێشنیارانەى کردووە %{record_type} بوتو%{record_id}."
+    reassign: "%{user} ئەمانە وەرگیران %{record_type} بو تو:%{record_id}."
+    transfer_request: "بەکارهێنەرى primero  %{user} لە %{agency} داخوازدەکات خاوەندارێتى ئه م  %{record_type} بوى بنێرى بو تومارى %{record_id} تا بتوانن خزمەتگوزایەکانى بەرێوەبردن %{record_type} بو تاکەکانى ئەو ناوچەیە دابینبکەن. ئەگەر رازیت لەسەر ئەم ناردنە، تکایە کلیک لەسەر %{record_type} ناسنامەى لینکى ئەم ئیمێلە بکە بو کردنەوەى %{record_type} لە پریمێرو وە ناردنەکە دەستپێبکرێت"
+    approval_request_html: "بەکارهێنەر 1%{user}1 داخوازى پەسەند دەکات بو 2 %{approval_type}2 دەربارەى کەیسى %{case_id}3."
+    approval_response_html: "%{user} دوخى   2%{status}2 هەیەتى و داخوازى پەسەند بو 3%{approval_type} بو کەیسى %{case_id}4"
+    referral_html: "%{user}1  لە %{agency}  ئەم  %{record_type} بو تو پێشنیارکرا: %{record_id}2 بو %{service_type}."
+    transfer_html: "%{user}1 ئەم %{record_type} بو تو نارد : 2%{record_id}2."
+    reassign_html: "%{user} ئەمانە وەرگیران %{record_type} بو تو:2%{record_id}2."
+    transfer_request_html: "بەکارهێنەرى %{user}1} لە %{agency} داخوازدەکات خاوەندارێتى %{record_type} بوى بنێرى بو تومارى 2%{record_id}2 تا بتوانن خزمەتگوزایەکانى بەرێوەبردن %{record_type} بو تاکەکانى ئەو ناوچەیە دابینبکەن. ئەگەر رازیت لەسەر ئەم ناردنە، تکایە کلیک لەسەر %{record_type} ناسنامەى لینکى ئەم ئیمێلە بکە بو کردنەوەى %{record_type} لە پریمێرو وە ناردنەکە دەستپێبکرێت"
+    transfer_request_notes_html: "تێبینیەکان لەلایەن تاکەکانەوە داخوایەکان دروست دەکەن: %{request_transfer_notes}"
+  will_paginate:
+    previous_label: "&#٨٥٩٢; بەرلەوە"
+    next_label: "پاشان &#٨٥٩٤;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page_html:
+        zero: "هیچ %{model} نەدوزرا"
+        one: "پیشاندان 1١1 %{model}"
+        other: "پیشاندان 1هەموو%{count}1 %{model}"
+      multi_page_html: "پیشاندان %{model} 1%{from} - %{to}1 هى 2%{count}2 iسەرجەمیان"
+    models:
+      report:
+        one: "ریپرتەکان"
+        other: "ریپرتەکان"
+      child:
+        one: "کەیسەکان"
+        other: "کەیسەکان"
+      incident:
+        one: "رووداوەکان"
+        other: "رووداوەکن"
+      hash:
+        one: "ئەنجامێن هەڤبەش"
+        other: "ئەنجامە هاوبەشەکان"
+      bulk_export:
+        one: "ناردنى فایل بە کومەل"
+        other: "ناردنى فایلەکان بە کومەل"
+      task:
+        one: "ئەرک"
+        other: "ئەرکەکان"

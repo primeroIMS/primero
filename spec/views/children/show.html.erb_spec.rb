@@ -17,12 +17,14 @@ describe "children/show.html.erb" do
     before :each do
       @user = double('user', :permissions => Permission.all_permissions_list, :has_permission? => true, :has_group_permission? => Permission::GROUP,
                      :user_name => 'name', :id => 'test-user-id', :full_name => 'Jose Smith')
-      @user.stub(:has_permission_by_permission_type?).and_return(true)  
+      @user.stub(:has_permission_by_permission_type?).and_return(true)
       @user.stub(:localize_date)
+      @user.stub(:reporting_location)
       @user.stub(:location).and_return('FAKE000')
       @user.stub(:has_permission_by_permission_type?).and_return(true)
       @service_types=[]
       @agencies=[]
+      @reporting_locations_for_select=[]
       controller.stub(:current_user).and_return(@user)
       controller.stub(:model_class).and_return(Child)
       view.stub(:current_user).and_return(@user)

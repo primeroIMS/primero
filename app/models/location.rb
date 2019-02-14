@@ -7,6 +7,7 @@ class Location < CouchRest::Model::Base
   include Disableable
   include LocalizableProperty
 
+  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
   #TODO - I18n - YES!!!! - possible as a lookup
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
@@ -19,6 +20,7 @@ class Location < CouchRest::Model::Base
   property :type
   property :hierarchy, type: [String]
   property :admin_level, Integer
+  property :base_language, :default => DEFAULT_BASE_LANGUAGE
   attr_accessor :parent_id
 
   design :by_ancestor do
@@ -72,7 +74,7 @@ class Location < CouchRest::Model::Base
 
   design
 
-  validates_presence_of :placename, :message => I18n.t("errors.models.location.name_present")
+  validate :validate_place_name_in_base_language
   validates_presence_of :admin_level, :message => I18n.t("errors.models.location.admin_level_present"), :if => :admin_level_required?
   validates_presence_of :location_code, :message => I18n.t("errors.models.location.code_present")
   validate :is_location_code_unique
@@ -207,6 +209,25 @@ class Location < CouchRest::Model::Base
       value = (lct.present? ? lct.name(locale) : '')
     end
     memoize_in_prod :display_text
+
+    def get_reporting_location(location)
+      reporting_admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      if location.admin_level ==  reporting_admin_level
+        location
+      else
+        location.ancestor_by_admin_level(reporting_admin_level)
+      end
+    end
+    memoize_in_prod :get_reporting_location
+
+    def all_names_reporting_locations(opts={})
+      admin_level = SystemSettings.current.reporting_location_config.try(:admin_level) || ReportingLocation::DEFAULT_ADMIN_LEVEL
+      reporting_location_hierarchy_filter = SystemSettings.current.reporting_location_config.try(:hierarchy_filter) || nil
+      locale = opts[:locale] || I18n.locale
+      find_names_by_admin_level_enabled(admin_level, reporting_location_hierarchy_filter, { locale: locale })
+    end
+
+    memoize_in_prod :all_names_reporting_locations
 
   end
 
@@ -343,5 +364,13 @@ class Location < CouchRest::Model::Base
 
     #Here be dragons...Beware... recursion!!!
     self.direct_descendants.each {|lct| lct.update_descendants}
+  end
+
+  def validate_place_name_in_base_language
+    placename = "placename_#{DEFAULT_BASE_LANGUAGE}"
+    unless (self.send(placename).present?)
+      errors.add(:placename, I18n.t("errors.models.location.name_present"))
+      return false
+    end
   end
 end

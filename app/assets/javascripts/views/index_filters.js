@@ -88,7 +88,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
 
       if($this.is('select') && type === 'list') {
         if (current_scope !== false) {
-          $this.val(current_scope)
+          $this.val(current_scope);
           self.set_remove_filter(name, current_scope)
         }
       }
@@ -105,10 +105,10 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
               option_selected = field;
               current_scope = _.without(params.split('||'), type);
             }
-          })
+          });
 
           if (current_scope !== false) {
-            selectable_control.val(option_selected)
+            selectable_control.val(option_selected);
 
             fields = $this.parents('.filter-controls').find('input.to, input.from');
             fields.attr('name', option_selected);
@@ -128,6 +128,13 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
 
       else if (type === 'location' ) {
         if (current_scope !== false) {
+          self.set_remove_filter(name, current_scope);
+        }
+      }
+
+      else {
+        if (current_scope !== false) {
+          $(this).val(decodeURI(current_scope[1]));
           self.set_remove_filter(name, current_scope);
         }
       }
@@ -183,6 +190,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
         selected_val = $target.val(),
         filter = $target.attr('name'),
         filter_type = $target.attr('filter_type') || 'single',
+        match_filter = $target.attr('match_filter') || '',
         self = this;
 
     // Checkboxes
@@ -196,9 +204,10 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       // Date Ranges
       var $date_inputs = $target.parents('.filter-controls').find('input.to, input.from');
       $date_inputs.attr('name', $target.parents('.filter-controls').find('.selectable_date').val())
-      date_values = [ $($date_inputs[0]).val(), $($date_inputs[1]).val()];
+      date_values = [$($date_inputs[0]).val(), $($date_inputs[1]).val()];
       this.set_date_range(date_values, filter, filter_type);
     } else if ($target.is("select") && filter_type === 'list') {
+      if (match_filter === 'potential_match_configuration') selected_val = selected_val || "all_fields_removed";
       var filter_values = (selected_val) ? _.flatten([filter_type, selected_val]) : "";
       this.set_remove_filter(filter, filter_values);
     } else if ($target.is("select") && filter_type === 'location') {
@@ -211,7 +220,7 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
       this.set_remove_filter(filter, filter_values);
     } else {
       // Everything else
-      this.set_remove_filter(filter, $target.val(), filter_type);
+      this.set_remove_filter(filter, [filter_type, $target.val()]);
     }
   }
 });
