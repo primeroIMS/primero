@@ -232,4 +232,134 @@ describe ReportsController do
 
   end
 
+  describe 'index' do
+    before :each do
+      controller.should_receive(:authorize!).with(:read_reports, Report).and_return(true)
+      permission_list = [
+        Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE]),
+        Permission.new(resource: Permission::REPORT, actions: [Permission::GROUP_READ])
+      ]
+
+      role = Role.new(id: 'role-test',
+        name: 'District Case Coordinator',
+        description: 'District Case Coordinator',
+        group_permission: Permission::GROUP,
+        permissions_list: permission_list)
+
+      user = User.new(user_name: 'fakeadmin',
+        module_ids: [@primero_module.id],
+        role_ids: [role.id])
+
+      session = fake_admin_login(user)
+      get :index
+    end
+
+    it 'renders index template' do
+      expect(response).to render_template(:index)
+    end
+
+    it 'has status code ok' do
+      expect(response.status).to eq(200)
+    end
+
+    describe 'instance variables' do
+
+      before :each do
+        Report.all.each(&:destroy)
+        @case_load_summary_report = Report.new(
+          id: 'case-load-summary',
+          name_all: 'Caseload Summary',
+          description_all: 'Number of cases for each case worker',
+          module_ids: [@primero_module.id],
+          record_type: 'case',
+          aggregate_by: ['owned_by'],
+          add_default_filters: true,
+          is_graph: true,
+          editable: false
+        )
+        @case_load_summary_report.save!
+
+        @case_status_report = Report.new(
+          id: 'case-status',
+          name: 'Case status by case worker',
+          module_ids: [@primero_module.id],
+          record_type: 'case',
+          aggregate_by: ['owned_by_location'],
+          add_default_filters: true,
+          is_graph: true,
+          editable: false
+        )
+        @case_status_report.save!
+      end
+
+      it "assigns the @current_modules" do
+        expect(assigns(:current_modules)).to be_nil
+      end
+      it "assigns the @total_records" do
+        expect(assigns(:total_records)).to eq(2)
+      end
+      it "assigns the @per" do
+        expect(assigns(:per)).to eq(20)
+      end
+      it "assigns the @reports" do
+        expect(assigns(:reports)).to include(@case_load_summary_report, @case_status_report)
+      end
+    end
+  end
+
+  describe 'show' do
+    before :each do
+      controller.should_receive(:authorize!).with(:read_reports, Report).and_return(true)
+      permission_list = [
+        Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE]),
+        Permission.new(resource: Permission::REPORT, actions: [Permission::GROUP_READ])
+      ]
+
+      role = Role.new(id: 'role-test',
+        name: 'District Case Coordinator',
+        description: 'District Case Coordinator',
+        group_permission: Permission::GROUP,
+        permissions_list: permission_list)
+
+      user = User.new(user_name: 'fakeadmin',
+        module_ids: [@primero_module.id],
+        role_ids: [role.id])
+
+      # Reports
+      Report.all.each(&:destroy)
+        @case_load_summary_report = Report.new(
+          id: 'case-load-summary',
+          name_all: 'Caseload Summary',
+          description_all: 'Number of cases for each case worker',
+          module_ids: [@primero_module.id],
+          record_type: 'case',
+          aggregate_by: ['owned_by'],
+          add_default_filters: true,
+          is_graph: true,
+          editable: false
+        )
+        @case_load_summary_report.save!
+
+        @case_status_report = Report.new(
+          id: 'case-status',
+          name: 'Case status by case worker',
+          module_ids: [@primero_module.id],
+          record_type: 'case',
+          aggregate_by: ['owned_by_location'],
+          add_default_filters: true,
+          is_graph: true,
+          editable: false
+        )
+        @case_status_report.save!
+
+        session = fake_admin_login(user)
+    end
+
+    it 'data' do
+      get :show, params: { id: 'case-load-summary' }
+      expect(assigns[:report].has_data?).to be true
+    end
+
+  end
+
 end
