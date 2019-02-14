@@ -12,6 +12,11 @@
     "solr": {
       "memory": "256m"
     },
+    "postgres": {
+       "host": "localhost",
+       "role": "primero",
+       "password": "primero"
+    },
     "couchdb": {
       "host": "127.0.0.1",
       "password": "primero",
@@ -42,5 +47,5 @@
     ]
   },
   "nginx_default_site": false,
-  "run_list": [ "rvm::vagrant", "recipe[primero::default]", "recipe[primero::development]" ]
+  "run_list": [ "rvm::vagrant", "recipe[primero::postgres]", "recipe[primero::database]", "recipe[primero::solr]", "recipe[primero::development]" ]
 }
