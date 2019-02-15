@@ -1085,6 +1085,111 @@ describe TracingRequest do
 
   end
 
+  describe 'match criteria' do
+    before do
+      fields = [
+        Field.new({"name" => "name",
+                   "type" => "text_field",
+                   "display_name_all" => "name",
+                   "matchable" => true
+                  }),
+        Field.new({"name" => "name_nickname",
+                  "type" => "text_field",
+                  "display_name_en" => "Nickname",
+                  "matchable" => true
+                  }),
+        Field.new({"name" => "sex",
+                   "type" => "text_field",
+                   "display_name_en" => "Sex",
+                   "matchable" => true
+                  }),
+        Field.new({"name" => "age",
+                   "type" => "numeric_field",
+                   "display_name_all" => "Age"
+                  })]
+      TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
+      FormSection.create_or_update_form_section({
+        :unique_id=> "form_section_test",
+        "visible" => true,
+        :order => 1,
+        "editable" => true,
+        :fields => fields,
+        :perm_enabled => true,
+        :parent_form=>"tracing_request",
+        "name_all" => "Form Section With Dates Fields",
+        "description_all" => "Form Section With Dates Fields",
+      })
+    end
+
+    tr1 = TracingRequest.create(:name => "John cena", :name_nickname => "you cant see me", :age => 11, :sex => "male")
+    tr2 = TracingRequest.create(:name => "Rock", :age => 14, :sex => "male")
+    tr3 = TracingRequest.create(:age => 50)
+    matching_fields = { form_section_test: ["name"] }
+
+    context 'when field in match_fields' do
+      it 'should find all values in match criteria' do
+        expect(tr1.match_criteria(tr1)).to eq({:name=>[tr1.name_nickname, tr1.name], :sex=>[tr1.sex]})
+      end
+
+      it 'should find matchable_fields values in match criteria' do
+        expect(tr1.match_criteria(tr1, matching_fields)).to eq({:name=>[tr1.name, tr1.name_nickname]})
+      end
+    end
+
+    context 'when field not in match_fields' do
+      it 'should find exact match criteria' do
+        expect(tr2.match_criteria(tr2)).to eq({:name=>[tr2.name], :sex=>[tr2.sex]})
+      end
+
+      it 'should find exact match criteria with matchable_fields' do
+        expect(tr2.match_criteria(tr2, matching_fields)).to eq({:name=>[tr2.name]})
+      end
+    end
+
+    context 'when field is not matchable' do
+      it 'should find no criteria' do
+        expect(tr3.match_criteria(tr3)).to eq({})
+      end
+
+      it 'should find no criteria with matchable_fields' do
+        expect(tr3.match_criteria(tr3, matching_fields)).to eq({})
+      end
+    end
+  end
+
+  describe "tracing_request_subform_details" do
+    before do
+      FormSection.all.each(&:destroy)
+      Dir[File.dirname(__FILE__) + '/../../db/forms/tracing_request/*.rb'].each {|file| load file }
+      #Reload the form properties
+      TracingRequest.refresh_form_properties
+      TracingRequest.all.each { |tracing_request| tracing_request.destroy }
+
+      @tracing_request1 = TracingRequest.new("tracing_request_subform_section": [{"name": "Judy", "name_other": "Uzair"}, {"name": "Cena", "other_name": "John"}])
+      @tracing_request2 = TracingRequest.new("tracing_request_subform_section": ["name": "Judy", "name_other": "Uzair"], "relation_name" => "Brad")
+      @tracing_request3 = TracingRequest.new("relation_name" => "Dave", "relation" => "Mother")
+    end
+
+
+    context 'when mutiple fields' do
+      it "should return the names" do
+        expect(@tracing_request1.tracing_request_subform_details("name")).to eq("Judy Cena")
+      end
+    end
+
+    context 'when single field' do
+      it 'should return a single other name' do
+        expect(@tracing_request2.tracing_request_subform_details("name_other")).to eq("Uzair")
+      end
+    end
+
+    context 'when no fields' do
+      it 'should find no subform details' do
+        expect(@tracing_request3.tracing_request_subform_details("relation")).to eq("")
+      end
+    end
+  end
+
   private
 
   def create_tracing_request(name, options={})

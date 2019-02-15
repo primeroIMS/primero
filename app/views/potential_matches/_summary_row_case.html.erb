@@ -3,32 +3,29 @@
   match_record = record.last.first
 %>
 
-<table style="width:100%" class="pm_table record_list_view">
+<table style="width:100%" class="pm_table record_list_view dont_page">
   <thead>
   <tr>
     <th><%= t("potential_match.child_id") %></th>
     <th><%= t("potential_match.child_age") %></th>
     <th><%= t("potential_match.child_gender") %></th>
-    <th><%= t("potential_match.reg_date") %></th>
   </tr>
   </thead>
   <tbody>
   <tr>
-    <td class="id_column"><%= link_to text_to_identify_potential_match_child(match_record), case_path(match_record.child_id), class: 'id_link' %></td>
+    <td class="id_column"><%= link_to match_record.case_id_display, case_path(match_record.child_id), class: 'id_link' %></td>
     <td><%= mask_match_value(match_record, match_record.child_age) %></td>
-    <td><%= mask_match_value(match_record, match_record.child.try(:display_field, 'sex', @lookups) %></td>
-    <td><%= mask_match_value(match_record, field_format_date(match_record.case_registration_date)) %></td>
+    <td><%= mask_match_value(match_record, match_record.child.try(:display_field, 'sex', @lookups)) %></td>
   </tr>
   </tbody>
 </table>
-<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table record_list_view" id="myTable_<%= match_record.child_id %>">
+<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table record_list_view dont_page" id="myTable_<%= match_record.child_id %>">
   <thead>
   <tr>
     <th><%= t("potential_match.inquirer_id") %></th>
     <th><%= t("potential_match.inquirer_name") %></th>
     <th><%= t("potential_match.inquiry_date") %></th>
     <th><%= t("potential_match.inquirer_tr_name") %></th>
-    <th><%= t("potential_match.social_worker") %></th>
     <th><%= t("potential_match.score") %></th>
   </tr>
   </thead>
@@ -36,6 +33,3 @@
   <%= render :partial => "potential_matches/summary_row_detail_tracing_request", collection: record.last, as: :detail %>
   </tbody>
 </table>
-<% if record.last.size > 1 %>
-  <button style="width:100%" id="show_more_<%# record["child_id"] %>">show more</button>
-<% end %>

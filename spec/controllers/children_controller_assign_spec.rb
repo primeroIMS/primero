@@ -7,7 +7,7 @@ describe ChildrenController do
     User.all.each{|u| u.destroy}
     Child.all.each{|u| u.destroy}
 
-    permission_transition = Permission.new(resource: Permission::CASE, actions: [Permission::REASSIGN, Permission::READ, Permission::WRITE, Permission::CREATE])
+    permission_transition = Permission.new(resource: Permission::CASE, actions: [Permission::ASSIGN, Permission::READ, Permission::WRITE, Permission::CREATE])
     Role.create(id: 'transfer', name: 'transfer', permissions_list: [permission_transition], group_permission: Permission::GROUP)
 
     @user = User.create!(:user_name => 'transfering_user', :role_ids => ['transfer'], :module_ids => [PrimeroModule::CP],

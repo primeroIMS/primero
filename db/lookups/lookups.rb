@@ -630,11 +630,22 @@ create_or_update_lookup(
 create_or_update_lookup(
     :id => "lookup-approval-type",
     :name_en => "Approval Type",
-    :lookup_values_en => [
-        {id: "case_plan", display_text: "Case Plan"}.with_indifferent_access,
-        {id: "action_plan", display_text: "Action Plan"}.with_indifferent_access,
-        {id: "service_provision", display_text: "Service Provision"}.with_indifferent_access
-    ]
+    :locked => true,
+    :lookup_values => [
+        {id: "case_plan", display_text: "Case Plan"},
+        {id: "action_plan", display_text: "Action Plan"},
+        {id: "service_provision", display_text: "Service Provision"}
+    ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
+    :id => "lookup-gbv-approval-types",
+    :name_en => "Approval Type for GBV users",
+    :locked => true,
+    :lookup_values => [
+        {id: "case_plan", display_text: "Case Plan"},
+        {id: "closure", display_text: "Closure"}
+    ].map(&:with_indifferent_access)
 )
 
 create_or_update_lookup(
@@ -1008,5 +1019,18 @@ create_or_update_lookup(
     { id: 'alleged_perpetrator', display_text: "Alleged Perpetrator" },
     { id: 'service_referral', display_text: "Service Referral" },
     { id: 'other_reportable_fields', display_text: "Other Reportable Fields" }
+  ].map(&:with_indifferent_access)
+)
+
+create_or_update_lookup(
+  :id => "lookup-agency-office",
+  :name => "Agency Office",
+  :locked => true,
+  :lookup_values => [
+    {id: "agency_office_1", display_text: "Agency Office 1"},
+    {id: "agency_office_2", display_text: "Agency Office 2"},
+    {id: "agency_office_3", display_text: "Agency Office 3"},
+    {id: "agency_office_4", display_text: "Agency Office 4"},
+    {id: "agency_office_5", display_text: "Agency Office 5"}
   ].map(&:with_indifferent_access)
 )

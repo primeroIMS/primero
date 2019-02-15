@@ -33,6 +33,17 @@ $(show_tools);
   </div>
 <% end %>
 
+<% if can?(:find_tracing_match, Child) && @child.consent_for_tracing %>
+    <% content_for :record_sub_nav_controls do %>
+        <div class="column shrink">
+          <%= link_to t("buttons.find_tracing_match"),
+                      potential_matches_path(match: @child.id, type: 'case'),
+                      class: 'button'
+          %>
+        </div>
+    <% end %>
+<% end %>
+
 <% if can? :edit, @child %>
   <% content_for :record_sub_nav_controls do %>
     <div class="column shrink">

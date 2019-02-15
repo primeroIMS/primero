@@ -82,7 +82,6 @@ describe ChildrenController, :type => :controller do
 
       it "GET show" do
         controller.should_receive(:can?).with(:assign, Child).and_return(false)
-        controller.should_receive(:can?).with(:reassign, Child).and_return(false)
         controller.should_receive(:can?).with(:assign_within_agency, Child).and_return(false)
         controller.should_receive(:can?).with(:assign_within_user_group, Child).and_return(false)
         @controller.current_ability.should_receive(:can?).with(:read, @child).and_return(false)
@@ -291,7 +290,7 @@ describe ChildrenController, :type => :controller do
         #     fields are there, but when run all the test cases
         #     phonetic fields are not there.
         Sunspot.setup(Child) do
-          Child.searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
+          Child.phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
         end
 
         User.all.each{|u| u.destroy}
@@ -436,7 +435,8 @@ describe ChildrenController, :type => :controller do
         p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
         user = User.new(:user_name => 'fakeadmin', :is_manager => true)
         session = fake_admin_login user
-        user.should_receive(:modules).and_return([p_module], [p_module])
+
+        user.should_receive(:modules).and_return([p_module], [p_module], [p_module], [p_module])
         user.should_receive(:has_module?).with(anything).and_return(true, true, true)
 
         get :index
@@ -454,7 +454,7 @@ describe ChildrenController, :type => :controller do
         p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
         user = User.new(:user_name => 'fakeadmin', :is_manager => false)
         session = fake_admin_login user
-        user.should_receive(:modules).and_return([p_module], [p_module])
+        user.should_receive(:modules).and_return([p_module], [p_module], [p_module], [p_module])
         user.should_receive(:has_module?).with(anything).and_return(true, true, true)
 
         get :index

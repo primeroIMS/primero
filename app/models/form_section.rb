@@ -41,6 +41,9 @@ class FormSection < CouchRest::Model::Base
   property :mobile_form, TrueClass, :default => false
   property :header_message_link, String, :default => ""
 
+  # If this property is true and user is on a mobile device, users must only be allowed to add subforms.
+  property :subform_append_only, TrueClass, :default => false
+
   attr_accessor :module_name
 
   design
@@ -405,16 +408,11 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :get_matchable_fields_by_parent_form
 
-    # Returns: hash of (key) Form ID and (values) Fields that are matchable
-    def get_matchable_form_and_field_names(form_ids, parent_form)
-      form_sections = FormSection.form_sections_by_ids_and_parent_form(form_ids, parent_form)
-      return {} if form_sections.blank?
-      form_hash = {}
-      form_sections.each do |f|
-        matchable_fields = f.all_matchable_fields
-        form_hash[f.unique_id] = matchable_fields.map{|fd| fd.name} if matchable_fields.present?
-      end
-      form_hash
+    def get_matchable_form_and_field_by_parent_form(parent_form, sub_form=true)
+      #Get the matchable fields from either the regular forms or from the subforms, depending on the value of the sub_form param
+      FormSection.by_parent_form(key: parent_form).all
+          .select{ |f| sub_form ? f.is_nested.present? : f.is_nested.blank? }
+          .each{ |f| f.all_matchable_fields.uniq(&:name).select(&:visible?) }
     end
 
     def form_sections_by_ids_and_parent_form(form_ids, parent_form)
@@ -693,7 +691,7 @@ class FormSection < CouchRest::Model::Base
       form_hash.slice!('unique_id', :name, 'order', :help_text, 'base_language', 'fields')
       form_hash['fields'].each do |field|
         field.slice!('name', 'disabled', 'multi_select', 'type', 'subform', 'required', 'option_strings_source',
-          'show_on_minify_form','mobile_visible', :display_name, :help_text, :option_strings_text)
+          'show_on_minify_form','mobile_visible', :display_name, :help_text, :option_strings_text, 'date_validation')
         simplify_mobile_form(field['subform']) if (field['type'] == 'subform' && field['subform'].present?)
       end
     end
@@ -732,6 +730,18 @@ class FormSection < CouchRest::Model::Base
         Rails.logger.error "Error importing translations: locale not present"
       end
     end
+
+    def get_append_only_subforms
+      get_subforms(all.all).select(&:subform_append_only)
+    end
+
+    memoize_in_prod :get_append_only_subforms
+
+    def get_append_only_subform_ids
+      get_append_only_subforms.map(&:unique_id)
+    end
+
+    memoize_in_prod :get_append_only_subform_ids
 
   end
 

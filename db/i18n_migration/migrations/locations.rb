@@ -1,4 +1,4 @@
-puts 'Migrating (i81n): Locations'
+puts 'Migrating (i18n): Locations'
 
 include MigrationHelper
 

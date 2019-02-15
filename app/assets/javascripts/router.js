@@ -9,8 +9,10 @@ _primero.Router = Backbone.Router.extend({
     'tracing_requests/:id': 'recordShowPage',
     'incidents': 'recordIndexPage',
     'cases': 'recordIndexPage',
+    'cases/:id/edit': 'caseRecordForm',
     'tracing_requests': 'recordIndexPage',
     'potential_matches': 'recordIndexPage',
+    'duplicates': 'recordIndexPage',
     'audit_logs': 'recordIndexPage',
     'children/:id': 'recordShowPage',
     'reports/new': 'reportsForm',
@@ -42,6 +44,7 @@ _primero.Router = Backbone.Router.extend({
 
   initialize: function() {
     this.formControls();
+    new _primero.Views.LangToggle();
     new _primero.Views.tabNavigation();
     new _primero.Views.Connectivity();
 
@@ -82,6 +85,7 @@ _primero.Router = Backbone.Router.extend({
     this.passwordPrompt();
     new _primero.Views.CustomExports();
     new _primero.Views.PdfExports();
+    new _primero.Views.PopulateUserSelectBoxes();
     new _primero.Views.ReferRecords();
     new _primero.Views.Notes();
     new _primero.Views.ReassignRecords();
@@ -99,6 +103,7 @@ _primero.Router = Backbone.Router.extend({
     new _primero.Views.AutoCalculateAgeDOB()
     new _primero.Views.PopulateSelectBoxes();
     new _primero.Views.PopulateLocationSelectBoxes();
+    new _primero.Views.PopulateReportingLocationSelectBoxes();
     new _primero.Views.IndexFilters();
     new _primero.Views.SaveFilters();
     this.maskedUserAndPasswordReferal();
@@ -109,6 +114,10 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.viewRecord();
       new _primero.Views.IdSearch();
     }
+  },
+
+  caseRecordForm: function(){
+    new _primero.Views.ServiceSubform();
   },
 
   userCreatePage: function() {
@@ -136,6 +145,7 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.RequestApproval();
       new _primero.Views.PopulateSelectBoxes();
       new _primero.Views.PopulateLocationSelectBoxes();
+      new _primero.Views.PopulateReportingLocationSelectBoxes();
       this.maskedUserAndPasswordReferal();
       this.maskedUserAndPasswordTransfer();
     }
@@ -158,6 +168,7 @@ _primero.Router = Backbone.Router.extend({
       _primero.shared_fields = new _primero.Views.SharedFields();
       new _primero.Views.PopulateSelectBoxes();
       new _primero.Views.PopulateLocationSelectBoxes();
+      new _primero.Views.PopulateReportingLocationSelectBoxes();
       new _primero.Views.RequiredFields();
       new _primero.Views.AutosumFields();
       new _primero.Views.AutoCalculateAgeDOB();

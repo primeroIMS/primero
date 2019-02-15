@@ -16,7 +16,7 @@ def get_random_user
 end
 
 def create_children(id, num_children, names, lastnames)
-  relation = ["Mother", "Father", "Aunt", "Uncle", "Brother", "Sister",]
+  relation = ["mother", "father", "aunt", "uncle", "brother", "sister",]
 
   children = (0..num_children).each do |i|
 
@@ -26,16 +26,22 @@ def create_children(id, num_children, names, lastnames)
         randomday = 1 + rand(29)
         
         c.module_id = 'primeromodule-cp'
-        c.name = ''
-        c.child_status = ['Open', 'Closed'].sample
+        c.child_status = ['open', 'closed'].sample
         c.record_state = [true, false].sample
         c.created_at = DateTime.new(2014, randommonth, randomday)
         #random name and last name
-        c.name = "#{names[rand(names.size-1)]} #{lastnames[rand(lastnames.size-1)]}"
+        c.name_first = "#{names[rand(names.size-1)]}"
+        c.name_last = " #{lastnames[rand(lastnames.size-1)]}"
+        c.name_nickname = "#{names[rand(names.size-1)]}"
+        c.name_other = "#{lastnames[rand(lastnames.size-1)]}"
+        c.sex = ['male', 'female'].sample
+        c.age = "#{rand(5..30)}"
+        c.consent_for_tracing = true
         c.family_details_section = [
           {
             :unique_id => "#{id}#{i}-1",
-            :relation_name => "#{c.name}1",
+            :relation_name => "#{c.name_first}1",
+            :relation_nickname => "#{c.name_nickname}1",
             :relation => relation.sample
           }
         ]
@@ -44,7 +50,7 @@ def create_children(id, num_children, names, lastnames)
       default_owner = get_random_user
       c = Child.find_by_unique_identifier(k) || Child.new_with_user_name(default_owner, {:unique_identifier => k})
       v.call(c)
-      puts "Child #{c.new? ? 'created' : 'updated'}: #{c.unique_identifier} name: #{c.name}"
+      puts "Child #{c.new? ? 'created' : 'updated'}: #{c.unique_identifier} name: #{c.name_first} #{c.name_last}, name_nickname: #{c.name_nickname}, name_other: #{c.name_other}"
       c.save!
     end
   end

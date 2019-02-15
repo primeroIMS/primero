@@ -13,6 +13,11 @@ en:
       case_plan: Case Plan
       action_plan: Action Plan
       service_provision: Service Provision
+  lookup-gbv-approval-types:
+    name: GBV Approval Types
+    lookup_values:
+      case_plan: Case Plan
+      closure: Closure
   lookup-armed-force-group-name:
     name: Armed Force Group Name
     lookup_values:
@@ -41,9 +46,9 @@ en:
   lookup-assessment-progress:
     name: Assessment Progress
     lookup_values:
-      n_a_76006: N/A
-      in_progress_69307: In progress
-      met_49626: Met
+      n_a: N/A
+      in_progress: In progress
+      met: Met
   lookup-case-status:
     name: Case Status
     lookup_values:

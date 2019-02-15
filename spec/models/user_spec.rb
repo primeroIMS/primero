@@ -31,7 +31,6 @@ describe User do
     DateTime.stub(:now).and_return(date_time)
     User.stub(:find_by_user_name).and_return(user)
     user.stub(:authenticate).and_return true
-    user.should_receive(:save)
 
     login = Login.new(params)
     login.authenticate_user
@@ -251,33 +250,10 @@ describe User do
     LoginActivity.create!(user_name: user.user_name, imei: 'IMEI2', mobile_number: '123-456-7890')
     LoginActivity.create!(user_name: 'sueanne', imei: 'IMEI', mobile_number: '123-456-7890')
 
-
     mobile_login_history = user.mobile_login_history
 
     expect(mobile_login_history).to have(2).events
     expect(mobile_login_history.first.imei).to eq('IMEI2')
-  end
-
-  it "should store list of devices when new device is used" do
-    Device.all.each(&:destroy)
-    user = build_user
-    user.create!
-    user.add_mobile_login_event("a imei", "a mobile")
-    user.add_mobile_login_event("b imei", "a mobile")
-    user.add_mobile_login_event("a imei", "a mobile")
-
-
-    Device.all.map(&:imei).sort().should == (["a imei", "b imei"])
-  end
-
-  it "should create devices as not blacklisted" do
-    Device.all.each(&:destroy)
-
-    user = build_user
-    user.create!
-    user.add_mobile_login_event("an imei", "a mobile")
-
-    Device.all.all? { |device| device.blacklisted? }.should be_falsey
   end
 
   it "should save blacklisted devices to the device list" do
