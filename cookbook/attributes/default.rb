@@ -28,6 +28,7 @@ default[:primero].tap do |p|
   p[:couch_watcher].tap do |cw|
     cw[:app_host] = 'localhost'
     cw[:app_port] = 4000
+    cw[:app_socket] = File.join(node[:primero][:app_dir], 'tmp', 'primero.sock')
   end
 
   p[:no_reseed] = false
