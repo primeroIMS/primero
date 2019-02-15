@@ -28,6 +28,7 @@ class User < CouchRest::Model::Base
   property :is_manager, TrueClass, :default => false
   property :send_mail, TrueClass, :default => true
   property :services, :type => [String], :default => []
+  property :agency_office
 
   alias_method :agency, :organization
   alias_method :agency=, :organization=
@@ -37,6 +38,10 @@ class User < CouchRest::Model::Base
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
 
   timestamps!
+
+  design :by_organization do
+    view :by_organization
+  end
 
   design do
     view :by_user_name,
@@ -59,51 +64,6 @@ class User < CouchRest::Model::Base
                   emit(doc['user_name'], null);
                 }
               }"
-
-    view :by_full_name,
-         :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['full_name']) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_full_name_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('full_name') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_full_name_disabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('full_name') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
-                  emit(doc['full_name'], null);
-                }
-              }"
-
-    view :by_organization,
-         :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['organization']) {
-                  emit(doc['organization'], null);
-                }
-              }",
-         :reduce => "_count"
-
-    view :by_organization_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('organization') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['organization'], null);
-                }
-              }",
-         :reduce => "_count"
-
-    view :by_organization_disabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('organization') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
-                  emit(doc['organization'], null);
-                }
-              }",
-         :reduce => "_count"
 
     view :by_unverified,
             :map => "function(doc) {
@@ -137,7 +97,7 @@ class User < CouchRest::Model::Base
 
 
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :encrypt_password, :update_user_case_locations
+  before_save :make_user_name_lowercase, :encrypt_password, :update_user_cases_groups_and_location
   after_save :save_devices
 
   before_update :if => :disabled? do |user|
@@ -167,6 +127,19 @@ class User < CouchRest::Model::Base
 
   before_save :generate_id
 
+  include Indexable
+
+  searchable auto_index: self.auto_index? do
+    string :user_name
+    string :organization
+    string :location
+    boolean :disabled
+    string :reporting_location do
+      self.reporting_location.try(:location_code)
+    end
+    string :services, :multiple => true
+  end
+
   #In order to track changes on attributes declared as attr_accessor and
   #trigger the callbacks we need to use attribute_will_change! method.
   #check lib/couchrest/model/extended_attachments.rb in source code.
@@ -185,7 +158,6 @@ class User < CouchRest::Model::Base
     alias :by_all :all
     alias :list_by_all :all
     alias :by_user_name_all :by_user_name
-    alias :by_full_name_all :by_full_name
     alias :by_organization_all :by_organization
     def all(*args)
       old_all(*args)
@@ -252,6 +224,18 @@ class User < CouchRest::Model::Base
     def is_syncable_with_mobile?
       false
     end
+
+    def find_by_criteria(criteria={}, pagination=nil, sort=nil)
+      User.search do
+        if criteria.present?
+          criteria.each do |key, value|
+            with key.to_sym, value
+          end
+        end
+        sort.each { |sort_field, order| order_by(sort_field, order) } if sort.present?
+        paginate pagination if pagination.present?
+      end
+    end
   end
 
   def email_entered?
@@ -292,11 +276,14 @@ class User < CouchRest::Model::Base
     self.user_group_ids.select{|g| g.present?}
   end
 
-  # calling this location_obj because property location already exists on user
-  # however, the location property really is just the location name
-  # If a refactor is warranted, I would rename the location property to location_name
-  def Location
+  def user_location
     @location_obj ||= Location.get_by_location_code(self.location)
+  end
+  # Hack to allow backward-compatibility. The Location method must not be used.
+  alias_method :Location, :user_location
+
+  def reporting_location
+    @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
   end
 
   def agency
@@ -418,14 +405,6 @@ class User < CouchRest::Model::Base
     return @record_scope
   end
 
-  #TODO: Why is this on the user?
-  def add_mobile_login_event imei, mobile_number
-    if (Device.all.none? { |device| device.imei == imei })
-      device = Device.new(:imei => imei, :blacklisted => false, :user_name => self.user_name)
-      device.save!
-    end
-  end
-
   def mobile_login_history
     LoginActivity.by_user_name_and_login_timestamp(
       descending: true,
@@ -500,6 +479,22 @@ class User < CouchRest::Model::Base
     end
   end
 
+  def has_user_group_id?(id)
+    self.user_group_ids.include?(id)
+  end
+
+  def agency_office_name
+    @agency_office_name ||= Lookup.values('lookup-agency-office').find { |i| self['agency_office'].eql?(i['id']) }.try(:[], 'display_text')
+  end
+
+  def has_reporting_location_filter?
+    self.modules.any? {|m| m.reporting_location_filter }
+  end
+
+  def has_user_group_filter?
+    self.modules.any? {|m| m.user_group_filter }
+  end
+
   private
 
   def save_devices
@@ -507,15 +502,24 @@ class User < CouchRest::Model::Base
     true
   end
 
-  def update_user_case_locations
+  def update_user_cases_groups_and_location
     # TODO: The following gets all the cases by user and updates the location/district.
     # Performance degrades on save if the user changes their location.
-    if self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+    if location_changed? || user_group_ids_changed?
       Child.by_owned_by.key(self.user_name).all.each do |child|
-        child.owned_by_location = self.location
+        child.owned_by_location = self.location if location_changed?
+        child.owned_by_groups = self.user_group_ids if user_group_ids_changed?
         child.save!
       end
     end
+  end
+
+  def location_changed?
+    self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+  end
+
+  def user_group_ids_changed?
+    self.changes['user_group_ids'].present? && !self.changes['user_group_ids'].eql?([nil,""])
   end
 
   def encrypt_password

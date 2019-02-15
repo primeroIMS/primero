@@ -1,0 +1,18 @@
+---
+ar:
+  psychosocial_counseling_services_subform_section:
+    name: النموذج الفرعي المتداخل للخدمات النفسية الاجتماعية / خدمات تقديم المشورة
+    description: النموذج الفرعي المتداخل للخدمات النفسية الاجتماعية / خدمات تقديم المشورة
+    fields:
+      service_psycho_referral:
+        display_name: هل قمت بإحالة العميل إلى الخدمات النفسية الاجتماعية / خدمات تقديم المشورة؟
+      service_psycho_appointment_date:
+        display_name: تاريخ الموعد
+      service_psycho_appointment_time:
+        display_name: وقت الموعد
+      service_psycho_provider:
+        display_name: مقدم الخدمة
+      service_psycho_service_location:
+        display_name: مكان تقديم الخدمة
+      service_psycho_referral_notes:
+        display_name: ملاحظات

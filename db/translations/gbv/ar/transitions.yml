@@ -1,0 +1,40 @@
+---
+ar:
+  transitions:
+    name: النموذج الفرعي المتداخل للانتقالات
+    description: النموذج الفرعي للانتقالات
+    fields:
+      type:
+        display_name: النوع
+      to_user_local:
+        display_name: المستخدم المحلي
+      to_user_remote:
+        display_name: المستخدم البعيد
+      to_user_local_status:
+        display_name: الوضع الراهن
+        option_strings_text:
+          in_progress: قيد التنفيذ
+          pending: معلق
+          accepted: مقبول
+          rejected: مرفوض
+          done: منجز
+      rejected_reason:
+        display_name: سبب الرفض (إن وجد)
+      to_user_agency:
+        display_name: مؤسسة المستخدم البعيد
+      notes:
+        display_name: ملاحظات
+      transitioned_by:
+        display_name: تمت الإحالة أو التحويل من قبل
+      service:
+        display_name: الخدمة
+      is_remote:
+        display_name: هل الإحالة أو التحويل إلى نظام بعيد؟
+        tick_box_label: 'نعم'
+      type_of_export:
+        display_name: ما نوع التصدير الذي تريده
+      consent_overridden:
+        display_name: لم يتم تجاوز أي موافقة لمشاركة الإعدادات
+        tick_box_label: 'نعم'
+      created_at:
+        display_name: تاريخ الإحالة أو التحويل

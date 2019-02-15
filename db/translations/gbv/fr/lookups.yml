@@ -13,6 +13,11 @@ fr:
       case_plan: Plan du Cas
       action_plan: Plan d'Action
       service_provision: Prestataire de service
+  lookup-gbv-approval-types:
+    name: GBV Approval Types
+    lookup_values:
+      case_plan:
+      closure:
   lookup-armed-force-group-name:
     name: Nom du groupe ou forces armées
     lookup_values:
@@ -41,9 +46,9 @@ fr:
   lookup-assessment-progress:
     name: ""
     lookup_values:
-      n_a_76006: ""
-      in_progress_69307: ""
-      met_49626: ""
+      n_a: ""
+      in_progress: ""
+      met: ""
   lookup-case-status:
     name: Statut du cas
     lookup_values:

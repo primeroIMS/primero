@@ -107,7 +107,8 @@ module Exporters
           data = DuplicateIdCSVExporter.export([@test_child])
           parsed = CSV.parse(data)
           expect(parsed[0]).to eq([" ",
-                                   "MOHA ID",
+                                   "MOHA ID DEPRECATED",
+                                   "National ID No",
                                    "Case ID",
                                    "Progress ID",
                                    "Child Name",
@@ -138,7 +139,7 @@ module Exporters
           data = DuplicateIdCSVExporter.export([@test_child])
           parsed = CSV.parse(data)
           expect(parsed[0]).to eq([" ",
-                                   "MOHA ID",
+                                   "MOHA ID DEPRECATED",
                                    "Case ID",
                                    "Progress ID",
                                    "Child Name",
@@ -173,7 +174,7 @@ module Exporters
             expect(parsed[0]).to eq([" ",
                                      "Case ID",
                                      "Progress ID",
-                                     "MOHA ID",
+                                     "MOHA ID DEPRECATED",
                                      "Family Size",
                                      "Child Name",
                                      "Age",
@@ -199,7 +200,7 @@ module Exporters
             data = DuplicateIdCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
-                                     "MOHA ID",
+                                     "MOHA ID DEPRECATED",
                                      "Age",
                                      "Sex",
                                      "Family Size"])
@@ -230,7 +231,7 @@ module Exporters
             data = DuplicateIdCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
-                                     "MOHA ID",
+                                     "MOHA ID DEPRECATED",
                                      "Case ID",
                                      "Progress ID",
                                      "Child Name",
@@ -262,7 +263,7 @@ module Exporters
             data = DuplicateIdCSVExporter.export([@test_child])
             parsed = CSV.parse(data)
             expect(parsed[0]).to eq([" ",
-                                     "MOHA ID",
+                                     "MOHA ID DEPRECATED",
                                      "Progress ID",
                                      "Child Name",
                                      "Sex",

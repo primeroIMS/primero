@@ -16,7 +16,7 @@ def get_random_user
 end
 
 def create_tracing_request(id, num_of_tracing_requests, names, lastnames)
-  relation = ["Mother", "Father", "Aunt", "Uncle", "Brother", "Sister",]
+  relation = ["mother", "father", "aunt", "uncle", "brother", "sister",]
 
   tracing_requests = (0..num_of_tracing_requests).each do |i|
 
@@ -26,22 +26,26 @@ def create_tracing_request(id, num_of_tracing_requests, names, lastnames)
         randomday = 1 + rand(29)
 
         c.module_id = 'primeromodule-cp'
-        c.relation_name = ''
-        c.inquiry_status = ['Open', 'Closed'].sample
+        c.inquiry_status = ['open', 'closed'].sample
         c.record_state = [true, false].sample
         c.created_at = DateTime.new(2014, randommonth, randomday)
         #random name and last name
         c.relation_name = "#{names[rand(names.size-1)]} #{lastnames[rand(lastnames.size-1)]}"
+        c.relation_nickname = "#{names[rand(names.size-1)]}"
         c.tracing_request_subform_section = [
           {
             :unique_id => "#{id}#{i}-1",
             :name => "#{c.relation_name}1",
+            :name_nickname => "#{c.relation_nickname}1",
+            :name_other => "#{c.relation_name}1",
             :age => 1 + rand(15),
             :relation => relation.sample
           },
           {
             :unique_id => "#{id}#{i}-2",
             :name => "#{c.relation_name}2",
+            :name_nickname => "#{c.relation_nickname}2",
+            :name_other => "#{c.relation_name}2",
             :age => 1 + rand(15),
             :relation => relation.sample
           }

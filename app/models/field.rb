@@ -177,7 +177,6 @@ class Field
     return false unless valid_option_strings?(base_options)
     return false unless options_keys_unique?(base_options)
     return false unless valid_option_strings_text_translations?
-
     return true
   end
 
@@ -386,7 +385,7 @@ class Field
     @options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
-  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={})
+  def options_list(record=nil, lookups=nil, locations=nil, add_lookups=nil, opts={}, reporting_locations=nil)
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     options_list = []
     if self.type == Field::TICK_BOX
@@ -407,6 +406,10 @@ class Field
         options_list += Lookup.values(source_options.last, lookups, locale: locale) if add_lookups.present?
       when 'Location'
         options_list += locations || [] if locations.present?
+      when 'ReportingLocation'
+        options_list += reporting_locations || [] if reporting_locations.present?
+      when 'User'
+        options_list += []
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
@@ -453,7 +456,7 @@ class Field
         when 'lookup'
           display = Lookup.values(source_options.last, lookups, locale: I18n.locale).select{|opt| opt['id'] == value}
           value = (display.present? ? display.first['display_text'] : '')
-        when 'Location'
+        when 'Location', 'ReportingLocation'
           value = Location.display_text(value, locale: I18n.locale)
         when 'Agency'
           value = Agency.display_text(value, locale: I18n.locale)
@@ -606,7 +609,11 @@ class Field
     if locale.present? && Primero::Application::locales.include?(locale)
       field_hash.each do |key, value|
         if key == 'option_strings_text'
-          update_option_strings_translations(value, locale)
+          if self.option_strings_text.present?
+            update_option_strings_translations(value, locale)
+          else
+            Rails.logger.warn "Field #{self.name} no longer has embedded option strings. Skipping."
+          end
         else
           self.send("#{key}_#{locale}=", value)
         end

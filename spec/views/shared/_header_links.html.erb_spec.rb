@@ -5,6 +5,7 @@ describe 'shared/_header_links.html.erb' do
   let(:user) { stub_model User, :id => 'test_id', :user_name => 'test_user', :permissions => permissions }
 
   subject do
+    controller.request.stub :original_fullpath => "/"
     controller.stub :current_user => user
     view.stub :current_user => user
     render :partial => 'shared/header_links'

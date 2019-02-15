@@ -32,6 +32,8 @@ module IndexHelper
         list_view_header_report
       when "potential_match"
         list_view_header_potential_match
+      when "duplicate"
+        list_view_header_duplicate
       when "bulk_export"
         list_view_header_bulk_export
       when "task"
@@ -158,16 +160,16 @@ module IndexHelper
 
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
-      concat(select_tag filter, options_for_select(items), class: 'chosen-select', filter_type: 'list',
+      concat(select_tag(filter, options_for_select(items), class: 'chosen-select', filter_type: 'list',
                         multiple: multi_select, include_blank: t("fields.select_box_empty_item"),
-                        'data-placeholder' => t("fields.select_box_empty_item"), id: filter)
+                        'data-placeholder' => t("fields.select_box_empty_item"), id: filter))
       concat(content_tag(:div, '', class: 'clearfix'))
     end
   end
 
   def build_datefield(filter)
     content_tag :div, class: 'filter-controls row align-middle' do
-      concat(text_field_tag filter, nil, class: 'form_date_field', autocomplete: false)
+      concat(text_field_tag(filter, nil, class: 'form_date_field', autocomplete: false))
     end
   end
 
@@ -175,6 +177,19 @@ module IndexHelper
     content_tag :div, class: 'filter' do
       concat(content_tag(:h3, title))
       concat(build_datefield(filter))
+    end
+  end
+
+  def build_textfield(filter)
+    content_tag :div, class: 'filter-controls row align-middle' do
+      concat(text_field_tag(filter, nil, class: 'form_text_field', filter_type: 'single'))
+    end
+  end
+
+  def build_filter_text(title, filter)
+    content_tag :div, class: 'filter' do
+      concat(content_tag(:h3, title))
+      concat(build_textfield(filter))
     end
   end
 
@@ -299,6 +314,12 @@ module IndexHelper
     ]
   end
 
+  def list_view_header_duplicate
+    [
+      #TODO
+    ]
+  end
+
   def list_view_header_bulk_export
     [
       #{title: '', sort_title: 'select'},
@@ -416,6 +437,8 @@ module IndexHelper
     filters << "Type of Risk" if @is_cp && visible_filter_field?("type_of_risk", forms)
     filters << "Risk Level" if @is_cp
     filters << "Current Location" if @is_cp
+    filters << "Agency Office" if @is_gbv
+    filters << "User Group" if @is_gbv && @current_user.present? && @current_user.has_user_group_filter?
     filters << "Reporting Location" if @can_view_reporting_filter
     filters << "Dates" if @is_cp
     filters << "Case Open Date" if @is_gbv
@@ -434,6 +457,8 @@ module IndexHelper
     filters << "Violation" if @is_mrm
     filters << "Violence Type" if @is_gbv
     filters << "Social Worker" if @is_manager
+    filters << "Agency Office" if @is_gbv
+    filters << "User Group" if @is_gbv && @current_user.present? && @current_user.has_user_group_filter?
     filters << "Status"
     filters << "Age Range"
     filters << "Children" if @is_mrm
@@ -465,11 +490,17 @@ module IndexHelper
 
   def index_filters_potential_match
     filters = []
-    filters << "Sex"
-    filters << "Age Range"
-    filters << "Score Range"
+    filters << "Matching Configuration"
 
     return filters
+  end
+
+  def index_filters_duplicate(case_match_fields)
+    return [] if case_match_fields.blank?
+    return [] unless case_match_fields.is_a?(Array)
+    filters = case_match_fields.to_h.try(:values).try(:flatten)
+    filters = [] if filters.blank?
+    filters
   end
 
   def index_filters_agency
@@ -486,6 +517,8 @@ module IndexHelper
         selectable_filter_date_options_incident
       when "tracing_requests"
         selectable_filter_date_options_tracing_request
+      when "duplicates"
+        selectable_filter_date_options_duplicate
       else
         []
     end
@@ -511,6 +544,13 @@ module IndexHelper
   def selectable_filter_date_options_tracing_request
     options = []
     options << [t('tracing_requests.selectable_date_options.inquiry_date'), 'inquiry_date']
+    return options
+  end
+
+  def selectable_filter_date_options_duplicate
+    options = []
+    options << [t('duplicates.selectable_date_options.date_of_birth'), 'date_of_birth']
+    options << [t('duplicates.selectable_date_options.date_of_separation'), 'date_of_separation']
     return options
   end
 
@@ -546,7 +586,6 @@ module IndexHelper
     actions = [
       Permission::IMPORT,
       Permission::EXPORT_CUSTOM,
-      Permission::REASSIGN,
       Permission::SYNC_MOBILE,
       Permission::ASSIGN,
       Permission::ASSIGN_WITHIN_AGENCY,
@@ -563,7 +602,6 @@ module IndexHelper
     actions = [
       Permission::IMPORT,
       Permission::EXPORT_CUSTOM,
-      Permission::REASSIGN,
       Permission::SYNC_MOBILE,
       Permission::ASSIGN,
       Permission::ASSIGN_WITHIN_AGENCY,

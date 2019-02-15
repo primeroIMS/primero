@@ -19,7 +19,7 @@
 
 <div class="page-content-new row" data-equalizer>
   <div class="large-3 medium-3 columns close-side-tab side-tab-container">
-    <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => ''} %>
+    <%= render :partial => 'shared/side_tab', :locals => {:highlight_page => 'users'} %>
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
@@ -77,6 +77,7 @@
         <%= resource_show_field @user, 'phone', 'contact.field.phone' %>
         <%= resource_show_field @user, 'email', 'email' %>
         <%= resource_show_field @user, 'organization', 'organization', Agency %>
+        <%= resource_show_field @user, 'agency_office_name', 'user.agency_office' %>
         <%= resource_show_field @user, 'services', 'user.services', nil, 'lookup-service-type' %>
         <%= resource_show_field @user, 'position', 'position' %>
         <%= resource_show_field @user, 'location', 'user.location', Location %>

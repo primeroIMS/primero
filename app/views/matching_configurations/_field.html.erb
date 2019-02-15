@@ -7,7 +7,7 @@
     <%= f.select field_selector,
           options_for_select(field_options,
                             matching_configuration.get_form_matchable_fields(form_type, form_key)),
-          { include_hidden: false },
+          { include_hidden: include_hidden },
           { multiple: true,
             'data-placeholder': t('fields.select_box_empty_item'),
             class:'chosen-select',
