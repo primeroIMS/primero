@@ -25,7 +25,8 @@ template "#{node[:primero][:app_dir]}/config/couch_watcher.yml" do
   variables({
     :environments => ['production'],
     :couch_watcher_app_host => node[:primero][:couch_watcher][:app_host],
-    :couch_watcher_app_port => node[:primero][:couch_watcher][:app_port]
+    :couch_watcher_app_port => node[:primero][:couch_watcher][:app_port],
+    :couch_watcher_app_socket => node[:primero][:couch_watcher][:app_socket]
   })
   owner node[:primero][:app_user]
   group node[:primero][:app_group]
