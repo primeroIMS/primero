@@ -44,10 +44,10 @@
           <td>
             <% if @form_section.editable? && field.editable? %>
               <%
-                display_base_language = "display_name_#{field.base_language}".to_sym
+                display_base_language = :display_name_en
                 display_system_language = "display_name_#{I18n.default_locale}".to_sym
                 translation_missing = t("form_section.translation_missing", :lang => t("home.#{I18n.locale}"))
-                field_label = field[display_system_language] ? field[display_system_language]  : "#{field[display_base_language]} #{translation_missing}"
+                field_label = field.display_system_language ? field.display_system_language  : field.display_base_language
               %>
               <%= link_to field_label,
                           edit_form_section_field_path(form_section_id: @form_section.unique_id, id: field.name, module_id: @module_id),

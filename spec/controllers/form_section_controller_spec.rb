@@ -6,10 +6,6 @@ class MockFormSection
     @is_valid = is_valid
   end
 
-  def base_language= base_language
-    @base_language = base_language
-  end
-
   def core_form= core_form
     @core_form = core_form
   end
@@ -97,7 +93,6 @@ describe FormSectionController do
                           "order"=>0,
                           :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"",
                                        "my"=>"", "th"=>"", "ku"=>""},
-                          "base_language"=>"en",
                           "fields"=>
                               [{"name"=>"field1",
                                 "disabled"=>false,

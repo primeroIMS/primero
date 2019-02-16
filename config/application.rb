@@ -78,6 +78,7 @@ module Primero
       LOCALE_LEBANON,
       LOCALE_KURDISH
     ]
+    BASE_LANGUAGE = LOCALE_ENGLISH
 
     if ENV['RAILS_LOG_PATH'].present?
       config.paths['log'] = "#{ENV['RAILS_LOG_PATH']}/#{ENV['RAILS_ENV']}.log"

@@ -5,7 +5,6 @@ class FormSection < ActiveRecord::Base
   include Memoizable
 
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
-  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
 
   localize_properties :name, :help_text, :description
 
@@ -15,7 +14,7 @@ class FormSection < ActiveRecord::Base
   attr_accessor :module_name
   attribute :collapsed_field_names
 
-  validate :validate_name_in_base_language
+  validate :validate_name_in_english
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
@@ -27,7 +26,6 @@ class FormSection < ActiveRecord::Base
   #TODO: Move to migration
   def defaults
     %w(order order_form_group order_subform initial_subforms).each{|p| self[p] ||= 0}
-    self.base_language ||= DEFAULT_BASE_LANGUAGE #TODO: Is this field even relevant?
   end
 
   def form_group_name(opts={})
@@ -36,7 +34,7 @@ class FormSection < ActiveRecord::Base
     Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name, locale: locale)
   end
 
-  def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
+  def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE, show_hidden_fields=false)
     lh = localized_hash(locale)
     fldz = {}
     self.fields.each { |f| fldz[f.name] = f.localized_property_hash locale if (show_hidden_fields || f.visible?)}
@@ -415,7 +413,7 @@ class FormSection < ActiveRecord::Base
     end
 
     def simplify_mobile_form(form_hash)
-      form_hash.slice!('unique_id', :name, 'order', :help_text, 'base_language', 'fields')
+      form_hash.slice!('unique_id', :name, 'order', :help_text, 'fields')
       form_hash['fields'].each do |field|
         field.slice!('name', 'disabled', 'multi_select', 'type', 'subform', 'required', 'option_strings_source',
           'show_on_minify_form','mobile_visible', :display_name, :help_text, :option_strings_text, 'date_validation')
@@ -629,8 +627,8 @@ class FormSection < ActiveRecord::Base
     end
   end
 
-  def validate_name_in_base_language
-    unless name(DEFAULT_BASE_LANGUAGE).present?
+  def validate_name_in_english
+    unless name(Primero::Application::BASE_LANGUAGE).present?
       errors.add(:name, 'errors.models.form_section.presence_of_name')
       return false
     end

@@ -1,14 +1,14 @@
-  <% given_locale = @form_section.base_language %>
+  <% given_locale = Primero::Application::BASE_LANGUAGE %>
   <div id="<%= div_id %>" class="field_details" style="display:none;">
   <%= form_for @field, :url => url_for_form_section_field(@form_section.unique_id, @field), :html => {"data-abide" => '', :autocomplete => "off"} do |fld| %>
       <%= hidden_field_tag "module_id", @module_id, :id => "field_module_id" %>
       <%= hidden_field_tag "parent_form", @parent_form, :id => "field_parent_form" %>
       <div class="default_lang_panel">
         <div class="lang_title medium-5 columns">
-          <%= t("forms.initial_language") %>: <span><%= t("home.#{@form_section.base_language}") %></span>
+          <%= t("forms.initial_language") %>: <span><%= t("home.#{given_locale}") %></span>
           <br />
           <span class='help-text'>
-            <%= t("form_section.initial_lang_help_text", :lang => t("home.#{@form_section.base_language}")) %>
+            <%= t("form_section.initial_lang_help_text", :lang => t("home.#{given_locale}")) %>
           </span>
         </div>
         <div class="space"></div>

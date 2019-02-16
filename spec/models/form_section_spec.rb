@@ -25,7 +25,7 @@ describe FormSection do
   end
 
   def create_formsection(stubs={})
-    stubs.reverse_merge!(:fields=>[], :save => true, :editable => true, :base_language => "en")
+    stubs.reverse_merge!(:fields=>[], :save => true, :editable => true)
     @create_formsection = FormSection.new stubs
   end
 
@@ -149,7 +149,6 @@ describe FormSection do
                           "order"=>0,
                           :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"",
                                        "my"=>"", "th"=>"", "ku"=>""},
-                          "base_language"=>"en",
                           "fields"=>
                               [{"name"=>"mobile_1_nested",
                                 "disabled"=>false,
@@ -264,13 +263,6 @@ describe FormSection do
       FormSection.add_field_to_formsection formsection, field
       formsection.fields.length.should == 3
       formsection.fields[2].should == field
-    end
-
-    it "adds base_language to fields in formsection" do
-      field = build(:field, type: Field::TEXT_AREA)
-      formsection = create_formsection :fields => [new_field(), new_field()], :save=>true
-      FormSection.add_field_to_formsection formsection, field
-      formsection.fields[2].should have_key("base_language")
     end
 
     it "saves the formsection" do

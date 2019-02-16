@@ -1,6 +1,5 @@
 class Field < ActiveRecord::Base
 
-  #include CouchRest::Model::CastedModel
   #include PrimeroModel
   include LocalizableJsonProperty
   include Memoizable
@@ -38,7 +37,7 @@ class Field < ActiveRecord::Base
   validate :validate_unique_name
   validate :validate_display_name_format
   validate :validate_name_format
-  validate :validate_display_name_in_base_language
+  validate :validate_display_name_in_english
   validate :valid_tally_field
   validate :validate_option_strings_text
 
@@ -49,17 +48,16 @@ class Field < ActiveRecord::Base
 
   #TODO: Move to migration
   def defaults
-    self.base_language ||= FormSection::DEFAULT_BASE_LANGUAGE #TODO: Is this field even relevant?
     self.date_validation = 'default_date_validation'
     self.autosum_group ||= ""
     #self.attributes = properties #TODO: what is this?
   end
 
-  def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
+  def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
     if self.option_strings_text.present?
       fh = {}
-      self["option_strings_text_#{locale}"].each{|os| fh[os['id']] = os['display_text']}
+      self.option_strings_text_(locale).each{|os| fh[os['id']] = os['display_text']}
       lh['option_strings_text'] = fh
     end
     lh
@@ -93,19 +91,18 @@ class Field < ActiveRecord::Base
     end
   end
 
-  def validate_display_name_in_base_language
-    display_name = "display_name_#{FormSection::DEFAULT_BASE_LANGUAGE}"
-    unless (self.send(display_name).present?)
+  def validate_display_name_in_english
+    unless (self.display_name(Primero::Application::BASE_LANGUAGE).present?)
       errors.add(:display_name, I18n.t("errors.models.field.display_name_presence"))
       return false
     end
   end
 
   def validate_option_strings_text
-    base_options = self.send("option_strings_text_#{base_language}")
+    base_options = self.option_strings_text(Primero::Application::BASE_LANGUAGE)
     if base_options.blank?
       #If base options are blank, then all translated options should also be blank
-      if Primero::Application::locales.any? {|locale| self.send("option_strings_text_#{locale}").present?}
+      if Primero::Application::locales.any? {|locale| self.option_strings_text(locale).present?}
         errors.add(:option_strings_text, I18n.t("errors.models.field.option_strings_text.translations_not_empty"))
         return false
       else
@@ -120,10 +117,10 @@ class Field < ActiveRecord::Base
   end
 
   def valid_option_strings_text_translations?
-    default_ids = self.send("option_strings_text_#{base_language}").try(:map){|op| op['id']}
+    default_ids = self.option_strings_text(Primero::Application::BASE_LANGUAGE).try(:map){|op| op['id']}
     Primero::Application::locales.each do |locale|
-      next if locale == base_language
-      options = self.send("option_strings_text_#{locale}")
+      next if locale == Primero::Application::BASE_LANGUAGE
+      options = self.option_strings_text(locale)
       next if options.blank?
       return false unless valid_option_strings?(options, false)
       return false unless option_keys_match?(default_ids, options)
@@ -349,7 +346,7 @@ class Field < ActiveRecord::Base
   def display_option_strings(current_locale)
     locale_options = self.option_strings_text(current_locale)
     return locale_options if locale_options.any?{|op| op['display_text'].present?}
-    return self.option_strings_text(base_language)
+    return self.option_strings_text_en
   end
 
   def convert_true_false_key_to_string(value)
@@ -496,9 +493,9 @@ class Field < ActiveRecord::Base
 
       #DOes the same thing for the other languages...
       Primero::Application::locales.each do |locale|
-        option_strings_locale = self.send("option_strings_text_#{locale}")
-        if locale != Primero::Application::LOCALE_ENGLISH && option_strings_locale.present?
-          self.send("option_strings_text_#{locale}").each_with_index do |option, index|
+        option_strings_locale = self.option_strings_text(locale)
+        if locale != Primero::Application::BASE_LANGUAGE && option_strings_locale.present?
+          self.option_strings_text(locale).each_with_index do |option, index|
             if option.is_a?(Hash) && option['id'].blank? && option['display_text'].present?
               option['id'] = self.option_strings_text[index]['id']
             end
@@ -511,11 +508,11 @@ class Field < ActiveRecord::Base
   def sync_options_keys
     if self.option_strings_text.present? && self.option_strings_text.is_a?(Array) && self.option_strings_text.first.is_a?(Hash)
       #Do not create any new option strings that do not have a matching lookup value in the default language
-      default_ids = self.send("option_strings_text_#{base_language}").try(:map){|op| op['id']}
+      default_ids = self.option_strings_text_en.try(:map){|op| op['id']}
       if default_ids.present?
         Primero::Application::locales.each do |locale|
-          next if locale == base_language
-          self.send("option_strings_text_#{locale}").try(:reject!){|op| default_ids.exclude?(op['id'])}
+          next if locale == Primero::Application::BASE_LANGUAGE
+          self.option_strings_text(locale).try(:reject!){|op| default_ids.exclude?(op['id'])}
         end
       end
     end

@@ -38,7 +38,7 @@
           <% if subform.name == 'services_section'
               form_section_name = I18n.t('messages.service_provision')
              else
-              form_section_name = subform["display_name_#{subform.base_language}"].downcase
+              form_section_name = subform.display_name_en.downcase
              end
           %>
           <div id="<%= subform.name %>_change_alert" class="flash header_message alert_message row">

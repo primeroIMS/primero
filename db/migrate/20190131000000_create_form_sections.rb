@@ -15,7 +15,6 @@ class CreateFormSections < ActiveRecord::Migration[5.0]
       t.string 'form_group_id' #TODO: this is probably not a string
       t.boolean 'editable', null: false, default: true
       t.boolean 'core_form', null: false, default: false
-      t.string 'base_language' #TODO: Is this even relevant?
       t.boolean 'is_nested', null: false, default: false
       t.boolean 'is_first_tab', null: false, default: false
       t.integer 'initial_subforms'
