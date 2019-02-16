@@ -169,23 +169,6 @@ class FormSection < ActiveRecord::Base
     end
     #memoize_in_prod :get_visible_form_sections
 
-    # Returns: an array of fields that are matchable
-    # TODO: Does this belong on Field?
-    def get_matchable_fields_by_parent_form(parent_form, subform=true)
-      Field.joins(:form_section).where(form_sections: {parent_form: parent_form}, matchable: true)
-      #FormSection.find_by_parent_form(parent_form, subform)
-      #.map{|fs| fs.all_matchable_fields}.flatten
-    end
-    #memoize_in_prod :get_matchable_fields_by_parent_form
-
-    # Returns: hash of (key) Form ID and (values) Fields that are matchable
-    # TODO: Does this belong on Field?
-    def get_matchable_form_and_field_names(form_ids, parent_form)
-      matchable_fields = Field.joins(:form_section).includes(:form_section).where(form_sections: {id: form_ids, parent_form: parent_form}, matchable: true)
-      grouped_matchable_fields = matchable_fields.group_by{|f|f.form_section.unique_id}
-      grouped_matchable_fields.map{|form_id, fields| [form_id, fields.map{|f| f.name}]}.to_h
-    end
-
     def form_sections_by_ids_and_parent_form(form_ids, parent_form)
       FormSection.find_by_parent_form(parent_form, true).where(unique_id: form_ids)
     end
@@ -435,7 +418,7 @@ class FormSection < ActiveRecord::Base
       form_hash.slice!('unique_id', :name, 'order', :help_text, 'base_language', 'fields')
       form_hash['fields'].each do |field|
         field.slice!('name', 'disabled', 'multi_select', 'type', 'subform', 'required', 'option_strings_source',
-          'show_on_minify_form','mobile_visible', :display_name, :help_text, :option_strings_text)
+          'show_on_minify_form','mobile_visible', :display_name, :help_text, :option_strings_text, 'date_validation')
         simplify_mobile_form(field['subform']) if (field['type'] == 'subform' && field['subform'].present?)
       end
     end
@@ -473,6 +456,16 @@ class FormSection < ActiveRecord::Base
         Rails.logger.error "Error importing translations: locale not present"
       end
     end
+
+    def get_append_only_subforms
+      FormSection.where(is_nested: true, subform_append_only: true)
+    end
+    #memoize_in_prod :get_append_only_subforms
+
+    def get_append_only_subform_ids
+      get_append_only_subforms.map(&:unique_id)
+    end
+    #memoize_in_prod :get_append_only_subform_ids
   end
 
   def all_mobile_fields
@@ -626,7 +619,7 @@ class FormSection < ActiveRecord::Base
           end
         end
       end
-      
+
       if fields_to_link.present?
         Field.where(id: fields_to_link).update_all(collapsed_field_for_subform_section_id: self.id)
       end

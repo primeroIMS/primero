@@ -58,6 +58,12 @@ services_subform = [
     "display_name_en" => "Service Provider"
   }),
   Field.new({
+    "name" => "service_delivery_location",
+    "type" => "select_box",
+    "display_name_en" => "Service delivery location",
+    "option_strings_source" => "ReportingLocation"
+  }),
+  Field.new({
     "name" => "service_implementing_agency_individual",
     "type" => "select_box",
     "display_name_en" => "Service provider name",

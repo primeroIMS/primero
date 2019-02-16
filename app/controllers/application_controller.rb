@@ -95,7 +95,7 @@ class ApplicationController < ActionController::Base
 
   def set_locale
     if logged_in?
-      I18n.locale = (mobile_locale || current_user.locale || I18n.default_locale)
+      I18n.locale = (get_selected_locale || current_user.locale || I18n.default_locale)
     end
     page_direction(I18n.locale)
   end
@@ -177,10 +177,8 @@ class ApplicationController < ActionController::Base
     Time.use_zone(timezone) { yield }
   end
 
-  def mobile_locale
-    mobile_locale =  ((params['mobile'] == true || params['mobile'] == 'true') &&
-                      params['locale'].present? &&
-                      (Primero::Application::LOCALES.include? params['locale'])) ? params['locale'] : nil
+  def get_selected_locale
+    params['locale'] if params['locale'].present? && Primero::Application::LOCALES.include?(params['locale'])
   end
 
   def page_direction(locale)

@@ -124,6 +124,7 @@ module RecordActions
 
       format.json do
         if @record.present?
+          @record = clear_append_only_subforms(@record)
           @record = format_json_response(@record)
           render :json => @record
         else
@@ -164,6 +165,7 @@ module RecordActions
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
+          @record = clear_append_only_subforms(@record)
           @record = format_json_response(@record)
           render :json => @record, :status => :created, :location => @record
         end
@@ -207,6 +209,7 @@ module RecordActions
           end
         end
         format.json do
+          @record = clear_append_only_subforms(@record)
           @record = format_json_response(@record)
           render :json => @record.slice!("_attachments", "histories")
         end
@@ -265,7 +268,7 @@ module RecordActions
     # When mobile is implemented, it should not use 'all'
     elsif params[:page] != 'all'
       @id_search = params[:id_search]
-      search = model_class.list_records filter, order, pagination, users_filter, params[:query], params[:match]
+      search = model_class.list_records(filter, order, pagination, users_filter, params[:query], params[:match])
       records = search.results
       total_records = search.total
     end
@@ -375,7 +378,7 @@ module RecordActions
 
   def view_reporting_filter
     #TODO: This will change once the filters become configurable
-    @can_view_reporting_filter ||= (can?(:dash_reporting_location, Dashboard) | is_admin | is_manager)
+    @can_view_reporting_filter = (can?(:dash_reporting_location, Dashboard) | is_admin | is_manager) && @current_user.has_reporting_location_filter?
   end
 
   def record_params
@@ -486,11 +489,26 @@ module RecordActions
     authorize! :update, @record
 
     reindex_hash record_params
+    @record_filtered_params = filter_params(@record)
+    merge_append_only_subforms(@record) if is_mobile?
     update_record_with_attachments(@record)
   end
 
   def module_users(module_ids)
     @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
+  end
+
+  def clear_append_only_subforms(record)
+    if is_mobile?
+      FormSection.get_append_only_subform_ids.each do |subform_id|
+        record.try("#{subform_id}=", [])
+      end
+    end
+    return record
+  end
+
+  def is_mobile?
+    params[:mobile].present? && params[:mobile] == 'true'
   end
 
   protected
@@ -577,4 +595,16 @@ module RecordActions
     super
   end
 
+  def merge_append_only_subforms(record)
+    FormSection.get_append_only_subform_ids.each do |subform_id|
+      # Since this only happens if the mobile param is true, the subform section has to be an Array, we don't merge otherwise.
+      if @record_filtered_params[subform_id].present? && @record_filtered_params[subform_id].is_a?(Array)
+        record_subforms = (record.try(subform_id) || []).map(&:attributes)
+        param_subforms = @record_filtered_params[subform_id]
+        # If for any reason a user sends updates to existing forms, we will update them.
+        unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
+        @record_filtered_params[subform_id] = unchanged_subforms + param_subforms
+      end
+    end
+  end
 end

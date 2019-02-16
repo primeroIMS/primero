@@ -15,6 +15,7 @@ class PotentialMatch < CouchRest::Model::Base
   include SyncableMobile
   include Importable
   include Ownable
+  include Matchable
 
   property :tr_subform_id
   property :average_rating, Float
@@ -39,9 +40,6 @@ class PotentialMatch < CouchRest::Model::Base
   POTENTIAL = 'POTENTIAL'
   DELETED = 'DELETED'
   FIELD_MASK = '***'
-
-  LIKELY = 'likely'
-  POSSIBLE = 'possible'
 
   NORMALIZED_THRESHOLD = 0.1
   LIKELIHOOD_THRESHOLD = 0.7
@@ -69,6 +67,10 @@ class PotentialMatch < CouchRest::Model::Base
 
   def self.searchable_date_time_fields
     ["created_at", "last_updated_at"]
+  end
+
+  def self.comparable_name_fields
+    ['name', 'name_other', 'name_nickname']
   end
 
   include Searchable
@@ -138,11 +140,7 @@ class PotentialMatch < CouchRest::Model::Base
 
   def set_likelihood(score, aggregate_average_score)
     self.aggregate_average_score = aggregate_average_score
-    if (score - aggregate_average_score) > 0.7
-      self.likelihood = LIKELY
-    else
-      self.likelihood = POSSIBLE
-    end
+    self.likelihood = PotentialMatch.calculate_likelihood(score, aggregate_average_score)
   end
 
   def case_id_display
@@ -231,41 +229,50 @@ class PotentialMatch < CouchRest::Model::Base
     self.child.matched_to_trace?(self.tr_subform_id)
   end
 
-  def compare_case_to_trace
-    case_fields = PotentialMatch.case_fields_for_comparison
-    case_field_values = case_fields.map do |field|
-      case_value = self.child.try(field.name)
-      trace_value = self.trace.try(Child.map_match_field(field.name)) ||
-        self.tracing_request.try(Child.map_match_field(field.name))
-      matches = compare_values(case_value, trace_value)
-      {case_field: field, matches: matches, case_value: case_value, trace_value: trace_value}
-    end
-    family_field_values = []
-    #TODO: Commenting out the lines below because they are not being displayed for now
-    # family_fields = PotentialMatch.family_fields_for_comparison
-    # family = self.child.family(self.trace.relation)
-    # family.each do |member|
-    #   member_values = family_fields.map do |field|
-    #     case_value = member.try(field.name)
-    #     trace_value = self.tracing_request.try(Child.map_match_field(field.name)) ||
-    #       self.trace.try(Child.map_match_field(field.name))
-    #     matches = compare_values(case_value, trace_value)
-    #     {case_field: field, matches: matches, case_value: case_value, trace_value: trace_value}
-    #   end
-    #   family_field_values << member_values
-    # end
-    {case: case_field_values, family: family_field_values}
+  def compare_names
+    PotentialMatch.comparable_name_fields.map { |field|
+      { field: field, child_name: self.child.try(field) || '-', trace_name: self.trace.try(field) || '-' }
+    }
   end
 
-    def compare_values(value1, value2)
-      result = nil
-      if value1 && value2 && (value1 == value2)
-        result = VALUE_MATCH
-      elsif value1 != value2
-        result = VALUE_MISMATCH
-      end
-      return result
+  def compare_case_to_trace
+    case_field_values = []
+    MatchingConfiguration.matchable_fields_by_form('case', false).each do |form, fields|
+      values = fields.map{|f| case_to_trace_values(f)}
+      case_field_values << { case_values: values, form_name: form.name } if values.present?
     end
+
+    case_nested_field_values = []
+
+    MatchingConfiguration.matchable_fields_by_form('case', true).each do |form, fields|
+      case_form_values = self.child.try(form.unique_id)
+      case_form_values = [{}] if case_form_values.blank?
+      case_form_values.each do |case_values|
+        values = fields.map{|f| case_to_trace_values(f, case_values)}
+        case_nested_field_values << { case_values: values, form_name: form.name } if values.present?
+      end
+    end
+    { case: case_field_values, case_subform: case_nested_field_values }
+  end
+
+  def compare_values(value1, value2)
+    return false if value1.blank? && value2.blank?
+    return VALUE_MATCH if value1 == value2
+
+    # To handle multi-selected values; compares strings and/or arrays
+    if value1.respond_to?(:split) && value2.respond_to?(:split)
+      return VALUE_MATCH if (value1.split.flatten - value2.split.flatten).blank?
+    end
+    VALUE_MISMATCH
+  end
+
+  def case_to_trace_values(field, case_field_value=self.child)
+    case_value = case_field_value.try(field.name)
+    trace_value = self.tracing_request.try(Child.map_match_field(field.name)) ||
+        self.trace.try(Child.map_match_field(field.name))
+    matches = compare_values(case_value, trace_value)
+    {case_field: field, matches: matches, case_value: case_value, trace_value: trace_value}
+  end
 
   class << self
     alias :old_all :all
@@ -347,8 +354,7 @@ class PotentialMatch < CouchRest::Model::Base
           matches << yield(id, score, average_score)
         end
       end
-      matches = link_cases_and_tracing_requests(matches)
-      return matches
+      link_cases_and_tracing_requests(matches.try(:flatten) || [])
     end
 
     def build_potential_match(child_id, tracing_request_id, score, aggregate_average_score, subform_id)
@@ -367,14 +373,8 @@ class PotentialMatch < CouchRest::Model::Base
     end
 
     def case_fields_for_comparison
-      FormSection.get_matchable_fields_by_parent_form('case', false)
+      MatchingConfiguration.matchable_fields('case', false)
         .select {|f| !['text_field', 'textarea'].include?(f.type) && f.visible?}
-        .uniq{|f| f.name}
-    end
-
-    def family_fields_for_comparison
-      FormSection.get_matchable_fields_by_parent_form('case', true)
-        .select{|f| !['text_field', 'textarea'].include?(f.type) && f.visible?}
         .uniq{|f| f.name}
     end
 

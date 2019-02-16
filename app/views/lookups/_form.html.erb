@@ -51,9 +51,6 @@
                 <% lookup_values.each_with_index do |lookup_value, index| %>
                   <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: lookup_value, given_locale: given_locale, option_index: index, editing: editing} %>
                 <% end %>
-              <% else %>
-                  <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: {}, given_locale: given_locale, option_index: 0, editing: editing} %>
-                  <%= render :partial => 'lookups/lookup_value', :locals => {lookup_value: {}, given_locale: given_locale, option_index: 1, editing: editing} %>
               <% end %>
             </div>
             <%# Add button %>

@@ -6,8 +6,8 @@ Primero
 ## Development
 To develop the application locally, you will need to do the following:
 
-- Install [VirtualBox 5.2.4](https://www.virtualbox.org/wiki/Downloads)
-- Install [Vagrant 2.0.1](https://www.vagrantup.com/downloads.html)
+- Install [VirtualBox 6](https://www.virtualbox.org/wiki/Downloads)
+- Install [Vagrant 2.2.3](https://www.vagrantup.com/downloads.html)
 - Install [Chef DK 0.9.0](https://downloads.chef.io/chef-dk/).
 **Note that currently the latest supported Chef DK version is 0.9.0**
 
@@ -34,20 +34,12 @@ To start the VM, run:
 
 This will take a while as it has to download and compile some stuff from
 source.  While this is running you can modify your hosts file to include
-our fake domain to use for development.  Add the following to your `/etc/hosts`
-file (may be a slightly different file on OSX):
+our fake domain to use for development.  
 
-    127.0.0.1   primero.test
 
-You will need to access the site on this domain in your browser as the dummy
-SSL cert is set with this domain.
+| WARNING: Vagrant no longer sets up a development environment. |
+| --- |
 
-Once you have the VM fully provisioned, you can access the site at
-[http://primero.test:8000](http://primero.test:8000) (or possibly a different port if Vagrant had a port
-collision when trying to assign port 8000 -- check the Vagrant output upon the
-`up` command).  It should automatically redirect you to the HTTPS protocol and
-port 8443.  You can login with a preseeded admin account with credentials
-`primero`/`primer0!`.
 
 Vagrant is provisioned using a development Chef file `dev-node.json.sample`. You can override it by creating your own file `dev-node.json`. See the README in the `cookbook` directory for more on configuring Primero Chef files.
 
@@ -62,13 +54,15 @@ Prepare the development environment:
 
     $ bundle install
     $ bundle exec rake db:migrate:design
-    $ bundle exec rake db:seed #This will take a while
+    $ bundle exec rake db:setup
+    $ bundle exec rake db:seed 
 
 To bring up the development server on port 3000:
 
     $ bundle exec rails s
 
-You should now be able to access your development server in the browser on [http://primero.test:3000](http://primero.test:3000)
+You should now be able to access your development server in the browser on [http://primero.test:3000](http://primero.test:3000). 
+You can login with a preseeded admin account with credentials `primero`/`primer0!`.
 
 Automatic development server reloads based on code changes have been disabled. This is intentional. **Do not change that!**
 

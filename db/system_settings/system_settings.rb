@@ -48,6 +48,8 @@ create_or_update_system_setting(
   welcome_email_enabled: false,
   welcome_email_text: "Click link below to log into Primero.  Please see your system administrator if you have any issues.",
   export_config_id: {
-    "unhcr" => "export-unhcr-csv"
-  }
+    "unhcr" => "export-unhcr-csv",
+    "duplicate_id" => "export-duplicate-id-csv"
+  },
+  duplicate_export_field: "national_id_no"
 )

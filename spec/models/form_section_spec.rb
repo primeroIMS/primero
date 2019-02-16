@@ -166,7 +166,8 @@ describe FormSection do
                                 :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"",
                                              "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
                                 :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
-                                                       "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]}}]}]}
+                                                       "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                "date_validation"=>nil}]}]}
         form_sections = FormSection.group_forms([@form_section_mobile_1], true)
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
       end

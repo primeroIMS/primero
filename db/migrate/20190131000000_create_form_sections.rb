@@ -20,6 +20,7 @@ class CreateFormSections < ActiveRecord::Migration[5.0]
       t.boolean 'is_first_tab', null: false, default: false
       t.integer 'initial_subforms'
       t.boolean 'subform_prevent_item_removal', null: false, default: false
+      t.boolean 'subform_append_only', null: false, default: false
       t.string 'subform_header_links', array: true, default: [] #TODO: Refactor or utilize when revamiping UIUX
       t.boolean 'display_help_text_view', null: false, default: false
       t.string 'shared_subform'

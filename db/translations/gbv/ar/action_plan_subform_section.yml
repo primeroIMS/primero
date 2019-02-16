@@ -1,0 +1,37 @@
+---
+ar:
+  action_plan_subform_section:
+    name: خطة عمل متداخلة
+    description: نموذج فرعي لخطة العمل
+    fields:
+      action_plan_description:
+        display_name: اوصف خطة العمل لتلبية هذا الاحتياج
+      service_type:
+        display_name: نوع الاحتياج
+      service_referral:
+        display_name: عند الحاجة، هل قمت بإحالة الناجية لتلقي هذه الخدمة؟
+        option_strings_text:
+          referred: تمت الإحالة
+          no_referral_service_provided_by_your_agency: لا توجد إحالة، يتم تقديم الخدمة في مؤسستك
+          no_referral_services_already_received_from_another_agency: لا توجد إحالة، تم تلقي الخدمة من قبل مؤسسة أخرى
+          no_referral_service_not_applicable: لا توجد إحالة، الخدمة غير قابلة للتطبيق
+          no_referral_declined_by_survivor: لا توجد إحالة، لم تقبل بها الناجية
+          no_referral_service_unavailable: لا توجد إحالة، الخدمة غير متوفرة
+      service_referral_written_consent:
+        display_name: هل استلمت موافقة خطية من الناجية للإفصاح عن المعلومات الشخصية لغرض الإحالة؟
+      service_appointment_date:
+        display_name: تاريخ الموعد
+      service_appointment_time:
+        display_name: توقيت الموعد
+      service_provider:
+        display_name: مقدم الخدمة
+      service_location:
+        display_name: مكان تقديم الخدمة
+      service_referral_notes:
+        display_name: ملاحظات
+      service_referral_mandatory_reporting:
+        display_name: إذا كانت قوانين الإبلاغ الإلزامي سارية، هل قمت بإبلاغ الشرطة أو السلطات العامة عن الحادث؟
+      service_referral_mandatory_reporting_inform_survivor:
+        display_name: إذا كانت الإجابة بنعم، هل أبلغت الناجية و/أو مقدم الرعاية لها بقوانين الإبلاغ الإلزامية قبل الإبلاغ عن الحادث؟
+      service_referral_case_action_plan_timing:
+        display_name: كم من الوقت استغرقت عملية إعداد خطة عمل لهذه الحالة مع الناجية؟

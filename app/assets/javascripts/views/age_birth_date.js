@@ -58,8 +58,13 @@ _primero.Views.AutoCalculateAgeDOB = _primero.Views.Base.extend({
         if (!$date_of_birth_field.hasClass("form_date_field")) {
           $date_of_birth_field.datepicker(_primero.dates.options)
         }
-        var year_of_birth = (new Date).getFullYear() - $age_field.val();
-        var date_of_birth = _primero.dates.formatDate(_primero.dates.parseDate('01-Jan-' + year_of_birth));
+
+        // Set to Jan 1 of the calculated birth year
+        var new_date = (new Date);
+        new_date.setFullYear(new_date.getFullYear() - $age_field.val());
+        new_date.setMonth(0);
+        new_date.setDate(1);
+        var date_of_birth = _primero.dates.formatDate(new_date);
         $date_of_birth_field.val(date_of_birth);
       }
     }

@@ -77,6 +77,7 @@ id:
     approval_alert: "Persetujuan ditunda untuk %{form_name}"
     field_change_alert: "Form %{form_name} telah diperbarui oleh penyedia layanan pada tanggal %{date}"
     transfer_request_alert: "Sebuah permintaan pemindahan baru telah diajukan pada  %{date} oleh  %{user} di %{agency}"
+    loading: "Loading..."
   data_base:
     delete_all_documents: "Menghapus semua dokumen anak"
     operation_not_allowed: "Pengoperasian tidak diizinkan di %{rails_env} lingkungan"
@@ -109,6 +110,7 @@ id:
     tracing_request: "PERMINTAAN PELACAKAN"
     incidents: "INSIDEN"
     potential_match: "COCOK"
+    duplicates: "Duplikat"
     children: "ANAK-ANAK"
     forms: "FORMS"
     lookups: "LIHAT"
@@ -145,6 +147,8 @@ id:
     filter_label: "Filter:"
     filter: "Terapkan Filtrasi"
     filter_clear: "Hapus Filter"
+    find_tracing_match: "Temukan Kecocokan Penelusuran"
+    filter_restore: "Kembalikan ke Pengaturan Sistem"
     flag_records: "Bendera"
     flag_model: "Bendera %{model}"
     unflag_model: "Tidak ditandai Bendera %{model}"
@@ -174,6 +178,7 @@ id:
     remove_referrals: "Hapus rujukan"
     view: "Lihat"
     request_transfer: "Permintaan Pemindahan"
+    add_note: "Tambahkan Catatan"
   placeholders:
     subforms: "Klik tombol rubah untuk menambahkan detail %{form}"
     editing_subforms: "Klik ADD untuk menambahkan rincian pada  %{form}"
@@ -633,9 +638,39 @@ id:
     trace: 'Telusuri'
     case: 'Kasus'
     name: 'Nama'
+    name_other: 'Nama Lain'
+    name_nickname: 'Nama Panggilan'
     likelihood:
       likely: 'Kemungkinan Besar'
       possible: 'Ada kemungkinan'
+  duplicates:
+    search_for_duplicates: 'Cari Duplikat'
+    clear_filter: 'Bersihkan'
+    filter_by:
+      name: "Nama"
+      name_nickname: "Nama Panggilan"
+      name_other: "Nama Lain"
+      sex: "Jenis Kelamin"
+      age: "Umur"
+      age_range: "Rentang Usia"
+      date_of_birth: "Tanggal Lahir"
+      nationality: "Kebangsaan"
+      location_last: "Lokasi Terakhir"
+      telephone_last: "Telepon Terakhir"
+      ethnicity: "Suku / Etnis"
+      date_of_separation: "Tanggal Keterpisahan"
+      separation_cause: "Penyebab Utama Keterpisahan"
+      location_separation: "Lokasi Keterpisahan"
+      relation_name: "Nama Kerabat"
+      relation: "Hubungan"
+      relation_nickname: "Nama Panggilan Kerabat"
+      relation_language: "Bahasa yang digunakan Kerabat"
+      relation_religion: "Agama Kerabat"
+      relation_ethnicity: "Suku/Etnis Kerabat"
+      relation_nationality: "Kebangsaan Kerabat "
+      relation_address_current: "Alamat Kerabat Saat ini"
+      relation_location_current: "Lokasi Kerabat Saat ini"
+      relation_telephone: "Telepon Kerabat"
   audit_log:
     timestamp: "Timestamp - UTC"
     user_name: "Nama Pengguna"
@@ -686,6 +721,12 @@ id:
       label: "Sortir dengan"
       full_name: "Nama Lengkap"
       agency: "Agensi"
+    filter_by:
+      status: "Status"
+      enabled: "Diaktifkan"
+      disabled: "Di non-aktifkan"
+      agency: "Agensi"
+    register_new_user: "Buat pengguna"
   roles:
     label: "Peran"
     list: "Daftar dari Peran"
@@ -732,6 +773,10 @@ id:
       update: "Perbarui"
       create: "Buat"
       delete: "Hapus"
+    filter_by:
+      status: "Status"
+      enabled: "Diaktifkan"
+      disabled: "Di non-aktifkan"
     messages:
       confirmation: "Anda yakin ingin menghapus agensi ini? Penghapusan tidak dapat dibatalkan. Tekan tombol OK Untuk Menghapus Agensi."
     select_prompt: "Silahkan pilih Agensi"
@@ -740,6 +785,7 @@ id:
     edit: 'Ubah Agensi'
     name: 'Nama Agensi'
     code: 'Kode Agensi'
+    services: 'Layanan Lembaga'
   system_settings:
     label: "Pengaturan sistem"
     edit: "Ubah Pengaturan Sistem"
@@ -819,6 +865,8 @@ id:
     code: "Kode Pengguna"
     history_of: "Riwayat %{user_name}"
     disabled: "Di non-aktifkan"
+    services: "Layanan"
+    agency_office: "Kantor Lembaga "
     position: Posisi
     actions:
       delete: "Hapus"
@@ -856,8 +904,8 @@ id:
   email: "Surat Elektronik"
   organization: "Organisasi"
   position: "Posisi"
-  'false': "Salah"
-  'true': "Benar"
+  'false': "Tidak"
+  'true': "Ya"
   mandatory_field: "Kolom yang ditandai wajib diisi"
   add: "Tambah"
   belonging_to: "Milik"
@@ -865,6 +913,7 @@ id:
   blacklisted: "Masuk Daftar hitam?"
   visible_for_web: "Terlihat untuk aplikasi web"
   visible_for_mobile: "Terlihat untuk aplikasi seluler"
+  selective_syncing_mobile: "Penyelarasan Sebagian (mobile)"
   hidden: "Tersembunyi"
   help_text: "Teks bantuan"
   multi_select: "Pilihan Majemuk"
@@ -928,6 +977,7 @@ id:
       export_case_pdf: "Ekspor kasus ke PDF"
       export_json: "Ekspor json"
       export_custom: "Ekspor kustomisasi"
+      export_duplicate_id_csv: "Eksport Duplikat"
       import: "Impor"
       transfer: "Pemindahan"
       reassign: "Menugaskan kembali"
@@ -977,6 +1027,12 @@ id:
       request_transfer: "Permintaan Pemindahan"
       view_photo: "Lihat Foto"
       matching_configuration: "Pengaturan Pencocokan"
+      add_note: "Tambahkan Catatan"
+      assign_within_agency: "Tugaskan dalam lembaga"
+      assign_within_user_group: "Tugaskan dalam kelompok pengguna"
+      find_tracing_match: "Temukan kecocokan penelusuran dari kasus"
+      duplicate: "Pencarian Duplikat"
+      view_response: "Tinjau Respons"
   forms:
     label: "Formulir"
     save: "Simpan Formulir"
@@ -1029,11 +1085,14 @@ id:
     required_field: "%{field} wajib"
     required_field_js: "Adalah bidang yang wajib diisi. Saat ini kosong atau tidak valid."
     form_group_name: "Formulir Nama Grup"
+    form_group: "Kelompok Formulir"
     modal_sidebar_help: "Pilih jenis kolom"
     modal_sidebar_help_selected: "Jenis dari kolom"
     translation: "Terjemahan"
     translation_missing: "(Terjemahan tidak ada untuk %{lang})"
     base_language_help_text: "Masukkan dalam bahasa %{lang}"
+    selective_syncing_mobile_help_text: "Sub-formulir tidak akan diselaraskan dari server ke perangkat mobile, tetapi pengguna dapat menambah sub-formulir di perangkat mobile yang akan menyelaraskan dengan server."
+    form_group_translation_help_text: "Untuk menambahkan terjemahan pada Kelompok Formulir, edit lookup Kelompok Formulir di Editor Lookup."
     initial_lang_help_text: "Area ini harus dibuat dalam %{lang} sebelum terjemahan dapat ditambahkan"
     field_db_help_text: "Jika dikosongkan, Nama DB akan digunakan. Gunakan hanya huruf Latin, underscore diperbolehkan."
   advanced_search:
@@ -1184,7 +1243,7 @@ id:
     edit: "Ubah Referensi"
     create: "Referensi Baru"
     label: "Lihat Referensi"
-    index: "Kelola Kiat"
+    index: "Kelola lookup"
     name: "Nama"
     values: "Pilihan"
     add_value: "Tambah Pilihan"
@@ -1379,6 +1438,7 @@ id:
     high_risk: 'Prioritas Tinggi'
     low_risk: 'Prioritas Rendah'
     none_risk: 'Bukan Prioritas'
+    no_action_risk: 'Tak Perlu Tindakan'
     medium_risk: 'Prioritas Sedang'
     pending: 'Tertunda'
     rejected: 'Ditolak'
@@ -1609,6 +1669,7 @@ id:
         name_present: "Nama tidak boleh kosong"
         unique_name: "Sebuah program dengan nama itu sudah ada, mohon masukkan nama yang berbeda"
       lookup:
+        name_present: "Nama tidak boleh kosong"
         value_presence: "Harap pilih minimal satu nilai referensi"
         unique_name: "Sebuah referensi dengan nama itu sudah ada, mohon masukkan nama yang berbeda"
         being_used: "Referensi ini sedang digunakan dan tidak dapat dihapus"
@@ -1646,6 +1707,10 @@ id:
         use_date_ranges_presence: "Penggunaan rentang tanggal tidak boleh kosong"
       system_settings:
         default_locale: "Lokasi sistem tidak boleh kosong"
+        locales: "Bahasa Inggris harus tersedia sebagai Sistem Lokal"
+      export_configuration:
+        record_type: "Jenis catatan tidak valid. Harus Kasus Anak, Permintaan Penelusuran, atau Insiden."
+        opt_out_field_does_not_exist: "Bidang opt_out yang ditentukan tidak ada pada catatan."
   select_all_results: "Pilih semua hasil"
   histories:
     of: "dari"
@@ -1742,15 +1807,22 @@ id:
       all: UNHCR
       one: UNHCR
       selected: Dipilih untuk UNHCR
+      female_abbreviation: "P"
+      male_abbreviation: "L"
+      unknown_abbreviation: "U"
       headers:
         id: "ID"
+        long_id: "ID Lengkap"
+        short_id: "ID Ringkas"
         individual_progress_id: "ID progres individual"
+        progres_id: "ID Kemajuan"
         cpims_code: "Kode CPIMS"
         date_of_identification: "Tanggal Identifikasi"
         primary_protection_concerns: "Masalah Perlindungan Anak yang Utama"
         secondary_protection_concerns: "Masalah Perlindungan Anak Sekunder"
         governorate_country: "Provinsi"
         sex: "Jenis Kelamin"
+        sex_mapping_m_f_u: "Jenis Kelamin"
         date_of_birth: "Tanggal Lahir"
         age: "Umur"
         causes_of_separation: "Penyebab Keterpisahan"
@@ -1758,6 +1830,27 @@ id:
         current_care_arrangement: "Bentuk Pengasuhan Saat ini"
         reunification_status: "Status Reunifikasi"
         case_status: "Status Kasus"
+        family_count_no: "Nomor Kartu Keluarga"
+        moha_id: "NIK"
+        name_of_child_last_first: "Nama Lengkap Anak"
+        name_of_caregiver: "Nama Lengkap Pengasuh"
+        vulnerability_code: "Bentuk Kerentanan"
+        vulnerability_details_code: "Rincian Bentuk Kerentanan"
+        locations_by_level: "Alamat (Pengungsian, Blok, Huntara, atau lainnya atau koordinat GPS)"
+    duplicate_id_csv:
+      all: Duplikat ID
+      female_abbreviation: "P"
+      male_abbreviation: "L"
+      unknown_abbreviation: "U"
+      headers:
+        moha_id: "NIK RUSAK"
+        national_id_no: "Nomor KTP"
+        case_id: "ID Kasus"
+        progress_id: "Progress ID"
+        child_name_last_first: "Nama Anak"
+        age: "Umur"
+        sex_mapping_m_f_u: "Jenis Kelamin"
+        family_size: "Ukuran Keluarga"
     mrm_violation_xls:
       all: Pelanggaran MRM
       one: Pelanggaran MRM
@@ -1818,6 +1911,8 @@ id:
     user_local_status_done: "Selesai"
     complete_referral_label: "Menekan tombol OK menandakan bahwa Anda telah menyelesaikan pekerjaan rujukan yang terkait dengan kasus ini. Setelah Anda menekan tombol OK Anda tidak akan lagi memiliki akses ke catatan ini."
     done_success_message: "Rujukan Selesai."
+    agency_label: "Agensi"
+    location_label: "Lokasi"
   reassign:
     reassign_case_title: "Tetapkan kasus kepada:"
     existing_user_label: "Pengguna yang ada"
@@ -1832,6 +1927,7 @@ id:
     consent_label: "Data belum diberikan persetujuan"
     consent_override_label: "Apakah Anda ingin mengganti pengaturan ini?"
     is_remote_label: "Apakah Anda memindahkan ke sistem remote?"
+    consent_individual_transfer: "Apakah Subjek telah menyetujui untuk pemindahan kasus ini?"
     type_of_export: "Apa jenis ekspor yang Anda inginkan"
     notes_label: "Catatan"
     user_mandatory: "Nama Pengguna wajib diisi"
@@ -1854,6 +1950,8 @@ id:
     search:
       rejected: "Ditolak"
       in_progress: "Dalam Proses"
+    agency_label: "Agensi"
+    location_label: "Lokasi"
   request_transfer:
     success: "Permintaan Pengalihan telah Dikirim"
     notes_label: "Catatan"
@@ -1897,6 +1995,11 @@ id:
       pending: "Tertunda"
       approved: "Disetujui"
       rejected: "Ditolak"
+  notes:
+    notes_label: "Catatan"
+    subject_label: "Perihal"
+    no_records_selected: "Tidak ada data dipilih"
+    error_adding_note: "Kesalahan menambahkan catatan"
   per_page_translation: "Per halaman _MENU_"
   total: Total
   caregiver: "(Pengasuh)"
@@ -2021,6 +2124,9 @@ id:
         other: "Menampilkan <b>semua %{count}</b> %{model}"
       multi_page_html: "Menampilkan %{model} <b>%{from} - %{to}</b> dari <b>%{count}</b> total"
     models:
+      agency:
+        one: "Lembaga-Lembaga"
+        other: "Lembaga-Lembaga"
       report:
         one: "Laporan"
         other: "Laporan"
@@ -2039,3 +2145,6 @@ id:
       task:
         one: "Tugas-tugas"
         other: "Tugas-tugas"
+      user_group:
+        one: "Kelompok Pengguna"
+        other: "Kelompok Pengguna"

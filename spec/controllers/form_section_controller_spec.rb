@@ -113,7 +113,8 @@ describe FormSectionController do
                                 :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"",
                                              "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
                                 :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
-                                                       "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]}}]},
+                                                       "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                "date_validation" => nil}]},
                      "required"=>false,
                      "option_strings_source"=>nil,
                      "show_on_minify_form"=>false,
@@ -124,7 +125,8 @@ describe FormSectionController do
                      :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"",
                                   "my"=>"", "th"=>"", "ku"=>""},
                      :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[],
-                                            "id"=>[], "my"=>[], "th"=>[], "ku"=>[]}}]
+                                            "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                     "date_validation" => nil}]
         get :index, params: {mobile: true, :format => :json}
         expect(assigns[:form_sections]['Children'].select{|f| f['unique_id'] == 'D'}.first['fields']).to eq(expected)
       end

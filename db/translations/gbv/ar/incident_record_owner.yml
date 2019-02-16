@@ -1,0 +1,29 @@
+---
+ar:
+  incident_record_owner:
+    name: مالك السجل
+    description: مالك السجل
+    form_group_name: مالك السجل
+    fields:
+      current_owner_section:
+        display_name: المالك الحالي
+      caseworker_name:
+        display_name: المجال / الحالة / الباحث الاجتماعي
+      owned_by:
+        display_name: رمز الباحث الاجتماعي المختص بالحالة
+      owned_by_agency:
+        display_name: المؤسسة
+      assigned_user_names:
+        display_name: المستخدمون المخصصون الآخرون
+      record_history_section:
+        display_name: محفوظات السجل
+      created_by:
+        display_name: تم إنشاء السجل من قبل
+      created_organization:
+        display_name: تم إنشاؤه من قبل المؤسسة
+      previously_owned_by:
+        display_name: مالك سابق
+      previous_agency:
+        display_name: مؤسسة سابقة
+      module_id:
+        display_name: الوحدة

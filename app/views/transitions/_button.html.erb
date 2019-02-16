@@ -27,7 +27,6 @@
       (transition_type == Transition::TYPE_REASSIGN && @user_can_assign) %>
 <li>
   <a data-consent_count_url="<%= "/#{model_name.downcase.underscore.pluralize}/consent_count" %>"
-     data-user_location="<%= current_user.location %>"
      data-open=<%= "#{transition_type}-modal" %> class=<%= (defined?(instance) ? "#{transition_type}_show_action" : "#{transition_type}_index_action") %>>
      <%= t("buttons.#{transition_type}", model: model_name) %>
   </a>
@@ -89,13 +88,14 @@
               </label>
               <%= hidden_field_tag "location" , "", {:id => "location_hidden"}%>
               <label><%=I18n.t("#{transition_type}.location_label")%>
-                <%= select_tag("location", options_for_select([], ''), 'data-placeholder' => t("fields.select_box_empty_item"),
-                              :data => { :populate => 'Location', :value => '' }, :include_blank => true, :class => 'chosen-select existing_user_filter') %>
+                <%= select_tag("location", options_for_select([], ''), :data => { :populate => 'ReportingLocation', :value => current_user.reporting_location.try(:location_code), :current_user_location => current_user.reporting_location.try(:location_code)},
+                               'data-placeholder' => t("fields.select_box_empty_item"),
+                               :include_blank => true, :class => 'chosen-select existing_user_filter') %>
               </label>
               <div class='local_user_flash hide_element'><p class='error'></p></div>
               <%= hidden_field_tag "existing_user", "", {:id => "existing_user_hidden"} %>
               <label><%=I18n.t("#{transition_type}.existing_user_label")%>
-                <%= select_tag("existing_user", options_for_select([], ''), {:include_blank => true, :class => 'chosen-select', :id => "existing_user_#{transition_type}"}) %>
+                <%= select_tag("existing_user", options_for_select([], ''), :data => { :populate => 'User', :filters_required => true }, 'data-placeholder' => t("fields.select_box_empty_item"), :include_blank => true, :class => 'chosen-select', :id => "existing_user_#{transition_type}" ) %>
               </label>
             </div>
           <% elsif transition_type == Transition::TYPE_REASSIGN %>

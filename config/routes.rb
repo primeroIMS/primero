@@ -33,6 +33,7 @@ Primero::Application.routes.draw do
   resources :system_settings, only: [:show, :edit, :update]
   resources :saved_searches, only: [:create, :index, :show, :destroy]
   resources :matching_configurations, only: [:show, :edit, :update]
+  resources :duplicates, as: :duplicates, only: [:index]
 
   resources :roles do
     collection do

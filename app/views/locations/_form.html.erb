@@ -7,6 +7,8 @@
   admin_level_options = Location::ADMIN_LEVELS
   admin_level_selection = ((@location.present? && @location.admin_level.present?) ? @location.admin_level : "")
   admin_level_disabled = !@location.admin_level_required?
+  given_locale = @location.base_language
+  system_locale = I18n.locale
 %>
 
 <% content_for :record_sub_nav do %>
@@ -26,16 +28,16 @@
       <% if editing %>
         <div class="row">
           <div class="medium-9 medium-offset-3 columns">
-            <%= render 'shared/locale_select' %>
+            <%= render 'shared/locale_select', current_locale: "en"%>
           </div>
         </div>
       <% end %>
       <div class="row placename">
         <div class="medium-3 columns">
-          <%= f.label :placename, t("location.placename"), :class => "key" %>
+          <%= f.label "placename", t("location.placename", :locale => system_locale), :class => 'key inline' %>
         </div>
         <div class="<%= editing ? 'medium-4' : 'medium-9' %> columns">
-          <%= f.text_field :placename %>
+          <%= f.text_field "placename_#{given_locale}", :id => "placename", required: true %>
         </div>
         <% if editing %>
           <% Primero::Application::locales.each do |new_locale| %>

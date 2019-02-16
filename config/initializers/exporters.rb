@@ -1,3 +1,4 @@
+# Note: temporarily removing MRM Violations exporter
 module Exporters
   ACTIVE_EXPORTERS = [
     CSVExporterListView,
@@ -9,7 +10,7 @@ module Exporters
     PDFExporter,
     UnhcrCSVExporter,
     DuplicateIdCSVExporter,
-    MRMViolationExporter,
+    #MRMViolationExporter,
     SelectedFieldsExcelExporter
   ]
 

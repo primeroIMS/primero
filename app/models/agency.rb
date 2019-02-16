@@ -8,7 +8,7 @@ class Agency < ActiveRecord::Base
 
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
   validates :name, presence: { message: 'errors.models.agency.name_present' }
-
+  validate :validate_name_in_english
 
   class << self
     alias :old_all :all
@@ -54,4 +54,9 @@ class Agency < ActiveRecord::Base
     nil
   end
 
+  def validate_name_in_english
+    return true if self.name_en.present?
+    errors.add(:name, 'errors.models.agency.name_present')
+    return false
+  end
 end

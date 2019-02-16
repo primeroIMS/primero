@@ -53,6 +53,18 @@ template "/vagrant/config/couchdb.yml" do
   group 'vagrant'
 end
 
+template "/vagrant/config/database.yml" do
+  source 'database.yml.erb'
+  variables({
+    :environments => [ 'development', 'test', 'production' ],
+    :host => node[:primero][:postgres][:host],
+    :role => node[:primero][:postgres][:role],
+    :password => node[:primero][:postgres][:password]
+  })
+  owner 'vagrant'
+  group 'vagrant'
+end
+
 template "/vagrant/config/couch_watcher.yml" do
   source 'couch_watcher/couch_watcher.yml.erb'
   variables({

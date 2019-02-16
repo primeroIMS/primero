@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe UsersController do
+describe UsersController,:type => :controller do
   before do
     Role.all.each &:destroy
     PrimeroModule.all.each &:destroy
@@ -22,9 +22,19 @@ describe UsersController do
     @mock_user ||= stub_model(User, stubs)
   end
 
-  describe "GET index" do
+  describe "GET index", search: true do
     before do
+
+       Sunspot.setup(User) do
+         string :user_name
+         string :organization
+         string :location
+         boolean :disabled
+       end
+
       User.all.each &:destroy
+
+      Sunspot.remove_all!
 
       @user_a = User.create!(user_name: "AAA123", full_name: "ZZZ", password: 'passw0rd', password_confirmation: 'passw0rd',
                              role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'cc')
@@ -36,17 +46,38 @@ describe UsersController do
                              role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'dd', disabled: true)
       @user_e = User.create!(user_name: "EEE123", full_name: "VVV", password: 'passw0rd', password_confirmation: 'passw0rd',
                              role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'bb', disabled: true)
+      @user_f = User.create!(user_name: "FFF123", full_name: "VVV", password: 'passw0rd', password_confirmation: 'passw0rd',
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'bb', disabled: false)
+
+      Sunspot.commit
 
       fake_admin_login
       fake_session = Session.new()
       fake_session.stub(:admin?).with(no_args()).and_return(true)
       Session.stub(:get).and_return(fake_session)
       @user = mock_user({:merge => {}, :user_name => "someone"})
+
     end
 
     context "with status filter disabled" do
       before :each do
         @params = { scope: { status: 'list||disabled' } }
+      end
+
+      context "and agency filter selected" do
+        before :each do
+          @params[:scope].merge!({agency: 'list||dd'})
+        end
+
+        it "populates the view with the disabled users of the agency" do
+          get :index, params: @params
+          expect(assigns(:users)).to eq([@user_d])
+        end
+
+        it "does not have disabled users of other agencies" do
+          get :index, params: @params
+          expect(assigns(:users)).not_to include([@user_e])
+        end
       end
 
       it "populates the view with all the disabled users" do
@@ -65,9 +96,25 @@ describe UsersController do
         @params = { scope: { status: 'list||enabled' } }
       end
 
+      context "and agency filter selected" do
+        before :each do
+          @params[:scope].merge!({agency: 'list||aa'})
+        end
+
+        it "populates the view with the enabled users of the agency" do
+          get :index, params: @params
+          expect(assigns(:users)).to eq([@user_b])
+        end
+
+        it "does not have enabled users of other agencies" do
+          get :index, params: @params
+          expect(assigns(:users)).not_to include([@user_c, @user_b])
+        end
+      end
+
       it "populates the view with all the enabled users" do
         get :index, params: @params
-        expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
+        expect(assigns(:users)).to eq([@user_a, @user_b, @user_c, @user_f])
       end
 
       it "renders the index template" do
@@ -81,9 +128,25 @@ describe UsersController do
         @params = { scope: { status: 'list||disabled||enabled' } }
       end
 
+      context "and agency filter selected" do
+        before :each do
+          @params[:scope].merge!({agency: 'list||bb'})
+        end
+
+        it "populates the view with all users of the agency" do
+          get :index, params: @params
+          expect(assigns(:users)).to eq([@user_e, @user_f])
+        end
+
+        it "does not have users of other agencies" do
+          get :index, params: @params
+          expect(assigns(:users)).not_to include([@user_a, @user_b, @user_c, @user_d])
+        end
+      end
+
       it "populates the view with all the users" do
         get :index, params: @params
-        expect(assigns(:users)).to eq([@user_a, @user_b, @user_c, @user_d, @user_e])
+        expect(assigns(:users)).to eq([@user_a, @user_b, @user_c, @user_d, @user_e, @user_f])
       end
 
       it "renders the index template" do
@@ -98,7 +161,7 @@ describe UsersController do
       end
       it "populates the view with enabled users" do
         get :index, params: @params
-        expect(assigns(:users)).to eq([@user_a, @user_b, @user_c])
+        expect(assigns(:users)).to eq([@user_a, @user_b, @user_c, @user_f])
       end
 
       it "renders the index template" do

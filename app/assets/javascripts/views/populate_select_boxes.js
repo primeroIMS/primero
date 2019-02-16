@@ -42,7 +42,7 @@ _primero.Views.PopulateSelectBoxes = _primero.Views.Base.extend({
       return $(element).attr('data-populate')
     }));
 
-    return _.without(lookup_options, 'null', 'User', undefined, 'Location');
+    return _.without(lookup_options, 'null', 'User', undefined, 'Location', 'ReportingLocation');
   },
 
   disableAjaxSelectBoxes: function() {

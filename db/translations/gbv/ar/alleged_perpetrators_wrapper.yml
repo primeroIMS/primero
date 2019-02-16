@@ -1,0 +1,9 @@
+---
+ar:
+  alleged_perpetrators_wrapper:
+    name: الجاني المزعوم
+    description: الجاني المزعوم
+    form_group_name: الجاني المزعوم
+    fields:
+      alleged_perpetrator:
+        display_name: الجاني المزعوم
