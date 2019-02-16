@@ -61,7 +61,7 @@ protection_concern_detail_subform_section = FormSection.create_or_update_form_se
   :initial_subforms => 1,
   "name_en" => "Nested Protection Concerns Subform",
   "description_en" => "Nested Protection Concerns Subform",
-  "collapsed_fields" => ["protection_concern_type"]
+  "collapsed_field_names" => ["protection_concern_type"]
 })
 
 protection_concern_detail_fields = [
@@ -74,7 +74,7 @@ protection_concern_detail_fields = [
   Field.new({"name" => "protection_concern_detail_subform_section",
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => protection_concern_detail_subform_section.unique_id,
+             "subform_section" => protection_concern_detail_subform_section,
              "display_name_en" => "Protection Concern Details"
             })
 ]

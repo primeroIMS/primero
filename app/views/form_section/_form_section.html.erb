@@ -11,7 +11,7 @@
     <div class="row add_violations_message"><%= t('incident.add_violations') %></div>
   <% end %>
 
-  <% (form_section.fields.select {|field| field.visible? }).each do |field| %>
+  <% (form_section.fields.sort_by(&:order).select {|field| field.visible? }).each do |field| %>
     <%= render partial: field_template_path(field), object: field, locals: { field: field, formObject: formObject, form_group_name: form_group_name, form_id: form_section.unique_id } %>
   <% end %>
 

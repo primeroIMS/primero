@@ -9,7 +9,7 @@ def create_or_update_module(module_hash)
     #Preserve existing associated form ids
     module_hash[:associated_form_ids] = module_hash[:associated_form_ids] | primero_module.associated_form_ids if primero_module.present?
 
-    associated_forms = FormSection.by_unique_id(keys: module_hash[:associated_form_ids]).all
+    associated_forms = FormSection.where(unique_id: module_hash[:associated_form_ids])
     if associated_forms.present?
       subform_ids = []
       associated_forms.map{|f| f.fields}.flatten.each do |field|

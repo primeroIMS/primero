@@ -26,7 +26,7 @@ reopened_logs = FormSection.create_or_update_form_section({
      :fields => reopened_subform,
      "name_en" => "Case Reopened",
      "description_en" => "Case Reopened Subform",
-     "collapsed_fields" => ["reopened_date", "reopened_user"],
+     "collapsed_field_names" => ["reopened_date", "reopened_user"],
      "display_help_text_view" => false
 })
 
@@ -153,7 +153,7 @@ Field.new({"name" => "reopened_logs",
            "type" => "subform",
            "editable" => false,
            "disabled" => true,
-           "subform_section_id" => reopened_logs.unique_id,
+           "subform_section" => reopened_logs,
            "display_name_en" => "Case Reopened",
            "subform_sort_by" => "reopened_date"
           })

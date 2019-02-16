@@ -48,16 +48,16 @@ feature "home view" do
       @form_section = create(:form_section,
         is_first_tab: true,
         fields: [
-          build(:field, name: "risk_level", display_name: "Risk Level", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-risk-level", create_property: false),
-          build(:field, name: "approval_status_case_plan", display_name: "Approval Status Case Plan", create_property: false),
+          build(:field, name: "risk_level", display_name: "Risk Level", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-risk-level"),
+          build(:field, name: "approval_status_case_plan", display_name: "Approval Status Case Plan"),
           build(:field, name: "service_due_dates", display_name: "Service Due Dates", type: Field::DATE_FIELD),
           build(:subform_field, name: "services_section", unique_id: 'services_section', fields: [
-            build(:field, name: "service_response_day_time", type: Field::DATE_FIELD, display_name: "Service Response Day Time", create_property: false),
-            build(:field, name: "service_appointment_date", type: Field::DATE_FIELD, display_name: "Service Appointment Date", create_property: false),
-            build(:field, name: "service_implemented", display_name: "Service Implemented", create_property: false)
+            build(:field, name: "service_response_day_time", type: Field::DATE_FIELD, display_name: "Service Response Day Time"),
+            build(:field, name: "service_appointment_date", type: Field::DATE_FIELD, display_name: "Service Appointment Date"),
+            build(:field, name: "service_implemented", display_name: "Service Implemented")
           ]),
-          build(:field, name: "date_closure", display_name: "date_closure", type: Field::DATE_FIELD, create_property: false),
-          build(:field, name: "protection_concerns", display_name: "protection_concerns", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-protection-concerns", create_property: false),
+          build(:field, name: "date_closure", display_name: "date_closure", type: Field::DATE_FIELD),
+          build(:field, name: "protection_concerns", display_name: "protection_concerns", type: Field::SELECT_BOX, option_strings_source: "lookup lookup-protection-concerns"),
           build(:field, name: 'date_case_plan', type: 'date_field', display_name: 'Date Case Plan Due'),
           build(:field, name: 'case_plan_due_date', type: 'date_field', display_name: 'Date Case Plan Due')
         ]

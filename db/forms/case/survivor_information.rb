@@ -4,16 +4,14 @@ survivor_information_fields = [
              "type" => "text_field",
              "display_name_en" => "Long ID",
              "editable" => false,
-             "disabled" => true,
-             "create_property" => false
+             "disabled" => true
             }),
   Field.new({"name" => "short_id",
              "mobile_visible" => false,
              "type" => "text_field",
              "display_name_en" => "Case ID",
              "editable" => false,
-             "disabled" => true,
-             "create_property" => false
+             "disabled" => true
             }),
   Field.new({"name" => "marked_for_mobile",
              "mobile_visible" => false,
@@ -21,8 +19,7 @@ survivor_information_fields = [
              "tick_box_label_en" => "Yes",
              "display_name_en" => "Marked for mobile?",
              "editable" => false,
-             "disabled" => true,
-             "create_property" => false
+             "disabled" => true
             }),
   Field.new({"name" => "child_status",
              "show_on_minify_form" => true,

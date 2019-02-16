@@ -2,7 +2,7 @@
    subform = field
    subform_section = field.subform_section
    #TODO - booo!!!!  This is bad. Refactor needed.  Don't do a DB query in a template
-   shared_subform_section = (subform_section.shared_subform.present? ? FormSection.get_by_unique_id(subform_section.shared_subform) : nil)
+   shared_subform_section = (subform_section.shared_subform.present? ? FormSection.find_by(unique_id: subform_section.shared_subform) : nil)
    shared_subform_section_group = subform_section.shared_subform_group
 
    #TODO: a little redundant to re-count the subforms? (see grouped_subforms(formObject, subform))
@@ -38,7 +38,7 @@
           <% if subform.name == 'services_section'
               form_section_name = I18n.t('messages.service_provision')
              else
-              form_section_name = subform["display_name_#{subform.base_language}"].downcase
+              form_section_name = subform.display_name_en.downcase
              end
           %>
           <div id="<%= subform.name %>_change_alert" class="flash header_message alert_message row">
@@ -74,7 +74,7 @@
                                 }
               %>
 
-              <% (subform_section.fields.select {|field| field.showable? }).each do |field| %>
+              <% (subform_section.fields.sort_by(&:order).select {|field| field.showable? }).each do |field| %>
                 <% unless (field.name == "to_user_local_status" && formObject_i.is_remote == true) || (field.name == "to_user_local_status" && formObject_i.type == Transition::TYPE_REASSIGN) %>
                   <%= render :partial => field_template_path(field, true),  :locals=>{:field => field, :formObject=>formObject_i, :lookups => lookups} %>
                 <% end %>

@@ -129,8 +129,7 @@ module Matchable
     end
 
     def form_match_fields(is_subform, match_fields)
-      form_fields = FormSection.get_matchable_fields_by_parent_form(self.parent_form, is_subform)
-      fields = Array.new(form_fields).map(&:name)
+      fields =  MatchingConfiguration.matchable_fields(self.parent_form, is_subform).map(&:name)
       return fields if match_fields.blank?
       fields & match_fields.values.flatten.reject(&:blank?)
     end

@@ -2,6 +2,7 @@ class MatchingConfiguration
   include ActiveModel::Model
 
   #TODO - Create rspec tests
+  #TODO: This is just broken. Refactor this whole class when migrating to Postgres
 
   attr_accessor :id
   attr_accessor :form_ids
@@ -29,6 +30,15 @@ class MatchingConfiguration
       matching_configuration = MatchingConfiguration.new(nil, match_fields)
       matching_configuration.load_fields_for_filter
       matching_configuration
+    end
+
+    def matchable_fields(record_type, from_subform=true)
+      Field.joins(:form_section).includes(:form_section)
+        .where(form_sections: {parent_form: record_type, is_nested: from_subform}, matchable: true)
+    end
+
+    def matchable_fields_by_form(record_type, from_subform=true)
+      matchable_fields(record_type, from_subform).group_by{|f| f.form_section}
     end
   end
 
@@ -103,19 +113,16 @@ class MatchingConfiguration
   private
 
   def load_form_sections_by_type(type)
-    FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type)
+    FormSection.form_sections_by_ids_and_parent_form(self.form_ids, type).includes(:fields)
   end
 
-  # Returns: hash of (key) Form ID and (values) Fields that are matchable
-  def get_matchable_form_and_field_names(form_sections)
-    return {} if form_sections.blank?
-    form_hash = {}
-    form_sections.each do |f|
-      matchable_fields = f.all_matchable_fields
-      form_hash[f.unique_id] = matchable_fields.map{|fd| fd.name} if matchable_fields.present?
-    end
-    form_hash
+
+  def get_matchable_form_and_field_names(form_ids, parent_form)
+    matchable_fields = Field.joins(:form_section).includes(:form_section).where(form_sections: {id: form_ids, parent_form: parent_form}, matchable: true)
+    grouped_matchable_fields = matchable_fields.group_by{|f|f.form_section.unique_id}
+    grouped_matchable_fields.map{|form_id, fields| [form_id, fields.map{|f| f.name}]}.to_h
   end
+
 
   def load_matchable_fields(form_sections)
     get_matchable_form_and_field_names(form_sections).map { |form_key, fields| [form_key, fields.map { |val| form_key + ID_SEPARATOR + val }] }
@@ -170,9 +177,16 @@ class MatchingConfiguration
     end
 
     form_sections = load_form_sections_by_type(type)
-    form_sections.each do |form_section|
-      form_section.update_fields_matchable(form_field_hash[form_section.unique_id] || [])
-      form_section.save
+    ActiveRecord::Base.transaction do
+      form_sections.each do |form_section|
+        matching_field_names = form_field_hash[form_section.unique_id]
+        form_section.fields.each do |field|
+          if matching_field_names.include?(field.name)
+            field.matchable = true
+            field.save
+          end
+        end
+      end
     end
   end
 end

@@ -109,7 +109,7 @@ transitions = FormSection.create_or_update_form_section({
      :fields => transitions_subform,
      "name_en" => "Nested Transitions Subform",
      "description_en" => "Transitions Subform",
-     "collapsed_fields" => ["type", "service", "to_user_local", "to_user_remote", "created_at"]
+     "collapsed_field_names" => ["type", "service", "to_user_local", "to_user_remote", "created_at"]
 })
 
 referral_transfer_fields = [
@@ -128,7 +128,7 @@ referral_transfer_fields = [
              "type" => "subform",
              "editable" => false,
              "disabled" => true,
-             "subform_section_id" => transitions.unique_id,
+             "subform_section" => transitions,
              "display_name_en" => "Transfers and Referrals",
              "subform_sort_by" => "created_at"
             })

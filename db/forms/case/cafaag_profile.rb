@@ -53,7 +53,6 @@ caafag_profile_fields = [
   Field.new({"name" => "location_cafaag_militaryunit",
              "type" => "select_box",
              "display_name_en" => "Location of Military Unit",
-             "searchable_select" => true,
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "cafaag_child_role",
@@ -96,7 +95,6 @@ caafag_profile_fields = [
   Field.new({"name" => "location_cafaag_mobilization",
              "type" => "select_box",
              "display_name_en" => "Location of Mobilization",
-             "searchable_select" => true,
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "cafaag_date_child_leave",
@@ -134,7 +132,6 @@ caafag_profile_fields = [
   Field.new({"name" => "location_cafaag_demobilization",
              "type" => "select_box",
              "display_name_en" => "Location of Demobilization",
-             "searchable_select" => true,
              "option_strings_source" => "Location"
             }),
   Field.new({"name" => "cafaag_demobilization_papers_served",
@@ -160,15 +157,15 @@ caafag_profile_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "caafag_profile",
-  :parent_form=>"case",
-  "visible" => true,
-  :order_form_group => 70,
-  :order => 50,
-  :order_subform => 0,
-  :form_group_id => "assessment",
-  :fields => caafag_profile_fields,
-  "editable" => true,
-  "name_en" => "CAAFAG Profile",
-  "description_en" => "CAAFAG Profile"
+  unique_id: "caafag_profile",
+  parent_form: "case",
+  visible: true,
+  order_form_group: 70,
+  order: 50,
+  order_subform: 0,
+  form_group_id: "assessment",
+  fields: caafag_profile_fields,
+  editable: true,
+  name_en: "CAAFAG Profile",
+  description_en: "CAAFAG Profile"
 })

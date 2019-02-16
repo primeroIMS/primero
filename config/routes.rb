@@ -237,7 +237,6 @@ Primero::Application.routes.draw do
     collection do
       match 'save_order', :via => [:post, :get, :put, :delete]
       match 'toggle', :via => [:post, :get, :put, :delete]
-      match 'published', :via => [:post, :get, :put, :delete]
       post :import_file
     end
 
@@ -256,8 +255,6 @@ Primero::Application.routes.draw do
       post :remove
     end
   end
-
-  match '/published_form_sections', :to => 'form_section#published', :via => [:post, :get, :put, :delete]
 
 
 #######################

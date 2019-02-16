@@ -121,13 +121,13 @@ verification_subform_section = FormSection.create_or_update_form_section({
   :initial_subforms => 1,
   "name_en" => "Nested Verification Subform",
   "description_en" => "Nested Verification Subform",
-  "collapsed_fields" => ["verification_inquirer_relationship", "verification_name_inquirer"]
+  "collapsed_field_names" => ["verification_inquirer_relationship", "verification_name_inquirer"]
 })
 
 verification_fields = [
   Field.new({"name" => "verification_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => verification_subform_section.unique_id,
+             "subform_section" => verification_subform_section,
              "display_name_en" => "Verification"
             })
 ]

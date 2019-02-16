@@ -114,7 +114,7 @@ services_section = FormSection.create_or_update_form_section({
   :initial_subforms => 1,
   "name_en" => "Nested Services",
   "description_en" => "Services Subform",
-  "collapsed_fields" => ["service_type", "service_appointment_date"]
+  "collapsed_field_names" => ["service_type", "service_appointment_date"]
 })
 
 services_fields = [
@@ -122,7 +122,7 @@ services_fields = [
     "name" => "services_section",
     "type" => "subform",
     "editable" => true,
-    "subform_section_id" => services_section.unique_id,
+    "subform_section" => services_section,
     "display_name_en" => "Services",
     "subform_sort_by" => "service_appointment_date"
   })

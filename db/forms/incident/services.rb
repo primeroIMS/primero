@@ -1,4 +1,6 @@
 #TODO - The Service Referral options in each subform are all the same.  They need to be moved to a lookup
+
+
 health_medical_referral_subform_fields = [
   Field.new({"name" => "service_medical_referral",
              "show_on_minify_form" => true,
@@ -35,19 +37,19 @@ health_medical_referral_subform_fields = [
 ]
 
 health_medical_referral_subform_section = FormSection.create_or_update_form_section({
-  "visible" => false,
-  "is_nested" => true,
-  :order_form_group => 100,
-  :order => 10,
-  :order_subform => 1,
-  :unique_id => "health_medical_referral_subform_section",
-  :parent_form=>"incident",
-  "editable" => true,
-  :fields => health_medical_referral_subform_fields,
+  visible: false,
+  is_nested: true,
+  order_form_group: 100,
+  order: 10,
+  order_subform: 1,
+  unique_id: "health_medical_referral_subform_section",
+  parent_form: "incident",
+  editable: true,
+  fields: health_medical_referral_subform_fields,
   mobile_form: true,
-  :initial_subforms => 1,
-  "name_en" => "Nested Health/Medical Referral Subform",
-  "description_en" => "Nested Health/Medical Referral Subform"
+  initial_subforms: 1,
+  name_en: "Nested Health/Medical Referral Subform",
+  description_en: "Nested Health/Medical Referral Subform"
 })
 
 psychosocial_counseling_services_subform_fields = [
@@ -380,42 +382,42 @@ services_fields = [
              "show_on_minify_form" => true,
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => health_medical_referral_subform_section.unique_id,
+             "subform_section" => health_medical_referral_subform_section,
              "display_name_en" => "Health/Medical Referral"
             }),
   Field.new({"name" => "psychosocial_counseling_services_subform_section",
              "mobile_visible" => true,
              "show_on_minify_form" => true,
              "type" => "subform", "editable" => true,
-             "subform_section_id" => psychosocial_counseling_services_subform_section.unique_id,
+             "subform_section" => psychosocial_counseling_services_subform_section,
              "display_name_en" => "Psychosocial/Counseling Services"
             }),
   Field.new({"name" => "legal_assistance_services_subform_section",
              "mobile_visible" => true,
              "show_on_minify_form" => true,
              "type" => "subform", "editable" => true,
-             "subform_section_id" => legal_assistance_services_subform_section.unique_id,
+             "subform_section" => legal_assistance_services_subform_section,
              "display_name_en" => "Legal Assistance Services"
             }),
   Field.new({"name" => "police_or_other_type_of_security_services_subform_section",
              "mobile_visible" => true,
              "show_on_minify_form" => true,
              "type" => "subform", "editable" => true,
-             "subform_section_id" => police_or_other_type_of_security_services_subform_section.unique_id,
+             "subform_section" => police_or_other_type_of_security_services_subform_section,
              "display_name_en" => "Police or Other Type of Security Services"
            }),
   Field.new({"name" => "livelihoods_services_subform_section",
              "mobile_visible" => true,
              "show_on_minify_form" => true,
              "type" => "subform", "editable" => true,
-             "subform_section_id" => livelihoods_services_subform_section.unique_id,
+             "subform_section" => livelihoods_services_subform_section,
              "display_name_en" => "Livelihoods Services"
             }),
   Field.new({"name" => "child_protection_services_subform_section",
              "mobile_visible" => true,
              "show_on_minify_form" => true,
              "type" => "subform", "editable" => true,
-             "subform_section_id" => child_protection_services_subform_section.unique_id,
+             "subform_section" => child_protection_services_subform_section,
              "display_name_en" => "Child Protection Services"
             })
 ]

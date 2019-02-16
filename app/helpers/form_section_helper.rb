@@ -13,9 +13,6 @@ module FormSectionHelper
     record.alerts.any?{|alert| alert.form_sidebar_id == form_id}
   end
 
-  def sorted_highlighted_fields
-    FormSection.sorted_highlighted_fields
-  end
 
   def url_for_form_section_field(form_section_id, field)
     (field.new? || field.name.blank?) ? form_section_fields_path(form_section_id) : form_section_field_path(form_section_id, field.name)
@@ -105,7 +102,7 @@ module FormSectionHelper
   end
 
   def subform_placeholder(field, subform, editing=false)
-    if field.base_doc.is_violation?
+    if field.form_section.is_violation?
       t("incident.violation.violation")
     else
       form_string, translation_node = editing ? [subform.form.name, 'editing_subforms'] : [subform.display_name, 'subforms']

@@ -45,7 +45,7 @@ class IncidentsController < ApplicationController
   private
 
   def load_fields
-    @gbv_sexual_violence_type_field = Field.find_by_name_from_view('gbv_sexual_violence_type')
+    @gbv_sexual_violence_type_field = Field.get_by_name('gbv_sexual_violence_type')
     @agency_offices = Lookup.values('lookup-agency-office')
     @user_group_ids = UserGroup.all.rows.map(&:id).uniq
   end

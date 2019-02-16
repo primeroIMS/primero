@@ -55,7 +55,7 @@ class PrimeroModule < CouchRest::Model::Base
   end
 
   def associated_forms(include_subforms=false)
-    result = FormSection.by_unique_id(keys: self.associated_form_ids).all
+    result = FormSection.where(unique_id: self.associated_form_ids)
     result.each{|f| f.module_name = self.name}
     unless include_subforms
       result = result.select{|f| !f.is_nested}

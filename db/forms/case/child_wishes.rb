@@ -50,7 +50,7 @@ child_preferences_section = FormSection.create_or_update_form_section({
     :initial_subforms => 1,
     "name_en" => "Nested Child's Preferences",
     "description_en" => "Child's Preferences Subform",
-  "collapsed_fields" => ["wishes_preference_relocated", "wishes_name"]
+    "collapsed_field_names" => ["wishes_preference_relocated", "wishes_name"]
 })
 
 child_wishes_fields = [
@@ -90,7 +90,7 @@ child_wishes_fields = [
   Field.new({"name" => "child_preferences_section",
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => child_preferences_section.unique_id,
+             "subform_section" => child_preferences_section,
              "display_name_en" => "Child's Preferences"
             }),
   ##Subform##

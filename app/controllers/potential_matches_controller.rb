@@ -21,8 +21,7 @@ class PotentialMatchesController < ApplicationController
     @type ||= params[:type] || "tracing_request"
     @match = params[:match]
     @match_model_class ||= (@type == 'case' ? 'child' : @type).camelize.constantize
-
-    @sex_field = Field.find_by_name_from_view('sex')
+    @sex_field = Field.get_by_name('sex')
     load_match_configuration
     load_potential_matches #@potential_matches, @case, @tracing_request
 

@@ -59,8 +59,9 @@ class FormSectionController < ApplicationController
 
   def update
     authorize! :update, FormSection
-    @form_section = FormSection.get_by_unique_id(params[:id], true)
+    @form_section = FormSection.find_by_id(params[:id])
     @form_section.properties = params[:form_section].to_h
+    #TODO: Need to set the fields as well
     if (@form_section.valid?)
       @form_section.save!
       redirect_to edit_form_section_path(
@@ -81,7 +82,7 @@ class FormSectionController < ApplicationController
 
   def toggle
     authorize! :update, FormSection
-    form = FormSection.get_by_unique_id(params[:id], true)
+    form = FormSection.find_by_id(params[:id], true)
     form.visible = !form.visible?
     form.save!
     render plain: 'OK'
@@ -90,23 +91,13 @@ class FormSectionController < ApplicationController
   def save_order
     authorize! :update, FormSection
     params[:ids].each_with_index do |unique_id, index|
-      form_section = FormSection.get_by_unique_id(unique_id, true)
+      form_section = FormSection.find_by_id(unique_id)
       form_section.order = index + 1
       form_section.save!
     end
     redirect_to form_sections_path
   end
 
-  #TODO formatted_hash has issues related to Indonesia locale 'id' and locale 'ar-LB'
-  # It is suspected this 'published' api action is a rapidFTR holdover and is not used by the mobile app
-  # TODO LB-293 removing this method will be addressed in a later ticket.
-  def published
-    json_content = FormSection.find_all_visible_by_parent_form(@parent_form, true).map(&:formatted_hash).to_json
-    respond_to do |format|
-      format.html { render :inline => json_content }
-      format.json { render :json => json_content }
-    end
-  end
 
   def download_all_forms
     authorize! :index, FormSection
@@ -137,7 +128,7 @@ class FormSectionController < ApplicationController
   end
 
   def get_form_section
-    @form_section = FormSection.get_by_unique_id(params[:id], true)
+    @form_section = FormSection.find_by_id(params[:id])
     @parent_form = @form_section.parent_form
   end
 
@@ -157,8 +148,8 @@ class FormSectionController < ApplicationController
 
       permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
       FormSection.link_subforms(permitted_forms)
-      permitted_forms = FormSection.filter_subforms(permitted_forms)
-      permitted_forms = FormSection.filter_for_mobile(permitted_forms) if is_mobile?
+      permitted_forms = permitted_forms.select{|f| f.is_nested.blank?}
+      permitted_forms = permitted_forms.select{|f| f.mobile_form} if is_mobile?
       @form_sections = FormSection.group_forms(permitted_forms)
     else
       @form_sections = []

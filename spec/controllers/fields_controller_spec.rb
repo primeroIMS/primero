@@ -14,7 +14,7 @@ describe FieldsController do
       @field = Field.new :name => "my_new_field", :type=>"TEXT", :display_name => "My New Field"
       SuggestedField.stub(:mark_as_used)
       @form_section = FormSection.new :name => "Form section 1", :unique_id=>'form_section_1'
-      FormSection.stub(:get_by_unique_id).with(@form_section.unique_id).and_return(@form_section)
+      FormSection.stub(:find_by).with({unique_id: @form_section.unique_id}).and_return(@form_section)
     end
 
     it "should add the new field to the formsection" do
@@ -70,7 +70,7 @@ describe FieldsController do
       @form_section = FormSection.new
       field = double('field', :name => 'field1')
       @form_section.stub(:fields).and_return([field])
-      FormSection.stub(:get_by_unique_id).with('unique_id').and_return(@form_section)
+      FormSection.stub(:find_by).with({unique_id: 'unique_id'}).and_return(@form_section)
       get :edit, params: {:form_section_id => "unique_id", :id => 'field1', :module_id => "test_module"}
       expect(assigns[:body_class]).to eq("forms-page")
       expect(assigns[:field]).to eq(field)
@@ -84,7 +84,7 @@ describe FieldsController do
       @form_section_id = "fred"
       @field_name = "barney"
       @form_section = FormSection.new
-      FormSection.stub(:get_by_unique_id).with(@form_section_id).and_return(@form_section)
+      FormSection.stub(:find_by).with({unique_id: @form_section_id}).and_return(@form_section)
     end
 
     it "should save the given field in the same order as given" do
@@ -100,7 +100,7 @@ describe FieldsController do
     before :each do
       @form_section_id = "fred"
       @form_section = FormSection.new
-      FormSection.stub(:get_by_unique_id).with(@form_section_id).and_return(@form_section)
+      FormSection.stub(:find_by).with({unique_id: @form_section_id}).and_return(@form_section)
     end
 
     it "should toggle the given field" do
@@ -136,7 +136,7 @@ describe FieldsController do
 
     it "should display errors if field could not be saved" do
       field_with_error = double("field", :name => "field", :attributes= => [], :errors => ["error"])
-      FormSection.stub(:get_by_unique_id).and_return(double("form_section", :parent_form => 'case', :fields => [field_with_error], :save => false))
+      FormSection.stub(:find_by).and_return(double("form_section", :parent_form => 'case', :fields => [field_with_error], :save => false))
       put :update, params: { :id => "field", :form_section_id => "unique_id", :module_id => "primeromodule-cp",
           :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text" }}
 

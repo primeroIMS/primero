@@ -60,7 +60,7 @@ module Exporters
     end
 
     def export_one_form
-      fs = FormSection.by_unique_id(key: @form_id).first
+      fs = FormSection.find_by(unique_id: @form_id)
       if fs.present?
         Rails.logger.info {"Form ID: #{@form_id}, Show Hidden Forms: #{@show_hidden_forms}, Show Hidden Fields: #{@show_hidden_fields}, Locale: #{@locale}"}
         export_form(fs)

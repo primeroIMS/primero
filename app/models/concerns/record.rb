@@ -389,7 +389,7 @@ module Record
       if field_or_name.is_a?(Field)
         result = field_or_name.display_text(self.send(field_or_name.name), lookups)
       else
-        field = Field.find_by_name_from_view(field_or_name)
+        field = Field.get_by_name(field_or_name)
         if field.present?
           result = field.display_text(self.send(field_or_name), lookups)
         end

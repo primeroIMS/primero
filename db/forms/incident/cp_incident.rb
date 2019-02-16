@@ -5,7 +5,6 @@ cp_incident_fields = [
     "editable" => false,
     "disabled" => true,
     "display_name_en" => "Long ID",
-    "create_property" => false,
     "mobile_visible" => false,
     "visible" => false
   }),
@@ -15,7 +14,6 @@ cp_incident_fields = [
     "editable" => false,
     "disabled" => true,
     "display_name_en" => "Short ID",
-    "create_property" => false,
     "mobile_visible" => false
   }),
   Field.new({
@@ -84,16 +82,16 @@ cp_incident_fields = [
 ]
 
 FormSection.create_or_update_form_section({
-  :unique_id => "cp_incident_form",
-  :parent_form=>"incident",
-  "visible" => true,
-  :order_form_group => 10,
-  :order => 10,
-  :order_subform => 0,
-  :form_group_id => "cp_incident",
-  :fields => cp_incident_fields,
-  :is_first_tab => true,
-  "editable" => true,
-  "name_en" => "CP Incident",
-  "description_en" => "CP Incident"
+  unique_id: "cp_incident_form",
+  parent_form: "incident",
+  visible: true,
+  order_form_group: 10,
+  order: 10,
+  order_subform: 0,
+  form_group_id: "cp_incident",
+  fields: cp_incident_fields,
+  is_first_tab: true,
+  editable: true,
+  name_en: "CP Incident",
+  description_en: "CP Incident"
 })

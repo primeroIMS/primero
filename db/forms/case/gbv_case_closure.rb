@@ -5,7 +5,6 @@ case_closure_fields = [
              "editable" => false,
              "disabled" => true,
              "display_name_en" => "Case Opening Date",
-             "create_property" => false,
              "date_include_time" => true
             }),
   Field.new({"name" => "date_closure",

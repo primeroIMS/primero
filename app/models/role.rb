@@ -49,7 +49,7 @@ class Role < CouchRest::Model::Base
 
   def add_permitted_subforms
     if self.permitted_form_ids.present?
-      permitted_forms =  FormSection.by_unique_id(keys: self.permitted_form_ids).all
+      permitted_forms =  FormSection.where(unique_id: self.permitted_form_ids)
       subforms = FormSection.get_subforms(permitted_forms)
       all_permitted_form_ids = permitted_forms.map(&:unique_id) | subforms.map(&:unique_id)
       all_permitted_form_ids = all_permitted_form_ids.select{|id| id.present?}

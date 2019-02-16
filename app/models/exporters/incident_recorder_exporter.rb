@@ -141,7 +141,7 @@ module Exporters
       def age_group_and_type_count
         age_group_count = 0
         age_type_count = 0
-        fs = FormSection.by_unique_id(key: 'alleged_perpetrator').first
+        fs = FormSection.find_by(unique_id: 'alleged_perpetrator')
         if fs.present?
           age_group_count = fs.fields.count{|f| f.name == 'age_group' and f.visible?}
           age_type_count = fs.fields.count{|f| f.name == 'age_type' and f.visible?}

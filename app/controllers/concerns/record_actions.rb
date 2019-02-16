@@ -22,10 +22,10 @@ module RecordActions
     before_action :is_gbv, :only => [:index]
     before_action :is_mrm, :only => [:index]
     before_action :load_consent, :only => [:show]
-    before_action :sort_subforms, :only => [:show, :edit]
     before_action :load_default_settings, :only => [:index, :show, :edit, :request_approval, :approve_form, :transition]
     before_action :load_referral_role_options, :only => [:index, :show]
     before_action :load_transfer_role_options, :only => [:index, :show]
+    before_action :load_filter_fields, only: [:index]
     before_action :log_controller_action, :except => [:new]
     before_action :can_access_approvals, :only => [:index]
     before_action :can_sync_mobile, :only => [:index]
@@ -117,7 +117,9 @@ module RecordActions
 
         @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
         @body_class = 'profile-page'
+        #TODO: Does that mean that all parts of the record are visible as json?
         @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+        sort_subforms
       end
 
       format.json do
@@ -190,6 +192,7 @@ module RecordActions
     authorize! :update, @record
 
     @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+    sort_subforms
     @page_name = t("#{model_class.locale_prefix}.edit")
   end
 
@@ -222,12 +225,19 @@ module RecordActions
   end
 
   def sort_subforms
-    if @record.present?
-      @record.field_definitions.select{|f| !f.subform_sort_by.nil?}.each do |field|
-        if @record[field.name].present?
-          # Partitioning because dates can be nil. In this case, it causes an error on sort.
-          subforms = @record[field.name].partition{|r| r[field.subform_sort_by].nil?}
-          @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
+    if @record.present? && @form_sections.present?
+      #TODO: Whyt are form sections still grouped by english group name?
+      @form_sections.values.flatten.each do |form|
+        unless form.is_nested?
+          form.fields.each do |field|
+            if field.subform_sort_by.present?
+              if @record[field.name].present?
+                # Partitioning because dates can be nil. In this case, it causes an error on sort.
+                subforms = @record[field.name].partition{|r| r[field.subform_sort_by].nil?}
+                @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
+              end
+            end
+          end
         end
       end
     end
@@ -423,6 +433,14 @@ module RecordActions
       @referral_consent = @record.given_consent(Transition::TYPE_REFERRAL)
       @transfer_consent = @record.given_consent(Transition::TYPE_TRANSFER)
     end
+  end
+
+  def load_filter_fields
+    filter_field_names = %w(
+      gbv_displacement_status protection_status urgent_protection_concern
+      protection_concerns type_of_risk
+    )
+    @filter_fields = Field.get_by_name(filter_field_names).map{|f| [f.name, f]}.to_h
   end
 
   #This overrides method in export_actions

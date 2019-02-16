@@ -101,7 +101,7 @@ conference_details_subform_section = FormSection.create_or_update_form_section({
   :initial_subforms => 0,
   :name_en => "Conference Details",
   :description_en => "Conference Details",
-  :collapsed_fields => ["conference_type", "conference_date"]
+  :collapsed_field_names => ["conference_type", "conference_date"]
 })
 
 conference_details_fields = [
@@ -109,7 +109,7 @@ conference_details_fields = [
   Field.new({"name" => "conference_details_subform",
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => conference_details_subform_section.unique_id,
+             "subform_section" => conference_details_subform_section,
              "subform_sort_by" => "conference_date",
              "display_name_en" => "Case Conference Details"
             })

@@ -70,7 +70,7 @@ approvals_section = FormSection.create_or_update_form_section({
     :hide_subform_placeholder => true,
     "name_en" => "Approval Subform",
     "description_en" => "Approval Subform",
-    "collapsed_fields" => [
+    "collapsed_field_names" => [
       "approval_requested_for",
       "approval_response_for",
       "approval_for_type",
@@ -83,7 +83,7 @@ approvals_fields = [
   Field.new({"name" => "approval_subforms",
     "type" => "subform",
     "editable" => false,
-    "subform_section_id" => approvals_section.unique_id,
+    "subform_section" => approvals_section,
     "display_name_en" => "Approval"
   }),
 ]

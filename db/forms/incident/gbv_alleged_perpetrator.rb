@@ -101,7 +101,7 @@ alleged_perpetrator_fields = [
              "mobile_visible" => true,
              "type" => "subform",
              "editable" => true,
-             "subform_section_id" => alleged_perpetrator_subform_section.unique_id,
+             "subform_section" => alleged_perpetrator_subform_section,
              "display_name_en" => "Alleged Perpetrator"
             })
 ]

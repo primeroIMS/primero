@@ -102,12 +102,12 @@ module LocalizableProperty
     if locale_field_value.present?
       return locale_field_value if locale_field_value.is_a?(String)
       if locale_field_value.is_a?(Array) && locale_field_value.first.is_a?(Hash)
-        locale_field_value.any?{|op| op['display_text'].present?} ? locale_field_value : self.send("#{method}_#{FormSection::DEFAULT_BASE_LANGUAGE}")
+        locale_field_value.any?{|op| op['display_text'].present?} ? locale_field_value : self.send("#{method}_#{Primero::Application::BASE_LANGUAGE}")
       else
         locale_field_value
       end
     else
-      self.send("#{method}_#{FormSection::DEFAULT_BASE_LANGUAGE}")
+      self.send("#{method}_#{Primero::Application::BASE_LANGUAGE}")
     end
   end
 

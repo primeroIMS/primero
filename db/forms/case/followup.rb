@@ -109,13 +109,13 @@ followup_subform_section = FormSection.create_or_update_form_section({
   :initial_subforms => 1,
   "name_en" => "Nested Followup Subform",
   "description_en" => "Nested Followup Subform",
-  "collapsed_fields" => ["followup_date", "followup_type"]
+  "collapsed_field_names" => ["followup_date", "followup_type"]
 })
 
 followup_fields = [
   Field.new({"name" => "followup_subform_section",
              "type" => "subform", "editable" => true,
-             "subform_section_id" => followup_subform_section.unique_id,
+             "subform_section" => followup_subform_section,
              "display_name_en" => "Follow Up",
              "subform_sort_by" => "followup_date"
             })

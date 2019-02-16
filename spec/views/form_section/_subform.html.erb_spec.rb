@@ -112,7 +112,7 @@ describe "_subform.html.erb" do
 
   describe "form_section/_field_display_subform.html.erb" do
     it "should use field display_name value as is" do
-      form = FormSection.get_by_unique_id("form_section_test_1")
+      form = FormSection.find_by(unique_id: "form_section_test_1")
       render :partial => 'form_section/field_display_subform',
              :locals =>
                 {
@@ -138,7 +138,7 @@ describe "_subform.html.erb" do
     end
 
     it "should use field name to retrieve the subform information" do
-      form = FormSection.get_by_unique_id("form_section_test_1")
+      form = FormSection.find_by(unique_id: "form_section_test_1")
       render :partial => 'form_section/field_display_subform',
              :locals =>
                 {
@@ -174,8 +174,8 @@ describe "_subform.html.erb" do
 
   describe "form_section/_subform_expand_collapse_header.html.erb" do
     it "should use field display_name value as is" do
-      form = FormSection.get_by_unique_id("form_section_test_1")
-      subform_section = FormSection.get_by_unique_id("nested_subform_section_1")
+      form = FormSection.find_by(unique_id: "form_section_test_1")
+      subform_section = FormSection.find_by(unique_id: "nested_subform_section_1")
       render :partial => 'form_section/subform_expand_collapse_header',
              :locals =>
                 {
@@ -190,7 +190,7 @@ describe "_subform.html.erb" do
        #The value should not be singularize.
        rendered.should match(/<label class="key" for="subform_section_1">First of the Subforms<\/label>/)
 
-       subform_section = FormSection.get_by_unique_id("nested_subform_section_2")
+       subform_section = FormSection.find_by(unique_id: "nested_subform_section_1")
        render :partial => 'form_section/subform_expand_collapse_header',
              :locals =>
                 {
@@ -208,8 +208,8 @@ describe "_subform.html.erb" do
 
   describe "form_section/_subform.html.erb" do
     it "should use field name to retrieve the subform information" do
-      form = FormSection.get_by_unique_id("form_section_test_1")
-      subform_section = FormSection.get_by_unique_id("nested_subform_section_1")
+      form = FormSection.find_by(unique_id: "form_section_test_1")
+      subform_section = FormSection.find_by(unique_id: "nested_subform_section_1")
       render :partial => 'form_section/subform',
              :locals =>
                 {
@@ -226,7 +226,7 @@ describe "_subform.html.erb" do
       expect(rendered).to have_tag("input[type='hidden'][name='child[subform_section_1][0][unique_id]']")
       rendered.should match(/<label class="key inline" for="nested_subform_section_1_child_subform_section_1_0_field_name_1">Field Name 1<\/label>/)
 
-      subform_section = FormSection.get_by_unique_id("nested_subform_section_2")
+      subform_section = FormSection.find_by(unique_id: "nested_subform_section_1")
       render :partial => 'form_section/subform',
              :locals =>
                 {

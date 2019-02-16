@@ -83,7 +83,8 @@ class CustomFieldsValidator
 
       lookup =
         if subfield
-          FormSection.get_form_containing_field(field.form.unique_id)
+          #TODO: This doesn't ever get called, yeah? The method no longer exists
+          #FormSection.get_form_containing_field(field.form.unique_id)
         else
           field.form
         end

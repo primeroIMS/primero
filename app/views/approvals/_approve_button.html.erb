@@ -1,6 +1,3 @@
-<%
-  available_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
-%>
 <li class="is-dropdown-submenu-parent">
   <a><%= t("buttons.approvals") %></a>
   <ul class="menu is-dropdown-submenu">

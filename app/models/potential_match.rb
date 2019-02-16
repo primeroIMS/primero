@@ -237,18 +237,19 @@ class PotentialMatch < CouchRest::Model::Base
 
   def compare_case_to_trace
     case_field_values = []
-    FormSection.get_matchable_form_and_field_by_parent_form('case', false).each do |case_form|
-        values = case_form.all_matchable_fields.map{|f| case_to_trace_values(f)}
-        case_field_values << { case_values: values, form_name: case_form.name } if values.present?
+    MatchingConfiguration.matchable_fields_by_form('case', false).each do |form, fields|
+      values = fields.map{|f| case_to_trace_values(f)}
+      case_field_values << { case_values: values, form_name: form.name } if values.present?
     end
 
     case_nested_field_values = []
-    FormSection.get_matchable_form_and_field_by_parent_form('case', true).each do |case_form|
-      case_form_values = self.child.try(case_form.unique_id)
+
+    MatchingConfiguration.matchable_fields_by_form('case', true).each do |form, fields|
+      case_form_values = self.child.try(form.unique_id)
       case_form_values = [{}] if case_form_values.blank?
       case_form_values.each do |case_values|
-        values = case_form.all_matchable_fields.map{|f| case_to_trace_values(f, case_values)}
-        case_nested_field_values << { case_values: values, form_name: case_form.name } if values.present?
+        values = fields.map{|f| case_to_trace_values(f, case_values)}
+        case_nested_field_values << { case_values: values, form_name: form.name } if values.present?
       end
     end
     { case: case_field_values, case_subform: case_nested_field_values }
@@ -372,7 +373,7 @@ class PotentialMatch < CouchRest::Model::Base
     end
 
     def case_fields_for_comparison
-      FormSection.get_matchable_fields_by_parent_form('case', false)
+      MatchingConfiguration.matchable_fields('case', false)
         .select {|f| !['text_field', 'textarea'].include?(f.type) && f.visible?}
         .uniq{|f| f.name}
     end
