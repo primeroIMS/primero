@@ -205,8 +205,8 @@ class Field < ActiveRecord::Base
   def sanitize_name
     if self.name.present?
       self.name = self.name.gsub(/[^A-Za-z0-9_ ]/, '').parameterize.underscore
-    elsif self.display_name.present?
-      self.name = self.display_name.gsub(/[^A-Za-z0-9 ]/, '').parameterize.underscore
+    elsif self.display_name_en.present?
+      self.name = self.display_name_en.gsub(/[^A-Za-z0-9 ]/, '').parameterize.underscore
     end
   end
 
@@ -434,18 +434,19 @@ class Field < ActiveRecord::Base
     field_hash = self.attributes.clone
     Field.localized_properties.each do |property|
       field_hash[property] = {}
+      key = "#{property.to_s}_i18n"
       Primero::Application::locales.each do |locale|
-        key = "#{property.to_s}_#{locale}"
-        value = field_hash[key]
         if property == :option_strings_text
           #value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
           value = self.options_list(nil, lookups, locations)
-        elsif field_hash[key].nil?
+        elsif  field_hash[key].present?
+          value = field_hash[key][locale]
+        else
           value = ""
         end
         field_hash[property][locale] = value if locales.include? locale
-        field_hash.delete(key)
       end
+      field_hash.delete(key)
     end
     field_hash
   end

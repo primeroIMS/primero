@@ -18,7 +18,7 @@ class FormSection < ActiveRecord::Base
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
-  after_initialize :defaults
+  after_initialize :defaults, :generate_unique_id
   before_save :sync_form_group
   after_save :recalculate_subform_permissions
   after_save :recalculate_collapsed_fields
@@ -26,6 +26,12 @@ class FormSection < ActiveRecord::Base
   #TODO: Move to migration
   def defaults
     %w(order order_form_group order_subform initial_subforms).each{|p| self[p] ||= 0}
+  end
+
+  def generate_unique_id
+    if self.name_en.present? && self.unique_id.blank?
+      self.unique_id = self.name_en.gsub(/[^A-Za-z0-9_ ]/, '').parameterize.underscore
+    end
   end
 
   def form_group_name(opts={})
@@ -475,12 +481,12 @@ class FormSection < ActiveRecord::Base
     #convert top level attributes
     FormSection.localized_properties.each do |property|
       attributes[property] = {}
+      key = "#{property.to_s}_i18n"
       Primero::Application::locales.each do |locale|
-        key = "#{property.to_s}_#{locale.to_s}"
-        value = attributes[key].nil? ? "" : attributes[key]
+        value = attributes.try(:[], key).try(:[], locale) || ""
         attributes[property][locale] = value if locales.include? locale
-        attributes.delete(key)
       end
+      attributes.delete(key)
     end
     attributes
   end
