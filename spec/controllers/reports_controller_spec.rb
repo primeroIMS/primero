@@ -232,4 +232,206 @@ describe ReportsController do
 
   end
 
+  describe 'index' do
+    before :each do
+      controller.should_receive(:authorize!).with(:read_reports, Report).and_return(true)
+      permission_list = [
+        Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE]),
+        Permission.new(resource: Permission::REPORT, actions: [Permission::GROUP_READ])
+      ]
+
+      role = Role.new(id: 'role-test',
+                      name: 'District Case Coordinator',
+                      description: 'District Case Coordinator',
+                      group_permission: Permission::GROUP,
+                      permissions_list: permission_list)
+
+      user = User.new(user_name: 'fakeadmin',
+                      module_ids: [@primero_module.id],
+                      role_ids: [role.id])
+
+      session = fake_admin_login(user)
+      get :index
+    end
+
+    it 'renders index template' do
+      expect(response).to render_template(:index)
+    end
+
+    it 'has status code ok' do
+      expect(response.status).to eq(200)
+    end
+
+    describe 'instance variables' do
+
+      before :each do
+        Report.all.each(&:destroy)
+        @case_load_summary_report = Report.new(
+          id: 'case-load-summary',
+          name_all: 'Caseload Summary',
+          description_all: 'Number of cases for each case worker',
+          module_ids: [@primero_module.id],
+          record_type: 'case',
+          aggregate_by: ['owned_by'],
+          add_default_filters: true,
+          is_graph: true,
+          editable: false
+        )
+        @case_load_summary_report.save!
+
+        @case_status_report = Report.new(
+          id: 'case-status',
+          name: 'Case status by case worker',
+          module_ids: [@primero_module.id],
+          record_type: 'case',
+          aggregate_by: ['owned_by_location'],
+          add_default_filters: true,
+          is_graph: true,
+          editable: false
+        )
+        @case_status_report.save!
+      end
+
+      it "assigns the @current_modules" do
+        expect(assigns(:current_modules)).to be_nil
+      end
+      it "assigns the @total_records" do
+        expect(assigns(:total_records)).to eq(2)
+      end
+      it "assigns the @per" do
+        expect(assigns(:per)).to eq(20)
+      end
+      it "assigns the @reports" do
+        expect(assigns(:reports)).to include(@case_load_summary_report, @case_status_report)
+      end
+    end
+  end
+
+  describe 'show', search: true do
+    before :each do
+      controller.should_receive(:authorize!).with(:read_reports, Report).and_return(true)
+
+      Sunspot.remove_all!
+      Sunspot.setup(Child) {string 'child_status', as: "child_status_sci".to_sym}
+
+      manager_role = Role.new(id: 'role-manager',
+                              name: 'District Case Coordinator',
+                              description: 'District Case Coordinator',
+                              group_permission: Permission::GROUP,
+                              permissions_list: [Permission.new(resource: Permission::REPORT, actions: [Permission::GROUP_READ])])
+      case_worker_role = Role.new(id: 'role-case_worker',
+                                  name: 'Case Worker',
+                                  description: 'Case Worker',
+                                  permissions_list: [Permission.new(resource: Permission::REPORT, actions: [Permission::GROUP_READ])])
+
+      Report.all.each(&:destroy)
+
+      # USERS
+      # Same user group
+      @manager = create :user, module_ids: [@primero_module.id],
+                               user_name: 'manager_1',
+                               role_ids: [manager_role.id],
+                               user_group_ids: ['test-user-group'],
+                               organization: 'agency-unicef',
+                               location: @town1.location_code
+
+      @manager.stub(:roles).and_return([manager_role])
+
+      @case_worker_1 = create :user, module_ids: [@primero_module.id],
+                                     user_name: 'case_worker_1',
+                                     role_ids: [case_worker_role.id],
+                                     user_group_ids: ['test-user-group'],
+                                     organization: 'agency-unicef',
+                                     location: @town1.location_code
+
+      @case_worker_2 = create :user, module_ids: [@primero_module.id],
+                                     user_name: 'case_worker_2',
+                                     role_ids: [case_worker_role.id],
+                                     user_group_ids: ['test-user-group'],
+                                     organization: 'agency-unicef',
+                                     location: @town1.location_code
+      # Different user group
+      @case_worker_3 = create :user, module_ids: [@primero_module.id],
+                                     user_name: 'case_worker_3',
+                                     role_ids: [case_worker_role.id],
+                                     user_group_ids: ['test-user-different-group'],
+                                     organization: 'agency-unicef',
+                                     location: @town1.location_code
+      @case_worker_1.stub(:roles).and_return([case_worker_role])
+      @case_worker_2.stub(:roles).and_return([case_worker_role])
+      @case_worker_3.stub(:roles).and_return([case_worker_role])
+
+      # CASES
+      @case_1 = build :child, owned_by: @case_worker_1.user_name,
+                              field_location: @town1.location_code,
+                              field_lookup: 'display_2',
+                              field_other_agency: @agency2.id
+      @case_2 = build :child, owned_by: @case_worker_1.user_name
+      @case_3 = build :child, owned_by: @case_worker_2.user_name
+      @case_4 = build :child, owned_by: @case_worker_3.user_name
+
+      [@case_1, @case_2, @case_3, @case_4].each(&:save)
+
+      Sunspot.commit
+
+      default_case_filters = [
+        {'attribute' => 'child_status', 'value' => [Record::STATUS_OPEN]},
+        {'attribute' => 'record_state', 'value' => ['true']}
+      ]
+      @report = Report.create_or_update({
+        id: 'case-load-summary',
+        name_all: 'Caseload Summary',
+        description_all: 'Number of cases for each case worker',
+        module_ids: [PrimeroModule::CP, PrimeroModule::GBV],
+        record_type: 'case',
+        aggregate_by: ['owned_by'],
+        filters: default_case_filters,
+        is_graph: true,
+        editable: false
+      })
+
+      session = fake_login(@manager)
+    end
+
+    it 'renders show template' do
+      get :show, params: { id: 'case-load-summary' }
+      expect(response).to render_template(:show)
+    end
+
+    it 'has status code ok' do
+      get :show, params: { id: 'case-load-summary' }
+      expect(response.status).to eq(200)
+    end
+
+    it 'should have data' do
+      get :show, params: { id: 'case-load-summary' }
+      expect(assigns[:report].has_data?).to be(true)
+    end
+
+    it 'should display empty rows, because exclude_empty_rows flag is not added' do
+      get :show, params: { id: 'case-load-summary' }
+      expected_report = {
+        ['case_worker_1'] => 2,
+        ['case_worker_2'] => 1,
+        ['case_worker_3'] => 0,
+        [''] => nil
+      }
+      expect(assigns[:report].data[:values]).to eq(expected_report)
+    end
+
+    it 'should not display empty rows, because exclude_empty_rows flag is added' do
+      # Setting flag
+      @report.exclude_empty_rows = true
+      @report.save
+      get :show, params: { id: 'case-load-summary' }
+      expected_report = {
+        ['case_worker_1'] => 2,
+        ['case_worker_2'] => 1,
+        [''] => nil
+      }
+      expect(assigns[:report].data[:values]).to eq(expected_report)
+    end
+
+  end
+
 end
