@@ -1024,9 +1024,9 @@ create_or_update_lookup(
 
 create_or_update_lookup(
   :id => "lookup-agency-office",
-  :name => "Agency Office",
+  :name_en => "Agency Office",
   :locked => true,
-  :lookup_values => [
+  :lookup_values_en => [
     {id: "agency_office_1", display_text: "Agency Office 1"},
     {id: "agency_office_2", display_text: "Agency Office 2"},
     {id: "agency_office_3", display_text: "Agency Office 3"},
