@@ -1457,6 +1457,7 @@ en:
     messages:
       delete_success: "Report was successfully deleted."
     edit: "Edit"
+    exclude_empty_rows: "Do not display empty rows"
 
   encrypt:
     password_title: "Create Password"
