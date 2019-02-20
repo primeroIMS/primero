@@ -11,6 +11,8 @@ apt_repository 'yarn' do
   uri 'https://dl.yarnpkg.com/debian/'
   components ['stable', 'main']
   keyserver 'https://dl.yarnpkg.com/debian/pubkey.gpg'
+  key '1646B01B86E50310'
+  notifies :run, 'execute[apt-get update]', :immediately
 end
 
 %w(libxml2-dev
