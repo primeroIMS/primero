@@ -221,6 +221,8 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         $referral_modal.find("#agency_hidden").val(selected_user.organization);
         var $agency_select = $referral_modal.find("select#agency");
         $agency_select.val(selected_user.organization);
+        $agency_select.trigger('chosen:updated');
+        this.set_user_filters();
 
         this.populate_location_filter(selected_user.reporting_location_code);
       }

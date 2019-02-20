@@ -251,3 +251,15 @@
   </div>
   <div class="medium-1 columns"> </div>
 </div>
+
+<div class="row">
+  <div class="medium-3 columns">
+    <span class="tool-tip-label">
+      <%= form_builder.label :exclude_empty_rows, t("report.exclude_empty_rows"), :class=>'key inline' %>
+    </span>
+  </div>
+  <div class="medium-8 columns">
+    <%= form_builder.check_box :exclude_empty_rows, {}, "true", "false" %>
+  </div>
+  <div class="medium-1 columns"> </div>
+</div>
