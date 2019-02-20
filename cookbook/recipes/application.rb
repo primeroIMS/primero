@@ -3,10 +3,22 @@ include_recipe 'primero::system'
 include_recipe 'primero::common'
 include_recipe 'primero::git_stage'
 
+apt_repository 'nodejs' do
+  uri 'https://deb.nodesource.com/setup_11.x'
+end
+
+apt_repository 'yarn' do
+  uri 'https://dl.yarnpkg.com/debian/'
+  components ['stable', 'main']
+  keyserver 'https://dl.yarnpkg.com/debian/pubkey.gpg'
+end
+
 %w(libxml2-dev
    libxslt1-dev
    imagemagick
    openjdk-8-jre-headless
+   nodejs
+   yarn
    inotify-tools).each do |pkg|
   package pkg
 end
