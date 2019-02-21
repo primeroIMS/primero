@@ -5,6 +5,12 @@ class HomeController < ApplicationController
   before_action :can_access_approvals, :only => [:index]
   before_action :load_risk_levels, :only => [:index]
 
+  layout "application_v2", :only => [ :v2 ]
+
+  # TODO: This is temp action for v2 home page
+  def v2 
+  end
+
   def index
     @page_name = t("home.label")
     @associated_users = current_user.managed_user_names
