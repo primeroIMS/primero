@@ -44,7 +44,8 @@ class UsersController < ApplicationController
 
   def show
     @page_name = t("users.account_details")
-    authorize! :show, @user
+    # authorize! :show, @user
+    authorize!(:read_self, @user) || authorize!(:show, @user)
 
     respond_to do |format|
       format.html
@@ -60,7 +61,7 @@ class UsersController < ApplicationController
   end
 
   def edit
-    authorize! :update, @user
+    authorize!(:write_self, @user) || authorize!(:update, @user)
     @page_name = t("account")+": #{@user.full_name}"
     load_lookups
   end
@@ -81,7 +82,7 @@ class UsersController < ApplicationController
 
   def update
     authorize! :disable, @user if params[:user].include?(:disabled)
-    authorize! :update, @user  if params[:user].except(:disabled).present?
+    authorize!(:write_self, @user) || authorize!(:update, @user)  if params[:user].except(:disabled).present?
     params[:verify] = !@user.verified?
 
     if (@user.update_attributes(params[:user]))

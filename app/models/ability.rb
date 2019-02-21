@@ -8,7 +8,7 @@ class Ability
 
     @user = user
 
-    can [:read, :write], User do |uzer|
+    can [:read_self, :write_self], User do |uzer|
       uzer.user_name == user.user_name
     end
 
