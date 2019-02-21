@@ -63,4 +63,9 @@ jmeter/*.log
 jmeter/*.csv
 jmeter/*.svg
 encrypted_file
-public/options
+/public/options
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity
