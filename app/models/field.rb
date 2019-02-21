@@ -45,6 +45,7 @@ class Field < ActiveRecord::Base
   before_validation :generate_options_keys
   before_validation :sync_options_keys
   before_create :sanitize_name
+  after_save :recalculate_subform_permissions
 
   #TODO: Move to migration
   def defaults
@@ -585,6 +586,21 @@ class Field < ActiveRecord::Base
       end
     end
     self.send("option_strings_text_#{locale}=", options)
+  end
+
+  protected
+
+  def recalculate_subform_permissions
+    if self.type == Field::SUBFORM && (self.new_record? || self.saved_change_to_attribute?('subform_section_id'))
+      Role.all.each do |role|
+        role.add_permitted_subforms
+        role.save
+      end
+      PrimeroModule.all.each do |primero_module|
+        primero_module.add_associated_subforms
+        primero_module.save
+      end
+    end
   end
 
 end

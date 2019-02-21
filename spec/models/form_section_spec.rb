@@ -48,15 +48,6 @@ describe FormSection do
     }
   end
 
-  it "should return all the searchable fields" do
-    text_field = Field.new(:name => "text_field", :type => Field::TEXT_FIELD)
-    text_area = Field.new(:name => "text_area", :type => Field::TEXT_AREA)
-    select_box = Field.new(:name => "select_box", :type => Field::SELECT_BOX)
-    radio_button = Field.new(:name => "radio_button", :type => Field::RADIO_BUTTON)
-    f = FormSection.new(:fields => [text_field, text_area, select_box, radio_button])
-    f.all_searchable_fields.should == [text_area]
-  end
-
   describe "get_permitted_form_sections" do
     it "returns all FormSection objects that are bound to the case's module that the user has access to" do
       child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
@@ -83,14 +74,11 @@ describe FormSection do
   describe "permitted subforms" do
     before do
       @subform = FormSection.create!(unique_id: "A-SUBFORM", name: "A-SUBFORM", parent_form: 'case', form_group_id: "m")
-      @subform_field = Field.new({
-        "name" => "a_subform_field",
-        "type" => Field::SUBFORM,
-        "display_name_all" => "A SUBFORM FIELD",
-        "subform_section_id" => @subform.unique_id
-      })
-      @form_section_b.fields = [@subform_field]
-      @form_section_b.save!
+      @field = Field.create!(name: 'a_subform_field',
+                             type:Field::SUBFORM,
+                             display_name:'A SUBFORM FIELD',
+                             subform_section_id: @subform.id,
+                             form_section_id: @form_section_b.id)
     end
 
     it "updates permitted subforms associated with roles when a new subform is added" do
@@ -111,7 +99,7 @@ describe FormSection do
                                                           fields: [Field.new(name: "field1", type: "text_field", display_name_all: "field1")])
       @form_section_mobile_1 = FormSection.create!(unique_id: "MOBILE_1", name: "Mobile 1", parent_form: "case", mobile_form: true,
                                                    fields: [Field.new(name: "mobile_1_nested", type: "subform",
-                                                                      subform_section_id: "MOBILE_1_NESTED", display_name_all: "Mobile 1 Nested")])
+                                                                      subform: @form_section_mobile_1_nested, display_name_all: "Mobile 1 Nested")])
       @mobile_field1 = Field.new(name: "field1", type: "text_field", display_name_all: "field1")
       @mobile_field2 = Field.new(name: "field2", type: "text_field", display_name_all: "field2", mobile_visible: true)
       @mobile_field3 = Field.new(name: "field3", type: "text_field", display_name_all: "field3", mobile_visible: false)
@@ -154,6 +142,23 @@ describe FormSection do
                                 "disabled"=>false,
                                 "multi_select"=>false,
                                 "type"=>"subform",
+                                "subform"=>{"unique_id"=>"MOBILE_1_NESTED",
+                                            :name=>{"en"=>"Mobile 1 Nested", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
+                                            "order"=>0, :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
+                                            "fields"=>
+                                              [{"name"=>"field1",
+                                                "disabled"=>false,
+                                                "multi_select"=>false,
+                                                "type"=>"text_field",
+                                                "required"=>false,
+                                                "option_strings_source"=>nil,
+                                                "show_on_minify_form"=>false,
+                                                "mobile_visible"=>true,
+                                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1", "so"=>"field1", "es"=>"field1", "bn"=>"field1", "id"=>"field1", "my"=>"field1", "th"=>"field1", "ku"=>"field1"},
+                                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
+                                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                                "date_validation"=>"default_date_validation"}]
+                                              },
                                 "required"=>false,
                                 "option_strings_source"=>nil,
                                 "show_on_minify_form"=>false,
@@ -166,8 +171,8 @@ describe FormSection do
                                              "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
                                 :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
                                                        "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
-                                "date_validation"=>nil}]}]}
-        form_sections = FormSection.group_forms([@form_section_mobile_1], true)
+                                "date_validation"=>"default_date_validation"}]}]}
+        form_sections = FormSection.group_forms([@form_section_mobile_1])
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
       end
     end
@@ -217,7 +222,7 @@ describe FormSection do
 
       fields_c = [
         Field.new(name: "c_0", type: Field::TEXT_FIELD),
-        Field.new(name: "c_1", type: Field::SUBFORM, subform_section_id: "A")
+        Field.new(name: "c_1", type: Field::SUBFORM, subform: form_section_a)
       ]
       form_section_c = FormSection.new(unique_id: "C", name: "C", fields: fields_c)
 
