@@ -6,7 +6,10 @@ Primero::Application.routes.draw do
   match "/500", :to => "errors#internal_server_error", :via => :all
 
   # TODO: Temp route for v2 application
-  get '/v2', to: 'home#v2'
+  scope :v2 do
+    get '/', to: 'home#v2'
+    get '*all', to: 'home#v2'
+  end
   
 #######################
 # USER URLS
