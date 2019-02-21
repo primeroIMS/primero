@@ -16,6 +16,14 @@ class Ability
       can?(:read, report) || can?(:group_read, report)
     end
 
+    can [:show_user], User do |uzer|
+      can?(:read_self, uzer) || can?(:read, uzer)
+    end
+
+    can [:edit_user], User do |uzer|
+      can?(:write_self, uzer) || can?(:edit, uzer)
+    end
+
     user.permissions.each do |permission|
       case permission.resource
         when Permission::USER
