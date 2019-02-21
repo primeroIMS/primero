@@ -16,7 +16,7 @@ FactoryBot.define do
     editable true
     disabled false
     multi_select true
-    option_strings_text_all %W(test1, test2, test3)
+    option_strings_text_all [{"id"=>"test1", "display_text"=>"test1,"}, {"id"=>"test2", "display_text"=>"test2,"}, {"id"=>"test3", "display_text"=>"test3"}]
   end
 
   factory :subform_field, class: Field, traits: [:active_model] do

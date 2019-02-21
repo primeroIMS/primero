@@ -4,7 +4,6 @@ module LocalizableJsonProperty
   module ClassMethods
     def localize_properties(*properties)
       properties = properties.flatten
-
       properties.each do |property|
         store = "#{property}_i18n"
 
@@ -19,10 +18,11 @@ module LocalizableJsonProperty
             read_store_attribute(store, locale)
           end
         end
-
         define_method property do |locale=nil|
           locale = I18n.locale unless locale.present?
-          read_store_attribute(store, locale)
+          locale_store = read_store_attribute(store, locale)
+          return read_store_attribute(store, I18n.default_locale) if locale_store.nil?
+          locale_store
         end
 
         define_method "#{property}=" do |value, locale=nil|

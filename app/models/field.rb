@@ -109,7 +109,6 @@ class Field < ActiveRecord::Base
         return true
       end
     end
-
     return false unless valid_option_strings?(base_options)
     return false unless options_keys_unique?(base_options)
     return false unless valid_option_strings_text_translations?
@@ -542,7 +541,7 @@ class Field < ActiveRecord::Base
   def validate_unique_name
     #TODO: Consider moving this logic to FormSection for performance reasons
     return true unless self.form_section_id.present? #TODO: This line might not be necessary for AR
-    if (Field.where(name: self.name, form_section_id: self.form_section_id).count > 1)
+    if (Field.where(name: self.name, form_section_id: self.form_section_id).any?)
       return errors.add(:name, I18n.t("errors.models.field.unique_name_this"))
     end
     true

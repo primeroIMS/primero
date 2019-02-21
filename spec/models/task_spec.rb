@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Task do
 
   before :all do
+    Field.all.each &:destroy
     FormSection.all.each &:destroy
     Lookup.all.each &:destroy
 
