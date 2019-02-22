@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   before_action :clean_group_ids, :only => [:update, :create]
   before_action :load_user, :only => [:show, :edit, :update, :destroy]
   before_action :agency_names, :only => [:new, :create, :edit, :update]
-  before_action :load_services, :only => [:new, :create, :edit]
+  before_action :load_services, :only => [:new, :create, :edit, :update]
   before_action :sanitize_services_multiselect, :only => [:create, :update]
   before_action :load_users_agencies, :only => [:index]
 
