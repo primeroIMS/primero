@@ -542,7 +542,7 @@ class Field < ActiveRecord::Base
   def validate_unique_name
     #TODO: Consider moving this logic to FormSection for performance reasons
     return true unless self.form_section_id.present? #TODO: This line might not be necessary for AR
-    if (Field.where(name: self.name, form_section_id: self.form_section_id).any?)
+    if (Field.where(name: self.name, form_section_id: self.form_section_id).where.not(id: self.id).any?)
       return errors.add(:name, I18n.t("errors.models.field.unique_name_this"))
     end
     true
