@@ -366,9 +366,9 @@ describe FormSection do
       @field_3 = new_field(:name => "orderfield3", :display_name => "orderfield3")
       form_section = FormSection.create! :name => "some_name", :fields => [@field_1, @field_2, @field_3]
       form_section.order_fields([@field_2.name, @field_3.name, @field_1.name])
-      form_section.fields.should == [@field_2, @field_3, @field_1]
-      form_section.fields.first.should == @field_2
-      form_section.fields.last.should == @field_1
+      expect(@field_2.order).to eq(0)
+      expect(@field_3.order).to eq(1)
+      expect(@field_1.order).to eq(2)
     end
   end
 
@@ -429,7 +429,7 @@ describe FormSection do
 
     it "should not trip the unique name validation on self" do
       form_section = FormSection.new(:name => 'Unique Name', :unique_id => 'unique_name')
-      form_section.create!
+      form_section.save!
     end
 
     context 'when changinging field type' do
@@ -446,7 +446,10 @@ describe FormSection do
             Field.new({"name" => "field_test_field_type_select_box",
                        "type" => Field::SELECT_BOX,
                        "display_name_all" => "Field Test Field Type select box",
-                       "option_strings_text" => "Yes\nNo"
+                       "option_strings_text" => [
+                         { "id" =>"yes", "display_text" =>"Yes" },
+                         { "id" => "no", "display_text" => "No" }
+                       ]
                       })
         ]
         @form_field_type_test = FormSection.create(
