@@ -90,7 +90,6 @@ class FormSection < ActiveRecord::Base
     def create_or_update_form_section(properties = {})
       unique_id = properties[:unique_id]
       return nil if unique_id.blank?
-
       fields = properties[:fields]
 
       if fields.present?
@@ -441,7 +440,7 @@ class FormSection < ActiveRecord::Base
     end
 
     def import_translations(form_hash={}, locale)
-      if locale.present? && I18n.locales.include?(locale)
+      if locale.present? && I18n.available_locales.include?(locale.try(:to_sym))
         unique_id = form_hash.keys.first
         if unique_id.present?
           form = FormSection.find_by(unique_id: unique_id)
@@ -539,7 +538,7 @@ class FormSection < ActiveRecord::Base
   def is_violation_wrapper?
     self.fields.present? &&
     self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
-      Incident.violation_id_fields.keys.include?(f.subform_section_id)
+      Incident.violation_id_fields.keys.include?(f.subform.unique_id)
     end
   end
 
