@@ -20,7 +20,6 @@ class FormSection < ActiveRecord::Base
 
   after_initialize :defaults, :generate_unique_id
   before_save :sync_form_group
-  after_save :recalculate_subform_permissions
   after_save :recalculate_collapsed_fields
 
   #TODO: Move to migration
@@ -213,7 +212,7 @@ class FormSection < ActiveRecord::Base
 
     def add_field_to_formsection(formsection, field)
       raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
-      field.form_section_id = formsection.id
+      field.form_section = formsection
       if field.type == Field::SUBFORM
         subform = create_subform(formsection, field)
         field.subform_section_id = subform.id
@@ -579,19 +578,6 @@ class FormSection < ActiveRecord::Base
   end
 
   protected
-
-  def recalculate_subform_permissions
-    if self.is_nested?
-      Role.all.each do |role|
-        role.add_permitted_subforms
-        role.save
-      end
-      PrimeroModule.all.each do |primero_module|
-        primero_module.add_associated_subforms
-        primero_module.save
-      end
-    end
-  end
 
   def recalculate_collapsed_fields
     # Awful code but gets the job done. If we have collapsed_field_names specified on the form

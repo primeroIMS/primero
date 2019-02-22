@@ -3,6 +3,7 @@ require 'rails_helper'
 
 describe FormSection do
   before :each do
+    Field.all.each &:destroy
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
     Role.all.each &:destroy
@@ -25,18 +26,20 @@ describe FormSection do
   end
 
   def create_formsection(stubs={})
-    stubs.reverse_merge!(:fields=>[], :save => true, :editable => true)
+    stubs.reverse_merge!(:fields=>[], :editable => true)
     @create_formsection = FormSection.new stubs
+    @create_formsection.save
+    @create_formsection
   end
 
   def new_field(fields = {})
-    fields.reverse_merge!(:name=>random_string)
+    fields.reverse_merge!(:name=> "name_#{random_string}", :display_name=> "display_name_#{random_string}")
     Field.new fields
   end
 
   def random_string(length=10)
     #hmmm
-    chars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+    chars = 'abcdefghjkmnpqrstuvwxyz23456789'
     password = ''
     length.times { password << chars[rand(chars.size)] }
     password
@@ -238,7 +241,7 @@ describe FormSection do
 
   describe '#unique_id' do
     it "should be generated when not provided" do
-      f = FormSection.new
+      f = FormSection.create!(name: 'test')
       f.unique_id.should_not be_empty
     end
 
@@ -252,7 +255,7 @@ describe FormSection do
 
       expect {
         FormSection.new(:unique_id => "test").save!
-      }.to raise_error(CouchRest::Model::Errors::Validations)
+      }.to raise_error(ActiveRecord::RecordInvalid)
 
       expect {
         FormSection.find_by(unique_id: "test").save!
@@ -264,10 +267,11 @@ describe FormSection do
 
     it "adds the field to the formsection" do
       field = build(:field)
-      formsection = create_formsection :fields => [new_field(), new_field()], :save => true
-      FormSection.add_field_to_formsection formsection, field
+      formsection = create_formsection(:name => "form_test", :fields => [new_field, new_field])
+      FormSection.add_field_to_formsection(formsection, field)
+      formsection.reload
       formsection.fields.length.should == 3
-      formsection.fields[2].should == field
+      formsection.fields.last.should == field
     end
 
     it "saves the formsection" do
@@ -290,10 +294,11 @@ describe FormSection do
 
     it "adds the textarea to the formsection" do
       field = build(:field, type: Field::TEXT_AREA)
-      formsection = create_formsection :fields => [new_field(), new_field()], :save=>true
-      FormSection.add_field_to_formsection formsection, field
+      formsection = create_formsection(:name => "form_test", :fields => [new_field, new_field])
+      FormSection.add_field_to_formsection(formsection, field)
+      formsection.reload
       formsection.fields.length.should == 3
-      formsection.fields[2].should == field
+      formsection.fields.last.should == field
     end
 
     it "saves the formsection with textarea field" do
@@ -308,15 +313,16 @@ describe FormSection do
   describe "add_select_drop_down_field_to_formsection" do
 
     it "adds the select drop down to the formsection" do
-      field = build(:field, type: Field::SELECT_BOX, option_strings_text_all: ["some", ""].join("\n"))
-      formsection = create_formsection :fields => [new_field(), new_field()], :save=>true
-      FormSection.add_field_to_formsection formsection, field
+      field = build(:field, type: Field::SELECT_BOX, option_strings_text_all: [{"id"=>"test1", "display_text"=>"some,"}, {"id"=>"test2", "display_text"=>"test,"}])
+      formsection = create_formsection(:name => "form_test", :fields => [new_field, new_field])
+      FormSection.add_field_to_formsection(formsection, field)
+      formsection.reload
       formsection.fields.length.should == 3
-      formsection.fields[2].should == field
+      formsection.fields.last.should == field
     end
 
     it "saves the formsection with select drop down field" do
-      field = build(:field, type: Field::SELECT_BOX, option_strings_text_all: ["some", ""].join("\n"))
+      field = build(:field, type: Field::SELECT_BOX, option_strings_text_all: [{"id"=>"test1", "display_text"=>"some,"}, {"id"=>"test2", "display_text"=>"test,"}])
       formsection = create_formsection
       formsection.should_receive(:save)
       FormSection.add_field_to_formsection formsection, field
@@ -333,56 +339,22 @@ describe FormSection do
 
   end
 
-  describe "perm_visible" do
-    it "should not be perm_enabled by default" do
-      formsection = FormSection.new
-      formsection.perm_visible?.should be_falsey
-    end
-
-    it "should be perm_visible when set" do
-      formsection = FormSection.new(:perm_visible => true)
-      formsection.perm_visible?.should be_truthy
-    end
-  end
-
-  describe "fixed_order" do
-    it "should not be fixed)order by default" do
-      formsection = FormSection.new
-      formsection.fixed_order?.should be_falsey
-    end
-
-    it "should be fixed_order when set" do
-      formsection = FormSection.new(:fixed_order => true)
-      formsection.fixed_order?.should be_truthy
-    end
-  end
-
-  describe "perm_enabled" do
-    it "should not be perm_enabled by default" do
-      formsection = FormSection.new
-      formsection.perm_enabled?.should be_falsey
-    end
-
-    it "should be perm_enabled when set" do
-      formsection = FormSection.create!(:name => "test", :uniq_id => "test_id", :perm_enabled => true)
-      formsection.perm_enabled?.should be_truthy
-      formsection.perm_visible?.should be_truthy
-      formsection.fixed_order?.should be_truthy
-      formsection.visible?.should be_truthy
-    end
-  end
-
   describe "delete_field" do
     it "should delete editable fields" do
       @field = new_field(:name=>"field3")
-      form_section = FormSection.new :fields=>[@field]
+      @field.save!
+      form_section = FormSection.new(:name => "form_test", :fields=>[@field])
+      form_section.save!
       form_section.delete_field(@field.name)
+      form_section.reload
       form_section.fields.should be_empty
     end
 
     it "should not delete uneditable fields" do
       @field = new_field(:name=>"field3", :editable => false)
-      form_section = FormSection.new :fields=>[@field]
+      @field.save!
+      form_section = FormSection.new(:name => "form_test", :fields=>[@field])
+      form_section.save!
       expect {form_section.delete_field(@field.name)}.to raise_error(RuntimeError, 'Uneditable field cannot be deleted')
     end
   end
