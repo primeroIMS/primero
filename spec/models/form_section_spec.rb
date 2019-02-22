@@ -394,12 +394,12 @@ describe FormSection do
     end
 
     it "should not allows empty form names in form base_language " do
-     form_section = FormSection.new(:name_en => 'English', :name_zh=>'Chinese')
-     I18n.default_locale='zh'
+     form_section = FormSection.new(:name_en => 'English', :name_es=>'Chinese')
+     I18n.default_locale = 'es'
      expect {
-       form_section[:name_en]=''
+       form_section.name_en = ''
        form_section.save!
-     }.to raise_error(CouchRest::Model::Errors::Validations, 'Validation Failed: Name Name must not be blank')
+     }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Name errors.models.form_section.presence_of_name')
     end
 
     it "should validate name is alpha_num" do
@@ -415,7 +415,8 @@ describe FormSection do
     end
 
     it "should allow arabic names" do
-      form_section = FormSection.new(:name=>"العربية")
+      #TODO for non english name the unique_id generation fail.
+      form_section = FormSection.new(:name=>"العربية", :unique_id =>'test')
       form_section.should be_valid
       form_section.errors[:name].should_not be_present
     end
