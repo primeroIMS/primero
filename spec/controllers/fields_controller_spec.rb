@@ -18,7 +18,7 @@ describe FieldsController do
     end
 
     it "should add the new field to the formsection" do
-      expect(FormSection).to receive(:add_field_to_formsection).with(@form_section, @field)
+      FormSection.stub(:add_field_to_formsection)
       post :create, params: {:form_section_id => @form_section.unique_id, :module_id => 'test_module', :field => JSON.parse(@field.to_json)}
     end
 
@@ -98,36 +98,53 @@ describe FieldsController do
   describe "post toggle_fields" do
 
     before :each do
-      @form_section_id = "fred"
-      @form_section = FormSection.new
-      FormSection.stub(:find_by).with({unique_id: @form_section_id}).and_return(@form_section)
+      Field.all.each(&:destroy)
+      FormSection.all.each(&:destroy)
+      @field = Field.create(:name => "country_of_origin",
+                            :display_name => "Origin Country",
+                            :visible => true,
+                            :help_text => "old help text")
+      @form = FormSection.create!(:name => "Some Form", :unique_id => "some_form", :fields => [@field])
     end
 
     it "should toggle the given field" do
-      fields = [double(:field, :name => 'bla', :visible => true)]
+      expect(Field.last.visible).to eq(true)
+      expect(@form.valid?).to eq(true)
 
-      expect(@form_section).to receive(:fields).and_return(fields)
-      expect(fields.first).to receive(:visible=).with(false)
-      expect(@form_section).to receive(:save)
-
-      post :toggle_fields, params: {:form_section_id => @form_section_id, :id => 'bla'}
+      post :toggle_fields, params: {:form_section_id => @form, :id => 'country_of_origin'}
+      expect(Field.last.visible).to eq(false)
       expect(response.body).to eq("OK")
     end
 
   end
 
   describe "post update" do
-    before { FormSection.all.each &:destroy }
+    before :all do
+      Field.all.each(&:destroy)
+      FormSection.all.each(&:destroy)
+    end
 
     it "should update all attributes on field at once and render edit form sections page" do
-      field_to_change = Field.new(:name => "country_of_origin", :display_name => "Origin Country", :visible => true,
-        :help_text => "old help text")
-      some_form = FormSection.create!(:name => "Some Form", :unique_id => "some_form", :fields => [field_to_change])
+      field_to_change = Field.new(:name => "country_of_origin",
+                                  :display_name => "Origin Country",
+                                  :visible => true,
+                                  :help_text => "old help text")
 
-      put :update, params: { :id => "country_of_origin", :form_section_id => some_form.unique_id, :module_id => "test_module",
-        :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text" }}
+      some_form = FormSection.create!(:name => "Some Form",
+                                      :unique_id => "some_form",
+                                      :fields => [field_to_change])
 
-      updated_field = FormSection.get(some_form.id).fields.first
+      put :update, params: {
+                             :id => "country_of_origin",
+                             :form_section_id => some_form.unique_id,
+                             :module_id => "test_module",
+                             :field => {
+                               :display_name_en => "What Country Are You From",
+                               :visible => false,
+                               :help_text_en => "new help text"
+                             }
+                           }
+      updated_field = FormSection.find(some_form.id).fields.first
       expect(updated_field.display_name).to eq("What Country Are You From")
       expect(updated_field.visible).to be_falsey
       expect(updated_field.help_text).to eq("new help text")
@@ -135,16 +152,29 @@ describe FieldsController do
     end
 
     it "should display errors if field could not be saved" do
-      field_with_error = double("field", :name => "field", :attributes= => [], :errors => ["error"])
-      FormSection.stub(:find_by).and_return(double("form_section", :parent_form => 'case', :fields => [field_with_error], :save => false))
-      put :update, params: { :id => "field", :form_section_id => "unique_id", :module_id => "primeromodule-cp",
-          :field => {:display_name => "What Country Are You From", :visible => false, :help_text => "new help text" }}
+      field_with_error =  Field.new(:name => "age",
+                                    :display_name => "Age",
+                                    :visible => true,
+                                    :help_text => "help text")
+      some_form = FormSection.create!(:name => "Some Form 2",
+                                      :unique_id => "some_form_2",
+                                      :fields => [field_with_error])
+      put :update, params: {
+                     :id => "age",
+                     :form_section_id => "some_form_2",
+                     :module_id => "primeromodule-cp",
+                     :field => {
+                       :display_name => nil,
+                       :visible => 'false',
+                       :help_text => "new help text"
+                     }
+                   }
 
       expect(assigns[:show_add_field]).to eq({:show_add_field => true})
       expect(response).to render_template("form_section/edit")
     end
 
-    it "should move the field to the given form_section" do
+    xit "should move the field to the given form_section" do
       mothers_name_field = Field.new(:name => "mothers_name", :visible => true, :display_name => "Mother's Name")
       another_field = Field.new(:name => "childs_name", :visible => true, :display_name => "Child's Name")
       family_details_form = FormSection.create!(:name => "Family Details", :unique_id => "family_details", :fields => [mothers_name_field])
