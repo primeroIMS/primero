@@ -96,6 +96,7 @@ class ChildrenController < ApplicationController
     if from_module.present? && params[:incident_detail_id].present?
       incident = Incident.make_new_incident(to_module_id, @child, from_module.id, params[:incident_detail_id])
       incident.save
+      #TODO: Refactor with Incident!
       @child.add_incident_links(params[:incident_detail_id], incident.id, incident.short_id)
       @child.save
 
@@ -342,9 +343,10 @@ class ChildrenController < ApplicationController
   end
 
   #override method in record_actions to handle instances that use child_id instead of id
+  # TODO: When does this happen?
   def load_record
     if params[:child_id].present?
-      @record = Child.get(params[:child_id])
+      @record = Child.find(params[:child_id])
       instance_variable_set("@child", @record)
     else
       super
@@ -363,7 +365,7 @@ class ChildrenController < ApplicationController
     individual_details_subform_section = params['individual_details_subform_section']
 
     Child.new.tap do |child|
-      child['module_id'] = params['module_id']
+      child.module_id = params['module_id']
       if incident_id.present? && individual_details_subform_section.present?
         incident = Incident.get(incident_id)
         individual_details = incident['individual_details_subform_section'][individual_details_subform_section.to_i]
@@ -380,11 +382,6 @@ class ChildrenController < ApplicationController
         child['disability_type'] = individual_details['disability_type']
       end
     end
-  end
-
-  def initialize_created_record rec
-    rec['child_status'] = Record::STATUS_OPEN if rec['child_status'].blank?
-    rec['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
   end
 
   def redirect_after_update

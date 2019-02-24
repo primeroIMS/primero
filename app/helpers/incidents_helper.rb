@@ -38,7 +38,4 @@ module IncidentsHelper
     end
   end
 
-  def link_to_incident_update_info(incident)
-    link_to('and others', incident_history_path(incident)) unless incident.has_one_interviewer?
-  end
 end

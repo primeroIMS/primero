@@ -74,8 +74,14 @@ class Incident < CouchRest::Model::Base
   after_save :index_violations
   after_destroy :unindex_violations
   before_save :ensure_violation_categories_exist
+  after_initialize :defaults
 
   before_update :clean_incident_date
+
+
+  def defaults
+    self.status ||= Record::STATUS_OPEN
+  end
 
   def self.quicksearch_fields
     [
@@ -86,7 +92,7 @@ class Incident < CouchRest::Model::Base
   end
   include Searchable #Needs to be after Ownable
 
-    searchable auto_index: self.auto_index? do
+  searchable auto_index: self.auto_index? do
     string :violations, multiple: true do
       self.violation_type_list
     end

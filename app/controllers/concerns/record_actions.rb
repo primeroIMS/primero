@@ -15,13 +15,14 @@ module RecordActions
     before_action :load_selected_records, :except => [:show, :update, :edit, :new, :create, :index, :reindex]
     before_action :current_user, :except => [:reindex]
     before_action :get_lookups, :only => [:show, :new, :edit, :index]
-    before_action :current_modules, :only => [:show, :index]
+    before_action :current_modules, :only => [:show, :index] #TODO: We probably don't need this
+    before_action :record_module, only: [:new, :create, :show, :edit, :update]
     before_action :is_manager, :only => [:index]
     before_action :is_admin, :only => [:index]
     before_action :is_cp, :only => [:index]
     before_action :is_gbv, :only => [:index]
     before_action :is_mrm, :only => [:index]
-    before_action :load_consent, :only => [:show]
+    #before_action :load_consent, :only => [:show] #TODO: Refactor with Transitions
     before_action :load_default_settings, :only => [:index, :show, :edit, :request_approval, :approve_form, :transition]
     before_action :load_referral_role_options, :only => [:index, :show]
     before_action :load_transfer_role_options, :only => [:index, :show]
@@ -155,13 +156,20 @@ module RecordActions
 
   def create
     authorize! :create, model_class
-    reindex_hash record_params
-    @record = create_or_update_record(params[:id])
-    initialize_created_record(@record)
+    @record = model_class.find_by_unique_identifier(record_params[:unique_identifier]) if record_params[:unique_identifier]
+    if @record.nil?
+      @record = model_class.new_with_user(current_user, record_params)
+    else
+      authorize! :update, @record
+      merge_append_only_subforms(@record) if is_mobile?
+      @record.update_properties(record_params, current_user.name)
+    end
+    instance_variable_set("@#{model_class.name.underscore}", @record)
+
     respond_to do |format|
-      @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+      @form_sections = @record.class.allowed_formsections(current_user, @record.module) #TODO: This is an awkwardly placed call
       if @record.save
-        post_save_processing @record
+        post_save_processing @record #TODO: Refactor with incident
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
@@ -180,7 +188,7 @@ module RecordActions
   end
 
   def post_save_processing record
-    # This is for operation after saving the record.
+    # This is for operation after saving the record. TODO: Not called for update?
   end
 
   def edit
@@ -197,8 +205,17 @@ module RecordActions
   end
 
   def update
+    authorize! :update, @record
+    @record = model_class.find_by_unique_identifier(record_params[:unique_identifier]) if record_params[:unique_identifier]
+    if @record.nil?
+      authorize! :create, model_class
+      @record = model_class.new_with_user(current_user, record_params)
+    else
+      merge_append_only_subforms(@record) if is_mobile?
+      @record.update_properties(record_params, current_user.name)
+    end
+    instance_variable_set("@#{model_class.name.underscore}", @record)
     respond_to do |format|
-      create_or_update_record(params[:id])
       if @record.save
         format.html do
           flash[:notice] = I18n.t("#{model_class.locale_prefix}.messages.update_success", record_id: @record.short_id)
@@ -303,6 +320,7 @@ module RecordActions
     @transfer_role_options ||= Role.names_and_ids_by_transfer
   end
 
+  #TODO: This is no longer necessary - replaced by destringify
   # This is to ensure that if a hash has numeric keys, then the keys are sequential
   # This cleans up instances where multiple forms are added, then 1 or more forms in the middle are removed
   def reindex_hash(a_hash)
@@ -321,6 +339,17 @@ module RecordActions
           reindex_hash(value)
         end
       end
+    end
+  end
+
+  def record_module
+    params_module_id = (params['module_id'] || (params['child'].try(:[], ['module_id'])))
+    if @record.present? && @record.module_id.present?
+      @record_module ||= @record.module
+    elsif params_module_id.present?
+      @record_module ||= PrimeroModule.get(params_module_id)
+    else
+      @record_module ||= current_user.modules.first
     end
   end
 
@@ -382,8 +411,13 @@ module RecordActions
   end
 
   def record_params
-    param_root = model_class.name.underscore
-    params[param_root].try(:to_h) || {}
+    if @record_params.blank?
+      param_root = model_class.name.underscore
+      @record_params = params[param_root].try(:to_h) || {}
+      @record_params = destringify(@record_params)
+      @record_params = filter_permitted_params(@record_params) #TODO: This business logic may need to be moved to a service
+    end
+    @record_params
   end
 
   # All the stuff that isn't properties that should be allowed
@@ -392,23 +426,20 @@ module RecordActions
      'upload_other_document', 'update_other_document', 'upload_bia_document', 'update_bia_document']
   end
 
-  def permitted_property_keys(record, user = current_user, read_only_user = false)
-    record.class.permitted_property_names(user, record.module, read_only_user) + extra_permitted_parameters
+  def permitted_property_keys
+    model_class.permitted_property_names(current_user, @record_module, false) + extra_permitted_parameters
   end
 
-  # Filters out any unallowed parameters for a record and the current user
-  def filter_params(record)
-    permitted_keys = permitted_property_keys(record)
-    record_params.select{|k,v| permitted_keys.include?(k) }
-  end
-
-  def record_short_id
-    record_params.try(:fetch, :short_id, nil) || record_params.try(:fetch, :unique_identifier, nil).try(:last, 7)
+  # Filters out any un-allowed parameters for the current user
+  # TODO: This business logic may need to be moved to a service
+  def filter_permitted_params(record_params)
+    permitted_keys = permitted_property_keys
+    record_params.select{|k,_| permitted_keys.include?(k) }
   end
 
   def load_record
     if params[:id].present?
-      @record = model_class.get(params[:id])
+      @record = model_class.find(params[:id])
     end
 
     # Alias the record to a more specific name since the record controllers
@@ -472,26 +503,6 @@ module RecordActions
       end
     end
     return record
-  end
-
-  def create_or_update_record(id)
-    @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]
-    if @record.nil?
-      @record = model_class.new_with_user_name(current_user, record_params)
-    else
-      @record = update_record_from(id)
-    end
-
-    instance_variable_set("@#{model_class.name.underscore}", @record)
-  end
-
-  def update_record_from(id)
-    authorize! :update, @record
-
-    reindex_hash record_params
-    @record_filtered_params = filter_params(@record)
-    merge_append_only_subforms(@record) if is_mobile?
-    update_record_with_attachments(@record)
   end
 
   def module_users(module_ids)
@@ -598,13 +609,56 @@ module RecordActions
   def merge_append_only_subforms(record)
     FormSection.get_append_only_subform_ids.each do |subform_id|
       # Since this only happens if the mobile param is true, the subform section has to be an Array, we don't merge otherwise.
-      if @record_filtered_params[subform_id].present? && @record_filtered_params[subform_id].is_a?(Array)
+      if record_params[subform_id].present? && record_params[subform_id].is_a?(Array)
         record_subforms = (record.try(subform_id) || []).map(&:attributes)
-        param_subforms = @record_filtered_params[subform_id]
+        param_subforms = record_params[subform_id]
         # If for any reason a user sends updates to existing forms, we will update them.
         unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
-        @record_filtered_params[subform_id] = unchanged_subforms + param_subforms
+        record_params[subform_id] = unchanged_subforms + param_subforms
       end
     end
   end
+
+  # Recursively parse and cast a hash of string values to Dates, DateTimes, Integers, Booleans.
+  # If all keys in a hash are numeric, convert it to an array.
+  def destringify(value)
+    case value
+    when nil, ""
+      nil
+    when ::ActiveSupport::JSON::DATE_REGEX
+      begin
+        Date.parse(value)
+      rescue ArgumentError
+        value
+      end
+    when ::ActiveSupport::JSON::DATETIME_REGEX
+      begin
+        Time.zone.parse(value)
+      rescue ArgumentError
+        value
+      end
+    when ::PrimeroDate::DATE_REGEX  #TODO: This is a hack, but we'll fix dates later
+      begin
+        PrimeroDate.parse_with_format(value)
+      rescue ArgumentError
+        value
+      end
+    when /^(true|false)$/
+      ::ActiveRecord::Type::Boolean.new.cast(value)
+    when /^\d+$/
+      value.to_i
+    when Array
+      value.map{|v| destringify(v)}
+    when Hash
+      has_numeric_keys = value.keys.reduce(true){|memo, k| memo && k.match?(/^\d+$/)}
+      if has_numeric_keys
+        value.sort_by{|k,_| k.to_i}.map{|_,v| destringify(v)}
+      else
+        value.map{|k,v| [k, destringify(v)]}.to_h
+      end
+    else
+      value
+    end
+  end
+
 end

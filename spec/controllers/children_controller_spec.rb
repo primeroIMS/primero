@@ -517,7 +517,6 @@ describe ChildrenController, :type => :controller do
 
         Sunspot.remove_all!
 
-        #TODO - remove owned_by_location_district references
         #TODO - create test like this in home controller for dashboard
 
         @child_1 = create(:child, name: "Name 1", child_status: Record::STATUS_OPEN, age: "5", case_id_display: "UN-TEST-0001",
@@ -605,18 +604,6 @@ describe ChildrenController, :type => :controller do
             expect(assigns[:filters]).to eq(filters)
             expect(assigns[:children].length).to eq(4)
             expect(assigns[:children]).to include(@child_age_7, @child_age_15, @child_mobile_10, @child_mobile_11)
-          end
-        end
-
-        #TODO - change district to reporting location
-        context "by_district" do
-          xit "should filter by district Bonthe" do
-            get :index, params: {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_location_district"=>"list||Bonthe"}}
-
-            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
-            expect(assigns[:filters]).to eq(filters)
-            expect(assigns[:children].length).to eq(2)
-            expect(assigns[:children]).to include(@child_age_7, @child_age_15)
           end
         end
       end

@@ -181,7 +181,7 @@ class FormSection < ActiveRecord::Base
 
     #Return only those forms that can be accessed by the user given their role permissions and the module
     def get_permitted_form_sections(primero_module, parent_form, user)
-      allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
+      allowed_form_ids = FormSection.get_allowed_form_ids(primero_module, user)
       forms = FormSection.form_sections_by_ids_and_parent_form(allowed_form_ids, parent_form).includes(:fields)
       #TODO: Is this needed?
       forms.each{|f| f.module_name = primero_module.name}

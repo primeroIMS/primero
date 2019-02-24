@@ -39,19 +39,6 @@ describe ChildrenHelper do
     included_modules.should include(ChildrenHelper)
   end
 
-  describe "#link_to_update_info" do
-    it "should not show link if child has not been updated" do
-      child = Child.new(:age => "27", :unique_identifier => "georgelon12345", :_id => "id12345", :created_by => 'jsmith')
-      child.stub(:has_one_interviewer?).and_return(true)
-      helper.link_to_update_info(child).should be_nil
-    end
-
-    it "should show link if child has been updated by multiple people" do
-      child = Child.new(:age => "27", :unique_identifier => "georgelon12345", :_id => "id12345", :created_by => 'jsmith')
-      child.stub :has_one_interviewer? => false, :persisted? => true
-      helper.link_to_update_info(child).should =~ /^<a href=.+>and others<\/a>$/
-    end
-  end
   describe "field_for_display" do
     it "should return the string value where set" do
       helper.field_value_for_display("Foo").should == "Foo"

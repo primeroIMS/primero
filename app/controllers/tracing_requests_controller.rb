@@ -50,9 +50,6 @@ class TracingRequestsController < ApplicationController
     end
   end
 
-  def initialize_created_record tracing_requets
-  end
-
   def redirect_after_update
     redirect_to tracing_request_path(@tracing_request, { follow: true })
   end

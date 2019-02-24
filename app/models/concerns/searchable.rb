@@ -4,7 +4,9 @@ module Searchable
   ALL_FILTER = 'all'
 
   included do
-    include Indexable
+    #TODO: Refactor when we have moved all the Solr stuff
+    #include Indexable
+    include Sunspot::Rails::Searchable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Puma.
     searchable auto_index: self.auto_index? do
@@ -12,54 +14,98 @@ module Searchable
         f.id
       end
 
-      quicksearch_fields.each {|f| text f}
-      searchable_string_fields.each {|f| string f, as: "#{f}_sci".to_sym}
-      searchable_multi_fields.each {|f| string f, multiple: true} if search_multi_fields?
+      quicksearch_fields.each do |f|
+        text(f) { self.data[f] }
+      end
+      searchable_string_fields.each do |f|
+        string(f, {as: "#{f}_sci".to_sym}) { self.data[f] }
+      end
+
+      if search_multi_fields?
+        searchable_multi_fields.each do |f|
+          string(f, {multiple: true}) { self.data[f] }
+        end
+      end
 
       #if instance is a child do phonetic search on names
       #TODO v1.3 - why is the line below commented out?
       # searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
       # TODO: Left date as string. Getting invalid date format error
-      searchable_date_fields.each {|f| date f}
-      searchable_date_time_fields.each {|f| time f}
-      searchable_numeric_fields.each {|f| integer f} if search_numeric_fields?
-      searchable_boolean_fields.each {|f| boolean f}
-      #TODO: This needs to be a derived field/method in the ownable concern
+      searchable_date_fields.each do |f|
+        date(f) { self.data[f] }
+      end
+      searchable_date_time_fields.each do |f|
+        time(f) { self.data[f] }
+      end
+      if search_numeric_fields?
+        searchable_numeric_fields.each do |f|
+          integer(f) { self.data[f] }
+        end
+      end
+      searchable_boolean_fields.each do |f|
+        boolean(f) { self.data[f] }
+      end
+      #TODO: This needs to be a derived field/method in the Ownable concern; recast as store_accessors?
       boolean :not_edited_by_owner do
-        (self.last_updated_by != self.owned_by) && self.last_updated_by.present?
+        (self.data['last_updated_by'] != self.data['owned_by']) && self.data['last_updated_by'].present?
       end
-      string :referred_users, multiple: true do
-        if self.transitions.present?
-          self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
-        end
-      end
-      string :transferred_to_users, multiple: true do
-        if self.transitions.present?
-          self.transitions.select{|t| t.is_transfer_in_progress?}
-              .map{|er| er.to_user_local}.uniq
-        end
-      end
+      #TODO: refactor with Transitions
+      # string :referred_users, multiple: true do
+      #   if self.transitions.present?
+      #     self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
+      #   end
+      # end
+      # string :transferred_to_users, multiple: true do
+      #   if self.transitions.present?
+      #     self.transitions.select{|t| t.is_transfer_in_progress?}
+      #         .map{|er| er.to_user_local}.uniq
+      #   end
+      # end
+      # #TODO: This belongs in the Ownable concern; recast as store_accessors?
       if self.include?(Ownable)
-        string :associated_user_names, multiple: true
-        string :owned_by
-        string :owned_by_groups, multiple: true
-        string :assigned_user_names, multiple: true
-        string :module_id, as: :module_id_sci
+        string :associated_user_names, multiple: true do
+          self.data['associated_user_names']
+        end
+        string :owned_by do
+          self.data['owned_by']
+        end
+        string :owned_by_groups, multiple: true do
+          self.data['owned_by_groups']
+        end
+        string :assigned_user_names, multiple: true do
+          self.data['assigned_user_names']
+        end
+        string :module_id, as: :module_id_sci do
+          self.data['module_id']
+        end
       end
+      #TODO: refactor with business logic 2; recast as store_accessors?
       if self.include?(Approvable)
-        date :case_plan_approved_date
+        date :case_plan_approved_date do
+          self.data['case_plan_approved_date']
+        end
       end
-      if self.include?(Transitionable)
-        time :reassigned_tranferred_on
+      if self.include?(Transitionable) #TODO: refactor with transitions; recast as store_accessors?
+        time :reassigned_tranferred_on do
+          self.data['reassigned_tranferred_on']
+        end
       end
-      if self.include?(SyncableMobile)
-        boolean :marked_for_mobile
+      if self.include?(SyncableMobile) #TODO: refactor with SyncableMobile; recast as store_accessors?
+        boolean :marked_for_mobile do
+          self.data['marked_for_mobiles']
+        end
       end
-      string :sortable_name, as: :sortable_name_sci
+      string :sortable_name, as: :sortable_name_sci do
+        self.data['sortable_name']
+      end
 
       #TODO - This is likely deprecated and needs to be refactored away
       #TODO - searchable_location_fields currently used by filtering
-      searchable_location_fields.each {|f| text f, as: "#{f}_lngram".to_sym}
+      searchable_location_fields.each do |f|
+        text(f, as: "#{f}_lngram".to_sym) do
+          self.data[f]
+        end
+      end
 
       all_searchable_location_fields.each do |field|
         #TODO - Refactor needed
@@ -67,7 +113,7 @@ module Searchable
         Location::ADMIN_LEVELS.each do |admin_level|
           string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
             #TODO - Possible refactor to make more efficient
-            location = Location.find_by_location_code(self.send(field))
+            location = Location.find_by_location_code(self.data[field])
             if location.present?
               # break if admin_level > location.admin_level
               if admin_level == location.admin_level
@@ -86,6 +132,11 @@ module Searchable
 
 
   module ClassMethods
+    #TODO: Refactor when we have refactored Solr
+    def auto_index?
+      Rails.env != 'production'
+    end
+
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
@@ -177,13 +228,6 @@ module Searchable
           end
         end
       end
-    end
-
-    # TODO: Need to delve into whether we keep this method as is, or ditch the schema rebuild.
-    #      Currently nothing calls this?
-    def reindex!
-      Sunspot.remove_all(self)
-      self.all.each { |record| Sunspot.index!(record) }
     end
 
     def searchable_date_fields

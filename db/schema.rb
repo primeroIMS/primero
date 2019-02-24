@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190131000001) do
+ActiveRecord::Schema.define(version: 20190216000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pgcrypto"
 
   create_table "agencies", id: :serial, force: :cascade do |t|
     t.string "agency_code", null: false
@@ -26,6 +27,11 @@ ActiveRecord::Schema.define(version: 20190131000001) do
     t.boolean "disabled", default: false, null: false
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
+  end
+
+  create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data"
+    t.index ["data"], name: "index_cases_on_data", using: :gin
   end
 
   create_table "fields", id: :serial, force: :cascade do |t|

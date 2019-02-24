@@ -87,21 +87,6 @@ describe Child do
       child.photos.should be_empty
     end
 
-    it "should set flagged_at if the record has been flagged" do
-      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
-      child = create_child("timothy cochran")
-      child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:flag => true}
-      child.flag_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
-    end
-
-    it "should set reunited_at if the record has been reunited" do
-      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
-      child = create_child("timothy cochran")
-      child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:reunited => true}
-      child.reunited_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
-    end
-
-
     it "should remove old audio files when save a new audio file" do
       User.stub(:find_by_user_name).and_return("John Doe")
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"), Time.parse("Jan 18 2010 14:05:32"))
@@ -929,56 +914,6 @@ describe Child do
 
   end
 
-  describe ".has_one_interviewer?" do
-    before :each do
-      User.stub(:find_by_user_name).and_return(double(:organization => 'stc'))
-    end
-
-    it "should be true if was created and not updated" do
-      child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
-      child.has_one_interviewer?.should be_truthy
-    end
-
-    it "should be true if was created and updated by the same person" do
-      child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
-      child['histories'] = [{"changes"=>{"gender"=>{"from"=>nil, "to"=>"Male"},
-                                         "age"=>{"from"=>"1", "to"=>"15"}},
-                                         "user_name"=>"john",
-                                         "datetime"=>"03/02/2011 21:48"},
-                                         {"changes"=>{"last_known_location"=>{"from"=>"Rio", "to"=>"Rio De Janeiro"}},
-                                          "datetime"=>"03/02/2011 21:34",
-                                          "user_name"=>"john"},
-                                          {"changes"=>{"origin"=>{"from"=>"Rio", "to"=>"Rio De Janeiro"}},
-                                           "user_name"=>"john",
-                                           "datetime"=>"03/02/2011 21:33"}]
-      child['last_updated_by'] = 'john'
-      child.has_one_interviewer?.should be_truthy
-    end
-
-    it "should be false if created by one person and updated by another" do
-      child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
-      child['histories'] = [{"changes"=>{"gender"=>{"from"=>nil, "to"=>"Male"},
-                                         "age"=>{"from"=>"1", "to"=>"15"}},
-                                         "user_name"=>"jane",
-                                         "datetime"=>"03/02/2011 21:48"},
-                                         {"changes"=>{"last_known_location"=>{"from"=>"Rio", "to"=>"Rio De Janeiro"}},
-                                          "datetime"=>"03/02/2011 21:34",
-                                          "user_name"=>"john"},
-                                          {"changes"=>{"origin"=>{"from"=>"Rio", "to"=>"Rio De Janeiro"}},
-                                           "user_name"=>"john",
-                                           "datetime"=>"03/02/2011 21:33"}]
-      child['last_updated_by'] = 'jane'
-      child.has_one_interviewer?.should be_falsey
-    end
-
-    it "should be false if histories is empty" do
-      child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
-      child['histories'] = []
-      child.has_one_interviewer?.should be_truthy
-    end
-
-  end
-
   describe "when fetching children" do
 
     before do
@@ -1265,10 +1200,6 @@ describe Child do
 
     it "can fetch the record owner" do
       expect(@case.owner).to eq(@owner)
-    end
-
-    it "can fetch the database operator" do
-      expect(@case.database_operator).to eq(@operator)
     end
 
     it "doesn't repeat CouchDB queries when fetching different user types" do
