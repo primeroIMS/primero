@@ -14,9 +14,6 @@ module Searchable
         f.id
       end
 
-      quicksearch_fields.each do |f|
-        text(f) { self.data[f] }
-      end
       searchable_string_fields.each do |f|
         string(f, {as: "#{f}_sci".to_sym}) { self.data[f] }
       end
@@ -61,40 +58,23 @@ module Searchable
       #         .map{|er| er.to_user_local}.uniq
       #   end
       # end
-      # #TODO: This belongs in the Ownable concern; recast as store_accessors?
-      if self.include?(Ownable)
-        string :associated_user_names, multiple: true do
-          self.data['associated_user_names']
-        end
-        string :owned_by do
-          self.data['owned_by']
-        end
-        string :owned_by_groups, multiple: true do
-          self.data['owned_by_groups']
-        end
-        string :assigned_user_names, multiple: true do
-          self.data['assigned_user_names']
-        end
-        string :module_id, as: :module_id_sci do
-          self.data['module_id']
-        end
-      end
+
       #TODO: refactor with business logic 2; recast as store_accessors?
-      if self.include?(Approvable)
-        date :case_plan_approved_date do
-          self.data['case_plan_approved_date']
-        end
-      end
-      if self.include?(Transitionable) #TODO: refactor with transitions; recast as store_accessors?
-        time :reassigned_tranferred_on do
-          self.data['reassigned_tranferred_on']
-        end
-      end
-      if self.include?(SyncableMobile) #TODO: refactor with SyncableMobile; recast as store_accessors?
-        boolean :marked_for_mobile do
-          self.data['marked_for_mobiles']
-        end
-      end
+      # if self.include?(Approvable)
+      #   date :case_plan_approved_date do
+      #     self.data['case_plan_approved_date']
+      #   end
+      # end
+      # if self.include?(Transitionable) #TODO: refactor with transitions; recast as store_accessors?
+      #   time :reassigned_tranferred_on do
+      #     self.data['reassigned_tranferred_on']
+      #   end
+      # end
+      # if self.include?(SyncableMobile) #TODO: refactor with SyncableMobile; recast as store_accessors?
+      #   boolean :marked_for_mobile do
+      #     self.data['marked_for_mobiles']
+      #   end
+      # end
       string :sortable_name, as: :sortable_name_sci do
         self.data['sortable_name']
       end

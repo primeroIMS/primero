@@ -30,11 +30,12 @@ class Child < ActiveRecord::Base
   # run before the before_save callback in Historical to make the history
   #include PhotoUploader #TODO: refactor with block storage
   include RecordJson
+  include Searchable
+  include Historical
   #include DocumentUploader #TODO: refactor with block storage
   #include BIADerivedFields #TODO: refactor with business logic 2
   #include CaseDerivedFields #TODO: refactor with business logic 2
   #include UNHCRMapping #TODO: refactor with business logic 2
-
   include Ownable #TODO: refactor with business logic 2
   #include Matchable #TODO: refactor with business logic 2
   #include AudioUploader #TODO: refactor with block storage
@@ -45,12 +46,11 @@ class Child < ActiveRecord::Base
   #include Serviceable #TODO: refactor with nested
   #include Workflow #TODO: refactor with business logic 2
   def workflow ; nil ; end #TODO delete after refactoring Workflow
+  def workflow_status ; nil ; end #TODO delete after refactoring Workflow
   def self.workflow_statuses(*args) ; [] ; end #TODO delete after refactoring Workflow
   def photos ; [] ; end #TODO: delete after refactoring Documents
   def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
   attr_accessor :base_revision #TODO: delete after figuring out locking
-  attr_accessor :created_by #TODO: delete after Historical refactor
-  attr_accessor :previously_owned_by #TODO: delete after Historical refactor
 
   store_accessor :data,
     :case_id, :case_id_code, :case_id_display,
@@ -85,16 +85,6 @@ class Child < ActiveRecord::Base
     self.child_status ||= Record::STATUS_OPEN
   end
 
-  def self.quicksearch_fields
-    # The fields family_count_no and dss_id are hacked in only because of Bangladesh
-    # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
-    [
-      'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
-      'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
-      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
-      'family_count_no', 'dss_id', 'camp_id', 'tent_number', 'nfi_distribution_id'
-    ]
-  end
 
   #include Flaggable #TODO: Refactor with Flag
   #include Transitionable #TODO: Refactor with Transitions
@@ -102,8 +92,16 @@ class Child < ActiveRecord::Base
   #include Approvable #TODO: refactor with business logic 2
   #include Alertable #TODO: refactor with business logic 2
 
-  # Searchable needs to be after other concern includes so that properties defined in those concerns get indexed
-  include Searchable
+  def self.quicksearch_fields
+    # The fields family_count_no and dss_id are hacked in only because of Bangladesh
+    # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
+    [
+        'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
+        'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
+        'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
+        'family_count_no', 'dss_id', 'camp_id', 'tent_number', 'nfi_distribution_id'
+    ]
+  end
 
   searchable auto_index: self.auto_index? do
     #TODO: Bring back with Matchable
@@ -134,6 +132,10 @@ class Child < ActiveRecord::Base
       self.id
     end
 
+    quicksearch_fields.each do |f|
+      text(f) { self.data[f] }
+    end
+
     boolean(:estimated) { self.data['estimated'] }
     boolean(:consent_for_services) { self.data['consent_for_services'] }
     #TODO: Refactor with Nested
@@ -144,7 +146,6 @@ class Child < ActiveRecord::Base
     # string :workflow, as: 'workflow_sci'
 
     string :child_status, as: 'child_status_sci'
-    #string :created_agency_office, as: 'created_agency_office_sci' #TODO: refactor with Historical
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end

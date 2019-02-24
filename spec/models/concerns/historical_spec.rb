@@ -50,28 +50,6 @@ describe Historical do
     @inst.save
   end
 
-  describe 'latest_update_from_history' do
-    it 'should return nil if no updates' do
-      @inst.latest_update_from_history.should == nil
-    end
-
-    it 'should return update when only one' do
-      @inst.name = 'Other'
-      @inst.save
-
-      @inst.latest_update_from_history.should_not be_nil
-    end
-
-    it 'should return latest when multiple updates' do
-      ['Other', 'Another'].each do |s|
-        @inst.name = s
-        @inst.save
-      end
-
-      @inst.latest_update_from_history.changes['name']['to'].should == 'Another'
-    end
-  end
-
   describe 'history handling' do
     it 'should insert a creation history with correct action' do
       hist = @inst.histories[0]

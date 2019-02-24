@@ -17,7 +17,7 @@ module RecordJson
       record = self.new
       record.data = data
       record.create_class_specific_fields(data) #TODO: Is there a better way to default? This method is doing 2 things!
-      #record.set_creation_fields_for(user) #TODO: Refactor with Historical concern, should be moved!
+      record.set_creation_fields_for(user)
       record.owned_by = user.user_name if record.owned_by.blank? #TODO: refactor with Ownable
       record.owned_by_full_name = user.full_name || nil #if record.owned_by_full_name.blank? #TODO: refactor with Ownable
       record

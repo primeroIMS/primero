@@ -1,110 +1,113 @@
 module Historical
   extend ActiveSupport::Concern
-  include Ownable
-  include PrimeroModel
+  #include Ownable
+  #include PrimeroModel
 
   included do
     before_save :update_last_updated_at
-    before_save :update_history, :unless => :new?
+    #before_save :update_history, :unless => :new?
     before_save :update_organization
-    before_save :add_creation_history, :if => :new?
+    #before_save :add_creation_history, :if => :new?
 
-    property :created_organization
-    property :created_agency_office
-    property :created_by
-    property :created_by_full_name
-    property :created_at, DateTime
-    property :last_updated_at, DateTime
-    property :last_updated_by
-    property :last_updated_by_full_name
-    property :last_updated_organization
-    property :posted_at, DateTime
+    store_accessor :data,
+      :created_organization, :created_agency_office, :created_by, :created_by_full_name, :created_at,
+      :last_updated_at, :last_updated_by, :last_updated_by_full_name, :last_updated_organization, :posted_at
 
     validate :validate_created_at
     validate :validate_last_updated_at
 
-    property :histories, [Class.new() do
-      include Syncable::PrimeroEmbeddedModel
-
-      property :datetime, DateTime
-      property :user_name, String
-      property :user_organization, String
-      property :prev_revision, String
-      property :action, Symbol, :init_method => 'to_sym'
-      property :changes, Hash, :default => {}
-    end], {:default => [], :init_method => ->(*args) { cast_histories(*args) }}
-
-    def self.cast_histories(*args)
-      hist = self.properties_by_name['histories'].type.new(*args)
-
-      rebuild_values = ->(from_to, &block) do
-        from_to.inject({}) do |acc, (k, v)|
-          new_v = if v.present?
-                    begin
-                      block.call(v)
-                    rescue
-                      v
-                    end
-                  else
-                    v
-                  end
-          acc.merge({k => new_v})
-        end
+    searchable auto_index: self.auto_index? do
+      [:created_organization, :created_agency_office, :created_by, :last_updated_by, :last_updated_organization].each do |f|
+        string f, as: "#{f}_sci"
       end
-
-      cast_change = ->(prop_name, prop_type, prop_array, change) do
-        if prop_type.include?(CouchRest::Model::Embeddable)
-          if prop_array
-            change.inject({}) do |acc, (unique_id, ch)|
-              # Change could be nil if element was deleted
-              casted = if ch.present?
-                         cast_change.call(prop_name, prop_type, false, ch)
-                       else
-                         ch
-                       end
-              acc.merge({unique_id => casted})
-            end
-          else
-            change.inject({}) do |acc, (k, ch)|
-              sub_prop = prop_type.properties_by_name[k]
-              # Account for changes that had their property name changed later
-              casted_change = if sub_prop.present? && sub_prop.type.present?
-                                cast_change.call(sub_prop.name, sub_prop.type, sub_prop.array, ch)
-                              else
-                                ch
-                              end
-              acc.merge({k => casted_change})
-            end
-          end
-        elsif [Date, DateTime, Time].include?(prop_type)
-          rebuild_values.call(change) {|v| prop_type.parse(v)}
-        else
-          change
-        end
+      [:created_at, :last_updated_at, :posted_at].each do |f|
+        time f
       end
-
-      hist.changes = hist.changes.inject({}) do |acc, (k, v)|
-        p = properties_by_name[k]
-        new_change = if p.present? && p.type.present?
-                       cast_change.call(p.name, p.type, p.array, v)
-                     else
-                       v
-                     end
-
-        acc.merge({k => new_change})
-      end
-
-      hist
     end
 
-    design :by_created_by do
-      view :by_created_by
-    end
+    #TODO: Add back as History model
+    # property :histories, [Class.new() do
+    #   include Syncable::PrimeroEmbeddedModel
+    #
+    #   property :datetime, DateTime
+    #   property :user_name, String
+    #   property :user_organization, String
+    #   property :prev_revision, String
+    #   property :action, Symbol, :init_method => 'to_sym'
+    #   property :changes, Hash, :default => {}
+    # end], {:default => [], :init_method => ->(*args) { cast_histories(*args) }}
+    #
+    # def self.cast_histories(*args)
+    #   hist = self.properties_by_name['histories'].type.new(*args)
+    #
+    #   rebuild_values = ->(from_to, &block) do
+    #     from_to.inject({}) do |acc, (k, v)|
+    #       new_v = if v.present?
+    #                 begin
+    #                   block.call(v)
+    #                 rescue
+    #                   v
+    #                 end
+    #               else
+    #                 v
+    #               end
+    #       acc.merge({k => new_v})
+    #     end
+    #   end
+    #
+    #   cast_change = ->(prop_name, prop_type, prop_array, change) do
+    #     if prop_type.include?(CouchRest::Model::Embeddable)
+    #       if prop_array
+    #         change.inject({}) do |acc, (unique_id, ch)|
+    #           # Change could be nil if element was deleted
+    #           casted = if ch.present?
+    #                      cast_change.call(prop_name, prop_type, false, ch)
+    #                    else
+    #                      ch
+    #                    end
+    #           acc.merge({unique_id => casted})
+    #         end
+    #       else
+    #         change.inject({}) do |acc, (k, ch)|
+    #           sub_prop = prop_type.properties_by_name[k]
+    #           # Account for changes that had their property name changed later
+    #           casted_change = if sub_prop.present? && sub_prop.type.present?
+    #                             cast_change.call(sub_prop.name, sub_prop.type, sub_prop.array, ch)
+    #                           else
+    #                             ch
+    #                           end
+    #           acc.merge({k => casted_change})
+    #         end
+    #       end
+    #     elsif [Date, DateTime, Time].include?(prop_type)
+    #       rebuild_values.call(change) {|v| prop_type.parse(v)}
+    #     else
+    #       change
+    #     end
+    #   end
+    #
+    #   hist.changes = hist.changes.inject({}) do |acc, (k, v)|
+    #     p = properties_by_name[k]
+    #     new_change = if p.present? && p.type.present?
+    #                    cast_change.call(p.name, p.type, p.array, v)
+    #                  else
+    #                    v
+    #                  end
+    #
+    #     acc.merge({k => new_change})
+    #   end
+    #
+    #   hist
+    # end
+
+    # design :by_created_by do
+    #   view :by_created_by
+    # end
   end
 
   module ClassMethods
     def all_by_creator(created_by)
-      self.by_created_by :key => created_by
+      self.where('data @> ?', {created_by: created_by}.to_json)
     end
   end
 
@@ -120,9 +123,10 @@ module Historical
     end
   end
 
-  def _force_save
-    false
-  end
+  #TODO: CouchDB thing. delete
+  # def _force_save
+  #   false
+  # end
 
   def set_creation_fields_for(user)
     self.last_updated_by = user.try(:user_name)
@@ -142,19 +146,16 @@ module Historical
     @created_by_user ||= (self.created_by.present? ? User.find_by_user_name(self.created_by) : nil)
   end
 
-  def update_last_updated_at()
+  def update_last_updated_at
     self.last_updated_at = DateTime.now
   end
 
+  #TODO: Refactor with History
   def ordered_histories
     (self.histories || []).sort_by {|h| h.datetime || DateTime.new }.reverse
   end
 
-  def latest_update_from_history
-    hist = self.histories.first
-    hist.try(:action) == :update ? hist : nil
-  end
-
+  #TODO: Refactor with History.
   def update_history
     # TODO: Figure out some useful way of specifying attachment changes
     # _force_save is a hack to make CouchRest Model save a model while
@@ -183,6 +184,7 @@ module Historical
     true
   end
 
+  #TODO: Refactor with History.
   def add_creation_history
     unless self.histories.find {|h| h.action == :create }
       without_dirty_tracking do
@@ -198,6 +200,7 @@ module Historical
     true
   end
 
+  #TODO: Refactor with History.
   def add_update_to_history(changes)
     without_dirty_tracking do
       self.histories.unshift({
@@ -211,12 +214,14 @@ module Historical
     end
   end
 
+  #TODO: Refactor with History. Looks like an inefficient query
   def organization_of(user_name)
     User.find_by_user_name(user_name).try(:organization)
   end
 
   private
 
+  #TODO: Refactor with History. Delete?
   def changes_to_history(changes, properties_by_name)
     (changes || {}).inject({}) do |acc, (prop_name, (prev, current))|
       prop = properties_by_name[prop_name]

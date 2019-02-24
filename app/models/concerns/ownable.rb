@@ -12,6 +12,14 @@ module Ownable
       :previously_owned_by, :previously_owned_by_full_name, :previously_owned_by_agency, :previously_owned_by_location,
       :assigned_user_names, :module_id
 
+    searchable auto_index: self.auto_index? do
+      string :associated_user_names, multiple: true
+      string :owned_by
+      string :owned_by_groups, multiple: true
+      string :assigned_user_names, multiple: true
+      string :module_id, as: :module_id_sci
+    end
+
     def owner
       users_by_association[:owner]
     end
