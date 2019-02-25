@@ -263,7 +263,10 @@ describe Child do
           Field.new({"name" => "risk_level",
                      "type" => "select_box",
                      "display_name_all" => "Risk Level",
-                     "option_strings_text_all" => ["option1", "option2"]
+                     "option_strings_text_all" => [
+                       {"id" => "option1", "display_text" => "Option 1"},
+                       {"id" => "option2", "display_text" => "Option 2"}
+                     ]
                     }),
           Field.new({"name" => "system_generated_followup",
                      "type" => "tick_box",
@@ -271,7 +274,10 @@ describe Child do
                     }),
           Field.new({"name" => "child_status",
                      "type" => "select_box",
-                     "option_strings_text_all" => ["option1", "option2"],
+                     "option_strings_text_all" => [
+                       {"id" => "option1", "display_text" => "Option 1"},
+                       {"id" => "option2", "display_text" => "Option 2"}
+                     ],
                      "display_name_all" => "Child Status"
                     }),
           Field.new({"name" => "registration_date",
@@ -286,7 +292,6 @@ describe Child do
         :order_form_group => 50,
         :order => 15,
         :order_subform => 0,
-        :form_group_name => "Form Section Test",
         "editable" => true,
         "name_all" => "Form Section Test",
         "description_all" => "Form Section Test",
@@ -1184,7 +1189,6 @@ describe Child do
         :order => 1,
         "editable" => true,
         :fields => fields,
-        :perm_enabled => true,
         :parent_form=>"case",
         "name_all" => "Form Section With Dates Fields",
         "description_all" => "Form Section With Dates Fields",
@@ -1460,7 +1464,6 @@ describe Child do
         :order_form_group => 30,
         :order => 20,
         :order_subform => 0,
-        :form_group_name => "Identification / Registration",
         :fields => protection_concern_fields,
         "name_all" => "Protection Concerns",
         "description_all" => "Protection concerns"
@@ -1504,7 +1507,6 @@ describe Child do
           :order_form_group => 70,
           :order => 30,
           :order_subform => 0,
-          :form_group_name => "Assessment",
           :fields => protection_concern_detail_fields,
           "editable" => true,
           "name_all" => "Protection Concern Details",
@@ -1572,7 +1574,6 @@ describe Child do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -1768,7 +1769,6 @@ describe Child do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -1807,7 +1807,6 @@ describe Child do
               :order => 1,
               "editable" => true,
               :fields => fields,
-              :perm_enabled => true,
               :parent_form=>"tracing_request",
               "name_all" => "Form Section With Dates Fields",
               "description_all" => "Form Section With Dates Fields",
@@ -1834,7 +1833,6 @@ describe Child do
               :order_form_group => 30,
               :order => 30,
               :order_subform => 0,
-              :form_group_name => "Tracing Request",
               "editable" => true,
               "mobile_form" => true,
               :fields => tracing_request_tracing_request_fields,
@@ -1910,7 +1908,6 @@ describe Child do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
