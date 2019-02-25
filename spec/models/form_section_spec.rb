@@ -571,16 +571,14 @@ describe FormSection do
         {"visible"=>true,
          :order=>11,
          :unique_id=>"tracing",
-         :perm_visible => true,
          "editable"=>true,
          "name_all" => "Tracing Name",
          "description_all" => "Tracing Description"
         })
-      form_section.new?.should == false
+      form_section.new_record?.should == false
       form_section.fields.length.should == 0
       form_section.visible.should == true
       form_section.order.should == 11
-      form_section.perm_visible.should == true
       form_section.editable.should == true
       form_section.name.should == "Tracing Name"
       form_section.description.should == "Tracing Description"
@@ -592,16 +590,14 @@ describe FormSection do
         {"visible"=>true,
          :order=>11,
          :unique_id=>"tracing",
-         :perm_visible => true,
          "editable"=>true,
          "name_all" => "Tracing Name",
          "description_all" => "Tracing Description"
         })
-      form_section.new?.should == false
+      form_section.new_record?.should == false
       form_section.fields.length.should == 0
       form_section.visible.should == true
       form_section.order.should == 11
-      form_section.perm_visible.should == true
       form_section.editable.should == true
       form_section.name.should == "Tracing Name"
       form_section.description.should == "Tracing Description"
@@ -611,18 +607,16 @@ describe FormSection do
       form_section_1 = FormSection.create_or_update_form_section(
         {"visible"=>false,
          :order=>12,
-         :unique_id=>"tracing",
-         :perm_visible => false,
+         :unique_id=>"tracing-name-all",
          "editable"=>false,
          "name_all" => "Tracing Name All",
          "description_all" => "Tracing Description All"
         })
       #Nothing change.
-      form_section_1.new?.should == false
+      form_section_1.new_record?.should == false
       form_section_1.fields.length.should == 0
       form_section_1.visible.should == false
       form_section_1.order.should == 12
-      form_section_1.perm_visible.should == false
       form_section_1.editable.should == false
       form_section_1.name.should == "Tracing Name All"
       form_section_1.description.should == "Tracing Description All"
@@ -640,17 +634,15 @@ describe FormSection do
         {"visible"=>true,
          :order=>11,
          :unique_id=>"tracing",
-          :fields => fields,
-         :perm_visible => true,
+         :fields => fields,
          "editable"=>true,
          "name_all" => "Tracing Name",
          "description_all" => "Tracing Description"
         })
-      form_section.new?.should == false
+      form_section.new_record?.should == false
       form_section.fields.length.should == 1
       form_section.visible.should == true
       form_section.order.should == 11
-      form_section.perm_visible.should == true
       form_section.editable.should == true
       form_section.name.should == "Tracing Name"
       form_section.description.should == "Tracing Description"
@@ -663,7 +655,10 @@ describe FormSection do
         Field.new({"name" => "separation_cause",
                    "type" => Field::SELECT_BOX,
                    "display_name_all" => "What was the main cause of separation?",
-                   "option_strings_text" => ["Cause 1", "Cause 2"],
+                   "option_strings_text" => [
+                     { "id" => "cause1", "display_text" => "Cause 1" },
+                     { "id" => "cause2", "display_text" => "Cause 2" }
+                   ]
                   })
       ]
       #Attempt to create a new section, no update form section
@@ -671,19 +666,17 @@ describe FormSection do
       form_section_1 = FormSection.create_or_update_form_section(
         {"visible"=>false,
          :order=>12,
-         :unique_id=>"tracing",
+         :unique_id=>"tracing-name-all",
           :fields => fields_1,
-         :perm_visible => false,
          "editable"=>false,
          "name_all" => "Tracing Name All",
          "description_all" => "Tracing Description All"
         })
       #nothing change
-      form_section_1.new?.should == false
+      form_section_1.new_record?.should == false
       form_section_1.fields.length.should == 2
       form_section_1.visible.should == false
       form_section_1.order.should == 12
-      form_section_1.perm_visible.should == false
       form_section_1.editable.should == false
       form_section_1.name.should == "Tracing Name All"
       form_section_1.description.should == "Tracing Description All"
@@ -727,7 +720,10 @@ describe FormSection do
         Field.new({"name" => "separation_cause",
                    "type" => Field::SELECT_BOX,
                    "display_name_all" => "What was the main cause of separation?",
-                   "option_strings_source" => ["Cause 1", "Cause 2"],
+                   "option_strings_source" => [
+                     { "id" => "cause1", "display_text" => "Cause 1" },
+                     { "id" => "cause2", "display_text" => "Cause 2" }
+                   ]
                   })
       ]
       properties = {
@@ -735,7 +731,6 @@ describe FormSection do
         :order=>11,
         :unique_id=>"tracing",
         :fields => fields,
-        :perm_visible => false,
         "editable"=>true,
         "name_all" => "Tracing Name",
         "description_all" => "Tracing Description"
