@@ -3,10 +3,6 @@ module Ownable
   extend ActiveSupport::Concern
 
   included do
-
-    #TODO: Put back in after refactoring Historical and dirty tracking
-    #before_save :update_ownership
-
     store_accessor :data,
       :owned_by, :owned_by_full_name, :owned_by_agency, :owned_by_groups, :owned_by_location, :owned_by_user_code,
       :previously_owned_by, :previously_owned_by_full_name, :previously_owned_by_agency, :previously_owned_by_location,
@@ -19,6 +15,8 @@ module Ownable
       string :assigned_user_names, multiple: true
       string :module_id, as: :module_id_sci
     end
+
+    before_save :update_ownership
 
     def owner
       users_by_association[:owner]
@@ -114,7 +112,6 @@ module Ownable
     end
   end
 
-  #TODO: Refactor after we implemented Hash dirty tracking, Historical
   def update_ownership
     refresh_users_by_association
 
@@ -125,13 +122,13 @@ module Ownable
     self.previously_owned_by = self.changes['owned_by'].try(:fetch, 0) || owned_by
     self.previously_owned_by_full_name = self.changes['owned_by_full_name'].try(:fetch, 0) || owned_by_full_name
 
-    if (self.changes['owned_by'].present? || self.new?) && self.owned_by.present?
+    if (self.owned_by.present? && (self.new_record? || self.changes_to_save_for_record['owned_by'].present?))
       self.owned_by_agency = self.owner.try(:organization)
       self.owned_by_groups = self.owner.try(:user_group_ids)
       self.owned_by_location = self.owner.try(:location)
       self.owned_by_user_code = self.owner.try(:code)
-      self.previously_owned_by_agency = self.changes['owned_by_agency'].try(:fetch, 0) || owned_by_agency
-      self.previously_owned_by_location = self.changes['owned_by_location'].try(:fetch, 0) || owned_by_location
+      self.previously_owned_by_agency = self.attributes_in_database['data']['owned_by_agency'] || self.owned_by_agency
+      self.previously_owned_by_location = self.attributes_in_database['data']['owned_by_location'] || self.owned_by_location
     end
   end
 

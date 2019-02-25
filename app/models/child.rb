@@ -1,5 +1,3 @@
-#TODO: For now leaving CouchRest::Model::Base
-#TODO: Inheriting from ApplicationRecord breaks created_at in the Historical Concern for some reason
 class Child < ActiveRecord::Base
   self.table_name = 'cases'
 
@@ -55,8 +53,9 @@ class Child < ActiveRecord::Base
   store_accessor :data,
     :case_id, :case_id_code, :case_id_display,
     :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
-    :registration_date, :age, :date_of_birth, :sex, :reunited, :reunited_message,
-    :investigated, :verified, :risk_level, :child_status, :case_status_reopened,
+    :registration_date, :age, :date_of_birth, :sex,
+    :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
+    :risk_level, :child_status, :case_status_reopened,
     :system_generated_followup
 
   #TODO: Refactor with Incidents, TRs
@@ -77,7 +76,6 @@ class Child < ActiveRecord::Base
   def initialize(*args)
     # self['photo_keys'] ||= []
     # self['document_keys'] ||= []
-    # self['histories'] = []
     super *args
   end
 

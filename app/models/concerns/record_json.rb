@@ -118,15 +118,11 @@ module RecordJson
   #TODO: Refactor further. This method does too much, and should probably just go away
   def update_properties(properties, user_name)
     properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
-    #TODO: Refactor with Historical, Attachments
-    # if properties['histories'].present?
-    #   properties['histories'] = remove_newly_created_media_history(properties['histories'])
-    # end
     #TODO: Shouldn't this be either initialized or defaulted somehow? Is'nt this happening already?
     properties['record_state'] = true if properties['record_state'].nil?
 
-    attributes_to_update = {}
     #TODO: Is this old RapidFTR logic?
+    # attributes_to_update = {}
     # properties.each_pair do |name, value|
     #   attributes_to_update[name] = value
     #   attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
@@ -135,32 +131,4 @@ module RecordJson
     self.data = properties
     self.last_updated_by = user_name
   end
-
-
-  # def data_changes
-  #   changes = {}
-  #   from_data = self.data_change[0]
-  #   to_data = self.data_change[1]
-  #
-  #   if from_data.blank? && to_data.present?
-  #     changes = to_data.map do |attribute, value|
-  #
-  #     end.to_h
-  #   else
-  #     to_data.reduce({}).do |attribute, value, changes|
-  #   end
-  #
-  #   return changes
-  # end
-  #
-  # def data_changed
-  #
-  # end
-  #
-  # #Returns all pairs in from_hash that have a different value in to_hash
-  # def hash_diff(from_hash, to_hash)
-  #   diff = from_hash.to_a - to_hash.to_a
-  #   diff.to_h
-  # end
-
 end

@@ -59,31 +59,6 @@ describe ChildrenHelper do
       child = Child.create!(:unique_identifier => identifier)
       helper.text_to_identify_child(child).should == "1234567"
     end
-
-    #it "should show the name if it is present" do
-    #  name = "Ygor"
-    #  child = Child.new(:name => name,:unique_identifier => '123412341234')
-    #  helper.text_to_identify_child(child).should == 'Ygor: 2341234'
-    #end
-
-    #it "should show the child unique id if name is empty" do
-    #  unique_identifier = "AnID"
-    #  child = Child.new(:name => "", :unique_identifier => unique_identifier)
-    #  helper.text_to_identify_child(child).should == unique_identifier
-    #end
   end
 
-  describe "#flag_summary_for_child" do
-    it "should show the flag summary for the child" do
-      @current_user = stub_model(User)
-      @current_user.stub(:localize_date).and_return "19 September 2012 at 18:39 (UTC)"
-
-      child = Child.new(:name => "Flagged Child",
-                        :flag_message => "Fake entity",
-                        :histories => [{"datetime"=>"2012-09-19 18:39:05UTC", "changes"=>{"flag"=>{"to"=>"true"}}, "user_name"=>"Admin user 1"}])
-
-      helper.stub(:current_user => @current_user)
-      helper.strip_tags(helper.flag_summary_for_child(child)).should == "Flagged By Admin user 1 on 19 September 2012 at 18:39 (UTC) Because Fake entity"
-    end
-  end
 end

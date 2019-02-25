@@ -11,7 +11,7 @@
           </div>
         </li>
       <% elsif history.changes.present? %>
-        <% history.changes.each_pair do |field, change| %>
+        <% history.record_changes.each_pair do |field, change| %>
           <% history_entry = history_entry_for(history, field, change) %>
           <% if history_entry.present? %>
             <li>

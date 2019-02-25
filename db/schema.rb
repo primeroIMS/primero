@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190216000000) do
+ActiveRecord::Schema.define(version: 20190216000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,16 @@ ActiveRecord::Schema.define(version: 20190216000000) do
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
+  end
+
+  create_table "record_histories", id: :serial, force: :cascade do |t|
+    t.integer "record_id"
+    t.string "record_type"
+    t.time "datetime"
+    t.string "user_name"
+    t.string "action"
+    t.jsonb "record_changes", default: {}
+    t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
 
 end
