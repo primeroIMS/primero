@@ -136,7 +136,7 @@ class Lookup < CouchRest::Model::Base
     end
   end
 
-  def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
+  def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
     lvh = {}
     self["lookup_values_#{locale}"].try(:each) {|lv| lvh[lv['id']] = lv['display_text']}
