@@ -127,8 +127,10 @@ module Ownable
       self.owned_by_groups = self.owner.try(:user_group_ids)
       self.owned_by_location = self.owner.try(:location)
       self.owned_by_user_code = self.owner.try(:code)
-      self.previously_owned_by_agency = self.attributes_in_database['data']['owned_by_agency'] || self.owned_by_agency
-      self.previously_owned_by_location = self.attributes_in_database['data']['owned_by_location'] || self.owned_by_location
+      unless self.new_record? || !self.will_save_change_to_attribute?('data')
+        self.previously_owned_by_agency = self.attributes_in_database['data']['owned_by_agency'] || self.owned_by_agency
+        self.previously_owned_by_location = self.attributes_in_database['data']['owned_by_location'] || self.owned_by_location
+      end
     end
   end
 

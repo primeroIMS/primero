@@ -4,8 +4,6 @@ module Searchable
   ALL_FILTER = 'all'
 
   included do
-    #TODO: Refactor when we have moved all the Solr stuff
-    #include Indexable
     include Sunspot::Rails::Searchable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Puma.

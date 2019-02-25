@@ -35,17 +35,11 @@ class Child < ActiveRecord::Base
   #include CaseDerivedFields #TODO: refactor with business logic 2
   #include UNHCRMapping #TODO: refactor with business logic 2
   include Ownable #TODO: refactor with business logic 2
-  #include Matchable #TODO: refactor with business logic 2
+  #include Matchable #TODO: refactor with TracingRequest, Matchable
   #include AudioUploader #TODO: refactor with block storage
   include AutoPopulatable
-
-  #It is important that Workflow is included AFTER Serviceable
-  #Workflow statuses is expecting the servicable callbacks to have already happened
-  #include Serviceable #TODO: refactor with nested
-  #include Workflow #TODO: refactor with business logic 2
-  def workflow ; nil ; end #TODO delete after refactoring Workflow
-  def workflow_status ; nil ; end #TODO delete after refactoring Workflow
-  def self.workflow_statuses(*args) ; [] ; end #TODO delete after refactoring Workflow
+  include Serviceable #TODO: refactor with nested
+  include Workflow
   def photos ; [] ; end #TODO: delete after refactoring Documents
   def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
   attr_accessor :base_revision #TODO: delete after figuring out locking
@@ -55,13 +49,13 @@ class Child < ActiveRecord::Base
     :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
     :registration_date, :age, :date_of_birth, :sex,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
-    :risk_level, :child_status, :case_status_reopened,
+    :risk_level, :child_status, :case_status_reopened, :date_case_plan, :assessment_requested_on,
     :system_generated_followup
 
-  #TODO: Refactor with Incidents, TRs
+  #TODO: Refactor with Incidents
   #To hold the list of GBV Incidents created from a GBV Case.
   # property :incident_links, [], :default => []
-  # property :matched_tracing_request_id
+  # property :matched_tracing_request_id #TODO: refactor with TracingRequest, Matchable
 
   validate :validate_date_of_birth
   validate :validate_registration_date
@@ -138,10 +132,6 @@ class Child < ActiveRecord::Base
     boolean(:consent_for_services) { self.data['consent_for_services'] }
     #TODO: Refactor with Nested
     #time :service_due_dates, multiple: true
-
-    #TODO: Refactor with Workflow. Should these be store_accessors?
-    # string :workflow_status, as: 'workflow_status_sci'
-    # string :workflow, as: 'workflow_sci'
 
     string :child_status, as: 'child_status_sci'
     string :risk_level, as: 'risk_level_sci' do
@@ -395,7 +385,7 @@ class Child < ActiveRecord::Base
   #   match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
   # end
 
-  #TODO: Refactor with Nested.
+  #TODO: Refactor with Nested. Should this be moved to the Serviceable concern?
   def service_due_dates
     # TODO: only use services that is of the type of the current workflow
     reportable_services = self.nested_reportables_hash[ReportableService]

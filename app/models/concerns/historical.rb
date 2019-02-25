@@ -119,11 +119,13 @@ module Historical
     return saved_changes_to_record
   end
 
+  #TODO: For performance reasons, consider caching this and assuming that
+  #      by the time the before_save callback is invoked, all changes have taken place
   def changes_to_save_for_record
     changes_to_save_for_record = {}
     if self.will_save_change_to_attribute?('data')
-      old_values = self.changes_to_save['data'][0]
-      new_values = self.changes_to_save['data'][1]
+      old_values = self.changes_to_save['data'][0] || {}
+      new_values = self.changes_to_save['data'][1] || {}
       diff = hash_diff(new_values, old_values)
       if diff.present?
         changes_to_save_for_record = diff.map{|k,v| [k, [old_values[k], v]]}.to_h
