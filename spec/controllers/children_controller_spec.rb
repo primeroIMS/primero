@@ -18,7 +18,7 @@ end
 describe ChildrenController, :type => :controller do
 
   before do
-    SystemSettings.all.each &:destroy
+    SystemSettings.all.each(&:destroy)
     @system_settings = SystemSettings.create(default_locale: "en",
       primary_age_range: "primary", age_ranges: {"primary" => [1..2,3..4]})
   end
@@ -38,7 +38,9 @@ describe ChildrenController, :type => :controller do
 
   def stub_form(stubs={})
     form = stub_model(FormSection) do |form|
-      form.fields = [stub_model(Field)]
+      form.fields = [stub_model(Field, :name => "field",
+                                       :display_name => "Field",
+                                       :type => Field::TEXT_FIELD)]
     end
   end
 
@@ -483,8 +485,7 @@ describe ChildrenController, :type => :controller do
             Field.new({"name" => "marked_for_mobile",
                      "type" => "tick_box",
                      "tick_box_label_all" => "Yes",
-                     "display_name_all" => "Marked for mobile?",
-                     "create_property" => false
+                     "display_name_all" => "Marked for mobile?"
                     }),
             Field.new({"name" => "age",
                      "type" => "numeric_field",
@@ -497,7 +498,6 @@ describe ChildrenController, :type => :controller do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -705,7 +705,6 @@ describe ChildrenController, :type => :controller do
       assigns[child[:current_photo_key]] == ""
       get :show, params: {format: 'json', id: '37'}
     end
-
 
     it "retrieves the grouped forms that are permitted to this user and child" do
       forms = [stub_form]
@@ -1077,7 +1076,7 @@ describe ChildrenController, :type => :controller do
           Field.new({"name" => "approval_subforms",
                      "type" => "subform",
                      "editable" => false,
-                     "subform_section_id" => approvals_section.unique_id,
+                     "subform_section_id" => approvals_section.id,
                      "display_name_all" => "Approval"
                     }),
       ]
@@ -1088,7 +1087,6 @@ describe ChildrenController, :type => :controller do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -1284,9 +1282,7 @@ describe ChildrenController, :type => :controller do
         Field.new({"name" => "followup_type",
                    "type" => "select_box",
                    "display_name_all" => "Type of follow up",
-                   "option_strings_text_all" =>
-                                ["Follow up After Reunification",
-                                 "Follow up in Care"].join("\n")
+                   "option_strings_text_all" => [{"id"=>"follow_up_after_reunification", "display_text"=>"Follow up After Reunification"}, {"id"=>"follow_up_in_care", "display_text"=>"Follow up in Care"}]
                   }),
         Field.new({"name" => "followup_date",
                    "type" => "date_field",
@@ -1306,14 +1302,13 @@ describe ChildrenController, :type => :controller do
         :fields => followup_subform_fields,
         :initial_subforms => 1,
         "name_all" => "Nested Followup Subform",
-        "description_all" => "Nested Followup Subform",
-        "collapsed_fields" => ["followup_service_type", "followup_assessment_type", "followup_date"]
+        "description_all" => "Nested Followup Subform"
       })
 
       @followup_fields = [
         Field.new({"name" => "followup_subform_section",
                    "type" => "subform", "editable" => true,
-                   "subform_section_id" => followup_subform_section.unique_id,
+                   "subform_section_id" => followup_subform_section.id,
                    "display_name_all" => "Follow Up",
                    "subform_sort_by" => "followup_date"
                   })
@@ -1326,7 +1321,6 @@ describe ChildrenController, :type => :controller do
         :order_form_group => 110,
         :order => 20,
         :order_subform => 0,
-        :form_group_name => "Services / Follow Up",
         "editable" => true,
         :fields => @followup_fields,
         "name_all" => "Follow Up",
@@ -1366,7 +1360,7 @@ describe ChildrenController, :type => :controller do
 
       get :show, params: {id: child.id}
       child_params = params["child"]["followup_subform_section"]
-      expect(assigns[:child][:followup_subform_section]).to eq([child_params["2"], child_params["0"], child_params["1"]])
+      expect(assigns[:child][:followup_subform_section]).to eq([child_params["0"], child_params["1"], child_params["2"]])
     end
 
     it "should sort subforms by the sort_subform_by with nil dates at the top" do
@@ -1401,7 +1395,13 @@ describe ChildrenController, :type => :controller do
 
       get :show, params: {id: child.id}
       child_params = params["child"]["followup_subform_section"]
-      expect(assigns[:child][:followup_subform_section]).to eq([child_params["1"], child_params["2"], child_params["0"]])
+      expect(assigns[:child][:followup_subform_section]).to eq([child_params["0"], child_params["1"], child_params["2"]])
     end
   end
+
+  after :all do
+    Field.all.each(&:destroy)
+    FormSection.all.each(&:destroy)
+  end
+
 end
