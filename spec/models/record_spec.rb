@@ -4,7 +4,7 @@ describe Record do
 
   def create_form_section_date_field(parent_form)
     form = FormSection.new(:name => "#{parent_form}_test_form", :parent_form => parent_form, "visible" => true,
-                           :order_form_group => 0, :order => 0, :order_subform => 0, :form_group_name => "#{parent_form}_test_form")
+                           :order_form_group => 0, :order => 0, :order_subform => 0)
     form.fields << Field.new(:name => "a_date_field", :type => Field::DATE_FIELD, :display_name => "a_date_field")
     form.save!
   end
