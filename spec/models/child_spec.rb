@@ -1445,8 +1445,9 @@ describe Child do
 
   describe 'syncing of protection concerns' do
     before do
-      Child.all.each &:destroy
-      FormSection.all.each &:destroy
+      Child.all.each(&:destroy)
+      Field.all.each(&:destroy)
+      FormSection.all.each(&:destroy)
 
       # protection concern form
       protection_concern_fields = [
@@ -1495,7 +1496,7 @@ describe Child do
       protection_concern_detail_fields = [
         Field.new({"name" => "protection_concern_detail_subform_section",
           "type" => "subform",
-          "subform_section_id" => protection_concern_detail_subform_section.unique_id,
+          "subform_section_id" => protection_concern_detail_subform_section.id,
           "display_name_all" => "Protection Concern Details"
         })
       ]
@@ -1819,7 +1820,7 @@ describe Child do
                   "name" => "tracing_request_subform_section",
                   "type" => "subform",
                   "editable" => true,
-                  "subform_section_id" => tr_form.unique_id,
+                  "subform_section_id" => tr_form.id,
                   "display_name_en" => "Tracing Request"
               }
           )
@@ -1983,6 +1984,12 @@ describe Child do
         expect(@case3.family_detail_values("relation")).to eq("")
       end
     end
+  end
+
+  after :all do
+    Child.all.each(&:destroy)
+    Field.all.each(&:destroy)
+    FormSection.all.each(&:destroy)
   end
 
   private
