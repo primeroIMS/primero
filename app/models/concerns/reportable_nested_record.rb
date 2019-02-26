@@ -3,8 +3,6 @@ module ReportableNestedRecord
   #TODO: For now this will be used to only read and index data on nested forms.
   #TODO: This is similar to Violations and may need to be combined with Violations when refactoring or have violations extend this class
   #      Make similar (and test exhaustively!) to Flag model to perform reads and writes
-  #TODO: Potentially this may need to be incorporated into lib/forms_to_properties.rb
-
 
   included do
     include CouchRest::Model::Embeddable #TODO: This is just so that Sunspot doesn't complain.

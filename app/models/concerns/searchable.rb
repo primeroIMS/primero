@@ -40,10 +40,6 @@ module Searchable
       searchable_boolean_fields.each do |f|
         boolean(f) { self.data[f] }
       end
-      #TODO: This needs to be a derived field/method in the Ownable concern; recast as store_accessors?
-      boolean :not_edited_by_owner do
-        (self.data['last_updated_by'] != self.data['owned_by']) && self.data['last_updated_by'].present?
-      end
       #TODO: refactor with Transitions
       # string :referred_users, multiple: true do
       #   if self.transitions.present?
@@ -54,13 +50,6 @@ module Searchable
       #   if self.transitions.present?
       #     self.transitions.select{|t| t.is_transfer_in_progress?}
       #         .map{|er| er.to_user_local}.uniq
-      #   end
-      # end
-
-      #TODO: refactor with business logic 2; recast as store_accessors?
-      # if self.include?(Approvable)
-      #   date :case_plan_approved_date do
-      #     self.data['case_plan_approved_date']
       #   end
       # end
       # if self.include?(Transitionable) #TODO: refactor with transitions; recast as store_accessors?
@@ -209,7 +198,6 @@ module Searchable
     end
 
     def searchable_date_fields
-      searchable_approvable_date_fields +
       ["date_case_plan_initiated", "assessment_requested_on"] +
       Field.all_searchable_date_field_names(self.parent_form)
     end
@@ -225,11 +213,9 @@ module Searchable
     end
 
     def searchable_string_fields
-      ["unique_identifier", "short_id",
-       "created_by", "created_by_full_name",
-       "last_updated_by", "last_updated_by_full_name",
-       "created_organization", "owned_by_agency", "owned_by_location"] +
-      searchable_approvable_fields +
+      %w(unique_identifier short_id created_by created_by_full_name
+         last_updated_by last_updated_by_full_name created_organization
+         owned_by_agency owned_by_location) +
       searchable_transition_fields +
       Field.all_filterable_field_names(self.parent_form)
     end
@@ -252,17 +238,7 @@ module Searchable
       Field.all_location_field_names(self.parent_form)
     end
 
-    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
-    def searchable_approvable_fields
-      ['approval_status_bia', 'approval_status_case_plan', 'approval_status_closure']
-    end
-
-    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
-    def searchable_approvable_date_fields
-      ['bia_approved_date', 'closure_approved_date']
-    end
-
-    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns
+    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns. Refactor with Transition
     def searchable_transition_fields
       ['transfer_status']
     end

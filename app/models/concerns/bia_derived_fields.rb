@@ -2,8 +2,8 @@ module BIADerivedFields
   extend ActiveSupport::Concern
 
   #TODO: Improve with i18n
-  MOTHER = "Mother"
-  FATHER = "Father"
+  MOTHER = "mother"
+  FATHER = "father"
 
   def bia_mother
     mother_section = get_relation_section(MOTHER)
@@ -17,10 +17,10 @@ module BIADerivedFields
 
   def not_family_explanation
     explanation = ""
-    family_details = self.try(:family_details_section)
+    family_details = self.data['family_details_section']
     if family_details.present?
       family_details.each do |detail|
-        explanation += (detail.not_family_explanation + "\n") if detail.not_family_explanation.present?
+        explanation += (detail['not_family_explanation'] + "\n") if detail['not_family_explanation'].present?
       end
     end
     explanation
@@ -36,28 +36,28 @@ module BIADerivedFields
 
   def bia_caregiver
     relation_section = []
-    family_details = self.try(:family_details_section)
+    family_details = self.data['family_details_section']
     if family_details.present?
       relation_section = family_details.select do |details|
-        details.relation_is_caregiver == true &&
-          details.relation != MOTHER &&
-          details.relation != FATHER
+        details['relation_is_caregiver'] == true &&
+          details['relation'] != MOTHER &&
+          details['relation'] != FATHER
       end
     end
     relation_section
   end
 
   def bia_child_wishes
-    self.try(:child_preferences_section)
+    self.data['child_preferences_section']
   end
 
   def bia_child_other_wishes
-    self.try(:child_other_relations_section)
+    self.data['child_other_relations_section']
   end
 
   def current_care_arrangements
     current = []
-    care_arrangements = self.try(:care_arrangements_subform_care_arrangement)
+    care_arrangements = self.data['care_arrangements_subform_care_arrangement']
     if care_arrangements.present?
       #this subform has "subform_sort_by": "care_arrangement_started_date"
       #therefore .first care arrangement should have latest care arrangement
@@ -71,38 +71,38 @@ module BIADerivedFields
   end
 
   def bia_interventions
-    self.try(:cp_case_plan_subform_case_plan_interventions)
+    self.data['cp_case_plan_subform_case_plan_interventions']
   end
 
   def bia_followups
-    self.try(:followup_subform_section)
+    self.data['followup_subform_section']
   end
 
   def case_transferred_for_bia
-    transfers = self.try(:transitions).select{ |t| t.type == Transition::TYPE_TRANSFER }
+    transfers = self.data['transitions'].select{ |t| t['type'] == Transition::TYPE_TRANSFER }
     return transfers.present? ? true : false
   end
 
   def bia_transfers
     latest_transfer = []
     if case_transferred_for_bia
-      transfers = self.try(:transitions).select{ |t| t.type == Transition::TYPE_TRANSFER }
+      transfers = self.data['transitions'].select{ |t| t['type'] == Transition::TYPE_TRANSFER }
       latest_transfer = [transfers.first]
     end
     latest_transfer
   end
 
   def bia_consent_for_services
-     self.try(:consent_for_services)
+     self.data['consent_for_services']
   end
 
   private
 
   def get_relation_section(relation_name)
     relation_section = []
-    family_details = self.try(:family_details_section)
+    family_details = self.data['family_details_section']
     if family_details.present?
-      relation_section = family_details.select{ |details| details.relation == relation_name }
+      relation_section = family_details.select{ |details| details['relation'] == relation_name }
     end
     relation_section
   end
@@ -111,8 +111,8 @@ module BIADerivedFields
     details = ""
     # Assuming there's only one father and one mother specified in the nested forms
     relation_section = get_relation_section(relation_name).first
-    if relation_section.present? && relation_section.relation_death_details.present?
-      details = relation_section.relation_death_details
+    if relation_section.present? && relation_section['relation_death_details'].present?
+      details = relation_section['relation_death_details']
     end
     details
   end

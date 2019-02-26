@@ -14,6 +14,7 @@ module Ownable
       string :owned_by_groups, multiple: true
       string :assigned_user_names, multiple: true
       string :module_id, as: :module_id_sci
+      boolean :not_edited_by_owner
     end
 
     before_save :update_ownership
@@ -54,6 +55,11 @@ module Ownable
     def refresh_users_by_association
       @users_by_association = nil
     end
+
+    def not_edited_by_owner
+      (self.data['last_updated_by'] != self.data['owned_by']) && self.data['last_updated_by'].present?
+    end
+    alias_method :not_edited_by_owner?, :not_edited_by_owner
   end
 
   module ClassMethods

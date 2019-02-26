@@ -5,11 +5,6 @@ class Child < ActiveRecord::Base
   RISK_LEVEL_HIGH = 'high'
   RISK_LEVEL_NONE = 'none'
 
-  APPROVAL_STATUS_PENDING = 'pending'
-  APPROVAL_STATUS_REQUESTED = 'requested'
-  APPROVAL_STATUS_APPROVED = 'approved'
-  APPROVAL_STATUS_REJECTED = 'rejected'
-
   class << self
     def parent_form
       'case'
@@ -27,22 +22,27 @@ class Child < ActiveRecord::Base
   # This module updates photo_keys with the before_save callback and needs to
   # run before the before_save callback in Historical to make the history
   #include PhotoUploader #TODO: refactor with block storage
+  def photos ; [] ; end #TODO: delete after refactoring Documents
+  def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
   include RecordJson
+  attr_accessor :base_revision #TODO: delete after figuring out locking
   include Searchable
   include Historical
   #include DocumentUploader #TODO: refactor with block storage
-  #include BIADerivedFields #TODO: refactor with business logic 2
-  #include CaseDerivedFields #TODO: refactor with business logic 2
-  #include UNHCRMapping #TODO: refactor with business logic 2
-  include Ownable #TODO: refactor with business logic 2
+  include BIADerivedFields
+  include CaseDerivedFields
+  include UNHCRMapping
+  include Ownable
   #include Matchable #TODO: refactor with TracingRequest, Matchable
   #include AudioUploader #TODO: refactor with block storage
   include AutoPopulatable
   include Serviceable #TODO: refactor with nested
   include Workflow
-  def photos ; [] ; end #TODO: delete after refactoring Documents
-  def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
-  attr_accessor :base_revision #TODO: delete after figuring out locking
+  #include Flaggable #TODO: Refactor with Flag
+  #include Transitionable #TODO: Refactor with Transitions
+  include Reopenable
+  include Approvable
+  include Alertable
 
   store_accessor :data,
     :case_id, :case_id_code, :case_id_display,
@@ -57,42 +57,14 @@ class Child < ActiveRecord::Base
   # property :incident_links, [], :default => []
   # property :matched_tracing_request_id #TODO: refactor with TracingRequest, Matchable
 
-  validate :validate_date_of_birth
-  validate :validate_registration_date
-  validate :validate_child_wishes
-
-  after_initialize :defaults
-  before_save :sync_protection_concerns
-  before_save :auto_populate_name
-  before_create :hide_name
-
-  #TODO: Value defaults
-  def initialize(*args)
-    # self['photo_keys'] ||= []
-    # self['document_keys'] ||= []
-    super *args
-  end
-
-  def defaults
-    self.child_status ||= Record::STATUS_OPEN
-  end
-
-
-  #include Flaggable #TODO: Refactor with Flag
-  #include Transitionable #TODO: Refactor with Transitions
-  #include Reopenable #TODO: refactor with business logic 2
-  #include Approvable #TODO: refactor with business logic 2
-  #include Alertable #TODO: refactor with business logic 2
-
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
-    [
-        'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
-        'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
-        'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
-        'family_count_no', 'dss_id', 'camp_id', 'tent_number', 'nfi_distribution_id'
-    ]
+    %w(unique_identifier short_id case_id_display name name_nickname name_other
+       ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
+       other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
+       family_count_no dss_id camp_id tent_number nfi_distribution_id
+    )
   end
 
   searchable auto_index: self.auto_index? do
@@ -152,6 +124,28 @@ class Child < ActiveRecord::Base
     # end
   end
 
+
+  validate :validate_date_of_birth
+  validate :validate_registration_date
+  validate :validate_child_wishes
+
+  after_initialize :defaults
+  before_save :sync_protection_concerns
+  before_save :auto_populate_name
+  before_create :hide_name
+
+  #TODO: Value defaults
+  def initialize(*args)
+    # self['photo_keys'] ||= []
+    # self['document_keys'] ||= []
+    super *args
+  end
+
+  def defaults
+    self.child_status ||= Record::STATUS_OPEN
+  end
+
+
   #TODO: refactor with FamilyDetails
   def family_detail_values(field)
     self.data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
@@ -197,8 +191,7 @@ class Child < ActiveRecord::Base
   end
 
   def validate_date_of_birth
-    #TODO: How do we do casted types?
-    if date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
+    if self.date_of_birth.present? && (!self.date_of_birth.is_a?(Date) || self.date_of_birth.year > Date.today.year)
       errors.add(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
       #error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth")) #TODO: Remove with UIUIX?
       false
@@ -208,8 +201,7 @@ class Child < ActiveRecord::Base
   end
 
   def validate_registration_date
-    #TODO: How do we do casted types?
-    if registration_date.present? && (!registration_date.is_a?(Date) || registration_date.year > Date.today.year)
+    if self.registration_date.present? && (!self.registration_date.is_a?(Date) || self.registration_date.year > Date.today.year)
       errors.add(:registration_date, I18n.t("messages.enter_valid_date"))
       #error_with_section(:registration_date, I18n.t("messages.enter_valid_date")) #TODO: Remove with UIUIX?
       false
@@ -278,25 +270,25 @@ class Child < ActiveRecord::Base
 
   #TODO: Refactor with FamilyDetails or just delete. Nothing but specs use this
   def family(relation=nil)
-    result = self.try(:family_details_section) || []
+    result = self.data['family_details_section'] || []
     if relation.present?
       result = result.select do |member|
-        member.try(:relation) == relation
+        member['relation'] == relation
       end
     end
     return result
   end
 
   def fathers_name
-    self.family('father').first.try(:relation_name)
+    self.family('father').first.try(:[], 'relation_name')
   end
 
   def mothers_name
-    self.family('mother').first.try(:relation_name)
+    self.family('mother').first.try(:[], 'relation_name')
   end
 
   def caregivers_name
-    self.name_caregiver || self.family.select { |fd| fd.relation_is_caregiver == true }.first.try(:relation_name)
+    self.data['name_caregiver'] || self.family.select { |fd| fd['relation_is_caregiver'] }.first.try(:[], 'relation_name')
   end
 
   # Solution below taken from...
@@ -398,30 +390,10 @@ class Child < ActiveRecord::Base
     end
   end
 
-
-  #TODO: Refactor with business logic 2
   def reopen(status, reopen_status, user_name)
     self.child_status = status
     self.case_status_reopened = reopen_status
     self.add_reopened_log(user_name)
-  end
-
-  #TODO: Refactor with business logic 2
-  def send_approval_request_mail(approval_type, host_url)
-    managers = self.owner.managers.select{ |manager| manager.email.present? && manager.send_mail }
-
-    if managers.present?
-      managers.each do |manager|
-        ApprovalRequestJob.perform_later(self.owner.id, manager.id, self.id, approval_type, host_url)
-      end
-    else
-      Rails.logger.info "Approval Request Mail not sent.  No managers present with send_mail enabled.  User - [#{self.owner.id}]"
-    end
-  end
-
-  #TODO: Refactor with business logic 2
-  def send_approval_response_mail(manager_id, approval_type, approval, host_url, is_gbv = false)
-    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url, is_gbv)
   end
 
   #Override method in record concern

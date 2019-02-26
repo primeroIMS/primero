@@ -55,7 +55,7 @@ module Workflow
     end
 
     def workflow_services_implemented?
-      self.changed.include?('services_section') &&
+      self.changes_to_save_for_record.key?('services_section') &&
       self.services_status == Serviceable::SERVICES_ALL_IMPLEMENTED &&
       self.module.use_workflow_service_implemented?
     end

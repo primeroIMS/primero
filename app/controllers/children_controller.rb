@@ -201,47 +201,9 @@ class ChildrenController < ApplicationController
       render :json => { :success => false, :error_message => @child.errors.messages, :reload_page => true }
     end
   end
-
-  #TODO: move this to approval_actions concern
-  def request_approval
-    #TODO move business logic to the model.
-    authorize! :update, @child
-
-    approval_type_error = nil
-    @child.add_approval_alert(params[:approval_type], @system_settings)
-    case params[:approval_type]
-      when "bia"
-        @child.approval_status_bia = params[:approval_status]
-      when "case_plan"
-        @child.approval_status_case_plan = params[:approval_status]
-
-        if @child.module.try(:selectable_approval_types).present?
-          @child.case_plan_approval_type = params[:approval_status_type]
-        end
-      when "closure"
-        @child.approval_status_closure = params[:approval_status]
-      else
-        approval_type_error = 'Unknown Approval Status'
-    end
-
-    @child.approval_subforms << log_action(
-      params[:approval_type],
-      nil,
-      params[:approval_status_type],
-      params[:approval_status]
-    )
-
-    if @child.save
-      @child.send_approval_request_mail(params[:approval_type], request.base_url) if @system_settings.try(:notification_email_enabled)
-      render :json => { :success => true, :error_message => "", :reload_page => true }
-    else
-      errors = approval_type_error || @child.errors.messages
-      render :json => { :success => false, :error_message => errors, :reload_page => true }
-    end
-  end
-
+  
   def relinquish_referral
-    #TODO move business logic to the model.
+    #TODO move Transition business logic to the model.
     referral_id = params[:transition_id]
 
     # TODO: this may require its own permission in the future.
