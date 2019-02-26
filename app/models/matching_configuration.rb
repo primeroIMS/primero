@@ -35,6 +35,7 @@ class MatchingConfiguration
     def matchable_fields(record_type, from_subform=true)
       Field.joins(:form_section).includes(:form_section)
         .where(form_sections: {parent_form: record_type, is_nested: from_subform}, matchable: true)
+        .order(name: :asc)
     end
 
     def matchable_fields_by_form(record_type, from_subform=true)
