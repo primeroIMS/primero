@@ -8,6 +8,7 @@ describe ReportsController do
   end
 
   before :each do
+    Field.all.each &:destroy
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
     User.all.each &:destroy
@@ -49,7 +50,6 @@ describe ReportsController do
       :order_form_group => 50,
       :order => 15,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 1",
       "description_all" => "Form Section Test 1",
