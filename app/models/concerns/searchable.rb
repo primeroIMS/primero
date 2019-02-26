@@ -40,23 +40,6 @@ module Searchable
       searchable_boolean_fields.each do |f|
         boolean(f) { self.data[f] }
       end
-      #TODO: refactor with Transitions
-      # string :referred_users, multiple: true do
-      #   if self.transitions.present?
-      #     self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
-      #   end
-      # end
-      # string :transferred_to_users, multiple: true do
-      #   if self.transitions.present?
-      #     self.transitions.select{|t| t.is_transfer_in_progress?}
-      #         .map{|er| er.to_user_local}.uniq
-      #   end
-      # end
-      # if self.include?(Transitionable) #TODO: refactor with transitions; recast as store_accessors?
-      #   time :reassigned_tranferred_on do
-      #     self.data['reassigned_tranferred_on']
-      #   end
-      # end
       # if self.include?(SyncableMobile) #TODO: refactor with SyncableMobile; recast as store_accessors?
       #   boolean :marked_for_mobile do
       #     self.data['marked_for_mobiles']
@@ -216,7 +199,6 @@ module Searchable
       %w(unique_identifier short_id created_by created_by_full_name
          last_updated_by last_updated_by_full_name created_organization
          owned_by_agency owned_by_location) +
-      searchable_transition_fields +
       Field.all_filterable_field_names(self.parent_form)
     end
 
@@ -236,11 +218,6 @@ module Searchable
 
     def all_searchable_location_fields
       Field.all_location_field_names(self.parent_form)
-    end
-
-    #TODO: This is a hack.  We need a better way to define required searchable fields defined in other concerns. Refactor with Transition
-    def searchable_transition_fields
-      ['transfer_status']
     end
 
     def pagination(pagination_parms={})

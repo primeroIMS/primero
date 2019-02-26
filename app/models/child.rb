@@ -39,7 +39,7 @@ class Child < ActiveRecord::Base
   include Serviceable #TODO: refactor with nested
   include Workflow
   #include Flaggable #TODO: Refactor with Flag
-  #include Transitionable #TODO: Refactor with Transitions
+  include Transitionable
   include Reopenable
   include Approvable
   include Alertable

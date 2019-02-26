@@ -8,16 +8,16 @@ module Alertable
   FIELD_CHANGE = 'field_change'
   TRANSFER_REQUEST = 'transfer_request'
 
-  Alert = Struct.new(:type, :alert_for, :date, :form_sidebar_id, :unique_id, :user, :agency) do
-    def initialize(*args)
-      self.id ||= UUIDTools::UUID.random_create.to_s
+  class Alert < ValueObject
+    attr_accessor :type, :alert_for, :date, :form_sidebar_id, :unique_id, :user, :agency
+    def initialize(args={})
+      super(args)
+      self.unique_id ||= UUIDTools::UUID.random_create.to_s
       self.form_sidebar_id || 'new_form'
     end
   end
 
   included do
-    include Indexable
-
     searchable auto_index: self.auto_index? do
       string :current_alert_types, multiple: true
     end
