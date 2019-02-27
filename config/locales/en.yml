@@ -1221,7 +1221,7 @@ en:
     updated: "Contact information was successfully updated."
     edit_info: "Edit Contact Information"
     info_label: "Contact Information"
-    not_found: "Cannot find ContactInformation with id %{id}"
+    not_found: "Cannot find ContactInformation"
 
   device:
     blacklist: "Blacklist Device"
