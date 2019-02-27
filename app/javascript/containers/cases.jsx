@@ -1,5 +1,7 @@
 import React from "react";
 
-export default () => {
+const Cases = () => {
   return <>Cases</>;
 };
+
+export default Cases
