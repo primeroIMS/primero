@@ -1,4 +1,4 @@
-import * as Page from './containers';
+import * as Page from '../containers';
 
 export default [
   {

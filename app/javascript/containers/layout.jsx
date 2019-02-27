@@ -3,9 +3,9 @@ import { withStyles } from "@material-ui/core/styles";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { Nav } from "../components/nav";
-import routes from "../routes";
+import routes from "../config/routes";
 
-const styles = theme => ({
+const styles = {
   root: {
     display: "flex"
   },
@@ -13,9 +13,9 @@ const styles = theme => ({
     flexGrow: 1,
     padding: 10
   }
-});
+};
 
-export default withStyles(styles)(({ classes }) => {
+const Layout = ({ classes }) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -29,4 +29,6 @@ export default withStyles(styles)(({ classes }) => {
       </div>
     </div>
   );
-});
+};
+
+export default withStyles(styles)(Layout);
