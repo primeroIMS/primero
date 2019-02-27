@@ -41,10 +41,11 @@ module Primero
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    config.assets.precompile += [
-      'application_ltr.scss',
-      'application_rtl.scss'
-    ]
+    config.assets.precompile += %w( 
+      application_ltr.scss
+      application_rtl.scss
+      translations.js
+    )
 
     LOCALE_ENGLISH = 'en'
     LOCALE_FRENCH = 'fr'

@@ -7,18 +7,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="google" value="notranslate" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
     <title>Primero</title>
-
     <%= favicon_link_tag('favicon-16x16.png?v=3') %>
-
     <%= csrf_meta_tag %>
-
-    <% #stylesheet_link_tag 'application', media: 'all' %>
+    <%= stylesheet_pack_tag 'application' %>
   </head>
-  <body>
+  <body dir="ltr">
     <div id="root"></div>
-    
-    <%= javascript_pack_tag 'application' %>
+    <%= javascript_include_tag 'translations' %>
+    <%= javascript_packs_with_chunks_tag 'application' %>
   </body>
 </html>
