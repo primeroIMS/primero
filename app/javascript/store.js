@@ -2,7 +2,7 @@ import { routerMiddleware } from "connected-react-router/immutable";
 import { createBrowserHistory } from "history";
 import { Map } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
-import { createLogger } from 'redux-logger';
+import { createLogger } from "redux-logger";
 import rootReducer from "./reducers";
 
 // TODO: Temporarily setting basename
@@ -13,15 +13,15 @@ export const history = createBrowserHistory({
 export default () => {
   const preloadedState = Map();
 
-  let middleware = [routerMiddleware(history)];
+  const middleware = [routerMiddleware(history)];
 
-  if ("development" === process.env.NODE_ENV ) {
+  if (process.env.NODE_ENV === "development") {
     middleware.push(createLogger({ stateTransformer: state => state.toJS() }));
   }
 
   const composeEnhancers =
-    "development" !== process.env.NODE_ENV ||
-    "object" !== typeof window ||
+    process.env.NODE_ENV !== "development" ||
+    typeof window !== "object" ||
     !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? compose
       : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
