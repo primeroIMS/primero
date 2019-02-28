@@ -16,6 +16,7 @@ describe Matchable do
     before do
       Child.all.each &:destroy
       FormSection.all.each &:destroy
+      Field.all.each &:destroy
 
       subform_fields = [
         Field.new({"name" => "relation",
@@ -67,7 +68,7 @@ describe Matchable do
           Field.new({"name" => "sub_form_field",
                      "type" => "subform",
                      "editable" => true,
-                     "subform_section_id" => subform_section.unique_id,
+                     "subform_section_id" => subform_section.id,
                      "display_name_all" => "Subform Section 1"
                     })
       ]
@@ -78,7 +79,6 @@ describe Matchable do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -116,91 +116,91 @@ describe Matchable do
         expect(Child.subform_matchable_fields(@match_fields[:case_fields])).to eq(["relation_name"])
       end
     end
-  end
-
-  describe "get_match_field" do
-    it "should return test_field field for no match_fields" do
-      expect(Child.get_match_field("test_field")).to eq([:test_field])
-    end
-
-    it "should return an exact match_fields" do
-      expect(Child.get_match_field("name")).to eq([:name, :name_other, :name_nickname])
-    end
-  end
-
-  describe "get_field_boost" do
-    it "should return default boost for the match_fields" do
-      expect(Child.get_field_boost("test_field")).to eq(1)
-    end
-
-    it "should return an exact boost for the match_fields" do
-      expect(Child.get_field_boost("name")).to eq(15)
-    end
-  end
-
-  describe "match_field_exist" do
-    before do
-      @field_list = Child.matchable_fields
-    end
-
-    it "should return false if the match_fields exist" do
-      expect(Child.match_field_exist?("test_field", @field_list)).to eq(false)
-    end
-
-    it "should return true if the match_fields exist" do
-      expect(Child.match_field_exist?("name", @field_list)).to eq(true)
-    end
-  end
 
 
-  describe "match_multi_value" do
-    before do
-      @case = Child.create(name: ['murtaza', 'hussain'], name_nickname: 'murtaza', age: 14)
-    end
+    describe "get_match_field" do
+      it "should return test_field field for no match_fields" do
+        expect(Child.get_match_field("test_field")).to eq([:test_field])
+      end
 
-    context "when no field in match_request" do
-      it "should return nil" do
-        expect(Child.match_multi_value("test_field", @case)).to eq(nil)
+      it "should return an exact match_fields" do
+        expect(Child.get_match_field("name")).to eq([:name, :name_other, :name_nickname])
       end
     end
 
-    context "when field in match_request" do
-      it "should return exact value" do
-        expect(Child.match_multi_value("name_nickname", @case)).to eq("murtaza")
+    describe "get_field_boost" do
+      it "should return default boost for the match_fields" do
+        expect(Child.get_field_boost("test_field")).to eq(1)
       end
 
-      it "should return joined value" do
-        expect(Child.match_multi_value("name", @case)).to eq('murtaza hussain')
-      end
-    end
-  end
-
-  describe "match_multi_criteria" do
-    before do
-      @case = Child.create(name: 'case1', name_nickname: 'murtaza', age: 15, address_last: "1234")
-    end
-
-    context "when field in match_fields" do
-      it "should return no values in match_criteria" do
-        expect(Child.match_multi_criteria("relation_name", @case)).to eq(['relation_name', []])
-      end
-
-      it "should return values in match_criteria" do
-        expect(Child.match_multi_criteria("name_nickname", @case)).to eq(["name", ["murtaza", "case1"]])
-      end
-
-      it "should return single value in match_criteria" do
-        expect(Child.match_multi_criteria("age", @case)).to eq(['age', [15]])
+      it "should return an exact boost for the match_fields" do
+        expect(Child.get_field_boost("name")).to eq(15)
       end
     end
 
-    context "when field NOT in match_fields" do
-      it "should return no value in match_criteria" do
-        expect(Child.match_multi_criteria("current_address", @case)).to eq(['current_address', []])
+    describe "match_field_exist" do
+      before do
+        @field_list = Child.matchable_fields
       end
 
-      it "should return value in match_criteria" do
-        expect(Child.match_multi_criteria("address_last", @case)).to eq(['address_last', ["1234"]])
+      it "should return false if the match_fields exist" do
+        expect(Child.match_field_exist?("test_field", @field_list)).to eq(false)
+      end
+
+      it "should return true if the match_fields exist" do
+        expect(Child.match_field_exist?("name", @field_list)).to eq(true)
+      end
+    end
+
+    describe "match_multi_value" do
+      before do
+        @case = Child.create(name: ['murtaza', 'hussain'], name_nickname: 'murtaza', age: 14)
+      end
+
+      context "when no field in match_request" do
+        it "should return nil" do
+          expect(Child.match_multi_value("test_field", @case)).to eq(nil)
+        end
+      end
+
+      context "when field in match_request" do
+        it "should return exact value" do
+          expect(Child.match_multi_value("name_nickname", @case)).to eq("murtaza")
+        end
+
+        it "should return joined value" do
+          expect(Child.match_multi_value("name", @case)).to eq('murtaza hussain')
+        end
+      end
+    end
+
+    describe "match_multi_criteria" do
+      before do
+        @case = Child.create(name: 'case1', name_nickname: 'murtaza', age: 15, address_last: "1234")
+      end
+
+      context "when field in match_fields" do
+        it "should return no values in match_criteria" do
+          expect(Child.match_multi_criteria("relation_name", @case)).to eq(['relation_name', []])
+        end
+
+        it "should return values in match_criteria" do
+          expect(Child.match_multi_criteria("name_nickname", @case)).to eq(["name", ["murtaza", "case1"]])
+        end
+
+        it "should return single value in match_criteria" do
+          expect(Child.match_multi_criteria("age", @case)).to eq(['age', [15]])
+        end
+      end
+
+      context "when field NOT in match_fields" do
+        it "should return no value in match_criteria" do
+          expect(Child.match_multi_criteria("current_address", @case)).to eq(['current_address', []])
+        end
+
+        it "should return value in match_criteria" do
+          expect(Child.match_multi_criteria("address_last", @case)).to eq(['address_last', ["1234"]])
+        end
       end
     end
   end
@@ -211,6 +211,7 @@ describe Matchable do
       TracingRequest.all.each &:destroy
       Sunspot.remove_all!
       FormSection.all.each &:destroy
+      Field.all.each &:destroy
       fields = [
           Field.new({"name" => "name",
                      "type" => "text_field",
@@ -234,7 +235,6 @@ describe Matchable do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -267,7 +267,6 @@ describe Matchable do
                     :order => 1,
                     "editable" => true,
                     :fields => fields,
-                    :perm_enabled => true,
                     :parent_form=>"tracing_request",
                     "name_all" => "Form Section With Dates Fields",
                     "description_all" => "Form Section With Dates Fields",
@@ -341,6 +340,3 @@ describe Matchable do
     end
   end
 end
-
-
-

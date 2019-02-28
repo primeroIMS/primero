@@ -35,6 +35,7 @@ class MatchingConfiguration
     def matchable_fields(record_type, from_subform=true)
       Field.joins(:form_section).includes(:form_section)
         .where(form_sections: {parent_form: record_type, is_nested: from_subform}, matchable: true)
+        .order(name: :asc)
     end
 
     def matchable_fields_by_form(record_type, from_subform=true)
@@ -71,8 +72,8 @@ class MatchingConfiguration
     case_form_sections = load_form_sections_by_type('case')
     tracing_request_form_sections = load_form_sections_by_type('tracing_request')
 
-    self.case_fields = get_matchable_form_and_field_names(case_form_sections)
-    self.tracing_request_fields = get_matchable_form_and_field_names(tracing_request_form_sections)
+    self.case_fields = get_matchable_form_and_field_names(case_form_sections, 'case')
+    self.tracing_request_fields = get_matchable_form_and_field_names(tracing_request_form_sections, 'tracing_request')
 
     self.case_field_options = load_field_options_for_filter(case_form_sections, self.case_fields)
     self.tracing_request_field_options = load_field_options_for_filter(tracing_request_form_sections, self.tracing_request_fields)

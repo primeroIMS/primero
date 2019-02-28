@@ -33,7 +33,6 @@ describe Exporters::BaseSelectFields do
       :order_form_group => 50,
       :order => 15,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 1",
       "description_all" => "Form Section Test 1",
@@ -59,7 +58,6 @@ describe Exporters::BaseSelectFields do
       :order_form_group => 51,
       :order => 16,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 2",
       "description_all" => "Form Section Test 2",
@@ -81,7 +79,6 @@ describe Exporters::BaseSelectFields do
       :order_form_group => 52,
       :order => 17,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 3",
       "description_all" => "Form Section Test 3",
@@ -102,7 +99,6 @@ describe Exporters::BaseSelectFields do
       :order_form_group => 53,
       :order => 18,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 4",
       "description_all" => "Form Section Test 4",
@@ -143,7 +139,7 @@ describe Exporters::BaseSelectFields do
       Field.new({"name" => "subform_section_1",
                  "type" => "subform",
                  "editable" => true,
-                 "subform_section_id" => subform_section.unique_id,
+                 "subform_section_id" => subform_section.id,
                  "display_name_all" => "Subform Section 1"
                 })
     ]
@@ -154,7 +150,6 @@ describe Exporters::BaseSelectFields do
       :order_form_group => 54,
       :order => 20,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 5",
       "description_all" => "Form Section Test 5",
@@ -195,7 +190,7 @@ describe Exporters::BaseSelectFields do
       Field.new({"name" => "subform_section_3",
                  "type" => "subform",
                  "editable" => true,
-                 "subform_section_id" => subform_section.unique_id,
+                 "subform_section_id" => subform_section.id,
                  "display_name_all" => "Subform Section 3"
                 })
     ]
@@ -206,7 +201,6 @@ describe Exporters::BaseSelectFields do
       :order_form_group => 54,
       :order => 20,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 6",
       "description_all" => "Form Section Test 6",

@@ -28,6 +28,17 @@ ActiveRecord::Schema.define(version: 20190226000002) do
     t.index ["services"], name: "index_agencies_on_services", using: :gin
   end
 
+  create_table "contact_informations", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "organization"
+    t.string "phone"
+    t.string "location"
+    t.text "other_information"
+    t.string "support_forum"
+    t.string "email"
+    t.string "position"
+  end
+
   create_table "fields", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "type"

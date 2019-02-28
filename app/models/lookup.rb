@@ -136,7 +136,7 @@ class Lookup < CouchRest::Model::Base
     end
   end
 
-  def localized_property_hash(locale=FormSection::DEFAULT_BASE_LANGUAGE)
+  def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
     lvh = {}
     self["lookup_values_#{locale}"].try(:each) {|lv| lvh[lv['id']] = lv['display_text']}
@@ -188,8 +188,7 @@ class Lookup < CouchRest::Model::Base
   end
 
   def is_being_used?
-    #TODO: Rewrite after Field migration
-    FormSection.find_by_lookup_field(self.id).all.size > 0
+    Field.where(option_strings_source: "lookup #{self.id}").size.positive?
   end
 
   def label
