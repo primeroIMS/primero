@@ -9,7 +9,7 @@ module Tasks
     end
 
     def self.has_task?(record)
-      record..case_plan_due_date.present? &&
+      record.case_plan_due_date.present? &&
       !record.date_case_plan.present?
     end
 

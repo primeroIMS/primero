@@ -2,8 +2,7 @@ class Child < ActiveRecord::Base
   self.table_name = 'cases'
 
   CHILD_PREFERENCE_MAX = 3
-  RISK_LEVEL_HIGH = 'high'
-  RISK_LEVEL_NONE = 'none'
+  RISK_LEVEL_HIGH = 'high' ; RISK_LEVEL_NONE = 'none'
 
   class << self
     def parent_form
@@ -131,22 +130,18 @@ class Child < ActiveRecord::Base
   validate :validate_registration_date
   validate :validate_child_wishes
 
-  after_initialize :defaults
   before_save :sync_protection_concerns
   before_save :auto_populate_name
   before_create :hide_name
 
-  #TODO: Value defaults
-  def initialize(*args)
-    # self['photo_keys'] ||= []
-    # self['document_keys'] ||= []
-    super *args
-  end
-
   def defaults
+    super
     self.child_status ||= Record::STATUS_OPEN
+    self.registration_date ||= Date.today
+     #TODO: Fix with block storage
+     # self['photo_keys'] ||= []
+     # self['document_keys'] ||= []
   end
-
 
   #TODO: refactor with FamilyDetails
   def family_detail_values(field)
@@ -236,7 +231,6 @@ class Child < ActiveRecord::Base
     self.hidden_name = true if self.module_id == PrimeroModule::GBV
   end
 
-  #TODO:  Refactor when defaulting, initializing
   def set_instance_id
     system_settings = SystemSettings.current
     self.case_id ||= self.unique_identifier
@@ -244,7 +238,6 @@ class Child < ActiveRecord::Base
     self.case_id_display ||= create_case_id_display(system_settings)
   end
 
-  #TODO:  Refactor when defaulting, initializing
   def create_case_id_code(system_settings)
     separator = (system_settings.present? && system_settings.case_code_separator.present? ? system_settings.case_code_separator : '')
     id_code_parts = []
@@ -254,15 +247,8 @@ class Child < ActiveRecord::Base
     id_code_parts.reject(&:blank?).join(separator)
   end
 
-  #TODO:  Refactor when defaulting, initializing
   def create_case_id_display(system_settings)
     [self.case_id_code, self.short_id].reject(&:blank?).join(self.auto_populate_separator('case_id_code', system_settings))
-  end
-
-  #TODO:  Refactor when defaulting, initializing
-  def create_class_specific_fields(fields)
-    #TODO - handle timezone adjustment  (See incident.date_of_first_report)
-    self.registration_date ||= Date.today
   end
 
   def sortable_name

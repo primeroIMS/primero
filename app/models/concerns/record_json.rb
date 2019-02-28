@@ -7,6 +7,8 @@ module RecordJson
 
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state
+
+    after_initialize :defaults
     before_create :create_identification
     after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
     after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
@@ -14,14 +16,11 @@ module RecordJson
 
   module ClassMethods
 
-    #TODO: This method needs to be merged with existing initialization logic
     def new_with_user(user, data = {})
       record = self.new
       record.data = data
-      record.create_class_specific_fields(data) #TODO: Is there a better way to default? This method is doing 2 things!
       record.set_creation_fields_for(user)
-      record.owned_by = user.user_name if record.owned_by.blank? #TODO: refactor with Ownable
-      record.owned_by_full_name = user.full_name || nil #if record.owned_by_full_name.blank? #TODO: refactor with Ownable
+      record.set_owner_fields_for(user)
       record
     end
 
@@ -63,12 +62,10 @@ module RecordJson
 
   end
 
-  #TODO: Initialize in one place
-  def initialize(*args)
-    super
-    self.record_state = true if self['record_state'].nil?
+  #Override this in the implementing classes to set your own defaults
+  def defaults
+    self.record_state = true if self.record_state.nil?
   end
-
 
   def create_identification
     self.unique_identifier ||= self.class.generate_unique_id
@@ -116,19 +113,11 @@ module RecordJson
     parent[attr_keys[-1]] = value
   end
 
-  #TODO: Refactor further. This method does too much, and should probably just go away
+  #TODO: Shall we keep this method?
   def update_properties(properties, user_name)
-    properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
-    #TODO: Shouldn't this be either initialized or defaulted somehow? Is'nt this happening already?
+    #TODO: This used to replace empty values with nil to avoid wiping out data
+    #properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     properties['record_state'] = true if properties['record_state'].nil?
-
-    #TODO: Is this old RapidFTR logic?
-    # attributes_to_update = {}
-    # properties.each_pair do |name, value|
-    #   attributes_to_update[name] = value
-    #   attributes_to_update["#{name}_at"] = DateTime.now if ([:flag, :reunited].include?(name.to_sym) && value.to_s == 'true')
-    # end
-    #self.attributes = attributes_to_update
     self.data = properties
     self.last_updated_by = user_name
   end

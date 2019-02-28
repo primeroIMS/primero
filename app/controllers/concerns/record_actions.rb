@@ -22,7 +22,7 @@ module RecordActions
     before_action :is_cp, :only => [:index]
     before_action :is_gbv, :only => [:index]
     before_action :is_mrm, :only => [:index]
-    #before_action :load_consent, :only => [:show] #TODO: Refactor with Transitions
+    before_action :load_consent, :only => [:show]
     before_action :load_default_settings, :only => [:index, :show, :edit, :request_approval, :approve_form, :transition]
     before_action :load_referral_role_options, :only => [:index, :show]
     before_action :load_transfer_role_options, :only => [:index, :show]

@@ -18,48 +18,6 @@ module Ownable
     end
 
     before_save :update_ownership
-
-    def owner
-      users_by_association[:owner]
-    end
-
-    def associated_user_names
-      ([self.owned_by] + (assigned_user_names || [])).compact
-    end
-
-    #TODO: Refactor as association or AREL query after we migrated User
-    #Note this returns all associated users, including the owner
-    def associated_users
-      user_ids = associated_user_names
-      @associated_users ||= if user_ids.present?
-        User.by_user_name(keys: user_ids).all
-      else
-        []
-      end
-    end
-
-    #TODO: Refactor as association or AREL query after we migrated PrimeroModule
-    def module
-      @record_module ||= PrimeroModule.get(self.module_id) if self.module_id
-    end
-
-    def users_by_association
-      @users_by_association ||= associated_users.reduce({assigned_users: []}) do |hash, user|
-        hash[:owner] = user if (user.user_name == owned_by)
-        #TODO: Put this in only if we need to get user info about the other assigned users (probably transfers)
-        #hash[:assigned_users] << user if assigned_user_names && assigned_user_names.include? user.user_name
-        hash
-      end
-    end
-
-    def refresh_users_by_association
-      @users_by_association = nil
-    end
-
-    def not_edited_by_owner
-      (self.data['last_updated_by'] != self.data['owned_by']) && self.data['last_updated_by'].present?
-    end
-    alias_method :not_edited_by_owner?, :not_edited_by_owner
   end
 
   module ClassMethods
@@ -100,12 +58,12 @@ module Ownable
         # if section.is_violation_wrapper?
         #   properties = Incident.properties.select{|p| p.name == 'violations'}
         # else
-          #properties = self.properties_by_form[section.unique_id].values
-          if read_only_user
-            fields = section.fields
-          else
-            fields = section.fields.select(&:showable?)
-          end
+        #properties = self.properties_by_form[section.unique_id].values
+        if read_only_user
+          fields = section.fields
+        else
+          fields = section.fields.select(&:showable?)
+        end
         #end
         permitted += fields
       end
@@ -117,6 +75,53 @@ module Ownable
       self.permitted_properties(user, primero_module, read_only_user).map {|p| p.name }
     end
   end
+
+  def set_owner_fields_for(user)
+    self.owned_by = user.user_name
+    self.owned_by_full_name = user.full_name
+  end
+
+  def owner
+    users_by_association[:owner]
+  end
+
+  def associated_user_names
+    ([self.owned_by] + (assigned_user_names || [])).compact
+  end
+
+  #TODO: Refactor as association or AREL query after we migrated User
+  #Note this returns all associated users, including the owner
+  def associated_users
+    user_ids = associated_user_names
+    @associated_users ||= if user_ids.present?
+      User.by_user_name(keys: user_ids).all
+    else
+      []
+    end
+  end
+
+  #TODO: Refactor as association or AREL query after we migrated PrimeroModule
+  def module
+    @record_module ||= PrimeroModule.get(self.module_id) if self.module_id
+  end
+
+  def users_by_association
+    @users_by_association ||= associated_users.reduce({assigned_users: []}) do |hash, user|
+      hash[:owner] = user if (user.user_name == owned_by)
+      #TODO: Put this in only if we need to get user info about the other assigned users (probably transfers)
+      #hash[:assigned_users] << user if assigned_user_names && assigned_user_names.include? user.user_name
+      hash
+    end
+  end
+
+  def refresh_users_by_association
+    @users_by_association = nil
+  end
+
+  def not_edited_by_owner
+    (self.data['last_updated_by'] != self.data['owned_by']) && self.data['last_updated_by'].present?
+  end
+  alias_method :not_edited_by_owner?, :not_edited_by_owner
 
   def update_ownership
     refresh_users_by_association
@@ -146,4 +151,5 @@ module Ownable
     self.last_updated_organization = current_user.agency
     self.last_updated_at = DateTime.now
   end
+
 end
