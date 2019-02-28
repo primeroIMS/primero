@@ -3,7 +3,7 @@
 <% end %>
 
 <% content_for :record_sub_nav do %>
-  <% if can? :edit, User %>
+  <% if can?(:write_self, @user) || can?(:edit, User) %>
       <%= link_to I18n.t("buttons.edit"), edit_user_path(@user), class: 'button'%>
   <% else %>
       <%= link_to I18n.t("buttons.change_password"), change_password_users_path, class: 'button' %>

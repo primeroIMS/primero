@@ -15,7 +15,7 @@ class NotificationMailer < ActionMailer::Base
     end
   end
 
-  def manager_approval_response(manager_id, case_id, approval_type, approval, host_url, is_gbv)
+  def manager_approval_response(manager_id, case_id, approval_type, approval, host_url, is_gbv=false)
     @child = Child.get(case_id)
     if @child.blank?
       Rails.logger.error "Approval Response Mail not sent - case not found.  [Case ID: #{case_id}]"
