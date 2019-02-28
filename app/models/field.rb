@@ -58,7 +58,7 @@ class Field < ActiveRecord::Base
     lh = localized_hash(locale)
     if self.option_strings_text.present?
       fh = {}
-      self.send("option_strings_text_#{locale}").each{|os| fh[os['id']] = os['display_text']}
+      self.option_strings_text(locale).each{|os| fh[os['id']] = os['display_text']}
       lh['option_strings_text'] = fh
     end
     lh
