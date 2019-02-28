@@ -1,25 +1,9 @@
-class SavedSearch < CouchRest::Model::Base
-  use_database :saved_search
-  include PrimeroModel
-
-  property :name
-  property :module_id
-  property :record_type
-  property :filters, [SearchValue]
-  property :user_name
-
-  design
-
-  design :by_user_name do
-    view :by_user_name
-  end
-
-  design :by_user_name_and_record_type do
-    view :by_user_name_and_record_type
-  end
-
+class SavedSearch < ActiveRecord::Base
   def add_filter(name, filter)
-    filter = SearchValue.new(name: name, value: filter)
-    self.filters << filter
+    if self.filters.present?
+      self.filters[name] = filter
+    else
+      self.filters = { name => filter }
+    end
   end
 end
