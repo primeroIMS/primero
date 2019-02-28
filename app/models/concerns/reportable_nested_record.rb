@@ -5,27 +5,26 @@ module ReportableNestedRecord
   #      Make similar (and test exhaustively!) to Flag model to perform reads and writes
 
   included do
-    include CouchRest::Model::Embeddable #TODO: This is just so that Sunspot doesn't complain.
-    include Indexable
+    include Sunspot::Rails::Searchable
     attr_accessor :parent_record, :object
   end
 
 
   module ClassMethods
 
-    #TODO: Do we need self.all ? Does Solr need it?
-    # def self.all(options={})
-    #   violations = []
-    #   incidents = Incident.all(options).all
-    #   incidents.each do |incident|
-    #     violations = violations + from_incident(incident)
-    #   end
-    #   return violations
-    # end
+    #TODO: Remove when we have refactored Solr, Indexable
+    def auto_index?
+      Rails.env != 'production'
+    end
+
+    #Sunspot expects this to be an active record object. So we are tricking it.
+    def before_save(_) ; end
+    def after_save(_,__) ; end
+    def after_destroy(_,__) ; end
 
     def from_record(record)
       objects = []
-      record.send(record_field_name).each do |object|
+      record.send(self.record_field_name).each do |object|
         reportable = new
         reportable.parent_record = record
         reportable.object = object
@@ -33,19 +32,30 @@ module ReportableNestedRecord
       end
       return objects
     end
+
+    def object_form
+      field = Field.includes(form_section: :fields)
+                  .joins(:form_section)
+                  .where(name: self.record_field_name,
+                         type: Field::SUBFORM,
+                         form_sections: {parent_form: self.parent_record_type.parent_form})
+                  .first
+      field.subform
+    end
   end
 
   def record_value(field_name)
     if self.parent_record.present?
-      self.parent_record.send field_name
+      self.parent_record.data[field_name]
     end
   end
 
   def object_value(field_name)
-    if self.object.present? && self.object.respond_to?(field_name)
-      object.send field_name
+    if self.object.present?
+      object[field_name]
     end
   end
+
 
   module Searchable
     def configure_searchable(record_class)
@@ -88,28 +98,29 @@ module ReportableNestedRecord
         end
       end
 
-      object_property = record_class.parent_record_type.properties.select{|p| p.name == record_class.record_field_name}.first
-      if object_property.present?
-        object_class = object_property.type
-        object_class.properties.each do |property|
-          name = property.name
-          if property.array
-            string(name, multiple: true) {object_value(name)}
-          else
-            if property.type == String
-              string(name, as: "#{name}_sci".to_sym) {object_value(name)}
-            elsif [DateTime, PrimeroDate].include? property.type
-              date(name) {object_value(name)}
-            elsif property.type == TrueClass
-              boolean(name) {object_value(name)}
-            elsif property.type == Integer
-              integer(name) {object_value(name)}
+      object_form = record_class.object_form
+      if object_form.present?
+        object_form.fields.each do |field|
+          case field.type
+          when Field::SELECT_BOX, Field::RADIO_BUTTON
+            if field.multi_select
+              string(field.name, as: "#{field.name}_sci".to_sym) {object_value(field.name)}
+            else
+              string(field.name, multiple: true) {object_value(field.name)}
             end
+          when Field::TICK_BOX
+            boolean(field.name) {object_value(field.name)}
+          when Field::DATE_FIELD
+            if field.date_include_time
+              time(field.name) {object_value(field.name)}
+            else
+              date(field.name) {object_value(field.name)}
+            end
+          when Field::NUMERIC_FIELD
+            integer(field.name) {object_value(field.name)}
           end
         end
       end
     end
   end
-
-
 end

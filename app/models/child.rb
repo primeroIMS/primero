@@ -43,6 +43,8 @@ class Child < ActiveRecord::Base
   include Reopenable
   include Approvable
   include Alertable
+  # include SyncableMobile  #TODO: Refactor with SyncableMobile
+  # include Importable #TODO: Refactor with Imports and Exports
 
   store_accessor :data,
     :case_id, :case_id_code, :case_id_display,
@@ -50,7 +52,8 @@ class Child < ActiveRecord::Base
     :registration_date, :age, :date_of_birth, :sex,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
     :risk_level, :child_status, :case_status_reopened, :date_case_plan, :assessment_requested_on,
-    :system_generated_followup
+    :system_generated_followup,
+    :followup_subform_section, :protection_concern_detail_subform_section #TODO: Do we need followups, protection_concern_details aliases?
 
   #TODO: Refactor with Incidents
   #To hold the list of GBV Incidents created from a GBV Case.
@@ -172,7 +175,6 @@ class Child < ActiveRecord::Base
     }
   end
 
-  # TODO: refactor with nested
   def self.nested_reportable_types
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end

@@ -8,6 +8,8 @@ module RecordJson
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state
     before_create :create_identification
+    after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
+    after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
   end
 
   module ClassMethods
@@ -40,14 +42,13 @@ module RecordJson
       return UUIDTools::UUID.random_create.to_s
     end
 
+    def parent_form
+      self.name.underscore.downcase
+    end
+
     #TODO: Refactor when making names
     def model_from_name(name)
       name == 'case' ? Child : Object.const_get(name.camelize)
-    end
-
-    #TODO: Refactor with UIUX
-    def parent_form
-      self.name.underscore.downcase
     end
 
     #TODO: Refactor with UIUX
@@ -130,5 +131,27 @@ module RecordJson
     #self.attributes = attributes_to_update
     self.data = properties
     self.last_updated_by = user_name
+  end
+
+  def nested_reportables_hash
+    #TODO: Consider returning this as a straight list
+    self.class.nested_reportable_types.reduce({}) do |hash, type|
+      if self.try(type.record_field_name).present?
+        hash[type] = type.from_record(self)
+      end
+      hash
+    end
+  end
+
+  def index_nested_reportables
+    self.nested_reportables_hash.each do |_, reportables|
+      Sunspot.index! reportables if reportables.present?
+    end
+  end
+
+  def unindex_nested_reportables
+    self.nested_reportables_hash.each do |_, reportables|
+      Sunspot.remove! reportables if reportables.present?
+    end
   end
 end
