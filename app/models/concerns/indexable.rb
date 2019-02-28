@@ -3,9 +3,6 @@ module Indexable
 
   included do
     include Sunspot::Rails::Searchable
-
-    Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
-    Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
   end
 
   module ClassMethods
@@ -14,6 +11,11 @@ module Indexable
     def auto_index?
       Rails.env != 'production'
     end
+
+    #Sunspot expects this to be an active record object. So we are tricking it.
+    def before_save(_) ; end
+    def after_save(_,__) ; end
+    def after_destroy(_,__) ; end
   end
 
 end

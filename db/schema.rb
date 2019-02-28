@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190216000001) do
+ActiveRecord::Schema.define(version: 20190216000002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,7 +30,7 @@ ActiveRecord::Schema.define(version: 20190216000001) do
   end
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.jsonb "data"
+    t.jsonb "data", default: {}
     t.index ["data"], name: "index_cases_on_data", using: :gin
   end
 
@@ -72,6 +72,23 @@ ActiveRecord::Schema.define(version: 20190216000001) do
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
+    t.index ["name"], name: "index_fields_on_name"
+    t.index ["type"], name: "index_fields_on_type"
+  end
+
+  create_table "flags", id: :serial, force: :cascade do |t|
+    t.integer "record_id"
+    t.string "record_type"
+    t.date "date"
+    t.text "message"
+    t.string "flagged_by"
+    t.boolean "removed", default: false, null: false
+    t.text "unflag_message"
+    t.time "created_at"
+    t.boolean "system_generated_followup", default: false, null: false
+    t.string "unflagged_by"
+    t.date "unflagged_date"
+    t.index ["record_type", "record_id"], name: "index_flags_on_record_type_and_record_id"
   end
 
   create_table "form_sections", id: :serial, force: :cascade do |t|

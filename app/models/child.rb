@@ -38,7 +38,7 @@ class Child < ActiveRecord::Base
   include AutoPopulatable
   include Serviceable #TODO: refactor with nested
   include Workflow
-  #include Flaggable #TODO: Refactor with Flag
+  include Flaggable
   include Transitionable
   include Reopenable
   include Approvable

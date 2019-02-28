@@ -1,21 +1,10 @@
-class Flag
-  include Syncable::PrimeroEmbeddedModel
-  include PrimeroModel
+class Flag < ActiveRecord::Base
+  include Sunspot::Rails::Searchable
 
-  validate :validate_record
+  belongs_to :record, polymorphic: true
 
-  property :date, Date
-  property :message, String
-  property :flagged_by, String
-  property :removed, TrueClass
-  property :unflag_message, String
-  property :created_at, DateTime
-  property :system_generated_followup, TrueClass, :default => false
-  property :unflagged_by, String
-  property :unflagged_date, Date
-  property :id
-
-  include Indexable
+  validates :message, presence: { message: 'errors.models.flags.message' }
+  validates :date, presence: { message: 'errors.models.flags.date' }
 
   searchable auto_index: self.auto_index? do
     date :flag_date, :stored => true do
@@ -34,7 +23,7 @@ class Flag
       self.flagged_by
     end
     string :flag_flagged_by_module, :stored => true do
-      base_doc.module_id
+      record.module_id
     end
     boolean :flag_is_removed, :stored => true do
       self.removed ? true : false
@@ -43,45 +32,33 @@ class Flag
       self.system_generated_followup
     end
     string :flag_record_id, :stored => true do
-      base_doc.id
+      self.record_id
     end
     string :flag_record_type, :stored => true do
-      base_doc.class.to_s.underscore.downcase
+      self.record_type.underscore.downcase
     end
     string :flag_record_short_id, :stored => true do
-      base_doc.short_id
+      record.short_id
     end
     string :flag_child_name, :stored => true do
-      base_doc.name
+      record.name
     end
     string :flag_hidden_name, :stored => true do
-      base_doc.hidden_name
+      record.hidden_name
     end
     string :flag_module_id, :stored => true do
-      base_doc.module_id
+      record.module_id
     end
     string :flag_incident_date_of_first_report, :stored => true do
-      base_doc.date_of_first_report
+      record.date_of_first_report
     end
     string :flag_record_owner, :stored => true do
-      base_doc.owned_by
+      record.owned_by
     end
   end
 
-  def initialize *args
-    super
-
-    self.id ||= UUIDTools::UUID.random_create.to_s
+  def self.auto_index?
+    Rails.env != 'production'
   end
 
-  def parent_record
-    base_doc
-  end
-
-  private
-
-  def validate_record
-    errors.add(:message, I18n.t("errors.models.flags.message")) unless self.message.present?
-    errors.add(:date, I18n.t("errors.models.flags.date")) unless self.date.blank? || self.date.is_a?(Date)
-  end
 end

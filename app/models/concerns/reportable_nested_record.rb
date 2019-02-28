@@ -5,23 +5,12 @@ module ReportableNestedRecord
   #      Make similar (and test exhaustively!) to Flag model to perform reads and writes
 
   included do
-    include Sunspot::Rails::Searchable
+    include Indexable
     attr_accessor :parent_record, :object
   end
 
 
   module ClassMethods
-
-    #TODO: Remove when we have refactored Solr, Indexable
-    def auto_index?
-      Rails.env != 'production'
-    end
-
-    #Sunspot expects this to be an active record object. So we are tricking it.
-    def before_save(_) ; end
-    def after_save(_,__) ; end
-    def after_destroy(_,__) ; end
-
     def from_record(record)
       objects = []
       record.send(self.record_field_name).each do |object|
