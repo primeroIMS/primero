@@ -2,16 +2,20 @@ module Serviceable
   extend ActiveSupport::Concern
 
   #TODO: This will need to be reconciled with the ReportableService object.
+  SERVICE_IMPLEMENTED = 'implemented'
+  SERVICE_NOT_IMPLEMENTED = 'not_implemented'
+  SERVICES_NONE = 'no_services'
+  SERVICES_IN_PROGRESS = 'in_progress'
+  SERVICES_ALL_IMPLEMENTED = 'all_implemented'
 
   included do
 
-    store_accessor :data, :services_section #TODO: Do we need a services alias for this?
+    store_accessor :data, :consent_for_services, :services_section #TODO: Do we need a services alias for this?
 
-    SERVICE_IMPLEMENTED = 'implemented'
-    SERVICE_NOT_IMPLEMENTED = 'not_implemented'
-    SERVICES_NONE = 'no_services'
-    SERVICES_IN_PROGRESS = 'in_progress'
-    SERVICES_ALL_IMPLEMENTED = 'all_implemented'
+    searchable auto_index: self.auto_index? do
+      boolean :consent_for_services
+      time :service_due_dates, multiple: true
+    end
 
     before_save :update_implement_field
 
@@ -54,6 +58,13 @@ module Serviceable
       end
     end
 
+    #This method returns nil if object is nil
+    def service_field_value(service_object, service_field)
+      if service_object.present?
+        service_object[service_field]
+      end
+    end
+
     def service_due_date(service)
       @system_settings ||= SystemSettings.current
       created_on = service['service_response_day_time']
@@ -72,7 +83,18 @@ module Serviceable
       end
     end
 
-    private
+    #TODO: Should this be moved to the Serviceable concern?
+    def service_due_dates
+      # TODO: only use services that is of the type of the current workflow
+      reportable_services = self.nested_reportables_hash[ReportableService]
+      if reportable_services.present?
+        reportable_services.select do |service|
+          !service.service_implemented?
+        end.map do |service|
+          service.service_due_date
+        end.compact
+      end
+    end
 
     def service_implemented?(service)
       service['service_implemented_day_time'].present? &&
@@ -83,6 +105,8 @@ module Serviceable
       service['service_type'].present? &&
       service['service_implemented_day_time'].blank?
     end
+
+    private
 
     def convert_time(string)
       times = string.split('_')
