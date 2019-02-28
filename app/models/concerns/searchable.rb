@@ -181,12 +181,10 @@ module Searchable
     end
 
     def searchable_date_fields
-      ["date_case_plan_initiated", "assessment_requested_on"] +
       Field.all_searchable_date_field_names(self.parent_form)
     end
 
     def searchable_date_time_fields
-      ["created_at", "last_updated_at"] +
       Field.all_searchable_date_time_field_names(self.parent_form)
     end
 

@@ -4,7 +4,7 @@ module Tasks
 
     def self.from_case(record)
       tasks = []
-      if record.try(:followup_subform_section).present?
+      if record.followup_subform_section.present?
         record.followup_subform_section.each do |followup|
           if has_task?(followup)
             tasks << FollowUpTask.new(record, followup)
@@ -15,8 +15,8 @@ module Tasks
     end
 
     def self.has_task?(followup)
-      followup.try(:followup_needed_by_date).present? &&
-      !followup.try(:followup_date).present?
+      followup['followup_needed_by_date'].present? &&
+      !followup['followup_date'].present?
     end
 
     def initialize(record, followup)
@@ -25,12 +25,12 @@ module Tasks
     end
 
     def due_date
-      self.followup.followup_needed_by_date
+      self.followup['followup_needed_by_date']
     end
 
     def type_display(lookups=nil)
       I18n.t("task.types.#{self.type}",
-            subtype:  Lookup.display_value('lookup-followup-type', followup.try(:followup_type), lookups))
+            subtype:  Lookup.display_value('lookup-followup-type', followup['followup_type'], lookups))
     end
   end
 end

@@ -51,8 +51,9 @@ class Child < ActiveRecord::Base
     :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
     :registration_date, :age, :estimated, :date_of_birth, :sex,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
-    :risk_level, :child_status, :case_status_reopened, :date_case_plan, :assessment_requested_on,
+    :risk_level, :child_status, :case_status_reopened, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
     :system_generated_followup,
+    :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section #TODO: Do we need followups, protection_concern_details aliases?
 
   #TODO: Refactor with Incidents
@@ -103,6 +104,8 @@ class Child < ActiveRecord::Base
       text(f) { self.data[f] }
     end
 
+    %w(date_case_plan_initiated assessment_requested_on).each{|f| date(f)}
+
     boolean :estimated
 
     string :child_status, as: 'child_status_sci'
@@ -110,18 +113,17 @@ class Child < ActiveRecord::Base
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
 
-    #TODO: Refactor with Nested
-    # date :assessment_due_dates, multiple: true do
-    #   Tasks::AssessmentTask.from_case(self).map &:due_date
-    # end
-    #
-    # date :case_plan_due_dates, multiple: true do
-    #   Tasks::CasePlanTask.from_case(self).map &:due_date
-    # end
-    #
-    # date :followup_due_dates, multiple: true do
-    #   Tasks::FollowUpTask.from_case(self).map &:due_date
-    # end
+    date :assessment_due_dates, multiple: true do
+      Tasks::AssessmentTask.from_case(self).map(&:due_date)
+    end
+
+    date :case_plan_due_dates, multiple: true do
+      Tasks::CasePlanTask.from_case(self).map(&:due_date)
+    end
+
+    date :followup_due_dates, multiple: true do
+      Tasks::FollowUpTask.from_case(self).map(&:due_date)
+    end
   end
 
 
