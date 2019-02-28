@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190226000000) do
+ActiveRecord::Schema.define(version: 20190226000002) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,14 @@ ActiveRecord::Schema.define(version: 20190226000000) do
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
+  end
+
+  create_table "saved_searches", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "module_id"
+    t.string "record_type"
+    t.string "user_name"
+    t.jsonb "filters"
   end
 
 end

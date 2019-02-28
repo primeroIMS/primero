@@ -26,22 +26,26 @@ class SavedSearchesController < ApplicationController
 
   def index
     authorize! :read, SavedSearch
-    searches_by_user = SavedSearch.by_user_name(key: current_user.user_name).all
+    searches_by_user = SavedSearch.where(user_name: current_user.user_name)
     respond_to do |format|
       format.json {render :json => searches_by_user}
     end
   end
 
   def show
-    saved_search = SavedSearch.get(params['id'])
+    saved_search = SavedSearch.find_by_id(params['id'])
     authorize! :read, saved_search
+    #TODO: Refactor with UIUX
+    saved_search_attributes = saved_search.attributes
+    saved_search_attributes["filters"] = saved_search.filters.map { |key, value| { 'name' => key, 'value' => value }  }
+
     respond_to do |format|
-      format.json {render :json => saved_search}
+      format.json {render :json => saved_search_attributes}
     end
   end
 
   def destroy
-    @saved_search = SavedSearch.get(params['id'])
+    @saved_search = SavedSearch.find_by_id(params['id'])
 
     authorize! :write, @saved_search
     if @saved_search.present? && @saved_search.destroy
