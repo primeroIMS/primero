@@ -3,6 +3,7 @@ require 'rails_helper'
 module Exporters
   describe DuplicateIdCSVExporter do
     before do
+      Field.all.each &:destroy
       FormSection.all.each &:destroy
       Lookup.all.each &:destroy
 
@@ -63,7 +64,6 @@ module Exporters
         :order_form_group => 50,
         :order => 15,
         :order_subform => 0,
-        :form_group_name => "Form Section Test",
         "editable" => true,
         "name_all" => "Form Section Test",
         "description_all" => "Form Section Test",

@@ -17,7 +17,6 @@ describe PrimeroDate do
       :order_form_group => 50,
       :order => 15,
       :order_subform => 0,
-      :form_group_name => "GBV Derived Fields",
       "editable" => true,
       "name_all" => "GBV Derived Fields",
       "description_all" => "GBV Derived Fields",

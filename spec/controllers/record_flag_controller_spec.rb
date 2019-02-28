@@ -22,7 +22,6 @@ describe RecordFlagController, :type => :controller do
       :order_form_group => 50,
       :order => 15,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test",
       "description_all" => "Form Section Test",

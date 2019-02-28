@@ -263,7 +263,10 @@ describe Child do
           Field.new({"name" => "risk_level",
                      "type" => "select_box",
                      "display_name_all" => "Risk Level",
-                     "option_strings_text_all" => ["option1", "option2"]
+                     "option_strings_text_all" => [
+                       {"id" => "option1", "display_text" => "Option 1"},
+                       {"id" => "option2", "display_text" => "Option 2"}
+                     ]
                     }),
           Field.new({"name" => "system_generated_followup",
                      "type" => "tick_box",
@@ -271,7 +274,10 @@ describe Child do
                     }),
           Field.new({"name" => "child_status",
                      "type" => "select_box",
-                     "option_strings_text_all" => ["option1", "option2"],
+                     "option_strings_text_all" => [
+                       {"id" => "option1", "display_text" => "Option 1"},
+                       {"id" => "option2", "display_text" => "Option 2"}
+                     ],
                      "display_name_all" => "Child Status"
                     }),
           Field.new({"name" => "registration_date",
@@ -286,7 +292,6 @@ describe Child do
         :order_form_group => 50,
         :order => 15,
         :order_subform => 0,
-        :form_group_name => "Form Section Test",
         "editable" => true,
         "name_all" => "Form Section Test",
         "description_all" => "Form Section Test",
@@ -1184,7 +1189,6 @@ describe Child do
         :order => 1,
         "editable" => true,
         :fields => fields,
-        :perm_enabled => true,
         :parent_form=>"case",
         "name_all" => "Form Section With Dates Fields",
         "description_all" => "Form Section With Dates Fields",
@@ -1441,8 +1445,9 @@ describe Child do
 
   describe 'syncing of protection concerns' do
     before do
-      Child.all.each &:destroy
-      FormSection.all.each &:destroy
+      Child.all.each(&:destroy)
+      Field.all.each(&:destroy)
+      FormSection.all.each(&:destroy)
 
       # protection concern form
       protection_concern_fields = [
@@ -1460,7 +1465,6 @@ describe Child do
         :order_form_group => 30,
         :order => 20,
         :order_subform => 0,
-        :form_group_name => "Identification / Registration",
         :fields => protection_concern_fields,
         "name_all" => "Protection Concerns",
         "description_all" => "Protection concerns"
@@ -1492,7 +1496,7 @@ describe Child do
       protection_concern_detail_fields = [
         Field.new({"name" => "protection_concern_detail_subform_section",
           "type" => "subform",
-          "subform_section_id" => protection_concern_detail_subform_section.unique_id,
+          "subform_section_id" => protection_concern_detail_subform_section.id,
           "display_name_all" => "Protection Concern Details"
         })
       ]
@@ -1504,7 +1508,6 @@ describe Child do
           :order_form_group => 70,
           :order => 30,
           :order_subform => 0,
-          :form_group_name => "Assessment",
           :fields => protection_concern_detail_fields,
           "editable" => true,
           "name_all" => "Protection Concern Details",
@@ -1572,7 +1575,6 @@ describe Child do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -1768,7 +1770,6 @@ describe Child do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -1807,7 +1808,6 @@ describe Child do
               :order => 1,
               "editable" => true,
               :fields => fields,
-              :perm_enabled => true,
               :parent_form=>"tracing_request",
               "name_all" => "Form Section With Dates Fields",
               "description_all" => "Form Section With Dates Fields",
@@ -1820,7 +1820,7 @@ describe Child do
                   "name" => "tracing_request_subform_section",
                   "type" => "subform",
                   "editable" => true,
-                  "subform_section_id" => tr_form.unique_id,
+                  "subform_section_id" => tr_form.id,
                   "display_name_en" => "Tracing Request"
               }
           )
@@ -1834,7 +1834,6 @@ describe Child do
               :order_form_group => 30,
               :order => 30,
               :order_subform => 0,
-              :form_group_name => "Tracing Request",
               "editable" => true,
               "mobile_form" => true,
               :fields => tracing_request_tracing_request_fields,
@@ -1910,7 +1909,6 @@ describe Child do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -1986,6 +1984,12 @@ describe Child do
         expect(@case3.family_detail_values("relation")).to eq("")
       end
     end
+  end
+
+  after :all do
+    Child.all.each(&:destroy)
+    Field.all.each(&:destroy)
+    FormSection.all.each(&:destroy)
   end
 
   private

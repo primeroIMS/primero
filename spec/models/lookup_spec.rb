@@ -68,6 +68,7 @@ describe Lookup do
 
     context "when on a form" do
       before do
+        FormSection.all.each(&:destroy)
         @lookup_d = Lookup.create!(id: "d", name: "D", lookup_values: [{id: "d", display_text: "D"}, {id: "dd", display_text: "DD"}, {id: "ddd", display_text: "DDD"}, {id: "dddd", display_text: "DDDD"}])
         text_field = Field.new(name: "text_field", type: Field::TEXT_FIELD, display_name: "My Text Field")
         select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup d" )

@@ -18,7 +18,7 @@ class FieldsController < ApplicationController
   end
 
   def create
-    @field = Field.new clean_field(params[:field].to_h)
+    @field = Field.new(clean_field(params[:field].to_h))
     FormSection.add_field_to_formsection @form_section, @field
 
     if @field.errors.present? || @form_section.errors.present?
@@ -52,11 +52,10 @@ class FieldsController < ApplicationController
   end
 
   def update
-    @field = fetch_field params[:id]
-    @field.attributes = convert_multi_selects(params[:field].to_h) unless params[:field].nil?
-    @form_section.save
+    @field = fetch_field(params[:id])
+    @field.update_attributes(convert_multi_selects(params[:field].to_h)) unless params[:field].nil?
 
-    if @field.errors.present? || @form_section.errors.present?
+    if @field.errors.present?
       get_form_groups
       @show_add_field = {:show_add_field => @field.errors.present?}
       render :template => "form_section/edit",  :locals => @show_add_field
@@ -90,14 +89,14 @@ class FieldsController < ApplicationController
   def toggle_fields
     field =  fetch_field params[:id]
     field.visible = !field.visible
-    @form_section.save
+    field.save
     render plain: 'OK'
   end
 
   private
 
-  def fetch_field field_name
-    @form_section.fields.detect { |field| field.name == field_name }
+  def fetch_field(field_name)
+    Field.find_by(name: field_name)
   end
 
   def get_lookups
