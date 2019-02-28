@@ -55,7 +55,7 @@ module Exporters
               generator.call(model)
             else
               if generator.eql?('sortable_name') && model.try(:hidden_name)
-                '***hidden***'
+                t('hidden')
               else
                 self.class.translate_value(generator, CSVExporterListView.to_exported_value(model.try(generator.to_sym)))
               end
