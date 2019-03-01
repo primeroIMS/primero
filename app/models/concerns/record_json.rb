@@ -118,8 +118,32 @@ module RecordJson
     #TODO: This used to replace empty values with nil to avoid wiping out data
     #properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     properties['record_state'] = true if properties['record_state'].nil?
-    self.data = properties
+    self.data = merge_data(self.data, properties)
     self.last_updated_by = user_name
+  end
+
+  #TODO: WRITE UNIT TESTS FOR THIS!!!
+  def merge_data(old_data, new_data)
+    if old_data.is_a?(Hash) && new_data.is_a?(Hash)
+      old_data.merge(new_data) do |_, old_value, new_value|
+        merge_data(old_value, new_value)
+      end
+    elsif is_an_array_of_hashes?(old_data) && is_an_array_of_hashes?(new_data)
+      new_data.inject([]) do |result, new_nested_record|
+        nested_record_id = new_nested_record['id']
+        if nested_record_id.present?
+          old_nested_record = old_data.find{|r| r['id'] == nested_record_id}
+          result << merge_data(old_nested_record, new_nested_record)
+        else
+          result << new_nested_record
+        end
+        new_nested_record
+      end
+    elsif new_data.nil?
+      old_data
+    else
+      new_data
+    end
   end
 
   def nested_reportables_hash
@@ -143,4 +167,11 @@ module RecordJson
       Sunspot.remove! reportables if reportables.present?
     end
   end
+
+  private
+
+  def is_an_array_of_hashes(value)
+    value.is_a?(Array) && (value.blank? || value.first.is_a?(Hash))
+  end
+
 end
