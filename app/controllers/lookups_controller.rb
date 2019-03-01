@@ -9,7 +9,7 @@ class LookupsController < ApplicationController
   def index
     authorize! :index, Lookup
     @page_name = t("lookup.index")
-    @lookups = Lookup.get_all.all
+    @lookups = Lookup.all
   end
 
   def new
@@ -63,7 +63,7 @@ class LookupsController < ApplicationController
   private
 
   def load_lookup
-    @lookup = Lookup.get params[:id] if params[:id]
+    @lookup = Lookup.find_by(params[:id]) if params[:id]
   end
 
   def has_lookup_values?

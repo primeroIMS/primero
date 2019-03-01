@@ -102,7 +102,7 @@ module Exporters
 
     def export_lookups
       Rails.logger.info {"Exporting Lookups..."}
-      lookups = Lookup.all.all
+      lookups = Lookup.all
       if lookups.present?
         Rails.logger.info {"Locale: #{@locale}"}
         create_file_for_form('lookups')

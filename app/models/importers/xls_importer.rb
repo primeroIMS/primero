@@ -68,7 +68,7 @@ module Importers
       db_form.fields.each do |db_field|
         if db_field.option_strings_source.present? && db_field.option_strings_source.start_with?('lookup')
           option_source = db_field.option_strings_source.split.last
-          lookup = Lookup.get(option_source)
+          lookup = Lookup.find_by(unique_id: option_source)
           if sheet_hash[db_field.name].present? && sheet_hash[db_field.name]["lookup"].present?
             @locales.each do |locale|
               new_value = []

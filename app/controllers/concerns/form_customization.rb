@@ -20,6 +20,11 @@ module FormCustomization
   end
 
   def get_form_groups
-    @list_form_groups = Lookup.form_groups(parent_form, @primero_module.try(:name))
+    module_name = @primero_module.try(:name)
+    @list_form_groups = if parent_form.present? && module_name.present? 
+                          Lookup.values_for_select("lookup-form-group-#{module_name.downcase}-#{parent_form}")
+                        else
+                          []
+                        end
   end
 end
