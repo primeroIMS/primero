@@ -94,11 +94,6 @@ class Child < ActiveRecord::Base
     #   end
     # end
 
-    #TODO: why isnt this in the Searchable concern? Is this even needed when swe use the default Sunspot adapter?
-    string :id do
-      self.id
-    end
-
     quicksearch_fields.each do |f|
       text(f) { self.data[f] }
     end
@@ -179,6 +174,11 @@ class Child < ActiveRecord::Base
         with(:date_of_birth).between(start_date..end_date)
       end.results
     end
+  end
+
+  def index_for_search
+    super
+    self.index_nested_reportables
   end
 
   #TODO: refactor with Incident

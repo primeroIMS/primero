@@ -113,7 +113,6 @@ module RecordJson
     parent[attr_keys[-1]] = value
   end
 
-  #TODO: Shall we keep this method?
   def update_properties(properties, user_name)
     #TODO: This used to replace empty values with nil to avoid wiping out data
     #properties = self.class.blank_to_nil(self.class.convert_arrays(properties))

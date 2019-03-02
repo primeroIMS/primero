@@ -1,5 +1,5 @@
 class Flag < ActiveRecord::Base
-  include Sunspot::Rails::Searchable
+  include Indexable
 
   belongs_to :record, polymorphic: true
 
@@ -55,10 +55,6 @@ class Flag < ActiveRecord::Base
     string :flag_record_owner, :stored => true do
       record.owned_by
     end
-  end
-
-  def self.auto_index?
-    Rails.env != 'production'
   end
 
 end

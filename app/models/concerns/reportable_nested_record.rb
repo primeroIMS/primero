@@ -9,7 +9,6 @@ module ReportableNestedRecord
     attr_accessor :parent_record, :object
   end
 
-
   module ClassMethods
     def from_record(record)
       objects = []
@@ -31,6 +30,11 @@ module ReportableNestedRecord
                   .first
       field.subform
     end
+
+    #Sunspot expects this to be an active record object. So we are tricking it.
+    def before_save(_) ; end
+    def after_save(_,__) ; end
+    def after_destroy(_,__) ; end
   end
 
   def record_value(field_name)

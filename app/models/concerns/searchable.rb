@@ -4,7 +4,7 @@ module Searchable
   ALL_FILTER = 'all'
 
   included do
-    include Sunspot::Rails::Searchable
+    include Indexable
 
     # Note that the class will need to be reloaded when the fields change. The current approach is to gently bounce Puma.
     searchable auto_index: self.auto_index? do
@@ -78,15 +78,11 @@ module Searchable
         end
       end
     end
+
+    after_save :queue_for_index
   end
 
-
   module ClassMethods
-    #TODO: Refactor when we have refactored Solr
-    def auto_index?
-      Rails.env != 'production'
-    end
-
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?

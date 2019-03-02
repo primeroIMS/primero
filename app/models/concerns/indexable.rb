@@ -3,6 +3,16 @@ module Indexable
 
   included do
     include Sunspot::Rails::Searchable
+
+    after_save :queue_for_index
+
+    def index_for_search
+      Sunspot.index!(self)
+    end
+
+    def queue_for_index
+      SunspotIndexJob.perform_later(self.class.name, self.id)
+    end
   end
 
   module ClassMethods
@@ -11,11 +21,7 @@ module Indexable
     def auto_index?
       Rails.env != 'production'
     end
-
-    #Sunspot expects this to be an active record object. So we are tricking it.
-    def before_save(_) ; end
-    def after_save(_,__) ; end
-    def after_destroy(_,__) ; end
   end
+
 
 end
