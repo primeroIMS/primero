@@ -122,6 +122,8 @@ module RecordActions
 
       format.json do
         if @record.present?
+          # TODO: This method is doing an incorrect assumption about that the name of the FormSection is identical to the name of the Field that contains it.
+          # For example: A form parent_form_1 can have a subform field subform_field_1 and the actual subform can be called subform_1 instead of subform_field_1.
           @record = clear_append_only_subforms(@record)
           @record = format_json_response(@record)
           render :json => @record
@@ -163,6 +165,8 @@ module RecordActions
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
+          # TODO: This method is doing an incorrect assumption about that the name of the FormSection is identical to the name of the Field that contains it.
+          # For example: A form parent_form_1 can have a subform field subform_field_1 and the actual subform can be called subform_1 instead of subform_field_1.
           @record = clear_append_only_subforms(@record)
           @record = format_json_response(@record)
           render :json => @record, :status => :created, :location => @record
@@ -206,6 +210,8 @@ module RecordActions
           end
         end
         format.json do
+          # TODO: This method is doing an incorrect assumption about that the name of the FormSection is identical to the name of the Field that contains it.
+          # For example: A form parent_form_1 can have a subform field subform_field_1 and the actual subform can be called subform_1 instead of subform_field_1.
           @record = clear_append_only_subforms(@record)
           @record = format_json_response(@record)
           render :json => @record.slice!("_attachments", "histories")
@@ -481,6 +487,8 @@ module RecordActions
   end
 
   def clear_append_only_subforms(record)
+    # TODO: This method is doing an incorrect assumption about that the name of the FormSection is identical to the name of the Field that contains it.
+    # For example: A form parent_form_1 can have a subform field subform_field_1 and the actual subform can be called subform_1 instead of subform_field_1.
     if has_mobile_param?
       FormSection.get_append_only_subform_ids.each do |subform_id|
         record.try("#{subform_id}=", [])
