@@ -1,8 +1,7 @@
-class Report < CouchRest::Model::Base
-  use_database :report
-  include PrimeroModel
+class Report < ActiveRecord::Base
+
   include Memoizable
-  include LocalizableProperty
+  include LocalizableJsonProperty
 
   #TODO i18n - investigate making Localizable concern which uses LocalizableProperty
   #TODO i18n - investigate possibility of refactoring Lookup, Agency, Location, etc to use Localizable
@@ -31,18 +30,7 @@ class Report < CouchRest::Model::Base
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
   DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
 
-  localize_properties [:name, :description]
-  property :module_ids, [String]
-  property :record_type #case, incident, etc.
-  property :aggregate_by, [String], default: [] #Y-axis
-  property :disaggregate_by, [String], default: [] #X-axis
-  property :aggregate_counts_from
-  property :filters
-  property :group_ages, TrueClass, default: false
-  property :group_dates_by, default: DAY
-  property :is_graph, TrueClass, default: false
-  property :editable, TrueClass, default: true
-  property :base_language, default: DEFAULT_BASE_LANGUAGE
+  localize_properties :name, :description
 
   #TODO: Currently it's not worth trying to save off the report data.
   #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to a string.
@@ -62,19 +50,6 @@ class Report < CouchRest::Model::Base
 
   before_save :apply_default_filters
 
-  design
-
-  design :by_module_id do
-    view :by_module_id,
-      :map => "function(doc) {
-                if (doc['couchrest-type'] == 'Report' && doc['module_ids']){
-                  for(var i in doc['module_ids']){
-                    emit(doc['module_ids'][i], doc['_id']);
-                  }
-                }
-              }"
-  end
-
   def validate_name_in_base_language
     return true if self.send("name_#{DEFAULT_BASE_LANGUAGE}").present?
     errors.add(:name, I18n.t("errors.models.report.name_presence"))
@@ -85,7 +60,7 @@ class Report < CouchRest::Model::Base
 
     def create_or_update(report_hash)
       report_id = report_hash[:id]
-      report = Report.get(report_id)
+      report = Report.find_by(id: report_id)
       if report.nil?
         Report.create! report_hash
       else
@@ -290,7 +265,7 @@ class Report < CouchRest::Model::Base
   def translated_label(label)
     if label.present?
       label_selection = translated_label_options.select{|option_list|
-        option_list["id"].downcase == label.downcase
+        option_list["id"].to_s == label.downcase
       }.first
       label = label_selection["display_text"] if label_selection.present?
     end

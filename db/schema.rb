@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190226000002) do
+ActiveRecord::Schema.define(version: 20190228000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -107,6 +107,22 @@ ActiveRecord::Schema.define(version: 20190226000002) do
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
+  end
+
+  create_table "reports", id: :serial, force: :cascade do |t|
+    t.jsonb "name_i18n"
+    t.jsonb "description_i18n"
+    t.string "module_ids", default: [], array: true
+    t.string "record_type"
+    t.string "aggregate_by", default: [], array: true
+    t.string "disaggregate_by", default: [], array: true
+    t.string "aggregate_counts_from"
+    t.jsonb "filters", default: [], array: true
+    t.boolean "group_ages", default: false, null: false
+    t.string "group_dates_by", default: "date"
+    t.boolean "is_graph", default: false, null: false
+    t.boolean "editable", default: true
+    t.string "base_language", default: "en"
   end
 
   create_table "saved_searches", id: :serial, force: :cascade do |t|

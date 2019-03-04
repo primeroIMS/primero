@@ -114,7 +114,6 @@ describe ReportsController do
       Sunspot.commit
 
       @report = Report.new(
-          id: 'testid',
           name: 'test report',
           module_ids: [@primero_module.id],
           record_type: 'case',
@@ -125,7 +124,6 @@ describe ReportsController do
       @report.save!
 
       @report2 = Report.new(
-          id: 'testid2',
           name: 'test report 2',
           module_ids: [@primero_module.id],
           record_type: 'case',

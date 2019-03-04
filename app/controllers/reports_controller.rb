@@ -14,6 +14,7 @@ class ReportsController < ApplicationController
   before_action :set_aggregate_order, only: [:create, :update]
   before_action :load_age_range, only: [:new, :edit]
   before_action :get_lookups, only: [:lookups_for_field, :edit]
+  before_action :get_lookups, only: [:lookups_for_field, :edit]
 
   include LoggerActions
 
@@ -26,12 +27,11 @@ class ReportsController < ApplicationController
     #TODO refactor... the TOTAL count of records can be obtained by getting the result.count
     #TODO refactor... so, First fetch the reults.  Set @total_records to result.count.  Set reports to result.all
     #TODO refactor... See implementation in audit_logs_controller and audit_log model
-    report_ids = Report.by_module_id(keys: current_user.modules.map{|m|m.id}).values.uniq
     @current_modules = nil #TODO: Hack because this is expected in templates used.
-    reports = Report.all(keys: report_ids).page(page).per(per_page).all
-    @total_records = report_ids.count
+    reports = Report.where(current_user.modules.map{|m| "'#{m.id}' = ANY(module_ids)"}.join(' or '))
+    @total_records = reports.count
     @per = per_page
-    @reports = paginated_collection(reports, report_ids.count)
+    @reports = paginated_collection(reports.page(page).per_page(per_page), @total_records)
   end
 
   def show
@@ -47,7 +47,7 @@ class ReportsController < ApplicationController
   # Method for AJAX GET of graph data.
   # This is returned in a format readable by Chart.js.
   # NOTE: We will need to change this if the Charting library changes
-  # TODO: This is a seemingly redundant call to rebuild the report data for presentation on for the chart.
+  # TODO: This is a seemingly redundant call to rebuild the report data for Fesentation on for the chart.
   #       For now I don't want to solve this problem: Report generation is relatively fast and relatively infrequent.
   #       The proper solution would be to load the report data once as an AJAX call and then massage on the
   #       client side for representation on the table and the chart. Or we culd get funky with caching generated reports,
@@ -194,7 +194,7 @@ class ReportsController < ApplicationController
   end
 
   def load_report
-    @report = Report.get(params[:id])
+    @report = Report.find_by(id: params[:id])
   end
 
   def action_class
