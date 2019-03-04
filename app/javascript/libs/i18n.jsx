@@ -1,21 +1,22 @@
+import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 const Context = React.createContext();
 
-export function I18nProvider({children}) {
-  const [locale, setLocale] = useState(I18n.defaultLocale)
+export function I18nProvider({ children }) {
+  const [locale, setLocale] = useState(window.I18n.defaultLocale);
 
-  const changeLocale = (value) => {
-    I18n.locale = value
-    setLocale(value)
-  }
+  const changeLocale = value => {
+    window.I18n.locale = value;
+    setLocale(value);
+  };
 
   return (
     <Context.Provider
       value={{
-        locale: locale,
-        i18n: I18n,
-        changeLocale: changeLocale
+        locale,
+        i18n: window.I18n,
+        changeLocale
       }}
     >
       {children}
@@ -34,3 +35,7 @@ export function withI18n(Component) {
     );
   };
 }
+
+I18nProvider.propTypes = {
+  children: PropTypes.node.isRequired
+};

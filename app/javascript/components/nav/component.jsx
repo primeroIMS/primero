@@ -3,11 +3,11 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { withStyles } from "@material-ui/core/styles";
-import { withI18n } from "libs/i18n";
 import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import { compose } from "redux";
+import { withI18n } from "../../libs/i18n";
 import { TranslationsToggle } from "../translations-toggle";
 
 const drawerWidth = 240;
@@ -54,8 +54,8 @@ const Nav = ({ classes, i18n }) => {
 };
 
 Nav.propTypes = {
-  classes: PropTypes.instanceOf(styles).isRequired,
-  i18n: PropTypes.instanceOf(window.I18n).isRequired
+  classes: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
+  i18n: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
 };
 
 export default compose(

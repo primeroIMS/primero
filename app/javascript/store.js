@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import { routerMiddleware } from "connected-react-router/immutable";
 import { createBrowserHistory } from "history";
 import { Map } from "immutable";

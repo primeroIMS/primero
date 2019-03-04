@@ -1,4 +1,4 @@
-import * as Page from '../containers';
+import * as Page from "../containers";
 
 export default [
   {
@@ -8,10 +8,10 @@ export default [
   },
   {
     path: "/cases",
-    component: Page.Cases,
+    component: Page.Cases
   },
   {
     path: "/incidents",
-    component: Page.Incidents,
+    component: Page.Incidents
   }
-]
+];

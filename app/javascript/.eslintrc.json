@@ -9,7 +9,7 @@
       }
     ],
     "prettier/prettier": "error",
-    "max-len": ["error", 80]
+    "max-len": ["error", 100]
   },
   "env": {
     "browser": true
@@ -17,7 +17,7 @@
   "settings": {
     "import/resolver": {
       "alias": {
-        "map": [["libs", "./libs"]],
+        "map": [["libs", "./libs"], ["config", "./config"]],
         "extensions": [".js", ".jsx"]
       }
     }

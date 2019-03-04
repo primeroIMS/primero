@@ -4,4 +4,4 @@ const Cases = () => {
   return <>Cases</>;
 };
 
-export default Cases
+export default Cases;
