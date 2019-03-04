@@ -18,4 +18,3 @@ class CreateReports < ActiveRecord::Migration[5.0]
 
   end
 end
-# 12345678910111213
