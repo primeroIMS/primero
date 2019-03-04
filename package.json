@@ -10,6 +10,7 @@
     "connected-react-router": "^6.3.1",
     "history": "^4.7.2",
     "immutable": "^4.0.0-rc.12",
+    "jss": "^9.8.7",
     "jss-rtl": "^0.2.3",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",

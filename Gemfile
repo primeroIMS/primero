@@ -12,8 +12,7 @@ gem 'couchrest_model', '2.0.4'
 #TODO - Our current version of couchrest has a restriction that mim-types MUST be less than 3.0
 gem 'mime-types',     '1.16'
 
-# TODO: Currently using master branch to utilize webpack 4. Needs to change once stable release of webpacker 4 released
-gem 'webpacker', git: 'https://github.com/rails/webpacker.git'
+gem 'webpacker',      '~> 4.0.0'
 gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
