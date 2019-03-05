@@ -341,7 +341,8 @@ describe "record field model" do
     context 'when field is a lookup select field' do
       before :all  do
         Lookup.all.each(&:destroy)
-        @lookup = Lookup.create!(id: 'lookup-ethnicity',
+        I18n.locale = "en"
+        @lookup = Lookup.create!(unique_id: 'lookup-ethnicity',
                                  name: 'Ethnicity',
                                  lookup_values_en: [{:id => "ethnicity_one", :display_text => "Ethnicity One"},
                                                     {:id => "ethnicity_two", :display_text => "Ethnicity Two"},
@@ -407,7 +408,8 @@ describe "record field model" do
     context 'when field is a yes/no field' do
       before :all do
         Lookup.all.each(&:destroy)
-        @lookup = Lookup.create!(:id => "lookup-yes-no",
+        I18n.locale = "en"
+        @lookup = Lookup.create!(:unique_id => "lookup-yes-no",
                                  :name => "Yes or No",
                                  :lookup_values_en => [{id: "true", display_text: "Yes"}.with_indifferent_access,
                                                        {id: "false", display_text: "No"}.with_indifferent_access],
@@ -538,7 +540,8 @@ describe "record field model" do
     context 'when field is a yes/no/unknown field' do
       before :all do
         Lookup.all.each(&:destroy)
-        @lookup = Lookup.create!(:id => "lookup-yes-no-unknown",
+        I18n.locale = "en"
+        @lookup = Lookup.create!(:unique_id => "lookup-yes-no-unknown",
                                  :name => "Yes or No",
                                  :lookup_values_en => [{id: "true", display_text: "Yes"}.with_indifferent_access,
                                                        {id: "false", display_text: "No"}.with_indifferent_access,
@@ -1167,8 +1170,8 @@ describe "record field model" do
     context "when using option_strings_source" do
       before do
         Lookup.all.each &:destroy
-        @lookup_multi_locales = Lookup.create!(id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", lookup_values_en: @english_options, lookup_values_fr: @french_options, lookup_values_ar: @arabic_options)
-        @lookup_no_locales = Lookup.create!(id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
+        @lookup_multi_locales = Lookup.create!(unique_id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", lookup_values_en: @english_options, lookup_values_fr: @french_options, lookup_values_ar: @arabic_options)
+        @lookup_no_locales = Lookup.create!(unique_id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
         @field_multi_locales = Field.new({"name" => "test_location_4",
                        "type" => "select_box",
                        "display_name_all" => "Test Location 4",

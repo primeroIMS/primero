@@ -28,12 +28,12 @@ class Lookup < ActiveRecord::Base
     end
     # memoize_in_prod :all
 
-    def values(lookup_id, lookups = nil, opts={})
+    def values(lookup_unique_id, lookups = nil, opts={})
       locale = opts[:locale].presence || I18n.locale
       if lookups.present?
-        lookup = lookups.find {|lkp| lkp.unique_id == lookup_id}
+        lookup = lookups.find {|lkp| lkp.unique_id == lookup_unique_id}
       else
-        lookup = Lookup.find_by(unique_id: lookup_id)
+        lookup = Lookup.find_by(unique_id: lookup_unique_id)
       end
       lookup.present? ? (lookup.lookup_values(locale) || []) : []
     end
@@ -79,7 +79,7 @@ class Lookup < ActiveRecord::Base
     # memoize_in_prod :get_location_types
 
     def import_translations(lookups_hash={}, locale)
-      if locale.present? && Primero::Application::locales.include?(locale.try(:to_sym))
+      if locale.present? && Primero::Application::locales.include?(locale)
         lookups_hash.each do |key, value|
           if key.present?
             lookup = Lookup.find_by(unique_id: key)
@@ -120,7 +120,8 @@ class Lookup < ActiveRecord::Base
   def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
     lh = localized_hash(locale)
     lvh = {}
-    self["lookup_values_#{locale}"].try(:each) {|lv| lvh[lv['id']] = lv['display_text']}
+
+    self.lookup_values(locale).try(:each) {|lv| lvh[lv['id']] = lv['display_text']}
     lh['lookup_values'] = lvh
     lh
   end
@@ -148,7 +149,7 @@ class Lookup < ActiveRecord::Base
   end
 
   def is_being_used?
-    Field.where(option_strings_source: "lookup #{self.id}").size.positive?
+    Field.where(option_strings_source: "lookup #{self.unique_id}").size.positive?
   end
 
   # TODO keep?
@@ -177,17 +178,28 @@ class Lookup < ActiveRecord::Base
     end
   end
 
+  def update_translations(lookup_hash={}, locale)
+    if locale.present? && Primero::Application::locales.include?(locale)
+      lookup_hash.each do |key, value|
+        if key == 'lookup_values'
+          update_lookup_values_translations(value, locale)
+        else
+          self.send("#{key}_#{locale}=", value)
+        end
+      end
+    else
+      Rails.logger.error "Lookup translation not updated: Invalid locale [#{locale}]"
+    end
+  end
+
+
   private
 
   def validate_name_in_english
     return true if self.name_en.present?
-    errors.add(:name, 'errors.models.lookup.name_present')
+    errors.add(:name, I18n.t("errors.models.lookup.name_present"))
     return false
   end
-
-
-
-
 
   def generate_values_keys
     if self.lookup_values.present?
@@ -227,21 +239,6 @@ class Lookup < ActiveRecord::Base
       end
     end
   end
-
-  def update_translations(lookup_hash={}, locale)
-    if locale.present? && Primero::Application::locales.include?(locale)
-      lookup_hash.each do |key, value|
-        if key == 'lookup_values'
-          update_lookup_values_translations(value, locale)
-        else
-          self.send("#{key}_#{locale}=", value)
-        end
-      end
-    else
-      Rails.logger.error "Lookup translation not updated: Invalid locale [#{locale}]"
-    end
-  end
-
 
   def update_lookup_values_translations(lookup_values_hash, locale)
     options = (self.send("lookup_values_#{locale}").present? ? self.send("lookup_values_#{locale}") : [])

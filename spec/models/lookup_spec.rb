@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe Lookup do
+  before :each do
+    Lookup.all.each &:destroy
+  end
   it "should not be valid if name is empty" do
     lookup = Lookup.new
     lookup.should_not be_valid
@@ -34,14 +37,14 @@ describe Lookup do
   end
 
   it "should generate id" do
-    Lookup.all.each {|lookup| lookup.destroy}
     lookup = create :lookup, :name => 'test lookup 1234', :id => nil
-    lookup.id.should include("lookup-test-lookup-1234")
+    lookup.reload
+    lookup.unique_id.should include("lookup-test-lookup-1234")
   end
 
   describe "get_location_types" do
     before do
-      lookup1 = create :lookup, :id => "lookup-location-type", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
+      lookup1 = create :lookup, :unique_id => "lookup-location-type", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
     end
 
     it "should return location types" do
@@ -68,7 +71,9 @@ describe Lookup do
 
     context "when on a form" do
       before do
+        Field.all.each(&:destroy)
         FormSection.all.each(&:destroy)
+        Lookup.all.each &:destroy
         @lookup_d = Lookup.create!(unique_id: "d", name: "D", lookup_values: [{id: "d", display_text: "D"}, {id: "dd", display_text: "DD"}, {id: "ddd", display_text: "DDD"}, {id: "dddd", display_text: "DDDD"}])
         text_field = Field.new(name: "text_field", type: Field::TEXT_FIELD, display_name: "My Text Field")
         select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup d" )
@@ -180,7 +185,7 @@ describe Lookup do
     end
 
     context "when translations are French" do
-      before do
+      before :each do
         @locale = 'fr'
         @translated_hash = {"lookup_1" => {"name" => "French Translated",
                                            "lookup_values" => {"option_1"=>"French Option 1 Translated", "option_2"=>"French Option 2 Translated"}},
@@ -250,8 +255,8 @@ describe Lookup do
           end
 
           it 'does not allow the translations to be saved' do
-            expect{Lookup.import_translations(@translated_hash, @locale)}.to raise_error(CouchRest::Model::Errors::Validations,
-                                                                                         'Validation Failed: Lookup values Field translated options must have same ids')
+            expect{Lookup.import_translations(@translated_hash, @locale)}.to raise_error(ActiveRecord::RecordInvalid,
+                                                                                         'Validation failed: Lookup values Field translated options must have same ids')
           end
         end
 

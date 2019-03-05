@@ -23,7 +23,7 @@ class LookupsController < ApplicationController
     lookup = Lookup.new(params[:lookup].to_h)
 
     if (lookup.valid?)
-      lookup.create
+      lookup.save
       flash[:notice] = t("lookup.messages.updated")
       redirect_to lookups_path
     else
@@ -63,7 +63,7 @@ class LookupsController < ApplicationController
   private
 
   def load_lookup
-    @lookup = Lookup.find_by(params[:id]) if params[:id]
+    @lookup = Lookup.find(params[:id]) if params[:id]
   end
 
   def has_lookup_values?
