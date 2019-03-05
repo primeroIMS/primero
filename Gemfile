@@ -87,6 +87,7 @@ group :development do
   gem 'rack-mini-profiler', '>= 1.0.0', require: false
   gem 'memory-profiler'
   gem 'letter_opener'
+  gem 'foreman'
 end
 
 group :test, :cucumber, :development do
