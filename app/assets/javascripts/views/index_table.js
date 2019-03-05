@@ -60,7 +60,8 @@ _primero.Views.IndexTable = _primero.Views.Base.extend({
       responsive: true,
       aaSorting: [],
       sDom: 'frtlp',
-      lengthMenu: [ 20, 50, 75, 100 ]
+      lengthMenu: [ 20, 50, 75, 100 ],
+      paging: false,
     }).draw();
   },
 

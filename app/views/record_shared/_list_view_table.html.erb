@@ -58,6 +58,7 @@
       <%= render :partial => "#{controller.controller_name}/summary_row", collection: collection, as: :record, :locals => {:fields_to_show => index_fields_to_show(header_list)} %>
       </tbody>
     </table>
+    <%= will_paginate collection, :previous_label => '<', :next_label => '>' %>
     <div class="table_spacer"></div>
   </div>
   <% if options[:display_filter].present? %>
@@ -92,4 +93,3 @@
     </div>
   <% end %>
 </div>
-<%= render :partial => 'shared/pagination', :locals => {:results => collection, :total => @total_records, :per => @per_page} %>
