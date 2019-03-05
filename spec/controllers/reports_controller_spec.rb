@@ -115,7 +115,7 @@ describe ReportsController do
 
       @report = Report.new(
           name: 'test report',
-          module_ids: [@primero_module.id],
+          module_id: @primero_module.id,
           record_type: 'case',
           aggregate_by: ['owned_by'],
           add_default_filters: true
@@ -125,7 +125,7 @@ describe ReportsController do
 
       @report2 = Report.new(
           name: 'test report 2',
-          module_ids: [@primero_module.id],
+          module_id: @primero_module.id,
           record_type: 'case',
           aggregate_by: ['owned_by_location'],
           add_default_filters: true

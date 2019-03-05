@@ -3,7 +3,7 @@ class CreateReports < ActiveRecord::Migration[5.0]
     create_table :reports do |t|
       t.jsonb 'name_i18n'
       t.jsonb 'description_i18n'
-      t.string 'module_ids', array: true, default: []
+      t.string 'module_id'
       t.string 'record_type'
       t.string 'aggregate_by', array: true, default: []
       t.string 'disaggregate_by', array: true, default: []
@@ -13,7 +13,6 @@ class CreateReports < ActiveRecord::Migration[5.0]
       t.string 'group_dates_by', default: 'date'
       t.boolean 'is_graph', null: false, default: false
       t.boolean 'editable', null: true, default: true
-      t.string 'base_language', default: Primero::Application::LOCALE_ENGLISH
     end
 
   end

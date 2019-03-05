@@ -3,9 +3,6 @@ class Report < ActiveRecord::Base
   include Memoizable
   include LocalizableJsonProperty
 
-  #TODO i18n - investigate making Localizable concern which uses LocalizableProperty
-  #TODO i18n - investigate possibility of refactoring Lookup, Agency, Location, etc to use Localizable
-
   REPORTABLE_FIELD_TYPES = [
     #Field::TEXT_FIELD,
     #Field::TEXT_AREA,
@@ -96,7 +93,7 @@ class Report < ActiveRecord::Base
   end
 
   def modules
-    @modules ||= PrimeroModule.all(keys: self.module_ids).all if self.module_ids.present?
+    @modules ||= PrimeroModule.all(keys: self.module_id).all if self.module_id.present?
   end
 
   def field_map
@@ -215,10 +212,8 @@ class Report < ActiveRecord::Base
   # end
 
   def modules_present
-    if self.module_ids.present? && self.module_ids.length >= 1
-      self.module_ids.each do |module_id|
-        return I18n.t("errors.models.report.module_syntax") if module_id.split('-').first != 'primeromodule'
-      end
+    if self.module_id.present? && self.module_id.length >= 1
+      return I18n.t("errors.models.report.module_syntax") if module_id.split('-').first != 'primeromodule'
       return true
     end
     return I18n.t("errors.models.report.module_presence")
@@ -265,7 +260,7 @@ class Report < ActiveRecord::Base
   def translated_label(label)
     if label.present?
       label_selection = translated_label_options.select{|option_list|
-        option_list["id"].to_s == label.downcase
+        option_list["id"].eql?(label.to_i)
       }.first
       label = label_selection["display_text"] if label_selection.present?
     end
