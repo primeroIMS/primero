@@ -614,15 +614,7 @@ mrm_specialist_permissions = [
             Permission::EXPORT_MRM_VIOLATION_XLS
         ]
     ),
-    Permission.new(
-      :resource => Permission::USER,
-      :actions => [
-        Permission::READ,
-        Permission::EXPORT_LIST_VIEW,
-        Permission::EXPORT_CSV,
-        Permission::EXPORT_EXCEL
-      ]
-    ),
+
     Permission.new(
         :resource => Permission::REPORT,
         :actions => [
@@ -650,15 +642,7 @@ mrm_co_chair_permissions = [
       Permission::EXPORT_MRM_VIOLATION_XLS
     ]
   ),
-  Permission.new(
-    :resource => Permission::USER,
-    :actions => [
-      Permission::READ,
-      Permission::EXPORT_LIST_VIEW,
-      Permission::EXPORT_CSV,
-      Permission::EXPORT_EXCEL
-    ]
-  ),
+
   Permission.new(
     :resource => Permission::LOOKUP,
     :actions => [
@@ -676,7 +660,7 @@ mrm_co_chair_permissions = [
 create_or_update_role(
   :name => "MRM Co-chair",
   :permissions_list => mrm_co_chair_permissions,
-  :group_permission => Permission::GROUP,
+  :group_permission => Permission::ALL,
   :permitted_form_ids => incident_forms
 )
 
