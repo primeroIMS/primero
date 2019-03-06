@@ -25,7 +25,7 @@ class Report < ActiveRecord::Base
   MONTH = 'month' #eg. Jan-2015
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
-  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
+  DEFAULT_BASE_LANGUAGE = Primero::Application::BASE_LANGUAGE
 
   localize_properties :name, :description
 
@@ -93,7 +93,7 @@ class Report < ActiveRecord::Base
   end
 
   def modules
-    @modules ||= PrimeroModule.all(keys: self.module_id).all if self.module_id.present?
+    @modules ||= PrimeroModule.all(keys: [self.module_id]).all if self.module_id.present?
   end
 
   def field_map

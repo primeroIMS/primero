@@ -1,6 +1,6 @@
 <%
   editable = object.name.present?
-  given_locale = object.base_language
+  given_locale = Primero::Application::BASE_LANGUAGE
 %>
 <% if editable %>
   <div class="row">
@@ -52,7 +52,7 @@
         :module_id,
         options_for_select(
           @current_user.modules.map{|p|[p.name, p.id]},
-          @report.module_ids
+          @report.module_id
         ),
         {},
         {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item"), :required => ""}
