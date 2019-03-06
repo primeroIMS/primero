@@ -25,7 +25,6 @@ class Report < ActiveRecord::Base
   MONTH = 'month' #eg. Jan-2015
   YEAR = 'year' #eg. 2015
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR]
-  DEFAULT_BASE_LANGUAGE = Primero::Application::BASE_LANGUAGE
 
   localize_properties :name, :description
 
@@ -48,7 +47,7 @@ class Report < ActiveRecord::Base
   before_save :apply_default_filters
 
   def validate_name_in_base_language
-    return true if self.send("name_#{DEFAULT_BASE_LANGUAGE}").present?
+    return true if self.send("name_#{Primero::Application::BASE_LANGUAGE}").present?
     errors.add(:name, I18n.t("errors.models.report.name_presence"))
     return false
   end
