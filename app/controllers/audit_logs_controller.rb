@@ -42,7 +42,7 @@ class AuditLogsController < ApplicationController
     else
       audit_log_result = AuditLog.find_by_timestamp
     end
-    @audit_log_result = audit_log_result.try(:page, page).try(:per, per_page) || []
+    @audit_log_result = audit_log_result.try(:paginate, page: page, per_page: per_page) || []
   end
 
   def user_name_params

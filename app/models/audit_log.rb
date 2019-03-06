@@ -1,44 +1,21 @@
-class AuditLog < CouchRest::Model::Base
-  include PrimeroModel
+class AuditLog < ActiveRecord::Base
 
-  use_database :audit_log
-
-  property :user_name
-  property :action_name
-  property :record_id
-  property :display_id
-  property :record_type
-  property :owned_by
-  property :timestamp, DateTime
-
-  design
-
-  design :by_timestamp do
-    view :by_timestamp
-  end
-
-  design :user_name_and_timestamp do
-    view :by_user_name_and_timestamp
-  end
-
-  def initialize(*args)
-    super
-
+  after_initialize do
     self.timestamp ||= DateTime.now
   end
 
+  scope :find_by_user_name, ->(user_name) { where(user_name: user_name) }
+
   class << self
-    def find_by_timestamp(from_time=nil, to_time=nil)
+    def find_by_timestamp(from_time = nil, to_time = nil)
+      return all.order(timestamp: :desc) if from_time.nil? || to_time.nil?
       return nil unless valid_times?(from_time, to_time)
-      to_time ||= DateTime.now
-      by_timestamp(descending: true, startkey: to_time, endkey: from_time)
+      where(timestamp: from_time..to_time).order(timestamp: :desc)
     end
 
-    def find_by_user_name_and_timestamp(search_user_name, from_time=nil, to_time=nil)
+    def find_by_user_name_and_timestamp(search_user_name, from_time = nil, to_time = nil)
       return nil unless search_user_name.present? && search_user_name.is_a?(String)
-      return nil unless valid_times?(from_time, to_time)
-      to_time ||= DateTime.now
-      by_user_name_and_timestamp(descending: true, startkey: [search_user_name, to_time], endkey: [search_user_name, from_time])
+      find_by_user_name(search_user_name).find_by_timestamp(from_time, to_time)
     end
 
     private
