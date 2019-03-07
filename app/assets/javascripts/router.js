@@ -9,7 +9,6 @@ _primero.Router = Backbone.Router.extend({
     'tracing_requests/:id': 'recordShowPage',
     'incidents': 'recordIndexPage',
     'cases': 'recordIndexPage',
-    'cases/:id/edit': 'caseRecordForm',
     'tracing_requests': 'recordIndexPage',
     'potential_matches': 'recordIndexPage',
     'duplicates': 'recordIndexPage',
@@ -116,10 +115,6 @@ _primero.Router = Backbone.Router.extend({
     }
   },
 
-  caseRecordForm: function(){
-    new _primero.Views.ServiceSubform();
-  },
-
   userCreatePage: function() {
     new _primero.Views.RequiredFields();
     new _primero.Views.PopulateSelectBoxes();
@@ -169,6 +164,7 @@ _primero.Router = Backbone.Router.extend({
       new _primero.Views.PopulateSelectBoxes();
       new _primero.Views.PopulateLocationSelectBoxes();
       new _primero.Views.PopulateReportingLocationSelectBoxes();
+      new _primero.Views.ServiceSubform();
       new _primero.Views.RequiredFields();
       new _primero.Views.AutosumFields();
       new _primero.Views.AutoCalculateAgeDOB();
