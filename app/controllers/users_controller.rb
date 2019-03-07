@@ -56,7 +56,6 @@ class UsersController < ApplicationController
   end
 
   def search
-    authorize! :read, User
     authorize! :search, User
 
     agency_id = params[:agency_id]
@@ -75,7 +74,7 @@ class UsersController < ApplicationController
         # NOTE: per_page number tells solr to return all the results: https://wiki.apache.org/solr/CommonQueryParameters#rows
         pagination = { page: 1, per_page: User.all.count }
         sort = { user_name: :asc}
-        users = User.find_by_criteria(criteria, pagination, sort).try(:results) || []
+        users = filter_users_by_receive_permission(User.find_by_criteria(criteria, pagination, sort).try(:results) || [])
         render json: {
                 success: 1,
                 users: users.map do |user|
@@ -350,4 +349,11 @@ class UsersController < ApplicationController
     @users_agencies = agencies.map{|agency| [agency.name, agency.id] }
   end
 
+  def filter_users_by_receive_permission(users)
+    if current_user.has_permission_by_permission_type?(Permission::CASE, Permission::REFERRAL)
+      users.select { |user| user.has_permission_by_permission_type?(Permission::CASE, Permission::RECEIVE_REFERRAL) }
+    else
+      users
+    end
+  end
 end
