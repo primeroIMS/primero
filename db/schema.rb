@@ -31,11 +31,13 @@ ActiveRecord::Schema.define(version: 20190305000000) do
   create_table "audit_logs", id: :serial, force: :cascade do |t|
     t.string "user_name"
     t.string "action_name"
-    t.integer "record_id"
     t.integer "display_id"
     t.string "record_type"
+    t.integer "record_id"
     t.string "owned_by"
     t.datetime "timestamp"
+    t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
+    t.index ["user_name"], name: "index_audit_logs_on_user_name"
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|

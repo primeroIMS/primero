@@ -32,15 +32,16 @@ class AuditLogsController < ApplicationController
     if params[:scope].present?
       @user_name_params = user_name_params
       @timestamp_name_params = timestamp_params
-
       if @user_name_params
-        audit_log_result = AuditLog.find_by_user_name_and_timestamp(@user_name_params, @timestamp_name_params[:from],
-                                                                     @timestamp_name_params[:to])
+        audit_log_result = AuditLog.find_by_timestamp(@timestamp_name_params[:from], @timestamp_name_params[:to])
+                                   .find_by_user_name(@user_name_params)
+                                   .order(timestamp: :desc)
       else
         audit_log_result = AuditLog.find_by_timestamp(@timestamp_name_params[:from], @timestamp_name_params[:to])
+                                   .order(timestamp: :desc)
       end
     else
-      audit_log_result = AuditLog.find_by_timestamp
+      audit_log_result = AuditLog.find_by_timestamp.order(timestamp: :desc)
     end
     @audit_log_result = audit_log_result.try(:paginate, page: page, per_page: per_page) || []
   end
@@ -50,7 +51,7 @@ class AuditLogsController < ApplicationController
   end
 
   def timestamp_params
-    return {from: nil, to: nil} if params[:scope][:timestamp].blank?
+    return {from: Time.at(0).to_datetime, to: DateTime.now.end_of_day} if params[:scope][:timestamp].blank?
     date_range = params[:scope][:timestamp].split('||').last.split('.')
     {from: DateTime.parse(date_range.first), to: DateTime.parse(date_range.last)}
   end
