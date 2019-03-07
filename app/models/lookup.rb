@@ -13,7 +13,7 @@ class Lookup < ActiveRecord::Base
   validate :validate_name_in_english
   validate :validate_values_keys_match
 
-  after_initialize :generate_unique_id
+  before_create :generate_unique_id
 
   before_validation :generate_values_keys
   before_validation :sync_lookup_values
@@ -150,11 +150,6 @@ class Lookup < ActiveRecord::Base
 
   def is_being_used?
     Field.where(option_strings_source: "lookup #{self.unique_id}").size.positive?
-  end
-
-  # TODO keep?
-  def label
-    self.name.gsub(' ', '')
   end
 
   # TODO keep?
