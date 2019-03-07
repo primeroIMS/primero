@@ -259,7 +259,7 @@ class Report < ActiveRecord::Base
   def translated_label(label)
     if label.present?
       label_selection = translated_label_options.select{|option_list|
-        option_list["id"].eql?(label.to_i)
+        option_list["id"].to_s.downcase == label.to_s.downcase
       }.first
       label = label_selection["display_text"] if label_selection.present?
     end
