@@ -1114,6 +1114,7 @@ en:
       add_note: "Add Notes"
       assign_within_agency: "Assign within agency"
       assign_within_user_group: "Assign within user group"
+      receive_referral: "Receive Referral"
       find_tracing_match: "Find tracing match from case"
       duplicate: "Duplicate Search"
       view_response: "View Responses"
