@@ -103,7 +103,7 @@
               <div class='local_user_flash hide_element'><p class='error'></p></div>
               <%= hidden_field_tag "existing_user", "", {:id => "existing_user_hidden"} %>
               <label><%=I18n.t("#{transition_type}.existing_user_label")%>
-                <%= select_tag("existing_user", options_for_select(@assignable_users, ''), {:include_blank => true, :class => 'chosen-select'}) %>
+                <%= select_tag("existing_user", options_for_select([], ''), :data => { :populate => 'User', :filter_transition_type => transition_type}, 'data-placeholder' => t("fields.select_box_empty_item"), :include_blank => true, :class => 'chosen-select', :id => "existing_user_#{transition_type}" ) %>
               </label>
             </div>
           <% else %>
