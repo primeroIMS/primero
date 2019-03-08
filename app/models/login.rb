@@ -13,14 +13,8 @@ class Login
 
   def authenticate_user
     user = User.find_by_user_name(@user_name)
-    session = nil
-
-    if (user and user.authenticate(@password))
-      session = Session.for_user(user, @imei) 
-      LoginActivity.create!(user_name: @user_name, imei: @imei, mobile_number: @mobile_number)
-    end
-    
-    session
+    return Session.for_user(user, @imei) if user && user.authenticate(@password)
+    nil
   end
 
   def errors

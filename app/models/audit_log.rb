@@ -6,4 +6,8 @@ class AuditLog < ActiveRecord::Base
 
   belongs_to :record, :polymorphic => true
 
+  def mobile?
+    self.mobile_data.try(:[], 'mobile_id').present?
+  end
+
 end

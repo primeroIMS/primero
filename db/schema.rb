@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20190305000000) do
     t.integer "record_id"
     t.string "owned_by"
     t.datetime "timestamp"
+    t.jsonb "mobile_data"
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
     t.index ["user_name"], name: "index_audit_logs_on_user_name"
   end
