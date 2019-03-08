@@ -58,7 +58,7 @@ class UsersController < ApplicationController
   def search
     authorize! :search, User
 
-    allowed_transitions = [Transition::TYPE_REFERRAL]
+    allowed_transitions = [Transition::TYPE_REFERRAL, Transition::TYPE_TRANSFER]
     transition_type =  params[:transition_type]
     users = if transition_type.present? && allowed_transitions.include?(transition_type)
               # NOTE: per_page number tells solr to return all the results: https://wiki.apache.org/solr/CommonQueryParameters#rows
@@ -351,12 +351,21 @@ class UsersController < ApplicationController
     end
     services.reject!(&:blank?) if services.present?
 
+    transition_filters = get_transition_filters(transition_type)
+
     { disabled: false }.merge({
-      organization: agency_id,
-      reporting_location: location,
-      services: services,
-      can_receive_referrals: (transition_type == Transition::TYPE_REFERRAL)
-    }.compact)
+        organization: agency_id,
+        reporting_location: location,
+        services: services
+      }.merge(transition_filters).compact)
+  end
+
+  def get_transition_filters(transition_type)
+    if transition_type == Transition::TYPE_REFERRAL
+      { can_receive_referrals: true }
+    elsif transition_type == Transition::TYPE_TRANSFER
+      { can_receive_transfers: true }
+    end
   end
 
   def format_search_response(users)

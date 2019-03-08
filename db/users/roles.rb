@@ -172,7 +172,8 @@ cp_caseworker_permissions = [
       Permission::VIEW_PROTECTION_CONCERNS_FILTER,
       Permission::REMOVE_ASSIGNED_USERS,
       Permission::ENABLE_DISABLE_RECORD,
-      Permission::RECEIVE_REFERRAL
+      Permission::RECEIVE_REFERRAL,
+      Permission::RECEIVE_TRANSFER
     ]
   ),
   Permission.new(
@@ -454,7 +455,8 @@ gbv_worker_permissions = [
       Permission::ENABLE_DISABLE_RECORD,
       Permission::REQUEST_APPROVAL_CASE_PLAN,
       Permission::REQUEST_APPROVAL_CLOSURE,
-      Permission::RECEIVE_REFERRAL
+      Permission::RECEIVE_REFERRAL,
+      Permission::RECEIVE_TRANSFER
     ]
   ),
   Permission.new(
@@ -708,7 +710,8 @@ gbv_caseworker_permissions = [
             Permission::REQUEST_APPROVAL_CLOSURE,
             Permission::APPROVE_CASE_PLAN,
             Permission::APPROVE_CLOSURE,
-            Permission::RECEIVE_REFERRAL
+            Permission::RECEIVE_REFERRAL,
+            Permission::RECEIVE_TRANSFER
         ]
     ),
     Permission.new(
@@ -759,7 +762,8 @@ gbv_mobile_caseworker_permissions = [
             Permission::REQUEST_APPROVAL_BIA,
             Permission::REQUEST_APPROVAL_CLOSURE,
             Permission::SYNC_MOBILE,
-            Permission::RECEIVE_REFERRAL
+            Permission::RECEIVE_REFERRAL,
+            Permission::RECEIVE_TRANSFER
         ]
     ),
     Permission.new(

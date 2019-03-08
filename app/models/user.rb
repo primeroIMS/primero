@@ -141,6 +141,9 @@ class User < CouchRest::Model::Base
     boolean :can_receive_referrals do
        self.has_permission_by_permission_type?(Permission::CASE, Permission::RECEIVE_REFERRAL)
     end
+    boolean :can_receive_transfers do
+       self.has_permission_by_permission_type?(Permission::CASE, Permission::RECEIVE_TRANSFER)
+    end
   end
 
   #In order to track changes on attributes declared as attr_accessor and
