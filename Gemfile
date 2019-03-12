@@ -12,6 +12,7 @@ gem 'couchrest_model', '2.0.4'
 #TODO - Our current version of couchrest has a restriction that mim-types MUST be less than 3.0
 gem 'mime-types',     '1.16'
 
+gem 'webpacker',      '~> 4.0.0'
 gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
@@ -86,6 +87,7 @@ group :development do
   gem 'rack-mini-profiler', '>= 1.0.0', require: false
   gem 'memory-profiler'
   gem 'letter_opener'
+  gem 'foreman'
 end
 
 group :test, :cucumber, :development do

@@ -22,7 +22,7 @@ module LoggerActions
   end
 
   def logger_model_titleize
-    @logger_model_titleize ||= (model_class.try(:parent_form) || @model_class.try(:parent_form) || model_class.name).titleize.downcase
+    @logger_model_titleize ||= (model_class.name || model_class.try(:parent_form) || @model_class.try(:parent_form))
   end
 
   def logger_action_titleize
