@@ -1245,27 +1245,6 @@ describe ChildrenController, :type => :controller do
     end
   end
 
-	describe "reindex_params_subforms" do
-
-		it "should correct indexing for nested subforms" do
-			params = {
-				"child"=> {
-					"name"=>"",
-	   		 "top_1"=>"This is a top value",
-	        "nested_form_section" => {
-						"0"=>{"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"},
-	     		 "2"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}},
-	        "fathers_name"=>""}}
-
-			controller.reindex_hash params['child']
-			expected_subform = params["child"]["nested_form_section"]["1"]
-
-			expect(expected_subform.present?).to be_truthy
-			expect(expected_subform).to eq({"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"})
-		end
-
-	end
-
   describe "sort_subforms" do
     before :each do
       followup_subform_fields = [

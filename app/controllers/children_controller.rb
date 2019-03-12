@@ -20,12 +20,14 @@ class ChildrenController < ApplicationController
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
   include NoteActions
 
+  #TODO: Refactor with Document storage
   def edit_photo
     authorize! :update, @child
 
     @page_name = t("child.edit_photo")
   end
 
+  #TODO: Refactor with Document storage
   def update_photo
     authorize! :update, @child
 
@@ -39,6 +41,7 @@ class ChildrenController < ApplicationController
     redirect_to(@child)
   end
 
+  #TODO: Refactor with Document storage
 # POST
   def select_primary_photo
     authorize! :update, @child
@@ -55,6 +58,7 @@ class ChildrenController < ApplicationController
   def new_search
   end
 
+
   def hide_name
     if params[:protect_action] == "protect"
       hide = true
@@ -65,7 +69,7 @@ class ChildrenController < ApplicationController
     @child.hidden_name = hide
     if @child.save
       render :json => {:error => false,
-                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child['name'],
+                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child.name,
                        :disable_input_field => hide,
                        :action_link_action => hide ? "view" : "protect",
                        :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
@@ -76,6 +80,7 @@ class ChildrenController < ApplicationController
     end
   end
 
+  #TODO: Refactor with Incident
   def create_incident
     begin
       authorize! :create, Incident
@@ -230,6 +235,7 @@ class ChildrenController < ApplicationController
     end
   end
 
+  #TODO: Refactor with TracingRequests
   def match_record
     load_tracing_request
     if @tracing_request.present? && @trace.present?
@@ -249,6 +255,7 @@ class ChildrenController < ApplicationController
     redirect_to case_path(@child)
   end
 
+  #TODO: Refactor with TracingRequests
   def load_tracing_request
     if params[:match].present?
       # Expect match input to be in format <tracing request id>::<tracing request subform unique id>
@@ -322,6 +329,7 @@ class ChildrenController < ApplicationController
     super + ['photo', 'audio']
   end
 
+  #TODO: Refactor with Incident
   def make_new_record
     incident_id = params['incident_id']
     individual_details_subform_section = params['individual_details_subform_section']
@@ -375,6 +383,7 @@ class ChildrenController < ApplicationController
     @display_assessment ||= (can?(:view_assessment, Dashboard) || current_user.is_admin?)
   end
 
+  #TODO: Delete or refactor with Documents.
   def update_record_with_attachments(child)
     new_photo = @record_filtered_params.delete("photo")
     new_photo = (@record_filtered_params[:photo] || "") if new_photo.nil?
@@ -402,8 +411,9 @@ class ChildrenController < ApplicationController
     @service_types = Lookup.values_for_select('lookup-service-type')
   end
 
+  #TODO: Refactor with Agency or UIUX. Is this even getting called?
   def load_agencies
-    @agencies = Agency.all.all.map { |agency| [agency.name, agency.id] }
+    @agencies = Agency.all.map { |agency| [agency.name, agency.id] }
   end
 
   def load_users_by_permission

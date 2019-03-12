@@ -3,6 +3,7 @@ module Indexable
 
   included do
     include Sunspot::Rails::Searchable
+    Sunspot::Adapters::InstanceAdapter.register Sunspot::Rails::Adapters::ActiveRecordInstanceAdapter, self
 
     after_save :queue_for_index
 
@@ -22,6 +23,5 @@ module Indexable
       Rails.env != 'production'
     end
   end
-
 
 end

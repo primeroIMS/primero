@@ -32,9 +32,13 @@ module ReportableNestedRecord
     end
 
     #Sunspot expects this to be an active record object. So we are tricking it.
-    def before_save(_) ; end
-    def after_save(_,__) ; end
-    def after_destroy(_,__) ; end
+    def before_save(*_) ; end
+    def after_save(*_) ; end
+    def after_destroy(*_) ; end
+  end
+
+  def id
+    "#{self.parent_record.id}-#{(self.object_value('unique_id')) || 0}"
   end
 
   def record_value(field_name)

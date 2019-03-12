@@ -6,7 +6,7 @@ module RecordJson
   STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed'
 
   included do
-    store_accessor :data, :unique_identifier, :short_id, :record_state
+    store_accessor :data, :unique_identifier, :short_id, :record_state, :marked_for_mobile
 
     after_initialize :defaults
     before_create :create_identification
@@ -114,7 +114,7 @@ module RecordJson
   end
 
   def update_properties(properties, user_name)
-    #TODO: This used to replace empty values with nil to avoid wiping out data
+    #TODO: This used to replace empty values with nil to avoid wiping out data. This may be a rails forms thing.
     #properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     properties['record_state'] = true if properties['record_state'].nil?
     self.data = merge_data(self.data, properties)
@@ -129,14 +129,14 @@ module RecordJson
       end
     elsif is_an_array_of_hashes?(old_data) && is_an_array_of_hashes?(new_data)
       new_data.inject([]) do |result, new_nested_record|
-        nested_record_id = new_nested_record['id']
+        nested_record_id = new_nested_record['unique_id']
         if nested_record_id.present?
-          old_nested_record = old_data.find{|r| r['id'] == nested_record_id}
+          old_nested_record = old_data.find{|r| r['unique_id'] == nested_record_id}
           result << merge_data(old_nested_record, new_nested_record)
         else
           result << new_nested_record
         end
-        new_nested_record
+        result
       end
     elsif new_data.nil?
       old_data
@@ -169,7 +169,7 @@ module RecordJson
 
   private
 
-  def is_an_array_of_hashes(value)
+  def is_an_array_of_hashes?(value)
     value.is_a?(Array) && (value.blank? || value.first.is_a?(Hash))
   end
 

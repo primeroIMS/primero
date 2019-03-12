@@ -22,9 +22,9 @@ class Child < ActiveRecord::Base
   # run before the before_save callback in Historical to make the history
   #include PhotoUploader #TODO: refactor with block storage
   def photos ; [] ; end #TODO: delete after refactoring Documents
+  def photo_keys ; [] ; end #TODO: delete after refactoring Documents
   def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
   include RecordJson
-  attr_accessor :base_revision #TODO: delete after figuring out locking
   include Searchable
   include Historical
   #include DocumentUploader #TODO: refactor with block storage
@@ -53,7 +53,8 @@ class Child < ActiveRecord::Base
     :risk_level, :child_status, :case_status_reopened, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
     :system_generated_followup,
     :assessment_due_date, :assessment_requested_on,
-    :followup_subform_section, :protection_concern_detail_subform_section #TODO: Do we need followups, protection_concern_details aliases?
+    :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
+    :disclosure_other_orgs
 
   #TODO: Refactor with Incidents
   #To hold the list of GBV Incidents created from a GBV Case.
@@ -129,8 +130,9 @@ class Child < ActiveRecord::Base
   before_save :auto_populate_name
   before_create :hide_name
 
+  alias super_defaults defaults
   def defaults
-    super
+    super_defaults
     self.child_status ||= Record::STATUS_OPEN
     self.registration_date ||= Date.today
      #TODO: Fix with block storage
@@ -176,8 +178,9 @@ class Child < ActiveRecord::Base
     end
   end
 
+  alias super_index_for_search index_for_search
   def index_for_search
-    super
+    super_index_for_search
     self.index_nested_reportables
   end
 

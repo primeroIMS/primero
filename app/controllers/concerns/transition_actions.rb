@@ -10,7 +10,7 @@ module TransitionActions
     all_record_count = 0
     if @records.present?
       all_record_count = @records.size
-      @records = @records.select{|r| is_consent_given? r } unless is_reassign? || consent_override
+      @records = @records.select{|r| is_consent_given?(r) } unless is_reassign? || consent_override
     else
       flash[:notice] = t('referral.no_records_selected')
       redirect_back(fallback_location: root_path) and return

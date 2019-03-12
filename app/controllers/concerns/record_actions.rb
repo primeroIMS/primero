@@ -248,10 +248,10 @@ module RecordActions
         unless form.is_nested?
           form.fields.each do |field|
             if field.subform_sort_by.present?
-              if @record[field.name].present?
+              if @record.data[field.name].present?
                 # Partitioning because dates can be nil. In this case, it causes an error on sort.
-                subforms = @record[field.name].partition{|r| r[field.subform_sort_by].nil?}
-                @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
+                subforms = @record.data[field.name].partition{|r| r[field.subform_sort_by].nil?}
+                @record.data[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
               end
             end
           end
@@ -276,7 +276,7 @@ module RecordActions
     if params["selected_records"].present?
       selected_record_ids = params["selected_records"].split(',')
       if selected_record_ids.present?
-        records = model_class.all(keys: selected_record_ids).all
+        records = model_class.where(id: selected_record_ids)
         total_records = records.size
       end
     #NOTE: params[:page] is 'all' during bulk export.
@@ -318,28 +318,6 @@ module RecordActions
 
   def load_transfer_role_options
     @transfer_role_options ||= Role.names_and_ids_by_transfer
-  end
-
-  #TODO: This is no longer necessary - replaced by destringify
-  # This is to ensure that if a hash has numeric keys, then the keys are sequential
-  # This cleans up instances where multiple forms are added, then 1 or more forms in the middle are removed
-  def reindex_hash(a_hash)
-    a_hash.each do |key, value|
-      if value.is_a?(Hash) and value.present?
-        #if this is a hash with numeric keys, do the re-index, else keep searching
-        if value.keys[0].is_number?
-          new_hash = {}
-          count = 0
-          value.each do |k, v|
-            new_hash[count.to_s] = v
-            count += 1
-          end
-          value.replace(new_hash)
-        else
-          reindex_hash(value)
-        end
-      end
-    end
   end
 
   def record_module
@@ -421,8 +399,9 @@ module RecordActions
   end
 
   # All the stuff that isn't properties that should be allowed
+  # TODO: Clean this up with
   def extra_permitted_parameters
-    ['base_revision', 'unique_identifier', 'record_state', 'upload_bid_document', 'update_bid_document',
+    ['unique_identifier', 'record_state', 'upload_bid_document', 'update_bid_document',
      'upload_other_document', 'update_other_document', 'upload_bia_document', 'update_bia_document']
   end
 
@@ -447,11 +426,12 @@ module RecordActions
     instance_variable_set("@#{model_class.name.underscore}", @record)
   end
 
+  #TODO: Is this load invoked twice?
   def load_selected_records
     @records = []
     if params[:selected_records].present?
       selected_ids = params[:selected_records].split(',')
-      @records = model_class.all(keys: selected_ids).all
+      @records = model_class.where(id: selected_ids)
     end
 
     # Alias the records to a more specific name since the record controllers
@@ -483,7 +463,7 @@ module RecordActions
 
   #Discard nil values and empty arrays.
   def format_json_response(record)
-    record = record.as_couch_json.clone
+    record = record.data.clone
     if params[:mobile].present?
       record.each do |field_key, value|
         if value.kind_of? Array
@@ -512,7 +492,8 @@ module RecordActions
   def clear_append_only_subforms(record)
     if is_mobile?
       FormSection.get_append_only_subform_ids.each do |subform_id|
-        record.try("#{subform_id}=", [])
+        #TODO: This is based on an invalid assumption that the nested form name is the same as the field name
+        record.data['subform_id'] = []
       end
     end
     return record
@@ -610,7 +591,8 @@ module RecordActions
     FormSection.get_append_only_subform_ids.each do |subform_id|
       # Since this only happens if the mobile param is true, the subform section has to be an Array, we don't merge otherwise.
       if record_params[subform_id].present? && record_params[subform_id].is_a?(Array)
-        record_subforms = (record.try(subform_id) || []).map(&:attributes)
+        #TODO: Fix this when fixing Append only subforms
+        record_subforms = (record.data[subform_id] || []).map(&:attributes)
         param_subforms = record_params[subform_id]
         # If for any reason a user sends updates to existing forms, we will update them.
         unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }

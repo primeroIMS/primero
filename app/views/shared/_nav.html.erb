@@ -78,8 +78,9 @@
       <% end %>
     </div>
     <div class="large-3 columns no-padding-left">
-      <%# TODO: remove the comment after refactoring records %>
+      <%# TODO: Put back after refactoring all the records %>
       <%# if [Child, TracingRequest, Incident].include? model %>
+      <% if [Child].include? model %>
         <% if can? :read, model %>
             <%= form_tag path_for_model(model), :method => :get, :id => "search_form", :autocomplete => "off" do %>
               <div class="input-group">
@@ -99,7 +100,7 @@
               </div>
             <% end %>
         <% end %>
-      <%# end %>
+      <% end %>
     </div>
   </div>
 </nav>

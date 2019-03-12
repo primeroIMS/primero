@@ -152,12 +152,12 @@ module Transitionable
 
   def given_consent(type = Transition::TYPE_REFERRAL)
     if self.module_id == PrimeroModule::GBV
-      consent_for_services == true
+      self.consent_for_services == true
     elsif self.module_id == PrimeroModule::CP
       if type == Transition::TYPE_REFERRAL
-        disclosure_other_orgs == true && consent_for_services == true
+        self.disclosure_other_orgs == true && self.consent_for_services == true
       else
-        disclosure_other_orgs == true
+        self.disclosure_other_orgs == true
       end
     end
   end

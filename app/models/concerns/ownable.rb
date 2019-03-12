@@ -60,9 +60,9 @@ module Ownable
         # else
         #properties = self.properties_by_form[section.unique_id].values
         if read_only_user
-          fields = section.fields
-        else
           fields = section.fields.select(&:showable?)
+        else
+          fields = section.fields
         end
         #end
         permitted += fields
