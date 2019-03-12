@@ -7,6 +7,7 @@ class CreateAuditLogs < ActiveRecord::Migration[5.0]
       t.belongs_to :record, polymorphic: true
       t.string 'owned_by'
       t.datetime 'timestamp'
+      t.jsonb 'mobile_data'
     end
     add_index :audit_logs, :user_name
   end

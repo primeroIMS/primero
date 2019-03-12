@@ -38,7 +38,7 @@ describe User do
 
   describe "last login timestamp" do
     before do
-      LoginActivity.all.each &:destroy
+      AuditLog.all.each &:destroy
     end
 
     it "shouldn't return last login activity if user has never logged in" do
@@ -242,18 +242,17 @@ describe User do
     user = build_user
     user.create!
 
-    LoginActivity.create!(user_name: user.user_name, imei: 'IMEI1', mobile_number: '123-456-7890')
-    LoginActivity.create!(user_name: user.user_name, imei: nil, mobile_number: nil)
-    LoginActivity.create!(user_name: 'billybob', imei: 'IMEI', mobile_number: '123-456-7890')
-    LoginActivity.create!(user_name: 'billybob')
+    AuditLog.create!(user_name: user.user_name, action_name: 'login', timestamp: DateTime.now, mobile_data: {mobile_id: 'IMEI1', mobile_number: '123-456-7890'})
+    AuditLog.create!(user_name: user.user_name, mobile_data: {mobile_id: nil, mobile_number: nil})
+    AuditLog.create!(user_name: 'billybob', action_name: 'login', timestamp: DateTime.now, mobile_data: {mobile_id: 'IMEI', mobile_number: '123-456-7890'})
+    AuditLog.create!(user_name: 'billybob')
     sleep(1) #make sure we have a second gap in activities
-    LoginActivity.create!(user_name: user.user_name, imei: 'IMEI2', mobile_number: '123-456-7890')
-    LoginActivity.create!(user_name: 'sueanne', imei: 'IMEI', mobile_number: '123-456-7890')
+    AuditLog.create!(user_name: user.user_name, action_name: 'login', timestamp: DateTime.now, mobile_data: {mobile_id: 'IMEI2', mobile_number: '123-456-7890'})
+    AuditLog.create!(user_name: 'sueanne', action_name: 'login', timestamp: DateTime.now, mobile_data: {mobile_id: 'IMEI', mobile_number: '123-456-7890'})
 
     mobile_login_history = user.mobile_login_history
-
     expect(mobile_login_history).to have(2).events
-    expect(mobile_login_history.first.imei).to eq('IMEI2')
+    expect(mobile_login_history.first.mobile_data['mobile_id']).to eq('IMEI2')
   end
 
   it "should save blacklisted devices to the device list" do
