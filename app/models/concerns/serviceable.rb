@@ -66,7 +66,7 @@ module Serviceable
           appointment_date_time_converted = DateTime.parse(appointment_date_time)
         elsif timeframe.present?
           converted_timeframe = convert_time(timeframe)
-          converted_timeframe.present? ? created_on + converted_timeframe : nil
+          converted_timeframe.present? ? created_on.to_datetime + converted_timeframe : nil
         end
       end
     end
