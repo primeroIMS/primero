@@ -13,8 +13,11 @@ class Login
 
   def authenticate_user
     user = User.find_by_user_name(@user_name)
-    return Session.for_user(user, @imei) if user && user.authenticate(@password)
-    nil
+    if user && user.authenticate(@password)
+      Session.for_user(user, @imei)
+    else
+      nil
+    end
   end
 
   def errors
