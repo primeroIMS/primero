@@ -1,11 +1,13 @@
-class UserGroup < CouchRest::Model::Base
+class UserGroup < ActiveRecord::Base
 
-  use_database :user_group
+  after_save :set_unique_id
 
-  include PrimeroModel
-  include Namable #delivers "name" and "description" fields
+  private
 
-  property :core_resource, TrueClass, :default => false
-
-  design
+  def set_unique_id
+    unless self.unique_id.present?
+      self.unique_id = "#{self.class.name}-#{self.name}".parameterize.dasherize
+      self.save!
+    end
+  end
 end

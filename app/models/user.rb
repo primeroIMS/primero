@@ -480,7 +480,7 @@ class User < CouchRest::Model::Base
   end
 
   def has_user_group_id?(id)
-    self.user_group_ids.include?(id)
+    self.user_group_ids.include?(id.to_s)
   end
 
   def agency_office_name
