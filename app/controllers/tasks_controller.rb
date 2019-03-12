@@ -7,7 +7,7 @@ class TasksController < ApplicationController
 
     cases = Child.by_owned_by.key(current_user.user_name)
             .select{|c| c.record_state && c.child_status == Child::STATUS_OPEN}
-    @tasks = Task.from_case(cases)
+    @tasks = Task.from_case(cases).reject { |t| t.due_date.nil? }
     @tasks = @tasks.paginate
 
 
