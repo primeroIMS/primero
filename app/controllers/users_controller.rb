@@ -56,33 +56,23 @@ class UsersController < ApplicationController
   end
 
   def search
-    authorize! :read, User
     authorize! :search, User
 
-    agency_id = params[:agency_id]
-    location = params[:location]
-    services = params[:services]
-
-    if services.present? && !services.is_a?(Array)
-      services = [services]
-    end
-
-    services.reject!(&:blank?) if services.present?
+    allowed_transitions = [Transition::TYPE_REFERRAL, Transition::TYPE_TRANSFER]
+    transition_type =  params[:transition_type]
+    users = if transition_type.present? && allowed_transitions.include?(transition_type)
+              # NOTE: per_page number tells solr to return all the results: https://wiki.apache.org/solr/CommonQueryParameters#rows
+              pagination = { page: 1, per_page: User.all.count }
+              sort = { user_name: :asc}
+              criteria = get_search_criteria
+              users = format_search_response(User.find_by_criteria(criteria, pagination, sort).try(:results) || [])
+            else
+              []
+            end
 
     respond_to do |format|
       format.json do
-        criteria = { disabled: false }.merge({organization: agency_id, reporting_location: location, services: services }.compact)
-        # NOTE: per_page number tells solr to return all the results: https://wiki.apache.org/solr/CommonQueryParameters#rows
-        pagination = { page: 1, per_page: User.all.count }
-        sort = { user_name: :asc}
-        users = User.find_by_criteria(criteria, pagination, sort).try(:results) || []
-        render json: {
-                success: 1,
-                users: users.map do |user|
-                         attributes = user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization')
-                         attributes.merge(reporting_location_code: user.reporting_location.try(:location_code))
-                       end
-              }
+        render json: { success: 1, users: users }
       end
     end
   end
@@ -350,4 +340,38 @@ class UsersController < ApplicationController
     @users_agencies = agencies.map{|agency| [agency.name, agency.id] }
   end
 
+  def get_search_criteria
+    agency_id = params[:agency_id]
+    location = params[:location]
+    services = params[:services]
+    transition_type =  params[:transition_type]
+
+    if services.present? && !services.is_a?(Array)
+      services = [services]
+    end
+    services.reject!(&:blank?) if services.present?
+
+    transition_filters = get_transition_filters(transition_type)
+
+    { disabled: false }.merge({
+        organization: agency_id,
+        reporting_location: location,
+        services: services
+      }.merge(transition_filters).compact)
+  end
+
+  def get_transition_filters(transition_type)
+    if transition_type == Transition::TYPE_REFERRAL
+      { can_receive_referrals: true }
+    elsif transition_type == Transition::TYPE_TRANSFER
+      { can_receive_transfers: true }
+    end
+  end
+
+  def format_search_response(users)
+    users.map do |user|
+      attributes = user.attributes.slice('user_name', 'full_name', 'position', 'code', 'organization')
+      attributes.merge(reporting_location_code: user.reporting_location.try(:location_code))
+    end
+  end
 end

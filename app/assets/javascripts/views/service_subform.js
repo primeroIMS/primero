@@ -38,10 +38,12 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
 
   init_subform: function(){
     var self = this;
-    var $new_subform = $('#services_section .subform_container').last(); //Last added service
-    var $new_select = $new_subform.find('select[id$="service_implementing_agency_individual"]');
-    var selectorId = "#" + $new_select.attr('id');
-    new _primero.Views.PopulateUserSelectBoxes({ el: selectorId });
+    setTimeout(function(){
+      var $new_subform = $('#services_section .subform_container').last(); //Last added service
+      var $new_select = $new_subform.find('select[id$="service_implementing_agency_individual"]');
+      var selectorId = "#" + $new_select.attr('id');
+      new _primero.Views.PopulateUserSelectBoxes({ el: selectorId });
+    },0); //Try to run after the fadeOut in the forms
   },
 
   clear_user_selection: function($subform){
