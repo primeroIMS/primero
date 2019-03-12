@@ -1,6 +1,6 @@
 <%
   editable = object.name.present?
-  given_locale = object.base_language
+  given_locale = Primero::Application::BASE_LANGUAGE
 %>
 <% if editable %>
   <div class="row">
@@ -43,16 +43,16 @@
 <div class="row">
   <div class="medium-3 columns">
     <span class="tool-tip-label">
-      <%= form_builder.label :module_ids, t("report.modules"), class: 'key' %>
+      <%= form_builder.label :module_id, t("report.modules"), class: 'key' %>
     </span>
   </div>
   <div class="medium-8 columns">
     <span class="value value_form">
       <%= form_builder.select(
-        :module_ids,
+        :module_id,
         options_for_select(
           @current_user.modules.map{|p|[p.name, p.id]},
-          @report.module_ids
+          @report.module_id
         ),
         {},
         {multiple: true, :'data-placeholder' => t("fields.select_box_empty_item"), :required => ""}
