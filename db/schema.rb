@@ -28,6 +28,19 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.index ["services"], name: "index_agencies_on_services", using: :gin
   end
 
+  create_table "audit_logs", id: :serial, force: :cascade do |t|
+    t.string "user_name"
+    t.string "action_name"
+    t.integer "display_id"
+    t.string "record_type"
+    t.integer "record_id"
+    t.string "owned_by"
+    t.datetime "timestamp"
+    t.jsonb "mobile_data"
+    t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
+    t.index ["user_name"], name: "index_audit_logs_on_user_name"
+  end
+
   create_table "contact_informations", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "organization"
@@ -118,6 +131,21 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
+  end
+
+  create_table "reports", id: :serial, force: :cascade do |t|
+    t.jsonb "name_i18n"
+    t.jsonb "description_i18n"
+    t.string "module_id"
+    t.string "record_type"
+    t.string "aggregate_by", default: [], array: true
+    t.string "disaggregate_by", default: [], array: true
+    t.string "aggregate_counts_from"
+    t.jsonb "filters", default: [], array: true
+    t.boolean "group_ages", default: false, null: false
+    t.string "group_dates_by", default: "date"
+    t.boolean "is_graph", default: false, null: false
+    t.boolean "editable", default: true
   end
 
   create_table "saved_searches", id: :serial, force: :cascade do |t|
