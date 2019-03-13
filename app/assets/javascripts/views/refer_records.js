@@ -14,13 +14,29 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
   },
 
   initialize: function(){
-    var self = this;
     this.collection = new _primero.Collections.UsersCollection();
+    this.has_reset_modal = false;
+  },
+
+  reset_modal: function() {
+    var self = this;
+    //Avoid to register this event several times.
+    if(!self.has_reset_modal) {
+      $("#referral-modal").on('open.zf.reveal', function() {
+        var is_remote = $(this).find('.remote_toggle').is(':visible');
+        if(is_remote){
+          self.toggle_remote_primero();
+        }
+      });
+      self.has_reset_modal = true;
+    }
   },
 
   refer_records_empty: function(event) {
     var self = this;
+    this.reset_modal();
     this.clear_referral();
+    this.clear_errors();
     var $referral_modal = $("#referral-modal");
     $referral_modal.find("#service_hidden").attr("disabled","disabled");
     $referral_modal.find("#existing_user_hidden").attr("disabled","disabled");
@@ -51,6 +67,9 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     var self = this;
     self.clear_referral();
     self.clear_user_selection();
+    self.disable_remote_fields();
+    self.clear_errors();
+
     var $referral_button = $(event.target);
     var service_type = $referral_button.data('service-type');
     var service_user_name = $referral_button.data('service-user-name');
@@ -68,6 +87,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     var $agency_select = $referral_modal.find("select#agency");
     $agency_select.val(service_agency);
     $agency_select.attr("disabled","disabled");
+    $agency_select.trigger("chosen:updated");
 
     var $location_select = $referral_modal.find("select#location");
     $location_select.attr("disabled", "disabled");
@@ -88,7 +108,8 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
       var data = {
         services: service_type,
         agency_id: service_agency,
-        location: service_delivery_location
+        location: service_delivery_location,
+        transition_type: 'referral'
       };
 
       self.collection
@@ -121,24 +142,38 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
   toggle_other_user: function(e) {
     var existing_user = $(e.target).val(),
       $other_user_input = $('#other_user'),
-      $other_user_agency_input = $('#other_user_agency');
+      $other_user_agency_input = $('#other_user_agency'),
+      $other_user_agency_hidden = $('input[name=other_user_agency][type=hidden]');
+
     if(existing_user == null || existing_user == undefined || existing_user.trim() == ""){
       $other_user_input.prop('disabled', false);
       $other_user_agency_input.prop('disabled', false);
+      $other_user_agency_hidden.prop('disabled', false);
+
     } else {
       $other_user_input.prop('disabled', true);
       $other_user_agency_input.prop('disabled', true);
+      $other_user_agency_hidden.prop('disabled', true);
     }
   },
 
   toggle_existing_user: function(e) {
     var other_user = $(e.target).val(),
-      $existing_user_select = $('#existing_user');
+      $existing_user_select = $("#existing_user_referral");
+      $existing_user_hidden = $("#existing_user_hidden");
 
      if(other_user == null || other_user == undefined || other_user.trim() == ""){
-      $existing_user_select.prop('disabled', false);
+      $existing_user_hidden.prop("disabled", false);
+      $existing_user_select.prop("disabled", false);
+      $existing_user_select.removeAttr("disabled");
+      $existing_user_select.removeAttr("chosen-disabled");
+      $existing_user_select.trigger("chosen:updated");
+
      } else {
+      $existing_user_hidden.prop("disabled", true);
       $existing_user_select.prop('disabled', true);
+      $existing_user_select.attr("chosen-disabled");
+      $existing_user_select.trigger("chosen:updated");
      }
   },
 
@@ -147,18 +182,26 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $referral_modal.find("#service").removeAttr("disabled");
     $referral_modal.find("#service_hidden").removeAttr("disabled");
 
-    $referral_modal.find("#agency").removeAttr("disabled");
+    var $agency_select = $referral_modal.find("#agency");
+    $agency_select.removeAttr("disabled");
+    $agency_select.val('');
+    $agency_select.trigger("chosen:updated");
     $referral_modal.find("#agency_hidden").removeAttr("disabled");
 
     var $location_select = $referral_modal.find("select#location");
     $location_select.removeAttr("disabled");
     $location_select.removeAttr("chosen-disabled");
+    $location_select.val('');
     $location_select.trigger("chosen:updated");
 
     var $existing_user_select = $referral_modal.find("#existing_user_referral");
+    $referral_modal.find("#existing_user_hidden").removeAttr("disabled");
     $existing_user_select.removeAttr("disabled");
     $existing_user_select.removeAttr("chosen-disabled");
     $existing_user_select.trigger("chosen:updated");
+
+    //Update filters
+    this.set_user_filters();
   },
 
   close_referral: function(e) {
@@ -216,6 +259,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     var selected_user_name = $(e.target).val();
     if(selected_user_name){
       var selected_user = _primero.populated_user_collection.get_by_user_name(selected_user_name);
+
       if(selected_user){
         var $referral_modal = $("#referral-modal");
         $referral_modal.find("#agency_hidden").val(selected_user.organization);
@@ -239,6 +283,19 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
         onComplete();
       }
     });
+  },
+
+  disable_remote_fields: function() {
+    $('#other_user').prop('disabled', true);
+    $('#other_user_agency').prop('disabled', true);
+    $('input[name=other_user_agency][type=hidden]').prop('disabled', true);
+  },
+
+  clear_errors: function() {
+    var $referral_modal = $('#referral-modal');
+    $referral_modal.find(".local_user_flash").hide();
+    $referral_modal.find(".remote_user_flash").hide();
+    $referral_modal.find(".password_flash").hide();
   },
 
   select_user_location: function(onComplete){
