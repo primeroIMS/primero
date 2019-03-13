@@ -17,7 +17,11 @@
   "settings": {
     "import/resolver": {
       "alias": {
-        "map": [["libs", "./libs"], ["config", "./config"]],
+        "map": [
+          ["libs", "./libs"],
+          ["config", "./config"],
+          ["components", "./components"]
+        ],
         "extensions": [".js", ".jsx"]
       }
     }

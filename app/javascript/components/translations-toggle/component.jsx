@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
-import { withI18n } from "../../libs/i18n";
+import { withI18n } from "../../libs";
 
 const TranslationsToggle = ({ changeLocale, locale, i18n }) => {
   const handleChange = e => {

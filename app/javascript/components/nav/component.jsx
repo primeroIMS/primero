@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import { compose } from "redux";
-import { withI18n } from "../../libs/i18n";
+import { withI18n } from "../../libs";
 import { TranslationsToggle } from "../translations-toggle";
 
 const drawerWidth = 240;

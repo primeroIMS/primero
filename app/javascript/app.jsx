@@ -6,8 +6,8 @@ import rtl from "jss-rtl";
 import React from "react";
 import JssProvider from "react-jss/lib/JssProvider";
 import { Provider } from "react-redux";
+import Layout from "components/Layout";
 import { theme } from "./config";
-import Layout from "./containers/layout";
 import { I18nProvider } from "./libs/i18n";
 import configureStore, { history } from "./store";
 

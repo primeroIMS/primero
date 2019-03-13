@@ -1,11 +1,11 @@
-/* eslint-disable no-underscore-dangle */
-
-import { routerMiddleware } from "connected-react-router/immutable";
+import { connectRouter, routerMiddleware } from "connected-react-router/immutable";
 import { createBrowserHistory } from "history";
 import { Map } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
+import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
-import rootReducer from "./reducers";
+import thunkMiddleware from "redux-thunk";
+import * as CasesPage from "./components/pages/cases";
 
 // TODO: Temporarily setting basename
 export const history = createBrowserHistory({
@@ -15,7 +15,7 @@ export const history = createBrowserHistory({
 export default () => {
   const preloadedState = Map();
 
-  const middleware = [routerMiddleware(history)];
+  const middleware = [routerMiddleware(history), thunkMiddleware];
 
   if (process.env.NODE_ENV === "development") {
     middleware.push(createLogger({ stateTransformer: state => state.toJS() }));
@@ -24,12 +24,17 @@ export default () => {
   const composeEnhancers =
     process.env.NODE_ENV !== "development" ||
     typeof window !== "object" ||
+    // eslint-disable-next-line no-underscore-dangle
     !window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? compose
-      : window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+      : // eslint-disable-next-line no-underscore-dangle
+        window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 
   const store = createStore(
-    rootReducer(history),
+    combineReducers({
+      router: connectRouter(history),
+      ...CasesPage.reducers
+    }),
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
   );
