@@ -90,21 +90,28 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     this.$el.on('chosen:showing_dropdown', function(e){
       var $select_box = $(e.target);
       var filters_required = $select_box.data("filters-required");
+      var transition_type = $select_box.data("filter-transition-type");
       var service = $select_box.data("filter-service");
       var agency = $select_box.data("filter-agency");
       var location = $select_box.data("filter-location");
 
-      var data = {
+      var data_filters = {
         services: service,
         agency_id: agency,
         location: location
       };
 
-      if (!filters_required || (filters_required && !_.isEmpty(_.compact(_.values(data))))) {
+      if (!filters_required || (filters_required && !_.isEmpty(_.compact(_.values(data_filters))))) {
 
-        if (self.collection.length < 1 || !_.isEqual(self.filters, data)) {
+        // TODO: Referrals will be the default transition until we find a better solution for this. If the
+        // transition param is not specified the user api will always return empty.
 
-          self.filters = data;
+        // This is not a required filter, that's why we don't validate it above.
+        data_filters.transition_type = transition_type ? transition_type : 'referral';
+
+        if (self.collection.length < 1 || !_.isEqual(self.filters, data_filters)) {
+
+          self.filters = data_filters;
 
           if (!$select_box.attr('multiple')) {
             $select_box.empty();
