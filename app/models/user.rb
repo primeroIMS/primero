@@ -205,8 +205,7 @@ class User < CouchRest::Model::Base
     end
 
     def last_login_timestamp(user_name)
-      activity = LoginActivity.by_user_name_and_login_timestamp(descending: true, endkey: [user_name], startkey: [user_name, {}], limit: 1).first
-      activity.login_timestamp if activity.present?
+      AuditLog.where(action_name: 'login', user_name: user_name).try(:last).try(:timestamp)
     end
 
     def default_sort_field
@@ -406,11 +405,9 @@ class User < CouchRest::Model::Base
   end
 
   def mobile_login_history
-    LoginActivity.by_user_name_and_login_timestamp(
-      descending: true,
-      endkey: [user_name],
-      startkey: [user_name, {}]
-    ).all.select(&:mobile?)
+    AuditLog.where(action_name: 'login', user_name: user_name)
+            .where.not('mobile_data @> ?', { mobile_id: nil }.to_json)
+            .order(timestamp: :desc)
   end
 
   def devices
