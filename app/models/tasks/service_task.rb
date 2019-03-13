@@ -15,9 +15,8 @@ module Tasks
     end
 
     def self.has_task?(record, service)
-      #TODO: or should use service.try(:service_implemented) == Child::SERVICE_NOT_IMPLEMENTED
       service.try(:service_appointment_date).present? &&
-      !service.try(:service_implemented_day_time).present? &&
+      service.try(:service_implemented_day_time).blank? &&
       record.try(:service_due_date, service).present?
     end
 

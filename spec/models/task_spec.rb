@@ -98,7 +98,7 @@ describe Task do
       expect(task).to be_nil
     end
 
-    it "creates a Service task" do
+    it "creates a Service task with due_date_from_appointment_date set to false on SystemSettings" do
       @sys_settings = SystemSettings.new(default_local: 'en')
       @sys_settings.due_date_from_appointment_date = false
       SystemSettings.stub(:current).and_return(@sys_settings)
@@ -108,6 +108,19 @@ describe Task do
       task = Task.from_case(child).first
 
       expect(task.type).to eq('service')
+    end
+
+    it "creates a Service task with due_date_from_appointment_date set to false on SystemSettings" do
+      @sys_settings = SystemSettings.new(default_local: 'en')
+      @sys_settings.due_date_from_appointment_date = true
+      SystemSettings.stub(:current).and_return(@sys_settings)
+      child = create(:child, services_section: [{ service_response_timeframe: "24_hour",
+                                                  service_response_day_time: Time.now,
+                                                  service_appointment_date: Date.tomorrow }])
+      task = Task.from_case(child).first
+
+      expect(task.type).to eq('service')
+      expect(task.due_date.end_of_day).to eq(Date.tomorrow.to_datetime.end_of_day)
     end
 
     it "doesn't create a Followup task if Followup already took place" do
