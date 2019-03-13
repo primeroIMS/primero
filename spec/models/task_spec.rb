@@ -20,6 +20,8 @@ describe Task do
         ]),
         build(:subform_field, name: 'services_section', unique_id: 'services_section', fields: [
           build(:field, name: 'service_type'),
+          build(:field, name: 'service_response_timeframe'),
+          build(:field, name: 'service_response_day_time'),
           build(:field, name: 'service_appointment_date', type: Field::DATE_FIELD),
           build(:field, name: 'service_implemented_day_time', type: Field::DATE_FIELD),
         ])
@@ -89,11 +91,36 @@ describe Task do
       expect(tasks).to be_empty
     end
 
-    it "creates a Service task" do
+    it "does not create a Service task because timeframe is not set" do
       child = create(:child, services_section: [{service_appointment_date: Date.tomorrow}])
       task = Task.from_case(child).first
 
+      expect(task).to be_nil
+    end
+
+    it "creates a Service task with due_date_from_appointment_date set to false on SystemSettings" do
+      @sys_settings = SystemSettings.new(default_local: 'en')
+      @sys_settings.due_date_from_appointment_date = false
+      SystemSettings.stub(:current).and_return(@sys_settings)
+      child = create(:child, services_section: [{ service_response_timeframe: "24_hour",
+                                                  service_response_day_time: Time.now,
+                                                  service_appointment_date: Date.tomorrow }])
+      task = Task.from_case(child).first
+
       expect(task.type).to eq('service')
+    end
+
+    it "creates a Service task with due_date_from_appointment_date set to false on SystemSettings" do
+      @sys_settings = SystemSettings.new(default_local: 'en')
+      @sys_settings.due_date_from_appointment_date = true
+      SystemSettings.stub(:current).and_return(@sys_settings)
+      child = create(:child, services_section: [{ service_response_timeframe: "24_hour",
+                                                  service_response_day_time: Time.now,
+                                                  service_appointment_date: Date.tomorrow }])
+      task = Task.from_case(child).first
+
+      expect(task.type).to eq('service')
+      expect(task.due_date.end_of_day).to eq(Date.tomorrow.to_datetime.end_of_day)
     end
 
     it "doesn't create a Followup task if Followup already took place" do
