@@ -13,20 +13,12 @@ class Lookup < ActiveRecord::Base
   validate :validate_name_in_english
   validate :validate_values_keys_match
 
-  before_create :generate_unique_id
-
   before_validation :generate_values_keys
   before_validation :sync_lookup_values
+  before_create :generate_unique_id
   before_destroy :check_is_being_used
 
   class << self
-    alias :old_all :all
-    alias :get_all :all
-
-    def all
-      old_all
-    end
-    # memoize_in_prod :all
 
     def values(lookup_unique_id, lookups = nil, opts={})
       locale = opts[:locale].presence || I18n.locale
@@ -152,7 +144,6 @@ class Lookup < ActiveRecord::Base
     Field.where(option_strings_source: "lookup #{self.unique_id}").size.positive?
   end
 
-  # TODO keep?
   def valid?(context = :default)
     self.name = self.name.try(:titleize)
     sanitize_lookup_values
