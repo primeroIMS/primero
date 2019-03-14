@@ -1,6 +1,6 @@
 def create_or_update_export_config(config_hash)
   export_config_id = config_hash[:id]
-  export_config = ExportConfiguration.get export_config_id
+  export_config = ExportConfiguration.find_by(unique_id: export_config_id)
 
   if export_config.nil?
     puts "Creating export configuration #{export_config_id}"
@@ -13,7 +13,7 @@ end
 
 
 create_or_update_export_config(
-  id: "export-unhcr-csv",
+  unique_id: "export-unhcr-csv",
   name: "UNHCR CSV Export",
   export_id: "unhcr_csv",
   property_keys: [
@@ -37,7 +37,7 @@ create_or_update_export_config(
 )
 
 create_or_update_export_config(
-  id: "export-unhcr-csv-jo",
+  unique_id: "export-unhcr-csv-jo",
   name: "UNHCR CSV Export Jordan",
   export_id: "unhcr_csv",
   property_keys: [
@@ -61,7 +61,7 @@ create_or_update_export_config(
 )
 
 create_or_update_export_config(
-    id: "export-duplicate-id-csv",
+    unique_id: "export-duplicate-id-csv",
     name: "Duplicate ID CSV Export",
     export_id: "duplicate_id_csv",
     property_keys: [

@@ -26,12 +26,10 @@ class ReportsController < ApplicationController
     #TODO refactor... the TOTAL count of records can be obtained by getting the result.count
     #TODO refactor... so, First fetch the reults.  Set @total_records to result.count.  Set reports to result.all
     #TODO refactor... See implementation in audit_logs_controller and audit_log model
-    report_ids = Report.by_module_id(keys: current_user.modules.map{|m|m.id}).values.uniq
     @current_modules = nil #TODO: Hack because this is expected in templates used.
-    reports = Report.all(keys: report_ids).page(page).per(per_page).all
-    @total_records = report_ids.count
+    @reports = Report.where(module_id: current_user.module_ids).paginate(:page => page, :per_page => per_page)
+    @total_records = @reports.length
     @per = per_page
-    @reports = paginated_collection(reports, report_ids.count)
   end
 
   def show
@@ -194,7 +192,7 @@ class ReportsController < ApplicationController
   end
 
   def load_report
-    @report = Report.get(params[:id])
+    @report = Report.find_by(id: params[:id])
   end
 
   def action_class
