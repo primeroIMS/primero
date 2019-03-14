@@ -50,13 +50,14 @@ module LocalizableJsonProperty
 
   def localized_hash(locale = Primero::Application::BASE_LANGUAGE)
     #Do not include option_strings_text... there is special handling of that in the Field model
-    lp = self.class.localized_properties.reject{|p| p == :option_strings_text}.map{|p| "#{p.to_s}_i18n"}
-    lh = self.as_json(only: lp)
+    localized_properties = self.class.localized_properties.reject{|p| p == :option_strings_text}.map{|p| "#{p.to_s}_i18n"}
+    localized_hash = self.as_json(only: localized_properties)
 
-    lh.each { |k, v| lh[k] = v[locale] }
-    #remove the locale tag from the keys
-    lh.keys.each{|k| new_key = k.split('_')[0..-2].join('_'); lh[new_key] = lh.delete k}
-    lh
+    localized_hash.reduce({}) do |acc, (key, value)|
+      new_key = key.split('_')[0..-2].join('_');
+      acc[new_key] = value[locale]
+      acc
+    end
   end
 
   def locale_field_value(store, locale_store)
