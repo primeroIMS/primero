@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190305000000) do
+ActiveRecord::Schema.define(version: 201903060000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,17 @@ ActiveRecord::Schema.define(version: 20190305000000) do
     t.string "support_forum"
     t.string "email"
     t.string "position"
+  end
+
+  create_table "export_configurations", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.string "export_id"
+    t.jsonb "name_i18n"
+    t.string "property_keys", default: [], array: true
+    t.string "record_type", default: "Child"
+    t.string "opt_out_field"
+    t.string "property_keys_opt_out", default: [], array: true
+    t.index ["unique_id"], name: "index_export_configurations_on_unique_id", unique: true
   end
 
   create_table "fields", id: :serial, force: :cascade do |t|
