@@ -262,7 +262,7 @@ GEM
     parallel (1.14.0)
     parser (2.6.0.0)
       ast (~> 2.4.0)
-    passenger (4.0.60)
+    passenger (4.0.59)
       daemon_controller (>= 1.2.0)
       rack
       rake (>= 0.8.1)
@@ -502,7 +502,7 @@ DEPENDENCIES
   momentjs-rails (~> 2.17.1)
   multi_json (~> 1.12.2)
   os (~> 1.0.0)
-  passenger (= 4.0.60)
+  passenger (= 4.0.59)
   pdf-inspector
   pdf-reader (= 2.0.0)
   prawn (~> 2.2.2)

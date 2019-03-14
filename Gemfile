@@ -68,7 +68,7 @@ gem 'twitter_cldr'
 
 group :production do
   #TODO - Do not upgrade passenger
-  gem 'passenger', '4.0.60', require: false
+  gem 'passenger', '4.0.59', require: false
 end
 
 #TODO: Are these getting installed?
