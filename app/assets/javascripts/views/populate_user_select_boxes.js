@@ -128,7 +128,12 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
                 self.collection.message = I18n.t('messages.string_sources_failed');
                 self.disableAjaxSelectBoxes();
               });
+
+        } else {
+          // Use the data that we have.
+          self.parseOptions($select_box);
         }
+
       } else {
         alert(I18n.t('messages.valid_search_criteria'));
       }

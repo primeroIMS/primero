@@ -14,8 +14,29 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
     'change #transfer-modal select.existing_user_filter' : 'on_filter_change'
   },
 
+  initialize: function(){
+    this.has_reset_modal = false;
+  },
+
+  reset_modal: function() {
+    var self = this;
+    //Avoid to register this event several times.
+    if(!self.has_reset_modal) {
+      $("#transfer-modal").on('open.zf.reveal', function() {
+        var is_remote = $(this).find('.remote_toggle').is(':visible');
+        if(is_remote){
+          self.toggle_remote_primero();
+        }
+      });
+      self.has_reset_modal = true;
+    }
+  },
+
   transfer_records_empty: function(event){
     var self = this;
+    self.reset_modal();
+    self.clear_errors();
+    self.clear_transfer();
     var $transfer_button = $(event.target)
     self.select_user_location(function(){
       self.set_user_filters();
@@ -25,6 +46,9 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
 
   transfer_records: function(event) {
     var self = this;
+    self.reset_modal();
+    self.clear_errors();
+    self.clear_transfer();
     var selected_recs = _primero.indexTable.get_selected_records(),
       $transfer_button = $(event.target),
       consent_url = $transfer_button.data('consent_count_url');
@@ -51,24 +75,34 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
   toggle_other_user: function(e) {
     var existing_user = $(e.target).val(),
       $other_user_input = $('#transfer-modal').find('#other_user'),
-      $other_user_agency_input = $('#transfer-modal').find('#other_user_agency');
+      $other_user_agency_input = $('#transfer-modal').find('#other_user_agency'),
+      $other_user_agency_hidden = $('input[name=other_user_agency][type=hidden]');
+
     if (existing_user == null || existing_user == undefined || existing_user.trim() == "") {
       $other_user_input.prop('disabled', false);
       $other_user_agency_input.prop('disabled', false);
+      $other_user_agency_hidden.prop('disabled', false);
+
     } else {
       $other_user_input.prop('disabled', true);
       $other_user_agency_input.prop('disabled', true);
+      $other_user_agency_hidden.prop('disabled', true);
     }
   },
 
   toggle_existing_user: function(e) {
     var other_user = $(e.target).val(),
-      $existing_user_select = $('#transfer-modal').find('#existing_user');
+      $existing_user_select = $('#transfer-modal').find('#existing_user_transfer');
 
      if (other_user == null || other_user == undefined || other_user.trim() == "") {
       $existing_user_select.prop('disabled', false);
+      $existing_user_select.removeAttr("disabled");
+      $existing_user_select.removeAttr("chosen-disabled");
+      $existing_user_select.trigger("chosen:updated");
      } else {
       $existing_user_select.prop('disabled', true);
+      $existing_user_select.attr("chosen-disabled");
+      $existing_user_select.trigger("chosen:updated");
      }
   },
 
@@ -117,6 +151,27 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
     } else {
       return false;
     }
+  },
+
+  clear_errors: function() {
+    var $transfer_modal = $('#transfer-modal');
+    $transfer_modal.find(".local_user_flash").hide();
+    $transfer_modal.find(".remote_user_flash").hide();
+    $transfer_modal.find(".password_flash").hide();
+  },
+
+  clear_transfer: function(){
+    var $transfer_modal = $("#transfer-modal");
+
+    var $agency_select = $transfer_modal.find("select#agency");
+    $agency_select.val('');
+    $agency_select.trigger("chosen:updated");
+
+    var $location_select = $transfer_modal.find("select#location");
+    $location_select.val('');
+    $location_select.trigger("chosen:updated");
+
+    this.set_user_filters();
   },
 
   on_filter_change: function(){
