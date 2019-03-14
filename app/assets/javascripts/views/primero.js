@@ -115,22 +115,21 @@ Primero = _primero.Views.Base.extend({
     }
   },
 
-  redirect_with_warning: function(e) {
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    var $target = $(this);
-    _primero.request_confirmation(function() {
-      if ($target.is(':button')) {
-        $target.submit();
-      } else {
-        window.location = $target.attr('href');
-      }
-    });
-  },
-
   init_edit_listeners: function() {
     if ((_.indexOf(['new', 'edit', 'update'], _primero.current_action) > -1) &&
         (['session','contact_information','system_setting'].indexOf(_primero.model_object) < 0)) {
+      function redirect_with_warning(e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        var $target = $(this);
+        _primero.request_confirmation(function() {
+          if ($target.is(':button')) {
+            $target.submit();
+          } else {
+            window.location = $target.attr('href');
+          }
+        });
+      }
 
       var event_selector = 'nav a, nav button, header a, .static_links a';
       var exit_handler = _.find($(document).data('events').click, function(handler) {
@@ -138,7 +137,7 @@ Primero = _primero.Views.Base.extend({
       });
 
       if (typeof exit_handler === 'undefined') {
-        $(document).on('click', event_selector, this.redirect_with_warning);
+        $(document).on('click', event_selector, redirect_with_warning);
       }
     }
   },
