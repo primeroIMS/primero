@@ -10,11 +10,8 @@ class UserGroupsController < ApplicationController
   def index
     authorize! :index, UserGroup
     @page_name = t("user_groups.label")
-    sort_option = params[:sort_by_descending_order] || false
-    params[:show] ||= "All"
-    @user_groups = params[:show] == "All" ? UserGroup.all : UserGroup.all.find_all{|group| group.has_permission(params[:show])}
+    @user_groups = UserGroup.order(:unique_id).paginate(:page => page, :per_page => per_page)
     @total_records = @user_groups.count
-    @user_groups = @user_groups.order(:unique_id).paginate(:page => page, :per_page => per_page)
   end
 
   def show
@@ -75,7 +72,7 @@ class UserGroupsController < ApplicationController
   private
 
   def find_user_group
-    @user_group = UserGroup.find(params[:id])
+    @user_group = UserGroup.find_by(id: params[:id])
   end
 
 end

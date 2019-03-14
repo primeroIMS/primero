@@ -480,6 +480,7 @@ class User < CouchRest::Model::Base
   end
 
   def has_user_group_id?(id)
+    # TODO: Refactor when migrating Users
     self.user_group_ids.include?(id.to_s)
   end
 
