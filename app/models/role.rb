@@ -121,7 +121,8 @@ class Role < CouchRest::Model::Base
   end
 
   def update_users_with_current_role
-    User.find_by_role_ids([self.id]).each { |record| Sunspot.index!(record) }
+    users = User.find_by_role_ids([self.id])
+    Sunspot.index!(users) if users.any?
   end
 
 end

@@ -214,4 +214,70 @@ describe Role do
       end
     end
   end
+
+  describe '#update_users_with_current_role', search: true do
+
+    before do
+      Role.all.each(&:destroy)
+      User.all.each(&:destroy)
+      Sunspot.remove_all!
+      @case_permission = Permission.new(:resource => Permission::CASE, :actions => [Permission::READ, Permission::WRITE])
+      @main_role = Role.create(name: "National Administrator", permissions_list: [@case_permission])
+      @user = User.create(:user_name => 'primero_cp_a',
+                          :full_name => "Primero CP A",
+                          :organization => "UNICEF",
+                          :password => "Password0001",
+                          :password_confirmation => "Password0001",
+                          :module_ids => [PrimeroModule::CP],
+                          :role_ids => [Role.by_name(key: "National Administrator").first.id])
+      @user_b = User.create(:user_name => 'primero_cp_b',
+                            :full_name => "Primero CP B",
+                            :organization => "UNICEF",
+                            :password => "Password0001",
+                            :password_confirmation => "Password0001",
+                            :module_ids => [PrimeroModule::CP],
+                            :role_ids => [Role.by_name(key: "National Administrator").first.id])
+      Sunspot.commit
+    end
+
+    context 'when user has role' do
+      context 'with referral permission' do
+        before :each do
+          @case_permission[:actions] << Permission::RECEIVE_REFERRAL
+          @main_role.description = "Some description"
+          @main_role.permissions_list = [@case_permission]
+          @main_role.save!
+        end
+        it 'should reindex users with current role when adding referral permission' do
+          expect(@main_role.valid?).to be_truthy
+          expect(User.find_by_criteria({ can_receive_referrals: true }).results.length).to eq(2)
+        end
+        it 'should reindex users with current role when removing referral permission' do
+          @case_permission[:actions].tap(&:pop)
+          @main_role.permissions_list = [@case_permission]
+          @main_role.save!
+          expect(User.find_by_criteria({ can_receive_referrals: true }).results.length).to eq(0)
+        end
+      end
+      context 'with transfer permission' do
+        before :each do
+          @case_permission[:actions] << Permission::RECEIVE_TRANSFER
+          @main_role.description = "Some description"
+          @main_role.permissions_list = [@case_permission]
+          @main_role.save!
+        end
+        it 'should reindex users with current role' do
+          expect(@main_role.valid?).to be_truthy
+          expect(User.find_by_criteria({ can_receive_transfers: true }).results.length).to eq(2)
+        end
+        it 'should reindex users with current role when removing transfer permission' do
+          @case_permission[:actions].tap(&:pop)
+          @main_role.permissions_list = [@case_permission]
+          @main_role.save!
+          expect(User.find_by_criteria({ can_receive_transfers: true }).results.length).to eq(0)
+        end
+      end
+    end
+  end
+
 end
