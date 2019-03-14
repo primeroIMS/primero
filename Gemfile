@@ -51,7 +51,7 @@ gem 'chosen-rails',  '~> 1.5.2'
 gem 'ejs', '~> 1.1.1'
 
 gem 'yui-compressor'
-gem 'closure-compiler'
+gem 'closure-compiler', '1.1.13'
 gem 'progress_bar', '~> 1.1.0'
 
 gem 'writeexcel', '~> 1.0.5'
