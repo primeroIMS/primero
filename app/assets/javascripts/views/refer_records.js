@@ -10,12 +10,15 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     'change #referral-modal select#existing_user_referral' : 'on_user_change',
     'change #referral-modal input#other_user' : 'toggle_existing_user',
     'click #referral-modal input[type="submit"]' : 'close_referral',
-    'change #referral-modal select.existing_user_filter' : 'on_filter_change'
+    'change #referral-modal select#service' : 'on_service_change',
+    'change #referral-modal select#agency' : 'on_agency_change',
+    'change #referral-modal select#location' : 'on_location_change',
   },
 
   initialize: function(){
-    this.collection = new _primero.Collections.UsersCollection();
-    this.has_reset_modal = false;
+    var self = this;
+    self.collection = new _primero.Collections.UsersCollection();
+    self.has_reset_modal = false;
   },
 
   reset_modal: function() {
@@ -81,12 +84,13 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $referral_modal.find("#service_hidden").val(service_type);
     var $service_type = $referral_modal.find("#service");
     $service_type.val(service_type);
+    $service_type.attr("disabled","disabled");
+    $service_type.trigger("chosen:updated");
     $service_type.not("[type='hidden']").attr("disabled","disabled");
     $referral_modal.find("#existing_user_hidden").val(service_user_name);
 
     $referral_modal.find("#agency_hidden").val(service_agency);
     var $agency_select = $referral_modal.find("select#agency");
-    $agency_select.val(service_agency);
     $agency_select.attr("disabled","disabled");
     $agency_select.trigger("chosen:updated");
 
@@ -95,39 +99,21 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $location_select.trigger("chosen:updated");
 
     var $existing_user_select = $referral_modal.find("#existing_user_referral");
-    $existing_user_select.data('value', service_user_name);
     $existing_user_select.attr("disabled","disabled");
     $existing_user_select.trigger("chosen:updated");
 
-    _primero.init_user_options($existing_user_select);
+    self.set_user_filters();
 
-    if (service_delivery_location) {
-      self.populate_location_filter(service_delivery_location);
-    }
-
-    if (!service_delivery_location || !service_agency) {
-      var data = {
-        services: service_type,
-        agency_id: service_agency,
-        location: service_delivery_location,
-        transition_type: 'referral'
-      };
-
-      self.collection
-          .fetch({ data: data })
-          .done(function(){
-            var user = self.collection.get_by_user_name(service_user_name);
-
-            if (!service_delivery_location) {
-              //Since no location was selected in the subform, we use the user's location
-              self.populate_location_filter(user.reporting_location_code);
-            }
-
-            if (!service_agency) {
-              //In case no agency was selected in the subform, we use the user's agency
-              $agency_select.val(user.organization)
-            }
-          })
+    if(service_user_name) {
+      _primero.populate_user_select_boxes($existing_user_select, function(){
+        $existing_user_select.val(service_user_name);
+        $existing_user_select.trigger("chosen:updated");
+        var user = _primero.populated_user_collection.get_by_user_name(service_user_name);
+        var agency = service_agency ? service_agency : user.organization;
+        var location = service_delivery_location ? service_delivery_location : user.reporting_location_code;
+        self.populate_location_filter(location);
+        self.populate_agency_filter(agency);
+      })
     }
 
     $referral_modal.find("#service_object_id").val(service_object_id);
@@ -180,12 +166,16 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   clear_referral: function(e) {
     var $referral_modal = $("#referral-modal");
-    $referral_modal.find("#service").removeAttr("disabled");
+    var $service_select = $referral_modal.find("#service")
+    $service_select.removeAttr("disabled");
+    $service_select.val('');
+    $service_select.trigger("chosen:updated");
     $referral_modal.find("#service_hidden").removeAttr("disabled");
 
     var $agency_select = $referral_modal.find("#agency");
     $agency_select.removeAttr("disabled");
     $agency_select.val('');
+    $agency_select.data('value', '');
     $agency_select.trigger("chosen:updated");
     $referral_modal.find("#agency_hidden").removeAttr("disabled");
 
@@ -202,6 +192,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $existing_user_select.trigger("chosen:updated");
 
     //Update filters
+    this.set_agency_filters();
     this.set_user_filters();
   },
 
@@ -256,6 +247,25 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     this.populate_filters(e);
   },
 
+  on_service_change: function(e) {
+    this.set_agency_filters();
+    this.set_user_filters();
+    this.clear_agency_selection();
+    this.clear_user_selection();
+  },
+
+  on_location_change: function(e) {
+    this.set_user_filters();
+    this.clear_user_selection();
+  },
+
+  on_agency_change: function(e) {
+    var $agency_select = $(e.target);
+    $agency_select.data('value', $agency_select.val());
+    this.set_user_filters();
+    this.clear_user_selection();
+  },
+
   populate_filters: function(e) {
     var selected_user_name = $(e.target).val();
     if(selected_user_name){
@@ -264,22 +274,35 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
       if(selected_user){
         var $referral_modal = $("#referral-modal");
         $referral_modal.find("#agency_hidden").val(selected_user.organization);
-        var $agency_select = $referral_modal.find("select#agency");
-        $agency_select.val(selected_user.organization);
-        $agency_select.trigger('chosen:updated');
-        this.set_user_filters();
-
+        this.populate_agency_filter(selected_user.organization);
         this.populate_location_filter(selected_user.reporting_location_code);
       }
     }
   },
 
   populate_location_filter: function(location_code, onComplete){
+    var self = this;
     var $location_select = $("#referral-modal select#location");
     $location_select.data('value', location_code);
     _primero.populate_location_select_boxes(function(){
       $location_select.val(location_code);
-      $location_select.trigger("chosen:updated");
+      $location_select.trigger('chosen:updated');
+      self.set_user_filters();
+      if(onComplete){
+        onComplete();
+      }
+    });
+  },
+
+  populate_agency_filter: function(agency_id, onComplete){
+    var self = this;
+    self.set_agency_filters();
+    var $agency_select = $("#referral-modal select#agency");
+    $agency_select.data('value', agency_id);
+    _primero.populate_agency_select_boxes($agency_select, function(){
+      $agency_select.val(agency_id);
+      $agency_select.trigger('chosen:updated');
+      self.set_user_filters();
       if(onComplete){
         onComplete();
       }
@@ -305,16 +328,19 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     this.populate_location_filter(current_user_location, onComplete);
   },
 
-  on_filter_change: function(){
-    this.set_user_filters();
-    this.clear_user_selection();
+  set_agency_filters: function(){
+    var $referral_modal = $("#referral-modal");
+    var $service_select = $referral_modal.find('select#service');
+
+    var $agency_select = $referral_modal.find("select#agency");
+    $agency_select.data('filter-service-type', $service_select.val());
   },
 
   set_user_filters: function() {
     var $referral_modal = $("#referral-modal");
     var $service_select = $referral_modal.find('select#service');
-    var $agency_select = $referral_modal.find("select#agency");
     var $location_select = $referral_modal.find("select#location");
+    var $agency_select = $referral_modal.find("select#agency");
 
     var $existing_user_select = $('select#existing_user_referral');
     $existing_user_select.data('filter-service', $service_select.val());
@@ -322,12 +348,23 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $existing_user_select.data('filter-location', $location_select.val());
   },
 
+  clear_agency_selection: function(){
+    var $agency_select = $('select#agency')
+    this.clear_select_box($agency_select);
+  },
+
   clear_user_selection: function(){
     var $existing_user_select = $('select#existing_user_referral');
-    $existing_user_select.empty();
-    $existing_user_select.html('<option value=""></option>');
-    $existing_user_select.trigger('change');
-    $existing_user_select.trigger('chosen:updated');
+    this.clear_select_box($existing_user_select);
+  },
+
+  clear_select_box: function($select_box) {
+    $select_box.data('value', '');
+    $select_box.val('');
+    $select_box.empty();
+    $select_box.html('<option value=""></option>');
+    $select_box.trigger('change');
+    $select_box.trigger('chosen:updated');
   }
 
 });

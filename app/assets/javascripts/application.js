@@ -61,6 +61,9 @@
 //= require ./views/base_view
 //= require_tree ./views/management
 //= require ./views/populate_select_boxes
+//= require ./views/populate_location_select_boxes
+//= require ./views/populate_user_select_boxes
+//= require ./views/populate_agency_select_boxes
 //= require_tree ./views
 //= require router
 
