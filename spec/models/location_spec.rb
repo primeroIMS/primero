@@ -109,7 +109,7 @@ describe Location do
     state2 = Location.new(placename: 'North Carolina', location_code: 'NC', type: 'state', hierarchy: [country1.location_code])
     state2.save
     state2.should_not be_valid
-    state2.errors[:name].should == ["A Location with that location code already exists, please enter a different location code"]
+    state2.errors[:location_code].should == ["A Location with that location code already exists, please enter a different location code"]
   end
 
   it "should allow locations with same placename but different hierachies" do
@@ -347,16 +347,16 @@ describe Location do
       state2 = Location.new(placename: 'North Carolina', location_code: 'CANC', type: 'state', hierarchy: [country2.location_code])
       state2.save!
 
-      expect(Location.all.page(1).per(3).all).to include(state2, state1, country2)
-      expect(Location.all.page(2).per(3).all).to include(country1)
-      Location.should_receive(:all).exactly(3).times.and_call_original
+      expect(Location.all.paginate(:page => 1, :per_page => 3)).to include(country1, country2, state1)
+      expect(Location.all.paginate(:page => 2, :per_page => 3)).to include(state2)
+      Location.should_receive(:all).exactly(1).times.and_call_original
 
       records = []
       Location.each_slice(3) do |locations|
         locations.each{|l| records << l.placename}
       end
 
-      records.should eq(["North Carolina", "North Carolina", "Canada", "USA"])
+      records.should eq(['USA', 'Canada','North Carolina', 'North Carolina'])
     end
 
     it "should process in 0 batches" do

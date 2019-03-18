@@ -124,7 +124,7 @@ describe LocationsController do
   describe "put update" do
     it "should save update if valid" do
       @town3.placename = "town_4"
-      Location.should_receive(:get).with(@town3.id).and_return(@town3)
+      Location.should_receive(:find_by).with({id: @town3.id.to_s}).and_return(@town3)
       post :update, params: {id: @town3.id}
       expect(response).to redirect_to(locations_path)
     end
@@ -132,7 +132,7 @@ describe LocationsController do
     context "when the parent is updated" do
       it "should update the hierarchy" do
         put :update, params: {id: @province3.id, location: {placename: @province3.placename, type: "province", parent_id: @country2.id}}
-        province = Location.get(@province3.id)
+        province = Location.find(@province3.id)
         expect(province.hierarchy).to eq([@country2.location_code])
         #TODO i18n - add tests for translations
         expect(province.name).to eq("Country2::Province3")
@@ -140,8 +140,8 @@ describe LocationsController do
 
       it "should update the hierarchy of all descendants" do
         put :update, params: {id: @province1.id, location: {placename: @province1.placename, type: "province", parent_id: @country2.id}}
-        updated_town1 = Location.get(@town1.id)
-        updated_town2 = Location.get(@town2.id)
+        updated_town1 = Location.find(@town1.id)
+        updated_town2 = Location.find(@town2.id)
         new_hierarchy = [@country2.location_code, @province1.location_code]
         expect(updated_town1.hierarchy).to eq(new_hierarchy)
         expect(updated_town2.hierarchy).to eq(new_hierarchy)

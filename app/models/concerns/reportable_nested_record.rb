@@ -72,7 +72,7 @@ module ReportableNestedRecord
             #TODO - There is a lot of similarity to Admin Level code in searchable concern
             Location::ADMIN_LEVELS.each do |admin_level|
               string "#{field}#{admin_level}", as: "#{field}#{admin_level}_sci".to_sym do
-                location = Location.find_by_location_code(record_value(field))
+                location = Location.find_by(location_code: record_value(field))
                 if location.present?
                   # break if admin_level > location.admin_level
                   if admin_level == location.admin_level

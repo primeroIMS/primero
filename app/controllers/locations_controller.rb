@@ -27,7 +27,7 @@ class LocationsController < ApplicationController
     location.generate_hierarchy
 
     if (location.valid?)
-      location.create
+      location.save
       flash[:notice] = t("location.messages.updated")
       redirect_to locations_path
     else
@@ -67,7 +67,7 @@ class LocationsController < ApplicationController
   private
 
   def load_location
-    @location = Location.get params[:id] if params[:id]
+    @location = Location.find_by(id: params[:id]) if params[:id]
   end
 
   def load_types

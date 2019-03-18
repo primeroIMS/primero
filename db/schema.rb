@@ -133,6 +133,17 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
+  create_table "locations", id: :serial, force: :cascade do |t|
+    t.jsonb "name_i18n"
+    t.jsonb "placename_i18n"
+    t.string "location_code", null: false
+    t.integer "admin_level"
+    t.string "type"
+    t.boolean "disabled", default: false, null: false
+    t.string "hierarchy", default: [], array: true
+    t.index ["location_code"], name: "index_locations_on_location_code", unique: true
+  end
+
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"

@@ -7,7 +7,7 @@
   admin_level_options = Location::ADMIN_LEVELS
   admin_level_selection = ((@location.present? && @location.admin_level.present?) ? @location.admin_level : "")
   admin_level_disabled = !@location.admin_level_required?
-  given_locale = @location.base_language
+  given_locale = Primero::Application::BASE_LANGUAGE
   system_locale = I18n.locale
 %>
 
