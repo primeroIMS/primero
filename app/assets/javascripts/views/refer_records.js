@@ -65,6 +65,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   refer_from_service: function(event) {
     var self = this;
+    this.reset_modal();
     self.clear_referral();
     self.clear_user_selection();
     self.disable_remote_fields();
