@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201903060000001) do
+ActiveRecord::Schema.define(version: 20190311000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,6 +154,14 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.string "record_type"
     t.string "user_name"
     t.jsonb "filters"
+  end
+
+  create_table "user_groups", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.string "name"
+    t.string "description"
+    t.boolean "core_resource", default: false, null: false
+    t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
   end
 
 end
