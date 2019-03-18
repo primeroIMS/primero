@@ -28,7 +28,7 @@ module ReportableNestedRecord
                          type: Field::SUBFORM,
                          form_sections: {parent_form: self.parent_record_type.parent_form})
                   .first
-      field.subform
+      field.try(:subform)
     end
 
     #Sunspot expects this to be an active record object. So we are tricking it.

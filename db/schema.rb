@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20190216000002) do
   end
 
   create_table "flags", id: :serial, force: :cascade do |t|
-    t.integer "record_id"
+    t.string "record_id"
     t.string "record_type"
     t.date "date"
     t.text "message"

@@ -17,10 +17,13 @@ module Ownable
       boolean :not_edited_by_owner
     end
 
+    scope :owned_by, ->(username) { where('data @> ?', {owned_by: username}.to_json) }
+
     before_save :update_ownership
   end
 
   module ClassMethods
+
     #TODO: Refactor with Export
     #Returns the hash with the properties within the form sections based on module and current user.
     # def get_properties_by_module(user, modules)

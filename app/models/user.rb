@@ -506,7 +506,7 @@ class User < CouchRest::Model::Base
     # TODO: The following gets all the cases by user and updates the location/district.
     # Performance degrades on save if the user changes their location.
     if location_changed? || user_group_ids_changed?
-      Child.by_owned_by.key(self.user_name).all.each do |child|
+      Child.owned_by(self.user_name).each do |child|
         child.owned_by_location = self.location if location_changed?
         child.owned_by_groups = self.user_group_ids if user_group_ids_changed?
         child.save!

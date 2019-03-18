@@ -54,7 +54,10 @@ class Child < ActiveRecord::Base
     :system_generated_followup,
     :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
-    :disclosure_other_orgs
+    :disclosure_other_orgs,
+    :ration_card_no, :icrc_ref_no, :unhcr_id_no, :unhcr_individual_no, :un_no,  :other_agency_id,
+    :survivor_code_no, :national_id_no, :other_id_no, :biometrics_id, :family_count_no, :dss_id, :camp_id,
+    :tent_number, :nfi_distribution_id
 
   #TODO: Refactor with Incidents
   #To hold the list of GBV Incidents created from a GBV Case.
@@ -102,6 +105,7 @@ class Child < ActiveRecord::Base
     %w(date_case_plan_initiated assessment_requested_on).each{|f| date(f)}
 
     boolean :estimated
+    integer :day_of_birth
 
     string :child_status, as: 'child_status_sci'
     string :risk_level, as: 'risk_level_sci' do
@@ -172,8 +176,10 @@ class Child < ActiveRecord::Base
 
   def self.by_date_of_birth_range(start_date, end_date)
     if start_date.is_a?(Date) && end_date.is_a?(Date)
+      start_yday = normal_yday(start_date)
+      end_yday = normal_yday(end_date)
       Child.search do
-        with(:date_of_birth).between(start_date..end_date)
+        with(:day_of_birth, start_yday..end_yday)
       end.results
     end
   end
@@ -279,6 +285,20 @@ class Child < ActiveRecord::Base
 
   def caregivers_name
     self.data['name_caregiver'] || self.family.select { |fd| fd['relation_is_caregiver'] }.first.try(:[], 'relation_name')
+  end
+
+  def day_of_birth
+    if self.date_of_birth.is_a? Date
+      Child.normal_yday(self.date_of_birth)
+    end
+  end
+
+  def self.normal_yday(date)
+    yday = date.yday
+    if date.leap? && (yday >= 60)
+      yday -= 1
+    end
+    return yday
   end
 
   # Solution below taken from...

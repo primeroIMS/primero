@@ -11,7 +11,7 @@ class RecordFlagController < ApplicationController
   def flag
     authorize! :flag, @record
     flag = @record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
-    if flag.save
+    if flag.present?
       render :json => flag if params[:redirect_url].blank?
     else
       render :json => {:error => flag.errors.full_messages} if params[:redirect_url].blank?
@@ -23,7 +23,7 @@ class RecordFlagController < ApplicationController
   def unflag
     authorize! :flag, @record
     flag = @record.remove_flag( params[:flag_index], params[:flag_message], current_user_name, params[:unflag_message], DateTime.now)
-    if flag.present? && flag.save
+    if flag.present?
       render :json => flag if params[:redirect_url].blank?
     else
       render :json => {:error => flag.errors.full_messages + [I18n.t("errors.models.flags.index", :index => params[:flag_index])]} if params[:redirect_url].blank?
@@ -59,8 +59,7 @@ class RecordFlagController < ApplicationController
       end
 
       records_to_flag.each do |record|
-        flag = record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
-        flag.save
+        record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
       end
     rescue
       success = false

@@ -12,7 +12,7 @@ module Indexable
     end
 
     def queue_for_index
-      SunspotIndexJob.perform_later(self.class.name, self.id)
+      SunspotIndexJob.perform_later(self.class.name, self.id) unless self.class.auto_index?
     end
   end
 

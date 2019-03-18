@@ -18,7 +18,7 @@ module RecordJson
 
     def new_with_user(user, data = {})
       record = self.new
-      record.data = data
+      record.data = Utils.merge_data(record.data, data)
       record.set_creation_fields_for(user)
       record.set_owner_fields_for(user)
       record
@@ -117,32 +117,8 @@ module RecordJson
     #TODO: This used to replace empty values with nil to avoid wiping out data. This may be a rails forms thing.
     #properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     properties['record_state'] = true if properties['record_state'].nil?
-    self.data = merge_data(self.data, properties)
+    self.data = Utils.merge_data(self.data, properties)
     self.last_updated_by = user_name
-  end
-
-  #TODO: WRITE UNIT TESTS FOR THIS!!!
-  def merge_data(old_data, new_data)
-    if old_data.is_a?(Hash) && new_data.is_a?(Hash)
-      old_data.merge(new_data) do |_, old_value, new_value|
-        merge_data(old_value, new_value)
-      end
-    elsif is_an_array_of_hashes?(old_data) && is_an_array_of_hashes?(new_data)
-      new_data.inject([]) do |result, new_nested_record|
-        nested_record_id = new_nested_record['unique_id']
-        if nested_record_id.present?
-          old_nested_record = old_data.find{|r| r['unique_id'] == nested_record_id}
-          result << merge_data(old_nested_record, new_nested_record)
-        else
-          result << new_nested_record
-        end
-        result
-      end
-    elsif new_data.nil?
-      old_data
-    else
-      new_data
-    end
   end
 
   def nested_reportables_hash
@@ -167,10 +143,35 @@ module RecordJson
     end
   end
 
-  private
 
-  def is_an_array_of_hashes?(value)
-    value.is_a?(Array) && (value.blank? || value.first.is_a?(Hash))
+  class Utils
+    #TODO: WRITE UNIT TESTS FOR THIS!!!
+    def self.merge_data(old_data, new_data)
+      if old_data.is_a?(Hash) && new_data.is_a?(Hash)
+        old_data.merge(new_data) do |_, old_value, new_value|
+          merge_data(old_value, new_value)
+        end
+      elsif is_an_array_of_hashes?(old_data) && is_an_array_of_hashes?(new_data)
+        new_data.inject([]) do |result, new_nested_record|
+          nested_record_id = new_nested_record['unique_id']
+          if nested_record_id.present?
+            old_nested_record = old_data.find{|r| r['unique_id'] == nested_record_id}
+            result << merge_data(old_nested_record, new_nested_record)
+          else
+            result << new_nested_record
+          end
+          result
+        end
+      elsif new_data.nil?
+        old_data
+      else
+        new_data
+      end
+    end
+
+    def self.is_an_array_of_hashes?(value)
+      value.is_a?(Array) && (value.blank? || value.first.is_a?(Hash))
+    end
   end
 
 end
