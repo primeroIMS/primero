@@ -146,7 +146,7 @@ fr:
     filter_clear: "Supprimer les filtres "
     flag_records: "Signaler"
     flag_model: "Signaler %{model}"
-    unflag_model: "Désactiver le signalement de % {model}"
+    unflag_model: "Désactiver le signalement de %{model}"
     unflag_model_history: "Histoire des signalements %{model}"
     ok: 'OK'
     cancel: "Annuler"
