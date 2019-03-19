@@ -20,12 +20,12 @@ _primero.Collections.AgencyCollection = Backbone.Collection.extend({
 });
 
 _primero.Views.PopulateAgencySelectBoxes = _primero.Views.PopulateUserSelectBoxes.extend({
-  el: "form select[data-populate='Agency']",
+  el: "form select[data-populate='Agency use_api']",
 
   initialize: function(){
     var self = this;
 
-    self.option_string_sources = ['Agency'];
+    self.option_string_sources = ['Agency use_api'];
 
     self.collection = new _primero.Collections.AgencyCollection();
 

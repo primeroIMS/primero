@@ -50,7 +50,7 @@ services_subform = [
     "name" => "service_implementing_agency",
     "type" => "select_box",
     "display_name_en" => "Implementing Agency",
-    "option_strings_source" => "Agency"
+    "option_strings_source" => "Agency use_api"
   }),
   Field.new({
     "name" => "service_provider",

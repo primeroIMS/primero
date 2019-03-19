@@ -412,7 +412,7 @@ class Field
         options_list += []
       when 'Agency'
         # If the Agency field is marked to be empty is probably because we're gonna populate it through PopulateAgencySelectBoxes script
-        options_list +=  source_options[1] == 'Empty' ? [] : Agency.all_names
+        options_list +=  source_options[1] == 'use_api' ? [] : Agency.all_names
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
