@@ -33,13 +33,19 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
   el: "form select[data-populate='User']",
 
   initialize: function(){
-    this.option_string_sources = ['User'];
+    var self = this;
 
-    this.collection = new _primero.Collections.UsersCollection();
+    self.option_string_sources = ['User'];
 
-    this.initialOptions();
+    self.collection = new _primero.Collections.UsersCollection();
 
-    this.populateSelectBoxes();
+    self.initialOptions();
+
+    self.setupSelectBox();
+
+    _primero.populate_user_select_boxes = function($select_box, onComplete) {
+      self.populateSelectBoxes($select_box, onComplete);
+    }
   },
 
   filters: null,
@@ -80,7 +86,7 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
     return options;
   },
 
-  populateSelectBoxes: function() {
+  setupSelectBox: function() {
     var self = this;
 
     this.$el.on('chosen:ready', function(e) {
@@ -89,55 +95,78 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
 
     this.$el.on('chosen:showing_dropdown', function(e){
       var $select_box = $(e.target);
-      var filters_required = $select_box.data("filters-required");
-      var transition_type = $select_box.data("filter-transition-type");
-      var service = $select_box.data("filter-service");
-      var agency = $select_box.data("filter-agency");
-      var location = $select_box.data("filter-location");
+      self.populateSelectBoxes($select_box);
+    });
+  },
 
-      var data_filters = {
-        services: service,
-        agency_id: agency,
-        location: location
-      };
+  populateSelectBoxes: function($select_box, onComplete){
+    var self = this;
+    var filters_required = $select_box.data("filters-required");
+    var data_filters = self.getRequiredFilters($select_box);
 
-      if (!filters_required || (filters_required && !_.isEmpty(_.compact(_.values(data_filters))))) {
+    if (!filters_required || (filters_required && !_.isEmpty(_.compact(_.values(data_filters))))) {
+      var other_filters = self.getMoreFilters($select_box) ? self.getMoreFilters($select_box) : {};
+      _.extend(data_filters, other_filters);
 
-        // TODO: Referrals will be the default transition until we find a better solution for this. If the
-        // transition param is not specified the user api will always return empty.
+      if (self.collection.length < 1 || !_.isEqual(self.filters, data_filters)) {
 
-        // This is not a required filter, that's why we don't validate it above.
-        data_filters.transition_type = transition_type ? transition_type : 'referral';
+        self.filters = data_filters;
 
-        if (self.collection.length < 1 || !_.isEqual(self.filters, data_filters)) {
-
-          self.filters = data_filters;
-
-          if (!$select_box.attr('multiple')) {
-            $select_box.empty();
-            $select_box.html('<option>' + I18n.t("messages.loading") + '</option>');
-            $select_box.trigger("chosen:updated");
-          }
-
-          self.collection.fetch({data: self.filters})
-              .done(function() {
-                self.parseOptions($select_box);
-                _primero.populated_user_collection = self.collection;
-              })
-              .fail(function() {
-                self.collection.message = I18n.t('messages.string_sources_failed');
-                self.disableAjaxSelectBoxes();
-              });
-
-        } else {
-          // Use the data that we have.
-          self.parseOptions($select_box);
+        if (!$select_box.attr('multiple')) {
+          $select_box.empty();
+          $select_box.html('<option>' + I18n.t("messages.loading") + '</option>');
+          $select_box.trigger("chosen:updated");
         }
 
+        self.collection.fetch({data: self.filters})
+            .done(function() {
+              self.parseOptions($select_box);
+              self.updateCollectionCache();
+              if(onComplete) {
+                onComplete();
+              }
+            })
+            .fail(function() {
+              self.collection.message = I18n.t('messages.string_sources_failed');
+              self.disableAjaxSelectBoxes();
+            });
+
       } else {
-        alert(I18n.t('messages.valid_search_criteria'));
+        // Use the data that we have.
+        self.parseOptions($select_box);
+        if(onComplete) {
+          onComplete();
+        }
       }
-    });
+
+    } else {
+      alert(I18n.t('messages.valid_search_criteria'));
+    }
+  },
+
+  getRequiredFilters: function($select_box){
+    var service = $select_box.data("filter-service");
+    var agency = $select_box.data("filter-agency");
+    var location = $select_box.data("filter-location");
+
+    return {
+      services: service,
+      agency_id: agency,
+      location: location
+    };
+  },
+
+  getMoreFilters: function($select_box) {
+    // TODO: Referrals will be the default transition until we find a better solution for this. If the
+    // transition param is not specified the user api will always return empty.
+    var transition_type = $select_box.data("filter-transition-type");
+    return {
+      transition_type: transition_type ? transition_type : 'referral'
+    }
+  },
+
+  updateCollectionCache: function() {
+    _primero.populated_user_collection = this.collection;
   },
 
   initAutoComplete: function($select_boxes) {
@@ -147,13 +176,17 @@ _primero.Views.PopulateUserSelectBoxes = _primero.Views.PopulateLocationSelectBo
       delay: 900,
       source: function(request, response) {
         var element = this.element.parents('.chosen-container').prev('select');
-        var users = _.first(self.collection.find_by_user_name(request.term), 50);
-        options = _.compact(_.union(self.convertToOptions(users), self.collection.selected_values));
+        var results = _.first(self.findByTerm(request.term), 50);
+        options = _.compact(_.union(self.convertToOptions(results), self.collection.selected_values));
         response(self.addOptions(options, element));
 
         this.element.val(request.term);
       }
     })
+  },
+
+  findByTerm: function(term) {
+    return this.collection.find_by_user_name(term);
   },
 
   parseOptions: function($select_box) {

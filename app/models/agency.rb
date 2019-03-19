@@ -24,6 +24,18 @@ class Agency < CouchRest::Model::Base
     view :by_order
   end
 
+  #TODO: In v2 this will be replaced by a regular AR SQL where clause
+  design :by_service do
+    view :by_service,
+         :map => "function(doc) {
+           if (doc['couchrest-type'] == 'Agency' && doc['services']) {
+             for (var i in doc['services']) {
+               emit(doc['services'][i], null);
+             }
+           }
+         }"
+  end
+
   validates_presence_of :agency_code, :message => I18n.t("errors.models.agency.code_present")
   validate :validate_name_in_base_language
 
