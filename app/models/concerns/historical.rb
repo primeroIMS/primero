@@ -36,7 +36,7 @@ module Historical
   end
 
   def validate_created_at
-    unless self.created_at.nil? || self.created_at.is_a?(DateTime) ||  self.last_updated_at.is_a?(Time)
+    unless self.created_at.nil? || self.created_at.is_a?(DateTime) ||  self.created_at.is_a?(Time)
       errors.add(:created_at, '')
     end
   end
@@ -66,24 +66,26 @@ module Historical
   end
 
   def update_last_updated_at
-    self.last_updated_at = DateTime.now
-  end
-
-  #This is an alias to make migration easier
-  def histories
-    self.record_histories
+    now = DateTime.now
+    self.created_at ||= now
+    self.last_updated_at = now
   end
 
   def ordered_histories
     self.record_histories.order(datetime: :desc)
   end
 
+  #This is an alias to make migration easier
+  def histories
+    self.ordered_histories
+  end
+
   def add_creation_history
     RecordHistory.create(
       record_id: self.id,
       record_type: self.class.name,
-      user_name: created_by,
-      datetime: created_at,
+      user_name: self.created_by,
+      datetime: self.created_at,
       action: EVENT_CREATE
     )
   end
@@ -96,8 +98,8 @@ module Historical
         RecordHistory.create(
           record_id: self.id,
           record_type: self.class.name,
-          user_name: last_updated_by,
-          datetime: last_updated_at,
+          user_name: self.last_updated_by,
+          datetime: self.last_updated_at,
           action: EVENT_UPDATE,
           record_changes: saved_changes_to_record
         )

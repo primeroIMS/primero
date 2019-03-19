@@ -8,7 +8,7 @@ class CreateFlags < ActiveRecord::Migration[5.0]
       t.string 'flagged_by'
       t.boolean 'removed', null: false, default: false
       t.text 'unflag_message'
-      t.time 'created_at'
+      t.datetime 'created_at'
       t.boolean 'system_generated_followup',  null: false, default: false
       t.string 'unflagged_by'
       t.date 'unflagged_date'

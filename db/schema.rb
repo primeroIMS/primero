@@ -84,7 +84,7 @@ ActiveRecord::Schema.define(version: 20190216000002) do
     t.string "flagged_by"
     t.boolean "removed", default: false, null: false
     t.text "unflag_message"
-    t.time "created_at"
+    t.datetime "created_at"
     t.boolean "system_generated_followup", default: false, null: false
     t.string "unflagged_by"
     t.date "unflagged_date"
@@ -124,7 +124,7 @@ ActiveRecord::Schema.define(version: 20190216000002) do
   create_table "record_histories", id: :serial, force: :cascade do |t|
     t.integer "record_id"
     t.string "record_type"
-    t.time "datetime"
+    t.datetime "datetime"
     t.string "user_name"
     t.string "action"
     t.jsonb "record_changes", default: {}

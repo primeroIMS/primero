@@ -3,7 +3,7 @@ class CreateRecordHistories < ActiveRecord::Migration[5.0]
     create_table :record_histories do |t|
       t.integer 'record_id'
       t.string 'record_type'
-      t.time 'datetime'
+      t.datetime 'datetime'
       t.string 'user_name'
       t.string 'action'
       t.jsonb 'record_changes', default: {}
