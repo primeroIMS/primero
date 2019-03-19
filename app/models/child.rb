@@ -48,6 +48,7 @@ class Child < ActiveRecord::Base
   store_accessor :data,
     :case_id, :case_id_code, :case_id_display,
     :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
+    :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
     :risk_level, :child_status, :case_status_reopened, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
