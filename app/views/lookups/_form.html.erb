@@ -1,5 +1,5 @@
 <%
-  given_locale = @lookup.base_language
+  given_locale = Primero::Application::BASE_LANGUAGE
   lookup_values = @lookup.send("lookup_values_#{given_locale}")
   editing ||= false
 %>

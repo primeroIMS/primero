@@ -133,6 +133,14 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
+  create_table "lookups", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.jsonb "name_i18n"
+    t.jsonb "lookup_values_i18n"
+    t.boolean "locked", default: false, null: false
+    t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
+  end
+
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"

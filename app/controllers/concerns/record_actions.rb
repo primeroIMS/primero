@@ -277,7 +277,7 @@ module RecordActions
 
   #TODO - Primero - Refactor needed.  Determine more elegant way to load the lookups.
   def get_lookups
-    @lookups = Lookup.all.all
+    @lookups = Lookup.all
   end
 
   def load_default_settings
