@@ -18,14 +18,19 @@ class FormSection < ActiveRecord::Base
   validate :validate_name_format
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
-  after_initialize :defaults
+  after_initialize :defaults, :generate_unique_id
   before_save :sync_form_group
-  after_save :recalculate_subform_permissions
   after_save :recalculate_collapsed_fields
 
   #TODO: Move to migration
   def defaults
     %w(order order_form_group order_subform initial_subforms).each{|p| self[p] ||= 0}
+  end
+
+  def generate_unique_id
+    if self.name_en.present? && self.unique_id.blank?
+      self.unique_id = self.name_en.gsub(/[^A-Za-z0-9_ ]/, '').parameterize.underscore
+    end
   end
 
   def form_group_name(opts={})
@@ -85,7 +90,6 @@ class FormSection < ActiveRecord::Base
     def create_or_update_form_section(properties = {})
       unique_id = properties[:unique_id]
       return nil if unique_id.blank?
-
       fields = properties[:fields]
 
       if fields.present?
@@ -207,7 +211,7 @@ class FormSection < ActiveRecord::Base
 
     def add_field_to_formsection(formsection, field)
       raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
-      field.form_section_id = formsection.id
+      field.form_section = formsection
       if field.type == Field::SUBFORM
         subform = create_subform(formsection, field)
         field.subform_section_id = subform.id
@@ -392,7 +396,7 @@ class FormSection < ActiveRecord::Base
 
     def mobile_forms_to_hash(form_sections, locale=nil)
       locales = ((locale.present? && Primero::Application::locales.include?(locale)) ? [locale] : Primero::Application::locales)
-      lookups = Lookup.all.all
+      lookups = Lookup.all
       locations = self.include_locations_for_mobile? ? Location.all_names(locale: I18n.locale) : []
       form_sections.map {|form| mobile_form_to_hash(form, locales, lookups, locations)}
     end
@@ -436,7 +440,7 @@ class FormSection < ActiveRecord::Base
     end
 
     def import_translations(form_hash={}, locale)
-      if locale.present? && I18n.locales.include?(locale)
+      if locale.present? && I18n.available_locales.include?(locale.try(:to_sym))
         unique_id = form_hash.keys.first
         if unique_id.present?
           form = FormSection.find_by(unique_id: unique_id)
@@ -475,12 +479,12 @@ class FormSection < ActiveRecord::Base
     #convert top level attributes
     FormSection.localized_properties.each do |property|
       attributes[property] = {}
+      key = "#{property.to_s}_i18n"
       Primero::Application::locales.each do |locale|
-        key = "#{property.to_s}_#{locale.to_s}"
-        value = attributes[key].nil? ? "" : attributes[key]
+        value = attributes.try(:[], key).try(:[], locale) || ""
         attributes[property][locale] = value if locales.include? locale
-        attributes.delete(key)
       end
+      attributes.delete(key)
     end
     attributes
   end
@@ -534,7 +538,7 @@ class FormSection < ActiveRecord::Base
   def is_violation_wrapper?
     self.fields.present? &&
     self.fields.select{|f| f.type == Field::SUBFORM}.any? do |f|
-      Incident.violation_id_fields.keys.include?(f.subform_section_id)
+      Incident.violation_id_fields.keys.include?(f.subform.unique_id)
     end
   end
 
@@ -573,19 +577,6 @@ class FormSection < ActiveRecord::Base
   end
 
   protected
-
-  def recalculate_subform_permissions
-    if self.is_nested?
-      Role.all.each do |role|
-        role.add_permitted_subforms
-        role.save
-      end
-      PrimeroModule.all.each do |primero_module|
-        primero_module.add_associated_subforms
-        primero_module.save
-      end
-    end
-  end
 
   def recalculate_collapsed_fields
     # Awful code but gets the job done. If we have collapsed_field_names specified on the form

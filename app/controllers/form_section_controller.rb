@@ -37,7 +37,7 @@ class FormSectionController < ApplicationController
     form_section = FormSection.new_custom params[:form_section], @primero_module.name
 
     if (form_section.valid?)
-      form_section.create
+      form_section.save
       unless @primero_module.associated_form_ids.include? form_section.unique_id
         @primero_module.associated_form_ids << form_section.unique_id
         @primero_module.save
@@ -59,7 +59,7 @@ class FormSectionController < ApplicationController
 
   def update
     authorize! :update, FormSection
-    @form_section = FormSection.find_by_id(params[:id])
+    @form_section = FormSection.find_by(unique_id: params[:id])
     @form_section.properties = params[:form_section].to_h
     #TODO: Need to set the fields as well
     if (@form_section.valid?)
@@ -82,7 +82,7 @@ class FormSectionController < ApplicationController
 
   def toggle
     authorize! :update, FormSection
-    form = FormSection.find_by_id(params[:id], true)
+    form = FormSection.find_by(unique_id: params[:id])
     form.visible = !form.visible?
     form.save!
     render plain: 'OK'
@@ -91,7 +91,7 @@ class FormSectionController < ApplicationController
   def save_order
     authorize! :update, FormSection
     params[:ids].each_with_index do |unique_id, index|
-      form_section = FormSection.find_by_id(unique_id)
+      form_section = FormSection.find_by(unique_id: unique_id)
       form_section.order = index + 1
       form_section.save!
     end
@@ -165,8 +165,8 @@ class FormSectionController < ApplicationController
   end
 
   def get_lookups
-    lookups = Lookup.get_all
-    @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.id}"]}
+    lookups = Lookup.all
+    @lookup_options = lookups.map{|lkp| [lkp.name, "lookup #{lkp.unique_id}"]}
     @lookup_options.unshift("", "Location")
   end
 

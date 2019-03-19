@@ -60,22 +60,14 @@ describe ApprovalActions, type: :controller do
                                             :fields => approvals_fields_subform,
                                             :initial_subforms => 0,
                                             "name_all" => "Approval Subform",
-                                            "description_all" => "Approval Subform",
-                                            "collapsed_fields" => [
-                                                "approval_requested_for",
-                                                "approval_response_for",
-                                                "approval_for_type",
-                                                "approval_date",
-                                                "approval_status"
-                                            ]
+                                            "description_all" => "Approval Subform"
                                         })
-
     approvals_section.save!
 
     approvals_fields = [
         Field.new({"name" => "approval_subforms",
                    "type" => "subform",
-                   "subform_section_id" => approvals_section.unique_id,
+                   "subform_section_id" => approvals_section.id,
                    "display_name_all" => "Approval"
                   }),
     ]
@@ -83,7 +75,6 @@ describe ApprovalActions, type: :controller do
     form = FormSection.new({
                                :unique_id => "approvals",
                                :parent_form=>"case",
-                               :form_group_name => "Approvals",
                                :fields => approvals_fields,
                                "name_all" => "Approvals",
                                "description_all" => "Approvals"

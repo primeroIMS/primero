@@ -44,6 +44,7 @@ class Field < ActiveRecord::Base
   before_validation :generate_options_keys
   before_validation :sync_options_keys
   before_create :sanitize_name
+  after_save :recalculate_subform_permissions
 
   #TODO: Move to migration
   def defaults
@@ -56,7 +57,7 @@ class Field < ActiveRecord::Base
     lh = localized_hash(locale)
     if self.option_strings_text.present?
       fh = {}
-      self.option_strings_text_(locale).each{|os| fh[os['id']] = os['display_text']}
+      self.option_strings_text(locale).each{|os| fh[os['id']] = os['display_text']}
       lh['option_strings_text'] = fh
     end
     lh
@@ -108,7 +109,6 @@ class Field < ActiveRecord::Base
         return true
       end
     end
-
     return false unless valid_option_strings?(base_options)
     return false unless options_keys_unique?(base_options)
     return false unless valid_option_strings_text_translations?
@@ -204,8 +204,8 @@ class Field < ActiveRecord::Base
   def sanitize_name
     if self.name.present?
       self.name = self.name.gsub(/[^A-Za-z0-9_ ]/, '').parameterize.underscore
-    elsif self.display_name.present?
-      self.name = self.display_name.gsub(/[^A-Za-z0-9 ]/, '').parameterize.underscore
+    elsif self.display_name_en.present?
+      self.name = self.display_name_en.gsub(/[^A-Za-z0-9 ]/, '').parameterize.underscore
     end
   end
 
@@ -433,18 +433,19 @@ class Field < ActiveRecord::Base
     field_hash = self.attributes.clone
     Field.localized_properties.each do |property|
       field_hash[property] = {}
+      key = "#{property.to_s}_i18n"
       Primero::Application::locales.each do |locale|
-        key = "#{property.to_s}_#{locale}"
-        value = field_hash[key]
         if property == :option_strings_text
           #value = field.options_list(@lookups) #TODO: This includes Locations. Imagine a situation with 4K locations, like Nepal?
           value = self.options_list(nil, lookups, locations)
-        elsif field_hash[key].nil?
+        elsif  field_hash[key].present?
+          value = field_hash[key][locale]
+        else
           value = ""
         end
         field_hash[property][locale] = value if locales.include? locale
-        field_hash.delete(key)
       end
+      field_hash.delete(key)
     end
     field_hash
   end
@@ -540,7 +541,7 @@ class Field < ActiveRecord::Base
   def validate_unique_name
     #TODO: Consider moving this logic to FormSection for performance reasons
     return true unless self.form_section_id.present? #TODO: This line might not be necessary for AR
-    if (Field.where(name: self.name, form_section_id: self.form_section_id).count > 1)
+    if (Field.where(name: self.name, form_section_id: self.form_section_id).where.not(id: self.id).any?)
       return errors.add(:name, I18n.t("errors.models.field.unique_name_this"))
     end
     true
@@ -584,6 +585,22 @@ class Field < ActiveRecord::Base
       end
     end
     self.send("option_strings_text_#{locale}=", options)
+    self.save!
+  end
+
+  protected
+
+  def recalculate_subform_permissions
+    if self.type == Field::SUBFORM && (self.new_record? || self.saved_change_to_attribute?('subform_section_id'))
+      Role.all.each do |role|
+        role.add_permitted_subforms
+        role.save
+      end
+      PrimeroModule.all.each do |primero_module|
+        primero_module.add_associated_subforms
+        primero_module.save
+      end
+    end
   end
 
 end

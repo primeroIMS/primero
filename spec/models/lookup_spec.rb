@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe Lookup do
+  before :each do
+    Lookup.all.each &:destroy
+  end
   it "should not be valid if name is empty" do
     lookup = Lookup.new
     lookup.should_not be_valid
@@ -34,14 +37,14 @@ describe Lookup do
   end
 
   it "should generate id" do
-    Lookup.all.each {|lookup| lookup.destroy}
     lookup = create :lookup, :name => 'test lookup 1234', :id => nil
-    lookup.id.should include("lookup-test-lookup-1234")
+    lookup.reload
+    lookup.unique_id.should include("lookup-test-lookup-1234")
   end
 
   describe "get_location_types" do
     before do
-      lookup1 = create :lookup, :id => "lookup-location-type", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
+      lookup1 = create :lookup, :unique_id => "lookup-location-type", :lookup_values => [{:id => "value1", :display_text => "value1"}, {:id => "value2", :display_text => "value2"}]
     end
 
     it "should return location types" do
@@ -68,7 +71,10 @@ describe Lookup do
 
     context "when on a form" do
       before do
-        @lookup_d = Lookup.create!(id: "d", name: "D", lookup_values: [{id: "d", display_text: "D"}, {id: "dd", display_text: "DD"}, {id: "ddd", display_text: "DDD"}, {id: "dddd", display_text: "DDDD"}])
+        Field.all.each(&:destroy)
+        FormSection.all.each(&:destroy)
+        Lookup.all.each &:destroy
+        @lookup_d = Lookup.create!(unique_id: "d", name: "D", lookup_values: [{id: "d", display_text: "D"}, {id: "dd", display_text: "DD"}, {id: "ddd", display_text: "DDD"}, {id: "dddd", display_text: "DDDD"}])
         text_field = Field.new(name: "text_field", type: Field::TEXT_FIELD, display_name: "My Text Field")
         select_box_field = Field.new(name: "select_box", type: Field::SELECT_BOX, display_name: "My Select Box", option_strings_source: "lookup d" )
         fs = create :form_section, fields: [select_box_field]
@@ -83,12 +89,12 @@ describe Lookup do
   describe "check return when locale is specified" do
     before do
       Lookup.all.each &:destroy
-      @lookup_multi_locales = Lookup.create!(id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", name_es: "Spanish",
+      @lookup_multi_locales = Lookup.create!(unique_id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", name_es: "Spanish",
                                              lookup_values_en: [{id: "en1", display_text: "EN1"}, {id: "en2", display_text: "EN2"}],
                                              lookup_values_fr: [{id: "fr1", display_text: "FR1"}, {id: "fr2", display_text: "FR2"}],
                                              lookup_values_ar: [{id: "ar1", display_text: "AR1"}, {id: "ar2", display_text: "AR2"}],
                                              lookup_values_es: [{id: "es1", display_text: ""}, {id: "es2", display_text: ""}])
-      @lookup_no_locales = Lookup.create!(id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
+      @lookup_no_locales = Lookup.create!(unique_id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
     end
 
     context "when lookup has many locales" do
@@ -121,12 +127,12 @@ describe Lookup do
   describe 'localized_property_hash' do
     before do
       Lookup.all.each &:destroy
-      @lookup_multi_locales = Lookup.create!(id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", name_es: "Spanish",
+      @lookup_multi_locales = Lookup.create!(unique_id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", name_es: "Spanish",
                                              lookup_values_en: [{id: "option_1", display_text: "English Option 1"}, {id: "option_2", display_text: "English Option 2"}],
                                              lookup_values_fr: [{id: "option_1", display_text: "French Option 1"}, {id: "option_2", display_text: "French Option 2"}],
                                              lookup_values_ar: [{id: "option_1", display_text: "Arabic Option 1"}, {id: "option_2", display_text: "Arabic Option 2"}],
                                              lookup_values_es: [{id: "option_1", display_text: ""}, {id: "option_2", display_text: ""}])
-      @lookup_no_locales = Lookup.create!(id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
+      @lookup_no_locales = Lookup.create!(unique_id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
     end
 
     context "when passed locale is en" do
@@ -136,7 +142,7 @@ describe Lookup do
                         {"option_1" => "English Option 1",
                          "option_2" => "English Option 2"}
         }
-        lkp1 = Lookup.get(@lookup_multi_locales.id)
+        lkp1 = Lookup.find_by(unique_id: @lookup_multi_locales.unique_id)
         expect(lkp1.localized_property_hash('en')).to eq(expected)
       end
     end
@@ -148,7 +154,7 @@ describe Lookup do
                         {"option_1" => "French Option 1",
                          "option_2" => "French Option 2"}
         }
-        lkp1 = Lookup.get(@lookup_multi_locales.id)
+        lkp1 = Lookup.find_by(unique_id: @lookup_multi_locales.unique_id)
         expect(lkp1.localized_property_hash('fr')).to eq(expected)
       end
     end
@@ -160,7 +166,7 @@ describe Lookup do
                         {"option_1" => "English Option 1",
                          "option_2" => "English Option 2"}
         }
-        lkp1 = Lookup.get(@lookup_multi_locales.id)
+        lkp1 = Lookup.find_by(unique_id: @lookup_multi_locales.unique_id)
         expect(lkp1.localized_property_hash).to eq(expected)
       end
     end
@@ -169,25 +175,25 @@ describe Lookup do
   describe 'import_translations' do
     before do
       Lookup.all.each &:destroy
-      Lookup.create!(id: "lookup_1", name_en: "English", name_fr: "French", name_ar: "Arabic", name_es: "Spanish",
+      Lookup.create!(unique_id: "lookup_1", name_en: "English", name_fr: "French", name_ar: "Arabic", name_es: "Spanish",
                      lookup_values_en: [{id: "option_1", display_text: "English Option 1"}, {id: "option_2", display_text: "English Option 2"}],
                      lookup_values_fr: [{id: "option_1", display_text: "French Option 1"}, {id: "option_2", display_text: "French Option 2"}],
                      lookup_values_ar: [{id: "option_1", display_text: "Arabic Option 1"}, {id: "option_2", display_text: "Arabic Option 2"}],
                      lookup_values_es: [{id: "option_1", display_text: "Spanish Option 1"}, {id: "option_2", display_text: "Spanish Option 2"}])
-      Lookup.create!(id: "lookup_2", name_en: "English Two",
+      Lookup.create!(unique_id: "lookup_2", name_en: "English Two",
                      lookup_values_en: [{id: "option_1", display_text: "English Option One"}, {id: "option_2", display_text: "English Option Two"}])
     end
 
     context "when translations are French" do
-      before do
+      before :each do
         @locale = 'fr'
         @translated_hash = {"lookup_1" => {"name" => "French Translated",
                                            "lookup_values" => {"option_1"=>"French Option 1 Translated", "option_2"=>"French Option 2 Translated"}},
                             "lookup_2" => {"name" => "French Two Translated",
                                            "lookup_values" => {"option_1"=>"French Option One Translated", "option_2"=>"French Option Two Translated"}}}
         Lookup.import_translations(@translated_hash, @locale)
-        @lkp1 = Lookup.get('lookup_1')
-        @lkp2 = Lookup.get('lookup_2')
+        @lkp1 = Lookup.find_by(unique_id: 'lookup_1')
+        @lkp2 = Lookup.find_by(unique_id: 'lookup_2')
       end
 
       it 'does not change the English names' do
@@ -218,7 +224,7 @@ describe Lookup do
       context 'when locale translations do not exist' do
         context 'and input has all of the options' do
           before do
-            Lookup.create!(id: "lookup_10", name_en: "English Ten",
+            Lookup.create!(unique_id: "lookup_10", name_en: "English Ten",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}])
@@ -227,7 +233,7 @@ describe Lookup do
                                                                    "option_2"=>"Spanish Option Two Translated",
                                                                    "option_3"=>"Spanish Option Three Translated"}}}
             Lookup.import_translations(@translated_hash, @locale)
-            @lkp10 = Lookup.get('lookup_10')
+            @lkp10 = Lookup.find_by(unique_id: 'lookup_10')
           end
 
           it 'adds translated options for the specified locale' do
@@ -239,7 +245,7 @@ describe Lookup do
 
         context 'and input has only some of the options' do
           before do
-            Lookup.create!(id: "lookup_11", name_en: "English Eleven",
+            Lookup.create!(unique_id: "lookup_11", name_en: "English Eleven",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}])
@@ -249,14 +255,14 @@ describe Lookup do
           end
 
           it 'does not allow the translations to be saved' do
-            expect{Lookup.import_translations(@translated_hash, @locale)}.to raise_error(CouchRest::Model::Errors::Validations,
-                                                                                         'Validation Failed: Lookup values Field translated options must have same ids')
+            expect{Lookup.import_translations(@translated_hash, @locale)}.to raise_error(ActiveRecord::RecordInvalid,
+                                                                                         'Validation failed: Lookup values Field translated options must have same ids')
           end
         end
 
         context 'and input has too many options' do
           before do
-            Lookup.create!(id: "lookup_12", name_en: "English Twelve",
+            Lookup.create!(unique_id: "lookup_12", name_en: "English Twelve",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}])
@@ -266,7 +272,7 @@ describe Lookup do
                                                                    "option_3"=>"Spanish Option Three Translated",
                                                                    "option_4"=>"Spanish Option Four Translated"}}}
             Lookup.import_translations(@translated_hash, @locale)
-            @lkp12 = Lookup.get('lookup_12')
+            @lkp12 = Lookup.find_by(unique_id: 'lookup_12')
           end
 
           it 'adds only the translated options that also exist in the default locale' do
@@ -282,7 +288,7 @@ describe Lookup do
 
         context 'and input has completely different options' do
           before do
-            Lookup.create!(id: "lookup_13", name_en: "English Thirteen",
+            Lookup.create!(unique_id: "lookup_13", name_en: "English Thirteen",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}])
@@ -292,7 +298,7 @@ describe Lookup do
                                                                    "option_6"=>"Spanish Option Six Translated",
                                                                    "option_7"=>"Spanish Option Seven Translated"}}}
             Lookup.import_translations(@translated_hash, @locale)
-            @lkp13 = Lookup.get('lookup_13')
+            @lkp13 = Lookup.find_by(unique_id: 'lookup_13')
           end
 
           it 'does not add any option that does not exist in the default locale' do
@@ -302,7 +308,7 @@ describe Lookup do
 
         context 'and input has same options in different order' do
           before do
-            Lookup.create!(id: "lookup_14", name_en: "English Fourteen",
+            Lookup.create!(unique_id: "lookup_14", name_en: "English Fourteen",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}])
@@ -311,7 +317,7 @@ describe Lookup do
                                                                     "option_1"=>"Spanish Option One Translated",
                                                                     "option_3"=>"Spanish Option Three Translated"}}}
             Lookup.import_translations(@translated_hash, @locale)
-            @lkp14 = Lookup.get('lookup_14')
+            @lkp14 = Lookup.find_by(unique_id: 'lookup_14')
           end
 
           it 'adds translated options for the specified locale' do
@@ -324,7 +330,7 @@ describe Lookup do
       context 'locale translations do exist' do
         context 'and input has all of the options' do
           before do
-            Lookup.create!(id: "lookup_20", name_en: "English Twenty",
+            Lookup.create!(unique_id: "lookup_20", name_en: "English Twenty",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}],
@@ -336,7 +342,7 @@ describe Lookup do
                                                                    "option_2"=>"Spanish Option Two Translated",
                                                                    "option_3"=>"Spanish Option Three Translated"}}}
             Lookup.import_translations(@translated_hash, @locale)
-            @lkp20 = Lookup.get('lookup_20')
+            @lkp20 = Lookup.find_by(unique_id: 'lookup_20')
           end
 
           it 'adds translated options for the specified locale' do
@@ -348,7 +354,7 @@ describe Lookup do
 
         context 'and input has only some of the options' do
           before do
-            Lookup.create!(id: "lookup_21", name_en: "English Twenty-one",
+            Lookup.create!(unique_id: "lookup_21", name_en: "English Twenty-one",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}],
@@ -359,7 +365,7 @@ describe Lookup do
                                                "lookup_values" => {"option_1"=>"Spanish Option One Translated",
                                                                    "option_2"=>"Spanish Option Two Translated"}}}
             Lookup.import_translations(@translated_hash, @locale)
-            @lkp21 = Lookup.get('lookup_21')
+            @lkp21 = Lookup.find_by(unique_id: 'lookup_21')
           end
 
           it 'updates only the translated options provided for the specified locale' do
@@ -371,7 +377,7 @@ describe Lookup do
 
         context 'and input has too many options' do
           before do
-            Lookup.create!(id: "lookup_22", name_en: "English Twenty-two",
+            Lookup.create!(unique_id: "lookup_22", name_en: "English Twenty-two",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}],
@@ -384,7 +390,7 @@ describe Lookup do
                                                                    "option_3"=>"Spanish Option Three Translated",
                                                                    "option_4"=>"Spanish Option Four Translated"}}}
             Lookup.import_translations(@translated_hash, @locale)
-            @lkp22 = Lookup.get('lookup_22')
+            @lkp22 = Lookup.find_by(unique_id: 'lookup_22')
           end
 
           it 'adds only the translated options that also exist in the default locale' do
@@ -400,7 +406,7 @@ describe Lookup do
 
         context 'and input has completely different options' do
           before do
-            Lookup.create!(id: "lookup_23", name_en: "English Twenty-three",
+            Lookup.create!(unique_id: "lookup_23", name_en: "English Twenty-three",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}],
@@ -413,7 +419,7 @@ describe Lookup do
                                                                    "option_6"=>"Spanish Option Six Translated",
                                                                    "option_7"=>"Spanish Option Seven Translated"}}}
             Lookup.import_translations(@translated_hash, @locale)
-            @lkp23 = Lookup.get('lookup_23')
+            @lkp23 = Lookup.find_by(unique_id: 'lookup_23')
           end
 
           it 'does not add any option that does not exist in the default locale' do
@@ -425,7 +431,7 @@ describe Lookup do
 
         context 'and input has same options in different order' do
           before do
-            Lookup.create!(id: "lookup_24", name_en: "English Twenty-four",
+            Lookup.create!(unique_id: "lookup_24", name_en: "English Twenty-four",
                            lookup_values_en: [{id: "option_1", display_text: "English Option One"},
                                               {id: "option_2", display_text: "English Option Two"},
                                               {id: "option_3", display_text: "English Option Three"}])
@@ -434,7 +440,7 @@ describe Lookup do
                                                                     "option_1"=>"Spanish Option One Translated",
                                                                     "option_3"=>"Spanish Option Three Translated"}}}
             Lookup.import_translations(@translated_hash, @locale)
-            @lkp24 = Lookup.get('lookup_24')
+            @lkp24 = Lookup.find_by(unique_id: 'lookup_24')
           end
 
           it 'adds translated options for the specified locale' do

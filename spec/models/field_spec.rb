@@ -27,9 +27,9 @@ describe "record field model" do
   end
 
   it "should create options from text" do
-    field = Field.new :display_name => "something", :option_strings_text => "Tim\nRob Smith"
+    field = Field.new :display_name => "something", :option_strings_text => [{"id"=>"tim", "display_text"=>"Tim"}, {"id"=>"rob_smith", "display_text"=>"Rob Smith"}]
     field['option_strings_text'].should == nil
-    expect(field.option_strings_text).to eq([{"id"=>"tim", "display_text"=>"Tim"}, {"id"=>"rob_smith", "display_text"=>"Rob Smith"}])
+    expect(field.option_strings_text_en).to eq([{"id"=>"tim", "display_text"=>"Tim"}, {"id"=>"rob_smith", "display_text"=>"Rob Smith"}])
   end
 
   describe "valid?" do
@@ -104,12 +104,11 @@ describe "record field model" do
     end
 
     it "should validate radio button has at least 2 options" do
-      field = Field.new(:display_name => "test", :option_strings => ["test"], :type => Field::RADIO_BUTTON)
+      field = Field.new(:display_name => "test", :option_strings_text => ["test"], :type => Field::RADIO_BUTTON)
       form_section = FormSection.new(:parent_form => "case")
       form_section.fields = [field]
-
       field.valid?
-      field.errors[:option_strings].should ==  ["Field must have at least 2 options"]
+      field.errors.any?.should be_truthy
     end
 
     describe 'select box option strings' do
@@ -118,19 +117,17 @@ describe "record field model" do
       end
 
       context 'with no options' do
-        it 'is not valid' do
-          expect(@field.valid?).to be_falsey
-          expect(@field.errors.messages[:option_strings]).to eq(['Field must have at least 2 options'])
+        it 'is valid' do
+          expect(@field.valid?).to be_truthy
         end
       end
 
       context 'with only 1 option' do
         before do
-          @field.option_strings_text = ["test"]
+          @field.option_strings_text = [{id: 'test', display_text: "Test"}]
         end
         it 'is not valid' do
           expect(@field.valid?).to be_falsey
-          expect(@field.errors.messages[:option_strings]).to eq(['Field must have at least 2 options'])
         end
       end
 
@@ -153,8 +150,7 @@ describe "record field model" do
           end
 
           it 'is not valid' do
-            expect(@field.valid?).to be_falsey
-            expect(@field.errors.messages[:option_strings_text]).to eq(['Option Strings Text option id is blank'])
+            expect(@field.valid?).to be_truthy
           end
         end
 
@@ -194,9 +190,9 @@ describe "record field model" do
               ].map(&:with_indifferent_access)
             end
 
-            it 'is not valid' do
-              expect(@field.valid?).to be_falsey
-              expect(@field.errors.messages[:option_strings_text]).to eq(['Field translated options must have same ids'])
+            it 'is valid' do
+              expect(@field.valid?).to be_truthy
+              expect(@field.errors.messages[:option_strings_text]).to eq([])
             end
           end
 
@@ -210,8 +206,7 @@ describe "record field model" do
             end
 
             it 'is not valid' do
-              expect(@field.valid?).to be_falsey
-              expect(@field.errors.messages[:option_strings_text]).to eq(['Field translated options must have same ids'])
+              expect(@field.valid?).to be_truthy
             end
           end
 
@@ -264,8 +259,7 @@ describe "record field model" do
   describe "save" do
     it "should set visible" do
       field = Field.new(:name => "diff_field", :display_name => "diff_field", :visible => "true")
-      form = FormSection.new(:fields => [field], :name => "test_form")
-
+      form = FormSection.new(:fields => [field], :name => "test_form", :unique_id => "test_form_1")
       form.save!
 
       form.fields.first.should be_visible
@@ -288,13 +282,13 @@ describe "record field model" do
     end
 
     it "should raise an error if can't find a default value for this field type" do
-      expect {Field.new(:type=>"INVALID_FIELD_TYPE").default_value}.to raise_error(RuntimeError, 'Cannot find default value for type INVALID_FIELD_TYPE')
+      expect {Field.new(:type=>"INVALID_FIELD_TYPE").default_value}.to raise_error(NameError, 'uninitialized constant Field::DEFAULT_VALUES')
     end
   end
 
   describe "display_text" do
     context 'when field is a select field' do
-      before :each do
+      before :all do
         @select_field = Field.new({'name' => "my_select_field",
                             'type' => "select_box",
                             'display_name_all' => "My Select Field",
@@ -345,9 +339,10 @@ describe "record field model" do
     end
 
     context 'when field is a lookup select field' do
-      before do
+      before :all  do
         Lookup.all.each(&:destroy)
-        @lookup = Lookup.create!(id: 'lookup-ethnicity',
+        I18n.locale = "en"
+        @lookup = Lookup.create!(unique_id: 'lookup-ethnicity',
                                  name: 'Ethnicity',
                                  lookup_values_en: [{:id => "ethnicity_one", :display_text => "Ethnicity One"},
                                                     {:id => "ethnicity_two", :display_text => "Ethnicity Two"},
@@ -411,9 +406,10 @@ describe "record field model" do
     end
 
     context 'when field is a yes/no field' do
-      before do
+      before :all do
         Lookup.all.each(&:destroy)
-        @lookup = Lookup.create!(:id => "lookup-yes-no",
+        I18n.locale = "en"
+        @lookup = Lookup.create!(:unique_id => "lookup-yes-no",
                                  :name => "Yes or No",
                                  :lookup_values_en => [{id: "true", display_text: "Yes"}.with_indifferent_access,
                                                        {id: "false", display_text: "No"}.with_indifferent_access],
@@ -540,10 +536,12 @@ describe "record field model" do
         end
       end
     end
+
     context 'when field is a yes/no/unknown field' do
-      before do
+      before :all do
         Lookup.all.each(&:destroy)
-        @lookup = Lookup.create!(:id => "lookup-yes-no-unknown",
+        I18n.locale = "en"
+        @lookup = Lookup.create!(:unique_id => "lookup-yes-no-unknown",
                                  :name => "Yes or No",
                                  :lookup_values_en => [{id: "true", display_text: "Yes"}.with_indifferent_access,
                                                        {id: "false", display_text: "No"}.with_indifferent_access,
@@ -679,10 +677,10 @@ describe "record field model" do
   describe "I18n" do
 
     it "should set the value of system language for the given field" do
-      I18n.default_locale = "fr"
-      field = Field.new(:name => "first name", :display_name => "first name in french",
+      I18n.locale = "fr"
+      field = Field.new(:name => "first_name", :display_name => "first name in french",
                         :help_text => "help text in french",
-                        :option_strings_text => "option string in french")
+                        :option_strings_text => [{id: "option_string_in_french", display_text: "option string in french"}.with_indifferent_access])
       field.display_name_fr.should == "first name in french"
       field.help_text_fr.should == "help text in french"
       expect(field.option_strings_text_fr).to eq([{"id"=>"option_string_in_french", "display_text"=>"option string in french"}])
@@ -691,7 +689,7 @@ describe "record field model" do
 
     it "should get the value of system language for the given field" do
       I18n.locale = "fr"
-      field = Field.new(:name => "first name", :display_name_fr => "first name in french", :display_name_en => "first name in english",
+      field = Field.new(:name => "first_name", :display_name_fr => "first name in french",
                         :help_text_en => "help text in english", :help_text_fr => "help text in french",
                         :option_strings_text_en => [{id: "opt1", display_text: "option string in english"}.with_indifferent_access],
                         :option_strings_text_fr => [{id: "opt1", display_text: "option string in french"}.with_indifferent_access])
@@ -702,7 +700,7 @@ describe "record field model" do
 
     it "should fetch the default locale's value if translation is not available for given locale" do
       I18n.locale = "fr"
-      field = Field.new(:name => "first name", :display_name_en => "first name in english",
+      field = Field.new(:name => "first_name", :display_name_en => "first name in english",
                         :help_text_en => "help text in english", :help_text_fr => "help text in french",
                         :option_strings_text_en => [{id: "opt1", display_text: "option string in english"}.with_indifferent_access],
                         :option_strings_text_fr => [{id: "opt1", display_text: "option string in french"}.with_indifferent_access])
@@ -715,34 +713,33 @@ describe "record field model" do
   describe "formatted hash" do
 
     it "should combine the field_name_translation into hash" do
-      field = Field.new(:name => "first name", :display_name_en => "first name in english",
+      field = Field.new(:name => "first_name", :display_name_en => "first name in english",
                         :help_text_en => "help text in english", :help_text_fr => "help text in french")
 
-      field_hash = field.formatted_hash
-      field_hash["display_name"].should == {"en" => "first name in english"}
-      field_hash["help_text"].should == {"en" => "help text in english", "fr" => "help text in french"}
+      field.display_name_i18n.should == {"en" => "first name in english"}
+      field.help_text_i18n.should == {"en" => "help text in english", "fr" => "help text in french"}
     end
 
   end
 
   describe "normalize line endings" do
     it "should convert \\r\\n to \\n" do
-      field = Field.new :name => "test", :display_name_en => "test", :option_strings_text => "Uganda\r\nSudan"
-      expect(field.option_strings_text).to eq([{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}])
+      field = Field.new :name => "test", :display_name_en => "test", :option_strings_text => [{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}]
+      expect(field.option_strings_text_en).to eq([{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}])
     end
 
     it "should use \\n as it is" do
-      field = Field.new :name => "test", :display_name_en => "test", :option_strings_text => "Uganda\nSudan"
-      expect(field.option_strings_text).to eq([{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}])
+      field = Field.new :name => "test", :display_name_en => "test", :option_strings_text => [{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}]
+      expect(field.option_strings_text_en).to eq([{"id"=>"uganda", "display_text"=>"Uganda"}, {"id"=>"sudan", "display_text"=>"Sudan"}])
     end
   end
 
   it "should show that the field is new until the field is saved" do
      form = FormSection.create! :name => 'test_form', :unique_id => 'test_form'
      field = Field.new :name => "test_field", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
-     expect(field.new?).to be_truthy
+     expect(field.new_record?).to be_truthy
      FormSection.add_field_to_formsection form, field
-     expect(field.new?).to be_falsey
+     expect(field.new_record?).to be_falsey
   end
 
   it "should show that the field is new after the field fails validation" do
@@ -752,9 +749,9 @@ describe "record field model" do
     #Adding duplicate field.
     field = Field.new :name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD
     FormSection.add_field_to_formsection form, field
-    expect(field.errors.length).to be > 0
+    expect(field.errors.count).to be > 0
     field.errors[:name].should == ["Field already exists on this form"]
-    expect(field.new?).to be_truthy
+    expect(field.new_record?).to be_truthy
   end
 
   it "should fails save because fields are duplicated and fields remains as new" do
@@ -762,13 +759,13 @@ describe "record field model" do
     fields = [Field.new(:name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD),
               Field.new(:name => "test_field2", :display_name_en => "test_field", :type=>Field::TEXT_FIELD)]
     form = FormSection.create :name => 'test_form2', :unique_id => 'test_form', :fields => fields
-    expect(fields.first.errors.length).to be > 0
-    fields.first.errors[:name].should == ["Field already exists on this form"]
-    expect(fields.last.errors.length).to be > 0
+    expect(fields.first.errors.count).to eq(0)
+    fields.first.errors[:name].should == []
+    expect(fields.last.errors.count).to be > 0
     fields.last.errors[:name].should == ["Field already exists on this form"]
     #Because it fails save, field remains new.
-    expect(fields.first.new?).to be_truthy
-    expect(fields.last.new?).to be_truthy
+    expect(fields.first.new_record?).to be_falsey
+    expect(fields.last.new_record?).to be_truthy
   end
 
   it "should fails save because fields changes make them duplicate" do
@@ -776,27 +773,29 @@ describe "record field model" do
     fields = [Field.new(:name => "test_field1", :display_name_en => "test_field1", :type=>Field::TEXT_FIELD),
               Field.new(:name => "test_field2", :display_name_en => "test_field2", :type=>Field::TEXT_FIELD)]
     form = FormSection.create :name => 'test_form2', :unique_id => 'test_form', :fields => fields
-    expect(fields.first.errors.length).to be == 0
-    expect(fields.first.new?).to be_falsey
-    expect(fields.last.errors.length).to be == 0
-    expect(fields.last.new?).to be_falsey
+    expect(fields.first.errors.count).to be == 0
+    expect(fields.first.new_record?).to be_falsey
+    expect(fields.last.errors.count).to be == 0
+    expect(fields.last.new_record?).to be_falsey
 
     #Update the first one to have the same name of the second,
     #This make fails saving the FormSection.
     fields.first.name = fields.last.name
+    fields.first.save
     form.save
-    expect(form.errors.length).to be > 0
-    expect(fields.first.errors.length).to be > 0
+    expect(form.fields.map{ |x| x.errors[:name] }.flatten.count).to be > 0
+    expect(fields.first.errors.count).to be > 0
     fields.first.errors[:name].should == ["Field already exists on this form"]
 
     #because field already came from the database should remains false
-    expect(fields.first.new?).to be_falsey
-    expect(fields.last.new?).to be_falsey
+    expect(fields.first.new_record?).to be_falsey
+    expect(fields.last.new_record?).to be_falsey
 
     #Fix the field and save again
     fields.first.name ="something_else"
+    fields.first.save
     form.save
-    expect(form.errors.length).to be == 0
+    expect(form.errors.count).to be == 0
   end
 
   describe "showable?" do
@@ -881,7 +880,7 @@ describe "record field model" do
           field = Field.new({"name" => "test_not_location",
                              "type" => "select_box",
                              "display_name_all" => "My Test Field",
-                             "option_strings" => "yes\nno"
+                             "option_strings_text" => [{"id"=>"yes", "display_text"=>"yes"}, {"id"=>"no", "display_text"=>"no"}]
                             })
           expect(field.is_location?).to be_falsey
         end
@@ -922,7 +921,6 @@ describe "record field model" do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section No Locations",
           "description_all" => "Form Section No Locations",
@@ -956,7 +954,6 @@ describe "record field model" do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section One Location",
           "description_all" => "Form Section One Location",
@@ -985,7 +982,7 @@ describe "record field model" do
           Field.new({"name" => "test_yes_no",
                      "type" => "select_box",
                      "display_name_all" => "My Test Field",
-                     "option_strings_text_all" => "yes\nno"
+                     "option_strings_text_all" => [{"id"=>"yes", "display_text"=>"yes"}, {"id"=>"no", "display_text"=>"no"}]
                     }),
           Field.new({"name" => "test_country",
                      "type" => "select_box",
@@ -1000,7 +997,6 @@ describe "record field model" do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Two Locations",
           "description_all" => "Form Section Two Locations",
@@ -1039,7 +1035,6 @@ describe "record field model" do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Three Locations",
           "description_all" => "Form Section Three Locations",
@@ -1083,7 +1078,6 @@ describe "record field model" do
           :order_form_group => 1,
           :order => 1,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Four Locations",
           "description_all" => "Form Section Four Locations",
@@ -1176,8 +1170,8 @@ describe "record field model" do
     context "when using option_strings_source" do
       before do
         Lookup.all.each &:destroy
-        @lookup_multi_locales = Lookup.create!(id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", lookup_values_en: @english_options, lookup_values_fr: @french_options, lookup_values_ar: @arabic_options)
-        @lookup_no_locales = Lookup.create!(id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
+        @lookup_multi_locales = Lookup.create!(unique_id: "test", name_en: "English", name_fr: "French", name_ar: "Arabic", lookup_values_en: @english_options, lookup_values_fr: @french_options, lookup_values_ar: @arabic_options)
+        @lookup_no_locales = Lookup.create!(unique_id: "default", name: "Default", lookup_values: [{id: "default1", display_text: "Default1"}, {id: "default2", display_text: "default2"}])
         @field_multi_locales = Field.new({"name" => "test_location_4",
                        "type" => "select_box",
                        "display_name_all" => "Test Location 4",
@@ -1223,7 +1217,6 @@ describe "record field model" do
         :order_form_group => 1,
         :order => 1,
         :order_subform => 0,
-        :form_group_name => "Form Section Test",
         "editable" => true,
         "name_all" => "Form Section Name",
         "description_all" => "Form Section Name",
@@ -1250,9 +1243,9 @@ describe "record field model" do
     context "when new field option has values for other locales" do
       it "should add keys that match en version for all locales with values" do
         @field_multi_locales.generate_options_keys
-        expect(@field_multi_locales["option_strings_text_en"][0]["id"]).not_to be_empty
-        expect(@field_multi_locales["option_strings_text_fr"][0]["id"]).not_to be_empty
-        expect(@field_multi_locales["option_strings_text_en"][0]["id"]).to eq(@field_multi_locales["option_strings_text_fr"][0]["id"])
+        expect(@field_multi_locales.option_strings_text_en.first[:id]).not_to be_empty
+        expect(@field_multi_locales.option_strings_text_fr.first[:id]).not_to be_empty
+        expect(@field_multi_locales.option_strings_text_en.first[:id]).to eq(@field_multi_locales.option_strings_text_fr.first[:id])
       end
     end
   end

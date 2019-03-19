@@ -30,7 +30,6 @@ describe CasesMigrateName do
       :order_form_group => 50,
       :order => 15,
       :order_subform => 0,
-      :form_group_name => "Basic Identity",
       "editable" => true,
       "name_all" => "Basic Identity",
       "description_all" => "Basic Identity",

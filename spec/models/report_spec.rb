@@ -9,28 +9,28 @@ describe Report do
   end
 
   it "must have a name" do
-    r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_ids: [@module.id]
+    r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_id: @module.id
     expect(r.valid?).to be_falsey
     r.name = 'Test'
     expect(r.valid?).to be_truthy
   end
 
   it "must have an 'aggregate_by' value" do
-    r = Report.new name: 'Test', record_type: 'case', module_ids: [@module.id]
+    r = Report.new name: 'Test', record_type: 'case', module_id: @module.id
     expect(r.valid?).to be_falsey
     r.aggregate_by = ['a', 'b']
     expect(r.valid?).to be_truthy
   end
 
   it "must have a record type associated with itself" do
-    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_ids: [@module.id]
+    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_id: @module.id
     expect(r.valid?).to be_falsey
     r.record_type = 'case'
     expect(r.valid?).to be_truthy
   end
 
   it "doesn't point to invalid modules" do
-    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_ids: ['nosuchmodule', @module.id]
+    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_id: 'nosuchmodule' #, @module.id
     expect(r.valid?).to be_falsey
   end
 
@@ -114,17 +114,17 @@ describe Report do
 
   describe "modules_present" do
     it "will reject the empty module_id list" do
-      r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_ids: []
+      r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_id: ''
       r.modules_present.should == I18n.t("errors.models.report.module_presence")
     end
 
     it "will reject the invalid module_id list" do
-      r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_ids: ["primeromodule-cp", "badmoduleid","primeromodule-gbv"]
+      r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_id: "badmoduleid"
       r.modules_present.should == I18n.t("errors.models.report.module_syntax")
     end
 
     it "will accept the valid module_id list" do
-      r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_ids: ["primeromodule-cp"]
+      r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_id: "primeromodule-cp"
       r.modules_present.should == true
     end
 

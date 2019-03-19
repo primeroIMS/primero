@@ -741,34 +741,33 @@ describe Child do
     end
   end
 
+
   #TODO: For now skipping JSON datatype validation against form definition
   xdescribe 'validate dates and date ranges fields' do
-    # before do
-    #   fields = [Field.new({"name" => "a_date_field",
-    #                        "type" => "date_field",
-    #                        "display_name_all" => "A Date Field"
-    #                       }),
-    #             Field.new({"name" => "a_range_field",
-    #                        "type" => "date_range",
-    #                        "display_name_all" => "A Range Field"
-    #                       }),
-    #             Field.new({"name" => "b_range_field",
-    #                        "type" => "date_range",
-    #                        "display_name_all" => "B Range Field"
-    #                       })]
-    #   FormSection.create_or_update_form_section({
-    #     :unique_id=> "form_section_with_dates_fields",
-    #     "visible" => true,
-    #     :order => 1,
-    #     "editable" => true,
-    #     :fields => fields,
-    #     :perm_enabled => true,
-    #     :parent_form=>"case",
-    #     "name_all" => "Form Section With Dates Fields",
-    #     "description_all" => "Form Section With Dates Fields",
-    #   })
-    #   Child.any_instance.stub(:field_definitions).and_return(fields)
-    # end
+    before do
+      fields = [Field.new({"name" => "a_date_field",
+                           "type" => "date_field",
+                           "display_name_all" => "A Date Field"
+                          }),
+                Field.new({"name" => "a_range_field",
+                           "type" => "date_range",
+                           "display_name_all" => "A Range Field"
+                          }),
+                Field.new({"name" => "b_range_field",
+                           "type" => "date_range",
+                           "display_name_all" => "B Range Field"
+                          })]
+      FormSection.create_or_update_form_section({
+        :unique_id=> "form_section_with_dates_fields",
+        "visible" => true,
+        :order => 1,
+        "editable" => true,
+        :fields => fields,
+        :parent_form=>"case",
+        "name_all" => "Form Section With Dates Fields",
+        "description_all" => "Form Section With Dates Fields",
+      })
+    end
 
     it "should validate single date field" do
       #date field invalid.
@@ -1250,7 +1249,6 @@ describe Child do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -1289,7 +1287,6 @@ describe Child do
               :order => 1,
               "editable" => true,
               :fields => fields,
-              :perm_enabled => true,
               :parent_form=>"tracing_request",
               "name_all" => "Form Section With Dates Fields",
               "description_all" => "Form Section With Dates Fields",
@@ -1302,7 +1299,7 @@ describe Child do
                   "name" => "tracing_request_subform_section",
                   "type" => "subform",
                   "editable" => true,
-                  "subform_section_id" => tr_form.unique_id,
+                  "subform_section_id" => tr_form.id,
                   "display_name_en" => "Tracing Request"
               }
           )
@@ -1316,7 +1313,6 @@ describe Child do
               :order_form_group => 30,
               :order => 30,
               :order_subform => 0,
-              :form_group_name => "Tracing Request",
               "editable" => true,
               "mobile_form" => true,
               :fields => tracing_request_tracing_request_fields,
@@ -1392,7 +1388,6 @@ describe Child do
           :order_form_group => 50,
           :order => 15,
           :order_subform => 0,
-          :form_group_name => "Form Section Test",
           "editable" => true,
           "name_all" => "Form Section Test",
           "description_all" => "Form Section Test",
@@ -1463,6 +1458,12 @@ describe Child do
         expect(@case3.family_detail_values("relation")).to be_nil
       end
     end
+  end
+
+  after :all do
+    Child.destroy_all
+    Field.destroy_all
+    FormSection.destroy_all
   end
 
   private

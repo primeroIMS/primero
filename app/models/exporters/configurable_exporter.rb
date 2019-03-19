@@ -2,7 +2,7 @@ module Exporters
   class ConfigurableExporter < BaseExporter
     def initialize(output_file_path=nil, export_config_id=nil)
       super(output_file_path)
-      @export_configuration = ExportConfiguration.get(export_config_id) if export_config_id.present?
+      @export_configuration = ExportConfiguration.find_by(unique_id: export_config_id) if export_config_id.present?
     end
 
     def properties_to_export(props={})

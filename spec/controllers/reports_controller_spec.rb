@@ -8,6 +8,7 @@ describe ReportsController do
   end
 
   before :each do
+    Field.all.each &:destroy
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
     User.all.each &:destroy
@@ -49,7 +50,6 @@ describe ReportsController do
       :order_form_group => 50,
       :order => 15,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 1",
       "description_all" => "Form Section Test 1",
@@ -114,9 +114,8 @@ describe ReportsController do
       Sunspot.commit
 
       @report = Report.new(
-          id: 'testid',
           name: 'test report',
-          module_ids: [@primero_module.id],
+          module_id: @primero_module.id,
           record_type: 'case',
           aggregate_by: ['owned_by'],
           add_default_filters: true
@@ -125,9 +124,8 @@ describe ReportsController do
       @report.save!
 
       @report2 = Report.new(
-          id: 'testid2',
           name: 'test report 2',
-          module_ids: [@primero_module.id],
+          module_id: @primero_module.id,
           record_type: 'case',
           aggregate_by: ['owned_by_location'],
           add_default_filters: true

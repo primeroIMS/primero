@@ -223,7 +223,7 @@ module ApplicationHelper
   end
 
   def display_sex(value, lookups=[])
-    gender_lookup = lookups.select{|l| l.id == 'lookup-gender'}.first
+    gender_lookup = lookups.find{|l| l.unique_id == 'lookup-gender'}
     genders = gender_lookup.lookup_values.map{|v| [v['id'], v['display_text']]}.to_h
     genders[value] || value
   end

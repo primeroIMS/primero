@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 def stub_out_saved_search_get(mock_saved_search = double(SavedSearch))
-  SavedSearch.stub(:get).and_return( mock_saved_search )
+  SavedSearch.should_receive(:find_by_id).with(anything).and_return( mock_saved_search )
   mock_saved_search
 end
 
 describe SavedSearchesController, :type => :controller do
   before :each do
-    SavedSearch.any_instance.stub(:permitted_properties).and_return(SavedSearch.properties)
+    SavedSearch.all.each(&:destroy)
+    SavedSearch.any_instance.stub(:permitted_properties).and_return(SavedSearch.attribute_names)
     @user = User.new(:user_name => 'zuul')
     @session = fake_admin_login @user
   end
@@ -53,11 +54,11 @@ describe SavedSearchesController, :type => :controller do
     context 'delete' do
       it 'deletes a saved search' do
         @request.env['HTTP_REFERER'] = '/'
-        saved_search = create(:saved_search)
-        expect(SavedSearch.get(saved_search.id)).to be_present
+        saved_search = SavedSearch.create!(name: 'saved_search_delete', user_name: 'zuul')
+        expect(SavedSearch.find_by_id(saved_search.id)).to be_present
         delete(:destroy, params: {id: saved_search.id})
         response.status.should_not == 403
-        expect(SavedSearch.get(saved_search.id)).not_to be_present
+        expect(SavedSearch.find_by_id(saved_search.id)).not_to be_present
       end
     end
   end

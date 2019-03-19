@@ -3,6 +3,7 @@ require 'rails_helper'
 feature "forms" do
   feature "subforms" do
     before do
+      Field.all.each &:destroy
       FormSection.all.each &:destroy
       PrimeroModule.all.each &:destroy
 

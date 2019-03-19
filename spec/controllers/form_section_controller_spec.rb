@@ -30,10 +30,6 @@ class MockFormSection
     @is_valid
   end
 
-  def create
-    FormSection.new
-  end
-
   def unique_id
     "unique_id"
   end
@@ -52,11 +48,11 @@ describe FormSectionController do
     @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: "case")
     @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: "case", mobile_form: true)
     @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: "case", mobile_form: true)
-    @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: "case", mobile_form: true, fields: [
-      Field.new(name: "nested_e", type: "subform", subform_section_id: "E", display_name_all: "nested_e")
-    ])
     @form_section_e = FormSection.create!(unique_id: "E", name: "E", parent_form: "case", mobile_form: false, is_nested: true, visible: false, fields: [
       Field.new(name: "field1", type: "text_field", display_name_all: "field1")
+    ])
+    @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: "case", mobile_form: true, fields: [
+      Field.new(name: "nested_e", type: "subform", subform: @form_section_e, display_name_all: "nested_e"),
     ])
     @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B", "D"], associated_record_types: ['case'])
     user = User.new(:user_name => 'manager_of_forms', module_ids: [@primero_module.id])
@@ -109,7 +105,7 @@ describe FormSectionController do
                                              "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
                                 :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
                                                        "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
-                                "date_validation" => nil}]},
+                                "date_validation" => 'default_date_validation'}]},
                      "required"=>false,
                      "option_strings_source"=>nil,
                      "show_on_minify_form"=>false,
@@ -121,7 +117,7 @@ describe FormSectionController do
                                   "my"=>"", "th"=>"", "ku"=>""},
                      :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[],
                                             "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
-                     "date_validation" => nil}]
+                     "date_validation" => 'default_date_validation'}]
         get :index, params: {mobile: true, :format => :json}
         expect(assigns[:form_sections]['Children'].select{|f| f['unique_id'] == 'D'}.first['fields']).to eq(expected)
       end
@@ -280,7 +276,9 @@ describe FormSectionController do
     end
 
     it "sets flash notice if form section is valid and redirect_to edit page with a flash message" do
-      FormSection.stub(:new_custom).and_return(MockFormSection.new)
+      fake_form_section = MockFormSection.new
+      fake_form_section.stub(:save).and_return(true)
+      FormSection.stub(:new_custom).and_return(fake_form_section)
       form_section = {:name=>"name", :description=>"desc", :visible=>"true"}
       post :create, params: {:form_section =>form_section}
       request.flash[:notice].should == "Form section successfully added"
@@ -321,12 +319,8 @@ describe FormSectionController do
 
   describe "post update" do
     it "should save update if valid" do
-      form_section = FormSection.new
-      params = {"some" => "params"}
-      FormSection.should_receive(:find_by).with({unique_id: 'form_1'}).and_return(form_section)
-      form_section.should_receive(:properties=).with(params)
-      form_section.should_receive(:valid?).and_return(true)
-      form_section.should_receive(:save!)
+      form_section = FormSection.create!(name: 'form 1')
+      params = { help_text: 'some helpful text' }
       post :update, params: {:form_section => params, :id => "form_1"}
       response.should redirect_to(edit_form_section_path(form_section.unique_id))
     end
