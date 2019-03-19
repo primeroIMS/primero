@@ -43,7 +43,7 @@ module Transitionable
         :consent_overridden => consent_overridden,
         :consent_individual_transfer => consent_individual_transfer,
         :created_at => DateTime.now)
-      self.transitions = self.transitions + [transition.to_h]
+      self.transitions = [transition.to_h] + self.transitions
     end
 
     def transitions_transfer_status(transfer_id, transfer_status, user, rejected_reason)

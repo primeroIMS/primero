@@ -4,6 +4,12 @@ module Reopenable
   included do
     store_accessor :data, :reopened_logs
 
+    after_initialize :default_reopened_logs
+
+    def default_reopened_logs
+      self.reopened_logs ||= []
+    end
+
     def add_reopened_log(user)
       log = {'reopened_date' => DateTime.now, 'reopened_user' => user}
       if self.reopened_logs.is_a? Array

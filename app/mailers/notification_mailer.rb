@@ -43,7 +43,7 @@ class NotificationMailer < ApplicationMailer
 
   def transition_notify(transition_type, record_class, record_id, transition_id, host_url)
     @model_class = record_class.constantize
-    @record = @model_class.get(record_id)
+    @record = @model_class.find(record_id)
     if @record.present? && @record.transitions.present?
       transition = @record.transition_by_type_and_id(transition_type, transition_id)
       if transition.present?
