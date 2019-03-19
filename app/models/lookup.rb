@@ -31,7 +31,7 @@ class Lookup < CouchRest::Model::Base
   before_validation :generate_values_keys
   before_validation :sync_lookup_values
   before_create :generate_id
-  before_destroy :check_is_being_used
+  #before_destroy :check_is_being_used
 
   class << self
     alias :old_all :all

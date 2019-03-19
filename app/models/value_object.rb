@@ -1,7 +1,7 @@
 class ValueObject
 
   def initialize(args={})
-    args.each{|k,v| self.send(k,v) if self.respond_to?(k)}
+    args.each{|k,v| self.send("#{k}=",v) if self.respond_to?("#{k}=")}
   end
 
   def to_h
