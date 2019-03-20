@@ -62,7 +62,7 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
     var self = this;
     var $location_select = $subform.find('select[id$="service_delivery_location"]');
     $location_select.data('value', location_code);
-    _primero.populate_location_select_boxes(function(){
+    _primero.populate_reporting_location_select_boxes($location_select, function(){
       /*
        * We select the value only if exists or empty, otherwise it will be null
        * resulting in the value not being sent to the server.
@@ -139,6 +139,10 @@ _primero.Views.ServiceSubform = _primero.Views.Base.extend({
       var $new_agency_select = $new_subform.find('select[id$="service_implementing_agency"]');
       var agencySelectId = "#" + $new_agency_select.attr('id');
       new _primero.Views.PopulateAgencySelectBoxes({ el: agencySelectId });
+
+      var $location_select = $new_subform.find('select[id$=service_delivery_location]');
+      _primero.populate_reporting_location_select_boxes($location_select);
+
     },0); //Try to run after the fadeOut in the forms
   },
 

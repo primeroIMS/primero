@@ -6,11 +6,11 @@ _primero.chosen = function (selector) {
 
   var location_selects = $(selector).filter(function(){
     var populate = $(this).data('populate')
-    return _.contains(['Location', 'ReportingLocation', 'User'], populate);
+    return _.contains(['Location', 'ReportingLocation', 'User', 'Agency use_api'], populate);
   });
   var selects = $(selector).filter(function(){
     var populate = $(this).data('populate')
-    return !_.contains(['Location', 'ReportingLocation', 'User'], populate);
+    return !_.contains(['Location', 'ReportingLocation', 'User', 'Agency use_api'], populate);
   });
 
   initChosen(selects)
