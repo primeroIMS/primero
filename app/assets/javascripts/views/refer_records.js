@@ -284,7 +284,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     var self = this;
     var $location_select = $("#referral-modal select#location");
     $location_select.data('value', location_code);
-    _primero.populate_location_select_boxes(function(){
+    _primero.populate_reporting_location_select_boxes($location_select, function(){
       $location_select.val(location_code);
       $location_select.trigger('chosen:updated');
       self.set_user_filters();

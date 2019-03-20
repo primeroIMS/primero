@@ -67,13 +67,15 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
           $(self.el).find('#' + form_type + '_modal .' + form_type + '_container').html(response);
           _primero.chosen('#' + form_type + '_modal form select');
           _primero.populate_select_boxes();
-          _primero.populate_location_select_boxes();
+
 
           var $form = $('#' + form_type + '_modal form')
           var $service_select = $form.find('select[id$="service_type"]');
           var $agency_select = $form.find('select[id$="service_implementing_agency"]');
           var $location_select = $form.find('select[id$="service_delivery_location"]');
           var $user_select = $form.find('select[id$="service_implementing_agency_individual"]');
+
+          _primero.populate_reporting_location_select_boxes($location_select);
 
           var user_select_id = "#" + $user_select.attr('id');
           new _primero.Views.PopulateUserSelectBoxes({ el: user_select_id });
@@ -162,7 +164,7 @@ _primero.Views.IncidentDetailsFromCase = _primero.Views.Base.extend({
     var self = this;
     var $location_select = $form.find('select[id$="service_delivery_location"]');
     $location_select.data('value', location_code);
-    _primero.populate_location_select_boxes(function() {
+    _primero.populate_reporting_location_select_boxes($location_select, function() {
       /*
        * We select the value only if exists or empty, otherwise it will be null
        * resulting in the value not being sent to the server.
