@@ -2231,6 +2231,7 @@ en:
     consent_count: "Consent Count"
     match_record: "Matching Record"
     index: "Listing Records"
+    search: "API Search"
 
     relinquish_referral: "Relinquish referral Done"
 
