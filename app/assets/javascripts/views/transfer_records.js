@@ -11,7 +11,8 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
     'change #transfer-modal select#existing_user_transfer' : 'toggle_other_user',
     'change #transfer-modal input#other_user' : 'toggle_existing_user',
     'click #transfer-modal input[type="submit"]' : 'close_transfer',
-    'change #transfer-modal select.existing_user_filter' : 'on_filter_change'
+    'change #transfer-modal select#location' : 'on_filter_change',
+    'change #transfer-modal select#agency' : 'on_agency_change'
   },
 
   initialize: function(){
@@ -174,9 +175,16 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
     this.set_user_filters();
   },
 
-  on_filter_change: function(){
+  on_filter_change: function() {
     this.set_user_filters();
     this.clear_user_selection();
+  },
+
+  on_agency_change: function(e) {
+    var $agency_select = $(e.target);
+    //Reset the value so we don't lose the selection
+    $agency_select.data('value', $agency_select.val());
+    this.on_filter_change();
   },
 
   set_user_filters: function() {
