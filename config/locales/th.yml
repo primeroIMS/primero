@@ -1620,3 +1620,5 @@ th:
     page_entries_info:
       single_page_html:
         zero: "ไม่พบ %{model}"
+        one: "Displaying <b>1</b> %{model}"
+        other: "Displaying <b>all %{count}</b> %{model}"
