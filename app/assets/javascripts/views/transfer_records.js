@@ -200,7 +200,7 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
   populate_location_filter: function(location_code, onComplete){
     var $location_select = $("#transfer-modal select#location");
     $location_select.data('value', location_code);
-    _primero.populate_location_select_boxes(function(){
+    _primero.populate_reporting_location_select_boxes($location_select, function(){
       $location_select.val(location_code);
       $location_select.trigger("chosen:updated");
       if(onComplete){
@@ -211,7 +211,7 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
 
   select_user_location: function(onComplete){
     var $location_select = $("#transfer-modal select#location");
-    this.populate_location_filter($location_select.data('value'), onComplete);
+    this.populate_location_filter($location_select.data('current-user-location'), onComplete);
   },
 
   clear_user_selection: function(){
