@@ -22,7 +22,7 @@ module LoggerActions
   end
 
   def logger_model_titleize
-    @logger_model_titleize ||= (model_class.try(:parent_form) || @model_class.try(:parent_form) || model_class.name).titleize.downcase
+    @logger_model_titleize ||= (model_class.name || model_class.try(:parent_form) || @model_class.try(:parent_form))
   end
 
   def logger_action_titleize
@@ -57,15 +57,18 @@ module LoggerActions
     #override in concern that is appropriate for ownable
   end
 
+  def logger_mobile_data
+    { mobile_id: params[:imei], mobile_number: params[:mobile_number] } if logger_action_name == 'login'
+  end
+
   def log_controller_action
     #Format in the index action is used on exports
     #Regular index page has no format parameters.
     #We want to log exports, but not regular index actions
     return 0 if action_name == "index" && params[:format].blank?
-
     logger.info("#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}")
     AuditLogJob.perform_later(logger_job_user_name, logger_action_name, logger_model_titleize, logger_record_id,
-                              logger_display_id, logger_owned_by)
+                              logger_display_id, logger_owned_by, logger_mobile_data)
   end
 
 end

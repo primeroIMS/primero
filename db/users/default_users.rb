@@ -26,7 +26,7 @@ create_or_update_user(
     Role.by_name(key: "Superuser").first.id
   ],
   "module_ids" => PrimeroModule.by_name.all.map{|m| m.id},
-  "user_group_ids" => UserGroup.by_name.all.map{|g| g.id},
+  "user_group_ids" => UserGroup.all.map{|g| g.id},
   "is_manager" => true,
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -43,7 +43,7 @@ create_or_update_user(
     Role.by_name(key: "CP Administrator").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
   "is_manager" => true,
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -60,7 +60,7 @@ create_or_update_user(
     Role.by_name(key: "CP Case Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -76,7 +76,7 @@ create_or_update_user(
     Role.by_name(key: "CP Manager").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
   "is_manager" => true,
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -93,7 +93,7 @@ create_or_update_user(
     Role.by_name(key: "GBV Social Worker").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -109,7 +109,7 @@ create_or_update_user(
     Role.by_name(key: "GBV Manager").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
   "is_manager" => true,
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -126,7 +126,7 @@ create_or_update_user(
         Role.by_name(key: "FTR Manager").first.id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-    "user_group_ids" => [UserGroup.by_name(key: "Primero FTR").first.id],
+    "user_group_ids" => [UserGroup.find_by(name: "Primero FTR").try(:id)],
     "is_manager" => true,
     "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -143,7 +143,7 @@ create_or_update_user(
     Role.by_name(key: "CP User Manager").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
   "is_manager" => true,
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -160,7 +160,7 @@ create_or_update_user(
     Role.by_name(key: "GBV User Manager").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
   "is_manager" => true,
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -178,7 +178,7 @@ create_or_update_user(
     Role.by_name(key: "Agency User Administrator").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
   "is_manager" => true,
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -196,7 +196,7 @@ create_or_update_user(
     Role.by_name(key: "GBV System Administrator").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
   "is_manager" => true,
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -214,7 +214,7 @@ create_or_update_user(
     Role.by_name(key: "GBV Agency User Administrator").first.id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
   "is_manager" => true,
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
@@ -232,7 +232,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
       Role.by_name(key: "CP Case Worker").first.id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-    "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+    "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
     "locale" => Primero::Application::LOCALE_ARABIC
   )
 
@@ -248,7 +248,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
       Role.by_name(key: "CP Manager").first.id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-    "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+    "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
     "is_manager" => true,
     "locale" => Primero::Application::LOCALE_ARABIC
   )
@@ -265,7 +265,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
       Role.by_name(key: "GBV Social Worker").first.id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-    "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+    "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
     "locale" => Primero::Application::LOCALE_ARABIC
   )
 
@@ -281,7 +281,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
       Role.by_name(key: "GBV Manager").first.id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-    "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+    "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
     "is_manager" => true,
 
     "locale" => Primero::Application::LOCALE_ARABIC

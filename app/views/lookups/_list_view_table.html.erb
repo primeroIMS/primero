@@ -1,5 +1,5 @@
 <%
-  given_locale = @lookups.first.base_language
+  given_locale = Primero::Application::BASE_LANGUAGE
 %>
 
 <table id="list_table_2" class="list_table_2 dataTable in_content_area">
@@ -14,8 +14,8 @@
   <tbody>
       <% lookups.each do |lkp| %>
           <tr>
-            <td><%= lkp["name_#{given_locale}"] %></td>
-            <td><%= lkp["lookup_values_#{given_locale}"].try(:map){|r| r['display_text'] }.try(:join,', ') %></td>
+            <td><%= lkp.name(given_locale) %></td>
+            <td><%= lkp.lookup_values(given_locale).try(:map){|r| r['display_text'] }.try(:join,', ') %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_lookup_path(lkp) %>
               <% unless lkp.is_being_used? || lkp.locked %>

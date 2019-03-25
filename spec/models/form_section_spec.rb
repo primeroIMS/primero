@@ -9,7 +9,7 @@ describe FormSection do
     Role.all.each &:destroy
     Lookup.all.each(&:destroy)
 
-    @lookup = Lookup.create!(:id => "lookup-form-group-cp-case",
+    @lookup = Lookup.create!(:unique_id => "lookup-form-group-cp-case",
                              :name => "Form Group CP Case",
                              :lookup_values_en => [{id: "m", display_text: "M"}.with_indifferent_access,
                                                    {id: "x", display_text: "X"}.with_indifferent_access,

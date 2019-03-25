@@ -396,7 +396,7 @@ class FormSection < ActiveRecord::Base
 
     def mobile_forms_to_hash(form_sections, locale=nil)
       locales = ((locale.present? && Primero::Application::locales.include?(locale)) ? [locale] : Primero::Application::locales)
-      lookups = Lookup.all.all
+      lookups = Lookup.all
       locations = self.include_locations_for_mobile? ? Location.all_names(locale: I18n.locale) : []
       form_sections.map {|form| mobile_form_to_hash(form, locales, lookups, locations)}
     end
