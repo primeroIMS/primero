@@ -1,5 +1,6 @@
+# stuff to ignore
 .git
-db/couch
+# db/couch
 log
 tmp
 .idea
@@ -44,10 +45,11 @@ cookbook
 .project
 .buildpath
 coverage
-solr/data
-solr/pids
-solr/development
-solr/default
-solr/test
+# solr/data
+# solr/pids
+# solr/development
+# solr/default
+# solr/test
 jmeter/
 doc/
+venv/

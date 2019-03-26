@@ -1,12 +1,16 @@
 version: '3'
 services:
   postgres:
-    image: postgres
+    image: postgres:latest
     environment:
       POSTGRES_USER: "primero"
       POSTGRES_PASSWORD: "primero"
   couchdb:
-    image: couchdb
+    image: couchdb:prim-latest
     environment:
       COUCHDB_USER: "primero"
       COUCHDB_PASSWORD: "primero"
+  solr:
+    image: solr:prim-latest
+  application:
+    image: application:prim-latest
