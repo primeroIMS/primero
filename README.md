@@ -34,7 +34,7 @@ To start the VM, run:
 
 This will take a while as it has to download and compile some stuff from
 source.  While this is running you can modify your hosts file to include
-our fake domain to use for development.  
+our fake domain to use for development.
 
 
 | WARNING: Vagrant no longer sets up a development environment. |
@@ -50,18 +50,31 @@ When the Vagrant box is up and running, SSH in and go to the Primero development
     $ vagrant ssh
     $ cd ~/primero
 
-Prepare the development environment:
+### Prepare the development environment:
 
     $ bundle install
+
+#### Install nodejs and yarn
+    $ curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
+    $ sudo apt-get install -y nodejs
+
+    $ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+    $ echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+
+    $ sudo apt-get update && sudo apt-get install yarn
+
+#### Prepare the database
+
+    $ bundle exec rake db:create
+    $ bundle exec rake db:migrate
     $ bundle exec rake db:migrate:design
-    $ bundle exec rake db:setup
-    $ bundle exec rake db:seed 
+    $ bundle exec rake db:seed
 
 To bring up the development server on port 3000:
 
     $ bundle exec rails s
 
-You should now be able to access your development server in the browser on [http://primero.test:3000](http://primero.test:3000). 
+You should now be able to access your development server in the browser on [http://primero.test:3000](http://primero.test:3000).
 You can login with a preseeded admin account with credentials `primero`/`primer0!`.
 
 Automatic development server reloads based on code changes have been disabled. This is intentional. **Do not change that!**
