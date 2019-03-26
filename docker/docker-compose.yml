@@ -1,0 +1,12 @@
+version: '3'
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: "primero"
+      POSTGRES_PASSWORD: "primero"
+  couchdb:
+    image: couchdb
+    environment:
+      COUCHDB_USER: "primero"
+      COUCHDB_PASSWORD: "primero"
