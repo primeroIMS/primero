@@ -107,6 +107,7 @@ followup_subform_section = FormSection.create_or_update_form_section({
   "editable" => true,
   :fields => followup_subform_fields,
   :initial_subforms => 1,
+  :subform_prevent_item_removal => true,
   "name_en" => "Nested Followup Subform",
   "description_en" => "Nested Followup Subform",
   "collapsed_fields" => ["followup_date", "followup_type"]
