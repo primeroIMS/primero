@@ -47,7 +47,7 @@ health_medical_referral_subform_section = FormSection.create_or_update_form_sect
   editable: true,
   fields: health_medical_referral_subform_fields,
   mobile_form: true,
-  initial_subforms: 1,
+  initial_subforms: 0,
   name_en: "Nested Health/Medical Referral Subform",
   description_en: "Nested Health/Medical Referral Subform"
 })
@@ -98,7 +98,7 @@ psychosocial_counseling_services_subform_section = FormSection.create_or_update_
   "editable" => true,
   :fields => psychosocial_counseling_services_subform_fields,
   mobile_form: true,
-  :initial_subforms => 1,
+  :initial_subforms => 0,
   "name_en" => "Nested Psychosocial/Counseling Services Subform",
   "description_en" => "Nested Psychosocial/Counseling Services Subform"
 })
@@ -155,7 +155,7 @@ legal_assistance_services_subform_section = FormSection.create_or_update_form_se
   "editable" => true,
   :fields => legal_assistance_services_subform_fields,
   mobile_form: true,
-  :initial_subforms => 1,
+  :initial_subforms => 0,
   "name_en" => "Nested Legal Assistance Services Subform",
   "description_en" => "Nested Legal Assistance Services Subform"
 })
@@ -206,7 +206,7 @@ police_or_other_type_of_security_services_subform_section = FormSection.create_o
   "editable" => true,
   mobile_form: true,
   :fields => police_or_other_type_of_security_services_subform_fields,
-  :initial_subforms => 1,
+  :initial_subforms => 0,
   "name_en" => "Nested Police or Other Type of Security Services Subform",
   "description_en" => "Nested Police or Other Type of Security Services Subform"
 })
@@ -257,7 +257,7 @@ livelihoods_services_subform_section = FormSection.create_or_update_form_section
   "editable" => true,
   :fields => livelihoods_services_subform_fields,
   mobile_form: true,
-  :initial_subforms => 1,
+  :initial_subforms => 0,
   "name_en" => "Nested Livelihoods Services Subform",
   "description_en" => "Nested Livelihoods Services Subform"
 })
@@ -308,7 +308,7 @@ child_protection_services_subform_section = FormSection.create_or_update_form_se
   "editable" => true,
   :fields => child_protection_services_subform_fields,
   mobile_form: true,
-  :initial_subforms => 1,
+  :initial_subforms => 0,
   "name_en" => "Nested Child Protection Services Subform",
   "description_en" => "Nested Child Protection Services Subform"
 })
