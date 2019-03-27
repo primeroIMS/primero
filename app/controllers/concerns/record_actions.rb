@@ -316,7 +316,7 @@ module RecordActions
   end
 
   def record_module
-    params_module_id = (params['module_id'] || (params['child'].try(:[], ['module_id'])))
+    params_module_id = (params['module_id'] || (params['child'].try(:[], 'module_id')))
     if @record.present? && @record.module_id.present?
       @record_module ||= @record.module
     elsif params_module_id.present?
@@ -390,7 +390,7 @@ module RecordActions
       @record_params = destringify(@record_params)
       @record_params = filter_permitted_params(@record_params) #TODO: This business logic may need to be moved to a service
     end
-    @record_params
+    @record_params.with_indifferent_access
   end
 
   # All the stuff that isn't properties that should be allowed

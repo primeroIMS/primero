@@ -27,7 +27,8 @@ module Approvable
   end
 
   def request_approval(approval_type, approval_status, approval_status_type)
-    self.add_approval_alert(approval_type) # @system_settings
+    # TODO: Performance - Should we use @system_settings ||= pattern instead of SystemSettings.current?
+    self.add_approval_alert(approval_type, SystemSettings.current)
     case approval_type
     when BIA
       self.approval_status_bia = approval_status
@@ -40,7 +41,7 @@ module Approvable
     when CLOSURE
       self.approval_status_closure = approval_status
     end
-
+    self.approval_subforms = self.approval_subforms || []
     self.approval_subforms << approval_action_record(approval_type, nil, approval_status_type, approval_status)
   end
 
