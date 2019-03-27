@@ -65,7 +65,7 @@ class Cases extends React.Component {
 
     return (
       <Grid container spacing={16}>
-        <Grid item xs={10}>
+        <Grid item lg={10} xs={12} sm={12}>
           {!isEmpty(cases.results) && (
             <IndexTable
               defaultFilters={this.defaultFilters}
@@ -75,7 +75,7 @@ class Cases extends React.Component {
             />
           )}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item lg={2} xs={12}>
           Filters
         </Grid>
       </Grid>

@@ -1,0 +1,14 @@
+$drawerWidth: 240px;
+
+.drawer {
+  width: $drawerWidth;
+  flex-shrink: 0;
+}
+
+.drawerPaper {
+  width: $drawerWidth;
+}
+
+.navList {
+  flex-grow: 1;
+}

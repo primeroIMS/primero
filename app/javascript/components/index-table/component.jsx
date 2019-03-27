@@ -1,6 +1,23 @@
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+
+const getMuiTheme = () =>
+  createMuiTheme({
+    overrides: {
+      MUIDataTableToolbar: {
+        root: {
+          display: "none"
+        }
+      },
+      MUIDataTableToolbarSelect: {
+        root: {
+          display: "none"
+        }
+      }
+    }
+  });
 
 const indexTable = ({ columns, data, onTableChange, defaultFilters }) => {
   const { per, total } = data.meta;
@@ -36,14 +53,17 @@ const indexTable = ({ columns, data, onTableChange, defaultFilters }) => {
       })()
     );
 
-    onTableChange(selectedFilters);
+    if (action !== "rowsSelect") {
+      onTableChange(selectedFilters);
+    }
   };
 
   const options = {
+    responsive: "stacked",
     count: total,
     rowsPerPage: per,
     filterType: "checkbox",
-    fixedHeader: true,
+    fixedHeader: false,
     elevation: 0,
     filter: false,
     download: false,
@@ -52,13 +72,15 @@ const indexTable = ({ columns, data, onTableChange, defaultFilters }) => {
     viewColumns: false,
     serverSide: true,
     customToolbar: () => null,
-    customToolbarSelect: () => null,
+    customToolbarSelect: () => <></>,
     onTableChange: handleTableChange,
     rowsPerPageOptions: [20, 50, 75, 100]
   };
 
   return (
-    <MUIDataTable data={data.results} options={options} columns={columns} />
+    <MuiThemeProvider theme={getMuiTheme}>
+      <MUIDataTable data={data.results} options={options} columns={columns} />
+    </MuiThemeProvider>
   );
 };
 
