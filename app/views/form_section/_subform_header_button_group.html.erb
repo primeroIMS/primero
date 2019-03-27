@@ -1,11 +1,10 @@
 <div class="button-group align-right">
   <% if subform_instance.present? %>
-    <%# TODO: Refactor with Incident %>
-    <% if subform_name == "incident_details" && false %>
-      <% link_for_current_details = formObject.incident_links.find{|link| link["incident_details"] == subform_instance.unique_id} %>
-      <% if link_for_current_details.present? && (can? :incident_from_case, Child) %>
-        <%= render 'children/incident_links_cp', formObject: formObject, associated_incident_id: link_for_current_details["incident_id"],
-                       incident_display_id: link_for_current_details["incident_display_id"]
+    <% if subform_name == "incident_details" %>
+      <% incident = formObject.incidents.by_incident_detail_id(subform_instance.unique_id).first %>
+      <% if incident.present? && (can? :incident_from_case, Child) %>
+        <%= render 'children/incident_links_cp', formObject: formObject, associated_incident_id: incident.id,
+                       incident_display_id: incident.display_id
         %>
       <% elsif can? :incident_from_case, Child %>
         <%= render 'children/create_incident', incident_detail_id: subform_instance.unique_id %>

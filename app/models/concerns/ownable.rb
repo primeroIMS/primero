@@ -11,7 +11,7 @@ module Ownable
     searchable auto_index: self.auto_index? do
       string :associated_user_names, multiple: true
       string :owned_by
-      string :owned_by_groups, multiple: true
+      integer :owned_by_groups, multiple: true
       string :assigned_user_names, multiple: true
       string :module_id, as: :module_id_sci
       boolean :not_edited_by_owner

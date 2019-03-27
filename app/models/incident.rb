@@ -1,154 +1,101 @@
-#TODO: For now leaving CouchRest::Model::Base
-#TODO: Inheriting from ApplicationRecord breaks created_at in the Historical Concern for some reason
-class Incident < CouchRest::Model::Base
-  use_database :incident
+class Incident < ActiveRecord::Base
 
-  DEFAULT_INCIDENT_MAPPING = [
-    {
-      "source" => ["survivor_code_no"],
-      "target" => "survivor_code"
-    }, {
-      "source" => ["age"],
-      "target" => "age"
-    }, {
-      "source" => ["date_of_birth"],
-      "target" => "date_of_birth"
-    }, {
-      "source" => ["sex"],
-      "target" => "sex"
-    }, {
-      "source" => ["gbv_ethnicity"],
-      "target" => "ethnicity"
-    }, {
-      "source" => ["country_of_origin"],
-      "target" => "country_of_origin"
-    }, {
-      "source" => ["gbv_nationality"],
-      "target" => "nationality"
-    }, {
-      "source" => ["gbv_religion"],
-      "target" => "religion"
-    }, {
-      "source" => ["maritial_status"],
-      "target" => "maritial_status"
-    }, {
-      "source" => ["gbv_displacement_status"],
-      "target" => "displacement_status"
-    }, {
-      "source" => ["gbv_disability_type"],
-      "target" => "disability_type"
-    }, {
-      "source" => ["unaccompanied_separated_status"],
-      "target" => "unaccompanied_separated_status"
-    }
-  ]
-
-  include PrimeroModel
-  include Primero::CouchRestRailsBackward
-
-  include Record
+  include RecordJson
+  include Searchable
+  include Historical
   include Ownable
   include Flaggable
-  include DocumentUploader
+  #include DocumentUploader #TODO: refactor with block storage
+  #include SyncableMobile #TODO: refactor with Mobile
+  #include Importable #TODO: refactor with Import
 
-  property :incident_id
-  property :incidentid_ir
-  property :description
-  property :date_of_first_report, Date
+  store_accessor :data,
+    :incident_id, :incidentid_ir, :individual_ids, :incident_code, :description, :super_incident_name,
+    :incident_detail_id, :incident_description, :monitor_number, :survivor_code, :date_of_first_report,
+    :date_of_incident_date_or_date_range, :incident_date, :date_of_incident, :date_of_incident_from, :date_of_incident_to,
+    :individual_details_subform_section
 
-  validate :validate_date_of_first_report
+  belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child'
 
-  def initialize *args
-    self['histories'] = []
-
-    super *args
-  end
-
-  design
-
-  design :by_incident_id do
-    view :by_incident_id
-  end
-
-  before_save :set_violation_verification_default
-  after_save :index_violations
-  after_destroy :unindex_violations
-  before_save :ensure_violation_categories_exist
-  after_initialize :defaults
-
-  before_update :clean_incident_date
-
-
-  def defaults
-    self.status ||= Record::STATUS_OPEN
-  end
+  scope :by_incident_detail_id, ->(incident_detail_id) { where('data @> ?', {incident_detail_id: incident_detail_id}.to_json) }
 
   def self.quicksearch_fields
-    [
-      'incident_id', 'incident_code', 'super_incident_name', 'incident_description',
-      'monitor_number', 'survivor_code',
-      'individual_ids', 'incidentid_ir'
-    ]
+    %w(incident_id incident_code super_incident_name incident_description
+       monitor_number survivor_code individual_ids incidentid_ir
+    )
   end
-  include Searchable #Needs to be after Ownable
 
   searchable auto_index: self.auto_index? do
-    string :violations, multiple: true do
-      self.violation_type_list
-    end
+    #TODO: Refactor with Violations
+    # string :violations, multiple: true do
+    #   self.violation_type_list
+    # end
 
-    string :verification_status, multiple: true do
-      self.violation_verified_list
-    end
+    #TODO: Refactor with Violations
+    # string :verification_status, multiple: true do
+    #   self.violation_verified_list
+    # end
 
-    string :child_types, multiple: true do
-      self.child_types
-    end
+    #TODO: Refactor with Violations
+    # string :child_types, multiple: true do
+    #   self.child_types
+    # end
 
-    string :armed_force_group_names, multiple: true do
-      self.armed_force_group_names
-    end
+    #TODO: Refactor with Violations
+    # string :armed_force_group_names, multiple: true do
+    #   self.armed_force_group_names
+    # end
 
-    string :perpetrator_sub_categories, multiple: true do
-      self.perpetrator_sub_categories
-    end
+    #TODO: Refactor with Violations
+    # string :perpetrator_sub_categories, multiple: true do
+    #   self.perpetrator_sub_categories
+    # end
 
     date :incident_date_derived do
       self.incident_date_derived
     end
 
-    string :created_agency_office, as: 'created_agency_office_sci'
-
   end
 
-  def self.make_new_incident(module_id, child=nil, from_module_id=nil, incident_detail_id=nil)
-    Incident.new.tap do |incident|
-      incident['module_id'] = module_id
+  validate :validate_date_of_first_report
 
-      if child.present?
-        incident['incident_case_id'] = child.id
-        incident_map = Incident::DEFAULT_INCIDENT_MAPPING
-        if from_module_id.present?
-          from_module = PrimeroModule.get(from_module_id)
-          if from_module.present?
-            incident_map = from_module.field_map_fields if from_module.field_map_fields.present?
-            if incident_detail_id.present?
-              incident['incident_detail_id'] = incident_detail_id
-            end
-          end
-        end
-        incident.copy_case_information(child, incident_map, incident_detail_id)
-        #TODO: All Primero handing of dates should be refactored
-        #This provides the current date according to local time
-        #Typically things saved to models should be in UTC, but this is an exception
-        #What matters here is the date for the person creating the incident
-        #After its creation the date will not have a timezone
-        incident.date_of_first_report = DateTime.current.to_date
-        incident.status = STATUS_OPEN
+  #before_save :set_violation_verification_default #TODO: Refactor with Violations
+  #after_save :index_violations #TODO: Refactor with Violations
+  #after_destroy :unindex_violations #TODO: Refactor with Violations
+  #before_save :ensure_violation_categories_exist #TODO: Refactor with Violations
+  before_update :clean_incident_date
+
+  alias super_defaults defaults
+  def defaults
+    super_defaults
+    #self.child_status ||= Record::STATUS_OPEN
+    self.date_of_first_report ||= Date.today
+  end
+
+  def self.new_incident_from_case(module_id, child=nil, from_module_id=nil, incident_detail_id=nil)
+    incident = Incident.new
+    incident.module_id = module_id
+
+    if child.present?
+      incident.incident_case_id = child.id
+      if incident_detail_id.present?
+        incident.incident_detail_id = incident_detail_id
       end
+
+      incident_map = self.incident_mapping(from_module_id)
+      incident.copy_case_information(child, incident_detail_id, incident_map, )
+      #TODO: All Primero handling of dates should be refactored
+      #This provides the current date according to local time
+      #Typically things saved to models should be in UTC, but this is an exception
+      #What matters here is the date for the person creating the incident
+      #After its creation the date will not have a timezone
+      incident.date_of_first_report = DateTime.current.to_date
+      incident.status = STATUS_OPEN
     end
+    return incident
   end
 
+  #TODO: Refactor with Violations
   def ensure_violation_categories_exist
     if self.violations.present?
       self.violations.to_hash.compact.each_key do |key|
@@ -156,19 +103,6 @@ class Incident < CouchRest::Model::Base
         self.violation_category << key if !self.violation_category.include? key
       end
     end
-  end
-
-  def self.find_by_incident_id(incident_id)
-    by_incident_id(:key => incident_id).first
-  end
-
-  #TODO: Keep this?
-  def self.search_field
-    "description"
-  end
-
-  def self.view_by_field_list
-    ['created_at', 'description']
   end
 
   def self.minimum_reportable_fields
@@ -180,55 +114,100 @@ class Incident < CouchRest::Model::Base
     }
   end
 
+  #TODO: Refactor with Violations
+  #TODO: Refactor with Export
   #This method is overriding the one from the record concern to add in the violations property
-  def self.get_properties_by_module(user, modules)
-    props = super(user, modules)
-    if props['primeromodule-mrm'].present?
-      violations_property = Incident.properties.select{|p| p.name == 'violations'}.first
-      if violations_property.present?
-        violation_form_keys = Incident.violation_id_fields.keys
-        violation_forms = modules.select{|m| m.id == "primeromodule-mrm"}.map do |m_mrm|
-          m_mrm.associated_forms.select do |fs|
-            fs.fields.any?{|f| (f.type == Field::SUBFORM) && violation_form_keys.include?(f.name)}
-          end
-        end.flatten.map{|f| f.name}
-        props['primeromodule-mrm'].each do |form_name, form|
-          if violation_forms.include? form_name
-            props['primeromodule-mrm'][form_name] = {'violations' => violations_property}
-          end
-        end
-      end
-    end
-    return props
-  end
+  # def self.get_properties_by_module(user, modules)
+  #   props = super(user, modules)
+  #   if props['primeromodule-mrm'].present?
+  #     violations_property = Incident.properties.select{|p| p.name == 'violations'}.first
+  #     if violations_property.present?
+  #       violation_form_keys = Incident.violation_id_fields.keys
+  #       violation_forms = modules.select{|m| m.id == "primeromodule-mrm"}.map do |m_mrm|
+  #         m_mrm.associated_forms.select do |fs|
+  #           fs.fields.any?{|f| (f.type == Field::SUBFORM) && violation_form_keys.include?(f.name)}
+  #         end
+  #       end.flatten.map{|f| f.name}
+  #       props['primeromodule-mrm'].each do |form_name, form|
+  #         if violation_forms.include? form_name
+  #           props['primeromodule-mrm'][form_name] = {'violations' => violations_property}
+  #         end
+  #       end
+  #     end
+  #   end
+  #   return props
+  # end
 
   def set_instance_id
     self.incident_id ||= self.unique_identifier
+    self.incident_code ||= (self.unique_identifier || "").last 7
   end
 
-  def create_class_specific_fields(fields)
-    self['description'] = fields['description'] || self.description || ''
-    self.date_of_first_report ||= Date.current
+  #TODO: Rspec!
+  #Copy some fields values from Survivor Information to GBV Individual Details.
+  def copy_case_information(case_record, incident_id, mapping)
+    if mapping.present?
+      mapping.each do |record_mapping|
+        #source_value = case_record
+        target_key = record_mapping["target"]
+        source_key = record_mapping["source"][0]
+        if source_key == "incident_details"
+          incident_key = record_mapping["source"][1]
+          incident_details = source_value[source_key]
+          incident_detail = incident_details.find{|incident| incident["unique_id"] == incident_id}
+          source_value = incident_detail[incident_key] if incident_detail.present?
+        else
+          source_value = case_record[source_key]
+        end
+        self.data[target_key] = source_value unless source_value.nil?
+      end
+    end
   end
 
-  def incident_code
-    (self.unique_identifier || "").last 7
+  DEFAULT_INCIDENT_MAPPING = [
+    {"source" => ["survivor_code_no"], "target" => "survivor_code"},
+    {"source" => ["age"], "target" => "age"},
+    {"source" => ["date_of_birth"], "target" => "date_of_birth"},
+    {"source" => ["sex"], "target" => "sex"},
+    {"source" => ["gbv_ethnicity"], "target" => "ethnicity"},
+    {"source" => ["country_of_origin"], "target" => "country_of_origin"},
+    {"source" => ["gbv_nationality"], "target" => "nationality"},
+    {"source" => ["gbv_religion"], "target" => "religion"},
+    {"source" => ["maritial_status"], "target" => "maritial_status"},
+    {"source" => ["gbv_displacement_status"], "target" => "displacement_status"},
+    {"source" => ["gbv_disability_type"], "target" => "disability_type"},
+    {"source" => ["unaccompanied_separated_status"], "target" => "unaccompanied_separated_status"}
+  ]
+
+  def incident_mapping(from_module_id)
+    incident_map = Incident::DEFAULT_INCIDENT_MAPPING
+    if from_module_id.present?
+      from_module = PrimeroModule.get(from_module_id)
+      if from_module.present?
+        incident_map = from_module.field_map_fields if from_module.field_map_fields.present?
+      end
+    end
+    return incident_map
   end
 
+  #TODO: Refactor with Violations
   def violation_number_of_victims
     self.try(:incident_total_tally_total) || 0
   end
 
+  #TODO: Refactor with Violations
   def violations_subforms
     subforms = []
     subforms = self.violations.to_hash.map{|key, value| value}.flatten if self.violations.present?
     subforms
   end
 
+  #TODO: Refactor with Violations
   def violation_number_of_violations
     self.violations_subforms.size
   end
 
+  #TODO: Refactor with Violations
   def violation_number_of_violations_verified
     number_of_violations_verified = 0
     self.violations_subforms.each do |subform|
@@ -238,7 +217,8 @@ class Incident < CouchRest::Model::Base
     number_of_violations_verified
   end
 
-  #Returns the 20 latest open incidents.
+  #Returns the 20 latest open incidents. Used in dashboards.
+  # TODO: Jacob's designs drop this? Delete?
   #TODO refactoring pagination?
   def self.open_incidents(user)
     filters = { "record_state" =>{:type => "single", :value => "true"},
@@ -248,6 +228,8 @@ class Incident < CouchRest::Model::Base
     self.list_records(filters=filters, sort={:created_at => :desc}, pagination={ per_page: 20 }, user.managed_user_names).results
   end
 
+  #Returns the 20 latest open incidents. Used in dashboards.
+  # TODO: Jacob's designs drop this? Delete?
   def self.open_gbv_incidents(user)
     filters = { "record_state" =>{:type => "single", :value => "true"},
                 "module_id" => {:type => "single", :value => PrimeroModule::GBV},
@@ -258,6 +240,7 @@ class Incident < CouchRest::Model::Base
 
   # Each violation type has a field that is used as part of the identification
   # of that violation
+  # TODO: Refactor with Violations
   #TODO: This matches up to the collapsed fields on the violation subforms. NOT DRY!!!
   def self.violation_id_fields
     {
@@ -273,6 +256,7 @@ class Incident < CouchRest::Model::Base
     }
   end
 
+  # TODO: Refactor with Violations
   def violation_label(violation_type, violation, include_unique_id=false)
     id_fields = self.class.violation_id_fields
     label_id = violation.send(id_fields[violation_type].to_sym)
@@ -284,6 +268,7 @@ class Incident < CouchRest::Model::Base
     label
   end
 
+  # TODO: Refactor with Violations
   #TODO - Need rspec test for this
   def violations_list(compact_flag = false, include_unique_id=false)
     violations_list = []
@@ -308,6 +293,7 @@ class Incident < CouchRest::Model::Base
     return violations_list
   end
 
+  # TODO: Refactor with Violations
   def violations_list_by_unique_id
     (self.violations || {}).to_hash.inject({}) do |acc, (vtype, vs)|
       acc.merge(vs.inject({}) do |acc2, v|
@@ -316,6 +302,7 @@ class Incident < CouchRest::Model::Base
     end
   end
 
+  # TODO: Refactor with Violations
   #TODO - Need rspec test for this
   def violation_type_list
     violations_list = []
@@ -330,6 +317,7 @@ class Incident < CouchRest::Model::Base
     return violations_list
   end
 
+  # TODO: Refactor with Violations
   #TODO - Need rspec test for this
   def violation_verified_list
     violation_verified_list = []
@@ -345,21 +333,16 @@ class Incident < CouchRest::Model::Base
     return violation_verified_list
   end
 
-  #Copy some fields values from Survivor Information to GBV Individual Details.
-  def copy_case_information(case_record, incident_map, incident_id)
-    copy_fields(case_record, incident_map, incident_id)
-  end
-
   def individual_ids
     ids = []
     if self.individual_details_subform_section.present?
-      ids = self.individual_details_subform_section.map(&:id_number).compact
+      ids = self.individual_details_subform_section.map{|i| i['id_number']}.compact
     end
     return ids
   end
 
   def validate_date_of_first_report
-    if date_of_first_report.present? && (!date_of_first_report.is_a?(Date) || date_of_first_report > Date.today)
+    if self.date_of_first_report.present? && (!self.date_of_first_report.is_a?(Date) || self.date_of_first_report > Date.today)
       errors.add(:date_of_first_report, I18n.t("messages.enter_valid_date"))
       error_with_section(:date_of_first_report, I18n.t("messages.enter_valid_date"))
       false
@@ -368,6 +351,7 @@ class Incident < CouchRest::Model::Base
     end
   end
 
+  # TODO: Refactor with Violations
   def set_violation_verification_default
     if self.violations.present?
       self.violations.to_hash.each do |key, value|
@@ -380,18 +364,21 @@ class Incident < CouchRest::Model::Base
     end
   end
 
+  # TODO: Refactor with Violations
   def index_violations
     if self.violations.present?
       Sunspot.index! Violation.from_incident(self)
     end
   end
 
+  # TODO: Refactor with Violations
   def unindex_violations
     if self.violations.present?
       Sunspot.remove! Violation.from_incident(self)
     end
   end
 
+  #TODO: Refactor with Violations
   #TODO - Need rspec test for this
   def child_types
     child_type_list = []
@@ -404,6 +391,7 @@ class Incident < CouchRest::Model::Base
     return child_type_list
   end
 
+  #TODO: Refactor with Violations
   #Child types across all violations
   def violation_child_types
     child_type_list = []
@@ -419,6 +407,7 @@ class Incident < CouchRest::Model::Base
     return child_type_list
   end
 
+  #TODO: Refactor with Violations
   #Child types on a single violation
   def violation_children_list(violation_type, violation)
     child_list = []
@@ -438,6 +427,7 @@ class Incident < CouchRest::Model::Base
     return child_list
   end
 
+  #TODO: Refactor with Violations
   #TODO - Need rspec test for this
   def armed_force_group_names
     armed_force_groups = []
@@ -449,6 +439,7 @@ class Incident < CouchRest::Model::Base
     return armed_force_groups
   end
 
+  #TODO: Refactor with Violations
   #TODO - Need rspec test for this
   def perpetrator_sub_categories
     categories = []
@@ -461,7 +452,7 @@ class Incident < CouchRest::Model::Base
   end
 
   def clean_incident_date
-    if date_of_incident_date_or_date_range == 'date'
+    if self.date_of_incident_date_or_date_range == 'date'
       self.date_of_incident_from = nil
       self.date_of_incident_to = nil
     else
@@ -488,6 +479,7 @@ class Incident < CouchRest::Model::Base
     end
   end
 
+  #TODO: Refactor with Violations
   # TODO: Combine/refactor this violations iterator to spit out instances of
   # TODO: Pavel's new Violation model
   def each_violation
@@ -500,6 +492,7 @@ class Incident < CouchRest::Model::Base
     end
   end
 
+  #TODO: Refactor with Violations
   def find_violation_by_unique_id unique_id
     each_violation.inject(nil) do |acc, (v, cat)|
       if v.unique_id == unique_id

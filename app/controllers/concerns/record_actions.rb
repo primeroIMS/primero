@@ -169,7 +169,6 @@ module RecordActions
     respond_to do |format|
       @form_sections = @record.class.allowed_formsections(current_user, @record.module) #TODO: This is an awkwardly placed call
       if @record.save
-        post_save_processing @record #TODO: Refactor with incident
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
@@ -185,10 +184,6 @@ module RecordActions
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
       end
     end
-  end
-
-  def post_save_processing record
-    # This is for operation after saving the record. TODO: Not called for update?
   end
 
   def edit
@@ -439,8 +434,9 @@ module RecordActions
     instance_variable_set("@#{model_class.name.pluralize.underscore}", @records)
   end
 
+  #TODO: Refactor UIUX
   def load_consent
-    if @record.present?
+    if @record.present? && @record.respond_to?(:given_consent) #Yuck!
       @referral_consent = @record.given_consent(Transition::TYPE_REFERRAL)
       @transfer_consent = @record.given_consent(Transition::TYPE_TRANSFER)
     end

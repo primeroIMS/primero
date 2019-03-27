@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190311000001) do
+ActiveRecord::Schema.define(version: 201903060000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,11 +29,6 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.index ["services"], name: "index_agencies_on_services", using: :gin
   end
 
-  create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.jsonb "data", default: {}
-    t.index ["data"], name: "index_cases_on_data", using: :gin
-  end
-
   create_table "audit_logs", id: :serial, force: :cascade do |t|
     t.string "user_name"
     t.string "action_name"
@@ -45,6 +40,11 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.jsonb "mobile_data"
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
     t.index ["user_name"], name: "index_audit_logs_on_user_name"
+  end
+
+  create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_cases_on_data", using: :gin
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|
@@ -156,14 +156,11 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
-  create_table "record_histories", id: :serial, force: :cascade do |t|
-    t.integer "record_id"
-    t.string "record_type"
-    t.datetime "datetime"
-    t.string "user_name"
-    t.string "action"
-    t.jsonb "record_changes", default: {}
-    t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
+  create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "incident_case_id"
+    t.index ["data"], name: "index_incidents_on_data", using: :gin
+    t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
   end
 
   create_table "lookups", id: :serial, force: :cascade do |t|
@@ -172,6 +169,16 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.jsonb "lookup_values_i18n"
     t.boolean "locked", default: false, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
+  end
+
+  create_table "record_histories", id: :serial, force: :cascade do |t|
+    t.integer "record_id"
+    t.string "record_type"
+    t.datetime "datetime"
+    t.string "user_name"
+    t.string "action"
+    t.jsonb "record_changes", default: {}
+    t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
 
   create_table "reports", id: :serial, force: :cascade do |t|
