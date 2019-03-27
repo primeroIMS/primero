@@ -38,5 +38,7 @@ class CreateFields < ActiveRecord::Migration[5.0]
       t.boolean 'date_include_time', null: false, default: false
       t.boolean 'matchable', null: false, default: false
     end
+    add_index :fields, :name
+    add_index :fields, :type
   end
 end

@@ -3,9 +3,17 @@ module Indexable
 
   included do
     include Sunspot::Rails::Searchable
+    Sunspot::Adapters::InstanceAdapter.register Sunspot::Rails::Adapters::ActiveRecordInstanceAdapter, self
 
-    Sunspot::Adapters::InstanceAdapter.register DocumentInstanceAccessor, self
-    Sunspot::Adapters::DataAccessor.register DocumentDataAccessor, self
+    after_save :queue_for_index
+
+    def index_for_search
+      Sunspot.index!(self)
+    end
+
+    def queue_for_index
+      SunspotIndexJob.perform_later(self.class.name, self.id) unless self.class.auto_index?
+    end
   end
 
   module ClassMethods

@@ -1,6 +1,5 @@
 class Field < ActiveRecord::Base
 
-  #include PrimeroModel
   include LocalizableJsonProperty
   include Memoizable
 

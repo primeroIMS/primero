@@ -816,25 +816,4 @@ describe TracingRequestsController, :type => :controller do
     end
   end
 
-  describe "reindex_params_subforms" do
-
-    it "should correct indexing for nested subforms" do
-      params = {
-        "tracing_request"=> {
-          "name"=>"",
-         "top_1"=>"This is a top value",
-          "nested_form_section" => {
-            "0"=>{"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"},
-           "2"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}},
-          "fathers_name"=>""}}
-
-      controller.reindex_hash params['tracing_request']
-      expected_subform = params["tracing_request"]["nested_form_section"]["1"]
-
-      expect(expected_subform.present?).to be_truthy
-      expect(expected_subform).to eq({"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"})
-    end
-
-  end
-
 end

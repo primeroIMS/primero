@@ -9,8 +9,8 @@ module Tasks
     end
 
     def self.has_task?(record)
-      record.try(:case_plan_due_date).present? &&
-      !record.try(:date_case_plan).present?
+      record.case_plan_due_date.present? &&
+      !record.date_case_plan.present?
     end
 
     def due_date

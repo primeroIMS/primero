@@ -1,5 +1,7 @@
 class PrimeroDate < Date
 
+  DATE_REGEX=/^\d{2}-(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d{4}$/
+
   CONVERSIONS = I18n.available_locales.reject{|l| l == :ru || l == :zh}.map{|l| [l, {
     month_names: I18n.t('abbr_month_names', scope: 'date', locale: l),
     abbr_month_names: I18n.t('month_names', scope: 'date', locale: l)

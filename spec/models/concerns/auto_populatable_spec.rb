@@ -1,22 +1,5 @@
 require 'rails_helper'
 
-class TestClass < CouchRest::Model::Base
-  include AutoPopulatable
-
-  property :name, String, :default => 'A name'
-  property :name_first, String
-  property :name_middle, String
-  property :name_last, String
-  property :code_1, String
-  property :code_2, String
-  property :code_3, String
-
-
-  def save_doc(*args)
-    true
-  end
-end
-
 describe AutoPopulatable do
   context 'when auto_populate_list is present' do
     before do
@@ -41,8 +24,8 @@ describe AutoPopulatable do
     context 'and auto_populated is true' do
       context 'and all format fields are populated' do
         before :each do
-          @t1 = TestClass.new(name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
-                              code_1: 'Abc', code_2: 'Def', code_3: 'Ghi')
+          @t1 = Child.new(data: {name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
+                              code_1: 'Abc', code_2: 'Def', code_3: 'Ghi'})
         end
 
         context 'and SystemSettings is passed in' do
@@ -89,8 +72,8 @@ describe AutoPopulatable do
 
       context 'and some format fields are populated' do
         before :each do
-          @t1 = TestClass.new(name_first: 'Jim', name_last: 'Smith',
-                              code_1: 'Abc', code_3: 'Ghi')
+          @t1 = Child.new(data: {name_first: 'Jim', name_last: 'Smith',
+                              code_1: 'Abc', code_3: 'Ghi'})
         end
 
         context 'and SystemSettings is passed in' do
@@ -137,7 +120,7 @@ describe AutoPopulatable do
 
       context 'and only one format field is populated' do
         before :each do
-          @t1 = TestClass.new(name_last: 'Smith')
+          @t1 = Child.new(name_last: 'Smith')
         end
 
         context 'and SystemSettings is passed in' do
@@ -183,7 +166,7 @@ describe AutoPopulatable do
 
       context 'and no format fields are populated' do
         before :each do
-          @t1 = TestClass.new()
+          @t1 = Child.new()
         end
 
         context 'and SystemSettings is passed in' do
@@ -230,8 +213,8 @@ describe AutoPopulatable do
 
     context 'and auto_populated is false' do
       before :each do
-        @t1 = TestClass.new(name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
-                            code_1: 'Abc', code_2: 'Def', code_3: 'Ghi')
+        @t1 = Child.new(data: {name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
+                            code_1: 'Abc', code_2: 'Def', code_3: 'Ghi'})
       end
 
       context 'and SystemSettings is passed in' do
@@ -254,8 +237,8 @@ describe AutoPopulatable do
 
       @system_settings = SystemSettings.create(default_locale: "en")
 
-      @t1 = TestClass.new(name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
-                          code_1: 'Abc', code_2: 'Def', code_3: 'Ghi')
+      @t1 = Child.new(data: {name_first: 'Jim', name_middle: 'Bob', name_last: 'Smith',
+                          code_1: 'Abc', code_2: 'Def', code_3: 'Ghi'})
     end
 
     context 'and SystemSettings is passed in' do

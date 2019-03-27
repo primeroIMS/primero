@@ -59,6 +59,7 @@ class IncidentsController < ApplicationController
     Incident.make_new_incident(params['module_id'], case_record)
   end
 
+  #TODO: Refactor with Incident
   def post_save_processing incident
     # This is for operation after saving the record.
     case_id = params["incident_case_id"]
@@ -70,10 +71,6 @@ class IncidentsController < ApplicationController
       #TODO what if fails to save at this point? should rollback the incident?
       case_record.save
     end
-  end
-
-  def initialize_created_record incident
-    incident['status'] = Record::STATUS_OPEN if incident['status'].blank?
   end
 
   def redirect_after_update

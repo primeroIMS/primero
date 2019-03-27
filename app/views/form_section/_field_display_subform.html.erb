@@ -57,7 +57,7 @@
             <%
               i = grouped_subform_object[1]
               formObject_i = subform_object[i]
-              formObject_i[:hidden_name] = formObject.hidden_name
+              formObject_i['hidden_name'] = formObject['hidden_name']
             %>
             <div id="subform_container_<%= subform.name %>_<%= i %>" class="subform_container">
               <fieldset id="subform_<%= subform.name %>_<%= i %>" class="<%= subform.name %> subform no-border">

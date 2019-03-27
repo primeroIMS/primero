@@ -9,11 +9,11 @@
     <% else %>
       <%
         if field.multi_select.present? and field.multi_select == true
-          value = field_value_for_multi_select(formObject.try(field.name), field, formObject, @lookups)
+          value = field_value_for_multi_select(formObject[field.name], field, formObject, @lookups)
         else
-          value = field_value_for_display((formObject.try(field.name) || formObject.try(:[],field.name)), field, @lookups)
+          value = field_value_for_display((formObject[field.name]), field, @lookups)
         end
-        value = I18n.t("cases.hidden_text_field_text") if formObject[:hidden_name] && field.hidden_text_field
+        value = I18n.t("cases.hidden_text_field_text") if formObject['hidden_name'] && field.hidden_text_field
       %>
       <span class="value"
             data-field-tags="<%= field.field_tags.present? ? field.field_tags : [] %>"

@@ -14,15 +14,6 @@ module ChildrenHelper
     AudioMimeTypes.browser_playable? audio.mime_type
   end
 
-  def link_to_update_info(child)
-    link_to('and others', child_history_path(child)) unless child.has_one_interviewer?
-  end
-
-  def flag_summary_for_child(child)
-    flag_history = child["histories"].select{|h| h["changes"].keys.include?("flag") }.first
-     "<b>"+ I18n.t("child.flagged_by")+" </b>"+ flag_history["user_name"] +"<b> "+I18n.t("preposition.on_label")+"</b> " + current_user.localize_date(flag_history["datetime"]) +"<b> "+I18n.t("preposition.because")+"</b> "+ child["flag_message"]
-  end
-
   def reunited_message
     "Reunited"
   end

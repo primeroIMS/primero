@@ -517,7 +517,6 @@ describe ChildrenController, :type => :controller do
 
         Sunspot.remove_all!
 
-        #TODO - remove owned_by_location_district references
         #TODO - create test like this in home controller for dashboard
 
         @child_1 = create(:child, name: "Name 1", child_status: Record::STATUS_OPEN, age: "5", case_id_display: "UN-TEST-0001",
@@ -605,18 +604,6 @@ describe ChildrenController, :type => :controller do
             expect(assigns[:filters]).to eq(filters)
             expect(assigns[:children].length).to eq(4)
             expect(assigns[:children]).to include(@child_age_7, @child_age_15, @child_mobile_10, @child_mobile_11)
-          end
-        end
-
-        #TODO - change district to reporting location
-        context "by_district" do
-          xit "should filter by district Bonthe" do
-            get :index, params: {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_location_district"=>"list||Bonthe"}}
-
-            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
-            expect(assigns[:filters]).to eq(filters)
-            expect(assigns[:children].length).to eq(2)
-            expect(assigns[:children]).to include(@child_age_7, @child_age_15)
           end
         end
       end
@@ -1045,6 +1032,7 @@ describe ChildrenController, :type => :controller do
     end
   end
 
+  #TODO: Move to the ApprovalActions concern spec after merging spec fixes
   describe "POST request_approval" do
     before do
       #TODO: This FormSection setup will not be necessary once the approvable_subforms property in approvable concern is fixed
@@ -1254,27 +1242,6 @@ describe ChildrenController, :type => :controller do
       end
     end
   end
-
-	describe "reindex_params_subforms" do
-
-		it "should correct indexing for nested subforms" do
-			params = {
-				"child"=> {
-					"name"=>"",
-	   		 "top_1"=>"This is a top value",
-	        "nested_form_section" => {
-						"0"=>{"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"},
-	     		 "2"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}},
-	        "fathers_name"=>""}}
-
-			controller.reindex_hash params['child']
-			expected_subform = params["child"]["nested_form_section"]["1"]
-
-			expect(expected_subform.present?).to be_truthy
-			expect(expected_subform).to eq({"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"})
-		end
-
-	end
 
   describe "sort_subforms" do
     before :each do

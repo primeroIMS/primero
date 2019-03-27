@@ -311,7 +311,6 @@ Primero::Application.routes.draw do
   match '/incidents/:id/history' => 'incident_histories#index', :as => :incident_history, :via => :get
   match '/tracing_requests/:id/history' => 'tracing_request_histories#index', :as => :tracing_request_history, :via => :get
   match '/cases/:id/history' => 'child_histories#index', :as => :cases_history, :via => :get
-  match '/users/:id/history' => 'user_histories#index', :as => :user_history, :via => :get
 
   resources :audit_logs, only: [:index]
 

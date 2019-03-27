@@ -1,5 +1,4 @@
 <%= hidden_field_tag "child[posted_from]", "Browser" if @child.new_record? %>
-<%= hidden_field_tag('child[base_revision]', @child._rev) unless @child.new_record? %>
 <% # Record Owner form %>
 <%= hidden_field_tag('child[record_state]', @child.record_state) %>
 <%= hidden_field_tag('child[owned_by]', @child.owned_by) %>

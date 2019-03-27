@@ -1,3 +1,5 @@
+<%# TODO: Removing until we migrate Documents %>
+<% if false %>
 <% if formObject && formObject.has_valid_audio? %>
     <% if formObject.audio %>
         <% model = formObject.class.name.underscore.downcase
@@ -20,4 +22,5 @@
             </div>
         </div>
     <% end %>
+<% end %>
 <% end %>
