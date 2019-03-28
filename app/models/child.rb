@@ -32,7 +32,6 @@ class Child < ActiveRecord::Base
   include CaseDerivedFields
   include UNHCRMapping
   include Ownable
-  #include Matchable #TODO: refactor with TracingRequest, Matchable
   #include AudioUploader #TODO: refactor with block storage
   include AutoPopulatable
   include Serviceable #TODO: refactor with nested
@@ -42,6 +41,7 @@ class Child < ActiveRecord::Base
   include Reopenable
   include Approvable
   include Alertable
+  #include Matchable #TODO: refactor with TracingRequest, Matchable
   # include SyncableMobile  #TODO: Refactor with SyncableMobile
   # include Importable #TODO: Refactor with Imports and Exports
 
@@ -59,8 +59,8 @@ class Child < ActiveRecord::Base
     :ration_card_no, :icrc_ref_no, :unhcr_id_no, :unhcr_individual_no, :un_no,  :other_agency_id,
     :survivor_code_no, :national_id_no, :other_id_no, :biometrics_id, :family_count_no, :dss_id, :camp_id,
     :tent_number, :nfi_distribution_id,
-    :nationality, :ethnicity, :religion, :country_of_origin, :displacement_status, :marital_status, :disability_type,
-    :incident_details
+    :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
+    :displacement_status, :marital_status, :disability_type, :incident_details
 
   alias child_status status ; alias child_status= status=
 
@@ -330,7 +330,7 @@ class Child < ActiveRecord::Base
     self.module.present? && self.module.associated_record_types.include?('tracing-request')
   end
 
-  #TODO: Refactor with Matchable. Probably delete?
+  #TODO: Refactor with Matchable. Probably delete? Not being used
   #TODO v1.3: Need rspec test
   #TODO: Current logic:
   #  On an update to a case (already inefficient, because most updates to cases arent on matching fields),

@@ -1,85 +1,67 @@
-#TODO: For now leaving CouchRest::Model::Base
-#TODO: Inheriting from ApplicationRecord breaks created_at in the Historical Concern for some reason
-class TracingRequest < CouchRest::Model::Base
-  use_database :tracing_request
+class TracingRequest < ActiveRecord::Base
 
-  include PrimeroModel
-  include Primero::CouchRestRailsBackward
-
-  include Record
+  include RecordJson
+  include Searchable
   include Ownable
-  include PhotoUploader
-  include AudioUploader
+  include Historical
   include Flaggable
-  include Matchable
+  #include Matchable #TODO: refactor with TracingRequest, Matchable
+  #include PhotoUploader #TODO: Refactor with block storage
+  #include AudioUploader
+  #include SyncableMobile  #TODO: Refactor with SyncableMobile
+  #include Importable #TODO: Refactor with Imports and Exports
 
-  property :tracing_request_id
-  property :relation_name
-  property :reunited, TrueClass
-  property :inquiry_date
+  store_accessor :data,
+    :tracing_request_id, :inquiry_date, :relation_name, :relation_nickname, :relation_other_family, :relation,
+    :relation_nationality, :relation_language, :relation_religion,
+    :relation_ethnicity, :relation_sub_ethnicity1, :relation_sub_ethnicity2,
+    :monitor_number, :survivor_code, :reunited, :inquiry_date,
+    :tracing_request_subform_section
 
-  after_initialize :defaults
+  alias inquirer_id tracing_request_id
+  alias inquiry_status status ; alias inquiry_status= status=
 
-  def initialize *args
-    self['photo_keys'] ||= []
-    self['histories'] = []
-    super *args
-  end
-
-  design
-
-  design :by_tracing_request_id do
-    view :by_tracing_request_id
-  end
-
-  def defaults
-    self.status ||= Record::STATUS_OPEN
-  end
+  def photos ; [] ; end #TODO: delete after refactoring Documents
+  def photo_keys ; [] ; end #TODO: delete after refactoring Documents
+  def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
 
   def self.quicksearch_fields
-    [
-        'tracing_request_id', 'short_id', 'relation_name', 'relation_nickname', 'tracing_names', 'tracing_nicknames',
-        'monitor_number', 'survivor_code'
-    ]
+    %w(tracing_request_id short_id relation_name relation_nickname tracing_names
+       tracing_nicknames monitor_number survivor_code
+    )
   end
 
-  include Searchable #Needs to be after ownable
-
   searchable auto_index: self.auto_index? do
-    form_matchable_fields.each do |field|
-      text field, :boost => TracingRequest.get_field_boost(field)
-      if phonetic_fields_exist?(field)
-        text field, :as => "#{field}_ph"
-      end
+    quicksearch_fields.each do |f|
+      text(f) { self.data[f] }
     end
+    # form_matchable_fields.each do |field|
+    #   text field, :boost => TracingRequest.get_field_boost(field)
+    #   if phonetic_fields_exist?(field)
+    #     text field, :as => "#{field}_ph"
+    #   end
+    # end
+    #
+    # subform_matchable_fields.each do |field|
+    #   text field, :boost => TracingRequest.get_field_boost(field) do |record|
+    #     record.tracing_request_subform_details(field)
+    #   end
+    #   if phonetic_fields_exist?(field)
+    #     text field, :as => "#{field}_ph" do |record|
+    #       record.tracing_request_subform_details(field)
+    #     end
+    #   end
+    # end
+  end
 
-    subform_matchable_fields.each do |field|
-      text field, :boost => TracingRequest.get_field_boost(field) do |record|
-        record.tracing_request_subform_details(field)
-      end
-      if phonetic_fields_exist?(field)
-        text field, :as => "#{field}_ph" do |record|
-          record.tracing_request_subform_details(field)
-        end
-      end
-    end
+  alias super_defaults defaults
+  def defaults
+    super_defaults
+    self.inquiry_date ||= Date.today
   end
 
   def tracing_request_subform_details(field)
-    self.tracing_request_subform_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:tracing_request_subform_section)
-  end
-
-  def self.find_by_tracing_request_id(tracing_request_id)
-    by_tracing_request_id(:key => tracing_request_id).first
-  end
-
-  #TODO: Keep this?
-  def self.search_field
-    "relation_name"
-  end
-
-  def self.view_by_field_list
-    ['created_at', 'relation_name']
+    self.tracing_request_subform_section.map { |fds| fds[field] }.compact.uniq.join(' ')
   end
 
   def self.minimum_reportable_fields
@@ -89,10 +71,6 @@ class TracingRequest < CouchRest::Model::Base
       'multistring' => ['associated_user_names', 'owned_by_groups'],
       'date' => ['inquiry_date']
     }
-  end
-
-  def inquirer_id
-    self.tracing_request_id
   end
 
   def traces(trace_id=nil)
@@ -110,7 +88,7 @@ class TracingRequest < CouchRest::Model::Base
   def tracing_names
     names = []
     if self.tracing_request_subform_section.present?
-      names = self.tracing_request_subform_section.map(&:name).compact
+      names = self.tracing_request_subform_section.map{|t| t['name']}.compact
     end
     return names
   end
@@ -118,7 +96,7 @@ class TracingRequest < CouchRest::Model::Base
   def tracing_nicknames
     names = []
     if self.tracing_request_subform_section.present?
-      names = self.tracing_request_subform_section.map(&:name_nickname).compact
+      names = self.tracing_request_subform_section.map{|t| t['name_nickname']}.compact
     end
     return names
   end
@@ -135,33 +113,6 @@ class TracingRequest < CouchRest::Model::Base
     self.tracing_request_id ||= self.unique_identifier
   end
 
-  def create_class_specific_fields(fields)
-    self['inquiry_date'] ||= DateTime.now.strftime("%d-%b-%Y")
-    self['inquiry_status'] ||= STATUS_OPEN
-  end
-
-  #TODO MATCHING: Bad code. This method is no longer being used
-  #               and will either be refactored into a nightly job or deleted in a future release.
-  def find_match_cases(child_id=nil)
-    #TODO v1.3 Bad code smell. This method is doing two things at once
-    all_results = []
-    if self.tracing_request_subform_section.present?
-      self.tracing_request_subform_section.each do |tr|
-        match_criteria = match_criteria(tr)
-        results = TracingRequest.find_match_records(match_criteria, Child, child_id)
-        if child_id.nil?
-          PotentialMatch.update_matches_for_tracing_request(self.id, tr.unique_id, tr.age, tr.sex, results, child_id)
-        else
-          results.each do |key, value|
-            all_results.push({:tracing_request_id => self.id, :tr_subform_id => tr.unique_id,:tr_age => tr.age, :tr_gender => tr.sex, :score => value})
-          end
-        end
-      end
-    end
-    all_results
-  end
-
-  #TODO MATCHING: This is are-implementation of the method above
   def matching_cases(trace_id=nil, trace_fields={})
     matches = []
     traces(trace_id).each do |tr|
@@ -175,7 +126,7 @@ class TracingRequest < CouchRest::Model::Base
     return matches
   end
 
-  alias :inherited_match_criteria :match_criteria
+  #alias :inherited_match_criteria :match_criteria
   def match_criteria(match_request=nil, trace_fields=nil)
     match_criteria = inherited_match_criteria(match_request, trace_fields)
     if match_request.present?
@@ -186,13 +137,5 @@ class TracingRequest < CouchRest::Model::Base
     end
     match_criteria.compact
   end
-
-  #TODO MATCHING: This method is no longer being used
-  #               and will either be refactored into a nightly job or deleted in a future release.
-  def self.match_tracing_requests_for_case(case_id, tracing_request_ids)
-    results = []
-    TracingRequest.all(:keys => tracing_request_ids).all.each { |tr| results.concat(tr.find_match_cases(case_id)) }
-    results
-  end
-
+  
 end

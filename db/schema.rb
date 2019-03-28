@@ -180,7 +180,7 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.jsonb "record_changes", default: {}
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
-  
+
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"
@@ -202,6 +202,11 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.string "record_type"
     t.string "user_name"
     t.jsonb "filters"
+  end
+
+  create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
   end
 
   create_table "user_groups", id: :serial, force: :cascade do |t|
