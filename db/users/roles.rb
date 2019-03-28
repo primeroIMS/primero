@@ -1,8 +1,8 @@
 def create_or_update_role(role_hash)
   role_id = Role.id_from_name role_hash[:name]
-  role = Role.get role_id
+  role = Role.find_by(unique_id: role_id)
 
-  if role.nil?
+  if role.blank?
     puts "Creating role #{role_id}"
     Role.create! role_hash
   else

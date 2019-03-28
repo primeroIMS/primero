@@ -9,9 +9,9 @@ class RolesController < ApplicationController
   def index
     authorize! :index, Role
     @page_name = t('roles.label')
-    sort_option = params[:sort_by_descending_order] || false
+    sort_option = params[:sort_by_descending_order] ? :desc : :asc
     params[:show] ||= "All"
-    @roles = params[:show] == "All" ? Role.by_name(:descending => sort_option) : Role.by_name(:descending => sort_option).find_all{|role| role.has_permission(params[:show])}
+    @roles = params[:show] == "All" ? Role.order(name: sort_option) : Role.order(name: sort_option).select { |role| role.has_permission(params[:show]) }
 
     respond_to do |format|
       format.html
@@ -20,7 +20,7 @@ class RolesController < ApplicationController
   end
 
   def show
-    @role = Role.get(params[:id])
+    @role = Role.find_by(id: params[:id])
     @forms_by_record_type = FormSection.all_forms_grouped_by_parent
     authorize! :view, @role
 
@@ -31,13 +31,13 @@ class RolesController < ApplicationController
   end
 
   def edit
-    @role = Role.get(params[:id])
+    @role = Role.find_by(id: params[:id])
     @forms_by_record_type = FormSection.all_forms_grouped_by_parent
     authorize! :update, @role
   end
 
   def update
-    @role = Role.get(params[:id])
+    @role = Role.find_by(id: params[:id])
     authorize! :update, @role
 
     if @role.update_attributes(role_from_params.to_h)
@@ -65,7 +65,7 @@ class RolesController < ApplicationController
   end
 
   def destroy
-    @role = Role.get(params[:id])
+    @role = Role.find_by(id: params[:id])
     authorize! :destroy, @role
     @role.destroy
     redirect_to(roles_url)
