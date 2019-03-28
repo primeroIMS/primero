@@ -301,7 +301,7 @@ Primero::Application.routes.draw do
 
   match 'configuration_bundle/export', :to => 'configuration_bundle#export_bundle', :via => [:get, :post]
   match 'configuration_bundle/import', :to => 'configuration_bundle#import_bundle', :via => [:post]
-  
+
 #######################
 # REPLICATION URLS
 #######################
