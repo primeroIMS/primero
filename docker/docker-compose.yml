@@ -2,8 +2,6 @@ version: '3'
 services:
   postgres:
     image: postgres:latest
-    ports:
-      - 5432:5432
     environment:
       POSTGRES_USER: "primero"
       POSTGRES_PASSWORD: "primero"
@@ -16,5 +14,8 @@ services:
     image: solr:prim-latest
   application:
     image: application:prim-latest
-    # linux only
-    network_mode: host
+    ports:
+      - "3031:3000"
+    entrypoint: "/entrypoint.sh"
+    extra_hosts:
+      - "couchdb:10.1.0.87"

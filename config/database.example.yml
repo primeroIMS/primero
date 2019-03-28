@@ -3,7 +3,7 @@ development:
   database: primero_development
   username: primero
   password: primero
-  host: localhost
+  host: postgres
   pool: 5
 
 test:
@@ -11,6 +11,6 @@ test:
   database: primero_test
   username: primero
   password: primero
-  host: localhost
+  host: postgres
   pool: 5
 

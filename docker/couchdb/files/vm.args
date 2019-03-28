@@ -1,4 +1,4 @@
--name couchdb@127.0.0.1
+-name couchdb@couchdb
 -setcookie monster
 -kernel error_logger silent
 -sasl sasl_error_logger false

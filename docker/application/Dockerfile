@@ -26,6 +26,8 @@ COPY [ ".", "/srv/primero" ]
 RUN mkdir -p /srv/primero/{tmp,log,bin}
 RUN mkdir -p /srv/primero/application/daemons
 RUN mkdir -p /srv/primero/log/{nginx,rails}
+
+COPY [ "docker/application/entrypoint.sh", "/" ]
 # TODO: Config sunsport
 
 # TODO: Copy mailers config
