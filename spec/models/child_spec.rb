@@ -575,7 +575,7 @@ describe Child do
     it "should maintain history when child is flagged and message is added" do
       child = Child.create(data: {'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc"})
       child.add_flag('Duplicate record!', Date.today, "me")
-      flag_history = child.histories.last.record_changes['flags']
+      flag_history = child.histories.first.record_changes['flags']
       flag_history['from'].should == nil
       flag_history['to']['message'].should == 'Duplicate record!'
     end
@@ -585,10 +585,10 @@ describe Child do
       child.reunited = true
       child.reunited_message = 'Finally home!'
       child.save!
-      reunited_history = child.histories.last.record_changes['reunited']
+      reunited_history = child.histories.first.record_changes['reunited']
       reunited_history['from'].should be_nil
       reunited_history['to'].should == true
-      reunited_message_history = child.histories.last.record_changes['reunited_message']
+      reunited_message_history = child.histories.first.record_changes['reunited_message']
       reunited_message_history['from'].should be_nil
       reunited_message_history['to'].should == 'Finally home!'
     end

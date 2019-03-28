@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Workflow do
   before do
-    lookup = Lookup.new(:id => "lookup-service-response-type",
+    lookup = Lookup.new(:unique_id => "lookup-service-response-type",
                    :name => "Service Response Type",
                    :locked => true,
                    :lookup_values => [
