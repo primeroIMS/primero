@@ -1,0 +1,22 @@
+development:
+  solr:
+    hostname: solr
+    port: 8983
+    log_level: INFO
+    pid_dir: tmp/pids
+    path: /solr/development
+test:
+  solr:
+    hostname: solr
+    port: 8983
+    log_level: INFO
+    pid_dir: tmp/pids
+    path: /solr/test
+production:
+  solr:
+    hostname: solr
+    port: 8983
+    log_level: INFO
+    pid_dir: tmp/pids
+    path: /solr/production
+    log_file: /srv/primero/logs/solr/sunspot-solr-production.log
