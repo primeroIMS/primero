@@ -1,7 +1,8 @@
 <div class="button-group align-right">
   <% if subform_instance.present? %>
     <% if subform_name == "incident_details" %>
-      <% incident = formObject.incidents.by_incident_detail_id(subform_instance.unique_id).first %>
+      <%# TODO: This is an N+1 problem, but we don't care. %>
+      <% incident = Incident.by_incident_detail_id(subform_instance['unique_id']).first %>
       <% if incident.present? && (can? :incident_from_case, Child) %>
         <%= render 'children/incident_links_cp', formObject: formObject, associated_incident_id: incident.id,
                        incident_display_id: incident.display_id
