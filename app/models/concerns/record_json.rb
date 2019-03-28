@@ -6,7 +6,7 @@ module RecordJson
   STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed'
 
   included do
-    store_accessor :data, :unique_identifier, :short_id, :record_state, :marked_for_mobile
+    store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile
 
     after_initialize :defaults
     before_create :create_identification
@@ -60,11 +60,14 @@ module RecordJson
       self.name.underscore.downcase
     end
 
+    def nested_reportable_types ; [] ; end
+
   end
 
   #Override this in the implementing classes to set your own defaults
   def defaults
     self.record_state = true if self.record_state.nil?
+    self.status ||= STATUS_OPEN
   end
 
   def create_identification

@@ -1,5 +1,4 @@
 <%= hidden_field_tag "incident[posted_from]", "Browser" if @incident.new_record? %>
-<%= hidden_field_tag('incident[base_revision]', @incident._rev) unless @incident.new_record? %>
 <% # Record Owner form %>
 <%= hidden_field_tag('incident[record_state]', @incident.record_state) %>
 <%= hidden_field_tag('incident[owned_by]', @incident.owned_by) %>

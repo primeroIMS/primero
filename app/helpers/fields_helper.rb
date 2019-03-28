@@ -89,7 +89,7 @@ module FieldsHelper
       # This is about the cleanest way to do this without totally reworking the
       # template logic.  Just hope we don't ever have any relevant fields
       # nested more than one level
-      #TODO: Refactor with Incident
+      #TODO: Refactor with Violations
       if parent_obj['couchrest-type'] != 'Incident'
         inc = parent_obj.casted_by
       else

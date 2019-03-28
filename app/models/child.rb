@@ -51,18 +51,21 @@ class Child < ActiveRecord::Base
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
     :registration_date, :age, :estimated, :date_of_birth, :sex,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
-    :risk_level, :child_status, :case_status_reopened, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
+    :risk_level, :case_status_reopened, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
     :system_generated_followup,
     :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
     :disclosure_other_orgs,
     :ration_card_no, :icrc_ref_no, :unhcr_id_no, :unhcr_individual_no, :un_no,  :other_agency_id,
     :survivor_code_no, :national_id_no, :other_id_no, :biometrics_id, :family_count_no, :dss_id, :camp_id,
-    :tent_number, :nfi_distribution_id
+    :tent_number, :nfi_distribution_id,
+    :nationality, :ethnicity, :religion, :country_of_origin, :displacement_status, :marital_status, :disability_type,
+    :incident_details
 
-  #TODO: Refactor with Incidents
-  #To hold the list of GBV Incidents created from a GBV Case.
-  # property :incident_links, [], :default => []
+  alias child_status status ; alias child_status= status=
+
+  has_many :incidents
+
   # property :matched_tracing_request_id #TODO: refactor with TracingRequest, Matchable
 
   def self.quicksearch_fields
@@ -138,7 +141,6 @@ class Child < ActiveRecord::Base
   alias super_defaults defaults
   def defaults
     super_defaults
-    self.child_status ||= Record::STATUS_OPEN
     self.registration_date ||= Date.today
      #TODO: Fix with block storage
      # self['photo_keys'] ||= []
@@ -189,11 +191,6 @@ class Child < ActiveRecord::Base
   def index_for_search
     super_index_for_search
     self.index_nested_reportables
-  end
-
-  #TODO: refactor with Incident
-  def add_incident_links(incident_detail_id, incident_id, incident_display_id)
-    #self.incident_links << {"incident_details" => incident_detail_id, "incident_id" => incident_id, "incident_display_id" => incident_display_id}
   end
 
   def validate_date_of_birth

@@ -80,7 +80,6 @@ class ChildrenController < ApplicationController
     end
   end
 
-  #TODO: Refactor with Incident
   def create_incident
     begin
       authorize! :create, Incident
@@ -99,11 +98,8 @@ class ChildrenController < ApplicationController
     end
 
     if from_module.present? && params[:incident_detail_id].present?
-      incident = Incident.make_new_incident(to_module_id, @child, from_module.id, params[:incident_detail_id])
+      incident = Incident.new_incident_from_case(to_module_id, @child, from_module.id, params[:incident_detail_id])
       incident.save
-      #TODO: Refactor with Incident!
-      @child.add_incident_links(params[:incident_detail_id], incident.id, incident.short_id)
-      @child.save
 
       content = {
         incident_link_label: t('incident.link_to_incident'),
@@ -272,7 +268,7 @@ class ChildrenController < ApplicationController
   def load_fields
     @sex_field = Field.get_by_name('sex')
     @agency_offices = Lookup.values('lookup-agency-office')
-    @user_group_ids = UserGroup.all.rows.map(&:id).uniq
+    @user_group_ids = UserGroup.all.map(&:id)
   end
 
   def transfer_status
@@ -329,27 +325,26 @@ class ChildrenController < ApplicationController
     super + ['photo', 'audio']
   end
 
-  #TODO: Refactor with Incident
   def make_new_record
     incident_id = params['incident_id']
-    individual_details_subform_section = params['individual_details_subform_section']
+    individual_details_subform_section_number = params['individual_details_subform_section'].try(:to_i)
 
     Child.new.tap do |child|
       child.module_id = params['module_id']
-      if incident_id.present? && individual_details_subform_section.present?
-        incident = Incident.get(incident_id)
-        individual_details = incident['individual_details_subform_section'][individual_details_subform_section.to_i]
-        child['sex'] = individual_details['sex']
-        child['date_of_birth'] = individual_details['date_of_birth']
-        child['age'] = individual_details['age']
-        child['estimated'] = individual_details['estimated'] = true
-        child['ethnicity'] = [individual_details['ethnicity']]
-        child['nationality'] = [individual_details['nationality']]
-        child['religion'] = [individual_details['religion']]
-        child['country_of_origin'] = individual_details['country_of_origin']
-        child['displacement_status'] = individual_details['displacement_status']
-        child['marital_status'] = individual_details['marital_status']
-        child['disability_type'] = individual_details['disability_type']
+      if incident_id.present? && individual_details_subform_section_number.present?
+        incident = Incident.find_by(id: incident_id)
+        individual_details = incident.individual_details_subform_section[individual_details_subform_section_number]
+        child.sex = individual_details['sex']
+        child.date_of_birth = individual_details['date_of_birth']
+        child.age = individual_details['age']
+        child.estimated = individual_details['estimated'] = true
+        child.ethnicity = [individual_details['ethnicity']]
+        child.nationality = [individual_details['nationality']]
+        child.religion = [individual_details['religion']]
+        child.country_of_origin = individual_details['country_of_origin']
+        child.displacement_status = individual_details['displacement_status']
+        child.marital_status = individual_details['marital_status']
+        child.disability_type = individual_details['disability_type']
       end
     end
   end

@@ -156,6 +156,13 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
+  create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "incident_case_id"
+    t.index ["data"], name: "index_incidents_on_data", using: :gin
+    t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
+  end
+
   create_table "lookups", id: :serial, force: :cascade do |t|
     t.string "unique_id"
     t.jsonb "name_i18n"
@@ -173,7 +180,7 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.jsonb "record_changes", default: {}
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
-
+  
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"
