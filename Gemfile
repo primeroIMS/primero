@@ -22,7 +22,6 @@ gem 'highline',       '~> 1.7.8'
 gem 'will_paginate',  '~> 3.1.0'
 gem 'i18n-js',        '~> 3.0.1'
 # gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
-# gem 'mini_racer'
 gem 'os',             '~> 1.0.0'
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
@@ -63,10 +62,9 @@ gem 'jquery-turbolinks'
 gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-connector', :branch => 'support-lam-alef-ligatures'
 gem 'twitter_cldr'
 
+gem 'puma', '~> 3.7'
 gem 'tzinfo',                     '1.2.4'
 gem 'tzinfo-data'
-
-gem 'puma', '~> 3.7'
 
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do

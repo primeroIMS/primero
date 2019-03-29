@@ -1,4 +1,4 @@
-FROM ruby:2.4.5-alpine
+FROM ruby:2.4.5-alpine3.8
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
