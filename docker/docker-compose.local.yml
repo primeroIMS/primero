@@ -1,0 +1,7 @@
+version: '3'
+services:
+  nginx_self_signed:
+    image: nginx_self_signed:prim-latest
+    ports:
+      - "80:80"
+      - "443:443"

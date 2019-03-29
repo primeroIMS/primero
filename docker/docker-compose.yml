@@ -12,13 +12,6 @@ services:
   #     COUCHDB_PASSWORD: "primero"
   solr:
     image: solr:prim-latest
-  nginx_self_signed:
-    image: nginx_self_signed:prim-latest
-    ports:
-      - "80:80"
-      - "443:443"
-  # certbot:
-  #   image: certbot/certbot
   application:
     image: application:prim-latest
     ports:
@@ -26,6 +19,3 @@ services:
     entrypoint: "/entrypoint.sh"
     extra_hosts:
       - "couchdb:10.1.0.87"
-
-volumes:
-  nginx_conf:

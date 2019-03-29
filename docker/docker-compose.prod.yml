@@ -1,0 +1,11 @@
+version: '3'
+services:
+  certbot:
+    image: certbot/certbot
+  nginx_lets_encrypt:
+    image: nginx_lets_encrypt:prim-latest
+    ports:
+      - "80:80"
+      - "443:443"
+volumes:
+  nginx_conf:
