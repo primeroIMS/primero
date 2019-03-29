@@ -1,10 +1,10 @@
 FROM nginx
 
+WORKDIR /etc/nginx/conf.d
 RUN set -ex; \
-        rm /etc/nginx/conf.d/default.conf
-#copy certificate
-COPY ["nginx_self_signed/cert/*", "/etc/nginx/conf.d/"]
-#copy configuration
-COPY ["nginx_self_signed/conf/*", "/etc/nginx/conf.d/"]
+        apt update; \
+        apt install -y openssl; \
+        rm /etc/nginx/conf.d/default.conf; \
+        openssl req -subj '/CN=localhost' -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 36
 
-
+WORKDIR /etc/nginx
