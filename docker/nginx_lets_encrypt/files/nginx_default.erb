@@ -1,0 +1,17 @@
+#nginxtoken
+server {
+  listen *:80;
+  listen [::]:80;
+  listen *:443 ssl;
+  listen [::]:443 ssl;
+  ssl_certificate <%= @ssl_cert_path %>;
+  ssl_certificate_key <%= @ssl_key_path %>;
+  ssl_session_tickets off;
+
+  server_name _;
+
+  return 444;
+
+  access_log /var/log/nginx_server.log;
+  error_log /var/log/nginx_error.log error;
+}
