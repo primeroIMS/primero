@@ -20,12 +20,14 @@ class ChildrenController < ApplicationController
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
   include NoteActions
 
+  #TODO: Refactor with Document storage
   def edit_photo
     authorize! :update, @child
 
     @page_name = t("child.edit_photo")
   end
 
+  #TODO: Refactor with Document storage
   def update_photo
     authorize! :update, @child
 
@@ -39,6 +41,7 @@ class ChildrenController < ApplicationController
     redirect_to(@child)
   end
 
+  #TODO: Refactor with Document storage
 # POST
   def select_primary_photo
     authorize! :update, @child
@@ -55,6 +58,7 @@ class ChildrenController < ApplicationController
   def new_search
   end
 
+
   def hide_name
     if params[:protect_action] == "protect"
       hide = true
@@ -65,7 +69,7 @@ class ChildrenController < ApplicationController
     @child.hidden_name = hide
     if @child.save
       render :json => {:error => false,
-                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child['name'],
+                       :input_field_text => hide ? I18n.t("cases.hidden_text_field_text") : @child.name,
                        :disable_input_field => hide,
                        :action_link_action => hide ? "view" : "protect",
                        :action_link_text => hide ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
@@ -94,10 +98,8 @@ class ChildrenController < ApplicationController
     end
 
     if from_module.present? && params[:incident_detail_id].present?
-      incident = Incident.make_new_incident(to_module_id, @child, from_module.id, params[:incident_detail_id])
+      incident = Incident.new_incident_from_case(to_module_id, @child, from_module.id, params[:incident_detail_id])
       incident.save
-      @child.add_incident_links(params[:incident_detail_id], incident.id, incident.short_id)
-      @child.save
 
       content = {
         incident_link_label: t('incident.link_to_incident'),
@@ -200,47 +202,9 @@ class ChildrenController < ApplicationController
       render :json => { :success => false, :error_message => @child.errors.messages, :reload_page => true }
     end
   end
-
-  #TODO: move this to approval_actions concern
-  def request_approval
-    #TODO move business logic to the model.
-    authorize! :update, @child
-
-    approval_type_error = nil
-    @child.add_approval_alert(params[:approval_type], @system_settings)
-    case params[:approval_type]
-      when "bia"
-        @child.approval_status_bia = params[:approval_status]
-      when "case_plan"
-        @child.approval_status_case_plan = params[:approval_status]
-
-        if @child.module.try(:selectable_approval_types).present?
-          @child.case_plan_approval_type = params[:approval_status_type]
-        end
-      when "closure"
-        @child.approval_status_closure = params[:approval_status]
-      else
-        approval_type_error = 'Unknown Approval Status'
-    end
-
-    @child.approval_subforms << log_action(
-      params[:approval_type],
-      nil,
-      params[:approval_status_type],
-      params[:approval_status]
-    )
-
-    if @child.save
-      @child.send_approval_request_mail(params[:approval_type], request.base_url) if @system_settings.try(:notification_email_enabled)
-      render :json => { :success => true, :error_message => "", :reload_page => true }
-    else
-      errors = approval_type_error || @child.errors.messages
-      render :json => { :success => false, :error_message => errors, :reload_page => true }
-    end
-  end
-
+  
   def relinquish_referral
-    #TODO move business logic to the model.
+    #TODO move Transition business logic to the model.
     referral_id = params[:transition_id]
 
     # TODO: this may require its own permission in the future.
@@ -267,6 +231,7 @@ class ChildrenController < ApplicationController
     end
   end
 
+  #TODO: Refactor with TracingRequests
   def match_record
     load_tracing_request
     if @tracing_request.present? && @trace.present?
@@ -286,6 +251,7 @@ class ChildrenController < ApplicationController
     redirect_to case_path(@child)
   end
 
+  #TODO: Refactor with TracingRequests
   def load_tracing_request
     if params[:match].present?
       # Expect match input to be in format <tracing request id>::<tracing request subform unique id>
@@ -302,7 +268,7 @@ class ChildrenController < ApplicationController
   def load_fields
     @sex_field = Field.get_by_name('sex')
     @agency_offices = Lookup.values('lookup-agency-office')
-    @user_group_ids = UserGroup.all.rows.map(&:id).uniq
+    @user_group_ids = UserGroup.all.map(&:id)
   end
 
   def transfer_status
@@ -342,9 +308,10 @@ class ChildrenController < ApplicationController
   end
 
   #override method in record_actions to handle instances that use child_id instead of id
+  # TODO: When does this happen?
   def load_record
     if params[:child_id].present?
-      @record = Child.get(params[:child_id])
+      @record = Child.find(params[:child_id])
       instance_variable_set("@child", @record)
     else
       super
@@ -360,31 +327,26 @@ class ChildrenController < ApplicationController
 
   def make_new_record
     incident_id = params['incident_id']
-    individual_details_subform_section = params['individual_details_subform_section']
+    individual_details_subform_section_number = params['individual_details_subform_section'].try(:to_i)
 
     Child.new.tap do |child|
-      child['module_id'] = params['module_id']
-      if incident_id.present? && individual_details_subform_section.present?
-        incident = Incident.get(incident_id)
-        individual_details = incident['individual_details_subform_section'][individual_details_subform_section.to_i]
-        child['sex'] = individual_details['sex']
-        child['date_of_birth'] = individual_details['date_of_birth']
-        child['age'] = individual_details['age']
-        child['estimated'] = individual_details['estimated'] = true
-        child['ethnicity'] = [individual_details['ethnicity']]
-        child['nationality'] = [individual_details['nationality']]
-        child['religion'] = [individual_details['religion']]
-        child['country_of_origin'] = individual_details['country_of_origin']
-        child['displacement_status'] = individual_details['displacement_status']
-        child['marital_status'] = individual_details['marital_status']
-        child['disability_type'] = individual_details['disability_type']
+      child.module_id = params['module_id']
+      if incident_id.present? && individual_details_subform_section_number.present?
+        incident = Incident.find_by(id: incident_id)
+        individual_details = incident.individual_details_subform_section[individual_details_subform_section_number]
+        child.sex = individual_details['sex']
+        child.date_of_birth = individual_details['date_of_birth']
+        child.age = individual_details['age']
+        child.estimated = individual_details['estimated'] = true
+        child.ethnicity = [individual_details['ethnicity']]
+        child.nationality = [individual_details['nationality']]
+        child.religion = [individual_details['religion']]
+        child.country_of_origin = individual_details['country_of_origin']
+        child.displacement_status = individual_details['displacement_status']
+        child.marital_status = individual_details['marital_status']
+        child.disability_type = individual_details['disability_type']
       end
     end
-  end
-
-  def initialize_created_record rec
-    rec['child_status'] = Record::STATUS_OPEN if rec['child_status'].blank?
-    rec['hidden_name'] = true if params[:child][:module_id] == PrimeroModule::GBV
   end
 
   def redirect_after_update
@@ -416,6 +378,7 @@ class ChildrenController < ApplicationController
     @display_assessment ||= (can?(:view_assessment, Dashboard) || current_user.is_admin?)
   end
 
+  #TODO: Delete or refactor with Documents.
   def update_record_with_attachments(child)
     new_photo = @record_filtered_params.delete("photo")
     new_photo = (@record_filtered_params[:photo] || "") if new_photo.nil?
@@ -443,8 +406,9 @@ class ChildrenController < ApplicationController
     @service_types = Lookup.values_for_select('lookup-service-type')
   end
 
+  #TODO: Refactor with Agency or UIUX. Is this even getting called?
   def load_agencies
-    @agencies = Agency.all.all.map { |agency| [agency.name, agency.id] }
+    @agencies = Agency.all.map { |agency| [agency.name, agency.id] }
   end
 
   def load_users_by_permission

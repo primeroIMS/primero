@@ -18,6 +18,8 @@ class TracingRequest < CouchRest::Model::Base
   property :reunited, TrueClass
   property :inquiry_date
 
+  after_initialize :defaults
+
   def initialize *args
     self['photo_keys'] ||= []
     self['histories'] = []
@@ -28,6 +30,10 @@ class TracingRequest < CouchRest::Model::Base
 
   design :by_tracing_request_id do
     view :by_tracing_request_id
+  end
+
+  def defaults
+    self.status ||= Record::STATUS_OPEN
   end
 
   def self.quicksearch_fields

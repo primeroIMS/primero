@@ -4,13 +4,14 @@ class IncidentsController < ApplicationController
   include IndexHelper
   include RecordFilteringPagination
 
-  before_action :normalize_violations, :only => [:create, :update]
+  #before_action :normalize_violations, :only => [:create, :update] #TODO: Refactor with violations
   before_action :load_fields, :only => [:index]
   #TODO: Do we need to sanitize params?
   #TODO: Dp we need to filter_params_array_duplicates?
 
   include RecordActions
 
+  #TODO: Refactor with Violations
   def normalize_violations
     if params['incident'].present? && params['incident']['violations'].present?
       violations_subforms_control_keys = []
@@ -35,6 +36,7 @@ class IncidentsController < ApplicationController
     end
   end
 
+  #TODO: Refactor with Violations
   def create_cp_case_from_individual_details
     authorize! :create, Child
     incident_id = params[:incident_id]
@@ -47,7 +49,7 @@ class IncidentsController < ApplicationController
   def load_fields
     @gbv_sexual_violence_type_field = Field.get_by_name('gbv_sexual_violence_type')
     @agency_offices = Lookup.values('lookup-agency-office')
-    @user_group_ids = UserGroup.all.rows.map(&:id).uniq
+    @user_group_ids = UserGroup.all.map(&:id)
   end
 
   def extra_permitted_parameters
@@ -55,25 +57,8 @@ class IncidentsController < ApplicationController
   end
 
   def make_new_record
-    case_record = params['case_id'].present? ? Child.get(params['case_id']) : nil
-    Incident.make_new_incident(params['module_id'], case_record)
-  end
-
-  def post_save_processing incident
-    # This is for operation after saving the record.
-    case_id = params["incident_case_id"]
-    if case_id.present? && incident.valid?
-      #The Incident is being created from a GBV Case.
-      #track the incident in the GBV case (incident_links)
-      case_record = Child.get(case_id)
-      case_record.incident_links << incident.id
-      #TODO what if fails to save at this point? should rollback the incident?
-      case_record.save
-    end
-  end
-
-  def initialize_created_record incident
-    incident['status'] = Record::STATUS_OPEN if incident['status'].blank?
+    case_record = params['case_id'].present? ? Child.find_by(id: params['case_id']) : nil
+    Incident.new_incident_from_case(params['module_id'], case_record)
   end
 
   def redirect_after_update
@@ -92,11 +77,6 @@ class IncidentsController < ApplicationController
     #The 'Incident Recorder' should retrieve only GBV Incidents.
     filter["module_id"] = {:type => "single", :value => "#{PrimeroModule::GBV}"} if params["format"] == "incident_recorder_xls"
     filter
-  end
-
-  def update_record_with_attachments(incident)
-    incident.update_properties(@record_filtered_params, current_user_name)
-    incident
   end
 
 end

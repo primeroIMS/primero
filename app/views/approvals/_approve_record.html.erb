@@ -1,4 +1,4 @@
-<% selectable_approval_types = approval_type == ApprovalActions::CASE_PLAN && instance.module.present? && instance.module.selectable_approval_types %>
+<% selectable_approval_types = approval_type == Approvable::CASE_PLAN && instance.module.present? && instance.module.selectable_approval_types %>
 <div class="reveal tiny" id="<%= "#{approval_type}_approvals" %>" data-reveal>
   <%= render 'shared/modal_close' %>
   <div class="row collapse">

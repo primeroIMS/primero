@@ -2,46 +2,6 @@ require 'rails_helper'
 
 describe Task do
 
-  before :all do
-    Field.all.each &:destroy
-    FormSection.all.each &:destroy
-    Lookup.all.each &:destroy
-
-    create(:form_section,
-      fields: [
-        build(:field, name: 'risk_level'),
-        build(:field, name: 'assessment_due_date', type: Field::DATE_FIELD),
-        build(:field, name: 'assessment_requested_on', type: Field::DATE_FIELD),
-        build(:field, name: 'case_plan_due_date', type: Field::DATE_FIELD),
-        build(:field, name: 'date_case_plan', type: Field::DATE_FIELD),
-        build(:subform_field, name: 'followup_subform_section', unique_id: 'followup_subform_section', fields: [
-          build(:field, name: 'followup_type'),
-          build(:field, name: 'followup_needed_by_date', type: Field::DATE_FIELD),
-          build(:field, name: 'followup_date', type: Field::DATE_FIELD),
-        ]),
-        build(:subform_field, name: 'services_section', unique_id: 'services_section', fields: [
-          build(:field, name: 'service_type'),
-          build(:field, name: 'service_appointment_date', type: Field::DATE_FIELD),
-          build(:field, name: 'service_implemented_day_time', type: Field::DATE_FIELD),
-        ])
-      ]
-    )
-
-    create_lookup('lookup-followup-type', [
-      { id: 'followup1', display_text: 'Followup1' },
-      { id: 'followup2', display_text: 'Followup2' },
-      { id: 'followup3', display_text: 'Followup3' }
-    ])
-
-    create_lookup('lookup-service-type', [
-      { id: 'service1', display_text: 'Service1' },
-      { id: 'service2', display_text: 'Service2' },
-      { id: 'service3', display_text: 'Service3' }
-    ])
-
-    Child.refresh_form_properties
-  end
-
   before :each do
     Child.any_instance.stub(:calculate_workflow){}
   end

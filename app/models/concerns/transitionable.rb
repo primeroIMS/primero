@@ -1,31 +1,49 @@
 module Transitionable
   extend ActiveSupport::Concern
-  include Sunspot::Rails::Searchable
 
   included do
-    property :transfer_status, String
-    property :transitions, [Transition], :default => []
-    property :reassigned_tranferred_on, DateTime
+    store_accessor :data,
+      :transfer_status, :reassigned_tranferred_on, :transitions
 
+    searchable auto_index: self.auto_index? do
+      string :transfer_status, as: 'transfer_status_sci'
+      string :referred_users, multiple: true
+      string :transferred_to_users, multiple: true
+      time :reassigned_tranferred_on
+    end
+
+    def transitions
+      if self.data['transitions'].present?
+        self.data['transitions'].map{|a| Transition.new(a)}
+      else
+        []
+      end
+    end
+
+    def transitions=(transitions)
+      if transitions.is_a? Array
+        self.data['transitions'] = transitions.map(&:to_h)
+      end
+    end
 
     def add_transition(transition_type, to_user_local, to_user_remote, to_user_agency, to_user_local_status, notes,
                        is_remote, type_of_export, user_name, consent_overridden,
                        consent_individual_transfer=false, service = "")
       transition = Transition.new(
-                    :type => transition_type,
-                    :to_user_local => to_user_local,
-                    :to_user_remote => to_user_remote,
-                    :to_user_agency => to_user_agency,
-                    :to_user_local_status => to_user_local_status,
-                    :transitioned_by => user_name,
-                    :notes => notes,
-                    :is_remote => is_remote,
-                    :type_of_export => type_of_export,
-                    :service => service,
-                    :consent_overridden => consent_overridden,
-                    :consent_individual_transfer => consent_individual_transfer,
-                    :created_at => DateTime.now)
-      self.transitions.unshift(transition)
+        :type => transition_type,
+        :to_user_local => to_user_local,
+        :to_user_remote => to_user_remote,
+        :to_user_agency => to_user_agency,
+        :to_user_local_status => to_user_local_status,
+        :transitioned_by => user_name,
+        :notes => notes,
+        :is_remote => is_remote,
+        :type_of_export => type_of_export,
+        :service => service,
+        :consent_overridden => consent_overridden,
+        :consent_individual_transfer => consent_individual_transfer,
+        :created_at => DateTime.now)
+      self.transitions = [transition.to_h] + self.transitions
     end
 
     def transitions_transfer_status(transfer_id, transfer_status, user, rejected_reason)
@@ -84,10 +102,14 @@ module Transitionable
     self.transitions.select{|t| t.type == Transition::TYPE_REFERRAL}
   end
 
+  def referred_users
+    self.transitions.map{|er| [er.to_user_local, er.to_user_remote]}.flatten.compact.uniq
+  end
+
   def set_service_as_referred( service_object_id )
     if service_object_id.present?
       service_object = self.services_section.select {|s| s.unique_id == service_object_id}.first
-      service_object.service_status_referred=true if defined?(service_object.service_status_referred)
+      service_object['service_status_referred'] = true
     end
   end
 
@@ -97,6 +119,11 @@ module Transitionable
 
   def transition_by_type_and_id(type, id)
     self.transitions.select{|t| t.type == type && t.id == id}.first
+  end
+
+  def transferred_to_users
+    self.transitions.select(&:is_transfer_in_progress?)
+        .map(&:to_user_local).uniq
   end
 
   def has_referrals
@@ -110,7 +137,7 @@ module Transitionable
 
   def latest_external_referral
     referral = []
-    transitions = self.try(:transitions)
+    transitions = self.transitions
     if transitions.present?
       ext_referrals = transitions.select do |transition|
         transition.type == Transition::TYPE_REFERRAL && transition.is_remote
@@ -125,12 +152,12 @@ module Transitionable
 
   def given_consent(type = Transition::TYPE_REFERRAL)
     if self.module_id == PrimeroModule::GBV
-      consent_for_services == true
+      self.consent_for_services == true
     elsif self.module_id == PrimeroModule::CP
       if type == Transition::TYPE_REFERRAL
-        disclosure_other_orgs == true && consent_for_services == true
+        self.disclosure_other_orgs == true && self.consent_for_services == true
       else
-        disclosure_other_orgs == true
+        self.disclosure_other_orgs == true
       end
     end
   end

@@ -19,18 +19,23 @@
           <% if can? :read, Child %>
             <li><%= link_to t("navigation.cases"), cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("cases") %></li>
           <% end  %>
+          <%# TODO: Remove the if false after Records are refactored %>
+          <% if false  %>
           <% if can? :read, TracingRequest %>
             <li><%= link_to t("navigation.tracing_request"), tracing_requests_path(scope: {:inquiry_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("tracings") %></li>
           <% end  %>
+          <% end %>
           <% if can? :read, Incident %>
             <li><%= link_to t("navigation.incidents"), incidents_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("incidents") %></li>
           <% end  %>
+          <% if false %>
           <% if can? :read, PotentialMatch %>
             <li><%= link_to t("navigation.potential_match"), potential_matches_path(:type => "tracing_request"), class: current_menu("matches") %></li>
           <% end  %>
           <% if can? :read, Duplicate %>
             <li><%= link_to t("navigation.duplicates"), duplicates_path(:record_type => "case"), class: current_menu("duplicates") %></li>
           <% end  %>
+            <% end %>
           <% if current_user_name==nil || can?(:manage, FormSection) %>
             <li><%= link_to t("navigation.forms"), form_sections_path, class: current_menu("forms") %></li>
           <% end %>
@@ -75,7 +80,9 @@
       <% end %>
     </div>
     <div class="large-3 columns no-padding-left">
-      <% if [Child, TracingRequest, Incident].include? model %>
+      <%# TODO: Put back after refactoring all the records %>
+      <%# if [Child, TracingRequest, Incident].include? model %>
+      <% if [Child].include? model %>
         <% if can? :read, model %>
             <%= form_tag path_for_model(model), :method => :get, :id => "search_form", :autocomplete => "off" do %>
               <div class="input-group">

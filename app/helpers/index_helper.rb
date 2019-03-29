@@ -604,7 +604,7 @@ module IndexHelper
         fields =   form.fields.select{ |field| field.show_on_minify_form || included_fields.include?(field.name) }
                        .reject{ |field|  rejected_fields_types.include? field.type }
         fields.each do |f|
-          data << { display_name: f.display_name, value: field_value_for_display(record[f.name], f, @lookups) }
+          data << { display_name: f.display_name, value: field_value_for_display(record.data[f.name], f, @lookups) }
         end
       end
     end

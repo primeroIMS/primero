@@ -27,12 +27,6 @@ module ExportActions
     Exporters::active_exporters_for_model(model_class).each do |exporter|
       format.any(exporter.id) do
         authorize! :export, model_class
-        LogEntry.create!(
-          :type => LogEntry::TYPE[exporter.id],
-          :user_name => current_user.user_name,
-          :organization => current_user.organization,
-          :model_type => model_class.name.downcase,
-          :ids => models.collect(&:id))
         props = export_properties(exporter)
         file_name = export_filename(models, exporter)
 

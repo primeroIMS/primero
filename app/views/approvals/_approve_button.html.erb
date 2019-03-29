@@ -2,13 +2,13 @@
   <a><%= t("buttons.approvals") %></a>
   <ul class="menu is-dropdown-submenu">
     <% if can?(:approve_bia, controller.model_class) %>
-      <%= render 'approvals/approve_form_button', instance: @child, approval_type: ApprovalActions::BIA %>
+      <%= render 'approvals/approve_form_button', instance: @child, approval_type: Approvable::BIA %>
     <% end %>
     <% if can?(:approve_case_plan, controller.model_class) %>
-      <%= render 'approvals/approve_form_button', instance: @child, approval_type: ApprovalActions::CASE_PLAN %>
+      <%= render 'approvals/approve_form_button', instance: @child, approval_type: Approvable::CASE_PLAN %>
     <% end %>
     <% if can?(:approve_closure, controller.model_class) %>
-      <%= render 'approvals/approve_form_button', instance: @child, approval_type: ApprovalActions::CLOSURE %>
+      <%= render 'approvals/approve_form_button', instance: @child, approval_type: Approvable::CLOSURE %>
     <% end %>
   </ul>
 </li>

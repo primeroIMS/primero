@@ -193,11 +193,12 @@ Primero::Application.routes.draw do
   match '/tracing_requests' => 'tracing_requests#index', :as => :tracing_request_filter, :via => [:post, :get, :put, :delete]
 
 #######################
-# RECORD HISTORIES URLS
+# AUDIT URLS
 #######################
   match '/cases/:id/change_log' => 'record_histories#record_change_log', :as => :child_record_change_log, model_class: 'Child', :via => [:get]
   match '/incidents/:id/change_log' => 'record_histories#record_change_log', :as => :incident_record_change_log, model_class: 'Incident', :via => [:get]
   match '/tracing_requests/:id/change_log' => 'record_histories#record_change_log', :as => :tracing_request_record_change_log, model_class: 'TracingRequest', :via => [:get]
+  resources :audit_logs, only: [:index]
 
 #######################
 # INCIDENT URLS
@@ -300,20 +301,6 @@ Primero::Application.routes.draw do
 
   match 'configuration_bundle/export', :to => 'configuration_bundle#export_bundle', :via => [:get, :post]
   match 'configuration_bundle/import', :to => 'configuration_bundle#import_bundle', :via => [:post]
-
-
-#######################
-# LOGGING URLS
-#######################
-
-  resources :system_logs, :only => :index
-  match '/children/:id/history' => 'child_histories#index', :as => :child_history, :via => :get
-  match '/incidents/:id/history' => 'incident_histories#index', :as => :incident_history, :via => :get
-  match '/tracing_requests/:id/history' => 'tracing_request_histories#index', :as => :tracing_request_history, :via => :get
-  match '/cases/:id/history' => 'child_histories#index', :as => :cases_history, :via => :get
-  match '/users/:id/history' => 'user_histories#index', :as => :user_history, :via => :get
-
-  resources :audit_logs, only: [:index]
 
 #######################
 # REPLICATION URLS

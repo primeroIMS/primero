@@ -112,7 +112,7 @@ module FormSectionHelper
 
   #Returns a hash of tuples {subform_group_label => [subform_object, index]}.
   def grouped_subforms(formObject, subform_field)
-    objects = formObject.try(subform_field.name)
+    objects = formObject[subform_field.name] || formObject.data[subform_field.name]
     if objects.present?
       objects = objects.map.with_index{|o,i| [o,i]}
       subform_group_by_field = subform_field.subform_group_by_field
@@ -124,7 +124,7 @@ module FormSectionHelper
         groups = subform_group_by_values.map{|_,v| [v,[]]}.to_h
         groups[''] = []
         objects.each do |object|
-          group_label = object.first.try(subform_group_by_field.name)
+          group_label = object.first.try(:[], subform_group_by_field.name)
           group_label = subform_group_by_values[group_label] || ''
           groups[group_label] << object #if groups.key?(group_label)
         end

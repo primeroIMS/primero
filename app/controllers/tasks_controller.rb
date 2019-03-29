@@ -16,7 +16,7 @@ class TasksController < ApplicationController
     @per_page = per_page
 
     if @tasks.present?
-      @lookups = Lookup.all(keys: ['lookup-risk-level', 'lookup-service-type', 'lookup-followup-type'])
+      @lookups = Lookup.where(unique_id: ['lookup-risk-level', 'lookup-service-type', 'lookup-followup-type'])
     end
   end
 
