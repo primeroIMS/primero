@@ -92,7 +92,6 @@ class Permission < ValueObject
 
   def initialize(args={})
     super(args)
-    @errors = [I18n.t("errors.models.role.permission.resource_presence")] if self.resource.blank?
   end
 
   def self.description(permission)

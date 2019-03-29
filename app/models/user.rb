@@ -259,9 +259,9 @@ class User < CouchRest::Model::Base
     !disabled? && crypted_password == self.class.encrypt(check, self.salt)
   end
 
-  # This should be a `has_many` when this model will be migrated
+  # TODO This should be a `has_many` when this model will be migrated
   def roles
-    @roles ||= Role.where(id: role_ids)
+    @roles ||= Role.where(unique_id: role_ids)
   end
 
   def modules
@@ -309,7 +309,7 @@ class User < CouchRest::Model::Base
   end
 
   def has_permission_by_permission_type?(permission_type, permission)
-    permissions_for_type = permissions.select {|perm| perm.resource == permission_type}
+    permissions_for_type = permissions.select{ |perm| perm.resource == permission_type }
     permissions_for_type.present? && permissions_for_type.first.actions.include?(permission)
   end
 

@@ -45,7 +45,7 @@ describe Role do
 
 
   it "should generate unique_id" do
-    Role.all.each(&:destroy)
+    Role.destroy_all
     role = create :role, :name => 'test role 1234', :permissions_list => Permission.all_permissions_list, :unique_id => nil
     role.unique_id.should == "role-test-role-1234"
   end

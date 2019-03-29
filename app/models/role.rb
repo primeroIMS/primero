@@ -127,7 +127,7 @@ class Role < ActiveRecord::Base
   private
 
   def has_managed_resources?(resources)
-    current_managed_resources = self.permissions.select{|p| p.actions == [Permission::MANAGE]}.map(&:resource)
+    current_managed_resources = self.permissions.select{ |p| p.actions == [Permission::MANAGE] }.map(&:resource)
     (resources - current_managed_resources).empty?
   end
 
