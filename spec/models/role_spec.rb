@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 describe Role do
+  before :each do
+    Role.delete_all
+  end
   it "should not be valid if name is empty" do
     role = Role.new
     role.should_not be_valid
@@ -22,7 +25,7 @@ describe Role do
 
   it "should not be valid if a role name has been taken already" do
     Role.create({:name => "Unique", :permissions_list => Permission.all_permissions_list})
-    role = Role.new({:name => "Unique", :permissions => Permission.all_permissions_list})
+    role = Role.new({:name => "Unique", :permissions_list => Permission.all_permissions_list})
     role.should_not be_valid
     role.errors[:name].should == ["A role with that name already exists, please enter a different name"]
   end
@@ -41,14 +44,15 @@ describe Role do
 
 
 
-  it "should generate id" do
-    Role.all.each {|role| role.destroy}
-    role = create :role, :name => 'test role 1234', :permissions_list => Permission.all_permissions_list, :_id => nil
-    role.id.should == "role-test-role-1234"
+  it "should generate unique_id" do
+    Role.destroy_all
+    role = create :role, :name => 'test role 1234', :permissions_list => Permission.all_permissions_list, :unique_id => nil
+    role.unique_id.should == "role-test-role-1234"
   end
 
   describe "has_permission" do
     before do
+      Role.all.each(&:destroy)
       @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
       @permission_incident_read_write = Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       @permission_role_assign = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN])
@@ -57,6 +61,7 @@ describe Role do
     context 'when a role has a single permission' do
       before do
         @role = Role.new(name: "some_role", permissions_list: [@permission_case_read])
+        @role.save
       end
       context 'and a single action string is passed in' do
         it "should only grant permissions that are assigned to a role" do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190311000001) do
+ActiveRecord::Schema.define(version: 20190318000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,11 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
+  create_table "form_sections_roles", id: false, force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "form_section_id"
+  end
+
   create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.uuid "incident_case_id"
@@ -180,7 +185,7 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.jsonb "record_changes", default: {}
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
-  
+
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"
@@ -194,6 +199,22 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.string "group_dates_by", default: "date"
     t.boolean "is_graph", default: false, null: false
     t.boolean "editable", default: true
+  end
+
+  create_table "roles", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.string "name"
+    t.string "description"
+    t.jsonb "permissions_list", default: [], array: true
+    t.string "group_permission", default: "self"
+    t.boolean "referral", default: false, null: false
+    t.boolean "transfer", default: false, null: false
+    t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
+  end
+
+  create_table "roles_roles", id: false, force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "associated_role_id"
   end
 
   create_table "saved_searches", id: :serial, force: :cascade do |t|
