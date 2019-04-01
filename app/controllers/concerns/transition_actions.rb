@@ -3,7 +3,7 @@ module TransitionActions
 
   def transition
     authorize! :referral, model_class if is_referral?
-    authorize! :assign, model_class if is_reassign?
+    authorize_any_assign! if is_reassign?
     authorize! :transfer, model_class if is_transfer?
 
     @records << @record if @record.present?
@@ -371,5 +371,17 @@ module TransitionActions
     #Override in parent controller to identify appropriate transition form
     #Default form is the one for Cases
     'referral_transfer'
+  end
+
+  def authorize_any_assign!
+    begin
+      authorize! :assign, model_class
+    rescue CanCan::AccessDenied
+      begin
+        authorize! :assign_within_agency, model_class
+      rescue CanCan::AccessDenied
+          authorize! :assign_within_user_group, model_class
+      end
+    end
   end
 end

@@ -48,6 +48,12 @@ _primero.Views.RequiredFields = _primero.Views.Base.extend({
 
     if (errors.length > 0) {
       $('.side-tab-content').prepend(error_container({errors: errors}));
+      //Reflow equalizer
+      var $new_page = $('.page-content-new');
+      if($new_page.length > 0) {
+        var elem = new Foundation.Equalizer($new_page);
+        elem.applyHeight();
+      }
     }
   },
 

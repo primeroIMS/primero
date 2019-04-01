@@ -58,14 +58,16 @@ class UsersController < ApplicationController
   def search
     authorize! :search, User
 
-    allowed_transitions = [Transition::TYPE_REFERRAL, Transition::TYPE_TRANSFER]
+    allowed_transitions = [Transition::TYPE_REFERRAL, Transition::TYPE_TRANSFER, Transition::TYPE_REASSIGN]
     transition_type =  params[:transition_type]
-    users = if transition_type.present? && allowed_transitions.include?(transition_type)
+    users = if transition_type.present? &&
+               allowed_transitions.include?(transition_type) &&
+               can_perform_query?(transition_type)
               # NOTE: per_page number tells solr to return all the results: https://wiki.apache.org/solr/CommonQueryParameters#rows
               pagination = { page: 1, per_page: User.all.count }
               sort = { user_name: :asc}
               criteria = get_search_criteria
-              users = format_search_response(User.find_by_criteria(criteria, pagination, sort).try(:results) || [])
+              format_search_response(User.find_by_criteria(criteria, pagination, sort).try(:results) || [])
             else
               []
             end
@@ -355,17 +357,35 @@ class UsersController < ApplicationController
     transition_filters = get_transition_filters(transition_type)
 
     { disabled: false }.merge({
-        organization: agency_id,
-        reporting_location: location,
-        services: services
-      }.merge(transition_filters).compact)
+      organization: agency_id,
+      reporting_location: location,
+      services: services
+    }.merge(transition_filters).compact)
   end
 
   def get_transition_filters(transition_type)
-    if transition_type == Transition::TYPE_REFERRAL
+    case transition_type
+    when Transition::TYPE_REFERRAL
       { can_receive_referrals: true }
-    elsif transition_type == Transition::TYPE_TRANSFER
+    when Transition::TYPE_TRANSFER
       { can_receive_transfers: true }
+    when Transition::TYPE_REASSIGN
+      return {} if can?(:assign, Child)
+      if can?(:assign_within_agency, Child)
+        { organization: current_user.organization }
+      elsif can?(:assign_within_user_group, Child)
+        { user_group_ids: current_user.user_group_ids }
+      end
+    end
+  end
+
+  def can_perform_query?(transition_type)
+    if transition_type == Transition::TYPE_REASSIGN
+      can?(:assign, Child) ||
+      (can?(:assign_within_agency, Child) && current_user.organization.present?) ||
+      (can?(:assign_within_user_group, Child) && current_user.user_group_ids.present?)
+    else
+     true
     end
   end
 

@@ -20,6 +20,8 @@ class Role < CouchRest::Model::Base
 
   before_save :add_permitted_subforms
 
+  after_save :update_users_with_current_role
+
   design #Create the default all design view
 
   def self.get_unique_instance(attributes)
@@ -116,6 +118,11 @@ class Role < CouchRest::Model::Base
       .select{|p| p.actions == [Permission::MANAGE]}
       .map{|p| p.resource}
     (resources - current_managed_resources).empty?
+  end
+
+  def update_users_with_current_role
+    users = User.find_by_role_ids([self.id])
+    Sunspot.index!(users) if users.any?
   end
 
 end

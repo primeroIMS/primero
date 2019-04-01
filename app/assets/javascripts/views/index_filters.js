@@ -132,7 +132,8 @@ _primero.Views.IndexFilters = _primero.Views.Base.extend({
         }
       }
 
-      else {
+      else if (type === 'single') {
+
         if (current_scope !== false) {
           $(this).val(decodeURI(current_scope[1]));
           self.set_remove_filter(name, current_scope);

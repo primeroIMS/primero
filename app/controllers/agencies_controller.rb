@@ -22,6 +22,23 @@ class AgenciesController < ApplicationController
     @agencies = paginated_collection(@agencies_result.try(:all), @agencies_result.count)
   end
 
+  def search
+    authorize! :search, Agency
+
+    service_type = params[:service_type]
+    agencies = if service_type.present?
+                Agency.by_service.key(service_type).all
+               else
+                 Agency.all.all
+               end
+
+    respond_to do |format|
+      format.json do
+        render json: { success: 1, agencies: format_search_response(agencies) }
+      end
+    end
+  end
+
   def show
     authorize! :view, @agency
 
@@ -113,5 +130,14 @@ class AgenciesController < ApplicationController
 
   def sanitize_multiselects
     sanitize_multiselect_params(:agency, [:services])
+  end
+
+  def format_search_response(agencies)
+    agencies.map do |agency|
+      attributes = agency.attributes.slice('id','agency_code', 'telephone', 'services')
+      # id is not part of the attributes
+      # name and description are localizable properties
+      attributes.merge(id: agency.id, name: agency.name, description: agency.description)
+    end
   end
 end
