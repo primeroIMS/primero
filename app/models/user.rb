@@ -43,6 +43,18 @@ class User < CouchRest::Model::Base
     view :by_organization
   end
 
+  design :by_role_ids do
+    view :by_role_ids,
+         :map => "function(doc) {
+                if (doc['couchrest-type'] == 'User' && doc['role_ids'])
+                {
+                  for (var i in doc['role_ids']){
+                    emit(doc['role_ids'][i], null);
+                  }
+                }
+            }"
+  end
+
   design do
     view :by_user_name,
             :map => "function(doc) {
@@ -144,6 +156,7 @@ class User < CouchRest::Model::Base
     boolean :can_receive_transfers do
        self.has_permission_by_permission_type?(Permission::CASE, Permission::RECEIVE_TRANSFER)
     end
+    string :user_group_ids, :multiple => true
   end
 
   #In order to track changes on attributes declared as attr_accessor and
@@ -204,6 +217,10 @@ class User < CouchRest::Model::Base
 
     def find_by_user_names(user_names)
       User.by_user_name(keys: user_names).all
+    end
+
+    def find_by_role_ids(role_ids)
+      User.by_role_ids(keys: role_ids).all.uniq{|u| u.user_name}
     end
 
     def agencies_by_user_list(user_names)

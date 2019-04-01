@@ -5,7 +5,7 @@
     <input name="authenticity_token" type="hidden" value="<%=  authenticity_token  %>">
     <input id="<%=  model  %>_redirect_url" name="redirect_url" type="hidden" value="<%=  redirect_url  %>">
   </div>
-  <div class="row add_flag align-bottom">
+  <div class="row add_flag align-bottom collapse">
     <div class="column">
       <label for="<%= model %>_<%= message_id %>"><%= message %></label>
       <input id="<%= model %>_<%= message_id %>" name="<%= message_id %>" size="30" type="text" value="" class="flag_message">

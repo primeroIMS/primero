@@ -284,6 +284,10 @@ Primero::Application.routes.draw do
 
     #User API
     get :users, to: 'users#search'
+
+    #Agency API
+    get :agencies, to: 'agencies#search'
+
   end
 
 #######################

@@ -16,7 +16,7 @@ gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
 gem 'prawn-table',    '~> 0.2.2'
-gem 'rails',          '5.1.4'
+gem 'rails',          '5.1.6.2'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
 gem 'dynamic_form',   '~> 1.1.4'
@@ -32,7 +32,7 @@ gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 1.0.0'
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
-gem 'rubyzip',        '~> 1.2.1', require: 'zip'
+gem 'rubyzip',        '~> 1.2.2', require: 'zip'
 
 #Note, if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
 #Current Solr version is 5.3.1
@@ -48,13 +48,12 @@ gem 'backburner', require: false
 gem 'foundation-rails', '~> 6.3.0.0'
 
 gem 'sass-rails',    '~> 5.0.6'
-gem 'compass-rails', '~> 3.0.2'
 gem 'coffee-rails',  '~> 4.2.2'
 gem 'chosen-rails',  '~> 1.5.2'
 gem 'ejs', '~> 1.1.1'
 
 gem 'yui-compressor'
-gem 'closure-compiler'
+gem 'closure-compiler', '1.1.13'
 gem 'progress_bar', '~> 1.1.0'
 
 gem 'writeexcel', '~> 1.0.5'
