@@ -1,0 +1,24 @@
+version: '3'
+services:
+  nginx_lets_encrypt:
+    image: nginx_lets_encrypt:prim-latest
+    ports:
+      - "80:80"
+    volumes:
+      - certbot_certs:/etc/letsencrypt
+      - certbot_var:/var/lib/letsencrypt
+      - ./nginx_lets_encrypt/conf.d/:/etc/nginx/conf.d/
+      - ./nginx_lets_encrypt/html:/usr/share/nginx/html
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot_certs:/etc/letsencrypt
+      - certbot_www:/var/www/certbot
+      - certbot_var:/var/lib/letsencrypt
+    depends_on:
+      - "nginx_lets_encrypt"
+    command: certonly --webroot --webroot-path=/var/www/certbot --email test@quoininc.com --agree-tos --staging -d example.com
+volumes:
+  certbot_certs:
+  certbot_www:
+  certbot_var:

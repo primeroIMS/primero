@@ -1,20 +1,16 @@
 version: '3'
 services:
-  certbot:
-    image: certbot/certbot
-    volumes:
-      - certbot_certs:/etc/letsencrypt
-      - certbot_www:/var/www/certbot
-  nginx_lets_encrypt:
-    image: nginx_lets_encrypt:prim-latest
+  nginx_production:
+    image: nginx_production:prim-latest
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - nginx_conf:/etc/nginx/conf.d
       - certbot_certs:/etc/letsencrypt
+      - certbot_var:/var/lib/letsencrypt
       - certbot_www:/var/www/certbot
+      - ./nginx_production
 volumes:
-  nginx_conf:
   certbot_certs:
   certbot_www:
+  certbot_var:
