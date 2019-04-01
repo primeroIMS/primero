@@ -10,6 +10,7 @@ class FormSection < ActiveRecord::Base
 
   has_many :fields
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
+  has_and_belongs_to_many :roles
 
   attr_accessor :module_name
   attribute :collapsed_field_names

@@ -290,9 +290,7 @@ describe User do
   it "should load roles only once" do
     role = double("roles")
     user = build_and_save_user
-    couchdb_view = double("couchdb_view")
-    couchdb_view.should_receive(:all).and_return([role])
-    Role.should_receive(:all).with({keys: [user.role_ids.first]}).and_return(couchdb_view)
+    Role.should_receive(:where).with({id: [user.role_ids.first]}).and_return([role])
     user.roles.should == [role]
   end
 
@@ -332,7 +330,7 @@ describe User do
       @form_section_c = FormSection.create!(unique_id: "C", name: "C")
       @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
       @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-      @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
+      @role = Role.create!(form_sections: [@form_section_b, @form_section_c], name: "Test Role", permissions_list: [@permission_case_read])
     end
 
     it "inherits the forms permitted by the modules" do

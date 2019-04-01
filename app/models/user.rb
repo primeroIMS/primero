@@ -157,8 +157,9 @@ class User < ActiveRecord::Base
   # end
 
   # TODO: Change once role migration merged
+  # TODO This should be a `has_many` when this model will be migrated
   def roles
-    @roles ||= Role.all(keys: self.role_ids).all
+    @roles ||= Role.where(unique_id: role_ids)
   end
 
   # TODO: Change once module migration merged
@@ -199,8 +200,8 @@ class User < ActiveRecord::Base
   end
 
   def has_permission_by_permission_type?(permission_type, permission)
-    permissions_for_type = permissions.select { |perm| perm['resource'] == permission_type }
-    permissions_for_type.present? && permissions_for_type[0]['actions'].include?(permission)
+    permissions_for_type = permissions.select{ |perm| perm.resource == permission_type }
+    permissions_for_type.present? && permissions_for_type.first.actions.include?(permission)
   end
 
   def has_group_permission?(permission)
@@ -216,7 +217,8 @@ class User < ActiveRecord::Base
   end
 
   def permissions
-    roles.compact.collect(&:permissions_list).flatten
+    # When users' model will use Active Record should use the relation instead of a method
+    roles.compact.collect(&:permissions).flatten
   end
 
   # This method will return true when the user has no permission assigned
@@ -255,7 +257,7 @@ class User < ActiveRecord::Base
   end
 
   def role_permitted_form_ids
-    roles.compact.collect(&:permitted_form_ids).flatten.select(&:present?)
+    roles.compact.collect(&:form_sections).flatten.map(&:unique_id).select(&:present?)
   end
 
   def module_permitted_form_ids
