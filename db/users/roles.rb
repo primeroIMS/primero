@@ -727,7 +727,7 @@ gbv_caseworker_permissions = [
 create_or_update_role(
     :name => "GBV Caseworker",
     :permissions_list => gbv_caseworker_permissions,
-    :permitted_form_ids => gbv_caseworker_forms,
+    :form_sections => FormSection.where(unique_id: gbv_caseworker_forms),
     :referral => false,
     :transfer => false
 )
@@ -772,7 +772,7 @@ gbv_mobile_caseworker_permissions = [
 create_or_update_role(
     :name => "GBV Mobile Caseworker",
     :permissions_list => gbv_mobile_caseworker_permissions,
-    :permitted_form_ids => gbv_mobile_caseworker_forms,
+    :form_sections => FormSection.where(unique_id: gbv_mobile_caseworker_forms),
     :referral => false,
     :transfer => false
 )
@@ -845,7 +845,7 @@ create_or_update_role(
     :name => "GBV Case Management Supervisor",
     :group_permission => Permission::GROUP,
     :permissions_list => gbv_cm_supervisor_permissions,
-    :permitted_form_ids => gbv_cm_supervisor_forms,
+    :form_sections => FormSection.where(unique_id: gbv_cm_supervisor_forms),
     :referral => false,
     :transfer => false
 )
@@ -892,7 +892,7 @@ create_or_update_role(
     :name => "GBV Program Manager",
     :group_permission => Permission::ALL,
     :permissions_list => gbv_program_manager_permissions,
-    :permitted_form_ids => gbv_program_manager_forms
+    :form_sections => FormSection.where(unique_id: gbv_program_manager_forms)
 )
 
 gbv_organization_focal_point_forms = [
@@ -974,7 +974,7 @@ create_or_update_role(
     :name => "GBV Organization Focal Point",
     :group_permission => Permission::GROUP,
     :permissions_list => gbv_organization_focal_point_permissions,
-    :permitted_form_ids => gbv_organization_focal_point_forms,
+    :form_sections => FormSection.where(unique_id: gbv_organization_focal_point_forms),
     :referral => false,
     :transfer => false
 )
@@ -1187,7 +1187,7 @@ create_or_update_role(
   :name => "GBV System Administrator",
   :group_permission => Permission::ALL,
   :permissions_list => gbv_system_admin_permissions,
-  :permitted_form_ids => gbv_system_admin_forms
+  :form_sections => FormSection.where(unique_id: gbv_system_admin_forms)
 )
 
 referral_permissions = [
