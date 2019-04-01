@@ -5,13 +5,10 @@ services:
     environment:
       POSTGRES_USER: "primero"
       POSTGRES_PASSWORD: "primero"
-  # couchdb:
-  #   image: couchdb:prim-latest
-  #   environment:
-  #     COUCHDB_USER: "primero"
-  #     COUCHDB_PASSWORD: "primero"
   solr:
     image: solr:prim-latest
+  beanstalkd:
+    image: beanstalkd:prim-latest
   application:
     image: application:prim-latest
     ports:
@@ -21,6 +18,5 @@ services:
       - "couchdb:10.1.0.87"
     depends_on:
       - solr
+      - beanstalkd
       - postgres
-  # application:
-  #   image: nginx
