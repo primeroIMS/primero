@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   before_action :sanitize_services_multiselect, :only => [:create, :update]
   before_action :load_users_agencies, :only => [:index]
 
-  skip_before_action :check_authentication, :set_locale, :only => :register_unverified
+  skip_before_action :authenticate_user!, :set_locale, :only => :register_unverified
 
   include LoggerActions
 
@@ -91,7 +91,7 @@ class UsersController < ApplicationController
     authorize! :show, User
     @page_name = t("users.unverified")
     flash[:verify] = t('users.select_role')
-    @users = User.all_unverified
+    @users = User.by_unverified
   end
 
   def show
@@ -212,7 +212,7 @@ class UsersController < ApplicationController
   end
   def load_user
     @user = User.get(params[:id])
-    
+
     if @user.nil?
       flash[:error] = t("user.messages.not_found")
       redirect_to :action => :index and return

@@ -28,7 +28,7 @@ describe "children/show.html.erb" do
       controller.stub(:current_user).and_return(@user)
       controller.stub(:model_class).and_return(Child)
       view.stub(:current_user).and_return(@user)
-      view.stub(:logged_in?).and_return(true)
+      view.stub(:user_signed_in?).and_return(true)
       view.stub(:current_user_name).and_return('name')
       @form_section = FormSection.new({
         :unique_id => "section_name",

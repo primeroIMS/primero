@@ -3,7 +3,7 @@ class ReplicationsController < ApplicationController
   before_action :load_replication
 
   skip_before_action :verify_authenticity_token, :only => [ :configuration, :start, :stop ]
-  skip_before_action :check_authentication, :only => :configuration
+  skip_before_action :authenticate_user!, :only => :configuration
 
   @model_class = Replication
 

@@ -280,7 +280,7 @@ namespace :db do
     desc "Delete out a user"
     task :remove_user, [:user] => :environment do |t, args|
       #TODO: Do we need to handle record owners, associated users?
-      user = User.by_user_name(key: args[:user]).all.first
+      user = User.find_by_user_name(args[:user])
       if user.present?
         puts "Deleting user #{user.user_name}"
         user.destroy

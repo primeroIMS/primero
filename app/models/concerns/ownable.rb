@@ -97,7 +97,7 @@ module Ownable
   def associated_users
     user_ids = associated_user_names
     @associated_users ||= if user_ids.present?
-      User.by_user_name(keys: user_ids).all
+      User.where(username: user_ids)
     else
       []
     end

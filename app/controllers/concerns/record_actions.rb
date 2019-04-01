@@ -9,7 +9,7 @@ module RecordActions
 
   included do
     skip_before_action :verify_authenticity_token, raise: false
-    skip_before_action :check_authentication, :only => [:reindex], raise: false
+    skip_before_action :authenticate_user!, :only => [:reindex], raise: false
 
     before_action :load_record, :except => [:new, :create, :index, :reindex]
     before_action :load_selected_records, :except => [:show, :update, :edit, :new, :create, :index, :reindex]

@@ -143,7 +143,7 @@ class Location < CouchRest::Model::Base
     #It is used to create the select options list for location fields
     def all_names(opts={})
       locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-      self.by_disabled(key: false).map{|r| {id: r.location_code, display_text: r.name(locale)}.with_indifferent_access}
+      # self.by_disabled(key: false).map{|r| {id: r.location_code, display_text: r.name(locale)}.with_indifferent_access}
     end
     memoize_in_prod :all_names
 

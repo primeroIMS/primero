@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190311000001) do
+ActiveRecord::Schema.define(version: 20190311000005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,7 +180,7 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.jsonb "record_changes", default: {}
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
-  
+
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"
@@ -210,6 +210,43 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.string "description"
     t.boolean "core_resource", default: false, null: false
     t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
+  end
+
+  create_table "user_groups_users", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "user_group_id"
+    t.index ["user_group_id"], name: "index_user_groups_users_on_user_group_id"
+    t.index ["user_id"], name: "index_user_groups_users_on_user_id"
+  end
+
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "full_name"
+    t.string "user_name"
+    t.string "encrypted_password", default: "", null: false
+    t.boolean "verified", default: true
+    t.string "code"
+    t.string "phone"
+    t.string "email"
+    t.string "organization"
+    t.string "position"
+    t.string "location"
+    t.string "role_ids"
+    t.string "time_zone", default: "UTC"
+    t.string "locale"
+    t.boolean "is_manager", default: false
+    t.boolean "send_mail", default: true
+    t.boolean "disabled", default: false
+    t.string "services", array: true
+    t.string "agency_office"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.string "module_ids", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role_ids"], name: "index_users_on_role_ids"
+    t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 
 end

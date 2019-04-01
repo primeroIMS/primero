@@ -2,7 +2,7 @@
   <div class="row align-middle">
     <div class="large-9 columns">
       <% model = controller.model_class %>
-      <% if logged_in? %>
+      <% if user_signed_in? %>
         <ul class="menu">
           <li>
             <a class="<%= current_menu('root') %>" href="<%= root_path %>" title="<%= t('navigation.home') %>">

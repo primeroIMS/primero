@@ -7,15 +7,16 @@ class ApplicationController < ActionController::Base
   before_action :authorize_profiler
 
   helper :all
-  helper_method :current_user_name, :current_user, :current_user_full_name, :current_user_agency, :current_session
-  helper_method :logged_in?, :is_mobile?
+  helper_method :current_user_name, :current_user_full_name, :current_user_agency, :current_session
+  # helper_method :logged_in?, :is_mobile?
+  helper_method :is_mobile?
 
   include AgencyLogos
-  include Security::Authentication
-
+  # include Security::Authentication
+  before_action :authenticate_user!
   before_action :permit_all_params
-  before_action :extend_session_lifetime
-  before_action :check_authentication
+  # before_action :extend_session_lifetime
+  # before_action :check_authentication
   before_action :load_system_settings
   before_action :set_locale
 
@@ -94,7 +95,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    if logged_in?
+    if user_signed_in?
       I18n.locale = (get_selected_locale || current_user.locale || I18n.default_locale)
     end
     page_direction(I18n.locale)
@@ -142,9 +143,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def redirect_back_or_default(default = root_path, options = {})
-    redirect_to (request.referer.present? ? :back : default), options
-  end
+  # def redirect_back_or_default(default = root_path, options = {})
+  #   redirect_to (request.referer.present? ? :back : default), options
+  # end
 
   class << self
     attr_accessor :model_class
@@ -162,9 +163,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def redirect_to_login
-    redirect_to logout_path
-  end
+  # def redirect_to_login
+  #   redirect_to logout_path
+  # end
 
   private
 

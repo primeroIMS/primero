@@ -1,5 +1,8 @@
 Primero::Application.routes.draw do
-  match '/' => 'home#index', :as => :root, :via => :get
+  devise_for :users
+
+  root to: 'home#index'
+
   match '/_notify_change' => 'couch_changes#notify', :via => :get
 
   match "/404", :to => "errors#not_found", :via => :all
@@ -10,7 +13,7 @@ Primero::Application.routes.draw do
     get '/', to: 'home#v2'
     get '*all', to: 'home#v2'
   end
-  
+
 #######################
 # USER URLS
 #######################
@@ -25,10 +28,10 @@ Primero::Application.routes.draw do
   end
   match '/users/register_unverified' => 'users#register_unverified', :as => :register_unverified_user, :via => :post
 
-  resources :sessions, :except => :index
-  match 'login' => 'sessions#new', :as => :login, :via => [:post, :get, :put, :delete]
-  match 'logout' => 'sessions#destroy', :as => :logout, :via => [:post, :get, :put, :delete]
-  match '/active' => 'sessions#active', :as => :session_active, :via => [:post, :get, :put, :delete]
+  # resources :sessions, :except => :index
+  # match 'login' => 'sessions#new', :as => :login, :via => [:post, :get, :put, :delete]
+  # match 'logout' => 'sessions#destroy', :as => :logout, :via => [:post, :get, :put, :delete]
+  # match '/active' => 'sessions#active', :as => :session_active, :via => [:post, :get, :put, :delete]
 
   resources :user_preferences
   resources :password_recovery_requests, :only => [:new, :create]
@@ -270,8 +273,8 @@ Primero::Application.routes.draw do
 
   scope '/api', defaults: { format: :json }, constraints: { format: :json } do
     #Session API
-    post :login, to: 'sessions#create'
-    post :logout, to: 'sessions#destroy'
+    # post :login, to: 'sessions#create'
+    # post :logout, to: 'sessions#destroy'
 
     #Forms API
     resources :form_sections, controller: 'form_section', only: [:index]

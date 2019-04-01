@@ -1,118 +1,42 @@
-require 'digest/sha2'
-class User < CouchRest::Model::Base
-  use_database :user
-
-  include PrimeroModel
+class User < ActiveRecord::Base
   include Importable
   include Memoizable
-  include Disableable
 
-  include Primero::CouchRestRailsBackward
+  devise :database_authenticatable, :timeoutable,
+    :recoverable, :validatable
 
-  property :full_name
-  property :user_name
-  property :verified, TrueClass, :default => true
-  property :crypted_password
-  property :salt
-  property :code
-  property :phone
-  property :email
-  property :organization
-  property :position
-  property :location
-  property :role_ids, [String]
-  property :time_zone, :default => "UTC"
-  property :locale
-  property :module_ids, :type => [String]
-  property :user_group_ids, :type => [String], :default => []
-  property :is_manager, TrueClass, :default => false
-  property :send_mail, TrueClass, :default => true
-  property :services, :type => [String], :default => []
-  property :agency_office
+  has_and_belongs_to_many :user_groups
 
-  alias_method :agency, :organization
-  alias_method :agency=, :organization=
-  alias_method :name, :user_name
+  scope :list_by_enabled, -> { where(disabled: false) }
+  scope :list_by_disabled, -> { where(disabled: true) }
+  scope :by_unverified, -> { where(verified: false) }
 
-  attr_accessor :password_confirmation, :password
+
+  # alias_method :agency, :organization
+  # alias_method :agency=, :organization=
+  # alias_method :name, :user_name
+
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
 
-  timestamps!
-
-  design :by_organization do
-    view :by_organization
-  end
-
-  design do
-    view :by_user_name,
-            :map => "function(doc) {
-                if ((doc['couchrest-type'] == 'User') && doc['user_name']) {
-                  emit(doc['user_name'], null);
-                }
-              }"
-
-    view :by_user_name_enabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('user_name') && (!doc.hasOwnProperty('disabled') || !doc['disabled'])) {
-                  emit(doc['user_name'], null);
-                }
-              }"
-
-    view :by_user_name_disabled,
-         :map => "function(doc) {
-                if (doc.hasOwnProperty('user_name') && (doc.hasOwnProperty('disabled') && doc['disabled'])) {
-                  emit(doc['user_name'], null);
-                }
-              }"
-
-    view :by_unverified,
-            :map => "function(doc) {
-                if (doc['couchrest-type'] == 'User' && (doc['verified'] == false || doc['verified'] == 'false'))
-                 {
-                    emit(doc);
-                 }
-             }"
-
-    view :by_user_group,
-            :map => "function(doc) {
-                if (doc['couchrest-type'] == 'User' && doc['user_group_ids'])
-                {
-                  for (var i in doc['user_group_ids']){
-                    emit(doc['user_group_ids'][i], null);
-                  }
-                }
-            }"
-
-    view :by_module,
-            :map => "function(doc) {
-                if (doc['couchrest-type'] == 'User' && doc['module_ids'])
-                {
-                  for (var i in doc['module_ids']){
-                    emit(doc['module_ids'][i], null);
-                  }
-                }
-            }"
-
-  end
-
-
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :encrypt_password, :update_user_cases_groups_and_location
+  before_save :make_user_name_lowercase, :update_user_cases_groups_and_location
   after_save :save_devices
 
-  before_update :if => :disabled? do |user|
-    Session.delete_for user
-  end
+  # before_update :if => :disabled? do |user|
+  #   Session.delete_for user
+  # end
 
   validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
-  validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation"), :if => :password_required?
-  validates_presence_of :role_ids, :message => I18n.t("errors.models.user.role_ids"), :if => Proc.new {|user| user.verified}
+  # TODO: add tranlation to devise
+  # validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation"), :if => :password_required?
+  validates_presence_of :role_ids, :message => I18n.t("errors.models.user.role_ids"), :if => Proc.new { |user| user.verified }
   validates_presence_of :module_ids, :message => I18n.t("errors.models.user.module_ids")
 
   validates_presence_of :organization, :message => I18n.t("errors.models.user.organization")
 
   validates_format_of :user_name, :with => /\A[^ ]+\z/, :message => I18n.t("errors.models.user.user_name")
 
+  # TODO: How does devise override username and email
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/, :if => :email_entered?,
                       :message => I18n.t("errors.models.user.email")
   validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/, :if => :password_required?,
@@ -121,11 +45,10 @@ class User < CouchRest::Model::Base
   validates_confirmation_of :password, :if => :password_required? && :password_confirmation_entered?,
                             :message => I18n.t("errors.models.user.password_mismatch")
 
-  #FIXME 409s randomly...destroying user records before test as a temp
-  validate :is_user_name_unique
+  # TODO: Do we need this
+  # #FIXME 409s randomly...destroying user records before test as a temp
+  # validate :is_user_name_unique
   validate :validate_locale
-
-  before_save :generate_id
 
   include Indexable
 
@@ -140,46 +63,24 @@ class User < CouchRest::Model::Base
     string :services, :multiple => true
   end
 
-  #In order to track changes on attributes declared as attr_accessor and
-  #trigger the callbacks we need to use attribute_will_change! method.
-  #check lib/couchrest/model/extended_attachments.rb in source code.
-  #So, override the method for password in order to track changes.
-  def password= value
-    attribute_will_change!("password") if use_dirty? && @password != value
-    @password = value
-  end
+  # #In order to track changes on attributes declared as attr_accessor and
+  # #trigger the callbacks we need to use attribute_will_change! method.
+  # #check lib/couchrest/model/extended_attachments.rb in source code.
+  # #So, override the method for password in order to track changes.
+  # def password= value
+  #   attribute_will_change!("password") if use_dirty? && @password != value
+  #   @password = value
+  # end
 
-  def password
-    @password
-  end
+  # def password
+  #   @password
+  # end
 
   class << self
-    alias :old_all :all
-    alias :by_all :all
-    alias :list_by_all :all
-    alias :by_user_name_all :by_user_name
-    alias :by_organization_all :by_organization
-    def all(*args)
-      old_all(*args)
-    end
-    memoize_in_prod :all
-    memoize_in_prod :list_by_all
-
     def all_unverified
       User.by_unverified
     end
     memoize_in_prod :all_unverified
-
-    alias :old_by_user_name :by_user_name
-    def by_user_name(*args)
-      old_by_user_name(*args)
-    end
-    memoize_in_prod :by_user_name
-
-    def find_by_user_name(user_name)
-      User.by_user_name(:key => user_name.downcase).first if user_name.present?
-    end
-    memoize_in_prod :find_by_user_name
 
     def get_unique_instance(attributes)
       find_by_user_name(attributes['user_name'])
@@ -196,12 +97,8 @@ class User < CouchRest::Model::Base
     end
     memoize_in_prod :find_by_modules
 
-    def find_by_user_names(user_names)
-      User.by_user_name(keys: user_names).all
-    end
-
     def agencies_by_user_list(user_names)
-      Agency.all(keys: self.find_by_user_names(user_names).map{|u| u.organization}.uniq).all
+      Agency.all(keys: where(user_name: user_names).map{ |u| u.organization }.uniq).all
     end
 
     def last_login_timestamp(user_name)
@@ -242,8 +139,8 @@ class User < CouchRest::Model::Base
   end
 
   def is_user_name_unique
-    user = User.find_by_user_name(user_name)
-    return true if user.nil? or self.id == user.id
+    user = find_by_user_name(user_name)
+    return true if user.nil? || id == user.id
     errors.add(:user_name, I18n.t("errors.models.user.user_name_uniqueness"))
   end
 
@@ -252,31 +149,25 @@ class User < CouchRest::Model::Base
     errors.add(:locale, I18n.t("errors.models.user.invalid_locale", user_locale: self.locale))
   end
 
-  def authenticate(check)
-    if new?
-      raise Exception.new, I18n.t("errors.models.user.authenticate")
-    end
-    !disabled? && crypted_password == self.class.encrypt(check, self.salt)
-  end
+  # def authenticate(check)
+  #   if new?
+  #     raise Exception.new, I18n.t("errors.models.user.authenticate")
+  #   end
+  #   !disabled? && crypted_password == self.class.encrypt(check, self.salt)
+  # end
 
+  # TODO: Change once role migration merged
   def roles
     @roles ||= Role.all(keys: self.role_ids).all
   end
 
+  # TODO: Change once module migration merged
   def modules
     @modules ||= PrimeroModule.all(keys: self.module_ids).all
   end
 
-  def user_groups
-    @user_groups ||= UserGroup.all(keys: self.user_group_ids_sanitized)
-  end
-
-  def user_group_ids_sanitized
-    self.user_group_ids.select{|g| g.present?}
-  end
-
   def user_location
-    @location_obj ||= Location.get_by_location_code(self.location)
+    @location_obj ||= Location.get_by_location_code(location)
   end
   # Hack to allow backward-compatibility. The Location method must not be used.
   alias_method :Location, :user_location
@@ -286,7 +177,7 @@ class User < CouchRest::Model::Base
   end
 
   def agency
-    @agency_obj ||= Agency.find_by_id(self.organization)
+    @agency_obj ||= Agency.find_by_id(organization)
   end
 
   def agency_name
@@ -304,11 +195,11 @@ class User < CouchRest::Model::Base
   end
 
   def has_permission?(permission)
-    permissions && permissions.map{|p| p.actions}.flatten.include?(permission)
+    permissions && permissions.map{ |p| p.actions }.flatten.include?(permission)
   end
 
   def has_permission_by_permission_type?(permission_type, permission)
-    permissions_for_type = permissions.select {|perm| perm['resource'] == permission_type}
+    permissions_for_type = permissions.select { |perm| perm['resource'] == permission_type }
     permissions_for_type.present? && permissions_for_type[0]['actions'].include?(permission)
   end
 
@@ -328,9 +219,9 @@ class User < CouchRest::Model::Base
     roles.compact.collect(&:permissions_list).flatten
   end
 
-  #This method will return true when the user has no permission assigned
-  #or the user has no write/manage access to the record.
-  #Don't rely on this method for authorization.
+  # This method will return true when the user has no permission assigned
+  # or the user has no write/manage access to the record.
+  # Don't rely on this method for authorization.
   def readonly?(record_type)
     resource = if record_type == "violation"
       "incident"
@@ -339,7 +230,7 @@ class User < CouchRest::Model::Base
     else
       record_type
     end
-    record_type_permissions = permissions.find{|p| p.resource == resource}
+    record_type_permissions = permissions.find{ |p| p.resource == resource }
     record_type_permissions.blank? ||
     record_type_permissions.actions.blank? ||
     !(record_type_permissions.actions.include?(Permission::WRITE) ||
@@ -347,17 +238,19 @@ class User < CouchRest::Model::Base
   end
 
   def group_permissions
-    roles.map{|r| r.group_permission}.uniq
+    roles.map{ |r| r.group_permission }.uniq
   end
 
   def permitted_form_ids
     permitted = []
     from_roles = role_permitted_form_ids
+
     if from_roles.present?
       permitted = from_roles
-    elsif self.module_ids.present?
+    elsif module_ids.present?
       permitted = module_permitted_form_ids
     end
+
     return permitted
   end
 
@@ -371,14 +264,16 @@ class User < CouchRest::Model::Base
 
   def managed_users
     user_group_ids = self.user_group_ids_sanitized
+
     if self.has_group_permission? Permission::ALL
       @managed_users ||= User.all.all
       @record_scope = [Searchable::ALL_FILTER]
     elsif self.has_group_permission?(Permission::GROUP) && user_group_ids.present?
-      @managed_users ||= User.by_user_group(keys: user_group_ids).all.uniq{|u| u.user_name}
+      @managed_users ||= User.by_user_group(keys: user_group_ids).all.uniq{ |u| u.user_name }
     else
       @managed_users ||= [self]
     end
+
     @managed_user_names ||= @managed_users.map(&:user_name)
     @record_scope ||= @managed_user_names
     return @managed_users
@@ -469,12 +364,12 @@ class User < CouchRest::Model::Base
 
   #Used by the User import to populate the password with a random string when the input file has no password
   #This assumes an admin will have to reset the new user's password after import
-  def populate_missing_attributes
-    if crypted_password.blank? && password.blank?
-      self.password = SecureRandom.hex(20)
-      self.password_confirmation = password
-    end
-  end
+  # def populate_missing_attributes
+  #   if crypted_password.blank? && password.blank?
+  #     self.password = SecureRandom.hex(20)
+  #     self.password_confirmation = password
+  #   end
+  # end
 
   def has_user_group_id?(id)
     # TODO: Refactor when migrating Users
@@ -520,36 +415,30 @@ class User < CouchRest::Model::Base
     self.changes['user_group_ids'].present? && !self.changes['user_group_ids'].eql?([nil,""])
   end
 
-  def encrypt_password
-    return if password.blank?
-    self.salt = Digest::SHA1.hexdigest("--#{Clock.now.to_s}--#{self.user_name}--") if new_record?
-    self.crypted_password = self.class.encrypt(password, salt)
-  end
+  # def encrypt_password
+  #   return if password.blank?
+  #   self.salt = Digest::SHA1.hexdigest("--#{Clock.now.to_s}--#{self.user_name}--") if new_record?
+  #   self.crypted_password = self.class.encrypt(password, salt)
+  # end
 
-  def self.encrypt(password, salt)
-    Digest::SHA1.hexdigest("--#{salt}--#{password}--")
-  end
+  # def self.encrypt(password, salt)
+  #   Digest::SHA1.hexdigest("--#{salt}--#{password}--")
+  # end
 
-  def password_required?
-    crypted_password.blank? || !password.blank? || !password_confirmation.blank?
-  end
 
-  def password_confirmation_entered?
-    !password_confirmation.blank?
-  end
+  # def password_required?
+  #   crypted_password.blank? || !password.blank? || !password_confirmation.blank?
+  # end
+
+  # def password_confirmation_entered?
+  #   !password_confirmation.blank?
+  # end
 
   def make_user_name_lowercase
     user_name.downcase!
   end
 
-  def generate_id
-    self["_id"] ||= User.user_id_from_name self.user_name
-  end
-
   def set_agency_services
-    if self.agency.present? && self.services.blank?
-      self.services = self.agency.services
-    end
+    self.services = agency.services if agency.present? && services.blank?
   end
-
 end

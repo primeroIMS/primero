@@ -397,7 +397,7 @@ describe User do
       unverified_user1 = build_and_save_user(:verified => false)
       unverified_user2 = build_and_save_user(:verified => false)
       verified_user = build_and_save_user(:verified => true)
-      all_unverifed_users = User.all_unverified
+      all_unverifed_users = User.by_unverified
       all_unverifed_users.map(&:id).should be_include unverified_user2.id
       all_unverifed_users.map(&:id).should be_include unverified_user1.id
       all_unverifed_users.map(&:id).should_not be_include verified_user.id

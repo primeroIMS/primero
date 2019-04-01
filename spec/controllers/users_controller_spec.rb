@@ -552,7 +552,7 @@ describe UsersController,:type => :controller do
     it "should list all unverfied users" do
       fake_admin_login
       unverified_users = [double("user")]
-      User.should_receive(:all_unverified).and_return(unverified_users)
+      User.should_receive(:by_unverified).and_return(unverified_users)
       get :unverified
       assigns[:users].should == unverified_users
       flash[:verify].should == "Please select a role before verifying the user"
