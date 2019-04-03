@@ -25,8 +25,13 @@ abduction_subform_fields = [
             }),
   Field.new({"name" => "abduction_held_location_list",
              "type" => "select_box",
-             "display_name_all" => "Location where the victim(s) was/were held",
+             "visible" => false,
+             "display_name_all" => "Location where the victim(s) was/were held ",
              "option_strings_source" => "lookup Country"
+            }),
+  Field.new({"name" => "abduction_held_location_text",
+             "type" => "text_field",
+             "display_name_all" => "Location where the victim(s) was/were held"
             }),
   Field.new({"name" => "abduction_held_location_list_other",
              "type" => "text_field",
