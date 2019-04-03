@@ -28,14 +28,6 @@ RUN mkdir -p /srv/primero/application/daemons
 RUN mkdir -p /srv/primero/log/{nginx,rails}
 
 COPY [ "docker/application/entrypoint.sh", "/" ]
-# TODO: Config sunsport
-
-# TODO: Copy mailers config
-# TODO: Copy locale config
-# TODO: queue
-# TODO: couch watcher
-# TODO: queue consumer
-#
 
 # ENV NO_RESEED
 
@@ -49,6 +41,3 @@ COPY [ "docker/application/entrypoint.sh", "/" ]
 #         ; rake tmp:cache:clear \
 #         ; rake app:assets_precompile
 
-# TODO: primero scheduler
-# TODO: couch history lo
-# TODO: load other stuff than restart puma?

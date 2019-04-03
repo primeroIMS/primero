@@ -9,7 +9,7 @@ services:
       - certbot_certs:/etc/letsencrypt
       - certbot_var:/var/lib/letsencrypt
       - certbot_www:/var/www/certbot
-      - ./nginx_production
+      - primero_tmp:/srv/primero/tmp
 volumes:
   certbot_certs:
   certbot_www:

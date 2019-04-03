@@ -20,3 +20,7 @@ services:
       - solr
       - beanstalkd
       - postgres
+    volumes:
+      - primero_tmp:/srv/primero/tmp
+volumes:
+  primero_tmp:

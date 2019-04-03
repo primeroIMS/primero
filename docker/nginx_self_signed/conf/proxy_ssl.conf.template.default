@@ -1,0 +1,5 @@
+#!/bin/dash
+
+set -a
+: "${PROXY_PASS_URL:=http://application:80}"
+set +a

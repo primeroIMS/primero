@@ -8,4 +8,10 @@ RUN set -ex; \
         openssl req -subj '/CN=localhost' -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 36
 
 COPY [ "nginx_self_signed/conf/*", "/etc/nginx/conf.d/" ]
+COPY [ "nginx_self_signed/entrypoint.sh", "sub.sh", "/" ]
+RUN set -ex; \
+        chmod +x /sub.sh /entrypoint.sh
+
 WORKDIR /etc/nginx
+
+ENTRYPOINT ["/entrypoint.sh"]
