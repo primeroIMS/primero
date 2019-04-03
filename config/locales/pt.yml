@@ -1,4 +1,4 @@
-my:
+pt:
   home:
     fr: "Français"
     en: "English"
@@ -9,7 +9,6 @@ my:
     ru: "Русский"
     so: "Af-Soomaali"
     bn: "বাংলা"
-    id: "Bahasa"
     my: "ဗမာစာ"
     th: "ไทย"
     ku: "کوردی"
