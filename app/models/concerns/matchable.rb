@@ -3,6 +3,33 @@ module Matchable
 
   LIKELY = 'likely'
   POSSIBLE = 'possible'
+  LIKELIHOOD_THRESHOLD = 0.7
+
+  module Searchable
+    def configure_searchable(record_class)
+      record_class.form_matchable_fields.each do |field|
+        text field, boost: record_class.get_field_boost(field) do
+          self.data[field]
+        end
+        if record_class.phonetic_fields_exist?(field)
+          text field, as: "#{field}_ph" do
+            self.data[field]
+          end
+        end
+      end
+
+      record_class.subform_matchable_fields.each do |field|
+        text field, :boost => record_class.get_field_boost(field) do
+          self.subform_match_values(field)
+        end
+        if record_class.phonetic_fields_exist?(field)
+          text field, :as => "#{field}_ph" do
+            self.subform_match_values(field)
+          end
+        end
+      end
+    end
+  end
 
   module ClassMethods
 
@@ -39,7 +66,6 @@ module Matchable
     ]
 
     NORMALIZED_THRESHOLD = 0.1
-    LIKELIHOOD_THRESHOLD = 0.7
 
     def form_matchable_fields(match_fields = nil)
       form_match_fields(false, match_fields)
@@ -91,7 +117,7 @@ module Matchable
 
     def get_match_field(field)
       match_field =  MATCH_FIELDS.select { |f| f[:fields].include?(field.to_s) }.first
-      match_field.blank? ? [field.to_sym] : match_field[:fields].map(&:to_sym)
+      match_field.blank? ? [field] : match_field[:fields]
     end
 
     def get_field_boost(field)
@@ -106,7 +132,7 @@ module Matchable
     end
 
     def match_multi_value(field, match_request)
-      (match_request[field.to_sym].is_a? Array) ? match_request[field.to_sym].join(' ') : match_request[field.to_sym]
+      (match_request[field].is_a? Array) ? match_request[field].join(' ') : match_request[field]
     end
 
     def match_multi_criteria(field, match_request)
@@ -149,9 +175,6 @@ module Matchable
       records
     end
 
-    def calculate_likelihood(score, aggregate_average_score)
-      (score - aggregate_average_score) > LIKELIHOOD_THRESHOLD ? LIKELY : POSSIBLE
-    end
   end
 
   def match_criteria(match_request=nil, match_fields=nil)
@@ -161,6 +184,12 @@ module Matchable
       match_criteria[:"#{match_field}"] = match_value if match_value.present?
     end
     match_criteria.compact
+  end
+
+  class Utils
+    def self.calculate_likelihood(score, aggregate_average_score)
+      (score - aggregate_average_score) > LIKELIHOOD_THRESHOLD ? LIKELY : POSSIBLE
+    end
   end
 
 end

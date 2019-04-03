@@ -14,8 +14,8 @@
   <tbody>
   <tr>
     <td class="id_column"><%= link_to match_record.case_id_display, case_path(match_record.child_id), class: 'id_link' %></td>
-    <td><%= mask_match_value(match_record, match_record.child_age) %></td>
-    <td><%= mask_match_value(match_record, match_record.child.try(:display_field, 'sex', @lookups)) %></td>
+    <td><%= match_record.child_age %></td>
+    <td><%= match_record.child.try(:display_field, 'sex', @lookups) %></td>
   </tr>
   </tbody>
 </table>

@@ -5,7 +5,7 @@ class TracingRequest < ActiveRecord::Base
   include Ownable
   include Historical
   include Flaggable
-  #include Matchable #TODO: refactor with TracingRequest, Matchable
+  include Matchable
   #include PhotoUploader #TODO: Refactor with block storage
   #include AudioUploader
   #include SyncableMobile  #TODO: Refactor with SyncableMobile
@@ -32,32 +32,22 @@ class TracingRequest < ActiveRecord::Base
   end
 
   searchable auto_index: self.auto_index? do
+    extend Matchable::Searchable
+    configure_searchable(TracingRequest)
+
     quicksearch_fields.each do |f|
       text(f) { self.data[f] }
     end
-    # form_matchable_fields.each do |field|
-    #   text field, :boost => TracingRequest.get_field_boost(field)
-    #   if phonetic_fields_exist?(field)
-    #     text field, :as => "#{field}_ph"
-    #   end
-    # end
-    #
-    # subform_matchable_fields.each do |field|
-    #   text field, :boost => TracingRequest.get_field_boost(field) do |record|
-    #     record.tracing_request_subform_details(field)
-    #   end
-    #   if phonetic_fields_exist?(field)
-    #     text field, :as => "#{field}_ph" do |record|
-    #       record.tracing_request_subform_details(field)
-    #     end
-    #   end
-    # end
   end
 
   alias super_defaults defaults
   def defaults
     super_defaults
     self.inquiry_date ||= Date.today
+  end
+
+  def subform_match_values(field)
+    tracing_request_subform_details(field)
   end
 
   def tracing_request_subform_details(field)
@@ -76,13 +66,13 @@ class TracingRequest < ActiveRecord::Base
   def traces(trace_id=nil)
     @traces ||= (self.tracing_request_subform_section || [])
     if trace_id.present?
-      @traces = @traces.select{|trace| trace.unique_id == trace_id}
+      @traces = @traces.select{|trace| trace['unique_id'] == trace_id}
     end
     return @traces
   end
 
   def trace_by_id(trace_id)
-    self.traces.select{|trace| trace.unique_id == trace_id}.first
+    self.traces.select{|trace| trace['unique_id'] == trace_id}.first
   end
 
   def tracing_names
@@ -117,16 +107,17 @@ class TracingRequest < ActiveRecord::Base
     matches = []
     traces(trace_id).each do |tr|
       matching_criteria = match_criteria(tr, trace_fields)
-      match_result = TracingRequest.find_match_records(matching_criteria, Child, child_id)
+      match_result = TracingRequest.find_match_records(matching_criteria, Child, nil)
       tr_matches = PotentialMatch.matches_from_search(match_result) do |child_id, score, average_score|
-        PotentialMatch.build_potential_match(child_id, self.id, score, average_score, tr.unique_id)
+        child = Child.find_by(id: child_id)
+        PotentialMatch.build_potential_match(child, self, score, average_score, tr['unique_id'])
       end
       matches += tr_matches
     end
     return matches
   end
 
-  #alias :inherited_match_criteria :match_criteria
+  alias :inherited_match_criteria :match_criteria
   def match_criteria(match_request=nil, trace_fields=nil)
     match_criteria = inherited_match_criteria(match_request, trace_fields)
     if match_request.present?
@@ -137,5 +128,5 @@ class TracingRequest < ActiveRecord::Base
     end
     match_criteria.compact
   end
-  
+
 end

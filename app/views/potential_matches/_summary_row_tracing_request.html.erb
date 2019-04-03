@@ -16,10 +16,10 @@
   </thead>
   <tbody>
   <tr>
-    <td class="id_column"><%= link_to text_to_identify_potential_match_tracing_request(match_record), tracing_request_path(match_record.tracing_request_id), class: 'id_link ' %></td>
-    <td><%= mask_match_value(match_record, match_record.tracing_request_relation_name) %></td>
+    <td class="id_column"><%= link_to text_to_identify_potential_match_tracing_request(match_record), tracing_request_path(match_record.tracing_request.id), class: 'id_link ' %></td>
+    <td><%= match_record.tracing_request_relation_name %></td>
     <td><%= field_format_date(match_record.tracing_request_inquiry_date) %></td>
-    <td><%= mask_match_value(match_record, match_record.tracing_request_name) %></td>
+    <td><%= match_record.tracing_request_name %></td>
   </tr>
   </tbody>
 </table>

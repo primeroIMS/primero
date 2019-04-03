@@ -6,5 +6,6 @@ class CreateTracingRequests < ActiveRecord::Migration[5.0]
       t.jsonb 'data', default: {}
     end
     add_index :tracing_requests, :data, using: :gin
+    add_foreign_key :cases, :tracing_requests, column: 'matched_tracing_request_id'
   end
 end

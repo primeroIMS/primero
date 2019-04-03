@@ -4,6 +4,8 @@ class CreateCases < ActiveRecord::Migration[5.0]
   def change
     create_table :cases, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.jsonb 'data', default: {}
+      t.uuid 'matched_tracing_request_id'
+      t.string 'matched_trace_id'
     end
     add_index  :cases, :data, using: :gin
   end
