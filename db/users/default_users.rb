@@ -23,7 +23,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.find_by(name: "Superuser").id
+    "role-superuser"
   ],
   "module_ids" => PrimeroModule.by_name.all.map{|m| m.id},
   "user_group_ids" => UserGroup.all.map{|g| g.id},
@@ -40,7 +40,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.find_by(name: "CP Administrator").id
+    "role-cp-administrator"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -57,7 +57,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.find_by(name: "CP Case Worker").id
+    "role-cp-case-worker"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -73,7 +73,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.find_by(name: "CP Manager").id
+    "role-cp-manager"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -90,7 +90,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.find_by(name: "GBV Social Worker").id
+    "role-gbv-social-worker"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -106,7 +106,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.find_by(name: "GBV Manager").id
+    "role-gbv-manager"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -123,7 +123,7 @@ create_or_update_user(
     "disabled" => "false",
     "organization" => unicef.id,
     "role_ids" => [
-        Role.find_by(name: "FTR Manager").id
+        "role-ftr-manager"
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero FTR").try(:id)],
@@ -140,7 +140,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.find_by(name: "CP User Manager").id
+    "role-cp-user-manager"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -157,7 +157,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.find_by(name: "GBV User Manager").id
+    "role-gbv-user-manager"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -175,7 +175,7 @@ create_or_update_user(
   "organization" => unicef.id,
   "code" => "UNICEF/AGENCY_USER_ADMIN_CP",
   "role_ids" => [
-    Role.find_by(name: "Agency User Administrator").id
+    "role-agency-user-administrator"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -193,7 +193,7 @@ create_or_update_user(
   "organization" => "agency-unicef",
   "code" => "UNICEF/GBV_SYSTEM_ADMINISTRATOR",
   "role_ids" => [
-    Role.find_by(name: "GBV System Administrator").id
+    "role-gbv-system-administrator"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -211,7 +211,7 @@ create_or_update_user(
   "organization" => unicef.id,
   "code" => "UNICEF/AGENCY_USER_ADMIN_GBV",
   "role_ids" => [
-    Role.find_by(name: "GBV Agency User Administrator").id
+    "role-gbv-agency-user-administrator"
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -229,7 +229,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
     "disabled" => "false",
     "organization" => "agency-unicef",
     "role_ids" => [
-      Role.find_by(name: "CP Case Worker").id
+      "role-cp-case-worker"
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -245,7 +245,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
     "disabled" => "false",
     "organization" => "agency-unicef",
     "role_ids" => [
-      Role.find_by(name: "CP Manager").id
+      "role-cp-manager"
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -262,7 +262,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
     "disabled" => "false",
     "organization" => "agency-unicef",
     "role_ids" => [
-      Role.find_by(name: "GBV Social Worker").id
+      "role-gbv-social-worker"
     ],
     "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -278,7 +278,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
     "disabled" => "false",
     "organization" => "agency-unicef",
     "role_ids" => [
-      Role.find_by(name: "GBV Manager").id
+      "role-gbv-manager"
     ],
     "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
