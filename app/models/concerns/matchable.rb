@@ -4,6 +4,7 @@ module Matchable
   LIKELY = 'likely'
   POSSIBLE = 'possible'
   LIKELIHOOD_THRESHOLD = 0.7
+  NORMALIZED_THRESHOLD = 0.1
 
   module Searchable
     def configure_searchable(record_class)
@@ -64,8 +65,6 @@ module Matchable
       {fields: ['sub_ethnicity_1', 'relation_sub_ethnicity1']},
       {fields: ['sub_ethnicity_2', 'relation_sub_ethnicity2']}
     ]
-
-    NORMALIZED_THRESHOLD = 0.1
 
     def form_matchable_fields(match_fields = nil)
       form_match_fields(false, match_fields)
@@ -160,22 +159,6 @@ module Matchable
       fields & match_fields.values.flatten.reject(&:blank?)
     end
 
-    #TODO: Is this logic duplicated with PotentialMatch.matches_from_search
-    def normalize_search_result(search_result)
-      records = []
-      if search_result.present?
-        scores = search_result.values
-        max_score = scores.max
-        normalized_search_result = search_result.map{|k,v| [k,v/max_score.to_f]}
-        average_score = normalized_search_result.to_h.values.sum / scores.count
-        thresholded_search_result = normalized_search_result.select{|k,v| v > NORMALIZED_THRESHOLD}
-        thresholded_search_result.each do |id, score|
-          records << yield(id, score, average_score)
-        end
-      end
-      records
-    end
-
   end
 
   def match_criteria(match_request=self, match_fields=nil)
@@ -190,6 +173,22 @@ module Matchable
   class Utils
     def self.calculate_likelihood(score, aggregate_average_score)
       (score - aggregate_average_score) > LIKELIHOOD_THRESHOLD ? LIKELY : POSSIBLE
+    end
+
+    #TODO: Is this logic duplicated with PotentialMatch.matches_from_search
+    def self.normalize_search_result(search_result)
+      records = []
+      if search_result.present?
+        scores = search_result.values
+        max_score = scores.max
+        normalized_search_result = search_result.map{|k,v| [k,v/max_score.to_f]}
+        average_score = normalized_search_result.to_h.values.sum / scores.count
+        thresholded_search_result = normalized_search_result.select{|_,v| v > NORMALIZED_THRESHOLD}
+        thresholded_search_result.each do |id, score|
+          records << yield(id, score, average_score)
+        end
+      end
+      records
     end
   end
 

@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.jsonb "data", default: {}
     t.uuid "matched_tracing_request_id"
     t.string "matched_trace_id"
+    t.uuid "duplicate_case_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
   end
 

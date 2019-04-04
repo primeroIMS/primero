@@ -60,12 +60,16 @@ class Child < ActiveRecord::Base
     :survivor_code_no, :national_id_no, :other_id_no, :biometrics_id, :family_count_no, :dss_id, :camp_id,
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
-    :displacement_status, :marital_status, :disability_type, :incident_details
+    :displacement_status, :marital_status, :disability_type, :incident_details,
+    :duplicate
 
   alias child_status status ; alias child_status= status=
 
   has_many :incidents
   belongs_to :matched_tracing_request, class_name: 'TracingRequest'
+
+  has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
+  belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id'
 
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
@@ -295,6 +299,11 @@ class Child < ActiveRecord::Base
     if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc['protection_concern_type'] }).compact.uniq
     end
+  end
+
+  def mark_as_duplicate(parent_id)
+    self.duplicate = true
+    self.duplicate_case_id = parent_id
   end
 
   def match_to_trace(tracing_request, trace)

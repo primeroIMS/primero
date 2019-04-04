@@ -6,7 +6,9 @@ class CreateCases < ActiveRecord::Migration[5.0]
       t.jsonb 'data', default: {}
       t.uuid 'matched_tracing_request_id'
       t.string 'matched_trace_id'
+      t.uuid 'duplicate_case_id' #TODO: Index
     end
     add_index  :cases, :data, using: :gin
+
   end
 end
