@@ -23,7 +23,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.by_name(key: "Superuser").first.id
+    Role.find_by(name: "Superuser").id
   ],
   "module_ids" => PrimeroModule.by_name.all.map{|m| m.id},
   "user_group_ids" => UserGroup.all.map{|g| g.id},
@@ -40,7 +40,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.by_name(key: "CP Administrator").first.id
+    Role.find_by(name: "CP Administrator").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -57,7 +57,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.by_name(key: "CP Case Worker").first.id
+    Role.find_by(name: "CP Case Worker").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -73,7 +73,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.by_name(key: "CP Manager").first.id
+    Role.find_by(name: "CP Manager").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -90,7 +90,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.by_name(key: "GBV Social Worker").first.id
+    Role.find_by(name: "GBV Social Worker").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -106,7 +106,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.by_name(key: "GBV Manager").first.id
+    Role.find_by(name: "GBV Manager").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -123,7 +123,7 @@ create_or_update_user(
     "disabled" => "false",
     "organization" => unicef.id,
     "role_ids" => [
-        Role.by_name(key: "FTR Manager").first.id
+        Role.find_by(name: "FTR Manager").id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero FTR").try(:id)],
@@ -140,7 +140,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.by_name(key: "CP User Manager").first.id
+    Role.find_by(name: "CP User Manager").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -157,7 +157,7 @@ create_or_update_user(
   "disabled" => "false",
   "organization" => unicef.id,
   "role_ids" => [
-    Role.by_name(key: "GBV User Manager").first.id
+    Role.find_by(name: "GBV User Manager").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -175,7 +175,7 @@ create_or_update_user(
   "organization" => unicef.id,
   "code" => "UNICEF/AGENCY_USER_ADMIN_CP",
   "role_ids" => [
-    Role.by_name(key: "Agency User Administrator").first.id
+    Role.find_by(name: "Agency User Administrator").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -193,7 +193,7 @@ create_or_update_user(
   "organization" => "agency-unicef",
   "code" => "UNICEF/GBV_SYSTEM_ADMINISTRATOR",
   "role_ids" => [
-    Role.by_name(key: "GBV System Administrator").first.id
+    Role.find_by(name: "GBV System Administrator").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -211,7 +211,7 @@ create_or_update_user(
   "organization" => unicef.id,
   "code" => "UNICEF/AGENCY_USER_ADMIN_GBV",
   "role_ids" => [
-    Role.by_name(key: "GBV Agency User Administrator").first.id
+    Role.find_by(name: "GBV Agency User Administrator").id
   ],
   "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
   "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -229,7 +229,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
     "disabled" => "false",
     "organization" => "agency-unicef",
     "role_ids" => [
-      Role.by_name(key: "CP Case Worker").first.id
+      Role.find_by(name: "CP Case Worker").id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -245,7 +245,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
     "disabled" => "false",
     "organization" => "agency-unicef",
     "role_ids" => [
-      Role.by_name(key: "CP Manager").first.id
+      Role.find_by(name: "CP Manager").id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero CP").try(:id)],
@@ -262,7 +262,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
     "disabled" => "false",
     "organization" => "agency-unicef",
     "role_ids" => [
-      Role.by_name(key: "GBV Social Worker").first.id
+      Role.find_by(name: "GBV Social Worker").id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
@@ -278,7 +278,7 @@ if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
     "disabled" => "false",
     "organization" => "agency-unicef",
     "role_ids" => [
-      Role.by_name(key: "GBV Manager").first.id
+      Role.find_by(name: "GBV Manager").id
     ],
     "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
     "user_group_ids" => [UserGroup.find_by(name: "Primero GBV").try(:id)],
