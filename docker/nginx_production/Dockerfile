@@ -1,3 +1,7 @@
 FROM nginx
 
-COPY ["nginx_production/conf/nginx.conf", "/etc/nginx/conf.d/"]
+COPY root/ /
+
+EXPOSE 80 443
+CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/entrypoint.sh"]

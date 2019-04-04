@@ -13,4 +13,4 @@ RUN set -ex; \
         chmod +x /sub.sh /entrypoint.sh
 
 CMD ["nginx", "-g", "daemon off;"]
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["entrypoint.sh"]
