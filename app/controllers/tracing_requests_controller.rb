@@ -18,7 +18,7 @@ class TracingRequestsController < ApplicationController
     orientation = params[:tracing_request].delete(:photo_orientation).to_i
     if orientation != 0
       @tracing_request.rotate_photo(orientation)
-      @tracing_request.last_updated_by = current_user_name
+      @tracing_request.last_updated_by = current_user.user_name
       @tracing_request.last_updated_organization = current_user_agency
       @tracing_request.save
     end
@@ -78,7 +78,7 @@ class TracingRequestsController < ApplicationController
     params[:scope] ||= {}
     options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_#{params[:order_by] || 'enquirer_name'}".to_sym}
     unless  can?(:view_all, TracingRequest)
-      keys = [filter_option, current_user_name]
+      keys = [filter_option, current_user.user_name]
       options = {:view_name => "by_#{params[:scope][:record_state] || 'valid_record'}_view_with_created_by_#{params[:order_by] || 'created_at'}".to_sym}
     end
     if ['created_at'].include? params[:order_by]
@@ -102,7 +102,7 @@ class TracingRequestsController < ApplicationController
     new_audio = @record_filtered_params.delete("audio")
     tracing_request.last_updated_by_full_name = current_user_full_name
     delete_tracing_request_audio = params["delete_tracing_request_audio"].present?
-    tracing_request.update_properties_with_user_name(current_user_name, new_photo, params["delete_tracing_request_photo"].to_h, new_audio, delete_tracing_request_audio, @record_filtered_params)
+    tracing_request.update_properties_with_user_name(current_user.user_name, new_photo, params["delete_tracing_request_photo"].to_h, new_audio, delete_tracing_request_audio, @record_filtered_params)
     tracing_request
   end
 end

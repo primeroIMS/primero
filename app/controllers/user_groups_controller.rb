@@ -47,7 +47,7 @@ class UserGroupsController < ApplicationController
     authorize! :create, UserGroup
     @user_group = UserGroup.new(params[:user_group].to_h)
     if @user_group.save
-      if current_user.has_group_permission?(Permission::GROUP)
+      if current_user.group_permission?(Permission::GROUP)
         current_user.user_group_ids << @user_group.id
         current_user.save
       end

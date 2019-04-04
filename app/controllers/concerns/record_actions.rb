@@ -332,7 +332,7 @@ module RecordActions
   end
 
   def is_admin
-    @is_admin ||= @current_user.is_admin?
+    @is_admin ||= @current_user.admin?
   end
 
   def is_manager
@@ -482,7 +482,7 @@ module RecordActions
   end
 
   def module_users(module_ids)
-    @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
+    @module_users = User.by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
   end
 
   def clear_append_only_subforms(record)

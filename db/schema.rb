@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190311000005) do
+ActiveRecord::Schema.define(version: 20190318000000) do
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
@@ -250,7 +251,7 @@ ActiveRecord::Schema.define(version: 20190311000005) do
     t.string "organization"
     t.string "position"
     t.string "location"
-    t.string "role_ids"
+    t.integer "role_id"
     t.string "time_zone", default: "UTC"
     t.string "locale"
     t.boolean "is_manager", default: false
@@ -265,7 +266,7 @@ ActiveRecord::Schema.define(version: 20190311000005) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["role_ids"], name: "index_users_on_role_ids"
+    t.index ["role_id"], name: "index_users_on_role_id"
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 

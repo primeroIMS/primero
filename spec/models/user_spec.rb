@@ -441,11 +441,11 @@ describe User do
       end
 
       it "should not have GROUP permission" do
-        expect(@user_group.has_group_permission? Permission::GROUP).to be_falsey
+        expect(@user_group.group_permission? Permission::GROUP).to be_falsey
       end
 
       it "should not have ALL permission" do
-        expect(@user_group.has_group_permission? Permission::ALL).to be_falsey
+        expect(@user_group.group_permission? Permission::ALL).to be_falsey
       end
     end
 
@@ -456,11 +456,11 @@ describe User do
       end
 
       it "should have GROUP permission" do
-        expect(@user_group.has_group_permission? Permission::GROUP).to be_truthy
+        expect(@user_group.group_permission? Permission::GROUP).to be_truthy
       end
 
       it "should not have ALL permission" do
-        expect(@user_group.has_group_permission? Permission::ALL).to be_falsey
+        expect(@user_group.group_permission? Permission::ALL).to be_falsey
       end
     end
 
@@ -471,11 +471,11 @@ describe User do
       end
 
       it "should not have GROUP permission" do
-        expect(@user_group.has_group_permission? Permission::GROUP).to be_falsey
+        expect(@user_group.group_permission? Permission::GROUP).to be_falsey
       end
 
       it "should have ALL permission" do
-        expect(@user_group.has_group_permission? Permission::ALL).to be_truthy
+        expect(@user_group.group_permission? Permission::ALL).to be_truthy
       end
     end
   end

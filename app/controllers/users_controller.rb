@@ -211,7 +211,7 @@ class UsersController < ApplicationController
     end
   end
   def load_user
-    @user = User.get(params[:id])
+    @user = User.find(params[:id])
 
     if @user.nil?
       flash[:error] = t("user.messages.not_found")
@@ -291,7 +291,7 @@ class UsersController < ApplicationController
   def load_lookups
     @roles = Role.all.select{|r| can? :assign, r}
     @user_groups = UserGroup.all.select{|ug| can?(:assign, ug)}
-    @modules = @current_user.has_group_permission?(Permission::ALL) ? PrimeroModule.all.all : PrimeroModule.all(keys: @current_user.module_ids).all
+    @modules = @current_user.group_permission?(Permission::ALL) ? PrimeroModule.all.all : PrimeroModule.all(keys: @current_user.module_ids).all
     @agency_offices = Lookup.values('lookup-agency-office')
   end
 

@@ -5,22 +5,27 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :timeoutable,
     :recoverable, :validatable
 
+  belongs_to :role
+
   has_and_belongs_to_many :user_groups
 
+  # TODO: #by_modules will be an association after PrimeroModule migrated to AR
+  scope :by_modules, ->(ids) { where('module_ids && ARRAY[?]::varchar[]', ids) }
   scope :list_by_enabled, -> { where(disabled: false) }
   scope :list_by_disabled, -> { where(disabled: true) }
   scope :by_unverified, -> { where(verified: false) }
-
+  scope :by_user_group, (lambda do |ids|
+    joins(:user_groups).where(user_groups: { id: ids })
+  end)
 
   # alias_method :agency, :organization
   # alias_method :agency=, :organization=
-  # alias_method :name, :user_name
+  alias_attribute :name, :user_name
 
-  ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_ids]
+  ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
 
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_user_cases_groups_and_location
-  after_save :save_devices
 
   # before_update :if => :disabled? do |user|
   #   Session.delete_for user
@@ -29,7 +34,7 @@ class User < ActiveRecord::Base
   validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
   # TODO: add tranlation to devise
   # validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation"), :if => :password_required?
-  validates_presence_of :role_ids, :message => I18n.t("errors.models.user.role_ids"), :if => Proc.new { |user| user.verified }
+  validates_presence_of :role_id, :message => I18n.t("errors.models.user.role_ids"), :if => Proc.new { |user| user.verified }
   validates_presence_of :module_ids, :message => I18n.t("errors.models.user.module_ids")
 
   validates_presence_of :organization, :message => I18n.t("errors.models.user.organization")
@@ -42,8 +47,8 @@ class User < ActiveRecord::Base
   validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/, :if => :password_required?,
                       :message => I18n.t("errors.models.user.password_text")
 
-  validates_confirmation_of :password, :if => :password_required? && :password_confirmation_entered?,
-                            :message => I18n.t("errors.models.user.password_mismatch")
+  # validates_confirmation_of :password, :if => :password_required? && :password_confirmation_entered?,
+  #                           :message => I18n.t("errors.models.user.password_mismatch")
 
   # TODO: Do we need this
   # #FIXME 409s randomly...destroying user records before test as a temp
@@ -77,25 +82,15 @@ class User < ActiveRecord::Base
   # end
 
   class << self
-    def all_unverified
-      User.by_unverified
-    end
-    memoize_in_prod :all_unverified
-
     def get_unique_instance(attributes)
       find_by_user_name(attributes['user_name'])
     end
-    memoize_in_prod :get_unique_instance
+    # memoize_in_prod :get_unique_instance
 
     def user_id_from_name(name)
       "user-#{name}".parameterize.dasherize
     end
-    memoize_in_prod :user_id_from_name
-
-    def find_by_modules(module_ids)
-      User.by_module(keys: module_ids).all.uniq{|u| u.user_name}
-    end
-    memoize_in_prod :find_by_modules
+    # memoize_in_prod :user_id_from_name
 
     def agencies_by_user_list(user_names)
       Agency.all(keys: where(user_name: user_names).map{ |u| u.organization }.uniq).all
@@ -112,9 +107,9 @@ class User < ActiveRecord::Base
     #This method returns a list of id / display_text value pairs
     #It is used to create the select options list for User fields
     def all_names
-      self.by_disabled(key: false).map{|r| {id: r.name, display_text: r.name}.with_indifferent_access}
+      list_by_enabled.map{ |r| {id: r.name, display_text: r.name}.with_indifferent_access }
     end
-    memoize_in_prod :all_names
+    # memoize_in_prod :all_names
 
     # Hack: is required in the template record_shared/actions.html.erb
     def is_syncable_with_mobile?
@@ -158,13 +153,13 @@ class User < ActiveRecord::Base
 
   # TODO: Change once role migration merged
   # TODO This should be a `has_many` when this model will be migrated
-  def roles
-    @roles ||= Role.where(unique_id: role_ids)
-  end
+  # def roles
+  #   @roles ||= Role.where(unique_id: role_ids)
+  # end
 
   # TODO: Change once module migration merged
   def modules
-    @modules ||= PrimeroModule.all(keys: self.module_ids).all
+    @modules ||= PrimeroModule.all(keys: module_ids).all
   end
 
   def user_location
@@ -192,20 +187,23 @@ class User < ActiveRecord::Base
   end
 
   def has_module?(module_id)
-    self.module_ids.include?(module_id)
+    module_ids.include?(module_id)
   end
 
   def has_permission?(permission)
-    permissions && permissions.map{ |p| p.actions }.flatten.include?(permission)
+    role.permissions && role.permissions
+                            .map{ |p| p.actions }.flatten.include?(permission)
   end
 
   def has_permission_by_permission_type?(permission_type, permission)
-    permissions_for_type = permissions.select{ |perm| perm.resource == permission_type }
-    permissions_for_type.present? && permissions_for_type.first.actions.include?(permission)
+    permissions_for_type = role.permissions
+                               .select{ |perm| perm.resource == permission_type }
+    permissions_for_type.present? &&
+      permissions_for_type.first.actions.include?(permission)
   end
 
-  def has_group_permission?(permission)
-    group_permissions && group_permissions.include?(permission)
+  def group_permission?(permission)
+    role.try(:group_permission) == permission
   end
 
   def has_permitted_form_id?(form_id)
@@ -213,12 +211,8 @@ class User < ActiveRecord::Base
   end
 
   def has_any_permission?(*any_of_permissions)
-    (any_of_permissions.flatten - permissions).count < any_of_permissions.flatten.count
-  end
-
-  def permissions
-    # When users' model will use Active Record should use the relation instead of a method
-    roles.compact.collect(&:permissions).flatten
+    (any_of_permissions.flatten - role.permissions).count <
+      any_of_permissions.flatten.count
   end
 
   # This method will return true when the user has no permission assigned
@@ -232,15 +226,12 @@ class User < ActiveRecord::Base
     else
       record_type
     end
-    record_type_permissions = permissions.find{ |p| p.resource == resource }
+    record_type_permissions = role.permissions
+                                  .find{ |p| p.resource == resource }
     record_type_permissions.blank? ||
     record_type_permissions.actions.blank? ||
     !(record_type_permissions.actions.include?(Permission::WRITE) ||
        record_type_permissions.actions.include?(Permission::MANAGE))
-  end
-
-  def group_permissions
-    roles.map{ |r| r.group_permission }.uniq
   end
 
   def permitted_form_ids
@@ -253,11 +244,11 @@ class User < ActiveRecord::Base
       permitted = module_permitted_form_ids
     end
 
-    return permitted
+    permitted
   end
 
   def role_permitted_form_ids
-    roles.compact.collect(&:form_sections).flatten.map(&:unique_id).select(&:present?)
+    role.form_sections.flatten.map(&:unique_id).select(&:present?)
   end
 
   def module_permitted_form_ids
@@ -265,40 +256,40 @@ class User < ActiveRecord::Base
   end
 
   def managed_users
-    user_group_ids = self.user_group_ids_sanitized
-
-    if self.has_group_permission? Permission::ALL
-      @managed_users ||= User.all.all
+    if group_permission? Permission::ALL
+      @managed_users ||= User.all
       @record_scope = [Searchable::ALL_FILTER]
-    elsif self.has_group_permission?(Permission::GROUP) && user_group_ids.present?
-      @managed_users ||= User.by_user_group(keys: user_group_ids).all.uniq{ |u| u.user_name }
+    elsif group_permission?(Permission::GROUP) && user_group_ids.present?
+      @managed_users ||= User.by_user_group(user_group_ids)
+                             .uniq(&:user_name)
     else
       @managed_users ||= [self]
     end
 
     @managed_user_names ||= @managed_users.map(&:user_name)
     @record_scope ||= @managed_user_names
-    return @managed_users
+    @managed_users
   end
 
   def managed_user_names
     managed_users
-    return @managed_user_names
+    @managed_user_names
   end
 
   def user_managers
-    user_group_ids = self.user_group_ids_sanitized
-    @managers = User.all.select{ |u| (u.user_group_ids & user_group_ids).any? &&  u.is_manager }
+    @managers = User.all.select do |u|
+      (u.user_group_ids & user_group_ids).any? && u.is_manager
+    end
   end
 
   def managers
     user_managers
-    return @managers
+    @managers
   end
 
   def record_scope
     managed_users
-    return @record_scope
+    @record_scope
   end
 
   def mobile_login_history
@@ -308,7 +299,7 @@ class User < ActiveRecord::Base
   end
 
   def devices
-    Device.all.select { |device| device.user_name == self.user_name }
+    Device.all.select { |device| device.user_name == user_name }
   end
 
   def devices= device_hashes
@@ -335,24 +326,20 @@ class User < ActiveRecord::Base
     end
   end
 
-  def has_role_ids?(attributes)
-    ADMIN_ASSIGNABLE_ATTRIBUTES.any? { |e| attributes.keys.include? e }
-  end
-
   def self.memoized_dependencies
     [FormSection, PrimeroModule, Role]
   end
 
-  def is_admin?
-    self.group_permissions.include?(Permission::ALL)
+  def admin?
+    group_permission?(Permission::ALL)
   end
 
-  def is_super_user?
-    (self.roles.any?{|r| r.is_super_user_role?} && self.is_admin?)
+  def super_user?
+    role.try(:is_super_user_role?) && admin?
   end
 
-  def is_user_admin?
-    (self.roles.any?{|r| r.is_user_admin_role?} && self.group_permissions.include?(Permission::ADMIN_ONLY))
+  def user_admin?
+    role.try(:is_user_admin_role?) && group_permission?(Permission::ADMIN_ONLY)
   end
 
   def send_welcome_email(host_url)
@@ -387,34 +374,31 @@ class User < ActiveRecord::Base
   end
 
   def has_user_group_filter?
-    self.modules.any? {|m| m.user_group_filter }
+    modules.any? { |m| m.user_group_filter }
   end
 
   private
 
-  def save_devices
-    @devices.map(&:save!) if @devices
-    true
-  end
-
   def update_user_cases_groups_and_location
-    # TODO: The following gets all the cases by user and updates the location/district.
-    # Performance degrades on save if the user changes their location.
+    # TODO: The following gets all the cases by user and updates the
+    # location/district. Performance degrades on save if the user
+    # changes their location.
     if location_changed? || user_group_ids_changed?
-      Child.owned_by(self.user_name).each do |child|
-        child.owned_by_location = self.location if location_changed?
-        child.owned_by_groups = self.user_group_ids if user_group_ids_changed?
+      Child.owned_by(user_name).each do |child|
+        child.owned_by_location = location if location_changed?
+        child.owned_by_groups = user_group_ids if user_group_ids_changed?
         child.save!
       end
     end
   end
 
+  # TODO: Not sure what location_changed? && user_group_ids_changed? should be
   def location_changed?
-    self.changes['location'].present? && !self.changes['location'].eql?([nil,""])
+    changes['location'].present? && !changes['location'].eql?([nil, ''])
   end
 
   def user_group_ids_changed?
-    self.changes['user_group_ids'].present? && !self.changes['user_group_ids'].eql?([nil,""])
+    changes['user_group_ids'].present? && !changes['user_group_ids'].eql?([nil, ''])
   end
 
   # def encrypt_password

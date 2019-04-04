@@ -145,10 +145,10 @@ class BulkExport < CouchRest::Model::Base
       managed_user_names = []
       managed_user_groups = []
 
-      if self.owner.has_group_permission?(Permission::ALL)
+      if self.owner.group_permission?(Permission::ALL)
         managed_user_groups = [Searchable::ALL_FILTER]
         managed_user_names = [Searchable::ALL_FILTER]
-      elsif self.owner.has_group_permission?(Permission::GROUP)
+      elsif self.owner.group_permission?(Permission::GROUP)
         managed_user_groups = self.owner.user_group_ids
         # In the absence of user groups, a user should at least export his own records.
         managed_user_names = [self.owner.user_name]

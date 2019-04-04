@@ -34,7 +34,7 @@ class ChildrenController < ApplicationController
     orientation = params[:child].delete(:photo_orientation).to_i
     if orientation != 0
       @child.rotate_photo(orientation)
-      @child.last_updated_by = current_user_name
+      @child.last_updated_by = current_user.user_name
       @child.last_updated_organization = current_user_agency
       @child.save
     end
@@ -202,7 +202,7 @@ class ChildrenController < ApplicationController
       render :json => { :success => false, :error_message => @child.errors.messages, :reload_page => true }
     end
   end
-  
+
   def relinquish_referral
     #TODO move Transition business logic to the model.
     referral_id = params[:transition_id]
@@ -375,7 +375,7 @@ class ChildrenController < ApplicationController
   end
 
   def filter_risk_level
-    @display_assessment ||= (can?(:view_assessment, Dashboard) || current_user.is_admin?)
+    @display_assessment ||= (can?(:view_assessment, Dashboard) || current_user.admin?)
   end
 
   #TODO: Delete or refactor with Documents.
@@ -385,7 +385,7 @@ class ChildrenController < ApplicationController
     new_audio = @record_filtered_params.delete("audio")
     child.last_updated_by_full_name = current_user_full_name
     delete_child_audio = params["delete_child_audio"].present?
-    child.update_properties_with_user_name(current_user_name, new_photo, params["delete_child_photo"].to_h, new_audio, delete_child_audio, @record_filtered_params.to_h)
+    child.update_properties_with_user_name(current_user.user_name, new_photo, params["delete_child_photo"].to_h, new_audio, delete_child_audio, @record_filtered_params.to_h)
     child
   end
 
@@ -414,7 +414,7 @@ class ChildrenController < ApplicationController
   def load_users_by_permission
     if can?(:assign, Child)
       @user_can_assign = true
-      users = User.by_user_name_enabled.all
+      users = User.list_by_enabled
     elsif can?(:assign_within_agency, Child)
       @user_can_assign = true
       criteria = { disabled: false, organization: current_user.organization }
@@ -423,7 +423,7 @@ class ChildrenController < ApplicationController
       users = User.find_by_criteria(criteria, pagination, sort).try(:results) || []
     elsif can?(:assign_within_user_group, Child)
       @user_can_assign = true
-      users = User.by_user_group.keys(current_user.user_group_ids_sanitized).all.select { |user| !user.disabled }
+      users = User.by_user_group(current_user.user_group_ids).list_by_enabled
     else
       @user_can_assign = false
       users = []

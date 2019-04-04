@@ -257,7 +257,7 @@ namespace :db do
       if role
         result = false
         remove = true
-        User.all.all.each do |user|
+        User.all.each do |user|
           if user.role_ids.include?(role.id)
             if user.role_ids.size > 1
               user.role_ids.delete(role.id)

@@ -8,7 +8,7 @@ class HomeController < ApplicationController
   layout "application_v2", :only => [ :v2 ]
 
   # TODO: This is temp action for v2 home page
-  def v2 
+  def v2
   end
 
   def index
@@ -251,11 +251,11 @@ class HomeController < ApplicationController
   end
 
   def display_case_worker_dashboard?
-    @display_case_worker_dashboard ||= !(current_user.is_manager? || current_user.is_admin?)
+    @display_case_worker_dashboard ||= !(current_user.is_manager? || current_user.admin?)
   end
 
   def display_manager_dashboard?
-    @display_manager_dashboard ||= (current_user.is_manager? && !current_user.is_admin?)
+    @display_manager_dashboard ||= (current_user.is_manager? && !current_user.admin?)
   end
 
   def display_incidents_dashboard?
@@ -268,7 +268,7 @@ class HomeController < ApplicationController
   end
 
   def display_admin_dashboard?
-    @display_admin_dashboard ||= current_user.is_admin?
+    @display_admin_dashboard ||= current_user.admin?
   end
 
   def display_approvals?
@@ -284,11 +284,11 @@ class HomeController < ApplicationController
   end
 
   def display_reporting_location?
-    @display_reporting_location ||= (can?(:dash_reporting_location, Dashboard) || current_user.is_admin?)
+    @display_reporting_location ||= (can?(:dash_reporting_location, Dashboard) || current_user.admin?)
   end
 
   def display_protection_concerns?
-    @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.is_admin?)
+    @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.admin?)
   end
 
   def display_service_provisions?

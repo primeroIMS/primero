@@ -11,8 +11,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string     :organization
       t.string     :position
       t.string     :location
-      # TODO: Correct this when role migration merged
-      t.string     :role_ids, index: true
+      t.references :role
       t.string     :time_zone, default: 'UTC'
       t.string     :locale
       t.boolean    :is_manager, default: false
