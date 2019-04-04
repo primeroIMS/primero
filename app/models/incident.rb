@@ -30,6 +30,10 @@ class Incident < ActiveRecord::Base
     date :incident_date_derived do
       self.incident_date_derived
     end
+
+    quicksearch_fields.each do |f|
+      text(f) { self.data[f] }
+    end
   end
 
   validate :validate_date_of_first_report

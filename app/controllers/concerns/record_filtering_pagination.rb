@@ -123,6 +123,7 @@ module RecordFilteringPagination
   #Use this method if we are not relying on Sunspot to do record filtering
   #TODO: Only implementing range and list type filters for PotentialMatch requirements.
   #      Implement others as need rises
+  # TODO: This method is unused, remove for UIUX?
   def apply_filter_to_records(records, filter)
     records.select do |record|
       select_this_record = true

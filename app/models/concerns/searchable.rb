@@ -22,10 +22,6 @@ module Searchable
         end
       end
 
-      #if instance is a child do phonetic search on names
-      #TODO v1.3 - why is the line below commented out?
-      # searchable_phonetic_fields.each {|f| text f, as: "#{f}_ph".to_sym}
-      # TODO: Left date as string. Getting invalid date format error
       searchable_date_fields.each do |f|
         date(f) { self.data[f] }
       end

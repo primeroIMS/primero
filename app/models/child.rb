@@ -32,7 +32,6 @@ class Child < ActiveRecord::Base
   include CaseDerivedFields
   include UNHCRMapping
   include Ownable
-  #include Matchable #TODO: refactor with TracingRequest, Matchable
   #include AudioUploader #TODO: refactor with block storage
   include AutoPopulatable
   include Serviceable #TODO: refactor with nested
@@ -42,6 +41,7 @@ class Child < ActiveRecord::Base
   include Reopenable
   include Approvable
   include Alertable
+  include Matchable
   # include SyncableMobile  #TODO: Refactor with SyncableMobile
   # include Importable #TODO: Refactor with Imports and Exports
 
@@ -59,14 +59,17 @@ class Child < ActiveRecord::Base
     :ration_card_no, :icrc_ref_no, :unhcr_id_no, :unhcr_individual_no, :un_no,  :other_agency_id,
     :survivor_code_no, :national_id_no, :other_id_no, :biometrics_id, :family_count_no, :dss_id, :camp_id,
     :tent_number, :nfi_distribution_id,
-    :nationality, :ethnicity, :religion, :country_of_origin, :displacement_status, :marital_status, :disability_type,
-    :incident_details
+    :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
+    :displacement_status, :marital_status, :disability_type, :incident_details,
+    :duplicate
 
   alias child_status status ; alias child_status= status=
 
   has_many :incidents
+  belongs_to :matched_tracing_request, class_name: 'TracingRequest'
 
-  # property :matched_tracing_request_id #TODO: refactor with TracingRequest, Matchable
+  has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
+  belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id'
 
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
@@ -79,28 +82,8 @@ class Child < ActiveRecord::Base
   end
 
   searchable auto_index: self.auto_index? do
-    #TODO: Bring back with Matchable
-    # form_matchable_fields.each do |field|
-    #   text field, boost: Child.get_field_boost(field) do
-    #     self.data[field]
-    #   end
-    #   if phonetic_fields_exist?(field)
-    #     text field, as: "#{field}_ph" do
-    #       self.data[field]
-    #     end
-    #   end
-    # end
-    #
-    # subform_matchable_fields.each do |field|
-    #   text field, :boost => Child.get_field_boost(field) do |record|
-    #     record.family_detail_values(field)
-    #   end
-    #   if phonetic_fields_exist?(field)
-    #     text field, :as => "#{field}_ph" do |record|
-    #       record.family_detail_values(field)
-    #     end
-    #   end
-    # end
+    extend Matchable::Searchable
+    configure_searchable(Child)
 
     quicksearch_fields.each do |f|
       text(f) { self.data[f] }
@@ -147,7 +130,10 @@ class Child < ActiveRecord::Base
      # self['document_keys'] ||= []
   end
 
-  #TODO: refactor with FamilyDetails
+  def subform_match_values(field)
+    family_detail_values(field)
+  end
+
   def family_detail_values(field)
     self.data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
   end
@@ -262,7 +248,6 @@ class Child < ActiveRecord::Base
     self['name']
   end
 
-  #TODO: Refactor with FamilyDetails or just delete. Nothing but specs use this
   def family(relation=nil)
     result = self.data['family_details_section'] || []
     if relation.present?
@@ -316,66 +301,48 @@ class Child < ActiveRecord::Base
     end
   end
 
-  #TODO: Refactor with Matchable
-  def matched_to_trace?(trace_id)
-    self.matched_tracing_request_id.present? &&
-    (self.matched_tracing_request_id.split('::').last == trace_id)
+  def mark_as_duplicate(parent_id)
+    self.duplicate = true
+    self.duplicate_case_id = parent_id
   end
 
-  #TODO: Refactor with Matchable
-  #TODO: The method is broken: the check should be for 'tracing_request'.
-  #      Not fixing because find_match_tracing_requests is a shambles.
-  def has_tracing_request?
-    # TODO: this assumes if tracing-request is in associated_record_types then the tracing request forms are also present. Add check for tracing-request forms.
-    self.module.present? && self.module.associated_record_types.include?('tracing-request')
+  def match_to_trace(tracing_request, trace)
+    self.matched_tracing_request_id = tracing_request.id
+    self.matched_trace_id = trace['unique_id']
   end
 
-  #TODO: Refactor with Matchable. Probably delete?
-  #TODO v1.3: Need rspec test
-  #TODO: Current logic:
-  #  On an update to a case (already inefficient, because most updates to cases arent on matching fields),
-  #  find all TRs that now match (using Solr).
-  #  For those TRs invoke reverse matching logic (why? - probably because Lucene scores are not comparable between TR and Case seraches)
-  #  and update/create the resulting PotentialMatches.
-  #  Delete the untouched PotentialMatches that are no longer valid, because they are based on old searches.
-  def find_match_tracing_requests
-    if has_tracing_request? #This always returns false - bug :)
-      match_result = Child.find_match_records(match_criteria, TracingRequest)
-      tracing_request_ids = match_result==[] ? [] : match_result.keys
-      all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
-      results = all_results.sort_by { |result| result[:score] }.reverse.slice(0, 20)
-      PotentialMatch.update_matches_for_child(self.id, results)
-    end
+  def matched_to_trace?(tracing_request, trace)
+    self.matched_tracing_request_id.present? && self.matched_trace_id.present? &&
+        (self.matched_trace_id == trace['unique_id']) && (self.matched_tracing_request_id == tracing_request.id)
   end
 
-  #TODO: Refactor with Matchable.
   def matching_tracing_requests(case_fields = {})
-    matching_criteria = match_criteria(nil, case_fields)
+    matching_criteria = match_criteria(self.data, case_fields)
     match_result = Child.find_match_records(matching_criteria, TracingRequest, nil)
     PotentialMatch.matches_from_search(match_result) do |tr_id, score, average_score|
-      traces = TracingRequest.get(tr_id).try(:traces) || []
+      tracing_request = TracingRequest.find_by(id: tr_id)
+      traces = tracing_request.try(:traces) || []
       traces.map do |trace|
-        PotentialMatch.build_potential_match(self.id, tr_id, score, average_score, trace.unique_id)
+        PotentialMatch.build_potential_match(self, tracing_request, score, average_score, trace['unique_id'])
       end
-    end
+    end.flatten
   end
 
-  #TODO: Refactor with Matchable.
-  # alias :inherited_match_criteria :match_criteria
-  # def match_criteria(match_request=nil, case_fields=nil)
-  #   match_criteria = inherited_match_criteria(match_request, case_fields)
-  #   match_criteria_subform = {}
-  #   Child.subform_matchable_fields(case_fields).each do |field|
-  #     match_values = []
-  #     match_field = nil
-  #     self.family.map do |member|
-  #       match_field, match_value = Child.match_multi_criteria(field, member)
-  #       match_values += match_value
-  #     end
-  #     match_criteria_subform[:"#{match_field}"] = match_values if match_values.present?
-  #   end
-  #   match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
-  # end
+  alias :inherited_match_criteria :match_criteria
+  def match_criteria(match_request=nil, case_fields=nil)
+    match_criteria = inherited_match_criteria(match_request, case_fields)
+    match_criteria_subform = {}
+    Child.subform_matchable_fields(case_fields).each do |field|
+      match_values = []
+      match_field = nil
+      self.family.map do |member|
+        match_field, match_value = Child.match_multi_criteria(field, member)
+        match_values += match_value
+      end
+      match_criteria_subform[:"#{match_field}"] = match_values if match_values.present?
+    end
+    match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
+  end
 
   def reopen(status, reopen_status, user_name)
     self.child_status = status
