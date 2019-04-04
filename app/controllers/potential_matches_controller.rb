@@ -11,7 +11,6 @@ class PotentialMatchesController < ApplicationController
   def index
     authorize! :index, model_class
     authorize! :find_tracing_match, Child if params[:type] == 'case'
-
     @page_name = t("home.view_records")
     @aside = "shared/sidebar_links"
     @associated_users = current_user.managed_user_names
@@ -25,27 +24,17 @@ class PotentialMatchesController < ApplicationController
     load_match_configuration
     load_potential_matches #@potential_matches, @case, @tracing_request
 
-    #TODO MATCHING: All set visibility code is written by somone who didn't understand how record ownership works in Primero
-    #               We don't need to address this now, but it really needs to be done away with.
-    @associated_user_names = users_filter
-    set_visibility(@potential_matches, @associated_user_names)
-
-    @potential_matches = apply_filter_to_records(@potential_matches,@filters.except('case_fields',
-                                                                                    'tracing_request_fields'))
     @grouped_potential_matches = PotentialMatch.group_match_records(@potential_matches, @type)
-
-    #TODO MATCHING: Pagination of grouped record is just broken.
-    #               Luckily for this we will just display matches for an individual TR/case
 
     respond_to do |format|
       format.html do
         flash[:notice] = t('potential_matches.no_match', type: I18n.t("forms.record_types.#{@type}"), id: @display_id) if @potential_matches.blank? && params[:match].present?
       end
-      unless params[:password]
-        format.json do
-          render :json => PotentialMatch.format_list_for_json(@grouped_potential_matches, @type)
-        end
-      end
+      # unless params[:password]
+      #   format.json do
+      #     render :json => PotentialMatch.format_list_for_json(@grouped_potential_matches, @type)
+      #   end
+      # end
       unless params[:format].nil? || params[:format] == :json
         if @grouped_potential_matches.blank?
           flash[:notice] = t("exports.no_records")
@@ -59,7 +48,13 @@ class PotentialMatchesController < ApplicationController
   #TODO: Consider moving this to concern and combine with quick_view in ChildrenController
   def quick_view
     authorize! :read, model_class
-    @potential_match = PotentialMatch.new(params) #TODO: recreate from params
+    child = Child.find_by(id: params['child_id'])
+    tracing_request = TracingRequest.find_by(id: params['tracing_request_id'])
+    @potential_match = PotentialMatch.new
+    @potential_match.child = child
+    @potential_match.tracing_request = tracing_request
+    @potential_match.tr_subform_id = params['tr_subform_id']
+
     special_comparison_fields = ['age', 'sex', 'date_of_birth', 'name', 'name_other', 'name_nickname']
     @comparison = @potential_match.compare_case_to_trace
     @special_comparison = special_comparison_fields.map do |field_name|
@@ -98,7 +93,7 @@ class PotentialMatchesController < ApplicationController
     if params[:match].present?
       tracing_request_id = params[:match].split("::").first
       @subform_id = params[:match].split("::").last
-      @tracing_request = TracingRequest.get(tracing_request_id) if tracing_request_id.present?
+      @tracing_request = TracingRequest.find_by(id: tracing_request_id) if tracing_request_id.present?
       if @tracing_request.present?
         @potential_matches = @tracing_request.matching_cases(@subform_id, @potential_matching_configuration.tracing_request_fields.to_h)
         #TODO MATCHING: This is a temporary hack, get rid of this
@@ -111,7 +106,7 @@ class PotentialMatchesController < ApplicationController
   def load_case_matches
     if params[:match].present?
       case_id = params[:match]
-      @case = Child.get(case_id) if case_id.present?
+      @case = Child.find_by(id: case_id) if case_id.present?
       if @case.present?
         @potential_matches = @case.matching_tracing_requests(@potential_matching_configuration.case_fields.to_h)
         @display_id = @case.display_id
@@ -135,7 +130,4 @@ class PotentialMatchesController < ApplicationController
     @potential_matching_configuration = MatchingConfiguration.find_for_filter(match_fields)
   end
 
-  def set_visibility(records=[], associated_user_names)
-    records.each{|r| r.set_visible(associated_user_names, @type)}
-  end
 end

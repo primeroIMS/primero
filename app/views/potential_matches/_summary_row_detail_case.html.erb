@@ -1,22 +1,18 @@
 <tr class="<%= mark_case_matched_to_trace(detail) %>">
   <td class="id_column">
-    <% if detail.visible %>
-      <%= link_to detail.case_id_display, case_path(detail.child_id, match: "#{detail.tracing_request_id}::#{detail.tr_subform_id}"), class: 'id_link' %>
-    <% else %>
-      <%= detail.case_id_display %>
-    <% end %>
+    <%= link_to detail.case_id_display, case_path(detail.child.id, match: "#{detail.tracing_request.id}::#{detail.tr_subform_id}"), class: 'id_link' %>
   </td>
-  <td><%= mask_match_value(detail, detail.child_age) %></td>
-  <td><%= mask_match_value(detail, detail.child.try(:display_field, @sex_field, @lookups)) %></td>
+  <td><%= detail.child_age %></td>
+  <td><%= detail.child.try(:display_field, @sex_field, @lookups) %></td>
   <td><%= detail.case_owned_by %></td>
   <td><%= detail.case_owned_by_agency %></td>
   <td>
-    <a class="potential-match-view-modal id_link" data-tracing-request-id=<%= detail.tracing_request_id %> data-child-id=<%= detail.child_id %> data-tr-subform-id=<%= detail.tr_subform_id %> >
+    <a class="potential-match-view-modal id_link" data-tracing-request-id=<%= detail.tracing_request.id %> data-child-id=<%= detail.child.id %> data-tr-subform-id=<%= detail.tr_subform_id %> >
       <%= I18n.t("potential_match.likelihood.#{detail.likelihood}") %>
     </a>
   </td>
   <td>
-    <a class="record-view-modal id_link" data-record="<%= detail.child_id %>"><%= t('buttons.view') %></a>
+    <a class="record-view-modal id_link" data-record="<%= detail.child.id %>"><%= t('buttons.view') %></a>
   </td>
 
 </tr>

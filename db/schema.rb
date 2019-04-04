@@ -44,6 +44,9 @@ ActiveRecord::Schema.define(version: 20190318000000) do
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
+    t.uuid "matched_tracing_request_id"
+    t.string "matched_trace_id"
+    t.uuid "duplicate_case_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
   end
 
@@ -225,6 +228,11 @@ ActiveRecord::Schema.define(version: 20190318000000) do
     t.jsonb "filters"
   end
 
+  create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
+  end
+
   create_table "user_groups", id: :serial, force: :cascade do |t|
     t.string "unique_id"
     t.string "name"
@@ -270,4 +278,6 @@ ActiveRecord::Schema.define(version: 20190318000000) do
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 
+  add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
+  add_foreign_key "fields", "form_sections", column: "subform_section_id"
 end

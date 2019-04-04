@@ -36,10 +36,10 @@
         <strong><%= I18n.t('potential_match.child_gender') %></strong>
       </div>
       <div class="columns small-4">
-        <%= display_sex(potential_match.child_sex) %>
+        <%= potential_match.child_sex %>
       </div>
       <div class="columns small-6">
-        <%= display_sex(potential_match.tracing_request_sex) %>
+        <%= potential_match.tracing_request_sex %>
         <%= comparison_symbol(special_comparison['sex']) %>
       </div>
     </div>

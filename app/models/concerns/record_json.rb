@@ -10,6 +10,7 @@ module RecordJson
 
     after_initialize :defaults
     before_create :create_identification
+    before_save :populate_subform_ids
     after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
     after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
   end
@@ -134,6 +135,20 @@ module RecordJson
     end
   end
 
+  def populate_subform_ids
+    if self.data.present?
+      self.data.each do |_, value|
+        if value.is_a?(Array) && value.first.is_a?(Hash)
+          value.each do |subform|
+            unless subform['unique_id'].present?
+              subform['unique_id'] = UUIDTools::UUID.random_create.to_s
+            end
+          end
+        end
+      end
+    end
+  end
+
   def index_nested_reportables
     self.nested_reportables_hash.each do |_, reportables|
       Sunspot.index! reportables if reportables.present?
@@ -175,6 +190,7 @@ module RecordJson
     def self.is_an_array_of_hashes?(value)
       value.is_a?(Array) && (value.blank? || value.first.is_a?(Hash))
     end
+
   end
 
 end
