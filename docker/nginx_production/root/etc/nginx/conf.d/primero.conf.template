@@ -1,12 +1,7 @@
 #nginxtoken
 
 upstream app {
-server unix://${NGINX_CURRENT_PATH}/tmp/primero.sock fail_timeout=0;
-}
-
-map $http_upgrade $connection_upgrade {
-  default upgrade;
-  ''      close;
+  server unix://${NGINX_CURRENT_PATH}/tmp/primero.sock fail_timeout=0;
 }
 
 server {
@@ -18,7 +13,7 @@ server {
 limit_req_zone $binary_remote_addr zone=login_app_limit:10m rate=1r/s;
 
 server {
-listen ${NGINX_HTTPS_PORT} ssl;
+  listen ${NGINX_HTTPS_PORT} ssl;
   server_name ${NGINX_SERVER_NAME};
   ssl_certificate ${NGINX_SSL_CERT_PATH};
   ssl_certificate_key ${NGINX_SSL_KEY_PATH};

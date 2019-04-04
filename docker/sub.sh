@@ -21,11 +21,11 @@ prim_source_defaults() {
   if [ -x "${PRIM_DEFAULT_FILENAME}" ];
   then
     source "${PRIM_DEFAULT_FILENAME}"
-    return 0
+    # rm -f "${PRIM_DEFAULT_FILENAME}"
   else 
-    (>&2 echo "Failed to find defaults file")
-    return 1
+    (>&2 echo "Failed to find defaults file: ${PRIM_DEFAULT_FILENAME}")
   fi
+    return 0
 }
 
 # 
