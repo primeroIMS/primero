@@ -7,3 +7,5 @@ services:
       - "443:443"
     depends_on:
       - "application"
+    environment:
+      - PROXY_PASS_URL=http://application:80

@@ -12,6 +12,5 @@ COPY [ "nginx_self_signed/entrypoint.sh", "sub.sh", "/" ]
 RUN set -ex; \
         chmod +x /sub.sh /entrypoint.sh
 
-WORKDIR /etc/nginx
-
+CMD ["nginx", "-g", "daemon off;"]
 ENTRYPOINT ["/entrypoint.sh"]

@@ -10,17 +10,22 @@ services:
   beanstalkd:
     image: beanstalkd:prim-latest
   application:
-    image: application:prim-latest
-    ports:
-      - "3031:3000"
-    entrypoint: "/entrypoint.sh"
-    extra_hosts:
-      - "couchdb:10.1.0.87"
-    depends_on:
-      - solr
-      - beanstalkd
-      - postgres
-    volumes:
-      - primero_tmp:/srv/primero/tmp
+    image: nginx
+    environment:
+      - NGINX_PORT=80
+      - NGINX_HOST=localhost
+  # application:
+  #   image: application:prim-latest
+  #   ports:
+  #     - "3031:3000"
+  #   entrypoint: "/entrypoint.sh"
+  #   extra_hosts:
+  #     - "couchdb:10.1.0.87"
+  #   depends_on:
+  #     - solr
+  #     - beanstalkd
+  #     - postgres
+  #   volumes:
+  #     - primero_tmp:/srv/primero/tmp
 volumes:
   primero_tmp:

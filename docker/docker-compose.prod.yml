@@ -10,6 +10,8 @@ services:
       - certbot_var:/var/lib/letsencrypt
       - certbot_www:/var/www/certbot
       - primero_tmp:/srv/primero/tmp
+    env_file:
+      - docker/defaults.env
 volumes:
   certbot_certs:
   certbot_www:
