@@ -160,6 +160,7 @@ module Matchable
       fields & match_fields.values.flatten.reject(&:blank?)
     end
 
+    #TODO: Is this logic duplicated with PotentialMatch.matches_from_search
     def normalize_search_result(search_result)
       records = []
       if search_result.present?
@@ -177,10 +178,10 @@ module Matchable
 
   end
 
-  def match_criteria(match_request=nil, match_fields=nil)
+  def match_criteria(match_request=self, match_fields=nil)
     match_criteria = {}
     self.class.form_matchable_fields(match_fields).each do |field|
-      match_field, match_value = self.class.match_multi_criteria(field, self)
+      match_field, match_value = self.class.match_multi_criteria(field, match_request)
       match_criteria[:"#{match_field}"] = match_value if match_value.present?
     end
     match_criteria.compact

@@ -54,7 +54,7 @@ class PotentialMatch
         @trace = traces.select{|t| t['unique_id'] == self.tr_subform_id}.first
       end
     end
-    return @trace || []
+    return @trace || {}
   end
 
   def tracing_request_age
@@ -102,7 +102,7 @@ class PotentialMatch
   end
 
   def case_and_trace_matched?
-    self.child.matched_to_trace?(self.tracing_request.id, self.tr_subform_id)
+    self.child.matched_to_trace?(self.tracing_request, self.trace)
   end
 
   def compare_names
@@ -292,5 +292,5 @@ class PotentialMatch
     end
 
   end
-  
+
 end

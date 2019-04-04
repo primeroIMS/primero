@@ -297,27 +297,26 @@ class Child < ActiveRecord::Base
     end
   end
 
-  #TODO: Move logic from controller, refactor with PotentialMatch
-  def match_to_trace()
-
+  def match_to_trace(tracing_request, trace)
+    self.matched_tracing_request_id = tracing_request.id
+    self.matched_trace_id = trace['unique_id']
   end
 
-  #TODO: Refactor with PotentialMatch
-  def matched_to_trace?(tracing_request_id, trace_id)
+  def matched_to_trace?(tracing_request, trace)
     self.matched_tracing_request_id.present? && self.matched_trace_id.present? &&
-        (self.matched_trace_id == trace_id) && (self.matched_tracing_request_id == tracing_request_id)
+        (self.matched_trace_id == trace['unique_id']) && (self.matched_tracing_request_id == tracing_request.id)
   end
 
   def matching_tracing_requests(case_fields = {})
-    matching_criteria = match_criteria(nil, case_fields)
+    matching_criteria = match_criteria(self.data, case_fields)
     match_result = Child.find_match_records(matching_criteria, TracingRequest, nil)
     PotentialMatch.matches_from_search(match_result) do |tr_id, score, average_score|
       tracing_request = TracingRequest.find_by(id: tr_id)
       traces = tracing_request.try(:traces) || []
       traces.map do |trace|
-        PotentialMatch.build_potential_match(self, tracing_request, score, average_score, trace.unique_id)
+        PotentialMatch.build_potential_match(self, tracing_request, score, average_score, trace['unique_id'])
       end
-    end
+    end.flatten
   end
 
   alias :inherited_match_criteria :match_criteria
