@@ -7,7 +7,9 @@
 prim_rename_file() {
   #check if filename has .template extension. 
   if [ "${PRIM_FILENAME##*.}" == "template" ]; then
+    # if it does then copy the .template file to its proper name
     cp "${PRIM_FILENAME}" "${PRIM_FILENAME%.*}"
+    # change the filename to reflect the copied version
     PRIM_FILENAME="${PRIM_FILENAME%.*}"
   fi
 
@@ -23,22 +25,26 @@ prim_source_defaults() {
     source "${PRIM_DEFAULT_FILENAME}"
     # rm -f "${PRIM_DEFAULT_FILENAME}"
   else 
-    (>&2 echo "Failed to find defaults file: ${PRIM_DEFAULT_FILENAME}")
+    (>&2 echo "Failed to find defaults file: ${PRIM_DEFAULT_FILENAME} \
+      You can safely ignore this.")
   fi
     return 0
 }
 
-# 
+# Does substitutions on the new file you can replace tee with > if you want to
+# avoid outputting the filename to the prompt
 prim_perform_substitution() {
-  echo "${PRIM_FILENAME}"
-  cat "${PRIM_FILENAME}" | envsubst | tee "${PRIM_FILENAME}"
+  printf "%s\\n---------------\\n" "${PRIM_FILENAME}"
+  cat "${PRIM_FILENAME}" | envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" | tee "${PRIM_FILENAME}"
+  
+  printf "\\n---------------\\n"
 }
 PRIM_FILENAME="${1}"
 PRIM_DEFAULT_FILENAME="${1}.default"
-# Check if the filename has .template extension. If so, drop the .template
-# to avoid overwriting the template.
+# If the filename has a .template extension, then we are going to copy it to
+# the same name / path without .template to avoid overwriting our template
 PRIM_FILENAME=$(prim_rename_file "${PRIM_FILENAME}")
 
-prim_source_defaults "${PRIM_DEFAULT_FILENAME}"
+prim_source_defaults 
 prim_perform_substitution 
 
