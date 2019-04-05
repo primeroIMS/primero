@@ -35,11 +35,4 @@ class Session < CouchRest::Model::Base
     user.full_name
   end
 
-  def device_blacklisted?
-    if (imei)
-      return true if Device.all.any? {|device| device.imei == imei && device.blacklisted? }
-    end
-    false
-  end
-
 end
