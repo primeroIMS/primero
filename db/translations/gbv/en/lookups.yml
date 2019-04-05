@@ -504,7 +504,7 @@ en:
   lookup-service-implemented:
     name: Service Implemented
     lookup_values:
-      not-implemented: Not Implemented
+      not_implemented: Not Implemented
       implemented: Implemented
   lookup-service-referred:
     name: Service Referred

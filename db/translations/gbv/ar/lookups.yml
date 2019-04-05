@@ -500,7 +500,7 @@ ar:
   lookup-service-implemented:
     name: تنفيذ الخدمة
     lookup_values:
-      not-implemented: لم يتم تنفيذها
+      not_implemented: لم يتم تنفيذها
       implemented: تم تنفيذها
   lookup-service-referred:
     name: إحالة الخدمة

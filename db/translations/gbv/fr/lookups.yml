@@ -500,7 +500,7 @@ fr:
   lookup-service-implemented:
     name: Service mis en oeuvre
     lookup_values:
-      not-implemented: Pas mis en oeuvre
+      not_implemented: Pas mis en oeuvre
       implemented: Mis en oeuvre
   lookup-service-referred:
     name: Service référé
