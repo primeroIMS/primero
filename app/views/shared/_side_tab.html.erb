@@ -20,8 +20,6 @@
         <%= link_to t("contact.info_label"), edit_contact_information_path("administrator") if can?(:edit, ContactInformation) %></li>
       <li class=<%= (highlight_page == 'system_settings' ? 'current' : '') %>>
         <%= link_to t("system_settings.label"), edit_system_setting_path("administrator") if can?(:manage, SystemSettings) %></li>
-      <li class=<%= (highlight_page == 'replication' ? 'current' : '') %>>
-        <%= link_to t("navigation.replications"), replications_path if can?(:manage, Replication) %></li>
       <li class=<%= (highlight_page == 'audit_logs' ? 'current' : '') %>>
         <%= link_to t("navigation.audit_logs"), audit_logs_path if can?(:index, AuditLog) %></li>
       <li class=<%= (highlight_page == 'matching_configurations' ? 'current' : '') %>>

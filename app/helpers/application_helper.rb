@@ -19,7 +19,6 @@ module ApplicationHelper
     "PrimeroModules" => "setting",
     "SystemSettings" => "setting",
     "ContactInformation" => "setting",
-    "Replications" => "replications",
     "Reports" => "reports",
     "BulkExports" => "bulk_exports",
     "Tasks" => "tasks"

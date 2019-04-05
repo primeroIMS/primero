@@ -1,26 +1,6 @@
 require 'rails_helper'
 
 describe Session do
-  describe "device blacklisting" do
-    it "should not allow blacklisted imei to login" do
-      imei = "1335"
-      user = double(User).as_null_object
-      Device.stub(:all).and_return([Device.new({:imei => "1335", :blacklisted => true})])
-
-      session = Session.for_user(user, imei)
-      session.device_blacklisted?.should == true
-    end
-
-    it "should allow non blacklisted imei to login" do
-      imei = "1335"
-      user = double(User).as_null_object
-      Device.stub(:all).and_return([Device.new({:imei => "1335", :blacklisted => false})])
-
-      session = Session.for_user(user, imei)
-      session.device_blacklisted?.should == false
-    end
-  end
-
   describe "user" do
     it "should load the user only once" do
       user = User.new(:user_name => "some_name")
