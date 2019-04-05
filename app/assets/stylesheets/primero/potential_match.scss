@@ -56,6 +56,12 @@
 .row {
   .value-comparison {
     min-height: 2.4em;
+    border-bottom: 1px solid $stroke_green_color;
+    padding: .8em 0;
+
+    .columns.values {
+      word-break: break-word;
+    }
   }
 }
 
@@ -71,6 +77,12 @@
 
 .match-header {
   color: $green_color;
+}
+
+.match-sub-header {
+  color: $green_color;
+  font-weight: bold;
+  font-size:  1.1rem;
 }
 
 .case-and-trace-matched {

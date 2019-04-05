@@ -68,7 +68,7 @@ class PotentialMatchesController < ApplicationController
       comparsion_for = comparsion_for[:matches] if comparsion_for.present?
       [field_name, comparsion_for]
     end.to_h
-    @lookups = [Lookup.get('lookup-gender')]
+    @lookups = Lookup.all.all
 
     html = PotentialMatchesController.new.render_to_string(partial: "potential_matches/quick_view", layout: false, locals: {
       lookups: @lookups,
