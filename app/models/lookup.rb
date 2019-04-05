@@ -64,7 +64,7 @@ class Lookup < CouchRest::Model::Base
     end
 
     def form_group_name(form_group_id, parent_form, module_name, opts={})
-      lookup_ids = module_name.present? ? ["lookup-form-group-#{module_name.downcase}-#{parent_form}"] : form_group_lookup_mapping(parent_form)
+      lookup_ids = module_name.present? ? ["lookup-form-group-#{module_name.downcase}-#{parent_form.dasherize}"] : form_group_lookup_mapping(parent_form)
       return '' if lookup_ids.blank?
       locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
       lookups = Lookup.all(keys: lookup_ids).all
