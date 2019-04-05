@@ -30,9 +30,10 @@ module PotentialMatchHelper
     end
   end
 
-  def comparison_value(value)
+
+  def comparison_value(value, field, lookups)
     return '-' if value.blank?
-    value.is_a?(Array) ? value.join(',') : value
+    field_value_for_display(value, field, lookups)
   end
 
   def mark_case_matched_to_trace(potential_match)

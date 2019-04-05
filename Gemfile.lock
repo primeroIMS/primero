@@ -427,9 +427,9 @@ GEM
     tilt (2.0.9)
     timecop (0.9.1)
     ttfunk (1.5.1)
-    turbolinks (5.2.0)
-      turbolinks-source (~> 5.2)
-    turbolinks-source (5.2.0)
+    turbolinks (5.1.0)
+      turbolinks-source (~> 5.1)
+    turbolinks-source (5.1.0)
     twitter_cldr (4.4.3)
       camertron-eprun
       cldr-plurals-runtime-rb (~> 1.0)
@@ -531,7 +531,7 @@ DEPENDENCIES
   sunspot_test
   therubyracer (~> 0.12.2)
   timecop (~> 0.9.1)
-  turbolinks (~> 5)
+  turbolinks (= 5.1.0)
   twitter_cldr
   tzinfo (= 1.2.4)
   uglifier (~> 4.0.2)

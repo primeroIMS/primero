@@ -59,8 +59,9 @@ module Primero
     LOCALE_BURMESE = 'my'
     LOCALE_THAI = 'th'
     LOCALE_KURDISH = 'ku'
+    LOCALE_PORTUGUESE = 'pt'
     LOCALES = [LOCALE_ENGLISH, LOCALE_FRENCH, LOCALE_ARABIC, LOCALE_LEBANON, LOCALE_SOMALI, LOCALE_SPANISH, LOCALE_BANGLA,
-               LOCALE_INDONESIAN, LOCALE_BURMESE, LOCALE_THAI, LOCALE_KURDISH]
+               LOCALE_INDONESIAN, LOCALE_BURMESE, LOCALE_THAI, LOCALE_KURDISH, LOCALE_PORTUGUESE]
     LOCALES_WITH_DESCRIPTION = [
       ['-', nil],
       ['English', LOCALE_ENGLISH],
@@ -69,6 +70,7 @@ module Primero
       ['العربية (اللبنانية)', LOCALE_LEBANON],
       ['Af-Soomaali', LOCALE_SOMALI],
       ['Español', LOCALE_SPANISH],
+      ['Português', LOCALE_PORTUGUESE],
       ['বাংলা', LOCALE_BANGLA],
       ['Bahasa', LOCALE_INDONESIAN],
       ['ဗမာစာ', LOCALE_BURMESE],
