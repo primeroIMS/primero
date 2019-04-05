@@ -12,22 +12,23 @@ class Location < ActiveRecord::Base
 
   attr_accessor :parent_id
 
-  validates :admin_level, presence: { message: I18n.t("errors.models.location.admin_level_present") }, if: :admin_level_required?
+  validates :admin_level, presence: { message: I18n.t("errors.models.location.admin_level_present") }, if: :is_top_level?
   validates :location_code, presence: { message: I18n.t("errors.models.location.code_present") },
                             uniqueness: { message: I18n.t("errors.models.location.unique_location_code") }
   validate :validate_placename_in_english
 
+  before_validation :generate_hierarchy
   before_validation :set_name_from_hierarchy_placenames
 
   # Only top level locations' admin levels are editable
   # All other locations' admin levels are calculated based on their parent's admin level
   before_save :calculate_admin_level, unless: :is_top_level?
-
-  scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
-  scope :by_ancestor, ->(location_code) { where('? = ANY(hierarchy)', location_code ) }
-  scope :by_parent, ->(location_code) { where('hierarchy[array_length(hierarchy, 1)] = ?', location_code ) }
   after_save :update_descendants
   after_save :generate_location_files
+
+  scope :enabled, ->(is_enabled = true) { where.not(disabled: is_enabled) }
+  scope :by_ancestor, ->(parent_path) { where('hierarchy <@ ?', parent_path) }
+  scope :by_parent, ->(parent_path) { where('hierarchy ~ ?', "#{parent_path}.*{1}") }
 
   def generate_location_files
     OptionsJob.set(wait_until: 5.minutes.from_now).perform_later unless OptionsQueueStats.jobs?
@@ -54,7 +55,7 @@ class Location < ActiveRecord::Base
       if @locations_by_code.present?
         location_codes.map{|l| @locations_by_code[l]}
       else
-        Location.where(location_code: location_codes)
+        Location.where(location_code: location_codes).order(:admin_level)
       end.compact
     end
 
@@ -158,7 +159,7 @@ class Location < ActiveRecord::Base
     hierarchical_name = {}.with_indifferent_access
     locales.each {|locale| hierarchical_name[locale] = []}
     if self.hierarchy.present?
-      locations = Location.fetch_by_location_codes(self.hierarchy)
+      locations = Location.fetch_by_location_codes(self.hierarchy.split('.')[0..-2])
       if locations.present?
         locations.each do |lct|
           locales.each {|locale| hierarchical_name[locale] << lct.send("placename_#{locale}")}
@@ -186,11 +187,15 @@ class Location < ActiveRecord::Base
   end
 
   def descendants
-    Location.by_ancestor(self.location_code)
+    descendants = Location.by_ancestor(self.hierarchy)
+    descendants.present? ? descendants.select{ |d| d != self } : []
   end
 
   def direct_descendants
-    direct_descendants = Location.by_parent(self.location_code)
+    # search for the old value of "hierarchy" because the "location_code" can change
+    # if we search with the new value(of "hierarchy") will not return any child.
+    hierarchy = self.attribute_before_last_save('hierarchy')
+    hierarchy.present? ? Location.by_parent(hierarchy) : []
   end
 
   def location_codes_and_placenames
@@ -202,7 +207,7 @@ class Location < ActiveRecord::Base
   end
 
   def ancestor_by_admin_level(admin_level)
-    Location.find_by(admin_level: admin_level, location_code: self.hierarchy)
+    Location.find_by(admin_level: admin_level, location_code: self.hierarchy.split('.'))
   end
 
   def ancestor_by_type(type)
@@ -215,74 +220,56 @@ class Location < ActiveRecord::Base
   end
 
   def set_parent(parent)
-    #Figure out the new hierarchy
-    hierarchy_of_parent = (parent && parent.hierarchy.present? ? parent.hierarchy : [])
-    new_hierarchy = hierarchy_of_parent
-    if parent
-      new_hierarchy << parent.location_code
-    end
-
-    #Update the hierarchies of all descendants
-    subtree = descendants + [self]
-    subtree.each do |node|
-      old_hierarchy = node.hierarchy
-      index_of_self = old_hierarchy.find_index(self.location_code) || old_hierarchy.length
-      node.hierarchy = new_hierarchy +
-        old_hierarchy.slice(index_of_self, old_hierarchy.length - index_of_self)
-      node.save
-    end
+    self.set_hierarchy_from_parent(parent)
+    self.save
   end
 
   def set_hierarchy_from_parent(parent)
-    #Figure out the new hierarchy
-    hierarchy_of_parent = (parent && parent.hierarchy.present? ? parent.hierarchy : [])
-    self.hierarchy = hierarchy_of_parent
-    if parent
-      self.hierarchy << parent.location_code
-    end
+    self.hierarchy = (parent && parent.hierarchy.present? ? "#{parent.hierarchy}." : '')
+    self.hierarchy << "#{self.location_code}"
   end
 
   def parent
     result = nil
     if self.hierarchy.present?
-      @parent ||= Location.get_by_location_code(self.hierarchy.last)
+      @parent ||= Location.get_by_location_code(self.hierarchy.split('.')[-2])
       result = @parent
     end
     return result
   end
 
   def generate_hierarchy
-    if self.parent_id.present?
-      a_parent = Location.find(self.parent_id)
-      set_hierarchy_from_parent(a_parent) if a_parent.present?
-    end
-  end
-
-  def update_hierarchy
-    if self.parent_id.present?
-      a_parent = Location.find(self.parent_id)
-      set_parent(a_parent) if a_parent.present?
-    end
+    parent = self.parent_id.presence || self.parent
+    a_parent = Location.find_by(id: parent)
+    set_hierarchy_from_parent(a_parent)
   end
 
   def is_top_level?
-    self.hierarchy.blank?
+    size_hierarchy = self.hierarchy.split('.').size
+    size_hierarchy == 1
   end
-  alias_method :admin_level_required?, :is_top_level?
+
+  def admin_level_required?
+    self.is_top_level? || self.new_record?
+  end
 
   # HANDLE WITH CARE
   # If a top level location's admin level changes,
   # the admin level of all of its descendants must be recalculated
   # TODO this method should be refactor again when we will decide the way of hierachy should be done
-  def update_descendants(is_parent=true)
+  def update_descendants(is_parent = true)
     # Use a flag to avoid infinite loop
     unless is_parent
       self.calculate_admin_level unless is_top_level?
       self.set_name_from_hierarchy_placenames
+      self.generate_hierarchy
       self.save! if  self.has_changes_to_save?
     end
     #Here be dragons...Beware... recursion!!!
-    self.direct_descendants.each { |lct| lct.update_descendants(false) }
+    self.direct_descendants.map do |lct|
+      lct.parent_id = self.id
+      lct.update_descendants(false)
+    end
   end
 
   def validate_placename_in_english

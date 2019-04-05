@@ -1,4 +1,5 @@
 class CreateLocations < ActiveRecord::Migration[5.0]
+  enable_extension 'ltree' unless extension_enabled?('ltree')
   def change
     create_table :locations do |t|
       t.jsonb   'name_i18n'
@@ -7,8 +8,9 @@ class CreateLocations < ActiveRecord::Migration[5.0]
       t.integer 'admin_level'
       t.string  'type'
       t.boolean 'disabled', null: false, default: false
-       t.string 'hierarchy', array: true, default: []
+      t.ltree 'hierarchy', null: false, default: ''
     end
     add_index :locations, :location_code, unique: true
+    add_index :locations, :hierarchy, using: 'gist'
   end
 end

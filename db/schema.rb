@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20190311000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
+  enable_extension "ltree"
 
   create_table "agencies", id: :serial, force: :cascade do |t|
     t.string "agency_code", null: false
@@ -156,6 +157,13 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
+  create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "incident_case_id"
+    t.index ["data"], name: "index_incidents_on_data", using: :gin
+    t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
+  end
+
   create_table "locations", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "placename_i18n"
@@ -163,15 +171,9 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.integer "admin_level"
     t.string "type"
     t.boolean "disabled", default: false, null: false
-    t.string "hierarchy", default: [], array: true
+    t.ltree "hierarchy", default: "", null: false
+    t.index ["hierarchy"], name: "index_locations_on_hierarchy", using: :gist
     t.index ["location_code"], name: "index_locations_on_location_code", unique: true
-  end
-
-  create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.jsonb "data", default: {}
-    t.uuid "incident_case_id"
-    t.index ["data"], name: "index_incidents_on_data", using: :gin
-    t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
   end
 
   create_table "lookups", id: :serial, force: :cascade do |t|
@@ -191,7 +193,6 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.jsonb "record_changes", default: {}
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
-  
 
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"

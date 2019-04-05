@@ -1,7 +1,7 @@
 <%
   editing ||= false
   type_selection = ((@location.present? && @location.type.present?) ? @location.type : "")
-  parent_options = (@locations.present? ? @locations.map{|lct| [lct.name, lct.id]}.insert(0, "") : [])
+  parent_options = (@locations.present? ? @locations.order(:admin_level).map{|lct| [lct.name, lct.id]}.insert(0, "") : [])
   parent = @location.parent
   parent_selection ||= (parent.present? ? parent.id : "")
   admin_level_options = Location::ADMIN_LEVELS

@@ -24,10 +24,8 @@ class LocationsController < ApplicationController
   def create
     authorize! :create, Location
     location = Location.new(params[:location].to_h)
-    location.generate_hierarchy
 
-    if (location.valid?)
-      location.save
+    if location.save
       flash[:notice] = t("location.messages.updated")
       redirect_to locations_path
     else
@@ -44,10 +42,8 @@ class LocationsController < ApplicationController
 
   def update
     authorize! :update, Location
-    @location.update_attributes params[:location].to_h
-    @location.update_hierarchy
 
-    if @location.save
+    if @location.update_attributes(params[:location].to_h)
       redirect_to locations_path
     else
       load_location
