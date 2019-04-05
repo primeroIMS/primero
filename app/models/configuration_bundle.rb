@@ -17,7 +17,7 @@ class ConfigurationBundle < CouchRest::Model::Base
     model_data.keys.each do |model_clazz|
       model_clazz.database.recreate!
       begin
-        model_clazz.design_doc.sync!
+        model_clazz.design_docs.each(&:sync!)
       rescue RestClient::ResourceNotFound
         #TODO: CouchDB transactions are asynchronous.
         #      That means that sometimes the server will receive a command to update a database
@@ -26,7 +26,7 @@ class ConfigurationBundle < CouchRest::Model::Base
         #      the design record sync (and any other updates) when we know the database exists.
         Rails.logger.warn "Problem recreating databse #{model_clazz.database.name}. Trying again"
         model_clazz.database.create!
-        model_clazz.design_doc.sync!
+        model_clazz.design_docs.each(&:sync!)
       end
     end
 
