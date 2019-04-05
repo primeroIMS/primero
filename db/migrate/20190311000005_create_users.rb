@@ -8,7 +8,7 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string     :code
       t.string     :phone
       t.string     :email
-      t.string     :organization
+      t.references :agency
       t.string     :position
       t.string     :location
       t.references :role

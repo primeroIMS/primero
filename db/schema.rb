@@ -256,7 +256,7 @@ ActiveRecord::Schema.define(version: 20190318000000) do
     t.string "code"
     t.string "phone"
     t.string "email"
-    t.string "organization"
+    t.integer "agency_id"
     t.string "position"
     t.string "location"
     t.integer "role_id"
@@ -272,6 +272,7 @@ ActiveRecord::Schema.define(version: 20190318000000) do
     t.string "module_ids", array: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"

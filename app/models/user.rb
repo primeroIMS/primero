@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
     :recoverable, :validatable
 
   belongs_to :role
+  belongs_to :agency
 
   has_and_belongs_to_many :user_groups
 
@@ -18,7 +19,7 @@ class User < ActiveRecord::Base
     joins(:user_groups).where(user_groups: { id: ids })
   end)
 
-  alias_attribute :agency, :organization
+  alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
@@ -28,26 +29,21 @@ class User < ActiveRecord::Base
 
 
   validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
-  # TODO: add tranlation to devise
-  # validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation"), :if => :password_required?
+
+  validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation")
   validates_presence_of :role_id, :message => I18n.t("errors.models.user.role_ids"), :if => Proc.new { |user| user.verified }
   validates_presence_of :module_ids, :message => I18n.t("errors.models.user.module_ids")
 
   validates_presence_of :organization, :message => I18n.t("errors.models.user.organization")
 
   validates_format_of :user_name, :with => /\A[^ ]+\z/, :message => I18n.t("errors.models.user.user_name")
-
-  # TODO: How does devise override username and email
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/, :if => :email_entered?,
                       :message => I18n.t("errors.models.user.email")
-  validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/, :if => :password_required?,
+  validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/,
                       :message => I18n.t("errors.models.user.password_text")
 
-  # validates_confirmation_of :password, :if => :password_required? && :password_confirmation_entered?,
-  #                           :message => I18n.t("errors.models.user.password_mismatch")
+  validates_confirmation_of :password, :message => I18n.t("errors.models.user.password_mismatch")
 
-  # TODO: Do we need this
-  # #FIXME 409s randomly...destroying user records before test as a temp
   validate :is_user_name_unique
   validate :validate_locale
 
@@ -76,7 +72,7 @@ class User < ActiveRecord::Base
     # memoize_in_prod :user_id_from_name
 
     def agencies_by_user_list(user_names)
-      Agency.all(keys: where(user_name: user_names).map{ |u| u.organization }.uniq).all
+      where(user_name: user_names).map{ |u| u.organization }.uniq
     end
 
     def last_login_timestamp(user_name)
@@ -87,8 +83,8 @@ class User < ActiveRecord::Base
       'full_name'
     end
 
-    #This method returns a list of id / display_text value pairs
-    #It is used to create the select options list for User fields
+    # This method returns a list of id / display_text value pairs
+    # It is used to create the select options list for User fields
     def all_names
       list_by_enabled.map{ |r| {id: r.name, display_text: r.name}.with_indifferent_access }
     end
@@ -142,14 +138,6 @@ class User < ActiveRecord::Base
     @reporting_location ||= Location.get_reporting_location(self.user_location) if self.user_location.present?
   end
 
-  def agency
-    @agency_obj ||= Agency.find_by_id(organization)
-  end
-
-  def agency_name
-    self.agency.try(:name)
-  end
-
   # NOTE: Expensive not called often
   def last_login
     timestamp = User.last_login_timestamp(self.user_name)
@@ -184,25 +172,6 @@ class User < ActiveRecord::Base
     (any_of_permissions.flatten - role.permissions).count <
       any_of_permissions.flatten.count
   end
-
-  # This method will return true when the user has no permission assigned
-  # or the user has no write/manage access to the record.
-  # Don't rely on this method for authorization.
-  # def readonly?(record_type)
-  #   resource = if record_type == "violation"
-  #     "incident"
-  #   elsif record_type == "child"
-  #     "case"
-  #   else
-  #     record_type
-  #   end
-  #   record_type_permissions = role.permissions
-  #                                 .find{ |p| p.resource == resource }
-  #   record_type_permissions.blank? ||
-  #   record_type_permissions.actions.blank? ||
-  #   !(record_type_permissions.actions.include?(Permission::WRITE) ||
-  #      record_type_permissions.actions.include?(Permission::MANAGE))
-  # end
 
   def permitted_form_ids
     permitted = []

@@ -474,7 +474,7 @@ describe User do
       end
 
       it "should return nil" do
-        expect(@user.agency_name).to be_nil
+        expect(@user.agency.name).to be_nil
       end
     end
 
@@ -488,7 +488,7 @@ describe User do
       end
 
       it "should return the agency name" do
-        expect(@user.agency_name).to eq('unicef')
+        expect(@user.agency.name).to eq('unicef')
       end
     end
   end
