@@ -10,6 +10,7 @@ class Role < ActiveRecord::Base
   validates :name, presence: { message: I18n.t("errors.models.role.name_present") },
                    uniqueness: { message: I18n.t("errors.models.role.unique_name") }
 
+  before_create :generate_unique_id
   before_save :add_permitted_subforms
 
   scope :by_referral, -> { where(referral: true) }
@@ -115,6 +116,12 @@ class Role < ActiveRecord::Base
       Permission::AGENCY, Permission::METADATA, Permission::SYSTEM
     ]
     has_managed_resources?(admin_only_resources)
+  end
+
+  def generate_unique_id
+    if self.name.present? && self.unique_id.blank?
+      self.unique_id = "#{self.class.name}-#{self.name}".parameterize.dasherize
+    end
   end
 
   private
