@@ -52,7 +52,7 @@
             <label class="key"><%= t("roles.label") %></label>
           </div>
           <div class="medium-8 columns">
-            <span class="value"><%= @user.roles.map(&:name).join(", ") %></span>
+            <span class="value"><%= @user.role.try(:name) %></span>
           </div>
         </div>
 

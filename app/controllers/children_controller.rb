@@ -35,7 +35,7 @@ class ChildrenController < ApplicationController
     if orientation != 0
       @child.rotate_photo(orientation)
       @child.last_updated_by = current_user.user_name
-      @child.last_updated_organization = current_user_agency
+      @child.last_updated_organization = current_user.agencys
       @child.save
     end
     redirect_to(@child)
@@ -378,7 +378,7 @@ class ChildrenController < ApplicationController
     new_photo = @record_filtered_params.delete("photo")
     new_photo = (@record_filtered_params[:photo] || "") if new_photo.nil?
     new_audio = @record_filtered_params.delete("audio")
-    child.last_updated_by_full_name = current_user_full_name
+    child.last_updated_by_full_name = current_user.full_name
     delete_child_audio = params["delete_child_audio"].present?
     child.update_properties_with_user_name(current_user.user_name, new_photo, params["delete_child_photo"].to_h, new_audio, delete_child_audio, @record_filtered_params.to_h)
     child

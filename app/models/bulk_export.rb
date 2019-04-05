@@ -10,7 +10,6 @@ class BulkExport < CouchRest::Model::Base
   end
 
   include PrimeroModel
-  include Primero::CouchRestRailsBackward
   include Indexable
 
   Sunspot::Adapters::DataAccessor.register BulkExportDataAccessor, self

@@ -16,7 +16,7 @@ class TracingRequestsController < ApplicationController
     if orientation != 0
       @tracing_request.rotate_photo(orientation)
       @tracing_request.last_updated_by = current_user.user_name
-      @tracing_request.last_updated_organization = current_user_agency
+      @tracing_request.last_updated_organization = current_user.agency
       @tracing_request.save
     end
     redirect_to(@tracing_request)
@@ -68,7 +68,7 @@ class TracingRequestsController < ApplicationController
   #   new_photo = @record_filtered_params.delete("photo")
   #   new_photo = (@record_filtered_params[:photo] || "") if new_photo.nil?
   #   new_audio = @record_filtered_params.delete("audio")
-  #   tracing_request.last_updated_by_full_name = current_user_full_name
+  #   tracing_request.last_updated_by_full_name = current_user.full_name
   #   delete_tracing_request_audio = params["delete_tracing_request_audio"].present?
   #   tracing_request.update_properties_with_user_name(current_user_name, new_photo, params["delete_tracing_request_photo"].to_h, new_audio, delete_tracing_request_audio, @record_filtered_params)
   #   tracing_request

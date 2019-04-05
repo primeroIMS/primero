@@ -15,10 +15,18 @@
 
   h1 {
     border-bottom: none;
+    padding: 1em 0;
   }
 
   .btn_panel {
     border-top: none;
+    padding: 0;
+    margin: 1em 0;
+
+    input[type="submit"] {
+      float: none;
+      width: auto;
+    }
   }
 }
 

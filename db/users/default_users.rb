@@ -79,7 +79,7 @@ create_or_update_user(
   'email' => 'primero_gbv@primero.com',
   'disabled' => 'false',
   'organization' => unicef.id,
-  'role_id' => Role.find_by_name('GBV Social Worker').id,
+  'role_id' => Role.find_by_name('GBV Caseworker').id,
   'module_ids' => [PrimeroModule.by_name(key: 'GBV').first.id],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
   'locale' => Primero::Application::LOCALE_ENGLISH

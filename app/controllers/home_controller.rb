@@ -14,7 +14,7 @@ class HomeController < ApplicationController
   def index
     @page_name = t("home.label")
     @associated_users = current_user.managed_user_names
-    @notifications = PasswordRecoveryRequest.to_display
+
     load_user_module_data
 
     if !display_admin_only?
@@ -239,7 +239,7 @@ class HomeController < ApplicationController
   end
 
   def display_admin_only?
-    @display_admin_only ||= current_user.group_permissions.include?(Permission::ADMIN_ONLY)
+    @display_admin_only ||= current_user.group_permission?(Permission::ADMIN_ONLY)
   end
 
   def display_cases_dashboard?

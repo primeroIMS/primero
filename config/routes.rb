@@ -1,5 +1,8 @@
 Primero::Application.routes.draw do
-  devise_for :users
+  devise_for :users, path: '', controllers: { sessions: "sessions" }, path_names: {
+    sign_in: 'login',
+    sign_out: 'logout'
+  }
 
   root to: 'home#index'
 
@@ -28,14 +31,9 @@ Primero::Application.routes.draw do
   end
   match '/users/register_unverified' => 'users#register_unverified', :as => :register_unverified_user, :via => :post
 
-  # resources :sessions, :except => :index
-  # match 'login' => 'sessions#new', :as => :login, :via => [:post, :get, :put, :delete]
-  # match 'logout' => 'sessions#destroy', :as => :logout, :via => [:post, :get, :put, :delete]
-  # match '/active' => 'sessions#active', :as => :session_active, :via => [:post, :get, :put, :delete]
+  match '/active' => 'sessions#active', :as => :session_active, :via => [:post, :get, :put, :delete]
 
   resources :user_preferences
-  resources :password_recovery_requests, :only => [:new, :create]
-  match 'password_recovery_request/:password_recovery_request_id/hide' => 'password_recovery_requests#hide', :as => :hide_password_recovery_request, :via => :delete
 
   resources :contact_information
 

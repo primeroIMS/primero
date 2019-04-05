@@ -789,7 +789,7 @@ en:
     register_new_user: "Create User"
 
   roles:
-    label: "Roles"
+    label: "Role"
     list: "List of Roles"
     sort_by:
       label: "Sort by"
@@ -969,6 +969,8 @@ en:
     agency: "Agency"
     manager: "Manager"
     send_mail: "Receive email notifications?"
+    change_password: "Change your password"
+    forgot_password: "Forgot your password?"
     welcome_email:
       greeting: "Welcome to Primero,"
       url_label: "Primero"

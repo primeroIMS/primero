@@ -106,7 +106,7 @@ class Ability
       # the previous elsif to be effective
       # TODO-permission: I do not believe that the second part of the if statement is helpful or accurate:
       # Not even the super user is allowed to edit their own role, consider removing.
-      elsif (user.role_ids.include?(instance.id) && !user.group_permission?(Permission::ALL))
+      elsif (user.role_id == instance.id && !user.group_permission?(Permission::ALL))
         false
       else
         #TODO-permission: This else statements should default to false, not 'true' when the conditions are not met

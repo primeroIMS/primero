@@ -18,8 +18,7 @@ class User < ActiveRecord::Base
     joins(:user_groups).where(user_groups: { id: ids })
   end)
 
-  # alias_method :agency, :organization
-  # alias_method :agency=, :organization=
+  alias_attribute :agency, :organization
   alias_attribute :name, :user_name
 
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
@@ -27,9 +26,6 @@ class User < ActiveRecord::Base
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_user_cases_groups_and_location
 
-  # before_update :if => :disabled? do |user|
-  #   Session.delete_for user
-  # end
 
   validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
   # TODO: add tranlation to devise
@@ -52,7 +48,7 @@ class User < ActiveRecord::Base
 
   # TODO: Do we need this
   # #FIXME 409s randomly...destroying user records before test as a temp
-  # validate :is_user_name_unique
+  validate :is_user_name_unique
   validate :validate_locale
 
   include Indexable
@@ -67,19 +63,6 @@ class User < ActiveRecord::Base
     end
     string :services, :multiple => true
   end
-
-  # #In order to track changes on attributes declared as attr_accessor and
-  # #trigger the callbacks we need to use attribute_will_change! method.
-  # #check lib/couchrest/model/extended_attachments.rb in source code.
-  # #So, override the method for password in order to track changes.
-  # def password= value
-  #   attribute_will_change!("password") if use_dirty? && @password != value
-  #   @password = value
-  # end
-
-  # def password
-  #   @password
-  # end
 
   class << self
     def get_unique_instance(attributes)
@@ -134,7 +117,7 @@ class User < ActiveRecord::Base
   end
 
   def is_user_name_unique
-    user = find_by_user_name(user_name)
+    user = User.find_by_user_name(user_name)
     return true if user.nil? || id == user.id
     errors.add(:user_name, I18n.t("errors.models.user.user_name_uniqueness"))
   end
@@ -143,19 +126,6 @@ class User < ActiveRecord::Base
     return true if self.locale.blank? || Primero::Application::locales.include?(self.locale)
     errors.add(:locale, I18n.t("errors.models.user.invalid_locale", user_locale: self.locale))
   end
-
-  # def authenticate(check)
-  #   if new?
-  #     raise Exception.new, I18n.t("errors.models.user.authenticate")
-  #   end
-  #   !disabled? && crypted_password == self.class.encrypt(check, self.salt)
-  # end
-
-  # TODO: Change once role migration merged
-  # TODO This should be a `has_many` when this model will be migrated
-  # def roles
-  #   @roles ||= Role.where(unique_id: role_ids)
-  # end
 
   # TODO: Change once module migration merged
   def modules
@@ -218,21 +188,21 @@ class User < ActiveRecord::Base
   # This method will return true when the user has no permission assigned
   # or the user has no write/manage access to the record.
   # Don't rely on this method for authorization.
-  def readonly?(record_type)
-    resource = if record_type == "violation"
-      "incident"
-    elsif record_type == "child"
-      "case"
-    else
-      record_type
-    end
-    record_type_permissions = role.permissions
-                                  .find{ |p| p.resource == resource }
-    record_type_permissions.blank? ||
-    record_type_permissions.actions.blank? ||
-    !(record_type_permissions.actions.include?(Permission::WRITE) ||
-       record_type_permissions.actions.include?(Permission::MANAGE))
-  end
+  # def readonly?(record_type)
+  #   resource = if record_type == "violation"
+  #     "incident"
+  #   elsif record_type == "child"
+  #     "case"
+  #   else
+  #     record_type
+  #   end
+  #   record_type_permissions = role.permissions
+  #                                 .find{ |p| p.resource == resource }
+  #   record_type_permissions.blank? ||
+  #   record_type_permissions.actions.blank? ||
+  #   !(record_type_permissions.actions.include?(Permission::WRITE) ||
+  #      record_type_permissions.actions.include?(Permission::MANAGE))
+  # end
 
   def permitted_form_ids
     permitted = []
@@ -248,7 +218,7 @@ class User < ActiveRecord::Base
   end
 
   def role_permitted_form_ids
-    role.form_sections.flatten.map(&:unique_id).select(&:present?)
+    role.try(:form_sections).try(:map, &:unique_id)
   end
 
   def module_permitted_form_ids
@@ -298,21 +268,6 @@ class User < ActiveRecord::Base
             .order(timestamp: :desc)
   end
 
-  def devices
-    Device.all.select { |device| device.user_name == user_name }
-  end
-
-  def devices= device_hashes
-    all_devices = Device.all
-    #attr_accessor devices field change.
-    attribute_will_change!("devices")
-    @devices = device_hashes.map do |device_hash|
-      device = all_devices.detect { |device| device.imei == device_hash["imei"] }
-      device.blacklisted = device_hash["blacklisted"] == "true"
-      device
-    end
-  end
-
   def localize_date(date_time, format = "%d %B %Y at %H:%M (%Z)")
     #TODO - This is merely a patch for the deploy
     # This needs to be refactored as a helper
@@ -326,9 +281,9 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.memoized_dependencies
-    [FormSection, PrimeroModule, Role]
-  end
+  # def self.memoized_dependencies
+  #   [FormSection, PrimeroModule, Role]
+  # end
 
   def admin?
     group_permission?(Permission::ALL)
@@ -347,22 +302,13 @@ class User < ActiveRecord::Base
     MailJob.perform_later(self.id, host_url) if self.email.present? && @system_settings.try(:welcome_email_enabled) == true
   end
 
-  def can_edit_user_by_agency?(agency=nil)
-    self.has_permission?(Permission::ALL_AGENCY_USERS) || (agency.present? && self.agency == agency)
-  end
-
-  #Used by the User import to populate the password with a random string when the input file has no password
-  #This assumes an admin will have to reset the new user's password after import
-  # def populate_missing_attributes
-  #   if crypted_password.blank? && password.blank?
-  #     self.password = SecureRandom.hex(20)
-  #     self.password_confirmation = password
-  #   end
-  # end
-
-  def has_user_group_id?(id)
-    # TODO: Refactor when migrating Users
-    self.user_group_ids.include?(id.to_s)
+  # Used by the User import to populate the password with a random string when the input file has no password
+  # This assumes an admin will have to reset the new user's password after import
+  def populate_missing_attributes
+    if password_digest.blank? && password.blank?
+      self.password = SecureRandom.hex(20)
+      self.password_confirmation = password
+    end
   end
 
   def agency_office_name
@@ -375,6 +321,10 @@ class User < ActiveRecord::Base
 
   def has_user_group_filter?
     modules.any? { |m| m.user_group_filter }
+  end
+
+  def active_for_authentication?
+    super && !disabled
   end
 
   private
@@ -400,25 +350,6 @@ class User < ActiveRecord::Base
   def user_group_ids_changed?
     changes['user_group_ids'].present? && !changes['user_group_ids'].eql?([nil, ''])
   end
-
-  # def encrypt_password
-  #   return if password.blank?
-  #   self.salt = Digest::SHA1.hexdigest("--#{Clock.now.to_s}--#{self.user_name}--") if new_record?
-  #   self.crypted_password = self.class.encrypt(password, salt)
-  # end
-
-  # def self.encrypt(password, salt)
-  #   Digest::SHA1.hexdigest("--#{salt}--#{password}--")
-  # end
-
-
-  # def password_required?
-  #   crypted_password.blank? || !password.blank? || !password_confirmation.blank?
-  # end
-
-  # def password_confirmation_entered?
-  #   !password_confirmation.blank?
-  # end
 
   def make_user_name_lowercase
     user_name.downcase!
