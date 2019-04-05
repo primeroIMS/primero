@@ -255,19 +255,6 @@ describe User do
     expect(mobile_login_history.first.mobile_data['mobile_id']).to eq('IMEI2')
   end
 
-  it "should save blacklisted devices to the device list" do
-    device = Device.new(:imei => "1234", :blacklisted => false, :user_name => "timothy")
-    device.save!
-
-    user = build_and_save_user(:user_name => "timothy")
-    user.devices = [{"imei" => "1234", "blacklisted" => "true", :user_name => "timothy"}]
-    user.save!
-
-    blacklisted_device = user.devices.detect { |device| device.imei == "1234" }
-    blacklisted_device.blacklisted.should == true
-
-  end
-
   it "should have error on password_confirmation if no password_confirmation" do
     user = build_user({
                           :password => "t1mothy",

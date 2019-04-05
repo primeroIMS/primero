@@ -71,7 +71,7 @@ class ConfigurationBundle < CouchRest::Model::Base
   def self.bundle_models
     [
       Agency, ContactInformation, FormSection, Location, Lookup,
-      PrimeroModule, PrimeroProgram, Replication, Report, Role,
+      PrimeroModule, PrimeroProgram, Report, Role,
       UserGroup, ExportConfiguration, SystemSettings
     ]
   end
