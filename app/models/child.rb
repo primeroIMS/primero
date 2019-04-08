@@ -24,7 +24,7 @@ class Child < ActiveRecord::Base
   def photos ; [] ; end #TODO: delete after refactoring Documents
   def photo_keys ; [] ; end #TODO: delete after refactoring Documents
   def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
-  include RecordJson
+  include Record
   include Searchable
   include Historical
   #include DocumentUploader #TODO: refactor with block storage

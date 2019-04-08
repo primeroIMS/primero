@@ -1,4 +1,4 @@
-module RecordJson
+module Record
   extend ActiveSupport::Concern
 
   require "uuidtools"
