@@ -765,7 +765,6 @@ en:
     page_entries_info: Displaying _START_ to _END_ of _TOTAL_ %{model}
 
   users:
-    unverified: "Unverified Users"
     select_role: "Please select a role before verifying the user"
     manage: "Manage Users"
     label: "Users"

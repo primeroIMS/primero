@@ -11,7 +11,6 @@ describe User do
                                :email => 'email@ddress.net',
                                :organization => 'TW',
                                :disabled => 'false',
-                               :verified => true,
                                :role_ids => options[:role_ids] || ['random_role_id'],
                                :module_ids => options[:module_ids] || ['test_module_id']
                            })
@@ -298,11 +297,6 @@ describe User do
       user.should_not be_valid
       user.errors[:role_ids].should == ["Please select at least one role"]
     end
-
-    it "allow an unverified user to have no role" do
-      build(:user, :role_ids => [], :verified => false).should be_valid
-    end
-
   end
 
   describe "permitted forms" do
@@ -375,18 +369,6 @@ describe User do
       expect(manager.managed_users).to match_array([@grunt1, @grunt2, @manager, manager])
     end
 
-  end
-
-  describe "unverified users" do
-    it "should get all un-verified users" do
-      unverified_user1 = build_and_save_user(:verified => false)
-      unverified_user2 = build_and_save_user(:verified => false)
-      verified_user = build_and_save_user(:verified => true)
-      all_unverifed_users = User.by_unverified
-      all_unverifed_users.map(&:id).should be_include unverified_user2.id
-      all_unverifed_users.map(&:id).should be_include unverified_user1.id
-      all_unverifed_users.map(&:id).should_not be_include verified_user.id
-    end
   end
 
   describe "permissions" do
@@ -568,7 +550,6 @@ describe User do
         @input = {"disabled"=>false,
                   "full_name"=>"CP Administrator",
                   "user_name"=>"primero_admin_cp",
-                  "verified"=>true,
                   "code"=>nil,
                   "phone"=>nil,
                   "email"=>"primero_admin_cp@primero.com",

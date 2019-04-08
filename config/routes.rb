@@ -23,13 +23,9 @@ Primero::Application.routes.draw do
 
   resources :users do
     collection do
-      get :change_password
-      get :unverified
-      post :update_password
       post :import_file
     end
   end
-  match '/users/register_unverified' => 'users#register_unverified', :as => :register_unverified_user, :via => :post
 
   match '/active' => 'sessions#active', :as => :session_active, :via => [:post, :get, :put, :delete]
 
@@ -206,7 +202,6 @@ Primero::Application.routes.draw do
 #######################
   resources :incidents do
     collection do
-      # post :sync_unverified
       post :import_file
       post :mark_for_mobile
       get :search

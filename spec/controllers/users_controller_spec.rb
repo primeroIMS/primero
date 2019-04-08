@@ -459,41 +459,6 @@ describe UsersController,:type => :controller do
     end
   end
 
-  describe "POST update unverified user" do
-    it "should set verify to true, if user is invalid" do
-      fake_admin_login
-      controller.stub(:authorize!).and_return(true)
-      User.should_receive(:get).with("unique_id").and_return(double("user", :update_attributes => false, :verified? => false))
-      post :update, params: {:id => "unique_id", :user => {:verified => true}}
-      controller.params[:verify].should be_truthy
-    end
-
-    it "should update all the children of recently verified users" do
-      fake_admin_login
-      mock_user = User.new(:user_name => "user", :verified => false)
-      controller.stub(:authorize!).and_return(true)
-      child1 = double("child")
-      child2 = double("child")
-      mock_user.stub(:update_attributes).and_return(true)
-      User.should_receive(:get).with("unique_id").and_return(mock_user)
-      child1.should_receive(:verified=).with(true)
-      child1.should_receive(:save)
-      child2.should_receive(:verified=).with(true)
-      child2.should_receive(:save)
-      Child.should_receive(:all_by_creator).with("user").and_return([child1,child2])
-      post :update, params: {:id => "unique_id", :user => {:verified => true}}
-    end
-
-    it "should call verify_children only for recently verified users" do
-      fake_admin_login
-      mock_user = User.new(:user_name => "user", :verified => true)
-      mock_user.stub(:update_attributes).and_return(true)
-      User.should_receive(:find).with("unique_id").and_return(mock_user)
-      Child.should_not_receive(:all_by_creator)
-      post :update, params: {:id => "unique_id", :user => {:verified => true}}
-    end
-  end
-
   describe "GET change_password" do
     before :each do
       @user = User.new(:user_name => 'fakeuser')
@@ -525,43 +490,6 @@ describe UsersController,:type => :controller do
 
       post :update_password, params: { :forms_change_password_form => @mock_params }
       response.should render_template :change_password
-    end
-  end
-
-  describe "register_unverified" do
-    it "should set verified status to false" do
-      User.should_receive(:find_by_user_name).and_return(nil)
-      User.should_receive(:new).with("user_name" => "salvador", "verified" => false, "password" => "password", "password_confirmation" => "password").and_return(user = "some_user")
-      user.should_receive :save!
-
-      post :register_unverified, params: {:format => :json, :user => {:user_name => "salvador", "unauthenticated_password" => "password"}}
-
-      response.should be_ok
-    end
-
-    it "should not attempt to create a user if already exists" do
-      User.should_receive(:find_by_user_name).and_return("something that is not nil")
-      User.should_not_receive(:new)
-
-      post :register_unverified, params: {:format => :json, :user => {:user_name => "salvador", "unauthenticated_password" => "password"}}
-      response.should be_ok
-    end
-  end
-
-  describe "index unverified users" do
-    it "should list all unverfied users" do
-      fake_admin_login
-      unverified_users = [double("user")]
-      User.should_receive(:by_unverified).and_return(unverified_users)
-      get :unverified
-      assigns[:users].should == unverified_users
-      flash[:verify].should == "Please select a role before verifying the user"
-    end
-
-    it "should show page name" do
-      fake_admin_login
-      get :unverified
-      assigns[:page_name].should == "Unverified Users"
     end
   end
 
