@@ -35,7 +35,7 @@ module Record
     end
 
     def find_by_unique_identifier(unique_identifier)
-      self.where('data @> ?', {unique_identifier: unique_identifier}.to_json)
+      self.find_by('data @> ?', {unique_identifier: unique_identifier}.to_json)
     end
 
     def generate_unique_id
