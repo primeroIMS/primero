@@ -1,5 +1,5 @@
 class ContactInformationController < ApplicationController
-  skip_before_action :check_authentication, :only => %w{show}
+  skip_before_action :authenticate_user!, :only => %w{show}
   before_action :load_contact_information!, :only => [:show, :update]
 
   @model_class = ContactInformation

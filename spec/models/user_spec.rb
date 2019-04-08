@@ -11,7 +11,6 @@ describe User do
                                :email => 'email@ddress.net',
                                :organization => 'TW',
                                :disabled => 'false',
-                               :verified => true,
                                :role_ids => options[:role_ids] || ['random_role_id'],
                                :module_ids => options[:module_ids] || ['test_module_id']
                            })
@@ -298,11 +297,6 @@ describe User do
       user.should_not be_valid
       user.errors[:role_ids].should == ["Please select at least one role"]
     end
-
-    it "allow an unverified user to have no role" do
-      build(:user, :role_ids => [], :verified => false).should be_valid
-    end
-
   end
 
   describe "permitted forms" do
@@ -377,18 +371,6 @@ describe User do
 
   end
 
-  describe "unverified users" do
-    it "should get all un-verified users" do
-      unverified_user1 = build_and_save_user(:verified => false)
-      unverified_user2 = build_and_save_user(:verified => false)
-      verified_user = build_and_save_user(:verified => true)
-      all_unverifed_users = User.all_unverified
-      all_unverifed_users.map(&:id).should be_include unverified_user2.id
-      all_unverifed_users.map(&:id).should be_include unverified_user1.id
-      all_unverifed_users.map(&:id).should_not be_include verified_user.id
-    end
-  end
-
   describe "permissions" do
     before :each do
       @permission_list = [
@@ -428,11 +410,11 @@ describe User do
       end
 
       it "should not have GROUP permission" do
-        expect(@user_group.has_group_permission? Permission::GROUP).to be_falsey
+        expect(@user_group.group_permission? Permission::GROUP).to be_falsey
       end
 
       it "should not have ALL permission" do
-        expect(@user_group.has_group_permission? Permission::ALL).to be_falsey
+        expect(@user_group.group_permission? Permission::ALL).to be_falsey
       end
     end
 
@@ -443,11 +425,11 @@ describe User do
       end
 
       it "should have GROUP permission" do
-        expect(@user_group.has_group_permission? Permission::GROUP).to be_truthy
+        expect(@user_group.group_permission? Permission::GROUP).to be_truthy
       end
 
       it "should not have ALL permission" do
-        expect(@user_group.has_group_permission? Permission::ALL).to be_falsey
+        expect(@user_group.group_permission? Permission::ALL).to be_falsey
       end
     end
 
@@ -458,11 +440,11 @@ describe User do
       end
 
       it "should not have GROUP permission" do
-        expect(@user_group.has_group_permission? Permission::GROUP).to be_falsey
+        expect(@user_group.group_permission? Permission::GROUP).to be_falsey
       end
 
       it "should have ALL permission" do
-        expect(@user_group.has_group_permission? Permission::ALL).to be_truthy
+        expect(@user_group.group_permission? Permission::ALL).to be_truthy
       end
     end
   end
@@ -474,7 +456,7 @@ describe User do
       end
 
       it "should return nil" do
-        expect(@user.agency_name).to be_nil
+        expect(@user.agency.name).to be_nil
       end
     end
 
@@ -488,7 +470,7 @@ describe User do
       end
 
       it "should return the agency name" do
-        expect(@user.agency_name).to eq('unicef')
+        expect(@user.agency.name).to eq('unicef')
       end
     end
   end
@@ -568,7 +550,6 @@ describe User do
         @input = {"disabled"=>false,
                   "full_name"=>"CP Administrator",
                   "user_name"=>"primero_admin_cp",
-                  "verified"=>true,
                   "code"=>nil,
                   "phone"=>nil,
                   "email"=>"primero_admin_cp@primero.com",

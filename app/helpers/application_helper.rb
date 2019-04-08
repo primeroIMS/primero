@@ -48,10 +48,6 @@ module ApplicationHelper
     false
   end
 
-  def session
-    current_session
-  end
-
   def submit_button(name = t("buttons.save"), additional_classes = nil)
       submit_tag(name, :class => "button btn_submit #{additional_classes}")
   end

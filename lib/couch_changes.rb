@@ -1,5 +1,0 @@
-require_relative 'couch_changes/base.rb'
-require_relative 'couch_changes/processors.rb'
-require_relative 'couch_changes/request_handler.rb'
-require_relative 'couch_changes/sequencer.rb'
-require_relative 'couch_changes/watcher.rb'

@@ -1,0 +1,39 @@
+<div class="login_page">
+  <%= form_for(resource, as: resource_name,
+    url: session_path(resource_name), class: 'default-form') do |f| %>
+
+    <div class="login_panel">
+      <h1><%= t("login.details") %></h1>
+
+      <% if alert.present? %>
+        <div class="callout">
+          <%= alert %>
+        </div>
+      <% end %>
+
+      <%= f.text_field :user_name,
+        autofocus: true,
+        placeholder: t("login.username"),
+        autocapitalize: 'none',
+        autocomplete: :off %>
+
+      <%= f.password_field :password,
+        placeholder: t("login.password.label"),
+        autocapitalize: 'none',
+        autocomplete: :off %>
+
+      <% if devise_mapping.rememberable? %>
+        <div class="field">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+
+      <div class="btn_panel">
+        <%= f.submit I18n.t('buttons.login'), class: 'button btn_submit large' %>
+      </div>
+    </div>
+  <% end %>
+</div>

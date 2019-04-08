@@ -15,8 +15,6 @@ class UsersController < ApplicationController
   before_action :sanitize_services_multiselect, :only => [:create, :update]
   before_action :load_users_agencies, :only => [:index]
 
-  skip_before_action :check_authentication, :set_locale, :only => :register_unverified
-
   include LoggerActions
 
   def index
@@ -87,13 +85,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def unverified
-    authorize! :show, User
-    @page_name = t("users.unverified")
-    flash[:verify] = t('users.select_role')
-    @users = User.all_unverified
-  end
-
   def show
     @page_name = t("users.account_details")
     authorize! :show, @user
@@ -135,10 +126,9 @@ class UsersController < ApplicationController
   def update
     authorize! :disable, @user if params[:user].include?(:disabled)
     authorize! :update, @user  if params[:user].except(:disabled).present?
-    params[:verify] = !@user.verified?
 
     if (@user.update_attributes(params[:user]))
-      verify_children if params[:verify]
+      verify_children
       if request.xhr?
         render plain: 'OK'
       else
@@ -180,22 +170,6 @@ class UsersController < ApplicationController
     redirect_to(users_url)
   end
 
-  def register_unverified
-    respond_to do |format|
-      format.json do
-        params[:user] = JSON.parse(params[:user]) if params[:user].is_a?(String)
-        return render(:json => {:response => "ok"}.to_json) unless User.find_by_user_name(params[:user]["user_name"]).nil?
-        password = params[:user]["unauthenticated_password"]
-        updated_params = params[:user].merge(:verified => false, :password => password, :password_confirmation => password)
-        updated_params.delete("unauthenticated_password")
-        user = User.new(updated_params.to_h)
-
-        user.save!
-        render :json => {:response => "ok"}.to_json
-      end
-    end
-  end
-
   private
   def write_to_log comment
     File.open("/Users/ambhalla/Desktop/log.txt", "w+") do |f|
@@ -210,9 +184,10 @@ class UsersController < ApplicationController
       child.save
     end
   end
+
   def load_user
-    @user = User.get(params[:id])
-    
+    @user = User.find_by(id: params[:id])
+
     if @user.nil?
       flash[:error] = t("user.messages.not_found")
       redirect_to :action => :index and return
@@ -291,7 +266,7 @@ class UsersController < ApplicationController
   def load_lookups
     @roles = Role.all.select{|r| can? :assign, r}
     @user_groups = UserGroup.all.select{|ug| can?(:assign, ug)}
-    @modules = @current_user.has_group_permission?(Permission::ALL) ? PrimeroModule.all.all : PrimeroModule.all(keys: @current_user.module_ids).all
+    @modules = @current_user.group_permission?(Permission::ALL) ? PrimeroModule.all.all : PrimeroModule.all(keys: @current_user.module_ids).all
     @agency_offices = Lookup.values('lookup-agency-office')
   end
 

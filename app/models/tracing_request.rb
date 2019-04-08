@@ -1,6 +1,6 @@
 class TracingRequest < ActiveRecord::Base
 
-  include RecordJson
+  include Record
   include Searchable
   include Ownable
   include Historical
