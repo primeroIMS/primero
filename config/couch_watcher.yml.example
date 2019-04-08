@@ -1,4 +1,0 @@
-development:
-  couch_watcher:
-    app_hostname: localhost
-    app_port: 80

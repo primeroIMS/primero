@@ -1,8 +1,8 @@
 def create_or_update_role(role_hash)
   role_id = Role.id_from_name role_hash[:name]
-  role = Role.get role_id
+  role = Role.find_by(unique_id: role_id)
 
-  if role.nil?
+  if role.blank?
     puts "Creating role #{role_id}"
     Role.create! role_hash
   else
@@ -141,6 +141,7 @@ cp_admin_permissions = [
 ]
 
 create_or_update_role(
+  :unique_id => "role-cp-administrator",
   :name => "CP Administrator",
   :permissions_list => cp_admin_permissions,
   :group_permission => Permission::ALL
@@ -217,6 +218,7 @@ cp_caseworker_permissions = [
 ]
 
 create_or_update_role(
+  :unique_id => "role-cp-case-worker",
   :name => "CP Case Worker",
   :permissions_list => cp_caseworker_permissions
 )
@@ -320,6 +322,7 @@ cp_manager_permissions = [
 ]
 
 create_or_update_role(
+  :unique_id => "role-cp-manager",
   :name => "CP Manager",
   :permissions_list => cp_manager_permissions,
   :group_permission => Permission::GROUP
@@ -426,6 +429,7 @@ cp_user_manager_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-cp-user-manager",
     :name => "CP User Manager",
     :permissions_list => cp_user_manager_permissions,
     :group_permission => Permission::GROUP
@@ -482,6 +486,7 @@ gbv_worker_permissions = [
 ]
 
 create_or_update_role(
+  :unique_id => "role-gbv-social-worker",
   :name => "GBV Social Worker",
   :permissions_list => gbv_worker_permissions
 )
@@ -575,6 +580,7 @@ gbv_manager_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-gbv-manager",
     :name => "GBV Manager",
     :permissions_list => gbv_manager_permissions,
     :group_permission => Permission::GROUP
@@ -675,6 +681,7 @@ gbv_user_manager_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-gbv-user-manager",
     :name => "GBV User Manager",
     :permissions_list => gbv_user_manager_permissions,
     :group_permission => Permission::GROUP
@@ -725,9 +732,10 @@ gbv_caseworker_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-gbv-caseworker",
     :name => "GBV Caseworker",
     :permissions_list => gbv_caseworker_permissions,
-    :permitted_form_ids => gbv_caseworker_forms,
+    :form_sections => FormSection.where(unique_id: gbv_caseworker_forms),
     :referral => false,
     :transfer => false
 )
@@ -770,9 +778,10 @@ gbv_mobile_caseworker_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-gbv-mobile-caseworker",
     :name => "GBV Mobile Caseworker",
     :permissions_list => gbv_mobile_caseworker_permissions,
-    :permitted_form_ids => gbv_mobile_caseworker_forms,
+    :form_sections => FormSection.where(unique_id: gbv_mobile_caseworker_forms),
     :referral => false,
     :transfer => false
 )
@@ -842,10 +851,11 @@ gbv_cm_supervisor_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-gbv-case-management-supervisor",
     :name => "GBV Case Management Supervisor",
     :group_permission => Permission::GROUP,
     :permissions_list => gbv_cm_supervisor_permissions,
-    :permitted_form_ids => gbv_cm_supervisor_forms,
+    :form_sections => FormSection.where(unique_id: gbv_cm_supervisor_forms),
     :referral => false,
     :transfer => false
 )
@@ -889,10 +899,11 @@ gbv_program_manager_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-gbv-program-manager",
     :name => "GBV Program Manager",
     :group_permission => Permission::ALL,
     :permissions_list => gbv_program_manager_permissions,
-    :permitted_form_ids => gbv_program_manager_forms
+    :form_sections => FormSection.where(unique_id: gbv_program_manager_forms)
 )
 
 gbv_organization_focal_point_forms = [
@@ -971,10 +982,11 @@ gbv_organization_focal_point_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-gbv-organization-focal-point",
     :name => "GBV Organization Focal Point",
     :group_permission => Permission::GROUP,
     :permissions_list => gbv_organization_focal_point_permissions,
-    :permitted_form_ids => gbv_organization_focal_point_forms,
+    :form_sections => FormSection.where(unique_id: gbv_organization_focal_point_forms),
     :referral => false,
     :transfer => false
 )
@@ -1015,6 +1027,7 @@ agency_user_admin_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-agency-user-administrator",
     :name => "Agency User Administrator",
     :permissions_list => agency_user_admin_permissions,
     :group_permission => Permission::GROUP
@@ -1060,6 +1073,7 @@ gbv_agency_user_admin_permissions = [
 ]
 
 create_or_update_role(
+  :unique_id => "role-gbv-agency-user-administrator",
   :name => "GBV Agency User Administrator",
   :permissions_list => gbv_agency_user_admin_permissions,
   :group_permission => Permission::GROUP
@@ -1184,10 +1198,11 @@ gbv_system_admin_permissions = [
 ]
 
 create_or_update_role(
+  :unique_id => "role-gbv-system-administrator",
   :name => "GBV System Administrator",
   :group_permission => Permission::ALL,
   :permissions_list => gbv_system_admin_permissions,
-  :permitted_form_ids => gbv_system_admin_forms
+  :form_sections => FormSection.where(unique_id: gbv_system_admin_forms)
 )
 
 referral_permissions = [
@@ -1212,6 +1227,7 @@ referral_permissions = [
 ]
 
 create_or_update_role(
+  :unique_id => "role-referral",
   :name => "Referral",
   :permissions_list => referral_permissions,
   :referral => true
@@ -1239,6 +1255,7 @@ transfer_permissions = [
 ]
 
 create_or_update_role(
+  :unique_id => "role-transfer",
   :name => "Transfer",
   :permissions_list => transfer_permissions,
   :transfer => true
@@ -1302,6 +1319,7 @@ ftr_manager_permissions = [
 ]
 
 create_or_update_role(
+    :unique_id => "role-ftr-manager",
     :name => "FTR Manager",
     :permissions_list => ftr_manager_permissions
 )
@@ -1366,6 +1384,7 @@ superuser_permissions = [
 ]
 
 create_or_update_role(
+  :unique_id => "role-superuser",
   :name => "Superuser",
   :permissions_list => superuser_permissions,
   :group_permission => Permission::ALL

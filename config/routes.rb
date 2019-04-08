@@ -1,5 +1,11 @@
 Primero::Application.routes.draw do
-  match '/' => 'home#index', :as => :root, :via => :get
+  devise_for :users, path: '', controllers: { sessions: "sessions" }, path_names: {
+    sign_in: 'login',
+    sign_out: 'logout'
+  }
+
+  root to: 'home#index'
+
   match '/_notify_change' => 'couch_changes#notify', :via => :get
 
   match "/404", :to => "errors#not_found", :via => :all
@@ -10,29 +16,20 @@ Primero::Application.routes.draw do
     get '/', to: 'home#v2'
     get '*all', to: 'home#v2'
   end
-  
+
 #######################
 # USER URLS
 #######################
 
   resources :users do
     collection do
-      get :change_password
-      get :unverified
-      post :update_password
       post :import_file
     end
   end
-  match '/users/register_unverified' => 'users#register_unverified', :as => :register_unverified_user, :via => :post
 
-  resources :sessions, :except => :index
-  match 'login' => 'sessions#new', :as => :login, :via => [:post, :get, :put, :delete]
-  match 'logout' => 'sessions#destroy', :as => :logout, :via => [:post, :get, :put, :delete]
   match '/active' => 'sessions#active', :as => :session_active, :via => [:post, :get, :put, :delete]
 
   resources :user_preferences
-  resources :password_recovery_requests, :only => [:new, :create]
-  match 'password_recovery_request/:password_recovery_request_id/hide' => 'password_recovery_requests#hide', :as => :hide_password_recovery_request, :via => :delete
 
   resources :contact_information
 
@@ -205,10 +202,8 @@ Primero::Application.routes.draw do
 #######################
   resources :incidents do
     collection do
-      # post :sync_unverified
       post :import_file
       post :mark_for_mobile
-      # get :advanced_search
       get :search
     end
 
@@ -270,8 +265,8 @@ Primero::Application.routes.draw do
 
   scope '/api', defaults: { format: :json }, constraints: { format: :json } do
     #Session API
-    post :login, to: 'sessions#create'
-    post :logout, to: 'sessions#destroy'
+    # post :login, to: 'sessions#create'
+    # post :logout, to: 'sessions#destroy'
 
     #Forms API
     resources :form_sections, controller: 'form_section', only: [:index]
@@ -290,32 +285,8 @@ Primero::Application.routes.draw do
     get :users, to: 'users#search'
   end
 
-#######################
-# ADVANCED SEARCH URLS
-#######################
-
-  resources :advanced_search, :only => [:index, :new]
-  match 'advanced_search/index', :to => 'advanced_search#index', :via => [:post, :get, :put, :delete]
-  match 'advanced_search/export_data' => 'advanced_search#export_data', :as => :export_data_children, :via => :post
-
-
   match 'configuration_bundle/export', :to => 'configuration_bundle#export_bundle', :via => [:get, :post]
   match 'configuration_bundle/import', :to => 'configuration_bundle#import_bundle', :via => [:post]
-
-#######################
-# REPLICATION URLS
-#######################
-  resources :replications do
-    collection do
-      post :configuration
-      post :update_blacklist
-    end
-
-    member do
-      post :start
-      post :stop
-    end
-  end
 
 #######################
 # REPORTING URLS

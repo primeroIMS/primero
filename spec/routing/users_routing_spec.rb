@@ -29,9 +29,5 @@ describe UsersController do
     it "recognizes and generates #destroy" do
       { :delete => "/users/1" }.should route_to(:controller => "users", :action => "destroy", :id => "1")
     end
-
-    it "recognizes and generates #index_unverified" do
-      { :get => "/users/unverified" }.should route_to(:controller => "users", :action => "unverified")
-    end
   end
 end

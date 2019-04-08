@@ -24,7 +24,7 @@ class RecordStatusController < ApplicationController
 
     update_fields['record_state'] = params[:record_state] == 'true' ? true : false
 
-    record.update_properties(update_fields, current_user_name)
+    record.update_properties(update_fields, current_user.user_name)
 
     if record.save
       reload_page = true

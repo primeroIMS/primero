@@ -49,10 +49,10 @@
 
         <div class="row">
           <div class="medium-4 columns">
-            <label class="key"><%= t("roles.label") %></label>
+            <label class="key"><%= t("roles.select_label") %></label>
           </div>
           <div class="medium-8 columns">
-            <span class="value"><%= @user.roles.map(&:name).join(", ") %></span>
+            <span class="value"><%= @user.role.try(:name) %></span>
           </div>
         </div>
 
@@ -98,22 +98,6 @@
             <span class="value"><%= h @user.send_mail ? t("enabled") : t("user.disabled") %></span>
           </div>
         </div>
-        <% if false %>
-        <div class="row">
-          <div class="medium-4 columns">
-            <label><%= t("devices") %>:</label>
-          </div>
-          <div class="medium-8 columns">
-          <% @user.devices.each do |device| %>
-              <% if device.blacklisted? %>
-                  <span class='device-blacklisted'><%= device.imei %> (blacklisted)</span><br/>
-              <% else %>
-                  <%= device.imei %> <br/>
-              <% end %>
-          <% end %>
-          </div>
-        </div>
-        <% end %>
 
       </fieldset>
       <%= render :partial => "mobile_login_history", :object => @user if false %>

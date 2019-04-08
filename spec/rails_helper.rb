@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-if ENV["COVERAGE"] == 'true'
+if ENV['COVERAGE'] == 'true'
   require 'simplecov'
   require 'simplecov-rcov'
   SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
@@ -7,8 +9,8 @@ if ENV["COVERAGE"] == 'true'
   SimpleCov.coverage_dir 'coverage/rspec'
 end
 
-ENV["RAILS_ENV"] ||= 'test'
-require File.expand_path("../../config/environment", __FILE__)
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'csv'
 require 'active_support/inflector'
@@ -20,10 +22,9 @@ require 'rack_session_access/capybara'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # This clears couchdb between tests.
-FactoryBot.find_definitions
 Mime::Type.register 'application/zip', :mock
 
 Capybara.register_driver :chrome do |app|
@@ -32,21 +33,21 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    'chromeOptions' => { args: %w(headless no-sandbox disable-gpu window-size=1280,1024) }
+    'chromeOptions' => { args: %w[headless no-sandbox disable-gpu window-size=1280,1024] }
   )
 
   Capybara::Selenium::Driver.new app,
-    browser: :chrome,
-    desired_capabilities: capabilities
+                                 browser: :chrome,
+                                 desired_capabilities: capabilities
 end
 
 Capybara.register_server :puma do |app, port, host|
   require 'rack/handler/puma'
-  Rack::Handler::Puma.run(app, :Port => port, :Host => host)
+  Rack::Handler::Puma.run(app, Port: port, Host: host)
 end
 
 Capybara.server = :puma
-Capybara.default_driver  = :headless_chrome
+Capybara.default_driver = :headless_chrome
 Capybara.default_max_wait_time = 6 # In seconds
 Capybara.javascript_driver = :headless_chrome
 Capybara.page.driver.browser.manage.window.resize_to(2000, 2000)
@@ -63,13 +64,17 @@ end
 
 def current_databases
   COUCHDB_SERVER.databases.select do |db|
-    db if db =~ /^#{COUCHDB_CONFIG[:db_prefix]}/ and db =~ /#{COUCHDB_CONFIG[:db_suffix]}$/
+    db if db =~ /^#{COUCHDB_CONFIG[:db_prefix]}/ && db =~ /#{COUCHDB_CONFIG[:db_suffix]}$/
   end
 end
 
 def reset_databases
   current_databases.each do |db|
-    COUCHDB_SERVER.database(db).recreate! rescue nil
+    begin
+      COUCHDB_SERVER.database(db).recreate!
+    rescue StandardError
+      nil
+    end
     # Reset the Design Cache
     Thread.current[:couchrest_design_cache] = {}
   end
@@ -80,7 +85,7 @@ RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include UploadableFiles
   config.include ChildFinder
-  config.include FakeLogin, :type => :controller
+  config.include FakeLogin, type: :controller
   config.include VerifyAndResetHelpers
   config.include Conflicts
   config.include CapybaraHelpers
@@ -89,11 +94,11 @@ RSpec.configure do |config|
 
   # Cleaner backtrace for failure messages
   config.backtrace_exclusion_patterns = [
-    /\/lib\d*\/ruby\//,
-    /bin\//,
+    %r{/lib\d*/ruby/},
+    %r{bin/},
     /gems/,
-    /spec\/spec_helper\.rb/,
-    /lib\/rspec\/(core|expectations|matchers|mocks)/
+    %r{spec/spec_helper\.rb},
+    %r{lib/rspec/(core|expectations|matchers|mocks)}
   ]
   # ## Mock Framework
   #
@@ -105,21 +110,21 @@ RSpec.configure do |config|
   #
 
   config.expect_with :rspec do |expectations|
-    expectations.syntax = [:should, :expect]
+    expectations.syntax = %i[should expect]
   end
 
   config.mock_with :rspec do |mocks|
-    mocks.syntax = [:should, :expect]
+    mocks.syntax = %i[should expect]
     mocks.allow_message_expectations_on_nil = true
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  #config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  # config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  #config.use_transactional_fixtures = true
+  # config.use_transactional_fixtures = true
 
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
@@ -135,9 +140,9 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = "random"
+  config.order = 'random'
 
-  #Recreate db if needed.
+  # Recreate db if needed.
   config.before(:suite) do
     if OptionsQueueStats.options_not_generated?
       FactoryBot.create(:system_settings)
@@ -148,15 +153,19 @@ RSpec.configure do |config|
     reset_databases
   end
 
-  #Delete db if needed.
+  # Delete db if needed.
   config.after(:suite) do
     current_databases.each do |db|
-      COUCHDB_SERVER.database(db).delete! rescue nil
+      begin
+        COUCHDB_SERVER.database(db).delete!
+      rescue StandardError
+        nil
+      end
     end
   end
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
-  config.before(:each) { I18n.available_locales = Primero::Application::locales}
+  config.before(:each) { I18n.available_locales = Primero::Application.locales }
 
   config.before(:each) do |example|
     unless example.metadata[:search]
@@ -173,15 +182,15 @@ RSpec.configure do |config|
   #########################
   # Couch Changes Config ##
   # #######################
-  config.filter_run_excluding :event_machine => true unless ENV['ALL_TESTS']
+  config.filter_run_excluding event_machine: true unless ENV['ALL_TESTS']
   config.include EventMachineHelper, :event_machine
   config.extend EventMachineHelper, :event_machine
 end
 
-def stub_env(new_env, &block)
+def stub_env(new_env)
   original_env = Rails.env
-  Rails.instance_variable_set("@_env", ActiveSupport::StringInquirer.new(new_env))
-  block.call
+  Rails.instance_variable_set('@_env', ActiveSupport::StringInquirer.new(new_env))
+  yield
 ensure
-  Rails.instance_variable_set("@_env", ActiveSupport::StringInquirer.new(original_env))
+  Rails.instance_variable_set('@_env', ActiveSupport::StringInquirer.new(original_env))
 end

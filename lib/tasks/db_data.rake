@@ -257,7 +257,7 @@ namespace :db do
       if role
         result = false
         remove = true
-        User.all.all.each do |user|
+        User.all.each do |user|
           if user.role_ids.include?(role.id)
             if user.role_ids.size > 1
               user.role_ids.delete(role.id)
@@ -280,7 +280,7 @@ namespace :db do
     desc "Delete out a user"
     task :remove_user, [:user] => :environment do |t, args|
       #TODO: Do we need to handle record owners, associated users?
-      user = User.by_user_name(key: args[:user]).all.first
+      user = User.find_by_user_name(args[:user])
       if user.present?
         puts "Deleting user #{user.user_name}"
         user.destroy
@@ -345,7 +345,7 @@ namespace :db do
       else
         [
           Agency, ContactInformation, FormSection, Location, Lookup, PrimeroModule,
-          PrimeroProgram, Report, Role, Replication, SystemSettings, UserGroup, ExportConfiguration
+          PrimeroProgram, Report, Role, SystemSettings, UserGroup, ExportConfiguration
         ]
       end
 

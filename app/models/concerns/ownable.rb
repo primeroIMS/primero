@@ -17,7 +17,7 @@ module Ownable
       boolean :not_edited_by_owner
     end
 
-    scope :owned_by, ->(username) { where('data @> ?', {owned_by: username}.to_json) }
+    scope :owned_by, ->(username) { where('data @> ?', { owned_by: username }.to_json) }
 
     before_save :update_ownership
   end
@@ -97,7 +97,7 @@ module Ownable
   def associated_users
     user_ids = associated_user_names
     @associated_users ||= if user_ids.present?
-      User.by_user_name(keys: user_ids).all
+      User.where(user_name: user_ids)
     else
       []
     end

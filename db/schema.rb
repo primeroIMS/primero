@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190311000001) do
+ActiveRecord::Schema.define(version: 20190318000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
+  enable_extension "ltree"
 
   create_table "agencies", id: :serial, force: :cascade do |t|
     t.string "agency_code", null: false
@@ -44,6 +45,9 @@ ActiveRecord::Schema.define(version: 20190311000001) do
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
+    t.uuid "matched_tracing_request_id"
+    t.string "matched_trace_id"
+    t.uuid "duplicate_case_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
   end
 
@@ -156,11 +160,28 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
+  create_table "form_sections_roles", id: false, force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "form_section_id"
+  end
+
   create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.uuid "incident_case_id"
     t.index ["data"], name: "index_incidents_on_data", using: :gin
     t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
+  end
+
+  create_table "locations", id: :serial, force: :cascade do |t|
+    t.jsonb "name_i18n"
+    t.jsonb "placename_i18n"
+    t.string "location_code", null: false
+    t.integer "admin_level"
+    t.string "type"
+    t.boolean "disabled", default: false, null: false
+    t.ltree "hierarchy", default: "", null: false
+    t.index ["hierarchy"], name: "index_locations_on_hierarchy", using: :gist
+    t.index ["location_code"], name: "index_locations_on_location_code", unique: true
   end
 
   create_table "lookups", id: :serial, force: :cascade do |t|
@@ -180,7 +201,7 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.jsonb "record_changes", default: {}
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
-  
+
   create_table "reports", id: :serial, force: :cascade do |t|
     t.jsonb "name_i18n"
     t.jsonb "description_i18n"
@@ -196,12 +217,33 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.boolean "editable", default: true
   end
 
+  create_table "roles", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.string "name"
+    t.string "description"
+    t.jsonb "permissions_list", default: [], array: true
+    t.string "group_permission", default: "self"
+    t.boolean "referral", default: false, null: false
+    t.boolean "transfer", default: false, null: false
+    t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
+  end
+
+  create_table "roles_roles", id: false, force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "associated_role_id"
+  end
+
   create_table "saved_searches", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "module_id"
     t.string "record_type"
     t.string "user_name"
     t.jsonb "filters"
+  end
+
+  create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
   end
 
   create_table "user_groups", id: :serial, force: :cascade do |t|
@@ -212,4 +254,43 @@ ActiveRecord::Schema.define(version: 20190311000001) do
     t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
   end
 
+  create_table "user_groups_users", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "user_group_id"
+    t.index ["user_group_id"], name: "index_user_groups_users_on_user_group_id"
+    t.index ["user_id"], name: "index_user_groups_users_on_user_id"
+  end
+
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "full_name"
+    t.string "user_name"
+    t.string "encrypted_password", default: "", null: false
+    t.string "code"
+    t.string "phone"
+    t.string "email"
+    t.integer "agency_id"
+    t.string "position"
+    t.string "location"
+    t.integer "role_id"
+    t.string "time_zone", default: "UTC"
+    t.string "locale"
+    t.boolean "is_manager", default: false
+    t.boolean "send_mail", default: true
+    t.boolean "disabled", default: false
+    t.string "services", array: true
+    t.string "agency_office"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.string "module_ids", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agency_id"], name: "index_users_on_agency_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
+    t.index ["user_name"], name: "index_users_on_user_name", unique: true
+  end
+
+  add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
+  add_foreign_key "fields", "form_sections", column: "subform_section_id"
 end

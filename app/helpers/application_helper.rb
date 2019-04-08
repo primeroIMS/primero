@@ -19,7 +19,6 @@ module ApplicationHelper
     "PrimeroModules" => "setting",
     "SystemSettings" => "setting",
     "ContactInformation" => "setting",
-    "Replications" => "replications",
     "Reports" => "reports",
     "BulkExports" => "bulk_exports",
     "Tasks" => "tasks"
@@ -47,10 +46,6 @@ module ApplicationHelper
       return true if request[:action] == controller.action_name
     end
     false
-  end
-
-  def session
-    current_session
   end
 
   def submit_button(name = t("buttons.save"), additional_classes = nil)

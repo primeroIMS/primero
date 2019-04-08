@@ -2,7 +2,7 @@
   <div class="row align-middle">
     <div class="large-9 columns">
       <% model = controller.model_class %>
-      <% if logged_in? %>
+      <% if user_signed_in? %>
         <ul class="menu">
           <li>
             <a class="<%= current_menu('root') %>" href="<%= root_path %>" title="<%= t('navigation.home') %>">
@@ -19,24 +19,19 @@
           <% if can? :read, Child %>
             <li><%= link_to t("navigation.cases"), cases_path(scope: {:child_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("cases") %></li>
           <% end  %>
-          <%# TODO: Remove the if false after Records are refactored %>
-          <% if false  %>
           <% if can? :read, TracingRequest %>
             <li><%= link_to t("navigation.tracing_request"), tracing_requests_path(scope: {:inquiry_status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("tracings") %></li>
           <% end  %>
-          <% end %>
           <% if can? :read, Incident %>
             <li><%= link_to t("navigation.incidents"), incidents_path(scope: {:status => "list||#{Record::STATUS_OPEN}", :record_state => "list||true"}), class: current_menu("incidents") %></li>
           <% end  %>
-          <% if false %>
           <% if can? :read, PotentialMatch %>
             <li><%= link_to t("navigation.potential_match"), potential_matches_path(:type => "tracing_request"), class: current_menu("matches") %></li>
           <% end  %>
           <% if can? :read, Duplicate %>
             <li><%= link_to t("navigation.duplicates"), duplicates_path(:record_type => "case"), class: current_menu("duplicates") %></li>
           <% end  %>
-            <% end %>
-          <% if current_user_name==nil || can?(:manage, FormSection) %>
+          <% if current_user.user_name==nil || can?(:manage, FormSection) %>
             <li><%= link_to t("navigation.forms"), form_sections_path, class: current_menu("forms") %></li>
           <% end %>
           <%# We use UserGroup here instead of User because all users have access to manage themselves. %>

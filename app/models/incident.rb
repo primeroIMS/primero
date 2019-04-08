@@ -1,6 +1,6 @@
 class Incident < ActiveRecord::Base
 
-  include RecordJson
+  include Record
   include Searchable
   include Historical
   include Ownable
@@ -29,6 +29,10 @@ class Incident < ActiveRecord::Base
   searchable auto_index: self.auto_index? do
     date :incident_date_derived do
       self.incident_date_derived
+    end
+
+    quicksearch_fields.each do |f|
+      text(f) { self.data[f] }
     end
   end
 

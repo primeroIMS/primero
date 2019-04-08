@@ -3,8 +3,8 @@ RSpec::Matchers.define :authorize do |action, object|
     ability.can? action, object
   end
 
-  failure_message do |ability|
-    "Expected Permissions #{ability.user.permissions.inspect} To Authorize #{action.to_s} On #{object.inspect}"
+  failure_message do |ability|4
+    "Expected Permissions #{ability.user.role.permissions.inspect} To Authorize #{action.to_s} On #{object.inspect}"
   end
 
   failure_message_when_negated do |ability|

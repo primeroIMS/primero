@@ -8,11 +8,11 @@
                        incident_display_id: incident.display_id
         %>
       <% elsif can? :incident_from_case, Child %>
-        <%= render 'children/create_incident', incident_detail_id: subform_instance.unique_id %>
+        <%= render 'children/create_incident', incident_detail_id: subform_instance['unique_id'] %>
       <% end %>
     <% elsif subform_name == "services_section" && can?(:referral_from_service, Child) && can?(:referral, Child) %>
       <%= render 'transitions/refer_from_service_button', formObject: formObject, type: Transition::TYPE_REFERRAL,
-                     service_object_id: formObject.services_section[i].unique_id
+                     service_object_id: formObject.services_section[i]['unique_id']
       %>
     <% end %>
   <% end %>

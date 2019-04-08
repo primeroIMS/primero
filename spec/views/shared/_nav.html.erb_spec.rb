@@ -81,15 +81,15 @@ describe 'shared/_nav.html.erb' do
   end
 
   def fake_user_login(permissions)
-    @user = double('user', :permissions => [permissions], :has_permission? => true, :has_group_permission? => Permission::GROUP,
+    @user = double('user', :permissions => [permissions], :has_permission? => true, :group_permission? => Permission::GROUP,
                                                         :user_name => 'name', :id => 'test-user-id', :full_name => 'Jose Smith')
-    @user.stub(:has_permission_by_permission_type?).and_return(true)  
+    @user.stub(:has_permission_by_permission_type?).and_return(true)
     @user.stub(:localize_date)
     controller.stub(:current_user).and_return(@user)
     controller.stub(:model_class).and_return(Child)
     controller.stub(:name).and_return('cases')
     view.stub(:current_user).and_return(@user)
-    view.stub(:logged_in?).and_return(true)
+    view.stub(:user_signed_in?).and_return(true)
     view.stub(:current_user_name).and_return('name')
   end
 

@@ -43,7 +43,7 @@ describe ReportsController do
       Field.new(name: "field_location", type: Field::SELECT_BOX, display_name: "My Location", option_strings_source: "Location"),
       Field.new(name: "field_other_agency", type: Field::SELECT_BOX, display_name: "My Agency", option_strings_source: "Agency")
     ]
-    form = FormSection.new(
+    @form = FormSection.new(
       :unique_id => "form_section_test_1",
       :parent_form=>"case",
       "visible" => true,
@@ -55,7 +55,7 @@ describe ReportsController do
       "description_all" => "Form Section Test 1",
       :fields => fields
     )
-    form.save!
+    @form.save!
 
     @primero_module = PrimeroModule.create!(
         program_id: "primeroprogram-primero",
@@ -80,7 +80,7 @@ describe ReportsController do
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => [],
           :permissions_list => [admin_report_permission],
-          :permitted_form_ids => ["form_section_test_1"]
+          :form_sections => [@form]
       )
 
       report_permission = Permission.new(resource: Permission::REPORT, actions: [Permission::GROUP_READ])
@@ -88,7 +88,7 @@ describe ReportsController do
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => [],
           :permissions_list => [report_permission],
-          :permitted_form_ids => ["form_section_test_1"]
+          :form_sections => [@form]
       )
 
       @owner = create :user, module_ids: [@primero_module.id], user_name: 'bobby', role_ids: [admin_role.id],
@@ -171,7 +171,7 @@ describe ReportsController do
         :id=> "role-test", :name => "Test Role", :description => "Test Role",
         :group_permission => [],
         :permissions_list => [case_permission],
-        :permitted_form_ids => ["form_section_test_1"]
+        :form_sections => [@form]
       )
       user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id], :role_ids => [role.id])
       session = fake_admin_login user
@@ -203,7 +203,7 @@ describe ReportsController do
         :id=> "role-test", :name => "Test Role", :description => "Test Role",
         :group_permission => [],
         :permissions_list => [case_permission],
-        :permitted_form_ids => ["form_section_test_1"]
+        :form_sections => [@form]
       )
       user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id], :role_ids => [role.id])
       session = fake_admin_login user
