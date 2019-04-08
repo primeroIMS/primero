@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190318000000) do
+ActiveRecord::Schema.define(version: 20190405000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,6 +190,15 @@ ActiveRecord::Schema.define(version: 20190318000000) do
     t.jsonb "lookup_values_i18n"
     t.boolean "locked", default: false, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
+  end
+
+  create_table "primero_programs", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.jsonb "name_i18n"
+    t.jsonb "description_i18n"
+    t.date "start_date"
+    t.date "end_date"
+    t.boolean "core_resource", default: false, null: false
   end
 
   create_table "record_histories", id: :serial, force: :cascade do |t|

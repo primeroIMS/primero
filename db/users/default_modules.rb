@@ -238,7 +238,7 @@ create_or_update_module(
       }
     ]
   },
-  program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
+  program_id: PrimeroProgram.find_by('name_i18n @> ?', {en: "Primero"}.to_json).unique_id,
   allow_searchable_ids: true,
   use_workflow_service_implemented: true,
   use_workflow_case_plan: true,
@@ -260,6 +260,6 @@ create_or_update_module(
     "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer", "client_feedback", "approvals",
     "cp_case_plan", "closure_form"
   ],
-  program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
+  program_id: PrimeroProgram.find_by('name_i18n @> ?', {en: "Primero"}.to_json).unique_id,
   user_group_filter: true
 )
