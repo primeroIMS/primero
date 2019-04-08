@@ -15,7 +15,6 @@ module Tasks
     end
 
     def self.has_task?(record, service)
-      service.try(:service_appointment_date).present? &&
       service.try(:service_implemented_day_time).blank? &&
       record.try(:service_due_date, service).present?
     end
