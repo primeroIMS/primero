@@ -313,11 +313,11 @@ class User < ActiveRecord::Base
 
   # TODO: Not sure what location_changed? && user_group_ids_changed? should be
   def location_changed?
-    changes['location'].present? && !changes['location'].eql?([nil, ''])
+    self.changes_to_save['location'].present? && !self.changes_to_save['location'].eql?([nil, ''])
   end
 
   def user_group_ids_changed?
-    changes['user_group_ids'].present? && !changes['user_group_ids'].eql?([nil, ''])
+    self.changes_to_save['user_group_ids'].present? && !self.changes_to_save['user_group_ids'].eql?([nil, ''])
   end
 
   def make_user_name_lowercase
