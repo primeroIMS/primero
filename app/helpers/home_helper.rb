@@ -144,7 +144,7 @@ module HomeHelper
   end
 
   def location_display(location_code)
-    lct = Location.find_by_location_code(location_code.upcase)
+    lct = Location.find_by(location_code: location_code.upcase)
     location_text = (lct.present? ? lct.placename : '')
   end
 

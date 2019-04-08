@@ -292,21 +292,6 @@ Primero::Application.routes.draw do
   match 'configuration_bundle/import', :to => 'configuration_bundle#import_bundle', :via => [:post]
 
 #######################
-# REPLICATION URLS
-#######################
-  resources :replications do
-    collection do
-      post :configuration
-      post :update_blacklist
-    end
-
-    member do
-      post :start
-      post :stop
-    end
-  end
-
-#######################
 # REPORTING URLS
 #######################
   resources :reports do

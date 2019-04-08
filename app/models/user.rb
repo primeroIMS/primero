@@ -98,7 +98,6 @@ class User < CouchRest::Model::Base
 
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :encrypt_password, :update_user_cases_groups_and_location
-  after_save :save_devices
 
   before_update :if => :disabled? do |user|
     Session.delete_for user
@@ -412,21 +411,6 @@ class User < CouchRest::Model::Base
             .order(timestamp: :desc)
   end
 
-  def devices
-    Device.all.select { |device| device.user_name == self.user_name }
-  end
-
-  def devices= device_hashes
-    all_devices = Device.all
-    #attr_accessor devices field change.
-    attribute_will_change!("devices")
-    @devices = device_hashes.map do |device_hash|
-      device = all_devices.detect { |device| device.imei == device_hash["imei"] }
-      device.blacklisted = device_hash["blacklisted"] == "true"
-      device
-    end
-  end
-
   def localize_date(date_time, format = "%d %B %Y at %H:%M (%Z)")
     #TODO - This is merely a patch for the deploy
     # This needs to be refactored as a helper
@@ -496,11 +480,6 @@ class User < CouchRest::Model::Base
   end
 
   private
-
-  def save_devices
-    @devices.map(&:save!) if @devices
-    true
-  end
 
   def update_user_cases_groups_and_location
     # TODO: The following gets all the cases by user and updates the location/district.

@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20190318000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
+  enable_extension "ltree"
 
   create_table "agencies", id: :serial, force: :cascade do |t|
     t.string "agency_code", null: false
@@ -169,6 +170,18 @@ ActiveRecord::Schema.define(version: 20190318000000) do
     t.uuid "incident_case_id"
     t.index ["data"], name: "index_incidents_on_data", using: :gin
     t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
+  end
+
+  create_table "locations", id: :serial, force: :cascade do |t|
+    t.jsonb "name_i18n"
+    t.jsonb "placename_i18n"
+    t.string "location_code", null: false
+    t.integer "admin_level"
+    t.string "type"
+    t.boolean "disabled", default: false, null: false
+    t.ltree "hierarchy", default: "", null: false
+    t.index ["hierarchy"], name: "index_locations_on_hierarchy", using: :gist
+    t.index ["location_code"], name: "index_locations_on_location_code", unique: true
   end
 
   create_table "lookups", id: :serial, force: :cascade do |t|

@@ -2,9 +2,7 @@
   <%= t('lookup.index') %>
 <% end %>
 <% content_for :record_sub_nav do %>
-  <% if can? :create, Replication %>
-    <%= link_to content_tag(:span, t("lookup.create"), class: 'create_user'), new_lookup_path,  class: 'button right' %>
-  <% end %>
+  <%= link_to content_tag(:span, t("lookup.create"), class: 'create_user'), new_lookup_path,  class: 'button right' %>
 <% end %>
 <div class="clearfix"></div>
 <div class="page-content-new row" data-equalizer>
