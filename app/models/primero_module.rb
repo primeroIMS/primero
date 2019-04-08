@@ -3,26 +3,42 @@ class PrimeroModule < CouchRest::Model::Base
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
-  use_database :primero_module
+  # use_database :primero_module
 
-  include PrimeroModel
-  include Memoizable
-  include Namable #delivers "name" and "description" fields
+  # include PrimeroModel
+  # include Memoizable
+  # include Namable #delivers "name" and "description" fields
 
-  property :program_id
-  property :allow_searchable_ids, TrueClass
-  property :associated_record_types, :type => [String]
-  property :associated_form_ids, :type => [String]
-  property :core_resource, TrueClass, :default => false
-  property :field_map, Hash, :default => {}
-  property :selectable_approval_types, TrueClass, :default => false
-  property :workflow_status_indicator, TrueClass, :default => false
-  property :agency_code_indicator, TrueClass, :default => false
-  property :use_workflow_service_implemented, TrueClass, default: true
-  property :use_workflow_case_plan, TrueClass, default: false
-  property :use_workflow_assessment, TrueClass, default: false
-  property :reporting_location_filter, TrueClass, default: false
-  property :user_group_filter, TrueClass, default: false
+  store :module_options, accessors: [
+    :allow_searchable_ids,
+    :selectable_approval_types,
+    :workflow_status_indicator,
+    :agency_code_indicator,
+    :use_workflow_service_implemented,
+    :use_workflow_case_plan,
+    :use_workflow_assessment,
+    :reporting_location_filter,
+    :user_group_filter
+  ], coder: JSON
+
+  store_accessor :module_options
+
+  has_and_belongs_to_many :form_sections
+
+  # property :program_id
+  # property :allow_searchable_ids, TrueClass
+  # property :associated_record_types, :type => [String]
+  # property :associated_form_ids, :type => [String]
+  # property :core_resource, TrueClass, :default => false
+  # property :field_map, Hash, :default => {}
+  # property :selectable_approval_types, TrueClass, :default => false
+  # property :workflow_status_indicator, TrueClass, :default => false
+  # property :agency_code_indicator, TrueClass, :default => false
+  # property :use_workflow_service_implemented, TrueClass, default: true
+  # property :use_workflow_case_plan, TrueClass, default: false
+  # property :use_workflow_assessment, TrueClass, default: false
+  # property :reporting_location_filter, TrueClass, default: false
+  # property :user_group_filter, TrueClass, default: false
 
   before_save :add_associated_subforms
 
@@ -30,21 +46,21 @@ class PrimeroModule < CouchRest::Model::Base
   validates_presence_of :associated_form_ids, :message => I18n.t("errors.models.primero_module.associated_form_ids")
   validates_presence_of :associated_record_types, :message => I18n.t("errors.models.primero_module.associated_record_types")
 
-  design
+  # design
 
-  class << self
-    alias :old_all :all
-    def all(*args)
-      old_all(*args)
-    end
-    memoize_in_prod :all
+  # class << self
+  #   alias :old_all :all
+  #   def all(*args)
+  #     old_all(*args)
+  #   end
+  #   memoize_in_prod :all
 
-    alias :old_get :get
-    def get(*args)
-      old_get(*args)
-    end
-    memoize_in_prod :get
-  end
+  #   alias :old_get :get
+  #   def get(*args)
+  #     old_get(*args)
+  #   end
+  #   memoize_in_prod :get
+  # end
 
   def program
     PrimeroProgram.get self.program_id
