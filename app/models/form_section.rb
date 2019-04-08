@@ -459,16 +459,6 @@ class FormSection < ActiveRecord::Base
         Rails.logger.error "Error importing translations: locale not present"
       end
     end
-
-    def get_append_only_subforms
-      FormSection.where(is_nested: true, subform_append_only: true)
-    end
-    #memoize_in_prod :get_append_only_subforms
-
-    def get_append_only_subform_ids
-      get_append_only_subforms.map(&:unique_id)
-    end
-    #memoize_in_prod :get_append_only_subform_ids
   end
 
   def all_mobile_fields

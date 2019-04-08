@@ -290,6 +290,10 @@ class Field < ActiveRecord::Base
     #This allows us to use the property 'type' on Field, normally reserved by ActiveRecord
     def inheritance_column ; 'type_inheritance' ; end
 
+    def find_with_append_only_subform
+      Field.joins(:subform).where({ type: 'subform', form_sections: { subform_append_only: true, is_nested: true } })
+    end
+
   end
 
   #TODO:Get rid of FieldOptions. This method should just be an alias
