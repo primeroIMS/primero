@@ -265,7 +265,6 @@ ActiveRecord::Schema.define(version: 20190318000000) do
     t.string "full_name"
     t.string "user_name"
     t.string "encrypted_password", default: "", null: false
-    t.boolean "verified", default: true
     t.string "code"
     t.string "phone"
     t.string "email"

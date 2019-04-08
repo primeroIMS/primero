@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
 
   validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation")
-  validates_presence_of :role_id, :message => I18n.t("errors.models.user.role_ids"), :if => Proc.new { |user| user.verified }
+  validates_presence_of :role_id, :message => I18n.t("errors.models.user.role_ids")
   validates_presence_of :module_ids, :message => I18n.t("errors.models.user.module_ids")
 
   validates_presence_of :organization, :message => I18n.t("errors.models.user.organization")

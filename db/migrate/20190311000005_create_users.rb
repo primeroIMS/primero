@@ -4,7 +4,6 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string     :full_name
       t.string     :user_name
       t.string     :encrypted_password, null: false, default: ""
-      t.boolean    :verified, default: true
       t.string     :code
       t.string     :phone
       t.string     :email
@@ -26,13 +25,14 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.timestamps
     end
 
-    create_table :user_groups_users do |t|
-      t.belongs_to :user, index: true
-      t.belongs_to :user_group, index: true
-    end
 
     add_index :users, :email, unique: true
     add_index :users, :user_name, unique: true
     add_index :users, :reset_password_token, unique: true
+
+    create_table :user_groups_users do |t|
+      t.belongs_to :user, index: true
+      t.belongs_to :user_group, index: true
+    end
   end
 end
