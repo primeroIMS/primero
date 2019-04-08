@@ -279,7 +279,7 @@ class ChildrenController < ApplicationController
   def load_fields
     @sex_field = Field.get_by_name('sex')
     @agency_offices = Lookup.values('lookup-agency-office')
-    @user_group_ids = UserGroup.all.map(&:id)
+    @user_group_ids = UserGroup.all.ids
   end
 
   def transfer_status
