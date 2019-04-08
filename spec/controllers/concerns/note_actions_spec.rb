@@ -1,3 +1,5 @@
+#TODO: These have been refactored and moved to the ChildController. Fix tests
+
 require 'rails_helper'
 
 describe NoteActions, type: :controller do

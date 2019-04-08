@@ -61,7 +61,8 @@ class Child < ActiveRecord::Base
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate
+    :duplicate, :notes_section
+
 
   alias child_status status ; alias child_status= status=
 
@@ -125,6 +126,7 @@ class Child < ActiveRecord::Base
   def defaults
     super_defaults
     self.registration_date ||= Date.today
+    self.notes_section = []
      #TODO: Fix with block storage
      # self['photo_keys'] ||= []
      # self['document_keys'] ||= []
@@ -299,6 +301,13 @@ class Child < ActiveRecord::Base
     if protection_concerns.present? && protection_concern_subforms.present?
       self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc['protection_concern_type'] }).compact.uniq
     end
+  end
+
+  def add_note(notes, note_subject, user)
+    self.notes_section << {
+        'field_notes_subform_fields' => notes, 'note_subject' => note_subject,
+        'notes_date' => DateTime.now, note_created_by: user.user_name
+    }
   end
 
   def mark_as_duplicate(parent_id)
