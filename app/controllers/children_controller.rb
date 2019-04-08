@@ -34,7 +34,7 @@ class ChildrenController < ApplicationController
     if orientation != 0
       @child.rotate_photo(orientation)
       @child.last_updated_by = current_user.user_name
-      @child.last_updated_organization = current_user.agencys
+      @child.last_updated_organization = current_user.agency
       @child.save
     end
     redirect_to(@child)
