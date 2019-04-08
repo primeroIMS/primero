@@ -1,6 +1,6 @@
 class Incident < ActiveRecord::Base
 
-  include RecordJson
+  include Record
   include Searchable
   include Historical
   include Ownable

@@ -18,7 +18,6 @@ class ChildrenController < ApplicationController
   before_action :load_users_by_permission, :only => [:index, :show]
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
-  include NoteActions
 
   #TODO: Refactor with Document storage
   def edit_photo
@@ -161,6 +160,23 @@ class ChildrenController < ApplicationController
       else
         format.json { render :json => :error }
       end
+    end
+  end
+
+  def add_note
+    authorize! :add_note, @record
+
+    if @record.blank?
+      flash[:notice] = t('notes.no_records_selected')
+      redirect_back(fallback_location: root_path) and return
+    end
+
+    @record.add_note(params[:notes], params[:subject], current_user)
+    if @record.save
+      redirect_to polymorphic_path(@record, { follow: true })
+    else
+      flash[:notice] = t('notes.error_adding_note')
+      redirect_back(fallback_location: root_path) and return
     end
   end
 
