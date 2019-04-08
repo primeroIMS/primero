@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RecordJson do
+describe Record do
 
   shared_examples_for "Record id's" do |model_class, record_id_name|
     it "should generate unique_identifier, short_id and #{record_id_name}" do

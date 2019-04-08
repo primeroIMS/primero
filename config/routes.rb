@@ -1,6 +1,5 @@
 Primero::Application.routes.draw do
   match '/' => 'home#index', :as => :root, :via => :get
-  match '/_notify_change' => 'couch_changes#notify', :via => :get
 
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
@@ -208,7 +207,6 @@ Primero::Application.routes.draw do
       # post :sync_unverified
       post :import_file
       post :mark_for_mobile
-      # get :advanced_search
       get :search
     end
 
@@ -289,15 +287,6 @@ Primero::Application.routes.draw do
     #User API
     get :users, to: 'users#search'
   end
-
-#######################
-# ADVANCED SEARCH URLS
-#######################
-
-  resources :advanced_search, :only => [:index, :new]
-  match 'advanced_search/index', :to => 'advanced_search#index', :via => [:post, :get, :put, :delete]
-  match 'advanced_search/export_data' => 'advanced_search#export_data', :as => :export_data_children, :via => :post
-
 
   match 'configuration_bundle/export', :to => 'configuration_bundle#export_bundle', :via => [:get, :post]
   match 'configuration_bundle/import', :to => 'configuration_bundle#import_bundle', :via => [:post]
