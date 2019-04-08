@@ -158,7 +158,7 @@ describe ApprovalActions, type: :controller do
         p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
         @case3.stub(:module).and_return p_module
         @case3.save
-        User.stub(:get).with(@owner.id).and_return @owner
+        User.stub(:find).with(@owner.id).and_return @owner
         @owner.stub(:managers).and_return [@manager1]
         ActiveJob::Base.queue_adapter = :inline
         @params = {id: @case3.id, approval: "true", approval_type: Approvable::CASE_PLAN, comments: "Test Comments"}

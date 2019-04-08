@@ -8,7 +8,6 @@ FactoryBot.define do
     organization 'agency-unicef' #TODO: Refactor as association?
     location 'SLE0103'
     disabled false
-    verified true
     role_ids ['random_role_id']
     module_ids ['CP']
     user_group_ids ["user-group-primero"]

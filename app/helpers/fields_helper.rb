@@ -170,8 +170,8 @@ module FieldsHelper
     #   if subform_object.present? && object.owned_by != @current_user.user_name
     #     subform_object = subform_object.select do |transition|
     #       if transition.type == Transition::TYPE_REFERRAL
-    #         @current_user.is_admin? ||
-    #         @current_user.has_group_permission?(Permission::GROUP) ||
+    #         @current_user.admin? ||
+    #         @current_user.group_permission?(Permission::GROUP) ||
     #         transition.to_user_local == @current_user.user_name
     #       else
     #         true

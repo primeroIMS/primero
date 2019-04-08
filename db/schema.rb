@@ -254,6 +254,43 @@ ActiveRecord::Schema.define(version: 20190318000000) do
     t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
   end
 
+  create_table "user_groups_users", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "user_group_id"
+    t.index ["user_group_id"], name: "index_user_groups_users_on_user_group_id"
+    t.index ["user_id"], name: "index_user_groups_users_on_user_id"
+  end
+
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "full_name"
+    t.string "user_name"
+    t.string "encrypted_password", default: "", null: false
+    t.string "code"
+    t.string "phone"
+    t.string "email"
+    t.integer "agency_id"
+    t.string "position"
+    t.string "location"
+    t.integer "role_id"
+    t.string "time_zone", default: "UTC"
+    t.string "locale"
+    t.boolean "is_manager", default: false
+    t.boolean "send_mail", default: true
+    t.boolean "disabled", default: false
+    t.string "services", array: true
+    t.string "agency_office"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.string "module_ids", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agency_id"], name: "index_users_on_agency_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
+    t.index ["user_name"], name: "index_users_on_user_name", unique: true
+  end
+
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
   add_foreign_key "fields", "form_sections", column: "subform_section_id"
 end

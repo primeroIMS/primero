@@ -1,7 +1,7 @@
 class NotificationMailer < ApplicationMailer
   def manager_approval_request(user_id, manager_id, record_id, approval_type, host_url)
-    @user = User.get(user_id)
-    @manager = User.get(manager_id)
+    @user = User.find_by(id: user_id)
+    @manager = User.find_by(id: manager_id)
     @child = Child.find(record_id)
     @url = host_url
 
@@ -24,7 +24,7 @@ class NotificationMailer < ApplicationMailer
       @url = host_url
 
       if @owner.present? && @owner.email.present? && @owner.send_mail
-        @manager = User.get(manager_id)
+        @manager = User.find_by(id: manager_id)
 
         lookup_name = is_gbv ? 'lookup-gbv-approval-types' : 'lookup-approval-type'
         @approval_type = Lookup.display_value(lookup_name, approval_type)
@@ -74,7 +74,7 @@ class NotificationMailer < ApplicationMailer
     @model_class = record_class.constantize
     @record = @model_class.find(record_id)
     return Rails.logger.error("Request Transfer [RecordType: #{record_class} ID: #{record_id}] to [User ID: #{user_id}] Mail not sent - Record not found") if @record.blank?
-    @user = User.get(user_id)
+    @user = User.find_id(id: user_id)
     return Rails.logger.error("Request Transfer [RecordType: #{record_class} ID: #{record_id}] to [User ID: #{user_id}] Mail not sent - User not found") if @user.blank?
     @owner_email = @record.owner&.email
     return Rails.logger.error("Request Transfer [RecordType: #{record_class} ID: #{record_id}] to [User ID: #{user_id}] Mail not sent - Record Owner has no email address") if @owner_email.blank?

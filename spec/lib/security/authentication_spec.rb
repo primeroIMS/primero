@@ -28,14 +28,14 @@ module Security
     it "should raise AuthenticationFailure if no session ID" do
       lambda {
         @controller.session[:rftr_session_id] = nil
-        @controller.send :check_authentication
+        @controller.send :authenticate_user!
       }.should raise_error(AuthenticationFailure)
     end
 
     it "should raise AuthenticationFailure if no such session object" do
       lambda {
         @controller.stub :current_session => nil
-        @controller.send :check_authentication
+        @controller.send :authenticate_user!
       }.should raise_error(AuthenticationFailure)
     end
 
@@ -43,7 +43,7 @@ module Security
       lambda {
         mock_session = Session.new
         @controller.stub :current_session => mock_session
-        @controller.send :check_authentication
+        @controller.send :authenticate_user!
       }.should raise_error(AuthenticationFailure)
     end
 

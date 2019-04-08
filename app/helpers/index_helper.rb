@@ -216,7 +216,7 @@ module IndexHelper
   def build_list_field_by_model(model_name, user)
     #Necessary when calling this method from csv_exporter_list_view
     if @current_user != user
-      @is_admin ||= user.is_admin?
+      @is_admin ||= user.admin?
       @is_manager ||= user.is_manager?
       @is_cp ||= user.has_module?(PrimeroModule::CP)
       @is_gbv ||= user.has_module?(PrimeroModule::GBV)

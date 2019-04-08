@@ -1,6 +1,6 @@
 class UserMailer < ApplicationMailer
   def welcome(user_id, host_url)
-    @user = User.get(user_id)
+    @user = User.find_by(id: user_id)
     if @user.present?
       @url = host_url
       @system_settings ||= SystemSettings.current

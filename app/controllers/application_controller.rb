@@ -7,23 +7,17 @@ class ApplicationController < ActionController::Base
   before_action :authorize_profiler
 
   helper :all
-  helper_method :current_user_name, :current_user, :current_user_full_name, :current_user_agency, :current_session
-  helper_method :logged_in?, :is_mobile?
+  helper_method :is_mobile?
 
   include AgencyLogos
-  include Security::Authentication
 
+  before_action :authenticate_user!
   before_action :permit_all_params
-  before_action :extend_session_lifetime
-  before_action :check_authentication
   before_action :load_system_settings
   before_action :set_locale
 
   around_action :with_timezone
 
-  rescue_from ActionController::InvalidAuthenticityToken, :with => :redirect_to_login
-  rescue_from( AuthenticationFailure ) { |e| handle_authentication_failure(e) }
-  rescue_from( AuthorizationFailure ) { |e| handle_authorization_failure(e) }
   rescue_from( ErrorResponse ) { |e| render_error_response(e) }
   rescue_from CanCan::AccessDenied do |exception|
     if request.format == "application/json"
@@ -33,45 +27,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def extend_session_lifetime
-    request.env[Rack::RACK_SESSION][:expire_after] = 1.week if request.format.json?
-  end
-
   def authorize_profiler
     Rack::MiniProfiler.authorize_request if ENV['PROFILE']
-  end
-
-  def handle_authentication_failure(auth_failure)
-    respond_to do |format|
-      store_location_for(request.original_fullpath)
-      format.html { redirect_to(:login) }
-      format.any(:xml,:json) { render_error_response ErrorResponse.unauthorized(I18n.t("session.invalid_token")) }
-    end
-  end
-
-  def handle_authorization_failure(authorization_failure)
-    respond_to do |format|
-      format.any { render_error_response ErrorResponse.new(403, authorization_failure.message) }
-    end
-  end
-
-  def store_location_for(path)
-    uri = URI.parse path
-
-    blacklisted_stored_paths =[
-      '/logout',
-      '/login'
-    ]
-
-    if uri.present? && !blacklisted_stored_paths.include?(request.fullpath)
-      path = [uri.path.sub(/\A\/+/, '/'), uri.query].compact.join('?')
-      path = [path, uri.fragment].compact.join('#')
-      session[:stored_location] = path
-    end
-  end
-
-  def clear_store_location
-    session.delete(:stored_location)
   end
 
   def handle_device_blacklisted(session)
@@ -94,8 +51,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    if logged_in?
-      I18n.locale = (get_selected_locale || current_user.locale || I18n.default_locale)
+    if user_signed_in?
+      I18n.locale = (selected_locale || current_user.locale || I18n.default_locale)
     end
     page_direction(I18n.locale)
   end
@@ -142,10 +99,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def redirect_back_or_default(default = root_path, options = {})
-    redirect_to (request.referer.present? ? :back : default), options
-  end
-
   class << self
     attr_accessor :model_class
   end
@@ -162,10 +115,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def redirect_to_login
-    redirect_to logout_path
-  end
-
   private
 
   def permit_all_params
@@ -177,7 +126,7 @@ class ApplicationController < ActionController::Base
     Time.use_zone(timezone) { yield }
   end
 
-  def get_selected_locale
+  def selected_locale
     params['locale'] if params['locale'].present? && Primero::Application::LOCALES.include?(params['locale'])
   end
 

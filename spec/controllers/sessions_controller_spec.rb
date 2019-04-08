@@ -20,7 +20,6 @@ describe SessionsController do
     JSON.parse(response.body)["module_ids"].should == ["primeromodule-cp"]
     JSON.parse(response.body)["role_ids"].should == ["role-cp-case-worker"]
     JSON.parse(response.body)["language"].should == "en"
-    JSON.parse(response.body)["verified"].should == mock_user.verified?
   end
 
   describe 'logger' do
