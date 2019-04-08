@@ -211,7 +211,7 @@ class UsersController < ApplicationController
     end
   end
   def load_user
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
 
     if @user.nil?
       flash[:error] = t("user.messages.not_found")
