@@ -1,3 +1,4 @@
+---
 version: '3'
 services:
   nginx_production:
@@ -6,15 +7,18 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - certbot_certs:/etc/letsencrypt
+      - local_certs:/etc/certs
       - certbot_var:/var/lib/letsencrypt
       - certbot_www:/var/www/certbot
+      - certbot_certs:/etc/letsencrypt
       - primero_tmp:/srv/primero/tmp
     env_file:
       - docker/defaults.env
     environment:
       - NGINX_GENERATE_SSL_CERT=true
 volumes:
-  certbot_certs:
+  local_certs:
   certbot_www:
   certbot_var:
+  certbot_certs:
+  primero_tmp:

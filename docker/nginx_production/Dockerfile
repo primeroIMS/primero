@@ -7,7 +7,7 @@ COPY [ "nginx_production/entrypoint.sh", "sub.sh", "/" ]
 RUN set -ex; \
         chmod +x /sub.sh /entrypoint.sh; \
         apk update; \
-        apk add openssl bash 
+        apk add openssl bash certbot
 
 EXPOSE 80 
 CMD ["nginx", "-g", "daemon off;"]

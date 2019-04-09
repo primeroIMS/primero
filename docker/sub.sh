@@ -35,7 +35,7 @@ prim_source_defaults() {
 # avoid outputting the filename to the prompt
 prim_perform_substitution() {
   printf "%s\\n---------------\\n" "${PRIM_FILENAME}"
-  cat "${PRIM_FILENAME}" | envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" | tee "${PRIM_FILENAME}"
+  cat "${PRIM_FILENAME}" | envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" > "${PRIM_FILENAME}"
   
   printf "\\n---------------\\n"
 }
