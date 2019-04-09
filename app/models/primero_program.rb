@@ -14,7 +14,7 @@ class PrimeroProgram < ActiveRecord::Base
 
   def set_unique_id
     unless self.unique_id.present?
-      self.unique_id = "#{self.class.name}-#{self.name}".parameterize.dasherize
+      self.unique_id = "#{self.class.name}-#{self.name_en}".parameterize.dasherize
     end
   end
 
