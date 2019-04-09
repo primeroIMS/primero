@@ -15,7 +15,7 @@ class PrimeroProgramsController < ApplicationController
   end
 
   def show
-    @primero_program = PrimeroProgram.find(params[:id])
+    @primero_program = PrimeroProgram.find_by(id: params[:id])
     authorize! :view, @primero_program
 
     respond_to do |format|
@@ -25,12 +25,12 @@ class PrimeroProgramsController < ApplicationController
   end
 
   def edit
-    @primero_program = PrimeroProgram.find(params[:id])
+    @primero_program = PrimeroProgram.find_by(id: params[:id])
     authorize! :update, @primero_program
   end
 
   def update
-    @primero_program = PrimeroProgram.find(params[:id])
+    @primero_program = PrimeroProgram.find_by(id: params[:id])
     authorize! :update, @primero_program
 
     if @primero_program.update_attributes(params[:primero_program].to_h)
@@ -58,7 +58,7 @@ class PrimeroProgramsController < ApplicationController
   end
 
   def destroy
-    @primero_program = PrimeroProgram.find(params[:id])
+    @primero_program = PrimeroProgram.find_by(id: params[:id])
     authorize! :destroy, @primero_program
     @primero_program.destroy
     redirect_to(primero_programs_url)

@@ -6,7 +6,7 @@ class PrimeroProgram < ActiveRecord::Base
   validates :unique_id, uniqueness: { message: I18n.t('errors.models.primero_program.unique_unique_id') }
   validates :name, presence: { message: I18n.t('errors.models.primero_program.name_present') }
 
-  has_many :primero_modules, class_name: 'PrimeroModule', foreign_key: 'program_id'
+  has_many :primero_modules
 
   before_create :set_unique_id
 
