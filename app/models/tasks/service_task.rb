@@ -6,7 +6,7 @@ module Tasks
       tasks = []
       if record.try(:services_section).present?
         record.services_section.each do |service|
-          if has_task?(service)
+          if has_task?(record, service)
             tasks << ServiceTask.new(record, service)
           end
         end
@@ -14,10 +14,9 @@ module Tasks
       tasks
     end
 
-    def self.has_task?(service)
-      #TODO: or should use service.try(:service_implemented) == Child::SERVICE_NOT_IMPLEMENTED
-      service.try(:service_appointment_date).present? &&
-      !service.try(:service_implemented_day_time).present?
+    def self.has_task?(record, service)
+      service.try(:service_implemented_day_time).blank? &&
+      record.try(:service_due_date, service).present?
     end
 
     def initialize(record, service)
