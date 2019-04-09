@@ -5,6 +5,8 @@ describe Task do
   before :all do
     FormSection.all.each &:destroy
     Lookup.all.each &:destroy
+    SystemSettings.all.each &:destroy
+    SystemSettings.create(default_locale: "en")
 
     create(:form_section,
       fields: [
@@ -22,6 +24,13 @@ describe Task do
           build(:field, name: 'service_type'),
           build(:field, name: 'service_appointment_date', type: Field::DATE_FIELD),
           build(:field, name: 'service_implemented_day_time', type: Field::DATE_FIELD),
+          build(:field, name: 'service_response_day_time', type: Field::DATE_FIELD, selected_value: 'now'),
+          build(:field, name: 'service_response_timeframe', type: Field::SELECT_BOX,
+                option_strings_text_en: [
+                  { id: '1_hour', display_text: "One hour" },
+                  { id: '3_hours', display_text: "Three hours" },
+                  { id: '1_day', display_text: "One day" },
+                  { id: '3_days', display_text: "Three days" }].map(&:with_indifferent_access)),
         ])
       ]
     )
@@ -89,19 +98,83 @@ describe Task do
       expect(tasks).to be_empty
     end
 
-    it "creates a Service task" do
-      child = create(:child, services_section: [{service_appointment_date: Date.tomorrow}])
-      task = Task.from_case(child).first
+    describe 'service task' do
+      before do
+        @date_time = DateTime.parse("2017/11/01 12:54:55 -0400")
+        DateTime.stub(:now).and_return(@date_time)
+      end
 
-      expect(task.type).to eq('service')
+      context 'when due_date_from_appointment_date is true' do
+        before do
+          SystemSettings.any_instance.stub(:due_date_from_appointment_date).and_return(true)
+        end
+
+        context 'and appointment date is set' do
+          it "creates a Service task" do
+            child = create(:child, services_section: [{service_response_day_time: @date_time,
+                                                       service_appointment_date: Date.tomorrow}])
+            tasks = Task.from_case(child)
+            expect(tasks).not_to be_empty
+            expect(tasks.first.type).to eq('service')
+          end
+        end
+
+        context 'and appointment date is not set' do
+          it "does not create a Service task" do
+            child = create(:child, services_section: [{service_response_day_time: @date_time,
+                                                       service_response_timeframe: '1_hour'}])
+            tasks = Task.from_case(child)
+            expect(tasks).to be_empty
+          end
+        end
+
+        context 'when service has been implemented' do
+          it "does not create a Service task" do
+            child = create(:child, services_section: [{service_response_day_time: @date_time,
+                                                       service_appointment_date: Date.tomorrow,
+                                                       service_implemented_day_time: Date.today}])
+            tasks = Task.from_case(child)
+            expect(tasks).to be_empty
+          end
+        end
+      end
+
+      context 'when due_date_from_appointment_date is false' do
+        before do
+          SystemSettings.any_instance.stub(:due_date_from_appointment_date).and_return(false)
+        end
+
+        context 'when timeframe is set' do
+          it "creates a Service task" do
+            child = create(:child, services_section: [{service_response_day_time: @date_time,
+                                                       service_response_timeframe: '1_hour'}])
+            tasks = Task.from_case(child)
+            expect(tasks).not_to be_empty
+            expect(tasks.first.type).to eq('service')
+          end
+        end
+
+        context 'when timeframe is not set' do
+          it "does not create a Service task" do
+            child = create(:child, services_section: [{service_response_day_time: @date_time,
+                                                       service_appointment_date: Date.tomorrow}])
+            tasks = Task.from_case(child)
+            expect(tasks).to be_empty
+          end
+        end
+
+        context 'when service has been implemented' do
+          it "does not create a Service task" do
+            child = create(:child, services_section: [{service_response_day_time: @date_time,
+                                                       service_response_timeframe: '1_hour',
+                                                       service_implemented_day_time: Date.today}])
+            tasks = Task.from_case(child)
+            expect(tasks).to be_empty
+          end
+        end
+      end
     end
 
-    it "doesn't create a Followup task if Followup already took place" do
-      child = create(:child, services_section: [{service_appointment_date: Date.tomorrow, service_implemented_day_time: Date.today}])
-      tasks = Task.from_case(child)
-
-      expect(tasks).to be_empty
-    end
   end
 
   describe "sort order" do
