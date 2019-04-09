@@ -62,6 +62,7 @@ class PrimeroModule < CouchRest::Model::Base
   #   memoize_in_prod :get
   # end
 
+  # TODO Should be a `belongs_to` when this model is migrated
   def program
     PrimeroProgram.get self.program_id
   end

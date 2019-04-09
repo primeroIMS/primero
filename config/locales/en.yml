@@ -1847,6 +1847,10 @@ en:
         name_present: "must not be blank"
         code_present: "must not be blank"
 
+      primero_program:
+        unique_unique_id: "A PrimeroProgram with that unique_id already exists, please enter a different unique_id"
+        name_present: "must not be blank"
+
       location:
         name_present: "must not be blank"
         code_present: "must not be blank"

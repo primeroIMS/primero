@@ -246,7 +246,12 @@ create_or_update_module(
     use_workflow_assessment: false,
     reporting_location_filter: true
   }
-  program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
+  program_id: "primeroprogram-primero",
+  allow_searchable_ids: true,
+  use_workflow_service_implemented: true,
+  use_workflow_case_plan: true,
+  use_workflow_assessment: false,
+  reporting_location_filter: true
 )
 
 
@@ -264,8 +269,10 @@ create_or_update_module(
     "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer", "client_feedback", "approvals",
     "cp_case_plan", "closure_form"
   ]),
-  program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
   module_options: {
      user_group_filter: true
   }
+  ],
+  program_id: "primeroprogram-primero",
+  user_group_filter: true
 )
