@@ -3,8 +3,9 @@ class PrimeroProgram < ActiveRecord::Base
 
   localize_properties :name, :description
 
-  validates :unique_id, uniqueness: { message: I18n.t('errors.models.primero_program.unique_unique_id') }
-  validates :name, presence: { message: I18n.t('errors.models.primero_program.name_present') }
+  validates :unique_id, uniqueness: { message: 'errors.models.primero_program.unique_unique_id' }
+  validates :name, presence: { message: 'errors.models.primero_program.name_present' }
+  validate :validate_name_in_english
 
   has_many :primero_modules
 
@@ -16,6 +17,12 @@ class PrimeroProgram < ActiveRecord::Base
     unless self.unique_id.present?
       self.unique_id = "#{self.class.name}-#{self.name_en}".parameterize.dasherize
     end
+  end
+
+  def validate_name_in_english
+    return true if self.name_en.present?
+    errors.add(:name, 'errors.models.primero_program.name_present')
+    false
   end
 
 end
