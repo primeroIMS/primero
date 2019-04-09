@@ -4,7 +4,6 @@ class PrimeroProgram < ActiveRecord::Base
   localize_properties :name, :description
 
   validates :unique_id, uniqueness: { message: 'errors.models.primero_program.unique_unique_id' }
-  validates :name, presence: { message: 'errors.models.primero_program.name_present' }
   validate :validate_name_in_english
 
   has_many :primero_modules
