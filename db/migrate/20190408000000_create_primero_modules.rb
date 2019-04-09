@@ -2,7 +2,7 @@ class CreatePrimeroModules < ActiveRecord::Migration[5.0]
   def change
     create_table :primero_modules do |t|
       t.string     :unique_id
-      t.references :program
+      t.belongs_to :primero_program
       t.jsonb      :name, default: {}
       t.jsonb      :description, default: {}
       t.string     :associated_record_types, array: true
@@ -11,11 +11,16 @@ class CreatePrimeroModules < ActiveRecord::Migration[5.0]
       t.jsonb      :module_options
     end
 
-    add_index :primero_modules, :unqiue_id, unique: true
+    add_index :primero_modules, :unique_id, unique: true
 
-    create_table :primero_module_form_sections, :id => false do |t|
+    create_table :form_sections_primero_modules, :id => false do |t|
       t.integer :primero_module_id
       t.integer :form_section_id
+    end
+
+    create_table :primero_modules_users do |t|
+      t.belongs_to :user, index: true
+      t.belongs_to :primero_module, index: true
     end
   end
 end

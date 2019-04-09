@@ -123,7 +123,7 @@ class Incident < ActiveRecord::Base
   def incident_mapping(from_module_id)
     incident_map = Incident::DEFAULT_INCIDENT_MAPPING
     if from_module_id.present?
-      from_module = PrimeroModule.get(from_module_id)
+      from_module = PrimeroModule.find_by(unique_id: from_module_id)
       if from_module.present?
         incident_map = from_module.field_map_fields if from_module.field_map_fields.present?
       end

@@ -61,7 +61,7 @@ $(show_tools);
 <% end %>
 
 <% content_for :record_status do %>
-  <% if @child.module.workflow_status_indicator.present? %>
+  <% if @child.module.module_options['workflow_status_indicator'].present? %>
     <%= display_workflow_status(@child, @lookups) %>
   <% end %>
 <% end %>
@@ -77,7 +77,7 @@ $(show_tools);
       </div>
     </div>
   <% end %>
-  <% if @child.module.agency_code_indicator.present? %>
+  <% if @child.module.module_options['agency_code_indicator'].present? %>
     <div class="record_agency_code">
       <%= "#{@child.owner.try(:agency).try(:agency_code)} #{t('forms.record_types.case')}" %>
     </div>

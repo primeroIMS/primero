@@ -309,18 +309,18 @@ describe User do
       @form_section_a = FormSection.create!(unique_id: "A", name: "A")
       @form_section_b = FormSection.create!(unique_id: "B", name: "B")
       @form_section_c = FormSection.create!(unique_id: "C", name: "C")
-      @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B"], associated_record_types: ['case'])
+      @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", form_section_ids: ["A", "B"], associated_record_types: ['case'])
       @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
       @role = Role.create!(form_sections: [@form_section_b, @form_section_c], name: "Test Role", permissions_list: [@permission_case_read])
     end
 
     it "inherits the forms permitted by the modules" do
-      user = User.new(user_name: "test_user", module_ids: [@primero_module.id])
+      user = User.new(user_name: "test_user", module_ids: [@primero_module.unique_id])
       expect(user.permitted_form_ids).to match_array(["A", "B"])
     end
 
     it "will be permitted to only use forms granted by roles if such forms are explicitly set" do
-      user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
+      user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.unique_id])
       expect(user.permitted_form_ids).to match_array(["B", "C"])
     end
   end

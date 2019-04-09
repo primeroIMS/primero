@@ -93,11 +93,11 @@ class ChildrenController < ApplicationController
       new_incident_params[:incident_detail_id] = params[:incident_detail_id]
     end
     if from_module.present?
-      new_incident_params[:from_module_id] = from_module.id
+      new_incident_params[:from_module_id] = from_module.unique_id
     end
 
     if from_module.present? && params[:incident_detail_id].present?
-      incident = Incident.new_incident_from_case(to_module_id, @child, from_module.id, params[:incident_detail_id])
+      incident = Incident.new_incident_from_case(to_module_id, @child, from_module.unique_id, params[:incident_detail_id])
       incident.save
 
       content = {
@@ -362,9 +362,9 @@ class ChildrenController < ApplicationController
 
   def redirect_after_update
     case_module = @child.module
-    if params[:commit] == t("buttons.create_incident") and case_module.id == PrimeroModule::GBV
+    if params[:commit] == t("buttons.create_incident") and case_module.unique_id == PrimeroModule::GBV
       #It is a GBV cases and the user indicate that want to create a GBV incident.
-      redirect_to new_incident_path({:module_id => case_module.id, :case_id => @child.id})
+      redirect_to new_incident_path({:module_id => case_module.unique_id, :case_id => @child.id})
     else
       redirect_to case_path(@child, { follow: true })
     end

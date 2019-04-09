@@ -1,31 +1,11 @@
 def create_or_update_module(module_hash)
-  module_id = PrimeroModule.id_from_name(module_hash[:name])
-  primero_module = PrimeroModule.get(module_id)
-
-
-  #Include associated subforms
-  #TODO: Refactor to use FormSection.get_subforms
-  if module_hash[:associated_form_ids].present?
-    #Preserve existing associated form ids
-    module_hash[:associated_form_ids] = module_hash[:associated_form_ids] | primero_module.associated_form_ids if primero_module.present?
-
-    associated_forms = FormSection.where(unique_id: module_hash[:associated_form_ids])
-    if associated_forms.present?
-      subform_ids = []
-      associated_forms.map{|f| f.fields}.flatten.each do |field|
-        if field.type == 'subform' && field.subform_section_id
-          subform_ids.push field.subform_section_id
-        end
-      end
-      module_hash[:associated_form_ids] = module_hash[:associated_form_ids] | subform_ids
-    end
-  end
+  primero_module = PrimeroModule.find_by(unique_id: module_hash[:unique_id])
 
   if primero_module.nil?
-    puts "Creating module #{module_id}"
+    puts "Creating module #{module_hash[:name]}"
     PrimeroModule.create! module_hash
   else
-    puts "Updating module #{module_id}"
+    puts "Updating module #{module_hash[:name]}"
     primero_module.update_attributes module_hash
   end
 
@@ -245,13 +225,8 @@ create_or_update_module(
     use_workflow_case_plan: true,
     use_workflow_assessment: false,
     reporting_location_filter: true
-  }
-  program_id: "primeroprogram-primero",
-  allow_searchable_ids: true,
-  use_workflow_service_implemented: true,
-  use_workflow_case_plan: true,
-  use_workflow_assessment: false,
-  reporting_location_filter: true
+  },
+  primero_program: PrimeroProgram.find_by(unique_id: "primeroprogram-primero"),
 )
 
 
@@ -271,8 +246,6 @@ create_or_update_module(
   ]),
   module_options: {
      user_group_filter: true
-  }
-  ],
-  program_id: "primeroprogram-primero",
-  user_group_filter: true
+  },
+  primero_program: PrimeroProgram.find_by(unique_id: "primeroprogram-primero")
 )

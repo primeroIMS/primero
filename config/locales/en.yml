@@ -884,7 +884,7 @@ en:
     forms: "Forms assigned to this module"
     program: "Program"
     associated_record_types: "Associated record types"
-    associated_form_ids: "Assocaited form ids"
+    form_section_ids: "Assocaited form ids"
 
 
   primero_programs:
@@ -1813,7 +1813,7 @@ en:
         name_present: "Name must not be blank"
         unique_name: "A module with that name already exists, please enter a different name"
         program: "There must be a program associated with this module"
-        associated_form_ids: "At least one form must be associated with this module"
+        form_section_ids: "At least one form must be associated with this module"
         associated_record_types: "At least one record type must be associated with this module"
 
       primero_program:

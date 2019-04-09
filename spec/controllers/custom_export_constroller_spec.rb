@@ -218,7 +218,7 @@ describe CustomExportsController do
         program_id: "primeroprogram-primero",
         name: "CP",
         description: "Child Protection",
-        associated_form_ids: ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4", "form_section_test_5"],
+        form_section_ids: ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4", "form_section_test_5"],
         associated_record_types: ['case']
     )
 
@@ -235,7 +235,7 @@ describe CustomExportsController do
     describe "permitted_forms_list" do
 
       it "returns only permitted forms per user" do
-        user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
+        user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.unique_id])
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.
         user.stub(:roles).and_return([])
@@ -264,7 +264,7 @@ describe CustomExportsController do
         )
         user = User.new(
           :user_name => 'fakeadmin',
-          :module_ids => [@primero_module.id], :role_ids => [role.id]
+          :module_ids => [@primero_module.unique_id], :role_ids => [role.id]
         )
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.
@@ -293,7 +293,7 @@ describe CustomExportsController do
           :form_sections => [@form, @form2, @form3, @form4]
         )
         user = User.new(:user_name => 'fakeadmin',
-                        :module_ids => [@primero_module.id],
+                        :module_ids => [@primero_module.unique_id],
                         :role_ids => [role.id])
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.
@@ -335,7 +335,7 @@ describe CustomExportsController do
         )
         user = User.new(
           :user_name => 'fakeadmin',
-          :module_ids => [@primero_module.id], :role_ids => [role.id]
+          :module_ids => [@primero_module.unique_id], :role_ids => [role.id]
         )
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.
@@ -375,7 +375,7 @@ describe CustomExportsController do
         )
         user = User.new(
           :user_name => 'fakeadmin',
-          :module_ids => [@primero_module.id], :role_ids => [role.id]
+          :module_ids => [@primero_module.unique_id], :role_ids => [role.id]
         )
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.

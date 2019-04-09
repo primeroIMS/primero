@@ -61,7 +61,7 @@ describe ReportsController do
         program_id: "primeroprogram-primero",
         name: "CP",
         description: "Child Protection",
-        associated_form_ids: ["form_section_test_1"],
+        form_section_ids: ["form_section_test_1"],
         associated_record_types: ['case']
     )
 
@@ -91,12 +91,12 @@ describe ReportsController do
           :form_sections => [@form]
       )
 
-      @owner = create :user, module_ids: [@primero_module.id], user_name: 'bobby', role_ids: [admin_role.id],
+      @owner = create :user, module_ids: [@primero_module.unique_id], user_name: 'bobby', role_ids: [admin_role.id],
                       user_group_ids: ['Test2'], organization: 'agency-xyz000', location: @town1.location_code
 
       @owner.stub(:roles).and_return([admin_role])
 
-      @owner2 = create :user, module_ids: [@primero_module.id], user_name: 'fred', role_ids: [role.id],
+      @owner2 = create :user, module_ids: [@primero_module.unique_id], user_name: 'fred', role_ids: [role.id],
                        organization: 'agency-abc999', location: @town1.location_code
       @owner2.stub(:roles).and_return([role])
 
@@ -115,7 +115,7 @@ describe ReportsController do
 
       @report = Report.new(
           name: 'test report',
-          module_id: @primero_module.id,
+          module_id: @primero_module.unique_id,
           record_type: 'case',
           aggregate_by: ['owned_by'],
           add_default_filters: true
@@ -125,7 +125,7 @@ describe ReportsController do
 
       @report2 = Report.new(
           name: 'test report 2',
-          module_id: @primero_module.id,
+          module_id: @primero_module.unique_id,
           record_type: 'case',
           aggregate_by: ['owned_by_location'],
           add_default_filters: true
@@ -173,7 +173,7 @@ describe ReportsController do
         :permissions_list => [case_permission],
         :form_sections => [@form]
       )
-      user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id], :role_ids => [role.id])
+      user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.unique_id], :role_ids => [role.id])
       session = fake_admin_login user
       #This is important to override some stub done in the fake_admin_login method.
       user.stub(:roles).and_return([role])
@@ -205,7 +205,7 @@ describe ReportsController do
         :permissions_list => [case_permission],
         :form_sections => [@form]
       )
-      user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id], :role_ids => [role.id])
+      user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.unique_id], :role_ids => [role.id])
       session = fake_admin_login user
       #This is important to override some stub done in the fake_admin_login method.
       user.stub(:roles).and_return([role])

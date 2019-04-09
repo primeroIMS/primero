@@ -29,9 +29,9 @@ id:
   clear: "Bersihkan"
   messages:
     delete_item: |
-        Peringatan: Jika Anda melanjutkan, data apa pun yang terkait dengan bidang ini akan hilang.
-        Jika Anda tidak yakin, nonaktifkan bidang sebagai gantinya.
-        Klik Batal untuk kembali. Klik OK untuk Menghapus field.
+      Peringatan: Jika Anda melanjutkan, data apa pun yang terkait dengan bidang ini akan hilang.
+      Jika Anda tidak yakin, nonaktifkan bidang sebagai gantinya.
+      Klik Batal untuk kembali. Klik OK untuk Menghapus field.
     move_item: "Anda akan memindahkan kolom ini ke bagian form lain ({{selection_key}}). Apakah ini ok?"
     enter_valid_date: "Silahkan masukkan tanggal dengan format yang ditentukan (dd-mmm-yyyy)"
     enter_valid_field_value: "Masukkan data sesuai dengan format yang berlaku."
@@ -56,9 +56,9 @@ id:
     logoff_warning_suffix: "detik."
     logoff_confirmation: "Apakah Anda ingin melanjutkan sesi Anda?"
     warning: |
-        Peringatan: Jika Anda melanjutkan, data apa pun yang terkait dengan bidang ini akan hilang.
-        Jika Anda tidak yakin, nonaktifkan bidang sebagai gantinya.
-        Klik Batal untuk kembali. Klik OK untuk Menghapus field.
+      Peringatan: Jika Anda melanjutkan, data apa pun yang terkait dengan bidang ini akan hilang.
+      Jika Anda tidak yakin, nonaktifkan bidang sebagai gantinya.
+      Klik Batal untuk kembali. Klik OK untuk Menghapus field.
     enter_each_in_one_line: "Masukkan setiap pilihan pada baris baru"
     record_count: "Menampilkan %{start} ke %{end} dari total %{total} data"
     form_sections_help_text_for_edit: "Klik tombol UBAH untuk menambahkan rincian %{form_section_name}"
@@ -85,7 +85,7 @@ id:
     details: "Rincian Masuk"
     username: "Nama Pengguna"
     notification:
-      enter_user_name: 'Masukkan nama pengguna'
+      enter_user_name: "Masukkan nama pengguna"
       users_requested_password_reset: "Pengguna ini meminta penyetelan ulang kata sandi. Silahkan hubungi mereka segera."
       users_does_not_exist: "%{User} di %{created}. Nama pengguna ini saat ini tidak ada di sistem."
       at: "Di %{created}."
@@ -153,9 +153,9 @@ id:
     flag_model: "Bendera %{model}"
     unflag_model: "Tidak ditandai Bendera %{model}"
     unflag_model_history: "Tandai Bendera Sejarah %{model}"
-    ok: 'OK'
+    ok: "OK"
     cancel: "Batal"
-    edit_subform: 'Ubah sub formulir'
+    edit_subform: "Ubah sub formulir"
     create_new_record: "Buat %{model} baru"
     bundle_import: "Paket Konfigurasi"
     bundle_export: "Paket Konfigurasi"
@@ -216,8 +216,8 @@ id:
       record_state: "Data Menerangkan:"
       photo: "Foto"
       photo_label: "Punya Foto?"
-      by_date: 'Berdasarkan Tanggal:'
-      date: 'Tanggal'
+      by_date: "Berdasarkan Tanggal:"
+      date: "Tanggal"
       approvals:
         pending: "Persetujuan Tertunda"
         approved: "Disetujui"
@@ -246,11 +246,11 @@ id:
     register_new_child: "Daftar Anak Baru"
     export: "Ekspor"
     selectable_date_options:
-      registration_date: 'Tanggal pendaftaran'
-      assessment_requested_on: 'Tanggal asesmen'
-      date_case_plan_initiated: 'Tanggal Perencanaan Kasus'
-      closure_approved_date: 'Tanggal Penutupan Kasus'
-      created_at: 'Tanggal Buka Kasus'
+      registration_date: "Tanggal pendaftaran"
+      assessment_requested_on: "Tanggal asesmen"
+      date_case_plan_initiated: "Tanggal Perencanaan Kasus"
+      closure_approved_date: "Tanggal Penutupan Kasus"
+      created_at: "Tanggal Buka Kasus"
     filter_by:
       label: "Filter oleh"
       all: "Semua"
@@ -370,7 +370,7 @@ id:
     create_new_case: "Buat Kasus Baru"
     enter_id_number: "Masukkan nomor ID untuk mencari catatan kasus yang telah ada"
     id_number_required: "Nomor ID dibutuhkan"
-    id_search_no_results: "Tidak ditemukan data yang cocok untuk \"%{id}\", silahkan buat catatan kasus yang baru."
+    id_search_no_results: 'Tidak ditemukan data yang cocok untuk "%{id}", silahkan buat catatan kasus yang baru.'
     id_search_results_html: "untuk <strong>%{id}</strong>"
     label: "ID Kasus"
     workflow:
@@ -417,8 +417,8 @@ id:
     survivor_code: "Kode Survivor"
     case_opening_date: "Tanggal Buka Kasus"
     photo: "Foto"
-    owned_by: 'Penanggungjawab Catatan Kasus'
-    owned_by_agency: 'Lembaga Penanggungjawab Catatan Kasus'
+    owned_by: "Penanggungjawab Catatan Kasus"
+    owned_by_agency: "Lembaga Penanggungjawab Catatan Kasus"
     messages:
       update_success: "Kasus %{record_id} telah berhasil diperbarui."
       investigation_error_message: "Harap konfirmasikan catatan yang ditandai dengan bendera harus ditandai sebagai yang diselidiki, dan masukkan rincian yang Anda miliki."
@@ -543,7 +543,7 @@ id:
     history_of: "Riwayat dari %{short_id}"
     violation:
       violation: "Pelanggaran"
-      pending: 'Verifikasi tertunda'
+      pending: "Verifikasi tertunda"
       killing: "Membunuh"
       maiming: "Mencacatkan"
       recruitment: "Pengerahan"
@@ -621,31 +621,31 @@ id:
       female: "Perempuan"
   potential_match:
     header_key: "Kriteria Pencocokan"
-    inquirer_id: 'ID# Penyelidik'
-    inquirer_name: 'Nama dari Penanya'
-    inquiry_date: 'Tanggal Penyelidikan'
-    inquirer_tr_name: 'Permintaan Penelusuran'
-    child_id: '#id anak'
-    child_age: 'Umur'
-    child_gender: 'Gender'
-    child_date_of_birth: 'Tanggal Lahir'
-    reg_date: 'Tanggal Pendaftaran'
-    social_worker: 'Pekerja Sosial'
-    social_worker_agency: 'Agensi'
-    score: 'Nilai'
-    show_more: 'Tampilkan lebih banyak'
-    show_less: 'Tampilkan Lebih Sedikit'
-    trace: 'Telusuri'
-    case: 'Kasus'
-    name: 'Nama'
-    name_other: 'Nama Lain'
-    name_nickname: 'Nama Panggilan'
+    inquirer_id: "ID# Penyelidik"
+    inquirer_name: "Nama dari Penanya"
+    inquiry_date: "Tanggal Penyelidikan"
+    inquirer_tr_name: "Permintaan Penelusuran"
+    child_id: "#id anak"
+    child_age: "Umur"
+    child_gender: "Gender"
+    child_date_of_birth: "Tanggal Lahir"
+    reg_date: "Tanggal Pendaftaran"
+    social_worker: "Pekerja Sosial"
+    social_worker_agency: "Agensi"
+    score: "Nilai"
+    show_more: "Tampilkan lebih banyak"
+    show_less: "Tampilkan Lebih Sedikit"
+    trace: "Telusuri"
+    case: "Kasus"
+    name: "Nama"
+    name_other: "Nama Lain"
+    name_nickname: "Nama Panggilan"
     likelihood:
-      likely: 'Kemungkinan Besar'
-      possible: 'Ada kemungkinan'
+      likely: "Kemungkinan Besar"
+      possible: "Ada kemungkinan"
   duplicates:
-    search_for_duplicates: 'Cari Duplikat'
-    clear_filter: 'Bersihkan'
+    search_for_duplicates: "Cari Duplikat"
+    clear_filter: "Bersihkan"
     filter_by:
       name: "Nama"
       name_nickname: "Nama Panggilan"
@@ -693,10 +693,10 @@ id:
       transfer: "Memindahkan"
       reopen_case: "Membuka kembali"
     filter_by:
-      action: 'Nama Tindakan'
-      date: 'Tanggal'
-      timestamp: 'Stempel waktu'
-      user: 'Nama Pengguna'
+      action: "Nama Tindakan"
+      date: "Tanggal"
+      timestamp: "Stempel waktu"
+      user: "Nama Pengguna"
   preposition:
     on_label: "di"
     because: "Karena"
@@ -716,7 +716,7 @@ id:
       show: "Tunjukkan"
       edit: "Ubah"
     messages:
-      disable: 'Yakin ingin menonaktifkan pengguna ini?'
+      disable: "Yakin ingin menonaktifkan pengguna ini?"
     sort_by:
       label: "Sortir dengan"
       full_name: "Nama Lengkap"
@@ -760,8 +760,8 @@ id:
     group_permission_label: "Data apa yang mempengaruhi peran ini?"
     role_ids_label: "Peran lainnya dikelola oleh peran ini"
   agencies:
-    logo: 'Logo'
-    logo_enabled: 'Logo diaktifkan?'
+    logo: "Logo"
+    logo_enabled: "Logo diaktifkan?"
     label: "Agensi"
     view: "Lihat Agensi"
     successfully_created: "Agensi berhasil dibuat."
@@ -782,10 +782,10 @@ id:
     select_prompt: "Silahkan pilih Agensi"
     error_in_updating: "Kesalahan dalam memperbarui detail Agensi"
   agency:
-    edit: 'Ubah Agensi'
-    name: 'Nama Agensi'
-    code: 'Kode Agensi'
-    services: 'Layanan Lembaga'
+    edit: "Ubah Agensi"
+    name: "Nama Agensi"
+    code: "Kode Agensi"
+    services: "Layanan Lembaga"
   system_settings:
     label: "Pengaturan sistem"
     edit: "Ubah Pengaturan Sistem"
@@ -817,7 +817,7 @@ id:
     forms: "Formulir ditugaskan ke modul ini"
     program: "Program"
     associated_record_types: "Tipe data yang terkait"
-    associated_form_ids: "ID formulir terkait"
+    form_section_ids: "ID formulir terkait"
   primero_programs:
     label: "Program"
     view: "Lihat Program"
@@ -904,8 +904,8 @@ id:
   email: "Surat Elektronik"
   organization: "Organisasi"
   position: "Posisi"
-  'false': "Tidak"
-  'true': "Ya"
+  "false": "Tidak"
+  "true": "Ya"
   mandatory_field: "Kolom yang ditandai wajib diisi"
   add: "Tambah"
   belonging_to: "Milik"
@@ -1134,7 +1134,7 @@ id:
     messages:
       blacklist: "Apakah Anda ingin menambahkan perangkat ini ke daftar hitam?"
       remove_blacklist: "Apakah Anda ingin menghapus perangkat ini dari daftar hitam?"
-      disable: 'Yakin ingin menonaktifkan perangkat ini?'
+      disable: "Yakin ingin menonaktifkan perangkat ini?"
     information: "Informasi Perangkat"
     mobile_number: "No Telepon Seluler"
     timestamp: "Stempel waktu"
@@ -1274,22 +1274,22 @@ id:
       updated: "Lokasi berhasil ditambahkan"
       deleted: "Lokasi berhasil dihapus"
     base_types:
-      country: 'Negara'
-      region: 'Wilayah'
-      province: 'Provinsi'
-      district: 'Kabupaten/Kota:'
-      governorate: 'Gubernur'
-      chiefdom: 'Kepala Sekolah'
-      county: 'Negara'
-      state: 'Negara Bagian'
-      city: 'Kota'
-      camp: 'Kemah'
-      site: 'Tempat'
-      village: 'Desa'
-      zone: 'Zona'
-      other: 'Lainnya'
-      locality: 'Tempat dan sekitarnya'
-      sub-district: 'Kecamatan'
+      country: "Negara"
+      region: "Wilayah"
+      province: "Provinsi"
+      district: "Kabupaten/Kota:"
+      governorate: "Gubernur"
+      chiefdom: "Kepala Sekolah"
+      county: "Negara"
+      state: "Negara Bagian"
+      city: "Kota"
+      camp: "Kemah"
+      site: "Tempat"
+      village: "Desa"
+      zone: "Zona"
+      other: "Lainnya"
+      locality: "Tempat dan sekitarnya"
+      sub-district: "Kecamatan"
   matching_configuration:
     edit: "Edit Pengaturan Pencocokan"
     case_fields: "Informasi kasus yang dapat dicocokkan"
@@ -1384,8 +1384,8 @@ id:
     unknown: "Tidak diketahui"
     adult: "Dewasa"
     child: "Anak"
-    'yes': "Ya"
-    'no': "Tidak"
+    "yes": "Ya"
+    "no": "Tidak"
     none: "Tidak ada"
     uam_sc_ovc: "UAM/SC/OVC"
     unaccompanied_minor: "Minor Tidak didampingi"
@@ -1428,39 +1428,39 @@ id:
     child_status_transferred: "Dipindahkan"
     child_status_duplicate: "Duplikasi"
   dashboard:
-    total: 'Total'
-    new: 'Baru dan Telah Diperbarui'
-    pending_transfers: 'Pengalihan yang Ditunda'
-    rejected_transfers: 'Pengalihan yang Ditolak'
-    transers_awaiting_acceptance: 'Pengalihan sedang Menunggu Persetujuan'
+    total: "Total"
+    new: "Baru dan Telah Diperbarui"
+    pending_transfers: "Pengalihan yang Ditunda"
+    rejected_transfers: "Pengalihan yang Ditolak"
+    transers_awaiting_acceptance: "Pengalihan sedang Menunggu Persetujuan"
     total_referred: "Total Rujukan"
     new_referred: "Rujukan Baru"
-    high_risk: 'Prioritas Tinggi'
-    low_risk: 'Prioritas Rendah'
-    none_risk: 'Bukan Prioritas'
-    no_action_risk: 'Tak Perlu Tindakan'
-    medium_risk: 'Prioritas Sedang'
-    pending: 'Tertunda'
-    rejected: 'Ditolak'
-    near_deadline: 'Mendekati Tenggat Waktu'
-    due: 'Melampaui Tenggat Waktu'
-    response: 'Respon <span>(In Progress)</span>'
-    immediate_response: 'Respon Segera'
-    cases_to_assign: 'Kasus yang akan ditetapkan penugasannya'
-    overdue_cases_to_assign: 'Kasus lewat batas waktu yang akan ditetapkan penugasannya'
-    closed: 'Tutup'
-    comprehensive_need_intervention: 'Respon Komprehensif'
-    new_incident: 'Kejadian Baru'
-    new_service_provision: 'Pemberian Layanan Baru'
-    all_services_implemented: 'Semua layanan dilaksanakan'
-    services_implemented: 'Layanan yang dilaksanakan'
-    approved: 'Disetujui'
-    cases_by_workflow: 'Kasus berdasar Alur Penanganan'
-    cases_by_task_overdue: 'Tugas-tugas yang Melampaui Tenggat Waktu'
-    assessment: 'Asesmen'
-    case_plan: 'Rencana Kasus'
-    follow_up: 'Menindaklanjuti'
-    services: 'Layanan'
+    high_risk: "Prioritas Tinggi"
+    low_risk: "Prioritas Rendah"
+    none_risk: "Bukan Prioritas"
+    no_action_risk: "Tak Perlu Tindakan"
+    medium_risk: "Prioritas Sedang"
+    pending: "Tertunda"
+    rejected: "Ditolak"
+    near_deadline: "Mendekati Tenggat Waktu"
+    due: "Melampaui Tenggat Waktu"
+    response: "Respon <span>(In Progress)</span>"
+    immediate_response: "Respon Segera"
+    cases_to_assign: "Kasus yang akan ditetapkan penugasannya"
+    overdue_cases_to_assign: "Kasus lewat batas waktu yang akan ditetapkan penugasannya"
+    closed: "Tutup"
+    comprehensive_need_intervention: "Respon Komprehensif"
+    new_incident: "Kejadian Baru"
+    new_service_provision: "Pemberian Layanan Baru"
+    all_services_implemented: "Semua layanan dilaksanakan"
+    services_implemented: "Layanan yang dilaksanakan"
+    approved: "Disetujui"
+    cases_by_workflow: "Kasus berdasar Alur Penanganan"
+    cases_by_task_overdue: "Tugas-tugas yang Melampaui Tenggat Waktu"
+    assessment: "Asesmen"
+    case_plan: "Rencana Kasus"
+    follow_up: "Menindaklanjuti"
+    services: "Layanan"
     admin_only: "Klik %{links} untuk membuat perubahan pada aplikasi"
     forms: "tab FORM"
     users: "tanda PENGATURAN"
@@ -1663,7 +1663,7 @@ id:
         name_present: "Nama tidak boleh kosong"
         unique_name: "Sebuah modul dengan nama itu sudah ada, mohon masukkan nama yang berbeda"
         program: "Harus ada program yang terkait dengan modul ini"
-        associated_form_ids: "Setidaknya satu formulir harus dikaitkan dengan modul ini"
+        form_section_ids: "Setidaknya satu formulir harus dikaitkan dengan modul ini"
         associated_record_types: "Setidaknya satu jenis rekaman harus dikaitkan dengan modul ini"
       primero_program:
         name_present: "Nama tidak boleh kosong"
@@ -1679,7 +1679,7 @@ id:
         remote_app_uri: "Silahkan masukkan URL Primero yang benar"
         remote_unauthorized: "Nama pengguna atau kata sandi yang Anda masukkan salah"
         remote_error: "Tidak dapat terhubung ke server"
-        is_continuous: 'Replikasi terus menerus?'
+        is_continuous: "Replikasi terus menerus?"
       password_recovery_request:
         user_name_mandatory: "Silahkan masukkan nama pengguna yang benar"
       ownership:
@@ -2052,27 +2052,27 @@ id:
       case_plan: "Meminta Persetujuan untuk formulir Rencana Kasus"
       closure: "Meminta Persetujuan untuk formulir Terminasi"
     approve_form:
-      'false': "Menolak"
-      'true': "Menyetujui"
+      "false": "Menolak"
+      "true": "Menyetujui"
       bia: "Formulir BIA"
       case_plan: "Formulir Rencana Kasus"
       closure: "Formulir Terminasi"
     mark_for_mobile:
-      'false': "Tidak ditandai untuk seluler"
-      'true': "Tandai untuk seluler"
+      "false": "Tidak ditandai untuk seluler"
+      "true": "Tandai untuk seluler"
     record_state:
-      'false': "Nonaktifkan"
-      'true': "Aktifkan"
+      "false": "Nonaktifkan"
+      "true": "Aktifkan"
     graph_data: "Melihat data grafik"
     permitted_field_list: Daftar kolom yang diizinkan
     lookups_for_field: Cari untuk kolom
   job:
     status:
-      complete: 'Selesai'
+      complete: "Selesai"
   string_sources_failed: "Beberapa kolom gagal untuk ditampilkan, refresh halaman untuk menampilkan semua kolom."
   error_message:
-    notice: 'Kesalahan pengisian melarang data ini untuk disimpan'
-    fields_notice: 'Ada beberapa masalah dengan isian berikut:'
+    notice: "Kesalahan pengisian melarang data ini untuk disimpan"
+    fields_notice: "Ada beberapa masalah dengan isian berikut:"
   error_page:
     internal_server_error:
       something_went_wrong: Ma'af, Ada Kesalahan!
@@ -2084,14 +2084,14 @@ id:
       server_error: Halaman tidak ditemukan
   audio:
     update_browser:
-      title: 'Pembaharuan Diperlukan'
+      title: "Pembaharuan Diperlukan"
       message: "Untuk memutar media, Anda memerlukan pembaharuan browser ke versi terbaru"
       link_text: "Flash plugin"
   saved_searches:
     no_save_searches: "Anda tidak memiliki pencarian yang tersimpan"
     name: "Nama"
     save_search: "Simpan Pencarian"
-    delete: "Meng-klik OK akan menghapus \"%{filter_name}\""
+    delete: 'Meng-klik OK akan menghapus "%{filter_name}"'
   email_notification:
     enabled_label: "Kirim pemberitahuan e-mail"
     approval_request_subject: "Kasus: %{id} - Permintaan Persetujuan"

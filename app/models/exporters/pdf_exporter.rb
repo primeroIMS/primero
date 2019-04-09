@@ -105,7 +105,7 @@ module Exporters
         @pdf.start_new_page if @pdf.page_number > 1
         start_page = @pdf.page_number
         @pdf.outline.section(section_title(cs), :destination => @pdf.page_number)
-        render_case(@pdf, cs, @form_sections[cs.module.name], @props[cs.module.id])
+        render_case(@pdf, cs, @form_sections[cs.module.name], @props[cs.module.unique_id])
         end_page = @pdf.page_number
         print_heading(@pdf, cs, start_page, end_page)
       end

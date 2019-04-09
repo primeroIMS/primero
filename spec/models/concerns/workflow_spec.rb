@@ -16,18 +16,22 @@ describe Workflow do
         program_id: "module_a",
         associated_record_types: ['case'],
         name: "Test Module A",
-        associated_form_ids: [],
-        use_workflow_case_plan: true,
-        use_workflow_assessment: true
+        form_section_ids: [],
+        module_options: {
+          use_workflow_case_plan: true,
+          use_workflow_assessment: true
+        }
     )
 
     @module_b = PrimeroModule.new(
         program_id: "module_b",
         associated_record_types: ['case'],
         name: "Test Module B",
-        associated_form_ids: [],
-        use_workflow_case_plan: true,
-        use_workflow_assessment: true
+        form_section_ids: [],
+        module_options: {
+          use_workflow_case_plan: true,
+          use_workflow_assessment: true
+        }
     )
   end
 
@@ -49,8 +53,8 @@ describe Workflow do
 
       context 'and no modules use workflow_assessment' do
         before do
-          @module_a.use_workflow_assessment = false
-          @module_b.use_workflow_assessment = false
+          @module_a.module_options['use_workflow_assessment'] = false
+          @module_b.module_options['use_workflow_assessment'] = false
         end
 
         it 'does not include Workflow Assessment in the status list' do
@@ -60,8 +64,8 @@ describe Workflow do
 
       context 'and one modules uses workflow_assessment' do
         before do
-          @module_a.use_workflow_assessment = true
-          @module_b.use_workflow_assessment = false
+          @module_a.module_options['use_workflow_assessment'] = true
+          @module_b.module_options['use_workflow_assessment'] = false
         end
 
         it 'does include Workflow Assessment in the status list' do
@@ -71,8 +75,8 @@ describe Workflow do
 
       context 'and both modules use workflow_assessment' do
         before do
-          @module_a.use_workflow_assessment = true
-          @module_b.use_workflow_assessment = true
+          @module_a.module_options['use_workflow_assessment'] = true
+          @module_b.module_options['use_workflow_assessment'] = true
         end
 
         it 'does include Workflow Assessment in the status list' do
@@ -148,9 +152,11 @@ describe Workflow do
           program_id: "some_program",
           associated_record_types: ['case'],
           name: "Test Module",
-          #associated_form_ids: [form1.id, form2.id],
-          use_workflow_case_plan: true,
-          use_workflow_assessment: true
+          form_section_ids: [form1.id, form2.id],
+          module_options: {
+            use_workflow_case_plan: true,
+            use_workflow_assessment: true
+          }
       )
 
       user = User.new({:user_name => 'bob123', :organization=> "UNICEF"})

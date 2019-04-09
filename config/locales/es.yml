@@ -653,7 +653,7 @@ es:
     forms: "Formularios asignados a este módulo"
     program: "Programa"
     associated_record_types: "Tipos de registros asociados"
-    associated_form_ids: "Formas de identificación asociadas"
+    form_section_ids: "Formas de identificación asociadas"
 
 
   primero_programs:
@@ -1358,7 +1358,7 @@ es:
         name_present: "El nombre no puede estar en blanco"
         unique_name: "Ya existe un módulo con ese nombre, por favor ingrese otro nombre"
         program: "Debe asociarse un programa a este módulo"
-        associated_form_ids: "Debe asociarse por lo menos un formulario a este módulo"
+        form_section_ids: "Debe asociarse por lo menos un formulario a este módulo"
         associated_record_types: "Debe asociarse por lo menos un tipo de registro a este módulo"
 
       primero_program:

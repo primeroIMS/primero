@@ -57,7 +57,7 @@ module Workflow
     def workflow_services_implemented?
       self.changes_to_save_for_record.key?('services_section') &&
       self.services_status == Serviceable::SERVICES_ALL_IMPLEMENTED &&
-      self.module.use_workflow_service_implemented?
+      self.module.module_options['use_workflow_service_implemented']
     end
 
     def workflow_service_response?
@@ -74,7 +74,7 @@ module Workflow
     def workflow_assessment?
       self.changes_to_save_for_record.key?('assessment_requested_on') &&
       self.assessment_requested_on.present? &&
-      self.module.use_workflow_assessment
+      self.module.module_options['use_workflow_assessment']
     end
 
     def workflow_sequence_strings(lookups=nil)
@@ -93,10 +93,10 @@ module Workflow
       status_list = []
       status_list << workflow_key_value(WORKFLOW_NEW)
       status_list << workflow_key_value(WORKFLOW_REOPENED)
-      status_list << workflow_key_value(WORKFLOW_ASSESSMENT) if modules.try(:any?) {|m| m.use_workflow_assessment}
-      status_list << workflow_key_value(WORKFLOW_CASE_PLAN) if modules.try(:any?) {|m| m.use_workflow_case_plan}
+      status_list << workflow_key_value(WORKFLOW_ASSESSMENT) if modules.try(:any?) {|m| m.module_options['use_workflow_assessment']}
+      status_list << workflow_key_value(WORKFLOW_CASE_PLAN) if modules.try(:any?) {|m| m.module_options['use_workflow_case_plan']}
       status_list += Lookup.values('lookup-service-response-type', lookups, locale: I18n.locale)
-      status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED) if modules.try(:any?) {|m| m.use_workflow_service_implemented}
+      status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED) if modules.try(:any?) {|m| m.module_options['use_workflow_service_implemented']}
       status_list << workflow_key_value(WORKFLOW_CLOSED)
       status_list
     end

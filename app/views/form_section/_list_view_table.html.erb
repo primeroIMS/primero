@@ -23,7 +23,7 @@
             <td><%= form_group %></td>
             <td><%= form.description %></td>
             <td>
-              <%= link_to t("buttons.edit"), edit_form_section_path(form.section_name, module_id: primero_module.id, parent_form: @parent_form) %>
+              <%= link_to t("buttons.edit"), edit_form_section_path(form.section_name, module_id: primero_module.unique_id, parent_form: @parent_form) %>
               <br>
               <% unless form.core_form %>
                 <%= link_to t("buttons.delete"), form_section_path(form), data: {confirm: t("form_section.confirm_delete")}, method: :delete %>

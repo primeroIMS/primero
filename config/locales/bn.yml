@@ -1,7 +1,7 @@
 bn:
   valid: "সঠিক "
   invalid: "সঠিক নয়"
-  offline: 'application অফ্ লাইন '
+  offline: "application অফ্ লাইন "
   name: "নাম "
   home:
     fr: "Français"
@@ -29,9 +29,9 @@ bn:
   clear: "মুছে ফেলুন "
   messages:
     delete_item: |
-        সতর্কতা: আপনি যদি চালিয়ে যান, তবে এই ডাটার সাথে সম্পর্কিত যে কোনও তথ্য হারিয়ে যাবে।
-        আপনি অনিশ্চিত থাকলে, তার পরিবর্তে ক্ষেত্রটি অক্ষম করুন।
-        ফিরে যেতে Cancel এ Click করুন। ক্ষেত্র মুছে ফেলার জন্য OK তে Click করুন।
+      সতর্কতা: আপনি যদি চালিয়ে যান, তবে এই ডাটার সাথে সম্পর্কিত যে কোনও তথ্য হারিয়ে যাবে।
+      আপনি অনিশ্চিত থাকলে, তার পরিবর্তে ক্ষেত্রটি অক্ষম করুন।
+      ফিরে যেতে Cancel এ Click করুন। ক্ষেত্র মুছে ফেলার জন্য OK তে Click করুন।
     move_item: "আপনি এই ক্ষেত্রটি অন্য ফর্ম বিভাগে ({{selection_key}}) সরাতে চলেছেন। এটা কি ঠিক আছে?"
     enter_valid_date: "একটি বৈধ বিন্যাসে তারিখ প্রবেশ করুন (dd-mmm-yyyy)"
     enter_valid_field_value: "একটি বৈধ ক্ষেত্র মান লিখুন দয়া করে"
@@ -56,9 +56,9 @@ bn:
     logoff_warning_suffix: "দ্বিতীয় "
     logoff_confirmation: "আপনি কি আপনার সেশন চালু রাখতে চান?"
     warning: |
-        সতর্কতা: আপনি যদি চালিয়ে যান, তবে এই ক্ষেত্রের সাথে সম্পর্কিত যে কোনও তথ্য হারিয়ে যাবে।
-        আপনি অনিশ্চিত থাকলে, তার পরিবর্তে ক্ষেত্রটি অক্ষম করুন।
-        ফিরে যেতে Cancel এ Click করুন। ক্ষেত্র মুছে ফেলার জন্য OK তে  Click করুন।
+      সতর্কতা: আপনি যদি চালিয়ে যান, তবে এই ক্ষেত্রের সাথে সম্পর্কিত যে কোনও তথ্য হারিয়ে যাবে।
+      আপনি অনিশ্চিত থাকলে, তার পরিবর্তে ক্ষেত্রটি অক্ষম করুন।
+      ফিরে যেতে Cancel এ Click করুন। ক্ষেত্র মুছে ফেলার জন্য OK তে  Click করুন।
     enter_each_in_one_line: "নতুন লাইনের প্রতিটি বিকল্প লিখুন "
     record_count: "%{total} এর নথি  %{start}  দিকে%{end}  প্রদর্শন "
     form_sections_help_text_for_edit: "বিস্তারিত যোগ করার জন্য সম্পাদনা %{form_section_name} বাটনে ক্লিক করুন"
@@ -84,7 +84,7 @@ bn:
     details: "Login details "
     username: "User Name "
     notification:
-      enter_user_name: 'user name লিখুন '
+      enter_user_name: "user name লিখুন "
       users_requested_password_reset: "এই ব্যবহারকারীরা password reset এর জন্য অনুরোধ করেছে। অবিলম্বে তাদের সাথে যোগাযোগ করুন।"
       users_does_not_exist: "%{user}at %{created}। এই ব্যবহারকারীর নামটি বর্তমানে সিস্টেমে নেই। "
       at: "at %{created}"
@@ -149,9 +149,9 @@ bn:
     flag_model: "নিশান %{model}"
     unflag_model: "নিশানামুক্ত %{model}"
     unflag_model_history: "নিশান ইতিহাস %{model}"
-    ok: 'ঠিক '
+    ok: "ঠিক "
     cancel: "বাতিল "
-    edit_subform: ' Subform সম্পাদনা করুন'
+    edit_subform: " Subform সম্পাদনা করুন"
     create_new_record: "নতুন তৈরি %{model}"
     bundle_import: "Configuration Bundle"
     bundle_export: "Configuration Bundle"
@@ -212,8 +212,8 @@ bn:
       record_state: "রেকর্ড স্টেট "
       photo: "ছবি "
       photo_label: "ছবি আছে? "
-      by_date: 'তারিখ দ্বারা '
-      date: 'তারিখ '
+      by_date: "তারিখ দ্বারা "
+      date: "তারিখ "
       approvals:
         pending: "মুলতুবি অনুমোদন"
         approved: "অনুমোদিত "
@@ -242,11 +242,11 @@ bn:
     register_new_child: "নতুন শিশু নিবন্ধন  "
     export: "রপ্তানি"
     selectable_date_options:
-      registration_date: 'নিবন্ধনের তারিখ '
-      assessment_requested_on: 'পর্যালোচনার তারিখ'
-      date_case_plan_initiated: 'কেইস প্লানের তারিখ '
-      closure_approved_date: 'কেইস বন্ধের তারিখ '
-      created_at: 'কেইস খোলার তারিখ '
+      registration_date: "নিবন্ধনের তারিখ "
+      assessment_requested_on: "পর্যালোচনার তারিখ"
+      date_case_plan_initiated: "কেইস প্লানের তারিখ "
+      closure_approved_date: "কেইস বন্ধের তারিখ "
+      created_at: "কেইস খোলার তারিখ "
     filter_by:
       label: "Filter by"
       all: "সব "
@@ -376,8 +376,8 @@ bn:
       new: "নতুন "
       closed: "বন্ধ "
       reopened: "পুনঃ খোলা "
-      service_implemented: 'সেবা অপরিপুর্ণ '
-      services_implemented: 'সেবা অপরিপুর্ণ '
+      service_implemented: "সেবা অপরিপুর্ণ "
+      services_implemented: "সেবা অপরিপুর্ণ "
       case_plan: "কেইস প্লান "
       assessment: "Assessment"
     flagged_by: "পতাকাঙ্কিত দ্বারা "
@@ -413,8 +413,8 @@ bn:
     survivor_code: "বেঁচে থাকার কোড"
     case_opening_date: "কেইস খোলার তারিখ "
     photo: "ছবি "
-    owned_by: 'নথির মালিক '
-    owned_by_agency: 'নথি মালিকের এজেন্সি '
+    owned_by: "নথির মালিক "
+    owned_by_agency: "নথি মালিকের এজেন্সি "
     messages:
       update_success: "কেইস %{record_id}নিশ্চিতভাবে আপডেট করা হয়েছে"
       investigation_error_message: "পতাকাঙ্কিত রেকর্ড তদন্ত হিসাবে চিহ্নিত করা উচিত নিশ্চিত করুন, এবং আপনার কোন বিবরণ লিখুন"
@@ -539,7 +539,7 @@ bn:
     history_of: "ইতিহাস %{short_id}"
     violation:
       violation: "সহিংসতা "
-      pending: 'প্রক্রিয়াধীন ভেরিফিকেশন '
+      pending: "প্রক্রিয়াধীন ভেরিফিকেশন "
       killing: "হত্যা "
       maiming: "বিকলাঙ্গ "
       recruitment: "সংগ্রহ"
@@ -617,26 +617,26 @@ bn:
       female: "মহিলা "
   potential_match:
     header_key: "কারন সমুহ মিল "
-    inquirer_id: 'তদন্ত id#'
-    inquirer_name: 'তদন্তকারীর নাম'
-    inquiry_date: 'তদন্তের তারিখ '
-    inquirer_tr_name: 'ট্রেসিং অনুরোধ '
-    child_id: 'শিশু id#'
-    child_age: 'বয়স '
-    child_gender: 'লিঙ্গ '
-    child_date_of_birth: 'জম্মতারিখ '
-    reg_date: 'নিবন্ধনের তারিখ'
-    social_worker: 'সামাজিক কর্মী '
-    social_worker_agency: 'এজেন্সি '
-    score: 'স্কোর '
-    show_more: 'অধিক দেখান '
-    show_less: 'কম দেখান '
-    trace: 'চিহ্ন'
-    case: 'কেইস '
-    name: 'নাম '
+    inquirer_id: "তদন্ত id#"
+    inquirer_name: "তদন্তকারীর নাম"
+    inquiry_date: "তদন্তের তারিখ "
+    inquirer_tr_name: "ট্রেসিং অনুরোধ "
+    child_id: "শিশু id#"
+    child_age: "বয়স "
+    child_gender: "লিঙ্গ "
+    child_date_of_birth: "জম্মতারিখ "
+    reg_date: "নিবন্ধনের তারিখ"
+    social_worker: "সামাজিক কর্মী "
+    social_worker_agency: "এজেন্সি "
+    score: "স্কোর "
+    show_more: "অধিক দেখান "
+    show_less: "কম দেখান "
+    trace: "চিহ্ন"
+    case: "কেইস "
+    name: "নাম "
     likelihood:
-      likely: 'পছন্দনীয় '
-      possible: 'সম্ভব '
+      likely: "পছন্দনীয় "
+      possible: "সম্ভব "
   audit_log:
     timestamp: "টাইমস্ট্যাম্প - UTC"
     user_name: "User Name "
@@ -659,17 +659,17 @@ bn:
       transfer: "Transfering"
       reopen_case: "Reopening"
     filter_by:
-      action: 'কাজের নাম '
-      date: 'তারিখ '
-      timestamp: 'টাইমস্ট্যাম্প'
-      user: 'User Name '
+      action: "কাজের নাম "
+      date: "তারিখ "
+      timestamp: "টাইমস্ট্যাম্প"
+      user: "User Name "
   preposition:
     on_label: "on"
     because: "কারন "
     at_label: "তে "
   pagination:
     zero: "পাওয়া যায়নি %{model}"
-    page_entries_info: '%{model}__TOTAL_ এর _START__ _ _ _ দেখানো হচ্ছে'
+    page_entries_info: "%{model}__TOTAL_ এর _START__ _ _ _ দেখানো হচ্ছে"
   users:
     unverified: "যাচাই না করা ব্যবহারকারীদের"
     select_role: "ব্যবহারকারী যাচাই করার আগে একটি ভূমিকা নির্বাচন করুন"
@@ -682,7 +682,7 @@ bn:
       show: "দেখানো "
       edit: "সম্পাদন করা "
     messages:
-      disable: 'আপনি এই ব্যবহারকারী নিষ্ক্রিয় করতে চান আপনি কি নিশ্চিত?'
+      disable: "আপনি এই ব্যবহারকারী নিষ্ক্রিয় করতে চান আপনি কি নিশ্চিত?"
     sort_by:
       label: "Sort by"
       full_name: "সম্পুর্ণ নাম "
@@ -720,8 +720,8 @@ bn:
     group_permission_label: "এই ভূমিকা কি ভূমিকা প্রভাবিত করে?"
     role_ids_label: "অন্যান্য ভূমিকা এই ভূমিকা দ্বারা পরিচালিত"
   agencies:
-    logo: 'Logo'
-    logo_enabled: 'Logo সক্ষম?'
+    logo: "Logo"
+    logo_enabled: "Logo সক্ষম?"
     label: "এজেন্সি "
     view: "এজেন্সি দেখান "
     successfully_created: "সংস্থা সফলভাবে তৈরি"
@@ -738,9 +738,9 @@ bn:
     select_prompt: "একটি সংস্থা নির্বাচন করুন"
     error_in_updating: "এজেন্সি বিস্তারিত আপডেট করার সময় ত্রুটি"
   agency:
-    edit: 'এজেন্সি সম্পাদন '
-    name: 'এজেন্সি নাম '
-    code: 'এজেন্সি কোড '
+    edit: "এজেন্সি সম্পাদন "
+    name: "এজেন্সি নাম "
+    code: "এজেন্সি কোড "
   system_settings:
     label: "System Settings "
     edit: "সিস্টেম সেটিংস সম্পাদনা করুন"
@@ -772,7 +772,7 @@ bn:
     forms: "ফর্ম এই মডিউল নির্ধারিত"
     program: "প্রোগ্রাম "
     associated_record_types: "সহযোগী রেকর্ড ধরনের"
-    associated_form_ids: "সহযোগী ফর্ম ids"
+    form_section_ids: "সহযোগী ফর্ম ids"
   primero_programs:
     label: "প্রোগ্রাম "
     view: "প্রোগ্রাম দেখা "
@@ -857,8 +857,8 @@ bn:
   email: "Email"
   organization: "Organisation"
   position: "অবস্থান"
-  'false': "মিথ্যা "
-  'true': "সত্য "
+  "false": "মিথ্যা "
+  "true": "সত্য "
   mandatory_field: "চিহ্নিত ক্ষেত্র বাধ্যতামূলক"
   add: "যোগ "
   belonging_to: "belonging to"
@@ -1019,7 +1019,7 @@ bn:
       correct_errors: "নিম্নলিখিত ত্রুটি সংশোধন করুন এবং পুনরায় জমা দিন:"
       hide_confirmation: "আপনি ক্ষেত্র লুকাতে চান আপনি কি নিশ্চিত?"
       show_confirmation: "আপনি ক্ষেত্র দেখাতে চান, আপনি কি নিশ্চিত?"
-      drag_drop_help_text: 'আপনি টেনে আনতে ক্ষেত্রগুলিতে ক্লিক করতে পারেন & amp; drop আদেশ প্রয়োজনীয়  '
+      drag_drop_help_text: "আপনি টেনে আনতে ক্ষেত্রগুলিতে ক্লিক করতে পারেন & amp; drop আদেশ প্রয়োজনীয়  "
       updated: "ফর্ম বিভাগ সফলভাবে যোগ করা হয়েছে "
     hide: "গোপন? "
     show: "দেখানো "
@@ -1079,7 +1079,7 @@ bn:
     messages:
       blacklist: "আপনি এই ডিভাইসটি কালো তালিকাতে যুক্ত করতে চান?"
       remove_blacklist: "আপনি ব্ল্যাকলিস্ট থেকে এই ডিভাইস মুছে ফেলতে চান?"
-      disable: 'আপনি কি এই ডিভাইসটি অক্ষম করতে চান?'
+      disable: "আপনি কি এই ডিভাইসটি অক্ষম করতে চান?"
     information: "যন্ত্রের তথ্য"
     mobile_number: "Mobile Number"
     timestamp: "টাইমস্ট্যাম্প"
@@ -1087,7 +1087,7 @@ bn:
     contact_info: "অ্যাডমিনের সাথে যোগাযোগের তথ্য"
     highlight_fields: "Highlight Fields"
     manage_system_users: "সার্ভার সিঙ্ক্রোনাইজেশন ব্যবহারকারীদের ব্যবস্থাপনা "
-    create_system_user: 'System User তৈরি করুণ '
+    create_system_user: "System User তৈরি করুণ "
     system_logs: "System Logs"
   fields:
     label: "ক্ষেত্রসমূহ "
@@ -1170,15 +1170,15 @@ bn:
     edit: Edit Configuration
     remote_app_uri: Primero URL
     actions: ক্রিয়াকলাপ
-    status: 'স্টাটাস '
-    description: 'বর্ণনা '
+    status: "স্টাটাস "
+    description: "বর্ণনা "
     timestamp: টাইমস্ট্যাম্প
-    delete: 'মুছন '
+    delete: "মুছন "
     completed: Successful
     triggered: In Progress
     error: Failed
     confirm_delete: আপনি এই replication মুছে ফেলতে চান, আপনি কি নিশ্চিত?
-    start: ' Synchronization শুরু করুন'
+    start: " Synchronization শুরু করুন"
     stop: Synchronization বন্ধ করুন
     configure_a_server: একটি সার্ভার কনফিগার করুন
     reindex_pending: Reindex মুলতুবি
@@ -1219,22 +1219,22 @@ bn:
       updated: "অবস্থান সফলভাবে যোগ করা হয়েছে"
       deleted: "অবস্থান সফলভাবে মুছে ফেলা হয়েছে"
     base_types:
-      country: 'Country'
-      region: 'Region'
-      province: 'Province'
-      district: 'District'
-      governorate: 'Governorate'
-      chiefdom: 'Chiefdom'
-      county: 'County'
-      state: 'State'
-      city: 'City'
-      camp: 'Camp'
-      site: 'Site'
-      village: 'Village'
-      zone: 'Zone'
-      other: 'Other'
-      locality: 'Locality'
-      sub-district: 'Sub-district'
+      country: "Country"
+      region: "Region"
+      province: "Province"
+      district: "District"
+      governorate: "Governorate"
+      chiefdom: "Chiefdom"
+      county: "County"
+      state: "State"
+      city: "City"
+      camp: "Camp"
+      site: "Site"
+      village: "Village"
+      zone: "Zone"
+      other: "Other"
+      locality: "Locality"
+      sub-district: "Sub-district"
   matching_configuration:
     edit: "ম্যাচ কনফিগারেশন সম্পাদনা করুন"
     case_fields: "Matchable কেস ক্ষেত্র "
@@ -1329,8 +1329,8 @@ bn:
     unknown: "অপরিচিত "
     adult: "প্রাপ্তবয়স্ক"
     child: "শিশু"
-    'yes': "হ্যা "
-    'no': "না "
+    "yes": "হ্যা "
+    "no": "না "
     none: "None"
     uam_sc_ovc: "UAM/SC/OVC"
     unaccompanied_minor: "Unaccompanied Minor"
@@ -1373,38 +1373,38 @@ bn:
     child_status_transferred: "Transferred"
     child_status_duplicate: "Duplicate"
   dashboard:
-    total: 'মোট '
-    new: 'নতুন এবং আপডেট'
-    pending_transfers: 'মুলতুবি স্থানান্তর '
-    rejected_transfers: 'প্রত্যাখ্যাত স্থানান্তর'
-    transers_awaiting_acceptance: 'ট্রান্সফার স্বীকৃতির অপেক্ষায় '
+    total: "মোট "
+    new: "নতুন এবং আপডেট"
+    pending_transfers: "মুলতুবি স্থানান্তর "
+    rejected_transfers: "প্রত্যাখ্যাত স্থানান্তর"
+    transers_awaiting_acceptance: "ট্রান্সফার স্বীকৃতির অপেক্ষায় "
     total_referred: "Total Referrals"
     new_referred: "New Referrals"
-    high_risk: 'High Priority'
-    low_risk: 'Low Priority'
-    none_risk: 'No Priority'
-    medium_risk: 'মাঝারি অগ্রাধিকার '
-    pending: 'Pending'
-    rejected: 'বাতিলকৃত '
-    near_deadline: 'সময়সীমা কাছাকাছি '
-    due: 'Overdue'
-    response: 'প্রতিক্রিয়া (অগ্রগতি)'
-    immediate_response: 'তাৎক্ষণিক উত্তর '
-    cases_to_assign: 'বরাদ্দ কেসসমুহ '
-    overdue_cases_to_assign: 'বরাদ্দ করা কেসসমুহ '
-    closed: 'বন্ধ '
-    comprehensive_need_intervention: 'ব্যাপক প্রতিক্রিয়া '
-    new_incident: 'নতুন ঘটনা '
-    new_service_provision: 'নতুন সেবা বিধান '
-    all_services_implemented: 'সমস্ত সেবা বাস্তবায়িত '
-    services_implemented: 'সেবা বাস্তবায়িত'
-    approved: 'অনুমোদিত '
-    cases_by_workflow: 'Cases By Workflow '
-    cases_by_task_overdue: 'Overdue Tasks '
-    assessment: 'Assessment'
-    case_plan: 'কেইস প্লান '
-    follow_up: 'Follow Up '
-    services: 'Services '
+    high_risk: "High Priority"
+    low_risk: "Low Priority"
+    none_risk: "No Priority"
+    medium_risk: "মাঝারি অগ্রাধিকার "
+    pending: "Pending"
+    rejected: "বাতিলকৃত "
+    near_deadline: "সময়সীমা কাছাকাছি "
+    due: "Overdue"
+    response: "প্রতিক্রিয়া (অগ্রগতি)"
+    immediate_response: "তাৎক্ষণিক উত্তর "
+    cases_to_assign: "বরাদ্দ কেসসমুহ "
+    overdue_cases_to_assign: "বরাদ্দ করা কেসসমুহ "
+    closed: "বন্ধ "
+    comprehensive_need_intervention: "ব্যাপক প্রতিক্রিয়া "
+    new_incident: "নতুন ঘটনা "
+    new_service_provision: "নতুন সেবা বিধান "
+    all_services_implemented: "সমস্ত সেবা বাস্তবায়িত "
+    services_implemented: "সেবা বাস্তবায়িত"
+    approved: "অনুমোদিত "
+    cases_by_workflow: "Cases By Workflow "
+    cases_by_task_overdue: "Overdue Tasks "
+    assessment: "Assessment"
+    case_plan: "কেইস প্লান "
+    follow_up: "Follow Up "
+    services: "Services "
     admin_only: "আবেদন পরিবর্তন করতে ক্লিক করুন%{links}এ "
     forms: "FORMS tab"
     users: "SETTINGS icon "
@@ -1632,7 +1632,7 @@ bn:
         name_present: "Name ফাঁকা রাখা যাবে না "
         unique_name: "এই নামের সাথে একটি মডিউল ইতিমধ্যে বিদ্যমান, একটি ভিন্ন নাম লিখুন"
         program: "এই মডিউল সঙ্গে যুক্ত একটি প্রোগ্রাম হতে হবে "
-        associated_form_ids: "অন্তত একটি ফরম এই মডিউল সঙ্গে যুক্ত করা আবশ্যক "
+        form_section_ids: "অন্তত একটি ফরম এই মডিউল সঙ্গে যুক্ত করা আবশ্যক "
         associated_record_types: "অন্তত একটি রেকর্ড টাইপ এই মডিউল সঙ্গে যুক্ত করা আবশ্যক"
       primero_program:
         name_present: "Name ফাঁকা রাখা যাবে না "
@@ -1647,7 +1647,7 @@ bn:
         remote_app_uri: "দয়াকরে একটি সটিক Primero URL লিখুন "
         remote_unauthorized: "আপনার প্রবেশ করা ব্যবহারকারীর নাম বা পাসওয়ার্ড ভুল"
         remote_error: "দূরবর্তী সার্ভারে সংযোগ করতে পারে নি"
-        is_continuous: 'ক্রমাগত Replication? '
+        is_continuous: "ক্রমাগত Replication? "
       password_recovery_request:
         user_name_mandatory: "একটি বৈধ ব্যবহারকারীর নাম লিখুন দয়া করে "
       ownership:
@@ -1741,36 +1741,36 @@ bn:
     no_records: "কোন নথি নেই "
     queueing: "এক্সপোর্ট ফাইল তৈরি করা হচ্ছে "
     pdf:
-      all: 'PDF '
-      one: 'PDF '
-      selected: 'PDF নির্বাচিত '
+      all: "PDF "
+      one: "PDF "
+      selected: "PDF নির্বাচিত "
     photowall:
-      all: 'Photo Wall  '
-      one: 'Photo Wall '
-      selected: 'Photo Wall নির্বাচিত '
+      all: "Photo Wall  "
+      one: "Photo Wall "
+      selected: "Photo Wall নির্বাচিত "
     case_pdf:
-      all: 'PDF '
-      one: 'PDF  '
-      selected: 'PDF নির্বাচিত '
+      all: "PDF "
+      one: "PDF  "
+      selected: "PDF নির্বাচিত "
     list_view_csv:
-      all: 'রপ্তানি তালিকা দেখুন  '
-      selected: 'CSV নির্বাচিত  '
+      all: "রপ্তানি তালিকা দেখুন  "
+      selected: "CSV নির্বাচিত  "
     csv:
-      all: 'CSV '
-      one: 'CSV '
-      selected: 'CSV নির্বাচিত '
+      all: "CSV "
+      one: "CSV "
+      selected: "CSV নির্বাচিত "
     xls:
-      all: 'Excel  '
-      one: 'Excel  '
-      selected: 'নির্বাচিত Excel '
+      all: "Excel  "
+      one: "Excel  "
+      selected: "নির্বাচিত Excel "
     selected_xls:
-      all: 'Excel  '
-      one: 'Excel '
+      all: "Excel  "
+      one: "Excel "
       selected: নির্বাচিত Excel
     json:
-      all: 'JSON '
+      all: "JSON "
       one: JSON
-      selected: 'JSON নির্বাচিত '
+      selected: "JSON নির্বাচিত "
     unhcr_csv:
       all: UNHCR
       one: UNHCR
@@ -1806,7 +1806,7 @@ bn:
         vulnerability_details_code: "Vulnerability কোড-এর বিস্তারিত "
         locations_by_level: "ঠিকানা (ক্যাম্প, ব্লক, এবং প্রযোজ্য অন্যান্য ঠিকানা যেমন- বাসস্থান-এর জিপিএস)"
     duplicate_id_csv:
-      all: 'ডুপ্লিকেট আইডি '
+      all: "ডুপ্লিকেট আইডি "
       female_abbreviation: "F"
       male_abbreviation: "M"
       unknown_abbreviation: "U"
@@ -1820,19 +1820,19 @@ bn:
         family_size: "পরিবারের সাইজ "
     mrm_violation_xls:
       all: MRM Violations
-      one: 'MRM Violations '
-      selected: 'MRM Violations এর জন্য নির্ধারিত '
+      one: "MRM Violations "
+      selected: "MRM Violations এর জন্য নির্ধারিত "
     custom_exports:
       label: Custom Exports
       format_label: Format নির্বাচন করুন
-      field_label: 'ক্ষেত্র '
+      field_label: "ক্ষেত্র "
       form_label: ফরম
       forms: রপ্তানি করতে ফরম নির্বাচন করুন
-      fields: 'রপ্তানি করতে ক্ষেত্র নির্বাচন করুন '
-      submit: 'ঠিক '
-      select_module: 'Module নির্বাচন করুন '
-      choose_fields: 'আপনি একটি ফর্ম এর জন্য পৃথক ক্ষেত্র নির্বাচন করতে চান? '
-      module_placeholder: 'দয়াকরে একটি নির্বাচন module করুন '
+      fields: "রপ্তানি করতে ক্ষেত্র নির্বাচন করুন "
+      submit: "ঠিক "
+      select_module: "Module নির্বাচন করুন "
+      choose_fields: "আপনি একটি ফর্ম এর জন্য পৃথক ক্ষেত্র নির্বাচন করতে চান? "
+      module_placeholder: "দয়াকরে একটি নির্বাচন module করুন "
       empty_password: আপনার ফাইল এনক্রিপ্ট করবে এরকম একটি পাসওয়ার্ড লিখুন দয়া করে।
       empty_fields_forms: রপ্তানি করতে কিছু ফর্ম বা ক্ষেত্র নির্বাচন করুন।
       empty_format: এক্সপোর্ট করার জন্য একটি  format নির্বাচন করুন।
@@ -1964,7 +1964,7 @@ bn:
     no_records_selected: "কোন রেকর্ড নির্বাচিত করা হয়নি "
     error_adding_note: "ভুল সংযোজন নোট"
   per_page_translation: "Per page _MENU_"
-  total: 'মোট '
+  total: "মোট "
   caregiver: " (Caregiver)"
   disabled:
     filter_label: "দেখানো "
@@ -2015,30 +2015,30 @@ bn:
       case_plan: "Case Plan form এর জন্য অনুমোদন অনুরোধ"
       closure: " Closure form এর জন্য অনুমোদন অনুরোধ"
     approve_form:
-      'false': "Rejecting"
-      'true': "অনুমোদন"
+      "false": "Rejecting"
+      "true": "অনুমোদন"
       bia: "BIA form"
       case_plan: "Case Plan form"
       closure: "Closure form"
     mark_for_mobile:
-      'false': "মোবাইলের জন্য Un-Mark করুন"
-      'true': "মোবাইলের জন্য চিহ্নিত করুন "
+      "false": "মোবাইলের জন্য Un-Mark করুন"
+      "true": "মোবাইলের জন্য চিহ্নিত করুন "
     record_state:
-      'false': "Disabling"
-      'true': "Enabling"
+      "false": "Disabling"
+      "true": "Enabling"
     graph_data: "গ্রাফ তথ্য দেখতে"
     permitted_field_list: অনুমোদিত ক্ষেত্র তালিকা
     lookups_for_field: Lookups for field
   job:
     status:
-      complete: 'Complete'
+      complete: "Complete"
   string_sources_failed: "কিছু ক্ষেত্র লোড করতে ব্যর্থ হয়েছে, সমস্ত ক্ষেত্র লোড করতে page টি refresh করুন।"
   error_message:
-    notice: 'রেকর্ড সংরক্ষনে ত্রুটি নিষিদ্ধ'
-    fields_notice: 'নিম্নলিখিত ক্ষেত্রগুলির মধ্যে সমস্যা ছিল:'
+    notice: "রেকর্ড সংরক্ষনে ত্রুটি নিষিদ্ধ"
+    fields_notice: "নিম্নলিখিত ক্ষেত্রগুলির মধ্যে সমস্যা ছিল:"
   error_page:
     internal_server_error:
-      something_went_wrong: 'দুঃখিত, কিছু ভুল হয়েছে! '
+      something_went_wrong: "দুঃখিত, কিছু ভুল হয়েছে! "
       contact_admin: সমস্যা অব্যাহত থাকলে আপনার অ্যাডমিনের সাথে যোগাযোগ করুন।
       server_error: Server Error
     not_found:
@@ -2047,14 +2047,14 @@ bn:
       server_error: Page পাওয়া যায়নি
   audio:
     update_browser:
-      title: 'আপডেট প্রয়োজন'
+      title: "আপডেট প্রয়োজন"
       message: "মিডিয়া চালানোর জন্য আপনাকে আপনার browser টি সাম্প্রতিক সংস্করণে আপডেট করতে হবে বা আপনার আপডেট করতে হবে"
       link_text: "Flash plugin"
   saved_searches:
     no_save_searches: "আপনার কোন সংরক্ষিত অনুসন্ধান নাই। "
     name: "নাম "
     save_search: "Save Search"
-    delete: "ok তে Click করলে delete হবে \"%{filter_name}\""
+    delete: 'ok তে Click করলে delete হবে "%{filter_name}"'
   email_notification:
     enabled_label: "Email Notifications প্রেরন? "
     approval_request_subject: "Case: %{id} - Approval Request"
