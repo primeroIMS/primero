@@ -283,11 +283,11 @@ class User < ActiveRecord::Base
   end
 
   def has_reporting_location_filter?
-    self.modules.any? {|m| m.module_options['reporting_location_filter'] }
+    self.modules.any? {|m| m.reporting_location_filter }
   end
 
   def has_user_group_filter?
-    modules.any? { |m| m.module_options['user_group_filter'] }
+    modules.any? { |m| m.user_group_filter }
   end
 
   def active_for_authentication?

@@ -3,7 +3,10 @@ class PrimeroModule < ActiveRecord::Base
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
-  store_accessor :module_options
+  store_accessor :module_options, :allow_searchable_ids, :selectable_approval_types,
+    :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
+    :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
+    :user_group_filter
 
   belongs_to :primero_program
 

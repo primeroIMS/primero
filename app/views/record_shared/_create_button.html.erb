@@ -9,7 +9,7 @@
         <ul class="menu">
         <% modules.each do |primero_module| %>
           <li>
-            <% if primero_module.module_options["allow_searchable_ids"] && record == 'case' %>
+            <% if primero_module.allow_searchable_ids && record == 'case' %>
               <%= render 'record_shared/search_ids', primero_module: primero_module, record: record, single: false, label: false %>
             <% else %>
               <%= content_tag( :a, primero_module.name, :class => 'dropdown_link', :'href' => new_polymorphic_path(record, module_id: primero_module.unique_id)) %>
@@ -20,7 +20,7 @@
       </li>
     </ul>
   <% elsif modules.size == 1 %>
-    <% if modules.first.module_options["allow_searchable_ids"] && record == 'case' %>
+    <% if modules.first.allow_searchable_ids && record == 'case' %>
       <%= render 'record_shared/search_ids', primero_module: modules.first, record: record, single: true, label: content_tag(:span, button_label, class: 'create_user') %>
     <% else %>
       <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record, {module_id: modules.first.unique_id}),  class: 'button right' %>

@@ -35,7 +35,7 @@ module Approvable
     when CASE_PLAN
       self.approval_status_case_plan = approval_status
 
-      if self.module.module_options["selectable_approval_types"].present?
+      if self.module.selectable_approval_types.present?
         self.case_plan_approval_type = approval_status_type
       end
     when CLOSURE

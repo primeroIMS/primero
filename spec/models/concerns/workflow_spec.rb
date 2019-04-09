@@ -53,8 +53,8 @@ describe Workflow do
 
       context 'and no modules use workflow_assessment' do
         before do
-          @module_a.module_options['use_workflow_assessment'] = false
-          @module_b.module_options['use_workflow_assessment'] = false
+          @module_a.use_workflow_assessment = false
+          @module_b.use_workflow_assessment = false
         end
 
         it 'does not include Workflow Assessment in the status list' do
@@ -64,8 +64,8 @@ describe Workflow do
 
       context 'and one modules uses workflow_assessment' do
         before do
-          @module_a.module_options['use_workflow_assessment'] = true
-          @module_b.module_options['use_workflow_assessment'] = false
+          @module_a.use_workflow_assessment = true
+          @module_b.use_workflow_assessment = false
         end
 
         it 'does include Workflow Assessment in the status list' do
@@ -75,8 +75,8 @@ describe Workflow do
 
       context 'and both modules use workflow_assessment' do
         before do
-          @module_a.module_options['use_workflow_assessment'] = true
-          @module_b.module_options['use_workflow_assessment'] = true
+          @module_a.use_workflow_assessment = true
+          @module_b.use_workflow_assessment = true
         end
 
         it 'does include Workflow Assessment in the status list' do

@@ -116,11 +116,11 @@ class HomeController < ApplicationController
       {id: Workflow::WORKFLOW_REOPENED, display: t("case.workflow.#{Workflow::WORKFLOW_REOPENED}")}
     ]
     if @modules.present?
-      if @modules.first.module_options['use_workflow_assessment']
+      if @modules.first.use_workflow_assessment
         @workflow_order << {id: Workflow::WORKFLOW_ASSESSMENT, display: t("case.workflow.#{Workflow::WORKFLOW_ASSESSMENT}")}
       end
 
-      if @modules.first.module_options['use_workflow_case_plan']
+      if @modules.first.use_workflow_case_plan
         @workflow_order << {id: Workflow::WORKFLOW_CASE_PLAN, display: t("case.workflow.#{Workflow::WORKFLOW_CASE_PLAN}")}
       end
     end
@@ -320,7 +320,7 @@ class HomeController < ApplicationController
   end
 
   def display_services_implemented?
-    @display_services_implemented ||= PrimeroModule.cp.module_options['use_workflow_service_implemented']
+    @display_services_implemented ||= PrimeroModule.cp.use_workflow_service_implemented
   end
 
   def manager_case_query(query = {})
