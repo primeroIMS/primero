@@ -82,7 +82,7 @@ ar-LB:
     details: "تفاصيل تسجيل الدخول"
     username: "إسم المستخدم"
     notification:
-      enter_user_name: "إدخال إسم المستخدم"
+      enter_user_name: 'إدخال إسم المستخدم'
       users_requested_password_reset: "طلب هؤلاء المستخدمون إعادة ضبط كلمة المرور. يُرجى الاتصال بهم على الفور."
       users_does_not_exist: "%{user} في %{created}. لا يوجد إسم هذا المستخدم حاليًا في النظام."
       at: "في %{created}."
@@ -144,9 +144,9 @@ ar-LB:
     flag_model: "وضع علامة %{model}"
     unflag_model: "إزالة العلامة %{model}"
     unflag_model_history: "وضع علامة للتاريخ%{model}"
-    ok: "موافق"
+    ok: 'موافق'
     cancel: "إلغاء"
-    edit_subform: "تحرير وتعديل النموذج الثانوي أو الملحق"
+    edit_subform: 'تحرير وتعديل النموذج الثانوي أو الملحق'
     create_new_record: "إنشاء %{model} جديد"
     bundle_import: "حزمة التهيئة والتشكيل"
     bundle_export: "حزمة التهيئة والتشكيل"
@@ -204,8 +204,8 @@ ar-LB:
       record_state: "وضع الملفّ:"
       photo: "صورة:"
       photo_label: "صورة متوفّرة؟"
-      by_date: "بحسب التاريخ:"
-      date: "التاريخ"
+      by_date: 'بحسب التاريخ:'
+      date: 'التاريخ'
       approvals:
         pending: "الموافقات المعلّقة/غير المفصول فيها"
         approved: "تمت الموافقة"
@@ -232,11 +232,11 @@ ar-LB:
     register_new_child: "تسجيل طفل جديد"
     export: "تصدير"
     selectable_date_options:
-      registration_date: "تاريخ التسجيل"
-      assessment_requested_on: "تاريخ التقييم"
-      date_case_plan_initiated: "تاريخ مخطّط التدخّل"
-      closure_approved_date: "تاريخ إقفال الملفّ"
-      created_at: "تاريخ فتح الملفّ"
+      registration_date: 'تاريخ التسجيل'
+      assessment_requested_on: 'تاريخ التقييم'
+      date_case_plan_initiated: 'تاريخ مخطّط التدخّل'
+      closure_approved_date: 'تاريخ إقفال الملفّ'
+      created_at: 'تاريخ فتح الملفّ'
     filter_by:
       label: "تصفية وفلترة بحسب"
       all: "ّالكل"
@@ -291,7 +291,7 @@ ar-LB:
     match_record_failed: "لا مطابقة"
     messages:
       update_success: "تم تحديث الملفّ/الحالة %{record_id} بنجاح."
-      investigation_error_message: 'الرجاء تأكيد أنّ الملفّ المميز بعلامة ينبغي وضع علامة "تمّ التحقق منه" له، وإدخال أيّ تفاصيل ذات الصلة.'
+      investigation_error_message: "الرجاء تأكيد أنّ الملفّ المميز بعلامة ينبغي وضع علامة \"تمّ التحقق منه\" له، وإدخال أيّ تفاصيل ذات الصلة."
       undo_investigation_error_message: "التراجع عن تفاصيل التحقيق:"
       reunite_error_message: "الرجاء التأكيد على أنّ هذا الطفل أعيد جمعه مع عائلته أو مع مقدّمي الرعاية، وإدخال أيّ تفاصيل ذات الصلة."
       undo_reunite_error_message: "الرجاء التأكيد على ضرورة وضع علامة أنّ الطفل لم يُعاد لمّ شمله، وإدخال أيّ تفاصيل ذات الصلة. "
@@ -356,7 +356,7 @@ ar-LB:
     create_new_case: "إنشاء حالة جديدة"
     enter_id_number: "إدخال رقم تعريف الهوية للبحث عن سجلّ موجود"
     id_number_required: "مطلوب رقم التعريف/الهوية "
-    id_search_no_results: 'لا يوجد تتطابق في النظام لـ "%{id}"، يُرجى فتح ملفّ جديد.'
+    id_search_no_results: "لا يوجد تتطابق في النظام لـ \"%{id}\"، يُرجى فتح ملفّ جديد."
     id_search_results_html: "لـ 1 %{id} 1"
     label: "رقم تعريف /الملفّ/الحالة"
     workflow:
@@ -403,14 +403,14 @@ ar-LB:
     survivor_code: "رمز الناجي "
     case_opening_date: "تاريخ فتح الملفّ"
     photo: "الصورة"
-    owned_by: "الشخص المكلَّف الملفّ"
-    owned_by_agency: "الوكالة التي ينتمي إليها الشخص المكلَّف الملفّ"
+    owned_by: 'الشخص المكلَّف الملفّ'
+    owned_by_agency: 'الوكالة التي ينتمي إليها الشخص المكلَّف الملفّ'
     messages:
       update_success: "تم تحديث الحالة %{record_id} بنجاح."
-      investigation_error_message: 'الرجاء تأكيد أن توضع للملفّ علامة "تمّ التحقق منه"، وإدخال أيّ تفاصيل بحوزتك.'
+      investigation_error_message: "الرجاء تأكيد أن توضع للملفّ علامة \"تمّ التحقق منه\"، وإدخال أيّ تفاصيل بحوزتك."
       undo_investigation_error_message: "التراجع عن تفاصيل التحقيق:"
       reunite_error_message: "الرجاء تأكيد إعادة لمّ شمل هذه الحالة مع العائلة أو مع مقدّمي الرعاية، وإدخال أيّ تفاصيل بحوزتك."
-      undo_reunite_error_message: 'الرجاء تأكيد وضع علامة "لم يُعاد لمّ الشمل" للحالة، وإدخال أيّ تفاصيل بحوزتك.'
+      undo_reunite_error_message: "الرجاء تأكيد وضع علامة \"لم يُعاد لمّ الشمل\" للحالة، وإدخال أيّ تفاصيل بحوزتك."
       see_full_size: "انقر على الصورة لعرضها بحجمها الكامل"
       creation_success: "تم إنشاء سجل الحالة بنجاح."
       not_found: "لم يتم العثور على طفل بهذا المُعرف"
@@ -526,7 +526,7 @@ ar-LB:
     history_of: "تاريخ %{short_id}"
     violation:
       violation: "انتهاك"
-      pending: "تحقق من الصحة معلّق"
+      pending: 'تحقق من الصحة معلّق'
       killing: "قتل"
       maiming: "تشويه"
       recruitment: "تعيين/استخدام/توظيف"
@@ -598,27 +598,27 @@ ar-LB:
       male: "ذكر"
       female: "أنثى"
   potential_match:
-    inquirer_id: "رقم تعريف/هوية المستفسر"
-    inquirer_name: "إسم المُستفسر"
-    inquiry_date: "تاريخ الاستفسار"
-    inquirer_tr_name: "طلب تتبّع"
-    child_id: "رقم هوية الطفل "
-    child_age: "العمر"
-    child_gender: "الجنس"
-    reg_date: "تاريخ التسجيل"
-    social_worker: "العامل الاجتماعي"
-    score: "نتيجة"
-    show_more: "إظهار المزيد"
-    show_less: "ّإظهار أقل"
+    inquirer_id: 'رقم تعريف/هوية المستفسر'
+    inquirer_name: 'إسم المُستفسر'
+    inquiry_date: 'تاريخ الاستفسار'
+    inquirer_tr_name: 'طلب تتبّع'
+    child_id: 'رقم هوية الطفل '
+    child_age: 'العمر'
+    child_gender: 'الجنس'
+    reg_date: 'تاريخ التسجيل'
+    social_worker: 'العامل الاجتماعي'
+    score: 'نتيجة'
+    show_more: 'إظهار المزيد'
+    show_less: 'ّإظهار أقل'
   preposition:
     on_label: "عن"
     because: "بسبب"
     at_label: "لدى"
   pagination:
     zero: "%{model} غير موجود"
-    page_entries_info: "Displaying _START_ to _END_ of _TOTAL_ %{model}
+    page_entries_info: 'Displaying _START_ to _END_ of _TOTAL_ %{model}
 
-      عرض المجموع من البداية إلى النهاية"
+      عرض المجموع من البداية إلى النهاية'
   users:
     unverified: "مستخدمون غير محقّق منهم"
     select_role: "الرجاء تحديد الدور قبل التحقّق من المستخدم "
@@ -631,7 +631,7 @@ ar-LB:
       show: "العرض"
       edit: "تعديل"
     messages:
-      disable: "هل أنت متأكد من أنّك تريد تعطيل هذا المستخدم؟"
+      disable: 'هل أنت متأكد من أنّك تريد تعطيل هذا المستخدم؟'
     sort_by:
       label: "الترتيب بحسب"
       full_name: "الإسم الكامل"
@@ -654,7 +654,7 @@ ar-LB:
       copy: "نسخ"
     view: "عرض الدور"
     messages:
-      confirmation: 'هل أنت متأكد من أنّك تريد حذف هذا الدور؟ لا يمكن التراجع عن الحذف. انقر على "موافق" لحذف الدور. '
+      confirmation: "هل أنت متأكد من أنّك تريد حذف هذا الدور؟ لا يمكن التراجع عن الحذف. انقر على \"موافق\" لحذف الدور. "
   role:
     create: "إنشاء دور"
     edit: "تعديل الدور"
@@ -669,8 +669,8 @@ ar-LB:
     group_permission_label: "ما الملفّات التي يؤثر فيها هذا الدور؟"
     role_ids_label: "الأدوار الأخرى التي يديرها هذا الدور"
   agencies:
-    logo: "الشعار"
-    logo_enabled: "هل الشعار مُمَكَّن/مُفَعَّل؟"
+    logo: 'الشعار'
+    logo_enabled: 'هل الشعار مُمَكَّن/مُفَعَّل؟'
     label: "الوكالة"
     view: "عرض الوكالة"
     successfully_created: "تمّ إنشاء الوكالة بنجاح."
@@ -687,9 +687,9 @@ ar-LB:
     select_prompt: "الرجاء تحديد وكالة"
     error_in_updating: "خطأ في تحديث بيانات الوكالة."
   agency:
-    edit: "تعديل الوكالة"
-    name: "إسم الوكالة"
-    code: "رمز الوكالة"
+    edit: 'تعديل الوكالة'
+    name: 'إسم الوكالة'
+    code: 'رمز الوكالة'
   system_settings:
     label: "إعدادات النظام"
     edit: "تعديل إعدادات النظام"
@@ -721,7 +721,7 @@ ar-LB:
     forms: "النماذج المسندة لهذه الوحدة"
     program: "البرنامج"
     associated_record_types: "أنواع الملفّات المرتبطة"
-    form_section_ids: "تعريفات النماذج المرتبطة"
+    associated_form_ids: "تعريفات النماذج المرتبطة"
   primero_programs:
     label: "البرنامج"
     view: "عرض البرنامج"
@@ -806,8 +806,8 @@ ar-LB:
   email: "البريد الإلكتروني"
   organization: "المنظمة"
   position: "المنصب"
-  "false": "خطأ"
-  "true": "صحّ"
+  'false': "خطأ"
+  'true': "صحّ"
   mandatory_field: "الحقول ذات علامة إلزاميّة"
   add: "إضافة"
   belonging_to: "ينتمي إلى"
@@ -980,7 +980,7 @@ ar-LB:
     initial_lang_help_text: "%{lang} قبل إمكانيّة إضافة الترجمة. ينبغي إنشاء الحقل باللغة "
     field_db_help_text: "يتمّ إصدار إسم لقاعدة البيانات/لوحة التحكّم إذا تُرك فراغ. لا يُسمَح إلاّ بالحروف اللاتينية والأرقام والتسطير السفليّ."
   advanced_search:
-    instruction: 'افصل الكلمات بـ"أو" من أجل البحث عن أكثر من خيار، على سبيل المثال تيم أو راهول '
+    instruction: "افصل الكلمات بـ\"أو\" من أجل البحث عن أكثر من خيار، على سبيل المثال تيم أو راهول "
     date_instruction: "أدخل التاريخ (سنة-شهر-يوم) في الخانة الأولى للبحث عن الملفّات التي تمّ إنشاؤها أو تحديثها بعد هذا التاريخ. أدخل التاريخ (سنة-شهر-يوم) في الخانة الثانية لعرض الملفّات التي تمّ إنشاؤها أو تحديثها قبل هذا التاريخ. أدخل تاريخين في كلّ من الخانتين لعرض الملفّات التي تمّ إنشاؤها بين التاريخين."
     created_by_org: "الإنشاء من قبل ( المنظمة):"
     date_created: "تاريخ الإنشاء:"
@@ -1023,7 +1023,7 @@ ar-LB:
     messages:
       blacklist: "هل تريد إضافة هذا الجهاز إلى القائمة السوداء؟"
       remove_blacklist: "هل تريد إزالة هذا الجهاز من القائمة السوداء؟"
-      disable: "هل أنت متأكد من أنّك تريد تعطيل هذا الجهاز؟"
+      disable: 'هل أنت متأكد من أنّك تريد تعطيل هذا الجهاز؟'
     information: "معلومات الجهاز"
     mobile_number: "رقم المحمول"
     timestamp: "طابع زمني"
@@ -1162,22 +1162,22 @@ ar-LB:
       updated: "تم إضافة الموقع بنجاح"
       deleted: "تم حذف الموقع بنجاح"
     base_types:
-      country: "البلد"
-      region: "المنطقة"
-      province: "المحافظة"
-      district: "القضاء"
-      governorate: "المحافظة"
-      chiefdom: "القائمقامية"
-      county: "المقاطعة"
-      state: "الولاية"
-      city: "المدينة"
-      camp: "المخيّم"
-      site: "الموقع"
-      village: "القرية"
-      zone: "النطاق"
-      other: "مختلف"
-      locality: "المحلّة"
-      sub-district: "المقاطعة الفرعيّة"
+      country: 'البلد'
+      region: 'المنطقة'
+      province: 'المحافظة'
+      district: 'القضاء'
+      governorate: 'المحافظة'
+      chiefdom: 'القائمقامية'
+      county: 'المقاطعة'
+      state: 'الولاية'
+      city: 'المدينة'
+      camp: 'المخيّم'
+      site: 'الموقع'
+      village: 'القرية'
+      zone: 'النطاق'
+      other: 'مختلف'
+      locality: 'المحلّة'
+      sub-district: 'المقاطعة الفرعيّة'
   session:
     about_to_expire: "جلسة العمل على وشك الانتهاء!"
     has_expired: "انتهت صلاحية جلسة العمل. الرجاء إعادة تسجيل الدخول."
@@ -1265,8 +1265,8 @@ ar-LB:
     unknown: "غير معروف"
     adult: "بالغ"
     child: "طفل"
-    "yes": "نعم"
-    "no": "لا"
+    'yes': "نعم"
+    'no': "لا"
     none: " لا يوجد"
     uam_sc_ovc: "قاصر غير مصحوب/ طفل منفصل عن ذويه/ طفل مستضعف آخر"
     unaccompanied_minor: "قاصر غير مصحوب"
@@ -1309,38 +1309,38 @@ ar-LB:
     child_status_transferred: "تمّ التحويل"
     child_status_duplicate: "مكرّر/مزدوج"
   dashboard:
-    total: "المجموع"
-    new: "جديد ومحدَّث"
-    pending_transfers: "عمليات النقل المعلّقة/غير المفصول فيها"
-    rejected_transfers: "عمليات النقل المرفوضة"
-    transers_awaiting_acceptance: "عمليات النقل التي تنتظر الموافقة"
+    total: 'المجموع'
+    new: 'جديد ومحدَّث'
+    pending_transfers: 'عمليات النقل المعلّقة/غير المفصول فيها'
+    rejected_transfers: 'عمليات النقل المرفوضة'
+    transers_awaiting_acceptance: 'عمليات النقل التي تنتظر الموافقة'
     total_referred: "إجمالي الإحالات"
     new_referred: "إحالات جديدة"
-    high_risk: "أولوية مرتفعة"
-    low_risk: "أولوية منخفضة"
-    none_risk: " لا يوجد أولوية"
-    medium_risk: "أولوية متوسطة"
-    pending: "لم يتم البت به"
-    rejected: "تم رفضه"
-    near_deadline: "يستحق قريباً"
-    due: "تستحق"
-    response: "الاستجابة <span>(جارية)</span>"
-    immediate_response: "ردّ فوري/إستجابة فوريّة"
-    cases_to_assign: "الحالات/الملفّات الواجبة التكليف"
-    overdue_cases_to_assign: "حالات متأخرة واجبة التكليف"
-    closed: "مقفل"
-    comprehensive_need_intervention: "ردّ شامل/إستجابة شاملة"
-    new_incident: "وقائع/حوادث جديدة"
-    new_service_provision: "تقديم خدمة جديدة"
-    all_services_implemented: "جميع الخدمات المنفّذة"
-    services_implemented: "خدمات منفّذة"
-    approved: "تمت الموافقة"
-    cases_by_workflow: "الحالات بحسب سير العمل"
-    cases_by_task_overdue: "المهمّات المتأخّرة"
-    assessment: "تقييم"
-    case_plan: "مخطّط التدخّل"
-    follow_up: "متابعة"
-    services: "الخدمات"
+    high_risk: 'أولوية مرتفعة'
+    low_risk: 'أولوية منخفضة'
+    none_risk: ' لا يوجد أولوية'
+    medium_risk: 'أولوية متوسطة'
+    pending: 'لم يتم البت به'
+    rejected: 'تم رفضه'
+    near_deadline: 'يستحق قريباً'
+    due: 'تستحق'
+    response: 'الاستجابة <span>(جارية)</span>'
+    immediate_response: 'ردّ فوري/إستجابة فوريّة'
+    cases_to_assign: 'الحالات/الملفّات الواجبة التكليف'
+    overdue_cases_to_assign: 'حالات متأخرة واجبة التكليف'
+    closed: 'مقفل'
+    comprehensive_need_intervention: 'ردّ شامل/إستجابة شاملة'
+    new_incident: 'وقائع/حوادث جديدة'
+    new_service_provision: 'تقديم خدمة جديدة'
+    all_services_implemented: 'جميع الخدمات المنفّذة'
+    services_implemented: 'خدمات منفّذة'
+    approved: 'تمت الموافقة'
+    cases_by_workflow: 'الحالات بحسب سير العمل'
+    cases_by_task_overdue: 'المهمّات المتأخّرة'
+    assessment: 'تقييم'
+    case_plan: 'مخطّط التدخّل'
+    follow_up: 'متابعة'
+    services: 'الخدمات'
     admin_only: "اضغط على %{links} لإجراء تغييرات على التطبيق."
     forms: "تبويب النماذج"
     users: "رمز الإعدادات"
@@ -1555,7 +1555,7 @@ ar-LB:
         message: "العلامات: حقل الرسالة غير صالح"
         date: "العلامات: حقل التاريخ غير صالح"
         index: "العلامات: غير قادر على إزالة العلامة في موضع %{index}"
-      date_range_invalid: '<span>%{field_name}:</span> الرجاء إدخال نطاق تاريخ ساري "من:" يجب أن يكون قبل "إلى:"'
+      date_range_invalid: "<span>%{field_name}:</span> الرجاء إدخال نطاق تاريخ ساري \"من:\" يجب أن يكون قبل \"إلى:\""
       photo:
         primary_photo_id: "الفشل في محاولة ضبط '%{photo_id}' إلى الصورة الأولية: لا يوجد مفتاح لمثل هذه الصورة"
         photo_size: "الرجاء تحميل ملف حجمه أصغر من 10 ميجابايت"
@@ -1603,13 +1603,13 @@ ar-LB:
         has_1_option: "يجب أن تتضمن خانة الاختيار خيارًا واحدًا على الأقل"
         unique_name_other: "الحقل موجود أصلاً على النموذج '%{form_name}'"
         unique_name_this: "الحقل موجود أصلاً على هذا النموذج"
-        change_type_existing_field: 'لا يمكن تغيير نوع الحقل الموجود "%{field_name}" في النموذج "%{form_name}"'
+        change_type_existing_field: "لا يمكن تغيير نوع الحقل الموجود \"%{field_name}\" في النموذج \"%{form_name}\""
         option_strings_text:
-          not_array: 'إنّ "نصّ سلسلة الخيارات" ليس مصفوفة'
-          not_hash: 'إنّ خيار "نصّ سلسلة الخيارات" ليس بعثرة/تجزئة'
-          id_blank: 'إنّ رقم تعريف خيار "نصّ سلسلة الخيارات" فارغ'
-          display_text_blank: 'إنّ عرض خيار "نصّ سلسلة الخيارات" فارغ'
-          id_not_unique: 'إنّ خيار "نصّ سلسلة الخيارات" ليس فريدًا'
+          not_array: "إنّ \"نصّ سلسلة الخيارات\" ليس مصفوفة"
+          not_hash: "إنّ خيار \"نصّ سلسلة الخيارات\" ليس بعثرة/تجزئة"
+          id_blank: "إنّ رقم تعريف خيار \"نصّ سلسلة الخيارات\" فارغ"
+          display_text_blank: "إنّ عرض خيار \"نصّ سلسلة الخيارات\" فارغ"
+          id_not_unique: "إنّ خيار \"نصّ سلسلة الخيارات\" ليس فريدًا"
       form_section:
         presence_of_name: "لا يجوز أن يكون الإسم فارغاً"
         presence_of_base_language_name: "لا يجوز أن يكون إسم اللغة الأساسية '%{base_language}' فارغًا"
@@ -1631,7 +1631,7 @@ ar-LB:
         name_present: "لا يجب أن يكون الاسم فارغاً"
         unique_name: "توجد وحدة نمطية تحمل هذا الإسم بالفعل، الرجاء إدخال اسم مختلف"
         program: "يجب أن يكون هناك برنامج مرتبطًا بهذه الوحدة "
-        form_section_ids: "يجب أن يرتبط نموذج واحد على الأقل بهذه الوحدة"
+        associated_form_ids: "يجب أن يرتبط نموذج واحد على الأقل بهذه الوحدة"
         associated_record_types: "يجب أن يرتبط نوع واحد من الملفّات على الأقل بهذه الوحدة "
       primero_program:
         name_present: "لا يجوز أن يكون الإسم فارغًا"
@@ -1646,7 +1646,7 @@ ar-LB:
         remote_app_uri: "الرجاء إدخال عنوان بريميرو URL صالح"
         remote_unauthorized: "إسم المستخدم أو كلمة المرور غير صحيحة"
         remote_error: "لا يمكن الاتصال بالخادم عن بعد"
-        is_continuous: "هل من نسخة متماثلة مستمرة؟"
+        is_continuous: 'هل من نسخة متماثلة مستمرة؟'
       password_recovery_request:
         user_name_mandatory: "الرجاء إدخال إسم مستخدم صالح"
       ownership:
@@ -1660,11 +1660,11 @@ ar-LB:
         name_present: "لا يجوز أن يكون فارغًا"
         code_present: "لا يجوز أن يكون فارغًا"
         admin_level_present: "لا يجوز أن يكون فارغًا"
-        unique_name: 'إنّ "الموقع" بهذا الإسم موجود أصلاً، الرجاء إدخال إسم مختلف'
-        unique_location_code: 'إنّ "الموقع" برمز الموقع هذا موجود أصلاً، الرجاء إدخال رمز موقع آخر'
+        unique_name: "إنّ \"الموقع\" بهذا الإسم موجود أصلاً، الرجاء إدخال إسم مختلف"
+        unique_location_code: "إنّ \"الموقع\" برمز الموقع هذا موجود أصلاً، الرجاء إدخال رمز موقع آخر"
       reporting_location:
-        label_key: 'ينبغي أن يكون "مفتاح العلامة" إحدى قيم "نوع الموقع الأساسي"'
-        admin_level: 'ينبغي أن يكون "مستوى الإشراف التقني" إحدى قيم "مستوى الإشراف التقني الموقعيّ"'
+        label_key: "ينبغي أن يكون \"مفتاح العلامة\" إحدى قيم \"نوع الموقع الأساسي\""
+        admin_level: "ينبغي أن يكون \"مستوى الإشراف التقني\" إحدى قيم \"مستوى الإشراف التقني الموقعيّ\""
       report:
         name_presence: "لا يجوز ترك الإسم فارغاً"
         module_presence: "لا يجوز ترك الوحدة فارغة"
@@ -1686,7 +1686,7 @@ ar-LB:
     referral: "تمّت الإحالة إلى %{to_user} من قبل %{by_user}"
     transfer: "تمّ التحويل إلى %{to_user} من قبل %{by_user}"
     record_by: "إنشاء الملفّ من قبل"
-    child_status_changed: 'تغيّر وضع الطفل إلى "لمّ الشمل" من قبل'
+    child_status_changed: "تغيّر وضع الطفل إلى \"لمّ الشمل\" من قبل"
     system_logs:
       records_performed_by: "تنفيذ الملفّ من قبل"
       performed_by: "تم التنفيذ من قبل"
@@ -1701,8 +1701,8 @@ ar-LB:
       record_flagged_by: "تمّ وضع علامة للملفّ من قبل"
       record_unflagged_by: "تمّت إزالة العلامة عن الملفّ من قبل"
     investigated:
-      mark_as_investigated_by: 'تمّ وضع علامة "تمّ التحقّق" للملفّ من قبل'
-      mark_as_not_investigated_by: 'تمّ وضع علامة "لم يتم التحقّق بعد" للملفّ من قبل'
+      mark_as_investigated_by: "تمّ وضع علامة \"تمّ التحقّق\" للملفّ من قبل"
+      mark_as_not_investigated_by: "تمّ وضع علامة \"لم يتم التحقّق بعد\" للملفّ من قبل"
     reunited:
       child_status_changed: "تغيير وضع الطفل إلى ناشط من قبل"
       with_details: "بهذه التفاصيل:"
@@ -1828,7 +1828,7 @@ ar-LB:
     user_local_status_rejected: "تمّ الرفض"
     user_local_status_inprogress: "عملية جارية"
     user_local_status_done: "انتهى"
-    complete_referral_label: 'بالضغط على "موافق" تشير إلى أنّك أكملت عملك المتصّل بإحالة هذا الملفّ  هذا الملفّ في الوقت الراهن. بعد الضغط على "موافق" لن تملك النفاذ إلى ملفّ الحالة هذا.'
+    complete_referral_label: "بالضغط على \"موافق\" تشير إلى أنّك أكملت عملك المتصّل بإحالة هذا الملفّ  هذا الملفّ في الوقت الراهن. بعد الضغط على \"موافق\" لن تملك النفاذ إلى ملفّ الحالة هذا."
     done_success_message: "تمت عملية الإحالة"
   reassign:
     reassign_case_title: "تخصيص/تعيين حالة (حالات) لـ:"
@@ -1858,8 +1858,8 @@ ar-LB:
     user_local_status_rejected: "تمّ الرفض"
     user_local_status_inprogress: "العملية جارية"
     reject: "سبب الرفض"
-    accept_label: 'بالنقر على "موافقة/قبول" تتحمّل المسؤولية تجاه هذا الملفّ، وما إن تضغط على "موافق" تصبح المسؤول عن الملفّ في النظام.'
-    reject_label: 'بالضغط على "رفض" تشير إلى أنّك غير مستعدّ لتحمّل مسؤولية هذا الملفّ في الوقت الراهن. الرجاء إدخال سبب رفضك تولّي هذا الملفّ. بعد الضغط على "موافق" لن تملك النفاذ إلى ملفّ الحالة هذا.'
+    accept_label: "بالنقر على \"موافقة/قبول\" تتحمّل المسؤولية تجاه هذا الملفّ، وما إن تضغط على \"موافق\" تصبح المسؤول عن الملفّ في النظام."
+    reject_label: "بالضغط على \"رفض\" تشير إلى أنّك غير مستعدّ لتحمّل مسؤولية هذا الملفّ في الوقت الراهن. الرجاء إدخال سبب رفضك تولّي هذا الملفّ. بعد الضغط على \"موافق\" لن تملك النفاذ إلى ملفّ الحالة هذا."
     unknown_status: "وضع النقل غير محدّد: %{status}"
     unknown_transfer: "عمليّة نقل غير صالحة لـ%{record_type} %{id}"
     not_valid_transfer: "%{record_type}%{id} موضوع نقل غير صالح أو نتيجة استحالة التحديث جارية أو غياب تصريح لهذا الملفّ"
@@ -1945,27 +1945,27 @@ ar-LB:
       case_plan: "طلب موافقة على نموذج مخطّط التدخّل"
       closure: "طلب موافقة على نموذج إقفال الملفّ"
     approve_form:
-      "false": "رفض"
-      "true": "موافقة"
+      'false': "رفض"
+      'true': "موافقة"
       bia: "نموذج تقرير التقييم"
       case_plan: "نموذج مخطّط تدخّل"
       closure: "نموذج إقفال"
     mark_for_mobile:
-      "false": "إزالة علامة للمحمول"
-      "true": "وضع علامة للمحمول"
+      'false': "إزالة علامة للمحمول"
+      'true': "وضع علامة للمحمول"
     record_state:
-      "false": "تعطيل"
-      "true": "تشغيل/تمكين"
+      'false': "تعطيل"
+      'true': "تشغيل/تمكين"
     graph_data: "عرض بيانات الرسم البياني"
     permitted_field_list: قائمة الحقل المسموح بها
     lookups_for_field: عمليات البحث عن الحقل
   job:
     status:
-      complete: "مكتمل"
+      complete: 'مكتمل'
   string_sources_failed: "فشل تحميل بعض الحقول، إنعاش الصفحة لتحميل جميع الحقول."
   error_message:
-    notice: "حظّرت الأخطاء حفظ هذا السجل"
-    fields_notice: "طرأت مشاكل خاصّة بالحقول التالية:"
+    notice: 'حظّرت الأخطاء حفظ هذا السجل'
+    fields_notice: 'طرأت مشاكل خاصّة بالحقول التالية:'
   error_page:
     internal_server_error:
       something_went_wrong: نأسف، حدث خطأ ما!
@@ -1977,14 +1977,14 @@ ar-LB:
       server_error: صفحة غير موجودة
   audio:
     update_browser:
-      title: "تحديث مطلوب"
+      title: 'تحديث مطلوب'
       message: "لتشغيل الوسائط، ينبغي تحديث المتصفّح أو تحديث"
-      link_text: 'ملحقة الـ"فلاش"'
+      link_text: "ملحقة الـ\"فلاش\""
   saved_searches:
     no_save_searches: "ما من عمليّات بحث محفوظة."
     name: "الإسم"
     save_search: "حفظ البحث"
-    delete: 'النقر على "موافق" يحذف "%{filter_name}"'
+    delete: "النقر على \"موافق\" يحذف \"%{filter_name}\""
   email_notification:
     enabled_label: "إرسال إشعارات عبر البريد الإلكتروني؟"
     approval_request_subject: "الملفّ: %{id} - طلب الموافقة"
