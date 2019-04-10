@@ -124,6 +124,15 @@ class Role < ActiveRecord::Base
     end
   end
 
+  def associate_all_forms
+    permissions_with_forms = self.permissions.select{|p| p.resource.in?([Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST])}
+    forms_by_parent = FormSection.all_forms_grouped_by_parent
+    permissions_with_forms.map do |permission|
+      self.form_sections << forms_by_parent[permission.resource]
+      self.save
+    end
+  end
+
   private
 
   def has_managed_resources?(resources)
