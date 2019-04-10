@@ -19,7 +19,7 @@ touch "${NGINX_LOG_DIR}/${NGINX_LOG_ERROR}"
 
 if [[ "${USE_LETS_ENCRYPT}" == "true" ]];
 then
-  certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m "$LETS_ENCRYPT_EMAIL" --no-eff-email --no-interactive
+  certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m "$LETS_ENCRYPT_EMAIL" --no-eff-email --non-interactive --keep --preferred-challenges http
   NGINX_SERVER_HOST="$LETS_ENCRYPT_DOMAIN"
   NGINX_SSL_CERT_PATH="/etc/letsencrypt/live/$LETS_ENCRYPT_DOMAIN/fullchain.pem"
   NGINX_SSL_KEY_PATH="/etc/letsencrypt/live/$LETS_ENCRYPT_DOMAIN/privkey.pem"
@@ -47,11 +47,8 @@ else
   fi
 fi
 
-
-
 # Search each of these directories for .template files and perform substitution
 # If you want this to be done from environment, redefine TEMPLATE_DIRS not 
-# TEMPLATE_DIRS_DEFAULT
 TEMPLATE_DIRS_DEFAULT=( "/etc/nginx/conf.d" )
 TEMPLATE_DIRS=( "${TEMPLATE_DIRS[@]:-"${TEMPLATE_DIRS_DEFAULT[@]}"}" )
 for prim_filename in "${TEMPLATE_DIRS[@]}"/*.template

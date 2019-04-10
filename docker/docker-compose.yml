@@ -12,8 +12,6 @@ services:
     image: beanstalkd:prim-latest
   application:
     image: nginx
-    ports:
-      - 6666:80
 # application:
 #   image: application:prim-latest
 #   ports:
