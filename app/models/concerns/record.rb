@@ -5,6 +5,19 @@ module Record
 
   STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed'
 
+  EXPORTABLE_FIELD_TYPES = [
+    Field::TEXT_FIELD,
+    Field::TEXT_AREA,
+    Field::RADIO_BUTTON,
+    Field::SELECT_BOX,
+    Field::NUMERIC_FIELD,
+    Field::DATE_FIELD,
+    Field::DATE_RANGE,
+    Field::TICK_BOX,
+    Field::TALLY_FIELD,
+    Field::SUBFORM
+  ]
+
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile
 
@@ -64,6 +77,7 @@ module Record
     def nested_reportable_types ; [] ; end
 
   end
+
 
   #Override this in the implementing classes to set your own defaults
   def defaults

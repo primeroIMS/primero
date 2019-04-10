@@ -43,7 +43,7 @@ module Exporters
 
       def properties_to_export(props)
         props = exclude_forms(props) if self.excluded_forms.present?
-        props = properties_to_keys(props)
+        props = props.values.flatten.uniq
         props.reject! {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
         return props
       end

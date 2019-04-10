@@ -85,7 +85,7 @@ class BulkExport < CouchRest::Model::Base
   #      Revisit when upgrading to Rails 4.2
   #TODO: This is also happening because this logic is on the controller rather than the User object or Record class
   def permitted_properties=(permitted_properties)
-    self.permitted_property_keys = properties_by_module_to_keys(permitted_properties)
+    self.permitted_property_keys = permitted_properties
   end
 
   def permitted_properties
