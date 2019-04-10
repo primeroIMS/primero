@@ -69,7 +69,7 @@ module Exporters
         program_id: "primeroprogram-primero",
         name: "CP",
         description: "Child Protection",
-        associated_form_ids: ["cases_test_subform_2", "cases_test_form_3", "cases_test_form_2", "cases_test_subform_1",
+        form_section_ids: ["cases_test_subform_2", "cases_test_form_3", "cases_test_form_2", "cases_test_subform_1",
                               "cases_test_subform_3", "cases_test_form_1"],
         associated_record_types: ['case']
       )

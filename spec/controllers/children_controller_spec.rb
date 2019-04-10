@@ -1107,7 +1107,7 @@ describe ChildrenController, :type => :controller do
         name: "GBV",
         description: "Gender Based Violence",
         associated_record_types: ["case", "incident"],
-        associated_form_ids: [ "basic_identity"],
+        form_section_ids: [ "basic_identity"],
         program_id: PrimeroProgram.by_name(:key => "Primero").first.id
       )
 

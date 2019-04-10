@@ -884,7 +884,7 @@ en:
     forms: "Forms assigned to this module"
     program: "Program"
     associated_record_types: "Associated record types"
-    associated_form_ids: "Assocaited form ids"
+    form_section_ids: "Assocaited form ids"
 
 
   primero_programs:
@@ -1813,7 +1813,7 @@ en:
         name_present: "Name must not be blank"
         unique_name: "A module with that name already exists, please enter a different name"
         program: "There must be a program associated with this module"
-        associated_form_ids: "At least one form must be associated with this module"
+        form_section_ids: "At least one form must be associated with this module"
         associated_record_types: "At least one record type must be associated with this module"
 
       primero_program:
@@ -2424,13 +2424,13 @@ en:
       send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
       send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
       unlocked: "Your account has been unlocked successfully. Please sign in to continue."
-  errors:
-    messages:
-      already_confirmed: "was already confirmed, please try signing in"
-      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
-      expired: "has expired, please request a new one"
-      not_found: "not found"
-      not_locked: "was not locked"
-      not_saved:
-        one: "1 error prohibited this %{resource} from being saved:"
-        other: "%{count} errors prohibited this %{resource} from being saved:"
+    errors:
+      messages:
+        already_confirmed: "was already confirmed, please try signing in"
+        confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+        expired: "has expired, please request a new one"
+        not_found: "not found"
+        not_locked: "was not locked"
+        not_saved:
+          one: "1 error prohibited this %{resource} from being saved:"
+          other: "%{count} errors prohibited this %{resource} from being saved:"

@@ -160,6 +160,11 @@ ActiveRecord::Schema.define(version: 20190409000000) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
+  create_table "form_sections_primero_modules", id: false, force: :cascade do |t|
+    t.integer "primero_module_id"
+    t.integer "form_section_id"
+  end
+
   create_table "form_sections_roles", id: false, force: :cascade do |t|
     t.integer "role_id"
     t.integer "form_section_id"
@@ -190,6 +195,26 @@ ActiveRecord::Schema.define(version: 20190409000000) do
     t.jsonb "lookup_values_i18n"
     t.boolean "locked", default: false, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
+  end
+
+  create_table "primero_modules", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.integer "primero_program_id"
+    t.jsonb "name", default: {}
+    t.jsonb "description", default: {}
+    t.string "associated_record_types", array: true
+    t.boolean "core_resource", default: true
+    t.jsonb "field_map"
+    t.jsonb "module_options"
+    t.index ["primero_program_id"], name: "index_primero_modules_on_primero_program_id"
+    t.index ["unique_id"], name: "index_primero_modules_on_unique_id", unique: true
+  end
+
+  create_table "primero_modules_users", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "primero_module_id"
+    t.index ["primero_module_id"], name: "index_primero_modules_users_on_primero_module_id"
+    t.index ["user_id"], name: "index_primero_modules_users_on_user_id"
   end
 
   create_table "primero_programs", id: :serial, force: :cascade do |t|

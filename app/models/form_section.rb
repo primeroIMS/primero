@@ -180,7 +180,7 @@ class FormSection < ActiveRecord::Base
     # TODO: Refactor after User and PrimeroModule
     def get_allowed_form_ids(primero_module, user)
       user_form_ids = user.permitted_form_ids
-      module_form_ids = primero_module.present? ? primero_module.associated_form_ids.select(&:present?) : []
+      module_form_ids = primero_module.present? ? primero_module.form_sections.map(&:unique_id) : []
       user_form_ids & module_form_ids
     end
 
@@ -205,7 +205,7 @@ class FormSection < ActiveRecord::Base
       primero_modules.map do |primero_module|
         allowed_visible_forms = FormSection.get_allowed_visible_forms_sections(primero_module, parent_form, current_user)
         forms = allowed_visible_forms.map{|key, forms_sections| forms_sections}.flatten
-        [primero_module.id, forms]
+        [primero_module.unique_id, forms]
       end.to_h
     end
     #memoize_in_prod :get_form_sections_by_module

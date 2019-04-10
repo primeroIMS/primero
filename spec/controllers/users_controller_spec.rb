@@ -37,17 +37,17 @@ describe UsersController,:type => :controller do
       Sunspot.remove_all!
 
       @user_a = User.create!(user_name: "AAA123", full_name: "ZZZ", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'cc')
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'cc')
       @user_b = User.create!(user_name: "BBB123", full_name: "YYY", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'aa', disabled: false)
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'aa', disabled: false)
       @user_c = User.create!(user_name: "CCC123", full_name: "XXX", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'ee')
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'ee')
       @user_d = User.create!(user_name: "DDD123", full_name: "WWW", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'dd', disabled: true)
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'dd', disabled: true)
       @user_e = User.create!(user_name: "EEE123", full_name: "VVV", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'bb', disabled: true)
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'bb', disabled: true)
       @user_f = User.create!(user_name: "FFF123", full_name: "VVV", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'bb', disabled: false)
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'bb', disabled: false)
 
       Sunspot.commit
 

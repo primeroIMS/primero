@@ -10,7 +10,7 @@ describe PrimeroModule do
   it "should not be valid if assigned forms are empty" do
     primero_module = PrimeroModule.new
     primero_module.should_not be_valid
-    primero_module.errors[:associated_form_ids].should == ["At least one form must be associated with this module"]
+    primero_module.errors[:form_section_ids].should == ["At least one form must be associated with this module"]
   end
 
   it "should not be valid if a module name has been taken already" do
@@ -36,6 +36,6 @@ describe PrimeroModule do
   it "should generate id" do
     PrimeroModule.all.each {|m| m.destroy}
     primero_module = create :primero_module, :name => 'test module 1234', :_id => nil
-    primero_module.id.should == "primeromodule-test-module-1234"
+    primero_module.unique_id.should == "primeromodule-test-module-1234"
   end
 end

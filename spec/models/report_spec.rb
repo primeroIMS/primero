@@ -9,28 +9,28 @@ describe Report do
   end
 
   it "must have a name" do
-    r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_id: @module.id
+    r = Report.new record_type: "case", aggregate_by: ['a', 'b'], module_id: @module.unique_id
     expect(r.valid?).to be_falsey
     r.name = 'Test'
     expect(r.valid?).to be_truthy
   end
 
   it "must have an 'aggregate_by' value" do
-    r = Report.new name: 'Test', record_type: 'case', module_id: @module.id
+    r = Report.new name: 'Test', record_type: 'case', module_id: @module.unique_id
     expect(r.valid?).to be_falsey
     r.aggregate_by = ['a', 'b']
     expect(r.valid?).to be_truthy
   end
 
   it "must have a record type associated with itself" do
-    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_id: @module.id
+    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_id: @module.unique_id
     expect(r.valid?).to be_falsey
     r.record_type = 'case'
     expect(r.valid?).to be_truthy
   end
 
   it "doesn't point to invalid modules" do
-    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_id: 'nosuchmodule' #, @module.id
+    r = Report.new name: 'Test', aggregate_by: ['a', 'b'], module_id: 'nosuchmodule' #, @module.unique_id
     expect(r.valid?).to be_falsey
   end
 

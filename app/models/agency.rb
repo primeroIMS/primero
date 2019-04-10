@@ -7,7 +7,6 @@ class Agency < ActiveRecord::Base
   localize_properties :name, :description
 
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
-  validates :name, presence: { message: 'errors.models.agency.name_present' }
   validate :validate_name_in_english
 
   class << self
