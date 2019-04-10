@@ -12,8 +12,6 @@ class PrimeroModule < ActiveRecord::Base
 
   has_and_belongs_to_many :form_sections
 
-  before_save :add_associated_subforms
-
   validates_presence_of :primero_program_id, :message => I18n.t("errors.models.primero_module.program")
   validates_presence_of :form_sections, :message => I18n.t("errors.models.primero_module.form_section_ids")
   validates_presence_of :associated_record_types, :message => I18n.t("errors.models.primero_module.associated_record_types")
@@ -61,12 +59,6 @@ class PrimeroModule < ActiveRecord::Base
 
   def field_map_fields
     self.field_map.present? ? self.field_map['fields'] : nil
-  end
-
-  def add_associated_subforms
-    if self.form_section_ids.present?
-      self.form_sections | FormSection.get_subforms(associated_forms)
-    end
   end
 
   def self.cp
