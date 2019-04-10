@@ -293,10 +293,7 @@ ActiveRecord::Schema.define(version: 20190409000000) do
     t.string "export_config_id"
     t.string "duplicate_export_field"
     t.string "primero_version"
-    t.boolean "due_date_from_appointment_date", default: false, null: false
-    t.boolean "notification_email_enabled", default: false, null: false
-    t.boolean "welcome_email_enabled", default: false, null: false
-    t.boolean "show_alerts", default: false, null: false
+    t.jsonb "system_options"
   end
 
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

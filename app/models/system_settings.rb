@@ -3,11 +3,12 @@ class SystemSettings < ActiveRecord::Base
   include Memoizable
   include LocalizableJsonProperty
 
-  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
+  store_accessor :system_options,
+    :due_date_from_appointment_date, :notification_email_enabled,
+    :welcome_email_enabled, :show_alerts
+
   localize_properties [:welcome_email_text]
 
-  # TODO this validation has been commented out because default_locale can now be blank if the locales.yml is used
-  # validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")
   validate :validate_locales
 
   #TODO: Think about what needs to take place to the current config. Update?
@@ -15,8 +16,8 @@ class SystemSettings < ActiveRecord::Base
   before_save :add_english_locale
   after_initialize :set_version
 
-  before_save :default_reporting_location_label_key
-  validate :validate_reporting_location_admin_level
+  before_save :default_reporting_location_label_key, if: ->(system_setting) { system_setting.reporting_location_config.present? }
+  validate :validate_reporting_location_admin_level, if: ->(system_setting) { system_setting.reporting_location_config.present? }
 
   #For now... allow empty locales for backwards compatibility with older configurations
   #The wrapper method will handle blank locales
@@ -77,6 +78,8 @@ class SystemSettings < ActiveRecord::Base
   def age_ranges
     if super.present?
       result = {}
+      # We stores JSON Objects in a jsonb column and Range is not a proper JSON Object
+      # so upon fetching ranges from jsonb column, they need to be recreated
       super.each do |name, range_array|
         result[name] = range_array.map{ |r| AgeRange.from_string(r) }
       end
@@ -104,20 +107,14 @@ class SystemSettings < ActiveRecord::Base
   # end
 
   def default_reporting_location_label_key
-    if self.reporting_location_config.present? &&  self.reporting_location_config.label_key.blank?
-      self.reporting_location_config.label_key = ReportingLocation::DEFAULT_LABEL_KEY
-    end
+    self.reporting_location_config.default_label_key
   end
 
   def validate_reporting_location_admin_level
-    if self.reporting_location_config.present?
-      if Location::ADMIN_LEVELS.include? self.reporting_location_config.admin_level
-        true
-      else
-        errors.add(:reporting_location_config, "errors.models.reporting_location.admin_level")
-        false
-      end
+    if !self.reporting_location_config.is_valid_admin_level?
+      errors.add(:admin_level, "errors.models.reporting_location.admin_level")
     end
+    self.reporting_location_config.is_valid_admin_level?
   end
 
   class << self

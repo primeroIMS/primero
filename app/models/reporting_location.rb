@@ -11,4 +11,15 @@ class ReportingLocation < ValueObject
     self.admin_level ||= 0
     self.hierarchy_filter ||= []
   end
+
+  def default_label_key
+    if self.label_key.blank?
+      self.label_key = ReportingLocation::DEFAULT_LABEL_KEY
+    end
+  end
+
+  def is_valid_admin_level?
+    Location::ADMIN_LEVELS.include?(self.admin_level) ? true : false
+  end
+
 end

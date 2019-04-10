@@ -19,10 +19,7 @@ class CreateSystemSettings < ActiveRecord::Migration[5.0]
       t.string 'export_config_id'
       t.string 'duplicate_export_field'
       t.string 'primero_version'
-      t.boolean 'due_date_from_appointment_date', null: false, default: false
-      t.boolean 'notification_email_enabled', null: false, default: false
-      t.boolean 'welcome_email_enabled', null: false, default: false
-      t.boolean 'show_alerts', null: false, default: false
+      t.jsonb 'system_options'
     end
   end
 end
