@@ -104,13 +104,13 @@
               <span class="section">
                 <span class="title"><%= I18n.t("forms.record_types.#{record_type}") %></span>
                 <% forms_list.sort_by{ |fl| fl.name }.each do |form| %>
-                    <label><%= f.check_box :form_sections, {:id => "role_#{form.unique_id}",
-                              :name => "role[form_sections][]", class: 'tick_box'}, form.unique_id, nil %>
+                    <label><%= f.check_box :form_section_ids, {:id => "role_#{form.id}",
+                              :name => "role[form_section_ids][]", class: 'tick_box'}, form.id, nil %>
                     <%= form.name %></label>
                 <% end %>
               </span>
             <% end %>
-            <%= f.hidden_field :form_sections, name: 'role[form_sections][]', value: nil %>
+            <%= f.hidden_field :form_section_ids, name: 'role[form_section_ids][]', value: nil %>
           </span>
         </div>
         <div class="medium-1 columns">

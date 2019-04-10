@@ -80,9 +80,10 @@ class RolesController < ApplicationController
     role_hash[:transfer] = params[:role][:transfer]
     role_hash[:referral] = params[:role][:referral]
     role_hash[:group_permission] = params[:role][:group_permission]
-    if params[:role][:permitted_form_ids].present?
-      params[:role][:permitted_form_ids].each do |form_id|
-        role_hash[:form_sections] = FormSection.find_by(unique_id: form_id) if form_id.present?
+    role_hash[:form_sections] = []
+    if params[:role][:form_section_ids].present?
+      params[:role][:form_section_ids].each do |form_id|
+        role_hash[:form_sections] << FormSection.find_by(id: form_id) if form_id.present?
       end
     end
     role_hash[:permissions] = []
