@@ -2,6 +2,7 @@ class Role < ActiveRecord::Base
 
   #include Importable #TODO: This will need to be rewritten
   include Memoizable
+  include Cloneable
 
   has_and_belongs_to_many :form_sections
   has_and_belongs_to_many :roles
