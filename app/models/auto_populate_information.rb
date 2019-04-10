@@ -1,9 +1,12 @@
-class AutoPopulateInformation
-  include CouchRest::Model::CastedModel
+class AutoPopulateInformation < ValueObject
 
-  property :field_key
-  property :format, [String], :default => []
-  property :separator, String, :default => ''
-  property :auto_populated, TrueClass, :default => false
+  attr_accessor :field_key, :format, :separator, :auto_populated
+
+  def initialize(args={})
+    super(args)
+    self.auto_populated ||= false
+    self.format ||= []
+    self.separator ||= ''
+  end
 
 end

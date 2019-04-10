@@ -69,7 +69,7 @@ describe SystemSettings do
 
         it 'is not valid' do
           expect(@system_settings).not_to be_valid
-          expect(@system_settings.errors[:locales]).to include("English must be available as a System Locale")
+          expect(@system_settings.errors[:locales]).to include("errors.models.system_settings.locales")
         end
       end
     end
