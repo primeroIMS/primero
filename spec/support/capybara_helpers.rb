@@ -60,7 +60,7 @@ module CapybaraHelpers
     user_factory = args[:user].present? ? args[:user].to_sym : :user
     program = create(:primero_program)
 
-    module_options = { program_id: program.id, associated_form_ids: form_sections }
+    module_options = { program_id: program.id, form_section_ids: form_sections }
 
     if args[:primero_module].present?
       module_options.merge!(args[:primero_module])
@@ -68,7 +68,7 @@ module CapybaraHelpers
 
     manager = args[:is_manager] || false
 
-    primero_module = PrimeroModule.get(module_options[:id])
+    primero_module = PrimeroModule.find_by(unique_id: module_options[:id])
     primero_module = create(:primero_module, module_options) if primero_module.blank?
     roles = args[:roles] || create(:role)
     user_group = args[:user_groups] || create(:user_group)
@@ -78,7 +78,7 @@ module CapybaraHelpers
       password: 'password123',
       password_confirmation: 'password123',
       role_ids: [roles.id],
-      module_ids: [primero_module.id],
+      module_ids: [primero_module.unique_id],
       user_group_ids: [user_group.id],
       organization: user_org,
       is_manager: manager,

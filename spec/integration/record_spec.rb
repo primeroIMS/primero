@@ -75,14 +75,18 @@ feature "show page", search: true do
 
     before do
       @user = setup_user(primero_module: {
-        workflow_status_indicator: true,
-        use_workflow_case_plan: true,
-        use_workflow_service_implemented: true
+        module_options: {
+          workflow_status_indicator: true,
+          use_workflow_case_plan: true,
+          use_workflow_service_implemented: true
+        }
       })
 
       @user2 = setup_user(primero_module: {
-        workflow_status_indicator: true,
-        use_workflow_service_implemented: false
+        module_options: {
+          workflow_status_indicator: true,
+          use_workflow_service_implemented: false
+        }
       })
 
       @case = create(:child, owned_by: @user.user_name, module_id: @user.module_ids.first)

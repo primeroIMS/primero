@@ -38,8 +38,8 @@ class FormSectionController < ApplicationController
 
     if (form_section.valid?)
       form_section.save
-      unless @primero_module.associated_form_ids.include? form_section.unique_id
-        @primero_module.associated_form_ids << form_section.unique_id
+      unless @primero_module.form_section_ids.include? form_section.unique_id
+        @primero_module.form_section_ids << form_section.unique_id
         @primero_module.save
       end
       flash[:notice] = t("form_section.messages.updated")

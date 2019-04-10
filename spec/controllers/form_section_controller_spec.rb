@@ -54,8 +54,8 @@ describe FormSectionController do
     @form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: "case", mobile_form: true, fields: [
       Field.new(name: "nested_e", type: "subform", subform: @form_section_e, display_name_all: "nested_e"),
     ])
-    @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_form_ids: ["A", "B", "D"], associated_record_types: ['case'])
-    user = User.new(:user_name => 'manager_of_forms', module_ids: [@primero_module.id])
+    @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", form_section_ids: ["A", "B", "D"], associated_record_types: ['case'])
+    user = User.new(:user_name => 'manager_of_forms', module_ids: [@primero_module.unique_id])
     @permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
     user.stub(:roles).and_return([Role.new(permissions_list: [@permission_metadata])])
     fake_login user
@@ -65,7 +65,7 @@ describe FormSectionController do
     it "populate the view with all the form sections in order ignoring enabled or disabled" do
       forms = [@form_section_a, @form_section_b, @form_section_d]
       grouped_forms = forms.group_by{|e| e.form_group_name}
-      get :index, params: {:module_id => @primero_module.id, :parent_form => 'case'}
+      get :index, params: {:module_id => @primero_module.unique_id, :parent_form => 'case'}
       assigns[:form_sections].should == grouped_forms
     end
 
@@ -166,7 +166,7 @@ describe FormSectionController do
           @province2 = create :location, placename: "Province2", hierarchy: [@country.location_code], location_code: 'PRV02'
           @town1 = create :location, placename: "Town1", hierarchy: [@country.location_code, @province1.location_code], location_code:'TWN01'
 
-          @primero_module2 = PrimeroModule.create!(program_id: "some_program", name: "Test 2 Module", associated_form_ids: ["F"], associated_record_types: ['test'])
+          @primero_module2 = PrimeroModule.create!(program_id: "some_program", name: "Test 2 Module", form_section_ids: ["F"], associated_record_types: ['test'])
           user = User.new(:user_name => 'manager2_of_forms', module_ids: [@primero_module2.id])
           user.stub(:roles).and_return([Role.new(permissions_list: [@permission_metadata])])
           fake_login user

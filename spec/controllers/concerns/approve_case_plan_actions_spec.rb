@@ -86,7 +86,7 @@ describe ApprovalActions, type: :controller do
         program_id: "primeroprogram-primero",
         name: "CP",
         description: "Child Protection",
-        associated_form_ids: ["approvals"],
+        form_section_ids: ["approvals"],
         associated_record_types: ['case']
     )
 

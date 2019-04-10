@@ -53,7 +53,7 @@ module RecordActions
     #      Revisit when integrating in v1.3.x
     #params['page'] = 'all' if params['mobile'] && params['ids']
     @records, @total_records = retrieve_records_and_total(@filters)
-    module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
+    module_ids = @records.map{ |m| m.module.unique_id }.uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
     @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter, locale: I18n.locale)
     module_users(module_ids) if module_ids.present?
@@ -317,10 +317,11 @@ module RecordActions
 
   def record_module
     params_module_id = (params['module_id'] || (params['child'].try(:[], 'module_id')))
+
     if @record.present? && @record.module_id.present?
       @record_module ||= @record.module
     elsif params_module_id.present?
-      @record_module ||= PrimeroModule.get(params_module_id)
+      @record_module ||= PrimeroModule.find_by(unique_id: params_module_id)
     else
       @record_module ||= current_user.modules.first
     end

@@ -6,7 +6,7 @@ module Exporters
         @form_id = form_id
       else
         @record_type = record_type
-        @primero_module = PrimeroModule.get(module_id)
+        @primero_module = PrimeroModule.find_by(unique_id: module_id)
         if @primero_module.blank?
           Rails.logger.error {"YmlFormExporter: Invalid Module ID: #{module_id}"}
           raise ArgumentError.new("Invalid Module ID: #{module_id}")
@@ -72,7 +72,7 @@ module Exporters
     def export_multiple_forms
       forms = @primero_module.associated_forms_grouped_by_record_type(true)
       if forms.present?
-        Rails.logger.info {"Record Type: #{@record_type}, Module: #{@primero_module.id}, Show Hidden Forms: #{@show_hidden_forms}, Show Hidden Fields: #{@show_hidden_fields}, Locale: #{@locale}"}
+        Rails.logger.info {"Record Type: #{@record_type}, Module: #{@primero_module.unique_id}, Show Hidden Forms: #{@show_hidden_forms}, Show Hidden Fields: #{@show_hidden_fields}, Locale: #{@locale}"}
         forms_record_type = forms[@record_type]
         unless @show_hidden_forms
           visible_top_forms = forms_record_type.select{|f| f.visible? && !f.is_nested?}
@@ -84,7 +84,7 @@ module Exporters
         end
         forms_record_type.each{|fs| export_form(fs)}
       else
-        Rails.logger.warn {"No FormSections found for #{@primero_module.id}"}
+        Rails.logger.warn {"No FormSections found for #{@primero_module.unique_id}"}
       end
       export_lookups
     end

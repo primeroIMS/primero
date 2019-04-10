@@ -21,7 +21,7 @@ create_or_update_user(
   'disabled' => 'false',
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('Superuser').id,
-  'module_ids' => PrimeroModule.by_name.all.map(&:id),
+  'modules' => PrimeroModule.all,
   'user_groups' => UserGroup.all,
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -36,7 +36,7 @@ create_or_update_user(
   'disabled' => 'false',
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('CP Administrator').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'CP').first.id],
+  'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -51,7 +51,7 @@ create_or_update_user(
   'disabled' => 'false',
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('CP Case Worker').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'CP').first.id],
+  'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
@@ -65,7 +65,7 @@ create_or_update_user(
   'disabled' => 'false',
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('CP Manager').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'CP').first.id],
+  'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -80,7 +80,7 @@ create_or_update_user(
   'disabled' => 'false',
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('GBV Caseworker').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'GBV').first.id],
+  'modules' => [PrimeroModule.gbv],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
@@ -94,7 +94,7 @@ create_or_update_user(
   'disabled' => 'false',
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('GBV Manager').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'GBV').first.id],
+  'modules' => [PrimeroModule.gbv],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -109,7 +109,7 @@ create_or_update_user(
   'disabled' => 'false',
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('FTR Manager').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'CP').first.id],
+  'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero FTR')],
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -124,7 +124,7 @@ create_or_update_user(
   'disabled' => 'false',
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('CP User Manager').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'CP').first.id],
+  'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -139,7 +139,7 @@ create_or_update_user(
   'disabled' => 'false',
   'agency_id' => unicef.id,
   'role_id' => Role.find_by_name('GBV User Manager').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'GBV').first.id],
+  'modules' => [PrimeroModule.gbv],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -155,7 +155,7 @@ create_or_update_user(
   'agency_id' => unicef.id,
   'code' => 'UNICEF/AGENCY_USER_ADMIN_CP',
   'role_id' => Role.find_by_name('Agency User Administrator').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'CP').first.id],
+  'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -171,7 +171,7 @@ create_or_update_user(
   'agency_id' => unicef.id,
   'code' => 'UNICEF/GBV_SYSTEM_ADMINISTRATOR',
   'role_id' => Role.find_by_name('GBV System Administrator').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'GBV').first.id],
+  'modules' => [PrimeroModule.gbv],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -187,7 +187,7 @@ create_or_update_user(
   'agency_id' => unicef.id,
   'code' => 'UNICEF/AGENCY_USER_ADMIN_GBV',
   'role_id' => Role.find_by_name('GBV Agency User Administrator').id,
-  'module_ids' => [PrimeroModule.by_name(key: 'GBV').first.id],
+  'modules' => [PrimeroModule.gbv],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
   'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
@@ -203,7 +203,7 @@ if Primero::Application.locales.include?(Primero::Application::LOCALE_ARABIC)
     'disabled' => 'false',
     'agency_id' => unicef.id,
     'role_id' => Role.find_by_name('CP Case Worker').id,
-    'module_ids' => [PrimeroModule.by_name(key: 'CP').first.id],
+    'modules' => [PrimeroModule.cp],
     'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
     'locale' => Primero::Application::LOCALE_ARABIC
   )
@@ -217,7 +217,7 @@ if Primero::Application.locales.include?(Primero::Application::LOCALE_ARABIC)
     'disabled' => 'false',
     'agency_id' => unicef.id,
     'role_id' => Role.find_by_name('CP Manager').id,
-    'module_ids' => [PrimeroModule.by_name(key: 'CP').first.id],
+    'modules' => [PrimeroModule.cp],
     'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
     'is_manager' => true,
     'locale' => Primero::Application::LOCALE_ARABIC
@@ -232,7 +232,7 @@ if Primero::Application.locales.include?(Primero::Application::LOCALE_ARABIC)
     'disabled' => 'false',
     'agency_id' => unicef.id,
     'role_id' => Role.find_by_name('GBV Social Worker').id,
-    'module_ids' => [PrimeroModule.by_name(key: 'GBV').first.id],
+    'modules' => [PrimeroModule.gbv],
     'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
     'locale' => Primero::Application::LOCALE_ARABIC
   )
@@ -246,7 +246,7 @@ if Primero::Application.locales.include?(Primero::Application::LOCALE_ARABIC)
     'disabled' => 'false',
     'agency_id' => unicef.id,
     'role_id' => Role.find_by_name('GBV Manager').id,
-    'module_ids' => [PrimeroModule.by_name(key: 'GBV').first.id],
+    'modules' => [PrimeroModule.gbv],
     'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
     'is_manager' => true,
 
