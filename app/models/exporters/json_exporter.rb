@@ -21,11 +21,10 @@ module Exporters
     end
 
     def convert_model_to_hash(model, properties)
-      prop_names = properties.map {|p| p.name}
       json_parse = JSON.parse(model.to_json)
-      data_fields = json_parse['data'].select { |k, v| prop_names.include?(k) }
+      data_fields = json_parse["data"].select { |k, v| properties.include?(k) }
       json_parse["data"] = data_fields
-      json_parse.tap {|h| h['model_type'] = model.class.name }
+      json_parse.tap {|h| h["model_type"] = model.class.name }
     end
 
   end

@@ -28,6 +28,11 @@ module Record
     after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
   end
 
+  #TODO: Refactor when making names
+  def self.model_from_name(name)
+    name == 'case' ? Child : Object.const_get(name.camelize)
+  end
+
   module ClassMethods
 
     def new_with_user(user, data = {})
@@ -59,10 +64,6 @@ module Record
       self.name.underscore.downcase
     end
 
-    #TODO: Refactor when making names
-    def model_from_name(name)
-      name == 'case' ? Child : Object.const_get(name.camelize)
-    end
 
     #TODO: Refactor with UIUX
     def model_name_for_messages

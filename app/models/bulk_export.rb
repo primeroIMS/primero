@@ -89,7 +89,7 @@ class BulkExport < CouchRest::Model::Base
   end
 
   def permitted_properties
-    @permitted_properties ||= property_keys_by_module_to_properties(self.permitted_property_keys, model_class)
+    @permitted_properties ||= self.permitted_property_keys
   end
 
   def mark_started
