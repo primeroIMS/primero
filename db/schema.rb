@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190409000000) do
+ActiveRecord::Schema.define(version: 20190410000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,24 @@ ActiveRecord::Schema.define(version: 20190409000000) do
     t.jsonb "mobile_data"
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
     t.index ["user_name"], name: "index_audit_logs_on_user_name"
+  end
+
+  create_table "bulk_exports", id: :serial, force: :cascade do |t|
+    t.string "status"
+    t.string "owned_by"
+    t.datetime "started_on"
+    t.datetime "completed_on"
+    t.string "format"
+    t.string "record_type"
+    t.string "model_range"
+    t.jsonb "filters"
+    t.jsonb "order"
+    t.string "query"
+    t.string "match_criteria"
+    t.jsonb "custom_export_params"
+    t.jsonb "permitted_property_keys"
+    t.string "file_name"
+    t.string "password"
   end
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

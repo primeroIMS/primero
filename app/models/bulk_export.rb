@@ -1,18 +1,6 @@
-class BulkExport < CouchRest::Model::Base
-  use_database :bulk_export
+class BulkExport < ActiveRecord::Base
 
-  class BulkExportDataAccessor < DocumentDataAccessor
-    def load_all(ids)
-      ([@clazz] + @clazz.subclasses).map do |cls|
-        cls.all(:keys => ids).all
-      end.flatten.compact
-   end
-  end
-
-  include PrimeroModel
   include Indexable
-
-  Sunspot::Adapters::DataAccessor.register BulkExportDataAccessor, self
 
   PROCESSING = 'job.status.processing' #The job is still running
   TERMINATED = 'job.status.terminated' #The job terminated due to an error
@@ -23,28 +11,6 @@ class BulkExport < CouchRest::Model::Base
   FileUtils.mkdir_p EXPORT_DIR
 
   ARCHIVE_CUTOFF = 30.days.ago
-
-  property :status
-  property :owned_by
-  property :started_on, DateTime
-  property :completed_on, DateTime
-
-  property :format
-  property :record_type
-  property :model_range #This is a future thing. Currently the bulk is only invoked for :all
-  property :filters #Filters as calculated from the params by the controllers
-  property :order #Solr query order as calculated by the controllers
-  property :query #Text search string
-  property :match_criteria #Tracing Request match criteria #TODO: refactor for v1.3?
-  property :custom_export_params #Used by the custom exports to select forms and fields
-  property :permitted_property_keys
-
-  property :file_name
-  #TODO: Temporarily we are going to store INSECURELY the password.
-  #      Going forward, a random password will be generated for each export at download time
-  property :password
-
-  design #Create the default all design view
 
   searchable auto_index: self.auto_index? do
     time :started_on
@@ -71,12 +37,15 @@ class BulkExport < CouchRest::Model::Base
   def filters
     self['filters'].with_indifferent_access if self['filters'].present?
   end
+
   def order
     self['order'].with_indifferent_access if self['order'].present?
   end
+
   def match_criteria
     self['match_criteria'].with_indifferent_access if self['match_criteria'].present?
   end
+
   def custom_export_params
     self['custom_export_params'].with_indifferent_access if self['custom_export_params'].present?
   end
