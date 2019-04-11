@@ -6,7 +6,6 @@ class Incident < ActiveRecord::Base
   include Ownable
   include Flaggable
   #include DocumentUploader #TODO: refactor with block storage
-  #include SyncableMobile #TODO: refactor with Mobile
   #include Importable #TODO: refactor with Import
   #include IncidentMonitoringRecording #TODO: Refactor with Violations
 

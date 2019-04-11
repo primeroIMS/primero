@@ -8,7 +8,6 @@ class TracingRequest < ActiveRecord::Base
   include Matchable
   #include PhotoUploader #TODO: Refactor with block storage
   #include AudioUploader
-  #include SyncableMobile  #TODO: Refactor with SyncableMobile
   #include Importable #TODO: Refactor with Imports and Exports
 
   store_accessor :data,
