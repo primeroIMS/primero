@@ -3,12 +3,12 @@ VOLUME /certs
 EXPOSE 80 443
 
 COPY nginx/root/ /
-COPY [ "nginx/entrypoint.sh", "sub.sh", "/" ]
+COPY [ "sub.sh", "/" ]
 
 RUN set -ex; \
         chmod +x /sub.sh /entrypoint.sh; \
         apk update; \
-        apk add openssl bash certbot
+        apk add openssl bash certbot supervisor
 
-CMD ["nginx-debug", "-g", "daemon off;"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor.conf"]
 ENTRYPOINT ["/entrypoint.sh"]
