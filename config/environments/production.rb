@@ -1,4 +1,4 @@
-Primero::Application.configure do
+Rails.application.configure do
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
   config.cache_classes = true
@@ -41,4 +41,7 @@ Primero::Application.configure do
   # WARNING **
   # NEVER UNSET THIS OR YOU WILL BREAK THINGS!
   # config.force_ssl = true
+
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = :local
 end

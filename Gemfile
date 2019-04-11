@@ -17,7 +17,7 @@ gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
 gem 'prawn-table',    '~> 0.2.2'
-gem 'rails',          '5.1.4'
+gem 'rails',          '5.2.3'
 gem 'pg',             '~> 0.18.4'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
@@ -25,6 +25,7 @@ gem 'dynamic_form',   '~> 1.1.4'
 gem 'rake',           '~> 12.3.0'
 gem 'jquery-rails'
 gem 'devise'
+gem 'bootsnap'
 
 #TODO - keeping cancancan at 1.9.2 for now.  Newer versions seem to break.
 gem 'cancancan',      '~> 1.9.2'
@@ -89,6 +90,7 @@ group :development do
   gem 'memory-profiler'
   gem 'letter_opener'
   gem 'foreman'
+  gem 'listen'
 end
 
 group :test, :cucumber, :development do

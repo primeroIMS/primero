@@ -1,4 +1,4 @@
-Primero::Application.configure do
+Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   config.cache_classes = true
@@ -16,4 +16,7 @@ Primero::Application.configure do
   config.static_cache_control = "public, max-age=3600"
 
   config.eager_load = false
+
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = :local
 end

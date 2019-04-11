@@ -1,4 +1,4 @@
-Primero::Application.configure do
+Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # The production environment is meant for finished, "live" apps.
@@ -19,4 +19,7 @@ Primero::Application.configure do
   config.assets.digest = true
 
   config.eager_load = false
+
+  # Store uploaded files on the local file system (see config/storage.yml for options)
+  config.active_storage.service = :local
 end
