@@ -8,7 +8,8 @@ COPY [ "sub.sh", "/" ]
 RUN set -ex; \
         chmod +x /sub.sh /entrypoint.sh; \
         apk update; \
-        apk add openssl bash certbot supervisor
+        apk add openssl bash certbot supervisor ; \
+        chmod 0644 /etc/cron.d/*
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor.conf"]
 ENTRYPOINT ["/entrypoint.sh"]
