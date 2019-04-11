@@ -488,9 +488,8 @@ module RecordActions
 
   def clear_append_only_subforms(record)
     if is_mobile?
-      FormSection.get_append_only_subform_ids.each do |subform_id|
-        #TODO: This is based on an invalid assumption that the nested form name is the same as the field name
-        record.data['subform_id'] = []
+      Field.find_with_append_only_subform.each do |field|
+        record.data[field.name] = []
       end
     end
     return record
@@ -585,15 +584,18 @@ module RecordActions
   end
 
   def merge_append_only_subforms(record)
-    FormSection.get_append_only_subform_ids.each do |subform_id|
+    # TODO: Although all subforms are being merged through Utils#merge_data (see Record.rb)
+    # this code makes sure we don't delete old subforms if they are not present. This can happen
+    # because subform_append_only subforms get removed from the mobile app, a user can push an update
+    # without subforms and that doesn't mean he wants to delete them.
+    Field.find_with_append_only_subform.each do |field|
       # Since this only happens if the mobile param is true, the subform section has to be an Array, we don't merge otherwise.
-      if record_params[subform_id].present? && record_params[subform_id].is_a?(Array)
-        #TODO: Fix this when fixing Append only subforms
-        record_subforms = (record.data[subform_id] || []).map(&:attributes)
-        param_subforms = record_params[subform_id]
+      if !@record_params[field.name].nil? && @record_params[field.name].is_a?(Array)
+        record_subforms = (record.data[field.name] || [])
+        param_subforms = @record_params[field.name]
         # If for any reason a user sends updates to existing forms, we will update them.
         unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
-        record_params[subform_id] = unchanged_subforms + param_subforms
+        @record_params[field.name] = unchanged_subforms + param_subforms
       end
     end
   end
