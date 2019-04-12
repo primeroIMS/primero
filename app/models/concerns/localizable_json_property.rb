@@ -55,7 +55,7 @@ module LocalizableJsonProperty
 
     localized_hash.reduce({}) do |acc, (key, value)|
       new_key = key.split('_')[0..-2].join('_');
-      acc[new_key] = value[locale]
+      acc[new_key] = value.try(:[], locale)
       acc
     end
   end
@@ -68,4 +68,3 @@ module LocalizableJsonProperty
     end
   end
 end
-
