@@ -4,12 +4,12 @@ def create_or_update_role(role_hash)
 
   if role.blank?
     puts "Creating role #{role_id}"
-    Role.create! role_hash
+    role = Role.create! role_hash
   else
     puts "Updating role #{role_id}"
     role.update_attributes role_hash
   end
-
+  role.associate_all_forms
 end
 
 cp_admin_permissions = [

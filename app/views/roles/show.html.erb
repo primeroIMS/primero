@@ -111,7 +111,7 @@
                           <span class="section section-show">
                             <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
                             <% forms_list.each do |form| %>
-                              <label><%= f.check_box :form_sections, {:id => "role_#{form.unique_id}", :name => "role[form_sections][]", disabled: "disabled"}, form.unique_id, "" %>
+                              <label><%= f.check_box :form_section_ids, {:id => "role_#{form.id}", :name => "role[form_section_ids][]", disabled: "disabled"}, form.id, "" %>
                               <%= form.name %></label>
                             <% end %>
                           </span>

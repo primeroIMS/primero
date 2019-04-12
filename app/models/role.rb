@@ -3,7 +3,7 @@ class Role < ActiveRecord::Base
   #include Importable #TODO: This will need to be rewritten
   include Memoizable
 
-  has_and_belongs_to_many :form_sections
+  has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :roles
 
   validates :permissions_list, presence: { message: I18n.t("errors.models.role.permission_presence") }
@@ -11,7 +11,6 @@ class Role < ActiveRecord::Base
                    uniqueness: { message: I18n.t("errors.models.role.unique_name") }
 
   before_create :generate_unique_id
-  before_save :add_permitted_subforms
 
   scope :by_referral, -> { where(referral: true) }
   scope :by_transfer, -> { where(transfer: true) }
@@ -35,16 +34,6 @@ class Role < ActiveRecord::Base
 
   def has_permitted_form_id?(form_unique_id_id)
     self.form_sections.map(&:unique_id).include?(form_unique_id_id)
-  end
-
-  def add_permitted_subforms
-    if self.form_sections.present?
-      subforms = FormSection.get_subforms(self.form_sections)
-      all_permitted_form = self.form_sections | subforms
-      if all_permitted_form.present?
-        self.form_sections << subforms
-      end
-    end
   end
 
   def permissions
@@ -128,7 +117,7 @@ class Role < ActiveRecord::Base
     permissions_with_forms = self.permissions.select{|p| p.resource.in?([Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST])}
     forms_by_parent = FormSection.all_forms_grouped_by_parent
     permissions_with_forms.map do |permission|
-      self.form_sections << forms_by_parent[permission.resource]
+      self.form_sections << forms_by_parent[permission.resource].reject {|f| self.form_sections.include?(f)}
       self.save
     end
   end
