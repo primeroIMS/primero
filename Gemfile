@@ -21,7 +21,6 @@ gem 'cancancan',      '~> 1.9.2'
 gem 'highline',       '~> 1.7.8'
 gem 'will_paginate',  '~> 3.1.0'
 gem 'i18n-js',        '~> 3.0.1'
-# gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 1.0.0'
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
@@ -64,7 +63,7 @@ gem 'twitter_cldr'
 
 gem 'puma', '~> 3.7'
 gem 'tzinfo',                     '1.2.4'
-gem 'tzinfo-data'
+gem 'tzinfo-data', '~> 1.2019'
 
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
