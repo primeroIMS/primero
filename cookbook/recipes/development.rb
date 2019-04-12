@@ -18,9 +18,9 @@ end
 
 execute_with_ruby 'dev-ruby' do
   command <<-EOH
-    rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
+    rvm install #{node[:primero][:ruby_version]}
     rvm rubygems #{node[:primero][:rubygems_version]}
-    rvm --default use #{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
+    rvm --default use #{node[:primero][:ruby_version]}
   EOH
   cwd '/home/vagrant/primero'
   user 'vagrant'
