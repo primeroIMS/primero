@@ -3,6 +3,20 @@ module Exporters
   private
 
   class BaseExporter
+
+    EXPORTABLE_FIELD_TYPES = [
+      Field::TEXT_FIELD,
+      Field::TEXT_AREA,
+      Field::RADIO_BUTTON,
+      Field::SELECT_BOX,
+      Field::NUMERIC_FIELD,
+      Field::DATE_FIELD,
+      Field::DATE_RANGE,
+      Field::TICK_BOX,
+      Field::TALLY_FIELD,
+      Field::SUBFORM
+    ]
+
     class << self
       extend Memoist
 
@@ -13,7 +27,7 @@ module Exporters
       end
 
       def supported_models
-        CouchRest::Model::Base.descendants
+        ActiveRecord::Base.descendants
       end
 
       def mime_type
@@ -21,7 +35,7 @@ module Exporters
       end
 
       def excluded_properties
-        []
+        Field.binary_fields.pluck(:name)
       end
 
       def excluded_forms
@@ -43,9 +57,12 @@ module Exporters
 
       def properties_to_export(props)
         props = exclude_forms(props) if self.excluded_forms.present?
-        props = properties_to_keys(props)
-        props.reject! {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
-        return props
+        props = props.flatten.uniq
+        if self.excluded_properties.present?
+          return props.delete_if {|p| self.excluded_properties.include?(p.name) } if props.first.is_a?(Field)
+          props.reject! {|p| self.excluded_properties.include?(p) }
+        end
+        props
       end
 
       def exclude_forms(props)
@@ -111,21 +128,21 @@ module Exporters
         emit_columns = lambda do |props, parent_props=[], &column_generator|
           props.map do |p|
             prop_tree = parent_props + [p]
-            if p.array
+            if p.type.eql?("subform")
               # TODO: This is a hack for CSV export, that causes memory leak
               # 5 is an arbitrary number, and probably should be revisited
               longest_array = 5 #find_longest_array(models, prop_tree)
               (1..(longest_array || 0)).map do |n|
                 new_prop_tree = prop_tree.clone + [n]
-                if p.type.include?(CouchRest::Model::Embeddable)
-                  emit_columns.call(p.type.properties, new_prop_tree, &column_generator)
+                if p.type.eql?("subform")
+                  emit_columns.call(p.subform.fields, new_prop_tree, &column_generator)
                 else
                   column_generator.call(new_prop_tree)
                 end
               end.flatten
             else
-              if !p.type.nil? && p.type.include?(CouchRest::Model::Embeddable)
-                emit_columns.call(p.type.properties, prop_tree, &column_generator)
+              if !p.type.nil? && p.type.eql?("subform")
+                emit_columns.call(p.subform.fields, prop_tree, &column_generator)
               else
                 column_generator.call(prop_tree)
               end
@@ -133,7 +150,7 @@ module Exporters
           end.flatten
         end
 
-        header_columns = ['_id', 'model_type'] + emit_columns.call(properties) do |prop_tree|
+        header_columns = ['id', 'model_type'] + emit_columns.call(properties) do |prop_tree|
           pt = prop_tree.clone
           init = pt.shift.name
           pt.inject(init) do |acc, prop|
@@ -168,7 +185,6 @@ module Exporters
       # concern.  Have to figure out the inheritance tree for the models first
       # so that all exportable models get that method.
       def get_value_from_prop_tree(model, prop_tree)
-
         prop_tree.inject(model) do |acc, prop|
           if acc.nil?
             nil
@@ -177,7 +193,7 @@ module Exporters
             # still 0-based
             acc[prop - 1]
           else
-            acc[prop]
+            acc["data"].present? ? acc["data"][prop.try(:name)] : acc[prop.try(:name)]
           end
         end
       end
@@ -239,8 +255,8 @@ module Exporters
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
       end
 
-      def load_fields(model)
-        @fields = model.field_definitions if model.present?
+      def load_fields(model, *args)
+        @fields = args.first[:user].modules.map { |m| model.class.permitted_properties(args.first[:user], m) }.flatten.uniq {|u| u.name }
       end
     end
 
