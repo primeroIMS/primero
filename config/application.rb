@@ -87,8 +87,6 @@ module Primero
     config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
     config.action_view.logger = nil
 
-    config.couch_watcher_log_level = Logger::INFO
-
     config.exceptions_app = self.routes
 
     def locales

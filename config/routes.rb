@@ -10,8 +10,6 @@ Rails.application.routes.draw do
 
   root to: 'home#index'
 
-  match '/_notify_change' => 'couch_changes#notify', :via => :get
-
   match "/404", :to => "errors#not_found", :via => :all
   match "/500", :to => "errors#internal_server_error", :via => :all
 
@@ -32,9 +30,7 @@ Rails.application.routes.draw do
   end
 
   resources :user_preferences
-
   resources :contact_information
-
   resources :system_settings, only: [:show, :edit, :update]
   resources :saved_searches, only: [:create, :index, :show, :destroy]
   resources :matching_configurations, only: [:show, :edit, :update]
@@ -105,7 +101,6 @@ Rails.application.routes.draw do
   end
 
 
-  match '/children-ids' => 'child_ids#all', :as => :child_ids, :via => [:post, :get, :put, :delete]
   match '/children/:id/photo/edit' => 'children#edit_photo', :as => :edit_photo, :via => :get
   match '/children/:id/photo' => 'children#update_photo', :as => :update_photo, :via => :put
   match '/children/:child_id/photos_index' => 'child_media#index', :as => :photos_index, :via => [:post, :get, :put, :delete]
@@ -122,7 +117,6 @@ Rails.application.routes.draw do
 
   match '/agency/:agency_id/logo/:logo_id' => 'agency_media#show_logo', :as => :agency_logo, :via => [:get]
 
-  match '/case-ids' => 'child_ids#all', :as => :case_ids, :via => [:post, :get, :put, :delete]
   match '/cases/:id/photo/edit' => 'children#edit_photo', :as => :edit_case_photo, :via => :get
   match '/cases/:id/photo' => 'children#update_photo', :as => :update_case_photo, :via => :put
   match '/cases/:child_id/photos_index' => 'child_media#index', :as => :case_photos_index, :via => [:post, :get, :put, :delete]
@@ -136,8 +130,6 @@ Rails.application.routes.draw do
   match '/cases/:child_id/thumbnail(/:photo_id)' => 'child_media#show_thumbnail', :as => :case_thumbnail, :via => [:post, :get, :put, :delete]
   match '/cases' => 'children#index', :as => :case_filter, :via => [:post, :get, :put, :delete]
   match '/cases/:id/hide_name' => 'children#hide_name', :as => :child_hide_name, :via => :post
-
-  match '/incident-ids' => 'incident_ids#all', :as => :incident_ids, :via => [:post, :get, :put, :delete]
 
 #Route to create a Incident from a Case, this is mostly for the show page. User can create from the edit as well which goes to the update controller.
   match '/cases/:child_id/create_incident' => 'children#create_incident', :as => :child_create_incident, :via => :get
@@ -175,8 +167,6 @@ Rails.application.routes.draw do
   match '/cases/:id/unflag' => 'record_flag#unflag', :as => :child_unflag, model_class:'Child', :via => [:post, :put]
   match '/incidents/:id/unflag' => 'record_flag#unflag', :as => :incident_unflag, model_class:'Incident', :via => [:post, :put]
   match '/tracing_requests/:id/unflag' => 'record_flag#unflag', :as => :tracing_request_unflag, model_class:'TracingRequest', :via => [:post, :put]
-
-  match '/tracing_requests-ids' => 'tracing_request_ids#all', :as => :tracing_request_ids, :via => [:post, :get, :put, :delete]
   match '/tracing_requests/:id/photo/edit' => 'tracing_requests#edit_photo', :as => :edit_tracing_requests_photo, :via => :get
   match '/tracing_requests/:id/photo' => 'tracing_requests#update_photo', :as => :update_tracing_requests_photo, :via => :put
   match '/tracing_requests/:tracing_request_id/photos_index' => 'tracing_request_media#index', :as => :tracing_request_photos_index, :via => [:post, :get, :put, :delete]
@@ -251,12 +241,6 @@ Rails.application.routes.draw do
         post 'toggle_fields'
         post 'change_form'
       end
-    end
-  end
-
-  resources :highlight_fields do
-    collection do
-      post :remove
     end
   end
 

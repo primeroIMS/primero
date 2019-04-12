@@ -42,7 +42,6 @@ class Child < ActiveRecord::Base
   include Approvable
   include Alertable
   include Matchable
-  # include SyncableMobile  #TODO: Refactor with SyncableMobile
   # include Importable #TODO: Refactor with Imports and Exports
 
   store_accessor :data,

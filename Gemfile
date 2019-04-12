@@ -1,14 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.6.2'
 
-gem 'rapidftr_addon', :git => 'https://github.com/rapidftr/rapidftr-addon.git', :branch => 'master'
-gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-cpims.git', :branch => 'master'
-
-#TODO - bump couchrest from 1.2.1 to 2.0.1
-#TODO - to do this, must upgrade version of couchrest_model.   Version 2.0.4 requires couchrest 1.2.1
-#TODO - BUT... later versions of couchrest_model are still in beta / rc
-gem 'couchrest_model', '2.0.4'
-
 #TODO - Our current version of couchrest has a restriction that mim-types MUST be less than 3.0
 gem 'mime-types',     '1.16'
 
@@ -20,12 +12,10 @@ gem 'prawn-table',    '~> 0.2.2'
 gem 'rails',          '5.2.3'
 gem 'pg',             '~> 0.18.4'
 gem 'uuidtools',      '~> 2.1.1'
-gem 'validatable',    '1.6.7'
-gem 'dynamic_form',   '~> 1.1.4'
 gem 'rake',           '~> 12.3.0'
 gem 'jquery-rails'
-gem 'devise'
 gem 'bootsnap'
+gem 'devise',          '4.6.2'
 
 #TODO - keeping cancancan at 1.9.2 for now.  Newer versions seem to break.
 gem 'cancancan',      '~> 1.9.2'
@@ -130,10 +120,4 @@ group :test, :cucumber do
   # https://github.com/rack-test/rack-test/issues/211
   # https://github.com/rack-test/rack-test/pull/215
   gem 'rack-test', :git => 'https://github.com/rack-test/rack-test', :ref => '10042d3452a13d5f13366aac839b981b1c5edb20'
-end
-
-#TODO: Does this get installed?
-group :couch_watcher do
-  gem 'em-http-request',    '~> 1.1.2'
-  gem 'eventmachine',       '~> 1.2.5'
 end
