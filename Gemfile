@@ -14,7 +14,6 @@ gem 'pg',             '~> 0.18.4'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'rake',           '~> 12.3.0'
 gem 'jquery-rails'
-gem 'bootsnap'
 gem 'devise',          '4.6.2'
 
 #TODO - keeping cancancan at 1.9.2 for now.  Newer versions seem to break.
@@ -80,7 +79,6 @@ group :development do
   gem 'memory-profiler'
   gem 'letter_opener'
   gem 'foreman'
-  gem 'listen'
 end
 
 group :test, :cucumber, :development do

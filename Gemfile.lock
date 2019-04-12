@@ -89,8 +89,6 @@ GEM
       rack (>= 0.9.0)
     binding_of_caller (0.8.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.4.3)
-      msgpack (~> 1.0)
     builder (3.2.3)
     byebug (10.0.0)
     camertron-eprun (1.1.1)
@@ -162,14 +160,6 @@ GEM
       thread
       thread_safe
     ejs (1.1.1)
-    em-http-request (1.1.5)
-      addressable (>= 2.3.4)
-      cookiejar (!= 0.3.1)
-      em-socksify (>= 0.3)
-      eventmachine (>= 1.0.3)
-      http_parser.rb (>= 0.6.0)
-    em-socksify (0.3.2)
-      eventmachine (>= 1.0.0.beta.4)
     erubi (1.8.0)
     et-orbi (1.0.9)
       tzinfo
@@ -228,10 +218,6 @@ GEM
     letter_opener (1.6.0)
       launchy (~> 2.2)
     libv8 (3.16.14.19)
-    listen (3.1.5)
-      rb-fsevent (~> 0.9, >= 0.9.4)
-      rb-inotify (~> 0.9, >= 0.9.7)
-      ruby_dep (~> 1.2)
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -250,7 +236,6 @@ GEM
     minitest (5.11.3)
     momentjs-rails (2.17.1)
       railties (>= 3.1)
-    msgpack (1.2.9)
     multi_json (1.12.2)
     multipart-post (2.0.0)
     nio4r (2.3.1)
@@ -380,7 +365,6 @@ GEM
     ruby-prof (0.17.0)
     ruby-progressbar (1.9.0)
     ruby-rc4 (0.1.5)
-    ruby_dep (1.5.0)
     rubyzip (1.2.1)
     rufus-scheduler (3.4.2)
       et-orbi (~> 1.0)
@@ -473,7 +457,6 @@ DEPENDENCIES
   backburner
   better_errors
   binding_of_caller
-  bootsnap
   cancancan (~> 1.9.2)
   capybara (~> 2.16.1)
   capybara-selenium (~> 0.0.6)
@@ -499,7 +482,6 @@ DEPENDENCIES
   jquery-turbolinks
   json_spec
   letter_opener
-  listen
   memoist (~> 0.11.0)
   memory-profiler
   mime-types (= 1.16)

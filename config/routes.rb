@@ -29,7 +29,6 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :user_preferences
   resources :contact_information
   resources :system_settings, only: [:show, :edit, :update]
   resources :saved_searches, only: [:create, :index, :show, :destroy]
