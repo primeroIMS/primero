@@ -39,7 +39,7 @@ module Record
     end
 
     def generate_unique_id
-      return UUIDTools::UUID.random_create.to_s
+      return SecureRandom.uuid
     end
 
     def parent_form
@@ -141,7 +141,7 @@ module Record
         if value.is_a?(Array) && value.first.is_a?(Hash)
           value.each do |subform|
             unless subform['unique_id'].present?
-              subform['unique_id'] = UUIDTools::UUID.random_create.to_s
+              subform['unique_id'] = SecureRandom.uuid
             end
           end
         end

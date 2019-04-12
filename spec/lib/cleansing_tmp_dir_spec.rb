@@ -26,7 +26,7 @@ describe CleansingTmpDir do
 
   it 'should generate temporary file name' do
     CleansingTmpDir.stub :dir => 'test_dir'
-    UUIDTools::UUID.stub :timestamp_create => 'test_filename'
+    SecureRandom.stub :uuid => 'test_filename'
     CleansingTmpDir.temp_file_name.should == 'test_dir/test_filename'
   end
 end
