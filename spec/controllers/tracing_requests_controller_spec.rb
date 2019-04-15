@@ -233,10 +233,10 @@ describe TracingRequestsController, :type => :controller do
           }
         }
         #Test if the exporter receive the list of field expected.
-        Exporters::CSVExporterListView.should_receive(:export).with(collection, expected_properties, @session.user, anything).and_return('data')
+        Exporters::CSVListViewExporter.should_receive(:export).with(collection, expected_properties, @session.user, anything).and_return('data')
         ##### Main part of the test ####
 
-        controller.should_receive(:export_filename).with(collection, Exporters::CSVExporterListView).and_return("test_filename")
+        controller.should_receive(:export_filename).with(collection, Exporters::CSVListViewExporter).and_return("test_filename")
         controller.should_receive(:encrypt_data_to_zip).with('data', 'test_filename', nil).and_return(true)
         controller.stub :render
         #Prepare parameters to call the corresponding exporter.
