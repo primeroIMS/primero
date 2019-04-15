@@ -523,7 +523,7 @@ DEPENDENCIES
   turbolinks (~> 5)
   twitter_cldr
   tzinfo (= 1.2.4)
-  tzinfo-data
+  tzinfo-data (~> 1.2019)
   uglifier (~> 4.0.2)
   uuidtools (~> 2.1.1)
   webpacker (~> 4.0.0)
