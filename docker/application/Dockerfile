@@ -18,18 +18,22 @@ RUN set -ex \
 WORKDIR /srv/primero/application
 COPY [ "Gemfile", "Gemfile.lock", "/srv/primero/application/" ]
 
+# Run bundle install
 RUN set -ex \
         ; bundle install --without development test cucumber
 
+# Copy container overlay dir
+COPY [ "application/root/", "/" ]
+# Copy substitution script
+COPY [ "sub.sh", "/" ]
 # Now copy over primero and do setup
 COPY [ ".", "/srv/primero/application" ]
+
 # TODO: move srv/p/app/log to srv/p/log
 RUN set -ex \
         ; mkdir -p \
-            /srv/primero/log/rails
+            /srv/primero/log/rails \
             /srv/primero/application/tmp \
             /srv/primero/application/log \
         ; touch /srv/primero/application/log/production.log
-
-COPY [ "docker/application/entrypoint.sh", "/" ]
 

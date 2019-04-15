@@ -1,0 +1,2 @@
+$RAILS_ENV:
+  beanstalk_url: "$BEANSTALK_URL"

@@ -1,0 +1,7 @@
+$RAILS_ENV:
+  adapter: postgresql
+  database: $POSTGRES_DATABASE
+  username: $POSTGRES_USERNAME
+  password: $POSTGRES_PASSWORD
+  host: $POSTGRES_HOSTNAME
+  pool: $POSTGRES_POOL_NUM
