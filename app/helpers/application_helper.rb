@@ -100,9 +100,9 @@ module ApplicationHelper
   end
 
   def translated_permissions_list(permission_list)
-    permission_list.map{|p| {resource: p[:resource],
-                             resource_translated: I18n.t(p[:resource], scope: 'permissions.permission'),
-                             actions_translated: translated_hash_list(p[:actions], 'permissions.permission', p[:resource])}}
+    permission_list.map{|p| {resource: p.resource,
+                             resource_translated: I18n.t(p.resource, scope: 'permissions.permission'),
+                             actions_translated: translated_hash_list(p.actions, 'permissions.permission', p.resource)}}
   end
 
   # Input:  an array of strings
@@ -123,7 +123,7 @@ module ApplicationHelper
   # Input: action_hash (from the translated permissions)
   # Output: true/false
   def is_permission_checked(permission_list = [], resource = "", action_hash = {})
-    permission_list.select{|p| p.resource == resource}.any? {|p| p[:actions].include? action_hash[:key]}
+    permission_list.select{|p| p.resource == resource}.any? {|p| p.actions.include? action_hash[:key]}
   end
 
   def ctl_edit_button(record, path=nil)

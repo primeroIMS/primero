@@ -188,7 +188,7 @@ class Permission < ValueObject
   end
 
   def self.all_available
-    resources.map{|r| {resource: r, actions: resource_actions(r)}}
+    resources.map{|r| Permission.new({resource: r, actions: resource_actions(r)})}
   end
 
   def self.resource_actions(resource)
