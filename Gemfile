@@ -63,6 +63,8 @@ gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-c
 gem 'twitter_cldr'
 
 gem 'puma', '~> 3.7'
+gem 'tzinfo',                     '1.2.4'
+gem 'tzinfo-data',                '~> 1.2019'
 
 #TODO: Are these getting installed?
 group :development, :assets, :cucumber do
@@ -109,7 +111,6 @@ group :test, :cucumber do
   gem 'pdf-inspector', :require => 'pdf/inspector'
   gem 'rack_session_access'
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. We should be able to upgrade when we upgrade sunspot
-  gem 'tzinfo',                     '1.2.4'
   gem 'timecop',                    '~>0.9.1'
 
   # TODO: We need to update to 0.8.3 as soon as its available
