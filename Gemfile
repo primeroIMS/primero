@@ -7,6 +7,7 @@ gem 'rake',             '~> 12.3'
 gem 'puma',             '~> 3.12'
 gem 'webpacker',        '~> 4.0'
 gem 'devise',           '4.6.2'
+gem 'cancancan',        '~> 1.9' # TODO: keeping cancancan at 1.9.2 for now. Newer versions seem to break.
 
 gem 'prawn',            '~> 2.2'
 gem 'prawn-table',      '~> 0.2'
@@ -17,7 +18,6 @@ gem 'rubyzip',          '~> 1.2', require: 'zip'
 gem 'writeexcel',       '~> 1.0'
 gem 'spreadsheet',      '~> 1.1'
 
-gem 'cancancan',        '~> 1.9' # TODO: keeping cancancan at 1.9.2 for now. Newer versions seem to break.
 gem 'will_paginate',    '~> 3.1'
 gem 'mini_magick',      '~> 4.8'
 gem 'i18n-js',          '~> 3.0'
@@ -25,8 +25,9 @@ gem 'i18n-js',          '~> 3.0'
 gem 'rufus-scheduler',  '~> 3.4', require: false
 gem 'backburner',       '~> 1.5', require: false
 gem 'deep_merge', require: 'deep_merge/rails_compat'
-gem 'tzinfo',                     '1.2.4'
-gem 'tzinfo-data',                '~> 1.2019'
+
+gem 'tzinfo',           '1.2.4'
+gem 'tzinfo-data',      '~> 1.2019'
 
 # Note: if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
 # Current Solr version is 5.3.1
