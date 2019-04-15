@@ -16,18 +16,22 @@ describe Workflow do
         program_id: "module_a",
         associated_record_types: ['case'],
         name: "Test Module A",
-        associated_form_ids: [],
-        use_workflow_case_plan: true,
-        use_workflow_assessment: true
+        form_section_ids: [],
+        module_options: {
+          use_workflow_case_plan: true,
+          use_workflow_assessment: true
+        }
     )
 
     @module_b = PrimeroModule.new(
         program_id: "module_b",
         associated_record_types: ['case'],
         name: "Test Module B",
-        associated_form_ids: [],
-        use_workflow_case_plan: true,
-        use_workflow_assessment: true
+        form_section_ids: [],
+        module_options: {
+          use_workflow_case_plan: true,
+          use_workflow_assessment: true
+        }
     )
   end
 
@@ -148,9 +152,11 @@ describe Workflow do
           program_id: "some_program",
           associated_record_types: ['case'],
           name: "Test Module",
-          #associated_form_ids: [form1.id, form2.id],
-          use_workflow_case_plan: true,
-          use_workflow_assessment: true
+          form_section_ids: [form1.id, form2.id],
+          module_options: {
+            use_workflow_case_plan: true,
+            use_workflow_assessment: true
+          }
       )
 
       user = User.new({:user_name => 'bob123', :organization=> "UNICEF"})

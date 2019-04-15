@@ -53,7 +53,7 @@ module RecordActions
     #      Revisit when integrating in v1.3.x
     #params['page'] = 'all' if params['mobile'] && params['ids']
     @records, @total_records = retrieve_records_and_total(@filters)
-    module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
+    module_ids = @records.map{ |m| m.module.unique_id }.uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
     @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter, locale: I18n.locale)
     module_users(module_ids) if module_ids.present?
@@ -317,10 +317,11 @@ module RecordActions
 
   def record_module
     params_module_id = (params['module_id'] || (params['child'].try(:[], 'module_id')))
+
     if @record.present? && @record.module_id.present?
       @record_module ||= @record.module
     elsif params_module_id.present?
-      @record_module ||= PrimeroModule.get(params_module_id)
+      @record_module ||= PrimeroModule.find_by(unique_id: params_module_id)
     else
       @record_module ||= current_user.modules.first
     end
@@ -487,9 +488,8 @@ module RecordActions
 
   def clear_append_only_subforms(record)
     if is_mobile?
-      FormSection.get_append_only_subform_ids.each do |subform_id|
-        #TODO: This is based on an invalid assumption that the nested form name is the same as the field name
-        record.data['subform_id'] = []
+      Field.find_with_append_only_subform.each do |field|
+        record.data[field.name] = []
       end
     end
     return record
@@ -584,15 +584,18 @@ module RecordActions
   end
 
   def merge_append_only_subforms(record)
-    FormSection.get_append_only_subform_ids.each do |subform_id|
+    # TODO: Although all subforms are being merged through Utils#merge_data (see Record.rb)
+    # this code makes sure we don't delete old subforms if they are not present. This can happen
+    # because subform_append_only subforms get removed from the mobile app, a user can push an update
+    # without subforms and that doesn't mean he wants to delete them.
+    Field.find_with_append_only_subform.each do |field|
       # Since this only happens if the mobile param is true, the subform section has to be an Array, we don't merge otherwise.
-      if record_params[subform_id].present? && record_params[subform_id].is_a?(Array)
-        #TODO: Fix this when fixing Append only subforms
-        record_subforms = (record.data[subform_id] || []).map(&:attributes)
-        param_subforms = record_params[subform_id]
+      if !@record_params[field.name].nil? && @record_params[field.name].is_a?(Array)
+        record_subforms = (record.data[field.name] || [])
+        param_subforms = @record_params[field.name]
         # If for any reason a user sends updates to existing forms, we will update them.
         unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
-        record_params[subform_id] = unchanged_subforms + param_subforms
+        @record_params[field.name] = unchanged_subforms + param_subforms
       end
     end
   end

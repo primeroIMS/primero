@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190405000000) do
+ActiveRecord::Schema.define(version: 20190410000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,24 @@ ActiveRecord::Schema.define(version: 20190405000000) do
     t.jsonb "mobile_data"
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
     t.index ["user_name"], name: "index_audit_logs_on_user_name"
+  end
+
+  create_table "bulk_exports", id: :serial, force: :cascade do |t|
+    t.string "status"
+    t.string "owned_by"
+    t.datetime "started_on"
+    t.datetime "completed_on"
+    t.string "format"
+    t.string "record_type"
+    t.string "model_range"
+    t.jsonb "filters"
+    t.jsonb "order"
+    t.string "query"
+    t.string "match_criteria"
+    t.jsonb "custom_export_params"
+    t.jsonb "permitted_property_keys"
+    t.string "file_name"
+    t.string "password"
   end
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -160,9 +178,15 @@ ActiveRecord::Schema.define(version: 20190405000000) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
+  create_table "form_sections_primero_modules", id: false, force: :cascade do |t|
+    t.integer "primero_module_id"
+    t.integer "form_section_id"
+  end
+
   create_table "form_sections_roles", id: false, force: :cascade do |t|
     t.integer "role_id"
     t.integer "form_section_id"
+    t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
   end
 
   create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -190,6 +214,26 @@ ActiveRecord::Schema.define(version: 20190405000000) do
     t.jsonb "lookup_values_i18n"
     t.boolean "locked", default: false, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
+  end
+
+  create_table "primero_modules", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.integer "primero_program_id"
+    t.jsonb "name", default: {}
+    t.jsonb "description", default: {}
+    t.string "associated_record_types", array: true
+    t.boolean "core_resource", default: true
+    t.jsonb "field_map"
+    t.jsonb "module_options"
+    t.index ["primero_program_id"], name: "index_primero_modules_on_primero_program_id"
+    t.index ["unique_id"], name: "index_primero_modules_on_unique_id", unique: true
+  end
+
+  create_table "primero_modules_users", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "primero_module_id"
+    t.index ["primero_module_id"], name: "index_primero_modules_users_on_primero_module_id"
+    t.index ["user_id"], name: "index_primero_modules_users_on_user_id"
   end
 
   create_table "primero_programs", id: :serial, force: :cascade do |t|
@@ -248,6 +292,27 @@ ActiveRecord::Schema.define(version: 20190405000000) do
     t.string "record_type"
     t.string "user_name"
     t.jsonb "filters"
+  end
+
+  create_table "system_settings", id: :serial, force: :cascade do |t|
+    t.string "default_locale", default: "en"
+    t.string "locales", default: ["en"], array: true
+    t.string "base_language", default: "en"
+    t.string "case_code_format", default: [], array: true
+    t.string "case_code_separator"
+    t.jsonb "auto_populate_list", default: [], array: true
+    t.jsonb "unhcr_needs_codes_mapping"
+    t.jsonb "reporting_location_config"
+    t.jsonb "age_ranges"
+    t.jsonb "welcome_email_text_i18n"
+    t.string "primary_age_range"
+    t.string "location_limit_for_api"
+    t.string "approval_forms_to_alert"
+    t.string "changes_field_to_form"
+    t.string "export_config_id"
+    t.string "duplicate_export_field"
+    t.string "primero_version"
+    t.jsonb "system_options"
   end
 
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

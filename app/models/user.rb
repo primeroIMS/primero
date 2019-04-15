@@ -9,18 +9,21 @@ class User < ActiveRecord::Base
   belongs_to :agency
 
   has_and_belongs_to_many :user_groups
+  has_and_belongs_to_many :primero_modules
 
-  # TODO: #by_modules will be an association after PrimeroModule migrated to AR
-  scope :by_modules, ->(ids) { where('module_ids && ARRAY[?]::varchar[]', ids) }
   scope :list_by_enabled, -> { where(disabled: false) }
   scope :list_by_disabled, -> { where(disabled: true) }
-  scope :by_unverified, -> { where(verified: false) }
   scope :by_user_group, (lambda do |ids|
     joins(:user_groups).where(user_groups: { id: ids })
+  end)
+  scope :by_modules, (lambda do |ids|
+    joins(:primero_modules).where(primero_modules: { id: ids })
   end)
 
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
+  alias_attribute :modules, :primero_modules
+  alias_attribute :module_ids, :primero_module_ids
 
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
 
@@ -123,11 +126,6 @@ class User < ActiveRecord::Base
     errors.add(:locale, I18n.t("errors.models.user.invalid_locale", user_locale: self.locale))
   end
 
-  # TODO: Change once module migration merged
-  def modules
-    @modules ||= PrimeroModule.all(keys: module_ids).all
-  end
-
   def user_location
     @location_obj ||= Location.get_by_location_code(location)
   end
@@ -191,7 +189,7 @@ class User < ActiveRecord::Base
   end
 
   def module_permitted_form_ids
-    modules.compact.collect(&:associated_form_ids).flatten.select(&:present?)
+    modules.compact.collect{ |fs| fs.form_sections.map(&:unique_id) }.flatten
   end
 
   def managed_users

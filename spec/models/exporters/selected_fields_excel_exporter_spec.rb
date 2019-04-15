@@ -56,7 +56,7 @@ module Exporters
         program_id: "primeroprogram-primero",
         name: "CP",
         description: "Child Protection",
-        associated_form_ids: FormSection.all.map(&:unique_id),
+        form_section_ids: FormSection.all.map(&:unique_id),
         associated_record_types: ['case']
       )
 

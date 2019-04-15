@@ -32,14 +32,14 @@ module Ownable
     #   modules.each do |primero_module|
     #     form_sections = allowed_formsections(user, primero_module)
     #     form_sections = form_sections.map{|key, forms| forms }.flatten
-    #     properties_by_module[primero_module.id] = {}
+    #     properties_by_module[primero_module.unique_id] = {}
     #     form_sections.each do |section|
     #       properties = self.properties_by_form[section.unique_id]
     #       if read_only_user
     #         readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
     #         properties = properties.select{|k,v| readable_props.include?(k)}
     #       end
-    #       properties_by_module[primero_module.id][section.unique_id] = properties
+    #       properties_by_module[primero_module.unique_id][section.unique_id] = properties
     #     end
     #   end
     #   properties_by_module
@@ -105,7 +105,7 @@ module Ownable
 
   #TODO: Refactor as association or AREL query after we migrated PrimeroModule
   def module
-    @record_module ||= PrimeroModule.get(self.module_id) if self.module_id
+    @record_module ||= PrimeroModule.find_by(unique_id: self.module_id) if self.module_id
   end
 
   def users_by_association

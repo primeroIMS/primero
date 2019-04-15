@@ -290,6 +290,10 @@ class Field < ActiveRecord::Base
     #This allows us to use the property 'type' on Field, normally reserved by ActiveRecord
     def inheritance_column ; 'type_inheritance' ; end
 
+    def find_with_append_only_subform
+      Field.joins(:subform).where({ type: 'subform', form_sections: { subform_append_only: true, is_nested: true } })
+    end
+
   end
 
   #TODO:Get rid of FieldOptions. This method should just be an alias
@@ -592,10 +596,6 @@ class Field < ActiveRecord::Base
 
   def recalculate_subform_permissions
     if self.type == Field::SUBFORM && (self.new_record? || self.saved_change_to_attribute?('subform_section_id'))
-      Role.all.each do |role|
-        role.add_permitted_subforms
-        role.save
-      end
       PrimeroModule.all.each do |primero_module|
         primero_module.add_associated_subforms
         primero_module.save

@@ -1,13 +1,13 @@
-# encoding: utf-8
+require_relative 'boot'
 
-require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 
-#Bundler.require *Rails.groups(:assets => %w(development test))
 Bundler.require(:default, :assets, Rails.env)
 
 module Primero
   class Application < Rails::Application
+    config.load_defaults 5.0
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
@@ -40,7 +40,7 @@ module Primero
     config.assets.enabled = true
     config.assets.version = '1.0'
 
-    config.assets.precompile += %w( 
+    config.assets.precompile += %w(
       application_ltr.scss
       application_rtl.scss
       translations.js
@@ -86,8 +86,6 @@ module Primero
 
     config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
     config.action_view.logger = nil
-
-    config.couch_watcher_log_level = Logger::INFO
 
     config.exceptions_app = self.routes
 
