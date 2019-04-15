@@ -1,7 +1,7 @@
 class Location < ActiveRecord::Base
 
   include LocalizableJsonProperty
-  include Memoizable
+  # include Memoizable
 
   # we should use `ENUMS`
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]

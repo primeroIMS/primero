@@ -2,7 +2,7 @@ class FormSection < ActiveRecord::Base
 
   include LocalizableJsonProperty
   #include Importable #TODO: This will need to be rewritten
-  include Memoizable
+  # include Memoizable
 
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
 
@@ -240,7 +240,7 @@ class FormSection < ActiveRecord::Base
       photo_form = find_by(unique_id: 'photos_and_audio')
       photo_form.present? && photo_form.visible
     end
-    memoize_in_prod :has_photo_form
+    # memoize_in_prod :has_photo_form
 
     def new_custom(form_section, module_name = "CP")
       form_section[:core_form] = false   #Indicates this is a user-added form

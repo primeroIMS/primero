@@ -1,6 +1,6 @@
 class SystemSettings < ActiveRecord::Base
 
-  include Memoizable
+  # include Memoizable
   include LocalizableJsonProperty
 
   store_accessor :system_options,
