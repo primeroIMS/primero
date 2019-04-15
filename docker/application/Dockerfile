@@ -1,4 +1,4 @@
-FROM ruby:2.4.5-alpine3.8
+FROM ruby:2.6.2-alpine3.9
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
@@ -15,29 +15,21 @@ RUN set -ex \
         ; rm -rf /var/cache/apk/*
 
 # Install Gems first for docker cache
-WORKDIR /srv/primero
-COPY [ "Gemfile", "Gemfile.lock", "/srv/primero/" ]
+WORKDIR /srv/primero/application
+COPY [ "Gemfile", "Gemfile.lock", "/srv/primero/application/" ]
 
 RUN set -ex \
         ; bundle install --without development test cucumber
 
 # Now copy over primero and do setup
-COPY [ ".", "/srv/primero" ]
-RUN mkdir -p /srv/primero/{tmp,log,bin}
-RUN mkdir -p /srv/primero/application/daemons
-RUN mkdir -p /srv/primero/log/{nginx,rails}
+COPY [ ".", "/srv/primero/application" ]
+# TODO: move srv/p/app/log to srv/p/log
+RUN set -ex \
+        ; mkdir -p \
+            /srv/primero/log/rails
+            /srv/primero/application/tmp \
+            /srv/primero/application/log \
+        ; touch /srv/primero/application/log/production.log
 
 COPY [ "docker/application/entrypoint.sh", "/" ]
-
-# ENV NO_RESEED
-
-# RUN set -ex \
-#         ; rake db:migrate:design \
-#         ; if [ -n "${NO_RESEED+x}" ] \
-#         ; then rake db:seed \
-#         ; fi \
-#         ; rake db:migrate \
-#         ; rake sunspot:reindex \
-#         ; rake tmp:cache:clear \
-#         ; rake app:assets_precompile
 
