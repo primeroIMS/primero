@@ -25,7 +25,8 @@ gem 'i18n-js',          '~> 3.0'
 gem 'rufus-scheduler',  '~> 3.4', require: false
 gem 'backburner',       '~> 1.5', require: false
 gem 'deep_merge', require: 'deep_merge/rails_compat'
-gem 'tzinfo',           '1.2.4'
+gem 'tzinfo',                     '1.2.4'
+gem 'tzinfo-data',                '~> 1.2019'
 
 # Note: if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
 # Current Solr version is 5.3.1
@@ -48,7 +49,7 @@ gem 'closure-compiler'
 gem 'uglifier',         '~> 4.0.2'
 # ---
 
-group :development, :test do
+group :development do
   gem 'i18n-tasks', '~> 0.9.18'
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -85,8 +86,9 @@ group :development, :test do
   gem 'capybara-selenium',          '~> 0.0.6'
   gem 'capybara',                   '~> 2.16.1'
   gem 'jasmine',                    '~> 2.4.0'   #TODO ????
+  # ---
 
-  # TODO: We need to update to 0.8.3 as soon as its available
+    # TODO: We need to update to 0.8.3 as soon as its available
   # This is a temp thing. There is a recent (DEC 2017) bug in rack-test.
   # Should be able to just remove after a patch is released.
   # https://github.com/rack-test/rack-test/issues/211
