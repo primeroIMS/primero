@@ -1,4 +1,4 @@
-class FormSection < ActiveRecord::Base
+class FormSection < ApplicationRecord
 
   include LocalizableJsonProperty
   #include Importable #TODO: This will need to be rewritten

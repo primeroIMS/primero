@@ -1,4 +1,4 @@
-class PrimeroModule < ActiveRecord::Base
+class PrimeroModule < ApplicationRecord
   CP = 'primeromodule-cp'
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'

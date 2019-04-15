@@ -1,4 +1,4 @@
-class SystemSettings < ActiveRecord::Base
+class SystemSettings < ApplicationRecord
 
   # include Memoizable
   include LocalizableJsonProperty

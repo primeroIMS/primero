@@ -1,4 +1,4 @@
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
 
   #include Importable #TODO: This will need to be rewritten
   # include Memoizable

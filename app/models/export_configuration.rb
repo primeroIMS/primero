@@ -1,4 +1,4 @@
-class ExportConfiguration < ActiveRecord::Base
+class ExportConfiguration < ApplicationRecord
   # include Memoizable
   include LocalizableJsonProperty
 

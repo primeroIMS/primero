@@ -1,4 +1,4 @@
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
 
   # include Memoizable
   include LocalizableJsonProperty

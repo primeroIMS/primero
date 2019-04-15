@@ -1,4 +1,4 @@
-class Field < ActiveRecord::Base
+class Field < ApplicationRecord
 
   include LocalizableJsonProperty
   # include Memoizable

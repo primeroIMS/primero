@@ -1,4 +1,4 @@
-class Lookup < ActiveRecord::Base
+class Lookup < ApplicationRecord
 
   # include Memoizable
   include LocalizableJsonProperty

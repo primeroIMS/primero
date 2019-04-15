@@ -1,4 +1,4 @@
-class Agency < ActiveRecord::Base
+class Agency < ApplicationRecord
 
   #include LogoUploader #TODO Rplace with ActiveStorage
   # include Memoizable #TODO: We may pull this out or have a more polite way of caching

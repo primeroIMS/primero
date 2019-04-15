@@ -1,4 +1,4 @@
-class BulkExport < ActiveRecord::Base
+class BulkExport < ApplicationRecord
 
   include Indexable
 

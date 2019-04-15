@@ -1,4 +1,4 @@
-class Flag < ActiveRecord::Base
+class Flag < ApplicationRecord
   include Indexable
 
   EVENT_FLAG = 'flag' ; EVENT_UNFLAG = 'unflag'
