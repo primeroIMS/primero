@@ -1,8 +1,6 @@
 module Record
   extend ActiveSupport::Concern
 
-  require "uuidtools"
-
   STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed'
 
   included do
