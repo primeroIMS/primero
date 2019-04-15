@@ -1,8 +1,12 @@
-Primero::Application.routes.draw do
+Rails.application.routes.draw do
   devise_for :users, path: '', controllers: { sessions: "sessions" }, path_names: {
     sign_in: 'login',
     sign_out: 'logout'
   }
+
+  devise_scope :user do
+    get '/active', to: 'sessions#active'
+  end
 
   root to: 'home#index'
 
@@ -25,10 +29,7 @@ Primero::Application.routes.draw do
     end
   end
 
-  match '/active' => 'sessions#active', :as => :session_active, :via => [:post, :get, :put, :delete]
-
   resources :contact_information
-
   resources :system_settings, only: [:show, :edit, :update]
   resources :saved_searches, only: [:create, :index, :show, :destroy]
   resources :matching_configurations, only: [:show, :edit, :update]

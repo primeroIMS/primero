@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
-ruby '2.4.3'
+ruby '2.6.2'
 
+<<<<<<< HEAD
 # TODO: Our current version of couchrest has a
 # restriction that mim-types MUST be less than 3.0
 gem 'rails',            '5.1.4'
@@ -25,6 +26,42 @@ gem 'addressable',      '~> 2.5.2'
 gem 'rubyzip',          '~> 1.2.1', require: 'zip'
 gem 'rufus-scheduler',  '~> 3.4.2', require: false
 gem 'daemons',          '~> 1.2.5', require: false
+=======
+#TODO - Our current version of couchrest has a restriction that mim-types MUST be less than 3.0
+gem 'mime-types',     '1.16'
+
+gem 'webpacker',      '~> 4.0.0'
+gem 'mini_magick',    '~> 4.8.0'
+gem 'pdf-reader',     '2.0.0'
+gem 'prawn',          '~> 2.2.2'
+gem 'prawn-table',    '~> 0.2.2'
+gem 'rails',          '5.2.3'
+gem 'pg',             '~> 0.18.4'
+gem 'uuidtools',      '~> 2.1.1'
+gem 'rake',           '~> 12.3.0'
+gem 'jquery-rails'
+gem 'devise',          '4.6.2'
+
+#TODO - keeping cancancan at 1.9.2 for now.  Newer versions seem to break.
+gem 'cancancan',      '~> 1.9.2'
+gem 'highline',       '~> 1.7.8'
+gem 'will_paginate',  '~> 3.1.0'
+gem 'i18n-js',        '~> 3.0.1'
+gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
+gem 'os',             '~> 1.0.0'
+gem 'multi_json',     '~> 1.12.2'
+gem 'addressable',    '~> 2.5.2'
+gem 'rubyzip',        '~> 1.2.1', require: 'zip'
+
+#Note, if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
+#Current Solr version is 5.3.1
+gem 'sunspot_rails',  '2.3.0'
+gem 'sunspot_solr',   '2.3.0'
+
+gem 'rufus-scheduler', '~> 3.4.2', :require => false
+gem 'daemons',         '~> 1.2.5',  :require => false
+
+>>>>>>> 7f28e98625bf3a091cdfd106e052dfd9962fb55e
 gem 'backburner', require: false
 gem 'progress_bar',     '~> 1.1.0'
 gem 'writeexcel',       '~> 1.0.5'
