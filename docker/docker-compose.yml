@@ -15,8 +15,6 @@ services:
     ports:
       - "3000:3000"
     entrypoint: "/entrypoint.sh"
-    extra_hosts:
-      - "couchdb:10.1.0.87"
     depends_on:
       - solr
       - beanstalkd
@@ -24,4 +22,7 @@ services:
     volumes:
       - primero_tmp:/srv/primero/tmp
 volumes:
+  local_certs:
+  certbot_var:
+  certbot_etc:
   primero_tmp:

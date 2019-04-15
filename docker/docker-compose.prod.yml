@@ -13,8 +13,4 @@ services:
       - primero_tmp:/srv/primero/tmp
     env_file:
       - docker/defaults.env
-volumes:
-  local_certs:
-  certbot_var:
-  certbot_etc:
-  primero_tmp:
+      - docker/production.env

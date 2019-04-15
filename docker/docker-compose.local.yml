@@ -1,11 +1,14 @@
 version: '3'
 services:
-  nginx_self_signed:
-    image: nginx_self_signed:prim-latest
+  nginx:
+    image: nginx:prim-latest
     ports:
       - "80:80"
       - "443:443"
-    depends_on:
-      - "application"
-    environment:
-      - PROXY_PASS_URL=http://application:80
+    volumes:
+      - local_certs:/etc/certs
+      - primero_tmp:/srv/primero/tmp
+    env_file:
+      - docker/defaults.env
+      - docker/local.env
+
