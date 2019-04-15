@@ -2,7 +2,7 @@ FROM ruby:2.6.2-alpine3.9
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
-ENV RUNTIME_PACKAGES libc6-compat nodejs
+ENV RUNTIME_PACKAGES bash libc6-compat nodejs
 ENV DEV_PACKAGES busybox-extras
 ENV RAILS_ENV production
 
@@ -22,10 +22,12 @@ COPY [ "Gemfile", "Gemfile.lock", "/srv/primero/application/" ]
 RUN set -ex \
         ; bundle install --without development test cucumber
 
+# Note: This has its build context set to the root dir so prepend 'docker' to
+# items that need to be copied from that directory
 # Copy container overlay dir
-COPY [ "application/root/", "/" ]
+COPY [ "docker/application/root/", "/" ]
 # Copy substitution script
-COPY [ "sub.sh", "/" ]
+COPY [ "docker/sub.sh", "/" ]
 # Now copy over primero and do setup
 COPY [ ".", "/srv/primero/application" ]
 
@@ -37,3 +39,5 @@ RUN set -ex \
             /srv/primero/application/log \
         ; touch /srv/primero/application/log/production.log
 
+ENTRYPOINT [ "/entrypoint.sh" ]
+CMD [ "bash"]

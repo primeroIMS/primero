@@ -2,7 +2,7 @@ FROM nginx:alpine
 VOLUME /certs
 EXPOSE 80 443
 
-COPY nginx/root/ /
+COPY [ "nginx/root/", "/" ]
 COPY [ "sub.sh", "/" ]
 
 RUN set -ex; \
