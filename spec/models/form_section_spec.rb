@@ -168,7 +168,7 @@ describe FormSection do
                                 :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
                                                        "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
                                 "date_validation"=>nil}]}]}
-        form_sections = FormSection.group_forms([@form_section_mobile_1], true)
+        form_sections = FormSection.group_forms([@form_section_mobile_1])
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
       end
     end
@@ -192,7 +192,7 @@ describe FormSection do
       form_section_b = FormSection.new(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
       form_section_c = FormSection.new(unique_id: "C", name: "C", parent_form: 'case', form_group_id: "y")
 
-      result = FormSection.group_forms([form_section_a, form_section_b, form_section_c])
+      result = FormSection.group_forms([form_section_a, form_section_b, form_section_c], lookups: [@lookup])
 
       expect(result).to be_a Hash
       expect(result.keys).to match_array(["X", "Y"])

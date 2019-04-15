@@ -312,8 +312,8 @@ module Record
       properties_by_module
     end
 
-    def allowed_formsections(user, primero_module)
-      FormSection.get_allowed_visible_forms_sections(primero_module, self.parent_form, user)
+    def allowed_formsections(user, primero_module, opts={})
+      FormSection.get_allowed_visible_forms_sections(primero_module, self.parent_form, user, lookups: opts[:lookups])
     end
 
     # Returns all of the properties that the given user is permitted to view/edit
