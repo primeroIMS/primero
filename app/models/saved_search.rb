@@ -1,4 +1,4 @@
-class SavedSearch < ActiveRecord::Base
+class SavedSearch < ApplicationRecord
   def add_filter(name, filter)
     if self.filters.present?
       self.filters[name] = filter

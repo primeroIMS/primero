@@ -2,7 +2,7 @@ class ConfigurationBundle < CouchRest::Model::Base
   use_database :configuration_bundle
 
   include PrimeroModel
-  include Memoizable #Nothing to memoize but provides refresh infrastructure
+  # include Memoizable #Nothing to memoize but provides refresh infrastructure
 
   property :applied_by
   property :applied_at, DateTime, default: DateTime.now
@@ -71,5 +71,3 @@ class ConfigurationBundle < CouchRest::Model::Base
 
   #Ducktyping to allow refreshing
   def self.flush_cache ; end
-
-  

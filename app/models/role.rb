@@ -1,7 +1,7 @@
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
 
   #include Importable #TODO: This will need to be rewritten
-  include Memoizable
+  # include Memoizable
   include Cloneable
 
   has_and_belongs_to_many :form_sections, -> { distinct }
@@ -131,4 +131,3 @@ class Role < ActiveRecord::Base
   end
 
 end
-

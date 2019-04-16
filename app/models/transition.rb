@@ -19,7 +19,7 @@ class Transition < ValueObject
 
   def initialize(args={})
     super(args)
-    self.id ||= UUIDTools::UUID.random_create.to_s
+    self.id ||= SecureRandom.uuid
   end
 
   def is_referral_active?
@@ -33,5 +33,5 @@ class Transition < ValueObject
   def is_assigned_to_user_local?(user)
     self.to_user_local == user
   end
-  
+
 end

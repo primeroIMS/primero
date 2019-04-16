@@ -1,7 +1,7 @@
-class Field < ActiveRecord::Base
+class Field < ApplicationRecord
 
   include LocalizableJsonProperty
-  include Memoizable
+  # include Memoizable
 
   localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
 

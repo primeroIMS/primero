@@ -172,14 +172,14 @@ describe ChildrenController do
       )
 
       @child = Child.new(
-        :unique_identifier => UUIDTools::UUID.random_create.to_s,
+        :unique_identifier => SecureRandom.uuid,
         :last_updated_by => "fakeadmin",
         :module_id => @primero_module.unique_id
       )
       @child.save!
 
       @child2 = Child.new(
-        :unique_identifier => UUIDTools::UUID.random_create.to_s,
+        :unique_identifier => SecureRandom.uuid,
         :last_updated_by => "fakeadmin",
         :module_id => @primero_module.unique_id
       )
