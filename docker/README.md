@@ -84,6 +84,13 @@ When building remotely, it will take a few minutes to complete.
 Currently, CertBot is being performed from inside of the NGINX container. We are
 using supervisor to accomplish this.
 
+## Environmental Substitution
+
+On Primero's Docker, we substitue values in from our Docker environment
+into the container config files at runtime. To do this, we place shell style
+variables in any config file and then point the sub.sh script towards the
+correct folder. This is explained in detail in the sub.sh errata section.
+
 ## Technical Errata - sub.sh
 
 Dependencies: envsubst and bash
@@ -122,3 +129,4 @@ folders to operate on. This can also be overridden in the environment.
 ## Technical Errata - Containers
 
 The entrypoints run in bash. Bash must be installed on the containers.
+
