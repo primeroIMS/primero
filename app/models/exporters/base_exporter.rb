@@ -4,7 +4,7 @@ module Exporters
 
   class BaseExporter
     class << self
-      extend Memoist
+      #extend Memoist
 
       public
 
