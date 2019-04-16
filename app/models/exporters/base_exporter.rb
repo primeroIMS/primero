@@ -18,7 +18,7 @@ module Exporters
     ]
 
     class << self
-      extend Memoist
+      #extend Memoist
 
       public
 

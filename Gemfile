@@ -11,7 +11,7 @@ gem 'devise',           '4.6.2'
 # TODO: Keeping cancancan at 1.9.2 for now. Newer versions seem to break. Newer
 # version has method changes https://github.com/CanCanCommunity/cancancan/blob/develop/CHANGELOG.md
 # Will require changes to authorization to upgrade
-gem 'cancancan',         '~> 1.9'
+gem 'cancancan',         '1.9.2'
 
 gem 'prawn',             '~> 2.2'
 gem 'prawn-table',       '~> 0.2'
