@@ -20,7 +20,8 @@ server {
   listen ${NGINX_HTTPS_PORT} ssl;
   server_name ${NGINX_SERVER_NAME};
 
-  ssl_protocols TLSv1.2;
+  # TODO: Check and update crypto parameters
+  ssl_protocols TLSv1.3;
   ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
   ssl_prefer_server_ciphers on;
   ssl_ecdh_curve secp384r1;
