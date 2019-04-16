@@ -6,8 +6,13 @@ services:
     environment:
       POSTGRES_USER: "primero"
       POSTGRES_PASSWORD: "primero"
+    volumes:
+      - logs:/var/log/postgresql
+      - psql_database:/var/lib/postgresql/data
   solr:
     image: solr:prim-latest
+    ports:
+      - "8394:8394"
   beanstalkd:
     image: beanstalkd:prim-latest
   application:
@@ -21,8 +26,12 @@ services:
       - postgres
     volumes:
       - primero_tmp:/srv/primero/tmp
+      - logs:/srv/primero/logs
+      - logs:/srv/primero/application/logs
 volumes:
+  psql_database:
   local_certs:
   certbot_var:
   certbot_etc:
   primero_tmp:
+  logs:

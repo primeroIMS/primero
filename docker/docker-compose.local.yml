@@ -8,6 +8,7 @@ services:
     volumes:
       - local_certs:/etc/certs
       - primero_tmp:/srv/primero/tmp
+      - logs:/var/log/nginx
     env_file:
       - docker/defaults.env
       - docker/local.env
