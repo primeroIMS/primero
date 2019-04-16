@@ -23,10 +23,7 @@ prim_source_defaults() {
   if [ -x "${PRIM_DEFAULT_FILENAME}" ];
   then
     source "${PRIM_DEFAULT_FILENAME}"
-    # rm -f "${PRIM_DEFAULT_FILENAME}"
-  else
-    (>&2 echo "Did not find defaults file: ${PRIM_DEFAULT_FILENAME} \
-      You can safely ignore this.")
+    printf "Importing environment variables from %s\\n" "$PRIM_DEFAULT_FILENAME"
   fi
     return 0
 }
