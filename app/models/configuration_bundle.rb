@@ -71,25 +71,3 @@ class ConfigurationBundle < CouchRest::Model::Base
 
   #Ducktyping to allow refreshing
   def self.flush_cache ; end
-
-<<<<<<< HEAD
-  private
-
-  #TODO: The logic of this file belongs in the couchwatcher sequencer. It is currently duplicated in a rake task
-  #TODO: The sequence file path should be extranalized into a config file and populated by Chef
-  #In production, there is an external file watcher that will bounce the couch water when the sequence file changes
-  def self.reset_couch_watcher_sequences
-    Rails.logger.info "Resetting the CouchWatcher sequence file"
-    latest_sequences = CouchChanges::MODELS_TO_WATCH.inject({}) do |acc, modelCls|
-      acc.merge(modelCls.database.name => modelCls.database.info['update_seq'])
-    end
-    CouchChanges::Sequencer.prime_sequence_numbers(latest_sequences)
-
-    #Restart the couch-watcher to sync it up with the updated Sequence Number History file
-    CouchChanges::Watcher::restart
-  end
-
-end
-=======
-  
->>>>>>> 776153128b693227b6d27b2d855b0a76013591bd
