@@ -1,5 +1,5 @@
 def create_or_update_lookup(lookup_hash)
-  lookup_id = lookup_hash[:id]
+  lookup_id = lookup_hash[:unique_id]
   lookup = Lookup.find_by(unique_id:lookup_id)
 
   if lookup.nil?
