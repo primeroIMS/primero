@@ -9,7 +9,7 @@ module ExportActions
         # Properties for this exporter are calculated in csv_exporter_list_view.rb
         properties_by_module = []
       else
-        properties_by_module = primero_modules.map { |m| model_class.permitted_property_names(user, m) }
+        properties_by_module = primero_modules.map { |m| model_class.permitted_properties(user, m) }
       end
       properties_by_module
     else

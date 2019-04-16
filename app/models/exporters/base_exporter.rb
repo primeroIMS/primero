@@ -58,11 +58,8 @@ module Exporters
       def properties_to_export(props)
         props = exclude_forms(props) if self.excluded_forms.present?
         props = props.flatten.uniq
-        if self.excluded_properties.present?
-          return props.delete_if {|p| self.excluded_properties.include?(p.name) } if props.first.is_a?(Field)
-          props.reject! {|p| self.excluded_properties.include?(p) }
-        end
-        props
+        props.reject! {|p| self.excluded_properties.include?(p.try(:name)) } if self.excluded_properties.present?
+        return props
       end
 
       def exclude_forms(props)
@@ -255,8 +252,9 @@ module Exporters
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
       end
 
-      def load_fields(model, *args)
-        @fields = args.first[:user].modules.map { |m| model.class.permitted_properties(args.first[:user], m) }.flatten.uniq {|u| u.name }
+      def load_fields(props)
+        # TODO: Will change when permitted_properties method from user is ready
+        @fields = Field.where(id: props.pluck(:id))
       end
     end
 
