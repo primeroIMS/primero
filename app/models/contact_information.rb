@@ -1,4 +1,4 @@
-class ContactInformation < ActiveRecord::Base
+class ContactInformation < ApplicationRecord
   def self.current
     ContactInformation.first
   end

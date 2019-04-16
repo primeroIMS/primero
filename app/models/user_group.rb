@@ -1,4 +1,4 @@
-class UserGroup < ActiveRecord::Base
+class UserGroup < ApplicationRecord
 
   before_create :set_unique_id
 

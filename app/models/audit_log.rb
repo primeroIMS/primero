@@ -1,4 +1,4 @@
-class AuditLog < ActiveRecord::Base
+class AuditLog < ApplicationRecord
 
   after_initialize do
     self.timestamp ||= DateTime.now

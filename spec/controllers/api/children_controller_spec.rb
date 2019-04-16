@@ -156,7 +156,7 @@ describe ChildrenController do
 
   describe "PUT update" do
     it "should allow a records ID to be specified to create a new record with a known id" do
-      new_uuid = UUIDTools::UUID.random_create()
+      new_uuid = SecureRandom.uuid
       put :update, params: {:id => new_uuid.to_s, :child => {:id => new_uuid.to_s, :_id => new_uuid.to_s, :last_known_location => "London", :age => "7"}}
 
       Child.get(new_uuid.to_s)[:unique_identifier].should_not be_nil

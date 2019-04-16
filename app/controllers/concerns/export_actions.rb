@@ -9,7 +9,7 @@ module ExportActions
         # Properties for this exporter are calculated in csv_exporter_list_view.rb
         properties_by_module = []
       else
-        properties_by_module = model_class.get_properties_by_module(user, primero_modules)
+        properties_by_module = primero_modules.map { |m| model_class.permitted_property_names(user, m) }
       end
       properties_by_module
     else
@@ -63,7 +63,6 @@ module ExportActions
     bulk_export.custom_export_params = params['custom_exports']
     bulk_export.file_name = file_name
     bulk_export.password = params['password'] #TODO: bad, change
-
     if bulk_export.mark_started
       bulk_export.job.perform_later(bulk_export.id)
     end

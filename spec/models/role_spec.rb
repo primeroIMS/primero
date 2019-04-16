@@ -219,4 +219,37 @@ describe Role do
       end
     end
   end
+
+  describe "associate_all_forms" do
+    before do
+      Role.delete_all
+      Field.delete_all
+      FormSection.delete_all
+      @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "m")
+      @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
+      @form_section_child = FormSection.create!(unique_id: "child", name: "child_form", is_nested: true)
+      @field_subform = Field.create!(name: "field_subform", display_name: "child_form", type: Field::SUBFORM, subform: @form_section_child)
+
+      role_case_permissions = [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
+      @role = Role.create!(name: "Role", permissions_list: role_case_permissions)
+
+    end
+    context 'when the role has permission to case' do
+      it "should all the forms_sections be associated with the role" do
+        @role.associate_all_forms
+        @role.reload
+        @role.form_sections.size.should eql 2
+        expect(@role.form_sections).to eq [@form_section_a, @form_section_b]
+      end
+    end
+    context 'when the form_section has subform' do
+      it "should be associated all the forms_sections" do
+        @form_section_c = FormSection.create!(unique_id: "parent", name: "parent_form", parent_form: 'case', fields: [@field_subform])
+        @role.associate_all_forms
+        @role.reload
+        @role.form_sections.size.should eql 4
+        expect(@role.form_sections).to eq [@form_section_a, @form_section_b, @form_section_c, @form_section_child]
+      end
+    end
+  end
 end

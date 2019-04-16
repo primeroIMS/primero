@@ -2,7 +2,7 @@ class ConfigurationBundle < CouchRest::Model::Base
   use_database :configuration_bundle
 
   include PrimeroModel
-  include Memoizable #Nothing to memoize but provides refresh infrastructure
+  # include Memoizable #Nothing to memoize but provides refresh infrastructure
 
   property :applied_by
   property :applied_at, DateTime, default: DateTime.now
@@ -45,21 +45,7 @@ class ConfigurationBundle < CouchRest::Model::Base
   def self.export
     bundle_data = {}
     bundle_models.each do |model|
-      model_data = model.database.all_docs(include_docs: true)['rows']
-        .reject{|r| r['id'].start_with?('_design')}
-        .map do |r|
-          doc = r['doc'].except('_rev')
-          if doc.include?('_attachments')
-            doc['_attachments'] = doc['_attachments'].inject({}) do |acc, (name, data)|
-              acc.merge(name => {
-                "content_type" => data['content_type'],
-                "data" => Base64.encode64(model.database.fetch_attachment(doc, name))
-              })
-            end
-          end
-          doc
-        end
-      bundle_data[model.name] = model_data
+      bundle_data[model.name] = model.all.map(&:attributes)
     end
     bundle_data
   end
@@ -85,21 +71,3 @@ class ConfigurationBundle < CouchRest::Model::Base
 
   #Ducktyping to allow refreshing
   def self.flush_cache ; end
-
-  private
-
-  #TODO: The logic of this file belongs in the couchwatcher sequencer. It is currently duplicated in a rake task
-  #TODO: The sequence file path should be extranalized into a config file and populated by Chef
-  #In production, there is an external file watcher that will bounce the couch water when the sequence file changes
-  def self.reset_couch_watcher_sequences
-    Rails.logger.info "Resetting the CouchWatcher sequence file"
-    latest_sequences = CouchChanges::MODELS_TO_WATCH.inject({}) do |acc, modelCls|
-      acc.merge(modelCls.database.name => modelCls.database.info['update_seq'])
-    end
-    CouchChanges::Sequencer.prime_sequence_numbers(latest_sequences)
-
-    #Restart the couch-watcher to sync it up with the updated Sequence Number History file
-    CouchChanges::Watcher::restart
-  end
-
-end
