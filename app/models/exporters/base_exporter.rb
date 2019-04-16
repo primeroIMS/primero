@@ -27,7 +27,7 @@ module Exporters
       end
 
       def supported_models
-        ActiveRecord::Base.descendants
+        ApplicationRecord.descendants
       end
 
       def mime_type
