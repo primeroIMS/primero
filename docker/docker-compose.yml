@@ -28,6 +28,8 @@ services:
       - primero_tmp:/srv/primero/tmp
       - logs:/srv/primero/logs
       - logs:/srv/primero/application/logs
+    stdin_open: true
+    tty: true
 volumes:
   psql_database:
   local_certs:
