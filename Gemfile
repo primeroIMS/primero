@@ -7,13 +7,20 @@ gem 'rake',             '~> 12.3'
 gem 'puma',             '~> 3.12'
 gem 'webpacker',        '~> 4.0'
 gem 'devise',           '4.6.2'
-gem 'cancancan',        '~> 1.9' # TODO: keeping cancancan at 1.9.2 for now. Newer versions seem to break.
+
+# TODO: Keeping cancancan at 1.9.2 for now. Newer versions seem to break. Newer
+# version has method changes https://github.com/CanCanCommunity/cancancan/blob/develop/CHANGELOG.md
+# Will require changes to authorization to upgrade
+gem 'cancancan',        '~> 1.9'
 
 gem 'prawn',            '~> 2.2'
 gem 'prawn-table',      '~> 0.2'
 gem 'arabic-letter-connector', git: 'https://github.com/Quoin/arabic-letter-connector', branch: 'support-lam-alef-ligatures'
 gem 'twitter_cldr'
 
+# TODO: We should replace xls exporting with https://github.com/randym/axlsx or
+# https://github.com/Paxa/fast_excel both supports streaming. The last options
+# has less dependencies. Will require some rework of exporter
 gem 'rubyzip',          '~> 1.2', require: 'zip'
 gem 'writeexcel',       '~> 1.0'
 gem 'spreadsheet',      '~> 1.1'
