@@ -596,10 +596,6 @@ class Field < ApplicationRecord
 
   def recalculate_subform_permissions
     if self.type == Field::SUBFORM && (self.new_record? || self.saved_change_to_attribute?('subform_section_id'))
-      Role.all.each do |role|
-        role.add_permitted_subforms
-        role.save
-      end
       PrimeroModule.all.each do |primero_module|
         primero_module.add_associated_subforms
         primero_module.save

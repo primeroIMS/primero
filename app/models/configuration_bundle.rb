@@ -45,21 +45,7 @@ class ConfigurationBundle < CouchRest::Model::Base
   def self.export
     bundle_data = {}
     bundle_models.each do |model|
-      model_data = model.database.all_docs(include_docs: true)['rows']
-        .reject{|r| r['id'].start_with?('_design')}
-        .map do |r|
-          doc = r['doc'].except('_rev')
-          if doc.include?('_attachments')
-            doc['_attachments'] = doc['_attachments'].inject({}) do |acc, (name, data)|
-              acc.merge(name => {
-                "content_type" => data['content_type'],
-                "data" => Base64.encode64(model.database.fetch_attachment(doc, name))
-              })
-            end
-          end
-          doc
-        end
-      bundle_data[model.name] = model_data
+      bundle_data[model.name] = model.all.map(&:attributes)
     end
     bundle_data
   end
@@ -86,6 +72,7 @@ class ConfigurationBundle < CouchRest::Model::Base
   #Ducktyping to allow refreshing
   def self.flush_cache ; end
 
+<<<<<<< HEAD
   private
 
   #TODO: The logic of this file belongs in the couchwatcher sequencer. It is currently duplicated in a rake task
@@ -103,3 +90,6 @@ class ConfigurationBundle < CouchRest::Model::Base
   end
 
 end
+=======
+  
+>>>>>>> 776153128b693227b6d27b2d855b0a76013591bd
