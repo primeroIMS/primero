@@ -1,4 +1,4 @@
-class Child < ActiveRecord::Base
+class Child < ApplicationRecord
   self.table_name = 'cases'
 
   CHILD_PREFERENCE_MAX = 3

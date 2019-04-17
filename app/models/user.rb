@@ -1,6 +1,6 @@
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   include Importable
-  include Memoizable
+  # include Memoizable
 
   devise :database_authenticatable, :timeoutable,
     :recoverable, :validatable

@@ -1,6 +1,6 @@
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
 
-  include Memoizable
+  # include Memoizable
   include LocalizableJsonProperty
 
   REPORTABLE_FIELD_TYPES = [

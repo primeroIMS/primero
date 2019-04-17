@@ -1,4 +1,4 @@
-class Incident < ActiveRecord::Base
+class Incident < ApplicationRecord
 
   include Record
   include Searchable

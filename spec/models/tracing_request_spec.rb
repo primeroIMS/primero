@@ -431,7 +431,7 @@ describe TracingRequest do
     end
 
     it "should create a unique id" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
+      SecureRandom.stub("uuid").and_return(12345)
       tracing_request = create_tracing_request_with_created_by('jdoe', 'last_known_location' => 'London')
       tracing_request.save!
       tracing_request['unique_identifier'].should == "12345"
@@ -474,14 +474,14 @@ describe TracingRequest do
 
   describe "unique id" do
     it "should create a unique id" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
+      SecureRandom.stub("uuid").and_return(12345)
       tracing_request = TracingRequest.new
       tracing_request.save!
       tracing_request.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
-      UUIDTools::UUID.stub("random_create").and_return(1212127654321)
+      SecureRandom.stub("uuid").and_return(1212127654321)
       tracing_request = TracingRequest.new
       tracing_request.save!
       tracing_request.short_id.should == "7654321"
@@ -839,7 +839,7 @@ describe TracingRequest do
     end
 
     it "should return list of tracing request ordered by name" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
+      SecureRandom.stub("uuid").and_return(12345)
       TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       tracing_requests = TracingRequest.all
@@ -847,7 +847,7 @@ describe TracingRequest do
     end
 
     it "should order tracing_request with blank names first" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
+      SecureRandom.stub("uuid").and_return(12345)
       TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       TracingRequest.create('photo' => uploadable_photo, 'relation_name' => '', 'last_known_location' => 'POA')
