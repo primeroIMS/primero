@@ -35,7 +35,7 @@ end
 create_or_update_module(
   name: "CP",
   description: "Child Protection",
-  associated_record_types: ["case", "tracing_request"],
+  associated_record_types: ["case", "tracing_request", "incident"],
   associated_form_ids: [
     "activities", "assessment", "basic_identity", "best_interest", "caafag_profile",
     "care_arrangements", "care_assessment", "child_under_5", "bia_documents",
