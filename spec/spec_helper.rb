@@ -23,7 +23,7 @@ require 'rack_session_access/capybara'
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
 # This clears couchdb between tests.
-FactoryBot.find_definitions
+# FactoryBot.find_definitions
 Mime::Type.register 'application/zip', :mock
 
 Capybara.register_driver :chrome do |app|
@@ -166,4 +166,3 @@ def stub_env(new_env, &block)
 ensure
   Rails.instance_variable_set("@_env", ActiveSupport::StringInquirer.new(original_env))
 end
-
