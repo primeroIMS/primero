@@ -1,0 +1,2 @@
+configSet=primero
+dataDir=${SOLR_DATA_DIR}
