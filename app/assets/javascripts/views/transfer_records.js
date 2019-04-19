@@ -91,7 +91,7 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
       $remoteUserErrorDiv.hide();
       $passwordErrorDiv.hide();
       $(e.target).parents('form').submit();
-      $transfer_modal.foundation('reveal', 'close');
+      $transfer_modal.foundation('close');
       $transfer_modal.find('form')[0].reset();
       $transfer_modal.find('.remote_toggle').hide();
       $transfer_modal.find('.local_toggle').show();
