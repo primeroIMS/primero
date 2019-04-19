@@ -54,8 +54,7 @@ class IncidentsController < ApplicationController
 
   def make_new_record
     case_record = params['case_id'].present? ? Child.get(params['case_id']) : nil
-    module_id = params[:module_id] || current_user[:module_ids].first
-    Incident.make_new_incident(module_id, case_record)
+    Incident.make_new_incident(params['module_id'], case_record)
   end
 
   def post_save_processing incident
