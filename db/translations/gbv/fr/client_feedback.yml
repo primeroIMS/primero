@@ -3,7 +3,7 @@ fr:
   client_feedback:
     name: ""
     description: ""
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       client_feedback_header:
         display_name: ""

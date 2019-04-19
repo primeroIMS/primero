@@ -94,7 +94,7 @@ _primero.Views.TransferRecords = _primero.Views.Base.extend({
 
     if (is_valid) {
       $(e.target).parents('form').submit();
-      $transfer_modal.foundation('reveal', 'close');
+      $transfer_modal.foundation('close');
       this.clear_modal();
       $transfer_modal.find('.local_toggle').show();
       window.disable_loading_indicator = true;

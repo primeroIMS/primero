@@ -3,7 +3,7 @@ fr:
   referral_transfer:
     name: Référencements et transferts
     description: Liste des transferts et référencements
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       transfer_status:
         display_name: Statut du transfert

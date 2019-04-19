@@ -107,14 +107,16 @@ describe FormSectionController do
                                 "mobile_visible"=>true,
                                 :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1","es"=>"field1"},
                                 :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "es"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "es"=>[]}}]},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "es"=>[]},
+                                "date_validation" => nil}]},
                      "required"=>false,
                      "option_strings_source"=>nil,
                      "show_on_minify_form"=>false,
                      "mobile_visible"=>true,
                      :display_name=>{"en"=>"nested_e", "fr"=>"nested_e", "ar"=>"nested_e", "ar-LB"=>"nested_e", "es"=>"nested_e"},
                      :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "es"=>""},
-                     :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "es"=>[]}}]
+                     :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "es"=>[]},
+                     "date_validation" => nil}]
         get :index, mobile: true, :format => :json
         expect(assigns[:form_sections]['Children'].select{|f| f['unique_id'] == 'D'}.first['fields']).to eq(expected)
       end

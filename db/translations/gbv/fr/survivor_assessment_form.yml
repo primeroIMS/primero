@@ -3,7 +3,7 @@ fr:
   survivor_assessment_form:
     name: Evaluation de la survivante
     description: Evaluation de la survivante
-    form_group_name: Evaluation de la survivante
+    # form_group_name: Evaluation de la survivante
     fields:
       assessment_emotional_state_start:
         display_name: Profil de la survivante
@@ -38,7 +38,7 @@ fr:
         guiding_questions: ""
       assessment_safety_needs:
         display_name: ""
-        guiding_questions: ''
+        guiding_questions: ""
       assessment_health_needs:
         display_name: ""
         guiding_questions: ""

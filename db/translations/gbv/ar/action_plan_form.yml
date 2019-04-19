@@ -3,12 +3,12 @@ ar:
   action_plan_form:
     name: خطة عمل
     description: خطة عمل
-    form_group_name: خطة عمل
+    # form_group_name: خطة عمل
     fields:
       incident_links:
         display_name: اشياء مرتبطة بالحادث
       action_explanation_header:
-        display_name: 'خطة عمل'
+        display_name: "خطة عمل"
         help_text: يرجى إضافة جميع الاحتياجات التي حددتها في التقييم. استخدم زر "إضافة" لإضافة احتياجات أخرى إلى خطة العمل.
       action_plan_section:
         display_name: خطة عمل

@@ -28,7 +28,7 @@ _primero.Views.ReassignRecords = _primero.Views.Base.extend({
     if(is_valid){
       localUserErrorDiv.hide();
       $(e.target).parents('form').submit();
-      $modal.foundation('reveal', 'close');
+      $modal.foundation('close');
       $modal.find('form')[0].reset();
       window.disable_loading_indicator = true;
     } else {

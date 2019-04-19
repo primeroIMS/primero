@@ -3,7 +3,7 @@ ar:
   incident_service_referrals:
     name: الإحالة إلى الخدمات
     description: الإحالة إلى الخدمات
-    form_group_name: إحالة إلى خدمة
+    # form_group_name: إحالة إلى خدمة
     fields:
       service_referred_from:
         display_name: من أحال العميل إليك؟

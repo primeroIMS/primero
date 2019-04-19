@@ -59,8 +59,8 @@ if should_seed? ContactInformation
   ContactInformation.create(:id=>"administrator") if isTableEmpty?(ContactInformation)
 end
 
-puts "Loading Form Translations"
-Dir[File.dirname(__FILE__) + '/translations/gbv/*/*.yml'].each do |file|
+# puts "Loading Form Translations"
+Dir[File.dirname(__FILE__) + '/translations/gbv/{ar,fr}/*.yml'].each do |file|
   puts file
   clazz = file.end_with?('lookups.yml') ? Lookup : FormSection
   Importers::YamlI18nImporter.import(file, clazz)
