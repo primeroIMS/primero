@@ -3,7 +3,7 @@ ar:
   gbv_survivor_information:
     name: معلومات عن الناجية
     description: معلومات عن الناجية
-    form_group_name: التعريف / التسجيل
+    # form_group_name: التعريف / التسجيل
     fields:
       case_id:
         display_name: "الرمز التعريفي المطول "
@@ -11,7 +11,7 @@ ar:
         display_name: رقم تعريف الحالة
       marked_for_mobile:
         display_name: تم تأشيرة في الهاتف المحمول
-        tick_box_label: 'نعم'
+        tick_box_label: "نعم"
       child_status:
         display_name: الوضع الراهن للحالة
       name:
@@ -51,7 +51,7 @@ ar:
       gbv_disability_type:
         display_name: هل تعاني الناجية من إعاقة؟
         option_strings_text:
-          'no': 'لا'
+          "no": "لا"
           mental_disability: إعاقة ذهنية
           physical_disability: إعاقة جسدية
           both: إعاقة ذهنية وجسدية

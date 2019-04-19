@@ -3,7 +3,7 @@ fr:
   gbv_sexual_violence:
     name: Type de VBG
     description: Type de VBG
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       gbv_sexual_violence_type:
         display_name: Type de violence
@@ -13,7 +13,7 @@ fr:
       harmful_traditional_practice:
         display_name: "Est-ce que l'incident constitue une pratique traditionnelle préjudiciable?"
         option_strings_text:
-          'no': 'Non'
+          "no": "Non"
           type_of_practice_1: Type de pratique 1
           type_of_practice_2: Type de pratique 2
           type_of_practice_3: Type de pratique 3

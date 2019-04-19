@@ -3,7 +3,7 @@ fr:
   incident_service_referrals:
     name: Référencement à des services
     description: Référencement à des services
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       service_referred_from:
         display_name: "Qui vous a adressé le cas?"

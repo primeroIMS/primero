@@ -3,7 +3,7 @@ fr:
   gbv_individual_details:
     name: Détails de la survivante VBG
     description: Détails de la survivante VBG
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       survivor_code:
         display_name: Code de la survivante
@@ -35,7 +35,7 @@ fr:
       disability_type:
         display_name: Type d'handicap
         option_strings_text:
-          'no': 'Non'
+          "no": "Non"
           mental_disability: Handicap mental
           physical_disability: Handicap physique
           mental_physical_disability: Handicap mental et physique

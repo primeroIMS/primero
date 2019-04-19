@@ -3,10 +3,10 @@ fr:
   consent_for_services:
     name: Consentement pour Services
     description: Consentement pour Services
-    form_group_name: Consentement pour Services
+    # form_group_name: Consentement pour Services
     fields:
       consent_services_header:
         display_name: Consentement pour Services
       consent_for_services:
         display_name: ""
-        tick_box_label: 'Oui'
+        tick_box_label: "Oui"

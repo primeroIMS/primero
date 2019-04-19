@@ -3,7 +3,7 @@ ar:
   gbv_case_closure_form:
     name: إغلاق ملف الحالة
     description: إغلاق ملف الحالة
-    form_group_name: إغلاق ملف الحالة
+    # form_group_name: إغلاق ملف الحالة
     fields:
       created_at:
         display_name: تاريخ فتح ملف الحالة
