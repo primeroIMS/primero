@@ -552,7 +552,7 @@ Primero = _primero.Views.Base.extend({
     _primero.check_download_status(close_forms_export_modal_after_download);
 
     function close_forms_export_modal_after_download() {
-      $('[id$=forms-export]').foundation('reveal', 'close');
+      $('[id$=forms-export]').foundation('close');
     };
   },
 
