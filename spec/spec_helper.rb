@@ -166,4 +166,3 @@ def stub_env(new_env, &block)
 ensure
   Rails.instance_variable_set("@_env", ActiveSupport::StringInquirer.new(original_env))
 end
-
