@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 # This script takes a filename as the only input parameter.
 #
 # It replaces any bash style variables with the correct value
@@ -34,11 +36,15 @@ prim_perform_substitution() {
   printf "Performing substitution on: %s\\n" "${PRIM_FILENAME}"
   cat "${PRIM_FILENAME}" | envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" > "${PRIM_FILENAME}"
 }
-PRIM_FILENAME="${1}"
-PRIM_DEFAULT_FILENAME="${1}.default"
+
+
 # If the filename has a .template extension, then we are going to copy it to
 # the same name / path without .template to avoid overwriting our template
-PRIM_FILENAME=$(prim_rename_file "${PRIM_FILENAME}")
-
-prim_source_defaults
-prim_perform_substitution
+for prim_path in $(find "$1" -iname "*.template" -print0 | xargs -0 -n1);
+do
+  PRIM_FILENAME="$prim_path"
+  PRIM_FILENAME=$(prim_rename_file "${PRIM_FILENAME}")
+  PRIM_DEFAULT_FILENAME="$prim_path.default";
+  prim_source_defaults;
+  prim_perform_substitution
+done

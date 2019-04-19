@@ -1,9 +1,10 @@
 FROM solr:alpine
 
-ENV SOLR_PACKAGES bash
+ENV SOLR_PACKAGES gettext libintl
 
 USER root
-COPY ["solr/configsets", "/opt/solr/server/solr/configsets"]
+COPY ["solr/configsets", "/solr-primero-config"]
+# COPY ["solr/configsets", "/opt/solr/server/solr/configsets"]
 COPY [ "docker/solr/root", "docker/sub.sh", "/" ]
 RUN set -ex \
         ; apk update \
@@ -15,5 +16,5 @@ RUN set -ex \
 
 USER $SOLR_USER
 # This could also be put in the compose file.
-CMD ["solr-precreate", "primero"]
+CMD ["solr-precreate", "primero", "/solr-primero-config"]
 ENTRYPOINT ["docker-entrypoint.sh"]

@@ -13,6 +13,8 @@ services:
     image: solr:prim-latest
     ports:
       - "8394:8394"
+    env_file:
+      - docker/defaults.env
   beanstalkd:
     image: beanstalkd:prim-latest
   application:
