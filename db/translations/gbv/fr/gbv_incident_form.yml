@@ -3,7 +3,7 @@ fr:
   gbv_incident_form:
     name: Incident VBG
     description: Incident VBG
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       incident_id:
         display_name: Long numéro d'identification
@@ -11,7 +11,7 @@ fr:
         display_name: Numéro d'incident
       marked_for_mobile:
         display_name: "Marqué pour mobile?"
-        tick_box_label: 'Oui'
+        tick_box_label: "Oui"
       incident_code:
         display_name: Code de l'incident
       incidentid_ir:

@@ -3,7 +3,7 @@ fr:
   gbv_case_closure_form:
     name: Clôture du cas
     description: Clôture du cas
-    form_group_name: Clôture du cas
+    # form_group_name: Clôture du cas
     fields:
       created_at:
         display_name: Date d'ouverture du cas

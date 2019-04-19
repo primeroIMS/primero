@@ -3,12 +3,12 @@ fr:
   action_plan_form:
     name: Plan d'Action
     description: Plan d'Action
-    form_group_name: Plan d'Action
+    # form_group_name: Plan d'Action
     fields:
       incident_links:
         display_name: Liens avec l'incident
       action_explanation_header:
-        display_name: 'Plan d''Action'
+        display_name: "Plan d'Action"
         help_text: "Veuillez ajouter tous les besoins que vous avez identifiés dans l'évaluation. Utiliser le bouton 'Ajouter' pour ajouter d'autres besoins qui doivent faire partie du Plan d'Action. "
       action_plan_section:
         display_name: Plan d'Action

@@ -3,7 +3,7 @@ ar:
   incident_record_owner:
     name: مالك السجل
     description: مالك السجل
-    form_group_name: مالك السجل
+    # form_group_name: مالك السجل
     fields:
       current_owner_section:
         display_name: المالك الحالي

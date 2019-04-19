@@ -3,7 +3,7 @@ fr:
   record_owner:
     name: Information de l'enregistrement
     description: Information de l'enregistrement
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       current_owner_separator:
         display_name: Propriétaire actuel

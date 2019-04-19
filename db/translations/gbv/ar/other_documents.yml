@@ -3,7 +3,7 @@ ar:
   other_documents:
     name: مستندات أخرى
     description: مستندات أخرى
-    form_group_name: مستندات
+    # form_group_name: مستندات
     fields:
       upload_other_document:
         display_name: مستندات أخرى

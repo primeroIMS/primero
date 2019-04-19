@@ -3,10 +3,10 @@ ar:
   consent_for_services:
     name: الموافقة على الخدمات
     description: الموافقة على الخدمات
-    form_group_name: الموافقة على الخدمات
+    # form_group_name: الموافقة على الخدمات
     fields:
       consent_services_header:
         display_name: الموافقة على الخدمات
       consent_for_services:
         display_name: هل أعطت الناجية موافقتها على تلقي الخدمات التي تقوم أنت على تقديمها؟
-        tick_box_label: 'نعم'
+        tick_box_label: "نعم"

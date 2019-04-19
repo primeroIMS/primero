@@ -3,7 +3,7 @@ ar:
   referral_transfer:
     name: الإحالات والتحويلات
     description: قائمة الإحالات والتحويلات
-    form_group_name: الإحالات والتحويلات
+    # form_group_name: الإحالات والتحويلات
     fields:
       transfer_status:
         display_name: الوضع الراهن للتحويل/الإحالة
