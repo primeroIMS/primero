@@ -2,12 +2,13 @@ class CustomExportsController < ApplicationController
 
   include ReportsHelper
   include ExportActions
+  include Exporters
 
   before_action :get_modules
 
   def permitted_forms_list
     record_type = params[:record_type]
-    permitted_forms = get_permited_forms(@modules.first, record_type, @current_user)
+    permitted_forms = get_permited_forms(@modules, record_type, @current_user)
     if params[:only_parent].present?
       permitted_forms = permitted_forms.select{|form| !form.is_nested && params[:only_parent].present? }
     end
@@ -18,7 +19,7 @@ class CustomExportsController < ApplicationController
   def permitted_fields_list
     record_type = params[:record_type]
     permitted_fields = select_options_fields_grouped_by_form(
-      FormSection.all_exportable_fields_by_form(@modules, record_type, @current_user, Record::EXPORTABLE_FIELD_TYPES),
+      FormSection.all_exportable_fields_by_form(@modules, record_type, @current_user, BaseExporter::EXPORTABLE_FIELD_TYPES),
       true
     )
     render json: permitted_fields
@@ -33,12 +34,13 @@ class CustomExportsController < ApplicationController
     #Need a plain structure.
     permitted_forms = permitted_forms.map{|fsk, forms_sections| forms_sections}.flatten
     #Filter forms sections with exportable fields.
-    permitted_forms.select{|form_section| form_section.fields.any?{|er| Record::EXPORTABLE_FIELD_TYPES.include? er.type}}
+    permitted_forms.select{|form_section| form_section.fields.any?{|er| BaseExporter::EXPORTABLE_FIELD_TYPES.include?(er.type)}}
   end
 
   def get_modules
-    module_ids = (params[:module].present? && params[:module] != 'null') ? [params[:module]] : []
-    @modules = PrimeroModule.all(keys: module_ids)
+    @modules = []
+    @modules = PrimeroModule.find(params[:module]) if params[:module].present?
+    @modules
   end
 
 end

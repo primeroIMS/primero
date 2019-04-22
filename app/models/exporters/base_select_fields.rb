@@ -7,8 +7,6 @@ module Exporters
 
     def filter_custom_exports(properties_by_module, custom_export_options)
       if custom_export_options.present?
-        properties_by_module = properties_by_module.select{|key| custom_export_options[:module].include?(key)}
-
         if custom_export_options[:forms].present? || custom_export_options[:selected_subforms].present?
           properties_by_module = filter_by_subform(properties_by_module, custom_export_options)
           .deep_merge(
@@ -86,10 +84,10 @@ module Exporters
 
     def filter_by_form(properties, custom_export_options)
       props = {}
-      if custom_export_options[:forms].present?
-        properties.each do |pm, fs|
-          props[pm] = fs.select{|key| custom_export_options[:forms].include?(key)}
-        end
+      grouped_fields = Field.includes(:form_section).where(form_sections: { unique_id: custom_export_options[:forms] },
+                                                           fields: { id: properties.pluck(:id) })
+      grouped_fields.group_by(&:form_section_id).map do |key, val|
+        props[FormSection.find(key).unique_id] = val
       end
       props
     end

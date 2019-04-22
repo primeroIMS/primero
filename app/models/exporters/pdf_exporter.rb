@@ -26,7 +26,7 @@ module Exporters
         unless custom_export_options.present?
           properties_by_module = exclude_forms(properties_by_module) if excluded_forms.present?
         end
-        filter_custom_exports(properties_by_module, custom_export_options)
+        filter_custom_exports(properties_by_module.flatten.uniq { |f| f.name }, custom_export_options)
       end
 
       def reverse_page_direction
@@ -99,13 +99,12 @@ module Exporters
       unless @form_sections.present?
         @form_sections = self.class.case_form_sections_by_module(cases, current_user)
       end
-
       cases.each do |cs|
         @subjects << cs.case_id
         @pdf.start_new_page if @pdf.page_number > 1
         start_page = @pdf.page_number
         @pdf.outline.section(section_title(cs), :destination => @pdf.page_number)
-        render_case(@pdf, cs, @form_sections[cs.module.name], @props[cs.module.unique_id])
+        render_case(@pdf, cs, @form_sections[cs.module.name], @props)
         end_page = @pdf.page_number
         print_heading(@pdf, cs, start_page, end_page)
       end
@@ -170,7 +169,7 @@ module Exporters
 
         render_title(pdf, _case)
 
-        grouped_subforms = base_subforms.group_by(&:form_group_name)
+        grouped_subforms = base_subforms.group_by(&:form_group_id)
 
         pdf.outline.add_subsection_to(section_title(_case)) do
           grouped_subforms.each do |(parent_group, fss)|
@@ -200,10 +199,9 @@ module Exporters
                                                      .partition {|f| f.type == Field::SUBFORM }
 
       render_fields(pdf, _case, normal_fields)
-
       subforms.map do |subf|
         pdf.move_down 10
-        form_data = _case.__send__(subf.name)
+        form_data = _case.try(:__send__, subf.name)
         filtered_subforms = subf.subform_section.fields.reject {|f| f.type == 'separator' || f.visible? == false}
         pdf.text render_i18n_text(subf.display_name), :style => :bold, :size => 12, :align => (self.class.reverse_page_direction ? :right : :left)
 
@@ -226,7 +224,7 @@ module Exporters
     def render_fields(pdf, obj, fields)
       table_data = fields.map do |f|
         if obj.present?
-          value = censor_value(f.name, obj)
+          value = censor_value(f.name, obj.data)
           row = [render_i18n_text(f.display_name), format_field(f, value)]
         else
           row = [render_i18n_text(f.display_name), nil]
@@ -254,9 +252,9 @@ module Exporters
     def censor_value(attr_name, obj)
       case attr_name
       when 'name'
-        obj.try(:hidden_name) ? '***hidden***' : obj.name
+        obj["hidden_name"] ? '***hidden***' : obj["name"]
       else
-        obj.__send__(attr_name)
+        obj[attr_name]
       end
     end
 

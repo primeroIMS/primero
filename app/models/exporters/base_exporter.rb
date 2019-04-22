@@ -3,6 +3,20 @@ module Exporters
   private
 
   class BaseExporter
+
+    EXPORTABLE_FIELD_TYPES = [
+      Field::TEXT_FIELD,
+      Field::TEXT_AREA,
+      Field::RADIO_BUTTON,
+      Field::SELECT_BOX,
+      Field::NUMERIC_FIELD,
+      Field::DATE_FIELD,
+      Field::DATE_RANGE,
+      Field::TICK_BOX,
+      Field::TALLY_FIELD,
+      Field::SUBFORM
+    ]
+
     class << self
       #extend Memoist
 
