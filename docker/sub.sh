@@ -38,13 +38,14 @@ prim_perform_substitution() {
 }
 
 
-# If the filename has a .template extension, then we are going to copy it to
-# the same name / path without .template to avoid overwriting our template
+# Does this loop break if the filename has spaces? Maybe
 for prim_path in $(find "$1" -iname "*.template" -print0 | xargs -0 -n1);
 do
   PRIM_FILENAME="$prim_path"
   PRIM_FILENAME=$(prim_rename_file "${PRIM_FILENAME}")
-  PRIM_DEFAULT_FILENAME="$prim_path.default";
-  prim_source_defaults;
+  PRIM_DEFAULT_FILENAME="$prim_path.default"
+  # If the filename has a .template extension, then we are going to copy it to
+  # the same name / path without .template to avoid overwriting our template
+  prim_source_defaults
   prim_perform_substitution
 done

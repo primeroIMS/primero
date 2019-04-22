@@ -47,14 +47,8 @@ else
   fi
 fi
 
-# Search each of these directories for .template files and perform substitution
-# If you want this to be done from environment, redefine TEMPLATE_DIRS not
-NGINX_TEMPLATE_DIRS_DEFAULT=( "/etc/nginx/conf.d" )
-NGINX_TEMPLATE_DIRS=( "${NGINX_TEMPLATE_DIRS[@]:-"${NGINX_TEMPLATE_DIRS_DEFAULT[@]}"}" )
-for prim_filename in "${NGINX_TEMPLATE_DIRS[@]}"/*.template
-do
-  # here we actually do the environment substitution
-  /sub.sh "${prim_filename}"
-done
+# Search each of these directories for .template files and perform
+# substitution
+/sub.sh "/etc/nginx/conf.d"
 
 exec "$@"
