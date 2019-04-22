@@ -296,14 +296,6 @@ class Field < ApplicationRecord
 
   end
 
-  #TODO:Get rid of FieldOptions. This method should just be an alias
-  def attributes= properties
-    super properties
-    #TODO: FieldOption should just be a regular embedded object that CouchRest Model supports
-    # TODO: get rid of FieldOption
-    #@options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
-  end
-
   def merge_with(another_field)
 
   end
