@@ -7,6 +7,14 @@ BUILD_BEANSTALK="docker build -f beanstalkd/Dockerfile . -t beanstalkd:prim-late
 BUILD_SOLR="docker build -f solr/Dockerfile ../ -t solr:prim-latest"
 BUILD_APP="docker build -f application/Dockerfile ../ -t application:prim-latest"
 
+# if no params are set then set $1 to all
+if [ $# -eq 0 ];
+then
+  printf "Building all\\n"
+  set -- "all"
+fi
+
+# this could use getopts for building multiple containers
 case $1 in
   nginx)
     eval "$BUILD_NGINX"
