@@ -1,4 +1,6 @@
 class PrimeroModule < ApplicationRecord
+  include Configuration
+
   CP = 'primeromodule-cp'
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
@@ -67,5 +69,24 @@ class PrimeroModule < ApplicationRecord
 
   def self.gbv
     find_by(unique_id: GBV)
+  end
+
+  class << self
+    alias super_import import
+    def import(data)
+      data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?
+      data['primero_program_id'] = PrimeroProgram.find_by(unique_id: data['primero_program_id']).id if data['primero_program_id'].present?
+      super_import(data)
+    end
+
+    def export
+      self.all.map do |record|
+        record.attributes.tap do |pm|
+          pm.delete('id')
+          pm['form_sections'] = record.form_sections.pluck(:unique_id)
+          pm['primero_program_id'] = record.primero_program.unique_id
+        end
+      end
+    end
   end
 end

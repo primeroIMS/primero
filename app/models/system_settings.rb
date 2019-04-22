@@ -2,6 +2,7 @@ class SystemSettings < ApplicationRecord
 
   # include Memoizable
   include LocalizableJsonProperty
+  include Configuration
 
   store_accessor :system_options,
     :due_date_from_appointment_date, :notification_email_enabled,

@@ -1,6 +1,7 @@
 class Field < ApplicationRecord
 
   include LocalizableJsonProperty
+  include Configuration
   # include Memoizable
 
   localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
@@ -293,6 +294,22 @@ class Field < ApplicationRecord
       Field.joins(:subform).where({ type: 'subform', form_sections: { subform_append_only: true, is_nested: true } })
     end
 
+    alias super_import import
+    def import(data, form)
+      data.each do |field|
+        field['subform_section_id'] = FormSection.find_by(unique_id: field['subform_section_id']).id if field['subform_section_id'].present?
+        field['form_section_id'] = form.id
+        super_import(field)
+      end
+    end
+  end
+
+  def export
+    self.attributes.tap do |form|
+      form.delete('id')
+      form['form_section_id'] = self.form_section.unique_id
+      form['subform_section_id'] = self.subform.unique_id if self.subform.present?
+    end
   end
 
   #TODO:Get rid of FieldOptions. This method should just be an alias

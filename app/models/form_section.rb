@@ -1,6 +1,7 @@
 class FormSection < ApplicationRecord
 
   include LocalizableJsonProperty
+  include Configuration
   #include Importable #TODO: This will need to be rewritten
   # include Memoizable
 
@@ -459,6 +460,30 @@ class FormSection < ApplicationRecord
         Rails.logger.error "Error importing translations: locale not present"
       end
     end
+
+    alias super_clear clear
+    def clear
+      Field.delete_all
+      self.all.each do |f|
+        f.roles.destroy(f.roles)
+      end
+      super_clear
+    end
+
+    def import(data)
+      form = self.create!(data.except('fields'))
+      Field.import(data['fields'], form)
+    end
+
+    def export
+      self.all.map do |record|
+        record.attributes.tap do |form|
+          form.delete('id')
+          form['fields'] = record.fields.map(&:export)
+        end
+      end
+    end
+
   end
 
   def all_mobile_fields

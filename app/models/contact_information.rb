@@ -1,4 +1,6 @@
 class ContactInformation < ApplicationRecord
+  include Configuration
+
   def self.current
     ContactInformation.first
   end
