@@ -40,4 +40,4 @@ RUN set -ex \
         ; touch /srv/primero/application/log/production.log
 
 ENTRYPOINT [ "/entrypoint.sh" ]
-CMD [ "bash"]
+CMD [ "rails s"]
