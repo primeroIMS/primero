@@ -3,14 +3,12 @@ version: '3'
 services:
   postgres:
     image: postgres:latest
-    environment:
-      POSTGRES_USER: "primero"
-      POSTGRES_PASSWORD: "primero"
     volumes:
       - logs:/var/log/postgresql
       - psql_database:/var/lib/postgresql/data
     env_file:
       - docker/defaults.env
+      - docker/passwords.env
   solr:
     image: solr:prim-latest
     ports:
@@ -21,6 +19,7 @@ services:
     image: beanstalkd:prim-latest
     env_file:
       - docker/defaults.env
+      - docker/passwords.env
   application:
     image: application:prim-latest
     ports:
@@ -36,6 +35,7 @@ services:
       - logs:/srv/primero/application/logs
     env_file:
       - docker/defaults.env
+      - docker/passwords.env
     stdin_open: true
     tty: true
 volumes:
