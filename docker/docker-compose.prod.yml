@@ -21,3 +21,18 @@ services:
       - docker/defaults.env
       - docker/production.env
       - docker/quoin.env
+  solr:
+    env_file:
+      - docker/defaults.env
+      - docker/production.env
+      - docker/quoin.env
+  beanstald:
+    env_file:
+      - docker/defaults.env
+      - docker/production.env
+      - docker/quoin.env
+  postgres:
+    env_file:
+      - docker/defaults.env
+      - docker/production.env
+      - docker/quoin.env
