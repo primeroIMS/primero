@@ -1,4 +1,4 @@
 $RAILS_ENV:
-  :default_locale: '$DEFAULT_LOCALE'
+  :default_locale: '$LOCALE_DEFAULT'
   :locales: [$LOCALE_ALL]
 

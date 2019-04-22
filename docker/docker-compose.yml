@@ -9,6 +9,8 @@ services:
     volumes:
       - logs:/var/log/postgresql
       - psql_database:/var/lib/postgresql/data
+    env_file:
+      - docker/defaults.env
   solr:
     image: solr:prim-latest
     ports:
@@ -17,6 +19,8 @@ services:
       - docker/defaults.env
   beanstalkd:
     image: beanstalkd:prim-latest
+    env_file:
+      - docker/defaults.env
   application:
     image: application:prim-latest
     ports:
@@ -30,6 +34,8 @@ services:
       - primero_tmp:/srv/primero/tmp
       - logs:/srv/primero/logs
       - logs:/srv/primero/application/logs
+    env_file:
+      - docker/defaults.env
     stdin_open: true
     tty: true
 volumes:
