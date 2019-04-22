@@ -96,8 +96,8 @@ correct folder. This is explained in detail in the sub.sh errata section.
 Dependencies: envsubst and bash
 
 The sub.sh script performs substitutions on configuration files during runtime
-container creation. We are primarily using this for the NGINX container
-creation.
+container creation. Pass sub.sh a folder path and it will search for templated
+files recursively.
 
 The container looks through the specified folder for any files ending in
 `.template`. It looks for any shell style variables: `$HOST` or `${HOST}` and
@@ -112,15 +112,7 @@ The substitution are performed during the container entrypoint script. To use
 add the follow section to your entrypoint.
 
 ```bash
-# Search each of these directories for .template files and perform substitution
-# If you want this to be done from environment, redefine TEMPLATE_DIRS not
-TEMPLATE_DIRS_DEFAULT=( "/etc/nginx/conf.d" )
-TEMPLATE_DIRS=( "${TEMPLATE_DIRS[@]:-"${TEMPLATE_DIRS_DEFAULT[@]}"}" )
-for prim_filename in "${TEMPLATE_DIRS[@]}"/*.template
-do
-  # here we actually do the environment substitution
-  /sub.sh "${prim_filename}"
-done
+/sub.sh folder_path
 ```
 
 The list of folders to operate on are stored as a bash array. Edit the list of
