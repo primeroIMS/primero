@@ -15,7 +15,7 @@ class Incident < ApplicationRecord
     :date_of_incident_date_or_date_range, :incident_date, :date_of_incident, :date_of_incident_from, :date_of_incident_to,
     :individual_details_subform_section
 
-  belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child'
+  belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
 
   scope :by_incident_detail_id, ->(incident_detail_id) { where('data @> ?', {incident_detail_id: incident_detail_id}.to_json) }
 
