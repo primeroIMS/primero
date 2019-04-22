@@ -70,3 +70,4 @@ yarn-debug.log*
 .yarn-integrity
 .vscode
 venv/*
+docker/passwords.env
