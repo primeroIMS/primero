@@ -8,7 +8,7 @@ services:
       - psql_database:/var/lib/postgresql/data
     env_file:
       - docker/defaults.env
-      - docker/passwords.env
+      - docker/quoin.env
   solr:
     image: solr:prim-latest
     ports:
@@ -19,7 +19,7 @@ services:
     image: beanstalkd:prim-latest
     env_file:
       - docker/defaults.env
-      - docker/passwords.env
+      - docker/quoin.env
   application:
     image: application:prim-latest
     ports:
@@ -35,7 +35,7 @@ services:
       - logs:/srv/primero/application/logs
     env_file:
       - docker/defaults.env
-      - docker/passwords.env
+      - docker/quoin.env
     stdin_open: true
     tty: true
 volumes:

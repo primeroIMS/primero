@@ -15,3 +15,9 @@ services:
     env_file:
       - docker/defaults.env
       - docker/production.env
+      - docker/quoin.env
+  application:
+    env_file:
+      - docker/defaults.env
+      - docker/production.env
+      - docker/quoin.env
