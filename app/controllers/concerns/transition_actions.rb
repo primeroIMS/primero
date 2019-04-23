@@ -27,7 +27,6 @@ module TransitionActions
         begin
           remote_transition(@records)
           message_success_transition @records.size
-          redirect_back(fallback_location: root_path)
         rescue => error
           logger.error "#{model_class.parent_form}s not transitioned to remote #{@to_user_remote}... failure"
           logger.error error.message
