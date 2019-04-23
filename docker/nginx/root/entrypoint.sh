@@ -1,8 +1,6 @@
 #!/bin/bash
 
-set -ex
-
-
+set -euox pipefail
 # If we can't find the dh key, then go ahead and generate it
 if [[ ! -f "${NGINX_DH_PARAM}" ]];
 then
@@ -12,14 +10,16 @@ else
   printf "dh key found \\n"
 fi
 
-# Nginx gets mad if these files arent create
+# Create the log files for NGINX. It won't start if these don't exist.
 printf "Checking for nginx log files"
 touch "${NGINX_LOG_DIR}/${NGINX_LOG_ACCESS}"
 touch "${NGINX_LOG_DIR}/${NGINX_LOG_ERROR}"
 
 if [[ "${USE_LETS_ENCRYPT}" == "true" ]];
 then
-  certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m "$LETS_ENCRYPT_EMAIL" --no-eff-email --non-interactive --keep --preferred-challenges http
+  certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m \
+  "$LETS_ENCRYPT_EMAIL" --no-eff-email --non-interactive --keep \
+  --preferred-challenges http
   NGINX_SERVER_HOST="$LETS_ENCRYPT_DOMAIN"
   NGINX_SSL_CERT_PATH="/etc/letsencrypt/live/$LETS_ENCRYPT_DOMAIN/fullchain.pem"
   NGINX_SSL_KEY_PATH="/etc/letsencrypt/live/$LETS_ENCRYPT_DOMAIN/privkey.pem"
@@ -42,7 +42,8 @@ else
     printf "Generating SSL Cert\\nHostname: %s\\n" "$NGINX_SERVER_HOST"
     cd "/certs"
     # Create certificates
-    openssl req -subj "/CN=${NGINX_SERVER_HOST}" -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 365
+    openssl req -subj "/CN=${NGINX_SERVER_HOST}" -x509 -newkey rsa:4096 -nodes \
+    -keyout key.pem -out cert.pem -days 365
     cd "${CURRENT_DIR}"
   fi
 fi
