@@ -5,7 +5,7 @@ class CreateAuditLogs < ActiveRecord::Migration[5.0]
       t.string 'action_name'
       t.string 'display_id'
       t.string "record_type"
-      t.string "record_id"
+      t.uuid "record_id"
       t.string 'owned_by'
       t.datetime 'timestamp'
       t.jsonb 'mobile_data'
