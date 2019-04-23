@@ -67,8 +67,19 @@ module LoggerActions
     #We want to log exports, but not regular index actions
     return 0 if action_name == "index" && params[:format].blank?
     logger.info("#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}")
-    AuditLogJob.perform_later(logger_job_user_name, logger_action_name, logger_model_titleize, logger_record_id,
-                              logger_display_id, logger_owned_by, logger_mobile_data)
+
+    audit_log_h = { :user_name => logger_job_user_name, :action_name => logger_action_name,
+                    :record_type => logger_model_titleize, :record_id => logger_record_id,
+                    :display_id => logger_display_id, :owned_by => logger_owned_by,
+                    :mobile_data => logger_mobile_data }
+    if logger_record_id.is_a?(Array)
+      logger_record_id.each do |record_id|
+        audit_log_h[:record_id] = audit_log_h[:display_id] = record_id
+        AuditLogJob.perform_later(audit_log_h)
+      end
+    else
+      AuditLogJob.perform_later(audit_log_h)
+    end
   end
 
 end

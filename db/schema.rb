@@ -33,9 +33,9 @@ ActiveRecord::Schema.define(version: 2019_04_10_000000) do
   create_table "audit_logs", id: :serial, force: :cascade do |t|
     t.string "user_name"
     t.string "action_name"
-    t.integer "display_id"
+    t.string "display_id"
     t.string "record_type"
-    t.integer "record_id"
+    t.string "record_id"
     t.string "owned_by"
     t.datetime "timestamp"
     t.jsonb "mobile_data"
