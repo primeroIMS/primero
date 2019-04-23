@@ -8,8 +8,8 @@ class Field < ApplicationRecord
   attr_reader :options
 
   belongs_to :form_section
-  belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', required: false
-  belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id', class_name: 'FormSection', required: false
+  belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', optional: true
+  belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id', class_name: 'FormSection', optional: true
 
   alias_attribute :form, :form_section
   alias_attribute :subform_section, :subform
@@ -294,14 +294,6 @@ class Field < ApplicationRecord
       Field.joins(:subform).where({ type: 'subform', form_sections: { subform_append_only: true, is_nested: true } })
     end
 
-  end
-
-  #TODO:Get rid of FieldOptions. This method should just be an alias
-  def attributes= properties
-    super properties
-    #TODO: FieldOption should just be a regular embedded object that CouchRest Model supports
-    # TODO: get rid of FieldOption
-    #@options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
   end
 
   def merge_with(another_field)
