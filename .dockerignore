@@ -1,55 +1,44 @@
 # stuff to ignore
-.git
-# db/couch
-log
-tmp
-.idea
-rerun.txt
-debug.html
-.DS_Store
+*.deb
+*.iml
+*.irb-history
+*.msi
+*.orig
+*.pem
+*.pid
+*.swo
+*.swp
+*.xls
 *swp
 *~
-.~*
-*.swp
-*.swo
-*.orig
-*.pid
-*.iml
-*.pem
-*.msi
-*.deb
-*.xls
-*.irb-history
+.DS_Store
 .autotest
+.buildpath
 .bundle
+.git
+.idea
+.powrc
+.project
+.project
 .redcar
+.ruby-version
 .rvmrc
 .vagrant
-bin
+.~*
+Guardfile
 capybara_features
+cookbook
+coverage
+debug.html
+doc/
+jmeter/
+log
+public/assets
+rerun.txt
 rspec
 tags
-public/assets
-# config/couchdb.yml
-# config/solr.yml
-# config/sunspot.yml
-# config/selenium.yml
+tmp
 vendor/bundle/
 vendor/cache/
 vendor/ruby/
-.ruby-version
-.project
-.powrc
-Guardfile
-cookbook
-.project
-.buildpath
-coverage
-# solr/data
-# solr/pids
-# solr/development
-# solr/default
-# solr/test
-jmeter/
-doc/
 venv/
