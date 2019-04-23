@@ -42,7 +42,6 @@ gem 'sunspot_rails',     '2.3.0'
 gem 'sunspot_solr',      '2.3.0'
 
 # TODO: Remove/reevaluate the following once UIUX rebuilt
-gem 'therubyracer',      '~> 0.12', platforms: :ruby, require: 'v8'
 gem 'jquery-rails',      '4.3.1'
 gem 'ejs',               '~> 1.1'
 gem 'foundation-rails',  '6.3.0.0' # NOTE: Don't update
