@@ -26,7 +26,7 @@ services:
       - docker/defaults.env
       - docker/production.env
       - docker/quoin.env
-  beanstald:
+  beanstalkd:
     env_file:
       - docker/defaults.env
       - docker/production.env
