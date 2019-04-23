@@ -438,7 +438,7 @@ module RecordActions
             value = value.map do |v|
               nested = v.clone
               v.each do |field_key, value|
-                if value.to_s.blank? || (value.is_a?(Array) || value.is_a?(Hash) && value.blank?)
+                if value.to_s.blank? || ((value.is_a?(Array) || value.is_a?(Hash)) && value.blank?)
                   nested.delete(field_key)
                 end
               end
