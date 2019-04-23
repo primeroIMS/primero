@@ -36,8 +36,7 @@ RUN set -ex \
         ; mkdir -p \
             /srv/primero/log/rails \
             /srv/primero/application/tmp \
-            /srv/primero/application/log \
-        ; touch /srv/primero/application/log/production.log
+            /srv/primero/application/log
 
+CMD [ "primero" ]
 ENTRYPOINT [ "/entrypoint.sh" ]
-CMD [ "rails", "s" ]
