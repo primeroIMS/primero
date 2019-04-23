@@ -1,6 +1,6 @@
 begin
-  if ActiveRecord::Base.connection.table_exists? :locations
-    count = ActiveRecord::Base.connection.select_all("SELECT COUNT(id) FROM locations")
+  if ActiveRecord::Base.connection.table_exists? :system_settings
+    count = ActiveRecord::Base.connection.select_all("SELECT COUNT(id) FROM system_settings")
                                          .rows
                                          .flatten
                                          .first
