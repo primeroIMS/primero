@@ -164,20 +164,13 @@ class User < ApplicationRecord
 
   # TODO: Refactor when addressing Roles Exporter
   def has_permitted_form_id?(form_id)
+    permitted_form_ids = permitted_forms.map(&:unique_id)
     permitted_form_ids && permitted_form_ids.include?(form_id)
   end
 
   def has_any_permission?(*any_of_permissions)
     (any_of_permissions.flatten - role.permissions).count <
       any_of_permissions.flatten.count
-  end
-
-  def role_permitted_form_ids
-    role.try(:form_sections).try(:map, &:unique_id)
-  end
-
-  def module_permitted_form_ids
-    modules.compact.collect{ |fs| fs.form_sections.map(&:unique_id) }.flatten
   end
 
   def managed_users
@@ -282,54 +275,58 @@ class User < ApplicationRecord
     super && !disabled
   end
 
-  def permitted_form_ids
+  def role_permitted_forms
+    role.try(:form_sections)
+  end
+
+  def module_permitted_forms
+    modules.compact.collect{ |fs| fs.form_sections }.flatten
+  end
+
+  def permitted_forms
     permitted = []
-    from_roles = role_permitted_form_ids
+    from_roles = role_permitted_forms
 
     if from_roles.present?
       permitted = from_roles
     elsif module_ids.present?
-      permitted = module_permitted_form_ids
+      permitted = module_permitted_forms
     end
 
     permitted
   end
 
-  def permitted_form_ids_for_module(record_module)
-    module_form_ids = record_module.present? ? record_module.form_sections.map(&:unique_id) : []
-    self.permitted_form_ids & module_form_ids
+  def permitted_forms_for_module(record_module)
+    self.permitted_forms.select do |form|
+      record_module.form_sections.map(&:unique_id).include?(form.unique_id)
+    end
   end
 
-  def allowed_form_ids
-    self.modules.map{ |m| self.permitted_form_ids_for_module(m) }.flatten
+  def allowed_forms
+    self.modules.map{ |m| self.permitted_forms_for_module(m) }.flatten
   end
 
   def modules_for_record_type(record_type)
     self.modules.select{ |m| m.associated_record_types.include?(record_type) }
   end
 
-  def permitted_formsections(record_module, record_type, read_only_user = false, only_visible = true)
-    permitted_form_ids = self.permitted_form_ids_for_module(record_module)
-    permitted_forms = FormSection.form_sections_by_ids_and_parent_form(permitted_form_ids, record_type)
-                                 .includes(:fields)
-    permitted_forms = permitted_forms.where(visible: true) if only_visible
-    # See: Field.showable?
-    permitted_forms = permitted_forms.where(fields: { visible: true, hide_on_view_page: false }) if read_only_user
+  def permitted_formsections(record_module, record_type, only_visible = true)
+    permitted_forms = self.permitted_forms_for_module(record_module).select{ |form| form.parent_form == record_type }
+    only_visible ? permitted_forms.select {|form| form.visible? } : permitted_forms
     # TODO: This is an optimization we probably don't need.
     # FormSection.link_subforms(permitted_forms)
     # TODO: Is this needed?
     # permitted_forms.each{|f| f.module_name = record_module.name}
-    FormSection.group_forms(permitted_forms)
   end
 
-  def permitted_fields(record_module, record_type, read_only_user = false)
-    permitted_forms = self.permitted_formsections(record_module, record_type, read_only_user)
-    permitted_forms = permitted_forms.map{|key, forms| forms }.flatten
-    permitted_forms.map(&:fields).flatten.uniq{|f| f.name}
-  end
-
-  def permitted_fields_for_modules(record_modules, record_type, read_only_user = false)
-    record_modules.map { |m| self.permitted_fields(m, record_type, read_only_user) }.flatten.uniq{|f| f.name}
+  def permitted_fields(record_modules, record_type, read_only_user = false)
+    permitted_forms = if record_modules.is_a?(Array)
+                        record_modules.map { |m| self.permitted_formsections(m, record_type) }.flatten
+                      else
+                        self.permitted_formsections(record_modules, record_type)
+                      end
+    fields = permitted_forms.map(&:fields).flatten.uniq{|f| f.name}
+    read_only_user ? fields.select { |field| field.showable? } : fields
   end
 
   private

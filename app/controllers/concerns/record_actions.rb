@@ -119,7 +119,7 @@ module RecordActions
         @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
         @body_class = 'profile-page'
         #TODO: Does that mean that all parts of the record are visible as json?
-        @form_sections = current_user.permitted_formsections(@record.module, @record.class.parent_form)
+        @form_sections = grouped_permitted_forms
         sort_subforms
       end
 
@@ -147,7 +147,7 @@ module RecordActions
     # TODO: make the ERB templates use @record
     instance_variable_set("@#{model_class.name.underscore}", @record)
 
-    @form_sections = current_user.permitted_formsections(@record.module, @record.class.parent_form)
+    @form_sections = grouped_permitted_forms
 
     respond_to do |format|
       format.html
@@ -167,7 +167,7 @@ module RecordActions
     instance_variable_set("@#{model_class.name.underscore}", @record)
 
     respond_to do |format|
-      @form_sections = current_user.permitted_formsections(@record.module, @record.class.parent_form) #TODO: This is an awkwardly placed call
+      @form_sections = grouped_permitted_forms #TODO: This is an awkwardly placed call
       if @record.save
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
@@ -193,7 +193,7 @@ module RecordActions
     end
 
     authorize! :update, @record
-    @form_sections = current_user.permitted_formsections(@record.module, @record.class.parent_form)
+    @form_sections = grouped_permitted_forms
     sort_subforms
     @page_name = t("#{model_class.locale_prefix}.edit")
   end
@@ -225,7 +225,7 @@ module RecordActions
           render :json => @record.slice!("_attachments", "histories")
         end
       else
-        @form_sections ||= current_user.permitted_formsections(@record.module, @record.class.parent_form)
+        @form_sections ||= grouped_permitted_forms
         format.html {
           get_lookups
           render :action => "edit"
@@ -450,11 +450,6 @@ module RecordActions
     @filter_fields = Field.get_by_name(filter_field_names).map{|f| [f.name, f]}.to_h
   end
 
-  #This overrides method in export_actions
-  def export_properties(exporter)
-    current_user.permitted_fields_for_modules(@current_modules, model_class.parent_form)
-  end
-
   private
 
   #Discard nil values and empty arrays.
@@ -639,6 +634,10 @@ module RecordActions
     else
       value
     end
+  end
+
+  def grouped_permitted_forms
+    FormSection.group_forms(current_user.permitted_formsections(@record.module, @record.class.parent_form))
   end
 
 end

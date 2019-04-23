@@ -389,7 +389,7 @@ module IndexHelper
   def index_filters_case
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
-    allowed_form_ids = @current_user.allowed_form_ids
+    allowed_form_ids = @current_user.allowed_forms.map(&:unique_id)
 
     filters << "Flagged"
     filters << "Mobile" if @can_sync_mobile

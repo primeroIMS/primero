@@ -11,7 +11,7 @@ module ExportActions
     Exporters::active_exporters_for_model(model_class).each do |exporter|
       format.any(exporter.id) do
         authorize! :export, model_class
-        props = export_properties(exporter)
+        props = current_user.permitted_fields(@current_modules, model_class.parent_form)
         file_name = export_filename(models, exporter)
 
         if models.present?
@@ -25,11 +25,6 @@ module ExportActions
         end
       end
     end
-  end
-
-  #exporter is passed in because it is needed in the overidden method in record_actions
-  def export_properties(exporter)
-    model_class.properties
   end
 
   def queue_bulk_export(format, file_name)
