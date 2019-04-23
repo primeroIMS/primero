@@ -10,7 +10,7 @@ prim_rename_file() {
   #check if filename has .template extension.
   if [ "${PRIM_FILENAME##*.}" == "template" ]; then
     # if it does then copy the .template file to its proper name
-    cp "${PRIM_FILENAME}" "${PRIM_FILENAME%.*}"
+    cp -f "${PRIM_FILENAME}" "${PRIM_FILENAME%.*}"
     # change the filename to reflect the copied version
     PRIM_FILENAME="${PRIM_FILENAME%.*}"
   fi
