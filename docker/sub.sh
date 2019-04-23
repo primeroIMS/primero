@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -euox pipefail
 
 # This script takes a filename as the only input parameter.
 #
@@ -37,7 +37,7 @@ prim_perform_substitution() {
   cat "${PRIM_FILENAME}" | envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" > "${PRIM_FILENAME}"
 }
 
-
+set +x
 # Does this loop break if the filename has spaces? Maybe
 for prim_path in $(find "$1" -iname "*.template" -print0 | xargs -0 -n1);
 do
@@ -49,3 +49,4 @@ do
   prim_source_defaults
   prim_perform_substitution
 done
+set -ex
