@@ -201,7 +201,7 @@ module Exporters
       render_fields(pdf, _case, normal_fields)
       subforms.map do |subf|
         pdf.move_down 10
-        form_data = _case.try(:__send__, subf.name)
+        form_data = _case.try(:data).try(:[], subf.name)
         filtered_subforms = subf.subform_section.fields.reject {|f| f.type == 'separator' || f.visible? == false}
         pdf.text render_i18n_text(subf.display_name), :style => :bold, :size => 12, :align => (self.class.reverse_page_direction ? :right : :left)
 
@@ -224,7 +224,7 @@ module Exporters
     def render_fields(pdf, obj, fields)
       table_data = fields.map do |f|
         if obj.present?
-          value = censor_value(f.name, obj.data)
+          value = censor_value(f.name, obj)
           row = [render_i18n_text(f.display_name), format_field(f, value)]
         else
           row = [render_i18n_text(f.display_name), nil]
@@ -254,7 +254,7 @@ module Exporters
       when 'name'
         obj["hidden_name"] ? '***hidden***' : obj["name"]
       else
-        obj[attr_name]
+        obj.respond_to?('data') ? obj.data[attr_name] : obj[attr_name]
       end
     end
 
