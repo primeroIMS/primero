@@ -119,7 +119,7 @@ module RecordActions
         @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
         @body_class = 'profile-page'
         #TODO: Does that mean that all parts of the record are visible as json?
-        @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+        @form_sections = current_user.permitted_formsections(@record.module, @record.class.parent_form)
         sort_subforms
       end
 
@@ -147,7 +147,7 @@ module RecordActions
     # TODO: make the ERB templates use @record
     instance_variable_set("@#{model_class.name.underscore}", @record)
 
-    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+    @form_sections = current_user.permitted_formsections(@record.module, @record.class.parent_form)
 
     respond_to do |format|
       format.html
@@ -167,7 +167,7 @@ module RecordActions
     instance_variable_set("@#{model_class.name.underscore}", @record)
 
     respond_to do |format|
-      @form_sections = @record.class.allowed_formsections(current_user, @record.module) #TODO: This is an awkwardly placed call
+      @form_sections = current_user.permitted_formsections(@record.module, @record.class.parent_form) #TODO: This is an awkwardly placed call
       if @record.save
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
@@ -193,8 +193,7 @@ module RecordActions
     end
 
     authorize! :update, @record
-
-    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+    @form_sections = current_user.permitted_formsections(@record.module, @record.class.parent_form)
     sort_subforms
     @page_name = t("#{model_class.locale_prefix}.edit")
   end
@@ -226,7 +225,7 @@ module RecordActions
           render :json => @record.slice!("_attachments", "histories")
         end
       else
-        @form_sections ||= @record.class.allowed_formsections(current_user, @record.module)
+        @form_sections ||= current_user.permitted_formsections(@record.module, @record.class.parent_form)
         format.html {
           get_lookups
           render :action => "edit"
@@ -329,7 +328,7 @@ module RecordActions
 
   def current_modules
     record_type = model_class.parent_form
-    @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
+    @current_modules ||= current_user.modules_for_record_type(record_type)
   end
 
   def is_admin
@@ -402,7 +401,7 @@ module RecordActions
   end
 
   def permitted_property_keys
-    model_class.permitted_property_names(current_user, @record_module, false) + extra_permitted_parameters
+    current_user.permitted_fields(@record_module, model_class.parent_form).map(&:name) + extra_permitted_parameters
   end
 
   # Filters out any un-allowed parameters for the current user
@@ -453,7 +452,7 @@ module RecordActions
 
   #This overrides method in export_actions
   def export_properties(exporter)
-    authorized_export_properties(exporter, current_user, @current_modules, model_class)
+    current_user.permitted_fields_for_modules(@current_modules, model_class.parent_form)
   end
 
   private
