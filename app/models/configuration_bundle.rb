@@ -16,10 +16,11 @@ class ConfigurationBundle < ApplicationRecord
 
         Rails.logger.info "#{model.count} records inserted for: #{model.name}"
       end
-      # TODO should we save on auditlog?
+
+      AuditLogJob.perform_later(applied_by, 'Configuration Bundle', ConfigurationBundle.name, nil, nil, applied_by, nil)
       ConfigurationBundle.create! applied_by: applied_by
     rescue => e
-      p e.inspect
+      Rails.logger.error e.inspect
     end
     Rails.logger.info "Successfully completed configuration bundle import."
   end
