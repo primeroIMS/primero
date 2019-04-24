@@ -2,7 +2,7 @@
 version: '3'
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:prim-latest
     volumes:
       - logs:/var/log/postgresql
       - psql_database:/var/lib/postgresql/data
