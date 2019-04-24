@@ -164,7 +164,7 @@ class User < ApplicationRecord
 
   # TODO: Refactor when addressing Roles Exporter
   def has_permitted_form_id?(form_id)
-    permitted_form_ids = permitted_forms.map(&:unique_id)
+    permitted_form_ids = permitted_forms(nil, nil, false).map(&:unique_id)
     permitted_form_ids && permitted_form_ids.include?(form_id)
   end
 
@@ -275,58 +275,37 @@ class User < ApplicationRecord
     super && !disabled
   end
 
-  def role_permitted_forms
-    role.try(:form_sections)
-  end
-
-  def module_permitted_forms
-    modules.compact.collect{ |fs| fs.form_sections }.flatten
-  end
-
-  def permitted_forms
-    permitted = []
-    from_roles = role_permitted_forms
-
-    if from_roles.present?
-      permitted = from_roles
-    elsif module_ids.present?
-      permitted = module_permitted_forms
-    end
-
-    permitted
-  end
-
-  def permitted_forms_for_module(record_module)
-    self.permitted_forms.select do |form|
-      record_module.form_sections.map(&:unique_id).include?(form.unique_id)
-    end
-  end
-
-  def allowed_forms
-    self.modules.map{ |m| self.permitted_forms_for_module(m) }.flatten
-  end
-
   def modules_for_record_type(record_type)
     self.modules.select{ |m| m.associated_record_types.include?(record_type) }
   end
 
-  def permitted_formsections(record_module, record_type, only_visible = true)
-    permitted_forms = self.permitted_forms_for_module(record_module).select{ |form| form.parent_form == record_type }
-    only_visible ? permitted_forms.select {|form| form.visible? } : permitted_forms
+  def permitted_forms(record_modules = nil, record_type = nil, visible_forms_only = true)
+    # A user explicitly needs to have the forms as part of his roles.
+    role_forms = self.role.try(:form_sections) || []
+
+    # When modules are specified, we return only those forms from the user that belong to the specified modules.
+    modules_forms = record_modules.try(:map, &:form_sections).try(:flatten) || record_modules.try(:form_sections)
+    forms = modules_forms.present? ? Set.new(role_forms) & Set.new(modules_forms) : role_forms
+
+    forms = forms.select{ |form| form.parent_form == record_type } if record_type.present?
+
+    forms = forms.select {|form| form.visible? } if visible_forms_only
     # TODO: This is an optimization we probably don't need.
-    # FormSection.link_subforms(permitted_forms)
+    # FormSection.link_subforms(forms)
     # TODO: Is this needed?
-    # permitted_forms.each{|f| f.module_name = record_module.name}
+    # forms.each{|f| f.module_name = record_module.name}
+
+    # Make sure we always return an Array
+    forms.to_a
   end
 
-  def permitted_fields(record_modules, record_type, read_only_user = false)
-    permitted_forms = if record_modules.is_a?(Array)
-                        record_modules.map { |m| self.permitted_formsections(m, record_type) }.flatten
-                      else
-                        self.permitted_formsections(record_modules, record_type)
-                      end
+  def permitted_fields(record_modules, record_type, visible_forms_only = true)
+    permitted_forms = self.permitted_forms(record_modules, record_type, visible_forms_only)
     fields = permitted_forms.map(&:fields).flatten.uniq{|f| f.name}
-    read_only_user ? fields.select { |field| field.showable? } : fields
+    # TODO: This method used to receive a parameter "read_only_user = false" but
+    # that logic seems to be something the exporters should handle.
+    # read_only_user ? fields.select { |field| field.showable? } : fields
+    fields
   end
 
   private

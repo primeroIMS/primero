@@ -637,7 +637,7 @@ module RecordActions
   end
 
   def grouped_permitted_forms
-    FormSection.group_forms(current_user.permitted_formsections(@record.module, @record.class.parent_form))
+    FormSection.group_forms(current_user.permitted_forms(@record.module, @record.class.parent_form))
   end
 
 end
