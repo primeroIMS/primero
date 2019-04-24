@@ -10,7 +10,7 @@ printf "Performing configuration substitution"
 
 set +u
 # Check if the postgres credentials are defined. If they aren't then complain.
-if [ -z "$POSTGRES_PASSWORD" ] || [ -z "$POSTGRES_USERNAME" ];
+if [ -z "$POSTGRES_PASSWORD" ] || [ -z "$POSTGRES_USER" ];
 then
   printf "Postgres credentials not defined! Please check configuration.\\n"
 fi
@@ -19,7 +19,7 @@ set -u
 # if primero exists then prefer the rails / rake binaries from the repo
 if [ -d "$APP_ROOT/bin" ];
 then
-  printf 'Adding primero/bin to path'
+  printf "Adding primero/bin to path\\n"
   export PATH="$APP_ROOT/bin:$PATH"
 fi
 
@@ -30,10 +30,15 @@ touch "${RAILS_LOG_PATH}/${RAILS_ENV}.log"
 # If you pass "primero" as the arg, then start primero and don't eval anything
 if [ "$1" == "primero" ] && [[ "$#" -eq 1 ]];
 then
-  bundle exec rails db:drop
-  bundle exec rails db:create
-  bundle exec rails db:migrate
-  bundle exec rails db:seed
+  # shellcheck disable=SC2034
+  DISABLE_DATABASE_ENVIRONMENT_CHECK=1
+  rake db:drop
+  rake db:create
+  rake db:migrate
+  rake db:seed
+  rake sunspot:reindex
+  rake tmp:cache:clear
+  rake app:assets_precompile
 else
   exec "$@"
 fi
