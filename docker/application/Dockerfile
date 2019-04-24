@@ -6,7 +6,7 @@ ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl
 ENV DEV_PACKAGES busybox-extras
 ENV RAILS_ENV production
 
-RUN set -ex \
+RUN set -euox pipefail \
         ; apk update \
         ; apk add $BUILD_PACKAGES \
         ; apk add $BUILD_DEP_PACKAGES \
@@ -19,7 +19,7 @@ WORKDIR /srv/primero/application
 COPY [ "Gemfile", "Gemfile.lock", "/srv/primero/application/" ]
 
 # Run bundle install
-RUN set -ex \
+RUN set -euox pipefail \
         ; bundle install --without development test cucumber
 
 # Note: This has its build context set to the root dir so prepend 'docker' to
@@ -32,7 +32,7 @@ COPY [ "docker/sub.sh", "/" ]
 COPY [ ".", "/srv/primero/application" ]
 
 # TODO: move srv/p/app/log to srv/p/log
-RUN set -ex \
+RUN set -euox pipefail \
         ; mkdir -p \
             /srv/primero/log/rails \
             /srv/primero/application/tmp \

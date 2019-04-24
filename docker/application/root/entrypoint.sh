@@ -13,7 +13,6 @@ set +u
 if [ -z "$POSTGRES_PASSWORD" ] || [ -z "$POSTGRES_USERNAME" ];
 then
   printf "Postgres credentials not defined! Please check configuration.\\n"
-  exit 1
 fi
 set -u
 
