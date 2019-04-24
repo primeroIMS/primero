@@ -4,5 +4,5 @@ $RAILS_ENV:
     port: $SOLR_PORT
     log_level: $SOLR_LOG_LEVEL
     pid_dir: $SOLR_PID_DIR
-    path: /solr/$RAILS_ENV
+    path: /solr/primero
     log_file: $SOLR_LOG_DIR

@@ -16,6 +16,7 @@ user node[:primero][:solr][:user] do
   shell '/bin/bash'
 end
 
+/srv/primero/log
 directory node[:primero][:solr][:log_dir] do
   action :create
   mode '0700'
@@ -23,6 +24,7 @@ directory node[:primero][:solr][:log_dir] do
   group node[:primero][:solr][:group]
 end
 
+/var/solr
 directory node[:primero][:solr][:home_dir] do
   action :create
   mode '0755'
@@ -30,16 +32,19 @@ directory node[:primero][:solr][:home_dir] do
   group node[:primero][:solr][:group]
 end
 
+cp /srv/primero/application/solr/solr.xml /var/solr
 execute 'Stage solr.xml' do
   command "cp #{node[:primero][:app_dir]}/solr/solr.xml #{node[:primero][:solr][:home_dir]}"
   user node[:primero][:solr][:user]
 end
 
+cp -r /srv/primero/application/solr/configsets /var/solr
 execute 'Stage solr configsets' do
   command "cp -r #{node[:primero][:app_dir]}/solr/configsets #{node[:primero][:solr][:home_dir]}"
   user node[:primero][:solr][:user]
 end
 
+mkdir /var/solr/data
 directory node[:primero][:solr][:data_dir] do
   action :create
   mode '0700'
@@ -47,6 +52,7 @@ directory node[:primero][:solr][:data_dir] do
   group node[:primero][:solr][:group]
 end
 
+mkdir /var/solr/cores
 directory node[:primero][:solr][:core_dir] do
   action :create
   mode '0700'
@@ -54,6 +60,7 @@ directory node[:primero][:solr][:core_dir] do
   group node[:primero][:solr][:group]
 end
 
+mkdir /var/solr/cores/$RAILS_ENV
 core_dir = File.join(node[:primero][:solr][:core_dir], node[:primero][:rails_env])
 directory core_dir do
   action :create
@@ -62,6 +69,8 @@ directory core_dir do
   group node[:primero][:solr][:group]
 end
 
+create core.properties from template
+/var/solr/production/core.properties
 template File.join(core_dir, 'core.properties') do
   source "solr/core.properties.erb"
   variables({
@@ -71,6 +80,7 @@ template File.join(core_dir, 'core.properties') do
   group node[:primero][:solr][:group]
 end
 
+download solr
 solr_tar="solr-#{node[:primero][:solr][:version]}.tgz"
 solr_bin = "/opt/solr-#{node[:primero][:solr][:version]}/bin/solr"
 execute 'Download Solr' do
@@ -79,12 +89,14 @@ execute 'Download Solr' do
   only_if { ! (::File.exists?(solr_bin) || ::File.exists?("/tmp/#{solr_tar}")) }
 end
 
+unzip and run the installer
 execute 'Install Solr' do
   command "tar xzf #{solr_tar} solr-#{node[:primero][:solr][:version]}/bin/install_solr_service.sh --strip-components=2 && bash ./install_solr_service.sh #{solr_tar} -u #{node[:primero][:solr][:user]}"
   cwd "/tmp"
   only_if { ! (::File.exists?(solr_bin)) }
 end
 
+create /var/solr/solr.in.sh from template
 template "#{node[:primero][:solr][:home_dir]}/solr.in.sh" do
   source 'solr/solr.in.sh.erb'
   owner node[:primero][:solr][:user]
@@ -95,6 +107,7 @@ execute 'Reload Systemd' do
   command 'systemctl daemon-reload'
 end
 
+enable solr
 execute 'Enable Solr' do
   command 'systemctl enable solr.service'
 end
