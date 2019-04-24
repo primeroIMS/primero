@@ -13,6 +13,7 @@ class PrimeroModule < ApplicationRecord
   belongs_to :primero_program
 
   has_and_belongs_to_many :form_sections
+  has_and_belongs_to_many :users
 
   validates_presence_of :primero_program_id, :message => I18n.t("errors.models.primero_module.program")
   validates_presence_of :form_sections, :message => I18n.t("errors.models.primero_module.form_section_ids")
@@ -72,6 +73,15 @@ class PrimeroModule < ApplicationRecord
   end
 
   class << self
+
+    alias super_clear clear
+    def clear
+      self.all.each do |pm|
+        pm.users.destroy(pm.users)
+      end
+      super_clear
+    end
+
     alias super_import import
     def import(data)
       data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?

@@ -5,6 +5,8 @@ class ConfigurationBundle < ApplicationRecord
   def self.import(model_data, applied_by=nil)
     Rails.logger.info "Starting configuration bundle import..."
     begin
+      cache_users_relations
+
       model_data.each do |model_clazz, data_arr|
         model = model_clazz.constantize
 
@@ -17,7 +19,8 @@ class ConfigurationBundle < ApplicationRecord
         Rails.logger.info "#{model.count} records inserted for: #{model.name}"
       end
 
-      AuditLogJob.perform_later(applied_by, 'Configuration Bundle', ConfigurationBundle.name, nil, nil, applied_by, nil)
+      update_users_relations
+
       ConfigurationBundle.create! applied_by: applied_by
     rescue => e
       Rails.logger.error e.inspect
@@ -45,6 +48,30 @@ class ConfigurationBundle < ApplicationRecord
       UserGroup, ExportConfiguration, SystemSettings
     ]
   end
+
+  def self.cache_users_relations
+    @user_relations = {}
+    User.all.each do |u|
+      @user_relations[u.user_name] = {
+        agency:u.agency.agency_code,
+        role: u.role.unique_id,
+        user_groups: u.user_groups.map(&:unique_id),
+        modules: u.primero_modules.map(&:unique_id)
+      }
+    end
+  end
+
+  def self.update_users_relations
+    @user_relations.each do |key, value|
+      user = User.find_by(user_name: key)
+      user.agency = Agency.find_by(agency_code: value[:agency])
+      user.role = Role.find_by(unique_id: value[:role])
+      user.user_groups = UserGroup.where(unique_id: value[:user_groups])
+      user.primero_modules = PrimeroModule.where(unique_id: value[:modules])
+      user.save
+    end
+  end
+
 
   #Ducktyping to allow refreshing
   # def self.flush_cache ; end
