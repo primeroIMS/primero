@@ -11,7 +11,7 @@ module ExportActions
     Exporters::active_exporters_for_model(model_class).each do |exporter|
       format.any(exporter.id) do
         authorize! :export, model_class
-        props = current_user.permitted_fields(@current_modules, model_class.parent_form)
+        props = current_user.permitted_fields(@current_modules, model_class.parent_form, true)
         file_name = export_filename(models, exporter)
 
         if models.present?

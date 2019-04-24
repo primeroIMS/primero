@@ -164,7 +164,7 @@ class User < ApplicationRecord
 
   # TODO: Refactor when addressing Roles Exporter
   def has_permitted_form_id?(form_id)
-    permitted_form_ids = permitted_forms(nil, nil, false).map(&:unique_id)
+    permitted_form_ids = permitted_forms.map(&:unique_id)
     permitted_form_ids && permitted_form_ids.include?(form_id)
   end
 
@@ -279,7 +279,7 @@ class User < ApplicationRecord
     self.modules.select{ |m| m.associated_record_types.include?(record_type) }
   end
 
-  def permitted_forms(record_modules = nil, record_type = nil, visible_forms_only = true)
+  def permitted_forms(record_modules = nil, record_type = nil, visible_forms_only = false)
     # A user explicitly needs to have the forms as part of his roles.
     role_forms = self.role.try(:form_sections) || []
 
@@ -299,7 +299,7 @@ class User < ApplicationRecord
     forms.to_a
   end
 
-  def permitted_fields(record_modules, record_type, visible_forms_only = true)
+  def permitted_fields(record_modules, record_type, visible_forms_only = false)
     permitted_forms = self.permitted_forms(record_modules, record_type, visible_forms_only)
     fields = permitted_forms.map(&:fields).flatten.uniq{|f| f.name}
     # TODO: This method used to receive a parameter "read_only_user = false" but

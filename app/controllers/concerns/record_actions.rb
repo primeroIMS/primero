@@ -401,7 +401,7 @@ module RecordActions
   end
 
   def permitted_property_keys
-    current_user.permitted_fields(@record_module, model_class.parent_form).map(&:name) + extra_permitted_parameters
+    current_user.permitted_fields(@record_module, model_class.parent_form, true).map(&:name) + extra_permitted_parameters
   end
 
   # Filters out any un-allowed parameters for the current user
@@ -637,7 +637,7 @@ module RecordActions
   end
 
   def grouped_permitted_forms
-    FormSection.group_forms(current_user.permitted_forms(@record.module, @record.class.parent_form))
+    FormSection.group_forms(current_user.permitted_forms(@record.module, @record.class.parent_form, true))
   end
 
 end

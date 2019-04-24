@@ -6,7 +6,7 @@ class BulkExportJob < ApplicationJob
     if bulk_export.present?
       user = bulk_export.owner
       record_modules = user.modules_for_record_type(bulk_export.record_type)
-      permitted_fields = user.permitted_fields(record_modules, bulk_export.record_type)
+      permitted_fields = user.permitted_fields(record_modules, bulk_export.record_type, true)
       options = bulk_export.custom_export_params
       exporter = bulk_export.exporter_type.new(bulk_export.stored_file_name)
 

@@ -146,7 +146,7 @@ class FormSectionController < ApplicationController
         end
       end
 
-      permitted_forms = current_user.permitted_forms(@primero_module, @parent_form, false)
+      permitted_forms = current_user.permitted_forms(@primero_module, @parent_form)
       # TODO: This is an optimization we probably don't need.
       # FormSection.link_subforms(permitted_forms)
       permitted_forms = permitted_forms.select{|f| f.is_nested.blank?}
