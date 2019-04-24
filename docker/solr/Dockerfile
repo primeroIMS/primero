@@ -1,14 +1,18 @@
 FROM solr:7.7.1-alpine
 
 ENV SOLR_PACKAGES gettext libintl
+ENV SOLR_USER=solr
 
 USER root
-COPY ["solr/configsets/primero", "/solr-primero-config"]
-# COPY ["solr/configsets", "/opt/solr/server/solr/configsets"]
-COPY [ "docker/solr/root", "docker/sub.sh", "/" ]
-RUN set -ex \
+COPY --chown=solr ["solr/configsets/primero", "/solr-primero-config"]
+COPY --chown=solr [ "docker/solr/root", "docker/sub.sh", "/" ]
+# Root level solr
+COPY --chown=solr [ "solr/solr.xml", "/opt/solr" ]
+
+RUN set -euox pipefail \
         ; apk update \
         ; apk add $SOLR_PACKAGES \
+        # theoretically this is redundant
         ; chown -R $SOLR_USER:$SOLR_GROUP /opt/solr/server/solr/configsets \
         ; chmod -R 700 /opt/solr/server/solr/configsets \
         ; chmod +x /sub.sh

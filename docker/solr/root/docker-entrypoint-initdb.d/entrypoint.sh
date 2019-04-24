@@ -1,5 +1,4 @@
 #!/bin/bash
 
-set -ex
-
+set -euox pipefail
 /sub.sh "/opt/solr"
