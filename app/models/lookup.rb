@@ -2,6 +2,7 @@ class Lookup < ApplicationRecord
 
   # include Memoizable
   include LocalizableJsonProperty
+  include Configuration
 
   localize_properties :name
   localize_properties :lookup_values
