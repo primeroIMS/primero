@@ -29,7 +29,7 @@
         <div class="large-12 columns">
           <%= form_for object, html: {class: 'default-form', :multipart => true, :autocomplete => "off", "data-abide" => ''} do |f| %>
             <div class="clearfix"></div>
-            <fieldset class="no-border"><%= f.error_messages :header_tag => :h2 %></fieldset>
+            <fieldset class="no-border"><%= error_messages_for(object) %></fieldset>
             <div class="clearfix"></div>
             <div class="mandate_panel"><span>*</span> <%= t("mandatory_field")%></div>
             <div class="clearfix"></div>
