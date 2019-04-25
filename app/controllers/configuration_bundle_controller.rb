@@ -1,4 +1,5 @@
 class ConfigurationBundleController < ApplicationController
+  include LoggerActions
   def export_bundle
     cookies[:download_status_finished] = true
     encrypt_data_to_zip(ConfigurationBundle.export_as_json, export_filename, params[:password])
