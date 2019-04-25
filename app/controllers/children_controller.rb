@@ -194,7 +194,7 @@ class ChildrenController < ApplicationController
 
   def quick_view
     authorize! :display_view_page, model_class
-    form_sections = @child.present? ? @child.class.allowed_formsections(current_user, @child.module) : nil
+    form_sections = @child.present? ? current_user.permitted_forms(@child.module, @child.class.parent_form, true) : nil
 
     html = ChildrenController.render('children/_quick_view', layout: false, locals: {
       child: @child,

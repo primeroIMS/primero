@@ -106,7 +106,7 @@ module TransitionActions
                     )
     exporter = type_of_export_exporter
     #TODO: filter records per consent
-    props = authorized_export_properties(exporter, transition_user, transition_user_modules, model_class)
+    props = transition_user.permitted_fields(transition_user_modules, model_class.parent_form, true)
     export_data = exporter.export(records, props, current_user, {})
     encrypt_data_to_zip export_data, filename(records, exporter, transition_type), password
   end

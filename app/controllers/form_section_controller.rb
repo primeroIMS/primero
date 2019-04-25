@@ -146,8 +146,9 @@ class FormSectionController < ApplicationController
         end
       end
 
-      permitted_forms = FormSection.get_permitted_form_sections(@primero_module, @parent_form, current_user)
-      FormSection.link_subforms(permitted_forms)
+      permitted_forms = current_user.permitted_forms(@primero_module, @parent_form)
+      # TODO: This is an optimization we probably don't need.
+      # FormSection.link_subforms(permitted_forms)
       permitted_forms = permitted_forms.select{|f| f.is_nested.blank?}
       permitted_forms = permitted_forms.select{|f| f.mobile_form} if is_mobile?
       @form_sections = FormSection.group_forms(permitted_forms)

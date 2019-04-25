@@ -56,7 +56,6 @@ ActiveRecord::Schema.define(version: 2019_04_10_000000) do
     t.string "query"
     t.string "match_criteria"
     t.jsonb "custom_export_params"
-    t.jsonb "permitted_property_keys"
     t.string "file_name"
     t.string "password"
   end

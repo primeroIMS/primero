@@ -162,34 +162,15 @@ class User < ApplicationRecord
     role.try(:group_permission) == permission
   end
 
+  # TODO: Refactor when addressing Roles Exporter
   def has_permitted_form_id?(form_id)
+    permitted_form_ids = permitted_forms.map(&:unique_id)
     permitted_form_ids && permitted_form_ids.include?(form_id)
   end
 
   def has_any_permission?(*any_of_permissions)
     (any_of_permissions.flatten - role.permissions).count <
       any_of_permissions.flatten.count
-  end
-
-  def permitted_form_ids
-    permitted = []
-    from_roles = role_permitted_form_ids
-
-    if from_roles.present?
-      permitted = from_roles
-    elsif module_ids.present?
-      permitted = module_permitted_form_ids
-    end
-
-    permitted
-  end
-
-  def role_permitted_form_ids
-    role.try(:form_sections).try(:map, &:unique_id)
-  end
-
-  def module_permitted_form_ids
-    modules.compact.collect{ |fs| fs.form_sections.map(&:unique_id) }.flatten
   end
 
   def managed_users
@@ -292,6 +273,39 @@ class User < ApplicationRecord
 
   def active_for_authentication?
     super && !disabled
+  end
+
+  def modules_for_record_type(record_type)
+    self.modules.select{ |m| m.associated_record_types.include?(record_type) }
+  end
+
+  def permitted_forms(record_modules = nil, record_type = nil, visible_forms_only = false)
+    # A user explicitly needs to have the forms as part of his roles.
+    role_forms = self.role.try(:form_sections) || []
+
+    # When modules are specified, we return only those forms from the user that belong to the specified modules.
+    modules_forms = record_modules.try(:map, &:form_sections).try(:flatten) || record_modules.try(:form_sections)
+    forms = modules_forms.present? ? Set.new(role_forms) & Set.new(modules_forms) : role_forms
+
+    forms = forms.select{ |form| form.parent_form == record_type } if record_type.present?
+
+    forms = forms.select {|form| form.visible? } if visible_forms_only
+    # TODO: This is an optimization we probably don't need.
+    # FormSection.link_subforms(forms)
+    # TODO: Is this needed?
+    # forms.each{|f| f.module_name = record_module.name}
+
+    # Make sure we always return an Array
+    forms.to_a
+  end
+
+  def permitted_fields(record_modules, record_type, visible_forms_only = false)
+    permitted_forms = self.permitted_forms(record_modules, record_type, visible_forms_only)
+    fields = permitted_forms.map(&:fields).flatten.uniq{|f| f.name}
+    # TODO: This method used to receive a parameter "read_only_user = false" but
+    # that logic seems to be something the exporters should handle.
+    # read_only_user ? fields.select { |field| field.showable? } : fields
+    fields
   end
 
   private
