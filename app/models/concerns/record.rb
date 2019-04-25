@@ -11,6 +11,11 @@ module Record
     before_save :populate_subform_ids
     after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
     after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
+
+    # has_many :attachment_images, as: :record
+    # has_many :other_documents, -> { where record_field_scope: 'other_documents' },
+    #   as: :record, class_name: 'AttachmentDocument'
+    # has_many :attachment_audio, as: :record
   end
 
   #TODO: Refactor when making names
@@ -25,6 +30,7 @@ module Record
       record.data = Utils.merge_data(record.data, data)
       record.set_creation_fields_for(user)
       record.set_owner_fields_for(user)
+      record.set_attachment_fields(data)
       record
     end
 
@@ -123,6 +129,7 @@ module Record
     properties['record_state'] = true if properties['record_state'].nil?
     self.data = Utils.merge_data(self.data, properties)
     self.last_updated_by = user_name
+    self.set_attachment_fields(properties)
   end
 
   def nested_reportables_hash

@@ -14,7 +14,7 @@
         <%= render 'form_section/display_alert', formObject: formObject, section: section %>
       <% end %>
       <% (section.fields.sort_by(&:order).select{|field| field.showable?}).each do |field| %>
-        <%= render :partial => field_template_path(field, true), :locals=>{:field => field, :formObject => formObject, :form_group_name => form_group_name, :form_id => section.unique_id, :display_audio_delete_checkbox => false, :lookups => lookups} %>
+        <%= render :partial => field_template_path(field, true), :locals=>{:field => field, :formObject => formObject.data, :record => formObject, :form_group_name => form_group_name, :form_id => section.unique_id, :display_audio_delete_checkbox => false, :lookups => lookups} %>
       <% end %>
     </fieldset>
   <% end %>
