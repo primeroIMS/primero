@@ -364,10 +364,10 @@ module IndexHelper
   end
 
   def audit_log_description_with_id(record_type, display_id)
-    if display_id.is_a?(Array)
+    if display_id.include?(',')
       content_tag(:ul) do
         concat(content_tag(:lh, record_type.pluralize))
-        display_id.each {|id| concat(content_tag(:li, "'#{id}'"))}
+        display_id.split(',').each {|id| concat(content_tag(:li, "'#{id}'"))}
       end
     else
       "#{record_type} '#{display_id}'"

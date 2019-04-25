@@ -10,11 +10,11 @@ module LoggerActions
   def logger_record_id
     #TODO - This is a patch because in the router, not all routes are using :id
     #TODO - This can change if the routes ever change to all use :id
-    @logger_record_id ||= params[:id] || params[:child_id] || params[:tracing_request_id] || params[:incident_id] || params[:selected_records].try(:split, ',')
+    @logger_record_id ||= params[:id] || params[:case_id] || params[:tracing_request_id] || params[:incident_id]
   end
 
   def logger_display_id
-    logger_record_id
+    logger_record_id || params[:selected_records]
   end
 
   def logger_action_identifier
@@ -68,18 +68,10 @@ module LoggerActions
     return 0 if action_name == "index" && params[:format].blank?
     logger.info("#{logger_action_prefix} #{logger_action_identifier} #{logger_action_suffix}")
 
-    audit_log_h = { :user_name => logger_job_user_name, :action_name => logger_action_name,
-                    :record_type => logger_model_titleize, :record_id => logger_record_id,
-                    :display_id => logger_display_id, :owned_by => logger_owned_by,
-                    :mobile_data => logger_mobile_data }
-    if logger_record_id.is_a?(Array)
-      logger_record_id.each do |record_id|
-        audit_log_h[:record_id] = audit_log_h[:display_id] = record_id
-        AuditLogJob.perform_later(audit_log_h)
-      end
-    else
-      AuditLogJob.perform_later(audit_log_h)
-    end
+    AuditLogJob.perform_later(user_name: logger_job_user_name, action_name: logger_action_name,
+                              record_type: logger_model_titleize, record_id: logger_record_id,
+                              display_id: logger_display_id, owned_by: logger_owned_by,
+                              mobile_data: logger_mobile_data)
   end
 
 end
