@@ -15,7 +15,11 @@ module Record
 
   #TODO: Refactor when making names
   def self.model_from_name(name)
-    name == 'case' ? Child : Object.const_get(name.camelize)
+    case name
+      when 'case' then Child
+      when 'violation' then Incident
+      else Object.const_get(name.camelize)
+    end
   end
 
   module ClassMethods
