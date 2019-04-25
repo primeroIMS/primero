@@ -20,7 +20,7 @@
       <div class="row">
         <div class="large-12 columns">
           <%= form_for @role, :html => {:class => '', :autocomplete => "off"} do |f| %>
-              <%= error_messages_for :role %>
+              <%= error_messages_for(@role) %>
               <fieldset class="no-border">
                 <div class="row">
                   <div class="medium-4 columns">

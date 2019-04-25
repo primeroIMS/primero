@@ -21,10 +21,9 @@ system_locale = I18n.locale
               </p>
             </div>
             <fieldset class="no-border">
-              <%= error_messages_for :form_section,
-                                     :header_tag => :h2,
+              <%= error_messages_for(@form_section,
                                      :header_message => t("form_section.messages.cannot_create"),
-                                     :message => t('form_section.messages.correct_errors') %>
+                                     :message => t('form_section.messages.correct_errors')) %>
               <%= hidden_field_tag "module_id", @module_id, :id => "form_section_module_id" %>
               <%= hidden_field_tag "form_section[parent_form]", @parent_form, :id => "form_section_parent_form" %>
 

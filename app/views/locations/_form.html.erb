@@ -24,7 +24,7 @@
       <% if editing %>
         <div class="callout warning"><%= t('location.location_code_warning') %></div>
       <% end %>
-      <%= f.error_messages :header_tag => :h2 %>
+      <%= error_messages_for(@location) %>
       <% if editing %>
         <div class="row">
           <div class="medium-9 medium-offset-3 columns">

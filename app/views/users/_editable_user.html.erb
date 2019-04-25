@@ -9,7 +9,7 @@
 <% end %>
 <%= form_for editable_user, :html => {:class => 'default-form data-form', :autocomplete => "off", "data-abide" => ''} do |f| %>
     <div class="clearfix"></div>
-    <%= f.error_messages :header_tag => :h3 %>
+    <%= error_messages_for(editable_user) %>
     <% trying_to_edit_ourself = editing_ourself?(editable_user) %>
 
     <div class="clearfix"></div>
