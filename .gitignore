@@ -28,15 +28,6 @@ primero-configuration
 tags
 tags.lock
 public/assets/
-#config/couchdb.yml
-#config/database.yml
-#config/mailers.yml
-#config/solr.yml
-#config/sunspot.yml
-#config/selenium.yml
-#config/backburner.yml
-#config/couch_watcher.yml
-#config/locales.yml
 vendor/bundle/
 vendor/cache/
 vendor/ruby/
