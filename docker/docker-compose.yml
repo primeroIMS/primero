@@ -15,6 +15,8 @@ services:
       - "8394:8394"
     env_file:
       - docker/defaults.env
+    volumes:
+      - solr_cores:/opt/solr/server/solr/mycores
   beanstalkd:
     image: beanstalkd:prim-latest
     env_file:
@@ -44,3 +46,4 @@ volumes:
   certbot_etc:
   primero_tmp:
   logs:
+  solr_cores:
