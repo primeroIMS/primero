@@ -253,6 +253,8 @@ module Exporters
       case attr_name
       when 'name'
         obj["hidden_name"] ? '***hidden***' : obj["name"]
+      when 'owned_by_agency'
+        obj.data[attr_name]['id']
       else
         obj.respond_to?('data') ? obj.data[attr_name] : obj[attr_name]
       end
@@ -281,6 +283,7 @@ module Exporters
       #when Hash
         #value.inject {|acc, (k,v)| acc.merge({ k => format_field(field, v) }) }
       else
+        return render_i18n_text(field.display_text(value)) if (value.is_a?(Integer) && field.option_strings_source.present?)
         render_i18n_text(value.to_s)
       end
     end
