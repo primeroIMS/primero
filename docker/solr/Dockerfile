@@ -1,4 +1,4 @@
-FROM solr:7.7.1-alpine
+FROM solr:5-alpine
 
 ENV SOLR_PACKAGES gettext libintl
 ENV SOLR_USER=solr
@@ -12,7 +12,6 @@ COPY --chown=solr [ "solr/solr.xml", "/opt/solr" ]
 RUN set -euox pipefail \
         ; apk update \
         ; apk add $SOLR_PACKAGES \
-        # theoretically this is redundant
         ; chown -R $SOLR_USER:$SOLR_GROUP /opt/solr/server/solr/configsets \
         ; chmod -R 700 /opt/solr/server/solr/configsets \
         ; chmod +x /sub.sh

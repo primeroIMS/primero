@@ -16,7 +16,7 @@ then
 fi
 set -u
 
-# if primero exists then prefer the rails / rake binaries from the repo
+# if primero exists then prefer the rails / rails binaries from the repo
 if [ -d "$APP_ROOT/bin" ];
 then
   printf "Adding primero/bin to path\\n"
@@ -31,14 +31,14 @@ touch "${RAILS_LOG_PATH}/${RAILS_ENV}.log"
 if [ "$1" == "primero" ] && [[ "$#" -eq 1 ]];
 then
   # shellcheck disable=SC2034
-  DISABLE_DATABASE_ENVIRONMENT_CHECK=1
-  rake db:drop
-  rake db:create
-  rake db:migrate
-  rake db:seed
-  rake sunspot:reindex
-  rake tmp:cache:clear
-  rake app:assets_precompile
+  DISABLE_DATABASE_ENVIRONMENT_CHECK=1 rails db:drop
+  rails db:create
+  rails db:migrate
+  rails db:seed
+  # not working
+  # rails sunspot:reindex
+  rails tmp:cache:clear
+  rails assets:precompile
 else
   exec "$@"
 fi

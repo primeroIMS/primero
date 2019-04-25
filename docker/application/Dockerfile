@@ -2,7 +2,7 @@ FROM ruby:2.6.2-alpine3.9
 
 ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
-ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl
+ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl yarn openjdk8
 ENV DEV_PACKAGES busybox-extras
 ENV RAILS_ENV production
 
