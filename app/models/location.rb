@@ -1,6 +1,7 @@
 class Location < ApplicationRecord
 
   include LocalizableJsonProperty
+  include Configuration
   # include Memoizable
 
   # we should use `ENUMS`

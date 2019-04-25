@@ -33,7 +33,7 @@ class User < ApplicationRecord
 
   validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
 
-  validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation")
+  validates_presence_of :password_confirmation, :message => I18n.t("errors.models.user.password_confirmation"), if: -> { password.present? }
   validates_presence_of :role_id, :message => I18n.t("errors.models.user.role_ids")
   validates_presence_of :module_ids, :message => I18n.t("errors.models.user.module_ids")
 
@@ -43,7 +43,7 @@ class User < ApplicationRecord
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-zA-Z0-9]+\.)+[a-zA-Z]{2,})$\z/, :if => :email_entered?,
                       :message => I18n.t("errors.models.user.email")
   validates_format_of :password, :with => /\A(?=.*[a-zA-Z])(?=.*[0-9]).{8,}\z/,
-                      :message => I18n.t("errors.models.user.password_text")
+                      :message => I18n.t("errors.models.user.password_text"), if: -> { password.present? }
 
   validates_confirmation_of :password, :message => I18n.t("errors.models.user.password_mismatch")
 
