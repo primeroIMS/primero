@@ -10,7 +10,7 @@ begin
                                          .first
   end
 rescue ActiveRecord::NoDatabaseError => e
-  puts e.message
+  Rails.logger.error e.message
 end
 
 if locale_settings.present?

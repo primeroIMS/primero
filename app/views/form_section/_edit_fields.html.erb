@@ -153,10 +153,9 @@
             %>
             <% if (@field.errors.any?) %>
               <fieldset class="no-border">
-                <%= error_messages_for  :field,
-                                        :header_tag => :h2,
-                                        :header_message => t("form_section.messages.cannot_create"),
-                                        :message => t('form_section.messages.correct_errors') %>
+                <%= error_messages_for(@field,
+                                       :header_message => t("form_section.messages.cannot_create"),
+                                       :message => t('form_section.messages.correct_errors')) %>
               </fieldset>
             <% end %>
             <%= render :partial => 'form_section/add_field', :locals => {:div_id => "field_details", :fields => [
