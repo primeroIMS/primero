@@ -301,7 +301,7 @@ class User < ApplicationRecord
 
   def permitted_fields(record_modules, record_type, visible_forms_only = false)
     permitted_forms = self.permitted_forms(record_modules, record_type, visible_forms_only)
-    fields = permitted_forms.map(&:fields).flatten.uniq{|f| f.name}
+    fields = permitted_forms.map(&:fields).flatten
     # TODO: This method used to receive a parameter "read_only_user = false" but
     # that logic seems to be something the exporters should handle.
     # read_only_user ? fields.select { |field| field.showable? } : fields
