@@ -26,6 +26,7 @@ debug.html
 dev-node.json
 primero-configuration
 tags
+tags.lock
 public/assets/
 #config/couchdb.yml
 #config/database.yml

@@ -37,6 +37,7 @@ public/assets
 rerun.txt
 rspec
 tags
+tags.lock
 tmp
 vendor/bundle/
 vendor/cache/
