@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :potential_match, :traits => [ :model ] do
     association :tracing_request
     association :child
-    average_rating 5.4321
+    average_rating { 5.4321 }
     unique_identifier { counter.to_s }
 
     after(:build) do |potential_match, factory|
