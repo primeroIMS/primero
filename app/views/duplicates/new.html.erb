@@ -3,7 +3,7 @@
 <div class="page-content-new">
   <div class="side-tab-content full_width">
 
-    <%= error_messages_for @child %>
+    <%= error_messages_for(@child) %>
     <%= render :partial => "children/summary_row", :object => @child, :as => :child, :locals => { :checkbox => false, :show_links => false } %>
 
     <%= form_tag child_duplicate_path(@child), :method => :post, :autocomplete => "off" do %>

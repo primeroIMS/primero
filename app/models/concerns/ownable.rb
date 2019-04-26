@@ -22,63 +22,6 @@ module Ownable
     before_save :update_ownership
   end
 
-  module ClassMethods
-
-    #TODO: Refactor with Export
-    #Returns the hash with the properties within the form sections based on module and current user.
-    # def get_properties_by_module(user, modules)
-    #   read_only_user = user.readonly?(self.name.underscore)
-    #   properties_by_module = {}
-    #   modules.each do |primero_module|
-    #     form_sections = allowed_formsections(user, primero_module)
-    #     form_sections = form_sections.map{|key, forms| forms }.flatten
-    #     properties_by_module[primero_module.unique_id] = {}
-    #     form_sections.each do |section|
-    #       properties = self.properties_by_form[section.unique_id]
-    #       if read_only_user
-    #         readable_props = section.fields.map{|f| f.name if f.showable?}.flatten.compact
-    #         properties = properties.select{|k,v| readable_props.include?(k)}
-    #       end
-    #       properties_by_module[primero_module.unique_id][section.unique_id] = properties
-    #     end
-    #   end
-    #   properties_by_module
-    # end
-
-    def allowed_formsections(user, primero_module)
-      FormSection.get_allowed_visible_forms_sections(primero_module, self.parent_form, user)
-    end
-
-    # Returns all of the properties that the given user is permitted to view/edit
-    # read_only_user params is to indicate the user should not see properties
-    # that don't display on the show page.
-    def permitted_properties(user, primero_module, read_only_user = false)
-      permitted = []
-      form_sections = allowed_formsections(user, primero_module)
-      form_sections = form_sections.map{|key, forms| forms }.flatten
-      form_sections.each do |section|
-        #TODO: Refactor with MRM
-        # if section.is_violation_wrapper?
-        #   properties = Incident.properties.select{|p| p.name == 'violations'}
-        # else
-        #properties = self.properties_by_form[section.unique_id].values
-        if read_only_user
-          fields = section.fields.select(&:showable?)
-        else
-          fields = section.fields
-        end
-        #end
-        permitted += fields
-      end
-      permitted = permitted.uniq{|f| f.name}
-      return permitted
-    end
-
-    def permitted_property_names(user, primero_module, read_only_user = false)
-      self.permitted_properties(user, primero_module, read_only_user).map {|p| p.name }
-    end
-  end
-
   def set_owner_fields_for(user)
     self.owned_by = user.user_name
     self.owned_by_full_name = user.full_name
