@@ -239,8 +239,8 @@ module Exporters
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
       end
 
-      def load_fields(model)
-        @fields = model.field_definitions if model.present?
+      def load_fields(fields)
+        @fields = fields
       end
     end
 

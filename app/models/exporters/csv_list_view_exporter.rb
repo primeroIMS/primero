@@ -36,8 +36,7 @@ module Exporters
 
     def export(models, properties, current_user, params)
       field_map = build_field_map(models.first.class.name, current_user)
-
-      self.class.load_fields(models.first, user: current_user) if models.present?
+      self.class.load_fields(properties) if models.present?
 
       csv_list = CSV.generate do |rows|
         # @called_first_time is a trick for batching purposes,
@@ -53,7 +52,9 @@ module Exporters
             when Proc
               generator.call(model)
             else
-              self.class.translate_value(generator, CSVListViewExporter.to_exported_value(model.try(generator.to_sym)))
+              field_value = model.try(generator.to_sym)
+              field_value = field_value["id"] if generator.eql?("owned_by_agency")
+              self.class.translate_value(generator, CSVListViewExporter.to_exported_value(field_value))
             end
           end
         end

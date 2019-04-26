@@ -2,11 +2,11 @@
 module Exporters
   #TODO: Refactor with Export
   ACTIVE_EXPORTERS = [
-    CSVListViewExporter
+    CSVListViewExporter,
     # IncidentRecorderExporter,
     # CSVExporter,
     # ExcelExporter,
-    JSONExporter
+    JSONExporter,
     # PhotoWallExporter,
     # PDFExporter,
     # UnhcrCSVExporter,
