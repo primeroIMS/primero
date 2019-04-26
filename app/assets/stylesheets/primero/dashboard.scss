@@ -72,7 +72,7 @@ $dashboard_table_counts:85px;
     font-size: 1.3em;
   }
 
-  a.section-stat {
+  a.section-stat, div.section-stat {
     text-align: center;
     text-decoration: none;
     padding: 1em 0;
@@ -150,7 +150,7 @@ $dashboard_table_counts:85px;
       display: inline-flex;
 
       li {
-        a {
+        a, .no_link {
           align-items: center;
 
           span {

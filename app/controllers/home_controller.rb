@@ -3,6 +3,8 @@ class HomeController < ApplicationController
 
   before_action :load_default_settings, :only => [:index]
   before_action :can_access_approvals, :only => [:index]
+  before_action :can_read_cases, :only => [:index]
+  before_action :can_read_incidents, :only => [:index]
   before_action :load_risk_levels, :only => [:index]
 
   def index
@@ -495,6 +497,14 @@ class HomeController < ApplicationController
     @can_approval_case_plan = can?(:approve_case_plan, Child) || can?(:request_approval_case_plan, Child)
     @can_approval_closure = can?(:approve_closure, Child) || can?(:request_approval_closure, Child)
     @can_approvals = @can_approval_bia || @can_approval_case_plan || @can_approval_closure
+  end
+
+  def can_read_cases
+    @can_read_cases = can?(:index, Child)
+  end
+
+  def can_read_incidents
+    @can_read_incidents = can?(:index, Incident)
   end
 
   def load_recent_activities
