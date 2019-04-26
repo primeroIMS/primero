@@ -8,10 +8,8 @@
           <label class="key"><%= I18n.t("fields.#{field.name}") %></label>
         </div>
         <div class="medium-8 columns">
-          <%= link_to document.document.filename.to_s, url_for(document.document),
-            class: 'document', data: { turbolinks: false } %>
-          <%#document_url = send("#{formObject.class.name.underscore.downcase}_document_url", formObject.id, document["attachment_key"]) %>
-          <%# link_to document.document.filename.to_s, document_url, :class => "document", data: { turbolinks: false } %>
+          <%= link_to document.document.filename.to_s, rails_blob_path(document.document, disposition: "attachment"),
+            class: 'document download_attachment', data: { turbolinks: true } %>
         </div>
       </div>
       <div class="row">
