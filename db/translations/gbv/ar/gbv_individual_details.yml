@@ -3,7 +3,7 @@ ar:
   gbv_individual_details:
     name: "تفاصيل عن الناجية من العنف القائم على اساس النوع الاجتماعي "
     description: تفاصيل عن الناجية من العنف القائم على اساس النوع الاجتماعي
-    form_group_name: "تفاصيل عن الناجية من العنف القائم على اساس النوع الاجتماعي "
+    # form_group_name: "تفاصيل عن الناجية من العنف القائم على اساس النوع الاجتماعي "
     fields:
       survivor_code:
         display_name: رمز الناجية
@@ -35,7 +35,7 @@ ar:
       disability_type:
         display_name: نوع الإعاقة
         option_strings_text:
-          'no': 'لا توجد إعاقة'
+          "no": "لا توجد إعاقة"
           mental_disability: إعاقة ذهنية
           physical_disability: إعاقة جسدية
           mental_physical_disability: إعاقة ذهنية وجسدية
