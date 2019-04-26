@@ -36,7 +36,7 @@ module Exporters
 
     def export(models, properties, current_user, params)
       field_map = build_field_map(models.first.class.name, current_user)
-      self.class.load_fields(properties) if models.present?
+      @fields = properties
 
       csv_list = CSV.generate do |rows|
         # @called_first_time is a trick for batching purposes,

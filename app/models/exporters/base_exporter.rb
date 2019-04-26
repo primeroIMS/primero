@@ -238,10 +238,6 @@ module Exporters
       def get_model_location_value(model, property)
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
       end
-
-      def load_fields(fields)
-        @fields = fields
-      end
     end
 
     def initialize(output_file_path=nil)
