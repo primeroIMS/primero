@@ -11,11 +11,6 @@ module Record
     before_save :populate_subform_ids
     after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
     after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
-
-    # has_many :attachment_images, as: :record
-    # has_many :other_documents, -> { where record_field_scope: 'other_documents' },
-    #   as: :record, class_name: 'AttachmentDocument'
-    # has_many :attachment_audio, as: :record
   end
 
   #TODO: Refactor when making names
