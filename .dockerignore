@@ -26,6 +26,7 @@
 .vagrant
 .~*
 Guardfile
+node_modules
 capybara_features
 cookbook
 coverage
