@@ -34,15 +34,16 @@ prim_source_defaults() {
 # avoid outputting the filename to the prompt
 prim_perform_substitution() {
   printf "Performing substitution on: %s\\n" "${PRIM_FILENAME}"
-  cat "${PRIM_FILENAME}" | envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" > "${PRIM_FILENAME}"
+  cat "${PRIM_FILENAME}" | envsubst "$(env | sed -e 's/=.*//' -e 's/^/\$/g')" > "${PRIM_NEW_FILENAME}"
 }
 
 set +x
 # Does this loop break if the filename has spaces? Maybe
 for prim_path in $(find "$1" -iname "*.template" -print0 | xargs -0 -n1);
 do
+  echo "$prim_path"
   PRIM_FILENAME="$prim_path"
-  PRIM_FILENAME=$(prim_rename_file "${PRIM_FILENAME}")
+  PRIM_NEW_FILENAME=$(prim_rename_file "${PRIM_FILENAME}")
   PRIM_DEFAULT_FILENAME="$prim_path.default"
   # If the filename has a .template extension, then we are going to copy it to
   # the same name / path without .template to avoid overwriting our template
