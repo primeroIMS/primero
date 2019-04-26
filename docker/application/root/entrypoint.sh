@@ -27,6 +27,8 @@ fi
 mkdir -p "${RAILS_LOG_PATH}/${RAILS_ENV}"
 touch "${RAILS_LOG_PATH}/${RAILS_ENV}.log"
 
+mkdir -p "${APP_ROOT}/node_modules"
+
 # If you pass "primero" as the arg, then start primero and don't eval anything
 if [ "$1" == "primero" ] && [[ "$#" -eq 1 ]];
 then
@@ -39,6 +41,7 @@ then
   # rails sunspot:reindex
   rails tmp:cache:clear
   rails assets:precompile
+  rails s
 else
   exec "$@"
 fi
