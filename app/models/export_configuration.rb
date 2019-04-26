@@ -1,6 +1,7 @@
 class ExportConfiguration < ApplicationRecord
   # include Memoizable
   include LocalizableJsonProperty
+  include Configuration
 
   localize_properties :name
 
