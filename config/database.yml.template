@@ -1,6 +1,6 @@
 $RAILS_ENV:
   adapter: postgresql
-  database: $POSTGRES_DATABASE
+  database: primero_$RAILS_ENV
   username: $POSTGRES_USER
   password: $POSTGRES_PASSWORD
   host: $POSTGRES_HOSTNAME
