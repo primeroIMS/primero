@@ -1,4 +1,4 @@
-class TracingRequest < ActiveRecord::Base
+class TracingRequest < ApplicationRecord
 
   include Record
   include Searchable

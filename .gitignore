@@ -24,7 +24,6 @@ debug.html
 .rvmrc
 .vagrant
 dev-node.json
-bin
 primero-configuration
 tags
 public/assets/

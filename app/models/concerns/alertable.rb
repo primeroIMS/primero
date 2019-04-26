@@ -12,7 +12,7 @@ module Alertable
     attr_accessor :type, :alert_for, :date, :form_sidebar_id, :unique_id, :user, :agency
     def initialize(args={})
       super(args)
-      self.unique_id ||= UUIDTools::UUID.random_create.to_s
+      self.unique_id ||= SecureRandom.uuid
       self.form_sidebar_id || 'new_form'
     end
   end

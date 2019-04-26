@@ -563,7 +563,7 @@ describe IncidentsController, :type => :controller do
     # end
 
     # it "should allow a records ID to be specified to create a new record with a known id" do
-      # new_uuid = UUIDTools::UUID.random_create()
+      # new_uuid = SecureRandom.uuid
       # put :update, :id => new_uuid.to_s,
         # :incident => {
             # :id => new_uuid.to_s,

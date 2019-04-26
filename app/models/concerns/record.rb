@@ -1,8 +1,6 @@
 module Record
   extend ActiveSupport::Concern
 
-  require "uuidtools"
-
   STATUS_OPEN = 'open' ; STATUS_CLOSED = 'closed'
 
   included do
@@ -13,6 +11,11 @@ module Record
     before_save :populate_subform_ids
     after_save :index_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
     after_destroy :unindex_nested_reportables, unless: Proc.new{ Rails.env == 'production' }
+  end
+
+  #TODO: Refactor when making names
+  def self.model_from_name(name)
+    name == 'case' ? Child : Object.const_get(name.camelize)
   end
 
   module ClassMethods
@@ -39,17 +42,13 @@ module Record
     end
 
     def generate_unique_id
-      return UUIDTools::UUID.random_create.to_s
+      return SecureRandom.uuid
     end
 
     def parent_form
       self.name.underscore.downcase
     end
 
-    #TODO: Refactor when making names
-    def model_from_name(name)
-      name == 'case' ? Child : Object.const_get(name.camelize)
-    end
 
     #TODO: Refactor with UIUX
     def model_name_for_messages
@@ -64,6 +63,7 @@ module Record
     def nested_reportable_types ; [] ; end
 
   end
+
 
   #Override this in the implementing classes to set your own defaults
   def defaults
@@ -141,7 +141,7 @@ module Record
         if value.is_a?(Array) && value.first.is_a?(Hash)
           value.each do |subform|
             unless subform['unique_id'].present?
-              subform['unique_id'] = UUIDTools::UUID.random_create.to_s
+              subform['unique_id'] = SecureRandom.uuid
             end
           end
         end

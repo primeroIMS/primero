@@ -1,5 +1,5 @@
 def create_or_update_export_config(config_hash)
-  export_config_id = config_hash[:id]
+  export_config_id = config_hash[:unique_id]
   export_config = ExportConfiguration.find_by(unique_id: export_config_id)
 
   if export_config.nil?

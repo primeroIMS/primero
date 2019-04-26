@@ -1,4 +1,4 @@
-class BulkExport < ActiveRecord::Base
+class BulkExport < ApplicationRecord
 
   include Indexable
 
@@ -48,17 +48,6 @@ class BulkExport < ActiveRecord::Base
 
   def custom_export_params
     self['custom_export_params'].with_indifferent_access if self['custom_export_params'].present?
-  end
-
-  #TODO: This is happening because bulk_export objects cannot be serialized.
-  #      Revisit when upgrading to Rails 4.2
-  #TODO: This is also happening because this logic is on the controller rather than the User object or Record class
-  def permitted_properties=(permitted_properties)
-    self.permitted_property_keys = properties_by_module_to_keys(permitted_properties)
-  end
-
-  def permitted_properties
-    @permitted_properties ||= property_keys_by_module_to_properties(self.permitted_property_keys, model_class)
   end
 
   def mark_started
@@ -153,38 +142,6 @@ class BulkExport < ActiveRecord::Base
 
   def job
     BulkExportJob
-  end
-
-  private
-
-  def properties_by_module_to_keys(properties_by_module)
-    property_keys = {}
-    properties_by_module.each do |module_id, forms_hash|
-      forms_keys = {}
-      forms_hash.each do |form_name, fields_hash|
-        forms_keys[form_name] = fields_hash.keys
-      end
-      property_keys[module_id] = forms_keys
-    end
-    return property_keys
-  end
-
-  def property_keys_by_module_to_properties(property_keys, model_class)
-    model_properties = model_class.properties.reduce({}) do |acc, property|
-      acc[property.name] = property ; acc
-    end
-    properties_by_module = {}
-    property_keys.each do |module_id, forms_keys|
-      forms_hash = {}
-      forms_keys.each do |form_name, keys|
-        properties_hash = keys.reduce({}) do |acc, key|
-          acc[key] = model_properties[key] ; acc
-        end
-        forms_hash[form_name] = properties_hash
-      end
-      properties_by_module[module_id] = forms_hash
-    end
-    return properties_by_module
   end
 
 end

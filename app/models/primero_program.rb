@@ -1,5 +1,6 @@
-class PrimeroProgram < ActiveRecord::Base
+class PrimeroProgram < ApplicationRecord
   include LocalizableJsonProperty
+  include Configuration
 
   localize_properties :name, :description
 

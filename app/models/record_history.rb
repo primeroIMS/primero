@@ -1,4 +1,4 @@
-class RecordHistory < ActiveRecord::Base
+class RecordHistory < ApplicationRecord
   belongs_to :record, polymorphic: true
 
   def user

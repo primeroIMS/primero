@@ -20,7 +20,7 @@
       <div class="row">
         <div class="large-12 columns">
           <%= form_for @role, :html => {:class => '', :autocomplete => "off"} do |f| %>
-              <%= error_messages_for :role %>
+              <%= error_messages_for(@role) %>
               <fieldset class="no-border">
                 <div class="row">
                   <div class="medium-4 columns">
@@ -79,7 +79,7 @@
                   </div>
                   <div class="medium-8 columns">
                     <span class="value value_form">
-                      <% translated_permissions_list(@role.permissions_list).each_with_index do |permission, index| %>
+                      <% translated_permissions_list(@role.permissions).each_with_index do |permission, index| %>
                         <span class="section section-show">
                           <span class="title"><%= permission[:resource_translated] %></span>
                           <% if permission[:resource] == Permission::ROLE %>
@@ -103,7 +103,7 @@
 
                 <div class="row">
                   <div class="medium-4 columns">
-                    <%= f.label :permitted_form_ids, t("forms.label"), :class=>'key'  %>
+                    <%= f.label :form_sections, t("forms.label"), :class=>'key'  %>
                   </div>
                   <div class="medium-8 columns">
                     <span class="value value_form">
@@ -111,7 +111,7 @@
                           <span class="section section-show">
                             <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
                             <% forms_list.each do |form| %>
-                              <label><%= f.check_box :permitted_form_ids, {:id => "role_#{form.unique_id}", :name => "role[permitted_form_ids][]", disabled: "disabled"}, form.unique_id, "" %>
+                              <label><%= f.check_box :form_section_ids, {:id => "role_#{form.id}", :name => "role[form_section_ids][]", disabled: "disabled"}, form.id, "" %>
                               <%= form.name %></label>
                             <% end %>
                           </span>

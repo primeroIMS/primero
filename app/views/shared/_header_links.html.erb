@@ -21,7 +21,7 @@
         <ul class="menu">
           <% Primero::Application::locales.each do |new_locale| %>
             <li>
-              <%= link_to t("home.#{new_locale}"), url_add_params(request.original_url, { locale: new_locale }), data: { turbolinks: false } %>
+              <%= link_to t("home.#{new_locale}"), url_for(params.merge({ locale: new_locale })), data: { turbolinks: false } %>
             </li>
           <% end %>
         </ul>

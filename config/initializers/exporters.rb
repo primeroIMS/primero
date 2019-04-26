@@ -6,7 +6,7 @@ module Exporters
     # IncidentRecorderExporter,
     # CSVExporter,
     # ExcelExporter,
-    # JSONExporter,
+    JSONExporter
     # PhotoWallExporter,
     # PDFExporter,
     # UnhcrCSVExporter,

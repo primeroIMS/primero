@@ -1,15 +1,14 @@
 def create_or_update_role(role_hash)
-  role_id = Role.id_from_name role_hash[:name]
-  role = Role.find_by(unique_id: role_id)
+  role = Role.find_by(unique_id: role_hash[:unique_id])
 
   if role.blank?
-    puts "Creating role #{role_id}"
-    Role.create! role_hash
+    puts "Creating role #{role_hash[:unique_id]}"
+    role = Role.create! role_hash
   else
-    puts "Updating role #{role_id}"
+    puts "Updating role #{role_hash[:unique_id]}"
     role.update_attributes role_hash
   end
-
+  role.associate_all_forms
 end
 
 cp_admin_permissions = [

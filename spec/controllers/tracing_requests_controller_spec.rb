@@ -529,7 +529,7 @@ describe TracingRequestsController, :type => :controller do
     end
 
     it "should allow a records ID to be specified to create a new record with a known id" do
-      new_uuid = UUIDTools::UUID.random_create()
+      new_uuid = SecureRandom.uuid
       put :update, params: { :id => new_uuid.to_s,
         :tracing_request => {
             :id => new_uuid.to_s,

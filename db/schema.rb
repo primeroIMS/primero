@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190410000000) do
+ActiveRecord::Schema.define(version: 2019_04_15_000000) do
 
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-  enable_extension "pgcrypto"
   enable_extension "ltree"
+  enable_extension "pgcrypto"
+  enable_extension "plpgsql"
 
   create_table "agencies", id: :serial, force: :cascade do |t|
     t.string "agency_code", null: false
@@ -56,7 +56,6 @@ ActiveRecord::Schema.define(version: 20190410000000) do
     t.string "query"
     t.string "match_criteria"
     t.jsonb "custom_export_params"
-    t.jsonb "permitted_property_keys"
     t.string "file_name"
     t.string "password"
   end
@@ -67,6 +66,11 @@ ActiveRecord::Schema.define(version: 20190410000000) do
     t.string "matched_trace_id"
     t.uuid "duplicate_case_id"
     t.index ["data"], name: "index_cases_on_data", using: :gin
+  end
+
+  create_table "configuration_bundles", id: :serial, force: :cascade do |t|
+    t.string "applied_by"
+    t.datetime "applied_at", default: -> { "now()" }, null: false
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|
@@ -186,6 +190,7 @@ ActiveRecord::Schema.define(version: 20190410000000) do
   create_table "form_sections_roles", id: false, force: :cascade do |t|
     t.integer "role_id"
     t.integer "form_section_id"
+    t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
   end
 
   create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

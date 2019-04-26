@@ -1,10 +1,11 @@
-class Role < ActiveRecord::Base
+class Role < ApplicationRecord
 
   #include Importable #TODO: This will need to be rewritten
-  include Memoizable
+  # include Memoizable
   include Cloneable
+  include Configuration
 
-  has_and_belongs_to_many :form_sections
+  has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :roles
 
   validates :permissions_list, presence: { message: I18n.t("errors.models.role.permission_presence") }
@@ -12,7 +13,6 @@ class Role < ActiveRecord::Base
                    uniqueness: { message: I18n.t("errors.models.role.unique_name") }
 
   before_create :generate_unique_id
-  before_save :add_permitted_subforms
 
   scope :by_referral, -> { where(referral: true) }
   scope :by_transfer, -> { where(transfer: true) }
@@ -36,16 +36,6 @@ class Role < ActiveRecord::Base
 
   def has_permitted_form_id?(form_unique_id_id)
     self.form_sections.map(&:unique_id).include?(form_unique_id_id)
-  end
-
-  def add_permitted_subforms
-    if self.form_sections.present?
-      subforms = FormSection.get_subforms(self.form_sections)
-      all_permitted_form = self.form_sections | subforms
-      if all_permitted_form.present?
-        self.form_sections << subforms
-      end
-    end
   end
 
   def permissions
@@ -95,6 +85,32 @@ class Role < ActiveRecord::Base
     def id_from_name(name)
       "#{self.name}-#{name}".parameterize.dasherize
     end
+
+    alias super_clear clear
+    def clear
+      # According documentation this is the best way to delete the values on HABTM relation
+      self.all.each do |f|
+        f.form_sections.destroy(f.form_sections)
+        f.roles.destroy(f.roles)
+      end
+      super_clear
+    end
+
+    alias super_import import
+    def import(data)
+      data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?
+      super_import(data)
+    end
+
+    def export
+      self.all.map do |record|
+        record.attributes.tap do |r|
+          r.delete('id')
+          r['form_sections'] = record.form_sections.pluck(:unique_id)
+        end
+      end
+    end
+
   end
 
   def associated_role_ids
@@ -125,6 +141,15 @@ class Role < ActiveRecord::Base
     end
   end
 
+  def associate_all_forms
+    permissions_with_forms = self.permissions.select{|p| p.resource.in?([Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST])}
+    forms_by_parent = FormSection.all_forms_grouped_by_parent
+    permissions_with_forms.map do |permission|
+      self.form_sections << forms_by_parent[permission.resource].reject {|f| self.form_sections.include?(f)}
+      self.save
+    end
+  end
+
   private
 
   def has_managed_resources?(resources)
@@ -133,4 +158,3 @@ class Role < ActiveRecord::Base
   end
 
 end
-

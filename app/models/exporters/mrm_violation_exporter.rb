@@ -1,5 +1,4 @@
 require 'writeexcel'
-require_relative 'base.rb'
 
 module Exporters
   class MRMViolationExporter < BaseExporter

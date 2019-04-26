@@ -15,6 +15,7 @@ class CreateRoles < ActiveRecord::Migration[5.0]
       t.integer :role_id
       t.integer :form_section_id
     end
+    add_index :form_sections_roles, [:role_id, :form_section_id], unique: true
 
     create_table :roles_roles, :id => false do |t|
       t.integer :role_id

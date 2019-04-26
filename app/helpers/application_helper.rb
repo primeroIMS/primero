@@ -1,5 +1,6 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+
   @@menu_groups = {
     "Home" => "root",
     "Children" => "cases",
@@ -100,9 +101,9 @@ module ApplicationHelper
   end
 
   def translated_permissions_list(permission_list)
-    permission_list.map{|p| {resource: p[:resource],
-                             resource_translated: I18n.t(p[:resource], scope: 'permissions.permission'),
-                             actions_translated: translated_hash_list(p[:actions], 'permissions.permission', p[:resource])}}
+    permission_list.map{|p| {resource: p.resource,
+                             resource_translated: I18n.t(p.resource, scope: 'permissions.permission'),
+                             actions_translated: translated_hash_list(p.actions, 'permissions.permission', p.resource)}}
   end
 
   # Input:  an array of strings
@@ -123,7 +124,7 @@ module ApplicationHelper
   # Input: action_hash (from the translated permissions)
   # Output: true/false
   def is_permission_checked(permission_list = [], resource = "", action_hash = {})
-    permission_list.select{|p| p.resource == resource}.any? {|p| p[:actions].include? action_hash[:key]}
+    permission_list.select{|p| p.resource == resource}.any? {|p| p.actions.include? action_hash[:key]}
   end
 
   def ctl_edit_button(record, path=nil)
@@ -247,13 +248,5 @@ module ApplicationHelper
     html = content_tag(:i, nil, html_options)
     html << ' ' << text.to_s unless text.blank?
     html
-  end
-
-  def url_add_params(url, params)
-    parsed_uri = Addressable::URI.parse(url)
-    params = (params || {}).with_indifferent_access
-    query_params = (parsed_uri.query_values || {}).with_indifferent_access
-    parsed_uri.query_values = query_params.merge(params)
-    parsed_uri.to_s
   end
 end

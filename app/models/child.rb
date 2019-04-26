@@ -1,4 +1,4 @@
-class Child < ActiveRecord::Base
+class Child < ApplicationRecord
   self.table_name = 'cases'
 
   CHILD_PREFERENCE_MAX = 3
@@ -66,10 +66,10 @@ class Child < ActiveRecord::Base
   alias child_status status ; alias child_status= status=
 
   has_many :incidents
-  belongs_to :matched_tracing_request, class_name: 'TracingRequest'
+  belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
 
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
-  belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id'
+  belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
 
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
