@@ -69,3 +69,4 @@ encrypted_file
 yarn-debug.log*
 .yarn-integrity
 .vscode
+storage/
