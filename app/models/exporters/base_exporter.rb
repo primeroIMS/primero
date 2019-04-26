@@ -16,7 +16,6 @@ module Exporters
       Field::TALLY_FIELD,
       Field::SUBFORM
     ]
-
     class << self
       #extend Memoist
 
@@ -122,6 +121,7 @@ module Exporters
 
       # @param properties: array of CouchRest Model Property instances
       def to_2D_array(models, properties)
+        @fields = properties
         emit_columns = lambda do |props, parent_props=[], &column_generator|
           props.map do |p|
             prop_tree = parent_props + [p]
@@ -190,7 +190,9 @@ module Exporters
             # still 0-based
             acc[prop - 1]
           else
-            acc["data"].present? ? acc["data"][prop.try(:name)] : acc[prop.try(:name)]
+            value = acc["data"].present? ? acc["data"][prop.try(:name)] : acc[prop.try(:name)]
+            value = value["id"] if prop.name.eql?("owned_by_agency")
+            value
           end
         end
       end
@@ -251,12 +253,8 @@ module Exporters
       def get_model_location_value(model, property)
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
       end
-
-      def load_fields(props)
-        # TODO: Will change when permitted_properties method from user is ready
-        @fields = Field.where(id: props.pluck(:id))
-      end
     end
+
 
     def initialize(output_file_path=nil)
       @io = if output_file_path.present?
