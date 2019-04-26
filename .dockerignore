@@ -36,6 +36,7 @@ log
 public/assets
 rerun.txt
 rspec
+spec
 tags
 tags.lock
 tmp
