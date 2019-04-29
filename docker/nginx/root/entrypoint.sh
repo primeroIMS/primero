@@ -17,6 +17,7 @@ printf "Checking for nginx log files"
 touch "${NGINX_LOG_DIR}/${NGINX_LOG_ACCESS}"
 touch "${NGINX_LOG_DIR}/${NGINX_LOG_ERROR}"
 
+# Basically, if we use letsencrypt then let certbot create the certificates
 if [[ "${USE_LETS_ENCRYPT}" == "true" ]];
 then
   certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m \
@@ -27,6 +28,7 @@ then
   NGINX_SSL_KEY_PATH="/etc/letsencrypt/live/$LETS_ENCRYPT_DOMAIN/privkey.pem"
 
 
+# Otherwise,
 # Here we generate new self signed certs. We only want to generate if:
 # USE_LETS_ENCRYPT is true AND we haven't already generated certificates
 # furthermore, we want to generate if the force flag is set to true
