@@ -4,36 +4,23 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { Nav } from "components/nav";
-import routes from "../config/routes";
+import routes from "config/routes";
+import styles from './styles.module.css'
 
-const styles = {
-  root: {
-    display: "flex"
-  },
-  content: {
-    flexGrow: 1,
-    padding: 10
-  }
-};
-
-const Layout = ({ classes }) => {
+const AppLayout = () => {
   return (
-    <div className={classes.root}>
+    <div className={styles.root}>
       <CssBaseline />
       <Nav />
-      <div className={classes.content}>
+      <main className={styles.content}>
         <Switch>
           {routes.map(route => (
             <Route key={route.path} {...route} />
           ))}
         </Switch>
-      </div>
+      </main>
     </div>
   );
 };
 
-Layout.propTypes = {
-  classes: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
-};
-
-export default withStyles(styles)(Layout);
+export default AppLayout;

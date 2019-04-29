@@ -5,8 +5,13 @@ $drawerWidth: 240px;
   flex-shrink: 0;
 }
 
+// TODO: Shouldn't have to place !important. Figure out order in webpack build
 .drawerPaper {
   width: $drawerWidth;
+  background: linear-gradient(to top, var(--white), var(--light-grey)),
+    linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14)) !important;
+  position: relative !important;
+  white-space: nowrap;
 }
 
 .navList {

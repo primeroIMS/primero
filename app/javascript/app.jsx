@@ -1,12 +1,12 @@
 import { MuiThemeProvider } from "@material-ui/core";
-import { createGenerateClassName, jssPreset } from "@material-ui/core/styles";
+import { createGenerateClassName, jssPreset } from "@material-ui/styles";
 import { ConnectedRouter } from "connected-react-router/immutable";
 import { create } from "jss";
 import rtl from "jss-rtl";
 import React from "react";
 import JssProvider from "react-jss/lib/JssProvider";
 import { Provider } from "react-redux";
-import Layout from "components/Layout";
+import { AppLayout } from "components/layouts";
 import { theme } from "./config";
 import { I18nProvider } from "./libs/i18n";
 import configureStore, { history } from "./store";
@@ -23,7 +23,7 @@ export default () => {
         <MuiThemeProvider theme={theme}>
           <JssProvider jss={jss} generateClassName={generateClassName}>
             <ConnectedRouter history={history}>
-              <Layout />
+              <AppLayout />
             </ConnectedRouter>
           </JssProvider>
         </MuiThemeProvider>

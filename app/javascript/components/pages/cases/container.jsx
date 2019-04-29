@@ -1,13 +1,12 @@
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import FlagIcon from "@material-ui/icons/Flag";
-import PhotoIcon from "@material-ui/icons/PhotoCamera";
-import { IndexTable } from "components/index-table";
+import { IndexTable, DateCell, ToggleIconCell } from "components/index-table";
 import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
 import * as actions from "./action-creators";
+import Box from "@material-ui/core/Box";
+import styles from "./styles.module.scss";
+import { withI18n } from "libs";
 
 class Cases extends React.Component {
   constructor(props) {
@@ -29,33 +28,44 @@ class Cases extends React.Component {
   }
 
   render() {
+    const { i18n } = this.props;
+
     // TODO: columns obj - How do we set this up per module? (gbv, cp, future modules)
     const columns = [
-      { label: "ID", name: "short_id", id: true },
-      { label: "Age", name: "age" },
-      { label: "Sex", name: "sex" },
-      { label: "Registration Date", name: "registration_date" },
-      { label: "Case Open Date", name: "created_at" },
-      { label: "Social Worker", name: "owned_by" },
+      { label: i18n.t("case.id"), name: "short_id", id: true },
+      { label: i18n.t("case.age"), name: "age" },
+      { label: i18n.t("case.sex"), name: "sex" },
       {
-        label: "Photo",
+        label: i18n.t("case.registration_date"),
+        name: "registration_date",
+        options: {
+          customBodyRender: value => <DateCell value={value} />
+        }
+      },
+      {
+        label: i18n.t("case.case_opening_date"),
+        name: "created_at",
+        options: {
+          customBodyRender: value => <DateCell value={value} />
+        }
+      },
+      { label: i18n.t("case.social_worker"), name: "owned_by" },
+      {
+        label: i18n.t("case.photo"),
         name: "photo_keys",
         options: {
           customBodyRender: value => (
-            <IconButton disabled={isEmpty(value)} color="primary">
-              <PhotoIcon />
-            </IconButton>
+            <ToggleIconCell value={value} icon="photo" />
           )
         }
       },
       {
-        label: "",
+        label: " ",
         name: "flags",
         options: {
+          empty: true,
           customBodyRender: value => (
-            <IconButton disabled={isEmpty(value)} color="primary">
-              <FlagIcon />
-            </IconButton>
+            <ToggleIconCell value={value} icon="flag" />
           )
         }
       }
@@ -64,21 +74,20 @@ class Cases extends React.Component {
     const { cases, fetchCases } = this.props;
 
     return (
-      <Grid container spacing={16}>
-        <Grid item lg={10} xs={12} sm={12}>
+      <Box className={styles.root}>
+        <Box className={styles.table}>
           {!isEmpty(cases.results) && (
             <IndexTable
+              title={i18n.t("cases.label")}
               defaultFilters={this.defaultFilters}
               columns={columns}
               data={cases}
               onTableChange={fetchCases}
             />
           )}
-        </Grid>
-        <Grid item lg={2} xs={12}>
-          Filters
-        </Grid>
-      </Grid>
+        </Box>
+        <Box className={styles.filters}>Filters</Box>
+      </Box>
     );
   }
 }
@@ -99,7 +108,9 @@ const mapDispatchToProps = {
   fetchCases: actions.fetchCases
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Cases);
+export default withI18n(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Cases)
+);

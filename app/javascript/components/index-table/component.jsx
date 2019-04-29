@@ -2,6 +2,8 @@ import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
+import Typography from "@material-ui/core/Typography";
 
 const getMuiTheme = () =>
   createMuiTheme({
@@ -15,11 +17,27 @@ const getMuiTheme = () =>
         root: {
           display: "none"
         }
+      },
+      MUIDataTableBodyCell: {
+        root: {
+          padding: "4px"
+        }
+      },
+      MUIDataTableHeadCell: {
+        root: {
+          padding: "4px"
+        }
       }
     }
   });
 
-const indexTable = ({ columns, data, onTableChange, defaultFilters }) => {
+const indexTable = ({
+  columns,
+  data,
+  onTableChange,
+  defaultFilters,
+  title
+}) => {
   const { per, total } = data.meta;
 
   const handleTableChange = (action, tableState) => {
@@ -72,14 +90,25 @@ const indexTable = ({ columns, data, onTableChange, defaultFilters }) => {
     viewColumns: false,
     serverSide: true,
     customToolbar: () => null,
-    customToolbarSelect: () => <></>,
+    customToolbarSelect: () => null,
     onTableChange: handleTableChange,
     rowsPerPageOptions: [20, 50, 75, 100]
   };
 
+  const tableOptions = {
+    columns,
+    options,
+    data: data.results
+  };
+
   return (
     <MuiThemeProvider theme={getMuiTheme}>
-      <MUIDataTable data={data.results} options={options} columns={columns} />
+      <Box mb={3}>
+        <Typography variant="h6" component="h6">
+          {title}
+        </Typography>
+      </Box>
+      <MUIDataTable {...tableOptions} />
     </MuiThemeProvider>
   );
 };

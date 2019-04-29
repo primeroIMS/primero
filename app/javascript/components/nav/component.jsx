@@ -5,7 +5,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
-import { withI18n } from "../../libs";
+import { withI18n } from "libs";
 import { TranslationsToggle } from "../translations-toggle";
 import * as styles from "./styles.module.scss";
 
@@ -19,7 +19,6 @@ const Nav = ({ i18n }) => {
   return (
     <Drawer
       variant="permanent"
-      anchor="left"
       classes={{
         paper: styles.drawerPaper
       }}
