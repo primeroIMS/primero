@@ -60,7 +60,7 @@ class Child < ApplicationRecord
 
   alias child_status status ; alias child_status= status=
 
-  attach_documents fields: [:other_documents]
+  attach_documents fields: [:other_documents, :bia_documents, :bid_documents]
   attach_images fields: [:photos]
   attach_audio fields: [:recorded_audio]
 

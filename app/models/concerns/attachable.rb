@@ -2,6 +2,8 @@ module Attachable
   extend ActiveSupport::Concern
 
   ATTACHMENT_TYPES = %w(images documents audio)
+  MAX_PHOTOS = 10
+  MAX_DOCUMENTS = 100
 
   module ClassMethods
     ATTACHMENT_TYPES.each do |type|
@@ -13,6 +15,10 @@ module Attachable
             self.instance_variable_set("@attachment_#{type}_fields", args[:fields])
 
             args[:fields].each do |f|
+              unless type ==  'audio'
+                validates f, length: { maximum: type == 'images' ? MAX_PHOTOS : MAX_DOCUMENTS }
+              end
+
               build_attachment_association(f, attachment_model(type))
               accepts_nested_attributes_for f, allow_destroy: true
             end
