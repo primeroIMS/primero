@@ -190,9 +190,7 @@ module Exporters
             # still 0-based
             acc[prop - 1]
           else
-            value = acc["data"].present? ? acc["data"][prop.try(:name)] : acc[prop.try(:name)]
-            value = value["id"] if prop.name.eql?("owned_by_agency")
-            value
+            acc["data"].present? ? acc["data"][prop.try(:name)] : acc[prop.try(:name)]
           end
         end
       end

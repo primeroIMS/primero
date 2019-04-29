@@ -19,7 +19,7 @@ record_owner_fields = [
              "editable" => false,
              "disabled" => true
             }),
-  Field.new({"name" => "owned_by_agency",
+  Field.new({"name" => "owned_by_agency_id",
              "mobile_visible" => false,
              "type" => "select_box",
              "display_name_en" => "Agency",
