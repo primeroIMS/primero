@@ -63,3 +63,4 @@ yarn-debug.log*
 .vscode
 venv/*
 docker/quoin.env
+storage/

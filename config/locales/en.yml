@@ -1307,9 +1307,9 @@ en:
       add_new_document_button_text: "Add another document"
       add_new_photo_button_text: "Add another photo"
       document_description: "Document Description"
-    upload_bia_document: "BIA Document"
-    upload_bid_document: "BID Document"
-    upload_other_document: "Other Document"
+    bia_document: "BIA Document"
+    bid_document: "BID Document"
+    other_documents: "Other Document"
     document:
       comments: "Comments"
       date: "Document Date"
