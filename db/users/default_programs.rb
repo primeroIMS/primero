@@ -1,12 +1,11 @@
 def create_or_update_program(program_hash)
-  program_id = PrimeroProgram.id_from_name(program_hash[:name])
-  program = PrimeroProgram.get(program_id)
+  program = PrimeroProgram.find_by(unique_id: program_hash[:unique_id])
 
   if program.nil?
-    puts "Creating program #{program_id}"
+    puts "Creating program #{program_hash[:unique_id]}"
     PrimeroProgram.create! program_hash
   else
-    puts "Updating program #{program_id}"
+    puts "Updating program #{program_hash[:unique_id]}"
     program.update_attributes program_hash
   end
 
@@ -14,6 +13,7 @@ end
 
 
 create_or_update_program(
+  unique_id: "primeroprogram-primero",
   name: "Primero",
   description: "Default Primero Program"
 )

@@ -223,7 +223,7 @@ describe ConfigurationBundleController, :type => :controller do
         program_id: "primeroprogram-primero",
         name: "CP",
         description: "Child Protection",
-        associated_form_ids: ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4", "form_section_test_5"],
+        form_section_ids: ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4", "form_section_test_5"],
         associated_record_types: ['case']
     )
 
@@ -232,7 +232,7 @@ describe ConfigurationBundleController, :type => :controller do
   end
 
   it "returns a 200 OK status" do
-    user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
+    user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.unique_id])
     session = fake_admin_login user
 
     get :export_bundle, params: {password: '12345'}

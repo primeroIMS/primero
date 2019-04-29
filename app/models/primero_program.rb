@@ -1,14 +1,28 @@
-class PrimeroProgram < CouchRest::Model::Base
+class PrimeroProgram < ApplicationRecord
+  include LocalizableJsonProperty
+  include Configuration
 
-  use_database :primero_program
+  localize_properties :name, :description
 
-  include PrimeroModel
-  include Namable #delivers "name" and "description" fields
+  validates :unique_id, uniqueness: { message: 'errors.models.primero_program.unique_unique_id' }
+  validate :validate_name_in_english
 
-  design
+  has_many :primero_modules
 
-  property :start_date, Date
-  property :end_date, Date
-  property :core_resource, TrueClass, :default => false
+  before_create :set_unique_id
+
+  private
+
+  def set_unique_id
+    unless self.unique_id.present?
+      self.unique_id = "#{self.class.name}-#{self.name_en}".parameterize.dasherize
+    end
+  end
+
+  def validate_name_in_english
+    return true if self.name_en.present?
+    errors.add(:name, 'errors.models.primero_program.name_present')
+    false
+  end
 
 end

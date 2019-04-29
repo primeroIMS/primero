@@ -181,7 +181,7 @@ describe Ability do
 
         ability = Ability.new @user1
 
-        expect(@user1.is_super_user?).to be_truthy
+        expect(@user1.super_user?).to be_truthy
         expect(super_role2.is_super_user_role?).to be_truthy
         expect(ability).not_to authorize(:write, super_role2)
       end
@@ -194,7 +194,7 @@ describe Ability do
 
         ability = Ability.new @user1
 
-        expect(@user1.is_super_user?).to be_truthy
+        expect(@user1.super_user?).to be_truthy
         expect(super_role2.is_super_user_role?).to be_truthy
         expect(ability).to authorize(:assign, @super_role)
         expect(ability).to authorize(:assign, super_role2)
@@ -206,7 +206,7 @@ describe Ability do
 
         ability = Ability.new @user1
 
-        expect(@user1.is_super_user?).to be_truthy
+        expect(@user1.super_user?).to be_truthy
         expect(ability).not_to authorize(:write, @super_role)
       end
 
@@ -222,8 +222,8 @@ describe Ability do
         ability1 = Ability.new @user1
         ability2 = Ability.new @user2
 
-        expect(@user1.is_super_user?).to be_falsey
-        expect(@user2.is_super_user?).to be_falsey
+        expect(@user1.super_user?).to be_falsey
+        expect(@user2.super_user?).to be_falsey
         expect(@super_role.is_super_user_role?).to be_truthy
         expect(ability1).not_to authorize(:write, @super_role)
         expect(ability1).not_to authorize(:assign, @super_role)
@@ -896,7 +896,7 @@ describe Ability do
 
       ability = Ability.new @user1
 
-      [ContactInformation, Device, Replication].each do |resource|
+      [ContactInformation].each do |resource|
         expect(ability).to authorize(:read, resource)
         expect(ability).to authorize(:write, resource)
       end

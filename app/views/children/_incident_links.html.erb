@@ -1,13 +1,13 @@
 <% #Incident Links are only viewable on edit/update screen. %>
-<% if current_actions(action: ['update', 'edit']) && formObject.incident_links.present? %>
+<% if current_actions(action: ['update', 'edit']) && formObject.incidents.count > 0 %>
 <div class="row">
   <div class="medium-4 columns">
     <label class="key"><%= t(incident_links.name, :default => incident_links.display_name) %></label>
   </div>
   <div class="medium-8 columns">
     <ul class="incident_links">
-    <% formObject.incident_links.each do |incident_id| %>
-      <li><%= link_to incident_id, incident_path(incident_id) %></li>
+    <% formObject.incidents.each do |incident| %>
+      <li><%= link_to incident.display_id, incident_path(incident.id) %></li>
     <% end %>
     <ul>
   </div>

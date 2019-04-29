@@ -563,7 +563,7 @@ describe IncidentsController, :type => :controller do
     # end
 
     # it "should allow a records ID to be specified to create a new record with a known id" do
-      # new_uuid = UUIDTools::UUID.random_create()
+      # new_uuid = SecureRandom.uuid
       # put :update, :id => new_uuid.to_s,
         # :incident => {
             # :id => new_uuid.to_s,
@@ -953,26 +953,5 @@ describe IncidentsController, :type => :controller do
       end
     end
   end
-
-	describe "reindex_params_subforms" do
-
-		it "should correct indexing for nested subforms" do
-			params = {
-				"incident"=> {
-					"name"=>"",
-	   		 "top_1"=>"This is a top value",
-	        "nested_form_section" => {
-						"0"=>{"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"},
-	     		 "2"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}},
-	        "fathers_name"=>""}}
-
-			controller.reindex_hash params['incident']
-			expected_subform = params["incident"]["nested_form_section"]["1"]
-
-			expect(expected_subform.present?).to be_truthy
-			expect(expected_subform).to eq({"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"})
-		end
-
-	end
 
 end

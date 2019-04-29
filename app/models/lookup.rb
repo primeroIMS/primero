@@ -1,7 +1,8 @@
-class Lookup < ActiveRecord::Base
+class Lookup < ApplicationRecord
 
-  include Memoizable
+  # include Memoizable
   include LocalizableJsonProperty
+  include Configuration
 
   localize_properties :name
   localize_properties :lookup_values
@@ -152,7 +153,7 @@ class Lookup < ActiveRecord::Base
 
   def generate_unique_id
     if self.name_en.present? && self.unique_id.blank?
-      code = UUIDTools::UUID.random_create.to_s.last(7)
+      code = SecureRandom.uuid.to_s.last(7)
       self.unique_id = "lookup-#{self.name_en}-#{code}".parameterize.dasherize
     end
   end

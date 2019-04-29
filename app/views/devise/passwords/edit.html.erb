@@ -1,0 +1,19 @@
+<div class="login_page">
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+    <div class="login_panel">
+      <h1><%= t('user.change_password') %></h1>
+
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%= f.hidden_field :reset_password_token %>
+      <%= f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: t('user.new_password') %>
+      <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: t('user.new_password_confirmation') %>
+
+      <%= render "devise/shared/links" %>
+
+      <div class="btn_panel">
+        <%= f.submit I18n.t('devise.buttons.change_password'), class: 'button btn_submit large' %>
+      </div>
+    </div>
+  <% end %>
+</div>

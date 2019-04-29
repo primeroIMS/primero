@@ -1,13 +1,15 @@
-<% if formObject[form_id].present? %>
+<% documents = record.try(field.name) %>
+
+<% if documents.present? %>
   <div class="uploaded-documents">
-    <% formObject[form_id].each do |document| %>
+    <% documents.each do |document| %>
       <div class="row">
         <div class="medium-4 columns">
           <label class="key"><%= I18n.t("fields.#{field.name}") %></label>
         </div>
         <div class="medium-8 columns">
-          <% document_url = send("#{formObject.class.name.underscore.downcase}_document_url", formObject.id, document["attachment_key"]) %>
-          <%= link_to document["file_name"], document_url, :class => "document", data: { turbolinks: false } %>
+          <%= link_to document.document.filename.to_s, rails_blob_path(document.document, disposition: "attachment"),
+            class: 'document download_attachment', data: { turbolinks: true } %>
         </div>
       </div>
       <div class="row">
@@ -15,7 +17,7 @@
           <label class="key"><%= I18n.t("fields.document.current") %></label>
         </div>
         <div class="medium-8 columns">
-          <% value = document["is_current"]
+          <% value = document.is_current
              value = "false" if value.blank?
              %>
           <span class="value"><%= I18n.t(value) %></span>
@@ -26,7 +28,7 @@
           <label class="key"><%= I18n.t("fields.document.name") %></label>
         </div>
         <div class="medium-8 columns">
-          <% value = document["document_description"] || "" %>
+          <% value = document.document_description || "" %>
           <span class="value"><%= value %></span>
         </div>
       </div>
@@ -35,7 +37,7 @@
           <label class="key"><%= I18n.t("fields.document.date") %></label>
         </div>
         <div class="medium-8 columns">
-          <% value = field_value_for_display document["date"] || "" %>
+          <% value = field_value_for_display document.date || "" %>
           <span class="value"><%= value %></span>
         </div>
       </div>
@@ -44,7 +46,7 @@
           <label class="key"><%= I18n.t("fields.document.comments") %></label>
         </div>
         <div class="medium-8 columns">
-          <% value = document["comments"] || "" %>
+          <% value = document.comments || "" %>
           <span class="value"><%= value %></span>
         </div>
       </div>

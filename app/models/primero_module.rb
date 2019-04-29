@@ -1,82 +1,52 @@
-class PrimeroModule < CouchRest::Model::Base
+class PrimeroModule < ApplicationRecord
+  include Configuration
+
   CP = 'primeromodule-cp'
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
-  use_database :primero_module
+  store_accessor :module_options, :allow_searchable_ids, :selectable_approval_types,
+    :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
+    :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
+    :user_group_filter
 
-  include PrimeroModel
-  include Memoizable
-  include Namable #delivers "name" and "description" fields
+  belongs_to :primero_program
 
-  property :program_id
-  property :allow_searchable_ids, TrueClass
-  property :associated_record_types, :type => [String]
-  property :associated_form_ids, :type => [String]
-  property :core_resource, TrueClass, :default => false
-  property :field_map, Hash, :default => {}
-  property :selectable_approval_types, TrueClass, :default => false
-  property :workflow_status_indicator, TrueClass, :default => false
-  property :agency_code_indicator, TrueClass, :default => false
-  property :use_workflow_service_implemented, TrueClass, default: true
-  property :use_workflow_case_plan, TrueClass, default: false
-  property :use_workflow_assessment, TrueClass, default: false
-  property :reporting_location_filter, TrueClass, default: false
-  property :user_group_filter, TrueClass, default: false
+  has_and_belongs_to_many :form_sections
+  has_and_belongs_to_many :users
 
-  before_save :add_associated_subforms
-
-  validates_presence_of :program_id, :message => I18n.t("errors.models.primero_module.program")
-  validates_presence_of :associated_form_ids, :message => I18n.t("errors.models.primero_module.associated_form_ids")
+  validates_presence_of :primero_program_id, :message => I18n.t("errors.models.primero_module.program")
+  validates_presence_of :form_sections, :message => I18n.t("errors.models.primero_module.form_section_ids")
   validates_presence_of :associated_record_types, :message => I18n.t("errors.models.primero_module.associated_record_types")
 
-  design
-
-  class << self
-    alias :old_all :all
-    def all(*args)
-      old_all(*args)
-    end
-    memoize_in_prod :all
-
-    alias :old_get :get
-    def get(*args)
-      old_get(*args)
-    end
-    memoize_in_prod :get
-  end
-
-  def program
-    PrimeroProgram.get self.program_id
-  end
-
   def program_name
-    program.name
+    primero_program.try(:name)
   end
 
   def associated_forms(include_subforms=false)
-    result = FormSection.where(unique_id: self.associated_form_ids)
+    result = self.form_sections
     result.each{|f| f.module_name = self.name}
+
     unless include_subforms
-      result = result.select{|f| !f.is_nested}
+      result = result.select{ |f| !f.is_nested }
     end
-    return result
+
+    result
   end
 
   def associated_forms_grouped_by_record_type(include_subforms=false)
     forms = associated_forms(include_subforms)
     return {} if forms.blank?
-    forms.each{|f| f.module_name = self.name}
+    forms.each{ |f| f.module_name = self.name }
     forms.group_by(&:parent_form)
   end
 
-  def self.memoized_dependencies
-    [FormSection, User, Role]
-  end
+  # def self.memoized_dependencies
+  #   [FormSection, User, Role]
+  # end
 
-  alias_method :old_core_resource, :core_resource
   def core_resource
-    [CP, GBV, MRM].include?(self.id) || self.old_core_resource
+    [CP, GBV, MRM].include?(self.id)
   end
 
   def field_map_to_module_id
@@ -85,7 +55,7 @@ class PrimeroModule < CouchRest::Model::Base
 
   def field_map_to_module
     if self.field_map_to_module_id.present?
-      @field_map_to_module ||= PrimeroModule.get(self.field_map_to_module_id)
+      @field_map_to_module ||= PrimeroModule.find_by(unique_id: self.field_map_to_module_id)
     end
     return @field_map_to_module
   end
@@ -94,21 +64,39 @@ class PrimeroModule < CouchRest::Model::Base
     self.field_map.present? ? self.field_map['fields'] : nil
   end
 
-  def add_associated_subforms
-    if self.associated_form_ids.present?
-      subforms = FormSection.get_subforms(associated_forms)
-      all_associated_form_ids = associated_form_ids | subforms.map(&:unique_id)
-      if all_associated_form_ids.present?
-        self.associated_form_ids = all_associated_form_ids
-      end
-    end
-  end
-
   def self.cp
-    find(CP)
+    find_by(unique_id: CP)
   end
 
   def self.gbv
-    find(GBV)
+    find_by(unique_id: GBV)
+  end
+
+  class << self
+
+    alias super_clear clear
+    def clear
+      self.all.each do |pm|
+        pm.users.destroy(pm.users)
+      end
+      super_clear
+    end
+
+    alias super_import import
+    def import(data)
+      data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?
+      data['primero_program_id'] = PrimeroProgram.find_by(unique_id: data['primero_program_id']).id if data['primero_program_id'].present?
+      super_import(data)
+    end
+
+    def export
+      self.all.map do |record|
+        record.attributes.tap do |pm|
+          pm.delete('id')
+          pm['form_sections'] = record.form_sections.pluck(:unique_id)
+          pm['primero_program_id'] = record.primero_program.unique_id
+        end
+      end
+    end
   end
 end

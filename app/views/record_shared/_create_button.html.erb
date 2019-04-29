@@ -12,7 +12,7 @@
             <% if primero_module.allow_searchable_ids && record == 'case' %>
               <%= render 'record_shared/search_ids', primero_module: primero_module, record: record, single: false, label: false %>
             <% else %>
-              <%= content_tag( :a, primero_module.name, :class => 'dropdown_link', :'href' => new_polymorphic_path(record, module_id: primero_module.id)) %>
+              <%= content_tag( :a, primero_module.name, :class => 'dropdown_link', :'href' => new_polymorphic_path(record, module_id: primero_module.unique_id)) %>
             <% end %>
           </li>
         <% end %>
@@ -23,7 +23,7 @@
     <% if modules.first.allow_searchable_ids && record == 'case' %>
       <%= render 'record_shared/search_ids', primero_module: modules.first, record: record, single: true, label: content_tag(:span, button_label, class: 'create_user') %>
     <% else %>
-      <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record, {module_id: modules.first.id}),  class: 'button right' %>
+      <%= link_to content_tag(:span, button_label, class: 'create_user'), new_polymorphic_path(record, {module_id: modules.first.unique_id}),  class: 'button right' %>
     <% end %>
   <% end %>
 <% end %>

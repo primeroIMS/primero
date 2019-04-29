@@ -20,7 +20,7 @@ class CreateFields < ActiveRecord::Migration[5.0]
       t.string 'option_strings_source'
       t.integer 'order'
       t.boolean 'hidden_text_field', null: false, default: false
-      t.integer 'subform_section_id' #TODO: Foreign key?
+      t.integer 'subform_section_id'
       t.integer 'collapsed_field_for_subform_section_id'
       t.boolean 'autosum_total', null: false, default: false
       t.string 'autosum_group'
@@ -38,5 +38,8 @@ class CreateFields < ActiveRecord::Migration[5.0]
       t.boolean 'date_include_time', null: false, default: false
       t.boolean 'matchable', null: false, default: false
     end
+    add_foreign_key :fields, :form_sections, column: 'subform_section_id'
+    add_index :fields, :name
+    add_index :fields, :type
   end
 end

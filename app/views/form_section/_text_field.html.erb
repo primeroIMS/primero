@@ -9,8 +9,8 @@
   value = text_field.selected_value if text_field.selected_value.present? && should_default
   value ||= field_value formObject, text_field, field_keys
   show_hide_text_link = text_field.hidden_text_field && !formObject.new_record?
-  hide_text_link_text = formObject.hidden_name ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
-  hide_text_link_action = formObject.hidden_name ? "view" : "protect"
+  hide_text_link_text = (show_hide_text_link && formObject.hidden_name) ? I18n.t("cases.view_name") : I18n.t("cases.hide_name")
+  hide_text_link_action = (show_hide_text_link && formObject.hidden_name) ? "view" : "protect"
   value = I18n.t("cases.hidden_text_field_text") if text_field.hidden_text_field && formObject.hidden_name && !formObject.new_record?
 
   is_disabled = (text_field.hidden_text_field && formObject.hidden_name && !formObject.new_record?) || text_field.disabled

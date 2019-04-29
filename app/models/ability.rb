@@ -20,7 +20,7 @@ class Ability
       can?(:read, report) || can?(:group_read, report)
     end
 
-    user.permissions.each do |permission|
+    user.role.permissions.each do |permission|
       case permission.resource
         when Permission::USER
           user_permissions permission.action_symbols
@@ -55,18 +55,18 @@ class Ability
 
   def user_permissions actions
     can actions, User do |uzer|
-      if (user.is_super_user?)
+      if (user.super_user?)
         true
-      elsif (uzer.is_super_user?)
+      elsif (uzer.super_user?)
         false
-      elsif (user.is_user_admin?)
+      elsif (user.user_admin?)
         true
-      elsif (uzer.is_user_admin?)
+      elsif (uzer.user_admin?)
         false
       elsif (user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) && user.agency == uzer.agency)
         true
       # TODO: should this be limited in a more generic way rather than by not agency user admin?
-      elsif !user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) && (user.has_group_permission?(Permission::GROUP) || user.has_group_permission?(Permission::ALL))
+      elsif !user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) && (user.group_permission?(Permission::GROUP) || user.group_permission?(Permission::ALL))
         # TODO-permission: Add check that the current user has the ability to edit the uzer's role
         # True if, The user's role's associated_role_ids include the uzer's role_id
         (user.user_group_ids & uzer.user_group_ids).size > 0
@@ -78,10 +78,10 @@ class Ability
 
   def user_group_permissions actions
     can actions, UserGroup do |instance|
-      #TODO-permission: replace the if staemnet with the is_super_user? and is_user_admin? functions
-      if (user.has_group_permission?(Permission::ALL) || user.has_group_permission?(Permission::ADMIN_ONLY))
+      #TODO-permission: replace the if staemnet with the super_user? and user_admin? functions
+      if (user.group_permission?(Permission::ALL) || user.group_permission?(Permission::ADMIN_ONLY))
         true
-      elsif user.has_group_permission?(Permission::GROUP)
+      elsif user.group_permission?(Permission::GROUP)
         user.user_group_ids.include? instance.id
       else
         false
@@ -94,7 +94,7 @@ class Ability
     can actions, Role do |instance|
       if instance.is_super_user_role?
         false
-      elsif instance.is_user_admin_role? && !user.is_super_user?
+      elsif instance.is_user_admin_role? && !user.super_user?
         false
      # TODO-permission: The following code prevents a role from having access to itself.
      # As written it is too broad and won't let a user see or assign its own role.
@@ -106,7 +106,7 @@ class Ability
       # the previous elsif to be effective
       # TODO-permission: I do not believe that the second part of the if statement is helpful or accurate:
       # Not even the super user is allowed to edit their own role, consider removing.
-      elsif (user.role_ids.include?(instance.id) && !user.has_group_permission?(Permission::ALL))
+      elsif (user.role_id == instance.id && !user.group_permission?(Permission::ALL))
         false
       else
         #TODO-permission: This else statements should default to false, not 'true' when the conditions are not met
@@ -134,7 +134,7 @@ class Ability
   end
 
   def system_permissions
-    [ContactInformation, Device, Replication, SystemSettings].each do |resource|
+    [ContactInformation, SystemSettings].each do |resource|
       can :manage, resource
     end
   end
@@ -146,9 +146,9 @@ class Ability
   def configure_resource(resource, actions, is_record=false)
     if is_record
       can actions, resource do |instance|
-        if user.has_group_permission? Permission::ALL
+        if user.group_permission? Permission::ALL
           true
-        elsif user.has_group_permission? Permission::GROUP
+        elsif user.group_permission? Permission::GROUP
           allowed_groups = instance.associated_users.map{|u|u.user_group_ids}.flatten.compact
           (user.user_group_ids & allowed_groups).size > 0
         else

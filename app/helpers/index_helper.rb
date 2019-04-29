@@ -216,7 +216,7 @@ module IndexHelper
   def build_list_field_by_model(model_name, user)
     #Necessary when calling this method from csv_exporter_list_view
     if @current_user != user
-      @is_admin ||= user.is_admin?
+      @is_admin ||= user.admin?
       @is_manager ||= user.is_manager?
       @is_cp ||= user.has_module?(PrimeroModule::CP)
       @is_gbv ||= user.has_module?(PrimeroModule::GBV)
@@ -389,18 +389,18 @@ module IndexHelper
   def index_filters_case
     filters = []
     #get the id's of the forms sections the user is able to view/edit.
-    allowed_form_ids = @current_user.modules.map{|m| FormSection.get_allowed_form_ids(m, @current_user)}.flatten
+    permitted_form_ids = @current_user.permitted_forms(nil, nil, true).map(&:unique_id)
 
     filters << "Flagged"
     filters << "Mobile" if @can_sync_mobile
     filters << "Social Worker" if @is_manager
     filters << "My Cases"
     filters << "Workflow"
-    filters << "Approvals" if @can_approvals && (allowed_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
+    filters << "Approvals" if @can_approvals && (permitted_form_ids.any?{|fs_id| ["cp_case_plan", "closure_form", "cp_bia_form"].include?(fs_id) })
     #Check independently the checkboxes on the view.
-    filters << "cp_bia_form" if allowed_form_ids.include?("cp_bia_form") && @can_approval_bia
-    filters << "cp_case_plan" if allowed_form_ids.include?("cp_case_plan") && @can_approval_case_plan
-    filters << "closure_form" if allowed_form_ids.include?("closure_form") && @can_approval_closure
+    filters << "cp_bia_form" if permitted_form_ids.include?("cp_bia_form") && @can_approval_bia
+    filters << "cp_case_plan" if permitted_form_ids.include?("cp_case_plan") && @can_approval_case_plan
+    filters << "closure_form" if permitted_form_ids.include?("closure_form") && @can_approval_closure
 
     filters << "Agency" if @is_admin || @is_manager
     filters << "Status"
@@ -604,7 +604,7 @@ module IndexHelper
         fields =   form.fields.select{ |field| field.show_on_minify_form || included_fields.include?(field.name) }
                        .reject{ |field|  rejected_fields_types.include? field.type }
         fields.each do |f|
-          data << { display_name: f.display_name, value: field_value_for_display(record[f.name], f, @lookups) }
+          data << { display_name: f.display_name, value: field_value_for_display(record.data[f.name], f, @lookups) }
         end
       end
     end

@@ -7,7 +7,7 @@ describe "Searchable" do
   end
 
   before :all do
-    form = FormSection.new(:name => "test_form", :parent_form => 'case')
+    form = FormSection.new(:name => "test_form", :unique_id => 'test_form', :parent_form => 'case')
     form.fields << Field.new(:name => "text_field1", :type => Field::TEXT_FIELD, :display_name => "Text Field 1")
     form.fields << Field.new(:name => "tick_field1", :type => Field::TICK_BOX, :display_name => "Tick Field 1")
     form.fields << Field.new(:name => "tick_field2", :type => Field::TICK_BOX, :display_name => "Tick Field 2")
@@ -17,7 +17,8 @@ describe "Searchable" do
   end
 
   after :all do
-    FormSection.all.all.each { |form| form.destroy }
+    Field.destroy_all
+    FormSection.destroy_all
   end
 
   describe "Text Query" do
@@ -67,7 +68,7 @@ describe "Searchable" do
 
 
     it "should build with date time search fields" do
-      expect(Child.searchable_date_time_fields).to include("created_at", "last_updated_at", "registration_date")
+      expect(Child.searchable_date_time_fields).to include("registration_date")
     end
 
     it "should build with boolean search fields" do

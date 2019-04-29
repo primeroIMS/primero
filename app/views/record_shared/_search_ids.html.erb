@@ -8,10 +8,10 @@
     <span class="form-error" data-form-error-for="id_number"><%= t('case.id_number_required') %></span>
     <div class="row collapse">
       <div class="column">
-        <%= link_to t('case.create_new_case'), new_polymorphic_path(record, module_id: primero_module.id), class: 'button' %>
+        <%= link_to t('case.create_new_case'), new_polymorphic_path(record, module_id: primero_module.unique_id), class: 'button' %>
       </div>
       <div class="column shrink">
-        <%= link_to t('search'), '', class: 'button', id: 'search-id', data: { module: primero_module.id } %>
+        <%= link_to t('search'), '', class: 'button', id: 'search-id', data: { module: primero_module.unique_id } %>
       </div>
     </div>
   </form>

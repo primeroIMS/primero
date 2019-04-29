@@ -16,10 +16,6 @@ module PotentialMatchHelper
     potential_match.inquirer_id.last(7)
   end
 
-  def mask_match_value(match, value)
-    match.visible ? value : '***'
-  end
-
   def comparison_symbol(comparison)
     if comparison == PotentialMatch::VALUE_MATCH
       content_tag(:span, '&#10004;'.html_safe, class: 'value-match')

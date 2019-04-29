@@ -31,7 +31,7 @@ describe "home/index.html.erb" do
       @user = double(User,
         user_name: 'admin_user',
         is_manager?: false,
-        is_admin?: true,
+        admin?: true,
         managed_user_names: [],
         modules: ['primeromodule_cp'],
         permissions: []

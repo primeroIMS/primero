@@ -2,8 +2,9 @@ module UNHCRMapping
   extend ActiveSupport::Concern
 
   included do
-    property :unhcr_needs_codes
-    property :unhcr_export_opt_out, TrueClass
+
+    store_accessor :data,
+      :unhcr_needs_codes, :unhcr_export_opt_out
 
     before_save :map_protection_concerns_to_unhcr_codes
   end

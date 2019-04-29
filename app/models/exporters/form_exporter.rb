@@ -24,7 +24,7 @@ module Exporters
       header = ['Form Group', 'Form Name', 'Field ID', 'Field Type', 'Field Name', 'Required', 'On Mobile?', 'On Short Form?', 'Options', 'Help Text', 'Guiding Questions']
       header = header.insert(VISIBLE_COLUMN_INDEX, 'Visible?') if show_hidden
 
-      primero_module = PrimeroModule.get(module_id)
+      primero_module = PrimeroModule.find_by(unique_id: module_id)
       forms = primero_module.associated_forms_grouped_by_record_type(false)
       forms = forms[type]
       form_hash = FormSection.group_forms(forms)

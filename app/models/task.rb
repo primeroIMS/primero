@@ -21,7 +21,7 @@ class Task
 
   def initialize(record)
     self.parent_case = record
-    self.priority = record.try(:risk_level)
+    self.priority = record.risk_level
     self.case_id = record.case_id_display
   end
 

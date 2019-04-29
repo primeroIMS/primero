@@ -7,7 +7,6 @@ require 'rails_helper'
 
 describe UNHCRMapping do
   before do
-    Child.any_instance.stub(:field_definitions).and_return([])
     SystemSettings.all.each &:destroy
 
     @system_settings = SystemSettings.create(default_locale: 'en',
@@ -79,8 +78,8 @@ describe UNHCRMapping do
         @system_settings.save!
 
         #Re-fetch child for this test to refresh the record's instance variables
-        child2 = Child.get(child.id)
-        child2.attributes = {'name' => 'Johnny Bravo'}
+        child2 = Child.find(child.id)
+        child2.name = 'Johnny Bravo'
         child2.save!
 
         expect(child2.unhcr_needs_codes).to eq(nil)

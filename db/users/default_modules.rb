@@ -1,31 +1,11 @@
 def create_or_update_module(module_hash)
-  module_id = PrimeroModule.id_from_name(module_hash[:name])
-  primero_module = PrimeroModule.get(module_id)
-
-
-  #Include associated subforms
-  #TODO: Refactor to use FormSection.get_subforms
-  if module_hash[:associated_form_ids].present?
-    #Preserve existing associated form ids
-    module_hash[:associated_form_ids] = module_hash[:associated_form_ids] | primero_module.associated_form_ids if primero_module.present?
-
-    associated_forms = FormSection.where(unique_id: module_hash[:associated_form_ids])
-    if associated_forms.present?
-      subform_ids = []
-      associated_forms.map{|f| f.fields}.flatten.each do |field|
-        if field.type == 'subform' && field.subform_section_id
-          subform_ids.push field.subform_section_id
-        end
-      end
-      module_hash[:associated_form_ids] = module_hash[:associated_form_ids] | subform_ids
-    end
-  end
+  primero_module = PrimeroModule.find_by(unique_id: module_hash[:unique_id])
 
   if primero_module.nil?
-    puts "Creating module #{module_id}"
+    puts "Creating module #{module_hash[:name]}"
     PrimeroModule.create! module_hash
   else
-    puts "Updating module #{module_id}"
+    puts "Updating module #{module_hash[:name]}"
     primero_module.update_attributes module_hash
   end
 
@@ -33,10 +13,11 @@ end
 
 
 create_or_update_module(
+  unique_id: 'primeromodule-cp',
   name: "CP",
   description: "Child Protection",
   associated_record_types: ["case", "tracing_request", "incident"],
-  associated_form_ids: [
+  form_sections: FormSection.where(unique_id: [
     "activities", "assessment", "basic_identity", "best_interest", "caafag_profile",
     "care_arrangements", "care_assessment", "child_under_5", "bia_documents",
     "child_wishes", "closure_form", "consent", "family_details", "followup",
@@ -48,7 +29,7 @@ create_or_update_module(
     "other_reportable_fields_tracing_request", "referral_transfer", "notes", "cp_case_plan", "cp_bia_form",
     "cp_incident_form", "cp_individual_details", "cp_offender_details", "cp_other_reportable_fields", "cp_incident_record_owner",
     "incident_details_container", "approvals", "conference_details_container"
-  ],
+  ]),
   field_map: {
     map_to: "primeromodule-cp",
     fields: [
@@ -238,28 +219,33 @@ create_or_update_module(
       }
     ]
   },
-  program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
-  allow_searchable_ids: true,
-  use_workflow_service_implemented: true,
-  use_workflow_case_plan: true,
-  use_workflow_assessment: false,
-  reporting_location_filter: true
+  module_options: {
+    allow_searchable_ids: true,
+    use_workflow_service_implemented: true,
+    use_workflow_case_plan: true,
+    use_workflow_assessment: false,
+    reporting_location_filter: true
+  },
+  primero_program: PrimeroProgram.find_by(unique_id: "primeroprogram-primero"),
 )
 
 
 #TODO: This list needs to be updated once we harden the GBV forms
 create_or_update_module(
+  unique_id: 'primeromodule-gbv',
   name: "GBV",
   description: "Gender Based Violence",
   associated_record_types: ["case", "incident"],
-  associated_form_ids: [
+  form_sections: FormSection.where(unique_id: [
     "record_owner", "consent_for_services", "gbv_survivor_information",
     "other_documents", "consent_for_referrals","safety_plan",
     "incident_record_owner", "incident_service_referrals", "gbv_individual_details", "gbv_incident_form",
     "gbv_sexual_violence", "action_plan_form", "survivor_assessment_form", "gbv_case_closure_form", "alleged_perpetrators_wrapper",
     "other_reportable_fields_case", "other_reportable_fields_incident", "referral_transfer", "client_feedback", "approvals",
     "cp_case_plan", "closure_form"
-  ],
-  program_id: PrimeroProgram.by_name(:key => "Primero").first.id,
-  user_group_filter: true
+  ]),
+  module_options: {
+     user_group_filter: true
+  },
+  primero_program: PrimeroProgram.find_by(unique_id: "primeroprogram-primero")
 )

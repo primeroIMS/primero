@@ -1,16 +1,8 @@
-#TODO: For now leaving CouchRest::Model::Base
-#TODO: Inheriting from ApplicationRecord breaks created_at in the Historical Concern for some reason
-class Child < CouchRest::Model::Base
-  use_database :child
+class Child < ApplicationRecord
+  self.table_name = 'cases'
 
   CHILD_PREFERENCE_MAX = 3
-  RISK_LEVEL_HIGH = 'high'
-  RISK_LEVEL_NONE = 'none'
-
-  APPROVAL_STATUS_PENDING = 'pending'
-  APPROVAL_STATUS_REQUESTED = 'requested'
-  APPROVAL_STATUS_APPROVED = 'approved'
-  APPROVAL_STATUS_REJECTED = 'rejected'
+  RISK_LEVEL_HIGH = 'high' ; RISK_LEVEL_NONE = 'none'
 
   class << self
     def parent_form
@@ -26,163 +18,121 @@ class Child < CouchRest::Model::Base
     'case'
   end
 
-  include PrimeroModel
-  include Primero::CouchRestRailsBackward
-
   # This module updates photo_keys with the before_save callback and needs to
   # run before the before_save callback in Historical to make the history
-  include PhotoUploader
   include Record
-  include DocumentUploader
+  include Searchable
+  include Historical
   include BIADerivedFields
   include CaseDerivedFields
   include UNHCRMapping
-
   include Ownable
-  include Matchable
-  include AudioUploader
   include AutoPopulatable
-
-  #It is important that Workflow is included AFTER Serviceable
-  #Workflow statuses is expecting the servicable callbacks to have already happened
-  include Serviceable
+  include Serviceable #TODO: refactor with nested
   include Workflow
-
-  property :case_id
-  property :case_id_code
-  property :case_id_display
-  property :nickname
-  property :name
-  property :protection_concerns
-  property :consent_for_tracing, TrueClass
-  property :hidden_name, TrueClass, :default => false
-  property :registration_date, Date
-  property :age, Integer
-  property :date_of_birth, Date
-  property :sex
-  property :reunited, TrueClass
-  property :reunited_message, String
-  property :investigated, TrueClass
-  property :verified, TrueClass
-  property :risk_level
-  property :child_status
-  property :case_status_reopened, TrueClass, :default => false
-  property :system_generated_followup, TrueClass, default: false
-  #To hold the list of GBV Incidents created from a GBV Case.
-  property :incident_links, [], :default => []
-  property :matched_tracing_request_id
-
-  validate :validate_date_of_birth
-  validate :validate_registration_date
-  validate :validate_child_wishes
-  # validate :validate_date_closure
-
-  before_save :sync_protection_concerns
-  before_save :auto_populate_name
-
-  def initialize *args
-    self['photo_keys'] ||= []
-    self['document_keys'] ||= []
-    self['histories'] = []
-
-    super *args
-  end
-
-  design
-
-  design :by_date_of_birth do
-    view :by_date_of_birth
-  end
-
-  design :by_date_of_birth_month_day do
-    view :by_date_of_birth_month_day,
-         :map => "function(doc) {
-                  if (doc['couchrest-type'] == 'Child')
-                 {
-                    if (!doc.hasOwnProperty('duplicate') || !doc['duplicate']) {
-                      if (doc['date_of_birth'] != null) {
-                        var dob = new Date(doc['date_of_birth']);
-                        //Add 1 to month because getMonth() is indexed starting at 0
-                        //i.e. January == 0, Februrary == 1, etc.
-                        //Add 1 to align it with Date.month which is indexed starting at 1
-                        emit([(dob.getMonth() + 1), dob.getDate()], null);
-                      }
-                    }
-                 }
-              }"
-  end
-
-  def self.quicksearch_fields
-    # The fields family_count_no and dss_id are hacked in only because of Bangladesh
-    # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
-    [
-      'unique_identifier', 'short_id', 'case_id_display', 'name', 'name_nickname', 'name_other',
-      'ration_card_no', 'icrc_ref_no', 'rc_id_no', 'unhcr_id_no', 'unhcr_individual_no','un_no',
-      'other_agency_id', 'survivor_code_no', 'national_id_no', 'other_id_no', 'biometrics_id',
-      'family_count_no', 'dss_id', 'camp_id', 'tent_number', 'nfi_distribution_id'
-    ]
-  end
-
   include Flaggable
   include Transitionable
   include Reopenable
   include Approvable
   include Alertable
+  include Matchable
+  include Attachable
+  # include Importable #TODO: Refactor with Imports and Exports
 
-  # Searchable needs to be after other concern includes so that properties defined in those concerns get indexed
-  include Searchable
+  store_accessor :data,
+    :case_id, :case_id_code, :case_id_display,
+    :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
+    :name_first, :name_middle, :name_last, :name_nickname, :name_other,
+    :registration_date, :age, :estimated, :date_of_birth, :sex,
+    :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
+    :risk_level, :case_status_reopened, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
+    :system_generated_followup,
+    :assessment_due_date, :assessment_requested_on,
+    :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
+    :disclosure_other_orgs,
+    :ration_card_no, :icrc_ref_no, :unhcr_id_no, :unhcr_individual_no, :un_no,  :other_agency_id,
+    :survivor_code_no, :national_id_no, :other_id_no, :biometrics_id, :family_count_no, :dss_id, :camp_id,
+    :tent_number, :nfi_distribution_id,
+    :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
+    :displacement_status, :marital_status, :disability_type, :incident_details,
+    :duplicate, :notes_section
+
+
+  alias child_status status ; alias child_status= status=
+
+  attach_documents fields: [:other_documents]
+  attach_images fields: [:photos]
+  attach_audio fields: [:recorded_audio]
+
+  has_many :incidents
+  belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true
+
+  has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
+  belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
+
+  def self.quicksearch_fields
+    # The fields family_count_no and dss_id are hacked in only because of Bangladesh
+    # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
+    %w(unique_identifier short_id case_id_display name name_nickname name_other
+       ration_card_no icrc_ref_no rc_id_no unhcr_id_no unhcr_individual_no un_no
+       other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
+       family_count_no dss_id camp_id tent_number nfi_distribution_id
+    )
+  end
 
   searchable auto_index: self.auto_index? do
-    form_matchable_fields.each do |field|
-      text field, :boost => Child.get_field_boost(field)
-      if phonetic_fields_exist?(field)
-        text field, :as => "#{field}_ph"
-      end
+    extend Matchable::Searchable
+    configure_searchable(Child)
+
+    quicksearch_fields.each do |f|
+      text(f) { self.data[f] }
     end
 
-    subform_matchable_fields.each do |field|
-      text field, :boost => Child.get_field_boost(field) do |record|
-        record.family_detail_values(field)
-      end
-      if phonetic_fields_exist?(field)
-        text field, :as => "#{field}_ph" do |record|
-          record.family_detail_values(field)
-        end
-      end
-    end
-
-    string :id do
-      self['_id']
-    end
+    %w(date_case_plan_initiated assessment_requested_on).each{|f| date(f)}
 
     boolean :estimated
-    boolean :consent_for_services
+    integer :day_of_birth
 
-    time :service_due_dates, :multiple => true
-
-    string :workflow_status, as: 'workflow_status_sci'
-    string :workflow, as: 'workflow_sci'
     string :child_status, as: 'child_status_sci'
-    string :created_agency_office, as: 'created_agency_office_sci'
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
 
     date :assessment_due_dates, multiple: true do
-      Tasks::AssessmentTask.from_case(self).map &:due_date
+      Tasks::AssessmentTask.from_case(self).map(&:due_date)
     end
 
     date :case_plan_due_dates, multiple: true do
-      Tasks::CasePlanTask.from_case(self).map &:due_date
+      Tasks::CasePlanTask.from_case(self).map(&:due_date)
     end
 
     date :followup_due_dates, multiple: true do
-      Tasks::FollowUpTask.from_case(self).map &:due_date
+      Tasks::FollowUpTask.from_case(self).map(&:due_date)
     end
   end
 
+
+  validate :validate_date_of_birth
+  validate :validate_registration_date
+  validate :validate_child_wishes
+
+  before_save :sync_protection_concerns
+  before_save :auto_populate_name
+  before_create :hide_name
+
+  alias super_defaults defaults
+  def defaults
+    super_defaults
+    self.registration_date ||= Date.today
+    self.notes_section = []
+  end
+
+  def subform_match_values(field)
+    family_detail_values(field)
+  end
+
   def family_detail_values(field)
-    self.family_details_section.map { |fds| fds[:"#{field}"] }.compact.uniq.join(' ') if self.try(:family_details_section)
+    self.data['family_details_section'].map { |fds| fds[field] }.compact.uniq.join(' ') if self.data['family_details_section'].present?
   end
 
   def self.report_filters
@@ -194,6 +144,7 @@ class Child < CouchRest::Model::Base
 
   #TODO - does this need reporting location???
   #TODO - does this need the reporting_location_config field key
+  # TODO: refactor with nested
   def self.minimum_reportable_fields
     {
         'boolean' => ['record_state'],
@@ -209,20 +160,26 @@ class Child < CouchRest::Model::Base
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
-  def self.by_date_of_birth_range(startDate, endDate)
-    if startDate.is_a?(Date) && endDate.is_a?(Date)
-      self.by_date_of_birth_month_day(:startkey => [startDate.month, startDate.day], :endkey => [endDate.month, endDate.day]).all
+  def self.by_date_of_birth_range(start_date, end_date)
+    if start_date.is_a?(Date) && end_date.is_a?(Date)
+      start_yday = normal_yday(start_date)
+      end_yday = normal_yday(end_date)
+      Child.search do
+        with(:day_of_birth, start_yday..end_yday)
+      end.results
     end
   end
 
-  def add_incident_links(incident_detail_id, incident_id, incident_display_id)
-    self.incident_links << {"incident_details" => incident_detail_id, "incident_id" => incident_id, "incident_display_id" => incident_display_id}
+  alias super_index_for_search index_for_search
+  def index_for_search
+    super_index_for_search
+    self.index_nested_reportables
   end
 
   def validate_date_of_birth
-    if date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
+    if self.date_of_birth.present? && (!self.date_of_birth.is_a?(Date) || self.date_of_birth.year > Date.today.year)
       errors.add(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
-      error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth"))
+      #error_with_section(:date_of_birth, I18n.t("errors.models.child.date_of_birth")) #TODO: Remove with UIUIX?
       false
     else
       true
@@ -230,9 +187,9 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_registration_date
-    if registration_date.present? && (!registration_date.is_a?(Date) || registration_date.year > Date.today.year)
+    if self.registration_date.present? && (!self.registration_date.is_a?(Date) || self.registration_date.year > Date.today.year)
       errors.add(:registration_date, I18n.t("messages.enter_valid_date"))
-      error_with_section(:registration_date, I18n.t("messages.enter_valid_date"))
+      #error_with_section(:registration_date, I18n.t("messages.enter_valid_date")) #TODO: Remove with UIUIX?
       false
     else
       true
@@ -240,39 +197,28 @@ class Child < CouchRest::Model::Base
   end
 
   def validate_child_wishes
-    return true if self['child_preferences_section'].nil? || self['child_preferences_section'].size <= CHILD_PREFERENCE_MAX
+    return true if self.data['child_preferences_section'].nil? || self.data['child_preferences_section'].size <= CHILD_PREFERENCE_MAX
     errors.add(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
-    error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
+    #TODO: Remove with UIUIX?
+    #error_with_section(:child_preferences_section, I18n.t("errors.models.child.wishes_preferences_count", :preferences_count => CHILD_PREFERENCE_MAX))
   end
-
-  # def validate_date_closure
-  #   return true if self["date_closure"].nil? || self["date_closure"] >= self["registration_date"]
-  #   errors.add(:date_closure, I18n.t("errors.models.child.date_closure"))
-  #   error_with_section(:date_closure, I18n.t("errors.models.child.date_closure"))
-  # end
 
   def to_s
-    if self['name'].present?
-      "#{self['name']} (#{self['unique_identifier']})"
+    if self.name.present?
+      "#{self.name} (#{self.unique_identifier})"
     else
-      self['unique_identifier']
+      self.unique_identifier
     end
-  end
-
-
-  #TODO: Keep this?
-  def self.search_field
-    "name"
-  end
-
-  def self.view_by_field_list
-    ['created_at', 'name', 'flag_at', 'reunited_at']
   end
 
   def auto_populate_name
     #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
     a_name = auto_populate('name')
     self.name = a_name if a_name.present?
+  end
+
+  def hide_name
+    self.hidden_name = true if self.module_id == PrimeroModule::GBV
   end
 
   def set_instance_id
@@ -295,47 +241,50 @@ class Child < CouchRest::Model::Base
     [self.case_id_code, self.short_id].reject(&:blank?).join(self.auto_populate_separator('case_id_code', system_settings))
   end
 
-  def create_class_specific_fields(fields)
-    #TODO - handle timezone adjustment  (See incident.date_of_first_report)
-    self.registration_date ||= Date.today
-  end
-
   def sortable_name
     self['name']
   end
 
-  def has_one_interviewer?
-    user_names_after_deletion = self['histories'].map { |change| change['user_name'] }
-    user_names_after_deletion.delete(self['created_by'])
-    self['last_updated_by'].blank? || user_names_after_deletion.blank?
-  end
-
   def family(relation=nil)
-    result = self.try(:family_details_section) || []
+    result = self.data['family_details_section'] || []
     if relation.present?
       result = result.select do |member|
-        member.try(:relation) == relation
+        member['relation'] == relation
       end
     end
     return result
   end
 
   def fathers_name
-    self.family('father').first.try(:relation_name)
+    self.family('father').first.try(:[], 'relation_name')
   end
 
   def mothers_name
-    self.family('mother').first.try(:relation_name)
+    self.family('mother').first.try(:[], 'relation_name')
   end
 
   def caregivers_name
-    self.name_caregiver || self.family.select { |fd| fd.relation_is_caregiver == true }.first.try(:relation_name)
+    self.data['name_caregiver'] || self.family.select { |fd| fd['relation_is_caregiver'] }.first.try(:[], 'relation_name')
+  end
+
+  def day_of_birth
+    if self.date_of_birth.is_a? Date
+      Child.normal_yday(self.date_of_birth)
+    end
+  end
+
+  def self.normal_yday(date)
+    yday = date.yday
+    if date.leap? && (yday >= 60)
+      yday -= 1
+    end
+    return yday
   end
 
   # Solution below taken from...
   # http://stackoverflow.com/questions/819263/get-persons-age-in-ruby
   def calculated_age
-    if date_of_birth.present? && date_of_birth.is_a?(Date)
+    if self.date_of_birth.present? && self.date_of_birth.is_a?(Date)
       now = Date.current
       now.year - date_of_birth.year - ((now.month > date_of_birth.month || (now.month == date_of_birth.month && now.day >= date_of_birth.day)) ? 0 : 1)
     end
@@ -343,57 +292,44 @@ class Child < CouchRest::Model::Base
 
   def sync_protection_concerns
     protection_concerns = self.protection_concerns
-    protection_concern_subforms = self.try(:protection_concern_detail_subform_section)
+    protection_concern_subforms = self.data['protection_concern_detail_subform_section']
     if protection_concerns.present? && protection_concern_subforms.present?
-      self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc.try(:protection_concern_type) }).compact.uniq
+      self.protection_concerns = (protection_concerns + protection_concern_subforms.map { |pc| pc['protection_concern_type'] }).compact.uniq
     end
   end
 
-  #This method returns nil if object is nil
-  def service_field_value(service_object, service_field)
-    if service_object.present?
-      service_object.try(service_field.to_sym)
-    end
+  def add_note(notes, note_subject, user)
+    self.notes_section << {
+        'field_notes_subform_fields' => notes, 'note_subject' => note_subject,
+        'notes_date' => DateTime.now, note_created_by: user.user_name
+    }
   end
 
-  def matched_to_trace?(trace_id)
-    self.matched_tracing_request_id.present? &&
-    (self.matched_tracing_request_id.split('::').last == trace_id)
+  def mark_as_duplicate(parent_id)
+    self.duplicate = true
+    self.duplicate_case_id = parent_id
   end
 
-  #TODO: The method is broken: the check should be for 'tracing_request'.
-  #      Not fixing because find_match_tracing_requests is a shambles.
-  def has_tracing_request?
-    # TODO: this assumes if tracing-request is in associated_record_types then the tracing request forms are also present. Add check for tracing-request forms.
-    self.module.present? && self.module.associated_record_types.include?('tracing-request')
+  def match_to_trace(tracing_request, trace)
+    self.matched_tracing_request_id = tracing_request.id
+    self.matched_trace_id = trace['unique_id']
   end
 
-  #TODO v1.3: Need rspec test
-  #TODO: Current logic:
-  #  On an update to a case (already inefficient, because most updates to cases arent on matching fields),
-  #  find all TRs that now match (using Solr).
-  #  For those TRs invoke reverse matching logic (why? - probably because Lucene scores are not comparable between TR and Case seraches)
-  #  and update/create the resulting PotentialMatches.
-  #  Delete the untouched PotentialMatches that are no longer valid, because they are based on old searches.
-  def find_match_tracing_requests
-    if has_tracing_request? #This always returns false - bug :)
-      match_result = Child.find_match_records(match_criteria, TracingRequest)
-      tracing_request_ids = match_result==[] ? [] : match_result.keys
-      all_results = TracingRequest.match_tracing_requests_for_case(self.id, tracing_request_ids).uniq
-      results = all_results.sort_by { |result| result[:score] }.reverse.slice(0, 20)
-      PotentialMatch.update_matches_for_child(self.id, results)
-    end
+  def matched_to_trace?(tracing_request, trace)
+    self.matched_tracing_request_id.present? && self.matched_trace_id.present? &&
+        (self.matched_trace_id == trace['unique_id']) && (self.matched_tracing_request_id == tracing_request.id)
   end
 
   def matching_tracing_requests(case_fields = {})
-    matching_criteria = match_criteria(nil, case_fields)
+    matching_criteria = match_criteria(self.data, case_fields)
     match_result = Child.find_match_records(matching_criteria, TracingRequest, nil)
     PotentialMatch.matches_from_search(match_result) do |tr_id, score, average_score|
-      traces = TracingRequest.get(tr_id).try(:traces) || []
+      tracing_request = TracingRequest.find_by(id: tr_id)
+      traces = tracing_request.try(:traces) || []
       traces.map do |trace|
-        PotentialMatch.build_potential_match(self.id, tr_id, score, average_score, trace.unique_id)
+        PotentialMatch.build_potential_match(self, tracing_request, score, average_score, trace['unique_id'])
       end
-    end
+    end.flatten
   end
 
   alias :inherited_match_criteria :match_criteria
@@ -412,38 +348,10 @@ class Child < CouchRest::Model::Base
     match_criteria.merge(match_criteria_subform) { |_key, v1, v2| v1 + v2 }.compact
   end
 
-  def service_due_dates
-    # TODO: only use services that is of the type of the current workflow
-    reportable_services = self.nested_reportables_hash[ReportableService]
-    if reportable_services.present?
-      reportable_services.select do |service|
-        !service.service_implemented?
-      end.map do |service|
-        service.service_due_date
-      end.compact
-    end
-  end
-
   def reopen(status, reopen_status, user_name)
     self.child_status = status
     self.case_status_reopened = reopen_status
     self.add_reopened_log(user_name)
-  end
-
-  def send_approval_request_mail(approval_type, host_url)
-    managers = self.owner.managers.select{ |manager| manager.email.present? && manager.send_mail }
-
-    if managers.present?
-      managers.each do |manager|
-        ApprovalRequestJob.perform_later(self.owner.id, manager.id, self.id, approval_type, host_url)
-      end
-    else
-      Rails.logger.info "Approval Request Mail not sent.  No managers present with send_mail enabled.  User - [#{self.owner.id}]"
-    end
-  end
-
-  def send_approval_response_mail(manager_id, approval_type, approval, host_url, is_gbv = false)
-    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url, is_gbv)
   end
 
   #Override method in record concern

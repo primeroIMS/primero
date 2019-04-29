@@ -12,7 +12,6 @@ describe FieldsController do
   describe "post create" do
     before :each do
       @field = Field.new :name => "my_new_field", :type=>"TEXT", :display_name => "My New Field"
-      SuggestedField.stub(:mark_as_used)
       @form_section = FormSection.new :name => "Form section 1", :unique_id=>'form_section_1'
       FormSection.stub(:find_by).with({unique_id: @form_section.unique_id}).and_return(@form_section)
     end
@@ -44,17 +43,8 @@ describe FieldsController do
       expect(request.flash[:notice]).to eq("Field successfully added")
     end
 
-    it "should mark suggested field as used if one is supplied" do
-      FormSection.stub(:add_field_to_formsection)
-      suggested_field = "this_is_my_field"
-      expect(SuggestedField).to receive(:mark_as_used).with(suggested_field)
-      post :create, params: {:form_section_id => @form_section.unique_id, :from_suggested_field => suggested_field, :field => JSON.parse(@field.to_json),
-                    :module_id => "test_module"}
-    end
-
     it "should not mark suggested field as used if there is not one supplied" do
       FormSection.stub(:add_field_to_formsection)
-      expect(SuggestedField).not_to receive(:mark_as_used)
       post :create, params: {:form_section_id => @form_section.unique_id, :field => JSON.parse(@field.to_json), :module_id => "test_module"}
     end
 

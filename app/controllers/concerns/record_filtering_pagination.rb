@@ -46,7 +46,7 @@ module RecordFilteringPagination
       model_class = params[:model_class].constantize if params[:model_class].present?
       model_class ||= params[:controller].camelize.singularize.constantize
       params[:scope].reject{|k,v| k == 'users'}
-      params[:scope][:module_id] = "list||#{current_user.modules.map{|m| m.id}.join('||')}"
+      params[:scope][:module_id] = "list||#{current_user.modules.map{ |m| m.unique_id }.join('||')}"
       params[:scope].keys.each do |key|
         if params[:scope][key].instance_of? String
           filter_values = params[:scope][key].split "||"
@@ -68,7 +68,7 @@ module RecordFilteringPagination
         when "date_range"
           filter_values = sanitize_date_range_filter(filter_values.first.split("."))
         else
-          filter_values = filter_values.map{|value| value == 'true' } if model_class.properties_by_name[key].try(:type) == TrueClass
+          filter_values = filter_values.map{|value| %w(true false).include?(value) ? value == 'true' : value}
           filter_values = filter_values.first if ["single", "location"].include? filter_type
         end
         filter_scope[key] = {:type => filter_type, :value => filter_values} if filter_values.present? || filter_values == false
@@ -123,6 +123,7 @@ module RecordFilteringPagination
   #Use this method if we are not relying on Sunspot to do record filtering
   #TODO: Only implementing range and list type filters for PotentialMatch requirements.
   #      Implement others as need rises
+  # TODO: This method is unused, remove for UIUX?
   def apply_filter_to_records(records, filter)
     records.select do |record|
       select_this_record = true

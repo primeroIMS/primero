@@ -2,25 +2,6 @@ require 'rails_helper'
 require 'sunspot'
 
 describe Child do
-  before :each do
-    Child.any_instance.stub(:field_definitions).and_return([])
-  end
-  it_behaves_like "a valid record" do
-    let(:record) {
-      fields = [
-                 Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
-                 Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
-                 Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
-                 Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
-                 Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
-               ]
-      FormSection.stub(:all_visible_form_fields => fields)
-      Child.refresh_form_properties
-      Child.any_instance.stub(:field_definitions).and_return(fields)
-      Child.new
-    }
-  end
-
 
   describe "quicksearch", search: true do
     it "has a searchable case id, survivor number" do
@@ -28,7 +9,7 @@ describe Child do
     end
 
     it "can find a child by survivor code" do
-      child = Child.create!(name: 'Lonnie', survivor_code_no: 'ABC123XYZ')
+      child = Child.create!(data: {name: 'Lonnie', survivor_code_no: 'ABC123XYZ'})
       child.index!
       search_result = Child.list_records({}, {:created_at => :desc}, {}, [], 'ABC123XYZ').results
       expect(search_result).to have(1).child
@@ -36,140 +17,61 @@ describe Child do
     end
   end
 
-  describe "update_properties_with_user_name" do
+  describe "update_properties" do
 
     it "should replace old properties with updated ones" do
-      #TODO - i18n
-      child = Child.new("name" => "Dave", "age" => 28, "last_known_location" => "London")
+      child = Child.new(data: {"name" => "Dave", "age" => 28, "last_known_location" => "London"})
       new_properties = {"name" => "Dave", "age" => 35}
-      child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      child['age'].should == 35
-      child['name'].should == "Dave"
-      child['last_known_location'].should == "London"
+      child.update_properties(new_properties, "some_user")
+      child.age.should == 35
+      child.name.should == "Dave"
+      child.data['last_known_location'].should == "London"
     end
 
     it "should not replace old properties when when missing from update" do
-      child = Child.new("origin" => "Croydon", "last_known_location" => "London")
+      child = Child.new(data: {"origin" => "Croydon", "last_known_location" => "London"})
       new_properties = {"last_known_location" => "Manchester"}
-      child.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      child['last_known_location'].should == "Manchester"
-      child['origin'].should == "Croydon"
+      child.update_properties(new_properties, "some_user")
+      child.data['last_known_location'].should == "Manchester"
+      child.data['origin'].should == "Croydon"
     end
 
     it "should populate last_updated_by field with the user_name who is updating" do
       child = Child.new
-      child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
+      child.update_properties({}, "jdoe")
       child.last_updated_by.should == 'jdoe'
     end
 
-    it "should not update attachments when the photo value is nil" do
+    xit "should not update attachments when the photo value is nil" do
       child = Child.new
       child.update_with_attachements({}, "mr jones")
       child.photos.should be_empty
     end
 
-    it "should update attachment when there is audio update" do
+    xit "should update attachment when there is audio update" do
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       child = Child.new
       child.update_properties_with_user_name "jdoe", nil, nil, uploadable_audio, false, {}
       child['_attachments']['sample']['data'].should_not be_blank
     end
 
-    it "should respond nil for photo when there is no photo associated with the child" do
+    xit "should respond nil for photo when there is no photo associated with the child" do
       child = Child.new
       child.photo.should == nil
     end
 
-    it "should update photo keys" do
+    xit "should update photo keys" do
       child = Child.new
       child.should_receive(:update_photo_keys)
       child.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
       child.photos.should be_empty
     end
 
-    it "should set flagged_at if the record has been flagged" do
-      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
-      child = create_child("timothy cochran")
-      child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:flag => true}
-      child.flag_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
-    end
-
-    it "should set reunited_at if the record has been reunited" do
-      DateTime.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
-      child = create_child("timothy cochran")
-      child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:reunited => true}
-      child.reunited_at.should == DateTime.parse("2010-01-17 19:05:00UTC")
-    end
-
-
-    it "should remove old audio files when save a new audio file" do
-      User.stub(:find_by_user_name).and_return("John Doe")
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"), Time.parse("Jan 18 2010 14:05:32"))
-
-      #Create a child with some audio file.
-      child = Child.new
-      child.audio = uploadable_audio_amr
-      child.save
-      #Validate the audio file was store.
-      child['_attachments']['sample']['data'].should_not be_blank
-      child['_attachments']['sample']['content_type'].should eq("audio/amr")
-      child['audio_attachments']['original'].should == "sample"
-      child['audio_attachments']['amr'].should == "sample"
-      child['audio_attachments']['mp3'].should be_nil
-      #Others
-      child['recorded_audio'].should == "sample"
-      child['name'].should be_nil
-
-      #Update the child so a new audio is loaded.
-      properties = {:name => "Some Child Name"}
-      child.update_properties_with_user_name 'Jane Doe', nil, nil, uploadable_audio_mp3, false, properties
-
-      #Validate the new file was stored.
-      child['_attachments']['sample']['data'].should_not be_blank
-      child['_attachments']['sample']['content_type'].should eq("audio/mpeg")
-      child['audio_attachments']['original'].should == "sample"
-      child['audio_attachments']['mp3'].should == "sample"
-      child['audio_attachments']['amr'].should be_nil
-      #Others
-      child['recorded_audio'].should == "sample"
-      child['name'].should == "Some Child Name"
-    end
-
-    it "should remove current audio files" do
-      User.stub(:find_by_user_name).and_return("John Doe")
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-
-      #Create a child with some audio file.
-      child = Child.new
-      child.audio = uploadable_audio_amr
-      child.save
-      #Validate the audio file was store.
-      child['_attachments']['sample']['data'].should_not be_blank
-      child['_attachments']['sample']['content_type'].should eq("audio/amr")
-      child['audio_attachments']['original'].should == "sample"
-      child['audio_attachments']['amr'].should == "sample"
-      child['audio_attachments']['mp3'].should be_nil
-      #Others
-      child['recorded_audio'].should == "sample"
-      child.name.should be_nil
-
-      #Update the child so the current audio is removed.
-      properties = {:name => "Some Child Name"}
-      child.update_properties_with_user_name 'Jane Doe', nil, nil, nil, true, properties
-
-      #Validate the file was removed.
-      child['_attachments'].should be_blank
-      child['audio_attachments'].should be_nil
-      #Others
-      child['recorded_audio'].should be_nil
-      child.name.should == "Some Child Name"
-    end
-
   end
 
   describe "validation" do
 
-    it "should disallow file formats that are not photo formats" do
+    xit "should disallow file formats that are not photo formats" do
       child = Child.new
       child.photo = uploadable_photo_gif
       child.should_not be_valid
@@ -177,25 +79,25 @@ describe Child do
       child.should_not be_valid
     end
 
-    it "should disallow uploading executable files for documents" do
+    xit "should disallow uploading executable files for documents" do
       child = Child.new
       child.upload_other_document = [{'document' => uploadable_executable_file}]
       child.should_not be_valid
     end
 
-    it "should disallow uploading executable files for bia_documents" do
+    xit "should disallow uploading executable files for bia_documents" do
       child = Child.new
       child.upload_bia_document = [{'document' => uploadable_executable_file}]
       child.should_not be_valid
     end
 
-    it "should disallow uploading executable files for bid_documents" do
+    xit "should disallow uploading executable files for bid_documents" do
       child = Child.new
       child.upload_bid_document = [{'document' => uploadable_executable_file}]
       child.should_not be_valid
     end
 
-    it "should disallow uploading more than 100 documents" do
+    xit "should disallow uploading more than 100 documents" do
       documents = []
       101.times { documents.push({'document' => uploadable_photo_gif}) }
       child = Child.new
@@ -205,34 +107,20 @@ describe Child do
       child.should_not be_valid
     end
 
-    it "should disallow uploading a document larger than 2 megabytes" do
+    xit "should disallow uploading a document larger than 2 megabytes" do
       child = Child.new
       child.upload_other_document = [{'document' => uploadable_large_photo}]
       child.should_not be_valid
     end
 
-    it "should disallow file formats that are not supported audio formats" do
-      child = Child.new
-      child.audio = uploadable_photo_gif
-      child.should_not be_valid
-      child.audio = uploadable_audio_amr
-      child.should be_valid
-      child.audio = uploadable_audio_mp3
-      child.should be_valid
-      child.audio = uploadable_audio_wav
-      child.should_not be_valid
-      child.audio = uploadable_audio_ogg
-      child.should_not be_valid
-    end
-
     it "should allow blank age" do
-      child = Child.new({:age => "", :another_field => "blah"})
+      child = Child.new(data: {:age => "", :another_field => "blah"})
       child.should be_valid
-      child = Child.new :foo => "bar"
+      child = Child.new(data: {foo: "bar"})
       child.should be_valid
     end
 
-    it "should disallow image file formats that are not png or jpg" do
+    xit "should disallow image file formats that are not png or jpg" do
       child = Child.new
       child.photo = uploadable_photo
       child.should be_valid
@@ -240,84 +128,33 @@ describe Child do
       child.should_not be_valid
     end
 
-    it "should disallow a photo larger than 10 megabytes" do
+    xit "should disallow a photo larger than 10 megabytes" do
       photo = uploadable_large_photo
       child = Child.new
       child.photo = photo
       child.should_not be_valid
     end
 
-    it "should disllow an audio file larger than 10 megabytes" do
-      child = Child.new
-      child.audio = uploadable_large_audio
-      child.should_not be_valid
-    end
   end
 
 
   describe 'save' do
 
-    before :each do
-      FormSection.all.all.each { |form| form.destroy }
-      fields = [
-          Field.new({"name" => "risk_level",
-                     "type" => "select_box",
-                     "display_name_all" => "Risk Level",
-                     "option_strings_text_all" => [
-                       {"id" => "option1", "display_text" => "Option 1"},
-                       {"id" => "option2", "display_text" => "Option 2"}
-                     ]
-                    }),
-          Field.new({"name" => "system_generated_followup",
-                     "type" => "tick_box",
-                     "display_name_all" => "system generated followup"
-                    }),
-          Field.new({"name" => "child_status",
-                     "type" => "select_box",
-                     "option_strings_text_all" => [
-                       {"id" => "option1", "display_text" => "Option 1"},
-                       {"id" => "option2", "display_text" => "Option 2"}
-                     ],
-                     "display_name_all" => "Child Status"
-                    }),
-          Field.new({"name" => "registration_date",
-                     "type" => "date_field",
-                     "display_name_all" => "Registration Date"
-                    })
-        ]
-      form = FormSection.new(
-        :unique_id => "form_section_test_for_risk_level_follow_up",
-        :parent_form=>"case",
-        "visible" => true,
-        :order_form_group => 50,
-        :order => 15,
-        :order_subform => 0,
-        "editable" => true,
-        "name_all" => "Form Section Test",
-        "description_all" => "Form Section Test",
-        :fields => fields
-          )
-      form.save!
-      Child.any_instance.stub(:field_definitions).and_return(fields)
-      Child.refresh_form_properties
-      Child.all.each { |form| form.destroy }
-    end
-
     it "should save with generated case_id and registration_date" do
-      child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6')
+      child = child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6')
       child.save!
       child.case_id.should_not be_nil
       child.registration_date.should_not be_nil
     end
 
     it "should allow edit registration_date" do
-      child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6', 'registration_date' => '19/Jul/2014')
+      child = child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => '6', 'registration_date' => Date.parse('19/Jul/2014'))
       child.save!
       child.case_id.should_not be_nil
       child.registration_date.should eq Date.parse('19/Jul/2014')
     end
 
-    it "should not save file formats that are not photo formats" do
+    xit "should not save file formats that are not photo formats" do
       child = Child.new
       child.photo = uploadable_photo_gif
       child.save.should == false
@@ -325,14 +162,14 @@ describe Child do
       child.save.should == false
     end
 
-    it "should save file based on content type" do
+    xit "should save file based on content type" do
       child = Child.new('created_by' => "me", 'created_organization' => "stc")
       photo = uploadable_jpg_photo_without_file_extension
       child[:photo] = photo
       child.save.present?.should == true
     end
 
-    it "should not save with file formats that are not supported audio formats" do
+    xit "should not save with file formats that are not supported audio formats" do
       child = Child.new('created_by' => "me", 'created_organization' => "stc")
       child.audio = uploadable_photo_gif
       child.save.should == false
@@ -349,13 +186,13 @@ describe Child do
     it "should save blank age" do
       #TODO - i18n could change depending on how we want name / display to look
       User.stub(:find_by_user_name).and_return(double(:organization => "stc", :location => "my_country::my_state::my_town", :agency => "unicef-un"))
-      child = Child.new(:age => "", :another_field => "blah", 'created_by' => "me", 'created_organization' => "stc")
+      child = Child.new(data: {:age => "", :another_field => "blah", 'created_by' => "me", 'created_organization' => "stc"})
       child.save.present?.should == true
-      child = Child.new :foo => "bar"
+      child = Child.new(data: {foo: "bar"})
       child.save.present?.should == true
     end
 
-    it "should not save with image file formats that are not png or jpg" do
+    xit "should not save with image file formats that are not png or jpg" do
       photo = uploadable_photo
       child = Child.new('created_by' => "me", 'created_organization' => "stc")
       child.photo = photo
@@ -366,16 +203,10 @@ describe Child do
       loaded_child.save.should == false
     end
 
-    it "should not save with a photo larger than 10 megabytes" do
+    xit "should not save with a photo larger than 10 megabytes" do
       photo = uploadable_large_photo
       child = Child.new('created_by' => "me", 'created_organization' => "stc")
       child.photo = photo
-      child.save.should == false
-    end
-
-    it "should not save with an audio file larger than 10 megabytes" do
-      child = Child.new('created_by' => "me", 'created_organization' => "stc")
-      child.audio = uploadable_large_audio
       child.save.should == false
     end
 
@@ -384,38 +215,38 @@ describe Child do
   describe "new_with_user_name" do
 
     it "should create regular child fields" do
-      child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => 6)
-      child['last_known_location'].should == 'London'
-      child['age'].should == 6
+      child = child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => 6)
+      child.data['last_known_location'].should == 'London'
+      child.age.should == 6
     end
 
     it "should create a unique id" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
-      child = create_child_with_created_by('jdoe', 'last_known_location' => 'London')
+      SecureRandom.stub("uuid").and_return(12345)
+      child = child_with_created_by('jdoe', 'last_known_location' => 'London')
       child.save!
-      child['unique_identifier'].should == "12345"
+      child.unique_identifier.should == "12345"
     end
 
     it "should not create a unique id if already exists" do
-      child = create_child_with_created_by('jdoe', 'last_known_location' => 'London', 'unique_identifier' => 'rapidftrxxx5bcde')
-      child['unique_identifier'].should == "rapidftrxxx5bcde"
+      child = child_with_created_by('jdoe', 'last_known_location' => 'London', 'unique_identifier' => 'rapidftrxxx5bcde')
+      child.unique_identifier.should == "rapidftrxxx5bcde"
     end
 
     it "should create a created_by field with the user name" do
-      child = create_child_with_created_by('jdoe', 'some_field' => 'some_value')
-      child['created_by'].should == 'jdoe'
+      child = child_with_created_by('jdoe', 'some_field' => 'some_value')
+      child.created_by.should == 'jdoe'
     end
 
     it "should create a posted_at field with the current date" do
       DateTime.stub(:now).and_return(Time.utc(2010, "jan", 22, 14, 05, 0))
-      child = create_child_with_created_by('some_user', 'some_field' => 'some_value')
+      child = child_with_created_by('some_user', 'some_field' => 'some_value')
       child.posted_at.should == DateTime.parse("2010-01-22 14:05:00UTC")
     end
 
     it "should assign name property as nil if name is not passed before saving child record" do
-      child = Child.new_with_user_name(double('user', :user_name => 'user', :organization => 'org', :full_name => 'UserN'), {'some_field' => 'some_value'})
+      child = Child.new_with_user(double('user', :user_name => 'user', :organization => 'org', :full_name => 'UserN'), {'some_field' => 'some_value'})
       child.save
-      child = Child.get(child.id)
+      child = Child.find(child.id)
       child.name.should == nil
     end
 
@@ -423,7 +254,7 @@ describe Child do
 
       it "should create a created_at field with time of creation" do
         DateTime.stub(:now).and_return(Time.utc(2010, "jan", 14, 14, 5, 0))
-        child = create_child_with_created_by('some_user', 'some_field' => 'some_value')
+        child = child_with_created_by('some_user', 'some_field' => 'some_value')
         child.created_at.should == DateTime.parse("2010-01-14 14:05:00UTC")
       end
 
@@ -432,22 +263,22 @@ describe Child do
     describe "when the created at field is supplied" do
 
       it "should use the supplied created at value" do
-        child = create_child_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => '2010-01-14 14:05:00UTC')
-        child['created_at'].should == "2010-01-14 14:05:00UTC"
+        child = child_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => '2010-01-14 14:05:00UTC')
+        child.created_at.should == "2010-01-14 14:05:00UTC"
       end
     end
   end
 
   describe "unique id" do
     it "should create a unique id" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
+      SecureRandom.stub("uuid").and_return(12345)
       child = Child.new
       child.save!
       child.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
-      UUIDTools::UUID.stub("random_create").and_return(1212127654321)
+      SecureRandom.stub("uuid").and_return(1212127654321)
       child = Child.new
       child.save!
       child.short_id.should == "7654321"
@@ -455,7 +286,7 @@ describe Child do
 
   end
 
-  describe "document attachments" do
+  xdescribe "document attachments" do
     before(:each) do
       Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
     end
@@ -487,7 +318,7 @@ describe Child do
     end
   end
 
-  describe "photo attachments" do
+  xdescribe "photo attachments" do
 
     before(:each) do
       Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
@@ -675,153 +506,12 @@ describe Child do
 
   end
 
-  describe ".audio=" do
-
-    before(:each) do
-      @child = Child.new
-      @child.stub(:attach)
-      @file_attachment = mock_model(FileAttachment, :data => "My Data", :name => "some name", :mime_type => Mime::Type.lookup("audio/mpeg"))
-    end
-
-    it "should create an 'original' key in the audio hash" do
-      @child.audio = uploadable_audio
-      @child['audio_attachments'].should have_key('original')
-    end
-
-    it "should create a FileAttachment with uploaded file and prefix 'audio'" do
-      uploaded_file = uploadable_audio
-      FileAttachment.should_receive(:from_uploadable_file).with(uploaded_file, "audio").and_return(@file_attachment)
-      @child.audio= uploaded_file
-    end
-
-    it "should store the audio attachment key with the 'original' key in the audio hash" do
-      FileAttachment.stub(:from_uploadable_file).and_return(@file_attachment)
-      @child.audio= uploadable_audio
-      @child['audio_attachments']['original'].should == 'some name'
-    end
-
-    it "should store the audio attachment key with the 'mime-type' key in the audio hash" do
-      FileAttachment.stub(:from_uploadable_file).and_return(@file_attachment)
-      @child.audio= uploadable_audio
-      @child['audio_attachments']['mp3'].should == 'some name'
-    end
-
-    it "should call delete_audio_attachment_file when set an audio file" do
-      @child.id = "id"
-      @child['audio_attachments'] = {}
-      @child.should_receive(:delete_audio_attachment_file).and_call_original
-      @child.audio = uploadable_audio_mp3
-    end
-
-  end
-
-  describe ".delete_audio" do
-    it "should call delete_audio_attachment_file when delete current audio file" do
-      @child = Child.new
-      @child.id = "id"
-      @child['audio_attachments'] = {}
-      @child.should_receive(:delete_audio_attachment_file).and_call_original
-      @child.delete_audio
-    end
-  end
-
-  describe ".add_audio_file" do
-
-    before :each do
-      @file = stub("File")
-      File.stub(:binread).with(@file).and_return("ABC")
-      @file_attachment = FileAttachment.new("attachment_file_name", "audio/mpeg", "data")
-    end
-
-    it "should create a file attachment for the file with 'audio' prefix, mime mediatype as postfix" do
-      child = Child.new()
-      Mime::Type.stub(:lookup).and_return("abc".to_sym)
-      FileAttachment.should_receive(:from_file).with(@file, "audio/mpeg", "audio", "abc").and_return(@file_attachment)
-      child.add_audio_file(@file, "audio/mpeg")
-    end
-
-    it "should add attachments key attachment to the audio hash using the content's media type as key" do
-      child = Child.new()
-      FileAttachment.stub(:from_file).and_return(@file_attachment)
-      child.add_audio_file(@file, "audio/mpeg")
-      child['audio_attachments']['mp3'].should == "attachment_file_name"
-    end
-
-  end
-
-  describe ".audio" do
-
-    before :each do
-      User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-    end
-
-    it "should return nil if no audio file has been set" do
-      child = Child.new
-      child.audio.should be_nil
-    end
-
-    it "should check if 'original' audio attachment is present" do
-      child = Child.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
-      child['audio_attachments']['original'] = "ThisIsNotAnAttachmentName"
-      child.should_receive(:has_attachment?).with('ThisIsNotAnAttachmentName').and_return(false)
-      child.audio
-    end
-
-    it "should return nil if the recorded audio key is not an attachment" do
-      child = Child.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
-      child['audio_attachments']['original'] = "ThisIsNotAnAttachmentName"
-      child.audio.should be_nil
-    end
-
-    it "should retrieve attachment data for attachment key" do
-      Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
-      child = Child.create('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
-      child.should_receive(:read_attachment).with('sample').and_return("Some audio")
-      child.audio
-    end
-
-    it 'should create a FileAttachment with the read attachment and the attachments content type' do
-      Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
-      uploaded_amr = uploadable_audio_amr
-      child = Child.create('audio' => uploaded_amr, 'created_by' => "me", 'created_organization' => "stc")
-      expected_data = 'LA! LA! LA! Audio Data'
-      child.stub(:read_attachment).and_return(expected_data)
-      FileAttachment.should_receive(:new).with('sample', uploaded_amr.content_type, expected_data)
-      child.audio
-
-    end
-
-    it 'should return nil if child has not been saved' do
-      child = Child.new('audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
-      child.audio.should be_nil
-    end
-
-  end
-
-
-  describe "audio attachment" do
-    before :each do
-      User.stub(:find_by_user_name).and_return(double(:organization => "stc"))
-    end
-
-    it "should create a field with recorded_audio on creation" do
-      Clock.stub(:now).and_return(Time.parse("Jan 20 2010 17:10:32"))
-      child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
-
-      child['audio_attachments']['original'].should == 'sample'
-    end
-
-    it "should change audio file if a new audio file is set" do
-      child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'audio' => uploadable_audio, 'created_by' => "me", 'created_organization' => "stc")
-      Clock.stub(:now).and_return(Time.parse("Feb 20 2010 12:04:32"))
-      child.update_attributes :audio => uploadable_audio
-      child['audio_attachments']['original'].should == 'sample'
-    end
-
-  end
-
   describe "history log" do
-    describe "photo logging" do
+    before :each do
+      RecordHistory.delete_all
+    end
+
+    xdescribe "photo logging" do
 
       before :each do
         Clock.stub(:now).and_return(Time.parse("Jan 20 2010 12:04:24"))
@@ -883,28 +573,27 @@ describe Child do
     end
 
     it "should maintain history when child is flagged and message is added" do
-      child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
-      child.flags = [Flag.new(:message => 'Duplicate record!', :flagged_by => "me")]
-      child.save!
-      flag_history = child.histories.first.changes['flags'][child.flags[0].unique_id]
-      flag_history['message']['from'].should == nil
-      flag_history['message']['to'].should == 'Duplicate record!'
+      child = Child.create(data: {'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc"})
+      child.add_flag('Duplicate record!', Date.today, "me")
+      flag_history = child.histories.first.record_changes['flags']
+      flag_history['from'].should == nil
+      flag_history['to']['message'].should == 'Duplicate record!'
     end
 
     it "should maintain history when child is reunited and message is added" do
-      child = Child.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
+      child = Child.create(data: {'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc"})
       child.reunited = true
       child.reunited_message = 'Finally home!'
       child.save!
-      reunited_history = child.histories.first.changes['reunited']
+      reunited_history = child.histories.first.record_changes['reunited']
       reunited_history['from'].should be_nil
       reunited_history['to'].should == true
-      reunited_message_history = child.histories.first.changes['reunited_message']
+      reunited_message_history = child.histories.first.record_changes['reunited_message']
       reunited_message_history['from'].should be_nil
       reunited_message_history['to'].should == 'Finally home!'
     end
 
-    describe "photo changes" do
+    xdescribe "photo changes" do
 
       before :each do
         Clock.stub(:now).and_return(Time.parse("Jan 20 2010 12:04:24"))
@@ -934,86 +623,8 @@ describe Child do
 
   end
 
-  describe ".has_one_interviewer?" do
-    before :each do
-      User.stub(:find_by_user_name).and_return(double(:organization => 'stc'))
-    end
 
-    it "should be true if was created and not updated" do
-      child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
-      child.has_one_interviewer?.should be_truthy
-    end
-
-    it "should be true if was created and updated by the same person" do
-      child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
-      child['histories'] = [{"changes"=>{"gender"=>{"from"=>nil, "to"=>"Male"},
-                                         "age"=>{"from"=>"1", "to"=>"15"}},
-                                         "user_name"=>"john",
-                                         "datetime"=>"03/02/2011 21:48"},
-                                         {"changes"=>{"last_known_location"=>{"from"=>"Rio", "to"=>"Rio De Janeiro"}},
-                                          "datetime"=>"03/02/2011 21:34",
-                                          "user_name"=>"john"},
-                                          {"changes"=>{"origin"=>{"from"=>"Rio", "to"=>"Rio De Janeiro"}},
-                                           "user_name"=>"john",
-                                           "datetime"=>"03/02/2011 21:33"}]
-      child['last_updated_by'] = 'john'
-      child.has_one_interviewer?.should be_truthy
-    end
-
-    it "should be false if created by one person and updated by another" do
-      child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
-      child['histories'] = [{"changes"=>{"gender"=>{"from"=>nil, "to"=>"Male"},
-                                         "age"=>{"from"=>"1", "to"=>"15"}},
-                                         "user_name"=>"jane",
-                                         "datetime"=>"03/02/2011 21:48"},
-                                         {"changes"=>{"last_known_location"=>{"from"=>"Rio", "to"=>"Rio De Janeiro"}},
-                                          "datetime"=>"03/02/2011 21:34",
-                                          "user_name"=>"john"},
-                                          {"changes"=>{"origin"=>{"from"=>"Rio", "to"=>"Rio De Janeiro"}},
-                                           "user_name"=>"john",
-                                           "datetime"=>"03/02/2011 21:33"}]
-      child['last_updated_by'] = 'jane'
-      child.has_one_interviewer?.should be_falsey
-    end
-
-    it "should be false if histories is empty" do
-      child = Child.create('last_known_location' => 'London', 'created_by' => 'john')
-      child['histories'] = []
-      child.has_one_interviewer?.should be_truthy
-    end
-
-  end
-
-  describe "when fetching children" do
-
-    before do
-      User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
-      Child.all.each { |child| child.destroy }
-    end
-
-    it "should return list of children ordered by name" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
-      Child.create('photo' => uploadable_photo, 'name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
-      Child.create('photo' => uploadable_photo, 'name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
-      childrens = Child.all
-      childrens.first['name'].should == 'Abu'
-    end
-
-    it "should order children with blank names first" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
-      Child.create('photo' => uploadable_photo, 'name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
-      Child.create('photo' => uploadable_photo, 'name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
-      Child.create('photo' => uploadable_photo, 'name' => '', 'last_known_location' => 'POA')
-      childrens = Child.all
-      childrens.first['name'].should == ''
-      # TODO: Ask why all.all now?
-      Child.all.all.size.should == 3
-    end
-
-  end
-
-
-  describe ".photo" do
+  xdescribe ".photo" do
 
     it "should return nil if the record has no attached photo" do
       child = create_child "Bob McBobberson"
@@ -1022,16 +633,8 @@ describe Child do
 
   end
 
-  describe ".audio" do
 
-    it "should return nil if the record has no audio" do
-      child = create_child "Bob McBobberson"
-      child.audio.should be_nil
-    end
-
-  end
-
-  describe "primary_photo =" do
+  xdescribe "primary_photo =" do
 
     before :each do
       @photo1 = uploadable_photo("spec/resources/jorge.jpg")
@@ -1073,54 +676,24 @@ describe Child do
 
     it 'should be set from user' do
       User.stub(:find_by_user_name).with('mj').and_return(double(:organization => 'UNICEF'))
-      child = Child.create 'name' => 'Jaco', :created_by => "mj"
+      child = Child.create(data: {'name' => 'Jaco', :created_by => "mj"})
 
       child.created_organization.should == 'UNICEF'
     end
   end
 
   describe "views" do
-    describe "user action log" do
-      it "should return all children updated by a user" do
-        child = Child.create!("created_by" => "some_other_user", "last_updated_by" => "a_third_user", "name" => "abc", "histories" => [{"user_name" => "brucewayne", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
 
-        Child.all_connected_with("brucewayne").should == [Child.get(child.id)]
-      end
-
-      it "should not return children updated by other users" do
-        Child.create!("created_by" => "some_other_user", "name" => "def", "histories" => [{"user_name" => "clarkkent", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
-
-        Child.all_connected_with("peterparker").should be_empty
-      end
-
-      it "should return the child once when modified twice by the same user" do
-        child = Child.create!("created_by" => "some_other_user", "name" => "ghi", "histories" => [{"user_name" => "peterparker", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}, {"user_name" => "peterparker", "changes" => {"sex" => {"to" => "female", "from" => "male"}}}])
-
-        Child.all_connected_with("peterparker").should == [Child.get(child.id)]
-      end
-
-      it "should return the child created by a user" do
-        child = Child.create!("created_by" => "a_user", "name" => "def", "histories" => [{"user_name" => "clarkkent", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
-
-        Child.all_connected_with("a_user").should == [Child.get(child.id)]
-      end
-
-      it "should not return duplicate records when same user had created and updated same child multiple times" do
-        child = Child.create!("created_by" => "tonystark", "name" => "ghi", "histories" => [{"user_name" => "tonystark", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}, {"user_name" => "tonystark", "changes" => {"sex" => {"to" => "female", "from" => "male"}}}])
-
-        Child.all_connected_with("tonystark").should == [Child.get(child.id)]
-      end
-    end
-
-    describe "all ids and revs" do
+    #TODO: Revisit with Mobile compatibility
+    xdescribe "all ids and revs" do
       before do
-        Child.all.each { |child| child.destroy }
+        Child.destroy_all!
         @owner = create :user
         @owner2 = create :user
-        @child1 = create_child_with_created_by(@owner.user_name, :name => "child1", :marked_for_mobile => true, :module_id => PrimeroModule::GBV)
-        @child2 = create_child_with_created_by(@owner.user_name, :name => "child2", :marked_for_mobile => false, :module_id => PrimeroModule::CP)
-        @child3 = create_child_with_created_by(@owner2.user_name, :name => "child3", :marked_for_mobile => true, :module_id => PrimeroModule::CP)
-        @child4 = create_child_with_created_by(@owner2.user_name, :name => "child4", :marked_for_mobile => false, :module_id => PrimeroModule::GBV)
+        @child1 = child_with_created_by(@owner.user_name, :name => "child1", :marked_for_mobile => true, :module_id => PrimeroModule::GBV)
+        @child2 = child_with_created_by(@owner.user_name, :name => "child2", :marked_for_mobile => false, :module_id => PrimeroModule::CP)
+        @child3 = child_with_created_by(@owner2.user_name, :name => "child3", :marked_for_mobile => true, :module_id => PrimeroModule::CP)
+        @child4 = child_with_created_by(@owner2.user_name, :name => "child4", :marked_for_mobile => false, :module_id => PrimeroModule::GBV)
 
         @child1.create!
         @child2.create!
@@ -1169,7 +742,8 @@ describe Child do
   end
 
 
-  describe 'validate dates and date ranges fields' do
+  #TODO: For now skipping JSON datatype validation against form definition
+  xdescribe 'validate dates and date ranges fields' do
     before do
       fields = [Field.new({"name" => "a_date_field",
                            "type" => "date_field",
@@ -1193,7 +767,6 @@ describe Child do
         "name_all" => "Form Section With Dates Fields",
         "description_all" => "Form Section With Dates Fields",
       })
-      Child.any_instance.stub(:field_definitions).and_return(fields)
     end
 
     it "should validate single date field" do
@@ -1204,7 +777,7 @@ describe Child do
       child.errors[:a_date_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
       #date valid.
-      child = create_child "Bob McBobberson", :a_date_field => "30-May-2014",
+      child = create_child "Bob McBobberson", :a_date_field => Date.parse("30-May-2014"),
                            :a_range_field_date_or_date_range => "date_range",
                            :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_date_field].should eq([])
@@ -1212,7 +785,7 @@ describe Child do
 
     it "should validate range fields" do
       #_from is wrong.
-      child = create_child "Bob McBobberson", :a_range_field_from => "aslkdjflkj", :a_range_field_to => "31-May-2014",
+      child = create_child "Bob McBobberson", :a_range_field_from => "aslkdjflkj", :a_range_field_to => Date.parse("31-May-2014"),
                            :a_range_field_date_or_date_range => "date_range",
                            :b_range_field_date_or_date_range => "date_range"
       child.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
@@ -1259,10 +832,8 @@ describe Child do
       @owner = create :user
       @previous_owner = create :user
       @referral = create :user
-      @operator = create :user
 
       @case = build :child, owned_by: @owner.user_name, previously_owned_by: @previous_owner.user_name,
-                             database_operator_user_name: @operator.user_name,
                              assigned_user_names: [@referral.user_name]
 
     end
@@ -1271,29 +842,13 @@ describe Child do
       expect(@case.owner).to eq(@owner)
     end
 
-    it "can fetch the database operator" do
-      expect(@case.database_operator).to eq(@operator)
-    end
-
-    it "doesn't repeat CouchDB queries when fetching different user types" do
-      expect(User).to receive(:by_user_name).once.and_return(double(all: []))
-      @case.owner
-      @case.database_operator
-    end
-
   end
 
   describe "relationships" do
     before do
-      FormSection.all.all.each { |form| form.destroy }
-      Dir[File.dirname(__FILE__) + '/../../db/forms/case/family_det*.rb'].each {|file| load file }
-
-      #Reload the form properties
-      Child.refresh_form_properties
-
-      @child1 = Child.new(:family_details_section => [{"relation_name" => "Jill", "relation" => "mother"}, {"relation_name" => "Jack", "relation" => "father"}])
-      @child2 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Judy", :relation => "mother"}])
-      @child3 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Brad", :relation => "father"}])
+      @child1 = Child.new(data: {:family_details_section => [{"relation_name" => "Jill", "relation" => "mother"}, {"relation_name" => "Jack", "relation" => "father"}]})
+      @child2 = Child.new(data: {:name => "Fred", :family_details_section => [{:relation_name => "Judy", :relation => "mother"}]})
+      @child3 = Child.new(data: {:name => "Fred", :family_details_section => [{:relation_name => "Brad", :relation => "father"}]})
       @child4 = create_child("Daphne")
     end
 
@@ -1332,7 +887,7 @@ describe Child do
     before :all do
       Location.all.each &:destroy
       Role.all.each &:destroy
-      Agency.all.each &:destroy
+      Agency.destroy_all
       PrimeroModule.all.each &:destroy
 
       @permission_case ||= Permission.new(:resource => Permission::CASE,
@@ -1343,16 +898,16 @@ describe Child do
       field_worker_role = Role.create!(:name => "Field Worker", :permissions_list => [@permission_case])
       agency = Agency.create! id: "agency-unicef", agency_code: "UN", name: "UNICEF"
       a_module = PrimeroModule.create name: "Test Module"
-      #TODO - i18n
+      SystemSettings.create default_locale: "en"
       user = User.create({:user_name => "bob123", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                           :email => 'em@dd.net', :organization => agency.id, :role_ids => [admin_role.id, field_worker_role.id],
-                          :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.location_code})
+                          :module_ids => [a_module.unique_id], :disabled => 'false', :location => @location_region.location_code})
       user2 = User.create({:user_name => "joe456", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                            :email => 'em@dd.net', :organization => agency.id, :role_ids => [admin_role.id, field_worker_role.id],
-                           :module_ids => [a_module.id], :disabled => 'false', :location => ''})
+                           :module_ids => [a_module.unique_id], :disabled => 'false', :location => ''})
       user3 = User.create!(:user_name => "tom789", :full_name => 'full', :password => 'passw0rd', :password_confirmation => 'passw0rd',
                            :email => 'em@dd.net', :organization => (Agency.count + 1), :role_ids => [admin_role.id, field_worker_role.id],
-                           :module_ids => [a_module.id], :disabled => 'false', :location => @location_region.location_code)
+                           :module_ids => [a_module.unique_id], :disabled => 'false', :location => @location_region.location_code)
     end
 
     context 'system case code format empty' do
@@ -1362,12 +917,12 @@ describe Child do
       end
 
       it 'should create an empty case id code' do
-        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
         expect(child.case_id_code).to be_nil
       end
 
       it 'should create a case id display that matches short id' do
-        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
         expect(child.case_id_display).to eq(child.short_id)
       end
     end
@@ -1387,12 +942,12 @@ describe Child do
       end
 
       it 'should create a case id code without separators' do
-        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
         expect(child.case_id_code).to eq("GUIGUI123UN")
       end
 
       it 'should create a case id display without separators' do
-        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
         expect(child.case_id_display).to eq("GUIGUI123UN#{child.short_id}")
       end
     end
@@ -1412,32 +967,32 @@ describe Child do
       end
 
       it 'should create a case id code with separators' do
-        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        child = Child.create!(data: {case_id: 'xyz123', created_by: 'bob123'})
         expect(child.case_id_code).to eq("GUI-GUI123-UN")
       end
 
       it 'should create a case id display with separators' do
-        child = Child.create! case_id: 'xyz123', created_by: 'bob123'
+        child = Child.create!(data: { case_id: 'xyz123', created_by: 'bob123'})
         expect(child.case_id_display).to eq("GUI-GUI123-UN-#{child.short_id}")
       end
 
       it 'should create a case id code if user location is missing' do
-        child = Child.create! case_id: 'abc456', created_by: 'joe456'
+        child = Child.create!(data: {case_id: 'abc456', created_by: 'joe456'})
         expect(child.case_id_code).to eq("UN")
       end
 
       it 'should create a case id display if user location is missing' do
-        child = Child.create! case_id: 'abc456', created_by: 'joe456'
+        child = Child.create!(data: { case_id: 'abc456', created_by: 'joe456'})
         expect(child.case_id_display).to eq("UN-#{child.short_id}")
       end
 
       it 'should create a case id code if user agency is missing' do
-        child = Child.create! case_id: 'zzz', created_by: 'tom789'
+        child = Child.create!(data: { case_id: 'zzz', created_by: 'tom789'})
         expect(child.case_id_code).to eq("GUI-GUI123")
       end
 
       it 'should create a case id display if user agency is missing' do
-        child = Child.create! case_id: 'zzz', created_by: 'tom789'
+        child = Child.create!(data: { case_id: 'zzz', created_by: 'tom789'})
         expect(child.case_id_display).to eq("GUI-GUI123-#{child.short_id}")
       end
     end
@@ -1445,116 +1000,46 @@ describe Child do
 
   describe 'syncing of protection concerns' do
     before do
-      Child.all.each(&:destroy)
-      Field.all.each(&:destroy)
-      FormSection.all.each(&:destroy)
-
-      # protection concern form
-      protection_concern_fields = [
-        Field.new({"name" => "protection_concerns",
-                   "type" => "select_box",
-                   "multi_select" => true,
-                   "display_name_all" => "Protection Concerns",
-                   "option_strings_source" => "lookup lookup-protection-concerns"
-                  })
-      ]
-      protection_concern_form = FormSection.create({
-        :unique_id => "protection_concern",
-        :parent_form=>"case",
-        "visible" => true,
-        :order_form_group => 30,
-        :order => 20,
-        :order_subform => 0,
-        :fields => protection_concern_fields,
-        "name_all" => "Protection Concerns",
-        "description_all" => "Protection concerns"
-      })
-      protection_concern_form.save!
-
-      # protection concern form with subform
-      protection_concern_detail_subform_fields = [
-        Field.new({"name" => "protection_concern_type",
-                   "type" => "select_box",
-                   "display_name_all" => "Type of Protection Concern",
-                   "option_strings_source" => "lookup lookup-protection-concerns"
-                  })
-      ]
-
-      protection_concern_detail_subform_section = FormSection.create_or_update_form_section({
-        "visible" => false,
-        "is_nested" => true,
-        :order_form_group => 70,
-        :order => 30,
-        :order_subform => 1,
-        :unique_id => "protection_concern_detail_subform_section",
-        :parent_form=>"case",
-        :fields => protection_concern_detail_subform_fields,
-        "name_all" => "Nested Protection Concerns Subform",
-        "description_all" => "Nested Protection Concerns Subform",
-      })
-
-      protection_concern_detail_fields = [
-        Field.new({"name" => "protection_concern_detail_subform_section",
-          "type" => "subform",
-          "subform_section_id" => protection_concern_detail_subform_section.id,
-          "display_name_all" => "Protection Concern Details"
-        })
-      ]
-
-      protection_concern_form_with_subform = FormSection.create({
-          :unique_id => "protection_concern_details",
-          :parent_form=>"case",
-          "visible" => true,
-          :order_form_group => 70,
-          :order => 30,
-          :order_subform => 0,
-          :fields => protection_concern_detail_fields,
-          "editable" => true,
-          "name_all" => "Protection Concern Details",
-          "description_all" => "Protection Concern Details"
-      })
-
-      protection_concern_form_with_subform.save!
-
+      Child.destroy_all
       User.stub(:find_by_user_name).and_return(double(:organization => 'UNICEF'))
-
       @protection_concerns = ["Separated", "Unaccompanied"]
-
-      Child.refresh_form_properties
     end
 
     it "should add protection concerns from subform to multiselect protection concerns field" do
-      @child = Child.new('name' => "Tom", 'created_by' => "me", 'protection_concerns' => @protection_concerns,
+      @child = Child.new(data: {
+                          'name' => "Tom", 'created_by' => "me", 'protection_concerns' => @protection_concerns,
                           'protection_concern_detail_subform_section' => [
                               {protection_concern_type: "Child is neglected"},
                               {protection_concern_type: "Extreme levels of poverty"},
                               {protection_concern_type: "Unaccompanied"}
 
-                          ])
+      ]})
       @child.save!
-      @child[:protection_concerns].should == @protection_concerns + ["Child is neglected", "Extreme levels of poverty"]
+      @child.protection_concerns.should == @protection_concerns + ["Child is neglected", "Extreme levels of poverty"]
     end
 
     it "should remove nils from protection concerns multiselect" do
-      @child = Child.new('name' => "Tom", 'created_by' => "me", 'protection_concerns' => @protection_concerns,
+      @child = Child.new(data: {
+                       'name' => "Tom", 'created_by' => "me", 'protection_concerns' => @protection_concerns,
                        'protection_concern_detail_subform_section' => [
                            {protection_concern_type: "Child is neglected"},
                            {protection_concern_type: nil},
                            {protection_concern_type: nil},
                            {protection_concern_type: "Unaccompanied"}
-                       ])
+                       ]})
       @child.save!
-      @child[:protection_concerns].should_not include(nil)
+      @child.protection_concerns.should_not include(nil)
     end
   end
 
-  describe 'calculate age' do
+  describe 'calculate age', search: true do
     before do
 
-      Child.all.each &:destroy
+      Child.destroy_all
 
       # The following is necessary so we get back date_of_birth from the DB as a Date object, not as a string
-      FormSection.all.each &:destroy
+      Field.destroy_all
+      FormSection.destroy_all
       fields = [
           Field.new({"name" => "child_status",
                      "type" => "text_field",
@@ -1572,29 +1057,23 @@ describe Child do
           :unique_id => "form_section_test",
           :parent_form=>"case",
           "visible" => true,
-          :order_form_group => 50,
-          :order => 15,
-          :order_subform => 0,
-          "editable" => true,
           "name_all" => "Form Section Test",
-          "description_all" => "Form Section Test",
           :fields => fields
       )
       form.save!
-      Child.any_instance.stub(:field_definitions).and_return(fields)
-      Child.refresh_form_properties
 
-      @case1 = Child.create(name: 'case1', date_of_birth: Date.new(2010, 10, 11))
-      @case2 = Child.create(name: 'case2', date_of_birth: Date.new(2008, 10, 11))
-      @case3 = Child.create(name: 'case3', date_of_birth: Date.new(2008, 3, 13))
-      @case4 = Child.create(name: 'case4', date_of_birth: Date.new(1998, 11, 11))
-      @case5 = Child.create(name: 'case5', date_of_birth: Date.new(2014, 10, 12))
-      @case6 = Child.create(name: 'case6', date_of_birth: Date.new(2012, 2, 29)) # leap year
-      @case7 = Child.create(name: 'case7', date_of_birth: Date.new(2012, 2, 14)) # leap year
-      @case8 = Child.create(name: 'case8', date_of_birth: Date.new(2012, 10, 11)) # leap year
-      @case9 = Child.create(name: 'case9', date_of_birth: Date.new(2015, 3, 1))
-      @case10 = Child.create(name: 'case10', date_of_birth: Date.new(2014, 10, 10))
-      @case11 = Child.create(name: 'case11', date_of_birth: Date.new(2010, 2, 28)) # leap year
+      @case1 = Child.create(data: {name: 'case1', date_of_birth: Date.new(2010, 10, 11)})
+      @case2 = Child.create(data: {name: 'case2', date_of_birth: Date.new(2008, 10, 11)})
+      @case3 = Child.create(data: {name: 'case3', date_of_birth: Date.new(2008, 3, 13)})
+      @case4 = Child.create(data: {name: 'case4', date_of_birth: Date.new(1998, 11, 11)})
+      @case5 = Child.create(data: {name: 'case5', date_of_birth: Date.new(2014, 10, 12)})
+      @case6 = Child.create(data: {name: 'case6', date_of_birth: Date.new(2012, 2, 29)}) # leap year
+      @case7 = Child.create(data: {name: 'case7', date_of_birth: Date.new(2012, 2, 14)}) # leap year
+      @case8 = Child.create(data: {name: 'case8', date_of_birth: Date.new(2012, 10, 11)}) # leap year
+      @case9 = Child.create(data: {name: 'case9', date_of_birth: Date.new(2015, 3, 1)})
+      @case10 = Child.create(data: {name: 'case10', date_of_birth: Date.new(2014, 10, 10)})
+      @case11 = Child.create(data: {name: 'case11', date_of_birth: Date.new(2010, 2, 28)}) # leap year
+      Sunspot.commit
     end
 
     context 'when current date is non-leap year 2015' do
@@ -1703,16 +1182,16 @@ describe Child do
     end
   end
 
-  describe "Batch processing" do
+  xdescribe "Batch processing" do
     before do
-      Child.all.each { |child| child.destroy }
+      Child.destroy_all
     end
 
     it "should process in two batches" do
-      child1 = create_child_with_created_by("user1", :name => "child1")
-      child2 = create_child_with_created_by("user2", :name => "child2")
-      child3 = create_child_with_created_by("user3", :name => "child3")
-      child4 = create_child_with_created_by("user4", :name => "child4")
+      child1 = child_with_created_by("user1", :name => "child1")
+      child2 = child_with_created_by("user2", :name => "child2")
+      child3 = child_with_created_by("user3", :name => "child3")
+      child4 = child_with_created_by("user4", :name => "child4")
       child4.create!
       child3.create!
       child2.create!
@@ -1741,7 +1220,7 @@ describe Child do
 
   end
 
-  describe '.matching_tracing_requests' do
+  xdescribe '.matching_tracing_requests' do
     before do
       # Create child form
       FormSection.all.each &:destroy
@@ -1878,7 +1357,7 @@ describe Child do
     end
   end
 
-  describe 'match criteria' do
+  xdescribe 'match criteria' do
     before do
       Child.all.each &:destroy
       FormSection.all.each &:destroy
@@ -1957,13 +1436,8 @@ describe Child do
 
   describe "family_detail_values" do
     before do
-      FormSection.all.each(&:destroy)
-      Dir[File.dirname(__FILE__) + '/../../db/forms/case/family_det*.rb'].each {|file| load file }
-
-      #Reload the form properties
-      Child.refresh_form_properties
-      @case1 = Child.new(:name => "Fred", :family_details_section => [{"relation_name" => "Jill", "relation" => "mother"}, {"relation_name" => "Jack", "relation" => "father"}])
-      @case2 = Child.new(:name => "Fred", :family_details_section => [{:relation_name => "Judy", :relation => "mother"}])
+      @case1 = Child.new(data: {:name => "Fred", :family_details_section => [{"relation_name" => "Jill", "relation" => "mother"}, {"relation_name" => "Jack", "relation" => "father"}]})
+      @case2 = Child.new(data: {:name => "Fred", :family_details_section => [{:relation_name => "Judy", :relation => "mother"}]})
       @case3 = create_child("Daphne")
     end
 
@@ -1981,15 +1455,15 @@ describe Child do
 
     context 'when no fields' do
       it 'should find no family details' do
-        expect(@case3.family_detail_values("relation")).to eq("")
+        expect(@case3.family_detail_values("relation")).to be_nil
       end
     end
   end
 
   after :all do
-    Child.all.each(&:destroy)
-    Field.all.each(&:destroy)
-    FormSection.all.each(&:destroy)
+    Child.destroy_all
+    Field.destroy_all
+    FormSection.destroy_all
   end
 
   private
@@ -1997,7 +1471,7 @@ describe Child do
   def create_child(name, options={})
     #TODO - i18n
     options.merge!("name" => name, "last_known_location" => "new york", 'created_by' => "me", 'created_organization' => "stc")
-    Child.create(options)
+    Child.create(data: options)
   end
 
   def create_duplicate(parent)
@@ -2007,8 +1481,8 @@ describe Child do
     duplicate
   end
 
-  def create_child_with_created_by(created_by,options = {})
+  def child_with_created_by(created_by, options = {})
     user = User.new({:user_name => created_by, :organization=> "UNICEF"})
-    Child.new_with_user_name user, options
+    Child.new_with_user user, options
   end
 end

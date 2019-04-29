@@ -1,21 +1,15 @@
-class Flag
-  include Syncable::PrimeroEmbeddedModel
-  include PrimeroModel
-
-  validate :validate_record
-
-  property :date, Date
-  property :message, String
-  property :flagged_by, String
-  property :removed, TrueClass
-  property :unflag_message, String
-  property :created_at, DateTime
-  property :system_generated_followup, TrueClass, :default => false
-  property :unflagged_by, String
-  property :unflagged_date, Date
-  property :id
-
+class Flag < ApplicationRecord
   include Indexable
+
+  EVENT_FLAG = 'flag' ; EVENT_UNFLAG = 'unflag'
+
+  belongs_to :record, polymorphic: true
+
+  validates :message, presence: { message: 'errors.models.flags.message' }
+  validates :date, presence: { message: 'errors.models.flags.date' }
+
+  after_create :flag_history
+  after_update :unflag_history
 
   searchable auto_index: self.auto_index? do
     date :flag_date, :stored => true do
@@ -34,7 +28,7 @@ class Flag
       self.flagged_by
     end
     string :flag_flagged_by_module, :stored => true do
-      base_doc.module_id
+      record.module_id
     end
     boolean :flag_is_removed, :stored => true do
       self.removed ? true : false
@@ -43,45 +37,53 @@ class Flag
       self.system_generated_followup
     end
     string :flag_record_id, :stored => true do
-      base_doc.id
+      self.record_id
     end
     string :flag_record_type, :stored => true do
-      base_doc.class.to_s.underscore.downcase
+      self.record_type.underscore.downcase
     end
     string :flag_record_short_id, :stored => true do
-      base_doc.short_id
+      record.short_id
     end
     string :flag_child_name, :stored => true do
-      base_doc.name
+      record.try(:name)
     end
     string :flag_hidden_name, :stored => true do
-      base_doc.hidden_name
+      record.try(:hidden_name)
     end
     string :flag_module_id, :stored => true do
-      base_doc.module_id
+      record.module_id
     end
     string :flag_incident_date_of_first_report, :stored => true do
-      base_doc.date_of_first_report
+      record.try(:date_of_first_report)
     end
     string :flag_record_owner, :stored => true do
-      base_doc.owned_by
+      record.owned_by
     end
   end
 
-  def initialize *args
-    super
-
-    self.id ||= UUIDTools::UUID.random_create.to_s
+  def flag_history
+    update_flag_history(EVENT_FLAG, self.flagged_by)
   end
 
-  def parent_record
-    base_doc
+  def unflag_history
+    if self.saved_change_to_attribute('removed')[1]
+      changes = self.saved_changes.map{|k,v| [k,v[1]]}.to_h
+      update_flag_history(EVENT_UNFLAG, self.unflagged_by)
+    end
   end
 
   private
 
-  def validate_record
-    errors.add(:message, I18n.t("errors.models.flags.message")) unless self.message.present?
-    errors.add(:date, I18n.t("errors.models.flags.date")) unless self.date.blank? || self.date.is_a?(Date)
+  def update_flag_history(event, user_name)
+    RecordHistory.create(
+        record_id: self.record_id,
+        record_type: self.record_type,
+        user_name: user_name,
+        datetime: DateTime.now,
+        action: event,
+        record_changes: {flags: {from: nil, to: self}}
+    )
   end
+
 end

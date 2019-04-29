@@ -154,7 +154,7 @@ family_details_section = FormSection.create_or_update_form_section({
     fields: family_details_section_fields,
     parent_form: "case",
     editable: true,
-    initial_subforms: 1,
+    initial_subforms: 0,
     name_en: "Nested Family Details",
     description_en: "Family Details Subform",
     collapsed_field_names: ["relation", "relation_name", "relation_is_caregiver"]

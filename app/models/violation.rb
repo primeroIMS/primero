@@ -2,7 +2,7 @@ class Violation
   #TODO: For now this will be used to only read and index violations.
   #      Make similar (and test exhaustively!) to Flag model to perform reads and writes
   #TODO: There is some amount of duplication between this and the Incident container class. Refactor!
-  include CouchRest::Model::Embeddable #TODO: This is just so that Sunspot doesn't complain.
+  #include CouchRest::Model::Embeddable #TODO: This is just so that Sunspot doesn't complain.
   include Indexable
 
   attr_accessor :incident, :violation_object, :category

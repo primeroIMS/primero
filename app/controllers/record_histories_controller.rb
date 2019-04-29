@@ -2,8 +2,8 @@ class RecordHistoriesController < ApplicationController
   before_action :set_class_name
 
   def record_change_log
-    @user = User.find_by_user_name(current_user_name)
-    record = @model_class.get(params[:id])
+    @user = current_user
+    record = @model_class.find(params[:id])
     render :partial => "record_shared/change_log", :locals => {record: record}
   end
 

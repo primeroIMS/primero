@@ -5,6 +5,7 @@ require 'rails_helper'
 describe "record field model" do
 
   before :each do
+    Field.delete_all
     FormSection.all.each { |form| form.destroy }
     @field_name = "gender"
     @field = Field.new :name => "gender", :display_name => @field_name, :option_strings_text => "male\nfemale", :type => Field::RADIO_BUTTON
@@ -1247,6 +1248,27 @@ describe "record field model" do
         expect(@field_multi_locales.option_strings_text_fr.first[:id]).not_to be_empty
         expect(@field_multi_locales.option_strings_text_en.first[:id]).to eq(@field_multi_locales.option_strings_text_fr.first[:id])
       end
+    end
+  end
+
+  describe "find fields of type subform that are linked to a subform_append_only form" do
+    before do
+      FormSection.delete_all
+      Field.delete_all
+      subform_append_only = FormSection.create!(unique_id: 'subform_append_only', name_en: "Subform Append Only", subform_append_only: true, is_nested: true)
+      subform_regular = FormSection.create!(unique_id: 'subform_regular', name_en: "Subform Regular", is_nested: true)
+
+      @field_subform_append_only = Field.new(name: 'subform_append_only_field', type: 'subform', subform: subform_append_only, display_name_en: 'Field append only')
+      @field_subform_regular = Field.new(name: 'regular_subform_field', type: 'subform', subform: subform_regular, display_name_en: 'Regular subform field')
+
+      FormSection.create!(unique_id: 'main_form', name_en: "Main Form", fields: [@field_subform_append_only, @field_subform_regular])
+    end
+
+    it "should have 2 fields and find 1 linked to a subform_append_only FormSection" do
+      fields_with_append_only_subform = Field.find_with_append_only_subform
+      expect(Field.all.size).to eq(2)
+      expect(fields_with_append_only_subform.size).to eq(1)
+      expect(fields_with_append_only_subform.first.name).to eq(@field_subform_append_only.name)
     end
   end
 end

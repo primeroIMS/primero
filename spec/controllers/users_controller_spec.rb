@@ -37,17 +37,17 @@ describe UsersController,:type => :controller do
       Sunspot.remove_all!
 
       @user_a = User.create!(user_name: "AAA123", full_name: "ZZZ", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'cc')
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'cc')
       @user_b = User.create!(user_name: "BBB123", full_name: "YYY", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'aa', disabled: false)
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'aa', disabled: false)
       @user_c = User.create!(user_name: "CCC123", full_name: "XXX", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'ee')
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'ee')
       @user_d = User.create!(user_name: "DDD123", full_name: "WWW", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'dd', disabled: true)
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'dd', disabled: true)
       @user_e = User.create!(user_name: "EEE123", full_name: "VVV", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'bb', disabled: true)
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'bb', disabled: true)
       @user_f = User.create!(user_name: "FFF123", full_name: "VVV", password: 'passw0rd', password_confirmation: 'passw0rd',
-                             role_ids: [@role_case_read.id], module_ids: [@a_module.id], organization: 'bb', disabled: false)
+                             role_ids: [@role_case_read.id], module_ids: [@a_module.unique_id], organization: 'bb', disabled: false)
 
       Sunspot.commit
 
@@ -222,13 +222,13 @@ describe UsersController,:type => :controller do
     end
     it "assigns the requested user as @user" do
       mock_user = double(:user_name => "fakeadmin")
-      User.stub(:get).with("37").and_return(mock_user)
+      User.stub(:find).with("37").and_return(mock_user)
       get :show, params: {:id => "37"}
       assigns[:user].should equal(mock_user)
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
-      User.stub(:get).with("invalid record").and_return(nil)
+      User.stub(:find).with("invalid record").and_return(nil)
       get :show, params: {:id => "invalid record"}
       flash[:error].should == "User with the given id is not found"
       response.should redirect_to(:action => :index)
@@ -243,7 +243,7 @@ describe UsersController,:type => :controller do
     it "should not show non-self user for non-admin" do
       fake_login
       mock_user = double({:user_name => 'some_random'})
-      User.stub(:get).with("37").and_return(mock_user)
+      User.stub(:find).with("37").and_return(mock_user)
       get :show, params: {:id => "37"}
       response.status.should == 403
     end
@@ -324,7 +324,7 @@ describe UsersController,:type => :controller do
     it "assigns the requested user as @user" do
       fake_admin_login
       mock_user = stub_model(User, :user_name => "Test Name", :full_name => "Test")
-      User.stub(:get).with("37").and_return(mock_user)
+      User.stub(:find).with("37").and_return(mock_user)
       get :edit, params: {:id => "37"}
       expect(assigns[:user]).to eq(mock_user)
       expect(assigns[:roles]).to include(@role_case_read, @role_tracing_request_read, @role_incident_read)
@@ -332,7 +332,7 @@ describe UsersController,:type => :controller do
 
     it "should not allow editing a non-self user for users without access" do
       fake_login_as(Permission::USER, [Permission::READ])
-      User.stub(:get).with("37").and_return(mock_user(:full_name => "Test Name"))
+      User.stub(:find).with("37").and_return(mock_user(:full_name => "Test Name"))
       get :edit, params: {:id => "37"}
       response.should be_forbidden
     end
@@ -340,7 +340,7 @@ describe UsersController,:type => :controller do
     it "should allow editing a non-self user for user having edit permission" do
       fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL, ['test_group'])
       mock_user = stub_model(User, :full_name => "Test Name", :user_name => 'fakeuser', user_group_ids: ['test_group'])
-      User.stub(:get).with("24").and_return(mock_user)
+      User.stub(:find).with("24").and_return(mock_user)
       get :edit, params: {:id => "24"}
       response.status.should_not == 403
     end
@@ -350,21 +350,21 @@ describe UsersController,:type => :controller do
   describe "DELETE destroy" do
     it "destroys the requested user" do
       fake_admin_login
-      User.should_receive(:get).with("37").and_return(mock_user)
+      User.should_receive(:find).with("37").and_return(mock_user)
       mock_user.should_receive(:destroy)
       delete :destroy, params: {:id => "37"}
     end
 
     it "redirects to the users list" do
       fake_admin_login
-      User.stub(:get).and_return(mock_user(:destroy => true))
+      User.stub(:find).and_return(mock_user(:destroy => true))
       delete :destroy, params: {:id => "1"}
       response.should redirect_to(users_url)
     end
 
     it "should not allow a destroy" do
       fake_login_as(Permission::USER, [Permission::READ], Permission::ALL)
-      User.stub(:get).and_return(mock_user(:destroy => true))
+      User.stub(:find).and_return(mock_user(:destroy => true))
       delete :destroy, params: {:id => "37"}
       response.status.should == 403
     end
@@ -372,7 +372,7 @@ describe UsersController,:type => :controller do
     it "should allow user deletion for relevant user role" do
       fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL, ['test_group'])
       mock_user = stub_model User, user_group_ids: ['test_group']
-      User.should_receive(:get).with("37").and_return(mock_user)
+      User.should_receive(:find).with("37").and_return(mock_user)
       mock_user.should_receive(:destroy).and_return(true)
       delete :destroy, params: {:id => "37"}
       response.status.should_not == 403
@@ -384,7 +384,7 @@ describe UsersController,:type => :controller do
       it "should not allow to edit admin specific fields" do
         fake_login
         mock_user = double({:user_name => "User_name"})
-        User.stub(:get).with("24").and_return(mock_user)
+        User.stub(:find).with("24").and_return(mock_user)
         controller.stub(:current_user_name).and_return("test_user")
         mock_user.stub(:has_role_ids?).and_return(false)
         post :update, params: {:id => "24", :user => {:user_type => "Administrator"}}
@@ -397,7 +397,7 @@ describe UsersController,:type => :controller do
         fake_login_as(Permission::USER, [Permission::READ], Permission::ALL)
         user = stub_model User, :user_name => 'some name'
         params = { :id => '24', :user => { :disabled => true } }
-        User.stub :get => user
+        User.stub :find => user
         post :update, params: params
         response.should be_forbidden
       end
@@ -406,7 +406,7 @@ describe UsersController,:type => :controller do
         fake_login_as(Permission::USER, [Permission::READ, Permission::WRITE, Permission::CREATE], Permission::ALL, ['test_group'])
         user = stub_model User, :user_name => 'some name', user_group_ids: ['test_group']
         params = { :id => '24', :user => { :disabled => true } }
-        User.stub :get => user
+        User.stub :find => user
         User.stub(:find_by_user_name).with(user.user_name).and_return(user)
         post :update, params: params
         response.should_not be_forbidden
@@ -459,41 +459,6 @@ describe UsersController,:type => :controller do
     end
   end
 
-  describe "POST update unverified user" do
-    it "should set verify to true, if user is invalid" do
-      fake_admin_login
-      controller.stub(:authorize!).and_return(true)
-      User.should_receive(:get).with("unique_id").and_return(double("user", :update_attributes => false, :verified? => false))
-      post :update, params: {:id => "unique_id", :user => {:verified => true}}
-      controller.params[:verify].should be_truthy
-    end
-
-    it "should update all the children of recently verified users" do
-      fake_admin_login
-      mock_user = User.new(:user_name => "user", :verified => false)
-      controller.stub(:authorize!).and_return(true)
-      child1 = double("child")
-      child2 = double("child")
-      mock_user.stub(:update_attributes).and_return(true)
-      User.should_receive(:get).with("unique_id").and_return(mock_user)
-      child1.should_receive(:verified=).with(true)
-      child1.should_receive(:save)
-      child2.should_receive(:verified=).with(true)
-      child2.should_receive(:save)
-      Child.should_receive(:all_by_creator).with("user").and_return([child1,child2])
-      post :update, params: {:id => "unique_id", :user => {:verified => true}}
-    end
-
-    it "should call verify_children only for recently verified users" do
-      fake_admin_login
-      mock_user = User.new(:user_name => "user", :verified => true)
-      mock_user.stub(:update_attributes).and_return(true)
-      User.should_receive(:get).with("unique_id").and_return(mock_user)
-      Child.should_not_receive(:all_by_creator)
-      post :update, params: {:id => "unique_id", :user => {:verified => true}}
-    end
-  end
-
   describe "GET change_password" do
     before :each do
       @user = User.new(:user_name => 'fakeuser')
@@ -525,43 +490,6 @@ describe UsersController,:type => :controller do
 
       post :update_password, params: { :forms_change_password_form => @mock_params }
       response.should render_template :change_password
-    end
-  end
-
-  describe "register_unverified" do
-    it "should set verified status to false" do
-      User.should_receive(:find_by_user_name).and_return(nil)
-      User.should_receive(:new).with("user_name" => "salvador", "verified" => false, "password" => "password", "password_confirmation" => "password").and_return(user = "some_user")
-      user.should_receive :save!
-
-      post :register_unverified, params: {:format => :json, :user => {:user_name => "salvador", "unauthenticated_password" => "password"}}
-
-      response.should be_ok
-    end
-
-    it "should not attempt to create a user if already exists" do
-      User.should_receive(:find_by_user_name).and_return("something that is not nil")
-      User.should_not_receive(:new)
-
-      post :register_unverified, params: {:format => :json, :user => {:user_name => "salvador", "unauthenticated_password" => "password"}}
-      response.should be_ok
-    end
-  end
-
-  describe "index unverified users" do
-    it "should list all unverfied users" do
-      fake_admin_login
-      unverified_users = [double("user")]
-      User.should_receive(:all_unverified).and_return(unverified_users)
-      get :unverified
-      assigns[:users].should == unverified_users
-      flash[:verify].should == "Please select a role before verifying the user"
-    end
-
-    it "should show page name" do
-      fake_admin_login
-      get :unverified
-      assigns[:page_name].should == "Unverified Users"
     end
   end
 

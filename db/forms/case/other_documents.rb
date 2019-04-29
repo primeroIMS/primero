@@ -1,5 +1,5 @@
 other_documents_fields = [
-    Field.new({"name" => "upload_other_document",
+    Field.new({"name" => "other_documents",
               "type" => "document_upload_box",
               "editable" => false,
               "disabled" => true,

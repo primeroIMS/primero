@@ -1,30 +1,21 @@
-class Role < CouchRest::Model::Base
-  use_database :role
+class Role < ApplicationRecord
 
-  include PrimeroModel
-  include Namable
+  #include Importable #TODO: This will need to be rewritten
+  # include Memoizable
   include Cloneable
-  include Importable
-  include Memoizable
+  include Configuration
 
-  property :permissions_list, :type => [Permission]
-  property :group_permission, :type => String, :default => Permission::SELF
-  property :permitted_form_ids, :type => [String]
-  property :referral, TrueClass, :default => false
-  property :transfer, TrueClass, :default => false
+  has_and_belongs_to_many :form_sections, -> { distinct }
+  has_and_belongs_to_many :roles
 
-  alias_method :permissions, :permissions_list
-  alias_method :permissions=, :permissions_list=
+  validates :permissions_list, presence: { message: I18n.t("errors.models.role.permission_presence") }
+  validates :name, presence: { message: I18n.t("errors.models.role.name_present") },
+                   uniqueness: { message: I18n.t("errors.models.role.unique_name") }
 
-  validates_presence_of :permissions_list, :message => I18n.t("errors.models.role.permission_presence")
+  before_create :generate_unique_id
 
-  before_save :add_permitted_subforms
-
-  design #Create the default all design view
-
-  def self.get_unique_instance(attributes)
-    find_by_name(attributes['name'])
-  end
+  scope :by_referral, -> { where(referral: true) }
+  scope :by_transfer, -> { where(transfer: true) }
 
   # input: either an action string (ex: read, write, flag, etc)
   #        or a colon separated string, with the first part being resource, action, or management,
@@ -43,52 +34,87 @@ class Role < CouchRest::Model::Base
     end
   end
 
-  def has_permitted_form_id?(form_id)
-    self.permitted_form_ids.include? form_id
+  def has_permitted_form_id?(form_unique_id_id)
+    self.form_sections.map(&:unique_id).include?(form_unique_id_id)
   end
 
-  def add_permitted_subforms
-    if self.permitted_form_ids.present?
-      permitted_forms =  FormSection.where(unique_id: self.permitted_form_ids)
-      subforms = FormSection.get_subforms(permitted_forms)
-      all_permitted_form_ids = permitted_forms.map(&:unique_id) | subforms.map(&:unique_id)
-      all_permitted_form_ids = all_permitted_form_ids.select{|id| id.present?}
-      unless all_permitted_form_ids.nil?
-        self.permitted_form_ids = all_permitted_form_ids
-      end
+  def permissions
+    if self.permissions_list.present?
+      self.permissions_list.map{|p| Permission.new(p)}
+    else
+      []
     end
   end
 
-  def self.memoized_dependencies
-    [FormSection, PrimeroModule, User]
+  def permissions=(permissions)
+    if permissions.is_a? Array
+      self.permissions_list = permissions.map(&:to_h)
+    end
   end
 
   class << self
-    alias :old_all :all
-    def all(*args)
-      old_all(*args)
-    end
-    memoize_in_prod :all
 
-    alias :old_get :get
-    def get(*args)
-      old_get(*args)
+    def memoized_dependencies
+      [FormSection, PrimeroModule, User]
     end
-    memoize_in_prod :get
+
+    #TODO: Used by importer. Refactor?
+    def get_unique_instance(attributes)
+      find_by_name(attributes['name'])
+    end
 
     def names_and_ids_by_referral
-      self.all.select{|r| r.referral}.map{|r| [r.name, r.id]}
+      self.by_referral.pluck(:name, :unique_id)
     end
-    memoize_in_prod :names_and_ids_by_referral
+    # memoize_in_prod :names_and_ids_by_referral
 
     def names_and_ids_by_transfer
-      self.all.select{|r| r.transfer}.map{|r| [r.name, r.id]}
+      self.by_transfer.pluck(:name, :unique_id)
     end
-    memoize_in_prod :names_and_ids_by_transfer
+    # memoize_in_prod :names_and_ids_by_transfer
+
+    def create_or_update(attributes = {})
+      record = self.find_by(unique_id: attributes[:unique_id])
+      if record.present?
+        record.update_attributes(attributes)
+      else
+        self.create!(attributes)
+      end
+    end
+
+    def id_from_name(name)
+      "#{self.name}-#{name}".parameterize.dasherize
+    end
+
+    alias super_clear clear
+    def clear
+      # According documentation this is the best way to delete the values on HABTM relation
+      self.all.each do |f|
+        f.form_sections.destroy(f.form_sections)
+        f.roles.destroy(f.roles)
+      end
+      super_clear
+    end
+
+    alias super_import import
+    def import(data)
+      data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?
+      super_import(data)
+    end
+
+    def export
+      self.all.map do |record|
+        record.attributes.tap do |r|
+          r.delete('id')
+          r['form_sections'] = record.form_sections.pluck(:unique_id)
+        end
+      end
+    end
+
   end
 
   def associated_role_ids
-    self.permissions_list.select{|p| p.resource == 'role'}.map{|p| p[:role_ids]}.flatten if permissions_list.present?
+    self.roles.ids.flatten
   end
 
 
@@ -109,14 +135,26 @@ class Role < CouchRest::Model::Base
     has_managed_resources?(admin_only_resources)
   end
 
+  def generate_unique_id
+    if self.name.present? && self.unique_id.blank?
+      self.unique_id = "#{self.class.name}-#{self.name}".parameterize.dasherize
+    end
+  end
+
+  def associate_all_forms
+    permissions_with_forms = self.permissions.select{|p| p.resource.in?([Permission::CASE, Permission::INCIDENT, Permission::TRACING_REQUEST])}
+    forms_by_parent = FormSection.all_forms_grouped_by_parent
+    permissions_with_forms.map do |permission|
+      self.form_sections << forms_by_parent[permission.resource].reject {|f| self.form_sections.include?(f)}
+      self.save
+    end
+  end
+
   private
 
   def has_managed_resources?(resources)
-    current_managed_resources = self.permissions_list
-      .select{|p| p.actions == [Permission::MANAGE]}
-      .map{|p| p.resource}
+    current_managed_resources = self.permissions.select{ |p| p.actions == [Permission::MANAGE] }.map(&:resource)
     (resources - current_managed_resources).empty?
   end
 
 end
-

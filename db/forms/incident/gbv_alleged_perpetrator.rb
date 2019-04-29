@@ -90,7 +90,7 @@ alleged_perpetrator_subform_section = FormSection.create_or_update_form_section(
   "editable" => true,
   :fields => alleged_perpetrator_subform_fields,
   mobile_form: true,
-  :initial_subforms => 1,
+  :initial_subforms => 0,
   "name_en" => "Nested Alleged Perpetrator Subform",
   "description_en" => "Nested Alleged Perpetrator Subform"
 })

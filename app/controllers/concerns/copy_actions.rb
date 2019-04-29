@@ -1,7 +1,7 @@
 module CopyActions extend ActiveSupport::Concern
   def copy
     authorize! :copy, model_class
-    old_record = model_class.get(params[:id]) if params[:id].present?
+    old_record = model_class.find_by(id: params[:id])
     if old_record.present?
       new_record = old_record.clone(name_from_params)
       begin

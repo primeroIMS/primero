@@ -22,7 +22,8 @@
     <% if filters_to_show.include? 'Agency Office' %>
       <%= build_filter_checkboxes(t("user.agency_office"), 'created_agency_office', @agency_offices, { multi: true }, false) %>
     <% end %>
-    <% if filters_to_show.include? 'User Group' %>
+    <%# TODO: Refactor with User. Put back in. %>
+    <% if filters_to_show.include?('User Group') && false %>
       <%= build_filter_checkboxes(t("permissions.permission.user_group"), 'owned_by_groups', @user_group_ids, { multi: true }, false) %>
     <% end %>
     <% if filters_to_show.include? 'Status' %>

@@ -51,7 +51,7 @@ $(profile_tools);
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content">
-      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident, :lookups => @lookups} %>
+      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @incident.data, :lookups => @lookups} %>
     </div>
     <%= render 'record_shared/header_message', record: @incident, model: 'incident' %>
   </div>

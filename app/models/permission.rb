@@ -1,16 +1,10 @@
-class Permission
-  include CouchRest::Model::CastedModel
-  include PrimeroModel
-
-  property :resource
-  property :actions, [String], :default => []
+class Permission < ValueObject
 
   # The role_ids property is used solely for the ROLE resource
   # It associates other roles with this ROLE permission
   # That restricts this role to only be able to manage those associated roles
   # If the role_ids property is empty on a ROLE permission, then that allows this role to manage all other ROLES
-  property :role_ids, [String], :default => []
-  property :agency_ids, [Integer], :default => []
+  attr_accessor :resource, :actions, :role_ids, :agency_ids
 
   READ = 'read'
   WRITE = 'write'
@@ -96,8 +90,9 @@ class Permission
   ASSIGN_WITHIN_AGENCY = 'assign_within_agency'
   ASSIGN_WITHIN_USER_GROUP = 'assign_within_user_group'
 
-  validates_presence_of :resource, :message=> I18n.t("errors.models.role.permission.resource_presence")
-
+  def initialize(args={})
+    super(args)
+  end
 
   def self.description(permission)
     I18n.t("permission.#{permission}")
@@ -193,7 +188,7 @@ class Permission
   end
 
   def self.all_available
-    resources.map{|r| {resource: r, actions: resource_actions(r)}}
+    resources.map{|r| Permission.new({resource: r, actions: resource_actions(r)})}
   end
 
   def self.resource_actions(resource)

@@ -28,7 +28,7 @@ class OptionsController < ApplicationController
   def get_lookups
     lookups = params[:all].present? ? Lookup.all : Lookup.where(unique_id: params[:string_sources])
     if lookups.present?
-      lookups.map{ |lookup| [{:type => lookup.id ,:options => lookup.lookup_values(params[:locale])}]}
+      lookups.map{ |lookup| [{:type => lookup.unique_id ,:options => lookup.lookup_values(params[:locale])}]}
     else
       nil
     end

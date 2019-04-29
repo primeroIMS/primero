@@ -4,7 +4,7 @@ module Tasks
 
     def self.from_case(record)
       tasks = []
-      if record.try(:services_section).present?
+      if record.services_section.present?
         record.services_section.each do |service|
           if has_task?(service)
             tasks << ServiceTask.new(record, service)
@@ -15,9 +15,9 @@ module Tasks
     end
 
     def self.has_task?(service)
-      #TODO: or should use service.try(:service_implemented) == Child::SERVICE_NOT_IMPLEMENTED
-      service.try(:service_appointment_date).present? &&
-      !service.try(:service_implemented_day_time).present?
+      #TODO: or should use service['service_implemented'] == Child::SERVICE_NOT_IMPLEMENTED
+      service['service_appointment_date'].present? &&
+      !service['service_implemented_day_time'].present?
     end
 
     def initialize(record, service)
@@ -31,7 +31,7 @@ module Tasks
 
     def type_display(lookups=nil)
       I18n.t("task.types.#{self.type}",
-            subtype:  Lookup.display_value('lookup-service-type', service.try(:service_type), lookups))
+            subtype:  Lookup.display_value('lookup-service-type', service['service_type'], lookups))
     end
   end
 end

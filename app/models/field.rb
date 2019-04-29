@@ -1,16 +1,16 @@
-class Field < ActiveRecord::Base
+class Field < ApplicationRecord
 
-  #include PrimeroModel
   include LocalizableJsonProperty
-  include Memoizable
+  include Configuration
+  # include Memoizable
 
   localize_properties :display_name, :help_text, :guiding_questions, :tally, :tick_box_label, :option_strings_text
 
   attr_reader :options
 
   belongs_to :form_section
-  belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', required: false
-  belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id', class_name: 'FormSection', required: false
+  belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', optional: true
+  belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id', class_name: 'FormSection', optional: true
 
   alias_attribute :form, :form_section
   alias_attribute :subform_section, :subform
@@ -45,7 +45,6 @@ class Field < ActiveRecord::Base
   before_validation :generate_options_keys
   before_validation :sync_options_keys
   before_create :sanitize_name
-  after_save :recalculate_subform_permissions
 
   #TODO: Move to migration
   def defaults
@@ -291,14 +290,26 @@ class Field < ActiveRecord::Base
     #This allows us to use the property 'type' on Field, normally reserved by ActiveRecord
     def inheritance_column ; 'type_inheritance' ; end
 
+    def find_with_append_only_subform
+      Field.joins(:subform).where({ type: 'subform', form_sections: { subform_append_only: true, is_nested: true } })
+    end
+
+    alias super_import import
+    def import(data, form)
+      data.each do |field|
+        field['subform_section_id'] = FormSection.find_by(unique_id: field['subform_section_id']).id if field['subform_section_id'].present?
+        field['form_section_id'] = form.id
+        super_import(field)
+      end
+    end
   end
 
-  #TODO:Get rid of FieldOptions. This method should just be an alias
-  def attributes= properties
-    super properties
-    #TODO: FieldOption should just be a regular embedded object that CouchRest Model supports
-    # TODO: get rid of FieldOption
-    #@options = (option_strings_text.present? ? FieldOption.create_field_options(name, option_strings_text) : [])
+  def export
+    self.attributes.tap do |form|
+      form.delete('id')
+      form['form_section_id'] = self.form_section.unique_id
+      form['subform_section_id'] = self.subform.unique_id if self.subform.present?
+    end
   end
 
   def merge_with(another_field)
@@ -587,21 +598,6 @@ class Field < ActiveRecord::Base
     end
     self.send("option_strings_text_#{locale}=", options)
     self.save!
-  end
-
-  protected
-
-  def recalculate_subform_permissions
-    if self.type == Field::SUBFORM && (self.new_record? || self.saved_change_to_attribute?('subform_section_id'))
-      Role.all.each do |role|
-        role.add_permitted_subforms
-        role.save
-      end
-      PrimeroModule.all.each do |primero_module|
-        primero_module.add_associated_subforms
-        primero_module.save
-      end
-    end
   end
 
 end

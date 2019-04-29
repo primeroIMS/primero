@@ -2,7 +2,7 @@
   <div class="row align-middle">
     <div class="large-9 columns">
       <% model = controller.model_class %>
-      <% if logged_in? %>
+      <% if user_signed_in? %>
         <ul class="menu">
           <li>
             <a class="<%= current_menu('root') %>" href="<%= root_path %>" title="<%= t('navigation.home') %>">
@@ -31,7 +31,7 @@
           <% if can? :read, Duplicate %>
             <li><%= link_to t("navigation.duplicates"), duplicates_path(:record_type => "case"), class: current_menu("duplicates") %></li>
           <% end  %>
-          <% if current_user_name==nil || can?(:manage, FormSection) %>
+          <% if current_user.user_name==nil || can?(:manage, FormSection) %>
             <li><%= link_to t("navigation.forms"), form_sections_path, class: current_menu("forms") %></li>
           <% end %>
           <%# We use UserGroup here instead of User because all users have access to manage themselves. %>
@@ -75,7 +75,9 @@
       <% end %>
     </div>
     <div class="large-3 columns no-padding-left">
-      <% if [Child, TracingRequest, Incident].include? model %>
+      <%# TODO: Put back after refactoring all the records %>
+      <%# if [Child, TracingRequest, Incident].include? model %>
+      <% if [Child].include? model %>
         <% if can? :read, model %>
             <%= form_tag path_for_model(model), :method => :get, :id => "search_form", :autocomplete => "off" do %>
               <div class="input-group">

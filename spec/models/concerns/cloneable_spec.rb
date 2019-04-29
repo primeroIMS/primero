@@ -1,13 +1,10 @@
 
 require 'rails_helper'
 
-class TestClass < CouchRest::Model::Base
+class TestClass < ValueObject
   include Cloneable
 
-  property :name, String, :default => 'A name'
-  property :attr_1, String
-  property :attr_2, String
-  property :attr_3, Integer
+  attr_accessor :name, :attr_1,:attr_2,:attr_3
 
   def save_doc(*args)
     true
@@ -17,7 +14,6 @@ end
 describe Cloneable do
   before do
     @inst = TestClass.new({name: 'Test Name', attr_1: "abc", attr_2: "xyz", attr_3: 789})
-    @inst.generate_id
   end
 
   context 'when name is passed in' do
@@ -32,10 +28,6 @@ describe Cloneable do
       expect(@new_inst.attr_1).to eq('abc')
       expect(@new_inst.attr_2).to eq('xyz')
       expect(@new_inst.attr_3).to eq(789)
-    end
-
-    it 'creates a copy of the modle having an id based on the new name' do
-      expect(@new_inst.id).to eq('testclass-new-instance-name')
     end
   end
 
@@ -53,8 +45,5 @@ describe Cloneable do
       expect(@new_inst.attr_3).to eq(789)
     end
 
-    it 'creates a copy of the modle having an id based on the new name' do
-      expect(@new_inst.id).to eq('testclass-copy-of-test-name')
-    end
   end
 end

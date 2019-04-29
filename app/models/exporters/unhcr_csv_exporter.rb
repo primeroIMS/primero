@@ -1,5 +1,4 @@
 require 'csv'
-require_relative 'base.rb'
 
 module Exporters
   class UnhcrCSVExporter < ConfigurableExporter
@@ -82,7 +81,7 @@ module Exporters
         end,
         'locations_by_level' => ->(c) do
           if c.location_current.present?
-            lct = Location.by_location_code(key: c.location_current).first
+            lct = Location.find_by(location_code: c.location_current)
             lct.location_codes_and_placenames.map{|l| l.join(", ")}.join("; ")
           end
         end,

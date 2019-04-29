@@ -25,11 +25,11 @@
     if field.name == "relation_is_caregiver"
       #Don't see the way to do this without hardcode the name.
       #Users can change the dbname for this field.
-      value = i.to_s == "template" ? "" : field_value(formObject, field, fk)
+      value = i.to_s == "template" ? "" : field_value(@record, field, fk)
       #Display value for "false" is empty string.
       caregiver = value == true
     else
-      value = i.to_s == "template" ? "" : field_value(formObject, field, fk)
+      value = i.to_s == "template" ? "" : field_value(@record, field, fk)
       if field['option_strings_text_en'].present? && field['option_strings_text_en'].is_a?(Array)
         value_to_display = field_value_for_multi_select value, field
       else

@@ -1,5 +1,4 @@
 <%= hidden_field_tag "tracing_request[posted_from]", "Browser" if @tracing_request.new_record? %>
-<%= hidden_field_tag('tracing_request[base_revision]', @tracing_request._rev) unless @tracing_request.new_record? %>
 <% # Record Owner form %>
 <%= hidden_field_tag('tracing_request[record_state]', @tracing_request.record_state) %>
 <%= hidden_field_tag('tracing_request[owned_by]', @tracing_request.owned_by) %>

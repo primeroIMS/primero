@@ -1,0 +1,16 @@
+<div class="login_page">
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, class: 'default-form') do |f| %>
+    <div class="login_panel">
+      <h1><%= t('user.forgot_password') %></h1>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%= f.email_field :email, autofocus: true, autocomplete: :off, placeholder: t('email') %>
+
+      <%= render "devise/shared/links" %>
+
+      <div class="btn_panel">
+        <%= f.submit I18n.t('devise.buttons.send_password_reset_instructions'), class: 'button btn_submit large' %>
+      </div>
+    </div>
+  <% end %>
+</div>

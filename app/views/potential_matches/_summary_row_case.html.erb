@@ -13,13 +13,13 @@
   </thead>
   <tbody>
   <tr>
-    <td class="id_column"><%= link_to match_record.case_id_display, case_path(match_record.child_id), class: 'id_link' %></td>
-    <td><%= mask_match_value(match_record, match_record.child_age) %></td>
-    <td><%= mask_match_value(match_record, match_record.child.try(:display_field, 'sex', @lookups)) %></td>
+    <td class="id_column"><%= link_to match_record.case_id_display, case_path(match_record.child.id), class: 'id_link' %></td>
+    <td><%= match_record.child_age %></td>
+    <td><%= match_record.child.try(:display_field, 'sex', @lookups) %></td>
   </tr>
   </tbody>
 </table>
-<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table record_list_view dont_page" id="myTable_<%= match_record.child_id %>">
+<table style="width:100%; border-bottom: #86a05d 1px solid;" class="pm_table record_list_view dont_page" id="myTable_<%= match_record.child.id %>">
   <thead>
   <tr>
     <th><%= t("potential_match.inquirer_id") %></th>

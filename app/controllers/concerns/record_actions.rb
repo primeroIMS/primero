@@ -9,13 +9,14 @@ module RecordActions
 
   included do
     skip_before_action :verify_authenticity_token, raise: false
-    skip_before_action :check_authentication, :only => [:reindex], raise: false
+    skip_before_action :authenticate_user!, :only => [:reindex], raise: false
 
     before_action :load_record, :except => [:new, :create, :index, :reindex]
     before_action :load_selected_records, :except => [:show, :update, :edit, :new, :create, :index, :reindex]
     before_action :current_user, :except => [:reindex]
     before_action :get_lookups, :only => [:show, :new, :edit, :index]
-    before_action :current_modules, :only => [:show, :index]
+    before_action :current_modules, :only => [:show, :index] #TODO: We probably don't need this
+    before_action :record_module, only: [:new, :create, :show, :edit, :update]
     before_action :is_manager, :only => [:index]
     before_action :is_admin, :only => [:index]
     before_action :is_cp, :only => [:index]
@@ -52,7 +53,7 @@ module RecordActions
     #      Revisit when integrating in v1.3.x
     #params['page'] = 'all' if params['mobile'] && params['ids']
     @records, @total_records = retrieve_records_and_total(@filters)
-    module_ids = @records.map(&:module_id).uniq if @records.present? && @records.is_a?(Array)
+    module_ids = @records.map{ |m| m.module.unique_id }.uniq if @records.present? && @records.is_a?(Array)
     @associated_agencies = User.agencies_by_user_list(@associated_users).map{|a| {a.id => a.name}}
     @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter, locale: I18n.locale)
     module_users(module_ids) if module_ids.present?
@@ -124,7 +125,7 @@ module RecordActions
         @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
         @body_class = 'profile-page'
         #TODO: Does that mean that all parts of the record are visible as json?
-        @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+        @form_sections = grouped_permitted_forms
         sort_subforms
       end
 
@@ -152,7 +153,7 @@ module RecordActions
     # TODO: make the ERB templates use @record
     instance_variable_set("@#{model_class.name.underscore}", @record)
 
-    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+    @form_sections = grouped_permitted_forms
 
     respond_to do |format|
       format.html
@@ -161,13 +162,19 @@ module RecordActions
 
   def create
     authorize! :create, model_class
-    reindex_hash record_params
-    @record = create_or_update_record(params[:id])
-    initialize_created_record(@record)
+    @record = model_class.find_by_unique_identifier(record_params[:unique_identifier]) if record_params[:unique_identifier]
+    if @record.nil?
+      @record = model_class.new_with_user(current_user, record_params)
+    else
+      authorize! :update, @record
+      merge_append_only_subforms(@record) if is_mobile?
+      @record.update_properties(record_params, current_user.name)
+    end
+    instance_variable_set("@#{model_class.name.underscore}", @record)
+
     respond_to do |format|
-      @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+      @form_sections = grouped_permitted_forms #TODO: This is an awkwardly placed call
       if @record.save
-        post_save_processing @record
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
         format.html { redirect_after_update }
         format.json do
@@ -185,10 +192,6 @@ module RecordActions
     end
   end
 
-  def post_save_processing record
-    # This is for operation after saving the record.
-  end
-
   def edit
     if @record.nil?
       redirect_on_not_found
@@ -196,15 +199,23 @@ module RecordActions
     end
 
     authorize! :update, @record
-
-    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+    @form_sections = grouped_permitted_forms
     sort_subforms
     @page_name = t("#{model_class.locale_prefix}.edit")
   end
 
   def update
+    authorize! :update, @record
+    @record = model_class.find_by_unique_identifier(record_params[:unique_identifier]) if record_params[:unique_identifier]
+    if @record.nil?
+      authorize! :create, model_class
+      @record = model_class.new_with_user(current_user, record_params)
+    else
+      merge_append_only_subforms(@record) if is_mobile?
+      @record.update_properties(record_params, current_user.name)
+    end
+    instance_variable_set("@#{model_class.name.underscore}", @record)
     respond_to do |format|
-      create_or_update_record(params[:id])
       if @record.save
         format.html do
           flash[:notice] = I18n.t("#{model_class.locale_prefix}.messages.update_success", record_id: @record.short_id)
@@ -220,7 +231,7 @@ module RecordActions
           render :json => @record.slice!("_attachments", "histories")
         end
       else
-        @form_sections ||= @record.class.allowed_formsections(current_user, @record.module)
+        @form_sections ||= grouped_permitted_forms
         format.html {
           get_lookups
           render :action => "edit"
@@ -237,10 +248,10 @@ module RecordActions
         unless form.is_nested?
           form.fields.each do |field|
             if field.subform_sort_by.present?
-              if @record[field.name].present?
+              if @record.data[field.name].present?
                 # Partitioning because dates can be nil. In this case, it causes an error on sort.
-                subforms = @record[field.name].partition{|r| r[field.subform_sort_by].nil?}
-                @record[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
+                subforms = @record.data[field.name].partition{|r| r[field.subform_sort_by].nil?}
+                @record.data[field.name] = subforms.first + subforms.last.sort_by{|x| x[field.subform_sort_by]}.reverse
               end
             end
           end
@@ -265,7 +276,7 @@ module RecordActions
     if params["selected_records"].present?
       selected_record_ids = params["selected_records"].split(',')
       if selected_record_ids.present?
-        records = model_class.all(keys: selected_record_ids).all
+        records = model_class.where(id: selected_record_ids)
         total_records = records.size
       end
     #NOTE: params[:page] is 'all' during bulk export.
@@ -309,34 +320,25 @@ module RecordActions
     @transfer_role_options ||= Role.names_and_ids_by_transfer
   end
 
-  # This is to ensure that if a hash has numeric keys, then the keys are sequential
-  # This cleans up instances where multiple forms are added, then 1 or more forms in the middle are removed
-  def reindex_hash(a_hash)
-    a_hash.each do |key, value|
-      if value.is_a?(Hash) and value.present?
-        #if this is a hash with numeric keys, do the re-index, else keep searching
-        if value.keys[0].is_number?
-          new_hash = {}
-          count = 0
-          value.each do |k, v|
-            new_hash[count.to_s] = v
-            count += 1
-          end
-          value.replace(new_hash)
-        else
-          reindex_hash(value)
-        end
-      end
+  def record_module
+    params_module_id = (params['module_id'] || (params['child'].try(:[], 'module_id')))
+
+    if @record.present? && @record.module_id.present?
+      @record_module ||= @record.module
+    elsif params_module_id.present?
+      @record_module ||= PrimeroModule.find_by(unique_id: params_module_id)
+    else
+      @record_module ||= current_user.modules.first
     end
   end
 
   def current_modules
     record_type = model_class.parent_form
-    @current_modules ||= current_user.modules.select{|m| m.associated_record_types.include? record_type}
+    @current_modules ||= current_user.modules_for_record_type(record_type)
   end
 
   def is_admin
-    @is_admin ||= @current_user.is_admin?
+    @is_admin ||= @current_user.admin?
   end
 
   def is_manager
@@ -388,33 +390,36 @@ module RecordActions
   end
 
   def record_params
-    param_root = model_class.name.underscore
-    params[param_root].try(:to_h) || {}
+    if @record_params.blank?
+      param_root = model_class.name.underscore
+      @record_params = params[param_root].try(:to_h) || {}
+      @record_params = destringify(@record_params)
+      @record_params = filter_permitted_params(@record_params) #TODO: This business logic may need to be moved to a service
+    end
+    @record_params.with_indifferent_access
   end
 
   # All the stuff that isn't properties that should be allowed
+  # TODO: Clean this up with
   def extra_permitted_parameters
-    ['base_revision', 'unique_identifier', 'record_state', 'upload_bid_document', 'update_bid_document',
+    ['unique_identifier', 'record_state', 'upload_bid_document', 'update_bid_document',
      'upload_other_document', 'update_other_document', 'upload_bia_document', 'update_bia_document']
   end
 
-  def permitted_property_keys(record, user = current_user, read_only_user = false)
-    record.class.permitted_property_names(user, record.module, read_only_user) + extra_permitted_parameters
+  def permitted_property_keys
+    current_user.permitted_fields(@record_module, model_class.parent_form, true).map(&:name) + extra_permitted_parameters
   end
 
-  # Filters out any unallowed parameters for a record and the current user
-  def filter_params(record)
-    permitted_keys = permitted_property_keys(record)
-    record_params.select{|k,v| permitted_keys.include?(k) }
-  end
-
-  def record_short_id
-    record_params.try(:fetch, :short_id, nil) || record_params.try(:fetch, :unique_identifier, nil).try(:last, 7)
+  # Filters out any un-allowed parameters for the current user
+  # TODO: This business logic may need to be moved to a service
+  def filter_permitted_params(record_params)
+    permitted_keys = permitted_property_keys
+    record_params.select{|k,_| permitted_keys.include?(k) }
   end
 
   def load_record
     if params[:id].present?
-      @record = model_class.get(params[:id])
+      @record = model_class.find(params[:id])
     end
 
     # Alias the record to a more specific name since the record controllers
@@ -422,11 +427,12 @@ module RecordActions
     instance_variable_set("@#{model_class.name.underscore}", @record)
   end
 
+  #TODO: Is this load invoked twice?
   def load_selected_records
     @records = []
     if params[:selected_records].present?
       selected_ids = params[:selected_records].split(',')
-      @records = model_class.all(keys: selected_ids).all
+      @records = model_class.where(id: selected_ids)
     end
 
     # Alias the records to a more specific name since the record controllers
@@ -434,8 +440,9 @@ module RecordActions
     instance_variable_set("@#{model_class.name.pluralize.underscore}", @records)
   end
 
+  #TODO: Refactor UIUX
   def load_consent
-    if @record.present?
+    if @record.present? && @record.respond_to?(:given_consent) #Yuck!
       @referral_consent = @record.given_consent(Transition::TYPE_REFERRAL)
       @transfer_consent = @record.given_consent(Transition::TYPE_TRANSFER)
     end
@@ -449,16 +456,11 @@ module RecordActions
     @filter_fields = Field.get_by_name(filter_field_names).map{|f| [f.name, f]}.to_h
   end
 
-  #This overrides method in export_actions
-  def export_properties(exporter)
-    authorized_export_properties(exporter, current_user, @current_modules, model_class)
-  end
-
   private
 
   #Discard nil values and empty arrays.
   def format_json_response(record)
-    record = record.as_couch_json.clone
+    record = record.data.clone
     if params[:mobile].present?
       record.each do |field_key, value|
         if value.kind_of? Array
@@ -480,34 +482,14 @@ module RecordActions
     return record
   end
 
-  def create_or_update_record(id)
-    @record = model_class.by_short_id(:key => record_short_id).first if record_params[:unique_identifier]
-    if @record.nil?
-      @record = model_class.new_with_user_name(current_user, record_params)
-    else
-      @record = update_record_from(id)
-    end
-
-    instance_variable_set("@#{model_class.name.underscore}", @record)
-  end
-
-  def update_record_from(id)
-    authorize! :update, @record
-
-    reindex_hash record_params
-    @record_filtered_params = filter_params(@record)
-    merge_append_only_subforms(@record) if is_mobile?
-    update_record_with_attachments(@record)
-  end
-
   def module_users(module_ids)
-    @module_users = User.find_by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
+    @module_users = User.by_modules(module_ids).map(&:user_name).reject {|u| u == current_user.user_name}
   end
 
   def clear_append_only_subforms(record)
     if is_mobile?
-      FormSection.get_append_only_subform_ids.each do |subform_id|
-        record.try("#{subform_id}=", [])
+      Field.find_with_append_only_subform.each do |field|
+        record.data[field.name] = []
       end
     end
     return record
@@ -602,15 +584,66 @@ module RecordActions
   end
 
   def merge_append_only_subforms(record)
-    FormSection.get_append_only_subform_ids.each do |subform_id|
+    # TODO: Although all subforms are being merged through Utils#merge_data (see Record.rb)
+    # this code makes sure we don't delete old subforms if they are not present. This can happen
+    # because subform_append_only subforms get removed from the mobile app, a user can push an update
+    # without subforms and that doesn't mean he wants to delete them.
+    Field.find_with_append_only_subform.each do |field|
       # Since this only happens if the mobile param is true, the subform section has to be an Array, we don't merge otherwise.
-      if @record_filtered_params[subform_id].present? && @record_filtered_params[subform_id].is_a?(Array)
-        record_subforms = (record.try(subform_id) || []).map(&:attributes)
-        param_subforms = @record_filtered_params[subform_id]
+      if !@record_params[field.name].nil? && @record_params[field.name].is_a?(Array)
+        record_subforms = (record.data[field.name] || [])
+        param_subforms = @record_params[field.name]
         # If for any reason a user sends updates to existing forms, we will update them.
         unchanged_subforms = record_subforms.reject {|old_subform| param_subforms.any?{ |new_subform| old_subform["unique_id"] == new_subform["unique_id"] } }
-        @record_filtered_params[subform_id] = unchanged_subforms + param_subforms
+        @record_params[field.name] = unchanged_subforms + param_subforms
       end
     end
   end
+
+  # Recursively parse and cast a hash of string values to Dates, DateTimes, Integers, Booleans.
+  # If all keys in a hash are numeric, convert it to an array.
+  def destringify(value)
+    case value
+    when nil, ""
+      nil
+    when ::ActiveSupport::JSON::DATE_REGEX
+      begin
+        Date.parse(value)
+      rescue ArgumentError
+        value
+      end
+    when ::ActiveSupport::JSON::DATETIME_REGEX
+      begin
+        Time.zone.parse(value)
+      rescue ArgumentError
+        value
+      end
+    when ::PrimeroDate::DATE_REGEX  #TODO: This is a hack, but we'll fix dates later
+      begin
+        PrimeroDate.parse_with_format(value)
+      rescue ArgumentError
+        value
+      end
+    when /^(true|false)$/
+      ::ActiveRecord::Type::Boolean.new.cast(value)
+    when /^\d+$/
+      value.to_i
+    when Array
+      value.map{|v| destringify(v)}
+    when Hash
+      has_numeric_keys = value.keys.reduce(true){|memo, k| memo && k.match?(/^\d+$/)}
+      if has_numeric_keys
+        value.sort_by{|k,_| k.to_i}.map{|_,v| destringify(v)}
+      else
+        value.map{|k,v| [k, destringify(v)]}.to_h
+      end
+    else
+      value
+    end
+  end
+
+  def grouped_permitted_forms
+    FormSection.group_forms(current_user.permitted_forms(@record.module, @record.class.parent_form, true))
+  end
+
 end

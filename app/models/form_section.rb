@@ -1,8 +1,9 @@
-class FormSection < ActiveRecord::Base
+class FormSection < ApplicationRecord
 
   include LocalizableJsonProperty
+  include Configuration
   #include Importable #TODO: This will need to be rewritten
-  include Memoizable
+  # include Memoizable
 
   RECORD_TYPES = ['case', 'incident', 'tracing_request']
 
@@ -10,6 +11,7 @@ class FormSection < ActiveRecord::Base
 
   has_many :fields
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
+  has_and_belongs_to_many :roles
 
   attr_accessor :module_name
   attribute :collapsed_field_names
@@ -163,51 +165,9 @@ class FormSection < ActiveRecord::Base
     end
     #memoize_in_prod :group_forms
 
-    def get_visible_form_sections(form_sections)
-      visible_forms = []
-      visible_forms = form_sections.select{|f| f.visible?} if form_sections.present?
-
-      return visible_forms
-    end
-    #memoize_in_prod :get_visible_form_sections
-
     def form_sections_by_ids_and_parent_form(form_ids, parent_form)
       FormSection.find_by_parent_form(parent_form, true).where(unique_id: form_ids)
     end
-
-    #Get the form sections that the  user is permitted to see and intersect them with the forms associated with the module
-    # TODO: Refactor after User and PrimeroModule
-    def get_allowed_form_ids(primero_module, user)
-      user_form_ids = user.permitted_form_ids
-      module_form_ids = primero_module.present? ? primero_module.associated_form_ids.select(&:present?) : []
-      user_form_ids & module_form_ids
-    end
-
-    #Return only those forms that can be accessed by the user given their role permissions and the module
-    def get_permitted_form_sections(primero_module, parent_form, user)
-      allowed_form_ids = self.get_allowed_form_ids(primero_module, user)
-      forms = FormSection.form_sections_by_ids_and_parent_form(allowed_form_ids, parent_form).includes(:fields)
-      #TODO: Is this needed?
-      forms.each{|f| f.module_name = primero_module.name}
-      forms
-    end
-    #memoize_in_prod :get_permitted_form_sections
-
-    def get_allowed_visible_forms_sections(primero_module, parent_form, user)
-      permitted_forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
-      FormSection.link_subforms(permitted_forms)
-      visible_forms = FormSection.get_visible_form_sections(permitted_forms) #TODO: Can this happen in the query?
-      FormSection.group_forms(visible_forms)
-    end
-
-    def get_form_sections_by_module(primero_modules, parent_form, current_user)
-      primero_modules.map do |primero_module|
-        allowed_visible_forms = FormSection.get_allowed_visible_forms_sections(primero_module, parent_form, current_user)
-        forms = allowed_visible_forms.map{|key, forms_sections| forms_sections}.flatten
-        [primero_module.id, forms]
-      end.to_h
-    end
-    #memoize_in_prod :get_form_sections_by_module
 
     def add_field_to_formsection(formsection, field)
       raise I18n.t("errors.models.form_section.add_field_to_form_section") unless formsection.editable
@@ -239,7 +199,7 @@ class FormSection < ActiveRecord::Base
       photo_form = find_by(unique_id: 'photos_and_audio')
       photo_form.present? && photo_form.visible
     end
-    memoize_in_prod :has_photo_form
+    # memoize_in_prod :has_photo_form
 
     def new_custom(form_section, module_name = "CP")
       form_section[:core_form] = false   #Indicates this is a user-added form
@@ -286,12 +246,12 @@ class FormSection < ActiveRecord::Base
             #Custom export does not have violation type, just reporting.
             #Copied this code from the old reporting method.
             #TODO - this can be improved
-            forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
+            forms = user.permitted_forms(primero_module, parent_form)
             forms = forms.select{|f| f.is_violation? || !f.is_nested?}
           else
             if apply_to_reports
               #For reporting show all forms, not just the visible.
-              forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
+              forms = user.permitted_forms(primero_module, parent_form)
               #For reporting avoid subforms.
 
               # Filtering out nested subform minus any selected reportable subforms.
@@ -304,7 +264,7 @@ class FormSection < ActiveRecord::Base
               end
             else
               #For custom export shows only visible forms.
-              forms = FormSection.get_allowed_visible_forms_sections(primero_module, parent_form, user)
+              forms = user.permitted_forms(primero_module, parent_form, true)
               #Need a plain structure.
               forms = forms.map{|key, forms_sections| forms_sections}.flatten
             end
@@ -459,15 +419,29 @@ class FormSection < ActiveRecord::Base
       end
     end
 
-    def get_append_only_subforms
-      FormSection.where(is_nested: true, subform_append_only: true)
+    alias super_clear clear
+    def clear
+      Field.delete_all
+      self.all.each do |f|
+        f.roles.destroy(f.roles)
+      end
+      super_clear
     end
-    #memoize_in_prod :get_append_only_subforms
 
-    def get_append_only_subform_ids
-      get_append_only_subforms.map(&:unique_id)
+    def import(data)
+      form = self.create!(data.except('fields'))
+      Field.import(data['fields'], form)
     end
-    #memoize_in_prod :get_append_only_subform_ids
+
+    def export
+      self.all.map do |record|
+        record.attributes.tap do |form|
+          form.delete('id')
+          form['fields'] = record.fields.map(&:export)
+        end
+      end
+    end
+
   end
 
   def all_mobile_fields

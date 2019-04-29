@@ -1,9 +1,11 @@
-class Mapping
+class Mapping < ValueObject
 
-  include CouchRest::Model::CastedModel
-  include PrimeroModel
+  attr_accessor :mapping, :autocalculate
 
-  property :mapping, default: {}
-  property :autocalculate, TrueClass, default: false
+  def initialize(args={})
+    super(args)
+    self.mapping ||= {}
+    self.autocalculate ||= false
+  end
 
 end

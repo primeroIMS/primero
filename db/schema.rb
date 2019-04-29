@@ -10,10 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 201903060000001) do
+ActiveRecord::Schema.define(version: 2019_04_16_181147) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "ltree"
+  enable_extension "pgcrypto"
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
 
   create_table "agencies", id: :serial, force: :cascade do |t|
     t.string "agency_code", null: false
@@ -28,6 +51,34 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.index ["services"], name: "index_agencies_on_services", using: :gin
   end
 
+  create_table "attachment_audio", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "record_field_scope"
+    t.index ["record_field_scope"], name: "index_attachment_audio_on_record_field_scope"
+    t.index ["record_type", "record_id"], name: "index_attachment_audio_on_record_type_and_record_id"
+  end
+
+  create_table "attachment_documents", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "record_field_scope"
+    t.string "document_description"
+    t.date "date"
+    t.string "comments"
+    t.boolean "is_current"
+    t.index ["record_field_scope"], name: "index_attachment_documents_on_record_field_scope"
+    t.index ["record_type", "record_id"], name: "index_attachment_documents_on_record_type_and_record_id"
+  end
+
+  create_table "attachment_images", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "record_field_scope"
+    t.index ["record_field_scope"], name: "index_attachment_images_on_record_field_scope"
+    t.index ["record_type", "record_id"], name: "index_attachment_images_on_record_type_and_record_id"
+  end
+
   create_table "audit_logs", id: :serial, force: :cascade do |t|
     t.string "user_name"
     t.string "action_name"
@@ -39,6 +90,36 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.jsonb "mobile_data"
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
     t.index ["user_name"], name: "index_audit_logs_on_user_name"
+  end
+
+  create_table "bulk_exports", id: :serial, force: :cascade do |t|
+    t.string "status"
+    t.string "owned_by"
+    t.datetime "started_on"
+    t.datetime "completed_on"
+    t.string "format"
+    t.string "record_type"
+    t.string "model_range"
+    t.jsonb "filters"
+    t.jsonb "order"
+    t.string "query"
+    t.string "match_criteria"
+    t.jsonb "custom_export_params"
+    t.string "file_name"
+    t.string "password"
+  end
+
+  create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "matched_tracing_request_id"
+    t.string "matched_trace_id"
+    t.uuid "duplicate_case_id"
+    t.index ["data"], name: "index_cases_on_data", using: :gin
+  end
+
+  create_table "configuration_bundles", id: :serial, force: :cascade do |t|
+    t.string "applied_by"
+    t.datetime "applied_at", default: -> { "now()" }, null: false
   end
 
   create_table "contact_informations", id: :serial, force: :cascade do |t|
@@ -101,6 +182,23 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.boolean "date_include_time", default: false, null: false
     t.boolean "matchable", default: false, null: false
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
+    t.index ["name"], name: "index_fields_on_name"
+    t.index ["type"], name: "index_fields_on_type"
+  end
+
+  create_table "flags", id: :serial, force: :cascade do |t|
+    t.string "record_id"
+    t.string "record_type"
+    t.date "date"
+    t.text "message"
+    t.string "flagged_by"
+    t.boolean "removed", default: false, null: false
+    t.text "unflag_message"
+    t.datetime "created_at"
+    t.boolean "system_generated_followup", default: false, null: false
+    t.string "unflagged_by"
+    t.date "unflagged_date"
+    t.index ["record_type", "record_id"], name: "index_flags_on_record_type_and_record_id"
   end
 
   create_table "form_sections", id: :serial, force: :cascade do |t|
@@ -133,12 +231,81 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
 
+  create_table "form_sections_primero_modules", id: false, force: :cascade do |t|
+    t.integer "primero_module_id"
+    t.integer "form_section_id"
+  end
+
+  create_table "form_sections_roles", id: false, force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "form_section_id"
+    t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
+  end
+
+  create_table "incidents", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.uuid "incident_case_id"
+    t.index ["data"], name: "index_incidents_on_data", using: :gin
+    t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
+  end
+
+  create_table "locations", id: :serial, force: :cascade do |t|
+    t.jsonb "name_i18n"
+    t.jsonb "placename_i18n"
+    t.string "location_code", null: false
+    t.integer "admin_level"
+    t.string "type"
+    t.boolean "disabled", default: false, null: false
+    t.ltree "hierarchy", default: "", null: false
+    t.index ["hierarchy"], name: "index_locations_on_hierarchy", using: :gist
+    t.index ["location_code"], name: "index_locations_on_location_code", unique: true
+  end
+
   create_table "lookups", id: :serial, force: :cascade do |t|
     t.string "unique_id"
     t.jsonb "name_i18n"
     t.jsonb "lookup_values_i18n"
     t.boolean "locked", default: false, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
+  end
+
+  create_table "primero_modules", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.integer "primero_program_id"
+    t.jsonb "name", default: {}
+    t.jsonb "description", default: {}
+    t.string "associated_record_types", array: true
+    t.boolean "core_resource", default: true
+    t.jsonb "field_map"
+    t.jsonb "module_options"
+    t.index ["primero_program_id"], name: "index_primero_modules_on_primero_program_id"
+    t.index ["unique_id"], name: "index_primero_modules_on_unique_id", unique: true
+  end
+
+  create_table "primero_modules_users", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "primero_module_id"
+    t.index ["primero_module_id"], name: "index_primero_modules_users_on_primero_module_id"
+    t.index ["user_id"], name: "index_primero_modules_users_on_user_id"
+  end
+
+  create_table "primero_programs", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.jsonb "name_i18n"
+    t.jsonb "description_i18n"
+    t.date "start_date"
+    t.date "end_date"
+    t.boolean "core_resource", default: false, null: false
+  end
+
+  create_table "record_histories", id: :serial, force: :cascade do |t|
+    t.integer "record_id"
+    t.string "record_type"
+    t.datetime "datetime"
+    t.string "user_name"
+    t.string "action"
+    t.jsonb "record_changes", default: {}
+    t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
 
   create_table "reports", id: :serial, force: :cascade do |t|
@@ -156,12 +323,54 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.boolean "editable", default: true
   end
 
+  create_table "roles", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
+    t.string "name"
+    t.string "description"
+    t.jsonb "permissions_list", default: [], array: true
+    t.string "group_permission", default: "self"
+    t.boolean "referral", default: false, null: false
+    t.boolean "transfer", default: false, null: false
+    t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
+  end
+
+  create_table "roles_roles", id: false, force: :cascade do |t|
+    t.integer "role_id"
+    t.integer "associated_role_id"
+  end
+
   create_table "saved_searches", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "module_id"
     t.string "record_type"
     t.string "user_name"
     t.jsonb "filters"
+  end
+
+  create_table "system_settings", id: :serial, force: :cascade do |t|
+    t.string "default_locale", default: "en"
+    t.string "locales", default: ["en"], array: true
+    t.string "base_language", default: "en"
+    t.string "case_code_format", default: [], array: true
+    t.string "case_code_separator"
+    t.jsonb "auto_populate_list", default: [], array: true
+    t.jsonb "unhcr_needs_codes_mapping"
+    t.jsonb "reporting_location_config"
+    t.jsonb "age_ranges"
+    t.jsonb "welcome_email_text_i18n"
+    t.string "primary_age_range"
+    t.string "location_limit_for_api"
+    t.string "approval_forms_to_alert"
+    t.string "changes_field_to_form"
+    t.string "export_config_id"
+    t.string "duplicate_export_field"
+    t.string "primero_version"
+    t.jsonb "system_options"
+  end
+
+  create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.jsonb "data", default: {}
+    t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
   end
 
   create_table "user_groups", id: :serial, force: :cascade do |t|
@@ -172,4 +381,44 @@ ActiveRecord::Schema.define(version: 201903060000001) do
     t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
   end
 
+  create_table "user_groups_users", id: :serial, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "user_group_id"
+    t.index ["user_group_id"], name: "index_user_groups_users_on_user_group_id"
+    t.index ["user_id"], name: "index_user_groups_users_on_user_id"
+  end
+
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "full_name"
+    t.string "user_name"
+    t.string "encrypted_password", default: "", null: false
+    t.string "code"
+    t.string "phone"
+    t.string "email"
+    t.integer "agency_id"
+    t.string "position"
+    t.string "location"
+    t.integer "role_id"
+    t.string "time_zone", default: "UTC"
+    t.string "locale"
+    t.boolean "is_manager", default: false
+    t.boolean "send_mail", default: true
+    t.boolean "disabled", default: false
+    t.string "services", array: true
+    t.string "agency_office"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.string "module_ids", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agency_id"], name: "index_users_on_agency_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["role_id"], name: "index_users_on_role_id"
+    t.index ["user_name"], name: "index_users_on_user_name", unique: true
+  end
+
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
+  add_foreign_key "fields", "form_sections", column: "subform_section_id"
 end

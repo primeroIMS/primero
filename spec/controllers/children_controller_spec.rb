@@ -25,10 +25,9 @@ describe ChildrenController, :type => :controller do
 
   before :each do |example|
     Child.any_instance.stub(:field_definitions).and_return([])
-    Child.any_instance.stub(:permitted_properties).and_return(Child.properties)
     unless example.metadata[:skip_session]
-      @user = User.new(:user_name => 'fakeadmin')
-      @session = fake_admin_login @user
+      @user = User.new(:user_name => 'fakelimited')
+      @session = fake_login_with_permissions([permission_case])
     end
   end
 
@@ -78,7 +77,7 @@ describe ChildrenController, :type => :controller do
     describe 'member' do
       before :each do
         User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-        @child = Child.create('last_known_location' => "London", :short_id => 'short_id', :created_by => "uname")
+        @child = Child.create( data: { :name_first => "George", :short_id => 'short_id', :created_by => "uname"})
         # @child_arg = hash_including("_id" => @child.id)
       end
 
@@ -133,7 +132,7 @@ describe ChildrenController, :type => :controller do
     shared_examples_for "viewing children by user with access to all data" do
       describe "when the signed in user has access all data" do
         before do
-          fake_field_admin_login
+          fake_login_with_permissions([permission_case])
           @options ||= {}
           @stubs ||= {}
         end
@@ -144,7 +143,7 @@ describe ChildrenController, :type => :controller do
           children = mock_child(@stubs)
           scope ||= {"child_status"=>"single||open"}
           children.stub(:paginate).and_return(children)
-          Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => Record::STATUS_OPEN}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakefieldadmin"], nil, nil).and_return(children)
+          Child.should_receive(:list_records).with({"child_status" => {:type => "single", :value => Record::STATUS_OPEN}}, {:created_at=>:desc}, {:page=> page, :per_page=> per_page}, ["fakelimited"], nil, nil).and_return(children)
 
           get :index, params: {scope: scope}
           assigns[:children].should == children
@@ -179,7 +178,7 @@ describe ChildrenController, :type => :controller do
     describe "export_filename" do
       before :each do
         @password = 's3cr3t'
-        @session = fake_field_worker_login
+        @session = fake_login_with_permissions([permission_case])
         @child1 = Child.new(:id => "1", :unique_identifier=> "unique_identifier-1")
         @child2 = Child.new(:id => "2", :unique_identifier=> "unique_identifier-2")
       end
@@ -416,7 +415,7 @@ describe ChildrenController, :type => :controller do
 
     describe "export all to PDF/CSV/CPIMS/Photo Wall" do
       before do
-        fake_field_admin_login
+        fake_login_with_permissions([permission_case])
         @params ||= {}
         controller.stub :paginated_collection => [], :render => true
       end
@@ -426,7 +425,7 @@ describe ChildrenController, :type => :controller do
         @params.merge!(:format => format)
         get :index, @params
         #flash[:notice].should == "No Records Available!"
-        expect(flash[:notice]).to eq("Generating the export file: fakefieldadmin-child-UNHCR.csv")
+        expect(flash[:notice]).to eq("Generating the export file: fakelimited-child-UNHCR.csv")
       end
     end
 
@@ -435,8 +434,8 @@ describe ChildrenController, :type => :controller do
 
       it "should display information for user manager" do
         p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
-        user = User.new(:user_name => 'fakeadmin', :is_manager => true)
-        session = fake_admin_login user
+        user = User.new(:user_name => 'fakelimited', :is_manager => true)
+        session = fake_login_with_user_and_permissions(user, [permission_case])
 
         user.should_receive(:modules).and_return([p_module], [p_module], [p_module], [p_module])
         user.should_receive(:has_module?).with(anything).and_return(true, true, true)
@@ -454,9 +453,9 @@ describe ChildrenController, :type => :controller do
 
       it "should not display information for user not manager" do
         p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
-        user = User.new(:user_name => 'fakeadmin', :is_manager => false)
-        session = fake_admin_login user
-        user.should_receive(:modules).and_return([p_module], [p_module], [p_module], [p_module])
+        user = User.new(:user_name => 'fakelimited', :is_manager => false)
+        session = fake_login_with_user_and_permissions(user, [permission_case])
+        user.should_receive(:modules).and_return([p_module], [p_module], [p_module])
         user.should_receive(:has_module?).with(anything).and_return(true, true, true)
 
         get :index
@@ -474,38 +473,7 @@ describe ChildrenController, :type => :controller do
     describe "Filter and Search", search: true, skip_session: true do
 
       before :each do
-        @user = fake_admin_login User.new(:user_name => 'test_user')
-
-        FormSection.all.each &:destroy
-        fields = [
-            Field.new({"name" => "child_status",
-                       "type" => "text_field",
-                       "display_name_all" => "Child Status"
-                      }),
-            Field.new({"name" => "marked_for_mobile",
-                     "type" => "tick_box",
-                     "tick_box_label_all" => "Yes",
-                     "display_name_all" => "Marked for mobile?"
-                    }),
-            Field.new({"name" => "age",
-                     "type" => "numeric_field",
-                     "display_name_all" => "Age"
-                    })]
-        form = FormSection.new(
-          :unique_id => "form_section_test",
-          :parent_form=>"case",
-          "visible" => true,
-          :order_form_group => 50,
-          :order => 15,
-          :order_subform => 0,
-          "editable" => true,
-          "name_all" => "Form Section Test",
-          "description_all" => "Form Section Test",
-          :fields => fields
-            )
-        form.save!
-        Child.any_instance.stub(:field_definitions).and_return(fields)
-        Child.refresh_form_properties
+        @user = fake_login_with_user_and_permissions(User.new(:user_name => 'test_user'), [permission_case], Permission::ALL)
 
         Sunspot.setup(Child) do
           string 'child_status', as: "child_status_sci".to_sym
@@ -517,24 +485,24 @@ describe ChildrenController, :type => :controller do
 
         Sunspot.remove_all!
 
-        #TODO - remove owned_by_location_district references
         #TODO - create test like this in home controller for dashboard
 
-        @child_1 = create(:child, name: "Name 1", child_status: Record::STATUS_OPEN, age: "5", case_id_display: "UN-TEST-0001",
-                          approval_status_bia: "Approved", bia_approved_date: "25-Oct-2016")
-        @child_age_7 = create(:child, name: "Name 2", child_status: Record::STATUS_OPEN, age: "7", owned_by_agency: 'agency-1',
-                              owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0002", approval_status_bia: "Approved", bia_approved_date: "30-Oct-2016")
-        create(:child, name: "Name 3", child_status: Record::STATUS_CLOSED, age: "7", case_id_display: "UN-TEST-0003")
-        @child_age_15 = create(:child, name: "Name 4", child_status: Record::STATUS_OPEN, age: "15", owned_by_agency: 'agency-1',
-                               owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0004", approval_status_bia: "Approved", bia_approved_date: "20-Oct-2016")
-        create(:child, name: "Name 5", child_status: Record::STATUS_CLOSED, age: "15", case_id_display: "UN-TEST-0005")
-        @child_age_21 = create(:child, name: "Name 6", child_status: Record::STATUS_OPEN, age: "21", owned_by_agency: 'agency-2',
-                               owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0006", approval_status_bia: "Approved", bia_approved_date: "30-Oct-2015")
-        create(:child, name: "Name 7", child_status: Record::STATUS_CLOSED, age: "21", owned_by_agency: 'agency-3', owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0007")
-        create(:child, name: "Name 8", child_status: Record::STATUS_OPEN, marked_for_mobile: false, case_id_display: "UN-TEST-0008")
-        create(:child, name: "Name 9", child_status: Record::STATUS_CLOSED, marked_for_mobile: true, case_id_display: "UN-TEST-0009")
-        @child_mobile_10= create(:child, name: "Name 10", child_status: Record::STATUS_OPEN, marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0010")
-        @child_mobile_11 = create(:child, name: "Name 11", child_status: Record::STATUS_OPEN, marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0011")
+        @child_1 = Child.create!(data: { name: "Name 1", child_status: Record::STATUS_OPEN, age: "5", case_id_display: "UN-TEST-0001",
+                                          approval_status_bia: "Approved", bia_approved_date: "25-Oct-2016" })
+
+        @child_age_7 = Child.create!(data: { name: "Name 2", child_status: Record::STATUS_OPEN, age: "7", owned_by_agency: 'agency-1',
+                                              owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0002", approval_status_bia: "Approved", bia_approved_date: "30-Oct-2016" })
+        Child.create!(data: { name: "Name 3", child_status: Record::STATUS_CLOSED, age: "7", case_id_display: "UN-TEST-0003" })
+        @child_age_15 = Child.create!( data: { name: "Name 4", child_status: Record::STATUS_OPEN, age: "15", owned_by_agency: 'agency-1',
+                               owned_by_location: 'TEST::Bonthe', case_id_display: "UN-TEST-0004", approval_status_bia: "Approved", bia_approved_date: "20-Oct-2016" })
+        Child.create!(data: { name: "Name 5", child_status: Record::STATUS_CLOSED, age: "15", case_id_display: "UN-TEST-0005" })
+        @child_age_21 = Child.create!( data: { name: "Name 6", child_status: Record::STATUS_OPEN, age: "21", owned_by_agency: 'agency-2',
+                                       owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0006", approval_status_bia: "Approved", bia_approved_date: "30-Oct-2015" })
+        Child.create!(data: { name: "Name 7", child_status: Record::STATUS_CLOSED, age: "21", owned_by_agency: 'agency-3', owned_by_location: 'TEST::Port Loko', case_id_display: "UN-TEST-0007" })
+        Child.create!(data: { name: "Name 8", child_status: Record::STATUS_OPEN, marked_for_mobile: false, case_id_display: "UN-TEST-0008" })
+        Child.create!(data: { name: "Name 9", child_status: Record::STATUS_CLOSED, marked_for_mobile: true, case_id_display: "UN-TEST-0009" })
+        @child_mobile_10= Child.create!(data: { name: "Name 10", child_status: Record::STATUS_OPEN, marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0010" })
+        @child_mobile_11 = Child.create!(data: { name: "Name 11", child_status: Record::STATUS_OPEN, marked_for_mobile: true, owned_by_agency: 'agency-4', case_id_display: "UN-TEST-0011" })
 
         Sunspot.commit
       end
@@ -544,7 +512,6 @@ describe ChildrenController, :type => :controller do
         Child.all.each &:destroy
         Sunspot.remove_all!
         Sunspot.commit
-        Child.remove_form_properties
       end
 
       context "filter" do
@@ -607,18 +574,6 @@ describe ChildrenController, :type => :controller do
             expect(assigns[:children]).to include(@child_age_7, @child_age_15, @child_mobile_10, @child_mobile_11)
           end
         end
-
-        #TODO - change district to reporting location
-        context "by_district" do
-          xit "should filter by district Bonthe" do
-            get :index, params: {"scope"=>{"child_status"=>"list||#{Record::STATUS_OPEN}", "owned_by_location_district"=>"list||Bonthe"}}
-
-            filters = {"child_status"=>{:type=>"list", :value=>[Record::STATUS_OPEN]}, "owned_by_location_district"=>{:type=>"list", :value=>["Bonthe"]}}
-            expect(assigns[:filters]).to eq(filters)
-            expect(assigns[:children].length).to eq(2)
-            expect(assigns[:children]).to include(@child_age_7, @child_age_15)
-          end
-        end
       end
       context "search" do
         context "by case ID" do
@@ -641,7 +596,8 @@ describe ChildrenController, :type => :controller do
 
   describe "Search terms", search: true, skip_session: true do
     before :each do
-      @user = fake_admin_login User.new(:user_name => 'test_user')
+      @user = fake_login_with_user_and_permissions(User.new(:user_name => 'test_user'), [permission_case], Permission::ALL)
+
       Child.all.each &:destroy
       Sunspot.remove_all!
       @child1 = create(:child, name: "Jonh Smith", child_status: Record::STATUS_OPEN, owned_by: @user.user_name)
@@ -673,8 +629,13 @@ describe ChildrenController, :type => :controller do
   end
 
   describe "GET show" do
+    before :each do
+      Child.all.each &:destroy
+      @user = fake_login_with_user_and_permissions(User.new(:user_name => 'test_user'), [permission_case],Permission::ALL)
+    end
+
     it 'does not assign child name in page name' do
-      child = build :child, :unique_identifier => "1234"
+      child = Child.create!(data: { unique_identifier: "1234"})
       controller.stub :render
       get :show, params: {id: child.id}
       assigns[:page_name].should == "View Case #{child.short_id}"
@@ -683,15 +644,15 @@ describe ChildrenController, :type => :controller do
     it "assigns the requested child" do
       Child.any_instance.stub(:allowed_formsections).and_return({})
       child = Child.new(:module_id => 'primeromodule-cp')
-      Child.stub(:get).with("37").and_return(child)
+      Child.stub(:find).with("37").and_return(child)
       get :show, params: {id: '37'}
       assigns[:child].should equal(child)
     end
 
     it 'should not fail if primary_photo_id is not present' do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-      child = Child.create('last_known_location' => "London", :created_by => "uname")
-      Child.stub(:get).with("37").and_return(child)
+      child = Child.create(data: { :name_first => "George", :created_by => "uname"})
+      Child.stub(:find).with("37").and_return(child)
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
 
       controller.stub :render
@@ -700,8 +661,8 @@ describe ChildrenController, :type => :controller do
 
     it "should set current photo key as blank instead of nil" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-      child = Child.create('last_known_location' => "London", :created_by => "uname")
-      Child.stub(:get).with("37").and_return(child)
+      child = Child.create(data: { :name_first => "George", :created_by => "uname"})
+      Child.stub(:find).with("37").and_return(child)
       assigns[child[:current_photo_key]] == ""
       get :show, params: {format: 'json', id: '37'}
     end
@@ -711,7 +672,7 @@ describe ChildrenController, :type => :controller do
       grouped_forms = forms.group_by{|e| e.form_group_name}
       child = mock_child({:module_id => 'primeromodule-cp'})
       Child.stub(:allowed_formsections).and_return(grouped_forms)
-      Child.stub(:get).with("37").and_return(child)
+      Child.stub(:find).with("37").and_return(child)
       allow(child).to receive(:display_id).and_return('37')
       allow(child).to receive(:owned_by).and_return('test_owner')
       get :show, params: {id: '37'}
@@ -720,17 +681,18 @@ describe ChildrenController, :type => :controller do
     end
 
     it "should flash an error and go to listing page if the resource is not found" do
-      Child.stub(:get).with("invalid record").and_return(nil)
+      Child.stub(:find).with("invalid record").and_return(nil)
       get :show, params: {id: 'invalid record'}
       flash[:error].should == "Child with the given id is not found"
       response.should redirect_to(:action => :index)
     end
 
     it 'logs a veiw message' do
-      child = build :child, :unique_identifier => "1234"
+      child = Child.create!(data: { :unique_identifier => "1234" })
       controller.stub :render
       allow(Rails.logger).to receive(:info)
-      expect(Rails.logger).to receive(:info).with("Viewing case '#{child.case_id_display}' by user '#{@user.user_name}'")
+      # TODO: Will this change with UI/UX refactoring? See record_json.rb#model_name_for_messages
+      expect(Rails.logger).to receive(:info).with("Viewing Child '#{child.case_id_display}' by user '#{@user.user_name}'")
       get :show, params: {id: child.id}
     end
   end
@@ -756,7 +718,7 @@ describe ChildrenController, :type => :controller do
   describe "GET edit" do
     it "assigns the requested child as @child" do
       Child.stub(:allowed_formsections).and_return({})
-      Child.stub(:get).with("37").and_return(mock_child)
+      Child.stub(:find).with("37").and_return(mock_child)
       allow(@mock_child).to receive(:display_id).and_return('37')
       allow(@mock_child).to receive(:owned_by).and_return('test_owner')
       get :edit, params: {id: '37'}
@@ -764,7 +726,7 @@ describe ChildrenController, :type => :controller do
     end
 
     it "retrieves the grouped forms that are permitted to this user and child" do
-      Child.stub(:get).with("37").and_return(mock_child)
+      Child.stub(:find).with("37").and_return(mock_child)
       forms = [stub_form]
       grouped_forms = forms.group_by{|e| e.form_group_name}
       Child.should_receive(:allowed_formsections).and_return(grouped_forms)
@@ -775,10 +737,11 @@ describe ChildrenController, :type => :controller do
     end
 
     it 'logs an edit message' do
-      child = build :child, :unique_identifier => "1234"
+      child = Child.create!(data: { :unique_identifier => "1234" })
       controller.stub :render
       allow(Rails.logger).to receive(:info)
-      expect(Rails.logger).to receive(:info).with("Editing case '#{child.case_id_display}' by user '#{@user.user_name}'")
+      # TODO: Will this change with UI/UX refactoring? See record_json.rb#model_name_for_messages
+      expect(Rails.logger).to receive(:info).with("Editing Child '#{child.case_id_display}' by user '#{@user.user_name}'")
       get :edit, params: {id: child.id}
     end
   end
@@ -786,11 +749,13 @@ describe ChildrenController, :type => :controller do
   describe "PUT update" do
     before :each do
       Child.stub(:permitted_property_names).and_return(['name', 'unique_identifier', 'reunited', ])
+      @user = fake_login_with_user_and_permissions(User.new(:user_name => 'test_user'), [permission_case],Permission::ALL)
     end
 
     it "should update child on a field and photo update" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-      child = Child.create('name' => "London", 'photo' => uploadable_photo, :created_by => "uname")
+
+      child = Child.create!(data: { 'name' => "London", 'photo' => uploadable_photo, :created_by => "uname" })
 
       Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
       put :update, params: {id: child.id, child: {name: "Manchester", photo: Rack::Test::UploadedFile.new(uploadable_photo_jeff)}}
@@ -802,7 +767,7 @@ describe ChildrenController, :type => :controller do
 
     it "should update only non-photo fields when no photo update" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org'))
-      child = Child.create('name' => "London", 'photo' => uploadable_photo, :created_by => "uname")
+      child = Child.create(data: { 'name' => "London", 'photo' => uploadable_photo, :created_by => "uname" })
 
       put :update, params: {id: child.id, child: {name: "Manchester", reunited: true}}
 
@@ -812,15 +777,15 @@ describe ChildrenController, :type => :controller do
     end
 
     it "should allow a records ID to be specified to create a new record with a known id" do
-      new_uuid = UUIDTools::UUID.random_create
+      new_uuid = SecureRandom.uuid
       put :update, params: {id: new_uuid.to_s, child: {id: new_uuid.to_s, _id: new_uuid.to_s, name: "London", reunited: true}}
-      Child.get(new_uuid.to_s)[:unique_identifier].should_not be_nil
+      Child.find(new_uuid.to_s)[:unique_identifier].should_not be_nil
     end
 
     it "should update the last_updated_by_full_name field with the logged in user full name" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      child = Child.new_with_user_name(user, {:name => 'existing child'})
-      Child.stub(:get).with("123").and_return(child)
+      child = Child.new_with_user(user, {:name => 'existing child'})
+      Child.stub(:find).with("123").and_return(child)
       subject.should_receive('current_user_full_name').and_return('Bill Clinton')
 
       put :update, params: {id: 123, child: {flag: true, flag_message: "Test"}}
@@ -830,55 +795,55 @@ describe ChildrenController, :type => :controller do
 
     it "should not set photo if photo is not passed" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      child = Child.new_with_user_name(user, {:name => 'some name'})
+      child = Child.new_with_user(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_child)
-      Child.stub(:get).and_return(child)
+      Child.stub(:find).and_return(child)
       put :update, params: {id: '1', child: params_child}
       end
 
     it "should delete the audio if checked delete_child_audio checkbox" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      child = Child.new_with_user_name(user, {:name => 'some name'})
+      child = Child.new_with_user(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, true, params_child)
-      Child.stub(:get).and_return(child)
+      Child.stub(:find).and_return(child)
       put :update, params: {id: '1', child: params_child, delete_child_audio: "1"}
     end
 
     it "should redirect to redirect_url if it is present in params" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      child = Child.new_with_user_name(user, {:name => 'some name'})
+      child = Child.new_with_user(user, {:name => 'some name'})
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_child)
-      Child.stub(:get).and_return(child)
+      Child.stub(:find).and_return(child)
       put :update, params: {id: '1', child: params_child, redirect_url: '/cases'}
       response.should redirect_to '/cases?follow=true'
     end
 
     it "should redirect to case page if redirect_url is not present in params" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      child = Child.new_with_user_name(user, {:name => 'some name'})
+      child = Child.new_with_user(user, {:name => 'some name'})
 
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_child)
-      Child.stub(:get).and_return(child)
+      Child.stub(:find).and_return(child)
       put :update, params: {id: '1', child: params_child}
       response.should redirect_to "/cases/#{child.id}?follow=true"
     end
 
     it 'logs an update message' do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      child = Child.new_with_user_name(user, {:name => 'some name'})
+      child = Child.new_with_user(user, {:name => 'some name'})
 
       params_child = {"name" => 'update'}
       controller.stub(:current_user_name).and_return("user_name")
       child.should_receive(:update_properties_with_user_name).with("user_name", "", {}, nil, false, params_child)
-      Child.stub(:get).and_return(child)
+      Child.stub(:find).and_return(child)
       allow(Rails.logger).to receive(:info)
       expect(Rails.logger).to receive(:info).with("Updating case '#{child.case_id_display}' by user '#{@user.user_name}'")
       put :update, params: {id: '1', child: params_child}
@@ -979,8 +944,9 @@ describe ChildrenController, :type => :controller do
 
   describe '#respond_to_export' do
     before :each do
-      @child1 = build :child
-      @child2 = build :child
+      Child.delete_all
+      @child1 = Child.create!(data: { name: "some name for child1"})
+      @child2 = Child.create!(data: { name: "some name for child2"})
       controller.stub :paginated_collection => [ @child1, @child2 ], :render => true
       Child.stub :list_records => double(:results => [@child1, @child2 ], :total => 2)
     end
@@ -1014,11 +980,12 @@ describe ChildrenController, :type => :controller do
 
   describe "PUT select_primary_photo" do
     before :each do
-      @child = stub_model(Child, :id => "id")
+      @child = stub_model(Child)
+      @child.should_receive(:id).and_return("id")
       @photo_key = "key"
       @child.stub(:primary_photo_id=)
       @child.stub(:save)
-      Child.stub(:get).with("id").and_return @child
+      Child.stub(:find).with("id").and_return @child
     end
 
     it "set the primary photo on the child and save" do
@@ -1045,63 +1012,15 @@ describe ChildrenController, :type => :controller do
     end
   end
 
+  #TODO: Move to the ApprovalActions concern spec after merging spec fixes
   describe "POST request_approval" do
     before do
-      #TODO: This FormSection setup will not be necessary once the approvable_subforms property in approvable concern is fixed
-      FormSection.all.each &:destroy
-      approvals_fields_subform = [
-          Field.new({"name" => "approval_test",
-                     "type" => "textarea",
-                     "display_name_all" => "Approval Test"
-                    })
-      ]
-
-      approvals_section = FormSection.create_or_update_form_section({
-          "visible"=>false,
-          "is_nested"=>true,
-          :order_form_group => 999,
-          :order => 999,
-          :order_subform => 1,
-          :unique_id=>"approval_subforms",
-          :parent_form=>"case",
-          "editable"=>true,
-          :fields => approvals_fields_subform,
-          :initial_subforms => 0,
-          :hide_subform_placeholder => true,
-          "name_all" => "Approval Subform",
-          "description_all" => "Approval Subform"
-      })
-
-      fields = [
-          Field.new({"name" => "approval_subforms",
-                     "type" => "subform",
-                     "editable" => false,
-                     "subform_section_id" => approvals_section.id,
-                     "display_name_all" => "Approval"
-                    }),
-      ]
-      form = FormSection.new(
-          :unique_id => "form_section_test",
-          :parent_form=>"case",
-          "visible" => true,
-          :order_form_group => 50,
-          :order => 15,
-          :order_subform => 0,
-          "editable" => true,
-          "name_all" => "Form Section Test",
-          "description_all" => "Form Section Test",
-          :fields => fields
-      )
-      form.save!
-      Child.any_instance.stub(:field_definitions).and_return(fields)
-      Child.refresh_form_properties
-
       User.all.each {|user| user.destroy}
       User.stub(:find_by_user_name).with('test_owner').and_return nil
       User.stub(:find_by_user_name).with('manager1').and_return nil
       @owner = create :user, user_name: 'test_owner', full_name: 'Test Owner', email: 'owner@primero.dev', organization: 'UNICEF'
       @manager1 = create :user, is_manager: true, email: 'manager1@primero.dev', send_mail: true, user_name: 'manager1'
-      @child = Child.new_with_user_name @owner, :name => "child1", :module_id => PrimeroModule::CP, case_id_display: '12345'
+      @child = Child.new_with_user(@owner, { :name => "child1", :module_id => PrimeroModule::CP, case_id_display: '12345' })
       p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
       @child.stub(:module).and_return p_module
       @child.save
@@ -1109,6 +1028,8 @@ describe ChildrenController, :type => :controller do
       User.stub(:get).with(@manager1.id).and_return @manager1
       @owner.stub(:managers).and_return [@manager1]
       ActiveJob::Base.queue_adapter = :inline
+
+      fake_login_with_user_and_permissions(@owner, [permission_case], Permission::ALL)
     end
 
     context 'when notification emails are enabled' do
@@ -1142,88 +1063,134 @@ describe ChildrenController, :type => :controller do
 
   describe "POST create" do
     before :each do
+      Child.delete_all
       Child.stub(:permitted_property_names).and_return(['name', 'unique_identifier', 'age', 'nickname'])
     end
 
     it "should update the child record instead of creating if record already exists" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
-      child = Child.new_with_user_name(user, {:name => 'old name'})
-      child.save
-      fake_admin_login
+      child = Child.new_with_user(user, {:name => 'old name'})
+      child.save!
       controller.stub(:authorize!)
       post :create, params: {child: {:unique_identifier => child.unique_identifier, :name => 'new name'}}
-      updated_child = Child.by_short_id(:key => child.short_id)
-      updated_child.all.size.should == 1
+      updated_child = Child.where('data @> ? ', {short_id: child.short_id}.to_json)
+      updated_child.all.size.should eq(1)
       updated_child.first.name.should == 'new name'
     end
 
-    it "should not update fields that were only changed in previous conflicting merge" do
-      original_name = 'Juan Herrero'
-      new_name = 'Juan Lopez'
-      child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
-      child.save
-
-      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
-      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: original_name}}
-
-      updated_child = Child.by_short_id(:key => child.short_id).first
-      updated_child.name.should == new_name
-    end
-
-    it "should update fields that were not changed in previous conflicting merge" do
-      original_name = 'Juan Herrero'
-      new_name = 'Juan Lopez'
-      child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
-      child.save
-      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: 'Johnny'}}
-      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
-
-      updated_child = Child.by_short_id(:key => child.short_id).first
-      updated_child.name.should == new_name
-    end
-
-    it "should take the last update if there are two new changes" do
-      original_name = 'Juan Herrero'
-      new_name = 'Juan Lopez'
-      newer_name = 'Juan Rodriguez'
-      child = Child.new_with_user_name(@user, {:name => original_name, :age => 16})
-      child.save
-      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
-      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: newer_name}}
-
-      updated_child = Child.by_short_id(:key => child.short_id).first
-      updated_child.name.should == newer_name
-    end
-
     it 'logs a create message' do
-      child = build :child, :unique_identifier => "1234"
+      child = build :child, :unique_identifier => "1a234b"
+      Child.stub(:find_by).with('data @> ?', {unique_identifier: "1a234b"}.to_json).and_return(child)
       new_name = 'Juan Lopez'
       allow(Rails.logger).to receive(:info)
-      expect(Rails.logger).to receive(:info).with("Creating case by user '#{@user.user_name}'")
-      post :create, params: {child: {unique_identifier: child.unique_identifier, base_revision: child._rev, name: new_name}}
+      expect(Rails.logger).to receive(:info).with("Creating Child by user '#{@user.user_name}'")
+      post :create, params: {child: {unique_identifier: child.unique_identifier, name: new_name}}
     end
 
   end
 
   describe 'API' do
+
+    before :each do
+      User.all.each {|user| user.destroy}
+      User.stub(:find_by_user_name).with('test_owner').and_return nil
+      PrimeroProgram.all.all.each(&:destroy)
+      PrimeroModule.all.all.each(&:destroy)
+      Child.delete_all
+
+      PrimeroProgram.create_or_update(
+        name: "Primero",
+        description: "Default Primero Program"
+      )
+
+      PrimeroModule.create_or_update(
+        name: "GBV",
+        description: "Gender Based Violence",
+        associated_record_types: ["case", "incident"],
+        form_section_ids: [ "basic_identity"],
+        program_id: PrimeroProgram.by_name(:key => "Primero").first.id
+      )
+
+      case_owner = create :user, user_name: 'test_owner', full_name: 'Test Owner', email: 'owner@primero.dev', organization: 'UNICEF', module_ids: [PrimeroModule.first.id]
+      User.stub(:find_by_user_name).with('test_owner').and_return case_owner
+      User.stub(:get).with(case_owner.id).and_return case_owner
+      fake_login_with_user_and_permissions(case_owner, [permission_case], Permission::ALL)
+
+      basic_identity_fields = [
+        Field.new({"name" => "name",
+                   "type" => "text_field",
+                   "display_name_en" => "Full Name",
+                  }),
+        Field.new({"name" => "name_first",
+                   "type" => "text_field",
+                   "display_name_en" => "First Name",
+                  }),
+        Field.new({"name" => "name_last",
+                   "type" => "text_field",
+                   "display_name_en" => "Surname",
+                  }),
+        Field.new({"name" => "name_nickname",
+                   "type" => "text_field",
+                   "display_name_en" => "Nickname",
+                  }),
+        Field.new({"name" => "registration_date",
+                   "type" => "date_field",
+                   "display_name_en" => "Date of Registration or Interview",
+                  }),
+        Field.new({"name" => "sex",
+                   "type" => "select_box",
+                   "display_name_en" => "Sex",
+                   "option_strings_source" => "lookup lookup-gender",
+                  }),
+        Field.new({"name" => "age",
+                   "type" => "numeric_field",
+                   "display_name_en" => "Age",
+                  }),
+        Field.new({"name" => "estimated",
+                   "type" => "tick_box",
+                   "tick_box_label_en" => "Yes",
+                   "display_name_en" => "Is the age estimated?",
+                  }),
+        Field.new({"name" => "address_is_permanent",
+                   "type" => "tick_box",
+                   "display_name_en" => "Is this address permanent?",
+                   "visible" => false
+                  }),
+      ]
+      FormSection.create_or_update_form_section({
+        :unique_id=>"basic_identity",
+        :parent_form=>"case",
+        "visible" => true,
+        :order_form_group => 30,
+        :order => 10,
+        :order_subform => 0,
+        :form_group_id => "identification_registration",
+        "editable" => true,
+        :fields => basic_identity_fields,
+        :is_first_tab => true,
+        "name_en" => "Basic Identity",
+        "description_en" => "Basic identity information about a separated or unaccompanied child.",
+        :mobile_form => true,
+        :header_message_link => "workflow_status"
+      })
+    end
+
     it 'creates a GBV case' do
-      gbv_case = {owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
-                   previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker", previously_owned_by_agency: "agency-unicef",
-                   module_id: "primeromodule-gbv", created_organization: "agency-unicef", created_by: "primero_gbv",
-                   created_by_full_name: "GBV Worker", record_state: true, marked_for_mobile: false, consent_for_services: false,
-                   child_status: Record::STATUS_OPEN, name: "Joe Tester", name_first: "Joe", name_last: "Tester", name_nickname: "",
+      #TODO: Do we care about the family_details_section?
+      gbv_case = { record_state: true, marked_for_mobile: false, child_status: Record::STATUS_OPEN,
+                   name: "Joe Tester", name_first: "Joe", name_last: "Tester", name_nickname: "",
                    name_given_post_separation: "No", registration_date: "01-Feb-2007", sex: "Male", age: 10,
-                   estimated: false, address_is_permanent: false, system_generated_followup: false,
+                   estimated: false, address_is_permanent: false, module_id: 'primeromodule-gbv',
                    family_details_section: [
                        {relation_name: "Another Tester", relation: "Father", relation_is_caregiver: false,
                         relation_child_lived_with_pre_separation: "Yes", relation_child_is_in_contact: "No",
                         relation_child_is_separated_from: "Yes", relation_nickname: "", relation_is_alive: "Unknown",
                         relation_age: 40, relation_date_of_birth: "01-Jan-1977"}],
-                   case_id: "56798b3e-c5b8-44d9-a8c1-2593b2b127c9", short_id: "2b127c9", hidden_name: false, posted_from: "Mobile"}
+                 }
 
       post :create, params: {child: gbv_case, format: :json}
 
-      case1 = Child.by_short_id(key: gbv_case[:short_id]).first
+      case1 = Child.find_by('data @> ? ', {name: gbv_case[:name]}.to_json)
 
       expect(case1).not_to be_nil
       expect(case1.name).to eq('Joe Tester')
@@ -1231,12 +1198,12 @@ describe ChildrenController, :type => :controller do
 
     describe 'show' do
       before do
-        @gbv_case = Child.create!({owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
+        @gbv_case = Child.create!(data: {owned_by: "primero_gbv", owned_by_full_name: "GBV Worker", owned_by_agency: "agency-unicef",
                     previously_owned_by: "primero", previously_owned_by_full_name: "GBV Worker", previously_owned_by_agency: "agency-unicef",
                     module_id: "primeromodule-gbv", created_organization: "agency-unicef", created_by: "fakeadmin",
                     created_by_full_name: "GBV Worker", record_state: true, marked_for_mobile: true, consent_for_services: false,
                     child_status: Record::STATUS_OPEN, name: "Norville Rogers", name_first: "Norville", name_last: "Rogers", name_nickname: "Shaggy",
-                    name_given_post_separation: "No", registration_date: "01-Feb-2007", sex: "Male", age: 10,
+                    name_given_post_separation: "No", registration_date: "2007-02-01", sex: "Male", age: 10,
                     estimated: false, address_is_permanent: false, system_generated_followup: false,
                     family_details_section: [
                         {relation_name: "Joe Rogers", relation: "Father", relation_is_caregiver: false,
@@ -1248,86 +1215,14 @@ describe ChildrenController, :type => :controller do
       it 'returns a GBV case' do
         get :show, params: {id: @gbv_case.id, mobile: true, format: :json}
 
-        expect(assigns['record']['_id']).to eq(@gbv_case.id)
+        # expect(assigns['record']['_id']).to eq(@gbv_case.id)
         expect(assigns['record']['short_id']).to eq(@gbv_case.short_id)
         expect(assigns['record']['name']).to eq(@gbv_case.name)
       end
     end
   end
 
-	describe "reindex_params_subforms" do
-
-		it "should correct indexing for nested subforms" do
-			params = {
-				"child"=> {
-					"name"=>"",
-	   		 "top_1"=>"This is a top value",
-	        "nested_form_section" => {
-						"0"=>{"nested_1"=>"Keep", "nested_2"=>"Keep", "nested_3"=>"Keep"},
-	     		 "2"=>{"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"}},
-	        "fathers_name"=>""}}
-
-			controller.reindex_hash params['child']
-			expected_subform = params["child"]["nested_form_section"]["1"]
-
-			expect(expected_subform.present?).to be_truthy
-			expect(expected_subform).to eq({"nested_1"=>"Drop", "nested_2"=>"Drop", "nested_3"=>"Drop"})
-		end
-
-	end
-
   describe "sort_subforms" do
-    before :each do
-      followup_subform_fields = [
-        Field.new({"name" => "followup_type",
-                   "type" => "select_box",
-                   "display_name_all" => "Type of follow up",
-                   "option_strings_text_all" => [{"id"=>"follow_up_after_reunification", "display_text"=>"Follow up After Reunification"}, {"id"=>"follow_up_in_care", "display_text"=>"Follow up in Care"}]
-                  }),
-        Field.new({"name" => "followup_date",
-                   "type" => "date_field",
-                   "display_name_all" => "Follow up date"
-                  })
-      ]
-
-      followup_subform_section = FormSection.create_or_update_form_section({
-        "visible" => false,
-        "is_nested" => true,
-        :order_form_group => 110,
-        :order => 20,
-        :order_subform => 1,
-        :unique_id => "followup_subform_section",
-        :parent_form=>"case",
-        "editable" => true,
-        :fields => followup_subform_fields,
-        :initial_subforms => 1,
-        "name_all" => "Nested Followup Subform",
-        "description_all" => "Nested Followup Subform"
-      })
-
-      @followup_fields = [
-        Field.new({"name" => "followup_subform_section",
-                   "type" => "subform", "editable" => true,
-                   "subform_section_id" => followup_subform_section.id,
-                   "display_name_all" => "Follow Up",
-                   "subform_sort_by" => "followup_date"
-                  })
-      ]
-
-      FormSection.create_or_update_form_section({
-        :unique_id => "followup",
-        :parent_form=>"case",
-        "visible" => true,
-        :order_form_group => 110,
-        :order => 20,
-        :order_subform => 0,
-        "editable" => true,
-        :fields => @followup_fields,
-        "name_all" => "Follow Up",
-        "description_all" => "Follow Up"
-      })
-    end
-
     it "should sort subforms by the sort_subform_by on show page" do
       User.stub(:find_by_user_name).with("uname").and_return(user = double('user', :user_name => 'uname', :organization => 'org', :full_name => 'UserN'))
       params = {
@@ -1354,9 +1249,8 @@ describe ChildrenController, :type => :controller do
           }
         }
       }
-      child = Child.new_with_user_name(user, params["child"])
+      child = Child.new_with_user(user, params["child"])
       child.save!
-      Child.any_instance.stub(:field_definitions).and_return(@followup_fields)
 
       get :show, params: {id: child.id}
       child_params = params["child"]["followup_subform_section"]
@@ -1389,9 +1283,8 @@ describe ChildrenController, :type => :controller do
           }
         }
       }
-      child = Child.new_with_user_name(user, params["child"])
+      child = Child.new_with_user(user, params["child"])
       child.save!
-      Child.any_instance.stub(:field_definitions).and_return(@followup_fields)
 
       get :show, params: {id: child.id}
       child_params = params["child"]["followup_subform_section"]

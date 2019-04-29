@@ -312,7 +312,7 @@ Primero = _primero.Views.Base.extend({
     $inputs.each(function(k, v) {
       var $selected_input = $(v),
           section_finder_str = '.section' + '.' + $selected_input.val(),
-          $id_section = $('.associated_form_ids').find(section_finder_str);
+        $id_section = $('.form_section_ids').find(section_finder_str);
 
       $selected_input.is(":checked") ? $id_section.fadeIn(800) : $id_section.fadeOut(800);
     });

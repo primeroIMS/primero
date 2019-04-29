@@ -86,9 +86,11 @@ feature "home view" do
         form_sections: [@form_section],
         primero_module: {
           id: PrimeroModule::CP,
-          workflow_status_indicator: true,
-          use_workflow_case_plan: true,
-          use_workflow_service_implemented: true
+          module_options: {
+            workflow_status_indicator: true,
+            use_workflow_case_plan: true,
+            use_workflow_service_implemented: true
+          }
         },
         roles: @roles,
         is_manager: true,
@@ -98,9 +100,11 @@ feature "home view" do
           form_sections: [@form_section],
           primero_module: {
               id: PrimeroModule::CP,
-              workflow_status_indicator: true,
-              use_workflow_case_plan: true,
-              use_workflow_service_implemented: true
+              module_options: {
+                workflow_status_indicator: true,
+                use_workflow_case_plan: true,
+                use_workflow_service_implemented: true
+              }
           },
           roles: @roles,
           is_manager: true,

@@ -1,13 +1,13 @@
 <%
   editing ||= false
   type_selection = ((@location.present? && @location.type.present?) ? @location.type : "")
-  parent_options = (@locations.present? ? @locations.map{|lct| [lct.name, lct.id]}.insert(0, "") : [])
+  parent_options = (@locations.present? ? @locations.order(:admin_level).map{|lct| [lct.name, lct.id]}.insert(0, "") : [])
   parent = @location.parent
   parent_selection ||= (parent.present? ? parent.id : "")
   admin_level_options = Location::ADMIN_LEVELS
   admin_level_selection = ((@location.present? && @location.admin_level.present?) ? @location.admin_level : "")
   admin_level_disabled = !@location.admin_level_required?
-  given_locale = @location.base_language
+  given_locale = Primero::Application::BASE_LANGUAGE
   system_locale = I18n.locale
 %>
 
@@ -24,7 +24,7 @@
       <% if editing %>
         <div class="callout warning"><%= t('location.location_code_warning') %></div>
       <% end %>
-      <%= f.error_messages :header_tag => :h2 %>
+      <%= error_messages_for(@location) %>
       <% if editing %>
         <div class="row">
           <div class="medium-9 medium-offset-3 columns">

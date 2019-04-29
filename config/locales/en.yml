@@ -765,7 +765,6 @@ en:
     page_entries_info: Displaying _START_ to _END_ of _TOTAL_ %{model}
 
   users:
-    unverified: "Unverified Users"
     select_role: "Please select a role before verifying the user"
     manage: "Manage Users"
     label: "Users"
@@ -790,6 +789,7 @@ en:
 
   roles:
     label: "Roles"
+    select_label: "Role"
     list: "List of Roles"
     sort_by:
       label: "Sort by"
@@ -884,7 +884,7 @@ en:
     forms: "Forms assigned to this module"
     program: "Program"
     associated_record_types: "Associated record types"
-    associated_form_ids: "Assocaited form ids"
+    form_section_ids: "Assocaited form ids"
 
 
   primero_programs:
@@ -969,6 +969,8 @@ en:
     agency: "Agency"
     manager: "Manager"
     send_mail: "Receive email notifications?"
+    change_password: "Change your password"
+    forgot_password: "Forgot your password?"
     welcome_email:
       greeting: "Welcome to Primero,"
       url_label: "Primero"
@@ -1007,6 +1009,7 @@ en:
   hide_on_view_page: "Hide On View Page"
   show_on_short_form: "Show On Short Form"
   last_login: "Last Login"
+  copy_of: "Copy of"
 
 
   record: "record"
@@ -1811,7 +1814,7 @@ en:
         name_present: "Name must not be blank"
         unique_name: "A module with that name already exists, please enter a different name"
         program: "There must be a program associated with this module"
-        associated_form_ids: "At least one form must be associated with this module"
+        form_section_ids: "At least one form must be associated with this module"
         associated_record_types: "At least one record type must be associated with this module"
 
       primero_program:
@@ -1844,6 +1847,10 @@ en:
         unique_name: "An Agency with that name already exists, please enter a different name"
         name_present: "must not be blank"
         code_present: "must not be blank"
+
+      primero_program:
+        unique_unique_id: "A PrimeroProgram with that unique_id already exists, please enter a different unique_id"
+        name_present: "must not be blank"
 
       location:
         name_present: "must not be blank"
@@ -2356,3 +2363,75 @@ en:
       user_group:
         one: "User Group"
         other: "User Groups"
+
+  devise:
+    buttons:
+      change_password: "Change Password"
+      send_password_reset_instructions: "Send Password Reset Instructions"
+    confirmations:
+      confirmed: "Your email address has been successfully confirmed."
+      send_instructions: "You will receive an email with instructions for how to confirm your email address in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive an email with instructions for how to confirm your email address in a few minutes."
+    failure:
+      already_authenticated: "You are already signed in."
+      inactive: "Your account is not activated yet."
+      invalid: "Invalid %{authentication_keys} or password."
+      locked: "Your account is locked."
+      last_attempt: "You have one more attempt before your account is locked."
+      not_found_in_database: "Invalid %{authentication_keys} or password."
+      timeout: "Your session expired. Please sign in again to continue."
+      unauthenticated: "You need to sign in or sign up before continuing."
+      unconfirmed: "You have to confirm your email address before continuing."
+    mailer:
+      greeting: Hello %{email},
+      confirmation_instructions:
+        subject: "Confirmation instructions"
+      reset_password_instructions:
+        subject: "Reset password instructions"
+        body_1: "Someone has requested a link to change your password. You can do this through the link below."
+        body_2: "If you didn't request this, please ignore this email. Your password won't change until you access the link above and create a new one."
+        link: "Change Password"
+      unlock_instructions:
+        subject: "Unlock instructions"
+      email_changed:
+        subject: "Email Changed"
+        body: "We're contacting you to notify you that your email has been changed to %{email}."
+      password_change:
+        subject: "Password Changed"
+        body: "We're contacting you to notify you that your password has been changed."
+    omniauth_callbacks:
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "Successfully authenticated from %{kind} account."
+    passwords:
+      no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
+      send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
+      updated: "Your password has been changed successfully. You are now signed in."
+      updated_not_active: "Your password has been changed successfully."
+    registrations:
+      destroyed: "Bye! Your account has been successfully cancelled. We hope to see you again soon."
+      signed_up: "Welcome! You have signed up successfully."
+      signed_up_but_inactive: "You have signed up successfully. However, we could not sign you in because your account is not yet activated."
+      signed_up_but_locked: "You have signed up successfully. However, we could not sign you in because your account is locked."
+      signed_up_but_unconfirmed: "A message with a confirmation link has been sent to your email address. Please follow the link to activate your account."
+      update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
+      updated: "Your account has been updated successfully."
+      updated_but_not_signed_in: "Your account has been updated successfully, but since your password was changed, you need to sign in again"
+    sessions:
+      signed_in: "Signed in successfully."
+      signed_out: "Signed out successfully."
+      already_signed_out: "Signed out successfully."
+    unlocks:
+      send_instructions: "You will receive an email with instructions for how to unlock your account in a few minutes."
+      send_paranoid_instructions: "If your account exists, you will receive an email with instructions for how to unlock it in a few minutes."
+      unlocked: "Your account has been unlocked successfully. Please sign in to continue."
+    errors:
+      messages:
+        already_confirmed: "was already confirmed, please try signing in"
+        confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+        expired: "has expired, please request a new one"
+        not_found: "not found"
+        not_locked: "was not locked"
+        not_saved:
+          one: "1 error prohibited this %{resource} from being saved:"
+          other: "%{count} errors prohibited this %{resource} from being saved:"

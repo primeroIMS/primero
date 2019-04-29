@@ -10,11 +10,11 @@ class RecordFlagController < ApplicationController
 
   def flag
     authorize! :flag, @record
-    flag = @record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
-    if @record.save
+    flag = @record.add_flag(params[:flag_message], params[:flag_date], current_user.user_name)
+    if flag.present?
       render :json => flag if params[:redirect_url].blank?
     else
-      render :json => {:error => @record.errors.full_messages + flag.errors.full_messages} if params[:redirect_url].blank?
+      render :json => {:error => flag.errors.full_messages} if params[:redirect_url].blank?
     end
     #TODO should we keep? the parameter is to keep compatibilty with the current tag form, but that will change.
     redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url].present?
@@ -22,11 +22,11 @@ class RecordFlagController < ApplicationController
 
   def unflag
     authorize! :flag, @record
-    flag = @record.remove_flag(params[:flag_message], params[:flag_index], current_user_name, params[:unflag_message], DateTime.now)
-    if flag.present? and @record.save
+    flag = @record.remove_flag( params[:flag_index], params[:flag_message], current_user.user_name, params[:unflag_message], DateTime.now)
+    if flag.present?
       render :json => flag if params[:redirect_url].blank?
     else
-      render :json => {:error => @record.errors.full_messages + [I18n.t("errors.models.flags.index", :index => params[:flag_index])]} if params[:redirect_url].blank?
+      render :json => {:error => flag.errors.full_messages + [I18n.t("errors.models.flags.index", :index => params[:flag_index])]} if params[:redirect_url].blank?
     end
     #TODO should we keep? the new unflag feature for multiple flags is not implemented yet.
     redirect_to "#{params[:redirect_url]}?follow=true" if params[:redirect_url].present?
@@ -50,25 +50,16 @@ class RecordFlagController < ApplicationController
         begin
           search = @model_class.list_records(child_filters||filter, order, pagination_ops, users_filter, params[:query])
           results = search.results
+          #TODO: In large databases, Primero will run out of memory
           records_to_flag.concat(results)
           pagination_ops[:page] = results.next_page
         end until results.next_page.nil?
       else
-        records_to_flag = @model_class.all(keys: params[:selected_records]).all
+        records_to_flag = @model_class.where(id: params[:selected_records])
       end
 
       records_to_flag.each do |record|
-        record.add_flag(params[:flag_message], params[:flag_date], current_user_name)
-        #TODO: Removed the error message. We don't really need it. May need to catch errors thrown by batch update below
-        #error_message += "\n#{I18n.t("messages.record_not_flagged_message", short_id: record.short_id)}" unless record.valid?
-      end
-
-      #TODO: For now only batch flagging is relying on the CouchWatcher notifier to reindex
-      @model_class.save_all!(records_to_flag)
-      #If this is a non-production deployment, trigger the indexing of flags
-      if Rails.env != 'production'
-        Sunspot.index(records_to_flag)
-        records_to_flag.each(&:index_flags)
+        record.add_flag(params[:flag_message], params[:flag_date], current_user.user_name)
       end
     rescue
       success = false

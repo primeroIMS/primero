@@ -43,7 +43,6 @@ describe ExportActions, type: :controller do
         :order_form_group => 50,
         :order => 15,
         :order_subform => 0,
-        :form_group_name => "Form Section Test",
         "editable" => true,
         "name_all" => "Form Section Test 1",
         "description_all" => "Form Section Test 1",
@@ -55,7 +54,7 @@ describe ExportActions, type: :controller do
         program_id: "primeroprogram-primero",
         name: "CP",
         description: "Child Protection",
-        associated_form_ids: ["form_section_test_1"],
+        form_section_ids: ["form_section_test_1"],
         associated_record_types: ['case']
       )
 
@@ -64,10 +63,10 @@ describe ExportActions, type: :controller do
       @role = Role.new(
         :id=> "role-test", :name => "Test Role", :description => "Test Role",
         :group_permission => [],
-        :permitted_form_ids => ["form_section_test_1", "form_section_test_4"]
+        :form_sections => ["form_section_test_1", "form_section_test_4"]
       )
 
-      @user = User.new(:user_name => 'fakeadmin', module_ids: [@primero_module.id])
+      @user = User.new(:user_name => 'fakeadmin', module_ids: [@primero_module.unique_id])
 
     end
 

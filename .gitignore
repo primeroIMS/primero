@@ -24,7 +24,6 @@ debug.html
 .rvmrc
 .vagrant
 dev-node.json
-bin
 primero-configuration
 tags
 public/assets/
@@ -70,3 +69,4 @@ encrypted_file
 yarn-debug.log*
 .yarn-integrity
 .vscode
+storage/

@@ -4,6 +4,6 @@ FactoryBot.define do
     description "test description"
     program_id 'test-program'
     associated_record_types ['case', 'incident']
-    associated_form_ids ['test-form-1']
+    form_section_ids ['test-form-1']
   end
 end

@@ -31,18 +31,18 @@ module FieldsHelper
        ''
     elsif field.is_yes_no?
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
-      value = field.convert_true_false_key_to_string(parent_obj.try(field.name))
+      field.convert_true_false_key_to_string(parent_obj[field.name])
     else
       parent_obj = object.value_for_attr_keys(field_keys[0..-2])
       case field.type
       when Field::TALLY_FIELD
-        (field.tally + ['total']).map {|t| parent_obj.try(:[],"#{field.name}_#{t}") }
+        (field.tally + ['total']).map {|t| parent_obj["{field.name}_#{t}"] }
       when Field::DATE_RANGE
-        [field_format_date(parent_obj.try(:[],"#{field.name}_from")), field_format_date(parent_obj.try(:[],"#{field.name}_to"))]
+        [field_format_date(parent_obj["#{field.name}_from"]), field_format_date(parent_obj["#{field.name}_to"])]
       when Field::DATE_FIELD
-        field_format_date(parent_obj.try(:[],field.name))
+        field_format_date(parent_obj[field.name])
       else
-        parent_obj.try(:[],field.name) || parent_obj.try(field.name) || ''
+        parent_obj[field.name] || ''
       end
     end
   end
@@ -89,6 +89,7 @@ module FieldsHelper
       # This is about the cleanest way to do this without totally reworking the
       # template logic.  Just hope we don't ever have any relevant fields
       # nested more than one level
+      #TODO: Refactor with Violations
       if parent_obj['couchrest-type'] != 'Incident'
         inc = parent_obj.casted_by
       else
@@ -144,19 +145,15 @@ module FieldsHelper
     shared_subform_group = field.subform_section.shared_subform_group.downcase if field.subform_section.try(:shared_subform_group)
 
     #TODO investigate use of form_group_name here...
-    # needed for all derived subforms
-    if object.try(field.name).present?
-      subforms_count = object.try(field.name).count
-    # needed for all the regular subforms
-    elsif object.try(:[], field.name).present?
-      subforms_count = object.try(:[], field.name).count
+    if object[field.name].present?
+      subforms_count = object[field.name].size
     elsif object[shared_subform].present?
-      object[shared_subform].count
+      object[shared_subform].size
     elsif form_group_name.present? && object[form_group_name.downcase].present? && object[form_group_name.downcase][field.name].present?
       #TODO MRM - This looks MRM / Violations related.  Clean up with MRM
-      subforms_count = object[form_group_name.downcase][field.name].count
+      subforms_count = object[form_group_name.downcase][field.name].size
     elsif object[shared_subform_group].present? && object[shared_subform_group][shared_subform].present?
-      subforms_count = object[shared_subform_group][shared_subform].count
+      subforms_count = object[shared_subform_group][shared_subform].size
     end
     return subforms_count
   end
@@ -173,8 +170,8 @@ module FieldsHelper
     #   if subform_object.present? && object.owned_by != @current_user.user_name
     #     subform_object = subform_object.select do |transition|
     #       if transition.type == Transition::TYPE_REFERRAL
-    #         @current_user.is_admin? ||
-    #         @current_user.has_group_permission?(Permission::GROUP) ||
+    #         @current_user.admin? ||
+    #         @current_user.group_permission?(Permission::GROUP) ||
     #         transition.to_user_local == @current_user.user_name
     #       else
     #         true
@@ -182,7 +179,7 @@ module FieldsHelper
     #     end
     #   end
     else
-      subform_object = object.try(:"#{subform_name}")
+      subform_object = object[subform_name]
     end
     return subform_object
   end

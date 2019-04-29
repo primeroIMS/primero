@@ -63,7 +63,7 @@ class LookupsController < ApplicationController
   private
 
   def load_lookup
-    @lookup = Lookup.find_by(params[:id]) if params[:id]
+    @lookup = Lookup.find_by(id: params[:id]) if params[:id]
   end
 
   def has_lookup_values?

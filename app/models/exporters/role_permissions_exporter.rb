@@ -25,7 +25,7 @@ module Exporters
     def export_role_permissions_to_spreadsheet
       @roles = Role.all.to_a.sort_by {|i| i.name }
       @role_permissions_array = @roles.map do |r|
-        r.permissions.map{|p| [p[:resource], p]}.to_h
+        r.permissions.map{|p| [p.resource, p.to_h]}.to_h
       end
       permissions_all = Permission.all_available
       header = ["Resource", "Action"] + @roles.map{|r| r.name}
@@ -67,18 +67,18 @@ module Exporters
     end
 
     def write_out_permissions_by_resource(permission_group)
-      resource_label = I18n.t("permissions.permission.#{permission_group[:resource]}", locale: @locale)
+      resource_label = I18n.t("permissions.permission.#{permission_group.resource}", locale: @locale)
       write_row resource_label
-      permission_group[:actions].each do |action|
+      permission_group.actions.each do |action|
         permissions = @role_permissions_array.map do |p|
-          permission_entry = p[permission_group[:resource]]
-          has_action = (permission_entry && permission_entry[:actions] && (permission_entry[:actions].include? action))
+          permission_entry = p[permission_group.resource]
+          has_action = (permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action))
           get_check has_action
         end
         permission_row = ["", I18n.t("permissions.permission.#{action}", locale: @locale)] + permissions
         write_row permission_row
       end
-      write_managed_roles if permission_group[:resource] == 'role'
+      write_managed_roles if permission_group.resource == 'role'
     end
 
     def write_managed_roles

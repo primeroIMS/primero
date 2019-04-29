@@ -86,7 +86,7 @@ describe ApprovalActions, type: :controller do
         program_id: "primeroprogram-primero",
         name: "CP",
         description: "Child Protection",
-        associated_form_ids: ["approvals"],
+        form_section_ids: ["approvals"],
         associated_record_types: ['case']
     )
 
@@ -106,7 +106,7 @@ describe ApprovalActions, type: :controller do
       @user = User.new(:user_name => 'non_approval_user', :role_ids => ['nonapprover'])
       @session = fake_login @user
 
-      @params = {id: @case1.id, approval: "yes", approval_type: ApprovalActions::CASE_PLAN, comments: "Test Comments"}
+      @params = {id: @case1.id, approval: "yes", approval_type: Approvable::CASE_PLAN, comments: "Test Comments"}
     end
 
     it "does not allow approve case plan" do
@@ -124,7 +124,7 @@ describe ApprovalActions, type: :controller do
       @manager1 = User.new(user_name: 'approval_user', role_ids: ['approver'], is_manager: true, email: 'manager1@primero.dev', send_mail: true)
       @session = fake_login @manager1
 
-      @params = {id: @case1.id, approval: "yes", approval_type: ApprovalActions::CASE_PLAN, comments: "Test Comments"}
+      @params = {id: @case1.id, approval: "yes", approval_type: Approvable::CASE_PLAN, comments: "Test Comments"}
     end
 
     it 'allows approve case plan' do
@@ -137,7 +137,7 @@ describe ApprovalActions, type: :controller do
 
       approval_history = assigns[:child][:approval_subforms].first
       expect(approval_history[:approval_manager_comments]).to eq(@params[:comments])
-      expect(approval_history[:approval_status]).to eq(ApprovalActions::REJECTED_STATUS)
+      expect(approval_history[:approval_status]).to eq(Approvable::APPROVAL_STATUS_REJECTED)
       expect(approval_history[:approved_by]).to eq(@manager1.user_name)
     end
 
@@ -158,10 +158,10 @@ describe ApprovalActions, type: :controller do
         p_module = PrimeroModule.new(:id => "primeromodule-cp", :associated_record_types => ["case"])
         @case3.stub(:module).and_return p_module
         @case3.save
-        User.stub(:get).with(@owner.id).and_return @owner
+        User.stub(:find).with(@owner.id).and_return @owner
         @owner.stub(:managers).and_return [@manager1]
         ActiveJob::Base.queue_adapter = :inline
-        @params = {id: @case3.id, approval: "true", approval_type: ApprovalActions::CASE_PLAN, comments: "Test Comments"}
+        @params = {id: @case3.id, approval: "true", approval_type: Approvable::CASE_PLAN, comments: "Test Comments"}
       end
 
       context 'when notification emails are enabled' do

@@ -8,7 +8,7 @@
       options_for_select(@record_types.map{|r| [r.titleize, r]}, @parent_form),
       :onchange => "if(this.value){window.location='?module_id=#{@module_id}&parent_form='+this.value;}" %>
   <%= select_tag :module_id,
-                    options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.id),
+                    options_for_select(@current_modules.map{|m| [m.name, m.id]}, @primero_module.unique_id),
                     :onchange => "if(this.value){window.location='?module_id='+this.value;}" %>
   <a data-open="forms-export" class='button'><%= t("exports.forms.label") %></a>
   <div class="reveal tiny" id="forms-export" data-reveal>
@@ -22,7 +22,7 @@
     <div class="space"></div>
     <div class="row">
       <div class="button-group">
-        <%= link_to t("exports.forms.button"), download_forms_path(current_module: @primero_module.id, parent_form: @parent_form),
+        <%= link_to t("exports.forms.button"), download_forms_path(current_module: @primero_module.unique_id, parent_form: @parent_form),
           class: "button right download_forms", data: { turbolinks: false } %>
         <a class="button gray right" data-close ><%= t("buttons.cancel") %></a>
       </div>

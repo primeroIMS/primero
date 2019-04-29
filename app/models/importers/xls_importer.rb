@@ -3,7 +3,7 @@ module Importers
 
     def initialize(file_path, record_type='case', module_id='primeromodule-cp')
       @record_type = record_type
-      @primero_module = PrimeroModule.get(module_id)
+      @primero_module = PrimeroModule.find_by(unique_id: module_id)
       @file_path = file_path
       @spreadsheet_forms = get_spreadsheet_list
     end

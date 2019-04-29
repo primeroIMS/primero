@@ -11,7 +11,7 @@ describe Serviceable do
   describe 'service_due_date' do
     before do
       @service_appointment_date = (@date_time + 7.days).to_date
-      @service = build(:service, service_response_day_time: @date_time, service_appointment_date: @service_appointment_date)
+      @service = {'service_response_day_time' => @date_time, 'service_appointment_date' => @service_appointment_date}
     end
     context 'when system is configured for due_date_from_appointment_date' do
       before do
@@ -32,7 +32,7 @@ describe Serviceable do
 
       context 'and service_response_timeframe is set to 1 hour' do
         before do
-          @service.service_response_timeframe = '1_hour'
+          @service['service_response_timeframe'] = '1_hour'
         end
 
         it 'returns 1 hour after the create date' do
@@ -42,7 +42,7 @@ describe Serviceable do
 
       context 'and service_response_timeframe is set to 3 hours' do
         before do
-          @service.service_response_timeframe = '3_hours'
+          @service['service_response_timeframe'] = '3_hours'
         end
 
         it 'returns 3 hours after the create date' do
@@ -52,7 +52,7 @@ describe Serviceable do
 
       context 'and service_response_timeframe is set to 1 day' do
         before do
-          @service.service_response_timeframe = '1_day'
+          @service['service_response_timeframe'] = '1_day'
         end
 
         it 'returns 1 day after the create date' do
@@ -62,7 +62,7 @@ describe Serviceable do
 
       context 'and service_response_timeframe is set to 3 days' do
         before do
-          @service.service_response_timeframe = '3_days'
+          @service['service_response_timeframe'] = '3_days'
         end
 
         it 'returns 3 days after the create date' do
@@ -72,7 +72,7 @@ describe Serviceable do
 
       context 'and service_response_timeframe is not set' do
         before do
-          @service.service_response_timeframe = nil
+          @service['service_response_timeframe'] = nil
         end
 
         it 'returns nil' do

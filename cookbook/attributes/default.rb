@@ -22,7 +22,7 @@ default[:primero].tap do |p|
   p[:site].tap do |s|
     s[:proxy_connect_timeout] = '30m'
     s[:proxy_send_timeout] = '30m'
-    s[:proxy_read_timeout] = '30m'  
+    s[:proxy_read_timeout] = '30m'
   end
 
   p[:couch_watcher].tap do |cw|
@@ -95,10 +95,9 @@ default[:primero].tap do |p|
     solr[:core_dir] = File.join(node[:primero][:solr][:home_dir], 'cores')
   end
 
-  p[:ruby_version] = '2.4.3'
-  p[:ruby_patch] = 'railsexpress'
-  p[:bundler_version] = '1.16.1'
-  p[:rubygems_version] = '2.7.5'
+  p[:ruby_version] = '2.6.2'
+  p[:bundler_version] = '2.0'
+  p[:rubygems_version] = '3.0.3'
 
   p[:puma_conf].tap do |pc|
     pc[:min_thread_count] = 16

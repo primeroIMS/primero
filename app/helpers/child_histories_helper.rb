@@ -10,7 +10,7 @@ module ChildHistoriesHelper
 
   def new_value_for(history, field_name)
     begin
-      history['changes'][field_name]['to']
+      history.record_changes[field_name]['to']
     rescue
       ''
     end

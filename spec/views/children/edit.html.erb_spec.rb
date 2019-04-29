@@ -5,8 +5,8 @@ describe "children/edit.html.erb" do
     PrimeroModule.all.each &:destroy
     @mod ||= PrimeroModule.create!(_id: 'primeromodule-cp', program_id: 'fakeprogram',
                                    name: 'CP', associated_record_types: ['case'],
-                                   associated_form_ids: ['xxxxx'],
-                                   workflow_status_indicator: false)
+                                   form_section_ids: ['xxxxx'],
+                                   module_options: { workflow_status_indicator: false })
   end
   before :each do
     record_owner_fields = [

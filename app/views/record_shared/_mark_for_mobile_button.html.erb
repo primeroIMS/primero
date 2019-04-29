@@ -1,8 +1,10 @@
-<%
-  mark_mobile_url = "/#{controller.model_class.parent_form.pluralize}/mark_for_mobile"
-  button_label = ((mobile_value == true) ? t("buttons.mark_for_mobile") : t("buttons.unmark_for_mobile"))
-%>
-<li>
-  <%= link_to button_label, '#', class: 'mark_for_mobile', :'data-mark_mobile_url' => mark_mobile_url,
-          :'data-mobile_value' => mobile_value, :'data-id' => (defined?(instance) ? instance.id : nil)  %>
-</li>
+<% if controller.model_class.try(:parent_form) %>
+  <%
+    mark_mobile_url = "/#{controller.model_class.parent_form.pluralize}/mark_for_mobile"
+    button_label = ((mobile_value == true) ? t("buttons.mark_for_mobile") : t("buttons.unmark_for_mobile"))
+  %>
+  <li>
+    <%= link_to button_label, '#', class: 'mark_for_mobile', :'data-mark_mobile_url' => mark_mobile_url,
+            :'data-mobile_value' => mobile_value, :'data-id' => (defined?(instance) ? instance.id : nil)  %>
+  </li>
+<% end %>

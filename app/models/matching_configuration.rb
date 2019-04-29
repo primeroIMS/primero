@@ -47,8 +47,8 @@ class MatchingConfiguration
     @id = id || 'administration'
 
     @match_configuration = match_fields
-    primero_module = PrimeroModule.get(PrimeroModule::CP)
-    @form_ids = primero_module.try(:associated_form_ids)
+    primero_module = PrimeroModule.find_by(unique_id: PrimeroModule::CP)
+    @form_ids = primero_module.try(:form_section_ids)
   end
 
   def load_form_fields

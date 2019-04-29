@@ -4,7 +4,7 @@
       <%= t("header.logged_in_as") %> <%= current_user.user_name %>
     </li>
     <li>
-      <%= link_to t("header.logout"), logout_path, id: "logout" %>
+      <%= link_to t("header.logout"), destroy_user_session_path, id: "logout" %>
     </li>
     <li>
       <%= link_to t("header.my_account"), user_path(current_user.id) %>
@@ -21,7 +21,7 @@
         <ul class="menu">
           <% Primero::Application::locales.each do |new_locale| %>
             <li>
-              <%= link_to t("home.#{new_locale}"), url_add_params(request.original_url, { locale: new_locale }), data: { turbolinks: false } %>
+              <%= link_to t("home.#{new_locale}"), url_for(params.merge({ locale: new_locale })), data: { turbolinks: false } %>
             </li>
           <% end %>
         </ul>

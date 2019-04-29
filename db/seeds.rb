@@ -4,25 +4,13 @@
 # Please keep the seeding idempotent, as it may be used as a migration if upgrading a production
 # instance is necessary and the target version has introduced any new types requiring seeds.
 def should_seed? model
-  empty = isTableEmpty?(model) || ENV['NO_RESEED'] != 'true'
+  empty = table_empty?(model) || ENV['NO_RESEED'] != 'true'
   puts(empty ? "Seeding #{model}." : "Not seeding #{model}. Already populated.")
   empty
 end
 
-def isTableEmpty? model
-  #TODO: This is a temporary hack while CouchDB is still here
-  if model <  ActiveRecord::Base
-    empty = model.count > 0
-  else
-    empty = false
-    rowCount = model.database.documents["rows"].count
-    if rowCount == 0
-      empty = true
-    elsif rowCount == 1
-      empty = model.database.documents["rows"][0]["id"][0..6] == "_design"
-    end
-  end
-  return empty
+def table_empty?(model)
+  model.count > 0
 end
 
 #Reseed the lookups
@@ -64,7 +52,7 @@ Dir[File.dirname(__FILE__) + '/reports/*.rb'].each {|file| require file } if sho
 
 if should_seed? ContactInformation
   #A little hacky, but no need to write a create_or_update method
-  ContactInformation.create(:id=>"administrator") if isTableEmpty?(ContactInformation)
+  ContactInformation.create(:id=>"administrator") if table_empty?(ContactInformation)
 end
 
 #TODO: This is being temporarily removed: v1.5 and v1.6 GBV field keys are mismatched. Need to reconcile before re-enabling

@@ -45,11 +45,11 @@
         <% if record.flags.present? && record.flags.select{|f| !f.removed}.present? %>
             <div class="flag_unflag_header"><span><%=I18n.t("buttons.unflag_model", model: model_name)%></span></div>
             <ul class="current_flags">
-            <% record.flags.each_with_index do |f, i| %>
+            <% record.flags do |f| %>
               <% unless f.removed %>
               <li>
                 <% if f.flagged_by == @current_user.user_name %>
-                  <span class="right collapse_expand_flag collapsed_flag" data-message="<%= f.message %>" data-message_index="<%= i %>">+</span>
+                  <span class="right collapse_expand_flag collapsed_flag" data-message="<%= f.message %>" data-message_index="<%= f.id %>">+</span>
                 <% end %>
                 <%= f.message %><br>
                 <span><%= f.flagged_by %> <% if f.date.present? %>| <%= I18n.l(f.date) %><% end %></span>

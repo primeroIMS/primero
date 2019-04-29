@@ -3,7 +3,7 @@ module Exporters
 
     def initialize(record_type='case', module_id='primeromodule-cp', opts={})
       @record_type = record_type
-      @primero_module = PrimeroModule.get(module_id)
+      @primero_module = PrimeroModule.find_by(unique_id: module_id)
       #TODO: Implement user defined export path: opts[:export_path]
       @export_dir_path = dir(@record_type, @primero_module)
       locales = opts[:locales] || []
@@ -79,7 +79,7 @@ module Exporters
       end
       Rails.logger.info {"Building exporter for: "}
       Rails.logger.info {"Record type: '#{@record_type}'"}
-      Rails.logger.info {"Module ID: '#{@primero_module.id}'"}
+      Rails.logger.info {"Module ID: '#{@primero_module.unique_id}'"}
       Rails.logger.info {"Languages: '#{@locales}'"}
       Rails.logger.info {"File written to directory location: '#{@export_dir_path}"}
     end

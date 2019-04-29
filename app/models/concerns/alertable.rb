@@ -8,11 +8,16 @@ module Alertable
   FIELD_CHANGE = 'field_change'
   TRANSFER_REQUEST = 'transfer_request'
 
+  class Alert < ValueObject
+    attr_accessor :type, :alert_for, :date, :form_sidebar_id, :unique_id, :user, :agency
+    def initialize(args={})
+      super(args)
+      self.unique_id ||= SecureRandom.uuid
+      self.form_sidebar_id || 'new_form'
+    end
+  end
+
   included do
-    include Indexable
-
-    property :alerts, [Alert], :default => []
-
     searchable auto_index: self.auto_index? do
       string :current_alert_types, multiple: true
     end
@@ -21,26 +26,45 @@ module Alertable
     before_save :add_form_change_alert
   end
 
+  def alerts
+    if self.data['alerts'].present?
+      self.data['alerts'].map{|a| Alert.new(a)}
+    else
+      []
+    end
+  end
+
+  def alerts=(alerts)
+    if alerts.is_a? Array
+      self.data['alerts'] = alerts.map(&:to_h)
+    end
+  end
+
+  def has_alerts?
+    self.data['alerts'].present?
+  end
+
   def remove_alert_on_save
     self.remove_alert(self.last_updated_by)
   end
 
   def current_alert_types
-    self.alerts.map {|a| a[:type]}.uniq
+    self.alerts.map {|a| a.type}.uniq
   end
 
   def add_alert(alert_for, type = nil, form_sidebar_id = nil, user = nil, agency = nil)
-    self.alerts = [] if self.alerts.nil?
-    self.alerts << Alert.new(type: type, date: DateTime.now.to_date, form_sidebar_id: form_sidebar_id,
-                             alert_for: alert_for, user: user, agency: agency)
+    self.data['alerts'] = [] unless self.has_alerts?
+    self.alerts =
+      (self.alerts + [Alert.new(type: type, date: DateTime.now.to_date, form_sidebar_id: form_sidebar_id,
+                             alert_for: alert_for, user: user, agency: agency)])
   end
 
   def remove_alert(current_user_name, type = nil, form_sidebar_id = nil)
-    if current_user_name == self.owned_by && self.alerts.present?
+    if current_user_name == self.owned_by && self.has_alerts?
       if type.present?
-        self.alerts.delete_if{|a| a[:type] == type}
+        self.alerts = self.alerts.reject{|a| a.type == type}
       else
-        self.alerts.delete_if{|a| [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(a[:alert_for])}
+        self.alerts = self.alerts.reject{|a| [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(a.alert_for)}
       end
     end
   end
@@ -60,14 +84,14 @@ module Alertable
   end
 
   def add_approval_alert(approval_type, system_settings)
-    if !alerts.any?{|a| a.type == approval_type}
+    unless self.alerts.any?{|a| a.type == approval_type}
       alert = Alert.new(type: approval_type, date: DateTime.now.to_date, form_sidebar_id: get_alert(approval_type, system_settings), alert_for: APPROVAL)
-      self.alerts << alert
+      self.alerts = self.alerts + [alert]
     end
   end
 
   def remove_approval_alert(approval_type)
-    self.alerts.delete_if{|a| a[:type] == approval_type}
+    self.alerts = self.alerts.reject{|a| a.type == approval_type}
   end
 
   def create_alert(form)
@@ -76,9 +100,9 @@ module Alertable
 
   def append_one_or_more_alerts(forms_to_check, form)
     if forms_to_check.kind_of?(Array)
-      self.alerts += forms_to_check.map {|form| self.create_alert(form)}
+      self.alerts = self.alerts + forms_to_check.map {|form| self.create_alert(form)}
     elsif forms_to_check.try(:kind_of?, String)
-      self.alerts << self.create_alert(forms_to_check)
+      self.alerts = self.alerts + [self.create_alert(forms_to_check)]
     end
   end
 
@@ -102,8 +126,8 @@ module Alertable
     if self.owned_by != self.last_updated_by && self.alerts != nil
       @system_settings ||= SystemSettings.current
       if @system_settings.present? && @system_settings.try(:changes_field_to_form)
-        changed_fields_in_map = self.changed.select {|field|
-          @system_settings.changes_field_to_form.try(:has_key?, field)
+        changed_fields_in_map = self.changes_to_save_for_record.keys.select {|field_name|
+          @system_settings.changes_field_to_form.try(:has_key?, field_name)
         }
 
         changed_fields_in_map.each do |field|

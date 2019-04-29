@@ -9,7 +9,7 @@
 <% end %>
 <%= form_for editable_user, :html => {:class => 'default-form data-form', :autocomplete => "off", "data-abide" => ''} do |f| %>
     <div class="clearfix"></div>
-    <%= f.error_messages :header_tag => :h3 %>
+    <%= error_messages_for(editable_user) %>
     <% trying_to_edit_ourself = editing_ourself?(editable_user) %>
 
     <div class="clearfix"></div>
@@ -58,20 +58,15 @@
       <div class="row">
         <div class="medium-3 columns">
           <span class="tool-tip-label">
-            <label class="key"><%= t("roles.label") %></label>
+            <label class="key"><%= t("roles.select_label") %></label>
           </span>
         </div>
         <div class="medium-8 columns">
           <span class="value value_form">
-            <span class="section">
-              <% @roles.each do |role| %>
-                  <label>
-                    <%= f.check_box :role_ids, {:id => "user_#{role.name}", :name => "user[role_ids][]", class: 'tick_box'}, role.id, nil %>
-                    <%= role.name %>
-                  </label>
-              <% end %>
-              <%= f.hidden_field :role_ids, name: 'user[role_ids][]', value: nil %>
-            </span>
+            <% value = @user.try(:role_id) %>
+            <%= f.select :role_id,
+                         @roles.map{ |role| [role.name, role.id] },
+                         { class: 'chosen-select', data: { value: value }, prompt: t('fields.select_box_empty_item')} %>
           </span>
         </div>
         <div class="medium-1 columns">
@@ -210,18 +205,11 @@
       <div class="medium-1 columns"></div>
     </div>
 
-    <%= f.hidden_field :verified, :value => true %>
-
     </fieldset>
 
     <% content_for :record_sub_nav do %>
     <!--TODO: After we got the user object in the session replace the DB query with User object-->
-      <%= render_controls(@user, 'users') %>
-      <% if false %>
-      <%= link_to user_history_path(@user), :class=>'button small right' do %>
-          <%= icon('clock-o') %>
-          <span class="log"><%= t("user.user_action_history") %></span>
-      <% end %>
-      <% end %>
+      <% cancel_path = can?(:index, User) ? 'users' : 'root' %>
+      <%= render_controls(@users, 'users', cancel_path) %>
     <% end %>
 <% end %>

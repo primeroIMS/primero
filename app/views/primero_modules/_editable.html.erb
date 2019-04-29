@@ -3,12 +3,12 @@
 <div class="row">
   <div class="medium-3 columns">
     <span class="tool-tip-label">
-      <%= form_builder.label :program_id, t("primero_module.program"), class: 'key' %>
+      <%= form_builder.label :primero_program_id, t("primero_module.program"), class: 'key' %>
     </span>
   </div>
   <div class="medium-8 columns">
     <span class="value value_form">
-      <%= form_builder.select :program_id, options_for_select(@programs.map{|p|[p.name, p.id]}) %>
+      <%= form_builder.select :primero_program_id, options_for_select(@programs.map{|p|[p.name, p.id]}) %>
     </span>
   </div>
   <div class="medium-1 columns">
@@ -38,10 +38,10 @@
     <span class="required">*</span>
   </div>
 </div>
-<div class="row associated_form_ids">
+<div class="row form_section_ids">
   <div class="medium-3 columns">
     <span class="tool-tip-label">
-      <%= form_builder.label :associated_form_ids, t("primero_module.associated_form_ids"), :class => 'key' %>
+      <%= form_builder.label :form_section_ids, t("primero_module.form_section_ids"), :class => 'key' %>
     </span>
   </div>
   <div class="medium-8 columns">
@@ -51,11 +51,11 @@
           <span class="title"><%= t("forms.record_types.#{record_type}") %></span>
           <% forms_list.sort_by{ |f| f.name }.each do |form| %>
               <label>
-                <%= form_builder.check_box :associated_form_ids, {id: "primero_module_#{form.unique_id}", name: "primero_module[associated_form_ids][]", class: 'tick_box'}, form.unique_id, nil %>
+                <%= form_builder.check_box :form_section_ids, { id: "primero_module_#{form.unique_id}", name: "primero_module[form_section_ids][]", class: 'tick_box' }, form.id, nil %>
                 <%= form.name %>
               </label>
           <% end %>
-          <%= form_builder.hidden_field :associated_record_types, name: 'primero_module[associated_record_types][]', value: nil %>
+          <%= form_builder.hidden_field :form_section_ids, name: 'primero_module[form_section_ids][]', value: nil %>
         </span>
       <% end %>
     </span>

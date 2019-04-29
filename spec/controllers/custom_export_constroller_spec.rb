@@ -27,20 +27,19 @@ describe CustomExportsController do
                  "hide_on_view_page" => true
                 })
     ]
-    form = FormSection.new(
+    @form = FormSection.new(
       :unique_id => "form_section_test_1",
       :parent_form=>"case",
       "visible" => true,
       :order_form_group => 50,
       :order => 15,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 1",
       "description_all" => "Form Section Test 1",
       :fields => fields
     )
-    form.save!
+    @form.save!
 
     fields_subform = [
       Field.new({"name" => "field_name_4",
@@ -80,20 +79,19 @@ describe CustomExportsController do
                  "display_name_all" => "Subform Section 1"
                 })
     ]
-    form = FormSection.new(
+    @form2 = FormSection.new(
       :unique_id => "form_section_test_2",
       :parent_form=>"case",
       "visible" => true,
       :order_form_group => 51,
       :order => 16,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 2",
       "description_all" => "Form Section Test 2",
       :fields => fields
     )
-    form.save!
+    @form2.save!
 
     fields = [
       Field.new({"name" => "field_name_6",
@@ -101,20 +99,19 @@ describe CustomExportsController do
                  "display_name_all" => "Field Name 6"
                 })
     ]
-    form = FormSection.new(
+    @form3 = FormSection.new(
       :unique_id => "form_section_test_3",
       :parent_form=>"case",
       "visible" => false,
       :order_form_group => 52,
       :order => 17,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 3",
       "description_all" => "Form Section Test 3",
       :fields => fields
     )
-    form.save!
+    @form3.save!
 
     fields_subform = [
       Field.new({"name" => "field_name_7",
@@ -183,20 +180,19 @@ describe CustomExportsController do
                  "display_name_all" => "Subform Section Other Test"
                 })
     ]
-    form = FormSection.new(
+    @form4 = FormSection.new(
       :unique_id => "form_section_test_4",
       :parent_form=>"case",
       "visible" => true,
       :order_form_group => 53,
       :order => 18,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 4",
       "description_all" => "Form Section Test 4",
       :fields => fields
     )
-    form.save!
+    @form4.save!
 
     fields = [
       Field.new({"name" => "field_name_8",
@@ -204,26 +200,25 @@ describe CustomExportsController do
                  "display_name_all" => "Field Name 8"
                 })
     ]
-    form = FormSection.new(
+    @form5 = FormSection.new(
       :unique_id => "form_section_test_5",
       :parent_form=>"case",
       "visible" => true,
       :order_form_group => 52,
       :order => 19,
       :order_subform => 0,
-      :form_group_name => "Form Section Test",
       "editable" => true,
       "name_all" => "Form Section Test 5",
       "description_all" => "Form Section Test 5",
       :fields => fields
     )
-    form.save!
+    @form5.save!
 
     @primero_module = PrimeroModule.create!(
         program_id: "primeroprogram-primero",
         name: "CP",
         description: "Child Protection",
-        associated_form_ids: ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4", "form_section_test_5"],
+        form_section_ids: ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4", "form_section_test_5"],
         associated_record_types: ['case']
     )
 
@@ -240,7 +235,7 @@ describe CustomExportsController do
     describe "permitted_forms_list" do
 
       it "returns only permitted forms per user" do
-        user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.id])
+        user = User.new(:user_name => 'fakeadmin', :module_ids => [@primero_module.unique_id])
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.
         user.stub(:roles).and_return([])
@@ -265,11 +260,11 @@ describe CustomExportsController do
           :group_permission => Permission::ALL,
           :permissions_list => [case_permission, tracing_request_permission],
           #Define the forms the user is able to see.
-          :permitted_form_ids => ["form_section_test_1", "form_section_test_5"]
+          :form_sections => [@form, @form5]
         )
         user = User.new(
           :user_name => 'fakeadmin',
-          :module_ids => [@primero_module.id], :role_ids => [role.id]
+          :module_ids => [@primero_module.unique_id], :role_ids => [role.id]
         )
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.
@@ -295,10 +290,10 @@ describe CustomExportsController do
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => [],
           :permissions_list => [case_permission],
-          :permitted_form_ids => ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4"]
+          :form_sections => [@form, @form2, @form3, @form4]
         )
         user = User.new(:user_name => 'fakeadmin',
-                        :module_ids => [@primero_module.id],
+                        :module_ids => [@primero_module.unique_id],
                         :role_ids => [role.id])
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.
@@ -336,11 +331,11 @@ describe CustomExportsController do
           :group_permission => Permission::ALL,
           :permissions_list => [case_permission, tracing_request_permission],
           #Define the forms the user is able to see.
-          :permitted_form_ids => ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4", "form_section_test_5"]
+          :form_sections => [@form, @form2, @form3, @form4, @form5]
         )
         user = User.new(
           :user_name => 'fakeadmin',
-          :module_ids => [@primero_module.id], :role_ids => [role.id]
+          :module_ids => [@primero_module.unique_id], :role_ids => [role.id]
         )
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.
@@ -376,11 +371,11 @@ describe CustomExportsController do
           :id=> "role-test", :name => "Test Role", :description => "Test Role",
           :group_permission => [],
           :permissions_list => [case_permission],
-          :permitted_form_ids => ["form_section_test_1", "form_section_test_2", "form_section_test_3", "form_section_test_4", "form_section_test_5"]
+          :form_sections => [@form, @form2, @form3, @form4, @form5]
         )
         user = User.new(
           :user_name => 'fakeadmin',
-          :module_ids => [@primero_module.id], :role_ids => [role.id]
+          :module_ids => [@primero_module.unique_id], :role_ids => [role.id]
         )
         session = fake_admin_login user
         #This is important to override some stub done in the fake_admin_login method.

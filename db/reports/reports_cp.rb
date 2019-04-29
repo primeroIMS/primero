@@ -1,5 +1,5 @@
 #To generate the UUID, run the following in the rails consle:
-#    UUIDTools::UUID.random_create.to_s.gsub('-','')
+#    SecureRandom.uuid.to_s.gsub('-','')
 # TODO module_id: It will be numeric after module model migration
 
 default_case_filters = [

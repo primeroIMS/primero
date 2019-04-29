@@ -21,7 +21,7 @@
             <td><%= lct.location_code %></td>
             <td><%= lct.admin_level %></td>
             <td><%= translate_location_type(location_types, lct.type) %></td>
-            <td><%= lct.hierarchy.join(", ") %></td>
+            <td><%= lct.hierarchy %></td>
             <td>
               <%= link_to t("buttons.edit"), edit_location_path(lct) %>
             </td>

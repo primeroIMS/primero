@@ -2,7 +2,7 @@
   <div class="columns">
     <div class="row">
       <div class="button-group">
-        <% if model.respond_to? :by_flag %>
+        <% if model.include?(Flaggable) %>
           <%= render partial: 'record_shared/flag_records', locals: {model: model} %>
         <% end %>
         <% if display_actions %>

@@ -1,6 +1,21 @@
-db = COUCHDB_SERVER.database!("primero_location_#{Rails.env}")
-system_settings_db = COUCHDB_SERVER.database!("primero_system_settings_#{Rails.env}")
-system_settings_docs = system_settings_db.all_docs['rows']
-if system_settings_docs.present? && system_settings_docs.size >= 2 && db.all_docs['rows'].present? && OptionsQueueStats.options_not_generated?
-  OptionsJob.perform_now
+# This has to be after initialize because we need to load first the locale first
+Rails.application.config.after_initialize do
+  begin
+    if ActiveRecord::Base.connection.table_exists?(:locations) && ActiveRecord::Base.connection.table_exists?(:system_settings)
+      count_system_settings = ActiveRecord::Base.connection.select_all("SELECT COUNT(id) FROM locations")
+                                           .rows
+                                           .flatten
+                                           .first
+
+      count_locations = ActiveRecord::Base.connection.select_all("SELECT COUNT(id) FROM system_settings")
+                                           .rows
+                                           .flatten
+                                           .first
+      if count_system_settings.positive? && count_locations.positive?
+        OptionsJob.perform_now
+      end
+    end
+  rescue ActiveRecord::NoDatabaseError => e
+    Rails.logger.error e.message
+  end
 end

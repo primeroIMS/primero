@@ -18,7 +18,7 @@ class BulkExportsController < ApplicationController
   end
 
   def show
-    @bulk_export = BulkExport.get(params[:id])
+    @bulk_export = BulkExport.find_by(id: params[:id])
     authorize! :show, @bulk_export
 
     if @bulk_export.status == BulkExport::COMPLETE
@@ -46,4 +46,3 @@ class BulkExportsController < ApplicationController
   end
 
 end
-

@@ -339,6 +339,15 @@ body {
       margin-top: 10px;
       text-align: right;
     }
+
+    .callout {
+      border: 1px solid $red_color;
+      text-align: left;
+
+      ul {
+        list-style: disc;
+      }
+    }
   }
 
   a{

@@ -19,10 +19,10 @@ describe FormSection do
     @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "m")
     @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
     @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case', form_group_id: "y")
-    @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], associated_form_ids: ["A", "B"])
+    @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], form_section_ids: ["A", "B"])
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
-    @role = Role.create!(permitted_form_ids: ["B", "C"], name: "Test Role", permissions_list: [@permission_case_read])
-    @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.id])
+    @role = Role.create!(form_sections: [@form_section_b, @form_section_c], name: "Test Role", permissions_list: [@permission_case_read])
+    @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.unique_id])
   end
 
   def create_formsection(stubs={})
@@ -53,22 +53,22 @@ describe FormSection do
 
   describe "get_permitted_form_sections" do
     it "returns all FormSection objects that are bound to the case's module that the user has access to" do
-      child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
-      expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, @user)).to eq([@form_section_b])
+      child = Child.new(unique_identifier: "123", module_id: @primero_module.unique_id)
+      expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, @user).to_a).to eq([@form_section_b])
     end
 
     it "returns no FormSection objects if the user cannot view the permitted module forms" do
-      role = Role.create!(permitted_form_ids: ["C"], name: "Test Role 2", permissions_list: [@permission_case_read])
-      user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.id])
-      child = Child.new(unique_identifier: "123", module_id: @primero_module.id)
+      role = Role.create!(form_sections: [@form_section_c], name: "Test Role 2", permissions_list: [@permission_case_read])
+      user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.unique_id])
+      child = Child.new(unique_identifier: "123", module_id: @primero_module.unique_id)
       expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([])
     end
 
     it "returns the FormSection objects that correspond to the record's type" do
       form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'incident')
-      primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module With different records", associated_record_types: ['case', 'incident'], associated_form_ids: ["A", "B", "D"])
-      user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [primero_module.id])
-      child = Child.new(unique_identifier: "123", module_id: primero_module.id)
+      primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module With different records", associated_record_types: ['case', 'incident'], form_section_ids: ["A", "B", "D"])
+      user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [primero_module.unique_id])
+      child = Child.new(unique_identifier: "123", module_id: primero_module.unique_id)
 
       expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([@form_section_b])
     end
@@ -85,13 +85,13 @@ describe FormSection do
     end
 
     it "updates permitted subforms associated with roles when a new subform is added" do
-      role = Role.get(@role.id)
-      expect(role.permitted_form_ids).to include(@subform.unique_id)
+      role = Role.find(@role.id)
+      expect(role.form_sections).to include(@subform.unique_id)
     end
 
     it "updates permitted subforms associated with modules when a new subform is added" do
-      primero_module = PrimeroModule.get(@primero_module.id)
-      expect(primero_module.associated_form_ids).to include(@subform.unique_id)
+      primero_module = PrimeroModule.find_by(unique_id: @primero_module.unique_id)
+      expect(primero_module.form_section_ids).to include(@subform.unique_id)
     end
   end
 
@@ -112,15 +112,15 @@ describe FormSection do
                                                    fields: [@mobile_field1, @mobile_field2, @mobile_field3, @mobile_field4,
                                                             @mobile_field5])
       @mobile_module = PrimeroModule.create!(program_id: "some_program", name: "Mobile Module", associated_record_types: ['case'],
-                                             associated_form_ids: ["A", "B", "MOBILE_1"])
-      @roleM = Role.create!(permitted_form_ids: ["B", "C", "MOBILE_1"], name: "Test Role Mobile", permissions_list: [@permission_case_read])
-      @userM = User.new(user_name: "test_user_m", role_ids: [@roleM.id], module_ids: [@primero_module.id])
+                                             form_section_ids: ["A", "B", "MOBILE_1"])
+      @roleM = Role.create!(form_sections: [@form_section_b, @form_section_c, @form_section_mobile_1], name: "Test Role Mobile", permissions_list: [@permission_case_read])
+      @userM = User.new(user_name: "test_user_m", role_ids: [@roleM.id], module_ids: [@primero_module.unique_id])
     end
 
     describe "filter_for_subforms" do
       before do
         fs = FormSection.get_permitted_form_sections(@mobile_module, 'case', @userM)
-        @mobile_forms = fs.select{|f| f.mobile_form}
+        @mobile_forms = fs.select(&:mobile_form)
       end
       it "returns only mobile forms" do
         expect(@mobile_forms).to include(@form_section_mobile_1)

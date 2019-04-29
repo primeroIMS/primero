@@ -10,7 +10,7 @@ module TransitionActions
     all_record_count = 0
     if @records.present?
       all_record_count = @records.size
-      @records = @records.select{|r| is_consent_given? r } unless is_reassign? || consent_override
+      @records = @records.select{|r| is_consent_given?(r) } unless is_reassign? || consent_override
     else
       flash[:notice] = t('referral.no_records_selected')
       redirect_back(fallback_location: root_path) and return
@@ -106,7 +106,7 @@ module TransitionActions
                     )
     exporter = type_of_export_exporter
     #TODO: filter records per consent
-    props = authorized_export_properties(exporter, transition_user, transition_user_modules, model_class)
+    props = transition_user.permitted_fields(transition_user_modules, model_class.parent_form, true)
     export_data = exporter.export(records, props, current_user, {})
     encrypt_data_to_zip export_data, filename(records, exporter, transition_type), password
   end
@@ -195,7 +195,7 @@ module TransitionActions
   end
 
   def transition_valid(record, user)
-    isValid = (user.permissions.any?{|ps| ps.resource == model_class.parent_form}) && (user.module_ids.include? record.module_id)
+    isValid = (user.role.permissions.any?{|ps| ps.resource == model_class.parent_form}) && (user.module_ids.include? record.module_id)
   end
 
   def password

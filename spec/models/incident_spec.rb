@@ -205,21 +205,6 @@ describe Incident do
       incident.last_updated_by.should == 'jdoe'
     end
 
-
-    # it "should set flagged_at if the record has been flagged" do
-      # Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
-      # child = create_child("timothy cochran")
-      # child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:flag => true}
-      # child.flag_at.should == "2010-01-17 19:05:00UTC"
-    # end
-
-    # it "should set reunited_at if the record has been reunited" do
-      # Clock.stub(:now).and_return(Time.utc(2010, "jan", 17, 19, 5, 0))
-      # child = create_child("timothy cochran")
-      # child.update_properties_with_user_name 'some user name', nil, nil, nil, false, {:reunited => true}
-      # child.reunited_at.should == "2010-01-17 19:05:00UTC"
-    # end
-
   end
 
 
@@ -247,7 +232,7 @@ describe Incident do
     end
 
     it "should create a unique id" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
+      SecureRandom.stub("uuid").and_return(12345)
       incident = create_incident_with_created_by('jdoe')
       incident.save!
       incident['unique_identifier'].should == "12345"
@@ -302,14 +287,14 @@ describe Incident do
     end
 
     it "should create a unique id" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
+      SecureRandom.stub("uuid").and_return(12345)
       incident = Incident.new
       incident.save!
       incident.unique_identifier.should == "12345"
     end
 
     it "should return last 7 characters of unique id as short id" do
-      UUIDTools::UUID.stub("random_create").and_return(1212127654321)
+      SecureRandom.stub("uuid").and_return(1212127654321)
       incident = Incident.new
       incident.save!
       incident.short_id.should == "7654321"
@@ -326,7 +311,7 @@ describe Incident do
 
     #TODO - verify ordering logic for INCIDENTS
     xit "should return list of incidents ordered by description" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
+      SecureRandom.stub("uuid").and_return(12345)
       Incident.create('description' => 'Zxy', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       Incident.create('description' => 'Azz', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       Incident.create('description' => 'Abc', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
@@ -338,7 +323,7 @@ describe Incident do
     end
 
     xit "should order incidents with blank descriptions first" do
-      UUIDTools::UUID.stub("random_create").and_return(12345)
+      SecureRandom.stub("uuid").and_return(12345)
       Incident.create('description' => 'Zxy', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       Incident.create('description' => '', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
       Incident.create('description' => 'Azz', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")

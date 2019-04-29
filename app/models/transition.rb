@@ -1,24 +1,8 @@
-class Transition
-  include Syncable::PrimeroEmbeddedModel
-  include PrimeroModel
+class Transition < ValueObject
 
-  validate :validate_record
-
-  property :type, String
-  property :to_user_local, String
-  property :to_user_remote, String
-  property :to_user_agency, String
-  property :to_user_local_status, String
-  property :rejected_reason, String
-  property :notes, String
-  property :transitioned_by, String
-  property :service, String #service referers to the 'Type of Service'
-  property :is_remote, TrueClass
-  property :type_of_export, String
-  property :consent_overridden, TrueClass
-  property :consent_individual_transfer, TrueClass
-  property :created_at, Date
-  property :id
+  attr_accessor :id, :type, :to_user_local, :to_user_remote, :to_user_agency, :to_user_local_status, :rejected_reason,
+                :notes, :transitioned_by, :service, :is_remote, :type_of_export, :consent_overridden,
+                :consent_individual_transfer, :created_at
 
   TYPE_REFERRAL = "referral"
   TYPE_REASSIGN = "reassign"
@@ -33,14 +17,9 @@ class Transition
   TO_USER_LOCAL_STATUS_DONE = "done"
   TO_USER_LOCAL_STATUS_INPROGRESS = "in_progress"
 
-  def initialize *args
-    super
-
-    self.id ||= UUIDTools::UUID.random_create.to_s
-  end
-
-  def parent_record
-    base_doc
+  def initialize(args={})
+    super(args)
+    self.id ||= SecureRandom.uuid
   end
 
   def is_referral_active?
@@ -55,9 +34,4 @@ class Transition
     self.to_user_local == user
   end
 
-  private
-
-  def validate_record
-    #TODO
-  end
 end

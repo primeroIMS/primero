@@ -74,7 +74,7 @@ $(profile_tools);
   <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content" data-equalizer-watch>
       <%# Removed for demo deploy %>
-      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @tracing_request, :lookups => @lookups} %>
+      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @tracing_request.data, :lookups => @lookups} %>
     </div>
     <%= render 'record_shared/header_message', record: @tracing_request, model: 'tracing_request' %>
   </div>

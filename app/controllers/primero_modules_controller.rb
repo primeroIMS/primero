@@ -9,7 +9,8 @@ class PrimeroModulesController < ApplicationController
     @page_name = t("primero_modules.label")
     sort_option = params[:sort_by_descending_order] || false
     params[:show] ||= "All"
-    @primero_modules = params[:show] == "All" ? PrimeroModule.by_name(:descending => sort_option) : PrimeroModule.by_name(:descending => sort_option).find_all{|primero_module| primero_module.has_permission(params[:show])}
+    @primero_modules = params[:show] == "All" ? PrimeroModule.order(name: :desc) :
+        PrimeroModule.order(name: :desc).find_all{|primero_module| primero_module.has_permission(params[:show])}
 
     respond_to do |format|
       format.html
@@ -18,7 +19,7 @@ class PrimeroModulesController < ApplicationController
   end
 
   def show
-    @primero_module = PrimeroModule.get(params[:id])
+    @primero_module = PrimeroModule.find_by(id: params[:id])
     authorize! :view, @primero_module
     load_lookups
 
@@ -29,13 +30,13 @@ class PrimeroModulesController < ApplicationController
   end
 
   def edit
-    @primero_module = PrimeroModule.get(params[:id])
+    @primero_module = PrimeroModule.find_by(id: params[:id])
     authorize! :update, @primero_module
     load_lookups
   end
 
   def update
-    @primero_module = PrimeroModule.get(params[:id])
+    @primero_module = PrimeroModule.find_by(id: params[:id])
     authorize! :update, @primero_module
 
     if @primero_module.update_attributes(params[:primero_module].to_h)
@@ -66,7 +67,7 @@ class PrimeroModulesController < ApplicationController
   end
 
   def destroy
-    @primero_module = PrimeroModule.get(params[:id])
+    @primero_module = PrimeroModule.find_by(id: params[:id])
     authorize! :destroy, @primero_module
     @primero_module.destroy
     redirect_to(primero_modules_url)

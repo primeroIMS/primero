@@ -40,7 +40,7 @@ describe "children/_filter.html.erb" do
       :name => "CP",
       :description => "Child Protection",
       :associated_record_types => ["case"],
-      :associated_form_ids => [@form_cp.unique_id]
+      :form_section_ids => [@form_cp.unique_id]
     )
     @primero_module_cp.save!
     @current_modules = [@primero_module_cp]
@@ -73,7 +73,7 @@ describe "children/_filter.html.erb" do
       :name => "GBV",
       :description => "Gender Based Violence",
       :associated_record_types => ["case"],
-      :associated_form_ids => [@form_gbv.unique_id]
+      :form_section_ids => [@form_gbv.unique_id]
     )
     @primero_module_gbv.save!
 
@@ -115,7 +115,7 @@ describe "children/_filter.html.erb" do
     )
     other_form_cp.save!
 
-    @primero_module_cp.associated_form_ids << other_form_cp.unique_id
+    @primero_module_cp.form_section_ids << other_form_cp.unique_id
     @primero_module_cp.save!
 
     @current_user = User.new
@@ -267,7 +267,7 @@ describe "children/_filter.html.erb" do
     )
     other_form_cp.save!
     @can_view_protection_concerns_filter = true
-    @primero_module_cp.associated_form_ids << other_form_cp.unique_id
+    @primero_module_cp.form_section_ids << other_form_cp.unique_id
     @primero_module_cp.save!
     @current_user = User.new
     @current_user.should_receive(:modules).and_return([@primero_module_cp])

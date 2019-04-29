@@ -1,6 +1,6 @@
 <%= form_for editable_role, :html => {:class => 'default-form', :autocomplete => "off"} do |f| %>
     <div class="clearfix"></div>
-    <%= f.error_messages :header_tag => :h3 %>
+    <%= error_messages_for(editable_role) %>
 
     <div class="clearfix"></div>
     <div class="mandate_panel"><span>*</span> <%= t("mandatory_field")%></div>
@@ -95,7 +95,7 @@
       <div class="row">
         <div class="medium-3 columns">
           <span class="tool-tip-label">
-            <%= f.label :permitted_form_ids, t("forms.label"), :class => 'key' %>
+            <%= f.label :form_sections, t("forms.label"), :class => 'key' %>
           </span>
         </div>
         <div class="medium-8 columns">
@@ -104,13 +104,13 @@
               <span class="section">
                 <span class="title"><%= I18n.t("forms.record_types.#{record_type}") %></span>
                 <% forms_list.sort_by{ |fl| fl.name }.each do |form| %>
-                    <label><%= f.check_box :permitted_form_ids, {:id => "role_#{form.unique_id}",
-                              :name => "role[permitted_form_ids][]", class: 'tick_box'}, form.unique_id, nil %>
+                    <label><%= f.check_box :form_section_ids, {:id => "role_#{form.id}",
+                              :name => "role[form_section_ids][]", class: 'tick_box'}, form.id, nil %>
                     <%= form.name %></label>
                 <% end %>
               </span>
             <% end %>
-            <%= f.hidden_field :permitted_form_ids, name: 'role[permitted_form_ids][]', value: nil %>
+            <%= f.hidden_field :form_section_ids, name: 'role[form_section_ids][]', value: nil %>
           </span>
         </div>
         <div class="medium-1 columns">

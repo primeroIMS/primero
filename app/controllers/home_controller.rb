@@ -8,13 +8,13 @@ class HomeController < ApplicationController
   layout "application_v2", :only => [ :v2 ]
 
   # TODO: This is temp action for v2 home page
-  def v2 
+  def v2
   end
 
   def index
     @page_name = t("home.label")
     @associated_users = current_user.managed_user_names
-    @notifications = PasswordRecoveryRequest.to_display
+
     load_user_module_data
 
     if !display_admin_only?
@@ -116,11 +116,11 @@ class HomeController < ApplicationController
       {id: Workflow::WORKFLOW_REOPENED, display: t("case.workflow.#{Workflow::WORKFLOW_REOPENED}")}
     ]
     if @modules.present?
-      if @modules.first['use_workflow_assessment']
+      if @modules.first.use_workflow_assessment
         @workflow_order << {id: Workflow::WORKFLOW_ASSESSMENT, display: t("case.workflow.#{Workflow::WORKFLOW_ASSESSMENT}")}
       end
 
-      if @modules.first['use_workflow_case_plan']
+      if @modules.first.use_workflow_case_plan
         @workflow_order << {id: Workflow::WORKFLOW_CASE_PLAN, display: t("case.workflow.#{Workflow::WORKFLOW_CASE_PLAN}")}
       end
     end
@@ -239,7 +239,7 @@ class HomeController < ApplicationController
   end
 
   def display_admin_only?
-    @display_admin_only ||= current_user.group_permissions.include?(Permission::ADMIN_ONLY)
+    @display_admin_only ||= current_user.group_permission?(Permission::ADMIN_ONLY)
   end
 
   def display_cases_dashboard?
@@ -251,11 +251,11 @@ class HomeController < ApplicationController
   end
 
   def display_case_worker_dashboard?
-    @display_case_worker_dashboard ||= !(current_user.is_manager? || current_user.is_admin?)
+    @display_case_worker_dashboard ||= !(current_user.is_manager? || current_user.admin?)
   end
 
   def display_manager_dashboard?
-    @display_manager_dashboard ||= (current_user.is_manager? && !current_user.is_admin?)
+    @display_manager_dashboard ||= (current_user.is_manager? && !current_user.admin?)
   end
 
   def display_incidents_dashboard?
@@ -268,7 +268,7 @@ class HomeController < ApplicationController
   end
 
   def display_admin_dashboard?
-    @display_admin_dashboard ||= current_user.is_admin?
+    @display_admin_dashboard ||= current_user.admin?
   end
 
   def display_approvals?
@@ -284,11 +284,11 @@ class HomeController < ApplicationController
   end
 
   def display_reporting_location?
-    @display_reporting_location ||= (can?(:dash_reporting_location, Dashboard) || current_user.is_admin?)
+    @display_reporting_location ||= (can?(:dash_reporting_location, Dashboard) || current_user.admin?)
   end
 
   def display_protection_concerns?
-    @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.is_admin?)
+    @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.admin?)
   end
 
   def display_service_provisions?
@@ -320,7 +320,7 @@ class HomeController < ApplicationController
   end
 
   def display_services_implemented?
-    @display_services_implemented ||= PrimeroModule.cp.use_workflow_service_implemented?
+    @display_services_implemented ||= PrimeroModule.cp.use_workflow_service_implemented
   end
 
   def manager_case_query(query = {})
@@ -479,7 +479,7 @@ class HomeController < ApplicationController
 
   def load_user_module_data
     @modules = @current_user.modules
-    @module_ids = @modules.map{|m| m.id}
+    @module_ids = @modules.map{|m| m.unique_id}
     @record_types = @modules.map{|m| m.associated_record_types}.flatten.uniq
   end
 

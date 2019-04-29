@@ -8,7 +8,7 @@ class DuplicatesController < ApplicationController
   #Methods new & create are older methods that do not actually work on the Duplicate model
   #Instead, they were used to marke cases as duiplicates
   def new
-    @child = Child.get params[:child_id]
+    @child = Child.find_by(id: params[:child_id])
     authorize! :update, @child
 
     redirect_to child_filter_path("flagged") and return if @child.nil?
@@ -16,7 +16,7 @@ class DuplicatesController < ApplicationController
   end
 
   def create
-    @child = Child.get params[:child_id]
+    @child = Child.find_by(id: params[:child_id])
     authorize! :update, @child
 
     @child.mark_as_duplicate params[:parent_id]
@@ -27,7 +27,7 @@ class DuplicatesController < ApplicationController
   def index
     authorize! :index, Duplicate
     @lookups = Lookup.all
-    @sex_field = Field.find_by_name_from_view('sex')
+    @sex_field = Field.get_by_name('sex')
     @can_display_view_page = can?(:display_view_page, Child)
   end
 

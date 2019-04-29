@@ -1,19 +1,6 @@
-class BulkExport < CouchRest::Model::Base
-  use_database :bulk_export
+class BulkExport < ApplicationRecord
 
-  class BulkExportDataAccessor < DocumentDataAccessor
-    def load_all(ids)
-      ([@clazz] + @clazz.subclasses).map do |cls|
-        cls.all(:keys => ids).all
-      end.flatten.compact
-   end
-  end
-
-  include PrimeroModel
-  include Primero::CouchRestRailsBackward
   include Indexable
-
-  Sunspot::Adapters::DataAccessor.register BulkExportDataAccessor, self
 
   PROCESSING = 'job.status.processing' #The job is still running
   TERMINATED = 'job.status.terminated' #The job terminated due to an error
@@ -24,28 +11,6 @@ class BulkExport < CouchRest::Model::Base
   FileUtils.mkdir_p EXPORT_DIR
 
   ARCHIVE_CUTOFF = 30.days.ago
-
-  property :status
-  property :owned_by
-  property :started_on, DateTime
-  property :completed_on, DateTime
-
-  property :format
-  property :record_type
-  property :model_range #This is a future thing. Currently the bulk is only invoked for :all
-  property :filters #Filters as calculated from the params by the controllers
-  property :order #Solr query order as calculated by the controllers
-  property :query #Text search string
-  property :match_criteria #Tracing Request match criteria #TODO: refactor for v1.3?
-  property :custom_export_params #Used by the custom exports to select forms and fields
-  property :permitted_property_keys
-
-  property :file_name
-  #TODO: Temporarily we are going to store INSECURELY the password.
-  #      Going forward, a random password will be generated for each export at download time
-  property :password
-
-  design #Create the default all design view
 
   searchable auto_index: self.auto_index? do
     time :started_on
@@ -72,25 +37,17 @@ class BulkExport < CouchRest::Model::Base
   def filters
     self['filters'].with_indifferent_access if self['filters'].present?
   end
+
   def order
     self['order'].with_indifferent_access if self['order'].present?
   end
+
   def match_criteria
     self['match_criteria'].with_indifferent_access if self['match_criteria'].present?
   end
+
   def custom_export_params
     self['custom_export_params'].with_indifferent_access if self['custom_export_params'].present?
-  end
-
-  #TODO: This is happening because bulk_export objects cannot be serialized.
-  #      Revisit when upgrading to Rails 4.2
-  #TODO: This is also happening because this logic is on the controller rather than the User object or Record class
-  def permitted_properties=(permitted_properties)
-    self.permitted_property_keys = properties_by_module_to_keys(permitted_properties)
-  end
-
-  def permitted_properties
-    @permitted_properties ||= property_keys_by_module_to_properties(self.permitted_property_keys, model_class)
   end
 
   def mark_started
@@ -145,10 +102,10 @@ class BulkExport < CouchRest::Model::Base
       managed_user_names = []
       managed_user_groups = []
 
-      if self.owner.has_group_permission?(Permission::ALL)
+      if self.owner.group_permission?(Permission::ALL)
         managed_user_groups = [Searchable::ALL_FILTER]
         managed_user_names = [Searchable::ALL_FILTER]
-      elsif self.owner.has_group_permission?(Permission::GROUP)
+      elsif self.owner.group_permission?(Permission::GROUP)
         managed_user_groups = self.owner.user_group_ids
         # In the absence of user groups, a user should at least export his own records.
         managed_user_names = [self.owner.user_name]
@@ -185,38 +142,6 @@ class BulkExport < CouchRest::Model::Base
 
   def job
     BulkExportJob
-  end
-
-  private
-
-  def properties_by_module_to_keys(properties_by_module)
-    property_keys = {}
-    properties_by_module.each do |module_id, forms_hash|
-      forms_keys = {}
-      forms_hash.each do |form_name, fields_hash|
-        forms_keys[form_name] = fields_hash.keys
-      end
-      property_keys[module_id] = forms_keys
-    end
-    return property_keys
-  end
-
-  def property_keys_by_module_to_properties(property_keys, model_class)
-    model_properties = model_class.properties.reduce({}) do |acc, property|
-      acc[property.name] = property ; acc
-    end
-    properties_by_module = {}
-    property_keys.each do |module_id, forms_keys|
-      forms_hash = {}
-      forms_keys.each do |form_name, keys|
-        properties_hash = keys.reduce({}) do |acc, key|
-          acc[key] = model_properties[key] ; acc
-        end
-        forms_hash[form_name] = properties_hash
-      end
-      properties_by_module[module_id] = forms_hash
-    end
-    return properties_by_module
   end
 
 end
