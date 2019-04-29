@@ -22,8 +22,6 @@ describe Task do
         ]),
         build(:subform_field, name: 'services_section', unique_id: 'services_section', fields: [
           build(:field, name: 'service_type'),
-          build(:field, name: 'service_response_timeframe'),
-          build(:field, name: 'service_response_day_time'),
           build(:field, name: 'service_appointment_date', type: Field::DATE_FIELD),
           build(:field, name: 'service_implemented_day_time', type: Field::DATE_FIELD),
           build(:field, name: 'service_response_day_time', type: Field::DATE_FIELD, selected_value: 'now'),
@@ -32,7 +30,7 @@ describe Task do
                   { id: '1_hour', display_text: "One hour" },
                   { id: '3_hours', display_text: "Three hours" },
                   { id: '1_day', display_text: "One day" },
-                  { id: '3_days', display_text: "Three days" }].map(&:with_indifferent_access)),
+                  { id: '3_days', display_text: "Three days" }].map(&:with_indifferent_access))
         ])
       ]
     )
