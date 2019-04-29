@@ -125,9 +125,6 @@ class Child < ApplicationRecord
     super_defaults
     self.registration_date ||= Date.today
     self.notes_section ||= []
-     #TODO: Fix with block storage
-     # self['photo_keys'] ||= []
-     # self['document_keys'] ||= []
   end
 
   def subform_match_values(field)
