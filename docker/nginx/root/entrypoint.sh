@@ -6,7 +6,7 @@ set -euox pipefail
 printf "Checking for dhparam. This may produce an error. You can ignore it.\\n"
 if ! openssl dhparam -check -in "${NGINX_DH_PARAM}" 2> /dev/null;
 then
-  printf "Did not find dh file.\\generating dhparam 2048 at %s\\n" "${NGINX_DH_PARAM}"
+  printf "Did not find dh file.\\ngenerating dhparam 2048 at %s\\n" "${NGINX_DH_PARAM}"
   openssl dhparam -out "${NGINX_DH_PARAM}" 2048
 else
   printf "dh key found...continuing \\n"
@@ -17,7 +17,7 @@ printf "Checking for nginx log files"
 touch "${NGINX_LOG_DIR}/${NGINX_LOG_ACCESS}"
 touch "${NGINX_LOG_DIR}/${NGINX_LOG_ERROR}"
 
-# Basically, if we use letsencrypt then let certbot create the certificates
+# if we use letsencrypt then let certbot create the certificates
 if [[ "${USE_LETS_ENCRYPT}" == "true" ]];
 then
   certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m \
@@ -35,8 +35,8 @@ then
 else
   # Not using Lets Encrypt, thus generate certs, etc
   printf "Not using lets encrypt. \\nFinding or generating certificates\\n."
-  # If either of the certs don't exist, generate.
-  # Also force generate if flag is enabled.
+  # If either of the certs don't exist and validate, generate. Also force
+  # generate if flag is enabled.
   printf "Checking if ssl key and cert exist.\\nThis may produce errors.\\n"
   if ( ! openssl x509 -in "${NGINX_SSL_CERT_PATH}" -noout 2> /dev/null ) ||  ( ! openssl rsa \
     -in server.key -noout -check "$NGINX_SSL_KEY_PATH"  2> /dev/null ) || [[ \
