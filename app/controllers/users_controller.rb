@@ -65,8 +65,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    authorize! :create, User
-
+    authorize!(:create, User)
     @user = User.new(params[:user].to_h)
 
     if @user.save

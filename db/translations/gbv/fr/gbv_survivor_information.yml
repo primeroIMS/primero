@@ -3,7 +3,7 @@ fr:
   gbv_survivor_information:
     name: Information sur la survivante
     description: Information sur la survivante
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       case_id:
         display_name: Long numéro d'identification
@@ -11,7 +11,7 @@ fr:
         display_name: Numéro d'identification du cas
       marked_for_mobile:
         display_name: "Marqué pour mobile?"
-        tick_box_label: 'Oui'
+        tick_box_label: "Oui"
       child_status:
         display_name: Statut du cas
       name:
@@ -51,7 +51,7 @@ fr:
       gbv_disability_type:
         display_name: "La survivante est-elle une personne handicapée?"
         option_strings_text:
-          'no': 'Non'
+          "no": "Non"
           mental_disability: Handicap mental
           physical_disability: Handicap physique
           both: Handicap mental et physique

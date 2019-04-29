@@ -788,6 +788,7 @@ gbv_cm_supervisor_permissions = [
             Permission::READ,
             Permission::FLAG,
             Permission::ASSIGN,
+            Permission::REASSIGN,
             Permission::EXPORT_JSON,
             Permission::EXPORT_CASE_PDF,
             Permission::CONSENT_OVERRIDE,
@@ -911,6 +912,7 @@ gbv_organization_focal_point_permissions = [
             Permission::EXPORT_JSON,
             Permission::IMPORT,
             Permission::ASSIGN,
+            Permission::REASSIGN,
             Permission::CONSENT_OVERRIDE,
             Permission::SYNC_MOBILE
         ]
@@ -1355,4 +1357,3 @@ create_or_update_role(
   :permissions_list => superuser_permissions,
   :group_permission => Permission::ALL
 )
-

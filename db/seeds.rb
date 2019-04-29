@@ -64,7 +64,7 @@ end
 
 #TODO: This is being temporarily removed: v1.5 and v1.6 GBV field keys are mismatched. Need to reconcile before re-enabling
 # puts "Loading Form Translations"
-# Dir[File.dirname(__FILE__) + '/translations/gbv/*/*.yml'].each do |file|
+# Dir[File.dirname(__FILE__) + '/translations/gbv/{ar,fr}/*.yml'].each do |file|
 #   puts file
 #   clazz = file.end_with?('lookups.yml') ? Lookup : FormSection
 #   Importers::YamlI18nImporter.import(file, clazz)
