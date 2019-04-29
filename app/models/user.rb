@@ -301,7 +301,7 @@ class User < ApplicationRecord
 
   def permitted_fields(record_modules, record_type, visible_forms_only = false)
     permitted_forms = self.permitted_forms(record_modules, record_type, visible_forms_only)
-    permitted_forms.map(&:fields).flatten
+    permitted_forms.map(&:fields).flatten.uniq(&:name)
   end
 
   def can_edit?(record)

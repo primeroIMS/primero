@@ -401,7 +401,7 @@ module RecordActions
   end
 
   def permitted_property_keys
-    current_user.permitted_fields(@record_module, model_class.parent_form, true).map(&:name).uniq + extra_permitted_parameters
+    current_user.permitted_fields(@record_module, model_class.parent_form, true).map(&:name) + extra_permitted_parameters
   end
 
   # Filters out any un-allowed parameters for the current user
