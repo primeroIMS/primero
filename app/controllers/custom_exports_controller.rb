@@ -30,7 +30,7 @@ class CustomExportsController < ApplicationController
 
   def get_modules
     @modules = []
-    @modules = PrimeroModule.find(params[:module]) if params[:module].present?
+    @modules = PrimeroModule.find_by(id: params[:module]) if params[:module].present?
     @modules
   end
 
