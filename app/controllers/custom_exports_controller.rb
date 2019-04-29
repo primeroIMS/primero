@@ -8,7 +8,7 @@ class CustomExportsController < ApplicationController
 
   def permitted_forms_list
     record_type = params[:record_type]
-    permitted_forms = @current_user.permitted_forms(@modules, record_type, true)
+    permitted_forms = @current_user.permitted_forms(@modules, record_type)
                                    .select{ |fs| fs.fields.any?{|er| BaseExporter::EXPORTABLE_FIELD_TYPES.include?(er.type)} }
     if params[:only_parent].present?
       permitted_forms = permitted_forms.select{|form| !form.is_nested && params[:only_parent].present? }

@@ -83,13 +83,11 @@ module Exporters
     end
 
     def filter_by_form(properties, custom_export_options)
-      props = {}
-      grouped_fields = Field.includes(:form_section).where(form_sections: { unique_id: custom_export_options[:forms] },
-                                                           fields: { id: properties.pluck(:id) })
-      grouped_fields.group_by(&:form_section_id).map do |key, val|
-        props[FormSection.find(key).unique_id] = val
-      end
-      props
+      fields = {}
+      form_sections_fields = FormSection.includes(:fields)
+                                        .where(unique_id: custom_export_options[:forms], fields: { id: properties.pluck(:id) } )
+      form_sections_fields.each { |fs| fields[fs.unique_id] = fs.fields }
+      fields
     end
 
   end

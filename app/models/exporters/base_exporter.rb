@@ -80,7 +80,7 @@ module Exporters
       # TODO: Make this method generic
       def case_form_sections_by_module(cases, current_user)
         cases.map(&:module).compact.uniq.inject({}) do |acc, mod|
-          acc.merge({mod.name => current_user.permitted_forms(mod, 'case', true)
+          acc.merge({mod.name => current_user.permitted_forms(mod, 'case')
                                              .sort {|a, b| [a.order_form_group, a.order] <=> [b.order_form_group, b.order] } })
         end
       end

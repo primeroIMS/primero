@@ -253,8 +253,6 @@ module Exporters
       case attr_name
       when 'name'
         obj["hidden_name"] ? '***hidden***' : obj["name"]
-      when 'owned_by_agency'
-        obj.data[attr_name]['id']
       else
         obj.respond_to?('data') ? obj.data[attr_name] : obj[attr_name]
       end
