@@ -4,7 +4,7 @@ set -euox pipefail
 
 # Check if the specified dh file is both valid and exists, otherwise create it.
 printf "Checking for dhparam. This may produce an error. You can ignore it.\\n"
-if ! openssl dhparam -check -in "${NGINX_DH_PARAM}" ;
+if ! openssl dhparam -check -in "${NGINX_DH_PARAM}" 2> /dev/null;
 then
   printf "Did not find dh file.\\generating dhparam 2048 at %s\\n" "${NGINX_DH_PARAM}"
   openssl dhparam -out "${NGINX_DH_PARAM}" 2048
@@ -37,8 +37,10 @@ else
   printf "Not using lets encrypt. \\nFinding or generating certificates\\n."
   # If either of the certs don't exist, generate.
   # Also force generate if flag is enabled.
-  if [[ ( ! -f "$NGINX_SSL_CERT_PATH" ||  ! -f "$NGINX_SSL_KEY_PATH" ) \
-    ||  "$NGINX_GENERATE_SSL_CERT_FORCE" == "true" ]];
+  printf "Checking if ssl key and cert exist.\\nThis may produce errors.\\n"
+  if ( ! openssl x509 -in "${NGINX_SSL_CERT_PATH}" -noout 2> /dev/null ) ||  ( ! openssl rsa \
+    -in server.key -noout -check "$NGINX_SSL_KEY_PATH"  2> /dev/null ) || [[ \
+    "$NGINX_GENERATE_SSL_CERT_FORCE" == "true" ]];
   then
     # Return to current dir after cert generation
     CURRENT_DIR=$(pwd)
@@ -49,6 +51,8 @@ else
     openssl req -subj "/CN=${NGINX_SERVER_HOST}" -x509 -newkey rsa:4096 -nodes \
     -keyout key.pem -out cert.pem -days 365
     cd "${CURRENT_DIR}"
+  else
+    printf "Key and cert already exist.\\n"
   fi
 fi
 
