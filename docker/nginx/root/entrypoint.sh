@@ -1,13 +1,15 @@
 #!/bin/bash
 
 set -euox pipefail
-# If we can't find the dh key, then go ahead and generate it
-if [[ ! -f "${NGINX_DH_PARAM}" ]];
+
+# Check if the specified dh file is both valid and exists, otherwise create it.
+printf "Checking for dhparam. This may produce an error. You can ignore it.\\n"
+if ! openssl dhparam -check -in "${NGINX_DH_PARAM}" ;
 then
-  printf "Generating dhparam 2048 at %s\\n" "${NGINX_DH_PARAM}"
+  printf "Did not find dh file.\\generating dhparam 2048 at %s\\n" "${NGINX_DH_PARAM}"
   openssl dhparam -out "${NGINX_DH_PARAM}" 2048
 else
-  printf "dh key found \\n"
+  printf "dh key found...continuing \\n"
 fi
 
 # Create the log files for NGINX. It won't start if these don't exist.
