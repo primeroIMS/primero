@@ -344,7 +344,7 @@ namespace :db do
       else
         [
           Agency, ContactInformation, FormSection, Location, Lookup, PrimeroModule,
-          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, UserGroup, ExportConfiguration
+          PrimeroProgram, Report, Role, Replication, SystemSettings, SystemUsers, ExportConfiguration
         ]
       end
 
