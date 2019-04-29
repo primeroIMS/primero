@@ -3,6 +3,7 @@ class Role < ApplicationRecord
   #include Importable #TODO: This will need to be rewritten
   # include Memoizable
   include Cloneable
+  include Configuration
 
   has_and_belongs_to_many :form_sections, -> { distinct }
   has_and_belongs_to_many :roles
@@ -84,6 +85,32 @@ class Role < ApplicationRecord
     def id_from_name(name)
       "#{self.name}-#{name}".parameterize.dasherize
     end
+
+    alias super_clear clear
+    def clear
+      # According documentation this is the best way to delete the values on HABTM relation
+      self.all.each do |f|
+        f.form_sections.destroy(f.form_sections)
+        f.roles.destroy(f.roles)
+      end
+      super_clear
+    end
+
+    alias super_import import
+    def import(data)
+      data['form_sections'] = FormSection.where(unique_id: data['form_sections']) if data['form_sections'].present?
+      super_import(data)
+    end
+
+    def export
+      self.all.map do |record|
+        record.attributes.tap do |r|
+          r.delete('id')
+          r['form_sections'] = record.form_sections.pluck(:unique_id)
+        end
+      end
+    end
+
   end
 
   def associated_role_ids

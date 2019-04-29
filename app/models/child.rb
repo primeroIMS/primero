@@ -20,19 +20,13 @@ class Child < ApplicationRecord
 
   # This module updates photo_keys with the before_save callback and needs to
   # run before the before_save callback in Historical to make the history
-  #include PhotoUploader #TODO: refactor with block storage
-  def photos ; [] ; end #TODO: delete after refactoring Documents
-  def photo_keys ; [] ; end #TODO: delete after refactoring Documents
-  def has_valid_audio? ; nil ; end #TODO: delete after refactoring Documents
   include Record
   include Searchable
   include Historical
-  #include DocumentUploader #TODO: refactor with block storage
   include BIADerivedFields
   include CaseDerivedFields
   include UNHCRMapping
   include Ownable
-  #include AudioUploader #TODO: refactor with block storage
   include AutoPopulatable
   include Serviceable #TODO: refactor with nested
   include Workflow
@@ -42,6 +36,7 @@ class Child < ApplicationRecord
   include Approvable
   include Alertable
   include Matchable
+  include Attachable
   # include Importable #TODO: Refactor with Imports and Exports
 
   store_accessor :data,
@@ -64,6 +59,10 @@ class Child < ApplicationRecord
 
 
   alias child_status status ; alias child_status= status=
+
+  attach_documents fields: [:other_documents]
+  attach_images fields: [:photos]
+  attach_audio fields: [:recorded_audio]
 
   has_many :incidents
   belongs_to :matched_tracing_request, class_name: 'TracingRequest', optional: true

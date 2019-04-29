@@ -9,7 +9,7 @@
 <% end %>
 <%= form_for editable_user, :html => {:class => 'default-form data-form', :autocomplete => "off", "data-abide" => ''} do |f| %>
     <div class="clearfix"></div>
-    <%= f.error_messages :header_tag => :h3 %>
+    <%= error_messages_for(editable_user) %>
     <% trying_to_edit_ourself = editing_ourself?(editable_user) %>
 
     <div class="clearfix"></div>
@@ -209,12 +209,7 @@
 
     <% content_for :record_sub_nav do %>
     <!--TODO: After we got the user object in the session replace the DB query with User object-->
-      <%= render_controls(@user, 'users') %>
-      <% if false %>
-      <%= link_to user_history_path(@user), :class=>'button small right' do %>
-          <%= icon('clock-o') %>
-          <span class="log"><%= t("user.user_action_history") %></span>
-      <% end %>
-      <% end %>
+      <% cancel_path = can?(:index, User) ? 'users' : 'root' %>
+      <%= render_controls(@users, 'users', cancel_path) %>
     <% end %>
 <% end %>

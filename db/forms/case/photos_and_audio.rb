@@ -1,5 +1,5 @@
 photo_audio_fields = [
-    Field.new({"name" => "current_photo_key",
+    Field.new({"name" => "photos",
               "type" => "photo_upload_box",
               "editable" => false,
               "disabled" => true,
