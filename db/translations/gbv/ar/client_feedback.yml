@@ -3,7 +3,7 @@ ar:
   client_feedback:
     name: "ملاحظات العميل "
     description: ملاحظات العميل
-    form_group_name: ملاحظات العميل
+    # form_group_name: ملاحظات العميل
     fields:
       client_feedback_header:
         display_name: ملاحظات العميل

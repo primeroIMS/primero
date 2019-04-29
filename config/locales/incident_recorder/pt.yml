@@ -1,0 +1,75 @@
+pt:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Exportar registro de incidente xls"
+  exports:
+    incident_recorder_xls:
+      all: Registro de incidente
+      one: Registro de incidente
+      selected: Selecionado para Registro de Incidente
+      'yes': "Sim"
+      'no': "Não"
+      gender:
+        female: "F"
+        both: "M e F"
+      age_group:
+        age: "Idade"
+        61_older: "61 ou mais"
+        unknown: "Desconhecido"
+        header: "GRUPO DE IDADE DO SUPOSTO INFRATOR"
+      age_type:
+        adult: "Adulto"
+        minor: "Menor"
+        both: "Adulto e Menor"
+        unknown: "Desconhecido"
+        header: "TIPO DE IDADE DO SUPOSTO INFRATOR"
+      service_referral:
+        undecided: "Indeciso no momento do relatório"
+      headers:
+        incident_id: "IDENTIFICAÇÃO DO INCIDENTE"
+        survivor_code: "CÓDIGO DE SOBREVIVENTE"
+        case_manager_code: "CÓDIGO DO GERENTE DO CASO"
+        case_worker_code: "CÓDIGO DO TRABALHADOR DO CASO"
+        date_of_interview: "DATA DA ENTREVISTA"
+        date_of_incident: "DATA DO INCIDENTE"
+        date_of_birth: "DATA DE NASCIMENTO"
+        sex: "SEXO"
+        ethnicity: "ETNIA"
+        country_of_origin: "PAÍS DE ORIGEM"
+        marital_status: "ESTADO CIVIL"
+        displacement_status: "ESTADO DE DESLOCAMENTO NO RELATÓRIO"
+        disability_type: "PESSOA COM DEFICIÊNCIA?"
+        unaccompanied_separated_status: "CRIANÇA DESACOMPANHADA OU SEPARADA?"
+        stage_of_displacement: "FASE DE DESLOCAMENTO NO INCIDENTE"
+        time_of_day: "HORA DO INCIDENTE"
+        location: "LOCALIZAÇÃO DO INCIDENTE"
+        county: "ESTADO ONDE OCORREU O INCIDENTE"
+        district: "DISTRITO ONDE OCORREU O INCIDENTE"
+        camp_town: "CIDADE ONDE OCORREU O INCIDENTE"
+        camp: "ACAMPAMENTO/ALOJAMENTO ONDE OCORREU O INCIDENTE"
+        gbv_type: "TIPO DE GBV (VIOLÊNCIA BASEADA NO GÊNERO)"
+        harmful_traditional_practice: "PRÁTICA USUAL NOCIVA"
+        goods_money_exchanged: "DINHEIRO, BENS, BENEFÍCIOS E / OU SERVIÇOS TROCADOS?"
+        abduction_type: "TIPO DE SEQUESTRO"
+        previously_reported: "ESTE INCIDENTE JÁ FOI REPORTADO ANTERIORMENTE?"
+        gbv_previous_incidents: "OCORREU INCIDENTES ANTERIORES DE GBV (VIOLÊNCIA BASEADA NO GÊNERO)?"
+        number_primary_perpetrators: "Não. SUPOSTO(S) INFRATOR(ES) PRIMÁRIO(S)"
+        perpetrator:
+          sex: "SEXO ALEGADO PELO INFRATOR"
+          former: "INCIDENTES ANTERIORES COM O MESMO INFRATOR"
+          relationship: "RELAÇÃO DO SOBREVIVENTE COM O SUPOSTO INFRATOR "
+          occupation: "OCUPAÇÃO DO SUPOSTO INFRATOR"
+          age_group: "GRUPO DE IDADE DO SUPOSTO INFRATOR"
+          age_type: "TIPO DE IDADE DO SUPOSTO INFRATOR"
+        service:
+          referred_from: "REFERIDO À VOCÊ DE?"
+          safehouse_referral: "CASA SEGURA/ ABRIGO"
+          medical_referral: "SAÚDE / SERVIÇOS MÉDICOS"
+          psycho_referral: "SERVIÇO PSICOSSOCIAIS"
+          wants_legal_action: "QUER UMA AÇÃO JURÍDICA?"
+          legal_referral: "SERVIÇO DE ASSISTÊNCIA JURÍDICA"
+          police_referral: "POLÍCIA / OUTRO AUTOR DE SEGURANÇA"
+          livelihoods_referral: "PROGRAMA DE SUBSISTÊNCIA"
+          protection_referral: "serviço de proteção a criança / serviço de educação"
+        consent: "CONSENTIMENTO DADO"
+        agency_code: "CÓDIGO DA AGÊNCIA DE REPORTE"
