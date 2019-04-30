@@ -4,11 +4,11 @@ module Exporters
   ACTIVE_EXPORTERS = [
     CSVListViewExporter,
     # IncidentRecorderExporter,
-    # CSVExporter,
+    CSVExporter,
     # ExcelExporter,
     JSONExporter,
     # PhotoWallExporter,
-    # PDFExporter,
+    PDFExporter,
     # UnhcrCSVExporter,
     # DuplicateIdCSVExporter,
     # #MRMViolationExporter,

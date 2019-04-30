@@ -96,7 +96,7 @@ $(show_tools);
   </div>
   <div class="large-9 medium-9 columns side-tab-content-container">
     <div class="side-tab-content">
-      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @child.data, :lookups => @lookups} %>
+      <%= render :partial => 'form_section/show_form_section', :locals => {:formObject => @child, :lookups => @lookups} %>
     </div>
     <%= render 'record_shared/header_message', record: @child, model: 'case' %>
   </div>

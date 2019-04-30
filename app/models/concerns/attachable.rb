@@ -1,34 +1,68 @@
 module Attachable
   extend ActiveSupport::Concern
 
-  included do
-    property :_attachments, Hash
-  end
+  ATTACHMENT_TYPES = %w(images documents audio)
+  MAX_PHOTOS = 10
+  MAX_DOCUMENTS = 100
 
-  def attach(attachment)
-    create_attachment :name => attachment.name,
-                      :content_type => attachment.content_type,
-                      :file => attachment.data
-  end
+  module ClassMethods
+    ATTACHMENT_TYPES.each do |type|
+      attr_accessor :"attachment_#{type}_fields"
 
-  def attachment(key)
-    begin
-      data = read_attachment key
-      content_type = self['_attachments'][key]['content_type']
-    rescue
-      return nil
+      self.class.class_eval do
+        define_method(:"attach_#{type}") do |args|
+          if args[:fields].present?
+            self.instance_variable_set("@attachment_#{type}_fields", args[:fields])
+
+            args[:fields].each do |f|
+              unless type ==  'audio'
+                validates f, length: { maximum: type == 'images' ? MAX_PHOTOS : MAX_DOCUMENTS }
+              end
+
+              build_attachment_association(f, attachment_model(type))
+              accepts_nested_attributes_for f, allow_destroy: true
+            end
+          end
+        end
+      end
     end
-    FileAttachment.new key, content_type, data
+
+    def attachment_model(type)
+      "Attachment#{type.singularize.titleize}"
+    end
+
+    def compact_properties(properties={})
+      properties.each { |attachments| attachments.compact! }.delete_if &:empty?
+    end
+
+    private
+
+    def build_attachment_association(field_name, class_name)
+      has_many field_name, -> { where record_field_scope: field_name.to_s },
+        as: :record, class_name: class_name
+    end
   end
 
-  def media_for_key(media_key)
-    data = read_attachment media_key
-    content_type = self['_attachments'][media_key]['content_type']
-    FileAttachment.new media_key, content_type, data, self
-  end
+  def set_attachment_fields(properties)
+    ATTACHMENT_TYPES.each do |type|
+      fields = self.class.try(:"attachment_#{type}_fields")
 
-  def related_keys(for_key)
-    self['_attachments'].keys.select { |check_key| check_key.starts_with? for_key }
-  end
+      if fields.present?
+        fields.each do |f|
+          if properties[f.to_s].present?
+            attachments = self.class.compact_properties(properties[f.to_s])
 
+            attachments.each do |attachment|
+              if attachment['id'].present?
+                self.send("#{f}_attributes=".to_sym, attachment)
+              else
+                self.send(f).send(:build, attachment)
+              end
+            end
+            self.data.delete(f.to_s)
+          end
+        end
+      end
+    end
+  end
 end
