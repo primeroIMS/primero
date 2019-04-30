@@ -17,6 +17,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   initialize: function(){
     var self = this;
+    $('#referral-modal').on('closeme.zf.reveal', self.clear_modal)
     self.collection = new _primero.Collections.UsersCollection();
     self.has_reset_modal = false;
   },
@@ -51,11 +52,11 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     });
   },
 
-  refer_records: function(event) {
+  refer_records: function (event) {
     this.clear_referral();
     var selected_recs = _primero.indexTable.get_selected_records(),
-        $referral_button = $(event.target),
-        consent_url = $referral_button.data('consent_count_url');
+      $referral_button = $(event.target),
+      consent_url = $referral_button.data('consent_count_url');
     $("#selected_records").val(selected_recs);
     this.refer_records_empty(event);
     $.get( consent_url, {selected_records: selected_recs.join(","), transition_type: "referral"}, function(response) {
@@ -119,14 +120,13 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $referral_modal.find("#service_object_id").val(service_object_id);
   },
 
-
   toggle_remote_primero: function() {
     var $referral_modal = $('#referral-modal');
     $referral_modal.find('.remote_toggle').toggle();
     $referral_modal.find('.local_toggle').toggle();
   },
 
-  toggle_other_user: function(e) {
+  toggle_other_user: function (e) {
     var existing_user = $(e.target).val(),
       $other_user_input = $('#other_user'),
       $other_user_agency_input = $('#other_user_agency'),
@@ -144,7 +144,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     }
   },
 
-  toggle_existing_user: function(e) {
+  toggle_existing_user: function (e) {
     var other_user = $(e.target).val(),
       $existing_user_select = $("#existing_user_referral");
       $existing_user_hidden = $("#existing_user_hidden");
@@ -164,7 +164,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
      }
   },
 
-  clear_referral: function(e) {
+  clear_referral: function (e) {
     var $referral_modal = $("#referral-modal");
     var $service_select = $referral_modal.find("#service")
     $service_select.removeAttr("disabled");
@@ -196,7 +196,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     this.set_user_filters();
   },
 
-  close_referral: function(e) {
+  close_referral: function (e) {
     e.preventDefault();
     var $referral_modal = $('#referral-modal');
     var password = $referral_modal.find('#password').val();
@@ -207,34 +207,30 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     var $remoteUserErrorDiv = $referral_modal.find(".remote_user_flash");
     var $passwordErrorDiv = $referral_modal.find(".password_flash");
     var is_valid = true;
-    if(is_remote){
+    if (is_remote) {
       //Require remote user and password
-      if(remote_user == null || remote_user == undefined || remote_user.trim() == ""){
+      if (remote_user == null || remote_user == undefined || remote_user.trim() == "") {
         $remoteUserErrorDiv.children(".error").text(I18n.t("referral.user_mandatory")).css('color', 'red');
         $remoteUserErrorDiv.show();
         is_valid = false;
       }
-      if(password == null || password == undefined || password.trim() == ""){
+      if (password == null || password == undefined || password.trim() == "") {
         $passwordErrorDiv.children(".error").text(I18n.t("encrypt.password_mandatory")).css('color', 'red');
         $passwordErrorDiv.show();
         is_valid = false;
       }
     } else {
       //Require local user
-      if(local_user == null || local_user == undefined || local_user.trim() == ""){
+      if (local_user == null || local_user == undefined || local_user.trim() == "") {
         $localUserErrorDiv.children(".error").text(I18n.t("referral.user_mandatory")).css('color', 'red');
         $localUserErrorDiv.show();
         is_valid = false;
       }
     }
-    if(is_valid){
-      $localUserErrorDiv.hide();
-      $remoteUserErrorDiv.hide();
-      $passwordErrorDiv.hide();
+    if (is_valid) {
       $(e.target).parents('form').submit();
       $referral_modal.foundation('close');
-      $referral_modal.find('form')[0].reset();
-      $referral_modal.find('.remote_toggle').hide();
+      this.clear_modal();
       $referral_modal.find('.local_toggle').show();
       window.disable_loading_indicator = true;
     } else {
@@ -365,6 +361,22 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $select_box.html('<option value=""></option>');
     $select_box.trigger('change');
     $select_box.trigger('chosen:updated');
+  },
+
+  clear_modal: function () {
+    var hideElements = [
+      '.local_user_flash',
+      '.remote_user_flash',
+      '.password_flash',
+      '.remote_toggle'
+    ]
+    var $referral_modal = $('#referral-modal')
+
+    $.each(hideElements, function (k, el) {
+      $referral_modal.find(el).hide();
+    })
+
+    $referral_modal.find('form').trigger('reset');
   }
 
 });

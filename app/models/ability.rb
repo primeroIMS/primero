@@ -83,7 +83,7 @@ class Ability
       elsif !user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ) && (user.has_group_permission?(Permission::GROUP) || user.has_group_permission?(Permission::ALL))
         # TODO-permission: Add check that the current user has the ability to edit the uzer's role
         # True if, The user's role's associated_role_ids include the uzer's role_id
-        (user.user_group_ids & uzer.user_group_ids).size > 0
+        user.has_group_permission?(Permission::ALL) ? true : ((user.user_group_ids & uzer.user_group_ids).size > 0)
       else
         uzer.user_name == user.user_name
       end

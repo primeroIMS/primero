@@ -3,7 +3,7 @@ ar:
   gbv_sexual_violence:
     name: نوع العنف
     description: نوع العنف
-    form_group_name: نوع العنف
+    # form_group_name: نوع العنف
     fields:
       gbv_sexual_violence_type:
         display_name: نوع حادثة العنف
@@ -13,7 +13,7 @@ ar:
       harmful_traditional_practice:
         display_name: هل كانت الحادثة عبارة عن ممارسة مبنية على العادات والتقاليد الضارّة
         option_strings_text:
-          'no': 'لا'
+          "no": "لا"
           type_of_practice_1: نوع الممارسة 1
           type_of_practice_2: نوع الممارسة 2
           type_of_practice_3: نوع الممارسة 3
