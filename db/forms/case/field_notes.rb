@@ -1,7 +1,8 @@
 field_notes_subform_fields = [
   Field.new({"name" => "notes_date",
              "type" => "date_field",
-             "display_name_en" => "Date"
+             "display_name_en" => "Date",
+             "date_include_time" => true
             }),
   Field.new({"name" => "note_subject",
              "type" => "text_field",

@@ -301,7 +301,7 @@ class Child < ApplicationRecord
   def add_note(notes, note_subject, user)
     self.notes_section << {
         'field_notes_subform_fields' => notes, 'note_subject' => note_subject,
-        'notes_date' => Date.today, 'note_created_by' => user.user_name
+        'notes_date' => DateTime.now, 'note_created_by' => user.user_name
     }
   end
 
