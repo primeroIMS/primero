@@ -73,7 +73,7 @@ $(show_tools);
   <% if @child.photos.present? && @has_photo_form %>
     <div class="photo-link">
       <div class='image'>
-        <%= link_to icon('camera'), child_resized_photo_path(@child, @child.primary_photo_id, 640) %>
+        <%= link_to(icon('camera'), rails_representation_url(@child.primary_photo.variant(resize: "640").processed, only_path: true))%>
       </div>
     </div>
   <% end %>

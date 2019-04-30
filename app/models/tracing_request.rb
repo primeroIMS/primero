@@ -6,8 +6,7 @@ class TracingRequest < ApplicationRecord
   include Historical
   include Flaggable
   include Matchable
-  #include PhotoUploader #TODO: Refactor with block storage
-  #include AudioUploader
+  include Attachable
   #include Importable #TODO: Refactor with Imports and Exports
 
   store_accessor :data,

@@ -359,4 +359,9 @@ class Child < ApplicationRecord
     case_id_display
   end
 
+  def primary_photo
+    primary_photo = self.photos.find(&:is_primary?) || self.photos.try(:first)
+    primary_photo.try(:image)
+  end
+
 end
