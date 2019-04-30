@@ -22,7 +22,7 @@ module Exporters
 
     def convert_model_to_hash(model, properties)
       json_parse = JSON.parse(model.to_json)
-      data_fields = json_parse["data"].select { |k, v| properties.include?(k) }
+      data_fields = json_parse["data"].select { |k, v| properties.map(&:name).include?(k) }
       json_parse["data"] = data_fields
       json_parse
     end

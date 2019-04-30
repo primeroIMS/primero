@@ -9,7 +9,7 @@ class FormSection < ApplicationRecord
 
   localize_properties :name, :help_text, :description
 
-  has_many :fields
+  has_many :fields, -> { order(:order) }
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_and_belongs_to_many :roles
 
@@ -237,8 +237,8 @@ class FormSection < ApplicationRecord
       if primero_modules.present?
         parent_form = determine_parent_form(record_type, apply_to_reports)
         #hide_on_view_page will filter fields for readonly users.
-        readonly_user = user.readonly?(parent_form)
         model = Record::model_from_name(parent_form)
+        user_can_edit = user.can_edit?(model)
         minimum_reportable_fields = model.minimum_reportable_fields.values.flatten
         nested_reportable_subform = Report.record_type_is_nested_reportable_subform?(parent_form, record_type)
         primero_modules.each do |primero_module|
@@ -271,14 +271,14 @@ class FormSection < ApplicationRecord
           end
           custom_exportable[primero_module.name] = get_exportable_fields(forms, minimum_reportable_fields, parent_form,
                                                                          record_type, types, apply_to_reports,
-                                                                         nested_reportable_subform, readonly_user)
+                                                                         nested_reportable_subform, user_can_edit)
         end
       end
       custom_exportable
     end
 
     #TODO - needs further refactoring
-    def get_exportable_fields(forms, minimum_reportable_fields, parent_form, record_type, types, apply_to_reports, nested_reportable_subform, readonly_user)
+    def get_exportable_fields(forms, minimum_reportable_fields, parent_form, record_type, types, apply_to_reports, nested_reportable_subform, user_can_edit)
       #Collect the information as: [[form name, fields list], ...].
       #fields list got the format: [field name, display name, type].
       #fields list for subforms got the format: [subform name:field name, display name, type]
@@ -296,7 +296,7 @@ class FormSection < ApplicationRecord
           # Keep nested form and minimal fields only
           form.fields.select(&include_field).each do |f|
             if minimum_reportable_fields.include?(f.name) || form.unique_id == Report.get_reportable_subform_record_field_name(parent_form, record_type)
-              add_field_to_fields(readonly_user, fields, f, apply_to_reports)
+              add_field_to_fields(user_can_edit, fields, f, apply_to_reports)
             end
           end
         else
@@ -309,14 +309,14 @@ class FormSection < ApplicationRecord
                   subform_fields = f.subform_section.fields.select{|sf| types.include?(sf.type) && sf.visible?}
                   subform_fields = subform_fields.map do |sf|
                     #TODO - do I need location block here?
-                    ["#{f.name}:#{sf.name}", sf.display_name, sf.type] if !readonly_user || (readonly_user && !sf.hide_on_view_page)
+                    ["#{f.name}:#{sf.name}", sf.display_name, sf.type] if user_can_edit || (!user_can_edit && !sf.hide_on_view_page)
                   end
                   subforms << ["#{form.name}:#{f.display_name}", subform_fields.compact]
                 end
               end
             else
               #Not subforms fields.
-              add_field_to_fields(readonly_user, fields, f, apply_to_reports)
+              add_field_to_fields(user_can_edit, fields, f, apply_to_reports)
             end
           end
         end
@@ -328,8 +328,8 @@ class FormSection < ApplicationRecord
       forms_and_fields.select{|f| f[1].present?}
     end
 
-    def add_field_to_fields(readonly_user, fields, field, apply_to_reports)
-      if !readonly_user || (readonly_user && !field.hide_on_view_page)
+    def add_field_to_fields(user_can_edit, fields, field, apply_to_reports)
+      if user_can_edit || (!user_can_edit && !field.hide_on_view_page)
         if field.is_location?
           Location::ADMIN_LEVELS.each do |admin_level|
             #TODO - i18n
