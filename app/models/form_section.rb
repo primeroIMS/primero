@@ -238,7 +238,7 @@ class FormSection < ApplicationRecord
         parent_form = determine_parent_form(record_type, apply_to_reports)
         #hide_on_view_page will filter fields for readonly users.
         model = Record::model_from_name(parent_form)
-        user_can_edit = user.can_edit?(model)
+        user_can_edit = user.can?(:write, model)
         minimum_reportable_fields = model.minimum_reportable_fields.values.flatten
         nested_reportable_subform = Report.record_type_is_nested_reportable_subform?(parent_form, record_type)
         primero_modules.each do |primero_module|

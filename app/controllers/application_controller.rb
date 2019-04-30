@@ -149,4 +149,8 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def current_ability
+    @current_ability ||= current_user.ability
+  end
 end
