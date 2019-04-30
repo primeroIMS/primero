@@ -19,77 +19,77 @@
 
 <div id="file_container">
   <div id="file-group" class="document">
-  <% if documents.present? && !formObject.new_record? %>
-  <% documents.each do |doc| %>
-    <div class="file">
-      <div class="row update_document">
-        <%
-        document_description = doc["document_description"] || ""
-        comments = doc["comments"] || ""
-        prefix = "#{record_class_name}_#{update_document}_#{index}"
-        name = "#{record_class_name}[#{update_document}][#{index}]"
-        is_current_field_id = "#{prefix}_is_current"
-        description_field_id = "#{prefix}_document_description"
-        date_field_id = "#{prefix}_date"
-        comments_field_id = "#{prefix}_comments"
-        delete_field_id = "#{prefix}_delete_document"
-        %>
-        <div class="medium-4 columns">
-          <span class="tool-tip-label">
-            <label class="key"><%= I18n.t("fields.#{document_upload_box.name}") %></label>
-          </span>
-        </div>
-        <div class="medium-8 columns">
-          <div>
-            <span class="document"><%= doc.document.filename.to_s %></span>
-            <%= hidden_field_tag "#{name}[id]", doc['id'] %>
+    <% if documents.present? && !formObject.new_record? %>
+      <% documents.each do |doc| %>
+        <div class="file">
+          <div class="row update_document">
+            <%
+            document_description = doc["document_description"] || ""
+            comments = doc["comments"] || ""
+            prefix = "#{record_class_name}_#{update_document}_#{index}"
+            name = "#{record_class_name}[#{update_document}][#{index}]"
+            is_current_field_id = "#{prefix}_is_current"
+            description_field_id = "#{prefix}_document_description"
+            date_field_id = "#{prefix}_date"
+            comments_field_id = "#{prefix}_comments"
+            delete_field_id = "#{prefix}_delete_document"
+            %>
+            <div class="medium-4 columns">
+              <span class="tool-tip-label">
+                <label class="key"><%= t("fields.file_upload_box.add_document_label") %></label>
+              </span>
+            </div>
+            <div class="medium-8 columns">
+              <div>
+                <span class="document"><%= doc.document.filename.to_s %></span>
+                <%= hidden_field_tag "#{name}[id]", doc['id'] %>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="medium-4 columns">
+              <label class="key"><%= t('fields.document.current') %></label>
+            </div>
+            <div class="medium-8 columns">
+              <% checked = doc["is_current"].present? %>
+              <%= check_box_tag "#{name}[is_current]", true, checked, :id => is_current_field_id %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="medium-4 columns">
+              <label class="key"><%= t('fields.document.name') %></label>
+            </div>
+            <div class="medium-8 columns">
+              <%= text_field_tag "#{name}[document_description]", document_description, :id => description_field_id %>
+            </div>
+          </div>
+          <div class="row">
+            <div class="medium-4 columns">
+              <label class="key"><%= t('fields.document.date') %></label>
+            </div>
+            <div class="medium-8 columns">
+              <% date_for_display = field_value_for_display doc["date"] %>
+              <%= text_field_tag "#{name}[date]", date_for_display, :class => 'form_date_field has_help', :id => date_field_id, "data-validator" => date_validator %>
+              <small class="form-error"><%= I18n.t(error_msg)%></small>
+              <p class="help"><%= t("fields.date_help") %></p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="medium-4 columns">
+              <label class="key"><%= t('fields.document.comments') %></label>
+            </div>
+            <div class="medium-8 columns">
+              <%= text_area_tag "#{name}[comments]", comments, :id => comments_field_id %>
+              <div>
+                <%= check_box_tag("#{name}[_destroy]", true, false, :id => delete_field_id) %>
+                <%= label_tag delete_field_id, t("#{record_class_name}.actions.delete_document") %>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="medium-4 columns">
-          <label class="key">Is this the current document?</label>
-        </div>
-        <div class="medium-8 columns">
-          <% checked = doc["is_current"].present? %>
-          <%= check_box_tag "#{name}[is_current]", true, checked, :id => is_current_field_id %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="medium-4 columns">
-          <label class="key">Document Name</label>
-        </div>
-        <div class="medium-8 columns">
-          <%= text_field_tag "#{name}[document_description]", document_description, :id => description_field_id %>
-        </div>
-      </div>
-      <div class="row">
-        <div class="medium-4 columns">
-          <label class="key">Document Date</label>
-        </div>
-        <div class="medium-8 columns">
-          <% date_for_display = field_value_for_display doc["date"] %>
-          <%= text_field_tag "#{name}[date]", date_for_display, :class => 'form_date_field has_help', :id => date_field_id, "data-validator" => date_validator %>
-          <small class="form-error"><%= I18n.t(error_msg)%></small>
-          <p class="help"><%= t("fields.date_help") %></p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="medium-4 columns">
-          <label class="key">Comments</label>
-        </div>
-        <div class="medium-8 columns">
-          <%= text_area_tag "#{name}[comments]", comments, :id => comments_field_id %>
-          <div>
-            <%= check_box_tag("#{name}[_destroy]", true, false, :id => delete_field_id) %>
-            <%= label_tag delete_field_id, t("#{record_class_name}.actions.delete_document") %>
-          </div>
-        </div>
-      </div>
-    </div>
-    <% index += 1 %>
-  <% end %>
-<% end %>
+        <% index += 1 %>
+      <% end %>
+    <% end %>
     <div class="file">
       <%
         prefix = "#{record_class_name}_#{upload_document}"
