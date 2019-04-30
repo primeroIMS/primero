@@ -9,7 +9,7 @@ class FormSection < ApplicationRecord
 
   localize_properties :name, :help_text, :description
 
-  has_many :fields
+  has_many :fields, -> { order(:order) }
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_and_belongs_to_many :roles
 
