@@ -988,7 +988,7 @@ en:
       dash_cases_by_workflow: "View Cases By Workflow"
       dash_cases_by_task_overdue: "View Cases By Task Overdue"
       dash_cases_to_assign: "View Cases To Assign"
-      dash_show_none_values: "View None Values"
+      dash_show_none_values: "View cases with 'No Risk Level' in Assessment Dashboard"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"
