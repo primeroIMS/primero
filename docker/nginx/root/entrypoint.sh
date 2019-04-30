@@ -3,7 +3,7 @@
 set -euox pipefail
 
 # Check if the specified dh file is both valid and exists, otherwise create it.
-printf "Checking for dhparam. This may produce an error. You can ignore it.\\n"
+printf "Checking for dhparam.\\n"
 if ! openssl dhparam -check -in "${NGINX_DH_PARAM}" 2> /dev/null;
 then
   printf "Did not find dh file.\\ngenerating dhparam 2048 at %s\\n" "${NGINX_DH_PARAM}"
@@ -37,7 +37,7 @@ else
   printf "Not using lets encrypt. \\nFinding or generating certificates\\n."
   # If either of the certs don't exist and validate, generate. Also force
   # generate if flag is enabled.
-  printf "Checking if ssl key and cert exist.\\nThis may produce errors.\\n"
+  printf "Checking if ssl key and cert exist.\\n"
   if ( ! openssl x509 -in "${NGINX_SSL_CERT_PATH}" -noout 2> /dev/null ) ||  ( ! openssl rsa \
     -in server.key -noout -check "$NGINX_SSL_KEY_PATH"  2> /dev/null ) || [[ \
     "$NGINX_GENERATE_SSL_CERT_FORCE" == "true" ]];
