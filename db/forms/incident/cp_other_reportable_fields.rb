@@ -8,7 +8,7 @@ fields = [
     "display_name_en" => "Valid Record?"
   }),
   Field.new({
-    "name" => "owned_by_agency",
+    "name" => "owned_by_agency_id",
     "type" => "select_box",
     "display_name_en" => "Case Manager's Agency",
     "editable" => false,
