@@ -43,7 +43,7 @@ module Exporters
     #This is a private utility class that encapsulates the business logic of exporting to the GBV IR.
     #The state of the class represents the individual export.
     class IRBuilder
-      extend Memoist
+      # extend Memoist
 
       #Spreadsheet is expecting "M" and "F".
       SEX = { "male" => I18n.t("exports.incident_recorder_xls.gender.male"),

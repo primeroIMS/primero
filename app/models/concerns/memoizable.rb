@@ -2,7 +2,7 @@
 # `memoize_in_prod :<method_name>` after the method definition.  It will also
 # make the class observable and create a default observer on itself that
 # flushes the memoization cache for all memoized methods on any changes.
-require 'observer'
+# require 'observer'
 
 module Memoizable
   extend ActiveSupport::Concern
@@ -41,25 +41,25 @@ module Memoizable
     #   extend Memoist
     end
 
-    def self.handle_changes(*args)
-      Rails.logger.info("Flushing memoization cache due to change on #{self.name}")
-      flush_dependencies
-    end
+    # def self.handle_changes(*args)
+    #   Rails.logger.info("Flushing memoization cache due to change on #{self.name}")
+    #   flush_dependencies
+    # end
 
-    def self.flush_dependencies
-      flush_cache
-      memoized_dependencies.each do |dependency_class|
-        Rails.logger.info("Flushing memoization cache for #{dependency_class.name} due to change on #{self.name}")
-        dependency_class.flush_cache
-      end
-    end
+    # def self.flush_dependencies
+    #   flush_cache
+    #   memoized_dependencies.each do |dependency_class|
+    #     Rails.logger.info("Flushing memoization cache for #{dependency_class.name} due to change on #{self.name}")
+    #     dependency_class.flush_cache
+    #   end
+    # end
 
-    # Override this when we want to flush additional classes
-    def self.memoized_dependencies
-      return []
-    end
+    # # Override this when we want to flush additional classes
+    # def self.memoized_dependencies
+    #   return []
+    # end
 
-    extend Observable
-    add_observer(self, :handle_changes)
-  end
+    # extend Observable
+    # add_observer(self, :handle_changes)
+  # end
 end
