@@ -4,7 +4,7 @@ module Ownable
 
   included do
     store_accessor :data,
-      :owned_by, :owned_by_full_name, :owned_by_agency, :owned_by_groups, :owned_by_location, :owned_by_user_code,
+      :owned_by, :owned_by_full_name, :owned_by_agency_id, :owned_by_groups, :owned_by_location, :owned_by_user_code,
       :previously_owned_by, :previously_owned_by_full_name, :previously_owned_by_agency, :previously_owned_by_location,
       :assigned_user_names, :module_id
 
@@ -51,6 +51,10 @@ module Ownable
     @record_module ||= PrimeroModule.find_by(unique_id: self.module_id) if self.module_id
   end
 
+  def owned_by_agency
+    @record_agency ||= Agency.find_by(id: self.owned_by_agency_id).agency_code if self.owned_by_agency_id
+  end
+
   def users_by_association
     @users_by_association ||= associated_users.reduce({assigned_users: []}) do |hash, user|
       hash[:owner] = user if (user.user_name == owned_by)
@@ -80,12 +84,12 @@ module Ownable
     self.previously_owned_by_full_name = self.changes['owned_by_full_name'].try(:fetch, 0) || owned_by_full_name
 
     if (self.owned_by.present? && (self.new_record? || self.changes_to_save_for_record['owned_by'].present?))
-      self.owned_by_agency = self.owner.try(:organization)
+      self.owned_by_agency_id = self.owner.try(:organization).try(:id)
       self.owned_by_groups = self.owner.try(:user_group_ids)
       self.owned_by_location = self.owner.try(:location)
       self.owned_by_user_code = self.owner.try(:code)
       unless self.new_record? || !self.will_save_change_to_attribute?('data')
-        self.previously_owned_by_agency = self.attributes_in_database['data']['owned_by_agency'] || self.owned_by_agency
+        self.previously_owned_by_agency = self.attributes_in_database['data']['owned_by_agency_id'] || self.owned_by_agency_id
         self.previously_owned_by_location = self.attributes_in_database['data']['owned_by_location'] || self.owned_by_location
       end
     end

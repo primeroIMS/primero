@@ -19,7 +19,7 @@ cp_record_owner_fields = [
     "disabled" => true
   }),
   Field.new({
-    "name" => "owned_by_agency",
+    "name" => "owned_by_agency_id",
     "type" => "select_box",
     "display_name_en" => "Agency",
     "editable" => false,

@@ -13,8 +13,7 @@ module Exporters
     end
 
     def export(models, properties, *args)
-      self.class.load_fields(models.first) if models.present?
-      props = CSVExporter.properties_to_export(properties)
+      props = CSVExporter.properties_to_export(properties.flatten.uniq {|u| u.name })
       csv_export = CSV.generate do |rows|
         CSVExporter.to_2D_array(models, props) do |row|
           rows << row
@@ -22,6 +21,5 @@ module Exporters
       end
       self.buffer.write(csv_export)
     end
-
   end
 end
