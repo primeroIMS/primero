@@ -11,11 +11,11 @@ module ExportActions
     Exporters::active_exporters_for_model(model_class).each do |exporter|
       format.any(exporter.id) do
         authorize! :export, model_class
-        props = current_user.permitted_fields(@current_modules, model_class.parent_form, true)
+        fields = exporter.permitted_fields_to_export(current_user, model_class.parent_form, @current_modules)
         file_name = export_filename(models, exporter)
 
         if models.present?
-          export_data = exporter.export(models, props, current_user, params[:custom_exports])
+          export_data = exporter.export(models, fields, current_user, params[:custom_exports])
           cookies[:download_status_finished] = true
           encrypt_data_to_zip export_data, file_name, params[:password]
         else

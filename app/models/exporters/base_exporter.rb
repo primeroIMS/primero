@@ -32,6 +32,13 @@ module Exporters
         true
       end
 
+      def permitted_fields_to_export(user, record_type , record_modules = nil)
+        record_modules = record_modules || user.modules_for_record_type(record_type)
+        permitted_fields = user.permitted_fields(record_modules, record_type)
+        model_class = Record.model_from_name(record_type)
+        user.can_edit?(model_class) ? permitted_fields :  permitted_fields.select(&:showable?)
+      end
+
       #This is a class method that does a one-shot export to a String buffer.
       #Don't use this for large datasets.
       def export(*args)
@@ -44,7 +51,7 @@ module Exporters
       def properties_to_export(props)
         props = exclude_forms(props) if self.excluded_forms.present?
         props = props.flatten.uniq
-        props.reject! {|p| self.excluded_properties.include?(p["name"]) } if self.excluded_properties.present?
+        props = props.reject {|p| self.excluded_properties.include?(p.name) } if self.excluded_properties.present?
         return props
       end
 
