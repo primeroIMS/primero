@@ -226,7 +226,7 @@ class Permission
        when AGENCY
          [READ, WRITE, ASSIGN, MANAGE]
        when REPORT
-         [READ, GROUP_READ, WRITE]
+         [READ, GROUP_READ, CREATE, WRITE, MANAGE]
        when METADATA
          [MANAGE]
        when POTENTIAL_MATCH

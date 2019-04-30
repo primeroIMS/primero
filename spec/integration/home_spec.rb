@@ -203,7 +203,7 @@ feature "home view" do
       within("h4.stat_heading") do
         expect(page).to have_content "Case"
       end
-      within("h4.stat_heading + .row .column.section-stat:first-of-type .stats") do
+      within("h4.stat_heading + .row a.column.section-stat:first-of-type .stats") do
         expect(page).to have_content "1"
       end
       within("h4.stat_heading + .row") do

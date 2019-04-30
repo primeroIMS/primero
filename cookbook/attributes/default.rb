@@ -94,7 +94,7 @@ default[:primero].tap do |p|
   p[:ruby_version] = '2.4.3'
   p[:ruby_patch] = 'railsexpress'
   p[:bundler_version] = '1.16.1'
-  p[:rubygems_version] = '2.7.5'
+  p[:rubygems_version] = '2.7.8'
 
   p[:puma_conf].tap do |pc|
     pc[:min_thread_count] = 16

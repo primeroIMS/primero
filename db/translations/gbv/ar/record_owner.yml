@@ -3,7 +3,7 @@ ar:
   record_owner:
     name: معلومات السجل
     description: معلومات السجل
-    form_group_name: معلومات السجل
+    # form_group_name: معلومات السجل
     fields:
       current_owner_separator:
         display_name: المالك الحالي

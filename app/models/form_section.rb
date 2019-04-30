@@ -139,7 +139,7 @@ class FormSection < CouchRest::Model::Base
   def form_group_name(opts={})
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     return self.send("name_#{locale}") if self.form_group_id.blank?
-    Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name, locale: locale)
+    Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name, locale: locale, lookups: opts[:lookups])
   end
 
   def localized_property_hash(locale=DEFAULT_BASE_LANGUAGE, show_hidden_fields=false)
@@ -360,18 +360,17 @@ class FormSection < CouchRest::Model::Base
     memoize_in_prod :link_subforms
 
     #Return a hash of subforms, where the keys are the form groupings
-    def group_forms(forms)
+    def group_forms(forms, opts={})
       grouped_forms = {}
 
       #Order these forms by group and form
       sorted_forms = forms.sort_by{|f| [f.order_form_group, f.order]}
 
       if sorted_forms.present?
-        grouped_forms = sorted_forms.group_by{|f| f.form_group_name}
+        grouped_forms = sorted_forms.group_by{|f| f.form_group_name(lookups: opts[:lookups])}
       end
       return grouped_forms
     end
-    memoize_in_prod :group_forms
 
     def get_visible_form_sections(form_sections)
       visible_forms = []
@@ -516,11 +515,11 @@ class FormSection < CouchRest::Model::Base
     end
     memoize_in_prod :find_mobile_forms_by_parent_form
 
-    def get_allowed_visible_forms_sections(primero_module, parent_form, user)
+    def get_allowed_visible_forms_sections(primero_module, parent_form, user, opts={})
       permitted_forms = FormSection.get_permitted_form_sections(primero_module, parent_form, user)
       FormSection.link_subforms(permitted_forms)
       visible_forms = FormSection.get_visible_form_sections(permitted_forms)
-      FormSection.group_forms(visible_forms)
+      FormSection.group_forms(visible_forms, lookups: opts[:lookups])
     end
 
     def determine_parent_form(record_type, apply_to_reports=false)
