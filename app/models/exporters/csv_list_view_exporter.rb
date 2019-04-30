@@ -52,9 +52,7 @@ module Exporters
             when Proc
               generator.call(model)
             else
-              field_value = model.try(generator.to_sym)
-              field_value = field_value["id"] if generator.eql?("owned_by_agency")
-              self.class.translate_value(generator, CSVListViewExporter.to_exported_value(field_value))
+              self.class.translate_value(generator, CSVListViewExporter.to_exported_value(model.try(generator.to_sym)))
             end
           end
         end
