@@ -14,27 +14,27 @@ module.exports = {
   }
 };
 
-// environment.loaders.append("eslint", {
-//   test: /\.(js|jsx)$/,
-//   use: [
-//     {
-//       loader: "eslint-loader",
-//       options: {
-//         eslint: {
-//           emitError: false,
-//           failOnError: process.env.NODE_ENV === "production",
-//           cache: false,
-//           configFile: path.resolve(
-//             __dirname,
-//             "..",
-//             "..",
-//             "app/javascript/.eslintrc.json"
-//           )
-//         }
-//       }
-//     }
-//   ]
-// });
+environment.loaders.append("eslint", {
+  test: /\.(js|jsx)$/,
+  use: [
+    {
+      loader: "eslint-loader",
+      options: {
+        eslint: {
+          emitError: false,
+          failOnError: process.env.NODE_ENV === "production",
+          cache: false,
+          configFile: path.resolve(
+            __dirname,
+            "..",
+            "..",
+            "app/javascript/.eslintrc.js"
+          )
+        }
+      }
+    }
+  ]
+});
 
 environment.splitChunks(config =>
   Object.assign({}, config, {

@@ -36,7 +36,7 @@ const Nav = ({ i18n }) => {
 };
 
 Nav.propTypes = {
-  i18n: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
+  i18n: PropTypes.object.isRequired
 };
 
 export default withI18n(Nav);

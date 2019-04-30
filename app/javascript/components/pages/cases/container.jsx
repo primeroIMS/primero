@@ -3,10 +3,10 @@ import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-import * as actions from "./action-creators";
 import Box from "@material-ui/core/Box";
-import styles from "./styles.module.scss";
 import { withI18n } from "libs";
+import * as actions from "./action-creators";
+import styles from "./styles.module.scss";
 
 class Cases extends React.Component {
   constructor(props) {
@@ -93,9 +93,9 @@ class Cases extends React.Component {
 }
 
 Cases.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   cases: PropTypes.object.isRequired,
-  fetchCases: PropTypes.func.isRequired
+  fetchCases: PropTypes.func.isRequired,
+  i18n: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => {

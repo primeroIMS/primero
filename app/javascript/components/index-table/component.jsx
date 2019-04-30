@@ -115,9 +115,10 @@ const indexTable = ({
 
 indexTable.propTypes = {
   onTableChange: PropTypes.func.isRequired,
-  columns: PropTypes.array.isRequired, // eslint-disable-line react/forbid-prop-types
-  data: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-  defaultFilters: PropTypes.object // eslint-disable-line react/forbid-prop-types, react/require-default-props
+  columns: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
+  defaultFilters: PropTypes.object,
+  title: PropTypes.string.isRequired
 };
 
 export default indexTable;

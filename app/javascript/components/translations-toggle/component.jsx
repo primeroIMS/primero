@@ -24,7 +24,7 @@ const TranslationsToggle = ({ changeLocale, locale, i18n }) => {
 TranslationsToggle.propTypes = {
   changeLocale: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  i18n: PropTypes.object.isRequired // eslint-disable-line react/forbid-prop-types
+  i18n: PropTypes.object.isRequired
 };
 
 export default compose(
