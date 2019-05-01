@@ -50,7 +50,9 @@ services_subform = [
     "name" => "service_implementing_agency",
     "type" => "select_box",
     "display_name_en" => "Implementing Agency",
-    "option_strings_source" => "Agency use_api"
+    "option_strings_source" => "Agency use_api",
+    "mobile_visible" => false,
+    "editable" => false
   }),
   Field.new({
     "name" => "service_provider",
@@ -61,13 +63,17 @@ services_subform = [
     "name" => "service_delivery_location",
     "type" => "select_box",
     "display_name_en" => "Service delivery location",
-    "option_strings_source" => "ReportingLocation"
+    "option_strings_source" => "ReportingLocation",
+    "mobile_visible" => false,
+    "editable" => false
   }),
   Field.new({
     "name" => "service_implementing_agency_individual",
     "type" => "select_box",
     "display_name_en" => "Service provider name",
-    "option_strings_source" => "User"
+    "option_strings_source" => "User",
+    "mobile_visible" => false,
+    "editable" => false
   }),
   Field.new({"name" => "service_status_referred",
     "type" => "tick_box",

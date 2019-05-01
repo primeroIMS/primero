@@ -3,7 +3,7 @@ ar:
   gbv_incident_form:
     name: "حادثة عنف قائم على اساس النوع الاجتماعي "
     description: "حادثة عنف قائم على اساس النوع الاجتماعي "
-    form_group_name: حادثة
+    # form_group_name: حادثة
     fields:
       incident_id:
         display_name: رقم معرّف طويل
@@ -11,7 +11,7 @@ ar:
         display_name: الرقم المعرف للحادثة
       marked_for_mobile:
         display_name: وضع علامة للهاتف المحمول
-        tick_box_label: 'نعم'
+        tick_box_label: "نعم"
       incident_code:
         display_name: رمز الحادثة
       incidentid_ir:

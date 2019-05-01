@@ -20,7 +20,7 @@ _primero.Views.CopyRole = _primero.Views.Base.extend({
     e.preventDefault();
     $(e.target).parents('form').submit();
     var $copy_role_modal = $('#copy-role-modal');
-    $copy_role_modal.foundation('reveal', 'close');
+    $copy_role_modal.foundation('close');
     $copy_role_modal.find('form')[0].reset();
     window.disable_loading_indicator = true;
   }

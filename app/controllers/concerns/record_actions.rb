@@ -117,7 +117,7 @@ module RecordActions
 
         @page_name = t "#{model_class.locale_prefix}.view", :short_id => @record.short_id
         @body_class = 'profile-page'
-        @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+        @form_sections = @record.class.allowed_formsections(current_user, @record.module, lookups: @lookups)
       end
 
       format.json do
@@ -145,8 +145,7 @@ module RecordActions
     @record = make_new_record
     # TODO: make the ERB templates use @record
     instance_variable_set("@#{model_class.name.underscore}", @record)
-
-    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+    @form_sections = @record.class.allowed_formsections(current_user, @record.module, lookups: @lookups)
 
     respond_to do |format|
       format.html
@@ -159,7 +158,6 @@ module RecordActions
     @record = create_or_update_record(params[:id])
     initialize_created_record(@record)
     respond_to do |format|
-      @form_sections = @record.class.allowed_formsections(current_user, @record.module)
       if @record.save
         post_save_processing @record
         flash[:notice] = t("#{model_class.locale_prefix}.messages.creation_success", record_id: @record.short_id)
@@ -174,6 +172,7 @@ module RecordActions
       else
         format.html {
           get_lookups
+          @form_sections = @record.class.allowed_formsections(current_user, @record.module, lookups: @lookups)
           render :action => "new"
         }
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
@@ -193,7 +192,7 @@ module RecordActions
 
     authorize! :update, @record
 
-    @form_sections = @record.class.allowed_formsections(current_user, @record.module)
+    @form_sections = @record.class.allowed_formsections(current_user, @record.module, lookups: @lookups)
     @page_name = t("#{model_class.locale_prefix}.edit")
   end
 
@@ -217,9 +216,9 @@ module RecordActions
           render :json => @record.slice!("_attachments", "histories")
         end
       else
-        @form_sections ||= @record.class.allowed_formsections(current_user, @record.module)
+        get_lookups
+        @form_sections ||= @record.class.allowed_formsections(current_user, @record.module, lookups: @lookups)
         format.html {
-          get_lookups
           render :action => "edit"
         }
         format.json { render :json => @record.errors, :status => :unprocessable_entity }
@@ -450,7 +449,9 @@ module RecordActions
             value = value.map do |v|
               nested = v.clone
               v.each do |field_key, value|
-                nested.delete(field_key) if !value.present?
+                if value.to_s.blank? || ((value.is_a?(Array) || value.is_a?(Hash)) && value.blank?)
+                  nested.delete(field_key)
+                end
               end
               nested
             end

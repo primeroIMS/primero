@@ -3,7 +3,7 @@ fr:
   incident_record_owner:
     name: Propriétaire de l'enregistrement
     description: Propriétaire de l'enregistrement
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       current_owner_section:
         display_name: Propriétaire actuel
