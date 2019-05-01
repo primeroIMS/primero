@@ -15,7 +15,7 @@ module Exporters
       @export_dir_path = dir
       @show_hidden_forms = opts[:show_hidden_forms].present?
       @show_hidden_fields = opts[:show_hidden_fields].present?
-      @locale = opts[:locale].present? ? opts[:locale] : FormSection::DEFAULT_BASE_LANGUAGE
+      @locale = opts[:locale].present? ? opts[:locale] : Primero::Application::BASE_LANGUAGE
     end
 
     def dir_name
@@ -74,12 +74,12 @@ module Exporters
       if forms.present?
         Rails.logger.info {"Record Type: #{@record_type}, Module: #{@primero_module.unique_id}, Show Hidden Forms: #{@show_hidden_forms}, Show Hidden Fields: #{@show_hidden_fields}, Locale: #{@locale}"}
         forms_record_type = forms[@record_type]
-        unless @show_hidden_forms
+        subforms = FormSection.get_subforms(forms_record_type)
+        if @show_hidden_forms
+          forms_record_type = forms_record_type + subforms
+        else
           visible_top_forms = forms_record_type.select{|f| f.visible? && !f.is_nested?}
-          visible_subform_ids = visible_top_forms
-                                    .map{|form| form.fields.map{|f| f.subform_section_id}}
-                                    .flatten.compact
-          visible_subforms = forms_record_type.select{|f| f.is_nested? && visible_subform_ids.include?(f.unique_id)}
+          visible_subforms = subforms.select { |subform| subform.visible? && subform.is_nested? }
           forms_record_type = visible_top_forms + visible_subforms
         end
         forms_record_type.each{|fs| export_form(fs)}
@@ -107,7 +107,7 @@ module Exporters
         Rails.logger.info {"Locale: #{@locale}"}
         create_file_for_form('lookups')
         lookup_hash = {}
-        lookups.each {|lkp| lookup_hash[lkp.id] = lkp.localized_property_hash(@locale)}
+        lookups.each {|lkp| lookup_hash[lkp.unique_id] = lkp.localized_property_hash(@locale)}
         file_hash = {}
         file_hash[@locale] = lookup_hash
         @io << file_hash.to_yaml

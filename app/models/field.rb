@@ -8,7 +8,9 @@ class Field < ApplicationRecord
 
   attr_reader :options
 
-  belongs_to :form_section
+  # Since Rails 5 belongs_to acts as a validate_presence_of.
+  # This relation will be optional because the scoped association in FormSection will fail otherwise. 
+  belongs_to :form_section, optional: true
   belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', optional: true
   belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id', class_name: 'FormSection', optional: true
 
@@ -546,6 +548,10 @@ class Field < ApplicationRecord
     else
       Rails.logger.error "Field translation not updated: Invalid locale [#{locale}]"
     end
+  end
+
+  def self.binary_fields
+    Field.where(type: [Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX])
   end
 
   private

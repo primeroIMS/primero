@@ -181,7 +181,7 @@ Report.create_or_update(
   module_id:  PrimeroModule::CP,
   record_type: "reportable_follow_up",
   aggregate_by: [ "followup_date" ],
-  disaggregate_by: ["owned_by_agency"],
+  disaggregate_by: ["owned_by_agency_id"],
   filters: [
     {
       "attribute": "child_status",
@@ -215,7 +215,7 @@ Report.create_or_update(
   module_id:  PrimeroModule::CP,
   record_type: "reportable_follow_up",
   aggregate_by: [ "followup_date" ],
-  disaggregate_by: ["owned_by_agency"],
+  disaggregate_by: ["owned_by_agency_id"],
   filters: [
     {
       "attribute": "child_status",
