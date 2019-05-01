@@ -1,2 +1,2 @@
-export { default as DateCell } from "./date";
-export { default as ToggleIconCell } from "./toggleIcon";
+export { default as DateCell } from "./DateCell";
+export { default as ToggleIconCell } from "./ToggleIconCell";
