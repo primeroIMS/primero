@@ -11,8 +11,6 @@ services:
       - docker/quoin.env
   solr:
     image: solr:prim-latest
-    ports:
-      - "8394:8394"
     env_file:
       - docker/defaults.env
     volumes:
