@@ -1,4 +1,0 @@
-export const RECEIVE_CASES = "RECEIVE_CASES";
-export const REQUEST_CASES = "REQUEST_CASES";
-export const SET_PAGINATION = "SET_PAGINATION";
-export const SET_FILTERS = "SET_FILTERS";
