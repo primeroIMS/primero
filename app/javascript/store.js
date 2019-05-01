@@ -8,7 +8,8 @@ import { applyMiddleware, compose, createStore } from "redux";
 import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
-import * as CasesPage from "./components/pages/cases";
+import { restMiddleware } from "middleware";
+import * as CasesPage from "./components/pages/case-list";
 
 // TODO: Temporarily setting basename
 export const history = createBrowserHistory({
@@ -18,7 +19,13 @@ export const history = createBrowserHistory({
 export default () => {
   const preloadedState = Map();
 
-  const middleware = [routerMiddleware(history), thunkMiddleware];
+  const middleware = [
+    routerMiddleware(history),
+    thunkMiddleware,
+    restMiddleware({
+      baseUrl: "/"
+    })
+  ];
 
   if (process.env.NODE_ENV === "development") {
     middleware.push(createLogger({ stateTransformer: state => state.toJS() }));

@@ -1,3 +1,3 @@
-export * from "./cases";
+export * from "./case-list";
 export * from "./dashboard";
-export * from "./incidents";
+export * from "./incident-list";

@@ -26,7 +26,8 @@ module.exports = {
         map: [
           ["libs", path.resolve(__dirname, "libs")],
           ["config", path.resolve(__dirname, "config")],
-          ["components", path.resolve(__dirname, "components")]
+          ["components", path.resolve(__dirname, "components")],
+          ["middleware", path.resolve(__dirname, "middleware")],
         ],
         extensions: [".js", ".jsx"]
       }
