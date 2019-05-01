@@ -7,8 +7,9 @@ services:
       - "443:443"
     volumes:
       - local_certs:/etc/certs
-      - primero_tmp:/srv/primero/tmp
+      - primero_tmp:/srv/primero/application/tmp
       - logs:/var/log/nginx
+      - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env
       - docker/local.env

@@ -32,6 +32,7 @@ services:
       - primero_tmp:/srv/primero/tmp
       - logs:/srv/primero/logs
       - logs:/srv/primero/application/logs
+      - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env
       - docker/quoin.env
@@ -44,4 +45,5 @@ volumes:
   certbot_etc:
   primero_tmp:
   logs:
+  public:
   solr_cores:

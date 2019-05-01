@@ -47,5 +47,6 @@ RUN set -euox pipefail \
             # ; bin/rails tmp:cache:clear \
             # ; bin/rails assets:precompile
 
+VOLUME /srv/primero/application/public
 CMD [ "start" ]
 ENTRYPOINT [ "/entrypoint.sh" ]

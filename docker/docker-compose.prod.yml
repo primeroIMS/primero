@@ -12,6 +12,7 @@ services:
       - certbot_etc:/etc/letsencrypt
       - primero_tmp:/srv/primero/tmp
       - logs:/var/log/nginx
+      - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env
       - docker/production.env
