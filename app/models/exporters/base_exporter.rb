@@ -50,7 +50,7 @@ module Exporters
         record_modules = record_modules || user.modules_for_record_type(record_type)
         permitted_fields = user.permitted_fields(record_modules, record_type)
         model_class = Record.model_from_name(record_type)
-        user.can_edit?(model_class) ? permitted_fields :  permitted_fields.select(&:showable?)
+        user.can?(:write, model_class) ? permitted_fields :  permitted_fields.select(&:showable?)
       end
 
       #This is a class method that does a one-shot export to a String buffer.

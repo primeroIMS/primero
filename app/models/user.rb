@@ -2,6 +2,8 @@ class User < ApplicationRecord
   include Importable
   # include Memoizable
 
+  delegate :can?, :cannot?, to: :ability
+
   devise :database_authenticatable, :timeoutable,
     :recoverable, :validatable
 
@@ -304,8 +306,8 @@ class User < ApplicationRecord
     permitted_forms.map(&:fields).flatten.uniq(&:name)
   end
 
-  def can_edit?(record)
-    Ability.new(self).can?(:write, record)
+  def ability
+    @ability ||= Ability.new(self)
   end
 
   private
