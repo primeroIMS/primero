@@ -10,7 +10,7 @@ printf "Performing configuration substitution"
 
 set +u
 # Check if the postgres credentials are defined. If they aren't then complain.
-if [ -z "$POSTGRES_PASSWORD"  ||  -z "$POSTGRES_USER" ];
+if [ -z "$POSTGRES_PASSWORD" ] ||  [ -z "$POSTGRES_USER" ];
 then
   printf "Postgres credentials not defined! Please check configuration.\\n"
 fi
@@ -36,15 +36,18 @@ mkdir -p "${APP_ROOT}/node_modules"
 if [ -f "/.bootstrap-completed" ];
 then
   printf "Bootstrap completion detected.\\n"
-  export PRIM_BOOTSTRAP_COMPLETED=true
+  PRIM_BOOTSTRAP_COMPLETED=true
 else
-  export PRIM_BOOTSTRAP_COMPLETED=""
+  PRIM_BOOTSTRAP_COMPLETED=""
   printf "Bootstrap not detecting. Preparing to bootstrap.\\n"
 fi
+export PRIM_BOOTSTRAP_COMPLETED
 
 # if you pass bootstrap or the bootstrap hasn't been completed then do it.
-if [[ ( "$1" == "bootstrap" && "$#" -eq 1 ) || ! "$PRIM_BOOTSTRAP_COMPLETED" ]];
+if ( [ "$#" -eq 1 ] && [[ "$1" == "bootstrap" ]] ) \
+  || [ -z "$PRIM_BOOTSTRAP_COMPLETED" ];
 then
+  printf "Starting bootstrap\\n"
   # shellcheck disable=SC2034
   DISABLE_DATABASE_ENVIRONMENT_CHECK=1 rails db:drop
   bin/rails db:create

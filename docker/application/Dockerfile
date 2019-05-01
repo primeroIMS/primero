@@ -30,10 +30,9 @@ RUN set -euox pipefail \
 
 # Note: This has its build context set to the root dir so prepend 'docker' to
 # items that need to be copied from that directory
-# Copy container overlay dir
-COPY [ "docker/application/root/", "/" ]
-# Copy substitution script
-COPY [ "docker/sub.sh", "/" ]
+#
+# Copy container overlay dir and substitution script
+COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
 # Now copy over primero and do setup
 COPY [ ".", "/srv/primero/application" ]
 
