@@ -4,7 +4,7 @@ ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
 ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
 ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl yarn
 ENV DEV_PACKAGES busybox-extras
-ENV RAILS_ENV development
+ENV RAILS_ENV production
 
 RUN set -euox pipefail \
         ; apk update \
@@ -35,18 +35,19 @@ RUN set -euox pipefail \
 COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
 # Now copy over primero and do setup
 COPY [ ".", "/srv/primero/application" ]
+# Copying in the void configs for the asset precompilation step
+COPY [ "docker/application/null_configs/*", "/srv/primero/application/config/" ]
 
 # Create the directories for primero and install yarn for the asset precompile
 RUN set -euox pipefail \
         ; mkdir -p \
             /srv/primero/log/rails \
             /srv/primero/application/tmp \
-            /srv/primero/application/log
-            # ; cd "/srv/primero/application" \
-            # ; touch "/srv/primero/application/config/database.yml" \
+            /srv/primero/application/log \
+            ; cd "/srv/primero/application"
             # ; bin/rails tmp:cache:clear \
             # ; bin/rails assets:precompile
 
 VOLUME /srv/primero/application/public
-CMD [ "start" ]
+CMD [ "primero-start" ]
 ENTRYPOINT [ "/entrypoint.sh" ]
