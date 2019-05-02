@@ -549,6 +549,12 @@ gbv_manager_permissions = [
       :actions => [
           Permission::READ
       ]
+  ),
+  Permission.new(
+    :resource => Permission::DASHBOARD,
+    :actions => [
+      Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
+    ]
   )
 ]
 
@@ -801,7 +807,14 @@ gbv_cm_supervisor_permissions = [
             Permission::GROUP_READ,
             Permission::WRITE
         ]
+    ),
+    Permission.new(
+        :resource => Permission::DASHBOARD,
+        :actions => [
+            Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
+        ]
     )
+
 ]
 
 create_or_update_role(
