@@ -29,7 +29,8 @@ Report.create_or_update({
   aggregate_by: ['owned_by'],
   filters: default_case_filters,
   is_graph: true,
-  editable: false
+  editable: false,
+  exclude_empty_rows: true
 })
 
 Report.create_or_update({
@@ -42,7 +43,8 @@ Report.create_or_update({
   disaggregate_by: ['child_status'],
   filters: [{'attribute' => 'record_state', 'value' => ['true']}],
   is_graph: true,
-  editable: false
+  editable: false,
+  exclude_empty_rows: true
 })
 
 Report.create_or_update({
