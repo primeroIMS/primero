@@ -4,20 +4,20 @@ fr:
       export_incident_recorder_xls: "Exporter le registre des incidents au format xls"
   exports:
     incident_recorder_xls:
-      all: 'Registre des incidents '
-      one: 'Registre des incidents '
+      all: Registre des incidents
+      one: Registre des incidents
       selected: Registre des incidents sélectionné
       'yes': "Oui"
       'no': "Non"
       gender:
-        male: "Masculin"
-        female: "Féminin"
-        both: "Masculin et Féminin"
+        male: "M"
+        female: "F"
+        both: "M et F"
       age_group:
-        age: "âge"
+        age: "Âge"
         61_older: "61 et plus"
         unknown: "Inconnu"
-        header: "Groupe d’âge des auteurs"
+        header: "Groupe d’âge des présumés auteurs"
       age_type:
         adult: "Adulte"
         minor: "Mineur"
@@ -54,7 +54,7 @@ fr:
         abduction_type: "Type d'enlèvement "
         previously_reported: "Incident précédemment reporté?"
         gbv_previous_incidents: "Précédent incident relatif aux violences basées sur le genre"
-        number_primary_perpetrators: "Nombre d'auteur présumé(s)"
+        number_primary_perpetrators: "Nombre d'auteur(s) primaire(s) présumé(s)"
         perpetrator:
           sex: "Sexe du présumé auteur"
           former: "Précédent incident avec ce auteur"
@@ -71,6 +71,6 @@ fr:
           legal_referral: "Service d'assistance légale "
           police_referral: "Police/ autres acteur de la sécurité "
           livelihoods_referral: "Programme relatif aux moyens de subsistances"
-          protection_referral: "Services Protection de l'enfance et d'éducation de l'enfant"
+          protection_referral: "Services Protection de l'enfance / d'éducation de l'enfant"
         consent: "Consentement obtenu "
         agency_code: "Code de l'agence rapportant le cas"
