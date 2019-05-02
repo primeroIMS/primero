@@ -1,6 +1,19 @@
 const { environment } = require("@rails/webpacker");
 const path = require("path");
 
+module.exports = {
+  resolve: {
+    alias: {
+      components: path.resolve(
+        __dirname,
+        "..",
+        "..",
+        "app/javascript/components"
+      )
+    }
+  }
+};
+
 environment.loaders.append("eslint", {
   test: /\.(js|jsx)$/,
   use: [
@@ -9,9 +22,14 @@ environment.loaders.append("eslint", {
       options: {
         eslint: {
           emitError: false,
-          failOnError: process.env.NODE_ENV !== "production",
+          failOnError: process.env.NODE_ENV === "production",
           cache: false,
-          configFile: path.resolve(__dirname, "app/javascript/.eslintrc.json")
+          configFile: path.resolve(
+            __dirname,
+            "..",
+            "..",
+            "app/javascript/.eslintrc.js"
+          )
         }
       }
     }

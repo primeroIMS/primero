@@ -87,7 +87,13 @@ module RecordActions
             @records = @records.map{|r| format_json_response(r)}
           end
 
-          render :json => @records
+          render :json => {
+            results: @records,
+            meta: {
+              total: @total_records,
+              per: @per_page,
+            }
+          }
         end
       end
       #TODO v1.3: We are losing the use case of not exporting an empty set with bulk exports.
