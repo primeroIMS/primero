@@ -149,7 +149,7 @@ module HomeHelper
   end
 
   def build_reporting_location_stat_link(stat, filters=nil, model, reporting_location, admin_level)
-    if stat == 0
+    if stat.nil?
       return stat
     else
       model = model_name_class(model).pluralize
