@@ -689,6 +689,12 @@ gbv_caseworker_permissions = [
             Permission::WRITE,
             Permission::FLAG
         ]
+    ),
+    Permission.new(
+        :resource => Permission::DASHBOARD,
+        :actions => [
+            Permission::VIEW_ASSESSMENT
+        ]
     )
 ]
 
