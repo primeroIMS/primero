@@ -36,7 +36,6 @@ module Exporters
 
     def export(models, properties, current_user, params)
       field_map = build_field_map(models.first.class.name, current_user)
-      @fields = properties
 
       csv_list = CSV.generate do |rows|
         # @called_first_time is a trick for batching purposes,
@@ -46,13 +45,14 @@ module Exporters
 
         models.each do |model|
           rows << field_map.map do |_, generator|
-            case generator
+            field = properties.select { |p| generator.eql?(p.try(:name)) }.first
+            case field
             when Array
-              self.class.translate_value(generator.first, model.value_for_attr_keys(generator))
+              self.class.translate_value(field.first, model.value_for_attr_keys(field))
             when Proc
-              generator.call(model)
+              field.call(model)
             else
-              self.class.translate_value(generator, CSVListViewExporter.to_exported_value(model.try(generator.to_sym)))
+              self.class.translate_value(field, CSVListViewExporter.to_exported_value(model.try(generator.to_sym)))
             end
           end
         end
