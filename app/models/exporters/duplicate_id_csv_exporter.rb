@@ -25,24 +25,25 @@ module Exporters
     end
 
     def export(cases, *args)
+      @fields = Field.find_by_name(%w(national_id_no case_id unhcr_individual_no
+                                      name age sex family_count_no))
+
       duplicate_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
         @props = self.properties_to_export(props)
-        rows << [" "] + @props.keys.map{|prop| I18n.t("exports.duplicate_id_csv.headers.#{prop}")} if @called_first_time.nil?
+        rows << @props.keys.map{|prop| I18n.t("exports.duplicate_id_csv.headers.#{prop}")} if @called_first_time.nil?
         @called_first_time ||= true
-
-        self.class.load_fields(cases.first) if cases.present?
 
         cases.each_with_index do |c, index|
           values = @props.map do |_, generator|
             case generator
             when Array
-              self.class.translate_value(generator.first, c.value_for_attr_keys(generator))
+              self.class.translate_value(@fields.select {|f| f.name.eql?(generator.first) }, c.value_for_attr_keys(generator))
             when Proc
               generator.call(c)
             end
           end
-          rows << [index + 1] + values
+          rows << values
         end
       end
       self.buffer.write(duplicate_export)

@@ -5,12 +5,12 @@ class DuplicateBulkExportJob < ApplicationJob
   # condition between `exporter.complete` and when the export is zip/encrypted. When `encrypt_export_file`
   # is called the logic that zip/encrypted thinks the exported file size is 0.
   def perform(bulk_export_id, opts={})
-    bulk_export = DuplicateBulkExport.get(bulk_export_id) #We are Rails 4.0 and don't use GlobalId yet
+    bulk_export = DuplicateBulkExport.find_by(id: bulk_export_id)
 
     user = bulk_export.owner
-    permitted_properties = bulk_export.permitted_properties
     options = bulk_export.custom_export_params
     exporter = bulk_export.exporter_type.new(bulk_export.stored_file_name)
+    permitted_properties = exporter.class.permitted_fields_to_export(user, bulk_export.record_type)
 
     sys = SystemSettings.current
     duplicate_export_field = sys.duplicate_export_field
