@@ -62,24 +62,6 @@ module VerifyAndResetHelpers
   end
 end
 
-def current_databases
-  COUCHDB_SERVER.databases.select do |db|
-    db if db =~ /^#{COUCHDB_CONFIG[:db_prefix]}/ && db =~ /#{COUCHDB_CONFIG[:db_suffix]}$/
-  end
-end
-
-def reset_databases
-  current_databases.each do |db|
-    begin
-      COUCHDB_SERVER.database(db).recreate!
-    rescue StandardError
-      nil
-    end
-    # Reset the Design Cache
-    Thread.current[:couchrest_design_cache] = {}
-  end
-end
-
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include FactoryBot::Syntax::Methods
@@ -144,24 +126,17 @@ RSpec.configure do |config|
 
   # Recreate db if needed.
   config.before(:suite) do
+    FactoryBot.find_definitions
     if OptionsQueueStats.options_not_generated?
       FactoryBot.create(:system_settings)
       FactoryBot.create(:location)
       OptionsJob.perform_now
     end
 
-    reset_databases
   end
 
   # Delete db if needed.
   config.after(:suite) do
-    current_databases.each do |db|
-      begin
-        COUCHDB_SERVER.database(db).delete!
-      rescue StandardError
-        nil
-      end
-    end
   end
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
