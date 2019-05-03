@@ -187,6 +187,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $location_select.removeAttr("disabled");
     $location_select.removeAttr("chosen-disabled");
     $location_select.val('');
+    $location_select.data('value', '');
     $location_select.trigger("chosen:updated");
 
     var $existing_user_select = $referral_modal.find("#existing_user_referral");
