@@ -83,38 +83,45 @@ prim_start() {
   bin/rails s
 }
 
-printf "Starting Primero application container\\n"
+prim_app_check_for_args() {
+  # if no argument is given then set the argument to start
+  if [[ "$#" -eq 0 ]];
+  then
+    set -- primero-start
+  fi
+}
 
-# if no argument is given then set the argument to start
-if [[ "$#" -eq 0 ]];
-then
-  set -- primero-start
-fi
+prim_app_start() {
+  printf "Starting Primero application container\\n"
+  prim_app_check_for_args "$@"
 
-printf "Performing configuration substitution"
-# Search each of these directories for .template files and perform substitution
-/sub.sh "/srv/primero/application/config"
+  printf "Performing configuration substitution"
+  # Search each of these directories for .template files and perform substitution
+  /sub.sh "/srv/primero/application/config"
 
-prim_export_local_binaries
-prim_check_postgres_credentials
-prim_create_folders_and_logs
+  prim_export_local_binaries
+  prim_check_postgres_credentials
+  prim_create_folders_and_logs
 
-# main argument execution loop.
-# we are looking for any primero specific commands, execute them in order,
-# and then exec anything else
-while :; do
-  case $1 in
-    primero-bootstrap)
-      prim_bootstrap
-      shift
-      ;;
-    primero-start)
-      prim_start
-      break
-      ;;
-    *)
-      exec "$@"
-      break
-      ;;
-  esac
-done
+  # main argument execution loop.
+  # we are looking for any primero specific commands, execute them in order,
+  # and then exec anything else
+  while :; do
+    case $1 in
+      primero-bootstrap)
+        prim_bootstrap
+        shift
+        ;;
+      primero-start)
+        prim_start
+        break
+        ;;
+      *)
+        exec "$@"
+        break
+        ;;
+    esac
+  done
+}
+
+prim_app_start "$@"

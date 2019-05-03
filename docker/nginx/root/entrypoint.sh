@@ -60,5 +60,3 @@ prim_nginx_start() {
 }
 
 prim_nginx_start "$@"
-
-
