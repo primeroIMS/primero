@@ -2,62 +2,63 @@
 
 set -euox pipefail
 
-# Check if the specified dh file is both valid and exists, otherwise create it.
-printf "Checking for dhparam.\\n"
-if ! openssl dhparam -check -in "${NGINX_DH_PARAM}" 2> /dev/null;
-then
-  printf "Did not find dh file.\\ngenerating dhparam 2048 at %s\\n" "${NGINX_DH_PARAM}"
-  openssl dhparam -out "${NGINX_DH_PARAM}" 2048
-else
-  printf "dh key found...continuing \\n"
-fi
+prim_generate_dh() {
+  # Check if the specified dh file is both valid and exists, otherwise create it.
+  printf "Checking for dhparam.\\n"
+  if ! openssl dhparam -check -in "${NGINX_DH_PARAM}" 2> /dev/null;
+  then
+    printf "Did not find dh file.\\ngenerating dhparam 2048 at %s\\n" "${NGINX_DH_PARAM}"
+    openssl dhparam -out "${NGINX_DH_PARAM}" 2048
+  else
+    printf "dh key found...continuing \\n"
+  fi
+  return 0
+}
 
-# Create the log files for NGINX. It won't start if these don't exist.
-printf "Checking for nginx log files"
-touch "${NGINX_LOG_DIR}/${NGINX_LOG_ACCESS}"
-touch "${NGINX_LOG_DIR}/${NGINX_LOG_ERROR}"
+prim_nginx_create_logs() {
+  # Create the log files for NGINX. It won't start if these don't exist.
+  printf "Checking for nginx log files"
+  touch "${NGINX_LOG_DIR}/${NGINX_LOG_ACCESS}"
+  touch "${NGINX_LOG_DIR}/${NGINX_LOG_ERROR}"
+  return 0
+}
 
-# if we use letsencrypt then let certbot create the certificates
-if [[ "${USE_LETS_ENCRYPT}" == "true" ]];
-then
-  certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m \
-  "$LETS_ENCRYPT_EMAIL" --no-eff-email --non-interactive --keep \
-  --preferred-challenges http
+prim_certbot_generate_certs() {
+  # if we use letsencrypt then let certbot create the certificates
+  certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m "$LETS_ENCRYPT_EMAIL" --no-eff-email --non-interactive --keep --preferred-challenges http
   NGINX_SERVER_HOST="$LETS_ENCRYPT_DOMAIN"
   NGINX_SSL_CERT_PATH="/etc/letsencrypt/live/$LETS_ENCRYPT_DOMAIN/fullchain.pem"
   NGINX_SSL_KEY_PATH="/etc/letsencrypt/live/$LETS_ENCRYPT_DOMAIN/privkey.pem"
+  return 0
+}
 
+prim_generate_self_signed_certs() {
+  # Return to current dir after cert generation
+  CURRENT_DIR=$(pwd)
+  export NGINX_SERVER_HOST=${localhost:-NGINX_SERVER_HOST}
+  printf "Generating SSL Cert\\nHostname: %s\\n" "$NGINX_SERVER_HOST"
+  cd "/certs"
+  # Create certificates
+  openssl req -subj "/CN=${NGINX_SERVER_HOST}" -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 365
+  cd "${CURRENT_DIR}"
+  return 0
+}
 
-# Otherwise,
-# Here we generate new self signed certs. We only want to generate if:
-# USE_LETS_ENCRYPT is true AND we haven't already generated certificates
-# furthermore, we want to generate if the force flag is set to true
-else
-  # Not using Lets Encrypt, thus generate certs, etc
-  printf "Not using lets encrypt. \\nFinding or generating certificates\\n."
-  # If either of the certs don't exist and validate, generate. Also force
-  # generate if flag is enabled.
-  printf "Checking if ssl key and cert exist.\\n"
-  if ( ! openssl x509 -in "${NGINX_SSL_CERT_PATH}" -noout 2> /dev/null ) ||  ( ! openssl rsa \
-    -in server.key -noout -check "$NGINX_SSL_KEY_PATH"  2> /dev/null ) || [[ \
-    "$NGINX_GENERATE_SSL_CERT_FORCE" == "true" ]];
+prim_nginx_start() {
+  /sub.sh "/etc/nginx/conf.d"
+  prim_nginx_create_logs
+  prim_generate_dh
+
+  if [ -z "$USE_LETS_ENCRYPT" ];
   then
-    # Return to current dir after cert generation
-    CURRENT_DIR=$(pwd)
-    export NGINX_SERVER_HOST=${localhost:-NGINX_SERVER_HOST}
-    printf "Generating SSL Cert\\nHostname: %s\\n" "$NGINX_SERVER_HOST"
-    cd "/certs"
-    # Create certificates
-    openssl req -subj "/CN=${NGINX_SERVER_HOST}" -x509 -newkey rsa:4096 -nodes \
-    -keyout key.pem -out cert.pem -days 365
-    cd "${CURRENT_DIR}"
+    prim_certbot_generate_certs
   else
-    printf "Key and cert already exist.\\n"
+    prim_generate_self_signed_certs
   fi
-fi
 
-# Search each of these directories for .template files and perform
-# substitution
-/sub.sh "/etc/nginx/conf.d"
+  exec "$@"
+}
 
-exec "$@"
+prim_nginx_start "$@"
+
+

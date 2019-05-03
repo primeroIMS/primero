@@ -44,9 +44,9 @@ RUN set -euox pipefail \
             /srv/primero/log/rails \
             /srv/primero/application/tmp \
             /srv/primero/application/log \
-            ; cd "/srv/primero/application"
-            # ; bin/rails tmp:cache:clear \
-            # ; bin/rails assets:precompile
+            ; cd "/srv/primero/application" \
+            ; bin/rails tmp:cache:clear \
+            ; bin/rails assets:precompile
 
 VOLUME /srv/primero/application/public
 CMD [ "primero-start" ]
