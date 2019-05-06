@@ -27,7 +27,6 @@ module Exporters
     end
 
     def export(cases, *args)
-
       duplicate_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
         @props = self.properties_to_export(props)
