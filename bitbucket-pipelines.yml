@@ -18,6 +18,14 @@ pipelines:
       - step:
           script:
             - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.6 --tags
+    maint_1.7:
+      - step:
+          script:
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.7 --tags
+    maint_1.8:
+      - step:
+          script:
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git maint_1.8 --tags
     development:
       - step:
           script:
