@@ -29,6 +29,8 @@ branches:
 - maint_1.4
 - maint_1.5
 - maint_1.6
+- maint_1.7
+- maint_1.8
 - development
 - master
 notifications:
