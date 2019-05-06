@@ -85,7 +85,7 @@ prim_start() {
   fi
   printf "Starting primero.\\n"
   prim_check_for_puma_pid
-  bin/rails s
+  bin/bundle exec puma -C config/puma.rb
 }
 
 # sets container to 'start' if no action is specified otherwise
