@@ -1,37 +1,37 @@
 FactoryBot.define do
-  factory :field, traits: [:active_model] do
-    type Field::TEXT_FIELD
+  factory :field, class: Field, traits: [:active_model] do
+    type { Field::TEXT_FIELD }
     name { "field_#{counter}" }
     display_name { "Field #{counter}" }
-    visible true
-    editable true
-    disabled false
+    visible { true }
+    editable { true }
+    disabled { false }
   end
 
   factory :select_field, class: Field, traits: [:active_model] do
-    type Field::SELECT_BOX
+    type { Field::SELECT_BOX }
     name { "select_field_#{counter}" }
     display_name { "Select Field #{counter}" }
-    visible true
-    editable true
-    disabled false
-    multi_select true
-    option_strings_text_all [{"id"=>"test1", "display_text"=>"test1,"}, {"id"=>"test2", "display_text"=>"test2,"}, {"id"=>"test3", "display_text"=>"test3"}]
+    visible { true }
+    editable { true }
+    disabled { false }
+    multi_select { true }
+    option_strings_text_all { [{"id"=>"test1", "display_text"=>"test1,"}, {"id"=>"test2", "display_text"=>"test2,"}, {"id"=>"test3", "display_text"=>"test3"}] }
   end
 
   factory :subform_field, class: Field, traits: [:active_model] do
     transient do
-      fields []
-      initial_subforms 1
+      fields { [] }
+      initial_subforms { 1 }
       unique_id { "form_section_#{counter}" }
     end
 
-    type Field::SUBFORM
+    type { Field::SUBFORM }
     name { "field_#{counter}" }
     display_name { "Field #{counter}" }
-    visible true
-    editable true
-    disabled false
+    visible { true }
+    editable { true }
+    disabled { false }
 
     after(:build) do |field, evaluator|
       fs = create :subform_section,

@@ -22,6 +22,24 @@ module Exporters
 
     def initialize(output_file_path=nil)
       super(output_file_path, export_config_id)
+      @fields = Field.find_by_name([
+        'case_id',
+        'unhcr_individual_no',
+        'cpims_id',
+        'short_id',
+        'identification_date',
+        'protection_status',
+        'unhcr_needs_codes',
+        'sex',
+        'date_of_birth',
+        'age',
+        'separation_cause',
+        'country_of_origin',
+        'child_status',
+        'family_count_no',
+        'national_id_no',
+        'name_caregiver'
+      ]).inject({}) { |acc, field| acc.merge({ field.name => field }) }
     end
 
     def export(cases, *args)
@@ -31,8 +49,6 @@ module Exporters
         @props_opt_out = self.opt_out_properties_to_export(@props)
         rows << [" "] + @props.keys.map{|prop| I18n.t("exports.unhcr_csv.headers.#{prop}")} if @called_first_time.nil?
         @called_first_time ||= true
-
-        self.class.load_fields(cases.first) if cases.present?
 
         cases.each_with_index do |c, index|
           props_to_export = opting_out?(c) ? @props_opt_out : @props
@@ -51,6 +67,7 @@ module Exporters
     end
 
     #TODO fix governorate_country... that code is pre-i18n when locations used location names instead of location_code
+    #TODO: Fix these props. Some of them don't work. A try(:method) is needed in those props to make the export work.
     def props
       {
         'long_id' => ['case_id'],
@@ -61,13 +78,13 @@ module Exporters
         'date_of_identification' => ['identification_date'],
         'primary_protection_concerns' => ['protection_status'],
         'secondary_protection_concerns' => ->(c) do
-          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
+          self.class.translate_value(@fields['unhcr_needs_codes'], c.unhcr_needs_codes).join(', ') if c.unhcr_needs_codes.present?
         end,
         'vulnerability_code' => ->(c) do
-          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).map{|code| code.split('-').first}.join('; ') if c.unhcr_needs_codes.present?
+          self.class.translate_value(@fields['unhcr_needs_codes'], c.unhcr_needs_codes).map{|code| code.split('-').first}.join('; ') if c.unhcr_needs_codes.present?
         end,
         'vulnerability_details_code' => ->(c) do
-          self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join('; ') if c.unhcr_needs_codes.present?
+          self.class.translate_value(@fields['unhcr_needs_codes'], c.unhcr_needs_codes).join('; ') if c.unhcr_needs_codes.present?
         end,
         'governorate_country' => ->(c) do
           if c.try(:location_current).present?
@@ -125,4 +142,3 @@ module Exporters
 
   end
 end
-
