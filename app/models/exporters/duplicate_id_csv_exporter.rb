@@ -22,11 +22,11 @@ module Exporters
 
     def initialize(output_file_path=nil)
       super(output_file_path, export_config_id)
+      @fields = Field.find_by_name(%w(national_id_no case_id unhcr_individual_no
+                                      name age sex family_count_no))
     end
 
     def export(cases, *args)
-      @fields = Field.find_by_name(%w(national_id_no case_id unhcr_individual_no
-                                      name age sex family_count_no))
 
       duplicate_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
