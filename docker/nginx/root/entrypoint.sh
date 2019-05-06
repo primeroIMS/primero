@@ -2,8 +2,8 @@
 
 set -euox pipefail
 
+# check if the diffie hellman group exists, and is valid, otherwise create it
 prim_generate_dh() {
-  # Check if the specified dh file is both valid and exists, otherwise create it.
   printf "Checking for dhparam.\\n"
   if ! openssl dhparam -check -in "${NGINX_DH_PARAM}" 2> /dev/null;
   then
@@ -15,6 +15,7 @@ prim_generate_dh() {
   return 0
 }
 
+# check if nginx logs exist and create them. nginx will not start without these.
 prim_nginx_create_logs() {
   # Create the log files for NGINX. It won't start if these don't exist.
   printf "Checking for nginx log files"
@@ -23,6 +24,7 @@ prim_nginx_create_logs() {
   return 0
 }
 
+# run certbot agent and define cert/key paths
 prim_certbot_generate_certs() {
   # if we use letsencrypt then let certbot create the certificates
   certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m "$LETS_ENCRYPT_EMAIL" --no-eff-email --non-interactive --keep --preferred-challenges http
@@ -32,6 +34,8 @@ prim_certbot_generate_certs() {
   return 0
 }
 
+# generate a self signed certificate for development mode
+# TODO: check if certs exist and if they do use them instead
 prim_generate_self_signed_certs() {
   # Return to current dir after cert generation
   CURRENT_DIR=$(pwd)
@@ -44,6 +48,8 @@ prim_generate_self_signed_certs() {
   return 0
 }
 
+# the nginx container has a default site installed that we do not want
+# thus, check if it exists and remove it
 prim_remove_default_nginx_site() {
   NGINX_CONFD_DEFAULT_SITE_PATH="/etc/nginx/conf.d/default.conf"
   if [ -f "$NGINX_CONFD_DEFAULT_SITE_PATH" ];
@@ -52,6 +58,8 @@ prim_remove_default_nginx_site() {
   fi
 }
 
+# main control flow of the containter.
+# performs setup and starts container
 prim_nginx_start() {
   /sub.sh "/etc/nginx/conf.d"
   prim_nginx_create_logs
