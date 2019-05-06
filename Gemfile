@@ -58,7 +58,7 @@ gem 'yui-compressor',    '~> 0.12'
 gem 'closure-compiler',  '~> 1.1'
 # ---
 
-group :development do
+group :development, :test do
   gem 'i18n-tasks',                 '~> 0.9'
   gem 'better_errors',              '~> 2.5'
   gem 'binding_of_caller',          '~> 0.8'

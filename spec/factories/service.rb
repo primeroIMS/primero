@@ -20,6 +20,6 @@ FactoryBot.define do
   factory :service, :traits => [ :model ] do
     _id {"service#{counter}"}
     unique_id {"service#{counter}"}
-    service_response_type "intervention_judicial"
+    service_response_type { "intervention_judicial" }
   end
 end

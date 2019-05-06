@@ -50,7 +50,7 @@ module Exporters
         record_modules = record_modules || user.modules_for_record_type(record_type)
         permitted_fields = user.permitted_fields(record_modules, record_type)
         model_class = Record.model_from_name(record_type)
-        user.can_edit?(model_class) ? permitted_fields :  permitted_fields.select(&:showable?)
+        user.can?(:write, model_class) ? permitted_fields :  permitted_fields.select(&:showable?)
       end
 
       #This is a class method that does a one-shot export to a String buffer.
@@ -128,7 +128,6 @@ module Exporters
 
       # @param properties: array of CouchRest Model Property instances
       def to_2D_array(models, properties)
-        @fields = properties
         emit_columns = lambda do |props, parent_props=[], &column_generator|
           props.map do |p|
             prop_tree = parent_props + [p]
@@ -237,15 +236,13 @@ module Exporters
         end
       end
 
-      def translate_value(prop_name, value)
-        name = prop_name.is_a?(Array) ? prop_name[0].try(:name) : prop_name
-        field = @fields.select{|f| f.name == name}.first if @fields.present?
-
+      def translate_value(fields, value)
+        field = fields.is_a?(Array) ? fields.first : fields
         if field.present?
-          if prop_name.is_a?(Array) && field.type == Field::SUBFORM
-            prop_names = prop_name.map{|pn| pn.try(:name)}
+          if field.is_a?(Array) && field.type == Field::SUBFORM
+            field_names = field.map{|pn| pn.try(:name)}
             sub_fields = field.subform_section.try(:fields)
-            sub_field = sub_fields.select{|sf| prop_names.include?(sf.name)}.first
+            sub_field = sub_fields.select{|sf| field_names.include?(sf.name)}.first
             map_field_to_translated_value(sub_field, value)
           else
             map_field_to_translated_value(field, value)
@@ -259,7 +256,6 @@ module Exporters
         Location.ancestor_placename_by_name_and_admin_level(model.send(property.first.try(:name)), property.last[:admin_level].to_i) if property.last.is_a?(Hash)
       end
     end
-
 
     def initialize(output_file_path=nil)
       @io = if output_file_path.present?

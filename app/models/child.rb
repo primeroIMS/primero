@@ -124,7 +124,7 @@ class Child < ApplicationRecord
   def defaults
     super_defaults
     self.registration_date ||= Date.today
-    self.notes_section = []
+    self.notes_section ||= []
   end
 
   def subform_match_values(field)
@@ -301,7 +301,7 @@ class Child < ApplicationRecord
   def add_note(notes, note_subject, user)
     self.notes_section << {
         'field_notes_subform_fields' => notes, 'note_subject' => note_subject,
-        'notes_date' => DateTime.now, note_created_by: user.user_name
+        'notes_date' => DateTime.now, 'note_created_by' => user.user_name
     }
   end
 
