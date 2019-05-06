@@ -67,12 +67,18 @@ prim_check_for_bootstrap() {
 prim_bootstrap() {
   printf "Starting bootstrap\\n"
   # shellcheck disable=SC2034
-  DISABLE_DATABASE_ENVIRONMENT_CHECK=1 rails db:drop
   bin/rails db:create
-  bin/rails db:migrate
+  bin/rails db:schema:load
   bin/rails db:seed
-  # rails sunspot:reindex # not working
+  # bin/rails sunspot:reindex
   touch /.primero-bootstrapped
+  return 0
+}
+
+prim_update() {
+  printf "Updating primero\\n"
+  bin/rails db:migrate
+  bin/rails sunspot:reindex
   return 0
 }
 
@@ -118,11 +124,17 @@ prim_app_start() {
     case $1 in
       primero-bootstrap)
         prim_bootstrap
+        prim_start
         shift
         ;;
       primero-start)
         prim_start
         break
+        ;;
+      primero-update)
+        prim_update
+        prim_start
+        shift
         ;;
       *)
         exec "$@"
