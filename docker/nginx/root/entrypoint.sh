@@ -44,9 +44,18 @@ prim_generate_self_signed_certs() {
   return 0
 }
 
+prim_remove_default_nginx_site() {
+  NGINX_CONFD_DEFAULT_SITE_PATH="/etc/nginx/conf.d/default.conf"
+  if [ -f "$NGINX_CONFD_DEFAULT_SITE_PATH" ];
+  then
+    rm -f "$NGINX_CONFD_DEFAULT_SITE_PATH"
+  fi
+}
+
 prim_nginx_start() {
   /sub.sh "/etc/nginx/conf.d"
   prim_nginx_create_logs
+  prim_remove_default_nginx_site
   prim_generate_dh
 
   if [ -z "$USE_LETS_ENCRYPT" ];
