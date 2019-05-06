@@ -22,8 +22,6 @@ services:
       - docker/quoin.env
   application:
     image: application:prim-latest
-    ports:
-      - "3000:3000"
     depends_on:
       - solr
       - beanstalkd
