@@ -463,7 +463,13 @@ gbv_worker_permissions = [
       Permission::SYNC_MOBILE,
       Permission::CREATE
     ]
-  )
+  ),
+    Permission.new(
+        :resource => Permission::DASHBOARD,
+        :actions => [
+            Permission::VIEW_ASSESSMENT
+        ]
+    )
 ]
 
 create_or_update_role(
