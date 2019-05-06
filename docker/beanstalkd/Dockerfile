@@ -8,4 +8,4 @@ RUN set -euox pipefail \
 
 EXPOSE 11300
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["beanstalkd","-p","11300","-u","beanstalk","-b","/beanstalkd/bin","-V"]
+CMD ["beanstalkd", "-V", "-p","11300","-u","beanstalk","-b","/beanstalkd/bin","-V"]
