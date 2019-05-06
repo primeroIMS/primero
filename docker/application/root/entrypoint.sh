@@ -2,6 +2,7 @@
 
 set -euox pipefail
 
+# Finds and exports the binaries provided by primero
 prim_export_local_binaries() {
   # if primero exists then prefer the rails / rails binaries from the repo
   if [ -d "$APP_ROOT/bin" ];
@@ -12,9 +13,9 @@ prim_export_local_binaries() {
   return 0
 }
 
+# Check if the postgres credentials are defined. If they aren't then complain.
 prim_check_postgres_credentials() {
   set +u
-  # Check if the postgres credentials are defined. If they aren't then complain.
   if [ -z "$POSTGRES_PASSWORD" ] ||  [ -z "$POSTGRES_USER" ];
   then
     printf "Postgres credentials not defined! Please check configuration.\\n"
@@ -25,6 +26,8 @@ prim_check_postgres_credentials() {
   return 0
 }
 
+# Checks for puma pid and removes it if neccesary. Sometimes it is left behind,
+# after killing the container.
 prim_check_for_puma_pid() {
   prim_pid_fd="/srv/primero/application/tmp/pids/server.pid"
   if [ -f "$prim_pid_fd" ];
@@ -36,8 +39,8 @@ prim_check_for_puma_pid() {
 }
 
 
+# Create the logging directory and file
 prim_create_folders_and_logs() {
-  # Create the logging directory and file
   mkdir -p "${RAILS_LOG_PATH}/${RAILS_ENV}"
   touch "${RAILS_LOG_PATH}/${RAILS_ENV}.log"
   # Create the folder for the node modules that will be installed during asset
@@ -60,6 +63,7 @@ prim_check_for_bootstrap() {
   fi
 }
 
+# this method is called to create a new primero instance from a clean container
 prim_bootstrap() {
   printf "Starting bootstrap\\n"
   # shellcheck disable=SC2034
@@ -72,6 +76,7 @@ prim_bootstrap() {
   return 0
 }
 
+# method for starting puma
 prim_start() {
   if prim_check_for_bootstrap;
   then
@@ -83,6 +88,7 @@ prim_start() {
   bin/rails s
 }
 
+# sets container to 'start' if no action is specified otherwise
 prim_app_check_for_args() {
   # if no argument is given then set the argument to start
   if [[ "$#" -eq 0 ]];
@@ -91,6 +97,8 @@ prim_app_check_for_args() {
   fi
 }
 
+# apps 'entrypoint' start. handles passed arguments and checks if bootstrap is
+# neccesary.
 prim_app_start() {
   printf "Starting Primero application container\\n"
   prim_app_check_for_args "$@"
@@ -124,4 +132,5 @@ prim_app_start() {
   done
 }
 
+# pass all arguments to the prim_app_start method
 prim_app_start "$@"
