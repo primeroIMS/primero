@@ -39,7 +39,7 @@ module Exporters
           values = props_to_export.map do |_, generator|
             case generator
             when Array
-              self.class.translate_value(generator.first, c.value_for_attr_keys(generator))
+              self.class.translate_value(@fields[generator.try(:first)].try(:first), c.value_for_attr_keys(generator))
             when Proc
               generator.call(c)
             end
@@ -70,7 +70,7 @@ module Exporters
           self.class.translate_value('unhcr_needs_codes', c.unhcr_needs_codes).join('; ') if c.unhcr_needs_codes.present?
         end,
         'governorate_country' => ->(c) do
-          if c.location_current.present?
+          if c.try(:location_current).present?
             hierarchy = c.location_current.split('::')
             if hierarchy.size > 2
               hierarchy = (hierarchy[0..1] + [hierarchy.last]).compact
@@ -80,7 +80,7 @@ module Exporters
           end
         end,
         'locations_by_level' => ->(c) do
-          if c.location_current.present?
+          if c.try(:location_current).present?
             lct = Location.find_by(location_code: c.location_current)
             lct.location_codes_and_placenames.map{|l| l.join(", ")}.join("; ")
           end
@@ -99,7 +99,7 @@ module Exporters
           end
         end,
         'reunification_status' => ->(c) do
-          if c.tracing_status.present?
+          if c.try(:tracing_status).present?
             return c.tracing_status == "reunified" ? I18n.t("true") : I18n.t("false")
           else
             I18n.t("false")
