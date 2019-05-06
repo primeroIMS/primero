@@ -45,12 +45,10 @@ module Exporters
 
         models.each do |model|
           rows << field_map.map do |_, generator|
+            return generator.call(model) if generator.is_a?(Proc)
             field = properties.select { |p| generator.eql?(p.try(:name)) }.first
-            case field
-            when Array
+            if generator.is_a?(Array)
               self.class.translate_value(field.first, model.value_for_attr_keys(field))
-            when Proc
-              field.call(model)
             else
               self.class.translate_value(field, CSVListViewExporter.to_exported_value(model.try(generator.to_sym)))
             end
