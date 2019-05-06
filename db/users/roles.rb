@@ -306,7 +306,8 @@ cp_manager_permissions = [
         Permission::VIEW_RESPONSE,
         Permission::VIEW_ASSESSMENT,
         Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-        Permission::DASH_CASES_BY_TASK_OVERDUE
+        Permission::DASH_CASES_BY_TASK_OVERDUE,
+        Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
       ]
   )
 ]
