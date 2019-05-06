@@ -61,7 +61,6 @@ prim_remove_default_nginx_site() {
 # main control flow of the containter.
 # performs setup and starts container
 prim_nginx_start() {
-  /sub.sh "/etc/nginx/conf.d"
   prim_nginx_create_logs
   prim_remove_default_nginx_site
   prim_generate_dh
@@ -73,6 +72,8 @@ prim_nginx_start() {
     prim_generate_self_signed_certs
   fi
 
+  # Note: this must come after the certificate generation
+  /sub.sh "/etc/nginx/conf.d"
   exec "$@"
 }
 
