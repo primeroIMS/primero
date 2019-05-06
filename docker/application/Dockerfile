@@ -41,7 +41,6 @@ COPY [ "docker/application/null_configs/*", "/srv/primero/application/config/" ]
 # Create the directories for primero and install yarn for the asset precompile
 RUN set -euox pipefail \
         ; mkdir -p \
-            /srv/primero/log/rails \
             /srv/primero/application/tmp \
             /srv/primero/application/log \
             ; cd "/srv/primero/application" \

@@ -10,8 +10,8 @@ services:
       - local_certs:/etc/certs
       - certbot_var:/var/lib/letsencrypt
       - certbot_etc:/etc/letsencrypt
-      - primero_tmp:/srv/primero/tmp
-      - logs:/var/log/nginx
+      - tmp:/srv/primero/tmp
+      - log:/var/log/nginx
       - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env

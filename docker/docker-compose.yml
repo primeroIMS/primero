@@ -4,8 +4,8 @@ services:
   postgres:
     image: postgres:prim-latest
     volumes:
-      - logs:/var/log/postgresql
-      - psql_database:/var/lib/postgresql/data
+      - log:/var/log/postgresql
+      - database:/var/lib/postgresql/data
     env_file:
       - docker/defaults.env
       - docker/quoin.env
@@ -27,21 +27,20 @@ services:
       - beanstalkd
       - postgres
     volumes:
-      - primero_tmp:/srv/primero/tmp
-      - logs:/srv/primero/logs
-      - logs:/srv/primero/application/logs
+      - log:/srv/primero/application/log
       - public:/srv/primero/application/public
+      - tmp:/srv/primero/application/tmp
     env_file:
       - docker/defaults.env
       - docker/quoin.env
     stdin_open: true
     tty: true
 volumes:
-  psql_database:
+  database:
   local_certs:
   certbot_var:
   certbot_etc:
-  primero_tmp:
-  logs:
+  tmp:
+  log:
   public:
   solr_cores:
