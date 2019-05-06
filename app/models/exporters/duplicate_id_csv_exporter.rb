@@ -30,7 +30,7 @@ module Exporters
       duplicate_export = CSV.generate do |rows|
         # Supposedly Ruby 1.9+ maintains hash insertion ordering
         @props = self.properties_to_export(props)
-        rows << @props.keys.map{|prop| I18n.t("exports.duplicate_id_csv.headers.#{prop}")} if @called_first_time.nil?
+        rows << [" "] + @props.keys.map{|prop| I18n.t("exports.duplicate_id_csv.headers.#{prop}")} if @called_first_time.nil?
         @called_first_time ||= true
 
         cases.each_with_index do |c, index|
@@ -42,7 +42,7 @@ module Exporters
               generator.call(c)
             end
           end
-          rows << values
+          rows << [index + 1] + values
         end
       end
       self.buffer.write(duplicate_export)
