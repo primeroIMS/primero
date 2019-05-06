@@ -21,6 +21,7 @@ class FormSection < ApplicationRecord
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
   after_initialize :defaults, :generate_unique_id
+  before_validation :calculate_fields_order
   before_save :sync_form_group
   after_save :recalculate_collapsed_fields
 
@@ -93,12 +94,6 @@ class FormSection < ApplicationRecord
       unique_id = properties[:unique_id]
       return nil if unique_id.blank?
       fields = properties[:fields]
-
-      if fields.present?
-        fields.each_with_index do |field, index|
-          field.order = index
-        end
-      end
 
       form_section = self.find_by(unique_id: unique_id)
       if form_section.present?
@@ -238,7 +233,7 @@ class FormSection < ApplicationRecord
         parent_form = determine_parent_form(record_type, apply_to_reports)
         #hide_on_view_page will filter fields for readonly users.
         model = Record::model_from_name(parent_form)
-        user_can_edit = user.can_edit?(model)
+        user_can_edit = user.can?(:write, model)
         minimum_reportable_fields = model.minimum_reportable_fields.values.flatten
         nested_reportable_subform = Report.record_type_is_nested_reportable_subform?(parent_form, record_type)
         primero_modules.each do |primero_module|
@@ -606,6 +601,14 @@ class FormSection < ApplicationRecord
       return errors.add(:name, 'errors.models.form_section.format_of_name')
     else
       return true
+    end
+  end
+
+  def calculate_fields_order
+    if self.fields.present?
+      self.fields.each_with_index do |field, index|
+        field.order = index
+      end
     end
   end
 

@@ -43,7 +43,7 @@ module Exporters
     #This is a private utility class that encapsulates the business logic of exporting to the GBV IR.
     #The state of the class represents the individual export.
     class IRBuilder
-      extend Memoist
+      # extend Memoist
 
       #Spreadsheet is expecting "M" and "F".
       SEX = { "male" => I18n.t("exports.incident_recorder_xls.gender.male"),
@@ -79,6 +79,32 @@ module Exporters
         @caseworker_code = {}
         @age_group_count = -1
         @age_type_count = -1
+        @fields = Field.find_by_name([
+          'service_referred_from',
+          'service_safehouse_referral',
+          'perpetrator_relationship',
+          'perpetrator_occupation',
+          'incidentid_ir',
+          'survivor_code',
+          'date_of_first_report',
+          'incident_date',
+          'date_of_birth',
+          'ethnicity',
+          'country_of_origin',
+          'maritial_status',
+          'displacement_status',
+          'disability_type',
+          'unaccompanied_separated_status',
+          'displacement_incident',
+          'incident_location_type',
+          'incident_camp_town',
+          'gbv_sexual_violence_type',
+          'harmful_traditional_practice',
+          'goods_money_exchanged',
+          'abduction_status_time_of_incident',
+          'gbv_reported_elsewhere',
+          'gbv_previous_incidents'
+        ]).inject({}) { |acc, field| acc.merge({ field.name => field }) }
 
         @workbook = WriteExcel.new(buffer)
         @data_worksheet = @workbook.add_worksheet('Incident Data')
@@ -108,7 +134,6 @@ module Exporters
       end
 
       def export(models)
-        Exporters::IncidentRecorderExporter.load_fields(models.first) if models.present?
         incident_data(models)
       end
 
@@ -195,12 +220,12 @@ module Exporters
       end
 
       def incident_recorder_service_referral_from(service_referral_from)
-        Exporters::IncidentRecorderExporter.translate_value('service_referred_from', service_referral_from) if service_referral_from.present?
+        Exporters::IncidentRecorderExporter.translate_value(@fields['service_referred_from'], service_referral_from) if service_referral_from.present?
       end
 
       def incident_recorder_service_referral(service)
         #The services use the same lookup... using safehouse service field for purpose of translation
-        Exporters::IncidentRecorderExporter.translate_value('service_safehouse_referral', service) if service.present?
+        Exporters::IncidentRecorderExporter.translate_value(@fields['service_safehouse_referral'], service) if service.present?
       end
 
       def primary_alleged_perpetrator(model)
@@ -222,6 +247,7 @@ module Exporters
       #   key   -  an identifier which is translated later and used to print the worksheet headers
       #   value -  either: the field on the incident to display  OR
       #                    a proc which derives the value to be displayed
+      #TODO: Fix these props. Some of them don't work. A try(:method) is needed in those props to make the export work.
       def props
          ##### ADMINISTRATIVE INFORMATION #####
         {
@@ -255,7 +281,7 @@ module Exporters
           'time_of_day' => ->(model) do
             incident_timeofday = model.try(:incident_timeofday)
             return if incident_timeofday.blank?
-            timeofday_translated = Exporters::IncidentRecorderExporter.translate_value('incident_timeofday', incident_timeofday)
+            timeofday_translated = Exporters::IncidentRecorderExporter.translate_value(@fields['incident_timeofday'], incident_timeofday)
             #Do not use the display text that is between the parens ()
             timeofday_translated.present? ? timeofday_translated.split("(").first.strip : nil
           end,
@@ -305,11 +331,11 @@ module Exporters
           end,
           'perpetrator.relationship' => ->(model) do
             relationship = primary_alleged_perpetrator(model).first.try(:perpetrator_relationship)
-            Exporters::IncidentRecorderExporter.translate_value('perpetrator_relationship', relationship) if relationship.present?
+            Exporters::IncidentRecorderExporter.translate_value(@fields['perpetrator_relationship'], relationship) if relationship.present?
           end,
           'perpetrator.occupation' => ->(model) do
             occupation = primary_alleged_perpetrator(model).first.try(:perpetrator_occupation)
-            Exporters::IncidentRecorderExporter.translate_value('perpetrator_occupation', occupation) if occupation.present?
+            Exporters::IncidentRecorderExporter.translate_value(@fields['perpetrator_occupation'], occupation) if occupation.present?
           end,
           ##### REFERRAL PATHWAY DATA #####
           'service.referred_from' => ->(model) do
@@ -379,7 +405,7 @@ module Exporters
         else
           # All of the Procs above should already be translated.
           # Only worry about translating the string properties (i.e. the ones using the field name)
-          Exporters::IncidentRecorderExporter.translate_value(prop, value)
+          Exporters::IncidentRecorderExporter.translate_value(@fields[prop], value)
         end
       end
 

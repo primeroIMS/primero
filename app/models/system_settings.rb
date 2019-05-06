@@ -96,11 +96,11 @@ class SystemSettings < ApplicationRecord
     super(result)
   end
 
-  def self.handle_changes
-    system_settings = SystemSettings.first
-    system_settings.update_default_locale if system_settings.present?
-    flush_dependencies
-  end
+  # def self.handle_changes
+  #   system_settings = SystemSettings.first
+  #   system_settings.update_default_locale if system_settings.present?
+  #   flush_dependencies
+  # end
 
   # TODO: I guess this won't be needed.
   # def self.memoized_dependencies
@@ -125,7 +125,7 @@ class SystemSettings < ApplicationRecord
     # memoize_in_prod :current
   end
 
-  extend Observable
-  add_observer(self, :handle_changes)
+  # extend Observable
+  # add_observer(self, :handle_changes)
 
 end
