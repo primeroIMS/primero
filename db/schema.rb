@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 2019_04_16_181147) do
     t.string "record_type"
     t.uuid "record_id"
     t.string "record_field_scope"
-    t.boolean "is_primary"
+    t.boolean "is_current"
     t.index ["record_field_scope"], name: "index_attachment_images_on_record_field_scope"
     t.index ["record_type", "record_id"], name: "index_attachment_images_on_record_type_and_record_id"
   end
