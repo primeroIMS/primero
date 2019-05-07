@@ -5,6 +5,7 @@ class DuplicateBulkExportJob < ApplicationJob
   # condition between `exporter.complete` and when the export is zip/encrypted. When `encrypt_export_file`
   # is called the logic that zip/encrypted thinks the exported file size is 0.
   def perform(bulk_export_id, opts={})
+    # TODO: Implement when GlobalId is ready to use
     bulk_export = DuplicateBulkExport.find_by(id: bulk_export_id)
 
     user = bulk_export.owner

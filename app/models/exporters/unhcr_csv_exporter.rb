@@ -55,7 +55,7 @@ module Exporters
           values = props_to_export.map do |_, generator|
             case generator
             when Array
-              self.class.translate_value(@fields[generator.try(:first)].try(:first), c.value_for_attr_keys(generator))
+              self.class.translate_value(@fields[generator.try(:first)], c.value_for_attr_keys(generator))
             when Proc
               generator.call(c)
             end
@@ -87,7 +87,7 @@ module Exporters
           self.class.translate_value(@fields['unhcr_needs_codes'], c.unhcr_needs_codes).join('; ') if c.unhcr_needs_codes.present?
         end,
         'governorate_country' => ->(c) do
-          if c.try(:location_current).present?
+          if c.location_current.present?
             hierarchy = c.location_current.split('::')
             if hierarchy.size > 2
               hierarchy = (hierarchy[0..1] + [hierarchy.last]).compact
@@ -97,7 +97,7 @@ module Exporters
           end
         end,
         'locations_by_level' => ->(c) do
-          if c.try(:location_current).present?
+          if c.location_current.present?
             lct = Location.find_by(location_code: c.location_current)
             lct.location_codes_and_placenames.map{|l| l.join(", ")}.join("; ")
           end

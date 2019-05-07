@@ -13,7 +13,10 @@ class Incident < ApplicationRecord
     :incident_id, :incidentid_ir, :individual_ids, :incident_code, :description, :super_incident_name,
     :incident_detail_id, :incident_description, :monitor_number, :survivor_code, :date_of_first_report,
     :date_of_incident_date_or_date_range, :incident_date, :date_of_incident, :date_of_incident_from, :date_of_incident_to,
-    :individual_details_subform_section
+    :individual_details_subform_section,
+    :health_medical_referral_subform_section, :psychosocial_counseling_services_subform_section,
+    :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
+    :livelihoods_services_subform_section, :child_protection_services_subform_section
 
   belongs_to :case, foreign_key: 'incident_case_id', class_name: 'Child', optional: true
 
