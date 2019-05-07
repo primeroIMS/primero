@@ -40,6 +40,7 @@ db/couch/*
 debug.html
 dev-node.json
 docker/production.env
+docker/quoin.env
 encrypted_file
 jmeter/*.csv
 jmeter/*.log
