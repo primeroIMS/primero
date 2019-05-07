@@ -65,7 +65,9 @@ prim_nginx_start() {
   prim_remove_default_nginx_site
   prim_generate_dh
 
-  if [ -z "$USE_LETS_ENCRYPT" ];
+  printf "Use LetsEncrypt status %s\\nh" "$USE_LETS_ENCRYPT"
+
+  if [ "$USE_LETS_ENCRYPT" == "true" ];
   then
     prim_certbot_generate_certs
   else
