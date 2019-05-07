@@ -3,6 +3,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
     create_table :attachment_images do |t|
       t.references :record, polymorphic: true, type: :uuid
       t.string     :record_field_scope, index: true
+      t.boolean    :is_current
     end
 
     create_table :attachment_documents do |t|
