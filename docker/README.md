@@ -84,6 +84,7 @@ containers will generate appropriate configuration files based on what values
 you have the environment variables set too.
 
 config option - parameter - description
+
 APP_ROOT - file path - this is where primero gets copied to in the app container. i would
 not modify this value.
 
@@ -126,8 +127,6 @@ SOLR_LOG_LEVEL - sets the logging level for solr. `INFO` or `ERROR`
 
 LOCALE_DEFAULT - set this to the language which primero will use. `en` by
 default.
-
-
 
 ## Troubleshooting
 

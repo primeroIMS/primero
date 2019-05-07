@@ -1,8 +1,13 @@
 #!/usr/bin/env python
+# This script checks if any of the child processes of supervisor, nginx and
+# crond, have exited. If so, then it sends a kill signal to the container,
+# causing the container to shutdown. Without this script, the container will
+# continue to run even if Nginx has died.
 import os
 import signal
 
 from supervisor import childutils
+
 
 def main():
     while True:
@@ -11,6 +16,7 @@ def main():
         if headers['eventname'] != 'PROCESS_STATE_FATAL':
             continue
         os.kill(os.getppid(), signal.SIGTERM)
+
 
 if __name__ == "__main__":
     main()
