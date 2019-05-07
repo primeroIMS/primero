@@ -57,9 +57,9 @@ signed SSL certificates.
 
 ## Deploying - Remote
 
-There are several ways to deploy remotely. I prefer mounting the Docker socket
-over ssh. To mount the socket into your home directory, use the following SSH
-call.
+To deploy remotely, we are going to mount the docker socket of a remote server
+and then use our local docker tools. To mount the socket into your home
+directory, use the following SSH call.
 
 ```bash
 ssh -nNT -L $HOME/docker.sock:/var/run/docker.sock user@remoteserver.com
@@ -70,11 +70,64 @@ use the socket, you have to tell Docker through an environment variable.
 Export your DOCKER_HOST variable: `DOCKER_HOST="unix:///$HOME/docker.sock`.
 
 Run `docker ps` and you should see you are using your remote server. You will
-need to rebuild your containers if they have only been built locally.
+need to rebuild your containers if they have only been built locally. To rebuild
+them, run `./build.sh all`
 
 Check the defaults.env and production.env and make sure you have set you DOMAIN
 and LetsEncrypt parameters set appropriately. After that, run with
 docker-compose. `./compose.prod.sh up -d`
+
+## Configuration Options - Environment Variables
+
+Docker for Primero is configured through environment variables. At runtime, the
+containers will generate appropriate configuration files based on what values
+you have the environment variables set too.
+
+config option - parameter - description
+APP_ROOT - file path - this is where primero gets copied to in the app container. i would
+not modify this value.
+
+BEANSTALK_URL - address which primero should try to access beanstalk
+
+RAILS_ENV - production / development - sets the build / run mode for primero.
+RAILS_LOG_PATH - path - where primero will store its logs
+
+NGINX_SERVER_HOST - name to put in the self signed certificate. if letsencrypt
+is used, then we will store the host name recieved from certbot here.
+NGINX_SERVER_NAME - sets the server name in the nginx site config file. ie what
+name nginx responds too.
+NGINX_SSL_CLIENT_CA, NGINX_SSL_KEY_PATH - path - location where nginx will look
+for and store its self signed certificates
+nginx_cert
+NGINX_HTTP_PORT, NGINX_HTTPS_PORT - port for http/s
+NGINX_PROXY_PASS_URL - address which nginx will proxy towards. this should point
+towards the app/puma container.
+NGINX_LOG_ERROR, NGINX_LOG_ACCESS - name of respective log files.
+NGINX_LOG_DIR - path of the folder for the nginx logs
+NGINX_KEEPALIVE_TIMEOUT - time out length for nginx
+NGINX_DH_PARAM - path of the diffie hellman group. this will be generated
+automatically at container start.
+
+USE_LETS_ENCRYPT - set this to `true` to use certbot to generate ssl certs. it
+is set to `false` for local by default. if this is set, then you must set the
+following as well.
+LETS_ENCRYPT_DOMAIN - domain to put on ssl cert. only supports one domain.
+LETS_ENCRYPT_EMAIL - email for cert. must be set.
+
+POSTGRES_DATABASE - name - sets the database name for primero to use
+POSTGRES_HOSTNAME - name of the app container. this is the address which other
+containers will use to access postgres.
+
+SOLR_HOSTNAME - hostname for solr. solr needs to self reference from this
+hostname and other containers will access solr using this hostname
+SOLR_PORT - port for solr. default is 8983.
+SOLR_LOGS_DIR - dir for solr logging
+SOLR_LOG_LEVEL - sets the logging level for solr. `INFO` or `ERROR`
+
+LOCALE_DEFAULT - set this to the language which primero will use. `en` by
+default.
+
+
 
 ## Troubleshooting
 
