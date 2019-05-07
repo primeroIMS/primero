@@ -1,7 +1,7 @@
 require 'csv'
 
 module Exporters
-  class CSVExporterListView < BaseExporter
+  class CSVListViewExporter < BaseExporter
     class << self
       def id
         'list_view_csv'
@@ -37,8 +37,6 @@ module Exporters
     def export(models, properties, current_user, params)
       field_map = build_field_map(models.first.class.name, current_user)
 
-      self.class.load_fields(models.first) if models.present?
-
       csv_list = CSV.generate do |rows|
         # @called_first_time is a trick for batching purposes,
         # so that headers are saved only once 
@@ -47,13 +45,12 @@ module Exporters
 
         models.each do |model|
           rows << field_map.map do |_, generator|
-            case generator
-            when Array
-              self.class.translate_value(generator.first, model.value_for_attr_keys(generator))
-            when Proc
-              generator.call(model)
+            return generator.call(model) if generator.is_a?(Proc)
+            field = properties.select { |p| generator.eql?(p.try(:name)) }.first
+            if generator.is_a?(Array)
+              self.class.translate_value(field.first, model.value_for_attr_keys(field))
             else
-              self.class.translate_value(generator, CSVExporterListView.to_exported_value(model.try(generator.to_sym)))
+              self.class.translate_value(field, CSVListViewExporter.to_exported_value(model.try(generator.to_sym)))
             end
           end
         end

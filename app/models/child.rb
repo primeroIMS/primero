@@ -242,7 +242,7 @@ class Child < ApplicationRecord
   end
 
   def sortable_name
-    self['name']
+    self.name
   end
 
   def family(relation=nil)
