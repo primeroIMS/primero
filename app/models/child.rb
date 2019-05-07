@@ -160,6 +160,10 @@ class Child < ApplicationRecord
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
+  def self.by_date_of_birth
+    where.not('data @> ?', { date_of_birth: nil }.to_json)
+  end
+
   def self.by_date_of_birth_range(start_date, end_date)
     if start_date.is_a?(Date) && end_date.is_a?(Date)
       start_yday = normal_yday(start_date)

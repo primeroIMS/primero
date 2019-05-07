@@ -107,7 +107,7 @@ module Exporters
 
     def write_out_permitted_form(form)
       forms_permitted_array = @roles.map do |r|
-        permitted = (r.has_permitted_form_id? form.unique_id) || (r.permitted_form_ids.length == 0)
+        permitted = (r.has_permitted_form_id? form.unique_id) || (r.form_sections.length == 0)
         get_check permitted
       end
       form_row = ['',form.send("name_#{@locale}")] + forms_permitted_array
