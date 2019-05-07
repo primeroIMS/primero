@@ -72,7 +72,7 @@ GC_TUNE="-XX:NewRatio=3 \
 
 # By default the start script uses "localhost"; override the hostname here
 # for production SolrCloud environments to control the hostname exposed to cluster state
-SOLR_HOST="${SOLR_HOST}"
+SOLR_HOST="${SOLR_HOSTNAME}"
 
 # By default Solr will try to connect to Zookeeper with 30 seconds in timeout; override the timeout if needed
 #SOLR_WAIT_FOR_ZK="30"
