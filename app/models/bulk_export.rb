@@ -12,6 +12,10 @@ class BulkExport < ApplicationRecord
 
   ARCHIVE_CUTOFF = 30.days.ago
 
+  has_one_attached :export_file
+
+  validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes  }, if: -> { export_file.attached? }
+
   searchable auto_index: self.auto_index? do
     time :started_on
     time :completed_on
@@ -124,6 +128,12 @@ class BulkExport < ApplicationRecord
       pagination_ops[:page] = results.next_page
       pagination_ops[:per_page] = batch_size
     end until results.next_page.nil?
+  end
+
+  def attach_export_file
+    self.export_file.attach(
+                        io: File.open(self.encrypted_file_name),
+                        filename: File.basename(self.encrypted_file_name))
   end
 
   def encrypt_export_file

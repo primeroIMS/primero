@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 2019_04_16_181147) do
     t.index ["user_name"], name: "index_audit_logs_on_user_name"
   end
 
-  create_table "bulk_exports", id: :serial, force: :cascade do |t|
+  create_table "bulk_exports", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "status"
     t.string "owned_by"
     t.datetime "started_on"

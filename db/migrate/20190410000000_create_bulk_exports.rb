@@ -1,6 +1,6 @@
 class CreateBulkExports < ActiveRecord::Migration[5.0]
   def change
-    create_table :bulk_exports do |t|
+    create_table :bulk_exports, id: :uuid, default: 'gen_random_uuid()' do |t|
       t.string 'status'
       t.string 'owned_by'
       t.datetime 'started_on'
