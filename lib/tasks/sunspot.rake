@@ -39,13 +39,7 @@ namespace :sunspot do
   task :reindex => :wait do
 
     puts 'Reindexing Solr...'
-
-    batch_reindex(Child)
-    batch_reindex(Incident)
-    batch_reindex(TracingRequest)
-    batch_reindex(PotentialMatch)
-    batch_reindex(BulkExport)
-    batch_reindex(User)
+    [Child, Incident, TracingRequest, BulkExport, User].each {|m| batch_reindex(m) }
 
     puts 'Solr successfully reindexed'
   end
@@ -63,24 +57,19 @@ namespace :sunspot do
   end
 
   def batch_reindex(model, batch_size=500)
-    count = model.all.count
-    pages = (count / batch_size.to_f).ceil
 
-    puts "Reindexing #{count} #{model.name} records in batches of #{batch_size}..."
+    puts "Reindexing #{model.count} #{model.name} records in batches of #{batch_size}..."
 
-    1.upto(pages).each do |page|
-      puts "Indexing batch #{page} of #{pages}"
-
-      records = model.all.page(page).per(batch_size).all
+    model.all.find_in_batches(batch_size: batch_size) do |records|
       flags = []
       nesteds = []
-      if model.instance_methods.include? :flags
+      if model.instance_methods.include?(:flags)
         flags = records.reduce([]) do |list, record|
           list = list + record.flags if record.flags.present?
           list
         end
       end
-      if model.instance_methods.include? :nested_reportables_hash
+      if model.instance_methods.include?(:nested_reportables_hash)
         nesteds = records.reduce([]) do |list, record|
           record.nested_reportables_hash.each do |_, reportables|
             list = list + reportables
@@ -90,10 +79,9 @@ namespace :sunspot do
       end
 
       Sunspot.index(records)
-      flags.each_slice(batch_size){|batch| Sunspot.index(batch)} unless flags.empty?
-      nesteds.each_slice(batch_size){|batch| Sunspot.index(batch)} unless nesteds.empty?
+      Sunspot.index(flags) unless flags.empty?
+      Sunspot.index(nesteds) unless nesteds.empty?
     end
-
   end
 
 end
