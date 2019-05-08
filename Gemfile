@@ -8,6 +8,7 @@ gem 'puma',             '~> 3.12'
 gem 'webpacker',        '~> 4.0'
 gem 'devise',           '4.6.2'
 gem 'file_validators',  '~> 2.3'
+gem 'jbuilder',         '~> 2.8'
 
 # TODO: Keeping cancancan at 1.9.2 for now. Newer versions seem to break. Newer
 # version has method changes https://github.com/CanCanCommunity/cancancan/blob/develop/CHANGELOG.md
