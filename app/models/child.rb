@@ -360,7 +360,7 @@ class Child < ApplicationRecord
   end
 
   def primary_photo
-    primary_photo = self.photos.find(&:is_primary?) || self.photos.try(:first)
+    primary_photo = self.photos.find(&:is_current?) || self.photos.try(:first)
     primary_photo.try(:image)
   end
 
