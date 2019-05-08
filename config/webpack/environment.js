@@ -1,5 +1,13 @@
 const { environment } = require("@rails/webpacker");
 const path = require("path");
+const babelLoader = environment.loaders.get('babel')
+const fileLoader = environment.loaders.get('file')
+
+
+const _ = require('lodash');
+const svgPrefix = {};
+svgPrefix.toString = () => `${_.uniqueId()}_`;
+
 
 module.exports = {
   resolve: {
@@ -35,6 +43,25 @@ environment.loaders.append("eslint", {
     }
   ]
 });
+
+environment.loaders.insert('svg', {
+  test: /\.svg$/,
+  use: babelLoader.use.concat([
+    {
+      loader: 'react-svg-loader',
+      options: {
+        jsx: true,
+        svgo: {
+          plugins: [
+            { cleanupIDs: { prefix: svgPrefix } }
+          ]
+        }
+      }
+    }
+  ])
+}, { after: 'file' })
+
+fileLoader.exclude = /\.(svg)$/i
 
 environment.splitChunks(config =>
   Object.assign({}, config, {
