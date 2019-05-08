@@ -3,6 +3,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { Nav } from "components/nav";
 import routes from "config/routes";
+import "./global.css";
 import styles from "./styles.module.css";
 
 const AppLayout = () => {
