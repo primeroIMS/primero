@@ -70,7 +70,7 @@ prim_bootstrap() {
   bin/rails db:create
   bin/rails db:schema:load
   bin/rails db:seed
-  # bin/rails sunspot:reindex
+  bin/rails sunspot:reindex
   touch /.primero-bootstrapped
   return 0
 }
