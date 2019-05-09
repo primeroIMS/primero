@@ -79,8 +79,8 @@ namespace :sunspot do
       end
 
       Sunspot.index(records)
-      Sunspot.index(flags) unless flags.empty?
-      Sunspot.index(nesteds) unless nesteds.empty?
+      flags.each_slice(batch_size){|batch| Sunspot.index(batch)} unless flags.empty?
+      nesteds.each_slice(batch_size){|batch| Sunspot.index(batch)} unless nesteds.empty?
     end
   end
 
