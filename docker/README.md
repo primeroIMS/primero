@@ -4,37 +4,61 @@
 ## Overview
 
 Docker for Primero consists of the following containers: application,
-beanstalkd, Nginx, Postgres, and solr.
+beanstalkd, Nginx, Postgres, and solr. It is compatible with MacOS and modern
+Linux distributions.
 
 ## Installing Docker and Docker-Compose on Linux
 
 First, install Docker on Linux through the [official docker
 website.](https://docs.docker.com/install/).
 
+We will also want the python bindings for Docker and Docker-Compose, which is
+written in Python. On Linux, I recommend you use virtualenv to install a recent
+copy of Python and the docker/docker-compose pip packages. We recommend
+virtualenv as it elimanates the possibly that the package manager will override
+or change your build environment.
+
+On MacOS, you can use your default python installation, provided you install the
+docker and docker-compose pip packages. We still recommend virtualenv.
+
+Most Linux distributions come with a version of python installed. To install
+virtualenv, do it from pip: `python3 -m pip install virtualenv`. Virtualenv can
+also frequently be found in your package manager.
+
 Next, install python, docker, and docker compose in a virtual environment as
 follows:
 
 ```bash
-cd ~/primero
-virtualenv venv
-source venv/bin/activate
-pip install docker docker-compose
+cd ~/Primero
+virtualenv venv # create a virtualenv in a folder called venv
+source venv/bin/activate # load your venv
+pip install docker docker-compose # install required packages
 ```
 
 ## How to Configure the Containers
 
-There are currently two configurations: production and local. The primary
-difference is that NGINX will try to use LetsEncrypt in production mode although
-this can be changed. Each deployment configuration has an env file.
-Additionally, there is a 'defaults' file which always inherits from.
+There are currently two configurations: production and local. The difference is
+that production mode, by default, will try and generate LetsEncrypt signed
+certificates. This must be configured in the env file. Each deployment
+configuration has an env file. Additionally, there is a 'defaults' file which
+always inherits from.
 
 The docker containers are configured through environment variables. Environment
 variables are defined in the .env files and are propagated into config files at
-run time.
+run time. Each configuration has a respective env file: production.env and
+local.env.
 
-Start by looking at the defaults.env file.
+Start by looking at the defaults.env file to get a look at which env options can
+be modified.
 
-## Building - Background
+## Folder Structure
+
+All of the Docker components of Primero live in the docker sub folder. Inside
+the docker folder are sub folders for each container: application, development,
+nginx, etc, and an app_common folder that contains shared resources between the
+production and the development container.
+
+## Building - Docker Build Context
 
 To reduce build time, most of the containers have their build context set to the
 docker directory. The reason for this is that for each container, the entire
@@ -49,13 +73,22 @@ To build simply run: `./build.sh all`
 This will build each container with the tag 'prim-latest'. These will be
 referenced in the docker-compose files.
 
+Note, docker-compose files should not be used as 'docker makefiles.' This will
+cause issues down the line. Thus, it is important that building be provided
+through other means than the docker-compose file.
+
 ## Deploying Locally with Docker Compose
 
 To deploy locally, simply run: `./compose.local.sh up`. The default
 configurations provided should work. Local is set to generate and use self
 signed SSL certificates.
 
-## Deploying - Remote
+## Deploying - Remote Building - Not Recommended
+
+Note, that the approach proposed here is not ideal. We will be performing the
+building on the remote server through a remotely mounted docker socket. This
+wastes performance and resources on a production server. This deployment method
+was chosen due to limitations in time and should be replaced.
 
 To deploy remotely, we are going to mount the docker socket of a remote server
 and then use our local docker tools. To mount the socket into your home
@@ -64,6 +97,9 @@ directory, use the following SSH call.
 ```bash
 ssh -nNT -L $HOME/docker.sock:/var/run/docker.sock user@remoteserver.com
 ```
+
+Note, this call must be left running in a terminal. You can append the `-f` flag
+to the ssh call to background the call.
 
 This will map your remote docker socket onto the local file system. In order to
 use the socket, you have to tell Docker through an environment variable.
@@ -81,20 +117,21 @@ docker-compose. `./compose.prod.sh up -d`
 
 Docker for Primero is configured through environment variables. At runtime, the
 containers will generate appropriate configuration files based on what values
-you have the environment variables set too.
+you have the environment variables set to.
 
 config option - parameter - description
 
-APP_ROOT - file path - this is where primero gets copied to in the app container. i would
-not modify this value.
+APP_ROOT - file path - this is where Primero gets copied to in the app
+container. Changing this parameter has not been tested.
 
-BEANSTALK_URL - address which primero should try to access beanstalk
+BEANSTALK_URL - address which Primero should try to access beanstalk
+this should be set to the container name and port
 
-RAILS_ENV - production / development - sets the build / run mode for primero.
-RAILS_LOG_PATH - path - where primero will store its logs
+RAILS_ENV - production / development - sets the build / run mode for Primero.
+RAILS_LOG_PATH - path - where Primero will store its logs
 
 NGINX_SERVER_HOST - name to put in the self signed certificate. if letsencrypt
-is used, then we will store the host name recieved from certbot here.
+is used, then we will store the host name received from CertBot here.
 NGINX_SERVER_NAME - sets the server name in the nginx site config file. ie what
 name nginx responds too.
 NGINX_SSL_CLIENT_CA, NGINX_SSL_KEY_PATH - path - location where nginx will look
@@ -115,7 +152,7 @@ following as well.
 LETS_ENCRYPT_DOMAIN - domain to put on ssl cert. only supports one domain.
 LETS_ENCRYPT_EMAIL - email for cert. must be set.
 
-POSTGRES_DATABASE - name - sets the database name for primero to use
+POSTGRES_DATABASE - name - sets the database name for Primero to use
 POSTGRES_HOSTNAME - name of the app container. this is the address which other
 containers will use to access postgres.
 
@@ -125,7 +162,7 @@ SOLR_PORT - port for solr. default is 8983.
 SOLR_LOGS_DIR - dir for solr logging
 SOLR_LOG_LEVEL - sets the logging level for solr. `INFO` or `ERROR`
 
-LOCALE_DEFAULT - set this to the language which primero will use. `en` by
+LOCALE_DEFAULT - set this to the language which Primero will use. `en` by
 default.
 
 ## Troubleshooting
