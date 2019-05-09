@@ -19,41 +19,6 @@ class ChildrenController < ApplicationController
 
   include RecordActions #Note that order matters. Filters defined here are executed after the filters above
 
-  #TODO: Refactor with Document storage
-  def edit_photo
-    authorize! :update, @child
-
-    @page_name = t("child.edit_photo")
-  end
-
-  #TODO: Refactor with Document storage
-  def update_photo
-    authorize! :update, @child
-
-    orientation = params[:child].delete(:photo_orientation).to_i
-    if orientation != 0
-      @child.rotate_photo(orientation)
-      @child.last_updated_by = current_user.user_name
-      @child.last_updated_organization = current_user.agency
-      @child.save
-    end
-    redirect_to(@child)
-  end
-
-  #TODO: Refactor with Document storage
-# POST
-  def select_primary_photo
-    authorize! :update, @child
-
-    begin
-      @child.primary_photo_id = params[:photo_id]
-      @child.save
-      head :ok
-    rescue
-      head :error
-    end
-  end
-
   def new_search
   end
 
@@ -387,17 +352,6 @@ class ChildrenController < ApplicationController
 
   def filter_risk_level
     @display_assessment ||= (can?(:view_assessment, Dashboard) || current_user.admin?)
-  end
-
-  #TODO: Delete or refactor with Documents.
-  def update_record_with_attachments(child)
-    new_photo = @record_filtered_params.delete("photo")
-    new_photo = (@record_filtered_params[:photo] || "") if new_photo.nil?
-    new_audio = @record_filtered_params.delete("audio")
-    child.last_updated_by_full_name = current_user.full_name
-    delete_child_audio = params["delete_child_audio"].present?
-    child.update_properties_with_user_name(current_user.user_name, new_photo, params["delete_child_photo"].to_h, new_audio, delete_child_audio, @record_filtered_params.to_h)
-    child
   end
 
   #Override method in LoggerActions.
