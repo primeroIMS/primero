@@ -32,6 +32,11 @@
 /public/packs-test
 <Solr_data_dir>
 Guardfile
+config/backburner.yml
+config/database.yml
+config/locales.yml
+config/mailers.yml
+config/sunspot.yml
 cookbook/cookbooks/
 cookbook/nodes/
 cookbook/private/

@@ -67,7 +67,7 @@ ssh -nNT -L $HOME/docker.sock:/var/run/docker.sock user@remoteserver.com
 
 This will map your remote docker socket onto the local file system. In order to
 use the socket, you have to tell Docker through an environment variable.
-Export your DOCKER_HOST variable: `DOCKER_HOST="unix:///$HOME/docker.sock`.
+Export your DOCKER_HOST variable: `DOCKER_HOST="unix:///$HOME/docker.sock"`.
 
 Run `docker ps` and you should see you are using your remote server. You will
 need to rebuild your containers if they have only been built locally. To rebuild
