@@ -130,7 +130,7 @@ module Exporters
         write_field_row(field, type)
       elsif field.option_strings_text.present?
         option_name = "#{field.name}_opts"
-        options = get_localized_property(field, 'option_strings_text')
+        options = get_localized_property(field, 'option_strings_text').compact
         write_options(option_name, options)
         type = "#{type} #{option_name}"
         write_field_row(field, type)
