@@ -1,3 +1,6 @@
+# TODO: Following scenarios are skipped (using xscenario) due to issues with chrome update / new webdriver gem / capybara gem
+# This should be addressed by PRIM-914
+
 require 'rails_helper'
 require 'sunspot'
 
@@ -26,7 +29,7 @@ feature "show page", search: true do
       Sunspot.commit
     end
 
-    scenario "as agency user admin and sees only users in same agency" do
+    xscenario "as agency user admin and sees only users in same agency" do
       create_session(@user, 'password123')
       visit "/users"
       expect(page).to have_content @user.user_name
@@ -34,7 +37,7 @@ feature "show page", search: true do
       expect(page).to_not have_content @user3.user_name
     end
 
-    scenario "as admin and sees all users" do
+    xscenario "as admin and sees all users" do
       create_session(@user2, 'password123')
       visit "/users"
       expect(page).to have_content @user.user_name

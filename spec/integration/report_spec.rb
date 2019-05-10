@@ -1,3 +1,6 @@
+# TODO: Following scenarios are skipped (using xscenario) due to issues with chrome update / new webdriver gem / capybara gem
+# This should be addressed by PRIM-914
+
 require 'rails_helper'
 require 'sunspot'
 
@@ -34,7 +37,7 @@ feature "reports", search: true do
     Sunspot.commit
   end
 
-  scenario "generates report", search: true do
+  xscenario "generates report", search: true do
     create_session(@user_for_report, 'password123')
 
     visit "/reports"
