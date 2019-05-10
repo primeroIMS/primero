@@ -1096,6 +1096,7 @@ en:
       dash_cases_to_assign: "View Cases To Assign"
       dash_show_none_values: "View None Values"
       dash_tasks: "View Tasks"
+      dash_protection_concerns_by_location: "View Protection Concerns By Location"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
       incident_details_from_case: "Add Incident Details to another user's case"

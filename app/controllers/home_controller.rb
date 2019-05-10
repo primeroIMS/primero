@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   ALL_FILTER = "all"
 
+  before_action :can_display_protection_concerns, :only => [:index]
   before_action :load_default_settings, :only => [:index]
   before_action :can_access_approvals, :only => [:index]
   before_action :can_read_cases, :only => [:index]
@@ -26,7 +27,7 @@ class HomeController < ApplicationController
       load_manager_information if display_manager_dashboard?
       load_gbv_incidents_information if display_gbv_incidents_dashboard?
       load_match_result if display_matching_results_dashboard?
-      load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
+      load_admin_information if display_admin_dashboard? | display_reporting_location? | @display_protection_concerns
       #TODO: All this needs to be heavily refactored
 
 
@@ -283,10 +284,6 @@ class HomeController < ApplicationController
     @display_reporting_location ||= (can?(:dash_reporting_location, Dashboard) || current_user.is_admin?)
   end
 
-  def display_protection_concerns?
-    @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.is_admin?)
-  end
-
   def display_service_provisions?
     @display_service_provisions ||= can?(:dash_service_provisions, Dashboard)
   end
@@ -489,6 +486,12 @@ class HomeController < ApplicationController
       @reporting_location ||= ReportingLocation::DEFAULT_FIELD_KEY
       @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
     end
+
+    if @display_protection_concerns_by_location
+      @reporting_location_hierarchy_filter = nil   #TODO verfify this
+      @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter, locale: I18n.locale)
+      @options_reporting_locations = @options_reporting_locations.map{|l| l.except("hierarchy")} if @options_reporting_locations.present?
+    end
   end
 
   def can_access_approvals
@@ -504,6 +507,11 @@ class HomeController < ApplicationController
 
   def can_read_incidents
     @can_read_incidents = can?(:index, Incident)
+  end
+
+  def can_display_protection_concerns
+    @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.is_admin?)
+    @display_protection_concerns_by_location ||= (@display_protection_concerns && can?(:dash_protection_concerns_by_location, Dashboard))
   end
 
   def load_recent_activities
