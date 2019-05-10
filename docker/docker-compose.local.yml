@@ -1,0 +1,40 @@
+version: '3'
+services:
+  nginx:
+    image: nginx:prim-latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - local_certs:/etc/certs
+      - tmp:/srv/primero/application/tmp
+      - log:/var/log/nginx
+      - public:/srv/primero/application/public
+    env_file:
+      - docker/defaults.env
+      - docker/local.env
+      - docker/quoin.env
+    depends_on:
+      - application
+  application:
+    env_file:
+      - docker/defaults.env
+      - docker/local.env
+      - docker/quoin.env
+    ports:
+      - "3000:3000"
+  solr:
+    env_file:
+      - docker/defaults.env
+      - docker/local.env
+      - docker/quoin.env
+  beanstalkd:
+    env_file:
+      - docker/defaults.env
+      - docker/local.env
+      - docker/quoin.env
+  postgres:
+    env_file:
+      - docker/defaults.env
+      - docker/local.env
+      - docker/quoin.env

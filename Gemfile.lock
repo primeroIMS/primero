@@ -202,7 +202,6 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.7.0)
       launchy (~> 2.2)
-    libv8 (3.16.14.19)
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -390,9 +389,6 @@ GEM
       sunspot_solr
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
-    therubyracer (0.12.3)
-      libv8 (~> 3.16.14.15)
-      ref
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.9)
@@ -491,7 +487,6 @@ DEPENDENCIES
   sunspot_rails (= 2.3.0)
   sunspot_solr (= 2.3.0)
   sunspot_test
-  therubyracer (~> 0.12)
   timecop (~> 0.9.1)
   turbolinks (~> 5)
   twitter_cldr (~> 4.4)
