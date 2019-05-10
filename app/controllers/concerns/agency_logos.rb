@@ -7,21 +7,21 @@ module AgencyLogos
   end
 
   def show_logo
-    resized = @attachment.resize "x29"
-    send_photo_data(resized.data.read, :type => @attachment.content_type, :disposition => 'inline')
+    resized = @attachment.variant(resize: '29')
+    send_photo_data(resized, :type => @attachment.content_type, :disposition => 'inline')
   end
 
   private
-
   def all_agency_logos
+  # This variable is used on application_controller.rb. Should we move this method?
     @agency_logos = Agency.retrieve_logo_ids
   end
 
   def find_logo
-    object = instance_variable_get("@agency") || Agency.get(params[:agency_id])
+    object = instance_variable_get("@agency") || Agency.find_by_id(params[:agency_id])
 
     begin
-      @attachment = object.media_for_key(params[:logo_id])
+      @attachment = object.logo_small.attachment
     rescue => e
       p e.inspect
     end

@@ -850,6 +850,8 @@ en:
     name: 'Agency Name'
     code: 'Agency Code'
     services: 'Agency Services'
+    logo_small: 'Small Logo'
+    logo_large: 'Large Logo'
 
   system_settings:
     label: "System Settings"
@@ -1847,6 +1849,7 @@ en:
         unique_name: "An Agency with that name already exists, please enter a different name"
         name_present: "must not be blank"
         code_present: "must not be blank"
+        logo_dimension: "dimension must be less than or equal to %{width}x%{height} pixels"
 
       primero_program:
         unique_unique_id: "A PrimeroProgram with that unique_id already exists, please enter a different unique_id"
