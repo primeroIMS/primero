@@ -219,7 +219,7 @@ module Exporters
         if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
         else
-          value = model.send(property.name)
+          value = model.data[property.name]
           translate_value(property.name, value)
         end
       end
@@ -238,7 +238,7 @@ module Exporters
 
       def translate_value(fields, value)
         field = fields.is_a?(Array) ? fields.first : fields
-        if field.present?
+        if field.present? && field.is_a?(Field)
           if field.is_a?(Array) && field.type == Field::SUBFORM
             field_names = field.map{|pn| pn.try(:name)}
             sub_fields = field.subform_section.try(:fields)

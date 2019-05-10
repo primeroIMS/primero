@@ -212,7 +212,7 @@ module ApplicationHelper
     elsif exporter_id == "incident_recorder_xls"
       return modules_id.include?(PrimeroModule::GBV)
     elsif exporter_id == "selected_xls"
-      false
+      true
     else
       true
     end
