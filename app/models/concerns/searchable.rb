@@ -79,6 +79,7 @@ module Searchable
   end
 
   module ClassMethods
+    #TODO: Refactor API: This logic has moved to a service. Delete this.
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?

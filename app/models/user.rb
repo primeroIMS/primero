@@ -175,6 +175,7 @@ class User < ApplicationRecord
       any_of_permissions.flatten.count
   end
 
+  #TODO: May deprecate this method in favor of record_query_scope
   def managed_users
     if group_permission? Permission::ALL
       @managed_users ||= User.all
@@ -191,6 +192,7 @@ class User < ApplicationRecord
     @managed_users
   end
 
+  #TODO: May deprecate this method in favor of record_query_scope
   def managed_user_names
     managed_users
     @managed_user_names
@@ -207,9 +209,24 @@ class User < ApplicationRecord
     @managers
   end
 
+  #TODO: Deprecate this method in favor of record_query_scope
   def record_scope
     managed_users
     @record_scope
+  end
+
+  # This method indicates what records this user can search for.
+  # Returns self, if can only search records associated with this user
+  # Returns list of UserGroups if can only query from those user groups that this user has access to
+  # Returns empty list if can query for all records in the system
+  def record_query_scope
+    if self.group_permission?(Permission::ALL) || self.can?(:search_owned_by_others)
+      []
+    elsif self.group_permission?(Permission::GROUP) && self.user_group_ids.present?
+      self.user_groups
+    else
+      self
+    end
   end
 
   def mobile_login_history

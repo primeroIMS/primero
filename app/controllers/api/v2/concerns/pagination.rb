@@ -1,13 +1,13 @@
 module Api::V2::Concerns
-  module FilteringPagination
+  module Pagination
     extend ActiveSupport::Concern
 
     def page
-      @page ||= (params[:page] ? params[:page].to_i : 1)
+      @page ||= (params[:page].try(:to_i) || 1)
     end
 
     def per
-      @per ||= (params[:per] ? params[:per].to_i : 20)
+      @per ||= (params[:per].try(:to_i) || 20)
     end
 
     def offset
@@ -19,11 +19,15 @@ module Api::V2::Concerns
     end
 
     def order_by
-      @order_by ||= (params[:order_by] ? params[:order_by] : 'created_at')
+      @order_by ||= (params[:order_by] || 'created_at')
     end
 
     def order
-      @order ||= (params[:order] ? params[:order] : 'desc')
+      @order ||= (params[:order] || 'desc')
+    end
+
+    def sort_order
+      { order_by => order}
     end
 
   end

@@ -1,5 +1,7 @@
 class ApplicationApiController < ActionController::API
 
+  before_action :authenticate_user!
+
   class << self
     attr_accessor :model_class
   end
