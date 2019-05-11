@@ -3,15 +3,15 @@
 module Workflow
   extend ActiveSupport::Concern
 
-  included do
-    WORKFLOW_NEW = 'new'
-    WORKFLOW_CLOSED = 'closed'
-    WORKFLOW_REOPENED = 'reopened'
-    WORKFLOW_SERVICE_PROVISION = 'service_provision' #Note, this status is deprecated
-    WORKFLOW_SERVICE_IMPLEMENTED = 'services_implemented'
-    WORKFLOW_CASE_PLAN = 'case_plan'
-    WORKFLOW_ASSESSMENT = 'assessment'
+  WORKFLOW_NEW = 'new'
+  WORKFLOW_CLOSED = 'closed'
+  WORKFLOW_REOPENED = 'reopened'
+  WORKFLOW_SERVICE_PROVISION = 'service_provision' #Note, this status is deprecated
+  WORKFLOW_SERVICE_IMPLEMENTED = 'services_implemented'
+  WORKFLOW_CASE_PLAN = 'case_plan'
+  WORKFLOW_ASSESSMENT = 'assessment'
 
+  included do
     store_accessor :data, :workflow
     alias_method :workflow_status, :workflow
 

@@ -13,7 +13,9 @@ class SearchFilterService
     params.map do |key, value|
       if key == 'or'
         if value.is_a?(Array)
-          SearchFilters.new(filters: value.map{|v| build_filters(v)})
+          SearchFilters::Or.new(filters: value.map{|v| build_filters(v).first})
+        elsif value.is_a?(Hash)
+          SearchFilters::Or.new(filters: build_filters(value))
         end
       elsif value.is_a?(Hash)
         if value['from'].is_a?(Numeric)

@@ -25,6 +25,7 @@ module Api::V2::Concerns
       @permitted_field_names ||= @permitted_fields.map(&:name)
     end
 
+    #Move logic to FieldSelectionService
     def select_fields
       selected_field_names = nil
       if params[:fields] == 'short'

@@ -14,11 +14,7 @@ require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'csv'
 require 'active_support/inflector'
-require 'sunspot/rails/spec_helper'
 require 'sunspot_test/rspec'
-require 'capybara/rails'
-require 'selenium/webdriver'
-require 'rack_session_access/capybara'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -26,31 +22,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # This clears couchdb between tests.
 Mime::Type.register 'application/zip', :mock
-
-Capybara.register_driver :chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
-end
-
-Capybara.register_driver :headless_chrome do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    'chromeOptions' => { args: %w[headless no-sandbox disable-gpu window-size=1280,1024] }
-  )
-
-  Capybara::Selenium::Driver.new app,
-                                 browser: :chrome,
-                                 desired_capabilities: capabilities
-end
-
-Capybara.register_server :puma do |app, port, host|
-  require 'rack/handler/puma'
-  Rack::Handler::Puma.run(app, Port: port, Host: host)
-end
-
-Capybara.server = :puma
-Capybara.default_driver = :headless_chrome
-Capybara.default_max_wait_time = 6 # In seconds
-Capybara.javascript_driver = :headless_chrome
-Capybara.page.driver.browser.manage.window.resize_to(2000, 2000)
 
 module VerifyAndResetHelpers
   def verify(object)
@@ -63,14 +34,11 @@ module VerifyAndResetHelpers
 end
 
 RSpec.configure do |config|
-  config.include Capybara::DSL
   config.include FactoryBot::Syntax::Methods
   config.include UploadableFiles
-  config.include ChildFinder
   config.include FakeLogin, type: :controller
   config.include VerifyAndResetHelpers
-  config.include Conflicts
-  config.include CapybaraHelpers
+  config.include ModelReloader
 
   config.formatter = :progress
 
@@ -141,25 +109,7 @@ RSpec.configure do |config|
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
   config.before(:each) { I18n.available_locales = Primero::Application.locales }
-
-  config.before(:each) do |example|
-    unless example.metadata[:search]
-      ::Sunspot.session = ::Sunspot::Rails::StubSessionProxy.new(::Sunspot.session)
-    end
-  end
-
-  config.after(:each) do |example|
-    unless example.metadata[:search]
-      ::Sunspot.session = ::Sunspot.session.original_session
-    end
-  end
-
-  #########################
-  # Couch Changes Config ##
-  # #######################
-  config.filter_run_excluding event_machine: true unless ENV['ALL_TESTS']
-  config.include EventMachineHelper, :event_machine
-  config.extend EventMachineHelper, :event_machine
+  
 end
 
 def stub_env(new_env)

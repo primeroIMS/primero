@@ -8,7 +8,7 @@ module SearchFilters
         if this.to.blank?
           with(this.field_name).greater_than_or_equal_to(this.from)
         else
-          with(this.field_name).between(this.to..this.from)
+          with(this.field_name).between(this.from..this.to)
         end
       end
     end
