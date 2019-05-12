@@ -36,6 +36,8 @@ end
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
   config.include UploadableFiles
+  config.include Devise::Test::IntegrationHelpers
+  config.include FakeDeviseLogin, type: :request
   config.include FakeLogin, type: :controller
   config.include VerifyAndResetHelpers
   config.include ModelReloader
@@ -109,7 +111,7 @@ RSpec.configure do |config|
 
   config.before(:each) { I18n.locale = I18n.default_locale = :en }
   config.before(:each) { I18n.available_locales = Primero::Application.locales }
-  
+
 end
 
 def stub_env(new_env)

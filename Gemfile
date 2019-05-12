@@ -61,7 +61,7 @@ gem 'uglifier',          '~> 4.1'
 
 group :development, :test do
   gem 'i18n-tasks',                 '~> 0.9'
-  gem 'better_errors',              '~> 2.5'
+  gem 'better_errors',              '~> 2.5', require: false
   gem 'binding_of_caller',          '~> 0.8'
   gem 'ruby-prof',                  '~> 0.17'
   gem 'request_profiler',           '~> 0.0', :git => 'https://github.com/justinweiss/request_profiler.git'

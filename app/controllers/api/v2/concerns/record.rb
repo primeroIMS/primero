@@ -11,7 +11,7 @@ module Api::V2::Concerns
       params.permit!
       search_filters = SearchFilterService.build_filters(params, @permitted_field_names)
       search = SearchService.search(
-          model_class, search_filters, current_user.record_query_scope, params[:query],
+          model_class, search_filters, current_user.record_query_scope(model_class), params[:query],
           sort_order, pagination)
       @records = search.results
       @total = search.total
@@ -25,19 +25,8 @@ module Api::V2::Concerns
       @permitted_field_names ||= @permitted_fields.map(&:name)
     end
 
-    #Move logic to FieldSelectionService
     def select_fields
-      selected_field_names = nil
-      if params[:fields] == 'short'
-        selected_field_names = model_class.summary_field_names
-      elsif params[:fields].present?
-        selected_field_names = params[:fields].split(',')
-      end
-      if selected_field_names.present?
-        @selected_field_names = selected_field_names & @permitted_field_names
-      else
-        @selected_field_names = @permitted_field_names
-      end
+      @selected_field_names = FieldSelectionService.select_fields_to_show(params, model_class, @permitted_field_names)
     end
 
   end

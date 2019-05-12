@@ -219,8 +219,8 @@ class User < ApplicationRecord
   # Returns self, if can only search records associated with this user
   # Returns list of UserGroups if can only query from those user groups that this user has access to
   # Returns empty list if can query for all records in the system
-  def record_query_scope
-    if self.group_permission?(Permission::ALL) || self.can?(:search_owned_by_others)
+  def record_query_scope(record_model)
+    if self.group_permission?(Permission::ALL) || self.can?(:search_owned_by_others, record_model)
       []
     elsif self.group_permission?(Permission::GROUP) && self.user_group_ids.present?
       self.user_groups
