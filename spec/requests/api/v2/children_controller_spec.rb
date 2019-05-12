@@ -30,7 +30,7 @@ describe Api::V2::ChildrenController, type: :request, search: true do
       record = json['data'][0]
       expect(record.keys).to match_array(%w(id age sex))
     end
-    
+
   end
 
   after :each do

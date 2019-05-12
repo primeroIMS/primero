@@ -10,4 +10,6 @@ TODO. All other endpoints will require authentication.
 
 ## Case Endpoints
 
-TODO.
+Endpoints for querying and manipulating cases and related resources in Primero.
+
+* [Query for cases](v2/docs/cases/get.md) : `GET /api/v2/cases`
