@@ -8,6 +8,7 @@ module Api::V2::Concerns
     end
 
     def index
+      authorize! :index, model_class
       params.permit!
       search_filters = SearchFilterService.build_filters(params, @permitted_field_names)
       search = SearchService.search(

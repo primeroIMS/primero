@@ -65,3 +65,23 @@ list of relevant permitted fields.
 }
 
 ```
+## Error Response
+
+**Condition** : User isnt authorized to query for cases. 
+
+**Code** : `403 Forbidden`
+
+**Content** :
+
+```json
+{
+  "errors": [
+    {
+      "code": 403,
+      "resource": "/api/v2/cases",
+      "message": "Forbidden"
+    }
+  ]
+}
+
+```

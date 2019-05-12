@@ -21,17 +21,17 @@ module FakeDeviseLogin
 
   def fake_test_login(opts={})
     user = User.new(user_name: 'faketest')
+    permissions = opts[:permissions] || [permission_case, permission_incident, permission_tracing_request]
+    group_permission =  opts[:group_permission] ||  Permission::ALL
     user.stub(:role).and_return(
         Role.new(
-            permissions_list: [permission_case, permission_incident, permission_tracing_request],
-            group_permission: Permission::ALL
+            permissions_list: permissions,
+            group_permission: group_permission
         )
     )
     permitted_field_names = opts[:permitted_field_names] || common_permitted_field_names
     user.stub(:permitted_fields).and_return(permitted_field_names.map{|n| Field.new(name: n.to_s)})
     sign_in(user)
   end
-
-
 
 end

@@ -31,6 +31,15 @@ describe Api::V2::ChildrenController, type: :request, search: true do
       expect(record.keys).to match_array(%w(id age sex))
     end
 
+    it 'refuses unauthorized access' do
+      fake_test_login(permissions: [])
+      get '/api/v2/cases'
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/cases')
+    end
+
   end
 
   after :each do
