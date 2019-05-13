@@ -486,12 +486,6 @@ class HomeController < ApplicationController
       @reporting_location ||= ReportingLocation::DEFAULT_FIELD_KEY
       @reporting_location_label ||= ReportingLocation::DEFAULT_LABEL_KEY
     end
-
-    if @display_protection_concerns_by_location
-      @reporting_location_hierarchy_filter = nil   #TODO verfify this
-      @options_reporting_locations = Location.find_names_by_admin_level_enabled(@admin_level, @reporting_location_hierarchy_filter, locale: I18n.locale)
-      @options_reporting_locations = @options_reporting_locations.map{|l| l.except("hierarchy")} if @options_reporting_locations.present?
-    end
   end
 
   def can_access_approvals
@@ -810,11 +804,13 @@ class HomeController < ApplicationController
       })
     end
 
+    protection_concerns_location = params[:protection_concerns_location] if @display_protection_concerns_by_location
+
     @protection_concern_stats = build_admin_stats({
-        totals: get_admin_stat({by_protection_concern: true}),
-        open: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true}),
-        new_this_week: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true, new: true, date_range: this_week}),
-        closed_this_week: get_admin_stat({status: Record::STATUS_CLOSED, by_protection_concern: true, closed: true, date_range: this_week})
+        totals: get_admin_stat({by_protection_concern: true, protection_concerns_location: protection_concerns_location }),
+        open: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true, protection_concerns_location: protection_concerns_location }),
+        new_this_week: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true, new: true, date_range: this_week, protection_concerns_location: protection_concerns_location }),
+        closed_this_week: get_admin_stat({status: Record::STATUS_CLOSED, by_protection_concern: true, closed: true, date_range: this_week, protection_concerns_location: protection_concerns_location })
     })
   end
 
@@ -857,6 +853,7 @@ class HomeController < ApplicationController
       with(:child_status, query[:status]) if query[:status].present?
       with(:created_at, query[:date_range]) if query[:new].present?
       with(:date_closure, query[:date_range]) if query[:closed].present?
+      with("#{reporting_location}#{admin_level}".to_sym, query[:protection_concerns_location]) if query[:protection_concerns_location].present?
       facet("#{reporting_location}#{admin_level}".to_sym, zeros: false) if query[:by_reporting_location].present?
       facet(:protection_concerns, zeros: false) if query[:by_protection_concern].present?
     end

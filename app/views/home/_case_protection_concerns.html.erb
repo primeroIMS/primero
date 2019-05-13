@@ -4,7 +4,12 @@
       <%= t('dashboard.protection_concerns') %>
       <% if @display_protection_concerns_by_location %>
         <div class="protection_concerns_location_select">
-          <%= select_tag("protection_concerns_location", options_for_select(@options_reporting_locations), include_blank: true) %>
+          <% # The form is a hack because the js needs it. %>
+          <form class="protection_concerns_location_form">
+            <%= select_tag("protection_concerns_location", options_for_select([], ''), :data => { :populate => 'ReportingLocation', :value => params[:protection_concerns_location] },
+                           'data-placeholder' => t("fields.select_box_empty_item"),
+                           :include_blank => true, :class => 'chosen-select') %>
+          </form>
         </div>
       <% end %>
     </h4>
