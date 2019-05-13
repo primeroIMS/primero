@@ -67,7 +67,7 @@ list of relevant permitted fields.
 ```
 ## Error Response
 
-**Condition** : User isnt authorized to query for cases. 
+**Condition** : User isn't authorized to query for cases. 
 
 **Code** : `403 Forbidden`
 
