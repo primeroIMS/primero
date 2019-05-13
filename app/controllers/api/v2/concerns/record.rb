@@ -24,6 +24,38 @@ module Api::V2::Concerns
       authorize! :read, @record
     end
 
+    def create
+      authorize! :create, model_class
+      params.permit!
+      @record = model_class.find_by(id: params[:data][:id]) if params[:data][:id]
+      if @record.nil?
+        @record = model_class.new_with_user(current_user, record_params)
+        if @record.save
+          status = params[:data][:id].present? ? 204 : 200
+          render :create, status: status
+        else
+          @errors = @record.errors.messages.map do |field_name, message|
+            ApplicationError.new(
+                code: 422,
+                message: message,
+                resource: request.path,
+                detail: field_name.to_s
+            )
+          end
+          render 'api/v2/errors/errors', status: 422
+        end
+      else
+        @errors = [
+          ApplicationError.new(
+              code: 409,
+              message: 'Conflict: A record with this unique_identifier already exists',
+              resource: request.path
+          )
+        ]
+        render 'api/v2/errors/errors', status: 409
+      end
+    end
+
     def permit_fields
       @permitted_fields ||= current_user.permitted_fields(current_user.primero_modules, model_class.parent_form)
       @permitted_field_names ||= @permitted_fields.map(&:name)
@@ -31,6 +63,13 @@ module Api::V2::Concerns
 
     def select_fields
       @selected_field_names = FieldSelectionService.select_fields_to_show(params, model_class, @permitted_field_names)
+    end
+
+    def record_params
+      record_params = params['data'].try(:to_h) || {}
+      record_params = DestringifyService.destringify(record_params)
+      record_params.select{|k,_| @permitted_field_names.include?(k)}.to_h
+      #TODO: What about some unpermitted defaults? unique_identifier, :id...
     end
 
     def find_record

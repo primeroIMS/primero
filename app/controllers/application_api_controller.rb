@@ -9,14 +9,14 @@ class ApplicationApiController < ActionController::API
     @errors = [
         ApplicationError.new(code: 403, message: 'Forbidden', resource: request.path, exception: exception)
     ]
-    render 'api/v2/errors/errors', :status => 403
+    render 'api/v2/errors/errors', status: 403
   end
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
     @errors =  [
         ApplicationError.new(code: 404, message: 'Not Found', resource: request.path, exception: exception)
     ]
-    render 'api/v2/errors/errors', :status => 404
+    render 'api/v2/errors/errors', status: 404
   end
 
   class << self
