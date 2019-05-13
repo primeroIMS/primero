@@ -19,6 +19,9 @@ module Api::V2::Concerns
     end
 
     def show
+      authorize! :read, model_class
+      @record = find_record
+      authorize! :read, @record
     end
 
     def permit_fields
@@ -28,6 +31,12 @@ module Api::V2::Concerns
 
     def select_fields
       @selected_field_names = FieldSelectionService.select_fields_to_show(params, model_class, @permitted_field_names)
+    end
+
+    def find_record
+      record = model_class.find(params[:id])
+      # Alias the record to a more specific name: @child, @incident, @tracing_request
+      instance_variable_set("@#{model_class.name.underscore}", record)
     end
 
   end

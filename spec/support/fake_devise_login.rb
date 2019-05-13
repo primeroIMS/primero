@@ -19,7 +19,7 @@ module FakeDeviseLogin
     @common_permitted_field_names ||= %w(name age sex protection_concerns registration_date record_sate status)
   end
 
-  def fake_test_login(opts={})
+  def login_for_test(opts={})
     user = User.new(user_name: 'faketest')
     permissions = opts[:permissions] || [permission_case, permission_incident, permission_tracing_request]
     group_permission =  opts[:group_permission] ||  Permission::ALL

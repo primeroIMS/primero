@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::V2::ChildrenController, type: :request, search: true do
+describe Api::V2::ChildrenController, type: :request do
 
   before :each do
     @case1 = Child.create!(data: {name: "Test1", age: 5, sex: 'male'})
@@ -10,12 +10,13 @@ describe Api::V2::ChildrenController, type: :request, search: true do
 
   let(:json) { JSON.parse(response.body) }
 
-  describe 'GET /api/v2/cases' do
+  describe 'GET /api/v2/cases', search: true do
 
     it 'lists cases and accompanying metadata' do
-      fake_test_login
+      login_for_test
       get '/api/v2/cases'
 
+      expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(2)
       expect(json['data'].map{|c| c['name']}).to include(@case1.name, @case2.name)
       expect(json['metadata']['total']).to eq(2)
@@ -24,7 +25,7 @@ describe Api::V2::ChildrenController, type: :request, search: true do
     end
 
     it 'shows relevant fields' do
-      fake_test_login(permitted_field_names: %w(age sex))
+      login_for_test(permitted_field_names: %w(age sex))
       get '/api/v2/cases'
 
       record = json['data'][0]
@@ -32,7 +33,7 @@ describe Api::V2::ChildrenController, type: :request, search: true do
     end
 
     it 'refuses unauthorized access' do
-      fake_test_login(permissions: [])
+      login_for_test(permissions: [])
       get '/api/v2/cases'
 
       expect(response).to have_http_status(403)
@@ -42,9 +43,43 @@ describe Api::V2::ChildrenController, type: :request, search: true do
 
   end
 
+  describe 'GET /api/v2/cases/:id' do
+    it 'fetches the correct record' do
+      login_for_test
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['id']).to eq(@case1.id)
+    end
+
+    it 'shows relevant fields' do
+      login_for_test(permitted_field_names: %w(age sex))
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(json.keys).to match_array(%w(id age sex))
+    end
+
+    it 'refuses unauthorized access' do
+      login_for_test(group_permission: Permission::SELF)
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+    end
+
+    it 'reports that a record cannot be found for a non-existant id' do
+      login_for_test
+      get '/api/v2/cases/thisdoesntexist'
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/cases/thisdoesntexist')
+    end
+  end
+
   after :each do
     Child.destroy_all
-    User.destroy_all
   end
 
 end
