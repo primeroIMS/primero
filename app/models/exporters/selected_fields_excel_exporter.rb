@@ -118,7 +118,6 @@ module Exporters
         else
           field = property.split(':')
           subform_name, subform_field = field.first, field.last
-          # binding.pry if subform_name == "notes_section" || subform_name == "tracing_actions_section"
           value = if field.length > 1
                     subform = model.data.try(:[], subform_name)
                     subform.try(:[], subform_field) unless subform.blank?
