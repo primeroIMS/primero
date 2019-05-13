@@ -29,14 +29,16 @@ list of relevant permitted fields.
 
 ```json
 {
-  "id": "b3222e84-a5d7-4692-a643-1ab3d41f17d6",
-  "age": 16,
-  "sex": "female",
-  "name": "Edwine Edgemont",
-  "owned_by": "primero",
-  "created_at": "2019-05-10T05:34:59.514Z",
-  "case_id_display": "f15a1a9",
-  "registration_date": "2019-05-10"
+  "data": {
+      "id": "b3222e84-a5d7-4692-a643-1ab3d41f17d6",
+      "age": 16,
+      "sex": "female",
+      "name": "Edwine Edgemont",
+      "owned_by": "primero",
+      "created_at": "2019-05-10T05:34:59.514Z",
+      "case_id_display": "f15a1a9",
+      "registration_date": "2019-05-10"
+  }
 }
 
 ```
@@ -60,7 +62,7 @@ list of relevant permitted fields.
 }
 
 ```
-**Condition** : A case with thie provided id doesn't exist in the database.. 
+**Condition** : A case with the provided id doesn't exist in the database.
 
 **Code** : `404 Not Found`
 
