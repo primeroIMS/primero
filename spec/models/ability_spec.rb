@@ -5,8 +5,11 @@ describe Ability do
   CRUD = [:index, :create, :view, :edit, :update, :destroy]
 
   before do
-    User.all.each &:destroy
-    Child.all.each &:destroy
+    [
+      User, Child, FormSection,
+      FormSection, PrimeroModule, PrimeroProgram,
+      Role, Agency, UserGroup
+    ].each(&:destroy_all)
     @user1 = create :user
     @user2 = create :user
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
@@ -21,7 +24,7 @@ describe Ability do
 
     it "allows an owned record to be read given a read permission" do
       role = create :role, permissions_list: [@permission_case_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       case1 = create :child, owned_by: @user1.user_name
 
       ability = Ability.new @user1
@@ -32,7 +35,7 @@ describe Ability do
 
     it "doesn't allow an owned record to be written to given only a read permission" do
       role = create :role, permissions_list: [@permission_case_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       case1 = create :child, owned_by: @user1.user_name
 
       ability = Ability.new @user1
@@ -43,7 +46,7 @@ describe Ability do
 
     it "allows a non-owned but associated record to be read" do
       role = create :role, permissions_list: [@permission_case_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       case1 = create :child, owned_by: @user2.user_name, assigned_user_names: [@user1.user_name]
 
       ability = Ability.new @user1
@@ -55,7 +58,7 @@ describe Ability do
 
     it "allows an owned record to be written to given a write permission" do
       role = create :role, permissions_list: [@permission_case_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       case1 = create :child, owned_by: @user1.user_name
 
       ability = Ability.new @user1
@@ -67,7 +70,7 @@ describe Ability do
     it "allows an owned record to be flagged given a flag permission" do
       permission_flag = Permission.new(resource: Permission::CASE, actions: [Permission::FLAG])
       role = create :role, permissions_list: [permission_flag]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       case1 = create :child, owned_by: @user1.user_name
 
       ability = Ability.new @user1
@@ -78,7 +81,7 @@ describe Ability do
     it "allows an owned record to be reassigned" do
       permission_assign = Permission.new(resource: Permission::CASE, actions: [Permission::ASSIGN])
       role = create :role, permissions_list: [permission_assign]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       case1 = create :child, owned_by: @user1.user_name
 
       ability = Ability.new @user1
@@ -89,7 +92,7 @@ describe Ability do
     it "doesn't allow a record to be written to even if the record can be flagged and assigned" do
       permission_flag_assign = Permission.new(resource: Permission::CASE, actions: [Permission::FLAG, Permission::ASSIGN])
       role = create :role, permissions_list: [permission_flag_assign]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       case1 = create :child, owned_by: @user1.user_name
 
       ability = Ability.new @user1
@@ -100,7 +103,7 @@ describe Ability do
 
     it "doesn't allow a record owned by someone else to be managed by a user with no specified scope" do
       role = create :role, permissions_list: [@permission_case_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       case1 = create :child, owned_by: @user2.user_name
 
       ability = Ability.new @user1
@@ -111,7 +114,7 @@ describe Ability do
 
     it "doesn't allow a record owned by someone else to be managed by a user with a 'self' scope" do
       role = create :role, permissions_list: [@permission_case_read_write], group_permission: Permission::SELF
-      @user1.role_ids = [role.id]
+      @user1.role = role
       case1 = create :child, owned_by: @user2.user_name
 
       ability = Ability.new @user1
@@ -122,10 +125,11 @@ describe Ability do
 
     it "allows a record owned by a fellow group member to be managed by a user with 'group' scope" do
       role = create :role, permissions_list: [@permission_case_read_write], group_permission: Permission::GROUP
-      @user1.role_ids = [role.id]
-      @user1.user_group_ids = ['test_group']
+      test_user_group = build(:user_group, unique_id: 'test_group')
+      @user1.role = role
+      @user1.user_groups = [test_user_group]
       @user1.save
-      @user2.user_group_ids = ['test_group']
+      @user2.user_groups = [test_user_group]
       @user2.save
       case1 = create :child, owned_by: @user2.user_name
 
@@ -137,10 +141,12 @@ describe Ability do
 
     it "allows a record owned by someone else to be read by a user with full 'all' scope" do
       role = create :role, permissions_list: [@permission_case_read_write], group_permission: Permission::ALL
-      @user1.role_ids = [role.id]
-      @user1.user_group_ids = ['test_group']
+      test_group = build(:user_group, unique_id: 'test_group')
+      other_test_group = build(:user_group, unique_id: 'other_test_group')
+      @user1.role = role
+      @user1.user_groups = [test_group]
       @user1.save
-      @user2.user_group_ids = ['other_test_group']
+      @user2.user_groups = [other_test_group]
       @user2.save
       case1 = create :child, owned_by: @user2.user_name
 
@@ -176,7 +182,7 @@ describe Ability do
 
       it "doesn't allow a user with super user status to edit another super user role" do
         super_role2 = create :role, name: "super_user_role2", permissions_list: @permissions_super_user_list, group_permission: Permission::ALL
-        @user1.role_ids = [@super_role.id]
+        @user1.role = @super_role
         @user1.save
 
         ability = Ability.new @user1
@@ -189,7 +195,7 @@ describe Ability do
       # TODO-permission: uncomment when this fucntionality is implemented in ability.rb
       xit "allow a user with super user status to assign its own role or another super user role" do
         super_role2 = create :role, name: "super_user_role2", permissions_list: @permissions_super_user_list, group_permission: Permission::ALL
-        @user1.role_ids = [@super_role.id]
+        @user1.role = @super_role
         @user1.save
 
         ability = Ability.new @user1
@@ -201,7 +207,7 @@ describe Ability do
       end
 
       it "doesn't allow a user with super user status to edit its own role" do
-        @user1.role_ids = [@super_role.id]
+        @user1.role = @super_role
         @user1.save
 
         ability = Ability.new @user1
@@ -214,9 +220,9 @@ describe Ability do
         user_admin_role = create :role, name: "user_admin_role", permissions_list: @permissions_user_admin_list, group_permission: Permission::ADMIN_ONLY
         user_role = create :role, name: "user_role", permissions_list: [@permission_role_read_write], group_permission: Permission::ALL
 
-        @user1.role_ids = [user_admin_role.id]
+        @user1.role = user_admin_role
         @user1.save
-        @user2.role_ids = [user_role.id]
+        @user2.role = user_role
         @user2.save
 
         ability1 = Ability.new @user1
@@ -238,7 +244,7 @@ describe Ability do
 
     it "allows a user with read permissions to read but not edit roles" do
       role = create :role, permissions_list: [@permission_role_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -249,7 +255,7 @@ describe Ability do
 
     it "allows a user with read and write permissions to read and edit roles" do
       role = create :role, permissions_list: [@permission_role_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -260,7 +266,7 @@ describe Ability do
 
     it "doesn't allow a user with only 'role' permission to manage another user" do
       role = create :role, permissions_list: [@permission_role_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -271,7 +277,7 @@ describe Ability do
 
     it "doesn't allow viewing and editing of Groups, and Agencies if only the 'role' permission is set" do
       role = create :role, permissions_list: [@permission_role_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -297,7 +303,7 @@ describe Ability do
         before :each do
           @permission_role_specific_read = Permission.new(resource: Permission::ROLE, actions: [Permission::READ], role_ids: [@role_case_read.id])
           @role_role_specific_read = create :role, permissions_list: [@permission_role_specific_read], group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_specific_read.id]
+          @user1.role = @role_role_specific_read
           @user1.save
 
           @ability = Ability.new @user1
@@ -322,7 +328,7 @@ describe Ability do
           @permission_role_specific_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE],
                                                               role_ids: [@role_case_read.id, @role_incident_read.id])
           @role_role_specific_read_write = create :role, permissions_list: [@permission_role_specific_read_write], group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_specific_read_write.id]
+          @user1.role= @role_role_specific_read_write
           @user1.save
 
           @ability = Ability.new @user1
@@ -351,7 +357,7 @@ describe Ability do
         before :each do
           @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
           @role_non_role_specific_read_write = create :role, permissions_list: [@permission_role_read_write]
-          @user1.role_ids = [@role_non_role_specific_read_write.id]
+          @user1.role = @role_non_role_specific_read_write
           @user1.save
 
           @ability = Ability.new @user1
@@ -393,7 +399,7 @@ describe Ability do
                                                      role_ids: [@role_case_read.id, @role_incident_read.id])
           @role_role_assign_2 = create :role, permissions_list: [@permission_user_read_write, @permission_role_assign_2],
                                               group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_assign_2.id]
+          @user1.role = @role_role_assign_2
           @user1.save
 
           @ability = Ability.new @user1
@@ -426,7 +432,7 @@ describe Ability do
           @permission_role_assign_all = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN])
           @role_role_assign_all = create :role, permissions_list: [@permission_user_read_write, @permission_role_assign_all],
                                               group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_assign_all.id]
+          @user1.role = @role_role_assign_all
           @user1.save
 
           @ability = Ability.new @user1
@@ -445,7 +451,7 @@ describe Ability do
           @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
           @role_role_assign_none = create :role, permissions_list: [@permission_user_read_write, @permission_role_read_write],
                                                  group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_assign_none.id]
+          @user1.role = @role_role_assign_none
           @user1.save
 
           @ability = Ability.new @user1
@@ -464,7 +470,7 @@ describe Ability do
           @permission_role_manage = Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
           @role_role_manage = create :role, permissions_list: [@permission_user_read_write, @permission_role_manage],
                                                  group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_manage.id]
+          @user1.role = @role_role_manage
           @user1.save
 
           @ability = Ability.new @user1
@@ -495,7 +501,7 @@ describe Ability do
 
     it "allows a user with read permissions to manage their own user" do
       role = create :role, permissions_list: [@permission_user_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -506,7 +512,7 @@ describe Ability do
 
     it "allows a user with no user permissions to manage their own user" do
       role = create :role, permissions_list: [@permission_case_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -517,7 +523,7 @@ describe Ability do
 
     it "doesn't allow a user with no explicit 'user' permission to manage another user" do
       role = create :role, permissions_list: [@permission_case_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -528,7 +534,7 @@ describe Ability do
 
     it "doesn't allow a user with no specified scope to edit another user" do
       role = create :role, permissions_list: [@permission_user_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -545,12 +551,14 @@ describe Ability do
                                             role_ids: [role2.id]
                                           )
       role1 = create :role, permissions_list: [@permission_user_read_write_group], group_permission: Permission::GROUP
-      @user1.role_ids = [role1.id]
-      @user1.user_group_ids = ['test_group']
+      test_group = build(:user_group, unique_id: 'test_group')
+      other_test_group = build(:user_group, unique_id: 'other_test_group')
+      @user1.role = role1
+      @user1.user_groups = [test_group]
       @user1.save
-      user2 = create :user, user_group_ids: ['test_group'], role_ids: [role2.id]
-      user3 = create :user, user_group_ids: ['test_group']
-      user4 = create :user, user_group_ids: ['other_test_group'], role_ids: [role2.id]
+      user2 = create :user, user_groups: [test_group], role: role2
+      # user3 = create :user, user_groups: [test_group]
+      user4 = create :user, user_groups: [other_test_group], role: role2
 
       ability = Ability.new @user1
 
@@ -565,7 +573,7 @@ describe Ability do
 
     it "does not allow viewing and editing of Roles if the 'user' permission is set along with 'read' and 'write'" do
       role = create :role, permissions_list: [@permission_user_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -583,7 +591,7 @@ describe Ability do
 
     it "allows a user with read permissions to read but not edit user groups" do
       role = create :role, permissions_list: [@permission_user_group_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -594,7 +602,7 @@ describe Ability do
 
     it "allows a user with read and write permissions to read and edit user groups" do
       role = create :role, permissions_list: [@permission_user_group_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -605,7 +613,7 @@ describe Ability do
 
     it "doesn't allow a user with only 'user group' permission to manage another user" do
       role = create :role, permissions_list: [@permission_user_group_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -623,7 +631,7 @@ describe Ability do
 
     it "allows a user with read permissions to read but not edit agencies" do
       role = create :role, permissions_list: [@permission_agency_read]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -634,7 +642,7 @@ describe Ability do
 
     it "allows a user with read and write permissions to read and edit agencies" do
       role = create :role, permissions_list: [@permission_agency_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -645,7 +653,7 @@ describe Ability do
 
     it "doesn't allow a user with only 'agency' permission to manage another user" do
       role = create :role, permissions_list: [@permission_agency_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -656,7 +664,7 @@ describe Ability do
 
     it "doesn't allow viewing and editing of Groups if only the 'agency' permission is set" do
       role = create :role, permissions_list: [@permission_agency_read_write]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -678,7 +686,7 @@ describe Ability do
         before :each do
           @permission_agency_specific_read = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ], agency_ids: [@agency1.id])
           @role_agency_specific_read = create :role, permissions_list: [@permission_agency_specific_read], group_permission: Permission::GROUP
-          @user1.role_ids = [@role_agency_specific_read.id]
+          @user1.role = @role_agency_specific_read
           @user1.save
 
           @ability = Ability.new @user1
@@ -704,7 +712,7 @@ describe Ability do
           @permission_agency_specific_read_write = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ, Permission::WRITE, Permission::CREATE],
                                                                   agency_ids: [@agency1.id, @agency3.id])
           @role_agency_specific_read_write = create :role, permissions_list: [@permission_agency_specific_read_write], group_permission: Permission::GROUP
-          @user1.role_ids = [@role_agency_specific_read_write.id]
+          @user1.role = @role_agency_specific_read_write
           @user1.save
 
           @ability = Ability.new @user1
@@ -735,7 +743,7 @@ describe Ability do
         before :each do
           @permission_agency_read_write = Permission.new(resource: Permission::AGENCY, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
           @role_non_agency_specific_read_write = create :role, permissions_list: [@permission_agency_read_write]
-          @user1.role_ids = [@role_non_agency_specific_read_write.id]
+          @user1.role = @role_non_agency_specific_read_write
           @user1.save
 
           @ability = Ability.new @user1
@@ -779,7 +787,7 @@ describe Ability do
                                                      role_ids: [@role_case_read.id, @role_incident_read.id])
           @role_role_assign_2 = create :role, permissions_list: [@permission_user_read_write, @permission_role_assign_2],
                                        group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_assign_2.id]
+          @user1.role = @role_role_assign_2
           @user1.save
 
           @ability = Ability.new @user1
@@ -812,7 +820,7 @@ describe Ability do
           @permission_role_assign_all = Permission.new(resource: Permission::ROLE, actions: [Permission::ASSIGN])
           @role_role_assign_all = create :role, permissions_list: [@permission_user_read_write, @permission_role_assign_all],
                                          group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_assign_all.id]
+          @user1.role = @role_role_assign_all
           @user1.save
 
           @ability = Ability.new @user1
@@ -831,7 +839,7 @@ describe Ability do
           @permission_role_read_write = Permission.new(resource: Permission::ROLE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
           @role_role_assign_none = create :role, permissions_list: [@permission_user_read_write, @permission_role_read_write],
                                           group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_assign_none.id]
+          @user1.role = @role_role_assign_none
           @user1.save
 
           @ability = Ability.new @user1
@@ -850,7 +858,7 @@ describe Ability do
           @permission_role_manage = Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
           @role_role_manage = create :role, permissions_list: [@permission_user_read_write, @permission_role_manage],
                                      group_permission: Permission::GROUP
-          @user1.role_ids = [@role_role_manage.id]
+          @user1.role = @role_role_manage
           @user1.save
 
           @ability = Ability.new @user1
@@ -877,7 +885,7 @@ describe Ability do
     it "allows viewing and editing of Metadata resources if that permission is set along with 'read' and 'write'" do
       permission_metadata = Permission.new(resource: Permission::METADATA, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       role = create :role, permissions_list: [permission_metadata]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
@@ -891,7 +899,7 @@ describe Ability do
     it "allows viewing and editing of System resources if that permission is set along with 'read' and 'write'" do
       permission_system = Permission.new(resource: Permission::SYSTEM, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       role = create :role, permissions_list: [permission_system]
-      @user1.role_ids = [role.id]
+      @user1.role = role
       @user1.save
 
       ability = Ability.new @user1
