@@ -26,9 +26,9 @@ module Api::V2::Concerns
 
     def create
       authorize! :create, model_class
-      params.permit!
       @record = model_class.find_by(id: params[:data][:id]) if params[:data][:id]
       if @record.nil?
+        params.permit!
         @record = model_class.new_with_user(current_user, record_params)
         if @record.save
           status = params[:data][:id].present? ? 204 : 200
@@ -56,9 +56,34 @@ module Api::V2::Concerns
       end
     end
 
+    def update
+      authorize! :update, model_class
+      @record = find_record
+      authorize! :update, @record
+      params.permit!
+      append_only_fields = params[:append_only_fields]
+      @record.update_properties(record_params, current_user.name, append_only_fields)
+      if @record.save
+        render :update
+      else
+        @errors = @record.errors.messages.map do |field_name, message|
+          ApplicationError.new(
+              code: 422,
+              message: message,
+              resource: request.path,
+              detail: field_name.to_s
+          )
+        end
+        render 'api/v2/errors/errors', status: 422
+      end
+
+
+
+    end
+
     def permit_fields
       @permitted_fields ||= current_user.permitted_fields(current_user.primero_modules, model_class.parent_form)
-      @permitted_field_names ||= @permitted_fields.map(&:name)
+      @permitted_field_names ||= ['id'] + @permitted_fields.map(&:name)
     end
 
     def select_fields
@@ -69,7 +94,6 @@ module Api::V2::Concerns
       record_params = params['data'].try(:to_h) || {}
       record_params = DestringifyService.destringify(record_params)
       record_params.select{|k,_| @permitted_field_names.include?(k)}.to_h
-      #TODO: What about some unpermitted defaults? unique_identifier, :id...
     end
 
     def find_record

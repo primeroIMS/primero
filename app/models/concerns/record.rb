@@ -25,7 +25,9 @@ module Record
   module ClassMethods
 
     def new_with_user(user, data = {})
+      id = data.delete('id')
       record = self.new
+      record.id = id if id.present?
       record.data = Utils.merge_data(record.data, data)
       record.set_creation_fields_for(user)
       record.set_owner_fields_for(user)
@@ -122,11 +124,11 @@ module Record
     parent[attr_keys[-1]] = value
   end
 
-  def update_properties(properties, user_name)
+  def update_properties(properties, user_name, append_only_fields=[])
     #TODO: This used to replace empty values with nil to avoid wiping out data. This may be a rails forms thing.
     #properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
     properties['record_state'] = true if properties['record_state'].nil?
-    self.data = Utils.merge_data(self.data, properties)
+    self.data = Utils.merge_data(self.data, properties, append_only_fields)
     self.last_updated_by = user_name
     self.set_attachment_fields(properties)
   end
@@ -169,14 +171,14 @@ module Record
 
 
   class Utils
-    #TODO: WRITE UNIT TESTS FOR THIS!!!
-    def self.merge_data(old_data, new_data)
+    def self.merge_data(old_data, new_data, append_only=false)
       if old_data.is_a?(Hash) && new_data.is_a?(Hash)
-        old_data.merge(new_data) do |_, old_value, new_value|
-          merge_data(old_value, new_value)
+        old_data.merge(new_data) do |key, old_value, new_value|
+          append_only = append_only.present? && append_only.is_a?(Array) && append_only.include?(key)
+          merge_data(old_value, new_value, append_only)
         end
       elsif is_an_array_of_hashes?(old_data) && is_an_array_of_hashes?(new_data)
-        new_data.inject([]) do |result, new_nested_record|
+        updates = new_data.inject([]) do |result, new_nested_record|
           nested_record_id = new_nested_record['unique_id']
           if nested_record_id.present?
             old_nested_record = old_data.find{|r| r['unique_id'] == nested_record_id}
@@ -186,8 +188,15 @@ module Record
           end
           result
         end
-      elsif new_data.nil?
-        old_data
+        if append_only
+          keep = old_data.reject{|old_record| updates.find{|r| r['unique_id'] == old_record['unique_id']}}
+          keep + updates
+        else
+          updates
+        end
+      # TODO: Commenting this out to match expected PATCH behavior
+      # elsif new_data.nil?
+      #   old_data
       else
         new_data
       end

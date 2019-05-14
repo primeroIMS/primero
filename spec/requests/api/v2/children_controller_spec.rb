@@ -90,6 +90,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data']['name']).to eq(params[:data][:name])
       expect(json['data']['age']).to eq(params[:data][:age])
       expect(json['data']['sex']).to eq(params[:data][:sex])
+      expect(Child.find_by(id: json['data']['id'])).not_to be_nil
     end
 
     describe 'empty response' do
@@ -98,26 +99,30 @@ describe Api::V2::ChildrenController, type: :request do
 
       it 'creates a new record with 204 and returns no JSON if the client generated the id' do
         login_for_test
+        id = SecureRandom.uuid
         params = {
-            data: {id: '3222e84-a5d7-4692-a643-1ab3d41f17d7', name: 'Test', age: 12, sex: 'female'}
+            data: {id: id, name: 'Test', age: 12, sex: 'female'}
         }
         post '/api/v2/cases', params: params
 
         expect(response).to have_http_status(204)
+        expect(Child.find_by(id: id)).not_to be_nil
       end
 
     end
 
     it "returns 403 if user isn't authorized to create records" do
       login_for_test(permissions: [])
+      id = SecureRandom.uuid
       params = {
-          data: {id: '3222e84-a5d7-4692-a643-1ab3d41f17d7', name: 'Test', age: 12, sex: 'female'}
+          data: {id: id, name: 'Test', age: 12, sex: 'female'}
       }
       post "/api/v2/cases", params: params
 
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases")
+      expect(Child.find_by(id: id)).to be_nil
     end
 
     it 'returns a 409 if record already exists' do
@@ -135,7 +140,7 @@ describe Api::V2::ChildrenController, type: :request do
     it 'returns a 422 if the case record is invalid' do
       login_for_test
       params = {
-          data: {name: 'Test', age: 12, sex: 'female', registration_date: 'is invalid'}
+          data:  {name: 'Test', age: 12, sex: 'female', registration_date: 'is invalid'}
       }
       post "/api/v2/cases", params: params
 
@@ -144,6 +149,47 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases")
       expect(json['errors'][0]['detail']).to eq("registration_date")
     end
+
+  end
+
+  describe 'PATCH /api/v2/cases/:id' do
+
+    it 'updates an existing record with 200' do
+      login_for_test
+      params = {data: {name: 'Tester', age: 10, sex: 'female'}}
+      patch "/api/v2/cases/#{@case1.id}", params: params
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@case1.id)
+
+      case1 = Child.find(@case1.id)
+      expect(case1.data['age']).to eq(10)
+      expect(case1.data['sex']).to eq('female')
+    end
+
+    it "returns 403 if user isn't authorized to update records" do
+      login_for_test(permissions: [])
+      params = {data: {name: 'Tester', age: 10, sex: 'female'}}
+      patch "/api/v2/cases/#{@case1.id}", params: params
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+    end
+
+    it 'returns a 422 if the case record is invalid' do
+      login_for_test
+      params = {
+          data: {name: 'Test', age: 12, sex: 'female', registration_date: 'is invalid'}
+      }
+      patch "/api/v2/cases/#{@case1.id}", params: params
+
+      expect(response).to have_http_status(422)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+      expect(json['errors'][0]['detail']).to eq("registration_date")
+    end
+
 
   end
 
