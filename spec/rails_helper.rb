@@ -121,3 +121,7 @@ def stub_env(new_env)
 ensure
   Rails.instance_variable_set('@_env', ActiveSupport::StringInquirer.new(original_env))
 end
+
+def clean_data(*models)
+  models.each(&:delete_all)
+end
