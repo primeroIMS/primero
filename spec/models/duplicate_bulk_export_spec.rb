@@ -7,7 +7,10 @@ describe DuplicateBulkExport, search: true do
   end
 
   before do
-    FormSection.all.all.each &:destroy
+    [
+      Agency, Location, UserGroup, Role, User, Field, FormSection,
+      Child, PrimeroModule, PrimeroProgram,
+    ].each(&:destroy_all)
 
     @bulk_exporter = DuplicateBulkExport.new
     @bulk_exporter.record_type = "case"
@@ -30,9 +33,6 @@ describe DuplicateBulkExport, search: true do
       string 'national_id_no', as: :national_id_no_sci
     end
 
-    Child.refresh_form_properties
-
-    Child.all.all.each &:destroy
   end
 
   it "export cases with duplicate ids" do
