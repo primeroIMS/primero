@@ -176,10 +176,9 @@ describe Api::V2::ChildrenController, type: :request do
       expect(case1.data['sex']).to eq('female')
     end
 
-    it 'appends to rather than replaces nested forms when the append_to parameter is set' do
+    it 'appends to rather than replaces nested forms' do
       login_for_test
       params = {
-        append_to: 'family_details',
         data: {
           family_details: [
             {unique_id: 'a1', relation_type: 'mother', age: 35},
@@ -196,6 +195,27 @@ describe Api::V2::ChildrenController, type: :request do
       uncle = family_details.select{|f| f['unique_id'] == 'a3' && f['relation_type'] == 'uncle'}
       expect(family_details.size).to eq(3)
       expect(uncle.present?).to be true
+    end
+
+    it 'removes nested forms marked for deleteion' do
+      login_for_test
+      params = {
+          data: {
+              family_details: [
+                  {unique_id: 'a1', _delete: true},
+                  {unique_id: 'a3', relation_type: 'uncle',  age: 50}
+              ]
+          }
+      }
+      patch "/api/v2/cases/#{@case3.id}", params: params
+
+      expect(response).to have_http_status(200)
+
+      case3 = Child.find_by(id: @case3.id)
+      family_details = case3.data['family_details']
+      mother = family_details.select{|f| f['unique_id'] == 'a1' && f['relation_type'] == 'mother'}
+      expect(family_details.size).to eq(2)
+      expect(mother.present?).to be false
     end
 
     it "returns 403 if user isn't authorized to update records" do

@@ -1,7 +1,8 @@
 # Update an existing case
 
 Merge the values submitted in this call into an existing case. Fields not specified in this request will not be modified. 
-For nested subform fields, the subform arrays will be recursively merged, keeping both the existing values and appending the new.    
+For nested subform fields, the subform arrays will be recursively merged, keeping both the existing values and appending the new.
+If a nested subform has a true value for a key '_delete', then the subform will be deleted from the server.    
 
 **URL** : `/api/v2/cases/:id`
 

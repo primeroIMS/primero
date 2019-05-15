@@ -93,6 +93,23 @@ describe Record do
           ] })
         end
 
+        it "deletes hashes indicated by the '_delete' field" do
+          old = { 'family_details' => [
+              {'unique_id' => '1', 'relation_type' => 'mother', 'age' => 33},
+              {'unique_id' => '2', 'relation_type' => 'father', 'age' => 32}
+          ] }
+          new = { 'family_details' => [
+              {'unique_id' => '1', '_delete' => true},
+              {'unique_id' => '3', 'relation_type' => 'uncle', 'age' => 50}
+          ] }
+          result = Record::Utils.merge_data(old, new)
+
+          expect(result).to eql( { 'family_details' => [
+              {'unique_id' => '2', 'relation_type' => 'father', 'age' => 32},
+              {'unique_id' => '3', 'relation_type' => 'uncle', 'age' => 50}
+          ] })
+        end
+
       end
 
     end
