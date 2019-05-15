@@ -84,7 +84,6 @@ module Record
     self.set_instance_id
   end
 
-
   def display_field(field_or_name, lookups = nil)
     result = ""
     if field_or_name.present?
@@ -125,7 +124,6 @@ module Record
   end
 
   def update_properties(properties, user_name)
-    properties['record_state'] = true if properties['record_state'].nil?
     self.data = Utils.merge_data(self.data, properties)
     self.last_updated_by = user_name
     self.set_attachment_fields(properties)

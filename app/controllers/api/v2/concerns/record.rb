@@ -42,9 +42,17 @@ module Api::V2::Concerns
       @record.save!
     end
 
+    def destroy
+      authorize! :enable_disable_record, model_class
+      @record = find_record
+      @record.update_properties({record_state: false}, current_user.name)
+      @record.save!
+    end
+
     def permit_fields
       @permitted_fields ||= current_user.permitted_fields(current_user.primero_modules, model_class.parent_form)
       @permitted_field_names ||= ['id'] + @permitted_fields.map(&:name)
+      @permitted_field_names << 'record_state' if current_user.can?(:enable_disable_record, model_class)
     end
 
     def select_fields

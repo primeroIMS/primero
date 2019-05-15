@@ -197,7 +197,7 @@ describe Api::V2::ChildrenController, type: :request do
       expect(uncle.present?).to be true
     end
 
-    it 'removes nested forms marked for deleteion' do
+    it 'removes nested forms marked for deletion' do
       login_for_test
       params = {
           data: {
@@ -218,6 +218,17 @@ describe Api::V2::ChildrenController, type: :request do
       expect(mother.present?).to be false
     end
 
+    it "doesn't enable a record if the user doesn't have the permissions to do so" do
+      test_case = Child.create!(data: { record_state: false, name: "Test1", age: 5, sex: 'male' })
+      login_for_test
+      params = { data: {record_state: true } }
+      patch "/api/v2/cases/#{test_case.id}", params: params
+
+      test_case.reload
+      expect(response).to have_http_status(200)
+      expect(test_case.record_state).to be false
+    end
+
     it "returns 403 if user isn't authorized to update records" do
       login_for_test(permissions: [])
       params = {data: {name: 'Tester', age: 10, sex: 'female'}}
@@ -226,6 +237,16 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+    end
+
+    it 'returns a 404 when trying to update a record with a non-existant id' do
+      login_for_test
+      params = {data: {name: 'Tester', age: 10, sex: 'female'}}
+      patch '/api/v2/cases/thisdoesntexist', params: params
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/cases/thisdoesntexist')
     end
 
     it 'returns a 422 if the case record is invalid' do
@@ -241,6 +262,38 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['errors'][0]['detail']).to eq("registration_date")
     end
 
+  end
+
+  describe 'DELETE /api/v2/cases/:id' do
+
+    it 'successfully deletes a record with a code of 200' do
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::ENABLE_DISABLE_RECORD])])
+      delete "/api/v2/cases/#{@case1.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@case1.id)
+
+      case1 = Child.find_by(id: @case1.id)
+      expect(case1.record_state).to be false
+    end
+
+    it "returns 403 if user isn't authorized to disable records" do
+      login_for_test(permissions: [])
+      delete "/api/v2/cases/#{@case1.id}"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+    end
+
+    it 'returns a 404 when trying to disable a record with a non-existant id' do
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::ENABLE_DISABLE_RECORD])])
+      delete '/api/v2/cases/thisdoesntexist'
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/cases/thisdoesntexist')
+    end
 
   end
 

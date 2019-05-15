@@ -50,7 +50,7 @@ A user may only set the fields that this user is permitted to access.
 
 ## Error Response
 
-**Condition** : User isn't authorized to create cases. 
+**Condition** : User isn't authorized to update cases. 
 
 **Code** : `403 Forbidden`
 
