@@ -1,7 +1,7 @@
 # Update an existing case
 
-Create a new case and optionally return the entire case, 
-including attributes generated on the server.
+Merge the values submitted in this call into an existing case. Fields not specified in this request will not be modified. 
+For nested subform fields, the subform arrays will be recursively merged, keeping both the existing values and appending the new.    
 
 **URL** : `/api/v2/cases/:id`
 
@@ -24,7 +24,6 @@ A user may only set the fields that this user is permitted to access.
     }
 }
 ```
-* `append_to` Optional. A comma separated list of nested form field names that should be appended to rather than replaced.
 
 ## Success Response
 

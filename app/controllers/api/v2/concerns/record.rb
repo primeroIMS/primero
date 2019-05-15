@@ -38,8 +38,7 @@ module Api::V2::Concerns
       @record = find_record
       authorize! :update, @record
       params.permit!
-      append_to = params[:append_to] && params[:append_to].split(',')
-      @record.update_properties(record_params, current_user.name, append_to)
+      @record.update_properties(record_params, current_user.name)
       @record.save!
     end
 

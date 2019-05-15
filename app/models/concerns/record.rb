@@ -124,9 +124,9 @@ module Record
     parent[attr_keys[-1]] = value
   end
 
-  def update_properties(properties, user_name, append_to=[])
+  def update_properties(properties, user_name)
     properties['record_state'] = true if properties['record_state'].nil?
-    self.data = Utils.merge_data(self.data, properties, append_to)
+    self.data = Utils.merge_data(self.data, properties)
     self.last_updated_by = user_name
     self.set_attachment_fields(properties)
   end
@@ -169,29 +169,28 @@ module Record
 
 
   class Utils
-    def self.merge_data(old_data, new_data, append_to=false)
+    def self.merge_data(old_data, new_data)
       if old_data.is_a?(Hash) && new_data.is_a?(Hash)
-        old_data.merge(new_data) do |key, old_value, new_value|
-          append_to = append_to.present? && append_to.is_a?(Array) && append_to.include?(key)
-          merge_data(old_value, new_value, append_to)
+        old_data.merge(new_data) do |_, old_value, new_value|
+          merge_data(old_value, new_value)
         end
       elsif is_an_array_of_hashes?(old_data) && is_an_array_of_hashes?(new_data)
-        updates = new_data.inject([]) do |result, new_nested_record|
-          nested_record_id = new_nested_record['unique_id']
+        merged_old_data = old_data.inject([]) do |result, old_nested_record|
+          nested_record_id = old_nested_record['unique_id']
           if nested_record_id.present?
-            old_nested_record = old_data.find{|r| r['unique_id'] == nested_record_id}
-            result << merge_data(old_nested_record, new_nested_record)
+            new_nested_record = new_data.find{|r| r['unique_id'] == nested_record_id}
+            if new_nested_record
+              result << merge_data(old_nested_record, new_nested_record)
+            else
+              result << old_nested_record
+            end
           else
-            result << new_nested_record
+            result << old_nested_record
           end
           result
         end
-        if append_to
-          keep = old_data.reject{|old_record| updates.find{|r| r['unique_id'] == old_record['unique_id']}}
-          keep + updates
-        else
-          updates
-        end
+        append = new_data.reject{|new_record| merged_old_data.find{|r| r['unique_id'] == new_record['unique_id']}}
+        merged_old_data + append
       else
         new_data
       end

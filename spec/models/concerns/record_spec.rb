@@ -52,12 +52,12 @@ describe Record do
           result = Record::Utils.merge_data(old, new)
 
           expect(result).to eql( { 'family_details' => [
-              {'unique_id' => '2', 'relation_type' => 'father', 'age' => 32},
-              {'unique_id' => '1', 'relation_type' => 'mother', 'age' => 35}
+              {'unique_id' => '1', 'relation_type' => 'mother', 'age' => 35},
+              {'unique_id' => '2', 'relation_type' => 'father', 'age' => 32}
           ] })
         end
 
-        it "keeps and merges the hashes only found in the new array by default" do
+        it "keeps the old hashes and merges the hashes found in the new array" do
           old = { 'family_details' => [
               {'unique_id' => '1', 'relation_type' => 'mother', 'age' => 33},
               {'unique_id' => '2', 'relation_type' => 'father', 'age' => 32}
@@ -68,13 +68,14 @@ describe Record do
           result = Record::Utils.merge_data(old, new)
 
           expect(result).to eql( { 'family_details' => [
-              {'unique_id' => '1', 'relation_type' => 'mother', 'age' => 35}
+              {'unique_id' => '1', 'relation_type' => 'mother', 'age' => 35},
+              {'unique_id' => '2', 'relation_type' => 'father', 'age' => 32}
           ] })
         end
 
 
         #[A, B C] append [A*, B, D] should yield [A*, B, C, D]
-        it "preserves old hash values not found in the new array when a key is explicitly specified" do
+        it "preserves old hash values not found in the new array and appends the new hashes" do
           old = { 'family_details' => [
               {'unique_id' => '1', 'relation_type' => 'mother', 'age' => 33},
               {'unique_id' => '2', 'relation_type' => 'father', 'age' => 32}
@@ -83,11 +84,11 @@ describe Record do
               {'unique_id' => '1', 'relation_type' => 'mother', 'age' => 35},
               {'unique_id' => '3', 'relation_type' => 'uncle', 'age' => 50}
           ] }
-          result = Record::Utils.merge_data(old, new, ['family_details'])
+          result = Record::Utils.merge_data(old, new)
 
           expect(result).to eql( { 'family_details' => [
-              {'unique_id' => '2', 'relation_type' => 'father', 'age' => 32},
               {'unique_id' => '1', 'relation_type' => 'mother', 'age' => 35},
+              {'unique_id' => '2', 'relation_type' => 'father', 'age' => 32},
               {'unique_id' => '3', 'relation_type' => 'uncle', 'age' => 50}
           ] })
         end
