@@ -16,3 +16,4 @@ Endpoints for querying and manipulating cases and related resources in Primero.
 * [Fetch individual case](v2/docs/cases/id/get.md) : `GET /api/v2/cases/:id`
 * [create a new case](v2/docs/cases/post.md) : `POST /api/v2/cases`
 * [Update an existing case](v2/docs/cases/id/patch.md) : `PATCH /api/v2/cases/:id`
+* [Disable an existing case](v2/docs/cases/id/delete.md) : `DELETE /api/v2/cases/:id`
