@@ -7,8 +7,8 @@ describe Ability do
   before do
     [
       User, Child, FormSection,
-      FormSection, PrimeroModule, PrimeroProgram,
-      Role, Agency, UserGroup
+      PrimeroModule, PrimeroProgram, Role,
+      Agency, UserGroup
     ].each(&:destroy_all)
     @user1 = create :user
     @user2 = create :user
