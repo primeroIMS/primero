@@ -3,8 +3,17 @@ require 'rails_helper'
 describe Api::V2::ChildrenController, type: :request do
 
   before :each do
-    @case1 = Child.create!(data: {name: "Test1", age: 5, sex: 'male'})
+    @case1 = Child.create!(data: { name: "Test1", age: 5, sex: 'male' })
     @case2 = Child.create!(data: {name: "Test2", age: 10, sex: 'female'})
+    @case3 = Child.create!(
+        data: {
+            name: "Test3", age: 6, sex: 'male',
+            family_details: [
+                {unique_id: 'a1', relation_type: 'mother', age: 33},
+                {unique_id: 'a2', relation_type: 'father', age: 32}
+            ]
+        }
+    )
     Sunspot.commit
   end
 
@@ -17,9 +26,9 @@ describe Api::V2::ChildrenController, type: :request do
       get '/api/v2/cases'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(2)
+      expect(json['data'].size).to eq(3)
       expect(json['data'].map{|c| c['name']}).to include(@case1.name, @case2.name)
-      expect(json['metadata']['total']).to eq(2)
+      expect(json['metadata']['total']).to eq(3)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
     end
@@ -162,9 +171,31 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@case1.id)
 
-      case1 = Child.find(@case1.id)
+      case1 = Child.find_by(id: @case1.id)
       expect(case1.data['age']).to eq(10)
       expect(case1.data['sex']).to eq('female')
+    end
+
+    it 'appends to rather than replaces nested forms when the append_to parameter is set' do
+      login_for_test
+      params = {
+        append_to: 'family_details',
+        data: {
+          family_details: [
+            {unique_id: 'a1', relation_type: 'mother', age: 35},
+            {unique_id: 'a3', relation_type: 'uncle',  age: 50}
+          ]
+        }
+      }
+      patch "/api/v2/cases/#{@case3.id}", params: params
+
+      expect(response).to have_http_status(200)
+
+      case3 = Child.find_by(id: @case3.id)
+      family_details = case3.data['family_details']
+      uncle = family_details.select{|f| f['unique_id'] == 'a3' && f['relation_type'] == 'uncle'}
+      expect(family_details.size).to eq(3)
+      expect(uncle.present?).to be true
     end
 
     it "returns 403 if user isn't authorized to update records" do

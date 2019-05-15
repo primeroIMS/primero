@@ -38,14 +38,6 @@ describe Record do
         expect(result).to eql({ 'sex' => 'male', 'age' => 14, 'status' => 'open' })
       end
 
-      xit 'ignore new values if they are nil' do
-        old = { 'sex' => 'male', 'age' => 12 }
-        new = { 'sex' => 'male', 'age' => 14, 'status' => 'open' }
-        result = Record::Utils.merge_data(old, new)
-
-        expect(result).to eql({ 'sex' => 'male', 'age' => 14, 'status' => 'open' })
-      end
-
       describe 'for arrays of hashes' do
 
         it "merges arrays of hashes using the 'unique_id' hash key" do

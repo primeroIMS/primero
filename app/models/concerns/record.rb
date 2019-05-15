@@ -124,11 +124,9 @@ module Record
     parent[attr_keys[-1]] = value
   end
 
-  def update_properties(properties, user_name, append_only_fields=[])
-    #TODO: This used to replace empty values with nil to avoid wiping out data. This may be a rails forms thing.
-    #properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
+  def update_properties(properties, user_name, append_to=[])
     properties['record_state'] = true if properties['record_state'].nil?
-    self.data = Utils.merge_data(self.data, properties, append_only_fields)
+    self.data = Utils.merge_data(self.data, properties, append_to)
     self.last_updated_by = user_name
     self.set_attachment_fields(properties)
   end
@@ -171,11 +169,11 @@ module Record
 
 
   class Utils
-    def self.merge_data(old_data, new_data, append_only=false)
+    def self.merge_data(old_data, new_data, append_to=false)
       if old_data.is_a?(Hash) && new_data.is_a?(Hash)
         old_data.merge(new_data) do |key, old_value, new_value|
-          append_only = append_only.present? && append_only.is_a?(Array) && append_only.include?(key)
-          merge_data(old_value, new_value, append_only)
+          append_to = append_to.present? && append_to.is_a?(Array) && append_to.include?(key)
+          merge_data(old_value, new_value, append_to)
         end
       elsif is_an_array_of_hashes?(old_data) && is_an_array_of_hashes?(new_data)
         updates = new_data.inject([]) do |result, new_nested_record|
@@ -188,15 +186,12 @@ module Record
           end
           result
         end
-        if append_only
+        if append_to
           keep = old_data.reject{|old_record| updates.find{|r| r['unique_id'] == old_record['unique_id']}}
           keep + updates
         else
           updates
         end
-      # TODO: Commenting this out to match expected PATCH behavior
-      # elsif new_data.nil?
-      #   old_data
       else
         new_data
       end
