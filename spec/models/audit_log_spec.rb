@@ -74,7 +74,7 @@ describe AuditLog do
       let(:per_page) { 100 }
 
       context 'and no time parameters are passed in' do
-        let(:audit_log_result) { AuditLog.find_by_timestamp.order(timestamp: :desc).try(:paginate, page: 1, per_page: per_page) }
+        let(:audit_log_result) { AuditLog.order(timestamp: :desc).try(:paginate, page: 1, per_page: per_page) }
 
         it 'returns all entries sorted by timestamp in descending order' do
           expect(audit_log_result.try(:all)).to eq([@audit_log14, @audit_log13, @audit_log12, @audit_log11, @audit_log10,
@@ -87,7 +87,7 @@ describe AuditLog do
         end
       end
       context 'and only a to time is passed in' do
-        let(:audit_log_result) { AuditLog.find_by_timestamp(nil, 35.hours.ago).order(timestamp: :desc).try(:paginate, page: 1, per_page: per_page) }
+        let(:audit_log_result) { AuditLog.where("timestamp IS NULL or timestamp < ?", 35.hours.ago).order(timestamp: :desc).try(:paginate, page: 1, per_page: per_page) }
 
         it 'returns all entries up until the to time in descending order' do
           expect(audit_log_result.try(:all)).to eq([@audit_log7, @audit_log6, @audit_log5, @audit_log4,
@@ -99,7 +99,7 @@ describe AuditLog do
       end
       context 'and from time and to time are passed in' do
         context 'and from time is less than to time' do
-          let(:audit_log_result) { AuditLog.find_by_timestamp(35.hours.ago, 15.hours.ago).order(timestamp: :desc).try(:paginate, page: 1, per_page: per_page) }
+          let(:audit_log_result) { AuditLog.where("timestamp BETWEEN ? AND ?", 35.hours.ago, 15.hours.ago).order(timestamp: :desc).try(:paginate, page: 1, per_page: per_page) }
 
           it 'returns entries between the from time and the to time in descending order' do
             expect(audit_log_result.try(:all)).to eq([@audit_log11, @audit_log10, @audit_log9, @audit_log8])
@@ -109,14 +109,14 @@ describe AuditLog do
           end
         end
         context 'and from time is greater than to time' do
-          let(:audit_log_result) { AuditLog.find_by_timestamp(15.hours.ago, 35.hours.ago) }
+          let(:audit_log_result) {  AuditLog.where("timestamp BETWEEN ? AND ?", 15.hours.ago, 35.hours.ago) }
 
           it 'returns nil' do
             expect(audit_log_result).to eq([])
           end
         end
         context 'and from time is the same as to time' do
-          let(:audit_log_result) { AuditLog.find_by_timestamp(20.hours.ago, 20.hours.ago).page(1).per_page(per_page) }
+          let(:audit_log_result) { AuditLog.where("timestamp BETWEEN ? AND ?", 20.hours.ago, 20.hours.ago).page(1).per_page(per_page) }
 
           it 'returns entries matching that exact time' do
             expect(audit_log_result.try(:all)).to eq([@audit_log10])
@@ -143,7 +143,7 @@ describe AuditLog do
 
       context 'and page is 1' do
         let(:page) { 1 }
-        let(:audit_log_result) { AuditLog.find_by_timestamp.order(timestamp: :desc).try(:paginate, page: page, per_page: per_page) }
+        let(:audit_log_result) { AuditLog.order(timestamp: :desc).try(:paginate, page: page, per_page: per_page) }
 
         it 'returns the first page of entries sorted by timestamp in descending order' do
           expect(audit_log_result.try(:all)).to eq([@audit_log14, @audit_log13, @audit_log12, @audit_log11, @audit_log10,
@@ -157,7 +157,7 @@ describe AuditLog do
 
       context 'and page is 2' do
         let(:page) { 2 }
-        let(:audit_log_result) { AuditLog.find_by_timestamp.order(timestamp: :desc).try(:paginate, page: page, per_page: per_page) }
+        let(:audit_log_result) { AuditLog.order(timestamp: :desc).try(:paginate, page: page, per_page: per_page) }
 
         it 'returns the second page of entries sorted by timestamp in descending order' do
           expect(audit_log_result.try(:all)).to eq([@audit_log4, @audit_log3, @audit_log2, @audit_log1, @audit_log0])
@@ -174,7 +174,7 @@ describe AuditLog do
     let(:per_page) { 10 }
 
     context 'with an existing user' do
-      let(:audit_log_result) { AuditLog.find_by_user_name('tester_one').try(:paginate, page: 1, per_page: per_page) }
+      let(:audit_log_result) { AuditLog.where(user_name: 'tester_one').try(:paginate, page: 1, per_page: per_page) }
 
       it 'returns all paginated entries of tester_one user' do
         expect(audit_log_result).to eq([@audit_log2, @audit_log3, @audit_log4])
@@ -185,7 +185,7 @@ describe AuditLog do
       end
     end
     context 'without an existing user' do
-      let(:audit_log_result) { AuditLog.find_by_user_name('non').try(:paginate, page: 1, per_page: per_page) }
+      let(:audit_log_result) { AuditLog.where(user_name: 'non').try(:paginate, page: 1, per_page: per_page) }
 
       it 'returns all paginated entries of tester_one user' do
         expect(audit_log_result).to eq([])
