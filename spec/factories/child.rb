@@ -24,10 +24,5 @@ FactoryBot.define do
         new(data: attributes)
       end
     end
-
-    after(:build) do |child, factory|
-      Child.stub(:find).with(child.id).and_return(child)
-      Child.stub(:find_by).with({id: child.id}).and_return(child)
-    end
   end
 end
