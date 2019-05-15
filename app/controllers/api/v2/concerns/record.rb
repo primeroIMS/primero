@@ -12,8 +12,8 @@ module Api::V2::Concerns
       params.permit!
       search_filters = SearchFilterService.build_filters(params, @permitted_field_names)
       search = SearchService.search(
-          model_class, search_filters, current_user.record_query_scope(model_class), params[:query],
-          sort_order, pagination)
+        model_class, search_filters, current_user.record_query_scope(model_class), params[:query],
+        sort_order, pagination)
       @records = search.results
       @total = search.total
     end
@@ -26,34 +26,11 @@ module Api::V2::Concerns
 
     def create
       authorize! :create, model_class
-      @record = model_class.find_by(id: params[:data][:id]) if params[:data][:id]
-      if @record.nil?
-        params.permit!
-        @record = model_class.new_with_user(current_user, record_params)
-        if @record.save
-          status = params[:data][:id].present? ? 204 : 200
-          render :create, status: status
-        else
-          @errors = @record.errors.messages.map do |field_name, message|
-            ApplicationError.new(
-                code: 422,
-                message: message,
-                resource: request.path,
-                detail: field_name.to_s
-            )
-          end
-          render 'api/v2/errors/errors', status: 422
-        end
-      else
-        @errors = [
-          ApplicationError.new(
-              code: 409,
-              message: 'Conflict: A record with this unique_identifier already exists',
-              resource: request.path
-          )
-        ]
-        render 'api/v2/errors/errors', status: 409
-      end
+      params.permit!
+      @record = model_class.new_with_user(current_user, record_params)
+      @record.save!
+      status = params[:data][:id].present? ? 204 : 200
+      render :create, status: status
     end
 
     def update
@@ -61,24 +38,9 @@ module Api::V2::Concerns
       @record = find_record
       authorize! :update, @record
       params.permit!
-      append_only_fields = params[:append_only_fields]
-      @record.update_properties(record_params, current_user.name, append_only_fields)
-      if @record.save
-        render :update
-      else
-        @errors = @record.errors.messages.map do |field_name, message|
-          ApplicationError.new(
-              code: 422,
-              message: message,
-              resource: request.path,
-              detail: field_name.to_s
-          )
-        end
-        render 'api/v2/errors/errors', status: 422
-      end
-
-
-
+      append_only = params[:append_only_fields]
+      @record.update_properties(record_params, current_user.name, append_only)
+      @record.save!
     end
 
     def permit_fields

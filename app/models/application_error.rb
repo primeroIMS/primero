@@ -1,5 +1,5 @@
 class ApplicationError < ValueObject
 
-  attr_accessor :code, :message, :resource, :detail, :exception
+  attr_accessor :code, :message, :resource, :detail
 
 end

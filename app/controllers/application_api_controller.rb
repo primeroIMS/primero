@@ -4,19 +4,9 @@ class ApplicationApiController < ActionController::API
   #check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
   before_action :authenticate_user!
 
-  #TODO: DRY this into an ErrorService
-  rescue_from CanCan::AccessDenied do |exception|
-    @errors = [
-        ApplicationError.new(code: 403, message: 'Forbidden', resource: request.path, exception: exception)
-    ]
-    render 'api/v2/errors/errors', status: 403
-  end
-
-  rescue_from ActiveRecord::RecordNotFound do |exception|
-    @errors =  [
-        ApplicationError.new(code: 404, message: 'Not Found', resource: request.path, exception: exception)
-    ]
-    render 'api/v2/errors/errors', status: 404
+  rescue_from Exception do |exception|
+    status, @errors = ErrorService.handle(exception, request)
+    render 'api/v2/errors/errors', status: status
   end
 
   class << self
