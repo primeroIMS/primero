@@ -1,11 +1,11 @@
-# Create a new case
+# Update an existing case
 
 Create a new case and optionally return the entire case, 
 including attributes generated on the server.
 
-**URL** : `/api/v2/cases`
+**URL** : `/api/v2/cases/:id`
 
-**Method** : `POST`
+**Method** : `PATCH`
 
 **Authentication** : YES
 
@@ -14,7 +14,7 @@ A user may only set the fields that this user is permitted to access.
 
 **Parameters** : 
 
-* `data` A JSON representation of the record to be created.
+* `data` A JSON representation of the record fields that will be updated.
 ```json
 {
   "data": {
@@ -24,13 +24,11 @@ A user may only set the fields that this user is permitted to access.
     }
 }
 ```
-* `data["id"]` Optional. A client-generated primary key identifier for the record to be created. 
-Must be formatted as a UUID.
+* `append_to` Optional. A comma separated list of nested form field names that should be appended to rather than replaced.
 
 ## Success Response
 
-**Condition** : User can create cases. 
-No `id` attribute is provided in the `data` hash.    
+**Condition** : User can update cases.   
 
 **Code** : `200 OK`
 
@@ -50,16 +48,6 @@ No `id` attribute is provided in the `data` hash.
 }
 ```
 
----
-
-**Condition** : User can create cases 
-A client generated `id` attribute is provided in the `data` hash. 
-This can be used to minimize the amount of data exchanged for low bandwidth scenarios.
-
-**Code** : `204 No Content`
-
-**Content** : The response has no content.
-
 ## Error Response
 
 **Condition** : User isn't authorized to create cases. 
@@ -73,7 +61,7 @@ This can be used to minimize the amount of data exchanged for low bandwidth scen
   "errors": [
     {
       "code": 403,
-      "resource": "/api/v2/cases",
+      "resource": "/api/v2/cases/b3222e84-a5d7-4692-a643-1ab3d41f17d6",
       "message": "Forbidden"
     }
   ]
@@ -95,26 +83,6 @@ This can be used to minimize the amount of data exchanged for low bandwidth scen
       "code": 404,
       "resource": "/api/v2/cases/b3222e84-a5d7-4692-a643-1ab3d41f17d6",
       "message": "Not Found"
-    }
-  ]
-}
-```
-
----
-
-**Condition** : A case with the provided id already exists in the database.
-
-**Code** : `409 Conflict`
-
-**Content** :
-
-```json
-{
-  "errors": [
-    {
-      "code": 409,
-      "resource": "/api/v2/cases",
-      "message": "Conflict"
     }
   ]
 }

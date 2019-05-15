@@ -63,7 +63,6 @@ list of relevant permitted fields.
       "page": 1
   }
 }
-
 ```
 ## Error Response
 
@@ -83,5 +82,4 @@ list of relevant permitted fields.
     }
   ]
 }
-
 ```
