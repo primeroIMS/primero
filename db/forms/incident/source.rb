@@ -41,6 +41,10 @@ source_subform_fields = [
              "searchable_select" => true,
              "option_strings_source" => "Location"
             }),
+  Field.new({"name" => "location_additional_details",
+             "type" => "text_field",
+             "display_name_all" => "Additional details on location"
+            }),
   Field.new({"name" => "source_category",
              "type" => "select_box",
              "display_name_all" => "Category of source",
