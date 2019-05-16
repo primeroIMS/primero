@@ -10,11 +10,12 @@ class TracingRequest < ApplicationRecord
   #include Importable #TODO: Refactor with Imports and Exports
 
   store_accessor :data,
-    :tracing_request_id, :inquiry_date, :relation_name, :relation_nickname, :relation_other_family, :relation,
+    :tracing_request_id, :inquiry_date, :relation_name, :relation_age, :relation_nickname, :relation_other_family, :relation,
     :relation_nationality, :relation_language, :relation_religion,
     :relation_ethnicity, :relation_sub_ethnicity1, :relation_sub_ethnicity2,
     :monitor_number, :survivor_code, :reunited, :inquiry_date,
-    :tracing_request_subform_section
+    :tracing_request_subform_section,
+    :location_last, :created_at, :posted_at, :created_by
 
   alias inquirer_id tracing_request_id
   alias inquiry_status status ; alias inquiry_status= status=
@@ -42,6 +43,7 @@ class TracingRequest < ApplicationRecord
   def defaults
     super_defaults
     self.inquiry_date ||= Date.today
+    self.tracing_request_subform_section ||= []
   end
 
   def subform_match_values(field)
