@@ -672,7 +672,8 @@ gbv_caseworker_forms = [
   "reopened_logs", "transitions", "alleged_perpetrator", "health_medical_referral_subform_section",
   "psychosocial_counseling_services_subform_section", "legal_assistance_services_subform_section",
   "police_or_other_type_of_security_services_subform_section", "livelihoods_services_subform_section",
-  "child_protection_services_subform_section", "gbv_reported_elsewhere_subform"
+  "child_protection_services_subform_section", "gbv_reported_elsewhere_subform", "consent_for_services", "gbv_case_closure_form",
+  "client_feedback"
 ]
 
 gbv_caseworker_permissions = [
@@ -682,6 +683,11 @@ gbv_caseworker_permissions = [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
+            Permission::CREATE,
+            Permission::ENABLE_DISABLE_RECORD,
+            Permission::INCIDENT_FROM_CASE,
+            Permission::TRANSFER,
+            Permission::REFERRAL,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
@@ -700,7 +706,8 @@ gbv_caseworker_permissions = [
     Permission.new(
         :resource => Permission::DASHBOARD,
         :actions => [
-            Permission::VIEW_ASSESSMENT
+            Permission::VIEW_ASSESSMENT,
+            Permission::VIEW_APPROVALS
         ]
     )
 ]
