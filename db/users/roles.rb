@@ -859,27 +859,10 @@ gbv_program_manager_forms = [
 
 gbv_program_manager_permissions = [
     Permission.new(
-        :resource => Permission::ROLE,
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::USER,
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
         :resource => Permission::REPORT,
         :actions => [
             Permission::GROUP_READ,
+            Permission::CREATE,
             Permission::WRITE
         ]
     )
@@ -887,7 +870,7 @@ gbv_program_manager_permissions = [
 
 create_or_update_role(
     :name => "GBV Program Manager",
-    :group_permission => Permission::ALL,
+    :group_permission => Permission::GROUP,
     :permissions_list => gbv_program_manager_permissions,
     :permitted_form_ids => gbv_program_manager_forms
 )
