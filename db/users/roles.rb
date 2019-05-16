@@ -772,7 +772,8 @@ gbv_cm_supervisor_forms = [
     "action_plan_subform_section", "gbv_follow_up_subform_section", "reopened_logs", "transitions", "alleged_perpetrator",
     "health_medical_referral_subform_section", "psychosocial_counseling_services_subform_section",
     "legal_assistance_services_subform_section", "police_or_other_type_of_security_services_subform_section",
-    "livelihoods_services_subform_section", "child_protection_services_subform_section", "gbv_reported_elsewhere_subform"
+    "livelihoods_services_subform_section", "child_protection_services_subform_section", "gbv_reported_elsewhere_subform",
+    "consent_for_services", "gbv_case_closure_form", "client_feedback"
 ]
 
 gbv_cm_supervisor_permissions = [
@@ -785,9 +786,10 @@ gbv_cm_supervisor_permissions = [
             Permission::REASSIGN,
             Permission::EXPORT_JSON,
             Permission::EXPORT_CASE_PDF,
+            Permission::EXPORT_CUSTOM,
+            Permission::REFERRAL,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
-            Permission::APPROVE_BIA,
             Permission::APPROVE_CASE_PLAN,
             Permission::APPROVE_CLOSURE
         ]
@@ -798,39 +800,25 @@ gbv_cm_supervisor_permissions = [
             Permission::READ,
             Permission::FLAG,
             Permission::EXPORT_JSON,
+            Permission::EXPORT_CUSTOM,
             Permission::IMPORT,
             Permission::ASSIGN
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::ROLE,
-        :role_ids => ['role-gbv-caseworker'],
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::USER,
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
-            Permission::READ
         ]
     ),
     Permission.new(
         :resource => Permission::REPORT,
         :actions => [
             Permission::GROUP_READ,
+            Permission::CREATE,
             Permission::WRITE
         ]
     ),
     Permission.new(
         :resource => Permission::DASHBOARD,
         :actions => [
+            Permission::VIEW_APPROVALS,
+            Permission::DASH_CASES_BY_SOCIAL_WORKER,
+            Permission::DASH_TRANSERS_BY_SOCIAL_WORKER,
             Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
         ]
     )
