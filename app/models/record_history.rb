@@ -1,5 +1,7 @@
 class RecordHistory < ApplicationRecord
-  belongs_to :record, polymorphic: true
+  # Since Rails 5 belongs_to acts as a validate_presence_of.
+  # This relation will be optional because will fail otherwise.
+  belongs_to :record, polymorphic: true, optional: true
 
   def user
     #TODO: Refactor with User
