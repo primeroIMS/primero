@@ -1,14 +1,15 @@
 require 'rails_helper'
 
-describe LocalizableProperty do
+describe LocalizableJsonProperty do
 
   before :each do
     Primero::Application.stub :locales => [ "a", "b" ]
     I18n.stub :available_locales => [ "a", "b" ]
-    @klass = Class.new(CouchRest::Model::Base) do
-      include LocalizableProperty
+    @klass = Class.new(FormSection) do
+      include LocalizableJsonProperty
+
+      localize_properties [:name]
     end
-    @klass.localize_properties [ :name ]
     @object = @klass.new
   end
 
@@ -18,7 +19,7 @@ describe LocalizableProperty do
   end
 
   it "should create default property which sets system default locale" do
-    I18n.stub :default_locale => :b
+    I18n.stub :locale => :b
     @object.name = "test"
     @object.name_b.should == "test"
     @object.name_a.should == nil
@@ -31,7 +32,7 @@ describe LocalizableProperty do
   end
 
   it "should use constructor for default property" do
-    I18n.stub :default_locale => :b
+    I18n.stub :locale => :b
     @object = @klass.new "name" => "test"
     @object.name_b.should == "test"
     @object.name_a.should == nil
