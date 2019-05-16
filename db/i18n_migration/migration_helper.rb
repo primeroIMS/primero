@@ -55,18 +55,21 @@ module MigrationHelper
   end
 
   def get_option_list(field, locations)
-    field.options_list(nil, nil, locations, true)
+    #Get the English translated options since old versions weren't i18n yet
+    field.options_list(nil, nil, locations, true, {locale: Primero::Application::LOCALE_ENGLISH})
   end
 
   def get_value(value, options)
     if value.present? && options.present?
+      #TODO these hashes need to use 'with_indifferent_access'
       if value.is_a?(Array)
-        value = options.select{|option| value.include?(option['display_text'])}
-               .map{|option| option['id']}
-        value if value.present?
+        #look for value iin either the ids or in the display text
+        #If it has already been converted, it should be in one of the id's
+        #If it hasn't yet been converted, it should be in one of the display_text
+        v = options.select{|o| value.include?(o['id']) || value.include?(o['display_text'])}.map{|option| option['id']}
       else
-        option = options.select{|option| option['display_text'] == value}.first
-        option['id'] if option.present?
+        #the to_s is necessary to catch cases where the value is true or false
+        v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s}.first.try(:[], 'id')
       end
     end
   end
@@ -74,7 +77,7 @@ module MigrationHelper
   def get_field_options(prefix)
     fields = {}
     prefix = 'case' if prefix == 'child'
-    locations = Location.all_names
+    @locations ||= Location.all_names
 
     FormSection.find_by_parent_form(prefix).each do |fs|
       i18n_fields = get_fields(fs)
@@ -84,16 +87,33 @@ module MigrationHelper
           fields[field.name] = {} unless fields[field.name].present?
           sub_fields = get_fields(field.subform_section)
           sub_fields.each do |sf|
-            sub_options = get_option_list(sf, locations)
+            sub_options = get_option_list(sf, @locations)
             fields[field.name][sf.name] = sub_options if sub_options.present?
           end
         else
-          options = get_option_list(field, locations)
+          options = get_option_list(field, @locations)
           fields[field.name] = options if options.present?
         end
       end
     end
 
+    fields
+  end
+
+  def get_select_fields(prefix)
+    fields = []
+    prefix = 'case' if prefix == 'child'
+    FormSection.find_by_parent_form(prefix).each do |fs|
+      i18n_fields = get_fields(fs)
+      i18n_fields.each do |field|
+        if field.subform_section.present?
+          sub_fields = get_fields(field.subform_section)
+          fields += sub_fields
+        else
+          fields << field
+        end
+      end
+    end
     fields
   end
 
