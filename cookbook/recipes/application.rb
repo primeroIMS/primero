@@ -91,6 +91,8 @@ rvm_ruby_name = "#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
 execute_with_ruby 'prod-ruby' do
   command <<-EOH
     rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
+    rvm rubygems #{node[:primero][:rubygems_version]} --force
+    rvm reload && rvm repair all
     rvm --default use #{rvm_ruby_name}
   EOH
 end
