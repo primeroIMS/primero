@@ -68,6 +68,14 @@ module Ownable
     @users_by_association = nil
   end
 
+  def refresh_record_agency
+    @record_agency = nil
+  end
+
+  def refresh_associated_users
+    @associated_users = nil
+  end
+
   def not_edited_by_owner
     (self.data['last_updated_by'] != self.data['owned_by']) && self.data['last_updated_by'].present?
   end
@@ -75,6 +83,8 @@ module Ownable
 
   def update_ownership
     refresh_users_by_association
+    refresh_record_agency
+    refresh_associated_users
 
     unless self.owner.present?
       self.owned_by = nil
