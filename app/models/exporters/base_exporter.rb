@@ -131,20 +131,20 @@ module Exporters
         emit_columns = lambda do |props, parent_props=[], &column_generator|
           props.map do |p|
             prop_tree = parent_props + [p]
-            if p.type.eql?("subform")
+            if p.type.eql?(Field::SUBFORM) || p.is_multi_select?
               # TODO: This is a hack for CSV export, that causes memory leak
               # 5 is an arbitrary number, and probably should be revisited
               longest_array = 5 #find_longest_array(models, prop_tree)
               (1..(longest_array || 0)).map do |n|
                 new_prop_tree = prop_tree.clone + [n]
-                if p.type.eql?("subform")
+                if p.type.eql?(Field::SUBFORM)
                   emit_columns.call(p.subform.fields, new_prop_tree, &column_generator)
                 else
                   column_generator.call(new_prop_tree)
                 end
               end.flatten
             else
-              if !p.type.nil? && p.type.eql?("subform")
+              if !p.type.nil? && p.type.eql?(Field::SUBFORM)
                 emit_columns.call(p.subform.fields, prop_tree, &column_generator)
               else
                 column_generator.call(prop_tree)
