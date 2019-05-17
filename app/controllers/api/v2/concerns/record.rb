@@ -16,12 +16,14 @@ module Api::V2::Concerns
         sort_order, pagination)
       @records = search.results
       @total = search.total
+      render 'api/v2/records/index'
     end
 
     def show
       authorize! :read, model_class
       @record = find_record
       authorize! :read, @record
+      render 'api/v2/records/show'
     end
 
     def create
@@ -30,7 +32,7 @@ module Api::V2::Concerns
       @record = model_class.new_with_user(current_user, record_params)
       @record.save!
       status = params[:data][:id].present? ? 204 : 200
-      render :create, status: status
+      render 'api/v2/records/create', status: status
     end
 
     def update
@@ -40,6 +42,7 @@ module Api::V2::Concerns
       params.permit!
       @record.update_properties(record_params, current_user.name)
       @record.save!
+      render 'api/v2/records/update'
     end
 
     def destroy
@@ -47,6 +50,7 @@ module Api::V2::Concerns
       @record = find_record
       @record.update_properties({record_state: false}, current_user.name)
       @record.save!
+      render 'api/v2/records/destroy'
     end
 
     def permit_fields

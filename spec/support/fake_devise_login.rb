@@ -16,7 +16,10 @@ module FakeDeviseLogin
   end
 
   def common_permitted_field_names
-    @common_permitted_field_names ||= %w(name age sex protection_concerns registration_date record_sate status family_details)
+    @common_permitted_field_names ||= %w(
+      name age sex protection_concerns registration_date record_sate status family_details
+      description incident_date
+     )
   end
 
   def login_for_test(opts={})

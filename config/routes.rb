@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v2, defaults: { format: :json }, constraints: { format: :json } do
       resources :children, as: :cases, path: :cases
+      resources :incidents
     end
   end
 
