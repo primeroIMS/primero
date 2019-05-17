@@ -67,6 +67,8 @@ encrypted_file
 /public/packs-test
 /node_modules
 yarn-debug.log*
+yarn-error.log*
+.tmp
 .yarn-integrity
 .vscode
 storage/

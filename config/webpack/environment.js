@@ -44,6 +44,7 @@ environment.loaders.append("eslint", {
   ]
 });
 
+
 environment.loaders.insert('svg', {
   test: /\.svg$/,
   use: babelLoader.use.concat([
