@@ -1,0 +1,46 @@
+---
+version: '3'
+services:
+  postgres:
+    image: postgres:prim-latest
+    volumes:
+      - log:/var/log/postgresql
+      - database:/var/lib/postgresql/data
+    env_file:
+      - docker/defaults.env
+      - docker/quoin.env
+  solr:
+    image: solr:prim-latest
+    env_file:
+      - docker/defaults.env
+    volumes:
+      - solr_cores:/opt/solr/server/solr/mycores
+  beanstalkd:
+    image: beanstalkd:prim-latest
+    env_file:
+      - docker/defaults.env
+      - docker/quoin.env
+  application:
+    image: application:prim-latest
+    depends_on:
+      - solr
+      - beanstalkd
+      - postgres
+    volumes:
+      - log:/srv/primero/application/log
+      - public:/srv/primero/application/public
+      - tmp:/srv/primero/application/tmp
+    env_file:
+      - docker/defaults.env
+      - docker/quoin.env
+    stdin_open: true
+    tty: true
+volumes:
+  database:
+  local_certs:
+  certbot_var:
+  certbot_etc:
+  tmp:
+  log:
+  public:
+  solr_cores:

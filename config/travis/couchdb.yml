@@ -1,6 +1,6 @@
 ---
 test:
-  host: localhost
+  host: couchdb
   port: 5984
   https_port: 6984
   prefix: primero

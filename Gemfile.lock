@@ -48,6 +48,8 @@ GEM
       activemodel (= 5.2.3)
       activesupport (= 5.2.3)
       arel (>= 9.0)
+    activerecord-nulldb-adapter (0.3.9)
+      activerecord (>= 2.0.0)
     activestorage (5.2.3)
       actionpack (= 5.2.3)
       activerecord (= 5.2.3)
@@ -205,7 +207,6 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.7.0)
       launchy (~> 2.2)
-    libv8 (3.16.14.19)
     loofah (2.2.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -298,7 +299,6 @@ GEM
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
-    ref (2.0.0)
     regexp_parser (1.4.0)
     responders (2.4.1)
       actionpack (>= 4.2.0, < 6.0)
@@ -393,9 +393,6 @@ GEM
       sunspot_solr
     terminal-table (1.8.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
-    therubyracer (0.12.3)
-      libv8 (~> 3.16.14.15)
-      ref
     thor (0.19.4)
     thread_safe (0.3.6)
     tilt (2.0.9)
@@ -434,6 +431,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  activerecord-nulldb-adapter
   arabic-letter-connector!
   backburner (~> 1.5)
   better_errors (~> 2.5)
@@ -495,7 +493,6 @@ DEPENDENCIES
   sunspot_rails (= 2.3.0)
   sunspot_solr (= 2.3.0)
   sunspot_test
-  therubyracer (~> 0.12)
   timecop (~> 0.9.1)
   turbolinks (~> 5)
   twitter_cldr (~> 4.4)
