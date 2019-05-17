@@ -131,7 +131,7 @@ module Matchable
     end
 
     def match_multi_value(field, match_request)
-      (match_request[field].is_a? Array) ? match_request[field].join(' ') : match_request[field]
+      (match_request.data[field].is_a? Array) ? match_request.data[field].join(' ') : match_request.data[field]
     end
 
     def match_multi_criteria(field, match_request)

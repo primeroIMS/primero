@@ -43,7 +43,7 @@ class Child < ApplicationRecord
     :case_id, :case_id_code, :case_id_display,
     :nickname, :name, :protection_concerns, :consent_for_tracing, :hidden_name,
     :name_first, :name_middle, :name_last, :name_nickname, :name_other,
-    :registration_date, :age, :estimated, :date_of_birth, :sex,
+    :registration_date, :age, :estimated, :date_of_birth, :sex, :address_last,
     :reunited, :reunited_message, :investigated, :verified, #TODO: These are RapidFTR attributes and should be removed
     :risk_level, :case_status_reopened, :date_case_plan, :case_plan_due_date, :date_case_plan_initiated,
     :system_generated_followup,
