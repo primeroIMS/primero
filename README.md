@@ -54,6 +54,10 @@ When the Vagrant box is up and running, SSH in and go to the Primero development
 
     $ bundle install
 
+
+### Install dependecies of MiniMagick used on Active Storage
+    $ sudo apt-get install -y imagemagick
+
 #### Install nodejs and yarn
     $ curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
     $ sudo apt-get install -y nodejs

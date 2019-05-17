@@ -1,3 +1,6 @@
+<%
+  index = 0;
+%>
 <div class="row align-middle">
   <div class="medium-12 columns">
     <div class="row">
@@ -11,12 +14,12 @@
           <div class="row">
               <div class="medium-4 columns">
                 <span class="tool-tip-label">
-                  <%= label_tag "#{formObject.class.name.underscore.downcase}[photo]0", I18n.t("fields.file_upload_box.add_photo_label"), :class=>'key inline' %>
+                  <%= label_tag "#{formObject.class.name.underscore.downcase}[photos][#{index}][image]", I18n.t("fields.file_upload_box.add_photo_label"), :class=>'key inline' %>
                 </span>
               </div>
               <div class="medium-8 columns file_upload">
                 <div>
-                  <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[photo]0", id: "#{formObject.class.name.underscore.downcase}_photo_0", help_text: photo_upload_box.help_text || ""%>
+                  <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[photos][#{index}][image]", id: "#{formObject.class.name.underscore.downcase}_photos_#{index}_image", help_text: photo_upload_box.help_text || ""%>
                 </div>
               </div>
           </div>
@@ -29,15 +32,16 @@
       </div>
     </div>
     <% formObject.photos.each do |photo| %>
-        <div class="row">
-          <div class="delete_check_box medium-4 columns">
-            <%= label_tag "delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]", t("#{formObject.class.name.underscore.downcase}.actions.delete_photo") %>
-          </div>
-          <div class="medium-8 columns">
-            <%= check_box_tag("delete_#{formObject.class.name.underscore.downcase}_photo[#{photo.name}]") %>
-            <%= thumbnail_tag(formObject, photo.name) %>
-          </div>
+      <%= hidden_field_tag "#{formObject.class.name.underscore.downcase}[photos][#{photo.id}][id]", photo['id'] %>
+      <div class="row">
+        <div class="delete_check_box medium-4 columns">
+          <%= label_tag "#{formObject.class.name.underscore.downcase}[photos][#{photo.id}][image]", t("#{formObject.class.name.underscore.downcase}.actions.delete_photo") %>
         </div>
+        <div class="medium-8 columns">
+          <%= check_box_tag("#{formObject.class.name.underscore.downcase}[photos][#{photo.id}][_destroy]", true, false, id: "#{formObject.class.name.underscore.downcase}_photos_#{photo.id}_delete_image")%>
+          <%= image_tag photo.image.variant(resize: "100x100") %>
+        </div>
+      </div>
     <% end %>
   </div>
 </div>
