@@ -10,10 +10,21 @@ TODO. All other endpoints will require authentication.
 
 ## Case Endpoints
 
-Endpoints for querying and manipulating cases and related resources in Primero.
+Endpoints for querying and manipulating individual cases and related resources in Primero.
 
 * [Query for cases](v2/docs/cases/get.md) : `GET /api/v2/cases`
-* [Fetch individual case](v2/docs/cases/id/get.md) : `GET /api/v2/cases/:id`
-* [create a new case](v2/docs/cases/post.md) : `POST /api/v2/cases`
+* [Fetch an individual case](v2/docs/cases/id/get.md) : `GET /api/v2/cases/:id`
+* [Create a new case](v2/docs/cases/post.md) : `POST /api/v2/cases`
 * [Update an existing case](v2/docs/cases/id/patch.md) : `PATCH /api/v2/cases/:id`
 * [Disable an existing case](v2/docs/cases/id/delete.md) : `DELETE /api/v2/cases/:id`
+
+## Incident Endpoints
+
+Endpoints for querying and manipulating individual incidents and related resources in Primero.
+The API behavior is identical to that of cases. See the case endpoints above for documentation details.
+
+* Query for incidents: `GET /api/v2/incidents`
+* Fetch an individual incident: `GET /api/v2/incidents/:id`
+* Create a new incident: `POST /api/v2/incidents`
+* Update an existing incident: `PATCH /api/v2/incidents/:id`
+* Disable an existing incident: `DELETE /api/v2/incidents/:id`
