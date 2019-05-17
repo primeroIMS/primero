@@ -1,18 +1,18 @@
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
+import { AgencyLogo } from "components/agency-logo";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import PropTypes from "prop-types";
 import React from "react";
-import { Logo } from "components/logo";
+import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
 import { withI18n } from "libs";
 import { connect } from "react-redux";
 import ListIcon from "./ListIcon";
 import { TranslationsToggle } from "../translations-toggle";
 import * as styles from "./styles.module.scss";
-import AgencyLogo from "./AgencyLogo";
 import AccountMenu from "./AccountMenu";
 
 const Nav = ({ i18n, username }) => {
@@ -27,7 +27,7 @@ const Nav = ({ i18n, username }) => {
     },
     {
       name: i18n.t("navigation.tracing_request"),
-      to: "/tracing-request",
+      to: "/tracing-requests",
       icon: "tracing_request"
     },
     {
@@ -46,24 +46,24 @@ const Nav = ({ i18n, username }) => {
         paper: styles.drawerPaper
       }}
     >
-      <Logo moduleLogo="primero" />
+      <ModuleLogo moduleLogo="primero" />
       <List className={styles.navList}>
         {nav.map(l => (
-          <ListItem
-            component={NavLink}
-            button
-            to={l.to}
-            activeClassName={styles.navActive}
-            key={l.name}
-            exact
-          >
-            <ListItemIcon classes={{ root: styles.listIcon }}>
-              <ListIcon icon={l.icon} />
-            </ListItemIcon>
-            <ListItemText
-              primary={l.name}
-              classes={{ primary: styles.listText }}
-            />
+          <ListItem key={l.to}>
+            <NavLink
+              to={l.to}
+              className={styles.navLink}
+              activeClassName={styles.navActive}
+              exact
+            >
+              <ListItemIcon classes={{ root: styles.listIcon }}>
+                <ListIcon icon={l.icon} />
+              </ListItemIcon>
+              <ListItemText
+                primary={l.name}
+                classes={{ primary: styles.listText }}
+              />
+            </NavLink>
           </ListItem>
         ))}
       </List>
@@ -77,7 +77,7 @@ const Nav = ({ i18n, username }) => {
 
 Nav.propTypes = {
   i18n: PropTypes.object.isRequired,
-  username: PropTypes.object.isRequired
+  username: PropTypes.string.isRequired
 };
 
 // TODO: Username should come from redux once user built.

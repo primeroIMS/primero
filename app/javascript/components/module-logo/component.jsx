@@ -7,7 +7,7 @@ import CPIMSLogo from "images/cpims-logo.png";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 
-const Logo = ({ moduleLogo }) => {
+const ModuleLogo = ({ moduleLogo }) => {
   const logo = (l => {
     switch (l) {
       case "mrm":
@@ -28,8 +28,8 @@ const Logo = ({ moduleLogo }) => {
   );
 };
 
-Logo.propTypes = {
-  moduleLogo: PropTypes.string.isRequired
+ModuleLogo.propTypes = {
+  moduleLogo: PropTypes.string
 };
 
-export default Logo;
+export default ModuleLogo;

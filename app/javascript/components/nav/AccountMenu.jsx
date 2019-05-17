@@ -19,22 +19,23 @@ const AccountMenu = ({ i18n, username }) => {
     <>
       <div className={styles.navSeparator} />
       <List className={styles.navListAccount}>
-        <ListItem
-          component={NavLink}
-          button
-          to="/support"
-          activeClassName={styles.navActive}
-          exact
-        >
-          <ListItemIcon classes={{ root: styles.listIcon }}>
-            <ListIcon icon="support" />
-          </ListItemIcon>
-          <ListItemText
-            primary={i18n.t("navigation.support")}
-            classes={{ primary: styles.listText }}
-          />
+        <ListItem>
+          <NavLink
+            to="/support"
+            className={styles.navLink}
+            activeClassName={styles.navActive}
+            exact
+          >
+            <ListItemIcon classes={{ root: styles.listIcon }}>
+              <ListIcon icon="support" />
+            </ListItemIcon>
+            <ListItemText
+              primary={i18n.t("navigation.support")}
+              classes={{ primary: styles.listText }}
+            />
+          </NavLink>
         </ListItem>
-        <ListItem className={styles.readOnly}>
+        <ListItem className={styles.readOnlyNavListItem}>
           <ListItemIcon classes={{ root: styles.listIcon }}>
             <ListIcon icon="account" />
           </ListItemIcon>
@@ -44,19 +45,18 @@ const AccountMenu = ({ i18n, username }) => {
           />
         </ListItem>
         {nav.map(l => (
-          <ListItem
-            component={NavLink}
-            className={styles.accountListItem}
-            button
-            to={l.to}
-            activeClassName={styles.navActive}
-            key={l.name}
-            exact
-          >
-            <ListItemText
-              primary={l.name}
-              classes={{ primary: styles.listText }}
-            />
+          <ListItem className={styles.accountListItem} key={l.to}>
+            <NavLink
+              to={l.to}
+              className={styles.navLink}
+              activeClassName={styles.navActive}
+              exact
+            >
+              <ListItemText
+                primary={l.name}
+                classes={{ primary: styles.listText }}
+              />
+            </NavLink>
           </ListItem>
         ))}
       </List>

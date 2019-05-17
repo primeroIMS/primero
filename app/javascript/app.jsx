@@ -8,8 +8,8 @@ import rtl from "jss-rtl";
 import React from "react";
 import { Provider } from "react-redux";
 import { AppLayout } from "components/layouts";
-import { theme } from "./config";
-import { I18nProvider } from "./libs/i18n";
+import { theme } from "config";
+import { I18nProvider } from "libs";
 import configureStore, { history } from "./store";
 
 const store = configureStore();

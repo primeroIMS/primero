@@ -1,5 +1,4 @@
 $drawerWidth: 240px;
-$line: linear-gradient(to left, rgba(238, 238, 238, 0), rgba(232, 232, 232, 0.26) 18%, #d8d8d8);
 
 .drawer {
   width: $drawerWidth;
@@ -16,10 +15,6 @@ $line: linear-gradient(to left, rgba(238, 238, 238, 0), rgba(232, 232, 232, 0.26
   box-shadow: inset -8px 0 5px -5px rgba(0, 0, 0, 0.15);
 }
 
-.readOnly {
-  cursor: default;
-}
-
 .listIcon {
   min-width: 2.5em;
 }
@@ -33,19 +28,35 @@ $line: linear-gradient(to left, rgba(238, 238, 238, 0), rgba(232, 232, 232, 0.26
   svg {
     color: var(--dark-gray);
   }
+
+  li {
+    padding: 0;
+  }
 }
 
 .navListAccount {
   flex-grow: 1;
+
+  li {
+    padding: 0;
+  }
 }
 
 .accountListItem {
-  text-indent: 2.5em;
-  padding: 4px 16px;
+  padding: 0;
+
+  a {
+    text-indent: 2.5em;
+  }
 
   span {
     font-size: 0.813em;
   }
+}
+
+.readOnlyNavListItem {
+  cursor: default;
+  padding: 8px 16px !important;
 }
 
 .navSeparator {
@@ -53,6 +64,15 @@ $line: linear-gradient(to left, rgba(238, 238, 238, 0), rgba(232, 232, 232, 0.26
   height: 1px;
   margin: 0.375em 0 0.938em;
   background: linear-gradient(to left, rgba(238, 238, 238, 0), rgba(232, 232, 232, 0.26) 18%, #d8d8d8);
+}
+
+.navLink {
+  text-decoration: none;
+  color: var(--black);
+  padding: 8px 16px;
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
 .navActive {
@@ -86,24 +106,4 @@ $line: linear-gradient(to left, rgba(238, 238, 238, 0), rgba(232, 232, 232, 0.26
     background-image: url("data:image/svg+xml,%0A%3Csvg width='10px' height='10px' viewBox='0 0 10 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath d='M10,0 L10,10 L0,10 C5.5228475,10 10,5.5228475 10,0 Z' id='Combined-Shape' fill='%23FFFFFF' transform='translate(5.000000, 5.000000) scale(1, -1) translate(-5.000000, -5.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
     bottom: -0.625em;
   }
-}
-
-.line {
-  height: 1px;
-  background: $line;
-  width: 12.5em;
-}
-
-.agencyLogo {
-  width: 7.25em;
-  padding: 1.375em 0;
-}
-
-.agencyLogoContainer {
-  width: 12.5em;
-  margin: 0 auto;
-  margin-bottom: 2.188em;
-  border-top: $line;
-  border-bottom: $line;
-  text-align: center;
 }
