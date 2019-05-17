@@ -19,6 +19,7 @@ module FakeDeviseLogin
     @common_permitted_field_names ||= %w(
       name age sex protection_concerns registration_date record_sate status family_details
       description incident_date
+      inquiry_date relation_name relation
      )
   end
 

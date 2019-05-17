@@ -28,3 +28,14 @@ The API behavior is identical to that of cases. See the case endpoints above for
 * Create a new incident: `POST /api/v2/incidents`
 * Update an existing incident: `PATCH /api/v2/incidents/:id`
 * Disable an existing incident: `DELETE /api/v2/incidents/:id`
+
+## Tracing Request Endpoints
+
+Endpoints for querying and manipulating individual tracing requests and related resources in Primero.
+The API behavior is identical to that of cases. See the case endpoints above for documentation details.
+
+* Query for tracing requests: `GET /api/v2/tracing_requests`
+* Fetch an individual tracing request: `GET /api/v2/tracing_requests/:id`
+* Create a new tracing request: `POST /api/v2/tracing_requests`
+* Update an existing tracing request: `PATCH /api/v2/tracing_requests/:id`
+* Disable an existing tracing request: `DELETE /api/v2/tracing_requests/:id`
