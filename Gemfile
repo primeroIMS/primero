@@ -124,7 +124,7 @@ group :test, :cucumber do
   # Should be able to just remove after a patch is released.
   # https://github.com/rack-test/rack-test/issues/211
   # https://github.com/rack-test/rack-test/pull/215
-  gem 'rack-test', :git => 'https://github.com/rack-test/rack-test', :ref => '10042d3452a13d5f13366aac839b981b1c5edb20'
+  # gem 'rack-test', :git => 'https://github.com/rack-test/rack-test', :ref => '10042d3452a13d5f13366aac839b981b1c5edb20'
 end
 
 #TODO: Does this get installed?
