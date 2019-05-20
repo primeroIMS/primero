@@ -10,6 +10,22 @@
       <%= resource_edit_field(@role, 'name', 'role.name', 'text_field', true) %>
       <%= resource_edit_field(@role, 'description', 'role.description', 'text_area') %>
 
+
+      <div class="row">
+        <div class="medium-3 columns">
+          <span class="tool-tip-label">
+            <%= f.label :is_manager, t("role.manager"), :class=>'key inline' %>
+          </span>
+        </div>
+        <div class="medium-8 columns">
+          <label class="left">
+            <%= f.check_box :is_manager, {}, "true", "false" %>
+            <%= t("true") %>
+          </label>
+        </div>
+        <div class="medium-1 columns"></div>
+      </div>
+
       <div class="row">
         <div class="medium-3 columns">
           <%= f.label :transfer, t("role.transfer_label"), :class=>'key'  %>

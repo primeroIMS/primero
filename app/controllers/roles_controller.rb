@@ -79,6 +79,7 @@ class RolesController < ApplicationController
     role_hash[:description] = params[:role][:description]
     role_hash[:transfer] = params[:role][:transfer]
     role_hash[:referral] = params[:role][:referral]
+    role_hash[:is_manager] = params[:role][:is_manager]
     role_hash[:group_permission] = params[:role][:group_permission]
     role_hash[:form_sections] = FormSection.where(id: params[:role][:form_section_ids].reject(&:blank?)) if params[:role][:form_section_ids].present?
     role_hash[:permissions] = []

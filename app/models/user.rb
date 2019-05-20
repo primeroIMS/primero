@@ -327,6 +327,10 @@ class User < ApplicationRecord
     @ability ||= Ability.new(self)
   end
 
+  def is_manager?
+    self.role.try(:is_manager?) || false
+  end
+
   private
 
   def update_user_cases_groups_and_location

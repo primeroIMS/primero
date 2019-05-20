@@ -332,6 +332,7 @@ ActiveRecord::Schema.define(version: 2019_04_16_181147) do
     t.string "group_permission", default: "self"
     t.boolean "referral", default: false, null: false
     t.boolean "transfer", default: false, null: false
+    t.boolean "is_manager", default: false, null: false
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
 
@@ -402,7 +403,6 @@ ActiveRecord::Schema.define(version: 2019_04_16_181147) do
     t.integer "role_id"
     t.string "time_zone", default: "UTC"
     t.string "locale"
-    t.boolean "is_manager", default: false
     t.boolean "send_mail", default: true
     t.boolean "disabled", default: false
     t.string "services", array: true
