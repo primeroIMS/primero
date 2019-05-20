@@ -22,6 +22,8 @@ module Exporters
 
     def initialize(output_file_path=nil)
       super(output_file_path, export_config_id)
+      @fields = Field.find_by_name(%w(national_id_no case_id unhcr_individual_no
+                                      name age sex family_count_no))
     end
 
     def export(cases, *args)
@@ -31,13 +33,11 @@ module Exporters
         rows << [" "] + @props.keys.map{|prop| I18n.t("exports.duplicate_id_csv.headers.#{prop}")} if @called_first_time.nil?
         @called_first_time ||= true
 
-        self.class.load_fields(cases.first) if cases.present?
-
         cases.each_with_index do |c, index|
           values = @props.map do |_, generator|
             case generator
             when Array
-              self.class.translate_value(generator.first, c.value_for_attr_keys(generator))
+              self.class.translate_value(@fields.select {|f| f.name.eql?(generator.first) }, c.value_for_attr_keys(generator))
             when Proc
               generator.call(c)
             end

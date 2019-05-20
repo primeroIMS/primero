@@ -19,6 +19,14 @@ Rails.application.routes.draw do
     get '*all', to: 'home#v2'
   end
 
+  namespace :api do
+    namespace :v2, defaults: { format: :json }, constraints: { format: :json } do
+      resources :children, as: :cases, path: :cases
+      resources :incidents
+      resources :tracing_requests
+    end
+  end
+
 #######################
 # USER URLS
 #######################

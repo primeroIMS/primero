@@ -25,7 +25,9 @@ module Record
   module ClassMethods
 
     def new_with_user(user, data = {})
+      id = data.delete('id')
       record = self.new
+      record.id = id if id.present?
       record.data = Utils.merge_data(record.data, data)
       record.set_creation_fields_for(user)
       record.set_owner_fields_for(user)
@@ -82,7 +84,6 @@ module Record
     self.set_instance_id
   end
 
-
   def display_field(field_or_name, lookups = nil)
     result = ""
     if field_or_name.present?
@@ -123,9 +124,6 @@ module Record
   end
 
   def update_properties(properties, user_name)
-    #TODO: This used to replace empty values with nil to avoid wiping out data. This may be a rails forms thing.
-    #properties = self.class.blank_to_nil(self.class.convert_arrays(properties))
-    properties['record_state'] = true if properties['record_state'].nil?
     self.data = Utils.merge_data(self.data, properties)
     self.last_updated_by = user_name
     self.set_attachment_fields(properties)
@@ -169,25 +167,28 @@ module Record
 
 
   class Utils
-    #TODO: WRITE UNIT TESTS FOR THIS!!!
     def self.merge_data(old_data, new_data)
       if old_data.is_a?(Hash) && new_data.is_a?(Hash)
         old_data.merge(new_data) do |_, old_value, new_value|
           merge_data(old_value, new_value)
         end
       elsif is_an_array_of_hashes?(old_data) && is_an_array_of_hashes?(new_data)
-        new_data.inject([]) do |result, new_nested_record|
-          nested_record_id = new_nested_record['unique_id']
+        merged_old_data = old_data.inject([]) do |result, old_nested_record|
+          nested_record_id = old_nested_record['unique_id']
           if nested_record_id.present?
-            old_nested_record = old_data.find{|r| r['unique_id'] == nested_record_id}
-            result << merge_data(old_nested_record, new_nested_record)
+            new_nested_record = new_data.find{|r| r['unique_id'] == nested_record_id}
+            if new_nested_record
+              result << merge_data(old_nested_record, new_nested_record)
+            else
+              result << old_nested_record
+            end
           else
-            result << new_nested_record
+            result << old_nested_record
           end
           result
         end
-      elsif new_data.nil?
-        old_data
+        append = new_data.reject{|new_record| merged_old_data.find{|r| r['unique_id'] == new_record['unique_id']}}
+        (merged_old_data + append).reject{|record| record['_delete']}
       else
         new_data
       end

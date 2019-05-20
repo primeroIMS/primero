@@ -1,0 +1,21 @@
+$line: linear-gradient(to left, rgba(238, 238, 238, 0), rgba(232, 232, 232, 0.26) 18%, #d8d8d8);
+
+.agencyLogo {
+  width: 7.25em;
+  padding: 1.375em 0;
+}
+
+.agencyLogoContainer {
+  width: 12.5em;
+  margin: 0 auto;
+  margin-bottom: 2.188em;
+  border-top: $line;
+  border-bottom: $line;
+  text-align: center;
+}
+
+.line {
+  height: 1px;
+  background: $line;
+  width: 12.5em;
+}

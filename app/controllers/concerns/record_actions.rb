@@ -393,7 +393,7 @@ module RecordActions
     if @record_params.blank?
       param_root = model_class.name.underscore
       @record_params = params[param_root].try(:to_h) || {}
-      @record_params = destringify(@record_params)
+      @record_params = DestringifyService.destringify(@record_params)
       @record_params = filter_permitted_params(@record_params) #TODO: This business logic may need to be moved to a service
     end
     @record_params.with_indifferent_access

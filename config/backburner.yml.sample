@@ -1,2 +1,0 @@
-production:
-  beanstalk_url: "beanstalk://localhost:11300"
