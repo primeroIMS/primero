@@ -691,7 +691,6 @@ gbv_caseworker_permissions = [
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
-            Permission::REQUEST_APPROVAL_BIA,
             Permission::REQUEST_APPROVAL_CLOSURE
         ]
     ),
@@ -700,7 +699,8 @@ gbv_caseworker_permissions = [
         :actions => [
             Permission::READ,
             Permission::WRITE,
-            Permission::FLAG
+            Permission::FLAG,
+            Permission::CREATE
         ]
     ),
     Permission.new(
@@ -747,7 +747,6 @@ gbv_mobile_caseworker_permissions = [
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
-            Permission::REQUEST_APPROVAL_BIA,
             Permission::REQUEST_APPROVAL_CLOSURE,
             Permission::SYNC_MOBILE
         ]
@@ -757,6 +756,7 @@ gbv_mobile_caseworker_permissions = [
         :actions => [
             Permission::READ,
             Permission::WRITE,
+            Permission::CREATE,
             Permission::FLAG,
             Permission::SYNC_MOBILE
         ]
@@ -948,7 +948,6 @@ gbv_organization_focal_point_permissions = [
     Permission.new(
         :resource => Permission::DASHBOARD,
         :actions => [
-            Permission::VIEW_APPROVALS,
             Permission::DASH_CASES_BY_SOCIAL_WORKER,
             Permission::DASH_TRANSERS_BY_SOCIAL_WORKER,
             Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
