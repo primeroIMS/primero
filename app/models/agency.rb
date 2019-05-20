@@ -67,17 +67,17 @@ class Agency < ApplicationRecord
   end
 
   private
+  def validate_name_in_english
+    return true if self.name_en.present?
+    errors.add(:name, 'errors.models.agency.name_present')
+    return false
+  end
+
   def validate_logo_large_dimension
     validate_image_dimension('logo_large')
   end
   def validate_logo_small_dimension
     validate_image_dimension('logo_small')
-  end
-
-  def validate_name_in_english
-    return true if self.name_en.present?
-    errors.add(:name, 'errors.models.agency.name_present')
-    return false
   end
 
   def validate_image_dimension(type)
