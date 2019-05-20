@@ -51,12 +51,12 @@ ActiveRecord::Schema.define(version: 2019_04_16_181147) do
     t.index ["services"], name: "index_agencies_on_services", using: :gin
   end
 
-  create_table "attachment_audio", force: :cascade do |t|
+  create_table "attachment_audios", force: :cascade do |t|
     t.string "record_type"
     t.uuid "record_id"
     t.string "record_field_scope"
-    t.index ["record_field_scope"], name: "index_attachment_audio_on_record_field_scope"
-    t.index ["record_type", "record_id"], name: "index_attachment_audio_on_record_type_and_record_id"
+    t.index ["record_field_scope"], name: "index_attachment_audios_on_record_field_scope"
+    t.index ["record_type", "record_id"], name: "index_attachment_audios_on_record_type_and_record_id"
   end
 
   create_table "attachment_documents", force: :cascade do |t|
