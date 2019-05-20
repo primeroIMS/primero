@@ -1,0 +1,8 @@
+$RAILS_ENV:
+  solr:
+    hostname: $SOLR_HOSTNAME
+    port: $SOLR_PORT
+    log_level: $SOLR_LOG_LEVEL
+    pid_dir: $SOLR_PID_DIR
+    path: /solr/primero
+    log_file: $SOLR_LOG_DIR

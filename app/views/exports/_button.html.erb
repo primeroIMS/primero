@@ -6,7 +6,7 @@
     <ul class="menu is-dropdown-submenu">
       <% exporters.each do |exporter| %>
         <%# Find out if the exporter should be visible on the current page %>
-        <% module_ids = defined?(instance) ? [instance.module_id] : (@current_modules.present? ? @current_modules.map{|m| m.id} : []) %>
+        <% module_ids = defined?(instance) ? [instance.module_id] : (@current_modules.present? ? @current_modules.map{|m| m.unique_id} : []) %>
         <% if exporter_visible_page?(exporter.id, module_ids) && can?("export_#{exporter.id}".to_sym, controller.model_class) %>
           <% if exporter.name == "Exporters::PDFExporter" %>
             <%= render 'exports/custom_exports_link', export_type: 'pdf' %>

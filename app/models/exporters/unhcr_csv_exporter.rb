@@ -55,7 +55,7 @@ module Exporters
           values = props_to_export.map do |_, generator|
             case generator
             when Array
-              self.class.translate_value(@fields[generator.first], c.value_for_attr_keys(generator))
+              self.class.translate_value(@fields[generator.try(:first)], c.value_for_attr_keys(generator))
             when Proc
               generator.call(c)
             end
@@ -116,7 +116,7 @@ module Exporters
           end
         end,
         'reunification_status' => ->(c) do
-          if c.tracing_status.present?
+          if c.try(:tracing_status).present?
             return c.tracing_status == "reunified" ? I18n.t("true") : I18n.t("false")
           else
             I18n.t("false")

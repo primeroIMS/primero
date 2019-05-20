@@ -1,0 +1,7 @@
+# This file is only loaded in the cucumber env.rb file.
+# That file always sets the environment to 'cucumber'.
+# Therefore, it is not deemed necessary to handle different environments in this YAML.
+browser: :firefox
+host: http://????
+capabilities: :firefox
+app_host: http://????
