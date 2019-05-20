@@ -7,6 +7,10 @@ class ConfigurationBundle < CouchRest::Model::Base
   property :applied_by
   property :applied_at, DateTime, default: DateTime.now
 
+  design do
+    view :all
+  end
+
   def self.import(model_data, applied_by=nil)
     Rails.logger.info "Starting configuration bundle import..."
 
@@ -100,6 +104,10 @@ class ConfigurationBundle < CouchRest::Model::Base
 
     #Restart the couch-watcher to sync it up with the updated Sequence Number History file
     CouchChanges::Watcher::restart
+  end
+
+  def self.most_recent
+    ConfigurationBundle.all.sort_by{|c| c.applied_at}.last
   end
 
 end

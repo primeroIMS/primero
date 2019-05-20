@@ -455,5 +455,58 @@ namespace :db do
       importer.import_forms_from_spreadsheet
     end
 
+    desc "Prints out Primero system stats for Verification"
+    task :verify => :environment do
+      system_settings = SystemSettings.current
+      configuration_bundle = ConfigurationBundle.most_recent
+      locales = Primero::Application::locales
+
+      puts '------------------------------------------------------------'
+      puts "Primero Version:  #{system_settings.try(:primero_version)}"
+      puts "Last configuration bundle update: #{configuration_bundle.try(:applied_at)}"
+      puts "Default language: #{system_settings.try(:default_locale)}"
+      puts "Available languages: #{locales}"
+      puts
+
+      #TODO find clean way to get timestamp of couchdb files (NOTE: Need sudo)
+      #TODO We would like to show the laste updated date/time for each DB
+      # puts "Agency table has #{Agency.count} records, last updated on YYYYYYY "
+      # File.mtime("/var/lib/couchdb/primero_user_group_development.couch")
+      # file_time = `sudo stat /var/lib/couchdb/primero_user_group_development.couch|grep Modify|cut -c 9-`
+      puts "Agency table has #{Agency.count} records"
+      puts "ContactInformation table has #{ContactInformation.count} records"
+      puts "FormSection table has #{FormSection.count} records"
+      puts "Location table has #{Location.count} records"
+      puts "Lookup table has #{Lookup.count} records"
+      puts "PrimeroModule table has #{PrimeroModule.count} records"
+      puts "PrimeroProgram table has #{PrimeroProgram.count} records"
+      puts "Replication table has #{Replication.count} records"
+      puts "Report table has #{Report.count} records"
+      puts "Role table has #{Role.count} records"
+      puts "UserGroup table has #{UserGroup.count} records"
+      puts "User table has #{User.count} records"
+      # TODO ExportConfiguration is added in a later version
+      # puts "ExportConfiguration table has #{ExportConfiguration.count} records, last updated on YYYYYYY"
+      puts "SystemSettings table has #{SystemSettings.count} records"
+
+      opt_dir = File.join(Rails.root, '/public/options')
+      if File.exist?(opt_dir)
+        puts 'Options'
+        Dir[opt_dir + '/*'].each {|f| puts "#{File.basename(f)}  #{File.size(f)}  #{File.mtime(f)}"}
+      end
+
+      puts
+
+      latest_sequences = CouchChanges::MODELS_TO_WATCH.inject({}) do |acc, modelCls|
+        acc.merge(modelCls.database.name => modelCls.database.info['update_seq'])
+      end
+      couch_watcher_history = File.join(Rails.root, '/tmp/couch_watcher_history.json')
+      couch_watcher_history_json = JSON.parse(File.read(couch_watcher_history)) if couch_watcher_history.present?
+      pointers_match = (couch_watcher_history_json.present? && couch_watcher_history_json == latest_sequences) ? 'Yes':'No'
+      puts "CouchWatcher pointers match? #{pointers_match}"
+
+      puts '------------------------------------------------------------'
+    end
+
   end
 end
