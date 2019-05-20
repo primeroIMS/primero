@@ -70,6 +70,8 @@ class Child < ApplicationRecord
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
 
+  scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
+
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
@@ -158,10 +160,6 @@ class Child < ApplicationRecord
 
   def self.nested_reportable_types
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
-  end
-
-  def self.by_date_of_birth
-    where.not('data @> ?', { date_of_birth: nil }.to_json)
   end
 
   def self.by_date_of_birth_range(start_date, end_date)
