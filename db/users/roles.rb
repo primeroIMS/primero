@@ -689,9 +689,7 @@ gbv_caseworker_permissions = [
             Permission::TRANSFER,
             Permission::REFERRAL,
             Permission::CONSENT_OVERRIDE,
-            Permission::EXPORT_CASE_PDF,
-            Permission::REQUEST_APPROVAL_CASE_PLAN,
-            Permission::REQUEST_APPROVAL_CLOSURE
+            Permission::EXPORT_CASE_PDF
         ]
     ),
     Permission.new(
@@ -706,8 +704,7 @@ gbv_caseworker_permissions = [
     Permission.new(
         :resource => Permission::DASHBOARD,
         :actions => [
-            Permission::VIEW_ASSESSMENT,
-            Permission::VIEW_APPROVALS
+            Permission::VIEW_ASSESSMENT
         ]
     )
 ]
@@ -746,8 +743,6 @@ gbv_mobile_caseworker_permissions = [
             Permission::REFERRAL,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
-            Permission::REQUEST_APPROVAL_CASE_PLAN,
-            Permission::REQUEST_APPROVAL_CLOSURE,
             Permission::SYNC_MOBILE
         ]
     ),
@@ -764,8 +759,7 @@ gbv_mobile_caseworker_permissions = [
     Permission.new(
         :resource => Permission::DASHBOARD,
         :actions => [
-            Permission::VIEW_ASSESSMENT,
-            Permission::VIEW_APPROVALS
+            Permission::VIEW_ASSESSMENT
         ]
     )
 ]
@@ -802,9 +796,7 @@ gbv_cm_supervisor_permissions = [
             Permission::EXPORT_CUSTOM,
             Permission::REFERRAL,
             Permission::CONSENT_OVERRIDE,
-            Permission::EXPORT_CASE_PDF,
-            Permission::APPROVE_CASE_PLAN,
-            Permission::APPROVE_CLOSURE
+            Permission::EXPORT_CASE_PDF
         ]
     ),
     Permission.new(
@@ -829,7 +821,6 @@ gbv_cm_supervisor_permissions = [
     Permission.new(
         :resource => Permission::DASHBOARD,
         :actions => [
-            Permission::VIEW_APPROVALS,
             Permission::DASH_CASES_BY_SOCIAL_WORKER,
             Permission::DASH_TRANSERS_BY_SOCIAL_WORKER,
             Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
