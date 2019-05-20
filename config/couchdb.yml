@@ -1,0 +1,25 @@
+---
+development:
+  host: 127.0.0.1
+  port: 5984
+  https_port: 6984
+  prefix: primero
+  suffix: <%= ENV['COUCH_SUFFIX'] || 'development' %>
+  username: primero
+  password: primero
+test:
+  host: 127.0.0.1
+  port: 5984
+  https_port: 6984
+  prefix: primero
+  suffix: <%= ENV['COUCH_SUFFIX'] || 'test' %>
+  username: primero
+  password: primero
+production:
+  host: 127.0.0.1
+  port: 5984
+  https_port: 6984
+  prefix: primero
+  suffix: <%= ENV['COUCH_SUFFIX'] || 'production' %>
+  username: primero
+  password: primero
