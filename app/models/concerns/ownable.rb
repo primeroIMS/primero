@@ -85,7 +85,7 @@ module Ownable
 
     if (self.owned_by.present? && (self.new_record? || self.changes_to_save_for_record['owned_by'].present?))
       self.owned_by_agency_id = self.owner.try(:organization).try(:id)
-      self.owned_by_groups = self.owner.try(:user_group_ids)
+      self.owned_by_groups = self.owner.try(:user_group_ids) #TODO: This is wrong. This need to the stable unique_id
       self.owned_by_location = self.owner.try(:location)
       self.owned_by_user_code = self.owner.try(:code)
       unless self.new_record? || !self.will_save_change_to_attribute?('data')

@@ -3,7 +3,7 @@
     <%= label_tag "#{formObject.class.name.underscore.downcase}[audio]", I18n.t("fields.file_upload_box.recorded_audio_label"), :class=>'key inline' %>
   </div>
   <div class="medium-8 columns file_upload">
-    <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[audio]", id: "#{formObject.class.name.underscore.downcase}_audio", help_text: ""%>
+    <%= render "form_section/file_input", name: "#{formObject.class.name.underscore.downcase}[recorded_audio][0][audio]", id: "#{formObject.class.name.underscore.downcase}_audio_recorded_audio_0_audio", help_text: ""%>
     <ul class="audio_player_section">
       <%= render :partial => "form_section/field_display_audio", :locals => {:field => nil, :formObject => formObject, :display_audio_delete_checkbox => true} %>
     </ul>

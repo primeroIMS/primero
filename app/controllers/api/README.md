@@ -1,10 +1,41 @@
-API Controllers
-===============
+# Primero API
 
-Part of the old RapidFTR API controllers have been merged with the other
-controllers in the project (primarily the `RecordActions` controller
-concern).  Some of the old functionality has not been reimplemented due to the
-lack of mobile device support.  Also missing from the new API is attachment
-handling.  If you wish to see the old API code, look at the tag `v1.0.0.20.1`
-for the latest before it was deleted (it departs very little from RapidFTR
-as of the beginning of the project anyway).
+This document describes the Primero API version 2. A deprecated version 1 of the API, currently used by the mobile application, is still available under /api. This may not be available in the future.  
+
+
+## Authentication
+
+TODO. All other endpoints will require authentication.
+
+
+## Case Endpoints
+
+Endpoints for querying and manipulating individual cases and related resources in Primero.
+
+* [Query for cases](v2/docs/cases/get.md) : `GET /api/v2/cases`
+* [Fetch an individual case](v2/docs/cases/id/get.md) : `GET /api/v2/cases/:id`
+* [Create a new case](v2/docs/cases/post.md) : `POST /api/v2/cases`
+* [Update an existing case](v2/docs/cases/id/patch.md) : `PATCH /api/v2/cases/:id`
+* [Disable an existing case](v2/docs/cases/id/delete.md) : `DELETE /api/v2/cases/:id`
+
+## Incident Endpoints
+
+Endpoints for querying and manipulating individual incidents and related resources in Primero.
+The API behavior is identical to that of cases. See the case endpoints above for documentation details.
+
+* Query for incidents: `GET /api/v2/incidents`
+* Fetch an individual incident: `GET /api/v2/incidents/:id`
+* Create a new incident: `POST /api/v2/incidents`
+* Update an existing incident: `PATCH /api/v2/incidents/:id`
+* Disable an existing incident: `DELETE /api/v2/incidents/:id`
+
+## Tracing Request Endpoints
+
+Endpoints for querying and manipulating individual tracing requests and related resources in Primero.
+The API behavior is identical to that of cases. See the case endpoints above for documentation details.
+
+* Query for tracing requests: `GET /api/v2/tracing_requests`
+* Fetch an individual tracing request: `GET /api/v2/tracing_requests/:id`
+* Create a new tracing request: `POST /api/v2/tracing_requests`
+* Update an existing tracing request: `PATCH /api/v2/tracing_requests/:id`
+* Disable an existing tracing request: `DELETE /api/v2/tracing_requests/:id`

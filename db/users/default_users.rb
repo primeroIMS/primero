@@ -23,7 +23,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('Superuser').id,
   'modules' => PrimeroModule.all,
   'user_groups' => UserGroup.all,
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -38,7 +37,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('CP Administrator').id,
   'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -67,7 +65,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('CP Manager').id,
   'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -96,7 +93,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('GBV Manager').id,
   'modules' => [PrimeroModule.gbv],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -111,7 +107,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('FTR Manager').id,
   'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero FTR')],
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -126,7 +121,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('CP User Manager').id,
   'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -141,7 +135,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('GBV User Manager').id,
   'modules' => [PrimeroModule.gbv],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -157,7 +150,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('Agency User Administrator').id,
   'modules' => [PrimeroModule.cp],
   'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -173,7 +165,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('GBV System Administrator').id,
   'modules' => [PrimeroModule.gbv],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -189,7 +180,6 @@ create_or_update_user(
   'role_id' => Role.find_by_name('GBV Agency User Administrator').id,
   'modules' => [PrimeroModule.gbv],
   'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
-  'is_manager' => true,
   'locale' => Primero::Application::LOCALE_ENGLISH
 )
 
@@ -219,7 +209,6 @@ if Primero::Application.locales.include?(Primero::Application::LOCALE_ARABIC)
     'role_id' => Role.find_by_name('CP Manager').id,
     'modules' => [PrimeroModule.cp],
     'user_groups' => [UserGroup.find_by(name: 'Primero CP')],
-    'is_manager' => true,
     'locale' => Primero::Application::LOCALE_ARABIC
   )
 
@@ -248,8 +237,6 @@ if Primero::Application.locales.include?(Primero::Application::LOCALE_ARABIC)
     'role_id' => Role.find_by_name('GBV Manager').id,
     'modules' => [PrimeroModule.gbv],
     'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
-    'is_manager' => true,
-
     'locale' => Primero::Application::LOCALE_ARABIC
   )
 end

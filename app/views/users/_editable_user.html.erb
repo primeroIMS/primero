@@ -40,20 +40,6 @@
       <div class="medium-1 columns"> </div>
     </div>
 
-    <% if !trying_to_edit_ourself && can?(:edit, @user) %>
-    <div class="row">
-      <div class="medium-3 columns">
-        <span class="tool-tip-label">
-          <%= f.label :is_manager, t("user.manager"), :class=>'key inline' %>
-        </span>
-      </div>
-      <div class="medium-8 columns">
-        <%= f.check_box :is_manager, {}, "true", "false" %>
-      </div>
-      <div class="medium-1 columns"></div>
-    </div>
-    <% end %>
-
     <% if !trying_to_edit_ourself %>
       <div class="row">
         <div class="medium-3 columns">

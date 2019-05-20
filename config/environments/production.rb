@@ -22,8 +22,8 @@ Rails.application.configure do
   config.assets.compress = true
   config.assets.compile = true
   config.assets.digest = true
-  config.assets.js_compressor = Closure::Compiler.new
-  config.assets.css_compressor = :yui
+  config.assets.js_compressor = :uglifier
+  config.assets.css_compressor = :sass
   config.assets.cache_store = :memory_store
 
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'

@@ -22,3 +22,7 @@ pipelines:
       - step:
           script:
             - git push https://$primeroimstoken@github.com/primeroIMS/primero.git development --tags
+    development_v2:
+      - step:
+          script:
+            - git push https://$primeroimstoken@github.com/primeroIMS/primero.git development_v2 --tags

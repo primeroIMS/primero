@@ -7,5 +7,5 @@
   height: 100vh;
   overflow: auto;
   padding: .5em;
-  background: #fff;
+  background: var(--white);
 }
