@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   ALL_FILTER = "all"
 
+  before_action :can_display_protection_concerns, :only => [:index]
   before_action :load_default_settings, :only => [:index]
   before_action :can_access_approvals, :only => [:index]
   before_action :can_read_cases, :only => [:index]
@@ -26,7 +27,7 @@ class HomeController < ApplicationController
       load_manager_information if display_manager_dashboard?
       load_gbv_incidents_information if display_gbv_incidents_dashboard?
       load_match_result if display_matching_results_dashboard?
-      load_admin_information if display_admin_dashboard? | display_reporting_location? | display_protection_concerns?
+      load_admin_information if display_admin_dashboard? | display_reporting_location? | @display_protection_concerns
       #TODO: All this needs to be heavily refactored
 
 
@@ -283,10 +284,6 @@ class HomeController < ApplicationController
     @display_reporting_location ||= (can?(:dash_reporting_location, Dashboard) || current_user.is_admin?)
   end
 
-  def display_protection_concerns?
-    @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.is_admin?)
-  end
-
   def display_service_provisions?
     @display_service_provisions ||= can?(:dash_service_provisions, Dashboard)
   end
@@ -504,6 +501,11 @@ class HomeController < ApplicationController
 
   def can_read_incidents
     @can_read_incidents = can?(:index, Incident)
+  end
+
+  def can_display_protection_concerns
+    @display_protection_concerns ||= (can?(:dash_protection_concerns, Dashboard) || current_user.is_admin?)
+    @display_protection_concerns_by_location ||= (@display_protection_concerns && can?(:dash_protection_concerns_by_location, Dashboard))
   end
 
   def load_recent_activities
@@ -802,11 +804,13 @@ class HomeController < ApplicationController
       })
     end
 
+    protection_concerns_location = params[:protection_concerns_location] if @display_protection_concerns_by_location
+
     @protection_concern_stats = build_admin_stats({
-        totals: get_admin_stat({by_protection_concern: true}),
-        open: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true}),
-        new_this_week: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true, new: true, date_range: this_week}),
-        closed_this_week: get_admin_stat({status: Record::STATUS_CLOSED, by_protection_concern: true, closed: true, date_range: this_week})
+        totals: get_admin_stat({by_protection_concern: true, protection_concerns_location: protection_concerns_location }),
+        open: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true, protection_concerns_location: protection_concerns_location }),
+        new_this_week: get_admin_stat({status: Record::STATUS_OPEN, by_protection_concern: true, new: true, date_range: this_week, protection_concerns_location: protection_concerns_location }),
+        closed_this_week: get_admin_stat({status: Record::STATUS_CLOSED, by_protection_concern: true, closed: true, date_range: this_week, protection_concerns_location: protection_concerns_location })
     })
   end
 
@@ -849,6 +853,7 @@ class HomeController < ApplicationController
       with(:child_status, query[:status]) if query[:status].present?
       with(:created_at, query[:date_range]) if query[:new].present?
       with(:date_closure, query[:date_range]) if query[:closed].present?
+      with("#{reporting_location}#{admin_level}".to_sym, query[:protection_concerns_location]) if query[:protection_concerns_location].present?
       facet("#{reporting_location}#{admin_level}".to_sym, zeros: false) if query[:by_reporting_location].present?
       facet(:protection_concerns, zeros: false) if query[:by_protection_concern].present?
     end
