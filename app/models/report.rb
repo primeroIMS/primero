@@ -42,6 +42,7 @@ class Report < CouchRest::Model::Base
   property :group_dates_by, default: DAY
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
+  property :exclude_empty_rows, TrueClass, default: false
   property :base_language, default: DEFAULT_BASE_LANGUAGE
 
   #TODO: Currently it's not worth trying to save off the report data.
@@ -485,7 +486,7 @@ class Report < CouchRest::Model::Base
     end
 
     translate_solr_response(0, result_pivots)
-    result = {'pivot' => result_pivots}
+    result = {'pivot' => check_empty_rows(result_pivots)}
   end
 
   def translate_solr_response(map_index, response)
@@ -540,6 +541,11 @@ class Report < CouchRest::Model::Base
   def solr_record_type(record_type)
     record_type = 'child' if record_type == 'case'
     record_type.camelize
+  end
+
+  def check_empty_rows(result_pivots)
+    return result_pivots.reject { |r| r["count"].to_i <= 0 } if self.exclude_empty_rows
+    result_pivots
   end
 
 end

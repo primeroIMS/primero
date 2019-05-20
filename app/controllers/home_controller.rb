@@ -850,8 +850,8 @@ class HomeController < ApplicationController
       with(:child_status, query[:status]) if query[:status].present?
       with(:created_at, query[:date_range]) if query[:new].present?
       with(:date_closure, query[:date_range]) if query[:closed].present?
-      facet("#{reporting_location}#{admin_level}".to_sym, zeros: true) if query[:by_reporting_location].present?
-      facet(:protection_concerns, zeros: true) if query[:by_protection_concern].present?
+      facet("#{reporting_location}#{admin_level}".to_sym, zeros: false) if query[:by_reporting_location].present?
+      facet(:protection_concerns, zeros: false) if query[:by_protection_concern].present?
     end
   end
 end
