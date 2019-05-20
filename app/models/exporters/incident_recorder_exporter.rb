@@ -352,11 +352,11 @@ module Exporters
             incident_recorder_service_referral(model.try(:service_safehouse_referral))
           end,
           'service.medical_referral' => ->(model) do
-            service_value = model.health_medical_referral_subform_section.try(:first).try(:service_medical_referral)
+            service_value = model.health_medical_referral_subform_section.try(:first).try(:[], 'service_medical_referral')
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           'service.psycho_referral' => ->(model) do
-            service_value = model.psychosocial_counseling_services_subform_section.try(:first).try(:service_psycho_referral)
+            service_value = model.psychosocial_counseling_services_subform_section.try(:first).try(:[], 'service_psycho_referral')
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           'service.wants_legal_action' => ->(model) do
@@ -374,20 +374,20 @@ module Exporters
             end
           end,
           'service.legal_referral' => ->(model) do
-            service_value = model.legal_assistance_services_subform_section.try(:first).try(:service_legal_referral)
+            service_value = model.legal_assistance_services_subform_section.try(:first).try(:[], 'service_legal_referral')
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           'service.police_referral' => ->(model) do
-            service_value = model.police_or_other_type_of_security_services_subform_section.try(:first).try(:service_police_referral)
+            service_value = model.police_or_other_type_of_security_services_subform_section.try(:first).try(:[], 'service_police_referral')
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           'service.livelihoods_referral' => ->(model) do
-            service_value = model.livelihoods_services_subform_section.try(:first).try(:service_livelihoods_referral)
+            service_value = model.livelihoods_services_subform_section.try(:first).try(:[], 'service_livelihoods_referral')
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           ##### ADMINISTRATION 2 #####
           'service.protection_referral' => ->(model) do
-            service_value = model.child_protection_services_subform_section.try(:first).try(:service_protection_referral)
+            service_value = model.child_protection_services_subform_section.try(:first).try(:[], 'service_protection_referral')
             incident_recorder_service_referral(service_value) if service_value.present?
           end,
           'consent' => "consent_reporting",
@@ -405,7 +405,7 @@ module Exporters
         else
           # All of the Procs above should already be translated.
           # Only worry about translating the string properties (i.e. the ones using the field name)
-          Exporters::IncidentRecorderExporter.translate_value(@fields[prop], value)
+          Exporters::IncidentRecorderExporter.translate_value(@fields[prop].try(:first), value)
         end
       end
 

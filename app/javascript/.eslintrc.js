@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
   extends: ["airbnb", "prettier", "prettier/react"],
@@ -7,7 +7,7 @@ module.exports = {
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".js", "jsx"]
+        extensions: [".js", "jsx"]
       }
     ],
     "prettier/prettier": "error",
@@ -18,7 +18,7 @@ module.exports = {
     "no-underscore-dangle": "off"
   },
   env: {
-    "browser": true
+    browser: true
   },
   settings: {
     "import/resolver": {
@@ -28,9 +28,10 @@ module.exports = {
           ["config", path.resolve(__dirname, "config")],
           ["components", path.resolve(__dirname, "components")],
           ["middleware", path.resolve(__dirname, "middleware")],
+          ["images", path.resolve(__dirname, "images")]
         ],
         extensions: [".js", ".jsx"]
       }
     }
   }
-}
+};

@@ -15,7 +15,7 @@ class CreateActiveStorageTables < ActiveRecord::Migration[5.2]
       t.boolean    :is_current
     end
 
-    create_table :attachment_audio do |t|
+    create_table :attachment_audios do |t|
       t.references :record, polymorphic: true, type: :uuid
       t.string     :record_field_scope, index: true
     end

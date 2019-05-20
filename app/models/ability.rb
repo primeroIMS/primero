@@ -167,11 +167,11 @@ class Ability
     end
   end
 
-  def can(action = nil, subject = nil, conditions = nil, &block)
-    rules << CanCan::CustomRule.new(true, action, subject, conditions, block)
+  def can(action = nil, subject = nil, *conditions, &block)
+    add_rule(CanCan::CustomRule.new(true, action, subject, *conditions, &block))
   end
 
-  def cannot(action = nil, subject = nil, conditions = nil, &block)
-    rules << CanCan::CustomRule.new(false, action, subject, conditions, block)
+  def cannot(action = nil, subject = nil, *conditions, &block)
+    add_rule(CanCan::CustomRule.new(true, action, subject, *conditions, &block))
   end
 end

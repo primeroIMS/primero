@@ -16,10 +16,8 @@ module Searchable
         string(f, {as: "#{f}_sci".to_sym}) { self.data[f] }
       end
 
-      if search_multi_fields?
-        searchable_multi_fields.each do |f|
-          string(f, {multiple: true}) { self.data[f] }
-        end
+      searchable_multi_fields.each do |f|
+        string(f, {multiple: true}) { self.data[f] }
       end
 
       searchable_date_fields.each do |f|
@@ -79,6 +77,7 @@ module Searchable
   end
 
   module ClassMethods
+    #TODO: Refactor API: This logic has moved to a service. Delete this.
     #Pull back all records from CouchDB that pass the filter criteria.
     #Searching, filtering, sorting, and pagination is handled by Solr.
     # TODO: Exclude duplicates I presume?
@@ -221,10 +220,6 @@ module Searchable
 
     def filter_owned_by_groups?(match=nil, owned_by_groups=nil)
       match.blank? && owned_by_groups.present? && owned_by_groups.first != ALL_FILTER
-    end
-
-    def search_multi_fields?
-      true
     end
 
     def search_numeric_fields?

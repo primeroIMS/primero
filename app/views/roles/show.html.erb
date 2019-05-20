@@ -40,6 +40,17 @@
                 </div>
                 <div class="row">
                   <div class="medium-4 columns">
+                    <%= f.label :is_manager, t("role.manager"), :class=>'key inline' %>
+                  </div>
+                  <div class="medium-8 columns">
+                    <label class="left">
+                      <%= f.check_box :is_manager, :disabled => "disabled" %>
+                      <%= t("true") %>
+                    </label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="medium-4 columns">
                     <%= f.label :transfer, t("role.transfer_label"), :class=>'key'  %>
                   </div>
                   <div class="medium-8 columns">

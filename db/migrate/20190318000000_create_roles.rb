@@ -8,6 +8,7 @@ class CreateRoles < ActiveRecord::Migration[5.0]
       t.string  'group_permission', default: Permission::SELF
       t.boolean 'referral', null: false, default: false
       t.boolean 'transfer', null: false, default: false
+      t.boolean 'is_manager', null: false,  default: false
     end
     add_index :roles, :unique_id, unique: true
 
