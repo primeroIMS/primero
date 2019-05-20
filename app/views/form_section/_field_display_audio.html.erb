@@ -1,9 +1,7 @@
-<%# TODO: Removing until we migrate Documents %>
-<% if false %>
-<% if formObject && formObject.has_valid_audio? %>
     <% if formObject.audio %>
-        <% model = formObject.class.name.underscore.downcase
-           audio_url = send("#{formObject.model_name_for_audio_link}_audio_url", formObject) %>
+      <%= hidden_field_tag "#{formObject.class.name.underscore.downcase}[photos][#{photo.id}][id]", photo['id'] %>
+      <% model = formObject.class.name.underscore.downcase
+         audio_url = send("#{formObject.model_name_for_audio_link}_audio_url", formObject) %>
         <hr>
         <div class="audio row">
             <div class="medium-12 columns">
@@ -11,8 +9,8 @@
               <%= link_to "Download", audio_url, {:id => "audio_link", class: 'right button'} %>
               <% if display_audio_delete_checkbox %>
               <div class="delete_check_box">
-              <%= label_tag "delete_#{model}_audio", t("#{model}.actions.delete_audio") %>
-              <%= check_box_tag("delete_#{model}_audio", "1", false, "data-model" => "#{model}") %>
+              <%= label_tag "#{model}_audio", t("#{model}.actions.delete_audio") %>
+              <%= check_box_tag("#{model}[recorded_audio][#{formObject.audio.id}][_destroy]", true, false, id: "#{model}_recorded_audio_#{formObject.audio.id}_delete_audio")%>
               </div>
               <% end %>
               <div class="clearfix"></div>
@@ -22,5 +20,3 @@
             </div>
         </div>
     <% end %>
-<% end %>
-<% end %>
