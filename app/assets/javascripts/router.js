@@ -62,6 +62,8 @@ _primero.Router = Backbone.Router.extend({
 
   dashboard: function() {
     new _primero.Views.Dashboard();
+    new _primero.Views.PopulateReportingLocationSelectBoxes();
+    _primero.chosen("select.chosen-select");
   },
 
   lookups: function() {
