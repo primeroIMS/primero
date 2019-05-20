@@ -10,7 +10,12 @@ gem 'devise',           '4.6.2'
 gem 'uglifier',          '~> 4.1'
 gem 'sass-rails',        '~> 5.0'
 gem 'file_validators',  '~> 2.3'
-gem 'activerecord-nulldb-adapter'
+gem 'jbuilder',         '~> 2.8'
+
+# Note: if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
+# Current Solr version is 5.3.1
+gem 'sunspot_rails',     '2.3.0'
+gem 'sunspot_solr',      '2.3.0'
 
 # TODO: Keeping cancancan at 1.9.2 for now. Newer versions seem to break. Newer
 # version has method changes https://github.com/CanCanCommunity/cancancan/blob/develop/CHANGELOG.md
@@ -40,10 +45,7 @@ gem 'deep_merge',        '~> 1.2', require: 'deep_merge/rails_compat'
 gem 'tzinfo',            '~> 1.2'
 gem 'tzinfo-data',       '~> 1.2019'
 
-# Note: if upgrading Sunspot, update the corresonding version of Solr in Chef if necessaary.
-# Current Solr version is 5.3.1
-gem 'sunspot_rails',     '2.3.0'
-gem 'sunspot_solr',      '2.3.0'
+gem 'activerecord-nulldb-adapter'
 
 # TODO: Remove/reevaluate the following once UIUX rebuilt
 gem 'jquery-rails',      '4.3.1'
@@ -60,7 +62,7 @@ gem 'closure-compiler',  '~> 1.1'
 
 group :development, :test do
   gem 'i18n-tasks',                 '~> 0.9'
-  gem 'better_errors',              '~> 2.5'
+  gem 'better_errors',              '~> 2.5', require: false
   gem 'binding_of_caller',          '~> 0.8'
   gem 'ruby-prof',                  '~> 0.17'
   gem 'request_profiler',           '~> 0.0', :git => 'https://github.com/justinweiss/request_profiler.git'
