@@ -118,13 +118,6 @@ group :test, :cucumber do
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. We should be able to upgrade when we upgrade sunspot
   gem 'tzinfo',                     '1.2.4'
   gem 'timecop',                    '~>0.9.1'
-
-  # TODO: We need to update to 0.8.3 as soon as its available
-  # This is a temp thing. There is a recent (DEC 2017) bug in rack-test.
-  # Should be able to just remove after a patch is released.
-  # https://github.com/rack-test/rack-test/issues/211
-  # https://github.com/rack-test/rack-test/pull/215
-  # gem 'rack-test', :git => 'https://github.com/rack-test/rack-test', :ref => '10042d3452a13d5f13366aac839b981b1c5edb20'
 end
 
 #TODO: Does this get installed?
