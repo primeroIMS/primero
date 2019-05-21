@@ -6,7 +6,7 @@
   <% end %>
   <td id="bulk_export_<%= record.id %>" class="id_column">
     <% if record.status == BulkExport::COMPLETE %>
-      <%= link_to record.file_name, bulk_export_path(record), class: 'id_link bulk_export_download', :'data-turbolinks' => 'false' %>
+      <%= link_to record.file_name, rails_blob_path(record.export_file), class: 'id_link bulk_export_download', :'data-turbolinks' => 'false' %>
     <% elsif record.status == BulkExport::PROCESSING %>
       <%= record.file_name %>
       <i class="fa fa-refresh fa-spin"></i>
