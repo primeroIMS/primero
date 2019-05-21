@@ -1,5 +1,5 @@
-    <% if formObject.audio %>
-      <%= hidden_field_tag "#{formObject.class.name.underscore.downcase}[photos][#{photo.id}][id]", photo['id'] %>
+<% if false %>
+    <% if formObject.recorded_audio %>
       <% model = formObject.class.name.underscore.downcase
          audio_url = send("#{formObject.model_name_for_audio_link}_audio_url", formObject) %>
         <hr>
@@ -20,3 +20,4 @@
             </div>
         </div>
     <% end %>
+<% end %>
