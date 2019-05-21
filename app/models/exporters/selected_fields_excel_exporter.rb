@@ -26,6 +26,13 @@ module Exporters
         "xls"
       end
 
+      def properties_to_export(properties_by_module, custom_export_options)
+        unless custom_export_options.present?
+          properties_by_module = BaseExporter.properties_to_export(properties_by_module)
+        end
+        filter_custom_exports(properties_by_module, custom_export_options)
+      end
+
     end
 
     def initialize(output_file_path=nil)
@@ -54,7 +61,7 @@ module Exporters
     def export(models, properties_by_module, current_user, custom_export_options, *args)
 
       if @props.blank?
-        properties_by_module = self.class.properties_to_export(properties_by_module)
+        properties_by_module = self.class.properties_to_export(properties_by_module, custom_export_options)
         #Bulk export will call the exporter several times and so
         #calculate one time the properties because they will not change
         #with the next calls.
@@ -130,7 +137,7 @@ module Exporters
         #This assumes that the only properties that are Arrays are locations
         #Which is true at the time of this coding
         self.class.get_model_location_value(model, property)
-      elsif property.try(:type).eql?("subform")
+      elsif property.try(:type) == Field::SUBFORM
         #data from the subform.!
         (model.data[property.name] || []).map do |row|
           #Remove unique_id field for subforms.
@@ -138,6 +145,8 @@ module Exporters
             get_value(row, p)
           end
         end
+      elsif (property.try(:multi_select) && property.try(:type) == Field::SELECT_BOX) # TODO User is_multi_select? method from field
+          (self.class.translate_value(property.name, model.data[property.name]) || []).join(" ||| ")
       else
         #regular fields.
         self.class.get_model_value(model, property)
@@ -158,19 +167,19 @@ module Exporters
           #Calculate the next row based on the subforms data.
           max_row = data_row.size if data_row.size > max_row
           #calculate width based on the data.
-          data_row.each{|row| row.each{|data| withds[col] = data.to_s.length if withds[col] < data.to_s.length}}
+          data_row.each{|data| withds[col] = data.to_s.length if withds[col] < data.to_s.length}
           if property.is_a?(Hash)
             #This is a subform with some selected fields.
             size = property.values.first.size
           else
             #exclude unique_id
-            size = property.type.properties.select{|p| p.name != 'unique_id'}.size
+            size = property.to_s.length
           end
           #Calculate the next column
           col = col + size
         else
           #Regular fields calculate metadata.
-          withds[col] = data_row.to_s.length if withds[col] < data_row.to_s.length
+          withds[col] = data_row.to_s.length if withds[col].to_i < data_row.to_s.length
           col = col + 1
         end
         value
