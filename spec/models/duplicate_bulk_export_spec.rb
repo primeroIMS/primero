@@ -7,10 +7,8 @@ describe DuplicateBulkExport, search: true do
   end
 
   before do
-    [
-      Agency, Location, UserGroup, Role, User, Field, FormSection,
-      Child, PrimeroModule, PrimeroProgram,
-    ].each(&:destroy_all)
+    clean_data(Agency, Location, UserGroup, Role, User, Field,
+               FormSection, Child, PrimeroModule, PrimeroProgram)
 
     @bulk_exporter = DuplicateBulkExport.new
     @bulk_exporter.record_type = "case"
@@ -27,7 +25,9 @@ describe DuplicateBulkExport, search: true do
       ]
     )
 
-    @user = setup_user(form_sections: [@form_section], primero_module: {id: PrimeroModule::CP})
+    # @user = setup_user(form_sections: [@form_section], primero_module: {id: PrimeroModule::CP})
+    primero_module = FactoryBot.create(:primero_module, form_sections: [@form_section])
+    @user = create(:user, module_ids: [primero_module.id])
 
     Sunspot.setup(Child) do
       string 'national_id_no', as: :national_id_no_sci
@@ -36,16 +36,15 @@ describe DuplicateBulkExport, search: true do
   end
 
   it "export cases with duplicate ids" do
-    child1 = create(:child, national_id_no: "test1", age: 5)
-    child2 = create(:child, national_id_no: "test1", age: 6)
-    child3 = create(:child, national_id_no: "test2", age: 2)
+    child1 = create(:child, national_id_no: "test1", age: 5, name: "Test Child 1")
+    child2 = create(:child, national_id_no: "test1", age: 6, name: "Test Child 2")
+    child3 = create(:child, national_id_no: "test2", age: 2, name: "Test Child 3")
 
     Sunspot.commit
-
     expected_output = [
       [" ", "MOHA ID DEPRECATED", "National ID No", "Case ID", "Progress ID", "Child Name", "Age", "Sex", "Family Size"],
-      ["1", "test1", "test1", child1.case_id, nil, "#{child1.case_id}, Test Child", "5", "U", nil],
-      ["2", "test1", "test1", child2.case_id, nil, "#{child2.case_id}, Test Child", "6", "U", nil]
+      ["1", "test1", "test1", child1.case_id, nil, "1, Test Child", "5", "U", nil],
+      ["2", "test1", "test1", child2.case_id, nil, "2, Test Child", "6", "U", nil]
     ]
 
     expect(export_csv).to eq(expected_output)
