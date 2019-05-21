@@ -69,7 +69,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
 
   refer_from_service: function(event) {
     var self = this;
-    this.reset_modal();
+    self.reset_modal();
     self.clear_referral();
     self.clear_user_selection();
     self.disable_remote_fields();
@@ -81,7 +81,11 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     var service_object_id = $referral_button.data('service-object-id');
     var service_agency = $referral_button.data('service-agency');
     var service_delivery_location = $referral_button.data('service-delivery-location');
+
     var $referral_modal = $("#referral-modal");
+    // Make sure the modal is opened when we are in the service form, so that we can change
+    // the values of the fields.
+    $referral_modal.foundation('open');
     $referral_modal.find("#service_hidden").val(service_type);
     var $service_type = $referral_modal.find("#service");
     $service_type.val(service_type);
@@ -183,6 +187,7 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
     $location_select.removeAttr("disabled");
     $location_select.removeAttr("chosen-disabled");
     $location_select.val('');
+    $location_select.data('value', '');
     $location_select.trigger("chosen:updated");
 
     var $existing_user_select = $referral_modal.find("#existing_user_referral");

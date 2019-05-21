@@ -273,7 +273,7 @@ module Exporters
       when String
         render_i18n_text(field.display_text(value))
       when DateTime
-        render_i18n_text(I18n.l(value, format: time_format))
+        render_i18n_text(I18n.l(value.in_time_zone, format: time_format))
       when Date
         render_i18n_text(I18n.l(value, format: date_format))
       when Time
