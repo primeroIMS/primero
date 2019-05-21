@@ -1,9 +1,0 @@
----
-test:
-  host: couchdb
-  port: 5984
-  https_port: 6984
-  prefix: primero
-  suffix: <%= ENV['COUCH_SUFFIX'] || 'test' %>
-  username: primero
-  password: primero
