@@ -316,7 +316,8 @@ cp_manager_permissions = [
         Permission::VIEW_RESPONSE,
         Permission::VIEW_ASSESSMENT,
         Permission::VIEW_PROTECTION_CONCERNS_FILTER,
-        Permission::DASH_CASES_BY_TASK_OVERDUE
+        Permission::DASH_CASES_BY_TASK_OVERDUE,
+        Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
       ]
   )
 ]
@@ -480,7 +481,8 @@ gbv_worker_permissions = [
   Permission.new(
     :resource => Permission::DASHBOARD,
     :actions => [
-      Permission::VIEW_APPROVALS
+      Permission::VIEW_APPROVALS,
+      Permission::VIEW_ASSESSMENT
     ]
   )
 ]
@@ -575,6 +577,12 @@ gbv_manager_permissions = [
       :actions => [
           Permission::READ
       ]
+  ),
+  Permission.new(
+    :resource => Permission::DASHBOARD,
+    :actions => [
+      Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
+    ]
   )
 ]
 
@@ -725,7 +733,8 @@ gbv_caseworker_permissions = [
     Permission.new(
       :resource => Permission::DASHBOARD,
       :actions => [
-        Permission::VIEW_APPROVALS
+        Permission::VIEW_APPROVALS,
+        Permission::VIEW_ASSESSMENT
       ]
     )
 ]
@@ -846,7 +855,14 @@ gbv_cm_supervisor_permissions = [
             Permission::GROUP_READ,
             Permission::WRITE
         ]
+    ),
+    Permission.new(
+        :resource => Permission::DASHBOARD,
+        :actions => [
+            Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
+        ]
     )
+
 ]
 
 create_or_update_role(
