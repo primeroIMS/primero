@@ -363,6 +363,8 @@ class Child < CouchRest::Model::Base
     string :workflow, as: 'workflow_sci'
     string :child_status, as: 'child_status_sci'
 
+    string :action_plan_section, multiple: true
+
     string :created_agency_office, as: 'created_agency_office_sci'
 
     string :risk_level, as: 'risk_level_sci' do
