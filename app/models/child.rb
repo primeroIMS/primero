@@ -55,7 +55,7 @@ class Child < ApplicationRecord
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate, :notes_section
+    :duplicate, :notes_section, :location_current, :tracing_status
 
 
   alias child_status status ; alias child_status= status=
@@ -70,6 +70,8 @@ class Child < ApplicationRecord
   has_many :duplicates, class_name: 'Child', foreign_key: 'duplicate_case_id'
   belongs_to :duplicate_of, class_name: 'Child', foreign_key: 'duplicate_case_id', optional: true
 
+  scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
+
   def self.quicksearch_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
@@ -78,6 +80,10 @@ class Child < ApplicationRecord
        other_agency_id survivor_code_no national_id_no other_id_no biometrics_id
        family_count_no dss_id camp_id tent_number nfi_distribution_id
     )
+  end
+
+  def self.summary_field_names
+    %w(case_id_display name survivor_code_no age sex registration_date created_at owned_by owned_by_agency)
   end
 
   searchable auto_index: self.auto_index? do

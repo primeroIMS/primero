@@ -17,6 +17,7 @@ v2 ui can be found in the `app/javascripts` directory.
 - [github/airbnb/javascript/react](https://github.com/airbnb/javascript/tree/master/react) - React style guide eslint uses
 - [Prettier](https://prettier.io/) - JS code formatter
 - [ReactPatterns](https://reactpatterns.com/) - React pattern guides
+- [React Conditional Rendering](https://www.robinwieruch.de/conditional-rendering-react/) React rendering patterns
 
 ### Notes
 - Use functional components for all components. Use the effect hook if lifecycle methods are needed. Don't use the state hook. Redux should manage state. [Using the Effect Hook](https://reactjs.org/docs/hooks-effect.html)

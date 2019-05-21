@@ -13,7 +13,6 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.references :role
       t.string     :time_zone, default: 'UTC'
       t.string     :locale
-      t.boolean    :is_manager, default: false
       t.boolean    :send_mail, default: true
       t.boolean    :disabled, default: false
       t.string     :services, array: true

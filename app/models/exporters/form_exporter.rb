@@ -85,7 +85,7 @@ module Exporters
             elsif field.type == 'subform'
               subform = field.subform_section
               options = "Subform: #{subform.name}"
-              options = options + "\nCollapsed Fields: #{subform.collapsed_fields.join(', ')}" if subform.collapsed_fields.present?
+              options = options + "\nCollapsed Fields: #{subform.collapsed_fields.map(&:name).join(', ')}" if subform.collapsed_fields.present?
               write_out_form(subform, header, show_hidden) rescue nil
             end
             field_type = field.type
