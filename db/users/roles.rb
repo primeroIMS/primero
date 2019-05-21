@@ -884,9 +884,9 @@ gbv_organization_focal_point_permissions = [
             Permission::READ,
             Permission::FLAG,
             Permission::EXPORT_EXCEL,
-            Permission::EXPORT_PDF,
             Permission::EXPORT_CASE_PDF,
             Permission::EXPORT_JSON,
+            Permission::EXPORT_CUSTOM,
             Permission::IMPORT,
             Permission::ASSIGN,
             Permission::REASSIGN,
@@ -902,8 +902,8 @@ gbv_organization_focal_point_permissions = [
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_INCIDENT_RECORDER,
             Permission::EXPORT_JSON,
-            Permission::EXPORT_CUSTOM,
-            Permission::IMPORT
+            Permission::IMPORT,
+            Permission::SYNC_MOBILE
         ]
     ),
     Permission.new(
