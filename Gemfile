@@ -88,11 +88,4 @@ group :development, :test do
   gem 'pry'
   gem 'pry-byebug'
   gem 'sunspot_test', require: false
-
-  # TODO: Remove/reevaluate the following once UIUX rebuilt
-  gem 'selenium-webdriver',         '~> 3.14'
-  gem 'chromedriver-helper',        '~> 2.1'
-  gem 'capybara-selenium',          '~> 0.0'
-  gem 'capybara',                   '~> 3.16'
-  # ---
 end
