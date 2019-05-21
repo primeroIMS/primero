@@ -144,11 +144,7 @@ module Exporters
                 end
               end.flatten
             else
-              if !p.type.nil? && p.type.eql?(Field::SUBFORM)
-                emit_columns.call(p.subform.fields, prop_tree, &column_generator)
-              else
-                column_generator.call(prop_tree)
-              end
+              column_generator.call(prop_tree)
             end
           end.flatten
         end
@@ -239,8 +235,8 @@ module Exporters
       def translate_value(fields, value)
         field = fields.is_a?(Array) ? fields.first : fields
         if field.present?
-          if field.is_a?(Array) && field.type == Field::SUBFORM
-            field_names = field.map{|pn| pn.try(:name)}
+           if fields.is_a?(Array) && field.type == Field::SUBFORM
+            field_names = fields.map{|pn| pn.try(:name)}
             sub_fields = field.subform_section.try(:fields)
             sub_field = sub_fields.select{|sf| field_names.include?(sf.name)}.first
             map_field_to_translated_value(sub_field, value)
