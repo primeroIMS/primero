@@ -81,18 +81,11 @@ module Exporters
     end
 
     def config_to_ruby_string(config_object)
-      object_type = config_object['couchrest-type']
-      id = config_object['_id']
-      is_hex_id = id.match(/[a-f0-9]{32}/)
-      keys = config_object.keys
-        .reject{|k| k.start_with?('_id', 'couchrest-type', 'name')}
-      name_keys = config_object.keys
-        .select{|k| k.start_with?('name')}
+      object_type = config_object['class_name']
+      keys = config_object.keys.reject{|k| k.start_with?('id', 'class_name', 'name')}
+      name_keys = config_object.keys.select{|k| k.start_with?('name')}
       ruby_string =  "#{i}#{object_type}.create_or_update(\n"
       _i
-      if !is_hex_id
-        ruby_string += "#{i}id: #{id.to_json},\n"
-      end
       name_keys.each do |key|
         ruby_string += "#{i}#{key_to_ruby(key)}: #{value_to_ruby_string(config_object[key])},\n"
       end

@@ -5,14 +5,10 @@ namespace :primero do
   desc "Remove records"
   task :remove_records, [:type] => :environment do |t, args|
     types = [Child, TracingRequest, Incident, PotentialMatch]
-    if args[:type].present?
-      types = [eval(args[:type])]
-    end
-    types.each do |type|
-      puts "Deleting all #{type.name} records"
-      type.all.each &:destroy!
-      Sunspot.remove_all(type)
-    end
+    types = [eval(args[:type])] if args[:type].present?
+    puts "Deleting all #{types.join(', ').name} records"
+    types.each(&:destroy_all)
+    Sunspot.remove_all(type)
   end
 
   desc "Import the configuration bundle"

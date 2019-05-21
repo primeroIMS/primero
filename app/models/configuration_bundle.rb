@@ -31,7 +31,7 @@ class ConfigurationBundle < ApplicationRecord
   def self.export
     bundle_data = {}
     bundle_models.each do |model|
-      bundle_data[model.name] = model.export
+      bundle_data[model.name] = model.export.map {|m| m.merge({'class_name' => model.name}) }
     end
     bundle_data
   end
