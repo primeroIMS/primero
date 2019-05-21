@@ -17,8 +17,6 @@ class Agency < ApplicationRecord
   has_one_attached :logo_large
   has_one_attached :logo_small
 
-  # attach_images fields: [:logo_large, :logo_small]
-
 
   validates :logo_large, file_size: { less_than_or_equal_to: 10.megabytes },
                          file_content_type: { allow: 'image/png' }, if: -> { logo_large.attached? }
@@ -53,6 +51,7 @@ class Agency < ApplicationRecord
     end
     # memoize_in_prod :all_names
 
+    # This method must be refactored
     def retrieve_logo_ids
       Agency.where(logo_enabled: true).map(&:logo_small)
     end
