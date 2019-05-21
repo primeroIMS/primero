@@ -3,11 +3,11 @@ fr:
   safety_plan:
     name: Plan de sécurité
     description: Plan de sécurité
-    form_group_name: ""
+    # form_group_name: ""
     fields:
       safety_plan_needed:
         display_name: ""
-        help_text: ''
+        help_text: ""
       safety_plan_developed_with_survivor:
         display_name: ""
       safety_plan_completion_date:
@@ -29,16 +29,16 @@ fr:
         display_name: Prévention sécuritaire
       safety_plan_preparedness_signal:
         display_name: ""
-        guiding_questions: ''
+        guiding_questions: ""
       safety_plan_strategies_header:
         display_name: Statégies de sécurisation
       safety_plan_preparedness_gathered_things:
         display_name: ""
-        guiding_questions: ''
+        guiding_questions: ""
       safety_plan_leaving_steps_header:
         display_name: ""
       safety_plan_preparedness_children_destination:
         display_name: ""
-        guiding_questions: ''
+        guiding_questions: ""
       safety_plan_completion_timing:
         display_name: ""

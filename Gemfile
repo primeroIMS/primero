@@ -16,7 +16,7 @@ gem 'mini_magick',    '~> 4.8.0'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
 gem 'prawn-table',    '~> 0.2.2'
-gem 'rails',          '5.1.4'
+gem 'rails',          '5.1.6.2'
 gem 'uuidtools',      '~> 2.1.1'
 gem 'validatable',    '1.6.7'
 gem 'dynamic_form',   '~> 1.1.4'
@@ -32,8 +32,9 @@ gem 'therubyracer',   '~> 0.12.2', :platforms => :ruby, :require => 'v8'
 gem 'os',             '~> 1.0.0'
 gem 'multi_json',     '~> 1.12.2'
 gem 'addressable',    '~> 2.5.2'
-gem 'rubyzip',        '~> 1.2.1', require: 'zip'
-gem 'parallel',       '~> 1.12.1'
+
+gem 'rubyzip',        '~> 1.2.2', require: 'zip'
+
 
 gem 'sunspot_rails',  '2.3.0'
 gem 'sunspot_solr',   '2.3.0'
@@ -47,13 +48,12 @@ gem 'backburner', require: false
 gem 'foundation-rails', '~> 6.3.0.0'
 
 gem 'sass-rails',    '~> 5.0.6'
-gem 'compass-rails', '~> 3.0.2'
 gem 'coffee-rails',  '~> 4.2.2'
 gem 'chosen-rails',  '~> 1.5.2'
 gem 'ejs', '~> 1.1.1'
 
 gem 'yui-compressor'
-gem 'closure-compiler'
+gem 'closure-compiler', '1.1.13'
 gem 'progress_bar', '~> 1.1.0'
 
 gem 'writeexcel', '~> 1.0.5'
@@ -63,7 +63,7 @@ gem 'memoist', '~> 0.11.0'
 
 gem 'momentjs-rails', '~> 2.17.1'
 
-gem 'turbolinks', '~> 5'
+gem 'turbolinks', '5.1.0'
 gem 'jquery-turbolinks'
 gem 'arabic-letter-connector', :git => 'https://github.com/Quoin/arabic-letter-connector', :branch => 'support-lam-alef-ligatures'
 gem 'twitter_cldr'
@@ -120,13 +120,6 @@ group :test, :cucumber do
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. We should be able to upgrade when we upgrade sunspot
   gem 'tzinfo',                     '1.2.4'
   gem 'timecop',                    '~>0.9.1'
-
-  # TODO: We need to update to 0.8.3 as soon as its available
-  # This is a temp thing. There is a recent (DEC 2017) bug in rack-test.
-  # Should be able to just remove after a patch is released.
-  # https://github.com/rack-test/rack-test/issues/211
-  # https://github.com/rack-test/rack-test/pull/215
-  gem 'rack-test', :git => 'https://github.com/rack-test/rack-test', :ref => '10042d3452a13d5f13366aac839b981b1c5edb20'
 end
 
 #TODO: Does this get installed?

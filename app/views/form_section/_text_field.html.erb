@@ -21,12 +21,12 @@
 <div class="row">
   <div class="medium-4 columns">
     <span class="tool-tip-label">
-      <%= label_tag field_id, t(text_field.name, :default => text_field.display_name), :class=>'key inline' %>
+      <%= label_tag field_id, text_field.display_name, :class=>'key inline' %>
     </span>
   </div>
   <div class="medium-8 columns">
     <% if text_field.required %><span class="required form-section-required">*</span><% end %>
-    <%= text_field_tag name, value, :disabled => disable, :is_disabled  => is_disabled, :id => field_id, :data => { :field_tags => field_tags }, required: text_field.required, :"data-abide-ignore" => !text_field.required || (defined?(is_subform) && is_subform) ? "" : nil %>
+    <%= text_field_tag name, value, :disabled => disable, :disabled_by_form => text_field.disabled, :is_disabled  => is_disabled, :id => field_id, :data => { :field_tags => field_tags }, required: text_field.required, :"data-abide-ignore" => !text_field.required || (defined?(is_subform) && is_subform) ? "" : nil %>
     <%= link_to(hide_text_link_text, hide_text_link_text.dehumanize, :class => "hidden_text_field",
         :action => hide_text_link_action) if show_hide_text_link %>
     <% if text_field.hidden_text_field && formObject.new_record? %>

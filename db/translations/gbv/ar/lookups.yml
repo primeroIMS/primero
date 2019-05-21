@@ -13,6 +13,11 @@ ar:
       case_plan: خطة الحالة
       action_plan: خطة العمل
       service_provision: تقديم الخدمات
+  lookup-gbv-approval-types:
+    name: GBV Approval Types
+    lookup_values:
+      case_plan:
+      closure:
   lookup-armed-force-group-name:
     name: اسم مجموعة القوات المسلحة
     lookup_values:
@@ -495,7 +500,7 @@ ar:
   lookup-service-implemented:
     name: تنفيذ الخدمة
     lookup_values:
-      not-implemented: لم يتم تنفيذها
+      not_implemented: لم يتم تنفيذها
       implemented: تم تنفيذها
   lookup-service-referred:
     name: إحالة الخدمة

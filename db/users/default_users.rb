@@ -183,6 +183,24 @@ create_or_update_user(
 )
 
 create_or_update_user(
+  "user_name" => "primero_system_admin_gbv",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
+  "full_name" => "GBV System Administrator",
+  "email" => "primero_system_admin_gbv@primero.com",
+  "disabled" => "false",
+  "organization" => "agency-unicef",
+  "code" => "UNICEF/GBV_SYSTEM_ADMINISTRATOR",
+  "role_ids" => [
+    Role.by_name(key: "GBV System Administrator").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
+)
+
+create_or_update_user(
   "user_name" => "agency_user_admin_gbv",
   "password" => "primer0!",
   "password_confirmation" => "primer0!",

@@ -143,6 +143,21 @@
           <span class="required">*</span>
         </div>
       </div>
+      <% if @current_user.has_module?(PrimeroModule::GBV) %>
+        <div class="row">
+          <div class="medium-3 columns">
+            <span class="tool-tip-label">
+              <label class="key" for="user_organization" ><%= t("user.agency_office") %></label>
+            </span>
+          </div>
+          <div class="medium-8 columns">
+            <%= f.select :agency_office,
+                         @agency_offices.map {|option| [option['display_text'], option['id']]},
+                         { include_blank: t("fields.select_box_empty_item") },
+                         { class: 'chosen-select' } %>
+          </div>
+        </div>
+      <% end %>
     <% end %>
     <%= resource_edit_field @user, 'position', 'position', 'text_field' %>
 
@@ -195,12 +210,7 @@
 
     <% content_for :record_sub_nav do %>
     <!--TODO: After we got the user object in the session replace the DB query with User object-->
-      <%= render_controls(@user, 'users') %>
-      <% if false %>
-      <%= link_to user_history_path(@user), :class=>'button small right' do %>
-          <%= icon('clock-o') %>
-          <span class="log"><%= t("user.user_action_history") %></span>
-      <% end %>
-      <% end %>
+      <% cancel_path = can?(:index, User) ? 'users' : 'root' %>
+      <%= render_controls(@user, 'users', cancel_path) %>
     <% end %>
 <% end %>

@@ -18,7 +18,7 @@ class UsersController < ApplicationController
   include LoggerActions
 
   def index
-    authorize! :read, User
+    authorize!(:read, User)
 
     @page_name = t("home.users")
     @users_details = users_details
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
   end
 
   def unverified
-    authorize! :show, User
+    authorize!(:show, User)
     @page_name = t("users.unverified")
     flash[:verify] = t('users.select_role')
     @users = User.all_unverified
@@ -43,7 +43,7 @@ class UsersController < ApplicationController
 
   def show
     @page_name = t("users.account_details")
-    authorize! :show, @user
+    authorize!(:show_user, @user)
 
     respond_to do |format|
       format.html
@@ -52,21 +52,20 @@ class UsersController < ApplicationController
   end
 
   def new
-    authorize! :create, User
+    authorize!(:create, User)
     @page_name = t("user.new")
     @user = User.new
     load_lookups
   end
 
   def edit
-    authorize! :update, @user
+    authorize!(:edit_user, @user)
     @page_name = t("account")+": #{@user.full_name}"
     load_lookups
   end
 
   def create
-    authorize! :create, User
-
+    authorize!(:create, User)
     @user = User.new(params[:user].to_h)
 
     if @user.save
@@ -81,7 +80,7 @@ class UsersController < ApplicationController
 
   def update
     authorize! :disable, @user if params[:user].include?(:disabled)
-    authorize! :update, @user  if params[:user].except(:disabled).present?
+    authorize!(:edit_user, @user)  if params[:user].except(:disabled).present?
     params[:verify] = !@user.verified?
 
     if (@user.update_attributes(params[:user]))
@@ -215,6 +214,7 @@ class UsersController < ApplicationController
     @roles = Role.all.select{|r| can? :assign, r}
     @user_groups = UserGroup.all.select{|ug| can?(:assign, ug)}
     @modules = @current_user.has_group_permission?(Permission::ALL) ? PrimeroModule.all.all : PrimeroModule.all(keys: @current_user.module_ids).all
+    @agency_offices = Lookup.values('lookup-agency-office')
   end
 
   #Override method in LoggerActions.

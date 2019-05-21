@@ -204,7 +204,7 @@ describe IndexHelper do
           @view.should_receive(:visible_filter_field?).and_return(true, true)
           @view.index_filters_to_show('case').should == [
                                                          "Flagged", "Mobile", "My Cases", "Workflow", "Status", "Age Range",
-                                                         "Sex", "GBV Displacement Status", "Protection Status",
+                                                         "Sex", "GBV Displacement Status", "Protection Status", "Agency Office",
                                                          "Case Open Date", "No Activity", "Record State"
                                                         ]
         end
@@ -230,7 +230,7 @@ describe IndexHelper do
           @view.index_filters_to_show('case').should == [
                                                          "Flagged", "Mobile", "Social Worker", "My Cases", "Workflow", "Agency",
                                                          "Status", "Age Range", "Sex", "GBV Displacement Status",
-                                                         "Protection Status", "Case Open Date", "No Activity","Record State"
+                                                         "Protection Status", "Agency Office", "Case Open Date", "No Activity","Record State"
                                                         ]
         end
       end
@@ -315,7 +315,7 @@ describe IndexHelper do
         it "should return filters to show" do
           @view.instance_variable_set(:@can_sync_mobile, true)
           @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Mobile", "Violence Type", "Status", "Age Range",
+                                                         "Flagged", "Mobile", "Violence Type", "Agency Office", "Status", "Age Range",
                                                          "Incident Location", "Dates", "Protection Status", "Record State"
                                                         ]
         end
@@ -339,7 +339,7 @@ describe IndexHelper do
         it "should return filters to show" do
           @view.instance_variable_set(:@can_sync_mobile, true)
           @view.index_filters_to_show('incident').should == [
-                                                         "Flagged", "Mobile", "Violence Type", "Social Worker", "Status", "Age Range",
+                                                         "Flagged", "Mobile", "Violence Type", "Social Worker", "Agency Office", "Status", "Age Range",
                                                          "Incident Location", "Dates", "Protection Status", "Record State"
                                                         ]
         end

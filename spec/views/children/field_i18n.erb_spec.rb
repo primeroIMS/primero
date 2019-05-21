@@ -17,18 +17,12 @@ describe 'children/' do
   end
 
   shared_examples "label translation" do
-    it "should be shown" do
+    it "should use the display_name and not the translation" do
       translated_name = "XYZ"
       I18n.backend.store_translations("en", @field.name => translated_name)
       render :partial => "form_section/#{@field.type}", :object => @field, :locals => {:formObject => @child}
-      rendered.should be_include(translated_name)
-      rendered.should_not be_include(@field.display_name)
-    end
-
-    it "should not be shown" do
-      I18n.backend.store_translations("en", @field.name => nil)
-      render :partial => "form_section/#{@field.type}", :object => @field, :locals => {:formObject => @child}
       rendered.should be_include(@field.display_name)
+      rendered.should_not be_include(translated_name)
     end
   end
 

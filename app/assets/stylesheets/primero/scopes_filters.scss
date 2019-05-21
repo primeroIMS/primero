@@ -97,7 +97,7 @@ div.scope_bar {
 
     .button {
       margin: 0;
-      padding: .5em 1em;
+      padding: .5em .6em;
 
       &:not(:first-of-type) {
         @if $global-text-direction == rtl {
@@ -116,7 +116,7 @@ div.scope_bar {
       text-decoration: none;
       font-size: rem_calc(13);
       text-transform: uppercase;
-      padding: .9rem 1.5rem;
+      padding: .9rem .75rem;
     }
 
     .tabs-title > a:focus, .tabs-title > a[aria-selected='true'] {

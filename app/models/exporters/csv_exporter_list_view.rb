@@ -54,13 +54,16 @@ module Exporters
             when Proc
               generator.call(model)
             else
-              self.class.translate_value(generator, CSVExporterListView.to_exported_value(model.try(generator.to_sym)))
+              if generator.eql?('sortable_name') && model.try(:hidden_name)
+                t('cases.hidden_text_field_text')
+              else
+                self.class.translate_value(generator, CSVExporterListView.to_exported_value(model.try(generator.to_sym)))
+              end
             end
           end
         end
       end
       self.buffer.write(csv_list)
     end
-
   end
 end

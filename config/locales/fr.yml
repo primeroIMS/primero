@@ -1,6 +1,6 @@
 fr:
-  valid: "Valide"
-  invalid: "Invalide"
+  valid: "Correct"
+  invalid: "Incorrect"
   offline: L'application est hors ligne
   name: "Nom"
   home:
@@ -13,6 +13,7 @@ fr:
     ru: "Русский"
     so: "Af-Soomaali"
     bn: "বাংলা"
+    id: "Bahasa"
     my: "ဗမာစာ"
     th: "ไทย"
     ku: "کوردی"
@@ -76,6 +77,7 @@ fr:
     approval_alert: "L'approbation est en attente pour %{form_name}"
     field_change_alert: "Le formulaire %{form_name}a été mis à jour le %{date} par le fournisseur de services"
     transfer_request_alert: "Une nouvelle demande de transfert a été faite par %{user} à %{agency} le %{date}"
+    loading: "Chargement...."
   data_base:
     delete_all_documents: "Tous les documents relatifs à l'enfant ont été effacés"
     operation_not_allowed: "Opération non autorisée dans un environnement %{rails_env} "
@@ -107,20 +109,21 @@ fr:
     cases: "CAS"
     tracing_request: "DEMANDES DE TRAÇAGE"
     incidents: "INCIDENTS"
-    potential_match: "Correspond"
+    potential_match: "CORRESPONDANCES"
+    duplicates: "DOUBLONS"
     children: "ENFANTS"
     forms: "FORMULAIRES"
     lookups: "RÉFÉRENCES"
     users: "PARAMÈTRES "
     replications: "SYNC"
     reports: "RAPPORTS"
-    advanced_search: "Recherche détaillée"
+    advanced_search: "Recherche avancée"
     go: "Lancer"
     search: "Rechercher"
     locations: "LIEUX"
     bulk_exports: "Exportations en Vrac"
-    tasks: "Taches"
-    audit_logs: "Logs"
+    tasks: "Tâches"
+    audit_logs: "Journaux d'audit"
     matching_configuration: "correspondant à"
   buttons:
     delete: "Effacer"
@@ -144,23 +147,25 @@ fr:
     filter_label: "Filtre :"
     filter: "Appliquer les filtres "
     filter_clear: "Supprimer les filtres "
+    find_tracing_match: "Trouver une correspondance"
+    filter_restore: "Restaurer les paramètres du système"
     flag_records: "Signaler"
     flag_model: "Signaler %{model}"
-    unflag_model: "Désactiver le signalement de % {model}"
+    unflag_model: "Désactiver le signalement de %{model}"
     unflag_model_history: "Histoire des signalements %{model}"
     ok: 'OK'
     cancel: "Annuler"
     edit_subform: 'Éditer le sous-formulaire'
     create_new_record: "Créer un nouveau %{model}"
-    bundle_import: "Configuration de l'utilisateur"
-    bundle_export: "Configuration de l'utilisateur"
+    bundle_import: "CPIMS+ Configuration "
+    bundle_export: "CPIMS+ Configuration "
     transfer: "Transférer %{model}"
     reassign: "Attribuer"
-    referral: "Orienter %{model}"
+    referral: "Référer %{model}"
     mark_for_mobile: "Marquer pour mobile"
     unmark_for_mobile: "Supprimer le marquage pour mobile"
-    approve_bia: "Approuver BIA"
-    approve_case_plan: "Approuver le plan d'intervention"
+    approve_bia: "Approuver Evaluation"
+    approve_case_plan: "Approuver le Plan d'Intervention"
     sort_by_tr: "Demandes de traçage"
     sort_by_case: "Cas"
     approve_closure: "Approuver Clôture"
@@ -170,9 +175,10 @@ fr:
     accept: "Accepter"
     reject: "Rejeter"
     done: "Terminé"
-    remove_referrals: "Supprimer les références"
+    remove_referrals: "Supprimer les référencements"
     view: "Voir"
     request_transfer: "Demande de transfert"
+    add_note: "Ajouter des notes"
   placeholders:
     subforms: "Cliquez sur le bouton ÉDITER pour ajouter des renseignements sur %{form}"
     editing_subforms: "Cliquez sur le bouton AJOUTER pour ajouter des détails sur le %{form}"
@@ -187,10 +193,10 @@ fr:
       mobile_label: "Marqué pour mobile ?"
       social_worker: "Champ/Cas/Travailleur social :"
       my_cases: "Mes Cas"
-      workflow: "Cas selon les gestionnaires de cas"
+      workflow: "Cas selon l'Etape de Gestion de Cas"
       no_activity: "Pas d'Activité"
       3month_inactivity: "Pendant 3+ mois"
-      referred_cases: "Cas orienter à moi"
+      referred_cases: "Cas orienté à moi"
       agency: "Agence :"
       status: "Statut :"
       age_range: "Tranche d'âge :"
@@ -210,7 +216,7 @@ fr:
       record_state: "État du dossier :"
       photo: "Photo :"
       photo_label: "Possède une photo ? "
-      by_date: 'Par date'
+      by_date: 'Par Date'
       date: 'Date'
       approvals:
         pending: "Approbations en Attente"
@@ -266,13 +272,13 @@ fr:
     flagged_by: "Signalé par"
     last_updated: "Dernière mise à jour "
     registered_by: "Enregistré par "
-    mark_as_duplicate: "Marquer comme doublon"
+    mark_as_duplicate: "Marquer comme Doublon"
     flag_record: "Signalements"
     flag_label: "Signaler"
     flag_reason: "Motif du signalement"
     flag_reason_date: "Date (facultative) "
     unflag_record: "Supprimer le signalement du dossier"
-    unflag_reason: "Motif de la suppression du signalement"
+    unflag_reason: "Motif de la Suppression du Signalement"
     unflagged_label: "Raison"
     unflag_date: "Date"
     unflag_by: "Signalement supprimé"
@@ -296,17 +302,17 @@ fr:
     status: "Statut"
     match_record: "Correspondances"
     match_record_success: "Dossiers correspondants"
-    match_record_failed: "Aucune correspondance trouvée"
+    match_record_failed: "Aucune Correspondance Trouvée"
     messages:
       update_success: "Le cas %{record_id} a bien été mis à jour."
-      investigation_error_message: "Veuillez confirmer que le dossier signalé doit être marqué comme A fait l'objet d'une enquête et saisissez les renseignements en votre possession."
-      undo_investigation_error_message: "Annuler Renseignements sur l'enquête :"
+      investigation_error_message: "Veuillez confirmer que le dossier signalé doit être marqué comme avoir fait l'objet d'une enquête et saisissez les renseignements en votre possession."
+      undo_investigation_error_message: "Annuler Renseignements sur l'Enquête :"
       reunite_error_message: "Veuillez confirmer que cet enfant a retrouvé sa famille ou les personnes qui en ont la garde et saisissez les renseignements en votre possession. "
-      undo_reunite_error_message: "Veuillez confirmer que cet enfant doit être marqué comme Non réuni et saisissez les renseignements en votre possession. "
+      undo_reunite_error_message: "Veuillez confirmer que cet enfant doit être marqué comme Non Réuni et saisissez les renseignements en votre possession. "
       see_full_size: "Cliquez sur l'image pour l'afficher en taille réelle"
       creation_success: "Le dossier du cas %{record_id} a bien été créé."
       not_found: "Aucun enfant possédant l'identifiant donné n'a été trouvé"
-      confirm_duplicate: "Êtes-vous sûr(e) de vouloir continuer ? Si oui, cliquez sur OK. Sinon, cliquez sur Annuler. "
+      confirm_duplicate: "Êtes-vous sûr(e) de vouloir continuer ? Si oui, cliquez OK. Sinon, cliquez sur Annuler. "
       create_details_error: "Assurez-vous qu'un seul cas est sélectionné"
     actions:
       mark_as_investigated: "Marquer comme A fait l'objet d'une enquête"
@@ -314,15 +320,15 @@ fr:
       export_to_photo_wall: "Exporter vers le mur de photos"
       export_to_pdf: "Exporter au format PDF"
       export_to_csv: "Exporter au format CSV"
-      change_log: "Modifier le journal"
-      mark_as_not_investigated: "Marquer comme N'a pas fait l'objet d'une enquête"
+      change_log: "Journal de Modifications"
+      mark_as_not_investigated: "Marquer comme n'a pas fait l'objet d'une enquête"
       reunited: "Marqué comme Réuni"
       reunited_details: "Renseignements sur la réunification :"
       reunite: "Réunifier"
-      not_reunited: "Marqué comme Non réunifié"
-      undo_reunited_details: "Annuler Motif de la réunification :"
+      not_reunited: "Marqué comme Non Réunifié"
+      undo_reunited_details: "Annuler Motif de la Réunification :"
       undo_reunite: "Annuler Réunir"
-      investigation_details: "Renseignements sur l'enquête"
+      investigation_details: "Renseignements sur l'Enquête"
       undo_investigation_details: "Annuler Renseignements sur l'enquête"
       undo_investigated: "Annuler A fait l'objet d'une enquête"
       cancel: "Annuler"
@@ -345,9 +351,9 @@ fr:
     history_of: "Historique de %{short_id}"
   saved_search:
     save_success: "Recherche sauvegardée avec succès"
-    save_error: "échec de la sauvegarde"
-    deleted: "La recherche a bien été supprimée"
-    delete_error: "La suppression a échoué"
+    save_error: "Echec de la sauvegarde"
+    deleted: "La recherche a bien été supprimée."
+    delete_error: "La suppression a échoué."
     saved_searches_tab: "Recherches sauvegardées"
     filters_tab: "Filtres"
   task:
@@ -356,10 +362,10 @@ fr:
     type: "Type d'action"
     due_date: "Date limite"
     types:
-      assessment: "Évaluation "
+      assessment: "Evaluation"
       case_plan: "Plan d'action"
       follow_up: "Suivi %{subtype}"
-      service: "Services %{subtype}"
+      service: "Service %{subtype}"
   case:
     create_new_case: "Créer un nouveau cas"
     enter_id_number: "Entrez le numéro d'identification pour rechercher un dossier existant"
@@ -459,6 +465,9 @@ fr:
   incidents:
     label: "Incidents"
     register_new_incident: "Nouvel incident"
+    selectable_date_options:
+      date_of_first_report: "Date de l'entretien "
+      incident_date_derived: "Date de l'incident"
     filter_by:
       flag: "Signalé : "
       flag_label: "Signalé ?"
@@ -587,6 +596,8 @@ fr:
   tracing_requests:
     register_new_tracing_request: "Nouvelle demande de traçage"
     export: "Exportations"
+    selectable_date_options:
+      inquiry_date: "Date de l'enquête"
     filter_by:
       flag: "Signalé :"
       flag_label: "Signalé ?"
@@ -627,9 +638,39 @@ fr:
     trace: 'Tracer'
     case: 'Cas'
     name: 'Nom'
+    name_other: 'Autres noms'
+    name_nickname: 'Surnom'
     likelihood:
       likely: 'Probabilité'
       possible: 'Possible'
+  duplicates:
+    search_for_duplicates: 'Chercher les doublons'
+    clear_filter: 'Supprimer'
+    filter_by:
+      name: "Nom"
+      name_nickname: "Surnom"
+      name_other: "Autre nom"
+      sex: "le genre"
+      age: "âge"
+      age_range: "Tranche d'âge"
+      date_of_birth: "Date de naissance"
+      nationality: "Nationalité"
+      location_last: "Residence recente"
+      telephone_last: "Recent numéro de téléphone"
+      ethnicity: "Appartenance ethnique"
+      date_of_separation: "Date de la séparation"
+      separation_cause: "Principale cause de la séparation"
+      location_separation: "Lieu de la séparation"
+      relation_name: "Nom du parent"
+      relation: "Lien"
+      relation_nickname: "Surnom du parent"
+      relation_language: "Langage du parent"
+      relation_religion: "Religion du parent"
+      relation_ethnicity: "Ethnicité du parent"
+      relation_nationality: "Nationalité du parent"
+      relation_address_current: "Adresse actuelle du parent"
+      relation_location_current: "Residence actuelle du parent"
+      relation_telephone: "Numéro de téléphone du parent"
   audit_log:
     timestamp: "Horodatage - UTC"
     user_name: "Nom d'utilisateur "
@@ -680,6 +721,12 @@ fr:
       label: "Trier par"
       full_name: "Nom complet"
       agency: "Agence"
+    filter_by:
+      status: "Statut"
+      enabled: "Activé"
+      disabled: "Desactivé"
+      agency: "organisation"
+    register_new_user: "Créer un utilisateur"
   roles:
     label: "Fonctions"
     list: "Liste des fonctions"
@@ -709,7 +756,7 @@ fr:
     copy_success: "La fonction a bien été copiée."
     copy_failure: "Erreur lors de la copie de la fonction. Assurez-vous que le nom n'est pas en contradiction avec une autre fonction."
     transfer_label: "Cette fonction peut-elle être utilisée pour les transferts ?"
-    referral_label: "Cette fonction peut-elle être utilisée pour les orientations ?"
+    referral_label: "Cette fonction peut-elle être utilisée pour les référencements ?"
     group_permission_label: "Quels sont les dossiers concernés par cette fonction ?"
     role_ids_label: "Autres fonctions gérées par cette fonction"
   agencies:
@@ -726,6 +773,10 @@ fr:
       update: "Mettre à jour "
       create: "Créer"
       delete: "Supprimer"
+    filter_by:
+      status: "Statut"
+      enabled: "Activé"
+      disabled: "Desactivé"
     messages:
       confirmation: "Êtes-vous sûr(e) de vouloir supprimer cette agence ? La suppression est irréversible. Cliquez sur OK pour supprimer l'agence."
     select_prompt: "Sélectionnez une agence."
@@ -734,6 +785,7 @@ fr:
     edit: 'Éditer l''agence'
     name: 'Nom de l''agence'
     code: 'Code de l''agence'
+    services: 'Services fournis par l''organisation'
   system_settings:
     label: "Paramètres du système"
     edit: "Éditer les paramètres du système"
@@ -813,6 +865,8 @@ fr:
     code: "Code d'Utilisateur"
     history_of: "Historique de %{short_id}"
     disabled: "Désactivé"
+    services: "Les Services"
+    agency_office: "Bureau de l'organisation"
     position: Position
     actions:
       delete: "Supprimer"
@@ -859,6 +913,7 @@ fr:
   blacklisted: "Sur liste noire ?"
   visible_for_web: "Visible sur le Web"
   visible_for_mobile: "Visible sur appareil mobile"
+  selective_syncing_mobile: "Synchronisation sélective (mobile)"
   hidden: "Masqué"
   help_text: "Texte d'aide"
   multi_select: "Choix multiple"
@@ -922,10 +977,11 @@ fr:
       export_case_pdf: "Exporter le cas au format pdf"
       export_json: "Exporter au format json"
       export_custom: "Exportation personnalisée"
+      export_duplicate_id_csv: "Exporter les doublons"
       import: "Importer"
       transfer: "Transférer"
       reassign: "Réattribuer"
-      referral: "Orientation"
+      referral: "Référencement"
       sync_mobile: "Sync avec appareil mobile"
       request_approval: "Demande d'Approbation"
       request_approval_bia: "Demande Approbation BIA"
@@ -946,7 +1002,7 @@ fr:
       dash_protection_concerns: "Afficher les problèmes de protection"
       dash_matching_results: "Afficher les résultats des demandes de traçage"
       dash_service_provisions: "Afficher les services fournis"
-      dash_referrals_by_socal_worker: "Afficher les références par travailleur social"
+      dash_referrals_by_socal_worker: "Afficher les référencements par travailleur social"
       dash_transfers_by_socal_worker: "Afficher les transfert par travailleur social"
       dash_cases_by_social_worker: "Afficher les cas par travailleur social"
       dash_manager_transfers: "Afficher les transferts du gestionnaire"
@@ -964,13 +1020,19 @@ fr:
       view_protection_concerns_filter: "Afficher le filtre relatif aux problèmes de protection"
       saved_search: "Recherche sauvegardée"
       save_search: "Enregistrer les recherches"
-      remove_assigned_users: "Supprimer les autres utilisateurs attribué (références)"
+      remove_assigned_users: "Supprimer les autres utilisateurs attribué (référencements)"
       audit_log: "Logs"
       display_view_page: "Afficher la page d'affichage"
       service_provision_incident_details: "Afficher le bouton Ajouter un service sur les détails de l'incident "
       request_transfer: "Demande de transfert"
       view_photo: "Afficher les photos"
       matching_configuration: "Configuration des correspondante"
+      add_note: "Ajouter des notes"
+      assign_within_agency: "Attribuer au sein de l'organisation"
+      assign_within_user_group: "Attribuer au sein du groupe d'utilisateurs"
+      find_tracing_match: "chercher une correspondance à partir d'un cas"
+      duplicate: "Chercher doublons"
+      view_response: "Voir Réponses"
   forms:
     label: "Formulaires"
     save: "Enregistrer le formulaire"
@@ -1024,11 +1086,14 @@ fr:
     required_field: "%{field} est requis"
     required_field_js: "est un champ obligatoire. Actuellement il est vide ou pas valide"
     form_group_name: "Nom du groupe de formulaires"
+    form_group: "Groupe de formulaire"
     modal_sidebar_help: "Sélectionner le type de champ"
     modal_sidebar_help_selected: "Type de champ"
     translation: "Traduction"
     translation_missing: "Traduction manquante pour %{lang}"
     base_language_help_text: "Cela doit être entré dans %{lang}"
+    selective_syncing_mobile_help_text: "Le sous-formulaire ne peut pas être synchronisé depuis le serveur vers le téléphone mobile, mais un utilisateur peut ajouter un sous-formulaire sur le téléphone mobile qui sera alors synchronisé au serveur. "
+    form_group_translation_help_text: "Pour ajouter des traductions pour les groupes de formulaires, modifiez la recherche Groupe de Formulaires dans l'editeur de Recherche"
     initial_lang_help_text: "Le champ doit être créé en %{lang} avant que la traduction puisse être ajoutée."
     field_db_help_text: "Si c'est laissé vide, le nom de la base de donnée sera généré. Seules les lettres, les chiffres et les caractères de soulignement latins sont autorisés"
   advanced_search:
@@ -1103,6 +1168,7 @@ fr:
     select_box: "Sélectionner le menu déroulant"
     radio_button: "Case"
     text_area: "Zone de texte"
+    textarea: "Zone de texte"
     numeric_field: "Champ numérique"
     date_field: "Champ de date"
     date_range_field: "Période"
@@ -1212,7 +1278,7 @@ fr:
     base_types:
       country: 'Pays'
       region: 'Région'
-      province: 'Provence'
+      province: 'Province'
       district: 'District'
       governorate: 'Gouvernorat'
       chiefdom: 'Chefferie'
@@ -1450,11 +1516,12 @@ fr:
     pending_transfers: 'Transfert en attente'
     rejected_transfers: 'Transfert rejeté '
     transers_awaiting_acceptance: 'Transferts en attente d''acceptation'
-    total_referred: "Total des références"
-    new_referred: "Nouvelle référence"
+    total_referred: "Total des référencements"
+    new_referred: "Nouvelles référencements"
     high_risk: 'Priorité haute'
     low_risk: 'Priorité faible'
     none_risk: 'Pas prioritaire '
+    no_action_risk: 'Aucune action'
     medium_risk: 'Priorité moyenne'
     pending: 'En Attente'
     rejected: 'Rejete'
@@ -1526,11 +1593,11 @@ fr:
     tr_stats: "Demandes de traçage"
     cases_by_social_worker: "Cas par travailleur social"
     approvals: "Approbations"
-    referrals_by_social_worker: "Orientations faites par le travailleur social"
+    referrals_by_social_worker: "Référencements faites par le travailleur social"
     transfers_by_social_worker: "Transféré par le travailleur social"
     case_stat_by_assessment_level: "Cas par niveau d'évaluation"
     case_stat_by_approval_type: "Approbations"
-    case_stat_referrals: "Orientations"
+    case_stat_referrals: "Référencements"
     protection_concern: "Problème de protection"
     protection_concerns: "Problèmes de Protection"
     geographic_area: "Zone géographique"
@@ -1556,13 +1623,13 @@ fr:
       other: "et %{stat} <span>nouveaux</span> cas"
     count_referrals_total:
       one: "Vous avez %{stat} <span>orientation</span> au total"
-      other: "Vous avez %{stat} <span>orientations</span> au total"
+      other: "Vous avez %{stat} <span>référencement(s) </span> au total"
     worker_count_referrals_total:
       one: "<span>%{case_worker}</span> a %{stat} <span>orientation</span> au total"
-      other: "<span>%{case_worker}</span> a %{stat} <span>orientations</span> au total"
+      other: "<span>%{case_worker}</span> a %{stat} <span>référencement(s)</span> au total"
     count_referrals_new:
       one: "et %{stat} <span>nouvelle</span> orientation"
-      other: "et %{stat} <span>nouvelles</span> orientations"
+      other: "et %{stat} <span>nouvelles</span> référencements"
     worker_count_total:
       one: "<span>%{case_worker}</span> a %{stat} <span>cas</span> au total"
       other: "<span>%{case_worker}</span> a %{stat} <span>cas</span> au total"
@@ -1640,6 +1707,7 @@ fr:
         email: "Saisissez une adresse email valide"
         user_name_uniqueness: "Le nom d'utilisateur est déjà pris ! Veuillez sélectionner un nouveau nom d'utilisateur"
         authenticate: "Impossible d'authentifier un utilisateur non enregistré"
+        invalid_locale: "L'utilisateur %{user_locale} n'est pas valide"
       child:
         at_least_one_field: "Remplissez au moins un champ ou téléchargez un fichier"
         age: "L'âge doit être compris entre 0 et 130"
@@ -1686,13 +1754,6 @@ fr:
         delete_field: "Impossible de supprimer un champ qui ne peut pas être édité"
         unique_name: "Le nom '%{name}' est déjà pris."
         unique_id: "L'identifiant unique '%{unique_id}' est déjà pris."
-      enquiry:
-        presence_of_criteria: "Ajoutez des critères à votre enquête"
-        presence_of_enquirer_name: "Ajoutez le nom de l'enquêteur à votre enquête"
-        presence_of_reporter_details: "Ajoutez des renseignements sur le registre à votre enquête"
-        create_forbidden: "Interdit"
-        not_found: "Non trouvé"
-        malformed_query: "Demande invalide"
       role:
         name_present: "Le nom ne doit pas être laissé vide"
         permission_presence: "Veuillez sélectionner au moins une permission"
@@ -1709,6 +1770,7 @@ fr:
         name_present: "Le nom ne doit pas être laissé vide "
         unique_name: "Il existe déjà un programme avec ce nom, veuillez saisir un nom différent"
       lookup:
+        name_present: "Le nom ne doit pas être laissé vide "
         value_presence: "Sélectionnez au moins une valeur de référence"
         unique_name: "Il existe déjà une référence avec ce nom, veuillez saisir un nom différent"
         being_used: "Cette référence est en cours d'utilisation et ne peut être supprimée"
@@ -1746,6 +1808,10 @@ fr:
         use_date_ranges_presence: "Les plages de dates ne doivent pas être vides"
       system_settings:
         default_locale: "Les paramètres régionaux du système ne doivent pas être vides"
+        locales: "L'anglais doit être disponible sur le System Locale"
+      export_configuration:
+        record_type: "Type d'enregistrement incorrect. Doit etre Enfant, Demande de Localisation ou un Incident."
+        opt_out_field_does_not_exist: "Le champ spécifié n'existe pas sur l'enregistrement."
   select_all_results: "Sélectionner tous les résultats "
   histories:
     of: "de"
@@ -1842,6 +1908,50 @@ fr:
       all: HCR
       one: HCR
       selected: HCR sélectionné
+      female_abbreviation: "Féminin"
+      male_abbreviation: "Masculin"
+      unknown_abbreviation: "U"
+      headers:
+        id: "ID"
+        long_id: "long ID"
+        short_id: "ID abrégé"
+        individual_progress_id: "Numéro Progress"
+        progres_id: "N° PROGRESS"
+        cpims_code: "Identifiant CPIMS+"
+        date_of_identification: "Date de l'identification "
+        primary_protection_concerns: "Problème de protection  primaire"
+        secondary_protection_concerns: "Problème de protection secondaire"
+        governorate_country: "Gouvernorat - Pays"
+        sex: "le genre"
+        sex_mapping_m_f_u: "le genre"
+        date_of_birth: "Date de naissance"
+        age: "âge"
+        causes_of_separation: "Cause de la séparation"
+        country_of_origin: "Pays d'origine"
+        current_care_arrangement: "Prise en charge actuelle"
+        reunification_status: "Statut de la réunification "
+        case_status: "État du cas"
+        family_count_no: "Numero du recensement de la famille"
+        moha_id: "MOHA ID"
+        name_of_child_last_first: "Nom et prénom de l'enfant"
+        name_of_caregiver: "Nom et prénom de la personne en charge de l'enfant"
+        vulnerability_code: "Code de vulnérabilité"
+        vulnerability_details_code: "Les Codes des Détails sur la vulnérabilité"
+        locations_by_level: "Adresse (Camp, bloc et autres niveaux d'adresse utiles, comme les coordonnées GPS de l'abri)"
+    duplicate_id_csv:
+      all: Dupliquer l'ID
+      female_abbreviation: "Féminin"
+      male_abbreviation: "Masculin"
+      unknown_abbreviation: "U"
+      headers:
+        moha_id: "Identité MOHA expirée"
+        national_id_no: "Numéro d'identité nationale"
+        case_id: "Identifiant du cas"
+        progress_id: "N° Progress"
+        child_name_last_first: "Nom de l'enfant"
+        age: "âge"
+        sex_mapping_m_f_u: "le genre"
+        family_size: "Taille de la famille"
     mrm_violation_xls:
       all: Violations du mécanisme de suivi et de signalement
       one: Violations du mécanisme de suivi et de signalement
@@ -1878,7 +1988,7 @@ fr:
     zip_file:
       unknown_type: "L'archive contient un ou plusieurs fichiers de type inconnu"
   referral:
-    type_label: "Type d'orientation"
+    type_label: "Type de référencement"
     existing_user_label: "Utilisateur existant"
     other_user_label: "Autre utilisateur"
     other_user_agency_label: "Agence de l'autre utilisateur"
@@ -1892,8 +2002,8 @@ fr:
     no_records_selected: "Aucun dossier sélectionné"
     failure: "L'orientation de %{record_type} %{id} a échoué (vérifiez que les champs de consentement sont sélectionnés)"
     success: "%{record_type} %{id} a bien été orienté"
-    failure_batch: "%{record_type} %{id} orientation(s) a (ont) échoué (vérifiez que les champs de consentement sont sélectionnés)"
-    success_batch: "%{success_count} orientation(s) ont bien été faite(s)"
+    failure_batch: "%{record_type} %{id} référencement(s) a (ont) échoué (vérifiez que les champs de consentement sont sélectionnés)"
+    success_batch: "%{success_count} référencement(s) ont bien été faite(s)"
     to_user_local_status_label: "Statut"
     user_local_status_pending: "En attente"
     user_local_status_accepted: "Accepte"
@@ -1901,7 +2011,9 @@ fr:
     user_local_status_inprogress: "En cours"
     user_local_status_done: "Termine"
     complete_referral_label: "Cliquer sur OK signifie que vous avez terminé le travail associé à ce cas. Une fois que vous cliquez sur OK, vous ne pourrez plus avoir accès à ce dossier"
-    done_success_message: "Orientation fait"
+    done_success_message: "Référencement fait"
+    agency_label: "Organisation"
+    location_label: "Lieu"
   reassign:
     reassign_case_title: "Attribue cas à:"
     existing_user_label: "Utilisateur existant"
@@ -1916,6 +2028,7 @@ fr:
     consent_label: "les dossiers n'ont pas fourni de consentement."
     consent_override_label: "Souhaitez-vous contourner ce paramètre ?"
     is_remote_label: "Transférez-vous vers un système à distance ?"
+    consent_individual_transfer: "Avez-vous le consentement de la personne pour effectuer ce transfert ?"
     type_of_export: "Quel type d'exportation souhaitez-vous"
     notes_label: "Notes"
     user_mandatory: "Le nom d'utilisateur est requis"
@@ -1938,6 +2051,8 @@ fr:
     search:
       rejected: "Rejete"
       in_progress: "En Cours"
+    agency_label: "Organisation"
+    location_label: "Lieu"
   request_transfer:
     success: "Demande de transfert envoyée"
     notes_label: "Notes"
@@ -1981,6 +2096,11 @@ fr:
       pending: "En Attente"
       approved: "Approuve"
       rejected: "Rejete"
+  notes:
+    notes_label: "Notes"
+    subject_label: "Sujet"
+    no_records_selected: "Aucun dossier sélectionne"
+    error_adding_note: "Erreur lors de l'ajout d'une note"
   per_page_translation: "Par page _MENU_"
   total: Total
   caregiver: "(Personne s'occupant de l'enfant) "
@@ -2018,7 +2138,7 @@ fr:
     consent_count: "Nombre de consentements"
     match_record: "Enregistrement correspondant"
     index: "Liste des enregistrements"
-    relinquish_referral: "Abandon orientation faite"
+    relinquish_referral: "Abandon référencement faite"
     flag: Signaler
     unflag: Supprimer le signalement
     flag_records: Signaler
@@ -2105,6 +2225,9 @@ fr:
         other: "Affichage <b>tous %{count}</b> %{model}"
       multi_page_html: "Affichage %{model} <b>%{from} - %{to}</b> sur un total de <b>%{count}</b>"
     models:
+      agency:
+        one: "Organisation"
+        other: "Organisations"
       report:
         one: "Rapport"
         other: "Rapports"
@@ -2123,3 +2246,6 @@ fr:
       task:
         one: "Tâches"
         other: "Tâches"
+      user_group:
+        one: "Groupe d'utilisateurs"
+        other: "Groupes d'utilisateurs"

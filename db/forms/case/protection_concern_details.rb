@@ -59,6 +59,7 @@ protection_concern_detail_subform_section = FormSection.create_or_update_form_se
   "editable" => true,
   :fields => protection_concern_detail_subform_fields,
   :initial_subforms => 1,
+  :subform_prevent_item_removal => true,
   "name_en" => "Nested Protection Concerns Subform",
   "description_en" => "Nested Protection Concerns Subform",
   "collapsed_fields" => ["protection_concern_type"]

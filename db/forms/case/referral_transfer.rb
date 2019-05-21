@@ -56,10 +56,11 @@ transitions_subform = [
                "display_name_en" => "Transferred or Referred By",
               }),
     Field.new({"name" => "service",
-               "type" => "text_field",
+               "type" => "select_box",
                "editable"=>false,
                "disabled" => true,
                "display_name_en" => "Service",
+               "option_strings_source" => "lookup lookup-service-type"
               }),
     Field.new({"name" => "is_remote",
                "type" => "tick_box",

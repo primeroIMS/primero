@@ -362,7 +362,9 @@ class Child < CouchRest::Model::Base
     string :workflow_status, as: 'workflow_status_sci'
     string :workflow, as: 'workflow_sci'
     string :child_status, as: 'child_status_sci'
-    string :action_plan_section, multiple: true
+
+    string :created_agency_office, as: 'created_agency_office_sci'
+
     string :risk_level, as: 'risk_level_sci' do
       self.risk_level.present? ? self.risk_level : RISK_LEVEL_NONE
     end
@@ -488,7 +490,7 @@ class Child < CouchRest::Model::Base
   def auto_populate_name
     #This 2 step process is necessary because you don't want to overwrite self.name if auto_populate is off
     a_name = auto_populate('name')
-    self.name = a_name unless a_name.nil?
+    self.name = a_name if a_name.present?
   end
 
   def set_instance_id
@@ -640,8 +642,8 @@ class Child < CouchRest::Model::Base
     end
   end
 
-  def send_approval_response_mail(manager_id, approval_type, approval, host_url)
-    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url)
+  def send_approval_response_mail(manager_id, approval_type, approval, host_url, is_gbv = false)
+    ApprovalResponseJob.perform_later(manager_id, self.id, approval_type, approval, host_url, is_gbv)
   end
 
   #Override method in record concern

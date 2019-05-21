@@ -263,13 +263,11 @@ describe UsersController do
       user_detail[:user_url].should_not be_blank
     end
 
-    #TODO: This will fail
     it "should return error if user is not authorized" do
-      pending "Determine whether this is still a valid case. maybe tweak users controller when doing customizations"
       fake_login
       mock_user = stub_model User
       get :index
-      response.should be_forbidden
+      expect(response).to be_forbidden
     end
 
     it "should authorize index page for read only users" do
@@ -328,10 +326,10 @@ describe UsersController do
       assigns[:user].should equal(user)
     end
 
-    xit "should throw error if an user without authorization tries to access" do
+    it "should throw error if an user without authorization tries to access" do
       fake_login_as(Permission::USER, [Permission::READ])
       get :new
-      response.status.should == 403
+      expect(response.status).to eq(403)
     end
 
     context "when user has MANAGE permission on ROLE" do

@@ -3,6 +3,8 @@ class HomeController < ApplicationController
 
   before_action :load_default_settings, :only => [:index]
   before_action :can_access_approvals, :only => [:index]
+  before_action :can_read_cases, :only => [:index]
+  before_action :can_read_incidents, :only => [:index]
   before_action :load_risk_levels, :only => [:index]
 
   def index
@@ -497,6 +499,14 @@ class HomeController < ApplicationController
     @can_approvals = @can_approval_bia || @can_approval_case_plan || @can_approval_closure
   end
 
+  def can_read_cases
+    @can_read_cases = can?(:index, Child)
+  end
+
+  def can_read_incidents
+    @can_read_incidents = can?(:index, Incident)
+  end
+
   def load_recent_activities
     Child.list_records({}, {:last_updated_at => :desc}, {page: 1, per_page: 20}, current_user.managed_user_names)
   end
@@ -840,8 +850,8 @@ class HomeController < ApplicationController
       with(:child_status, query[:status]) if query[:status].present?
       with(:created_at, query[:date_range]) if query[:new].present?
       with(:date_closure, query[:date_range]) if query[:closed].present?
-      facet("#{reporting_location}#{admin_level}".to_sym, zeros: true) if query[:by_reporting_location].present?
-      facet(:protection_concerns, zeros: true) if query[:by_protection_concern].present?
+      facet("#{reporting_location}#{admin_level}".to_sym, zeros: false) if query[:by_reporting_location].present?
+      facet(:protection_concerns, zeros: false) if query[:by_protection_concern].present?
     end
   end
 end

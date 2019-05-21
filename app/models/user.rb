@@ -27,6 +27,7 @@ class User < CouchRest::Model::Base
   property :user_group_ids, :type => [String], :default => []
   property :is_manager, TrueClass, :default => false
   property :send_mail, TrueClass, :default => true
+  property :agency_office
 
   alias_method :agency, :organization
   alias_method :agency=, :organization=
@@ -512,6 +513,23 @@ class User < CouchRest::Model::Base
       self.password = SecureRandom.hex(20)
       self.password_confirmation = password
     end
+  end
+
+  def has_user_group_id?(id)
+    self.user_group_ids.include?(id)
+  end
+
+  def agency_office_name
+    return nil unless self['agency_office'].present?
+    Lookup.values('lookup-agency-office').find { |i| self['agency_office'].eql?(i['id']) }['display_text']
+  end
+
+  def has_reporting_location_filter?
+    self.modules.any? {|m| m.reporting_location_filter }
+  end
+
+  def has_user_group_filter?
+    self.modules.any? {|m| m.user_group_filter }
   end
 
   private

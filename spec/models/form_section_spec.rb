@@ -152,7 +152,9 @@ describe FormSection do
                                                 "ar-LB"=>"Mobile 1 Nested", "so"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested",
                                                 "bn"=>"Mobile 1 Nested", "my"=>"Mobile 1 Nested", "th"=>"Mobile 1 Nested", "ku"=>"Mobile 1 Nested"},
                                 :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "my"=>[], "th"=>[], "ku"=>[]}}]}]}
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
+                                                       "bn"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                "date_validation"=>nil}]}]}
         form_sections = FormSection.group_forms([@form_section_mobile_1], true)
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
       end

@@ -3,7 +3,7 @@ ar:
   consent_for_referrals:
     name: موافقة على الإحالة
     description: موافقة على الإحالة
-    form_group_name: موافقة على الإحالة
+    # form_group_name: موافقة على الإحالة
     fields:
       consent_release_separator:
         display_name: موافقة على الإفصاح عن معلومات حسب نوع الإحالة
