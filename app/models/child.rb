@@ -55,7 +55,7 @@ class Child < ApplicationRecord
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate, :notes_section, :location_current, :tracing_status
+    :duplicate, :notes_section, :location_current, :tracing_status, :cpims_id, :name_caregiver
 
 
   alias child_status status ; alias child_status= status=
