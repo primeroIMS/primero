@@ -30,6 +30,7 @@ branches:
 - maint_1.5
 - maint_1.6
 - development
+- development_v2
 - master
 notifications:
   slack:

@@ -17,6 +17,8 @@ class BulkExportJob < ApplicationJob
 
       bulk_export.encrypt_export_file
 
+      bulk_export.attach_export_file
+
       bulk_export.mark_completed
     else
       Rails.logger.warn("BulkExport Id: #{bulk_export_id} was not found. Skipping...")
