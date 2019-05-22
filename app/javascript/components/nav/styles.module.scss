@@ -107,3 +107,18 @@ $drawerWidth: 240px;
     bottom: -0.625em;
   }
 }
+
+@media(max-width: 1280px) {
+  .drawerPaper {
+    width: 3.8em;
+    overflow-x: hidden;
+  }
+
+  .listIcon {
+    min-width: 5.5em;
+  }
+
+  .accountListItem {
+    display: none;
+  }
+}

@@ -17,3 +17,9 @@
     }
   }
 }
+
+@media(max-width: 1280px) {
+  .button > span svg {
+    margin: 0 .3em
+  }
+}
