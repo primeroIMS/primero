@@ -5,6 +5,8 @@ include MigrationHelper
 record_classes = [Child, TracingRequest, Incident]
 
 record_classes.each do |record_type|
+  puts "------------------------------------------------------------------"
+  puts "Migrating #{record_type} records..."
   field_options = MigrationHelper.get_field_options(record_type.locale_prefix)
   #TODO lets just get the select fields first, worry about their options later
   # select_fields = MigrationHelper.get_select_fields(record_type.locale_prefix)
@@ -35,9 +37,9 @@ record_classes.each do |record_type|
       records_to_save << record 
     end
 
-    #TODO commented out for testing
-    # if records_to_save.present?
-    #   record_type.save_all!(records_to_save)
-    # end
+    if records_to_save.present?
+      puts "Updating #{records_to_save.count} records"
+      record_type.save_all!(records_to_save)
+    end
   end
 end
