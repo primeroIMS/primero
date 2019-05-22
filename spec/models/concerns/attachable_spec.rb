@@ -1,0 +1,55 @@
+require 'rails_helper'
+
+describe Attachable do
+  before do
+    Child.delete_all
+    AttachmentImage.delete_all
+  end
+  let(:child) { create(:child) }
+  describe 'photos' do
+    before do
+     child.photos.build(FilesTestHelper.png)
+    end
+    context 'when attach images with build' do
+      it 'should have a image as attach ' do
+        expect(child.photos.first.image).to be_attached
+      end
+      it 'should save' do
+        expect(child.save).to be_truthy
+      end
+    end
+    context 'when attach images with set_attachment_fields' do
+      it 'should attach a photo' do
+        child.set_attachment_fields(FilesTestHelper.png_as_a_parameter)
+        expect(child.photos.first.image).to be_attached
+      end
+    end
+
+    context 'validation' do
+      it 'should be invalid if the file is too large' do
+        child.set_attachment_fields(FilesTestHelper.large_photo_as_a_parameter)
+        expect(child).not_to be_valid
+      end
+    end
+    context 'relations' do
+      it 'should be present all the relations with attachable' do
+        expect(child).to respond_to('photos')
+        expect(child).to respond_to('other_documents')
+        expect(child).to respond_to('recorded_audio')
+        expect(child.class).to respond_to('attachment_images_fields')
+        expect(child.class).to respond_to('attachment_documents_fields')
+        expect(child.class).to respond_to('attachment_audio_fields')
+      end
+    end
+  end
+  describe 'when update' do
+    it 'should attach a photo' do
+      child.set_attachment_fields(FilesTestHelper.png_as_a_parameter)
+      child.save
+      new_photo = FilesTestHelper.jpg_as_a_parameter_to_update(child.photos.first.id)
+      child.set_attachment_fields(new_photo)
+      child.save
+      expect(child.photos.first.image.filename.to_s).to eq(FilesTestHelper.jpg.first['image'].original_filename)
+    end
+  end
+end
