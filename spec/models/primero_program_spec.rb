@@ -4,7 +4,7 @@ describe PrimeroProgram do
   it "should not be valid if name is empty" do
     program = PrimeroProgram.new
     program.should_not be_valid
-    program.errors[:name].should == ["must not be blank"]
+    I18n.t(program.errors[:name]).should == ["must not be blank"]
   end
 
   it "should generate id" do
