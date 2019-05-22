@@ -127,7 +127,7 @@ module Exporters
           subform_name, subform_field = field.first, field.last
           value = if field.length > 1
                     subform = model.data.try(:[], subform_name)
-                    subform.try(:[], subform_field) unless subform.blank?
+                    subform.map { |i| i[subform_field] } unless subform.blank?
                   else
                     model.try(:send, property)
                   end
@@ -167,21 +167,12 @@ module Exporters
           #Calculate the next row based on the subforms data.
           max_row = data_row.size if data_row.size > max_row
           #calculate width based on the data.
-          data_row.each{|data| withds[col] = data.to_s.length if withds[col] < data.to_s.length}
-          if property.is_a?(Hash)
-            #This is a subform with some selected fields.
-            size = property.values.first.size
-          else
-            #exclude unique_id
-            size = property.to_s.length
-          end
-          #Calculate the next column
-          col = col + size
+          data_row.each{|data| withds[col] = data.to_s.length if withds[col] < data.to_s.length} unless withds[col].nil?
         else
           #Regular fields calculate metadata.
           withds[col] = data_row.to_s.length if withds[col].to_i < data_row.to_s.length
-          col = col + 1
         end
+        col = col + 1
         value
       end.each do |data_row|
         #Occurs the write on the sheet.
@@ -229,7 +220,7 @@ module Exporters
            subform_props.map{|prop| "#{subform_name}:#{prop.name}"}.flatten
          elsif property.is_a?(Array)
            property.last[:display_name] if property.last.is_a?(Hash)
-         elsif property.type.eql?("subform")
+         elsif property.type == Field::SUBFORM
            #Returns every property in the subform to build the header of the sheet.
            #Remove unique_id field for subforms.
             property.subform_section.fields.map{|p| "#{property.name}:#{p.name}" if p.name != "unique_id"}.compact
