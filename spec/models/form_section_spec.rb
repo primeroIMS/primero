@@ -96,19 +96,17 @@ describe FormSection do
       it 'formats for moble' do
         expected = {"Children"=>
                         [{"unique_id"=>"MOBILE_1",
-                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"",
-                                  "my"=>"", "th"=>"", "ku"=>""},
+                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
                           "order"=>0,
-                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"",
-                                       "my"=>"", "th"=>"", "ku"=>""},
+                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
                           "fields"=>
                               [{"name"=>"mobile_1_nested",
                                 "disabled"=>false,
                                 "multi_select"=>false,
                                 "type"=>"subform",
                                 "subform"=>{"unique_id"=>"MOBILE_1_NESTED",
-                                            :name=>{"en"=>"Mobile 1 Nested", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                                            "order"=>0, :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
+                                            :name=>{"en"=>"Mobile 1 Nested", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                                            "order"=>0, :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
                                             "fields"=>
                                               [{"name"=>"field1",
                                                 "disabled"=>false,
@@ -118,9 +116,9 @@ describe FormSection do
                                                 "option_strings_source"=>nil,
                                                 "show_on_minify_form"=>false,
                                                 "mobile_visible"=>true,
-                                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1", "so"=>"field1", "es"=>"field1", "bn"=>"field1", "id"=>"field1", "my"=>"field1", "th"=>"field1", "ku"=>"field1"},
-                                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1", "so"=>"field1", "es"=>"field1", "bn"=>"field1"},
+                                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[]},
                                                 "date_validation"=>"default_date_validation"}]
                                               },
                                 "required"=>false,
@@ -129,13 +127,11 @@ describe FormSection do
                                 "mobile_visible"=>true,
                                 :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested",
                                                 "ar-LB"=>"Mobile 1 Nested", "so"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested",
-                                                "bn"=>"Mobile 1 Nested", "id"=>"Mobile 1 Nested", "my"=>"Mobile 1 Nested",
-                                                "th"=>"Mobile 1 Nested", "ku"=>"Mobile 1 Nested"},
-                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"",
-                                             "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
-                                                       "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                                "bn"=>"Mobile 1 Nested"},
+                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[]},
                                 "date_validation"=>"default_date_validation"}]}]}
+
         form_sections = FormSection.group_forms([@form_section_mobile_1])
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
       end
@@ -442,17 +438,6 @@ describe FormSection do
             expect(@form_field_type_test).to be_valid
           end
         end
-
-        context 'to select_box field' do
-          before do
-            @changing_field.type = Field::SELECT_BOX
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_text' on form 'Form Section Test 2'")
-          end
-        end
       end
 
       context 'from textarea field' do
@@ -467,56 +452,6 @@ describe FormSection do
 
           it 'is valid' do
             expect(@form_field_type_test).to be_valid
-          end
-        end
-
-        context 'to select_box field' do
-          before do
-            @changing_field.type = Field::SELECT_BOX
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_textarea' on form 'Form Section Test 2'")
-          end
-        end
-      end
-
-      context 'from select_box field' do
-        before do
-          @changing_field = @form_field_type_test.fields.select{|fd| fd.type == Field::SELECT_BOX}.first
-        end
-
-        context 'to text field' do
-          before do
-            @changing_field.type = Field::TEXT_FIELD
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_select_box' on form 'Form Section Test 2'")
-          end
-        end
-
-        context 'to textarea field' do
-          before do
-            @changing_field.type = Field::TEXT_AREA
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_select_box' on form 'Form Section Test 2'")
-          end
-        end
-
-        context 'to numeric field' do
-          before do
-            @changing_field.type = Field::NUMERIC_FIELD
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_select_box' on form 'Form Section Test 2'")
           end
         end
       end
@@ -927,7 +862,7 @@ describe FormSection do
       expect(@other_form.is_violation?).to be_falsey
     end
 
-    it "identifies a violation wrapper" do
+    xit "identifies a violation wrapper" do
       expect(@wrapper_form.is_violation_wrapper?).to be_truthy
       expect(@other_form.is_violation_wrapper?).to be_falsey
     end
