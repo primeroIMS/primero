@@ -1,12 +1,18 @@
-$drawerWidth: 240px;
+:root {
+  --drawerWidth: 240px;
+  --black: #000;
+  --white: #fff;
+  --light-grey: #ebebeb;
+  --dark-gray: #ccc;
+}
 
 .drawer {
-  width: $drawerWidth;
+  width: var(--drawerWidth);
   flex-shrink: 0;
 }
 
 .drawerPaper {
-  width: $drawerWidth;
+  width: var(--drawerWidth);
   background: linear-gradient(to top, var(--white), var(--light-grey)),
     linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
   position: relative;
@@ -25,11 +31,11 @@ $drawerWidth: 240px;
 }
 
 .navList {
-  svg {
+  & svg {
     color: var(--dark-gray);
   }
 
-  li {
+  & li {
     padding: 0;
   }
 }
@@ -37,7 +43,7 @@ $drawerWidth: 240px;
 .navListAccount {
   flex-grow: 1;
 
-  li {
+  & li {
     padding: 0;
   }
 }
@@ -45,11 +51,11 @@ $drawerWidth: 240px;
 .accountListItem {
   padding: 0;
 
-  a {
+  & a {
     text-indent: 2.5em;
   }
 
-  span {
+  & span {
     font-size: 0.813em;
   }
 }
@@ -93,7 +99,7 @@ $drawerWidth: 240px;
     width: 0.625em;
   }
 
-  svg {
+  & svg {
     color: var(--black);
   }
 
@@ -108,7 +114,7 @@ $drawerWidth: 240px;
   }
 }
 
-@media(max-width: 1280px) {
+@media $(theme.breakpoints.only('md')) {
   .drawerPaper {
     width: 3.8em;
     overflow-x: hidden;

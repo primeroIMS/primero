@@ -7,6 +7,7 @@ import Box from "@material-ui/core/Box";
 import { withI18n } from "libs";
 import * as actions from "./action-creators";
 import styles from "./styles.module.scss";
+import namespace from "./namespace";
 
 const defaultFilters = {
   per: 20,
@@ -84,7 +85,7 @@ Cases.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    cases: state.get("Cases").toJS()
+    cases: state.get(namespace).toJS()
   };
 };
 

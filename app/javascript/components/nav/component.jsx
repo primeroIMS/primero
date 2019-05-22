@@ -10,12 +10,21 @@ import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
 import { withI18n } from "libs";
 import { connect } from "react-redux";
-import ListIcon from "./ListIcon";
+import makeStyles from "@material-ui/styles/makeStyles";
+import useTheme from "@material-ui/styles/useTheme";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { MobileToolbar } from "components/mobile-toolbar";
+import { ListIcon } from "components/list-icon";
+import { AccountMenu } from "components/account-menu";
 import { TranslationsToggle } from "../translations-toggle";
-import * as styles from "./styles.module.scss";
-import AccountMenu from "./AccountMenu";
+import styles from "./styles.jss";
+import namespace from "./namespace";
+import * as actions from "./action-creators";
 
-const Nav = ({ i18n, username }) => {
+const Nav = ({ i18n, username, drawerOpen, openDrawer }) => {
+  const css = makeStyles(styles)();
+  const theme = useTheme();
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const nav = [
     { name: i18n.t("navigation.home"), to: "/", icon: "home" },
     { name: i18n.t("navigation.tasks"), to: "/tasks", icon: "tasks" },
@@ -39,52 +48,79 @@ const Nav = ({ i18n, username }) => {
     { name: i18n.t("navigation.bulk_exports"), to: "/exports", icon: "exports" }
   ];
 
+  if (!mobileDisplay && !drawerOpen) {
+    openDrawer(true);
+  }
+
   return (
-    <Drawer
-      variant="permanent"
-      classes={{
-        paper: styles.drawerPaper
-      }}
-    >
-      <ModuleLogo moduleLogo="primero" />
-      <List className={styles.navList}>
-        {nav.map(l => (
-          <ListItem key={l.to}>
-            <NavLink
-              to={l.to}
-              className={styles.navLink}
-              activeClassName={styles.navActive}
-              exact
-            >
-              <ListItemIcon classes={{ root: styles.listIcon }}>
-                <ListIcon icon={l.icon} />
-              </ListItemIcon>
-              <ListItemText
-                primary={l.name}
-                classes={{ primary: styles.listText }}
-              />
-            </NavLink>
-          </ListItem>
-        ))}
-      </List>
-      <AccountMenu username={username} />
-      {/* TODO: Need to pass agency and logo path from api */}
-      <AgencyLogo />
-      <TranslationsToggle />
-    </Drawer>
+    <>
+      <MobileToolbar
+        drawerOpen={drawerOpen}
+        openDrawer={openDrawer}
+        mobileDisplay={mobileDisplay}
+      />
+      <Drawer
+        variant="persistent"
+        anchor="left"
+        open={drawerOpen}
+        classes={{
+          paper: css.drawerPaper
+        }}
+      >
+        {!mobileDisplay && (
+          <ModuleLogo moduleLogo="primero" username={username} />
+        )}
+        <List className={css.navList}>
+          {nav.map(l => (
+            <ListItem key={l.to}>
+              <NavLink
+                to={l.to}
+                className={css.navLink}
+                activeClassName={css.navActive}
+                exact
+              >
+                <ListItemIcon classes={{ root: css.listIcon }}>
+                  <ListIcon icon={l.icon} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={l.name}
+                  classes={{ primary: css.listText }}
+                />
+              </NavLink>
+            </ListItem>
+          ))}
+        </List>
+        {!mobileDisplay && <AccountMenu username={username} />}
+        {/* TODO: Need to pass agency and logo path from api */}
+        <AgencyLogo />
+        {!mobileDisplay && <TranslationsToggle />}
+      </Drawer>
+    </>
   );
 };
 
 Nav.propTypes = {
   i18n: PropTypes.object.isRequired,
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
+  drawerOpen: PropTypes.bool.isRequired,
+  openDrawer: PropTypes.func.isRequired
 };
 
 // TODO: Username should come from redux once user built.
-const mapStateToProps = () => {
+const mapStateToProps = state => {
   return {
-    username: "primero_cp"
+    username: "primero_cp",
+    drawerOpen: state.get(namespace).toJS().drawerOpen
   };
 };
 
-export default withI18n(connect(mapStateToProps)(Nav));
+const mapDispatchToProps = {
+  openDrawer: actions.openDrawer
+};
+
+export default withI18n(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Nav)
+);

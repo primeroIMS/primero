@@ -4,7 +4,7 @@ import { expect } from "chai";
 import "config/test.setup";
 import { setupMountedComponent } from "libs/unit-test-helpers";
 
-import AccountMenu from "./AccountMenu";
+import AccountMenu from "./component";
 
 describe("<AccountMenu />", () => {
   let component;

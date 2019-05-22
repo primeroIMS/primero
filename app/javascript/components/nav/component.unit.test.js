@@ -7,7 +7,7 @@ import { TranslationsToggle } from "components/translations-toggle";
 import { AgencyLogo } from "components/agency-logo";
 import { ModuleLogo } from "components/module-logo";
 import Nav from "./component";
-import AccountMenu from "./AccountMenu";
+import { AccountMenu } from "components/account-menu";
 
 describe("<Nav />", () => {
   let component;
