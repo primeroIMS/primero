@@ -6,7 +6,7 @@ describe Ability do
 
   before do
     [
-      User, Child, FormSection,
+      User, Child, Field, FormSection,
       PrimeroModule, PrimeroProgram, Role,
       Agency, UserGroup
     ].each(&:destroy_all)
