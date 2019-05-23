@@ -330,13 +330,13 @@ describe User do
 
       @permission_user_read_write = Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
       @permission_user_read = Permission.new(resource: Permission::USER, actions: [Permission::READ])
-      @manager_role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::GROUP
+      @manager_role = create(:role, permissions_list: [@permission_user_read_write], group_permission: Permission::GROUP, is_manager: true)
       @grunt_role = create :role, permissions_list: [@permission_user_read]
       @group_a = create(:user_group, name: "A")
       @group_b = create(:user_group, name: "B")
 
-      @manager = create(:user, role_id: @manager_role.id, user_group_ids: [@group_a.id, @group_b.id], is_manager: true)
-      @grunt1 = create(:user, role_id: @grunt_role.id, user_group_ids: [@group_a.id], is_manager: false)
+      @manager = create(:user, role_id: @manager_role.id, user_group_ids: [@group_a.id, @group_b.id])
+      @grunt1 = create(:user, role_id: @grunt_role.id, user_group_ids: [@group_a.id])
       @grunt2 = create(:user, role_id: @grunt_role.id, user_group_ids: [@group_a.id])
       @grunt3 = create(:user, role_id: @grunt_role.id, user_group_ids: [@group_b.id])
       @grunt4 = create(:user, role_id: @grunt_role.id, user_group_ids: [@group_b.id])
@@ -357,7 +357,7 @@ describe User do
     end
 
     it "has a record scope of 'all' if it an manage all users" do
-      manager_role = create :role, permissions_list: [@permission_user_read_write], group_permission: Permission::ALL
+      manager_role = create(:role, permissions_list: [@permission_user_read_write], group_permission: Permission::ALL, is_manager: true)
       manager = create :user, role_id: manager_role.id
       expect(manager.record_scope).to eq([Searchable::ALL_FILTER])
     end
