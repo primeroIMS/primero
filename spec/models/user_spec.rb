@@ -2,6 +2,10 @@ require 'rails_helper'
 
 describe User do
 
+  before :all do
+    clean_data(AuditLog, Agency, Role, PrimeroProgram, PrimeroModule, Field, FormSection)
+  end
+
   def build_user(options = {})
     options.reverse_merge!({
                                user_name: "user_name_#{rand(10000)}",
@@ -111,7 +115,7 @@ describe User do
 
     it "should generate _id" do
       user = create(:user, :user_name => 'test_user_123')
-      user.id.should == 1000045
+      user.id.present?.should == true
     end
 
     it "should require a module" do
