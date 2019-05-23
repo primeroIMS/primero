@@ -46,12 +46,8 @@ describe LocalizableJsonProperty do
 
   it "should provide formatted hash of locale data" do
     @object = @klass.new name_a: "test a", name_b: "test b"
-    @object.formatted_hash.should == { "name_a" => "test a", "name_b" => "test b" }
-  end
-
-  it "should normalize line encoding in formatted hash" do
-    @object = @klass.new name_a: "test a\r\ntest a", name_b: "test b\r\ntest b"
-    @object.formatted_hash.should == { "name_a" => "test a\ntest a", "name_b" => "test b\ntest b" }
+    @object.localized_hash("a").should == { "name" => "test a" }
+    @object.localized_hash("b").should == { "name" => "test b" }
   end
 
 end
