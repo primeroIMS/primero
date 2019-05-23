@@ -100,23 +100,6 @@ module MigrationHelper
     fields
   end
 
-  def get_select_fields(prefix)
-    fields = []
-    prefix = 'case' if prefix == 'child'
-    FormSection.find_by_parent_form(prefix).each do |fs|
-      i18n_fields = get_fields(fs)
-      i18n_fields.each do |field|
-        if field.subform_section.present?
-          sub_fields = get_fields(field.subform_section)
-          fields += sub_fields
-        else
-          fields << field
-        end
-      end
-    end
-    fields
-  end
-
   def create_or_update_lookup(lookup_hash)
     lookup_id = lookup_hash[:id]
     lookup = Lookup.get lookup_id

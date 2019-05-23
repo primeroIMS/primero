@@ -8,9 +8,6 @@ record_classes.each do |record_type|
   puts "------------------------------------------------------------------"
   puts "Migrating #{record_type} records..."
   field_options = MigrationHelper.get_field_options(record_type.locale_prefix)
-  #TODO lets just get the select fields first, worry about their options later
-  # select_fields = MigrationHelper.get_select_fields(record_type.locale_prefix)
-  # select_field_names = select_fields.map(&:name)
 
   record_type.each_slice do |records|
     records_to_save = []
