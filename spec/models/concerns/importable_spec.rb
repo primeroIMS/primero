@@ -1,18 +1,18 @@
 require 'rails_helper'
 
-_Child = Class.new(CouchRest::Model::Base) do
+_Child = Class.new(Child) do
   def self.name; 'Child'; end
   def self.to_s; self.name; end
 
   include Importable
   include Record
-  use_database :child
 
   def self.get_unique_instance(attributes)
     self.find_by_unique_identifier(attributes['unique_identifier'])
   end
 
-  property :age, Integer
+  #TODO: This test has to be fixed for now we're getting rid of couchdb things.
+  #property :age, Integer
 end
 
 describe Importable do
