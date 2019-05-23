@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe PrimeroModule do
   before :each do
-    clean_data(FormSection, PrimeroModule, PrimeroProgram)
+    clean_data(Field, FormSection, PrimeroModule, PrimeroProgram)
   end
 
   it "should not be valid if name is empty" do
