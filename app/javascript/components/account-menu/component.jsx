@@ -22,10 +22,10 @@ const AccountMenu = ({ i18n, username, mobile }) => {
   if (mobile) {
     return (
       <>
-        <IconButton edge="start" color="black" aria-label="Menu">
+        <IconButton edge="start" color="default" aria-label="Menu">
           <ListIcon icon="support" />
         </IconButton>
-        <IconButton edge="start" color="black" aria-label="Menu">
+        <IconButton edge="start" color="default" aria-label="Menu">
           <ListIcon icon="account" />
         </IconButton>
       </>
@@ -82,7 +82,7 @@ const AccountMenu = ({ i18n, username, mobile }) => {
 
 AccountMenu.propTypes = {
   i18n: PropTypes.object.isRequired,
-  username: PropTypes.string.isRequired,
+  username: PropTypes.string,
   mobile: PropTypes.bool
 };
 

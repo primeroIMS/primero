@@ -5,7 +5,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useEffect } from "react";
 import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
 import { withI18n } from "libs";
@@ -48,9 +48,11 @@ const Nav = ({ i18n, username, drawerOpen, openDrawer }) => {
     { name: i18n.t("navigation.bulk_exports"), to: "/exports", icon: "exports" }
   ];
 
-  if (!mobileDisplay && !drawerOpen) {
-    openDrawer(true);
-  }
+  useEffect(() => {
+    if (!mobileDisplay && !drawerOpen) {
+      openDrawer(true);
+    }
+  });
 
   return (
     <>

@@ -10,7 +10,7 @@ import { ModuleLogo } from "components/module-logo";
 import { AccountMenu } from "components/account-menu";
 import styles from "./styles.jss";
 
-const MobileToolbar = ({ drawerOpen, openDrawer, username, mobileDisplay }) => {
+const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {
   const css = makeStyles(styles)();
 
   const handleToggleDrawer = () => {
@@ -34,14 +34,14 @@ const MobileToolbar = ({ drawerOpen, openDrawer, username, mobileDisplay }) => {
         <Toolbar className={css.toolbar}>
           <IconButton
             edge="start"
-            color="black"
+            color="default"
             aria-label="Menu"
             onClick={handleToggleDrawer}
           >
             <MenuIcon />
           </IconButton>
           <ModuleLogo className={css.logo} />
-          <AccountMenu username={username} mobile />
+          <AccountMenu mobile />
         </Toolbar>
       </AppBar>
     );
@@ -51,10 +51,9 @@ const MobileToolbar = ({ drawerOpen, openDrawer, username, mobileDisplay }) => {
 };
 
 MobileToolbar.propTypes = {
-  drawerOpen: PropTypes.bool.required,
-  openDrawer: PropTypes.func.required,
-  username: PropTypes.string.required,
-  mobileDisplay: PropTypes.func.required
+  drawerOpen: PropTypes.bool.isRequired,
+  openDrawer: PropTypes.func.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired
 };
 
 export default MobileToolbar;
