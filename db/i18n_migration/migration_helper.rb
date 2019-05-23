@@ -61,7 +61,6 @@ module MigrationHelper
 
   def get_value(value, options)
     if value.present? && options.present?
-      #TODO these hashes need to use 'with_indifferent_access'
       if value.is_a?(Array)
         #look for value iin either the ids or in the display text
         #If it has already been converted, it should be in one of the id's
