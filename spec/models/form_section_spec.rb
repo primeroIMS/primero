@@ -96,17 +96,17 @@ describe FormSection do
       it 'formats for moble' do
         expected = {"Children"=>
                         [{"unique_id"=>"MOBILE_1",
-                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
                           "order"=>0,
-                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
                           "fields"=>
                               [{"name"=>"mobile_1_nested",
                                 "disabled"=>false,
                                 "multi_select"=>false,
                                 "type"=>"subform",
                                 "subform"=>{"unique_id"=>"MOBILE_1_NESTED",
-                                            :name=>{"en"=>"Mobile 1 Nested", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
-                                            "order"=>0, :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                                            :name=>{"en"=>"Mobile 1 Nested", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
+                                            "order"=>0, :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
                                             "fields"=>
                                               [{"name"=>"field1",
                                                 "disabled"=>false,
@@ -116,9 +116,9 @@ describe FormSection do
                                                 "option_strings_source"=>nil,
                                                 "show_on_minify_form"=>false,
                                                 "mobile_visible"=>true,
-                                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1", "so"=>"field1", "es"=>"field1", "bn"=>"field1"},
-                                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
-                                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[]},
+                                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1", "so"=>"field1", "es"=>"field1", "bn"=>"field1", "id"=>"field1", "my"=>"field1", "th"=>"field1", "ku"=>"field1"},
+                                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
+                                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
                                                 "date_validation"=>"default_date_validation"}]
                                               },
                                 "required"=>false,
@@ -127,9 +127,9 @@ describe FormSection do
                                 "mobile_visible"=>true,
                                 :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested",
                                                 "ar-LB"=>"Mobile 1 Nested", "so"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested",
-                                                "bn"=>"Mobile 1 Nested"},
-                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[]},
+                                                "bn"=>"Mobile 1 Nested", "id"=>"Mobile 1 Nested", "my"=>"Mobile 1 Nested", "th"=>"Mobile 1 Nested", "ku"=>"Mobile 1 Nested"},
+                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
                                 "date_validation"=>"default_date_validation"}]}]}
 
         form_sections = FormSection.group_forms([@form_section_mobile_1])
