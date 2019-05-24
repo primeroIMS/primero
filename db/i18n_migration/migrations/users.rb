@@ -4,6 +4,8 @@ include MigrationHelper
 
 locations = Location.all_names
 
+puts "------------------------------------------------------------------"
+puts "Migrating Users..."
 User.all.each do |user|
   changed = false
   location = locations.select{|l| l[:display_text] == user.location }.first
