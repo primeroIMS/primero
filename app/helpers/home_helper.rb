@@ -162,6 +162,7 @@ module HomeHelper
 
   def build_reporting_location_stat_link(statistic, filters=nil, model, reporting_location, admin_level)
     model = model_name_class(model)
+    statistic = 0 if statistic.blank?
     return statistic if statistic == 0 || !user_can_read(model)
     return link_to(statistic, send("#{model.pluralize}_path") + index_filters(filters, reporting_location, admin_level), class: 'stat_link')
   end
