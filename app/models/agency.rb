@@ -23,8 +23,8 @@ class Agency < ApplicationRecord
   validates :logo_small, file_size: { less_than_or_equal_to: 10.megabytes },
                          file_content_type: { allow: 'image/png' }, if: -> { logo_small.attached? }
 
-  validate :validate_logo_large_dimension
-  validate :validate_logo_small_dimension
+  validate :validate_logo_large_dimension, if: -> { logo_large.attached? }
+  validate :validate_logo_small_dimension, if: -> { logo_small.attached? }
 
 
 
@@ -80,15 +80,17 @@ class Agency < ApplicationRecord
   end
 
   def validate_image_dimension(type)
-     width = send(type).try('metadata').try(:dig, 'width')
-     height = send(type).try('metadata').try(:dig, 'height')
+    return true unless send(type).attachment.content_type.start_with?('image/*')
+    metadata = ActiveStorage::Analyzer::ImageAnalyzer.new(send(type)).metadata
+    width = metadata.dig(:width)
+    height = metadata.dig(:height)
 
-     valid_width = LOGO_DIMENSION[type.to_sym][:width]
-     valid_height = LOGO_DIMENSION[type.to_sym][:height]
-     return true if width.blank? || height.blank?
-     if (width > valid_width || height > valid_height)
-       errors.add(type.to_sym, I18n.t('errors.models.agency.logo_dimension', width: valid_width.to_s, height: valid_height.to_s))
-       return false
-     end
+    valid_width = LOGO_DIMENSION[type.to_sym][:width]
+    valid_height = LOGO_DIMENSION[type.to_sym][:height]
+    return true if width.blank? || height.blank?
+    if (width > valid_width || height > valid_height)
+      errors.add(type.to_sym, I18n.t('errors.models.agency.logo_dimension', width: valid_width.to_s, height: valid_height.to_s))
+      return false
+    end
   end
 end
