@@ -122,7 +122,7 @@ Copy in only the Case(Child), Incident, Tracing Request, and User couchdb record
 - $ sudo rm -rf couchdb/.primero_child_production_design
 - $ sudo cp -p couchdb_SL_20190523/primero_child_production.couch couchdb/.
 - $ sudo cp -rp couchdb_SL_20190523/.primero_child_production_design couchdb/.
-(Repeat copy steps for Incident, Tracing Request, User, etc)
+(Repeat copy steps for Incident and Tracing Request)
 
 
 Start couchdb and other system processes
