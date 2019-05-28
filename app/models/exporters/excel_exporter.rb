@@ -78,7 +78,7 @@ module Exporters
             get_value(row, p)
           end
         end
-      elsif property.try(:multi_select) # HERE SUBFORMS
+      elsif property.try(:multi_select)
         if property.type == Field::SUBFORM
           #Returns every row of the subform.
           (model.send(property.name) || []).map do |row|
