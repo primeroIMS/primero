@@ -21,10 +21,12 @@ module FilesTestHelper
     {'photos' => upload(large_photo_name, 'image/jpg')}
   end
 
-  def uploadable_large_photo
-    large_photo = "spec/resources/huge.jpg"
-    File.binwrite large_photo, "hello", 50000 * 1024 unless File.exist? large_photo
-    uploadable_photo large_photo
+  def invalid_photo
+    {'photos' => upload('textfile.txt', 'text/plain')}
+  end
+
+  def max_documents_as_a_paramenter
+    {'other_documents' => upload_max_documents }
   end
 
   private
@@ -37,5 +39,11 @@ module FilesTestHelper
   def upload_update(id, name, type)
     file_path = Rails.root.join('spec', 'resources', name)
     [{'id' => id, 'image' => fixture_file_upload(file_path, type)}]
+  end
+
+  def upload_max_documents
+    file_path = Rails.root.join('spec', 'resources', 'textfile.txt')
+    type = 'text/plain'
+    Array.new(101, {'document' => fixture_file_upload(file_path, type)})
   end
 end

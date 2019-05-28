@@ -1,27 +1,29 @@
 require 'rails_helper'
 
 describe Attachable do
-  before do
+  before :each do
     Child.delete_all
     AttachmentImage.delete_all
   end
   let(:child) { create(:child) }
   describe 'photos' do
-    before do
-     child.photos.build(FilesTestHelper.png)
-    end
-    context 'when attach images with build' do
-      it 'should have a image as attach ' do
-        expect(child.photos.first.image).to be_attached
+    describe 'attachment' do
+      before do
+       child.photos.build(FilesTestHelper.png)
       end
-      it 'should save' do
-        expect(child.save).to be_truthy
+      context 'when attach images with build' do
+        it 'should have a image as attach ' do
+          expect(child.photos.first.image).to be_attached
+        end
+        it 'should save' do
+          expect(child.save).to be_truthy
+        end
       end
-    end
-    context 'when attach images with set_attachment_fields' do
-      it 'should attach a photo' do
-        child.set_attachment_fields(FilesTestHelper.png_as_a_parameter)
-        expect(child.photos.first.image).to be_attached
+      context 'when attach images with set_attachment_fields' do
+        it 'should attach a photo' do
+          child.set_attachment_fields(FilesTestHelper.png_as_a_parameter)
+          expect(child.photos.first.image).to be_attached
+        end
       end
     end
 
@@ -30,6 +32,17 @@ describe Attachable do
         child.set_attachment_fields(FilesTestHelper.large_photo_as_a_parameter)
         expect(child).not_to be_valid
       end
+      it 'should be invalid if the file is not a images' do
+        child.set_attachment_fields(FilesTestHelper.invalid_photo)
+        expect(child).not_to be_valid
+        expect(child.errors['photos.image']).to eq(['file should be one of image/jpg, image/jpeg, image/png'])
+      end
+      it 'should be invalid if the size of documents if greather than the permited' do
+        child.set_attachment_fields(FilesTestHelper.max_documents_as_a_paramenter)
+        expect(child).not_to be_valid
+        expect(child.errors['other_documents']).to eq(['is too long (maximum is 100 characters)'])
+      end
+
     end
     context 'relations' do
       it 'should be present all the relations with attachable' do
