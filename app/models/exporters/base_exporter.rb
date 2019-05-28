@@ -216,11 +216,11 @@ module Exporters
 
       def get_model_value(model, property)
         exclude_name_mime_types = ['xls', 'csv', 'selected_xls']
-        if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
+        if property.try(:name) == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
         else
-          value = model.send(property.name)
-          translate_value(property.name, value)
+          value = model.respond_to?(:data) ? model.data[property.try(:name)] : model[property.try(:name)]
+          translate_value(property, value)
         end
       end
 
@@ -239,7 +239,7 @@ module Exporters
       def translate_value(fields, value)
         field = fields.is_a?(Array) ? fields.first : fields
         if field.present?
-          if field.is_a?(Array) && field.type == Field::SUBFORM
+          if field.is_a?(Array) && field.try(:type) == Field::SUBFORM
             field_names = field.map{|pn| pn.try(:name)}
             sub_fields = field.subform_section.try(:fields)
             sub_field = sub_fields.select{|sf| field_names.include?(sf.name)}.first
