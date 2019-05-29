@@ -115,11 +115,14 @@ module Exporters
     def build_sheets_definition(properties_by_module, model_module=nil)
       @sheets ||= {}
       properties_by_module.each do |field|
-        if field.type.include?(Field::SUBFORM)
+        fields = field.form_section.fields
+        if field.type == Field::SUBFORM && fields.size > 1
           build_sheet_definition(field.subform.name, field, model_module)
         else
-          fields = field.form_section.fields.where.not(type: Field::SUBFORM)
-          build_sheet_definition(field.form_section.name, fields, model_module)
+          unless field.form_section.is_nested
+            fields = fields.where.not(type: Field::SUBFORM) if fields.size > 1
+            build_sheet_definition(field.form_section.name, fields, model_module)
+          end
         end
       end
     end
