@@ -1,11 +1,7 @@
-:root {
-  --dark-grey: #ccc;
-}
-
 .button {
   display: flex;
   justify-content: initial;
-  color: var(--dark-grey);
+  color: $(theme.primero.colors.darkGrey);
 
   & > span {
     & div {
@@ -16,7 +12,7 @@
     }
 
     & svg {
-      color: var(--dark-grey);
+      color: $(theme.primero.colors.darkGrey);
       width: 24px;
     }
   }
