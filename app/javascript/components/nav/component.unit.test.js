@@ -1,7 +1,6 @@
-import React from "react";
 import { expect } from "chai";
-import "config/test.setup";
-import { setupMountedComponent } from "libs/unit-test-helpers";
+import "test/test.setup";
+import { setupMountedComponent } from "test";
 import { Map } from "immutable";
 
 import { TranslationsToggle } from "components/translations-toggle";

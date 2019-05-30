@@ -1,11 +1,8 @@
-import React from "react";
-import { setupMountedThemeComponent } from "libs/unit-test-helpers";
+import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import "config/test.setup";
-import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import "test/test.setup";
 
 import UnicefLogo from "images/unicef.png";
-import { theme } from "config";
 import AgencyLogo from "./component";
 
 describe("<AgencyLogo />", () => {

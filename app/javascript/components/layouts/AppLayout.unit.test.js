@@ -1,12 +1,9 @@
-/* eslint-disable */
-
-import React from "react";
 import { expect } from "chai";
-import "config/test.setup";
+import "test/test.setup";
 import { Map } from "immutable";
 import AppLayout from "./AppLayout";
 import { Nav } from "components/nav";
-import { setupMountedComponent } from "libs/unit-test-helpers";
+import { setupMountedComponent } from "test";
 
 describe("<AppLayout />", () => {
   let component;
