@@ -1,6 +1,6 @@
 |#|UI/UX
 
-v2 ui can be found in the `app/javascripts` directory.
+v2 ui can be found in the `app/javascript` directory.
 
 ## Libs/Tech
 - [Yarn](https://yarnpkg.com/en/) - js/css package management
@@ -22,12 +22,15 @@ v2 ui can be found in the `app/javascripts` directory.
 ### Notes
 - Use functional components for all components. Use the effect hook if lifecycle methods are needed. Don't use the state hook. Redux should manage state. [Using the Effect Hook](https://reactjs.org/docs/hooks-effect.html)
 - Use async/await for working with promises
-- Take a look at `components/pages/cases` for an example of how to structure/name components. Notice how we have:
+- Take a look at `components/pages/case-list` for an example of how to structure/name components. Notice how we have:
   ```
   |=> layouts
   |   |- AppLayout.jsx
+  |   |- AppLayout.unit.test.js
   |   |- AuthLayout.jsx
-  |=> cases
+  |   |- AuthLayout.unit.test.js
+  |   |- styles.css
+  |=> case-list
   |   |- action-creators.js
   |   |- actions.js
   |   |- index.js
@@ -36,39 +39,70 @@ v2 ui can be found in the `app/javascripts` directory.
   |   |- namespace.js
   |   |- reducer.js
   |   |- services.js
-  |   |- styles.module.scss
+  |   |- selectors.js
+  |   |- styles.css
   ```
   - Directories that contains a single component/container use the filename of `component.jsx` or `container.jsx`
   - Directories should be `kabab-case`
   - jsx filenames should be `PascalCase`, and js files should be `kabab-case`
   - Use `.jsx` for react files and `.js` for js files.
-  - Css modules should use the following naming format `[NAME].module.(scss|css)` example: `styles.module.scss`
   - Use an `index.js` to export multiple files in a directory
 
-- Material UI: import components separately. This helps us keep the bundle size down.
+- Material UI: now supports code splitting so either way of importing is fine.
 
-  ```
+  ```js
   import Button from "@material-ui/core/Button";
   import Container from "@material-ui/core/Container";
   ```
 
-  **not**
+  **or**
 
-  ```
-  import {Button, Container} from "@material-ui/core";
+  ```js
+  import { Button, Container } from "@material-ui/core";
   ```
 
 ### Examples
 
-#### Functional Component
+#### CSS
+
+```js
+// styles.css
+
+.welcome {
+  color: $(theme.primero.colors.blue);
+
+  span {
+    color: $(theme.palette.primary.light);
+  }
+}
 ```
+
+```js
+// component.js
+
+import React from "react";
+import styles from "./styles.css";
+import { makeStyles } from "@material-ui/styles";
+
+const TODO = () => {
+  const css = makeStyles(styles)();
+
+  return (
+    <div className={css.welcome}>Hello <span>Josh</span></div>
+  )
+}
+...
+```
+
+#### Functional Component
+```js
 import React, { useEffect } from "react";
 import PropTypes from "prop_types";
 import { connect } from "react-redux";
 
 // Using es6 parameter destructuring to get properties from props
 const SayHello = ({ name }) => {
-  // Equivalent to didComponentMount in class components
+  // Equivalent to componentDidMount in class components
   useEffect(() => {
     fetchName();
   }, []);
@@ -98,7 +132,7 @@ export default connect(
 
 #### Async/Await - [documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function)
 
-```
+```js
 const testFunc = async options => {
   const response = fetch('/', options);
 
@@ -108,6 +142,27 @@ const testFunc = async options => {
   return json;
 }
 ```
+
+### Testing
+#### Running test
+| Command | Desc |
+| ------------------ | ----------- |
+| `yarn test:all` | Runs all test |
+| `yarn test $FILE` | Run single test file |
+| `yarn test:inspect $FILE` | Runs test in debug mode. You should be able to add `debugger;` on a line as a breakpoint and open Chrome Dev Tools to debug. This will also stop execution immediatly, so you will have to continue to get to your breakpoint. |
+
+#### Libs
+- [chai](https://www.chaijs.com/)
+- [chai-immutable](https://github.com/astorije/chai-immutable)
+- [enzyme](https://github.com/airbnb/enzyme)
+- [mocha](https://mochajs.org/)
+- [sinon](https://sinonjs.org/)
+- [require-hacker](https://github.com/catamphetamine/require-hacker)
+- [jsdom](https://github.com/jsdom/jsdom)
+- [react-test-renderer](https://reactjs.org/docs/test-renderer.html)
+- [material-ui/testing](https://material-ui.com/guides/testing/#testing) : Material iu has testing helpers simular to enzyme's methods.
+
+There are also some helpers and setup in the `javascript/test` dir. The helpers in `javascripts/test/unit-test-helpers.js` wrap components in the needed providers to mount components. Take a look at files with the name of *.unit.test.js for examples. Test should reside aside their component.
 
 ### Tools
 - Redux-devtools are enabled in development. Install the [chrome extention](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en) for use
