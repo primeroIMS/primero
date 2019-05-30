@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import makeStyles from "@material-ui/styles/makeStyles";
 import useTheme from "@material-ui/styles/useTheme";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import styles from "./styles.jss";
+import styles from "./styles.css";
 
 const ModuleLogo = ({ moduleLogo }) => {
   const css = makeStyles(styles)();

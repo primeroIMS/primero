@@ -1,19 +1,11 @@
-:root {
-  --drawerWidth: 240px;
-  --black: #000;
-  --white: #fff;
-  --light-grey: #ebebeb;
-  --dark-gray: #ccc;
-}
-
 .drawer {
-  width: var(--drawerWidth);
+  width: $(theme.primero.components.drawerWidth);
   flex-shrink: 0;
 }
 
 .drawerPaper {
-  width: var(--drawerWidth);
-  background: linear-gradient(to top, var(--white), var(--light-grey)),
+  width: $(theme.primero.components.drawerWidth);
+  background: linear-gradient(to top, $(theme.primero.colors.white), $(theme.primero.colors.lightGrey)),
     linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
   position: relative;
   white-space: nowrap;
@@ -32,7 +24,7 @@
 
 .navList {
   & svg {
-    color: var(--dark-gray);
+    color: $(theme.primero.colors.darkGrey);
   }
 
   & li {
@@ -74,7 +66,7 @@
 
 .navLink {
   text-decoration: none;
-  color: var(--black);
+  color: $(theme.primero.colors.black);
   padding: 8px 16px;
   display: flex;
   width: 100%;
@@ -82,11 +74,11 @@
 }
 
 .navActive {
-  background: var(--white);
+  background: $(theme.primero.colors.white);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
 
   &:hover {
-    background: var(--white);
+    background: $(theme.primero.colors.white);
   }
 
   &:before,
@@ -100,7 +92,7 @@
   }
 
   & svg {
-    color: var(--black);
+    color: $(theme.primero.colors.black);
   }
 
   &:before {

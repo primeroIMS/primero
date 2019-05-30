@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import configureStore from "redux-mock-store";
 import { I18nProvider } from "libs";
+import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import { theme } from "config";
 
 export const setupMountedComponent = (
   TestComponent,
@@ -15,9 +17,11 @@ export const setupMountedComponent = (
   const component = createMount()(
     <Provider store={store}>
       <I18nProvider>
-        <MemoryRouter>
-          <TestComponent {...props} />
-        </MemoryRouter>
+        <ThemeProvider theme={theme}>
+          <MemoryRouter>
+            <TestComponent {...props} />
+          </MemoryRouter>
+        </ThemeProvider>
       </I18nProvider>
     </Provider>
   );
@@ -26,3 +30,10 @@ export const setupMountedComponent = (
     component
   };
 };
+
+export const setupMountedThemeComponent = (TestComponent, props = {}) =>
+  createMount()(
+    <ThemeProvider theme={theme}>
+      <TestComponent {...props} />
+    </ThemeProvider>
+  );

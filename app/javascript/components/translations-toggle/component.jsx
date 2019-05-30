@@ -9,7 +9,7 @@ import { compose } from "redux";
 import { DropdownDoubleIcon } from "images/primero-icons";
 import { makeStyles } from "@material-ui/styles";
 import { withI18n } from "../../libs";
-import styles from "./styles.jss";
+import styles from "./styles.css";
 
 const TranslationsToggle = ({ changeLocale, locale, i18n }) => {
   const css = makeStyles(styles)();

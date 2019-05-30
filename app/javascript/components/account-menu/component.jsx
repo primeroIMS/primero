@@ -9,7 +9,7 @@ import { NavLink } from "react-router-dom";
 import { withI18n } from "libs";
 import { makeStyles } from "@material-ui/styles";
 import { ListIcon } from "components/list-icon";
-import styles from "./styles.jss";
+import styles from "./styles.css";
 
 const AccountMenu = ({ i18n, username, mobile }) => {
   const css = makeStyles(styles)();

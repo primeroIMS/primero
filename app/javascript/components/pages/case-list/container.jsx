@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import Box from "@material-ui/core/Box";
 import { withI18n } from "libs";
 import * as actions from "./action-creators";
-import styles from "./styles.module.scss";
+import styles from "./styles.css";
 import namespace from "./namespace";
 
 const defaultFilters = {

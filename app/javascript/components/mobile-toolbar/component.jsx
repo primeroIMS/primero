@@ -8,7 +8,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import PropTypes from "prop-types";
 import { ModuleLogo } from "components/module-logo";
 import { AccountMenu } from "components/account-menu";
-import styles from "./styles.jss";
+import styles from "./styles.css";
 
 const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {
   const css = makeStyles(styles)();

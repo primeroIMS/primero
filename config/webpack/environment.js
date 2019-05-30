@@ -1,10 +1,11 @@
 const { environment } = require("@rails/webpacker");
 const path = require("path");
+const _ = require("lodash");
+
 const babelLoader = environment.loaders.get("babel");
 const fileLoader = environment.loaders.get("file");
-
-const _ = require("lodash");
 const svgPrefix = {};
+
 svgPrefix.toString = () => `${_.uniqueId()}_`;
 
 module.exports = {
@@ -20,21 +21,18 @@ module.exports = {
   }
 };
 
-environment.loaders.append("jss", {
-  test: /\.jss$/,
-  use: [
-    {
-      loader: "css-to-mui-loader"
-    },
-    {
-      loader: "postcss-loader",
-      ident: 'postcss',
-      options: {
-        config: { path: path.resolve(__dirname, 'postcss.config.js') },
-      }
+environment.loaders.get("css").use = [
+  {
+    loader: "css-to-mui-loader"
+  },
+  {
+    loader: "postcss-loader",
+    ident: "postcss",
+    options: {
+      config: { path: path.resolve(__dirname, "postcss.config.js") }
     }
-  ]
-});
+  }
+];
 
 environment.loaders.append("eslint", {
   test: /\.(js|jsx)$/,

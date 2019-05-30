@@ -5,7 +5,7 @@ import { shallow } from "enzyme";
 import { expect } from "chai";
 import "config/test.setup";
 
-import ListIcon from "./ListIcon";
+import ListIcon from "./component";
 import { CasesIcon, IncidentsIcon } from "images/primero-icons";
 
 describe("<ListIcon />", () => {

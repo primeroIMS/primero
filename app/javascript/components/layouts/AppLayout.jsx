@@ -2,13 +2,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
 import clsx from "clsx";
 import { Route, Switch } from "react-router-dom";
-import { Nav, namespace } from "components/nav";
+import { Nav, selectDrawerOpen } from "components/nav";
 import routes from "config/routes";
-import "./global.css";
 import { makeStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import styles from "./styles.jss";
+import styles from "./styles.css";
 
 const AppLayout = ({ drawerOpen }) => {
   const css = makeStyles(styles)();
@@ -36,10 +35,8 @@ AppLayout.propTypes = {
   drawerOpen: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = state => {
-  return {
-    drawerOpen: state.get(namespace).toJS().drawerOpen
-  };
-};
+const mapStateToProps = state => ({
+  drawerOpen: selectDrawerOpen(state)
+});
 
 export default connect(mapStateToProps)(AppLayout);

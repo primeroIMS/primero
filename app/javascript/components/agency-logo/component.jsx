@@ -6,7 +6,7 @@ import UnicefPictorial from "images/unicef-pictorial.png";
 import makeStyles from "@material-ui/styles/makeStyles";
 import useTheme from "@material-ui/styles/useTheme";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import styles from "./styles.jss";
+import styles from "./styles.css";
 
 const AgencyLogo = ({ logo, agency }) => {
   const css = makeStyles(styles)();

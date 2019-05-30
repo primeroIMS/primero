@@ -2,7 +2,7 @@
   padding: 1em;
   display: flex;
 
-  &> div {
+  & > div {
     padding: 1em;
   }
 }

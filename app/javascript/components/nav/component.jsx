@@ -8,23 +8,21 @@ import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
-import { withI18n } from "libs";
+import { withI18n, themeHelper } from "libs";
 import { connect } from "react-redux";
-import makeStyles from "@material-ui/styles/makeStyles";
-import useTheme from "@material-ui/styles/useTheme";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { MobileToolbar } from "components/mobile-toolbar";
 import { ListIcon } from "components/list-icon";
 import { AccountMenu } from "components/account-menu";
 import { TranslationsToggle } from "../translations-toggle";
-import styles from "./styles.jss";
-import namespace from "./namespace";
+import styles from "./styles.css";
 import * as actions from "./action-creators";
+import * as Selectors from "./selectors";
 
 const Nav = ({ i18n, username, drawerOpen, openDrawer }) => {
-  const css = makeStyles(styles)();
-  const theme = useTheme();
+  const { css, theme } = themeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+
   const nav = [
     { name: i18n.t("navigation.home"), to: "/", icon: "home" },
     { name: i18n.t("navigation.tasks"), to: "/tasks", icon: "tasks" },
@@ -109,12 +107,10 @@ Nav.propTypes = {
 };
 
 // TODO: Username should come from redux once user built.
-const mapStateToProps = state => {
-  return {
-    username: "primero_cp",
-    drawerOpen: state.get(namespace).toJS().drawerOpen
-  };
-};
+const mapStateToProps = state => ({
+  username: "primero_cp",
+  drawerOpen: Selectors.selectDrawerOpen(state)
+});
 
 const mapDispatchToProps = {
   openDrawer: actions.openDrawer
