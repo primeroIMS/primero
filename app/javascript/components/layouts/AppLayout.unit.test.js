@@ -1,18 +1,16 @@
-/* eslint-disable */
-
-import React from "react";
 import { expect } from "chai";
-import "config/test.setup";
-
+import "test/test.setup";
+import { Map } from "immutable";
 import AppLayout from "./AppLayout";
 import { Nav } from "components/nav";
-import { setupMountedComponent } from "libs/unit-test-helpers";
+import { setupMountedComponent } from "test";
 
 describe("<AppLayout />", () => {
   let component;
 
   before(() => {
-    component = setupMountedComponent(AppLayout).component;
+    const state = Map({ Nav: { drawerOpen: true } });
+    component = setupMountedComponent(AppLayout, {}, state).component;
   });
 
   it("renders navigation", () => {
@@ -21,9 +19,8 @@ describe("<AppLayout />", () => {
 
   it("navigates to incidents list", () => {
     component
-      .find({ to: "/incidents" })
-      .at(0)
+      .find('a[href="/incidents"]')
       .simulate("click", { button: 0 });
-    expect(component.find("Incidents")).to.have.length(1);
+    expect(component.find("main").text()).to.eq("Incidents");
   });
 });

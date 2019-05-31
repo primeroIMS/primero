@@ -1,20 +1,23 @@
-import React from "react";
 import { expect } from "chai";
-import "config/test.setup";
-import { setupMountedComponent } from "libs/unit-test-helpers";
+import "test/test.setup";
+import { setupMountedComponent } from "test";
+import { Map } from "immutable";
 
 import { TranslationsToggle } from "components/translations-toggle";
 import { AgencyLogo } from "components/agency-logo";
 import { ModuleLogo } from "components/module-logo";
+import { AccountMenu } from "components/account-menu";
 import Nav from "./component";
-import AccountMenu from "./AccountMenu";
 
 describe("<Nav />", () => {
   let component;
 
   before(() => {
-    component = setupMountedComponent(Nav, { username: "joshua" }, {})
-      .component;
+    component = setupMountedComponent(
+      Nav,
+      { username: "joshua" },
+      Map({ Nav: { drawerOpen: true } })
+    ).component;
   });
 
   it("renders a module logo", () => {

@@ -7,10 +7,13 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { DropdownDoubleIcon } from "images/primero-icons";
+import { makeStyles } from "@material-ui/styles";
 import { withI18n } from "../../libs";
-import styles from "./styles.module.scss";
+import styles from "./styles.css";
 
 const TranslationsToggle = ({ changeLocale, locale, i18n }) => {
+  const css = makeStyles(styles)();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
@@ -30,7 +33,7 @@ const TranslationsToggle = ({ changeLocale, locale, i18n }) => {
   return (
     <>
       <Button
-        className={styles.button}
+        className={css.button}
         onClick={handleClick}
         aria-haspopup="true"
         aria-owns={anchorEl ? "simple-menu" : undefined}

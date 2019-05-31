@@ -1,20 +1,3 @@
-$drawerWidth: 240px;
-
-.drawer {
-  width: $drawerWidth;
-  flex-shrink: 0;
-}
-
-.drawerPaper {
-  width: $drawerWidth;
-  background: linear-gradient(to top, var(--white), var(--light-grey)),
-    linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
-  position: relative;
-  white-space: nowrap;
-  border: none;
-  box-shadow: inset -8px 0 5px -5px rgba(0, 0, 0, 0.15);
-}
-
 .listIcon {
   min-width: 2.5em;
 }
@@ -24,20 +7,10 @@ $drawerWidth: 240px;
   font-weight: 600;
 }
 
-.navList {
-  svg {
-    color: var(--dark-gray);
-  }
-
-  li {
-    padding: 0;
-  }
-}
-
 .navListAccount {
   flex-grow: 1;
 
-  li {
+  & li {
     padding: 0;
   }
 }
@@ -45,11 +18,11 @@ $drawerWidth: 240px;
 .accountListItem {
   padding: 0;
 
-  a {
+  & a {
     text-indent: 2.5em;
   }
 
-  span {
+  & span {
     font-size: 0.813em;
   }
 }
@@ -68,7 +41,7 @@ $drawerWidth: 240px;
 
 .navLink {
   text-decoration: none;
-  color: var(--black);
+  color: $(theme.primero.colors.black);
   padding: 8px 16px;
   display: flex;
   width: 100%;
@@ -76,11 +49,11 @@ $drawerWidth: 240px;
 }
 
 .navActive {
-  background: var(--white);
+  background: $(theme.primero.colors.white);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
 
   &:hover {
-    background: var(--white);
+    background: $(theme.primero.colors.white);
   }
 
   &:before,
@@ -93,8 +66,8 @@ $drawerWidth: 240px;
     width: 0.625em;
   }
 
-  svg {
-    color: var(--black);
+  & svg {
+    color: $(theme.primero.colors.black);
   }
 
   &:before {
@@ -105,5 +78,15 @@ $drawerWidth: 240px;
   &:after {
     background-image: url("data:image/svg+xml,%0A%3Csvg width='10px' height='10px' viewBox='0 0 10 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath d='M10,0 L10,10 L0,10 C5.5228475,10 10,5.5228475 10,0 Z' id='Combined-Shape' fill='%23FFFFFF' transform='translate(5.000000, 5.000000) scale(1, -1) translate(-5.000000, -5.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
     bottom: -0.625em;
+  }
+}
+
+@media $(theme.breakpoints.only('md')) {
+  .listIcon {
+    min-width: 5.5em;
+  }
+
+  .accountListItem {
+    display: none;
   }
 }

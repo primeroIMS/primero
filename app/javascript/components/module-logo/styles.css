@@ -1,0 +1,18 @@
+.logoContainer {
+  margin: 1.25em 1em 1.55em 1em;
+}
+
+.logo {
+  width: 70%;
+  height: auto;
+}
+
+@media $(theme.breakpoints.between('sm', 'md')) {
+  .logoContainer {
+    margin: 1.25em 0.5em 2.154em 0.5em;
+  }
+
+  .logo {
+    width: 100%;
+  }
+}
