@@ -84,7 +84,7 @@
       required: "<%= t('form_section.required_field_js') %>",
       form_message: "<%= t('errors.template.header.body_js')%>"
     };
-    window._primero.check_connectivity = "<%= ENV['CHECK_ONLINE_STATUS'] || "on" %>";
+    window._primero.check_connectivity = "<%= ENV['CHECK_ONLINE_STATUS'] ||= "on" %>";
   }
 </script>
 <%= javascript_tag do %>
