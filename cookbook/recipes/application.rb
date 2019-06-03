@@ -83,6 +83,14 @@ execute 'Autoload RVM on sudo' do
   end
 end
 
+execute 'Set CHECK_ONLINE_STATUS' do
+  user node[:primero][:app_user]
+  command "echo 'export CHECK_ONLINE_STATUS=#{node[:primero][:check_online_status]}' >> #{bashrc_file}"
+  not_if do
+    ::File.readlines(bashrc_file).grep(/CHECK_ONLINE_STATUS/).size > 0
+  end
+end
+
 execute 'Set RAILS_ENV' do
   user node[:primero][:app_user]
   command "echo 'export RAILS_ENV=production' >> #{bashrc_file}"

@@ -13,6 +13,7 @@ default[:primero].tap do |p|
   p[:app_group] = 'primero'
   p[:solr_user] = 'solr'
   p[:solr_group] = 'solr'
+  p[:check_online_status] = true
 
   p[:queue].tap do |queue|
     queue[:host] = 'localhost'
