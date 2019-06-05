@@ -1,17 +1,34 @@
 import * as Page from "../components/pages";
+import * as Layouts from "../components/layouts";
 
 export default [
   {
+    path: "/login/:logo",
+    component: Layouts.LoginLayout,
+    routes: [
+      {
+        path: "/login",
+        component: Page.Login
+      }
+    ]
+  },
+  {
     path: "/",
-    component: Page.Dashboard,
-    exact: true
-  },
-  {
-    path: "/cases",
-    component: Page.Cases
-  },
-  {
-    path: "/incidents",
-    component: Page.Incidents
+    component: Layouts.AppLayout,
+    routes: [
+      {
+        path: "/",
+        component: Page.Dashboard,
+        exact: true
+      },
+      {
+        path: "/cases",
+        component: Page.Cases
+      },
+      {
+        path: "/incidents",
+        component: Page.Incidents
+      }
+    ]
   }
 ];

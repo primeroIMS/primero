@@ -11,6 +11,7 @@ import thunkMiddleware from "redux-thunk";
 import { restMiddleware } from "middleware";
 import * as CasesPage from "./components/pages/case-list";
 import * as Nav from "./components/nav";
+import * as LoginPage from "./components/pages/login";
 
 // TODO: Temporarily setting basename
 export const history = createBrowserHistory({
@@ -43,7 +44,8 @@ export default () => {
     combineReducers({
       router: connectRouter(history),
       ...CasesPage.reducers,
-      ...Nav.reducers
+      ...Nav.reducers,
+      ...LoginPage.reducers
     }),
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
