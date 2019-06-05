@@ -45,7 +45,7 @@ export default () => {
       router: connectRouter(history),
       ...CasesPage.reducers,
       ...Nav.reducers,
-      ...LoginPage.reducers
+      ...LoginPage.loginReducers
     }),
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
