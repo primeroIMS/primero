@@ -4,25 +4,35 @@ env:
 - RAILS_ENV=test
 cache: bundler
 addons:
+  postgresql: 10
   apt:
     sources:
-      - google-chrome
+    - google-chrome
     packages:
-      - google-chrome-stable
+    - google-chrome-stable
+    - postgresql-10
+    - postgresql-client-10
+
+before_install:
+- nvm install 11.15.0
 before_script:
 - mkdir -p log
-- curl -X PUT localhost:5984/_config/admins/primero -d '"primero"'
-- cp config/travis/couchdb.yml config/
+- cp config/travis/database.yml config/
 - cp config/travis/sunspot.yml config/
 - cp config/travis/mailers.yml config/
 - mkdir -p solr/data/test
 - mkdir -p solr/cores/test
 - cp config/travis/core.properties solr/cores/test/
+- yarn install
 script:
 - bundle exec rake sunspot:solr:start
+- bundle exec rails db:drop
+- bundle exec rails db:create
+- bundle exec rails db:migrate
 - bundle exec rspec spec
+- yarn run test:all
 services:
-- couchdb
+- postgresql
 branches:
 - travisci
 - maint_1.3
