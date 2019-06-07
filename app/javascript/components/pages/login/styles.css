@@ -32,7 +32,8 @@
 
 .loginHeader div {
   margin: .75em 1em 1.55em 0;
-  & img{
+
+  & img {
     width: 118px;
     margin-left: 8px;
   }
@@ -72,6 +73,7 @@
     background-color: $(theme.primero.colors.blue);
     color: $(theme.primero.colors.white);
     margin-top: 20px;
+
     &:hover {
       background-color: #0093bac7;
     }
@@ -79,6 +81,7 @@
 
   & .recoveryLink {
     margin-top: 1.5em;
+
      & a {
       text-decoration: none;
       color: $(theme.primero.colors.blue);

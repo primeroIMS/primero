@@ -7,6 +7,7 @@ const DEFAULT_STATE = Map({});
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.SET_STYLE:
+      // TODO: Reuse reducer that sets module/agency when ready
       return state
         .set("module", fromJS(payload.module))
         .set("agency", fromJS(payload.agency));
