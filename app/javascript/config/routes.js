@@ -3,7 +3,7 @@ import * as Layouts from "../components/layouts";
 
 export default [
   {
-    path: "/login/:logo",
+    path: "/login",
     component: Layouts.LoginLayout,
     routes: [
       {

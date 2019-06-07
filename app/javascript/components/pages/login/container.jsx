@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Grid,
   Box,
@@ -18,31 +18,20 @@ import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./styles.css";
-import namespace from "./namespace";
+import * as Selectors from "./selectors";
 import * as actions from "./action-creators";
 
-const Login = ({ logo, i18n, setStyle, loginStyles, handleSubmit }) => {
+const Login = ({ i18n, primeroModule, agency, handleSubmit }) => {
   const css = makeStyles(styles)();
 
   // TODO: Need to pass agency and logo path from api
-  useEffect(() => {
-    setStyle({
-      module: Object.prototype.hasOwnProperty.call(css, logo)
-        ? logo
-        : "primero",
-      agency: "unicef"
-    });
-  }, []);
-
   return (
     <div>
       <CssBaseline />
-      <Box
-        className={[css.primeroBackground, css[loginStyles.module]].join(" ")}
-      >
+      <Box className={[css.primeroBackground, css[primeroModule]].join(" ")}>
         <div className={css.content}>
           <Grid item xs={8} className={css.loginHeader}>
-            <ModuleLogo moduleLogo={loginStyles.module} />
+            <ModuleLogo moduleLogo={primeroModule} white />
           </Grid>
           <Grid
             container
@@ -94,7 +83,7 @@ const Login = ({ logo, i18n, setStyle, loginStyles, handleSubmit }) => {
               </form>
             </Grid>
             <Grid item className={css.loginLogo} xs={12} sm={6} md={6}>
-              <AgencyLogo agency={loginStyles.agency} />
+              <AgencyLogo agency={agency} />
             </Grid>
           </Grid>
         </div>
@@ -121,21 +110,18 @@ const Login = ({ logo, i18n, setStyle, loginStyles, handleSubmit }) => {
 };
 
 Login.propTypes = {
-  logo: PropTypes.string.isRequired,
   i18n: PropTypes.object.isRequired,
-  loginStyles: PropTypes.object,
-  setStyle: PropTypes.func,
+  primeroModule: PropTypes.string,
+  agency: PropTypes.string,
   handleSubmit: PropTypes.func
 };
 
-const mapStateToProps = state => {
-  return {
-    loginStyles: state.get(namespace).toJS()
-  };
-};
+const mapStateToProps = state => ({
+  primeroModule: Selectors.selectModule(state),
+  agency: Selectors.selectAgency(state)
+});
 
 const mapDispatchToProps = {
-  setStyle: actions.setStyle,
   handleSubmit: actions.logIn
 };
 

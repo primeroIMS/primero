@@ -1,10 +1,10 @@
 import * as Actions from "./actions";
 
-export const setStyle = payload => async dispatch => {
-  dispatch({
+export const setStyle = payload => {
+  return {
     type: Actions.SET_STYLE,
     payload
-  });
+  };
 };
 
 export const logIn = payload => {

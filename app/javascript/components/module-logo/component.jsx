@@ -1,9 +1,13 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
 import PrimeroLogo from "images/primero-logo.png";
+import PrimeroLogoWhite from "images/primero-logo-white.png";
 import GBVLogo from "images/gbv-logo.png";
+import GBVLogoWhite from "images/gbv-logo-white.png";
 import MRMLogo from "images/mrm-logo.png";
+import MRMLogoWhite from "images/mrm-logo-white.png";
 import CPIMSLogo from "images/cpims-logo.png";
+import CPIMSLogoWhite from "images/cpims-logo-white.png";
 import PrimeroPictorial from "images/primero-pictorial.png";
 import GBVPictorial from "images/gbv-pictorial.png";
 import CPIMSPictorial from "images/cpims-pictorial.png";
@@ -13,7 +17,7 @@ import useTheme from "@material-ui/styles/useTheme";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import styles from "./styles.css";
 
-const ModuleLogo = ({ moduleLogo }) => {
+const ModuleLogo = ({ moduleLogo, white }) => {
   const css = makeStyles(styles)();
   const theme = useTheme();
   const tabletDisplay = useMediaQuery(theme.breakpoints.only("md"));
@@ -21,13 +25,13 @@ const ModuleLogo = ({ moduleLogo }) => {
   const logo = (l => {
     switch (l) {
       case "mrm":
-        return [MRMLogo, PrimeroPictorial];
+        return [white ? MRMLogoWhite : MRMLogo, PrimeroPictorial];
       case "gbv":
-        return [GBVLogo, GBVPictorial];
+        return [white ? GBVLogoWhite : GBVLogo, GBVPictorial];
       case "cpims":
-        return [CPIMSLogo, CPIMSPictorial];
+        return [white ? CPIMSLogoWhite : CPIMSLogo, CPIMSPictorial];
       default:
-        return [PrimeroLogo, PrimeroPictorial];
+        return [white ? PrimeroLogoWhite : PrimeroLogo, PrimeroPictorial];
     }
   })(moduleLogo);
 
@@ -43,7 +47,8 @@ const ModuleLogo = ({ moduleLogo }) => {
 };
 
 ModuleLogo.propTypes = {
-  moduleLogo: PropTypes.string
+  moduleLogo: PropTypes.string,
+  white: PropTypes.bool
 };
 
 export default ModuleLogo;
