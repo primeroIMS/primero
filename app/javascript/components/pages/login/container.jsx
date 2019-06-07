@@ -1,23 +1,25 @@
 import React, { useEffect } from "react";
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
+import {
+  Grid,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Link,
+  CssBaseline
+} from "@material-ui/core";
 import { ModuleLogo } from "components/module-logo";
 import { AgencyLogo } from "components/agency-logo";
 import { ListIcon } from "components/list-icon";
 import { TranslationsToggle } from "components/translations-toggle";
 import { NavLink } from "react-router-dom";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
 import { withI18n } from "libs";
-import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import PropTypes from "prop-types";
 import styles from "./styles.css";
-import * as actions from "./action-creators";
 import namespace from "./namespace";
+import * as actions from "./action-creators";
 
 const Login = ({ logo, i18n, setStyle, loginStyles, handleSubmit }) => {
   const css = makeStyles(styles)();
@@ -35,7 +37,9 @@ const Login = ({ logo, i18n, setStyle, loginStyles, handleSubmit }) => {
   return (
     <div>
       <CssBaseline />
-      <Box className={[css.primeroBackground, css[loginStyles.module]]}>
+      <Box
+        className={[css.primeroBackground, css[loginStyles.module]].join(" ")}
+      >
         <div className={css.content}>
           <Grid item xs={8} className={css.loginHeader}>
             <ModuleLogo moduleLogo={loginStyles.module} />
@@ -62,7 +66,6 @@ const Login = ({ logo, i18n, setStyle, loginStyles, handleSubmit }) => {
                   id="email"
                   label={i18n.t("login.username")}
                   name="email"
-                  autoComplete="email"
                   helperText="Ex. primero@example.com"
                   InputLabelProps={{
                     shrink: true
@@ -76,7 +79,6 @@ const Login = ({ logo, i18n, setStyle, loginStyles, handleSubmit }) => {
                   label={i18n.t("login.password.label")}
                   type="password"
                   id="password"
-                  autoComplete="current-password"
                   InputLabelProps={{
                     shrink: true
                   }}
