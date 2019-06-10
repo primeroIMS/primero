@@ -10,6 +10,7 @@ import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import { restMiddleware } from "middleware";
 import * as CasesPage from "./components/pages/case-list";
+import * as Dashboard from "./components/pages/dashboard";
 import * as Nav from "./components/nav";
 
 // TODO: Temporarily setting basename
@@ -43,6 +44,7 @@ export default () => {
     combineReducers({
       router: connectRouter(history),
       ...CasesPage.reducers,
+      ...Dashboard.dashboardReducers,
       ...Nav.reducers
     }),
     preloadedState,
