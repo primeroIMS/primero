@@ -20,15 +20,20 @@ const jss = create({
 const generateClassName = createGenerateClassName();
 
 export default () => {
+  store.subscribe(() => {
+    document.querySelector("body").setAttribute(
+      "dir",
+      store
+        .getState()
+        .get("TranslationToogle")
+        .get("themeDir")
+    );
+  });
   return (
     <Provider store={store}>
       <I18nProvider>
         <ThemeProvider theme={theme}>
-          <StylesProvider
-            injectFirst
-            jss={jss}
-            generateClassName={generateClassName}
-          >
+          <StylesProvider jss={jss} generateClassName={generateClassName}>
             <ConnectedRouter history={history}>
               <AppLayout />
             </ConnectedRouter>
