@@ -5,20 +5,27 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import Box from "@material-ui/core/Box";
 import { withI18n } from "libs";
+import { makeStyles } from "@material-ui/styles";
 import * as actions from "./action-creators";
 import styles from "./styles.css";
-import namespace from "./namespace";
+import * as Selectors from "./selectors";
 
 const defaultFilters = {
   per: 20,
   page: 1,
-  scope: {
-    child_status: "list||open",
-    record_state: "list||true"
-  }
+  child_status: "open",
+  record_state: true
 };
 
-const Cases = ({ cases, fetchCases, i18n }) => {
+const Cases = ({ cases, meta, filters, fetchCases, i18n, loading }) => {
+  const css = makeStyles(styles)();
+
+  const data = {
+    results: cases,
+    meta,
+    filters
+  };
+
   useEffect(() => {
     fetchCases(defaultFilters);
   }, []);
@@ -60,34 +67,39 @@ const Cases = ({ cases, fetchCases, i18n }) => {
   ];
 
   return (
-    <Box className={styles.root}>
-      <Box className={styles.table}>
-        {!isEmpty(cases.results) && (
+    <Box className={css.root}>
+      <Box className={css.table}>
+        {!isEmpty(cases) && (
           <IndexTable
             title={i18n.t("cases.label")}
             defaultFilters={defaultFilters}
             columns={columns}
-            data={cases}
+            data={data}
             onTableChange={fetchCases}
+            loading={loading}
           />
         )}
       </Box>
-      <Box className={styles.filters}>Filters</Box>
+      <Box className={css.filters}>Filters</Box>
     </Box>
   );
 };
 
 Cases.propTypes = {
   cases: PropTypes.object.isRequired,
+  meta: PropTypes.object.isRequired,
+  filters: PropTypes.object.isRequired,
   fetchCases: PropTypes.func.isRequired,
-  i18n: PropTypes.object.isRequired
+  i18n: PropTypes.object.isRequired,
+  loading: PropTypes.bool
 };
 
-const mapStateToProps = state => {
-  return {
-    cases: state.get(namespace).toJS()
-  };
-};
+const mapStateToProps = state => ({
+  cases: Selectors.selectCases(state),
+  meta: Selectors.selectFilters(state),
+  filters: Selectors.selectFilters(state),
+  loading: Selectors.selectLoading(state)
+});
 
 const mapDispatchToProps = {
   fetchCases: actions.fetchCases

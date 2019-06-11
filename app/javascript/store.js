@@ -24,7 +24,7 @@ export default () => {
     routerMiddleware(history),
     thunkMiddleware,
     restMiddleware({
-      baseUrl: "/"
+      baseUrl: "/api/v2"
     })
   ];
 

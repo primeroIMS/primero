@@ -1,16 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import IconButton from "@material-ui/core/IconButton";
-import PhotoIcon from "@material-ui/icons/PhotoCamera";
-import FlagIcon from "@material-ui/icons/Flag";
+import { IconButton } from "@material-ui/core";
+import { Photo, Flag } from "@material-ui/icons";
 import isEmpty from "lodash/isEmpty";
 
 const ToggleIconCell = ({ value, icon }) => (
   <IconButton disabled={isEmpty(value)} color="primary">
     {
       {
-        photo: <PhotoIcon />,
-        flag: <FlagIcon />
+        photo: <Photo />,
+        flag: <Flag />
       }[icon]
     }
   </IconButton>

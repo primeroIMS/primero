@@ -1,14 +1,11 @@
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
+import { Menu, MenuItem, Button, makeStyles } from "@material-ui/core";
 import LanguageIcon from "@material-ui/icons/Language";
 import PropTypes from "prop-types";
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
 import { DropdownDoubleIcon } from "images/primero-icons";
-import { makeStyles } from "@material-ui/styles";
-import { withI18n } from "../../libs";
+import { withI18n } from "libs";
 import styles from "./styles.css";
 
 const TranslationsToggle = ({ changeLocale, locale, i18n }) => {

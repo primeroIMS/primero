@@ -1,8 +1,10 @@
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import IconButton from "@material-ui/core/IconButton";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  IconButton
+} from "@material-ui/core";
 import PropTypes from "prop-types";
 import React from "react";
 import { NavLink } from "react-router-dom";

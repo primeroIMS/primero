@@ -1,10 +1,10 @@
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import createGenerateClassName from "@material-ui/styles/createGenerateClassName";
-import jssPreset from "@material-ui/styles/jssPreset";
+// import jssPreset from "@material-ui/styles/jssPreset";
 import StylesProvider from "@material-ui/styles/StylesProvider";
 import { ConnectedRouter } from "connected-react-router/immutable";
-import { create } from "jss";
-import rtl from "jss-rtl";
+// import { create } from "jss";
+// import rtl from "jss-rtl";
 import React from "react";
 import { Provider } from "react-redux";
 import { AppLayout } from "components/layouts";
@@ -14,9 +14,9 @@ import configureStore, { history } from "./store";
 
 const store = configureStore();
 
-const jss = create({
-  plugins: [...jssPreset().plugins, rtl()]
-});
+// const jss = create({
+//   plugins: [...jssPreset().plugins, rtl()]
+// });
 const generateClassName = createGenerateClassName();
 
 export default () => {
@@ -24,11 +24,7 @@ export default () => {
     <Provider store={store}>
       <I18nProvider>
         <ThemeProvider theme={theme}>
-          <StylesProvider
-            injectFirst
-            jss={jss}
-            generateClassName={generateClassName}
-          >
+          <StylesProvider injectFirst generateClassName={generateClassName}>
             <ConnectedRouter history={history}>
               <AppLayout />
             </ConnectedRouter>
