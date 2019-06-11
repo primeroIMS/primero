@@ -1,1 +1,1 @@
-export default "TranslationToogle";
+export default "TranslationToggle";

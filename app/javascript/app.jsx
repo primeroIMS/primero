@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { AppLayout } from "components/layouts";
 import { theme } from "config";
 import { I18nProvider } from "libs";
+import NAMESPACE from "components/translations-toggle/namespace";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
@@ -25,7 +26,7 @@ export default () => {
       "dir",
       store
         .getState()
-        .get("TranslationToogle")
+        .get(NAMESPACE)
         .get("themeDir")
     );
   });
@@ -33,7 +34,11 @@ export default () => {
     <Provider store={store}>
       <I18nProvider>
         <ThemeProvider theme={theme}>
-          <StylesProvider jss={jss} generateClassName={generateClassName}>
+          <StylesProvider
+            injectFirst
+            jss={jss}
+            generateClassName={generateClassName}
+          >
             <ConnectedRouter history={history}>
               <AppLayout />
             </ConnectedRouter>

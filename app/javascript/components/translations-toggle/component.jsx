@@ -35,6 +35,8 @@ const TranslationsToggle = ({
     }
   };
 
+  // TODO: Locales should come in this format {locale: locale_abbr, dir: app_direction}
+  // to transform into rtl/ltr mode
   const locales = [{ locale: "ar", dir: "rtl" }, { locale: "en", dir: "ltr" }];
 
   return (
