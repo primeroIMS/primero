@@ -26,6 +26,7 @@ const Login = ({ i18n, handleSubmit }) => {
           InputLabelProps={{
             shrink: true
           }}
+          autoComplete="off"
         />
         <TextField
           margin="normal"
@@ -38,8 +39,9 @@ const Login = ({ i18n, handleSubmit }) => {
           InputLabelProps={{
             shrink: true
           }}
+          autoComplete="off"
         />
-        <Button type="submit" variant="contained" color="primary">
+        <Button type="submit" color="primary">
           {i18n.t("buttons.login")}
         </Button>
         <Grid item xs className={css.recoveryLink}>

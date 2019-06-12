@@ -44,19 +44,27 @@
 }
 
 .loginLogo {
-  border-radius: 1.25em;
   background-image: linear-gradient(to left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02)), linear-gradient(to top, rgba(255, 255, 255, 0.5), rgba(240, 240, 240, 0.5));
+  box-shadow: inset 5px 0px 30px rgba(0,0,0,.1);
+  border-radius: 0px 15px 15px 0px;
 }
-.loginLogo > div { padding-top: 100px; }
+
+.loginLogo > div {
+  height: 100%;
+  justify-content: center;
+  margin-bottom: 0;
+}
 
 .footer {
-  font-size: 12px;
+  font-size: $(theme.typography.pxToRem(12));
   flex-shrink: 0;
 }
+
 .footer button, .footer a {
-  font-size: 14px;
+  font-size: $(theme.typography.pxToRem(14));
   color: $(theme.primero.colors.white);
 }
+
 .footer button, .footer button > span > svg {
   color: $(theme.primero.colors.white);
 }
@@ -64,6 +72,7 @@
 .footer:last-child {
   padding-right: 15px;
 }
+
 .footer .navLink {
   color: $(theme.primero.colors.white);
   display: flex;
@@ -72,6 +81,7 @@
   text-decoration: none;
   padding: 1.3em .75em 0 0;
 }
+
 .footer .navLink span {
   padding-left: 10px;
 }

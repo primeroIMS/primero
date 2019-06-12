@@ -3,15 +3,14 @@
 
   & h1 {
     font-family: SourceSansPro;
-    font-size: 30px;
+    font-size: $(theme.typography.pxToRem(30));
     font-weight: bold;
     text-transform: uppercase;
     color: $(theme.primero.colors.black);
   }
 
   & button {
-    width: 130px;
-    height: 36px;
+    padding: .5em 1.75em;
     background-color: $(theme.primero.colors.blue);
     color: $(theme.primero.colors.white);
     margin-top: 20px;
