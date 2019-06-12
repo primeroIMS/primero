@@ -1,14 +1,32 @@
 class Agency < ApplicationRecord
 
-  #include LogoUploader #TODO Rplace with ActiveStorage
   # include Memoizable #TODO: We may pull this out or have a more polite way of caching
   include LocalizableJsonProperty
   include Configuration
+
+  LOGO_DIMENSION = {
+    logo_large: { width: 512, height: 512 },
+    logo_small: { width: 72, height: 72 }
+  }
 
   localize_properties :name, :description
 
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
   validate :validate_name_in_english
+
+  has_one_attached :logo_large
+  has_one_attached :logo_small
+
+
+  validates :logo_large, file_size: { less_than_or_equal_to: 10.megabytes },
+                         file_content_type: { allow: 'image/png' }, if: -> { logo_large.attached? }
+  validates :logo_small, file_size: { less_than_or_equal_to: 10.megabytes },
+                         file_content_type: { allow: 'image/png' }, if: -> { logo_small.attached? }
+
+  validate :validate_logo_large_dimension, if: -> { logo_large.attached? }
+  validate :validate_logo_small_dimension, if: -> { logo_small.attached? }
+
+
 
   class << self
     alias :old_all :all
@@ -33,11 +51,9 @@ class Agency < ApplicationRecord
     end
     # memoize_in_prod :all_names
 
+    # This method must be refactored
     def retrieve_logo_ids
-      # self.by_order.select{|l| l.logo_enabled == true }
-      #     .collect{ |a| { id: a.id, filename: a['logo_key'] } unless a['logo_key'].nil? }.flatten.compact
-      #TODO: This will need to be re-implemented with the ActiveStorage library. Not sure that this will still need to be cached.
-      []
+      Agency.where(logo_enabled: true).map(&:logo_small)
     end
     # memoize_in_prod :retrieve_logo_ids
 
@@ -49,14 +65,32 @@ class Agency < ApplicationRecord
     # memoize_in_prod :display_text
   end
 
-  #TODO: Temprary method until we get ActiveStorage working
-  def logo
-    nil
-  end
-
+  private
   def validate_name_in_english
     return true if self.name_en.present?
     errors.add(:name, 'errors.models.agency.name_present')
     return false
+  end
+
+  def validate_logo_large_dimension
+    validate_image_dimension('logo_large')
+  end
+  def validate_logo_small_dimension
+    validate_image_dimension('logo_small')
+  end
+
+  def validate_image_dimension(type)
+    return true unless send(type).attachment.content_type.start_with?('image/*')
+    metadata = ActiveStorage::Analyzer::ImageAnalyzer.new(send(type)).metadata
+    width = metadata.dig(:width)
+    height = metadata.dig(:height)
+
+    valid_width = LOGO_DIMENSION[type.to_sym][:width]
+    valid_height = LOGO_DIMENSION[type.to_sym][:height]
+    return true if width.blank? || height.blank?
+    if (width > valid_width || height > valid_height)
+      errors.add(type.to_sym, I18n.t('errors.models.agency.logo_dimension', width: valid_width.to_s, height: valid_height.to_s))
+      return false
+    end
   end
 end
