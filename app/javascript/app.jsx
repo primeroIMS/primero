@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import { AppLayout } from "components/layouts";
 import { theme } from "config";
 import { I18nProvider } from "libs";
+import NAMESPACE from "components/translations-toggle/namespace";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
@@ -20,6 +21,15 @@ const jss = create({
 const generateClassName = createGenerateClassName();
 
 export default () => {
+  store.subscribe(() => {
+    document.querySelector("body").setAttribute(
+      "dir",
+      store
+        .getState()
+        .get(NAMESPACE)
+        .get("themeDir")
+    );
+  });
   return (
     <Provider store={store}>
       <I18nProvider>

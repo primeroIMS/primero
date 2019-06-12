@@ -10,6 +10,8 @@ import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import { restMiddleware } from "middleware";
 import * as CasesPage from "./components/pages/case-list";
+import * as Nav from "./components/nav";
+import * as TranslationToogle from "./components/translations-toggle";
 
 // TODO: Temporarily setting basename
 export const history = createBrowserHistory({
@@ -41,7 +43,9 @@ export default () => {
   const store = createStore(
     combineReducers({
       router: connectRouter(history),
-      ...CasesPage.reducers
+      ...CasesPage.reducers,
+      ...Nav.reducers,
+      ...TranslationToogle.reducers
     }),
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))

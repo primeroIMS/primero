@@ -4,33 +4,45 @@ import Button from "@material-ui/core/Button";
 import LanguageIcon from "@material-ui/icons/Language";
 import PropTypes from "prop-types";
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { compose } from "redux";
+import { connect } from "react-redux";
 import { DropdownDoubleIcon } from "images/primero-icons";
+import { makeStyles } from "@material-ui/styles";
 import { withI18n } from "../../libs";
-import styles from "./styles.module.scss";
+import * as actions from "./action-creators";
+import * as Selectors from "./selectors";
+import styles from "./styles.css";
 
-const TranslationsToggle = ({ changeLocale, locale, i18n }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+const TranslationsToggle = ({
+  changeLocale,
+  locale,
+  i18n,
+  anchorEl,
+  setAnchorEl,
+  setThemeDirection
+}) => {
+  const css = makeStyles(styles)();
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = value => {
+  const handleClose = option => {
     setAnchorEl(null);
 
-    if (value) {
-      changeLocale(value);
+    if (option.locale) {
+      changeLocale(option.locale);
+      setThemeDirection(option.dir);
     }
   };
 
-  const locales = ["ar", "en"];
+  // TODO: Locales should come in this format {locale: locale_abbr, dir: app_direction}
+  // to transform into rtl/ltr mode
+  const locales = [{ locale: "ar", dir: "rtl" }, { locale: "en", dir: "ltr" }];
 
   return (
     <>
       <Button
-        className={styles.button}
+        className={css.button}
         onClick={handleClick}
         aria-haspopup="true"
         aria-owns={anchorEl ? "simple-menu" : undefined}
@@ -53,8 +65,8 @@ const TranslationsToggle = ({ changeLocale, locale, i18n }) => {
         }}
       >
         {locales.map(l => (
-          <MenuItem key={l} onClick={() => handleClose(l)}>
-            {i18n.t(`home.${l}`)}
+          <MenuItem key={l.locale} onClick={() => handleClose(l)}>
+            {i18n.t(`home.${l.locale}`)}
           </MenuItem>
         ))}
       </Menu>
@@ -65,10 +77,24 @@ const TranslationsToggle = ({ changeLocale, locale, i18n }) => {
 TranslationsToggle.propTypes = {
   changeLocale: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
-  i18n: PropTypes.object.isRequired
+  i18n: PropTypes.object.isRequired,
+  anchorEl: PropTypes.object,
+  setAnchorEl: PropTypes.func,
+  setThemeDirection: PropTypes.func
 };
 
-export default compose(
-  withRouter,
-  withI18n
-)(TranslationsToggle);
+const mapStateToProps = state => ({
+  anchorEl: Selectors.selectAnchorEl(state)
+});
+
+const mapDispatchToProps = {
+  setAnchorEl: actions.setAnchorEl,
+  setThemeDirection: actions.setThemeDirection
+};
+
+export default withI18n(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TranslationsToggle)
+);

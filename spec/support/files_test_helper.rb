@@ -29,6 +29,27 @@ module FilesTestHelper
     {'other_documents' => upload_max_documents }
   end
 
+  def uploadable_large_photo
+    large_photo = "spec/resources/huge.jpg"
+    File.binwrite large_photo, "hello", 50000 * 1024 unless File.exist? large_photo
+    uploadable_photo large_photo
+  end
+
+  def uploadable_audio_mp3
+    file_path = Rails.root.join('spec', 'resources', 'sample.mp3')
+    fixture_file_upload(file_path, 'audio/mpeg')
+  end
+
+  def logo
+    file_path = Rails.root.join('spec', 'resources', 'unicef.png')
+    fixture_file_upload(file_path, 'image/png')
+  end
+
+  def logo_old
+    file_path = Rails.root.join('spec', 'resources', 'unicef-old.png')
+    fixture_file_upload(file_path, 'image/png')
+  end
+
   private
 
   def upload(name, type)

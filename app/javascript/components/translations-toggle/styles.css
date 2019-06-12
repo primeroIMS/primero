@@ -1,0 +1,25 @@
+.button {
+  display: flex;
+  justify-content: initial;
+  color: $(theme.primero.colors.darkGrey);
+
+  & > span {
+    & div {
+      flex: 1;
+      text-align: left;
+      padding: 0.85em;
+      text-transform: initial;
+    }
+
+    & svg {
+      color: $(theme.primero.colors.darkGrey);
+      width: 24px;
+    }
+  }
+}
+
+@media $(theme.breakpoints.between('sm', 'md')) {
+  .button > span svg {
+    margin: 0 .3em
+  }
+}

@@ -6,7 +6,7 @@ module ErrorsHelper
     header_message = if object.errors.count.eql?(1)
                        I18n.t('errors.template.header.one', model: model_name)
                      else
-                       I18n.t('errors.template.header.other', count: object.errors.length, model: model_name)
+                       I18n.t('errors.template.header.other', count: object.errors.count, model: model_name)
                      end
     header_message = options[:header_message] if options[:header_message].present?
     message = options[:message].present? ? options[:message] : I18n.t('errors.template.header.body')
