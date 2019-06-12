@@ -12,6 +12,7 @@ import { restMiddleware } from "middleware";
 import * as CasesPage from "./components/pages/case-list";
 import * as Nav from "./components/nav";
 import * as LoginPage from "./components/pages/login";
+import * as TranslationToogle from "./components/translations-toggle";
 
 // TODO: Temporarily setting basename
 export const history = createBrowserHistory({
@@ -45,7 +46,8 @@ export default () => {
       router: connectRouter(history),
       ...CasesPage.reducers,
       ...Nav.reducers,
-      ...LoginPage.loginReducers
+      ...LoginPage.loginReducers,
+      ...TranslationToogle.reducers
     }),
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))

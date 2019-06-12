@@ -11,6 +11,7 @@ import { theme } from "config";
 import { I18nProvider } from "libs";
 import { Route, Switch } from "react-router-dom";
 import routes from "config/routes";
+import NAMESPACE from "components/translations-toggle/namespace";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
@@ -21,6 +22,15 @@ const jss = create({
 const generateClassName = createGenerateClassName();
 
 export default () => {
+  store.subscribe(() => {
+    document.querySelector("body").setAttribute(
+      "dir",
+      store
+        .getState()
+        .get(NAMESPACE)
+        .get("themeDir")
+    );
+  });
   return (
     <Provider store={store}>
       <I18nProvider>
