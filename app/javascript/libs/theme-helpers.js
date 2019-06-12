@@ -1,5 +1,4 @@
-import makeStyles from "@material-ui/styles/makeStyles";
-import useTheme from "@material-ui/styles/useTheme";
+import { makeStyles, useTheme } from "@material-ui/styles";
 
 export const themeHelper = css => {
   return {

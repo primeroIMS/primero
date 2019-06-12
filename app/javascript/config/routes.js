@@ -8,7 +8,7 @@ export default [
   },
   {
     path: "/cases",
-    component: Page.Cases
+    component: Page.CaseList
   },
   {
     path: "/incidents",

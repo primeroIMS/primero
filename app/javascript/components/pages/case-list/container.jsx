@@ -17,7 +17,7 @@ const defaultFilters = {
   record_state: true
 };
 
-const Cases = ({ cases, meta, filters, fetchCases, i18n, loading }) => {
+const CaseList = ({ cases, meta, filters, fetchCases, i18n, loading }) => {
   const css = makeStyles(styles)();
 
   const data = {
@@ -85,7 +85,7 @@ const Cases = ({ cases, meta, filters, fetchCases, i18n, loading }) => {
   );
 };
 
-Cases.propTypes = {
+CaseList.propTypes = {
   cases: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   filters: PropTypes.object.isRequired,
@@ -109,5 +109,5 @@ export default withI18n(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Cases)
+  )(CaseList)
 );
