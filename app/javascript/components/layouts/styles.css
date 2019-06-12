@@ -14,6 +14,7 @@
   }));
   padding-top: 4em;
   margin-left: -240px;
+  overflow-x: hidden;
 }
 
 .contentShift {
