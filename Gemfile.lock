@@ -14,14 +14,6 @@ GIT
       ruby-prof
 
 GIT
-  remote: https://github.com/rack-test/rack-test
-  revision: 10042d3452a13d5f13366aac839b981b1c5edb20
-  ref: 10042d3452a13d5f13366aac839b981b1c5edb20
-  specs:
-    rack-test (0.8.2)
-      rack (>= 1.0, < 3)
-
-GIT
   remote: https://github.com/rapidftr/rapidftr-addon-cpims.git
   revision: 6d820ae76a6365436c4ef9325132422618178c7d
   branch: master
@@ -292,6 +284,8 @@ GEM
     rack (2.0.6)
     rack-mini-profiler (1.0.2)
       rack (>= 1.2.0)
+    rack-test (0.6.3)
+      rack (>= 1.0)
     rack_session_access (0.2.0)
       builder (>= 2.0.0)
       rack (>= 1.0.0)
@@ -504,7 +498,6 @@ DEPENDENCIES
   pry-byebug
   puma (~> 3.7)
   rack-mini-profiler (>= 1.0.0)
-  rack-test!
   rack_session_access
   rails (= 5.1.6.2)
   rails-controller-testing (~> 1.0.2)

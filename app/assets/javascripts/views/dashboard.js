@@ -2,6 +2,10 @@ _primero.Views.Dashboard = _primero.Views.Base.extend({
 
     el: '#dashboard',
 
+    events: {
+      'change #protection_concerns_location' : 'on_location_change',
+    },
+
     initialize: function(){
         this.align_dashboard();
     },
@@ -30,6 +34,15 @@ _primero.Views.Dashboard = _primero.Views.Base.extend({
             var width = columnWidths[i%(columnWidths.length)];
             $(rows[i]).width(width);
         }
+    },
+
+    on_location_change: function(e) {
+      var select = $(e.target)
+      if(select.val()) {
+
+        Turbolinks.visit(window.location.pathname + '?protection_concerns_location=' + select.val());
+      }
+
     }
 
 });

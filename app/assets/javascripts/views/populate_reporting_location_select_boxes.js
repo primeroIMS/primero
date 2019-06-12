@@ -26,6 +26,8 @@ _primero.Views.PopulateReportingLocationSelectBoxes = _primero.Views.PopulateLoc
       if ($select_box) {
         self.setupSelectBox($select_box);
       }
+      //Update cached $el
+      self.setElement($("form select[data-populate='ReportingLocation']"));
       self.populateSelectBoxes(onComplete);
     }
   },
