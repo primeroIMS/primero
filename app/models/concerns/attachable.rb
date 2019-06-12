@@ -5,7 +5,7 @@ module Attachable
   MAX_PHOTOS = 10
   MAX_DOCUMENTS = 100
   module ClassMethods
-    attr_accessor :"attachment_images_fields", "attachment_documents_fields", "attachment_audio_fields"
+    attr_accessor :attachment_images_fields, :attachment_documents_fields, :attachment_audio_fields
 
     def attach_documents(args)
       if args[:fields].present?
