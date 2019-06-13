@@ -50,12 +50,12 @@ class Child < ApplicationRecord
     :assessment_due_date, :assessment_requested_on,
     :followup_subform_section, :protection_concern_detail_subform_section, #TODO: Do we need followups, protection_concern_details aliases?
     :disclosure_other_orgs,
-    :ration_card_no, :icrc_ref_no, :unhcr_id_no, :unhcr_individual_no, :un_no,  :other_agency_id,
-    :survivor_code_no, :national_id_no, :other_id_no, :biometrics_id, :family_count_no, :dss_id, :camp_id,
+    :ration_card_no, :icrc_ref_no, :unhcr_id_no, :unhcr_individual_no, :un_no, :other_agency_id,
+    :survivor_code_no, :national_id_no, :other_id_no, :biometrics_id, :family_count_no, :dss_id, :camp_id, :cpims_id,
     :tent_number, :nfi_distribution_id,
     :nationality, :ethnicity, :religion, :language, :sub_ethnicity_1, :sub_ethnicity_2, :country_of_origin,
     :displacement_status, :marital_status, :disability_type, :incident_details,
-    :duplicate, :notes_section, :location_current, :tracing_status, :cpims_id, :name_caregiver
+    :duplicate, :notes_section, :location_current, :tracing_status, :name_caregiver
 
 
   alias child_status status ; alias child_status= status=

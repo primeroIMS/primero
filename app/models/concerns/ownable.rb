@@ -64,27 +64,15 @@ module Ownable
     end
   end
 
-  def refresh_users_by_association
-    @users_by_association = nil
-  end
-
-  def refresh_record_agency
-    @record_agency = nil
-  end
-
-  def refresh_associated_users
-    @associated_users = nil
-  end
-
   def not_edited_by_owner
     (self.data['last_updated_by'] != self.data['owned_by']) && self.data['last_updated_by'].present?
   end
   alias_method :not_edited_by_owner?, :not_edited_by_owner
 
   def update_ownership
-    refresh_users_by_association
-    refresh_record_agency
-    refresh_associated_users
+    @users_by_association = nil
+    @associated_users = nil
+    @record_agency = nil
 
     unless self.owner.present?
       self.owned_by = nil

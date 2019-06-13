@@ -15,7 +15,7 @@ class TracingRequest < ApplicationRecord
     :relation_ethnicity, :relation_sub_ethnicity1, :relation_sub_ethnicity2,
     :monitor_number, :survivor_code, :reunited, :inquiry_date,
     :tracing_request_subform_section,
-    :location_last, :created_at, :posted_at, :created_by
+    :location_last
 
   alias inquirer_id tracing_request_id
   alias inquiry_status status ; alias inquiry_status= status=
