@@ -70,7 +70,7 @@ module Exporters
     end
 
     def get_value(model, property, parent = nil)
-      if property.try(:type) == Field::SUBFORM && parent.present?
+      if property.type == Field::SUBFORM && parent.present?
         #This is the selected fields of some subform.
         #Parent contains the subform field in the model.
         (model.data[property.name] || []).map do |row|
@@ -78,7 +78,7 @@ module Exporters
             get_value(row, p)
           end
         end
-      elsif property.try(:multi_select)
+      elsif property.multi_select
         if property.type == Field::SUBFORM
           #Returns every row of the subform.
           (model.send(property.name) || []).map do |row|
@@ -88,7 +88,7 @@ module Exporters
             end
           end
         else
-          value = model.try(:data).try(:[], property.name) || model.try(:[], property)
+          value = model.respond_to?(:data) ? model.data[property.try(:name)] : model[property.name]
           (value.present? ? self.class.translate_value(property, value) : []).join(" ||| ")
         end
       else
@@ -180,7 +180,7 @@ module Exporters
       properties.map do |key, property|
         # When there is a Hash is a subforms with some selected fields.
         # Send 'key' because is the subform field name.
-        get_value(model, property, property.try(:type) == Field::SUBFORM ? key : nil)
+        get_value(model, property, property.type == Field::SUBFORM ? key : nil)
       end
     end
 
