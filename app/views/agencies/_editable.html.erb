@@ -1,6 +1,6 @@
 <%
   editable = object.name.present?
-  given_locale = object.base_language
+  given_locale = Primero::Application::BASE_LANGUAGE
   system_locale = I18n.locale
 %>
 <% if editable %>
@@ -57,7 +57,9 @@
 
 <%= resource_edit_field(object, "services", 'agency.services', 'multi_select', false, false, nil, nil, @services) %>
 
-<%= resource_edit_field(object, 'logo', 'agencies.logo', 'file_field') %>
+<%= resource_edit_field(object, 'logo_small', 'agency.logo_small', 'file_field') %>
+<%= resource_edit_field(object, 'logo_large', 'agency.logo_large', 'file_field') %>
+
 <%= resource_edit_field(object, 'logo_enabled', 'agencies.logo_enabled', 'check_box') %>
 <% if can?(:disable, @agency) %>
   <%= resource_edit_field(object, 'disabled', 'disabled.status.disabled', 'check_box') %>

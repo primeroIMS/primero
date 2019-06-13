@@ -7,7 +7,6 @@ import {
   Box,
   Typography
 } from "@material-ui/core";
-import includes from "lodash/includes";
 import { LoadingIndicator } from "components/loading-indicator";
 
 const getMuiTheme = () =>
@@ -50,6 +49,7 @@ const IndexTable = ({
 
   const handleTableChange = (action, tableState) => {
     const options = { per, ...defaultFilters, ...filters.toJS() };
+    const validActions = ["sort", "changeRowsPerPage", "changePage"];
 
     const {
       activeColumn,
@@ -79,7 +79,7 @@ const IndexTable = ({
       })()
     );
 
-    if (!includes(["rowsSelect", "propsUpdate"], action)) {
+    if (validActions.includes(action)) {
       onTableChange(selectedFilters);
     }
   };

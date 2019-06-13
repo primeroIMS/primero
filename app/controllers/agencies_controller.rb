@@ -52,7 +52,7 @@ class AgenciesController < ApplicationController
 
   def update
     authorize! :update, Agency
-
+    params[:agency][:services] ||= {}
     @agency.update_attributes(params[:agency].to_h)
 
     if @agency.save

@@ -2,13 +2,12 @@ import React from "react";
 import clsx from "clsx";
 import { Route, Switch } from "react-router-dom";
 import { Nav, selectDrawerOpen } from "components/nav";
-import routes from "config/routes";
 import { makeStyles, CssBaseline } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styles from "./styles.css";
 
-const AppLayout = ({ drawerOpen }) => {
+const AppLayout = ({ drawerOpen, route }) => {
   const css = makeStyles(styles)();
 
   return (
@@ -21,8 +20,8 @@ const AppLayout = ({ drawerOpen }) => {
         })}
       >
         <Switch>
-          {routes.map(route => (
-            <Route key={route.path} {...route} />
+          {route.routes.map(r => (
+            <Route key={r.path} {...r} />
           ))}
         </Switch>
       </main>
@@ -31,7 +30,8 @@ const AppLayout = ({ drawerOpen }) => {
 };
 
 AppLayout.propTypes = {
-  drawerOpen: PropTypes.bool.isRequired
+  drawerOpen: PropTypes.bool.isRequired,
+  route: PropTypes.object
 };
 
 const mapStateToProps = state => ({

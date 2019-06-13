@@ -3,7 +3,8 @@
   <%= resource_show_field @agency, 'agency_code', 'agency.code' %>
   <%= resource_show_field @agency, 'description', 'description' %>
   <%= resource_show_field @agency, 'services', 'agency.services', nil, 'lookup-service-type' %>
-  <%= resource_show_field @agency, 'logo', 'agencies.logo' %>
+  <%= resource_show_field @agency, 'logo_small', 'agency.logo_small' %>
+  <%= resource_show_field @agency, 'logo_large', 'agency.logo_large' %>
 <% end %>
 
 <%= render partial: 'shared_configuration_resource/show', locals: {object: @agency} %>
