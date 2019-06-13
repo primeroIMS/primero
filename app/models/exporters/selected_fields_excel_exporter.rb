@@ -28,7 +28,7 @@ module Exporters
 
       def properties_to_export(properties_by_module, custom_export_options)
         unless custom_export_options.present?
-          properties_by_module = BaseExporter.properties_to_export(properties_by_module)
+          properties_by_module = super(properties_by_module)
         end
         filter_custom_exports(properties_by_module, custom_export_options)
       end
@@ -129,7 +129,7 @@ module Exporters
                     subform = model.data.try(:[], subform_name)
                     subform.map { |i| i[subform_field] } unless subform.blank?
                   else
-                    model.try(:send, property)
+                    model.data[property]
                   end
           self.class.translate_value(property, value)
         end
