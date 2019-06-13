@@ -7,9 +7,11 @@ import { create } from "jss";
 import rtl from "jss-rtl";
 import React from "react";
 import { Provider } from "react-redux";
-import { AppLayout } from "components/layouts";
 import { theme } from "config";
 import { I18nProvider } from "libs";
+import { Route, Switch } from "react-router-dom";
+import routes from "config/routes";
+import NAMESPACE from "components/translations-toggle/namespace";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
@@ -20,6 +22,15 @@ const jss = create({
 const generateClassName = createGenerateClassName();
 
 export default () => {
+  store.subscribe(() => {
+    document.querySelector("body").setAttribute(
+      "dir",
+      store
+        .getState()
+        .get(NAMESPACE)
+        .get("themeDir")
+    );
+  });
   return (
     <Provider store={store}>
       <I18nProvider>
@@ -30,7 +41,17 @@ export default () => {
             generateClassName={generateClassName}
           >
             <ConnectedRouter history={history}>
-              <AppLayout />
+              <Switch>
+                {routes.map(route => (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    render={props => (
+                      <route.component {...props} route={route} />
+                    )}
+                  />
+                ))}
+              </Switch>
             </ConnectedRouter>
           </StylesProvider>
         </ThemeProvider>

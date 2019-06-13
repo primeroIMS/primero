@@ -42,7 +42,7 @@ const indexTable = ({
 
   const handleTableChange = (action, tableState) => {
     const options = { per, ...defaultFilters, ...data.filters };
-
+    const validActions = ["sort", "changeRowsPerPage", "changePage"];
     const {
       activeColumn,
       columns: tableColumns,
@@ -70,8 +70,7 @@ const indexTable = ({
         }
       })()
     );
-
-    if (action !== "rowsSelect") {
+    if (validActions.includes(action)) {
       onTableChange(selectedFilters);
     }
   };
