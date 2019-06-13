@@ -137,7 +137,7 @@ module Exporters
         #This assumes that the only properties that are Arrays are locations
         #Which is true at the time of this coding
         self.class.get_model_location_value(model, property)
-      elsif property.try(:type) == Field::SUBFORM
+      elsif property.type == Field::SUBFORM
         #data from the subform.!
         (model.data[property.name] || []).map do |row|
           #Remove unique_id field for subforms.
@@ -145,7 +145,7 @@ module Exporters
             get_value(row, p)
           end
         end
-      elsif (property.try(:multi_select) && property.try(:type) == Field::SELECT_BOX) # TODO User is_multi_select? method from field
+      elsif (property.multi_select && property.type == Field::SELECT_BOX) # TODO User is_multi_select? method from field
           (self.class.translate_value(property.name, model.data[property.name]) || []).join(" ||| ")
       else
         #regular fields.
