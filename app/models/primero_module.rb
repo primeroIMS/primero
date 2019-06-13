@@ -13,6 +13,7 @@ class PrimeroModule < ApplicationRecord
   belongs_to :primero_program
 
   has_and_belongs_to_many :users
+  has_and_belongs_to_many :form_sections, inverse_of: :primero_modules
 
   validates :name, presence: { message: I18n.t("errors.models.primero_module.name_present") },
                    uniqueness: { message: I18n.t("errors.models.primero_module.unique_name") }
