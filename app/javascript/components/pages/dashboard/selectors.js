@@ -20,3 +20,7 @@ export const selectCasesByCaseWorker = state => {
 export const selectCasesRegistration = state => {
   return state.getIn([NAMESPACE, "casesRegistration"]) || fromJS({});
 };
+
+export const selectCasesOverview = state => {
+  return state.getIn([NAMESPACE, "casesOverview"]) || fromJS({});
+};

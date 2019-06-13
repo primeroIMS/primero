@@ -67,6 +67,13 @@ const casesRegistration = {
   sep: 120
 };
 
+const casesOverview = {
+  transfers: 4,
+  waiting: 1,
+  pending: 1,
+  rejected: 1
+};
+
 const reducer = (state = DEFAULT_STATE, { type }) => {
   switch (type) {
     case Actions.DASHBOARD_FLAGS:
@@ -79,6 +86,8 @@ const reducer = (state = DEFAULT_STATE, { type }) => {
       return state.set("casesByCaseWorker", fromJS(casesByCaseWorker));
     case Actions.CASES_REGISTRATION:
       return state.set("casesRegistration", fromJS(casesRegistration));
+    case Actions.CASES_OVERVIEW:
+      return state.set("casesOverview", fromJS(casesOverview));
     default:
       return state;
   }

@@ -15,14 +15,16 @@ import * as selectors from "./selectors";
 import styles from "./styles.css";
 
 const Dashboard = ({
-  flags,
   fetchFlags,
   fetchCasesByStatus,
   fetchCasesByCaseWorker,
   fetchCasesRegistration,
+  fetchCasesOverview,
+  flags,
   casesByStatus,
   casesByCaseWorker,
   casesRegistration,
+  casesOverview,
   chartInnerText,
   i18n
 }) => {
@@ -31,6 +33,7 @@ const Dashboard = ({
     fetchCasesByStatus();
     fetchCasesByCaseWorker();
     fetchCasesRegistration();
+    fetchCasesOverview();
   }, []);
 
   const css = makeStyles(styles)();
@@ -64,13 +67,6 @@ const Dashboard = ({
     ]
   };
 
-  const overviewItems = {
-    transfers: 4,
-    waiting: 1,
-    pending: 1,
-    rejected: 1
-  };
-
   return (
     <div style={{ padding: 15 }}>
       <Grid container spacing={3}>
@@ -86,7 +82,7 @@ const Dashboard = ({
         </Grid>
         <Grid item md={8}>
           <OptionsBox title="CASE OVERVIEW">
-            <OverviewBox items={overviewItems} chartData={casesChartData} />
+            <OverviewBox items={casesOverview} chartData={casesChartData} />
           </OptionsBox>
           <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")}>
             <DashboardTable columns={columns} data={casesByCaseWorker} />
@@ -116,10 +112,12 @@ Dashboard.propTypes = {
   casesByStatus: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
+  casesOverview: PropTypes.object.isRequired,
   fetchFlags: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesRegistration: PropTypes.func.isRequired,
+  fetchCasesOverview: PropTypes.func.isRequired,
   i18n: PropTypes.object.isRequired
 };
 
@@ -129,7 +127,8 @@ const mapStateToProps = state => {
     chartInnerText: selectors.selectChartInnerText(state).toJS(),
     casesByStatus: selectors.selectCasesByStatus(state).toJS(),
     casesByCaseWorker: selectors.selectCasesByCaseWorker(state).toJS(),
-    casesRegistration: selectors.selectCasesRegistration(state).toJS()
+    casesRegistration: selectors.selectCasesRegistration(state).toJS(),
+    casesOverview: selectors.selectCasesOverview(state).toJS()
   };
 };
 
@@ -137,7 +136,8 @@ const mapDispatchToProps = {
   fetchFlags: actions.fetchFlags,
   fetchCasesByStatus: actions.fetchCasesByStatus,
   fetchCasesByCaseWorker: actions.fetchCasesByCaseWorker,
-  fetchCasesRegistration: actions.fetchCasesRegistration
+  fetchCasesRegistration: actions.fetchCasesRegistration,
+  fetchCasesOverview: actions.fetchCasesOverview
 };
 
 export default withI18n(

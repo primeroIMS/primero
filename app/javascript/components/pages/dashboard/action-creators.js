@@ -23,3 +23,9 @@ export const fetchCasesRegistration = () => async dispatch => {
     type: Actions.CASES_REGISTRATION
   });
 };
+
+export const fetchCasesOverview = () => async dispatch => {
+  dispatch({
+    type: Actions.CASES_OVERVIEW
+  });
+};
