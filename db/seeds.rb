@@ -60,8 +60,10 @@ if should_seed? ContactInformation
 end
 
 # puts "Loading Form Translations"
-Dir[File.dirname(__FILE__) + '/translations/gbv/{ar,fr}/*.yml'].each do |file|
-  puts file
-  clazz = file.end_with?('lookups.yml') ? Lookup : FormSection
-  Importers::YamlI18nImporter.import(file, clazz)
+unless ENV['NO_RESEED']
+  Dir[File.dirname(__FILE__) + '/translations/gbv/{ar,fr}/*.yml'].each do |file|
+    puts file
+    clazz = file.end_with?('lookups.yml') ? Lookup : FormSection
+    Importers::YamlI18nImporter.import(file, clazz)
+  end
 end
