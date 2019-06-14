@@ -1,16 +1,16 @@
 FactoryBot.define do
-  factory :user, :traits => [ :model ] do
+  factory :user, :traits => [ :active_model ] do
     user_name { "user_name_#{counter}" }
     full_name { 'full name' }
     password { 'passw0rd' }
     password_confirmation { 'passw0rd' }
-    email { 'email@ddress.net' }
-    organization { 'agency-unicef' } #TODO: Refactor as association?
+    email { "email#{counter}@ddress.net" }
+    association :agency, factory: :agency, strategy: :build
     location { 'SLE0103' }
     disabled { false }
-    role_ids { ['random_role_id'] }
-    module_ids { ['CP'] }
-    user_group_ids { ["user-group-primero"] }
+    association :role, factory: :role, strategy: :build
+    module_ids { [FactoryBot.create(:primero_module).id] }
+    user_group_ids { [FactoryBot.create(:user_group).id] }
   end
 
   # TODO: This does not longer exist.
@@ -21,7 +21,7 @@ FactoryBot.define do
   #   new_password_confirmation { "confirm_new_password" }
   # end
 
-  factory :user_group, :traits => [ :model ] do
+  factory :user_group, :traits => [ :active_model ] do
     name { "user_group_#{counter}" }
     description { "User Group #{counter}" }
   end

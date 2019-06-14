@@ -1,27 +1,43 @@
 require 'rails_helper'
+require 'will_paginate'
 
 describe Incident do
-
-  it_behaves_like "a valid record" do
-    let(:record) {
-      fields = [
-        Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
-        Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
-        Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
-        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
-        Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
-      ]
-      Incident.any_instance.stub(:field_definitions).and_return(fields)
-      FormSection.stub(:all_visible_form_fields => fields)
-      Incident.new
-    }
+  before(:all) do
+    clean_data(Agency, User, Child, PrimeroProgram, UserGroup, PrimeroModule, FormSection, Field)
   end
 
+  # TODO: Fix when models validations be ready
+  # it_behaves_like "a valid record" do
+  #   let(:record) {
+  #     fields = [
+  #       Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
+  #       Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
+  #       Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
+  #       Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
+  #       Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
+  #     ]
+  #     FormSection.stub(:all_visible_form_fields => fields)
+  #     Incident.new
+  #   }
+  # end
+
   describe 'build solar schema' do
+
+    before(:all) do
+      clean_data(FormSection, Field)
+      form = create(:form_section, parent_form: "incident", is_nested: false)
+      %w(approval_status_bia
+         approval_status_case_plan
+         approval_status_closure
+         transfer_status).each {|f| create(:select_field, name: f, multi_select: false, form_section_id: form.id) }
+      create(:field, :date_with_datetime, name: "created_at", form_section_id: form.id)
+      create(:field, :date_range_with_datetime, name: "last_updated_at", form_section_id: form.id)
+    end
+
     # TODO: Ask about these test
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      Incident.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name",
+      Incident.searchable_string_fields.should =~ ["unique_identifier", "short_id", "created_by", "created_by_full_name",
                                                    "last_updated_by", "last_updated_by_full_name","created_organization",
                                                    "owned_by_agency", "owned_by_location",
                                                    "approval_status_bia", "approval_status_case_plan", "approval_status_closure",
@@ -29,7 +45,7 @@ describe Incident do
     end
 
     it "should build with date/time search fields" do
-      expect(Incident.searchable_date_time_fields).to  include("created_at", "last_updated_at")
+      expect(Incident.searchable_date_time_fields).to include("created_at", "last_updated_at")
     end
 
     it "fields build with all fields in form sections" do
@@ -180,73 +196,40 @@ describe Incident do
     # end
   end
 
-  describe "update_properties_with_user_name" do
-
-    it "should replace old properties with updated ones" do
-      incident = Incident.new("name" => "Dave", "age" => "28", "last_known_location" => "London")
-      new_properties = {"name" => "Dave", "age" => "35"}
-      incident.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      incident['age'].to_s.should == "35"
-      incident['name'].should == "Dave"
-      incident['last_known_location'].should == "London"
-    end
-
-    it "should not replace old properties when when missing from update" do
-      incident = Incident.new("origin" => "Croydon", "last_known_location" => "London")
-      new_properties = {"last_known_location" => "Manchester"}
-      incident.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      incident['last_known_location'].should == "Manchester"
-      incident['origin'].should == "Croydon"
-    end
-
-    it "should populate last_updated_by field with the user_name who is updating" do
-      incident = Incident.new
-      incident.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      incident.last_updated_by.should == 'jdoe'
-    end
-
-  end
-
-
   describe 'save' do
+    before(:all) { create(:agency) }
 
     it "should save with generated incident_id" do
       Incident.any_instance.stub(:field_definitions).and_return([])
       incident = create_incident_with_created_by('jdoe', 'description' => 'London')
       incident.save!
-      incident[:incident_id].should_not be_nil
+      incident.id.should_not be_nil
     end
 
   end
 
   describe "new_with_user_name" do
-
+    before(:all) { create(:agency) }
     before :each do
       Incident.any_instance.stub(:field_definitions).and_return([])
     end
 
     it "should create regular incident fields" do
       incident = create_incident_with_created_by('jdoe', 'description' => 'London', 'age' => '6')
-      incident['description'].should == 'London'
-      incident['age'].to_s.should == "6"
+      incident.data['description'].should == 'London'
+      incident.data['age'].to_s.should == "6"
     end
 
     it "should create a unique id" do
-      SecureRandom.stub("uuid").and_return(12345)
+      SecureRandom.stub("uuid").and_return("bbfca678-18fc-44a4-9a0d-0764e0941316")
       incident = create_incident_with_created_by('jdoe')
       incident.save!
-      incident['unique_identifier'].should == "12345"
-    end
-
-    it "should not create a unique id if already exists" do
-      incident = create_incident_with_created_by('jdoe', 'unique_identifier' => 'primeroxxx5bcde')
-      incident.save!
-      incident['unique_identifier'].should == "primeroxxx5bcde"
+      incident.unique_identifier.should == "bbfca678-18fc-44a4-9a0d-0764e0941316"
     end
 
     it "should create a created_by field with the user name" do
       incident = create_incident_with_created_by('jdoe', 'some_field' => 'some_value')
-      incident['created_by'].should == 'jdoe'
+      incident.data['created_by'].should == 'jdoe'
     end
 
     # it "should create a posted_at field with the current date" do
@@ -276,7 +259,7 @@ describe Incident do
 
       it "should use the supplied created at value" do
         incident = create_incident_with_created_by('some_user', 'some_field' => 'some_value', 'created_at' => '2010-01-14 14:05:00UTC')
-        incident['created_at'].should == "2010-01-14 14:05:00UTC"
+        incident.data['created_at'].should == "2010-01-14 14:05:00UTC"
       end
     end
   end
@@ -287,17 +270,17 @@ describe Incident do
     end
 
     it "should create a unique id" do
-      SecureRandom.stub("uuid").and_return(12345)
+      SecureRandom.stub("uuid").and_return("191fc236-71f4-4a76-be09-f2d8c442e1fd")
       incident = Incident.new
       incident.save!
-      incident.unique_identifier.should == "12345"
+      incident.unique_identifier.should == "191fc236-71f4-4a76-be09-f2d8c442e1fd"
     end
 
     it "should return last 7 characters of unique id as short id" do
-      SecureRandom.stub("uuid").and_return(1212127654321)
+      SecureRandom.stub("uuid").and_return("191fc236-71f4-4a76-be09-f2d8c442e1fd")
       incident = Incident.new
       incident.save!
-      incident.short_id.should == "7654321"
+      incident.short_id.should == "442e1fd"
     end
 
   end
@@ -358,7 +341,7 @@ describe Incident do
     end
   end
 
-  describe "validation" do
+  xdescribe "validation" do
     before :each do
       Incident.any_instance.stub(:field_definitions).and_return([])
     end
@@ -385,42 +368,6 @@ describe Incident do
   end
 
   describe "views" do
-    describe "user action log" do
-      before :each do
-        Incident.any_instance.stub(:field_definitions).and_return([])
-      end
-
-
-      it "should return all incidents updated by a user" do
-        incident = Incident.create!("created_by" => "some_other_user", "last_updated_by" => "a_third_user", "description" => "abc", "histories" => [{"user_name" => "brucewayne", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
-
-        Incident.all_connected_with("brucewayne").should == [Incident.get(incident.id)]
-      end
-
-      it "should not return incidents updated by other users" do
-        Incident.create!("created_by" => "some_other_user", "description" => "def", "histories" => [{"user_name" => "clarkkent", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
-
-        Incident.all_connected_with("peterparker").should be_empty
-      end
-
-      it "should return the incident once when modified twice by the same user" do
-        incident = Incident.create!("created_by" => "some_other_user", "description" => "ghi", "histories" => [{"user_name" => "peterparker", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}, {"user_name" => "peterparker", "changes" => {"sex" => {"to" => "female", "from" => "male"}}}])
-
-        Incident.all_connected_with("peterparker").should == [Incident.get(incident.id)]
-      end
-
-      it "should return the incident created by a user" do
-        incident = Incident.create!("created_by" => "a_user", "description" => "def", "histories" => [{"user_name" => "clarkkent", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
-
-        Incident.all_connected_with("a_user").should == [Incident.get(incident.id)]
-      end
-
-      it "should not return duplicate records when same user had created and updated same incident multiple times" do
-        incident = Incident.create!("created_by" => "tonystark", "description" => "ghi", "histories" => [{"user_name" => "tonystark", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}, {"user_name" => "tonystark", "changes" => {"sex" => {"to" => "female", "from" => "male"}}}])
-
-        Incident.all_connected_with("tonystark").should == [Incident.get(incident.id)]
-      end
-    end
 
     #describe "all ids and revs" do
       #before do
@@ -449,91 +396,34 @@ describe Incident do
     end
 
     it "should process in two batches" do
-      incident1 = Incident.new('created_by' => "user1", :name => "incident1")
-      incident2 = Incident.new('created_by' => "user2", :name => "incident2")
-      incident3 = Incident.new('created_by' => "user3", :name => "incident3")
-      incident4 = Incident.new('created_by' => "user4", :name => "incident4")
+      incident1 = Incident.new('created_by' => "user1")
+      incident2 = Incident.new('created_by' => "user2")
+      incident3 = Incident.new('created_by' => "user3")
+      incident4 = Incident.new('created_by' => "user4")
       incident4.save!
       incident3.save!
       incident2.save!
       incident1.save!
 
-      expect(Incident.all.page(1).per(3).all).to include(incident1, incident2, incident3)
-      expect(Incident.all.page(2).per(3).all).to include(incident4)
-      Incident.should_receive(:all).exactly(3).times.and_call_original
+      expect(Incident.all.paginate(:page => 1, :per_page => 3)).to match_array([incident4, incident3, incident2])
+      expect(Incident.all.paginate(:page => 2, :per_page => 3)).to match_array([incident1])
 
       records = []
-      Incident.each_slice(3) do |incidents|
-        incidents.each{|i| records << i.name}
+      Incident.all.each_slice(3) do |incidents|
+        incidents.each{|i| records << i.data["created_by"]}
       end
-
-      records.should eq(["incident1", "incident2", "incident3", "incident4"])
+      records.should eq(["user1", "user2", "user3", "user4"].reverse)
     end
 
     it "should process in 0 batches" do
-      Incident.should_receive(:all).exactly(1).times.and_call_original
+      # Incident.should_receive(:all).exactly(1).times.and_call_original
       records = []
-      Incident.each_slice(3) do |incidents|
-        incidents.each{|i| records << i.name}
+      Incident.all.each_slice(3) do |incidents|
+        incidents.each{|i| records << i.data["created_by"]}
       end
       records.should eq([])
     end
 
-  end
-
-  describe "all ids and revs" do
-    before do
-      Incident.all.each &:destroy
-      @owner = create :user
-      @owner2 = create :user
-      @incident1 = create_incident_with_created_by(@owner.user_name, :marked_for_mobile => true, :module_id => PrimeroModule::GBV)
-      @incident2 = create_incident_with_created_by(@owner.user_name, :marked_for_mobile => false, :module_id => PrimeroModule::MRM)
-      @incident3 = create_incident_with_created_by(@owner2.user_name, :marked_for_mobile => true, :module_id => PrimeroModule::MRM)
-      @incident4 = create_incident_with_created_by(@owner2.user_name, :marked_for_mobile => false, :module_id => PrimeroModule::GBV)
-
-      @incident1.create!
-      @incident2.create!
-      @incident3.create!
-      @incident4.create!
-    end
-
-    context 'when mobile' do
-      context 'and module id is MRM' do
-        it 'returns all MRM mobile _ids and revs' do
-          ids_and_revs = Incident.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::MRM)
-          expect(ids_and_revs.count).to eq(1)
-          expect(ids_and_revs).to eq([{"_id" => @incident3.id, "_rev" => @incident3.rev}])
-        end
-      end
-
-      context 'and module id is GBV' do
-        it 'returns all GBV mobile _ids and revs' do
-          ids_and_revs = Incident.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', PrimeroModule::GBV)
-          expect(ids_and_revs.count).to eq(1)
-          expect(ids_and_revs).to eq([{"_id" => @incident1.id, "_rev" => @incident1.rev}])
-        end
-      end
-
-      context 'and module id is not provided' do
-        it 'returns all mobile _ids and revs' do
-          ids_and_revs = Incident.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], true, '2000/01/01', '')
-          expect(ids_and_revs.count).to eq(2)
-          expect(ids_and_revs).to include({"_id" => @incident1.id, "_rev" => @incident1.rev},
-                                          {"_id" => @incident3.id, "_rev" => @incident3.rev})
-        end
-      end
-    end
-
-    context 'when not mobile' do
-      it 'returns all _ids and revs' do
-        ids_and_revs = Incident.fetch_all_ids_and_revs([@owner.user_name, @owner2.user_name], false, '2000/01/01', '')
-        expect(ids_and_revs.count).to eq(4)
-        expect(ids_and_revs).to include({"_id" => @incident1.id, "_rev" => @incident1.rev},
-                                        {"_id" => @incident2.id, "_rev" => @incident2.rev},
-                                        {"_id" => @incident3.id, "_rev" => @incident3.rev},
-                                        {"_id" => @incident4.id, "_rev" => @incident4.rev})
-      end
-    end
   end
 
   private
@@ -551,7 +441,7 @@ describe Incident do
   end
 
   def create_incident_with_created_by(created_by,options = {})
-    user = User.new({:user_name => created_by, :organization=> "UNICEF"})
-    Incident.new_with_user_name user, options
+    user = User.new(user_name: created_by, agency_id: Agency.last.id )
+    Incident.new_with_user(user, options)
   end
 end

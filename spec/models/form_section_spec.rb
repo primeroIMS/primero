@@ -3,11 +3,10 @@ require 'rails_helper'
 
 describe FormSection do
   before :each do
-    Field.all.each &:destroy
-    FormSection.all.each &:destroy
-    PrimeroModule.all.each &:destroy
-    Role.all.each &:destroy
-    Lookup.all.each(&:destroy)
+    [
+      Field, FormSection, PrimeroModule,
+      PrimeroProgram, Role, Lookup
+    ].each(&:destroy_all)
 
     @lookup = Lookup.create!(:unique_id => "lookup-form-group-cp-case",
                              :name => "Form Group CP Case",
@@ -19,10 +18,11 @@ describe FormSection do
     @form_section_a = FormSection.create!(unique_id: "A", name: "A", parent_form: 'case', form_group_id: "m")
     @form_section_b = FormSection.create!(unique_id: "B", name: "B", parent_form: 'case', form_group_id: "x")
     @form_section_c = FormSection.create!(unique_id: "C", name: "C", parent_form: 'case', form_group_id: "y")
-    @primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module", associated_record_types: ['case'], form_section_ids: ["A", "B"])
+    @primero_program = PrimeroProgram.create!(unique_id: 'some_program', name_en: "Some program")
+    @primero_module = PrimeroModule.create!(primero_program: @primero_program, name: "Test Module", associated_record_types: ['case'], form_sections: [@form_section_a, @form_section_b])
     @permission_case_read = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
     @role = Role.create!(form_sections: [@form_section_b, @form_section_c], name: "Test Role", permissions_list: [@permission_case_read])
-    @user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [@primero_module.unique_id])
+    @user = User.new(user_name: "test_user", role: @role, module_ids: [@primero_module.id])
   end
 
   def create_formsection(stubs={})
@@ -51,52 +51,12 @@ describe FormSection do
     }
   end
 
-  describe "get_permitted_form_sections" do
-    it "returns all FormSection objects that are bound to the case's module that the user has access to" do
-      child = Child.new(unique_identifier: "123", module_id: @primero_module.unique_id)
-      expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, @user).to_a).to eq([@form_section_b])
-    end
-
-    it "returns no FormSection objects if the user cannot view the permitted module forms" do
-      role = Role.create!(form_sections: [@form_section_c], name: "Test Role 2", permissions_list: [@permission_case_read])
-      user = User.new(user_name: "test_user_2", role_ids: [role.id], module_ids: [@primero_module.unique_id])
-      child = Child.new(unique_identifier: "123", module_id: @primero_module.unique_id)
-      expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([])
-    end
-
-    it "returns the FormSection objects that correspond to the record's type" do
-      form_section_d = FormSection.create!(unique_id: "D", name: "D", parent_form: 'incident')
-      primero_module = PrimeroModule.create!(program_id: "some_program", name: "Test Module With different records", associated_record_types: ['case', 'incident'], form_section_ids: ["A", "B", "D"])
-      user = User.new(user_name: "test_user", role_ids: [@role.id], module_ids: [primero_module.unique_id])
-      child = Child.new(unique_identifier: "123", module_id: primero_module.unique_id)
-
-      expect(FormSection.get_permitted_form_sections(child.module, child.class.parent_form, user)).to eq([@form_section_b])
-    end
-  end
-
-  describe "permitted subforms" do
-    before do
-      @subform = FormSection.create!(unique_id: "A-SUBFORM", name: "A-SUBFORM", parent_form: 'case', form_group_id: "m")
-      @field = Field.create!(name: 'a_subform_field',
-                             type:Field::SUBFORM,
-                             display_name:'A SUBFORM FIELD',
-                             subform_section_id: @subform.id,
-                             form_section_id: @form_section_b.id)
-    end
-
-    it "updates permitted subforms associated with roles when a new subform is added" do
-      role = Role.find(@role.id)
-      expect(role.form_sections).to include(@subform.unique_id)
-    end
-
-    it "updates permitted subforms associated with modules when a new subform is added" do
-      primero_module = PrimeroModule.find_by(unique_id: @primero_module.unique_id)
-      expect(primero_module.form_section_ids).to include(@subform.unique_id)
-    end
-  end
-
   describe "mobile forms" do
     before do
+      [
+        Field, FormSection, PrimeroModule,
+        PrimeroProgram, Role, Lookup
+      ].each(&:destroy_all)
       @form_section_mobile_1_nested = FormSection.create!(unique_id: "MOBILE_1_NESTED", name: "Mobile 1 Nested",
                                                           parent_form: "case", mobile_form: false, is_nested: true, visible: false,
                                                           fields: [Field.new(name: "field1", type: "text_field", display_name_all: "field1")])
@@ -111,15 +71,16 @@ describe FormSection do
       @form_section_mobile_2 = FormSection.create!(unique_id: "MOBILE_2", name: "Mobile 2", parent_form: "case", mobile_form: true,
                                                    fields: [@mobile_field1, @mobile_field2, @mobile_field3, @mobile_field4,
                                                             @mobile_field5])
-      @mobile_module = PrimeroModule.create!(program_id: "some_program", name: "Mobile Module", associated_record_types: ['case'],
-                                             form_section_ids: ["A", "B", "MOBILE_1"])
+      @primero_program = PrimeroProgram.create!(unique_id: 'some_program', name_en: "Some program")
+      @mobile_module = PrimeroModule.create!(primero_program: @primero_program, name: "Mobile Module", associated_record_types: ['case'],
+                                             form_sections: [@form_section_a, @form_section_b, @form_section_mobile_1])
       @roleM = Role.create!(form_sections: [@form_section_b, @form_section_c, @form_section_mobile_1], name: "Test Role Mobile", permissions_list: [@permission_case_read])
-      @userM = User.new(user_name: "test_user_m", role_ids: [@roleM.id], module_ids: [@primero_module.unique_id])
+      @userM = User.new(user_name: "test_user_m", role: @roleM, module_ids: [@mobile_module.id])
     end
 
     describe "filter_for_subforms" do
       before do
-        fs = FormSection.get_permitted_form_sections(@mobile_module, 'case', @userM)
+        fs = @userM.permitted_forms(@mobile_module, 'case')
         @mobile_forms = fs.select(&:mobile_form)
       end
       it "returns only mobile forms" do
@@ -135,19 +96,17 @@ describe FormSection do
       it 'formats for moble' do
         expected = {"Children"=>
                         [{"unique_id"=>"MOBILE_1",
-                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"",
-                                  "my"=>"", "th"=>"", "ku"=>""},
+                          :name=>{"en"=>"Mobile 1", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
                           "order"=>0,
-                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"",
-                                       "my"=>"", "th"=>"", "ku"=>""},
+                          :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
                           "fields"=>
                               [{"name"=>"mobile_1_nested",
                                 "disabled"=>false,
                                 "multi_select"=>false,
                                 "type"=>"subform",
                                 "subform"=>{"unique_id"=>"MOBILE_1_NESTED",
-                                            :name=>{"en"=>"Mobile 1 Nested", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                                            "order"=>0, :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
+                                            :name=>{"en"=>"Mobile 1 Nested", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                                            "order"=>0, :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
                                             "fields"=>
                                               [{"name"=>"field1",
                                                 "disabled"=>false,
@@ -157,9 +116,9 @@ describe FormSection do
                                                 "option_strings_source"=>nil,
                                                 "show_on_minify_form"=>false,
                                                 "mobile_visible"=>true,
-                                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1", "so"=>"field1", "es"=>"field1", "bn"=>"field1", "id"=>"field1", "my"=>"field1", "th"=>"field1", "ku"=>"field1"},
-                                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"", "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                                :display_name=>{"en"=>"field1", "fr"=>"field1", "ar"=>"field1", "ar-LB"=>"field1", "so"=>"field1", "es"=>"field1", "bn"=>"field1"},
+                                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[]},
                                                 "date_validation"=>"default_date_validation"}]
                                               },
                                 "required"=>false,
@@ -168,12 +127,9 @@ describe FormSection do
                                 "mobile_visible"=>true,
                                 :display_name=>{"en"=>"Mobile 1 Nested", "fr"=>"Mobile 1 Nested", "ar"=>"Mobile 1 Nested",
                                                 "ar-LB"=>"Mobile 1 Nested", "so"=>"Mobile 1 Nested", "es"=>"Mobile 1 Nested",
-                                                "bn"=>"Mobile 1 Nested", "id"=>"Mobile 1 Nested", "my"=>"Mobile 1 Nested",
-                                                "th"=>"Mobile 1 Nested", "ku"=>"Mobile 1 Nested"},
-                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>"",
-                                             "id"=>"", "my"=>"", "th"=>"", "ku"=>""},
-                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[],
-                                                       "bn"=>[], "id"=>[], "my"=>[], "th"=>[], "ku"=>[]},
+                                                "bn"=>"Mobile 1 Nested"},
+                                :help_text=>{"en"=>"", "fr"=>"", "ar"=>"", "ar-LB"=>"", "so"=>"", "es"=>"", "bn"=>""},
+                                :option_strings_text=>{"en"=>[], "fr"=>[], "ar"=>[], "ar-LB"=>[], "so"=>[], "es"=>[], "bn"=>[]},
                                 "date_validation"=>"default_date_validation"}]}]}
         form_sections = FormSection.group_forms([@form_section_mobile_1])
         expect(FormSection.format_forms_for_mobile(form_sections, :en, 'case')).to eq(expected)
@@ -421,10 +377,10 @@ describe FormSection do
       form_section.errors[:name].should_not be_present
     end
 
-    it "should not occur error  about the name is not unique  when the name is not filled in" do
+    it "should occur error about the name can't be blank" do
       form_section = FormSection.new(:name=>"")
       form_section.should_not be_valid
-      form_section.errors[:unique_id].should_not be_present
+      form_section.errors[:unique_id].should be_present
     end
 
     it "should not trip the unique name validation on self" do
@@ -481,17 +437,6 @@ describe FormSection do
             expect(@form_field_type_test).to be_valid
           end
         end
-
-        context 'to select_box field' do
-          before do
-            @changing_field.type = Field::SELECT_BOX
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_text' on form 'Form Section Test 2'")
-          end
-        end
       end
 
       context 'from textarea field' do
@@ -506,56 +451,6 @@ describe FormSection do
 
           it 'is valid' do
             expect(@form_field_type_test).to be_valid
-          end
-        end
-
-        context 'to select_box field' do
-          before do
-            @changing_field.type = Field::SELECT_BOX
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_textarea' on form 'Form Section Test 2'")
-          end
-        end
-      end
-
-      context 'from select_box field' do
-        before do
-          @changing_field = @form_field_type_test.fields.select{|fd| fd.type == Field::SELECT_BOX}.first
-        end
-
-        context 'to text field' do
-          before do
-            @changing_field.type = Field::TEXT_FIELD
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_select_box' on form 'Form Section Test 2'")
-          end
-        end
-
-        context 'to textarea field' do
-          before do
-            @changing_field.type = Field::TEXT_AREA
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_select_box' on form 'Form Section Test 2'")
-          end
-        end
-
-        context 'to numeric field' do
-          before do
-            @changing_field.type = Field::NUMERIC_FIELD
-          end
-
-          it 'is not valid' do
-            expect(@form_field_type_test).not_to be_valid
-            expect(@form_field_type_test.errors[:fields]).to include("Can't change type of existing field 'field_test_field_type_select_box' on form 'Form Section Test 2'")
           end
         end
       end
@@ -747,7 +642,6 @@ describe FormSection do
 
   describe "Fields with the same name" do
     before :each do
-      FormSection.all.each &:destroy
       subform_fields = [
         Field.new({"name" => "field_name_1",
                    "type" => Field::TEXT_FIELD,
@@ -778,7 +672,7 @@ describe FormSection do
         Field.new({"name" => "field_name_3",
                    "type" => "subform",
                    "editable" => true,
-                   "subform_section_id" => subform_section.unique_id,
+                   "subform_section_id" => subform_section.id,
                    "display_name_all" => "Subform Section 1"
                   })
       ]
@@ -796,10 +690,6 @@ describe FormSection do
         :fields => fields
       )
       form.save!
-    end
-
-    after :all do
-      FormSection.all.each &:destroy
     end
 
     describe "Create Form Section" do
@@ -942,7 +832,7 @@ describe FormSection do
 
   describe "Violation forms" do
     before do
-      FormSection.all.each &:destroy
+      [Field, FormSection].each(&:destroy_all)
       @violation = FormSection.create_or_update_form_section({
         unique_id: "sexual_violence",
         name: "sexual_violence",
@@ -971,20 +861,16 @@ describe FormSection do
       expect(@other_form.is_violation?).to be_falsey
     end
 
-    it "identifies a violation wrapper" do
+    xit "identifies a violation wrapper" do
       expect(@wrapper_form.is_violation_wrapper?).to be_truthy
       expect(@other_form.is_violation_wrapper?).to be_falsey
-    end
-
-    after do
-      FormSection.all.each &:destroy
     end
 
   end
 
   describe "localized_property_hash" do
     before do
-      FormSection.all.each &:destroy
+      [Field, FormSection].each(&:destroy_all)
 
       fields = [
           Field.new({"name" => "field_name_1",
@@ -1072,17 +958,11 @@ describe FormSection do
       end
     end
 
-    after do
-      FormSection.all.each &:destroy
-    end
-
   end
 
   describe 'import_translations' do
     before do
-      FormSection.all.each &:destroy
-
-
+      [Field, FormSection].each(&:destroy_all)
     end
 
     describe 'handles bad input data' do

@@ -4,8 +4,8 @@ describe Serviceable do
   before do
     @date_time = DateTime.parse("2017/11/01 12:54:55 -0400")
     DateTime.stub(:now).and_return(@date_time)
-    @sys_settings = SystemSettings.new(default_local: 'en')
-    @case1 = Child.new()
+    @sys_settings = SystemSettings.new
+    @case1 = Child.new
   end
 
   describe 'service_due_date' do

@@ -1,8 +1,9 @@
 require 'rails_helper'
 describe ReportingLocation do
   before :all do
+    Lookup.destroy_all
     lookup1 = create :lookup, :id => "lookup-location-type", :lookup_values => [
-      {:id => "district", :display_text => "district"}, 
+      {:id => "district", :display_text => "district"},
       {:id => "country", :display_text => "country"}
     ]
   end
@@ -18,7 +19,7 @@ describe ReportingLocation do
         end
 
         it 'is valid' do
-          expect(@reporting_location).to be_valid
+          expect(@reporting_location.is_valid_admin_level?).to be_truthy
         end
       end
 
@@ -28,16 +29,9 @@ describe ReportingLocation do
         end
 
         it 'is not valid' do
-          expect(@reporting_location).not_to be_valid
-        end
-
-        it 'returns an error message' do
-          @reporting_location.valid?
-          expect(@reporting_location.errors.messages[:admin_level]).to eq(['Admin Level must be one of Location Admin Level values'])
+          expect(@reporting_location.is_valid_admin_level?).to be_falsey
         end
       end
     end
   end
-
-
 end

@@ -348,7 +348,7 @@ class Report < ApplicationRecord
 
 
   def self.reportable_record_types
-    FormSection::RECORD_TYPES + ['violation'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.model_name.param_key}
+    FormSection::RECORD_TYPES + ['violation'] + Report.get_all_nested_reportable_types.map{|nrt| nrt.name.underscore}
   end
 
   def apply_default_filters

@@ -5,6 +5,7 @@ require 'rails_helper'
 describe Report do
 
   before :all do
+    clean_data(PrimeroProgram, PrimeroModule, FormSection)
     @module = create :primero_module
   end
 

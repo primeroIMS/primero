@@ -131,24 +131,20 @@ module Exporters
         emit_columns = lambda do |props, parent_props=[], &column_generator|
           props.map do |p|
             prop_tree = parent_props + [p]
-            if p.type.eql?("subform")
+            if p.type.eql?(Field::SUBFORM) || p.is_multi_select?
               # TODO: This is a hack for CSV export, that causes memory leak
               # 5 is an arbitrary number, and probably should be revisited
               longest_array = 5 #find_longest_array(models, prop_tree)
               (1..(longest_array || 0)).map do |n|
                 new_prop_tree = prop_tree.clone + [n]
-                if p.type.eql?("subform")
+                if p.type.eql?(Field::SUBFORM)
                   emit_columns.call(p.subform.fields, new_prop_tree, &column_generator)
                 else
                   column_generator.call(new_prop_tree)
                 end
               end.flatten
             else
-              if !p.type.nil? && p.type.eql?("subform")
-                emit_columns.call(p.subform.fields, prop_tree, &column_generator)
-              else
-                column_generator.call(prop_tree)
-              end
+              column_generator.call(prop_tree)
             end
           end.flatten
         end
@@ -239,8 +235,8 @@ module Exporters
       def translate_value(fields, value)
         field = fields.is_a?(Array) ? fields.first : fields
         if field.present?
-          if field.is_a?(Array) && field.type == Field::SUBFORM
-            field_names = field.map{|pn| pn.try(:name)}
+           if fields.is_a?(Array) && field.type == Field::SUBFORM
+            field_names = fields.map{|pn| pn.try(:name)}
             sub_fields = field.subform_section.try(:fields)
             sub_field = sub_fields.select{|sf| field_names.include?(sf.name)}.first
             map_field_to_translated_value(sub_field, value)

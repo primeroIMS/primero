@@ -80,7 +80,7 @@ module Record
 
   def create_identification
     self.unique_identifier ||= self.class.generate_unique_id
-    self.short_id ||= self.unique_identifier.last 7
+    self.short_id ||= self.unique_identifier.to_s.last(7)
     self.set_instance_id
   end
 
