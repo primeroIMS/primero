@@ -1,5 +1,4 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
 import PrimeroLogo from "images/primero-logo.png";
 import PrimeroLogoWhite from "images/primero-logo-white.png";
 import GBVLogo from "images/gbv-logo.png";
@@ -12,9 +11,8 @@ import PrimeroPictorial from "images/primero-pictorial.png";
 import GBVPictorial from "images/gbv-pictorial.png";
 import CPIMSPictorial from "images/cpims-pictorial.png";
 import PropTypes from "prop-types";
-import makeStyles from "@material-ui/styles/makeStyles";
-import useTheme from "@material-ui/styles/useTheme";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { makeStyles, useTheme } from "@material-ui/styles";
+import { Box, useMediaQuery } from "@material-ui/core";
 import styles from "./styles.css";
 
 const ModuleLogo = ({ moduleLogo, white }) => {

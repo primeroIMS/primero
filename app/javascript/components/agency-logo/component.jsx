@@ -1,11 +1,9 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
+import { Box, useMediaQuery } from "@material-ui/core";
 import PropTypes from "prop-types";
 import UnicefLogo from "images/unicef.png";
 import UnicefPictorial from "images/unicef-pictorial.png";
-import makeStyles from "@material-ui/styles/makeStyles";
-import useTheme from "@material-ui/styles/useTheme";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { makeStyles, useTheme } from "@material-ui/styles";
 import styles from "./styles.css";
 
 const AgencyLogo = ({ logo, agency }) => {

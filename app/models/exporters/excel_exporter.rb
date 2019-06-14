@@ -19,10 +19,7 @@ module Exporters
       end
 
       def properties_to_export(properties_by_module, custom_export_options, models)
-        properties_by_module = filter_custom_exports(properties_by_module, custom_export_options)
-        return include_metadata_properties(
-          properties_by_module, current_model_class(models)
-        )
+        filter_custom_exports(properties_by_module, custom_export_options)
       end
 
     end
@@ -41,10 +38,8 @@ module Exporters
         build_sheets_definition(properties_by_module, models.first.try(:module).try(:name))
       end
 
-      self.class.load_fields(models.first) if models.present?
-
       models.each do |model|
-        sheets_def = get_sheets_by_module(model.module_id)
+        sheets_def = get_sheets_by_module(model.module.name)
         counter = 0
         sheets_def.each do |form_name, sheet_def|
           build_sheet(sheet_def, form_name, @workbook, counter)
@@ -75,16 +70,16 @@ module Exporters
     end
 
     def get_value(model, property, parent = nil)
-      if property.is_a?(Hash) && parent.present?
+      if property.type == Field::SUBFORM && parent.present?
         #This is the selected fields of some subform.
         #Parent contains the subform field in the model.
-        (model.send(parent) || []).map do |row|
-          property.values.map do |p|
+        (model.data[property.name] || []).map do |row|
+          property.subform.fields.map do |p|
             get_value(row, p)
           end
         end
-      elsif property.array
-        if property.type.include?(CouchRest::Model::Embeddable)
+      elsif property.multi_select
+        if property.type == Field::SUBFORM
           #Returns every row of the subform.
           (model.send(property.name) || []).map do |row|
             #Remove unique_id field for subforms.
@@ -93,7 +88,8 @@ module Exporters
             end
           end
         else
-          (self.class.translate_value(property.name, model.send(property.name)) || []).join(" ||| ")
+          value = model.respond_to?(:data) ? model.data[property.try(:name)] : model[property.name]
+          (value.present? ? self.class.translate_value(property, value) : []).join(" ||| ")
         end
       else
         self.class.get_model_value(model, property)
@@ -118,30 +114,14 @@ module Exporters
     #others none subforms properties in the same form section.
     def build_sheets_definition(properties_by_module, model_module=nil)
       @sheets ||= {}
-      properties_by_module.each do |module_id, form_sections|
-        form_sections.each do |fs_name, properties|
-          subforms = properties.select do |prop_name, prop|
-            # when there is a Hash is a subforms with some selected fields.
-            prop.is_a?(Hash) || (prop.array == true && prop.type.include?(CouchRest::Model::Embeddable))
-          end
-          others = (properties.to_a - subforms.to_a).to_h
-
-          get_name = model_module.present? ? @form_sections[model_module].select{|fs| fs.unique_id == fs_name}.first.try(:name) : nil
-          name = get_name || fs_name
-          if subforms.blank? || (subforms.length == 1 && others.blank?)
-            #The section does not have subforms or
-            #there is just one subform in the form section.
-            build_sheet_definition(name, properties, module_id)
-          else
-            #set the section with the properties that are not subforms if apply.
-            build_sheet_definition(name, others, module_id) if others.present?
-            #set any subform in this own sheet.
-            subforms.each do |prop_name, props|
-              sheet_name = prop_name.titleize
-              #Make sure don't collision with the names.
-              sheet_name = "#{name} #{sheet_name}" if @sheets[sheet_name].present?
-              build_sheet_definition(sheet_name, {prop_name => props}, module_id)
-            end
+      properties_by_module.each do |field|
+        fields = field.form_section.fields
+        if field.type == Field::SUBFORM && fields.size > 1
+          build_sheet_definition(field.subform.name, field, model_module)
+        else
+          unless field.form_section.is_nested
+            fields = fields.where.not(type: Field::SUBFORM) if fields.size > 1
+            build_sheet_definition(field.form_section.name, fields, model_module)
           end
         end
       end
@@ -157,18 +137,22 @@ module Exporters
       if @sheets[fs_name].present?
         #Merge props that probably came from other module same form section name.
         #sheet name should be unique.
-        props = @sheets[fs_name]["properties"].merge(props)
+        @sheets[fs_name]["properties"] = Array(props).map{|f| {f.name => f} }.reduce(&:merge)
+        props = @sheets[fs_name]["properties"]
         #register to what module belong the form section.
         #sheet name should be unique.
         modules = @sheets[fs_name]["modules"] + modules
+      else
+        props = Array(properties).map { |f| {f.try(:name) => f} }.reduce(&:merge)
       end
       @sheets[fs_name] = {"work_sheet" => nil, "column_widths" => nil, "row" => 1, "properties" => props, "modules" => modules}
     end
 
     def build_sheet(sheet_def, form_name, workbook, counter)
+      fields = sheet_def["properties"].map{|f| {f.name => f} }.reduce(&:merge) unless sheet_def["properties"].is_a?(Hash)
       return sheet_def["work_sheet"] if sheet_def["work_sheet"].present?
       work_sheet = generate_work_sheet(workbook, form_name, counter)
-      header = ["_id", "model_type"] + build_header(sheet_def["properties"])
+      header = ["id", "model_type"] + build_header(sheet_def["properties"])
       work_sheet.write(0, 0, header)
       sheet_def["column_widths"] = initial_column_widths(header)
       sheet_def["work_sheet"] = work_sheet
@@ -196,7 +180,7 @@ module Exporters
       properties.map do |key, property|
         # When there is a Hash is a subforms with some selected fields.
         # Send 'key' because is the subform field name.
-        get_value(model, property, property.is_a?(Hash) ? key : nil)
+        get_value(model, property, property.type == Field::SUBFORM ? key : nil)
       end
     end
 
@@ -221,10 +205,10 @@ module Exporters
           property.values.map{|prop| prop.name}
         elsif property.is_a?(String)
           property
-        elsif property.array && property.type.include?(CouchRest::Model::Embeddable)
+        elsif property.type == Field::SUBFORM
           #Returns every property in the subform to build the header of the sheet.
           #Remove unique_id field for subforms.
-          property.type.properties.map{|p| p.name if p.name != "unique_id"}.compact
+          property.subform.fields.map{|p| p.name if p.name != "unique_id"}.compact
         else
           property.name
         end

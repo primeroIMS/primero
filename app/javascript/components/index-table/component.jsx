@@ -1,9 +1,14 @@
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Typography from "@material-ui/core/Typography";
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  Box,
+  Typography
+} from "@material-ui/core";
+import { LoadingIndicator } from "components/loading-indicator";
+import { Map, List } from "immutable";
 
 const getMuiTheme = () =>
   createMuiTheme({
@@ -31,18 +36,29 @@ const getMuiTheme = () =>
     }
   });
 
-const indexTable = ({
+const dataToJS = data => {
+  if (data instanceof Map || data instanceof List) {
+    return data.toJS();
+  }
+
+  return data;
+};
+
+const IndexTable = ({
   columns,
   data,
   onTableChange,
   defaultFilters,
-  title
+  title,
+  loading
 }) => {
-  const { per, total } = data.meta;
+  const { meta, filters, results } = data;
+  const { per, total } = dataToJS(meta);
 
   const handleTableChange = (action, tableState) => {
-    const options = { per, ...defaultFilters, ...data.filters };
+    const options = { per, ...defaultFilters, ...dataToJS(filters) };
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
+
     const {
       activeColumn,
       columns: tableColumns,
@@ -70,6 +86,7 @@ const indexTable = ({
         }
       })()
     );
+
     if (validActions.includes(action)) {
       onTableChange(selectedFilters);
     }
@@ -97,7 +114,7 @@ const indexTable = ({
   const tableOptions = {
     columns,
     options,
-    data: data.results
+    data: dataToJS(results)
   };
 
   return (
@@ -107,17 +124,22 @@ const indexTable = ({
           {title}
         </Typography>
       </Box>
-      <MUIDataTable {...tableOptions} />
+      {loading ? (
+        <LoadingIndicator loading={loading} />
+      ) : (
+        <MUIDataTable {...tableOptions} />
+      )}
     </MuiThemeProvider>
   );
 };
 
-indexTable.propTypes = {
+IndexTable.propTypes = {
   onTableChange: PropTypes.func.isRequired,
   columns: PropTypes.array.isRequired,
   data: PropTypes.object.isRequired,
   defaultFilters: PropTypes.object,
-  title: PropTypes.string.isRequired
+  title: PropTypes.string.isRequired,
+  loading: PropTypes.bool
 };
 
-export default indexTable;
+export default IndexTable;

@@ -1,5 +1,4 @@
 .root {
-  padding: 1em;
   display: flex;
 
   & > div {

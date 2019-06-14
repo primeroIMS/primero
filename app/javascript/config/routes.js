@@ -1,5 +1,5 @@
-import * as Page from "../components/pages";
-import * as Layouts from "../components/layouts";
+import * as Page from "components/pages";
+import * as Layouts from "components/layouts";
 
 export default [
   {
@@ -23,7 +23,7 @@ export default [
       },
       {
         path: "/cases",
-        component: Page.Cases
+        component: Page.CaseList
       },
       {
         path: "/incidents",

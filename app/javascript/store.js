@@ -9,8 +9,8 @@ import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import { restMiddleware } from "middleware";
-import * as CasesPage from "./components/pages/case-list";
 import * as Dashboard from "./components/pages/dashboard";
+import * as CasesList from "./components/pages/case-list";
 import * as Nav from "./components/nav";
 import * as LoginPage from "./components/pages/login";
 import * as TranslationToogle from "./components/translations-toggle";
@@ -25,10 +25,10 @@ export default () => {
 
   const middleware = [
     routerMiddleware(history),
-    thunkMiddleware,
     restMiddleware({
-      baseUrl: "/"
-    })
+      baseUrl: "/api/v2"
+    }),
+    thunkMiddleware
   ];
 
   if (process.env.NODE_ENV === "development") {
@@ -45,8 +45,8 @@ export default () => {
   const store = createStore(
     combineReducers({
       router: connectRouter(history),
-      ...CasesPage.reducers,
       ...Dashboard.dashboardReducers,
+      ...CasesList.reducers,
       ...Nav.reducers,
       ...LoginPage.loginReducers,
       ...TranslationToogle.reducers

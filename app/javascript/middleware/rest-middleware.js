@@ -22,7 +22,7 @@ const restMiddleware = options => store => next => action => {
   const { path, body, params, method } = api;
   const fetchOptions = Object.assign({}, defaultFetchOptions, method);
 
-  let fetchPath = `${options.baseUrl}api${path}`;
+  let fetchPath = `${options.baseUrl}/${path}`;
 
   if (body) {
     fetchOptions.body = JSON.stringify(body);
