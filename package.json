@@ -71,6 +71,7 @@
     "jsdom": "^15.1.0",
     "jsdom-global": "^3.0.2",
     "mocha": "^6.1.4",
+    "nock": "^10.0.6",
     "postcss-preset-env": "^6.6.0",
     "prettier-eslint": "^8.8.2",
     "prettier-eslint-cli": "^4.7.1",
@@ -79,6 +80,7 @@
     "redux-mock-store": "^1.5.3",
     "require-hacker": "^3.0.1",
     "sinon": "^7.2.4",
+    "sinon-chai": "^3.3.0",
     "webpack-dev-server": "^3.3.1"
   }
 }
