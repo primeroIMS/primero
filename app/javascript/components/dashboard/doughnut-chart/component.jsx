@@ -2,31 +2,30 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import Chart from "chart.js";
 
+const fillInnerText = (width, fontSize, textObj, ctx, textY) => {
+  const { text, bold } = textObj;
+  const initX = Math.round((width - ctx.measureText(text).width) / 2);
+  ctx.font = `${bold ? "bold" : ""} ${fontSize}em sans-serif`;
+  ctx.fillText(text, initX, textY);
+};
+
 Chart.pluginService.register({
   beforeDraw(chart) {
     const { width, height, ctx } = chart.chart;
-    ctx.restore();
-    const fontSize = (height / 160).toFixed(2);
-    ctx.textBaseline = "top";
     const { innerText } = chart.data;
+    const fontSize = (height / 160).toFixed(2);
+    ctx.restore();
+    ctx.textBaseline = "top";
     if (innerText) {
       const initY = height / 2 - 10;
-      let textY = initY;
       if (Array.isArray(innerText)) {
-        innerText.forEach(currentText => {
-          const { text, bold } = currentText;
-          const initX = Math.round((width - ctx.measureText(text).width) / 2);
-          ctx.font = `${bold ? "bold" : ""} ${fontSize}em sans-serif`;
-          ctx.fillText(text, initX, textY);
+        let textY = initY;
+        innerText.forEach(text => {
+          fillInnerText(width, fontSize, text, ctx, textY);
           textY += 10;
         });
       } else {
-        const { text, bold } = innerText;
-        const initX = Math.round(
-          (width - ctx.measureText(innerText).width) / 2
-        );
-        ctx.font = `${bold ? "bold" : ""} ${fontSize}em sans-serif`;
-        ctx.fillText(text, initX, initY);
+        fillInnerText(width, fontSize, innerText, ctx, initY);
       }
     }
     ctx.save();

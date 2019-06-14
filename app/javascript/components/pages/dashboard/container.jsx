@@ -25,7 +25,7 @@ const Dashboard = ({
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
-  chartInnerText,
+  doughnutInnerText,
   i18n
 }) => {
   useEffect(() => {
@@ -46,7 +46,7 @@ const Dashboard = ({
   ];
 
   const casesChartData = {
-    innerText: chartInnerText,
+    innerText: doughnutInnerText,
     labels: [i18n.t("dashboard.open"), i18n.t("dashboard.closed")],
     datasets: [
       {
@@ -108,7 +108,7 @@ const Dashboard = ({
 
 Dashboard.propTypes = {
   flags: PropTypes.array.isRequired,
-  chartInnerText: PropTypes.array.isRequired,
+  doughnutInnerText: PropTypes.array.isRequired,
   casesByStatus: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
@@ -123,12 +123,12 @@ Dashboard.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    flags: selectors.selectFlags(state).toJS(),
-    chartInnerText: selectors.selectChartInnerText(state).toJS(),
-    casesByStatus: selectors.selectCasesByStatus(state).toJS(),
-    casesByCaseWorker: selectors.selectCasesByCaseWorker(state).toJS(),
-    casesRegistration: selectors.selectCasesRegistration(state).toJS(),
-    casesOverview: selectors.selectCasesOverview(state).toJS()
+    flags: selectors.selectFlags(state),
+    doughnutInnerText: selectors.getDoughnutInnerText(state),
+    casesByStatus: selectors.selectCasesByStatus(state),
+    casesByCaseWorker: selectors.selectCasesByCaseWorker(state),
+    casesRegistration: selectors.selectCasesRegistration(state),
+    casesOverview: selectors.selectCasesOverview(state)
   };
 };
 

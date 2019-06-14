@@ -1,26 +1,38 @@
-import { fromJS } from "immutable";
 import NAMESPACE from "./namespace";
 
 export const selectFlags = state => {
-  return state.getIn([NAMESPACE, "flags"]) || fromJS([]);
-};
-
-export const selectChartInnerText = state => {
-  return state.getIn([NAMESPACE, "chartInnerText"]) || fromJS([]);
+  const flags = state.getIn([NAMESPACE, "flags"]);
+  return flags ? flags.toJS() : [];
 };
 
 export const selectCasesByStatus = state => {
-  return state.getIn([NAMESPACE, "casesByStatus"]) || fromJS({});
+  const casesByStatus = state.getIn([NAMESPACE, "casesByStatus"]);
+  return casesByStatus ? casesByStatus.toJS() : {};
+};
+
+export const getDoughnutInnerText = state => {
+  const casesByStatus = selectCasesByStatus(state);
+  const text = [];
+  if (casesByStatus.open) {
+    text.push({ text: `${casesByStatus.open} Open`, bold: true });
+  }
+  if (casesByStatus.closed) {
+    text.push({ text: `${casesByStatus.closed} Closed` });
+  }
+  return text;
 };
 
 export const selectCasesByCaseWorker = state => {
-  return state.getIn([NAMESPACE, "casesByCaseWorker"]) || fromJS({});
+  const casesByCaseWorker = state.getIn([NAMESPACE, "casesByCaseWorker"]);
+  return casesByCaseWorker ? casesByCaseWorker.toJS() : {};
 };
 
 export const selectCasesRegistration = state => {
-  return state.getIn([NAMESPACE, "casesRegistration"]) || fromJS({});
+  const casesRegistration = state.getIn([NAMESPACE, "casesRegistration"]);
+  return casesRegistration ? casesRegistration.toJS() : {};
 };
 
 export const selectCasesOverview = state => {
-  return state.getIn([NAMESPACE, "casesOverview"]) || fromJS({});
+  const casesOverview = state.getIn([NAMESPACE, "casesOverview"]);
+  return casesOverview ? casesOverview.toJS() : {};
 };

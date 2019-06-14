@@ -31,11 +31,6 @@ const casesByStatus = {
   closed: "1547"
 };
 
-const chartInnerText = [
-  { text: `${casesByStatus.open} Open`, bold: true },
-  { text: `${casesByStatus.closed} Closed` }
-];
-
 const casesByCaseWorker = {
   results: [
     {
@@ -79,9 +74,7 @@ const reducer = (state = DEFAULT_STATE, { type }) => {
     case Actions.DASHBOARD_FLAGS:
       return state.set("flags", fromJS(flags));
     case Actions.CASES_BY_STATUS:
-      return state
-        .set("casesByStatus", fromJS(casesByStatus))
-        .set("chartInnerText", fromJS(chartInnerText));
+      return state.set("casesByStatus", fromJS(casesByStatus));
     case Actions.CASES_BY_CASE_WORKER:
       return state.set("casesByCaseWorker", fromJS(casesByCaseWorker));
     case Actions.CASES_REGISTRATION:
