@@ -2,8 +2,7 @@ require 'rails_helper'
 
 describe Historical do
   before :each do
-    RecordHistory.destroy_all
-    Child.destroy_all
+    [RecordHistory, Child].each(&:destroy_all)
 
     @inst = Child.new(data: {
       :created_by => 'primero',

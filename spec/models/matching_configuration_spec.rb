@@ -55,7 +55,7 @@ describe MatchingConfiguration do
 
   describe 'get_matchable_fields_by_parent_form' do
     before do
-      FormSection.all.each &:destroy
+      [Field, FormSection].each(&:destroy_all)
       subform_fields = [
           Field.new({"name" => "field_name_1",
                      "type" => Field::TEXT_FIELD,
@@ -112,10 +112,6 @@ describe MatchingConfiguration do
       @form_section.save!
     end
 
-    after :all do
-      FormSection.all.each &:destroy
-    end
-
     context 'when subform' do
       it 'should get no matchable nested forms' do
         expect(MatchingConfiguration.matchable_fields_by_form('trace', true).count).to eq(0)
@@ -133,7 +129,7 @@ describe MatchingConfiguration do
       it 'should get no matchable fields' do
         @subform_section.delete_field('field_name_2')
         forms = MatchingConfiguration.matchable_fields_by_form('case', true)
-        expect(forms.first[1].count).to eq(0)
+        expect(forms).to be_empty
       end
     end
 
@@ -154,7 +150,7 @@ describe MatchingConfiguration do
       it 'should get no matchable fields' do
         @form_section.delete_field('field_name_3')
         forms = MatchingConfiguration.matchable_fields_by_form('case', false)
-        expect(forms.first[1].count).to eq(0)
+        expect(forms).to be_empty
       end
     end
   end

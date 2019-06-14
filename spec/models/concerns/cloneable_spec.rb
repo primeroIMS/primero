@@ -36,7 +36,7 @@ describe Cloneable do
       @new_inst = @inst.clone
     end
     it 'creates a copy of the model with the old name prepended with cop of' do
-      expect(@new_inst.name).to eq("copy of Test Name")
+      expect(@new_inst.name).to eq("Copy of Test Name")
     end
 
     it 'creates a copy of the model having the same attribute values' do

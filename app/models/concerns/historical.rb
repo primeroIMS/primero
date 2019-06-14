@@ -82,7 +82,7 @@ module Historical
 
   def add_creation_history
     RecordHistory.create(
-      record_id: self.id,
+      record: self,
       record_type: self.class.name,
       user_name: self.created_by,
       datetime: self.created_at,
@@ -96,7 +96,7 @@ module Historical
       saved_changes_to_record = self.saved_changes_to_record
       if saved_changes_to_record.present?
         RecordHistory.create(
-          record_id: self.id,
+          record: self,
           record_type: self.class.name,
           user_name: self.last_updated_by,
           datetime: self.last_updated_at,

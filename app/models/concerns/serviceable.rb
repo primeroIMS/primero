@@ -73,7 +73,7 @@ module Serviceable
       appointment_time = appointment_date.try(:end_of_day).try(:strftime, '%H:%M:%S')
 
       if @system_settings.present? && created_on.present? && appointment_date.present?
-        if @system_settings['due_date_from_appointment_date'].present?
+        if @system_settings.due_date_from_appointment_date.present?
           appointment_date_time = "#{appointment_date} #{appointment_time}"
           DateTime.parse(appointment_date_time)
         elsif timeframe.present?

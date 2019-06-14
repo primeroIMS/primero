@@ -13,10 +13,9 @@ describe Workflow do
     @lookups = [lookup]
 
     @module_a = PrimeroModule.new(
-        program_id: "module_a",
         associated_record_types: ['case'],
         name: "Test Module A",
-        form_section_ids: [],
+        form_sections: [],
         module_options: {
           use_workflow_case_plan: true,
           use_workflow_assessment: true
@@ -24,10 +23,9 @@ describe Workflow do
     )
 
     @module_b = PrimeroModule.new(
-        program_id: "module_b",
         associated_record_types: ['case'],
         name: "Test Module B",
-        form_section_ids: [],
+        form_sections: [],
         module_options: {
           use_workflow_case_plan: true,
           use_workflow_assessment: true
@@ -133,9 +131,7 @@ describe Workflow do
 
   describe 'calculate_workflow' do
     before do
-      FormSection.all.each &:destroy
-      Lookup.all.each &:destroy
-      PrimeroModule.all.each &:destroy
+      clean_data(FormSection, Lookup, PrimeroModule)
 
       Lookup.create(
           :id => "lookup-service-response-type",
@@ -147,19 +143,19 @@ describe Workflow do
               {id: "service_provision", display_text: "Service provision"}.with_indifferent_access
           ]
       )
+      form_section_a = create(:form_section, unique_id: "A", name: "A")
+      form_section_b = create(:form_section, unique_id: "B", name: "B")
 
       a_module = PrimeroModule.new(
-          program_id: "some_program",
           associated_record_types: ['case'],
           name: "Test Module",
-          form_section_ids: [form1.id, form2.id],
+          form_sections: [form_section_a, form_section_b],
           module_options: {
             use_workflow_case_plan: true,
             use_workflow_assessment: true
           }
       )
-
-      user = User.new({:user_name => 'bob123', :organization=> "UNICEF"})
+      user = User.new({:user_name => 'bob123'})
       @case1 = Child.new_with_user user, {name: 'Workflow Tester'}
       @case1.stub(:module).and_return(a_module)
       @case1.save
