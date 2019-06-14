@@ -52,17 +52,17 @@ const Dashboard = ({
     labels: [i18n.t("dashboard.open"), i18n.t("dashboard.closed")],
     datasets: [
       {
-        data: [casesByStatus.open, casesByStatus.closed],
+        data: [casesByStatus.get("open"), casesByStatus.get("closed")],
         backgroundColor: ["#0094BE", "#E0DFD6"]
       }
     ]
   };
 
   const registrationChartData = {
-    labels: Object.keys(casesRegistration),
+    labels: casesRegistration.keySeq().toJS(),
     datasets: [
       {
-        data: Object.values(casesRegistration),
+        data: casesRegistration.valueSeq().toJS(),
         lineTension: 0.1,
         steppedLine: false
       }
@@ -99,7 +99,7 @@ const Dashboard = ({
         <Grid item md={4} sm={12}>
           <OptionsBox title={i18n.t("dashboard.flagged")}>
             {flags.map(flag => {
-              return <FlagBox flag={flag} key={flag.id} />;
+              return <FlagBox flag={flag} key={flag.get("id")} />;
             })}
           </OptionsBox>
         </Grid>
@@ -109,7 +109,7 @@ const Dashboard = ({
 };
 
 Dashboard.propTypes = {
-  flags: PropTypes.array.isRequired,
+  flags: PropTypes.object.isRequired,
   doughnutInnerText: PropTypes.array.isRequired,
   casesByStatus: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,

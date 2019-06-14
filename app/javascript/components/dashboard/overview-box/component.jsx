@@ -9,7 +9,10 @@ import styles from "./styles.css";
 
 const OverviewBox = ({ i18n, items, chartData }) => {
   const css = makeStyles(styles)();
-  const { transfers, waiting, pending, rejected } = items;
+  const transfers = items.get("transfers");
+  const waiting = items.get("waiting");
+  const pending = items.get("pending");
+  const rejected = items.get("rejected");
   return (
     <div style={{ padding: 15 }}>
       <Grid container spacing={3}>
