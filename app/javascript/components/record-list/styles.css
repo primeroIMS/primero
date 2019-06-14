@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+
+  & > div {
+    padding: 1em;
+  }
+}
+
+.table {
+  flex-grow: 1;
+}
+
+.filters {
+  width: 280px;
+}

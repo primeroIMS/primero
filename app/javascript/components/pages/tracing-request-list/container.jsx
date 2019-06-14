@@ -6,7 +6,7 @@ import { withI18n } from "libs";
 import { RecordList, Actions } from "components/record-list";
 import * as Selectors from "./selectors";
 
-const CaseList = ({ cases, meta, filters, i18n, loading, fetchRecords }) => {
+const TracingRequestList = ({ cases, meta, filters, i18n, loading, fetchRecords }) => {
   const path = "/cases";
 
   const defaultFilters = {
@@ -72,7 +72,7 @@ const CaseList = ({ cases, meta, filters, i18n, loading, fetchRecords }) => {
   );
 };
 
-CaseList.propTypes = {
+TracingRequestList.propTypes = {
   cases: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   filters: PropTypes.object.isRequired,

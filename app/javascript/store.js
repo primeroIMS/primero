@@ -46,7 +46,7 @@ export default () => {
       router: connectRouter(history),
       ...CasesList.reducers,
       ...Nav.reducers,
-      ...LoginPage.loginReducers,
+      ...LoginPage.reducers,
       ...TranslationToogle.reducers
     }),
     preloadedState,
