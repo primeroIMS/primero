@@ -22,8 +22,8 @@ const CaseList = ({ cases, meta, filters, fetchCases, i18n, loading }) => {
 
   const data = {
     results: cases,
-    meta,
-    filters
+    filters,
+    meta
   };
 
   useEffect(() => {
@@ -96,7 +96,7 @@ CaseList.propTypes = {
 
 const mapStateToProps = state => ({
   cases: Selectors.selectCases(state),
-  meta: Selectors.selectFilters(state),
+  meta: Selectors.selectMeta(state),
   filters: Selectors.selectFilters(state),
   loading: Selectors.selectLoading(state)
 });

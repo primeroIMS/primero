@@ -8,6 +8,7 @@ import {
   Typography
 } from "@material-ui/core";
 import { LoadingIndicator } from "components/loading-indicator";
+import { Map, List } from "immutable";
 
 const getMuiTheme = () =>
   createMuiTheme({
@@ -35,6 +36,14 @@ const getMuiTheme = () =>
     }
   });
 
+const dataToJS = data => {
+  if (data instanceof Map || data instanceof List) {
+    return data.toJS();
+  }
+
+  return data;
+};
+
 const IndexTable = ({
   columns,
   data,
@@ -44,11 +53,10 @@ const IndexTable = ({
   loading
 }) => {
   const { meta, filters, results } = data;
-  const per = meta.get("per");
-  const total = meta.get("total");
+  const { per, total } = dataToJS(meta);
 
   const handleTableChange = (action, tableState) => {
-    const options = { per, ...defaultFilters, ...filters.toJS() };
+    const options = { per, ...defaultFilters, ...dataToJS(filters) };
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
 
     const {
@@ -106,7 +114,7 @@ const IndexTable = ({
   const tableOptions = {
     columns,
     options,
-    data: results.toJS()
+    data: dataToJS(results)
   };
 
   return (
