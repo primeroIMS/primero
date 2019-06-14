@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Grid, IconButton } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { OptionsBox } from "components/dashboard/options-box";
-import { DashboardTable } from "components/dashboard/table";
-import { FlagBox } from "components/dashboard/flag-box";
-import { LineChart } from "components/dashboard/line-chart";
-import { OverviewBox } from "components/dashboard/overview-box/";
+import {
+  OptionsBox,
+  DashboardTable,
+  FlagBox,
+  LineChart,
+  OverviewBox
+} from "components/dashboard";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { withI18n } from "libs";
 import * as actions from "./action-creators";
