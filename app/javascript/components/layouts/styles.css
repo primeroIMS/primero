@@ -1,12 +1,13 @@
 .root {
   display: flex;
+  background: $(theme.primero.colors.white);
 }
 
 .content {
   flex-grow: 1;
   height: 100vh;
   overflow: auto;
-  padding: .5em;
+  padding: 1em;
   background: #fff;
   transition: $(theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,

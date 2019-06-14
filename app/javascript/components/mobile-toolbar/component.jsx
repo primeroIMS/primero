@@ -1,13 +1,10 @@
 import React, { useEffect } from "react";
 import clsx from "clsx";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import makeStyles from "@material-ui/core/styles/makeStyles";
 import PropTypes from "prop-types";
 import { ModuleLogo } from "components/module-logo";
 import { AccountMenu } from "components/account-menu";
+import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
 import styles from "./styles.css";
 
 const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {

@@ -1,38 +1,39 @@
 import React from "react";
-import HomeIcon from "@material-ui/icons/Home";
-import AssessmentIcon from "@material-ui/icons/Assessment";
-import SwapVertIcon from "@material-ui/icons/SwapVert";
-import GroupIcon from "@material-ui/icons/Group";
-import ListAltIcon from "@material-ui/icons/ListAlt";
-import HowToRegIcon from "@material-ui/icons/HowToReg";
+import {
+  Home,
+  Assessment,
+  SwapVert,
+  Group,
+  ListAlt,
+  HowToReg,
+  AccountCircle,
+  Help
+} from "@material-ui/icons";
 import PropTypes from "prop-types";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import HelpIcon from "@material-ui/icons/Help";
-
 import { CasesIcon, IncidentsIcon } from "images/primero-icons";
 
 const ListIcon = ({ icon }) => {
   switch (icon) {
     case "home":
-      return <HomeIcon />;
+      return <Home />;
     case "cases":
       return <CasesIcon />;
     case "incidents":
       return <IncidentsIcon />;
     case "tracing_request":
-      return <ListAltIcon />;
+      return <ListAlt />;
     case "matches":
-      return <GroupIcon />;
+      return <Group />;
     case "reports":
-      return <AssessmentIcon />;
+      return <Assessment />;
     case "exports":
-      return <SwapVertIcon />;
+      return <SwapVert />;
     case "tasks":
-      return <HowToRegIcon />;
+      return <HowToReg />;
     case "account":
-      return <AccountCircleIcon />;
+      return <AccountCircle />;
     case "support":
-      return <HelpIcon />;
+      return <Help />;
     default:
       return null;
   }

@@ -1,9 +1,8 @@
-import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
 import clsx from "clsx";
 import { Route, Switch } from "react-router-dom";
 import { Nav, selectDrawerOpen } from "components/nav";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, CssBaseline } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import styles from "./styles.css";

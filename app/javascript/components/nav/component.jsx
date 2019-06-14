@@ -1,16 +1,18 @@
-import Drawer from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
+import {
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  useMediaQuery
+} from "@material-ui/core";
 import { AgencyLogo } from "components/agency-logo";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
 import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
 import { withI18n, themeHelper } from "libs";
 import { connect } from "react-redux";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { MobileToolbar } from "components/mobile-toolbar";
 import { ListIcon } from "components/list-icon";
 import { AccountMenu } from "components/account-menu";
