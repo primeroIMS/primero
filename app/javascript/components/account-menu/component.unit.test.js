@@ -1,10 +1,8 @@
-import React from "react";
-import { shallow } from "enzyme";
 import { expect } from "chai";
-import "config/test.setup";
-import { setupMountedComponent } from "libs/unit-test-helpers";
+import "test/test.setup";
+import { setupMountedComponent } from "test";
 
-import AccountMenu from "./AccountMenu";
+import AccountMenu from "./component";
 
 describe("<AccountMenu />", () => {
   let component;

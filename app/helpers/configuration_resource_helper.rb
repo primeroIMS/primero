@@ -26,8 +26,8 @@ module ConfigurationResourceHelper
       })
       concat(
         content_tag(:div, class: 'medium-8 columns'){
-        if type == 'file_field' && field == 'logo'
-          show_logo_upload(object, field_id, type, tag_helper)
+        if type == 'file_field' && field.start_with?('logo')
+          show_logo_upload(object, field_id, field, type, tag_helper)
         elsif type == 'check_box'
           concat(label_tag(nil, class: 'left'){
               concat(hidden_field_tag(name, false))
@@ -73,9 +73,9 @@ module ConfigurationResourceHelper
         label_tag(field, label_text, class: 'key')
       })
       concat(content_tag(:div, class: 'medium-8 columns'){
-        if field == 'logo' && object['logo_key']
-          img = send("#{object.class.name.underscore.downcase}_logo_url", object, object['logo_key'])
-          concat(content_tag(:span, image_tag(img), class: value))
+        if field.start_with?('logo')
+          img = value.attachment.present? ? image_tag(value.attachment.variant(resize: '30')) : h(value.attachment)
+          concat(content_tag(:span, img, class: value.attachment.present? ? value : 'value'))
         else
           content_tag(:span, h(value), class: 'value')
         end
@@ -83,15 +83,16 @@ module ConfigurationResourceHelper
     end
   end
 
-  def show_logo_upload(object, field_id, type, tag_helper)
-    if !object.new_record? && object['logo_key']
-      concat(self.send(tag_helper, "agency[upload_logo]logo", id: "#{field_id}", autocomplete: 'off',
-          class: ((type == 'date') ? 'form_date_field' : 'file_upload_input'), style:"color: transparent;"))
-      img = send("#{object.class.name.underscore.downcase}_logo_url", object.id, object['logo_key'])
+  def show_logo_upload(object, field_id, field, type, tag_helper)
+    logo = object.send(field).attachment
+    if !object.new_record? && logo.present?
+      concat(self.send(tag_helper, "agency[#{field}]", id: "#{field_id}", autocomplete: 'off',
+          class: 'file_upload_input', style:"color: transparent;"))
+      img = logo.variant(resize: '30')
       concat(content_tag(:span, image_tag(img)))
     else
-      concat(self.send(tag_helper, "agency[upload_logo]logo", id: "#{field_id}", autocomplete: 'off',
-          class: ((type == 'date') ? 'form_date_field' : 'file_name')))
+      concat(self.send(tag_helper, "agency[#{field}]", id: "#{field_id}", autocomplete: 'off',
+          class: 'file_name'))
     end
   end
 end

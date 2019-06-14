@@ -28,7 +28,8 @@ module.exports = {
           ["config", path.resolve(__dirname, "config")],
           ["components", path.resolve(__dirname, "components")],
           ["middleware", path.resolve(__dirname, "middleware")],
-          ["images", path.resolve(__dirname, "images")]
+          ["images", path.resolve(__dirname, "images")],
+          ["test", path.resolve(__dirname, "test")]
         ],
         extensions: [".js", ".jsx"]
       }

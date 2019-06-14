@@ -1,13 +1,12 @@
 const { environment } = require("@rails/webpacker");
 const path = require("path");
-const babelLoader = environment.loaders.get('babel')
-const fileLoader = environment.loaders.get('file')
+const _ = require("lodash");
 
-
-const _ = require('lodash');
+const babelLoader = environment.loaders.get("babel");
+const fileLoader = environment.loaders.get("file");
 const svgPrefix = {};
-svgPrefix.toString = () => `${_.uniqueId()}_`;
 
+svgPrefix.toString = () => `${_.uniqueId()}_`;
 
 module.exports = {
   resolve: {
@@ -21,6 +20,19 @@ module.exports = {
     }
   }
 };
+
+environment.loaders.get("css").use = [
+  {
+    loader: "css-to-mui-loader"
+  },
+  {
+    loader: "postcss-loader",
+    ident: "postcss",
+    options: {
+      config: { path: path.resolve(__dirname, "postcss.config.js") }
+    }
+  }
+];
 
 environment.loaders.append("eslint", {
   test: /\.(js|jsx)$/,
@@ -44,25 +56,26 @@ environment.loaders.append("eslint", {
   ]
 });
 
-
-environment.loaders.insert('svg', {
-  test: /\.svg$/,
-  use: babelLoader.use.concat([
-    {
-      loader: 'react-svg-loader',
-      options: {
-        jsx: true,
-        svgo: {
-          plugins: [
-            { cleanupIDs: { prefix: svgPrefix } }
-          ]
+environment.loaders.insert(
+  "svg",
+  {
+    test: /\.svg$/,
+    use: babelLoader.use.concat([
+      {
+        loader: "react-svg-loader",
+        options: {
+          jsx: true,
+          svgo: {
+            plugins: [{ cleanupIDs: { prefix: svgPrefix } }]
+          }
         }
       }
-    }
-  ])
-}, { after: 'file' })
+    ])
+  },
+  { after: "file" }
+);
 
-fileLoader.exclude = /\.(svg)$/i
+fileLoader.exclude = /\.(svg)$/i;
 
 environment.splitChunks(config =>
   Object.assign({}, config, {

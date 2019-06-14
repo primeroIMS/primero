@@ -65,31 +65,28 @@ describe Agency do
   end
 
   it "should not allow invalid logo uploads" do
-    agency = Agency.new('upload_logo' => {'logo' => uploadable_audio_mp3})
+    agency = Agency.new(name: 'Agency I', agency_code: 'agency_i')
+    agency.logo_small.attach(FilesTestHelper.uploadable_audio_mp3)
     agency.should_not be_valid
-    agency.errors[:logo].should == ["Please upload a valid logo file (jpg, gif, or png)"]
+    expect(agency.errors[:logo_small].first).to eq('file should be one of image/png')
   end
 
   it "should allow valid logo uploads" do
-    agency = Agency.new(:name => "irc", :agency_code => "12345", 'upload_logo' => {'logo' => uploadable_photo_gif})
+    agency = Agency.new(name: "irc", agency_code: "12345", logo_small: FilesTestHelper.logo, logo_large: FilesTestHelper.logo)
     agency.should be_valid
   end
 
   it "should remove old logos before updating logos" do
-    Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-    agency = Agency.new(:name => "irc", :agency_code => "12345", 'upload_logo' => {'logo' => uploadable_photo_gif})
+    agency = Agency.new(name: "irc", agency_code: "12345", logo_small: FilesTestHelper.logo_old)
     agency.save
-    agency["logo_key"].should eq("small")
-    agency['_attachments']['small']['data'].should_not be_blank
-    agency['_attachments']['small']['content_type'].should eq("image/gif")
+    expect(agency.logo_small.attached?).to be_truthy
+    expect(agency.logo_small.attachment.filename.to_s).to eq('unicef-old.png')
 
-    Clock.stub(:now).and_return(Time.parse("Jan 20 2010 14:05:32"))
-    agency.update_attributes('upload_logo' => {'logo' => uploadable_photo})
+    agency.update_attributes(logo_small: FilesTestHelper.logo)
     agency.save
-    agency["logo_key"].should eq("jorge")
-    agency['_attachments']['small'].should be_nil
-    agency['_attachments']['jorge']['data'].should_not be_blank
-    agency['_attachments']['jorge']['content_type'].should eq("image/jpg")
+    expect(agency.logo_small.attached?).to be_truthy
+    expect(agency.logo_small.attachment.filename.to_s).to eq('unicef.png')
+    expect(agency.logo_small.attachment.content_type).to eq('image/png')
   end
 
   it "should return all the available agency names" do
@@ -105,18 +102,16 @@ describe Agency do
   end
 
   it "should return all available agency logos for the header" do
-    Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-
-    agency1 = Agency.new(:name => "agency1", :agency_code => "1111", :logo_enabled => true, 'upload_logo' => {'logo' => uploadable_photo_gif})
+    agency1 = Agency.new(name: "agency1", agency_code: "1111", logo_enabled: true, logo_small: FilesTestHelper.logo)
     agency1.save
 
-    agency2 = Agency.new(:name => "agency2", :agency_code => "2222")
+    agency2 = Agency.new(name: "agency2", agency_code: "2222")
     agency2.save
 
-    agency3 = Agency.new(:name => "agency3", :agency_code => "3333", :logo_enabled => true,  'upload_logo' => {'logo' => uploadable_photo_gif})
+    agency3 = Agency.new(name: "agency3", agency_code: "3333", logo_enabled: true, logo_small: FilesTestHelper.logo)
     agency3.save
-
-    expect(Agency.retrieve_logo_ids).to eq([{:id=>"agency-1111", :filename=>"small"}, {:id=>"agency-3333", :filename=>"small"}])
+    expect(Agency.retrieve_logo_ids.count).to eq 2
+    expect(Agency.retrieve_logo_ids.map &:filename).to eq(['unicef.png', 'unicef.png'])
   end
 
   describe 'internationalization' do

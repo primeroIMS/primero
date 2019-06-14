@@ -219,8 +219,8 @@ module Exporters
         if property.name == 'name' && model.try(:module_id) == PrimeroModule::GBV && exclude_name_mime_types.include?(id)
           "*****"
         else
-          value = model.data[property.name]
-          translate_value(property.name, value)
+          value = model.respond_to?(:data) ? model.data[property.name] : model[property.name]
+          translate_value(property, value)
         end
       end
 

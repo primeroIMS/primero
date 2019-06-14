@@ -5,7 +5,7 @@ module Exporters
     IncidentRecorderExporter,
     CSVListViewExporter,
     CSVExporter,
-    # ExcelExporter,
+    ExcelExporter,
     JSONExporter,
     # PhotoWallExporter,
     PDFExporter,

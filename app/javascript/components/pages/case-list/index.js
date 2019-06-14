@@ -1,2 +1,2 @@
-export { default as Cases } from "./container";
+export { default as CaseList } from "./container";
 export * from "./reducer";

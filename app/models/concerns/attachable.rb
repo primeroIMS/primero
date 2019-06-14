@@ -4,25 +4,34 @@ module Attachable
   ATTACHMENT_TYPES = %w(images documents audio)
   MAX_PHOTOS = 10
   MAX_DOCUMENTS = 100
-
   module ClassMethods
-    ATTACHMENT_TYPES.each do |type|
-      attr_accessor :"attachment_#{type}_fields"
+    attr_accessor :attachment_images_fields, :attachment_documents_fields, :attachment_audio_fields
 
-      self.class.class_eval do
-        define_method(:"attach_#{type}") do |args|
-          if args[:fields].present?
-            self.instance_variable_set("@attachment_#{type}_fields", args[:fields])
+    def attach_documents(args)
+      if args[:fields].present?
+        @attachment_documents_fields = args[:fields]
+        args[:fields].each do |f|
+          validates f, length: { maximum: MAX_DOCUMENTS }
+          build_association(f, 'documents')
+        end
+      end
+    end
 
-            args[:fields].each do |f|
-              unless type ==  'audio'
-                validates f, length: { maximum: type == 'images' ? MAX_PHOTOS : MAX_DOCUMENTS }
-              end
+    def attach_images(args)
+      if args[:fields].present?
+        @attachment_images_fields = args[:fields]
+        args[:fields].each do |f|
+          validates f, length: { maximum: MAX_PHOTOS }
+          build_association(f, 'images')
+        end
+      end
+    end
 
-              build_attachment_association(f, attachment_model(type))
-              accepts_nested_attributes_for f, allow_destroy: true
-            end
-          end
+    def attach_audio(args)
+      if args[:fields].present?
+        @attachment_audio_fields = args[:fields]
+        args[:fields].each do |f|
+          build_association(f, 'audio')
         end
       end
     end
@@ -37,24 +46,29 @@ module Attachable
 
     private
 
+    def build_association(field, type)
+      build_attachment_association(field, attachment_model(type))
+      accepts_nested_attributes_for(field, allow_destroy: true)
+    end
+
     def build_attachment_association(field_name, class_name)
       has_many field_name, -> { where record_field_scope: field_name.to_s },
         as: :record, class_name: class_name
     end
   end
 
-  def set_attachment_fields(properties)
+  def set_attachment_fields(record_data)
     ATTACHMENT_TYPES.each do |type|
       fields = self.class.try(:"attachment_#{type}_fields")
 
       if fields.present?
         fields.each do |f|
-          if properties[f.to_s].present?
-            attachments = self.class.compact_properties(properties[f.to_s])
+          if record_data[f.to_s].present?
+            attachments = self.class.compact_properties(record_data[f.to_s])
 
             attachments.each do |attachment|
               if attachment['id'].present?
-                self.send("#{f}_attributes=".to_sym, attachment)
+                self.send("#{f}_attributes=".to_sym, [attachment])
               else
                 self.send(f).send(:build, attachment)
               end

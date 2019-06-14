@@ -1,20 +1,27 @@
-import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
+import clsx from "clsx";
 import { Route, Switch } from "react-router-dom";
-import { Nav } from "components/nav";
-import routes from "config/routes";
-import "./global.css";
-import styles from "./styles.module.css";
+import { Nav, selectDrawerOpen } from "components/nav";
+import { makeStyles, CssBaseline } from "@material-ui/core";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import styles from "./styles.css";
 
-const AppLayout = () => {
+const AppLayout = ({ drawerOpen, route }) => {
+  const css = makeStyles(styles)();
+
   return (
-    <div className={styles.root}>
+    <div className={css.root}>
       <CssBaseline />
       <Nav />
-      <main className={styles.content}>
+      <main
+        className={clsx(css.content, {
+          [css.contentShift]: drawerOpen
+        })}
+      >
         <Switch>
-          {routes.map(route => (
-            <Route key={route.path} {...route} />
+          {route.routes.map(r => (
+            <Route key={r.path} {...r} />
           ))}
         </Switch>
       </main>
@@ -22,4 +29,13 @@ const AppLayout = () => {
   );
 };
 
-export default AppLayout;
+AppLayout.propTypes = {
+  drawerOpen: PropTypes.bool.isRequired,
+  route: PropTypes.object
+};
+
+const mapStateToProps = state => ({
+  drawerOpen: selectDrawerOpen(state)
+});
+
+export default connect(mapStateToProps)(AppLayout);
