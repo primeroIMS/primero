@@ -234,7 +234,7 @@ module Exporters
 
       def translate_value(fields, value)
         field = fields.is_a?(Array) ? fields.first : fields
-        if field.present?
+        if field.present? && field.is_a?(Field)
            if fields.is_a?(Array) && field.type == Field::SUBFORM
             field_names = fields.map{|pn| pn.try(:name)}
             sub_fields = field.subform_section.try(:fields)
