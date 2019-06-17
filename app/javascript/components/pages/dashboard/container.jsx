@@ -10,6 +10,7 @@ import {
   LineChart,
   OverviewBox
 } from "components/dashboard";
+import { createMuiTheme } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { withI18n } from "libs";
 import * as actions from "./action-creators";
@@ -27,7 +28,6 @@ const Dashboard = ({
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
-  doughnutInnerText,
   i18n
 }) => {
   useEffect(() => {
@@ -39,6 +39,29 @@ const Dashboard = ({
   }, []);
 
   const css = makeStyles(styles)();
+
+  const theme = createMuiTheme();
+
+  const getDoughnutInnerText = () => {
+    const text = [];
+    const openCases = casesByStatus.get("open");
+    const closedCases = casesByStatus.get("closed");
+    const baseFontStyle = theme.typography.fontFamily.replace(/"/g, "");
+    if (openCases) {
+      text.push({
+        text: `${openCases} Open`,
+        fontStyle: `bold ${baseFontStyle}`
+      });
+    }
+    if (closedCases) {
+      text.push({
+        text: `${closedCases} Closed`,
+        fontStyle: baseFontStyle
+      });
+    }
+    return text;
+  };
+
   const columns = [
     { label: i18n.t("dashboard.case_worker"), name: "case_worker", id: true },
     { label: i18n.t("dashboard.assessment"), name: "assessment" },
@@ -48,7 +71,7 @@ const Dashboard = ({
   ];
 
   const casesChartData = {
-    innerText: doughnutInnerText,
+    innerTextConfig: getDoughnutInnerText(),
     labels: [i18n.t("dashboard.open"), i18n.t("dashboard.closed")],
     datasets: [
       {
@@ -110,7 +133,6 @@ const Dashboard = ({
 
 Dashboard.propTypes = {
   flags: PropTypes.object.isRequired,
-  doughnutInnerText: PropTypes.array.isRequired,
   casesByStatus: PropTypes.object.isRequired,
   casesByCaseWorker: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
@@ -126,7 +148,6 @@ Dashboard.propTypes = {
 const mapStateToProps = state => {
   return {
     flags: selectors.selectFlags(state),
-    doughnutInnerText: selectors.getDoughnutInnerText(state),
     casesByStatus: selectors.selectCasesByStatus(state),
     casesByCaseWorker: selectors.selectCasesByCaseWorker(state),
     casesRegistration: selectors.selectCasesRegistration(state),

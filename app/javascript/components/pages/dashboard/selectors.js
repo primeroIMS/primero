@@ -9,20 +9,6 @@ export const selectCasesByStatus = state => {
   return state.getIn([NAMESPACE, "casesByStatus"], fromJS({}));
 };
 
-export const getDoughnutInnerText = state => {
-  const casesByStatus = selectCasesByStatus(state);
-  const text = [];
-  const openCases = casesByStatus.get("open");
-  const closedCases = casesByStatus.get("closed");
-  if (openCases) {
-    text.push({ text: `${openCases} Open`, bold: true });
-  }
-  if (closedCases) {
-    text.push({ text: `${closedCases} Closed` });
-  }
-  return text;
-};
-
 export const selectCasesByCaseWorker = state => {
   return state.getIn([NAMESPACE, "casesByCaseWorker"], fromJS({}));
 };

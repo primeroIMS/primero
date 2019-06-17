@@ -27,8 +27,8 @@ const flags = [
 ];
 
 const casesByStatus = {
-  open: "2660451",
-  closed: "1547"
+  open: "100",
+  closed: "100"
 };
 
 const casesByCaseWorker = {
