@@ -28,7 +28,7 @@ module Exporters
 
       def properties_to_export(properties_by_module, custom_export_options)
         unless custom_export_options.present?
-          properties_by_module = exclude_forms(properties_by_module) if excluded_forms.present?
+          properties_by_module = super(properties_by_module)
         end
         filter_custom_exports(properties_by_module, custom_export_options)
       end
@@ -59,7 +59,6 @@ module Exporters
 
     # @returns: a String with the Excel file data
     def export(models, properties_by_module, current_user, custom_export_options, *args)
-      self.class.load_fields(models.first) if models.present?
 
       if @props.blank?
         properties_by_module = self.class.properties_to_export(properties_by_module, custom_export_options)
@@ -93,8 +92,10 @@ module Exporters
       end
 
       models.each do |model|
-        @row_worksheet = write_row(@row_worksheet, @props[:selected_fields], @worksheet, model, @withds[:selected_fields])
-        @row_record_worksheet = write_row(@row_record_worksheet, @props[:record], @record_worksheet, model, @withds[:record])
+        @row_worksheet = write_row(@row_worksheet, @props[:selected_fields], @worksheet,
+                                   model, @withds[:selected_fields], @selected_fields_headers)
+        @row_record_worksheet = write_row(@row_record_worksheet, @props[:record], @record_worksheet,
+                                          model, @withds[:record], @record_headers)
       end
 
     end
@@ -122,59 +123,56 @@ module Exporters
         if property == "model_type"
           {'Child' => 'Case'}.fetch(model.class.name, model.class.name)
         else
-          self.class.translate_value(property, model.send(property))
+          field = property.split(':')
+          subform_name, subform_field = field.first, field.last
+          value = if field.length > 1
+                    subform = model.data.try(:[], subform_name)
+                    subform.map { |i| i[subform_field] } unless subform.blank?
+                  else
+                    model.data[property]
+                  end
+          self.class.translate_value(property, value)
         end
       elsif property.is_a?(Array)
         #This assumes that the only properties that are Arrays are locations
         #Which is true at the time of this coding
         self.class.get_model_location_value(model, property)
-      elsif property.array
-        if property.type.include?(CouchRest::Model::Embeddable)
-          #data from the subform.!
-          (model.send(property.name) || []).map do |row|
-            #Remove unique_id field for subforms.
-            property.type.properties.select{|p| p.name != 'unique_id'}.map do |p|
-              get_value(row, p)
-            end
+      elsif property.type == Field::SUBFORM
+        #data from the subform.!
+        (model.data[property.name] || []).map do |row|
+          #Remove unique_id field for subforms.
+          property.subform_section.fields.select{|p| p.name != 'unique_id'}.map do |p|
+            get_value(row, p)
           end
-        else
-          #multi_select fields.
-          (self.class.translate_value(property.name, model.send(property.name)) || []).join(" ||| ")
         end
+      elsif (property.multi_select && property.type == Field::SELECT_BOX) # TODO User is_multi_select? method from field
+          (self.class.translate_value(property.name, model.data[property.name]) || []).join(" ||| ")
       else
         #regular fields.
         self.class.get_model_value(model, property)
       end
     end
 
-    def write_row(row, properties, worksheet, model, withds)
+    def write_row(row, properties, worksheet, model, withds, fields_headers)
       col = 0
       max_row = 1
-      (["_id", "model_type"] + (properties || [])).map do |property|
+      fields_headers.map do |property|
         #Obtain the property value.
-        data_row = get_value(model, property)
+        field = properties.select {|f| f.name.eql?(property) }.first || property
+        data_row = get_value(model, field)
         #Grab the corresponding column and data for
         #second phase to write the data in the sheet
         value = {col => data_row}
-        if data_row.is_a?(Array)
+        if data_row.is_a?(Array) && data_row.length > 0
           #Calculate the next row based on the subforms data.
           max_row = data_row.size if data_row.size > max_row
           #calculate width based on the data.
-          data_row.each{|row| row.each{|data| withds[col] = data.to_s.length if withds[col] < data.to_s.length}}
-          if property.is_a?(Hash)
-            #This is a subform with some selected fields.
-            size = property.values.first.size
-          else
-            #exclude unique_id
-            size = property.type.properties.select{|p| p.name != 'unique_id'}.size
-          end
-          #Calculate the next column
-          col = col + size
+          data_row.each{|data| withds[col] = data.to_s.length if withds[col] < data.to_s.length} unless withds[col].nil?
         else
           #Regular fields calculate metadata.
-          withds[col] = data_row.to_s.length if withds[col] < data_row.to_s.length
-          col = col + 1
+          withds[col] = data_row.to_s.length if withds[col].to_i < data_row.to_s.length
         end
+        col = col + 1
         value
       end.each do |data_row|
         #Occurs the write on the sheet.
@@ -196,23 +194,12 @@ module Exporters
     #the other special section __record__
     def plain_properties(properties_by_module)
       properties = {:selected_fields => [], :record => []}
-      properties_by_module.each do |module_id, form_section|
-        form_section.each do |form_name, props|
-          if form_name == '__record__'
-            properties[:record] << props.values
-          else
-            properties[:selected_fields] << props.map do |key, value|
-              if value.is_a?(Hash)
-                #This is a subform with some selected fields.
-                #keep the 'key' because is the name of the subform field
-                #in the model for retrieve values.
-                {key => value.values}
-              else
-                #Regular property.
-                value
-              end
-            end
-          end
+
+      properties_by_module.each do |field|
+        if field.form_section.unique_id == "__record__"
+          properties[:record] << field
+        else
+          properties[:selected_fields] << field
         end
       end
       properties[:record].flatten!
@@ -224,7 +211,7 @@ module Exporters
 
     #Return the header based on the properties.
     def get_header(properties)
-      (["_id", "model_type"] +
+      (["id"] +
        properties.map do |property|
          if property.is_a?(Hash)
            #When is a hash, it is a subform with some of the selected fields.
@@ -233,10 +220,10 @@ module Exporters
            subform_props.map{|prop| "#{subform_name}:#{prop.name}"}.flatten
          elsif property.is_a?(Array)
            property.last[:display_name] if property.last.is_a?(Hash)
-         elsif property.array && property.type.include?(CouchRest::Model::Embeddable)
+         elsif property.type == Field::SUBFORM
            #Returns every property in the subform to build the header of the sheet.
            #Remove unique_id field for subforms.
-           property.type.properties.map{|p| "#{property.name}:#{p.name}" if p.name != "unique_id"}.compact
+            property.subform_section.fields.map{|p| "#{property.name}:#{p.name}" if p.name != "unique_id"}.compact
          else
            property.name
          end

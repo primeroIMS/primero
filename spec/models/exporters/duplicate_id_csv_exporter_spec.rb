@@ -3,9 +3,7 @@ require 'rails_helper'
 module Exporters
   describe DuplicateIdCSVExporter do
     before do
-      Field.all.each &:destroy
-      FormSection.all.each &:destroy
-      Lookup.all.each &:destroy
+      [Field, FormSection, Lookup, Child].each(&:destroy_all)
 
       Lookup.create!(:id => "lookup-gender",
                      :name => "Gender",
@@ -70,35 +68,14 @@ module Exporters
         :fields => fields
       )
       form.save!
-      Child.any_instance.stub(:field_definitions).and_return(fields)
-      Child.refresh_form_properties
-      Child.all.each { |form| form.destroy }
 
       @child_cls = Child.clone
-      @child_cls.class_eval do
-        property :unhcr_needs_codes, [String]
-        property :nationality, [String]
-        property :ethnicity, [String]
-        property :protection_concerns, [String]
-        property :language, [String]
-        property :family_details_section, [Class.new do
-          include CouchRest::Model::Embeddable
-          property :relation_name, String
-          property :relation, String
-        end]
-      end
       @test_child = Child.new()
-    end
-
-    after :each do
-      property_index = @child_cls.properties.find_index{|p| p.name == "family_details_section"}
-      @child_cls.properties.delete_at(property_index)
     end
 
     describe 'export configuration' do
       before do
-        ExportConfiguration.all.each &:destroy
-        SystemSettings.all.each &:destroy
+        [ExportConfiguration, SystemSettings].each(&:destroy_all)
         SystemSettings.create(default_locale: "en")
       end
 

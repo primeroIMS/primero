@@ -13,11 +13,8 @@ describe Matchable do
   end
 
   describe "matchable_fields" do
-    before do
-      Child.all.each &:destroy
-      FormSection.all.each &:destroy
-      Field.all.each &:destroy
-
+    before(:each) do
+      clean_data(Field, FormSection, Child)
       subform_fields = [
         Field.new({"name" => "relation",
                    "type" => Field::TEXT_FIELD,
@@ -86,7 +83,7 @@ describe Matchable do
       )
       form.save!
       Child.any_instance.stub(:field_definitions).and_return(fields)
-      Child.refresh_form_properties
+      # Child.refresh_form_properties
       @match_fields = { case_fields: { form_section_test: ["name", "relation_name"] } }
 
     end
@@ -120,11 +117,11 @@ describe Matchable do
 
     describe "get_match_field" do
       it "should return test_field field for no match_fields" do
-        expect(Child.get_match_field("test_field")).to eq([:test_field])
+        expect(Child.get_match_field("test_field")).to eq(["test_field"])
       end
 
       it "should return an exact match_fields" do
-        expect(Child.get_match_field("name")).to eq([:name, :name_other, :name_nickname])
+        expect(Child.get_match_field("name")).to eq(["name", "name_other", "name_nickname"])
       end
     end
 
@@ -207,11 +204,7 @@ describe Matchable do
 
   describe "find match records", search: true, skip_session: true do
     before do
-      Child.all.each &:destroy
-      TracingRequest.all.each &:destroy
-      Sunspot.remove_all!
-      FormSection.all.each &:destroy
-      Field.all.each &:destroy
+      clean_data(Child, TracingRequest, Field, FormSection, Child)
       fields = [
           Field.new({"name" => "name",
                      "type" => "text_field",
@@ -242,7 +235,7 @@ describe Matchable do
       )
       form.save!
       Child.any_instance.stub(:field_definitions).and_return(fields)
-      Child.refresh_form_properties
+      # Child.refresh_form_properties
 
       fields = [
           Field.new({"name" => "name",
@@ -272,7 +265,7 @@ describe Matchable do
                     "description_all" => "Form Section With Dates Fields",
                   })
       TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
-      TracingRequest.refresh_form_properties
+      # TracingRequest.refresh_form_properties
 
       Sunspot.setup(Child) {
         text 'name', as: 'name_text'.to_sym
@@ -282,44 +275,41 @@ describe Matchable do
       }
 
       Sunspot.setup(TracingRequest) {
-        text 'name', as: 'name_text'.to_sym
-        text 'name_nickname', as: 'name_nickname_text'.to_sym
-        text 'age', as: 'age_text'.to_sym
-        string 'consent_for_tracing', as: 'consent_for_tracing_sci'.to_sym
+        text 'relation_name', as: 'name_text'.to_sym
+        text 'relation_nickname', as: 'name_nickname_text'.to_sym
+        text 'relation_age', as: 'age_text'.to_sym
+        # string 'consent_for_tracing', as: 'consent_for_tracing_sci'.to_sym
       }
-      @case = Child.create(name: 'Robert', name_nickname: 'Bobby', age: 15, consent_for_tracing: true)
-      @trace = TracingRequest.create(:name => "Bobby", :name_nickname => "you cant see me",
-                                     :age => 11, consent_for_tracing: true)
+      @case = Child.create(name: 'Robert', name_nickname: 'Bobby', age: 15)
+      @trace = TracingRequest.create(:relation_name => "Bobby", :relation_nickname => "you cant see me",
+                                     :relation_age => 11)
       Sunspot.commit
     end
 
     after :all do
-      Child.all.each &:destroy
-      TracingRequest.all.each &:destroy
-      FormSection.all.each &:destroy
       Sunspot.remove_all!
       Sunspot.commit
     end
 
     context "when trace" do
       it "name should match nickname in Child" do
-        result = TracingRequest.find_match_records({:name => [@trace.name], :age => [@trace.age]}, Child)
+        result = TracingRequest.find_match_records({:name => [@trace.relation_name], :age => [@trace.relation_age]}, Child, nil, false)
         expect(result.has_key?(@case.id)).to eq(true)
       end
 
       it "age should not match age in Child" do
-        expect(TracingRequest.find_match_records({:age => [@trace.age]}, Child)).to eq({})
+        expect(TracingRequest.find_match_records({:age => [@trace.relation_age]}, Child)).to eq({})
       end
     end
 
     context "when child" do
       it "nickname should match name in Trace" do
-        result = Child.find_match_records({:name_nickname => [@case.name_nickname], :age => [@case.age]}, TracingRequest)
+        result = Child.find_match_records({:relation_nickname => [@case.name_nickname], :relation_age => [@case.age]}, TracingRequest)
         expect(result.has_key?(@trace.id)).to eq(true)
       end
 
       it "age should not match age in Trace" do
-        expect(Child.find_match_records({:age => [@case.age]}, TracingRequest)).to eq({})
+        expect(Child.find_match_records({:relation_age => [@case.age]}, TracingRequest)).to eq({})
       end
     end
   end

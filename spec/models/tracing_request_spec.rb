@@ -1,32 +1,46 @@
 require 'rails_helper'
 require 'sunspot'
+require 'will_paginate'
 
 describe TracingRequest do
 
   before :each do
+    clean_data(Field, FormSection)
     TracingRequest.any_instance.stub(:field_definitions).and_return([])
   end
 
-  it_behaves_like "a valid record" do
-    fields = [
-      Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
-      Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
-      Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
-      Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
-      Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
-    ]
-    let(:record) {
-      FormSection.stub(:all_visible_form_fields => fields )
-      TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
-      TracingRequest.new
-    }
-  end
+  # TODO: Fix when models validations be ready
+  # it_behaves_like "a valid record" do
+  #   fields = [
+  #     Field.new(:type => Field::DATE_FIELD, :name => "a_datefield", :display_name => "A date field"),
+  #     Field.new(:type => Field::TEXT_AREA, :name => "a_textarea", :display_name => "A text area"),
+  #     Field.new(:type => Field::TEXT_FIELD, :name => "a_textfield", :display_name => "A text field"),
+  #     Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield", :display_name => "A numeric field"),
+  #     Field.new(:type => Field::NUMERIC_FIELD, :name => "a_numericfield_2", :display_name => "A second numeric field")
+  #   ]
+  #   let(:record) {
+  #     FormSection.stub(:all_visible_form_fields => fields )
+  #     TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
+  #     TracingRequest.new
+  #   }
+  # end
 
   describe 'build solar schema' do
 
+    before(:each) do
+      clean_data(FormSection, Field)
+      form = create(:form_section, parent_form: "tracing_request", is_nested: false)
+      %w(approval_status_bia
+         approval_status_case_plan
+         approval_status_closure
+         transfer_status).each {|f| create(:select_field, name: f, multi_select: false, form_section_id: form.id) }
+      create(:field, :date_with_datetime, name: "created_at", form_section_id: form.id)
+      create(:field, :date_range_with_datetime, name: "last_updated_at", form_section_id: form.id)
+    end
+
     it "should build with free text search fields" do
       Field.stub(:all_searchable_field_names).and_return []
-      TracingRequest.searchable_string_fields.should == ["unique_identifier", "short_id", "created_by", "created_by_full_name",
+      TracingRequest.searchable_string_fields.should =~ ["unique_identifier", "short_id", "created_by", "created_by_full_name",
                                                          "last_updated_by", "last_updated_by_full_name","created_organization",
                                                          "owned_by_agency", "owned_by_location",
                                                          "approval_status_bia", "approval_status_case_plan", "approval_status_closure",
@@ -189,122 +203,7 @@ describe TracingRequest do
     # end
   end
 
-  describe "update_properties_with_user_name" do
-
-    it "should replace old properties with updated ones" do
-      tracing_request = TracingRequest.new("relation_name" => "Dave", "relation_age" => "28", "last_known_location" => "London")
-      new_properties = {"relation_name" => "Dave", "relation_age" => "35"}
-      tracing_request.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      tracing_request['relation_age'].should == "35"
-      tracing_request['relation_name'].should == "Dave"
-      tracing_request['last_known_location'].should == "London"
-    end
-
-    it "should not replace old properties when when missing from update" do
-      tracing_request = TracingRequest.new("origin" => "Croydon", "last_known_location" => "London")
-      new_properties = {"last_known_location" => "Manchester"}
-      tracing_request.update_properties_with_user_name "some_user", nil, nil, nil, false, new_properties
-      tracing_request['last_known_location'].should == "Manchester"
-      tracing_request['origin'].should == "Croydon"
-    end
-
-    it "should populate last_updated_by field with the user_name who is updating" do
-      tracing_request = TracingRequest.new
-      tracing_request.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      tracing_request.last_updated_by.should == 'jdoe'
-    end
-
-    it "should not update attachments when the photo value is nil" do
-      tracing_request = TracingRequest.new
-      tracing_request.update_with_attachements({}, "mr jones")
-      tracing_request.photos.should be_empty
-    end
-
-    it "should update attachment when there is audio update" do
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-      tracing_request = TracingRequest.new
-      tracing_request.update_properties_with_user_name "jdoe", nil, nil, uploadable_audio, false, {}
-      tracing_request['_attachments']['sample']['data'].should_not be_blank
-    end
-
-    it "should respond nil for photo when there is no photo associated with the tracing request" do
-      tracing_request = TracingRequest.new
-      tracing_request.photo.should == nil
-    end
-
-    it "should update photo keys" do
-      tracing_request = TracingRequest.new
-      tracing_request.should_receive(:update_photo_keys)
-      tracing_request.update_properties_with_user_name "jdoe", nil, nil, nil, false, {}
-      tracing_request.photos.should be_empty
-    end
-
-    it "should remove old audio files when save a new audio file" do
-      User.stub(:find_by_user_name).and_return("John Doe")
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"), Time.parse("Jan 18 2010 14:05:32"))
-
-      #Create a tracing_request with some audio file.
-      tracing_request = TracingRequest.new
-      tracing_request.audio = uploadable_audio_amr
-      tracing_request.save
-      #Validate the audio file was store.
-      tracing_request['_attachments']['sample']['data'].should_not be_blank
-      tracing_request['_attachments']['sample']['content_type'].should eq("audio/amr")
-      tracing_request['audio_attachments']['original'].should == "sample"
-      tracing_request['audio_attachments']['amr'].should == "sample"
-      tracing_request['audio_attachments']['mp3'].should be_nil
-      #Others
-      tracing_request['recorded_audio'].should == "sample"
-      tracing_request['relation_name'].should be_nil
-
-      #Update the tracing_request so a new audio is loaded.
-      properties = {:relation_name => "Some TracingRequest Name"}
-      tracing_request.update_properties_with_user_name 'Jane Doe', nil, nil, uploadable_audio_mp3, false, properties
-
-      #Validate the new file was stored.
-      tracing_request['_attachments']['sample']['data'].should_not be_blank
-      tracing_request['_attachments']['sample']['content_type'].should eq("audio/mpeg")
-      tracing_request['audio_attachments']['original'].should == "sample"
-      tracing_request['audio_attachments']['mp3'].should == "sample"
-      tracing_request['audio_attachments']['amr'].should be_nil
-      #Others
-      tracing_request['recorded_audio'].should == "sample"
-      tracing_request['relation_name'].should == "Some TracingRequest Name"
-    end
-
-    it "should remove current audio files" do
-      User.stub(:find_by_user_name).and_return("John Doe")
-      Clock.stub(:now).and_return(Time.parse("Jan 17 2010 14:05:32"))
-
-      #Create a tracing_request with some audio file.
-      tracing_request = TracingRequest.new
-      tracing_request.audio = uploadable_audio_amr
-      tracing_request.save
-      #Validate the audio file was store.
-      tracing_request['_attachments']['sample']['data'].should_not be_blank
-      tracing_request['_attachments']['sample']['content_type'].should eq("audio/amr")
-      tracing_request['audio_attachments']['original'].should == "sample"
-      tracing_request['audio_attachments']['amr'].should == "sample"
-      tracing_request['audio_attachments']['mp3'].should be_nil
-      #Others
-      tracing_request['recorded_audio'].should == "sample"
-      tracing_request['relation_name'].should be_nil
-
-      #Update the tracing_request so the current audio is removed.
-      properties = {:relation_name => "Some TracingRequest Name"}
-      tracing_request.update_properties_with_user_name 'Jane Doe', nil, nil, nil, true, properties
-
-      #Validate the file was removed.
-      tracing_request['_attachments'].should be_blank
-      tracing_request['audio_attachments'].should be_nil
-      #Others
-      tracing_request['recorded_audio'].should be_nil
-      tracing_request['relation_name'].should == "Some TracingRequest Name"
-    end
-
-  end
-
-  describe "validation" do
+  xdescribe "validation" do
 
     it "should disallow file formats that are not photo formats" do
       tracing_request = TracingRequest.new
@@ -353,18 +252,23 @@ describe TracingRequest do
 
   describe 'save' do
 
+    before(:each) do
+      clean_data(Agency)
+      create(:agency)
+    end
+
     it "should save with generated tracing request_id and inquiry_date" do
       tracing_request = create_tracing_request_with_created_by('jdoe', 'last_known_location' => 'London', 'relation_age' => '6')
       tracing_request.save!
-      tracing_request[:tracing_request_id].should_not be_nil
-      tracing_request[:inquiry_date].should_not be_nil
+      tracing_request[:id].should_not be_nil
+      tracing_request.inquiry_date.should_not be_nil
     end
 
     it "should allow edit inquiry_date" do
-      tracing_request = create_tracing_request_with_created_by('jdoe', 'last_known_location' => 'London', 'relation_age' => '6', 'inquiry_date' => '19/Jul/2014')
+      tracing_request = create_tracing_request_with_created_by('jdoe', 'relation_age' => '6', 'inquiry_date' => '19/Jul/2014')
       tracing_request.save!
-      tracing_request[:tracing_request_id].should_not be_nil
-      tracing_request[:inquiry_date].should eq '19/Jul/2014'
+      tracing_request[:id].should_not be_nil
+      tracing_request.inquiry_date.should eq '19/Jul/2014'
     end
 
     it "should not save file formats that are not photo formats" do
@@ -425,26 +329,26 @@ describe TracingRequest do
   describe "new_with_user_name" do
 
     it "should create regular tracing request fields" do
-      tracing_request = create_tracing_request_with_created_by('jdoe', 'last_known_location' => 'London', 'relation_age' => '6')
-      tracing_request['last_known_location'].should == 'London'
-      tracing_request['relation_age'].should == '6'
+      tracing_request = create_tracing_request_with_created_by('jdoe', 'location_last' => 'London', 'relation_age' => '6')
+      tracing_request.location_last.should == 'London'
+      tracing_request.relation_age.should == '6'
     end
 
     it "should create a unique id" do
-      SecureRandom.stub("uuid").and_return(12345)
+      SecureRandom.stub("uuid").and_return("191fc236-71f4-4a76-be09-f2d8c442e1fd")
       tracing_request = create_tracing_request_with_created_by('jdoe', 'last_known_location' => 'London')
       tracing_request.save!
-      tracing_request['unique_identifier'].should == "12345"
+      tracing_request.data['unique_identifier'].should == "191fc236-71f4-4a76-be09-f2d8c442e1fd"
     end
 
     it "should not create a unique id if already exists" do
       tracing_request = create_tracing_request_with_created_by('jdoe', 'last_known_location' => 'London', 'unique_identifier' => 'rapidftrxxx5bcde')
-      tracing_request['unique_identifier'].should == "rapidftrxxx5bcde"
+      tracing_request.data['unique_identifier'].should == "rapidftrxxx5bcde"
     end
 
     it "should create a created_by field with the user name" do
       tracing_request = create_tracing_request_with_created_by('jdoe', 'some_field' => 'some_value')
-      tracing_request['created_by'].should == 'jdoe'
+      tracing_request.data['created_by'].should == 'jdoe'
     end
 
     it "should create a posted_at field with the current date" do
@@ -474,17 +378,17 @@ describe TracingRequest do
 
   describe "unique id" do
     it "should create a unique id" do
-      SecureRandom.stub("uuid").and_return(12345)
+      SecureRandom.stub("uuid").and_return("191fc236-71f4-4a76-be09-f2d8c442e1fd")
       tracing_request = TracingRequest.new
       tracing_request.save!
-      tracing_request.unique_identifier.should == "12345"
+      tracing_request.unique_identifier.should == "191fc236-71f4-4a76-be09-f2d8c442e1fd"
     end
 
     it "should return last 7 characters of unique id as short id" do
-      SecureRandom.stub("uuid").and_return(1212127654321)
+      SecureRandom.stub("uuid").and_return("191fc236-71f4-4a76-be09-f2d8c442e1fd")
       tracing_request = TracingRequest.new
       tracing_request.save!
-      tracing_request.short_id.should == "7654321"
+      tracing_request.short_id.should == "442e1fd"
     end
 
   end
@@ -823,10 +727,10 @@ describe TracingRequest do
   end
 
   it "should maintain history when tracing_request is reunited and message is added" do
-    tracing_request = TracingRequest.create('photo' => uploadable_photo, 'last_known_location' => 'London', 'created_by' => "me", 'created_organization' => "stc")
+    tracing_request = TracingRequest.create('created_by' => "me", 'created_organization' => "stc")
     tracing_request.reunited = true
     tracing_request.save!
-    reunited_history = tracing_request.histories.first.changes['reunited']
+    reunited_history = tracing_request.histories.first.record_changes["reunited"]
     reunited_history['from'].should be_nil
     reunited_history['to'].should == true
   end
@@ -840,21 +744,20 @@ describe TracingRequest do
 
     it "should return list of tracing request ordered by name" do
       SecureRandom.stub("uuid").and_return(12345)
-      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
-      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
-      tracing_requests = TracingRequest.all
-      tracing_requests.first['relation_name'].should == 'Abu'
+      TracingRequest.create('relation_name' => 'Zbu', 'location_last' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      TracingRequest.create('relation_name' => 'Abu', 'location_last' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      tracing_requests = TracingRequest.all.order("data -> 'relation_name' ASC")
+      tracing_requests.first.relation_name.should == 'Abu'
     end
 
     it "should order tracing_request with blank names first" do
       SecureRandom.stub("uuid").and_return(12345)
-      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Zbu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
-      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => 'Abu', 'last_known_location' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
-      TracingRequest.create('photo' => uploadable_photo, 'relation_name' => '', 'last_known_location' => 'POA')
-      tracing_requests = TracingRequest.all
-      tracing_requests.first['relation_name'].should == ''
-      # TODO: Ask why all.all now?
-      TracingRequest.all.all.size.should == 3
+      TracingRequest.create('relation_name' => 'Zbu', 'location_last' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      TracingRequest.create('relation_name' => 'Abu', 'location_last' => 'POA', 'created_by' => "me", 'created_organization' => "stc")
+      TracingRequest.create('relation_name' => '', 'location_last' => 'POA')
+      tracing_requests = TracingRequest.all.order("data -> 'relation_name' ASC")
+      tracing_requests.first.relation_name.should == ''
+      TracingRequest.count.should == 3
     end
 
   end
@@ -864,12 +767,12 @@ describe TracingRequest do
 
     it "should return nil if the record has no attached photo" do
       tracing_request = create_tracing_request "Bob McBobberson"
-      TracingRequest.all.find { |c| c.id == tracing_request.id }.photo.should be_nil
+      TracingRequest.find(tracing_request.id).photos.should be_empty
     end
 
   end
 
-  describe ".audio" do
+  xdescribe ".audio" do
 
     it "should return nil if the record has no audio" do
       tracing_request = create_tracing_request "Bob McBobberson"
@@ -912,7 +815,7 @@ describe TracingRequest do
   describe 'organization' do
     it 'should get created user' do
       tracing_request = TracingRequest.new
-      tracing_request['created_by'] = 'test'
+      tracing_request.created_by = 'test'
 
       User.should_receive(:find_by_user_name).with('test').and_return('test1')
       tracing_request.created_by_user.should == 'test1'
@@ -926,97 +829,61 @@ describe TracingRequest do
     end
   end
 
-  describe "views" do
-    describe "user action log" do
-      it "should return all tracing request updated by a user" do
-        tracing_request = TracingRequest.create!("created_by" => "some_other_user", "last_updated_by" => "a_third_user", "relation_name" => "abc", "histories" => [{"user_name" => "brucewayne", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
+  # describe 'validate dates and date ranges fields' do
+  #   before do
+  #     fields = [Field.new({"name" => "a_date_field",
+  #                          "type" => "date_field",
+  #                          "display_name_all" => "A Date Field"
+  #                         }),
+  #               Field.new({"name" => "a_range_field",
+  #                          "type" => "date_range",
+  #                          "display_name_all" => "A Range Field"
+  #                         })]
+  #     TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
+  #     FormSection.create_or_update_form_section({
+  #       :unique_id=> "form_section_with_dates_fields",
+  #       "visible" => true,
+  #       :order => 1,
+  #       "editable" => true,
+  #       :fields => fields,
+  #       :parent_form=>"tracing_request",
+  #       "name_all" => "Form Section With Dates Fields",
+  #       "description_all" => "Form Section With Dates Fields",
+  #     })
+  #   end
 
-        TracingRequest.all_connected_with("brucewayne").should == [TracingRequest.get(tracing_request.id)]
-      end
+  #   it "should validate single date field" do
+  #     #date field invalid.
+  #     tracing_request = create_tracing_request "Bob McBobberson", :a_date_field => "asldkfjlj3234", :a_range_field_date_or_date_range => "date_range"
+  #     tracing_request.errors[:a_date_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
-      it "should not return tracing request updated by other users" do
-        TracingRequest.create!("created_by" => "some_other_user", "relation_name" => "def", "histories" => [{"user_name" => "clarkkent", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
+  #     #date valid.
+  #     tracing_request = create_tracing_request "Bob McBobberson", :a_date_field => "30-May-2014", :a_range_field_date_or_date_range => "date_range"
+  #     tracing_request.errors[:a_date_field].should eq([])
+  #   end
 
-        TracingRequest.all_connected_with("peterparker").should be_empty
-      end
+  #   it "should validate range fields" do
+  #     #_from is wrong.
+  #     tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "lkjlj", :a_range_field_to => "31-May-2014",
+  #                                               :a_range_field_date_or_date_range => "date_range"
+  #     tracing_request.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
-      it "should return the tracing request once when modified twice by the same user" do
-        tracing_request = TracingRequest.create!("created_by" => "some_other_user", "relation_name" => "ghi", "histories" => [{"user_name" => "peterparker", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}, {"user_name" => "peterparker", "changes" => {"sex" => {"to" => "female", "from" => "male"}}}])
+  #     #_to is wrong.
+  #     tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "lk2j3lk45",
+  #                                               :a_range_field_date_or_date_range => "date_range"
+  #     tracing_request.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
-        TracingRequest.all_connected_with("peterparker").should == [TracingRequest.get(tracing_request.id)]
-      end
+  #     #_from and _to are wrong.
+  #     tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "lk2j34lkj", :a_range_field_to => "akdf34lk4j",
+  #                                               :a_range_field_date_or_date_range => "date_range"
+  #     tracing_request.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
 
-      it "should return the tracing request created by a user" do
-        tracing_request = TracingRequest.create!("created_by" => "a_user", "relation_name" => "def", "histories" => [{"user_name" => "clarkkent", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}])
-
-        TracingRequest.all_connected_with("a_user").should == [TracingRequest.get(tracing_request.id)]
-      end
-
-      it "should not return duplicate records when same user had created and updated same tracing request multiple times" do
-        tracing_request = TracingRequest.create!("created_by" => "tonystark", "relation_name" => "ghi", "histories" => [{"user_name" => "tonystark", "changes" => {"sex" => {"to" => "male", "from" => "female"}}}, {"user_name" => "tonystark", "changes" => {"sex" => {"to" => "female", "from" => "male"}}}])
-
-        TracingRequest.all_connected_with("tonystark").should == [TracingRequest.get(tracing_request.id)]
-      end
-    end
-
-  end
-
-  describe 'validate dates and date ranges fields' do
-    before do
-      fields = [Field.new({"name" => "a_date_field",
-                           "type" => "date_field",
-                           "display_name_all" => "A Date Field"
-                          }),
-                Field.new({"name" => "a_range_field",
-                           "type" => "date_range",
-                           "display_name_all" => "A Range Field"
-                          })]
-      TracingRequest.any_instance.stub(:field_definitions).and_return(fields)
-      FormSection.create_or_update_form_section({
-        :unique_id=> "form_section_with_dates_fields",
-        "visible" => true,
-        :order => 1,
-        "editable" => true,
-        :fields => fields,
-        :perm_enabled => true,
-        :parent_form=>"tracing_request",
-        "name_all" => "Form Section With Dates Fields",
-        "description_all" => "Form Section With Dates Fields",
-      })
-    end
-
-    it "should validate single date field" do
-      #date field invalid.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_date_field => "asldkfjlj3234", :a_range_field_date_or_date_range => "date_range"
-      tracing_request.errors[:a_date_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
-
-      #date valid.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_date_field => "30-May-2014", :a_range_field_date_or_date_range => "date_range"
-      tracing_request.errors[:a_date_field].should eq([])
-    end
-
-    it "should validate range fields" do
-      #_from is wrong.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "lkjlj", :a_range_field_to => "31-May-2014",
-                                                :a_range_field_date_or_date_range => "date_range"
-      tracing_request.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
-
-      #_to is wrong.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "lk2j3lk45",
-                                                :a_range_field_date_or_date_range => "date_range"
-      tracing_request.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
-
-      #_from and _to are wrong.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "lk2j34lkj", :a_range_field_to => "akdf34lk4j",
-                                                :a_range_field_date_or_date_range => "date_range"
-      tracing_request.errors[:a_range_field].should eq(["Please enter the date in a valid format (dd-mmm-yyyy)"])
-
-      #range valid dates.
-      tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "31-May-2014",
-                                                :a_range_field_date_or_date_range => "date_range"
-      tracing_request.errors[:a_range_field].should eq([])
-    end
-  end
+  #     #range valid dates.
+  #     tracing_request = create_tracing_request "Bob McBobberson", :a_range_field_from => "31-May-2014", :a_range_field_to => "31-May-2014",
+  #                                               :a_range_field_date_or_date_range => "date_range"
+  #     tracing_request.errors[:a_range_field].should eq([])
+  #   end
+  # end
 
   describe "mother and father" do
     before :each do
@@ -1053,32 +920,30 @@ describe TracingRequest do
     end
 
     it "should process in two batches" do
-      tracing_request1 = TracingRequest.new('created_by' => "user1", :name => "tracing_request1")
-      tracing_request2 = TracingRequest.new('created_by' => "user2", :name => "tracing_request2")
-      tracing_request3 = TracingRequest.new('created_by' => "user3", :name => "tracing_request3")
-      tracing_request4 = TracingRequest.new('created_by' => "user4", :name => "tracing_request4")
+      tracing_request1 = TracingRequest.new('created_by' => "user1", "relation_name" => "tracing_request1")
+      tracing_request2 = TracingRequest.new('created_by' => "user2", "relation_name" => "tracing_request2")
+      tracing_request3 = TracingRequest.new('created_by' => "user3", "relation_name" => "tracing_request3")
+      tracing_request4 = TracingRequest.new('created_by' => "user4", "relation_name" => "tracing_request4")
       tracing_request4.save!
       tracing_request3.save!
       tracing_request2.save!
       tracing_request1.save!
 
-      expect(TracingRequest.all.page(1).per(3).all).to include(tracing_request1, tracing_request2, tracing_request3)
-      expect(TracingRequest.all.page(2).per(3).all).to include(tracing_request4)
-      TracingRequest.should_receive(:all).exactly(3).times.and_call_original
+      expect(TracingRequest.all.paginate(:page => 1, :per_page => 3)).to match_array([tracing_request4, tracing_request3, tracing_request2])
+      expect(TracingRequest.all.paginate(:page => 2, :per_page => 3)).to match_array([tracing_request1])
 
       records = []
-      TracingRequest.each_slice(3) do |tracing_requests|
-        tracing_requests.each{|t| records << t.name}
+      TracingRequest.all.each_slice(3) do |tracing_requests|
+        tracing_requests.each{|t| records << t.relation_name}
       end
 
-      records.should eq(["tracing_request1", "tracing_request2", "tracing_request3", "tracing_request4"])
+      records.should eq(["tracing_request1", "tracing_request2", "tracing_request3", "tracing_request4"].reverse)
     end
 
     it "should process in 0 batches" do
-      TracingRequest.should_receive(:all).exactly(1).times.and_call_original
       records = []
-      TracingRequest.each_slice(3) do |tracing_requests|
-        tracing_requests.each{|t| records << t.name}
+      TracingRequest.all.each_slice(3) do |tracing_requests|
+        tracing_requests.each{|t| records << t.relation_name}
       end
       records.should eq([])
     end
@@ -1114,21 +979,20 @@ describe TracingRequest do
         :order => 1,
         "editable" => true,
         :fields => fields,
-        :perm_enabled => true,
         :parent_form=>"tracing_request",
         "name_all" => "Form Section With Dates Fields",
         "description_all" => "Form Section With Dates Fields",
       })
     end
 
-    tr1 = TracingRequest.create(:name => "John cena", :name_nickname => "you cant see me", :age => 11, :sex => "male")
-    tr2 = TracingRequest.create(:name => "Rock", :age => 14, :sex => "male")
-    tr3 = TracingRequest.create(:age => 50)
+    tr1 = TracingRequest.create(:relation_name => "John cena", :relation_nickname => "you cant see me", :relation_age => 11)
+    tr2 = TracingRequest.create(:relation_name => "Rock", :relation_age => 14)
+    tr3 = TracingRequest.create(:relation_age => 50)
     matching_fields = { form_section_test: ["name"] }
 
     context 'when field in match_fields' do
       it 'should find all values in match criteria' do
-        expect(tr1.match_criteria(tr1)).to eq({:name=>[tr1.name_nickname, tr1.name], :sex=>[tr1.sex]})
+        expect(tr1.match_criteria(tr1)).to eq({:name=>[tr1.relation_nickname, tr1.relation_name], :sex=>[tr1.sex]})
       end
 
       it 'should find matchable_fields values in match criteria' do
@@ -1159,14 +1023,15 @@ describe TracingRequest do
 
   describe "tracing_request_subform_details" do
     before do
-      FormSection.all.each(&:destroy)
+      FormSection.destroy_all
       Dir[File.dirname(__FILE__) + '/../../db/forms/tracing_request/*.rb'].each {|file| load file }
       #Reload the form properties
-      TracingRequest.refresh_form_properties
-      TracingRequest.all.each { |tracing_request| tracing_request.destroy }
+      TracingRequest.destroy_all
 
-      @tracing_request1 = TracingRequest.new("tracing_request_subform_section": [{"name": "Judy", "name_other": "Uzair"}, {"name": "Cena", "other_name": "John"}])
-      @tracing_request2 = TracingRequest.new("tracing_request_subform_section": ["name": "Judy", "name_other": "Uzair"], "relation_name" => "Brad")
+      @tracing_request1 = TracingRequest.new("tracing_request_subform_section": [{"name": "Judy", "name_other": "Uzair"},
+                                                                                 {"name": "Cena", "other_name": "John"}].map(&:with_indifferent_access))
+      @tracing_request2 = TracingRequest.new("tracing_request_subform_section": ["name": "Judy", "name_other": "Uzair"].map(&:with_indifferent_access),
+                                             "relation_name" => "Brad")
       @tracing_request3 = TracingRequest.new("relation_name" => "Dave", "relation" => "Mother")
     end
 
@@ -1193,12 +1058,12 @@ describe TracingRequest do
   private
 
   def create_tracing_request(name, options={})
-    options.merge!("relation_name" => name, "last_known_location" => "new york", 'created_by' => "me", 'created_organization' => "stc")
+    options.merge!("relation_name" => name, "location_last" => "new york", 'created_by' => "me", 'created_organization' => "stc")
     TracingRequest.create(options)
   end
 
   def create_tracing_request_with_created_by(created_by,options = {})
-    user = User.new({:user_name => created_by, :organization=> "UNICEF"})
-    TracingRequest.new_with_user_name user, options
+    user = User.new(user_name: created_by, agency_id: Agency.last.id)
+    TracingRequest.new_with_user(user, options)
   end
 end

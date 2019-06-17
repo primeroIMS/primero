@@ -3,47 +3,46 @@ require 'rails_helper'
 module Exporters
   describe UnhcrCSVExporter do
     before do
-      FormSection.all.each &:destroy
-      Lookup.all.each &:destroy
-      @lookup = Lookup.create!(id: 'lookup-unhcr-needs-codes', name: 'UNHCR Needs Codes',
+      [Field, FormSection, Lookup].each(&:destroy_all)
+      @lookup = Lookup.create!(unique_id: 'lookup-unhcr-needs-codes', name: 'UNHCR Needs Codes',
                                lookup_values: [
-                                 {id: "cr-cp", display_text: "CR-CP"}.with_indifferent_access,
-                                 {id: "cr-cs", display_text: "CR-CS"}.with_indifferent_access,
-                                 {id: "cr-cc", display_text: "CR-CC"}.with_indifferent_access,
-                                 {id: "cr-tp", display_text: "CR-TP"}.with_indifferent_access,
-                                 {id: "cr-lw", display_text: "CR-LW"}.with_indifferent_access,
-                                 {id: "cr-lo", display_text: "CR-LO"}.with_indifferent_access,
-                                 {id: "cr-ne", display_text: "CR-NE"}.with_indifferent_access,
-                                 {id: "cr-se", display_text: "CR-SE"}.with_indifferent_access,
-                                 {id: "cr-af", display_text: "CR-AF"}.with_indifferent_access,
-                                 {id: "cr-cl", display_text: "CR-CL"}.with_indifferent_access,
-                                 {id: "sc-ch", display_text: "SC-CH"}.with_indifferent_access,
-                                 {id: "sc-ic", display_text: "SC-IC"}.with_indifferent_access,
-                                 {id: "sc-fc", display_text: "SC-FC"}.with_indifferent_access,
-                                 {id: "ds-bd", display_text: "DS-BD"}.with_indifferent_access,
-                                 {id: "ds-df", display_text: "DS-DF"}.with_indifferent_access,
-                                 {id: "ds-pm", display_text: "DS-PM"}.with_indifferent_access,
-                                 {id: "ds-ps", display_text: "DS-PS"}.with_indifferent_access,
-                                 {id: "ds-mm", display_text: "DS-MM"}.with_indifferent_access,
-                                 {id: "ds-ms", display_text: "DS-MS"}.with_indifferent_access,
-                                 {id: "ds-sd", display_text: "DS-SD"}.with_indifferent_access,
-                                 {id: "sm-mi", display_text: "SM-MI"}.with_indifferent_access,
-                                 {id: "sm-mn", display_text: "SM-MN"}.with_indifferent_access,
-                                 {id: "sm-ci", display_text: "SM-CI"}.with_indifferent_access,
-                                 {id: "sm-cc", display_text: "SM-CC"}.with_indifferent_access,
-                                 {id: "sm-ot", display_text: "SM-OT"}.with_indifferent_access,
-                                 {id: "fu-tr", display_text: "FU-TR"}.with_indifferent_access,
-                                 {id: "fu-fr", display_text: "FU-FR"}.with_indifferent_access,
-                                 {id: "lp-nd", display_text: "LP-ND"}.with_indifferent_access,
-                                 {id: "tr-pi", display_text: "TR-PI"}.with_indifferent_access,
-                                 {id: "tr-ho", display_text: "TR-HO"}.with_indifferent_access,
-                                 {id: "tr-wv", display_text: "TR-WV"}.with_indifferent_access,
-                                 {id: "sv-va", display_text: "SV-VA"}.with_indifferent_access,
-                                 {id: "lp-an", display_text: "LP-AN"}.with_indifferent_access,
-                                 {id: "lp-md", display_text: "LP-MD"}.with_indifferent_access,
-                                 {id: "lp-ms", display_text: "LP-MS"}.with_indifferent_access,
-                                 {id: "lp-rr", display_text: "LP-RR"}.with_indifferent_access
-                               ])
+                                 {id: "cr-cp", display_text: "CR-CP"},
+                                 {id: "cr-cs", display_text: "CR-CS"},
+                                 {id: "cr-cc", display_text: "CR-CC"},
+                                 {id: "cr-tp", display_text: "CR-TP"},
+                                 {id: "cr-lw", display_text: "CR-LW"},
+                                 {id: "cr-lo", display_text: "CR-LO"},
+                                 {id: "cr-ne", display_text: "CR-NE"},
+                                 {id: "cr-se", display_text: "CR-SE"},
+                                 {id: "cr-af", display_text: "CR-AF"},
+                                 {id: "cr-cl", display_text: "CR-CL"},
+                                 {id: "sc-ch", display_text: "SC-CH"},
+                                 {id: "sc-ic", display_text: "SC-IC"},
+                                 {id: "sc-fc", display_text: "SC-FC"},
+                                 {id: "ds-bd", display_text: "DS-BD"},
+                                 {id: "ds-df", display_text: "DS-DF"},
+                                 {id: "ds-pm", display_text: "DS-PM"},
+                                 {id: "ds-ps", display_text: "DS-PS"},
+                                 {id: "ds-mm", display_text: "DS-MM"},
+                                 {id: "ds-ms", display_text: "DS-MS"},
+                                 {id: "ds-sd", display_text: "DS-SD"},
+                                 {id: "sm-mi", display_text: "SM-MI"},
+                                 {id: "sm-mn", display_text: "SM-MN"},
+                                 {id: "sm-ci", display_text: "SM-CI"},
+                                 {id: "sm-cc", display_text: "SM-CC"},
+                                 {id: "sm-ot", display_text: "SM-OT"},
+                                 {id: "fu-tr", display_text: "FU-TR"},
+                                 {id: "fu-fr", display_text: "FU-FR"},
+                                 {id: "lp-nd", display_text: "LP-ND"},
+                                 {id: "tr-pi", display_text: "TR-PI"},
+                                 {id: "tr-ho", display_text: "TR-HO"},
+                                 {id: "tr-wv", display_text: "TR-WV"},
+                                 {id: "sv-va", display_text: "SV-VA"},
+                                 {id: "lp-an", display_text: "LP-AN"},
+                                 {id: "lp-md", display_text: "LP-MD"},
+                                 {id: "lp-ms", display_text: "LP-MS"},
+                                 {id: "lp-rr", display_text: "LP-RR"}
+                               ].map(&:with_indifferent_access))
       fields = [
           Field.new({"name" => "registration_date",
                      "type" => "date_field",
@@ -79,36 +78,17 @@ module Exporters
         :order_form_group => 50,
         :order => 15,
         :order_subform => 0,
-        :form_group_name => "Form Section Test",
         "editable" => true,
         "name_all" => "Form Section Test",
         "description_all" => "Form Section Test",
         :fields => fields
-          )
+      )
       form.save!
       Child.any_instance.stub(:field_definitions).and_return(fields)
-      Child.refresh_form_properties
       Child.all.each { |form| form.destroy }
 
       @child_cls = Child.clone
-      @child_cls.class_eval do
-        property :unhcr_needs_codes, [String]
-        property :nationality, [String]
-        property :ethnicity, [String]
-        property :protection_concerns, [String]
-        property :language, [String]
-        property :family_details_section, [Class.new do
-          include CouchRest::Model::Embeddable
-          property :relation_name, String
-          property :relation, String
-        end]
-      end
       @test_child = Child.new()
-    end
-
-    after do
-      property_index = @child_cls.properties.find_index{|p| p.name == "family_details_section"}
-      @child_cls.properties.delete_at(property_index)
     end
 
     describe "unhcr_needs_codes" do
@@ -124,7 +104,7 @@ module Exporters
         end
       end
 
-      context "for Vulnerability Codes" do
+      context "for Vulnrability Codes" do
         it "is displays the first half of the code separated by a ;" do
           expect(@parsed[1][@parsed[0].index("Vulnerability Codes")]).to eq("CR; DS")
         end
@@ -180,7 +160,7 @@ module Exporters
 
       context 'when export configuration is the same as properties defined in the exporter' do
         before do
-          ExportConfiguration.create(id: "export-test-same", name: "Test Same Properties", export_id: "unhcr_csv",
+          ExportConfiguration.create(unique_id: "export-test-same", name: "Test Same Properties", export_id: "unhcr_csv",
             property_keys: [
               "individual_progress_id",
               "cpims_code",
@@ -226,7 +206,7 @@ module Exporters
       context 'when export configuration is different than properties defined in the exporter' do
         context 'and the configuration is in a different order' do
           before do
-            ExportConfiguration.create(id: "export-test-different-order", name: "Test Properties Order", export_id: "unhcr_csv",
+            ExportConfiguration.create(unique_id: "export-test-different-order", name: "Test Properties Order", export_id: "unhcr_csv",
                property_keys: [
                  "case_status",
                  "reunification_status",
@@ -271,7 +251,7 @@ module Exporters
 
         context 'and the configuration has less property keys than defined in the exporter' do
           before do
-            ExportConfiguration.create(id: "export-test-less", name: "Test Less Properties", export_id: "unhcr_csv",
+            ExportConfiguration.create(unique_id: "export-test-less", name: "Test Less Properties", export_id: "unhcr_csv",
               property_keys: [
                 "individual_progress_id",
                 "cpims_code",
@@ -300,7 +280,7 @@ module Exporters
 
         context 'and the configuration has more property keys than defined in the exporter' do
           before do
-            ExportConfiguration.create(id: "export-test-more", name: "Test More Properties", export_id: "unhcr_csv",
+            ExportConfiguration.create(unique_id: "export-test-more", name: "Test More Properties", export_id: "unhcr_csv",
               property_keys: [
                 "individual_progress_id",
                 "cpims_code",
@@ -350,7 +330,7 @@ module Exporters
 
         context 'and the configuration is missing some properties and has some extra property keys than defined in the exporter' do
           before do
-            ExportConfiguration.create(id: "export-test-mixture", name: "Test Some More Some Less Properties", export_id: "unhcr_csv",
+            ExportConfiguration.create(unique_id: "export-test-mixture", name: "Test Some More Some Less Properties", export_id: "unhcr_csv",
                property_keys: [
                  "individual_progress_id",
                  "date_of_birth",
@@ -393,7 +373,7 @@ module Exporters
       describe 'export configuration opt out' do
         before do
           @export_config = ExportConfiguration.create(
-             id: "export-test-less", name: "Test Less Properties", export_id: "unhcr_csv",
+             unique_id: "export-test-less", name: "Test Less Properties", export_id: "unhcr_csv",
              property_keys: [
                "long_id",
                "individual_progress_id",

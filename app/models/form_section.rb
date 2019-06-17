@@ -12,6 +12,7 @@ class FormSection < ApplicationRecord
   has_many :fields, -> { order(:order) }
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_and_belongs_to_many :roles
+  has_and_belongs_to_many :primero_modules, inverse_of: :form_sections
 
   attr_accessor :module_name
   attribute :collapsed_field_names

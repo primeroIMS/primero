@@ -6,6 +6,26 @@ FactoryBot.define do
     visible { true }
     editable { true }
     disabled { false }
+
+    trait :date do
+      type              { Field::DATE_FIELD }
+      date_include_time { false }
+    end
+
+    trait :date_with_datetime do
+      type              { Field::DATE_FIELD }
+      date_include_time { true }
+    end
+
+    trait :date_range do
+      type              { Field::DATE_RANGE }
+      date_include_time { false }
+    end
+
+    trait :date_range_with_datetime do
+      type              { Field::DATE_RANGE }
+      date_include_time { true }
+    end
   end
 
   factory :select_field, class: Field, traits: [:active_model] do

@@ -5,8 +5,7 @@ require 'rails_helper'
 describe "record field model" do
 
   before :each do
-    Field.delete_all
-    FormSection.all.each { |form| form.destroy }
+    [Field, FormSection].each(&:destroy_all)
     @field_name = "gender"
     @field = Field.new :name => "gender", :display_name => @field_name, :option_strings_text => "male\nfemale", :type => Field::RADIO_BUTTON
   end
@@ -764,8 +763,8 @@ describe "record field model" do
     fields.first.errors[:name].should == []
     expect(fields.last.errors.count).to be > 0
     fields.last.errors[:name].should == ["Field already exists on this form"]
-    #Because it fails save, field remains new.
-    expect(fields.first.new_record?).to be_falsey
+    #Because it fails save, fields remains new.
+    expect(fields.first.new_record?).to be_truthy
     expect(fields.last.new_record?).to be_truthy
   end
 

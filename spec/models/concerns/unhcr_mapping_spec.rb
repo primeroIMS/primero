@@ -13,7 +13,7 @@ describe UNHCRMapping do
                               case_code_format: ['created_by_user.code'],
                               unhcr_needs_codes_mapping: {
                                 '_id' => 'needs_codes_mapping',
-                                'autocalculate' => 'true',
+                                'autocalculate' => true,
                                 'mapping' => {'protection ab' => 'AB', 'protection cd' => 'CD'}
                               })
   end
@@ -45,7 +45,7 @@ describe UNHCRMapping do
 
     context 'should not return unhcr_needs_codes' do
       it 'when mapping is not defined' do
-        @system_settings.unhcr_needs_codes_mapping.mapping = {}
+        @system_settings.unhcr_needs_codes_mapping = { mapping: {} }
         @system_settings.save!
 
         child = Child.create!(protection_concerns: ['protection ab','protection cd'],
@@ -54,7 +54,7 @@ describe UNHCRMapping do
       end
 
       it 'when autocalculate is set to false' do
-        @system_settings.unhcr_needs_codes_mapping.autocalculate = false
+        @system_settings.unhcr_needs_codes_mapping = { autocalculate: false }
         @system_settings.save!
 
         child = Child.create!(protection_concerns: ['protection ab','protection cd'],
@@ -74,7 +74,7 @@ describe UNHCRMapping do
         child = Child.create!(protection_concerns: ['protection ab'],
                                 unhcr_needs_codes: ['AB','CD','EF'])
 
-        @system_settings.unhcr_needs_codes_mapping.autocalculate = false
+        @system_settings.unhcr_needs_codes_mapping = { autocalculate: false }
         @system_settings.save!
 
         #Re-fetch child for this test to refresh the record's instance variables

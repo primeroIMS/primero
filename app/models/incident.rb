@@ -83,7 +83,7 @@ class Incident < ApplicationRecord
 
   def set_instance_id
     self.incident_id ||= self.unique_identifier
-    self.incident_code ||= (self.unique_identifier || "").last 7
+    self.incident_code ||= self.unique_identifier.to_s.last(7)
   end
 
   #TODO: Rspec!

@@ -2,10 +2,6 @@ require 'rails_helper'
 
 describe Task do
 
-  before :each do
-    Child.any_instance.stub(:calculate_workflow){}
-  end
-
   describe "create" do
 
     it "creates Assessment task" do
@@ -16,7 +12,9 @@ describe Task do
     end
 
     it "doesn't create an Assessment task if already started" do
-      child = create(:child, assessment_due_date: Date.tomorrow, assessment_requested_on: Date.today)
+      child = build(:child, assessment_due_date: Date.tomorrow, assessment_requested_on: Date.today)
+      child.stub(:calculate_workflow).and_return({})
+      child.save!
       tasks = Task.from_case(child)
 
       expect(tasks).to be_empty
@@ -30,7 +28,9 @@ describe Task do
     end
 
     it "doesn't create an Case Plan task if already started" do
-      child = create(:child, case_plan_due_date: Date.tomorrow, date_case_plan: Date.today)
+      child = build(:child, case_plan_due_date: Date.tomorrow, date_case_plan: Date.today)
+      child.stub(:calculate_workflow).and_return({})
+      child.save!
       tasks = Task.from_case(child)
 
       expect(tasks).to be_empty
@@ -58,7 +58,9 @@ describe Task do
     end
 
     it "doesn't create a Followup task if Followup already took place" do
-      child = create(:child, services_section: [{service_appointment_date: Date.tomorrow, service_implemented_day_time: Date.today}])
+      child = build(:child, services_section: [{service_appointment_date: Date.tomorrow, service_implemented_day_time: Date.today}])
+      child.stub(:calculate_workflow).and_return({})
+      child.save!
       tasks = Task.from_case(child)
 
       expect(tasks).to be_empty
