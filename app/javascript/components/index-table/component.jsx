@@ -52,7 +52,7 @@ const IndexTable = ({
   title,
   loading
 }) => {
-  const { meta, filters, results } = data;
+  const { meta, filters, records } = data;
   const { per, total } = dataToJS(meta);
 
   const handleTableChange = (action, tableState) => {
@@ -114,7 +114,7 @@ const IndexTable = ({
   const tableOptions = {
     columns,
     options,
-    data: dataToJS(results)
+    data: dataToJS(records)
   };
 
   return (

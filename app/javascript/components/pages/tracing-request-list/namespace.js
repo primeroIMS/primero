@@ -1,1 +1,1 @@
-export default "Cases";
+export default "TracingRequest";

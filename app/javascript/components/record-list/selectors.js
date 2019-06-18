@@ -1,10 +1,11 @@
-import NAMESPACE from "./namespace";
+export const selectRecords = (state, namespace) =>
+  state.getIn([namespace, "records"], {});
 
-export const selectRecords = state => state.getIn([NAMESPACE, "records"], {});
+export const selectFilters = (state, namespace) =>
+  state.getIn([namespace, "filters"], {});
 
-export const selectFilters = state => state.getIn([NAMESPACE, "filters"], {});
+export const selectMeta = (state, namespace) =>
+  state.getIn([namespace, "metadata"], {});
 
-export const selectMeta = state => state.getIn([NAMESPACE, "metadata"], {});
-
-export const selectLoading = state =>
-  state.getIn([NAMESPACE, "loading"], false);
+export const selectLoading = (state, namespace) =>
+  state.getIn([namespace, "loading"], false);

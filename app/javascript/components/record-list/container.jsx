@@ -11,11 +11,19 @@ const defaultFilters = {
   page: 1
 };
 
-const RecordList = ({ data, columns, title, loading, path, fetchRecords }) => {
+const RecordList = ({
+  data,
+  columns,
+  title,
+  loading,
+  path,
+  fetchRecords,
+  namespace
+}) => {
   const css = makeStyles(styles)();
 
   useEffect(() => {
-    fetchRecords({ options: data.filters, path });
+    fetchRecords({ options: data.filters, path, namespace });
   }, []);
 
   return (
@@ -43,7 +51,8 @@ RecordList.propTypes = {
   columns: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  fetchRecords: PropTypes.func.isRequired
+  fetchRecords: PropTypes.func.isRequired,
+  namespace: PropTypes.string.isRequired
 };
 
 export default RecordList;
