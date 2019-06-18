@@ -61,7 +61,7 @@ const DashboardTable = ({ columns, data }) => {
   const tableOptions = {
     columns,
     options,
-    data: data.toJS().results
+    data: data.toJS()
   };
 
   return (

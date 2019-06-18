@@ -52,13 +52,13 @@ const Dashboard = ({
     const baseFontStyle = theme.typography.fontFamily.replace(/"/g, "");
     if (openCases) {
       text.push({
-        text: `${openCases} Open`,
+        text: `${openCases} ${i18n.t("dashboard.open")}`,
         fontStyle: `bold ${baseFontStyle}`
       });
     }
     if (closedCases) {
       text.push({
-        text: `${closedCases} Closed`,
+        text: `${closedCases} ${i18n.t("dashboard.closed")}`,
         fontStyle: baseFontStyle
       });
     }
@@ -149,7 +149,7 @@ const Dashboard = ({
         </Grid>
         <Grid item md={4} sm={12}>
           <OptionsBox title={i18n.t("dashboard.flagged")}>
-            <FlagList flags={{ results: flags, totalCount: 10 }} i18n={i18n} />
+            <FlagList flags={flags} i18n={i18n} />
           </OptionsBox>
         </Grid>
       </Grid>

@@ -9,11 +9,11 @@ const FlagList = ({ flags, i18n }) => {
   const css = makeStyles(styles)();
   return (
     <div className={css.FlagList}>
-      {flags.results.map(flag => {
+      {(flags.get("flags") || []).map(flag => {
         return <FlagBox flag={flag} key={flag.get("id")} />;
       })}
       <NavLink to="/cases" className={css.SeeAll}>
-        {`${i18n.t("dashboard.link_see_all")} (${flags.totalCount})`}
+        {`${i18n.t("dashboard.link_see_all")} (${flags.get("totalCount")})`}
       </NavLink>
     </div>
   );

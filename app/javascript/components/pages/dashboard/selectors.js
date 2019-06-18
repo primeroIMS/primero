@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 import NAMESPACE from "./namespace";
 
 export const selectFlags = state => {
-  return state.getIn([NAMESPACE, "flags"], fromJS([]));
+  return state.getIn([NAMESPACE, "flags"], fromJS({}));
 };
 
 export const selectCasesByStatus = state => {
@@ -10,7 +10,7 @@ export const selectCasesByStatus = state => {
 };
 
 export const selectCasesByCaseWorker = state => {
-  return state.getIn([NAMESPACE, "casesByCaseWorker"], fromJS({}));
+  return state.getIn([NAMESPACE, "casesByCaseWorker"], fromJS([]));
 };
 
 export const selectCasesRegistration = state => {

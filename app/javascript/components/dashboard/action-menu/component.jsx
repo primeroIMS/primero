@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   createMuiTheme,
   MuiThemeProvider,
@@ -10,7 +11,6 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 const ITEM_HEIGHT = 48;
 
 const ActionMenu = ({ open, onOpen, onClose, items }) => {
-
   const theme = useTheme();
 
   const getMuiTheme = () =>
@@ -21,6 +21,15 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
             "&:hover": {
               backgroundColor: theme.primero.colors.warmGrey1
             }
+          }
+        },
+        MuiMenuItem: {
+          root: {
+            fontSize: "17px",
+            fontFamily: theme.typography.fontFamily,
+            color: "#231e1f",
+            lineHeight: 1,
+            fontWeight: "normal"
           }
         }
       }
@@ -61,6 +70,13 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
       </Menu>
     </MuiThemeProvider>
   );
+};
+
+ActionMenu.propTypes = {
+  open: PropTypes.bool.isRequired,
+  onOpen: PropTypes.func,
+  onClose: PropTypes.func,
+  items: PropTypes.object.isRequired
 };
 
 export default ActionMenu;
