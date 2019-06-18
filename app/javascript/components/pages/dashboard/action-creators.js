@@ -29,3 +29,10 @@ export const fetchCasesOverview = () => async dispatch => {
     type: Actions.CASES_OVERVIEW
   });
 };
+
+export const openPageActions = payload => {
+  return {
+    type: Actions.OPEN_PAGE_ACTIONS,
+    payload
+  };
+};

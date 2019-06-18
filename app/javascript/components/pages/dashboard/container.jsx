@@ -1,16 +1,17 @@
 import React, { useEffect } from "react";
+import { fromJS } from "immutable";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Grid, IconButton } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { Grid } from "@material-ui/core";
 import {
   OptionsBox,
   DashboardTable,
   LineChart,
-  OverviewBox
+  OverviewBox,
+  ActionMenu
 } from "components/dashboard";
 import { FlagList } from "components/dashboard/flag-list";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { withI18n } from "libs";
 import * as actions from "./action-creators";
@@ -23,11 +24,13 @@ const Dashboard = ({
   fetchCasesByCaseWorker,
   fetchCasesRegistration,
   fetchCasesOverview,
+  openPageActions,
   flags,
   casesByStatus,
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
+  isOpenPageActions,
   i18n
 }) => {
   useEffect(() => {
@@ -40,7 +43,7 @@ const Dashboard = ({
 
   const css = makeStyles(styles)();
 
-  const theme = createMuiTheme();
+  const theme = useTheme();
 
   const getDoughnutInnerText = () => {
     const text = [];
@@ -92,17 +95,38 @@ const Dashboard = ({
     ]
   };
 
+  const actionMenuItems = fromJS([
+    {
+      id: "add-new",
+      label: "Add New",
+      onClick: () => openPageActions(false)
+    },
+    {
+      id: "arrange-items",
+      label: "Arrange Items",
+      onClick: () => openPageActions(false)
+    },
+    {
+      id: "refresh-data",
+      label: "Refresh Data",
+      onClick: () => openPageActions(false)
+    }
+  ]);
+
   return (
     <div className={css.root}>
       <Grid container spacing={3}>
-        <Grid item md={10}>
+        <Grid item xs={10}>
           <h1 className={css.Title}>HOME</h1>
         </Grid>
-        <Grid item md={2}>
+        <Grid item xs={2}>
           <div className={css.PageOptions}>
-            <IconButton aria-label="Settings">
-              <MoreVertIcon className={css.PageButtons} />
-            </IconButton>
+            <ActionMenu
+              open={isOpenPageActions}
+              onOpen={() => openPageActions(true)}
+              onClose={() => openPageActions(false)}
+              items={actionMenuItems}
+            />
           </div>
         </Grid>
         <Grid item md={8}>
@@ -144,6 +168,8 @@ Dashboard.propTypes = {
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesRegistration: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
+  openPageActions: PropTypes.func.isRequired,
+  isOpenPageActions: PropTypes.bool.isRequired,
   i18n: PropTypes.object.isRequired
 };
 
@@ -153,7 +179,8 @@ const mapStateToProps = state => {
     casesByStatus: selectors.selectCasesByStatus(state),
     casesByCaseWorker: selectors.selectCasesByCaseWorker(state),
     casesRegistration: selectors.selectCasesRegistration(state),
-    casesOverview: selectors.selectCasesOverview(state)
+    casesOverview: selectors.selectCasesOverview(state),
+    isOpenPageActions: selectors.isOpenPageActions(state)
   };
 };
 
@@ -162,7 +189,8 @@ const mapDispatchToProps = {
   fetchCasesByStatus: actions.fetchCasesByStatus,
   fetchCasesByCaseWorker: actions.fetchCasesByCaseWorker,
   fetchCasesRegistration: actions.fetchCasesRegistration,
-  fetchCasesOverview: actions.fetchCasesOverview
+  fetchCasesOverview: actions.fetchCasesOverview,
+  openPageActions: actions.openPageActions
 };
 
 export default withI18n(

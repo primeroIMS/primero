@@ -69,7 +69,7 @@ const casesOverview = {
   rejected: 1
 };
 
-const reducer = (state = DEFAULT_STATE, { type }) => {
+const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.DASHBOARD_FLAGS:
       return state.set("flags", fromJS(flags));
@@ -81,6 +81,8 @@ const reducer = (state = DEFAULT_STATE, { type }) => {
       return state.set("casesRegistration", fromJS(casesRegistration));
     case Actions.CASES_OVERVIEW:
       return state.set("casesOverview", fromJS(casesOverview));
+    case Actions.OPEN_PAGE_ACTIONS:
+      return state.set("isOpenPageActions", fromJS(payload));
     default:
       return state;
   }

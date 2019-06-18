@@ -4,6 +4,7 @@
 
 .Title {
   height: 28px;
+  font-family: $(theme.typography.fontFamily);
   font-size: 22px;
   font-weight: bold;
   font-style: normal;
@@ -11,13 +12,11 @@
   line-height: normal;
   letter-spacing: normal;
   color: #000000;
-  margin: 0;
+  margin: 25px 0;
 }
 
-.PageOptions {
+.PageOptions Button{
   float: right;
-}
-
-.PageButtons {
   color: $(theme.primero.colors.blue);
+  margin: 13px 0;
 }

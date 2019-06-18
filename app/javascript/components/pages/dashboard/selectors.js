@@ -20,3 +20,7 @@ export const selectCasesRegistration = state => {
 export const selectCasesOverview = state => {
   return state.getIn([NAMESPACE, "casesOverview"], fromJS({}));
 };
+
+export const isOpenPageActions = state => {
+  return state.getIn([NAMESPACE, "isOpenPageActions"], false);
+};
