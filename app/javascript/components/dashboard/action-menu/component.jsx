@@ -11,22 +11,22 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 const ITEM_HEIGHT = 48;
 
 const ActionMenu = ({ open, onOpen, onClose, items }) => {
-  const theme = useTheme();
+  const currentTheme = useTheme();
 
-  const getMuiTheme = () =>
-    createMuiTheme({
+  const getMuiTheme = () => {
+    return createMuiTheme({
       overrides: {
         MuiListItem: {
           button: {
             "&:hover": {
-              backgroundColor: theme.primero.colors.warmGrey1
+              backgroundColor: currentTheme.primero.colors.warmGrey1
             }
           }
         },
         MuiMenuItem: {
           root: {
             fontSize: "17px",
-            fontFamily: theme.typography.fontFamily,
+            fontFamily: currentTheme.typography.fontFamily,
             color: "#231e1f",
             lineHeight: 1,
             fontWeight: "normal"
@@ -34,10 +34,12 @@ const ActionMenu = ({ open, onOpen, onClose, items }) => {
         }
       }
     });
+  };
 
   const moreButtonRef = React.useRef(null);
+
   return (
-    <MuiThemeProvider theme={getMuiTheme}>
+    <MuiThemeProvider theme={{ ...currentTheme, ...getMuiTheme() }}>
       <IconButton
         aria-label="More"
         aria-controls="long-menu"

@@ -130,17 +130,26 @@ const Dashboard = ({
           </div>
         </Grid>
         <Grid item md={8}>
-          <OptionsBox title="CASE OVERVIEW">
+          <OptionsBox
+            title="CASE OVERVIEW"
+            action={<ActionMenu open={false} items={actionMenuItems} />}
+          >
             <OverviewBox
               items={casesOverview}
               chartData={casesChartData}
               i18n={i18n}
             />
           </OptionsBox>
-          <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")}>
+          <OptionsBox
+            title={i18n.t("dashboard.cases_by_task_overdue")}
+            action={<ActionMenu open={false} items={actionMenuItems} />}
+          >
             <DashboardTable columns={columns} data={casesByCaseWorker} />
           </OptionsBox>
-          <OptionsBox title={i18n.t("dashboard.registration")}>
+          <OptionsBox
+            title={i18n.t("dashboard.registration")}
+            action={<ActionMenu open={false} items={actionMenuItems} />}
+          >
             <LineChart
               chartData={registrationChartData}
               title="Total case registrations over time"
@@ -148,7 +157,10 @@ const Dashboard = ({
           </OptionsBox>
         </Grid>
         <Grid item md={4} sm={12}>
-          <OptionsBox title={i18n.t("dashboard.flagged")}>
+          <OptionsBox
+            title={i18n.t("dashboard.flagged")}
+            action={<ActionMenu open={false} items={actionMenuItems} />}
+          >
             <FlagList flags={flags} i18n={i18n} />
           </OptionsBox>
         </Grid>
