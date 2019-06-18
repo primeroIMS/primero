@@ -1,3 +1,7 @@
+.Root {
+  flexGrow: 1;
+}
+
 .Title {
   height: 28px;
   font-size: 22px;

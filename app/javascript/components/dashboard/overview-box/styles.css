@@ -1,3 +1,8 @@
+.Root {
+  flexGrow: 1;
+  padding: 15px;
+}
+
 .OverviewList {
   list-style: none;
   font-size: 14px;

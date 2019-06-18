@@ -6,10 +6,10 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import {
   OptionsBox,
   DashboardTable,
-  FlagBox,
   LineChart,
   OverviewBox
 } from "components/dashboard";
+import { FlagList } from "components/dashboard/flag-list";
 import { createMuiTheme } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { withI18n } from "libs";
@@ -93,7 +93,7 @@ const Dashboard = ({
   };
 
   return (
-    <div style={{ padding: 15 }}>
+    <div className={css.root}>
       <Grid container spacing={3}>
         <Grid item md={10}>
           <h1 className={css.Title}>HOME</h1>
@@ -107,7 +107,11 @@ const Dashboard = ({
         </Grid>
         <Grid item md={8}>
           <OptionsBox title="CASE OVERVIEW">
-            <OverviewBox items={casesOverview} chartData={casesChartData} />
+            <OverviewBox
+              items={casesOverview}
+              chartData={casesChartData}
+              i18n={i18n}
+            />
           </OptionsBox>
           <OptionsBox title={i18n.t("dashboard.cases_by_task_overdue")}>
             <DashboardTable columns={columns} data={casesByCaseWorker} />
@@ -121,9 +125,7 @@ const Dashboard = ({
         </Grid>
         <Grid item md={4} sm={12}>
           <OptionsBox title={i18n.t("dashboard.flagged")}>
-            {flags.map(flag => {
-              return <FlagBox flag={flag} key={flag.get("id")} />;
-            })}
+            <FlagList flags={{ results: flags, totalCount: 10 }} i18n={i18n} />
           </OptionsBox>
         </Grid>
       </Grid>

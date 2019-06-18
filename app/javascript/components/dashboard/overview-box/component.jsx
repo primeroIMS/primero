@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withI18n } from "libs";
-import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 import { DoughnutChart } from "components/dashboard/doughnut-chart";
 import makeStyles from "@material-ui/styles/makeStyles";
@@ -14,7 +12,7 @@ const OverviewBox = ({ i18n, items, chartData }) => {
   const pending = items.get("pending");
   const rejected = items.get("rejected");
   return (
-    <div style={{ padding: 15 }}>
+    <div className={css.Root}>
       <Grid container spacing={3}>
         <Grid item xs={4} className={css.DashboardChart}>
           <DoughnutChart chartData={chartData} />
@@ -48,4 +46,4 @@ OverviewBox.propTypes = {
   i18n: PropTypes.object.isRequired
 };
 
-export default withI18n(connect()(OverviewBox));
+export default OverviewBox;
