@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
+import { withI18n } from "libs";
 import { DoughnutChart } from "components/dashboard/doughnut-chart";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
@@ -46,4 +47,4 @@ OverviewBox.propTypes = {
   i18n: PropTypes.object.isRequired
 };
 
-export default OverviewBox;
+export default withI18n(OverviewBox);

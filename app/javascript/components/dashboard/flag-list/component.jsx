@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { FlagBox } from "components/dashboard";
+import { withI18n } from "libs";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
 
@@ -24,4 +25,4 @@ FlagList.propTypes = {
   i18n: PropTypes.object.isRequired
 };
 
-export default FlagList;
+export default withI18n(FlagList);

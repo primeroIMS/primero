@@ -98,6 +98,26 @@ export const fetchCasesOverview = () => async dispatch => {
   });
 };
 
+export const fetchServicesStatus = () => async dispatch => {
+  dispatch({
+    type: Actions.SERVICES_STATUS,
+    payload: {
+      services: {
+        caseManagement: [
+          { status: "in_progress", high: 4, medium: 0, low: 1 },
+          { status: "near_deadline", high: 1, medium: 0, low: 0 },
+          { status: "overdue", high: 1, medium: 0, low: 1 }
+        ],
+        screening: [
+          { status: "in_progress", high: 4, medium: 0, low: 1 },
+          { status: "near_deadline", high: 1, medium: 0, low: 0 },
+          { status: "overdue", high: 1, medium: 0, low: 1 }
+        ]
+      }
+    }
+  });
+};
+
 export const openPageActions = payload => {
   return {
     type: Actions.OPEN_PAGE_ACTIONS,

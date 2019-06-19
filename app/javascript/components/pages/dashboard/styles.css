@@ -12,11 +12,14 @@
   line-height: normal;
   letter-spacing: normal;
   color: #000000;
-  margin: 25px 0;
+  margin: 25px 0 0 0;
 }
 
-.PageOptions Button{
-  float: right;
-  color: $(theme.primero.colors.blue);
-  margin: 13px 0;
+.PageOptions {
+  display: inline;
+  & Button {
+    float: right;
+    color: $(theme.primero.colors.blue);
+    margin: 13px 0 0 0;
+  }
 }

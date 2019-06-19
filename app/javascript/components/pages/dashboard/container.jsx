@@ -11,6 +11,7 @@ import {
   ActionMenu
 } from "components/dashboard";
 import { FlagList } from "components/dashboard/flag-list";
+import { Services } from "components/dashboard/services";
 import { useTheme } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { withI18n } from "libs";
@@ -24,12 +25,14 @@ const Dashboard = ({
   fetchCasesByCaseWorker,
   fetchCasesRegistration,
   fetchCasesOverview,
+  fetchServicesStatus,
   openPageActions,
   flags,
   casesByStatus,
   casesByCaseWorker,
   casesRegistration,
   casesOverview,
+  servicesStatus,
   isOpenPageActions,
   i18n
 }) => {
@@ -39,6 +42,7 @@ const Dashboard = ({
     fetchCasesByCaseWorker();
     fetchCasesRegistration();
     fetchCasesOverview();
+    fetchServicesStatus();
   }, []);
 
   const css = makeStyles(styles)();
@@ -114,7 +118,7 @@ const Dashboard = ({
   ]);
 
   return (
-    <div className={css.root}>
+    <div className={css.Root}>
       <Grid container spacing={3}>
         <Grid item xs={10}>
           <h1 className={css.Title}>HOME</h1>
@@ -129,16 +133,20 @@ const Dashboard = ({
             />
           </div>
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={12}>
           <OptionsBox
             title="CASE OVERVIEW"
             action={<ActionMenu open={false} items={actionMenuItems} />}
           >
-            <OverviewBox
-              items={casesOverview}
-              chartData={casesChartData}
-              i18n={i18n}
-            />
+            <DashboardTable columns={columns} data={casesByCaseWorker} />
+          </OptionsBox>
+        </Grid>
+        <Grid item md={8} xs={12}>
+          <OptionsBox
+            title="CASE OVERVIEW"
+            action={<ActionMenu open={false} items={actionMenuItems} />}
+          >
+            <OverviewBox items={casesOverview} chartData={casesChartData} />
           </OptionsBox>
           <OptionsBox
             title={i18n.t("dashboard.cases_by_task_overdue")}
@@ -155,8 +163,9 @@ const Dashboard = ({
               title="Total case registrations over time"
             />
           </OptionsBox>
+          <Services servicesList={servicesStatus} />
         </Grid>
-        <Grid item md={4} sm={12}>
+        <Grid item md={4} xs={12}>
           <OptionsBox
             title={i18n.t("dashboard.flagged")}
             action={<ActionMenu open={false} items={actionMenuItems} />}
@@ -175,11 +184,13 @@ Dashboard.propTypes = {
   casesByCaseWorker: PropTypes.object.isRequired,
   casesRegistration: PropTypes.object.isRequired,
   casesOverview: PropTypes.object.isRequired,
+  servicesStatus: PropTypes.object.isRequired,
   fetchFlags: PropTypes.func.isRequired,
   fetchCasesByStatus: PropTypes.func.isRequired,
   fetchCasesByCaseWorker: PropTypes.func.isRequired,
   fetchCasesRegistration: PropTypes.func.isRequired,
   fetchCasesOverview: PropTypes.func.isRequired,
+  fetchServicesStatus: PropTypes.func.isRequired,
   openPageActions: PropTypes.func.isRequired,
   isOpenPageActions: PropTypes.bool.isRequired,
   i18n: PropTypes.object.isRequired
@@ -192,6 +203,7 @@ const mapStateToProps = state => {
     casesByCaseWorker: selectors.selectCasesByCaseWorker(state),
     casesRegistration: selectors.selectCasesRegistration(state),
     casesOverview: selectors.selectCasesOverview(state),
+    servicesStatus: selectors.selectServicesStatus(state),
     isOpenPageActions: selectors.isOpenPageActions(state)
   };
 };
@@ -202,6 +214,7 @@ const mapDispatchToProps = {
   fetchCasesByCaseWorker: actions.fetchCasesByCaseWorker,
   fetchCasesRegistration: actions.fetchCasesRegistration,
   fetchCasesOverview: actions.fetchCasesOverview,
+  fetchServicesStatus: actions.fetchServicesStatus,
   openPageActions: actions.openPageActions
 };
 

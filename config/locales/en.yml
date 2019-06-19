@@ -1569,6 +1569,7 @@ en:
     awaiting_acceptance: 'Awaiting acceptance'
     near_deadline: 'Near Deadline'
     due: 'Overdue'
+    in_progress: 'In Progress'
     response: 'Response <span>(In Progress)</span>'
     immediate_response: 'Immediate Response'
     cases_to_assign: 'Cases To Assign'
@@ -1717,6 +1718,11 @@ en:
     and: "and "
     flagged: "Flagged"
     registration: "Registration"
+    case_management_service: "Case Management Service"
+    screening_service: "Screening Service"
+    high_level: "High"
+    medium_level: "Medium"
+    low_level: "Low"
 
   errors:
 

@@ -21,6 +21,10 @@ export const selectCasesOverview = state => {
   return state.getIn([NAMESPACE, "casesOverview"], fromJS({}));
 };
 
+export const selectServicesStatus = state => {
+  return state.getIn([NAMESPACE, "servicesStatus"], fromJS({}));
+};
+
 export const isOpenPageActions = state => {
   return state.getIn([NAMESPACE, "isOpenPageActions"], false);
 };

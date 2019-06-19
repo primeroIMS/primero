@@ -6,10 +6,11 @@ import {
   MuiThemeProvider,
   useTheme
 } from "@material-ui/core/styles";
+import clsx from "clsx";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
 
-const OptionsBox = ({ title, action, children }) => {
+const OptionsBox = ({ title, action, children, classes, themes }) => {
   const getMuiTheme = () =>
     createMuiTheme({
       overrides: {
@@ -33,15 +34,24 @@ const OptionsBox = ({ title, action, children }) => {
             color: "#231E1F",
             textTransform: "uppercase"
           }
-        }
+        },
+        ...themes
       }
     });
 
   const css = makeStyles(styles)();
+  const cssOverrides = makeStyles(classes || {})();
 
   return (
     <MuiThemeProvider theme={{ ...useTheme(), ...getMuiTheme() }}>
-      <Card className={[css.CardShadow, css.OptionsBox].join(" ")}>
+      <Card
+        className={clsx(
+          css.CardShadow,
+          css.OptionsBox,
+          cssOverrides.CardShadow,
+          cssOverrides.OptionsBox
+        )}
+      >
         <CardHeader action={action} title={title} />
         <CardContent>{children}</CardContent>
       </Card>
@@ -52,7 +62,9 @@ const OptionsBox = ({ title, action, children }) => {
 OptionsBox.propTypes = {
   title: PropTypes.string,
   action: PropTypes.node,
-  children: PropTypes.node
+  children: PropTypes.node,
+  classes: PropTypes.object,
+  themes: PropTypes.object
 };
 
 export default OptionsBox;

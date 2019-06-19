@@ -17,6 +17,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("casesRegistration", fromJS(payload.casesRegistration));
     case Actions.CASES_OVERVIEW:
       return state.set("casesOverview", fromJS(payload.casesOverview));
+    case Actions.SERVICES_STATUS:
+      return state.set("servicesStatus", fromJS(payload.services));
     case Actions.OPEN_PAGE_ACTIONS:
       return state.set("isOpenPageActions", fromJS(payload));
     default:
