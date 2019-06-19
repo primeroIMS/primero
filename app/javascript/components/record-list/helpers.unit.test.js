@@ -7,6 +7,8 @@ export const buildTableColumns = (records, recordType, i18n) => {
     records.size > 0 ? Object.keys(dataToJS(records.get(0))) : false;
 
   if (record) {
+    record.push(...["photo_keys", "flags"]);
+
     return record.map(k => {
       const column = {
         label: i18n.t(`${recordType}.${k}`),
@@ -27,7 +29,7 @@ export const buildTableColumns = (records, recordType, i18n) => {
         );
       }
 
-      if (["photos"].includes(k)) {
+      if (["photo_keys"].includes(k)) {
         column.options.customBodyRender = value => (
           <ToggleIconCell value={value} icon="photo" />
         );

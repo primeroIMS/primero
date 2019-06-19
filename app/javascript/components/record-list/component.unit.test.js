@@ -4,9 +4,9 @@ import "test/test.setup";
 import { Map, List } from "immutable";
 
 import { IndexTable } from "components/index-table";
-import CaseList from "./container";
+import RecordList from "./container";
 
-describe("<CaseList />", () => {
+describe("<RecordList />", () => {
   let component;
 
   before(() => {

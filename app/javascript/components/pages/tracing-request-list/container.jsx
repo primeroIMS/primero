@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withI18n } from "libs";
 import {
   RecordList,
-  Actions,
+  fetchRecords,
   selectRecords,
   selectMeta,
   selectFilters,
@@ -19,7 +19,7 @@ const TracingRequestList = ({
   filters,
   i18n,
   loading,
-  fetchRecords
+  getRecords
 }) => {
   const path = "/tracing_requests?fields=short";
 
@@ -42,7 +42,7 @@ const TracingRequestList = ({
     data,
     loading,
     path,
-    fetchRecords,
+    getRecords,
     namespace: NAMESPACE
   };
 
@@ -59,7 +59,7 @@ TracingRequestList.propTypes = {
   filters: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   loading: PropTypes.bool,
-  fetchRecords: PropTypes.func.isRequired
+  getRecords: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -70,7 +70,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchRecords: Actions.fetchRecords
+  getRecords: fetchRecords
 };
 
 export default withI18n(

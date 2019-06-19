@@ -1,4 +1,4 @@
-const fetchRecords = data => async dispatch => {
+export const fetchRecords = data => async dispatch => {
   dispatch({
     type: `${data.namespace}/SET_FILTERS`,
     payload: data.options
@@ -11,8 +11,4 @@ const fetchRecords = data => async dispatch => {
       params: data.options
     }
   });
-};
-
-export default {
-  fetchRecords
 };

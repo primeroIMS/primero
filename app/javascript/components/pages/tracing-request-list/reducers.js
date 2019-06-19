@@ -1,4 +1,4 @@
-import { reducer as recordListReducer } from "components/record-list";
+import { recordListReducer } from "components/record-list";
 import NAMESPACE from "./namespace";
 
-export const reducers = { [NAMESPACE]: recordListReducer(NAMESPACE) };
+export const reducers = recordListReducer(NAMESPACE);

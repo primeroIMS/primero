@@ -17,13 +17,13 @@ const RecordList = ({
   title,
   loading,
   path,
-  fetchRecords,
-  namespace
+  namespace,
+  getRecords
 }) => {
   const css = makeStyles(styles)();
 
   useEffect(() => {
-    fetchRecords({ options: data.filters, path, namespace });
+    getRecords({ options: data.filters, path, namespace });
   }, []);
 
   return (
@@ -35,7 +35,7 @@ const RecordList = ({
             defaultFilters={defaultFilters}
             columns={columns}
             data={data}
-            onTableChange={fetchRecords}
+            onTableChange={getRecords}
             loading={loading}
           />
         )}
@@ -51,8 +51,8 @@ RecordList.propTypes = {
   columns: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  fetchRecords: PropTypes.func.isRequired,
-  namespace: PropTypes.string.isRequired
+  namespace: PropTypes.string.isRequired,
+  getRecords: PropTypes.func.isRequired
 };
 
 export default RecordList;

@@ -1,45 +1,37 @@
 import chai, { expect } from "chai";
 import { Map, List } from "immutable";
 import chaiImmutable from "chai-immutable";
-import NAMESPACE from "./namespace";
 
 import * as selectors from "./selectors";
-
-export const selectCases = state => state.getIn([NAMESPACE, "cases"], {});
-
-export const selectFilters = state => state.getIn([NAMESPACE, "filters"], {});
-
-export const selectMeta = state => state.getIn([NAMESPACE, "metaData"], {});
-
-export const selectLoading = state =>
-  state.getIn([NAMESPACE, "loading"], false);
 
 chai.use(chaiImmutable);
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
-  Cases: Map({
+  TestRecordType: Map({
     loading: true,
-    cases: List([Map({ id: 1 })]),
+    records: List([Map({ id: 1 })]),
     filters: Map({
       gender: "male"
     }),
-    metaData: Map({ per: 20 })
+    metadata: Map({ per: 20 })
   })
 });
 
-describe("CaseList - Selectors", () => {
-  describe("selectCases", () => {
-    it("should return cases", () => {
+describe("RecordList - Selectors", () => {
+  const recordType = 'TestRecordType'
+
+  describe("selectRecords", () => {
+    it("should return records", () => {
       const expected = List([Map({ id: 1 })]);
-      const cases = selectors.selectCases(stateWithRecords);
-      expect(cases).to.deep.equal(expected);
+      const records = selectors.selectRecords(stateWithRecords, recordType);
+      expect(records).to.deep.equal(expected);
     });
 
-    it("should return empty object when cases empty", () => {
+    it("should return empty object when records empty", () => {
       const expected = {};
-      const cases = selectors.selectCases(stateWithNoRecords);
-      expect(cases).to.deep.equal(expected);
+      const records = selectors.selectRecords(stateWithNoRecords, recordType);
+      expect(records).to.deep.equal(expected);
     });
   });
 
@@ -48,27 +40,27 @@ describe("CaseList - Selectors", () => {
       const expected = Map({
         gender: "male"
       });
-      const filters = selectors.selectFilters(stateWithRecords);
+      const filters = selectors.selectFilters(stateWithRecords, recordType);
       expect(filters).to.deep.equal(expected);
     });
 
     it("should return empty object when filters empty", () => {
       const expected = {};
-      const filters = selectors.selectFilters(stateWithNoRecords);
+      const filters = selectors.selectFilters(stateWithNoRecords, recordType);
       expect(filters).to.deep.equal(expected);
     });
   });
 
   describe("selectMeta", () => {
-    it("should return cases meta", () => {
+    it("should return records meta", () => {
       const expected = Map({ per: 20 });
-      const meta = selectors.selectMeta(stateWithRecords);
+      const meta = selectors.selectMeta(stateWithRecords, recordType);
       expect(meta).to.deep.equal(expected);
     });
 
-    it("should return empty object when cases empty", () => {
+    it("should return empty object when records empty", () => {
       const expected = {};
-      const meta = selectors.selectMeta(stateWithNoRecords);
+      const meta = selectors.selectMeta(stateWithNoRecords, recordType);
       expect(meta).to.deep.equal(expected);
     });
   });
@@ -76,13 +68,13 @@ describe("CaseList - Selectors", () => {
   describe("selectLoading", () => {
     it("should return loading status", () => {
       const expected = true;
-      const cases = selectors.selectLoading(stateWithRecords);
-      expect(cases).to.deep.equal(expected);
+      const loading = selectors.selectLoading(stateWithRecords, recordType);
+      expect(loading).to.deep.equal(expected);
     });
 
     it("should return false by default", () => {
       const expected = false;
-      const loading = selectors.selectLoading(stateWithNoRecords);
+      const loading = selectors.selectLoading(stateWithNoRecords, recordType);
       expect(loading).to.deep.equal(expected);
     });
   });

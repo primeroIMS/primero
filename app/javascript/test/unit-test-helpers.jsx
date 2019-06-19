@@ -6,13 +6,14 @@ import configureStore from "redux-mock-store";
 import { I18nProvider } from "libs";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import { theme } from "config";
+import thunk from "redux-thunk";
 
 export const setupMountedComponent = (
   TestComponent,
   props = {},
   initialState = {}
 ) => {
-  const mockStore = configureStore();
+  const mockStore = configureStore([thunk]);
   const store = mockStore(initialState);
   const component = createMount()(
     <Provider store={store}>

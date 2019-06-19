@@ -8,7 +8,8 @@ import {
   Typography
 } from "@material-ui/core";
 import { LoadingIndicator } from "components/loading-indicator";
-import { Map, List } from "immutable";
+import { dataToJS } from "libs";
+import NoData from "./NoData";
 
 const getMuiTheme = () =>
   createMuiTheme({
@@ -35,14 +36,6 @@ const getMuiTheme = () =>
       }
     }
   });
-
-const dataToJS = data => {
-  if (data instanceof Map || data instanceof List) {
-    return data.toJS();
-  }
-
-  return data;
-};
 
 const IndexTable = ({
   columns,
@@ -117,6 +110,9 @@ const IndexTable = ({
     data: dataToJS(records)
   };
 
+  const DataTable = () =>
+    tableOptions.data.length ? <MUIDataTable {...tableOptions} /> : <NoData />;
+
   return (
     <MuiThemeProvider theme={getMuiTheme}>
       <Box mb={3}>
@@ -124,11 +120,7 @@ const IndexTable = ({
           {title}
         </Typography>
       </Box>
-      {loading ? (
-        <LoadingIndicator loading={loading} />
-      ) : (
-        <MUIDataTable {...tableOptions} />
-      )}
+      {loading ? <LoadingIndicator loading={loading} /> : <DataTable />}
     </MuiThemeProvider>
   );
 };

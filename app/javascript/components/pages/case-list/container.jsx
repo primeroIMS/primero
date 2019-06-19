@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { withI18n } from "libs";
 import {
   RecordList,
-  Actions,
+  fetchRecords,
   selectRecords,
   selectMeta,
   selectFilters,
@@ -13,7 +13,7 @@ import {
 } from "components/record-list";
 import NAMESPACE from "./namespace";
 
-const CaseList = ({ records, meta, filters, i18n, loading, fetchRecords }) => {
+const CaseList = ({ records, meta, filters, i18n, loading, getRecords }) => {
   const path = "/cases?fields=short";
 
   const defaultFilters = {
@@ -35,7 +35,7 @@ const CaseList = ({ records, meta, filters, i18n, loading, fetchRecords }) => {
     data,
     loading,
     path,
-    fetchRecords,
+    getRecords,
     namespace: NAMESPACE
   };
 
@@ -52,7 +52,7 @@ CaseList.propTypes = {
   filters: PropTypes.object.isRequired,
   i18n: PropTypes.object.isRequired,
   loading: PropTypes.bool,
-  fetchRecords: PropTypes.func.isRequired
+  getRecords: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -63,7 +63,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  fetchRecords: Actions.fetchRecords
+  getRecords: fetchRecords
 };
 
 export default withI18n(

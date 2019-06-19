@@ -4,18 +4,18 @@ import "test/test.setup";
 import { Map, List } from "immutable";
 
 import { IndexTable } from "components/index-table";
-import CaseList from "./container";
+import TracingRequestList from "./container";
 
-describe("<CaseList />", () => {
+describe("<TracingRequestList />", () => {
   let component;
 
   before(() => {
     component = setupMountedComponent(
-      CaseList,
+      TracingRequestList,
       {},
       Map({
-        Cases: Map({
-          cases: List([Map({ id: "test", sex: "male", age: 12 })]),
+        TracingRequest: Map({
+          records: List([Map({ id: "test", sex: "male", age: 12 })]),
           metadata: Map({ per: 20, page: 1 }),
           filters: Map({ status: "open" })
         })
@@ -23,9 +23,9 @@ describe("<CaseList />", () => {
     ).component;
   });
 
-  // TODO: Test fails. Due to how fetchCases action is setup
+  // TODO: Test fails. Due to how fetchRecords action is setup
   // "Actions must be plain objects. Use custom middleware for async action"
-  it("renders cases table", () => {
+  it("renders tracing request table", () => {
     expect(component.find(IndexTable)).to.have.length(1);
   });
 });
