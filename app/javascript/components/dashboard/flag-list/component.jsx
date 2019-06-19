@@ -9,7 +9,7 @@ import styles from "./styles.css";
 const FlagList = ({ flags, i18n }) => {
   const css = makeStyles(styles)();
   return (
-    <div className={css.FlagList}>
+    <div>
       {(flags.get("flags") || []).map(flag => {
         return <FlagBox flag={flag} key={flag.get("id")} />;
       })}
