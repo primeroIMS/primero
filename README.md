@@ -74,9 +74,9 @@ When the Vagrant box is up and running, SSH in and go to the Primero development
     $ bundle exec rake db:migrate:design
     $ bundle exec rake db:seed
 
-To bring up the development server on port 3000:
+To bring up the development server on port 3000 and webpack:
 
-    $ bundle exec rails s
+    $ foreman start -f Procfile.dev
 
 You should now be able to access your development server in the browser on [http://primero.test:3000](http://primero.test:3000).
 You can login with a preseeded admin account with credentials `primero`/`primer0!`.
