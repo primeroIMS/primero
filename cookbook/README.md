@@ -54,7 +54,17 @@ NOTE: You can get the actual clone command from Bitbucket by doing the following
 Example:  `$ git clone git@bitbucket.org:quoin/primero.git`
 
 
-If you will also deploying the configuration, you will need to add your public key to the configuration repo.
+On your local machine, cd to the repo root directory and checkout the version tag or branch that you are going to deploy.
+This is critical so the chef recipes used to deploy are appropriate for the application version you are deploying.
+
+Example:
+```sh
+$ cd primero
+$ git checkout v1.5.17
+```
+
+
+If you will also be deploying the configuration, you will need to add your public key to the configuration repo.
 Further instructions below.
 
 
@@ -315,6 +325,13 @@ For a standard deploy with configuration:   `[ "recipe[primero::default]", "reci
 
 Deployment
 ----------
+First, verify you have checked out the correct tag version or branch that you are deploying.
+It should match the version you have specified in the node file.
+
+```sh
+$ git status
+```
+
 Once you have the requirements installed, you can run the following two commands from the
 `cookbook` folder of the repo (cookbook directory must be able to be read by other users):
 
