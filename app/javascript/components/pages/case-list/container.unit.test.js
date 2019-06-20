@@ -5,7 +5,6 @@ import { Map, List } from "immutable";
 
 import { IndexTable } from "components/index-table";
 import CaseList from "./container";
-import { fetchRecords } from 'components/record-list'
 
 describe("<CaseList />", () => {
   let component;
@@ -24,8 +23,6 @@ describe("<CaseList />", () => {
     ).component;
   });
 
-  // TODO: Test fails. Due to how fetchRecords action is setup
-  // "Actions must be plain objects. Use custom middleware for async action"
   it("renders cases table", () => {
     expect(component.find(IndexTable)).to.have.length(1);
   });

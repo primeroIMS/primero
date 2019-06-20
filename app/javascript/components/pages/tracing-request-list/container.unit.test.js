@@ -23,8 +23,6 @@ describe("<TracingRequestList />", () => {
     ).component;
   });
 
-  // TODO: Test fails. Due to how fetchRecords action is setup
-  // "Actions must be plain objects. Use custom middleware for async action"
   it("renders tracing request table", () => {
     expect(component.find(IndexTable)).to.have.length(1);
   });

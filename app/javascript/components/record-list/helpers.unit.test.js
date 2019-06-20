@@ -1,43 +1,32 @@
-import React from "react";
-import { dataToJS } from "libs";
-import { DateCell, ToggleIconCell } from "components/index-table";
+import { expect } from "chai";
+import "test/test.setup";
+import { List, Map } from "immutable";
 
-export const buildTableColumns = (records, recordType, i18n) => {
-  const record =
-    records.size > 0 ? Object.keys(dataToJS(records.get(0))) : false;
+import { buildTableColumns } from "./helpers";
 
-  if (record) {
-    record.push(...["photo_keys", "flags"]);
+const i18n = { t: name => {
+  name = name.split('.')[1];
+  return name.charAt(0).toUpperCase() + name.slice(1)
+}};
 
-    return record.map(k => {
-      const column = {
-        label: i18n.t(`${recordType}.${k}`),
-        name: k,
-        id: ["id", "short_id"].includes(k),
-        options: {}
-      };
+describe("<buildTableColumns />", () => {
+  it("should return list of columns for table", () => {
+    const expected = [
+      { label: "Id", name: "id", id: true, options: {} },
+      { label: "Name", name: "name", id: false, options: {} }
+    ];
 
-      if (
-        ["inquiry_date", "registration_date", "case_opening_date"].includes(k)
-      ) {
-        column.options.customBodyRender = value => <DateCell value={value} />;
-      }
+    const records = List([
+      Map({
+        id: "test",
+        name: "james"
+      })
+    ]);
 
-      if (["flags"].includes(k)) {
-        column.options.customBodyRender = value => (
-          <ToggleIconCell value={value} icon="flag" />
-        );
-      }
+    const columns = buildTableColumns(records, "testRecordType", i18n);
 
-      if (["photo_keys"].includes(k)) {
-        column.options.customBodyRender = value => (
-          <ToggleIconCell value={value} icon="photo" />
-        );
-      }
-
-      return column;
-    });
-  }
-
-  return [];
-};
+    columns.forEach((v, k) => {
+      expect(v).to.deep.equal(expected[k]);
+    })
+  });
+});
