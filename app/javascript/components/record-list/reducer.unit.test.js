@@ -7,7 +7,6 @@ import * as r from "./reducer";
 chai.use(chaiImmutable);
 
 describe("RecordList - Reducers", () => {
-  debugger;
   const reducer = r.recordListReducer('TestRecordType').TestRecordType
 
   it("should handle RECORDS_STARTED", () => {

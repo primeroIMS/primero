@@ -11,7 +11,7 @@ chai.use(sinonChai);
 describe("RecordList - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
-    debugger;
+
     expect(creators).to.have.property("fetchRecords");
     delete creators.fetchRecords;
 
