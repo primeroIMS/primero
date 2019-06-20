@@ -44,7 +44,10 @@ list of relevant permitted fields.
       "owned_by": "primero",
       "created_at": "2019-05-10T05:34:59.514Z",
       "case_id_display": "f15a1a9",
-      "registration_date": "2019-05-10"
+      "registration_date": "2019-05-10",
+      "photos": [
+          "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBJdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--fd11045a88ede3b0b1e92ce60b75bb21f219c33c/photo.jpg"
+      ]
     },
     {
       "id": "442fa6e6-4682-4fdf-b9dc-2cdf51c5e8c3",
@@ -54,7 +57,10 @@ list of relevant permitted fields.
       "owned_by": "primero",
       "created_at": "2019-05-08T03:14:15.133Z",
       "case_id_display": "af0f298",
-      "registration_date": "2019-05-07"
+      "registration_date": "2019-05-07",
+      "photos": [
+          "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBJdz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--fd11045a88ede3b0b1e92ce60b75bb21f219c33c/photo.jpg"
+      ]
     }
   ],
   "metadata": {
