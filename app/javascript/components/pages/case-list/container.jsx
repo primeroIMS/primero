@@ -30,7 +30,7 @@ const CaseList = ({ records, meta, filters, i18n, loading, getRecords }) => {
   const columns = buildTableColumns(records, "case", i18n);
 
   const recordListProps = {
-    title: i18n.t("case.label"),
+    title: i18n.t("cases.label"),
     columns,
     data,
     loading,

@@ -37,7 +37,7 @@ const TracingRequestList = ({
   const columns = buildTableColumns(records, "tracing_request", i18n);
 
   const recordListProps = {
-    title: i18n.t("tracing_request.label"),
+    title: i18n.t("tracing_requests.label"),
     columns,
     data,
     loading,

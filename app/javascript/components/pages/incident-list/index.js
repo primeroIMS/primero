@@ -1,2 +1,2 @@
-/* eslint-disable import/prefer-default-export */
 export { default as IncidentList } from "./container";
+export * from "./reducers";
