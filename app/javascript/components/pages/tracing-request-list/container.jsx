@@ -13,11 +13,18 @@ import {
 } from "components/record-list";
 import NAMESPACE from "./namespace";
 
-const CaseList = ({ records, meta, filters, i18n, loading, getRecords }) => {
-  const path = "/cases?fields=short";
+const TracingRequestList = ({
+  records,
+  meta,
+  filters,
+  i18n,
+  loading,
+  getRecords
+}) => {
+  const path = "/tracing_requests?fields=short";
 
   const defaultFilters = {
-    child_status: "open",
+    inquiry_status: "open",
     record_state: true
   };
 
@@ -27,10 +34,10 @@ const CaseList = ({ records, meta, filters, i18n, loading, getRecords }) => {
     meta
   };
 
-  const columns = buildTableColumns(records, "case", i18n);
+  const columns = buildTableColumns(records, "tracing_request", i18n);
 
   const recordListProps = {
-    title: i18n.t("case.label"),
+    title: i18n.t("tracing_request.label"),
     columns,
     data,
     loading,
@@ -46,7 +53,7 @@ const CaseList = ({ records, meta, filters, i18n, loading, getRecords }) => {
   );
 };
 
-CaseList.propTypes = {
+TracingRequestList.propTypes = {
   records: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   filters: PropTypes.object.isRequired,
@@ -70,5 +77,5 @@ export default withI18n(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(CaseList)
+  )(TracingRequestList)
 );

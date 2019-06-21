@@ -1,10 +1,8 @@
 import { setupMountedComponent } from "test";
 import { expect } from "chai";
 import { Map } from "immutable";
-import { shallow } from "enzyme";
 import "test/test.setup";
 
-import { TranslationsToggle } from "components/translations-toggle";
 import { AgencyLogo } from "components/agency-logo";
 import { ModuleLogo } from "components/module-logo";
 import Login from "./container";
@@ -21,7 +19,7 @@ describe("<Login />", () => {
   before(() => {
     component = setupMountedComponent(
       Login,
-      { },
+      {},
       Map({ Login: { logo: "primero" } })
     ).component;
   });
