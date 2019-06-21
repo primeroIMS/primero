@@ -1,0 +1,7 @@
+.OptionsBox {
+  margin-bottom: 20px;
+}
+
+.CardShadow {
+  box-shadow: $(theme.primero.shadows[0]);
+}

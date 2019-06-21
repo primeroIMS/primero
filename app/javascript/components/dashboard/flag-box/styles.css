@@ -1,0 +1,47 @@
+.Flag {
+  margin: 0 15px;
+  padding: 20px 0;
+  border-bottom: 1px solid #F0F0F0;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.FlagTitle{
+  margin: 0;
+  display: inline;
+  font-size: 14px;
+  font-weight: bold;
+  color: #231e1f;
+}
+
+.FlagDate{
+  float: right;
+  font-size: 11px;
+  text-align: right;
+  color: #4a4a4a;
+}
+
+.FlagContent {
+  font-size: 14px;
+  color: #757472;
+  margin: 3px 0 7px 0;
+}
+
+.FlagStatus {
+  font-size: 11px;
+  color: #757472;
+}
+
+.FlagCasesMineIcon {
+  display: inline-flex;
+  position: relative;
+  top: 0.235em;
+  font-size: 1rem;
+  margin-right: 4px;
+}
