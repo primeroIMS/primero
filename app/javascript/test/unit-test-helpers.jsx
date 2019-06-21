@@ -2,18 +2,18 @@ import React from "react";
 import { createMount } from "@material-ui/core/test-utils";
 import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
-import thunkMiddleware from "redux-thunk";
 import configureStore from "redux-mock-store";
 import { I18nProvider } from "libs";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import { theme } from "config";
+import thunk from "redux-thunk";
 
 export const setupMountedComponent = (
   TestComponent,
   props = {},
   initialState = {}
 ) => {
-  const mockStore = configureStore([thunkMiddleware]);
+  const mockStore = configureStore([thunk]);
   const store = mockStore(initialState);
   const component = createMount()(
     <Provider store={store}>

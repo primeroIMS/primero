@@ -13,7 +13,7 @@ import {
 } from "components/record-list";
 import NAMESPACE from "./namespace";
 
-const IncidentList = ({
+const TracingRequestList = ({
   records,
   meta,
   filters,
@@ -21,10 +21,10 @@ const IncidentList = ({
   loading,
   getRecords
 }) => {
-  const path = "/incidents?fields=short";
+  const path = "/tracing_requests?fields=short";
 
   const defaultFilters = {
-    status: "open",
+    inquiry_status: "open",
     record_state: true
   };
 
@@ -34,10 +34,10 @@ const IncidentList = ({
     meta
   };
 
-  const columns = buildTableColumns(records, "incident", i18n);
+  const columns = buildTableColumns(records, "tracing_request", i18n);
 
   const recordListProps = {
-    title: i18n.t("incidents.label"),
+    title: i18n.t("tracing_requests.label"),
     columns,
     data,
     loading,
@@ -53,7 +53,7 @@ const IncidentList = ({
   );
 };
 
-IncidentList.propTypes = {
+TracingRequestList.propTypes = {
   records: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   filters: PropTypes.object.isRequired,
@@ -77,5 +77,5 @@ export default withI18n(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(IncidentList)
+  )(TracingRequestList)
 );
