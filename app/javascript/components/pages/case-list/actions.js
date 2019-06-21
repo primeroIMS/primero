@@ -1,6 +1,0 @@
-export const CASES_FAILED = "CASES_FAILED";
-export const CASES_STARTED = "CASES_STARTED";
-export const CASES_FINISHED = "CASES_FINISHED";
-export const CASES_SUCCESS = "CASES_SUCCESS";
-export const SET_PAGINATION = "SET_PAGINATION";
-export const SET_FILTERS = "SET_FILTERS";
