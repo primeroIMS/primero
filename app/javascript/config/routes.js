@@ -27,7 +27,11 @@ export default [
       },
       {
         path: "/incidents",
-        component: Page.Incidents
+        component: Page.IncidentList
+      },
+      {
+        path: "/tracing-requests",
+        component: Page.TracingRequestList
       }
     ]
   }

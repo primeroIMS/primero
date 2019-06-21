@@ -9,10 +9,12 @@ import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import { restMiddleware } from "middleware";
-import * as CasesList from "./components/pages/case-list";
-import * as Nav from "./components/nav";
-import * as LoginPage from "./components/pages/login";
-import * as TranslationToogle from "./components/translations-toggle";
+import * as CasesList from "components/pages/case-list";
+import * as TracingRequestList from "components/pages/tracing-request-list";
+import * as IncidentList from "components/pages/incident-list";
+import * as Nav from "components/nav";
+import * as Login from "components/pages/login";
+import * as TranslationToogle from "components/translations-toggle";
 
 // TODO: Temporarily setting basename
 export const history = createBrowserHistory({
@@ -45,8 +47,10 @@ export default () => {
     combineReducers({
       router: connectRouter(history),
       ...CasesList.reducers,
+      ...TracingRequestList.reducers,
+      ...IncidentList.reducers,
       ...Nav.reducers,
-      ...LoginPage.loginReducers,
+      ...Login.reducers,
       ...TranslationToogle.reducers
     }),
     preloadedState,

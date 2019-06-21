@@ -1,0 +1,16 @@
+.icon {
+  font-size: 7em;
+  color: #e6e6e6;
+}
+
+.noData {
+  min-height: 30em;
+  text-align: center;
+  font-weight: bold;
+}
+
+.content {
+  border: 6px solid #e6e6e6;
+  padding: 2em;
+  border-radius: 9px;
+}
