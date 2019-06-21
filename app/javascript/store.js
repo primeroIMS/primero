@@ -9,6 +9,7 @@ import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import { restMiddleware } from "middleware";
+import * as CaseNew from "components/pages/case-new";
 import * as CasesList from "./components/pages/case-list";
 import * as Nav from "./components/nav";
 import * as LoginPage from "./components/pages/login";
@@ -45,6 +46,7 @@ export default () => {
     combineReducers({
       router: connectRouter(history),
       ...CasesList.reducers,
+      ...CaseNew.reducers,
       ...Nav.reducers,
       ...LoginPage.loginReducers,
       ...TranslationToogle.reducers

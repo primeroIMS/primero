@@ -22,6 +22,18 @@ export default [
         exact: true
       },
       {
+        path: "/cases/new/:module",
+        component: Page.CaseNew
+      },
+      {
+        path: "/cases/:id",
+        component: Page.CaseShow
+      },
+      {
+        path: "/cases/:id/edit",
+        component: Page.CaseEdit
+      },
+      {
         path: "/cases",
         component: Page.CaseList
       },
