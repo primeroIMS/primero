@@ -1,0 +1,41 @@
+import React from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import styles from "./styles.css";
+
+const RangeButton = ({ props }) => {
+  const css = makeStyles(styles)();
+  const { values } = props;
+
+  const [alignment, setAlignment] = React.useState(null);
+  const handleAlignment = (event, newAlignment) => {
+    setAlignment(newAlignment);
+  };
+
+  return (
+    <Grid container spacing={2} direction="column" alignItems="center">
+      <Grid item className={css.toggleContainer}>
+        <ToggleButtonGroup
+          exclusive
+          value={alignment}
+          onChange={handleAlignment}
+        >
+          {values.map(v => (
+            <ToggleButton value={v.id} className={css.toogleButton}>
+              {v.display_name}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+      </Grid>
+    </Grid>
+  );
+};
+
+RangeButton.propTypes = {
+  props: PropTypes.object.isRequired,
+  values: PropTypes.array
+};
+
+export default RangeButton;
