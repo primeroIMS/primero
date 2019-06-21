@@ -15,6 +15,7 @@ import * as IncidentList from "components/pages/incident-list";
 import * as Nav from "components/nav";
 import * as Login from "components/pages/login";
 import * as TranslationToogle from "components/translations-toggle";
+import * as Dashboard from "./components/pages/dashboard";
 
 // TODO: Temporarily setting basename
 export const history = createBrowserHistory({
@@ -53,6 +54,7 @@ export default () => {
       }),
       ui: combineReducers({ ...Nav.reducers }),
       ...Login.loginReducers,
+      ...Dashboard.dashboardReducers,
       ...TranslationToogle.reducers
     }),
     preloadedState,

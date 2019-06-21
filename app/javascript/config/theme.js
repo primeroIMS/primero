@@ -21,6 +21,7 @@ export default createMuiTheme({
     fontWeight: 600
   },
   primero: {
+    shadows: ["0 2px 12px 0 rgba(125, 125, 125, 0.23)"],
     colors: {
       lightGrey: "#f0f0f0",
       white: "#ffffff",
