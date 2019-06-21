@@ -24,10 +24,10 @@ export default () => {
 
   const middleware = [
     routerMiddleware(history),
+    thunkMiddleware,
     restMiddleware({
       baseUrl: "/api/v2"
-    }),
-    thunkMiddleware
+    })
   ];
 
   if (process.env.NODE_ENV === "development") {
@@ -44,8 +44,8 @@ export default () => {
   const store = createStore(
     combineReducers({
       router: connectRouter(history),
-      ...CasesList.reducers,
-      ...Nav.reducers,
+      records: combineReducers({ ...CasesList.reducers }),
+      ui: combineReducers({ ...Nav.reducers }),
       ...LoginPage.loginReducers,
       ...TranslationToogle.reducers
     }),
