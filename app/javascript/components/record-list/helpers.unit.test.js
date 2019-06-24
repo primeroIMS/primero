@@ -9,7 +9,7 @@ const i18n = { t: name => {
   return name.charAt(0).toUpperCase() + name.slice(1)
 }};
 
-describe("<buildTableColumns />", () => {
+describe("<RecordList /> - buildTableColumns", () => {
   it("should return list of columns for table", () => {
     const expected = [
       { label: "Id", name: "id", id: true, options: {} },

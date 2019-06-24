@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@material-ui/core";
-import { withI18n } from "libs";
+import { useI18n } from "components/i18n";
 import { DoughnutChart } from "components/dashboard/doughnut-chart";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
 
-const OverviewBox = ({ i18n, items, chartData }) => {
+const OverviewBox = ({ items, chartData }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
   const transfers = items.get("transfers");
   const waiting = items.get("waiting");
   const pending = items.get("pending");
@@ -43,8 +44,7 @@ const OverviewBox = ({ i18n, items, chartData }) => {
 
 OverviewBox.propTypes = {
   items: PropTypes.object.isRequired,
-  chartData: PropTypes.object.isRequired,
-  i18n: PropTypes.object.isRequired
+  chartData: PropTypes.object.isRequired
 };
 
-export default withI18n(OverviewBox);
+export default OverviewBox;
