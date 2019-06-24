@@ -46,10 +46,9 @@ export default [
     type: "multi_select",
     options: {
       values: [
-        { id: "owned_by", display_name: "My Cases" },
-        { id: "assigned_user_names", display_name: "Cases referred to me" },
-        { id: "primero_gbv_ar", display_name: "primero_gbv_ar" },
-        { id: "primero_mgr_gbv_ar", display_name: "primero_mgr_gbv_ar" }
+        { id: "bia", display_name: "BIA" },
+        { id: "case_plan", display_name: "Case Plan" },
+        { id: "closure", display_name: "Closure" }
       ]
     }
   },
@@ -59,8 +58,10 @@ export default [
     type: "select",
     options: {
       values: [
-        { id: "owned_by", display_name: "My Cases" },
-        { id: "assigned_user_names", display_name: "Cases referred to me" }
+        { id: "open", display_name: "Open" },
+        { id: "closed", display_name: "Closed" },
+        { id: "transferred", display_name: "Transferred" },
+        { id: "duplicate", display_name: "Duplicate" }
       ]
     }
   },
@@ -83,7 +84,14 @@ export default [
     // Let's keep RadioButton for now, to have this other filter type ready
     id: "sex",
     display_name: "Sex",
-    type: "radio"
+    type: "radio",
+    options: {
+      values: [
+        { id: "female", display_name: "Female" },
+        { id: "male", display_name: "Male" },
+        { id: "other", display_name: "Other" }
+      ]
+    }
   },
   {
     id: "risk_level",

@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   ExpansionPanel,
@@ -11,12 +13,15 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {
   CheckBox,
   SelectFilter,
-  RangeButton
+  RangeButton,
+  RadioButton
 } from "components/filters-builder/filter-controls";
+import * as actions from "./action-creators";
+import * as Selectors from "./selectors";
 import filterTypes from "./mocked-filters";
 import styles from "./styles.css";
 
-const FiltersBuilder = () => {
+const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
   const css = makeStyles(styles)();
 
   const handleClearFilters = () => console.log("Clear Filters");
@@ -34,15 +39,23 @@ const FiltersBuilder = () => {
       case "select":
         return <SelectFilter props={options} />;
       case "multi_toogle":
-        return <RangeButton props={options} />;
+        return <RangeButton props={options} exclusive />;
       case "radio":
-        return <h2>RADIO</h2>;
+        return <RadioButton props={options} />;
       case "chips":
         return <h2>CHIPS</h2>;
       case "dates":
         return <h2>DATES</h2>;
       default:
         return <h2>Not Found</h2>;
+    }
+  };
+
+  const handleChange = panel => (event, isExpanded) => {
+    if (isExpanded) {
+      setExpanded(panel, isExpanded);
+    } else {
+      removeExpandedPanel(panel);
     }
   };
 
@@ -59,17 +72,24 @@ const FiltersBuilder = () => {
           Apply
         </Button>
       </div>
-      {filterTypes.map(f => (
-        <ExpansionPanel className={css.panel}>
+      {filterTypes.map((filter, index) => (
+        <ExpansionPanel
+          expanded={expanded && expanded.includes(`filterPanel${index}`)}
+          onChange={handleChange(`filterPanel${index}`)}
+          className={css.panel}
+          key={filter.id}
+        >
           <ExpansionPanelSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            id={f.id}
+            aria-controls="filter-controls-content"
+            id={filter.id}
           >
-            <Typography className={css.heading}>{f.display_name}</Typography>
+            <Typography className={css.heading}>
+              {filter.display_name}
+            </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={css.panelDetails}>
-            {renderFilterControl(f.type, f.options)}
+            {renderFilterControl(filter.type, filter.options)}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}
@@ -77,4 +97,22 @@ const FiltersBuilder = () => {
   );
 };
 
-export default FiltersBuilder;
+FiltersBuilder.propTypes = {
+  expanded: PropTypes.object.isRequired,
+  setExpanded: PropTypes.func,
+  removeExpandedPanel: PropTypes.func
+};
+
+const mapStateToProps = state => ({
+  expanded: Selectors.selectExpandedPanel(state)
+});
+
+const mapDispatchToProps = {
+  setExpanded: actions.setExpandedPanel,
+  removeExpandedPanel: actions.removeExpandedPanel
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(FiltersBuilder);

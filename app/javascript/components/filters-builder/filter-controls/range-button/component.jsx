@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
 import styles from "./styles.css";
 
-const RangeButton = ({ props }) => {
+const RangeButton = ({ exclusive, props }) => {
   const css = makeStyles(styles)();
   const { values } = props;
 
@@ -18,12 +18,12 @@ const RangeButton = ({ props }) => {
     <Grid container spacing={2} direction="column" alignItems="center">
       <Grid item className={css.toggleContainer}>
         <ToggleButtonGroup
-          exclusive
+          exclusive={exclusive}
           value={alignment}
           onChange={handleAlignment}
         >
           {values.map(v => (
-            <ToggleButton value={v.id} className={css.toogleButton}>
+            <ToggleButton key={v.id} value={v.id} className={css.toogleButton}>
               {v.display_name}
             </ToggleButton>
           ))}
@@ -34,8 +34,9 @@ const RangeButton = ({ props }) => {
 };
 
 RangeButton.propTypes = {
-  props: PropTypes.object.isRequired,
-  values: PropTypes.array
+  props: PropTypes.array,
+  values: PropTypes.array,
+  exclusive: PropTypes.bool
 };
 
 export default RangeButton;

@@ -1,12 +1,17 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
 import { AppBar, Tabs, Tab } from "@material-ui/core";
 import { FiltersBuilder } from "components/filters-builder";
+import { withI18n } from "libs";
+import { connect } from "react-redux";
+import * as actions from "./action-creators";
+import * as Selectors from "./selectors";
 import styles from "./styles.css";
 
-const Filters = () => {
+const Filters = ({ tabValue, setTabValue }) => {
   const css = makeStyles(styles)();
-  const [tabValue, setTabValue] = React.useState(0);
+  // const [tabValue, setTabValue] = React.useState(0);
 
   const handleTabsChange = (event, value) => setTabValue(value);
 
@@ -34,12 +39,28 @@ const Filters = () => {
           />
         </Tabs>
       </AppBar>
-      {/* TODO: Pass tabValue as a prop on each container
-      to hide not to render every time tab changes */}
-      {<FiltersBuilder show={tabValue === 0} />}
+      {tabValue === 0 && <FiltersBuilder />}
       {tabValue === 1 && <h1 style={{ textAlign: "center" }}>NYI</h1>}
     </div>
   );
 };
 
-export default Filters;
+Filters.propTypes = {
+  tabValue: PropTypes.number,
+  setTabValue: PropTypes.func
+};
+
+const mapStateToProps = state => ({
+  tabValue: Selectors.selectTab(state)
+});
+
+const mapDispatchToProps = {
+  setTabValue: actions.setTab
+};
+
+export default withI18n(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Filters)
+);
