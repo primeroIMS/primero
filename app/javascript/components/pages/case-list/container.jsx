@@ -1,113 +1,72 @@
-import { IndexTable, DateCell, ToggleIconCell } from "components/index-table";
-import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import Box from "@material-ui/core/Box";
-import { withI18n } from "libs";
-import { makeStyles } from "@material-ui/styles";
-import * as actions from "./action-creators";
-import styles from "./styles.css";
-import * as Selectors from "./selectors";
+import { useI18n } from "components/i18n";
+import {
+  RecordList,
+  fetchRecords,
+  selectRecords,
+  selectMeta,
+  selectFilters,
+  selectLoading,
+  buildTableColumns
+} from "components/record-list";
+import NAMESPACE from "./namespace";
 
-const defaultFilters = {
-  per: 20,
-  page: 1,
-  child_status: "open",
-  record_state: true
-};
+const CaseList = ({ records, meta, filters, loading, getRecords }) => {
+  const path = "/cases?fields=short";
+  const i18n = useI18n();
 
-const CaseList = ({ cases, meta, filters, fetchCases, i18n, loading }) => {
-  const css = makeStyles(styles)();
+  const defaultFilters = {
+    child_status: "open",
+    record_state: true
+  };
 
   const data = {
-    results: cases,
-    filters,
+    filters: Object.assign({}, defaultFilters, filters),
+    records,
     meta
   };
 
-  useEffect(() => {
-    fetchCases(defaultFilters);
-  }, []);
+  const columns = buildTableColumns(records, "case", i18n);
 
-  const columns = [
-    { label: i18n.t("case.id"), name: "short_id", id: true },
-    { label: i18n.t("case.age"), name: "age" },
-    { label: i18n.t("case.sex"), name: "sex" },
-    {
-      label: i18n.t("case.registration_date"),
-      name: "registration_date",
-      options: {
-        customBodyRender: value => <DateCell value={value} />
-      }
-    },
-    {
-      label: i18n.t("case.case_opening_date"),
-      name: "created_at",
-      options: {
-        customBodyRender: value => <DateCell value={value} />
-      }
-    },
-    { label: i18n.t("case.social_worker"), name: "owned_by" },
-    {
-      label: i18n.t("case.photo"),
-      name: "photo_keys",
-      options: {
-        customBodyRender: value => <ToggleIconCell value={value} icon="photo" />
-      }
-    },
-    {
-      label: " ",
-      name: "flags",
-      options: {
-        empty: true,
-        customBodyRender: value => <ToggleIconCell value={value} icon="flag" />
-      }
-    }
-  ];
+  const recordListProps = {
+    title: i18n.t("cases.label"),
+    columns,
+    data,
+    loading,
+    path,
+    getRecords,
+    namespace: NAMESPACE
+  };
 
   return (
-    <Box className={css.root}>
-      <Box className={css.table}>
-        {!isEmpty(cases) && (
-          <IndexTable
-            title={i18n.t("cases.label")}
-            defaultFilters={defaultFilters}
-            columns={columns}
-            data={data}
-            onTableChange={fetchCases}
-            loading={loading}
-          />
-        )}
-      </Box>
-      <Box className={css.filters}>Filters</Box>
-    </Box>
+    <>
+      <RecordList {...recordListProps} />
+    </>
   );
 };
 
 CaseList.propTypes = {
-  cases: PropTypes.object.isRequired,
+  records: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   filters: PropTypes.object.isRequired,
-  fetchCases: PropTypes.func.isRequired,
-  i18n: PropTypes.object.isRequired,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  getRecords: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  cases: Selectors.selectCases(state),
-  meta: Selectors.selectMeta(state),
-  filters: Selectors.selectFilters(state),
-  loading: Selectors.selectLoading(state)
+  records: selectRecords(state, NAMESPACE),
+  meta: selectMeta(state, NAMESPACE),
+  filters: selectFilters(state, NAMESPACE),
+  loading: selectLoading(state, NAMESPACE)
 });
 
 const mapDispatchToProps = {
-  fetchCases: actions.fetchCases
+  getRecords: fetchRecords
 };
 
-export default withI18n(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(CaseList)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CaseList);

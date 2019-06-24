@@ -1552,6 +1552,7 @@ en:
   dashboard:
     total: 'Total'
     new: 'New & Updated'
+    outstanding_transfers: 'Outstanding Transfers'
     pending_transfers: 'Pending Transfers'
     rejected_transfers: 'Rejected Transfers'
     transers_awaiting_acceptance: 'Transfers Awaiting Acceptance'
@@ -1566,8 +1567,10 @@ en:
     pending: 'Pending'
     rejected: 'Rejected'
     approvals: 'Approvals'
+    awaiting_acceptance: 'Awaiting acceptance'
     near_deadline: 'Near Deadline'
     due: 'Overdue'
+    in_progress: 'In Progress'
     response: 'Response <span>(In Progress)</span>'
     immediate_response: 'Immediate Response'
     cases_to_assign: 'Cases To Assign'
@@ -1645,6 +1648,7 @@ en:
     geographic_area: "Geographic Area"
     all_cases: "All Cases"
     open: "Open"
+    closed: "Closed"
     range4: "0-4"
     range4_8: "4-8"
     range8_12: "8-12"
@@ -1713,6 +1717,13 @@ en:
     closed_this_week: "Closed <span>(this week)</span>"
     you_have: "You have "
     and: "and "
+    flagged: "Flagged"
+    registration: "Registration"
+    case_management_service: "Case Management Service"
+    screening_service: "Screening Service"
+    high_level: "High"
+    medium_level: "Medium"
+    low_level: "Low"
 
   errors:
 

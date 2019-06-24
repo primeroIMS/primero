@@ -1,5 +1,7 @@
 const path = require("path");
 
+const developmentEnv = process.env.NODE_ENV === "development";
+
 module.exports = {
   extends: ["airbnb", "prettier", "prettier/react"],
   plugins: ["react", "prettier"],
@@ -15,7 +17,8 @@ module.exports = {
     "react/require-default-props": "off",
     "react/forbid-prop-types": "off",
     "import/prefer-default-export": "off",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "no-debugger": developmentEnv ? "off" : "error"
   },
   env: {
     browser: true

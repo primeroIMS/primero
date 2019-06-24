@@ -16,7 +16,7 @@ describe("<Nav />", () => {
     component = setupMountedComponent(
       Nav,
       { username: "joshua" },
-      Map({ Nav: { drawerOpen: true } })
+      Map({ ui: Map({ Nav: { drawerOpen: true } }) })
     ).component;
   });
 

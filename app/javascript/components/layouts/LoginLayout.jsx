@@ -6,14 +6,16 @@ import { AgencyLogo } from "components/agency-logo";
 import { ListIcon } from "components/list-icon";
 import { TranslationsToggle } from "components/translations-toggle";
 import { NavLink } from "react-router-dom";
-import { withI18n } from "libs";
+import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./login-styles.css";
 
-const LoginLayout = ({ primeroModule, agency, i18n }) => {
+const LoginLayout = ({ primeroModule, agency }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
+
   return (
     <div>
       <CssBaseline />
@@ -62,8 +64,7 @@ const LoginLayout = ({ primeroModule, agency, i18n }) => {
 
 LoginLayout.propTypes = {
   primeroModule: PropTypes.string,
-  agency: PropTypes.string,
-  i18n: PropTypes.object.isRequired
+  agency: PropTypes.string
 };
 
 const mapStateToProps = state => ({
@@ -71,9 +72,7 @@ const mapStateToProps = state => ({
   agency: selectAgency(state)
 });
 
-export default withI18n(
-  connect(
-    mapStateToProps,
-    null
-  )(LoginLayout)
-);
+export default connect(
+  mapStateToProps,
+  null
+)(LoginLayout);
