@@ -195,7 +195,8 @@
 
     <% content_for :record_sub_nav do %>
     <!--TODO: After we got the user object in the session replace the DB query with User object-->
-      <%= render_controls(@user, 'users') %>
+      <% cancel_path = can?(:index, User) ? 'users' : 'root' %>
+      <%= render_controls(@user, 'users', cancel_path) %>
       <% if false %>
       <%= link_to user_history_path(@user), :class=>'button small right' do %>
           <%= icon('clock-o') %>
