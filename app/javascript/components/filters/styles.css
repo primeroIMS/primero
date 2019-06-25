@@ -2,7 +2,7 @@
 .root { 
   width: 300px;
   min-height: 100vh;
-  /* FOR TESTING PURPOUSE */
+  /* TODO: DELETE FOR TESTING PURPOUSE */
   background-color: #fbfbfb; 
 }
 .appbar {

@@ -34,7 +34,7 @@ const RangeButton = ({ exclusive, props }) => {
 };
 
 RangeButton.propTypes = {
-  props: PropTypes.array,
+  props: PropTypes.object.isRequired,
   values: PropTypes.array,
   exclusive: PropTypes.bool
 };

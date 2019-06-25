@@ -16,7 +16,6 @@ import * as Nav from "components/nav";
 import * as Login from "components/pages/login";
 import * as TranslationToogle from "components/translations-toggle";
 import * as Dashboard from "./components/pages/dashboard";
-import * as Filters from "./components/filters";
 import * as FiltersBuilder from "./components/filters-builder";
 
 // TODO: Temporarily setting basename
@@ -56,7 +55,6 @@ export default () => {
       ...Nav.reducers,
       ...Login.reducers,
       ...TranslationToogle.reducers,
-      ...Filters.reducers,
       ...FiltersBuilder.reducers
     }),
     preloadedState,

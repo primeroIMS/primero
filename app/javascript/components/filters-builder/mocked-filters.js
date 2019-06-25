@@ -85,6 +85,7 @@ export default [
     id: "sex",
     display_name: "Sex",
     type: "radio",
+    reset: true,
     options: {
       values: [
         { id: "female", display_name: "Female" },
@@ -96,7 +97,36 @@ export default [
   {
     id: "risk_level",
     display_name: "Risk Level",
-    type: "chips"
+    type: "chips",
+    reset: true,
+    options: {
+      values: [
+        {
+          id: "high",
+          display_name: "High",
+          css_color: "red",
+          filled: true
+        },
+        {
+          id: "medium",
+          display_name: "Medium",
+          css_color: "orange",
+          filled: true
+        },
+        {
+          id: "low",
+          display_name: "Low",
+          css_color: "orange",
+          filled: false
+        },
+        {
+          id: "no_action",
+          display_name: "No Action",
+          css_color: "darkGrey",
+          filled: false
+        }
+      ]
+    }
   },
   {
     id: "by_date",

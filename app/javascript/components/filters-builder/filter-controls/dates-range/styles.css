@@ -1,0 +1,13 @@
+.root {
+  
+}
+.formGroup {
+  padding-left: 1em;
+}
+.datesContainer {
+  margin: 0 1em;
+  padding-top: 1em;
+}
+.dates {
+  width: 100%;
+}

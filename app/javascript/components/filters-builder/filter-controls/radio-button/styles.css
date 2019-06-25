@@ -4,6 +4,5 @@
 }
 .Checked {
   color: black !important;
-}
-.FormGroup {
+  padding: 5px 10px;
 }

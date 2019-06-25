@@ -6,15 +6,18 @@ import {
   ExpansionPanel,
   ExpansionPanelDetails,
   ExpansionPanelSummary,
-  Typography,
-  Button
+  Button,
+  IconButton
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Refresh from "@material-ui/icons/Refresh";
 import {
   CheckBox,
   SelectFilter,
   RangeButton,
-  RadioButton
+  RadioButton,
+  Chips,
+  DatesRange
 } from "components/filters-builder/filter-controls";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
@@ -43,9 +46,9 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
       case "radio":
         return <RadioButton props={options} />;
       case "chips":
-        return <h2>CHIPS</h2>;
+        return <Chips props={options} />;
       case "dates":
-        return <h2>DATES</h2>;
+        return <DatesRange props={options} />;
       default:
         return <h2>Not Found</h2>;
     }
@@ -53,10 +56,19 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
 
   const handleChange = panel => (event, isExpanded) => {
     if (isExpanded) {
-      setExpanded(panel, isExpanded);
+      setExpanded(panel);
     } else {
       removeExpandedPanel(panel);
     }
+  };
+
+  const handleReset = panel => event => {
+    event.stopPropagation();
+    const isExpanded = expanded.includes(panel);
+    if (!isExpanded) {
+      setExpanded(panel);
+    }
+    console.log("Reset by cleaning Redux State of", panel);
   };
 
   return (
@@ -84,9 +96,19 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
             aria-controls="filter-controls-content"
             id={filter.id}
           >
-            <Typography className={css.heading}>
-              {filter.display_name}
-            </Typography>
+            <div className={css.heading}>
+              <span>{filter.display_name}</span>
+              {filter.reset && filter.reset ? (
+                <IconButton
+                  aria-label="Delete"
+                  justifyContent="flex-end"
+                  size="small"
+                  onClick={handleReset(`filterPanel${index}`)}
+                >
+                  <Refresh fontSize="inherit" />
+                </IconButton>
+              ) : null}
+            </div>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={css.panelDetails}>
             {renderFilterControl(filter.type, filter.options)}
@@ -98,7 +120,7 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
 };
 
 FiltersBuilder.propTypes = {
-  expanded: PropTypes.object.isRequired,
+  expanded: PropTypes.array,
   setExpanded: PropTypes.func,
   removeExpandedPanel: PropTypes.func
 };

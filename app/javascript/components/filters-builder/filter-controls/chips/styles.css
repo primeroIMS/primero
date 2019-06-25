@@ -1,0 +1,31 @@
+.root {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 5px;
+}
+
+.chip {
+  margin: 5px;
+  font-size: 11px;
+}
+
+.red-default {
+  background-color: $(theme.primero.colors.red);
+  color: $(theme.primero.colors.white);
+}
+
+.orange-default {
+  background-color: $(theme.primero.colors.orange);
+  color: $(theme.primero.colors.white);
+}
+
+.orange-outlined {
+  border-color: $(theme.primero.colors.orange);
+  color: $(theme.primero.colors.orange);
+}
+
+.darkGrey-outlined {
+  border-color: $(theme.primero.colors.darkGrey);
+  color: $(theme.primero.colors.darkGrey);
+}

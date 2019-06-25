@@ -6,12 +6,12 @@ import RadioButtonChecked from "@material-ui/icons/RadioButtonChecked";
 import RadioButtonUnchecked from "@material-ui/icons/RadioButtonUnchecked";
 import styles from "./styles.css";
 
-const RadioButton = ({ props }) => {
+const RadioButton = ({ inline, props }) => {
   const css = makeStyles(styles)();
   const { values } = props;
 
-  const [value, setValue] = React.useState(null);
-  const handleChange = (event, newAlignment) => {
+  const [value, setValue] = React.useState("");
+  const handleChange = event => {
     setValue(event.target.value);
   };
 
@@ -22,10 +22,11 @@ const RadioButton = ({ props }) => {
         name="gender1"
         value={value}
         onChange={handleChange}
-        // row
+        row={inline}
       >
         {values.map(f => (
           <FormControlLabel
+            key={f.id}
             value={f.id}
             control={
               <Radio
@@ -34,7 +35,8 @@ const RadioButton = ({ props }) => {
                 checkedIcon={<RadioButtonChecked fontSize="small" />}
               />
             }
-            label={f.display_name} />
+            label={f.display_name}
+          />
         ))}
       </RadioGroup>
     </div>
@@ -42,7 +44,9 @@ const RadioButton = ({ props }) => {
 };
 
 RadioButton.propTypes = {
-  props: PropTypes.array
+  props: PropTypes.object.isRequired,
+  values: PropTypes.array,
+  inline: PropTypes.bool
 };
 
 export default RadioButton;
