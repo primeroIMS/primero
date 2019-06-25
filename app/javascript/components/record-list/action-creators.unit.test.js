@@ -8,7 +8,7 @@ import * as actions from "./actions";
 
 chai.use(sinonChai);
 
-describe("RecordList - Action Creators", () => {
+describe("<RecordList /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 

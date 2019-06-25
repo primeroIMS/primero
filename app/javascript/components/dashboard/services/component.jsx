@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
-import { withI18n } from "libs";
+import { useI18n } from "components/i18n";
 import { PrioritySummary } from "components/dashboard/priority-summary";
 import { OptionsBox, ActionMenu } from "components/dashboard";
 import { useTheme } from "@material-ui/core/styles";
 
-const Services = ({ servicesList, i18n }) => {
+const Services = ({ servicesList }) => {
   const theme = useTheme();
+  const i18n = useI18n();
+
   const styleOverrides = {
     CardShadow: { boxShadow: "none" },
     OptionsBox: {
@@ -65,8 +67,7 @@ const Services = ({ servicesList, i18n }) => {
 };
 
 Services.propTypes = {
-  servicesList: PropTypes.object,
-  i18n: PropTypes.object.isRequired
+  servicesList: PropTypes.object
 };
 
-export default withI18n(Services);
+export default Services;

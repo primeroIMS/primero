@@ -1,14 +1,15 @@
 import React from "react";
 import { Grid, TextField, Button, Typography, Link } from "@material-ui/core";
-import { withI18n } from "libs";
+import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 
-const Login = ({ i18n, handleSubmit }) => {
+const Login = ({ handleSubmit }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
 
   // TODO: Need to pass agency and logo path from api
   return (
@@ -53,7 +54,6 @@ const Login = ({ i18n, handleSubmit }) => {
 };
 
 Login.propTypes = {
-  i18n: PropTypes.object.isRequired,
   handleSubmit: PropTypes.func
 };
 
@@ -61,9 +61,7 @@ const mapDispatchToProps = {
   handleSubmit: actions.logIn
 };
 
-export default withI18n(
-  connect(
-    null,
-    mapDispatchToProps
-  )(Login)
-);
+export default connect(
+  null,
+  mapDispatchToProps
+)(Login);

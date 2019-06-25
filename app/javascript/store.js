@@ -9,12 +9,13 @@ import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import { restMiddleware } from "middleware";
+
+import * as I18n from "components/i18n";
 import * as CasesList from "components/pages/case-list";
 import * as TracingRequestList from "components/pages/tracing-request-list";
 import * as IncidentList from "components/pages/incident-list";
 import * as Nav from "components/nav";
 import * as Login from "components/pages/login";
-import * as TranslationToogle from "components/translations-toggle";
 import * as Dashboard from "./components/pages/dashboard";
 
 // TODO: Temporarily setting basename
@@ -27,10 +28,10 @@ export default () => {
 
   const middleware = [
     routerMiddleware(history),
+    thunkMiddleware,
     restMiddleware({
       baseUrl: "/api/v2"
-    }),
-    thunkMiddleware
+    })
   ];
 
   if (process.env.NODE_ENV === "development") {
@@ -47,13 +48,14 @@ export default () => {
   const store = createStore(
     combineReducers({
       router: connectRouter(history),
-      ...Dashboard.dashboardReducers,
-      ...CasesList.reducers,
-      ...TracingRequestList.reducers,
-      ...IncidentList.reducers,
-      ...Nav.reducers,
-      ...Login.reducers,
-      ...TranslationToogle.reducers
+      records: combineReducers({
+        ...CasesList.reducers,
+        ...TracingRequestList.reducers,
+        ...IncidentList.reducers,
+        ...Dashboard.reducers
+      }),
+      ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
+      ...Login.reducers
     }),
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))

@@ -14,7 +14,7 @@ import { FlagList } from "components/dashboard/flag-list";
 import { Services } from "components/dashboard/services";
 import { useTheme } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
-import { withI18n } from "libs";
+import { useI18n } from "components/i18n";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 import styles from "./styles.css";
@@ -33,8 +33,7 @@ const Dashboard = ({
   casesRegistration,
   casesOverview,
   servicesStatus,
-  isOpenPageActions,
-  i18n
+  isOpenPageActions
 }) => {
   useEffect(() => {
     fetchFlags();
@@ -48,6 +47,8 @@ const Dashboard = ({
   const css = makeStyles(styles)();
 
   const theme = useTheme();
+
+  const i18n = useI18n();
 
   const getDoughnutInnerText = () => {
     const text = [];
@@ -192,8 +193,7 @@ Dashboard.propTypes = {
   fetchCasesOverview: PropTypes.func.isRequired,
   fetchServicesStatus: PropTypes.func.isRequired,
   openPageActions: PropTypes.func.isRequired,
-  isOpenPageActions: PropTypes.bool.isRequired,
-  i18n: PropTypes.object.isRequired
+  isOpenPageActions: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => {
@@ -218,9 +218,7 @@ const mapDispatchToProps = {
   openPageActions: actions.openPageActions
 };
 
-export default withI18n(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Dashboard)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

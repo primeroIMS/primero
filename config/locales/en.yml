@@ -648,6 +648,7 @@ en:
     history_of: "History of %{short_id}"
 
   tracing_requests:
+    label: "Tracing Requests"
     register_new_tracing_request: "New Tracing Request"
     export: "Exports"
     selectable_date_options:

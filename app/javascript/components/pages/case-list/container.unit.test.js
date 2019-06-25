@@ -13,11 +13,14 @@ describe("<CaseList />", () => {
     component = setupMountedComponent(
       CaseList,
       {},
+
       Map({
-        Cases: Map({
-          records: List([Map({ id: "test", sex: "male", age: 12 })]),
-          metadata: Map({ per: 20, page: 1 }),
-          filters: Map({ status: "open" })
+        records: Map({
+          Cases: Map({
+            data: List([Map({ id: "test", sex: "male", age: 12 })]),
+            metadata: Map({ per: 20, page: 1 }),
+            filters: Map({ status: "open" })
+          })
         })
       })
     ).component;

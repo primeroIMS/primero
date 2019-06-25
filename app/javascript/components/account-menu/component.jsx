@@ -8,13 +8,14 @@ import {
 import PropTypes from "prop-types";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { withI18n } from "libs";
+import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import { ListIcon } from "components/list-icon";
 import styles from "./styles.css";
 
-const AccountMenu = ({ i18n, username, mobile }) => {
+const AccountMenu = ({ username, mobile }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
 
   const nav = [
     { name: i18n.t("navigation.my_account"), to: "/account" },
@@ -83,9 +84,8 @@ const AccountMenu = ({ i18n, username, mobile }) => {
 };
 
 AccountMenu.propTypes = {
-  i18n: PropTypes.object.isRequired,
   username: PropTypes.string,
   mobile: PropTypes.bool
 };
 
-export default withI18n(AccountMenu);
+export default AccountMenu;

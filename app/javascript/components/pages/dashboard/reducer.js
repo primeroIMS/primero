@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import { fromJS, Map } from "immutable";
 import * as Actions from "./actions";
 import NAMESPACE from "./namespace";
@@ -26,4 +25,4 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   }
 };
 
-export const dashboardReducers = { [NAMESPACE]: reducer };
+export const reducers = { [NAMESPACE]: reducer };

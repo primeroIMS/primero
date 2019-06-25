@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { DashboardChip } from "components/dashboard";
-import { withI18n } from "libs";
+import { useI18n } from "components/i18n";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
 
-const PrioritySummary = ({ summary, i18n }) => {
+const PrioritySummary = ({ summary }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
 
   const getTitle = status => {
     switch (status) {
@@ -52,8 +53,7 @@ const PrioritySummary = ({ summary, i18n }) => {
 };
 
 PrioritySummary.propTypes = {
-  summary: PropTypes.object,
-  i18n: PropTypes.object.isRequired
+  summary: PropTypes.object
 };
 
-export default withI18n(PrioritySummary);
+export default PrioritySummary;
