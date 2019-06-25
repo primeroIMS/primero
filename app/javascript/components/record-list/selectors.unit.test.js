@@ -8,18 +8,20 @@ chai.use(chaiImmutable);
 
 const stateWithNoRecords = Map({});
 const stateWithRecords = Map({
-  TestRecordType: Map({
-    loading: true,
-    records: List([Map({ id: 1 })]),
-    filters: Map({
-      gender: "male"
-    }),
-    metadata: Map({ per: 20 })
+  records: Map({
+    TestRecordType: Map({
+      loading: true,
+      data: List([Map({ id: 1 })]),
+      filters: Map({
+        gender: "male"
+      }),
+      metadata: Map({ per: 20 })
+    })
   })
 });
 
-describe("RecordList - Selectors", () => {
-  const recordType = 'TestRecordType'
+describe("<RecordList /> - Selectors", () => {
+  const recordType = "TestRecordType";
 
   describe("selectRecords", () => {
     it("should return records", () => {

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-import { withI18n } from "libs";
+import { useI18n } from "components/i18n";
 import {
   RecordList,
   fetchRecords,
@@ -13,8 +13,9 @@ import {
 } from "components/record-list";
 import NAMESPACE from "./namespace";
 
-const CaseList = ({ records, meta, filters, i18n, loading, getRecords }) => {
+const CaseList = ({ records, meta, filters, loading, getRecords }) => {
   const path = "/cases?fields=short";
+  const i18n = useI18n();
 
   const defaultFilters = {
     child_status: "open",
@@ -50,7 +51,6 @@ CaseList.propTypes = {
   records: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   filters: PropTypes.object.isRequired,
-  i18n: PropTypes.object.isRequired,
   loading: PropTypes.bool,
   getRecords: PropTypes.func.isRequired
 };
@@ -66,9 +66,7 @@ const mapDispatchToProps = {
   getRecords: fetchRecords
 };
 
-export default withI18n(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(CaseList)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CaseList);

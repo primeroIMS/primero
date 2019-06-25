@@ -8,10 +8,10 @@ import rtl from "jss-rtl";
 import React from "react";
 import { Provider } from "react-redux";
 import { theme } from "config";
-import { I18nProvider } from "libs";
+import { I18nProvider } from "components/i18n";
 import { Route, Switch } from "react-router-dom";
 import routes from "config/routes";
-import NAMESPACE from "components/translations-toggle/namespace";
+import NAMESPACE from "components/i18n/namespace";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
@@ -27,8 +27,9 @@ export default () => {
       "dir",
       store
         .getState()
+        .get("ui")
         .get(NAMESPACE)
-        .get("themeDir")
+        .get("dir")
     );
   });
   return (

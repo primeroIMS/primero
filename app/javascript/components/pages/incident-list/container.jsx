@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import React from "react";
 import { connect } from "react-redux";
-import { withI18n } from "libs";
+import { useI18n } from "components/i18n";
 import {
   RecordList,
   fetchRecords,
@@ -13,15 +13,10 @@ import {
 } from "components/record-list";
 import NAMESPACE from "./namespace";
 
-const IncidentList = ({
-  records,
-  meta,
-  filters,
-  i18n,
-  loading,
-  getRecords
-}) => {
+const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
   const path = "/incidents?fields=short";
+
+  const i18n = useI18n();
 
   const defaultFilters = {
     status: "open",
@@ -57,7 +52,6 @@ IncidentList.propTypes = {
   records: PropTypes.object.isRequired,
   meta: PropTypes.object.isRequired,
   filters: PropTypes.object.isRequired,
-  i18n: PropTypes.object.isRequired,
   loading: PropTypes.bool,
   getRecords: PropTypes.func.isRequired
 };
@@ -73,9 +67,7 @@ const mapDispatchToProps = {
   getRecords: fetchRecords
 };
 
-export default withI18n(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(IncidentList)
-);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(IncidentList);

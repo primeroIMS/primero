@@ -2,7 +2,7 @@ import { expect } from "chai";
 import "test/test.setup";
 import { setupMountedComponent } from "test";
 import { fromJS, Map } from "immutable";
-import { TableRow, TableBody } from '@material-ui/core';
+import { TableRow, TableBody } from "@material-ui/core";
 import { OverviewBox } from "components/dashboard/overview-box";
 import { FlagBox } from "components/dashboard/flag-box";
 import { FlagList } from "components/dashboard/flag-list";
@@ -19,46 +19,50 @@ describe("<Dashboard />", () => {
       Dashboard,
       {},
       Map({
-        Dashboard: {
-          flags: fromJS({
-            flags: [
+        records: Map({
+          Dashboard: {
+            flags: fromJS({
+              flags: [
+                {
+                  id: "#1234",
+                  flag_date: "01/01/2019",
+                  user: "CP Admin",
+                  status: "Please check approval"
+                },
+                {
+                  id: "#1235",
+                  flag_date: "01/01/2019",
+                  user: "CP Manager",
+                  status: "To followup"
+                }
+              ],
+              totalCount: 0
+            }),
+            casesByStatus: fromJS({
+              open: "2660451",
+              closed: "1547"
+            }),
+            casesRegistration: fromJS({
+              jan: 100,
+              feb: 100
+            }),
+            casesByCaseWorker: fromJS([
               {
-                id: "#1234",
-                flag_date: "01/01/2019",
-                user: "CP Admin",
-                status: "Please check approval"
-              },
-              {
-                id: "#1235",
-                flag_date: "01/01/2019",
-                user: "CP Manager",
-                status: "To followup"
+                case_worker: "Case Worker 1",
+                assessment: "2",
+                case_plan: "1",
+                follow_up: "0",
+                services: "1"
               }
-            ],
-            totalCount: 0
-          }),
-          casesByStatus: fromJS({
-            open: "2660451",
-            closed: "1547"
-          }),
-          casesRegistration: fromJS({
-            jan: 100,
-            feb: 100
-          }),
-          casesByCaseWorker: fromJS([{
-            case_worker: "Case Worker 1",
-            assessment: "2",
-            case_plan: "1",
-            follow_up: "0",
-            services: "1"
-          }]),
-          casesOverview: fromJS({
-            transfers: 4,
-            waiting: 1,
-            pending: 1,
-            rejected: 1
-          })
-        },
+            ]),
+            casesOverview: fromJS({
+              transfers: 4,
+              waiting: 1,
+              pending: 1,
+              rejected: 1
+            })
+          }
+        })
       })
     ).component;
   });

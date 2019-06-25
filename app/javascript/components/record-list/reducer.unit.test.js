@@ -6,7 +6,7 @@ import * as r from "./reducer";
 
 chai.use(chaiImmutable);
 
-describe("RecordList - Reducers", () => {
+describe("<RecordList /> - Reducers", () => {
   const reducer = r.recordListReducer('TestRecordType').TestRecordType
 
   it("should handle RECORDS_STARTED", () => {
@@ -33,7 +33,7 @@ describe("RecordList - Reducers", () => {
 
   it("should handle RECORDS_SUCCESS", () => {
     const expected = Map({
-      records: List([Map({ id: 3 })]),
+      data: List([Map({ id: 3 })]),
       metadata: Map({ per: 2 })
     });
     const action = {

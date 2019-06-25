@@ -1,22 +1,14 @@
 import { Menu, MenuItem, Button, makeStyles } from "@material-ui/core";
 import LanguageIcon from "@material-ui/icons/Language";
-import PropTypes from "prop-types";
-import React from "react";
-import { connect } from "react-redux";
+import React, { useState } from "react";
 import { DropdownDoubleIcon } from "images/primero-icons";
-import { withI18n } from "libs";
-import * as actions from "./action-creators";
-import * as Selectors from "./selectors";
+import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 
-const TranslationsToggle = ({
-  changeLocale,
-  locale,
-  i18n,
-  anchorEl,
-  setAnchorEl,
-  setThemeDirection
-}) => {
+const TranslationsToggle = () => {
+  const { changeLocale, locale, ...i18n } = useI18n();
+  const [anchorEl, setAnchorEl] = useState(null);
+
   const css = makeStyles(styles)();
 
   const handleClick = event => {
@@ -26,15 +18,13 @@ const TranslationsToggle = ({
   const handleClose = option => {
     setAnchorEl(null);
 
-    if (option.locale) {
-      changeLocale(option.locale);
-      setThemeDirection(option.dir);
+    if (option) {
+      changeLocale(option);
     }
   };
 
-  // TODO: Locales should come in this format {locale: locale_abbr, dir: app_direction}
-  // to transform into rtl/ltr mode
-  const locales = [{ locale: "ar", dir: "rtl" }, { locale: "en", dir: "ltr" }];
+  // TODO: Need better list of locales with direction from backend
+  const locales = Object.keys(window.I18n.translations || []);
 
   return (
     <>
@@ -62,8 +52,8 @@ const TranslationsToggle = ({
         }}
       >
         {locales.map(l => (
-          <MenuItem key={l.locale} onClick={() => handleClose(l)}>
-            {i18n.t(`home.${l.locale}`)}
+          <MenuItem key={l} onClick={() => handleClose(l)}>
+            {i18n.t(`home.${l}`)}
           </MenuItem>
         ))}
       </Menu>
@@ -71,27 +61,4 @@ const TranslationsToggle = ({
   );
 };
 
-TranslationsToggle.propTypes = {
-  changeLocale: PropTypes.func.isRequired,
-  locale: PropTypes.string.isRequired,
-  i18n: PropTypes.object.isRequired,
-  anchorEl: PropTypes.object,
-  setAnchorEl: PropTypes.func,
-  setThemeDirection: PropTypes.func
-};
-
-const mapStateToProps = state => ({
-  anchorEl: Selectors.selectAnchorEl(state)
-});
-
-const mapDispatchToProps = {
-  setAnchorEl: actions.setAnchorEl,
-  setThemeDirection: actions.setThemeDirection
-};
-
-export default withI18n(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(TranslationsToggle)
-);
+export default TranslationsToggle;
