@@ -1,3 +1,4 @@
 import NAMESPACE from "./namespace";
 
-export const selectExpandedPanel = state => state.get(NAMESPACE);
+export const selectExpandedPanel = state =>
+  state.getIn(["records", NAMESPACE], []);

@@ -137,7 +137,7 @@ export default [
         { id: "date_of_birth", display_name: "Dates of Birth" },
         { id: "created_at", display_name: "Creation Date" }
       ],
-      default: "created_at",
+      default_value: "created_at",
       min_date: "",
       max_date: ""
     }

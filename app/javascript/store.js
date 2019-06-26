@@ -18,6 +18,7 @@ import * as Nav from "components/nav";
 import * as Login from "components/pages/login";
 import * as Dashboard from "./components/pages/dashboard";
 import * as FiltersBuilder from "./components/filters-builder";
+import * as Chips from "./components/filters-builder/filter-controls";
 
 // TODO: Temporarily setting basename
 export const history = createBrowserHistory({
@@ -56,12 +57,14 @@ export default () => {
         ...Dashboard.reducers,
         ...FiltersBuilder.reducers
       }),
+      filters: combineReducers({
+        ...Chips.chipsReducer
+      }),
       ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
       ...Login.reducers
     }),
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
   );
-
   return store;
 };

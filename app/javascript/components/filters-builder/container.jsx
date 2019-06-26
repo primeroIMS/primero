@@ -46,7 +46,7 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
       case "radio":
         return <RadioButton props={options} />;
       case "chips":
-        return <Chips props={options} />;
+        return <Chips id="risk_level" props={options} />;
       case "dates":
         return <DatesRange props={options} />;
       default:
@@ -64,6 +64,7 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
 
   const handleReset = panel => event => {
     event.stopPropagation();
+    console.log("STATE", expanded, "PANEL", panel);
     const isExpanded = expanded.includes(panel);
     if (!isExpanded) {
       setExpanded(panel);
@@ -84,10 +85,10 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
           Apply
         </Button>
       </div>
-      {filterTypes.map((filter, index) => (
+      {filterTypes.map(filter => (
         <ExpansionPanel
-          expanded={expanded && expanded.includes(`filterPanel${index}`)}
-          onChange={handleChange(`filterPanel${index}`)}
+          expanded={expanded && expanded.includes(`${filter.id}`)}
+          onChange={handleChange(`${filter.id}`)}
           className={css.panel}
           key={filter.id}
         >
@@ -101,9 +102,9 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
               {filter.reset && filter.reset ? (
                 <IconButton
                   aria-label="Delete"
-                  justifyContent="flex-end"
+                  justifycontent="flex-end"
                   size="small"
-                  onClick={handleReset(`filterPanel${index}`)}
+                  onClick={handleReset(`${filter.id}`)}
                 >
                   <Refresh fontSize="inherit" />
                 </IconButton>
@@ -120,7 +121,7 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
 };
 
 FiltersBuilder.propTypes = {
-  expanded: PropTypes.array,
+  expanded: PropTypes.array.isRequired,
   setExpanded: PropTypes.func,
   removeExpandedPanel: PropTypes.func
 };

@@ -11,3 +11,6 @@
 .dates {
   width: 100%;
 }
+.dates:last-child {
+  margin-top: 1em;
+}
