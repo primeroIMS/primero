@@ -6,6 +6,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - certs:/certs
       - local_certs:/etc/certs
       - tmp:/srv/primero/application/tmp
       - log:/var/log/nginx

@@ -37,6 +37,7 @@ services:
     tty: true
 volumes:
   database:
+  certs:
   local_certs:
   certbot_var:
   certbot_etc:

@@ -7,6 +7,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - certs:/certs
       - local_certs:/etc/certs
       - certbot_var:/var/lib/letsencrypt
       - certbot_etc:/etc/letsencrypt
