@@ -14,6 +14,12 @@ describe Api::V2::ChildrenController, type: :request do
             ]
         }
     )
+    @blob = ActiveStorage::Blob.create_after_upload!(
+                                          io: File.open('spec/resources/jorge.jpg'),
+                                          filename: 'jorge.jpg',
+                                          content_type: 'image/jpg')
+    @case1.photos.build({ "image" => @blob })
+    @case1.save!
     Sunspot.commit
   end
 
@@ -48,6 +54,17 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/cases')
+    end
+
+    it 'returns photos for the short form' do
+      login_for_test({permitted_field_names: (common_permitted_field_names << 'photos')})
+      get '/api/v2/cases?fields=short'
+
+      expect(response).to have_http_status(200)
+      photos = json['data'].select { |child| child['name'] == 'Test1' }.first['photos']
+      expect(photos.size).to eq(1)
+      expect(photos.first).to eq(Rails.application.routes.url_helpers.rails_blob_path(@blob , only_path: true))
+
     end
 
   end
@@ -85,6 +102,16 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/cases/thisdoesntexist')
+    end
+
+    it 'returns the photos for the case' do
+      login_for_test({permitted_field_names: (common_permitted_field_names << 'photos')})
+      get "/api/v2/cases/#{@case1.id}"
+
+      expect(response).to have_http_status(200)
+      photos = json['data']['photos']
+      expect(photos.size).to eq(1)
+      expect(photos.first).to eq(Rails.application.routes.url_helpers.rails_blob_path(@blob , only_path: true))
     end
   end
 
@@ -299,6 +326,7 @@ describe Api::V2::ChildrenController, type: :request do
 
   after :each do
     Child.destroy_all
+    AttachmentImage.destroy_all
   end
 
 end
