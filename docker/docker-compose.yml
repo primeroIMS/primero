@@ -8,7 +8,6 @@ services:
       - database:/var/lib/postgresql/data
     env_file:
       - docker/defaults.env
-      - docker/quoin.env
   solr:
     image: solr:prim-latest
     env_file:
@@ -19,7 +18,6 @@ services:
     image: beanstalkd:prim-latest
     env_file:
       - docker/defaults.env
-      - docker/quoin.env
   application:
     image: application:prim-latest
     depends_on:
@@ -32,11 +30,23 @@ services:
       - tmp:/srv/primero/application/tmp
     env_file:
       - docker/defaults.env
-      - docker/quoin.env
     stdin_open: true
     tty: true
+  backburner:
+    image: application:prim-latest
+    depends_on:
+      - solr
+      - beanstalkd
+      - postgres
+    volumes:
+      - log:/srv/primero/application/log
+      - tmp:/srv/primero/application/tmp
+    env_file:
+      - docker/defaults.env
+    command: ["bundle", "exec", "rails", "backburner:work"]
 volumes:
   database:
+  certs:
   local_certs:
   certbot_var:
   certbot_etc:

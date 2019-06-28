@@ -53,7 +53,7 @@ prim_create_folders_and_logs() {
 # appropriated. we will rely on the env variable over the file because it is
 # less places to change the path.
 prim_check_for_bootstrap() {
-  if [ -f "/.primero-bootstrapped" ];
+  if [ -f "${APP_ROOT}/tmp/.primero-bootstrapped" ];
   then
     # bootstrap found. no need to bootstrap.
     return 1
@@ -71,7 +71,7 @@ prim_bootstrap() {
   bin/rails db:schema:load
   bin/rails db:seed
   bin/rails sunspot:reindex
-  touch /.primero-bootstrapped
+  touch "${APP_ROOT}/tmp/.primero-bootstrapped"
   return 0
 }
 
