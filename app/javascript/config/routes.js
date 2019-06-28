@@ -26,20 +26,44 @@ export default [
         component: Page.CaseNew
       },
       {
-        path: "/cases/:id",
-        component: Page.CaseShow
-      },
-      {
         path: "/cases/:id/edit",
         component: Page.CaseEdit
+      },
+      {
+        path: "/cases/:id",
+        component: Page.CaseShow
       },
       {
         path: "/cases",
         component: Page.CaseList
       },
       {
+        path: "/incidents/new/:module",
+        component: Page.IncidentNew
+      },
+      {
+        path: "/incidents/:id/edit",
+        component: Page.IncidentEdit
+      },
+      {
+        path: "/incidents/:id",
+        component: Page.IncidentShow
+      },
+      {
         path: "/incidents",
         component: Page.IncidentList
+      },
+      {
+        path: "/tracing-requests/new/:module",
+        component: Page.TracingRequestNew
+      },
+      {
+        path: "/tracing-requests/:id/edit",
+        component: Page.TracingRequestEdit
+      },
+      {
+        path: "/tracing-requests/:id",
+        component: Page.TracingRequestShow
       },
       {
         path: "/tracing-requests",

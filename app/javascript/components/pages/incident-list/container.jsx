@@ -14,11 +14,12 @@ import {
 import NAMESPACE from "./namespace";
 
 const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
-  const path = "/incidents?fields=short";
+  const path = "/incidents";
 
   const i18n = useI18n();
 
   const defaultFilters = {
+    fields: "short",
     status: "open",
     record_state: true
   };

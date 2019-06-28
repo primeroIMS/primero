@@ -5,10 +5,13 @@ import {
   createMuiTheme,
   MuiThemeProvider,
   Box,
-  Typography
+  Typography,
+  IconButton
 } from "@material-ui/core";
 import { LoadingIndicator } from "components/loading-indicator";
 import { dataToJS } from "libs";
+import AddIcon from "@material-ui/icons/Add";
+import { Link } from "react-router-dom";
 import NoData from "./NoData";
 
 const getMuiTheme = () =>
@@ -115,10 +118,17 @@ const IndexTable = ({
 
   return (
     <MuiThemeProvider theme={getMuiTheme}>
-      <Box mb={3}>
-        <Typography variant="h6" component="h6">
-          {title}
-        </Typography>
+      <Box mb={3} display="flex" alignItems="center">
+        <Box flexGrow={1}>
+          <Typography variant="h6" component="h6">
+            {title}
+          </Typography>
+        </Box>
+        <Box>
+          <IconButton to="/cases/new/primero-cp" component={Link}>
+            <AddIcon />
+          </IconButton>
+        </Box>
       </Box>
       {loading ? <LoadingIndicator loading={loading} /> : <DataTable />}
     </MuiThemeProvider>

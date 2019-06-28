@@ -14,10 +14,11 @@ import {
 import NAMESPACE from "./namespace";
 
 const CaseList = ({ records, meta, filters, loading, getRecords }) => {
-  const path = "/cases?fields=short";
+  const path = "/cases";
   const i18n = useI18n();
 
   const defaultFilters = {
+    fields: "short",
     child_status: "open",
     record_state: true
   };

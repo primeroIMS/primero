@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { format } from "date-fns";
 
-const DateCell = ({ value }) => <>{format(value, "DD-MMM-YYYY")}</>;
+const DateCell = ({ value }) => {
+  return <>{value}</>;
+};
 
 DateCell.propTypes = {
   value: PropTypes.string

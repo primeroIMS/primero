@@ -20,11 +20,12 @@ const TracingRequestList = ({
   loading,
   getRecords
 }) => {
-  const path = "/tracing_requests?fields=short";
+  const path = "/tracing_requests";
 
   const i18n = useI18n();
 
   const defaultFilters = {
+    fields: "short",
     inquiry_status: "open",
     record_state: true
   };

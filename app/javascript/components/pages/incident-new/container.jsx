@@ -7,7 +7,7 @@ import {
 } from "components/record-form";
 import { useDispatch, useSelector } from "react-redux";
 
-const CaseNew = () => {
+const IncidentNew = () => {
   // TODO: Needs to endpoint
   const selectedModule = { recordType: "case", primeroModule: "cp" };
   const dispatch = useDispatch();
@@ -20,9 +20,9 @@ const CaseNew = () => {
 
   return (
     <>
-      <RecordForm formNav={formNav} forms={forms} isNew recordType="Case" />
+      <RecordForm formNav={formNav} forms={forms} isNew recordType="Incident" />
     </>
   );
 };
 
-export default CaseNew;
+export default IncidentNew;
