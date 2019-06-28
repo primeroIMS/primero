@@ -7,7 +7,8 @@ import styles from "./styles.css";
 
 const DatesRange = ({ props }) => {
   const css = makeStyles(styles)();
-  const { values } = props;
+  const { options } = props;
+  const { values } = options;
   return (
     <div className={css.root}>
       {values && values.length > 0 ? <SelectFilter props={props} /> : null}
@@ -39,7 +40,7 @@ const DatesRange = ({ props }) => {
 
 DatesRange.propTypes = {
   props: PropTypes.object,
-  values: PropTypes.array
+  options: PropTypes.object
 };
 
 export default DatesRange;

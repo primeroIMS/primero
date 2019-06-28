@@ -17,8 +17,9 @@ import * as IncidentList from "components/pages/incident-list";
 import * as Nav from "components/nav";
 import * as Login from "components/pages/login";
 import * as Dashboard from "./components/pages/dashboard";
+import * as Filter from "./components/filters";
 import * as FiltersBuilder from "./components/filters-builder";
-import * as Chips from "./components/filters-builder/filter-controls";
+import * as Filters from "./components/filters-builder/filter-controls";
 
 // TODO: Temporarily setting basename
 export const history = createBrowserHistory({
@@ -54,11 +55,16 @@ export default () => {
         ...CasesList.reducers,
         ...TracingRequestList.reducers,
         ...IncidentList.reducers,
-        ...Dashboard.reducers,
-        ...FiltersBuilder.reducers
+        ...Dashboard.reducers
       }),
       filters: combineReducers({
-        ...Chips.chipsReducer
+        ...Filter.reducers,
+        ...FiltersBuilder.reducers,
+        ...Filters.chipsReducer,
+        ...Filters.radioButtonsReducer,
+        ...Filters.rangeButtonReducer,
+        ...Filters.selectReducer,
+        ...Filters.checkboxReducer
       }),
       ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
       ...Login.reducers

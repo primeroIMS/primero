@@ -1,26 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
 import styles from "./styles.css";
+import * as actions from "./action-creators";
+import * as Selectors from "./selectors";
 
-const RangeButton = ({ exclusive, props }) => {
+const RangeButton = ({ exclusive, props, value, setValue }) => {
   const css = makeStyles(styles)();
-  const { values } = props;
-
-  const [alignment, setAlignment] = React.useState(null);
-  const handleAlignment = (event, newAlignment) => {
-    setAlignment(newAlignment);
-  };
+  const { id, options } = props;
+  const { values } = options;
 
   return (
     <Grid container spacing={2} direction="column" alignItems="center">
       <Grid item className={css.toggleContainer}>
         <ToggleButtonGroup
           exclusive={exclusive}
-          value={alignment}
-          onChange={handleAlignment}
+          value={value}
+          onChange={(e, v) => setValue({ id, data: v })}
         >
           {values.map(v => (
             <ToggleButton key={v.id} value={v.id} className={css.toogleButton}>
@@ -35,8 +34,22 @@ const RangeButton = ({ exclusive, props }) => {
 
 RangeButton.propTypes = {
   props: PropTypes.object.isRequired,
-  values: PropTypes.array,
-  exclusive: PropTypes.bool
+  options: PropTypes.object,
+  exclusive: PropTypes.bool,
+  id: PropTypes.string,
+  value: PropTypes.string,
+  setValue: PropTypes.func
 };
 
-export default RangeButton;
+const mapStateToProps = (state, obj) => ({
+  value: Selectors.getRangeButton(state, obj.props)
+});
+
+const mapDispatchToProps = {
+  setValue: actions.setValue
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RangeButton);

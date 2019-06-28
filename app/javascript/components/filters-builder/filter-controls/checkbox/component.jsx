@@ -1,30 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import styles from "./styles.css";
+import * as actions from "./action-creators";
+import * as Selectors from "./selectors";
 
-const CheckBox = ({ props }) => {
+const CheckBox = ({ props, checkBoxes, setCheckBox }) => {
   const css = makeStyles(styles)();
-  const { values } = props;
+  const { id, options } = props;
+  const { values } = options;
 
-  // STATE MUST BE HANDLE BY REDUX
-  const stateKeys = values
-    .map(p => p.id)
-    .reduce((acc, cur) => {
-      acc[cur] = false;
-      return acc;
-    }, {});
-
-  const [state, setState] = React.useState({
-    stateKeys
-  });
-
-  const handleChange = name => event => {
-    setState({ ...state, [name]: event.target.checked });
-  };
   return (
     <div>
       <FormGroup className={css.formGroup}>
@@ -36,8 +25,14 @@ const CheckBox = ({ props }) => {
                 key={v.id}
                 icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
                 checkedIcon={<CheckBoxIcon fontSize="small" />}
-                checked={state.id}
-                onChange={handleChange(v.id)}
+                checked={checkBoxes && checkBoxes.includes(v.id)}
+                onChange={event => {
+                  setCheckBox({
+                    id,
+                    included: checkBoxes.includes(event.target.value),
+                    data: event.target.value
+                  });
+                }}
                 value={v.id}
                 name={v.id}
                 className={css.checkbox}
@@ -53,7 +48,21 @@ const CheckBox = ({ props }) => {
 
 CheckBox.propTypes = {
   props: PropTypes.object.isRequired,
-  values: PropTypes.array
+  options: PropTypes.object,
+  id: PropTypes.string,
+  checkBoxes: PropTypes.object,
+  setCheckBox: PropTypes.func
 };
 
-export default CheckBox;
+const mapStateToProps = (state, obj) => ({
+  checkBoxes: Selectors.getCheckBoxes(state, obj.props)
+});
+
+const mapDispatchToProps = {
+  setCheckBox: actions.setCheckBox
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CheckBox);

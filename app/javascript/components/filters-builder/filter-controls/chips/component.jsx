@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Chip from "@material-ui/core/Chip";
@@ -7,22 +7,16 @@ import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
-const Chips = ({ id, props, chips, setUpChips, setChips }) => {
+const Chips = ({ props, chips, setChips }) => {
   const css = makeStyles(styles)();
-  const { values } = props;
-
-  // TODO: Should be set on parent component setUpFilters()
-  useEffect(() => {
-    setUpChips(id);
-    console.log("CHIPS 1", chips);
-  }, []);
+  const { id, options } = props;
+  const { values } = options;
 
   return (
     <div className={css.root}>
       {values.map(data => {
         const chipVariant = data.filled ? "default" : "outlined";
         const className = css[[data.css_color, chipVariant].join("-")];
-        console.log("CHIPS 2", chips);
         const cssSelectedChip =
           chips && chips.includes(data.id) ? "chipSelected" : null;
         return (
@@ -48,21 +42,19 @@ const Chips = ({ id, props, chips, setUpChips, setChips }) => {
 };
 
 Chips.propTypes = {
-  id: PropTypes.string.isRequired,
-  props: PropTypes.object.isRequired,
-  chips: PropTypes.array,
+  props: PropTypes.object,
+  chips: PropTypes.object,
   setChips: PropTypes.func,
-  setUpChips: PropTypes.func,
-  values: PropTypes.array
+  options: PropTypes.object,
+  id: PropTypes.string
 };
 
-const mapStateToProps = (state, props) => ({
-  chips: Selectors.getChips(state, props)
+const mapStateToProps = (state, obj) => ({
+  chips: Selectors.getChips(state, obj.props)
 });
 
 const mapDispatchToProps = {
-  setChips: actions.setChip,
-  setUpChips: actions.setUpChips
+  setChips: actions.setChip
 };
 
 export default connect(

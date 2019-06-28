@@ -21,55 +21,44 @@ import {
 } from "components/filters-builder/filter-controls";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
-import filterTypes from "./mocked-filters";
+
 import styles from "./styles.css";
 
-const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
+const FiltersBuilder = ({ filters, expanded, setExpanded, resetPanel }) => {
   const css = makeStyles(styles)();
 
-  const handleClearFilters = () => console.log("Clear Filters");
+  const handleClearFilters = () => {
+    resetPanel({ type: "all", panel: "all" });
+  };
 
   const handleSaveFilters = () => console.log("Save Filters");
 
   const handleApplyFilter = () => console.log("Filters to Apply");
 
-  const renderFilterControl = (type, options) => {
-    switch (type) {
+  const renderFilterControl = filter => {
+    switch (filter.type) {
       case "checkbox":
-        return <CheckBox props={options} />;
+        return <CheckBox props={filter} />;
       case "multi_select":
-        return <SelectFilter props={options} multiple />;
+        return <SelectFilter props={filter} multiple />;
       case "select":
-        return <SelectFilter props={options} />;
+        return <SelectFilter props={filter} />;
       case "multi_toogle":
-        return <RangeButton props={options} exclusive />;
+        return <RangeButton props={filter} exclusive />;
       case "radio":
-        return <RadioButton props={options} />;
+        return <RadioButton props={filter} />;
       case "chips":
-        return <Chips id="risk_level" props={options} />;
+        return <Chips props={filter} />;
       case "dates":
-        return <DatesRange props={options} />;
+        return <DatesRange props={filter} />;
       default:
         return <h2>Not Found</h2>;
     }
   };
 
-  const handleChange = panel => (event, isExpanded) => {
-    if (isExpanded) {
-      setExpanded(panel);
-    } else {
-      removeExpandedPanel(panel);
-    }
-  };
-
-  const handleReset = panel => event => {
+  const handleReset = (panel, type) => event => {
     event.stopPropagation();
-    console.log("STATE", expanded, "PANEL", panel);
-    const isExpanded = expanded.includes(panel);
-    if (!isExpanded) {
-      setExpanded(panel);
-    }
-    console.log("Reset by cleaning Redux State of", panel);
+    resetPanel({ type, panel });
   };
 
   return (
@@ -85,10 +74,12 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
           Apply
         </Button>
       </div>
-      {filterTypes.map(filter => (
+      {filters.map(filter => (
         <ExpansionPanel
           expanded={expanded && expanded.includes(`${filter.id}`)}
-          onChange={handleChange(`${filter.id}`)}
+          onChange={(e, isExpanded) =>
+            setExpanded({ expanded: isExpanded, panel: `${filter.id}` })
+          }
           className={css.panel}
           key={filter.id}
         >
@@ -104,7 +95,7 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
                   aria-label="Delete"
                   justifycontent="flex-end"
                   size="small"
-                  onClick={handleReset(`${filter.id}`)}
+                  onClick={handleReset(`${filter.id}`, `${filter.type}`)}
                 >
                   <Refresh fontSize="inherit" />
                 </IconButton>
@@ -112,7 +103,7 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
             </div>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails className={css.panelDetails}>
-            {renderFilterControl(filter.type, filter.options)}
+            {renderFilterControl(filter)}
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}
@@ -122,8 +113,9 @@ const FiltersBuilder = ({ expanded, setExpanded, removeExpandedPanel }) => {
 
 FiltersBuilder.propTypes = {
   expanded: PropTypes.array.isRequired,
+  filters: PropTypes.object,
   setExpanded: PropTypes.func,
-  removeExpandedPanel: PropTypes.func
+  resetPanel: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -132,7 +124,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setExpanded: actions.setExpandedPanel,
-  removeExpandedPanel: actions.removeExpandedPanel
+  resetPanel: actions.resetPanel
 };
 
 export default connect(

@@ -1,1 +1,1 @@
-export default "ChipsFilter";
+export default "Chips";

@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { MenuItem, FormControl, Select, InputBase } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import styles from "./styles.css";
+import * as actions from "./action-creators";
+import * as Selectors from "./selectors";
 
 const BootstrapInput = withStyles(theme => ({
   root: {
@@ -37,20 +40,24 @@ const MenuProps = {
   }
 };
 
-const SelectFilter = ({ multiple, props }) => {
+const SelectFilter = ({ multiple, props, selectValues, setSelectValue }) => {
   const css = makeStyles(styles)();
-  const [personName, setPersonName] = React.useState([]);
-  const { values } = props;
-  const handleChange = event => setPersonName(event.target.value);
+  const { id, options } = props;
+  const { values } = options;
 
   return (
     <div className={css.root}>
       <FormControl variant="outlined" className={css.formControl}>
         <Select
           multiple={multiple}
-          value={personName}
-          onChange={handleChange}
-          input={<BootstrapInput name="age" id="age-customized-select" />}
+          value={selectValues && selectValues.length > 0 ? selectValues : []}
+          onChange={event => {
+            setSelectValue({
+              id,
+              data: event.target.value
+            });
+          }}
+          input={<BootstrapInput name={id} id={id} />}
           MenuProps={MenuProps}
         >
           {values.map(v => (
@@ -67,7 +74,21 @@ const SelectFilter = ({ multiple, props }) => {
 SelectFilter.propTypes = {
   multiple: PropTypes.bool,
   props: PropTypes.object,
-  values: PropTypes.array
+  options: PropTypes.object,
+  id: PropTypes.string,
+  selectValues: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  setSelectValue: PropTypes.func
 };
 
-export default SelectFilter;
+const mapStateToProps = (state, obj) => ({
+  selectValues: Selectors.getSelect(state, obj.props)
+});
+
+const mapDispatchToProps = {
+  setSelectValue: actions.setSelectValue
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SelectFilter);

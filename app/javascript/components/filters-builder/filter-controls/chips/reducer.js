@@ -19,7 +19,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         state.get(payload.component_id).filter(item => item !== payload.data)
       );
     case Actions.RESET_CHIPS:
-      return [];
+      return state.set(payload, state.get(payload).clear());
     default:
       return state;
   }
