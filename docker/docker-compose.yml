@@ -32,6 +32,18 @@ services:
       - docker/defaults.env
     stdin_open: true
     tty: true
+  backburner:
+    image: application:prim-latest
+    depends_on:
+      - solr
+      - beanstalkd
+      - postgres
+    volumes:
+      - log:/srv/primero/application/log
+      - tmp:/srv/primero/application/tmp
+    env_file:
+      - docker/defaults.env
+    command: ["bundle", "exec", "rails", "backburner:work"]
 volumes:
   database:
   certs:
