@@ -16,27 +16,22 @@ services:
       - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env
-      - docker/production.env
-      - docker/quoin.env
+      - docker/local.env
     depends_on:
       - application
   application:
     env_file:
       - docker/defaults.env
-      - docker/production.env
-      - docker/quoin.env
+      - docker/local.env
   solr:
     env_file:
       - docker/defaults.env
-      - docker/production.env
-      - docker/quoin.env
+      - docker/local.env
   beanstalkd:
     env_file:
       - docker/defaults.env
-      - docker/production.env
-      - docker/quoin.env
+      - docker/local.env
   postgres:
     env_file:
       - docker/defaults.env
-      - docker/production.env
-      - docker/quoin.env
+      - docker/local.env
