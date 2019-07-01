@@ -2,9 +2,10 @@ import isEmpty from "lodash/isEmpty";
 import { fromJS } from "immutable";
 import { denormalizeData } from "./schema";
 import { NavRecord } from "./records";
+import NAMESPACE from "./namespace";
 
 const forms = (state, { recordType, primeroModule }) => {
-  const formSections = state.getIn(["forms", "formSections"]);
+  const formSections = state.getIn([NAMESPACE, "formSections"]);
 
   if (isEmpty(formSections)) return null;
 
@@ -15,6 +16,22 @@ const forms = (state, { recordType, primeroModule }) => {
       !fs.get("is_subform")
     );
   });
+};
+
+export const getFirstTab = (state, query) => {
+  const selectedForms = forms(state, query);
+
+  if (!selectedForms) return null;
+
+  const firstFormSection = selectedForms.filter(
+    fs => fs.get("is_first_tab") === true
+  );
+
+  if (firstFormSection) {
+    return firstFormSection.first().get("id");
+  }
+
+  return null;
 };
 
 export const getFormNav = (state, query) => {
@@ -45,3 +62,5 @@ export const getRecordForms = (state, query) => {
 
   return denormalizeData(fromJS(selectedFormKeys), state.getIn(["forms"]));
 };
+
+export const getRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);

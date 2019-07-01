@@ -1,9 +1,11 @@
 .root {
-  display: flex;
-
   & > div {
     padding: 1em;
   }
+}
+
+.content {
+  display: flex;
 }
 
 .table {

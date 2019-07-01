@@ -10,9 +10,10 @@ const RecordForm = ({
   forms,
   onSubmit,
   mode,
-  bindSubmitForm
+  bindSubmitForm,
+  record
 }) => {
-  const initialFormValues = !isEmpty(forms)
+  let initialFormValues = !isEmpty(forms)
     ? Object.assign(
         {},
         ...forms.map(v =>
@@ -35,6 +36,10 @@ const RecordForm = ({
         )
       )
     : {};
+
+  if (record) {
+    initialFormValues = Object.assign({}, initialFormValues, record.toJS());
+  }
 
   return (
     <Formik initialValues={initialFormValues} onSubmit={onSubmit}>
@@ -69,7 +74,8 @@ RecordForm.propTypes = {
   forms: PropTypes.object.isRequired,
   onSubmit: PropTypes.func.isRequired,
   mode: PropTypes.object,
-  bindSubmitForm: PropTypes.func
+  bindSubmitForm: PropTypes.func,
+  record: PropTypes.object
 };
 
 export default RecordForm;

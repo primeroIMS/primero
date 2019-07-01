@@ -1,17 +1,9 @@
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-  Box,
-  Typography,
-  IconButton
-} from "@material-ui/core";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import { LoadingIndicator } from "components/loading-indicator";
 import { dataToJS } from "libs";
-import AddIcon from "@material-ui/icons/Add";
-import { Link } from "react-router-dom";
 import NoData from "./NoData";
 
 const getMuiTheme = () =>
@@ -45,9 +37,7 @@ const IndexTable = ({
   data,
   onTableChange,
   defaultFilters,
-  title,
-  loading,
-  recordType
+  loading
 }) => {
   const { meta, filters, records } = data;
   const { per, total } = dataToJS(meta);
@@ -119,18 +109,6 @@ const IndexTable = ({
 
   return (
     <MuiThemeProvider theme={getMuiTheme}>
-      <Box mb={3} display="flex" alignItems="center">
-        <Box flexGrow={1}>
-          <Typography variant="h6" component="h6">
-            {title}
-          </Typography>
-        </Box>
-        <Box>
-          <IconButton to={`/${recordType}/new/primero-cp`} component={Link}>
-            <AddIcon />
-          </IconButton>
-        </Box>
-      </Box>
       {loading ? <LoadingIndicator loading={loading} /> : <DataTable />}
     </MuiThemeProvider>
   );
@@ -141,9 +119,7 @@ IndexTable.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.object.isRequired,
   defaultFilters: PropTypes.object,
-  title: PropTypes.string.isRequired,
-  loading: PropTypes.bool,
-  recordType: PropTypes.string
+  loading: PropTypes.bool
 };
 
 export default IndexTable;

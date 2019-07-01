@@ -202,6 +202,7 @@ en:
   cases:
     label: "Cases"
     register_new_case: "New Case"
+    show_case: "Case ID %{short_id}"
     export: "Export"
     filter_by:
       flag: "Flagged:"
@@ -407,6 +408,8 @@ en:
     id_search_no_results: "There is no match in the system for “%{id}”, please create a new record."
     id_search_results_html: "for <span>%{id}</span>"
     label: "Case ID"
+    case_id_display: "Case ID"
+    created_at: "Created On"
     workflow:
       created_on: "created on"
       on_label: "on"
@@ -506,6 +509,7 @@ en:
   incidents:
     label: "Incidents"
     register_new_incident: "New Incident"
+    show_incident: "Incident ID %{short_id}"
     selectable_date_options:
       date_of_first_report: "Interview Date"
       incident_date_derived: "Incident Date"
@@ -650,6 +654,7 @@ en:
   tracing_requests:
     label: "Tracing Requests"
     register_new_tracing_request: "New Tracing Request"
+    show_tracing_request: "Tracing Request ID %{short_id}"
     export: "Exports"
     selectable_date_options:
       inquiry_date: "Date of Inquiry"

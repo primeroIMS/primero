@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { List } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import NavGroup from "./NavGroup";
 import { setSelectedForm } from "../action-creators";
 
-const Nav = ({ formNav, selectedForm }) => {
+const Nav = ({ formNav, selectedForm, firstTab }) => {
   const [open, setOpen] = useState({});
   const dispatch = useDispatch();
 
@@ -18,6 +18,10 @@ const Nav = ({ formNav, selectedForm }) => {
 
     dispatch(setSelectedForm(formId));
   };
+
+  useEffect(() => {
+    dispatch(setSelectedForm(firstTab));
+  }, [firstTab]);
 
   if (formNav) {
     const [...formGroups] = formNav.values();
@@ -44,7 +48,8 @@ const Nav = ({ formNav, selectedForm }) => {
 
 Nav.propTypes = {
   formNav: PropTypes.object,
-  selectedForm: PropTypes.string
+  selectedForm: PropTypes.string,
+  firstTab: PropTypes.string
 };
 
 export default Nav;

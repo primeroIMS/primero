@@ -24,9 +24,13 @@ export const buildTableColumns = (records, recordType, i18n, path) => {
       };
 
       if (idFields.includes(k)) {
-        column.options.customBodyRender = value => (
-          <Link to={`/${path}/${value}`}>{value}</Link>
-        );
+        column.options.customBodyRender = (value, meta) => {
+          return (
+            <Link to={`/${path}/${records.getIn([meta.rowIndex, "id"])}`}>
+              {value}
+            </Link>
+          );
+        };
       }
 
       if (

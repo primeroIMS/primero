@@ -1,4 +1,4 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 import { mapEntriesToRecord } from "libs";
 import NAMESPACE from "./namespace";
 import * as Actions from "./actions";
@@ -8,6 +8,8 @@ const DEFAULT_STATE = Map({ selectedForm: null, formSections: {}, fields: {} });
 
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
+    case Actions.SELECTED_RECORD_SUCCESS:
+      return state.set("selectedRecord", fromJS(payload.data));
     case Actions.SET_FORMS:
       if (payload) {
         return state

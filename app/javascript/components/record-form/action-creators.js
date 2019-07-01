@@ -17,3 +17,14 @@ export const fetchForms = () => async dispatch => {
     payload: data.entities
   });
 };
+
+export const fetchRecord = (namespace, id) => async dispatch => {
+  await dispatch({
+    type: Actions.SELECTED_RECORD,
+    api: {
+      path: `${namespace}/${id}`
+    }
+  });
+
+  dispatch(fetchForms());
+};

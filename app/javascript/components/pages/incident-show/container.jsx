@@ -14,6 +14,8 @@ const IncidentShow = () => {
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
 
+  console.log(forms);
+
   useEffect(() => {
     dispatch(fetchForms());
   }, []);

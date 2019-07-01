@@ -12,7 +12,7 @@ export default {
       order_form_group: 30,
       parent: "case",
       editable: true,
-      module: ["cp"],
+      module: ["primeromodule-cp"],
       form_group_id: "identification_registration",
       fields: [
         {
@@ -57,7 +57,7 @@ export default {
       order_form_group: 30,
       parent: "case",
       editable: true,
-      module: ["cp"],
+      module: ["primeromodule-cp"],
       form_group_id: "identification_registration",
       fields: [
         {
@@ -112,7 +112,7 @@ export default {
       order_form_group: 32,
       parent: "case",
       editable: true,
-      module: ["cp"],
+      module: ["primeromodule-cp"],
       form_group_id: "case_plan",
       fields: [
         {
@@ -172,6 +172,84 @@ export default {
           display_name: {
             en: "Goal of intervention / service",
             ar: "Goal of intervention / service (ar)"
+          }
+        }
+      ]
+    },
+    {
+      id: "tracing_request_inquirer",
+      name: {
+        en: "Inquirer",
+        ar: "Inquirer (ar)"
+      },
+      visible: true,
+      is_first_tab: true,
+      order: 10,
+      order_form_group: 30,
+      parent: "tracing_request",
+      editable: true,
+      module: ["primeromodule-cp"],
+      form_group_id: "inquirer",
+      fields: [
+        {
+          name: "inquiry_date",
+          type: "date_field",
+          editable: true,
+          disabled: false,
+          visible: true,
+          display_name: {
+            en: "Date of Inquiry",
+            ar: "Date of Inquiry (ar)"
+          }
+        },
+        {
+          name: "relation_name",
+          type: "text_field",
+          editable: true,
+          disabled: false,
+          visible: true,
+          display_name: {
+            en: "Name of inquirer",
+            ar: "Name of inquirer (ar)"
+          }
+        }
+      ]
+    },
+    {
+      id: "cp_individual_details",
+      name: {
+        en: "CP Individual Details",
+        ar: "CP Individual Details (ar)"
+      },
+      visible: true,
+      is_first_tab: true,
+      order: 10,
+      order_form_group: 30,
+      parent: "incident",
+      editable: true,
+      module: ["primeromodule-cp"],
+      form_group_id: "cp_individual_details",
+      fields: [
+        {
+          name: "age",
+          type: "numeric_field",
+          editable: true,
+          disabled: false,
+          visible: true,
+          display_name: {
+            en: "Age",
+            ar: "Age (ar)"
+          }
+        },
+        {
+          name: "national_id_no",
+          type: "text_field",
+          editable: true,
+          disabled: false,
+          visible: true,
+          display_name: {
+            en: "National ID Number",
+            ar: "National ID Number (ar)"
           }
         }
       ]

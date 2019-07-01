@@ -28,6 +28,10 @@ class Incident < ApplicationRecord
     )
   end
 
+  def self.summary_field_names
+    %w(short_id date_of_interview date_of_incident violence_type incident_location violations social_worker)
+  end
+
   searchable auto_index: self.auto_index? do
     date :incident_date_derived do
       self.incident_date_derived

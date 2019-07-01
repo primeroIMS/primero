@@ -40,7 +40,7 @@ const TracingRequestList = ({
     records,
     "tracing_request",
     i18n,
-    "tracing-requests"
+    "tracing_requests"
   );
 
   const recordListProps = {

@@ -28,7 +28,7 @@
   }
 }
 
-.actionButton {
+.actionButton, .actionButtonCancel {
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
@@ -38,4 +38,10 @@
   &:hover {
     color: $(theme.primero.colors.black);
   }
+}
+
+.actionButtonCancel {
+  color: $(theme.primero.colors.black);
+  background: $(theme.primero.colors.grey);
+  margin: 0 1em;
 }

@@ -1,5 +1,6 @@
 import * as Page from "components/pages";
 import * as Layouts from "components/layouts";
+import { RecordForm } from "components/record-form";
 
 export default [
   {
@@ -22,51 +23,30 @@ export default [
         exact: true
       },
       {
-        path: "/cases/new/:module",
-        component: Page.CaseNew
+        path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
+        component: RecordForm,
+        mode: "edit"
       },
       {
-        path: "/cases/:id/edit",
-        component: Page.CaseEdit
+        path: "/:recordType(cases|incidents|tracing_requests)/:module/new",
+        component: RecordForm,
+        mode: "new"
       },
       {
-        path: "/cases/:id",
-        component: Page.CaseShow
+        path: "/:recordType(cases|incidents|tracing_requests)/:id",
+        component: RecordForm,
+        mode: "show"
       },
       {
         path: "/cases",
         component: Page.CaseList
       },
       {
-        path: "/incidents/new/:module",
-        component: Page.IncidentNew
-      },
-      {
-        path: "/incidents/:id/edit",
-        component: Page.IncidentEdit
-      },
-      {
-        path: "/incidents/:id",
-        component: Page.IncidentShow
-      },
-      {
         path: "/incidents",
         component: Page.IncidentList
       },
       {
-        path: "/tracing-requests/new/:module",
-        component: Page.TracingRequestNew
-      },
-      {
-        path: "/tracing-requests/:id/edit",
-        component: Page.TracingRequestEdit
-      },
-      {
-        path: "/tracing-requests/:id",
-        component: Page.TracingRequestShow
-      },
-      {
-        path: "/tracing-requests",
+        path: "/tracing_requests",
         component: Page.TracingRequestList
       }
     ]

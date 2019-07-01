@@ -39,7 +39,8 @@ const CaseList = ({ records, meta, filters, loading, getRecords }) => {
     path,
     getRecords,
     namespace: NAMESPACE,
-    recordType: "cases"
+    recordType: "cases",
+    primeroModule: "primeromodule-cp"
   };
 
   return (
