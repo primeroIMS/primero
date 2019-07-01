@@ -70,8 +70,9 @@ Testing on a local Vagrant system
 Copy production data to be migrated (on server that has production data)
 ------------------------------------------------------------------------
 Be careful to preserve couchdb ownership and permissions on all the files.  (use -p to preserve these permissions)
+NOTE: If you are migrating from 1.3 or earlier, the couchdb data is in /data instead of /var/lib.
 
-- $ cd /var/lib
+- $ cd /data
 - $ sudo cp -rp couchdb couchdb_<tag info>
         example:   sudo cp -rp couchdb couchdb_SL_20190523
 - $ sudo tar czvf couchdb_SL_20190523.tar.gz couchdb_SL_20190523
