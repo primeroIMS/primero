@@ -23,6 +23,7 @@ const CaseList = ({ records, meta, filters, loading, getRecords }) => {
   };
 
   const data = {
+    id: "cases",
     filters: Object.assign({}, defaultFilters, filters),
     records,
     meta

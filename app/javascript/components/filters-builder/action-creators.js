@@ -15,23 +15,22 @@ export const setExpandedPanel = payload => {
   };
 };
 
-// // TODO: Should not exists!!
-// export const removeExpandedPanel = payload => {
-//   return {
-//     type: Actions.REMOVE_EXPANDED_PANEL,
-//     payload
-//   };
-// };
+export const collapsePanels = () => {
+  return {
+    type: Actions.RESET_PANELS
+  };
+};
 
-export const resetPanel = payload => dispatch => {
+export const resetSinglePanel = payload => dispatch => {
   const action = (type => {
     switch (type) {
       case "chips":
         return ControlActions.RESET_CHIPS;
       case "radio":
         return ControlActions.RESET_RADIO_BUTTON;
+      case "multi_toogle":
+        return ControlActions.RESET_RANGE_BUTTON;
       default:
-        // All panels should be reset from here
         return Actions.RESET_PANELS;
     }
   })(payload.type);

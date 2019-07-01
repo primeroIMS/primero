@@ -42,7 +42,7 @@ const RecordList = ({
         )}
       </Box>
       <Box className={css.filters}>
-        <Filters />
+        <Filters recordType={data.id} />
       </Box>
     </Box>
   );

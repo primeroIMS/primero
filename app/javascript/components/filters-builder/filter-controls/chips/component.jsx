@@ -3,14 +3,17 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Chip from "@material-ui/core/Chip";
 import { makeStyles } from "@material-ui/core/styles";
+import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
-const Chips = ({ props, chips, setChips }) => {
+const Chips = ({ recordType, props, chips, setChips }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
   const { id, options } = props;
   const { values } = options;
+  const notTranslatedFilters = [];
 
   return (
     <div className={css.root}>
@@ -24,7 +27,11 @@ const Chips = ({ props, chips, setChips }) => {
           <Chip
             key={data.id}
             size="small"
-            label={data.display_name}
+            label={
+              notTranslatedFilters.includes(id)
+                ? data.display_name
+                : i18n.t(`${recordType}.filter_by.${data.id}`)
+            }
             variant={chipVariant}
             onClick={() =>
               setChips(
@@ -42,6 +49,7 @@ const Chips = ({ props, chips, setChips }) => {
 };
 
 Chips.propTypes = {
+  recordType: PropTypes.string.isRequired,
   props: PropTypes.object,
   chips: PropTypes.object,
   setChips: PropTypes.func,

@@ -19,16 +19,26 @@ import {
   Chips,
   DatesRange
 } from "components/filters-builder/filter-controls";
+import { useI18n } from "components/i18n";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
 import styles from "./styles.css";
 
-const FiltersBuilder = ({ filters, expanded, setExpanded, resetPanel }) => {
+const FiltersBuilder = ({
+  recordType,
+  filters,
+  expanded,
+  setExpanded,
+  resetPanel,
+  resetCurrentPanel,
+  collapsePanels
+}) => {
   const css = makeStyles(styles)();
-
+  const i18n = useI18n();
   const handleClearFilters = () => {
-    resetPanel({ type: "all", panel: "all" });
+    resetPanel();
+    collapsePanels();
   };
 
   const handleSaveFilters = () => console.log("Save Filters");
@@ -38,19 +48,19 @@ const FiltersBuilder = ({ filters, expanded, setExpanded, resetPanel }) => {
   const renderFilterControl = filter => {
     switch (filter.type) {
       case "checkbox":
-        return <CheckBox props={filter} />;
+        return <CheckBox recordType={recordType} props={filter} />;
       case "multi_select":
-        return <SelectFilter props={filter} multiple />;
+        return <SelectFilter recordType={recordType} props={filter} multiple />;
       case "select":
-        return <SelectFilter props={filter} />;
+        return <SelectFilter recordType={recordType} props={filter} />;
       case "multi_toogle":
-        return <RangeButton props={filter} exclusive />;
+        return <RangeButton recordType={recordType} props={filter} exclusive />;
       case "radio":
-        return <RadioButton props={filter} />;
+        return <RadioButton recordType={recordType} props={filter} />;
       case "chips":
-        return <Chips props={filter} />;
+        return <Chips recordType={recordType} props={filter} />;
       case "dates":
-        return <DatesRange props={filter} />;
+        return <DatesRange recordType={recordType} props={filter} />;
       default:
         return <h2>Not Found</h2>;
     }
@@ -58,20 +68,20 @@ const FiltersBuilder = ({ filters, expanded, setExpanded, resetPanel }) => {
 
   const handleReset = (panel, type) => event => {
     event.stopPropagation();
-    resetPanel({ type, panel });
+    resetCurrentPanel({ type, panel });
   };
 
   return (
     <div className={css.root}>
       <div className={css.actionButtons}>
         <Button color="primary" onClick={handleClearFilters}>
-          Clear
+          {i18n.t("cases.clear_filter")}
         </Button>
         <Button color="primary" onClick={handleSaveFilters}>
-          Save
+          {i18n.t("cases.save_filter")}
         </Button>
         <Button color="primary" onClick={handleApplyFilter}>
-          Apply
+          {i18n.t("cases.apply_filter")}
         </Button>
       </div>
       {filters.map(filter => (
@@ -89,7 +99,7 @@ const FiltersBuilder = ({ filters, expanded, setExpanded, resetPanel }) => {
             id={filter.id}
           >
             <div className={css.heading}>
-              <span>{filter.display_name}</span>
+              <span>{i18n.t(`${recordType}.filter_by.${filter.id}`)}</span>
               {filter.reset && filter.reset ? (
                 <IconButton
                   aria-label="Delete"
@@ -112,10 +122,13 @@ const FiltersBuilder = ({ filters, expanded, setExpanded, resetPanel }) => {
 };
 
 FiltersBuilder.propTypes = {
+  recordType: PropTypes.string.isRequired,
   expanded: PropTypes.array.isRequired,
   filters: PropTypes.object,
   setExpanded: PropTypes.func,
-  resetPanel: PropTypes.func
+  resetPanel: PropTypes.func,
+  resetCurrentPanel: PropTypes.func,
+  collapsePanels: PropTypes.func
 };
 
 const mapStateToProps = state => ({
@@ -124,7 +137,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setExpanded: actions.setExpandedPanel,
-  resetPanel: actions.resetPanel
+  resetCurrentPanel: actions.resetSinglePanel,
+  collapsePanels: actions.collapsePanels
 };
 
 export default connect(

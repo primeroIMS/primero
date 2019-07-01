@@ -6,15 +6,14 @@ export default [
     type: "checkbox",
     options: {
       values: [
-        { id: "owned_by", display_name: "My Cases" },
-        { id: "assigned_user_names", display_name: "Cases referred to me" }
+        { id: "my_cases", display_name: "My Cases" },
+        { id: "referred_cases", display_name: "Cases referred to me" }
       ]
     }
   },
   {
-    // This must have more items to handle the scroll
-    id: "cases_by_worflow",
-    display_name: "Cases by Worflow",
+    id: "social_worker",
+    display_name: "Social Worker",
     type: "checkbox",
     options: {
       values: [
@@ -53,7 +52,7 @@ export default [
     }
   },
   {
-    id: "case_status",
+    id: "status",
     display_name: "Case Status",
     type: "select",
     options: {
@@ -66,9 +65,9 @@ export default [
     }
   },
   {
-    // The type can be ToogleButton (https://material-ui.com/components/about-the-lab/)
-    id: "age",
+    id: "age_range",
     display_name: "Age",
+    reset: true,
     type: "multi_toogle",
     options: {
       values: [

@@ -11,12 +11,14 @@ import {
   setUpChips,
   setupRadioButtons
 } from "components/filters-builder/filter-controls";
+import { useI18n } from "components/i18n";
 import filterTypes from "./mocked-filters";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
 const Filters = ({
+  recordType,
   tabValue,
   setTabValue,
   setCheckBoxes,
@@ -26,9 +28,9 @@ const Filters = ({
   setChips
 }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
 
-  useEffect(() => {
-    // TODO: Make an action from this component
+  const resetPanels = () => {
     filterTypes.map(filter => {
       switch (filter.type) {
         case "checkbox":
@@ -46,6 +48,10 @@ const Filters = ({
           return null;
       }
     });
+  };
+
+  useEffect(() => {
+    resetPanels();
   }, []);
 
   return (
@@ -62,23 +68,30 @@ const Filters = ({
           variant="fullWidth"
         >
           <Tab
-            label="Filters"
+            label={i18n.t("saved_search.filters_tab")}
             classes={{ root: css.tab, selected: css.tabselected }}
             selected
           />
           <Tab
-            label="Saved Searches"
+            label={i18n.t("saved_search.saved_searches_tab")}
             classes={{ root: css.tab, selected: css.tabselected }}
           />
         </Tabs>
       </AppBar>
-      {tabValue === 0 && <FiltersBuilder filters={filterTypes} />}
+      {tabValue === 0 && (
+        <FiltersBuilder
+          recordType={recordType}
+          filters={filterTypes}
+          resetPanel={resetPanels}
+        />
+      )}
       {tabValue === 1 && <h1 style={{ textAlign: "center" }}>NYI</h1>}
     </div>
   );
 };
 
 Filters.propTypes = {
+  recordType: PropTypes.string.isRequired,
   tabValue: PropTypes.number.isRequired,
   setTabValue: PropTypes.func,
   setCheckBoxes: PropTypes.func,

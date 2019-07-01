@@ -3,11 +3,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { MenuItem, FormControl, Select, InputBase } from "@material-ui/core";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
-const BootstrapInput = withStyles(theme => ({
+const CustomInput = withStyles(theme => ({
   root: {
     "label + &": {
       marginTop: theme.spacing(3)
@@ -40,8 +41,15 @@ const MenuProps = {
   }
 };
 
-const SelectFilter = ({ multiple, props, selectValues, setSelectValue }) => {
+const SelectFilter = ({
+  recordType,
+  multiple,
+  props,
+  selectValues,
+  setSelectValue
+}) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
   const { id, options } = props;
   const { values } = options;
 
@@ -57,12 +65,12 @@ const SelectFilter = ({ multiple, props, selectValues, setSelectValue }) => {
               data: event.target.value
             });
           }}
-          input={<BootstrapInput name={id} id={id} />}
+          input={<CustomInput name={id} id={id} />}
           MenuProps={MenuProps}
         >
           {values.map(v => (
             <MenuItem key={v.id} value={v.id}>
-              {v.display_name}
+              {i18n.t(`${recordType}.filter_by.${v.id}`)}
             </MenuItem>
           ))}
         </Select>
@@ -72,11 +80,12 @@ const SelectFilter = ({ multiple, props, selectValues, setSelectValue }) => {
 };
 
 SelectFilter.propTypes = {
+  recordType: PropTypes.string.isRequired,
   multiple: PropTypes.bool,
   props: PropTypes.object,
   options: PropTypes.object,
   id: PropTypes.string,
-  selectValues: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  selectValues: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
   setSelectValue: PropTypes.func
 };
 

@@ -4,19 +4,28 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { Radio, RadioGroup, FormControlLabel } from "@material-ui/core";
 import { RadioButtonChecked, RadioButtonUnchecked } from "@material-ui/icons";
+import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
-const RadioButton = ({ inline, props, radioButton, setRadioButton }) => {
+const RadioButton = ({
+  recordType,
+  inline,
+  props,
+  radioButton,
+  setRadioButton
+}) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
   const { id, options } = props;
   const { values } = options;
+  const notTranslatedFilters = [];
 
   return (
     <div className={css.Root}>
       <RadioGroup
-        aria-label="Gender"
+        aria-label={id}
         name={id}
         value={radioButton}
         onChange={e =>
@@ -38,7 +47,11 @@ const RadioButton = ({ inline, props, radioButton, setRadioButton }) => {
                 checkedIcon={<RadioButtonChecked fontSize="small" />}
               />
             }
-            label={f.display_name}
+            label={
+              notTranslatedFilters.includes(id)
+                ? f.display_name
+                : i18n.t(`${recordType}.filter_by.${f.id}`)
+            }
           />
         ))}
       </RadioGroup>
@@ -47,6 +60,7 @@ const RadioButton = ({ inline, props, radioButton, setRadioButton }) => {
 };
 
 RadioButton.propTypes = {
+  recordType: PropTypes.string.isRequired,
   props: PropTypes.object.isRequired,
   options: PropTypes.object,
   inline: PropTypes.bool,

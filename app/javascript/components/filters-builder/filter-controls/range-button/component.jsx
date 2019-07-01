@@ -4,14 +4,17 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
-const RangeButton = ({ exclusive, props, value, setValue }) => {
+const RangeButton = ({ recordType, exclusive, props, value, setValue }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
   const { id, options } = props;
   const { values } = options;
+  const notTranslatedFilters = ["age_range"];
 
   return (
     <Grid container spacing={2} direction="column" alignItems="center">
@@ -23,7 +26,9 @@ const RangeButton = ({ exclusive, props, value, setValue }) => {
         >
           {values.map(v => (
             <ToggleButton key={v.id} value={v.id} className={css.toogleButton}>
-              {v.display_name}
+              {notTranslatedFilters.includes(id)
+                ? v.display_name
+                : i18n.t(`${recordType}.filter_by.${v.id}`)}
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
@@ -33,6 +38,7 @@ const RangeButton = ({ exclusive, props, value, setValue }) => {
 };
 
 RangeButton.propTypes = {
+  recordType: PropTypes.string.isRequired,
   props: PropTypes.object.isRequired,
   options: PropTypes.object,
   exclusive: PropTypes.bool,

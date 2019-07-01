@@ -5,14 +5,17 @@ import { makeStyles } from "@material-ui/core/styles";
 import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
-const CheckBox = ({ props, checkBoxes, setCheckBox }) => {
+const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
   const { id, options } = props;
   const { values } = options;
+  const notTranslatedFilters = ["social_worker"];
 
   return (
     <div>
@@ -38,7 +41,11 @@ const CheckBox = ({ props, checkBoxes, setCheckBox }) => {
                 className={css.checkbox}
               />
             }
-            label={v.display_name}
+            label={
+              notTranslatedFilters.includes(id)
+                ? v.id
+                : i18n.t(`${recordType}.filter_by.${v.id}`)
+            }
           />
         ))}
       </FormGroup>
@@ -47,6 +54,7 @@ const CheckBox = ({ props, checkBoxes, setCheckBox }) => {
 };
 
 CheckBox.propTypes = {
+  recordType: PropTypes.string.isRequired,
   props: PropTypes.object.isRequired,
   options: PropTypes.object,
   id: PropTypes.string,
