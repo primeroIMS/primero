@@ -5,7 +5,7 @@ module Indexable
     include Sunspot::Rails::Searchable
     Sunspot::Adapters::InstanceAdapter.register Sunspot::Rails::Adapters::ActiveRecordInstanceAdapter, self
 
-    after_save :queue_for_index
+    after_commit :queue_for_index
 
     def index_for_search
       Sunspot.index!(self)

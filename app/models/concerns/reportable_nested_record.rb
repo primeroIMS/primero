@@ -35,6 +35,7 @@ module ReportableNestedRecord
     def before_save(*_) ; end
     def after_save(*_) ; end
     def after_destroy(*_) ; end
+    def after_commit(*_) ; end
   end
 
   def id
