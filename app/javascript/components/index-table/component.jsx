@@ -46,7 +46,8 @@ const IndexTable = ({
   onTableChange,
   defaultFilters,
   title,
-  loading
+  loading,
+  recordType
 }) => {
   const { meta, filters, records } = data;
   const { per, total } = dataToJS(meta);
@@ -125,7 +126,7 @@ const IndexTable = ({
           </Typography>
         </Box>
         <Box>
-          <IconButton to="/cases/new/primero-cp" component={Link}>
+          <IconButton to={`/${recordType}/new/primero-cp`} component={Link}>
             <AddIcon />
           </IconButton>
         </Box>
@@ -141,7 +142,8 @@ IndexTable.propTypes = {
   data: PropTypes.object.isRequired,
   defaultFilters: PropTypes.object,
   title: PropTypes.string.isRequired,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  recordType: PropTypes.string
 };
 
 export default IndexTable;

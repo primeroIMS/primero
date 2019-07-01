@@ -36,7 +36,12 @@ const TracingRequestList = ({
     meta
   };
 
-  const columns = buildTableColumns(records, "tracing_request", i18n);
+  const columns = buildTableColumns(
+    records,
+    "tracing_request",
+    i18n,
+    "tracing-requests"
+  );
 
   const recordListProps = {
     title: i18n.t("tracing_requests.label"),
@@ -45,7 +50,8 @@ const TracingRequestList = ({
     loading,
     path,
     getRecords,
-    namespace: NAMESPACE
+    namespace: NAMESPACE,
+    recordType: "tracing-requests"
   };
 
   return (

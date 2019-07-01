@@ -96,7 +96,7 @@ const RecordForms = ({
                 variant="extended"
                 aria-label="Save"
                 component={Link}
-                to={`/cases/${recordId}/edit`}
+                to={`/${recordType}/${recordId}/edit`}
               >
                 Edit
               </Fab>

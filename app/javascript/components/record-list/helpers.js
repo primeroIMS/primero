@@ -4,7 +4,7 @@ import { DateCell, ToggleIconCell } from "components/index-table";
 import sortBy from "lodash/sortBy";
 import { Link } from "react-router-dom";
 
-export const buildTableColumns = (records, recordType, i18n) => {
+export const buildTableColumns = (records, recordType, i18n, path) => {
   const record =
     records && records.size > 0
       ? Object.keys(dataToJS(records.get(0))).filter(i => i !== "id")
@@ -14,16 +14,18 @@ export const buildTableColumns = (records, recordType, i18n) => {
     const mappedRecords = record.map(k => {
       const idFields = ["short_id", "case_id_display"];
 
+      const isIdField = idFields.includes(k);
+
       const column = {
-        label: i18n.t(`${recordType}.${k}`),
+        label: i18n.t(isIdField ? `${recordType}.label` : `${recordType}.${k}`),
         name: k,
-        id: idFields.includes(k),
+        id: isIdField,
         options: {}
       };
 
       if (idFields.includes(k)) {
         column.options.customBodyRender = value => (
-          <Link to={`/cases/${value}`}>{value}</Link>
+          <Link to={`/${path}/${value}`}>{value}</Link>
         );
       }
 

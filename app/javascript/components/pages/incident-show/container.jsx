@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const IncidentShow = () => {
   // TODO: Needs to endpoint
-  const selectedModule = { recordType: "incident", primeroModule: "cp" };
+  const selectedModule = { recordType: "case", primeroModule: "cp" };
   const dispatch = useDispatch();
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));

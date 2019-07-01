@@ -30,7 +30,7 @@ const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
     meta
   };
 
-  const columns = buildTableColumns(records, "incident", i18n);
+  const columns = buildTableColumns(records, "incident", i18n, "incidents");
 
   const recordListProps = {
     title: i18n.t("incidents.label"),
@@ -39,7 +39,8 @@ const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
     loading,
     path,
     getRecords,
-    namespace: NAMESPACE
+    namespace: NAMESPACE,
+    recordType: "incidents"
   };
 
   return (

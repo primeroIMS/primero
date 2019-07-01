@@ -18,7 +18,8 @@ const RecordList = ({
   loading,
   path,
   namespace,
-  getRecords
+  getRecords,
+  recordType
 }) => {
   const css = makeStyles(styles)();
 
@@ -37,6 +38,7 @@ const RecordList = ({
             data={data}
             onTableChange={getRecords}
             loading={loading}
+            recordType={recordType}
           />
         )}
       </Box>
@@ -52,7 +54,8 @@ RecordList.propTypes = {
   title: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
   namespace: PropTypes.string.isRequired,
-  getRecords: PropTypes.func.isRequired
+  getRecords: PropTypes.func.isRequired,
+  recordType: PropTypes.string
 };
 
 export default RecordList;
