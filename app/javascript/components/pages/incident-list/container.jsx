@@ -14,11 +14,12 @@ import {
 import NAMESPACE from "./namespace";
 
 const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
-  const path = "/incidents?fields=short";
+  const path = "/incidents";
 
   const i18n = useI18n();
 
   const defaultFilters = {
+    fields: "short",
     status: "open",
     record_state: true
   };
@@ -29,7 +30,7 @@ const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
     meta
   };
 
-  const columns = buildTableColumns(records, "incident", i18n);
+  const columns = buildTableColumns(records, "incident", i18n, "incidents");
 
   const recordListProps = {
     title: i18n.t("incidents.label"),
@@ -38,7 +39,9 @@ const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
     loading,
     path,
     getRecords,
-    namespace: NAMESPACE
+    namespace: NAMESPACE,
+    recordType: "incidents",
+    primeroModule: "primeromodule-cp"
   };
 
   return (

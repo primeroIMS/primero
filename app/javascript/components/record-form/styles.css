@@ -1,0 +1,47 @@
+.toolbar {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 999;
+}
+
+.divider {
+  display: inline-block;
+  width: 40px;
+  position: relative;
+  height: 100%;
+}
+
+.dividerInner {
+  overflow: hidden;
+  width: 20px;
+  height: 824px;
+
+  &:before {
+    content: "";
+    display: block;
+    margin-left: 20px;
+    width: 20px;
+    height: 100%;
+    border-radius: 12px / 125px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.actionButton, .actionButtonCancel {
+  box-shadow: none;
+  color: $(theme.primero.colors.white);
+  background: $(theme.primero.colors.blue);
+  width: 10em;
+  height: 32px;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+
+.actionButtonCancel {
+  color: $(theme.primero.colors.black);
+  background: $(theme.primero.colors.grey);
+  margin: 0 1em;
+}

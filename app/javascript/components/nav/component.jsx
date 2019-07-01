@@ -38,7 +38,7 @@ const Nav = ({ username, drawerOpen, openDrawer }) => {
     },
     {
       name: i18n.t("navigation.tracing_request"),
-      to: "/tracing-requests",
+      to: "/tracing_requests",
       icon: "tracing_request"
     },
     {

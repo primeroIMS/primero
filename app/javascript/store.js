@@ -1,24 +1,16 @@
 import {
-  connectRouter,
-  routerMiddleware
+  routerMiddleware,
+  connectRouter
 } from "connected-react-router/immutable";
-import { createBrowserHistory } from "history";
 import { Map } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
-import { combineReducers } from "redux-immutable";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
 import { restMiddleware } from "middleware";
+import { createBrowserHistory } from "history";
+import { combineReducers } from "redux-immutable";
+import rootReducer from "./reducers";
 
-import * as I18n from "components/i18n";
-import * as CasesList from "components/pages/case-list";
-import * as TracingRequestList from "components/pages/tracing-request-list";
-import * as IncidentList from "components/pages/incident-list";
-import * as Nav from "components/nav";
-import * as Login from "components/pages/login";
-import * as Dashboard from "./components/pages/dashboard";
-
-// TODO: Temporarily setting basename
 export const history = createBrowserHistory({
   basename: "v2"
 });
@@ -48,14 +40,7 @@ export default () => {
   const store = createStore(
     combineReducers({
       router: connectRouter(history),
-      records: combineReducers({
-        ...CasesList.reducers,
-        ...TracingRequestList.reducers,
-        ...IncidentList.reducers,
-        ...Dashboard.reducers
-      }),
-      ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
-      ...Login.reducers
+      ...rootReducer
     }),
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
