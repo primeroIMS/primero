@@ -40,7 +40,8 @@ const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
     path,
     getRecords,
     namespace: NAMESPACE,
-    recordType: "incidents"
+    recordType: "incidents",
+    primeroModule: "primeromodule-cp"
   };
 
   return (

@@ -1,14 +1,5 @@
 export { CaseList } from "./case-list";
-export { CaseEdit } from "./case-edit";
-export { CaseNew } from "./case-new";
-export { CaseShow } from "./case-show";
 export { Dashboard } from "./dashboard";
 export { IncidentList } from "./incident-list";
-export { IncidentEdit } from "./incident-edit";
-export { IncidentNew } from "./incident-new";
-export { IncidentShow } from "./incident-show";
 export { TracingRequestList } from "./tracing-request-list";
-export { TracingRequestEdit } from "./tracing-request-edit";
-export { TracingRequestNew } from "./tracing-request-new";
-export { TracingRequestShow } from "./tracing-request-show";
 export { Login } from "./login";

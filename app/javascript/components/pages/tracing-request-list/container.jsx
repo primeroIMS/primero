@@ -51,7 +51,8 @@ const TracingRequestList = ({
     path,
     getRecords,
     namespace: NAMESPACE,
-    recordType: "tracing-requests"
+    recordType: "tracing_requests",
+    primeroModule: "primeromodule-cp"
   };
 
   return (
