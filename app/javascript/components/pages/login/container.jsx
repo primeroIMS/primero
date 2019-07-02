@@ -13,18 +13,18 @@ const Login = ({ logIn, isAuthenticated, match }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     logIn(true);
   };
 
   if (match.path.includes("signout")) {
     logIn(false);
-    return <Redirect to="/login" />
+    return <Redirect to="/login" />;
   }
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />
+    return <Redirect to="/dashboard" />;
   }
 
   // TODO: Need to pass agency and logo path from api
@@ -70,9 +70,9 @@ const Login = ({ logIn, isAuthenticated, match }) => {
 };
 
 Login.propTypes = {
-  props: PropTypes.object,
   logIn: PropTypes.func,
-  isAuthenticated: PropTypes.bool
+  isAuthenticated: PropTypes.bool,
+  match: PropTypes.object
 };
 
 const mapStateToProps = state => ({

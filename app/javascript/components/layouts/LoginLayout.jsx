@@ -1,5 +1,5 @@
 import React from "react";
-import { Login, selectModule, selectAgency } from "components/pages/login";
+import { selectModule, selectAgency } from "components/pages/login";
 import { Grid, Box, CssBaseline } from "@material-ui/core";
 import { ModuleLogo } from "components/module-logo";
 import { AgencyLogo } from "components/agency-logo";

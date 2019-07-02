@@ -25,8 +25,7 @@ const AppLayout = ({ children, drawerOpen }) => {
 
 AppLayout.propTypes = {
   children: PropTypes.object,
-  drawerOpen: PropTypes.bool.isRequired,
-  route: PropTypes.object
+  drawerOpen: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({

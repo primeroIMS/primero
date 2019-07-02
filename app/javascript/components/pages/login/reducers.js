@@ -2,7 +2,11 @@ import { fromJS, Map } from "immutable";
 import * as Actions from "./actions";
 import NAMESPACE from "./namespace";
 
-const DEFAULT_STATE = Map({ module: "primero", agency: "unicef", isAuthenticated: false });
+const DEFAULT_STATE = Map({
+  module: "primero",
+  agency: "unicef",
+  isAuthenticated: false
+});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {

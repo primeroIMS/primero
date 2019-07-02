@@ -56,9 +56,9 @@ const App = () => {
                         <LoginLayoutRoute {...loginLayout} />
                       ));
                     }
-                    return route.routes.map(appLayout => {
-                      return <AppLayoutRoute {...appLayout} />
-                    });
+                    return route.routes.map(appLayout => (
+                      <AppLayoutRoute {...appLayout} />
+                    ));
                   })}
                 </Switch>
               </ConnectedRouter>
