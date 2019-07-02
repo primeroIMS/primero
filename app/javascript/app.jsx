@@ -9,11 +9,12 @@ import React from "react";
 import { Provider } from "react-redux";
 import { theme } from "config";
 import { I18nProvider } from "components/i18n";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import routes from "config/routes";
 import NAMESPACE from "components/i18n/namespace";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import { LoginLayoutRoute, AppLayoutRoute } from "components/layouts";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
@@ -46,15 +47,19 @@ const App = () => {
             >
               <ConnectedRouter history={history}>
                 <Switch>
-                  {routes.map(route => (
-                    <Route
-                      key={route.path}
-                      path={route.path}
-                      render={props => (
-                        <route.component {...props} route={route} />
-                      )}
-                    />
-                  ))}
+                  <Route exact path="/">
+                    <Redirect to="/login" />
+                  </Route>
+                  {routes.map(route => {
+                    if (route.layout === "LoginLayout") {
+                      return route.routes.map(loginLayout => (
+                        <LoginLayoutRoute {...loginLayout} />
+                      ));
+                    }
+                    return route.routes.map(appLayout => {
+                      return <AppLayoutRoute {...appLayout} />
+                    });
+                  })}
                 </Switch>
               </ConnectedRouter>
             </StylesProvider>

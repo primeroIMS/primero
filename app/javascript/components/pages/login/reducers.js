@@ -2,7 +2,7 @@ import { fromJS, Map } from "immutable";
 import * as Actions from "./actions";
 import NAMESPACE from "./namespace";
 
-const DEFAULT_STATE = Map({ module: "primero", agency: "unicef" });
+const DEFAULT_STATE = Map({ module: "primero", agency: "unicef", isAuthenticated: false });
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
@@ -13,7 +13,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .set("agency", fromJS(payload.agency));
     case Actions.LOGIN:
       // TODO: Need to implement login from api
-      return state;
+      return state.set("isAuthenticated", payload);
     default:
       return state;
   }

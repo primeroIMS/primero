@@ -12,7 +12,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./login-styles.css";
 
-const LoginLayout = ({ primeroModule, agency }) => {
+const LoginLayout = ({ children, primeroModule, agency }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -33,7 +33,7 @@ const LoginLayout = ({ primeroModule, agency }) => {
             className={css.loginContainer}
           >
             <Grid item xs={12} sm={6} md={6}>
-              <Login />
+              {children}
             </Grid>
             <Grid item className={css.loginLogo} xs={12} sm={6} md={6}>
               <AgencyLogo agency={agency} />
@@ -63,6 +63,7 @@ const LoginLayout = ({ primeroModule, agency }) => {
 };
 
 LoginLayout.propTypes = {
+  children: PropTypes.object,
   primeroModule: PropTypes.string,
   agency: PropTypes.string
 };

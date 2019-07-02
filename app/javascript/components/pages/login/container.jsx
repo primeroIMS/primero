@@ -3,13 +3,29 @@ import { Grid, TextField, Button, Typography, Link } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
+import { Redirect, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
+import * as Selectors from "./selectors";
 
-const Login = ({ handleSubmit }) => {
+const Login = ({ logIn, isAuthenticated, match }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    logIn(true);
+  };
+
+  if (match.path.includes("signout")) {
+    logIn(false);
+    return <Redirect to="/login" />
+  }
+
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />
+  }
 
   // TODO: Need to pass agency and logo path from api
   return (
@@ -54,14 +70,22 @@ const Login = ({ handleSubmit }) => {
 };
 
 Login.propTypes = {
-  handleSubmit: PropTypes.func
+  props: PropTypes.object,
+  logIn: PropTypes.func,
+  isAuthenticated: PropTypes.bool
 };
+
+const mapStateToProps = state => ({
+  isAuthenticated: Selectors.selectAuthenticated(state)
+});
 
 const mapDispatchToProps = {
-  handleSubmit: actions.logIn
+  logIn: actions.logIn
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Login);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Login)
+);
