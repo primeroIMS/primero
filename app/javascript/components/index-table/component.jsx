@@ -1,12 +1,7 @@
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-  Box,
-  Typography
-} from "@material-ui/core";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import { LoadingIndicator } from "components/loading-indicator";
 import { dataToJS } from "libs";
 import NoData from "./NoData";
@@ -42,7 +37,6 @@ const IndexTable = ({
   data,
   onTableChange,
   defaultFilters,
-  title,
   loading
 }) => {
   const { meta, filters, records } = data;
@@ -115,11 +109,6 @@ const IndexTable = ({
 
   return (
     <MuiThemeProvider theme={getMuiTheme}>
-      <Box mb={3}>
-        <Typography variant="h6" component="h6">
-          {title}
-        </Typography>
-      </Box>
       {loading ? <LoadingIndicator loading={loading} /> : <DataTable />}
     </MuiThemeProvider>
   );
@@ -130,7 +119,6 @@ IndexTable.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.object.isRequired,
   defaultFilters: PropTypes.object,
-  title: PropTypes.string.isRequired,
   loading: PropTypes.bool
 };
 

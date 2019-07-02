@@ -20,11 +20,12 @@ const TracingRequestList = ({
   loading,
   getRecords
 }) => {
-  const path = "/tracing_requests?fields=short";
+  const path = "/tracing_requests";
 
   const i18n = useI18n();
 
   const defaultFilters = {
+    fields: "short",
     inquiry_status: "open",
     record_state: true
   };
@@ -35,7 +36,12 @@ const TracingRequestList = ({
     meta
   };
 
-  const columns = buildTableColumns(records, "tracing_request", i18n);
+  const columns = buildTableColumns(
+    records,
+    "tracing_request",
+    i18n,
+    "tracing_requests"
+  );
 
   const recordListProps = {
     title: i18n.t("tracing_requests.label"),
@@ -44,7 +50,9 @@ const TracingRequestList = ({
     loading,
     path,
     getRecords,
-    namespace: NAMESPACE
+    namespace: NAMESPACE,
+    recordType: "tracing_requests",
+    primeroModule: "primeromodule-cp"
   };
 
   return (

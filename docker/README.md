@@ -68,6 +68,8 @@ the application and solr containers, which rely on configurations outside of the
 docker dir, are set to include the entire project in their build context.
 
 ## Building - Instructions
+Make sure you have created the file `docker/local.env`. At the very least it requires 
+an entry for `POSTGRES_PASSWORD`.
 
 To build simply run: `./build.sh all`
 This will build each container with the tag 'prim-latest'. These will be

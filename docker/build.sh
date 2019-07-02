@@ -26,7 +26,7 @@ case $1 in
   solr)
     eval "$BUILD_SOLR"
     ;;
-  app)
+  application)
     eval "$BUILD_APP"
     ;;
   postgres)

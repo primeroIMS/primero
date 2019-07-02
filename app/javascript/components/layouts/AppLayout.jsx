@@ -20,9 +20,18 @@ const AppLayout = ({ drawerOpen, route }) => {
         })}
       >
         <Switch>
-          {route.routes.map(r => (
-            <Route key={r.path} {...r} />
-          ))}
+          {route.routes.map(r => {
+            const { path, component: Component, exact, ...rest } = r;
+
+            return (
+              <Route
+                key={path}
+                path={path}
+                exact={exact}
+                render={() => <Component {...rest} />}
+              />
+            );
+          })}
         </Switch>
       </main>
     </div>

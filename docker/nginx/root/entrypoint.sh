@@ -26,11 +26,16 @@ prim_nginx_create_logs() {
 
 # run certbot agent and define cert/key paths
 prim_certbot_generate_certs() {
-  # if we use letsencrypt then let certbot create the certificates
-  certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m "$LETS_ENCRYPT_EMAIL" --no-eff-email --non-interactive --keep --preferred-challenges http
   NGINX_SERVER_HOST="$LETS_ENCRYPT_DOMAIN"
   NGINX_SSL_CERT_PATH="/etc/letsencrypt/live/$LETS_ENCRYPT_DOMAIN/fullchain.pem"
   NGINX_SSL_KEY_PATH="/etc/letsencrypt/live/$LETS_ENCRYPT_DOMAIN/privkey.pem"
+  if [ -f $NGINX_SSL_KEY_PATH ];
+  then
+    printf "Let's Encrypt certificates already exist. Doing nothing.\\n"
+  else
+    # if we use letsencrypt then let certbot create the certificates
+    certbot certonly --standalone -d "$LETS_ENCRYPT_DOMAIN" --agree-tos -m "$LETS_ENCRYPT_EMAIL" --no-eff-email --non-interactive --keep --preferred-challenges http
+  fi
   return 0
 }
 
@@ -38,13 +43,18 @@ prim_certbot_generate_certs() {
 # TODO: check if certs exist and if they do use them instead
 prim_generate_self_signed_certs() {
   # Return to current dir after cert generation
+  if [ -f /certs/key.pem ];
+  then
+    printf "Self-signed certs are already generated. Doing nothing.\\n"
+  else
   CURRENT_DIR=$(pwd)
-  export NGINX_SERVER_HOST=${localhost:-NGINX_SERVER_HOST}
-  printf "Generating SSL Cert\\nHostname: %s\\n" "$NGINX_SERVER_HOST"
-  cd "/certs"
-  # Create certificates
-  openssl req -subj "/CN=${NGINX_SERVER_HOST}" -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 365
-  cd "${CURRENT_DIR}"
+    export NGINX_SERVER_HOST=${localhost:-NGINX_SERVER_HOST}
+    printf "Generating SSL Cert\\nHostname: %s\\n" "$NGINX_SERVER_HOST"
+    cd "/certs"
+    # Create certificates
+    openssl req -subj "/CN=${NGINX_SERVER_HOST}" -x509 -newkey rsa:4096 -nodes -keyout key.pem -out cert.pem -days 365
+    cd "${CURRENT_DIR}"
+  fi
   return 0
 }
 
