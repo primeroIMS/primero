@@ -1,21 +1,21 @@
 module Api::V2
   class FormSectionsController < ApplicationApiController
     @model_class = FormSection
-    
+
     before_action :permitted_forms, only: [:index, :show, :update, :destroy]
 
     def index
       authorize! :index, model_class
       params.permit!
     end
-    
+
     def show
       authorize! :read, model_class
       @form_section = model_class.find(params[:id])
       authorize! :read, @form_section
       check_permitted_form(@form_section)
     end
-    
+
     def create
       authorize! :create, model_class
       params.permit!
@@ -26,7 +26,7 @@ module Api::V2
       status = params[:data][:id].present? ? 204 : 200
       render 'api/v2/form_sections/create', status: status
     end
-    
+
     def update
       authorize! :update, model_class
       @form_section = model_class.find(params[:id])
@@ -61,35 +61,33 @@ module Api::V2
     def form_section_params
       DestringifyService.destringify(params['data'].try(:to_h) || {})
     end
-    
+
     def form_section_localized_params
       localized_form_params = LocalizedFieldService.to_localized_fields(FormSection, form_section_params)
       localized_form_params.reject{ |k,_|  ['fields', 'module_ids'].include?(k) }
     end
-    
+
     def fields_localized_params
       return [] if form_section_params['fields'].blank?
-      form_section_params['fields'].map do |field_param| 
+      form_section_params['fields'].map do |field_param|
         LocalizedFieldService.to_localized_fields(Field, field_param)
       end
     end
-  
+
     def primero_modules
       return [] if form_section_params['module_ids'].blank?
       PrimeroModule.where(unique_id: form_section_params['module_ids'])
     end
-    
+
     def permitted_forms
-      primero_module = PrimeroModule.find_by(unique_id: params[:module_id]) if params[:module_id].present? 
-      @permitted_forms = current_user.permitted_forms(primero_module, params[:record_type])
+      primero_module = PrimeroModule.find_by(unique_id: params[:module_id]) if params[:module_id].present?
+      user_permitted_forms = current_user.permitted_forms(primero_module, params[:record_type])
+      @permitted_forms = user_permitted_forms + FormSection.nested_forms(user_permitted_forms)
     end
 
     def check_permitted_form(form_section)
-      if (form_section.is_nested? && !form_section.nested_in?(@permitted_forms)) ||
-         (!form_section.is_nested? && !@permitted_forms.include?(form_section))
-        raise CanCan::AccessDenied.new
-      end
+      raise CanCan::AccessDenied.new unless permitted_forms.include?(form_section)
     end
-    
+
   end
 end

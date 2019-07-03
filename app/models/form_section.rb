@@ -545,11 +545,11 @@ class FormSection < ApplicationRecord
       Rails.logger.error "Form translation not updated: Invalid locale [#{locale}]"
     end
   end
-  
+
   def is_destroy_permitted?
     self.editable? && self.fields.where(editable: false).size.zero?
   end
-  
+
   def permitted_destroy!
     if is_destroy_permitted?
       self.fields.each(&:destroy!)
@@ -569,12 +569,11 @@ class FormSection < ApplicationRecord
     self.fields << new_fields.map{ |f| Field.new(f) }
     self.fields.each(&:save!)
   end
-  
-  def nested_in?(forms)
-    return false unless self.is_nested?
-    Field.where(form_section: forms,  type: Field::SUBFORM, subform_section: self).size.positive?
+
+  def self.nested_forms(forms)
+    Field.joins(:subform).includes(:subform).where(form_section: forms, type: Field::SUBFORM).map(&:subform)
   end
-  
+
   protected
 
   def recalculate_collapsed_fields
