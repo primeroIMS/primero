@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Fab, Box } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import styles from "../styles.css";
@@ -11,7 +11,8 @@ const RecordFormToolbar = ({
   params,
   recordType,
   handleFormSubmit,
-  shortId
+  shortId,
+  history
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -30,6 +31,10 @@ const RecordFormToolbar = ({
     return <h2>{heading}</h2>;
   };
 
+  const goBack = () => {
+    history.goBack();
+  };
+
   return (
     <Box
       className={css.toolbar}
@@ -43,24 +48,25 @@ const RecordFormToolbar = ({
         <PageHeading />
       </Box>
       <Box>
-        <Fab
-          className={css.actionButtonCancel}
-          variant="extended"
-          aria-label={i18n.t("buttons.cancel")}
-          component={Link}
-          to={`/${params.recordType}`}
-        >
-          {i18n.t("buttons.cancel")}
-        </Fab>
         {(mode.isEdit || mode.isNew) && (
-          <Fab
-            className={css.actionButton}
-            variant="extended"
-            aria-label={i18n.t("buttons.save")}
-            onClick={handleFormSubmit}
-          >
-            {i18n.t("buttons.save")}
-          </Fab>
+          <>
+            <Fab
+              className={css.actionButtonCancel}
+              variant="extended"
+              aria-label={i18n.t("buttons.cancel")}
+              onClick={goBack}
+            >
+              {i18n.t("buttons.cancel")}
+            </Fab>
+            <Fab
+              className={css.actionButton}
+              variant="extended"
+              aria-label={i18n.t("buttons.save")}
+              onClick={handleFormSubmit}
+            >
+              {i18n.t("buttons.save")}
+            </Fab>
+          </>
         )}
         {mode.isShow && (
           <Fab
@@ -83,7 +89,8 @@ RecordFormToolbar.propTypes = {
   params: PropTypes.object.isRequired,
   recordType: PropTypes.string.isRequired,
   handleFormSubmit: PropTypes.func.isRequired,
-  shortId: PropTypes.string
+  shortId: PropTypes.string,
+  history: PropTypes.object
 };
 
-export default RecordFormToolbar;
+export default withRouter(RecordFormToolbar);

@@ -22,7 +22,15 @@ const RecordForm = ({
             ...v.fields.map(f => {
               let defaultValue;
 
-              if ([C.SUBFORM_SECTION].includes(f.type)) {
+              if (
+                [
+                  C.SUBFORM_SECTION,
+                  C.PHOTO_FIELD,
+                  C.AUDIO_FIELD,
+                  C.DOCUMENT_FIELD
+                ].includes(f.type) ||
+                (f.type === C.SELECT_FIELD && f.multi_select)
+              ) {
                 defaultValue = [];
               } else if (f.type === C.DATE_FIELD) {
                 defaultValue = null;

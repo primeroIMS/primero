@@ -1,6 +1,7 @@
-import mockedData from "./mocked-data";
 import { normalizeData } from "./schema";
 import * as Actions from "./actions";
+import mockedData from "./mocked-data";
+import { Option } from "./records";
 
 export const setSelectedForm = payload => {
   return {
@@ -10,11 +11,12 @@ export const setSelectedForm = payload => {
 };
 
 export const fetchForms = () => async dispatch => {
-  const data = normalizeData(mockedData.data);
-
   dispatch({
-    type: Actions.SET_FORMS,
-    payload: data.entities
+    type: Actions.RECORD_FORMS,
+    api: {
+      path: "forms",
+      normalizeFunc: normalizeData
+    }
   });
 };
 
@@ -25,6 +27,11 @@ export const fetchRecord = (namespace, id) => async dispatch => {
       path: `${namespace}/${id}`
     }
   });
+};
 
-  dispatch(fetchForms());
+export const fetchOptions = () => async dispatch => {
+  dispatch({
+    type: Actions.SET_OPTIONS,
+    payload: mockedData.data.map(option => Option(option))
+  });
 };

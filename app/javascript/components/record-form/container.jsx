@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import PropTypes from "prop-types";
 import { Grid, Box } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { Nav } from "./nav";
 import NAMESPACE from "./namespace";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchForms, fetchRecord } from "./action-creators";
+import { fetchRecord } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -75,8 +75,6 @@ const RecordForms = ({ match, mode }) => {
   useEffect(() => {
     if (params.id && (containerMode.isShow || containerMode.isEdit)) {
       dispatch(fetchRecord(params.recordType, params.id));
-    } else {
-      dispatch(fetchForms());
     }
   }, []);
 
@@ -113,4 +111,4 @@ RecordForms.propTypes = {
   mode: PropTypes.string.isRequired
 };
 
-export default withRouter(RecordForms);
+export default memo(withRouter(RecordForms));

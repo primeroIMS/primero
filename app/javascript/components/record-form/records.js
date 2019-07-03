@@ -7,8 +7,10 @@ export const FieldRecord = Record({
   disabled: null,
   visible: null,
   display_name: {},
-  subform_section: null,
-  help_text: {}
+  subform_section_id: null,
+  help_text: {},
+  multi_select: null,
+  option_strings_source: null
 });
 
 export const FormSectionRecord = Record({
@@ -18,12 +20,17 @@ export const FormSectionRecord = Record({
   is_first_tab: null,
   order: null,
   order_form_group: null,
-  parent: "",
+  parent_form: "",
   editable: null,
-  module: [],
+  module_ids: [],
   form_group_id: "",
   fields: [],
-  is_subform: null
+  is_nested: null
+});
+
+export const Option = Record({
+  type: "",
+  options: []
 });
 
 export const NavRecord = Record({

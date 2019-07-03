@@ -11,9 +11,9 @@ const forms = (state, { recordType, primeroModule }) => {
 
   return formSections.filter(fs => {
     return (
-      fs.get("parent") === recordType &&
-      fs.get("module").includes(primeroModule) &&
-      !fs.get("is_subform")
+      fs.get("parent_form") === recordType &&
+      fs.get("module_ids").includes(primeroModule) &&
+      !fs.get("is_nested")
     );
   });
 };
@@ -27,7 +27,7 @@ export const getFirstTab = (state, query) => {
     fs => fs.get("is_first_tab") === true
   );
 
-  if (firstFormSection) {
+  if (firstFormSection && firstFormSection.size > 0) {
     return firstFormSection.first().get("id");
   }
 
@@ -50,7 +50,9 @@ export const getFormNav = (state, query) => {
         is_first_tab: fs.is_first_tab
       })
     )
-    .groupBy(fs => fs.group);
+    .sort(fs => fs.order)
+    .groupBy(fs => fs.group)
+    .sort(fs => fs.first().get("groupOrder"));
 };
 
 export const getRecordForms = (state, query) => {
@@ -61,6 +63,10 @@ export const getRecordForms = (state, query) => {
   const [...selectedFormKeys] = selectedForms.keys();
 
   return denormalizeData(fromJS(selectedFormKeys), state.getIn(["forms"]));
+};
+
+export const getOption = (state, option) => {
+  return state.getIn([NAMESPACE, "options"]).filter(o => o.type === option);
 };
 
 export const getRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);

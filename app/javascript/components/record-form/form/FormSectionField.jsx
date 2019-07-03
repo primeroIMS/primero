@@ -2,10 +2,14 @@
 
 import React from "react";
 import PropTypes from "prop-types";
-import { Field } from "formik";
-import { TextField } from "formik-material-ui";
 import SubformField from "./SubformField";
 import DateField from "./DateField";
+import SelectField from "./SelectField";
+import TextField from "./TextField";
+import TickField from "./TickField";
+import Seperator from "./Seperator";
+import RadioField from "./RadioField";
+import AttachmentField from "./AttachmentField";
 import * as C from "../constants";
 
 const FormSectionField = ({ field, values, index, form, mode }) => {
@@ -38,24 +42,50 @@ const FormSectionField = ({ field, values, index, form, mode }) => {
     disabled: mode.isShow || disabled || !editable
   };
 
-  const fieldComponent = () => {
+  if (visible) {
     switch (type) {
+      case C.SUBFORM_SECTION:
+        return <SubformField {...{ field, values, mode }} />;
       case C.DATE_FIELD:
-        return DateField;
+        return <DateField {...fieldProps} />;
+      case C.SELECT_FIELD:
+        return (
+          <SelectField
+            {...fieldProps}
+            option={field.option_strings_source}
+            multiple={field.multi_select}
+          />
+        );
+      case C.NUMERIC_FIELD:
+        return <TextField {...fieldProps} type="number" />;
+      case C.TICK_FIELD:
+        return <TickField {...fieldProps} />;
+      case C.RADIO_FIELD:
+        return <RadioField {...fieldProps} />;
+      case C.SEPERATOR:
+        return <Seperator {...fieldProps} />;
+      case C.PHOTO_FIELD:
+        return (
+          <AttachmentField {...fieldProps} attachment="photo" values={values} />
+        );
+      case C.AUDIO_FIELD:
+        return (
+          <AttachmentField {...fieldProps} attachment="audio" values={values} />
+        );
+      case C.DOCUMENT_FIELD:
+        return (
+          <AttachmentField
+            {...fieldProps}
+            attachment="document"
+            values={values}
+          />
+        );
       default:
-        return TextField;
+        return <TextField {...fieldProps} />;
     }
-  };
+  }
 
-  return (
-    <>
-      {type === C.SUBFORM_SECTION ? (
-        <SubformField {...{ field, values, mode }} />
-      ) : (
-        visible && <Field {...fieldProps} component={fieldComponent()} />
-      )}
-    </>
-  );
+  return null;
 };
 
 FormSectionField.propTypes = {

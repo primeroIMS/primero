@@ -5,20 +5,20 @@ import NavItem from "./NavItem";
 
 const NavGroup = ({ group, open, handleClick, selectedForm }) => {
   const [...forms] = group.values();
-  const nested = forms.length > 1;
+  const isNested = forms.length > 1;
   const parentForm = forms[0];
 
   const parentFormProps = {
     form: parentForm,
     open: open[parentForm.group],
-    nested,
+    isNested,
     handleClick
   };
 
   return (
     <>
       <NavItem {...parentFormProps} selectedForm={selectedForm} />
-      {nested && (
+      {isNested && (
         <Collapse in={open[parentForm.group]} timeout="auto" unmountOnExit>
           <List disablePadding dense>
             {forms.map(f => (
