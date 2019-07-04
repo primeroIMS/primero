@@ -30,7 +30,8 @@ module FakeDeviseLogin
     user.stub(:role).and_return(
         Role.new(
             permissions_list: permissions,
-            group_permission: group_permission
+            group_permission: group_permission,
+            form_sections: opts[:form_sections] || []
         )
     )
     permitted_field_names = opts[:permitted_field_names] || common_permitted_field_names

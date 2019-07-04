@@ -546,6 +546,46 @@ class FormSection < ApplicationRecord
     end
   end
 
+  def is_destroy_permitted?
+    # TODO: What about a editable: false nested form?
+    self.editable? && self.fields.where(editable: false).size.zero?
+  end
+
+  def permitted_destroy!
+    if is_destroy_permitted?
+      subforms = FormSection.get_subforms([self])
+      self.fields.each(&:destroy!)
+      subforms.each(&:destroy!)
+      self.destroy!
+    else
+      self.errors.add(:delete, "errors.record.invalid")
+      raise ActiveRecord::RecordInvalid.new(self)
+    end
+  end
+
+  def merge_properties(form_properties = {})
+    i18n_fields = FieldI18nService.merge_i18n_fields(self.attributes, form_properties)
+    self.assign_attributes(form_properties.merge(i18n_fields))
+  end
+
+  def set_or_remove_fields!(fields_properties = [])
+    fields_properties.each do |field_props|
+        field = self.fields.select{ |f| f.name == field_props["name"] }.first
+        if field.present?
+          i18n_fields = FieldI18nService.merge_i18n_fields(field.attributes, field_props)
+          field.assign_attributes(field_props.merge(i18n_fields))
+        else
+           self.fields << Field.new(field_props)
+        end
+    end
+
+    self.fields.each(&:save!)
+
+    missing_field_names = self.fields.pluck(:name) - fields_properties.pluck('name')
+    fields = self.fields.select{ |f| missing_field_names.include?(f.name) }
+    fields.each(&:destroy!)
+  end
+
   protected
 
   def recalculate_collapsed_fields
@@ -607,12 +647,11 @@ class FormSection < ApplicationRecord
 
   def calculate_fields_order
     if self.fields.present?
-      self.fields.each_with_index do |field, index|
+      self.fields.reject(&:destroyed?).each_with_index do |field, index|
         field.order = index
       end
     end
   end
-
 
   private
 
