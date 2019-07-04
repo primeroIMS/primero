@@ -32,18 +32,24 @@ const Filters = ({
 
   const resetPanels = () => {
     filterTypes.map(filter => {
+      const payloadFilter = {};
       switch (filter.type) {
         case "checkbox":
-          return setCheckBoxes(filter.id);
+          payloadFilter[filter.id] = [];
+          return setCheckBoxes(payloadFilter, recordType);
         case "multi_select":
         case "select":
-          return setSelect(filter.id);
+          payloadFilter[filter.id] = [];
+          return setSelect(payloadFilter, recordType);
         case "multi_toogle":
-          return setRangeButton(filter.id);
+          payloadFilter[filter.id] = "";
+          return setRangeButton(payloadFilter, recordType);
         case "radio":
-          return setRadioButtons(filter.id);
+          payloadFilter[filter.id] = "";
+          return setRadioButtons(payloadFilter, recordType);
         case "chips":
-          return setChips(filter.id);
+          payloadFilter[filter.id] = [];
+          return setChips(payloadFilter, recordType);
         default:
           return null;
       }

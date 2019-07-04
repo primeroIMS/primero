@@ -17,9 +17,7 @@ const rootReducer = {
     ...CaseList.reducers,
     ...TracingRequestList.reducers,
     ...IncidentList.reducers,
-    ...Dashboard.reducers
-  }),
-  filters: combineReducers({
+    ...Dashboard.reducers,
     ...Filter.reducers,
     ...FiltersBuilder.reducers,
     ...Filters.chipsReducer,

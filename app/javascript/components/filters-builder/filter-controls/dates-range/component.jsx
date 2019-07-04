@@ -5,19 +5,21 @@ import { Box, TextField } from "@material-ui/core";
 import { SelectFilter } from "components/filters-builder/filter-controls/select";
 import styles from "./styles.css";
 
-const DatesRange = ({ props }) => {
+const DatesRange = ({ recordType, props }) => {
   const css = makeStyles(styles)();
   const { options } = props;
   const { values } = options;
   return (
     <div className={css.root}>
-      {values && values.length > 0 ? <SelectFilter props={props} /> : null}
+      {values && values.length > 0 ? (
+        <SelectFilter recordType={recordType} props={props} />
+      ) : null}
       <Box className={css.datesContainer}>
         <TextField
           id="date"
           label="From"
           type="date"
-          defaultValue="2017-05-24"
+          autoComplete="off"
           className={css.dates}
           InputLabelProps={{
             shrink: true
@@ -27,7 +29,7 @@ const DatesRange = ({ props }) => {
           id="date"
           label="To"
           type="date"
-          defaultValue="2017-05-24"
+          autoComplete="off"
           className={css.dates}
           InputLabelProps={{
             shrink: true
@@ -39,6 +41,7 @@ const DatesRange = ({ props }) => {
 };
 
 DatesRange.propTypes = {
+  recordType: PropTypes.string.isRequired,
   props: PropTypes.object,
   options: PropTypes.object
 };

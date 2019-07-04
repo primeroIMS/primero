@@ -1,15 +1,15 @@
-import * as Actions from "./actions";
+import * as RecordListActions from "components/record-list/actions";
 
-export const setupSelect = payload => {
+export const setupSelect = (payload, namespace) => {
   return {
-    type: Actions.SET_UP_SELECT,
+    type: `${namespace}/${RecordListActions.SET_FILTERS}`,
     payload
   };
 };
 
-export const setSelectValue = payload => {
+export const setSelectValue = (payload, namespace) => {
   return {
-    type: Actions.ADD_SELECT,
+    type: `${namespace}/${RecordListActions.ADD_SELECT}`,
     payload
   };
 };

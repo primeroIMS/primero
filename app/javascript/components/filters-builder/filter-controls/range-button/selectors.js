@@ -1,6 +1,5 @@
 import { fromJS } from "immutable";
-import NAMESPACE from "./namespace";
 
-export const getRangeButton = (state, props) => {
-  return state.getIn(["filters", NAMESPACE, props.id], fromJS([]));
+export const getRangeButton = (state, props, namespace) => {
+  return state.getIn(["records", namespace, "filters", props.id], fromJS([]));
 };

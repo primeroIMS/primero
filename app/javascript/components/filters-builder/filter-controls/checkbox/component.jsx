@@ -30,11 +30,14 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
                 checkedIcon={<CheckBoxIcon fontSize="small" />}
                 checked={checkBoxes && checkBoxes.includes(v.id)}
                 onChange={event => {
-                  setCheckBox({
-                    id,
-                    included: checkBoxes.includes(event.target.value),
-                    data: event.target.value
-                  });
+                  setCheckBox(
+                    {
+                      id,
+                      included: checkBoxes.includes(event.target.value),
+                      data: event.target.value
+                    },
+                    recordType
+                  );
                 }}
                 value={v.id}
                 name={v.id}
@@ -44,7 +47,7 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
             label={
               notTranslatedFilters.includes(id)
                 ? v.id
-                : i18n.t(`${recordType}.filter_by.${v.id}`)
+                : i18n.t(`${recordType.toLowerCase()}.filter_by.${v.id}`)
             }
           />
         ))}
@@ -63,7 +66,7 @@ CheckBox.propTypes = {
 };
 
 const mapStateToProps = (state, obj) => ({
-  checkBoxes: Selectors.getCheckBoxes(state, obj.props)
+  checkBoxes: Selectors.getCheckBoxes(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

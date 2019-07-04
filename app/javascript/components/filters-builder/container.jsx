@@ -36,11 +36,14 @@ const FiltersBuilder = ({
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+
   const handleClearFilters = () => {
     resetPanel();
     collapsePanels();
   };
 
+  // TODO: This need to be changed to store filters and apply selected
+  // Filters depending on each record type
   const handleSaveFilters = () => console.log("Save Filters");
 
   const handleApplyFilter = () => console.log("Filters to Apply");
@@ -66,9 +69,9 @@ const FiltersBuilder = ({
     }
   };
 
-  const handleReset = (panel, type) => event => {
+  const handleReset = (id, type) => event => {
     event.stopPropagation();
-    resetCurrentPanel({ type, panel });
+    resetCurrentPanel({ id, type }, recordType);
   };
 
   return (
@@ -88,7 +91,11 @@ const FiltersBuilder = ({
         <ExpansionPanel
           expanded={expanded && expanded.includes(`${filter.id}`)}
           onChange={(e, isExpanded) =>
-            setExpanded({ expanded: isExpanded, panel: `${filter.id}` })
+            setExpanded({
+              expanded: isExpanded,
+              panel: `${filter.id}`,
+              namespace: recordType
+            })
           }
           className={css.panel}
           key={filter.id}
@@ -99,7 +106,9 @@ const FiltersBuilder = ({
             id={filter.id}
           >
             <div className={css.heading}>
-              <span>{i18n.t(`${recordType}.filter_by.${filter.id}`)}</span>
+              <span>
+                {i18n.t(`${recordType.toLowerCase()}.filter_by.${filter.id}`)}
+              </span>
               {filter.reset && filter.reset ? (
                 <IconButton
                   aria-label="Delete"
@@ -131,8 +140,8 @@ FiltersBuilder.propTypes = {
   collapsePanels: PropTypes.func
 };
 
-const mapStateToProps = state => ({
-  expanded: Selectors.selectExpandedPanel(state)
+const mapStateToProps = (state, props) => ({
+  expanded: Selectors.selectExpandedPanel(state, props.recordType)
 });
 
 const mapDispatchToProps = {

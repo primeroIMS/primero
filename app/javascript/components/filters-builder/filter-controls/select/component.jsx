@@ -1,42 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { MenuItem, FormControl, Select, InputBase } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import {
+  MenuItem,
+  FormControl,
+  Select,
+  OutlinedInput
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
-const CustomInput = withStyles(theme => ({
-  root: {
-    "label + &": {
-      marginTop: theme.spacing(3)
-    }
-  },
-  input: {
-    borderRadius: 4,
-    position: "relative",
-    backgroundColor: theme.palette.background.paper,
-    border: "1px solid #ced4da",
-    fontSize: 14,
-    width: "auto",
-    padding: "10px 26px 10px 12px",
-    transition: theme.transitions.create(["border-color", "box-shadow"]),
-    "&:focus": {
-      borderRadius: 3,
-      borderColor: "black",
-      boxShadow: "inset 0 1px 3px 0 rgba(0, 0, 0, 0.5)"
-    }
-  }
-}))(InputBase);
-
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
 const MenuProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP
+      maxHeight: 224
     }
   }
 };
@@ -60,17 +40,26 @@ const SelectFilter = ({
           multiple={multiple}
           value={selectValues && selectValues.length > 0 ? selectValues : []}
           onChange={event => {
-            setSelectValue({
-              id,
-              data: event.target.value
-            });
+            setSelectValue(
+              {
+                id,
+                data: event.target.value
+              },
+              recordType
+            );
           }}
-          input={<CustomInput name={id} id={id} />}
+          input={
+            <OutlinedInput
+              name={id}
+              id={id}
+              classes={{ root: css.inputSelect }}
+            />
+          }
           MenuProps={MenuProps}
         >
           {values.map(v => (
             <MenuItem key={v.id} value={v.id}>
-              {i18n.t(`${recordType}.filter_by.${v.id}`)}
+              {i18n.t(`${recordType.toLowerCase()}.filter_by.${v.id}`)}
             </MenuItem>
           ))}
         </Select>
@@ -90,7 +79,7 @@ SelectFilter.propTypes = {
 };
 
 const mapStateToProps = (state, obj) => ({
-  selectValues: Selectors.getSelect(state, obj.props)
+  selectValues: Selectors.getSelect(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

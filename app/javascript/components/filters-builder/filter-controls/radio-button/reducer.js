@@ -7,9 +7,6 @@ const DEFAULT_STATE = Map({});
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.SET_UP_RADIO_BUTTON:
-      return state.set(payload, "");
-    case Actions.ADD_RADIO_BUTTON:
-      return state.set(payload.id, payload.data);
     case Actions.RESET_RADIO_BUTTON:
       return state.set(payload, "");
     default:

@@ -22,13 +22,13 @@ const RangeButton = ({ recordType, exclusive, props, value, setValue }) => {
         <ToggleButtonGroup
           exclusive={exclusive}
           value={value}
-          onChange={(e, v) => setValue({ id, data: v })}
+          onChange={(e, v) => setValue({ id, data: v }, recordType)}
         >
           {values.map(v => (
             <ToggleButton key={v.id} value={v.id} className={css.toogleButton}>
               {notTranslatedFilters.includes(id)
                 ? v.display_name
-                : i18n.t(`${recordType}.filter_by.${v.id}`)}
+                : i18n.t(`${recordType.toLowerCase()}.filter_by.${v.id}`)}
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
@@ -48,7 +48,7 @@ RangeButton.propTypes = {
 };
 
 const mapStateToProps = (state, obj) => ({
-  value: Selectors.getRangeButton(state, obj.props)
+  value: Selectors.getRangeButton(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {

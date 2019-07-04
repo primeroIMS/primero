@@ -79,8 +79,8 @@ export default [
     }
   },
   {
-    // The type can be ToogleButton (https://material-ui.com/components/about-the-lab/)
-    // Let's keep RadioButton for now, to have this other filter type ready
+    // The type caxn be ToogleButton (https://material-ui.com/components/about-the-lab/)
+    // Let's keep RadioButton for now, to have this other filter type rexady
     id: "sex",
     display_name: "Sex",
     type: "radio",

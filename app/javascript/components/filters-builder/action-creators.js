@@ -1,4 +1,4 @@
-import * as ControlActions from "components/filters-builder/filter-controls";
+import * as RecordListActions from "components/record-list/actions";
 import * as Actions from "./actions";
 
 export const setExpandedPanel = payload => {
@@ -21,15 +21,15 @@ export const collapsePanels = () => {
   };
 };
 
-export const resetSinglePanel = payload => dispatch => {
+export const resetSinglePanel = (payload, namespace) => dispatch => {
   const action = (type => {
     switch (type) {
       case "chips":
-        return ControlActions.RESET_CHIPS;
+        return `${namespace}/${RecordListActions.RESET_CHIPS}`;
       case "radio":
-        return ControlActions.RESET_RADIO_BUTTON;
+        return `${namespace}/${RecordListActions.RESET_RADIO_BUTTON}`;
       case "multi_toogle":
-        return ControlActions.RESET_RANGE_BUTTON;
+        return `${namespace}/${RecordListActions.RESET_RANGE_BUTTON}`;
       default:
         return Actions.RESET_PANELS;
     }
@@ -37,6 +37,6 @@ export const resetSinglePanel = payload => dispatch => {
 
   dispatch({
     type: action,
-    payload: payload.panel
+    payload
   });
 };

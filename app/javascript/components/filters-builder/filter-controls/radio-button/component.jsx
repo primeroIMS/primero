@@ -29,10 +29,13 @@ const RadioButton = ({
         name={id}
         value={radioButton}
         onChange={e =>
-          setRadioButton({
-            id,
-            data: e.target.value
-          })
+          setRadioButton(
+            {
+              id,
+              data: e.target.value
+            },
+            recordType
+          )
         }
         row={inline}
       >
@@ -50,7 +53,7 @@ const RadioButton = ({
             label={
               notTranslatedFilters.includes(id)
                 ? f.display_name
-                : i18n.t(`${recordType}.filter_by.${f.id}`)
+                : i18n.t(`${recordType.toLowerCase()}.filter_by.${f.id}`)
             }
           />
         ))}
@@ -70,11 +73,10 @@ RadioButton.propTypes = {
 };
 
 const mapStateToProps = (state, obj) => ({
-  radioButton: Selectors.getRadioButtons(state, obj.props)
+  radioButton: Selectors.getRadioButtons(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {
-  // setupRadioButtons: actions.setupRadioButton,
   setRadioButton: actions.setRadioButton
 };
 

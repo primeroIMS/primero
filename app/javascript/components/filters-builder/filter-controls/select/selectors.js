@@ -1,5 +1,3 @@
-import NAMESPACE from "./namespace";
-
-export const getSelect = (state, props) => {
-  return state.getIn(["filters", NAMESPACE, props.id], []);
+export const getSelect = (state, props, namespace) => {
+  return state.getIn(["records", namespace, "filters", props.id], []);
 };

@@ -8,7 +8,6 @@
   height: 100vh;
   overflow: auto;
   padding: 1em;
-  /* background: #fff; */
   background: #fbfbfb;
   transition: $(theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,

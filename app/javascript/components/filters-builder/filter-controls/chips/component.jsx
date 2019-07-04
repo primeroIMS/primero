@@ -30,13 +30,14 @@ const Chips = ({ recordType, props, chips, setChips }) => {
             label={
               notTranslatedFilters.includes(id)
                 ? data.display_name
-                : i18n.t(`${recordType}.filter_by.${data.id}`)
+                : i18n.t(`${recordType.toLowerCase()}.filter_by.${data.id}`)
             }
             variant={chipVariant}
             onClick={() =>
               setChips(
-                { component_id: id, data: data.id },
-                chips && chips.includes(data.id)
+                { id, data: data.id },
+                chips && chips.includes(data.id),
+                recordType
               )
             }
             className={[css.chip, className, css[cssSelectedChip]].join(" ")}
@@ -49,16 +50,16 @@ const Chips = ({ recordType, props, chips, setChips }) => {
 };
 
 Chips.propTypes = {
-  recordType: PropTypes.string.isRequired,
-  props: PropTypes.object,
+  recordType: PropTypes.string,
   chips: PropTypes.object,
+  props: PropTypes.object,
   setChips: PropTypes.func,
   options: PropTypes.object,
   id: PropTypes.string
 };
 
 const mapStateToProps = (state, obj) => ({
-  chips: Selectors.getChips(state, obj.props)
+  chips: Selectors.getChips(state, obj.props, obj.recordType)
 });
 
 const mapDispatchToProps = {
