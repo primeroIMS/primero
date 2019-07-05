@@ -69,6 +69,12 @@ module MigrationHelper
       else
         #the to_s is necessary to catch cases where the value is true or false
         v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s}.first.try(:[], 'id')
+        if v == 'true'
+          v = true
+        elsif v == 'false'
+          v = false
+        end
+        v
       end
     end
   end
