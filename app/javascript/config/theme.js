@@ -35,7 +35,8 @@ export default createMuiTheme({
       purple: "#7c347b",
       warmGrey1: "#e0dfd7",
       warmGrey2: "#bcbcad",
-      midGrey: "#757472"
+      midGrey: "#757472",
+      grey: "#4a4a4a"
     },
     components: {
       drawerWidth: "240px"
