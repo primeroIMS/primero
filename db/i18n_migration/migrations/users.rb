@@ -2,13 +2,13 @@ puts 'Migrating (i18n): Users'
 
 include MigrationHelper
 
-locations = Location.all_names
+locations = MigrationHelper.get_locations
 
 puts "------------------------------------------------------------------"
 puts "Migrating Users..."
 User.all.each do |user|
   changed = false
-  location = locations.select{|l| l[:display_text] == user.location }.first
+  location = locations.select{|l| l[:display_text] == user.location || l[:display_text_2] == user.location}.first
   
   if location.present? && user.location.present?
     user.location = location['id'] 

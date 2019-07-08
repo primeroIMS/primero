@@ -1,4 +1,13 @@
 module MigrationHelper
+  def get_locations
+    locations = Location.all_names
+    #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
+    locations.each do |loc|
+      loc['display_text_2'] = loc['display_text'].sub('Western Area Urban (Freetown)', 'Western Area Urban') if loc['display_text'].include?('Western Area Urban (Freetown)')
+    end
+    locations
+  end
+
   def generate_keyed_value(value)
     if value.present?
       if value.is_a?(String)
@@ -65,10 +74,12 @@ module MigrationHelper
         #look for value iin either the ids or in the display text
         #If it has already been converted, it should be in one of the id's
         #If it hasn't yet been converted, it should be in one of the display_text
-        v = options.select{|o| value.include?(o['id']) || value.include?(o['display_text'])}.map{|option| option['id']}
+        #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
+        v = options.select{|o| value.include?(o['id']) || value.include?(o['display_text']) || value.include?(o['display_text_2'])}.map{|option| option['id']}
       else
-        #the to_s is necessary to catch cases where the value is true or false
-        v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s}.first.try(:[], 'id')
+        #The to_s is necessary to catch cases where the value is true or false
+        #The display_text_2 is necessary to clean up discrepancies between "Western Area Urban" and "Western Area Urban (Freetown)"
+        v = options.select{|option| option['id'] == value.to_s || option['display_text'] == value.to_s || option['display_text_2'] == value.to_s}.first.try(:[], 'id')
         if v == 'true'
           v = true
         elsif v == 'false'
@@ -82,7 +93,7 @@ module MigrationHelper
   def get_field_options(prefix)
     fields = {}
     prefix = 'case' if prefix == 'child'
-    @locations ||= Location.all_names
+    @locations ||= get_locations
 
     FormSection.find_by_parent_form(prefix).each do |fs|
       i18n_fields = get_fields(fs)
