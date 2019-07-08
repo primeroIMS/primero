@@ -49,6 +49,10 @@ export default [
       {
         path: "/tracing_requests",
         component: Page.TracingRequestList
+      },
+      {
+        path: "/exports",
+        component: Page.ExportList
       }
     ]
   }

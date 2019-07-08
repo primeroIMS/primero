@@ -8,13 +8,15 @@ import * as Nav from "./components/nav";
 import * as CaseList from "./components/pages/case-list";
 import * as Dashboard from "./components/pages/dashboard";
 import * as RecordForms from "./components/record-form";
+import * as ExportList from "./components/pages/export-list";
 
 const rootReducer = {
   records: combineReducers({
     ...CaseList.reducers,
     ...TracingRequestList.reducers,
     ...IncidentList.reducers,
-    ...Dashboard.reducers
+    ...Dashboard.reducers,
+    ...ExportList.reducers
   }),
   ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
   ...RecordForms.reducers,
