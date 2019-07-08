@@ -1,24 +1,25 @@
 import * as Page from "components/pages";
-import * as Layouts from "components/layouts";
 import { RecordForm } from "components/record-form";
 
 export default [
   {
-    path: "/login",
-    component: Layouts.LoginLayout,
+    layout: "LoginLayout",
     routes: [
       {
         path: "/login",
+        component: Page.Login
+      },
+      {
+        path: "/signout",
         component: Page.Login
       }
     ]
   },
   {
-    path: "/",
-    component: Layouts.AppLayout,
+    layout: "AppLayout",
     routes: [
       {
-        path: "/",
+        path: "/dashboard",
         component: Page.Dashboard,
         exact: true
       },
