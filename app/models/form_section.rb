@@ -9,7 +9,8 @@ class FormSection < ApplicationRecord
 
   localize_properties :name, :help_text, :description
 
-  has_many :fields, -> { order(:order) }
+  has_many :fields, -> { order(:order) }, :dependent => :destroy
+  accepts_nested_attributes_for :fields
   has_many :collapsed_fields, class_name: 'Field', foreign_key: 'collapsed_field_for_subform_section_id'
   has_and_belongs_to_many :roles
   has_and_belongs_to_many :primero_modules, inverse_of: :form_sections
@@ -23,8 +24,10 @@ class FormSection < ApplicationRecord
 
   after_initialize :defaults, :generate_unique_id
   before_validation :calculate_fields_order
-  before_save :sync_form_group
+  before_save :sync_form_group, :recalculate_editable
   after_save :recalculate_collapsed_fields
+
+  before_destroy :validate_editable
 
   #TODO: Move to migration
   def defaults
@@ -37,10 +40,17 @@ class FormSection < ApplicationRecord
     end
   end
 
+  # TODO: This method will go away after UIUX refactor
   def form_group_name(opts={})
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     return name(locale) if self.form_group_id.blank?
-    Lookup.form_group_name(self.form_group_id, self.parent_form, self.module_name, locale: locale)
+    form_group_name_all[locale.to_s]
+  end
+
+  # This replaces form_group_name above
+  def form_group_name_all
+    return self.name_i18n if self.form_group_id.blank?
+    Lookup.form_group_name_all(self.form_group_id, self.parent_form, self.module_name)
   end
 
   def localized_property_hash(locale=Primero::Application::BASE_LANGUAGE, show_hidden_fields=false)
@@ -65,6 +75,42 @@ class FormSection < ApplicationRecord
 
     def memoized_dependencies
       [Field]
+    end
+    
+    def permitted_api_params
+      [ 
+        "id",
+        "unique_id",
+        {"name"=>{}},
+        {"help_text"=>{}},
+        {"description"=>{}},
+        "parent_form",
+        "visible",
+        "order",
+        "order_form_group",
+        "order_subform",
+        "form_group_keyed",
+        "form_group_id",
+        "is_nested",
+        "is_first_tab",
+        "initial_subforms",
+        "subform_prevent_item_removal",
+        "subform_append_only",
+        "subform_header_links",
+        "display_help_text_view",
+        "shared_subform",
+        "shared_subform_group",
+        "is_summary_section",
+        "hide_subform_placeholder",
+        "mobile_form",
+        "collapsed_field_names"
+      ]
+    end
+
+    def new_with_properties(form_properties, module_ids = [])
+      form_section = FormSection.new(form_properties)
+      form_section.primero_modules = PrimeroModule.where(unique_id: module_ids) if module_ids.present?
+      form_section
     end
 
     #TODO: Used by importer. Refactor?
@@ -438,6 +484,16 @@ class FormSection < ApplicationRecord
       end
     end
 
+    def list_or_filter_by_record_type_and_module_id(record_type = nil, module_id = nil)
+      return FormSection.all if record_type.blank? && module_id.blank?
+      form_sections = self
+      if module_id.present?
+        form_sections = form_sections.joins(:primero_modules).where(primero_modules: { unique_id: module_id }) 
+      end
+      form_sections = form_sections.where(parent_form: record_type) if record_type.present?
+      form_sections
+    end
+
   end
 
   def all_mobile_fields
@@ -546,44 +602,33 @@ class FormSection < ApplicationRecord
     end
   end
 
-  def is_destroy_permitted?
-    # TODO: What about a editable: false nested form?
-    self.editable? && self.fields.where(editable: false).size.zero?
-  end
+  def merge_properties(form_properties, module_ids = [])
+    formi18n_props = FieldI18nService.merge_i18n_properties(self.attributes, form_properties)
+    formi18n_props = form_properties.merge(formi18n_props)
 
-  def permitted_destroy!
-    if is_destroy_permitted?
-      subforms = FormSection.get_subforms([self])
-      self.fields.each(&:destroy!)
-      subforms.each(&:destroy!)
-      self.destroy!
-    else
-      self.errors.add(:delete, "errors.record.invalid")
-      raise ActiveRecord::RecordInvalid.new(self)
-    end
-  end
-
-  def merge_properties(form_properties = {})
-    i18n_fields = FieldI18nService.merge_i18n_fields(self.attributes, form_properties)
-    self.assign_attributes(form_properties.merge(i18n_fields))
-  end
-
-  def set_or_remove_fields!(fields_properties = [])
-    fields_properties.each do |field_props|
-        field = self.fields.select{ |f| f.name == field_props["name"] }.first
+    if form_properties.key?('fields_attributes')
+      fields = []
+      (form_properties['fields_attributes'] || []).each do |field_props|
+        field = self.fields.find{ |f| f.name == field_props["name"] }
         if field.present?
-          i18n_fields = FieldI18nService.merge_i18n_fields(field.attributes, field_props)
-          field.assign_attributes(field_props.merge(i18n_fields))
+          fieldi18n_props = FieldI18nService.merge_i18n_properties(field.attributes, field_props)
+          fieldi18n_props = field_props.merge(fieldi18n_props)
+          fields << field.attributes.merge(fieldi18n_props)
         else
-           self.fields << Field.new(field_props)
+          fields <<  field_props
         end
+      end
+      formi18n_props['fields_attributes'] = fields
+
+      field_names = form_properties['fields_attributes'].map{ |field| field['name'] }
+      self.fields
+          .select{ |field| field_names.exclude?(field.name) && field.editable? }
+          .each(&:mark_for_destruction)
     end
 
-    self.fields.each(&:save!)
+    self.assign_attributes(formi18n_props)
 
-    missing_field_names = self.fields.pluck(:name) - fields_properties.pluck('name')
-    fields = self.fields.select{ |f| missing_field_names.include?(f.name) }
-    fields.each(&:destroy!)
+    self.primero_modules = PrimeroModule.where(unique_id: module_ids) if module_ids.present?
   end
 
   protected
@@ -647,9 +692,28 @@ class FormSection < ApplicationRecord
 
   def calculate_fields_order
     if self.fields.present?
-      self.fields.reject(&:destroyed?).each_with_index do |field, index|
+      self.fields.each_with_index do |field, index|
         field.order = index
       end
+    end
+  end
+
+  def recalculate_editable
+    if self.editable?
+      self.editable = self.fields.select do |field|
+        if field.type == Field::SUBFORM && field.subform_section.present?
+          !field.editable? || !field.subform_section.editable?
+        else
+          !field.editable?
+        end
+      end.size.zero?
+    end
+  end
+
+  def validate_editable
+    if !self.editable? || self.core_form?
+      self.errors.add(:base, "invalid")
+      raise ActiveRecord::RecordInvalid.new(self)
     end
   end
 

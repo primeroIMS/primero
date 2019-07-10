@@ -36,6 +36,9 @@ the forms assigned through the role.
       "order_subform": 0,
       "editable": true,
       "initial_subforms": 0,
+      "form_group_name": {
+        "en": "Identification / Registration"
+      },
       "fields": [
           {
               "id": 920,

@@ -1,6 +1,6 @@
 class FieldI18nService
 
-  def self.convert_i18n_fields(klass, params)
+  def self.convert_i18n_properties(klass, params)
     localized_props = klass.localized_properties.map(&:to_s)
     unlocalized_params = params.reject { |k,_| localized_props.include?(k) }
     localized_fields = localized_props.select { |prop| params[prop].present? }.map do |prop| 
@@ -10,7 +10,7 @@ class FieldI18nService
     unlocalized_params.merge(localized_fields || {})
   end
 
-  def self.merge_i18n_fields(fields1, fields2)
+  def self.merge_i18n_properties(fields1, fields2)
     localized_props_1 = fields1.select{ |k,v| k.slice(-4, 4) == 'i18n' }
     localized_props_2 = fields2.select{ |k,v| k.slice(-4, 4) == 'i18n' }
     merged_props = {}

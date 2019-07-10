@@ -1,6 +1,6 @@
 # Query for forms
 
-Show a paginated list of all forms that are accessible to this user. The user can filter the form list based on search criteria. 
+Shows a list of all forms that are accessible to this user. The user can filter the form list by record type and module.
 
 **URL** : `/api/v2/forms`
 
@@ -8,7 +8,12 @@ Show a paginated list of all forms that are accessible to this user. The user ca
 
 **Authentication** : YES
 
-**Authorization** :The user must be authorized to view forms in Primero. The user can only  view the forms directly assigned through a role and will include nested forms if the parent form is part of the assigned forms.
+**Authorization** :The user must be authorized to view forms in Primero.
+
+**Parameters** : 
+
+* `record_type` Optional. Filters by the record type of the form.
+* `module_id` Optional. Filter forms by module.
 
 ## Success Response
 
@@ -38,6 +43,9 @@ Show a paginated list of all forms that are accessible to this user. The user ca
            "form_group_id": "cp_individual_details",
            "editable": true,
            "initial_subforms": 0,
+           "form_group_name": {
+             "en": "Identification / Registration"
+           },
            "fields": [
                {
                    "id": 153,

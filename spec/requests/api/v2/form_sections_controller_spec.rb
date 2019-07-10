@@ -29,12 +29,12 @@ describe Api::V2::FormSectionsController, type: :request do
       ]
     )
     @form_3 = FormSection.create!(
-      unique_id: 'form_section_3', 
+      unique_id: 'form_section_3',
       name_i18n: { en: 'Form Section 3' },
     )
 
     @form_4 = FormSection.create!(
-      unique_id: 'form_section_4', 
+      unique_id: 'form_section_4',
       name_i18n: { en: 'Form Section_4 ' },
       is_nested: true
     )
@@ -59,7 +59,6 @@ describe Api::V2::FormSectionsController, type: :request do
   describe "GET /api/v2/forms" do
     it "list the permitted forms" do
       login_for_test({ 
-        form_sections: [@form_1, @form_2],
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -68,9 +67,8 @@ describe Api::V2::FormSectionsController, type: :request do
       get '/api/v2/forms'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(2)
-      expect(json['data'].map{|c| c['unique_id']}).to include(@form_1.unique_id, @form_2.unique_id)
-      expect(json['data'].map{|c| c['unique_id']}).not_to include(@form_3.unique_id)
+      expect(json['data'].size).to eq(4)
+      expect(json['data'].map{|c| c['unique_id']}).to include(@form_1.unique_id, @form_2.unique_id, @form_3.unique_id)
     end
 
     it "refuses unauthorized access" do
@@ -90,7 +88,6 @@ describe Api::V2::FormSectionsController, type: :request do
   describe "GET /api/v2/forms/:id" do
     it "fetches the correct form with code 200" do
       login_for_test({
-        form_sections: [@form_1],
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -102,10 +99,24 @@ describe Api::V2::FormSectionsController, type: :request do
 
       expect(json['data']['id']).to eq(@form_1.id)
     end
-
-    it "fetches a form which is nested in the permitted form" do
+    
+    it "fetches the correct form_group_name with code 200" do
       login_for_test({
-        form_sections: [@form_3],
+        permissions: [
+          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
+        ]
+      })
+
+      get "/api/v2/forms/#{@form_1.id}"
+
+      expect(response).to have_http_status(200)
+
+      expect(json['data']['id']).to eq(@form_1.id)
+      expect(json['data']['form_group_name']['en']).to eq(@form_1.form_group_name)
+    end
+
+    it "fetches a form which is nested" do
+      login_for_test({
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -128,35 +139,6 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/forms/#{@form_1.id}")
     end
 
-    it "returns 403 if the form is not permitted for an authorized user" do
-      login_for_test({ 
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ] 
-      })
-
-      get "/api/v2/forms/#{@form_1.id}"
-
-      expect(response).to have_http_status(403)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/forms/#{@form_1.id}")
-    end
-
-    it "returns 403 if a form is not nested in a permitted form for an authorized user" do
-      login_for_test({
-        form_sections: [@form_1, @form_2],
-        permissions: [
-          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ] 
-      })
-
-      get "/api/v2/forms/#{@form_4.id}"
-
-      expect(response).to have_http_status(403)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/forms/#{@form_4.id}")
-    end
-
     it "returns a 404 when trying to fetch a form with a non-existant id" do
       login_for_test({ 
         permissions: [
@@ -172,7 +154,6 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
   end
-
 
   describe "POST /api/v2/forms" do
     it "creates a new form with fields and returns 200 and json" do
@@ -315,7 +296,6 @@ describe Api::V2::FormSectionsController, type: :request do
 
     it "updates an existing form with 200" do
       login_for_test({
-        form_sections: [@form_1],
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -325,7 +305,8 @@ describe Api::V2::FormSectionsController, type: :request do
         data: {
           name: {
             en: 'Form Section Updated 1'
-          }
+          },
+          visible: false
         }
       }
       patch "/api/v2/forms/#{@form_1.id}", params: params
@@ -334,11 +315,11 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@form_1.id)
       expect(@form_1.name_en).to eq(params[:data][:name][:en])
+      expect(@form_1.visible).to eq(params[:data][:visible])
     end
 
     it "merges the changes in a form with fields and returns 200" do
       login_for_test({
-        form_sections: [@form_1, @form_2],
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -367,7 +348,6 @@ describe Api::V2::FormSectionsController, type: :request do
 
 
       @form_1.reload
-
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@form_1.id)
 
@@ -379,7 +359,6 @@ describe Api::V2::FormSectionsController, type: :request do
 
     it "add fields if they dont exist in the form" do
       login_for_test({
-        form_sections: [@form_1, @form_2],
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -422,9 +401,47 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
 
-    it "delete fields if they are not part of the request" do
+    it "deletes fields if they are not part of the request" do
       login_for_test({
-        form_sections: [@form_1, @form_2],
+        permissions: [
+          Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
+        ]
+      })
+
+      params = { 
+        data: {
+          name: {
+            en: 'Form Section Updated 2'
+          },
+          fields: [
+            {
+              name: 'fs2_field_2',
+              type: 'text_field',
+              display_name: {
+                en: 'Second field in form section 1'
+              }
+            }
+          ]
+        }
+      }
+
+      expect(@form_2.fields.last.name).to eq('fs2_field_1')
+
+      patch "/api/v2/forms/#{@form_2.id}", params: params
+
+      @form_2.reload
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@form_2.id)
+
+      field = @form_2.fields.last
+      expect(@form_2.name_en).to eq(params[:data][:name][:en])
+      expect(field.name).to eq(params[:data][:fields][0][:name])
+      expect(@form_2.fields.size).to eq(1)
+    end
+
+    it "does not delete fields if they are not editable" do
+      login_for_test({
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -459,7 +476,7 @@ describe Api::V2::FormSectionsController, type: :request do
       field = @form_1.fields.last
       expect(@form_1.name_en).to eq(params[:data][:name][:en])
       expect(field.name).to eq(params[:data][:fields][0][:name])
-      expect(@form_1.fields.size).to eq(1)
+      expect(@form_1.fields.size).to eq(2)
     end
 
     it "returns 403 if user isn't authorized to update records" do
@@ -531,7 +548,6 @@ describe Api::V2::FormSectionsController, type: :request do
 
     it "successfully deletes a form and its fields with a code of 200" do
       login_for_test({
-        form_sections: [@form_1, @form_2],
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -547,7 +563,6 @@ describe Api::V2::FormSectionsController, type: :request do
 
     it "successfully deletes a form, fields and subforms with a code of 200" do
       login_for_test({
-        form_sections: [@form_3],
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -564,7 +579,6 @@ describe Api::V2::FormSectionsController, type: :request do
 
     it "returns 422 if the form is invalid because one of its fields is not editable" do
       login_for_test({
-        form_sections: [@form_1, @form_2],
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -575,7 +589,8 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(response).to have_http_status(422)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/forms/#{@form_1.id}")
-      expect(json['errors'][0]['detail']).to eq('delete')
+      expect(json['errors'][0]['detail']).to eq('base')
+      expect(FormSection.find(@form_1.id)).not_to be_nil
     end
 
     it "returns 403 if user isn't authorized to delete forms" do
@@ -589,7 +604,6 @@ describe Api::V2::FormSectionsController, type: :request do
 
     it "returns a 404 when trying to delete a form with a non-existant id" do
       login_for_test({
-        form_sections: [@form_1, @form_2],
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -605,7 +619,15 @@ describe Api::V2::FormSectionsController, type: :request do
   end
 
   after :each do
+    Field.where(editable: false).each do |f|
+      f.editable = true
+      f.save!
+    end
     Field.destroy_all
+    FormSection.where(editable: false).each do |fs|
+      fs.editable = true
+      fs.save!
+    end
     FormSection.destroy_all
   end
 
