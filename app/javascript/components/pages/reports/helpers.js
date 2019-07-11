@@ -51,7 +51,8 @@ export const buildDataForTable = data => {
   const isObject = typeof entries[0][1] === "object";
   const columns = [
     formattedData.column_name,
-    isObject ? Object.keys(Object.values(formattedData.data)[0]) : ["TOTAL"]
+    Object.keys(Object.values(formattedData.data)[0]),
+    "TOTAL"
   ]
     .flat()
     .map(c => c.toUpperCase());
@@ -59,7 +60,12 @@ export const buildDataForTable = data => {
   let values = [];
   if (isObject) {
     values = entries.map(x => {
-      return [x[0], Object.values(x[1])].flat();
+      const numericValues = Object.values(x[1]);
+      return [
+        x[0],
+        numericValues,
+        numericValues.reduce((acum, curr) => acum + curr, 0)
+      ].flat();
     });
   } else {
     values = entries;
