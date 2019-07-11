@@ -4,7 +4,7 @@ import { Fab, Box } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
-import styles from "../styles.css";
+import styles from "./styles.css";
 
 const RecordFormToolbar = ({
   mode,
@@ -24,11 +24,10 @@ const RecordFormToolbar = ({
       heading = i18n.t(`${params.recordType}.register_new_${recordType}`);
     } else if (mode.isEdit || mode.isShow) {
       heading = i18n.t(`${params.recordType}.show_${recordType}`, {
-        short_id: shortId
+        short_id: shortId || "-------"
       });
     }
-
-    return <h2>{heading}</h2>;
+    return <h2 className={css.toolbarHeading}>{heading}</h2>;
   };
 
   const goBack = () => {

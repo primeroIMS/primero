@@ -28,7 +28,7 @@ export const getFirstTab = (state, query) => {
   );
 
   if (firstFormSection && firstFormSection.size > 0) {
-    return firstFormSection.first().get("id");
+    return firstFormSection.first().get("unique_id");
   }
 
   return null;
@@ -46,13 +46,13 @@ export const getFormNav = (state, query) => {
         groupOrder: fs.order_form_group,
         name: fs.name[window.I18n.locale],
         order: fs.order,
-        formId: fs.id,
+        formId: fs.unique_id,
         is_first_tab: fs.is_first_tab
       })
     )
-    .sort(fs => fs.order)
+    .sortBy(fs => fs.order)
     .groupBy(fs => fs.group)
-    .sort(fs => fs.first().get("groupOrder"));
+    .sortBy(fs => fs.first().get("groupOrder"));
 };
 
 export const getRecordForms = (state, query) => {
@@ -66,7 +66,12 @@ export const getRecordForms = (state, query) => {
 };
 
 export const getOption = (state, option) => {
-  return state.getIn([NAMESPACE, "options"]).filter(o => o.type === option);
+  const selectedOptions = state
+    .getIn([NAMESPACE, "options"], fromJS([]))
+    .filter(o => o.type === option)
+    .first();
+
+  return selectedOptions ? selectedOptions.options : [];
 };
 
 export const getRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);

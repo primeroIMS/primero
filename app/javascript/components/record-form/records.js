@@ -10,11 +10,14 @@ export const FieldRecord = Record({
   subform_section_id: null,
   help_text: {},
   multi_select: null,
-  option_strings_source: null
+  option_strings_source: null,
+  option_strings_text: null,
+  guiding_questions: ""
 });
 
 export const FormSectionRecord = Record({
   id: "",
+  unique_id: "",
   name: {},
   visible: null,
   is_first_tab: null,

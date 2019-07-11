@@ -10,23 +10,30 @@ const NavGroup = ({ group, open, handleClick, selectedForm }) => {
 
   const parentFormProps = {
     form: parentForm,
+    name: parentForm.name,
     open: open[parentForm.group],
     isNested,
     handleClick
   };
 
+  const sharedProps = {
+    selectedForm
+  };
+
   return (
     <>
-      <NavItem {...parentFormProps} selectedForm={selectedForm} />
+      <NavItem {...parentFormProps} {...sharedProps} />
       {isNested && (
         <Collapse in={open[parentForm.group]} timeout="auto" unmountOnExit>
           <List disablePadding dense>
             {forms.map(f => (
               <NavItem
                 form={f}
+                name={f.name}
                 handleClick={handleClick}
                 key={f.formId}
-                selectedForm={selectedForm}
+                groupItem
+                {...sharedProps}
               />
             ))}
           </List>
@@ -40,7 +47,7 @@ NavGroup.propTypes = {
   group: PropTypes.object,
   handleClick: PropTypes.func,
   open: PropTypes.object,
-  selectedForm: PropTypes.string
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default NavGroup;

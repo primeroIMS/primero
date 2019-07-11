@@ -1010,7 +1010,7 @@ export default {
       ]
     },
     {
-      type: "lookup-form-group-cp-case",
+      type: "lookup-form-group-cases-primeromodule-cp",
       options: [
         { id: "record_information", display_text: "Record Information" },
         { id: "approvals", display_text: "Approvals" },

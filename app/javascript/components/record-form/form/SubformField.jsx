@@ -6,6 +6,7 @@ import { FieldArray } from "formik";
 import { Button } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import FormSection from "./FormSection";
+import { constructInitialValues } from "../helpers";
 
 const SubformField = ({ field, values, mode }) => {
   const {
@@ -16,13 +17,15 @@ const SubformField = ({ field, values, mode }) => {
 
   const i18n = useI18n();
 
+  const initialSubformValue = constructInitialValues([subformSectionID]);
+
   return (
     <FieldArray
       name={name}
       render={arrayHelpers => {
         return (
           <div>
-            <h3>{displayName.en}</h3>
+            <h3>{displayName[i18n.locale]}</h3>
             {values &&
               values[name] &&
               values[name].map((subForm, index) => (
@@ -30,6 +33,7 @@ const SubformField = ({ field, values, mode }) => {
                   <FormSection
                     {...{
                       form: subformSectionID,
+                      parentField: field,
                       values,
                       index,
                       mode,
@@ -42,7 +46,7 @@ const SubformField = ({ field, values, mode }) => {
               <Button
                 size="medium"
                 variant="contained"
-                onClick={() => arrayHelpers.push({})}
+                onClick={() => arrayHelpers.push(initialSubformValue)}
               >
                 {i18n.t("form_section.buttons.add")}
               </Button>

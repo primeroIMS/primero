@@ -1,6 +1,6 @@
 import React, { useEffect, memo } from "react";
 import PropTypes from "prop-types";
-import { Grid, Box } from "@material-ui/core";
+import { Grid, Box, LinearProgress } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -17,7 +17,6 @@ import {
 } from "./selectors";
 import { RECORD_TYPES } from "./constants";
 
-// TODO: Initial form to show
 const RecordForms = ({ match, mode }) => {
   let submitForm = null;
 
@@ -72,6 +71,20 @@ const RecordForms = ({ match, mode }) => {
     record
   };
 
+  const toolbarProps = {
+    mode: containerMode,
+    params,
+    recordType,
+    handleFormSubmit,
+    shortId: record ? record.get("short_id") : null
+  };
+
+  const navProps = {
+    formNav,
+    selectedForm,
+    firstTab
+  };
+
   useEffect(() => {
     if (params.id && (containerMode.isShow || containerMode.isEdit)) {
       dispatch(fetchRecord(params.recordType, params.id));
@@ -81,24 +94,16 @@ const RecordForms = ({ match, mode }) => {
   return (
     <>
       <Grid container>
-        <RecordFormToolbar
-          {...{
-            mode: containerMode,
-            params,
-            recordType,
-            handleFormSubmit,
-            shortId: record ? record.get("short_id") : null
-          }}
-        />
+        <RecordFormToolbar {...toolbarProps} />
         <Box display="flex" width="100%" height="100%">
           <Box width={255}>
-            <Nav {...{ formNav, selectedForm, firstTab }} />
+            {formNav ? <Nav {...navProps} /> : <LinearProgress />}
           </Box>
           <Box className={css.divider}>
             <Box className={css.dividerInner} />
           </Box>
           <Box width={680} px={3}>
-            {forms && <RecordForm {...formProps} />}
+            {forms ? <RecordForm {...formProps} /> : <LinearProgress />}
           </Box>
         </Box>
       </Grid>

@@ -28,13 +28,13 @@ const Nav = ({ formNav, selectedForm, firstTab }) => {
 
     return (
       <List>
-        {formGroups.map(group => {
+        {formGroups.map(g => {
           return (
             <NavGroup
-              group={group}
+              group={g}
               handleClick={handleClick}
               open={open}
-              key={group.first().formId}
+              key={g.first().formId}
               selectedForm={selectedForm}
             />
           );
@@ -48,8 +48,8 @@ const Nav = ({ formNav, selectedForm, firstTab }) => {
 
 Nav.propTypes = {
   formNav: PropTypes.object,
-  selectedForm: PropTypes.string,
-  firstTab: PropTypes.string
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  firstTab: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default Nav;

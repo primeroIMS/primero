@@ -2,17 +2,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Box, IconButton } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FormSectionField from "./FormSectionField";
+import styles from "./styles.css";
 
-const FormSection = ({ form, values, index, mode, arrayHelpers }) => {
+const FormSection = ({
+  form,
+  values,
+  index,
+  mode,
+  arrayHelpers,
+  parentField
+}) => {
+  const css = makeStyles(styles)();
+
   return (
     <>
       {form.is_nested ? (
         <Box display="flex">
           <Box flexGrow="1">
-            <h4>{form.name.en}</h4>
+            <h3 className={css.subformHeading}>{form.name.en}</h3>
           </Box>
           <Box>
             {!mode.isShow && (
@@ -28,11 +39,13 @@ const FormSection = ({ form, values, index, mode, arrayHelpers }) => {
           </Box>
         </Box>
       ) : (
-        <h3>{form.name.en}</h3>
+        <h1 className={css.formHeading}>{form.name.en}</h1>
       )}
       {form.fields.map(field => (
         <Box my={3} key={field.name}>
-          <FormSectionField {...{ field, index, values, form, mode }} />
+          <FormSectionField
+            {...{ field, index, values, form, mode, parentField }}
+          />
         </Box>
       ))}
     </>
@@ -44,7 +57,8 @@ FormSection.propTypes = {
   values: PropTypes.object,
   index: PropTypes.number,
   mode: PropTypes.object,
-  arrayHelpers: PropTypes.object
+  arrayHelpers: PropTypes.object,
+  parentField: PropTypes.object
 };
 
 export default FormSection;
