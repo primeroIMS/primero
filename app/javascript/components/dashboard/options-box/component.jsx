@@ -6,11 +6,12 @@ import {
   MuiThemeProvider,
   useTheme
 } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 import makeStyles from "@material-ui/styles/makeStyles";
 import styles from "./styles.css";
 
-const OptionsBox = ({ title, action, children, classes, themes }) => {
+const OptionsBox = ({ title, to, action, children, classes, themes }) => {
   const getMuiTheme = () =>
     createMuiTheme({
       overrides: {
@@ -52,7 +53,18 @@ const OptionsBox = ({ title, action, children, classes, themes }) => {
           cssOverrides.OptionsBox
         )}
       >
-        <CardHeader action={action} title={title} />
+        <CardHeader
+          action={action}
+          title={
+            typeof to !== "undefined" ? (
+              <Link to={to} className={css.CardLink}>
+                {title}
+              </Link>
+            ) : (
+              title
+            )
+          }
+        />
         <CardContent>{children}</CardContent>
       </Card>
     </MuiThemeProvider>
@@ -61,6 +73,7 @@ const OptionsBox = ({ title, action, children, classes, themes }) => {
 
 OptionsBox.propTypes = {
   title: PropTypes.string,
+  to: PropTypes.node,
   action: PropTypes.node,
   children: PropTypes.node,
   classes: PropTypes.object,

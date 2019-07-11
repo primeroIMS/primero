@@ -49,6 +49,15 @@ export default [
       {
         path: "/tracing_requests",
         component: Page.TracingRequestList
+      },
+      {
+        path: "/reports",
+        exact: true,
+        component: Page.Reports
+      },
+      {
+        path: "/reports/:id",
+        component: Page.ReportDetail
       }
     ]
   }

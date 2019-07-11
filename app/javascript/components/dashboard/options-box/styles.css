@@ -5,3 +5,17 @@
 .CardShadow {
   box-shadow: $(theme.primero.shadows[0]);
 }
+
+.CardLink {
+  text-decoration: none;
+  font-size: $(theme.typography.pxToRem(17));
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #231e1f;
+  &:hover {
+    color:  $(theme.primero.colors.darkGrey);
+  }
+}

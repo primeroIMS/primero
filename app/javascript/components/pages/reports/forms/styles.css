@@ -1,0 +1,13 @@
+.Title {
+  font-size: $(theme.typography.pxToRem(22));
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
+}
+
+.ExportButton {
+  color: $(theme.primero.colors.blue);
+}
