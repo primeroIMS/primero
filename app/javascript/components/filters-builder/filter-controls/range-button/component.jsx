@@ -14,7 +14,6 @@ const RangeButton = ({ recordType, exclusive, props, value, setValue }) => {
   const i18n = useI18n();
   const { id, options } = props;
   const { values } = options;
-  const notTranslatedFilters = ["age_range"];
 
   return (
     <Grid container spacing={2} direction="column" alignItems="center">
@@ -26,9 +25,7 @@ const RangeButton = ({ recordType, exclusive, props, value, setValue }) => {
         >
           {values.map(v => (
             <ToggleButton key={v.id} value={v.id} className={css.toogleButton}>
-              {notTranslatedFilters.includes(id)
-                ? v.display_name
-                : i18n.t(`${recordType.toLowerCase()}.filter_by.${v.id}`)}
+              {i18n.t(`${recordType.toLowerCase()}.filter_by.${v.id}`)}
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
