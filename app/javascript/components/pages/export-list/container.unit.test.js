@@ -14,7 +14,7 @@ describe("<ExportList />", () => {
       Map({
         records: Map({
           ExportList: {
-            exports: fromJS([
+            data: fromJS([
               {
                 id: "d5e1a4a019ec727efd34a35d1d9a271e",
                 file: "PRIMERO-CHILD-UNHCR.CSV",

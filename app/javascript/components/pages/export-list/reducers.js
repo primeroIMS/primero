@@ -7,7 +7,7 @@ const DEFAULT_STATE = Map({});
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.EXPORTS:
-      return state.set("exports", fromJS(payload.exports));
+      return state.set("data", fromJS(payload.data));
     default:
       return state;
   }
