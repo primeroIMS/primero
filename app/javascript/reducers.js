@@ -12,6 +12,7 @@ import * as ExportList from "./components/pages/export-list";
 import * as Filter from "./components/filters";
 import * as FiltersBuilder from "./components/filters-builder";
 import * as Filters from "./components/filters-builder/filter-controls";
+import * as Support from "./components/pages/support";
 
 const rootReducer = {
   records: combineReducers({
@@ -26,7 +27,8 @@ const rootReducer = {
     ...Filters.radioButtonsReducer,
     ...Filters.rangeButtonReducer,
     ...Filters.selectReducer,
-    ...Filters.checkboxReducer
+    ...Filters.checkboxReducer,
+    ...Support.reducers
   }),
   ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
   ...RecordForms.reducers,

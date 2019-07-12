@@ -53,6 +53,10 @@ export default [
       {
         path: "/exports",
         component: Page.ExportList
+      },
+      {
+        path: "/support",
+        component: Page.Support
       }
     ]
   }
