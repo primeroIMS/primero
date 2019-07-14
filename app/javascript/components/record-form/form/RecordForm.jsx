@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Formik, Form } from "formik";
 import isEmpty from "lodash/isEmpty";
+import { useI18n } from "components/i18n";
 import FormSection from "./FormSection";
 import { constructInitialValues } from "../helpers";
 
@@ -13,6 +14,8 @@ const RecordForm = ({
   bindSubmitForm,
   record
 }) => {
+  const i18n = useI18n();
+
   let initialFormValues = constructInitialValues(forms);
 
   if (record) {
@@ -35,6 +38,7 @@ const RecordForm = ({
                       values={values}
                       key={form.unique_id}
                       mode={mode}
+                      locale={i18n.locale}
                     />
                   );
                 }

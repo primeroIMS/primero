@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { DatePicker } from "@material-ui/pickers";
 import { useI18n } from "components/i18n";
-import { Field } from "formik";
+import { FastField } from "formik";
 
 const DateField = ({ name, value, helperText, ...other }) => {
   const i18n = useI18n();
@@ -13,7 +13,7 @@ const DateField = ({ name, value, helperText, ...other }) => {
   };
 
   return (
-    <Field
+    <FastField
       {...fieldProps}
       render={({ field, form }) => {
         return (

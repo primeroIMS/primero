@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { SimpleFileUpload } from "formik-material-ui";
-import { Field, FieldArray } from "formik";
+import { FastField, FieldArray } from "formik";
 import { Box, IconButton, Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -32,7 +32,7 @@ const AttachmentField = ({
             ? values[name].map((a, index) => {
                 return (
                   <Box display="flex" my={2}>
-                    <Field
+                    <FastField
                       {...fieldProps}
                       name={`${name}[${index}][${attachment}]`}
                       value={values[name][index]}

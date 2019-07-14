@@ -1,6 +1,6 @@
 import React from "react";
 import { TextField as MuiTextField } from "formik-material-ui";
-import { Field } from "formik";
+import { FastField } from "formik";
 
 const TextField = props => {
   const fieldProps = {
@@ -8,7 +8,7 @@ const TextField = props => {
     ...props
   };
 
-  return <Field {...fieldProps} />;
+  return <FastField {...fieldProps} />;
 };
 
 export default TextField;

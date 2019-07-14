@@ -3,6 +3,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
+import { useI18n } from "components/i18n";
 import SubformField from "./SubformField";
 import DateField from "./DateField";
 import SelectField from "./SelectField";
@@ -16,6 +17,7 @@ import styles from "./styles.css";
 
 const FormSectionField = ({ field, values, index, mode, parentField }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
 
   const {
     display_name: displayName,
@@ -36,7 +38,7 @@ const FormSectionField = ({ field, values, index, mode, parentField }) => {
   const fieldProps = {
     name: fieldName,
     autoComplete: "off",
-    label: displayName.en,
+    label: displayName[i18n.locale],
     value: fieldValue,
     disabled: mode.isShow || disabled || !editable
   };
@@ -56,7 +58,7 @@ const FormSectionField = ({ field, values, index, mode, parentField }) => {
         root: css.inputLabel
       }
     },
-    helperText: helpText ? helpText.en : ""
+    helperText: helpText ? helpText[i18n.locale] : ""
   };
 
   if (visible) {

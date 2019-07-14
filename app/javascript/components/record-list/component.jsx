@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import styles from "./styles.css";
-import RecordListHeading from "./RecordListHeading";
+import RecordListToolbar from "./RecordListToolbar";
 
 const defaultFilters = {
   per: 20,
@@ -31,7 +31,7 @@ const RecordList = ({
 
   return (
     <Box className={css.root}>
-      <RecordListHeading {...{ recordType, title, primeroModule }} />
+      <RecordListToolbar {...{ recordType, title, primeroModule }} />
       <Box className={css.content}>
         <Box className={css.table}>
           {!isEmpty(data.records) && (

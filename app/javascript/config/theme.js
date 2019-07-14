@@ -89,7 +89,12 @@ export default createMuiTheme({
     },
     MuiFormControlLabel: {
       label: {
-        fontSize: "0.875rem"
+        fontSize: "0.7rem"
+      }
+    },
+    MuiFormHelperText: {
+      root: {
+        lineHeight: "1.4em"
       }
     }
   }

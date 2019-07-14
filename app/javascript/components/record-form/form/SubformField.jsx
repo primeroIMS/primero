@@ -37,7 +37,8 @@ const SubformField = ({ field, values, mode }) => {
                       values,
                       index,
                       mode,
-                      arrayHelpers
+                      arrayHelpers,
+                      locale: i18n.locale
                     }}
                   />
                 </div>

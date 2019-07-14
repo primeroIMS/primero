@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { RadioGroup } from "formik-material-ui";
-import { Field } from "formik";
+import { FastField } from "formik";
 import omitBy from "lodash/omitBy";
 import { useSelector } from "react-redux";
 import { useI18n } from "components/i18n";
@@ -48,7 +48,7 @@ const RadioField = ({ label, disabled, value, option, ...other }) => {
       <InputLabel shrink htmlFor={other.name}>
         {label}
       </InputLabel>
-      <Field
+      <FastField
         {...fieldProps}
         render={({ form }) => {
           return (

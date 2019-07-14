@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Field } from "formik";
+import { FastField } from "formik";
 import { CheckboxWithLabel } from "formik-material-ui";
 
 const TickField = ({ label, ...rest }) => {
@@ -10,7 +10,7 @@ const TickField = ({ label, ...rest }) => {
     ...rest
   };
 
-  return <Field {...fieldProps} />;
+  return <FastField {...fieldProps} />;
 };
 
 TickField.propTypes = {
