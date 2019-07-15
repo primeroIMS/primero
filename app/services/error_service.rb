@@ -36,6 +36,7 @@ class ErrorService
           resource: request.path
         )
       ]
+      Rails.logger.error error.backtrace.join("\n\t")
     end
     [code, errors]
   end

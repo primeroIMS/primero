@@ -8,13 +8,25 @@ import * as Nav from "./components/nav";
 import * as CaseList from "./components/pages/case-list";
 import * as Dashboard from "./components/pages/dashboard";
 import * as RecordForms from "./components/record-form";
+import * as ExportList from "./components/pages/export-list";
+import * as Filter from "./components/filters";
+import * as FiltersBuilder from "./components/filters-builder";
+import * as Filters from "./components/filters-builder/filter-controls";
 
 const rootReducer = {
   records: combineReducers({
     ...CaseList.reducers,
     ...TracingRequestList.reducers,
     ...IncidentList.reducers,
-    ...Dashboard.reducers
+    ...Dashboard.reducers,
+    ...ExportList.reducers,
+    ...Filter.reducers,
+    ...FiltersBuilder.reducers,
+    ...Filters.chipsReducer,
+    ...Filters.radioButtonsReducer,
+    ...Filters.rangeButtonReducer,
+    ...Filters.selectReducer,
+    ...Filters.checkboxReducer
   }),
   ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
   ...RecordForms.reducers,

@@ -1,93 +1,55 @@
 module Api::V2
   class FormSectionsController < ApplicationApiController
-    @model_class = FormSection
-
-    before_action :permitted_forms, only: [:index, :show, :update, :destroy]
+    helper I18nFieldHelper
+    before_action :form_section_params, only: [:create, :update]
 
     def index
-      authorize! :index, model_class
-      params.permit!
+      authorize! :index, FormSection
+      @form_sections = FormSection.list_or_filter_by_record_type_and_module_id(params[:record_type], params[:module_id])
     end
 
     def show
-      authorize! :read, model_class
-      @form_section = model_class.find(params[:id])
-      authorize! :read, @form_section
-      check_permitted_form(@form_section)
+      authorize! :read, FormSection
+      @form_section = FormSection.find(params[:id])
     end
 
     def create
-      authorize! :create, model_class
-      params.permit!
-      @form_section = model_class.new(form_section_localized_params)
-      @form_section.fields = fields_localized_params.map{ |f| Field.new(f) }
-      @form_section.primero_modules = primero_modules
+      authorize! :create, FormSection
+      @form_section = FormSection.new_with_properties(form_section_properties, @form_section_params['module_ids'])
       @form_section.save!
       status = params[:data][:id].present? ? 204 : 200
-      render 'api/v2/form_sections/create', status: status
+      render :create, status: status
     end
 
     def update
-      authorize! :update, model_class
-      @form_section = model_class.find(params[:id])
-      authorize! :update, @form_section
-      check_permitted_form(@form_section)
-      params.permit!
-
-      @form_section.assign_attributes(form_section_localized_params)
-
-      @form_section.primero_modules = primero_modules if form_section_params.key?('module_ids')
-
-      if form_section_params.key?('fields')
-        if fields_localized_params.present?
-          @form_section.create_or_update_fields(fields_localized_params)
-        else
-          # TODO: If the request specifies an empty fields property, should we delete those fields?
-          @form_section.fields = []
-        end
-      end
-
+      authorize! :update, FormSection
+      @form_section = FormSection.find(params[:id])
+      @form_section.merge_properties(form_section_properties, @form_section_params['module_ids'])
       @form_section.save!
     end
 
     def destroy
-      # TODO: Check references in roles and modules.
-      authorize! :enable_disable_record, model_class
-      @form_section = model_class.find(params[:id])
-      check_permitted_form(@form_section)
-      @form_section.permitted_destroy!
+      authorize! :enable_disable_record, FormSection
+      @form_section = FormSection.find(params[:id])
+      @form_section.destroy!
     end
+
+    protected
 
     def form_section_params
-      DestringifyService.destringify(params['data'].try(:to_h) || {})
+      nested_props = [{"fields" => [Field.permitted_api_params]}, {"module_ids" => []}, {"form_group_name" => {}}]
+      @form_section_params = params.require(:data).permit(FormSection.permitted_api_params + nested_props)
     end
 
-    def form_section_localized_params
-      localized_form_params = LocalizedFieldService.to_localized_fields(FormSection, form_section_params)
-      localized_form_params.reject{ |k,_|  ['fields', 'module_ids'].include?(k) }
-    end
-
-    def fields_localized_params
-      return [] if form_section_params['fields'].blank?
-      form_section_params['fields'].map do |field_param|
-        LocalizedFieldService.to_localized_fields(Field, field_param)
+    def form_section_properties
+      form_section_props = @form_section_params.reject{ |k, _|  ['fields', 'module_ids'].include?(k) }
+      formi18n_props = FieldI18nService.convert_i18n_properties(FormSection, form_section_props)
+      if form_section_params.key?('fields')
+        formi18n_props['fields_attributes'] = (@form_section_params['fields'] || []).map do |field_param|
+            FieldI18nService.convert_i18n_properties(Field, field_param)
+        end
       end
+      formi18n_props
     end
-
-    def primero_modules
-      return [] if form_section_params['module_ids'].blank?
-      PrimeroModule.where(unique_id: form_section_params['module_ids'])
-    end
-
-    def permitted_forms
-      primero_module = PrimeroModule.find_by(unique_id: params[:module_id]) if params[:module_id].present?
-      user_permitted_forms = current_user.permitted_forms(primero_module, params[:record_type])
-      @permitted_forms = user_permitted_forms + FormSection.nested_forms(user_permitted_forms)
-    end
-
-    def check_permitted_form(form_section)
-      raise CanCan::AccessDenied.new unless permitted_forms.include?(form_section)
-    end
-
   end
 end
