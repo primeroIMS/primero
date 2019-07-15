@@ -39,3 +39,15 @@ The API behavior is identical to that of cases. See the case endpoints above for
 * Create a new tracing request: `POST /api/v2/tracing_requests`
 * Update an existing tracing request: `PATCH /api/v2/tracing_requests/:id`
 * Disable an existing tracing request: `DELETE /api/v2/tracing_requests/:id`
+
+
+## Form Section Endpoints
+
+Endpoints for querying and manipulating individual form sections and related resources in Primero.
+The API behavior is similar to that of cases.
+
+* [Query for forms](v2/docs/forms/get.md) : `GET /api/v2/forms`
+* [Fetch an individual form](v2/docs/forms/id/get.md): `GET /api/v2/forms/:id`
+* [Create a new form](v2/docs/forms/post.md) `POST /api/v2/forms`
+* [Update an existing form](v2/docs/forms/id/patch.md) `PATCH /api/v2/forms/:id`
+* [Delete an existing form with its associated fields](v2/docs/forms/id/delete.md) `DELETE /api/v2/forms/:id`

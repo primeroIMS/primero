@@ -11,7 +11,7 @@ class Field < ApplicationRecord
   # Since Rails 5 belongs_to acts as a validate_presence_of.
   # This relation will be optional because the scoped association in FormSection will fail otherwise.
   belongs_to :form_section, optional: true
-  belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', optional: true
+  belongs_to :subform, foreign_key: 'subform_section_id', class_name: 'FormSection', optional: true, dependent: :destroy
   belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id', class_name: 'FormSection', optional: true
 
   alias_attribute :form, :form_section
@@ -47,6 +47,46 @@ class Field < ApplicationRecord
   before_validation :generate_options_keys
   before_validation :sync_options_keys
   before_create :sanitize_name
+
+  def self.permitted_api_params
+    [
+      "id",
+      "name",
+      "type",
+      "multi_select",
+      "form_section_id",
+      "visible",
+      "mobile_visible",
+      "hide_on_view_page",
+      "show_on_minify_form",
+      "disabled",
+      {"display_name"=>{}},
+      {"help_text"=>{}},
+      {"guiding_questions"=>{}},
+      {"tally"=>{}},
+      {"tick_box_label"=>{}},
+      {"option_strings_text"=>{}},
+      "option_strings_source",
+      "order",
+      "hidden_text_field",
+      "subform_section_id",
+      "collapsed_field_for_subform_section_id",
+      "autosum_total",
+      "autosum_group",
+      "selected_value",
+      "link_to_path",
+      "link_to_path_external",
+      "field_tags",
+      "searchable_select",
+      "expose_unique_id",
+      "subform_sort_by",
+      "subform_group_by",
+      "required",
+      "date_validation",
+      "date_include_time",
+      "matchable"
+    ]
+  end
 
   #TODO: Move to migration
   def defaults
