@@ -389,8 +389,8 @@ class Field
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     options_list = []
     if self.type == Field::TICK_BOX
-      options_list << {id: 'true', display_text: I18n.t('true')}
-      options_list << {id: 'false', display_text: I18n.t('false')}
+      options_list << {id: 'true', display_text: I18n.t('true')}.with_indifferent_access
+      options_list << {id: 'false', display_text: I18n.t('false')}.with_indifferent_access
     elsif self.option_strings_source.present?
       source_options = self.option_strings_source.split
       #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
@@ -416,7 +416,7 @@ class Field
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
-        options_list += clazz.all_names
+        options_list += clazz.try(:all_names) || []
       end
     else
       options_list += (self.option_strings_text.present? ? display_option_strings(locale) : [])

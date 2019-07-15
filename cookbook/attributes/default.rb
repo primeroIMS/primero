@@ -11,6 +11,7 @@ default[:primero].tap do |p|
   p[:bin_dir] = File.join(node[:primero][:home_dir], 'bin')
   p[:app_user] = 'primero'
   p[:app_group] = 'primero'
+  p[:check_online_status] = 'on'
 
   p[:queue].tap do |queue|
     queue[:host] = 'localhost'
