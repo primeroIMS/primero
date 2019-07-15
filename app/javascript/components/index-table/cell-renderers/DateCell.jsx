@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useI18n } from "components/i18n";
 
 const DateCell = ({ value }) => {
-  return <>{value}</>;
+  const i18n = useI18n();
+  return <>{i18n.l("date.formats.default", value)}</>;
 };
 
 DateCell.propTypes = {

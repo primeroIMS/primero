@@ -68,7 +68,7 @@ const SubformField = ({ field, formik, mode }) => {
 
   const ExpansionWrapper = (children, header) => {
     return (
-      <ExpansionPanel>
+      <ExpansionPanel className={css.expansionPanel}>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           {header}
         </ExpansionPanelSummary>
@@ -114,7 +114,6 @@ const SubformField = ({ field, formik, mode }) => {
   const renderFieldArray = arrayHelpers => {
     return (
       <>
-        <h3>{displayName[i18n.locale]}</h3>
         {renderFields(arrayHelpers)}
         {!mode.isShow && (
           <Button

@@ -35,3 +35,19 @@ export const fetchOptions = () => async dispatch => {
     payload: mockedData.data.map(option => Option(option))
   });
 };
+
+export const saveRecord = (
+  namespace,
+  saveMethod,
+  body,
+  id
+) => async dispatch => {
+  await dispatch({
+    type: Actions.SAVE_RECORD,
+    api: {
+      path: saveMethod === "update" ? `${namespace}/${id}` : `${namespace}`,
+      method: saveMethod === "update" ? "PATCH" : "POST",
+      body
+    }
+  });
+};

@@ -8,7 +8,7 @@ import { Nav } from "./nav";
 import NAMESPACE from "./namespace";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchRecord } from "./action-creators";
+import { fetchRecord, saveRecord } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -58,10 +58,20 @@ const RecordForms = ({ match, mode }) => {
 
   const formProps = {
     onSubmit: (initialValues, values, setSubmitting) => {
-      setTimeout(() => {
-        console.log(compactValues(values, initialValues));
-        setSubmitting(false);
-      }, 400);
+      dispatch(
+        saveRecord(
+          params.recordType,
+          mode.isEdit ? "update" : "save",
+          {
+            data: {
+              ...compactValues(values, initialValues),
+              module_id: selectedModule.primeroModule
+            }
+          },
+          params.id
+        )
+      );
+      setSubmitting(false);
     },
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;
