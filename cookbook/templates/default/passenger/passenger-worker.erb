@@ -29,6 +29,7 @@ init() {
   export RAILS_ENV=<% node[:primero][:rails_env] %>
   export RAILS_LOG_PATH=<%= @rails_log_dir %>
   export PASSENGER_TEMP_DIR=<%= node[:primero][:app_dir] %>/tmp
+  export CHECK_ONLINE_STATUS=<%= node[:primero][:check_online_status] %>
   cd "$APPDIR"
 }
 
@@ -98,4 +99,3 @@ case "$ACTION" in
     usage && exit 1
   ;;
 esac
-

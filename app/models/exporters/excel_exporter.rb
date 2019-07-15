@@ -178,7 +178,7 @@ module Exporters
       #Clean up name and truncate to the allowed limit.
       #Patch to remove non-ascii characters
       #TODO - refactor to use gem that better handles unicode characters (such as Arabic)
-      work_sheet_name = "(#{counter}) #{form_name.sub(/[\[\]\:\*\?\/\\]/, " ")}".encode("iso-8859-1", undef: :replace, replace: "").strip.truncate(31)
+      work_sheet_name = "(#{counter}) #{form_name.gsub(/[\[\]\:\*\?\/\\]/, " ")}".encode("iso-8859-1", undef: :replace, replace: "").strip.truncate(31)
       worksheet = workbook.sheets.select{|sheet| sheet.name == work_sheet_name}.first
       unless worksheet.present?
         worksheet = workbook.add_worksheet(work_sheet_name)
