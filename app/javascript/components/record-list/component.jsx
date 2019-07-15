@@ -1,4 +1,5 @@
 import { IndexTable } from "components/index-table";
+import { Filters } from "components/filters";
 import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import React, { useEffect } from "react";
@@ -46,7 +47,9 @@ const RecordList = ({
             />
           )}
         </Box>
-        <Box className={css.filters}>Filters</Box>
+        <Box className={css.filters}>
+          <Filters recordType={namespace} />
+        </Box>
       </Box>
     </Box>
   );

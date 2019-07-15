@@ -1,0 +1,14 @@
+.toggleContainer {
+  margin: 10px;
+}
+
+.toogleButton {
+  color: $(theme.primero.colors.blue);
+  border: 1px solid $(theme.primero.colors.blue);
+}
+.toogleButton:first-child{
+  border-radius: .25em 0 0 .25em;
+}
+.toogleButton:last-child{
+  border-radius: 0 .25em .25em 0;
+}

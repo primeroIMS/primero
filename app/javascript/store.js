@@ -45,6 +45,5 @@ export default () => {
     preloadedState,
     composeEnhancers(applyMiddleware(...middleware))
   );
-
   return store;
 };

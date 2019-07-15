@@ -4,3 +4,15 @@ export const RECORDS_FINISHED = "RECORDS_FINISHED";
 export const RECORDS_SUCCESS = "RECORDS_SUCCESS";
 export const SET_PAGINATION = "SET_PAGINATION";
 export const SET_FILTERS = "SET_FILTERS";
+// Filters
+export const ADD_CHECKBOX = "ADD_CHECKBOX";
+export const DELETE_CHECKBOX = "DELETE_CHECKBOX";
+export const ADD_SELECT = "ADD_SELECT";
+export const ADD_RADIO_BUTTON = "ADD_RADIO_BUTTON";
+export const ADD_RANGE_BUTTON = "ADD_RANGE_BUTTON";
+export const ADD_CHIP = "ADD_CHIP";
+export const DELETE_CHIP = "DELETE_CHIP";
+// Reset Single Filter
+export const RESET_CHIPS = "RESET_CHIPS";
+export const RESET_RADIO_BUTTON = "RESET_RADIO_BUTTON";
+export const RESET_RANGE_BUTTON = "RESET_RANGE_BUTTON";
