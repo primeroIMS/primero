@@ -19,15 +19,15 @@ const TableValues = ({ columns, values }) => {
         <TableHead>
           <TableRow>
             {columns.map(column => {
-              return <TableCell key={column}>{column}</TableCell>;
+              return <TableCell key={`${column}-column`}>{column}</TableCell>;
             })}
           </TableRow>
         </TableHead>
         <TableBody>
           {values.map(value => (
-            <TableRow key={value[0]}>
-              {value.map(row => (
-                <TableCell key={row}>{row}</TableCell>
+            <TableRow key={`${value[0]}-row-data`}>
+              {value.map((row, index) => (
+                <TableCell key={`${row}-${index}-value`}>{row}</TableCell>
               ))}
             </TableRow>
           ))}
@@ -38,8 +38,8 @@ const TableValues = ({ columns, values }) => {
 };
 
 TableValues.propTypes = {
-  columns: PropTypes.object,
-  values: PropTypes.object
+  columns: PropTypes.array,
+  values: PropTypes.array
 };
 
 export default TableValues;
