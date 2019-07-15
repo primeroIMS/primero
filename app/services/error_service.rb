@@ -2,7 +2,7 @@ class ErrorService
 
   def self.handle(error, request)
     case error
-    when CanCan::AccessDenied
+    when CanCan::AccessDenied, Errors::ForbiddenOperation
       code = 403
       errors = [ ApplicationError.new(code: 403, message: 'Forbidden', resource: request.path) ]
     when ActiveRecord::RecordNotFound
