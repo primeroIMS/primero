@@ -1,5 +1,22 @@
-import isEmpty from "lodash/isEmpty";
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-shadow */
+/* eslint-disable func-names */
+import { isEmpty, transform, isEqual, isObject } from "lodash";
 import * as C from "./constants";
+
+function difference(object, base) {
+  return transform(object, (result, value, key) => {
+    if (!isEqual(value, base[key])) {
+      result[key] =
+        isObject(value) && isObject(base[key])
+          ? difference(value, base[key])
+          : value;
+    }
+  });
+}
+
+export const compactValues = (initialValues, values) =>
+  difference(initialValues, values);
 
 export const constructInitialValues = forms => {
   return !isEmpty(forms)
@@ -21,8 +38,10 @@ export const constructInitialValues = forms => {
                 (f.type === C.SELECT_FIELD && f.multi_select)
               ) {
                 defaultValue = [];
-              } else if ([C.DATE_FIELD, C.TICK_FIELD].includes(f.type)) {
+              } else if ([C.DATE_FIELD].includes(f.type)) {
                 defaultValue = null;
+              } else if (f.type === C.TICK_FIELD) {
+                defaultValue = false;
               } else {
                 defaultValue = "";
               }

@@ -28,7 +28,8 @@ export const getFirstTab = (state, query) => {
   );
 
   if (firstFormSection && firstFormSection.size > 0) {
-    return firstFormSection.first().get("unique_id");
+    const form = firstFormSection.first();
+    return form;
   }
 
   return null;

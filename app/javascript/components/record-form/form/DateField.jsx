@@ -4,12 +4,11 @@ import { DatePicker } from "@material-ui/pickers";
 import { useI18n } from "components/i18n";
 import { FastField } from "formik";
 
-const DateField = ({ name, value, helperText, ...other }) => {
+const DateField = ({ name, helperText, ...rest }) => {
   const i18n = useI18n();
 
   const fieldProps = {
-    name,
-    value
+    name
   };
 
   return (
@@ -23,7 +22,7 @@ const DateField = ({ name, value, helperText, ...other }) => {
               format: "dd-MMM-yyyy",
               helperText: helperText || i18n.t("fields.date_help"),
               clearable: true,
-              ...other
+              ...rest
             }}
             onChange={date => form.setFieldValue(name, date, true)}
           />

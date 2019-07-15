@@ -20,7 +20,12 @@ const Nav = ({ formNav, selectedForm, firstTab }) => {
   };
 
   useEffect(() => {
-    dispatch(setSelectedForm(firstTab));
+    dispatch(setSelectedForm(firstTab.unique_id));
+    setOpen(
+      Object.assign({}, open, {
+        [firstTab.form_group_id]: !open[firstTab.form_group_id]
+      })
+    );
   }, [firstTab]);
 
   if (formNav) {
@@ -49,7 +54,7 @@ const Nav = ({ formNav, selectedForm, firstTab }) => {
 Nav.propTypes = {
   formNav: PropTypes.object,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  firstTab: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  firstTab: PropTypes.object
 };
 
 export default Nav;

@@ -1,10 +1,7 @@
-/* eslint-disable import/no-cycle */
-
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
-import SubformField from "./SubformField";
 import DateField from "./DateField";
 import SelectField from "./SelectField";
 import TextField from "./TextField";
@@ -15,36 +12,22 @@ import AttachmentField from "./AttachmentField";
 import * as C from "../constants";
 import styles from "./styles.css";
 
-const FormSectionField = ({ field, values, index, mode, parentField }) => {
+const FormSectionField = ({ name, field, mode }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
   const {
-    display_name: displayName,
-    help_text: helpText,
-    name,
     type,
+    help_text: helpText,
+    display_name: displayName,
     disabled,
-    editable,
-    visible
+    editable
   } = field;
 
-  const isNested = index >= 0;
-  const fieldName = isNested ? `${parentField.name}[${index}].${name}` : name;
-  const fieldValue = isNested
-    ? values[parentField.name][index][name]
-    : values[fieldName];
-
   const fieldProps = {
-    name: fieldName,
+    name,
+    field,
     autoComplete: "off",
-    label: displayName[i18n.locale],
-    value: fieldValue,
-    disabled: mode.isShow || disabled || !editable
-  };
-
-  const txtInputFieldProps = {
-    ...fieldProps,
     fullWidth: true,
     InputProps: {
       readOnly: mode.isShow,
@@ -58,77 +41,39 @@ const FormSectionField = ({ field, values, index, mode, parentField }) => {
         root: css.inputLabel
       }
     },
-    helperText: helpText ? helpText[i18n.locale] : ""
+    label: displayName[i18n.locale],
+    helperText: helpText ? helpText[i18n.locale] : "",
+    disabled: mode.isShow || disabled || !editable
   };
 
-  if (visible) {
-    switch (type) {
-      case C.SUBFORM_SECTION:
-        return <SubformField {...{ field, values, mode }} />;
+  const FieldComponent = (t => {
+    switch (t) {
       case C.DATE_FIELD:
-        return <DateField {...txtInputFieldProps} />;
+        return DateField;
       case C.SELECT_FIELD:
-        return (
-          <SelectField
-            {...txtInputFieldProps}
-            option={field.option_strings_source || field.option_strings_text}
-            multiple={field.multi_select}
-            mode={mode}
-          />
-        );
-      case C.NUMERIC_FIELD:
-        return <TextField {...txtInputFieldProps} type="number" />;
+        return SelectField;
       case C.TICK_FIELD:
-        return <TickField {...fieldProps} />;
+        return TickField;
       case C.RADIO_FIELD:
-        return (
-          <RadioField
-            {...fieldProps}
-            option={field.option_strings_source || field.option_strings_text}
-          />
-        );
+        return RadioField;
       case C.SEPERATOR:
-        return <Seperator {...fieldProps} />;
+        return Seperator;
       case C.PHOTO_FIELD:
-        return (
-          <AttachmentField
-            {...txtInputFieldProps}
-            attachment="photo"
-            values={values}
-          />
-        );
       case C.AUDIO_FIELD:
-        return (
-          <AttachmentField
-            {...txtInputFieldProps}
-            attachment="audio"
-            values={values}
-          />
-        );
       case C.DOCUMENT_FIELD:
-        return (
-          <AttachmentField
-            {...txtInputFieldProps}
-            attachment="document"
-            values={values}
-          />
-        );
+        return AttachmentField;
       default:
-        return (
-          <TextField {...txtInputFieldProps} multiline={type === "textarea"} />
-        );
+        return TextField;
     }
-  }
+  })(type);
 
-  return null;
+  return <FieldComponent {...fieldProps} mode={mode} />;
 };
 
 FormSectionField.propTypes = {
+  name: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
-  values: PropTypes.object,
-  index: PropTypes.number,
-  mode: PropTypes.object,
-  parentField: PropTypes.object
+  mode: PropTypes.object.isRequired
 };
 
-export default FormSectionField;
+export default memo(FormSectionField);

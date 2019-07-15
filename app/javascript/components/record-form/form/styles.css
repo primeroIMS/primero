@@ -51,3 +51,14 @@
   background: rgba(255, 255, 255, 0.8);
   z-index: 999;
 }
+
+.uploadBox {
+  padding: .5em 1em;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 10px;
+  margin: 2em 0;
+}
+
+.exandedSubform {
+  width: 100%;
+}

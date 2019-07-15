@@ -1,14 +1,27 @@
 /* eslint-disable react/no-array-index-key  */
-/* eslint-disable import/no-cycle */
 import React from "react";
 import PropTypes from "prop-types";
-import { FieldArray } from "formik";
-import { Button } from "@material-ui/core";
+import { FieldArray, connect, getIn } from "formik";
+import {
+  Button,
+  Box,
+  IconButton,
+  ExpansionPanel,
+  ExpansionPanelDetails,
+  ExpansionPanelSummary
+} from "@material-ui/core";
 import { useI18n } from "components/i18n";
-import FormSection from "./FormSection";
+import { makeStyles } from "@material-ui/styles";
+import AddIcon from "@material-ui/icons/Add";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import FormSectionField from "./FormSectionField";
 import { constructInitialValues } from "../helpers";
+import styles from "./styles.css";
 
-const SubformField = ({ field, values, mode }) => {
+const SubformField = ({ field, formik, mode }) => {
+  const css = makeStyles(styles)();
+
   const {
     display_name: displayName,
     name,
@@ -19,50 +32,114 @@ const SubformField = ({ field, values, mode }) => {
 
   const initialSubformValue = constructInitialValues([subformSectionID]);
 
-  return (
-    <FieldArray
-      name={name}
-      render={arrayHelpers => {
+  const values = getIn(formik.values, name);
+
+  const renderSubformHeading = (arrayHelpers, index) => {
+    return (
+      <Box display="flex">
+        <Box flexGrow="1">
+          <h3 className={css.subformHeading}>{displayName[i18n.locale]}</h3>
+        </Box>
+        <Box>
+          {!mode.isShow && (
+            <>
+              <IconButton onClick={() => arrayHelpers.remove(index)}>
+                <DeleteIcon />
+              </IconButton>
+              <IconButton onClick={() => arrayHelpers.push({})}>
+                <AddIcon />
+              </IconButton>
+            </>
+          )}
+        </Box>
+      </Box>
+    );
+  };
+
+  const ConditionalWrapper = (condition, wrapper, header, children) =>
+    condition ? (
+      wrapper(children, header)
+    ) : (
+      <>
+        {header}
+        {children}
+      </>
+    );
+
+  const ExpansionWrapper = (children, header) => {
+    return (
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          {header}
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>{children}</ExpansionPanelDetails>
+      </ExpansionPanel>
+    );
+  };
+  const renderFields = arrayHelpers => {
+    if (values && values.length > 0) {
+      return values.map((subForm, index) => {
         return (
-          <div>
-            <h3>{displayName[i18n.locale]}</h3>
-            {values &&
-              values[name] &&
-              values[name].map((subForm, index) => (
-                <div key={index}>
-                  <FormSection
-                    {...{
-                      form: subformSectionID,
-                      parentField: field,
-                      values,
-                      index,
-                      mode,
-                      arrayHelpers,
-                      locale: i18n.locale
-                    }}
-                  />
-                </div>
-              ))}
-            {!mode.isShow && (
-              <Button
-                size="medium"
-                variant="contained"
-                onClick={() => arrayHelpers.push(initialSubformValue)}
-              >
-                {i18n.t("form_section.buttons.add")}
-              </Button>
+          <div key={index}>
+            {ConditionalWrapper(
+              mode.isShow,
+              ExpansionWrapper,
+              renderSubformHeading(arrayHelpers, index),
+              <div className={css.exandedSubform}>
+                {field.subform_section_id.fields.map(f => {
+                  const fieldProps = {
+                    name: `${field.name}[${index}].${f.name}`,
+                    field: f,
+                    mode,
+                    index,
+                    parentField: field
+                  };
+
+                  return (
+                    <Box my={3} key={f.name}>
+                      <FormSectionField {...fieldProps} />
+                    </Box>
+                  );
+                })}
+              </div>
             )}
           </div>
         );
-      }}
-    />
+      });
+    }
+
+    return null;
+  };
+
+  const renderFieldArray = arrayHelpers => {
+    return (
+      <>
+        <h3>{displayName[i18n.locale]}</h3>
+        {renderFields(arrayHelpers)}
+        {!mode.isShow && (
+          <Button
+            size="medium"
+            variant="contained"
+            onClick={() => arrayHelpers.push(initialSubformValue)}
+          >
+            {i18n.t("form_section.buttons.add")}
+          </Button>
+        )}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <FieldArray name={name} render={renderFieldArray} />
+    </>
   );
 };
 
 SubformField.propTypes = {
   field: PropTypes.object.isRequired,
-  values: PropTypes.object,
-  mode: PropTypes.object
+  mode: PropTypes.object.isRequired,
+  formik: PropTypes.object.isRequired
 };
 
-export default SubformField;
+export default connect(SubformField);

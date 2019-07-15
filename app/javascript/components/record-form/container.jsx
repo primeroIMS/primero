@@ -16,6 +16,7 @@ import {
   getRecord
 } from "./selectors";
 import { RECORD_TYPES } from "./constants";
+import { compactValues } from "./helpers";
 
 const RecordForms = ({ match, mode }) => {
   let submitForm = null;
@@ -56,9 +57,9 @@ const RecordForms = ({ match, mode }) => {
   };
 
   const formProps = {
-    onSubmit: (values, { setSubmitting }) => {
+    onSubmit: (initialValues, values, setSubmitting) => {
       setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
+        console.log(compactValues(values, initialValues));
         setSubmitting(false);
       }, 400);
     },
@@ -97,7 +98,7 @@ const RecordForms = ({ match, mode }) => {
         <RecordFormToolbar {...toolbarProps} />
         <Box display="flex" width="100%" height="100%">
           <Box width={255}>
-            {formNav ? <Nav {...navProps} /> : <LinearProgress />}
+            {formNav && firstTab ? <Nav {...navProps} /> : <LinearProgress />}
           </Box>
           <Box className={css.divider}>
             <Box className={css.dividerInner} />

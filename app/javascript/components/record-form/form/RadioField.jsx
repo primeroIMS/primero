@@ -9,16 +9,20 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { RadioGroup } from "formik-material-ui";
-import { FastField } from "formik";
+import { FastField, connect, getIn } from "formik";
 import omitBy from "lodash/omitBy";
 import { useSelector } from "react-redux";
 import { useI18n } from "components/i18n";
 import { getOption } from "../selectors";
 import styles from "./styles.css";
 
-const RadioField = ({ label, disabled, value, option, ...other }) => {
+const RadioField = ({ name, label, disabled, field, formik, ...rest }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+
+  const option = field.option_strings_source || field.option_strings_text;
+
+  const value = getIn(formik.values, name);
 
   const radioProps = {
     control: <Radio disabled={disabled} />,
@@ -38,14 +42,15 @@ const RadioField = ({ label, disabled, value, option, ...other }) => {
   })();
 
   const fieldProps = {
-    ...omitBy(other, (v, k) =>
+    name,
+    ...omitBy(rest, (v, k) =>
       ["InputProps", "helperText", "InputLabelProps", "fullWidth"].includes(k)
     )
   };
 
   return (
     <FormControl fullWidth>
-      <InputLabel shrink htmlFor={other.name}>
+      <InputLabel shrink htmlFor={fieldProps.name}>
         {label}
       </InputLabel>
       <FastField
@@ -79,10 +84,11 @@ const RadioField = ({ label, disabled, value, option, ...other }) => {
 };
 
 RadioField.propTypes = {
+  name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
-  value: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-  option: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+  field: PropTypes.object.isRequired,
+  formik: PropTypes.object.isRequired
 };
 
-export default RadioField;
+export default connect(RadioField);
