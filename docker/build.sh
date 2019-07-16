@@ -2,12 +2,15 @@
 
 set -euox pipefail
 
+# Grab the variables set in the defaults
+# These must be passed in explicitly with --build-arg
+# and the defined again as an
+source ./defaults.env
 BUILD_NGINX="docker build -f nginx/Dockerfile . -t nginx:prim-latest"
 BUILD_BEANSTALK="docker build -f beanstalkd/Dockerfile . -t beanstalkd:prim-latest"
 BUILD_SOLR="docker build -f solr/Dockerfile ../ -t solr:prim-latest"
-BUILD_APP="docker build -f application/Dockerfile ../ -t application:prim-latest"
+BUILD_APP="docker build -f application/Dockerfile ../ -t application:prim-latest --build-arg APP_ROOT=${APP_ROOT} --build-arg RAILS_LOG_PATH=${RAILS_LOG_PATH}"
 BUILD_POSTGRES="docker build -f postgres/Dockerfile . -t postgres:prim-latest"
-
 # if no params are set then set $1 to all
 if [ $# -eq 0 ];
 then

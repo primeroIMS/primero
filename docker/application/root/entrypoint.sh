@@ -41,7 +41,7 @@ prim_check_for_puma_pid() {
 
 # Create the logging directory and file
 prim_create_folders_and_logs() {
-  mkdir -p "${RAILS_LOG_PATH}/${RAILS_ENV}"
+  mkdir -p "${RAILS_LOG_PATH}"
   touch "${RAILS_LOG_PATH}/${RAILS_ENV}.log"
   # Create the folder for the node modules that will be installed during asset
   # compile
