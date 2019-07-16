@@ -19,6 +19,7 @@ prim_generate_dh() {
 prim_nginx_create_logs() {
   # Create the log files for NGINX. It won't start if these don't exist.
   printf "Checking for nginx log files"
+  mkdir -p "${NGINX_LOG_DIR}"
   touch "${NGINX_LOG_DIR}/${NGINX_LOG_ACCESS}"
   touch "${NGINX_LOG_DIR}/${NGINX_LOG_ERROR}"
   return 0

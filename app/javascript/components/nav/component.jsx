@@ -28,7 +28,7 @@ const Nav = ({ username, drawerOpen, openDrawer }) => {
   const i18n = useI18n();
 
   const nav = [
-    { name: i18n.t("navigation.home"), to: "/", icon: "home" },
+    { name: i18n.t("navigation.home"), to: "/dashboard", icon: "home" },
     { name: i18n.t("navigation.tasks"), to: "/tasks", icon: "tasks" },
     { name: i18n.t("navigation.cases"), to: "/cases", icon: "cases" },
     {
