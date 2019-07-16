@@ -1250,6 +1250,7 @@ en:
       location: "Location"
       other_information: "Other information"
       support_forum: "Support Forum"
+      primero_version: "Primero Version"
     updated: "Contact information was successfully updated."
     edit_info: "Edit Contact Information"
     info_label: "Contact Information"
