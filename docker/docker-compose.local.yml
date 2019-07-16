@@ -40,3 +40,7 @@ services:
     env_file:
       - docker/defaults.env
       - docker/local.env
+  scheduler:
+    env_file:
+      - docker/defaults.env
+      - docker/local.env

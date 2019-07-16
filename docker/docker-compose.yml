@@ -44,6 +44,18 @@ services:
     env_file:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "backburner:work"]
+  scheduler:
+    image: application:prim-latest
+    depends_on:
+      - solr
+      - beanstalkd
+      - postgres
+    volumes:
+      - log:/srv/primero/application/log
+      - tmp:/srv/primero/application/tmp
+    env_file:
+      - docker/defaults.env
+    command: ["bundle", "exec", "rails", "scheduler:run"]
 volumes:
   database:
   certbot_certs:
