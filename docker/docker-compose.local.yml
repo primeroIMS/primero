@@ -9,7 +9,7 @@ services:
       - certbot_certs:/certs
       - selfsigned_certs:/etc/certs
       - tmp:/srv/primero/application/tmp
-      - log:/var/log/nginx
+      - log:/var/log/
       - public:/srv/primero/application/public
     env_file:
       - docker/defaults.env
