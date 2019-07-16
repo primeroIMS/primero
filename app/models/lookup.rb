@@ -37,14 +37,26 @@ class Lookup < ApplicationRecord
       self.values(lookup_id, lookups, opts).map{|option| [option['display_text'], option['id']]}
     end
 
+    # TODO: This method will go away after UIUX refactor
     def form_group_name(form_group_id, parent_form, module_name, opts={})
-      lookup_ids = module_name.present? ? ["lookup-form-group-#{module_name.downcase}-#{parent_form}"] : form_group_lookup_mapping(parent_form)
-      return '' if lookup_ids.blank?
+      form_group_names = self.form_group_name_all(form_group_id, parent_form, module_name)
+      return '' if form_group_names.blank?
       locale = opts[:locale].presence || I18n.locale
-      lookups = Lookup.where(unique_id: lookup_ids)
-      lookups.present? ? lookups.map{|l| l.lookup_values(locale)}.flatten.select{|v| v['id'] == form_group_id}.try('first').try(:[], 'display_text') : ''
+      form_group_names[locale.to_s]
     end
     # memoize_in_prod :form_group_name
+
+    # This replaces form_group_name above
+    def form_group_name_all(form_group_id, parent_form, module_name)
+      lookup_ids = module_name.present? ? ["lookup-form-group-#{module_name.downcase}-#{parent_form}"] : form_group_lookup_mapping(parent_form)
+      return nil if lookup_ids.blank?
+      lookup = Lookup.where(unique_id: lookup_ids).find{ |l| l.contains_form_group_id?(form_group_id) } 
+      if lookup.present?
+        lookup.lookup_values_i18n.map do |k,v|
+          { k => v.find{ |t| t['id'] == form_group_id }.try(:[], 'display_text') }
+        end.inject(:merge)
+      end
+    end
 
     def add_form_group(form_group_id, form_group_description, parent_form, module_name, opts={})
       return if parent_form.blank?
@@ -108,6 +120,10 @@ class Lookup < ApplicationRecord
       end
       lookup_ids
     end
+  end
+
+  def contains_form_group_id?(form_group_id)
+    self.lookup_values_i18n.values.flatten.find { |form_group| form_group['id'] == form_group_id }.present?
   end
 
   def localized_property_hash(locale = Primero::Application::BASE_LANGUAGE)
