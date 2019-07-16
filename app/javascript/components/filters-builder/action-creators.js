@@ -1,7 +1,7 @@
 import * as RecordListActions from "components/record-list/actions";
 import * as Actions from "./actions";
 
-export const setExpandedPanel = payload => {
+export const setExpandedPanel = payload => dispatch => {
   const action = (expanded => {
     if (expanded) {
       return Actions.SET_EXPANSION_PANEL;
@@ -9,10 +9,10 @@ export const setExpandedPanel = payload => {
     return Actions.REMOVE_EXPANDED_PANEL;
   })(payload.expanded);
 
-  return {
+  dispatch ({
     type: action,
     payload
-  };
+  });
 };
 
 export const collapsePanels = () => {
