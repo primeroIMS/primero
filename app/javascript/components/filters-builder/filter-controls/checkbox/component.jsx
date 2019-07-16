@@ -61,7 +61,7 @@ CheckBox.propTypes = {
   props: PropTypes.object.isRequired,
   options: PropTypes.object,
   id: PropTypes.string,
-  checkBoxes: PropTypes.object,
+  checkBoxes: PropTypes.array,
   setCheckBox: PropTypes.func
 };
 
