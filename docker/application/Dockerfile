@@ -60,7 +60,7 @@ RUN set -euox pipefail \
         "$APP_ROOT/tmp" \
         "$RAILS_LOG_PATH" \
         ; cd "$APP_ROOT" \
-        ; bin/rails tmp:cache:clear
+        ; bin/rails tmp:cache:clear \
         ; bin/rails assets:precompile
 
 CMD [ "primero-start" ]

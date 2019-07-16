@@ -5,7 +5,9 @@ set -euox pipefail
 # Grab the variables set in the defaults
 # These must be passed in explicitly with --build-arg
 # and the defined again as an
-source ./defaults.env
+test -e ./defaults.env && source ./defaults.env
+test -e ./local.env && source ./local.env
+
 BUILD_NGINX="docker build -f nginx/Dockerfile . -t nginx:prim-latest"
 BUILD_BEANSTALK="docker build -f beanstalkd/Dockerfile . -t beanstalkd:prim-latest"
 BUILD_SOLR="docker build -f solr/Dockerfile ../ -t solr:prim-latest"
