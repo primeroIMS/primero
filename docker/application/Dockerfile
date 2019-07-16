@@ -61,7 +61,7 @@ RUN set -euox pipefail \
         "$RAILS_LOG_PATH" \
         ; cd "$APP_ROOT" \
         ; bin/rails tmp:cache:clear
-            # ; bin/rails assets:precompile
+        ; bin/rails assets:precompile
 
 CMD [ "primero-start" ]
 ENTRYPOINT [ "/entrypoint.sh" ]
