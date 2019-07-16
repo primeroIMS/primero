@@ -27,6 +27,7 @@ export const FormSectionRecord = Record({
   editable: null,
   module_ids: [],
   form_group_id: "",
+  form_group_name: "",
   fields: [],
   is_nested: null
 });
@@ -38,6 +39,7 @@ export const Option = Record({
 
 export const NavRecord = Record({
   group: null,
+  groupName: null,
   groupOrder: null,
   name: null,
   order: null,

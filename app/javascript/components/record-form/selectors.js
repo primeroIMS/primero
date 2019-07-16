@@ -44,6 +44,7 @@ export const getFormNav = (state, query) => {
     .map(fs =>
       NavRecord({
         group: fs.form_group_id,
+        groupName: fs.form_group_name[window.I18n.locale],
         groupOrder: fs.order_form_group,
         name: fs.name[window.I18n.locale],
         order: fs.order,

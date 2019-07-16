@@ -10,13 +10,13 @@ const NavGroup = ({ group, open, handleClick, selectedForm }) => {
 
   const parentFormProps = {
     form: parentForm,
-    name: parentForm.name,
+    name: isNested ? parentForm.groupName : parentForm.name,
     open: open[parentForm.group],
-    isNested,
-    handleClick
+    isNested
   };
 
   const sharedProps = {
+    handleClick,
     selectedForm
   };
 
