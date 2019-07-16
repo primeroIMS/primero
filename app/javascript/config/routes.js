@@ -51,6 +51,10 @@ export default [
         component: Page.TracingRequestList
       },
       {
+        path: "/tasks",
+        component: Page.TaskList
+      },
+      {
         path: "/exports",
         component: Page.ExportList
       }

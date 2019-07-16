@@ -7,6 +7,7 @@ import * as Login from "components/pages/login";
 import * as Nav from "./components/nav";
 import * as CaseList from "./components/pages/case-list";
 import * as Dashboard from "./components/pages/dashboard";
+import * as TaskList from "./components/pages/task-list";
 import * as RecordForms from "./components/record-form";
 import * as ExportList from "./components/pages/export-list";
 import * as Filter from "./components/filters";
@@ -18,6 +19,7 @@ const rootReducer = {
     ...CaseList.reducers,
     ...TracingRequestList.reducers,
     ...IncidentList.reducers,
+    ...TaskList.reducers,
     ...Dashboard.reducers,
     ...ExportList.reducers,
     ...Filter.reducers,
