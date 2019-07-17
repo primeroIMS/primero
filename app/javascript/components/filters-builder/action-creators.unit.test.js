@@ -56,6 +56,14 @@ describe("<FiltersBuilders /> - Action Creators", () => {
     });
   });
 
+  it("should check the 'collapsePanels' action creator to return the correct object", () => {
+    const dispatch = sinon.spy(actionCreators, "collapsePanels");
+
+    actionCreators.collapsePanels();
+
+    expect(dispatch.getCall(0).returnValue).to.eql({ type: "RESET_PANELS" });
+  });
+
   it("should check the 'resetSinglePanel' action creator to return the correct object, when chips are reset", () => {
     const options = { id: "risk_level", type: "chips" };
     const store = configureStore()({});

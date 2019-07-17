@@ -9,10 +9,7 @@ export const setExpandedPanel = payload => dispatch => {
     return Actions.REMOVE_EXPANDED_PANEL;
   })(payload.expanded);
 
-  dispatch ({
-    type: action,
-    payload
-  });
+  dispatch({ type: action, payload });
 };
 
 export const collapsePanels = () => {

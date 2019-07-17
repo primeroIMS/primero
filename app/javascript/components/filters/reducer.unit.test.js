@@ -13,7 +13,7 @@ describe("<Filters /> - Reducers", () => {
       payload: 1
     };
     const newState = r.reducers.FilterTabs(Map({}), action);
-    debugger
+
     expect(newState.get("current")).to.deep.equal(1);
   });
 });
