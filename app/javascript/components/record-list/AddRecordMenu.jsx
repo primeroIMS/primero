@@ -14,13 +14,13 @@ const primeroModules = [
 const AddRecordMenu = ({ recordType }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
-  function handleClick(event) {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
-  }
+  };
 
-  function handleClose() {
+  const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
 
   return (
     <>

@@ -45,12 +45,14 @@ const RecordList = ({
 
   return (
     <Box className={css.root}>
-      <RecordListToolbar {...{ recordType, title, primeroModule }} />
       <Box className={css.content}>
-        <Box className={css.table}>
-          {!isEmpty(data.records) && <IndexTable {...indexTableProps} />}
+        <Box flexGrow={1}>
+          <RecordListToolbar {...{ recordType, title, primeroModule }} />
+          <Box className={css.table}>
+            {!isEmpty(data.records) && <IndexTable {...indexTableProps} />}
+          </Box>
         </Box>
-        <Box className={css.filters}>
+        <Box mx={2}>
           <Filters recordType={namespace} />
         </Box>
       </Box>

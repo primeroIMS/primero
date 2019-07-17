@@ -4,6 +4,7 @@ import { Formik, Form } from "formik";
 import isEmpty from "lodash/isEmpty";
 import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import { useI18n } from "components/i18n";
 import { constructInitialValues } from "../helpers";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
@@ -19,6 +20,7 @@ const RecordForm = ({
   record
 }) => {
   const css = makeStyles(styles)();
+  const i18n = useI18n();
 
   let initialFormValues = constructInitialValues(forms);
 
@@ -31,7 +33,7 @@ const RecordForm = ({
       if (selectedForm === form.unique_id) {
         return (
           <div key={form.unique_id}>
-            <h1 className={css.formHeading}>{form.name.en}</h1>
+            <h1 className={css.formHeading}>{form.name[i18n.locale]}</h1>
             {form.fields.map(field => {
               const fieldProps = {
                 field,
