@@ -83,7 +83,7 @@ const TaskList = ({ tasks, fetchTasks }) => {
       name: "id",
       id: true,
       options: {
-        customBodyRender: (value, tableMeta, updateValue) => {
+        customBodyRender: (value, tableMeta) => {
           let icon = <Schedule className="Scheduled" fontSize="inherit" />;
           if (tableMeta.rowData[4] === "true") {
             icon = <PriorityHigh className="Overdue" fontSize="inherit" />;
@@ -103,7 +103,7 @@ const TaskList = ({ tasks, fetchTasks }) => {
       label: i18n.t("task.due_date"),
       name: "due_date",
       options: {
-        customBodyRender: (value, tableMeta, updateValue) => {
+        customBodyRender: (value, tableMeta) => {
           return (
             <span className={tableMeta.rowData[4] === "true" ? "Overdue" : ""}>
               {value}
