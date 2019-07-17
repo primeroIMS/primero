@@ -27,8 +27,6 @@ class FormSection < ApplicationRecord
   before_save :sync_form_group, :recalculate_editable
   after_save :recalculate_collapsed_fields
 
-  before_destroy :validate_editable
-
   #TODO: Move to migration
   def defaults
     %w(order order_form_group order_subform initial_subforms).each{|p| self[p] ||= 0}
@@ -76,34 +74,14 @@ class FormSection < ApplicationRecord
     def memoized_dependencies
       [Field]
     end
-    
+
     def permitted_api_params
-      [ 
-        "id",
-        "unique_id",
-        {"name"=>{}},
-        {"help_text"=>{}},
-        {"description"=>{}},
-        "parent_form",
-        "visible",
-        "order",
-        "order_form_group",
-        "order_subform",
-        "form_group_keyed",
-        "form_group_id",
-        "is_nested",
-        "is_first_tab",
-        "initial_subforms",
-        "subform_prevent_item_removal",
-        "subform_append_only",
-        "subform_header_links",
-        "display_help_text_view",
-        "shared_subform",
-        "shared_subform_group",
-        "is_summary_section",
-        "hide_subform_placeholder",
-        "mobile_form",
-        "collapsed_field_names"
+      [
+        "id", "unique_id", {"name"=>{}}, {"help_text"=>{}}, {"description"=>{}}, "parent_form", "visible",
+        "order", "order_form_group", "order_subform", "form_group_keyed", "form_group_id", "is_nested",
+        "is_first_tab", "initial_subforms", "subform_prevent_item_removal", "subform_append_only",
+        "subform_header_links", "display_help_text_view", "shared_subform", "shared_subform_group",
+        "is_summary_section", "hide_subform_placeholder", "mobile_form", "collapsed_field_names"
       ]
     end
 
@@ -488,7 +466,7 @@ class FormSection < ApplicationRecord
       return FormSection.all if record_type.blank? && module_id.blank?
       form_sections = self
       if module_id.present?
-        form_sections = form_sections.joins(:primero_modules).where(primero_modules: { unique_id: module_id }) 
+        form_sections = form_sections.joins(:primero_modules).where(primero_modules: { unique_id: module_id })
       end
       form_sections = form_sections.where(parent_form: record_type) if record_type.present?
       form_sections
@@ -631,6 +609,12 @@ class FormSection < ApplicationRecord
     self.primero_modules = PrimeroModule.where(unique_id: module_ids) if module_ids.present?
   end
 
+  def permitted_destroy!
+    if !self.editable? || self.core_form?
+      raise Errors::ForbiddenOperation
+    end
+  end
+
   protected
 
   def recalculate_collapsed_fields
@@ -707,13 +691,6 @@ class FormSection < ApplicationRecord
           !field.editable?
         end
       end.size.zero?
-    end
-  end
-
-  def validate_editable
-    if !self.editable? || self.core_form?
-      self.errors.add(:base, "invalid")
-      raise ActiveRecord::RecordInvalid.new(self)
     end
   end
 

@@ -11,6 +11,7 @@ import {
   selectLoading,
   buildTableColumns
 } from "components/record-list";
+import { Map } from "immutable";
 import NAMESPACE from "./namespace";
 
 const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
@@ -18,14 +19,14 @@ const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
 
   const i18n = useI18n();
 
-  const defaultFilters = {
+  const defaultFilters = Map({
     fields: "short",
     status: "open",
     record_state: true
-  };
+  });
 
   const data = {
-    filters: Object.assign({}, defaultFilters, filters),
+    filters: defaultFilters.merge(filters),
     records,
     meta
   };

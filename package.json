@@ -44,7 +44,7 @@
     "jss": "^10.0.0-alpha.16",
     "jss-rtl": "^0.2.3",
     "lodash": "^4.17.11",
-    "mui-datatables": "^2.5.1",
+    "mui-datatables": "^2.6.3",
     "normalizr": "^3.4.0",
     "postcss-preset-env": "^6.7.0",
     "prettier-eslint": "^9.0.0",

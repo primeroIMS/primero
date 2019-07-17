@@ -31,6 +31,7 @@ module Api::V2
     def destroy
       authorize! :enable_disable_record, FormSection
       @form_section = FormSection.find(params[:id])
+      @form_section.permitted_destroy!
       @form_section.destroy!
     end
 
@@ -45,7 +46,7 @@ module Api::V2
       form_section_props = @form_section_params.reject{ |k, _|  ['fields', 'module_ids'].include?(k) }
       formi18n_props = FieldI18nService.convert_i18n_properties(FormSection, form_section_props)
       if form_section_params.key?('fields')
-        formi18n_props['fields_attributes'] = (@form_section_params['fields'] || []).map do |field_param| 
+        formi18n_props['fields_attributes'] = (@form_section_params['fields'] || []).map do |field_param|
             FieldI18nService.convert_i18n_properties(Field, field_param)
         end
       end

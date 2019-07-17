@@ -20,7 +20,12 @@ const Nav = ({ formNav, selectedForm, firstTab }) => {
   };
 
   useEffect(() => {
-    dispatch(setSelectedForm(firstTab));
+    dispatch(setSelectedForm(firstTab.unique_id));
+    setOpen(
+      Object.assign({}, open, {
+        [firstTab.form_group_id]: !open[firstTab.form_group_id]
+      })
+    );
   }, [firstTab]);
 
   if (formNav) {
@@ -28,13 +33,13 @@ const Nav = ({ formNav, selectedForm, firstTab }) => {
 
     return (
       <List>
-        {formGroups.map(group => {
+        {formGroups.map(g => {
           return (
             <NavGroup
-              group={group}
+              group={g}
               handleClick={handleClick}
               open={open}
-              key={group.first().formId}
+              key={g.first().formId}
               selectedForm={selectedForm}
             />
           );
@@ -48,8 +53,8 @@ const Nav = ({ formNav, selectedForm, firstTab }) => {
 
 Nav.propTypes = {
   formNav: PropTypes.object,
-  selectedForm: PropTypes.string,
-  firstTab: PropTypes.string
+  selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  firstTab: PropTypes.object
 };
 
 export default Nav;

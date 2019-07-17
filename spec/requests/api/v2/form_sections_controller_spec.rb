@@ -3,27 +3,27 @@ require 'rails_helper'
 describe Api::V2::FormSectionsController, type: :request do
   before :each do
     @form_1 = FormSection.create!(
-      unique_id: 'form_section_1', 
+      unique_id: 'form_section_1',
       name_i18n: { en: 'Form Section 1' },
       fields: [
         Field.new(
-          name: 'fs1_field_1', 
-          type: Field::TEXT_FIELD, 
+          name: 'fs1_field_1',
+          type: Field::TEXT_FIELD,
           display_name_i18n: {en: 'First field in form section'},
           editable: false
         )
       ]
     )
     @form_2 = FormSection.create!(
-      unique_id: 'form_section_2', 
-      name_i18n: { 
+      unique_id: 'form_section_2',
+      name_i18n: {
         en: 'Form Section 2',
         es: 'Sección de formulario 2'
       },
       fields: [
         Field.new(
-          name: 'fs2_field_1', 
-          type: Field::TEXT_FIELD, 
+          name: 'fs2_field_1',
+          type: Field::TEXT_FIELD,
           display_name_i18n: {en: 'First field in form section 2'}
         )
       ]
@@ -40,7 +40,7 @@ describe Api::V2::FormSectionsController, type: :request do
     )
 
     @form_3.fields = [
-      Field.create!({ 
+      Field.create!({
         name: 'subform_form_4',
         type: Field::SUBFORM,
         subform_section: @form_4,
@@ -58,7 +58,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
   describe "GET /api/v2/forms" do
     it "list the permitted forms" do
-      login_for_test({ 
+      login_for_test({
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
         ]
@@ -72,9 +72,9 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it "refuses unauthorized access" do
-      login_for_test({ 
+      login_for_test({
         form_sections: [@form_1, @form_3],
-        permissions: [] 
+        permissions: []
       })
 
       get '/api/v2/forms'
@@ -99,7 +99,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
       expect(json['data']['id']).to eq(@form_1.id)
     end
-    
+
     it "fetches the correct form_group_name with code 200" do
       login_for_test({
         permissions: [
@@ -140,10 +140,10 @@ describe Api::V2::FormSectionsController, type: :request do
     end
 
     it "returns a 404 when trying to fetch a form with a non-existant id" do
-      login_for_test({ 
+      login_for_test({
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
-        ] 
+        ]
       })
 
       get '/api/v2/forms/thisdoesntexist'
@@ -301,7 +301,7 @@ describe Api::V2::FormSectionsController, type: :request do
         ]
       })
 
-      params = { 
+      params = {
         data: {
           name: {
             en: 'Form Section Updated 1'
@@ -327,7 +327,7 @@ describe Api::V2::FormSectionsController, type: :request do
 
       display_name_en = @form_1.fields.first.display_name_en
 
-      params = { 
+      params = {
         data: {
           name: {
             en: 'Form Section Updated 1'
@@ -364,15 +364,15 @@ describe Api::V2::FormSectionsController, type: :request do
         ]
       })
 
-      params = { 
+      params = {
         data: {
           name: {
             en: 'Form Section Updated 1'
           },
           fields: [
             {
-              name: 'fs1_field_1', 
-              type: 'separator', 
+              name: 'fs1_field_1',
+              type: 'separator',
               display_name: { en: 'First field in form section' },
               editable: false
             },
@@ -408,7 +408,7 @@ describe Api::V2::FormSectionsController, type: :request do
         ]
       })
 
-      params = { 
+      params = {
         data: {
           name: {
             en: 'Form Section Updated 2'
@@ -447,7 +447,7 @@ describe Api::V2::FormSectionsController, type: :request do
         ]
       })
 
-      params = { 
+      params = {
         data: {
           name: {
             en: 'Form Section Updated 1'
@@ -485,7 +485,7 @@ describe Api::V2::FormSectionsController, type: :request do
         permissions: []
       })
 
-      params = { 
+      params = {
         data: {
           name: {
             en: 'Form Section Updated 1'
@@ -525,7 +525,7 @@ describe Api::V2::FormSectionsController, type: :request do
         ]
       })
 
-      params = { 
+      params = {
         data: {
           unique_id: '',
           name: {
@@ -577,7 +577,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(Field.where(name: 'subform_form_4').first).to be_nil
     end
 
-    it "returns 422 if the form is invalid because one of its fields is not editable" do
+    it "returns 403 if the form is not editable" do
       login_for_test({
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
@@ -586,10 +586,10 @@ describe Api::V2::FormSectionsController, type: :request do
 
       delete "/api/v2/forms/#{@form_1.id}"
 
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/forms/#{@form_1.id}")
-      expect(json['errors'][0]['detail']).to eq('base')
+      expect(json['errors'][0]['message']).to eq('Forbidden')
       expect(FormSection.find(@form_1.id)).not_to be_nil
     end
 

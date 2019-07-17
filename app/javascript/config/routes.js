@@ -60,8 +60,20 @@ export default [
         component: Page.ReportDetail
       },
       {
+        path: "/matches",
+        component: Page.PotentialMatches
+      },
+      {
+        path: "/tasks",
+        component: Page.TaskList
+      },
+      {
         path: "/exports",
         component: Page.ExportList
+      },
+      {
+        path: "/support",
+        component: Page.Support
       }
     ]
   }

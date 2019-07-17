@@ -133,7 +133,7 @@ const FiltersBuilder = ({
 FiltersBuilder.propTypes = {
   recordType: PropTypes.string.isRequired,
   expanded: PropTypes.array.isRequired,
-  filters: PropTypes.object,
+  filters: PropTypes.array,
   setExpanded: PropTypes.func,
   resetPanel: PropTypes.func,
   resetCurrentPanel: PropTypes.func,

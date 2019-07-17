@@ -1,11 +1,28 @@
 FROM ruby:2.6.2-alpine3.9
 
-ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
-ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
+ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
+ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev pixman pixman-dev cairo
 ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl yarn
-ENV DEV_PACKAGES busybox-extras
+ENV DEV_PACKAGES busybox-extras tree
 ENV RAILS_ENV production
+ENV PYTHON /usr/bin/python
 
+# Grab our path from --build-arg and store it in an env
+ARG APP_ROOT
+ENV APP_ROOT=${APP_ROOT}
+ARG RAILS_LOG_PATH
+ENV RAILS_LOG_PATH=${RAILS_LOG_PATH}
+
+# Test if variables have been defined by build script
+# otherwise return 1 and stop docker build
+RUN set -ex ; \
+        test -n "$APP_ROOT" || (printf "APP_ROOT not defined\n" ; \
+            return 1); \
+        test -n "$RAILS_LOG_PATH" || (printf "RAILS_LOG_PATH not defined\n" ; \
+            return 1);
+
+
+# Install our packages
 RUN set -euox pipefail \
         ; apk update \
         ; apk add $BUILD_PACKAGES \
@@ -15,16 +32,16 @@ RUN set -euox pipefail \
         ; rm -rf /var/cache/apk/*
 
 # Install Gems first for docker cache
-WORKDIR /srv/primero/application
-COPY [ "Gemfile", "Gemfile.lock", "/srv/primero/application/" ]
+WORKDIR ${APP_ROOT}
+COPY [ "Gemfile", "Gemfile.lock", "$APP_ROOT/" ]
 
 # Run bundle install
 RUN set -euox pipefail \
         ; if [ $RAILS_ENV == "production" ]; \
         then \
-            bundle install --without development test cucumber \
+        bundle install --without development test cucumber \
         ; else \
-            bundle install \
+        bundle install \
         ; fi
 
 
@@ -34,19 +51,23 @@ RUN set -euox pipefail \
 # Copy container overlay dir and substitution script
 COPY [ "docker/sub.sh", "docker/application/root/", "/" ]
 # Now copy over primero and do setup
-COPY [ ".", "/srv/primero/application" ]
+COPY [ ".", "$APP_ROOT" ]
 # Copying in the void configs for the asset precompilation step
-COPY [ "docker/application/null_configs/*", "/srv/primero/application/config/" ]
+COPY [ "docker/application/null_configs/*", "$APP_ROOT/config/" ]
 
 # Create the directories for primero and install yarn for the asset precompile
 RUN set -euox pipefail \
-        ; mkdir -p \
-            /srv/primero/application/tmp \
-            /srv/primero/application/log \
-            ; cd "/srv/primero/application" \
-            ; bin/rails tmp:cache:clear \
-            ; bin/rails assets:precompile
+        ; mkdir -p "$APP_ROOT/tmp" "$RAILS_LOG_PATH" \
+        ; cd "$APP_ROOT" \
+        ; bin/rails tmp:cache:clear \
+        ; bin/rails assets:precompile
 
-VOLUME /srv/primero/application/public
+# Intentionally cached seperately
+# Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)
+RUN set -euox pipefail \
+        ; mkdir -p /srv/primero/application/public \
+        ; touch /srv/primero/application/public/build-id \
+        ; echo "$RANDOM" > /srv/primero/application/public/build-id
+
 CMD [ "primero-start" ]
 ENTRYPOINT [ "/entrypoint.sh" ]

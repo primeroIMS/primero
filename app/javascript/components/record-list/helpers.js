@@ -34,7 +34,12 @@ export const buildTableColumns = (records, recordType, i18n, path) => {
       }
 
       if (
-        ["inquiry_date", "registration_date", "case_opening_date"].includes(k)
+        [
+          "inquiry_date",
+          "registration_date",
+          "case_opening_date",
+          "created_at"
+        ].includes(k)
       ) {
         column.options.customBodyRender = value => <DateCell value={value} />;
       }
