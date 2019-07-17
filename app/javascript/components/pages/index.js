@@ -6,3 +6,4 @@ export { TaskList } from "./task-list";
 export { Login } from "./login";
 export { PotentialMatches } from "./potential-matches";
 export { ExportList } from "./export-list";
+export { Support } from "./support";

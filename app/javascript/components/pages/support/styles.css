@@ -1,0 +1,25 @@
+.CardShadow {
+  box-shadow: $(theme.primero.shadows[0]);
+  margin-top: 3em;
+  width: 80%;
+}
+
+.PageTitle {
+  height: 28px;
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(22));
+  font-weight: bold;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000000;
+  margin: 25px 0 0 0;
+}
+
+.Title {
+  font-family: $(theme.typography.fontFamily);
+  font-size: $(theme.typography.pxToRem(15));
+  margin-right: 5px;
+  font-weight: bold;
+}
