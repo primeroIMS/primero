@@ -76,9 +76,9 @@ class FormSection < ApplicationRecord
     def memoized_dependencies
       [Field]
     end
-    
+
     def permitted_api_params
-      [ 
+      [
         "id",
         "unique_id",
         {"name"=>{}},
@@ -488,7 +488,7 @@ class FormSection < ApplicationRecord
       return FormSection.all if record_type.blank? && module_id.blank?
       form_sections = self
       if module_id.present?
-        form_sections = form_sections.joins(:primero_modules).where(primero_modules: { unique_id: module_id }) 
+        form_sections = form_sections.joins(:primero_modules).where(primero_modules: { unique_id: module_id })
       end
       form_sections = form_sections.where(parent_form: record_type) if record_type.present?
       form_sections

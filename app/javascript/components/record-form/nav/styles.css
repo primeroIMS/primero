@@ -3,6 +3,15 @@
   background: $(theme.primero.colors.lightGrey) !important;
 }
 
+.item {
+  font-size: $(theme.typography.pxToRem(17))
+}
+
+.nestedItem {
+  padding: 0 1em;
+  font-size: $(theme.typography.pxToRem(14))
+}
+
 .root {
   transition: none;
 

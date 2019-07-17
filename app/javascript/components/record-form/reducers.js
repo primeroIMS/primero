@@ -10,7 +10,11 @@ export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.SELECTED_RECORD_SUCCESS:
       return state.set("selectedRecord", fromJS(payload.data));
-    case Actions.SET_FORMS:
+    case Actions.SELECTED_RECORD_STARTED:
+      return state.set("selectedRecord", null);
+    case Actions.SET_OPTIONS:
+      return state.set("options", fromJS(payload));
+    case Actions.RECORD_FORMS_SUCCESS:
       if (payload) {
         return state
           .set("fields", mapEntriesToRecord(payload.fields, R.FieldRecord))

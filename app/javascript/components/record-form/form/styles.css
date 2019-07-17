@@ -1,0 +1,68 @@
+.inputLabel {
+  width: 52em;
+  line-height: 1.5em;
+  position: relative;
+}
+
+.radioLabels {
+  font-size: $(theme.typography.pxToRem(14));
+}
+
+.input, .selectField label + div {
+  margin-top: 0 !important
+}
+
+.selectField label + div {
+  margin-top: 3px !important
+}
+
+.formHeading, .toolbarHeading, .subformHeading {
+  color: #000;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: $(theme.typography.pxToRem(22));
+}
+
+.subformHeading {
+  font-size: $(theme.typography.pxToRem(14));
+}
+
+.actionButton, .actionButtonCancel {
+  box-shadow: none;
+  color: $(theme.primero.colors.white);
+  background: $(theme.primero.colors.blue);
+  width: 10em;
+  height: 32px;
+
+  &:hover {
+    color: $(theme.primero.colors.black);
+  }
+}
+
+.actionButtonCancel {
+  color: $(theme.primero.colors.black);
+  background: $(theme.primero.colors.grey);
+  margin: 0 1em;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.8);
+  z-index: 999;
+}
+
+.uploadBox {
+  padding: .5em 1em;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 10px;
+  margin: 2em 0;
+}
+
+.exandedSubform {
+  width: 100%;
+}
+
+.expansionPanel {
+  margin-bottom: 1em;
+}

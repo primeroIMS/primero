@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, memo } from "react";
 import PropTypes from "prop-types";
-import { Grid, Box } from "@material-ui/core";
+import { Grid, Box, LinearProgress } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
@@ -8,7 +8,7 @@ import { Nav } from "./nav";
 import NAMESPACE from "./namespace";
 import { RecordForm, RecordFormToolbar } from "./form";
 import styles from "./styles.css";
-import { fetchForms, fetchRecord } from "./action-creators";
+import { fetchRecord, saveRecord } from "./action-creators";
 import {
   getFirstTab,
   getFormNav,
@@ -16,8 +16,8 @@ import {
   getRecord
 } from "./selectors";
 import { RECORD_TYPES } from "./constants";
+import { compactValues } from "./helpers";
 
-// TODO: Initial form to show
 const RecordForms = ({ match, mode }) => {
   let submitForm = null;
 
@@ -57,11 +57,21 @@ const RecordForms = ({ match, mode }) => {
   };
 
   const formProps = {
-    onSubmit: (values, { setSubmitting }) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 400);
+    onSubmit: (initialValues, values, setSubmitting) => {
+      dispatch(
+        saveRecord(
+          params.recordType,
+          mode.isEdit ? "update" : "save",
+          {
+            data: {
+              ...compactValues(values, initialValues),
+              module_id: selectedModule.primeroModule
+            }
+          },
+          params.id
+        )
+      );
+      setSubmitting(false);
     },
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;
@@ -72,35 +82,39 @@ const RecordForms = ({ match, mode }) => {
     record
   };
 
+  const toolbarProps = {
+    mode: containerMode,
+    params,
+    recordType,
+    handleFormSubmit,
+    shortId: record ? record.get("short_id") : null
+  };
+
+  const navProps = {
+    formNav,
+    selectedForm,
+    firstTab
+  };
+
   useEffect(() => {
     if (params.id && (containerMode.isShow || containerMode.isEdit)) {
       dispatch(fetchRecord(params.recordType, params.id));
-    } else {
-      dispatch(fetchForms());
     }
   }, []);
 
   return (
     <>
       <Grid container>
-        <RecordFormToolbar
-          {...{
-            mode: containerMode,
-            params,
-            recordType,
-            handleFormSubmit,
-            shortId: record ? record.get("short_id") : null
-          }}
-        />
+        <RecordFormToolbar {...toolbarProps} />
         <Box display="flex" width="100%" height="100%">
           <Box width={255}>
-            <Nav {...{ formNav, selectedForm, firstTab }} />
+            {formNav && firstTab ? <Nav {...navProps} /> : <LinearProgress />}
           </Box>
           <Box className={css.divider}>
             <Box className={css.dividerInner} />
           </Box>
           <Box width={680} px={3}>
-            {forms && <RecordForm {...formProps} />}
+            {forms ? <RecordForm {...formProps} /> : <LinearProgress />}
           </Box>
         </Box>
       </Grid>
@@ -113,4 +127,4 @@ RecordForms.propTypes = {
   mode: PropTypes.string.isRequired
 };
 
-export default withRouter(RecordForms);
+export default memo(withRouter(RecordForms));

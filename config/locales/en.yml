@@ -471,7 +471,7 @@ en:
     social_worker: "Social Worker"
     survivor_code: "Survivor Code"
     case_opening_date: "Case Open Date"
-    photo: "Photo"
+    photos: "Photo"
     owned_by: 'Record Owner'
     owned_by_agency: 'Record Owner Agency'
 
@@ -1315,8 +1315,8 @@ en:
     add: "Add"
     type: "Field type"
     move_to: "Move to"
-    select_box_empty_item: "(Select...)"
-    chosen_placeholder: "Select all that apply"
+    select_single: "(Select...)"
+    select_multiple: "Select all that apply"
     multi_select: "Multiple Selection"
     date_help: "dd-mmm-yyyy"
     date_help_with_time: "dd-mmm-yyyy hh:mm"
