@@ -26,8 +26,9 @@ services:
       - postgres
     volumes:
       - log:/srv/primero/application/log
-      - public:/srv/primero/application/public
+      - public:/share/public
       - tmp:/srv/primero/application/tmp
+      - storage:/srv/primero/storage
     env_file:
       - docker/defaults.env
     stdin_open: true
@@ -41,6 +42,7 @@ services:
     volumes:
       - log:/srv/primero/application/log
       - tmp:/srv/primero/application/tmp
+      - public:/share/public
     env_file:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "backburner:work"]
@@ -53,6 +55,7 @@ services:
     volumes:
       - log:/srv/primero/application/log
       - tmp:/srv/primero/application/tmp
+      - public:/share/public
     env_file:
       - docker/defaults.env
     command: ["bundle", "exec", "rails", "scheduler:run"]
@@ -66,3 +69,4 @@ volumes:
   log:
   public:
   solr_cores:
+  storage:
