@@ -31,6 +31,7 @@ module Api::V2
     def destroy
       authorize! :enable_disable_record, FormSection
       @form_section = FormSection.find(params[:id])
+      @form_section.permitted_destroy!
       @form_section.destroy!
     end
 

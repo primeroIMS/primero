@@ -577,7 +577,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(Field.where(name: 'subform_form_4').first).to be_nil
     end
 
-    it "returns 422 if the form is invalid because one of its fields is not editable" do
+    it "returns 403 if the form is not editable" do
       login_for_test({
         permissions: [
           Permission.new(:resource => Permission::METADATA, :actions => [Permission::MANAGE])
@@ -586,10 +586,10 @@ describe Api::V2::FormSectionsController, type: :request do
 
       delete "/api/v2/forms/#{@form_1.id}"
 
-      expect(response).to have_http_status(422)
+      expect(response).to have_http_status(403)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq("/api/v2/forms/#{@form_1.id}")
-      expect(json['errors'][0]['detail']).to eq('base')
+      expect(json['errors'][0]['message']).to eq('Forbidden')
       expect(FormSection.find(@form_1.id)).not_to be_nil
     end
 
