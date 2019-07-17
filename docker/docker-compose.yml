@@ -46,8 +46,8 @@ services:
     command: ["bundle", "exec", "rails", "backburner:work"]
 volumes:
   database:
-  certs:
-  local_certs:
+  certbot_certs:
+  selfsigned_certs:
   certbot_var:
   certbot_etc:
   tmp:
