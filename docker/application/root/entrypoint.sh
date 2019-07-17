@@ -41,11 +41,12 @@ prim_check_for_puma_pid() {
 
 # Create the logging directory and file
 prim_create_folders_and_logs() {
-  mkdir -p "${RAILS_LOG_PATH}/${RAILS_ENV}"
+  mkdir -p "${RAILS_LOG_PATH}"
   touch "${RAILS_LOG_PATH}/${RAILS_ENV}.log"
   # Create the folder for the node modules that will be installed during asset
   # compile
   mkdir -p "${APP_ROOT}/node_modules"
+  mkdir -p "$RAILS_SCHEDULER_LOG_DIR"
   return 0
 }
 
@@ -103,6 +104,48 @@ prim_app_check_for_args() {
   fi
 }
 
+# this method checks if a lock has been placed in the asset directory
+# if so, return error 1.
+# otherwise return 0 if previously unlocked and ready to proceed
+prim_check_for_and_create_asset_lock() {
+  # if the build-id exists in the change root
+  if test -f "$LOCKFILE_PATH";
+  then
+    return 1
+  else
+    mkdir -p "$APP_SHARE_DIR"
+    touch "$LOCKFILE_PATH"
+    return 0
+  fi
+}
+
+prim_remove_asset_lock() {
+  rm -f "$LOCKFILE_PATH"
+}
+
+prim_copy_assets() {
+  set +e
+  # start by checking if we actually need to copy by diffing build-id
+  mkdir -p "$APP_SHARE_DIR"
+  touch "$APP_SHARE_DIR/build-id"
+  cat "$APP_ROOT/public/build-id"
+  cat "$APP_SHARE_DIR/build-id"
+  diff -q "$APP_ROOT/public/build-id" "$APP_SHARE_DIR/build-id"
+  # store return value of diff. should be 0 if they are the same. 1 otherwise.
+  rc="$?"
+  set -e
+  # if these two files differ then copy
+  if [ "$rc" -eq 1 ];
+  then
+    printf "Changes in assets detected.\\nCopying assets to shared directory\\n."
+    cp -rv "$APP_ROOT/public" "/share"
+  else
+    printf "No asset update detecting. Skipping copy.\\n"
+  fi
+
+  prim_remove_asset_lock
+}
+
 # apps 'entrypoint' start. handles passed arguments and checks if bootstrap is
 # neccesary.
 prim_app_start() {
@@ -110,9 +153,13 @@ prim_app_start() {
   prim_app_check_for_args "$@"
 
   printf "Performing configuration substitution"
-  # Search each of these directories for .template files and perform substitution
+  # Search each of these directories for .template files and perform
+  # substitution
   /sub.sh "/srv/primero/application/config"
 
+  # if prim_check_for_and_create_asset_lock does not find a lockfile then copy
+  # assets. otherwise, do not copy assets
+  prim_check_for_and_create_asset_lock && prim_copy_assets
   prim_export_local_binaries
   prim_check_postgres_credentials
   prim_create_folders_and_logs

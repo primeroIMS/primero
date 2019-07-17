@@ -46,7 +46,7 @@ module Api::V2
       form_section_props = @form_section_params.reject{ |k, _|  ['fields', 'module_ids'].include?(k) }
       formi18n_props = FieldI18nService.convert_i18n_properties(FormSection, form_section_props)
       if form_section_params.key?('fields')
-        formi18n_props['fields_attributes'] = (@form_section_params['fields'] || []).map do |field_param| 
+        formi18n_props['fields_attributes'] = (@form_section_params['fields'] || []).map do |field_param|
             FieldI18nService.convert_i18n_properties(Field, field_param)
         end
       end

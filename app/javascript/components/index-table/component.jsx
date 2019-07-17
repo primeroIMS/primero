@@ -37,13 +37,16 @@ const IndexTable = ({
   data,
   onTableChange,
   defaultFilters,
-  loading
+  loading,
+  path,
+  namespace
 }) => {
   const { meta, filters, records } = data;
-  const { per, total } = dataToJS(meta);
+  const per = meta.get("per");
+  const total = meta.get("total");
 
   const handleTableChange = (action, tableState) => {
-    const options = { per, ...defaultFilters, ...dataToJS(filters) };
+    const options = { per, ...defaultFilters.merge(filters).toJS() };
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
 
     const {
@@ -75,7 +78,7 @@ const IndexTable = ({
     );
 
     if (validActions.includes(action)) {
-      onTableChange(selectedFilters);
+      onTableChange({ namespace, path, options: selectedFilters });
     }
   };
 
@@ -119,7 +122,9 @@ IndexTable.propTypes = {
   columns: PropTypes.array.isRequired,
   data: PropTypes.object.isRequired,
   defaultFilters: PropTypes.object,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  path: PropTypes.string.isRequired,
+  namespace: PropTypes.string.isRequired
 };
 
 export default IndexTable;

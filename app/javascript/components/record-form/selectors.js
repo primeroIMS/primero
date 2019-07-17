@@ -11,9 +11,9 @@ const forms = (state, { recordType, primeroModule }) => {
 
   return formSections.filter(fs => {
     return (
-      fs.get("parent") === recordType &&
-      fs.get("module").includes(primeroModule) &&
-      !fs.get("is_subform")
+      fs.get("parent_form") === recordType &&
+      fs.get("module_ids").includes(primeroModule) &&
+      !fs.get("is_nested")
     );
   });
 };
@@ -27,8 +27,9 @@ export const getFirstTab = (state, query) => {
     fs => fs.get("is_first_tab") === true
   );
 
-  if (firstFormSection) {
-    return firstFormSection.first().get("id");
+  if (firstFormSection && firstFormSection.size > 0) {
+    const form = firstFormSection.first();
+    return form;
   }
 
   return null;
@@ -43,14 +44,17 @@ export const getFormNav = (state, query) => {
     .map(fs =>
       NavRecord({
         group: fs.form_group_id,
+        groupName: fs.form_group_name[window.I18n.locale],
         groupOrder: fs.order_form_group,
         name: fs.name[window.I18n.locale],
         order: fs.order,
-        formId: fs.id,
+        formId: fs.unique_id,
         is_first_tab: fs.is_first_tab
       })
     )
-    .groupBy(fs => fs.group);
+    .sortBy(fs => fs.order)
+    .groupBy(fs => fs.group)
+    .sortBy(fs => fs.first().get("groupOrder"));
 };
 
 export const getRecordForms = (state, query) => {
@@ -61,6 +65,15 @@ export const getRecordForms = (state, query) => {
   const [...selectedFormKeys] = selectedForms.keys();
 
   return denormalizeData(fromJS(selectedFormKeys), state.getIn(["forms"]));
+};
+
+export const getOption = (state, option) => {
+  const selectedOptions = state
+    .getIn([NAMESPACE, "options"], fromJS([]))
+    .filter(o => o.type === option)
+    .first();
+
+  return selectedOptions ? selectedOptions.options : [];
 };
 
 export const getRecord = state => state.getIn([NAMESPACE, "selectedRecord"]);

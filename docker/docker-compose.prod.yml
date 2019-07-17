@@ -7,13 +7,13 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - certs:/certs
-      - local_certs:/etc/certs
+      - certbot_certs:/certs
+      - selfsigned_certs:/etc/certs
       - certbot_var:/var/lib/letsencrypt
       - certbot_etc:/etc/letsencrypt
       - tmp:/srv/primero/tmp
       - log:/var/log/nginx
-      - public:/srv/primero/application/public
+      - public:/srv/primero/application/public #TODO:readonly later
     env_file:
       - docker/defaults.env
       - docker/local.env
@@ -36,6 +36,10 @@ services:
       - docker/defaults.env
       - docker/local.env
   postgres:
+    env_file:
+      - docker/defaults.env
+      - docker/local.env
+  scheduler:
     env_file:
       - docker/defaults.env
       - docker/local.env

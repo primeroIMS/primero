@@ -11,6 +11,7 @@ import {
   selectLoading,
   buildTableColumns
 } from "components/record-list";
+import { Map } from "immutable";
 import NAMESPACE from "./namespace";
 
 const TracingRequestList = ({
@@ -24,14 +25,14 @@ const TracingRequestList = ({
 
   const i18n = useI18n();
 
-  const defaultFilters = {
+  const defaultFilters = Map({
     fields: "short",
     inquiry_status: "open",
     record_state: true
-  };
+  });
 
   const data = {
-    filters: Object.assign({}, defaultFilters, filters),
+    filters: defaultFilters.merge(filters),
     records,
     meta
   };

@@ -1,5 +1,4 @@
 FROM nginx:alpine
-VOLUME /certs
 EXPOSE 80 443
 
 COPY [ "nginx/root/", "/" ]

@@ -10,7 +10,8 @@ const defaultFetchOptions = {
   mode: "same-origin",
   credentials: "same-origin",
   cache: "no-cache",
-  redirect: "follow"
+  redirect: "follow",
+  headers: new Headers({ "content-type": "application/json" })
 };
 
 const restMiddleware = options => store => next => action => {
@@ -19,8 +20,8 @@ const restMiddleware = options => store => next => action => {
   }
 
   const { type, api } = action;
-  const { path, body, params, method } = api;
-  const fetchOptions = Object.assign({}, defaultFetchOptions, method);
+  const { path, body, params, method, normalizeFunc } = api;
+  const fetchOptions = Object.assign({}, defaultFetchOptions, { method });
 
   let fetchPath = `${options.baseUrl}/${path}`;
 
@@ -51,7 +52,7 @@ const restMiddleware = options => store => next => action => {
 
     store.dispatch({
       type: `${type}_SUCCESS`,
-      payload: json
+      payload: normalizeFunc ? normalizeFunc(json.data).entities : json
     });
 
     store.dispatch({

@@ -1,69 +1,79 @@
-/* eslint-disable import/no-cycle */
-
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
-import { Field } from "formik";
-import { TextField } from "formik-material-ui";
-import SubformField from "./SubformField";
+import { makeStyles } from "@material-ui/styles";
+import { useI18n } from "components/i18n";
 import DateField from "./DateField";
+import SelectField from "./SelectField";
+import TextField from "./TextField";
+import TickField from "./TickField";
+import Seperator from "./Seperator";
+import RadioField from "./RadioField";
+import AttachmentField from "./AttachmentField";
 import * as C from "../constants";
+import styles from "./styles.css";
 
-const FormSectionField = ({ field, values, index, form, mode }) => {
+const FormSectionField = ({ name, field, mode }) => {
+  const css = makeStyles(styles)();
+  const i18n = useI18n();
+
   const {
-    display_name: displayName,
-    help_text: helpText,
-    name,
     type,
+    help_text: helpText,
+    display_name: displayName,
     disabled,
-    editable,
-    visible
+    editable
   } = field;
 
-  const fieldName = index >= 0 ? `${form.id}[${index}][${name}]` : name;
-
   const fieldProps = {
-    name: fieldName,
-    multiline: type === "textarea",
+    name,
+    field,
+    autoComplete: "off",
     fullWidth: true,
     InputProps: {
-      readOnly: mode.isShow
+      readOnly: mode.isShow,
+      classes: {
+        root: css.input
+      }
     },
     InputLabelProps: {
-      shrink: true
+      shrink: true,
+      classes: {
+        root: css.inputLabel
+      }
     },
-    helperText: helpText ? helpText.en : "",
-    autoComplete: "off",
-    label: displayName.en,
-    value: values[fieldName],
+    label: displayName[i18n.locale],
+    helperText: helpText ? helpText[i18n.locale] : "",
     disabled: mode.isShow || disabled || !editable
   };
 
-  const fieldComponent = () => {
-    switch (type) {
+  const FieldComponent = (t => {
+    switch (t) {
       case C.DATE_FIELD:
         return DateField;
+      case C.SELECT_FIELD:
+        return SelectField;
+      case C.TICK_FIELD:
+        return TickField;
+      case C.RADIO_FIELD:
+        return RadioField;
+      case C.SEPERATOR:
+        return Seperator;
+      case C.PHOTO_FIELD:
+      case C.AUDIO_FIELD:
+      case C.DOCUMENT_FIELD:
+        return AttachmentField;
       default:
         return TextField;
     }
-  };
+  })(type);
 
-  return (
-    <>
-      {type === C.SUBFORM_SECTION ? (
-        <SubformField {...{ field, values, mode }} />
-      ) : (
-        visible && <Field {...fieldProps} component={fieldComponent()} />
-      )}
-    </>
-  );
+  return <FieldComponent {...fieldProps} mode={mode} />;
 };
 
 FormSectionField.propTypes = {
+  name: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
-  form: PropTypes.object,
-  values: PropTypes.object,
-  index: PropTypes.number,
-  mode: PropTypes.object
+  mode: PropTypes.object.isRequired
 };
 
-export default FormSectionField;
+export default memo(FormSectionField);
