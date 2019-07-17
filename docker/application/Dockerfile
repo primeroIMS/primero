@@ -1,10 +1,11 @@
 FROM ruby:2.6.2-alpine3.9
 
-ENV BUILD_PACKAGES bash curl wget curl-dev build-base git
-ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev
+ENV BUILD_PACKAGES bash curl wget curl-dev build-base git python
+ENV BUILD_DEP_PACKAGES postgresql-dev nodejs-dev pixman pixman-dev cairo
 ENV RUNTIME_PACKAGES bash libc6-compat nodejs gettext libintl yarn
 ENV DEV_PACKAGES busybox-extras tree
 ENV RAILS_ENV production
+ENV PYTHON /usr/bin/python
 
 # Grab our path from --build-arg and store it in an env
 ARG APP_ROOT
@@ -56,12 +57,17 @@ COPY [ "docker/application/null_configs/*", "$APP_ROOT/config/" ]
 
 # Create the directories for primero and install yarn for the asset precompile
 RUN set -euox pipefail \
-        ; mkdir -p \
-        "$APP_ROOT/tmp" \
-        "$RAILS_LOG_PATH" \
+        ; mkdir -p "$APP_ROOT/tmp" "$RAILS_LOG_PATH" \
         ; cd "$APP_ROOT" \
         ; bin/rails tmp:cache:clear \
         ; bin/rails assets:precompile
+
+# Intentionally cached seperately
+# Generates 32 random characters for the build-id...build id MUST be 32 characters (as its hardcoded)
+RUN set -euox pipefail \
+        ; mkdir -p /srv/primero/application/public \
+        ; touch /srv/primero/application/public/build-id \
+        ; echo "$RANDOM" > /srv/primero/application/public/build-id
 
 CMD [ "primero-start" ]
 ENTRYPOINT [ "/entrypoint.sh" ]
