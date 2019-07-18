@@ -21,5 +21,9 @@ module Api::V2
       render json: {}
     end
 
+    def resource_name
+      :user
+    end
+
   end
 end

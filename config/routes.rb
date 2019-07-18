@@ -23,8 +23,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v2, defaults: { format: :json }, constraints: { format: :json }, only: [:index, :create, :show, :update, :destroy ] do
-      devise_for :tokens, class_name: "User",
-                 controllers: { sessions: "api/v2/tokens" }, only: :sessions,
+      devise_for :tokens, class_name: 'User',
+                 controllers: { sessions: 'api/v2/tokens' }, only: :sessions,
                  path_names: { sign_in: '', sign_out: '' },
                  sign_out_via: :delete
 

@@ -51,12 +51,12 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.index ["services"], name: "index_agencies_on_services", using: :gin
   end
 
-  create_table "attachment_audio", force: :cascade do |t|
+  create_table "attachment_audios", force: :cascade do |t|
     t.string "record_type"
     t.uuid "record_id"
     t.string "record_field_scope"
-    t.index ["record_field_scope"], name: "index_attachment_audio_on_record_field_scope"
-    t.index ["record_type", "record_id"], name: "index_attachment_audio_on_record_type_and_record_id"
+    t.index ["record_field_scope"], name: "index_attachment_audios_on_record_field_scope"
+    t.index ["record_type", "record_id"], name: "index_attachment_audios_on_record_type_and_record_id"
   end
 
   create_table "attachment_documents", force: :cascade do |t|
@@ -332,6 +332,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.string "group_permission", default: "self"
     t.boolean "referral", default: false, null: false
     t.boolean "transfer", default: false, null: false
+    t.boolean "is_manager", default: false, null: false
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
 
@@ -402,7 +403,6 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.integer "role_id"
     t.string "time_zone", default: "UTC"
     t.string "locale"
-    t.boolean "is_manager", default: false
     t.boolean "send_mail", default: true
     t.boolean "disabled", default: false
     t.string "services", array: true
@@ -423,13 +423,13 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.string "jti", null: false
     t.string "aud"
     t.datetime "exp", null: false
-    t.bigint "users_id", null: false
+    t.bigint "user_id", null: false
     t.index ["jti"], name: "index_whitelisted_jwts_on_jti", unique: true
-    t.index ["users_id"], name: "index_whitelisted_jwts_on_users_id"
+    t.index ["user_id"], name: "index_whitelisted_jwts_on_user_id"
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
   add_foreign_key "fields", "form_sections", column: "subform_section_id"
-  add_foreign_key "whitelisted_jwts", "users", column: "users_id", on_delete: :cascade
+  add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end
