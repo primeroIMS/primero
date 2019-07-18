@@ -1,11 +1,13 @@
 class User < ApplicationRecord
   include Importable
+  include Devise::JWT::RevocationStrategies::Whitelist
   # include Memoizable
 
   delegate :can?, :cannot?, to: :ability
 
   devise :database_authenticatable, :timeoutable,
-    :recoverable, :validatable
+    :recoverable, :validatable,
+    :jwt_authenticatable, jwt_revocation_strategy: self
 
   belongs_to :role
   belongs_to :agency
