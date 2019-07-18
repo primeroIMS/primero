@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import {
   InputLabel,
   FormControl,
+  FormHelperText,
   MenuItem,
   Input,
   ListItemText,
@@ -36,6 +37,7 @@ const SelectField = ({
   name,
   field,
   label,
+  helperText,
   InputLabelProps,
   InputProps,
   mode,
@@ -80,9 +82,16 @@ const SelectField = ({
     IconComponent: !mode.isShow ? ArrowDropDownIcon : () => null
   };
 
+  const fieldError = getIn(formik.errors, name);
+  const fieldTouched = getIn(formik.touched, name);
+
   if (!isEmpty(formik.values)) {
     return (
-      <FormControl fullWidth className={css.selectField}>
+      <FormControl
+        fullWidth
+        className={css.selectField}
+        error={fieldError && fieldTouched}
+      >
         <InputLabel shrink htmlFor={other.name} {...InputLabelProps}>
           {label}
         </InputLabel>
@@ -102,6 +111,9 @@ const SelectField = ({
               </MenuItem>
             ))}
         </FastField>
+        <FormHelperText>
+          {fieldError && fieldTouched ? fieldError : helperText}
+        </FormHelperText>
       </FormControl>
     );
   }
