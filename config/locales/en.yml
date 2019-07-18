@@ -2507,3 +2507,5 @@ en:
     medium: "Medium"
     low: "Low"
     no_action: "No Action"
+    apply_filters: "Apply Filters"
+    clear_filters: "Clear All"

@@ -7,7 +7,8 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   Button,
-  IconButton
+  IconButton,
+  Grid
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Refresh from "@material-ui/icons/Refresh";
@@ -44,8 +45,6 @@ const FiltersBuilder = ({
 
   // TODO: This need to be changed to store filters and apply selected
   // Filters depending on each record type
-  const handleSaveFilters = () => console.log("Save Filters");
-
   const handleApplyFilter = () => console.log("Filters to Apply");
 
   const renderFilterControl = filter => {
@@ -76,17 +75,6 @@ const FiltersBuilder = ({
 
   return (
     <div className={css.root}>
-      <div className={css.actionButtons}>
-        <Button color="primary" onClick={handleClearFilters}>
-          {i18n.t("cases.clear_filter")}
-        </Button>
-        <Button color="primary" onClick={handleSaveFilters}>
-          {i18n.t("cases.save_filter")}
-        </Button>
-        <Button color="primary" onClick={handleApplyFilter}>
-          {i18n.t("cases.apply_filter")}
-        </Button>
-      </div>
       {filters.map(filter => (
         <ExpansionPanel
           expanded={expanded && expanded.includes(`${filter.id}`)}
@@ -124,6 +112,25 @@ const FiltersBuilder = ({
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}
+      <div className={css.actionButtons}>
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleApplyFilter}
+          >
+            {i18n.t("filters.apply_filters")}
+          </Button>
+          <Button variant="outlined" onClick={handleClearFilters}>
+            {i18n.t("filters.clear_filters")}
+          </Button>
+        </Grid>
+      </div>
     </div>
   );
 };
