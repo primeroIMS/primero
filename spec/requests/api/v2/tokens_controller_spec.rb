@@ -13,14 +13,19 @@ describe Api::V2::TokensController, type: :request do
 
   describe 'POST /api/v2/tokens' do
 
+    let(:authorization_token) { response.headers['Authorization'].split(' ')[1] }
+    let(:json) { JSON.parse(response.body) }
+    let(:jwt_header) { decode_jwt(authorization_token) }
+
     it 'generates a new JWT token for valid credentials' do
       post '/api/v2/tokens', params: @params
 
       expect(response).to have_http_status(200)
-      expect(response.headers['Authorization']).to be_present
-
-      jwt = decode_jwt(response)
-      expect(jwt['sub']).to be_present
+      expect(authorization_token).to be_present
+      expect(json['user_name']).to be_present
+      expect(json['token']).to be_present
+      expect(json['token']).to eq(authorization_token)
+      expect(jwt_header['sub']).to be_present
     end
 
     it 'returns nothing for invalid credentials' do
@@ -48,9 +53,10 @@ describe Api::V2::TokensController, type: :request do
     @user.destroy
   end
 
-  def decode_jwt(response)
-    token = response.headers['Authorization'].split(' ')[1]
+  def decode_jwt(token)
     Warden::JWTAuth::TokenDecoder.new.call(token)
   end
+
+
 
 end

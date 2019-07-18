@@ -253,6 +253,7 @@ Devise.setup do |config|
   #
   # The "*/*" below is required to match Internet Explorer requests.
   config.navigational_formats = ['*/*', :html]
+  # TODO: We need to uncomment the line below once we have finished ripping out our v1 controllers and views
   #config.navigational_formats = []
 
   # The default HTTP method used to sign out a resource. Default is :delete.
@@ -305,10 +306,10 @@ Devise.setup do |config|
     #jwt.secret = ENV['DEVISE_JWT_SECRET_KEY'] #TODO set this!!!!!!!!!!!!!!!
     jwt.secret = 'DEVISE_JWT_SECRET_KEY' #TODO set this!!!!!!!!!!!!!!!
     jwt.dispatch_requests = [
-      ['POST', %r{^/api/v2/token$}]
+      ['POST', %r{^/api/v2/tokens$}]
     ]
     jwt.revocation_requests = [
-      ['DELETE', %r{^/api/v2/token$}]
+      ['DELETE', %r{^/api/v2/tokens$}]
     ]
     jwt.expiration_time = 1.hour.to_i
   end

@@ -13,12 +13,17 @@ module Api::V2
     # that Devise unfortunately still uses. We are overriding it to return a JSON object
     # for the Devise session create method.
     def respond_with(user, _opts={})
-      render json: { user_name: user.user_name }
+      render json: { user_name: user.user_name, token: current_token }
+
     end
 
     # Overriding method called by Devise session destroy.
     def respond_to_on_destroy
       render json: {}
+    end
+
+    def current_token
+      request.env['warden-jwt_auth.token']
     end
 
     def resource_name
