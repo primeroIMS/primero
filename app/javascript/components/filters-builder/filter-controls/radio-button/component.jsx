@@ -53,7 +53,7 @@ const RadioButton = ({
             label={
               notTranslatedFilters.includes(id)
                 ? f.display_name
-                : i18n.t(`${recordType.toLowerCase()}.filter_by.${f.id}`)
+                : i18n.t(`filters.${f.id}`)
             }
           />
         ))}

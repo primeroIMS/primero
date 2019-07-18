@@ -30,7 +30,7 @@ const Chips = ({ recordType, props, chips, setChips }) => {
             label={
               notTranslatedFilters.includes(id)
                 ? data.display_name
-                : i18n.t(`${recordType.toLowerCase()}.filter_by.${data.id}`)
+                : i18n.t(`filters.${data.id}`)
             }
             variant={chipVariant}
             onClick={() =>

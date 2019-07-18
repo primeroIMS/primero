@@ -106,9 +106,7 @@ const FiltersBuilder = ({
             id={filter.id}
           >
             <div className={css.heading}>
-              <span>
-                {i18n.t(`${recordType.toLowerCase()}.filter_by.${filter.id}`)}
-              </span>
+              <span> {i18n.t(`filters.${filter.id}`)} </span>
               {filter.reset && filter.reset ? (
                 <IconButton
                   aria-label="Delete"

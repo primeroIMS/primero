@@ -24,8 +24,15 @@ const RangeButton = ({ recordType, exclusive, props, value, setValue }) => {
           onChange={(e, v) => setValue({ id, data: v }, recordType)}
         >
           {values.map(v => (
-            <ToggleButton key={v.id} value={v.id} className={css.toogleButton}>
-              {i18n.t(`${recordType.toLowerCase()}.filter_by.${v.id}`)}
+            <ToggleButton
+              key={v.id}
+              value={v.id}
+              classes={{
+                root: css.toogleButton,
+                selected: css.toogleButtonSelected
+              }}
+            >
+              {i18n.t(`filters.${v.id}`)}
             </ToggleButton>
           ))}
         </ToggleButtonGroup>

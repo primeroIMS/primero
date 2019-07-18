@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
-import CheckBoxIcon from "@material-ui/icons/CheckBox";
-import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
 import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
@@ -26,8 +24,6 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
             control={
               <Checkbox
                 key={v.id}
-                icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                checkedIcon={<CheckBoxIcon fontSize="small" />}
                 checked={checkBoxes && checkBoxes.includes(v.id)}
                 onChange={event => {
                   setCheckBox(
@@ -41,13 +37,12 @@ const CheckBox = ({ recordType, props, checkBoxes, setCheckBox }) => {
                 }}
                 value={v.id}
                 name={v.id}
-                className={css.checkbox}
               />
             }
             label={
               notTranslatedFilters.includes(id)
                 ? v.id
-                : i18n.t(`${recordType.toLowerCase()}.filter_by.${v.id}`)
+                : i18n.t(`filters.${v.id}`)
             }
           />
         ))}
