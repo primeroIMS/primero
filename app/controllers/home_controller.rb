@@ -196,7 +196,7 @@ class HomeController < ApplicationController
     @aggregated_case_manager_stats[:transfer_status] = queries[:transfer_status]
 
     queries[:task_overdue].each do |stat, query|
-      facet = query.facet(:associated_user_names).rows
+      facet = query.facet(:owned_by).rows
 
       unless @aggregated_case_manager_stats[:task_overdue].present?
         @aggregated_case_manager_stats[:task_overdue] = {}
@@ -357,6 +357,7 @@ class HomeController < ApplicationController
 
       if query[:by_owner].present?
         facet :associated_user_names, limit: -1, zeros: true
+        facet :owned_by, limit: -1, zeros: true
         adjust_solr_params do |params|
           params['f.owned_by_s.facet.mincount'] = 0
         end

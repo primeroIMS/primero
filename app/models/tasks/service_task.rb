@@ -11,7 +11,7 @@ module Tasks
           end
         end
       end
-      tasks
+      tasks.select{ |task| task.due_date.present? }
     end
 
     def self.has_task?(record, service)

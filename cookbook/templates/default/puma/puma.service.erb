@@ -12,6 +12,7 @@ WorkingDirectory=<%= node[:primero][:app_dir] %>
 PIDFile=<%= @puma_pid %>
 Environment="RAILS_ENV=<%= node[:primero][:rails_env] %>"
 Environment="RAILS_LOG_PATH=<%= @rails_log_dir %>"
+export CHECK_ONLINE_STATUS=<%= node[:primero][:check_online_status] %>
 ExecStart=<%= node[:primero][:home_dir] %>/.rvm/bin/rvm default do bundle exec puma -C <%= node[:primero][:app_dir] %>/config/puma.rb
 ExecStop=<%= node[:primero][:home_dir] %>/.rvm/bin/rvm default do bundle exec pumactl -S <%= @puma_state %> stop
 
