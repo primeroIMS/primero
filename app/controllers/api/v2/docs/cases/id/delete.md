@@ -1,7 +1,7 @@
 # Disable an existing case
 
 A Primero case cannot be deleted via the API. If a user has permissions to disable the case,
-the user can also re-enable it v
+the user can also re-enable it by setting the field `"status": true`.
 
 **URL** : `/api/v2/cases/:id`
 

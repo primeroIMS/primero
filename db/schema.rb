@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_16_181147) do
+ActiveRecord::Schema.define(version: 2019_07_17_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -419,7 +419,17 @@ ActiveRecord::Schema.define(version: 2019_04_16_181147) do
     t.index ["user_name"], name: "index_users_on_user_name", unique: true
   end
 
+  create_table "whitelisted_jwts", force: :cascade do |t|
+    t.string "jti", null: false
+    t.string "aud"
+    t.datetime "exp", null: false
+    t.bigint "user_id", null: false
+    t.index ["jti"], name: "index_whitelisted_jwts_on_jti", unique: true
+    t.index ["user_id"], name: "index_whitelisted_jwts_on_user_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cases", "tracing_requests", column: "matched_tracing_request_id"
   add_foreign_key "fields", "form_sections", column: "subform_section_id"
+  add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end
