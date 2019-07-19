@@ -1,25 +1,28 @@
 import React from "react";
-import { Grid, TextField, Button, Typography, Link } from "@material-ui/core";
+import { Grid, Button, Typography, Link } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { Redirect, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import { Formik, Field, Form } from "formik";
+import { TextField } from "formik-material-ui";
 import styles from "./styles.css";
-import * as actions from "./action-creators";
+import { attemptLogin, attemptSignout } from "./action-creators";
 import * as Selectors from "./selectors";
 
-const Login = ({ logIn, isAuthenticated, match }) => {
+const Login = ({ isAuthenticated, match, authErrors }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
+  const dispatch = useDispatch();
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    logIn(true);
+  const onSubmit = (values, { setSubmitting }) => {
+    dispatch(attemptLogin(values));
+    setSubmitting(false);
   };
 
   if (match.path.includes("signout")) {
-    logIn(false);
+    dispatch(attemptSignout());
     return <Redirect to="/login" />;
   }
 
@@ -27,65 +30,69 @@ const Login = ({ logIn, isAuthenticated, match }) => {
     return <Redirect to="/dashboard" />;
   }
 
+  const initialValues = {
+    user_name: "",
+    password: ""
+  };
+
+  const inputProps = {
+    component: TextField,
+    margin: "normal",
+    required: true,
+    fullWidth: true,
+    InputLabelProps: {
+      shrink: true
+    },
+    autoComplete: "off"
+  };
+
+  const formProps = {
+    initialValues,
+    onSubmit
+  };
+
   // TODO: Need to pass agency and logo path from api
   return (
     <>
-      <form className={css.loginForm} onSubmit={handleSubmit} noValidate>
-        <Typography component="h1">{i18n.t("login.label")}</Typography>
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          id="email"
-          label={i18n.t("login.username")}
-          name="email"
-          helperText="Ex. primero@example.com"
-          InputLabelProps={{
-            shrink: true
-          }}
-          autoComplete="off"
-        />
-        <TextField
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          label={i18n.t("login.password.label")}
-          type="password"
-          id="password"
-          InputLabelProps={{
-            shrink: true
-          }}
-          autoComplete="off"
-        />
-        <Button type="submit" color="primary">
-          {i18n.t("buttons.login")}
-        </Button>
-        <Grid item xs className={css.recoveryLink}>
-          <Link href="/forgot_password">{i18n.t("user.forgot_password")}</Link>
-        </Grid>
-      </form>
+      <Typography component="h1">{i18n.t("login.label")}</Typography>
+      {authErrors}
+      <Formik
+        {...formProps}
+        render={() => (
+          <Form className={css.loginForm}>
+            <Field
+              name="user_name"
+              label={i18n.t("login.username")}
+              {...inputProps}
+            />
+            <Field
+              name="password"
+              label={i18n.t("login.password.label")}
+              type="password"
+              {...inputProps}
+            />
+            <Button type="submit" color="primary">
+              {i18n.t("buttons.login")}
+            </Button>
+          </Form>
+        )}
+      />
+      <Grid item xs className={css.recoveryLink}>
+        <Link href="/forgot_password">{i18n.t("user.forgot_password")}</Link>
+      </Grid>
     </>
   );
 };
 
 Login.propTypes = {
-  logIn: PropTypes.func,
   isAuthenticated: PropTypes.bool,
-  match: PropTypes.object
+  match: PropTypes.object,
+  authErrors: PropTypes.string
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: Selectors.selectAuthenticated(state)
+  isAuthenticated: Selectors.selectAuthenticated(state),
+  authErrors: Selectors.selectAuthErrors(state)
 });
 
-const mapDispatchToProps = {
-  logIn: actions.logIn
-};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Login)
-);
+export default withRouter(connect(mapStateToProps)(Login));

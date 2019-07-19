@@ -15,7 +15,7 @@ import { Map } from "immutable";
 import NAMESPACE from "./namespace";
 
 const CaseList = ({ records, meta, filters, loading, getRecords }) => {
-  const path = "/cases";
+  const path = "cases";
   const i18n = useI18n();
 
   const defaultFilters = Map({
