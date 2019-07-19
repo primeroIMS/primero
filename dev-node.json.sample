@@ -7,7 +7,7 @@
     "https_port": 8443,
     "git": {
       "repo": "https://github.com/primeroIMS/primero.git",
-      "revision": "development"
+      "revision": "development_v2"
     },
     "solr": {
       "memory": "256m"
