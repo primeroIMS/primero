@@ -26,7 +26,7 @@ describe("<RecordList /> - Action Creators", () => {
     actionCreators.fetchRecords({
       options: { status: "open" },
       namespace: "cases",
-      path: "/cases"
+      path: "cases"
     })(dispatch);
 
     expect(dispatch).to.have.been.calledWithMatch({

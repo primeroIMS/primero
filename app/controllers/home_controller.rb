@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
   ALL_FILTER = "all"
 
+  skip_before_action :authenticate_user!, :only => %w{v2}
+
   before_action :load_default_settings, :only => [:index]
   before_action :can_access_approvals, :only => [:index]
   before_action :load_risk_levels, :only => [:index]

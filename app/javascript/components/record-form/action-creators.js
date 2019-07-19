@@ -21,7 +21,7 @@ export const fetchForms = () => async dispatch => {
 };
 
 export const fetchRecord = (namespace, id) => async dispatch => {
-  await dispatch({
+  dispatch({
     type: Actions.SELECTED_RECORD,
     api: {
       path: `${namespace}/${id}`

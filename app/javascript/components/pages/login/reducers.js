@@ -15,9 +15,14 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state
         .set("module", fromJS(payload.module))
         .set("agency", fromJS(payload.agency));
-    case Actions.LOGIN:
-      // TODO: Need to implement login from api
+    case Actions.SET_AUTH:
       return state.set("isAuthenticated", payload);
+    case Actions.LOGIN_SUCCESS:
+      return state.set("messages", null).set("isAuthenticated", true);
+    case Actions.LOGIN_FAILURE:
+      return state.set("messages", fromJS(payload));
+    case Actions.LOGOUT_SUCCESS:
+      return state.set("isAuthenticated", false);
     default:
       return state;
   }

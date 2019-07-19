@@ -61,7 +61,7 @@ const RecordForms = ({ match, mode }) => {
       dispatch(
         saveRecord(
           params.recordType,
-          mode.isEdit ? "update" : "save",
+          containerMode.isEdit ? "update" : "save",
           {
             data: {
               ...compactValues(values, initialValues),

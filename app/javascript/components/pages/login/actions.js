@@ -1,2 +1,14 @@
-export const SET_STYLE = "User/SET_STYLE";
-export const LOGIN = "User/LOGIN";
+import NAMESPACE from "./namespace";
+
+export const SET_STYLE = `${NAMESPACE}/SET_STYLE`;
+export const SET_AUTH = `${NAMESPACE}/SET_AUTH`;
+export const LOGIN = `${NAMESPACE}/LOGIN`;
+export const LOGIN_STARTED = `${NAMESPACE}/LOGIN_STARTED`;
+export const LOGIN_SUCCESS = `${NAMESPACE}/LOGIN_SUCCESS`;
+export const LOGIN_FINISHED = `${NAMESPACE}/LOGIN_FINISHED`;
+export const LOGIN_FAILURE = `${NAMESPACE}/LOGIN_FAILURE`;
+export const LOGOUT = `${NAMESPACE}/LOGOUT`;
+export const LOGOUT_STARTED = `${NAMESPACE}/LOGOUT_STARTED`;
+export const LOGOUT_SUCCESS = `${NAMESPACE}/LOGOUT_SUCCESS`;
+export const LOGOUT_FINISHED = `${NAMESPACE}/LOGOUT_FINISHED`;
+export const LOGOUT_FAILURE = `${NAMESPACE}/LOGOUT_FAILURE`;

@@ -21,7 +21,7 @@ const TracingRequestList = ({
   loading,
   getRecords
 }) => {
-  const path = "/tracing_requests";
+  const path = "tracing_requests";
 
   const i18n = useI18n();
 
