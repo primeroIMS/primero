@@ -8,7 +8,7 @@ class ReportsController < ApplicationController
   include DeleteAction
 
   #include RecordActions
-  before_action :load_report, except: [:new]
+  before_action :load_report, except: [:new, :index]
   before_action :sanitize_multiselects, only: [:create, :update]
   before_action :sanitize_filters, only: [:create, :update]
   before_action :set_aggregate_order, only: [:create, :update]
