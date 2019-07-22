@@ -6,7 +6,7 @@ gem 'rapidftr_addon_cpims', :git => 'https://github.com/rapidftr/rapidftr-addon-
 
 gem 'couchrest_model', '2.0.4'
 gem 'mime-types',     '1.16'
-gem 'mini_magick',    '~> 4.8.0'
+gem 'mini_magick',    '~> 4.9.4'
 gem 'pdf-reader',     '2.0.0'
 gem 'prawn',          '~> 2.2.2'
 gem 'prawn-table',    '~> 0.2.2'

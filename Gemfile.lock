@@ -321,7 +321,7 @@ GEM
       roodi (~> 3.1)
     metric_fu-Saikuro (1.1.3)
     mime-types (1.16)
-    mini_magick (4.8.0)
+    mini_magick (4.9.5)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
@@ -608,7 +608,7 @@ DEPENDENCIES
   memory-profiler
   metric_fu
   mime-types (= 1.16)
-  mini_magick (~> 4.8.0)
+  mini_magick (~> 4.9.4)
   momentjs-rails (~> 2.17.1)
   multi_json (~> 1.12.2)
   os (~> 1.0.0)
