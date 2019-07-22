@@ -70,8 +70,9 @@ export const cleanUpFilters = filters => {
   const filtersArray = pickBy(filters, value => {
     return !(value === "" || (Array.isArray(value) && value.length === 0));
   });
-  for (const [key, value] of Object.entries(filtersArray)) {
+  Object.entries(filtersArray).forEach(filter => {
+    const [key, value] = filter;
     filtersArray[key] = Array.isArray(value) ? value.join(",") : value;
-  }
+  });
   return filtersArray;
 };

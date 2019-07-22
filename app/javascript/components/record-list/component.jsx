@@ -8,7 +8,6 @@ import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
 import styles from "./styles.css";
 import RecordListToolbar from "./RecordListToolbar";
-import { cleanUpFilters } from "./helpers";
 
 const defaultFilters = Map({
   per: 20,
