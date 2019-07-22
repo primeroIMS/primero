@@ -2,6 +2,7 @@ import React from "react";
 import { dataToJS } from "libs";
 import { DateCell, ToggleIconCell } from "components/index-table";
 import sortBy from "lodash/sortBy";
+import { pickBy } from "lodash";
 import { Link } from "react-router-dom";
 
 export const buildTableColumns = (records, recordType, i18n, path) => {
@@ -63,4 +64,15 @@ export const buildTableColumns = (records, recordType, i18n, path) => {
   }
 
   return [];
+};
+
+export const cleanUpFilters = filters => {
+  const filtersArray = pickBy(filters, value => {
+    return !(value === "" || (Array.isArray(value) && value.length === 0));
+  });
+  Object.entries(filtersArray).forEach(filter => {
+    const [key, value] = filter;
+    filtersArray[key] = Array.isArray(value) ? value.join(",") : value;
+  });
+  return filtersArray;
 };

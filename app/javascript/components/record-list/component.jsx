@@ -28,7 +28,11 @@ const RecordList = ({
   const css = makeStyles(styles)();
 
   useEffect(() => {
-    getRecords({ options: data.filters.toJS(), path, namespace });
+    getRecords({
+      options: data.filters.toJS(),
+      path,
+      namespace
+    });
   }, []);
 
   const indexTableProps = {

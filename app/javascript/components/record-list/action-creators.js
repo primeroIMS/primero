@@ -1,3 +1,5 @@
+import { cleanUpFilters } from "./helpers";
+
 export const fetchRecords = data => async dispatch => {
   dispatch({
     type: `${data.namespace}/SET_FILTERS`,
@@ -8,7 +10,7 @@ export const fetchRecords = data => async dispatch => {
     type: `${data.namespace}/RECORDS`,
     api: {
       path: data.path,
-      params: data.options
+      params: cleanUpFilters(data.options)
     }
   });
 };
