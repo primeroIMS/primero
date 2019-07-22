@@ -67,7 +67,11 @@ export const buildTableColumns = (records, recordType, i18n, path) => {
 };
 
 export const cleanUpFilters = filters => {
-  return pickBy(filters, value => {
+  const filtersArray = pickBy(filters, value => {
     return !(value === "" || (Array.isArray(value) && value.length === 0));
   });
+  for (const [key, value] of Object.entries(filtersArray)) {
+    filtersArray[key] = Array.isArray(value) ? value.join(",") : value;
+  }
+  return filtersArray;
 };

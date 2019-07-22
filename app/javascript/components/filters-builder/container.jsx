@@ -20,6 +20,7 @@ import {
   Chips,
   DatesRange
 } from "components/filters-builder/filter-controls";
+import { selectFilters } from "components/record-list";
 import { useI18n } from "components/i18n";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
@@ -33,7 +34,9 @@ const FiltersBuilder = ({
   setExpanded,
   resetPanel,
   resetCurrentPanel,
-  collapsePanels
+  collapsePanels,
+  recordFilters,
+  applyFilters
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -45,7 +48,13 @@ const FiltersBuilder = ({
 
   // TODO: This need to be changed to store filters and apply selected
   // Filters depending on each record type
-  const handleApplyFilter = () => console.log("Filters to Apply");
+  const handleApplyFilter = () => {
+    applyFilters({
+      namespace: recordType,
+      options: recordFilters,
+      path: "/cases"
+    });
+  };
 
   const renderFilterControl = filter => {
     switch (filter.type) {
@@ -142,17 +151,21 @@ FiltersBuilder.propTypes = {
   setExpanded: PropTypes.func,
   resetPanel: PropTypes.func,
   resetCurrentPanel: PropTypes.func,
-  collapsePanels: PropTypes.func
+  collapsePanels: PropTypes.func,
+  recordFilters: PropTypes.object,
+  applyFilters: PropTypes.func
 };
 
 const mapStateToProps = (state, props) => ({
-  expanded: Selectors.selectExpandedPanel(state, props.recordType)
+  expanded: Selectors.selectExpandedPanel(state, props.recordType),
+  recordFilters: selectFilters(state, props.recordType)
 });
 
 const mapDispatchToProps = {
   setExpanded: actions.setExpandedPanel,
   resetCurrentPanel: actions.resetSinglePanel,
-  collapsePanels: actions.collapsePanels
+  collapsePanels: actions.collapsePanels,
+  applyFilters: actions.applyFilters
 };
 
 export default connect(

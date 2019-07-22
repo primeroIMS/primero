@@ -30,7 +30,7 @@ const RecordList = ({
 
   useEffect(() => {
     getRecords({
-      options: cleanUpFilters(data.filters.toJS()),
+      options: data.filters.toJS(),
       path,
       namespace
     });

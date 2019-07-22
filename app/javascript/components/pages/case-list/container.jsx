@@ -20,7 +20,6 @@ const CaseList = ({ records, meta, filters, loading, getRecords }) => {
 
   const defaultFilters = Map({
     fields: "short",
-    child_status: "open",
     record_state: true
   });
 

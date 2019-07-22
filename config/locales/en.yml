@@ -2480,7 +2480,7 @@ en:
   filters:
     approval_status: 'Approvals Status:'
     social_worker: "Field/Case/Social Worker:"
-    status: "Status:"
+    child_status: "Status:"
     age_range: "Age Range:"
     sex: "Sex:"
     risk_level: "Risk Level:"
