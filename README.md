@@ -71,8 +71,11 @@ When the Vagrant box is up and running, SSH in and go to the Primero development
 
     $ bundle exec rake db:create
     $ bundle exec rake db:migrate
-    $ bundle exec rake db:migrate:design
     $ bundle exec rake db:seed
+    
+### Pull JS dependencies
+
+    $ yarn install    
 
 To bring up the development server on port 3000 and webpack:
 
