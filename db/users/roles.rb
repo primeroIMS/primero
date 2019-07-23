@@ -691,7 +691,8 @@ gbv_caseworker_forms = [
   "reopened_logs", "transitions", "alleged_perpetrator", "health_medical_referral_subform_section",
   "psychosocial_counseling_services_subform_section", "legal_assistance_services_subform_section",
   "police_or_other_type_of_security_services_subform_section", "livelihoods_services_subform_section",
-  "child_protection_services_subform_section", "gbv_reported_elsewhere_subform"
+  "child_protection_services_subform_section", "gbv_reported_elsewhere_subform", "consent_for_services", "gbv_case_closure_form",
+  "client_feedback"
 ]
 
 gbv_caseworker_permissions = [
@@ -701,6 +702,11 @@ gbv_caseworker_permissions = [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
+            Permission::CREATE,
+            Permission::ENABLE_DISABLE_RECORD,
+            Permission::INCIDENT_FROM_CASE,
+            Permission::TRANSFER,
+            Permission::REFERRAL,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
             Permission::REQUEST_APPROVAL_CASE_PLAN,
@@ -715,7 +721,8 @@ gbv_caseworker_permissions = [
         :actions => [
             Permission::READ,
             Permission::WRITE,
-            Permission::FLAG
+            Permission::FLAG,
+            Permission::CREATE
         ]
     ),
     Permission.new(
@@ -743,7 +750,8 @@ gbv_mobile_caseworker_forms = [
     "reopened_logs", "transitions", "alleged_perpetrator", "health_medical_referral_subform_section",
     "psychosocial_counseling_services_subform_section", "legal_assistance_services_subform_section",
     "police_or_other_type_of_security_services_subform_section", "livelihoods_services_subform_section",
-    "child_protection_services_subform_section", "gbv_reported_elsewhere_subform"
+    "child_protection_services_subform_section", "gbv_reported_elsewhere_subform", "consent_for_services", "gbv_case_closure_form",
+    "client_feedback"
 ]
 
 gbv_mobile_caseworker_permissions = [
@@ -753,11 +761,13 @@ gbv_mobile_caseworker_permissions = [
             Permission::READ,
             Permission::WRITE,
             Permission::FLAG,
+            Permission::CREATE,
+            Permission::ENABLE_DISABLE_RECORD,
+            Permission::INCIDENT_FROM_CASE,
+            Permission::TRANSFER,
+            Permission::REFERRAL,
             Permission::CONSENT_OVERRIDE,
             Permission::EXPORT_CASE_PDF,
-            Permission::REQUEST_APPROVAL_CASE_PLAN,
-            Permission::REQUEST_APPROVAL_BIA,
-            Permission::REQUEST_APPROVAL_CLOSURE,
             Permission::SYNC_MOBILE
         ]
     ),
@@ -766,8 +776,15 @@ gbv_mobile_caseworker_permissions = [
         :actions => [
             Permission::READ,
             Permission::WRITE,
+            Permission::CREATE,
             Permission::FLAG,
             Permission::SYNC_MOBILE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::DASHBOARD,
+        :actions => [
+            Permission::VIEW_ASSESSMENT
         ]
     )
 ]
@@ -787,7 +804,8 @@ gbv_cm_supervisor_forms = [
     "action_plan_subform_section", "gbv_follow_up_subform_section", "reopened_logs", "transitions", "alleged_perpetrator",
     "health_medical_referral_subform_section", "psychosocial_counseling_services_subform_section",
     "legal_assistance_services_subform_section", "police_or_other_type_of_security_services_subform_section",
-    "livelihoods_services_subform_section", "child_protection_services_subform_section", "gbv_reported_elsewhere_subform"
+    "livelihoods_services_subform_section", "child_protection_services_subform_section", "gbv_reported_elsewhere_subform",
+    "consent_for_services", "gbv_case_closure_form", "client_feedback"
 ]
 
 gbv_cm_supervisor_permissions = [
@@ -800,11 +818,10 @@ gbv_cm_supervisor_permissions = [
             Permission::REASSIGN,
             Permission::EXPORT_JSON,
             Permission::EXPORT_CASE_PDF,
+            Permission::EXPORT_CUSTOM,
+            Permission::REFERRAL,
             Permission::CONSENT_OVERRIDE,
-            Permission::EXPORT_CASE_PDF,
-            Permission::APPROVE_BIA,
-            Permission::APPROVE_CASE_PLAN,
-            Permission::APPROVE_CLOSURE
+            Permission::EXPORT_CASE_PDF
         ]
     ),
     Permission.new(
@@ -813,39 +830,24 @@ gbv_cm_supervisor_permissions = [
             Permission::READ,
             Permission::FLAG,
             Permission::EXPORT_JSON,
+            Permission::EXPORT_CUSTOM,
             Permission::IMPORT,
             Permission::ASSIGN
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::ROLE,
-        :role_ids => ['role-gbv-caseworker'],
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::USER,
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
-            Permission::READ
         ]
     ),
     Permission.new(
         :resource => Permission::REPORT,
         :actions => [
             Permission::GROUP_READ,
+            Permission::CREATE,
             Permission::WRITE
         ]
     ),
     Permission.new(
         :resource => Permission::DASHBOARD,
         :actions => [
+            Permission::DASH_CASES_BY_SOCIAL_WORKER,
+            Permission::DASH_TRANSERS_BY_SOCIAL_WORKER,
             Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
         ]
     )
@@ -873,27 +875,10 @@ gbv_program_manager_forms = [
 
 gbv_program_manager_permissions = [
     Permission.new(
-        :resource => Permission::ROLE,
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::USER,
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
-        :resource => Permission::USER_GROUP,
-        :actions => [
-            Permission::READ
-        ]
-    ),
-    Permission.new(
         :resource => Permission::REPORT,
         :actions => [
             Permission::GROUP_READ,
+            Permission::CREATE,
             Permission::WRITE
         ]
     )
@@ -901,7 +886,7 @@ gbv_program_manager_permissions = [
 
 create_or_update_role(
     :name => "GBV Program Manager",
-    :group_permission => Permission::ALL,
+    :group_permission => Permission::GROUP,
     :permissions_list => gbv_program_manager_permissions,
     :permitted_form_ids => gbv_program_manager_forms
 )
@@ -913,7 +898,8 @@ gbv_organization_focal_point_forms = [
     "action_plan_subform_section", "gbv_follow_up_subform_section", "reopened_logs", "transitions", "alleged_perpetrator",
     "health_medical_referral_subform_section", "psychosocial_counseling_services_subform_section",
     "legal_assistance_services_subform_section", "police_or_other_type_of_security_services_subform_section",
-    "livelihoods_services_subform_section", "child_protection_services_subform_section", "gbv_reported_elsewhere_subform"
+    "livelihoods_services_subform_section", "child_protection_services_subform_section", "gbv_reported_elsewhere_subform",
+    "consent_for_services",  "client_feedback"
 ]
 
 gbv_organization_focal_point_permissions = [
@@ -923,9 +909,9 @@ gbv_organization_focal_point_permissions = [
             Permission::READ,
             Permission::FLAG,
             Permission::EXPORT_EXCEL,
-            Permission::EXPORT_PDF,
             Permission::EXPORT_CASE_PDF,
             Permission::EXPORT_JSON,
+            Permission::EXPORT_CUSTOM,
             Permission::IMPORT,
             Permission::ASSIGN,
             Permission::REASSIGN,
@@ -941,43 +927,46 @@ gbv_organization_focal_point_permissions = [
             Permission::EXPORT_EXCEL,
             Permission::EXPORT_INCIDENT_RECORDER,
             Permission::EXPORT_JSON,
-            Permission::EXPORT_CUSTOM,
-            Permission::IMPORT
+            Permission::IMPORT,
+            Permission::SYNC_MOBILE
         ]
     ),
     Permission.new(
         :resource => Permission::ROLE,
         :actions => [
             Permission::READ,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_PDF,
-            Permission::EXPORT_JSON
+            Permission::ASSIGN
         ],
-        :role_ids => ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-program-manager']
+        :role_ids => ['role-gbv-case-management-supervisor', 'role-gbv-caseworker', 'role-gbv-mobile-caseworker', 'role-gbv-program-manager']
     ),
     Permission.new(
         :resource => Permission::USER,
         :actions => [
-            Permission::READ,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_PDF,
-            Permission::EXPORT_JSON
+            Permission::AGENCY_READ,
+            Permission::MANAGE
         ]
     ),
     Permission.new(
         :resource => Permission::USER_GROUP,
         :actions => [
             Permission::READ,
-            Permission::EXPORT_EXCEL,
-            Permission::EXPORT_PDF,
-            Permission::EXPORT_JSON
+            Permission::MANAGE
         ]
     ),
     Permission.new(
         :resource => Permission::REPORT,
         :actions => [
             Permission::GROUP_READ,
+            Permission::CREATE,
             Permission::WRITE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::DASHBOARD,
+        :actions => [
+            Permission::DASH_CASES_BY_SOCIAL_WORKER,
+            Permission::DASH_TRANSERS_BY_SOCIAL_WORKER,
+            Permission::DASH_REFFERALS_BY_SOCIAL_WORKER
         ]
     )
 ]

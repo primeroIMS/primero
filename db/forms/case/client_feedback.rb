@@ -181,7 +181,7 @@ FormSection.create_or_update_form_section({
   unique_id: "client_feedback",
   parent_form: "case",
   visible: true,
-  order_form_group: 160,
+  order_form_group: 130,
   order: 10,
   order_subform: 0,
   form_group_name: "Client Feedback",

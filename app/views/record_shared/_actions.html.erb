@@ -2,7 +2,7 @@
 <ul id="menu" class="dropdown menu" data-dropdown-menu>
   <li class="init_btn">
     <%= link_to content_tag(:span, t("actions.button")), '', class: 'button left action_btn' %>
-    <ul class="menu">
+    <ul class="menu is-dropdown-submenu">
       <% unless params[:id_search].present? && can?(:search_owned_by_others, controller.model_class) %>
         <% if can?(:import, controller.model_class) && controller.model_class != PotentialMatch %>
             <%= render 'imports/button' %>
