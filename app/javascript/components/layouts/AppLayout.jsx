@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { selectAuthenticated } from "components/pages/login";
 import { Redirect } from "react-router-dom";
+import { Notifier } from "components/notifier";
 import styles from "./styles.css";
 
 const AppLayout = ({ children, drawerOpen, isAuthenticated }) => {
@@ -18,6 +19,7 @@ const AppLayout = ({ children, drawerOpen, isAuthenticated }) => {
   return (
     <div className={css.root}>
       <CssBaseline />
+      <Notifier />
       <Nav />
       <main
         className={clsx(css.content, {
