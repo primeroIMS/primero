@@ -57,13 +57,11 @@ describe("<RecordList /> - Reducers", () => {
   });
 
   it("should handle SET_FILTERS", () => {
-    const expected = Map({ filters: Map({ gender: "male" }) });
     const action = {
       type: "TestRecordType/SET_FILTERS",
       payload: { gender: "male" }
     };
     const newState = reducer(Map({}), action);
-
-    expect(newState).to.deep.equal(expected);
+    expect(newState.getIn(["filters", "gender"])).to.equal("male");
   });
 });

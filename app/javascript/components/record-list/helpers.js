@@ -68,7 +68,11 @@ export const buildTableColumns = (records, recordType, i18n, path) => {
 
 export const cleanUpFilters = filters => {
   const filtersArray = pickBy(filters, value => {
-    return !(value === "" || (Array.isArray(value) && value.length === 0));
+    return !(
+      value === "" ||
+      value === null ||
+      (Array.isArray(value) && value.length === 0)
+    );
   });
   Object.entries(filtersArray).forEach(filter => {
     const [key, value] = filter;

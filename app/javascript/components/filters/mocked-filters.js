@@ -55,6 +55,7 @@ export default [
     id: "child_status",
     display_name: "Case Status",
     type: "radio",
+    reset: true,
     options: {
       values: [
         { id: "open", display_name: "Open" },

@@ -26,7 +26,7 @@ describe("<RecordList /> - buildTableColumns", () => {
     const columns = buildTableColumns(records, "testRecordType", i18n);
 
     columns.forEach((v, k) => {
-      expect(v).to.deep.equal(expected[k]);
+      expect(v).to.deep.equal(expected[k + 1]);
     })
   });
 });

@@ -4,6 +4,8 @@ import { Provider } from "react-redux";
 import { MemoryRouter } from "react-router-dom";
 import configureStore from "redux-mock-store";
 import { I18nProvider } from "components/i18n";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import { theme } from "config";
 import thunk from "redux-thunk";
@@ -21,11 +23,13 @@ export const setupMountedComponent = (
   const component = createMount()(
     <Provider store={store}>
       <I18nProvider>
-        <ThemeProvider theme={theme}>
-          <MemoryRouter>
-            <TestComponent {...props} />
-          </MemoryRouter>
-        </ThemeProvider>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <ThemeProvider theme={theme}>
+            <MemoryRouter>
+              <TestComponent {...props} />
+            </MemoryRouter>
+          </ThemeProvider>
+        </MuiPickersUtilsProvider>
       </I18nProvider>
     </Provider>
   );
