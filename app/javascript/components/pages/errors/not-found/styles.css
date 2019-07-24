@@ -1,17 +1,13 @@
 .root {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+  margin: 5em;
 }
 
 .root .notFound {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -90%);
-  -ms-transform: translate(-50%, -90%);
-  transform: translate(-50%, -90%);
+  font-family: $(theme.typography.fontFamily);
 
   & h2 {
     font-size: $(theme.typography.pxToRem(33));
@@ -31,28 +27,45 @@
 }
 
 .notFoundImg {
-  width: 20%;
+  width: 200px;
 }
 
 .notFound404 {
-  position: relative;
-  height: 430px;
   & h1 {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    font-size: $(theme.typography.pxToRem(186));
-    font-weight: 200;
+    text-align: center;
     color: $(theme.primero.colors.blue);
+    margin: 0;
+    font-weight: 200;
+    font-family: $(theme.typography.fontFamily);
+    font-size: $(theme.typography.pxToRem(186));
   }
 }
 
 .homeButton {
+  font-family: $(theme.typography.fontFamily);
   text-align: center;
   padding-top: 1rem;
 }
 
 .homeButton button svg {
   padding-right: 5px;
+}
+
+@media $(theme.breakpoints.down('sm')) {
+  .notFound404 {
+    & h1 {
+      font-size: $(theme.typography.pxToRem(130));
+    }
+  }
+  .root .notFound {
+    font-family: $(theme.typography.fontFamily);
+
+    & h2 {
+      font-size: $(theme.typography.pxToRem(18));
+    }
+
+    & p {
+      font-size: $(theme.typography.pxToRem(12));
+    }
+  }
 }

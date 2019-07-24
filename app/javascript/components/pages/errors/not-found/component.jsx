@@ -11,33 +11,30 @@ const NotFound = () => {
   const css = makeStyles(styles)();
 
   return (
-    <div className={css.root}>
+    <>
       <div className={css.notFoundImg}>
         <ModuleLogo moduleLogo="primero" />
       </div>
-      <div className={css.notFound}>
-        <div className={css.notFound404}>
-          <h1>{i18n.t("error_page.not_found.code")}</h1>
-        </div>
-        <h2 className={css.message}>
-          {i18n.t("error_page.not_found.something_went_wrong")}
-        </h2>
-        <p>
-          {i18n.t("error_page.not_found.contact_admin")}
-        </p>
-        <div className={css.homeButton}>
-        <Link href="/v2/dashboard" underline="none">
-          <Button
-            variant="contained"
-            color="primary"
-          >
-              <Home />
-              {i18n.t("navigation.home")}
-          </Button>
-        </Link>
+      <div className={css.root}>
+        <div className={css.notFound}>
+          <div className={css.notFound404}>
+            <h1>{i18n.t("error_page.not_found.code")}</h1>
+          </div>
+          <h2 className={css.message}>
+            {i18n.t("error_page.not_found.something_went_wrong")}
+          </h2>
+          <p>{i18n.t("error_page.not_found.contact_admin")}</p>
+          <div className={css.homeButton}>
+            <Link href="/v2/dashboard" underline="none">
+              <Button variant="contained" color="primary">
+                <Home />
+                {i18n.t("navigation.home")}
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
