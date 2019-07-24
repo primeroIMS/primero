@@ -17,7 +17,7 @@ const LoginLayoutRoute = ({ component: Component, ...rest }) => {
 };
 
 LoginLayoutRoute.propTypes = {
-  component: PropTypes.node
+  component: PropTypes.func
 };
 
 export default LoginLayoutRoute;
