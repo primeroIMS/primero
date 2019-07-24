@@ -154,6 +154,8 @@ _primero.Views.ReferRecords = _primero.Views.Base.extend({
       $referral_modal.find(el).hide();
     })
 
+    $referral_modal.find('.local_toggle').show();
+
     $referral_modal.find('form').trigger('reset');
   }
 
