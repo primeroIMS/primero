@@ -47,7 +47,7 @@ client_feedback_fields = [
             }),
   Field.new({"name" => "client_discovery_method",
              "type" => "select_box",
-             "display_name_en" => "How did the client/caregiver found out about our service(s)?",
+             "display_name_en" => "How did the client/caregiver find out about our service(s)?",
              "option_strings_source" => "lookup lookup-discovery-method"
             }),
   Field.new({"name" => "client_feedback_service_delivery_header",
@@ -66,7 +66,7 @@ client_feedback_fields = [
             }),
   Field.new({"name" => "same_case_worker_each_visit",
              "type" => "select_box",
-             "display_name_en" => "Could the client see the same person at each return visit?",
+             "display_name_en" => "Was the client able to see the same person at each visit?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "could_client_choose_support_person",
@@ -76,12 +76,12 @@ client_feedback_fields = [
             }),
   Field.new({"name" => "client_informed_of_options",
              "type" => "select_box",
-             "display_name_en" => "Was the client given full information about what her options were?",
+             "display_name_en" => "Was the client given full information about what her options were for services and referrals?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_decided_what_next",
              "type" => "select_box",
-             "display_name_en" => "Did the client decide for herself what she wanted to happen next?",
+             "display_name_en" => "Did the client decide for herself what she wanted to happen next with her case (in terms of next steps)?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_referred_elsewhere",
@@ -107,7 +107,12 @@ client_feedback_fields = [
             }),
   Field.new({"name" => "client_private_meeting",
              "type" => "select_box",
-             "display_name_en" => "Did the client meet with a caseworker or other staff in private without being overheard?",
+             "display_name_en" => "Did you meet with a case worker or other staff in private?",
+             "option_strings_source" => "lookup lookup-yes-no-not-applicable"
+            }),
+  Field.new({"name" => "client_private_meeting_overheard",
+             "type" => "select_box",
+             "display_name_en" => "Could your conversation be overheard?",
              "option_strings_source" => "lookup lookup-yes-no-not-applicable"
             }),
   Field.new({"name" => "client_feedback_staff_header",
@@ -150,16 +155,7 @@ client_feedback_fields = [
             }),
   Field.new({"name" => "client_feedback_wellbeing_header",
              "type" => "separator",
-             "display_name_en" => "The Cleint's Wellbeing"
-            }),
-  Field.new({"name" => "client_feel_better",
-             "type" => "radio_button",
-             "display_name_en" => "Did the client feel better after meeting with the caseworker?",
-             "option_strings_source" => "lookup lookup-yes-no"
-            }),
-  Field.new({"name" => "client_feel_better_explain",
-             "type" => "textarea",
-             "display_name_en" => "Please explain"
+             "display_name_en" => "The Client's Wellbeing"
             }),
   Field.new({"name" => "would_client_recommend_friend",
              "type" => "radio_button",

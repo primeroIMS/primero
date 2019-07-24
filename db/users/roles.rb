@@ -744,6 +744,36 @@ create_or_update_role(
     :transfer => false
 )
 
+gbv_client_feedback_enterer_forms = [
+  "client_feedback","record_owner"
+]
+
+gbv_client_feedback_enterer_permissions = [
+    Permission.new(
+        :resource => Permission::CASE,
+        :actions => [
+            Permission::READ,
+            Permission::WRITE
+        ]
+    ),
+    Permission.new(
+        :resource => Permission::INCIDENT,
+        :actions => [
+            Permission::READ,
+            Permission::WRITE
+        ]
+    )
+]
+
+create_or_update_role(
+    :unique_id => "role-gbv-client-feedback-enterer",
+    :name => "GBV Client Feedback Enterer",
+    :permissions_list => gbv_client_feedback_enterer_permissions,
+    :form_sections => FormSection.where(unique_id: gbv_client_feedback_enterer_forms),
+    :referral => false,
+    :transfer => false
+)
+
 gbv_mobile_caseworker_forms = [
     "action_plan_form", "gbv_case_closure_form", "consent_for_referrals", "other_documents", "record_owner",
     "referral_transfer", "safety_plan", "survivor_assessment_form", "gbv_survivor_information",

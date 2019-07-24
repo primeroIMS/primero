@@ -83,6 +83,20 @@ create_or_update_user(
 )
 
 create_or_update_user(
+  'user_name' => 'primero_gbv_feedback_enterer',
+  'password' => 'primer0!',
+  'password_confirmation' => 'primer0!',
+  'full_name' => 'GBV Client Feedback Enterer',
+  'email' => 'primero_gbv_feedback_enterer@primero.com',
+  'disabled' => 'false',
+  'agency_id' => unicef.id,
+  'role_id' => Role.find_by_name('GBV Client Feedback Enterer').id,
+  'modules' => [PrimeroModule.gbv],
+  'user_groups' => [UserGroup.find_by(name: 'Primero GBV')],
+  'locale' => Primero::Application::LOCALE_ENGLISH
+)
+
+create_or_update_user(
   'user_name' => 'primero_mgr_gbv',
   'password' => 'primer0!',
   'password_confirmation' => 'primer0!',
