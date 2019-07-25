@@ -26,16 +26,14 @@ const rootReducer = {
     ...TaskList.reducers,
     ...Dashboard.reducers,
     ...ExportList.reducers,
-    ...Filter.reducers,
-    ...FiltersBuilder.reducers,
-    ...Filters.chipsReducer,
-    ...Filters.radioButtonsReducer,
-    ...Filters.rangeButtonReducer,
-    ...Filters.selectReducer,
-    ...Filters.checkboxReducer,
     ...Support.reducers
   }),
-  ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
+  ui: combineReducers({
+    ...Nav.reducers,
+    ...I18n.reducers,
+    ...Filter.reducers,
+    ...FiltersBuilder.reducers
+  }),
   ...RecordForms.reducers,
   ...Login.reducers,
   ...Notifier.reducers
