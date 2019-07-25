@@ -16,6 +16,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { LoginLayoutRoute, AppLayoutRoute } from "components/layouts";
 import { checkAuthentication } from "components/pages/login";
+import { SnackbarProvider } from "notistack";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
@@ -49,23 +50,25 @@ const App = () => {
               jss={jss}
               generateClassName={generateClassName}
             >
-              <ConnectedRouter history={history}>
-                <Switch>
-                  <Route exact path="/">
-                    <Redirect to="/login" />
-                  </Route>
-                  {routes.map(route => {
-                    if (route.layout === "LoginLayout") {
-                      return route.routes.map(loginLayout => (
-                        <LoginLayoutRoute {...loginLayout} />
+              <SnackbarProvider maxSnack={3}>
+                <ConnectedRouter history={history}>
+                  <Switch>
+                    <Route exact path="/">
+                      <Redirect to="/login" />
+                    </Route>
+                    {routes.map(route => {
+                      if (route.layout === "LoginLayout") {
+                        return route.routes.map(loginLayout => (
+                          <LoginLayoutRoute {...loginLayout} />
+                        ));
+                      }
+                      return route.routes.map(appLayout => (
+                        <AppLayoutRoute {...appLayout} />
                       ));
-                    }
-                    return route.routes.map(appLayout => (
-                      <AppLayoutRoute {...appLayout} />
-                    ));
-                  })}
-                </Switch>
-              </ConnectedRouter>
+                    })}
+                  </Switch>
+                </ConnectedRouter>
+              </SnackbarProvider>
             </StylesProvider>
           </ThemeProvider>
         </MuiPickersUtilsProvider>
