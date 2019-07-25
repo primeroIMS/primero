@@ -16,7 +16,6 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
 import { LoginLayoutRoute, AppLayoutRoute } from "components/layouts";
 import { checkAuthentication } from "components/pages/login";
-import { NotFound } from "components/pages/errors/not-found";
 import { SnackbarProvider } from "notistack";
 import configureStore, { history } from "./store";
 
@@ -58,16 +57,19 @@ const App = () => {
                       <Redirect to="/login" />
                     </Route>
                     {routes.map(route => {
-                      if (route.layout === "LoginLayout") {
-                        return route.routes.map(loginLayout => (
-                          <LoginLayoutRoute {...loginLayout} />
-                        ));
+                      switch (route.layout) {
+                        case "LoginLayout":
+                          return route.routes.map(loginLayout => (
+                            <LoginLayoutRoute {...loginLayout} />
+                          ));
+                        case "AppLayout":
+                          return route.routes.map(appLayout => (
+                            <AppLayoutRoute {...appLayout} />
+                          ));
+                        default:
+                          return <Route {...route} />;
                       }
-                      return route.routes.map(appLayout => (
-                        <AppLayoutRoute {...appLayout} />
-                      ));
                     })}
-                    <Route component={NotFound} />
                   </Switch>
                 </ConnectedRouter>
               </SnackbarProvider>
