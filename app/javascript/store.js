@@ -6,6 +6,7 @@ import { Map } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
+import { connectivityMiddleware, offlineEncryptionMiddleware, offlineMiddleware } from "./offline";
 import { restMiddleware } from "middleware";
 import { createBrowserHistory } from "history";
 import { combineReducers } from "redux-immutable";
@@ -21,6 +22,9 @@ export default () => {
   const middleware = [
     routerMiddleware(history),
     thunkMiddleware,
+    connectivityMiddleware,
+    offlineEncryptionMiddleware,
+    offlineMiddleware,
     restMiddleware({
       baseUrl: "/api/v2"
     })
