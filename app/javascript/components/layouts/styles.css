@@ -1,6 +1,6 @@
 .root {
   display: flex;
-  background: $(theme.primero.colors.white);
+  background: $(theme.primero.colors.contentGrey);
 }
 
 .content {
@@ -8,7 +8,7 @@
   height: 100vh;
   overflow: auto;
   padding: 1em;
-  background: $(theme.primero.colors.white);
+  background: $(theme.primero.colors.contentGrey);
   transition: $(theme.transitions.create('margin', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
