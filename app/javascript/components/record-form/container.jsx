@@ -4,6 +4,8 @@ import { Grid, Box, LinearProgress } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
+import { enqueueSnackbar } from "components/notifier";
+import { useI18n } from "components/i18n";
 import { Nav } from "./nav";
 import NAMESPACE from "./namespace";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -29,6 +31,7 @@ const RecordForms = ({ match, mode }) => {
 
   const css = makeStyles(styles)();
   const dispatch = useDispatch();
+  const i18n = useI18n();
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
@@ -68,7 +71,22 @@ const RecordForms = ({ match, mode }) => {
               module_id: selectedModule.primeroModule
             }
           },
-          params.id
+          params.id,
+          () => {
+            dispatch(
+              enqueueSnackbar(
+                containerMode.isEdit
+                  ? i18n.t(`${recordType}.messages.update_success`, {
+                      record_id: record.get("short_id")
+                    })
+                  : i18n.t(
+                      `${recordType}.messages.creation_success`,
+                      recordType
+                    ),
+                "success"
+              )
+            );
+          }
         )
       );
       setSubmitting(false);
