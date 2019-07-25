@@ -11,9 +11,12 @@ record_classes.each do |record_type|
 
   record_type.each_slice do |records|
     records_to_save = []
-
-    records.each do |record|
+    db_records = records.map {|r| record_type.database.get(r.id) }
+    records.each_with_index do |record, rec_index|
       record.each do |k,v|
+        #use the value from the datbase if v is blank
+        #Sometimes yes/no values can get screwed up by the record model
+        v ||= db_records[rec_index][k]
         if v.present? && field_options[k].present?
           if field_options[k].is_a?(Hash)
             v.each_with_index do |sf, index|
@@ -26,7 +29,7 @@ record_classes.each do |record_type|
           elsif field_options[k].is_a?(Array)
             options = field_options[k]
             value = MigrationHelper.get_value(v, options)
-            record[k] = value if value.present?
+            record[k] = value if value.present? || value == false
           end
         end
       end
