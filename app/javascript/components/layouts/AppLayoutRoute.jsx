@@ -17,7 +17,7 @@ const AppLayoutRoute = ({ component: Component, ...rest }) => {
 };
 
 AppLayoutRoute.propTypes = {
-  component: PropTypes.node
+  component: PropTypes.oneOfType([PropTypes.object, PropTypes.func])
 };
 
 export default AppLayoutRoute;
