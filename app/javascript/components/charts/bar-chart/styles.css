@@ -1,11 +1,7 @@
-.Description {
+.description {
   font-size: $(theme.typography.pxToRem(14));
-  font-weight: normal;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.29;
-  letter-spacing: normal;
-  color: #595951;
+  line-height: 1em;
+  color: $(theme.primero.colors.darkGrey);
   padding: 0 16px;
   margin: 0 10px 15px 0;
 }

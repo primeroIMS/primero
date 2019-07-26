@@ -59,10 +59,10 @@ const Reports = ({
         <Grid item xs={12}>
           <Box alignItems="center" display="flex">
             <Box flexGrow={1}>
-              <h1 className={css.Title}>{i18n.t("reports.label")}</h1>
+              <h1 className={css.title}>{i18n.t("reports.label")}</h1>
             </Box>
             <Box>
-              <IconButton to="/reports" component={Link} className={css.New}>
+              <IconButton to="/reports" component={Link} className={css.new}>
                 <AddIcon />
               </IconButton>
             </Box>

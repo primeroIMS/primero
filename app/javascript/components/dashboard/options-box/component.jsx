@@ -47,8 +47,8 @@ const OptionsBox = ({ title, to, action, children, classes, themes }) => {
     <MuiThemeProvider theme={{ ...useTheme(), ...getMuiTheme() }}>
       <Card
         className={clsx(
-          css.CardShadow,
-          css.OptionsBox,
+          css.cardShadow,
+          css.optionsBox,
           cssOverrides.CardShadow,
           cssOverrides.OptionsBox
         )}
@@ -57,7 +57,7 @@ const OptionsBox = ({ title, to, action, children, classes, themes }) => {
           action={action}
           title={
             typeof to !== "undefined" ? (
-              <Link to={to} className={css.CardLink}>
+              <Link to={to} className={css.cardLink}>
                 {title}
               </Link>
             ) : (

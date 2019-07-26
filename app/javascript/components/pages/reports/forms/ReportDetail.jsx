@@ -12,13 +12,14 @@ import styles from "./styles.css";
 
 const ReportDetail = ({ report }) => {
   const css = makeStyles(styles)();
+
   return (
     <div>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Box alignItems="center" display="flex">
             <Box flexGrow={1}>
-              <h1 className={css.Title}>
+              <h1 className={css.title}>
                 <IconButton to="/reports" component={Link}>
                   <ArrowBackIos />
                 </IconButton>
@@ -29,14 +30,14 @@ const ReportDetail = ({ report }) => {
               <IconButton
                 to="/reports"
                 component={Link}
-                className={css.ExportButton}
+                className={css.exportButton}
               >
                 <BarChart />
               </IconButton>
               <IconButton
                 to="/reports"
                 component={Link}
-                className={css.ExportButton}
+                className={css.exportButton}
               >
                 <TableChart />
               </IconButton>

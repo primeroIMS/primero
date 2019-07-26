@@ -1,4 +1,4 @@
-.Title {
+.title {
   font-size: $(theme.typography.pxToRem(22));
   font-weight: bold;
   font-style: normal;
@@ -8,6 +8,6 @@
   color: #000000;
 }
 
-.ExportButton {
+.exportButton {
   color: $(theme.primero.colors.blue);
 }

@@ -13,9 +13,10 @@ import styles from "./styles.css";
 
 const TableValues = ({ columns, values }) => {
   const css = makeStyles(styles)();
+
   return (
-    <Paper className={css.Root}>
-      <Table className={css.Table}>
+    <Paper className={css.root}>
+      <Table className={css.table}>
         <TableHead>
           <TableRow>
             {columns.map(column => {
@@ -26,8 +27,12 @@ const TableValues = ({ columns, values }) => {
         <TableBody>
           {values.map(value => (
             <TableRow key={`${value[0]}-row-data`}>
-              {value.map((row, index) => (
-                <TableCell key={`${row}-${index}-value`}>{row}</TableCell>
+              {value.map(row => (
+                <TableCell
+                  key={`${row}-${Math.floor(Math.random() * 100 + 1)}-value`}
+                >
+                  {row}
+                </TableCell>
               ))}
             </TableRow>
           ))}

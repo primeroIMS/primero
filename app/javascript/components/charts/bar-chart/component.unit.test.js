@@ -1,7 +1,7 @@
 import "test/test.setup";
 import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import { buildDataForReport } from "../../pages/reports/helpers";
+import { buildDataForReport } from "components/pages/reports/helpers";
 import { Map } from "immutable";
 import BarChart from "./component";
 

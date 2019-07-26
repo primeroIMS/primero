@@ -1,7 +1,7 @@
 import "test/test.setup";
 import { setupMountedThemeComponent } from "test";
 import { expect } from "chai";
-import { buildDataForTable } from "../../pages/reports/helpers";
+import { buildDataForTable } from "components/pages/reports/helpers";
 import { Map } from "immutable";
 import TableValues from "./component";
 
