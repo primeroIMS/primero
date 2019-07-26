@@ -11,7 +11,7 @@
   font-stretch: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #000000;
+  color: $(theme.primero.colors.solidBlack);
   margin: 25px 0 0 0;
 }
 

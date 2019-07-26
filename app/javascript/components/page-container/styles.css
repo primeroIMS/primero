@@ -1,0 +1,24 @@
+.root {
+  flex-grow: 1;
+  height: 100vh;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.twoCol {
+  flex-grow: 1;
+  max-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap {
+  padding: 1.563em 2em 4em 2em;
+}
+
+.heading {
+  font-size: $(theme.typography.pxToRem(22));
+  color: $(theme.primero.colors.solidBlack);
+  text-transform: uppercase;
+}

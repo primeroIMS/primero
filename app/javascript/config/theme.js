@@ -7,6 +7,7 @@ const colors = {
   lightGrey: "#f0f0f0",
   white: "#ffffff",
   black: "#231f20",
+  solidBlack: "#000000",
   darkGrey: "#595952",
   blue: "#0093ba",
   yellow: "#f2c317",
@@ -22,6 +23,11 @@ const colors = {
 };
 
 const overrides = {
+  MuiPaper: {
+    elevation3: {
+      boxShadow: "0 2px 12px 0 rgba(125, 125, 125, 0.23)"
+    }
+  },
   MuiInputLabel: {
     root: {
       color: colors.black,
@@ -48,6 +54,7 @@ const overrides = {
   },
   MuiCheckbox: {
     root: {
+      color: colors.midGrey,
       "&$checked": {
         color: `${colors.black} !important`
       }
@@ -104,21 +111,9 @@ const theme = merge(muiTheme, {
     }
   },
   typography: {
+    htmlFontSize: 10,
     useNextVariants: true,
-    fontFamily: [
-      "-apple-system",
-      "BlinkMacSystemFont",
-      "avenir next",
-      "avenir",
-      "helvetica neue",
-      "helvetica",
-      "ubuntu",
-      "roboto",
-      "noto",
-      "segoe ui",
-      "arial",
-      "sans-serif"
-    ].join(","),
+    fontFamily: ["helvetica", "roboto", "arial", "sans-serif"].join(", "),
     fontWeight: 600
   },
   primero: {

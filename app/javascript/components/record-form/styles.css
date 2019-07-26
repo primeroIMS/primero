@@ -20,3 +20,25 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 }
+
+
+.recordContainer {
+  max-height: 100%;
+  display: flex;
+  flex: 1;
+}
+
+.recordNav {
+  padding: 0 1em;
+  width: 17.5em;
+  overflow: hidden;
+  overflow-y: scroll;
+}
+
+.recordForms {
+  flex: 2;
+  padding: 0 3em;
+  width: 680px;
+  overflow: hidden;
+  overflow-y: scroll;
+}

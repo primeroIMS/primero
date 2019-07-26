@@ -17,12 +17,13 @@ import DateFnsUtils from "@date-io/date-fns";
 import { LoginLayoutRoute, AppLayoutRoute } from "components/layouts";
 import { checkAuthentication } from "components/pages/login";
 import { SnackbarProvider } from "notistack";
+import jssPluginSyntaxExtend from "jss-plugin-extend";
 import configureStore, { history } from "./store";
 
 const store = configureStore();
 
 const jss = create({
-  plugins: [...jssPreset().plugins, rtl()]
+  plugins: [...jssPreset().plugins, rtl(), jssPluginSyntaxExtend()]
 });
 const generateClassName = createGenerateClassName();
 

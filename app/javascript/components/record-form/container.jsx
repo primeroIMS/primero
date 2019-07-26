@@ -1,11 +1,12 @@
 import React, { useEffect, memo } from "react";
 import PropTypes from "prop-types";
-import { Grid, Box, LinearProgress } from "@material-ui/core";
+import { LinearProgress } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import { enqueueSnackbar } from "components/notifier";
 import { useI18n } from "components/i18n";
+import { PageContainer } from "components/page-container";
 import { Nav } from "./nav";
 import NAMESPACE from "./namespace";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -121,22 +122,17 @@ const RecordForms = ({ match, mode }) => {
   }, []);
 
   return (
-    <>
-      <Grid container>
-        <RecordFormToolbar {...toolbarProps} />
-        <Box display="flex" width="100%" height="100%">
-          <Box width={255}>
-            {formNav && firstTab ? <Nav {...navProps} /> : <LinearProgress />}
-          </Box>
-          <Box className={css.divider}>
-            <Box className={css.dividerInner} />
-          </Box>
-          <Box width={680} px={3}>
-            {forms ? <RecordForm {...formProps} /> : <LinearProgress />}
-          </Box>
-        </Box>
-      </Grid>
-    </>
+    <PageContainer twoCol>
+      <RecordFormToolbar {...toolbarProps} />
+      <div className={css.recordContainer}>
+        <div className={css.recordNav}>
+          {formNav && firstTab ? <Nav {...navProps} /> : <LinearProgress />}
+        </div>
+        <div className={css.recordForms}>
+          {forms ? <RecordForm {...formProps} /> : <LinearProgress />}
+        </div>
+      </div>
+    </PageContainer>
   );
 };
 

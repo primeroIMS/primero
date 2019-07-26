@@ -17,10 +17,14 @@
 }
 
 .formHeading, .toolbarHeading, .subformHeading {
-  color: #000;
+  color: $(theme.primero.colors.solidBlack);
   font-weight: bold;
   text-transform: uppercase;
   font-size: $(theme.typography.pxToRem(22));
+}
+
+.toolbarHeading {
+  font-size: $(theme.typography.pxToRem(20));
 }
 
 .subformHeading {
@@ -46,10 +50,7 @@
 }
 
 .toolbar {
-  position: sticky;
-  top: 0;
-  background: rgba(255, 255, 255, 0.8);
-  z-index: 999;
+  background: $(theme.primero.colors.contentGrey);
 }
 
 .uploadBox {

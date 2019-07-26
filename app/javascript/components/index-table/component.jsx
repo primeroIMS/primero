@@ -1,36 +1,9 @@
 import MUIDataTable from "mui-datatables";
 import PropTypes from "prop-types";
 import React from "react";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core";
 import { LoadingIndicator } from "components/loading-indicator";
 import { dataToJS } from "libs";
 import NoData from "./NoData";
-
-const getMuiTheme = () =>
-  createMuiTheme({
-    overrides: {
-      MUIDataTableToolbar: {
-        root: {
-          display: "none"
-        }
-      },
-      MUIDataTableToolbarSelect: {
-        root: {
-          display: "none"
-        }
-      },
-      MUIDataTableBodyCell: {
-        root: {
-          padding: "4px"
-        }
-      },
-      MUIDataTableHeadCell: {
-        root: {
-          padding: "4px"
-        }
-      }
-    }
-  });
 
 const IndexTable = ({
   columns,
@@ -42,8 +15,8 @@ const IndexTable = ({
   namespace
 }) => {
   const { meta, filters, records } = data;
-  const per = meta.get("per");
-  const total = meta.get("total");
+  const per = meta ? meta.get("per") : 20;
+  const total = meta ? meta.get("total") : 0;
 
   const handleTableChange = (action, tableState) => {
     const options = { per, ...defaultFilters.merge(filters).toJS() };
@@ -88,7 +61,7 @@ const IndexTable = ({
     rowsPerPage: per,
     filterType: "checkbox",
     fixedHeader: false,
-    elevation: 0,
+    elevation: 3,
     filter: false,
     download: false,
     search: false,
@@ -108,13 +81,13 @@ const IndexTable = ({
   };
 
   const DataTable = () =>
-    tableOptions.data.length ? <MUIDataTable {...tableOptions} /> : <NoData />;
+    tableOptions.data && tableOptions.data.length ? (
+      <MUIDataTable {...tableOptions} />
+    ) : (
+      <NoData />
+    );
 
-  return (
-    <MuiThemeProvider theme={getMuiTheme}>
-      {loading ? <LoadingIndicator loading={loading} /> : <DataTable />}
-    </MuiThemeProvider>
-  );
+  return loading ? <LoadingIndicator loading={loading} /> : <DataTable />;
 };
 
 IndexTable.propTypes = {

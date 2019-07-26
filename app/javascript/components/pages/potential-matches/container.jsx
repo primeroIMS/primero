@@ -10,6 +10,7 @@ import {
   useTheme
 } from "@material-ui/core/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
+import { PageContainer } from "components/page-container";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -121,7 +122,7 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
       : []
   };
   return (
-    <div>
+    <PageContainer>
       <Grid container spacing={3}>
         <Grid item xs={8}>
           <h1 className={css.Title}>
@@ -139,7 +140,7 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
           Filters
         </Grid>
       </Grid>
-    </div>
+    </PageContainer>
   );
 };
 

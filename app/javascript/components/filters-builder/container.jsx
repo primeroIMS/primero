@@ -10,7 +10,7 @@ import {
   IconButton
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Refresh from "@material-ui/icons/Refresh";
+import { RefreshIcon } from "images/primero-icons";
 import {
   CheckBox,
   SelectFilter,
@@ -116,7 +116,7 @@ const FiltersBuilder = ({
                   size="small"
                   onClick={handleReset(`${filter.id}`, `${filter.type}`)}
                 >
-                  <Refresh fontSize="inherit" />
+                  <RefreshIcon />
                 </IconButton>
               ) : null}
             </div>

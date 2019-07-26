@@ -7,6 +7,7 @@ import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
 import { themeHelper } from "libs";
+import { PageContainer } from "components/page-container";
 import styles from "./styles.css";
 import RecordListToolbar from "./RecordListToolbar";
 import FilterContainer from "./FilterContainer";
@@ -59,7 +60,7 @@ const RecordList = ({
   };
 
   return (
-    <Box className={css.root}>
+    <PageContainer>
       <Box className={css.content}>
         <Box flexGrow={1}>
           <RecordListToolbar
@@ -79,7 +80,7 @@ const RecordList = ({
           <Filters recordType={namespace} />
         </FilterContainer>
       </Box>
-    </Box>
+    </PageContainer>
   );
 };
 

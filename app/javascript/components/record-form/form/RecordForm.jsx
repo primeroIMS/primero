@@ -68,7 +68,9 @@ const RecordForm = ({
           bindSubmitForm(submitForm);
 
           return (
-            <Form onSubmit={handleSubmit}>{renderFormSections(forms)}</Form>
+            <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+              {renderFormSections(forms)}
+            </Form>
           );
         }}
       </Formik>

@@ -4,9 +4,10 @@ import { connect } from "react-redux";
 import { useI18n } from "components/i18n";
 import MUIDataTable from "mui-datatables";
 import { NavLink } from "react-router-dom";
-import { createMuiTheme, MuiThemeProvider, Box, Grid } from "@material-ui/core";
+import { createMuiTheme, MuiThemeProvider, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles/";
 import DownloadIcon from "@material-ui/icons/GetApp";
+import { PageContainer } from "components/page-container";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 import styles from "./styles.css";
@@ -104,7 +105,7 @@ const ExportList = ({ exportList, getExports }) => {
   };
 
   return (
-    <Box className={css.root}>
+    <PageContainer>
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <h1 className={css.Title}>{i18n.t("navigation.bulk_exports")}</h1>
@@ -116,7 +117,7 @@ const ExportList = ({ exportList, getExports }) => {
           </MuiThemeProvider>
         </Grid>
       </Grid>
-    </Box>
+    </PageContainer>
   );
 };
 

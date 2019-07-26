@@ -42,6 +42,7 @@
     "history": "^4.9.0",
     "immutable": "^4.0.0-rc.12",
     "jss": "^10.0.0-alpha.16",
+    "jss-plugin-extend": "^10.0.0-alpha.7",
     "jss-rtl": "^0.2.3",
     "lodash": "^4.17.11",
     "mui-datatables": "^2.6.3",
