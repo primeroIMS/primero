@@ -73,15 +73,34 @@
   align-items: center;
 }
 
+.corners {
+  content: "";
+  position: absolute;
+  right: 0;
+  z-index: 99;
+  height: 0.625em;
+  width: 0.625em;
+}
+
 .navActive {
-  background: $(theme.primero.colors.white);
+  background: $(theme.primero.colors.contentGrey);
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
 
-  &:hover {
-    background: $(theme.primero.colors.white);
+  & svg {
+    color: $(theme.primero.colors.black);
   }
 
-  &:before,
+  &:before {
+    content: "";
+    position: absolute;
+    right: 0;
+    z-index: 99;
+    height: 0.625em;
+    width: 0.625em;
+    background-image: url("data:image/svg+xml,%0A%3Csvg width='10px' height='10px' viewBox='0 0 10 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath d='M10,0 L10,10 L0,10 C5.5228475,10 10,5.5228475 10,0 Z' id='Combined-Shape' fill='%23FFFFFF'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+    top: -0.625em;
+  }
+
   &:after {
     content: "";
     position: absolute;
@@ -89,18 +108,6 @@
     z-index: 99;
     height: 0.625em;
     width: 0.625em;
-  }
-
-  & svg {
-    color: $(theme.primero.colors.black);
-  }
-
-  &:before {
-    background-image: url("data:image/svg+xml,%0A%3Csvg width='10px' height='10px' viewBox='0 0 10 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath d='M10,0 L10,10 L0,10 C5.5228475,10 10,5.5228475 10,0 Z' id='Combined-Shape' fill='%23FFFFFF'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
-    top: -0.625em;
-  }
-
-  &:after {
     background-image: url("data:image/svg+xml,%0A%3Csvg width='10px' height='10px' viewBox='0 0 10 10' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cg id='Page-1' stroke='none' stroke-width='1' fill='none' fill-rule='evenodd'%3E%3Cpath d='M10,0 L10,10 L0,10 C5.5228475,10 10,5.5228475 10,0 Z' id='Combined-Shape' fill='%23FFFFFF' transform='translate(5.000000, 5.000000) scale(1, -1) translate(-5.000000, -5.000000) '%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
     bottom: -0.625em;
   }

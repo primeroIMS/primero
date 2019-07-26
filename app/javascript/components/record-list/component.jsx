@@ -2,12 +2,14 @@ import { IndexTable } from "components/index-table";
 import { Filters } from "components/filters";
 import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
-import React, { useEffect } from "react";
-import { Box } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
+import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
+import { themeHelper } from "libs";
 import styles from "./styles.css";
 import RecordListToolbar from "./RecordListToolbar";
+import FilterContainer from "./FilterContainer";
 
 const defaultFilters = Map({
   per: 20,
@@ -26,6 +28,9 @@ const RecordList = ({
   primeroModule
 }) => {
   const css = makeStyles(styles)();
+  const { theme } = themeHelper();
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
+  const [drawer, setDrawer] = useState(false);
 
   useEffect(() => {
     getRecords({
@@ -47,18 +52,36 @@ const RecordList = ({
     onTableChange: getRecords
   };
 
+  const handleDrawer = () => {
+    setDrawer(!drawer);
+  };
+
+  const filterContainerProps = {
+    mobileDisplay,
+    drawer,
+    handleDrawer
+  };
+
   return (
     <Box className={css.root}>
       <Box className={css.content}>
         <Box flexGrow={1}>
-          <RecordListToolbar {...{ recordType, title, primeroModule }} />
+          <RecordListToolbar
+            {...{
+              recordType,
+              title,
+              primeroModule,
+              handleDrawer,
+              mobileDisplay
+            }}
+          />
           <Box className={css.table}>
             {!isEmpty(data.records) && <IndexTable {...indexTableProps} />}
           </Box>
         </Box>
-        <Box mx={2}>
+        <FilterContainer {...filterContainerProps}>
           <Filters recordType={namespace} />
-        </Box>
+        </FilterContainer>
       </Box>
     </Box>
   );
