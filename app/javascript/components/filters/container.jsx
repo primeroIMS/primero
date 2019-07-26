@@ -65,7 +65,7 @@ const Filters = ({
       <AppBar position="static" color="default" classes={{ root: css.appbar }}>
         <Tabs
           value={tabValue}
-          onChange={(e, value) => setTabValue(value)}
+          onChange={(e, value) => setTabValue({ recordType, value })}
           TabIndicatorProps={{
             style: {
               backgroundColor: "transparent"
@@ -107,8 +107,8 @@ Filters.propTypes = {
   setChips: PropTypes.func
 };
 
-const mapStateToProps = state => ({
-  tabValue: Selectors.getTab(state)
+const mapStateToProps = (state, props) => ({
+  tabValue: Selectors.getTab(state, props.recordType)
 });
 
 const mapDispatchToProps = {
