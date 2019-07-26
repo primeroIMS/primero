@@ -2,7 +2,7 @@ import * as RecordListActions from "components/record-list/actions";
 import { cleanUpFilters } from "components/record-list/helpers";
 import * as Actions from "./actions";
 
-export const setExpandedPanel = payload => {
+export const setExpandedPanel = payload => dispatch => {
   const action = (expanded => {
     if (expanded) {
       return Actions.SET_EXPANSION_PANEL;
@@ -10,10 +10,7 @@ export const setExpandedPanel = payload => {
     return Actions.REMOVE_EXPANDED_PANEL;
   })(payload.expanded);
 
-  return {
-    type: action,
-    payload
-  };
+  dispatch({ type: action, payload });
 };
 
 export const collapsePanels = () => {

@@ -52,7 +52,7 @@ const FiltersBuilder = ({
     applyFilters({
       namespace: recordType,
       options: recordFilters,
-      path: "/cases"
+      path: `/${recordType.toLowerCase()}`
     });
   };
 

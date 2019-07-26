@@ -1,6 +1,7 @@
-import { setupMountedComponent } from "test";
-import { expect } from "chai";
 import "test/test.setup";
+import { setupMountedComponent } from "test";
+import { Map } from "immutable";
+import { expect } from "chai";
 import Login from "./container";
 
 describe("<Login />", () => {
@@ -9,8 +10,14 @@ describe("<Login />", () => {
   before(() => {
     component = setupMountedComponent(
       Login,
-      { },
-      { }
+      { isAuthenticated: false },
+      Map({
+        user: Map({
+          module: "primero",
+          agency: "unicef",
+          isAuthenticated: false
+        })
+      }),
     ).component;
   });
 
@@ -18,8 +25,12 @@ describe("<Login />", () => {
     expect(component.find("form")).to.have.length(1);
   });
 
+  it("renders h1 tag", () => {
+    expect(component.find("h1")).to.have.length(1);
+  });
+
   it("renders username and password input fields", () => {
-    expect(component.find("input").first().prop("name")).to.have.equal("email");
+    expect(component.find("input").first().prop("name")).to.have.equal("user_name");
     expect(component.find("input").last().prop("name")).to.have.equal("password");
   });
 
@@ -28,6 +39,6 @@ describe("<Login />", () => {
   });
 
   it("renders login button", () => {
-    expect(component.find("button").first().prop("type")).to.equal("submit");
+     expect(component.find("button").first().prop("type")).to.equal("submit");
   });
 });
