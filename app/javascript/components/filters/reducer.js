@@ -12,7 +12,7 @@ const DEFAULT_STATE = Map({
   TracingRequests: {
     current: 0
   }
- });
+});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {

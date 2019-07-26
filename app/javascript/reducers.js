@@ -13,7 +13,6 @@ import * as RecordForms from "./components/record-form";
 import * as ExportList from "./components/pages/export-list";
 import * as Filter from "./components/filters";
 import * as FiltersBuilder from "./components/filters-builder";
-import * as Filters from "./components/filters-builder/filter-controls";
 import * as Support from "./components/pages/support";
 import * as Notifier from "./components/notifier";
 
