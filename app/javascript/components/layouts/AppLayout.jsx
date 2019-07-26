@@ -1,25 +1,25 @@
-import React, { useEffect } from "react";
+import React from "react";
 import clsx from "clsx";
 import { Nav, selectDrawerOpen } from "components/nav";
 import { makeStyles, CssBaseline } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { connect, useDispatch } from "react-redux";
-import { fetchForms, fetchOptions } from "components/record-form";
+import { connect } from "react-redux";
+import { selectAuthenticated } from "components/pages/login";
+import { Redirect } from "react-router-dom";
+import { Notifier } from "components/notifier";
 import styles from "./styles.css";
 
-const AppLayout = ({ children, drawerOpen }) => {
+const AppLayout = ({ children, drawerOpen, isAuthenticated }) => {
   const css = makeStyles(styles)();
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // TODO: Will have to ensure user is signed in for forms
-    dispatch(fetchForms());
-    dispatch(fetchOptions());
-  }, []);
+  if (!isAuthenticated) {
+    return <Redirect to="/login" />;
+  }
 
   return (
     <div className={css.root}>
       <CssBaseline />
+      <Notifier />
       <Nav />
       <main
         className={clsx(css.content, {
@@ -34,11 +34,13 @@ const AppLayout = ({ children, drawerOpen }) => {
 
 AppLayout.propTypes = {
   children: PropTypes.object,
-  drawerOpen: PropTypes.bool.isRequired
+  drawerOpen: PropTypes.bool.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => ({
-  drawerOpen: selectDrawerOpen(state)
+  drawerOpen: selectDrawerOpen(state),
+  isAuthenticated: selectAuthenticated(state)
 });
 
 export default connect(mapStateToProps)(AppLayout);

@@ -42,7 +42,7 @@ export default [
   {
     id: "approval_status",
     display_name: "Approval Status",
-    type: "multi_select",
+    type: "checkbox",
     options: {
       values: [
         { id: "bia", display_name: "BIA" },
@@ -52,9 +52,10 @@ export default [
     }
   },
   {
-    id: "status",
+    id: "child_status",
     display_name: "Case Status",
-    type: "select",
+    type: "radio",
+    reset: true,
     options: {
       values: [
         { id: "open", display_name: "Open" },

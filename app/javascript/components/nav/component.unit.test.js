@@ -39,7 +39,7 @@ describe("<Nav />", () => {
   describe("nav links", () => {
     // TODO: These will change based on permissions
     it("renders home link", () => {
-      expect(component.find({ href: "/" })).to.have.length(1);
+      expect(component.find({ href: "/dashboard" })).to.have.length(1);
     });
 
     it("renders tasks link", () => {
@@ -55,7 +55,7 @@ describe("<Nav />", () => {
     });
 
     it("renders tracing requests link", () => {
-      expect(component.find({ href: "/tracing-requests" })).to.have.length(1);
+      expect(component.find({ href: "/tracing_requests" })).to.have.length(1);
     });
 
     it("renders matches link", () => {

@@ -5,8 +5,11 @@ This document describes the Primero API version 2. A deprecated version 1 of the
 
 ## Authentication
 
-TODO. All other endpoints will require authentication.
+All other endpoints will require the Authorization header set with a bearer token issued by these endpoints.
+The tokens expire after 60 minutes. 
 
+* [Issue or re-issue a new JWT token](v2/docs/tokens/post.md) : `POST /api/v2/tokens`
+* [Invalidate an existing token](v2/docs/tokens/delete.md) : `DELETE /api/v2/tokens`
 
 ## Case Endpoints
 

@@ -37,7 +37,7 @@ source.  While this is running you can modify your hosts file to include
 our fake domain to use for development.
 
 
-| WARNING: Vagrant no longer sets up a development environment. |
+| WARNING: Vagrant no longer sets up a production environment. |
 | --- |
 
 
@@ -71,12 +71,31 @@ When the Vagrant box is up and running, SSH in and go to the Primero development
 
     $ bundle exec rake db:create
     $ bundle exec rake db:migrate
-    $ bundle exec rake db:migrate:design
     $ bundle exec rake db:seed
+    
+### Pull JS dependencies
+
+    $ yarn install    
 
 To bring up the development server on port 3000 and webpack:
 
     $ foreman start -f Procfile.dev
+    
+Alternatively, you may want to start Rails and Webpack separately:
+   
+    $ rails s
+
+And in a separate Vagrant SSH session:
+
+    $ ./bin/webpack-dev-server
+
+
+***Note:*** The first time webpack runs, it takes a very long time to compile. 
+It's better to keep Rails as a separate process if you want to restart it for some reason.
+
+***Note:*** Use the environment variable `CACHE_CLASSES=no` to allow Rails to reload Ruby code on the fly.
+Use the environment variable `LEGACY_UI=yes` to support rendering of the old v1.x UI. 
+This option (along with the legacy UI) will soon disappear. 
 
 You should now be able to access your development server in the browser on [http://primero.test:3000](http://primero.test:3000).
 You can login with a preseeded admin account with credentials `primero`/`primer0!`.

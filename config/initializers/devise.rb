@@ -8,6 +8,7 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
+  # TODO: Set this!!!!!!!
   # config.secret_key = 'ec11a0f4502f06b80d820b03577225304c7fdb7de8a992e1eb5b2841d568367ef85e4a6bbf1b8881416ec7e65407e06b2e2af6e3b8f51ecd2d4927296167ed70'
 
   # ==> Controller configuration
@@ -88,8 +89,12 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth]
-
+  # TODO: This is a temporary workaround to allow us to use the v1.x UI.
+  if ActiveModel::Type::Boolean.new.cast(ENV['LEGACY_UI'])
+    config.skip_session_storage = [:http_auth]
+  else
+    config.skip_session_storage = [:http_auth, :params_auth]
+  end
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
   # requests for sign in and sign up, you need to get a new CSRF token
@@ -251,7 +256,9 @@ Devise.setup do |config|
   # should add them to the navigational formats lists.
   #
   # The "*/*" below is required to match Internet Explorer requests.
-  # config.navigational_formats = ['*/*', :html]
+  config.navigational_formats = ['*/*', :html]
+  # TODO: We need to uncomment the line below once we have finished ripping out our v1 controllers and views
+  #config.navigational_formats = []
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :get
@@ -297,4 +304,18 @@ Devise.setup do |config|
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
   # config.sign_in_after_change_password = true
+
+  # ===> Configuration for :jwt_authenticatable (devise-jwt)
+  config.jwt do |jwt|
+    #jwt.secret = ENV['DEVISE_JWT_SECRET_KEY'] #TODO set this!!!!!!!!!!!!!!!
+    jwt.secret = 'DEVISE_JWT_SECRET_KEY' #TODO set this!!!!!!!!!!!!!!!
+    jwt.dispatch_requests = [
+      ['POST', %r{^/api/v2/tokens$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/api/v2/tokens$}]
+    ]
+    jwt.expiration_time = 1.hour.to_i
+  end
+
 end

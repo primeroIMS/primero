@@ -12,3 +12,7 @@
 .toogleButton:last-child{
   border-radius: 0 .25em .25em 0;
 }
+.toogleButtonSelected {
+  color: #FFF !important;
+  background-color: #0093ba !important;
+}

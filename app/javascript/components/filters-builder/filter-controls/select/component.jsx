@@ -59,7 +59,7 @@ const SelectFilter = ({
         >
           {values.map(v => (
             <MenuItem key={v.id} value={v.id}>
-              {i18n.t(`${recordType.toLowerCase()}.filter_by.${v.id}`)}
+              {i18n.t(`filters.${v.id}`)}
             </MenuItem>
           ))}
         </Select>

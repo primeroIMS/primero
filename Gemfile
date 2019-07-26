@@ -7,8 +7,9 @@ gem 'rake',             '~> 12.3'
 gem 'puma',             '~> 3.12'
 gem 'webpacker',        '~> 4.0'
 gem 'devise',           '4.6.2'
-gem 'uglifier',          '~> 4.1'
-gem 'sass-rails',        '~> 5.0'
+gem 'devise-jwt',       '~> 0.5.9'
+gem 'uglifier',         '~> 4.1'
+gem 'sass-rails',       '~> 5.0'
 gem 'file_validators',  '~> 2.3'
 gem 'jbuilder',         '~> 2.8'
 
@@ -32,7 +33,7 @@ gem 'writeexcel',        '~> 1.0'
 gem 'spreadsheet',       '~> 1.1'
 
 gem 'will_paginate',     '~> 3.1'
-gem 'mini_magick',       '~> 4.9'
+gem 'mini_magick',       '~> 4.9.4'
 gem 'i18n-js',           '~> 3.2'
 
 gem 'rufus-scheduler',   '~> 3.4', require: false

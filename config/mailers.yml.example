@@ -1,0 +1,38 @@
+#Mail configuration.
+#TODO: Delete once we have gotten rid of Chef
+
+test:
+  :delivery_method: :test
+  :notifications:
+    :host: 'localhost:3000'
+  :default_options:
+    :from: 'test-noreply@mail.example.com'
+
+development:
+  :delivery_method: :letter_opener
+  :notifications:
+    :host: 'localhost:3000'
+  :default_options:
+    :from: 'dev-noreply@mail.example.com'
+
+production:
+  :delivery_method: :sendmail
+  :notifications:
+    :host: 'localhost:3000'
+  :default_options:
+    :from: 'dev-noreply@mail.example.com'
+
+#production:
+#  :delivery_method: :smtp
+#  :smtp_conf:
+#    :address: 'smtp.gmail.com'
+#    :port: 587
+#    :domain: 'mail.example.com'
+#    :authentication: 'plain'
+#    :user_name: 'test@mail.example.com'
+#    :password: '??????'
+#    :enable_starttls_auto: true
+#  :notifications:
+#    host: 'mail.example.com'
+#  :default_options:
+#    :from: 'noreply@mail.example.com'

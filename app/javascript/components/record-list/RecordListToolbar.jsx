@@ -1,11 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
+import FilterListIcon from "@material-ui/icons/FilterList";
 import AddRecordMenu from "./AddRecordMenu";
 import styles from "./styles.css";
 
-const RecordListToolbar = ({ title, recordType }) => {
+const RecordListToolbar = ({
+  title,
+  recordType,
+  handleDrawer,
+  mobileDisplay
+}) => {
   const css = makeStyles(styles)();
 
   return (
@@ -16,6 +22,11 @@ const RecordListToolbar = ({ title, recordType }) => {
         </Typography>
       </Box>
       <Box>
+        {mobileDisplay && (
+          <IconButton onClick={handleDrawer}>
+            <FilterListIcon />
+          </IconButton>
+        )}
         <AddRecordMenu recordType={recordType} />
       </Box>
     </Box>
@@ -24,7 +35,9 @@ const RecordListToolbar = ({ title, recordType }) => {
 
 RecordListToolbar.propTypes = {
   title: PropTypes.string.isRequired,
-  recordType: PropTypes.string.isRequired
+  recordType: PropTypes.string.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired,
+  handleDrawer: PropTypes.func.isRequired
 };
 
 export default RecordListToolbar;

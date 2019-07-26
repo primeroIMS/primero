@@ -15,7 +15,7 @@ import { Map } from "immutable";
 import NAMESPACE from "./namespace";
 
 const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
-  const path = "/incidents";
+  const path = "incidents";
 
   const i18n = useI18n();
 

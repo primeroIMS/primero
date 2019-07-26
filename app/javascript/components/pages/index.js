@@ -9,3 +9,4 @@ export { ReportDetail } from "./reports/forms";
 export { PotentialMatches } from "./potential-matches";
 export { ExportList } from "./export-list";
 export { Support } from "./support";
+export { NotFound } from "./errors";

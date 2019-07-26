@@ -16,6 +16,7 @@ import * as Filter from "./components/filters";
 import * as FiltersBuilder from "./components/filters-builder";
 import * as Filters from "./components/filters-builder/filter-controls";
 import * as Support from "./components/pages/support";
+import * as Notifier from "./components/notifier";
 
 const rootReducer = {
   records: combineReducers({
@@ -27,18 +28,17 @@ const rootReducer = {
     ...Dashboard.reducers,
     ...Reports.reducers,
     ...ExportList.reducers,
-    ...Filter.reducers,
-    ...FiltersBuilder.reducers,
-    ...Filters.chipsReducer,
-    ...Filters.radioButtonsReducer,
-    ...Filters.rangeButtonReducer,
-    ...Filters.selectReducer,
-    ...Filters.checkboxReducer,
     ...Support.reducers
   }),
-  ui: combineReducers({ ...Nav.reducers, ...I18n.reducers }),
+  ui: combineReducers({
+    ...Nav.reducers,
+    ...I18n.reducers,
+    ...Filter.reducers,
+    ...FiltersBuilder.reducers
+  }),
   ...RecordForms.reducers,
-  ...Login.reducers
+  ...Login.reducers,
+  ...Notifier.reducers
 };
 
 export default rootReducer;

@@ -21,7 +21,7 @@ export const fetchForms = () => async dispatch => {
 };
 
 export const fetchRecord = (namespace, id) => async dispatch => {
-  await dispatch({
+  dispatch({
     type: Actions.SELECTED_RECORD,
     api: {
       path: `${namespace}/${id}`
@@ -40,14 +40,16 @@ export const saveRecord = (
   namespace,
   saveMethod,
   body,
-  id
+  id,
+  successCallback
 ) => async dispatch => {
   await dispatch({
     type: Actions.SAVE_RECORD,
     api: {
       path: saveMethod === "update" ? `${namespace}/${id}` : `${namespace}`,
       method: saveMethod === "update" ? "PATCH" : "POST",
-      body
+      body,
+      successCallback
     }
   });
 };
