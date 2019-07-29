@@ -2,6 +2,8 @@ module Flaggable
   extend ActiveSupport::Concern
   include Sunspot::Rails::Searchable
 
+  # Add aditional searchable block with the boolean flag field.
+
   included do
     has_many :flags, as: :record
 
@@ -47,7 +49,7 @@ module Flaggable
     def flagged?
       self.flag_count > 0
     end
-    alias_method :flag, :flagged?
+    alias_method :flagged, :flagged?
 
   end
 end

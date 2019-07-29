@@ -89,13 +89,13 @@ module Workflow
   end
 
   module ClassMethods
-    def workflow_statuses(modules=[], lookups=nil)
+    def workflow_statuses(modules=[], lookups=nil, locale=I18n.locale)
       status_list = []
       status_list << workflow_key_value(WORKFLOW_NEW)
       status_list << workflow_key_value(WORKFLOW_REOPENED)
       status_list << workflow_key_value(WORKFLOW_ASSESSMENT) if modules.try(:any?) {|m| m.use_workflow_assessment}
       status_list << workflow_key_value(WORKFLOW_CASE_PLAN) if modules.try(:any?) {|m| m.use_workflow_case_plan}
-      status_list += Lookup.values('lookup-service-response-type', lookups, locale: I18n.locale)
+      status_list += Lookup.values('lookup-service-response-type', lookups, locale: locale)
       status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED) if modules.try(:any?) {|m| m.use_workflow_service_implemented}
       status_list << workflow_key_value(WORKFLOW_CLOSED)
       status_list

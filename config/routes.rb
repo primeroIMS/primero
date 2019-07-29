@@ -32,6 +32,7 @@ Rails.application.routes.draw do
       resources :incidents
       resources :tracing_requests
       resources :form_sections, as: :forms, path: :forms
+      resources :users
     end
   end
 

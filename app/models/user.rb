@@ -32,7 +32,7 @@ class User < ApplicationRecord
   ADMIN_ASSIGNABLE_ATTRIBUTES = [:role_id]
 
   before_create :set_agency_services
-  before_save :make_user_name_lowercase, :update_user_cases_groups_and_location
+  before_save :make_user_name_lowercase, :update_user_cases_groups_and_location, :update_reporting_location_code
 
 
   validates_presence_of :full_name, :message => I18n.t("errors.models.user.full_name")
@@ -54,20 +54,11 @@ class User < ApplicationRecord
   validate :is_user_name_unique
   validate :validate_locale
 
-  include Indexable
-
-  searchable auto_index: self.auto_index? do
-    string :user_name
-    string :organization
-    string :location
-    boolean :disabled
-    string :reporting_location do
-      self.reporting_location.try(:location_code)
-    end
-    string :services, :multiple => true
-  end
-
   class << self
+    def hidden_attributes
+      %w(encrypted_password reset_password_token reset_password_sent_at)
+    end
+
     def get_unique_instance(attributes)
       find_by_user_name(attributes['user_name'])
     end
@@ -102,16 +93,23 @@ class User < ApplicationRecord
       false
     end
 
-    def find_by_criteria(criteria={}, pagination=nil, sort=nil)
-      User.search do
-        if criteria.present?
-          criteria.each do |key, value|
-            with key.to_sym, value
-          end
+    def find_permitted_users(filters = nil, pagination = nil, sort = nil, user = nil)
+      users = User.all
+      if filters.present?
+        filters = filters.compact
+        filters['disabled'] = filters['disabled'] == 'true' ? true : false 
+        users = users.where(filters)
+        if user.present? && user.has_permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+          users = users.where(organization: user.organization)
         end
-        sort.each { |sort_field, order| order_by(sort_field, order) } if sort.present?
-        paginate pagination if pagination.present?
+        users
       end
+      results = { total: users.size }
+      pagination = { per_page: 20, page: 1 } if pagination.blank?
+      pagination[:page] = pagination[:page] > 1 ? pagination[:per_page] * pagination[:page] : 0
+      users = users.limit(pagination[:per_page]).offset(pagination[:page])
+      users = users.order(sort) if sort.present?
+      results.merge({ users: users })
     end
   end
 
@@ -346,6 +344,10 @@ class User < ApplicationRecord
         child.save!
       end
     end
+  end
+  
+  def update_reporting_location_code
+    self.reporting_location_code = self.reporting_location.try(:location_code)
   end
 
   # TODO: Not sure what location_changed? && user_group_ids_changed? should be

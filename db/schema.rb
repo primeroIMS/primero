@@ -400,6 +400,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.integer "agency_id"
     t.string "position"
     t.string "location"
+    t.string "reporting_location_code"
     t.integer "role_id"
     t.string "time_zone", default: "UTC"
     t.string "locale"
