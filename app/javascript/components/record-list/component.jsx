@@ -34,7 +34,11 @@ const RecordList = ({
   const [drawer, setDrawer] = useState(false);
 
   useEffect(() => {
-    getRecords({ options: data.filters.toJS(), path, namespace });
+    getRecords({
+      options: data.filters.toJS(),
+      path,
+      namespace
+    });
   }, []);
 
   const indexTableProps = {

@@ -58,14 +58,18 @@ const App = () => {
                       <Redirect to="/login" />
                     </Route>
                     {routes.map(route => {
-                      if (route.layout === "LoginLayout") {
-                        return route.routes.map(loginLayout => (
-                          <LoginLayoutRoute {...loginLayout} />
-                        ));
+                      switch (route.layout) {
+                        case "LoginLayout":
+                          return route.routes.map(loginLayout => (
+                            <LoginLayoutRoute {...loginLayout} />
+                          ));
+                        case "AppLayout":
+                          return route.routes.map(appLayout => (
+                            <AppLayoutRoute {...appLayout} />
+                          ));
+                        default:
+                          return <Route {...route} />;
                       }
-                      return route.routes.map(appLayout => (
-                        <AppLayoutRoute {...appLayout} />
-                      ));
                     })}
                   </Switch>
                 </ConnectedRouter>

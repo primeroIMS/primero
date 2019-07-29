@@ -67,5 +67,8 @@ export default [
         component: Page.Support
       }
     ]
+  },
+  {
+    component: Page.NotFound
   }
 ];

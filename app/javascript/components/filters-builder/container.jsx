@@ -7,7 +7,8 @@ import {
   ExpansionPanelDetails,
   ExpansionPanelSummary,
   Button,
-  IconButton
+  IconButton,
+  Grid
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import { RefreshIcon } from "images/primero-icons";
@@ -19,6 +20,7 @@ import {
   Chips,
   DatesRange
 } from "components/filters-builder/filter-controls";
+import { selectFilters } from "components/record-list";
 import { useI18n } from "components/i18n";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
@@ -32,7 +34,9 @@ const FiltersBuilder = ({
   setExpanded,
   resetPanel,
   resetCurrentPanel,
-  collapsePanels
+  collapsePanels,
+  recordFilters,
+  applyFilters
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -44,9 +48,13 @@ const FiltersBuilder = ({
 
   // TODO: This need to be changed to store filters and apply selected
   // Filters depending on each record type
-  const handleSaveFilters = () => console.log("Save Filters");
-
-  const handleApplyFilter = () => console.log("Filters to Apply");
+  const handleApplyFilter = () => {
+    applyFilters({
+      namespace: recordType,
+      options: recordFilters,
+      path: `/${recordType.toLowerCase()}`
+    });
+  };
 
   const renderFilterControl = filter => {
     switch (filter.type) {
@@ -76,17 +84,6 @@ const FiltersBuilder = ({
 
   return (
     <div className={css.root}>
-      <div className={css.actionButtons}>
-        <Button color="primary" onClick={handleClearFilters}>
-          {i18n.t("cases.clear_filter")}
-        </Button>
-        <Button color="primary" onClick={handleSaveFilters}>
-          {i18n.t("cases.save_filter")}
-        </Button>
-        <Button color="primary" onClick={handleApplyFilter}>
-          {i18n.t("cases.apply_filter")}
-        </Button>
-      </div>
       {filters.map(filter => (
         <ExpansionPanel
           expanded={expanded && expanded.includes(`${filter.id}`)}
@@ -106,9 +103,7 @@ const FiltersBuilder = ({
             id={filter.id}
           >
             <div className={css.heading}>
-              <span>
-                {i18n.t(`${recordType.toLowerCase()}.filter_by.${filter.id}`)}
-              </span>
+              <span> {i18n.t(`filters.${filter.id}`)} </span>
               {filter.reset && filter.reset ? (
                 <IconButton
                   aria-label="Delete"
@@ -126,6 +121,25 @@ const FiltersBuilder = ({
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}
+      <div className={css.actionButtons}>
+        <Grid
+          container
+          direction="row"
+          justify="space-between"
+          alignItems="center"
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleApplyFilter}
+          >
+            {i18n.t("filters.apply_filters")}
+          </Button>
+          <Button variant="outlined" onClick={handleClearFilters}>
+            {i18n.t("filters.clear_filters")}
+          </Button>
+        </Grid>
+      </div>
     </div>
   );
 };
@@ -137,17 +151,21 @@ FiltersBuilder.propTypes = {
   setExpanded: PropTypes.func,
   resetPanel: PropTypes.func,
   resetCurrentPanel: PropTypes.func,
-  collapsePanels: PropTypes.func
+  collapsePanels: PropTypes.func,
+  recordFilters: PropTypes.object,
+  applyFilters: PropTypes.func
 };
 
 const mapStateToProps = (state, props) => ({
-  expanded: Selectors.selectExpandedPanel(state, props.recordType)
+  expanded: Selectors.selectExpandedPanel(state, props.recordType),
+  recordFilters: selectFilters(state, props.recordType)
 });
 
 const mapDispatchToProps = {
   setExpanded: actions.setExpandedPanel,
   resetCurrentPanel: actions.resetSinglePanel,
-  collapsePanels: actions.collapsePanels
+  collapsePanels: actions.collapsePanels,
+  applyFilters: actions.applyFilters
 };
 
 export default connect(
