@@ -10,6 +10,20 @@ describe "record field model" do
     @field = Field.new :name => "gender", :display_name => @field_name, :option_strings_text => "male\nfemale", :type => Field::RADIO_BUTTON
   end
 
+  describe 'default property values' do
+    before do
+      @field_default = Field.new
+    end
+
+    it 'editable is true' do
+      expect(@field_default.editable?).to be_truthy
+    end
+
+    it 'deletable is true' do
+      expect(@field_default.deletable?).to be_truthy
+    end
+  end
+
   describe '#name' do
     it "should not be generated when provided" do
       field = Field.new :name => 'test_name'

@@ -12,6 +12,7 @@ class Field
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
+  property :deletable, TrueClass, :default => true
   property :disabled, TrueClass, :default => false
   localize_properties [:display_name, :help_text, :guiding_questions, :tally, :tick_box_label]
   localize_properties [:option_strings_text], generate_keys: true
@@ -354,6 +355,7 @@ class Field
     self.mobile_visible = true if properties["mobile_visible"].nil?
     self.highlight_information = HighlightInformation.new
     self.editable = true if properties["editable"].nil?
+    self.deletable = true if properties["deletable"].nil?
     self.disabled = false if properties["disabled"].nil?
     self.multi_select = false if properties["multi_select"].nil?
     self.required = false if properties["required"].nil?
