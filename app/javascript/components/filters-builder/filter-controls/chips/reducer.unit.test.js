@@ -15,7 +15,6 @@ describe("<Chips /> - Reducers", () => {
       type: "RESET_CHIPS",
       payload: "risk_level"
     };
-    debugger;
     const newState = r.chipsReducer.Chips(defaultState, action);
 
     expect(newState.get("risk_level")).to.deep.equal(List([]));
