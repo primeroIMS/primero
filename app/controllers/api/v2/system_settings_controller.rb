@@ -4,8 +4,10 @@ module Api::V2
     def index
       authorize! :index, SystemSettings
       @system_setting = SystemSettings.first
-      @primero_modules = PrimeroModule.all
-      @agencies = Agency.all
+      if params[:extended]
+        @primero_modules = PrimeroModule.all
+        @agencies = Agency.all
+      end
     end
 
   end

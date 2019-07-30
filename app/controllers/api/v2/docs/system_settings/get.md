@@ -1,6 +1,6 @@
 # Query for forms
 
-Show the JSON representation of a system setting. 
+Retrieve the current Primero system settings as JSON
 
 **URL** : `/api/v2/system_settings`
 
@@ -9,6 +9,10 @@ Show the JSON representation of a system setting.
 **Authentication** : YES
 
 **Authorization** :The user must be authorized to view system settings in Primero.
+
+**Parameters** :
+
+* `extended` Optional. Depends on this parameter the modules and agencies will be retrieve.
 
 ## Success Response
 
@@ -70,9 +74,16 @@ Show the JSON representation of a system setting.
         },
         "primary_age_range": "primero",
         "location_limit_for_api": null,
-        "approval_forms_to_alert": "{\"cp_bia_form\"=>\"bia\", \"cp_case_plan\"=>\"case_plan\", \"closure_form\"=>\"closure\"}",
+        "approval_forms_to_alert": {
+            "cp_bia_form": "bia",
+            "closure_form": "closure",
+            "cp_case_plan": "case_plan"
+        },
         "changes_field_to_form": null,
-        "export_config_id": "{\"unhcr\"=>\"export-unhcr-csv\", \"duplicate_id\"=>\"export-duplicate-id-csv\"}",
+        "export_config_id": {
+            "unhcr": "export-unhcr-csv",
+            "duplicate_id": "export-duplicate-id-csv"
+        },
         "duplicate_export_field": "national_id_no",
         "primero_version": "2.0.0.1",
         "system_options": {
@@ -83,7 +94,11 @@ Show the JSON representation of a system setting.
         },
         "agencies": [
             {
-                "name": "UNICEF"
+                "unique_id": 1,
+                "name": "UNICEF",
+                "logo": {
+                    "small": "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--7196012f13983c82958a5542f98b2a7421f7e399/unicef.png"
+                }
             }
         ],
         "modules": [
