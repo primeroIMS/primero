@@ -7,6 +7,7 @@ import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
 import { themeHelper } from "libs";
+import { RecordSearch } from "components/record-search";
 import styles from "./styles.css";
 import RecordListToolbar from "./RecordListToolbar";
 import FilterContainer from "./FilterContainer";
@@ -62,6 +63,13 @@ const RecordList = ({
     handleDrawer
   };
 
+  const recordSearch = {
+    namespace,
+    path,
+    data,
+    getRecords
+  };
+
   return (
     <Box className={css.root}>
       <Box className={css.content}>
@@ -80,6 +88,7 @@ const RecordList = ({
           </Box>
         </Box>
         <FilterContainer {...filterContainerProps}>
+          <RecordSearch {...recordSearch} />
           <Filters recordType={namespace} />
         </FilterContainer>
       </Box>

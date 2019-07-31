@@ -41,6 +41,8 @@ export const recordListReducer = namespace => ({
       case `${namespace}/${Actions.RESET_RANGE_BUTTON}`:
       case `${namespace}/${Actions.RESET_RADIO_BUTTON}`:
         return state.setIn(["filters", payload.id], "");
+      case `${namespace}/${Actions.SET_RECORD_SEARCH}`:
+        return state.setIn(["filters", "query"], payload);
       default:
         return state;
     }
