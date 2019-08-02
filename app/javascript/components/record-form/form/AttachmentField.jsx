@@ -12,15 +12,7 @@ import styles from "./styles.css";
 import DocumentField from "./DocumentField";
 
 // TODO: No link to display / download upload
-const AttachmentField = ({
-  name,
-  field,
-  label,
-  disabled,
-  formik,
-  mode
-  // ...props
-}) => {
+const AttachmentField = ({ name, field, label, disabled, formik, mode }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
   const values = getIn(formik.values, name);
@@ -33,7 +25,7 @@ const AttachmentField = ({
   const [openLastDialog, setOpenLastDialog] = useState(false);
 
   let initialAttachmentValue = {
-    [attachment]: null
+    [attachment]: ""
   };
 
   const handleAttachmentAddition = arrayHelpers => {
@@ -80,7 +72,8 @@ const AttachmentField = ({
           {values.length > 0 &&
             values.map((a, index) => {
               return (
-                <>
+                // eslint-disable-next-line react/no-array-index-key
+                <div key={`${attachment}-${index}`}>
                   {attachment === "document" ? (
                     <DocumentField
                       title={`${i18n.t("fields.add")} ${label}`}
@@ -90,6 +83,7 @@ const AttachmentField = ({
                       open={valuesSize === index + 1 && openLastDialog}
                       resetOpenLastDialog={resetOpenLastDialog}
                       value={a}
+                      removeFunc={arrayHelpers.remove}
                     />
                   ) : (
                     <Box className={css.uploadBox}>
@@ -132,7 +126,7 @@ const AttachmentField = ({
                       </Box>
                     </Box>
                   )}
-                </>
+                </div>
               );
             })}
         </Box>

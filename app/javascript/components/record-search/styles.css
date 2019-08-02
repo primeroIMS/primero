@@ -5,8 +5,8 @@
 
 .searchInput {
   border-radius: 29px;
-  box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
   background-color: $(theme.primero.colors.white);
+  border: 1px solid #d6d6d6;
 }
 
 .iconButton {

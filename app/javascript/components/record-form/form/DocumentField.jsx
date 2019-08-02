@@ -16,6 +16,7 @@ import { useI18n } from "components/i18n";
 import { FastField } from "formik";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import CloseIcon from "@material-ui/icons/Close";
+import DeleteIcon from "@material-ui/icons/Delete";
 import DateField from "./DateField";
 import styles from "./styles.css";
 
@@ -26,7 +27,8 @@ const DocumentField = ({
   mode,
   open,
   resetOpenLastDialog,
-  value
+  value,
+  removeFunc
 }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
@@ -39,6 +41,11 @@ const DocumentField = ({
 
   const handleOpen = () => {
     setDialog(true);
+  };
+
+  const handleRemove = () => {
+    removeFunc(index);
+    handleClose();
   };
 
   const supportingInputsProps = {
@@ -96,13 +103,16 @@ const DocumentField = ({
                 {i18n.t("fields.file_upload_box.select_file_button_text")}
               </Button>
             </label>
-            <div className={css.inputField}>
+            <div className={css.attachmentInputField}>
               <FastField
                 id={`${name}[${index}][document]`}
                 name={`${name}[${index}][document]`}
                 type="file"
               />
             </div>
+            <IconButton onClick={handleRemove}>
+              <DeleteIcon />
+            </IconButton>
           </div>
           <Box my={2}>
             <FastField
@@ -149,7 +159,8 @@ DocumentField.propTypes = {
   mode: PropTypes.object.isRequired,
   open: PropTypes.bool,
   resetOpenLastDialog: PropTypes.func.isRequired,
-  value: PropTypes.object.isRequired
+  value: PropTypes.object.isRequired,
+  removeFunc: PropTypes.func.isRequired
 };
 
 export default DocumentField;

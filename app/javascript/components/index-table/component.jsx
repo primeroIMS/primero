@@ -17,7 +17,7 @@ const IndexTable = ({
   const per = meta ? meta.get("per") : 20;
   const total = meta ? meta.get("total") : 0;
   const page = meta.get("page");
-  const sortOrder = filters.get("order");
+  const sortOrder = filters ? filters.get("order") : undefined;
 
   const handleTableChange = (action, tableState) => {
     const options = { per, ...defaultFilters.merge(filters).toJS() };

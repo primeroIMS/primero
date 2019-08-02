@@ -35,7 +35,11 @@ export const fetchExports = () => async dispatch => {
           type: "Case",
           started: "05-Jul-2019 09:36"
         }
-      ]
+      ],
+      metadata: {
+        per: 20,
+        total: 2
+      }
     }
   });
 };

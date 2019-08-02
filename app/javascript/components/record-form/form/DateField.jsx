@@ -42,6 +42,7 @@ const DateField = ({ name, helperText, formik, ...rest }) => {
               ...rest
             }}
             disableFuture={
+              rest.field &&
               rest.field.get("date_validation") === "default_date_validation"
             }
             error={!!(fieldError && fieldTouched)}
