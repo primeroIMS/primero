@@ -10,7 +10,7 @@ import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 import styles from "./styles.css";
 
-const ExportList = ({ exportList, getExports }) => {
+const ExportList = ({ exportList, getExports, meta }) => {
   const i18n = useI18n();
   const css = makeStyles(styles)();
 
@@ -60,7 +60,8 @@ const ExportList = ({ exportList, getExports }) => {
     namespace: "exports",
     path: "/exports",
     data: {
-      records: exportList
+      records: exportList,
+      meta
     },
     onTableChange: () => {}
   };
@@ -75,11 +76,13 @@ const ExportList = ({ exportList, getExports }) => {
 
 ExportList.propTypes = {
   exportList: PropTypes.object,
-  getExports: PropTypes.func
+  getExports: PropTypes.func,
+  meta: PropTypes.object
 };
 
 const mapStateToProps = state => ({
-  exportList: selectors.selectExports(state)
+  exportList: selectors.selectExports(state),
+  meta: selectors.selectMeta(state)
 });
 
 const mapDispatchToProps = {
