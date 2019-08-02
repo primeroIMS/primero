@@ -47,11 +47,11 @@ const OptionsBox = ({ title, to, action, children, classes, themes }) => {
     <MuiThemeProvider theme={{ ...useTheme(), ...getMuiTheme() }}>
       <Card
         className={clsx(
-          css.cardShadow,
           css.optionsBox,
           cssOverrides.CardShadow,
           cssOverrides.OptionsBox
         )}
+        elevation={3}
       >
         <CardHeader
           action={action}

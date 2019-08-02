@@ -11,7 +11,8 @@
   font-size: $(theme.typography.pxToRem(17));
   font-weight: bold;
   color: #231e1f;
+
   &:hover {
-    color:  $(theme.primero.colors.darkGrey);
+    color: $(theme.primero.colors.darkGrey);
   }
 }
