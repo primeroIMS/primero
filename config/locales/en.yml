@@ -1749,7 +1749,9 @@ en:
     low_level: "Low"
 
   errors:
-
+    try_again: "Try again"
+    error_loading: "Error Loading Record(s)"
+    not_found: "No Record(s) Found"
     template:
       header:
         one: "1 error prohibited this %{model} from being saved"

@@ -1,10 +1,10 @@
 .navSelected {
-  border-radius: 24px;
+  border-radius: 4px;
   background: $(theme.primero.colors.lightGrey) !important;
 }
 
 .item {
-  font-size: $(theme.typography.pxToRem(17))
+  font-size: $(theme.typography.pxToRem(16))
 }
 
 .nestedItem {
@@ -16,6 +16,6 @@
   transition: none;
 
   &:hover {
-    border-radius: 24px;
+    border-radius: 4px;
   }
 }

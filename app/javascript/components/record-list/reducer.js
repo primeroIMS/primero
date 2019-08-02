@@ -7,9 +7,9 @@ export const recordListReducer = namespace => ({
   [namespace]: (state = DEFAULT_STATE, { type, payload }) => {
     switch (type) {
       case `${namespace}/${Actions.RECORDS_STARTED}`:
-        return state.set("loading", fromJS(payload));
-      case `${namespace}/${Actions.RECORDS_FAILED}`:
-        return state.set("errors", fromJS(payload));
+        return state.set("loading", fromJS(payload)).set("errors", false);
+      case `${namespace}/${Actions.RECORDS_FAILURE}`:
+        return state.set("errors", true);
       case `${namespace}/${Actions.RECORDS_SUCCESS}`:
         return state
           .set("data", fromJS(payload.data))

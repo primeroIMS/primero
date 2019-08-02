@@ -26,7 +26,7 @@ describe("<FiltersBuilders /> - Action Creators", () => {
     const options = { expanded: true, panel: "my_cases", namespace: "Cases" };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
-    
+
     actionCreators.setExpandedPanel({
       expanded: true,
       panel: "my_cases",
@@ -96,14 +96,14 @@ describe("<FiltersBuilders /> - Action Creators", () => {
     });
   });
 
-  it("should check the 'resetSinglePanel' action creator to return the correct object, when multi_toogle are reset", () => {
-    const options = { id: "age_range", type: "multi_toogle" };
+  it("should check the 'resetSinglePanel' action creator to return the correct object, when multi_toggle are reset", () => {
+    const options = { id: "age_range", type: "multi_toggle" };
     const store = configureStore()({});
     const dispatch = sinon.spy(store, "dispatch");
 
     actionCreators.resetSinglePanel({
       id: "age_range",
-      type: "multi_toogle"
+      type: "multi_toggle"
     }, "Cases")(dispatch);
 
     expect(dispatch).to.have.been.calledWithMatch({

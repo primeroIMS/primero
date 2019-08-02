@@ -5,18 +5,30 @@ import { useDispatch } from "react-redux";
 import NavGroup from "./NavGroup";
 import { setSelectedForm } from "../action-creators";
 
-const Nav = ({ formNav, selectedForm, firstTab }) => {
+const Nav = ({
+  formNav,
+  selectedForm,
+  firstTab,
+  handleToggleNav,
+  mobileDisplay
+}) => {
   const [open, setOpen] = useState({});
   const dispatch = useDispatch();
 
   const handleClick = args => {
-    const { group, formId } = args;
+    const { group, formId, parentItem } = args;
 
     if (group) {
       setOpen(Object.assign({}, open, { [group]: !open[group] }));
     }
 
-    dispatch(setSelectedForm(formId));
+    if (!parentItem) {
+      dispatch(setSelectedForm(formId));
+
+      if (mobileDisplay) {
+        handleToggleNav();
+      }
+    }
   };
 
   useEffect(() => {
@@ -54,7 +66,9 @@ const Nav = ({ formNav, selectedForm, firstTab }) => {
 Nav.propTypes = {
   formNav: PropTypes.object,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  firstTab: PropTypes.object
+  firstTab: PropTypes.object,
+  handleToggleNav: PropTypes.func.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired
 };
 
 export default Nav;

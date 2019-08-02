@@ -16,7 +16,6 @@ import { themeHelper } from "libs";
 import { connect } from "react-redux";
 import { MobileToolbar } from "components/mobile-toolbar";
 import { ListIcon } from "components/list-icon";
-import { AccountMenu } from "components/account-menu";
 import { TranslationsToggle } from "../translations-toggle";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
@@ -47,7 +46,19 @@ const Nav = ({ username, drawerOpen, openDrawer }) => {
       icon: "matches"
     },
     { name: i18n.t("navigation.reports"), to: "/reports", icon: "reports" },
-    { name: i18n.t("navigation.bulk_exports"), to: "/exports", icon: "exports" }
+    {
+      name: i18n.t("navigation.bulk_exports"),
+      to: "/exports",
+      icon: "exports"
+    },
+    {
+      name: i18n.t("navigation.support"),
+      to: "/support",
+      icon: "support",
+      divider: true
+    },
+    { name: i18n.t("navigation.my_account"), to: "/account", icon: "account" },
+    { name: i18n.t("navigation.logout"), to: "/signout", icon: "logout" }
   ];
 
   useEffect(() => {
@@ -76,25 +87,27 @@ const Nav = ({ username, drawerOpen, openDrawer }) => {
         )}
         <List className={css.navList}>
           {nav.map(l => (
-            <ListItem key={l.to}>
-              <NavLink
-                to={l.to}
-                className={css.navLink}
-                activeClassName={css.navActive}
-                exact
-              >
-                <ListItemIcon classes={{ root: css.listIcon }}>
-                  <ListIcon icon={l.icon} />
-                </ListItemIcon>
-                <ListItemText
-                  primary={l.name}
-                  classes={{ primary: css.listText }}
-                />
-              </NavLink>
-            </ListItem>
+            <div key={l.to}>
+              {l.divider && <div className={css.navSeparator} />}
+              <ListItem key={l.to}>
+                <NavLink
+                  to={l.to}
+                  className={css.navLink}
+                  activeClassName={css.navActive}
+                  exact
+                >
+                  <ListItemIcon classes={{ root: css.listIcon }}>
+                    <ListIcon icon={l.icon} />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={l.name}
+                    classes={{ primary: css.listText }}
+                  />
+                </NavLink>
+              </ListItem>
+            </div>
           ))}
         </List>
-        {!mobileDisplay && <AccountMenu username={username} />}
         {/* TODO: Need to pass agency and logo path from api */}
         <AgencyLogo />
         {!mobileDisplay && <TranslationsToggle />}

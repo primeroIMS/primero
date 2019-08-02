@@ -3,9 +3,8 @@ import { dataToJS } from "libs";
 import { DateCell, ToggleIconCell } from "components/index-table";
 import sortBy from "lodash/sortBy";
 import { pickBy } from "lodash";
-import { Link } from "react-router-dom";
 
-export const buildTableColumns = (records, recordType, i18n, path) => {
+export const buildTableColumns = (records, recordType, i18n) => {
   const record =
     records && records.size > 0
       ? Object.keys(dataToJS(records.get(0))).filter(i => i !== "id")
@@ -23,16 +22,6 @@ export const buildTableColumns = (records, recordType, i18n, path) => {
         id: isIdField,
         options: {}
       };
-
-      if (idFields.includes(k)) {
-        column.options.customBodyRender = (value, meta) => {
-          return (
-            <Link to={`/${path}/${records.getIn([meta.rowIndex, "id"])}`}>
-              {value}
-            </Link>
-          );
-        };
-      }
 
       if (
         [
