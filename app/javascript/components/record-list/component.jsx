@@ -1,6 +1,5 @@
 import { IndexTable } from "components/index-table";
 import { Filters } from "components/filters";
-import isEmpty from "lodash/isEmpty";
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
@@ -8,13 +7,18 @@ import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
 import { themeHelper } from "libs";
 import { RecordSearch } from "components/record-search";
+import { PageContainer } from "components/page-container";
+import { withRouter } from "react-router-dom";
+import { LoadingIndicator } from "components/loading-indicator";
+import { useSelector } from "react-redux";
 import styles from "./styles.css";
 import RecordListToolbar from "./RecordListToolbar";
 import FilterContainer from "./FilterContainer";
+import { selectErrors } from "./selectors";
 
 const defaultFilters = Map({
   per: 20,
-  page: 1
+  page: 0
 });
 
 const RecordList = ({
@@ -26,10 +30,11 @@ const RecordList = ({
   namespace,
   getRecords,
   recordType,
-  primeroModule
+  primeroModule,
+  history
 }) => {
   const css = makeStyles(styles)();
-  const { theme } = themeHelper();
+  const { theme } = themeHelper({});
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawer, setDrawer] = useState(false);
 
@@ -50,7 +55,10 @@ const RecordList = ({
     data,
     loading,
     recordType,
-    onTableChange: getRecords
+    onTableChange: getRecords,
+    onRowClick: (rowData, rowMeta) => {
+      history.push(`${path}/${data.records.getIn([rowMeta.dataIndex, "id"])}`);
+    }
   };
 
   const handleDrawer = () => {
@@ -63,17 +71,19 @@ const RecordList = ({
     handleDrawer
   };
 
-  const recordSearch = {
+  const recordSearchProps = {
     namespace,
     path,
     data,
     getRecords
   };
 
+  const errors = useSelector(state => selectErrors(state, namespace));
+
   return (
-    <Box className={css.root}>
+    <PageContainer>
       <Box className={css.content}>
-        <Box flexGrow={1}>
+        <Box className={css.tableContainer} flexGrow={1}>
           <RecordListToolbar
             {...{
               recordType,
@@ -84,19 +94,27 @@ const RecordList = ({
             }}
           />
           <Box className={css.table}>
-            {!isEmpty(data.records) && <IndexTable {...indexTableProps} />}
+            <LoadingIndicator
+              loading={loading}
+              hasData={data.records.size > 0}
+              type={recordType}
+              errors={errors}
+            >
+              <IndexTable {...indexTableProps} />
+            </LoadingIndicator>
           </Box>
         </Box>
         <FilterContainer {...filterContainerProps}>
-          <RecordSearch {...recordSearch} />
+          <RecordSearch {...recordSearchProps} />
           <Filters recordType={namespace} />
         </FilterContainer>
       </Box>
-    </Box>
+    </PageContainer>
   );
 };
 
 RecordList.propTypes = {
+  history: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
   loading: PropTypes.bool,
   columns: PropTypes.array.isRequired,
@@ -108,4 +126,4 @@ RecordList.propTypes = {
   primeroModule: PropTypes.string
 };
 
-export default RecordList;
+export default withRouter(RecordList);

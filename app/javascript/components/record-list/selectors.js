@@ -11,3 +11,6 @@ export const selectMeta = (state, namespace) =>
 
 export const selectLoading = (state, namespace) =>
   state.getIn(["records", namespace, "loading"], false);
+
+export const selectErrors = (state, namespace) =>
+  state.getIn(["records", namespace, "errors"], false);

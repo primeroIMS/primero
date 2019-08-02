@@ -4,25 +4,7 @@
   }
 }
 
-.Title {
-  height: 28px;
-  font-family: $(theme.typography.fontFamily);
-  font-size: 22px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: #000000;
-  margin: 25px 0 0 0;
-}
-
-.NavLinkContainer {
+.link {
   display: flex;
   align-items: center;
-  & a {
-    text-decoration: none;
-    color: #4A4A4A;
-    padding-left: 5px;
-  }
 }

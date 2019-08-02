@@ -1,4 +1,4 @@
-export const RECORDS_FAILED = "RECORDS_FAILED";
+export const RECORDS_FAILURE = "RECORDS_FAILURE";
 export const RECORDS_STARTED = "RECORDS_STARTED";
 export const RECORDS_FINISHED = "RECORDS_FINISHED";
 export const RECORDS_SUCCESS = "RECORDS_SUCCESS";
@@ -13,6 +13,8 @@ export const ADD_RANGE_BUTTON = "ADD_RANGE_BUTTON";
 export const ADD_CHIP = "ADD_CHIP";
 export const DELETE_CHIP = "DELETE_CHIP";
 export const SET_RECORD_SEARCH = "SET_RECORD_SEARCH";
+export const ADD_DATES_RANGE = "ADD_DATES_RANGE";
+export const ADD_SELECT_RANGE = "ADD_SELECT_RANGE";
 // Reset Single Filter
 export const RESET_CHIPS = "RESET_CHIPS";
 export const RESET_RADIO_BUTTON = "RESET_RADIO_BUTTON";

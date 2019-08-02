@@ -10,6 +10,7 @@ import { useI18n } from "components/i18n";
 import { makeStyles } from "@material-ui/styles";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { Notifier } from "components/notifier";
 import styles from "./login-styles.css";
 
 const LoginLayout = ({ children, primeroModule, agency }) => {
@@ -19,26 +20,22 @@ const LoginLayout = ({ children, primeroModule, agency }) => {
   return (
     <div>
       <CssBaseline />
+      <Notifier />
       <Box className={[css.primeroBackground, css[primeroModule]].join(" ")}>
         <div className={css.content}>
-          <Grid item xs={8} className={css.loginHeader}>
+          <div className={css.loginHeader}>
             <ModuleLogo moduleLogo={primeroModule} white />
-          </Grid>
-          <Grid
-            container
-            direction="row"
-            justify="space-evenly"
-            alignItems="stretch"
-            spacing={5}
-            className={css.loginContainer}
-          >
-            <Grid item xs={12} sm={6} md={6}>
-              {children}
-            </Grid>
-            <Grid item className={css.loginLogo} xs={12} sm={6} md={6}>
-              <AgencyLogo agency={agency} />
-            </Grid>
-          </Grid>
+          </div>
+          <div className={css.authContainer}>
+            <div className={css.auth}>
+              <div className={css.formContainer}>
+                <div className={css.form}>{children}</div>
+              </div>
+              <div className={css.loginLogo}>
+                <AgencyLogo agency={agency} />
+              </div>
+            </div>
+          </div>
         </div>
         <Grid container className={css.footer}>
           <Grid item xs={2}>

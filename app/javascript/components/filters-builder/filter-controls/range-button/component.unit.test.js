@@ -10,7 +10,7 @@ describe("<RangeButton /> - Component", () => {
     id: "age_range",
     display_name: "Age",
     reset: true,
-    type: "multi_toogle",
+    type: "multi_toggle",
     options: {
       values: [
         { id: "age_0_5", display_name: "0 - 5" },

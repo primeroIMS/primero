@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import { FormGroup, FormControlLabel, Checkbox } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import styles from "./styles.css";

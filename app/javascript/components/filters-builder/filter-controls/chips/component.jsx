@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Chip from "@material-ui/core/Chip";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
@@ -22,6 +22,7 @@ const Chips = ({ recordType, props, chips, setChips }) => {
         const className = css[[data.css_color, chipVariant].join("-")];
         const cssSelectedChip =
           chips && chips.includes(data.id) ? "chipSelected" : null;
+
         return (
           // TODO: Reuse DashboardChip Component
           <Chip

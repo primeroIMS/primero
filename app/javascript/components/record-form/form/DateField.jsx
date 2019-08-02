@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { DatePicker } from "@material-ui/pickers";
+import { InputAdornment } from "@material-ui/core";
 import { useI18n } from "components/i18n";
 import { FastField } from "formik";
+import CalendarTodayIcon from "@material-ui/icons/CalendarToday";
 
 const DateField = ({ name, helperText, ...rest }) => {
   const i18n = useI18n();
@@ -25,6 +27,13 @@ const DateField = ({ name, helperText, ...rest }) => {
               ...rest
             }}
             onChange={date => form.setFieldValue(name, date, true)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <CalendarTodayIcon />
+                </InputAdornment>
+              )
+            }}
           />
         );
       }}

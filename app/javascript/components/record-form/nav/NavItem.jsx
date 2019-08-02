@@ -21,7 +21,8 @@ const NavItem = ({
 
   const handlerArgs = {
     formId,
-    group: isNested ? group : false
+    group: isNested ? group : false,
+    parentItem: isNested
   };
 
   return (
