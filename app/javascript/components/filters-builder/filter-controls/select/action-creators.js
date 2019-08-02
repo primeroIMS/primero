@@ -9,7 +9,9 @@ export const setupSelect = (payload, namespace) => {
 
 export const setSelectValue = (payload, namespace) => {
   return {
-    type: `${namespace}/${RecordListActions.ADD_SELECT}`,
+    type: payload.defaultValue
+      ? `${namespace}/${RecordListActions.ADD_SELECT_RANGE}`
+      : `${namespace}/${RecordListActions.ADD_SELECT}`,
     payload
   };
 };
