@@ -1,3 +1,9 @@
 export const getSelect = (state, props, namespace) => {
-  return state.getIn(["records", namespace, "filters", props.id], []);
+  if (props.options.defaultValue) {
+    return state.getIn(
+      ["records", namespace, "filters", props.id, "value"],
+      ""
+    );
+  }
+  return state.getIn(["records", namespace, "filters", props.id], "");
 };

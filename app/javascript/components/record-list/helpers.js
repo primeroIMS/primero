@@ -63,9 +63,21 @@ export const cleanUpFilters = filters => {
       (Array.isArray(value) && value.length === 0)
     );
   });
+
   Object.entries(filtersArray).forEach(filter => {
     const [key, value] = filter;
-    filtersArray[key] = Array.isArray(value) ? value.join(",") : value;
+    if (Array.isArray(value)) {
+      filtersArray[key] = value.join(",");
+    } else if (typeof value === "object") {
+      const valueConverted = {};
+      Object.entries(value.toJS()).forEach(keys => {
+        const [k, v] = keys;
+        valueConverted[k] = v;
+      });
+      filtersArray[key] = valueConverted;
+    } else {
+      filtersArray[key] = value;
+    }
   });
   return filtersArray;
 };

@@ -31,7 +31,7 @@ const SelectFilter = ({
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const { id, options } = props;
-  const { values } = options;
+  const { values, defaultValue } = options;
 
   return (
     <div className={css.root}>
@@ -43,7 +43,8 @@ const SelectFilter = ({
             setSelectValue(
               {
                 id,
-                data: event.target.value
+                data: event.target.value,
+                defaultValue
               },
               recordType
             );

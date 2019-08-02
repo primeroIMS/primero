@@ -3,13 +3,15 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
 import { Tabs, Tab } from "@material-ui/core";
+import { Map } from "immutable";
 import { FiltersBuilder } from "components/filters-builder";
 import {
   setUpCheckBoxes,
   setupSelect,
   setupRangeButton,
   setUpChips,
-  setupRadioButtons
+  setupRadioButtons,
+  setupDatesRange
 } from "components/filters-builder/filter-controls";
 import { useI18n } from "components/i18n";
 import filterTypes from "./mocked-filters";
@@ -25,7 +27,8 @@ const Filters = ({
   setSelect,
   setRangeButton,
   setRadioButtons,
-  setChips
+  setChips,
+  setDatesRange
 }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
@@ -50,6 +53,13 @@ const Filters = ({
         case "chips":
           payloadFilter[filter.id] = [];
           return setChips(payloadFilter, recordType);
+        case "dates":
+          payloadFilter[filter.id] = Map({
+            from: new Date(),
+            to: new Date(),
+            value: ""
+          });
+          return setDatesRange(payloadFilter, recordType);
         default:
           return null;
       }
@@ -107,7 +117,8 @@ Filters.propTypes = {
   setSelect: PropTypes.func,
   setRangeButton: PropTypes.func,
   setRadioButtons: PropTypes.func,
-  setChips: PropTypes.func
+  setChips: PropTypes.func,
+  setDatesRange: PropTypes.func
 };
 
 const mapStateToProps = (state, props) => ({
@@ -120,7 +131,8 @@ const mapDispatchToProps = {
   setSelect: setupSelect,
   setRangeButton: setupRangeButton,
   setRadioButtons: setupRadioButtons,
-  setChips: setUpChips
+  setChips: setUpChips,
+  setDatesRange: setupDatesRange
 };
 
 export default connect(
