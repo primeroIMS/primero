@@ -65,7 +65,8 @@
     "redux-immutable": "^4.0.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "yarn": "^1.16.0"
+    "yarn": "^1.16.0",
+    "yup": "^0.27.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

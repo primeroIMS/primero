@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   FormControlLabel,
+  FormHelperText,
   Radio,
   FormControl,
   InputLabel,
@@ -16,7 +17,15 @@ import { useI18n } from "components/i18n";
 import { getOption } from "../selectors";
 import styles from "./styles.css";
 
-const RadioField = ({ name, label, disabled, field, formik, ...rest }) => {
+const RadioField = ({
+  name,
+  helperText,
+  label,
+  disabled,
+  field,
+  formik,
+  ...rest
+}) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
 
@@ -48,8 +57,11 @@ const RadioField = ({ name, label, disabled, field, formik, ...rest }) => {
     )
   };
 
+  const fieldError = getIn(formik.errors, name);
+  const fieldTouched = getIn(formik.touched, name);
+
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth error={!!(fieldError && fieldTouched)}>
       <InputLabel shrink htmlFor={fieldProps.name} className={css.inputLabel}>
         {label}
       </InputLabel>
@@ -79,6 +91,9 @@ const RadioField = ({ name, label, disabled, field, formik, ...rest }) => {
           );
         }}
       />
+      <FormHelperText>
+        {fieldError && fieldTouched ? fieldError : helperText}
+      </FormHelperText>
     </FormControl>
   );
 };
@@ -86,6 +101,7 @@ const RadioField = ({ name, label, disabled, field, formik, ...rest }) => {
 RadioField.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  helperText: PropTypes.string,
   disabled: PropTypes.bool,
   field: PropTypes.object.isRequired,
   formik: PropTypes.object.isRequired
