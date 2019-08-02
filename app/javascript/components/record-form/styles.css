@@ -20,3 +20,52 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   }
 }
+
+.recordContainer {
+  max-height: 100%;
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.recordNav {
+  padding: 0 0.5em;
+  width: 286px;
+  overflow-y: scroll;
+}
+
+.recordForms {
+  flex: 1;
+  padding: 0 3em;
+  overflow-y: scroll;
+
+  & form {
+    max-width: 700px;
+  }
+}
+
+.formNavOpen {
+  & .recordNav {
+    flex: 1;
+    width: 100%;
+  }
+
+  & .recordForms {
+    flex: 0;
+    width: auto;
+    padding: 0;
+  }
+}
+
+@media $(theme.breakpoints.down("sm")) {
+  .recordNav {
+    flex: 0;
+    width: auto;
+    padding: 0;
+  }
+
+  .recordForms {
+    width: 100%;
+    padding: 0 1em;
+  }
+}

@@ -2,50 +2,13 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useI18n } from "components/i18n";
-import MUIDataTable from "mui-datatables";
-import { NavLink } from "react-router-dom";
-import { createMuiTheme, MuiThemeProvider, Box, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles/";
 import DownloadIcon from "@material-ui/icons/GetApp";
+import { PageContainer, PageHeading } from "components/page-container";
+import { IndexTable } from "components/index-table";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 import styles from "./styles.css";
-
-const getMuiTheme = () =>
-  createMuiTheme({
-    overrides: {
-      MUIDataTableToolbar: {
-        root: {
-          display: "none"
-        }
-      },
-      MUIDataTableToolbarSelect: {
-        root: {
-          display: "none"
-        }
-      },
-      MuiTableCell: {
-        head: {
-          fontSize: "11px",
-          color: "rgba(0, 0, 0, 0.54)",
-          fontWeight: "bold",
-          lineHeight: "1",
-          textTransform: "uppercase"
-        },
-        body: {
-          color: "#4a4a4a",
-          fontSize: "14px",
-          lineHeight: "1",
-          "& .RowId": {
-            fontWeight: "bold",
-            "& a": {
-              color: "#4a4a4a"
-            }
-          }
-        }
-      }
-    }
-  });
 
 const ExportList = ({ exportList, getExports }) => {
   const i18n = useI18n();
@@ -67,11 +30,11 @@ const ExportList = ({ exportList, getExports }) => {
       id: true,
       label: i18n.t("bulk_export.file_name"),
       options: {
-        customBodyRender: (value, tableMeta) => {
+        customBodyRender: value => {
           return (
-            <div className={css.NavLinkContainer}>
+            <div className={css.link}>
               <DownloadIcon />
-              <NavLink to={`exports/${tableMeta.rowData[0]}`}>{value}</NavLink>
+              {value}
             </div>
           );
         }
@@ -88,35 +51,25 @@ const ExportList = ({ exportList, getExports }) => {
   ];
 
   const options = {
-    fixedHeader: false,
-    elevation: 0,
-    serverSide: true,
-    onTableChange: () => null,
-    rowsPerPage: 20,
-    rowsPerPageOptions: [20, 50, 75, 100],
     selectableRows: "none"
   };
 
   const tableOptions = {
     columns,
     options,
-    data: exportList.toJS()
+    namespace: "exports",
+    path: "/exports",
+    data: {
+      records: exportList
+    },
+    onTableChange: () => {}
   };
 
   return (
-    <Box className={css.root}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <h1 className={css.Title}>{i18n.t("navigation.bulk_exports")}</h1>
-        </Grid>
-        <Grid item xs={2} />
-        <Grid item md={12}>
-          <MuiThemeProvider theme={getMuiTheme}>
-            <MUIDataTable {...tableOptions} />
-          </MuiThemeProvider>
-        </Grid>
-      </Grid>
-    </Box>
+    <PageContainer>
+      <PageHeading title={i18n.t("navigation.bulk_exports")} />
+      <IndexTable {...tableOptions} />
+    </PageContainer>
   );
 };
 

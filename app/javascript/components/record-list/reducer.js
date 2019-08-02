@@ -7,9 +7,9 @@ export const recordListReducer = namespace => ({
   [namespace]: (state = DEFAULT_STATE, { type, payload }) => {
     switch (type) {
       case `${namespace}/${Actions.RECORDS_STARTED}`:
-        return state.set("loading", fromJS(payload));
-      case `${namespace}/${Actions.RECORDS_FAILED}`:
-        return state.set("errors", fromJS(payload));
+        return state.set("loading", fromJS(payload)).set("errors", false);
+      case `${namespace}/${Actions.RECORDS_FAILURE}`:
+        return state.set("errors", true);
       case `${namespace}/${Actions.RECORDS_SUCCESS}`:
         return state
           .set("data", fromJS(payload.data))
@@ -36,6 +36,18 @@ export const recordListReducer = namespace => ({
       case `${namespace}/${Actions.ADD_RANGE_BUTTON}`:
       case `${namespace}/${Actions.ADD_RADIO_BUTTON}`:
         return state.setIn(["filters", payload.id], payload.data);
+      case `${namespace}/${Actions.ADD_SELECT_RANGE}`:
+        return state.setIn(["filters", payload.id, "value"], payload.data);
+      case `${namespace}/${Actions.ADD_DATES_RANGE}`:
+        return state
+          .setIn(
+            ["filters", payload.id, "from"],
+            payload.from || state.getIn(["filters", payload.id, "from"])
+          )
+          .setIn(
+            ["filters", payload.id, "to"],
+            payload.to || state.getIn(["filters", payload.id, "to"])
+          );
       case `${namespace}/${Actions.RESET_CHIPS}`:
         return state.setIn(["filters", payload.id], []);
       case `${namespace}/${Actions.RESET_RANGE_BUTTON}`:

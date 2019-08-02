@@ -5,12 +5,24 @@
 
 .drawerPaper {
   width: $(theme.primero.components.drawerWidth);
-  background: linear-gradient(to top, $(theme.primero.colors.white), $(theme.primero.colors.lightGrey)),
+  background: linear-gradient(
+      to top,
+      $(theme.primero.colors.white),
+      $(theme.primero.colors.lightGrey)
+    ),
     linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.14));
   position: relative;
   white-space: nowrap;
   border: none;
   box-shadow: inset -8px 0 5px -5px rgba(0, 0, 0, 0.15);
+
+  &[dir=rtl] {
+    box-shadow: inset 8px 0 5px -5px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.drawerPaper[dir="rtl"] {
+  box-shadow: inset 8px 0 5px -5px rgba(0, 0, 0, 0.15);
 }
 
 .listIcon {
@@ -23,6 +35,8 @@
 }
 
 .navList {
+  flex: 1;
+
   & svg {
     color: $(theme.primero.colors.darkGrey);
   }
@@ -61,7 +75,12 @@
   width: 219px;
   height: 1px;
   margin: 0.375em 0 0.938em;
-  background: linear-gradient(to left, rgba(238, 238, 238, 0), rgba(232, 232, 232, 0.26) 18%, #d8d8d8);
+  background: linear-gradient(
+    to left,
+    rgba(238, 238, 238, 0),
+    rgba(232, 232, 232, 0.26) 18%,
+    #d8d8d8
+  );
 }
 
 .navLink {
@@ -113,7 +132,19 @@
   }
 }
 
-@media $(theme.breakpoints.only('md')) {
+.navSeparator {
+  width: 219px;
+  height: 1px;
+  margin: 0.375em 0 0.938em;
+  background: linear-gradient(
+    to left,
+    rgba(238, 238, 238, 0),
+    rgba(232, 232, 232, 0.26) 18%,
+    #d8d8d8
+  );
+}
+
+@media $(theme.breakpoints.only("md")) {
   .drawerPaper {
     width: 3.8em;
     overflow-x: hidden;

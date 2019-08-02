@@ -7,7 +7,7 @@ import {
   Select,
   OutlinedInput
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
@@ -31,7 +31,7 @@ const SelectFilter = ({
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const { id, options } = props;
-  const { values } = options;
+  const { values, defaultValue } = options;
 
   return (
     <div className={css.root}>
@@ -43,7 +43,8 @@ const SelectFilter = ({
             setSelectValue(
               {
                 id,
-                data: event.target.value
+                data: event.target.value,
+                defaultValue
               },
               recordType
             );

@@ -41,7 +41,7 @@ export const resetSinglePanel = (payload, namespace) => dispatch => {
         return `${namespace}/${RecordListActions.RESET_CHIPS}`;
       case "radio":
         return `${namespace}/${RecordListActions.RESET_RADIO_BUTTON}`;
-      case "multi_toogle":
+      case "multi_toggle":
         return `${namespace}/${RecordListActions.RESET_RANGE_BUTTON}`;
       default:
         return Actions.RESET_PANELS;
