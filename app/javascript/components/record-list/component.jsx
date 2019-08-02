@@ -6,6 +6,7 @@ import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
 import { themeHelper } from "libs";
+import { RecordSearch } from "components/record-search";
 import { PageContainer } from "components/page-container";
 import { withRouter } from "react-router-dom";
 import { LoadingIndicator } from "components/loading-indicator";
@@ -70,6 +71,13 @@ const RecordList = ({
     handleDrawer
   };
 
+  const recordSearchProps = {
+    namespace,
+    path,
+    data,
+    getRecords
+  };
+
   const errors = useSelector(state => selectErrors(state, namespace));
 
   return (
@@ -97,6 +105,7 @@ const RecordList = ({
           </Box>
         </Box>
         <FilterContainer {...filterContainerProps}>
+          <RecordSearch {...recordSearchProps} />
           <Filters recordType={namespace} />
         </FilterContainer>
       </Box>

@@ -12,6 +12,7 @@ export const ADD_RADIO_BUTTON = "ADD_RADIO_BUTTON";
 export const ADD_RANGE_BUTTON = "ADD_RANGE_BUTTON";
 export const ADD_CHIP = "ADD_CHIP";
 export const DELETE_CHIP = "DELETE_CHIP";
+export const SET_RECORD_SEARCH = "SET_RECORD_SEARCH";
 export const ADD_DATES_RANGE = "ADD_DATES_RANGE";
 export const ADD_SELECT_RANGE = "ADD_SELECT_RANGE";
 // Reset Single Filter
