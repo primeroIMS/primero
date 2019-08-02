@@ -19,7 +19,8 @@ const colors = {
   warmGrey2: "#bcbcad",
   midGrey: "#757472",
   grey: "#4a4a4a",
-  contentGrey: "#fbfbfb"
+  contentGrey: "#fbfbfb",
+  stickyGrey: "rgba(251, 251, 251, 0.95)"
 };
 
 const overrides = {
@@ -54,7 +55,7 @@ const overrides = {
   },
   MuiCheckbox: {
     root: {
-      color: colors.midGrey,
+      color: colors.black,
       "&$checked": {
         color: `${colors.black} !important`
       }
@@ -69,7 +70,13 @@ const overrides = {
   },
   MuiFormControlLabel: {
     label: {
-      fontSize: "0.7rem"
+      fontSize: "0.7rem !important",
+      "&$disabled": {
+        color: colors.black
+      }
+    },
+    disabled: {
+      color: colors.black
     }
   },
   MuiFormHelperText: {
@@ -79,7 +86,7 @@ const overrides = {
   },
   MUIDataTableToolbar: {
     root: {
-      display: "none"
+      display: "none !important"
     }
   },
   MUIDataTableToolbarSelect: {
@@ -87,18 +94,60 @@ const overrides = {
       display: "none"
     }
   },
+  MuiTableRow: {
+    hover: {
+      "&:hover": {
+        background: colors.lightGrey
+      }
+    }
+  },
   MUIDataTableBodyCell: {
     root: {
-      padding: "4px"
+      padding: "10px",
+      [muiTheme.breakpoints.down("sm")]: {
+        "&:nth-last-child(2), &:last-child": {
+          border: "none"
+        }
+      }
+    },
+    cellStacked: {
+      [muiTheme.breakpoints.down("sm")]: {
+        width: "50%",
+        height: "40px",
+        display: "flex",
+        fontSize: muiTheme.typography.pxToRem(14),
+        backgroundColor: colors.white,
+        alignItems: "center",
+        float: "left",
+        fontWeight: 600,
+        padding: "2em 10px"
+      }
+    },
+    responsiveStacked: {
+      [muiTheme.breakpoints.down("sm")]: {
+        width: "50%",
+        height: "40px",
+        display: "flex",
+        fontSize: muiTheme.typography.pxToRem(14),
+        alignItems: "center",
+        float: "left",
+        padding: "2em 0"
+      }
     }
   },
   MUIDataTableHeadCell: {
     root: {
-      padding: "4px",
+      padding: "10px",
       fontWeight: "900",
       textTransform: "uppercase",
-      fontSize: muiTheme.typography.pxToRem(14),
+      fontSize: muiTheme.typography.pxToRem(12),
       color: `${colors.grey}`
+    }
+  },
+  MuiChip: {
+    sizeSmall: {
+      height: "21px",
+      fontSize: ".7rem"
     }
   }
 };
@@ -107,6 +156,9 @@ const theme = merge(muiTheme, {
   direction: "ltr",
   palette: {
     primary: {
+      main: colors.blue
+    },
+    secondary: {
       main: colors.blue
     }
   },

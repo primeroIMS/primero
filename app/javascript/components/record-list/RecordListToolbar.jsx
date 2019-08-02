@@ -22,7 +22,7 @@ const RecordListToolbar = ({
       </Box>
       <Box>
         {mobileDisplay && (
-          <IconButton onClick={handleDrawer}>
+          <IconButton onClick={handleDrawer} color="primary">
             <FilterListIcon />
           </IconButton>
         )}

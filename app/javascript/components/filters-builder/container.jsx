@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import {
   ExpansionPanel,
   ExpansionPanelDetails,
@@ -64,7 +64,7 @@ const FiltersBuilder = ({
         return <SelectFilter recordType={recordType} props={filter} multiple />;
       case "select":
         return <SelectFilter recordType={recordType} props={filter} />;
-      case "multi_toogle":
+      case "multi_toggle":
         return <RangeButton recordType={recordType} props={filter} exclusive />;
       case "radio":
         return <RadioButton recordType={recordType} props={filter} />;

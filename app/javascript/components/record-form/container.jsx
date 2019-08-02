@@ -1,12 +1,15 @@
-import React, { useEffect, memo } from "react";
+import React, { useEffect, memo, useState } from "react";
 import PropTypes from "prop-types";
-import { LinearProgress } from "@material-ui/core";
+import { useMediaQuery } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/styles";
 import { withRouter } from "react-router-dom";
 import { enqueueSnackbar } from "components/notifier";
 import { useI18n } from "components/i18n";
 import { PageContainer } from "components/page-container";
+import { LoadingIndicator } from "components/loading-indicator";
+import { themeHelper } from "libs";
+import clsx from "clsx";
 import { Nav } from "./nav";
 import NAMESPACE from "./namespace";
 import { RecordForm, RecordFormToolbar } from "./form";
@@ -16,13 +19,17 @@ import {
   getFirstTab,
   getFormNav,
   getRecordForms,
-  getRecord
+  getRecord,
+  getLoadingState,
+  getErrors
 } from "./selectors";
 import { RECORD_TYPES } from "./constants";
 import { compactValues } from "./helpers";
 
 const RecordForms = ({ match, mode }) => {
   let submitForm = null;
+  const { theme } = themeHelper(styles);
+  const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const containerMode = {
     isNew: mode === "new",
@@ -49,6 +56,8 @@ const RecordForms = ({ match, mode }) => {
   const formNav = useSelector(state => getFormNav(state, selectedModule));
   const forms = useSelector(state => getRecordForms(state, selectedModule));
   const firstTab = useSelector(state => getFirstTab(state, selectedModule));
+  const loading = useSelector(state => getLoadingState(state));
+  const errors = useSelector(state => getErrors(state));
 
   const selectedForm = useSelector(state =>
     state.getIn([NAMESPACE, "selectedForm"])
@@ -58,6 +67,12 @@ const RecordForms = ({ match, mode }) => {
     if (submitForm) {
       submitForm(e);
     }
+  };
+
+  const [toggleNav, setToggleNav] = useState(false);
+
+  const handleToggleNav = () => {
+    setToggleNav(!toggleNav);
   };
 
   const formProps = {
@@ -95,6 +110,8 @@ const RecordForms = ({ match, mode }) => {
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;
     },
+    handleToggleNav,
+    mobileDisplay,
     selectedForm,
     forms,
     mode: containerMode,
@@ -112,7 +129,9 @@ const RecordForms = ({ match, mode }) => {
   const navProps = {
     formNav,
     selectedForm,
-    firstTab
+    firstTab,
+    handleToggleNav,
+    mobileDisplay
   };
 
   useEffect(() => {
@@ -123,15 +142,26 @@ const RecordForms = ({ match, mode }) => {
 
   return (
     <PageContainer twoCol>
-      <RecordFormToolbar {...toolbarProps} />
-      <div className={css.recordContainer}>
-        <div className={css.recordNav}>
-          {formNav && firstTab ? <Nav {...navProps} /> : <LinearProgress />}
+      <LoadingIndicator
+        hasData={!!(forms && formNav && firstTab)}
+        type={params.recordType}
+        loading={loading}
+        errors={errors}
+      >
+        <RecordFormToolbar {...toolbarProps} />
+        <div
+          className={clsx(css.recordContainer, {
+            [css.formNavOpen]: toggleNav && mobileDisplay
+          })}
+        >
+          <div className={css.recordNav}>
+            <Nav {...navProps} />
+          </div>
+          <div className={css.recordForms}>
+            <RecordForm {...formProps} />
+          </div>
         </div>
-        <div className={css.recordForms}>
-          {forms ? <RecordForm {...formProps} /> : <LinearProgress />}
-        </div>
-      </div>
+      </LoadingIndicator>
     </PageContainer>
   );
 };

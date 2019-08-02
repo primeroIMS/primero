@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import { AppBar, Tabs, Tab } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+import { Tabs, Tab } from "@material-ui/core";
 import { FiltersBuilder } from "components/filters-builder";
 import {
   setUpCheckBoxes,
@@ -41,7 +41,7 @@ const Filters = ({
         case "select":
           payloadFilter[filter.id] = [];
           return setSelect(payloadFilter, recordType);
-        case "multi_toogle":
+        case "multi_toggle":
           payloadFilter[filter.id] = "";
           return setRangeButton(payloadFilter, recordType);
         case "radio":
@@ -60,30 +60,33 @@ const Filters = ({
     resetPanels();
   }, []);
 
+  const tabs = [
+    { name: i18n.t("saved_search.filters_tab"), selected: true },
+    { name: i18n.t("saved_search.saved_searches_tab") }
+  ];
+
   return (
     <div className={css.root}>
-      <AppBar position="static" color="default" classes={{ root: css.appbar }}>
-        <Tabs
-          value={tabValue}
-          onChange={(e, value) => setTabValue({ recordType, value })}
-          TabIndicatorProps={{
-            style: {
-              backgroundColor: "transparent"
-            }
-          }}
-          variant="fullWidth"
-        >
+      <Tabs
+        value={tabValue}
+        onChange={(e, value) => setTabValue({ recordType, value })}
+        TabIndicatorProps={{
+          style: {
+            backgroundColor: "transparent"
+          }
+        }}
+        classes={{ root: css.tabs }}
+        variant="fullWidth"
+      >
+        {tabs.map(tab => (
           <Tab
-            label={i18n.t("saved_search.filters_tab")}
+            label={tab.name}
+            key={tab.name}
             classes={{ root: css.tab, selected: css.tabselected }}
-            selected
+            selected={tab.selected}
           />
-          <Tab
-            label={i18n.t("saved_search.saved_searches_tab")}
-            classes={{ root: css.tab, selected: css.tabselected }}
-          />
-        </Tabs>
-      </AppBar>
+        ))}
+      </Tabs>
       {tabValue === 0 && (
         <FiltersBuilder
           recordType={recordType}

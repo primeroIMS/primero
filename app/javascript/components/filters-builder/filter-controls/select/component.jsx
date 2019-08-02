@@ -7,7 +7,7 @@ import {
   Select,
   OutlinedInput
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import styles from "./styles.css";
 import * as actions from "./action-creators";

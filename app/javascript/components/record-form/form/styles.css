@@ -1,5 +1,5 @@
 .inputLabel {
-  width: 52em;
+  width: 100%;
   line-height: 1.5em;
   position: relative;
 }
@@ -8,15 +8,18 @@
   font-size: $(theme.typography.pxToRem(14));
 }
 
-.input, .selectField label + div {
-  margin-top: 0 !important
+.input,
+.selectField label + div {
+  margin-top: 0 !important;
 }
 
 .selectField label + div {
-  margin-top: 3px !important
+  margin-top: 3px !important;
 }
 
-.formHeading, .toolbarHeading, .subformHeading {
+.formHeading,
+.toolbarHeading,
+.subformHeading {
   color: $(theme.primero.colors.solidBlack);
   font-weight: bold;
   text-transform: uppercase;
@@ -31,7 +34,8 @@
   font-size: $(theme.typography.pxToRem(14));
 }
 
-.actionButton, .actionButtonCancel {
+.actionButton,
+.actionButtonCancel {
   box-shadow: none;
   color: $(theme.primero.colors.white);
   background: $(theme.primero.colors.blue);
@@ -54,10 +58,6 @@
 }
 
 .uploadBox {
-  padding: .5em 1em;
-  background: rgba(0, 0, 0, 0.03);
-  border-radius: 10px;
-  margin: 2em 0;
 }
 
 .exandedSubform {
@@ -66,4 +66,59 @@
 
 .expansionPanel {
   margin-bottom: 1em;
+}
+
+.formTitle {
+  display: flex;
+  background: $(theme.primero.colors.stickyGrey);
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  align-items: center;
+}
+
+.attachmentHeading {
+  display: flex;
+
+  & h4 {
+    flex: 1;
+  }
+}
+
+.attachment {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+
+  & .titleText {
+    flex: 1;
+    font-size: $(theme.typography.pxToRem(17));
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+.attachmentMeta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-size: $(theme.typography.pxToRem(15));
+
+  & span {
+    font-size: $(theme.typography.pxToRem(11));
+    color: $(theme.primero.colors.darkGrey);
+  }
+}
+
+.attachmentUploadField {
+  margin-bottom: 3em;
+}
+
+.inputField {
+  display: none;
 }

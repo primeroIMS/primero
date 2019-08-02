@@ -2,70 +2,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 60vh;
-  margin: 5em;
-}
+  height: 100vh;
+  text-align: center;
+  flex-direction: column;
+  padding: 0 3%;
 
-.root .notFound {
-  font-family: $(theme.typography.fontFamily);
-
-  & h2 {
-    font-size: $(theme.typography.pxToRem(33));
-    font-weight: 200;
-    text-transform: uppercase;
-    margin-top: 0px;
-    margin-bottom: 25px;
-    letter-spacing: 3px;
+  & h1 {
+    font-weight: 900;
+    font-size: $(theme.typography.pxToRem(186));
+    margin: 0;
   }
 
   & p {
-    font-size: $(theme.typography.pxToRem(16));
-    font-weight: 200;
-    margin-top: 0px;
-    margin-bottom: 25px;
+    margin-bottom: 3em;
   }
-}
-
-.notFoundImg {
-  width: 200px;
-}
-
-.notFound404 {
-  & h1 {
-    text-align: center;
-    color: $(theme.primero.colors.blue);
-    margin: 0;
-    font-weight: 200;
-    font-family: $(theme.typography.fontFamily);
-    font-size: $(theme.typography.pxToRem(186));
-  }
-}
-
-.homeButton {
-  font-family: $(theme.typography.fontFamily);
-  text-align: center;
-  padding-top: 1rem;
-}
-
-.homeButton button svg {
-  padding-right: 5px;
 }
 
 @media $(theme.breakpoints.down('sm')) {
-  .notFound404 {
+  .root {
     & h1 {
       font-size: $(theme.typography.pxToRem(130));
-    }
-  }
-  .root .notFound {
-    font-family: $(theme.typography.fontFamily);
-
-    & h2 {
-      font-size: $(theme.typography.pxToRem(18));
-    }
-
-    & p {
-      font-size: $(theme.typography.pxToRem(12));
     }
   }
 }

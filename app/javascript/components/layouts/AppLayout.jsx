@@ -1,7 +1,8 @@
 import React from "react";
 import clsx from "clsx";
 import { Nav, selectDrawerOpen } from "components/nav";
-import { makeStyles, CssBaseline } from "@material-ui/core";
+import { CssBaseline } from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { selectAuthenticated } from "components/pages/login";

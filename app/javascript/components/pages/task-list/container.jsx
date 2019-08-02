@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Grid } from "@material-ui/core";
 import Schedule from "@material-ui/icons/Schedule";
 import PriorityHigh from "@material-ui/icons/PriorityHigh";
 import { NavLink } from "react-router-dom";
@@ -65,19 +64,6 @@ const TaskList = ({ records, fetchTasks, meta }) => {
   ];
 
   const options = {
-    responsive: "stacked",
-    fixedHeader: false,
-    elevation: 2,
-    filter: false,
-    download: false,
-    search: false,
-    print: false,
-    viewColumns: false,
-    serverSide: true,
-    customToolbar: () => null,
-    customToolbarSelect: () => null,
-    onTableChange: () => null,
-    pagination: true,
     selectableRows: "none"
   };
 
@@ -95,15 +81,8 @@ const TaskList = ({ records, fetchTasks, meta }) => {
 
   return (
     <PageContainer>
-      <Grid container spacing={3}>
-        <Grid item xs={10}>
-          <PageHeading title={i18n.t("navigation.tasks")} />
-        </Grid>
-        <Grid item xs={2} />
-        <Grid item md={12}>
-          <IndexTable {...tableOptions} />
-        </Grid>
-      </Grid>
+      <PageHeading title={i18n.t("navigation.tasks")} />
+      <IndexTable {...tableOptions} />
     </PageContainer>
   );
 };

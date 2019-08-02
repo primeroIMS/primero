@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 import { useI18n } from "components/i18n";
 import { PrioritySummary } from "components/dashboard/priority-summary";
 import { OptionsBox, ActionMenu } from "components/dashboard";
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/styles";
 
 const Services = ({ servicesList }) => {
   const theme = useTheme();
@@ -20,13 +20,6 @@ const Services = ({ servicesList }) => {
       }
     }
   };
-  const themeOverrides = {
-    MuiCardHeader: {
-      root: {
-        padding: "0 16px 0 16px"
-      }
-    }
-  };
 
   const caseManagement = servicesList.get("caseManagement") || [];
   const screening = servicesList.get("screening") || [];
@@ -38,7 +31,7 @@ const Services = ({ servicesList }) => {
   ]);
 
   return (
-    <OptionsBox themes={themeOverrides}>
+    <>
       <OptionsBox
         classes={styleOverrides}
         title={i18n.t("dashboard.case_management_service")}
@@ -62,7 +55,7 @@ const Services = ({ servicesList }) => {
           );
         })}
       </OptionsBox>
-    </OptionsBox>
+    </>
   );
 };
 

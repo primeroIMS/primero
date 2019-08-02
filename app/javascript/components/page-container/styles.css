@@ -7,10 +7,9 @@
 
 .twoCol {
   flex-grow: 1;
-  max-height: 100%;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 .wrap {
@@ -21,4 +20,12 @@
   font-size: $(theme.typography.pxToRem(22));
   color: $(theme.primero.colors.solidBlack);
   text-transform: uppercase;
+}
+
+
+
+@media $(theme.breakpoints.down("sm")) {
+  .root, .twoCol {
+    padding-top: 4em;
+  }
 }

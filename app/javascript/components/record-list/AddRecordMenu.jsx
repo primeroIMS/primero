@@ -24,7 +24,7 @@ const AddRecordMenu = ({ recordType }) => {
 
   return (
     <>
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleClick} color="primary">
         <AddIcon />
       </IconButton>
       <Menu

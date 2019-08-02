@@ -12,7 +12,7 @@ import {
 } from "components/dashboard";
 import { FlagList } from "components/dashboard/flag-list";
 import { Services } from "components/dashboard/services";
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { useI18n } from "components/i18n";
 import { PageContainer, PageHeading } from "components/page-container";

@@ -1,25 +1,7 @@
-.Root {
-  flexGrow: 1;
+.firstTable {
+  margin-bottom: 2em;
 }
 
-.Title {
-  height: 28px;
-  font-family: $(theme.typography.fontFamily);
-  font-size: 22px;
-  font-weight: bold;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: $(theme.primero.colors.solidBlack);
-  margin: 25px 0 0 0;
-}
-
-.PageOptions {
-  display: inline;
-  & Button {
-    float: right;
-    color: $(theme.primero.colors.blue);
-    margin: 13px 0 0 0;
-  }
+.lastTable {
+  padding: 0 5em;
 }

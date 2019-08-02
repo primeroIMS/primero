@@ -3,7 +3,6 @@ import clsx from "clsx";
 import MenuIcon from "@material-ui/icons/Menu";
 import PropTypes from "prop-types";
 import { ModuleLogo } from "components/module-logo";
-import { AccountMenu } from "components/account-menu";
 import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
 import styles from "./styles.css";
 
@@ -38,7 +37,6 @@ const MobileToolbar = ({ drawerOpen, openDrawer, mobileDisplay }) => {
             <MenuIcon />
           </IconButton>
           <ModuleLogo className={css.logo} />
-          <AccountMenu mobile />
         </Toolbar>
       </AppBar>
     );

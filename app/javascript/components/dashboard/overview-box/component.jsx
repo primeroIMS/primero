@@ -14,14 +14,14 @@ const OverviewBox = ({ items, chartData }) => {
   const pending = items.get("pending");
   const rejected = items.get("rejected");
   return (
-    <div className={css.Root}>
+    <div className={css.root}>
       <Grid container spacing={3}>
-        <Grid item xs={4} className={css.DashboardChart}>
+        <Grid item md={4} xs={12} className={css.dashboardChart}>
           <DoughnutChart chartData={chartData} />
         </Grid>
-        <Grid item xs={8}>
-          <div className={css.OverviewBox}>
-            <ul className={css.OverviewList}>
+        <Grid item md={8} xs={12}>
+          <div className={css.overviewBox}>
+            <ul className={css.overviewList}>
               <li>
                 {transfers} {i18n.t("dashboard.outstanding_transfers")}
               </li>
