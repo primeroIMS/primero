@@ -3,6 +3,7 @@
   justify-content: center;
   flex-wrap: wrap;
   padding: 5px;
+  width: 100%;
 }
 
 .chip {

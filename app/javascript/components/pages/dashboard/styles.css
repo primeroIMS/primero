@@ -1,8 +1,4 @@
-.Root {
-  flexGrow: 1;
-}
-
-.Title {
+.title {
   height: 28px;
   font-family: $(theme.typography.fontFamily);
   font-size: 22px;
@@ -11,12 +7,13 @@
   font-stretch: normal;
   line-height: normal;
   letter-spacing: normal;
-  color: #000000;
+  color: $(theme.primero.colors.solidBlack);
   margin: 25px 0 0 0;
 }
 
-.PageOptions {
+.pageOptions {
   display: inline;
+
   & Button {
     float: right;
     color: $(theme.primero.colors.blue);

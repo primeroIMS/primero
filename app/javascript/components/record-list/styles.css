@@ -15,6 +15,15 @@
 .toolbar {
   position: sticky;
   top: 0;
-  background: rgba(255, 255, 255, 0.8);
+  background: $(theme.primero.colors.stickyGrey);
   z-index: 99;
+}
+
+.drawer: {
+  padding: 0 0.5em;
+}
+
+.tableContainer {
+  display: flex;
+  flex-direction: column;
 }

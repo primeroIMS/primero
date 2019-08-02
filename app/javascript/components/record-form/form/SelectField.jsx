@@ -74,8 +74,9 @@ const SelectField = ({
     input: <Input />,
     renderValue: selected => {
       return field.multi_select
-        ? selected.map(s => findOptionDisplayText(s)).join(", ")
-        : findOptionDisplayText(selected);
+        ? selected.map(s => findOptionDisplayText(s)).join(", ") ||
+            i18n.t("fields.select_multiple")
+        : findOptionDisplayText(selected) || i18n.t("fields.select_single");
     },
     MenuProps,
     multiple: field.multi_select,
@@ -96,11 +97,6 @@ const SelectField = ({
           {label}
         </InputLabel>
         <FastField {...fieldProps}>
-          <MenuItem value="">
-            {field.multi_select
-              ? i18n.t("fields.select_multiple")
-              : i18n.t("fields.select_single")}
-          </MenuItem>
           {options.length > 0 &&
             options.map(o => (
               <MenuItem key={o.id} value={o.id}>
@@ -125,6 +121,7 @@ SelectField.propTypes = {
   name: PropTypes.string.isRequired,
   field: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
+  helperText: PropTypes.string,
   InputLabelProps: PropTypes.object,
   InputProps: PropTypes.object,
   mode: PropTypes.object,

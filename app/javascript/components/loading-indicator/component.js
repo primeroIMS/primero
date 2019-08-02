@@ -1,32 +1,113 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CircularProgress, Fade, makeStyles } from "@material-ui/core";
+import { CircularProgress, Fade, withStyles, Button } from "@material-ui/core";
+import { ListIcon } from "components/list-icon";
+import { withI18n } from "components/i18n";
 import styles from "./styles.css";
 
-const LoadingIndicator = ({ loading }) => {
-  const css = makeStyles(styles)();
+class LoadingIndicator extends React.Component {
+  constructor(props) {
+    super(props);
 
-  if (loading) {
-    return (
-      <Fade
-        in={loading}
-        style={{
-          transitionDelay: loading ? "800ms" : "0ms"
-        }}
-        unmountOnExit
-      >
-        <div className={css.loading}>
-          <CircularProgress />
-        </div>
-      </Fade>
-    );
+    this.state = {
+      error: false
+    };
   }
 
-  return null;
-};
+  componentDidCatch() {
+    this.setState({ error: true });
+  }
+
+  render() {
+    const { error } = this.state;
+
+    const {
+      errorIndicator,
+      errorMessage,
+      emptyMessage,
+      loading,
+      loadingIndicator,
+      classes,
+      children,
+      hasData,
+      emptyIndicator,
+      type,
+      errors,
+      i18n
+    } = this.props;
+
+    if (error || errors) {
+      return (
+        errorIndicator || (
+          <div className={classes.errorContainer}>
+            <div className={classes.error}>
+              <ListIcon icon={type} className={classes.errorIcon} />
+              <h5 className={classes.errorMessage}>
+                {errorMessage || i18n.t("errors.error_loading")}
+              </h5>
+              <Button
+                variant="outlined"
+                size="small"
+                classes={{ root: classes.errorButton }}
+              >
+                {i18n.t("errors.try_again")}
+              </Button>
+            </div>
+          </div>
+        )
+      );
+    }
+
+    if (loading) {
+      return (
+        loadingIndicator || (
+          <Fade
+            in={loading}
+            style={{
+              transitionDelay: loading ? "800ms" : "0ms"
+            }}
+            unmountOnExit
+          >
+            <div className={classes.loadingIndicator}>
+              <CircularProgress size={80} />
+            </div>
+          </Fade>
+        )
+      );
+    }
+
+    if (!loading && !hasData) {
+      return (
+        emptyIndicator || (
+          <div className={classes.emptyContainer}>
+            <div className={classes.empty}>
+              <ListIcon icon={type} className={classes.emptyIcon} />
+              <h5 className={classes.emptyMessage}>
+                {emptyMessage || i18n.t("errors.not_found")}
+              </h5>
+            </div>
+          </div>
+        )
+      );
+    }
+
+    return children;
+  }
+}
 
 LoadingIndicator.propTypes = {
-  loading: PropTypes.bool
+  i18n: PropTypes.object.isRequired,
+  loading: PropTypes.bool,
+  errors: PropTypes.bool,
+  errorIndicator: PropTypes.node,
+  errorMessage: PropTypes.string,
+  loadingIndicator: PropTypes.node,
+  classes: PropTypes.object,
+  emptyIndicator: PropTypes.node,
+  emptyMessage: PropTypes.string,
+  children: PropTypes.node.isRequired,
+  hasData: PropTypes.bool.isRequired,
+  type: PropTypes.string.isRequired
 };
 
-export default LoadingIndicator;
+export default withI18n(withStyles(styles)(LoadingIndicator));

@@ -62,7 +62,7 @@ const RadioField = ({
 
   return (
     <FormControl fullWidth error={!!(fieldError && fieldTouched)}>
-      <InputLabel shrink htmlFor={fieldProps.name}>
+      <InputLabel shrink htmlFor={fieldProps.name} className={css.inputLabel}>
         {label}
       </InputLabel>
       <FastField
@@ -76,7 +76,7 @@ const RadioField = ({
                 form.setFieldValue(fieldProps.name, val, true)
               }
             >
-              <Box display="flex" mt={3}>
+              <Box display="flex">
                 {options.length > 0 &&
                   options.map(o => (
                     <FormControlLabel

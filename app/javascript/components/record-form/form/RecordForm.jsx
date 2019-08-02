@@ -5,10 +5,11 @@ import * as yup from "yup";
 import { Formik, Form } from "formik";
 import { addDays } from "date-fns";
 import isEmpty from "lodash/isEmpty";
-import { Box } from "@material-ui/core";
+import { Box, IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import { enqueueSnackbar } from "components/notifier";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { constructInitialValues } from "../helpers";
 import FormSectionField from "./FormSectionField";
 import styles from "./styles.css";
@@ -21,7 +22,9 @@ const RecordForm = ({
   onSubmit,
   mode,
   bindSubmitForm,
-  record
+  record,
+  handleToggleNav,
+  mobileDisplay
 }) => {
   const dispatch = useDispatch();
   const css = makeStyles(styles)();
@@ -105,7 +108,17 @@ const RecordForm = ({
       if (selectedForm === form.unique_id) {
         return (
           <div key={form.unique_id}>
-            <h1 className={css.formHeading}>{form.name[i18n.locale]}</h1>
+            <div className={css.formTitle}>
+              {mobileDisplay && (
+                <div>
+                  <IconButton onClick={handleToggleNav}>
+                    <ArrowBackIosIcon />
+                  </IconButton>
+                </div>
+              )}
+              <h1 className={css.formHeading}>{form.name[i18n.locale]}</h1>
+            </div>
+
             {form.fields.map(field => {
               const fieldProps = {
                 field,
@@ -142,7 +155,9 @@ const RecordForm = ({
           setShowErrorMessage(errors && isSubmitting);
           bindSubmitForm(submitForm);
           return (
-            <Form onSubmit={handleSubmit}>{renderFormSections(forms)}</Form>
+            <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
+              {renderFormSections(forms)}
+            </Form>
           );
         }}
       </Formik>
@@ -158,7 +173,9 @@ RecordForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   mode: PropTypes.object,
   bindSubmitForm: PropTypes.func,
-  record: PropTypes.object
+  record: PropTypes.object,
+  handleToggleNav: PropTypes.func.isRequired,
+  mobileDisplay: PropTypes.bool.isRequired
 };
 
 export default memo(RecordForm);

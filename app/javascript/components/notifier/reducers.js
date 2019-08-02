@@ -8,7 +8,10 @@ const DEFAULT_STATE = List([]);
 export const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
     case Actions.ENQUEUE_SNACKBAR:
-      return state.update(a => a.push(MessageRecord(payload)));
+      if (payload.message) {
+        return state.update(a => a.push(MessageRecord(payload)));
+      }
+      return state;
     case Actions.CLOSE_SNACKBAR:
       return state.update(m =>
         m.map(n =>

@@ -12,9 +12,10 @@ import {
 } from "components/dashboard";
 import { FlagList } from "components/dashboard/flag-list";
 import { Services } from "components/dashboard/services";
-import { useTheme } from "@material-ui/core/styles";
+import { useTheme } from "@material-ui/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { useI18n } from "components/i18n";
+import { PageContainer, PageHeading } from "components/page-container";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 import styles from "./styles.css";
@@ -119,13 +120,13 @@ const Dashboard = ({
   ]);
 
   return (
-    <div className={css.Root}>
-      <Grid container spacing={3}>
+    <PageContainer>
+      <Grid container spacing={3} className={css.container}>
         <Grid item xs={10}>
-          <h1 className={css.Title}>HOME</h1>
+          <PageHeading title={i18n.t("navigation.home")} />
         </Grid>
         <Grid item xs={2}>
-          <div className={css.PageOptions}>
+          <div className={css.pageOptions}>
             <ActionMenu
               open={isOpenPageActions}
               onOpen={() => openPageActions(true)}
@@ -175,7 +176,7 @@ const Dashboard = ({
           </OptionsBox>
         </Grid>
       </Grid>
-    </div>
+    </PageContainer>
   );
 };
 

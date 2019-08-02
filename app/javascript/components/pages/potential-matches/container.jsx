@@ -2,14 +2,10 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MUIDataTable from "mui-datatables";
-import { Grid } from "@material-ui/core";
+import { Card, CardContent } from "@material-ui/core";
 import { useI18n } from "components/i18n";
-import {
-  createMuiTheme,
-  MuiThemeProvider,
-  useTheme
-} from "@material-ui/core/styles";
 import makeStyles from "@material-ui/styles/makeStyles";
+import { PageContainer, PageHeading } from "components/page-container";
 import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
@@ -20,57 +16,7 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
   }, []);
 
   const css = makeStyles(styles)();
-  const theme = useTheme();
   const i18n = useI18n();
-
-  const getMuiTheme = () =>
-    createMuiTheme({
-      overrides: {
-        MUIDataTableToolbar: {
-          root: {
-            display: "none"
-          }
-        },
-        MUIDataTableToolbarSelect: {
-          root: {
-            display: "none"
-          }
-        },
-        MUIDataTableBodyRow: {
-          root: {
-            "&:last-child td": {
-              border: "none"
-            }
-          }
-        },
-        MuiTableCell: {
-          head: {
-            fontSize: "11px",
-            color: theme.primero.colors.grey,
-            fontWeight: "bold",
-            lineHeight: "1",
-            textTransform: "uppercase"
-          },
-          body: {
-            color: theme.primero.colors.grey,
-            fontSize: "14px",
-            lineHeight: "1",
-            "& .RowId": {
-              fontWeight: "bold",
-              "& a": {
-                color: theme.primero.colors.grey
-              }
-            },
-            "& .Scheduled": {
-              color: theme.primero.colors.blue
-            },
-            "& .Overdue": {
-              color: theme.primero.colors.red
-            }
-          }
-        }
-      }
-    });
 
   const columns = [
     i18n.t("potential_match.inquirer_id"),
@@ -121,25 +67,25 @@ const PotentialMatches = ({ fetchPotentialMatches, potentialMatches }) => {
       : []
   };
   return (
-    <div>
-      <Grid container spacing={3}>
-        <Grid item xs={8}>
-          <h1 className={css.Title}>
+    <PageContainer>
+      <PageHeading title="Matches" />
+      <Card>
+        <CardContent>
+          <h4>
             {i18n.t("potential_matches.display", {
               type: i18n.t("forms.record_types.tracing_request"),
               id: potentialMatches.get("tracingRequestId")
             })}
-          </h1>
-          <MuiThemeProvider theme={{ ...theme, ...getMuiTheme() }}>
+          </h4>
+          <div className={css.firstTable}>
             <MUIDataTable {...tracingRequestTableOptions} />
+          </div>
+          <div className={css.lastTable}>
             <MUIDataTable {...matchesTableOptions} />
-          </MuiThemeProvider>
-        </Grid>
-        <Grid item xs={4}>
-          Filters
-        </Grid>
-      </Grid>
-    </div>
+          </div>
+        </CardContent>
+      </Card>
+    </PageContainer>
   );
 };
 

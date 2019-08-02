@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 import {
   ExpansionPanel,
   ExpansionPanelDetails,
@@ -11,7 +11,7 @@ import {
   Grid
 } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import Refresh from "@material-ui/icons/Refresh";
+import { RefreshIcon } from "images/primero-icons";
 import {
   CheckBox,
   SelectFilter,
@@ -52,7 +52,7 @@ const FiltersBuilder = ({
     applyFilters({
       namespace: recordType,
       options: recordFilters,
-      path: "/cases"
+      path: `/${recordType.toLowerCase()}`
     });
   };
 
@@ -64,7 +64,7 @@ const FiltersBuilder = ({
         return <SelectFilter recordType={recordType} props={filter} multiple />;
       case "select":
         return <SelectFilter recordType={recordType} props={filter} />;
-      case "multi_toogle":
+      case "multi_toggle":
         return <RangeButton recordType={recordType} props={filter} exclusive />;
       case "radio":
         return <RadioButton recordType={recordType} props={filter} />;
@@ -111,7 +111,7 @@ const FiltersBuilder = ({
                   size="small"
                   onClick={handleReset(`${filter.id}`, `${filter.type}`)}
                 >
-                  <Refresh fontSize="inherit" />
+                  <RefreshIcon />
                 </IconButton>
               ) : null}
             </div>

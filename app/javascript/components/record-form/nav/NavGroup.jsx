@@ -30,7 +30,6 @@ const NavGroup = ({ group, open, handleClick, selectedForm }) => {
               <NavItem
                 form={f}
                 name={f.name}
-                handleClick={handleClick}
                 key={f.formId}
                 groupItem
                 {...sharedProps}

@@ -55,6 +55,7 @@ export default [
     id: "child_status",
     display_name: "Case Status",
     type: "radio",
+    reset: true,
     options: {
       values: [
         { id: "open", display_name: "Open" },
@@ -68,7 +69,7 @@ export default [
     id: "age_range",
     display_name: "Age",
     reset: true,
-    type: "multi_toogle",
+    type: "multi_toggle",
     options: {
       values: [
         { id: "age_0_5", display_name: "0 - 5" },
@@ -79,17 +80,16 @@ export default [
     }
   },
   {
-    // The type caxn be ToogleButton (https://material-ui.com/components/about-the-lab/)
+    // The type caxn be ToggleButton (https://material-ui.com/components/about-the-lab/)
     // Let's keep RadioButton for now, to have this other filter type rexady
     id: "sex",
     display_name: "Sex",
-    type: "radio",
+    type: "multi_toggle",
     reset: true,
     options: {
       values: [
         { id: "female", display_name: "Female" },
-        { id: "male", display_name: "Male" },
-        { id: "other", display_name: "Other" }
+        { id: "male", display_name: "Male" }
       ]
     }
   },
@@ -136,7 +136,7 @@ export default [
         { id: "date_of_birth", display_name: "Dates of Birth" },
         { id: "created_at", display_name: "Creation Date" }
       ],
-      default_value: "created_at",
+      defaultValue: "created_at",
       min_date: "",
       max_date: ""
     }
