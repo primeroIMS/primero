@@ -16,17 +16,14 @@ const IndexTable = ({
   const { meta, filters, records } = data;
   const per = meta ? meta.get("per") : 20;
   const total = meta ? meta.get("total") : 0;
+  const page = meta.get("page");
+  const sortOrder = filters.get("order");
 
   const handleTableChange = (action, tableState) => {
     const options = { per, ...defaultFilters.merge(filters).toJS() };
     const validActions = ["sort", "changeRowsPerPage", "changePage"];
 
-    const {
-      activeColumn,
-      columns: tableColumns,
-      rowsPerPage,
-      page
-    } = tableState;
+    const { activeColumn, columns: tableColumns, rowsPerPage } = tableState;
 
     const selectedFilters = Object.assign(
       {},
@@ -34,14 +31,22 @@ const IndexTable = ({
       (() => {
         switch (action) {
           case "sort":
-            options.order = tableColumns[activeColumn].sortDirection;
-            options.column = tableColumns[activeColumn].name;
+            if (typeof sortOrder === "undefined") {
+              options.order = tableColumns[activeColumn].sortDirection;
+            } else {
+              options.order =
+                sortOrder === tableColumns[activeColumn].sortDirection
+                  ? "asc"
+                  : "desc";
+            }
+            options.order_by = tableColumns[activeColumn].name;
+            options.page = page === 0 ? 1 : page;
             break;
           case "changeRowsPerPage":
             options.per = rowsPerPage;
             break;
           case "changePage":
-            options.page = page + 1;
+            options.page = tableState.page >= page ? page + 1 : page - 1;
             break;
           default:
             break;
@@ -72,7 +77,8 @@ const IndexTable = ({
       customToolbar: () => null,
       customToolbarSelect: () => null,
       onTableChange: handleTableChange,
-      rowsPerPageOptions: [20, 50, 75, 100]
+      rowsPerPageOptions: [20, 50, 75, 100],
+      page: page - 1
     },
     tableOptionsProps
   );

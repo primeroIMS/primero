@@ -17,7 +17,7 @@ import { selectErrors } from "./selectors";
 
 const defaultFilters = Map({
   per: 20,
-  page: 1
+  page: 0
 });
 
 const RecordList = ({
