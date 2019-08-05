@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
   end
 
   create_table "agencies", id: :serial, force: :cascade do |t|
+    t.string "unique_id"
     t.string "agency_code", null: false
     t.integer "order", default: 0
     t.jsonb "name_i18n"
@@ -49,6 +50,7 @@ ActiveRecord::Schema.define(version: 2019_07_17_000000) do
     t.boolean "disabled", default: false, null: false
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
+    t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
   end
 
   create_table "attachment_audios", force: :cascade do |t|

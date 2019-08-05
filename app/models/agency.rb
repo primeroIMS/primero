@@ -11,6 +11,7 @@ class Agency < ApplicationRecord
 
   localize_properties :name, :description
 
+  validates :unique_id, presence: true, uniqueness: { message: 'errors.models.agency.unique_id' }
   validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
   validate :validate_name_in_english
 
@@ -26,6 +27,7 @@ class Agency < ApplicationRecord
   validate :validate_logo_large_dimension, if: -> { logo_large.attached? }
   validate :validate_logo_small_dimension, if: -> { logo_small.attached? }
 
+  after_initialize :generate_unique_id
 
 
   class << self
@@ -91,6 +93,12 @@ class Agency < ApplicationRecord
     if (width > valid_width || height > valid_height)
       errors.add(type.to_sym, I18n.t('errors.models.agency.logo_dimension', width: valid_width.to_s, height: valid_height.to_s))
       return false
+    end
+  end
+
+  def generate_unique_id
+    if self.agency_code.present? && self.unique_id.blank?
+      self.unique_id = "agency-#{self.agency_code}".parameterize.dasherize
     end
   end
 end

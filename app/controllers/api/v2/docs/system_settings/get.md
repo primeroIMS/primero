@@ -1,4 +1,4 @@
-# Query for forms
+# Query for system settings
 
 Retrieve the current Primero system settings as JSON
 
@@ -25,7 +25,6 @@ Retrieve the current Primero system settings as JSON
 ```json
 {
     "data": {
-        "id": 1,
         "default_locale": "en",
         "locales": [
             "en",
@@ -34,7 +33,6 @@ Retrieve the current Primero system settings as JSON
         ],
         "base_language": "en",
         "case_code_format": [],
-        "case_code_separator": null,
         "auto_populate_list": [
             {
                 "format": [
@@ -47,7 +45,6 @@ Retrieve the current Primero system settings as JSON
                 "auto_populated": true
             }
         ],
-        "unhcr_needs_codes_mapping": null,
         "reporting_location_config": {
             "field_key": "owned_by_location",
             "label_key": "district",
@@ -70,16 +67,16 @@ Retrieve the current Primero system settings as JSON
             ]
         },
         "welcome_email_text_i18n": {
-            "en": "Click link below to log into Primero.  Please see your system administrator if you have any issues."
+            "en": "Click link below to log into Primero.  Please see your system administrator if you have any issues.",
+            "fr": "",
+            "es": ""
         },
         "primary_age_range": "primero",
-        "location_limit_for_api": null,
         "approval_forms_to_alert": {
             "cp_bia_form": "bia",
             "closure_form": "closure",
             "cp_case_plan": "case_plan"
         },
-        "changes_field_to_form": null,
         "export_config_id": {
             "unhcr": "export-unhcr-csv",
             "duplicate_id": "export-duplicate-id-csv"
@@ -94,7 +91,7 @@ Retrieve the current Primero system settings as JSON
         },
         "agencies": [
             {
-                "unique_id": 1,
+                "unique_id": "agency-unicef",
                 "name": "UNICEF",
                 "logo": {
                     "small": "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBDUT09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--7196012f13983c82958a5542f98b2a7421f7e399/unicef.png"

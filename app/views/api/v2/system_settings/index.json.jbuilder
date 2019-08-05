@@ -1,9 +1,9 @@
 json.data do
-  json.merge! @system_setting.as_json
+  json.merge! complete_locales_for(['welcome_email_text_i18n'], @system_setting.attributes.except('id'))
   if @agencies.present?
     json.agencies do
       json.array! @agencies do |agency|
-        json.unique_id agency.id
+        json.unique_id agency.unique_id
         json.name agency.name
         if agency.logo_small.attachment.present? || agency.logo_large.attachment.present?
           json.logo do
