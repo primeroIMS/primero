@@ -91,6 +91,12 @@ execute 'Set RAILS_ENV' do
   end
 end
 
+directory node[:primero][:bin_dir] do
+  action :create
+  owner node[:primero][:app_user]
+  group node[:primero][:app_group]
+end
+
 cookbook_file ::File.join(node[:primero][:bin_dir], 'reset_config_to') do
   source 'reset_config_to'
   user node[:primero][:app_user]
@@ -113,8 +119,9 @@ rvm_ruby_name = "#{node[:primero][:ruby_version]}-#{node[:primero][:ruby_patch]}
 execute_with_ruby 'prod-ruby' do
   command <<-EOH
     rvm install #{node[:primero][:ruby_version]} -n #{node[:primero][:ruby_patch]} --patch #{node[:primero][:ruby_patch]}
-    rvm rubygems #{node[:primero][:rubygems_version]}
+    rvm rubygems #{node[:primero][:rubygems_version]} --force
     rvm --default use #{rvm_ruby_name}
+    rvm reload && rvm repair all
   EOH
 end
 

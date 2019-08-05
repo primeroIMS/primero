@@ -26,7 +26,7 @@ describe NotificationMailer, :type => :mailer do
     end
 
     describe "manager_approval_response" do
-      let(:mail) { NotificationMailer.manager_approval_response(@manager1.id, @child.id, 'value1', true, 'example.com') }
+      let(:mail) { NotificationMailer.manager_approval_response(@manager1.id, @child.id, 'value1', true, 'example.com', false) }
 
       it "renders the headers" do
         expect(mail.subject).to eq("Case: #{@child.short_id} - Approval Response")

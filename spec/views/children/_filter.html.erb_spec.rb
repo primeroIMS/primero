@@ -7,6 +7,7 @@ describe "children/_filter.html.erb" do
   before :each do
     @age_ranges = []
     @inactive_range = "01-Sep-2016.20-Oct-2016"
+    @agency_offices = []
 
     FormSection.all.each &:destroy
     PrimeroModule.all.each &:destroy
@@ -83,7 +84,7 @@ describe "children/_filter.html.erb" do
 
   it "should not display filter 'Protection Status' for nonexistent field protection_status" do
     @current_user = User.new
-    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    @current_user.should_receive(:modules).twice.and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
     controller.stub(:current_user).and_return(@current_user)
@@ -118,8 +119,8 @@ describe "children/_filter.html.erb" do
     @primero_module_cp.associated_form_ids << other_form_cp.unique_id
     @primero_module_cp.save!
 
-    @current_user = User.new
-    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    @current_user = build :user
+    @current_user.should_receive(:modules).twice.and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id, other_form_cp.unique_id])
     controller.stub(:current_user).and_return(@current_user)
@@ -130,8 +131,8 @@ describe "children/_filter.html.erb" do
 
   it "should display filter 'Displacement Status' for visible field gbv_displacement_status" do
     @is_gbv = true
-    @current_user = User.new
-    @current_user.should_receive(:modules).and_return([@primero_module_gbv])
+    @current_user = build :user
+    @current_user.stub(:modules).and_return([@primero_module_gbv], [@primero_module_gbv])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_gbv, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_gbv.unique_id])
     controller.stub(:current_user).and_return(@current_user)
@@ -151,8 +152,8 @@ describe "children/_filter.html.erb" do
     @form_gbv.fields.first.visible = false
     @form_gbv.save!
     @is_gbv = true
-    @current_user = User.new
-    @current_user.should_receive(:modules).and_return([@primero_module_gbv])
+    @current_user = build :user
+    @current_user.stub(:modules).and_return([@primero_module_gbv], [@primero_module_gbv])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_gbv, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_gbv.unique_id])
     controller.stub(:current_user).and_return(@current_user)
@@ -170,8 +171,8 @@ describe "children/_filter.html.erb" do
 
   it "should display filter 'Urgent Protection Concern' for visible field urgent_protection_concern" do
     @is_cp = true
-    @current_user = User.new
-    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    @current_user = build :user
+    @current_user.stub(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
     controller.stub(:current_user).and_return(@current_user)
@@ -192,8 +193,8 @@ describe "children/_filter.html.erb" do
     @form_cp.fields.first.visible = false
     @form_cp.save!
     @is_cp = true
-    @current_user = User.new
-    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    @current_user = build :user
+    @current_user.stub(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
     controller.stub(:current_user).and_return(@current_user)
@@ -212,8 +213,8 @@ describe "children/_filter.html.erb" do
 
   it "should display filter 'Type of Risk' for visible field type_of_risk" do
     @is_cp = true
-    @current_user = User.new
-    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    @current_user = build :user
+    @current_user.stub(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
     controller.stub(:current_user).and_return(@current_user)
@@ -234,8 +235,8 @@ describe "children/_filter.html.erb" do
     @form_cp.fields.first.visible = false
     @form_cp.save!
     @is_cp = true
-    @current_user = User.new
-    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    @current_user = build :user
+    @current_user.stub(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
     controller.stub(:current_user).and_return(@current_user)
@@ -276,8 +277,8 @@ describe "children/_filter.html.erb" do
     @can_view_protection_concerns_filter = true
     @primero_module_cp.associated_form_ids << other_form_cp.unique_id
     @primero_module_cp.save!
-    @current_user = User.new
-    @current_user.should_receive(:modules).and_return([@primero_module_cp])
+    @current_user = build :user
+    @current_user.stub(:modules).and_return([@primero_module_cp])
     FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
     @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id, other_form_cp.unique_id])
     controller.stub(:current_user).and_return(@current_user)
@@ -289,8 +290,8 @@ describe "children/_filter.html.erb" do
   it "should not display filters if has no access to forms" do
     @is_cp = true
     @is_gbv = true
-    @current_user = User.new
-    @current_user.should_receive(:modules).and_return([])
+    @current_user = build :user
+    @current_user.stub(:modules).and_return([], [])
     FormSection.should_not_receive(:get_allowed_form_ids)
     @current_user.should_not_receive(:permitted_form_ids)
     controller.stub(:current_user).and_return(@current_user)
@@ -308,8 +309,8 @@ describe "children/_filter.html.erb" do
 
   describe "Agency filter" do
     before do
-      @current_user = User.new
-      @current_user.should_receive(:modules).and_return([@primero_module_cp])
+      @current_user = build :user
+      @current_user.stub(:modules).and_return([@primero_module_cp])
       FormSection.should_receive(:get_allowed_form_ids).with(@primero_module_cp, @current_user).and_call_original
       @current_user.should_receive(:permitted_form_ids).and_return([@form_cp.unique_id])
       controller.stub(:current_user).and_return(@current_user)
@@ -392,8 +393,8 @@ describe "children/_filter.html.erb" do
 
   describe 'Approvals filters' do
     before :each do
-      @current_user = User.new
-      @current_user.should_receive(:modules).and_return([@primero_module_cp])
+      @current_user = build :user
+      @current_user.stub(:modules).and_return([@primero_module_cp])
       controller.stub(:current_user).and_return(@current_user)
       @can_approval_bia = true
       @can_approvals = true

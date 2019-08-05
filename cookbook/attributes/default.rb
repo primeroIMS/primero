@@ -13,6 +13,7 @@ default[:primero].tap do |p|
   p[:app_group] = 'primero'
   p[:solr_user] = 'solr'
   p[:solr_group] = 'solr'
+  p[:check_online_status] = 'on'
 
   p[:queue].tap do |queue|
     queue[:host] = 'localhost'
@@ -70,7 +71,7 @@ default[:primero].tap do |p|
   p[:ruby_version] = '2.4.3'
   p[:ruby_patch] = 'railsexpress'
   p[:bundler_version] = '1.16.1'
-  p[:rubygems_version] = '2.7.5'
+  p[:rubygems_version] = '2.7.8'
 
   p[:passenger_conf].tap do |pc|
     pc[:min_instances] = 1

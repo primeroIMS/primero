@@ -19,6 +19,11 @@ en:
       case_plan: Case Plan
       action_plan: Action Plan
       service_provision: Service Provision
+  lookup-gbv-approval-types:
+    name: GBV Approval Types
+    lookup_values:
+      case_plan: Case Plan
+      closure: Closure
   lookup-armed-force-group-name:
     name: Armed Force Group Name
     lookup_values:
@@ -560,7 +565,7 @@ en:
   lookup-service-implemented:
     name: Service Implemented
     lookup_values:
-      not-implemented: Not Implemented
+      not_implemented: Not Implemented
       implemented: Implemented
   lookup-service-referred:
     name: Service Referred

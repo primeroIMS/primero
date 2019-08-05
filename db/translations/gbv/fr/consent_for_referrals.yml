@@ -3,7 +3,7 @@ fr:
   consent_for_referrals:
     name: Consentement pour référencement
     description: Consentement pour référencement
-    form_group_name: Consentement pour référencement
+    # form_group_name: Consentement pour référencement
     fields:
       consent_release_separator:
         display_name: Consentement pour partage d'informations par type de référencement

@@ -145,7 +145,6 @@ module ApplicationHelper
   end
 
   def ctl_cancel_button(path, additional_classes = "gray")
-    record = controller.controller_name.gsub('_', ' ').titleize
     discard_button(polymorphic_path(path), additional_classes)
   end
 
@@ -163,12 +162,12 @@ module ApplicationHelper
     end
   end
 
-  def render_controls(record, path=nil)
+  def render_controls(record, path=nil, cancel_path=nil)
     content_tag :div, class: 'button-group' do
       if record.present? && record.new?
         ctl_cancel_button(path || record) + ctl_save_button
       elsif current_actions(action: ['update', 'edit'])
-        ctl_edit_button(record, path) + ctl_cancel_button(path || record, "middle_btn") + ctl_save_button
+        ctl_edit_button(record, path) + ctl_cancel_button(cancel_path || path || record, "middle_btn") + ctl_save_button
       elsif current_actions(action: ['edit_locale'])
         ctl_edit_button(record, path) + ctl_cancel_button(record) + ctl_save_button
       else

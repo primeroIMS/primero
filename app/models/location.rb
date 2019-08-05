@@ -7,6 +7,7 @@ class Location < CouchRest::Model::Base
   include Disableable
   include LocalizableProperty
 
+  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
   #TODO - I18n - YES!!!! - possible as a lookup
   ADMIN_LEVELS = [0, 1, 2, 3, 4, 5]
   ADMIN_LEVEL_OUT_OF_RANGE = 100
@@ -19,6 +20,7 @@ class Location < CouchRest::Model::Base
   property :type
   property :hierarchy, type: [String]
   property :admin_level, Integer
+  property :base_language, :default => DEFAULT_BASE_LANGUAGE
   attr_accessor :parent_id
 
   design do
@@ -55,7 +57,7 @@ class Location < CouchRest::Model::Base
     view :by_type_and_disabled
   end
 
-  validates_presence_of :placename, :message => I18n.t("errors.models.location.name_present")
+  validate :validate_place_name_in_base_language
   validates_presence_of :admin_level, :message => I18n.t("errors.models.location.admin_level_present"), :if => :admin_level_required?
   validates_presence_of :location_code, :message => I18n.t("errors.models.location.code_present")
   validate :is_location_code_unique
@@ -130,12 +132,8 @@ class Location < CouchRest::Model::Base
 
     def find_names_by_admin_level_enabled(admin_level = ReportingLocation::DEFAULT_ADMIN_LEVEL, hierarchy_filter = nil, opts={})
       locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
-      #We need the fully qualified :: separated location name here so the reg_ex filter below will work
-      location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, hierarchy: r.hierarchy, display_text: r.name(locale)}.with_indifferent_access}.sort_by!{|l| l['display_text']}
-      hierarchy_set = hierarchy_filter.to_set if hierarchy_filter.present?
-      location_names = location_names.select{|l| l['hierarchy'].present? && (l['hierarchy'].to_set ^ hierarchy_set).length == 0} if hierarchy_filter.present?
-      #Now reduce the display text down to just the placename for display
-      location_names.each {|l| l['display_text'] = l['display_text'].split('::').last}
+      location_names = Location.find_by_admin_level_enabled(admin_level).map{|r| {id: r.location_code, hierarchy: r.hierarchy, display_text: r.placename(locale)}.with_indifferent_access}.sort_by!{|l| l['display_text']}
+      location_names = location_names.select{|l| l['hierarchy'].present? && hierarchy_filter.any?{|f| l['hierarchy'].include?(f)} } if hierarchy_filter.present? && hierarchy_filter.is_a?(Array)
       location_names
     end
     memoize_in_prod :find_names_by_admin_level_enabled
@@ -303,5 +301,13 @@ class Location < CouchRest::Model::Base
 
     #Here be dragons...Beware... recursion!!!
     self.direct_descendants.each {|lct| lct.update_descendants}
+  end
+
+  def validate_place_name_in_base_language
+    placename = "placename_#{DEFAULT_BASE_LANGUAGE}"
+    unless (self.send(placename).present?)
+      errors.add(:placename, I18n.t("errors.models.location.name_present"))
+      return false
+    end
   end
 end

@@ -386,7 +386,7 @@ en:
     type: "Type of Action"
     due_date: "Due Date"
     types:
-      assessment: "Assesment"
+      assessment: "Assessment"
       case_plan: "Case Plan"
       follow_up: "Follow Up - %{subtype}"
       service: "Service - %{subtype}"
@@ -892,6 +892,7 @@ en:
     history_of: "History of %{user_name}"
     disabled: "Disabled"
     agency: "Agency"
+    agency_office: "Agency Office"
     position: Position
     actions:
       delete: "Delete"
@@ -931,8 +932,8 @@ en:
   email: "Email"
   organization: "Organisation"
   position: "Position"
-  false: "false"
-  true: "true"
+  false: "No"
+  true: "Yes"
   mandatory_field: "marked fields are mandatory"
   add: "add"
   belonging_to: "belonging to"
@@ -1043,7 +1044,7 @@ en:
       dash_cases_by_workflow: "View Cases By Workflow"
       dash_cases_by_task_overdue: "View Cases By Task Overdue"
       dash_cases_to_assign: "View Cases To Assign"
-      dash_show_none_values: "View None Values"
+      dash_show_none_values: "View cases with 'No Risk Level' in Assessment Dashboard"
       dash_tasks: "View Tasks"
       search_owned_by_others: "Search for case records owned by other users"
       incident_from_case: "Create an incident from a case"
@@ -1062,6 +1063,7 @@ en:
       view_photo: "View Photo"
       matching_configuration: "Matching Configuration"
       add_note: "Add Notes"
+      view_response: "View Responses"
 
   forms:
     label: "Forms"
@@ -2295,4 +2297,3 @@ en:
       task:
         one: "Task"
         other: "Tasks"
-

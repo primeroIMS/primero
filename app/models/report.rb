@@ -42,7 +42,8 @@ class Report < CouchRest::Model::Base
   property :group_dates_by, default: DAY
   property :is_graph, TrueClass, default: false
   property :editable, TrueClass, default: true
-  property :base_language, :default => DEFAULT_BASE_LANGUAGE
+  property :exclude_empty_rows, TrueClass, default: false
+  property :base_language, default: DEFAULT_BASE_LANGUAGE
 
   #TODO: Currently it's not worth trying to save off the report data.
   #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to a string.
@@ -74,11 +75,9 @@ class Report < CouchRest::Model::Base
   end
 
   def validate_name_in_base_language
-    name = "name_#{DEFAULT_BASE_LANGUAGE}"
-    unless (self.send(name).present?)
-      errors.add(:name, I18n.t("errors.models.report.name_presence"))
-      return false
-    end
+    return true if self.send("name_#{DEFAULT_BASE_LANGUAGE}").present?
+    errors.add(:name, I18n.t("errors.models.report.name_presence"))
+    return false
   end
 
   class << self
@@ -487,7 +486,7 @@ class Report < CouchRest::Model::Base
     end
 
     translate_solr_response(0, result_pivots)
-    result = {'pivot' => result_pivots}
+    result = {'pivot' => check_empty_rows(result_pivots)}
   end
 
   def translate_solr_response(map_index, response)
@@ -542,6 +541,11 @@ class Report < CouchRest::Model::Base
   def solr_record_type(record_type)
     record_type = 'child' if record_type == 'case'
     record_type.camelize
+  end
+
+  def check_empty_rows(result_pivots)
+    return result_pivots.reject { |r| r["count"].to_i <= 0 } if self.exclude_empty_rows
+    result_pivots
   end
 
 end

@@ -10,6 +10,7 @@ module Historical
     before_save :add_creation_history, :if => :new?
 
     property :created_organization
+    property :created_agency_office
     property :created_by
     property :created_by_full_name
     property :created_at, DateTime
@@ -127,6 +128,7 @@ module Historical
     self.created_by = user.try(:user_name)
     self.created_by_full_name = user.try(:full_name)
     self.created_organization = user.try(:organization)
+    self.created_agency_office = user.try(:agency_office)
     self.last_updated_at ||= self.created_at ||= DateTime.now
     self.posted_at = DateTime.now
   end

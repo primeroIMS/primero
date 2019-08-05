@@ -1,3 +1,4 @@
+# Note: temporarily removing MRM Violations exporter
 module Exporters
   ACTIVE_EXPORTERS = [
     CSVExporterListView,
@@ -9,8 +10,8 @@ module Exporters
     PDFExporter,
     UnhcrCSVExporter,
     DuplicateIdCSVExporter,
-    MRMViolationExporter,
-    SelectedFieldsExcelExporter,
+    #MRMViolationExporter,
+    SelectedFieldsExcelExporter
   ]
 
   def self.active_exporters_for_model(model)

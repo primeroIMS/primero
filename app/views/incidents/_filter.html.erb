@@ -19,6 +19,12 @@
     <% if filters_to_show.include? 'Social Worker' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.social_worker"), 'owned_by', @associated_users, { multi: true }, false) %>
     <% end %>
+    <% if filters_to_show.include? 'Agency Office' && @agency_offices.present? %>
+      <%= build_filter_checkboxes(t("user.agency_office"), 'created_agency_office', @agency_offices, { multi: true }, false) %>
+    <% end %>
+    <% if filters_to_show.include? 'User Group' %>
+      <%= build_filter_checkboxes(t("permissions.permission.user_group"), 'owned_by_groups', @user_group_ids, { multi: true }, false) %>
+    <% end %>
     <% if filters_to_show.include? 'Status' %>
       <%= build_filter_checkboxes(t("incidents.filter_by.status"), 'status', Lookup.values('lookup-incident-status', @lookups, locale: I18n.locale)) %>
     <% end %>

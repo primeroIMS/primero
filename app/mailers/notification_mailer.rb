@@ -15,7 +15,7 @@ class NotificationMailer < ApplicationMailer
     end
   end
 
-  def manager_approval_response(manager_id, case_id, approval_type, approval, host_url)
+  def manager_approval_response(manager_id, case_id, approval_type, approval, host_url, is_gbv=false)
     @child = Child.get(case_id)
     if @child.blank?
       Rails.logger.error "Approval Response Mail not sent - case not found.  [Case ID: #{case_id}]"
@@ -26,7 +26,9 @@ class NotificationMailer < ApplicationMailer
       if @owner.present? && @owner.email.present? && @owner.send_mail
         @manager = User.get(manager_id)
 
-        @approval_type = Lookup.display_value('lookup-approval-type', approval_type)
+        lookup_name = is_gbv ? 'lookup-gbv-approval-types' : 'lookup-approval-type'
+        @approval_type = Lookup.display_value(lookup_name, approval_type)
+
         @approval = approval == 'true' ? t('approvals.status.approved') : t('approvals.status.rejected')
 
         mail(:to => @owner.email,

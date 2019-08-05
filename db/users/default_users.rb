@@ -183,6 +183,24 @@ create_or_update_user(
 )
 
 create_or_update_user(
+  "user_name" => "primero_system_admin_gbv",
+  "password" => "primer0!",
+  "password_confirmation" => "primer0!",
+  "full_name" => "GBV System Administrator",
+  "email" => "primero_system_admin_gbv@primero.com",
+  "disabled" => "false",
+  "organization" => "agency-unicef",
+  "code" => "UNICEF/GBV_SYSTEM_ADMINISTRATOR",
+  "role_ids" => [
+    Role.by_name(key: "GBV System Administrator").first.id
+  ],
+  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+  "is_manager" => true,
+  "locale" => Primero::Application::LOCALE_ENGLISH
+)
+
+create_or_update_user(
   "user_name" => "agency_user_admin_gbv",
   "password" => "primer0!",
   "password_confirmation" => "primer0!",
@@ -200,69 +218,71 @@ create_or_update_user(
   "locale" => Primero::Application::LOCALE_ENGLISH
 )
 
-create_or_update_user(
-  "user_name" => "primero_cp_ar",
-  "password" => "primer0!",
-  "password_confirmation" => "primer0!",
-  "full_name" => "CP Worker AR",
-  "email" => "primero_cp_ar@primero.com",
-  "disabled" => "false",
-  "organization" => "agency-unicef",
-  "role_ids" => [
-    Role.by_name(key: "CP Case Worker").first.id
-  ],
-  "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
-  "locale" => Primero::Application::LOCALE_ARABIC
-)
+if Primero::Application::locales.include?(Primero::Application::LOCALE_ARABIC)
+  create_or_update_user(
+    "user_name" => "primero_cp_ar",
+    "password" => "primer0!",
+    "password_confirmation" => "primer0!",
+    "full_name" => "CP Worker AR",
+    "email" => "primero_cp_ar@primero.com",
+    "disabled" => "false",
+    "organization" => "agency-unicef",
+    "role_ids" => [
+      Role.by_name(key: "CP Case Worker").first.id
+    ],
+    "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
+    "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+    "locale" => Primero::Application::LOCALE_ARABIC
+  )
 
-create_or_update_user(
-  "user_name" => "primero_mgr_cp_ar",
-  "password" => "primer0!",
-  "password_confirmation" => "primer0!",
-  "full_name" => "CP Manager AR",
-  "email" => "primero_mgr_cp_ar@primero.com",
-  "disabled" => "false",
-  "organization" => "agency-unicef",
-  "role_ids" => [
-    Role.by_name(key: "CP Manager").first.id
-  ],
-  "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
-  "is_manager" => true,
-  "locale" => Primero::Application::LOCALE_ARABIC
-)
+  create_or_update_user(
+    "user_name" => "primero_mgr_cp_ar",
+    "password" => "primer0!",
+    "password_confirmation" => "primer0!",
+    "full_name" => "CP Manager AR",
+    "email" => "primero_mgr_cp_ar@primero.com",
+    "disabled" => "false",
+    "organization" => "agency-unicef",
+    "role_ids" => [
+      Role.by_name(key: "CP Manager").first.id
+    ],
+    "module_ids" => [PrimeroModule.by_name(key: "CP").first.id],
+    "user_group_ids" => [UserGroup.by_name(key: "Primero CP").first.id],
+    "is_manager" => true,
+    "locale" => Primero::Application::LOCALE_ARABIC
+  )
 
-create_or_update_user(
-  "user_name" => "primero_gbv_ar",
-  "password" => "primer0!",
-  "password_confirmation" => "primer0!",
-  "full_name" => "GBV Worker AR",
-  "email" => "primero_gbv_ar@primero.com",
-  "disabled" => "false",
-  "organization" => "agency-unicef",
-  "role_ids" => [
-    Role.by_name(key: "GBV Social Worker").first.id
-  ],
-  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
-  "locale" => Primero::Application::LOCALE_ARABIC
-)
+  create_or_update_user(
+    "user_name" => "primero_gbv_ar",
+    "password" => "primer0!",
+    "password_confirmation" => "primer0!",
+    "full_name" => "GBV Worker AR",
+    "email" => "primero_gbv_ar@primero.com",
+    "disabled" => "false",
+    "organization" => "agency-unicef",
+    "role_ids" => [
+      Role.by_name(key: "GBV Social Worker").first.id
+    ],
+    "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+    "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+    "locale" => Primero::Application::LOCALE_ARABIC
+  )
 
-create_or_update_user(
-  "user_name" => "primero_mgr_gbv_ar",
-  "password" => "primer0!",
-  "password_confirmation" => "primer0!",
-  "full_name" => "GBV Manager AR",
-  "email" => "primero_mgr_gbv_ar@primero.com",
-  "disabled" => "false",
-  "organization" => "agency-unicef",
-  "role_ids" => [
-    Role.by_name(key: "GBV Manager").first.id
-  ],
-  "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
-  "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
-  "is_manager" => true,
+  create_or_update_user(
+    "user_name" => "primero_mgr_gbv_ar",
+    "password" => "primer0!",
+    "password_confirmation" => "primer0!",
+    "full_name" => "GBV Manager AR",
+    "email" => "primero_mgr_gbv_ar@primero.com",
+    "disabled" => "false",
+    "organization" => "agency-unicef",
+    "role_ids" => [
+      Role.by_name(key: "GBV Manager").first.id
+    ],
+    "module_ids" => [PrimeroModule.by_name(key: "GBV").first.id],
+    "user_group_ids" => [UserGroup.by_name(key: "Primero GBV").first.id],
+    "is_manager" => true,
 
-  "locale" => Primero::Application::LOCALE_ARABIC
-)
+    "locale" => Primero::Application::LOCALE_ARABIC
+  )
+end

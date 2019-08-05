@@ -74,17 +74,23 @@ module HomeHelper
   end
 
   def display_stat(data={})
-    model = model_name_class(data[:model]).pluralize
+    model = model_name_class(data[:model])
     count = if data[:name].present? && data[:stats].present?
-      case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model])
+              case_stat({name: data[:name], stat: data[:stat]}, data[:stats], data[:model])
+            else
+              data[:stat] || 0
+            end
+    if count > 0 && user_can_read(model)
+      link_to send("#{model.pluralize}_path") + index_filters(data[:filters]), class: 'column section-stat' do
+        content_tag :div, class: "stats" do
+          content_tag(:div, count, class: 'stat') + content_tag(:p, data[:text])
+        end
+      end
     else
-      data[:stat] || 0
-    end
-
-    link_to send("#{model}_path") + index_filters(data[:filters]), class: 'column section-stat' do
-      content_tag :div, class: "stats" do
-        content_tag(:div, count, class: 'stat') +
-        content_tag(:p, data[:text])
+      content_tag :div, class: "column section-stat" do
+        content_tag :div, class: "stats" do
+          content_tag(:div, count, class: 'stat') + content_tag(:p, data[:text])
+        end
       end
     end
   end
@@ -100,12 +106,13 @@ module HomeHelper
   end
 
   def display_stat_detailed(data={})
-    model = model_name_class(data[:model]).pluralize
-    model_path = send("#{model}_path")
+    model = model_name_class(data[:model])
+    model_path = send("#{model.pluralize}_path")
+    user_can_read_model = user_can_read(model)
 
     content_tag :div, class: 'row section-stat-detailed align-middle' do
       #TODO: Checks for filters to decide if it is a link. None of these dashboard sections represent the full case list now but if that changes we may want to add an explicit property to signify no link.
-      if data[:filters].present?
+      if data[:filters].present? && user_can_read_model
         total_stat = link_to(model_path + index_filters(data[:filters])) do
           inner_value(data)
         end
@@ -123,9 +130,16 @@ module HomeHelper
           else
             count = case_stat({name: data[:name], stat: detail[:stat]}, data[:stats], data[:model])
           end
-          detail_link = link_to model_path + index_filters(detail[:filters]) do
-            concat(count)
-            concat(content_tag(:span, detail[:text]))
+          if count > 0 && user_can_read_model
+            detail_link = link_to model_path + index_filters(detail[:filters]) do
+              concat(count)
+              concat(content_tag(:span, detail[:text]))
+            end
+          else
+            detail_link = content_tag('div', class: 'no_link') do
+              concat(count)
+              concat(content_tag(:span, detail[:text]))
+            end
           end
           concat(content_tag(:li, detail_link, class: "additional-detail"))
         end
@@ -134,13 +148,11 @@ module HomeHelper
   end
 
   def stat_link(total, stat_group, model)
-    if total.present? && total > 0
-      model = model_name_class(model).pluralize
-      filter = stat_group[:filter] || ''
-      return link_to(total, send("#{model}_path") + filter, class: 'stat_link')
-    else
-      return content_tag(:div, 0, class: 'stat_link')
-    end
+    return content_tag(:div, 0, class: 'stat_link') if total.blank?
+    model = model_name_class(model)
+    return content_tag(:div, total, class: 'stat_link') unless user_can_read(model)
+    filter = stat_group[:filter] || ''
+    return link_to(total, send("#{model.pluralize}_path") + filter, class: 'stat_link')
   end
 
   def location_display(location_code)
@@ -148,13 +160,17 @@ module HomeHelper
     location_text = (lct.present? ? lct.placename : '')
   end
 
-  def build_reporting_location_stat_link(stat, filters=nil, model, reporting_location, admin_level)
-    if stat == 0
-      return stat
-    else
-      model = model_name_class(model).pluralize
-      return link_to(stat, send("#{model}_path") + index_filters(filters, reporting_location, admin_level), class: 'stat_link')
-    end
+  def build_reporting_location_stat_link(statistic, filters=nil, model, reporting_location, admin_level)
+    model = model_name_class(model)
+    statistic = 0 if statistic.blank?
+    return statistic if statistic == 0 || !user_can_read(model)
+    return link_to(statistic, send("#{model.pluralize}_path") + index_filters(filters, reporting_location, admin_level), class: 'stat_link')
+  end
+
+  def user_can_read(model)
+    return @can_read_cases if model == 'case'
+    return @can_read_incidents if model == 'incident'
+    true
   end
 
   def index_filters(filters, reporting_location='owned_by_location', admin_level=2)

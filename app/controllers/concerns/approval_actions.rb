@@ -15,9 +15,13 @@ module ApprovalActions
     if @record.present?
       begin
         set_approval
+        if @system_settings.try(:notification_email_enabled)
+          is_gbv = @record.module_id.eql?(PrimeroModule::GBV)
+          @record.send_approval_response_mail(current_user.id, params[:approval_type], params[:approval], request.base_url, is_gbv)
+        end
         @record.remove_approval_alert(params[:approval_type])
-        @record.send_approval_response_mail(current_user.id, params[:approval_type], params[:approval], request.base_url) if @system_settings.try(:notification_email_enabled)
         @record.save!
+        flash[:notice] = [t("approvals.#{params[:approval_type]}"), t("approvals.status.#{approval_status}") ].join(' - ')
       rescue => error
         logger.error "Case #{@record.id} approve #{params[:approval_type]}... failure"
         logger.error error.message
@@ -42,7 +46,6 @@ module ApprovalActions
   private
 
   def set_approval
-    approval_status = ((params[:approval].present?) && params[:approval] == 'true') ? APPROVED_STATUS : REJECTED_STATUS
     approved = ((params[:approval].present?) && params[:approval] == 'true') ? true : false
 
     if params[:approval_type].present?
@@ -75,5 +78,9 @@ module ApprovalActions
         current_user.user_name
       )
     end
+  end
+
+  def approval_status
+    (params[:approval].present? && params[:approval] == 'true') ? APPROVED_STATUS : REJECTED_STATUS
   end
 end

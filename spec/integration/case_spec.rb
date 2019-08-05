@@ -1,3 +1,6 @@
+# TODO: Following scenarios are skipped (using xscenario) due to issues with chrome update / new webdriver gem / capybara gem
+# This should be addressed by PRIM-914
+
 require 'rails_helper'
 
 feature "index page" do
@@ -15,7 +18,7 @@ feature "index page" do
       create_session(@user, 'password123')
     end
 
-    scenario "it hides photo column if form not visible" do
+    xscenario "it hides photo column if form not visible" do
       visit "/cases"
 
       within("table") do
@@ -23,7 +26,7 @@ feature "index page" do
       end
     end
 
-    scenario "it shows photo column if form is visible" do
+    xscenario "it shows photo column if form is visible" do
       @form_section.visible = true
       @form_section.save!
 
@@ -101,7 +104,7 @@ feature "index page" do
         Sunspot.commit
       end
 
-      scenario "it shows save and add service provision button on add incident modal", search: true do
+      xscenario "it shows save and add service provision button on add incident modal", search: true do
         create_session(@user, 'password123')
         visit "/cases"
         within('table') { find(:css, 'input').click }
@@ -120,7 +123,7 @@ feature "index page" do
         expect(page).to have_content "Case #{@case.short_id} was successfully updated"
       end
 
-      scenario "does not show service provision button without permission", search: true do
+      xscenario "does not show service provision button without permission", search: true do
         create_session(@user2, 'password123')
         visit "/cases"
         within('table') { find(:css, 'input').click }
@@ -150,7 +153,7 @@ feature "index page" do
         Sunspot.commit
       end
 
-      scenario "sends transfer request", search: true do
+      xscenario "sends transfer request", search: true do
         create_session(@user2, 'password123')
         visit("/cases")
         search_for(@case.short_id)

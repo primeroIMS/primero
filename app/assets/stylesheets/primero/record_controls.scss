@@ -25,7 +25,11 @@
     }
 
     .add_flag {
-      margin: 1em 0;
+      margin: 1em;
+
+      .column {
+        margin: 0 .3em;
+      }
 
       input {
         margin-bottom: 0;
@@ -197,4 +201,3 @@
     }
   }
 }
-

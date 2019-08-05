@@ -50,7 +50,9 @@ services_subform = [
     "name" => "service_implementing_agency",
     "type" => "select_box",
     "display_name_en" => "Implementing Agency",
-    "option_strings_source" => "Agency"
+    "option_strings_source" => "Agency",
+    "mobile_visible" => false,
+    "editable" => false
   }),
   Field.new({
     "name" => "service_provider",
@@ -61,7 +63,9 @@ services_subform = [
     "name" => "service_implementing_agency_individual",
     "type" => "select_box",
     "display_name_en" => "Service provider name",
-    "option_strings_source" => "User"
+    "option_strings_source" => "User",
+    "mobile_visible" => false,
+    "editable" => false
   }),
   Field.new({"name" => "service_status_referred",
     "type" => "tick_box",
@@ -84,7 +88,7 @@ services_subform = [
     "type" => "select_box",
     "display_name_en" => "Service implemented",
     "option_strings_source" => "lookup lookup-service-implemented",
-    "selected_value" => "not-implemented",
+    "selected_value" => "not_implemented",
     "disabled" => true
   }),
   Field.new({
@@ -106,6 +110,7 @@ services_section = FormSection.create_or_update_form_section({
   "editable"=>true,
   :fields => services_subform,
   :initial_subforms => 1,
+  :subform_prevent_item_removal => true,
   "name_en" => "Nested Services",
   "description_en" => "Services Subform",
   "collapsed_fields" => ["service_type", "service_appointment_date"]

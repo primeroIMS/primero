@@ -5,6 +5,7 @@ class SystemSettings < CouchRest::Model::Base
   include Memoizable
   include LocalizableProperty
 
+  DEFAULT_BASE_LANGUAGE = Primero::Application::LOCALE_ENGLISH
   #TODO We now use locales.yml to set default locale, but leaving this now for backwards compatibility
   property :default_locale, String, :default => Primero::Application::LOCALE_ENGLISH
   property :locales, [String], :default => [Primero::Application::LOCALE_ENGLISH]
@@ -26,6 +27,7 @@ class SystemSettings < CouchRest::Model::Base
   property :duplicate_export_field
 
   localize_properties [:welcome_email_text]
+  property :base_language, :default=>Primero::Application::LOCALE_ENGLISH
 
   # TODO this validation has been commented out because default_locale can now be blank if the locales.yml is used
   # validates_presence_of :default_locale, :message => I18n.t("errors.models.system_settings.default_locale")

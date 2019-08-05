@@ -13,6 +13,11 @@ fr:
       case_plan: Plan du Cas
       action_plan: Plan d'Action
       service_provision: Prestataire de service
+  lookup-gbv-approval-types:
+    name: GBV Approval Types
+    lookup_values:
+      case_plan:
+      closure:
   lookup-armed-force-group-name:
     name: Nom du groupe ou forces armées
     lookup_values:
@@ -499,7 +504,7 @@ fr:
   lookup-service-implemented:
     name: Service mis en oeuvre
     lookup_values:
-      not-implemented: Pas mis en oeuvre
+      not_implemented: Pas mis en oeuvre
       implemented: Mis en oeuvre
   lookup-service-referred:
     name: Service référé

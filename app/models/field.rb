@@ -12,6 +12,7 @@ class Field
   property :type
   property :highlight_information , HighlightInformation
   property :editable, TrueClass, :default => true
+  property :deletable, TrueClass, :default => true
   property :disabled, TrueClass, :default => false
   localize_properties [:display_name, :help_text, :guiding_questions, :tally, :tick_box_label]
   localize_properties [:option_strings_text], generate_keys: true
@@ -324,30 +325,18 @@ class Field
     #TODO: This is a HACK to pull back location fields from admin solr index names,
     #      completely based on assumptions.
     #      Also it's inefficient, and potentially inconsistent with itself
+    #      What this is attempting to do:  If this is a location field, it may have the admin_level appended to it
+    #                                      If so, strip off the admin_level so find_by_name_from_view will find something
     def find_by_name(field_name)
-      field = nil
-      if field_name.present?
-        if field_name.kind_of?(Array)
-          field_name.select{|s|
-            s.match(".*(\\d)+") && !find_by_name_from_view(s).present?
-          }.each{|s|
-            s.gsub!(/ *\d+$/, '')
-          }
-        elsif field_name.match(".*(\\d)+") && !find_by_name_from_view(field_name).present?
-          field_name.gsub!(/ *\d+$/, '')
-        end
-
-        field = find_by_name_from_view(field_name)
-        unless field.present?
-          if field_name.last.is_number? && field_name.length > 1
-            field = find_by_name_from_view(field_name[0..-2])
-            unless field.present? && field.is_location?
-              field = nil
-            end
-          end
-        end
+      return nil if field_name.blank?
+      field_keys = nil
+      if field_name.kind_of?(Array)
+        field_keys = field_name.map{|f| (f.match(".*(\\d)+") && find_by_name_from_view(f).blank?) ? f.gsub(/ *\d+$/, '') : f}
+      elsif field_name.kind_of?(String)
+        field_keys = (field_name.match(".*(\\d)+") && find_by_name_from_view(field_name).blank?) ? field_name.gsub(/ *\d+$/, '') : field_name
       end
-      return field
+      return nil if field_keys.blank?
+      find_by_name_from_view(field_keys)
     end
 
   end
@@ -366,6 +355,7 @@ class Field
     self.mobile_visible = true if properties["mobile_visible"].nil?
     self.highlight_information = HighlightInformation.new
     self.editable = true if properties["editable"].nil?
+    self.deletable = true if properties["deletable"].nil?
     self.disabled = false if properties["disabled"].nil?
     self.multi_select = false if properties["multi_select"].nil?
     self.required = false if properties["required"].nil?
@@ -389,8 +379,8 @@ class Field
     locale = (opts[:locale].present? ? opts[:locale] : I18n.locale)
     options_list = []
     if self.type == Field::TICK_BOX
-      options_list << {id: 'true', display_text: I18n.t('true')}
-      options_list << {id: 'false', display_text: I18n.t('false')}
+      options_list << {id: 'true', display_text: I18n.t('true')}.with_indifferent_access
+      options_list << {id: 'false', display_text: I18n.t('false')}.with_indifferent_access
     elsif self.option_strings_source.present?
       source_options = self.option_strings_source.split
       #TODO - PRIMERO - need to refactor, see if there is a way to not have incident specific logic in field
@@ -409,7 +399,7 @@ class Field
       else
         #TODO: Might want to optimize this (cache per request) if we are repeating our types (locations perhaps!)
         clazz = Kernel.const_get(source_options.first) #TODO: hoping this guy exists and is a class!
-        options_list += clazz.all_names
+        options_list += clazz.try(:all_names) || []
       end
     else
       options_list += (self.option_strings_text.present? ? display_option_strings(locale) : [])

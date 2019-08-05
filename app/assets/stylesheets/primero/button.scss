@@ -74,11 +74,13 @@ a.arrow, a.middle_btn {
 }
 
 .flags_record_page {
-  width: rem_calc(109);
-  padding: rem_calc(7.5);
+  padding: rem_calc(7.5) rem_calc(16);
   height: rem_calc(39.69);
+  display: flex;
+  align-items: center;
 
   .jewel {
+    margin: 0 .5em;
     border-radius: 50%;
     color: #fff;
   }
@@ -233,4 +235,3 @@ a.close-reveal-modal.green-button {
   line-height: normal;
   font-weight: inherit;
 }
-
