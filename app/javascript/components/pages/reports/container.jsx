@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { Grid, Box, IconButton } from "@material-ui/core";
-import { withRouter, Link, Route } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import { OptionsBox, ActionMenu } from "components/dashboard";
 import { BarChart } from "components/charts/bar-chart";
 import AddIcon from "@material-ui/icons/Add";
@@ -11,13 +11,11 @@ import { PageContainer } from "components/page-container";
 import makeStyles from "@material-ui/styles/makeStyles";
 import { useI18n } from "components/i18n";
 import { buildDataForReport } from "./helpers";
-import { ReportDetail } from "./forms";
 import * as actions from "./action-creators";
 import * as selectors from "./selectors";
 import styles from "./styles.css";
 
 const Reports = ({
-  match,
   fetchCasesByNationality,
   fetchCasesByAgeAndSex,
   fetchCasesByProtectionConcern,
@@ -46,6 +44,28 @@ const Reports = ({
       onClick: () => console.log("Do Something")
     }
   ]);
+  const reports = [
+    {
+      id: "casesByNationality",
+      title: "CASE BY NATIONALITY",
+      data: casesByNationality
+    },
+    {
+      id: "casesByAgeAndSex",
+      title: "CASES BY AGE AND SEX",
+      data: casesByAgeAndSex
+    },
+    {
+      id: "casesByProtectionConcern",
+      title: "CASES BY PROTECTION CONCERN",
+      data: casesByProtectionConcern
+    },
+    {
+      id: "casesByAgency",
+      title: "CASES BY AGENCY",
+      data: casesByAgency
+    }
+  ];
 
   useEffect(() => {
     fetchCasesByNationality();
@@ -69,46 +89,20 @@ const Reports = ({
             </Box>
           </Box>
         </Grid>
-        <Grid container>
-          <Grid item xs={12} md={6}>
-            <OptionsBox
-              title="CASE BY NATIONALITY"
-              to={`${match.url}/casesByNationality`}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
-              <BarChart {...buildDataForReport(casesByNationality)} />
-            </OptionsBox>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <OptionsBox
-              title="CASES BY AGE AND SEX"
-              to={`${match.url}/casesByAgeAndSex`}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
-              <BarChart {...buildDataForReport(casesByAgeAndSex)} />
-            </OptionsBox>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <OptionsBox
-              title="CASES BY PROTECTION CONCERN"
-              to={`${match.url}/casesByProtectionConcern`}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
-              <BarChart {...buildDataForReport(casesByProtectionConcern)} />
-            </OptionsBox>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <OptionsBox
-              title="CASES BY AGENCY"
-              to={`${match.url}/casesByAgency`}
-              action={<ActionMenu open={false} items={actionMenuItems} />}
-            >
-              <BarChart {...buildDataForReport(casesByAgency)} />
-            </OptionsBox>
-          </Grid>
+        <Grid container spacing={2}>
+          {reports.map(report => (
+            <Grid item xs={5} md={6} key={report.id}>
+              <OptionsBox
+                title={report.title}
+                to={`reports/${report.id}`}
+                action={<ActionMenu open={false} items={actionMenuItems} />}
+              >
+                <BarChart {...buildDataForReport(report.data)} />
+              </OptionsBox>
+            </Grid>
+          ))}
         </Grid>
       </PageContainer>
-      <Route path={`${match.path}/:id`} component={ReportDetail} />
     </div>
   );
 };
@@ -121,8 +115,7 @@ Reports.propTypes = {
   casesByNationality: PropTypes.object,
   casesByAgeAndSex: PropTypes.object,
   casesByProtectionConcern: PropTypes.object,
-  casesByAgency: PropTypes.object,
-  match: PropTypes.object
+  casesByAgency: PropTypes.object
 };
 
 const mapStateToProps = state => {

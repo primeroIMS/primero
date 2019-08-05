@@ -1,13 +1,33 @@
 export default [
   {
-    // id property must be field name
     id: "my_cases",
     display_name: "My Cases",
-    type: "checkbox",
+    type: "switch",
     options: {
       values: [
         { id: "my_cases", display_name: "My Cases" },
         { id: "referred_cases", display_name: "Cases referred to me" }
+      ]
+    }
+  },
+  {
+    id: "flagged",
+    display_name: "Flagged",
+    type: "switch",
+    options: {
+      values: [{ id: "flagged_label", display_name: "Flagged" }]
+    }
+  },
+  {
+    id: "mobile",
+    display_name: "Mobile",
+    type: "switch",
+    options: {
+      values: [
+        {
+          id: "mark_for_mobile",
+          display_name: "Marked for mobile"
+        }
       ]
     }
   },
@@ -139,6 +159,30 @@ export default [
       defaultValue: "created_at",
       min_date: "",
       max_date: ""
+    }
+  },
+  {
+    id: "approval_status_select",
+    display_name: "Approval Status - Select",
+    type: "select",
+    options: {
+      values: [
+        { id: "bia", display_name: "BIA" },
+        { id: "case_plan", display_name: "Case Plan" },
+        { id: "closure", display_name: "Closure" }
+      ]
+    }
+  },
+  {
+    id: "approval_status_select_multiple",
+    display_name: "Approval Status - Select Multiple",
+    type: "multi_select",
+    options: {
+      values: [
+        { id: "bia", display_name: "BIA" },
+        { id: "case_plan", display_name: "Case Plan" },
+        { id: "closure", display_name: "Closure" }
+      ]
     }
   }
 ];

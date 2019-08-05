@@ -44,8 +44,9 @@ export const buildDataForReport = data => {
 
 export const buildDataForTable = data => {
   if (data.size <= 0) {
-    return {};
+    return { columns: [], values: [] };
   }
+
   const formattedData = data.toJS();
   const entries = Object.entries(formattedData.data);
   const isObject = typeof entries[0][1] === "object";

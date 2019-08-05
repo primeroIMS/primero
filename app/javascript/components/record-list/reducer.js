@@ -19,12 +19,14 @@ export const recordListReducer = namespace => ({
       case `${namespace}/${Actions.SET_FILTERS}`:
         return state.set("filters", { ...state.get("filters"), ...payload });
       case `${namespace}/${Actions.ADD_CHECKBOX}`:
+      case `${namespace}/${Actions.ADD_SWITCH_BUTTON}`:
       case `${namespace}/${Actions.ADD_CHIP}`:
         return state.setIn(
           ["filters", payload.id],
           [...state.getIn(["filters", payload.id]), payload.data]
         );
       case `${namespace}/${Actions.DELETE_CHECKBOX}`:
+      case `${namespace}/${Actions.DELETE_SWITCH_BUTTON}`:
       case `${namespace}/${Actions.DELETE_CHIP}`:
         return state.setIn(
           ["filters", payload.id],
