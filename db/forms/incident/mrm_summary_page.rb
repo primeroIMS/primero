@@ -408,7 +408,7 @@ FormSection.create_or_update_form_section({
   :order_form_group => 1,
   :order => 1,
   :order_subform => 0,
-  :form_group_keyed => true,
+  :form_group_keyed => false,
   :form_group_name => "Summary of the Incident",
   "editable" => true,
   :fields => mrm_summary_page_fields,
