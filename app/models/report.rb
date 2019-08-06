@@ -230,6 +230,7 @@ class Report < CouchRest::Model::Base
         values: @values
       }
       self.data[:graph_value_range] = graph_value_range if is_graph
+      self.load_translations
       self.data = self.translate_data(self.data)
       ""
     end
@@ -289,17 +290,33 @@ class Report < CouchRest::Model::Base
   end
 
   def translated_label(label)
-    if label.present?
-      label_selection = translated_label_options.select{|option_list|
-        option_list["id"].downcase == label.downcase
-      }.first
-      label = label_selection["display_text"] if label_selection.present?
-    end
-    label
+    label.present? ? (@loaded_labels[label] || label) : label
   end
 
   def translated_label_options
-    @translated_label_options ||= self.field_map.map{|v, fm| fm.options_list(nil, nil, Location.all_names(locale: I18n.locale), true)}.flatten(1)
+    @location_all_names ||= Location.all_names(locale: I18n.locale)
+    # We create a hash with the translations we need, so that we can easily access them using the
+    # id as the key.
+    @translated_label_options ||= self.field_map
+                                       .map{|v, fm| fm.options_list(nil, nil, @location_all_names, true)}
+                                       .flatten(1).map{ |t| { t['id'] => t } }
+                                       .inject(&:merge) || {}
+  end
+
+  # This method loads all the translations needed for the results and caches them in a hash
+  def load_translations
+    @loaded_labels ||= {}
+    labels = []
+    [:aggregate_value_range, :disaggregate_value_range, :graph_value_range].each do |k|
+        labels += data[k].flatten.compact.uniq.map(&:to_s) if data[k].present?
+    end
+    labels += self.data[:values].keys.flatten.compact.uniq.map(&:to_s)
+    labels.select(&:present?).each do |label|
+      label_selection = translated_label_options[label.downcase]
+      if label_selection.present?
+        @loaded_labels = @loaded_labels.merge({ label => label_selection['display_text'] })
+      end
+    end
   end
 
   #TODO: This method currently builds data for 1D and 2D reports
@@ -311,6 +328,8 @@ class Report < CouchRest::Model::Base
     chart_datasets_hash = {}
 
     number_of_blanks = dimensionality - self.data[:graph_value_range].first.size
+
+    self.load_translations
 
     self.data[:graph_value_range].each do |key|
       #The key to the global report data
