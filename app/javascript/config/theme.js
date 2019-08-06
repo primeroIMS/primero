@@ -101,6 +101,11 @@ const overrides = {
       }
     }
   },
+  MUIDataTableBodyRow: {
+    hover: {
+      cursor: "pointer"
+    }
+  },
   MUIDataTableBodyCell: {
     root: {
       padding: "10px",
