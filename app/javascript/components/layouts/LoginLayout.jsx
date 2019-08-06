@@ -60,7 +60,7 @@ const LoginLayout = ({ children, primeroModule, agency }) => {
 };
 
 LoginLayout.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.node,
   primeroModule: PropTypes.string,
   agency: PropTypes.string
 };

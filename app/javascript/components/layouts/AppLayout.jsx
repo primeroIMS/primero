@@ -34,7 +34,7 @@ const AppLayout = ({ children, drawerOpen, isAuthenticated }) => {
 };
 
 AppLayout.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.node,
   drawerOpen: PropTypes.bool.isRequired,
   isAuthenticated: PropTypes.bool.isRequired
 };
