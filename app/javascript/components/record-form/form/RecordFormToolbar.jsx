@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Box, IconButton } from "@material-ui/core";
+import { Box, IconButton, Fab } from "@material-ui/core";
 import { withRouter, Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/styles";
 import { useI18n } from "components/i18n";
 import CreateIcon from "@material-ui/icons/Create";
-import CancelIcon from "@material-ui/icons/Cancel";
 import styles from "./styles.css";
 
 const RecordFormToolbar = ({
@@ -51,12 +50,22 @@ const RecordFormToolbar = ({
       <Box>
         {(mode.isEdit || mode.isNew) && (
           <>
-            <IconButton onClick={goBack}>
-              <CancelIcon />
-            </IconButton>
-            <IconButton color="primary" onClick={handleFormSubmit}>
-              <CreateIcon />
-            </IconButton>
+            <Fab
+              className={css.actionButtonCancel}
+              variant="extended"
+              aria-label={i18n.t("buttons.cancel")}
+              onClick={goBack}
+            >
+              {i18n.t("buttons.cancel")}
+            </Fab>
+            <Fab
+              className={css.actionButton}
+              variant="extended"
+              aria-label={i18n.t("buttons.save")}
+              onClick={handleFormSubmit}
+            >
+              {i18n.t("buttons.save")}
+            </Fab>
           </>
         )}
         {mode.isShow && (
