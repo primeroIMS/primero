@@ -13,11 +13,15 @@ const LineChart = ({ chartData, options, title }) => {
     const chatCtx = chartRef.current.getContext("2d");
 
     /* eslint-disable no-new */
-    new Chart(chatCtx, {
+    const chartInstance = new Chart(chatCtx, {
       type: "line",
       data: chartData,
+      animation: false,
       options: {
         responsive: true,
+        animation: {
+          duration: 0
+        },
         layout: {
           padding: {
             left: 0,
@@ -63,6 +67,10 @@ const LineChart = ({ chartData, options, title }) => {
         ...options
       }
     });
+
+    return () => {
+      chartInstance.destroy();
+    };
   });
 
   return (
