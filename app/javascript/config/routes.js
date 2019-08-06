@@ -25,7 +25,8 @@ export default [
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:id/edit",
-        component: RecordForm
+        component: RecordForm,
+        mode: "edit"
       },
       {
         path: "/:recordType(cases|incidents|tracing_requests)/:module/new",
