@@ -1,5 +1,3 @@
-require 'better_errors'
-
 Rails.application.configure do
 
   # Settings specified here will take precedence over those in config/environment.rb
@@ -23,9 +21,6 @@ Rails.application.configure do
   config.assets.debug = ENV['DEBUG_ASSETS'] == 'no' ? false : true
 
   config.eager_load = ENV['PROFILE'] == 'true' ? true : false
-
-  # BetterErrors::Middleware.allow_ip! ENV['TRUSTED_IP'] if ENV['TRUSTED_IP']
-  BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
 
   config.action_mailer.raise_delivery_errors = false
 

@@ -1,5 +1,0 @@
-<% if to_value == 'true' || to_value == true %>
-  <%= datetime %> <%=	t("histories.flag.record_flagged_by") %> <%= user_name %> <%=	t("histories.belong_to") %> <%= organization %> <%=	t("histories.because") %> <%= message %>
-<% else %>
-  <%= datetime %> <%=	t("histories.flag.record_unflagged_by") %> <%= user_name %> <%=	t("histories.belong_to") %> <%= organization %> <%=	t("histories.because") %> <%= message %>
-<% end %>

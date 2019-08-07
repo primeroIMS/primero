@@ -1,9 +1,0 @@
-<a href="#<%=field.name%>_Delete" class="submit-form delete" id="<%=field.name%>_Delete"><%= I18n.t("user.actions.delete")%>&nbsp;</a>
-<%= form_for field, :url => form_section_field_path(@form_section.unique_id, field.name), :html => {:id => field.name,:method => :delete, :autocomplete => "off"} do |f|%>
-    <input type='hidden' name='field_name' value='<%=field.name%>'/>
-    <input type='hidden' name='module_id' value='<%=@module_id%>'/>
-    <input type='hidden' name='parent_form' value='<%=@parent_form%>'/>
-    <input type='submit' id='<%=field.name%>deleteSubmit' style='display:none;'/>
-<% end %>
-
-

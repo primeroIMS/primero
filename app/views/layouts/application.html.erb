@@ -1,101 +1,20 @@
 <!DOCTYPE html>
-<html lang="<%= I18n.default_locale %>" dir="<%= @page_direction %>">
+<html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=3.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="google" value="notranslate" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title><%= @page_name %></title>
-  <%#= favicon_link_tag('favicon-32x32.png?v=3', sizes: "32x32") %>
-  <%#= favicon_link_tag('favicon-96x96.png?v=3', sizes: "96x96") %>
+  <title>Primero</title>
   <%= favicon_link_tag('favicon-16x16.png?v=3') %>
-  <% if @page_direction == 'rtl' %>
-    <%= stylesheet_link_tag "application_rtl", 'data-turbolinks-track' => true %>
-  <% else %>
-    <%= stylesheet_link_tag "application_ltr", 'data-turbolinks-track' => true %>
-  <% end %>
-  <%= yield :stylesheet %>
   <%= csrf_meta_tag %>
-  <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
-  <%= yield :javascript %>
-  <%= javascript_tag 'data-turbolinks-track' => true do %>
-      I18n.defaultLocale = "<%= I18n.default_locale %>";
-      I18n.locale = "<%= I18n.locale %>";
-      I18n.fallbacks = true;
-      I18n.direction = "<%= @page_direction %>";
-  <% end %>
+  <!-- jss-insertion-point -->
 </head>
-<body class="<%= @body_class %>">
-  <%= render 'shared/header' %>
-  <%= render 'shared/nav' %>
-
-<div class="page_container">
-  <% if flash[:notice].present? %>
-      <div class='flash row'>
-        <p class='notice large-12'><%= flash[:notice] %></p>
-      </div>
-  <% end %>
-  <% if flash[:error].present? %>
-      <div class='flash row'>
-        <p class='error large-12'><%= flash[:error] %></p>
-      </div>
-  <% end %>
-  <% if content_for?(:breadcrumbs) || content_for?(:record_sub_nav) || content_for?(:record_sub_nav_controls) %>
-    <%= render 'shared/record_controls' %>
-  <% else %>
-    <div class="clearfix"></div>
-  <% end %>
-  <div class="page_content">
-    <%= yield %>
-    <%= yield :header_message %>
-  </div>
-</div>
-
-<!-- idle dialog window markup -->
-<div id="idleModal" class="reveal tiny" title="<%= t("session.about_to_expire") %>" data-reveal data-close-on-click="false" data-close-on-esc="false">
-  <h5 class="text-center"> <%= t('messages.logoff_warning_prefix') %> <span id="dialog-countdown"></span> <%= t("messages.logoff_warning_suffix") %></h5>
-  <p class="text-center"><%= t("messages.logoff_confirmation") %></p>
-  <div class="row align-center">
-    <div class="shrink columns">
-      <div class="button-group">
-        <button class="button green keepworking"><%= I18n.t("messages.keep_working") %></button>
-        <button class="button gray logout"><%= I18n.t("messages.logoff") %></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<%= render 'exports/password_prompt' %>
-<div class="spacer"></div>
-<div class="loading-screen">
-  <div class="ls-icon">
-    <i class="fa fa-refresh fa-spin"></i>
-  </div>
-  <div class="ls-bg"></div>
-</div>
-<script>
-  if (window._primero) {
-    window._primero.model_object = "<%= controller.controller_name.singularize %>";
-    window._primero.current_action = "<%= controller.action_name %>";
-    window._primero.discard_message = "<%= t('messages.record_navigation_confirmation_message', default: 'Discard unsaved changes?') %>";
-    window._primero.form_error_messages = {
-      required: "<%= t('form_section.required_field_js') %>",
-      form_message: "<%= t('errors.template.header.body_js')%>"
-    };
-    window._primero.options_loc = <%= available_locations %>
-    window._primero.check_connectivity = <%= ENV['CHECK_ONLINE_STATUS'] || true %>
-  }
-</script>
-<%= javascript_tag do %>
-  function page_scripts(){
-    <%= yield :page_scripts %>
-  }
-
-  $(page_scripts);
-<% end %>
-<%= yield :pagination_details %>
-<%= yield :modals %>
+<body dir="ltr">
+<div id="root"></div>
+<%= javascript_include_tag 'translations' %>
+<%= javascript_packs_with_chunks_tag 'application' %>
 </body>
 </html>

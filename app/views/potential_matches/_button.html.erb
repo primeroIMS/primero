@@ -1,6 +1,0 @@
-<%
-  button_label = ((type == "tracing_request") ? t("buttons.sort_by_tr") : t("buttons.sort_by_case"))
-%>
-<li>
-<%= link_to button_label, potential_matches_path(:type => type), class: 'sort_method' %>
-</li>

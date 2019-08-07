@@ -1,9 +1,0 @@
-<div class="row separator_field">
-  <div class="large-12 columns separator" id="<%= separator.name %>">
-    <span data-field-tags="<%= separator.field_tags.present? ? separator.field_tags : [] %>" >
-      <%= t(separator.name, :default => separator.display_name) %></span>
-    <% if separator.help_text.present? %>
-      <p class="help"><%= t(separator.help_text, :default => separator.help_text) %></p>
-    <% end %>
-  </div>
-</div>

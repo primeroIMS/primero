@@ -1,4 +1,0 @@
-<% if current_actions(action: ['update', 'edit', 'show']) && formObject.incidents.count > 0 %>
-  <div class="incident_link_label"><%= t('incident.link_to_incident') %></div>
-  <div class="incident_link"><%= link_to incident_display_id, incident_path(associated_incident_id) %></div>
-<% end %>

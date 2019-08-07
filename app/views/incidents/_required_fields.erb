@@ -1,7 +1,0 @@
-<%= hidden_field_tag "incident[posted_from]", "Browser" if @incident.new_record? %>
-<% # Record Owner form %>
-<%= hidden_field_tag('incident[record_state]', @incident.record_state) %>
-<%= hidden_field_tag('incident[owned_by]', @incident.owned_by) %>
-<%= hidden_field_tag('incident[created_by]', @incident.created_by) %>
-<%= hidden_field_tag('incident[previously_owned_by]', @incident.previously_owned_by) %>
-<%= hidden_field_tag('incident[module_id]', @incident.module_id) %>

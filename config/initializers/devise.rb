@@ -294,10 +294,9 @@ Devise.setup do |config|
   # ==> Turbolinks configuration
   # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make redirection work correctly:
   #
-  # TODO: We remove once turbolinks removed
-  ActiveSupport.on_load(:devise_failure_app) do
-    include Turbolinks::Controller
-  end
+  # ActiveSupport.on_load(:devise_failure_app) do
+  #   include Turbolinks::Controller
+  # end
 
   # ==> Configuration for :registerable
 

@@ -1,9 +1,0 @@
-<% content_for :resource_show_fields do %>
-  <%= resource_show_field @primero_program, 'name', 'primero_program.name' %>
-  <%= resource_show_field @primero_program, 'description', 'primero_program.description' %>
-  <%= resource_show_field @primero_program, 'start_date', 'primero_program.start_date' %>
-  <%= resource_show_field @primero_program, 'end_date', 'primero_program.end_date' %>
-<% end %>
-
-<%= render partial: 'shared_configuration_resource/show', locals: {object: @primero_program} %>
-
