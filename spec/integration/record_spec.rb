@@ -22,7 +22,7 @@ feature "show page", search: true do
       @case2 = create(:child, owned_by: @user2.user_name, module_id: @user2.module_ids.first)
     end
 
-    scenario 'should not show disable action if not permitted' do
+    xscenario 'should not show disable action if not permitted' do
       create_session(@user1, 'password123')
       visit("/cases/#{@case1.id}")
       save_screenshot
@@ -33,7 +33,7 @@ feature "show page", search: true do
       end
     end
 
-    scenario 'should show disable action if permitted' do
+    xscenario 'should show disable action if permitted' do
       create_session(@user2, 'password123')
       visit("/cases/#{@case2.id}")
       click_on('Actions')
@@ -87,7 +87,7 @@ feature "show page", search: true do
       Sunspot.commit
     end
 
-    scenario "renders different type of fields" do
+    xscenario "renders different type of fields" do
       create_session(@user, 'password123')
       visit("/cases/#{@case.id}")
       within('fieldset') do
