@@ -34,7 +34,7 @@ feature "reports", search: true do
     Sunspot.commit
   end
 
-  scenario "generates report", search: true do
+  xscenario "generates report", search: true do
     create_session(@user_for_report, 'password123')
 
     visit "/reports"
