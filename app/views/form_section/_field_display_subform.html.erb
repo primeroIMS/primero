@@ -10,7 +10,7 @@
      data_shared_subform = "data-is_shared_subform=true data-shared_subform=#{subform_section.shared_subform}"
    end
    if number_of_subforms > 0
-     subform_object = get_subform_object(formObject, subform_section, form_group_name, subform.name) || get_subform_object(formObject, shared_subform_section, shared_subform_section_group, subform.name)
+     subform_object = get_subform_object(formObject, subform_section, form_group_name, subform.name).presence || get_subform_object(formObject, shared_subform_section, shared_subform_section_group, subform.name)
      #TODO: This code is being temporarily removed until JOR-141 
      #      (users should only see their own referrals) is again revisited,
      #      Pending a full refactor of how we do nested forms headers  
