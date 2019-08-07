@@ -1,3 +1,5 @@
+#TODO: Delete after refactoring reports/dashboards API
+
 module HomeHelper
 
   def link_dashboard_title(record)
