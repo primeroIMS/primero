@@ -279,6 +279,39 @@ action_plan_fields = [
              "display_name_en" => "Action Plan ", #Note the extra trailing space!
              "help_text_en" => "Please add all needs that you identified in the assessment. Use the Add button to add other needs that should be part of the Action Plan."
             }),
+  Field.new({"name" => "case_plan_approval_type_gbv",
+            "type" => "select_box",
+            "display_name_en" => "Approval Type",
+            "editable"=> false,
+            "disabled"=> true,
+            "option_strings_source" => "lookup lookup-approval-type"
+          }),
+  Field.new({"name" => "case_plan_approved_gbv",
+             "type" => "tick_box",
+             "tick_box_label_en" => "Yes",
+             "editable" => false,
+             "disabled" => true,
+             "display_name_en" => "Approved by Manager"
+            }),
+  Field.new({"name" => "case_plan_approved_date_gbv",
+             "type" => "date_field",
+             "editable" => false,
+             "disabled" => true,
+             "display_name_en" => "Date"
+            }),
+  Field.new({"name" => "case_plan_approved_comments_gbv",
+             "type" => "textarea",
+             "editable" => false,
+             "disabled" => true,
+             "display_name_en" => "Manager Comments"
+            }),
+  Field.new({"name" => "approval_status_case_plan_gbv",
+             "type" => "select_box",
+             "display_name_en" => "Approval Status",
+             "editable"=> false,
+             "disabled"=> true,
+             "option_strings_source" => "lookup lookup-approval-status"
+            }),
   Field.new({"name" => "action_plan_section",
              "show_on_minify_form" => true,
              "mobile_visible" => true,
