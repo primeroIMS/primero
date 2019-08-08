@@ -2481,6 +2481,12 @@ en:
           other: "%{count} errors prohibited this %{resource} from being saved:"
   filters:
     approval_status: 'Approvals Status:'
+    approval_status_select: 'Approvals Status - Single'
+    approval_status_select_multiple: 'Approvals Status - Multiple'
+    flagged: 'Flagged'
+    flagged_label: 'Flagged?'
+    mobile: 'Mobile'
+    mark_for_mobile: 'Mark for Mobile?'
     social_worker: "Field/Case/Social Worker:"
     child_status: "Status:"
     age_range: "Age Range:"

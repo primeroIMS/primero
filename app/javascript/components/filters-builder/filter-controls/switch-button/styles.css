@@ -1,0 +1,20 @@
+.root {
+  width: 100%;
+  padding-left: 1em;
+
+  & svg {
+    vertical-align: middle;
+    font-size: 22px;
+  }
+}
+.switchButtonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+.switchButtonContainer > span:nth-child(1) {
+  padding-top: 7px;
+}
+.textSwitchButton {
+  vertical-align: middle;
+  padding-left: .5em;
+}

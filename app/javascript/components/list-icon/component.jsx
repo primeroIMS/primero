@@ -7,7 +7,11 @@ import {
   ListAlt,
   HowToReg,
   AccountCircle,
-  Help
+  Help,
+  Flag,
+  MobileScreenShare,
+  Person,
+  People
 } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import { CasesIcon, IncidentsIcon, LogoutIcon } from "images/primero-icons";
@@ -36,6 +40,14 @@ const ListIcon = ({ icon }) => {
       return <Help />;
     case "logout":
       return <LogoutIcon />;
+    case "flagged_label":
+      return <Flag />;
+    case "mark_for_mobile":
+      return <MobileScreenShare />;
+    case "my_cases":
+      return <Person />;
+    case "referred_cases":
+      return <People />;
     default:
       return null;
   }

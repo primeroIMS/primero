@@ -17,6 +17,7 @@ const BarChart = ({ data, description, showDetails }) => {
       data,
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         legend: {
           display: showDetails
         },
@@ -66,9 +67,9 @@ const BarChart = ({ data, description, showDetails }) => {
   });
 
   return (
-    <Box>
+    <Box className={css.barChartContainer}>
       {!showDetails ? <p className={css.description}>{description}</p> : null}
-      <canvas className="bartChart" ref={chartRef} />
+      <canvas ref={chartRef} />
     </Box>
   );
 };

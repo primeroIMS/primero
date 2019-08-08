@@ -18,7 +18,8 @@ import {
   RangeButton,
   RadioButton,
   Chips,
-  DatesRange
+  DatesRange,
+  SwitchButton
 } from "components/filters-builder/filter-controls";
 import { selectFilters } from "components/record-list";
 import { useI18n } from "components/i18n";
@@ -72,6 +73,8 @@ const FiltersBuilder = ({
         return <Chips recordType={recordType} props={filter} />;
       case "dates":
         return <DatesRange recordType={recordType} props={filter} />;
+      case "switch":
+        return <SwitchButton recordType={recordType} props={filter} />;
       default:
         return <h2>Not Found</h2>;
     }

@@ -9,7 +9,7 @@ import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
-const RangeButton = ({ recordType, exclusive, props, value, setValue }) => {
+const RangeButton = ({ recordType, props, value, setValue }) => {
   const css = makeStyles(styles)();
   const i18n = useI18n();
   const { id, options } = props;
@@ -18,7 +18,6 @@ const RangeButton = ({ recordType, exclusive, props, value, setValue }) => {
   return (
     <Box className={css.toggleContainer}>
       <ToggleButtonGroup
-        exclusive={exclusive}
         value={value}
         onChange={(e, v) => setValue({ id, data: v }, recordType)}
       >
@@ -43,9 +42,8 @@ RangeButton.propTypes = {
   recordType: PropTypes.string.isRequired,
   props: PropTypes.object.isRequired,
   options: PropTypes.object,
-  exclusive: PropTypes.bool,
   id: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.array,
   setValue: PropTypes.func
 };
 
