@@ -51,15 +51,7 @@ const SelectField = ({
 
   const value = getIn(formik.values, name);
 
-  const options = (() => {
-    if (typeof option === "string") {
-      return useSelector(state =>
-        getOption(state, option.replace(/lookup /, ""))
-      );
-    }
-
-    return option[i18n.locale];
-  })();
+  const options = useSelector(state => getOption(state, option, i18n));
 
   const findOptionDisplayText = v =>
     (find(options, { id: v }) || {}).display_text;

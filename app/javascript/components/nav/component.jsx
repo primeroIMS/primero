@@ -11,7 +11,7 @@ import React, { useEffect } from "react";
 import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
 import { useI18n } from "components/i18n";
-import { themeHelper } from "libs";
+import { useThemeHelper } from "libs";
 import { useDispatch, useSelector } from "react-redux";
 import { MobileToolbar } from "components/mobile-toolbar";
 import { ListIcon } from "components/list-icon";
@@ -21,7 +21,7 @@ import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
 const Nav = () => {
-  const { css, theme } = themeHelper(styles);
+  const { css, theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const i18n = useI18n();
   const dispatch = useDispatch();

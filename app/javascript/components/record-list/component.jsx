@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Box, useMediaQuery } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { Map } from "immutable";
-import { themeHelper } from "libs";
+import { useThemeHelper } from "libs";
 import { RecordSearch } from "components/record-search";
 import { PageContainer } from "components/page-container";
 import { withRouter } from "react-router-dom";
@@ -34,7 +34,7 @@ const RecordList = ({
   history
 }) => {
   const css = makeStyles(styles)();
-  const { theme } = themeHelper({});
+  const { theme } = useThemeHelper({});
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const [drawer, setDrawer] = useState(false);
 

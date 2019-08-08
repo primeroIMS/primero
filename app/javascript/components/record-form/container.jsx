@@ -8,7 +8,7 @@ import { enqueueSnackbar } from "components/notifier";
 import { useI18n } from "components/i18n";
 import { PageContainer } from "components/page-container";
 import { LoadingIndicator } from "components/loading-indicator";
-import { themeHelper } from "libs";
+import { useThemeHelper } from "libs";
 import clsx from "clsx";
 import { Nav } from "./nav";
 import NAMESPACE from "./namespace";
@@ -28,7 +28,7 @@ import { compactValues } from "./helpers";
 
 const RecordForms = ({ match, mode }) => {
   let submitForm = null;
-  const { theme } = themeHelper(styles);
+  const { theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
 
   const containerMode = {
@@ -43,10 +43,7 @@ const RecordForms = ({ match, mode }) => {
   const { params } = match;
   const recordType = RECORD_TYPES[params.recordType];
 
-  const record =
-    containerMode.isEdit || containerMode.isShow
-      ? useSelector(state => getRecord(state))
-      : null;
+  const record = useSelector(state => getRecord(state, containerMode));
 
   const selectedModule = {
     recordType,
