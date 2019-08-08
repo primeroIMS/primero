@@ -57,6 +57,7 @@ module Api::V2::Concerns
       @permitted_fields ||= current_user.permitted_fields(current_user.primero_modules, model_class.parent_form)
       @permitted_field_names ||= ['id'] + @permitted_fields.map(&:name)
       @permitted_field_names << 'record_state' if current_user.can?(:enable_disable_record, model_class)
+      # TODO flag_count is actually not part of the record fields. But we should be able to display on the API response.
       @permitted_field_names << 'flag_count' if current_user.can?(:flag, model_class)
     end
 
