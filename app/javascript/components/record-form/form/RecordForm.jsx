@@ -152,7 +152,7 @@ const RecordForm = ({
         }}
       >
         {({ handleSubmit, submitForm, errors, isSubmitting }) => {
-          setShowErrorMessage(errors && isSubmitting);
+          setShowErrorMessage(Object.keys(errors).length > 0 && isSubmitting);
           bindSubmitForm(submitForm);
           return (
             <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
