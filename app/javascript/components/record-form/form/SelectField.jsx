@@ -41,6 +41,7 @@ const SelectField = ({
   InputLabelProps,
   InputProps,
   mode,
+  disabled,
   formik,
   ...other
 }) => {
@@ -51,15 +52,7 @@ const SelectField = ({
 
   const value = getIn(formik.values, name);
 
-  const options = (() => {
-    if (typeof option === "string") {
-      return useSelector(state =>
-        getOption(state, option.replace(/lookup /, ""))
-      );
-    }
-
-    return option[i18n.locale];
-  })();
+  const options = useSelector(state => getOption(state, option, i18n));
 
   const findOptionDisplayText = v =>
     (find(options, { id: v }) || {}).display_text;
@@ -73,6 +66,9 @@ const SelectField = ({
     displayEmpty: !mode.isShow,
     input: <Input />,
     renderValue: selected => {
+      if (!options) {
+        return i18n.t("string_sources_failed");
+      }
       return field.multi_select
         ? selected.map(s => findOptionDisplayText(s)).join(", ") ||
             i18n.t("fields.select_multiple")
@@ -80,7 +76,8 @@ const SelectField = ({
     },
     MenuProps,
     multiple: field.multi_select,
-    IconComponent: !mode.isShow ? ArrowDropDownIcon : () => null
+    IconComponent: !mode.isShow ? ArrowDropDownIcon : () => null,
+    disabled: !options || disabled
   };
 
   const fieldError = getIn(formik.errors, name);
@@ -97,7 +94,7 @@ const SelectField = ({
           {label}
         </InputLabel>
         <FastField {...fieldProps}>
-          {options.length > 0 &&
+          {options &&
             options.map(o => (
               <MenuItem key={o.id} value={o.id}>
                 {field.multi_select && (
@@ -125,6 +122,7 @@ SelectField.propTypes = {
   InputLabelProps: PropTypes.object,
   InputProps: PropTypes.object,
   mode: PropTypes.object,
+  disabled: PropTypes.bool,
   formik: PropTypes.object.isRequired
 };
 

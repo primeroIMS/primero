@@ -18,13 +18,17 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case Actions.LOGIN_STARTED:
       return state.set("messages", null);
     case Actions.SET_AUTH:
-      return state.set("isAuthenticated", payload);
+      return state
+        .set("isAuthenticated", payload.auth)
+        .set("username", payload.username);
     case Actions.LOGIN_SUCCESS:
-      return state.set("isAuthenticated", true);
+      return state
+        .set("isAuthenticated", true)
+        .set("username", payload.user_name);
     case Actions.LOGIN_FAILURE:
       return state.set("messages", fromJS(payload));
     case Actions.LOGOUT_SUCCESS:
-      return state.set("isAuthenticated", false);
+      return state.set("isAuthenticated", false).set("username", null);
     default:
       return state;
   }

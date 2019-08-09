@@ -7,13 +7,12 @@ import {
   useMediaQuery
 } from "@material-ui/core";
 import { AgencyLogo } from "components/agency-logo";
-import PropTypes from "prop-types";
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { ModuleLogo } from "components/module-logo";
 import { NavLink } from "react-router-dom";
 import { useI18n } from "components/i18n";
-import { themeHelper } from "libs";
-import { connect } from "react-redux";
+import { useThemeHelper } from "libs";
+import { useDispatch, useSelector } from "react-redux";
 import { MobileToolbar } from "components/mobile-toolbar";
 import { ListIcon } from "components/list-icon";
 import { TranslationsToggle } from "../translations-toggle";
@@ -21,10 +20,19 @@ import styles from "./styles.css";
 import * as actions from "./action-creators";
 import * as Selectors from "./selectors";
 
-const Nav = ({ username, drawerOpen, openDrawer }) => {
-  const { css, theme } = themeHelper(styles);
+const Nav = () => {
+  const { css, theme } = useThemeHelper(styles);
   const mobileDisplay = useMediaQuery(theme.breakpoints.down("sm"));
   const i18n = useI18n();
+  const dispatch = useDispatch();
+
+  const openDrawer = useCallback(value => dispatch(actions.openDrawer(value)), [
+    dispatch
+  ]);
+
+  // TODO: Username should come from redux once user built.
+  const username = useSelector(state => Selectors.selectUsername(state));
+  const drawerOpen = useSelector(state => Selectors.selectDrawerOpen(state));
 
   const nav = [
     { name: i18n.t("navigation.home"), to: "/dashboard", icon: "home" },
@@ -57,15 +65,15 @@ const Nav = ({ username, drawerOpen, openDrawer }) => {
       icon: "support",
       divider: true
     },
-    { name: i18n.t("navigation.my_account"), to: "/account", icon: "account" },
-    { name: i18n.t("navigation.logout"), to: "/signout", icon: "logout" }
+    { name: username, to: "/account", icon: "account" },
+    { name: i18n.t("navigation.logout"), to: "/logout", icon: "logout" }
   ];
 
   useEffect(() => {
     if (!mobileDisplay && !drawerOpen) {
       openDrawer(true);
     }
-  });
+  }, [drawerOpen, mobileDisplay, openDrawer]);
 
   return (
     <>
@@ -116,23 +124,4 @@ const Nav = ({ username, drawerOpen, openDrawer }) => {
   );
 };
 
-Nav.propTypes = {
-  username: PropTypes.string.isRequired,
-  drawerOpen: PropTypes.bool.isRequired,
-  openDrawer: PropTypes.func.isRequired
-};
-
-// TODO: Username should come from redux once user built.
-const mapStateToProps = state => ({
-  username: "primero_cp",
-  drawerOpen: Selectors.selectDrawerOpen(state)
-});
-
-const mapDispatchToProps = {
-  openDrawer: actions.openDrawer
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Nav);
+export default Nav;

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { fromJS } from "immutable";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, batch } from "react-redux";
 import { Grid } from "@material-ui/core";
 import {
   OptionsBox,
@@ -37,13 +37,22 @@ const Dashboard = ({
   isOpenPageActions
 }) => {
   useEffect(() => {
-    fetchFlags();
-    fetchCasesByStatus();
-    fetchCasesByCaseWorker();
-    fetchCasesRegistration();
-    fetchCasesOverview();
-    fetchServicesStatus();
-  }, []);
+    batch(() => {
+      fetchFlags();
+      fetchCasesByStatus();
+      fetchCasesByCaseWorker();
+      fetchCasesRegistration();
+      fetchCasesOverview();
+      fetchServicesStatus();
+    });
+  }, [
+    fetchCasesByCaseWorker,
+    fetchCasesByStatus,
+    fetchCasesOverview,
+    fetchCasesRegistration,
+    fetchFlags,
+    fetchServicesStatus
+  ]);
 
   const css = makeStyles(styles)();
 
@@ -121,7 +130,7 @@ const Dashboard = ({
 
   return (
     <PageContainer>
-      <Grid container spacing={3} className={css.container}>
+      <Grid container spacing={3} classes={{ root: css.container }}>
         <Grid item xs={10}>
           <PageHeading title={i18n.t("navigation.home")} />
         </Grid>

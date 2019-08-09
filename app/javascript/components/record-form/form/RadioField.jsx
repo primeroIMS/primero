@@ -40,15 +40,7 @@ const RadioField = ({
     }
   };
 
-  const options = (() => {
-    if (typeof option === "string") {
-      return useSelector(state =>
-        getOption(state, option.replace(/lookup /, ""))
-      );
-    }
-
-    return option[i18n.locale];
-  })();
+  const options = useSelector(state => getOption(state, option, i18n));
 
   const fieldProps = {
     name,

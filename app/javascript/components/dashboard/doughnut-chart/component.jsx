@@ -55,10 +55,13 @@ const DoughnutChart = ({ chartData, options }) => {
     const chartCtx = chartRef.current.getContext("2d");
 
     /* eslint-disable no-new */
-    new Chart(chartCtx, {
+    const chartInstance = new Chart(chartCtx, {
       type: "doughnut",
       data: chartData,
       options: {
+        animation: {
+          duration: 0
+        },
         cutoutPercentage: 60,
         legend: {
           display: false
@@ -74,6 +77,10 @@ const DoughnutChart = ({ chartData, options }) => {
         ...options
       }
     });
+
+    return () => {
+      chartInstance.destroy();
+    };
   });
 
   return <canvas className="doughnutChart" ref={chartRef} />;

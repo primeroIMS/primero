@@ -1,3 +1,4 @@
+import { ENQUEUE_SNACKBAR } from "components/notifier";
 import { normalizeData } from "./schema";
 import * as Actions from "./actions";
 import mockedData from "./mocked-data";
@@ -41,7 +42,7 @@ export const saveRecord = (
   saveMethod,
   body,
   id,
-  successCallback
+  message
 ) => async dispatch => {
   await dispatch({
     type: Actions.SAVE_RECORD,
@@ -49,7 +50,17 @@ export const saveRecord = (
       path: saveMethod === "update" ? `${namespace}/${id}` : `${namespace}`,
       method: saveMethod === "update" ? "PATCH" : "POST",
       body,
-      successCallback
+      successCallback: {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message,
+          options: {
+            variant: "success",
+            key: new Date().getTime() + Math.random()
+          }
+        },
+        redirect: `/${namespace}`
+      }
     }
   });
 };

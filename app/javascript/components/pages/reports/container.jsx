@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { connect, batch } from "react-redux";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { Grid, Box, IconButton } from "@material-ui/core";
@@ -68,10 +68,12 @@ const Reports = ({
   ];
 
   useEffect(() => {
-    fetchCasesByNationality();
-    fetchCasesByAgeAndSex();
-    fetchCasesByProtectionConcern();
-    fetchCasesByAgency();
+    batch(() => {
+      fetchCasesByNationality();
+      fetchCasesByAgeAndSex();
+      fetchCasesByProtectionConcern();
+      fetchCasesByAgency();
+    });
   }, []);
 
   return (

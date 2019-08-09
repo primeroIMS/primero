@@ -1,8 +1,10 @@
 import { makeStyles, useTheme } from "@material-ui/styles";
 
-export const themeHelper = css => {
+export const useThemeHelper = css => {
+  const theme = useTheme();
+
   return {
     css: makeStyles(css)(),
-    theme: useTheme()
+    theme
   };
 };

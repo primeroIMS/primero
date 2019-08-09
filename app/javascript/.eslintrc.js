@@ -4,7 +4,7 @@ const developmentEnv = process.env.NODE_ENV === "development";
 
 module.exports = {
   extends: ["airbnb", "prettier", "prettier/react"],
-  plugins: ["react", "prettier"],
+  plugins: ["react", "prettier", "react-hooks"],
   rules: {
     "react/jsx-filename-extension": [
       1,
@@ -18,7 +18,9 @@ module.exports = {
     "react/forbid-prop-types": "off",
     "import/prefer-default-export": "off",
     "no-underscore-dangle": "off",
-    "no-debugger": developmentEnv ? "off" : "error"
+    "no-debugger": developmentEnv ? "off" : "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
   },
   env: {
     browser: true

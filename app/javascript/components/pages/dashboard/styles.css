@@ -1,3 +1,7 @@
+.container {
+  max-width: 88em;
+}
+
 .title {
   height: 28px;
   font-family: $(theme.typography.fontFamily);

@@ -19,6 +19,9 @@ const RangeButton = ({ recordType, props, value, setValue }) => {
     <Box className={css.toggleContainer}>
       <ToggleButtonGroup
         value={value}
+        classes={{
+          root: css.toggleContainer
+        }}
         onChange={(e, v) => setValue({ id, data: v }, recordType)}
       >
         {values.map(v => (
