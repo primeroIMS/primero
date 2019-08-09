@@ -22,7 +22,7 @@ const IncidentList = ({ records, meta, filters, loading, getRecords }) => {
   const defaultFilters = Map({
     fields: "short",
     status: "open",
-    record_state: true
+    record_state: ["valid"]
   });
 
   const data = {
