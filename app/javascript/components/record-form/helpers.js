@@ -2,15 +2,20 @@
 /* eslint-disable no-shadow */
 /* eslint-disable func-names */
 import { isEmpty, transform, isEqual, isObject } from "lodash";
+import { isDate, format } from "date-fns";
 import * as C from "./constants";
 
 function difference(object, base) {
   return transform(object, (result, value, key) => {
     if (!isEqual(value, base[key])) {
+      let val = value;
+      if (isDate(val)) {
+        val = format(value, "dd-MMM-yyyy");
+      }
       result[key] =
         isObject(value) && isObject(base[key])
           ? difference(value, base[key])
-          : value;
+          : val;
     }
   });
 }
