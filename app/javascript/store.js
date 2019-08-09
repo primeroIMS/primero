@@ -6,7 +6,7 @@ import { Map } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
 import { createLogger } from "redux-logger";
 import thunkMiddleware from "redux-thunk";
-import { restMiddleware } from "middleware";
+import { restMiddleware, authMiddleware } from "middleware";
 import { createBrowserHistory } from "history";
 import { combineReducers } from "redux-immutable";
 import rootReducer from "./reducers";
@@ -23,7 +23,8 @@ export default () => {
     thunkMiddleware,
     restMiddleware({
       baseUrl: "/api/v2"
-    })
+    }),
+    authMiddleware
   ];
 
   if (process.env.NODE_ENV === "development") {

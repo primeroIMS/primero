@@ -1,6 +1,7 @@
 import qs from "qs";
 import { attemptSignout } from "components/pages/login";
 import { FETCH_TIMEOUT } from "config";
+import { push } from "connected-react-router";
 
 export const queryParams = {
   toString: obj => qs.stringify(obj),
@@ -79,7 +80,22 @@ const restMiddleware = options => store => next => action => {
         });
 
         if (successCallback) {
-          successCallback(response, json);
+          const isCallbackObject = typeof successCallback === "object";
+          const successPayload = isCallbackObject
+            ? {
+                type: successCallback.action,
+                payload: successCallback.payload
+              }
+            : {
+                type: successCallback,
+                payload: { response, json }
+              };
+
+          store.dispatch(successPayload);
+
+          if (isCallbackObject && successCallback.redirect) {
+            store.dispatch(push(successCallback.redirect));
+          }
         }
       }
 

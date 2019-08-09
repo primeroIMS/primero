@@ -11,7 +11,7 @@ export default [
         component: Page.Login
       },
       {
-        path: "/signout",
+        path: "/logout",
         component: Page.Login
       }
     ]
